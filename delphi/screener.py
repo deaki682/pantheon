@@ -6,31 +6,26 @@ fundamentals quality scorer is shared with Oracle to keep one source of truth.
 from __future__ import annotations
 
 from shared.fundamentals import FundamentalSnapshot
+from shared.quality import (
+    dilution_score, fcf_margin_score, mean_of_present,
+    operating_margin_score, revenue_growth_score,
+)
 
 from .signals import momentum
 from .sleeve import is_blocked
 
 
 def quality_for_delphi(snap: FundamentalSnapshot) -> float:
-    """Quality from fundamentals, weighted toward profitability + cash flow."""
-    score = 0.0
-    n = 0
-    if snap.operating_margin_ttm is not None:
-        score += min(1.0, max(0.0, (snap.operating_margin_ttm + 0.1) / 0.3))
-        n += 1
-    if snap.free_cash_flow_ttm is not None and snap.revenue_ttm:
-        fcf_margin = snap.free_cash_flow_ttm / snap.revenue_ttm
-        score += min(1.0, max(0.0, fcf_margin / 0.2))
-        n += 1
-    if snap.revenue_yoy is not None:
-        score += min(1.0, max(0.0, (snap.revenue_yoy + 0.05) / 0.3))
-        n += 1
-    if snap.dilution_yoy is not None:
-        # Clamp to [0,1] like the other terms — buybacks (negative dilution_yoy)
-        # would otherwise make this unbounded above and dominate the average.
-        score += min(1.0, max(0.0, 1.0 - snap.dilution_yoy * 10))
-        n += 1
-    return score / n if n else 0.0
+    """Quality from fundamentals, weighted toward profitability + cash flow.
+
+    Same component scorers as Oracle (shared.quality), but omits gross margin.
+    """
+    return mean_of_present([
+        operating_margin_score(snap),
+        fcf_margin_score(snap),
+        revenue_growth_score(snap),
+        dilution_score(snap),
+    ])
 
 
 def build_candidate(
