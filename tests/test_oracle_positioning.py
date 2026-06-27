@@ -118,21 +118,21 @@ def test_size_book_basic():
 
 
 def test_size_book_two_names_capped_to_per_name():
-    # With only 2 names, each hits the 15% per-name cap. Total = 30%.
+    # With only 2 names, each hits the 25% per-name cap. Total = 50%.
     scored = [
         {"symbol": "A", "conviction": 0.8, "sector": "tech"},
         {"symbol": "B", "conviction": 0.5, "sector": "finance"},
     ]
     targets = size_book(scored, equity=1000.0)
     for sym, dollars in targets.items():
-        assert dollars <= 150.0 + 1e-6
+        assert dollars <= 250.0 + 1e-6
 
 
 def test_size_book_per_name_cap():
     scored = [{"symbol": "A", "conviction": 1.0, "sector": "tech"}]
     targets = size_book(scored, equity=1000.0)
-    # 15% cap on one name = $150
-    assert targets.get("A", 0) <= 150.0 + 1e-6
+    # 25% cap on one name = $250
+    assert targets.get("A", 0) <= 250.0 + 1e-6
 
 
 def test_size_book_sector_cap():
