@@ -143,6 +143,25 @@ def run_smart_money(cache_dir: Path) -> None:
         log("13F", f"  parsed {len(holdings)} holdings from acc {acc}")
         holdings_by_manager[manager] = holdings
 
+    # 13F holdings are keyed by CUSIP + issuer name, not ticker. Resolve to
+    # tickers (OpenFIGI authoritative, SEC name-match fallback) before grouping,
+    # or every holding fails to join the ticker-keyed screen.
+    from shared.cusip import build_name_ticker_index, resolve_cusips_openfigi
+    from oracle.smart_money import resolve_holdings
+
+    cusips = {h.cusip for hs in holdings_by_manager.values() for h in hs if h.cusip}
+    log("13F", f"resolving {len(cusips)} CUSIPs via OpenFIGI...")
+    cusip_map = resolve_cusips_openfigi(cusips)
+    name_index = {}
+    try:
+        from shared.edgar import fetch_company_tickers_rows
+        name_index = build_name_ticker_index(fetch_company_tickers_rows())
+    except Exception as e:
+        log("13F", f"  name-fallback index unavailable: {e}")
+    resolve_holdings(holdings_by_manager, cusip_map=cusip_map, name_index=name_index)
+    resolved = sum(1 for hs in holdings_by_manager.values() for h in hs if h.symbol)
+    log("13F", f"  resolved {resolved} holdings ({len(cusip_map)} via CUSIP)")
+
     sm_holders = smart_money_holders(holdings_by_manager)
     payload = {
         "holders": {sym: list(managers) for sym, managers in sm_holders.items()},

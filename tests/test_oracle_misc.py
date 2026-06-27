@@ -162,7 +162,10 @@ def test_parse_13f_minimal():
 </informationTable>"""
     out = parse_13f_information_table(xml, manager="Berkshire Hathaway")
     assert len(out) == 1
-    assert out[0].symbol == "APPLE INC"
+    # nameOfIssuer goes to `name`; `symbol` stays empty until CUSIP resolution.
+    assert out[0].name == "APPLE INC"
+    assert out[0].symbol == ""
+    assert out[0].cusip == "037833100"
     assert out[0].shares == 10000
 
 

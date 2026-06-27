@@ -191,6 +191,16 @@ def fetch_company_tickers() -> dict[str, str]:
     return out
 
 
+def fetch_company_tickers_rows() -> list[dict]:  # pragma: no cover - network
+    """Raw SEC company_tickers rows ({cik_str, ticker, title}).
+
+    Unlike fetch_company_tickers (which discards the title), this keeps the
+    issuer name so callers can build a name→ticker index.
+    """
+    raw = json.loads(_get(COMPANY_TICKERS_URL))
+    return list(raw.values())
+
+
 def fetch_company_facts(cik) -> dict:  # pragma: no cover - network
     """Fetch the full XBRL company-facts payload for a CIK."""
     url = COMPANY_FACTS_URL.format(cik=cik10(cik))
