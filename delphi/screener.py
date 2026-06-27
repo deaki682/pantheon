@@ -26,7 +26,9 @@ def quality_for_delphi(snap: FundamentalSnapshot) -> float:
         score += min(1.0, max(0.0, (snap.revenue_yoy + 0.05) / 0.3))
         n += 1
     if snap.dilution_yoy is not None:
-        score += max(0.0, 1.0 - snap.dilution_yoy * 10)
+        # Clamp to [0,1] like the other terms — buybacks (negative dilution_yoy)
+        # would otherwise make this unbounded above and dominate the average.
+        score += min(1.0, max(0.0, 1.0 - snap.dilution_yoy * 10))
         n += 1
     return score / n if n else 0.0
 
