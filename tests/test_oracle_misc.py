@@ -109,6 +109,18 @@ def test_quality_score_full():
     assert quality_score(snap) > 0.7
 
 
+def test_quality_score_bounded_by_one_for_buybacks():
+    # A heavy buyback (negative dilution_yoy) — possibly a noisy data artifact —
+    # must not push the score above 1.0; the dilution term is clamped.
+    snap = FundamentalSnapshot(
+        symbol="X",
+        gross_margin_ttm=0.6, operating_margin_ttm=0.25,
+        free_cash_flow_ttm=30, revenue_ttm=100,
+        revenue_yoy=0.3, dilution_yoy=-5.0,
+    )
+    assert 0.0 <= quality_score(snap) <= 1.0
+
+
 def test_multi_lens_all():
     out = multi_lens_score("X", insider_cluster=True, smart_money=True,
                             activist_13d=True, quality=1.0, sector_breadth=1.0)
