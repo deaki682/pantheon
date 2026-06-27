@@ -64,9 +64,16 @@ def sector_breadth(prices: dict[str, dict[str, float]]) -> float:
     if not prices:
         return 0.0
     positive = 0
+    valid = 0
     for sec, d in prices.items():
-        then = d.get("then") or 1e-9
-        now = d.get("now", then)
+        then = d.get("then")
+        now = d.get("now")
+        # Prices are positive by definition; non-positive/missing values mean
+        # corrupt data with undefined momentum — skip rather than let a negative
+        # `then` flip the sign of the ratio.
+        if then is None or now is None or then <= 0 or now <= 0:
+            continue
+        valid += 1
         if now / then - 1.0 >= 0:
             positive += 1
-    return positive / len(prices)
+    return positive / valid if valid else 0.0

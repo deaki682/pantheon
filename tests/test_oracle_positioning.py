@@ -118,21 +118,21 @@ def test_size_book_basic():
 
 
 def test_size_book_two_names_capped_to_per_name():
-    # With only 2 names, each hits the 15% per-name cap. Total = 30%.
+    # With only 2 names, each hits the 25% per-name cap. Total = 50%.
     scored = [
         {"symbol": "A", "conviction": 0.8, "sector": "tech"},
         {"symbol": "B", "conviction": 0.5, "sector": "finance"},
     ]
     targets = size_book(scored, equity=1000.0)
     for sym, dollars in targets.items():
-        assert dollars <= 150.0 + 1e-6
+        assert dollars <= 250.0 + 1e-6
 
 
 def test_size_book_per_name_cap():
     scored = [{"symbol": "A", "conviction": 1.0, "sector": "tech"}]
     targets = size_book(scored, equity=1000.0)
-    # 15% cap on one name = $150
-    assert targets.get("A", 0) <= 150.0 + 1e-6
+    # 25% cap on one name = $250
+    assert targets.get("A", 0) <= 250.0 + 1e-6
 
 
 def test_size_book_sector_cap():
@@ -156,6 +156,42 @@ def test_size_book_drops_below_min_ticket():
 
 def test_size_book_empty():
     assert size_book([], equity=1000.0) == {}
+
+
+def test_size_book_selects_best_from_large_set():
+    # 200 ranked candidates: must pick the top handful and fund them, not
+    # dilute the budget below min-ticket and return nothing.
+    scored = [
+        {"symbol": f"S{i}", "conviction": max(0.05, 0.99 - i * 0.0045), "sector": f"sec{i % 8}"}
+        for i in range(200)
+    ]
+    targets = size_book(scored, equity=1000.0)
+    assert 5 <= len(targets) <= 15  # a real book, not empty
+    # Every funded name clears the min ticket.
+    assert all(v >= 50.0 for v in targets.values())
+    # The names chosen are the highest-conviction ones (low indices).
+    assert max(int(s[1:]) for s in targets) < 30
+
+
+def test_size_book_caps_positions_at_max():
+    scored = [
+        {"symbol": f"S{i}", "conviction": 0.9, "sector": f"sec{i}"} for i in range(40)
+    ]
+    targets = size_book(scored, equity=100_000.0, max_positions=15)
+    assert len(targets) <= 15
+
+
+def test_size_book_small_equity_holds_fewer_not_empty():
+    # A smaller book funds fewer names than a big one — pick the best, don't
+    # dilute a large candidate set to zero. ($500 -> ~$450 investable, ~9 @ $50.)
+    scored = [
+        {"symbol": f"S{i}", "conviction": max(0.1, 0.9 - i * 0.02), "sector": f"s{i}"}
+        for i in range(50)
+    ]
+    targets = size_book(scored, equity=500.0)
+    assert 0 < len(targets) <= 9  # fewer than the 15-name cap, but not empty
+    assert all(v >= 50.0 for v in targets.values())
+    assert max(int(s[1:]) for s in targets) < 12  # the best-conviction names
 
 
 def test_rotation_decision_below_margin():

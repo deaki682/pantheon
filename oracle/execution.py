@@ -21,12 +21,18 @@ def plan_orders(
     *,
     rebal_band: float = REBAL_BAND,
     min_ticket: float = MIN_TICKET,
+    today: str | None = None,
 ) -> list[dict]:
     """Compute the order list to move from current to targets.
 
     Orders are dollar-denominated. Buys for under-allocated names, sells for
     over-allocated or removed names. Positions inside the rebalance band are
-    left alone. Cooldown'd names are skipped.
+    left alone.
+
+    When `today` is supplied, buys for names still inside their post-sell
+    cooldown window (`cooldowns[sym] > today`) are skipped — matching the guard
+    in `OracleSleeve.buy`. With `today=None` (the default) the planner is
+    permissive and the cooldown is enforced at the buy layer instead.
 
     Returns: list of {side, symbol, dollars, reason}.
     """
@@ -59,14 +65,13 @@ def plan_orders(
     for sym, target in targets.items():
         if target < min_ticket:
             continue
+        # Skip names still in their post-sell cooldown window (wash-sale guard).
+        if today is not None and sleeve.cooldowns.get(sym, "") > today:
+            continue
         current = current_dollars.get(sym, 0.0)
         if current < target * (1.0 - rebal_band):
             delta = target - current
             if delta >= min_ticket:
-                # Honor cooldown
-                if sym in sleeve.cooldowns and sleeve.cooldowns[sym] > "":
-                    # caller should check today, but be permissive here
-                    pass
                 orders.append({
                     "side": "buy", "symbol": sym, "dollars": delta,
                     "reason": "open_or_add",

@@ -16,9 +16,10 @@ CAPITAL_BASE = 1_000.0
 ACHILLES_RESERVE = 1_000.0  # reserved out of the ceiling for Achilles
 COOLDOWN_DAYS = 31
 MIN_TICKET = 50.0
-PER_NAME_CAP = 0.15
+PER_NAME_CAP = 0.25  # let a top-conviction idea reach ~25% so it actually moves the book
 PER_SECTOR_CAP = 0.35
 CASH_FLOOR = 0.10
+MAX_POSITIONS = 8  # concentration target: a $1k research book holds the best ~5–8 names
 
 # Circuit breakers
 DERISK_DRAWDOWN_VS_MARKET = 0.15  # 15% excess drawdown vs market -> derisk

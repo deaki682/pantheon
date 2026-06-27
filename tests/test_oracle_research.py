@@ -55,6 +55,16 @@ def test_rescore():
     assert d["conviction"] != initial_conv
 
 
+def test_rescore_rejects_malformed_dossier():
+    # A dossier loaded from disk / hand-edited could be malformed; rescore must
+    # fail loud with a clear DossierError, not a cryptic KeyError in the math.
+    from oracle.dossier_check import DossierError
+    d = _make()
+    del d["ratings"]["moat"]
+    with pytest.raises(DossierError):
+        rescore_dossier(d, current_price=120.0)
+
+
 def test_save_load_dossiers(tmp_path):
     p = tmp_path / "dossiers.json"
     d1 = _make("A")

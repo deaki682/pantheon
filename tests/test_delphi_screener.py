@@ -16,6 +16,15 @@ def test_quality_full():
     assert quality_for_delphi(snap) > 0.7
 
 
+def test_quality_bounded_by_one_for_buybacks():
+    # Negative dilution_yoy (buyback / noisy share data) must not exceed 1.0.
+    snap = FundamentalSnapshot(
+        symbol="X", operating_margin_ttm=0.25, free_cash_flow_ttm=30, revenue_ttm=100,
+        revenue_yoy=0.3, dilution_yoy=-5.0,
+    )
+    assert 0.0 <= quality_for_delphi(snap) <= 1.0
+
+
 def test_build_candidate_blocked():
     out = build_candidate("XLK", sector="tech", prices=[100] * 64, snap=None)
     assert out.get("blocked") is True

@@ -31,11 +31,12 @@ SMART_MONEY_FUNDS = {
 
 @dataclass
 class Holding:
-    symbol: str
+    symbol: str  # resolved ticker — "" until CUSIP/name resolution runs
     cusip: str
     shares: float
     value: float
     manager: str = ""
+    name: str = ""  # issuer name (nameOfIssuer); the join source for resolution
 
 
 def parse_13f_information_table(xml_text: str, *, manager: str = "") -> list[Holding]:
@@ -71,14 +72,31 @@ def parse_13f_information_table(xml_text: str, *, manager: str = "") -> list[Hol
             value = 0.0
         out.append(
             Holding(
-                symbol=(name_el.text or "").strip().upper() if name_el is not None else "",
+                symbol="",  # resolved later from CUSIP/name — never the issuer name
                 cusip=(cusip_el.text or "").strip() if cusip_el is not None else "",
                 shares=shares,
                 value=value,
                 manager=manager,
+                name=(name_el.text or "").strip().upper() if name_el is not None else "",
             )
         )
     return out
+
+
+def resolve_holdings(
+    holdings_by_manager: dict[str, list[Holding]], *, cusip_map: dict, name_index: dict,
+) -> dict[str, list[Holding]]:
+    """Set each holding's `symbol` to its resolved ticker (CUSIP, then name).
+
+    Mutates the holdings in place and returns the same dict. Holdings that
+    resolve to nothing keep an empty `symbol` and are dropped by
+    `smart_money_holders`.
+    """
+    from shared.cusip import resolve_ticker
+    for hs in holdings_by_manager.values():
+        for h in hs:
+            h.symbol = resolve_ticker(h.cusip, h.name, cusip_map, name_index)
+    return holdings_by_manager
 
 
 def smart_money_holders(holdings_by_manager: dict[str, list[Holding]]) -> dict[str, list[str]]:

@@ -16,6 +16,18 @@ def test_plan_orders_new_position():
     assert orders[0]["dollars"] == 200.0
 
 
+def test_plan_orders_skips_buy_during_cooldown_when_today_given():
+    s = OracleSleeve(initial_cash=1000)
+    s.cooldowns["AAPL"] = "2024-06-30"  # cooldown expires end of June
+    # today before expiry -> still cooling -> no buy proposed
+    assert plan_orders(s, {"AAPL": 200.0}, {"AAPL": 100.0}, today="2024-06-15") == []
+    # today after expiry -> buy proposed
+    out = plan_orders(s, {"AAPL": 200.0}, {"AAPL": 100.0}, today="2024-07-01")
+    assert [o["symbol"] for o in out] == ["AAPL"]
+    # today omitted -> permissive (cooldown enforced at the buy layer instead)
+    assert len(plan_orders(s, {"AAPL": 200.0}, {"AAPL": 100.0})) == 1
+
+
 def test_plan_orders_holds_within_band():
     s = OracleSleeve(initial_cash=1000)
     s.buy("AAPL", 1.0, 100.0, "2024-01-01")

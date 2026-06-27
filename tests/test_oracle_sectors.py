@@ -52,3 +52,16 @@ def test_sector_breadth_half():
 
 def test_sector_breadth_empty():
     assert sector_breadth({}) == 0.0
+
+
+def test_sector_breadth_skips_invalid_prices():
+    # Non-positive / missing price data has undefined momentum and is excluded
+    # from both numerator and denominator — not counted as a flat/negative sector.
+    prices = {
+        "tech": {"now": 110, "then": 100},  # +10% -> positive, valid
+        "neg":  {"now": -5, "then": 100},   # invalid -> skipped
+        "zero": {"now": 50, "then": 0},     # invalid -> skipped
+    }
+    assert sector_breadth(prices) == 1.0  # 1 positive of 1 valid sector
+    # All sectors invalid -> 0.0, and no sign-flip from a negative `then`.
+    assert sector_breadth({"a": {"now": -1, "then": -2}}) == 0.0

@@ -15,30 +15,25 @@ from __future__ import annotations
 from typing import Iterable
 
 from shared.fundamentals import FundamentalSnapshot
+from shared.quality import (
+    MIN_QUALITY_COMPONENTS, dilution_score, fcf_margin_score, gross_margin_score,
+    mean_of_present, operating_margin_score, revenue_growth_score,
+)
 
 
 def quality_score(snap: FundamentalSnapshot) -> float:
-    """Score 0..1 from fundamentals. Higher = better quality."""
-    score = 0.0
-    n = 0
-    if snap.gross_margin_ttm is not None:
-        score += min(1.0, max(0.0, snap.gross_margin_ttm / 0.5))
-        n += 1
-    if snap.operating_margin_ttm is not None:
-        score += min(1.0, max(0.0, (snap.operating_margin_ttm + 0.1) / 0.3))
-        n += 1
-    if snap.free_cash_flow_ttm is not None and snap.revenue_ttm:
-        fcf_margin = snap.free_cash_flow_ttm / snap.revenue_ttm
-        score += min(1.0, max(0.0, fcf_margin / 0.2))
-        n += 1
-    if snap.revenue_yoy is not None:
-        score += min(1.0, max(0.0, (snap.revenue_yoy + 0.05) / 0.3))
-        n += 1
-    if snap.dilution_yoy is not None:
-        # Less dilution = better
-        score += max(0.0, 1.0 - snap.dilution_yoy * 10)
-        n += 1
-    return score / n if n else 0.0
+    """Score 0..1 from fundamentals. Higher = better quality.
+
+    Components live in shared.quality so Oracle and Delphi can't diverge.
+    Oracle uses the full set including gross margin.
+    """
+    return mean_of_present([
+        gross_margin_score(snap),
+        operating_margin_score(snap),
+        fcf_margin_score(snap),
+        revenue_growth_score(snap),
+        dilution_score(snap),
+    ], min_count=MIN_QUALITY_COMPONENTS)
 
 
 def multi_lens_score(

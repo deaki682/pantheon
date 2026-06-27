@@ -109,6 +109,25 @@ def test_quality_score_full():
     assert quality_score(snap) > 0.7
 
 
+def test_quality_score_penalizes_sparse_coverage():
+    # Only one component present (dilution clamps to 1.0). It must NOT read as
+    # perfect quality — divide by the 3-component floor, not by 1.
+    snap = FundamentalSnapshot(symbol="X", dilution_yoy=0.0)
+    assert quality_score(snap) <= 1.0 / 3 + 1e-9
+
+
+def test_quality_score_bounded_by_one_for_buybacks():
+    # A heavy buyback (negative dilution_yoy) — possibly a noisy data artifact —
+    # must not push the score above 1.0; the dilution term is clamped.
+    snap = FundamentalSnapshot(
+        symbol="X",
+        gross_margin_ttm=0.6, operating_margin_ttm=0.25,
+        free_cash_flow_ttm=30, revenue_ttm=100,
+        revenue_yoy=0.3, dilution_yoy=-5.0,
+    )
+    assert 0.0 <= quality_score(snap) <= 1.0
+
+
 def test_multi_lens_all():
     out = multi_lens_score("X", insider_cluster=True, smart_money=True,
                             activist_13d=True, quality=1.0, sector_breadth=1.0)
@@ -162,7 +181,10 @@ def test_parse_13f_minimal():
 </informationTable>"""
     out = parse_13f_information_table(xml, manager="Berkshire Hathaway")
     assert len(out) == 1
-    assert out[0].symbol == "APPLE INC"
+    # nameOfIssuer goes to `name`; `symbol` stays empty until CUSIP resolution.
+    assert out[0].name == "APPLE INC"
+    assert out[0].symbol == ""
+    assert out[0].cusip == "037833100"
     assert out[0].shares == 10000
 
 
@@ -217,3 +239,24 @@ def test_capital_scales_up_when_proven():
     assert out > CAPITAL_BASE
     # Cannot exceed ceiling - reserve
     assert out <= CAPITAL_CEILING - ACHILLES_RESERVE
+
+
+def test_fcf_margin_implausible_ratio_distrusted():
+    # FCF reported as 9x revenue (mis-tagged data) must not score as quality.
+    from shared.quality import fcf_margin_score
+    from shared.fundamentals import FundamentalSnapshot
+    bad = FundamentalSnapshot(symbol="X", free_cash_flow_ttm=26_434_000.0, revenue_ttm=2_835_000.0)
+    assert fcf_margin_score(bad) is None
+    good = FundamentalSnapshot(symbol="Y", free_cash_flow_ttm=20.0, revenue_ttm=100.0)
+    assert fcf_margin_score(good) == 1.0  # 20% FCF margin -> full marks
+
+
+def test_margin_scores_distrust_impossible_values():
+    # Operating/gross margin above 100% of revenue is impossible -> mis-tagged data.
+    from shared.quality import gross_margin_score, operating_margin_score
+    from shared.fundamentals import FundamentalSnapshot
+    assert operating_margin_score(FundamentalSnapshot(symbol="X", operating_margin_ttm=1.003)) is None
+    assert gross_margin_score(FundamentalSnapshot(symbol="X", gross_margin_ttm=1.5)) is None
+    # plausible margins still score
+    assert operating_margin_score(FundamentalSnapshot(symbol="Y", operating_margin_ttm=0.2)) == 1.0
+    assert gross_margin_score(FundamentalSnapshot(symbol="Y", gross_margin_ttm=0.45)) > 0
