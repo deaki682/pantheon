@@ -34,7 +34,13 @@ def fcf_margin_score(snap: FundamentalSnapshot) -> Optional[float]:
     # Falsy revenue (0 or None) -> undefined margin, skip.
     if snap.free_cash_flow_ttm is None or not snap.revenue_ttm:
         return None
-    return _clamp01((snap.free_cash_flow_ttm / snap.revenue_ttm) / 0.2)
+    margin = snap.free_cash_flow_ttm / snap.revenue_ttm
+    # FCF above 100% of revenue is operationally impossible — it means revenue is
+    # mis-tagged (wrong XBRL concept / single quarter). Distrust it rather than
+    # let the clamp read it as perfect quality.
+    if margin > 1.0:
+        return None
+    return _clamp01(margin / 0.2)
 
 
 def revenue_growth_score(snap: FundamentalSnapshot) -> Optional[float]:

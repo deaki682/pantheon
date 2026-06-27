@@ -239,3 +239,13 @@ def test_capital_scales_up_when_proven():
     assert out > CAPITAL_BASE
     # Cannot exceed ceiling - reserve
     assert out <= CAPITAL_CEILING - ACHILLES_RESERVE
+
+
+def test_fcf_margin_implausible_ratio_distrusted():
+    # FCF reported as 9x revenue (mis-tagged data) must not score as quality.
+    from shared.quality import fcf_margin_score
+    from shared.fundamentals import FundamentalSnapshot
+    bad = FundamentalSnapshot(symbol="X", free_cash_flow_ttm=26_434_000.0, revenue_ttm=2_835_000.0)
+    assert fcf_margin_score(bad) is None
+    good = FundamentalSnapshot(symbol="Y", free_cash_flow_ttm=20.0, revenue_ttm=100.0)
+    assert fcf_margin_score(good) == 1.0  # 20% FCF margin -> full marks
