@@ -19,6 +19,8 @@ from dataclasses import dataclass, field
 from typing import Optional
 from urllib.parse import quote
 
+import threading
+
 try:
     import requests
 except ImportError:  # pragma: no cover - tests run without network
@@ -29,8 +31,42 @@ USER_AGENT = "fluffy-waffle-oracle deaki682@gmail.com"
 _HEADERS = {"User-Agent": USER_AGENT, "Accept-Encoding": "gzip, deflate"}
 
 SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{cik}.json"
+COMPANY_FACTS_URL = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
 SEARCH_URL = "https://efts.sec.gov/LATEST/search-index"
 ARCHIVE_URL = "https://www.sec.gov/Archives/edgar/data/{cik}/{acc_no_clean}/{file}"
+
+
+# ------- Global rate limiter -------
+#
+# SEC rate-limits to 10 req/s per IP. We enforce 8/s in a thread-safe gate so
+# any caller (sequential or threaded) shares one global budget. Threads
+# wanting to fan out (scan_universe with max_workers > 1) can do so safely.
+
+class _RateLimiter:
+    def __init__(self, max_per_sec: float = 8.0):
+        self._lock = threading.Lock()
+        self._min_interval = 1.0 / max_per_sec
+        self._last_call = 0.0
+
+    def acquire(self) -> None:
+        with self._lock:
+            now = time.monotonic()
+            wait = self._min_interval - (now - self._last_call)
+            if wait > 0:
+                time.sleep(wait)
+            self._last_call = time.monotonic()
+
+    def set_rate(self, max_per_sec: float) -> None:
+        with self._lock:
+            self._min_interval = 1.0 / max_per_sec
+
+
+_RATE = _RateLimiter(max_per_sec=8.0)
+
+
+def set_rate_limit(max_per_sec: float) -> None:
+    """Caller hook to tune the global SEC rate limit (default 8/s)."""
+    _RATE.set_rate(max_per_sec)
 
 
 def cik10(cik) -> str:
@@ -48,12 +84,16 @@ def acc_no_clean(acc_no: str) -> str:
 def _get(url: str, params: Optional[dict] = None, *, timeout: float = 20.0) -> str:
     if requests is None:
         raise RuntimeError("requests not available")
-    # SEC asks for <= 10 req/s; callers should rate-limit. We sleep 100ms as
-    # a courtesy floor for direct callers.
-    time.sleep(0.1)
+    _RATE.acquire()
     r = requests.get(url, params=params, headers=_HEADERS, timeout=timeout)
     r.raise_for_status()
     return r.text
+
+
+def http_get(url: str, params: Optional[dict] = None, *, timeout: float = 20.0) -> str:
+    """Public, rate-limited HTTP GET used by all lens fetchers. Tests can
+    monkeypatch this to avoid network."""
+    return _get(url, params=params, timeout=timeout)
 
 
 # ------- Filings -------
@@ -109,6 +149,27 @@ def parse_submissions_recent(payload: dict, *, symbol: str = "") -> list[Filing]
 
 def fetch_submissions(cik) -> dict:  # pragma: no cover - network
     url = SUBMISSIONS_URL.format(cik=cik10(cik))
+    return json.loads(_get(url))
+
+
+COMPANY_TICKERS_URL = "https://www.sec.gov/files/company_tickers.json"
+
+
+def fetch_company_tickers() -> dict[str, str]:
+    """Fetch SEC's master ticker → zero-padded CIK map. Cached on disk after first call."""
+    raw = json.loads(_get(COMPANY_TICKERS_URL))
+    out: dict[str, str] = {}
+    for row in raw.values():
+        sym = str(row.get("ticker", "")).upper().strip()
+        cik = str(row.get("cik_str", "")).strip()
+        if sym and cik:
+            out[sym] = cik.zfill(10)
+    return out
+
+
+def fetch_company_facts(cik) -> dict:  # pragma: no cover - network
+    """Fetch the full XBRL company-facts payload for a CIK."""
+    url = COMPANY_FACTS_URL.format(cik=cik10(cik))
     return json.loads(_get(url))
 
 
