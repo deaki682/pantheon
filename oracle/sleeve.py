@@ -19,6 +19,7 @@ MIN_TICKET = 50.0
 PER_NAME_CAP = 0.15
 PER_SECTOR_CAP = 0.35
 CASH_FLOOR = 0.10
+MAX_POSITIONS = 15  # concentration target: hold the best ~5–15 names
 
 # Circuit breakers
 DERISK_DRAWDOWN_VS_MARKET = 0.15  # 15% excess drawdown vs market -> derisk

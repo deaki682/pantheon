@@ -17,7 +17,7 @@ from __future__ import annotations
 import math
 from typing import Iterable
 
-from .sleeve import CASH_FLOOR, PER_NAME_CAP, PER_SECTOR_CAP, MIN_TICKET
+from .sleeve import CASH_FLOOR, MAX_POSITIONS, PER_NAME_CAP, PER_SECTOR_CAP, MIN_TICKET
 
 
 def compute_derived(dossier: dict, *, current_price: float, horizon_years: float = 2.0) -> dict:
@@ -83,12 +83,20 @@ def size_book(
     per_name_cap: float = PER_NAME_CAP,
     per_sector_cap: float = PER_SECTOR_CAP,
     cash_floor: float = CASH_FLOOR,
+    max_positions: int = MAX_POSITIONS,
+    min_ticket: float = MIN_TICKET,
 ) -> dict[str, float]:
     """Allocate dollar targets across candidates.
 
     `scored` is a list of {symbol, conviction, sector}. Returns symbol -> $ target.
     Constraints: per-name cap, per-sector cap, 10% cash floor.
     Weight = conviction^1.5, normalized to sum = (1 - cash_floor).
+
+    Selection: keeps only the top-conviction names before allocating, capped at
+    `max_positions` AND at however many can clear `min_ticket` with the investable
+    cash. Without this, feeding a large candidate set would spread the budget so
+    thin that every position falls below the min ticket and gets dropped — i.e.
+    more dossiers would silently yield *fewer* trades (or none).
     """
     if equity <= 0 or not scored:
         return {}
@@ -96,6 +104,10 @@ def size_book(
     items = [s for s in scored if s.get("conviction", 0) > 0]
     if not items:
         return {}
+    # Rank by conviction and keep the best K we can actually fund above min_ticket.
+    deployable = max(1, int((equity * invest_share) // min_ticket)) if min_ticket > 0 else len(items)
+    keep = min(max_positions, deployable, len(items))
+    items = sorted(items, key=lambda s: s.get("conviction", 0.0), reverse=True)[:keep]
     weights = {s["symbol"]: s["conviction"] ** 1.5 for s in items}
     sectors = {s["symbol"]: s.get("sector", "") for s in items}
     # Initial normalization
@@ -116,7 +128,7 @@ def size_book(
                     residue += targets[sym] - new
                     targets[sym] = new
     # Drop sub-min-ticket positions
-    targets = {k: v for k, v in targets.items() if v >= MIN_TICKET}
+    targets = {k: v for k, v in targets.items() if v >= min_ticket}
     return targets
 
 
