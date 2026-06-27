@@ -1,0 +1,102 @@
+{
+  "timestamp": "2026-06-27T11:46:41.738842",
+  "mode": "DRY_RUN (DELPHI_LIVE unset)",
+  "regime": "risk_on",
+  "risk_budget": 1.0,
+  "breadth": 0.7272727272727273,
+  "spy_1m": -0.028609119739892885,
+  "spy_3m": 0.13005937156055736,
+  "sectors": [
+    "technology",
+    "industrials",
+    "real_estate"
+  ],
+  "targets": {
+    "GOOGL": 75.0,
+    "AVGO": 75.0,
+    "NVDA": 75.0,
+    "AAPL": 75.0,
+    "CAT": 75.0,
+    "GE": 75.0,
+    "UNP": 75.0,
+    "BA": 75.0,
+    "SPG": 75.0,
+    "WELL": 75.0,
+    "EQIX": 75.0,
+    "PLD": 75.0
+  },
+  "orders": [
+    {
+      "side": "buy",
+      "symbol": "GOOGL",
+      "dollars": 75.0,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "AVGO",
+      "dollars": 75.0,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "NVDA",
+      "dollars": 75.0,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "AAPL",
+      "dollars": 75.0,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "CAT",
+      "dollars": 75.0,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "GE",
+      "dollars": 75.0,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "UNP",
+      "dollars": 75.0,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "BA",
+      "dollars": 75.0,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "SPG",
+      "dollars": 75.0,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "WELL",
+      "dollars": 75.0,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "EQIX",
+      "dollars": 75.0,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "PLD",
+      "dollars": 75.0,
+      "reason": "open_or_add"
+    }
+  ]
+}
