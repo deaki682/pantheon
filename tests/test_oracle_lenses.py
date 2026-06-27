@@ -328,6 +328,6 @@ def test_combine_lenses_ignores_quality_when_prescreen_failed():
         universe=["B"],
         insider_clusters=[{"symbol": "B"}],
         quality_rows=[{"symbol": "B", "pass": True, "snapshot": {
-            "gross_margin_ttm": 0.5, "operating_margin_ttm": 0.2, "revenue_yoy": 0.1}}],
+            "symbol": "B", "gross_margin_ttm": 0.5, "operating_margin_ttm": 0.2, "revenue_yoy": 0.1}}],
     )
     assert out2[0]["lenses"]["quality"] > 0
