@@ -246,6 +246,38 @@ def tier_stats(
     return {"tiers": {t: {"n": len(tiers[t]), "mean": means[t]} for t in order}, "monotonic": monotonic}
 
 
+def numeric_tercile_stats(graded: list[GhostEntry], feature: str) -> dict:
+    """Split graded entries into terciles by a numeric feature; mean return each.
+
+    Distribution-relative (no arbitrary cutoffs) — the right test for "does this
+    numeric signal predict returns?". `monotonic` means high >= mid >= low.
+    """
+    vals = [
+        (e.features.get(feature), e.graded_return) for e in graded
+        if isinstance(e.features.get(feature), (int, float))
+        and not isinstance(e.features.get(feature), bool)
+    ]
+    n = len(vals)
+    if n < 3:
+        return {"n": n, "terciles": {}, "monotonic": False}
+    vals.sort(key=lambda vr: vr[0])
+    k = n // 3
+    low = [r for _, r in vals[:k]]
+    high = [r for _, r in vals[n - k:]]
+    mid = [r for _, r in vals[k:n - k]]
+    means = {"low": _mean(low), "mid": _mean(mid), "high": _mean(high)}
+    present = [t for t in ("high", "mid", "low") if means[t] is not None]
+    monotonic = len(present) >= 2 and all(
+        means[present[i]] >= means[present[i + 1]] for i in range(len(present) - 1)
+    )
+    return {
+        "n": n,
+        "terciles": {t: {"n": len(g), "mean": means[t]} for t, g in
+                     (("high", high), ("mid", mid), ("low", low))},
+        "monotonic": monotonic,
+    }
+
+
 # ------- Persistence -------
 
 def save_ledger(path: str, entries: Iterable[GhostEntry]) -> None:
