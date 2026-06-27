@@ -187,6 +187,71 @@ def calibration_report(entries: Iterable[GhostEntry]) -> dict:
     }
 
 
+# ------- Mark-to-market: track the paper book over time -------
+
+def mark_to_market(
+    entries: Iterable[GhostEntry],
+    price_lookup: PriceLookup,
+    *,
+    notional_per_position: float = 100.0,
+) -> dict:
+    """Value the whole paper book at current prices — a live portfolio snapshot.
+
+    Equal-notional: every entry is `notional_per_position` of paper dollars bought
+    at its entry price. Open positions are marked at the live quote; closed
+    (graded) ones at their exit price. An open name that can't be priced right now
+    is held flat (marked at entry) — grading resolves it later as a loss.
+
+    Returns {equity, cost_basis, total_return, n_open, n_closed, n}.
+    """
+    total_cost = 0.0
+    market_value = 0.0
+    n_open = n_closed = 0
+    for e in entries:
+        if e.entry_price <= 0:
+            continue
+        total_cost += notional_per_position
+        if e.graded:
+            mark = e.exit_price
+            n_closed += 1
+        else:
+            px = price_lookup(e.symbol)
+            mark = float(px) if (px is not None and px > 0) else e.entry_price
+            n_open += 1
+        market_value += notional_per_position * (mark / e.entry_price)
+    total_return = (market_value / total_cost - 1.0) if total_cost > 0 else 0.0
+    return {
+        "equity": market_value,
+        "cost_basis": total_cost,
+        "total_return": total_return,
+        "n_open": n_open,
+        "n_closed": n_closed,
+        "n": n_open + n_closed,
+    }
+
+
+def append_equity_point(
+    curve: list[dict], date: str, snapshot: dict, *, benchmark: Optional[dict] = None,
+) -> list[dict]:
+    """Append a dated equity point to the curve (replacing any same-date point).
+
+    `benchmark` is an optional {label: cumulative_return} dict (e.g. {"SPY": 0.03})
+    so the curve carries an apples-to-apples comparison alongside paper equity.
+    """
+    point = {
+        "date": date,
+        "equity": round(snapshot.get("equity", 0.0), 2),
+        "total_return": snapshot.get("total_return", 0.0),
+        "n": snapshot.get("n", 0),
+    }
+    if benchmark:
+        point["benchmark"] = dict(benchmark)
+    out = [p for p in curve if p.get("date") != date]
+    out.append(point)
+    out.sort(key=lambda p: p.get("date", ""))
+    return out
+
+
 # ------- Adapters: screen rows / dossiers -> candidates -------
 
 def screen_rows_to_candidates(

@@ -2,8 +2,9 @@
 import pytest
 
 from oracle.ghost import (
-    GhostEntry, calibration_report, dossiers_to_candidates, grade_entries,
-    load_ledger, open_entries, save_ledger, screen_rows_to_candidates,
+    GhostEntry, append_equity_point, calibration_report, dossiers_to_candidates,
+    grade_entries, load_ledger, mark_to_market, open_entries, save_ledger,
+    screen_rows_to_candidates,
 )
 
 
@@ -117,3 +118,35 @@ def test_ledger_save_load_roundtrip(tmp_path):
 
 def test_load_ledger_missing_file():
     assert load_ledger("/nonexistent/ghost.json") == []
+
+
+def test_mark_to_market_values_open_and_closed():
+    open_e = GhostEntry("AAA", "2026-01-01", entry_price=100.0, horizon_days=365, source="screen")
+    closed_e = GhostEntry("BBB", "2026-01-01", entry_price=50.0, horizon_days=30, source="screen")
+    closed_e.exit_price = 75.0
+    closed_e.graded_return = 0.5  # closed at +50%
+    snap = mark_to_market([open_e, closed_e], lambda s: 120.0, notional_per_position=100.0)
+    # AAA open marked at 120 -> $120; BBB closed at +50% -> $150; cost $200
+    assert snap["equity"] == pytest.approx(270.0)
+    assert snap["cost_basis"] == 200.0
+    assert snap["total_return"] == pytest.approx(0.35)
+    assert snap["n_open"] == 1 and snap["n_closed"] == 1
+
+
+def test_mark_to_market_unpriceable_open_held_flat():
+    e = GhostEntry("ZZZ", "2026-01-01", entry_price=100.0, horizon_days=365, source="screen")
+    snap = mark_to_market([e], lambda s: None, notional_per_position=100.0)
+    assert snap["equity"] == pytest.approx(100.0)  # flat at entry, no fake gain/loss
+    assert snap["total_return"] == pytest.approx(0.0)
+
+
+def test_append_equity_point_dedupes_and_sorts():
+    curve = []
+    curve = append_equity_point(curve, "2026-02-01", {"equity": 110.0, "total_return": 0.1, "n": 5})
+    curve = append_equity_point(curve, "2026-01-01", {"equity": 100.0, "total_return": 0.0, "n": 3},
+                                benchmark={"SPY": 0.0})
+    # same date replaces, not duplicates
+    curve = append_equity_point(curve, "2026-02-01", {"equity": 115.0, "total_return": 0.15, "n": 6})
+    assert [p["date"] for p in curve] == ["2026-01-01", "2026-02-01"]  # sorted
+    assert curve[1]["equity"] == 115.0  # replaced
+    assert curve[0]["benchmark"] == {"SPY": 0.0}
