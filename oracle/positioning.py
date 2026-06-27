@@ -85,18 +85,23 @@ def size_book(
     cash_floor: float = CASH_FLOOR,
     max_positions: int = MAX_POSITIONS,
     min_ticket: float = MIN_TICKET,
+    weighting: str = "equal",
 ) -> dict[str, float]:
     """Allocate dollar targets across candidates.
 
     `scored` is a list of {symbol, conviction, sector}. Returns symbol -> $ target.
     Constraints: per-name cap, per-sector cap, 10% cash floor.
-    Weight = conviction^1.5, normalized to sum = (1 - cash_floor).
 
-    Selection: keeps only the top-conviction names before allocating, capped at
-    `max_positions` AND at however many can clear `min_ticket` with the investable
-    cash. Without this, feeding a large candidate set would spread the budget so
-    thin that every position falls below the min ticket and gets dropped — i.e.
-    more dossiers would silently yield *fewer* trades (or none).
+    Construction is rank-to-select, then size:
+      - SELECT: rank by conviction, keep the best K — capped at `max_positions`
+        AND at however many can clear `min_ticket` with the investable cash.
+        Without this, a large candidate set would dilute every position below the
+        min ticket and silently yield *fewer* trades (or none).
+      - SIZE: `weighting="equal"` (default) gives each held name an equal slice;
+        `weighting="conviction"` weights by conviction**1.5. Equal is the default
+        because conviction here is self-assigned (dossier scenarios) and unproven
+        — only graduate to conviction-weighting once the calibration loop shows
+        high-conviction calls actually outperform.
     """
     if equity <= 0 or not scored:
         return {}
@@ -104,11 +109,15 @@ def size_book(
     items = [s for s in scored if s.get("conviction", 0) > 0]
     if not items:
         return {}
-    # Rank by conviction and keep the best K we can actually fund above min_ticket.
+    # SELECT: rank by conviction, keep the best K we can fund above min_ticket.
     deployable = max(1, int((equity * invest_share) // min_ticket)) if min_ticket > 0 else len(items)
     keep = min(max_positions, deployable, len(items))
     items = sorted(items, key=lambda s: s.get("conviction", 0.0), reverse=True)[:keep]
-    weights = {s["symbol"]: s["conviction"] ** 1.5 for s in items}
+    # SIZE: equal slices by default; conviction-weighted only when earned.
+    if weighting == "conviction":
+        weights = {s["symbol"]: s["conviction"] ** 1.5 for s in items}
+    else:
+        weights = {s["symbol"]: 1.0 for s in items}
     sectors = {s["symbol"]: s.get("sector", "") for s in items}
     # Initial normalization
     targets = _normalize(weights, equity, invest_share, per_name_cap)

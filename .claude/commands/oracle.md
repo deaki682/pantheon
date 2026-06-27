@@ -16,11 +16,11 @@ breaks, skip the cycle and open a PR; never silently patch the codebase.
 
 5. **Should we research?** Use `oracle.calendar.should_run(cache/oracle_cadence.json, "research", interval_days=3)`. If False, skip to step 7.
 
-6. **Research pass.** For 8–15 candidates from the screen cache (`cache/oracle_screen.json`), build dossiers via `oracle.research.make_dossier`. Each dossier MUST validate. Persist to `cache/oracle_dossiers.json`. Cite SEC filings on every dossier.
+6. **Research pass.** For ~30–40 candidates from the screen cache (`cache/oracle_screen.json`) — research **wider** than the ~8 you'll hold so the dossier scoring, not the screen, selects the book — build dossiers via `oracle.research.make_dossier`. Each dossier MUST validate. Persist to `cache/oracle_dossiers.json`. Cite SEC filings on every dossier.
 
 7. **Rescore and rank.** Walk every dossier; refresh `current_price` via broker quotes; rescore; sort by `derived.potential_score`.
 
-8. **Size positions.** `oracle.positioning.size_book(scored, equity=sleeve.equity(marks))`. Apply per-name 15%, per-sector 35%, 10% cash floor, $50 min ticket.
+8. **Size positions.** Pass *all* scored dossiers to `oracle.positioning.size_book(scored, equity=sleeve.equity(marks))` — it ranks by conviction, **selects the best ~8** (`MAX_POSITIONS`), and **equal-weights** them. Caps: per-name 25%, per-sector 35%, 10% cash floor, $50 min ticket. (Conviction-weighting is opt-in via `weighting="conviction"` — only graduate to it once `oracle.learning.calibration_stats` shows high-conviction calls actually outperform.)
 
 9. **Plan and place orders.** `oracle.execution.plan_orders(sleeve, targets, prices)`. For each order, check the ledger (`shared.guards.already_placed_today`). Place fractional-share market orders via Robinhood MCP. Append each order to `cache/oracle_ledger.jsonl`.
 
