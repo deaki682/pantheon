@@ -16,8 +16,8 @@ from typing import Iterable
 
 from shared.fundamentals import FundamentalSnapshot
 from shared.quality import (
-    dilution_score, fcf_margin_score, gross_margin_score, mean_of_present,
-    operating_margin_score, revenue_growth_score,
+    MIN_QUALITY_COMPONENTS, dilution_score, fcf_margin_score, gross_margin_score,
+    mean_of_present, operating_margin_score, revenue_growth_score,
 )
 
 
@@ -33,7 +33,7 @@ def quality_score(snap: FundamentalSnapshot) -> float:
         fcf_margin_score(snap),
         revenue_growth_score(snap),
         dilution_score(snap),
-    ])
+    ], min_count=MIN_QUALITY_COMPONENTS)
 
 
 def multi_lens_score(

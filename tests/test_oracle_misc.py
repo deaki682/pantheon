@@ -109,6 +109,13 @@ def test_quality_score_full():
     assert quality_score(snap) > 0.7
 
 
+def test_quality_score_penalizes_sparse_coverage():
+    # Only one component present (dilution clamps to 1.0). It must NOT read as
+    # perfect quality — divide by the 3-component floor, not by 1.
+    snap = FundamentalSnapshot(symbol="X", dilution_yoy=0.0)
+    assert quality_score(snap) <= 1.0 / 3 + 1e-9
+
+
 def test_quality_score_bounded_by_one_for_buybacks():
     # A heavy buyback (negative dilution_yoy) — possibly a noisy data artifact —
     # must not push the score above 1.0; the dilution term is clamped.

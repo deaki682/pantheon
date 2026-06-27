@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from shared.fundamentals import FundamentalSnapshot
 from shared.quality import (
-    dilution_score, fcf_margin_score, mean_of_present,
+    MIN_QUALITY_COMPONENTS, dilution_score, fcf_margin_score, mean_of_present,
     operating_margin_score, revenue_growth_score,
 )
 
@@ -25,7 +25,7 @@ def quality_for_delphi(snap: FundamentalSnapshot) -> float:
         fcf_margin_score(snap),
         revenue_growth_score(snap),
         dilution_score(snap),
-    ])
+    ], min_count=MIN_QUALITY_COMPONENTS)
 
 
 def build_candidate(

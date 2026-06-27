@@ -52,7 +52,19 @@ def dilution_score(snap: FundamentalSnapshot) -> Optional[float]:
     return _clamp01(1.0 - snap.dilution_yoy * 10)
 
 
-def mean_of_present(values: Iterable[Optional[float]]) -> float:
-    """Average the non-None component scores; 0.0 when none are present."""
+# A quality score is only trustworthy with enough underlying components. Below
+# this, divide by the floor instead of the (small) present count, so a single
+# component that happens to clamp to 1.0 can't read as "perfect quality".
+MIN_QUALITY_COMPONENTS = 3
+
+
+def mean_of_present(values: Iterable[Optional[float]], *, min_count: int = 1) -> float:
+    """Average the non-None component scores; 0.0 when none are present.
+
+    With `min_count > 1`, sparse coverage is penalized: the sum is divided by
+    `max(n_present, min_count)`, so thin data can't produce a confident score.
+    """
     present = [v for v in values if v is not None]
-    return sum(present) / len(present) if present else 0.0
+    if not present:
+        return 0.0
+    return sum(present) / max(len(present), min_count)

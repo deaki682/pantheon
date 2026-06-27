@@ -333,14 +333,22 @@ def combine_lenses(
         in_any = (sym in insider_syms) or (sym in sm) or (sym in act) or (sym in qmap and qmap[sym].get("pass"))
         if not in_any:
             continue
-        snap_dict = (qmap.get(sym) or {}).get("snapshot") or {}
-        from shared.fundamentals import FundamentalSnapshot
-        try:
-            snap = FundamentalSnapshot(**{k: v for k, v in snap_dict.items() if k in FundamentalSnapshot.__dataclass_fields__})
-        except Exception:
-            snap = FundamentalSnapshot(symbol=sym)
-        from .screener import quality_score
-        q = quality_score(snap)
+        qrow = qmap.get(sym) or {}
+        # Only credit quality to names that passed the prescreen's data-quality +
+        # quality gate. Otherwise a name pulled in by another lens (e.g. an insider
+        # cluster) but with thin or failing fundamentals would still bank quality
+        # points off a sparse snapshot.
+        if qrow.get("pass"):
+            snap_dict = qrow.get("snapshot") or {}
+            from shared.fundamentals import FundamentalSnapshot
+            try:
+                snap = FundamentalSnapshot(**{k: v for k, v in snap_dict.items() if k in FundamentalSnapshot.__dataclass_fields__})
+            except Exception:
+                snap = FundamentalSnapshot(symbol=sym)
+            from .screener import quality_score
+            q = quality_score(snap)
+        else:
+            q = 0.0
         row = multi_lens_score(
             sym,
             insider_cluster=sym in insider_syms,

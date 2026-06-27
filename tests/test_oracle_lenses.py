@@ -311,3 +311,23 @@ def test_combine_lenses_quality_fail_doesnt_count():
         quality_rows=[{"symbol": "A", "pass": False, "snapshot": {}}],
     )
     assert out == []
+
+
+def test_combine_lenses_ignores_quality_when_prescreen_failed():
+    # Name pulled in by an insider cluster but failed the prescreen — its (sparse,
+    # high-clamping) snapshot must NOT bank quality points.
+    out = combine_lenses(
+        universe=["A"],
+        insider_clusters=[{"symbol": "A"}],
+        quality_rows=[{"symbol": "A", "pass": False, "snapshot": {"dilution_yoy": 0.0}}],
+    )
+    assert len(out) == 1
+    assert out[0]["lenses"]["quality"] == 0.0
+    # A passing name with real coverage still earns quality.
+    out2 = combine_lenses(
+        universe=["B"],
+        insider_clusters=[{"symbol": "B"}],
+        quality_rows=[{"symbol": "B", "pass": True, "snapshot": {
+            "gross_margin_ttm": 0.5, "operating_margin_ttm": 0.2, "revenue_yoy": 0.1}}],
+    )
+    assert out2[0]["lenses"]["quality"] > 0
