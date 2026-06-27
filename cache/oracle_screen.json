@@ -1,5 +1,5 @@
 {
-  "n_universe_hits": 4040,
+  "n_universe_hits": 4027,
   "top": [
     {
       "lenses": {
@@ -291,45 +291,12 @@
       "lenses": {
         "activist_13d": false,
         "insider_cluster": true,
-        "quality": 0.7267081112484716,
-        "sector_breadth": 0.0,
-        "smart_money": false
-      },
-      "score": 0.4316770278121179,
-      "symbol": "SPGI"
-    },
-    {
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.9117924145212377,
-        "sector_breadth": 0.0,
-        "smart_money": true
-      },
-      "score": 0.42794810363030944,
-      "symbol": "META"
-    },
-    {
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
         "quality": 0.7077429979221173,
         "sector_breadth": 0.0,
         "smart_money": false
       },
       "score": 0.4269357494805293,
       "symbol": "JKHY"
-    },
-    {
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.9039041412704268,
-        "sector_breadth": 0.0,
-        "smart_money": true
-      },
-      "score": 0.42597603531760675,
-      "symbol": "V"
     },
     {
       "lenses": {
@@ -374,6 +341,17 @@
       },
       "score": 0.42249678896520915,
       "symbol": "GPOR"
+    },
+    {
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.8897405181515472,
+        "sector_breadth": 0.0,
+        "smart_money": true
+      },
+      "score": 0.4224351295378868,
+      "symbol": "META"
     },
     {
       "lenses": {
@@ -522,6 +500,17 @@
       "lenses": {
         "activist_13d": false,
         "insider_cluster": true,
+        "quality": 0.6356108149979621,
+        "sector_breadth": 0.0,
+        "smart_money": false
+      },
+      "score": 0.40890270374949056,
+      "symbol": "SPGI"
+    },
+    {
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": true,
         "quality": 0.6306914793563012,
         "sector_breadth": 0.0,
         "smart_money": false
@@ -654,28 +643,6 @@
       "lenses": {
         "activist_13d": false,
         "insider_cluster": false,
-        "quality": 0.76395917012828,
-        "sector_breadth": 0.0,
-        "smart_money": true
-      },
-      "score": 0.39098979253207,
-      "symbol": "MSFT"
-    },
-    {
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.7573350924567309,
-        "sector_breadth": 0.0,
-        "smart_money": true
-      },
-      "score": 0.3893337731141827,
-      "symbol": "EXP"
-    },
-    {
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
         "quality": 0.7573211023572521,
         "sector_breadth": 0.0,
         "smart_money": true
@@ -704,17 +671,6 @@
       },
       "score": 0.3882055645805936,
       "symbol": "FLUT"
-    },
-    {
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.7422822332547887,
-        "sector_breadth": 0.0,
-        "smart_money": true
-      },
-      "score": 0.3855705583136972,
-      "symbol": "CRM"
     },
     {
       "lenses": {
@@ -862,6 +818,17 @@
     {
       "lenses": {
         "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.70494896266035,
+        "sector_breadth": 0.0,
+        "smart_money": true
+      },
+      "score": 0.3762372406650875,
+      "symbol": "MSFT"
+    },
+    {
+      "lenses": {
+        "activist_13d": false,
         "insider_cluster": true,
         "quality": 0.5048489731294279,
         "sector_breadth": 0.0,
@@ -880,6 +847,17 @@
       },
       "score": 0.37562827265427834,
       "symbol": "CCC"
+    },
+    {
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.6966688655709137,
+        "sector_breadth": 0.0,
+        "smart_money": true
+      },
+      "score": 0.37416721639272843,
+      "symbol": "EXP"
     },
     {
       "lenses": {
@@ -1016,6 +994,17 @@
     {
       "lenses": {
         "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.6563763110063848,
+        "sector_breadth": 0.0,
+        "smart_money": true
+      },
+      "score": 0.3640940777515962,
+      "symbol": "CRM"
+    },
+    {
+      "lenses": {
+        "activist_13d": false,
         "insider_cluster": true,
         "quality": 0.45492466196475123,
         "sector_breadth": 0.0,
@@ -1100,7 +1089,18 @@
       },
       "score": 0.35575186984878987,
       "symbol": "KR"
+    },
+    {
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": true,
+        "quality": 0.4187789361441287,
+        "sector_breadth": 0.0,
+        "smart_money": false
+      },
+      "score": 0.3546947340360322,
+      "symbol": "DBD"
     }
   ],
-  "updated_at": "2026-06-27T23:46:06.211769+00:00"
+  "updated_at": "2026-06-27T23:56:11.720482+00:00"
 }
