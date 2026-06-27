@@ -1,0 +1,320 @@
+"""Lens fetchers — actually pull the data each lens needs.
+
+Each fetcher takes a `http_get` callable so tests can stub the network.
+By default it uses the rate-limited `shared.edgar.http_get`.
+
+The four lenses:
+  - Insider clusters (per-symbol Form 4 fan-out, fed to scan_universe)
+  - Smart-money 13F holdings (per-manager 13F-HR information-table fetch)
+  - Activist 13D (one EDGAR full-text search, paginated)
+  - Broad quality (per-symbol XBRL company-facts -> FundamentalSnapshot -> prescreen)
+"""
+from __future__ import annotations
+
+import json
+import re
+import time
+from datetime import datetime, timedelta
+from typing import Callable, Iterable, Optional
+from urllib.parse import quote
+
+from shared.edgar import (
+    ARCHIVE_URL, COMPANY_FACTS_URL, SEARCH_URL, SUBMISSIONS_URL,
+    Filing, acc_no_clean, cik10, http_get, parse_submissions_recent,
+)
+from shared.fundamentals import build_snapshot
+from shared.insiders import InsiderTxn, parse_form4
+
+from .prescreener import prescreen
+
+
+# Caller-overridable HTTP. Default is the rate-limited one.
+HttpGet = Callable[..., str]
+_default_http: HttpGet = http_get
+
+
+def set_default_http(getter: HttpGet) -> None:
+    """Tests use this to swap in a stub."""
+    global _default_http
+    _default_http = getter
+
+
+# ------- helpers -------
+
+def _form4_url(filing: Filing) -> str:
+    """The Form 4 XML body lives in the filing index. We construct the URL to the
+    primary XML document. Robinhood: the primary_document is usually an .xml file
+    for Form 4 filings; if it ends in .htm, fall back to the index.json listing."""
+    if not filing.primary_document:
+        return ""
+    return ARCHIVE_URL.format(
+        cik=int(filing.cik) if filing.cik else 0,
+        acc_no_clean=acc_no_clean(filing.accession_no),
+        file=filing.primary_document,
+    )
+
+
+def _filings_index(cik: str, accession_no: str) -> str:
+    """The filing index JSON listing all files in a single submission."""
+    acc = acc_no_clean(accession_no)
+    return f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc}/index.json"
+
+
+# ------- Lens 1: Insider clusters -------
+
+def fetch_insider_txns_for_symbol(
+    symbol: str,
+    cik: str,
+    *,
+    days_back: int = 60,
+    today: Optional[str] = None,
+    http: Optional[HttpGet] = None,
+) -> list[InsiderTxn]:
+    """Fetch recent Form 4 filings for one CIK and parse the underlying XML
+    to InsiderTxn rows."""
+    get = http or _default_http
+    today_s = today or datetime.utcnow().strftime("%Y-%m-%d")
+    try:
+        cutoff = (datetime.strptime(today_s, "%Y-%m-%d") - timedelta(days=days_back)).strftime("%Y-%m-%d")
+    except ValueError:
+        cutoff = ""
+    try:
+        payload = json.loads(get(SUBMISSIONS_URL.format(cik=cik10(cik))))
+    except Exception:
+        return []
+    filings = parse_submissions_recent(payload, symbol=symbol)
+    form4s = [f for f in filings if f.form == "4" and (not cutoff or f.filing_date >= cutoff)]
+    txns: list[InsiderTxn] = []
+    for f in form4s:
+        f.cik = str(int(cik))
+        url = _form4_url(f)
+        if not url:
+            continue
+        try:
+            body = get(url)
+        except Exception:
+            continue
+        # If primary_document was HTML, body won't be XML — skip.
+        if "<ownershipDocument" not in body:
+            continue
+        txns.extend(parse_form4(body, accession_no=f.accession_no))
+    return txns
+
+
+def make_form4_fetcher(
+    sym_to_cik: dict[str, str],
+    *,
+    days_back: int = 60,
+    today: Optional[str] = None,
+    http: Optional[HttpGet] = None,
+) -> Callable[[str], list[InsiderTxn]]:
+    """Build the per-symbol fetcher that shared.insiders.scan_universe expects."""
+    def fetcher(symbol: str) -> list[InsiderTxn]:
+        cik = sym_to_cik.get(symbol.upper())
+        if not cik:
+            return []
+        return fetch_insider_txns_for_symbol(symbol, cik, days_back=days_back, today=today, http=http)
+    return fetcher
+
+
+# ------- Lens 2: Smart-money 13F holdings -------
+
+def find_latest_13fhr_accession(cik: str, *, http: Optional[HttpGet] = None) -> Optional[str]:
+    """For a 13F filer CIK, return the accession number of the most recent 13F-HR."""
+    get = http or _default_http
+    try:
+        payload = json.loads(get(SUBMISSIONS_URL.format(cik=cik10(cik))))
+    except Exception:
+        return None
+    filings = parse_submissions_recent(payload, symbol="")
+    for f in filings:
+        if (f.form or "").upper().strip() == "13F-HR":
+            return f.accession_no
+    return None
+
+
+def fetch_13f_information_table_xml(
+    cik: str, accession_no: str, *, http: Optional[HttpGet] = None
+) -> str:
+    """Fetch the information-table XML for a 13F filing. The file name is
+    convention-driven; we list the filing index and pick the *_information*.xml
+    document."""
+    get = http or _default_http
+    try:
+        index_payload = json.loads(get(_filings_index(cik, accession_no)))
+    except Exception:
+        return ""
+    items = index_payload.get("directory", {}).get("item", []) or []
+    candidates = [it.get("name", "") for it in items if it.get("name", "").lower().endswith(".xml")]
+    # Prefer files containing 'informationtable' or 'infotable'
+    info = [n for n in candidates if "informationtable" in n.lower() or "infotable" in n.lower()]
+    chosen = info[0] if info else (candidates[0] if candidates else "")
+    if not chosen:
+        return ""
+    url = ARCHIVE_URL.format(
+        cik=int(cik), acc_no_clean=acc_no_clean(accession_no), file=chosen,
+    )
+    try:
+        return get(url)
+    except Exception:
+        return ""
+
+
+# ------- Lens 3: Activist 13D (EDGAR full-text search) -------
+
+def search_recent_13d(
+    *,
+    date_from: str,
+    date_to: str,
+    http: Optional[HttpGet] = None,
+    max_pages: int = 5,
+) -> list[Filing]:
+    """Search EDGAR full-text for SC 13D filings in [date_from, date_to].
+    Returns fresh 13Ds (excludes /A amendments)."""
+    get = http or _default_http
+    out: list[Filing] = []
+    seen: set[str] = set()
+    for page in range(max_pages):
+        params = {
+            "q": "",
+            "forms": "SC 13D",
+            "dateRange": "custom",
+            "startdt": date_from,
+            "enddt": date_to,
+            "from": str(page * 10),
+        }
+        try:
+            raw = get(SEARCH_URL, params=params)
+            payload = json.loads(raw)
+        except Exception:
+            break
+        hits = payload.get("hits", {}).get("hits", [])
+        if not hits:
+            break
+        for h in hits:
+            source = h.get("_source", {}) or {}
+            form = source.get("forms", [""])
+            form = form[0] if isinstance(form, list) and form else (form or "")
+            if (form or "").upper().endswith("/A"):
+                continue
+            acc = source.get("adsh", "") or h.get("_id", "")
+            if not acc or acc in seen:
+                continue
+            seen.add(acc)
+            ciks = source.get("ciks", [])
+            cik = str(ciks[0]) if ciks else ""
+            tickers = source.get("tickers", [])
+            symbol = (tickers[0] if tickers else "").upper()
+            out.append(Filing(
+                cik=cik,
+                accession_no=acc,
+                form="SC 13D",
+                filing_date=source.get("file_date", "") or source.get("filing_date", ""),
+                symbol=symbol,
+            ))
+    return out
+
+
+# ------- Lens 4: Broad quality screen -------
+
+def fetch_quality_snapshot_for_symbol(
+    symbol: str, cik: str, *, http: Optional[HttpGet] = None
+) -> dict:
+    """Per-symbol XBRL fundamentals -> snapshot -> prescreen result.
+
+    Returns {symbol, pass, reasons, snapshot} where snapshot is the
+    FundamentalSnapshot serialized to a dict.
+    """
+    get = http or _default_http
+    try:
+        payload = json.loads(get(COMPANY_FACTS_URL.format(cik=cik10(cik))))
+    except Exception:
+        return {"symbol": symbol, "pass": False, "reasons": ["fetch_failed"], "snapshot": None}
+    facts = (payload.get("facts") or {}).get("us-gaap") or {}
+    snap = build_snapshot(symbol, facts)
+    pre = prescreen(snap)
+    from dataclasses import asdict
+    return {
+        "symbol": symbol,
+        "pass": pre["pass"],
+        "reasons": pre["reasons"],
+        "snapshot": asdict(snap),
+    }
+
+
+def scan_universe_quality(
+    sym_to_cik: dict[str, str],
+    *,
+    checkpoint_every: int = 200,
+    on_checkpoint: Optional[Callable[[int, list[dict]], None]] = None,
+    on_progress: Optional[Callable[[int, int], None]] = None,
+    http: Optional[HttpGet] = None,
+) -> list[dict]:
+    """Sequential per-symbol quality screen. Checkpointed every N names.
+
+    Sequential (not threaded) by default: the per-symbol fetch is one request,
+    and SEC's 8-10/s rate is well-served by sequential calls. Threading would
+    require care to not double-acquire the rate-limit gate.
+    """
+    out: list[dict] = []
+    total = len(sym_to_cik)
+    done = 0
+    for sym, cik in sym_to_cik.items():
+        try:
+            row = fetch_quality_snapshot_for_symbol(sym, cik, http=http)
+        except Exception:
+            row = {"symbol": sym, "pass": False, "reasons": ["fetch_error"], "snapshot": None}
+        out.append(row)
+        done += 1
+        if on_progress:
+            on_progress(done, total)
+        if checkpoint_every > 0 and done % checkpoint_every == 0 and on_checkpoint:
+            on_checkpoint(done, list(out))
+    return out
+
+
+# ------- Combine -------
+
+def combine_lenses(
+    universe: Iterable[str],
+    *,
+    insider_clusters: Iterable[dict] = (),
+    smart_money: dict[str, list[str]] | None = None,
+    activist_symbols: Iterable[str] = (),
+    quality_rows: Iterable[dict] = (),
+) -> list[dict]:
+    """Build a multi-lens row per symbol that hit at least one lens."""
+    from .screener import multi_lens_score
+    insider_syms = {c.get("symbol", "").upper() for c in insider_clusters if c.get("symbol")}
+    sm = {s.upper() for s in (smart_money or {})}
+    act = {s.upper() for s in activist_symbols}
+    qmap: dict[str, dict] = {}
+    for row in quality_rows:
+        sym = row.get("symbol", "").upper()
+        if sym:
+            qmap[sym] = row
+
+    universe_set = {s.upper() for s in universe}
+    out: list[dict] = []
+    for sym in sorted(universe_set):
+        in_any = (sym in insider_syms) or (sym in sm) or (sym in act) or (sym in qmap and qmap[sym].get("pass"))
+        if not in_any:
+            continue
+        snap_dict = (qmap.get(sym) or {}).get("snapshot") or {}
+        from shared.fundamentals import FundamentalSnapshot
+        try:
+            snap = FundamentalSnapshot(**{k: v for k, v in snap_dict.items() if k in FundamentalSnapshot.__dataclass_fields__})
+        except Exception:
+            snap = FundamentalSnapshot(symbol=sym)
+        from .screener import quality_score
+        q = quality_score(snap)
+        row = multi_lens_score(
+            sym,
+            insider_cluster=sym in insider_syms,
+            smart_money=sym in sm,
+            activist_13d=sym in act,
+            quality=q,
+            sector_breadth=0.0,
+        )
+        out.append(row)
+    return out
