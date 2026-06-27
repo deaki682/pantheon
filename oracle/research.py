@@ -52,6 +52,11 @@ def make_dossier(
 
 def rescore_dossier(d: dict[str, Any], *, current_price: float) -> dict[str, Any]:
     """Recompute derived metrics + conviction at a new price."""
+    # compute_derived assumes a well-formed dossier (scenarios + ratings). Unlike
+    # build_dossier, rescore receives an existing dossier that could have been
+    # loaded from disk or hand-edited — validate so a malformed one raises a clear
+    # DossierError instead of a cryptic KeyError deep in the math.
+    validate_dossier(d)
     d["current_price"] = float(current_price)
     derived = compute_derived(d, current_price=current_price, horizon_years=d.get("horizon_years", 2.0))
     d["derived"] = derived
