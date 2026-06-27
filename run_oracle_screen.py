@@ -122,7 +122,8 @@ SMART_MONEY_CIKS = {
     "RUANE CUNNIFF":      "0000855886",
     "FIRST EAGLE":        "0001057706",
     "AKRE CAPITAL":       "0001112520",
-    # WEDGEWOOD, TWEEDY BROWNE — fill in when known
+    "WEDGEWOOD":          "0000859804",
+    "TWEEDY BROWNE":      "0000732905",
 }
 
 

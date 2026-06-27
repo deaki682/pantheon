@@ -4,6 +4,12 @@ Pure accumulator — runs without minimum count enforcement and without
 triggering scoring or execution. Use this when you want to add a single
 new dossier to the corpus.
 
+## Model routing
+
+Same convention as `/oracle-research`: dispatch filing reads to Sonnet via
+Agent, reserve the main-session model for synthesis. Filing-reading is
+~5× cheaper on Sonnet at near-identical quality.
+
 ## Steps
 
 1. Load existing dossiers.
