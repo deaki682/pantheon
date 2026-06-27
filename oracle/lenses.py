@@ -41,16 +41,27 @@ def set_default_http(getter: HttpGet) -> None:
 
 # ------- helpers -------
 
+def _strip_xsl_prefix(doc: str) -> str:
+    """Form 4 `primaryDocument` is frequently the XSL *viewer* path, e.g.
+    ``xslF345X06/wk-form4_123.xml`` — that URL serves the human-readable HTML
+    rendering, not the raw XML. The machine-readable XML lives at the same file
+    name with the leading ``xsl*/`` segment removed. Strip it so we fetch XML."""
+    head, slash, tail = doc.partition("/")
+    if slash and head.lower().startswith("xsl"):
+        return tail
+    return doc
+
+
 def _form4_url(filing: Filing) -> str:
     """The Form 4 XML body lives in the filing index. We construct the URL to the
-    primary XML document. Robinhood: the primary_document is usually an .xml file
-    for Form 4 filings; if it ends in .htm, fall back to the index.json listing."""
+    primary XML document. The primary_document is usually an .xml file for Form 4
+    filings; if it ends in .htm, fall back to the index.json listing."""
     if not filing.primary_document:
         return ""
     return ARCHIVE_URL.format(
         cik=int(filing.cik) if filing.cik else 0,
         acc_no_clean=acc_no_clean(filing.accession_no),
-        file=filing.primary_document,
+        file=_strip_xsl_prefix(filing.primary_document),
     )
 
 
@@ -162,27 +173,51 @@ def fetch_13f_information_table_xml(
 
 # ------- Lens 3: Activist 13D (EDGAR full-text search) -------
 
+# display_names entries look like "Acme Inc.  (ACME)  (CIK 0001158780)".
+# The ticker is the parenthesized token immediately preceding the (CIK ...) one;
+# many filers (private subjects) have no ticker at all.
+_DISPLAY_TICKER = re.compile(r"\(([A-Za-z0-9][A-Za-z0-9.\-]{0,9})\)\s*\(CIK", re.IGNORECASE)
+
+
+def _ticker_from_display_names(display_names) -> str:
+    """Extract the subject company's ticker from an EDGAR FTS display_names list.
+
+    display_names[0] is the subject company (the issuer whose shares were
+    acquired) — that's the symbol we want. Returns "" when no ticker is present.
+    """
+    if not display_names:
+        return ""
+    m = _DISPLAY_TICKER.search(display_names[0] or "")
+    return m.group(1).upper() if m else ""
+
+
 def search_recent_13d(
     *,
     date_from: str,
     date_to: str,
     http: Optional[HttpGet] = None,
-    max_pages: int = 5,
+    max_pages: int = 10,
 ) -> list[Filing]:
-    """Search EDGAR full-text for SC 13D filings in [date_from, date_to].
-    Returns fresh 13Ds (excludes /A amendments)."""
+    """Search EDGAR full-text for Schedule 13D filings in [date_from, date_to].
+    Returns fresh 13Ds (excludes /A amendments).
+
+    EDGAR FTS quirks this navigates around:
+      - The form token is ``SCHEDULE 13D`` (``SC 13D`` matches nothing).
+      - An empty ``q`` param 500s; a form-only "browse" query omits ``q``.
+      - ``from=0`` also 500s, so page 0 must omit the ``from`` param entirely.
+      - The subject ticker is not a field; it's embedded in ``display_names``.
+    """
     get = http or _default_http
     out: list[Filing] = []
     seen: set[str] = set()
     for page in range(max_pages):
         params = {
-            "q": "",
-            "forms": "SC 13D",
-            "dateRange": "custom",
+            "forms": "SCHEDULE 13D",
             "startdt": date_from,
             "enddt": date_to,
-            "from": str(page * 10),
         }
+        if page > 0:
+            params["from"] = str(page * 10)
         try:
             raw = get(SEARCH_URL, params=params)
             payload = json.loads(raw)
@@ -193,18 +228,16 @@ def search_recent_13d(
             break
         for h in hits:
             source = h.get("_source", {}) or {}
-            form = source.get("forms", [""])
-            form = form[0] if isinstance(form, list) and form else (form or "")
-            if (form or "").upper().endswith("/A"):
-                continue
+            form = (source.get("form") or "").upper()
+            if form.endswith("/A"):
+                continue  # amendment — we only want fresh 13Ds
             acc = source.get("adsh", "") or h.get("_id", "")
             if not acc or acc in seen:
                 continue
             seen.add(acc)
-            ciks = source.get("ciks", [])
+            ciks = source.get("ciks", []) or []
             cik = str(ciks[0]) if ciks else ""
-            tickers = source.get("tickers", [])
-            symbol = (tickers[0] if tickers else "").upper()
+            symbol = _ticker_from_display_names(source.get("display_names", []))
             out.append(Filing(
                 cik=cik,
                 accession_no=acc,

@@ -68,6 +68,27 @@ def test_fetch_insider_txns_for_symbol_happy_path():
     assert txns[0].transaction_code == "P"
 
 
+def test_fetch_insider_strips_xsl_viewer_prefix():
+    # Form 4 primaryDocument is often the XSL viewer path, which serves HTML.
+    # We must fetch the raw XML at the de-prefixed path instead.
+    submissions = json.dumps({
+        "cik": "1",
+        "filings": {"recent": {
+            "accessionNumber": ["acc-1"], "form": ["4"], "filingDate": ["2024-05-30"],
+            "primaryDocument": ["xslF345X06/wk-form4_1.xml"], "items": [""],
+        }},
+    })
+    seen_urls = []
+    def get(url, params=None, *, timeout=20.0):
+        seen_urls.append(url)
+        return submissions if "/submissions/CIK" in url else _F4
+    txns = fetch_insider_txns_for_symbol("ACME", "0000000001", today="2024-06-30", http=get)
+    assert len(txns) == 1
+    archive = next(u for u in seen_urls if "/Archives/edgar/data" in u)
+    assert "xslF345X06" not in archive
+    assert archive.endswith("/wk-form4_1.xml")
+
+
 def test_fetch_insider_txns_swallows_fetch_error():
     def bad(url, params=None, *, timeout=20.0):
         raise RuntimeError("network down")
@@ -138,19 +159,36 @@ def test_find_latest_13fhr_none_when_no_filings():
     assert find_latest_13fhr_accession("0000000001", http=_stub_http({"/submissions/CIK": submissions})) is None
 
 
-def test_search_recent_13d_filters_amendments():
+def test_search_recent_13d_filters_amendments_and_parses_ticker():
+    # Real EDGAR FTS shape: `form` (string), `display_names` carries the ticker,
+    # no `tickers`/`forms` fields. a2 is an amendment; a3 has no ticker.
     page1 = json.dumps({"hits": {"hits": [
-        {"_id": "a1", "_source": {"forms": ["SC 13D"], "adsh": "a1", "ciks": ["1"], "tickers": ["ACME"], "file_date": "2024-05-20"}},
-        {"_id": "a2", "_source": {"forms": ["SC 13D/A"], "adsh": "a2", "ciks": ["2"], "tickers": ["WID"], "file_date": "2024-05-21"}},
+        {"_id": "a1", "_source": {"form": "SCHEDULE 13D", "adsh": "a1", "ciks": ["1"],
+            "display_names": ["Acme Inc.  (ACME)  (CIK 0000000001)"], "file_date": "2024-05-20"}},
+        {"_id": "a2", "_source": {"form": "SCHEDULE 13D/A", "adsh": "a2", "ciks": ["2"],
+            "display_names": ["Wid Corp  (WID)  (CIK 0000000002)"], "file_date": "2024-05-21"}},
+        {"_id": "a3", "_source": {"form": "SCHEDULE 13D", "adsh": "a3", "ciks": ["3"],
+            "display_names": ["Private Holdco Ltd  (CIK 0000000003)"], "file_date": "2024-05-22"}},
     ]}})
     empty = json.dumps({"hits": {"hits": []}})
     calls = [page1, empty]
     def get(url, params=None, *, timeout=20.0):
         return calls.pop(0) if calls else empty
     out = search_recent_13d(date_from="2024-05-01", date_to="2024-05-31", http=get)
-    assert len(out) == 1
-    assert out[0].accession_no == "a1"
-    assert out[0].symbol == "ACME"
+    assert {f.accession_no for f in out} == {"a1", "a3"}  # amendment a2 dropped
+    assert {f.symbol for f in out} == {"ACME", ""}  # a3 has no ticker
+
+
+def test_search_recent_13d_query_params_avoid_edgar_500s():
+    seen = []
+    def get(url, params=None, *, timeout=20.0):
+        seen.append(params or {})
+        return json.dumps({"hits": {"hits": []}})
+    search_recent_13d(date_from="2026-01-01", date_to="2026-01-07", http=get)
+    p = seen[0]
+    assert p["forms"] == "SCHEDULE 13D"  # SC 13D matches nothing on FTS
+    assert "q" not in p  # empty q 500s — must be omitted entirely, never ""
+    assert "from" not in p  # from=0 500s — page 0 omits it
 
 
 def test_search_recent_13d_handles_empty():
