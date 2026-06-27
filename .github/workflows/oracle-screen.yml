@@ -1,8 +1,13 @@
 name: oracle-screen
 
-# Runs the Oracle multi-lens universe screen on a schedule, persists results
-# to the claude/live state branch. Manual trigger also available via the
-# workflow_dispatch event.
+# Runs the Oracle multi-lens universe screen and persists results to the
+# claude/live state branch. Manual trigger also available via workflow_dispatch.
+#
+# The four lenses are independent, so they run as parallel matrix jobs — total
+# wall-clock is the SLOWEST single lens (insider fan-out), not the sum of all
+# four. Each lens job uploads only its own cache as an artifact; a single
+# `combine` job then merges them, assesses health, and is the only writer to
+# claude/live (so there's no CAS race between concurrent pushers).
 
 on:
   schedule:
@@ -18,16 +23,16 @@ on:
         description: 'Comma-separated lenses (default: all)'
         required: false
         default: 'insiders,smart_money,activist_13d,quality'
-      resume:
-        description: 'Resume from existing caches'
-        type: boolean
-        required: false
-        default: false
       persist:
         description: 'Push results to claude/live'
         type: boolean
         required: false
         default: true
+      allow_empty:
+        description: 'Persist even if a lens looks systemically empty'
+        type: boolean
+        required: false
+        default: false
 
 # Need write access to push the state branch.
 permissions:
@@ -39,75 +44,151 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  screen:
+  # ---- Plan: gate on tests, expand the lens list into a matrix ----
+  plan:
     runs-on: ubuntu-latest
-    timeout-minutes: 350  # 5h 50m — leaves headroom under GHA's 6h job ceiling
-
+    outputs:
+      matrix: ${{ steps.set.outputs.matrix }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # full history; pantheon needs to fetch claude/live
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install requests pytest
+      - name: Pre-flight tests (gates the whole screen)
+        run: pytest tests/ -q --tb=short -x
+      - name: Build lens matrix from input
+        id: set
+        env:
+          LENSES: ${{ github.event.inputs.lenses || 'insiders,smart_money,activist_13d,quality' }}
+        run: |
+          MATRIX=$(python3 - "$LENSES" <<'PY'
+          import json, sys
+          # lens -> the single cache file it produces
+          specs = {
+              "insiders":     "oracle_insider_clusters.json",
+              "smart_money":  "oracle_smart_money.json",
+              "activist_13d": "oracle_activist_13d.json",
+              "quality":      "oracle_prescreener.json",
+          }
+          sel = [x.strip() for x in sys.argv[1].split(",") if x.strip()]
+          include = [{"lens": l, "file": specs[l]} for l in sel if l in specs]
+          print(json.dumps({"include": include}))
+          PY
+          )
+          echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
+          echo "matrix: $MATRIX"
 
+  # ---- Lens: one job per lens, in parallel ----
+  lens:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 330  # insider fan-out is the long pole; well under GHA's 6h
+    strategy:
+      fail-fast: false  # a dead lens must not cancel the healthy ones
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pytest
+      - name: Restore this lens's cache from claude/live (intra-lens resume)
+        run: |
+          set +e
+          git fetch origin claude/live --depth=1 || true
+          if git rev-parse --verify refs/remotes/origin/claude/live >/dev/null 2>&1; then
+            mkdir -p cache
+            git --work-tree=. checkout origin/claude/live -- "cache/${{ matrix.file }}" 2>/dev/null || true
+          fi
+          set -e
+      - name: Run lens ${{ matrix.lens }}
+        env:
+          CAP: ${{ github.event.inputs.cap || '0' }}
+        run: |
+          python run_oracle_screen.py \
+            --cap "$CAP" \
+            --lenses "${{ matrix.lens }}" \
+            --skip-combine
+      - name: Upload ${{ matrix.lens }} cache
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cache-${{ matrix.lens }}
+          path: cache/${{ matrix.file }}
+          if-no-files-found: warn
+          retention-days: 14
+
+  # ---- Combine: merge lens artifacts, assess health, persist (single writer) ----
+  combine:
+    needs: lens
+    if: ${{ always() && needs.lens.result != 'cancelled' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pytest
       - name: Configure git for state push
         run: |
           git config user.email "oracle-screen-bot@noreply.github.com"
           git config user.name "oracle-screen-bot"
-
-      - name: Pre-flight tests (fast)
-        run: pytest tests/ -q --tb=short -x
-
-      - name: Restore prior caches from claude/live (best-effort)
+      - name: Restore prior caches from claude/live (fallback for any lens not re-run)
         run: |
           set +e
           git fetch origin claude/live --depth=1 || true
           if git rev-parse --verify refs/remotes/origin/claude/live >/dev/null 2>&1; then
             mkdir -p cache
             git --work-tree=. checkout origin/claude/live -- cache/ 2>/dev/null || true
-            ls -la cache/ || true
           fi
           set -e
-
-      - name: Run oracle-screen
+      - name: Download fresh lens caches (override the restored fallback)
+        uses: actions/download-artifact@v4
+        with:
+          path: cache
+          pattern: cache-*
+          merge-multiple: true
+      - name: Combine + assess health + persist
         env:
-          CAP: ${{ github.event.inputs.cap || '0' }}
-          LENSES: ${{ github.event.inputs.lenses || 'insiders,smart_money,activist_13d,quality' }}
-          RESUME_FLAG: ${{ github.event.inputs.resume == 'true' && '--resume' || '' }}
           PERSIST_FLAG: ${{ github.event.inputs.persist != 'false' && '--persist' || '' }}
+          ALLOW_EMPTY_FLAG: ${{ github.event.inputs.allow_empty == 'true' && '--allow-empty' || '' }}
         run: |
           python run_oracle_screen.py \
-            --cap "$CAP" \
-            --lenses "$LENSES" \
-            $RESUME_FLAG \
-            $PERSIST_FLAG
-
-      - name: Upload caches as artifact
+            --lenses "" \
+            $PERSIST_FLAG \
+            $ALLOW_EMPTY_FLAG
+      - name: Upload combined caches
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: oracle-screen-cache-${{ github.run_id }}
           path: cache/
           retention-days: 14
-
       - name: Summary
         if: always()
         run: |
           echo "## Oracle screen run" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Cache files:**" >> $GITHUB_STEP_SUMMARY
-          ls -la cache/ >> $GITHUB_STEP_SUMMARY 2>&1 || true
-          if [ -f cache/oracle_screen.json ]; then
+          if [ -f cache/oracle_screen_health.json ]; then
+            echo "**Lens health:**" >> $GITHUB_STEP_SUMMARY
+            python3 -c "import json; d=json.load(open('cache/oracle_screen_health.json')); print(f\"overall: {'OK' if d['ok'] else 'FAIL'} (universe {d['universe_size']})\"); [print(f\"  {'OK ' if l['ok'] else 'FAIL'}  {l['lens']}: {l['count']} — {l['reason']}\") for l in d['lenses']]" >> $GITHUB_STEP_SUMMARY 2>&1 || true
             echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          if [ -f cache/oracle_screen.json ]; then
             echo "**Top 10 ranked symbols:**" >> $GITHUB_STEP_SUMMARY
-            python -c "import json; d=json.load(open('cache/oracle_screen.json')); [print(f\"  {r['symbol']:8s} score={r['score']:.4f}\") for r in d['top'][:10]]" >> $GITHUB_STEP_SUMMARY || true
+            python3 -c "import json; d=json.load(open('cache/oracle_screen.json')); [print(f\"  {r['symbol']:8s} score={r['score']:.4f}\") for r in d['top'][:10]]" >> $GITHUB_STEP_SUMMARY 2>&1 || true
           fi

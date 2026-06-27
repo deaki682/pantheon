@@ -253,6 +253,65 @@ def combine_and_rank(cache_dir: Path) -> None:
     log("combine", f"DONE — {len(rows)} universe hits, top {len(top)} ranked")
 
 
+# ---- Lens health: fail loud on silent empties ----
+
+def _lens_counts(cache_dir: Path) -> tuple[dict, int]:
+    """Read per-lens result counts (and the scanned universe size) from caches.
+
+    Only lenses whose cache file exists are included — a lens that wasn't part
+    of this run is not judged.
+    """
+    counts: dict[str, int] = {}
+    universe_size = 0
+
+    def _load(name):
+        try:
+            return json.loads((cache_dir / name).read_text())
+        except (FileNotFoundError, ValueError):
+            return None
+
+    d = _load("oracle_insider_clusters.json")
+    if d is not None:
+        counts["insiders"] = len(d.get("clusters", []))
+        universe_size = max(universe_size, d.get("progress", {}).get("total", 0))
+    d = _load("oracle_prescreener.json")
+    if d is not None:
+        counts["quality"] = sum(1 for r in d.get("rows", []) if r.get("pass"))
+        universe_size = max(universe_size, d.get("progress", {}).get("total", 0))
+    d = _load("oracle_smart_money.json")
+    if d is not None:
+        counts["smart_money"] = len(d.get("holders", {}))
+    d = _load("oracle_activist_13d.json")
+    if d is not None:
+        counts["activist_13d"] = len(d.get("symbols", []))
+    return counts, universe_size
+
+
+def assess_health(cache_dir: Path) -> bool:
+    """Assess lens health, write a report, log a summary. Returns True if all OK."""
+    from oracle.lens_health import all_ok, assess
+
+    counts, universe_size = _lens_counts(cache_dir)
+    healths = assess(counts, universe_size)
+    ok = all_ok(healths)
+    write_json_atomic(cache_dir / "oracle_screen_health.json", {
+        "ok": ok,
+        "universe_size": universe_size,
+        "lenses": [{
+            "lens": h.lens, "count": h.count, "enforced": h.enforced,
+            "ok": h.ok, "reason": h.reason,
+        } for h in healths],
+        "updated_at": _utc_now(),
+    })
+    for h in healths:
+        status = "OK " if h.ok else "FAIL"
+        log("health", f"[{status}] {h.lens}: {h.count} — {h.reason}")
+    if not ok:
+        bad = ", ".join(h.lens for h in healths if not h.ok)
+        log("health", f"*** SYSTEMIC LENS FAILURE: {bad} returned nothing on a full run ***")
+    return ok
+
+
 # ---- Persist via pantheon ----
 
 def persist_all(cache_dir: Path, repo_dir: Path) -> None:
@@ -262,6 +321,7 @@ def persist_all(cache_dir: Path, repo_dir: Path) -> None:
         "oracle_insider_clusters.json", "oracle_smart_money.json",
         "oracle_activist_13d.json", "oracle_prescreener.json",
         "oracle_screen.json", "oracle_cadence.json", "oracle_screen_heartbeat.json",
+        "oracle_screen_health.json",
     ):
         p = cache_dir / name
         if p.exists():
@@ -292,6 +352,10 @@ def main(argv=None) -> int:
     ap.add_argument("--resume", action="store_true", help="skip lenses whose cache already exists")
     ap.add_argument("--persist", action="store_true", help="push results to claude/live at the end")
     ap.add_argument("--repo-dir", default=".", help="path to git repo for persist (default: cwd)")
+    ap.add_argument("--skip-combine", action="store_true",
+                     help="don't combine/rank or assess health (single-lens matrix jobs)")
+    ap.add_argument("--allow-empty", action="store_true",
+                     help="persist and exit 0 even if a lens looks systemically empty")
     args = ap.parse_args(argv)
 
     cache_dir = Path(args.cache_dir).resolve()
@@ -332,11 +396,19 @@ def main(argv=None) -> int:
         else:
             run_quality(sym_to_cik, cache_dir)
 
-    # Combine + rank (always; pulls from whatever cache files exist)
-    try:
-        combine_and_rank(cache_dir)
-    except (FileNotFoundError, KeyError) as e:
-        log("combine", f"skipped — missing lens output: {e}")
+    # Single-lens matrix jobs only produce their own cache file — combining and
+    # health-judging the partial picture is the combine job's responsibility.
+    health_ok = True
+    if args.skip_combine:
+        log("combine", "skipped (--skip-combine)")
+    else:
+        # Combine + rank (pulls from whatever cache files exist)
+        try:
+            combine_and_rank(cache_dir)
+        except (FileNotFoundError, KeyError) as e:
+            log("combine", f"skipped — missing lens output: {e}")
+        # Fail loud if a lens silently returned nothing.
+        health_ok = assess_health(cache_dir)
 
     # Mark cadence
     from oracle.calendar import mark_run
@@ -346,8 +418,14 @@ def main(argv=None) -> int:
     log("done", f"all lenses complete in {elapsed/60:.1f} min")
 
     if args.persist:
-        persist_all(cache_dir, repo_dir)
-    return 0
+        if health_ok or args.allow_empty:
+            persist_all(cache_dir, repo_dir)
+        else:
+            log("persist", "REFUSING to persist — systemic lens failure detected "
+                          "(use --allow-empty to override). Prior claude/live data preserved.")
+
+    # Non-zero exit turns the CI job red so a silent empty can't pass as success.
+    return 0 if (health_ok or args.allow_empty) else 1
 
 
 if __name__ == "__main__":
