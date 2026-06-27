@@ -153,9 +153,12 @@ def run_smart_money(cache_dir: Path) -> None:
     log("13F", f"resolving {len(cusips)} CUSIPs via OpenFIGI...")
     cusip_map = resolve_cusips_openfigi(cusips)
     name_index = {}
+    valid_tickers: set[str] = set()
     try:
         from shared.edgar import fetch_company_tickers_rows
-        name_index = build_name_ticker_index(fetch_company_tickers_rows())
+        rows_raw = fetch_company_tickers_rows()
+        name_index = build_name_ticker_index(rows_raw)
+        valid_tickers = {str(r.get("ticker", "")).upper() for r in rows_raw}
     except Exception as e:
         log("13F", f"  name-fallback index unavailable: {e}")
     resolve_holdings(holdings_by_manager, cusip_map=cusip_map, name_index=name_index)
@@ -163,6 +166,13 @@ def run_smart_money(cache_dir: Path) -> None:
     log("13F", f"  resolved {resolved} holdings ({len(cusip_map)} via CUSIP)")
 
     sm_holders = smart_money_holders(holdings_by_manager)
+    # Drop anything that isn't a real US-listed operating-company stock — ETFs,
+    # foreign listings, warrants, delisted tickers can't join the stock screen.
+    if valid_tickers:
+        before = len(sm_holders)
+        sm_holders = {s: m for s, m in sm_holders.items() if s in valid_tickers}
+        if before != len(sm_holders):
+            log("13F", f"  dropped {before - len(sm_holders)} non-stock tickers (ETF/foreign/delisted)")
     payload = {
         "holders": {sym: list(managers) for sym, managers in sm_holders.items()},
         "by_manager_counts": {m: len(hs) for m, hs in holdings_by_manager.items()},

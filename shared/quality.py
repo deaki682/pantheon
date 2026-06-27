@@ -18,14 +18,21 @@ def _clamp01(x: float) -> float:
     return min(1.0, max(0.0, x))
 
 
+# A margin can't exceed 100% of revenue — gross/operating income are bounded by
+# revenue by definition. A value above 1.0 means revenue is mis-tagged
+# (understated / wrong XBRL concept), which inflates every ratio; distrust it.
+def _impossible_margin(m: float) -> bool:
+    return m > 1.0
+
+
 def gross_margin_score(snap: FundamentalSnapshot) -> Optional[float]:
-    if snap.gross_margin_ttm is None:
+    if snap.gross_margin_ttm is None or _impossible_margin(snap.gross_margin_ttm):
         return None
     return _clamp01(snap.gross_margin_ttm / 0.5)
 
 
 def operating_margin_score(snap: FundamentalSnapshot) -> Optional[float]:
-    if snap.operating_margin_ttm is None:
+    if snap.operating_margin_ttm is None or _impossible_margin(snap.operating_margin_ttm):
         return None
     return _clamp01((snap.operating_margin_ttm + 0.1) / 0.3)
 
@@ -35,10 +42,8 @@ def fcf_margin_score(snap: FundamentalSnapshot) -> Optional[float]:
     if snap.free_cash_flow_ttm is None or not snap.revenue_ttm:
         return None
     margin = snap.free_cash_flow_ttm / snap.revenue_ttm
-    # FCF above 100% of revenue is operationally impossible — it means revenue is
-    # mis-tagged (wrong XBRL concept / single quarter). Distrust it rather than
-    # let the clamp read it as perfect quality.
-    if margin > 1.0:
+    # FCF above 100% of revenue is implausible — same mis-tagged-revenue signature.
+    if _impossible_margin(margin):
         return None
     return _clamp01(margin / 0.2)
 

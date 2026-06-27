@@ -52,6 +52,11 @@ def set_default_post(poster: PostJson) -> None:
     _default_post_impl = poster
 
 
+def _norm_ticker(t) -> str:
+    # OpenFIGI uses "/" for share classes (BRK/B); US convention is "-" (BRK-B).
+    return str(t or "").upper().replace("/", "-")
+
+
 def _pick_ticker(data_entries: list) -> str:
     """From OpenFIGI `data` entries for one CUSIP, choose the US ticker.
 
@@ -61,8 +66,8 @@ def _pick_ticker(data_entries: list) -> str:
         return ""
     for e in data_entries:
         if e.get("exchCode") == "US" and e.get("ticker"):
-            return str(e["ticker"]).upper()
-    return str((data_entries[0] or {}).get("ticker", "")).upper()
+            return _norm_ticker(e["ticker"])
+    return _norm_ticker((data_entries[0] or {}).get("ticker", ""))
 
 
 def resolve_cusips_openfigi(

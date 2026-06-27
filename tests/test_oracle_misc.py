@@ -249,3 +249,14 @@ def test_fcf_margin_implausible_ratio_distrusted():
     assert fcf_margin_score(bad) is None
     good = FundamentalSnapshot(symbol="Y", free_cash_flow_ttm=20.0, revenue_ttm=100.0)
     assert fcf_margin_score(good) == 1.0  # 20% FCF margin -> full marks
+
+
+def test_margin_scores_distrust_impossible_values():
+    # Operating/gross margin above 100% of revenue is impossible -> mis-tagged data.
+    from shared.quality import gross_margin_score, operating_margin_score
+    from shared.fundamentals import FundamentalSnapshot
+    assert operating_margin_score(FundamentalSnapshot(symbol="X", operating_margin_ttm=1.003)) is None
+    assert gross_margin_score(FundamentalSnapshot(symbol="X", gross_margin_ttm=1.5)) is None
+    # plausible margins still score
+    assert operating_margin_score(FundamentalSnapshot(symbol="Y", operating_margin_ttm=0.2)) == 1.0
+    assert gross_margin_score(FundamentalSnapshot(symbol="Y", gross_margin_ttm=0.45)) > 0

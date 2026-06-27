@@ -24,6 +24,12 @@ def test_pick_ticker_falls_back_to_first():
     assert _pick_ticker([]) == ""
 
 
+def test_pick_ticker_normalizes_share_class_slash_to_dash():
+    # OpenFIGI returns BRK/B; SEC convention (and the screen universe) is BRK-B.
+    assert _pick_ticker([{"exchCode": "US", "ticker": "BRK/B"}]) == "BRK-B"
+    assert _pick_ticker([{"exchCode": "US", "ticker": "LEN/B"}]) == "LEN-B"
+
+
 def test_resolve_cusips_openfigi_maps_and_batches():
     seen_batches = []
 
