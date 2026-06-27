@@ -1,0 +1,289 @@
+"""SEC EDGAR client.
+
+- Filings index: data.sec.gov/submissions/CIK<10digit>.json
+- Full-text search: efts.sec.gov/LATEST/search-index?q=...
+- Filing body: www.sec.gov/Archives/edgar/data/<cik>/<acc-no>/...
+- HTML cleaning and section extraction (risk factors, MD&A, business).
+
+User-Agent is required by SEC. Use the configured UA below.
+
+This module wraps requests but is structured so the network calls live in
+small functions that tests can stub.
+"""
+from __future__ import annotations
+
+import json
+import re
+import time
+from dataclasses import dataclass, field
+from typing import Optional
+from urllib.parse import quote
+
+try:
+    import requests
+except ImportError:  # pragma: no cover - tests run without network
+    requests = None  # type: ignore
+
+
+USER_AGENT = "fluffy-waffle-oracle deaki682@gmail.com"
+_HEADERS = {"User-Agent": USER_AGENT, "Accept-Encoding": "gzip, deflate"}
+
+SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{cik}.json"
+SEARCH_URL = "https://efts.sec.gov/LATEST/search-index"
+ARCHIVE_URL = "https://www.sec.gov/Archives/edgar/data/{cik}/{acc_no_clean}/{file}"
+
+
+def cik10(cik) -> str:
+    """Zero-pad a CIK to 10 digits."""
+    return str(int(cik)).zfill(10)
+
+
+def acc_no_clean(acc_no: str) -> str:
+    """Strip dashes from an accession number."""
+    return acc_no.replace("-", "")
+
+
+# ------- HTTP layer -------
+
+def _get(url: str, params: Optional[dict] = None, *, timeout: float = 20.0) -> str:
+    if requests is None:
+        raise RuntimeError("requests not available")
+    # SEC asks for <= 10 req/s; callers should rate-limit. We sleep 100ms as
+    # a courtesy floor for direct callers.
+    time.sleep(0.1)
+    r = requests.get(url, params=params, headers=_HEADERS, timeout=timeout)
+    r.raise_for_status()
+    return r.text
+
+
+# ------- Filings -------
+
+@dataclass
+class Filing:
+    cik: str
+    accession_no: str
+    form: str
+    filing_date: str  # YYYY-MM-DD
+    primary_document: str = ""
+    items: str = ""  # e.g. "2.02,9.01" for 8-K
+    symbol: str = ""
+
+    @property
+    def acc_clean(self) -> str:
+        return acc_no_clean(self.accession_no)
+
+    @property
+    def primary_url(self) -> str:
+        if not self.primary_document:
+            return ""
+        return ARCHIVE_URL.format(
+            cik=int(self.cik), acc_no_clean=self.acc_clean, file=self.primary_document
+        )
+
+
+def parse_submissions_recent(payload: dict, *, symbol: str = "") -> list[Filing]:
+    """Parse the 'recent' section of a submissions.json payload."""
+    out: list[Filing] = []
+    recent = payload.get("filings", {}).get("recent", {})
+    cik = str(payload.get("cik", "")).lstrip("0") or "0"
+    accs = recent.get("accessionNumber", [])
+    forms = recent.get("form", [])
+    dates = recent.get("filingDate", [])
+    primaries = recent.get("primaryDocument", [])
+    items = recent.get("items", [""] * len(accs))
+    n = len(accs)
+    for i in range(n):
+        out.append(
+            Filing(
+                cik=cik,
+                accession_no=accs[i],
+                form=forms[i] if i < len(forms) else "",
+                filing_date=dates[i] if i < len(dates) else "",
+                primary_document=primaries[i] if i < len(primaries) else "",
+                items=items[i] if i < len(items) else "",
+                symbol=symbol,
+            )
+        )
+    return out
+
+
+def fetch_submissions(cik) -> dict:  # pragma: no cover - network
+    url = SUBMISSIONS_URL.format(cik=cik10(cik))
+    return json.loads(_get(url))
+
+
+# ------- Full-text search -------
+
+def search_filings(
+    query: str,
+    forms: Optional[list[str]] = None,
+    date_from: Optional[str] = None,
+    date_to: Optional[str] = None,
+) -> dict:  # pragma: no cover - network
+    params = {"q": query}
+    if forms:
+        params["forms"] = ",".join(forms)
+    if date_from:
+        params["dateRange"] = "custom"
+        params["startdt"] = date_from
+    if date_to:
+        params["enddt"] = date_to
+    return json.loads(_get(SEARCH_URL, params=params))
+
+
+# ------- Body / HTML -------
+
+_HTML_TAG = re.compile(r"<[^>]+>")
+_SCRIPT = re.compile(r"<script\b.*?</script>", re.IGNORECASE | re.DOTALL)
+_STYLE = re.compile(r"<style\b.*?</style>", re.IGNORECASE | re.DOTALL)
+_WS = re.compile(r"\s+")
+_NBSP = re.compile(r"&nbsp;|\xa0")
+
+
+def clean_html(html: str) -> str:
+    """Strip script/style, drop tags, collapse whitespace, decode common entities."""
+    s = _SCRIPT.sub(" ", html)
+    s = _STYLE.sub(" ", s)
+    s = _HTML_TAG.sub(" ", s)
+    s = _NBSP.sub(" ", s)
+    s = s.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">").replace("&#39;", "'").replace("&quot;", '"')
+    s = _WS.sub(" ", s)
+    return s.strip()
+
+
+# Section markers — case-insensitive, allow Item 1A./1A/1.A variations.
+_SECTION_PATTERNS = {
+    "risk_factors": re.compile(
+        r"item\s*1a\.?\s*[—–\-:]?\s*risk\s+factors", re.IGNORECASE
+    ),
+    "mdna": re.compile(
+        r"item\s*7\.?\s*[—–\-:]?\s*management'?s?\s+discussion", re.IGNORECASE
+    ),
+    "business": re.compile(
+        r"item\s*1\.?\s*[—–\-:]?\s*business", re.IGNORECASE
+    ),
+}
+
+_SECTION_TERMINATORS = re.compile(
+    r"item\s*(1b|2|7a|8)\.?", re.IGNORECASE
+)
+
+
+def extract_section(text: str, key: str) -> str:
+    pat = _SECTION_PATTERNS.get(key)
+    if not pat:
+        return ""
+    m = pat.search(text)
+    if not m:
+        return ""
+    start = m.end()
+    end_m = _SECTION_TERMINATORS.search(text, pos=start)
+    end = end_m.start() if end_m else min(len(text), start + 120_000)
+    return text[start:end].strip()
+
+
+def fetch_body(filing: Filing) -> str:  # pragma: no cover - network
+    if not filing.primary_url:
+        return ""
+    return _get(filing.primary_url)
+
+
+# ------- 8-K item classification -------
+
+def parse_items(items_str: str) -> set[str]:
+    """Return a set of normalized item codes from the comma/space separated string."""
+    if not items_str:
+        return set()
+    raw = re.split(r"[,\s]+", items_str.strip())
+    out: set[str] = set()
+    for item in raw:
+        item = item.strip().rstrip(".")
+        if not item:
+            continue
+        # Normalize "Item 2.02" -> "2.02"
+        item = re.sub(r"(?i)^item\s*", "", item)
+        out.add(item)
+    return out
+
+
+def classify_8k(items_str: str) -> list[str]:
+    """Return a list of human-readable event labels for an 8-K based on its items."""
+    items = parse_items(items_str)
+    labels: list[str] = []
+    if "2.02" in items:
+        labels.append("earnings_reaction")
+    if "2.01" in items:
+        labels.append("ma_target")
+    if "7.01" in items or "8.01" in items:
+        labels.append("guidance_revision")
+    if "1.03" in items:
+        labels.append("bankruptcy")
+    if "3.01" in items:
+        labels.append("delisting")
+    return labels
+
+
+# ------- Guidance body regex -------
+
+_GUIDANCE_RAISED = re.compile(
+    r"\b(rais|increas|upward|above\s+prior)\w*\b.{0,80}?\bguidance\b", re.IGNORECASE | re.DOTALL
+)
+_GUIDANCE_LOWERED = re.compile(
+    r"\b(lower|reduc|cut|downward|below\s+prior)\w*\b.{0,80}?\bguidance\b", re.IGNORECASE | re.DOTALL
+)
+_GUIDANCE_WITHDRAWN = re.compile(
+    r"\bwithdraw\w*\b.{0,80}?\bguidance\b|\bguidance\b.{0,80}?\bwithdraw\w*\b",
+    re.IGNORECASE | re.DOTALL,
+)
+_GUIDANCE_REAFFIRMED = re.compile(
+    r"\b(reaffirm|maintain|reiterat)\w*\b.{0,80}?\bguidance\b", re.IGNORECASE | re.DOTALL
+)
+
+
+def guidance_direction(text: str) -> str:
+    """Return one of 'raised' | 'lowered' | 'withdrawn' | 'reaffirmed' | 'unknown'."""
+    # Order matters — check withdrawn first because 'lower' phrases often co-occur.
+    if _GUIDANCE_WITHDRAWN.search(text):
+        return "withdrawn"
+    if _GUIDANCE_RAISED.search(text):
+        return "raised"
+    if _GUIDANCE_LOWERED.search(text):
+        return "lowered"
+    if _GUIDANCE_REAFFIRMED.search(text):
+        return "reaffirmed"
+    return "unknown"
+
+
+# ------- Spinoff ex-date extraction -------
+
+_EXDATE_CTX = re.compile(
+    r"(?:ex[\-\s]?date|distribution\s+date|record\s+date|ex[\-\s]?dividend)",
+    re.IGNORECASE,
+)
+_DATE_LITERAL = re.compile(
+    r"([A-Z][a-z]+\.?)\s+(\d{1,2}),\s*(\d{4})", re.IGNORECASE,
+)
+_MONTHS = {
+    "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+    "jul": 7, "aug": 8, "sep": 9, "sept": 9, "oct": 10, "nov": 11, "dec": 12,
+}
+
+
+def extract_ex_date(text: str) -> Optional[str]:
+    """Search for a date literal near an ex-date/distribution-date marker."""
+    m = _EXDATE_CTX.search(text)
+    if not m:
+        return None
+    window = text[m.end(): m.end() + 200]
+    dm = _DATE_LITERAL.search(window)
+    if not dm:
+        return None
+    mon_raw, day_raw, year_raw = dm.group(1), dm.group(2), dm.group(3)
+    key = mon_raw.lower().rstrip(".")
+    mon = _MONTHS.get(key[:4]) or _MONTHS.get(key[:3])
+    if not mon:
+        return None
+    try:
+        return f"{int(year_raw):04d}-{mon:02d}-{int(day_raw):02d}"
+    except ValueError:
+        return None
