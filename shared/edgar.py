@@ -81,13 +81,37 @@ def acc_no_clean(acc_no: str) -> str:
 
 # ------- HTTP layer -------
 
+_BACKOFF_MAX_TRIES = 5
+
+
 def _get(url: str, params: Optional[dict] = None, *, timeout: float = 20.0) -> str:
     if requests is None:
         raise RuntimeError("requests not available")
-    _RATE.acquire()
-    r = requests.get(url, params=params, headers=_HEADERS, timeout=timeout)
-    r.raise_for_status()
-    return r.text
+    last_exc: Optional[Exception] = None
+    for attempt in range(_BACKOFF_MAX_TRIES):
+        _RATE.acquire()
+        try:
+            r = requests.get(url, params=params, headers=_HEADERS, timeout=timeout)
+        except Exception as e:
+            last_exc = e
+            # network blip: bounded exponential backoff
+            time.sleep(min(60.0, 2.0 ** attempt))
+            continue
+        if r.status_code == 429 or r.status_code == 503:
+            # SEC throttle. Honor Retry-After if present, else exponential.
+            ra = r.headers.get("Retry-After", "")
+            try:
+                sleep_s = float(ra) if ra else min(120.0, 5.0 * (2 ** attempt))
+            except ValueError:
+                sleep_s = min(120.0, 5.0 * (2 ** attempt))
+            time.sleep(sleep_s)
+            continue
+        if r.status_code >= 400:
+            r.raise_for_status()
+        return r.text
+    if last_exc:
+        raise last_exc
+    raise RuntimeError(f"http_get gave up after {_BACKOFF_MAX_TRIES} retries: {url}")
 
 
 def http_get(url: str, params: Optional[dict] = None, *, timeout: float = 20.0) -> str:

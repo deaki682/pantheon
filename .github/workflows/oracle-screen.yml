@@ -1,0 +1,113 @@
+name: oracle-screen
+
+# Runs the Oracle multi-lens universe screen on a schedule, persists results
+# to the claude/live state branch. Manual trigger also available via the
+# workflow_dispatch event.
+
+on:
+  schedule:
+    # Weekly: Sunday 08:00 UTC. Cron is in UTC.
+    - cron: '0 8 * * 0'
+  workflow_dispatch:
+    inputs:
+      cap:
+        description: 'Cap universe size (0 = full ~10k)'
+        required: false
+        default: '0'
+      lenses:
+        description: 'Comma-separated lenses (default: all)'
+        required: false
+        default: 'insiders,smart_money,activist_13d,quality'
+      resume:
+        description: 'Resume from existing caches'
+        type: boolean
+        required: false
+        default: false
+      persist:
+        description: 'Push results to claude/live'
+        type: boolean
+        required: false
+        default: true
+
+# Need write access to push the state branch.
+permissions:
+  contents: write
+
+# Don't run more than one screen at a time.
+concurrency:
+  group: oracle-screen
+  cancel-in-progress: false
+
+jobs:
+  screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350  # 5h 50m — leaves headroom under GHA's 6h job ceiling
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history; pantheon needs to fetch claude/live
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pytest
+
+      - name: Configure git for state push
+        run: |
+          git config user.email "oracle-screen-bot@noreply.github.com"
+          git config user.name "oracle-screen-bot"
+
+      - name: Pre-flight tests (fast)
+        run: pytest tests/ -q --tb=short -x
+
+      - name: Restore prior caches from claude/live (best-effort)
+        run: |
+          set +e
+          git fetch origin claude/live --depth=1 || true
+          if git rev-parse --verify refs/remotes/origin/claude/live >/dev/null 2>&1; then
+            mkdir -p cache
+            git --work-tree=. checkout origin/claude/live -- cache/ 2>/dev/null || true
+            ls -la cache/ || true
+          fi
+          set -e
+
+      - name: Run oracle-screen
+        env:
+          CAP: ${{ github.event.inputs.cap || '0' }}
+          LENSES: ${{ github.event.inputs.lenses || 'insiders,smart_money,activist_13d,quality' }}
+          RESUME_FLAG: ${{ github.event.inputs.resume == 'true' && '--resume' || '' }}
+          PERSIST_FLAG: ${{ github.event.inputs.persist != 'false' && '--persist' || '' }}
+        run: |
+          python run_oracle_screen.py \
+            --cap "$CAP" \
+            --lenses "$LENSES" \
+            $RESUME_FLAG \
+            $PERSIST_FLAG
+
+      - name: Upload caches as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: oracle-screen-cache-${{ github.run_id }}
+          path: cache/
+          retention-days: 14
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Oracle screen run" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Cache files:**" >> $GITHUB_STEP_SUMMARY
+          ls -la cache/ >> $GITHUB_STEP_SUMMARY 2>&1 || true
+          if [ -f cache/oracle_screen.json ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Top 10 ranked symbols:**" >> $GITHUB_STEP_SUMMARY
+            python -c "import json; d=json.load(open('cache/oracle_screen.json')); [print(f\"  {r['symbol']:8s} score={r['score']:.4f}\") for r in d['top'][:10]]" >> $GITHUB_STEP_SUMMARY || true
+          fi
