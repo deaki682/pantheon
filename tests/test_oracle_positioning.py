@@ -216,6 +216,28 @@ def test_size_book_no_mcap_passes_through():
     assert "NEW" in targets
 
 
+def test_size_book_half_tier_gets_less():
+    """Half-tier names get ~50% the weight of full-tier names."""
+    scored = [
+        {"symbol": "F1", "conviction": 0.8, "sector": "s1", "insider_tier": "full"},
+        {"symbol": "F2", "conviction": 0.8, "sector": "s2", "insider_tier": "full"},
+        {"symbol": "F3", "conviction": 0.8, "sector": "s3", "insider_tier": "full"},
+        {"symbol": "H1", "conviction": 0.8, "sector": "s4", "insider_tier": "half"},
+    ]
+    targets = size_book(scored, equity=10_000.0)
+    assert targets["F1"] > targets["H1"] * 1.5
+
+
+def test_size_book_none_tier_excluded():
+    scored = [
+        {"symbol": "OK", "conviction": 0.8, "sector": "tech", "insider_tier": "full"},
+        {"symbol": "NO", "conviction": 0.9, "sector": "health", "insider_tier": "none"},
+    ]
+    targets = size_book(scored, equity=10_000.0)
+    assert "OK" in targets
+    assert "NO" not in targets
+
+
 def test_rotation_decision_below_margin():
     assert rotation_decision(1.0, 1.1) is False  # only 10% above
 

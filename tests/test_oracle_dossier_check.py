@@ -157,3 +157,36 @@ def test_no_high_52w_does_not_flag():
         citations=["c"], current_price=100.0,
     )
     assert d["drawdown_from_high"] == 0.0
+
+
+def test_going_concern_requires_explanation():
+    """Low runway + catastrophic bear case must explain why equity survives."""
+    from oracle.dossier_check import DossierError
+    d = _good_dossier()
+    d["current_price"] = 15.0
+    d["ratings"]["runway"] = 0.2  # below threshold
+    d["scenarios"]["bear"]["target"] = 1.50  # 90% loss -> going concern
+    with pytest.raises(DossierError, match="going_concern_explanation"):
+        validate_dossier(d)
+
+
+def test_going_concern_passes_with_explanation():
+    d = _good_dossier()
+    d["current_price"] = 15.0
+    d["ratings"]["runway"] = 0.2
+    d["scenarios"]["bear"]["target"] = 1.50
+    d["going_concern_explanation"] = (
+        "Net debt $1.5B but no covenant triggers until 2027. Cash burn at $50M/qtr "
+        "gives 8 quarters of runway. Revolving credit facility fully drawn."
+    )
+    validate_dossier(d)
+    assert d["going_concern_flag"] is True
+
+
+def test_going_concern_not_flagged_when_runway_adequate():
+    d = _good_dossier()
+    d["current_price"] = 15.0
+    d["ratings"]["runway"] = 0.5  # above threshold
+    d["scenarios"]["bear"]["target"] = 1.50
+    validate_dossier(d)
+    assert d["going_concern_flag"] is False

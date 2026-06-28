@@ -98,11 +98,16 @@ def size_book(
       - FILTER: drop names above `max_mcap` — insider signals lose edge at mega-cap.
       - SELECT: rank by conviction, keep the best K — capped at `max_positions`
         AND at however many can clear `min_ticket` with the investable cash.
-      - SIZE: `weighting="equal"` (default) gives each held name an equal slice;
-        `weighting="conviction"` weights by conviction**1.5. Equal is the default
-        because conviction here is self-assigned (dossier scenarios) and unproven
-        — only graduate to conviction-weighting once the calibration loop shows
-        high-conviction calls actually outperform.
+      - TIER: each name's ``insider_tier`` controls its base weight:
+        "full" = 1.0× (insider-backed + cheap + quality),
+        "half" = 0.5× (insider-backed but flagged).
+        Names with tier "none" are excluded by the upstream insider gate.
+      - SIZE: `weighting="equal"` (default) gives each held name an equal slice
+        modulated by its tier; `weighting="conviction"` weights by
+        conviction**1.5 × tier. Equal is the default because conviction here is
+        self-assigned (dossier scenarios) and unproven — only graduate to
+        conviction-weighting once the calibration loop shows high-conviction
+        calls actually outperform.
     """
     if equity <= 0 or not scored:
         return {}
@@ -116,11 +121,18 @@ def size_book(
     deployable = max(1, int((equity * invest_share) // min_ticket)) if min_ticket > 0 else len(items)
     keep = min(max_positions, deployable, len(items))
     items = sorted(items, key=lambda s: s.get("conviction", 0.0), reverse=True)[:keep]
-    # SIZE: equal slices by default; conviction-weighted only when earned.
+    # TIER: insider_tier -> weight multiplier (full=1.0, half=0.5, none=excluded).
+    _TIER_MULT = {"full": 1.0, "half": 0.5}
+    def _tier(s):
+        return _TIER_MULT.get(s.get("insider_tier", "full"), 0.0)
+    items = [s for s in items if _tier(s) > 0]
+    if not items:
+        return {}
+    # SIZE: equal slices modulated by tier; conviction-weighted only when earned.
     if weighting == "conviction":
-        weights = {s["symbol"]: s["conviction"] ** 1.5 for s in items}
+        weights = {s["symbol"]: s["conviction"] ** 1.5 * _tier(s) for s in items}
     else:
-        weights = {s["symbol"]: 1.0 for s in items}
+        weights = {s["symbol"]: _tier(s) for s in items}
     sectors = {s["symbol"]: s.get("sector", "") for s in items}
     # Initial normalization
     targets = _normalize(weights, equity, invest_share, per_name_cap)

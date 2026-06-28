@@ -1,19 +1,16 @@
-"""Heavy quarterly screen — insider-first.
+"""Heavy quarterly screen — insider-gated.
 
-Discovery axis: insider buying conviction (clusters, officer buys, activist 13D).
-Conviction boosters: valuation cheapness, business quality, sector breadth.
+Discovery axis: credible insider buying (cluster, smart money, activist 13D).
+No insider signal, no entry. Within the insider-backed pool, valuation and
+quality differentiate.
 
-The screen requires at least one insider signal (cluster, smart-money, activist)
-to enter the candidate pool — valuation or quality alone don't qualify. The
-insider signal is the edge; valuation and quality rank within that universe.
-
-Weights (insider-first — the insider signal IS the edge, not a booster):
-  insider    20%   — cluster buying is the primary discovery signal
-  smart_money 19%  — officer/director buys > passive 10%% holders
-  valuation  25%   — cheapness ranks within the insider universe
-  quality    15%   — business quality (margins, growth, dilution)
-  activist   12%   — 13D pressure
-  sector      9%   — breadth confirmation
+Weights:
+  valuation    25%  — cheapness confirms insider thesis
+  insider      20%  — cluster buying (multiple insiders)
+  smart_money  19%  — officer/director 13F conviction
+  quality      15%  — business quality (margins, growth, dilution)
+  activist     12%  — 13D activist pressure / catalyst
+  sector        9%  — breadth confirmation
 
 This module is a pure scorer — fetching is the caller's job.
 """
@@ -59,18 +56,27 @@ def multi_lens_score(
     valuation: float = 0.0,
     sector_breadth: float = 0.0,
 ) -> dict:
-    """Insider-first composite score 0..1."""
+    """Insider-gated composite score 0..1."""
+    insider_backed = insider_cluster or smart_money or activist_13d
     score = (
-        (0.20 if insider_cluster else 0.0)
-        + (0.19 if smart_money else 0.0)
-        + 0.25 * valuation
+        0.25 * valuation
         + 0.15 * quality
+        + (0.20 if insider_cluster else 0.0)
+        + (0.19 if smart_money else 0.0)
         + (0.12 if activist_13d else 0.0)
         + 0.09 * sector_breadth
     )
+    insider_tier = "none"
+    if insider_backed:
+        if valuation >= 0.3 and quality >= 0.3:
+            insider_tier = "full"
+        else:
+            insider_tier = "half"
     return {
         "symbol": symbol,
         "score": score,
+        "insider_backed": insider_backed,
+        "insider_tier": insider_tier,
         "lenses": {
             "insider_cluster": insider_cluster,
             "smart_money": smart_money,

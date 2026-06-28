@@ -23,8 +23,8 @@ DRAWDOWN_FLAG_THRESHOLD = 0.30
 MIN_DECLINE_EXPLANATION_CHARS = 80
 
 GOING_CONCERN_RUNWAY_THRESHOLD = 0.3
-GOING_CONCERN_BEAR_LOSS_THRESHOLD = 0.80
-MIN_GOING_CONCERN_CHARS = 80
+GOING_CONCERN_LOSS_THRESHOLD = 0.80  # bear target < 20% of current price
+MIN_GOING_CONCERN_EXPLANATION_CHARS = 80
 
 
 def drawdown_from_high(current_price: float, high_52w: float) -> float:
@@ -121,22 +121,26 @@ def validate_dossier(d: dict[str, Any]) -> dict[str, Any]:
                 f"what drove the drop and the bear case before this dossier is valid."
             )
 
-    # Going-concern gate: if the business has weak runway AND the bear case
-    # implies near-total loss, the dossier must explain why this isn't a
-    # going-concern risk (debt covenants, cash runway, refinancing).
-    runway_rating = ratings.get("runway", 1.0)
+    # Going-concern gate: a low-runway name whose bear case implies near-total
+    # loss must explain why equity survives. A $1.50 bear target on a $15 stock
+    # with 0.3 runway is exactly the scenario where covenants, debt maturities,
+    # or cash burn can take equity to zero — the model must prove the floor.
+    current_price = d.get("current_price") or 0
     bear_target = scenarios["bear"]["target"]
-    current_price = d.get("current_price") or 0.0
-    if current_price > 0 and runway_rating < GOING_CONCERN_RUNWAY_THRESHOLD:
-        bear_loss = 1.0 - bear_target / current_price
-        if bear_loss >= GOING_CONCERN_BEAR_LOSS_THRESHOLD:
+    runway = ratings.get("runway", 1.0)
+    d["going_concern_flag"] = False
+    if current_price > 0 and runway < GOING_CONCERN_RUNWAY_THRESHOLD:
+        implied_loss = 1.0 - bear_target / current_price
+        if implied_loss >= GOING_CONCERN_LOSS_THRESHOLD:
+            d["going_concern_flag"] = True
             gc_explanation = (d.get("going_concern_explanation") or "").strip()
-            if len(gc_explanation) < MIN_GOING_CONCERN_CHARS:
+            if len(gc_explanation) < MIN_GOING_CONCERN_EXPLANATION_CHARS:
                 raise DossierError(
-                    f"{d['symbol']}: runway rating {runway_rating:.1f} with bear case "
-                    f"implying {bear_loss:.0%} loss — a going-concern candidate. "
-                    f"Provide a `going_concern_explanation` covering debt covenants "
-                    f"and cash runway before this dossier is valid."
+                    f"{d['symbol']}: runway rating {runway:.1f} with bear case "
+                    f"implying {implied_loss:.0%} loss (${bear_target:.2f} vs "
+                    f"${current_price:.2f}). Provide a `going_concern_explanation` "
+                    f"covering debt covenants, cash runway, and why equity survives "
+                    f"before this dossier is valid."
                 )
 
     return d

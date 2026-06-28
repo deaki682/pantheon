@@ -317,13 +317,15 @@ def combine_lenses(
     sector_map: dict[str, str] | None = None,
     sector_breadth_value: float = 0.0,
 ) -> list[dict]:
-    """Insider-first combine: only names with at least one insider signal get scored.
+    """Insider-gated combine: only names with an insider signal get scored.
 
-    Entry criteria: at least one insider lens must fire (cluster buy, smart-money
-    13F, or activist 13D). Valuation or quality alone no longer qualify — the
-    insider signal IS the edge; without it this is just a generic value screen.
+    Entry criteria — at least one insider-type lens required:
+      - Insider cluster buy (2+ distinct insiders)
+      - Smart-money 13F holding (officer/director)
+      - Activist 13D filing
 
-    Valuation is computed from the quality snapshot + current price.
+    Valuation and quality differentiate within the insider-backed pool
+    but cannot carry a name into the book on their own.
     """
     from shared.fundamentals import FundamentalSnapshot
     from shared.quality import valuation_score as compute_valuation

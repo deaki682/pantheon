@@ -59,7 +59,7 @@ def test_make_dossier_validates():
 
 def test_going_concern_gate_blocks_without_explanation():
     from oracle.dossier_check import DossierError
-    with pytest.raises(DossierError, match="going-concern"):
+    with pytest.raises(DossierError, match="going_concern"):
         make_dossier(
             symbol="RISKY",
             business="cash burner",
