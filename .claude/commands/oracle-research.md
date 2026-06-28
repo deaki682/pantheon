@@ -37,8 +37,17 @@ Agent({
 0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
 
 1. Load existing dossiers from `cache/oracle_dossiers.json`.
-2. Pick 15–40 candidates from `cache/oracle_screen.json`. Research **wider** than the ~8 you'll ultimately hold, so the dossier scoring — not the screen — selects the book. Prefer names you haven't recently dossiered; the goal is to accumulate a bank of ≥30 dossiers across passes so sizing has real choice.
-3. For each candidate, build the dossier **balanced**. The screen surfaces names
+2. **Refresh stale dossiers first.** Run `oracle.research.check_staleness(dossiers)`
+   — this flags any dossier older than 14 days OR whose price has drifted >20%
+   from its scenario anchor. For each flagged name, re-research it from scratch:
+   fetch fresh price/52w high, re-read recent filings, rebuild the thesis and
+   scenarios. Use `oracle.research.make_dossier(...)` (not `update_scenarios`)
+   so the full dossier is replaced, not patched. Replace the old dossier in the
+   list. This ensures the bank never goes stale between screens — a dossier
+   written 2 months ago whose company just reported earnings gets rewritten
+   with current information before Oracle scores it.
+3. Pick 15–40 candidates from `cache/oracle_screen.json`. Research **wider** than the ~8 you'll ultimately hold, so the dossier scoring — not the screen — selects the book. Prefer names you haven't recently dossiered; the goal is to accumulate a bank of ≥30 dossiers across passes so sizing has real choice.
+4. For each candidate, build the dossier **balanced**. The screen surfaces names
    insiders are *buying* — which includes genuine bargains AND falling knives.
    The job is to tell them apart, which means arguing **both** sides honestly and
    answering the one question that decides it: **is the bad news already priced
@@ -70,9 +79,9 @@ Agent({
    - `oracle.research.make_dossier(..., current_price=…, high_52w=…,
      decline_explanation=…)` — validates (incl. the falling-knife gate),
      auto-normalizes probabilities, computes derived metrics, records the drawdown.
-4. If fewer than 8 fresh dossiers are produced, abort and warn — this command requires that minimum.
-5. Save via `oracle.research.save_dossiers`.
-6. Persist via `pantheon.persist("oracle", {"cache/oracle_dossiers.json": data})`.
+5. If fewer than 8 fresh dossiers are produced (counting both refreshed and new), abort and warn — this command requires that minimum.
+6. Save via `oracle.research.save_dossiers`.
+7. Persist via `pantheon.persist("oracle", {"cache/oracle_dossiers.json": data})`.
 
 DO NOT place any orders from this command.
 
