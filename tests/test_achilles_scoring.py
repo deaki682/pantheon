@@ -23,13 +23,14 @@ def test_surprise_strength_sweet_spot():
     assert 0.95 <= s15 <= 1.0
 
 
-def test_surprise_strength_extreme_penalized():
+def test_surprise_strength_extreme_not_penalized_for_smallcaps():
     s150 = surprise_strength(150.0)
-    assert s150 < 0.15
+    assert s150 >= 0.85
 
 
-def test_surprise_strength_moderate_beats_extreme():
-    assert surprise_strength(15.0) > surprise_strength(100.0)
+def test_surprise_strength_moderate_and_extreme_both_strong():
+    assert surprise_strength(15.0) >= 0.95
+    assert surprise_strength(100.0) >= 0.95
 
 
 def test_surprise_strength_uses_absolute_value():

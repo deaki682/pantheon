@@ -94,7 +94,7 @@ def fetch_earnings_calendar(symbols: list[str]) -> dict[str, dict]:
 # ── qualification ─────────────────────────────────────────────────────
 
 SURPRISE_MIN_PCT = 3.0      # Below this, likely noise
-SURPRISE_MAX_PCT = 100.0    # Above this, negative expectancy (reversals)
+SURPRISE_MAX_PCT = 500.0    # Small-cap extreme beats are valid PEAD signals
 
 
 def is_actionable_beat(surprise: EarningsSurprise) -> bool:

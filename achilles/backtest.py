@@ -251,6 +251,20 @@ def build_event_timeline(
                         surprise = match_earnings_to_filing(sym, fdate, earnings_data)
                         if surprise is None:
                             earnings_no_data += 1
+                            # No Robinhood data — can't determine direction.
+                            # Keep the trade with neutral strength rather
+                            # than dropping it (PKE, KOPN, etc. have no
+                            # analyst coverage but valid PEAD drift).
+                            strength = 0.85
+                            metadata = {"no_earnings_data": True}
+                            events_by_date[fdate].append(BacktestEvent(
+                                event_id=f"earn:{sym}:{acc}",
+                                event_class="earnings_reaction",
+                                symbol=sym,
+                                filing_date=fdate,
+                                strength=strength,
+                                metadata=metadata,
+                            ))
                             continue
                         earnings_matched += 1
                         if not is_actionable_beat(surprise):

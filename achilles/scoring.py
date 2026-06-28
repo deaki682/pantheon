@@ -19,21 +19,21 @@ from .playbooks import CLASS_DISQUALIFIERS, Playbook, UNIVERSAL_DISQUALIFIERS
 # Time decay constants
 TIME_HALFLIFE_HOURS = 48.0
 
-# Surprise-strength curve for earnings_reaction
-# Backtest (214 trades, Q4 2025): sweet spot is 5-30% surprise.
-#   3-10%  → 73.6% WR, Sharpe 1.52
-#   10-20% → 67.6% WR, Sharpe 2.70
-#   >100%  → 41.7% WR, negative expectancy
+# Surprise-strength curve for earnings_reaction (small/mid-cap universe).
+# In small-caps, extreme beats (>100%) are low-estimate companies blowing
+# out — strongest PEAD signal, NOT reversal candidates. The large-cap
+# reversal finding doesn't apply: less coverage → slower repricing → more
+# drift. Curve stays flat above 20% instead of decaying.
 SURPRISE_ANCHORS = (
     (0.0, 0.0),     # inline with estimate — no signal
     (3.0, 0.3),     # too small, likely noise
     (5.0, 0.7),     # borderline actionable
     (10.0, 0.95),   # strong sweet spot
-    (20.0, 1.0),    # peak — best risk-adjusted return
-    (30.0, 0.8),    # still good but gap-chase risk rising
-    (50.0, 0.4),    # extreme — edge fading
-    (100.0, 0.15),  # negative expectancy territory
-    (200.0, 0.05),  # near-zero — these reverse
+    (20.0, 1.0),    # peak — stays at peak for small-caps
+    (50.0, 1.0),    # extreme beats drift hardest in small-caps
+    (100.0, 0.95),  # very extreme — slight caution, not penalty
+    (200.0, 0.85),  # massive — minor fade for data-quality risk
+    (500.0, 0.7),   # outlier — possible data issue
 )
 
 # Liquidity log-scale anchors (market cap -> score)

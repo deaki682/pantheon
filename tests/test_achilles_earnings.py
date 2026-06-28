@@ -48,8 +48,13 @@ def test_is_actionable_beat_too_small():
     assert is_actionable_beat(s) is False
 
 
-def test_is_actionable_beat_too_large():
+def test_is_actionable_beat_very_large_still_valid():
     s = EarningsSurprise("ACME", 3.00, 1.00, 200.0, True)
+    assert is_actionable_beat(s) is True
+
+
+def test_is_actionable_beat_too_large():
+    s = EarningsSurprise("ACME", 10.00, 1.00, 900.0, True)
     assert is_actionable_beat(s) is False
 
 
