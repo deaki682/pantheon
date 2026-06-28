@@ -22,11 +22,12 @@ import time
 from datetime import datetime, date, timedelta
 from typing import Optional
 
+from shared import broker
 from shared.edgar import (
     fetch_body, fetch_company_tickers, fetch_submissions,
     parse_submissions_recent,
 )
-from shared.guards import kill_switch_active, is_live
+from shared.guards import kill_switch_active, is_live, append_order, OrderRecord
 from shared.insiders import parse_form4
 
 from . import cursor as cursor_mod
@@ -48,6 +49,8 @@ CURSOR_PATH = "cache/achilles_cursor.json"
 CURVE_PATH = "cache/achilles_curve.json"
 JOURNAL_PATH = "cache/achilles_journal.jsonl"
 QUOTES_PATH = "cache/achilles_quotes.json"
+
+LEDGER_PATH = "cache/achilles_ledger.jsonl"
 
 ACTIVIST_PATH = "cache/oracle_activist_13d.json"
 INSIDER_PATH = "cache/oracle_insider_clusters.json"
@@ -265,8 +268,27 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
             log.info("  %-20s %-6s strength=%.2f", ev.event_class, ev.symbol, ev.strength)
 
     # ── 9. Score ──
+    # Fetch fresh quotes from broker if available, merge with cache
     quotes = _load_quotes()
+    need_quotes = set()
+    for ev in events:
+        need_quotes.add(ev.symbol)
+    for pos in sleeve.positions.values():
+        need_quotes.add(pos.symbol)
+    if need_quotes:
+        live_quotes = broker.get_quotes(sorted(need_quotes))
+        if live_quotes:
+            quotes.update(live_quotes)
+            _save_quotes(quotes)
+            log.info("Broker quotes: %d fresh prices", len(live_quotes))
+
     market_caps = _load_market_caps()
+    if need_quotes - set(market_caps):
+        live_caps = broker.get_market_caps(sorted(need_quotes - set(market_caps)))
+        if live_caps:
+            market_caps.update(live_caps)
+            log.info("Broker fundamentals: %d market caps", len(live_caps))
+
     scored_briefs = []
 
     for ev in events:
@@ -323,6 +345,14 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
                      plan["symbol"], plan["dollars"], plan["entry_price"],
                      plan["event_class"], plan["score"])
         else:
+            order_result = broker.buy_fractional(plan["symbol"], plan["dollars"])
+            if not order_result or not order_result.get("id"):
+                log.error("Broker order failed for %s — skipping", plan["symbol"])
+                continue
+            append_order(LEDGER_PATH, OrderRecord(
+                order_id=order_result["id"], symbol=plan["symbol"],
+                side="buy", dollars=plan["dollars"], date=today,
+            ))
             pos = sleeve.open(
                 event_id=plan["event_id"], symbol=plan["symbol"],
                 event_class=plan["event_class"], entry_price=plan["entry_price"],
@@ -337,7 +367,8 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
                     action="open", price=plan["entry_price"],
                     shares=pos.shares, dollars=plan["dollars"],
                 ))
-                log.info("OPENED %-6s %.1f sh @ $%.2f", plan["symbol"], pos.shares, plan["entry_price"])
+                log.info("OPENED %-6s %.1f sh @ $%.2f (order %s)",
+                         plan["symbol"], pos.shares, plan["entry_price"], order_result["id"])
 
     # ── 11. Exits ──
     if sleeve.positions:
@@ -348,6 +379,14 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
                 log.info("DRY-RUN SELL %-6s reason=%s @ $%.2f",
                          ep["symbol"], ep["reason"], ep["exit_price"])
             else:
+                order_result = broker.sell_fractional(ep["symbol"], ep["shares"])
+                if not order_result or not order_result.get("id"):
+                    log.error("Broker sell failed for %s — skipping", ep["symbol"])
+                    continue
+                append_order(LEDGER_PATH, OrderRecord(
+                    order_id=order_result["id"], symbol=ep["symbol"],
+                    side="sell", dollars=ep["shares"] * ep["exit_price"], date=today,
+                ))
                 realized = sleeve.close(ep["event_id"], exit_price=ep["exit_price"], today=today)
                 if realized is not None:
                     journal_append(JOURNAL_PATH, TradeEntry(
@@ -358,8 +397,8 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
                         dollars=ep["shares"] * ep["exit_price"],
                         reason=ep["reason"], pnl=realized,
                     ))
-                    log.info("CLOSED %-6s pnl=$%.2f reason=%s",
-                             ep["symbol"], realized, ep["reason"])
+                    log.info("CLOSED %-6s pnl=$%.2f reason=%s (order %s)",
+                             ep["symbol"], realized, ep["reason"], order_result["id"])
 
     # ── 12. Persist ──
     sleeve.save(SLEEVE_PATH)
@@ -443,6 +482,11 @@ def main():
     mode = "LIVE" if not dry_run else "DRY-RUN"
     log.info("Achilles monitor — %s — interval %ds", mode, args.interval)
 
+    if broker.login():
+        log.info("Broker connected — live quotes enabled")
+    else:
+        log.info("Broker unavailable — using cached quotes only")
+
     running = True
 
     def _stop(sig, _frame):
@@ -471,6 +515,7 @@ def main():
                 break
             time.sleep(1)
 
+    broker.logout()
     log.info("Monitor stopped")
 
 
