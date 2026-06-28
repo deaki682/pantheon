@@ -341,6 +341,7 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
         scored_briefs.append((brief, entry_price, ev))
 
     # ── 10. Open ──
+    scored_briefs.sort(key=lambda x: x[0].score, reverse=True)
     for brief, entry_price, ev in scored_briefs:
         plan = plan_open(sleeve, brief, today=today, current_price=entry_price)
         if plan is None:
