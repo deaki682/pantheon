@@ -1,56 +1,74 @@
 {
   "date": "2026-06-28",
   "mode": "paper",
-  "pre_trade_check": "FAILED \u2014 48 broker positions unattributed to sleeves",
-  "orders": [
+  "halt_reason": "pre_trade_check_failed_45_mismatches",
+  "note": "PAPER MODE \u2014 no orders placed. Pre-trade check failed: 45 broker positions untracked in sleeve files. Reconcile needed.",
+  "planned_orders": [
+    {
+      "side": "sell",
+      "symbol": "ESNT",
+      "dollars": 321.2,
+      "reason": "removed_from_book"
+    },
+    {
+      "side": "sell",
+      "symbol": "MTG",
+      "dollars": 313.92,
+      "reason": "removed_from_book"
+    },
+    {
+      "side": "sell",
+      "symbol": "RRC",
+      "dollars": 305.62,
+      "reason": "removed_from_book"
+    },
     {
       "side": "buy",
-      "symbol": "VRRM",
-      "dollars": 112.5,
+      "symbol": "ADSK",
+      "dollars": 117.03,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
-      "symbol": "RLI",
-      "dollars": 112.5,
+      "symbol": "AMT",
+      "dollars": 117.03,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
-      "symbol": "FIS",
-      "dollars": 112.5,
+      "symbol": "EQPT",
+      "dollars": 117.03,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
-      "symbol": "KBR",
-      "dollars": 112.5,
+      "symbol": "META",
+      "dollars": 117.03,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
       "symbol": "OLED",
-      "dollars": 112.5,
+      "dollars": 117.03,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
-      "symbol": "THC",
-      "dollars": 112.5,
+      "symbol": "RLI",
+      "dollars": 117.03,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
-      "symbol": "WW",
-      "dollars": 112.5,
+      "symbol": "ZTS",
+      "dollars": 117.03,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
-      "symbol": "RRC",
-      "dollars": 112.5,
+      "symbol": "GOOG",
+      "dollars": 117.03,
       "reason": "open_or_add"
     }
-  ],
-  "saved_at": "2026-06-28T12:46:26.942532"
+  ]
 }

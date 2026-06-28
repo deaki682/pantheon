@@ -50,5 +50,26 @@
       }
     },
     "note": "paper cycle \u2014 ESNT/MTG/RRC reconciled; VRRM/RLI/FIS/KBR/OLED/THC/WW/RRC targeted but not placed (paper mode)"
+  },
+  {
+    "ts": "2026-06-28T23:03:41.463544",
+    "equity": 1040.2949,
+    "cash": 99.55,
+    "n_positions": 3,
+    "positions": {
+      "ESNT": {
+        "shares": 5.023451,
+        "price": 63.94
+      },
+      "MTG": {
+        "shares": 11.273999,
+        "price": 27.845
+      },
+      "RRC": {
+        "shares": 8.178242,
+        "price": 37.37
+      }
+    },
+    "note": "paper cycle \u2014 ADSK/AMT/EQPT/META/OLED/RLI/ZTS/GOOG targeted but not placed (paper mode, pre-trade check halt)"
   }
 ]
