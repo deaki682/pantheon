@@ -1,0 +1,96 @@
+{
+  "timestamp": "2026-06-28T02:37:55.892677",
+  "regime": "risk_on",
+  "spy_1m": -0.0286,
+  "spy_3m": 0.1301,
+  "breadth": 0.7273,
+  "risk_budget": 1.0,
+  "chosen_sectors": [
+    "technology",
+    "industrials",
+    "real_estate"
+  ],
+  "picks": {
+    "technology": [
+      {
+        "symbol": "INTC",
+        "momentum": 1.9098,
+        "score": 1.3459,
+        "target": 75.0
+      },
+      {
+        "symbol": "AMD",
+        "momentum": 1.5597,
+        "score": 1.1358,
+        "target": 75.0
+      },
+      {
+        "symbol": "PANW",
+        "momentum": 0.9455,
+        "score": 0.7673,
+        "target": 75.0
+      },
+      {
+        "symbol": "FTNT",
+        "momentum": 0.8678,
+        "score": 0.7207,
+        "target": 75.0
+      }
+    ],
+    "industrials": [
+      {
+        "symbol": "CAT",
+        "momentum": 0.4185,
+        "score": 0.4511,
+        "target": 75.0
+      },
+      {
+        "symbol": "GE",
+        "momentum": 0.2936,
+        "score": 0.3762,
+        "target": 75.0
+      },
+      {
+        "symbol": "MMM",
+        "momentum": 0.139,
+        "score": 0.2834,
+        "target": 75.0
+      },
+      {
+        "symbol": "EMR",
+        "momentum": 0.136,
+        "score": 0.2816,
+        "target": 75.0
+      }
+    ],
+    "real_estate": [
+      {
+        "symbol": "IRM",
+        "momentum": 0.3216,
+        "score": 0.393,
+        "target": 75.0
+      },
+      {
+        "symbol": "SPG",
+        "momentum": 0.248,
+        "score": 0.3488,
+        "target": 75.0
+      },
+      {
+        "symbol": "PSA",
+        "momentum": 0.2104,
+        "score": 0.3262,
+        "target": 75.0
+      },
+      {
+        "symbol": "AVB",
+        "momentum": 0.1635,
+        "score": 0.2981,
+        "target": 75.0
+      }
+    ]
+  },
+  "total_invested": 900.0,
+  "cash_after": 100.0,
+  "dry_run": true
+}
