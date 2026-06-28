@@ -188,6 +188,26 @@ def get_market_caps(symbols: list[str]) -> dict[str, float]:
     return out
 
 
+# ── historicals ────────────────────────────────────────────────────────
+
+def get_historicals(symbol: str, *, interval: str = "week", span: str = "3month") -> list[dict]:
+    """Fetch historical price bars for a symbol.
+
+    Returns list of dicts with keys: begins_at, open_price, close_price,
+    high_price, low_price, volume. Oldest first.
+    """
+    if not symbol or not login():
+        return []
+    _patch_imports()
+    from robin_stocks.robinhood import stocks
+
+    try:
+        return stocks.get_stock_historicals(symbol, interval=interval, span=span) or []
+    except Exception as exc:
+        log.warning("Historicals fetch for %s failed: %s", symbol, exc)
+        return []
+
+
 # ── orders ─────────────────────────────────────────────────────────────
 
 def buy_fractional(

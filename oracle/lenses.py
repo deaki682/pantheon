@@ -13,10 +13,8 @@ from __future__ import annotations
 
 import json
 import re
-import time
 from datetime import datetime, timedelta
 from typing import Callable, Iterable, Optional
-from urllib.parse import quote
 
 from shared.edgar import (
     ARCHIVE_URL, COMPANY_FACTS_URL, SEARCH_URL, SUBMISSIONS_URL,
@@ -316,6 +314,8 @@ def combine_lenses(
     activist_symbols: Iterable[str] = (),
     quality_rows: Iterable[dict] = (),
     prices: dict[str, float] | None = None,
+    sector_map: dict[str, str] | None = None,
+    sector_breadth_value: float = 0.0,
 ) -> list[dict]:
     """Valuation-first combine: every name with sufficient data gets scored.
 
@@ -334,6 +334,7 @@ def combine_lenses(
     sm = {s.upper() for s in (smart_money or {})}
     act = {s.upper() for s in activist_symbols}
     px = prices or {}
+    sec_map = sector_map or {}
     qmap: dict[str, dict] = {}
     for row in quality_rows:
         sym = row.get("symbol", "").upper()
@@ -376,8 +377,10 @@ def combine_lenses(
             activist_13d=sym in act,
             quality=q,
             valuation=v,
-            sector_breadth=0.0,
+            sector_breadth=sector_breadth_value,
         )
+        if sec_map.get(sym):
+            row["sector"] = sec_map[sym]
         if shares:
             row["shares"] = shares
         if mcap > 0:

@@ -246,6 +246,60 @@ def _fetch_prices(symbols: list[str]) -> dict[str, float]:
         return {}
 
 
+def _fetch_sectors(symbols: list[str]) -> dict[str, str]:
+    """Fetch sector for each symbol from broker fundamentals."""
+    if not symbols:
+        return {}
+    try:
+        from shared.broker import get_fundamentals
+        from oracle.sectors import normalize_sector
+        fundies = get_fundamentals(symbols)
+        out: dict[str, str] = {}
+        for sym, data in fundies.items():
+            raw = data.get("sector") or ""
+            if raw:
+                out[sym.upper()] = normalize_sector(raw)
+        log("sectors", f"fetched {len(out)}/{len(symbols)} sectors")
+        return out
+    except Exception:
+        log("sectors", "broker unavailable — sector data will be missing")
+        return {}
+
+
+def _compute_sector_breadth() -> float:
+    """Compute sector breadth (fraction of sectors with positive 3-month momentum)."""
+    try:
+        from shared.broker import get_historicals, get_latest_prices
+        from oracle.sectors import sector_breadth
+        etf_map = {
+            "technology": "XLK", "financials": "XLF", "energy": "XLE",
+            "healthcare": "XLV", "industrials": "XLI", "staples": "XLP",
+            "discretionary": "XLY", "utilities": "XLU", "real_estate": "XLRE",
+            "materials": "XLB", "communication": "XLC",
+        }
+        etfs = list(etf_map.values())
+        now_prices = get_latest_prices(etfs)
+        sector_prices: dict[str, dict[str, float]] = {}
+        for sec, etf in etf_map.items():
+            now_px = now_prices.get(etf)
+            if now_px is None:
+                continue
+            try:
+                hist = get_historicals(etf, interval="week", span="3month")
+                if hist:
+                    then_px = float(hist[0].get("close_price", 0))
+                    if then_px > 0:
+                        sector_prices[sec] = {"now": now_px, "then": then_px}
+            except Exception:
+                continue
+        sb = sector_breadth(sector_prices)
+        log("sector_breadth", f"{sb:.2f} ({len(sector_prices)}/{len(etf_map)} sectors)")
+        return sb
+    except Exception:
+        log("sector_breadth", "broker unavailable — defaulting to 0.0")
+        return 0.0
+
+
 def combine_and_rank(cache_dir: Path, *, max_mcap: float | None = MAX_SCREEN_MCAP) -> None:
     insiders_data = json.loads((cache_dir / "oracle_insider_clusters.json").read_text())["clusters"]
     quality_data = json.loads((cache_dir / "oracle_prescreener.json").read_text())["rows"]
@@ -266,6 +320,8 @@ def combine_and_rank(cache_dir: Path, *, max_mcap: float | None = MAX_SCREEN_MCA
             universe.add(sym)
 
     prices = _fetch_prices(list(universe))
+    sector_map = _fetch_sectors(list(universe))
+    sb = _compute_sector_breadth()
 
     rows = combine_lenses(
         universe=universe,
@@ -274,6 +330,8 @@ def combine_and_rank(cache_dir: Path, *, max_mcap: float | None = MAX_SCREEN_MCA
         activist_symbols=act_data,
         quality_rows=quality_data,
         prices=prices,
+        sector_map=sector_map,
+        sector_breadth_value=sb,
     )
 
     market_caps = {r["symbol"]: r["market_cap"] for r in rows if r.get("market_cap")}
