@@ -2494,7 +2494,679 @@
       "conviction": 0.0,
       "priced_at": "2026-06-28T06:54:05.487060",
       "scenario_price": 133.62
+    },
+    {
+      "symbol": "RLI",
+      "business": "RLI Corp is a specialty insurance holding company (Casualty, Property, Surety segments). Known for exceptional underwriting discipline \u2014 86 combined ratio in Q1 2026. Founded 1965, Peoria IL.",
+      "thesis": "RLI is a disciplined specialty insurer trading at 13.5x P/E after Q1 2026 lagged analyst estimates and premium growth moderated to 3%. AM Best upgrade in Q1. Net investment income +15% YoY. Director Duclos bought 2,500 shares at ~$52 in May 2026. Bull case: specialty lines pricing holds, investment income compounds, 86 combined ratio earns a premium re-rating toward Lloyd's-quality peers (17-18x). Bear case: catastrophe losses spike in H2 2026 (property/marine exposure), premium growth decelerates, fixed-income duration mismatch creates investment losses. At 13.5x P/E for >15% ROE through cycles the bear case appears more than priced in.",
+      "scenarios": {
+        "bull": {
+          "target": 82.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 63.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 35.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.7,
+        "runway": 0.65,
+        "quality": 0.78,
+        "management": 0.75
+      },
+      "citations": [
+        "0001104659-26-050354"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 57.51,
+      "high_52w": 72.475,
+      "decline_explanation": "",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-28T07:35:07.879166",
+      "priced_at": "2026-06-28T07:35:07.879166",
+      "scenario_price": 57.51,
+      "drawdown_from_high": 0.20648499482580196,
+      "derived": {
+        "expected_price": 61.7,
+        "expected_return": 0.0728568944531387,
+        "expected_cagr": 0.03578805479361402,
+        "asymmetry": 1.3055530875166594,
+        "quality_mult": 1.22,
+        "asymmetry_mult": 1.1426080200649125,
+        "potential_score": 0.04988789648424122
+      },
+      "conviction": 0.06878810062570073
+    },
+    {
+      "symbol": "BWFG",
+      "business": "Bankwell Financial Group is a Connecticut community bank ($3.37B total assets). Commercial real estate focus. Net income $11.3M in Q1 2026, up 64% YoY. ROTAE 15%.",
+      "thesis": "BWFG is at its 52-week high after strong Q1 2026: EPS $1.41, ROTAE 15%, $1.0M provision credit signaling improved credit quality. Insider cluster buying preceded the run. Bull case: NII growth continues; earnings compound 12% annually; P/E re-rates from 12x to 14x. Bear case: CRE-heavy loan book ($2.87B / $3.37B assets) in Connecticut faces vacancy pressure; single large credit loss disproportionately hits equity; deposit competition represses NIM. Buying at the 52W high is a timing risk. Credit quality inflection is real but CRE concentration limits the moat.",
+      "scenarios": {
+        "bull": {
+          "target": 91.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 66.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 32.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.55,
+        "quality": 0.72,
+        "management": 0.68
+      },
+      "citations": [
+        "0001505732-26-000074"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 59.77,
+      "high_52w": 59.79,
+      "decline_explanation": "",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-28T07:35:07.879232",
+      "priced_at": "2026-06-28T07:35:07.879232",
+      "scenario_price": 59.77,
+      "drawdown_from_high": 0.0003345040976751035,
+      "derived": {
+        "expected_price": 63.75,
+        "expected_return": 0.0665885895934415,
+        "expected_cagr": 0.03275775939638503,
+        "asymmetry": 1.124594886568239,
+        "quality_mult": 1.1,
+        "asymmetry_mult": 1.0604691822812387,
+        "potential_score": 0.038212453752495004
+      },
+      "conviction": 0.05312597467665947
+    },
+    {
+      "symbol": "ELAN",
+      "business": "Elanco Animal Health \u2014 third-largest global animal health company. Key brands: Seresto, Credelio, Galliprant, Interceptor Plus. $12B market cap, $3.9B debt from 2020 Bayer animal health acquisition.",
+      "thesis": "Q1 2026 revenue grew 15% to $1.371B beating estimates. Problem is $3.9B debt keeping P/E negative. Elanco Ascend targets $200-250M Adj. EBITDA savings by 2030 (~30% achieved in 2026). Bull case: leverage falls below 3x by 2027 as guided, earnings inflect positive, re-rates toward Zoetis-style multiples on secular animal health tailwinds. Bear case: revenue growth stalls on pet adoption normalization, generic competitors pressure Seresto/Credelio pricing, debt remains sticky above 3.5x. At 11.4% below its 52W high the market believes Ascend \u2014 2027 deleveraging is the key test.",
+      "scenarios": {
+        "bull": {
+          "target": 35.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 26.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 13.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.62,
+        "runway": 0.55,
+        "quality": 0.52,
+        "management": 0.58
+      },
+      "citations": [
+        "0001739104-26-000027"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 24.56,
+      "high_52w": 27.72,
+      "decline_explanation": "",
+      "sector": "Health Technology",
+      "author": "oracle",
+      "created_at": "2026-06-28T07:35:07.879251",
+      "priced_at": "2026-06-28T07:35:07.879251",
+      "scenario_price": 24.56,
+      "drawdown_from_high": 0.11399711399711399,
+      "derived": {
+        "expected_price": 25.450000000000003,
+        "expected_return": 0.03623778501628672,
+        "expected_cagr": 0.017957653842382015,
+        "asymmetry": 1.0837370242214535,
+        "quality_mult": 1.0675,
+        "asymmetry_mult": 1.0410269085001855,
+        "potential_score": 0.019956272921734394
+      },
+      "conviction": 0.02810641533916014
+    },
+    {
+      "symbol": "ADT",
+      "business": "ADT Inc. \u2014 largest US home and commercial security monitoring company. Recurring subscription revenue. Founded 1874. ~$5B market cap, 12,200 employees.",
+      "thesis": "ADT trades at P/E 9 with 3.4% dividend yield. Q1 2026 revenue $1.3B beat estimates, earnings +19%. Guided ~20% adj. FCF growth. Two EVPs bought shares at $6.72 and $6.91 in March/May 2026 \u2014 both underwater at $6.39. Bull case: sticky multi-year monitoring contracts; commercial growing; P/E 9 is cheap for recurring revenue with 20% FCF growth. Bear case: DIY security (Ring/SimpliSafe) commoditizes residential monitoring in a secular structural shift; insiders underwater suggests too early; $5B+ debt constrains buybacks. Stock testing 52W low of $6.24 set June 25 \u2014 Q2 subscriber retention metrics are critical.",
+      "scenarios": {
+        "bull": {
+          "target": 10.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 7.5,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 4.5,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.52,
+        "runway": 0.45,
+        "quality": 0.55,
+        "management": 0.55
+      },
+      "citations": [
+        "0001104659-26-057423"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 6.39,
+      "high_52w": 8.935,
+      "decline_explanation": "",
+      "sector": "Commercial Services",
+      "author": "oracle",
+      "created_at": "2026-06-28T07:35:07.879266",
+      "priced_at": "2026-06-28T07:35:07.879266",
+      "scenario_price": 6.39,
+      "drawdown_from_high": 0.28483491885842205,
+      "derived": {
+        "expected_price": 7.5,
+        "expected_return": 0.1737089201877935,
+        "expected_cagr": 0.08337847504359863,
+        "asymmetry": 2.2920634920634924,
+        "quality_mult": 1.0175,
+        "asymmetry_mult": 1.513956238490232,
+        "potential_score": 0.1284404112908993
+      },
+      "conviction": 0.1676367224982912
+    },
+    {
+      "symbol": "AMZN",
+      "business": "Amazon.com \u2014 global technology and retail conglomerate: North America retail, International retail, AWS cloud. Advertising and Prime are high-margin ancillary businesses. 1.576M employees. Founded 1994.",
+      "thesis": "Amazon is 17% off its $278 52W high amid tariff headwinds and AWS cyclicality fears. Smart money flag. Bull case: AWS continues 17-20% growth on AI workloads (Bedrock, SageMaker, Trainium); advertising (~$55B+ run rate) grows 18%+; North America retail margins reach 8%+ on efficiency; FCF reaches $120B+ by 2027. Bear case: trade war tariffs raise COGS in retail causing margin compression; AWS growth decelerates below 15% as Azure/GCP gain AI share; antitrust break-up risk; consumer recession hits retail and ad spend simultaneously. At P/E 28 the flywheel quality makes this blue-chip at a reasonable price.",
+      "scenarios": {
+        "bull": {
+          "target": 420.0,
+          "probability": 0.35
+        },
+        "base": {
+          "target": 300.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 155.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.92,
+        "runway": 0.8,
+        "quality": 0.88,
+        "management": 0.85
+      },
+      "citations": [
+        "0001018724-26-000014"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 230.48,
+      "high_52w": 278.56,
+      "decline_explanation": "",
+      "sector": "Retail Trade",
+      "author": "oracle",
+      "created_at": "2026-06-28T07:35:07.879277",
+      "priced_at": "2026-06-28T07:35:07.879277",
+      "scenario_price": 230.48,
+      "drawdown_from_high": 0.17260195290063185,
+      "derived": {
+        "expected_price": 313.0,
+        "expected_return": 0.35803540437348147,
+        "expected_cagr": 0.16534776113119198,
+        "asymmetry": 4.394011658717541,
+        "quality_mult": 1.3625,
+        "asymmetry_mult": 2.0,
+        "potential_score": 0.45057264908249817
+      },
+      "conviction": 0.4746419311544441
+    },
+    {
+      "symbol": "HDSN",
+      "business": "Hudson Technologies \u2014 refrigerant services company (reclamation, sales, distribution of HFC refrigerants for commercial HVAC and industrial processing). $233M market cap. Founded 1991, NJ.",
+      "thesis": "Hudson is down 47% from its $10.52 52W high due to severe margin compression. Q1 2026 revenue +8.7% but EPS only $0.01 vs $0.06 expected (84% miss). Bull case: AIM Act HFC phase-down creates secular scarcity \u2014 allowance caps tighten annually, making Hudson's reclaimed refrigerant increasingly valuable as virgin production shrinks; margins recover in H2 2026/2027 as pipeline clears. Bear case: HFC spot prices stay depressed longer as EPA enforcement is inconsistent, existing inventory pipeline remains large, and the secular shift to low-GWP HFO refrigerants reduces demand for traditional HFCs even reclaimed ones. At P/E 18 on near-zero earnings ($0.04-0.08 run rate), stock is expensive if margins don't recover.",
+      "scenarios": {
+        "bull": {
+          "target": 13.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 6.5,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 2.5,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.42,
+        "runway": 0.55,
+        "quality": 0.52,
+        "management": 0.55
+      },
+      "citations": [
+        "0001104659-26-063042"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 5.54,
+      "high_52w": 10.52,
+      "decline_explanation": "Hudson Technologies fell 47% from its $10.52 September 2025 52-week high due to severe margin compression despite top-line revenue growth. Q1 2026 EPS was $0.01 vs $0.06 expected (84% miss) driven by HFC refrigerant spot price declines from elevated 2022-2024 post-AIM Act levels. New production capacity entered the market before the tightening cycle materialized, EPA enforcement of annual allowance caps has been slower than anticipated, and existing refrigerant inventories remain ample \u2014 creating a supply-demand mismatch that crushed margins despite rising reclamation volumes.",
+      "sector": "Distribution Services",
+      "author": "oracle",
+      "created_at": "2026-06-28T07:35:07.879288",
+      "priced_at": "2026-06-28T07:35:07.879288",
+      "scenario_price": 5.54,
+      "drawdown_from_high": 0.47338403041825095,
+      "derived": {
+        "expected_price": 6.925000000000001,
+        "expected_return": 0.2500000000000002,
+        "expected_cagr": 0.1180339887498949,
+        "asymmetry": 2.044956140350877,
+        "quality_mult": 1.01,
+        "asymmetry_mult": 1.4300196293585894,
+        "potential_score": 0.17047883005227904
+      },
+      "conviction": 0.21615280799757874
+    },
+    {
+      "symbol": "UBER",
+      "business": "Uber Technologies \u2014 global ride-sharing (Mobility), food/grocery delivery (Uber Eats/Delivery), and Freight. 165M+ monthly active users. Founded 2009, San Francisco. P/E 19.",
+      "thesis": "Uber is 25% off its $101.99 52W high primarily on fears that autonomous vehicles (Waymo, Tesla Robotaxi) will disintermediate the platform. Smart money flag. Bull case: AV providers need distribution \u2014 Uber's 165M+ user network is the natural surface; Waymo-Uber partnership in Austin is the template (Uber routes, takes economics, avoids opex). Delivery (Eats) compounds globally at high margins. At P/E 19 with gross bookings growing 20%+ and margin expanding, the platform is executing well. Bear case: AV operators build competing rider apps and go direct to consumers, cutting Uber out. Gig worker reclassification spikes driver costs. The 25% drawdown partially prices in AV risk \u2014 but if Tesla Robotaxi scales in 2027, the market reprices the platform aggressively downward.",
+      "scenarios": {
+        "bull": {
+          "target": 140.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 100.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 52.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.75,
+        "quality": 0.7,
+        "management": 0.72
+      },
+      "citations": [
+        "0001543151-26-000022"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 76.05,
+      "high_52w": 101.99,
+      "decline_explanation": "",
+      "sector": "Transportation",
+      "author": "oracle",
+      "created_at": "2026-06-28T07:35:07.879298",
+      "priced_at": "2026-06-28T07:35:07.879298",
+      "scenario_price": 76.05,
+      "drawdown_from_high": 0.25433866065300514,
+      "derived": {
+        "expected_price": 100.0,
+        "expected_return": 0.3149243918474689,
+        "expected_cagr": 0.14670152692296923,
+        "asymmetry": 3.190852390852391,
+        "quality_mult": 1.2049999999999998,
+        "asymmetry_mult": 1.7862957176381493,
+        "potential_score": 0.3157730327227405
+      },
+      "conviction": 0.3630756131774675
+    },
+    {
+      "symbol": "SIRI",
+      "business": "SiriusXM Holdings \u2014 satellite radio (exclusive content, sports, news) and Pandora streaming. Berkshire Hathaway owns 32% stake. Founded 1990. 2026 FCF guide $1.35B. P/E 11.8 trailing, ~9x forward.",
+      "thesis": "SiriusXM trades at ~9x forward P/E (2026 analyst EPS $3.15) with 3.8% dividend yield and Berkshire Hathaway as 32% anchor. Only 6% below its 52W high. Bull case: At 14% FCF yield, priced for permanent decline \u2014 if subscribers merely stabilize (satellite radio still standard in new US cars), re-rates to 12-13x. Buffett's stake provides capital discipline and a terminal acquisition put option. Bear case: Connected car subscriptions convert to smartphone-integrated streaming (Spotify/Apple/Amazon Music via CarPlay/Android Auto); satellite delivery becomes redundant as OEM fleet ages; revenue declines 5%+ annually; FCF follows. Management guided flat 2026 revenue \u2014 honest but not growth. The FCF yield is attractive; 'value trap' is the classic risk for FCF-positive declining businesses.",
+      "scenarios": {
+        "bull": {
+          "target": 42.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 31.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 18.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.45,
+        "quality": 0.62,
+        "management": 0.6
+      },
+      "citations": [
+        "0000908937-26-000011"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 28.31,
+      "high_52w": 30.11,
+      "decline_explanation": "",
+      "sector": "Consumer Services",
+      "author": "oracle",
+      "created_at": "2026-06-28T07:35:07.879309",
+      "priced_at": "2026-06-28T07:35:07.879309",
+      "scenario_price": 28.31,
+      "drawdown_from_high": 0.05978080371969452,
+      "derived": {
+        "expected_price": 30.5,
+        "expected_return": 0.07735782409042735,
+        "expected_cagr": 0.03795848861620055,
+        "asymmetry": 1.3278370514064017,
+        "quality_mult": 1.0550000000000002,
+        "asymmetry_mult": 1.1523181207489543,
+        "potential_score": 0.0461459682534688
+      },
+      "conviction": 0.06379687465445283
+    },
+    {
+      "symbol": "CXT",
+      "business": "Crane NXT Co. (spun from Crane Holdings 2023) \u2014 payment and authentication industrial tech: Crane Payment Innovations (cash validators for vending/retail/gaming/transit) and Security & Authentication Technologies (anti-counterfeiting for banknotes and pharmaceuticals). $2.8B market cap.",
+      "thesis": "Crane NXT is down 29.5% from its $69 52W high while 2026 revenue guidance was raised to $1.89B and net income forecast to grow 53%. Recent institutional accumulation. Bull case: CPI is embedded infrastructure in the global cash economy \u2014 billions of installed validators with long replacement cycles; SAT serves central banks and pharma for authentication (sticky, quasi-governmental). At 21.7x P/E with 53% net income growth, P/E expansion to 28x on FY2027 EPS produces $78+. Bear case: government/institutional policy shifts reduce cash transaction volumes (digital payment mandates in Scandinavia/Asia-Pacific); customer concentration in central banks creates political/budget risk; net insider selling over past 12 months is a caution flag. Raised guidance with 53% net income growth is inconsistent with structural decline \u2014 selloff appears macro rotation, not company-specific.",
+      "scenarios": {
+        "bull": {
+          "target": 78.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 53.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 33.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.62,
+        "runway": 0.6,
+        "quality": 0.68,
+        "management": 0.65
+      },
+      "citations": [
+        "0000025445-26-000015"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 48.65,
+      "high_52w": 69.0,
+      "decline_explanation": "",
+      "sector": "Producer Manufacturing",
+      "author": "oracle",
+      "created_at": "2026-06-28T07:35:07.879326",
+      "priced_at": "2026-06-28T07:35:07.879326",
+      "scenario_price": 48.65,
+      "drawdown_from_high": 0.29492753623188406,
+      "derived": {
+        "expected_price": 55.5,
+        "expected_return": 0.14080164439876675,
+        "expected_cagr": 0.06808316361543998,
+        "asymmetry": 2.2504792332268373,
+        "quality_mult": 1.1375,
+        "asymmetry_mult": 1.5001597359037595,
+        "potential_score": 0.11617926860179513
+      },
+      "conviction": 0.15292867907800156
+    },
+    {
+      "symbol": "J",
+      "business": "Jacobs Solutions \u2014 global engineering and technology consulting. Infrastructure & Advanced Facilities (environmental, transportation, data centers, biopharma) and PA Consulting (management/digital consulting). $15B market cap. Founded 1947.",
+      "thesis": "Jacobs is down 25% from its $168.44 52W high despite its best operational quarter ever: Q2 FY2026 adj. EPS $1.75 (+22.4% YoY), record backlog $27B (+22% YoY), organic net revenue growth 9%, guidance raised twice (8-10.5% organic growth, +18% adj. EPS at midpoint). CEO/Chair and Director Fernandez bought ~$450K at ~$112, now in the money. AI/data center infrastructure is 10-11% of revenue growing 40%+ (data centers +100% YoY). Bull case: AI infrastructure buildout compounds into 2027-2028, record backlog converts, adj. EPS reaches $9+ at P/E 22x \u2192 $198. Bear case: GAAP Q2 showed $43M net loss (PA deal costs) spooked retail sellers; government/defense spending cuts hit infrastructure backlog; PA integration risk. At adjusted P/E ~18x ($125.67 / $7.00 adj EPS run rate), not expensive for 22% earnings growth with record backlog.",
+      "scenarios": {
+        "bull": {
+          "target": 198.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 144.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 72.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.72,
+        "quality": 0.68,
+        "management": 0.78
+      },
+      "citations": [
+        "0001628280-26-030528"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 125.67,
+      "high_52w": 168.44,
+      "decline_explanation": "",
+      "sector": "Technology Services",
+      "author": "oracle",
+      "created_at": "2026-06-28T07:35:07.879339",
+      "priced_at": "2026-06-28T07:35:07.879339",
+      "scenario_price": 125.67,
+      "drawdown_from_high": 0.2539183091902161,
+      "derived": {
+        "expected_price": 142.2,
+        "expected_return": 0.13153497254714708,
+        "expected_cagr": 0.06373632660878292,
+        "asymmetry": 1.6172163219675795,
+        "quality_mult": 1.195,
+        "asymmetry_mult": 1.2716982039649107,
+        "potential_score": 0.0968587796304737
+      },
+      "conviction": 0.12922328101847702
+    },
+    {
+      "symbol": "GWRS",
+      "business": "Global Water Resources \u2014 water, wastewater, and recycled water utilities in Phoenix metro area (Arizona). Integrated water model. Founded 2003. 129 employees. Monthly dividend ~$0.025/share.",
+      "thesis": "GWRS has fallen 35% from its 52W high due to regulatory rate case delays squeezing earnings to near zero (P/E 97). GW-Santa Cruz settlement filed April 2026 requests $2.3M annual revenue increase (effective Nov 2026); GW-Palo Verde withdrew to refile in 2027. Phoenix metro population growth is real and compounds the customer base over 5-10 years. Bull case: Rate cases resolve 2026-2027, normalized earnings $0.30-0.35/share support utility P/E 30-35x (in line with American Water Works) \u2192 $10-12. Bear case: ACC continues to deny or haircut requested increases; rising infrastructure costs outpace approved rates; dilutive equity issuance; monthly dividend ($0.304/year) gets cut. At P/E 97 and 35% below its high, this is a binary regulatory bet \u2014 severe downside if future rate cases disappoint.",
+      "scenarios": {
+        "bull": {
+          "target": 11.5,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 8.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 4.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.58,
+        "runway": 0.5,
+        "quality": 0.52,
+        "management": 0.55
+      },
+      "citations": [
+        "0001628280-26-028741"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 7.26,
+      "high_52w": 11.17,
+      "decline_explanation": "Global Water Resources fell 35% from its $11.17 October 2025 52-week high due to regulatory rate case delays in Arizona. The company reported Q1 2026 losses as operating costs rose but rates remained frozen during the ACC review process. GW-Santa Cruz filed a settlement in April 2026 requesting rates effective November 2026, while GW-Palo Verde withdrew its application entirely to refile in 2027. Earnings were effectively zero during this regulatory limbo \u2014 infrastructure costs running ahead of the approved allowed return on equity compressed the P/E to 97x.",
+      "sector": "Utilities",
+      "author": "oracle",
+      "created_at": "2026-06-28T07:35:07.879351",
+      "priced_at": "2026-06-28T07:35:07.879351",
+      "scenario_price": 7.26,
+      "drawdown_from_high": 0.35004476275738583,
+      "derived": {
+        "expected_price": 7.675,
+        "expected_return": 0.05716253443526176,
+        "expected_cagr": 0.0281840955953665,
+        "asymmetry": 1.0838445807770962,
+        "quality_mult": 1.0375,
+        "asymmetry_mult": 1.0410785660924424,
+        "potential_score": 0.030442177497625348
+      },
+      "conviction": 0.04255674653721053
+    },
+    {
+      "symbol": "HUBS",
+      "business": "HubSpot \u2014 cloud-based CRM and marketing platform for SMBs and mid-market companies. Marketing Hub, Sales Hub, Service Hub, CMS Hub, Ops Hub, and AI Breeze platform. Founded 2005, Cambridge MA. 8,882 employees.",
+      "thesis": "HubSpot has fallen 67% from its $568 52W high in AI-driven multiple compression across SMB SaaS \u2014 yet Q1 2026 showed revenue +20% (~$847M quarterly) with 2026 guidance raised to $3.69-3.70B vs $3.61B expected. The stock fell FURTHER on the Q1 beat, driven by AI disruption fears not fundamentals. At $185 (P/S ~2.6x on 2026 revenue), cheapest since 2019 for a business growing 20%. Bull case: Breeze AI proves additive \u2014 becomes the AI operating layer for SMB go-to-market teams, expanding seats/NRR; P/S re-rates even halfway toward prior 10-15x range implies 150-300% upside. Bear case: AI agents (Claude, GPT, Gemini) enable SMBs to automate marketing/CRM WITHOUT dedicated subscriptions; billings deceleration and longer sales cycles underway are symptoms of structural demand erosion, not a transient go-to-market reset. If growth decelerates to 10-12%, P/S 2.6x has further to fall.",
+      "scenarios": {
+        "bull": {
+          "target": 460.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 240.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 130.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.72,
+        "quality": 0.75,
+        "management": 0.72
+      },
+      "citations": [
+        "0001193125-26-212122"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 185.46,
+      "high_52w": 568.16,
+      "decline_explanation": "HubSpot fell 67% from its July 2025 $568 52-week high in the 'SaaSpocalypse' \u2014 a broad AI-driven de-rating of high-multiple SMB SaaS. Investors feared AI agents (GPT, Claude, Gemini) would allow SMBs to replace dedicated CRM and marketing automation subscriptions with cheaper AI-powered workflows. Compounding the narrative: billings growth decelerated in H2 2025, go-to-market restructuring for AI pricing/packaging lengthened sales cycles and suppressed net new ARR, and the multiple compressed from 15x forward revenue to under 3x. Paradox: Q1 2026 beat estimates and raised guidance yet the stock continued falling \u2014 indicating the selloff is multiple/sentiment-driven, not fundamental.",
+      "sector": "Technology Services",
+      "author": "oracle",
+      "created_at": "2026-06-28T07:35:07.879361",
+      "priced_at": "2026-06-28T07:35:07.879361",
+      "scenario_price": 185.46,
+      "drawdown_from_high": 0.673577865390031,
+      "derived": {
+        "expected_price": 267.5,
+        "expected_return": 0.4423595384449477,
+        "expected_cagr": 0.200982738612403,
+        "asymmetry": 4.950234403173457,
+        "quality_mult": 1.21,
+        "asymmetry_mult": 2.0,
+        "potential_score": 0.48637822744201525
+      },
+      "conviction": 0.5008387250740469
+    },
+    {
+      "symbol": "INFU",
+      "business": "InfuSystem Holdings \u2014 infusion pump management and device services to hospitals, oncology practices, surgery centers. Segments: Patient Services (ambulatory pump mgmt, oncology logistics) and Device Solutions (pump sales/rental, biomedical services). $201M market cap. Founded 2005.",
+      "thesis": "InfuSystem has improving fundamentals: FY2025 EPS $0.31 (+182% YoY), Adj. EBITDA $31.5M (+24%), FCF $24.4M (+19%). Q1 2026 shows the split: Patient Services (recurring, high-margin oncology) grew 6% while Device Solutions (lumpy project revenue) declined, causing total revenue to fall 3%. Insider cluster buying reflects this: Patient Services is compounding while Device noise creates a buying opportunity. Bull case: Patient Services continues 6-8% growth as cancer incidence drives chemotherapy delivery volumes; Device Solutions normalizes; gross margin expands toward 60%+; EPS reaches $0.50-0.55, P/E 35x \u2192 $18. Bear case: Device Solutions revenue atrophies as hospital groups buy outright; oncology market consolidates; at $201M market cap, a single large hospital contract loss is material. At P/E 26.7 with Q1 revenue declining 3%, not cheap unless Patient Services re-accelerates.",
+      "scenarios": {
+        "bull": {
+          "target": 18.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 11.5,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 4.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.52,
+        "runway": 0.6,
+        "quality": 0.62,
+        "management": 0.65
+      },
+      "citations": [
+        "0001628280-26-028564"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 9.97,
+      "high_52w": 11.04,
+      "decline_explanation": "",
+      "sector": "Commercial Services",
+      "author": "oracle",
+      "created_at": "2026-06-28T07:35:07.879371",
+      "priced_at": "2026-06-28T07:35:07.879371",
+      "scenario_price": 9.97,
+      "drawdown_from_high": 0.09692028985507228,
+      "derived": {
+        "expected_price": 11.575,
+        "expected_return": 0.16098294884653952,
+        "expected_cagr": 0.07748918734553412,
+        "asymmetry": 1.6140703517587938,
+        "quality_mult": 1.0975000000000001,
+        "asymmetry_mult": 1.2704606848536455,
+        "potential_score": 0.1080455452110763
+      },
+      "conviction": 0.14302863916619635
+    },
+    {
+      "symbol": "MRBK",
+      "business": "Meridian Corp \u2014 Pennsylvania community bank holding company ($2.58B total assets). Three segments: Banking (commercial/retail), Meridian Wealth (wealth management), Mortgage Banking. Founded 2009, Malvern PA. 327 employees.",
+      "thesis": "Meridian Corp is a young (est. 2009), growing community bank trading at P/E 10.8, P/B 1.18, 2.66% dividend yield, with insider cluster buying. Q1 2026 10-Q shows total interest income $40.7M against $17.5M interest expense \u2014 healthy NIM. Bull case: Mortgage Banking benefits from rate normalization as refi volumes recover; wealth management provides fee diversification; organic loan growth 8-10% drives EPS to $2.20+ by 2028 at P/E 13x \u2192 $29. Bear case: Significant CRE and construction loan exposure common to smaller Pennsylvania community banks; a CRE credit event (suburban PA office vacancy) could impair 5-10% of the loan book and wipe out multiple quarters of earnings; at $237M market cap, concentration and liquidity risk are notable. Insider cluster buying is the most compelling signal; CRE concentration is the key watch item.",
+      "scenarios": {
+        "bull": {
+          "target": 29.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 21.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 11.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.42,
+        "runway": 0.55,
+        "quality": 0.68,
+        "management": 0.65
+      },
+      "citations": [
+        "0001750735-26-000050"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 19.93,
+      "high_52w": 21.67,
+      "decline_explanation": "",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-28T07:35:07.879379",
+      "priced_at": "2026-06-28T07:35:07.879379",
+      "scenario_price": 19.93,
+      "drawdown_from_high": 0.080295339178588,
+      "derived": {
+        "expected_price": 20.9,
+        "expected_return": 0.048670346211741045,
+        "expected_cagr": 0.024046066450011283,
+        "asymmetry": 1.2188129899216127,
+        "quality_mult": 1.075,
+        "asymmetry_mult": 1.103998636739019,
+        "potential_score": 0.02853783642322944
+      },
+      "conviction": 0.039948488116158476
     }
   ],
-  "saved_at": "2026-06-28T06:54:05.487491"
+  "saved_at": "2026-06-28T07:35:07.879525"
 }
