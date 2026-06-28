@@ -30,3 +30,48 @@ all cluster buys equally, so it includes routine noise.
 
 **Trigger to revisit:** the sleeve scales past the $1k proving stage, OR Ghost
 data accumulates enough to test the opportunistic-vs-routine lift directly.
+
+## Liquidity / size floor on the universe
+
+**Why it could matter:** The screen has no liquidity or size filter, so an
+un-investable name can float into the candidate set. Concretely, **RHLD**
+(Resolute Holdings — a ~7-employee, ~8.3M-share micro-float quoted bid/ask
+$100–$213) reached the top-12 and consumed a dossier slot a real name could have
+had. A $1k book can't trade names like that.
+
+**Why it's deferred:**
+1. A *proper* liquidity floor (dollar volume / float) needs **market data** —
+   price × shares for market cap, plus volume — which the SEC-only screen does
+   not have. Building it means adding a market-data feed dependency (same problem
+   as the Ghost cron). Not worth it for a $1k sleeve.
+2. A *crude* proxy (e.g. a shares-outstanding floor from XBRL) is a half-measure
+   with false positives — it would drop legitimate low-share, high-price names.
+3. **The dossier already backstops it.** The balanced research pass flagged RHLD
+   as illiquid/misidentified on its own; the only cost of leaving it is a few
+   wasted dossier slots on junk that gets rejected downstream anyway.
+
+**Trigger to revisit:** a market-data feed gets wired in (e.g. for the Ghost
+cron) — at which point a real dollar-volume floor is nearly free — OR the sleeve
+scales past $1k where execution/liquidity actually bind.
+
+## Activist lens excludes insider/founder 13Ds
+
+**Why it could matter:** The 13D lens treats *any* fresh Schedule 13D as an
+activist signal. But **EQPT**'s "activist 13D" was the **founder-CEO's own 16.2%
+stake disclosure**, not an outside activist. The documented activism edge
+(Brav, Jiang, Partnoy & Thomas) comes specifically from *outside* hedge-fund
+activists; a founder/insider topping up their control stake is a different,
+weaker signal. The lens should exclude 13Ds where the filer is an insider,
+affiliate, or the issuer itself.
+
+**Why it's deferred:**
+1. Distinguishing an outside activist from a founder/affiliate filer requires
+   parsing the filer-vs-subject relationship out of the 13D / FTS metadata —
+   bounded but fiddly, and easy to get wrong.
+2. Low frequency / low impact — one name in the top 12, and it still carried a
+   real insider signal, so it wasn't pure noise.
+3. **Backstopped by the balanced dossier**, which caught the founder-not-activist
+   distinction directly.
+
+**Trigger to revisit:** the activist lens starts driving real position decisions,
+OR a clean filer-relationship signal becomes available in the FTS data.
