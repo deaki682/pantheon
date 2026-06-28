@@ -15,25 +15,29 @@
       {
         "symbol": "INTC",
         "momentum": 1.9098,
-        "score": 1.3459,
+        "quality": 0.136,
+        "score": 1.2003,
         "target": 75.0
       },
       {
         "symbol": "AMD",
         "momentum": 1.5597,
-        "score": 1.1358,
+        "quality": 0.292,
+        "score": 1.0526,
         "target": 75.0
       },
       {
-        "symbol": "PANW",
-        "momentum": 0.9455,
-        "score": 0.7673,
+        "symbol": "AMAT",
+        "momentum": 0.8536,
+        "quality": 0.939,
+        "score": 0.8878,
         "target": 75.0
       },
       {
         "symbol": "FTNT",
         "momentum": 0.8678,
-        "score": 0.7207,
+        "quality": 0.667,
+        "score": 0.7875,
         "target": 75.0
       }
     ],
@@ -41,51 +45,59 @@
       {
         "symbol": "CAT",
         "momentum": 0.4185,
-        "score": 0.4511,
+        "quality": 0.688,
+        "score": 0.5263,
         "target": 75.0
       },
       {
         "symbol": "GE",
         "momentum": 0.2936,
-        "score": 0.3762,
+        "quality": 0.803,
+        "score": 0.4974,
+        "target": 75.0
+      },
+      {
+        "symbol": "UNP",
+        "momentum": 0.1176,
+        "quality": 0.808,
+        "score": 0.3938,
         "target": 75.0
       },
       {
         "symbol": "MMM",
         "momentum": 0.139,
-        "score": 0.2834,
-        "target": 75.0
-      },
-      {
-        "symbol": "EMR",
-        "momentum": 0.136,
-        "score": 0.2816,
+        "quality": 0.604,
+        "score": 0.3250,
         "target": 75.0
       }
     ],
     "real_estate": [
       {
-        "symbol": "IRM",
-        "momentum": 0.3216,
-        "score": 0.393,
-        "target": 75.0
-      },
-      {
         "symbol": "SPG",
         "momentum": 0.248,
-        "score": 0.3488,
+        "quality": 0.869,
+        "score": 0.4964,
         "target": 75.0
       },
       {
-        "symbol": "PSA",
-        "momentum": 0.2104,
-        "score": 0.3262,
+        "symbol": "IRM",
+        "momentum": 0.3216,
+        "quality": 0.657,
+        "score": 0.4558,
+        "target": 75.0
+      },
+      {
+        "symbol": "EQIX",
+        "momentum": 0.1341,
+        "quality": 0.903,
+        "score": 0.4417,
         "target": 75.0
       },
       {
         "symbol": "AVB",
         "momentum": 0.1635,
-        "score": 0.2981,
+        "quality": 0.842,
+        "score": 0.4349,
         "target": 75.0
       }
     ]
