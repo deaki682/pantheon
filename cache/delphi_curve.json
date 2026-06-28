@@ -5,5 +5,13 @@
     "cash": 1000.0,
     "positions": 0,
     "note": "dry_run_pre_live"
+  },
+  {
+    "timestamp": "2026-06-28T10:12:37.109360+00:00",
+    "equity": 1000.0,
+    "cash": 1000.0,
+    "positions": 0,
+    "regime": "risk_on",
+    "note": "paper_run"
   }
 ]

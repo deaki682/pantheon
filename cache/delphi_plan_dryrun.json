@@ -1,6 +1,6 @@
 {
   "timestamp": "2026-06-27T11:46:41.738842",
-  "mode": "DRY_RUN (DELPHI_LIVE unset)",
+  "mode": "paper",
   "regime": "risk_on",
   "risk_budget": 1.0,
   "breadth": 0.7272727272727273,
@@ -98,5 +98,68 @@
       "dollars": 75.0,
       "reason": "open_or_add"
     }
-  ]
+  ],
+  "last_run": "2026-06-28T10:12:37.109360+00:00",
+  "picks": {
+    "technology": [
+      "INTC",
+      "AMD"
+    ],
+    "industrials": [
+      "CAT",
+      "GE"
+    ],
+    "real_estate": [
+      "SPG",
+      "PSA"
+    ]
+  },
+  "targets_usd": {
+    "INTC": 165.14,
+    "AMD": 134.86,
+    "CAT": 176.31,
+    "GE": 123.69,
+    "SPG": 162.3,
+    "PSA": 137.7
+  },
+  "planned_orders": [
+    {
+      "side": "buy",
+      "symbol": "INTC",
+      "dollars": 165.14,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "AMD",
+      "dollars": 134.86,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "CAT",
+      "dollars": 176.31,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "GE",
+      "dollars": 123.69,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "SPG",
+      "dollars": 162.3,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "PSA",
+      "dollars": 137.7,
+      "reason": "open_or_add"
+    }
+  ],
+  "equity": 1000.0,
+  "cash": 1000.0
 }
