@@ -4,9 +4,14 @@
     "BAUPOST GROUP": 22,
     "BERKSHIRE HATHAWAY": 90,
     "GREENLIGHT CAPITAL": 116,
-    "PERSHING SQUARE": 11
+    "PERSHING SQUARE": 11,
+    "TWEEDY BROWNE": 93,
+    "WEDGEWOOD": 0
   },
   "holders": {
+    "AAP": [
+      "TWEEDY BROWNE"
+    ],
     "AAPL": [
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY",
@@ -21,6 +26,9 @@
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY"
     ],
+    "ABG": [
+      "TWEEDY BROWNE"
+    ],
     "ABNB": [
       "AKRE CAPITAL"
     ],
@@ -30,6 +38,9 @@
     ],
     "AERO": [
       "BAUPOST GROUP"
+    ],
+    "AGCO": [
+      "TWEEDY BROWNE"
     ],
     "ALIT": [
       "GREENLIGHT CAPITAL",
@@ -43,7 +54,17 @@
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY",
-      "BERKSHIRE HATHAWAY"
+      "BERKSHIRE HATHAWAY",
+      "TWEEDY BROWNE"
+    ],
+    "ALSN": [
+      "TWEEDY BROWNE"
+    ],
+    "ALV": [
+      "TWEEDY BROWNE"
+    ],
+    "AMN": [
+      "TWEEDY BROWNE"
     ],
     "AMT": [
       "AKRE CAPITAL"
@@ -55,10 +76,23 @@
     "AON": [
       "BAUPOST GROUP"
     ],
+    "ARLP": [
+      "TWEEDY BROWNE"
+    ],
+    "ARW": [
+      "TWEEDY BROWNE"
+    ],
     "AXP": [
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY",
-      "BERKSHIRE HATHAWAY"
+      "BERKSHIRE HATHAWAY",
+      "TWEEDY BROWNE"
+    ],
+    "AZO": [
+      "TWEEDY BROWNE"
+    ],
+    "BABA": [
+      "TWEEDY BROWNE"
     ],
     "BAC": [
       "BERKSHIRE HATHAWAY",
@@ -69,7 +103,14 @@
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY",
-      "BERKSHIRE HATHAWAY"
+      "BERKSHIRE HATHAWAY",
+      "TWEEDY BROWNE"
+    ],
+    "BAX": [
+      "TWEEDY BROWNE"
+    ],
+    "BFH": [
+      "TWEEDY BROWNE"
     ],
     "BHF": [
       "GREENLIGHT CAPITAL",
@@ -77,15 +118,46 @@
       "GREENLIGHT CAPITAL",
       "GREENLIGHT CAPITAL"
     ],
+    "BMY": [
+      "TWEEDY BROWNE"
+    ],
     "BN": [
       "PERSHING SQUARE",
       "AKRE CAPITAL"
     ],
+    "BNY": [
+      "TWEEDY BROWNE"
+    ],
+    "BRK-A": [
+      "TWEEDY BROWNE"
+    ],
     "BRK-B": [
-      "AKRE CAPITAL"
+      "AKRE CAPITAL",
+      "TWEEDY BROWNE"
+    ],
+    "BSM": [
+      "TWEEDY BROWNE"
+    ],
+    "BZH": [
+      "TWEEDY BROWNE"
     ],
     "CCC": [
       "AKRE CAPITAL"
+    ],
+    "CI": [
+      "TWEEDY BROWNE"
+    ],
+    "CMCSA": [
+      "TWEEDY BROWNE"
+    ],
+    "CNC": [
+      "TWEEDY BROWNE"
+    ],
+    "CNH": [
+      "TWEEDY BROWNE"
+    ],
+    "CNXC": [
+      "TWEEDY BROWNE"
     ],
     "COF": [
       "BERKSHIRE HATHAWAY",
@@ -94,6 +166,9 @@
     ],
     "COLD": [
       "BAUPOST GROUP"
+    ],
+    "COP": [
+      "TWEEDY BROWNE"
     ],
     "COYA": [
       "GREENLIGHT CAPITAL",
@@ -107,8 +182,17 @@
       "AKRE CAPITAL",
       "AKRE CAPITAL"
     ],
+    "CROX": [
+      "TWEEDY BROWNE"
+    ],
+    "CSCO": [
+      "TWEEDY BROWNE"
+    ],
     "CSGP": [
       "AKRE CAPITAL"
+    ],
+    "CVS": [
+      "TWEEDY BROWNE"
     ],
     "CVX": [
       "BERKSHIRE HATHAWAY",
@@ -124,6 +208,9 @@
       "GREENLIGHT CAPITAL",
       "GREENLIGHT CAPITAL"
     ],
+    "DINO": [
+      "TWEEDY BROWNE"
+    ],
     "DNOW": [
       "BAUPOST GROUP"
     ],
@@ -131,8 +218,21 @@
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY"
     ],
+    "DVN": [
+      "TWEEDY BROWNE"
+    ],
     "ELV": [
-      "BAUPOST GROUP"
+      "BAUPOST GROUP",
+      "TWEEDY BROWNE"
+    ],
+    "EMBC": [
+      "TWEEDY BROWNE"
+    ],
+    "EMR": [
+      "TWEEDY BROWNE"
+    ],
+    "EPD": [
+      "TWEEDY BROWNE"
     ],
     "EXP": [
       "BAUPOST GROUP"
@@ -142,6 +242,9 @@
       "GREENLIGHT CAPITAL",
       "GREENLIGHT CAPITAL"
     ],
+    "FDX": [
+      "TWEEDY BROWNE"
+    ],
     "FERG": [
       "BAUPOST GROUP"
     ],
@@ -150,8 +253,14 @@
       "GREENLIGHT CAPITAL",
       "GREENLIGHT CAPITAL"
     ],
+    "FIBK": [
+      "TWEEDY BROWNE"
+    ],
     "FICO": [
       "AKRE CAPITAL"
+    ],
+    "FMC": [
+      "TWEEDY BROWNE"
     ],
     "GANX": [
       "GREENLIGHT CAPITAL",
@@ -160,6 +269,12 @@
     ],
     "GDS": [
       "BAUPOST GROUP"
+    ],
+    "GIII": [
+      "TWEEDY BROWNE"
+    ],
+    "GL": [
+      "TWEEDY BROWNE"
     ],
     "GLD": [
       "GREENLIGHT CAPITAL",
@@ -176,7 +291,8 @@
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY",
-      "PERSHING SQUARE"
+      "PERSHING SQUARE",
+      "TWEEDY BROWNE"
     ],
     "GPC": [
       "BAUPOST GROUP"
@@ -204,22 +320,49 @@
     "GSHD": [
       "AKRE CAPITAL"
     ],
+    "GSK": [
+      "TWEEDY BROWNE"
+    ],
+    "HAFN": [
+      "TWEEDY BROWNE"
+    ],
+    "HCI": [
+      "TWEEDY BROWNE"
+    ],
     "HHH": [
       "PERSHING SQUARE"
     ],
     "HLF": [
       "BAUPOST GROUP"
     ],
+    "HLN": [
+      "TWEEDY BROWNE"
+    ],
+    "HP": [
+      "TWEEDY BROWNE"
+    ],
     "HRI": [
       "GREENLIGHT CAPITAL",
       "GREENLIGHT CAPITAL",
       "GREENLIGHT CAPITAL"
     ],
+    "HTLD": [
+      "TWEEDY BROWNE"
+    ],
     "HTZ": [
       "PERSHING SQUARE"
     ],
+    "IONS": [
+      "TWEEDY BROWNE"
+    ],
+    "JAZZ": [
+      "TWEEDY BROWNE"
+    ],
     "JEF": [
       "BERKSHIRE HATHAWAY"
+    ],
+    "JNJ": [
+      "TWEEDY BROWNE"
     ],
     "KD": [
       "GREENLIGHT CAPITAL",
@@ -241,6 +384,9 @@
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY"
     ],
+    "KOF": [
+      "TWEEDY BROWNE"
+    ],
     "KPLT": [
       "GREENLIGHT CAPITAL",
       "GREENLIGHT CAPITAL",
@@ -253,9 +399,13 @@
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY"
     ],
+    "KT": [
+      "TWEEDY BROWNE"
+    ],
     "KVUE": [
       "GREENLIGHT CAPITAL",
-      "GREENLIGHT CAPITAL"
+      "GREENLIGHT CAPITAL",
+      "TWEEDY BROWNE"
     ],
     "LBTYA": [
       "BAUPOST GROUP"
@@ -276,6 +426,9 @@
       "GREENLIGHT CAPITAL",
       "GREENLIGHT CAPITAL"
     ],
+    "LKQ": [
+      "TWEEDY BROWNE"
+    ],
     "LLYVA": [
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY",
@@ -288,9 +441,15 @@
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY"
     ],
+    "LPG": [
+      "TWEEDY BROWNE"
+    ],
     "LPX": [
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY"
+    ],
+    "LW": [
+      "TWEEDY BROWNE"
     ],
     "M": [
       "BERKSHIRE HATHAWAY",
@@ -308,11 +467,20 @@
     "META": [
       "PERSHING SQUARE"
     ],
+    "MICC": [
+      "TWEEDY BROWNE"
+    ],
     "MOH": [
       "BAUPOST GROUP"
     ],
     "MSFT": [
       "PERSHING SQUARE"
+    ],
+    "MTDR": [
+      "TWEEDY BROWNE"
+    ],
+    "NE": [
+      "TWEEDY BROWNE"
     ],
     "NOW": [
       "AKRE CAPITAL"
@@ -321,6 +489,9 @@
       "GREENLIGHT CAPITAL",
       "GREENLIGHT CAPITAL",
       "GREENLIGHT CAPITAL"
+    ],
+    "NTR": [
+      "TWEEDY BROWNE"
     ],
     "NUE": [
       "BERKSHIRE HATHAWAY"
@@ -331,6 +502,9 @@
     "NVR": [
       "BERKSHIRE HATHAWAY"
     ],
+    "NVST": [
+      "TWEEDY BROWNE"
+    ],
     "NYT": [
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY"
@@ -338,24 +512,48 @@
     "ORLY": [
       "AKRE CAPITAL"
     ],
+    "ORN": [
+      "TWEEDY BROWNE"
+    ],
     "OXY": [
       "BERKSHIRE HATHAWAY"
     ],
     "PCVX": [
       "BAUPOST GROUP"
     ],
+    "PGR": [
+      "TWEEDY BROWNE"
+    ],
+    "PNC": [
+      "TWEEDY BROWNE"
+    ],
     "PRM": [
       "AKRE CAPITAL"
+    ],
+    "PSEC": [
+      "TWEEDY BROWNE"
+    ],
+    "PSX": [
+      "TWEEDY BROWNE"
     ],
     "QSR": [
       "BAUPOST GROUP",
       "PERSHING SQUARE"
     ],
+    "REZI": [
+      "TWEEDY BROWNE"
+    ],
     "ROP": [
       "AKRE CAPITAL"
     ],
+    "SDA": [
+      "TWEEDY BROWNE"
+    ],
     "SEG": [
       "PERSHING SQUARE"
+    ],
+    "SFNC": [
+      "TWEEDY BROWNE"
     ],
     "SHC": [
       "GREENLIGHT CAPITAL",
@@ -364,13 +562,23 @@
     ],
     "SIRI": [
       "BERKSHIRE HATHAWAY",
-      "BERKSHIRE HATHAWAY"
+      "BERKSHIRE HATHAWAY",
+      "TWEEDY BROWNE"
+    ],
+    "SNEX": [
+      "TWEEDY BROWNE"
     ],
     "SOPH": [
       "AKRE CAPITAL"
     ],
     "STZ": [
       "BERKSHIRE HATHAWAY"
+    ],
+    "TAP": [
+      "TWEEDY BROWNE"
+    ],
+    "TDW": [
+      "TWEEDY BROWNE"
     ],
     "TECK": [
       "GREENLIGHT CAPITAL",
@@ -381,6 +589,9 @@
       "GREENLIGHT CAPITAL",
       "GREENLIGHT CAPITAL"
     ],
+    "TFC": [
+      "TWEEDY BROWNE"
+    ],
     "TFX": [
       "BAUPOST GROUP"
     ],
@@ -389,11 +600,39 @@
       "GREENLIGHT CAPITAL",
       "GREENLIGHT CAPITAL"
     ],
+    "TRMD": [
+      "TWEEDY BROWNE"
+    ],
+    "TSN": [
+      "TWEEDY BROWNE"
+    ],
+    "TTE": [
+      "TWEEDY BROWNE"
+    ],
     "UBER": [
       "PERSHING SQUARE"
     ],
+    "UHAL-B": [
+      "TWEEDY BROWNE"
+    ],
+    "UL": [
+      "TWEEDY BROWNE"
+    ],
+    "UNF": [
+      "TWEEDY BROWNE"
+    ],
+    "UNH": [
+      "TWEEDY BROWNE"
+    ],
     "UNP": [
-      "BAUPOST GROUP"
+      "BAUPOST GROUP",
+      "TWEEDY BROWNE"
+    ],
+    "UPS": [
+      "TWEEDY BROWNE"
+    ],
+    "USB": [
+      "TWEEDY BROWNE"
     ],
     "V": [
       "BAUPOST GROUP",
@@ -403,16 +642,34 @@
       "BERKSHIRE HATHAWAY",
       "BERKSHIRE HATHAWAY"
     ],
+    "VRTX": [
+      "TWEEDY BROWNE"
+    ],
+    "VSNT": [
+      "TWEEDY BROWNE"
+    ],
     "VTRS": [
       "GREENLIGHT CAPITAL",
       "GREENLIGHT CAPITAL"
     ],
+    "VZ": [
+      "TWEEDY BROWNE"
+    ],
     "WCC": [
       "BAUPOST GROUP"
     ],
+    "WFC": [
+      "TWEEDY BROWNE"
+    ],
     "WTW": [
       "BAUPOST GROUP"
+    ],
+    "WU": [
+      "TWEEDY BROWNE"
+    ],
+    "ZION": [
+      "TWEEDY BROWNE"
     ]
   },
-  "updated_at": "2026-06-27T23:56:11.595160+00:00"
+  "updated_at": "2026-06-28T13:50:05.036378+00:00"
 }
