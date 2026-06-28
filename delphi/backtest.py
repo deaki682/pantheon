@@ -130,8 +130,8 @@ class BacktestConfig:
     initial_cash: float = 1000.0
     rebalance_interval: int = REBALANCE_INTERVAL_DAYS
     timeframe_weights: tuple[float, ...] = TIMEFRAME_WEIGHTS
-    momentum_weight: float = 0.6
-    quality_weight: float = 0.4
+    momentum_weight: float = 1.0
+    quality_weight: float = 0.0
     quality_override: Optional[float] = None
     top_n_sectors: Optional[int] = None
     regime_enabled: bool = True

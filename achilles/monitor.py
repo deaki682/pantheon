@@ -398,7 +398,7 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
         score_out = score_event(
             playbook=pb,
             event_strength=ev.strength,
-            company_quality=1.0,
+            company_quality=oq,
             market_cap=mcap,
             first_seen_iso=now_iso,
             disqualifier_flags=ev.metadata.get("disqualifiers", []),
@@ -425,14 +425,19 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
         )
         conviction = conviction_multiplier(**conv_signals)
         play = build_play(
-            pb, entry_price, today,
-            sleeve.position_dollars(score_out["score"], conviction=conviction),
+            playbook=pb,
+            entry_price=entry_price,
+            entry_date=today,
+            entry_dollars=sleeve.position_dollars(score_out["score"], conviction=conviction),
         )
         brief = make_brief(
             event_id=ev.event_id,
             event_class=ev.event_class,
             symbol=ev.symbol,
             score=score_out["score"],
+            filing=ev.metadata.get("filing", {}),
+            setup=ev.metadata.get("setup", {}),
+            disqualifiers=ev.metadata.get("disqualifiers", []),
             play=play,
         )
         scored_briefs.append((brief, entry_price, ev))

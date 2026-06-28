@@ -139,6 +139,13 @@ def size_book(
                     new = targets[sym] * scale
                     residue += targets[sym] - new
                     targets[sym] = new
+    if residue > min_ticket:
+        uncapped = {s: w for s, w in targets.items()
+                    if sector_totals.get(sectors[s], 0) <= cap_dollars + 1e-9}
+        if uncapped:
+            total_w = sum(uncapped.values())
+            for sym in uncapped:
+                targets[sym] += residue * (uncapped[sym] / total_w)
     # Drop sub-min-ticket positions
     targets = {k: v for k, v in targets.items() if v >= min_ticket}
     return targets

@@ -358,10 +358,10 @@ def get_account_cash() -> Optional[float]:
     return None
 
 
-# ── earnings ──────────────────────────────────────────────────────────
+# ── earnings (single-result convenience) ─────────────────────────────
 
-def get_earnings(symbol: str) -> Optional[dict]:
-    """Fetch the most recent earnings for a symbol.
+def get_latest_earnings_surprise(symbol: str) -> Optional[dict]:
+    """Fetch the most recent earnings for a symbol with surprise computed.
 
     Returns {actual_eps, estimate_eps, surprise_pct, report_date} or None.
     """

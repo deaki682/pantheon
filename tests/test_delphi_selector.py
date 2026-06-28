@@ -3,13 +3,13 @@ import pytest
 from delphi.selector import pick_stocks, score_stock, select_for_sectors
 
 
-def test_score_stock_combined():
-    # +20% momentum over 63 days, quality 0.8
+def test_score_stock_pure_momentum():
+    # +20% momentum over 63 days, quality ignored
     prices = [100.0] * 64
     prices[-1] = 120.0
     out = score_stock(prices, quality=0.8)
-    # 0.6 * 0.2 + 0.4 * 0.8 = 0.12 + 0.32 = 0.44
-    assert out == pytest.approx(0.44, abs=1e-6)
+    # pure momentum: (120 - 100) / 100 = 0.2
+    assert out == pytest.approx(0.2, abs=1e-6)
 
 
 def test_pick_stocks_top_n():

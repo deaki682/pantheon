@@ -24,8 +24,8 @@ def test_build_targets_full_budget():
 def test_build_targets_per_name_cap():
     picks = {"tech": [{"symbol": "AAPL", "score": 1.0}]}
     out = build_targets(picks, equity=10_000.0, risk_budget=1.0)
-    # 12% cap = $1200
-    assert out["AAPL"] <= 1200.0 + 1e-6
+    # 20% cap = $2000
+    assert out["AAPL"] <= 2000.0 + 1e-6
 
 
 def test_build_targets_sector_cap():
@@ -44,11 +44,11 @@ def test_build_targets_skips_blocked():
 
 
 def test_build_targets_max_names_per_sector():
-    # 6 picks in tech, should be trimmed to 4
+    # 6 picks in tech, should be trimmed to 2 (MAX_NAMES_PER_SECTOR)
     picks = {"tech": [{"symbol": f"S{i}", "score": 1.0} for i in range(6)]}
     out = build_targets(picks, equity=10_000.0, risk_budget=1.0)
     tech_held = [s for s in out if s.startswith("S")]
-    assert len(tech_held) <= 4
+    assert len(tech_held) <= 2
 
 
 def test_plan_orders_new_position():
