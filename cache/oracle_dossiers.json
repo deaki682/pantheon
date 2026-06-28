@@ -1,5 +1,557 @@
 {
-  "dossiers": [],
-  "saved_at": "2026-06-28T00:53:07.581967+00:00",
-  "note": "reset to rebuild under adversarial gate"
+  "dossiers": [
+    {
+      "symbol": "WTW",
+      "business": "Global insurance broker + health/wealth/career benefits consulting.",
+      "thesis": "Quality broker in a 4-player oligopoly at a peer discount after a guide-down \u2014 but the laggard of the group. CONTESTED: insider/Pershing flags UNCONFIRMED on current data.",
+      "scenarios": {
+        "bull": {
+          "target": 330.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 275.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 200.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.55,
+        "quality": 0.65,
+        "management": 0.5
+      },
+      "citations": [
+        "https://www.investing.com/news/transcripts/earnings-call-transcript-willis-towers-watson-q1-2026-sees-mixed-results-stock-tumbles-93CH-4650192"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 258.0,
+      "high_52w": 352.79,
+      "decline_explanation": "Down ~27% from high. Q1 2026 (Apr 30): beat EPS but cut Risk&Broking organic growth to mid-single-digits on missed new-business + softening commercial pricing cycle; consulting cut to low/mid-single with no near-term recovery. Structurally the weakest of the big-4 brokers (trails Marsh/Aon). NOTE: screen's insider-buying + Pershing-Square flags could NOT be verified \u2014 recent Form 4s are routine RSU grants, and WTW is absent from Pershing's Q1-2026 13F.",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:00:55.923303",
+      "drawdown_from_high": 0.26868675415969845,
+      "derived": {
+        "expected_price": 272.75,
+        "expected_return": 0.057170542635659016,
+        "expected_cagr": 0.028187989929691293,
+        "asymmetry": 1.489655172413793,
+        "quality_mult": 1.0875,
+        "asymmetry_mult": 1.2205143065174586,
+        "potential_score": 0.03741418141700962
+      },
+      "conviction": 0.05204555397291388
+    },
+    {
+      "symbol": "EXE",
+      "business": "Largest US natural-gas producer (Chesapeake+Southwestern merger); Appalachia/Haynesville.",
+      "thesis": "Premier large-cap gas pure-play levered to LNG/data-center demand, cheap on normalized gas. CONTESTED: commodity price-taker into a likely 2026+ gas/LNG glut with no permanent CEO.",
+      "scenarios": {
+        "bull": {
+          "target": 140.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 100.0,
+          "probability": 0.4
+        },
+        "bear": {
+          "target": 65.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.6,
+        "quality": 0.55,
+        "management": 0.45
+      },
+      "citations": [
+        "https://www.benzinga.com/insights/news/26/06/53091402/noteworthy-insider-activity-catherine-a-kehr-invests-225k-in-expand-energy-stock"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 88.47,
+      "high_52w": 126.62,
+      "decline_explanation": "Down ~30% from high. Henry Hub fell to ~$3.29 on strong production + warm-weather demand worries; EIA cut 2026/27 gas forecasts (~4.4%/11.5%) amid an LNG-glut narrative; Barclays downgraded to Equalweight. Governance overhang: CEO Dell'Osso stepped down Feb 2026, interim CEO + ongoing search + HQ relocation. Insider buying is real (interim CEO + director near lows) but it's a bet on commodity normalization, not a company fix.",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:00:55.923367",
+      "drawdown_from_high": 0.30129521402622017,
+      "derived": {
+        "expected_price": 101.5,
+        "expected_return": 0.1472815643721035,
+        "expected_cagr": 0.07111230240909072,
+        "asymmetry": 2.1955688112484024,
+        "quality_mult": 1.0125000000000002,
+        "asymmetry_mult": 1.4817451910664001,
+        "potential_score": 0.1066874410218339
+      },
+      "conviction": 0.14136437323327866
+    },
+    {
+      "symbol": "GRNT",
+      "business": "Small-cap non-operated oil & gas E&P; minority working interests across US basins.",
+      "thesis": "2027 free-cash-flow inflection story with ~8% yield and strong insider buying (37 buys/0 sells). CONTESTED\u2192knife-risk: non-op micro-cap price-taker with a dividend not currently covered by FCF.",
+      "scenarios": {
+        "bull": {
+          "target": 8.5,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 5.5,
+          "probability": 0.4
+        },
+        "bear": {
+          "target": 3.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.3,
+        "runway": 0.45,
+        "quality": 0.45,
+        "management": 0.55
+      },
+      "citations": [
+        "https://www.dailypolitical.com/2026/06/09/insider-buying-granite-ridge-resources-nysegrnt-director-acquires-10600-shares-of-stock.html"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 5.05,
+      "high_52w": 6.72,
+      "decline_explanation": "Down ~25% from high / near range low. Soft oil & gas prices pressuring small-cap E&P; deliberate growth slowdown (2026 guide ~9-12% vs 28% in 2025). Dividend is the fault line: paid while loss-making with no current FCF, implying balance-sheet funding; ~8% yield screens as distress. Non-op model = passive minority partner with no control over operator pace/capex. FCF promise is a 2027 'trust us' story. Insider signal is the cleanest of the energy names (sponsor-linked director, 37 buys/0 sells).",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:00:55.923386",
+      "drawdown_from_high": 0.24851190476190477,
+      "derived": {
+        "expected_price": 5.65,
+        "expected_return": 0.11881188118811892,
+        "expected_cagr": 0.05773904210259673,
+        "asymmetry": 1.6829268292682928,
+        "quality_mult": 0.9375,
+        "asymmetry_mult": 1.2972766972655807,
+        "potential_score": 0.07022204422700155
+      },
+      "conviction": 0.0954495563395601
+    },
+    {
+      "symbol": "TKO",
+      "business": "Owns UFC, WWE, IMG \u2014 live-sports media rights and events.",
+      "thesis": "Quasi-monopoly live-sports content with rights-renewal tailwinds; in-the-money C-suite cluster buy. CONTESTED: near all-time highs at ~79x P/E after two straight misses \u2014 paying full freight.",
+      "scenarios": {
+        "bull": {
+          "target": 300.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 230.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 150.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.85,
+        "runway": 0.75,
+        "quality": 0.7,
+        "management": 0.65
+      },
+      "citations": [
+        "https://meyka.com/blog/tko-insiders-buy-258m-in-stock-on-may-13-2026-1405/"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 215.78,
+      "high_52w": 226.94,
+      "decline_explanation": "Not a decline \u2014 trades ~5% off its high. Flagged on insiders, not distress. Minor Feb-2026 wobble (FY26 revenue guide below ~$6.0B consensus; Q1 EPS $1.12 missed $1.19) but recovered. Bear case is purely valuation (~79x trailing P/E, 4.8x book) with zero room for error, lumpy rights-renewal growth that decelerates once big UFC/WWE deals lap, and Emanuel/Silver Lake key-man + overhang. May-13 cluster buy real and in-the-money (CEO Emanuel ~$1.29M @ $185; Shapiro, CFO, Kraft) \u2014 but trailing-12m insider flow is net selling.",
+      "sector": "Communication Services",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:00:55.923406",
+      "drawdown_from_high": 0.04917599365471048,
+      "derived": {
+        "expected_price": 231.0,
+        "expected_return": 0.07053480396700351,
+        "expected_cagr": 0.03466651824005762,
+        "asymmetry": 1.5363940407418666,
+        "quality_mult": 1.2374999999999998,
+        "asymmetry_mult": 1.2395136307204802,
+        "potential_score": 0.053174907086612315
+      },
+      "conviction": 0.07315056924684504
+    },
+    {
+      "symbol": "EVTC",
+      "business": "Puerto Rico payments/transaction processor with a growing Latin America segment.",
+      "thesis": "Cheap (~13x), profitable, double-digit-growth processor with real insider buying into the decline \u2014 the cleanest 'insider-into-weakness' of the set. CONTESTED: PR + FX-dependent LatAm concentration justify part of the discount.",
+      "scenarios": {
+        "bull": {
+          "target": 38.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 30.0,
+          "probability": 0.4
+        },
+        "bear": {
+          "target": 18.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.55,
+        "quality": 0.6,
+        "management": 0.55
+      },
+      "citations": [
+        "https://www.fool.com/coverage/filings/2026/06/04/this-insider-just-bought-21-000-shares-of-evertec-for-usd491-000-after-a-36-drop/"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 27.37,
+      "high_52w": 37.785,
+      "decline_explanation": "Down ~28% from high (hit ~36% at the June low). Slow bleed, not a crash: Business Solutions EBITDA margin -370bps to 35.3% in Q4-2025; market doubts durability of 36% LatAm growth (4pts was FX) and fears a cyclical/FX peak; modest Q1-2026 miss. But management RAISED FY26 guidance after Q1, so this is multiple compression, not a guidance cut. Real insider buying near current levels (EVP Vizcarrondo 21k @ ~$23.37 \u2014 first buy after 4 sales; Director Smith ~$428k @ ~$26.4), though trailing-12m flow still net selling.",
+      "sector": "Information Technology",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:00:55.923418",
+      "drawdown_from_high": 0.2756384808786555,
+      "derived": {
+        "expected_price": 28.799999999999997,
+        "expected_return": 0.05224698575082187,
+        "expected_cagr": 0.025790907422571063,
+        "asymmetry": 1.1344717182497328,
+        "quality_mult": 1.05,
+        "asymmetry_mult": 1.0651158238659928,
+        "potential_score": 0.028843818788025496
+      },
+      "conviction": 0.040368051884299705
+    },
+    {
+      "symbol": "RHLD",
+      "business": "Resolute Holdings Management \u2014 a 7-employee external asset manager spun from CompoSecure (NOT Ramaco Resources).",
+      "thesis": "Capital-light fee stream run by activist operators with roll-up ambition. FALLING KNIFE: misidentified ticker, richly valued, illiquid micro-float, related-party conflicts, bear target ~$26.",
+      "scenarios": {
+        "bull": {
+          "target": 200.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 120.0,
+          "probability": 0.35
+        },
+        "bear": {
+          "target": 45.0,
+          "probability": 0.4
+        }
+      },
+      "ratings": {
+        "moat": 0.4,
+        "runway": 0.5,
+        "quality": 0.45,
+        "management": 0.5
+      },
+      "citations": [
+        "https://www.investing.com/news/investment-ideas/investingpros-fair-value-flagged-rhld-as-overvalued-before-44-drop-93CH-4559534"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 133.62,
+      "high_52w": 236.19,
+      "decline_explanation": "Down ~43% from a Jan-2026 high after a 335% post-spin bubble popped (multiple de-rate, not an operating blowup \u2014 Q1 fees inflected positive). DATA-INTEGRITY FLAG: ticker resolves to Resolute Holdings Management (ex-CompoSecure spin, Feb 2025), NOT Ramaco Resources. ~$1.1B cap, only ~8.3M shares / ~4M float, quoted bid/ask $100-$213 \u2014 effectively un-investable and 'price' is unreliable. Value depends almost entirely on managing CompoSecure (circular/related-party risk); credible bear re-rate targets ~$26. Insider buys are token (~$70k each) and underwater.",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:00:55.923427",
+      "drawdown_from_high": 0.4342690207036708,
+      "derived": {
+        "expected_price": 110.0,
+        "expected_return": -0.17676994461906903,
+        "expected_cagr": -0.09267973935278451,
+        "asymmetry": 0.4681505303543218,
+        "quality_mult": 0.9625,
+        "asymmetry_mult": 0.6842152660927128,
+        "potential_score": -0.06103490905306864
+      },
+      "conviction": 0.0
+    },
+    {
+      "symbol": "PODD",
+      "business": "Insulet \u2014 Omnipod tubeless wearable insulin patch-pump (~99% of revenue).",
+      "thesis": "30%+ grower at a 57% discount with broad insider buying. CONTESTED\u2192knife: two life-critical recalls in ten weeks + credible H2-2026 tubeless competition are real thesis-killers on a single-product company.",
+      "scenarios": {
+        "bull": {
+          "target": 300.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 175.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 85.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.7,
+        "quality": 0.45,
+        "management": 0.55
+      },
+      "citations": [
+        "https://www.stocktitan.net/sec-filings/PODD/"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 150.0,
+      "high_52w": 354.88,
+      "decline_explanation": "Down ~57% from high despite a strong Q1 (rev +34%, EPS beat, guidance RAISED). Two voluntary Omnipod-5 under-delivery corrections in ten weeks \u2014 Mar 12 and a far larger May 26 recall of ~7M pods (~8.5% of 2025 output) with 24 serious adverse events incl. DKA \u2014 hint at a systemic quality problem (FDA/litigation/brand risk). May 28: appeals court overturned a $452M trade-secret win vs EOFlow. Tubeless competition arriving H2-2026 (Tandem Mobi, Medtronic MiniMed Flex) threatens ~72% gross margins; GLP-1s cap long-run pump demand. Insiders buying near lows (directors flat, new CEO ~38% underwater).",
+      "sector": "Health Care",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:00:55.923436",
+      "drawdown_from_high": 0.577321911632101,
+      "derived": {
+        "expected_price": 179.25,
+        "expected_return": 0.19500000000000006,
+        "expected_cagr": 0.09316055545377244,
+        "asymmetry": 1.9230769230769231,
+        "quality_mult": 1.0625,
+        "asymmetry_mult": 1.3867504905630728,
+        "potential_score": 0.13726484885018772
+      },
+      "conviction": 0.1780639140063044
+    },
+    {
+      "symbol": "CAVA",
+      "business": "Fast-casual Mediterranean chain ('next Chipotle'); company-owned unit growth.",
+      "thesis": "Best-in-class fast-casual momentum (Q1 SSS +9.7% on +6.8% traffic). NOT A BARGAIN: barely fell (-15%), ~150x P/E priced for perfection; insider 'buys' are token vs a wall of founder/CEO selling.",
+      "scenarios": {
+        "bull": {
+          "target": 150.0,
+          "probability": 0.2
+        },
+        "base": {
+          "target": 90.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 48.0,
+          "probability": 0.35
+        }
+      },
+      "ratings": {
+        "moat": 0.4,
+        "runway": 0.8,
+        "quality": 0.7,
+        "management": 0.6
+      },
+      "citations": [
+        "https://openinsider.com/CAVA"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 83.83,
+      "high_52w": 98.79,
+      "decline_explanation": "Not a real decline \u2014 only ~15% off the high and still +58% YTD; flagged on insider buying, not distress. Bear case is valuation: ~140-175x trailing P/E, ~63-67x EV/EBITDA (industry median ~9.5x), priced for flawless execution on volatile comps (Q4-2025 was +0.5% before Q1's +9.7%). The two insider buys (COO $318k @ ~$79.45; CLO $70k @ ~$70) are tiny and underwater, set against heavy persistent founder/CEO selling (~50 sells / 0 buys; Chairman Shaich ~2.4M sh). Insider signal here is effectively noise.",
+      "sector": "Consumer Discretionary",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:00:55.923448",
+      "drawdown_from_high": 0.15143233120761213,
+      "derived": {
+        "expected_price": 87.3,
+        "expected_return": 0.04139329595610164,
+        "expected_cagr": 0.02048679362160377,
+        "asymmetry": 1.0553008253259442,
+        "quality_mult": 1.125,
+        "asymmetry_mult": 1.0272783582486025,
+        "potential_score": 0.023676344682051445
+      },
+      "conviction": 0.03325773498516549
+    },
+    {
+      "symbol": "OLED",
+      "business": "Universal Display \u2014 licenses phosphorescent-OLED emitter IP + sells emitter materials.",
+      "thesis": "Monopoly emitter toll-booth at a 46% discount with a ~$1.5M insider cluster + blue-PHOLED catalyst near. CONTESTED\u2192knife: patent cliff (2027-28), 42% customer concentration, perpetually-delayed catalyst, buyers underwater.",
+      "scenarios": {
+        "bull": {
+          "target": 135.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 90.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 55.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.45,
+        "quality": 0.7,
+        "management": 0.5
+      },
+      "citations": [
+        "https://www.stocktitan.net/sec-filings/OLED/"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 87.16,
+      "high_52w": 162.36,
+      "decline_explanation": "Down ~46%, just above the 52-wk low. Q1-2026: revenue $142.2M (from $166.3M); high-margin royalties collapsed to $54.2M from $73.6M (-26%) on adverse customer mix; EPS $0.76 vs $1.35; FY26 guidance CUT to $630-670M. Structural overhangs: core emitter patents start expiring ~2027-2028 (erodes the royalty toll-booth); extreme concentration (one customer ~42% of 9M-2025 revenue); blue-PHOLED catalyst promised 2024\u21922H25, still no TV shipped (2027+ realistic); TADF/tandem competition + BOE litigation. Insider cluster ~$1.5M (CEO/CLO/director) but all underwater @ ~$92-95, from the same team whose guidance keeps disappointing.",
+      "sector": "Information Technology",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:00:55.923467",
+      "drawdown_from_high": 0.46316826804631694,
+      "derived": {
+        "expected_price": 90.75,
+        "expected_return": 0.0411886186324002,
+        "expected_cagr": 0.02038650453266988,
+        "asymmetry": 1.2396351575456057,
+        "quality_mult": 1.05,
+        "asymmetry_mult": 1.1133890414161645,
+        "potential_score": 0.023833016276428393
+      },
+      "conviction": 0.033474083704493895
+    },
+    {
+      "symbol": "CELH",
+      "business": "Celsius Holdings \u2014 energy-drink platform (Celsius + Alani Nu + Rockstar) via PepsiCo distribution.",
+      "thesis": "Cheap 3-brand platform with incumbent-management buying the dip. CONTESTED: the original explosive-organic-growth thesis is broken; now a lower-margin roll-up in a crowded, private-label-threatened category.",
+      "scenarios": {
+        "bull": {
+          "target": 48.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 32.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 18.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.4,
+        "runway": 0.6,
+        "quality": 0.5,
+        "management": 0.55
+      },
+      "citations": [
+        "https://www.stocktitan.net/sec-filings/CELH/"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 29.8,
+      "high_52w": 66.74,
+      "decline_explanation": "Down ~55% from high. Slow-motion de-rate: Q1-2026 record revenue $782.6M but flagship Celsius grew only ~6% and gross margin fell to 48.3% from 52.3% on dilutive acquired-brand mix + aluminum costs (stock -10.7% on May 11). Late-March: Costco launched a Kirkland private-label energy drink (margin/competition fear). The core single-premium-brand growth thesis has quietly become a structurally lower-margin roll-up (Alani Nu, Rockstar) in a crowded category vs Monster/Red Bull. Real but modest incumbent buying (CEO Fieldly ~$249k, President Hanson, ~$700k total, no sales), roughly flat vs current.",
+      "sector": "Consumer Staples",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:00:55.923481",
+      "drawdown_from_high": 0.5534911597243033,
+      "derived": {
+        "expected_price": 31.799999999999997,
+        "expected_return": 0.06711409395973145,
+        "expected_cagr": 0.033012146085287464,
+        "asymmetry": 1.2853107344632768,
+        "quality_mult": 1.0125,
+        "asymmetry_mult": 1.1337154556868654,
+        "potential_score": 0.03789420999531158
+      },
+      "conviction": 0.05269539573846471
+    },
+    {
+      "symbol": "CPRT",
+      "business": "Copart \u2014 online salvage/total-loss vehicle auctions, primarily for auto insurers.",
+      "thesis": "Best-in-class auction duopolist at the cheapest multiple in years, ASPs +5% showing pricing power. CONTESTED: whether falling insurance total-loss VOLUME is cyclical or a structural underinsurance shift is the open question; 13F signal is mixed.",
+      "scenarios": {
+        "bull": {
+          "target": 45.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 33.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 22.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.85,
+        "runway": 0.6,
+        "quality": 0.85,
+        "management": 0.8
+      },
+      "citations": [
+        "https://www.insidermonkey.com/blog/copart-cprt-slid-on-decline-in-its-key-insurance-customers-volume-1732589/"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 30.45,
+      "high_52w": 50.11,
+      "decline_explanation": "Down ~39% from the 52-wk high (~52% off all-time high). Volume, not pricing: Q2-FY26 EPS $0.36 missed $0.39, revenue ~$1.12B -3.6% YoY on declining total-loss insurance volumes \u2014 fewer claims, hurricane base effect, and consumers dropping collision coverage as premiums rise (underinsurance). Q3 global insurance units -2.7%. ASPs +5% partly offset. The bear question is cyclical vs structural impairment of the volume engine; a high-multiple compounder being repriced as a low-growth cyclical. 13F mixed: concentrated conviction (Gobi Capital ~7.7% of book) vs net hedge-fund exits (Renaissance selling).",
+      "sector": "Industrials",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:00:55.923490",
+      "drawdown_from_high": 0.39233685891039716,
+      "derived": {
+        "expected_price": 33.85,
+        "expected_return": 0.11165845648604278,
+        "expected_cagr": 0.0543521501310853,
+        "asymmetry": 2.0662721893491125,
+        "quality_mult": 1.275,
+        "asymmetry_mult": 1.437453369452071,
+        "potential_score": 0.09961406871218906
+      },
+      "conviction": 0.13264403232634214
+    },
+    {
+      "symbol": "EQPT",
+      "business": "EquipmentShare.com \u2014 construction-equipment rental + jobsite/fleet software (T3); IPO'd Jan 2026.",
+      "thesis": "Fast-growing (rental +34%) rental+software story founder-led with big insider ownership. FALLING KNIFE: unprofitable post-IPO, ~$3B debt, cash burn with dilution risk; screen's 'activist 13D' is actually the founder.",
+      "scenarios": {
+        "bull": {
+          "target": 34.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 20.0,
+          "probability": 0.4
+        },
+        "bear": {
+          "target": 9.0,
+          "probability": 0.35
+        }
+      },
+      "ratings": {
+        "moat": 0.35,
+        "runway": 0.4,
+        "quality": 0.35,
+        "management": 0.5
+      },
+      "citations": [
+        "https://www.investing.com/news/insider-trading-news/equipmentshare-director-w-bryan-hill-buys-499k-in-stock-93CH-4702745"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 20.84,
+      "high_52w": 35.5,
+      "decline_explanation": "Down ~41% from its Jan-29 post-IPO peak (IPO'd Jan 13 @ $24.50). Classic falling-knife profile: unprofitable, ~$3.1-3.3B long-term debt + ~$999M ABL drawn, ~$70M/qtr interest, Q1-2026 net losses, analysts warning of <1yr cash absent improved cash flow (dilution/balance-sheet risk). Competes vs entrenched profitable giants (United Rentals, Ashtead) in a cyclical, rate-exposed industry. FLAG CORRECTION: the screen's 'activist 13D' is NOT an outside activist \u2014 it's co-founder/CEO Jabbok Schlacks disclosing a 16.2% stake; founders control ~81% of votes (dual-class), so minority holders have little recourse. Director Hill bought ~$499k @ $22.89 (real) but it doesn't de-risk the balance sheet.",
+      "sector": "Industrials",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:00:55.923500",
+      "drawdown_from_high": 0.4129577464788733,
+      "derived": {
+        "expected_price": 19.65,
+        "expected_return": -0.05710172744721698,
+        "expected_cagr": -0.02897050891706532,
+        "asymmetry": 0.7939189189189189,
+        "quality_mult": 0.9,
+        "asymmetry_mult": 0.8910212786005275,
+        "potential_score": -0.023232005907292373
+      },
+      "conviction": 0.0
+    }
+  ],
+  "saved_at": "2026-06-28T01:00:55.923822"
 }
