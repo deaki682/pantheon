@@ -6,7 +6,7 @@ Sector rotator with SPY core-satellite overlay. 8 steps.
 
 0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
 
-1. **Safety check.** Refuse if `KILL_SWITCH` exists. Then check `shared.guards.is_live("delphi")` — if `DELPHI_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders** in steps 6–7. Log the planned orders to the decision log so they can be reviewed. Print "PAPER MODE — no orders placed" prominently.
+1. **Safety check.** Refuse if `KILL_SWITCH` exists. Liquidate all sector positions if so. Then check `shared.guards.is_live("delphi")` — if `DELPHI_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders** in steps 6–7. Log the planned orders to the decision log so they can be reviewed. Print "PAPER MODE — no orders placed" prominently.
 
 2. **Restore.** Load `cache/delphi_sleeve.json`. If absent, `DelphiSleeve(initial_cash=1000)`.
 

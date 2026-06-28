@@ -17,8 +17,8 @@ from __future__ import annotations
 from typing import Iterable, Optional
 
 from shared.ghost import (  # noqa: F401
-    GhostEntry, PriceLookup, append_equity_point, grade_entries, graded_only,
-    group_stats, load_ledger, mark_to_market, numeric_tercile_stats,
+    GhostEntry, PriceLookup, append_equity_point, boolean_lift, grade_entries,
+    graded_only, group_stats, load_ledger, mark_to_market, numeric_tercile_stats,
     open_entries, overall_stats, save_ledger,
 )
 
@@ -55,7 +55,6 @@ def candidates_to_ghost(
             "features": {
                 "sector": sector,
                 "momentum": c.get("momentum"),
-                "score": c.get("score"),
                 "regime": regime,
                 "chosen": sector in chosen_set if (sector and chosen_set) else None,
             },
@@ -77,7 +76,6 @@ def signal_report(entries: Iterable[GhostEntry]) -> dict:
         return {"n": 0, "mean_return": None, "hit_rate": None,
                 "sector_return": {}, "momentum_terciles": {},
                 "regime_return": {}, "rotation_lift": {}}
-    from shared.ghost import boolean_lift
     return {
         **overall_stats(graded),
         "sector_return": group_stats(graded, "sector"),

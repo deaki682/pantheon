@@ -7,9 +7,9 @@ from shared.ghost import grade_entries, numeric_tercile_stats, open_entries, Gho
 
 def test_candidates_to_ghost_skips_blocked_and_unpriceable():
     cands = [
-        {"symbol": "AAA", "sector": "tech", "momentum": 0.2, "score": 0.44},
-        {"symbol": "BBB", "sector": "energy", "score": 0.0, "blocked": True},  # blocked
-        {"symbol": "NOPX", "sector": "tech", "momentum": 0.1, "score": 0.1},   # unpriceable
+        {"symbol": "AAA", "sector": "tech", "momentum": 0.2},
+        {"symbol": "BBB", "sector": "energy", "blocked": True},  # blocked
+        {"symbol": "NOPX", "sector": "tech", "momentum": 0.1},   # unpriceable
     ]
     prices = {"AAA": 30.0, "NOPX": None}
     cands_out = candidates_to_ghost(cands, lambda s: prices.get(s))
@@ -22,8 +22,8 @@ def test_candidates_to_ghost_skips_blocked_and_unpriceable():
 
 def test_candidates_to_ghost_stamps_regime_and_chosen():
     cands = [
-        {"symbol": "AAA", "sector": "tech", "momentum": 0.3, "score": 0.5},
-        {"symbol": "BBB", "sector": "energy", "momentum": 0.1, "score": 0.2},
+        {"symbol": "AAA", "sector": "tech", "momentum": 0.3},
+        {"symbol": "BBB", "sector": "energy", "momentum": 0.1},
     ]
     g = candidates_to_ghost(
         cands, lambda s: 50.0,
@@ -35,7 +35,7 @@ def test_candidates_to_ghost_stamps_regime_and_chosen():
 
 
 def test_candidates_to_ghost_chosen_none_when_no_sectors():
-    cands = [{"symbol": "AAA", "sector": "tech", "momentum": 0.1, "score": 0.1}]
+    cands = [{"symbol": "AAA", "sector": "tech", "momentum": 0.1}]
     g = candidates_to_ghost(cands, lambda s: 10.0)
     assert g[0]["features"]["chosen"] is None
     assert g[0]["features"]["regime"] is None
@@ -43,10 +43,10 @@ def test_candidates_to_ghost_chosen_none_when_no_sectors():
 
 def test_signal_report_per_sector_and_momentum_terciles():
     cands = [
-        {"symbol": "T1", "sector": "tech", "momentum": 0.30, "score": 0.4},
-        {"symbol": "T2", "sector": "tech", "momentum": 0.20, "score": 0.3},
-        {"symbol": "E1", "sector": "energy", "momentum": 0.05, "score": 0.1},
-        {"symbol": "E2", "sector": "energy", "momentum": -0.05, "score": 0.0},
+        {"symbol": "T1", "sector": "tech", "momentum": 0.30},
+        {"symbol": "T2", "sector": "tech", "momentum": 0.20},
+        {"symbol": "E1", "sector": "energy", "momentum": 0.05},
+        {"symbol": "E2", "sector": "energy", "momentum": -0.05},
     ]
     entry = {c["symbol"]: 100.0 for c in cands}
     exit_ = {"T1": 130.0, "T2": 120.0, "E1": 102.0, "E2": 95.0}

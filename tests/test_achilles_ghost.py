@@ -122,6 +122,19 @@ def test_drift_report_surprise_and_liquidity_terciles():
     assert rep["liquidity_terciles"]["n"] == 9
 
 
+def test_drift_report_conviction_terciles():
+    entries = []
+    for i in range(9):
+        e = GhostEntry(f"C{i}", "2026-01-01", 100.0, 10, "event",
+                       features={"conviction": i / 10.0, "event_class": "earnings_beat"})
+        e.graded_return = i / 100.0  # higher conviction -> higher return
+        entries.append(e)
+    rep = drift_report(entries)
+    ct = rep["conviction_terciles"]
+    assert ct["monotonic"] is True
+    assert ct["terciles"]["high"]["mean"] > ct["terciles"]["low"]["mean"]
+
+
 def test_drift_report_compound_signal_lift():
     entries = []
     for i in range(3):
