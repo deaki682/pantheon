@@ -424,6 +424,7 @@ def run_backtest(
     dossier_convictions: Optional[dict[str, float]] = None,
     prescreener_quality: Optional[dict[str, float]] = None,
     screen_scores: Optional[dict[str, dict]] = None,
+    quality_override: Optional[float] = None,
 ) -> dict:
     """Run full-fidelity Achilles backtest."""
     dossier_convictions = dossier_convictions or {}
@@ -498,12 +499,15 @@ def run_backtest(
             if mcap > MEGACAP_DECAY_START:
                 continue
 
-            cq = oracle_company_quality(
-                ev.symbol,
-                dossier_convictions=dossier_convictions,
-                prescreener_quality=prescreener_quality,
-                screen_scores=screen_scores,
-            )
+            if quality_override is not None:
+                cq = quality_override
+            else:
+                cq = oracle_company_quality(
+                    ev.symbol,
+                    dossier_convictions=dossier_convictions,
+                    prescreener_quality=prescreener_quality,
+                    screen_scores=screen_scores,
+                )
             score_out = score_event(
                 playbook=pb,
                 event_strength=ev.strength,
@@ -863,6 +867,10 @@ def main():
     parser.add_argument("--cash", type=float, default=1000.0, help="Initial cash")
     parser.add_argument("--conservative", action="store_true", help="Start in conservative mode")
     parser.add_argument("--classes", default="", help="Comma-separated event classes to include (default: all)")
+    parser.add_argument("--quality-override", type=float, default=None,
+                        help="Pin company_quality to this value (ignores Oracle data)")
+    parser.add_argument("--no-earnings-filter", action="store_true",
+                        help="Disable beat filter — treat all earnings 8-Ks as events (old behavior)")
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args()
 
@@ -896,7 +904,7 @@ def main():
     log.info("Building event timeline...")
     events_by_date = build_event_timeline(
         filings,
-        earnings_data=earnings_data,
+        earnings_data=None if args.no_earnings_filter else earnings_data,
         insider_activity=insider_activity,
     )
     total_events = sum(len(v) for v in events_by_date.values())
@@ -920,6 +928,7 @@ def main():
         dossier_convictions=dossier_convictions,
         prescreener_quality=prescreener_quality,
         screen_scores=screen_scores,
+        quality_override=args.quality_override,
     )
 
     # Save results
