@@ -4,6 +4,8 @@ Sector rotator. 7 steps.
 
 ## Steps
 
+0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+
 1. **Safety check.** Refuse if `KILL_SWITCH` exists.
 
 2. **Restore.** Load `cache/delphi_sleeve.json`. If absent, `DelphiSleeve(initial_cash=1000)`.

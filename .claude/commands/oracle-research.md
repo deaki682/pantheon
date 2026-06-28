@@ -6,6 +6,8 @@ between full `/oracle` runs.
 
 ## Steps
 
+0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+
 1. Load existing dossiers from `cache/oracle_dossiers.json`.
 2. Pick 15–40 candidates from `cache/oracle_screen.json`. Research **wider** than the ~8 you'll ultimately hold, so the dossier scoring — not the screen — selects the book. Prefer names you haven't recently dossiered; the goal is to accumulate a bank of ≥30 dossiers across passes so sizing has real choice.
 3. For each candidate, build the dossier **balanced**. The screen surfaces names

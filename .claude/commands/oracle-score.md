@@ -4,6 +4,8 @@ Runs steps 7–12 of `/oracle` only — assumes dossiers are already fresh.
 
 ## Steps
 
+0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+
 1. Restore sleeve from `cache/oracle_sleeve.json`.
 2. Load dossiers from `cache/oracle_dossiers.json`. Refresh `current_price` for each via Robinhood quotes.
 3. Rescore via `oracle.research.rescore_dossier`.

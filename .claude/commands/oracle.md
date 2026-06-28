@@ -6,6 +6,8 @@ breaks, skip the cycle and open a PR; never silently patch the codebase.
 
 ## Steps
 
+0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+
 1. **Safety check.** Run `python -c "from shared.guards import kill_switch_active; assert not kill_switch_active(), 'KILL_SWITCH present — liquidate'"`. If a `KILL_SWITCH` file exists, liquidate all positions via the broker and stop.
 
 2. **Restore state.** Read `cache/oracle_sleeve.json`. If absent, call `/oracle-setup` first.

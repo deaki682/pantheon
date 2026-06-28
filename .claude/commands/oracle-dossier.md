@@ -6,6 +6,8 @@ new dossier to the corpus.
 
 ## Steps
 
+0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+
 1. Load existing dossiers.
 2. Build one new dossier (or as many as requested) via `oracle.research.make_dossier`.
 3. Append to the cache. If a dossier for that symbol already exists, REPLACE it (one dossier per symbol).

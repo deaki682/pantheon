@@ -5,6 +5,8 @@ Event-driven, short-horizon. Runs frequently (multiple times per day).
 
 ## Steps
 
+0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+
 1. **Safety check.** Refuse if `KILL_SWITCH` exists. Liquidate all event positions if so.
 
 2. **Restore.** Load `cache/achilles_sleeve.json`. If absent, create an `AchillesSleeve(initial_cash=1000)`.
