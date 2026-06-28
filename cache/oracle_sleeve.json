@@ -1,33 +1,15 @@
 {
-  "cash": 99.55,
+  "name": "oracle",
+  "cash": 1000.0,
+  "positions": {},
+  "pending_settlements": [],
+  "realized_pnl": 0.0,
+  "gfv_count": 0,
+  "trades_count": 0,
+  "cooldowns": {},
+  "halted": false,
   "contributed_cash": 1000.0,
   "cooldown_days": 31,
-  "cooldowns": {},
-  "gfv_count": 0,
-  "halted": false,
-  "name": "oracle",
-  "peak_equity": 1040.2948874690107,
-  "pending_settlements": [],
-  "positions": {
-    "ESNT": {
-      "avg_price": 59.7199,
-      "entry_date": "2026-06-23",
-      "sector": "Financials",
-      "shares": 5.023451
-    },
-    "MTG": {
-      "avg_price": 26.6099,
-      "entry_date": "2026-06-23",
-      "sector": "Financials",
-      "shares": 11.273999
-    },
-    "RRC": {
-      "avg_price": 36.6827,
-      "entry_date": "2026-06-23",
-      "sector": "Energy",
-      "shares": 8.178242
-    }
-  },
-  "realized_pnl": 0.0,
-  "trades_count": 6
+  "peak_equity": 1000.0,
+  "updated_at": "2026-06-28T23:47:38Z"
 }
