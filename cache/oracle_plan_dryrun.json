@@ -1,5 +1,7 @@
 {
   "date": "2026-06-28",
+  "mode": "paper",
+  "pre_trade_check": "FAILED \u2014 48 broker positions unattributed to sleeves",
   "orders": [
     {
       "side": "buy",
@@ -50,16 +52,5 @@
       "reason": "open_or_add"
     }
   ],
-  "targets": {
-    "VRRM": 112.5,
-    "RLI": 112.5,
-    "FIS": 112.5,
-    "KBR": 112.5,
-    "OLED": 112.5,
-    "THC": 112.5,
-    "WW": 112.5,
-    "RRC": 112.5
-  },
-  "mode": "paper",
-  "halt_reason": "pre_trade_check_failed_sleeve_broker_mismatch_48_symbols"
+  "saved_at": "2026-06-28T12:46:26.942532"
 }
