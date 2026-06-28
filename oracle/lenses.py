@@ -357,5 +357,9 @@ def combine_lenses(
             quality=q,
             sector_breadth=0.0,
         )
+        snap_dict = qrow.get("snapshot") or {}
+        shares = snap_dict.get("shares_diluted") or snap_dict.get("shares_basic")
+        if shares:
+            row["shares"] = shares
         out.append(row)
     return out

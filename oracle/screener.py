@@ -12,13 +12,18 @@ pre-computed signal dicts and emit a ranked survivor list.
 """
 from __future__ import annotations
 
-from typing import Iterable
+import logging
+from typing import Iterable, Optional
 
 from shared.fundamentals import FundamentalSnapshot
 from shared.quality import (
     MIN_QUALITY_COMPONENTS, dilution_score, fcf_margin_score, gross_margin_score,
     mean_of_present, operating_margin_score, revenue_growth_score,
 )
+
+log = logging.getLogger(__name__)
+
+MAX_SCREEN_MCAP = 20_000_000_000  # $20B — filter mega/large-caps from screen
 
 
 def quality_score(snap: FundamentalSnapshot) -> float:
@@ -66,7 +71,28 @@ def multi_lens_score(
     }
 
 
-def rank_survivors(rows: Iterable[dict], *, top_n: int = 100) -> list[dict]:
-    """Sort by score descending and return the top N."""
-    sorted_rows = sorted(rows, key=lambda r: r.get("score", 0.0), reverse=True)
+def rank_survivors(
+    rows: Iterable[dict],
+    *,
+    top_n: int = 100,
+    market_caps: Optional[dict[str, float]] = None,
+    max_mcap: Optional[float] = None,
+) -> list[dict]:
+    """Sort by score descending and return the top N.
+
+    If *market_caps* and *max_mcap* are provided, symbols whose market cap
+    exceeds the ceiling are dropped before ranking.
+    """
+    out = list(rows)
+    if market_caps and max_mcap is not None:
+        before = len(out)
+        out = [
+            r for r in out
+            if market_caps.get(r.get("symbol", ""), 0) <= max_mcap
+            or market_caps.get(r.get("symbol", ""), 0) == 0  # keep unknowns
+        ]
+        dropped = before - len(out)
+        if dropped:
+            log.info("market-cap filter (>$%.0fB): dropped %d names", max_mcap / 1e9, dropped)
+    sorted_rows = sorted(out, key=lambda r: r.get("score", 0.0), reverse=True)
     return sorted_rows[:top_n]

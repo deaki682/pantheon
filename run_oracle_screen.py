@@ -45,7 +45,7 @@ from oracle.lenses import (
     scan_universe_quality,
     search_recent_13d,
 )
-from oracle.screener import rank_survivors
+from oracle.screener import MAX_SCREEN_MCAP, rank_survivors
 from oracle.smart_money import SMART_MONEY_FUNDS, parse_13f_information_table, smart_money_holders
 
 
@@ -231,7 +231,32 @@ def run_quality(sym_to_cik: dict, cache_dir: Path) -> None:
 
 # ---- Combine + rank ----
 
-def combine_and_rank(cache_dir: Path) -> None:
+def _estimate_market_caps(rows: list[dict]) -> dict[str, float]:
+    """Best-effort market cap estimation from shares × broker price.
+
+    Falls back gracefully when the broker is unavailable (CLI runs without
+    Robinhood credentials).  Returns {SYMBOL: market_cap} for symbols where
+    both shares and price are known.
+    """
+    need_price = {r["symbol"]: r["shares"] for r in rows if r.get("shares")}
+    if not need_price:
+        return {}
+    try:
+        from shared.broker import get_latest_prices
+        prices = get_latest_prices(list(need_price.keys()))
+    except Exception:
+        log("mcap", "broker unavailable — skipping market-cap filter")
+        return {}
+    caps: dict[str, float] = {}
+    for sym, shares in need_price.items():
+        px = prices.get(sym)
+        if px:
+            caps[sym] = shares * px
+    log("mcap", f"estimated market caps for {len(caps)}/{len(need_price)} symbols")
+    return caps
+
+
+def combine_and_rank(cache_dir: Path, *, max_mcap: float | None = MAX_SCREEN_MCAP) -> None:
     insiders_data = json.loads((cache_dir / "oracle_insider_clusters.json").read_text())["clusters"]
     quality_data = json.loads((cache_dir / "oracle_prescreener.json").read_text())["rows"]
     sm_data = json.loads((cache_dir / "oracle_smart_money.json").read_text())["holders"]
@@ -256,11 +281,14 @@ def combine_and_rank(cache_dir: Path) -> None:
         activist_symbols=act_data,
         quality_rows=quality_data,
     )
-    top = rank_survivors(rows, top_n=100)
+
+    market_caps = _estimate_market_caps(rows) if max_mcap else {}
+    top = rank_survivors(rows, top_n=100, market_caps=market_caps, max_mcap=max_mcap)
     write_json_atomic(cache_dir / "oracle_screen.json", {
         "top": top, "n_universe_hits": len(rows), "updated_at": _utc_now(),
     })
-    log("combine", f"DONE — {len(rows)} universe hits, top {len(top)} ranked")
+    dropped = len(rows) - len([r for r in rows if market_caps.get(r["symbol"], 0) <= (max_mcap or float("inf")) or market_caps.get(r["symbol"], 0) == 0])
+    log("combine", f"DONE — {len(rows)} universe hits, {dropped} filtered by mcap, top {len(top)} ranked")
 
 
 # ---- Lens health: fail loud on silent empties ----
@@ -364,6 +392,8 @@ def main(argv=None) -> int:
     ap.add_argument("--repo-dir", default=".", help="path to git repo for persist (default: cwd)")
     ap.add_argument("--skip-combine", action="store_true",
                      help="don't combine/rank or assess health (single-lens matrix jobs)")
+    ap.add_argument("--max-mcap", type=float, default=MAX_SCREEN_MCAP,
+                     help="market cap ceiling in dollars (default: $20B). Set 0 to disable.")
     ap.add_argument("--allow-empty", action="store_true",
                      help="persist and exit 0 even if a lens looks systemically empty")
     args = ap.parse_args(argv)
@@ -413,8 +443,9 @@ def main(argv=None) -> int:
         log("combine", "skipped (--skip-combine)")
     else:
         # Combine + rank (pulls from whatever cache files exist)
+        mcap_limit = args.max_mcap if args.max_mcap > 0 else None
         try:
-            combine_and_rank(cache_dir)
+            combine_and_rank(cache_dir, max_mcap=mcap_limit)
         except (FileNotFoundError, KeyError) as e:
             log("combine", f"skipped — missing lens output: {e}")
         # Fail loud if a lens silently returned nothing.
