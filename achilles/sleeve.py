@@ -25,7 +25,7 @@ MAX_TRADES_PER_DAY = 5
 MIN_SCORE_TO_OPEN = 0.05
 PER_POSITION_CAP_FRAC = 0.10
 PER_POSITION_MIN = 100.0
-PER_POSITION_MAX = 400.0
+PER_POSITION_MAX = 200.0
 CONSERVATIVE_HALVE = 0.5
 FEE_BPS = 5  # 5 basis points
 
@@ -144,16 +144,19 @@ class AchillesSleeve:
 
     # ------- position sizing -------
 
-    def position_dollars(self, score: float) -> float:
-        """Compute the absolute-dollar entry size from sleeve equity and score.
+    def position_dollars(self, score: float, conviction: float = 1.0) -> float:
+        """Compute the absolute-dollar entry size from sleeve equity, score, and conviction.
 
-        cap = 10% of equity, clamped to [$100, $400]. Halved in conservative mode.
+        Base = PER_POSITION_CAP_FRAC of equity, scaled by conviction multiplier.
+        Conviction comes from signal convergence: more converging signals → bigger bet.
+        Clamped to [PER_POSITION_MIN, PER_POSITION_MAX]. Halved in conservative mode.
         """
-        cap = PER_POSITION_CAP_FRAC * self.equity()
-        cap = max(PER_POSITION_MIN, min(PER_POSITION_MAX, cap))
+        base = PER_POSITION_CAP_FRAC * self.equity()
+        sized = base * max(1.0, conviction)
+        sized = max(PER_POSITION_MIN, min(PER_POSITION_MAX, sized))
         if self.conservative_mode:
-            cap *= CONSERVATIVE_HALVE
-        return float(cap)
+            sized *= CONSERVATIVE_HALVE
+        return float(sized)
 
     # ------- open / close -------
 
@@ -171,6 +174,7 @@ class AchillesSleeve:
         today: str,
         trail_armed_at: float = 0.0,
         trail_pct: float = 0.0,
+        conviction: float = 1.0,
     ) -> Optional[AchillesPosition]:
         """Open a position. Returns the position on success, None on rejection."""
         if self.halted:
@@ -187,7 +191,7 @@ class AchillesSleeve:
         if self._trades_today >= MAX_TRADES_PER_DAY:
             return None
 
-        dollars = self.position_dollars(score)
+        dollars = self.position_dollars(score, conviction=conviction)
         if dollars <= 0 or dollars > self.cash + 1e-9:
             return None
         fee = dollars * FEE_BPS / 10_000

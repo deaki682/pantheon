@@ -46,6 +46,12 @@ from achilles.oracle_bridge import (
     load_screen_scores,
     QUALITY_DEFAULT,
 )
+from achilles.convergence import (
+    neglect_premium,
+    conviction_multiplier,
+    extract_convergence_signals,
+    build_prescreener_lookup,
+)
 from achilles.exits import evaluate as evaluate_exit
 from achilles.journal import TradeEntry, round_trip_pnl, per_class_stats
 
@@ -439,11 +445,21 @@ def run_backtest(
     prescreener_quality: Optional[dict[str, float]] = None,
     screen_scores: Optional[dict[str, dict]] = None,
     quality_override: Optional[float] = None,
+    prescreener_snapshots: Optional[dict[str, dict]] = None,
+    benchmark_daily_return: Optional[float] = None,
 ) -> dict:
-    """Run full-fidelity Achilles backtest."""
+    """Run full-fidelity Achilles backtest.
+
+    New convergence features:
+      - neglect_premium replaces company_quality (inverts the signal)
+      - conviction_multiplier stacks Oracle signals for position sizing
+      - prescreener_snapshots: {SYM: {snapshot}} for convergence signals
+      - benchmark_daily_return: daily return to apply to idle cash (IWM overlay)
+    """
     dossier_convictions = dossier_convictions or {}
     prescreener_quality = prescreener_quality or {}
     screen_scores = screen_scores or {}
+    prescreener_snapshots = prescreener_snapshots or {}
 
     trading_days = get_trading_days(prices)
     if start_date:
@@ -513,21 +529,27 @@ def run_backtest(
             if mcap > MEGACAP_DECAY_START:
                 continue
 
+            # Oracle quality for convergence sizing
+            oq = oracle_company_quality(
+                ev.symbol,
+                dossier_convictions=dossier_convictions,
+                prescreener_quality=prescreener_quality,
+                screen_scores=screen_scores,
+            )
+
+            # Scoring: for PEAD events, don't gate on quality — the drift
+            # works regardless. Use neglect as a mild boost instead.
             if quality_override is not None:
-                cq = quality_override
+                score_quality = quality_override
             elif ev.event_class == "earnings_reaction":
-                cq = 1.0
+                score_quality = max(0.85, neglect_premium(oq))
             else:
-                cq = oracle_company_quality(
-                    ev.symbol,
-                    dossier_convictions=dossier_convictions,
-                    prescreener_quality=prescreener_quality,
-                    screen_scores=screen_scores,
-                )
+                score_quality = neglect_premium(oq)
+
             score_out = score_event(
                 playbook=pb,
                 event_strength=ev.strength,
-                company_quality=cq,
+                neglect=score_quality,
                 market_cap=mcap,
                 first_seen_iso=f"{today}T10:00:00",
                 now=datetime.strptime(f"{today}T10:00:00", "%Y-%m-%dT%H:%M:%S"),
@@ -545,6 +567,15 @@ def run_backtest(
             if sleeve.halted:
                 total_blocked += 1
                 continue
+
+            # Compute convergence signals for position sizing
+            conv_signals = extract_convergence_signals(
+                ev.symbol,
+                prescreener_rows=prescreener_snapshots,
+                event_metadata=ev.metadata,
+                oracle_quality=oq,
+            )
+            conviction = conviction_multiplier(**conv_signals)
 
             # Compute play parameters
             hard_stop_price = entry_price * (1.0 + pb.hard_stop_pct)
@@ -565,6 +596,7 @@ def run_backtest(
                 today=today,
                 trail_armed_at=pb.trail_armed_at,
                 trail_pct=pb.trail_pct,
+                conviction=conviction,
             )
             if pos is None:
                 total_blocked += 1
@@ -645,7 +677,14 @@ def run_backtest(
                         record_outcome(pb, hit=(realized > 0))
                         maybe_autodisable(pb)
 
-        # ── 6. Record equity ──
+        # ── 7. Benchmark overlay: idle cash earns IWM return ──
+        if benchmark_daily_return and benchmark_daily_return > 0:
+            idle = max(0.0, sleeve.cash)
+            if idle > 0:
+                bench_gain = idle * benchmark_daily_return
+                sleeve.cash += bench_gain
+
+        # ── 8. Record equity ──
         eq = sleeve.equity(today_prices)
         equity_curve.append({
             "date": today,
@@ -918,9 +957,19 @@ def main():
     prescreener_quality = load_prescreener_quality()
     insider_activity = load_insider_activity()
     screen_scores = load_screen_scores()
-    log.info("Oracle data: %d dossiers, %d prescreener, %d insider clusters, %d screen",
+
+    # Load prescreener snapshots for convergence scoring
+    import json as _json
+    try:
+        with open("cache/oracle_prescreener.json") as _f:
+            _ps_data = _json.load(_f)
+        prescreener_snapshots = build_prescreener_lookup(_ps_data.get("rows", []))
+    except (FileNotFoundError, _json.JSONDecodeError):
+        prescreener_snapshots = {}
+
+    log.info("Oracle data: %d dossiers, %d prescreener, %d insider clusters, %d screen, %d snapshots",
              len(dossier_convictions), len(prescreener_quality),
-             len(insider_activity), len(screen_scores))
+             len(insider_activity), len(screen_scores), len(prescreener_snapshots))
 
     log.info("Building event timeline...")
     events_by_date = build_event_timeline(
@@ -938,6 +987,10 @@ def main():
     if event_classes:
         log.info("Filtering to event classes: %s", event_classes)
 
+    # IWM benchmark daily return for idle cash overlay
+    # IWM +37.95% over ~250 trading days → daily compound return
+    iwm_daily = (1.3795 ** (1.0 / 250)) - 1  # ~0.129% per day
+
     log.info("Running simulation...")
     output = run_backtest(
         prices, events_by_date, market_caps,
@@ -950,6 +1003,8 @@ def main():
         prescreener_quality=prescreener_quality,
         screen_scores=screen_scores,
         quality_override=args.quality_override,
+        prescreener_snapshots=prescreener_snapshots,
+        benchmark_daily_return=iwm_daily,
     )
 
     # Save results

@@ -45,6 +45,12 @@ from .oracle_bridge import (
     load_prescreener_quality,
     load_screen_scores,
 )
+from .convergence import (
+    neglect_premium,
+    conviction_multiplier,
+    extract_convergence_signals,
+    build_prescreener_lookup,
+)
 from .playbooks import build_playbooks
 from .scoring import score_event
 from .sleeve import AchillesSleeve
@@ -354,19 +360,21 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
             continue
 
         mcap = market_caps.get(ev.symbol, 500_000_000)
+        oq = oracle_company_quality(
+            ev.symbol,
+            dossier_convictions=dossier_convictions,
+            prescreener_quality=prescreener_quality,
+            screen_scores=screen_scores,
+        )
         if ev.event_class == "earnings_reaction":
-            cq = 1.0
+            score_quality = max(0.85, neglect_premium(oq))
         else:
-            cq = oracle_company_quality(
-                ev.symbol,
-                dossier_convictions=dossier_convictions,
-                prescreener_quality=prescreener_quality,
-                screen_scores=screen_scores,
-            )
+            score_quality = neglect_premium(oq)
+
         score_out = score_event(
             playbook=pb,
             event_strength=ev.strength,
-            company_quality=cq,
+            neglect=score_quality,
             market_cap=mcap,
             first_seen_iso=now_iso,
             disqualifier_flags=ev.metadata.get("disqualifiers", []),
@@ -386,9 +394,15 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
             log.info("  %-6s score=%.3f — awaiting quote", ev.symbol, score_out["score"])
             continue
 
+        conv_signals = extract_convergence_signals(
+            ev.symbol,
+            event_metadata=ev.metadata,
+            oracle_quality=oq,
+        )
+        conviction = conviction_multiplier(**conv_signals)
         play = build_play(
             pb, entry_price, today,
-            sleeve.position_dollars(score_out["score"]),
+            sleeve.position_dollars(score_out["score"], conviction=conviction),
         )
         brief = make_brief(
             event_id=ev.event_id,

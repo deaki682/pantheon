@@ -1,9 +1,12 @@
 """Multiplicative event scoring.
 
-score = base_rate × event_strength × company_quality × liquidity × time_decay
+score = base_rate × event_strength × neglect × liquidity × time_decay
 
 Multiplicative is intentional: any weak factor hurts the whole score. You
 can't compensate for terrible liquidity with great event strength.
+
+The neglect factor replaces the old company_quality: PEAD drift is
+strongest in under-followed names, so neglected stocks score HIGHER.
 
 Disqualifiers (universal OR per-class) zero the score entirely.
 """
@@ -132,24 +135,31 @@ def score_event(
     *,
     playbook: Playbook,
     event_strength: float,
-    company_quality: float,
+    company_quality: float = 1.0,
+    neglect: Optional[float] = None,
     market_cap: Optional[float],
     first_seen_iso: str,
     disqualifier_flags: Iterable[str] = (),
     now: Optional[datetime] = None,
 ) -> dict:
-    """Compute the multiplicative score. Disqualifiers zero it out."""
+    """Compute the multiplicative score. Disqualifiers zero it out.
+
+    The neglect parameter (if provided) replaces company_quality in the
+    scoring formula. This inverts the quality signal: neglected stocks
+    score HIGHER because PEAD drift is strongest where coverage is thin.
+    """
     if playbook.disabled:
         return {"score": 0.0, "reason": "playbook_disabled"}
     if has_disqualifier(disqualifier_flags, playbook.event_class):
         return {"score": 0.0, "reason": "disqualified"}
 
+    quality_factor = neglect if neglect is not None else company_quality
     liq = liquidity_score(market_cap)
     td = time_decay(first_seen_iso, now=now)
     raw = (
         max(0.0, playbook.base_rate)
         * max(0.0, event_strength)
-        * max(0.0, company_quality)
+        * max(0.0, quality_factor)
         * max(0.0, liq)
         * max(0.0, td)
     )
@@ -158,7 +168,7 @@ def score_event(
         "components": {
             "base_rate": playbook.base_rate,
             "event_strength": event_strength,
-            "company_quality": company_quality,
+            "neglect": quality_factor,
             "liquidity": liq,
             "time_decay": td,
         },

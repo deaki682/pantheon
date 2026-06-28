@@ -30,13 +30,13 @@ def test_constants():
     assert MIN_SCORE_TO_OPEN == 0.05
     assert PER_POSITION_CAP_FRAC == 0.10
     assert PER_POSITION_MIN == 100.0
-    assert PER_POSITION_MAX == 400.0
+    assert PER_POSITION_MAX == 200.0
 
 
 def test_position_dollars_clamped():
     s = AchillesSleeve(initial_cash=10000, conservative_mode=False)
-    # 10% of $10k = $1000, clamped to $400 max
-    assert s.position_dollars(score=0.5) == 400.0
+    # 10% of $10k = $1000, clamped to $200 max
+    assert s.position_dollars(score=0.5) == 200.0
 
 
 def test_position_dollars_min_floor():
@@ -47,8 +47,16 @@ def test_position_dollars_min_floor():
 
 def test_position_dollars_conservative_halves():
     s = AchillesSleeve(initial_cash=10000, conservative_mode=True)
-    # Otherwise $400, halved to $200
-    assert s.position_dollars(score=0.5) == 200.0
+    # Otherwise $200, halved to $100
+    assert s.position_dollars(score=0.5) == 100.0
+
+
+def test_position_dollars_conviction_scales():
+    s = AchillesSleeve(initial_cash=1000, conservative_mode=False)
+    # 10% of $1k = $100, conviction 2.0 → $200, within [$100, $200]
+    assert s.position_dollars(score=0.5, conviction=2.0) == 200.0
+    # conviction 1.0 → base $100
+    assert s.position_dollars(score=0.5, conviction=1.0) == 100.0
 
 
 def _open_args():
@@ -71,8 +79,8 @@ def test_open_succeeds():
     assert pos is not None
     assert pos.event_id == "e1"
     assert pos.symbol == "ACME"
-    assert pos.dollars_at_entry == 400.0
-    assert pos.shares == pytest.approx(40.0)
+    assert pos.dollars_at_entry == 200.0
+    assert pos.shares == pytest.approx(20.0)
 
 
 def test_open_event_keyed_same_symbol_two_events():
@@ -142,9 +150,9 @@ def test_close_realizes_pnl():
     s.open(**_open_args())
     realized = s.close("e1", exit_price=12.0, today="2024-06-01")
     assert realized is not None
-    # Bought 40 shares at 10 for ~$400 (+fee). Sold 40 at 12 = $480 - fee.
-    # PnL ~ +$80 minus fees.
-    assert realized > 70
+    # Bought 20 shares at 10 for ~$200 (+fee). Sold 20 at 12 = $240 - fee.
+    # PnL ~ +$40 minus fees.
+    assert realized > 35
 
 
 def test_close_unknown_position():

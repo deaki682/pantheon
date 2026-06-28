@@ -259,7 +259,7 @@ def test_classify_regime_exactly_at_thresholds():
 
 def test_achilles_position_dollars_zero_equity():
     s = AchillesSleeve(initial_cash=0)
-    # 10% of $0 = $0, clamped to $100 min -> $100, then halved -> $50
+    # 10% of $0 = $0, clamped to $100 min, then halved (conservative default) → $50
     out = s.position_dollars(score=0.5)
     assert out == 50.0
 

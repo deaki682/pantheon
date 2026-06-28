@@ -158,5 +158,5 @@ def test_score_event_components_in_output():
         now=now,
     )
     assert "components" in out
-    for k in ("base_rate", "event_strength", "company_quality", "liquidity", "time_decay"):
+    for k in ("base_rate", "event_strength", "neglect", "liquidity", "time_decay"):
         assert k in out["components"]
