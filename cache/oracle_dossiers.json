@@ -7,14 +7,14 @@
       "scenarios": {
         "bull": {
           "target": 330.0,
-          "probability": 0.3
+          "probability": 0.28
         },
         "base": {
-          "target": 275.0,
-          "probability": 0.45
+          "target": 278.0,
+          "probability": 0.47
         },
         "bear": {
-          "target": 200.0,
+          "target": 205.0,
           "probability": 0.25
         }
       },
@@ -36,15 +36,15 @@
       "created_at": "2026-06-28T01:00:55.923303",
       "drawdown_from_high": 0.26868675415969845,
       "derived": {
-        "expected_price": 272.75,
-        "expected_return": 0.057170542635659016,
-        "expected_cagr": 0.028187989929691293,
-        "asymmetry": 1.489655172413793,
+        "expected_price": 274.31,
+        "expected_return": 0.06321705426356594,
+        "expected_cagr": 0.031124170148079555,
+        "asymmetry": 1.5215094339622643,
         "quality_mult": 1.0875,
-        "asymmetry_mult": 1.2205143065174586,
-        "potential_score": 0.03741418141700962
+        "asymmetry_mult": 1.233494805000112,
+        "potential_score": 0.041750758629010315
       },
-      "conviction": 0.05204555397291388
+      "conviction": 0.05790008287754256
     },
     {
       "symbol": "EXE",
@@ -52,16 +52,16 @@
       "thesis": "Premier large-cap gas pure-play levered to LNG/data-center demand, cheap on normalized gas. CONTESTED: commodity price-taker into a likely 2026+ gas/LNG glut with no permanent CEO.",
       "scenarios": {
         "bull": {
-          "target": 140.0,
+          "target": 145.0,
           "probability": 0.3
         },
         "base": {
-          "target": 100.0,
-          "probability": 0.4
+          "target": 105.0,
+          "probability": 0.43
         },
         "bear": {
-          "target": 65.0,
-          "probability": 0.3
+          "target": 72.0,
+          "probability": 0.27
         }
       },
       "ratings": {
@@ -82,15 +82,15 @@
       "created_at": "2026-06-28T01:00:55.923367",
       "drawdown_from_high": 0.30129521402622017,
       "derived": {
-        "expected_price": 101.5,
-        "expected_return": 0.1472815643721035,
-        "expected_cagr": 0.07111230240909072,
-        "asymmetry": 2.1955688112484024,
+        "expected_price": 108.09,
+        "expected_return": 0.22177009155645977,
+        "expected_cagr": 0.1053370940832754,
+        "asymmetry": 3.8136679484584763,
         "quality_mult": 1.0125000000000002,
-        "asymmetry_mult": 1.4817451910664001,
-        "potential_score": 0.1066874410218339
+        "asymmetry_mult": 1.9528614770276145,
+        "potential_score": 0.2082801125514778
       },
-      "conviction": 0.14136437323327866
+      "conviction": 0.2573593643297589
     },
     {
       "symbol": "GRNT",
@@ -99,14 +99,14 @@
       "scenarios": {
         "bull": {
           "target": 8.5,
-          "probability": 0.3
+          "probability": 0.28
         },
         "base": {
           "target": 5.5,
-          "probability": 0.4
+          "probability": 0.42
         },
         "bear": {
-          "target": 3.0,
+          "target": 3.25,
           "probability": 0.3
         }
       },
@@ -128,15 +128,15 @@
       "created_at": "2026-06-28T01:00:55.923386",
       "drawdown_from_high": 0.24851190476190477,
       "derived": {
-        "expected_price": 5.65,
-        "expected_return": 0.11881188118811892,
-        "expected_cagr": 0.05773904210259673,
-        "asymmetry": 1.6829268292682928,
+        "expected_price": 5.665,
+        "expected_return": 0.12178217821782189,
+        "expected_cagr": 0.05914218980164421,
+        "asymmetry": 1.7888888888888894,
         "quality_mult": 0.9375,
-        "asymmetry_mult": 1.2972766972655807,
-        "potential_score": 0.07022204422700155
+        "asymmetry_mult": 1.3374935098492589,
+        "potential_score": 0.07415840157934889
       },
-      "conviction": 0.0954495563395601
+      "conviction": 0.10052190084324175
     },
     {
       "symbol": "TKO",
@@ -144,15 +144,15 @@
       "thesis": "Quasi-monopoly live-sports content with rights-renewal tailwinds; in-the-money C-suite cluster buy. CONTESTED: near all-time highs at ~79x P/E after two straight misses \u2014 paying full freight.",
       "scenarios": {
         "bull": {
-          "target": 300.0,
+          "target": 305.0,
           "probability": 0.3
         },
         "base": {
-          "target": 230.0,
+          "target": 238.0,
           "probability": 0.45
         },
         "bear": {
-          "target": 150.0,
+          "target": 160.0,
           "probability": 0.25
         }
       },
@@ -174,15 +174,15 @@
       "created_at": "2026-06-28T01:00:55.923406",
       "drawdown_from_high": 0.04917599365471048,
       "derived": {
-        "expected_price": 231.0,
-        "expected_return": 0.07053480396700351,
-        "expected_cagr": 0.03466651824005762,
-        "asymmetry": 1.5363940407418666,
+        "expected_price": 238.60000000000002,
+        "expected_return": 0.1057558624524979,
+        "expected_cagr": 0.05154926772476909,
+        "asymmetry": 1.9193976335604157,
         "quality_mult": 1.2374999999999998,
-        "asymmetry_mult": 1.2395136307204802,
-        "potential_score": 0.053174907086612315
+        "asymmetry_mult": 1.385423268737903,
+        "potential_score": 0.08837922430296488
       },
-      "conviction": 0.07315056924684504
+      "conviction": 0.11861084833159874
     },
     {
       "symbol": "EVTC",
@@ -191,15 +191,15 @@
       "scenarios": {
         "bull": {
           "target": 38.0,
-          "probability": 0.3
+          "probability": 0.35
         },
         "base": {
-          "target": 30.0,
-          "probability": 0.4
+          "target": 31.0,
+          "probability": 0.45
         },
         "bear": {
-          "target": 18.0,
-          "probability": 0.3
+          "target": 22.0,
+          "probability": 0.2
         }
       },
       "ratings": {
@@ -220,15 +220,15 @@
       "created_at": "2026-06-28T01:00:55.923418",
       "drawdown_from_high": 0.2756384808786555,
       "derived": {
-        "expected_price": 28.799999999999997,
-        "expected_return": 0.05224698575082187,
-        "expected_cagr": 0.025790907422571063,
-        "asymmetry": 1.1344717182497328,
+        "expected_price": 31.65,
+        "expected_return": 0.15637559371574716,
+        "expected_cagr": 0.07534905668612879,
+        "asymmetry": 3.4641527001862182,
         "quality_mult": 1.05,
-        "asymmetry_mult": 1.0651158238659928,
-        "potential_score": 0.028843818788025496
+        "asymmetry_mult": 1.8612234417678652,
+        "potential_score": 0.14725350215028454
       },
-      "conviction": 0.040368051884299705
+      "conviction": 0.18970925066707078
     },
     {
       "symbol": "RHLD",
@@ -236,16 +236,16 @@
       "thesis": "Capital-light fee stream run by activist operators with roll-up ambition. FALLING KNIFE: misidentified ticker, richly valued, illiquid micro-float, related-party conflicts, bear target ~$26.",
       "scenarios": {
         "bull": {
-          "target": 200.0,
-          "probability": 0.25
+          "target": 180.0,
+          "probability": 0.22
         },
         "base": {
-          "target": 120.0,
+          "target": 110.0,
           "probability": 0.35
         },
         "bear": {
           "target": 45.0,
-          "probability": 0.4
+          "probability": 0.43
         }
       },
       "ratings": {
@@ -266,13 +266,13 @@
       "created_at": "2026-06-28T01:00:55.923427",
       "drawdown_from_high": 0.4342690207036708,
       "derived": {
-        "expected_price": 110.0,
-        "expected_return": -0.17676994461906903,
-        "expected_cagr": -0.09267973935278451,
-        "asymmetry": 0.4681505303543218,
+        "expected_price": 97.44999999999999,
+        "expected_return": -0.27069301002843893,
+        "expected_cagr": -0.14600527520858708,
+        "asymmetry": 0.2677646391963597,
         "quality_mult": 0.9625,
-        "asymmetry_mult": 0.6842152660927128,
-        "potential_score": -0.06103490905306864
+        "asymmetry_mult": 0.517459794763187,
+        "potential_score": -0.07271866500338643
       },
       "conviction": 0.0
     },
@@ -283,15 +283,15 @@
       "scenarios": {
         "bull": {
           "target": 300.0,
-          "probability": 0.25
+          "probability": 0.32
         },
         "base": {
-          "target": 175.0,
+          "target": 195.0,
           "probability": 0.45
         },
         "bear": {
-          "target": 85.0,
-          "probability": 0.3
+          "target": 115.0,
+          "probability": 0.23
         }
       },
       "ratings": {
@@ -312,15 +312,15 @@
       "created_at": "2026-06-28T01:00:55.923436",
       "drawdown_from_high": 0.577321911632101,
       "derived": {
-        "expected_price": 179.25,
-        "expected_return": 0.19500000000000006,
-        "expected_cagr": 0.09316055545377244,
-        "asymmetry": 1.9230769230769231,
+        "expected_price": 210.2,
+        "expected_return": 0.4013333333333333,
+        "expected_cagr": 0.18377925870211675,
+        "asymmetry": 5.962732919254658,
         "quality_mult": 1.0625,
-        "asymmetry_mult": 1.3867504905630728,
-        "potential_score": 0.13726484885018772
+        "asymmetry_mult": 2.0,
+        "potential_score": 0.39053092474199813
       },
-      "conviction": 0.1780639140063044
+      "conviction": 0.4275908929062655
     },
     {
       "symbol": "CAVA",
@@ -329,15 +329,15 @@
       "scenarios": {
         "bull": {
           "target": 150.0,
-          "probability": 0.2
+          "probability": 0.18
         },
         "base": {
-          "target": 90.0,
-          "probability": 0.45
+          "target": 85.0,
+          "probability": 0.44
         },
         "bear": {
           "target": 48.0,
-          "probability": 0.35
+          "probability": 0.38
         }
       },
       "ratings": {
@@ -358,15 +358,15 @@
       "created_at": "2026-06-28T01:00:55.923448",
       "drawdown_from_high": 0.15143233120761213,
       "derived": {
-        "expected_price": 87.3,
-        "expected_return": 0.04139329595610164,
-        "expected_cagr": 0.02048679362160377,
-        "asymmetry": 1.0553008253259442,
+        "expected_price": 82.64000000000001,
+        "expected_return": -0.01419539544315862,
+        "expected_cagr": -0.0071230667616245524,
+        "asymmetry": 0.8747888420465062,
         "quality_mult": 1.125,
-        "asymmetry_mult": 1.0272783582486025,
-        "potential_score": 0.023676344682051445
+        "asymmetry_mult": 0.9353014712094204,
+        "potential_score": -0.007494991674379161
       },
-      "conviction": 0.03325773498516549
+      "conviction": 0.0
     },
     {
       "symbol": "OLED",
@@ -375,15 +375,15 @@
       "scenarios": {
         "bull": {
           "target": 135.0,
-          "probability": 0.25
+          "probability": 0.27
         },
         "base": {
-          "target": 90.0,
+          "target": 92.0,
           "probability": 0.45
         },
         "bear": {
-          "target": 55.0,
-          "probability": 0.3
+          "target": 58.0,
+          "probability": 0.28
         }
       },
       "ratings": {
@@ -404,15 +404,15 @@
       "created_at": "2026-06-28T01:00:55.923467",
       "drawdown_from_high": 0.46316826804631694,
       "derived": {
-        "expected_price": 90.75,
-        "expected_return": 0.0411886186324002,
-        "expected_cagr": 0.02038650453266988,
-        "asymmetry": 1.2396351575456057,
+        "expected_price": 94.09,
+        "expected_return": 0.07950894905920158,
+        "expected_cagr": 0.038994200686029545,
+        "asymmetry": 1.5820105820105823,
         "quality_mult": 1.05,
-        "asymmetry_mult": 1.1133890414161645,
-        "potential_score": 0.023833016276428393
+        "asymmetry_mult": 1.2577800213115895,
+        "potential_score": 0.05149843289839778
       },
-      "conviction": 0.033474083704493895
+      "conviction": 0.07092813877960191
     },
     {
       "symbol": "CELH",
@@ -421,15 +421,15 @@
       "scenarios": {
         "bull": {
           "target": 48.0,
-          "probability": 0.25
+          "probability": 0.27
         },
         "base": {
-          "target": 32.0,
+          "target": 33.0,
           "probability": 0.45
         },
         "bear": {
-          "target": 18.0,
-          "probability": 0.3
+          "target": 20.0,
+          "probability": 0.28
         }
       },
       "ratings": {
@@ -450,15 +450,15 @@
       "created_at": "2026-06-28T01:00:55.923481",
       "drawdown_from_high": 0.5534911597243033,
       "derived": {
-        "expected_price": 31.799999999999997,
-        "expected_return": 0.06711409395973145,
-        "expected_cagr": 0.033012146085287464,
-        "asymmetry": 1.2853107344632768,
+        "expected_price": 33.410000000000004,
+        "expected_return": 0.12114093959731553,
+        "expected_cagr": 0.058839430507438006,
+        "asymmetry": 1.7908163265306116,
         "quality_mult": 1.0125,
-        "asymmetry_mult": 1.1337154556868654,
-        "potential_score": 0.03789420999531158
+        "asymmetry_mult": 1.3382138567996564,
+        "potential_score": 0.07972398799664465
       },
-      "conviction": 0.05269539573846471
+      "conviction": 0.10764514983582885
     },
     {
       "symbol": "CPRT",
@@ -466,16 +466,16 @@
       "thesis": "Best-in-class auction duopolist at the cheapest multiple in years, ASPs +5% showing pricing power. CONTESTED: whether falling insurance total-loss VOLUME is cyclical or a structural underinsurance shift is the open question; 13F signal is mixed.",
       "scenarios": {
         "bull": {
-          "target": 45.0,
-          "probability": 0.3
+          "target": 46.0,
+          "probability": 0.35
         },
         "base": {
-          "target": 33.0,
+          "target": 36.0,
           "probability": 0.45
         },
         "bear": {
-          "target": 22.0,
-          "probability": 0.25
+          "target": 26.0,
+          "probability": 0.2
         }
       },
       "ratings": {
@@ -496,15 +496,15 @@
       "created_at": "2026-06-28T01:00:55.923490",
       "drawdown_from_high": 0.39233685891039716,
       "derived": {
-        "expected_price": 33.85,
-        "expected_return": 0.11165845648604278,
-        "expected_cagr": 0.0543521501310853,
-        "asymmetry": 2.0662721893491125,
+        "expected_price": 37.5,
+        "expected_return": 0.23152709359605916,
+        "expected_cagr": 0.10974190404618822,
+        "asymmetry": 6.115168539325843,
         "quality_mult": 1.275,
-        "asymmetry_mult": 1.437453369452071,
-        "potential_score": 0.09961406871218906
+        "asymmetry_mult": 2.0,
+        "potential_score": 0.27984185531777994
       },
-      "conviction": 0.13264403232634214
+      "conviction": 0.32952849749831437
     },
     {
       "symbol": "EQPT",
@@ -512,16 +512,16 @@
       "thesis": "Fast-growing (rental +34%) rental+software story founder-led with big insider ownership. FALLING KNIFE: unprofitable post-IPO, ~$3B debt, cash burn with dilution risk; screen's 'activist 13D' is actually the founder.",
       "scenarios": {
         "bull": {
-          "target": 34.0,
-          "probability": 0.25
+          "target": 32.0,
+          "probability": 0.24
         },
         "base": {
-          "target": 20.0,
+          "target": 19.0,
           "probability": 0.4
         },
         "bear": {
           "target": 9.0,
-          "probability": 0.35
+          "probability": 0.36
         }
       },
       "ratings": {
@@ -542,16 +542,16 @@
       "created_at": "2026-06-28T01:00:55.923500",
       "drawdown_from_high": 0.4129577464788733,
       "derived": {
-        "expected_price": 19.65,
-        "expected_return": -0.05710172744721698,
-        "expected_cagr": -0.02897050891706532,
-        "asymmetry": 0.7939189189189189,
+        "expected_price": 18.52,
+        "expected_return": -0.1113243761996161,
+        "expected_cagr": -0.05730406609533745,
+        "asymmetry": 0.6283783783783784,
         "quality_mult": 0.9,
-        "asymmetry_mult": 0.8910212786005275,
-        "potential_score": -0.023232005907292373
+        "asymmetry_mult": 0.79270320951689,
+        "potential_score": -0.04088260540092779
       },
       "conviction": 0.0
     }
   ],
-  "saved_at": "2026-06-28T01:00:55.923822"
+  "saved_at": "2026-06-28T01:18:16.098376"
 }
