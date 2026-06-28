@@ -110,3 +110,50 @@ def test_missing_symbol_rejected():
     d["symbol"] = ""
     with pytest.raises(DossierError):
         validate_dossier(d)
+
+
+def test_drawdown_from_high():
+    from oracle.dossier_check import drawdown_from_high
+    assert drawdown_from_high(50.0, 100.0) == 0.5
+    assert drawdown_from_high(100.0, 100.0) == 0.0
+    assert drawdown_from_high(50.0, 0) == 0.0   # missing high -> no flag
+    assert drawdown_from_high(0, 100.0) == 0.0
+
+
+def test_falling_knife_requires_decline_explanation():
+    from oracle.research import make_dossier
+    from oracle.dossier_check import DossierError
+    kw = dict(
+        symbol="FISV", business="payments", thesis="cheap compounder, insiders buying",
+        scenarios={"bull": {"target": 78, "probability": 0.25},
+                   "base": {"target": 62, "probability": 0.55},
+                   "bear": {"target": 36, "probability": 0.20}},
+        ratings={"moat": 0.75, "runway": 0.65, "quality": 0.73, "management": 0.72},
+        citations=["acc-1"], current_price=49.0, high_52w=176.0,  # down ~72%
+    )
+    # No decline explanation -> falling-knife gate rejects it.
+    try:
+        make_dossier(**kw)
+        assert False, "expected DossierError for unexplained falling knife"
+    except DossierError as e:
+        assert "falling-knife" in str(e)
+    # With a substantive decline explanation -> valid, and drawdown recorded.
+    d = make_dossier(**kw, decline_explanation=(
+        "Down 72% after Oct-2025 guidance cut: organic growth slashed 10%->4%, new "
+        "CEO admitted prior growth was misleading (Argentina FX), securities-fraud "
+        "suit over Clover claims, organic revenue now negative."))
+    assert d["drawdown_from_high"] > 0.7
+
+
+def test_no_high_52w_does_not_flag():
+    # Backward compatible: dossiers without 52-wk high data aren't gated.
+    from oracle.research import make_dossier
+    d = make_dossier(
+        symbol="OK", business="b", thesis="t",
+        scenarios={"bull": {"target": 150, "probability": 0.3},
+                   "base": {"target": 100, "probability": 0.5},
+                   "bear": {"target": 60, "probability": 0.2}},
+        ratings={"moat": 0.7, "runway": 0.7, "quality": 0.7, "management": 0.7},
+        citations=["c"], current_price=100.0,
+    )
+    assert d["drawdown_from_high"] == 0.0

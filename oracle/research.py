@@ -28,8 +28,14 @@ def make_dossier(
     current_price: float = 0.0,
     sector: str = "",
     author: str = "oracle",
+    high_52w: float = 0.0,
+    decline_explanation: str = "",
 ) -> dict[str, Any]:
-    """Build, validate, and return a dossier with derived fields filled in."""
+    """Build, validate, and return a dossier with derived fields filled in.
+
+    `high_52w` + `decline_explanation` feed the falling-knife gate: a name down
+    >30% from its 52-week high must explain the decline or validation fails.
+    """
     d: dict[str, Any] = {
         "symbol": symbol.upper(),
         "business": business,
@@ -39,6 +45,8 @@ def make_dossier(
         "citations": list(citations),
         "horizon_years": float(horizon_years),
         "current_price": float(current_price),
+        "high_52w": float(high_52w),
+        "decline_explanation": decline_explanation,
         "sector": sector,
         "author": author,
         "created_at": datetime.utcnow().isoformat(),

@@ -16,7 +16,7 @@ breaks, skip the cycle and open a PR; never silently patch the codebase.
 
 5. **Should we research?** Use `oracle.calendar.should_run(cache/oracle_cadence.json, "research", interval_days=3)`. If False, skip to step 7.
 
-6. **Research pass.** For ~30–40 candidates from the screen cache (`cache/oracle_screen.json`) — research **wider** than the ~8 you'll hold so the dossier scoring, not the screen, selects the book — build dossiers via `oracle.research.make_dossier`. Each dossier MUST validate. Persist to `cache/oracle_dossiers.json`. Cite SEC filings on every dossier.
+6. **Research pass.** For ~30–40 candidates from the screen cache (`cache/oracle_screen.json`) — research **wider** than the ~8 you'll hold so the dossier scoring, not the screen, selects the book — build dossiers via `oracle.research.make_dossier`. Build each one **adversarially** (see `/oracle-research`): the screen surfaces names insiders are *buying*, which includes falling knives. Verify recent price action against **current** sources (not memory), and for any name down >30% from its 52-week high, fetch `high_52w` and supply a `decline_explanation` — the falling-knife gate rejects an unexplained big-decliner by design. Argue the bear case honestly before rating. Each dossier MUST validate. Persist to `cache/oracle_dossiers.json`. Cite SEC filings on every dossier.
 
 7. **Rescore and rank.** Walk every dossier; refresh `current_price` via broker quotes; rescore; sort by `derived.potential_score`.
 
