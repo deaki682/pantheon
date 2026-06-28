@@ -77,9 +77,9 @@ def rescore_dossier(d: dict[str, Any], *, current_price: float) -> dict[str, Any
     # build_dossier, rescore receives an existing dossier that could have been
     # loaded from disk or hand-edited — validate so a malformed one raises a clear
     # DossierError instead of a cryptic KeyError deep in the math.
-    validate_dossier(d)
     d["current_price"] = float(current_price)
     d["priced_at"] = datetime.utcnow().isoformat()
+    validate_dossier(d)
     derived = compute_derived(d, current_price=current_price, horizon_years=d.get("horizon_years", 2.0))
     d["derived"] = derived
     d["conviction"] = potential_to_conviction(derived["potential_score"])
