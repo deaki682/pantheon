@@ -1,0 +1,79 @@
+{
+  "kind": "dry_run",
+  "generated_at": "2026-06-28T01:25:15.879578",
+  "as_of_marks": "2026-06-26 (Fri close; market closed Sun 6/28)",
+  "sleeve_equity": 1000.0,
+  "weighting": "equal",
+  "cash_floor": 0.1,
+  "orders_placed": false,
+  "note": "User chose dry-run; zero real orders placed. GRNT flagged (floated in on a price wiggle, illiquid sub-$5 micro-cap).",
+  "positions": [
+    {
+      "symbol": "PODD",
+      "sector": "Health Care",
+      "conviction": 0.3712,
+      "dollars": 112.5,
+      "price": 158.16,
+      "shares": 0.7113
+    },
+    {
+      "symbol": "CPRT",
+      "sector": "Industrials",
+      "conviction": 0.3269,
+      "dollars": 112.5,
+      "price": 30.51,
+      "shares": 3.6873
+    },
+    {
+      "symbol": "EXE",
+      "sector": "Energy",
+      "conviction": 0.2593,
+      "dollars": 112.5,
+      "price": 88.38,
+      "shares": 1.2729
+    },
+    {
+      "symbol": "GRNT",
+      "sector": "Energy",
+      "conviction": 0.2379,
+      "dollars": 112.5,
+      "price": 4.525,
+      "shares": 24.8619
+    },
+    {
+      "symbol": "EVTC",
+      "sector": "Information Technology",
+      "conviction": 0.1897,
+      "dollars": 112.5,
+      "price": 27.37,
+      "shares": 4.1103
+    },
+    {
+      "symbol": "TKO",
+      "sector": "Communication Services",
+      "conviction": 0.1186,
+      "dollars": 112.5,
+      "price": 215.78,
+      "shares": 0.5214
+    },
+    {
+      "symbol": "CELH",
+      "sector": "Consumer Staples",
+      "conviction": 0.1084,
+      "dollars": 112.5,
+      "price": 29.78,
+      "shares": 3.7777
+    },
+    {
+      "symbol": "OLED",
+      "sector": "Information Technology",
+      "conviction": 0.0723,
+      "dollars": 112.5,
+      "price": 87.05,
+      "shares": 1.2924
+    }
+  ],
+  "invested": 900.0,
+  "cash": 100.0,
+  "n_positions": 8
+}
