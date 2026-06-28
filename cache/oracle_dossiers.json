@@ -1,6 +1,110 @@
 {
   "dossiers": [
     {
+      "symbol": "ROP",
+      "business": "Diversified vertical market software compounder. Roper owns mission-critical software businesses in government contracting (Deltek), education (Frontline, Skyward), healthcare administration, utility infrastructure (Neptune), childcare management (Procare), and legal/compliance. Acquires cash-flow-rich software businesses and improves them without integrating into a single platform. Revenue is ~80%+ recurring SaaS/term licenses.",
+      "thesis": "Roper is one of the highest-quality software compounders in the US market, having compounded book value at ~20%/yr for two decades through disciplined vertical market software acquisition. At $338 vs FY2026 guide of $21.30-$21.55 non-GAAP EPS, the stock trades at ~16x \u2014 well below its historical 30-35x range. This discount reflects three specific headwinds: Deltek facing budget cuts from DOGE/federal spending freeze, Neptune Technology impacted by tariff uncertainty, and Procare by delayed software implementations. Bull case: these are cyclical headwinds on a business with high switching costs. Federal budgets will normalize; defense and homeland security spending will continue even if social program budgets get cut. Neptune's tariff exposure is manageable given its infrastructure mission-criticality. At historical multiples (30x), 2027 EPS of $23+ yields $690+. Bear case: Deltek's exposure to federal contract management is real \u2014 if DOGE represents a structural reset of government IT spending, not just a blip, Deltek revenues could decline 10-20% and the portfolio's earnings growth trajectory would be compromised. Roper's deal-making also relies on leverage, and higher rates compress acquisition economics. Insider context: CEO Neil Hunn joined 2018; management owns meaningful equity; track record of disciplined M&A is long and credible. Priced-in call: the market is pricing in a permanent structural deterioration scenario (16x) on what appears to be a cyclical disruption. The historical spread between Roper and the S&P on quality grounds is unlikely to stay at zero for long. This looks more priced-in than not.",
+      "scenarios": {
+        "bull": {
+          "target": 640.0,
+          "probability": 0.3,
+          "description": "DOGE headwinds are temporary; Deltek returns to growth by H2 2026. Neptune and Procare recover. EPS reaches $23 in 2027. Multiple re-rates to 28x as quality premium returns. Target $640."
+        },
+        "base": {
+          "target": 470.0,
+          "probability": 0.5,
+          "description": "Moderate recovery; Deltek grows slowly as federal IT normalizes. 2027 EPS reaches $22. Multiple stabilizes at 22x \u2014 a discount to history persists. Target $480."
+        },
+        "bear": {
+          "target": 300.0,
+          "probability": 0.2,
+          "description": "Deltek revenue declines 15% on sustained federal spending cuts. Neptune permanently impaired by tariff restructuring of utility supply chains. EPS stays at $18-19. Multiple stays at 16-17x. Stock tests $300."
+        }
+      },
+      "ratings": {
+        "moat": 0.85,
+        "runway": 0.65,
+        "quality": 0.8,
+        "management": 0.8
+      },
+      "citations": [
+        "0000882835-26-000015",
+        "0000882835-26-000003"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 338.31,
+      "high_52w": 575.77,
+      "decline_explanation": "ROP fell 41% from its $576 52-week high after Q4 FY2025 earnings on Jan 27 2026 revealed deceleration. Management's 2026 guide of $21.30-$21.55 non-GAAP EPS missed the $21.65 consensus. Deltek faces revenue pressure from federal government budget cuts (DOGE program), Neptune Technology is affected by tariff-driven supply chain restructuring, and Procare experienced delayed software implementations. The market repriced Roper from a premium compounder (30-35x) to a company with significant government/policy execution risk.",
+      "sector": "Technology",
+      "author": "oracle",
+      "created_at": "2026-06-28T06:32:10.687386",
+      "priced_at": "2026-06-28T06:54:05.487125",
+      "scenario_price": 338.32,
+      "drawdown_from_high": 0.412404258644945,
+      "derived": {
+        "expected_price": 487.0,
+        "expected_return": 0.439508143418758,
+        "expected_cagr": 0.19979504225461686,
+        "asymmetry": 11.812451057165228,
+        "quality_mult": 1.275,
+        "asymmetry_mult": 2.0,
+        "potential_score": 0.5094773577492729
+      },
+      "conviction": 0.5170416190196072
+    },
+    {
+      "symbol": "GSHD",
+      "business": "Tech-enabled independent insurance distribution franchise. Goosehead distributes personal lines P&C (auto, home, umbrella, flood) through a network of 11,000+ licensed franchise and corporate agents. Revenue is fee- and commission-based with a recurring renewal stream. The Digital Agent 2.0 platform is its proprietary quoting and placement technology for agents.",
+      "thesis": "Goosehead is a high-quality insurance distribution franchise undergoing a painful but potentially temporary reinvestment cycle. The bull case: GSHD holds a structurally advantaged position \u2014 independent agents with access to 40+ carriers and a proprietary tech platform outperform captive agents on placement quality and client retention. Revenue grew 15% despite EPS falling 18% in Q4 2025, which reflects the Digital Agent 2.0 investment cycle depressing near-term earnings. Once investment ends, EPS should recover and the franchise model's natural moat reasserts. The bear case: franchise producer count grew only +1% YoY, suggesting the network may be near saturation in its current form. Even at 56% below peak, GSHD still trades at ~40x current earnings \u2014 expensive for a business whose EPS is declining. Multiple compression from 100x+ peak to ~40x has been severe but valuation may not be fully earned-in yet. Insider context: management built GSHD from scratch (founders still involved); conviction purchases post-decline would strengthen thesis significantly. Priced-in judgment: the EPS compression appears to be reinvestment-driven rather than structural, and 15% revenue growth supports the franchise model. The stock needs earnings recovery evidence to re-rate; absent that, downside to 30-35x trough earnings is real.",
+      "scenarios": {
+        "bull": {
+          "target": 145.0,
+          "probability": 0.2,
+          "description": "Digital Agent 2.0 investment cycle ends by end of 2026, EPS recovers to $3.00+ as reinvestment spend normalizes. Franchise producer count reaccelerates to +10%+. At 45x normalized EPS, stock recovers toward $135-$145."
+        },
+        "base": {
+          "target": 75.0,
+          "probability": 0.45,
+          "description": "EPS recovers to $1.80-$2.00 by 2027 as investment winds down. Revenue growth moderates to 10-12%. At 38x earnings, stock recovers to $70-$80 range as reinvestment discount partially unwinds."
+        },
+        "bear": {
+          "target": 28.0,
+          "probability": 0.35,
+          "description": "Franchise saturation confirmed, producer count stagnates. EPS stays depressed at $0.80-$1.00 as investment continues and renewal economics disappoint. At 28-30x trough EPS, stock tests $25-$30."
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.6,
+        "quality": 0.55,
+        "management": 0.6
+      },
+      "citations": [
+        "0001726978-26-000039",
+        "0001726978-26-000006"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 46.87,
+      "high_52w": 106.84,
+      "decline_explanation": "GSHD fell 56% from its $107 peak after Q4 2025 earnings showed EPS declining 18% despite 15% revenue growth, reflecting heavy reinvestment in the Digital Agent 2.0 technology platform. Franchise producer count grew only +1% YoY, suggesting network expansion may be slowing. The stock had traded at 100x+ earnings at peak \u2014 multiple compression back to current ~40x has been severe. The market is questioning whether the reinvestment cycle is temporary (bull) or signals structurally lower returns as the franchise model matures.",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T06:32:10.687348",
+      "priced_at": "2026-06-28T06:54:05.487073",
+      "scenario_price": 46.84,
+      "drawdown_from_high": 0.5615874204417821,
+      "derived": {
+        "expected_price": 72.55,
+        "expected_return": 0.5478984425005333,
+        "expected_cagr": 0.24414566771762436,
+        "asymmetry": 2.9716102657279135,
+        "quality_mult": 1.1,
+        "asymmetry_mult": 1.723835916126565,
+        "potential_score": 0.46295377785617725
+      },
+      "conviction": 0.4838524164661865
+    },
+    {
       "symbol": "PODD",
       "business": "Insulet \u2014 Omnipod tubeless wearable insulin patch-pump (~99% of revenue).",
       "thesis": "30%+ grower at a 57% discount with broad insider buying. CONTESTED\u2192knife: two life-critical recalls in ten weeks + credible H2-2026 tubeless competition are real thesis-killers on a single-product company.",
@@ -28,7 +132,7 @@
         "https://www.stocktitan.net/sec-filings/PODD/"
       ],
       "horizon_years": 2.0,
-      "current_price": 158.16,
+      "current_price": 159.0,
       "high_52w": 354.88,
       "decline_explanation": "Down ~57% from high despite a strong Q1 (rev +34%, EPS beat, guidance RAISED). Two voluntary Omnipod-5 under-delivery corrections in ten weeks \u2014 Mar 12 and a far larger May 26 recall of ~7M pods (~8.5% of 2025 output) with 24 serious adverse events incl. DKA \u2014 hint at a systemic quality problem (FDA/litigation/brand risk). May 28: appeals court overturned a $452M trade-secret win vs EOFlow. Tubeless competition arriving H2-2026 (Tandem Mobi, Medtronic MiniMed Flex) threatens ~72% gross margins; GLP-1s cap long-run pump demand. Insiders buying near lows (directors flat, new CEO ~38% underwater).",
       "sector": "Health Care",
@@ -37,16 +141,67 @@
       "drawdown_from_high": 0.5543282236248873,
       "derived": {
         "expected_price": 210.2,
-        "expected_return": 0.32903388973191694,
-        "expected_cagr": 0.15283732145169426,
-        "asymmetry": 4.5723495990651575,
+        "expected_return": 0.32201257861635213,
+        "expected_cagr": 0.14978805812912843,
+        "asymmetry": 4.458498023715414,
         "quality_mult": 1.0625,
         "asymmetry_mult": 2.0,
-        "potential_score": 0.32477930808485034
+        "potential_score": 0.3182996235243979
       },
-      "conviction": 0.3712178590837417,
-      "priced_at": "2026-06-28T02:27:05.684579",
+      "conviction": 0.3653703939876294,
+      "priced_at": "2026-06-28T06:54:05.486738",
       "scenario_price": 158.16
+    },
+    {
+      "symbol": "MSFT",
+      "business": "Global enterprise software, cloud infrastructure and AI platform. Products: Office 365/Microsoft 365 (productivity), Azure (cloud IaaS/PaaS/AI), LinkedIn, GitHub, Dynamics 365 (ERP/CRM), Xbox/Gaming, Bing. AI embedded via Copilot across all products. Azure is #2 public cloud (~22% share vs AWS ~33%). FY2026 revenue ~$270B+ run-rate; Azure approaching $100B ARR.",
+      "thesis": "Microsoft is the world's most valuable software franchise facing a near-term credibility crisis over its AI investment cycle. The bear case in the price: management guided $37.5B/quarter ($190B/yr) in capex \u2014 up 66% \u2014 at the Jan 28 2026 earnings call while Azure growth decelerated from 40% to 39%. FCF declined -47% YoY as capex consumed cash. Q1 2026 calendar was MSFT's worst quarter since 2008. The market fears a classic infrastructure overbuild: too much GPU/datacenter capacity, too little AI monetization. Bull case: GitHub Copilot has 15M+ users and $2B+ ARR; M365 Copilot penetrating enterprise seat counts; Azure OpenAI usage growing rapidly. The $190B capex is building scarce, irreplaceable AI infrastructure for a decade-long demand wave. At $371 (~28x FY2026 non-GAAP EPS), MSFT is near the bottom of its 5-year valuation range. The installed base of 300M+ commercial 365 seats creates enormous Copilot upsell potential. Bear case: AI monetization may remain below infrastructure cost for 2-3 more years. $190B/yr capex burns FCF and limits buybacks/dividends. Azure growth could decelerate further if enterprise cloud migrations mature and AI workloads shift to dedicated hyperscalers or on-premise. Insider context: CEO Satya Nadella sold ~$5M in shares in 2025 on preset plan; no unusual open-market insider buying flagged. Priced-in: $371 appears to price in the bear case fairly well \u2014 at 28x FY2026 non-GAAP EPS it trades at a slight discount to the S&P 500 on growth-adjusted basis, unusual for MSFT. The capex peak should occur in FY2027 with FCF recovery thereafter. Asymmetric risk/reward favors holding.",
+      "scenarios": {
+        "bull": {
+          "target": 575.0,
+          "probability": 0.35,
+          "description": "AI monetization accelerates: Copilot reaches 50M+ users by 2027, M365 Copilot adds $8-10 ARPU. Azure growth re-accelerates to 42-45% as AI workloads scale. Capex peaks in FY2027, FCF recovers to $80B+. At 30x FY2028 EPS of $18, stock recovers to $540-$580."
+        },
+        "base": {
+          "target": 470.0,
+          "probability": 0.45,
+          "description": "AI monetization matures slowly. Azure sustains 38-40% growth. Copilot adds modest ARPU. Capex plateau visible by H2 2026. FCF recovers partially. At 28x FY2027 EPS of $17, stock reaches $475."
+        },
+        "bear": {
+          "target": 280.0,
+          "probability": 0.2,
+          "description": "AI capex disappoints: GPU utilization under 70%, AI revenues below $20B by 2027. Azure growth decelerates to 25-30%. FCF stays suppressed for 3+ years. Multiple compresses to 20-22x. Stock tests $280."
+        }
+      },
+      "ratings": {
+        "moat": 0.9,
+        "runway": 0.75,
+        "quality": 0.8,
+        "management": 0.75
+      },
+      "citations": [
+        "0001564590-26-000020"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 372.73,
+      "high_52w": 555.45,
+      "decline_explanation": "MSFT fell 33% from its $555 52-week high after the Jan 28 2026 earnings call revealed Azure growth decelerating from 40% to 39% while management guided $37.5B per quarter ($190B per year) in capex, up 66% YoY. FCF fell 47% YoY as infrastructure investment overwhelmed operating cash flow. Q1 2026 calendar quarter was Microsoft's worst equity performance since 2008. The market repriced MSFT to reflect AI capex overhang risk \u2014 the fear that infrastructure investment is outpacing AI revenue monetization by 2-3 years.",
+      "sector": "Technology",
+      "author": "oracle",
+      "created_at": "2026-06-28T06:32:10.687413",
+      "priced_at": "2026-06-28T06:54:05.487141",
+      "scenario_price": 371.34,
+      "drawdown_from_high": 0.33146097758574145,
+      "derived": {
+        "expected_price": 468.75,
+        "expected_return": 0.257612749175006,
+        "expected_cagr": 0.12143334584584475,
+        "asymmetry": 3.8172382184837685,
+        "quality_mult": 1.3,
+        "asymmetry_mult": 1.9537753756467933,
+        "potential_score": 0.30842952516481603
+      },
+      "conviction": 0.3563586431971605
     },
     {
       "symbol": "ADSK",
@@ -76,24 +231,24 @@
         "0000769397-26-000014"
       ],
       "horizon_years": 2.0,
-      "current_price": 196.13,
+      "current_price": 196.41,
       "high_52w": 329.09,
       "decline_explanation": "ADSK fell 40% from its $329.09 high after an internal accounting investigation revealed irregularities in free cash flow reporting (fiscal 2024 restatement), eroding management credibility. Concurrently, the commercial construction slowdown reduced new seat growth, and the transition to consumption-based pricing created near-term revenue uncertainty.",
       "sector": "Information Technology",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978863",
-      "priced_at": "2026-06-28T02:27:05.684843",
+      "priced_at": "2026-06-28T06:54:05.486783",
       "drawdown_from_high": 0.40402321553374454,
       "derived": {
         "expected_price": 245.75,
-        "expected_return": 0.25299546219344315,
-        "expected_cagr": 0.11937279857670435,
-        "asymmetry": 5.229391504018371,
+        "expected_return": 0.2512092052339494,
+        "expected_cagr": 0.11857463105237165,
+        "asymmetry": 5.161226808027263,
         "quality_mult": 1.21,
         "asymmetry_mult": 2.0,
-        "potential_score": 0.28888217255562454
+        "potential_score": 0.28695060714673937
       },
-      "conviction": 0.3381317876985941,
+      "conviction": 0.33630292024092046,
       "scenario_price": 196.13
     },
     {
@@ -124,7 +279,7 @@
         "https://www.insidermonkey.com/blog/copart-cprt-slid-on-decline-in-its-key-insurance-customers-volume-1732589/"
       ],
       "horizon_years": 2.0,
-      "current_price": 30.51,
+      "current_price": 30.45,
       "high_52w": 50.11,
       "decline_explanation": "Down ~39% from the 52-wk high (~52% off all-time high). Volume, not pricing: Q2-FY26 EPS $0.36 missed $0.39, revenue ~$1.12B -3.6% YoY on declining total-loss insurance volumes \u2014 fewer claims, hurricane base effect, and consumers dropping collision coverage as premiums rise (underinsurance). Q3 global insurance units -2.7%. ASPs +5% partly offset. The bear question is cyclical vs structural impairment of the volume engine; a high-multiple compounder being repriced as a low-growth cyclical. 13F mixed: concentrated conviction (Gobi Capital ~7.7% of book) vs net hedge-fund exits (Renaissance selling).",
       "sector": "Industrials",
@@ -133,64 +288,16 @@
       "drawdown_from_high": 0.3911394931151466,
       "derived": {
         "expected_price": 37.5,
-        "expected_return": 0.2291052114060963,
-        "expected_cagr": 0.10865017539623212,
-        "asymmetry": 6.01053215077605,
+        "expected_return": 0.23152709359605916,
+        "expected_cagr": 0.10974190404618822,
+        "asymmetry": 6.115168539325843,
         "quality_mult": 1.275,
         "asymmetry_mult": 2.0,
-        "potential_score": 0.2770579472603919
+        "potential_score": 0.27984185531777994
       },
-      "conviction": 0.32685671528259985,
-      "priced_at": "2026-06-28T02:27:05.684629",
+      "conviction": 0.32952849749831437,
+      "priced_at": "2026-06-28T06:54:05.486797",
       "scenario_price": 30.51
-    },
-    {
-      "symbol": "ZTS",
-      "business": "Zoetis is the world's largest animal health company, developing and selling pharmaceuticals, vaccines, and diagnostics for livestock and companion animals across 100+ countries. Revenue ~$9B with a dominant position in companion animal therapeutics including the blockbuster Librela (pain) and Solensia (cat pain) franchises.",
-      "thesis": "ZTS is down 53% from its $162 high as Librela (its blockbuster anti-NGF pain drug) faces growing safety concerns \u2014 FDA adverse event reports of neurological side effects and deaths have accumulated, leading to an FDA advisory committee review and potential label changes. Insider buying suggests management believes the safety data is manageable and Librela's risk-benefit profile remains favorable. The bear case is that Librela gets a black box warning or restricted use, destroying the growth thesis that justified ZTS's premium multiple.",
-      "scenarios": {
-        "bull": {
-          "target": 120.0,
-          "probability": 0.3
-        },
-        "base": {
-          "target": 90.0,
-          "probability": 0.45
-        },
-        "bear": {
-          "target": 60.0,
-          "probability": 0.25
-        }
-      },
-      "ratings": {
-        "moat": 0.8,
-        "runway": 0.65,
-        "quality": 0.75,
-        "management": 0.72
-      },
-      "citations": [
-        "0001555280-26-000015"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 76.04,
-      "high_52w": 161.77,
-      "decline_explanation": "ZTS fell 53% from its $161.77 high after accumulating FDA adverse event reports for Librela (bedinvetmab), its blockbuster anti-NGF pain drug for dogs, citing neurological side effects and animal deaths. An FDA advisory committee was convened to review Librela's safety profile, creating uncertainty about potential label restrictions or a black box warning that would severely limit the drug's commercial potential.",
-      "sector": "Health Care",
-      "author": "oracle",
-      "created_at": "2026-06-28T01:50:53.978825",
-      "priced_at": "2026-06-28T02:27:05.684818",
-      "drawdown_from_high": 0.5299499289114175,
-      "derived": {
-        "expected_price": 91.5,
-        "expected_return": 0.2033140452393476,
-        "expected_cagr": 0.09695671985696297,
-        "asymmetry": 3.2887780548628407,
-        "quality_mult": 1.23,
-        "asymmetry_mult": 1.8134988433585615,
-        "potential_score": 0.21627200615922418
-      },
-      "conviction": 0.26578986861581855,
-      "scenario_price": 76.04
     },
     {
       "symbol": "FISV",
@@ -220,24 +327,24 @@
         "0000798354-26-000019"
       ],
       "horizon_years": 2.0,
-      "current_price": 49.45,
+      "current_price": 49.48,
       "high_52w": 177.36,
       "decline_explanation": "FISV fell 72% from its ~$177.36 high after a catastrophic data breach exposed payment credentials of approximately 60 million cardholders, the largest payment processor breach since Heartland Payment Systems in 2008. The breach triggered multiple regulatory investigations (FTC, OCC, state AGs), massive remediation costs ($2B+ estimated), client attrition in merchant acquiring, and a multi-notch credit rating downgrade.",
       "sector": "Information Technology",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978876",
-      "priced_at": "2026-06-28T02:27:05.684850",
+      "priced_at": "2026-06-28T06:54:05.486817",
       "drawdown_from_high": 0.7211885430762291,
       "derived": {
         "expected_price": 62.5,
-        "expected_return": 0.26390293225480277,
-        "expected_cagr": 0.12423437603321963,
-        "asymmetry": 2.8062283737024214,
+        "expected_return": 0.2631366208569119,
+        "expected_cagr": 0.12389350957148593,
+        "asymmetry": 2.798342541436465,
         "quality_mult": 1.0125000000000002,
-        "asymmetry_mult": 1.6751801018703694,
-        "potential_score": 0.2107163916328698
+        "asymmetry_mult": 1.6728247192806738,
+        "potential_score": 0.20984277693673867
       },
-      "conviction": 0.2599395571691675,
+      "conviction": 0.2590153696165576,
       "scenario_price": 49.45
     },
     {
@@ -268,7 +375,7 @@
         "https://www.benzinga.com/insights/news/26/06/53091402/noteworthy-insider-activity-catherine-a-kehr-invests-225k-in-expand-energy-stock"
       ],
       "horizon_years": 2.0,
-      "current_price": 88.38,
+      "current_price": 88.47,
       "high_52w": 126.62,
       "decline_explanation": "Down ~30% from high. Henry Hub fell to ~$3.29 on strong production + warm-weather demand worries; EIA cut 2026/27 gas forecasts (~4.4%/11.5%) amid an LNG-glut narrative; Barclays downgraded to Equalweight. Governance overhang: CEO Dell'Osso stepped down Feb 2026, interim CEO + ongoing search + HQ relocation. Insider buying is real (interim CEO + director near lows) but it's a bet on commodity normalization, not a company fix.",
       "sector": "Energy",
@@ -277,16 +384,167 @@
       "drawdown_from_high": 0.3020060022113411,
       "derived": {
         "expected_price": 108.09,
-        "expected_return": 0.22301425661914465,
-        "expected_cagr": 0.10589974980517325,
-        "asymmetry": 3.8407271740605085,
+        "expected_return": 0.22177009155645977,
+        "expected_cagr": 0.1053370940832754,
+        "asymmetry": 3.8136679484584763,
         "quality_mult": 1.0125000000000002,
-        "asymmetry_mult": 1.9597773276728427,
-        "potential_score": 0.2101341777828352
+        "asymmetry_mult": 1.9528614770276145,
+        "potential_score": 0.2082801125514778
       },
-      "conviction": 0.25932376763284215,
-      "priced_at": "2026-06-28T02:27:05.684530",
+      "conviction": 0.2573593643297589,
+      "priced_at": "2026-06-28T06:54:05.486826",
       "scenario_price": 88.38
+    },
+    {
+      "symbol": "ZTS",
+      "business": "Zoetis is the world's largest animal health company, developing and selling pharmaceuticals, vaccines, and diagnostics for livestock and companion animals across 100+ countries. Revenue ~$9B with a dominant position in companion animal therapeutics including the blockbuster Librela (pain) and Solensia (cat pain) franchises.",
+      "thesis": "ZTS is down 53% from its $162 high as Librela (its blockbuster anti-NGF pain drug) faces growing safety concerns \u2014 FDA adverse event reports of neurological side effects and deaths have accumulated, leading to an FDA advisory committee review and potential label changes. Insider buying suggests management believes the safety data is manageable and Librela's risk-benefit profile remains favorable. The bear case is that Librela gets a black box warning or restricted use, destroying the growth thesis that justified ZTS's premium multiple.",
+      "scenarios": {
+        "bull": {
+          "target": 120.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 90.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 60.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.8,
+        "runway": 0.65,
+        "quality": 0.75,
+        "management": 0.72
+      },
+      "citations": [
+        "0001555280-26-000015"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 76.5,
+      "high_52w": 161.77,
+      "decline_explanation": "ZTS fell 53% from its $161.77 high after accumulating FDA adverse event reports for Librela (bedinvetmab), its blockbuster anti-NGF pain drug for dogs, citing neurological side effects and animal deaths. An FDA advisory committee was convened to review Librela's safety profile, creating uncertainty about potential label restrictions or a black box warning that would severely limit the drug's commercial potential.",
+      "sector": "Health Care",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:50:53.978825",
+      "priced_at": "2026-06-28T06:54:05.486808",
+      "drawdown_from_high": 0.5299499289114175,
+      "derived": {
+        "expected_price": 91.5,
+        "expected_return": 0.196078431372549,
+        "expected_cagr": 0.09365370724583055,
+        "asymmetry": 3.1636363636363636,
+        "quality_mult": 1.23,
+        "asymmetry_mult": 1.7786613965666325,
+        "potential_score": 0.20489122747991917
+      },
+      "conviction": 0.25375532765929176,
+      "scenario_price": 76.04
+    },
+    {
+      "symbol": "GOOG",
+      "business": "Global digital advertising, cloud, and AI platform. Google Search is #1 global search engine (~90% share). YouTube is #1 video platform. Google Cloud Platform is #3 global cloud (22%+ market share, accelerating). Android is #1 mobile OS. Waymo is the leading autonomous vehicle unit. DeepMind and Google Brain merged into Google DeepMind. FY2025 revenue $403B \u2014 the first $400B+ US tech company.",
+      "thesis": "Alphabet reported record FY2025 revenue of $403B with Google Cloud growing 63% to ~$43B annualized by Q4. Yet the stock is 17% off its 52-week high. Three overlapping concerns created the June 2026 selloff: (1) an $84.75B equity offering surprising the market about capital needs; (2) two high-profile AI researchers (Shazeer\u2192OpenAI, Jumper\u2192Anthropic) departing; (3) FCF down 47% YoY as capex surges to $180-190B for AI infrastructure. The DOJ antitrust appeal still seeks Chrome divestiture but Chrome was kept in the September 2025 remedies ruling; the appellate timeline is 2027+. Bull case: Google Cloud at +63% growth is now a $80B+ ARR business compounding faster than AWS/Azure. Search advertising held +10%+ growth despite AI tools taking queries at the margin. DOJ antitrust resolved in the best achievable outcome (behavioral only; Chrome/Android kept). Gemini adoption accelerating. Bear case: The equity offering is confusing \u2014 if Alphabet has $120B+ in cash, why issue equity? Suggests either strategic acquisition or AI capex burn above disclosures. Researcher departures signal competitive talent market. AI overviews in Search may cannibalize ad revenue per query. FCF at -47% YoY is a real number that could persist for 2+ years. Insider context: Sundar Pichai and founders own significant equity; no large unexpected selling; founders' voting control insulates from short-termism. Priced-in: $334 at ~18x FY2026 estimated EPS ($18.50) is historically cheap for GOOG (normally 22-28x). The cloud acceleration is genuine and the antitrust outcome was favorable. The equity offering and AI brain drain are the genuine risks worth monitoring.",
+      "scenarios": {
+        "bull": {
+          "target": 520.0,
+          "probability": 0.35,
+          "description": "Cloud sustains 50%+ growth to $60B ARR by end 2027. Search holds advertising share. AI Overviews monetize via new formats. Capex peaks FY2026. At 26x FY2027 EPS of $21, stock reaches $546. Target $520."
+        },
+        "base": {
+          "target": 395.0,
+          "probability": 0.45,
+          "description": "Cloud grows 40%, search advertising flat to +5%. Capex headwind persists into 2027. At 22x FY2026 EPS of $18.50, stock recovers to $400-$410. Modest AI monetization. Target $395."
+        },
+        "bear": {
+          "target": 220.0,
+          "probability": 0.2,
+          "description": "AI tools (ChatGPT, Perplexity) take 10-15% of search queries and disproportionate share of high-intent (commercial) queries. Ad revenue per search declines. DOJ appellate court orders Chrome divestiture. At 16x EPS with growth derating, stock tests $220-$240."
+        }
+      },
+      "ratings": {
+        "moat": 0.85,
+        "runway": 0.75,
+        "quality": 0.8,
+        "management": 0.7
+      },
+      "citations": [
+        "0001652044-26-000035",
+        "0001652044-26-000015"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 336.15,
+      "high_52w": 404.47,
+      "decline_explanation": "",
+      "sector": "Technology",
+      "author": "oracle",
+      "created_at": "2026-06-28T06:32:10.687442",
+      "priced_at": "2026-06-28T06:54:05.487155",
+      "scenario_price": 334.91,
+      "drawdown_from_high": 0.17197814423813884,
+      "derived": {
+        "expected_price": 403.75,
+        "expected_return": 0.20110069909266715,
+        "expected_cagr": 0.09594739795880125,
+        "asymmetry": 2.7700172191132166,
+        "quality_mult": 1.2750000000000001,
+        "asymmetry_mult": 1.6643368706825,
+        "potential_score": 0.2036032098878217
+      },
+      "conviction": 0.2523809546552195
+    },
+    {
+      "symbol": "FLUT",
+      "business": "World's largest online sports betting and iGaming operator. Brands: FanDuel (US #1 OSB), Paddy Power (UK/Ireland), Betfair Exchange (UK/EU), PokerStars (global poker), Sky Betting & Gaming (UK). FY2025 revenue $16.4B. Listed on NYSE 2024 following US primary listing. US (~45% of revenue) is FanDuel's fast-scaling segment; international is profitable and cash-generative.",
+      "thesis": "Flutter is the structural winner in a rapidly expanding global sports betting market that remains in the early stages of US legalization. FanDuel holds ~40% US OSB market share \u2014 a dominant position in a market likely worth $40-60B+ annually at maturity. The company's scale advantages in data/odds-setting, marketing efficiency, and product quality compound over time. The bull case: Flutter's US losses should inflect to profitability in 2026-2027 as state markets mature past the customer-acquisition heavy phase. International businesses (Paddy Power/Sky Bet) are highly profitable and provide financial cover during the US investment period. $18.4B+ 2026 revenue guidance represents 12% growth from a large base. The bear case is also real: FY2025 revenue of $16.4B missed $16.7B target and 2026 guidance of $18.4B came in $900M below Street expectations. US OSB growth is slowing as the post-legalization wave matures \u2014 early-adopter states like New Jersey and Pennsylvania are saturating. State tax increases in Ohio, Illinois, and New York compress margins in states that were supposed to turn profitable. FanDuel CEO changes add execution uncertainty. At -66% from peak, the stock now trades at ~2x 2026 revenue \u2014 not obviously cheap for a business still burning cash in the US segment. Insider context: management made significant equity purchases on listing; check for open-market buys post-decline. Priced-in judgment: $104 is beginning to reflect the bad news, but the path to US profitability has gotten longer. The bear case (permanent margin compression from state taxes) is not fully priced out.",
+      "scenarios": {
+        "bull": {
+          "target": 220.0,
+          "probability": 0.25,
+          "description": "US OSB segment reaches EBITDA breakeven by Q4 2026. Revenue hits $21B in 2027 with EBITDA margins expanding to 18%+. States stabilize tax rates. At 3.5x EV/revenue on $21B = ~$210-$230 per share."
+        },
+        "base": {
+          "target": 135.0,
+          "probability": 0.45,
+          "description": "US profitability delayed to 2028. Revenue grows 12% to $20.6B in 2027. International continues generating cash. EBITDA margins reach 16% in 2027. At 2.5x EV/revenue, stock recovers to $130-$140."
+        },
+        "bear": {
+          "target": 55.0,
+          "probability": 0.3,
+          "description": "US state tax rates continue rising, OSB market growth slows to 8-10%. FanDuel loses share to DraftKings. US never reaches profitability by 2028. At 1.2x EV/revenue on $18B, stock tests $55-$65."
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.65,
+        "quality": 0.4,
+        "management": 0.5
+      },
+      "citations": [
+        "0001193125-26-058594"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 103.96,
+      "high_52w": 313.69,
+      "decline_explanation": "FLUT fell 66% from its $313 52-week high after FY2025 revenue of $16.4B missed the $16.7B consensus target and 2026 guidance of $18.4B came in $900M below Street expectations of $19.3B. US online sports betting market matured faster than forecast post-legalization wave, while state-level tax increases in Ohio, Illinois, and New York compressed unit economics in markets that were supposed to reach profitability. FanDuel leadership changes added execution risk. The stock fell 13.8% on the Feb 26 2026 earnings report alone and has declined approximately 62% over the past 12 months.",
+      "sector": "Consumer Discretionary",
+      "author": "oracle",
+      "created_at": "2026-06-28T06:32:10.687427",
+      "priced_at": "2026-06-28T06:54:05.487148",
+      "scenario_price": 104.29,
+      "drawdown_from_high": 0.6675380152379737,
+      "derived": {
+        "expected_price": 132.25,
+        "expected_return": 0.2721238938053099,
+        "expected_cagr": 0.1278846988080431,
+        "asymmetry": 1.9750816993464058,
+        "quality_mult": 1.05,
+        "asymmetry_mult": 1.4053759992779178,
+        "potential_score": 0.18871239069869458
+      },
+      "conviction": 0.2363067911581288
     },
     {
       "symbol": "GRNT",
@@ -316,7 +574,7 @@
         "https://www.dailypolitical.com/2026/06/09/insider-buying-granite-ridge-resources-nysegrnt-director-acquires-10600-shares-of-stock.html"
       ],
       "horizon_years": 2.0,
-      "current_price": 4.525,
+      "current_price": 4.54,
       "high_52w": 6.72,
       "decline_explanation": "Down ~25% from high / near range low. Soft oil & gas prices pressuring small-cap E&P; deliberate growth slowdown (2026 guide ~9-12% vs 28% in 2025). Dividend is the fault line: paid while loss-making with no current FCF, implying balance-sheet funding; ~8% yield screens as distress. Non-op model = passive minority partner with no control over operator pace/capex. FCF promise is a 2027 'trust us' story. Insider signal is the cleanest of the energy names (sponsor-linked director, 37 buys/0 sells).",
       "sector": "Energy",
@@ -325,16 +583,118 @@
       "drawdown_from_high": 0.32663690476190466,
       "derived": {
         "expected_price": 5.665,
-        "expected_return": 0.25193370165745854,
-        "expected_cagr": 0.11889843223478436,
-        "asymmetry": 2.9098039215686264,
+        "expected_return": 0.24779735682819393,
+        "expected_cagr": 0.11704850245107701,
+        "asymmetry": 2.8651162790697673,
         "quality_mult": 0.9375,
-        "asymmetry_mult": 1.7058147383489881,
-        "potential_score": 0.19014252944314086
+        "asymmetry_mult": 1.6926654362483353,
+        "potential_score": 0.1857412073095937
       },
-      "conviction": 0.2378654658820728,
-      "priced_at": "2026-06-28T02:27:05.684544",
+      "conviction": 0.23305836974320582,
+      "priced_at": "2026-06-28T06:54:05.486834",
       "scenario_price": 4.525
+    },
+    {
+      "symbol": "AON",
+      "business": "Global professional services firm in risk management, insurance brokerage, reinsurance, health solutions and human capital consulting. Two segments: Commercial Risk Solutions (~55% of revenue) and Health Solutions. Revenue is fee-based and commission-based \u2014 highly recurring with minimal capital requirements. NFP acquisition ($13.4B, closed Oct 2023) added a large independent insurance brokerage specializing in SME middle market. FY2025 revenue ~$16B pro forma. ~50,000 employees, 120 countries.",
+      "thesis": "Aon is one of the three global insurance brokerage giants (with Marsh and Willis Towers Watson) with genuine pricing power in hard P&C insurance markets. The NFP acquisition is the short-term overhang: it was dilutive to EPS in 2025 but management is guiding to breakeven in 2026 and accretive in 2027 with $2.8B in cost synergies over the integration period. Q1 2026 showed 5% organic growth ($5.03B revenue, EPS $5.63) \u2014 ahead of expectations. Bull case: insurance brokerage benefits from hard market pricing (P&C premiums rising 8-12%/yr in commercial lines) \u2014 AON collects a percentage of premium and doesn't bear underwriting risk. NFP synergies tracking to plan. At 26x forward EPS, AON trades at a 10-15% discount to Marsh & McLennan. Bear case: $13.4B NFP acquisition added ~$8B in debt. Integration risk is real \u2014 Willis Towers Watson provides the cautionary tale of a badly integrated brokerage deal. Insurance market cycles could turn soft (as they did 2012-2019), compressing premium growth. Insider context: CEO Greg Case has been at AON since 2005 \u2014 a 20-year tenure with consistent track record. Strong ownership culture. Priced-in: at 13.9% below 52-week high, AON reflects mild NFP integration anxiety rather than existential risk. The business quality is high and the hard market tailwind is real.",
+      "scenarios": {
+        "bull": {
+          "target": 490.0,
+          "probability": 0.3,
+          "description": "NFP synergies exceed $3B target. Organic growth sustains 6-7%. Hard market extends through 2027. EPS reaches $20 by 2027. At 25x, stock reaches $500. Capital deployment via buybacks accelerates post-NFP leverage paydown."
+        },
+        "base": {
+          "target": 368.0,
+          "probability": 0.5,
+          "description": "NFP integration on track; $2.8B synergy target achieved on schedule. 5-6% organic growth sustained. EPS reaches $17-$18 by 2027. At 21x, stock recovers to $360-$378."
+        },
+        "bear": {
+          "target": 248.0,
+          "probability": 0.2,
+          "description": "NFP integration disappoints \u2014 synergies half of target. Soft market cycle begins 2026, slowing premium growth. Leverage concerns surface. EPS stays at $14-$15. At 17x, stock tests $250."
+        }
+      },
+      "ratings": {
+        "moat": 0.75,
+        "runway": 0.6,
+        "quality": 0.75,
+        "management": 0.75
+      },
+      "citations": [
+        "0000315293-26-029093"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 325.05,
+      "high_52w": 381.0,
+      "decline_explanation": "",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T06:32:10.687512",
+      "priced_at": "2026-06-28T06:54:05.487188",
+      "scenario_price": 328.17,
+      "drawdown_from_high": 0.13866141732283466,
+      "derived": {
+        "expected_price": 380.6,
+        "expected_return": 0.17089678510998318,
+        "expected_cagr": 0.08207984229907139,
+        "asymmetry": 3.2112264763140805,
+        "quality_mult": 1.2125,
+        "asymmetry_mult": 1.7919895301909776,
+        "potential_score": 0.17834203937309073
+      },
+      "conviction": 0.22490861617057412
+    },
+    {
+      "symbol": "MTDR",
+      "business": "Delaware Basin-focused E&P company operating in the Permian Basin of southeastern New Mexico and west Texas. ~40 MBoe/d of production (~75% oil). Also holds midstream assets via San Mateo Midstream (50/50 JV with Five Point Capital). Proven reserves of ~360 MMBoe. CEO Joe Foran is the founder and has operated the business since 2003. 2023 acquisition of Advance Energy Partners added 18,500 acres in Permian.",
+      "thesis": "Matador is a high-quality Delaware Basin E&P with insider conviction that stands out: the CEO bought 2,000 shares at $53.07 on June 9, a director bought 500 at $51.44 on June 15, and the COO bought 500 in May. Over the past 12 months: 37 insider purchases, 0 sales. This level of management conviction buying into a commodity-price-driven decline is a historically meaningful signal. Bull case: Delaware Basin is Tier 1 Permian acreage with sub-$40/bbl breakevens and 10-15 year inventory runway at current activity levels. The midstream JV creates a fee-based cash flow stream that partially hedges commodity exposure. FCF is positive even at $55/bbl WTI. Bear case: Oil prices have declined from $80+ to $65/bbl \u2014 E&P earnings fall disproportionately (at 50% revenue decline \u2192 100%+ earnings decline). FY2025 earnings fell 14% on 5% revenue growth, showing oil price leverage. A global recession or demand destruction from EV adoption/trade disruptions could send WTI to $50 or below. Matador is not immune to commodity cycles. The insiders are buying underwater vs their past purchases \u2014 CEO bought at $53 in June and the current price of $50 means he's already underwater. This demonstrates conviction but not omniscience. Priced-in: at ~$50, MTDR trades at ~6x FY2026 consensus EBITDA \u2014 a fair multiple for a quality E&P at $65 WTI. Significant upside if WTI recovers to $75+; meaningful downside if WTI falls to $50.",
+      "scenarios": {
+        "bull": {
+          "target": 90.0,
+          "probability": 0.3,
+          "description": "WTI recovers to $75+ as global supply tightens. MTDR production ramps to 50+ MBoe/d. EBITDA expands 40%+ from current levels. At 8x EBITDA, stock reaches $85-$95."
+        },
+        "base": {
+          "target": 62.0,
+          "probability": 0.45,
+          "description": "WTI holds at $62-$68. Production grows 8-10% to 43-44 MBoe/d. Midstream JV contributes steady fee income. FCF yield ~12% at current price. Stock recovers to $60-$65 as oil stabilizes."
+        },
+        "bear": {
+          "target": 28.0,
+          "probability": 0.25,
+          "description": "WTI falls to $48-$52 on global recession or OPEC+ supply surge. Earnings turn negative at strip prices. E&P multiples compress. At 4x trough EBITDA, stock tests $28-$32."
+        }
+      },
+      "ratings": {
+        "moat": 0.4,
+        "runway": 0.7,
+        "quality": 0.55,
+        "management": 0.75
+      },
+      "citations": [
+        "0001520006-26-000004"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 50.2,
+      "high_52w": 66.84,
+      "decline_explanation": "",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-28T06:32:10.687501",
+      "priced_at": "2026-06-28T06:54:05.487182",
+      "scenario_price": 49.91,
+      "drawdown_from_high": 0.25329144225014966,
+      "derived": {
+        "expected_price": 61.900000000000006,
+        "expected_return": 0.23306772908366535,
+        "expected_cagr": 0.1104358284401965,
+        "asymmetry": 2.151351351351351,
+        "quality_mult": 1.1,
+        "asymmetry_mult": 1.4667485644620046,
+        "potential_score": 0.1781797521128135
+      },
+      "conviction": 0.22472889897130466
     },
     {
       "symbol": "JKHY",
@@ -364,24 +724,24 @@
         "0000896429-26-000028"
       ],
       "horizon_years": 2.0,
-      "current_price": 134.96,
+      "current_price": 135.0,
       "high_52w": 193.39,
       "decline_explanation": "JKHY fell 30% from its $193.39 high as community and regional bank technology spending contracted following the SVB/Signature Bank crisis, deposit competition, and NIM compression. Banks prioritized liquidity management over IT modernization, and JKHY's cloud transition (Banno) created near-term revenue headwinds from contract conversions.",
       "sector": "Information Technology",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978851",
-      "priced_at": "2026-06-28T02:27:05.684836",
+      "priced_at": "2026-06-28T06:54:05.486847",
       "drawdown_from_high": 0.30213558095041104,
       "derived": {
         "expected_price": 155.25,
-        "expected_return": 0.15034084173088313,
-        "expected_cagr": 0.0725394359793412,
-        "asymmetry": 4.013903743315505,
+        "expected_return": 0.1499999999999999,
+        "expected_cagr": 0.07238052947636087,
+        "asymmetry": 4.0,
         "quality_mult": 1.1925000000000001,
         "asymmetry_mult": 2.0,
-        "potential_score": 0.1730065548107288
+        "potential_score": 0.17262756280112068
       },
-      "conviction": 0.21897820356014142,
+      "conviction": 0.21855523046777137,
       "scenario_price": 134.96
     },
     {
@@ -412,24 +772,24 @@
         "0001628280-26-028526"
       ],
       "horizon_years": 2.0,
-      "current_price": 549.43,
+      "current_price": 551.09,
       "high_52w": 796.25,
       "decline_explanation": "META fell 31% from its $796.25 high as investors repriced the stock on concerns about massive AI and metaverse capital expenditure ($60B+ annually) without proportionate near-term revenue returns. Additionally, regulatory headwinds in the EU (Digital Services Act enforcement), antitrust scrutiny, and a broader market rotation away from mega-cap tech into value/cyclicals contributed to the decline.",
       "sector": "Communication Services",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978751",
-      "priced_at": "2026-06-28T02:27:05.684778",
+      "priced_at": "2026-06-28T06:54:05.486862",
       "drawdown_from_high": 0.30997802197802204,
       "derived": {
         "expected_price": 643.5,
-        "expected_return": 0.17121380339624714,
-        "expected_cagr": 0.08222631801127767,
-        "asymmetry": 2.5085683380978145,
+        "expected_return": 0.16768585893411236,
+        "expected_cagr": 0.0805951410838901,
+        "asymmetry": 2.4616065298649774,
         "quality_mult": 1.3,
-        "asymmetry_mult": 1.5838460588383627,
-        "potential_score": 0.16930397862943763
+        "asymmetry_mult": 1.568950773563332,
+        "potential_score": 0.16438475163371982
       },
-      "conviction": 0.21483612624733173,
+      "conviction": 0.20929897965751632,
       "scenario_price": 549.43
     },
     {
@@ -477,8 +837,59 @@
         "potential_score": 0.14725350215028454
       },
       "conviction": 0.18970925066707078,
-      "priced_at": "2026-06-28T02:27:05.684563",
+      "priced_at": "2026-06-28T06:54:05.486873",
       "scenario_price": 27.37
+    },
+    {
+      "symbol": "NYT",
+      "business": "Digital-first media company anchored by The New York Times. Subscription products: NYT News, NYT Cooking, NYT Games (Wordle, Connections, Spelling Bee), Wirecutter (product reviews). 12.8M digital subscribers (+1.4M in 2025). Digital revenue $1.43B (+14% in 2025), displacing print (which is declining). Also generates licensing revenue from AI data agreements. Q1 2026: digital revenue +16.1% YoY.",
+      "thesis": "The New York Times is a rare example of a media brand successfully navigating the print-to-digital transition. 12.8M digital subscribers and $1.43B digital revenue puts it in a small peer group of truly scaled digital news subscription businesses globally. The Games portfolio (Wordle, Connections, Spelling Bee) and Cooking represent genuine bundle anchors that reduce churn. Adjusted operating profit grew 21% to $550M in 2025 \u2014 evidence of operating leverage as digital scales. Bull case: subscriber growth continues at 1.2-1.5M/yr (the 15M milestone is achievable by 2027). AI data licensing agreements add a new high-margin revenue stream (training data is valuable and NYT has sued OpenAI/Microsoft aggressively). Games/Cooking are secular entertainment products with minimal churn. International expansion is early-stage. Bear case: subscriber growth may plateau as the US market for English-language digital news is finite. AI tools reduce the discovery friction that drove organic traffic to nytimes.com \u2014 if readers get news from AI summaries, organic subscriber acquisition slows. Print revenue decline (-10%/yr) will eventually run out but also continues to be a drag. At ~30x earnings, NYT is not cheap for a media company. Insider context: controlling Ochs-Sulzberger family owns Class B supervoting shares \u2014 management insulated from short-termism; also means minority holders have limited governance rights. Priced-in: modest undervaluation. The digital momentum is genuine, the AI threat to organic discovery is real but early, and the multiple (30x) prices in a growth trajectory that is plausible but requires continued subscriber adds.",
+      "scenarios": {
+        "bull": {
+          "target": 118.0,
+          "probability": 0.3,
+          "description": "Subscribers reach 15M+ by end 2027. AI licensing adds $200M+ annually. Digital advertising recovers. Operating profit grows to $800M. At 35x earnings, stock reaches $115-$120."
+        },
+        "base": {
+          "target": 78.0,
+          "probability": 0.5,
+          "description": "Subscribers grow to 13.5-14M. Digital revenue grows 12-14%/yr. Operating profit reaches $650M by 2027. At 28x earnings, stock recovers to $78-$82."
+        },
+        "bear": {
+          "target": 42.0,
+          "probability": 0.2,
+          "description": "Subscriber growth plateaus at 13M. AI tools reduce organic acquisition. Print drag accelerates. Operating margins compress. At 20x earnings, stock tests $42-$46."
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.55,
+        "quality": 0.7,
+        "management": 0.65
+      },
+      "citations": [
+        "0000071691-25-000124"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 70.88,
+      "high_52w": 87.1,
+      "decline_explanation": "",
+      "sector": "Communication Services",
+      "author": "oracle",
+      "created_at": "2026-06-28T06:32:10.687522",
+      "priced_at": "2026-06-28T06:54:05.487195",
+      "scenario_price": 70.75,
+      "drawdown_from_high": 0.187715269804822,
+      "derived": {
+        "expected_price": 82.80000000000001,
+        "expected_return": 0.16817155756207702,
+        "expected_cagr": 0.0808198543522769,
+        "asymmetry": 2.447368421052632,
+        "quality_mult": 1.1375000000000002,
+        "asymmetry_mult": 1.564406731337037,
+        "potential_score": 0.1438199537483583
+      },
+      "conviction": 0.18572495487878782
     },
     {
       "symbol": "MA",
@@ -508,24 +919,24 @@
         "0000927628-26-000022"
       ],
       "horizon_years": 2.0,
-      "current_price": 498.8,
+      "current_price": 499.02,
       "high_52w": 601.77,
       "decline_explanation": "",
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978797",
-      "priced_at": "2026-06-28T02:27:05.684804",
+      "priced_at": "2026-06-28T06:54:05.486881",
       "drawdown_from_high": 0.17111188660119314,
       "derived": {
         "expected_price": 557.0,
-        "expected_return": 0.11668003207698474,
-        "expected_cagr": 0.0567308229047665,
-        "asymmetry": 3.0857142857142845,
+        "expected_return": 0.11618772794677579,
+        "expected_cagr": 0.05649785988745659,
+        "asymmetry": 3.0697390715011874,
         "quality_mult": 1.3424999999999998,
-        "asymmetry_mult": 1.7566201313073593,
-        "potential_score": 0.13378617374134527
+        "asymmetry_mult": 1.752067085331263,
+        "potential_score": 0.13289144464038116
       },
-      "conviction": 0.1739691069261714,
+      "conviction": 0.1729126120461727,
       "scenario_price": 498.8
     },
     {
@@ -562,7 +973,7 @@
       "sector": "Health Care",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978458",
-      "priced_at": "2026-06-28T02:27:05.684686",
+      "priced_at": "2026-06-28T06:54:05.486889",
       "drawdown_from_high": 0.5968949771689498,
       "derived": {
         "expected_price": 51.60000000000001,
@@ -604,24 +1015,24 @@
         "0001053507-26-000099"
       ],
       "horizon_years": 2.0,
-      "current_price": 175.34,
+      "current_price": 175.59,
       "high_52w": 234.33,
       "decline_explanation": "",
       "sector": "Real Estate",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978559",
-      "priced_at": "2026-06-28T02:27:05.684697",
+      "priced_at": "2026-06-28T06:54:05.486897",
       "drawdown_from_high": 0.25173900055477316,
       "derived": {
         "expected_price": 196.25,
-        "expected_return": 0.11925402075966685,
-        "expected_cagr": 0.05794802365695961,
-        "asymmetry": 2.6873156342182885,
+        "expected_return": 0.11766045902386235,
+        "expected_cagr": 0.05719461738312992,
+        "asymmetry": 2.6425449247207378,
         "quality_mult": 1.2925,
-        "asymmetry_mult": 1.6393033990748291,
-        "potential_score": 0.12278025185455033
+        "asymmetry_mult": 1.625590638728194,
+        "potential_score": 0.12017023222522645
       },
-      "conviction": 0.16087899680075046,
+      "conviction": 0.157744410495685,
       "scenario_price": 175.34
     },
     {
@@ -652,24 +1063,24 @@
         "0001433642-26-000007"
       ],
       "horizon_years": 2.0,
-      "current_price": 77.74,
+      "current_price": 77.77,
       "high_52w": 161.13,
       "decline_explanation": "HLNE fell 52% from its $161.13 high as rising interest rates slowed private equity exit activity, reducing performance fees and management fee growth. Private markets fundraising decelerated as LPs faced the denominator effect, and the broader market rotated away from alternative asset managers on concerns about higher-for-longer rates compressing PE returns.",
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978673",
-      "priced_at": "2026-06-28T02:27:05.684743",
+      "priced_at": "2026-06-28T06:54:05.486904",
       "drawdown_from_high": 0.5175324272326693,
       "derived": {
         "expected_price": 89.5,
-        "expected_return": 0.1512734756881915,
-        "expected_cagr": 0.07297412629018751,
-        "asymmetry": 1.9151275285839937,
+        "expected_return": 0.15082936865115082,
+        "expected_cagr": 0.0727671549088138,
+        "asymmetry": 1.9115063680281077,
         "quality_mult": 1.1125,
-        "asymmetry_mult": 1.3838813274930744,
-        "potential_score": 0.11234862797396206
+        "asymmetry_mult": 1.3825723735226694,
+        "potential_score": 0.11192401711040714
       },
-      "conviction": 0.14828050702779727,
+      "conviction": 0.14776370837424524,
       "scenario_price": 77.74
     },
     {
@@ -700,73 +1111,76 @@
         "0001059556-26-000018"
       ],
       "horizon_years": 2.0,
-      "current_price": 449.96,
+      "current_price": 450.01,
       "high_52w": 546.88,
       "decline_explanation": "",
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978811",
-      "priced_at": "2026-06-28T02:27:05.684811",
+      "priced_at": "2026-06-28T06:54:05.486911",
       "drawdown_from_high": 0.17722352252779405,
       "derived": {
         "expected_price": 496.5,
-        "expected_return": 0.1034314161258778,
-        "expected_cagr": 0.05044343785178551,
-        "asymmetry": 2.6025350233489006,
+        "expected_return": 0.10330881535965863,
+        "expected_cagr": 0.05038507955875815,
+        "asymmetry": 2.599366772204633,
         "quality_mult": 1.295,
-        "asymmetry_mult": 1.6132374355155847,
-        "potential_score": 0.10538352880259247
+        "asymmetry_mult": 1.6122551820988615,
+        "potential_score": 0.10519751927669725
       },
-      "conviction": 0.13976347483744977,
+      "conviction": 0.13953485562325352,
       "scenario_price": 449.96
     },
     {
-      "symbol": "GPOR",
-      "business": "Gulfport Energy is an independent natural gas E&P company focused on the Utica Shale in eastern Ohio and the SCOOP play in Oklahoma. Revenue ~$1.5B with production of ~1 Bcfe/d, primarily dry gas and NGLs, operating with low leverage post-2020 bankruptcy reorganization.",
-      "thesis": "GPOR trades 28% below its 52-week high as natural gas prices weakened from 2024 highs and gas-weighted E&Ps de-rated on oversupply concerns from associated gas production growth. Insider buying signals confidence that gas prices stabilize as LNG export demand ramps (US LNG capacity expanding 40%+ through 2027) and Appalachian gas production plateaus. The bull case is a gas price recovery driving significant FCF and shareholder returns. The bear case is that gas stays range-bound at $2-3/MMBtu, limiting GPOR's economics, and the Utica well inventory thins faster than expected.",
+      "symbol": "QSR",
+      "business": "Global QSR franchise operator \u2014 Burger King (18,000+ locations), Tim Hortons (5,700+), Popeyes Louisiana Kitchen (4,200+), and Firehouse Subs (1,200+). Asset-light franchise model: QSR collects royalties (3-5% of system sales) and development fees. ~$40B in system-wide annual sales. ~100 countries. Revenue is royalty-based and highly recurring.",
+      "thesis": "QSR owns four globally scaled QSR brands, three of which are delivering strong results while Burger King US underperforms. The thesis is straightforward: Tim Hortons International and Popeyes International have delivered 20 consecutive quarters of positive same-store sales growth \u2014 a remarkable record in the post-COVID consumer environment. FY2025 adjusted EPS grew 10.7% and Q1 2026 showed double-digit growth continuing. Bull case: international digital/loyalty platforms are accelerating (TH Rewards, BK digital). BK US remodel program (700+ restaurants renovated with 'Royal Reset') shows AUV lifts of 8-12% at completed locations. At 17x forward EPS (current), QSR is trading at a significant discount to McDonald's (24x) and Yum (23x) despite better earnings momentum. Bear case: BK US same-store sales remain negative as remodel completion lags original schedule. US consumer is weakening (lower-income demographic). The franchise model means QSR can't force remodel timelines on franchisees. $13B in debt is meaningful leverage for a franchise company. Insider context: screen flagged insider buying \u2014 Patrick Doyle (non-executive chair, legendary Domino's turnaround architect) has personal capital invested. His presence is a meaningful quality endorser. Priced-in: at ~17x forward EPS and with 3 of 4 brands performing, QSR looks moderately undervalued relative to peers. The BK US underperformance is the single deciding factor \u2014 if remodels complete on schedule, re-rating is straightforward.",
       "scenarios": {
         "bull": {
-          "target": 240.0,
-          "probability": 0.25
+          "target": 105.0,
+          "probability": 0.3,
+          "description": "BK US remodel program completes 1,500+ restaurants by end 2026. BK US SSS turns positive. All four brands at +3-5% SSS. EPS reaches $5.25 by 2027. At 20x, stock reaches $105."
         },
         "base": {
-          "target": 195.0,
-          "probability": 0.45
+          "target": 82.0,
+          "probability": 0.5,
+          "description": "BK US stays flat or slightly negative SSS but doesn't deteriorate further. International brands sustain 4-6% SSS. EPS grows 8-10% to $4.80. At 17x, stock reaches $82."
         },
         "bear": {
-          "target": 125.0,
-          "probability": 0.3
+          "target": 54.0,
+          "probability": 0.2,
+          "description": "BK US SSS deteriorates further as remodel delays frustrate franchisees. US consumer recession hits QSR traffic. EPS growth stalls at $4.30. Leverage concerns surface. At 13x, stock tests $56."
         }
       },
       "ratings": {
-        "moat": 0.4,
+        "moat": 0.7,
         "runway": 0.55,
-        "quality": 0.55,
-        "management": 0.6
+        "quality": 0.65,
+        "management": 0.7
       },
       "citations": [
-        "0001536737-26-000009"
+        "0001618756-25-000297"
       ],
       "horizon_years": 2.0,
-      "current_price": 162.53,
-      "high_52w": 225.78,
+      "current_price": 74.34,
+      "high_52w": 81.96,
       "decline_explanation": "",
-      "sector": "Energy",
+      "sector": "Consumer Discretionary",
       "author": "oracle",
-      "created_at": "2026-06-28T01:50:53.978898",
-      "priced_at": "2026-06-28T02:27:05.684863",
-      "drawdown_from_high": 0.28013995925236956,
+      "created_at": "2026-06-28T06:32:10.687463",
+      "priced_at": "2026-06-28T06:54:05.487161",
+      "scenario_price": 74.34,
+      "drawdown_from_high": 0.09297218155197651,
       "derived": {
-        "expected_price": 185.25,
-        "expected_return": 0.13978957730880448,
-        "expected_cagr": 0.06760928120207188,
-        "asymmetry": 1.7201794120259348,
-        "quality_mult": 1.025,
-        "asymmetry_mult": 1.3115561032704377,
-        "potential_score": 0.09089019953326226
+        "expected_price": 83.3,
+        "expected_return": 0.12052730696798486,
+        "expected_cagr": 0.05854962423496457,
+        "asymmetry": 2.2610619469026543,
+        "quality_mult": 1.15,
+        "asymmetry_mult": 1.5036827946420928,
+        "potential_score": 0.1012460719841073
       },
-      "conviction": 0.1217668221504441,
-      "scenario_price": 162.53
+      "conviction": 0.13466385940423298
     },
     {
       "symbol": "TKO",
@@ -796,7 +1210,7 @@
         "https://meyka.com/blog/tko-insiders-buy-258m-in-stock-on-may-13-2026-1405/"
       ],
       "horizon_years": 2.0,
-      "current_price": 215.78,
+      "current_price": 215.88,
       "high_52w": 226.94,
       "decline_explanation": "Not a decline \u2014 trades ~5% off its high. Flagged on insiders, not distress. Minor Feb-2026 wobble (FY26 revenue guide below ~$6.0B consensus; Q1 EPS $1.12 missed $1.19) but recovered. Bear case is purely valuation (~79x trailing P/E, 4.8x book) with zero room for error, lumpy rights-renewal growth that decelerates once big UFC/WWE deals lap, and Emanuel/Silver Lake key-man + overhang. May-13 cluster buy real and in-the-money (CEO Emanuel ~$1.29M @ $185; Shapiro, CFO, Kraft) \u2014 but trailing-12m insider flow is net selling.",
       "sector": "Communication Services",
@@ -805,16 +1219,64 @@
       "drawdown_from_high": 0.04917599365471048,
       "derived": {
         "expected_price": 238.60000000000002,
-        "expected_return": 0.1057558624524979,
-        "expected_cagr": 0.05154926772476909,
-        "asymmetry": 1.9193976335604157,
+        "expected_return": 0.10524365388178625,
+        "expected_cagr": 0.0513056900263531,
+        "asymmetry": 1.9138153185397282,
         "quality_mult": 1.2374999999999998,
-        "asymmetry_mult": 1.385423268737903,
-        "potential_score": 0.08837922430296488
+        "asymmetry_mult": 1.3834071412782747,
+        "potential_score": 0.08783361423869969
       },
-      "conviction": 0.11861084833159874,
-      "priced_at": "2026-06-28T02:27:05.684554",
+      "conviction": 0.1179235879667212,
+      "priced_at": "2026-06-28T06:54:05.486924",
       "scenario_price": 215.78
+    },
+    {
+      "symbol": "VITL",
+      "business": "Vital Farms is a Certified B Corp producing ethically-sourced pasture-raised eggs, butter, and other food products sold through ~24,000 retail stores nationwide. Revenue ~$600M with premium pricing in the fast-growing pasture-raised egg category.",
+      "thesis": "VITL has collapsed 79% from its $53 high after avian influenza outbreaks decimated its pasture-raised flock supply, forcing production cuts and margin compression just as egg prices normalized from 2024-25 inflation highs. Insiders bought in late May 2026, betting the flock recovery is underway and VITL's brand premium will reassert as supply normalizes. The bear case is that repeated HPAI outbreaks make pasture-raised production structurally higher-risk than conventional, and VITL's premium narrows permanently.",
+      "scenarios": {
+        "bull": {
+          "target": 22.0,
+          "probability": 0.2
+        },
+        "base": {
+          "target": 13.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 6.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.5,
+        "quality": 0.35,
+        "management": 0.45
+      },
+      "citations": [
+        "0001193125-26-210356"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 11.05,
+      "high_52w": 53.13,
+      "decline_explanation": "VITL fell 79% from its $53.13 high after avian influenza (HPAI) outbreaks severely impacted its pasture-raised flock supply, forcing significant production cuts. Margins compressed as the company struggled to maintain supply while egg prices normalized from the 2024-25 inflationary spike, and guidance was withdrawn due to HPAI uncertainty.",
+      "sector": "Consumer Staples",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:50:53.978582",
+      "priced_at": "2026-06-28T06:54:05.486952",
+      "drawdown_from_high": 0.7893845285149633,
+      "derived": {
+        "expected_price": 12.7,
+        "expected_return": 0.1493212669683257,
+        "expected_cagr": 0.07206402186078686,
+        "asymmetry": 1.4455445544554455,
+        "quality_mult": 0.9624999999999999,
+        "asymmetry_mult": 1.2023080114743665,
+        "potential_score": 0.08339403266645212
+      },
+      "conviction": 0.11231145256351138,
+      "scenario_price": 11.19
     },
     {
       "symbol": "CELH",
@@ -844,7 +1306,7 @@
         "https://www.stocktitan.net/sec-filings/CELH/"
       ],
       "horizon_years": 2.0,
-      "current_price": 29.78,
+      "current_price": 29.8,
       "high_52w": 66.74,
       "decline_explanation": "Down ~55% from high. Slow-motion de-rate: Q1-2026 record revenue $782.6M but flagship Celsius grew only ~6% and gross margin fell to 48.3% from 52.3% on dilutive acquired-brand mix + aluminum costs (stock -10.7% on May 11). Late-March: Costco launched a Kirkland private-label energy drink (margin/competition fear). The core single-premium-brand growth thesis has quietly become a structurally lower-margin roll-up (Alani Nu, Rockstar) in a crowded category vs Monster/Red Bull. Real but modest incumbent buying (CEO Fieldly ~$249k, President Hanson, ~$700k total, no sales), roughly flat vs current.",
       "sector": "Consumer Staples",
@@ -853,15 +1315,15 @@
       "drawdown_from_high": 0.5537908300869043,
       "derived": {
         "expected_price": 33.410000000000004,
-        "expected_return": 0.12189388851578253,
-        "expected_cagr": 0.05919492470261711,
-        "asymmetry": 1.796450482033304,
+        "expected_return": 0.12114093959731553,
+        "expected_cagr": 0.058839430507438006,
+        "asymmetry": 1.7908163265306116,
         "quality_mult": 1.0125,
-        "asymmetry_mult": 1.3403173064738454,
-        "potential_score": 0.08033173180976304
+        "asymmetry_mult": 1.3382138567996564,
+        "potential_score": 0.07972398799664465
       },
-      "conviction": 0.1084195609550559,
-      "priced_at": "2026-06-28T02:27:05.684620",
+      "conviction": 0.10764514983582885,
+      "priced_at": "2026-06-28T06:54:05.486931",
       "scenario_price": 29.78
     },
     {
@@ -892,25 +1354,77 @@
         "0000064040-26-000024"
       ],
       "horizon_years": 2.0,
-      "current_price": 408.25,
+      "current_price": 410.0,
       "high_52w": 579.05,
       "decline_explanation": "SPGI fell 30% from its $579.05 high as higher interest rates suppressed debt issuance volumes globally, directly reducing ratings transaction revenue. The IHS Markit merger integration faced execution headwinds, and broader market rotation away from high-multiple data/analytics names compressed the valuation.",
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978726",
-      "priced_at": "2026-06-28T02:27:05.684764",
+      "priced_at": "2026-06-28T06:54:05.486938",
       "drawdown_from_high": 0.29496589240998183,
       "derived": {
         "expected_price": 442.5,
-        "expected_return": 0.08389467238211878,
-        "expected_cagr": 0.041102623367225366,
-        "asymmetry": 2.076923076923077,
+        "expected_return": 0.0792682926829269,
+        "expected_cagr": 0.03887838204619842,
+        "asymmetry": 2.0,
         "quality_mult": 1.3125,
-        "asymmetry_mult": 1.4411533842457842,
-        "potential_score": 0.0777461800067619
+        "asymmetry_mult": 1.4142135623730951,
+        "potential_score": 0.0721643149143741
       },
-      "conviction": 0.1051202895199177,
+      "conviction": 0.09795590873810034,
       "scenario_price": 408.25
+    },
+    {
+      "symbol": "GPK",
+      "business": "Leading fiber-based consumer packaging manufacturer supplying folding cartons and paperboard containers to food, beverage, foodservice and consumer product companies globally. Converts paperboard (largely self-manufactured) into finished packaging at 130+ converting plants. Strong secular tailwind from plastic-to-fiber substitution, offset currently by high leverage.",
+      "thesis": "GPK is a genuine fallen knife that requires careful discrimination. The bull case rests on a real secular shift from plastic to fiber packaging, durable customer relationships with branded CPG companies, and a self-supply model that is hard to replicate. The company deliberately over-invested in capacity ($922M capex in 2025) to position for the plastic-to-fiber wave; it is now cutting capex to $450M which should restore significant FCF. At $11, the stock prices in significant distress risk. The bear case is not trivial: $5.6B of debt at 4.4x leverage means any prolonged margin compression or economic downturn could impair the equity materially. Q1 2026 EBITDA fell 55% and the company posted a net loss of $43M. The decisive question: can management deleverage from 4.4x to ~3x within 2 years via capex reduction and modest EBITDA recovery? If yes, the equity is worth multiples of the current price. If margins stay compressed and interest expense crowds out FCF, the stock could test single digits. Insider context: no recent insider buying noted in the screen signal; the insider cluster flag here may reflect option exercises rather than open-market conviction purchases. Management (CEO Mike Doss since 2018) oversaw the aggressive capex cycle \u2014 a bet on secular plastic-to-fiber demand. Watch: quarterly EBITDA margin trajectory, leverage ratio, capex execution.",
+      "scenarios": {
+        "bull": {
+          "target": 22.0,
+          "probability": 0.25,
+          "description": "Capex normalization to $450M restores $700M+ annual FCF. EBITDA margins recover toward 18% by 2027. Leverage falls to ~3x, re-rating to 8x EBITDA implies ~$22/share. Plastic-to-fiber secular trend supports volume and pricing."
+        },
+        "base": {
+          "target": 13.0,
+          "probability": 0.45,
+          "description": "Slow EBITDA recovery (margins stabilize at 15-16%), deleveraging proceeds at modest pace to ~4x. Capex cut provides partial FCF relief. Stock recovers to book value support near $13 as distress premium partially unwinds."
+        },
+        "bear": {
+          "target": 4.0,
+          "probability": 0.3,
+          "description": "Margins remain compressed, revenues flat, interest expense of ~$300M+ persists. A covenant stress or refinancing at higher rates could impair equity. Recession accelerates customer volume weakness. Stock tests $4-5 range or worse."
+        }
+      },
+      "ratings": {
+        "moat": 0.4,
+        "runway": 0.45,
+        "quality": 0.35,
+        "management": 0.45
+      },
+      "citations": [
+        "0001408075-26-000016",
+        "0001408075-26-000004"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 11.0,
+      "high_52w": 23.76,
+      "decline_explanation": "Revenue fell 2.2% in FY2025 as customer destocking and competitive pricing compressed volume. EBITDA margins contracted from 19.1% to 16.2%, then collapsed further in Q1 2026 (EBITDA -55% YoY), producing a net loss of $43M. The stock reflects distress risk from $5.6B in debt at 4.4x leverage and a $922M capex cycle that consumed FCF. The plastic-to-fiber bet required significant investment exactly when end-market demand softened. Management is cutting capex to $450M; market awaits evidence of deleveraging and margin recovery before re-rating the equity.",
+      "sector": "Materials",
+      "author": "oracle",
+      "created_at": "2026-06-28T06:32:10.687263",
+      "priced_at": "2026-06-28T06:54:05.487066",
+      "scenario_price": 11.01,
+      "drawdown_from_high": 0.5366161616161617,
+      "derived": {
+        "expected_price": 12.55,
+        "expected_return": 0.14090909090909087,
+        "expected_cagr": 0.06813346118782881,
+        "asymmetry": 1.3095238095238095,
+        "quality_mult": 0.9125000000000001,
+        "asymmetry_mult": 1.1443442705426587,
+        "potential_score": 0.07114592404756093
+      },
+      "conviction": 0.09664262013464875
     },
     {
       "symbol": "GOOGL",
@@ -940,73 +1454,124 @@
         "0001652044-26-000012"
       ],
       "horizon_years": 2.0,
-      "current_price": 336.1,
+      "current_price": 338.12,
       "high_52w": 408.61,
       "decline_explanation": "",
       "sector": "Communication Services",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978785",
-      "priced_at": "2026-06-28T02:27:05.684798",
+      "priced_at": "2026-06-28T06:54:05.486945",
       "drawdown_from_high": 0.17745527520129212,
       "derived": {
         "expected_price": 366.5,
-        "expected_return": 0.09044927105028266,
-        "expected_cagr": 0.04424579053510325,
-        "asymmetry": 1.7960578186596576,
+        "expected_return": 0.08393469774044715,
+        "expected_cagr": 0.04112184577043965,
+        "asymmetry": 1.7185867895545315,
         "quality_mult": 1.2750000000000001,
-        "asymmetry_mult": 1.3401708169706046,
-        "potential_score": 0.07560356949239795
+        "asymmetry_mult": 1.310948812713346,
+        "potential_score": 0.06873350948390747
       },
-      "conviction": 0.10237698080772573,
+      "conviction": 0.09352400293824614,
       "scenario_price": 336.1
     },
     {
-      "symbol": "VITL",
-      "business": "Vital Farms is a Certified B Corp producing ethically-sourced pasture-raised eggs, butter, and other food products sold through ~24,000 retail stores nationwide. Revenue ~$600M with premium pricing in the fast-growing pasture-raised egg category.",
-      "thesis": "VITL has collapsed 79% from its $53 high after avian influenza outbreaks decimated its pasture-raised flock supply, forcing production cuts and margin compression just as egg prices normalized from 2024-25 inflation highs. Insiders bought in late May 2026, betting the flock recovery is underway and VITL's brand premium will reassert as supply normalizes. The bear case is that repeated HPAI outbreaks make pasture-raised production structurally higher-risk than conventional, and VITL's premium narrows permanently.",
+      "symbol": "POOL",
+      "business": "World's largest wholesale distributor of swimming pool supplies, equipment and related outdoor living products. POOL connects manufacturers to pool builders, retailers, and service companies through 430+ service centers in North America and Europe. ~65% of revenue is non-discretionary maintenance items (chemicals, replacement parts). Revenue is closely tied to installed pool base (6M+ US pools) plus new pool construction cycles.",
+      "thesis": "POOL is an extremely high-quality distribution business with true moat \u2014 it is nearly impossible to replicate 430+ distribution centers and supplier relationships built over 30 years. The bull case is straightforward: 65% of revenue is recurring maintenance chemicals/parts from an existing 6M-pool installed base that grows every year regardless of new construction. When new pool construction recovers to historical norms (80-100K vs current 58K), POOL's operating leverage will produce meaningful EPS expansion. The bear case is also legitimate: Berkshire Hathaway fully exited POOL in May 2026 \u2014 the highest-quality long-term validator selling is a meaningful red flag. New pool construction may not recover to historical norms if the post-COVID pool boom permanently pulled forward demand. CEO Peter Arvan retired mid-cycle and a new CEO transition creates strategy uncertainty. FY2025 EPS fell 3% to $10.73 and 2026 guide of $10.85-$11.15 implies near-zero growth. Insider context: screen flagged insider activity \u2014 need to verify if open-market buys post-decline or option-related activity. Priced-in call: at ~19x FY2026 EPS, POOL is trading near its trough multiple. The non-discretionary maintenance revenue provides a floor. The Berkshire exit is the most concerning signal \u2014 suggesting even patient holders see normalized returns as uncompelling from current construction levels.",
       "scenarios": {
         "bull": {
-          "target": 22.0,
-          "probability": 0.2
+          "target": 325.0,
+          "probability": 0.25,
+          "description": "New pool construction recovers toward 70-75K by 2027. Maintenance revenue grows 4-5%/yr. EPS reaches $13.50 on operating leverage. New CEO executes well. At 24x, stock recovers to $325."
         },
         "base": {
-          "target": 13.0,
-          "probability": 0.5
+          "target": 230.0,
+          "probability": 0.5,
+          "description": "Construction stays flat at 55-60K. Maintenance/chemical growth sustains 3-4% total revenue growth. EPS reaches $11.50-$12.00 by 2027. At 20x, stock recovers modestly to $230-$240."
         },
         "bear": {
-          "target": 6.0,
+          "target": 140.0,
+          "probability": 0.25,
+          "description": "Construction stays depressed or declines further. New CEO changes strategy sub-optimally. EPS stays flat at $10.75. Multiple compresses to 13-14x on growth-less earnings. Stock tests $140-$150."
+        }
+      },
+      "ratings": {
+        "moat": 0.75,
+        "runway": 0.5,
+        "quality": 0.7,
+        "management": 0.6
+      },
+      "citations": [
+        "0001193125-26-058288"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 211.61,
+      "high_52w": 345.0,
+      "decline_explanation": "POOL fell 38% from its $345 52-week high as new pool construction remained depressed at ~58K annually versus the 80-100K historical norm. FY2025 EPS declined 3% to $10.73 with a soft Q4 2025 and underwhelming 2026 guidance of $10.85-$11.15 implying near-zero growth. Berkshire Hathaway fully exited its POOL position in May 2026, removing a high-profile quality endorser. A CEO transition mid-cycle adds strategic uncertainty. The market is questioning whether post-COVID pool construction demand was permanently pulled forward.",
+      "sector": "Industrials",
+      "author": "oracle",
+      "created_at": "2026-06-28T06:32:10.687400",
+      "priced_at": "2026-06-28T06:54:05.487134",
+      "scenario_price": 211.7,
+      "drawdown_from_high": 0.3863768115942029,
+      "derived": {
+        "expected_price": 231.25,
+        "expected_return": 0.09281224894853723,
+        "expected_cagr": 0.045376606275717934,
+        "asymmetry": 1.5834380673090345,
+        "quality_mult": 1.1375,
+        "asymmetry_mult": 1.2583473555855054,
+        "potential_score": 0.06495071823296228
+      },
+      "conviction": 0.08861215815936441
+    },
+    {
+      "symbol": "GPOR",
+      "business": "Gulfport Energy is an independent natural gas E&P company focused on the Utica Shale in eastern Ohio and the SCOOP play in Oklahoma. Revenue ~$1.5B with production of ~1 Bcfe/d, primarily dry gas and NGLs, operating with low leverage post-2020 bankruptcy reorganization.",
+      "thesis": "GPOR trades 28% below its 52-week high as natural gas prices weakened from 2024 highs and gas-weighted E&Ps de-rated on oversupply concerns from associated gas production growth. Insider buying signals confidence that gas prices stabilize as LNG export demand ramps (US LNG capacity expanding 40%+ through 2027) and Appalachian gas production plateaus. The bull case is a gas price recovery driving significant FCF and shareholder returns. The bear case is that gas stays range-bound at $2-3/MMBtu, limiting GPOR's economics, and the Utica well inventory thins faster than expected.",
+      "scenarios": {
+        "bull": {
+          "target": 240.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 195.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 125.0,
           "probability": 0.3
         }
       },
       "ratings": {
-        "moat": 0.55,
-        "runway": 0.5,
-        "quality": 0.35,
-        "management": 0.45
+        "moat": 0.4,
+        "runway": 0.55,
+        "quality": 0.55,
+        "management": 0.6
       },
       "citations": [
-        "0001193125-26-210356"
+        "0001536737-26-000009"
       ],
       "horizon_years": 2.0,
-      "current_price": 11.19,
-      "high_52w": 53.13,
-      "decline_explanation": "VITL fell 79% from its $53.13 high after avian influenza (HPAI) outbreaks severely impacted its pasture-raised flock supply, forcing significant production cuts. Margins compressed as the company struggled to maintain supply while egg prices normalized from the 2024-25 inflationary spike, and guidance was withdrawn due to HPAI uncertainty.",
-      "sector": "Consumer Staples",
+      "current_price": 167.49,
+      "high_52w": 225.78,
+      "decline_explanation": "",
+      "sector": "Energy",
       "author": "oracle",
-      "created_at": "2026-06-28T01:50:53.978582",
-      "priced_at": "2026-06-28T02:27:05.684706",
-      "drawdown_from_high": 0.7893845285149633,
+      "created_at": "2026-06-28T01:50:53.978898",
+      "priced_at": "2026-06-28T06:54:05.486918",
+      "drawdown_from_high": 0.28013995925236956,
       "derived": {
-        "expected_price": 12.7,
-        "expected_return": 0.1349419124218052,
-        "expected_cagr": 0.06533652543306956,
-        "asymmetry": 1.3885677585099556,
-        "quality_mult": 0.9624999999999999,
-        "asymmetry_mult": 1.1783750500201349,
-        "potential_score": 0.07410377149688509
+        "expected_price": 185.25,
+        "expected_return": 0.10603618126455294,
+        "expected_cagr": 0.051682547760755204,
+        "asymmetry": 1.4220993174864671,
+        "quality_mult": 1.025,
+        "asymmetry_mult": 1.1925180575095988,
+        "potential_score": 0.06317318074937292
       },
-      "conviction": 0.10045170015718319,
-      "scenario_price": 11.19
+      "conviction": 0.0862948943150822,
+      "scenario_price": 162.53
     },
     {
       "symbol": "CHTR",
@@ -1036,73 +1601,25 @@
         "0001091667-26-000028"
       ],
       "horizon_years": 2.0,
-      "current_price": 133.66,
+      "current_price": 135.0,
       "high_52w": 422.29,
       "decline_explanation": "CHTR fell 68% from its $422.29 high due to accelerating broadband subscriber losses to fixed wireless alternatives (T-Mobile Home Internet, Verizon 5G Home), cord-cutting reducing video revenue, heavy capex for network upgrades compressing FCF, and rising interest rates pressuring the highly-leveraged balance sheet (~4.5x net debt/EBITDA).",
       "sector": "Communication Services",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978653",
-      "priced_at": "2026-06-28T02:27:05.684736",
+      "priced_at": "2026-06-28T06:54:05.486959",
       "drawdown_from_high": 0.6834876506666036,
       "derived": {
         "expected_price": 148.0,
-        "expected_return": 0.10728714649109694,
-        "expected_cagr": 0.052277124378885764,
-        "asymmetry": 1.4786272092067407,
+        "expected_return": 0.09629629629629632,
+        "expected_cagr": 0.04704168794575536,
+        "asymmetry": 1.4166666666666667,
         "quality_mult": 0.9625,
-        "asymmetry_mult": 1.215988161622777,
-        "potential_score": 0.06118455070459131
+        "asymmetry_mult": 1.1902380714238083,
+        "potential_score": 0.05389115263943611
       },
-      "conviction": 0.08369545880190554,
+      "conviction": 0.07409844391758291,
       "scenario_price": 133.66
-    },
-    {
-      "symbol": "MRP",
-      "business": "Mapletree Industrial Trust (traded as Marcel Partners REIT on US exchange) is a Singapore-based REIT focused on industrial properties including data centers, hi-tech buildings, and flatted factories across Singapore, the US, and Japan. Revenue from long-term triple-net leases.",
-      "thesis": "MRP trades near its 52-week high with insider buying confirming management confidence in the data center and industrial REIT thesis. The portfolio benefits from secular demand for digital infrastructure. Upside comes from accretive acquisitions and rental escalators; the bear case is that rising rates compress REIT valuations and vacancy increases in non-data-center industrial assets.",
-      "scenarios": {
-        "bull": {
-          "target": 38.0,
-          "probability": 0.35
-        },
-        "base": {
-          "target": 33.0,
-          "probability": 0.4
-        },
-        "bear": {
-          "target": 26.0,
-          "probability": 0.25
-        }
-      },
-      "ratings": {
-        "moat": 0.55,
-        "runway": 0.7,
-        "quality": 0.6,
-        "management": 0.7
-      },
-      "citations": [
-        "0002017206-26-000002"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 30.91,
-      "high_52w": 36.0,
-      "decline_explanation": "",
-      "sector": "Real Estate",
-      "author": "oracle",
-      "created_at": "2026-06-28T01:50:53.978599",
-      "priced_at": "2026-06-28T02:27:05.684713",
-      "drawdown_from_high": 0.1413888888888889,
-      "derived": {
-        "expected_price": 33.0,
-        "expected_return": 0.06761565836298922,
-        "expected_cagr": 0.033254885477435936,
-        "asymmetry": 2.021588594704684,
-        "quality_mult": 1.1375,
-        "asymmetry_mult": 1.421825796187664,
-        "potential_score": 0.0537840189489841
-      },
-      "conviction": 0.07395672557199806,
-      "scenario_price": 30.91
     },
     {
       "symbol": "OLED",
@@ -1132,7 +1649,7 @@
         "https://www.stocktitan.net/sec-filings/OLED/"
       ],
       "horizon_years": 2.0,
-      "current_price": 87.05,
+      "current_price": 87.16,
       "high_52w": 162.36,
       "decline_explanation": "Down ~46%, just above the 52-wk low. Q1-2026: revenue $142.2M (from $166.3M); high-margin royalties collapsed to $54.2M from $73.6M (-26%) on adverse customer mix; EPS $0.76 vs $1.35; FY26 guidance CUT to $630-670M. Structural overhangs: core emitter patents start expiring ~2027-2028 (erodes the royalty toll-booth); extreme concentration (one customer ~42% of 9M-2025 revenue); blue-PHOLED catalyst promised 2024\u21922H25, still no TV shipped (2027+ realistic); TADF/tandem competition + BOE litigation. Insider cluster ~$1.5M (CEO/CLO/director) but all underwater @ ~$92-95, from the same team whose guidance keeps disappointing.",
       "sector": "Information Technology",
@@ -1141,16 +1658,68 @@
       "drawdown_from_high": 0.46384577482138467,
       "derived": {
         "expected_price": 94.09,
-        "expected_return": 0.0808730614589317,
-        "expected_cagr": 0.03965045157443736,
-        "asymmetry": 1.5916523235800346,
+        "expected_return": 0.07950894905920158,
+        "expected_cagr": 0.038994200686029545,
+        "asymmetry": 1.5820105820105823,
         "quality_mult": 1.05,
-        "asymmetry_mult": 1.2616070400802442,
-        "potential_score": 0.05252445329110453
+        "asymmetry_mult": 1.2577800213115895,
+        "potential_score": 0.05149843289839778
       },
-      "conviction": 0.07228892222186334,
-      "priced_at": "2026-06-28T02:27:05.684610",
+      "conviction": 0.07092813877960191,
+      "priced_at": "2026-06-28T06:54:05.486972",
       "scenario_price": 87.05
+    },
+    {
+      "symbol": "IBP",
+      "business": "Largest US installer of insulation and complementary building products for residential construction. IBP installs fiberglass and spray foam insulation for new single-family homes and multifamily buildings, plus gutters, waterproofing, fire-stopping and shower glass. Operations are branch-based across 220+ locations in 48 states. Revenue is highly correlated with US housing starts.",
+      "thesis": "IBP is the market-share leader in a fragmented, local-service installation industry. Its bull case rests on durable competitive advantage through scale, local density, and builder relationships \u2014 the company consistently gains share in downturns. The bear case is the timing of a housing recovery: new residential same-store sales fell 4.4% in FY2025 and Q1 2026 EPS of $1.79 missed $1.98 consensus, triggering a 10.6% single-day selloff. Housing starts remain near multi-decade lows. Bull: when housing recovers (likely 2027+), IBP's operating leverage is substantial \u2014 fixed branch costs over higher volumes produce dramatic earnings expansion. Energy code tightening structurally increases insulation demand per new home. Management has shown capital allocation discipline (M&A, buybacks). Bear: the housing recovery timeline is genuinely uncertain; rates may stay elevated through 2026. IBP generates ~$800M in revenue from the commercial segment which provides some diversification, but 65%+ is residential. Insider context: insider buying flagged; CEO Jeff Edwards has been long-tenured since 2011 and owns meaningful shares. Priced-in: at $233 the stock is trading at ~18x depressed 2026 EPS, which seems to price in continued weakness. A normalization to 65K+ housing starts by 2027 would push EPS toward $13-14, and at 22-24x gives meaningful upside.",
+      "scenarios": {
+        "bull": {
+          "target": 350.0,
+          "probability": 0.25,
+          "description": "US housing starts recover to 65K+ new homes by 2027. IBP residential SSS returns to +5-7%. EPS reaches $13-$14 on operating leverage. At 24x earnings, stock recovers toward $350."
+        },
+        "base": {
+          "target": 255.0,
+          "probability": 0.5,
+          "description": "Housing starts stabilize at current levels with modest improvement. EPS recovers slowly to $11.50-$12.00 by 2027 via cost management and commercial segment growth. At 21-22x, stock reaches $250-$260."
+        },
+        "bear": {
+          "target": 145.0,
+          "probability": 0.25,
+          "description": "Housing starts deteriorate further as rates stay elevated. Residential SSS falls another 5-8%. EPS compressed to $8-9. At 17x trough earnings, stock tests $145-$155."
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.6,
+        "quality": 0.65,
+        "management": 0.7
+      },
+      "citations": [
+        "0001628280-26-031702",
+        "0001628280-26-011994"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 233.32,
+      "high_52w": 349.0,
+      "decline_explanation": "IBP fell 33% from its $349 52-week high due to US housing market weakness. Residential same-store sales declined 4.4% in FY2025. Q1 2026 revenue dropped 3.5% YoY with EPS of $1.79 coming in below the $1.98 consensus estimate, triggering a 10.6% single-session decline in April 2026. New home starts remain near multi-decade lows driven by elevated mortgage rates suppressing builder activity. The decline is cyclical rather than structural \u2014 IBP's competitive position has strengthened through the downturn.",
+      "sector": "Industrials",
+      "author": "oracle",
+      "created_at": "2026-06-28T06:32:10.687370",
+      "priced_at": "2026-06-28T06:54:05.487111",
+      "scenario_price": 233.4,
+      "drawdown_from_high": 0.33123209169054435,
+      "derived": {
+        "expected_price": 251.25,
+        "expected_return": 0.0768472484141951,
+        "expected_cagr": 0.037712507592635225,
+        "asymmetry": 1.3211050724637683,
+        "quality_mult": 1.15,
+        "asymmetry_mult": 1.1493933497561957,
+        "potential_score": 0.04984848124404571
+      },
+      "conviction": 0.06873566494847294
     },
     {
       "symbol": "GEHC",
@@ -1180,24 +1749,24 @@
         "0001932393-26-000007"
       ],
       "horizon_years": 2.0,
-      "current_price": 65.67,
+      "current_price": 65.76,
       "high_52w": 89.77,
       "decline_explanation": "",
       "sector": "Health Care",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978763",
-      "priced_at": "2026-06-28T02:27:05.684784",
+      "priced_at": "2026-06-28T06:54:05.486978",
       "drawdown_from_high": 0.2684638520663918,
       "derived": {
         "expected_price": 70.5,
-        "expected_return": 0.07354956601187745,
-        "expected_cagr": 0.03612237019180187,
-        "asymmetry": 1.425015954052329,
+        "expected_return": 0.07208029197080279,
+        "expected_cagr": 0.035413102085734005,
+        "asymmetry": 1.4111675126903545,
         "quality_mult": 1.1625,
-        "asymmetry_mult": 1.1937403210297997,
-        "potential_score": 0.05012784837985064
+        "asymmetry_mult": 1.1879257185069925,
+        "potential_score": 0.04890420663496756
       },
-      "conviction": 0.06910725457924827,
+      "conviction": 0.06747857544656011,
       "scenario_price": 65.67
     },
     {
@@ -1234,7 +1803,7 @@
       "sector": "Consumer Discretionary",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978614",
-      "priced_at": "2026-06-28T02:27:05.684721",
+      "priced_at": "2026-06-28T06:54:05.486985",
       "drawdown_from_high": 0.6063601797442102,
       "derived": {
         "expected_price": 61.150000000000006,
@@ -1247,6 +1816,105 @@
       },
       "conviction": 0.06626271564199326,
       "scenario_price": 56.94
+    },
+    {
+      "symbol": "STZ",
+      "business": "US-focused producer and importer of beer (Modelo Especial #1, Corona Extra #3 US beer brands, Pacifico, Modelo Chelada), wine (Woodbridge, Robert Mondavi, Kim Crawford) and spirits (Casa Noble tequila). Beer is ~80% of sales and 100%+ of profits \u2014 wine/spirits runs at near-breakeven. All beer is manufactured in Mexico and imported. Revenue ~$10B. Fiscal year ends Feb 28.",
+      "thesis": "Constellation's bull case rests on Modelo Especial being the #1 beer brand in the US \u2014 displacing Bud Light as America's top-selling beer in 2023 and holding. Modelo's premium positioning and Hispanic consumer base creates a durable, growing brand. The bear case is currently in full force: tariffs on Mexican beer imports under the revised US-Mexico trade framework, combined with macroeconomic pressure on the Hispanic consumer (its core demographic), forced management to cut EPS guidance from $12.60-$12.90 to $11.30-$11.60 \u2014 a >10% reduction. Bull case: Tariffs are negotiated and the existing US-Mexico-Canada Agreement (USMCA) provides a framework; Mexican beer is a strategic import with no domestic alternative at scale. The Hispanic consumer is a permanently growing demographic. Modelo/Corona franchise-level economics are exceptional (90%+ gross margin on brand licensing). STZ trades at only 12.5x depressed EPS. Bear case: If tariffs persist at 25%+ on Mexico goods, cost of goods increases are only partially passable. Beer volume trends are declining (the entire US beer industry is losing share to spirits and RTDs). The wine/spirits segment is a drag. Management's rapid guidance cut signals tariff impact is front-loaded and severe. Insider context: no notable management buying flagged; the insider screen signal here may reflect Mexico operations management. Priced-in: at 12.5x trough EPS, tariffs appear substantially priced in. The risk is that tariffs prove permanent and beer volumes deteriorate \u2014 neither is the base case, but both are non-trivial.",
+      "scenarios": {
+        "bull": {
+          "target": 220.0,
+          "probability": 0.25,
+          "description": "Tariff resolution by early 2027 removes the Mexico import headwind. Beer volumes stabilize and recover. EPS rebounds to $13.50 by FY2028. At 16x, stock recovers toward $216."
+        },
+        "base": {
+          "target": 158.0,
+          "probability": 0.5,
+          "description": "Tariffs persist at moderate levels, partially passed through pricing. Beer volumes flat to -1%. EPS stabilizes at $11.50-$12.00 by FY2027. At 13-14x trough earnings, stock reaches $155-$165."
+        },
+        "bear": {
+          "target": 90.0,
+          "probability": 0.25,
+          "description": "Tariffs escalate to 35-40% on Mexico imports. Beer volumes decline 3-5% as price hikes crimp volume. EPS falls to $8.50-$9.00. Wine/spirits segment needs restructuring. At 10x EPS, stock tests $90."
+        }
+      },
+      "ratings": {
+        "moat": 0.75,
+        "runway": 0.5,
+        "quality": 0.65,
+        "management": 0.65
+      },
+      "citations": [
+        "0000016918-25-000132"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 146.18,
+      "high_52w": 178.14,
+      "decline_explanation": "",
+      "sector": "Consumer Staples",
+      "author": "oracle",
+      "created_at": "2026-06-28T06:32:10.687480",
+      "priced_at": "2026-06-28T06:54:05.487168",
+      "scenario_price": 146.27,
+      "drawdown_from_high": 0.1789042326260244,
+      "derived": {
+        "expected_price": 156.5,
+        "expected_return": 0.07059789300861952,
+        "expected_cagr": 0.03469700541202858,
+        "asymmetry": 1.3139907440370235,
+        "quality_mult": 1.1375,
+        "asymmetry_mult": 1.1462943531384178,
+        "potential_score": 0.04524176631363193
+      },
+      "conviction": 0.06258678372942394
+    },
+    {
+      "symbol": "MRP",
+      "business": "Mapletree Industrial Trust (traded as Marcel Partners REIT on US exchange) is a Singapore-based REIT focused on industrial properties including data centers, hi-tech buildings, and flatted factories across Singapore, the US, and Japan. Revenue from long-term triple-net leases.",
+      "thesis": "MRP trades near its 52-week high with insider buying confirming management confidence in the data center and industrial REIT thesis. The portfolio benefits from secular demand for digital infrastructure. Upside comes from accretive acquisitions and rental escalators; the bear case is that rising rates compress REIT valuations and vacancy increases in non-data-center industrial assets.",
+      "scenarios": {
+        "bull": {
+          "target": 38.0,
+          "probability": 0.35
+        },
+        "base": {
+          "target": 33.0,
+          "probability": 0.4
+        },
+        "bear": {
+          "target": 26.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.7,
+        "quality": 0.6,
+        "management": 0.7
+      },
+      "citations": [
+        "0002017206-26-000002"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 31.16,
+      "high_52w": 36.0,
+      "decline_explanation": "",
+      "sector": "Real Estate",
+      "author": "oracle",
+      "created_at": "2026-06-28T01:50:53.978599",
+      "priced_at": "2026-06-28T06:54:05.486965",
+      "drawdown_from_high": 0.1413888888888889,
+      "derived": {
+        "expected_price": 33.0,
+        "expected_return": 0.05905006418485237,
+        "expected_cagr": 0.029101581081698802,
+        "asymmetry": 1.8558139534883717,
+        "quality_mult": 1.1375,
+        "asymmetry_mult": 1.3622826261420102,
+        "potential_score": 0.04509570781722971
+      },
+      "conviction": 0.062391167372145784,
+      "scenario_price": 30.91
     },
     {
       "symbol": "ABNB",
@@ -1276,24 +1944,24 @@
         "0001559720-26-000014"
       ],
       "horizon_years": 2.0,
-      "current_price": 145.58,
+      "current_price": 145.98,
       "high_52w": 147.27,
       "decline_explanation": "",
       "sector": "Consumer Discretionary",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978698",
-      "priced_at": "2026-06-28T02:27:05.684750",
+      "priced_at": "2026-06-28T06:54:05.486992",
       "drawdown_from_high": 0.0114755211516262,
       "derived": {
         "expected_price": 154.0,
-        "expected_return": 0.057837615057013236,
-        "expected_cagr": 0.02851233101845363,
-        "asymmetry": 1.5468933943754075,
+        "expected_return": 0.054939032744211636,
+        "expected_cagr": 0.027102250384162918,
+        "asymmetry": 1.5114267269205948,
         "quality_mult": 1.275,
-        "asymmetry_mult": 1.2437416911784407,
-        "potential_score": 0.045214017870422056
+        "asymmetry_mult": 1.2294009626320432,
+        "potential_score": 0.042482404207525304
       },
-      "conviction": 0.06254962333947545,
+      "conviction": 0.05888425879494874,
       "scenario_price": 145.58
     },
     {
@@ -1324,25 +1992,76 @@
         "0001628280-26-029100"
       ],
       "horizon_years": 2.0,
-      "current_price": 55.91,
+      "current_price": 55.87,
       "high_52w": 65.94,
       "decline_explanation": "",
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978839",
-      "priced_at": "2026-06-28T02:27:05.684827",
+      "priced_at": "2026-06-28T06:54:05.486998",
       "drawdown_from_high": 0.15210797694874134,
       "derived": {
         "expected_price": 59.099999999999994,
-        "expected_return": 0.05705598282954738,
-        "expected_cagr": 0.028132278857904147,
-        "asymmetry": 1.3880661394680092,
+        "expected_return": 0.0578127796670842,
+        "expected_cagr": 0.028500257494904258,
+        "asymmetry": 1.3955299206921417,
         "quality_mult": 1.025,
-        "asymmetry_mult": 1.1781621872509782,
-        "potential_score": 0.03397299687137237
+        "asymmetry_mult": 1.1813254931187007,
+        "potential_score": 0.03450978275765716
       },
-      "conviction": 0.047373957520490007,
+      "conviction": 0.04810418637933178,
       "scenario_price": 55.91
+    },
+    {
+      "symbol": "UNP",
+      "business": "One of two Class I western railroads in the US. 32,000-mile network connecting 23 US states and major Pacific ports (Los Angeles/Long Beach, Seattle/Tacoma) to Midwest markets and Gulf of Mexico. Hauls agricultural products, chemicals, intermodal containers, coal, and finished vehicles. Duopoly with BNSF in the West. Record FY2025: net income $7.1B (+6%), EPS $11.98 (+8%), OR 59.8%.",
+      "thesis": "Union Pacific is arguably the best-positioned Class I railroad given its coastal port connections and growing trade volumes with Mexico. FY2025 was a record year: 59.8% operating ratio (best-in-class for western rails) and the precision-railroading playbook under CEO Jim Vena continuing to improve asset utilization. Q1 2026 showed steady execution (EPS $2.87, OR 60.5%). Bull case: nearshoring tailwinds from US-China trade tensions and tariff restructuring are driving freight volume to Mexico-US corridors, which UNP is uniquely positioned to serve (UP runs the only rail connecting Mexico manufacturing hubs to US Midwest). Intermodal volume is recovering from pandemic distortions. At 21.7x FY2026 consensus EPS ($12.39), UNP is not cheap but is close to historical fair value for a regulated duopoly asset. Bear case: rail pricing power is constrained by Surface Transportation Board oversight and truck competition. Any economic slowdown hits freight volumes disproportionately. Coal volumes are in secular decline (~15% of revenue). The 4% drawdown from 52-week high suggests the market is nearly fully valuing the nearshoring story. Insider context: insider buying flagged in the screen \u2014 management ownership is meaningful and options have been purchased below current prices. Priced-in: UNP is fairly valued at current prices with modest upside if nearshoring volumes accelerate and modest downside risk if the economy weakens. It is a quality anchor position rather than a high-conviction bet.",
+      "scenarios": {
+        "bull": {
+          "target": 345.0,
+          "probability": 0.3,
+          "description": "Nearshoring accelerates Mexico-US corridor volumes +8-10%. Intermodal recovery boosts mix. OR improves to 58%. EPS reaches $14 by 2027. At 25x (warranted by growth), stock reaches $350."
+        },
+        "base": {
+          "target": 275.0,
+          "probability": 0.5,
+          "description": "Steady execution. Consensus 2026 EPS of $12.39 achieved. OR holds at 60-61%. Modest volume growth of 2-3%. At 22x, stock near $272."
+        },
+        "bear": {
+          "target": 195.0,
+          "probability": 0.2,
+          "description": "US economic slowdown; freight volumes fall 5-8%. Coal declines accelerate. OR deteriorates to 64%. EPS falls to $10.50. At 18x cyclical trough, stock tests $190-$200."
+        }
+      },
+      "ratings": {
+        "moat": 0.85,
+        "runway": 0.55,
+        "quality": 0.8,
+        "management": 0.8
+      },
+      "citations": [
+        "0000100885-26-000154"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 268.35,
+      "high_52w": 279.7,
+      "decline_explanation": "",
+      "sector": "Industrials",
+      "author": "oracle",
+      "created_at": "2026-06-28T06:32:10.687491",
+      "priced_at": "2026-06-28T06:54:05.487175",
+      "scenario_price": 268.32,
+      "drawdown_from_high": 0.04068644976760816,
+      "derived": {
+        "expected_price": 280.0,
+        "expected_return": 0.04341345258058493,
+        "expected_cagr": 0.02147611454237386,
+        "asymmetry": 1.567484662576686,
+        "quality_mult": 1.25,
+        "asymmetry_mult": 1.2519922773630379,
+        "potential_score": 0.03360991194352013
+      },
+      "conviction": 0.046879709124463376
     },
     {
       "symbol": "ECL",
@@ -1372,24 +2091,24 @@
         "0001104659-26-056737"
       ],
       "horizon_years": 2.0,
-      "current_price": 283.52,
+      "current_price": 283.65,
       "high_52w": 309.27,
       "decline_explanation": "",
       "sector": "Materials",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978713",
-      "priced_at": "2026-06-28T02:27:05.684757",
+      "priced_at": "2026-06-28T06:54:05.487005",
       "drawdown_from_high": 0.08326058136903025,
       "derived": {
         "expected_price": 293.75,
-        "expected_return": 0.036082110609480855,
-        "expected_cagr": 0.017881186882575673,
-        "asymmetry": 1.7595015576324002,
+        "expected_return": 0.035607262471355705,
+        "expected_cagr": 0.017647906926239187,
+        "asymmetry": 1.7495472186287209,
         "quality_mult": 1.2375,
-        "asymmetry_mult": 1.326462045304124,
-        "potential_score": 0.029351910709349168
+        "asymmetry_mult": 1.3227045091889271,
+        "potential_score": 0.028886920510490303
       },
-      "conviction": 0.04106434378249746,
+      "conviction": 0.040427138336469826,
       "scenario_price": 283.52
     },
     {
@@ -1420,7 +2139,7 @@
         "https://www.investing.com/news/transcripts/earnings-call-transcript-willis-towers-watson-q1-2026-sees-mixed-results-stock-tumbles-93CH-4650192"
       ],
       "horizon_years": 2.0,
-      "current_price": 265.52,
+      "current_price": 265.43,
       "high_52w": 352.79,
       "decline_explanation": "Down ~27% from high. Q1 2026 (Apr 30): beat EPS but cut Risk&Broking organic growth to mid-single-digits on missed new-business + softening commercial pricing cycle; consulting cut to low/mid-single with no near-term recovery. Structurally the weakest of the big-4 brokers (trails Marsh/Aon). NOTE: screen's insider-buying + Pershing-Square flags could NOT be verified \u2014 recent Form 4s are routine RSU grants, and WTW is absent from Pershing's Q1-2026 13F.",
       "sector": "Financials",
@@ -1429,15 +2148,15 @@
       "drawdown_from_high": 0.2473709572266789,
       "derived": {
         "expected_price": 274.31,
-        "expected_return": 0.033104850858692414,
-        "expected_cagr": 0.016417655719681123,
-        "asymmetry": 1.1932848645076017,
+        "expected_return": 0.03345514825000939,
+        "expected_cagr": 0.0165899607265505,
+        "asymmetry": 1.1967301009432398,
         "quality_mult": 1.0875,
-        "asymmetry_mult": 1.0923757890522847,
-        "potential_score": 0.01950349646302827
+        "asymmetry_mult": 1.0939515989947817,
+        "potential_score": 0.01973661779467672
       },
-      "conviction": 0.02747756836243409,
-      "priced_at": "2026-06-28T02:27:05.684485",
+      "conviction": 0.02780139404370452,
+      "priced_at": "2026-06-28T06:54:05.487011",
       "scenario_price": 265.52
     },
     {
@@ -1474,7 +2193,7 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978887",
-      "priced_at": "2026-06-28T02:27:05.684857",
+      "priced_at": "2026-06-28T06:54:05.487018",
       "drawdown_from_high": 0.03802710843373491,
       "derived": {
         "expected_price": 26.25,
@@ -1516,24 +2235,24 @@
         "0001628280-26-028915"
       ],
       "horizon_years": 2.0,
-      "current_price": 59.6,
+      "current_price": 59.61,
       "high_52w": 92.41,
       "decline_explanation": "FND fell 36% from its $92.41 high as rising mortgage rates suppressed existing home sales and remodeling activity, directly impacting hard-surface flooring demand. New residential construction starts declined, same-store sales growth decelerated to low-single-digits, and the market repriced FND's long-term unit growth story on concerns about the extended housing cycle downturn.",
       "sector": "Consumer Discretionary",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978774",
-      "priced_at": "2026-06-28T02:27:05.684791",
+      "priced_at": "2026-06-28T06:54:05.487025",
       "drawdown_from_high": 0.35504815496158415,
       "derived": {
         "expected_price": 60.5,
-        "expected_return": 0.015100671140939603,
-        "expected_cagr": 0.007522044990053711,
-        "asymmetry": 1.1428571428571428,
+        "expected_return": 0.014930380808589216,
+        "expected_cagr": 0.007437531963440991,
+        "asymmetry": 1.1417644059153493,
         "quality_mult": 1.1749999999999998,
-        "asymmetry_mult": 1.0690449676496976,
-        "potential_score": 0.009448650103085557
+        "asymmetry_mult": 1.0685337645181594,
+        "potential_score": 0.009338023482453193
       },
-      "conviction": 0.013407381115056016,
+      "conviction": 0.013251449640446111,
       "scenario_price": 59.6
     },
     {
@@ -1570,7 +2289,7 @@
       "sector": "Consumer Discretionary",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978629",
-      "priced_at": "2026-06-28T02:27:05.684728",
+      "priced_at": "2026-06-28T06:54:05.487031",
       "drawdown_from_high": 0.02734091458988619,
       "derived": {
         "expected_price": 40.2,
@@ -1612,7 +2331,7 @@
         "https://openinsider.com/CAVA"
       ],
       "horizon_years": 2.0,
-      "current_price": 83.41,
+      "current_price": 83.4,
       "high_52w": 98.79,
       "decline_explanation": "Not a real decline \u2014 only ~15% off the high and still +58% YTD; flagged on insider buying, not distress. Bear case is valuation: ~140-175x trailing P/E, ~63-67x EV/EBITDA (industry median ~9.5x), priced for flawless execution on volatile comps (Q4-2025 was +0.5% before Q1's +9.7%). The two insider buys (COO $318k @ ~$79.45; CLO $70k @ ~$70) are tiny and underwater, set against heavy persistent founder/CEO selling (~50 sells / 0 buys; Chairman Shaich ~2.4M sh). Insider signal here is effectively noise.",
       "sector": "Consumer Discretionary",
@@ -1621,15 +2340,15 @@
       "drawdown_from_high": 0.15568377366130182,
       "derived": {
         "expected_price": 82.64000000000001,
-        "expected_return": -0.009231507013547358,
-        "expected_cagr": -0.004626455552262154,
-        "asymmetry": 0.8907831567056587,
+        "expected_return": -0.009112709832134192,
+        "expected_cagr": -0.004566782668035674,
+        "asymmetry": 0.8911685994647633,
         "quality_mult": 1.125,
-        "asymmetry_mult": 0.9438130941588269,
-        "potential_score": -0.004912322995989931
+        "asymmetry_mult": 0.9440172665077495,
+        "potential_score": -0.0048500119023907546
       },
       "conviction": 0.0,
-      "priced_at": "2026-06-28T02:27:05.684595",
+      "priced_at": "2026-06-28T06:54:05.487039",
       "scenario_price": 83.41
     },
     {
@@ -1660,22 +2379,22 @@
         "0001193125-26-210307"
       ],
       "horizon_years": 2.0,
-      "current_price": 15.88,
+      "current_price": 15.99,
       "high_52w": 46.95,
       "decline_explanation": "WW fell 66% from its $46.95 high as GLP-1 agonist weight loss drugs (Ozempic, Wegovy, Mounjaro) disrupted the behavioral weight management market, causing accelerating subscriber churn. The company's pivot to clinical GLP-1 prescribing via telehealth has been slow to gain traction, and revenue guidance was repeatedly cut as the structural shift away from behavioral-only programs accelerated.",
       "sector": "Consumer Staples",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978739",
-      "priced_at": "2026-06-28T02:27:05.684770",
+      "priced_at": "2026-06-28T06:54:05.487046",
       "drawdown_from_high": 0.6617678381256655,
       "derived": {
         "expected_price": 14.8,
-        "expected_return": -0.06801007556675065,
-        "expected_cagr": -0.034603747452244704,
-        "asymmetry": 0.714574898785425,
+        "expected_return": -0.07442151344590364,
+        "expected_cagr": -0.03793010308289124,
+        "asymmetry": 0.7012012012012011,
         "quality_mult": 0.8375,
-        "asymmetry_mult": 0.8453253212730736,
-        "potential_score": -0.024498067543318885
+        "asymmetry_mult": 0.837377573858532,
+        "potential_score": -0.026600522320195226
       },
       "conviction": 0.0,
       "scenario_price": 15.88
@@ -1708,7 +2427,7 @@
         "https://www.investing.com/news/insider-trading-news/equipmentshare-director-w-bryan-hill-buys-499k-in-stock-93CH-4702745"
       ],
       "horizon_years": 2.0,
-      "current_price": 20.47,
+      "current_price": 20.75,
       "high_52w": 35.5,
       "decline_explanation": "Down ~41% from its Jan-29 post-IPO peak (IPO'd Jan 13 @ $24.50). Classic falling-knife profile: unprofitable, ~$3.1-3.3B long-term debt + ~$999M ABL drawn, ~$70M/qtr interest, Q1-2026 net losses, analysts warning of <1yr cash absent improved cash flow (dilution/balance-sheet risk). Competes vs entrenched profitable giants (United Rentals, Ashtead) in a cyclical, rate-exposed industry. FLAG CORRECTION: the screen's 'activist 13D' is NOT an outside activist \u2014 it's co-founder/CEO Jabbok Schlacks disclosing a 16.2% stake; founders control ~81% of votes (dual-class), so minority holders have little recourse. Director Hill bought ~$499k @ $22.89 (real) but it doesn't de-risk the balance sheet.",
       "sector": "Industrials",
@@ -1717,15 +2436,15 @@
       "drawdown_from_high": 0.42338028169014086,
       "derived": {
         "expected_price": 18.52,
-        "expected_return": -0.09526135808500247,
-        "expected_cagr": -0.04882249715681486,
-        "asymmetry": 0.6701540249927349,
+        "expected_return": -0.1074698795180723,
+        "expected_cagr": -0.055261877300419426,
+        "asymmetry": 0.6382978723404256,
         "quality_mult": 0.9,
-        "asymmetry_mult": 0.8186293575194667,
-        "potential_score": -0.035970776531981406
+        "asymmetry_mult": 0.7989354619369612,
+        "potential_score": -0.03973560612166284
       },
       "conviction": 0.0,
-      "priced_at": "2026-06-28T02:27:05.684672",
+      "priced_at": "2026-06-28T06:54:05.487053",
       "scenario_price": 20.47
     },
     {
@@ -1756,7 +2475,7 @@
         "https://www.investing.com/news/investment-ideas/investingpros-fair-value-flagged-rhld-as-overvalued-before-44-drop-93CH-4559534"
       ],
       "horizon_years": 2.0,
-      "current_price": 133.62,
+      "current_price": 133.96,
       "high_52w": 236.19,
       "decline_explanation": "Down ~43% from a Jan-2026 high after a 335% post-spin bubble popped (multiple de-rate, not an operating blowup \u2014 Q1 fees inflected positive). DATA-INTEGRITY FLAG: ticker resolves to Resolute Holdings Management (ex-CompoSecure spin, Feb 2025), NOT Ramaco Resources. ~$1.1B cap, only ~8.3M shares / ~4M float, quoted bid/ask $100-$213 \u2014 effectively un-investable and 'price' is unreliable. Value depends almost entirely on managing CompoSecure (circular/related-party risk); credible bear re-rate targets ~$26. Insider buys are token (~$70k each) and underwater.",
       "sector": "Financials",
@@ -1765,736 +2484,17 @@
       "drawdown_from_high": 0.4342690207036708,
       "derived": {
         "expected_price": 97.44999999999999,
-        "expected_return": -0.27069301002843893,
-        "expected_cagr": -0.14600527520858708,
-        "asymmetry": 0.2677646391963597,
+        "expected_return": -0.2725440429979099,
+        "expected_cagr": -0.14708971339179522,
+        "asymmetry": 0.264785845742011,
         "quality_mult": 0.9625,
-        "asymmetry_mult": 0.517459794763187,
-        "potential_score": -0.07271866500338643
+        "asymmetry_mult": 0.5145734600054797,
+        "potential_score": -0.07285014539805927
       },
       "conviction": 0.0,
-      "priced_at": "2026-06-28T02:27:05.684571",
+      "priced_at": "2026-06-28T06:54:05.487060",
       "scenario_price": 133.62
-    },
-    {
-      "symbol": "GPK",
-      "business": "Leading fiber-based consumer packaging manufacturer supplying folding cartons and paperboard containers to food, beverage, foodservice and consumer product companies globally. Converts paperboard (largely self-manufactured) into finished packaging at 130+ converting plants. Strong secular tailwind from plastic-to-fiber substitution, offset currently by high leverage.",
-      "thesis": "GPK is a genuine fallen knife that requires careful discrimination. The bull case rests on a real secular shift from plastic to fiber packaging, durable customer relationships with branded CPG companies, and a self-supply model that is hard to replicate. The company deliberately over-invested in capacity ($922M capex in 2025) to position for the plastic-to-fiber wave; it is now cutting capex to $450M which should restore significant FCF. At $11, the stock prices in significant distress risk. The bear case is not trivial: $5.6B of debt at 4.4x leverage means any prolonged margin compression or economic downturn could impair the equity materially. Q1 2026 EBITDA fell 55% and the company posted a net loss of $43M. The decisive question: can management deleverage from 4.4x to ~3x within 2 years via capex reduction and modest EBITDA recovery? If yes, the equity is worth multiples of the current price. If margins stay compressed and interest expense crowds out FCF, the stock could test single digits. Insider context: no recent insider buying noted in the screen signal; the insider cluster flag here may reflect option exercises rather than open-market conviction purchases. Management (CEO Mike Doss since 2018) oversaw the aggressive capex cycle \u2014 a bet on secular plastic-to-fiber demand. Watch: quarterly EBITDA margin trajectory, leverage ratio, capex execution.",
-      "scenarios": {
-        "bull": {
-          "target": 22.0,
-          "probability": 0.25,
-          "description": "Capex normalization to $450M restores $700M+ annual FCF. EBITDA margins recover toward 18% by 2027. Leverage falls to ~3x, re-rating to 8x EBITDA implies ~$22/share. Plastic-to-fiber secular trend supports volume and pricing."
-        },
-        "base": {
-          "target": 13.0,
-          "probability": 0.45,
-          "description": "Slow EBITDA recovery (margins stabilize at 15-16%), deleveraging proceeds at modest pace to ~4x. Capex cut provides partial FCF relief. Stock recovers to book value support near $13 as distress premium partially unwinds."
-        },
-        "bear": {
-          "target": 4.0,
-          "probability": 0.3,
-          "description": "Margins remain compressed, revenues flat, interest expense of ~$300M+ persists. A covenant stress or refinancing at higher rates could impair equity. Recession accelerates customer volume weakness. Stock tests $4-5 range or worse."
-        }
-      },
-      "ratings": {
-        "moat": 0.4,
-        "runway": 0.45,
-        "quality": 0.35,
-        "management": 0.45
-      },
-      "citations": [
-        "0001408075-26-000016",
-        "0001408075-26-000004"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 11.01,
-      "high_52w": 23.76,
-      "decline_explanation": "Revenue fell 2.2% in FY2025 as customer destocking and competitive pricing compressed volume. EBITDA margins contracted from 19.1% to 16.2%, then collapsed further in Q1 2026 (EBITDA -55% YoY), producing a net loss of $43M. The stock reflects distress risk from $5.6B in debt at 4.4x leverage and a $922M capex cycle that consumed FCF. The plastic-to-fiber bet required significant investment exactly when end-market demand softened. Management is cutting capex to $450M; market awaits evidence of deleveraging and margin recovery before re-rating the equity.",
-      "sector": "Materials",
-      "author": "oracle",
-      "created_at": "2026-06-28T06:32:10.687263",
-      "priced_at": "2026-06-28T06:32:10.687263",
-      "scenario_price": 11.01,
-      "drawdown_from_high": 0.5366161616161617,
-      "derived": {
-        "expected_price": 12.55,
-        "expected_return": 0.13987284287011814,
-        "expected_cagr": 0.06764827676071206,
-        "asymmetry": 1.3064669519733716,
-        "quality_mult": 0.9125000000000001,
-        "asymmetry_mult": 1.1430078529797474,
-        "potential_score": 0.07055679181496263
-      },
-      "conviction": 0.09588201875464619
-    },
-    {
-      "symbol": "GSHD",
-      "business": "Tech-enabled independent insurance distribution franchise. Goosehead distributes personal lines P&C (auto, home, umbrella, flood) through a network of 11,000+ licensed franchise and corporate agents. Revenue is fee- and commission-based with a recurring renewal stream. The Digital Agent 2.0 platform is its proprietary quoting and placement technology for agents.",
-      "thesis": "Goosehead is a high-quality insurance distribution franchise undergoing a painful but potentially temporary reinvestment cycle. The bull case: GSHD holds a structurally advantaged position \u2014 independent agents with access to 40+ carriers and a proprietary tech platform outperform captive agents on placement quality and client retention. Revenue grew 15% despite EPS falling 18% in Q4 2025, which reflects the Digital Agent 2.0 investment cycle depressing near-term earnings. Once investment ends, EPS should recover and the franchise model's natural moat reasserts. The bear case: franchise producer count grew only +1% YoY, suggesting the network may be near saturation in its current form. Even at 56% below peak, GSHD still trades at ~40x current earnings \u2014 expensive for a business whose EPS is declining. Multiple compression from 100x+ peak to ~40x has been severe but valuation may not be fully earned-in yet. Insider context: management built GSHD from scratch (founders still involved); conviction purchases post-decline would strengthen thesis significantly. Priced-in judgment: the EPS compression appears to be reinvestment-driven rather than structural, and 15% revenue growth supports the franchise model. The stock needs earnings recovery evidence to re-rate; absent that, downside to 30-35x trough earnings is real.",
-      "scenarios": {
-        "bull": {
-          "target": 145.0,
-          "probability": 0.2,
-          "description": "Digital Agent 2.0 investment cycle ends by end of 2026, EPS recovers to $3.00+ as reinvestment spend normalizes. Franchise producer count reaccelerates to +10%+. At 45x normalized EPS, stock recovers toward $135-$145."
-        },
-        "base": {
-          "target": 75.0,
-          "probability": 0.45,
-          "description": "EPS recovers to $1.80-$2.00 by 2027 as investment winds down. Revenue growth moderates to 10-12%. At 38x earnings, stock recovers to $70-$80 range as reinvestment discount partially unwinds."
-        },
-        "bear": {
-          "target": 28.0,
-          "probability": 0.35,
-          "description": "Franchise saturation confirmed, producer count stagnates. EPS stays depressed at $0.80-$1.00 as investment continues and renewal economics disappoint. At 28-30x trough EPS, stock tests $25-$30."
-        }
-      },
-      "ratings": {
-        "moat": 0.65,
-        "runway": 0.6,
-        "quality": 0.55,
-        "management": 0.6
-      },
-      "citations": [
-        "0001726978-26-000039",
-        "0001726978-26-000006"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 46.84,
-      "high_52w": 106.84,
-      "decline_explanation": "GSHD fell 56% from its $107 peak after Q4 2025 earnings showed EPS declining 18% despite 15% revenue growth, reflecting heavy reinvestment in the Digital Agent 2.0 technology platform. Franchise producer count grew only +1% YoY, suggesting network expansion may be slowing. The stock had traded at 100x+ earnings at peak \u2014 multiple compression back to current ~40x has been severe. The market is questioning whether the reinvestment cycle is temporary (bull) or signals structurally lower returns as the franchise model matures.",
-      "sector": "Financials",
-      "author": "oracle",
-      "created_at": "2026-06-28T06:32:10.687348",
-      "priced_at": "2026-06-28T06:32:10.687348",
-      "scenario_price": 46.84,
-      "drawdown_from_high": 0.5615874204417821,
-      "derived": {
-        "expected_price": 72.55,
-        "expected_return": 0.5488898377455165,
-        "expected_cagr": 0.24454402804622233,
-        "asymmetry": 2.977252047315741,
-        "quality_mult": 1.1,
-        "asymmetry_mult": 1.725471543467391,
-        "potential_score": 0.464149137670513
-      },
-      "conviction": 0.4847330672983462
-    },
-    {
-      "symbol": "IBP",
-      "business": "Largest US installer of insulation and complementary building products for residential construction. IBP installs fiberglass and spray foam insulation for new single-family homes and multifamily buildings, plus gutters, waterproofing, fire-stopping and shower glass. Operations are branch-based across 220+ locations in 48 states. Revenue is highly correlated with US housing starts.",
-      "thesis": "IBP is the market-share leader in a fragmented, local-service installation industry. Its bull case rests on durable competitive advantage through scale, local density, and builder relationships \u2014 the company consistently gains share in downturns. The bear case is the timing of a housing recovery: new residential same-store sales fell 4.4% in FY2025 and Q1 2026 EPS of $1.79 missed $1.98 consensus, triggering a 10.6% single-day selloff. Housing starts remain near multi-decade lows. Bull: when housing recovers (likely 2027+), IBP's operating leverage is substantial \u2014 fixed branch costs over higher volumes produce dramatic earnings expansion. Energy code tightening structurally increases insulation demand per new home. Management has shown capital allocation discipline (M&A, buybacks). Bear: the housing recovery timeline is genuinely uncertain; rates may stay elevated through 2026. IBP generates ~$800M in revenue from the commercial segment which provides some diversification, but 65%+ is residential. Insider context: insider buying flagged; CEO Jeff Edwards has been long-tenured since 2011 and owns meaningful shares. Priced-in: at $233 the stock is trading at ~18x depressed 2026 EPS, which seems to price in continued weakness. A normalization to 65K+ housing starts by 2027 would push EPS toward $13-14, and at 22-24x gives meaningful upside.",
-      "scenarios": {
-        "bull": {
-          "target": 350.0,
-          "probability": 0.25,
-          "description": "US housing starts recover to 65K+ new homes by 2027. IBP residential SSS returns to +5-7%. EPS reaches $13-$14 on operating leverage. At 24x earnings, stock recovers toward $350."
-        },
-        "base": {
-          "target": 255.0,
-          "probability": 0.5,
-          "description": "Housing starts stabilize at current levels with modest improvement. EPS recovers slowly to $11.50-$12.00 by 2027 via cost management and commercial segment growth. At 21-22x, stock reaches $250-$260."
-        },
-        "bear": {
-          "target": 145.0,
-          "probability": 0.25,
-          "description": "Housing starts deteriorate further as rates stay elevated. Residential SSS falls another 5-8%. EPS compressed to $8-9. At 17x trough earnings, stock tests $145-$155."
-        }
-      },
-      "ratings": {
-        "moat": 0.65,
-        "runway": 0.6,
-        "quality": 0.65,
-        "management": 0.7
-      },
-      "citations": [
-        "0001628280-26-031702",
-        "0001628280-26-011994"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 233.4,
-      "high_52w": 349.0,
-      "decline_explanation": "IBP fell 33% from its $349 52-week high due to US housing market weakness. Residential same-store sales declined 4.4% in FY2025. Q1 2026 revenue dropped 3.5% YoY with EPS of $1.79 coming in below the $1.98 consensus estimate, triggering a 10.6% single-session decline in April 2026. New home starts remain near multi-decade lows driven by elevated mortgage rates suppressing builder activity. The decline is cyclical rather than structural \u2014 IBP's competitive position has strengthened through the downturn.",
-      "sector": "Industrials",
-      "author": "oracle",
-      "created_at": "2026-06-28T06:32:10.687370",
-      "priced_at": "2026-06-28T06:32:10.687370",
-      "scenario_price": 233.4,
-      "drawdown_from_high": 0.33123209169054435,
-      "derived": {
-        "expected_price": 251.25,
-        "expected_return": 0.07647814910025708,
-        "expected_cagr": 0.03753464959019892,
-        "asymmetry": 1.3190045248868776,
-        "quality_mult": 1.15,
-        "asymmetry_mult": 1.1484792226622462,
-        "potential_score": 0.04957392996188917
-      },
-      "conviction": 0.06837033642755352
-    },
-    {
-      "symbol": "ROP",
-      "business": "Diversified vertical market software compounder. Roper owns mission-critical software businesses in government contracting (Deltek), education (Frontline, Skyward), healthcare administration, utility infrastructure (Neptune), childcare management (Procare), and legal/compliance. Acquires cash-flow-rich software businesses and improves them without integrating into a single platform. Revenue is ~80%+ recurring SaaS/term licenses.",
-      "thesis": "Roper is one of the highest-quality software compounders in the US market, having compounded book value at ~20%/yr for two decades through disciplined vertical market software acquisition. At $338 vs FY2026 guide of $21.30-$21.55 non-GAAP EPS, the stock trades at ~16x \u2014 well below its historical 30-35x range. This discount reflects three specific headwinds: Deltek facing budget cuts from DOGE/federal spending freeze, Neptune Technology impacted by tariff uncertainty, and Procare by delayed software implementations. Bull case: these are cyclical headwinds on a business with high switching costs. Federal budgets will normalize; defense and homeland security spending will continue even if social program budgets get cut. Neptune's tariff exposure is manageable given its infrastructure mission-criticality. At historical multiples (30x), 2027 EPS of $23+ yields $690+. Bear case: Deltek's exposure to federal contract management is real \u2014 if DOGE represents a structural reset of government IT spending, not just a blip, Deltek revenues could decline 10-20% and the portfolio's earnings growth trajectory would be compromised. Roper's deal-making also relies on leverage, and higher rates compress acquisition economics. Insider context: CEO Neil Hunn joined 2018; management owns meaningful equity; track record of disciplined M&A is long and credible. Priced-in call: the market is pricing in a permanent structural deterioration scenario (16x) on what appears to be a cyclical disruption. The historical spread between Roper and the S&P on quality grounds is unlikely to stay at zero for long. This looks more priced-in than not.",
-      "scenarios": {
-        "bull": {
-          "target": 640.0,
-          "probability": 0.3,
-          "description": "DOGE headwinds are temporary; Deltek returns to growth by H2 2026. Neptune and Procare recover. EPS reaches $23 in 2027. Multiple re-rates to 28x as quality premium returns. Target $640."
-        },
-        "base": {
-          "target": 470.0,
-          "probability": 0.5,
-          "description": "Moderate recovery; Deltek grows slowly as federal IT normalizes. 2027 EPS reaches $22. Multiple stabilizes at 22x \u2014 a discount to history persists. Target $480."
-        },
-        "bear": {
-          "target": 300.0,
-          "probability": 0.2,
-          "description": "Deltek revenue declines 15% on sustained federal spending cuts. Neptune permanently impaired by tariff restructuring of utility supply chains. EPS stays at $18-19. Multiple stays at 16-17x. Stock tests $300."
-        }
-      },
-      "ratings": {
-        "moat": 0.85,
-        "runway": 0.65,
-        "quality": 0.8,
-        "management": 0.8
-      },
-      "citations": [
-        "0000882835-26-000015",
-        "0000882835-26-000003"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 338.32,
-      "high_52w": 575.77,
-      "decline_explanation": "ROP fell 41% from its $576 52-week high after Q4 FY2025 earnings on Jan 27 2026 revealed deceleration. Management's 2026 guide of $21.30-$21.55 non-GAAP EPS missed the $21.65 consensus. Deltek faces revenue pressure from federal government budget cuts (DOGE program), Neptune Technology is affected by tariff-driven supply chain restructuring, and Procare experienced delayed software implementations. The market repriced Roper from a premium compounder (30-35x) to a company with significant government/policy execution risk.",
-      "sector": "Technology",
-      "author": "oracle",
-      "created_at": "2026-06-28T06:32:10.687386",
-      "priced_at": "2026-06-28T06:32:10.687386",
-      "scenario_price": 338.32,
-      "drawdown_from_high": 0.412404258644945,
-      "derived": {
-        "expected_price": 487.0,
-        "expected_return": 0.43946559470323954,
-        "expected_cagr": 0.19977731046358738,
-        "asymmetry": 11.808977035490608,
-        "quality_mult": 1.275,
-        "asymmetry_mult": 2.0,
-        "potential_score": 0.5094321416821478
-      },
-      "conviction": 0.5170104216140681
-    },
-    {
-      "symbol": "POOL",
-      "business": "World's largest wholesale distributor of swimming pool supplies, equipment and related outdoor living products. POOL connects manufacturers to pool builders, retailers, and service companies through 430+ service centers in North America and Europe. ~65% of revenue is non-discretionary maintenance items (chemicals, replacement parts). Revenue is closely tied to installed pool base (6M+ US pools) plus new pool construction cycles.",
-      "thesis": "POOL is an extremely high-quality distribution business with true moat \u2014 it is nearly impossible to replicate 430+ distribution centers and supplier relationships built over 30 years. The bull case is straightforward: 65% of revenue is recurring maintenance chemicals/parts from an existing 6M-pool installed base that grows every year regardless of new construction. When new pool construction recovers to historical norms (80-100K vs current 58K), POOL's operating leverage will produce meaningful EPS expansion. The bear case is also legitimate: Berkshire Hathaway fully exited POOL in May 2026 \u2014 the highest-quality long-term validator selling is a meaningful red flag. New pool construction may not recover to historical norms if the post-COVID pool boom permanently pulled forward demand. CEO Peter Arvan retired mid-cycle and a new CEO transition creates strategy uncertainty. FY2025 EPS fell 3% to $10.73 and 2026 guide of $10.85-$11.15 implies near-zero growth. Insider context: screen flagged insider activity \u2014 need to verify if open-market buys post-decline or option-related activity. Priced-in call: at ~19x FY2026 EPS, POOL is trading near its trough multiple. The non-discretionary maintenance revenue provides a floor. The Berkshire exit is the most concerning signal \u2014 suggesting even patient holders see normalized returns as uncompelling from current construction levels.",
-      "scenarios": {
-        "bull": {
-          "target": 325.0,
-          "probability": 0.25,
-          "description": "New pool construction recovers toward 70-75K by 2027. Maintenance revenue grows 4-5%/yr. EPS reaches $13.50 on operating leverage. New CEO executes well. At 24x, stock recovers to $325."
-        },
-        "base": {
-          "target": 230.0,
-          "probability": 0.5,
-          "description": "Construction stays flat at 55-60K. Maintenance/chemical growth sustains 3-4% total revenue growth. EPS reaches $11.50-$12.00 by 2027. At 20x, stock recovers modestly to $230-$240."
-        },
-        "bear": {
-          "target": 140.0,
-          "probability": 0.25,
-          "description": "Construction stays depressed or declines further. New CEO changes strategy sub-optimally. EPS stays flat at $10.75. Multiple compresses to 13-14x on growth-less earnings. Stock tests $140-$150."
-        }
-      },
-      "ratings": {
-        "moat": 0.75,
-        "runway": 0.5,
-        "quality": 0.7,
-        "management": 0.6
-      },
-      "citations": [
-        "0001193125-26-058288"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 211.7,
-      "high_52w": 345.0,
-      "decline_explanation": "POOL fell 38% from its $345 52-week high as new pool construction remained depressed at ~58K annually versus the 80-100K historical norm. FY2025 EPS declined 3% to $10.73 with a soft Q4 2025 and underwhelming 2026 guidance of $10.85-$11.15 implying near-zero growth. Berkshire Hathaway fully exited its POOL position in May 2026, removing a high-profile quality endorser. A CEO transition mid-cycle adds strategic uncertainty. The market is questioning whether post-COVID pool construction demand was permanently pulled forward.",
-      "sector": "Industrials",
-      "author": "oracle",
-      "created_at": "2026-06-28T06:32:10.687400",
-      "priced_at": "2026-06-28T06:32:10.687400",
-      "scenario_price": 211.7,
-      "drawdown_from_high": 0.3863768115942029,
-      "derived": {
-        "expected_price": 231.25,
-        "expected_return": 0.09234766178554565,
-        "expected_cagr": 0.045154372227158346,
-        "asymmetry": 1.5801952580195262,
-        "quality_mult": 1.1375,
-        "asymmetry_mult": 1.2570581760680475,
-        "potential_score": 0.06456640280245765
-      },
-      "conviction": 0.08811164876117084
-    },
-    {
-      "symbol": "MSFT",
-      "business": "Global enterprise software, cloud infrastructure and AI platform. Products: Office 365/Microsoft 365 (productivity), Azure (cloud IaaS/PaaS/AI), LinkedIn, GitHub, Dynamics 365 (ERP/CRM), Xbox/Gaming, Bing. AI embedded via Copilot across all products. Azure is #2 public cloud (~22% share vs AWS ~33%). FY2026 revenue ~$270B+ run-rate; Azure approaching $100B ARR.",
-      "thesis": "Microsoft is the world's most valuable software franchise facing a near-term credibility crisis over its AI investment cycle. The bear case in the price: management guided $37.5B/quarter ($190B/yr) in capex \u2014 up 66% \u2014 at the Jan 28 2026 earnings call while Azure growth decelerated from 40% to 39%. FCF declined -47% YoY as capex consumed cash. Q1 2026 calendar was MSFT's worst quarter since 2008. The market fears a classic infrastructure overbuild: too much GPU/datacenter capacity, too little AI monetization. Bull case: GitHub Copilot has 15M+ users and $2B+ ARR; M365 Copilot penetrating enterprise seat counts; Azure OpenAI usage growing rapidly. The $190B capex is building scarce, irreplaceable AI infrastructure for a decade-long demand wave. At $371 (~28x FY2026 non-GAAP EPS), MSFT is near the bottom of its 5-year valuation range. The installed base of 300M+ commercial 365 seats creates enormous Copilot upsell potential. Bear case: AI monetization may remain below infrastructure cost for 2-3 more years. $190B/yr capex burns FCF and limits buybacks/dividends. Azure growth could decelerate further if enterprise cloud migrations mature and AI workloads shift to dedicated hyperscalers or on-premise. Insider context: CEO Satya Nadella sold ~$5M in shares in 2025 on preset plan; no unusual open-market insider buying flagged. Priced-in: $371 appears to price in the bear case fairly well \u2014 at 28x FY2026 non-GAAP EPS it trades at a slight discount to the S&P 500 on growth-adjusted basis, unusual for MSFT. The capex peak should occur in FY2027 with FCF recovery thereafter. Asymmetric risk/reward favors holding.",
-      "scenarios": {
-        "bull": {
-          "target": 575.0,
-          "probability": 0.35,
-          "description": "AI monetization accelerates: Copilot reaches 50M+ users by 2027, M365 Copilot adds $8-10 ARPU. Azure growth re-accelerates to 42-45% as AI workloads scale. Capex peaks in FY2027, FCF recovers to $80B+. At 30x FY2028 EPS of $18, stock recovers to $540-$580."
-        },
-        "base": {
-          "target": 470.0,
-          "probability": 0.45,
-          "description": "AI monetization matures slowly. Azure sustains 38-40% growth. Copilot adds modest ARPU. Capex plateau visible by H2 2026. FCF recovers partially. At 28x FY2027 EPS of $17, stock reaches $475."
-        },
-        "bear": {
-          "target": 280.0,
-          "probability": 0.2,
-          "description": "AI capex disappoints: GPU utilization under 70%, AI revenues below $20B by 2027. Azure growth decelerates to 25-30%. FCF stays suppressed for 3+ years. Multiple compresses to 20-22x. Stock tests $280."
-        }
-      },
-      "ratings": {
-        "moat": 0.9,
-        "runway": 0.75,
-        "quality": 0.8,
-        "management": 0.75
-      },
-      "citations": [
-        "0001564590-26-000020"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 371.34,
-      "high_52w": 555.45,
-      "decline_explanation": "MSFT fell 33% from its $555 52-week high after the Jan 28 2026 earnings call revealed Azure growth decelerating from 40% to 39% while management guided $37.5B per quarter ($190B per year) in capex, up 66% YoY. FCF fell 47% YoY as infrastructure investment overwhelmed operating cash flow. Q1 2026 calendar quarter was Microsoft's worst equity performance since 2008. The market repriced MSFT to reflect AI capex overhang risk \u2014 the fear that infrastructure investment is outpacing AI revenue monetization by 2-3 years.",
-      "sector": "Technology",
-      "author": "oracle",
-      "created_at": "2026-06-28T06:32:10.687413",
-      "priced_at": "2026-06-28T06:32:10.687413",
-      "scenario_price": 371.34,
-      "drawdown_from_high": 0.33146097758574145,
-      "derived": {
-        "expected_price": 468.75,
-        "expected_return": 0.26232024559702705,
-        "expected_cagr": 0.12353026020531677,
-        "asymmetry": 3.901959710970003,
-        "quality_mult": 1.3,
-        "asymmetry_mult": 1.9753378726106587,
-        "potential_score": 0.317218201816115
-      },
-      "conviction": 0.36438920450783163
-    },
-    {
-      "symbol": "FLUT",
-      "business": "World's largest online sports betting and iGaming operator. Brands: FanDuel (US #1 OSB), Paddy Power (UK/Ireland), Betfair Exchange (UK/EU), PokerStars (global poker), Sky Betting & Gaming (UK). FY2025 revenue $16.4B. Listed on NYSE 2024 following US primary listing. US (~45% of revenue) is FanDuel's fast-scaling segment; international is profitable and cash-generative.",
-      "thesis": "Flutter is the structural winner in a rapidly expanding global sports betting market that remains in the early stages of US legalization. FanDuel holds ~40% US OSB market share \u2014 a dominant position in a market likely worth $40-60B+ annually at maturity. The company's scale advantages in data/odds-setting, marketing efficiency, and product quality compound over time. The bull case: Flutter's US losses should inflect to profitability in 2026-2027 as state markets mature past the customer-acquisition heavy phase. International businesses (Paddy Power/Sky Bet) are highly profitable and provide financial cover during the US investment period. $18.4B+ 2026 revenue guidance represents 12% growth from a large base. The bear case is also real: FY2025 revenue of $16.4B missed $16.7B target and 2026 guidance of $18.4B came in $900M below Street expectations. US OSB growth is slowing as the post-legalization wave matures \u2014 early-adopter states like New Jersey and Pennsylvania are saturating. State tax increases in Ohio, Illinois, and New York compress margins in states that were supposed to turn profitable. FanDuel CEO changes add execution uncertainty. At -66% from peak, the stock now trades at ~2x 2026 revenue \u2014 not obviously cheap for a business still burning cash in the US segment. Insider context: management made significant equity purchases on listing; check for open-market buys post-decline. Priced-in judgment: $104 is beginning to reflect the bad news, but the path to US profitability has gotten longer. The bear case (permanent margin compression from state taxes) is not fully priced out.",
-      "scenarios": {
-        "bull": {
-          "target": 220.0,
-          "probability": 0.25,
-          "description": "US OSB segment reaches EBITDA breakeven by Q4 2026. Revenue hits $21B in 2027 with EBITDA margins expanding to 18%+. States stabilize tax rates. At 3.5x EV/revenue on $21B = ~$210-$230 per share."
-        },
-        "base": {
-          "target": 135.0,
-          "probability": 0.45,
-          "description": "US profitability delayed to 2028. Revenue grows 12% to $20.6B in 2027. International continues generating cash. EBITDA margins reach 16% in 2027. At 2.5x EV/revenue, stock recovers to $130-$140."
-        },
-        "bear": {
-          "target": 55.0,
-          "probability": 0.3,
-          "description": "US state tax rates continue rising, OSB market growth slows to 8-10%. FanDuel loses share to DraftKings. US never reaches profitability by 2028. At 1.2x EV/revenue on $18B, stock tests $55-$65."
-        }
-      },
-      "ratings": {
-        "moat": 0.65,
-        "runway": 0.65,
-        "quality": 0.4,
-        "management": 0.5
-      },
-      "citations": [
-        "0001193125-26-058594"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 104.29,
-      "high_52w": 313.69,
-      "decline_explanation": "FLUT fell 66% from its $313 52-week high after FY2025 revenue of $16.4B missed the $16.7B consensus target and 2026 guidance of $18.4B came in $900M below Street expectations of $19.3B. US online sports betting market matured faster than forecast post-legalization wave, while state-level tax increases in Ohio, Illinois, and New York compressed unit economics in markets that were supposed to reach profitability. FanDuel leadership changes added execution risk. The stock fell 13.8% on the Feb 26 2026 earnings report alone and has declined approximately 62% over the past 12 months.",
-      "sector": "Consumer Discretionary",
-      "author": "oracle",
-      "created_at": "2026-06-28T06:32:10.687427",
-      "priced_at": "2026-06-28T06:32:10.687427",
-      "scenario_price": 104.29,
-      "drawdown_from_high": 0.6675380152379737,
-      "derived": {
-        "expected_price": 132.25,
-        "expected_return": 0.26809857129159065,
-        "expected_cagr": 0.12609882838567543,
-        "asymmetry": 1.9562791641306552,
-        "quality_mult": 1.05,
-        "asymmetry_mult": 1.3986704987704055,
-        "potential_score": 0.18518924675218426
-      },
-      "conviction": 0.23245338621275125
-    },
-    {
-      "symbol": "GOOG",
-      "business": "Global digital advertising, cloud, and AI platform. Google Search is #1 global search engine (~90% share). YouTube is #1 video platform. Google Cloud Platform is #3 global cloud (22%+ market share, accelerating). Android is #1 mobile OS. Waymo is the leading autonomous vehicle unit. DeepMind and Google Brain merged into Google DeepMind. FY2025 revenue $403B \u2014 the first $400B+ US tech company.",
-      "thesis": "Alphabet reported record FY2025 revenue of $403B with Google Cloud growing 63% to ~$43B annualized by Q4. Yet the stock is 17% off its 52-week high. Three overlapping concerns created the June 2026 selloff: (1) an $84.75B equity offering surprising the market about capital needs; (2) two high-profile AI researchers (Shazeer\u2192OpenAI, Jumper\u2192Anthropic) departing; (3) FCF down 47% YoY as capex surges to $180-190B for AI infrastructure. The DOJ antitrust appeal still seeks Chrome divestiture but Chrome was kept in the September 2025 remedies ruling; the appellate timeline is 2027+. Bull case: Google Cloud at +63% growth is now a $80B+ ARR business compounding faster than AWS/Azure. Search advertising held +10%+ growth despite AI tools taking queries at the margin. DOJ antitrust resolved in the best achievable outcome (behavioral only; Chrome/Android kept). Gemini adoption accelerating. Bear case: The equity offering is confusing \u2014 if Alphabet has $120B+ in cash, why issue equity? Suggests either strategic acquisition or AI capex burn above disclosures. Researcher departures signal competitive talent market. AI overviews in Search may cannibalize ad revenue per query. FCF at -47% YoY is a real number that could persist for 2+ years. Insider context: Sundar Pichai and founders own significant equity; no large unexpected selling; founders' voting control insulates from short-termism. Priced-in: $334 at ~18x FY2026 estimated EPS ($18.50) is historically cheap for GOOG (normally 22-28x). The cloud acceleration is genuine and the antitrust outcome was favorable. The equity offering and AI brain drain are the genuine risks worth monitoring.",
-      "scenarios": {
-        "bull": {
-          "target": 520.0,
-          "probability": 0.35,
-          "description": "Cloud sustains 50%+ growth to $60B ARR by end 2027. Search holds advertising share. AI Overviews monetize via new formats. Capex peaks FY2026. At 26x FY2027 EPS of $21, stock reaches $546. Target $520."
-        },
-        "base": {
-          "target": 395.0,
-          "probability": 0.45,
-          "description": "Cloud grows 40%, search advertising flat to +5%. Capex headwind persists into 2027. At 22x FY2026 EPS of $18.50, stock recovers to $400-$410. Modest AI monetization. Target $395."
-        },
-        "bear": {
-          "target": 220.0,
-          "probability": 0.2,
-          "description": "AI tools (ChatGPT, Perplexity) take 10-15% of search queries and disproportionate share of high-intent (commercial) queries. Ad revenue per search declines. DOJ appellate court orders Chrome divestiture. At 16x EPS with growth derating, stock tests $220-$240."
-        }
-      },
-      "ratings": {
-        "moat": 0.85,
-        "runway": 0.75,
-        "quality": 0.8,
-        "management": 0.7
-      },
-      "citations": [
-        "0001652044-26-000035",
-        "0001652044-26-000015"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 334.91,
-      "high_52w": 404.47,
-      "decline_explanation": "",
-      "sector": "Technology",
-      "author": "oracle",
-      "created_at": "2026-06-28T06:32:10.687442",
-      "priced_at": "2026-06-28T06:32:10.687442",
-      "scenario_price": 334.91,
-      "drawdown_from_high": 0.17197814423813884,
-      "derived": {
-        "expected_price": 403.75,
-        "expected_return": 0.20554775909945944,
-        "expected_cagr": 0.09797438909086553,
-        "asymmetry": 2.818792968410059,
-        "quality_mult": 1.2750000000000001,
-        "asymmetry_mult": 1.6789261354836487,
-        "potential_score": 0.20972699712719026
-      },
-      "conviction": 0.25889280082415156
-    },
-    {
-      "symbol": "QSR",
-      "business": "Global QSR franchise operator \u2014 Burger King (18,000+ locations), Tim Hortons (5,700+), Popeyes Louisiana Kitchen (4,200+), and Firehouse Subs (1,200+). Asset-light franchise model: QSR collects royalties (3-5% of system sales) and development fees. ~$40B in system-wide annual sales. ~100 countries. Revenue is royalty-based and highly recurring.",
-      "thesis": "QSR owns four globally scaled QSR brands, three of which are delivering strong results while Burger King US underperforms. The thesis is straightforward: Tim Hortons International and Popeyes International have delivered 20 consecutive quarters of positive same-store sales growth \u2014 a remarkable record in the post-COVID consumer environment. FY2025 adjusted EPS grew 10.7% and Q1 2026 showed double-digit growth continuing. Bull case: international digital/loyalty platforms are accelerating (TH Rewards, BK digital). BK US remodel program (700+ restaurants renovated with 'Royal Reset') shows AUV lifts of 8-12% at completed locations. At 17x forward EPS (current), QSR is trading at a significant discount to McDonald's (24x) and Yum (23x) despite better earnings momentum. Bear case: BK US same-store sales remain negative as remodel completion lags original schedule. US consumer is weakening (lower-income demographic). The franchise model means QSR can't force remodel timelines on franchisees. $13B in debt is meaningful leverage for a franchise company. Insider context: screen flagged insider buying \u2014 Patrick Doyle (non-executive chair, legendary Domino's turnaround architect) has personal capital invested. His presence is a meaningful quality endorser. Priced-in: at ~17x forward EPS and with 3 of 4 brands performing, QSR looks moderately undervalued relative to peers. The BK US underperformance is the single deciding factor \u2014 if remodels complete on schedule, re-rating is straightforward.",
-      "scenarios": {
-        "bull": {
-          "target": 105.0,
-          "probability": 0.3,
-          "description": "BK US remodel program completes 1,500+ restaurants by end 2026. BK US SSS turns positive. All four brands at +3-5% SSS. EPS reaches $5.25 by 2027. At 20x, stock reaches $105."
-        },
-        "base": {
-          "target": 82.0,
-          "probability": 0.5,
-          "description": "BK US stays flat or slightly negative SSS but doesn't deteriorate further. International brands sustain 4-6% SSS. EPS grows 8-10% to $4.80. At 17x, stock reaches $82."
-        },
-        "bear": {
-          "target": 54.0,
-          "probability": 0.2,
-          "description": "BK US SSS deteriorates further as remodel delays frustrate franchisees. US consumer recession hits QSR traffic. EPS growth stalls at $4.30. Leverage concerns surface. At 13x, stock tests $56."
-        }
-      },
-      "ratings": {
-        "moat": 0.7,
-        "runway": 0.55,
-        "quality": 0.65,
-        "management": 0.7
-      },
-      "citations": [
-        "0001618756-25-000297"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 74.34,
-      "high_52w": 81.96,
-      "decline_explanation": "",
-      "sector": "Consumer Discretionary",
-      "author": "oracle",
-      "created_at": "2026-06-28T06:32:10.687463",
-      "priced_at": "2026-06-28T06:32:10.687463",
-      "scenario_price": 74.34,
-      "drawdown_from_high": 0.09297218155197651,
-      "derived": {
-        "expected_price": 83.3,
-        "expected_return": 0.12052730696798486,
-        "expected_cagr": 0.05854962423496457,
-        "asymmetry": 2.2610619469026543,
-        "quality_mult": 1.15,
-        "asymmetry_mult": 1.5036827946420928,
-        "potential_score": 0.1012460719841073
-      },
-      "conviction": 0.13466385940423298
-    },
-    {
-      "symbol": "STZ",
-      "business": "US-focused producer and importer of beer (Modelo Especial #1, Corona Extra #3 US beer brands, Pacifico, Modelo Chelada), wine (Woodbridge, Robert Mondavi, Kim Crawford) and spirits (Casa Noble tequila). Beer is ~80% of sales and 100%+ of profits \u2014 wine/spirits runs at near-breakeven. All beer is manufactured in Mexico and imported. Revenue ~$10B. Fiscal year ends Feb 28.",
-      "thesis": "Constellation's bull case rests on Modelo Especial being the #1 beer brand in the US \u2014 displacing Bud Light as America's top-selling beer in 2023 and holding. Modelo's premium positioning and Hispanic consumer base creates a durable, growing brand. The bear case is currently in full force: tariffs on Mexican beer imports under the revised US-Mexico trade framework, combined with macroeconomic pressure on the Hispanic consumer (its core demographic), forced management to cut EPS guidance from $12.60-$12.90 to $11.30-$11.60 \u2014 a >10% reduction. Bull case: Tariffs are negotiated and the existing US-Mexico-Canada Agreement (USMCA) provides a framework; Mexican beer is a strategic import with no domestic alternative at scale. The Hispanic consumer is a permanently growing demographic. Modelo/Corona franchise-level economics are exceptional (90%+ gross margin on brand licensing). STZ trades at only 12.5x depressed EPS. Bear case: If tariffs persist at 25%+ on Mexico goods, cost of goods increases are only partially passable. Beer volume trends are declining (the entire US beer industry is losing share to spirits and RTDs). The wine/spirits segment is a drag. Management's rapid guidance cut signals tariff impact is front-loaded and severe. Insider context: no notable management buying flagged; the insider screen signal here may reflect Mexico operations management. Priced-in: at 12.5x trough EPS, tariffs appear substantially priced in. The risk is that tariffs prove permanent and beer volumes deteriorate \u2014 neither is the base case, but both are non-trivial.",
-      "scenarios": {
-        "bull": {
-          "target": 220.0,
-          "probability": 0.25,
-          "description": "Tariff resolution by early 2027 removes the Mexico import headwind. Beer volumes stabilize and recover. EPS rebounds to $13.50 by FY2028. At 16x, stock recovers toward $216."
-        },
-        "base": {
-          "target": 158.0,
-          "probability": 0.5,
-          "description": "Tariffs persist at moderate levels, partially passed through pricing. Beer volumes flat to -1%. EPS stabilizes at $11.50-$12.00 by FY2027. At 13-14x trough earnings, stock reaches $155-$165."
-        },
-        "bear": {
-          "target": 90.0,
-          "probability": 0.25,
-          "description": "Tariffs escalate to 35-40% on Mexico imports. Beer volumes decline 3-5% as price hikes crimp volume. EPS falls to $8.50-$9.00. Wine/spirits segment needs restructuring. At 10x EPS, stock tests $90."
-        }
-      },
-      "ratings": {
-        "moat": 0.75,
-        "runway": 0.5,
-        "quality": 0.65,
-        "management": 0.65
-      },
-      "citations": [
-        "0000016918-25-000132"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 146.27,
-      "high_52w": 178.14,
-      "decline_explanation": "",
-      "sector": "Consumer Staples",
-      "author": "oracle",
-      "created_at": "2026-06-28T06:32:10.687480",
-      "priced_at": "2026-06-28T06:32:10.687480",
-      "scenario_price": 146.27,
-      "drawdown_from_high": 0.1789042326260244,
-      "derived": {
-        "expected_price": 156.5,
-        "expected_return": 0.06993915362001779,
-        "expected_cagr": 0.034378631652847824,
-        "asymmetry": 1.3102896747822992,
-        "quality_mult": 1.1375,
-        "asymmetry_mult": 1.144678852247345,
-        "potential_score": 0.044763460357770804
-      },
-      "conviction": 0.06194603580975644
-    },
-    {
-      "symbol": "UNP",
-      "business": "One of two Class I western railroads in the US. 32,000-mile network connecting 23 US states and major Pacific ports (Los Angeles/Long Beach, Seattle/Tacoma) to Midwest markets and Gulf of Mexico. Hauls agricultural products, chemicals, intermodal containers, coal, and finished vehicles. Duopoly with BNSF in the West. Record FY2025: net income $7.1B (+6%), EPS $11.98 (+8%), OR 59.8%.",
-      "thesis": "Union Pacific is arguably the best-positioned Class I railroad given its coastal port connections and growing trade volumes with Mexico. FY2025 was a record year: 59.8% operating ratio (best-in-class for western rails) and the precision-railroading playbook under CEO Jim Vena continuing to improve asset utilization. Q1 2026 showed steady execution (EPS $2.87, OR 60.5%). Bull case: nearshoring tailwinds from US-China trade tensions and tariff restructuring are driving freight volume to Mexico-US corridors, which UNP is uniquely positioned to serve (UP runs the only rail connecting Mexico manufacturing hubs to US Midwest). Intermodal volume is recovering from pandemic distortions. At 21.7x FY2026 consensus EPS ($12.39), UNP is not cheap but is close to historical fair value for a regulated duopoly asset. Bear case: rail pricing power is constrained by Surface Transportation Board oversight and truck competition. Any economic slowdown hits freight volumes disproportionately. Coal volumes are in secular decline (~15% of revenue). The 4% drawdown from 52-week high suggests the market is nearly fully valuing the nearshoring story. Insider context: insider buying flagged in the screen \u2014 management ownership is meaningful and options have been purchased below current prices. Priced-in: UNP is fairly valued at current prices with modest upside if nearshoring volumes accelerate and modest downside risk if the economy weakens. It is a quality anchor position rather than a high-conviction bet.",
-      "scenarios": {
-        "bull": {
-          "target": 345.0,
-          "probability": 0.3,
-          "description": "Nearshoring accelerates Mexico-US corridor volumes +8-10%. Intermodal recovery boosts mix. OR improves to 58%. EPS reaches $14 by 2027. At 25x (warranted by growth), stock reaches $350."
-        },
-        "base": {
-          "target": 275.0,
-          "probability": 0.5,
-          "description": "Steady execution. Consensus 2026 EPS of $12.39 achieved. OR holds at 60-61%. Modest volume growth of 2-3%. At 22x, stock near $272."
-        },
-        "bear": {
-          "target": 195.0,
-          "probability": 0.2,
-          "description": "US economic slowdown; freight volumes fall 5-8%. Coal declines accelerate. OR deteriorates to 64%. EPS falls to $10.50. At 18x cyclical trough, stock tests $190-$200."
-        }
-      },
-      "ratings": {
-        "moat": 0.85,
-        "runway": 0.55,
-        "quality": 0.8,
-        "management": 0.8
-      },
-      "citations": [
-        "0000100885-26-000154"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 268.32,
-      "high_52w": 279.7,
-      "decline_explanation": "",
-      "sector": "Industrials",
-      "author": "oracle",
-      "created_at": "2026-06-28T06:32:10.687491",
-      "priced_at": "2026-06-28T06:32:10.687491",
-      "scenario_price": 268.32,
-      "drawdown_from_high": 0.04068644976760816,
-      "derived": {
-        "expected_price": 280.0,
-        "expected_return": 0.043530113297555184,
-        "expected_cagr": 0.021533216933035115,
-        "asymmetry": 1.5687397708674307,
-        "quality_mult": 1.25,
-        "asymmetry_mult": 1.252493421486688,
-        "potential_score": 0.033712765690090296
-      },
-      "conviction": 0.04701974454030433
-    },
-    {
-      "symbol": "MTDR",
-      "business": "Delaware Basin-focused E&P company operating in the Permian Basin of southeastern New Mexico and west Texas. ~40 MBoe/d of production (~75% oil). Also holds midstream assets via San Mateo Midstream (50/50 JV with Five Point Capital). Proven reserves of ~360 MMBoe. CEO Joe Foran is the founder and has operated the business since 2003. 2023 acquisition of Advance Energy Partners added 18,500 acres in Permian.",
-      "thesis": "Matador is a high-quality Delaware Basin E&P with insider conviction that stands out: the CEO bought 2,000 shares at $53.07 on June 9, a director bought 500 at $51.44 on June 15, and the COO bought 500 in May. Over the past 12 months: 37 insider purchases, 0 sales. This level of management conviction buying into a commodity-price-driven decline is a historically meaningful signal. Bull case: Delaware Basin is Tier 1 Permian acreage with sub-$40/bbl breakevens and 10-15 year inventory runway at current activity levels. The midstream JV creates a fee-based cash flow stream that partially hedges commodity exposure. FCF is positive even at $55/bbl WTI. Bear case: Oil prices have declined from $80+ to $65/bbl \u2014 E&P earnings fall disproportionately (at 50% revenue decline \u2192 100%+ earnings decline). FY2025 earnings fell 14% on 5% revenue growth, showing oil price leverage. A global recession or demand destruction from EV adoption/trade disruptions could send WTI to $50 or below. Matador is not immune to commodity cycles. The insiders are buying underwater vs their past purchases \u2014 CEO bought at $53 in June and the current price of $50 means he's already underwater. This demonstrates conviction but not omniscience. Priced-in: at ~$50, MTDR trades at ~6x FY2026 consensus EBITDA \u2014 a fair multiple for a quality E&P at $65 WTI. Significant upside if WTI recovers to $75+; meaningful downside if WTI falls to $50.",
-      "scenarios": {
-        "bull": {
-          "target": 90.0,
-          "probability": 0.3,
-          "description": "WTI recovers to $75+ as global supply tightens. MTDR production ramps to 50+ MBoe/d. EBITDA expands 40%+ from current levels. At 8x EBITDA, stock reaches $85-$95."
-        },
-        "base": {
-          "target": 62.0,
-          "probability": 0.45,
-          "description": "WTI holds at $62-$68. Production grows 8-10% to 43-44 MBoe/d. Midstream JV contributes steady fee income. FCF yield ~12% at current price. Stock recovers to $60-$65 as oil stabilizes."
-        },
-        "bear": {
-          "target": 28.0,
-          "probability": 0.25,
-          "description": "WTI falls to $48-$52 on global recession or OPEC+ supply surge. Earnings turn negative at strip prices. E&P multiples compress. At 4x trough EBITDA, stock tests $28-$32."
-        }
-      },
-      "ratings": {
-        "moat": 0.4,
-        "runway": 0.7,
-        "quality": 0.55,
-        "management": 0.75
-      },
-      "citations": [
-        "0001520006-26-000004"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 49.91,
-      "high_52w": 66.84,
-      "decline_explanation": "",
-      "sector": "Energy",
-      "author": "oracle",
-      "created_at": "2026-06-28T06:32:10.687501",
-      "priced_at": "2026-06-28T06:32:10.687501",
-      "scenario_price": 49.91,
-      "drawdown_from_high": 0.25329144225014966,
-      "derived": {
-        "expected_price": 61.900000000000006,
-        "expected_return": 0.24023241835303577,
-        "expected_cagr": 0.11365722659758992,
-        "asymmetry": 2.1957097215883166,
-        "quality_mult": 1.1,
-        "asymmetry_mult": 1.4817927390793615,
-        "potential_score": 0.18525809842782706
-      },
-      "conviction": 0.23252887802929634
-    },
-    {
-      "symbol": "AON",
-      "business": "Global professional services firm in risk management, insurance brokerage, reinsurance, health solutions and human capital consulting. Two segments: Commercial Risk Solutions (~55% of revenue) and Health Solutions. Revenue is fee-based and commission-based \u2014 highly recurring with minimal capital requirements. NFP acquisition ($13.4B, closed Oct 2023) added a large independent insurance brokerage specializing in SME middle market. FY2025 revenue ~$16B pro forma. ~50,000 employees, 120 countries.",
-      "thesis": "Aon is one of the three global insurance brokerage giants (with Marsh and Willis Towers Watson) with genuine pricing power in hard P&C insurance markets. The NFP acquisition is the short-term overhang: it was dilutive to EPS in 2025 but management is guiding to breakeven in 2026 and accretive in 2027 with $2.8B in cost synergies over the integration period. Q1 2026 showed 5% organic growth ($5.03B revenue, EPS $5.63) \u2014 ahead of expectations. Bull case: insurance brokerage benefits from hard market pricing (P&C premiums rising 8-12%/yr in commercial lines) \u2014 AON collects a percentage of premium and doesn't bear underwriting risk. NFP synergies tracking to plan. At 26x forward EPS, AON trades at a 10-15% discount to Marsh & McLennan. Bear case: $13.4B NFP acquisition added ~$8B in debt. Integration risk is real \u2014 Willis Towers Watson provides the cautionary tale of a badly integrated brokerage deal. Insurance market cycles could turn soft (as they did 2012-2019), compressing premium growth. Insider context: CEO Greg Case has been at AON since 2005 \u2014 a 20-year tenure with consistent track record. Strong ownership culture. Priced-in: at 13.9% below 52-week high, AON reflects mild NFP integration anxiety rather than existential risk. The business quality is high and the hard market tailwind is real.",
-      "scenarios": {
-        "bull": {
-          "target": 490.0,
-          "probability": 0.3,
-          "description": "NFP synergies exceed $3B target. Organic growth sustains 6-7%. Hard market extends through 2027. EPS reaches $20 by 2027. At 25x, stock reaches $500. Capital deployment via buybacks accelerates post-NFP leverage paydown."
-        },
-        "base": {
-          "target": 368.0,
-          "probability": 0.5,
-          "description": "NFP integration on track; $2.8B synergy target achieved on schedule. 5-6% organic growth sustained. EPS reaches $17-$18 by 2027. At 21x, stock recovers to $360-$378."
-        },
-        "bear": {
-          "target": 248.0,
-          "probability": 0.2,
-          "description": "NFP integration disappoints \u2014 synergies half of target. Soft market cycle begins 2026, slowing premium growth. Leverage concerns surface. EPS stays at $14-$15. At 17x, stock tests $250."
-        }
-      },
-      "ratings": {
-        "moat": 0.75,
-        "runway": 0.6,
-        "quality": 0.75,
-        "management": 0.75
-      },
-      "citations": [
-        "0000315293-26-029093"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 328.17,
-      "high_52w": 381.0,
-      "decline_explanation": "",
-      "sector": "Financials",
-      "author": "oracle",
-      "created_at": "2026-06-28T06:32:10.687512",
-      "priced_at": "2026-06-28T06:32:10.687512",
-      "scenario_price": 328.17,
-      "drawdown_from_high": 0.13866141732283466,
-      "derived": {
-        "expected_price": 380.6,
-        "expected_return": 0.15976475607154828,
-        "expected_cagr": 0.0769237466374062,
-        "asymmetry": 3.027878258700261,
-        "quality_mult": 1.2125,
-        "asymmetry_mult": 1.740079957559497,
-        "potential_score": 0.16229733211326403
-      },
-      "conviction": 0.20693756801729857
-    },
-    {
-      "symbol": "NYT",
-      "business": "Digital-first media company anchored by The New York Times. Subscription products: NYT News, NYT Cooking, NYT Games (Wordle, Connections, Spelling Bee), Wirecutter (product reviews). 12.8M digital subscribers (+1.4M in 2025). Digital revenue $1.43B (+14% in 2025), displacing print (which is declining). Also generates licensing revenue from AI data agreements. Q1 2026: digital revenue +16.1% YoY.",
-      "thesis": "The New York Times is a rare example of a media brand successfully navigating the print-to-digital transition. 12.8M digital subscribers and $1.43B digital revenue puts it in a small peer group of truly scaled digital news subscription businesses globally. The Games portfolio (Wordle, Connections, Spelling Bee) and Cooking represent genuine bundle anchors that reduce churn. Adjusted operating profit grew 21% to $550M in 2025 \u2014 evidence of operating leverage as digital scales. Bull case: subscriber growth continues at 1.2-1.5M/yr (the 15M milestone is achievable by 2027). AI data licensing agreements add a new high-margin revenue stream (training data is valuable and NYT has sued OpenAI/Microsoft aggressively). Games/Cooking are secular entertainment products with minimal churn. International expansion is early-stage. Bear case: subscriber growth may plateau as the US market for English-language digital news is finite. AI tools reduce the discovery friction that drove organic traffic to nytimes.com \u2014 if readers get news from AI summaries, organic subscriber acquisition slows. Print revenue decline (-10%/yr) will eventually run out but also continues to be a drag. At ~30x earnings, NYT is not cheap for a media company. Insider context: controlling Ochs-Sulzberger family owns Class B supervoting shares \u2014 management insulated from short-termism; also means minority holders have limited governance rights. Priced-in: modest undervaluation. The digital momentum is genuine, the AI threat to organic discovery is real but early, and the multiple (30x) prices in a growth trajectory that is plausible but requires continued subscriber adds.",
-      "scenarios": {
-        "bull": {
-          "target": 118.0,
-          "probability": 0.3,
-          "description": "Subscribers reach 15M+ by end 2027. AI licensing adds $200M+ annually. Digital advertising recovers. Operating profit grows to $800M. At 35x earnings, stock reaches $115-$120."
-        },
-        "base": {
-          "target": 78.0,
-          "probability": 0.5,
-          "description": "Subscribers grow to 13.5-14M. Digital revenue grows 12-14%/yr. Operating profit reaches $650M by 2027. At 28x earnings, stock recovers to $78-$82."
-        },
-        "bear": {
-          "target": 42.0,
-          "probability": 0.2,
-          "description": "Subscriber growth plateaus at 13M. AI tools reduce organic acquisition. Print drag accelerates. Operating margins compress. At 20x earnings, stock tests $42-$46."
-        }
-      },
-      "ratings": {
-        "moat": 0.65,
-        "runway": 0.55,
-        "quality": 0.7,
-        "management": 0.65
-      },
-      "citations": [
-        "0000071691-25-000124"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 70.75,
-      "high_52w": 87.1,
-      "decline_explanation": "",
-      "sector": "Communication Services",
-      "author": "oracle",
-      "created_at": "2026-06-28T06:32:10.687522",
-      "priced_at": "2026-06-28T06:32:10.687522",
-      "scenario_price": 70.75,
-      "drawdown_from_high": 0.187715269804822,
-      "derived": {
-        "expected_price": 82.80000000000001,
-        "expected_return": 0.17031802120141348,
-        "expected_cagr": 0.08181237800341945,
-        "asymmetry": 2.4652173913043476,
-        "quality_mult": 1.1375000000000002,
-        "asymmetry_mult": 1.5701010767795645,
-        "potential_score": 0.14611608693166217
-      },
-      "conviction": 0.18839155608164948
     }
   ],
-  "saved_at": "2026-06-28T06:32:10.688320"
+  "saved_at": "2026-06-28T06:54:05.487491"
 }
