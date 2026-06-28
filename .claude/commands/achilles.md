@@ -1,7 +1,7 @@
 # /achilles — full Achilles pass
 
 Event-driven, short-horizon. Runs frequently (multiple times per day).
-13 steps (includes ghost pass).
+12 steps.
 
 ## Steps
 
@@ -34,8 +34,6 @@ Event-driven, short-horizon. Runs frequently (multiple times per day).
 11. **Exits.** `plan_exits(sleeve, quotes, today)`. Place sell market orders for any triggered. Record close in journal. Update `playbooks` attribution (`record_outcome`, `maybe_autodisable`).
 
 12. **Persist.** Save sleeve + cursor + curve. `pantheon.persist("achilles", ...)`.
-
-13. **Ghost pass.** Run `/achilles-ghost` — paper-trade every detected event (including disqualified ones) for calibration data. This builds the empirical drift numbers that eventually replace the literature-seeded priors.
 
 ## Halt path
 
