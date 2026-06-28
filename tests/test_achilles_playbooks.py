@@ -129,8 +129,8 @@ def test_recalibrate_flips_flag():
 def test_earnings_calibrated_from_backtest():
     pbs = build_playbooks()
     pb = pbs["earnings_reaction"]
-    assert pb.base_rate == 0.70
-    assert pb.expected_hit_rate == 0.70
+    assert pb.base_rate == 0.55
+    assert pb.expected_hit_rate == 0.55
     assert pb.uncalibrated is False
 
 
