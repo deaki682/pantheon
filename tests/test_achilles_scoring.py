@@ -5,8 +5,35 @@ import pytest
 
 from achilles.playbooks import build_playbooks
 from achilles.scoring import (
-    TIME_HALFLIFE_HOURS, has_disqualifier, liquidity_score, score_event, time_decay,
+    TIME_HALFLIFE_HOURS, has_disqualifier, liquidity_score, score_event,
+    surprise_strength, time_decay,
 )
+
+
+def test_surprise_strength_none_returns_neutral():
+    assert surprise_strength(None) == 1.0
+
+
+def test_surprise_strength_zero_surprise():
+    assert surprise_strength(0.0) == 0.0
+
+
+def test_surprise_strength_sweet_spot():
+    s15 = surprise_strength(15.0)
+    assert 0.95 <= s15 <= 1.0
+
+
+def test_surprise_strength_extreme_penalized():
+    s150 = surprise_strength(150.0)
+    assert s150 < 0.15
+
+
+def test_surprise_strength_moderate_beats_extreme():
+    assert surprise_strength(15.0) > surprise_strength(100.0)
+
+
+def test_surprise_strength_uses_absolute_value():
+    assert surprise_strength(-15.0) == surprise_strength(15.0)
 
 
 def test_liquidity_small_cap():
@@ -25,8 +52,17 @@ def test_liquidity_mega_cap():
     assert liquidity_score(10_000_000_000) == pytest.approx(1.0)
 
 
-def test_liquidity_huge_cap_capped():
-    assert liquidity_score(500_000_000_000) == 1.0
+def test_liquidity_huge_cap_decays():
+    assert liquidity_score(500_000_000_000) < 1.0
+    assert liquidity_score(500_000_000_000) >= 0.2
+
+
+def test_liquidity_megacap_below_decay_start():
+    assert liquidity_score(40_000_000_000) == pytest.approx(1.0)
+
+
+def test_liquidity_megacap_above_decay_end():
+    assert liquidity_score(1_000_000_000_000) == pytest.approx(0.2)
 
 
 def test_liquidity_tiny():
@@ -105,7 +141,8 @@ def test_score_event_multiplicative():
         first_seen_iso=now.isoformat(),
         now=now,
     )
-    expected = pb.base_rate * 0.8 * 0.7 * 0.8 * 1.0  # liquidity 0.8, time_decay 1.0
+    # base_rate=0.70, event=0.8, quality=0.7, liquidity=0.8, decay=1.0
+    expected = pb.base_rate * 0.8 * 0.7 * 0.8 * 1.0
     assert out["score"] == pytest.approx(expected, abs=1e-6)
 
 

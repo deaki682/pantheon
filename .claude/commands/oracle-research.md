@@ -45,3 +45,14 @@ between full `/oracle` runs.
 6. Persist via `pantheon.persist("oracle", {"cache/oracle_dossiers.json": data})`.
 
 DO NOT place any orders from this command.
+
+## Rebalancing an existing dossier
+
+If you're rewriting a dossier's scenarios after the fact (e.g. swapping
+adversarial framing for balanced), use **`oracle.research.update_scenarios(d,
+new_scenarios, current_price=…)`** — NOT a hand-edit. The helper requires a
+fresh price as a keyword argument, which forces thesis and price to come from
+the same moment. A rebalance that rewrites scenarios but reuses the old
+`current_price` leaves the dossier internally inconsistent (and was the
+silent bug behind the "why is the dossier price different than today's
+quote?" question on 2026-06-28).

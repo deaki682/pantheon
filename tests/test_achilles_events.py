@@ -92,6 +92,21 @@ def test_build_event_for_filing_earnings():
     out = build_event_for_filing(_filing(items="2.02"))
     assert len(out) == 1
     assert out[0].event_class == "earnings_reaction"
+    assert out[0].strength == 1.0  # no surprise_pct → neutral
+
+
+def test_build_event_for_filing_earnings_with_surprise():
+    out = build_event_for_filing(_filing(items="2.02"), surprise_pct=15.0)
+    assert len(out) == 1
+    assert out[0].event_class == "earnings_reaction"
+    assert 0.95 <= out[0].strength <= 1.0  # sweet spot
+    assert out[0].metadata["surprise_pct"] == 15.0
+
+
+def test_build_event_for_filing_earnings_extreme_surprise_penalized():
+    out = build_event_for_filing(_filing(items="2.02"), surprise_pct=150.0)
+    assert len(out) == 1
+    assert out[0].strength < 0.15  # extreme surprise penalized
 
 
 def test_build_event_for_filing_13d():

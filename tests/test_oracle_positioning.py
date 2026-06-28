@@ -194,6 +194,28 @@ def test_size_book_small_equity_holds_fewer_not_empty():
     assert max(int(s[1:]) for s in targets) < 12  # the best-conviction names
 
 
+def test_size_book_filters_megacaps():
+    scored = [
+        {"symbol": "MEGA", "conviction": 0.95, "sector": "tech", "market_cap": 500_000_000_000},
+        {"symbol": "MID", "conviction": 0.80, "sector": "health", "market_cap": 10_000_000_000},
+        {"symbol": "SMALL", "conviction": 0.70, "sector": "energy", "market_cap": 2_000_000_000},
+    ]
+    targets = size_book(scored, equity=10_000.0)
+    assert "MEGA" not in targets
+    assert "MID" in targets
+    assert "SMALL" in targets
+
+
+def test_size_book_no_mcap_passes_through():
+    scored = [
+        {"symbol": "OLD", "conviction": 0.80, "sector": "tech"},
+        {"symbol": "NEW", "conviction": 0.70, "sector": "health", "market_cap": 5_000_000_000},
+    ]
+    targets = size_book(scored, equity=10_000.0)
+    assert "OLD" in targets
+    assert "NEW" in targets
+
+
 def test_rotation_decision_below_margin():
     assert rotation_decision(1.0, 1.1) is False  # only 10% above
 

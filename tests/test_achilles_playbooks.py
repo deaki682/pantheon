@@ -16,8 +16,12 @@ def test_six_classes():
 
 def test_default_uncalibrated():
     pbs = build_playbooks()
-    for pb in pbs.values():
-        assert pb.uncalibrated is True
+    # earnings_reaction is calibrated from backtest; others remain uncalibrated
+    for name, pb in pbs.items():
+        if name == "earnings_reaction":
+            assert pb.uncalibrated is False
+        else:
+            assert pb.uncalibrated is True
         assert pb.disabled is False
 
 
@@ -112,12 +116,20 @@ def test_no_autodisable_when_small_n():
 
 def test_recalibrate_flips_flag():
     pbs = build_playbooks()
-    pb = pbs["earnings_reaction"]
+    pb = pbs["insider_cluster"]
     assert pb.uncalibrated is True
-    recalibrate(pb, new_base_rate=0.60, new_hold_days=8)
+    recalibrate(pb, new_base_rate=0.60, new_hold_days=18)
     assert pb.uncalibrated is False
     assert pb.base_rate == 0.60
-    assert pb.hold_days == 8
+    assert pb.hold_days == 18
+
+
+def test_earnings_calibrated_from_backtest():
+    pbs = build_playbooks()
+    pb = pbs["earnings_reaction"]
+    assert pb.base_rate == 0.70
+    assert pb.expected_hit_rate == 0.70
+    assert pb.uncalibrated is False
 
 
 def test_auto_disable_delta():
