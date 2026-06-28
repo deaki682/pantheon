@@ -1295,7 +1295,881 @@
         "potential_score": 0.06311574455481216
       },
       "conviction": 0.08621992017607294
+    },
+    {
+      "symbol": "KROS",
+      "business": "Keros Therapeutics is a clinical-stage biopharmaceutical company focused on TGF-beta/activin pathway modulation for rare musculoskeletal and hematologic diseases. Its lead program KER-065 is in Phase 2 for Duchenne Muscular Dystrophy (data expected H1 2027) following the 2026 termination of the TROPOS myelofibrosis/MDS program.",
+      "thesis": "KROS trades at ~0.74x cash ($14.27/share net cash vs. $10.50 stock), pricing the pipeline at negative value. The TROPOS termination was a genuine setback, but the DMD pivot is scientifically rational \u2014 TGF-beta inhibition has strong preclinical muscle-preservation evidence in DMD models, and orphan status provides high-value regulatory pathway. With cash runway through H1 2028, investors get a free Phase 2 bet. Key risk: drug failure returns less than cash per share after 2-year burn. The counter: at this price the market already prices zero success probability \u2014 any positive signal from the Phase 2 is pure upside.",
+      "scenarios": {
+        "bull": {
+          "target": 20.0,
+          "probability": 0.18,
+          "label": "KER-065 Phase 2 DMD shows functional signal (H1 2027); partnership or buyout at premium to pipeline value"
+        },
+        "base": {
+          "target": 10.5,
+          "probability": 0.5,
+          "label": "Stock drifts at/near cash through data; Phase 2 inconclusive; per-share cash erodes to ~$12 by mid-2027"
+        },
+        "bear": {
+          "target": 5.0,
+          "probability": 0.32,
+          "label": "DMD Phase 2 fails (mid-2027); orderly wind-down; stock prices in $7-8 terminal value well before data"
+        }
+      },
+      "ratings": {
+        "moat": 0.3,
+        "runway": 0.7,
+        "quality": 0.45,
+        "management": 0.5
+      },
+      "citations": [
+        "0001664710-26-000030"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 10.5,
+      "high_52w": 22.55,
+      "decline_explanation": "TROPOS program (KER-050 for myelofibrosis/MDS) was terminated in February 2026 after Phase 2 failed to demonstrate sufficient efficacy, triggering a 45% workforce reduction and the loss of the lead clinical catalyst. The stock had already declined from its ATH near $22.55 on broader biotech risk-off sentiment and lack of near-term binary events. As of June 2026, the stock trades below net cash ($14.27/share), signaling extreme market pessimism about any future pipeline success.",
+      "sector": "Biotechnology",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520378",
+      "priced_at": "2026-06-28T11:34:18.520378",
+      "scenario_price": 10.5,
+      "drawdown_from_high": 0.5343680709534369,
+      "derived": {
+        "expected_price": 10.45,
+        "expected_return": -0.004761904761904856,
+        "expected_cagr": -0.002383793616956509,
+        "asymmetry": 0.9715909090909091,
+        "quality_mult": 0.9875,
+        "asymmetry_mult": 0.9856931110091564,
+        "potential_score": -0.0023203178344728603
+      },
+      "conviction": 0.0
+    },
+    {
+      "symbol": "VITL",
+      "business": "Vital Farms is the leading US pasture-raised egg and butter brand, selling refrigerated products through 24,000+ retail doors. After the abrupt May 2026 guidance cut and butter category exit, the company now focuses exclusively on the pasture-raised egg segment (>80% of revenue), which defines its premium brand positioning.",
+      "thesis": "At 0.53x EV/TTM revenue (~$290M EV on ~$550M TTM revenue), VITL is pricing in near-permanent brand damage. The genuine bull case: 8 insiders including C-suite bought $8.00\u2013$8.52 in May 2026 immediately after the guidance cut, the $80M buyback is active, and HPAI-driven supply tightness provides a structural pricing tailwind for pasture eggs. Bear case is real \u2014 Q1 2026 OCF was -$18.6M, butter losses bled ~$100M+ in value destruction, and the founder/CEO departure creates execution risk. The decisive question: is the brand intact? Early channel data suggests retailers maintain premium shelf placement for Vital Farms eggs, which implies the core equity survived the butter debacle.",
+      "scenarios": {
+        "bull": {
+          "target": 22.0,
+          "probability": 0.25,
+          "label": "Butter exit saves $30M+ in annual losses; egg pricing holds; new leadership articulates 2027 recovery; stock re-rates to 1.0x revenue"
+        },
+        "base": {
+          "target": 10.5,
+          "probability": 0.45,
+          "label": "Transition year \u2014 butter losses abate by Q3 2026 but egg pricing normalizes; stock range-bound $8-14 awaiting proof"
+        },
+        "bear": {
+          "target": 4.0,
+          "probability": 0.3,
+          "label": "Brand dilution persists, egg pricing collapses further, interim leadership struggles; EV compresses to 0.2x revenue"
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.4,
+        "quality": 0.4,
+        "management": 0.3
+      },
+      "citations": [
+        "0001193125-26-210356"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 10.6,
+      "high_52w": 53.13,
+      "decline_explanation": "On May 7 2026, Vital Farms slashed FY2026 EBITDA guidance from ~$110M to ~$5M \u2014 a 95%+ cut \u2014 due to massive losses in the recently-launched butter category (higher-than-expected input costs, distribution inefficiencies, retailer acceptance shortfalls). Simultaneously, the company announced the departure of its founder and CEO. The combined shock caused a near-80% decline from the 52-week high of $53.13, with the stock bottoming below $9. HPAI egg price normalization in Q2 2026 added further revenue headwinds to the egg segment.",
+      "sector": "Consumer Staples",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520446",
+      "priced_at": "2026-06-28T11:34:18.520446",
+      "scenario_price": 10.6,
+      "drawdown_from_high": 0.800489365706757,
+      "derived": {
+        "expected_price": 11.425,
+        "expected_return": 0.0778301886792454,
+        "expected_cagr": 0.03818600870905864,
+        "asymmetry": 1.4393939393939397,
+        "quality_mult": 0.9,
+        "asymmetry_mult": 1.199747448171464,
+        "potential_score": 0.04123220985409177
+      },
+      "conviction": 0.05720193180866118
+    },
+    {
+      "symbol": "ERIE",
+      "business": "Erie Indemnity Company acts as attorney-in-fact for the Erie Insurance Exchange, earning a management fee (currently 25% of premiums written) on Exchange premium volume. This fee model insulates Erie Indemnity from underwriting losses and catastrophe exposure while generating highly predictable revenue tied to the Exchange's premium growth.",
+      "thesis": "Erie Indemnity's 38% decline masks the durability of the attorney-in-fact model: Q1 2026 net income grew 8.7% YoY despite the AM Best downgrade, cyber incident, and $100M Hamot charitable gift. Erie Indemnity collects 25% of premiums regardless of the Exchange's underwriting results \u2014 it does not bear cat risk. The bear case centers on fee rate litigation (regulators could challenge the 25% management fee) and Exchange deterioration reducing premium volume. Both are real long-tail risks. At ~13-14x forward earnings with a structurally protected revenue stream, the stock prices in these risks too harshly.",
+      "scenarios": {
+        "bull": {
+          "target": 320.0,
+          "probability": 0.3,
+          "label": "Cyber incident resolved, policy growth rebounds, fee litigation overstated; re-rates to historical 30x EPS multiple"
+        },
+        "base": {
+          "target": 250.0,
+          "probability": 0.5,
+          "label": "Slow 2-3% policy growth recovery; fee rate held at 25%; 5-8% EPS growth; modest re-rating from trough toward $250-270"
+        },
+        "bear": {
+          "target": 165.0,
+          "probability": 0.2,
+          "label": "Fee rate litigation succeeds; Exchange loses further AM Best rating; EPS falls 25-30%; re-rates to 22x; tests $165-180"
+        }
+      },
+      "ratings": {
+        "moat": 0.8,
+        "runway": 0.7,
+        "quality": 0.7,
+        "management": 0.6
+      },
+      "citations": [
+        "0001628280-26-026866"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 235.0,
+      "high_52w": 380.67,
+      "decline_explanation": "Erie Indemnity fell 38% from its 2025 ATH due to a convergence of negatives: (1) AM Best downgraded the Erie Insurance Exchange from A+ to A in late 2025 citing capitalization deterioration; (2) a significant cyber incident disrupted operations for several weeks; (3) new policy additions fell 22.8% signaling customer acquisition weakness; and (4) a $100M charitable gift to Hamot Health Foundation created a one-time earnings distortion. These catalysts together raised investor doubts about the durability of the management-fee model.",
+      "sector": "Insurance",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520473",
+      "priced_at": "2026-06-28T11:34:18.520473",
+      "scenario_price": 235.0,
+      "drawdown_from_high": 0.38266740221188955,
+      "derived": {
+        "expected_price": 254.0,
+        "expected_return": 0.08085106382978724,
+        "expected_cagr": 0.03963987218160647,
+        "asymmetry": 1.8214285714285714,
+        "quality_mult": 1.2000000000000002,
+        "asymmetry_mult": 1.349603116263656,
+        "potential_score": 0.06419771402950693
+      },
+      "conviction": 0.0876312322588888
+    },
+    {
+      "symbol": "CALM",
+      "business": "Cal-Maine Foods is the largest US shell egg producer, selling conventional, cage-free, and specialty eggs under branded and private-label formats. The business is highly counter-cyclical to egg commodity prices \u2014 it thrives during HPAI-driven flock reductions and suffers sharp earnings compression when prices normalize.",
+      "thesis": "CALM's 37% decline from peak reflects entirely a commodity mean-reversion from HPAI-elevated prices \u2014 Q3 FY2026 EPS fell from $10.38 to $1.06. This is NOT a structural deterioration: the company holds $1.15B in cash, zero debt, and book value of $57/share. At $79 stock (1.39x book), the downside is genuinely limited. The bull case is not another HPAI spike (bonus upside) but rather CALM's role as the counter-cyclical consolidator \u2014 acquiring flocks and facilities at distressed prices during downturns while larger operators exit. Baker family sold ~140K shares near the high (bearish signal), and there is NO meaningful open-market insider buying. The investment is a balance-sheet-protected value with commodity optionality.",
+      "scenarios": {
+        "bull": {
+          "target": 110.0,
+          "probability": 0.25,
+          "label": "New HPAI outbreak or demand surge restores conventional egg prices to $2.50+/dozen; EPS rebounds to $7-9; stock at 12x \u2192 $110+"
+        },
+        "base": {
+          "target": 80.0,
+          "probability": 0.5,
+          "label": "Egg prices subdued at $1.50-2.00/dozen; EPS $3-4; CALM acquires counter-cyclically; stock holds near $57 book +40% premium"
+        },
+        "bear": {
+          "target": 55.0,
+          "probability": 0.25,
+          "label": "Prolonged depression at $1.00-1.50/dozen; flock rebuilding faster than expected; EPS <$2; stock tests book value $55-60"
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.8,
+        "quality": 0.6,
+        "management": 0.7
+      },
+      "citations": [
+        "0001562762-26-000046"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 79.0,
+      "high_52w": 126.4,
+      "decline_explanation": "Cal-Maine's 37% decline is a textbook commodity mean-reversion. HPAI (Highly Pathogenic Avian Influenza) drove conventional egg prices to $4.00+/dozen in late 2024/early 2025, producing EPS of $10.38 in Q3 FY2025. As flock rebuilding accelerated through 2025 and supply normalized by early 2026, conventional prices fell to $1.50-1.80/dozen and Q3 FY2026 EPS collapsed to $1.06 \u2014 a purely cyclical reversal, not structural deterioration of the business.",
+      "sector": "Consumer Staples",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520491",
+      "priced_at": "2026-06-28T11:34:18.520491",
+      "scenario_price": 79.0,
+      "drawdown_from_high": 0.375,
+      "derived": {
+        "expected_price": 81.25,
+        "expected_return": 0.028481012658227778,
+        "expected_cagr": 0.014140529048231931,
+        "asymmetry": 1.2916666666666667,
+        "quality_mult": 1.15,
+        "asymmetry_mult": 1.136515141415488,
+        "potential_score": 0.018481564176582296
+      },
+      "conviction": 0.026056742806303768
+    },
+    {
+      "symbol": "SKYW",
+      "business": "SkyWest, Inc. is the largest US regional airline, operating as a capacity purchase agreement (CPA) partner for major carriers \u2014 United (44%), Delta (35%), American (13%), Alaska (8%). Under CPA contracts, SkyWest earns fixed fees per block hour flown while the major carrier retains revenue/fuel risk, giving SKYW a recurring-fee revenue model with high earnings visibility.",
+      "thesis": "SkyWest's 21% drawdown from its 52-week high reflects temporary training-cost drag in Q1 2026, not a change in the fundamental model. FY2025 delivered $428M net income \u2014 the best year in company history \u2014 with 84% CPA-contracted revenue and defined cost escalators. The bull case: regional pilot shortages continue pushing contract renewal rates higher, and SkyWest's 479-aircraft fleet is fully contracted through multi-year agreements. Bear case: United Airlines dependence (44% of fleet) and the risk that pilot training completion and narrowbody mainline expansion gradually replaces some regional routes. At 8-9x forward earnings with 14-15% ROE and a clean balance sheet, SKYW offers modest upside with limited downside in the base case.",
+      "scenarios": {
+        "bull": {
+          "target": 135.0,
+          "probability": 0.3,
+          "label": "Contract renewals add rate escalators above inflation; training headwinds clear by Q3 2026; FY2026 EPS $14-15; 9x \u2192 $135"
+        },
+        "base": {
+          "target": 100.0,
+          "probability": 0.55,
+          "label": "Steady state: FY2026 EPS $12-13; 8x forward \u2192 $100-105; modest buybacks support per-share growth"
+        },
+        "bear": {
+          "target": 65.0,
+          "probability": 0.15,
+          "label": "United reduces CPA scope; major carrier stress affects renewals; EPS falls to $8-9; 7x \u2192 $60-65"
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.7,
+        "quality": 0.7,
+        "management": 0.7
+      },
+      "citations": [
+        "0001104659-26-048542"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 98.5,
+      "high_52w": 123.94,
+      "decline_explanation": "",
+      "sector": "Industrials",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520505",
+      "priced_at": "2026-06-28T11:34:18.520505",
+      "scenario_price": 98.5,
+      "drawdown_from_high": 0.20526060997256734,
+      "derived": {
+        "expected_price": 105.25,
+        "expected_return": 0.06852791878172582,
+        "expected_cagr": 0.03369624106007363,
+        "asymmetry": 2.1791044776119404,
+        "quality_mult": 1.1749999999999998,
+        "asymmetry_mult": 1.47617901272574,
+        "potential_score": 0.05844647853623793
+      },
+      "conviction": 0.08010428565551375
+    },
+    {
+      "symbol": "AII",
+      "business": "Atrium Innovations Insurance (AII) is a Florida-focused homeowners insurer that completed its IPO in May 2025. AII operates as a de novo carrier using a hybrid MGA/carrier model targeting underserved coastal homeowners in Florida's hard market, with significant reinsurance cession to manage first-year CAT exposure while building its regulatory capital base.",
+      "thesis": "AII's 31% decline from its IPO-era high reflects two factors: (1) Q1 2026's 75% combined ratio, which is an accounting artifact of quota share structure changes and the Citizens Insurance comparison base, not genuine underwriting deterioration; and (2) market skepticism about a de novo Florida carrier without a full-cycle track record. Against this, founding investor Sowell bought 136,000 shares at $16.85-16.92 in June 2026 \u2014 significant open-market conviction. The 2026 cat reinsurance was renewed with rate reductions, suggesting third-party reinsurers view the portfolio favorably. At 1.07x book, the stock prices in close to zero franchise value. Bear case remains: Florida is the hardest home insurance market, AII is <2 years old, and one major CAT event could impair the equity base materially.",
+      "scenarios": {
+        "bull": {
+          "target": 26.0,
+          "probability": 0.3,
+          "label": "Q2-Q3 2026 show normalized CR 90-95%; premium growth continues; no major CAT; stock re-rates to 1.5x book \u2192 $26"
+        },
+        "base": {
+          "target": 18.5,
+          "probability": 0.5,
+          "label": "Quota share drag persists through 2026; slow premium growth; stock holds near book $18-20 awaiting first full underwriting year proof"
+        },
+        "bear": {
+          "target": 10.0,
+          "probability": 0.2,
+          "label": "Major FL hurricane event; reinsurance recoveries delayed; CRs spike >120%; dilutive equity raise; stock tests book floor $10-12"
+        }
+      },
+      "ratings": {
+        "moat": 0.3,
+        "runway": 0.5,
+        "quality": 0.5,
+        "management": 0.6
+      },
+      "citations": [
+        "0002007587-26-000063"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 18.3,
+      "high_52w": 26.36,
+      "decline_explanation": "AII stock peaked near $26 in early 2026 on enthusiasm for the Florida insurance market reform dividend and the de novo carrier thesis, then declined 31% as: (1) Q1 2026 results showed a 75% combined ratio that appeared alarming but was driven by quota share accounting and Citizens Insurance comparison distortions; (2) investors grew cautious about a sub-2-year-old Florida insurer lacking a full underwriting cycle track record; and (3) general insurance sector de-risking following cat-exposed carrier losses.",
+      "sector": "Insurance",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520529",
+      "priced_at": "2026-06-28T11:34:18.520529",
+      "scenario_price": 18.3,
+      "drawdown_from_high": 0.30576631259484066,
+      "derived": {
+        "expected_price": 19.05,
+        "expected_return": 0.040983606557376984,
+        "expected_cagr": 0.020286041538046806,
+        "asymmetry": 1.3915662650602405,
+        "quality_mult": 0.975,
+        "asymmetry_mult": 1.179646669583838,
+        "potential_score": 0.023332102305911404
+      },
+      "conviction": 0.03278219856000897
+    },
+    {
+      "symbol": "DKL",
+      "business": "Delek Logistics Partners is a Delaware-based MLP owning crude oil and refined products pipelines, storage terminals, and marine assets in the Mid-Continent and Southeast US. Revenue is fee-based under contracts with Delek US Holdings (DK, its 63.3% LP sponsor), with minimum volume commitments on most assets providing a revenue floor.",
+      "thesis": "DKL's 8.95% distribution yield and 53 consecutive quarterly increases make it appear compelling on income metrics, and FY2025 Adj. EBITDA was a record $535.6M with 1.24x coverage. However, the 'insider buying' flag is a false positive: recent Form 4s show code 'F' transactions (tax withholding on RSU vests), not code 'P' open-market purchases. The real bear case is DK sponsor dependency \u2014 100% of DKL revenue comes from DK-controlled entities, so any DK financial stress is DKL financial stress. At $50.50 with a 9% yield and 1.24x coverage, DKL is a predictable income instrument, but upside is capped by the sponsor-controlled structure and the thin distribution coverage that limits growth investment.",
+      "scenarios": {
+        "bull": {
+          "target": 60.0,
+          "probability": 0.35,
+          "label": "DK drops down incremental assets; EBITDA grows to $600M+; distribution grows to $4.50+/unit; yield compresses to 7.5% \u2192 $60"
+        },
+        "base": {
+          "target": 52.0,
+          "probability": 0.5,
+          "label": "Stable fee income; mid-single-digit distribution growth; 1.2-1.3x coverage; yield holds 8.5-9.0% \u2192 $50-54"
+        },
+        "bear": {
+          "target": 35.0,
+          "probability": 0.15,
+          "label": "DK sponsor financial stress reduces volumes; DKL holds/cuts distribution; MLP re-rates to 10%+ yield \u2192 $35-40"
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.6,
+        "quality": 0.6,
+        "management": 0.6
+      },
+      "citations": [
+        "0001628280-26-028277"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 50.5,
+      "high_52w": 55.89,
+      "decline_explanation": "",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520548",
+      "priced_at": "2026-06-28T11:34:18.520548",
+      "scenario_price": 50.5,
+      "drawdown_from_high": 0.09643943460368587,
+      "derived": {
+        "expected_price": 52.25,
+        "expected_return": 0.034653465346534684,
+        "expected_cagr": 0.017179170719954673,
+        "asymmetry": 1.4301075268817205,
+        "quality_mult": 1.0750000000000002,
+        "asymmetry_mult": 1.1958710327128592,
+        "potential_score": 0.02208487807727441
+      },
+      "conviction": 0.031057323116976177
+    },
+    {
+      "symbol": "TEN",
+      "business": "Tsakos Energy Navigation (TEN) is a Greece-based international crude and petroleum products tanker company operating 83 vessels (including 3 LNG carriers). Revenue is generated through time charter (TC), voyage charter, and pool arrangements, with a $3.5B+ contracted backlog providing multi-year earnings visibility.",
+      "thesis": "TEN's CEO bought 25,000 shares at $39.92 in April 2026 (now underwater at $36.80), demonstrating genuine management conviction even at financially uncomfortable levels. Q1 2026 TCE of $40,960/day (+33% YoY) reflected Strait of Hormuz disruption from the US/Israel-Iran conflict \u2014 an unusual geopolitical tailwind. The bear case: tanker rates mean-revert toward $20-25K/day as the Hormuz situation normalizes, compressing earnings materially from the current elevated run rate. The bull case: $3.5B+ contracted backlog provides 2-3 years of rate certainty on a significant fraction of the fleet, insulating near-term earnings. At $2.1B debt on an ~$1B equity base, leverage is elevated but manageable given contracted cash flows.",
+      "scenarios": {
+        "bull": {
+          "target": 50.0,
+          "probability": 0.3,
+          "label": "Tanker rates stay elevated through 2027; geopolitical disruption persists; EPS $5-6; buybacks compress share count \u2192 $50"
+        },
+        "base": {
+          "target": 37.0,
+          "probability": 0.5,
+          "label": "Rates normalize toward $30K/day; EPS $3.5-4; backlog provides visibility; modest upside from current price"
+        },
+        "bear": {
+          "target": 20.0,
+          "probability": 0.2,
+          "label": "Sharp rate correction to $18-22K/day; EPS falls to $1.5-2; $2.1B debt creates leverage stress; stock tests NAV-discounted levels"
+        }
+      },
+      "ratings": {
+        "moat": 0.3,
+        "runway": 0.5,
+        "quality": 0.5,
+        "management": 0.6
+      },
+      "citations": [
+        "0001193125-26-144027"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 36.8,
+      "high_52w": 45.85,
+      "decline_explanation": "",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520562",
+      "priced_at": "2026-06-28T11:34:18.520562",
+      "scenario_price": 36.8,
+      "drawdown_from_high": 0.197382769901854,
+      "derived": {
+        "expected_price": 37.5,
+        "expected_return": 0.01902173913043481,
+        "expected_cagr": 0.009466066359060443,
+        "asymmetry": 1.178571428571429,
+        "quality_mult": 0.975,
+        "asymmetry_mult": 1.085620296683619,
+        "potential_score": 0.010019639924921274
+      },
+      "conviction": 0.014211816329768978
+    },
+    {
+      "symbol": "RDN",
+      "business": "Radian Group is the second-largest US private mortgage insurance (MI) provider, plus specialty insurance through Inigo (Lloyd's of London specialty reinsurance, acquired February 2026). Core MI protects lenders against residential mortgage default losses on low-down-payment loans, generating premiums tied to new insurance written (NIW) volume.",
+      "thesis": "RDN is the most compelling insurer on the screen: new CEO Brad Weinbach purchased $5.77M of stock at $33.90-34.04 in his first weeks in role \u2014 the most conviction-weighted insider buy of any name in this research batch. Q1 2026 adj EPS was $1.27 (+22% YoY), NIW grew +42% YoY, and the $748M buyback authorization represents ~20% of current market cap. The Inigo acquisition adds specialty risk diversification and international earnings, reducing US housing-cycle dependency. Bear case: housing downturn raises MI defaults above 4%, impairing book value. At ~1x book and 7x forward earnings with an aligned CEO buying heavily at the current levels, the risk-reward is well-skewed.",
+      "scenarios": {
+        "bull": {
+          "target": 50.0,
+          "probability": 0.35,
+          "label": "Inigo integration creates specialty premium platform; NIW strong; buyback + 15% EPS CAGR \u2192 $50 in 2 years"
+        },
+        "base": {
+          "target": 38.5,
+          "probability": 0.5,
+          "label": "Modest NIW growth 5-10%; defaults stable at 2.5%; Inigo neutral; 10% EPS growth from buybacks; 9x forward \u2192 $38-40"
+        },
+        "bear": {
+          "target": 25.0,
+          "probability": 0.15,
+          "label": "Housing downturn; MI default rates >4%; book impairment; Inigo integration writedowns; 0.7x book \u2192 $25"
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.6,
+        "quality": 0.7,
+        "management": 0.8
+      },
+      "citations": [
+        "0001193125-26-215018"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 37.2,
+      "high_52w": 38.84,
+      "decline_explanation": "",
+      "sector": "Insurance",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520598",
+      "priced_at": "2026-06-28T11:34:18.520598",
+      "scenario_price": 37.2,
+      "drawdown_from_high": 0.04222451081359424,
+      "derived": {
+        "expected_price": 40.5,
+        "expected_return": 0.08870967741935476,
+        "expected_cagr": 0.04341251546037861,
+        "asymmetry": 2.448087431693988,
+        "quality_mult": 1.15,
+        "asymmetry_mult": 1.564636517435915,
+        "potential_score": 0.07811352805351854
+      },
+      "conviction": 0.10558978390886231
+    },
+    {
+      "symbol": "ESNT",
+      "business": "Essent Group Ltd. is a Bermuda-domiciled private mortgage insurer providing credit risk protection on US residential mortgages through Essent Guaranty (domestic MI) and Essent Re (offshore reinsurance). Founded in 2008, Essent has grown to a top-tier MI player with conservative underwriting and a post-financial-crisis vintage book.",
+      "thesis": "ESNT is the highest-quality MI franchise: 12% ROE with P/B of ~1.01x means the market assigns essentially zero franchise premium, despite $576M in stock buybacks in FY2025 and a conservative underwriting culture. CEO Mark Casale sold 13K shares at $65 in April 2026 \u2014 a mild negative \u2014 but corporate buybacks at 576M/year massively outweigh individual selling. Bear case: rising default rates (2.54% from 2.19%) and doubled provisioning are real but modest in absolute dollars. At 9.1x earnings and 1.01x book, the stock offers reasonable value with limited downside from conservative underwriting and full buyback support, but upside is capped by the slowly rising default environment.",
+      "scenarios": {
+        "bull": {
+          "target": 76.0,
+          "probability": 0.35,
+          "label": "Default rates stabilize at 2.5-3.0%; housing remains constructive; buybacks reduce share count 8%/year; EPS grows 15%+ \u2192 $76"
+        },
+        "base": {
+          "target": 64.0,
+          "probability": 0.5,
+          "label": "Default rates drift to 3.0-3.5%; provision normalizes; EPS flat-to-+5%; 1.0x book is the floor; stock holds $62-65"
+        },
+        "bear": {
+          "target": 42.0,
+          "probability": 0.15,
+          "label": "Housing recession; defaults >5%; losses impair book; buybacks suspended; stock falls to 0.7x book \u2192 $42-45"
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.6,
+        "quality": 0.7,
+        "management": 0.6
+      },
+      "citations": [
+        "0001448893-26-000016"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 62.0,
+      "high_52w": 67.09,
+      "decline_explanation": "",
+      "sector": "Insurance",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520621",
+      "priced_at": "2026-06-28T11:34:18.520621",
+      "scenario_price": 62.0,
+      "drawdown_from_high": 0.07586823669697429,
+      "derived": {
+        "expected_price": 64.89999999999999,
+        "expected_return": 0.046774193548386966,
+        "expected_cagr": 0.023119833425384817,
+        "asymmetry": 1.633333333333333,
+        "quality_mult": 1.125,
+        "asymmetry_mult": 1.2780193008453875,
+        "potential_score": 0.03324104251871864
+      },
+      "conviction": 0.046377324006493525
+    },
+    {
+      "symbol": "BWFG",
+      "business": "Bankwell Financial Group is a Connecticut commercial bank holding company operating Bankwell Bank, a state-chartered commercial bank with 9 branches in Fairfield and New Haven Counties plus a new Brooklyn, NY branch opened Q1 2026. The bank specializes in commercial real estate (72.6% of $2.87B loan book), with the largest sub-segment being skilled nursing/residential care ($781M, 27% of loans).",
+      "thesis": "BWFG's credit recovery is real and mostly priced in. NPL ratio fell from 1.97% to 0.66% over 18 months, NIM expanded from 2.70% to 3.28%, and Q1 2026 EPS of $1.41 annualizes to $5.64. Key insider: Lawrence Seidman (~10.6% owner, activist community bank investor) bought continuously from $29 to $53 \u2014 his most recent purchases at $51-54 suggest he sees upside from current $59.79. At 52-week high, P/B is 1.53x and forward P/E is ~10.6x on elevated Q1 earnings (which included a $1.0M provision reversal and $2.4M gain-on-sale). Bear case: skilled nursing CRE concentration ($781M) is a specialist credit risk, and the 99.4% loan/deposit ratio leaves little liquidity buffer. The residual bull case \u2014 continued NIM expansion and Brooklyn branch contribution \u2014 is incremental rather than transformative from here.",
+      "scenarios": {
+        "bull": {
+          "target": 75.0,
+          "probability": 0.25,
+          "label": "NIM expands to 3.40%+; Brooklyn branch generates $30M+ in new deposits; NPLs reach 0.40%; EPS $6.00-6.50; 12x \u2192 $75"
+        },
+        "base": {
+          "target": 60.0,
+          "probability": 0.55,
+          "label": "NIM stabilizes at 3.25-3.30%; modest 3-5% loan growth; EPS $5.25-5.50; stock holds near current 10-11x forward; book grows to $42+"
+        },
+        "bear": {
+          "target": 38.0,
+          "probability": 0.2,
+          "label": "New credit event in skilled nursing CRE; NIM pressure from competition; NPA rebounds to 1.0%+; re-rates to book value \u2192 $38-42"
+        }
+      },
+      "ratings": {
+        "moat": 0.4,
+        "runway": 0.6,
+        "quality": 0.6,
+        "management": 0.6
+      },
+      "citations": [
+        "0001505732-26-000074",
+        "0001505732-26-000046"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 59.79,
+      "high_52w": 59.79,
+      "decline_explanation": "",
+      "sector": "Banking",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520642",
+      "priced_at": "2026-06-28T11:34:18.520642",
+      "scenario_price": 59.79,
+      "drawdown_from_high": 0.0,
+      "derived": {
+        "expected_price": 59.35,
+        "expected_return": -0.007359090148854275,
+        "expected_cagr": -0.0036863396243401736,
+        "asymmetry": 0.8725332721431851,
+        "quality_mult": 1.05,
+        "asymmetry_mult": 0.9340948946135961,
+        "potential_score": -0.003615560574053356
+      },
+      "conviction": 0.0
+    },
+    {
+      "symbol": "SIRI",
+      "business": "Sirius XM Holdings Inc. operates the US's only national satellite radio network (SiriusXM) alongside Pandora digital audio, generating ~$8.6B in annual revenue post-Liberty Media merger (September 2024). Revenue is ~75% subscription-based, with 32.8M SiriusXM self-pay subscribers and 40M Pandora monthly active users.",
+      "thesis": "SIRI is a deep-discount cash flow business: 7.1x EV/EBITDA, 14.4% FCF yield on a $9.5B market cap, and a $8.6B FCC spectrum license moat that no streaming competitor can replicate. The market prices in secular subscriber decline overcoming cost cuts \u2014 a legitimate fear given 1,300K self-pay subscriber losses since the 2022 peak. The bull thesis rests on decelerating attrition: -148K net in Q1 2026 vs. -362K in Q1 2025 (-59% improvement), driven by continuous-service and companion plan changes. No open-market executive buying in Form 4s \u2014 the 'insider' signal is Malone's structural 5.5% position via Liberty Media, not fresh conviction. Bear case is real: $9.76B debt at 3.6x EBITDA, Pandora declining (-5% MAUs), and tariff-driven auto sales risk reducing the trial funnel. Appropriate for levered-media value investors; not a high-conviction core holding.",
+      "scenarios": {
+        "bull": {
+          "target": 38.0,
+          "probability": 0.25,
+          "label": "Sub net adds reach near-zero by Q4 2026; FCF sustains $1.3B+; buybacks shrink float; market re-rates to 9x EBITDA \u2192 $38"
+        },
+        "base": {
+          "target": 28.0,
+          "probability": 0.55,
+          "label": "Slow sub bleed continues (-100-150K/qtr); ARPU +1-2%; FCF sustains $1.1-1.2B; stock holds at 7x EBITDA; dividend maintained"
+        },
+        "bear": {
+          "target": 14.0,
+          "probability": 0.2,
+          "label": "Tariff-driven auto sales decline reduces trial starts; churn accelerates to 1.8%+; FCF falls below dividend+debt service; 5x EBITDA \u2192 $14"
+        }
+      },
+      "ratings": {
+        "moat": 0.7,
+        "runway": 0.4,
+        "quality": 0.5,
+        "management": 0.5
+      },
+      "citations": [
+        "0000908937-26-000011",
+        "0000908937-26-000006"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 28.1,
+      "high_52w": 30.11,
+      "decline_explanation": "",
+      "sector": "Media",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520659",
+      "priced_at": "2026-06-28T11:34:18.520659",
+      "scenario_price": 28.1,
+      "drawdown_from_high": 0.06675523082032542,
+      "derived": {
+        "expected_price": 27.700000000000003,
+        "expected_return": -0.014234875444839812,
+        "expected_cagr": -0.0071429485796254966,
+        "asymmetry": 0.8776595744680848,
+        "quality_mult": 1.025,
+        "asymmetry_mult": 0.9368348704377335,
+        "potential_score": -0.006859057389815265
+      },
+      "conviction": 0.0
+    },
+    {
+      "symbol": "WLFC",
+      "business": "Willis Lease Finance Corporation is the leading specialist lessor of commercial aircraft spare engines, owning 342 engines plus 20 aircraft and managing 129 additional engines for third parties across 40 countries. Revenue comes from lease rent, maintenance reserve billing, and asset sales. The company has pioneered engine ABS securitization (WEST I-IX) and operates vertically integrated services through Willis Aero (parts) and Willis Engine Repair Center (MRO).",
+      "thesis": "WLFC directly benefits from two structural tailwinds: Boeing/Airbus delivery delays keep older CFM56/V2500 engines flying longer, and the Pratt & Whitney GTF recall created acute demand for spare engines. Revenue grew 28% in FY2025 to $730M; Q1 2026 annualizes to ~$777M. At $222/share (~$1.57B market cap), EV/Adj. EBITDA is ~9.3x on $459M FY2025 EBITDA. Key bear case: the Willis founding family (Charles Willis IV) sold shares at $162-200 in early 2026, suggesting the family viewed the stock as fair-to-full in that range. At $222 (above the family's selling range), caution is warranted. High leverage ($2.25B debt) is a real tail risk if capital markets tighten or OEM deliveries normalize faster than expected.",
+      "scenarios": {
+        "bull": {
+          "target": 300.0,
+          "probability": 0.3,
+          "label": "OEM delays persist through 2027-28; LMI Fund AUM scales to $1B+; EBITDA reaches $550M+; 10x multiple \u2192 equity value $300+"
+        },
+        "base": {
+          "target": 220.0,
+          "probability": 0.5,
+          "label": "Gradual OEM normalization by 2027; lease rates slowly compress; EBITDA grows 5-8%; stock holds at 9x EBITDA; family selling caps upside"
+        },
+        "bear": {
+          "target": 120.0,
+          "probability": 0.2,
+          "label": "Boeing/Airbus ramp sharply; airlines accelerate retirements; write-downs >$50M/year; debt refinancing costly; 6-7x EBITDA \u2192 $90-120"
+        }
+      },
+      "ratings": {
+        "moat": 0.7,
+        "runway": 0.5,
+        "quality": 0.6,
+        "management": 0.5
+      },
+      "citations": [
+        "0001018164-26-000053",
+        "0001018164-26-000036"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 222.0,
+      "high_52w": 239.44,
+      "decline_explanation": "",
+      "sector": "Industrials",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520680",
+      "priced_at": "2026-06-28T11:34:18.520680",
+      "scenario_price": 222.0,
+      "drawdown_from_high": 0.07283661877714664,
+      "derived": {
+        "expected_price": 224.0,
+        "expected_return": 0.009009009009008917,
+        "expected_cagr": 0.004494404667845231,
+        "asymmetry": 1.1470588235294115,
+        "quality_mult": 1.075,
+        "asymmetry_mult": 1.071008320943125,
+        "potential_score": 0.0051745606567189534
+      },
+      "conviction": 0.007364974181601425
+    },
+    {
+      "symbol": "UVE",
+      "business": "Universal Insurance Holdings is a Fort Lauderdale-based holding company underwriting personal residential property and casualty insurance through UPCIC and APPCIC, distributed via independent agents and Clovered.com (39 carrier partners). Vertically integrated with Evolution Risk Advisors (MGA, claims, underwriting), Blue Atlantic Reinsurance (reinsurance intermediary earning commissions), and Universal Inspection Corporation.",
+      "thesis": "UVE is the clearest Florida insurance reform beneficiary: the December 2022 law changes eliminating one-way attorneys' fees and AOB drove the combined ratio from 107.9% (2024) to 87.5% (2025), and Q1 2026 continued improvement at 89.7%. FY2025 net income was $182.9M (+210% YoY), EPS $6.32, and annualized Q1 2026 ROCE was 38.2%. At 6x trailing earnings, UVE trades at a dramatic discount to insurance peers (typically 10-14x). Bear case is structural: Florida is one hurricane season away from catastrophic losses, a Demotech downgrade would be operationally existential, and $100M of new 7.75% debt (June 2026) increases leverage. Insider 'buying' is routine RSU grants; Executive Chairman Downes sold 20K shares at $38.22 in June 2026. Reform tailwind is real but not fully priced in at 6x earnings.",
+      "scenarios": {
+        "bull": {
+          "target": 57.0,
+          "probability": 0.3,
+          "label": "Benign 2026 hurricane season; Q2-Q3 confirm CR trend; loss ratio holds at 62-65%; re-rates to 9x EPS \u2192 $57"
+        },
+        "base": {
+          "target": 41.0,
+          "probability": 0.5,
+          "label": "Normal hurricane activity; pre-reform litigation tail slowly resolves; EPS $6-7 range; stock stays range-bound at 6-7x near current price"
+        },
+        "bear": {
+          "target": 22.0,
+          "probability": 0.2,
+          "label": "Major FL hurricane near South Florida concentration; Demotech downgrade risk triggered; equity erodes; stock tests $20-25 historical trough"
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.6,
+        "quality": 0.6,
+        "management": 0.5
+      },
+      "citations": [
+        "0000891166-26-000046",
+        "0000891166-26-000010"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 41.0,
+      "high_52w": 41.96,
+      "decline_explanation": "",
+      "sector": "Insurance",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520696",
+      "priced_at": "2026-06-28T11:34:18.520696",
+      "scenario_price": 41.0,
+      "drawdown_from_high": 0.022878932316491962,
+      "derived": {
+        "expected_price": 41.99999999999999,
+        "expected_return": 0.024390243902438824,
+        "expected_cagr": 0.012121654694947637,
+        "asymmetry": 1.263157894736842,
+        "quality_mult": 1.075,
+        "asymmetry_mult": 1.1239029738980326,
+        "potential_score": 0.01464533104223295
+      },
+      "conviction": 0.020704556900980053
+    },
+    {
+      "symbol": "RBCAA",
+      "business": "Republic Bancorp, Inc. is a Louisville, Kentucky financial holding company with $7.25B in assets, operating through five segments: Traditional Banking (KY/IN/TN/FL community banking), Warehouse Lending (mortgage originator credit lines), Tax Refund Solutions (TRS \u2014 national Refund Advance/Transfer product via tax preparer partnerships), Republic Payment Solutions, and Republic Credit Solutions (subprime consumer credit). The TRS segment is a unique niche: one of a tiny number of banks with the charter, infrastructure, and IRS relationships to offer short-duration refund advance loans nationally.",
+      "thesis": "RBCAA at the 52-week high reflects strong FY2025 earnings ($131.3M net income, +30%, ROA 1.84%, diluted EPS $6.72). The asymmetric bet: TRS's largest Tax Provider contract was not renewed for the 2026 season (lost ~$13M pre-tax annually), which dragged Q1 2026 TRS net income -50% and total EPS to $2.18 vs $2.42 in Q1 2025. If TRS signs a replacement contract, earnings recovery is non-trivial. If the contract is permanently lost, forward normalized EPS is ~$5.50-5.80, implying ~16x \u2014 fair but not cheap. The Trager family (VP Scott Trager bought at $71.13 in Feb 2026 401k; family controls >340K shares at ~10%+ ownership) is aligned but not buying aggressively at current levels. Traditional Banking NIM is expanding to 4.10% \u2014 a genuine positive offsetting TRS headwinds.",
+      "scenarios": {
+        "bull": {
+          "target": 120.0,
+          "probability": 0.3,
+          "label": "TRS signs replacement contract in 2026 or 2027; EPS recovers to $7.50+; Traditional Banking NIM holds at 4.0%+; 13x \u2192 $120"
+        },
+        "base": {
+          "target": 90.0,
+          "probability": 0.5,
+          "label": "TRS not replaced in 2026; normalized EPS ~$5.60-6.00; Traditional Banking growth offsets; stock holds at 15-16x forward"
+        },
+        "bear": {
+          "target": 60.0,
+          "probability": 0.2,
+          "label": "TRS structural decline (not just one contract); CFPB action on RCS products; NIM compression; EPS falls to $4-5; 12x \u2192 $55-65"
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.6,
+        "quality": 0.7,
+        "management": 0.7
+      },
+      "citations": [
+        "0001104659-26-057076",
+        "0001104659-26-024523"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 90.15,
+      "high_52w": 90.15,
+      "decline_explanation": "",
+      "sector": "Banking",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520714",
+      "priced_at": "2026-06-28T11:34:18.520714",
+      "scenario_price": 90.15,
+      "drawdown_from_high": 0.0,
+      "derived": {
+        "expected_price": 93.0,
+        "expected_return": 0.03161397670549082,
+        "expected_cagr": 0.01568399451083735,
+        "asymmetry": 1.4850746268656712,
+        "quality_mult": 1.15,
+        "asymmetry_mult": 1.2186363800845892,
+        "potential_score": 0.021980049240346404
+      },
+      "conviction": 0.030912207774384748
+    },
+    {
+      "symbol": "MTG",
+      "business": "MGIC Investment Corporation, through Mortgage Guaranty Insurance Corporation (MGIC), is the founder of the modern US private mortgage insurance industry (established 1957), providing MI on GSE-eligible residential loans to protect lenders against borrower default losses. MGIC maintains $302.7B of primary insurance-in-force (IIF) across ~1.1M insured loans, with 78% of risk-in-force reinsured via QSR transactions and ILN capital market executions.",
+      "thesis": "MTG is a capital return machine at 8.85x FY2025 EPS: $782M in buybacks in FY2025 (30M shares repurchased) reduced share count from ~270M to 213M \u2014 a ~12% annual reduction. At $27.60 with a $3.14 EPS base, EPS could reach $3.50-3.60 from buybacks alone by FY2026. The PMIERs fortress ($5.8B available vs. $2.9B required) funds indefinite buybacks without capital stress. Bear case is real: Q1 2026 loss ratio spiked to 14.1% vs. 3.9% a year ago (loss normalization is underway), net premium yield compressed to 31.1 bps, and executive Form 4s show 10b5-1 plan selling by CEO and CFO \u2014 the 'insider buying' flag is likely the corporate buyback program, not individual executive purchases. GSE dependency (100% of NIW) is the existential tail risk. At 8.85x earnings with a buyback flywheel, the stock is modestly attractive with limited downside.",
+      "scenarios": {
+        "bull": {
+          "target": 36.0,
+          "probability": 0.3,
+          "label": "Buybacks reduce share count 12%/year; NIW accelerates as rates moderate; EPS reaches $4.00 by 2027; 9x forward \u2192 $36"
+        },
+        "base": {
+          "target": 28.0,
+          "probability": 0.55,
+          "label": "Loss ratio normalizes to 12-15%; NIW flat; EPS $3.40-3.60 from buybacks alone; stock holds at 8x \u2192 $27-29"
+        },
+        "bear": {
+          "target": 16.0,
+          "probability": 0.15,
+          "label": "Housing downturn; default rates spike >8%; loss ratio >80%; PMIERs pressure limits buybacks; stock re-rates to 5x EPS \u2192 $15-18"
+        }
+      },
+      "ratings": {
+        "moat": 0.7,
+        "runway": 0.7,
+        "quality": 0.7,
+        "management": 0.6
+      },
+      "citations": [
+        "0000876437-26-000022",
+        "0000876437-26-000010"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 27.6,
+      "high_52w": 29.97,
+      "decline_explanation": "",
+      "sector": "Insurance",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520732",
+      "priced_at": "2026-06-28T11:34:18.520732",
+      "scenario_price": 27.6,
+      "drawdown_from_high": 0.07907907907907896,
+      "derived": {
+        "expected_price": 28.6,
+        "expected_return": 0.03623188405797095,
+        "expected_cagr": 0.017954755408102985,
+        "asymmetry": 1.448275862068965,
+        "quality_mult": 1.1749999999999998,
+        "asymmetry_mult": 1.2034433356286307,
+        "potential_score": 0.02538884861800029
+      },
+      "conviction": 0.03561991568132894
+    },
+    {
+      "symbol": "BHRB",
+      "business": "Burke & Herbert Financial Services Corp. is the holding company for Burke & Herbert Bank & Trust Company, a Virginia-chartered commercial bank continuously operating since 1852, headquartered in Alexandria, Virginia. Post-merger with Summit Financial (May 2024) and LINKBANCORP (May 2026), BHRB now operates 77+ branches in VA, WV, MD, DE, KY, and PA with ~$8-10B in total assets.",
+      "thesis": "BHRB at its 52-week high reflects the market finally pricing in Summit acquisition synergies: FY2025 delivered $117.3M net income (+238%), ROA 1.48%, and NIM 4.14% \u2014 substantially above most community bank peers. Four directors made open-market purchases at $61-65 in April-June 2026 (before the stock reached $71), with Barnwell's $313K purchase at $62.76 on June 3 as the largest. The asymmetric bet: LINKBANCORP (closed May 1, 2026) adds ~$2-3B of assets not yet visible in Q1 2026 results \u2014 if EPS-accretive, forward P/E compresses to 8-9x from the current 9.24x. Bear case: serial M&A in 24 months (Summit + LINKBANCORP) tripled branch count, NPLs already rose from 0.18% to 1.45% post-Summit, and NIM is compressing (-9 bps YoY). LNKB share issuance (+34% share count) dilutes EPS until synergies close the gap.",
+      "scenarios": {
+        "bull": {
+          "target": 88.0,
+          "probability": 0.3,
+          "label": "LNKB integration adds $0.70-1.00 EPS accretion; NPLs stabilize; NIM holds 4.0%+; forward EPS $8.50+; 10x \u2192 $85-90"
+        },
+        "base": {
+          "target": 71.0,
+          "probability": 0.5,
+          "label": "LNKB neutral on EPS in 2026; NIM compresses modestly; NPLs stable; stock holds at current 9.24x FY2025 EPS"
+        },
+        "bear": {
+          "target": 50.0,
+          "probability": 0.2,
+          "label": "LNKB integration issues: credit marks, CECL Day 2 provision, deposit runoff; NIM pressure; forward EPS stalls at $6.50; 7.5x \u2192 $48-52"
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.6,
+        "quality": 0.7,
+        "management": 0.6
+      },
+      "citations": [
+        "0001964333-26-000068",
+        "0001964333-26-000016"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 71.36,
+      "high_52w": 71.36,
+      "decline_explanation": "",
+      "sector": "Banking",
+      "author": "oracle",
+      "created_at": "2026-06-28T11:34:18.520750",
+      "priced_at": "2026-06-28T11:34:18.520750",
+      "scenario_price": 71.36,
+      "drawdown_from_high": 0.0,
+      "derived": {
+        "expected_price": 71.9,
+        "expected_return": 0.007567264573991039,
+        "expected_cagr": 0.00377650130593854,
+        "asymmetry": 1.1685393258426966,
+        "quality_mult": 1.1,
+        "asymmetry_mult": 1.0809899749038825,
+        "potential_score": 0.00449059605712408
+      },
+      "conviction": 0.006394604162591189
     }
   ],
-  "saved_at": "2026-06-28T09:58:52.962893"
+  "saved_at": "2026-06-28T11:34:18.520874"
 }
