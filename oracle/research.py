@@ -30,11 +30,17 @@ def make_dossier(
     author: str = "oracle",
     high_52w: float = 0.0,
     decline_explanation: str = "",
+    going_concern_explanation: str = "",
+    insider_tier: str = "full",
 ) -> dict[str, Any]:
     """Build, validate, and return a dossier with derived fields filled in.
 
     `high_52w` + `decline_explanation` feed the falling-knife gate: a name down
     >30% from its 52-week high must explain the decline or validation fails.
+
+    `insider_tier` flows from the screen: "full" (insider-backed + cheap +
+    quality), "half" (insider-backed but flagged). Stored on the dossier so
+    size_book can apply tier-aware weighting.
     """
     now = datetime.utcnow().isoformat()
     d: dict[str, Any] = {
@@ -48,6 +54,8 @@ def make_dossier(
         "current_price": float(current_price),
         "high_52w": float(high_52w),
         "decline_explanation": decline_explanation,
+        "going_concern_explanation": going_concern_explanation,
+        "insider_tier": insider_tier,
         "sector": sector,
         "author": author,
         "created_at": now,
