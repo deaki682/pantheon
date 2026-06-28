@@ -8,7 +8,7 @@ breaks, skip the cycle and open a PR; never silently patch the codebase.
 
 0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
 
-1. **Safety check.** Run `python -c "from shared.guards import kill_switch_active; assert not kill_switch_active(), 'KILL_SWITCH present — liquidate'"`. If a `KILL_SWITCH` file exists, liquidate all positions via the broker and stop.
+1. **Safety check.** Run `python -c "from shared.guards import kill_switch_active; assert not kill_switch_active(), 'KILL_SWITCH present — liquidate'"`. If a `KILL_SWITCH` file exists, liquidate all positions via the broker and stop. Then check `shared.guards.is_live("oracle")` — if `ORACLE_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders** in step 9. Log the planned orders to the decision log so they can be reviewed. Print "PAPER MODE — no orders placed" prominently.
 
 2. **Restore state.** Read `cache/oracle_sleeve.json`. If absent, call `/oracle-setup` first.
 
