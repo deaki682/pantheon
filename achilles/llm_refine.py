@@ -225,3 +225,184 @@ def _parse_response(raw: str) -> LLMSignals:
         summary=data.get("one_line_summary", ""),
         raw_response=raw,
     )
+
+
+# ── Guidance revision analysis ────────────────────────────────────────
+
+GUIDANCE_SYSTEM_PROMPT = """\
+You are a quantitative trading analyst reading SEC 8-K filings for a \
+small-cap event-driven strategy. Your job is to extract structured \
+signals from guidance revision filings that predict whether the stock \
+will drift higher over the next 5-10 days.
+
+You are NOT making a buy/sell recommendation. You are extracting \
+factual signals from the text. Be precise and conservative — only flag \
+what the text explicitly states."""
+
+GUIDANCE_PROMPT = """\
+Analyze this 8-K filing for {symbol} (guidance revision event).
+
+Extract these signals from the filing text:
+
+1. DIRECTION: Is guidance being "raised", "lowered", "initiated" \
+(first-time guidance), "narrowed_up" (range narrowed toward upper end), \
+"narrowed_down" (range narrowed toward lower end), or "withdrawn"?
+
+2. METRIC: What financial metric is being guided? (e.g., "revenue", \
+"eps", "ebitda", "operating_income", "free_cash_flow", "margin", "other")
+
+3. MAGNITUDE: How significant is the change relative to the prior \
+range or consensus? Rate 0.0-1.0:
+  0.0 = trivial (<2% change)
+  0.3 = modest (2-5%)
+  0.6 = significant (5-15%)
+  1.0 = dramatic (>15% or transformative)
+
+4. SPECIFICITY: How concrete is the new guidance? Rate 0.0-1.0:
+  0.0 = vague qualitative ("we expect improvement")
+  0.5 = directional with context ("above prior range")
+  1.0 = precise numeric ("$X.XX to $Y.YY EPS")
+
+5. SURPRISE: Was this guidance change expected or a surprise? \
+Rate 0.0-1.0:
+  0.0 = pre-announced or widely expected
+  0.5 = somewhat expected but timing/magnitude uncertain
+  1.0 = complete surprise
+
+6. PRIOR_RANGE: Quote the prior guidance range if mentioned.
+7. NEW_RANGE: Quote the new guidance range.
+
+Respond with ONLY this JSON (no markdown, no explanation):
+{{
+  "direction": "raised" | "lowered" | "initiated" | "narrowed_up" | "narrowed_down" | "withdrawn",
+  "metric": "revenue" | "eps" | "ebitda" | "operating_income" | "free_cash_flow" | "margin" | "other",
+  "magnitude": 0.0,
+  "specificity": 0.0,
+  "surprise": 0.0,
+  "prior_range": "",
+  "new_range": "",
+  "one_line_summary": "brief factual summary"
+}}
+
+Filing text:
+{body}"""
+
+
+LONG_DIRECTIONS = frozenset({"raised", "initiated", "narrowed_up"})
+
+
+@dataclass
+class GuidanceSignals:
+    direction: str = "unknown"
+    metric: str = "unknown"
+    magnitude: float = 0.0
+    specificity: float = 0.0
+    surprise: float = 0.0
+    prior_range: str = ""
+    new_range: str = ""
+    summary: str = ""
+    raw_response: str = ""
+
+    @property
+    def strength_adjustment(self) -> float:
+        """Strength for the guidance event.
+
+        Returns 0.0 for untradeable directions (lowered, withdrawn,
+        narrowed_down — can't go short). For tradeable directions,
+        returns 0.3–1.3 based on magnitude (50%), surprise (30%),
+        and specificity (20%).
+        """
+        if self.direction not in LONG_DIRECTIONS:
+            return 0.0
+
+        mag = max(0.0, min(1.0, self.magnitude))
+        spec = max(0.0, min(1.0, self.specificity))
+        surp = max(0.0, min(1.0, self.surprise))
+
+        raw = 0.50 * mag + 0.30 * surp + 0.20 * spec
+        strength = 0.3 + raw * 1.0
+
+        if self.direction == "initiated":
+            strength *= 0.85
+
+        return round(strength, 3)
+
+    def to_dict(self) -> dict:
+        return {
+            "direction": self.direction,
+            "metric": self.metric,
+            "magnitude": self.magnitude,
+            "specificity": self.specificity,
+            "surprise": self.surprise,
+            "prior_range": self.prior_range,
+            "new_range": self.new_range,
+            "summary": self.summary,
+            "strength_adjustment": self.strength_adjustment,
+        }
+
+
+def _neutral_guidance() -> GuidanceSignals:
+    return GuidanceSignals()
+
+
+def analyze_guidance_filing(
+    body_text: str,
+    symbol: str,
+) -> GuidanceSignals:
+    """Analyze a guidance 8-K filing body with the LLM.
+
+    Falls back to neutral signals when the API key is missing or the
+    call fails.
+    """
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if not api_key:
+        log.debug("No ANTHROPIC_API_KEY — skipping guidance LLM analysis")
+        return _neutral_guidance()
+
+    if not body_text or len(body_text.strip()) < 200:
+        log.debug("Filing body too short for guidance analysis (%d chars)",
+                  len(body_text or ""))
+        return _neutral_guidance()
+
+    truncated = body_text[:MAX_BODY_CHARS]
+    prompt = GUIDANCE_PROMPT.format(symbol=symbol, body=truncated)
+
+    try:
+        import anthropic
+        client = anthropic.Anthropic(api_key=api_key, timeout=TIMEOUT_SECONDS)
+        response = client.messages.create(
+            model=MODEL,
+            max_tokens=400,
+            system=GUIDANCE_SYSTEM_PROMPT,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        raw = response.content[0].text.strip()
+    except Exception as exc:
+        log.warning("Guidance LLM call failed for %s: %s", symbol, exc)
+        return _neutral_guidance()
+
+    return _parse_guidance_response(raw)
+
+
+def _parse_guidance_response(raw: str) -> GuidanceSignals:
+    try:
+        clean = raw.strip()
+        if clean.startswith("```"):
+            clean = clean.split("\n", 1)[1] if "\n" in clean else clean
+            clean = clean.rsplit("```", 1)[0]
+        data = json.loads(clean)
+    except (json.JSONDecodeError, IndexError):
+        log.warning("Failed to parse guidance LLM response: %s", raw[:200])
+        return GuidanceSignals(raw_response=raw)
+
+    return GuidanceSignals(
+        direction=data.get("direction", "unknown"),
+        metric=data.get("metric", "unknown"),
+        magnitude=float(data.get("magnitude", 0.0)),
+        specificity=float(data.get("specificity", 0.0)),
+        surprise=float(data.get("surprise", 0.0)),
+        prior_range=data.get("prior_range", ""),
+        new_range=data.get("new_range", ""),
+        summary=data.get("one_line_summary", ""),
+        raw_response=raw,
+    )

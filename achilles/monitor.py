@@ -33,7 +33,7 @@ from shared.insiders import parse_form4
 from . import cursor as cursor_mod
 from .classify import classify_filing
 from .earnings import fetch_earnings_surprise, is_actionable_beat
-from .events import aggregate_insider_clusters, build_event_for_filing
+from .events import Event, aggregate_insider_clusters, build_event_for_filing
 from .execution import plan_exits, plan_open
 from .brief import build_play, make_brief
 from .journal import TradeEntry, append as journal_append
@@ -51,7 +51,12 @@ from .convergence import (
     extract_convergence_signals,
     build_prescreener_lookup,
 )
-from .llm_refine import analyze_filing as llm_analyze, LLMSignals
+from .llm_refine import (
+    analyze_filing as llm_analyze,
+    analyze_guidance_filing as llm_analyze_guidance,
+    GuidanceSignals,
+    LLMSignals,
+)
 from .playbooks import build_playbooks
 from .scoring import score_event
 from .sleeve import AchillesSleeve
@@ -339,6 +344,19 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
                         log.warning("  %-6s LLM red flags → disqualify: %s",
                                     sym, llm_signals.disqualifiers)
 
+            # LLM analysis of guidance 8-K body
+            guidance_signals = None
+            if "guidance_revision" in labels and body_text:
+                sym = (filing.symbol or "").upper()
+                guidance_signals = llm_analyze_guidance(body_text, sym)
+                if guidance_signals.direction != "unknown":
+                    log.info("  %-6s Guidance LLM: dir=%s mag=%.1f surp=%.1f adj=%.2f %s",
+                             sym, guidance_signals.direction,
+                             guidance_signals.magnitude,
+                             guidance_signals.surprise,
+                             guidance_signals.strength_adjustment,
+                             guidance_signals.summary[:60])
+
             filing_events = build_event_for_filing(
                 filing, body_text=body_text, today=today,
                 surprise_pct=surprise_pct,
@@ -356,6 +374,31 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
                         if llm_signals.disqualifiers:
                             ev.metadata.setdefault("disqualifiers", []).extend(
                                 llm_signals.disqualifiers)
+
+            # Apply guidance LLM signals — replaces regex strength
+            if guidance_signals and guidance_signals.direction != "unknown":
+                has_guidance_ev = any(
+                    ev.event_class == "guidance_revision" for ev in filing_events
+                )
+                if has_guidance_ev:
+                    for ev in filing_events:
+                        if ev.event_class == "guidance_revision":
+                            ev.strength = guidance_signals.strength_adjustment
+                            ev.metadata["llm_guidance"] = guidance_signals.to_dict()
+                elif guidance_signals.strength_adjustment > 0:
+                    # Regex missed it (e.g. "unknown" direction) but LLM found signal
+                    filing_events.append(Event(
+                        event_id=f"guidance:{sym}:{filing.accession_no}",
+                        event_class="guidance_revision",
+                        symbol=sym,
+                        filing_date=filing.filing_date,
+                        accession_no=filing.accession_no,
+                        strength=guidance_signals.strength_adjustment,
+                        metadata={
+                            "direction": guidance_signals.direction,
+                            "llm_guidance": guidance_signals.to_dict(),
+                        },
+                    ))
 
             events.extend(filing_events)
         except Exception as exc:

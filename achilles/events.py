@@ -66,16 +66,15 @@ def aggregate_insider_clusters(txns: Iterable[InsiderTxn]) -> list[Event]:
 
 def refine_guidance(filing, body_text: str) -> Optional[Event]:
     direction = guidance_direction(body_text or "")
-    if direction in ("reaffirmed", "unknown"):
+    if direction != "raised":
         return None
-    strength = {"raised": 1.0, "lowered": 0.8, "withdrawn": 0.6}[direction]
     return Event(
         event_id=f"guidance:{filing.symbol}:{filing.accession_no}",
         event_class="guidance_revision",
         symbol=filing.symbol or "",
         filing_date=filing.filing_date,
         accession_no=filing.accession_no,
-        strength=strength,
+        strength=1.0,
         metadata={"direction": direction},
     )
 
