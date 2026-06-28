@@ -119,6 +119,22 @@ def test_yoy_returns_none_when_short():
     assert yoy([]) is None
 
 
+def test_yoy_returns_none_when_prior_negative():
+    # Prior TTM = -40 (losses), cur TTM = +80 (profit). Growth from a negative
+    # base is not meaningful; should return None rather than an inflated 300%.
+    units = [
+        _q("2021-10-01", "2021-12-31", -10),
+        _q("2022-01-01", "2022-03-31", -10),
+        _q("2022-04-01", "2022-06-30", -10),
+        _q("2022-07-01", "2022-09-30", -10),  # prior TTM = -40
+        _q("2022-10-01", "2022-12-31", 20),
+        _q("2023-01-01", "2023-03-31", 20),
+        _q("2023-04-01", "2023-06-30", 20),
+        _q("2023-07-01", "2023-09-30", 20),  # cur TTM = +80
+    ]
+    assert yoy(units) is None
+
+
 def test_data_quality_zero_for_empty():
     snap = FundamentalSnapshot(symbol="X")
     assert score_data_quality(snap) == 0.0

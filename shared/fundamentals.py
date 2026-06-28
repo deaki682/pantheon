@@ -113,9 +113,9 @@ def yoy(units: list[dict]) -> Optional[float]:
         return None
     cur = sum(by_end[e].get("val", 0) for e in ends[-4:])
     prior = sum(by_end[e].get("val", 0) for e in ends[-8:-4])
-    if prior == 0:
+    if prior <= 0:
         return None
-    return float(cur - prior) / abs(float(prior))
+    return float(cur - prior) / float(prior)
 
 
 # ------- Snapshot -------
