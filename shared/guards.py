@@ -188,10 +188,11 @@ def check_position_sanity(
     combined = aggregate_sleeve_shares(sleeve_paths)
     mismatches: list[PositionMismatch] = []
 
-    all_syms = set(broker_positions.keys()) | set(combined.keys())
-    for sym in sorted(all_syms):
+    # Only check positions that at least one sleeve claims. Broker-only
+    # positions (pre-existing, manually placed) are invisible to the gods.
+    for sym in sorted(combined.keys()):
         broker_shares = broker_positions.get(sym, 0.0)
-        per_god = combined.get(sym, {})
+        per_god = combined[sym]
         sleeve_total = sum(per_god.values())
         if abs(sleeve_total - broker_shares) > tolerance:
             mismatches.append(PositionMismatch(

@@ -699,16 +699,13 @@ class TestPreTradeSanityCheck:
         assert pre_trade_check(broker_positions, sleeve_paths=paths) is False
 
     def test_broker_has_unknown_position(self, tmp_path):
-        """Broker holds a symbol no sleeve claims — mismatch."""
+        """Broker holds a symbol no sleeve claims — ignored (pre-existing)."""
         oracle = OracleSleeve(initial_cash=1000.0)
         paths = self._save_sleeves(tmp_path, oracle)
 
         broker_positions = {"GOOG": 5.0}
         mismatches = check_position_sanity(broker_positions, sleeve_paths=paths)
-        assert len(mismatches) == 1
-        assert mismatches[0].symbol == "GOOG"
-        assert mismatches[0].broker_shares == 5.0
-        assert mismatches[0].sleeve_total == 0.0
+        assert len(mismatches) == 0
 
     def test_sleeve_has_phantom_position(self, tmp_path):
         """Sleeve claims shares the broker doesn't have — mismatch."""
@@ -794,9 +791,9 @@ class TestPreTradeSanityCheck:
         broker_positions = {}
         assert pre_trade_check(broker_positions, sleeve_paths=paths) is True
 
-        # But if broker has positions and no sleeves exist → mismatch
+        # Broker-only positions with no sleeves → no mismatch (pre-existing)
         broker_positions = {"AAPL": 1.0}
-        assert pre_trade_check(broker_positions, sleeve_paths=paths) is False
+        assert pre_trade_check(broker_positions, sleeve_paths=paths) is True
 
 
 # ── Test 11: Circuit breaker / halt isolation ─────────────────────────
