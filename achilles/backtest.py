@@ -36,6 +36,16 @@ from achilles.scoring import (
     score_event, liquidity_score, time_decay, surprise_strength,
     MEGACAP_DECAY_START,
 )
+from achilles.earnings import compute_surprise, is_actionable_beat, EarningsSurprise
+from achilles.oracle_bridge import (
+    company_quality as oracle_company_quality,
+    has_insider_preactivity,
+    load_dossier_convictions,
+    load_insider_activity,
+    load_prescreener_quality,
+    load_screen_scores,
+    QUALITY_DEFAULT,
+)
 from achilles.exits import evaluate as evaluate_exit
 from achilles.journal import TradeEntry, round_trip_pnl, per_class_stats
 
@@ -43,6 +53,7 @@ log = logging.getLogger("achilles.backtest")
 
 PRICES_PATH = "cache/backtest_prices.json"
 FILINGS_PATH = "cache/backtest_filings.json"
+EARNINGS_PATH = "cache/backtest_earnings.json"
 OUTPUT_PATH = "cache/backtest_results.json"
 JOURNAL_PATH = "cache/backtest_journal.jsonl"
 CURVE_PATH = "cache/backtest_curve.json"
@@ -66,6 +77,71 @@ def load_prices(path: str) -> dict[str, dict[str, dict]]:
 def load_filings(path: str) -> list[dict]:
     with open(path) as f:
         return json.load(f)
+
+
+def load_earnings(path: str) -> dict[str, list[dict]]:
+    """Load pre-fetched earnings data as {SYMBOL: [{actual_eps, estimate_eps, report_date, quarter}]}."""
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+
+def match_earnings_to_filing(
+    symbol: str,
+    filing_date: str,
+    earnings_data: dict[str, list[dict]],
+    *,
+    max_gap_days: int = 5,
+) -> Optional[EarningsSurprise]:
+    """Find the earnings result that matches a filing date.
+
+    An 8-K item 2.02 is filed on or near the earnings report date.
+    We match by finding the closest report_date within max_gap_days.
+    """
+    quarters = earnings_data.get(symbol.upper(), [])
+    if not quarters:
+        return None
+
+    try:
+        fd = datetime.strptime(filing_date, "%Y-%m-%d")
+    except ValueError:
+        return None
+
+    best = None
+    best_gap = max_gap_days + 1
+    for q in quarters:
+        rd = q.get("report_date", "")
+        actual = q.get("actual_eps")
+        estimate = q.get("estimate_eps")
+        if actual is None or estimate is None or not rd:
+            continue
+        try:
+            rd_dt = datetime.strptime(rd, "%Y-%m-%d")
+            gap = abs((fd - rd_dt).days)
+            if gap < best_gap:
+                best_gap = gap
+                best = q
+        except ValueError:
+            continue
+
+    if best is None:
+        return None
+
+    actual_f = float(best["actual_eps"])
+    estimate_f = float(best["estimate_eps"])
+    surprise_pct, is_beat = compute_surprise(actual_f, estimate_f)
+
+    return EarningsSurprise(
+        symbol=symbol.upper(),
+        actual_eps=actual_f,
+        estimate_eps=estimate_f,
+        surprise_pct=surprise_pct,
+        is_beat=is_beat,
+        report_date=best.get("report_date", ""),
+        quarter=best.get("quarter", ""),
+    )
 
 
 # ── event pre-processing ─────────────────────────────────────────────
@@ -99,18 +175,42 @@ def classify_8k_items(items_str: str) -> list[str]:
     return labels
 
 
-def build_event_timeline(filings: list[dict]) -> dict[str, list[BacktestEvent]]:
-    """Pre-process all filings into a date-keyed event timeline."""
+def build_event_timeline(
+    filings: list[dict],
+    *,
+    earnings_data: Optional[dict[str, list[dict]]] = None,
+    insider_activity: Optional[dict[str, dict]] = None,
+) -> dict[str, list[BacktestEvent]]:
+    """Pre-process all filings into a date-keyed event timeline.
+
+    With earnings_data: matches 8-K item 2.02 to actual/estimate EPS,
+    filters for beats only, and applies the surprise strength curve.
+    Without: falls back to flat 0.85 strength (old behavior).
+
+    With insider_activity: checks for pre-earnings insider buying and
+    applies a boost to the event strength.
+    """
     events_by_date: dict[str, list[BacktestEvent]] = defaultdict(list)
+    earnings_data = earnings_data or {}
+    insider_activity = insider_activity or {}
 
     # Track Form 4s for insider cluster detection
     form4_by_sym_date: dict[str, list[str]] = defaultdict(list)
+
+    # Stats for logging
+    earnings_total = 0
+    earnings_matched = 0
+    earnings_beats = 0
+    earnings_misses = 0
+    earnings_no_data = 0
+    insider_boosted = 0
 
     for f in filings:
         form = (f.get("form") or "").strip()
         sym = f.get("symbol", "").upper()
         fdate = f.get("filing_date", "")
         acc = f.get("accession_no", "")
+        items_str = f.get("items", "")
 
         if not sym or not fdate:
             continue
@@ -130,15 +230,74 @@ def build_event_timeline(filings: list[dict]) -> dict[str, list[BacktestEvent]]:
             continue
 
         if form == "8-K":
-            labels = classify_8k_items(f.get("items", ""))
+            labels = classify_8k_items(items_str)
+
+            # Check for concurrent restructuring items (disqualifier)
+            raw_items = set()
+            for item in items_str.split(","):
+                item = item.strip().rstrip(".")
+                if item:
+                    raw_items.add(item)
+            has_restructuring = "2.05" in raw_items or "2.06" in raw_items
+
             for lbl in labels:
                 if lbl == "earnings_reaction":
+                    earnings_total += 1
+
+                    if has_restructuring:
+                        continue
+
+                    if earnings_data:
+                        surprise = match_earnings_to_filing(sym, fdate, earnings_data)
+                        if surprise is None:
+                            earnings_no_data += 1
+                            continue
+                        earnings_matched += 1
+                        if not is_actionable_beat(surprise):
+                            earnings_misses += 1
+                            continue
+                        earnings_beats += 1
+                        strength = surprise_strength(surprise.surprise_pct)
+
+                        # Apply concurrent guidance boost
+                        if "guidance_revision" in labels:
+                            # Can't read body in backtest, but concurrent
+                            # guidance + beat is generally positive.
+                            # Apply a conservative 1.1x (vs 1.2x in production
+                            # where we can confirm direction is "raised")
+                            strength *= 1.1
+
+                        # Apply insider pre-earnings boost
+                        has_insider, boost = has_insider_preactivity(
+                            sym,
+                            insider_activity=insider_activity,
+                            filing_date=fdate,
+                        )
+                        if has_insider:
+                            strength *= boost
+                            insider_boosted += 1
+
+                        strength = min(1.5, strength)
+
+                        metadata = {
+                            "surprise_pct": surprise.surprise_pct,
+                            "actual_eps": surprise.actual_eps,
+                            "estimate_eps": surprise.estimate_eps,
+                            "quarter": surprise.quarter,
+                        }
+                        if has_insider:
+                            metadata["insider_boost"] = boost
+                    else:
+                        strength = 0.85
+                        metadata = {}
+
                     events_by_date[fdate].append(BacktestEvent(
                         event_id=f"earn:{sym}:{acc}",
                         event_class="earnings_reaction",
                         symbol=sym,
                         filing_date=fdate,
-                        strength=0.85,
+                        strength=strength,
+                        metadata=metadata,
                     ))
                 elif lbl == "ma_target":
                     events_by_date[fdate].append(BacktestEvent(
@@ -149,9 +308,10 @@ def build_event_timeline(filings: list[dict]) -> dict[str, list[BacktestEvent]]:
                         strength=1.0,
                     ))
                 elif lbl == "guidance_revision":
-                    # Without body parsing, assume 60% raised / 25% lowered / 15% reaffirmed
-                    # Skip reaffirmations (would be filtered by production code)
-                    # Use moderate strength since we can't determine direction
+                    # Skip standalone guidance when already consumed as
+                    # concurrent boost on an earnings event
+                    if "earnings_reaction" in labels and earnings_data:
+                        continue
                     events_by_date[fdate].append(BacktestEvent(
                         event_id=f"guidance:{sym}:{acc}",
                         event_class="guidance_revision",
@@ -159,6 +319,12 @@ def build_event_timeline(filings: list[dict]) -> dict[str, list[BacktestEvent]]:
                         filing_date=fdate,
                         strength=0.7,
                     ))
+
+    if earnings_data:
+        log.info("Earnings pipeline: %d total, %d matched, %d beats, %d misses/OOR, "
+                 "%d no data, %d insider-boosted",
+                 earnings_total, earnings_matched, earnings_beats,
+                 earnings_misses, earnings_no_data, insider_boosted)
 
     # Aggregate insider clusters: 2+ Form 4s within 2-day window per symbol
     for sym, dates in form4_by_sym_date.items():
@@ -255,8 +421,14 @@ def run_backtest(
     initial_cash: float = 1000.0,
     conservative_start: bool = False,
     event_classes: Optional[set[str]] = None,
+    dossier_convictions: Optional[dict[str, float]] = None,
+    prescreener_quality: Optional[dict[str, float]] = None,
+    screen_scores: Optional[dict[str, dict]] = None,
 ) -> dict:
     """Run full-fidelity Achilles backtest."""
+    dossier_convictions = dossier_convictions or {}
+    prescreener_quality = prescreener_quality or {}
+    screen_scores = screen_scores or {}
 
     trading_days = get_trading_days(prices)
     if start_date:
@@ -326,10 +498,16 @@ def run_backtest(
             if mcap > MEGACAP_DECAY_START:
                 continue
 
+            cq = oracle_company_quality(
+                ev.symbol,
+                dossier_convictions=dossier_convictions,
+                prescreener_quality=prescreener_quality,
+                screen_scores=screen_scores,
+            )
             score_out = score_event(
                 playbook=pb,
                 event_strength=ev.strength,
-                company_quality=0.7,
+                company_quality=cq,
                 market_cap=mcap,
                 first_seen_iso=f"{today}T10:00:00",
                 now=datetime.strptime(f"{today}T10:00:00", "%Y-%m-%dT%H:%M:%S"),
@@ -702,8 +880,25 @@ def main():
     filings = load_filings(FILINGS_PATH)
     log.info("Loaded %d filings", len(filings))
 
+    log.info("Loading earnings data...")
+    earnings_data = load_earnings(EARNINGS_PATH)
+    log.info("Loaded earnings for %d symbols", len(earnings_data))
+
+    log.info("Loading Oracle research data...")
+    dossier_convictions = load_dossier_convictions()
+    prescreener_quality = load_prescreener_quality()
+    insider_activity = load_insider_activity()
+    screen_scores = load_screen_scores()
+    log.info("Oracle data: %d dossiers, %d prescreener, %d insider clusters, %d screen",
+             len(dossier_convictions), len(prescreener_quality),
+             len(insider_activity), len(screen_scores))
+
     log.info("Building event timeline...")
-    events_by_date = build_event_timeline(filings)
+    events_by_date = build_event_timeline(
+        filings,
+        earnings_data=earnings_data,
+        insider_activity=insider_activity,
+    )
     total_events = sum(len(v) for v in events_by_date.values())
     log.info("Built timeline: %d events across %d dates", total_events, len(events_by_date))
 
@@ -722,6 +917,9 @@ def main():
         initial_cash=args.cash,
         conservative_start=args.conservative,
         event_classes=event_classes,
+        dossier_convictions=dossier_convictions,
+        prescreener_quality=prescreener_quality,
+        screen_scores=screen_scores,
     )
 
     # Save results
