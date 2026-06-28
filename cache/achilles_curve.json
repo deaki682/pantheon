@@ -1,11 +1,12 @@
 [
   {
-    "timestamp": "2026-06-28T03:00:00",
+    "timestamp": "2026-06-28T03:30:00",
     "equity": 1000.0,
     "cash": 1000.0,
     "positions": 0,
-    "events_scanned": 200,
-    "events_actionable": 0,
-    "note": "dry_run_first_pass"
+    "events_scanned": 17,
+    "events_actionable": 14,
+    "top_event": "APOG earnings_reaction (score=0.187)",
+    "note": "dry_run_market_wide_search"
   }
 ]
