@@ -26,10 +26,14 @@ from oracle.execution import plan_orders as oracle_plan_orders
 from oracle.sleeve import OracleSleeve
 from shared.guards import (
     OrderRecord,
+    PositionMismatch,
+    aggregate_sleeve_shares,
     already_placed_today,
     append_order,
+    check_position_sanity,
     filter_orders_by_ledger,
     kill_switch_active,
+    pre_trade_check,
     read_ledger,
 )
 
@@ -645,3 +649,151 @@ class TestCooldownIsolation:
         # Oracle can NOT buy AAPL due to cooldown
         ok = oracle.buy("AAPL", 1.0, 155.0, DATES[2])
         assert ok is False
+
+
+# ── Test 10: Pre-trade broker sanity check ─────────────────────────────
+
+class TestPreTradeSanityCheck:
+    def _save_sleeves(self, tmp_path, oracle=None, delphi=None, achilles=None):
+        paths = {
+            "oracle": str(tmp_path / "oracle_sleeve.json"),
+            "delphi": str(tmp_path / "delphi_sleeve.json"),
+            "achilles": str(tmp_path / "achilles_sleeve.json"),
+        }
+        if oracle:
+            oracle.save(paths["oracle"])
+        if delphi:
+            delphi.save(paths["delphi"])
+        if achilles:
+            achilles.save(paths["achilles"])
+        return paths
+
+    def test_all_in_sync_passes(self, tmp_path):
+        """When sleeves match broker, pre_trade_check returns True."""
+        oracle = OracleSleeve(initial_cash=1000.0)
+        delphi = DelphiSleeve(initial_cash=1000.0)
+        achilles = AchillesSleeve(initial_cash=1000.0)
+
+        oracle.buy("AAPL", 1.0, 150.0, DATES[0])
+        delphi.buy("AAPL", 2.0, 150.0, DATES[0])
+        delphi.buy("MSFT", 0.5, 300.0, DATES[0])
+
+        paths = self._save_sleeves(tmp_path, oracle, delphi, achilles)
+
+        broker_positions = {"AAPL": 3.0, "MSFT": 0.5}
+        assert pre_trade_check(broker_positions, sleeve_paths=paths) is True
+
+    def test_mismatch_fails(self, tmp_path):
+        """When sleeves disagree with broker, pre_trade_check returns False."""
+        oracle = OracleSleeve(initial_cash=1000.0)
+        delphi = DelphiSleeve(initial_cash=1000.0)
+
+        oracle.buy("AAPL", 1.0, 150.0, DATES[0])
+        delphi.buy("AAPL", 2.0, 150.0, DATES[0])
+
+        paths = self._save_sleeves(tmp_path, oracle, delphi)
+        # Achilles sleeve doesn't exist — that's fine, treated as empty
+
+        # Broker says 2.5 shares, sleeves say 3.0
+        broker_positions = {"AAPL": 2.5}
+        assert pre_trade_check(broker_positions, sleeve_paths=paths) is False
+
+    def test_broker_has_unknown_position(self, tmp_path):
+        """Broker holds a symbol no sleeve claims — mismatch."""
+        oracle = OracleSleeve(initial_cash=1000.0)
+        paths = self._save_sleeves(tmp_path, oracle)
+
+        broker_positions = {"GOOG": 5.0}
+        mismatches = check_position_sanity(broker_positions, sleeve_paths=paths)
+        assert len(mismatches) == 1
+        assert mismatches[0].symbol == "GOOG"
+        assert mismatches[0].broker_shares == 5.0
+        assert mismatches[0].sleeve_total == 0.0
+
+    def test_sleeve_has_phantom_position(self, tmp_path):
+        """Sleeve claims shares the broker doesn't have — mismatch."""
+        oracle = OracleSleeve(initial_cash=1000.0)
+        oracle.buy("AAPL", 1.0, 150.0, DATES[0])
+        paths = self._save_sleeves(tmp_path, oracle)
+
+        broker_positions = {}  # broker has nothing
+        mismatches = check_position_sanity(broker_positions, sleeve_paths=paths)
+        assert len(mismatches) == 1
+        assert mismatches[0].symbol == "AAPL"
+        assert mismatches[0].sleeve_total == pytest.approx(1.0)
+        assert mismatches[0].broker_shares == 0.0
+
+    def test_achilles_multi_event_same_symbol(self, tmp_path):
+        """Achilles with two events on same symbol sums correctly."""
+        achilles = AchillesSleeve(initial_cash=1000.0)
+        achilles.open(
+            event_id="e1", symbol="AAPL", event_class="earnings",
+            entry_price=150.0, score=0.3,
+            hard_stop_price=130.0, profit_target_price=175.0,
+            time_stop_date="2026-07-02", today=DATES[0],
+        )
+        achilles.open(
+            event_id="e2", symbol="AAPL", event_class="insider",
+            entry_price=150.0, score=0.3,
+            hard_stop_price=130.0, profit_target_price=175.0,
+            time_stop_date="2026-07-02", today=DATES[0],
+        )
+        paths = self._save_sleeves(tmp_path, achilles=achilles)
+
+        achilles_aapl = sum(p.shares for p in achilles.positions.values()
+                           if p.symbol == "AAPL")
+
+        broker_positions = {"AAPL": achilles_aapl}
+        assert pre_trade_check(broker_positions, sleeve_paths=paths) is True
+
+        # Off by a bit → mismatch
+        broker_positions = {"AAPL": achilles_aapl - 0.1}
+        assert pre_trade_check(broker_positions, sleeve_paths=paths) is False
+
+    def test_three_gods_same_symbol(self, tmp_path):
+        """All three gods hold the same symbol — total must match broker."""
+        oracle = OracleSleeve(initial_cash=1000.0)
+        delphi = DelphiSleeve(initial_cash=1000.0)
+        achilles = AchillesSleeve(initial_cash=1000.0)
+
+        oracle.buy("AAPL", 1.0, 150.0, DATES[0])
+        delphi.buy("AAPL", 2.0, 150.0, DATES[0])
+        achilles.open(
+            event_id="e-aapl", symbol="AAPL", event_class="earnings",
+            entry_price=150.0, score=0.3,
+            hard_stop_price=130.0, profit_target_price=175.0,
+            time_stop_date="2026-07-02", today=DATES[0],
+        )
+
+        paths = self._save_sleeves(tmp_path, oracle, delphi, achilles)
+
+        achilles_aapl = sum(p.shares for p in achilles.positions.values()
+                           if p.symbol == "AAPL")
+        total = 1.0 + 2.0 + achilles_aapl
+
+        # Exact match
+        broker_positions = {"AAPL": total}
+        assert pre_trade_check(broker_positions, sleeve_paths=paths) is True
+
+        # Aggregate shows all three gods
+        combined = aggregate_sleeve_shares(paths)
+        assert "oracle" in combined["AAPL"]
+        assert "delphi" in combined["AAPL"]
+        assert "achilles" in combined["AAPL"]
+        assert combined["AAPL"]["oracle"] == pytest.approx(1.0)
+        assert combined["AAPL"]["delphi"] == pytest.approx(2.0)
+        assert combined["AAPL"]["achilles"] == pytest.approx(achilles_aapl)
+
+    def test_missing_sleeve_file_is_empty(self, tmp_path):
+        """A missing sleeve file is treated as zero positions, not an error."""
+        paths = {
+            "oracle": str(tmp_path / "nonexistent_oracle.json"),
+            "delphi": str(tmp_path / "nonexistent_delphi.json"),
+            "achilles": str(tmp_path / "nonexistent_achilles.json"),
+        }
+        broker_positions = {}
+        assert pre_trade_check(broker_positions, sleeve_paths=paths) is True
+
+        # But if broker has positions and no sleeves exist → mismatch
+        broker_positions = {"AAPL": 1.0}
+        assert pre_trade_check(broker_positions, sleeve_paths=paths) is False

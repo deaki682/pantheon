@@ -1,7 +1,7 @@
 # /achilles — full Achilles pass
 
 Event-driven, short-horizon. Runs frequently (multiple times per day).
-12 steps.
+13 steps.
 
 ## Steps
 
@@ -28,14 +28,16 @@ Event-driven, short-horizon. Runs frequently (multiple times per day).
 
 9. **Score each event.** Use the matching playbook from `achilles.playbooks.build_playbooks()`. Compute company_quality (from Oracle's prescreener cache or fundamentals), market_cap (from broker fundamentals), first_seen_iso (when Achilles first observed the event). `achilles.scoring.score_event(...)`.
 
-10. **Write brief and (maybe) open.** For each event with score >= 0.05:
+10. **Pre-trade sanity check.** Before placing any orders, run `shared.guards.pre_trade_check(broker_positions)` — fetch the broker's actual equity positions and compare against the sum of all three sleeves. If any symbol is out of sync, **halt trading and run `/oracle-reconcile`** before proceeding.
+
+11. **Write brief and (maybe) open.** For each event with score >= 0.05:
     - `achilles.brief.build_play(playbook, entry_price, today, entry_dollars=sleeve.position_dollars(score))`.
     - `make_brief(...)`. Validate via `brief_check.validate_brief`.
     - `plan_open(...)`. If non-None, place market order via Robinhood, append to `cache/achilles_ledger.jsonl`, record open via `journal.append`.
 
-11. **Exits.** `plan_exits(sleeve, quotes, today)`. Place sell market orders for any triggered. Record close in journal. Update `playbooks` attribution (`record_outcome`, `maybe_autodisable`).
+12. **Exits.** `plan_exits(sleeve, quotes, today)`. Place sell market orders for any triggered. Record close in journal. Update `playbooks` attribution (`record_outcome`, `maybe_autodisable`).
 
-12. **Persist.** Save sleeve + cursor + curve. `pantheon.persist("achilles", ...)`.
+13. **Persist.** Save sleeve + cursor + curve. `pantheon.persist("achilles", ...)`.
 
 ## Halt path
 

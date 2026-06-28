@@ -11,7 +11,7 @@ Runs steps 7–12 of `/oracle` only — assumes dossiers are already fresh.
 3. Load dossiers from `cache/oracle_dossiers.json`. Refresh `current_price` for each via Robinhood quotes.
 4. Rescore via `oracle.research.rescore_dossier`.
 5. Apply rotation rules (`oracle.positioning.rotation_decision`) — incumbent stays unless challenger >= 1.25x score.
-6. `size_book` -> `plan_orders` -> place orders via broker, log to ledger.
+6. **Pre-trade sanity check.** Run `shared.guards.pre_trade_check(broker_positions)` — fetch the broker's actual equity positions and compare against the sum of all three sleeves. If any symbol is out of sync, **halt trading and run `/oracle-reconcile`** before proceeding. Then `size_book` -> `plan_orders` -> place orders via broker, log to ledger.
 7. Journal each decision.
 8. Apply thesis-anchored exit checks via `oracle.exits.exit_signal`.
 9. Persist.
