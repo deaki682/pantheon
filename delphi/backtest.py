@@ -519,6 +519,161 @@ def _score_weighted_targets(
     return targets
 
 
+# ── momentum buy-and-hold benchmark ─────────────────────────────────
+
+def run_momentum_hold(
+    sector_prices: dict[str, dict[str, dict]],
+    stock_prices: dict[str, dict[str, dict]],
+    *,
+    initial_cash: float = 1000.0,
+    top_n_sectors: int = 3,
+    names_per_sector: int = 2,
+    momentum_lookback: int = 63,
+    start_date: str = "",
+    end_date: str = "",
+) -> dict:
+    """Buy top momentum sectors/stocks once, hold forever. No rotation,
+    no regime, no rebalancing — pure momentum buy-and-hold benchmark."""
+    all_prices = {**sector_prices, **stock_prices}
+    trading_days = get_trading_days(all_prices)
+    if start_date:
+        trading_days = [d for d in trading_days if d >= start_date]
+    if end_date:
+        trading_days = [d for d in trading_days if d <= end_date]
+    if not trading_days:
+        return {"error": "No trading days in range"}
+
+    # Need enough history before we can pick
+    warmup = momentum_lookback + 10
+    if len(trading_days) < warmup + 20:
+        return {"error": "Not enough trading days for warmup + hold"}
+
+    entry_day_idx = warmup
+    entry_date = trading_days[entry_day_idx]
+
+    # Score sectors at entry
+    sector_scores: dict[str, float] = {}
+    for etf in SECTOR_ETFS:
+        if etf not in sector_prices:
+            continue
+        sec_name = SECTOR_MAP.get(etf.upper())
+        if not sec_name:
+            continue
+        series = _price_series(sector_prices[etf], trading_days, entry_day_idx, momentum_lookback + 5)
+        if len(series) >= momentum_lookback:
+            sector_scores[sec_name] = momentum(series, momentum_lookback)
+
+    chosen = sorted(sector_scores.items(), key=lambda kv: kv[1], reverse=True)[:top_n_sectors]
+    chosen_sectors = [s for s, _ in chosen]
+
+    # Pick top momentum stocks in each chosen sector
+    holdings: dict[str, float] = {}  # symbol -> shares
+    entry_prices: dict[str, float] = {}
+    cash = initial_cash
+
+    for sec in chosen_sectors:
+        constituents = SECTOR_CONSTITUENTS.get(sec, [])
+        candidates = []
+        for sym in constituents:
+            if sym.upper() in PICK_BLOCKLIST or sym not in stock_prices:
+                continue
+            series = _price_series(stock_prices[sym], trading_days, entry_day_idx, momentum_lookback + 5)
+            if len(series) >= momentum_lookback:
+                candidates.append((sym, momentum(series, momentum_lookback)))
+        candidates.sort(key=lambda x: x[1], reverse=True)
+        for sym, _ in candidates[:names_per_sector]:
+            if entry_date in stock_prices[sym]:
+                entry_prices[sym] = stock_prices[sym][entry_date]["close"]
+
+    # Equal-weight allocation across all picks
+    if not entry_prices:
+        return {"error": "No stocks to buy"}
+    per_stock = cash / len(entry_prices)
+    for sym, px in entry_prices.items():
+        shares = per_stock / px
+        holdings[sym] = shares
+        cash -= shares * px
+
+    # Track equity curve from entry through end
+    spy_start = None
+    equity_curve = []
+    for day_idx in range(entry_day_idx, len(trading_days)):
+        today = trading_days[day_idx]
+        today_prices: dict[str, float] = {}
+        for sym, by_date in all_prices.items():
+            if today in by_date:
+                today_prices[sym] = by_date[today]["close"]
+
+        if spy_start is None and "SPY" in today_prices:
+            spy_start = today_prices["SPY"]
+
+        eq = cash + sum(holdings[s] * today_prices.get(s, entry_prices[s]) for s in holdings)
+        spy_px = today_prices.get("SPY", 0)
+        spy_ret = (spy_px / spy_start - 1.0) if (spy_start and spy_px) else 0.0
+        equity_curve.append({
+            "date": today,
+            "equity": round(eq, 2),
+            "spy_price": spy_px,
+            "spy_return": round(spy_ret, 4),
+            "mom_hold_return": round((eq / initial_cash - 1.0), 4),
+        })
+
+    final_eq = equity_curve[-1]["equity"] if equity_curve else initial_cash
+    total_return = final_eq / initial_cash - 1.0
+    spy_final = equity_curve[-1]["spy_price"] if equity_curve else 0
+    spy_return = (spy_final / spy_start - 1.0) if spy_start else 0.0
+    alpha = total_return - spy_return
+
+    # Sharpe
+    daily_returns = []
+    for i in range(1, len(equity_curve)):
+        prev = equity_curve[i - 1]["equity"]
+        curr = equity_curve[i]["equity"]
+        if prev > 0:
+            daily_returns.append((curr - prev) / prev)
+    if len(daily_returns) > 1:
+        mean_d = statistics.mean(daily_returns)
+        std_d = statistics.stdev(daily_returns)
+        sharpe = (mean_d / std_d) * (252 ** 0.5) if std_d > 0 else 0
+    else:
+        sharpe = 0
+
+    # Max drawdown
+    peak = initial_cash
+    max_dd = 0.0
+    for pt in equity_curve:
+        if pt["equity"] > peak:
+            peak = pt["equity"]
+        dd = (peak - pt["equity"]) / peak if peak > 0 else 0
+        if dd > max_dd:
+            max_dd = dd
+
+    hold_days = len(equity_curve)
+
+    return {
+        "name": f"mom_hold_{top_n_sectors}sec_{names_per_sector}n",
+        "period": f"{equity_curve[0]['date']} to {equity_curve[-1]['date']}" if equity_curve else "N/A",
+        "hold_days": hold_days,
+        "entry_date": entry_date,
+        "sectors": chosen_sectors,
+        "sector_scores": {s: round(sc, 4) for s, sc in chosen},
+        "holdings": {s: round(sh, 4) for s, sh in holdings.items()},
+        "entry_prices": {s: round(p, 2) for s, p in entry_prices.items()},
+        "performance": {
+            "final_equity": round(final_eq, 2),
+            "total_return_pct": round(total_return * 100, 2),
+            "spy_return_pct": round(spy_return * 100, 2),
+            "alpha_pct": round(alpha * 100, 2),
+            "sharpe": round(sharpe, 2),
+            "max_drawdown_pct": round(max_dd * 100, 2),
+            "annualized_return_pct": round(
+                ((final_eq / initial_cash) ** (252 / max(1, hold_days)) - 1) * 100, 2
+            ),
+        },
+        "equity_curve": equity_curve,
+    }
+
+
 # ── parameter sweep ──────────────────────────────────────────────────
 
 def _sweep_configs() -> list[tuple[str, BacktestConfig]]:
@@ -644,6 +799,57 @@ def run_sweep(
             "both_halves_positive": both_positive,
             "halves_consistent": consistent,
             "config": r["config"],
+        })
+
+    # Add momentum buy-and-hold benchmarks
+    for n_sec, n_names in [(3, 2), (3, 4), (2, 2)]:
+        label = f"mom_hold_{n_sec}sec_{n_names}n"
+        log.info("Sweep: %s", label)
+
+        full_mh = run_momentum_hold(
+            sector_prices, stock_prices,
+            top_n_sectors=n_sec, names_per_sector=n_names,
+            start_date=start_date, end_date=end_date,
+        )
+        if "error" in full_mh:
+            continue
+
+        h1_mh = run_momentum_hold(
+            sector_prices, stock_prices,
+            top_n_sectors=n_sec, names_per_sector=n_names,
+            start_date=start_date, end_date=midpoint,
+        )
+        h2_mh = run_momentum_hold(
+            sector_prices, stock_prices,
+            top_n_sectors=n_sec, names_per_sector=n_names,
+            start_date=midpoint, end_date=end_date,
+        )
+
+        perf = full_mh["performance"]
+        h1_a = h1_mh.get("performance", {}).get("alpha_pct", 0) if "error" not in h1_mh else 0
+        h2_a = h2_mh.get("performance", {}).get("alpha_pct", 0) if "error" not in h2_mh else 0
+        both_pos = h1_a > 0 and h2_a > 0
+        consist = (h1_a > 0) == (h2_a > 0)
+
+        results.append({
+            "name": label,
+            "return_pct": perf["total_return_pct"],
+            "spy_return_pct": perf["spy_return_pct"],
+            "alpha_pct": perf["alpha_pct"],
+            "sharpe": perf["sharpe"],
+            "max_dd_pct": perf["max_drawdown_pct"],
+            "trades": 0,
+            "h1_alpha_pct": round(h1_a, 2),
+            "h2_alpha_pct": round(h2_a, 2),
+            "both_halves_positive": both_pos,
+            "halves_consistent": consist,
+            "config": {
+                "type": "momentum_hold",
+                "top_n_sectors": n_sec,
+                "names_per_sector": n_names,
+                "sectors": full_mh.get("sectors", []),
+                "holdings": list(full_mh.get("holdings", {}).keys()),
+            },
         })
 
     results.sort(key=lambda r: r["alpha_pct"], reverse=True)
