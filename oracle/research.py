@@ -132,3 +132,70 @@ def price_age_hours(d: dict[str, Any], *, now: datetime | None = None) -> float 
         return None
     ref = now or datetime.utcnow()
     return max(0.0, (ref - captured).total_seconds() / 3600.0)
+
+
+# ---------------------------------------------------------------------------
+# Staleness detection
+# ---------------------------------------------------------------------------
+
+STALE_AGE_HOURS = 14 * 24  # 14 days
+STALE_PRICE_DRIFT = 0.20   # 20% move from base-case target
+
+
+def _base_target(d: dict[str, Any]) -> float | None:
+    """Return the base-case scenario target, or None if missing."""
+    s = d.get("scenarios", {}).get("base", {})
+    t = s.get("target")
+    return float(t) if t is not None else None
+
+
+def check_staleness(
+    dossiers: list[dict[str, Any]],
+    *,
+    now: datetime | None = None,
+    age_hours: float = STALE_AGE_HOURS,
+    drift_threshold: float = STALE_PRICE_DRIFT,
+) -> list[dict[str, Any]]:
+    """Flag dossiers that need re-research.
+
+    A dossier is stale if:
+      1. Its thesis is older than `age_hours` (default 14 days), OR
+      2. The current price has drifted >``drift_threshold`` (default 20%)
+         from the base-case target — meaning the scenarios were anchored
+         to a materially different price level.
+
+    Returns a list of ``{symbol, reasons: [str], age_hours, drift_pct}``
+    dicts, sorted by most-stale first.
+    """
+    ref = now or datetime.utcnow()
+    flagged: list[dict[str, Any]] = []
+    for d in dossiers:
+        sym = d.get("symbol", "?")
+        reasons: list[str] = []
+        age = price_age_hours(d, now=ref)
+        drift = 0.0
+
+        if age is None:
+            reasons.append("no priced_at timestamp")
+        elif age > age_hours:
+            reasons.append(f"thesis is {age / 24:.1f} days old")
+
+        base = _base_target(d)
+        price = d.get("current_price", 0)
+        if base and base > 0 and price and price > 0:
+            drift = abs(price - base) / base
+            if drift >= drift_threshold:
+                reasons.append(
+                    f"price ${price:.2f} drifted {drift:.0%} from base target ${base:.2f}"
+                )
+
+        if reasons:
+            flagged.append({
+                "symbol": sym,
+                "reasons": reasons,
+                "age_hours": age,
+                "drift_pct": drift,
+            })
+
+    flagged.sort(key=lambda f: (f["age_hours"] or 1e9, -f["drift_pct"]), reverse=True)
+    return flagged

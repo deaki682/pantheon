@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import pytest
 
 from oracle.research import (
+    check_staleness,
     load_dossiers,
     make_dossier,
     price_age_hours,
@@ -173,3 +174,46 @@ def test_rank_by_potential():
     assert ranked[0]["symbol"] in ("A", "B")
     # The one with higher score should come first
     assert ranked[0]["derived"]["potential_score"] >= ranked[1]["derived"]["potential_score"]
+
+
+# ---------- check_staleness ----------
+
+def test_staleness_fresh_dossier_not_flagged():
+    d = _make(price=100)
+    assert check_staleness([d]) == []
+
+
+def test_staleness_old_thesis_flagged():
+    d = _make(price=100)
+    d["priced_at"] = (datetime.utcnow() - timedelta(days=15)).isoformat()
+    flagged = check_staleness([d])
+    assert len(flagged) == 1
+    assert flagged[0]["symbol"] == "ACME"
+    assert any("days old" in r for r in flagged[0]["reasons"])
+
+
+def test_staleness_price_drift_flagged():
+    d = _make(price=100)
+    # base target is 100 (from _make), price drifted to 125 = 25% drift
+    d["current_price"] = 125.0
+    flagged = check_staleness([d])
+    assert len(flagged) == 1
+    assert any("drifted" in r for r in flagged[0]["reasons"])
+
+
+def test_staleness_no_priced_at_flagged():
+    d = _make(price=100)
+    d.pop("priced_at", None)
+    flagged = check_staleness([d])
+    assert len(flagged) == 1
+    assert any("no priced_at" in r for r in flagged[0]["reasons"])
+
+
+def test_staleness_custom_thresholds():
+    d = _make(price=100)
+    d["priced_at"] = (datetime.utcnow() - timedelta(hours=50)).isoformat()
+    # Not stale at default 14-day threshold
+    assert check_staleness([d]) == []
+    # Stale at 48-hour threshold
+    flagged = check_staleness([d], age_hours=48)
+    assert len(flagged) == 1
