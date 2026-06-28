@@ -28,6 +28,7 @@ PER_POSITION_MIN = 100.0
 PER_POSITION_MAX = 400.0
 CONSERVATIVE_HALVE = 0.5
 FEE_BPS = 5  # 5 basis points
+STOP_COOLDOWN_DAYS = 90
 
 
 def _to_date(s: str):
@@ -81,6 +82,7 @@ class AchillesSleeve:
         self.contributed_cash: float = float(initial_cash)
         self.peak_equity: float = float(initial_cash)
         self.conservative_mode: bool = conservative_mode
+        self.symbol_cooldowns: dict[str, str] = {}
         self._trades_today_date: str = ""
         self._trades_today: int = 0
 
@@ -142,6 +144,19 @@ class AchillesSleeve:
         self._ensure_today(today)
         return self._trades_today
 
+    # ------- cooldowns -------
+
+    def add_cooldown(self, symbol: str, today: str) -> None:
+        """Block a symbol for STOP_COOLDOWN_DAYS after a hard stop."""
+        d = _to_date(today) + timedelta(days=STOP_COOLDOWN_DAYS)
+        self.symbol_cooldowns[symbol.upper()] = d.strftime("%Y-%m-%d")
+
+    def in_cooldown(self, symbol: str, today: str) -> bool:
+        until = self.symbol_cooldowns.get(symbol.upper())
+        if not until:
+            return False
+        return today < until
+
     # ------- position sizing -------
 
     def position_dollars(self, score: float, conviction: float = 1.0) -> float:
@@ -186,6 +201,8 @@ class AchillesSleeve:
         if event_id in self.positions:
             return None
         if len(self.positions) >= MAX_CONCURRENT_POSITIONS:
+            return None
+        if self.in_cooldown(symbol, today):
             return None
         self._ensure_today(today)
         if self._trades_today >= MAX_TRADES_PER_DAY:
@@ -274,6 +291,7 @@ class AchillesSleeve:
             "contributed_cash": self.contributed_cash,
             "peak_equity": self.peak_equity,
             "conservative_mode": self.conservative_mode,
+            "symbol_cooldowns": self.symbol_cooldowns,
             "trades_today_date": self._trades_today_date,
             "trades_today": self._trades_today,
         }
@@ -290,6 +308,7 @@ class AchillesSleeve:
         s.halted = bool(data.get("halted", False))
         s.contributed_cash = float(data.get("contributed_cash", s.cash))
         s.peak_equity = float(data.get("peak_equity", s.cash))
+        s.symbol_cooldowns = data.get("symbol_cooldowns", {})
         s._trades_today_date = data.get("trades_today_date", "")
         s._trades_today = int(data.get("trades_today", 0))
         return s

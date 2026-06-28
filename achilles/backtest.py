@@ -537,17 +537,10 @@ def run_backtest(
                 screen_scores=screen_scores,
             )
 
-            # Scoring: for PEAD events, don't gate on quality — the drift
-            # works regardless. Use neglect as a mild boost instead.
-            if quality_override is not None:
-                score_quality = quality_override
-            else:
-                score_quality = neglect_premium(oq)
-
             score_out = score_event(
                 playbook=pb,
                 event_strength=ev.strength,
-                neglect=score_quality,
+                company_quality=quality_override if quality_override is not None else 1.0,
                 market_cap=mcap,
                 first_seen_iso=f"{today}T10:00:00",
                 now=datetime.strptime(f"{today}T10:00:00", "%Y-%m-%dT%H:%M:%S"),
@@ -668,6 +661,9 @@ def run_backtest(
                     bt.pnl = realized
                     bt.return_pct = (exit_price - bt.entry_price) / bt.entry_price if bt.entry_price > 0 else 0
                     trades.append(bt)
+
+                    if reason == "hard_stop":
+                        sleeve.add_cooldown(pos.symbol, today)
 
                     # Record outcome for playbook auto-disable
                     pb = playbooks.get(pos.event_class)

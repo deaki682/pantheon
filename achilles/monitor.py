@@ -366,12 +366,10 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
             prescreener_quality=prescreener_quality,
             screen_scores=screen_scores,
         )
-        score_quality = neglect_premium(oq)
-
         score_out = score_event(
             playbook=pb,
             event_strength=ev.strength,
-            neglect=score_quality,
+            company_quality=1.0,
             market_cap=mcap,
             first_seen_iso=now_iso,
             disqualifier_flags=ev.metadata.get("disqualifiers", []),
@@ -475,6 +473,8 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
                         dollars=ep["shares"] * ep["exit_price"],
                         reason=ep["reason"], pnl=realized,
                     ))
+                    if ep["reason"] == "hard_stop":
+                        sleeve.add_cooldown(ep["symbol"], today)
                     log.info("CLOSED %-6s pnl=$%.2f reason=%s (order %s)",
                              ep["symbol"], realized, ep["reason"], order_result["id"])
 

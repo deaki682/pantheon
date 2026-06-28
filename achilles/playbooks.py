@@ -76,7 +76,7 @@ def build_playbooks() -> dict[str, Playbook]:
     pbs = {
         "earnings_reaction": Playbook(
             event_class="earnings_reaction",
-            base_rate=0.55, hold_days=30, hard_stop_pct=-0.15,
+            base_rate=0.55, hold_days=30, hard_stop_pct=-0.20,
             profit_target_pct=0.20, time_stop_days=45,
             citation="Bernard & Thomas (1989)",
             uncalibrated=False,

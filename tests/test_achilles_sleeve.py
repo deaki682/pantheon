@@ -4,6 +4,7 @@ from achilles.sleeve import (
     AchillesPosition, AchillesSleeve, DRAWDOWN_HALT, HARD_FLOOR,
     MAX_CONCURRENT_POSITIONS, MAX_TRADES_PER_DAY, MIN_SCORE_TO_OPEN,
     PER_POSITION_CAP_FRAC, PER_POSITION_MAX, PER_POSITION_MIN,
+    STOP_COOLDOWN_DAYS,
 )
 
 
@@ -192,6 +193,31 @@ def test_persistence_roundtrip(tmp_path):
     assert s2.cash == s.cash
     assert "e1" in s2.positions
     assert s2.positions["e1"].symbol == "ACME"
+
+
+def test_cooldown_blocks_reentry():
+    s = AchillesSleeve(initial_cash=10000, conservative_mode=False)
+    s.add_cooldown("ACME", "2024-05-29")
+    args = _open_args()
+    args["today"] = "2024-06-15"
+    assert s.open(**args) is None
+
+
+def test_cooldown_expires():
+    s = AchillesSleeve(initial_cash=10000, conservative_mode=False)
+    s.add_cooldown("ACME", "2024-05-29")
+    args = _open_args()
+    args["today"] = "2024-08-28"  # 91 days later, past 90-day cooldown
+    assert s.open(**args) is not None
+
+
+def test_cooldown_persists(tmp_path):
+    s = AchillesSleeve(initial_cash=1000)
+    s.add_cooldown("ACME", "2024-05-29")
+    p = tmp_path / "achilles.json"
+    s.save(str(p))
+    s2 = AchillesSleeve.load(str(p))
+    assert s2.in_cooldown("ACME", "2024-06-15") is True
 
 
 def test_liquidate_all_kills_positions():

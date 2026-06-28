@@ -9,7 +9,7 @@ def test_build_play_basic():
     pbs = build_playbooks()
     pb = pbs["earnings_reaction"]
     p = build_play(playbook=pb, entry_price=100.0, entry_date="2024-05-29", entry_dollars=200.0)
-    assert p.hard_stop_price == pytest.approx(85.0)  # -15%
+    assert p.hard_stop_price == pytest.approx(80.0)  # -20%
     assert p.profit_target_price == pytest.approx(120.0)  # +20%
     assert p.time_stop_date == "2024-07-13"  # +45 days
 

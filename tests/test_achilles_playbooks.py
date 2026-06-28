@@ -31,7 +31,7 @@ def test_earnings_params():
     pbs = build_playbooks()
     pb = pbs["earnings_reaction"]
     assert pb.hold_days == 30
-    assert pb.hard_stop_pct == -0.15
+    assert pb.hard_stop_pct == -0.20
     assert pb.profit_target_pct == 0.20
     assert pb.time_stop_days == 45
     assert "Bernard" in pb.citation

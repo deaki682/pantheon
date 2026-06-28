@@ -142,7 +142,7 @@ def test_score_event_multiplicative():
         first_seen_iso=now.isoformat(),
         now=now,
     )
-    # base_rate=0.70, event=0.8, quality=0.7, liquidity=0.8, decay=1.0
+    # base_rate=0.55, event=0.8, quality=0.7, liquidity=0.8, decay=1.0
     expected = pb.base_rate * 0.8 * 0.7 * 0.8 * 1.0
     assert out["score"] == pytest.approx(expected, abs=1e-6)
 
