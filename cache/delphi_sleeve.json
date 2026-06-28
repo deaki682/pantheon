@@ -1,84 +1,11 @@
 {
   "name": "delphi",
-  "cash": 99.54999999999981,
-  "positions": {
-    "AMD": {
-      "shares": 0.14430292069111478,
-      "avg_price": 519.74,
-      "entry_date": "2026-06-28",
-      "sector": "technology"
-    },
-    "AVGO": {
-      "shares": 0.2060779249326812,
-      "avg_price": 363.94,
-      "entry_date": "2026-06-28",
-      "sector": "technology"
-    },
-    "NVDA": {
-      "shares": 0.3911954934279157,
-      "avg_price": 191.72,
-      "entry_date": "2026-06-28",
-      "sector": "technology"
-    },
-    "AAPL": {
-      "shares": 0.26661926768574473,
-      "avg_price": 281.3,
-      "entry_date": "2026-06-28",
-      "sector": "technology"
-    },
-    "CAT": {
-      "shares": 0.0751487946133344,
-      "avg_price": 998.02,
-      "entry_date": "2026-06-28",
-      "sector": "industrials"
-    },
-    "GE": {
-      "shares": 0.20355543493011263,
-      "avg_price": 368.45,
-      "entry_date": "2026-06-28",
-      "sector": "industrials"
-    },
-    "UNP": {
-      "shares": 0.27951699463327373,
-      "avg_price": 268.32,
-      "entry_date": "2026-06-28",
-      "sector": "industrials"
-    },
-    "BA": {
-      "shares": 0.3453356662676121,
-      "avg_price": 217.18,
-      "entry_date": "2026-06-28",
-      "sector": "industrials"
-    },
-    "PSA": {
-      "shares": 0.2312103088969727,
-      "avg_price": 324.38,
-      "entry_date": "2026-06-28",
-      "sector": "real_estate"
-    },
-    "EQIX": {
-      "shares": 0.06871026256481669,
-      "avg_price": 1091.54,
-      "entry_date": "2026-06-28",
-      "sector": "real_estate"
-    },
-    "DLR": {
-      "shares": 0.38825904643578196,
-      "avg_price": 193.17,
-      "entry_date": "2026-06-28",
-      "sector": "real_estate"
-    },
-    "PLD": {
-      "shares": 0.5362121970401087,
-      "avg_price": 139.87,
-      "entry_date": "2026-06-28",
-      "sector": "real_estate"
-    }
-  },
+  "cash": 1000.0,
+  "positions": {},
   "pending_settlements": [],
   "realized_pnl": 0.0,
   "gfv_count": 0,
-  "trades_count": 12,
+  "trades_count": 0,
   "cooldowns": {},
   "halted": false,
   "contributed_cash": 1000.0,
