@@ -34,7 +34,7 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T01:00:55.923303",
-      "drawdown_from_high": 0.26868675415969845,
+      "drawdown_from_high": 0.2473709572266789,
       "derived": {
         "expected_price": 274.31,
         "expected_return": 0.033104850858692414,
@@ -45,7 +45,8 @@
         "potential_score": 0.01950349646302827
       },
       "conviction": 0.02747756836243409,
-      "priced_at": "2026-06-28T01:00:55.923303"
+      "priced_at": "2026-06-28T02:09:13.939679",
+      "scenario_price": 265.52
     },
     {
       "symbol": "EXE",
@@ -81,7 +82,7 @@
       "sector": "Energy",
       "author": "oracle",
       "created_at": "2026-06-28T01:00:55.923367",
-      "drawdown_from_high": 0.30129521402622017,
+      "drawdown_from_high": 0.3020060022113411,
       "derived": {
         "expected_price": 108.09,
         "expected_return": 0.22301425661914465,
@@ -92,7 +93,8 @@
         "potential_score": 0.2101341777828352
       },
       "conviction": 0.25932376763284215,
-      "priced_at": "2026-06-28T01:00:55.923367"
+      "priced_at": "2026-06-28T02:09:13.939736",
+      "scenario_price": 88.38
     },
     {
       "symbol": "GRNT",
@@ -128,7 +130,7 @@
       "sector": "Energy",
       "author": "oracle",
       "created_at": "2026-06-28T01:00:55.923386",
-      "drawdown_from_high": 0.24851190476190477,
+      "drawdown_from_high": 0.32663690476190466,
       "derived": {
         "expected_price": 5.665,
         "expected_return": 0.25193370165745854,
@@ -139,7 +141,8 @@
         "potential_score": 0.19014252944314086
       },
       "conviction": 0.2378654658820728,
-      "priced_at": "2026-06-28T01:00:55.923386"
+      "priced_at": "2026-06-28T02:09:13.939751",
+      "scenario_price": 4.525
     },
     {
       "symbol": "TKO",
@@ -186,7 +189,8 @@
         "potential_score": 0.08837922430296488
       },
       "conviction": 0.11861084833159874,
-      "priced_at": "2026-06-28T01:00:55.923406"
+      "priced_at": "2026-06-28T02:09:13.939761",
+      "scenario_price": 215.78
     },
     {
       "symbol": "EVTC",
@@ -233,7 +237,8 @@
         "potential_score": 0.14725350215028454
       },
       "conviction": 0.18970925066707078,
-      "priced_at": "2026-06-28T01:00:55.923418"
+      "priced_at": "2026-06-28T02:09:13.939770",
+      "scenario_price": 27.37
     },
     {
       "symbol": "RHLD",
@@ -280,7 +285,8 @@
         "potential_score": -0.07271866500338643
       },
       "conviction": 0.0,
-      "priced_at": "2026-06-28T01:00:55.923427"
+      "priced_at": "2026-06-28T02:09:13.939779",
+      "scenario_price": 133.62
     },
     {
       "symbol": "PODD",
@@ -316,7 +322,7 @@
       "sector": "Health Care",
       "author": "oracle",
       "created_at": "2026-06-28T01:00:55.923436",
-      "drawdown_from_high": 0.577321911632101,
+      "drawdown_from_high": 0.5543282236248873,
       "derived": {
         "expected_price": 210.2,
         "expected_return": 0.32903388973191694,
@@ -327,7 +333,8 @@
         "potential_score": 0.32477930808485034
       },
       "conviction": 0.3712178590837417,
-      "priced_at": "2026-06-28T01:00:55.923436"
+      "priced_at": "2026-06-28T02:09:13.939787",
+      "scenario_price": 158.16
     },
     {
       "symbol": "CAVA",
@@ -363,7 +370,7 @@
       "sector": "Consumer Discretionary",
       "author": "oracle",
       "created_at": "2026-06-28T01:00:55.923448",
-      "drawdown_from_high": 0.15143233120761213,
+      "drawdown_from_high": 0.15568377366130182,
       "derived": {
         "expected_price": 82.64000000000001,
         "expected_return": -0.009231507013547358,
@@ -374,7 +381,8 @@
         "potential_score": -0.004912322995989931
       },
       "conviction": 0.0,
-      "priced_at": "2026-06-28T01:00:55.923448"
+      "priced_at": "2026-06-28T02:09:13.939798",
+      "scenario_price": 83.41
     },
     {
       "symbol": "OLED",
@@ -410,7 +418,7 @@
       "sector": "Information Technology",
       "author": "oracle",
       "created_at": "2026-06-28T01:00:55.923467",
-      "drawdown_from_high": 0.46316826804631694,
+      "drawdown_from_high": 0.46384577482138467,
       "derived": {
         "expected_price": 94.09,
         "expected_return": 0.0808730614589317,
@@ -421,7 +429,8 @@
         "potential_score": 0.05252445329110453
       },
       "conviction": 0.07228892222186334,
-      "priced_at": "2026-06-28T01:00:55.923467"
+      "priced_at": "2026-06-28T02:09:13.939813",
+      "scenario_price": 87.05
     },
     {
       "symbol": "CELH",
@@ -457,7 +466,7 @@
       "sector": "Consumer Staples",
       "author": "oracle",
       "created_at": "2026-06-28T01:00:55.923481",
-      "drawdown_from_high": 0.5534911597243033,
+      "drawdown_from_high": 0.5537908300869043,
       "derived": {
         "expected_price": 33.410000000000004,
         "expected_return": 0.12189388851578253,
@@ -468,7 +477,8 @@
         "potential_score": 0.08033173180976304
       },
       "conviction": 0.1084195609550559,
-      "priced_at": "2026-06-28T01:00:55.923481"
+      "priced_at": "2026-06-28T02:09:13.939823",
+      "scenario_price": 29.78
     },
     {
       "symbol": "CPRT",
@@ -504,7 +514,7 @@
       "sector": "Industrials",
       "author": "oracle",
       "created_at": "2026-06-28T01:00:55.923490",
-      "drawdown_from_high": 0.39233685891039716,
+      "drawdown_from_high": 0.3911394931151466,
       "derived": {
         "expected_price": 37.5,
         "expected_return": 0.2291052114060963,
@@ -515,7 +525,8 @@
         "potential_score": 0.2770579472603919
       },
       "conviction": 0.32685671528259985,
-      "priced_at": "2026-06-28T01:00:55.923490"
+      "priced_at": "2026-06-28T02:09:13.939832",
+      "scenario_price": 30.51
     },
     {
       "symbol": "EQPT",
@@ -551,7 +562,7 @@
       "sector": "Industrials",
       "author": "oracle",
       "created_at": "2026-06-28T01:00:55.923500",
-      "drawdown_from_high": 0.4129577464788733,
+      "drawdown_from_high": 0.42338028169014086,
       "derived": {
         "expected_price": 18.52,
         "expected_return": -0.09526135808500247,
@@ -562,7 +573,8 @@
         "potential_score": -0.035970776531981406
       },
       "conviction": 0.0,
-      "priced_at": "2026-06-28T01:00:55.923500"
+      "priced_at": "2026-06-28T02:09:13.939839",
+      "scenario_price": 20.47
     },
     {
       "symbol": "BSX",
@@ -598,7 +610,7 @@
       "sector": "Health Care",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978458",
-      "priced_at": "2026-06-28T01:50:53.978458",
+      "priced_at": "2026-06-28T02:09:13.939847",
       "drawdown_from_high": 0.5968949771689498,
       "derived": {
         "expected_price": 51.60000000000001,
@@ -609,7 +621,8 @@
         "asymmetry_mult": 1.513146422955956,
         "potential_score": 0.13209328017363794
       },
-      "conviction": 0.17196900023031214
+      "conviction": 0.17196900023031214,
+      "scenario_price": 44.14
     },
     {
       "symbol": "AMT",
@@ -645,7 +658,7 @@
       "sector": "Real Estate",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978559",
-      "priced_at": "2026-06-28T01:50:53.978559",
+      "priced_at": "2026-06-28T02:09:13.939854",
       "drawdown_from_high": 0.25173900055477316,
       "derived": {
         "expected_price": 196.25,
@@ -656,7 +669,8 @@
         "asymmetry_mult": 1.6393033990748291,
         "potential_score": 0.12278025185455033
       },
-      "conviction": 0.16087899680075046
+      "conviction": 0.16087899680075046,
+      "scenario_price": 175.34
     },
     {
       "symbol": "VITL",
@@ -692,7 +706,7 @@
       "sector": "Consumer Staples",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978582",
-      "priced_at": "2026-06-28T01:50:53.978582",
+      "priced_at": "2026-06-28T02:09:13.939861",
       "drawdown_from_high": 0.7893845285149633,
       "derived": {
         "expected_price": 12.7,
@@ -703,7 +717,8 @@
         "asymmetry_mult": 1.1783750500201349,
         "potential_score": 0.07410377149688509
       },
-      "conviction": 0.10045170015718319
+      "conviction": 0.10045170015718319,
+      "scenario_price": 11.19
     },
     {
       "symbol": "MRP",
@@ -739,7 +754,7 @@
       "sector": "Real Estate",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978599",
-      "priced_at": "2026-06-28T01:50:53.978599",
+      "priced_at": "2026-06-28T02:09:13.939868",
       "drawdown_from_high": 0.1413888888888889,
       "derived": {
         "expected_price": 33.0,
@@ -750,7 +765,8 @@
         "asymmetry_mult": 1.421825796187664,
         "potential_score": 0.0537840189489841
       },
-      "conviction": 0.07395672557199806
+      "conviction": 0.07395672557199806,
+      "scenario_price": 30.91
     },
     {
       "symbol": "SHAK",
@@ -786,7 +802,7 @@
       "sector": "Consumer Discretionary",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978614",
-      "priced_at": "2026-06-28T01:50:53.978614",
+      "priced_at": "2026-06-28T02:09:13.939875",
       "drawdown_from_high": 0.6063601797442102,
       "derived": {
         "expected_price": 61.150000000000006,
@@ -797,7 +813,8 @@
         "asymmetry_mult": 1.1748881062383107,
         "potential_score": 0.04799211231540873
       },
-      "conviction": 0.06626271564199326
+      "conviction": 0.06626271564199326,
+      "scenario_price": 56.94
     },
     {
       "symbol": "VVV",
@@ -833,7 +850,7 @@
       "sector": "Consumer Discretionary",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978629",
-      "priced_at": "2026-06-28T01:50:53.978629",
+      "priced_at": "2026-06-28T02:09:13.939882",
       "drawdown_from_high": 0.02734091458988619,
       "derived": {
         "expected_price": 40.2,
@@ -844,7 +861,8 @@
         "asymmetry_mult": 0.7821538888750427,
         "potential_score": 0.0
       },
-      "conviction": 0.0
+      "conviction": 0.0,
+      "scenario_price": 40.2
     },
     {
       "symbol": "CHTR",
@@ -880,7 +898,7 @@
       "sector": "Communication Services",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978653",
-      "priced_at": "2026-06-28T01:50:53.978653",
+      "priced_at": "2026-06-28T02:09:13.939889",
       "drawdown_from_high": 0.6834876506666036,
       "derived": {
         "expected_price": 148.0,
@@ -891,7 +909,8 @@
         "asymmetry_mult": 1.215988161622777,
         "potential_score": 0.06118455070459131
       },
-      "conviction": 0.08369545880190554
+      "conviction": 0.08369545880190554,
+      "scenario_price": 133.66
     },
     {
       "symbol": "HLNE",
@@ -927,7 +946,7 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978673",
-      "priced_at": "2026-06-28T01:50:53.978673",
+      "priced_at": "2026-06-28T02:09:13.939896",
       "drawdown_from_high": 0.5175324272326693,
       "derived": {
         "expected_price": 89.5,
@@ -938,7 +957,8 @@
         "asymmetry_mult": 1.3838813274930744,
         "potential_score": 0.11234862797396206
       },
-      "conviction": 0.14828050702779727
+      "conviction": 0.14828050702779727,
+      "scenario_price": 77.74
     },
     {
       "symbol": "ABNB",
@@ -974,7 +994,7 @@
       "sector": "Consumer Discretionary",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978698",
-      "priced_at": "2026-06-28T01:50:53.978698",
+      "priced_at": "2026-06-28T02:09:13.939902",
       "drawdown_from_high": 0.0114755211516262,
       "derived": {
         "expected_price": 154.0,
@@ -985,7 +1005,8 @@
         "asymmetry_mult": 1.2437416911784407,
         "potential_score": 0.045214017870422056
       },
-      "conviction": 0.06254962333947545
+      "conviction": 0.06254962333947545,
+      "scenario_price": 145.58
     },
     {
       "symbol": "ECL",
@@ -1021,7 +1042,7 @@
       "sector": "Materials",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978713",
-      "priced_at": "2026-06-28T01:50:53.978713",
+      "priced_at": "2026-06-28T02:09:13.939909",
       "drawdown_from_high": 0.08326058136903025,
       "derived": {
         "expected_price": 293.75,
@@ -1032,7 +1053,8 @@
         "asymmetry_mult": 1.326462045304124,
         "potential_score": 0.029351910709349168
       },
-      "conviction": 0.04106434378249746
+      "conviction": 0.04106434378249746,
+      "scenario_price": 283.52
     },
     {
       "symbol": "SPGI",
@@ -1068,7 +1090,7 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978726",
-      "priced_at": "2026-06-28T01:50:53.978726",
+      "priced_at": "2026-06-28T02:09:13.939916",
       "drawdown_from_high": 0.29496589240998183,
       "derived": {
         "expected_price": 442.5,
@@ -1079,7 +1101,8 @@
         "asymmetry_mult": 1.4411533842457842,
         "potential_score": 0.0777461800067619
       },
-      "conviction": 0.1051202895199177
+      "conviction": 0.1051202895199177,
+      "scenario_price": 408.25
     },
     {
       "symbol": "WW",
@@ -1115,7 +1138,7 @@
       "sector": "Consumer Staples",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978739",
-      "priced_at": "2026-06-28T01:50:53.978739",
+      "priced_at": "2026-06-28T02:09:13.939922",
       "drawdown_from_high": 0.6617678381256655,
       "derived": {
         "expected_price": 14.8,
@@ -1126,7 +1149,8 @@
         "asymmetry_mult": 0.8453253212730736,
         "potential_score": -0.024498067543318885
       },
-      "conviction": 0.0
+      "conviction": 0.0,
+      "scenario_price": 15.88
     },
     {
       "symbol": "META",
@@ -1162,7 +1186,7 @@
       "sector": "Communication Services",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978751",
-      "priced_at": "2026-06-28T01:50:53.978751",
+      "priced_at": "2026-06-28T02:09:13.939929",
       "drawdown_from_high": 0.30997802197802204,
       "derived": {
         "expected_price": 643.5,
@@ -1173,7 +1197,8 @@
         "asymmetry_mult": 1.5838460588383627,
         "potential_score": 0.16930397862943763
       },
-      "conviction": 0.21483612624733173
+      "conviction": 0.21483612624733173,
+      "scenario_price": 549.43
     },
     {
       "symbol": "GEHC",
@@ -1209,7 +1234,7 @@
       "sector": "Health Care",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978763",
-      "priced_at": "2026-06-28T01:50:53.978763",
+      "priced_at": "2026-06-28T02:09:13.939935",
       "drawdown_from_high": 0.2684638520663918,
       "derived": {
         "expected_price": 70.5,
@@ -1220,7 +1245,8 @@
         "asymmetry_mult": 1.1937403210297997,
         "potential_score": 0.05012784837985064
       },
-      "conviction": 0.06910725457924827
+      "conviction": 0.06910725457924827,
+      "scenario_price": 65.67
     },
     {
       "symbol": "FND",
@@ -1256,7 +1282,7 @@
       "sector": "Consumer Discretionary",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978774",
-      "priced_at": "2026-06-28T01:50:53.978774",
+      "priced_at": "2026-06-28T02:09:13.939942",
       "drawdown_from_high": 0.35504815496158415,
       "derived": {
         "expected_price": 60.5,
@@ -1267,7 +1293,8 @@
         "asymmetry_mult": 1.0690449676496976,
         "potential_score": 0.009448650103085557
       },
-      "conviction": 0.013407381115056016
+      "conviction": 0.013407381115056016,
+      "scenario_price": 59.6
     },
     {
       "symbol": "GOOGL",
@@ -1303,7 +1330,7 @@
       "sector": "Communication Services",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978785",
-      "priced_at": "2026-06-28T01:50:53.978785",
+      "priced_at": "2026-06-28T02:09:13.939949",
       "drawdown_from_high": 0.17745527520129212,
       "derived": {
         "expected_price": 366.5,
@@ -1314,7 +1341,8 @@
         "asymmetry_mult": 1.3401708169706046,
         "potential_score": 0.07560356949239795
       },
-      "conviction": 0.10237698080772573
+      "conviction": 0.10237698080772573,
+      "scenario_price": 336.1
     },
     {
       "symbol": "MA",
@@ -1350,7 +1378,7 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978797",
-      "priced_at": "2026-06-28T01:50:53.978797",
+      "priced_at": "2026-06-28T02:09:13.939989",
       "drawdown_from_high": 0.17111188660119314,
       "derived": {
         "expected_price": 557.0,
@@ -1361,7 +1389,8 @@
         "asymmetry_mult": 1.7566201313073593,
         "potential_score": 0.13378617374134527
       },
-      "conviction": 0.1739691069261714
+      "conviction": 0.1739691069261714,
+      "scenario_price": 498.8
     },
     {
       "symbol": "MCO",
@@ -1397,7 +1426,7 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978811",
-      "priced_at": "2026-06-28T01:50:53.978811",
+      "priced_at": "2026-06-28T02:09:13.939999",
       "drawdown_from_high": 0.17722352252779405,
       "derived": {
         "expected_price": 496.5,
@@ -1408,7 +1437,8 @@
         "asymmetry_mult": 1.6132374355155847,
         "potential_score": 0.10538352880259247
       },
-      "conviction": 0.13976347483744977
+      "conviction": 0.13976347483744977,
+      "scenario_price": 449.96
     },
     {
       "symbol": "ZTS",
@@ -1444,7 +1474,7 @@
       "sector": "Health Care",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978825",
-      "priced_at": "2026-06-28T01:50:53.978825",
+      "priced_at": "2026-06-28T02:09:13.940007",
       "drawdown_from_high": 0.5299499289114175,
       "derived": {
         "expected_price": 91.5,
@@ -1455,7 +1485,8 @@
         "asymmetry_mult": 1.8134988433585615,
         "potential_score": 0.21627200615922418
       },
-      "conviction": 0.26578986861581855
+      "conviction": 0.26578986861581855,
+      "scenario_price": 76.04
     },
     {
       "symbol": "AMRZ",
@@ -1491,7 +1522,7 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978839",
-      "priced_at": "2026-06-28T01:50:53.978839",
+      "priced_at": "2026-06-28T02:09:13.940015",
       "drawdown_from_high": 0.15210797694874134,
       "derived": {
         "expected_price": 59.099999999999994,
@@ -1502,7 +1533,8 @@
         "asymmetry_mult": 1.1781621872509782,
         "potential_score": 0.03397299687137237
       },
-      "conviction": 0.047373957520490007
+      "conviction": 0.047373957520490007,
+      "scenario_price": 55.91
     },
     {
       "symbol": "JKHY",
@@ -1538,7 +1570,7 @@
       "sector": "Information Technology",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978851",
-      "priced_at": "2026-06-28T01:50:53.978851",
+      "priced_at": "2026-06-28T02:09:13.940022",
       "drawdown_from_high": 0.30213558095041104,
       "derived": {
         "expected_price": 155.25,
@@ -1549,7 +1581,8 @@
         "asymmetry_mult": 2.0,
         "potential_score": 0.1730065548107288
       },
-      "conviction": 0.21897820356014142
+      "conviction": 0.21897820356014142,
+      "scenario_price": 134.96
     },
     {
       "symbol": "ADSK",
@@ -1585,7 +1618,7 @@
       "sector": "Information Technology",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978863",
-      "priced_at": "2026-06-28T01:50:53.978863",
+      "priced_at": "2026-06-28T02:09:13.940029",
       "drawdown_from_high": 0.40402321553374454,
       "derived": {
         "expected_price": 245.75,
@@ -1596,7 +1629,8 @@
         "asymmetry_mult": 2.0,
         "potential_score": 0.28888217255562454
       },
-      "conviction": 0.3381317876985941
+      "conviction": 0.3381317876985941,
+      "scenario_price": 196.13
     },
     {
       "symbol": "FISV",
@@ -1632,7 +1666,7 @@
       "sector": "Information Technology",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978876",
-      "priced_at": "2026-06-28T01:50:53.978876",
+      "priced_at": "2026-06-28T02:09:13.940037",
       "drawdown_from_high": 0.7211885430762291,
       "derived": {
         "expected_price": 62.5,
@@ -1643,7 +1677,8 @@
         "asymmetry_mult": 1.6751801018703694,
         "potential_score": 0.2107163916328698
       },
-      "conviction": 0.2599395571691675
+      "conviction": 0.2599395571691675,
+      "scenario_price": 49.45
     },
     {
       "symbol": "FHN",
@@ -1679,7 +1714,7 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978887",
-      "priced_at": "2026-06-28T01:50:53.978887",
+      "priced_at": "2026-06-28T02:09:13.940044",
       "drawdown_from_high": 0.03802710843373491,
       "derived": {
         "expected_price": 26.25,
@@ -1690,7 +1725,8 @@
         "asymmetry_mult": 0.9923370518263845,
         "potential_score": 0.014008122696183139
       },
-      "conviction": 0.019812700707285358
+      "conviction": 0.019812700707285358,
+      "scenario_price": 25.55
     },
     {
       "symbol": "GPOR",
@@ -1726,7 +1762,7 @@
       "sector": "Energy",
       "author": "oracle",
       "created_at": "2026-06-28T01:50:53.978898",
-      "priced_at": "2026-06-28T01:50:53.978898",
+      "priced_at": "2026-06-28T02:09:13.940051",
       "drawdown_from_high": 0.28013995925236956,
       "derived": {
         "expected_price": 185.25,
@@ -1737,8 +1773,9 @@
         "asymmetry_mult": 1.3115561032704377,
         "potential_score": 0.09089019953326226
       },
-      "conviction": 0.1217668221504441
+      "conviction": 0.1217668221504441,
+      "scenario_price": 162.53
     }
   ],
-  "saved_at": "2026-06-28T01:50:53.979042"
+  "saved_at": "2026-06-28T02:09:13.940187"
 }
