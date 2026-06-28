@@ -8,7 +8,7 @@ from achilles.scoring import has_disqualifier
 from achilles.sleeve import AchillesPosition, AchillesSleeve
 from delphi.execution import build_targets
 from delphi.signals import composite_score, momentum, score_sectors
-from delphi.sleeve import BLOCKLIST, DelphiSleeve, is_blocked
+from delphi.sleeve import PICK_BLOCKLIST, DelphiSleeve, is_blocked
 from oracle.journal import JournalEntry, append, grade, read
 from oracle.learning import calibration_stats, conviction_tier
 from oracle.positioning import compute_derived, potential_to_conviction, size_book

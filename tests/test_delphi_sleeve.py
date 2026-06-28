@@ -1,6 +1,6 @@
 import pytest
 
-from delphi.sleeve import BLOCKLIST, COOLDOWN_DAYS, MIN_TICKET, DelphiSleeve, is_blocked
+from delphi.sleeve import PICK_BLOCKLIST, COOLDOWN_DAYS, MIN_TICKET, DelphiSleeve, is_blocked
 
 
 def test_constants():
@@ -10,16 +10,16 @@ def test_constants():
 
 def test_blocklist_contains_all_sector_etfs():
     for etf in ("XLK", "XLF", "XLE", "XLV", "XLI", "XLP", "XLY", "XLU", "XLRE", "XLB", "XLC"):
-        assert etf in BLOCKLIST
+        assert etf in PICK_BLOCKLIST
 
 
-def test_blocklist_contains_spy():
-    assert "SPY" in BLOCKLIST
+def test_spy_not_in_pick_blocklist():
+    assert "SPY" not in PICK_BLOCKLIST
 
 
 def test_is_blocked_case_insensitive():
     assert is_blocked("xlk")
-    assert is_blocked("SPY")
+    assert not is_blocked("SPY")
     assert not is_blocked("AAPL")
 
 
@@ -41,6 +41,6 @@ def test_can_buy_stock():
     assert "AAPL" in s.positions
 
 
-def test_cannot_buy_spy():
+def test_can_buy_spy():
     s = DelphiSleeve(initial_cash=1000)
-    assert s.buy("SPY", 1.0, 100, "2024-05-29") is False
+    assert s.buy("SPY", 1.0, 100, "2024-05-29") is True
