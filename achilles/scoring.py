@@ -48,6 +48,13 @@ MEGACAP_DECAY_START = 50_000_000_000   # $50B — edge starts fading
 MEGACAP_DECAY_END = 200_000_000_000    # $200B — minimal edge left
 MEGACAP_FLOOR = 0.2                    # score floor for mega-caps
 
+# Compound signal boosts — applied to event_strength before scoring.
+# Cohen, Malloy & Pomorski (2012): insider-predicted beats have 2-3x drift,
+# but we start conservative and let live tracking calibrate.
+INSIDER_PREEARNINGS_BOOST_MIN = 1.15   # insiders active but timing unclear
+INSIDER_PREEARNINGS_BOOST_MAX = 1.50   # multiple insiders within lookback
+CONCURRENT_GUIDANCE_BOOST = 1.20       # guidance raised in same 8-K as beat
+
 
 def surprise_strength(surprise_pct: Optional[float]) -> float:
     """Map EPS surprise % to event strength (0–1).
