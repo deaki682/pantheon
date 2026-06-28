@@ -51,6 +51,7 @@ from .convergence import (
     extract_convergence_signals,
     build_prescreener_lookup,
 )
+from .llm_refine import analyze_filing as llm_analyze, LLMSignals
 from .playbooks import build_playbooks
 from .scoring import score_event
 from .sleeve import AchillesSleeve
@@ -309,12 +310,40 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
                         insider_boost = boost
                         log.info("  %-6s insider pre-activity detected: boost=%.2f", sym, boost)
 
+            # LLM analysis of earnings 8-K body
+            llm_signals = None
+            if "earnings_reaction" in labels and body_text and surprise_pct is not None:
+                sym = (filing.symbol or "").upper()
+                llm_signals = llm_analyze(body_text, sym, surprise_pct)
+                if llm_signals.beat_quality != "unknown":
+                    log.info("  %-6s LLM: quality=%s tone=%s rev=%s adj=%.2f %s",
+                             sym, llm_signals.beat_quality,
+                             llm_signals.management_tone,
+                             llm_signals.revenue_signal,
+                             llm_signals.strength_adjustment,
+                             llm_signals.summary[:60])
+                    if llm_signals.disqualifiers:
+                        log.warning("  %-6s LLM red flags → disqualify: %s",
+                                    sym, llm_signals.disqualifiers)
+
             filing_events = build_event_for_filing(
                 filing, body_text=body_text, today=today,
                 surprise_pct=surprise_pct,
                 earnings_surprise=earnings_surprise,
                 insider_boost=insider_boost,
             )
+
+            # Apply LLM strength adjustment and disqualifiers
+            if llm_signals and llm_signals.beat_quality != "unknown":
+                for ev in filing_events:
+                    if ev.event_class == "earnings_reaction":
+                        ev.strength *= llm_signals.strength_adjustment
+                        ev.strength = min(1.5, ev.strength)
+                        ev.metadata["llm"] = llm_signals.to_dict()
+                        if llm_signals.disqualifiers:
+                            ev.metadata.setdefault("disqualifiers", []).extend(
+                                llm_signals.disqualifiers)
+
             events.extend(filing_events)
         except Exception as exc:
             log.warning("Classify failed for %s: %s", filing.accession_no, exc)
