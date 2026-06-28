@@ -1,9 +1,18 @@
 {
-  "date": "2026-06-28",
+  "run_at": "2026-06-28T23:23:00.961331",
   "mode": "paper",
-  "halt_reason": "pre_trade_check_failed_45_mismatches",
-  "note": "PAPER MODE \u2014 no orders placed. Pre-trade check failed: 45 broker positions untracked in sleeve files. Reconcile needed.",
-  "planned_orders": [
+  "equity": 1040.29,
+  "targets": {
+    "ADSK": 117.03,
+    "AMT": 117.03,
+    "EQPT": 117.03,
+    "BSX": 117.03,
+    "META": 117.03,
+    "OLED": 117.03,
+    "RLI": 117.03,
+    "UBER": 117.03
+  },
+  "orders": [
     {
       "side": "sell",
       "symbol": "ESNT",
@@ -42,6 +51,12 @@
     },
     {
       "side": "buy",
+      "symbol": "BSX",
+      "dollars": 117.03,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
       "symbol": "META",
       "dollars": 117.03,
       "reason": "open_or_add"
@@ -60,15 +75,20 @@
     },
     {
       "side": "buy",
-      "symbol": "ZTS",
-      "dollars": 117.03,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "GOOG",
+      "symbol": "UBER",
       "dollars": 117.03,
       "reason": "open_or_add"
     }
-  ]
+  ],
+  "note": "PAPER MODE \u2014 orders computed but not placed. Would rotate ESNT/MTG/RRC -> ADSK/AMT/EQPT/BSX/META/OLED/RLI/UBER based on potential_score ranking.",
+  "top_scores": {
+    "ADSK": 0.2254,
+    "AMT": 0.1973,
+    "EQPT": 0.1858,
+    "BSX": 0.1796,
+    "META": 0.1761,
+    "OLED": 0.1631,
+    "RLI": 0.1513,
+    "UBER": 0.1488
+  }
 }

@@ -30,7 +30,7 @@
         "Form 4 Foran multiple buys 2026"
       ],
       "horizon_years": 2.0,
-      "current_price": 50.16,
+      "current_price": 49.905,
       "high_52w": 66.84,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -38,20 +38,20 @@
       "sector": "Energy",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566095",
-      "priced_at": "2026-06-28T22:26:39.566095",
+      "priced_at": "2026-06-28T23:22:47.720404",
       "scenario_price": 50.16,
-      "drawdown_from_high": 0.24955116696588875,
+      "drawdown_from_high": 0.25336624775583483,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 58.7,
-        "expected_return": 0.17025518341307833,
-        "expected_cagr": 0.08178333478246858,
-        "asymmetry": 2.1039647577092517,
+        "expected_return": 0.17623484620779495,
+        "expected_cagr": 0.08454361194365756,
+        "asymmetry": 2.1510192683607925,
         "quality_mult": 1.08,
-        "asymmetry_mult": 1.4505050009252818,
-        "potential_score": 0.1281173069818626
+        "asymmetry_mult": 1.4666353563039425,
+        "potential_score": 0.13391422246030515
       },
-      "conviction": 0.16725243358461883
+      "conviction": 0.1741201962461536
     },
     {
       "symbol": "WTW",
@@ -83,7 +83,7 @@
         "Newfront acquisition 8-K 2026"
       ],
       "horizon_years": 2.0,
-      "current_price": 258.41,
+      "current_price": 265.52,
       "high_52w": 352.79,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -91,20 +91,20 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566220",
-      "priced_at": "2026-06-28T22:26:39.566220",
+      "priced_at": "2026-06-28T23:22:47.720453",
       "scenario_price": 258.41,
-      "drawdown_from_high": 0.2675245896992545,
+      "drawdown_from_high": 0.2473709572266789,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 301.25,
-        "expected_return": 0.16578305793119452,
-        "expected_cagr": 0.07971434089355056,
-        "asymmetry": 3.079679861220625,
+        "expected_return": 0.13456613437782483,
+        "expected_cagr": 0.06516014494432931,
+        "asymmetry": 2.5927396483267167,
         "quality_mult": 1.1575000000000002,
-        "asymmetry_mult": 1.7549016671086233,
-        "potential_score": 0.16192363540848972
+        "asymmetry_mult": 1.6101986362951364,
+        "potential_score": 0.12144579883365152
       },
-      "conviction": 0.20651407667568267
+      "conviction": 0.15927780311925732
     },
     {
       "symbol": "GPK",
@@ -136,7 +136,7 @@
         "Form 4 CEO buy 2026"
       ],
       "horizon_years": 2.0,
-      "current_price": 10.86,
+      "current_price": 11.005,
       "high_52w": 23.76,
       "decline_explanation": "Three SEC corrective disclosures triggered a securities fraud class action alleging management misrepresented Waco facility capex timing and containerboard market conditions. The stock fell 54% as litigation uncertainty, deteriorating containerboard pricing, and elevated capex obligations simultaneously compressed earnings and investor confidence in disclosure quality.",
       "going_concern_explanation": "",
@@ -144,20 +144,20 @@
       "sector": "Materials",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566245",
-      "priced_at": "2026-06-28T22:26:39.566245",
+      "priced_at": "2026-06-28T23:22:47.720471",
       "scenario_price": 10.86,
-      "drawdown_from_high": 0.542929292929293,
+      "drawdown_from_high": 0.5368265993265993,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 12.000000000000002,
-        "expected_return": 0.10497237569060802,
-        "expected_cagr": 0.051176662455273414,
-        "asymmetry": 1.1100746268656718,
+        "expected_return": 0.09041344843253074,
+        "expected_cagr": 0.04422863800631838,
+        "asymmetry": 1.058885861338177,
         "quality_mult": 0.9375,
-        "asymmetry_mult": 1.0536007910331464,
-        "potential_score": 0.05054978629248037
+        "asymmetry_mult": 1.029021798281347,
+        "potential_score": 0.04266771807824669
       },
-      "conviction": 0.06966819827680515
+      "conviction": 0.0591333712489267
     },
     {
       "symbol": "GSHD",
@@ -189,7 +189,7 @@
         "GSHD Q4 2025 earnings release"
       ],
       "horizon_years": 2.0,
-      "current_price": 44.07,
+      "current_price": 46.84,
       "high_52w": 106.84,
       "decline_explanation": "Franchise agent growth decelerated sharply to 1% YoY from historically 15\u201320%+ annual rates, triggering a valuation reset from 80\u201390x earnings toward 40x. The executive chairman planned a $14.48M share sale, adding a negative insider signal. The market re-rated the growth premium as the agent count plateau raised questions about franchise TAM saturation and agent retention economics.",
       "going_concern_explanation": "",
@@ -197,18 +197,18 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566262",
-      "priced_at": "2026-06-28T22:26:39.566262",
+      "priced_at": "2026-06-28T23:22:47.720484",
       "scenario_price": 44.07,
-      "drawdown_from_high": 0.5875140396855111,
+      "drawdown_from_high": 0.5615874204417821,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 40.2,
-        "expected_return": -0.08781484002722939,
-        "expected_cagr": -0.04491615029214813,
-        "asymmetry": 0.6195870282866206,
+        "expected_return": -0.1417591801878736,
+        "expected_cagr": -0.07358712238434073,
+        "asymmetry": 0.48677248677248663,
         "quality_mult": 1.0175,
-        "asymmetry_mult": 0.7871385064184198,
-        "potential_score": -0.03597394800548971
+        "asymmetry_mult": 0.6976908246297113,
+        "potential_score": -0.052239528650181194
       },
       "conviction": 0.0
     },
@@ -243,7 +243,7 @@
         "Form 4 Knop 2026-05"
       ],
       "horizon_years": 2.0,
-      "current_price": 88.77,
+      "current_price": 88.38,
       "high_52w": 126.62,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -251,9 +251,9 @@
       "sector": "Energy",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566276",
-      "priced_at": "2026-06-28T22:26:39.566276",
+      "priced_at": "2026-06-28T23:22:47.720495",
       "scenario_price": 88.77,
-      "drawdown_from_high": 0.2989259200758174,
+      "drawdown_from_high": 0.3020060022113411,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 99.25,
@@ -296,7 +296,7 @@
         "GRNT 8.875% senior notes indenture"
       ],
       "horizon_years": 2.0,
-      "current_price": 4.42,
+      "current_price": 4.525,
       "high_52w": 6.66,
       "decline_explanation": "GRNT fell 34% from its 52-week high driven by oil price softness, GAAP losses from high-yield debt service costs (8.875% notes), and concerns about operator capex reductions in a weaker commodity environment. The non-operated model means GRNT cannot control well-level spending. Dividend sustainability was questioned as FCF coverage tightened with declining oil realizations and rising interest costs.",
       "going_concern_explanation": "",
@@ -304,20 +304,20 @@
       "sector": "Energy",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566289",
-      "priced_at": "2026-06-28T22:26:39.566289",
+      "priced_at": "2026-06-28T23:22:47.720507",
       "scenario_price": 4.42,
-      "drawdown_from_high": 0.3363363363363363,
+      "drawdown_from_high": 0.3205705705705705,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 5.0,
-        "expected_return": 0.13122171945701355,
-        "expected_cagr": 0.06358907452879259,
-        "asymmetry": 1.5272727272727271,
+        "expected_return": 0.10497237569060758,
+        "expected_cagr": 0.05117666245527319,
+        "asymmetry": 1.4138613861386133,
         "quality_mult": 0.8575,
-        "asymmetry_mult": 1.2358287613066492,
-        "potential_score": 0.06738681518047751
+        "asymmetry_mult": 1.1890590339165727,
+        "potential_score": 0.052180652441556494
       },
-      "conviction": 0.09177840139483806
+      "conviction": 0.07183317051590044
     },
     {
       "symbol": "TKO",
@@ -349,7 +349,7 @@
         "TKO FY2026 guidance 8-K 2026"
       ],
       "horizon_years": 2.0,
-      "current_price": 203.65,
+      "current_price": 215.78,
       "high_52w": 226.94,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -357,20 +357,20 @@
       "sector": "Communication Services",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566302",
-      "priced_at": "2026-06-28T22:26:39.566302",
+      "priced_at": "2026-06-28T23:22:47.720517",
       "scenario_price": 203.65,
-      "drawdown_from_high": 0.10262624482242,
+      "drawdown_from_high": 0.04917599365471048,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 219.25,
-        "expected_return": 0.07660201325804072,
-        "expected_cagr": 0.03759433944969115,
-        "asymmetry": 1.5621483375959075,
+        "expected_return": 0.016081193808508587,
+        "expected_cagr": 0.008008528638775214,
+        "asymmetry": 1.0887821418479795,
         "quality_mult": 1.19,
-        "asymmetry_mult": 1.2498593271228198,
-        "potential_score": 0.05591528661177925
+        "asymmetry_mult": 1.0434472396091619,
+        "potential_score": 0.009944207750738489
       },
-      "conviction": 0.07677193211981848
+      "conviction": 0.014105581825974989
     },
     {
       "symbol": "CPRT",
@@ -402,7 +402,7 @@
         "Form 4 Johnson 2026 sale"
       ],
       "horizon_years": 2.0,
-      "current_price": 30.33,
+      "current_price": 30.51,
       "high_52w": 50.11,
       "decline_explanation": "Copart fell 40% as Progressive Insurance, historically one of its largest customers, shifted salvage vehicle volume to IAA following Solera's acquisition. This structural volume loss reduced auction units by roughly 9%, directly compressing fee revenue. The broader de-rating of high-multiple quality compounders in 2025\u20132026 amplified the decline as the premium multiple compressed on lower growth visibility.",
       "going_concern_explanation": "",
@@ -410,20 +410,20 @@
       "sector": "Industrials",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566315",
-      "priced_at": "2026-06-28T22:26:39.566315",
+      "priced_at": "2026-06-28T23:22:47.720530",
       "scenario_price": 30.33,
-      "drawdown_from_high": 0.394731590500898,
+      "drawdown_from_high": 0.3911394931151466,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 30.5,
-        "expected_return": 0.0056050115397296985,
-        "expected_cagr": 0.002798589717661004,
-        "asymmetry": 1.1086780210867806,
+        "expected_return": -0.00032776138970835866,
+        "expected_cagr": -0.0001638941254963333,
+        "asymmetry": 1.078337330135891,
         "quality_mult": 1.23,
-        "asymmetry_mult": 1.0529378049470826,
-        "potential_score": 0.0036244913245415877
+        "asymmetry_mult": 1.0384302240092451,
+        "potential_score": -0.00020933691454713677
       },
-      "conviction": 0.005164462817704885
+      "conviction": 0.0
     },
     {
       "symbol": "HCI",
@@ -455,7 +455,7 @@
         "FL Citizens depopulation program filings"
       ],
       "horizon_years": 2.0,
-      "current_price": 175.25,
+      "current_price": 180.14,
       "high_52w": 210.5,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -463,20 +463,20 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566337",
-      "priced_at": "2026-06-28T22:26:39.566337",
+      "priced_at": "2026-06-28T23:22:47.720543",
       "scenario_price": 175.25,
-      "drawdown_from_high": 0.167458432304038,
+      "drawdown_from_high": 0.14422802850356298,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 195.75,
-        "expected_return": 0.11697574893009977,
-        "expected_cagr": 0.05687073425755318,
-        "asymmetry": 1.5330960854092528,
+        "expected_return": 0.08665482402575786,
+        "expected_cagr": 0.0424273711035017,
+        "asymmetry": 1.3552302368911369,
         "quality_mult": 1.1575,
-        "asymmetry_mult": 1.2381825735364123,
-        "potential_score": 0.0815069275579754
+        "asymmetry_mult": 1.1641435636944168,
+        "potential_score": 0.057170720276268
       },
-      "conviction": 0.10991513595301416
+      "conviction": 0.07842623619339517
     },
     {
       "symbol": "ROP",
@@ -509,7 +509,7 @@
         "Neptune tariff disclosure 8-K 2026"
       ],
       "horizon_years": 2.0,
-      "current_price": 334.46,
+      "current_price": 338.32,
       "high_52w": 575.77,
       "decline_explanation": "Roper fell 42% as three portfolio companies simultaneously faced macro-driven headwinds: Deltek impacted by DOGE federal procurement budget cuts, Neptune disrupted by tariff uncertainty on water meter hardware, and Procare managing a challenging integration. Though each issue is segment-specific and potentially transient, the market re-rated the conglomerate discount wider across the entire enterprise simultaneously.",
       "going_concern_explanation": "",
@@ -517,20 +517,20 @@
       "sector": "Technology",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566406",
-      "priced_at": "2026-06-28T22:26:39.566406",
+      "priced_at": "2026-06-28T23:22:47.720558",
       "scenario_price": 334.46,
-      "drawdown_from_high": 0.41910832450457647,
+      "drawdown_from_high": 0.412404258644945,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 374.5,
-        "expected_return": 0.11971536207618261,
-        "expected_cagr": 0.058166037102014734,
-        "asymmetry": 1.8766137140559025,
+        "expected_return": 0.10694017498226538,
+        "expected_cagr": 0.052112244478822456,
+        "asymmetry": 1.761672473867596,
         "quality_mult": 1.2225,
-        "asymmetry_mult": 1.3698955120942262,
-        "potential_score": 0.0974105031654305
+        "asymmetry_mult": 1.327280103771467,
+        "potential_score": 0.08455732407987998
       },
-      "conviction": 0.1299093363445606
+      "conviction": 0.11378542812924408
     },
     {
       "symbol": "EVTC",
@@ -563,7 +563,7 @@
         "EVTC Q1 2026 LatAm segment disclosure"
       ],
       "horizon_years": 2.0,
-      "current_price": 25.96,
+      "current_price": 27.37,
       "high_52w": 37.79,
       "decline_explanation": "EVTC fell 31% following Popular Bank negotiating a 10% pricing discount on its processing contract in Q4 2025, compressing the single largest revenue stream permanently. LatAm investment spending reduced near-term margins. CEO and CFO sales of $2.07M combined with the Popular contract repricing created negative market perception, while Puerto Rico organic growth moderated from prior elevated levels.",
       "going_concern_explanation": "",
@@ -571,20 +571,20 @@
       "sector": "Technology",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566504",
-      "priced_at": "2026-06-28T22:26:39.566504",
+      "priced_at": "2026-06-28T23:22:47.720570",
       "scenario_price": 25.96,
-      "drawdown_from_high": 0.31304577930669486,
+      "drawdown_from_high": 0.27573432124900765,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 28.35,
-        "expected_return": 0.09206471494607094,
-        "expected_cagr": 0.04501900219377397,
-        "asymmetry": 1.5372262773722625,
+        "expected_return": 0.03580562659846542,
+        "expected_cagr": 0.017745364321776425,
+        "asymmetry": 1.2252223120452705,
         "quality_mult": 1.0699999999999998,
-        "asymmetry_mult": 1.239849296234128,
-        "potential_score": 0.05972395266021125
+        "asymmetry_mult": 1.1068976068477474,
+        "potential_score": 0.021017262391444823
       },
-      "conviction": 0.08178153040921388
+      "conviction": 0.029578397885946517
     },
     {
       "symbol": "RHLD",
@@ -616,7 +616,7 @@
         "RHLD debt prospectus 2024-2025"
       ],
       "horizon_years": 2.0,
-      "current_price": 126.46,
+      "current_price": 133.62,
       "high_52w": 236.19,
       "decline_explanation": "RHLD fell 47% from its post-listing high as investors reassessed the opaque fee-based holding structure, FY2025 GAAP losses, and debt/equity exceeding 4x. The company was founded September 2024 with only 7 holding-company employees, making financial projection unreliable. The market de-rated from speculative listing premium toward capital structure concerns and earnings normalization uncertainty.",
       "going_concern_explanation": "RHLD is a company founded September 2024 with GAAP losses in FY2025, debt/equity exceeding 4x, and only 7 holding-company employees. With two early-stage subsidiaries driving fee income, a sustained earnings shortfall combined with high leverage creates material refinancing and going-concern risk for equity holders.",
@@ -624,18 +624,18 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566520",
-      "priced_at": "2026-06-28T22:26:39.566520",
+      "priced_at": "2026-06-28T23:22:47.720578",
       "scenario_price": 126.46,
-      "drawdown_from_high": 0.4645835979508024,
+      "drawdown_from_high": 0.4342690207036708,
       "going_concern_flag": true,
       "derived": {
         "expected_price": 104.3,
-        "expected_return": -0.17523327534398225,
-        "expected_cagr": -0.09183331670005768,
-        "asymmetry": 0.49282158004267546,
+        "expected_return": -0.21942822930699002,
+        "expected_cagr": -0.11650027125470497,
+        "asymmetry": 0.4269157585192873,
         "quality_mult": 0.7375,
-        "asymmetry_mult": 0.7020125212862485,
-        "potential_score": -0.04754525191858096
+        "asymmetry_mult": 0.6533879081520313,
+        "potential_score": -0.05613840304401373
       },
       "conviction": 0.0
     },
@@ -669,7 +669,7 @@
         "PGR Q1 2026 combined ratio disclosure"
       ],
       "horizon_years": 2.0,
-      "current_price": 218.52,
+      "current_price": 224.245,
       "high_52w": 267.93,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -677,20 +677,20 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566534",
-      "priced_at": "2026-06-28T22:26:39.566534",
+      "priced_at": "2026-06-28T23:22:47.720588",
       "scenario_price": 218.52,
-      "drawdown_from_high": 0.18441383943567347,
+      "drawdown_from_high": 0.16304631806815217,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 230.5,
-        "expected_return": 0.054823357129782035,
-        "expected_cagr": 0.027045937205236292,
-        "asymmetry": 1.569899244332493,
+        "expected_return": 0.02789359851947637,
+        "expected_cagr": 0.01385087587843814,
+        "asymmetry": 1.3160878041735862,
         "quality_mult": 1.2725,
-        "asymmetry_mult": 1.2529562020807004,
-        "potential_score": 0.04312168438513615
+        "asymmetry_mult": 1.1472087012281533,
+        "potential_score": 0.020219828179085166
       },
-      "conviction": 0.05974334736244491
+      "conviction": 0.028472271695037965
     },
     {
       "symbol": "GOOG",
@@ -722,7 +722,7 @@
         "GOOG $85B equity offering prospectus 2026"
       ],
       "horizon_years": 2.0,
-      "current_price": 340.88,
+      "current_price": 334.91,
       "high_52w": 404.47,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -730,20 +730,20 @@
       "sector": "Communication Services",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566584",
-      "priced_at": "2026-06-28T22:26:39.566584",
+      "priced_at": "2026-06-28T23:22:47.720596",
       "scenario_price": 340.88,
-      "drawdown_from_high": 0.15721808786807434,
+      "drawdown_from_high": 0.17197814423813884,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 383.5,
-        "expected_return": 0.1250293358366581,
-        "expected_cagr": 0.060674000735691624,
-        "asymmetry": 2.3511280584683822,
+        "expected_return": 0.14508375384431638,
+        "expected_cagr": 0.07008586283733154,
+        "asymmetry": 2.5553123175715107,
         "quality_mult": 1.2825,
-        "asymmetry_mult": 1.5333388596355282,
-        "potential_score": 0.11931585247265994
+        "asymmetry_mult": 1.5985344280219649,
+        "potential_score": 0.1436844574304253
       },
-      "conviction": 0.15671577413024063
+      "conviction": 0.1855673235226617
     },
     {
       "symbol": "MA",
@@ -776,7 +776,7 @@
         "MA Q1 2026 earnings"
       ],
       "horizon_years": 2.0,
-      "current_price": 489.76,
+      "current_price": 498.8,
       "high_52w": 601.77,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -784,20 +784,20 @@
       "sector": "Technology",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566599",
-      "priced_at": "2026-06-28T22:26:39.566599",
+      "priced_at": "2026-06-28T23:22:47.720603",
       "scenario_price": 489.76,
-      "drawdown_from_high": 0.18613423733320034,
+      "drawdown_from_high": 0.17111188660119314,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 517.0,
-        "expected_return": 0.05561907873244043,
-        "expected_cagr": 0.027433247823156925,
-        "asymmetry": 1.5531144998707678,
+        "expected_return": 0.036487570168404204,
+        "expected_cagr": 0.018080335812652892,
+        "asymmetry": 1.3846153846153841,
         "quality_mult": 1.37,
-        "asymmetry_mult": 1.2462401453454979,
-        "potential_score": 0.04683812821356931
+        "asymmetry_mult": 1.176696810829104,
+        "potential_score": 0.02914685068057102
       },
-      "conviction": 0.06472213472749044
+      "conviction": 0.04078338924231606
     },
     {
       "symbol": "MCO",
@@ -829,7 +829,7 @@
         "Moody's Analytics subscription revenue disclosure"
       ],
       "horizon_years": 2.0,
-      "current_price": 437.51,
+      "current_price": 449.96,
       "high_52w": 546.88,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -837,20 +837,20 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566610",
-      "priced_at": "2026-06-28T22:26:39.566610",
+      "priced_at": "2026-06-28T23:22:47.720610",
       "scenario_price": 437.51,
-      "drawdown_from_high": 0.19998902867173785,
+      "drawdown_from_high": 0.17722352252779405,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 457.75,
-        "expected_return": 0.046261799730291875,
-        "expected_cagr": 0.02286939524569398,
-        "asymmetry": 1.1507810731265566,
+        "expected_return": 0.017312650013334485,
+        "expected_cagr": 0.00861917987580152,
+        "asymmetry": 0.9660596026490069,
         "quality_mult": 1.3125,
-        "asymmetry_mult": 1.072744644883654,
-        "potential_score": 0.03219959043202901
+        "asymmetry_mult": 0.9828833107999173,
+        "potential_score": 0.011119038069179011
       },
-      "conviction": 0.04495747901683811
+      "conviction": 0.015758849293441735
     },
     {
       "symbol": "PODD",
@@ -882,7 +882,7 @@
         "Form 4 Weatherman 2026-06-03"
       ],
       "horizon_years": 2.0,
-      "current_price": 155.34,
+      "current_price": 158.16,
       "high_52w": 354.88,
       "decline_explanation": "Insulet fell 56% from its 52-week high after two FDA recalls in 2026: a voluntary recall of older pods and a second Class II recall covering 7M OmniPod units \u2014 the FDA's most serious recall category. This raised quality control questions and created an overhang on manufacturing credibility. Simultaneous sector rotation away from high-multiple growth MedTech compressed the premium valuation multiple alongside the operational uncertainty.",
       "going_concern_explanation": "",
@@ -890,20 +890,20 @@
       "sector": "Healthcare",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566621",
-      "priced_at": "2026-06-28T22:26:39.566621",
+      "priced_at": "2026-06-28T23:22:47.720617",
       "scenario_price": 155.34,
-      "drawdown_from_high": 0.5622745716862038,
+      "drawdown_from_high": 0.5543282236248873,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 174.25,
-        "expected_return": 0.12173297283378393,
-        "expected_cagr": 0.0591189606620135,
-        "asymmetry": 1.7001990332669885,
+        "expected_return": 0.10173242286292372,
+        "expected_cagr": 0.0496344234365238,
+        "asymmetry": 1.5884089666484418,
         "quality_mult": 1.1275,
-        "asymmetry_mult": 1.3039168045803338,
-        "potential_score": 0.08691469757677979
+        "asymmetry_mult": 1.2603209776277,
+        "potential_score": 0.07053110646586903
       },
-      "conviction": 0.11676489229814357
+      "conviction": 0.09584884302317109
     },
     {
       "symbol": "CAVA",
@@ -935,7 +935,7 @@
         "Form 4 Artal sale 2026-06-17"
       ],
       "horizon_years": 2.0,
-      "current_price": 81.23,
+      "current_price": 83.41,
       "high_52w": 98.79,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -943,18 +943,18 @@
       "sector": "Consumer Discretionary",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566632",
-      "priced_at": "2026-06-28T22:26:39.566632",
+      "priced_at": "2026-06-28T23:22:47.720625",
       "scenario_price": 81.23,
-      "drawdown_from_high": 0.17775078449235748,
+      "drawdown_from_high": 0.15568377366130182,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 80.25,
-        "expected_return": -0.01206450818663063,
-        "expected_cagr": -0.0060505587237500436,
-        "asymmetry": 1.0616056269706522,
+        "expected_return": -0.03788514566598722,
+        "expected_cagr": -0.019125464529732628,
+        "asymmetry": 0.9580741764570377,
         "quality_mult": 1.1475,
-        "asymmetry_mult": 1.0303424804261214,
-        "potential_score": -0.007153684466692924
+        "asymmetry_mult": 0.9788126360325748,
+        "potential_score": -0.02148148268857013
       },
       "conviction": 0.0
     },
@@ -989,7 +989,7 @@
         "VRTX FY2026 revenue guidance 8-K"
       ],
       "horizon_years": 2.0,
-      "current_price": 482.5,
+      "current_price": 490.7,
       "high_52w": 507.92,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -997,20 +997,20 @@
       "sector": "Healthcare",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566642",
-      "priced_at": "2026-06-28T22:26:39.566642",
+      "priced_at": "2026-06-28T23:22:47.720632",
       "scenario_price": 482.5,
-      "drawdown_from_high": 0.05004725153567491,
+      "drawdown_from_high": 0.03390297684674759,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 518.75,
-        "expected_return": 0.07512953367875652,
-        "expected_cagr": 0.03688453247155565,
-        "asymmetry": 1.647457627118644,
+        "expected_return": 0.05716323619319352,
+        "expected_cagr": 0.028184436856147688,
+        "asymmetry": 1.4974951830443162,
         "quality_mult": 1.2875,
-        "asymmetry_mult": 1.2835332590621265,
-        "potential_score": 0.06095349987170578
+        "asymmetry_mult": 1.2237218568957229,
+        "potential_score": 0.04440576093415032
       },
-      "conviction": 0.08339296184249789
+      "conviction": 0.06146656851318455
     },
     {
       "symbol": "FHN",
@@ -1043,7 +1043,7 @@
         "FHN $1.2B buyback announcement"
       ],
       "horizon_years": 2.0,
-      "current_price": 25.68,
+      "current_price": 25.55,
       "high_52w": 26.56,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -1051,20 +1051,20 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T22:26:39.566653",
-      "priced_at": "2026-06-28T22:26:39.566653",
+      "priced_at": "2026-06-28T23:22:47.720640",
       "scenario_price": 25.68,
-      "drawdown_from_high": 0.033132530120481896,
+      "drawdown_from_high": 0.03802710843373491,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 26.700000000000003,
-        "expected_return": 0.03971962616822444,
-        "expected_cagr": 0.019666428871826902,
-        "asymmetry": 1.234375,
+        "expected_return": 0.045009784735812186,
+        "expected_cagr": 0.02225720087256522,
+        "asymmetry": 1.2814569536423837,
         "quality_mult": 1.12,
-        "asymmetry_mult": 1.1110243021644486,
-        "potential_score": 0.02447186606299484
+        "asymmetry_mult": 1.1320145554021748,
+        "potential_score": 0.028218932392284273
       },
-      "conviction": 0.034355773988312466
+      "conviction": 0.039511010904185184
     },
     {
       "symbol": "META",
@@ -1109,7 +1109,7 @@
       "sector": "Technology Services",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185328",
-      "priced_at": "2026-06-28T22:55:25.185328",
+      "priced_at": "2026-06-28T23:22:47.720647",
       "scenario_price": 549.43,
       "drawdown_from_high": 0.30997802197802204,
       "going_concern_flag": false,
@@ -1167,7 +1167,7 @@
       "sector": "Energy Minerals",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185457",
-      "priced_at": "2026-06-28T22:55:25.185457",
+      "priced_at": "2026-06-28T23:22:47.720655",
       "scenario_price": 105.78,
       "drawdown_from_high": 0.22146169132258775,
       "going_concern_flag": false,
@@ -1216,7 +1216,7 @@
         "DVN-2026-Proxy-Statement"
       ],
       "horizon_years": 2.0,
-      "current_price": 42.19,
+      "current_price": 42.185,
       "high_52w": 52.71,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -1224,20 +1224,20 @@
       "sector": "Energy Minerals",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185491",
-      "priced_at": "2026-06-28T22:55:25.185491",
+      "priced_at": "2026-06-28T23:22:47.720662",
       "scenario_price": 42.19,
-      "drawdown_from_high": 0.19958262189337894,
+      "drawdown_from_high": 0.1996774805539745,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 49.0,
-        "expected_return": 0.16141265702773167,
-        "expected_cagr": 0.07768857144711871,
-        "asymmetry": 1.928964059196618,
+        "expected_return": 0.16155031409268683,
+        "expected_cagr": 0.07775243636592477,
+        "asymmetry": 1.930066972153683,
         "quality_mult": 1.0,
-        "asymmetry_mult": 1.3888715056464431,
-        "potential_score": 0.10789944319728104
+        "asymmetry_mult": 1.3892685025414213,
+        "potential_score": 0.10801901083903545
       },
-      "conviction": 0.14284975586800608
+      "conviction": 0.14299615398348064
     },
     {
       "symbol": "GPOR",
@@ -1282,7 +1282,7 @@
       "sector": "Energy Minerals",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185515",
-      "priced_at": "2026-06-28T22:55:25.185515",
+      "priced_at": "2026-06-28T23:22:47.720668",
       "scenario_price": 162.53,
       "drawdown_from_high": 0.28013995925236956,
       "going_concern_flag": false,
@@ -1340,7 +1340,7 @@
       "sector": "Finance/REIT",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185536",
-      "priced_at": "2026-06-28T22:55:25.185536",
+      "priced_at": "2026-06-28T23:22:47.720675",
       "scenario_price": 175.34,
       "drawdown_from_high": 0.25173900055477316,
       "going_concern_flag": false,
@@ -1398,7 +1398,7 @@
       "sector": "Consumer Non-Durables",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185556",
-      "priced_at": "2026-06-28T22:55:25.185556",
+      "priced_at": "2026-06-28T23:22:47.720682",
       "scenario_price": 29.78,
       "drawdown_from_high": 0.5537908300869043,
       "going_concern_flag": false,
@@ -1456,7 +1456,7 @@
       "sector": "Producer Manufacturing",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185578",
-      "priced_at": "2026-06-28T22:55:25.185578",
+      "priced_at": "2026-06-28T23:22:47.720689",
       "scenario_price": 119.84,
       "drawdown_from_high": 0.12919633774160733,
       "going_concern_flag": false,
@@ -1514,7 +1514,7 @@
       "sector": "Electronic Technology",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185611",
-      "priced_at": "2026-06-28T22:55:25.185611",
+      "priced_at": "2026-06-28T23:22:47.720696",
       "scenario_price": 113.66,
       "drawdown_from_high": 0.1281736595842602,
       "going_concern_flag": false,
@@ -1572,7 +1572,7 @@
       "sector": "Finance/Insurance",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185639",
-      "priced_at": "2026-06-28T22:55:25.185639",
+      "priced_at": "2026-06-28T23:22:47.720703",
       "scenario_price": 179.04,
       "drawdown_from_high": 0.01164780568589574,
       "going_concern_flag": false,
@@ -1630,7 +1630,7 @@
       "sector": "Consumer Services",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185660",
-      "priced_at": "2026-06-28T22:55:25.185660",
+      "priced_at": "2026-06-28T23:22:47.720709",
       "scenario_price": 145.58,
       "drawdown_from_high": 0.0135519718118986,
       "going_concern_flag": false,
@@ -1688,7 +1688,7 @@
       "sector": "Finance/Insurance",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185679",
-      "priced_at": "2026-06-28T22:55:25.185679",
+      "priced_at": "2026-06-28T23:22:47.720716",
       "scenario_price": 57.51,
       "drawdown_from_high": 0.20653973509933787,
       "going_concern_flag": false,
@@ -1746,7 +1746,7 @@
       "sector": "Health Technology",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185699",
-      "priced_at": "2026-06-28T22:55:25.185699",
+      "priced_at": "2026-06-28T23:22:47.720723",
       "scenario_price": 76.04,
       "drawdown_from_high": 0.5299499289114175,
       "going_concern_flag": false,
@@ -1804,7 +1804,7 @@
       "sector": "Technology Services",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185717",
-      "priced_at": "2026-06-28T22:55:25.185717",
+      "priced_at": "2026-06-28T23:22:47.720730",
       "scenario_price": 196.13,
       "drawdown_from_high": 0.40402321553374454,
       "going_concern_flag": false,
@@ -1862,7 +1862,7 @@
       "sector": "Transportation",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185733",
-      "priced_at": "2026-06-28T22:55:25.185733",
+      "priced_at": "2026-06-28T23:22:47.720737",
       "scenario_price": 268.32,
       "drawdown_from_high": 0.04068644976760816,
       "going_concern_flag": false,
@@ -1920,7 +1920,7 @@
       "sector": "Consumer Services",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185750",
-      "priced_at": "2026-06-28T22:55:25.185750",
+      "priced_at": "2026-06-28T23:22:47.720744",
       "scenario_price": 70.75,
       "drawdown_from_high": 0.187715269804822,
       "going_concern_flag": false,
@@ -1978,7 +1978,7 @@
       "sector": "Finance",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185765",
-      "priced_at": "2026-06-28T22:55:25.185765",
+      "priced_at": "2026-06-28T23:22:47.720751",
       "scenario_price": 106.27,
       "drawdown_from_high": 0.013827023014105544,
       "going_concern_flag": false,
@@ -2036,7 +2036,7 @@
       "sector": "Industrial Services",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185783",
-      "priced_at": "2026-06-28T22:55:25.185783",
+      "priced_at": "2026-06-28T23:22:47.720757",
       "scenario_price": 233.4,
       "drawdown_from_high": 0.33123209169054435,
       "going_concern_flag": false,
@@ -2094,7 +2094,7 @@
       "sector": "Electronic Technology",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185799",
-      "priced_at": "2026-06-28T22:55:25.185799",
+      "priced_at": "2026-06-28T23:22:47.720764",
       "scenario_price": 87.05,
       "drawdown_from_high": 0.46384577482138467,
       "going_concern_flag": false,
@@ -2152,7 +2152,7 @@
       "sector": "Industrial Services",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185816",
-      "priced_at": "2026-06-28T22:55:25.185816",
+      "priced_at": "2026-06-28T23:22:47.720771",
       "scenario_price": 38.32,
       "drawdown_from_high": 0.3030192797380865,
       "going_concern_flag": false,
@@ -2210,7 +2210,7 @@
       "sector": "Technology Services",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185833",
-      "priced_at": "2026-06-28T22:55:25.185833",
+      "priced_at": "2026-06-28T23:22:47.720778",
       "scenario_price": 20.47,
       "drawdown_from_high": 0.42338028169014086,
       "going_concern_flag": false,
@@ -2261,7 +2261,7 @@
         "Analyst consensus: MS $81, GS $81, JPM $85, Truist $65 vs $49 current"
       ],
       "horizon_years": 2.0,
-      "current_price": 49.48,
+      "current_price": 49.45,
       "high_52w": 175.92,
       "decline_explanation": "Oct 29 2025: Q3 2025 catastrophic earnings miss (EPS $2.04 vs $2.65 est) triggered a single-day -44% crash. Root cause: forced migration of ~200K legacy Payeezy/Carat enterprise merchants to Clover caused mass churn to Square/Toast; Argentina hyperinflation unwind stripped ~10pp from prior-year organic growth comps. EPS guidance slashed from $10.15\u2013$10.30 to $8.50\u2013$8.60 then $8.00\u2013$8.30 in 2026. CEO Bisignano departed Jan 2025; replacement Lyons resigned June 12 2026 after 5 months; third CEO Georgakopoulos appointed June 15 2026. Securities class action lawsuits filed. Organic revenue guidance cut from 10% to 1\u20133%. Q1 2026 organic revenue -4% YoY. The decline reflects a real, structural operational failure \u2014 not merely sentiment \u2014 and the magnitude of the drawdown substantially exceeds even a pessimistic 2026 EPS normalization, leaving a gap the market has not yet resolved.",
       "going_concern_explanation": "",
@@ -2269,20 +2269,20 @@
       "sector": "Financial Technology",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057066",
-      "priced_at": "2026-06-28T23:18:18.057066",
+      "priced_at": "2026-06-28T23:22:47.720785",
       "scenario_price": 49.48,
-      "drawdown_from_high": 0.7187357889949977,
+      "drawdown_from_high": 0.718906321055025,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 60.14999999999999,
-        "expected_return": 0.21564268391269192,
-        "expected_cagr": 0.10256187305415732,
-        "asymmetry": 1.4490023942537913,
+        "expected_return": 0.21638018200202191,
+        "expected_cagr": 0.10289626982868239,
+        "asymmetry": 1.4517482517482516,
         "quality_mult": 0.875,
-        "asymmetry_mult": 1.203745153366688,
-        "potential_score": 0.10802606290800747
+        "asymmetry_mult": 1.2048851612283435,
+        "potential_score": 0.10848091507953622
       },
-      "conviction": 0.14300478772603564
+      "conviction": 0.14356147274730147
     },
     {
       "symbol": "QSR",
@@ -2327,7 +2327,7 @@
       "sector": "Consumer Discretionary",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057137",
-      "priced_at": "2026-06-28T23:18:18.057137",
+      "priced_at": "2026-06-28T23:22:47.720792",
       "scenario_price": 74.34,
       "drawdown_from_high": 0.09297218155197651,
       "going_concern_flag": false,
@@ -2377,7 +2377,7 @@
         "Goldman Sachs PT $275-290; TD Cowen $315 (June 2026)"
       ],
       "horizon_years": 2.0,
-      "current_price": 231.9,
+      "current_price": 230.48,
       "high_52w": 278.56,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -2385,20 +2385,20 @@
       "sector": "Technology / Consumer",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057201",
-      "priced_at": "2026-06-28T23:18:18.057201",
+      "priced_at": "2026-06-28T23:22:47.720799",
       "scenario_price": 231.9,
-      "drawdown_from_high": 0.1675043078690408,
+      "drawdown_from_high": 0.17260195290063185,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 261.5,
-        "expected_return": 0.1276412246658043,
-        "expected_cagr": 0.061904527095446804,
-        "asymmetry": 1.8787075928917607,
+        "expected_return": 0.13458868448455408,
+        "expected_cagr": 0.06517073020457809,
+        "asymmetry": 1.9538095238095246,
         "quality_mult": 1.3375,
-        "asymmetry_mult": 1.370659546675162,
-        "potential_score": 0.11348691652373798
+        "asymmetry_mult": 1.3977873671662384,
+        "potential_score": 0.12183932628273192
       },
-      "conviction": 0.14966438518019776
+      "conviction": 0.15975030923461364
     },
     {
       "symbol": "CMCSA",
@@ -2435,7 +2435,7 @@
         "Goldman Buy $50; UBS Neutral $32\u201336; consensus Hold $32.40 (Bloomberg, June 2026)"
       ],
       "horizon_years": 2.0,
-      "current_price": 23.08,
+      "current_price": 23.145,
       "high_52w": 34.66,
       "decline_explanation": "Comcast fell 33% from its 52w high driven by two concurrent forces: (1) The Versant cable-network spinoff (Jan 2, 2026) removed the entertainment segment investors had historically valued, and Versant's first-day -13% decline signaled negative sentiment about the cable industry broadly \u2014 creating contagion pressure on Comcast parent shares. (2) Structural broadband subscriber decline: 711K net losses in 2025 across four consecutive no-growth quarters as fiber competitors (AT&T, T-Mobile, Frontier post-VZ acquisition) gain share in Comcast's footprint. The secular cord-cutting narrative that has weighed on cable for years has metastasized into broadband \u2014 historically immune \u2014 and investors are de-rating the entire franchise on a permanent-impairment thesis. The magnitude of the decline reflects this fear rather than current financials (FCF remains positive, dividend is maintained), suggesting partial over-correction.",
       "going_concern_explanation": "",
@@ -2443,20 +2443,20 @@
       "sector": "Communication Services",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057223",
-      "priced_at": "2026-06-28T23:18:18.057223",
+      "priced_at": "2026-06-28T23:22:47.720806",
       "scenario_price": 23.08,
-      "drawdown_from_high": 0.3341027120600115,
+      "drawdown_from_high": 0.3322273514137334,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 27.55,
-        "expected_return": 0.19367417677642984,
-        "expected_cagr": 0.09255396973166952,
-        "asymmetry": 2.374269005847954,
+        "expected_return": 0.19032188377619352,
+        "expected_cagr": 0.0910187366751285,
+        "asymmetry": 2.3381852153210985,
         "quality_mult": 1.03,
-        "asymmetry_mult": 1.540866316669929,
-        "potential_score": 0.14689169326662624
+        "asymmetry_mult": 1.5291125580941052,
+        "potential_score": 0.14335323006995346
       },
-      "conviction": 0.1892903275671053
+      "conviction": 0.185181857495341
     },
     {
       "symbol": "GEHC",
@@ -2494,7 +2494,7 @@
         "Analyst consensus: 15 Buy, 7 Hold, 0 Sell; avg PT $97.33 (TipRanks June 2026)"
       ],
       "horizon_years": 2.0,
-      "current_price": 65.76,
+      "current_price": 65.67,
       "high_52w": 89.77,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -2502,20 +2502,20 @@
       "sector": "Healthcare",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057243",
-      "priced_at": "2026-06-28T23:18:18.057243",
+      "priced_at": "2026-06-28T23:22:47.720812",
       "scenario_price": 65.76,
-      "drawdown_from_high": 0.26746128996323926,
+      "drawdown_from_high": 0.2684638520663918,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 77.1,
-        "expected_return": 0.17244525547445244,
-        "expected_cagr": 0.08279511241714266,
-        "asymmetry": 1.9407287449392705,
+        "expected_return": 0.17405207857469152,
+        "expected_cagr": 0.08353683766390319,
+        "asymmetry": 1.9547330960854092,
         "quality_mult": 1.12,
-        "asymmetry_mult": 1.3931004073430135,
-        "potential_score": 0.1291829334144519
+        "asymmetry_mult": 1.3981176975081209,
+        "potential_score": 0.13080965086757793
       },
-      "conviction": 0.16851918031005253
+      "conviction": 0.1704492002454353
     },
     {
       "symbol": "BSX",
@@ -2561,7 +2561,7 @@
       "sector": "Healthcare / Medical Devices",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057259",
-      "priced_at": "2026-06-28T23:18:18.057259",
+      "priced_at": "2026-06-28T23:22:47.720819",
       "scenario_price": 44.14,
       "drawdown_from_high": 0.5968949771689498,
       "going_concern_flag": false,
@@ -2611,7 +2611,7 @@
         "Frontier expands addressable fiber market to 25M+ homes in 25 states"
       ],
       "horizon_years": 2.0,
-      "current_price": 46.45,
+      "current_price": 46.51,
       "high_52w": 51.68,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -2619,20 +2619,20 @@
       "sector": "Communication Services",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057275",
-      "priced_at": "2026-06-28T23:18:18.057275",
+      "priced_at": "2026-06-28T23:22:47.720826",
       "scenario_price": 46.45,
-      "drawdown_from_high": 0.10119969040247667,
+      "drawdown_from_high": 0.10003869969040247,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 48.44,
-        "expected_return": 0.042841765339074245,
-        "expected_cagr": 0.021196242325183245,
-        "asymmetry": 1.0670617592014966,
+        "expected_return": 0.041496452375833215,
+        "expected_cagr": 0.02053733512098077,
+        "asymmetry": 1.057403500062058,
         "quality_mult": 1.0275,
-        "asymmetry_mult": 1.0329868146309984,
-        "potential_score": 0.022497563409782827
+        "asymmetry_mult": 1.0283012691142894,
+        "potential_score": 0.02169932838278107
       },
-      "conviction": 0.031628395377890084
+      "conviction": 0.030523496757116075
     },
     {
       "symbol": "UBER",
@@ -2668,7 +2668,7 @@
         "SEC EDGAR 0001543151-26-000001 (UBER 10-Q Q1 2026)"
       ],
       "horizon_years": 2.0,
-      "current_price": 76.0,
+      "current_price": 76.05,
       "high_52w": 101.99,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -2676,20 +2676,20 @@
       "sector": "Technology",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057292",
-      "priced_at": "2026-06-28T23:18:18.057292",
+      "priced_at": "2026-06-28T23:22:47.720832",
       "scenario_price": 76.0,
-      "drawdown_from_high": 0.25482890479458764,
+      "drawdown_from_high": 0.25433866065300514,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 90.75,
-        "expected_return": 0.19407894736842102,
-        "expected_cagr": 0.09273919457866109,
-        "asymmetry": 1.8857142857142857,
+        "expected_return": 0.193293885601578,
+        "expected_cagr": 0.09237991816106628,
+        "asymmetry": 1.8802139037433159,
         "quality_mult": 1.175,
-        "asymmetry_mult": 1.3732131246511903,
-        "potential_score": 0.14963704801887256
+        "asymmetry_mult": 1.371208920530827,
+        "potential_score": 0.14883979723592516
       },
-      "conviction": 0.19246365164488421
+      "conviction": 0.19154340057089003
     },
     {
       "symbol": "AON",
@@ -2725,7 +2725,7 @@
         "SEC EDGAR 0000315293-26-000001 (AON 10-Q Q1 2026)"
       ],
       "horizon_years": 2.0,
-      "current_price": 325.05,
+      "current_price": 328.17,
       "high_52w": 381.0,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -2733,20 +2733,20 @@
       "sector": "Financials / Insurance",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057320",
-      "priced_at": "2026-06-28T23:18:18.057320",
+      "priced_at": "2026-06-28T23:22:47.720839",
       "scenario_price": 325.05,
-      "drawdown_from_high": 0.14685039370078734,
+      "drawdown_from_high": 0.13866141732283466,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 365.70000000000005,
-        "expected_return": 0.12505768343331813,
-        "expected_cagr": 0.06068736366250649,
-        "asymmetry": 2.1439467110741046,
+        "expected_return": 0.11436145899990868,
+        "expected_cagr": 0.05563320286921103,
+        "asymmetry": 1.9827386417603288,
         "quality_mult": 1.205,
-        "asymmetry_mult": 1.464222220523273,
-        "potential_score": 0.10707604258744048
+        "asymmetry_mult": 1.4080975256566317,
+        "potential_score": 0.09439605524190982
       },
-      "conviction": 0.14184090830348306
+      "conviction": 0.1261543384086452
     },
     {
       "symbol": "BMY",
@@ -2783,7 +2783,7 @@
         "BMY dividend yield 4.9%; guidance: 'modest top-line growth' through cliff"
       ],
       "horizon_years": 2.0,
-      "current_price": 57.49,
+      "current_price": 57.5,
       "high_52w": 62.89,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -2791,20 +2791,20 @@
       "sector": "Healthcare / Pharma",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057338",
-      "priced_at": "2026-06-28T23:18:18.057338",
+      "priced_at": "2026-06-28T23:22:47.720846",
       "scenario_price": 57.49,
-      "drawdown_from_high": 0.08586420734615996,
+      "drawdown_from_high": 0.08570519955477818,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 63.519999999999996,
-        "expected_return": 0.10488780657505647,
-        "expected_cagr": 0.051136435756584664,
-        "asymmetry": 1.4680388793596337,
+        "expected_return": 0.10469565217391308,
+        "expected_cagr": 0.05104502861386151,
+        "asymmetry": 1.4666666666666668,
         "quality_mult": 1.0875,
-        "asymmetry_mult": 1.2116265428586623,
-        "potential_score": 0.06737961087097792
+        "asymmetry_mult": 1.2110601416389968,
+        "potential_score": 0.06722772704658836
       },
-      "conviction": 0.09176905404746505
+      "conviction": 0.09157196753877173
     },
     {
       "symbol": "STZ",
@@ -2841,7 +2841,7 @@
         "Immigration enforcement demographic risk flagged by Goldman, Deutsche Bank analysts Q1 2026"
       ],
       "horizon_years": 2.0,
-      "current_price": 146.18,
+      "current_price": 146.265,
       "high_52w": 178.14,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -2849,20 +2849,20 @@
       "sector": "Consumer Staples",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057356",
-      "priced_at": "2026-06-28T23:18:18.057356",
+      "priced_at": "2026-06-28T23:22:47.720852",
       "scenario_price": 146.18,
-      "drawdown_from_high": 0.17940945323902535,
+      "drawdown_from_high": 0.1789323004378579,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 159.60000000000002,
-        "expected_return": 0.09180462443562742,
-        "expected_cagr": 0.04489455182598556,
-        "asymmetry": 1.2914845394204304,
+        "expected_return": 0.09117013639626736,
+        "expected_cagr": 0.04459089427213914,
+        "asymmetry": 1.2871077184054291,
         "quality_mult": 1.1375,
-        "asymmetry_mult": 1.136435013285155,
-        "potential_score": 0.05803495493340429
+        "asymmetry_mult": 1.134507698698175,
+        "potential_score": 0.05754466085957021
       },
-      "conviction": 0.07956332837546165
+      "conviction": 0.07891841019437273
     },
     {
       "symbol": "THC",
@@ -2899,7 +2899,7 @@
         "THC Medicaid exposure ~20-25% of hospital revenue \u2014 key sensitivity"
       ],
       "horizon_years": 2.0,
-      "current_price": 189.0,
+      "current_price": 187.91,
       "high_52w": 247.21,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -2907,20 +2907,20 @@
       "sector": "Healthcare",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057370",
-      "priced_at": "2026-06-28T23:18:18.057370",
+      "priced_at": "2026-06-28T23:22:47.720859",
       "scenario_price": 189.0,
-      "drawdown_from_high": 0.23546782088103235,
+      "drawdown_from_high": 0.23987702762833218,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 197.75,
-        "expected_return": 0.04629629629629628,
-        "expected_cagr": 0.02288625775122055,
-        "asymmetry": 0.857487922705314,
+        "expected_return": 0.05236549411952529,
+        "expected_cagr": 0.025848670184606348,
+        "asymmetry": 0.8846267118244737,
         "quality_mult": 1.0225,
-        "asymmetry_mult": 0.9260064377234718,
-        "potential_score": 0.02166966050832209
+        "asymmetry_mult": 0.940545964759019,
+        "potential_score": 0.02485887934133993
       },
-      "conviction": 0.030482406876102486
+      "conviction": 0.03488950805548574
     },
     {
       "symbol": "GOOGL",
@@ -2957,7 +2957,7 @@
         "YouTube 2025 advertising + subscription revenue: $35B+ annualized"
       ],
       "horizon_years": 2.0,
-      "current_price": 338.12,
+      "current_price": 336.1,
       "high_52w": 408.61,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -2965,20 +2965,20 @@
       "sector": "Technology",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057383",
-      "priced_at": "2026-06-28T23:18:18.057383",
+      "priced_at": "2026-06-28T23:22:47.720866",
       "scenario_price": 338.12,
-      "drawdown_from_high": 0.1725116859597171,
+      "drawdown_from_high": 0.17745527520129212,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 384.0,
-        "expected_return": 0.13569147048385188,
-        "expected_cagr": 0.06568826139910722,
-        "asymmetry": 1.7351814105177332,
+        "expected_return": 0.14251710800357031,
+        "expected_cagr": 0.06888591907816344,
+        "asymmetry": 1.7968782518210191,
         "quality_mult": 1.3225,
-        "asymmetry_mult": 1.3172628479228181,
-        "potential_score": 0.1144342140628204
+        "asymmetry_mult": 1.3404768747803966,
+        "potential_score": 0.12211962556320449
       },
-      "conviction": 0.15081435094104678
+      "conviction": 0.16008670099948175
     },
     {
       "symbol": "JNJ",
@@ -3015,7 +3015,7 @@
         "Darzalex 2025 revenue ~$11B; Stelara LOE 2025-2026"
       ],
       "horizon_years": 2.0,
-      "current_price": 254.61,
+      "current_price": 254.3,
       "high_52w": 255.11,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -3023,20 +3023,20 @@
       "sector": "Healthcare",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057396",
-      "priced_at": "2026-06-28T23:18:18.057396",
+      "priced_at": "2026-06-28T23:22:47.720872",
       "scenario_price": 254.61,
-      "drawdown_from_high": 0.0019599388499078607,
+      "drawdown_from_high": 0.0031751009368508054,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 268.75,
-        "expected_return": 0.055535917678017244,
-        "expected_cagr": 0.027392776730504886,
-        "asymmetry": 1.3983842464024228,
+        "expected_return": 0.056822650412898135,
+        "expected_cagr": 0.028018798667075906,
+        "asymmetry": 1.4173027989821876,
         "quality_mult": 1.2875,
-        "asymmetry_mult": 1.1825329789914625,
-        "potential_score": 0.041705809657588896
+        "asymmetry_mult": 1.190505270455443,
+        "potential_score": 0.04294652913691666
       },
-      "conviction": 0.057839586046297575
+      "conviction": 0.0595080452285518
     },
     {
       "symbol": "FND",
@@ -3073,7 +3073,7 @@
         "US existing home sales 2025: sub-4M annualized, worst since 1995 on lock-in effect"
       ],
       "horizon_years": 2.0,
-      "current_price": 59.61,
+      "current_price": 59.6,
       "high_52w": 92.41,
       "decline_explanation": "Floor & Decor fell 35.5% from its 52w high due to the intersection of the worst existing-home-sales environment in 30 years, tariff cost headwinds, and sustained negative comparable-store sales. The US housing market has been effectively frozen: mortgage rates at 6.5\u20137% create a 'lock-in effect' where homeowners with 3% pandemic-era mortgages refuse to sell \u2014 existing home sales collapsed to sub-4M annual rate (worst since 1995), reducing the primary trigger for flooring purchases (people remodel when they move). Q1 2026: comps -3.7% for the fifth+ consecutive negative quarter; net sales -0.7% YoY. Simultaneously, China tariffs (145%) hit hard-surface flooring imports (50\u201370% of FND's assortment is China-sourced), creating cost headwinds management acknowledged will compress the 44% gross margin sequentially through 2026. Guidance was reduced. The decline is explained by identifiable macro factors \u2014 not company-specific operational failure \u2014 which preserves the franchise quality thesis for a housing cycle recovery.",
       "going_concern_explanation": "",
@@ -3081,21 +3081,21 @@
       "sector": "Consumer Discretionary / Retail",
       "author": "oracle",
       "created_at": "2026-06-28T23:18:18.057409",
-      "priced_at": "2026-06-28T23:18:18.057409",
+      "priced_at": "2026-06-28T23:22:47.720879",
       "scenario_price": 59.61,
-      "drawdown_from_high": 0.3549399415647657,
+      "drawdown_from_high": 0.35504815496158415,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 66.5,
-        "expected_return": 0.11558463345076331,
-        "expected_cagr": 0.05621239978082215,
-        "asymmetry": 1.1843282430973314,
+        "expected_return": 0.11577181208053688,
+        "expected_cagr": 0.05630100448713815,
+        "asymmetry": 1.1851851851851851,
         "quality_mult": 1.0575,
-        "asymmetry_mult": 1.0882684609494715,
-        "potential_score": 0.06469169724900746
+        "asymmetry_mult": 1.0886621079036347,
+        "potential_score": 0.06481710450982826
       },
-      "conviction": 0.08827485493483522
+      "conviction": 0.0884381788087758
     }
   ],
-  "saved_at": "2026-06-28T23:18:18.057500"
+  "saved_at": "2026-06-28T23:22:47.720976"
 }
