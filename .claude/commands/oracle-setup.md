@@ -5,6 +5,8 @@ the sleeve file already exists, this command is a no-op.
 
 ## Steps
 
+0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+
 1. Check for `cache/oracle_sleeve.json`. If present and `cash + sum(positions) > 0`, exit.
 2. Construct `OracleSleeve(initial_cash=1000.0)` (`oracle.sleeve.CAPITAL_BASE`).
 3. Save to `cache/oracle_sleeve.json`.

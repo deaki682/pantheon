@@ -17,21 +17,23 @@ def test_six_classes():
 def test_default_uncalibrated():
     pbs = build_playbooks()
     # earnings_reaction is calibrated from backtest; others remain uncalibrated
+    # Non-earnings classes are disabled pending Ghost Achilles calibration
     for name, pb in pbs.items():
         if name == "earnings_reaction":
             assert pb.uncalibrated is False
+            assert pb.disabled is False
         else:
             assert pb.uncalibrated is True
-        assert pb.disabled is False
+            assert pb.disabled is True
 
 
 def test_earnings_params():
     pbs = build_playbooks()
     pb = pbs["earnings_reaction"]
-    assert pb.hold_days == 10
-    assert pb.hard_stop_pct == -0.08
-    assert pb.profit_target_pct == 0.12
-    assert pb.time_stop_days == 15
+    assert pb.hold_days == 30
+    assert pb.hard_stop_pct == -0.20
+    assert pb.profit_target_pct == 0.20
+    assert pb.time_stop_days == 45
     assert "Bernard" in pb.citation
 
 
@@ -127,8 +129,8 @@ def test_recalibrate_flips_flag():
 def test_earnings_calibrated_from_backtest():
     pbs = build_playbooks()
     pb = pbs["earnings_reaction"]
-    assert pb.base_rate == 0.70
-    assert pb.expected_hit_rate == 0.70
+    assert pb.base_rate == 0.55
+    assert pb.expected_hit_rate == 0.55
     assert pb.uncalibrated is False
 
 

@@ -16,6 +16,8 @@ persisted under god name `ghost_delphi`. Engine is `shared.ghost`; Delphi bits i
 
 ## Steps
 
+0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+
 1. **Restore the ledger.** `shared.ghost.load_ledger("cache/ghost_delphi_ledger.json")`.
 
 2. **Open paper positions for every candidate.** Run Delphi's screen

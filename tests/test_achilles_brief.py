@@ -9,9 +9,9 @@ def test_build_play_basic():
     pbs = build_playbooks()
     pb = pbs["earnings_reaction"]
     p = build_play(playbook=pb, entry_price=100.0, entry_date="2024-05-29", entry_dollars=200.0)
-    assert p.hard_stop_price == pytest.approx(92.0)  # -8%
-    assert p.profit_target_price == pytest.approx(112.0)  # +12%
-    assert p.time_stop_date == "2024-06-13"  # +15 days
+    assert p.hard_stop_price == pytest.approx(80.0)  # -20%
+    assert p.profit_target_price == pytest.approx(120.0)  # +20%
+    assert p.time_stop_date == "2024-07-13"  # +45 days
 
 
 def test_build_play_rejects_zero_price():
@@ -36,7 +36,7 @@ def test_make_brief_basic():
     )
     assert b.symbol == "ACME"  # uppercased
     assert b.event_class == "earnings_reaction"
-    assert b.play.profit_target_price == pytest.approx(11.2)
+    assert b.play.profit_target_price == pytest.approx(12.0)
 
 
 def test_brief_roundtrip():

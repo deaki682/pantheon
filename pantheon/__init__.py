@@ -18,6 +18,7 @@ from .persist import (
     GUARD_FILES,
     OWNERSHIP_PREFIXES,
 )
+from .hydrate import hydrate
 
 __all__ = [
     "IntegrityError",
@@ -26,4 +27,5 @@ __all__ = [
     "owns",
     "GUARD_FILES",
     "OWNERSHIP_PREFIXES",
+    "hydrate",
 ]

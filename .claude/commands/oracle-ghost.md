@@ -17,6 +17,8 @@ under god name `ghost_oracle`.
 
 ## Steps
 
+0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+
 1. **Restore the ghost ledger.** `oracle.ghost.load_ledger("cache/ghost_oracle_ledger.json")`.
 
 2. **Open new paper positions (breadth, not selection).**

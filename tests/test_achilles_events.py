@@ -103,10 +103,10 @@ def test_build_event_for_filing_earnings_with_surprise():
     assert out[0].metadata["surprise_pct"] == 15.0
 
 
-def test_build_event_for_filing_earnings_extreme_surprise_penalized():
+def test_build_event_for_filing_earnings_extreme_surprise_not_penalized():
     out = build_event_for_filing(_filing(items="2.02"), surprise_pct=150.0)
     assert len(out) == 1
-    assert out[0].strength < 0.15  # extreme surprise penalized
+    assert out[0].strength >= 0.85  # small-cap extreme beats are valid
 
 
 def test_build_event_for_filing_13d():

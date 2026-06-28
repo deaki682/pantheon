@@ -34,6 +34,8 @@ class Playbook:
     live_hits: int = 0
     expected_hit_rate: float = 0.0  # backtested baseline
     disabled: bool = False
+    trail_armed_at: float = 0.0   # arm trailing stop when gain >= this (0 = off)
+    trail_pct: float = 0.0        # trail distance from high-water (0 = off)
 
 
 # Per-class disqualifier vocab. These tokens, if present in the filing or
@@ -74,11 +76,12 @@ def build_playbooks() -> dict[str, Playbook]:
     pbs = {
         "earnings_reaction": Playbook(
             event_class="earnings_reaction",
-            base_rate=0.70, hold_days=10, hard_stop_pct=-0.08,
-            profit_target_pct=0.12, time_stop_days=15,
+            base_rate=0.55, hold_days=30, hard_stop_pct=-0.20,
+            profit_target_pct=0.20, time_stop_days=45,
             citation="Bernard & Thomas (1989)",
             uncalibrated=False,
-            expected_hit_rate=0.70,
+            expected_hit_rate=0.55,
+            trail_armed_at=0.0, trail_pct=0.0,
         ),
         "insider_cluster": Playbook(
             event_class="insider_cluster",
@@ -86,6 +89,7 @@ def build_playbooks() -> dict[str, Playbook]:
             profit_target_pct=0.15, time_stop_days=30,
             citation="Cohen, Malloy & Pomorski (2012)",
             expected_hit_rate=0.58,
+            disabled=True,
         ),
         "activist_13d": Playbook(
             event_class="activist_13d",
@@ -93,6 +97,7 @@ def build_playbooks() -> dict[str, Playbook]:
             profit_target_pct=0.10, time_stop_days=10,
             citation="Brav, Jiang, Partnoy & Thomas (2008)",
             expected_hit_rate=0.60,
+            disabled=True,
         ),
         "ma_target": Playbook(
             event_class="ma_target",
@@ -100,6 +105,7 @@ def build_playbooks() -> dict[str, Playbook]:
             profit_target_pct=0.06, time_stop_days=15,
             citation="Andrade & Stafford (2004)",
             expected_hit_rate=0.65,
+            disabled=True,
         ),
         "spinoff_window": Playbook(
             event_class="spinoff_window",
@@ -107,6 +113,7 @@ def build_playbooks() -> dict[str, Playbook]:
             profit_target_pct=0.12, time_stop_days=25,
             citation="McConnell, Ozbilgin & Wahal (2001)",
             expected_hit_rate=0.55,
+            disabled=True,
         ),
         "guidance_revision": Playbook(
             event_class="guidance_revision",
@@ -114,6 +121,7 @@ def build_playbooks() -> dict[str, Playbook]:
             profit_target_pct=0.10, time_stop_days=10,
             citation="Tang (2014)",
             expected_hit_rate=0.55,
+            disabled=True,
         ),
     }
     for cls, pb in pbs.items():

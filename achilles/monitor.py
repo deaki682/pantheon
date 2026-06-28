@@ -32,10 +32,26 @@ from shared.insiders import parse_form4
 
 from . import cursor as cursor_mod
 from .classify import classify_filing
+from .earnings import fetch_earnings_surprise, is_actionable_beat
 from .events import aggregate_insider_clusters, build_event_for_filing
 from .execution import plan_exits, plan_open
 from .brief import build_play, make_brief
 from .journal import TradeEntry, append as journal_append
+from .oracle_bridge import (
+    company_quality as oracle_company_quality,
+    has_insider_preactivity,
+    load_dossier_convictions,
+    load_insider_activity,
+    load_prescreener_quality,
+    load_screen_scores,
+)
+from .convergence import (
+    neglect_premium,
+    conviction_multiplier,
+    extract_convergence_signals,
+    build_prescreener_lookup,
+)
+from .llm_refine import analyze_filing as llm_analyze, LLMSignals
 from .playbooks import build_playbooks
 from .scoring import score_event
 from .sleeve import AchillesSleeve
@@ -226,6 +242,15 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
     events = []
     form4_txns = []
 
+    # Load Oracle research data for quality scoring and insider cross-reference
+    dossier_convictions = load_dossier_convictions()
+    prescreener_quality = load_prescreener_quality()
+    oracle_insider_activity = load_insider_activity()
+    screen_scores = load_screen_scores()
+    log.info("Oracle data: %d dossiers, %d prescreener, %d insider clusters, %d screen",
+             len(dossier_convictions), len(prescreener_quality),
+             len(oracle_insider_activity), len(screen_scores))
+
     for filing in new_filings:
         try:
             if filing.form.strip() in ("4", "4/A"):
@@ -239,7 +264,7 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
 
             labels = classify_filing(filing)
             needs_body = any(
-                l in ("guidance_revision", "spinoff_window_candidate")
+                l in ("guidance_revision", "spinoff_window_candidate", "earnings_reaction")
                 for l in labels
             )
             body_text = ""
@@ -249,17 +274,76 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
                 except Exception:
                     pass
 
+            # For earnings 8-Ks: fetch actual surprise data from broker
+            earnings_surprise = None
             surprise_pct = None
+            insider_boost = 1.0
+
             if "earnings_reaction" in labels:
-                earn = broker.get_earnings(filing.symbol)
-                if earn:
-                    surprise_pct = earn["surprise_pct"]
-                    log.info("  %-6s earnings surprise: %+.1f%%", filing.symbol, surprise_pct)
+                sym = (filing.symbol or "").upper()
+                if sym:
+                    earnings_surprise = fetch_earnings_surprise(sym)
+                    if earnings_surprise:
+                        if not is_actionable_beat(earnings_surprise):
+                            log.info("  %-6s earnings: %s (surprise=%.1f%%) — skipping",
+                                     sym,
+                                     "miss" if not earnings_surprise.is_beat else "out of range",
+                                     earnings_surprise.surprise_pct)
+                            # Still process non-earnings labels from same filing
+                            labels = [l for l in labels if l != "earnings_reaction"]
+                            if not labels:
+                                continue
+                        else:
+                            surprise_pct = earnings_surprise.surprise_pct
+                            log.info("  %-6s earnings BEAT: %.1f%% surprise (actual=%.2f est=%.2f)",
+                                     sym, surprise_pct,
+                                     earnings_surprise.actual_eps,
+                                     earnings_surprise.estimate_eps)
+
+                    # Pre-earnings insider cross-reference
+                    has_insider, boost = has_insider_preactivity(
+                        sym,
+                        insider_activity=oracle_insider_activity,
+                        filing_date=filing.filing_date,
+                    )
+                    if has_insider:
+                        insider_boost = boost
+                        log.info("  %-6s insider pre-activity detected: boost=%.2f", sym, boost)
+
+            # LLM analysis of earnings 8-K body
+            llm_signals = None
+            if "earnings_reaction" in labels and body_text and surprise_pct is not None:
+                sym = (filing.symbol or "").upper()
+                llm_signals = llm_analyze(body_text, sym, surprise_pct)
+                if llm_signals.beat_quality != "unknown":
+                    log.info("  %-6s LLM: quality=%s tone=%s rev=%s adj=%.2f %s",
+                             sym, llm_signals.beat_quality,
+                             llm_signals.management_tone,
+                             llm_signals.revenue_signal,
+                             llm_signals.strength_adjustment,
+                             llm_signals.summary[:60])
+                    if llm_signals.disqualifiers:
+                        log.warning("  %-6s LLM red flags → disqualify: %s",
+                                    sym, llm_signals.disqualifiers)
 
             filing_events = build_event_for_filing(
                 filing, body_text=body_text, today=today,
                 surprise_pct=surprise_pct,
+                earnings_surprise=earnings_surprise,
+                insider_boost=insider_boost,
             )
+
+            # Apply LLM strength adjustment and disqualifiers
+            if llm_signals and llm_signals.beat_quality != "unknown":
+                for ev in filing_events:
+                    if ev.event_class == "earnings_reaction":
+                        ev.strength *= llm_signals.strength_adjustment
+                        ev.strength = min(1.5, ev.strength)
+                        ev.metadata["llm"] = llm_signals.to_dict()
+                        if llm_signals.disqualifiers:
+                            ev.metadata.setdefault("disqualifiers", []).extend(
+                                llm_signals.disqualifiers)
+
             events.extend(filing_events)
         except Exception as exc:
             log.warning("Classify failed for %s: %s", filing.accession_no, exc)
@@ -305,12 +389,19 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
             continue
 
         mcap = market_caps.get(ev.symbol, 500_000_000)
+        oq = oracle_company_quality(
+            ev.symbol,
+            dossier_convictions=dossier_convictions,
+            prescreener_quality=prescreener_quality,
+            screen_scores=screen_scores,
+        )
         score_out = score_event(
             playbook=pb,
             event_strength=ev.strength,
-            company_quality=0.7,
+            company_quality=1.0,
             market_cap=mcap,
             first_seen_iso=now_iso,
+            disqualifier_flags=ev.metadata.get("disqualifiers", []),
         )
         result.scores.append({
             "symbol": ev.symbol,
@@ -327,9 +418,15 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
             log.info("  %-6s score=%.3f — awaiting quote", ev.symbol, score_out["score"])
             continue
 
+        conv_signals = extract_convergence_signals(
+            ev.symbol,
+            event_metadata=ev.metadata,
+            oracle_quality=oq,
+        )
+        conviction = conviction_multiplier(**conv_signals)
         play = build_play(
             pb, entry_price, today,
-            sleeve.position_dollars(score_out["score"]),
+            sleeve.position_dollars(score_out["score"], conviction=conviction),
         )
         brief = make_brief(
             event_id=ev.event_id,
@@ -406,6 +503,8 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
                         dollars=ep["shares"] * ep["exit_price"],
                         reason=ep["reason"], pnl=realized,
                     ))
+                    if ep["reason"] == "hard_stop":
+                        sleeve.add_cooldown(ep["symbol"], today)
                     log.info("CLOSED %-6s pnl=$%.2f reason=%s (order %s)",
                              ep["symbol"], realized, ep["reason"], order_result["id"])
 

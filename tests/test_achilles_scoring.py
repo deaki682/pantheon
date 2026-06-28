@@ -23,13 +23,14 @@ def test_surprise_strength_sweet_spot():
     assert 0.95 <= s15 <= 1.0
 
 
-def test_surprise_strength_extreme_penalized():
+def test_surprise_strength_extreme_not_penalized_for_smallcaps():
     s150 = surprise_strength(150.0)
-    assert s150 < 0.15
+    assert s150 >= 0.85
 
 
-def test_surprise_strength_moderate_beats_extreme():
-    assert surprise_strength(15.0) > surprise_strength(100.0)
+def test_surprise_strength_moderate_and_extreme_both_strong():
+    assert surprise_strength(15.0) >= 0.95
+    assert surprise_strength(100.0) >= 0.95
 
 
 def test_surprise_strength_uses_absolute_value():
@@ -141,7 +142,7 @@ def test_score_event_multiplicative():
         first_seen_iso=now.isoformat(),
         now=now,
     )
-    # base_rate=0.70, event=0.8, quality=0.7, liquidity=0.8, decay=1.0
+    # base_rate=0.55, event=0.8, quality=0.7, liquidity=0.8, decay=1.0
     expected = pb.base_rate * 0.8 * 0.7 * 0.8 * 1.0
     assert out["score"] == pytest.approx(expected, abs=1e-6)
 
@@ -157,5 +158,5 @@ def test_score_event_components_in_output():
         now=now,
     )
     assert "components" in out
-    for k in ("base_rate", "event_strength", "company_quality", "liquidity", "time_decay"):
+    for k in ("base_rate", "event_strength", "neglect", "liquidity", "time_decay"):
         assert k in out["components"]

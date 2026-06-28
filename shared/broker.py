@@ -264,6 +264,84 @@ def get_holdings() -> dict[str, dict]:
         return {}
 
 
+def get_earnings(symbol: str) -> list[dict]:
+    """Fetch recent earnings results (actual vs estimate EPS).
+
+    Returns list of dicts with keys: actual_eps, estimate_eps, report_date,
+    quarter. Most recent first. Up to 8 trailing quarters from Robinhood.
+    """
+    if not symbol or not login():
+        return []
+    _patch_imports()
+    from robin_stocks.robinhood import stocks
+
+    try:
+        results = stocks.get_earnings(symbol) or []
+        out = []
+        for r in results:
+            if not isinstance(r, dict):
+                continue
+            row = {}
+            for ep_key in ("eps", "report"):
+                ep = r.get(ep_key, {})
+                if isinstance(ep, dict):
+                    if "actual" in ep:
+                        row["actual_eps"] = ep["actual"]
+                    if "estimate" in ep:
+                        row["estimate_eps"] = ep["estimate"]
+                    if "date" in ep:
+                        row.setdefault("report_date", ep["date"])
+            if "actual" in r:
+                row.setdefault("actual_eps", r["actual"])
+            if "estimate" in r:
+                row.setdefault("estimate_eps", r["estimate"])
+            if "report_date" in r:
+                row.setdefault("report_date", r["report_date"])
+            if "quarter" in r:
+                row["quarter"] = r["quarter"]
+            if "year" in r:
+                row.setdefault("quarter", f"Q? {r['year']}")
+            if row.get("actual_eps") is not None:
+                out.append(row)
+        return out
+    except Exception as exc:
+        log.warning("Earnings fetch for %s failed: %s", symbol, exc)
+        return []
+
+
+def get_earnings_calendar(symbols: list[str]) -> dict[str, dict]:
+    """Fetch upcoming earnings dates for a list of symbols.
+
+    Returns {SYMBOL: {report_date, ...}} for symbols with upcoming earnings.
+    Uses Robinhood's earnings endpoint filtered per symbol.
+    """
+    if not symbols or not login():
+        return {}
+    _patch_imports()
+    from robin_stocks.robinhood import stocks
+
+    out: dict[str, dict] = {}
+    for sym in symbols:
+        try:
+            results = stocks.get_earnings(sym) or []
+            for r in results:
+                if not isinstance(r, dict):
+                    continue
+                report = r.get("report", {})
+                rdate = report.get("date", "") if isinstance(report, dict) else ""
+                if not rdate:
+                    rdate = r.get("report_date", "")
+                if rdate:
+                    out[sym.upper()] = {
+                        "report_date": rdate,
+                        "is_before_market": report.get("timing", "") == "bmo" if isinstance(report, dict) else False,
+                    }
+                    break
+        except Exception:
+            pass
+    return out
+
+
 def get_account_cash() -> Optional[float]:
     """Get available cash in the account."""
     if not login():

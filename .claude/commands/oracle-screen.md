@@ -6,6 +6,8 @@ Updates all the cache files Oracle and Achilles depend on.
 
 ## Steps
 
+0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+
 1. **Universe.** `shared.edgar.fetch_company_tickers()` returns the master
    ticker→CIK map (~10,000 entries). Filter to whatever sub-universe you
    want — for the full pass, the entire dict.

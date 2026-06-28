@@ -5,6 +5,8 @@ last reconcile. Works across all three gods.
 
 ## Steps
 
+0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+
 For each god in (oracle, delphi, achilles):
 
 1. Restore the sleeve from its JSON cache.
