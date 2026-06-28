@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-28T02:37:55.892677",
+  "timestamp": "2026-06-28T09:12:41.044122",
   "regime": "risk_on",
   "spy_1m": -0.0286,
   "spy_3m": 0.1301,
@@ -10,99 +10,39 @@
     "industrials",
     "real_estate"
   ],
+  "sector_scores": {
+    "technology": 0.2987,
+    "financials": 0.0223,
+    "energy": -0.0408,
+    "healthcare": 0.0619,
+    "industrials": 0.1174,
+    "staples": 0.0335,
+    "discretionary": -0.0368,
+    "utilities": 0.0183,
+    "real_estate": 0.1005,
+    "materials": 0.0535,
+    "communication": -0.1038
+  },
   "picks": {
     "technology": [
-      {
-        "symbol": "INTC",
-        "momentum": 1.9098,
-        "quality": 0.136,
-        "score": 1.2003,
-        "target": 75.0
-      },
-      {
-        "symbol": "AMD",
-        "momentum": 1.5597,
-        "quality": 0.292,
-        "score": 1.0526,
-        "target": 75.0
-      },
-      {
-        "symbol": "AMAT",
-        "momentum": 0.8536,
-        "quality": 0.939,
-        "score": 0.8878,
-        "target": 75.0
-      },
-      {
-        "symbol": "FTNT",
-        "momentum": 0.8678,
-        "quality": 0.667,
-        "score": 0.7875,
-        "target": 75.0
-      }
+      "AMD",
+      "AVGO",
+      "NVDA",
+      "AAPL"
     ],
     "industrials": [
-      {
-        "symbol": "CAT",
-        "momentum": 0.4185,
-        "quality": 0.688,
-        "score": 0.5263,
-        "target": 75.0
-      },
-      {
-        "symbol": "GE",
-        "momentum": 0.2936,
-        "quality": 0.803,
-        "score": 0.4974,
-        "target": 75.0
-      },
-      {
-        "symbol": "UNP",
-        "momentum": 0.1176,
-        "quality": 0.808,
-        "score": 0.3938,
-        "target": 75.0
-      },
-      {
-        "symbol": "MMM",
-        "momentum": 0.139,
-        "quality": 0.604,
-        "score": 0.3250,
-        "target": 75.0
-      }
+      "CAT",
+      "GE",
+      "UNP",
+      "BA"
     ],
     "real_estate": [
-      {
-        "symbol": "SPG",
-        "momentum": 0.248,
-        "quality": 0.869,
-        "score": 0.4964,
-        "target": 75.0
-      },
-      {
-        "symbol": "IRM",
-        "momentum": 0.3216,
-        "quality": 0.657,
-        "score": 0.4558,
-        "target": 75.0
-      },
-      {
-        "symbol": "EQIX",
-        "momentum": 0.1341,
-        "quality": 0.903,
-        "score": 0.4417,
-        "target": 75.0
-      },
-      {
-        "symbol": "AVB",
-        "momentum": 0.1635,
-        "quality": 0.842,
-        "score": 0.4349,
-        "target": 75.0
-      }
+      "PSA",
+      "EQIX",
+      "DLR",
+      "PLD"
     ]
   },
-  "total_invested": 900.0,
-  "cash_after": 100.0,
-  "dry_run": true
+  "orders_placed": 12,
+  "total_deployed": 900.0
 }
