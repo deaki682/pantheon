@@ -249,8 +249,16 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
                 except Exception:
                     pass
 
+            surprise_pct = None
+            if "earnings_reaction" in labels:
+                earn = broker.get_earnings(filing.symbol)
+                if earn:
+                    surprise_pct = earn["surprise_pct"]
+                    log.info("  %-6s earnings surprise: %+.1f%%", filing.symbol, surprise_pct)
+
             filing_events = build_event_for_filing(
                 filing, body_text=body_text, today=today,
+                surprise_pct=surprise_pct,
             )
             events.extend(filing_events)
         except Exception as exc:
