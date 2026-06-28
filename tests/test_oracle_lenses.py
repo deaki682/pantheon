@@ -297,12 +297,13 @@ def test_combine_lenses_drops_universe_misses():
     assert {r["symbol"] for r in out} == {"A"}
 
 
-def test_combine_lenses_quality_only_pass_counts():
+def test_combine_lenses_quality_only_excluded_without_insider():
+    """Quality alone no longer qualifies — insider signal is the gate."""
     out = combine_lenses(
         universe=["A"],
         quality_rows=[{"symbol": "A", "pass": True, "snapshot": {}}],
     )
-    assert len(out) == 1
+    assert out == []
 
 
 def test_combine_lenses_quality_fail_doesnt_count():
@@ -311,6 +312,18 @@ def test_combine_lenses_quality_fail_doesnt_count():
         quality_rows=[{"symbol": "A", "pass": False, "snapshot": {}}],
     )
     assert out == []
+
+
+def test_combine_lenses_insider_plus_quality():
+    """Insider-backed name with quality data gets scored."""
+    out = combine_lenses(
+        universe=["A"],
+        insider_clusters=[{"symbol": "A"}],
+        quality_rows=[{"symbol": "A", "pass": True, "snapshot": {
+            "symbol": "A", "gross_margin_ttm": 0.5, "operating_margin_ttm": 0.2, "revenue_yoy": 0.1}}],
+    )
+    assert len(out) == 1
+    assert out[0]["insider_backed"] is True
 
 
 def test_combine_lenses_ignores_quality_when_prescreen_failed():

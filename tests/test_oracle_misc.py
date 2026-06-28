@@ -133,11 +133,15 @@ def test_multi_lens_all():
                             activist_13d=True, quality=1.0, valuation=1.0,
                             sector_breadth=1.0)
     assert out["score"] == pytest.approx(1.0)
+    assert out["insider_backed"] is True
+    assert out["insider_tier"] == "full"
 
 
 def test_multi_lens_none():
     out = multi_lens_score("X")
     assert out["score"] == 0.0
+    assert out["insider_backed"] is False
+    assert out["insider_tier"] == "none"
 
 
 def test_rank_survivors_top_n():
@@ -149,11 +153,28 @@ def test_rank_survivors_top_n():
     assert top[0]["symbol"] == "S19"
 
 
-def test_multi_lens_valuation_dominant():
-    """Valuation-first: a cheap stock with no lens hits still scores meaningfully."""
+def test_multi_lens_valuation_without_insider():
+    """Without insider backing, valuation and quality still score but tier is 'none'."""
     out = multi_lens_score("X", valuation=0.8, quality=0.5)
-    assert out["score"] == pytest.approx(0.40 * 0.8 + 0.20 * 0.5)
+    assert out["score"] == pytest.approx(0.25 * 0.8 + 0.15 * 0.5)
     assert out["lenses"]["valuation"] == 0.8
+    assert out["insider_backed"] is False
+    assert out["insider_tier"] == "none"
+
+
+def test_multi_lens_insider_with_valuation():
+    """Insider-backed + cheap + quality -> full tier."""
+    out = multi_lens_score("X", insider_cluster=True, valuation=0.8, quality=0.5)
+    assert out["insider_backed"] is True
+    assert out["insider_tier"] == "full"
+    assert out["score"] == pytest.approx(0.25 * 0.8 + 0.15 * 0.5 + 0.20)
+
+
+def test_multi_lens_insider_without_quality():
+    """Insider-backed but low quality -> half tier."""
+    out = multi_lens_score("X", smart_money=True, valuation=0.5, quality=0.1)
+    assert out["insider_backed"] is True
+    assert out["insider_tier"] == "half"
 
 
 # ---- valuation scoring ----
