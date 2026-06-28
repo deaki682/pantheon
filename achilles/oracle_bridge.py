@@ -95,7 +95,9 @@ def load_prescreener_quality(path: str = PRESCREENER_PATH) -> dict[str, float]:
         if not isinstance(row, dict):
             continue
         sym = (row.get("symbol") or "").upper()
-        snap = row.get("snapshot", row)
+        snap = row.get("snapshot") or row
+        if not isinstance(snap, dict):
+            continue
         q = _quality_from_snapshot(snap)
         if sym and q is not None:
             out[sym] = q

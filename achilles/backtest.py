@@ -515,6 +515,8 @@ def run_backtest(
 
             if quality_override is not None:
                 cq = quality_override
+            elif ev.event_class == "earnings_reaction":
+                cq = 1.0
             else:
                 cq = oracle_company_quality(
                     ev.symbol,

@@ -354,12 +354,15 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
             continue
 
         mcap = market_caps.get(ev.symbol, 500_000_000)
-        cq = oracle_company_quality(
-            ev.symbol,
-            dossier_convictions=dossier_convictions,
-            prescreener_quality=prescreener_quality,
-            screen_scores=screen_scores,
-        )
+        if ev.event_class == "earnings_reaction":
+            cq = 1.0
+        else:
+            cq = oracle_company_quality(
+                ev.symbol,
+                dossier_convictions=dossier_convictions,
+                prescreener_quality=prescreener_quality,
+                screen_scores=screen_scores,
+            )
         score_out = score_event(
             playbook=pb,
             event_strength=ev.strength,
