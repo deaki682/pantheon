@@ -57,6 +57,62 @@ def test_make_dossier_validates():
         )
 
 
+def test_going_concern_gate_blocks_without_explanation():
+    from oracle.dossier_check import DossierError
+    with pytest.raises(DossierError, match="going-concern"):
+        make_dossier(
+            symbol="RISKY",
+            business="cash burner",
+            thesis="speculative",
+            scenarios={
+                "bull": {"target": 200, "probability": 0.2},
+                "base": {"target": 50, "probability": 0.3},
+                "bear": {"target": 10, "probability": 0.5},  # 90% loss from $100
+            },
+            ratings={"moat": 0.3, "runway": 0.2, "quality": 0.3, "management": 0.4},
+            citations=["acc-1"],
+            current_price=100,
+        )
+
+
+def test_going_concern_gate_passes_with_explanation():
+    d = make_dossier(
+        symbol="RISKY",
+        business="cash burner",
+        thesis="speculative but explained",
+        scenarios={
+            "bull": {"target": 200, "probability": 0.2},
+            "base": {"target": 50, "probability": 0.3},
+            "bear": {"target": 10, "probability": 0.5},
+        },
+        ratings={"moat": 0.3, "runway": 0.2, "quality": 0.3, "management": 0.4},
+        citations=["acc-1"],
+        current_price=100,
+        going_concern_explanation=(
+            "Company has $200M cash with $50M quarterly burn, giving 4 quarters of runway. "
+            "No debt covenants at risk. Refinancing likely given asset base."
+        ),
+    )
+    assert d["symbol"] == "RISKY"
+
+
+def test_going_concern_gate_skipped_when_runway_ok():
+    d = make_dossier(
+        symbol="SAFE",
+        business="profitable",
+        thesis="solid",
+        scenarios={
+            "bull": {"target": 200, "probability": 0.3},
+            "base": {"target": 100, "probability": 0.5},
+            "bear": {"target": 15, "probability": 0.2},  # 85% loss but runway is fine
+        },
+        ratings={"moat": 0.5, "runway": 0.6, "quality": 0.5, "management": 0.5},
+        citations=["acc-1"],
+        current_price=100,
+    )
+    assert d["symbol"] == "SAFE"
+
+
 def test_rescore():
     d = _make(price=100)
     initial_conv = d["conviction"]

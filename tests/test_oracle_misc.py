@@ -149,10 +149,11 @@ def test_rank_survivors_top_n():
     assert top[0]["symbol"] == "S19"
 
 
-def test_multi_lens_valuation_dominant():
-    """Valuation-first: a cheap stock with no lens hits still scores meaningfully."""
+def test_multi_lens_valuation_without_insider():
+    """Without insider signals, valuation and quality still compute a score
+    (the insider gate is in combine_lenses, not multi_lens_score)."""
     out = multi_lens_score("X", valuation=0.8, quality=0.5)
-    assert out["score"] == pytest.approx(0.40 * 0.8 + 0.20 * 0.5)
+    assert out["score"] == pytest.approx(0.25 * 0.8 + 0.15 * 0.5)
     assert out["lenses"]["valuation"] == 0.8
 
 

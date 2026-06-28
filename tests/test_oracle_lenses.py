@@ -297,20 +297,21 @@ def test_combine_lenses_drops_universe_misses():
     assert {r["symbol"] for r in out} == {"A"}
 
 
-def test_combine_lenses_quality_only_pass_counts():
+def test_combine_lenses_quality_only_blocked_without_insider():
     out = combine_lenses(
         universe=["A"],
         quality_rows=[{"symbol": "A", "pass": True, "snapshot": {}}],
     )
-    assert len(out) == 1
+    assert out == []
 
 
-def test_combine_lenses_quality_fail_doesnt_count():
+def test_combine_lenses_quality_plus_insider_passes():
     out = combine_lenses(
         universe=["A"],
-        quality_rows=[{"symbol": "A", "pass": False, "snapshot": {}}],
+        insider_clusters=[{"symbol": "A"}],
+        quality_rows=[{"symbol": "A", "pass": True, "snapshot": {}}],
     )
-    assert out == []
+    assert len(out) == 1
 
 
 def test_combine_lenses_ignores_quality_when_prescreen_failed():

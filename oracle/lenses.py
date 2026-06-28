@@ -317,12 +317,11 @@ def combine_lenses(
     sector_map: dict[str, str] | None = None,
     sector_breadth_value: float = 0.0,
 ) -> list[dict]:
-    """Valuation-first combine: every name with sufficient data gets scored.
+    """Insider-first combine: only names with at least one insider signal get scored.
 
-    Entry criteria (any one is enough):
-      - Hit a lens (insider cluster, smart money, activist 13D)
-      - Passed quality prescreen
-      - Has a valuation score > 0 (cheap on fundamentals)
+    Entry criteria: at least one insider lens must fire (cluster buy, smart-money
+    13F, or activist 13D). Valuation or quality alone no longer qualify — the
+    insider signal IS the edge; without it this is just a generic value screen.
 
     Valuation is computed from the quality snapshot + current price.
     """
@@ -363,11 +362,9 @@ def combine_lenses(
         # Quality score (only for names with sufficient data)
         q = quality_score(snap) if qrow.get("pass") else 0.0
 
-        hit_lens = (sym in insider_syms) or (sym in sm) or (sym in act)
-        passed_quality = qrow.get("pass", False)
-        has_valuation = v > 0.0
+        hit_insider = (sym in insider_syms) or (sym in sm) or (sym in act)
 
-        if not (hit_lens or passed_quality or has_valuation):
+        if not hit_insider:
             continue
 
         row = multi_lens_score(

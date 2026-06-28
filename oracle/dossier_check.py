@@ -22,6 +22,10 @@ REQUIRED_RATINGS = ("moat", "runway", "quality", "management")
 DRAWDOWN_FLAG_THRESHOLD = 0.30
 MIN_DECLINE_EXPLANATION_CHARS = 80
 
+GOING_CONCERN_RUNWAY_THRESHOLD = 0.3
+GOING_CONCERN_BEAR_LOSS_THRESHOLD = 0.80
+MIN_GOING_CONCERN_CHARS = 80
+
 
 def drawdown_from_high(current_price: float, high_52w: float) -> float:
     """Fraction below the 52-week high (0.0 if data missing/invalid)."""
@@ -116,5 +120,23 @@ def validate_dossier(d: dict[str, Any]) -> dict[str, Any]:
                 f"falling-knife candidate. Provide a `decline_explanation` covering "
                 f"what drove the drop and the bear case before this dossier is valid."
             )
+
+    # Going-concern gate: if the business has weak runway AND the bear case
+    # implies near-total loss, the dossier must explain why this isn't a
+    # going-concern risk (debt covenants, cash runway, refinancing).
+    runway_rating = ratings.get("runway", 1.0)
+    bear_target = scenarios["bear"]["target"]
+    current_price = d.get("current_price") or 0.0
+    if current_price > 0 and runway_rating < GOING_CONCERN_RUNWAY_THRESHOLD:
+        bear_loss = 1.0 - bear_target / current_price
+        if bear_loss >= GOING_CONCERN_BEAR_LOSS_THRESHOLD:
+            gc_explanation = (d.get("going_concern_explanation") or "").strip()
+            if len(gc_explanation) < MIN_GOING_CONCERN_CHARS:
+                raise DossierError(
+                    f"{d['symbol']}: runway rating {runway_rating:.1f} with bear case "
+                    f"implying {bear_loss:.0%} loss — a going-concern candidate. "
+                    f"Provide a `going_concern_explanation` covering debt covenants "
+                    f"and cash runway before this dossier is valid."
+                )
 
     return d

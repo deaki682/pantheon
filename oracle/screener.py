@@ -1,19 +1,19 @@
-"""Heavy quarterly screen — valuation-first.
+"""Heavy quarterly screen — insider-first.
 
-Discovery axis: statistical cheapness (FCF yield, earnings yield, P/B, ROE).
-Conviction boosters: insider clusters, smart-money 13F, 13D activist, quality.
+Discovery axis: insider buying conviction (clusters, officer buys, activist 13D).
+Conviction boosters: valuation cheapness, business quality, sector breadth.
 
-The old screen discovered via lenses, then checked quality. This one discovers
-via valuation, then asks "who else is buying the dip?" The lenses are worth
-10× more when they confirm a valuation thesis than when they *are* the thesis.
+The screen requires at least one insider signal (cluster, smart-money, activist)
+to enter the candidate pool — valuation or quality alone don't qualify. The
+insider signal is the edge; valuation and quality rank within that universe.
 
-Weights:
-  valuation  40%   — primary discovery axis
-  quality    20%   — business quality (margins, growth, dilution)
-  insider    15%   — cluster buying confirms dip
-  smart_money 10%  — 13F conviction
-  activist   10%  — 13D pressure
-  sector      5%  — breadth confirmation
+Weights (insider-first — the insider signal IS the edge, not a booster):
+  insider    20%   — cluster buying is the primary discovery signal
+  smart_money 19%  — officer/director buys > passive 10%% holders
+  valuation  25%   — cheapness ranks within the insider universe
+  quality    15%   — business quality (margins, growth, dilution)
+  activist   12%   — 13D pressure
+  sector      9%   — breadth confirmation
 
 This module is a pure scorer — fetching is the caller's job.
 """
@@ -59,14 +59,14 @@ def multi_lens_score(
     valuation: float = 0.0,
     sector_breadth: float = 0.0,
 ) -> dict:
-    """Valuation-first composite score 0..1."""
+    """Insider-first composite score 0..1."""
     score = (
-        0.40 * valuation
-        + 0.20 * quality
-        + (0.15 if insider_cluster else 0.0)
-        + (0.10 if smart_money else 0.0)
-        + (0.10 if activist_13d else 0.0)
-        + 0.05 * sector_breadth
+        (0.20 if insider_cluster else 0.0)
+        + (0.19 if smart_money else 0.0)
+        + 0.25 * valuation
+        + 0.15 * quality
+        + (0.12 if activist_13d else 0.0)
+        + 0.09 * sector_breadth
     )
     return {
         "symbol": symbol,
