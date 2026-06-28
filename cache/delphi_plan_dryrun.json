@@ -1,165 +1,113 @@
 {
-  "timestamp": "2026-06-27T11:46:41.738842",
-  "mode": "paper",
+  "date": "2026-06-28",
   "regime": "risk_on",
-  "risk_budget": 1.0,
   "breadth": 0.7272727272727273,
   "spy_1m": -0.028609119739892885,
   "spy_3m": 0.13005937156055736,
+  "risk_budget": 1.0,
   "sectors": [
     "technology",
     "industrials",
     "real_estate"
   ],
+  "picks": {
+    "technology": [
+      {
+        "symbol": "AVGO",
+        "sector": "technology",
+        "momentum": 0.17971009808832794,
+        "quality": 0.0,
+        "score": 0.17971009808832794
+      },
+      {
+        "symbol": "NVDA",
+        "sector": "technology",
+        "momentum": 0.12432842793739773,
+        "quality": 0.0,
+        "score": 0.12432842793739773
+      }
+    ],
+    "industrials": [
+      {
+        "symbol": "CAT",
+        "sector": "industrials",
+        "momentum": 0.41849286821484943,
+        "quality": 0.0,
+        "score": 0.41849286821484943
+      },
+      {
+        "symbol": "GE",
+        "sector": "industrials",
+        "momentum": 0.2936474547749264,
+        "quality": 0.0,
+        "score": 0.2936474547749264
+      }
+    ],
+    "real_estate": [
+      {
+        "symbol": "SPG",
+        "sector": "real_estate",
+        "momentum": 0.2480198019801978,
+        "quality": 0.0,
+        "score": 0.2480198019801978
+      },
+      {
+        "symbol": "PSA",
+        "sector": "real_estate",
+        "momentum": 0.21036528487743,
+        "quality": 0.0,
+        "score": 0.21036528487743
+      }
+    ]
+  },
   "targets": {
-    "GOOGL": 75.0,
-    "AVGO": 75.0,
-    "NVDA": 75.0,
-    "AAPL": 75.0,
-    "CAT": 75.0,
-    "GE": 75.0,
-    "UNP": 75.0,
-    "BA": 75.0,
-    "SPG": 75.0,
-    "WELL": 75.0,
-    "EQIX": 75.0,
-    "PLD": 75.0
+    "AVGO": 177.32301932662517,
+    "NVDA": 122.67698067337484,
+    "CAT": 176.2965196765825,
+    "GE": 123.7034803234175,
+    "SPG": 162.3219051565032,
+    "PSA": 137.6780948434968
   },
   "orders": [
     {
       "side": "buy",
-      "symbol": "GOOGL",
-      "dollars": 75.0,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
       "symbol": "AVGO",
-      "dollars": 75.0,
+      "dollars": 177.32301932662517,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
       "symbol": "NVDA",
-      "dollars": 75.0,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "AAPL",
-      "dollars": 75.0,
+      "dollars": 122.67698067337484,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
       "symbol": "CAT",
-      "dollars": 75.0,
+      "dollars": 176.2965196765825,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
       "symbol": "GE",
-      "dollars": 75.0,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "UNP",
-      "dollars": 75.0,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "BA",
-      "dollars": 75.0,
+      "dollars": 123.7034803234175,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
       "symbol": "SPG",
-      "dollars": 75.0,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "WELL",
-      "dollars": 75.0,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "EQIX",
-      "dollars": 75.0,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "PLD",
-      "dollars": 75.0,
-      "reason": "open_or_add"
-    }
-  ],
-  "last_run": "2026-06-28T10:12:37.109360+00:00",
-  "picks": {
-    "technology": [
-      "INTC",
-      "AMD"
-    ],
-    "industrials": [
-      "CAT",
-      "GE"
-    ],
-    "real_estate": [
-      "SPG",
-      "PSA"
-    ]
-  },
-  "targets_usd": {
-    "INTC": 165.14,
-    "AMD": 134.86,
-    "CAT": 176.31,
-    "GE": 123.69,
-    "SPG": 162.3,
-    "PSA": 137.7
-  },
-  "planned_orders": [
-    {
-      "side": "buy",
-      "symbol": "INTC",
-      "dollars": 165.14,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "AMD",
-      "dollars": 134.86,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "CAT",
-      "dollars": 176.31,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "GE",
-      "dollars": 123.69,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "SPG",
-      "dollars": 162.3,
+      "dollars": 162.3219051565032,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
       "symbol": "PSA",
-      "dollars": 137.7,
+      "dollars": 137.6780948434968,
       "reason": "open_or_add"
     }
   ],
-  "equity": 1000.0,
-  "cash": 1000.0
+  "overlay_orders": [],
+  "paper_mode": true,
+  "pre_trade_check_failed": true,
+  "mismatches_count": 45
 }

@@ -1,139 +1,78 @@
 {
-  "timestamp": "2026-06-28T09:12:41.044122",
+  "timestamp": "2026-06-28T00:00:00Z",
   "regime": "risk_on",
-  "spy_1m": -0.0286,
-  "spy_3m": 0.1301,
-  "breadth": 0.7273,
+  "spy_1m": -0.028609119739892885,
+  "spy_3m": 0.13005937156055736,
+  "breadth": 0.7272727272727273,
   "risk_budget": 1.0,
-  "chosen_sectors": [
+  "sectors": [
     "technology",
     "industrials",
     "real_estate"
   ],
-  "sector_scores": {
-    "technology": 0.2987,
-    "financials": 0.0223,
-    "energy": -0.0408,
-    "healthcare": 0.0619,
-    "industrials": 0.1174,
-    "staples": 0.0335,
-    "discretionary": -0.0368,
-    "utilities": 0.0183,
-    "real_estate": 0.1005,
-    "materials": 0.0535,
-    "communication": -0.1038
-  },
   "picks": {
     "technology": [
-      "AMD",
       "AVGO",
-      "NVDA",
-      "AAPL"
+      "NVDA"
     ],
     "industrials": [
       "CAT",
-      "GE",
-      "UNP",
-      "BA"
+      "GE"
     ],
     "real_estate": [
-      "PSA",
-      "EQIX",
-      "DLR",
-      "PLD"
+      "SPG",
+      "PSA"
     ]
   },
-  "orders_placed": 0,
-  "total_deployed": 0.0,
-  "orders_cancelled": true,
-  "cancel_timestamp": "2026-06-28T09:13:28.508129",
-  "runs": [
+  "targets": {
+    "AVGO": 177.32301932662517,
+    "NVDA": 122.67698067337484,
+    "CAT": 176.2965196765825,
+    "GE": 123.7034803234175,
+    "SPG": 162.3219051565032,
+    "PSA": 137.6780948434968
+  },
+  "planned_orders": [
     {
-      "run_at": "2026-06-28T10:12:37.109360+00:00",
-      "mode": "paper",
-      "regime": "risk_on",
-      "breadth": 0.7272727272727273,
-      "risk_budget": 1.0,
-      "sectors_chosen": [
-        "technology",
-        "industrials",
-        "real_estate"
-      ],
-      "sector_scores": {
-        "technology": 0.2987,
-        "industrials": 0.1174,
-        "real_estate": 0.1005,
-        "healthcare": 0.0619,
-        "materials": 0.0535,
-        "staples": 0.0335,
-        "financials": 0.0223,
-        "utilities": 0.0183,
-        "discretionary": -0.0368,
-        "energy": -0.0408,
-        "communication": -0.1038
-      },
-      "picks": {
-        "technology": [
-          "INTC",
-          "AMD"
-        ],
-        "industrials": [
-          "CAT",
-          "GE"
-        ],
-        "real_estate": [
-          "SPG",
-          "PSA"
-        ]
-      },
-      "targets_usd": {
-        "INTC": 165.14,
-        "AMD": 134.86,
-        "CAT": 176.31,
-        "GE": 123.69,
-        "SPG": 162.3,
-        "PSA": 137.7
-      },
-      "planned_orders": [
-        {
-          "side": "buy",
-          "symbol": "INTC",
-          "dollars": 165.14,
-          "reason": "open_or_add"
-        },
-        {
-          "side": "buy",
-          "symbol": "AMD",
-          "dollars": 134.86,
-          "reason": "open_or_add"
-        },
-        {
-          "side": "buy",
-          "symbol": "CAT",
-          "dollars": 176.31,
-          "reason": "open_or_add"
-        },
-        {
-          "side": "buy",
-          "symbol": "GE",
-          "dollars": 123.69,
-          "reason": "open_or_add"
-        },
-        {
-          "side": "buy",
-          "symbol": "SPG",
-          "dollars": 162.3,
-          "reason": "open_or_add"
-        },
-        {
-          "side": "buy",
-          "symbol": "PSA",
-          "dollars": 137.7,
-          "reason": "open_or_add"
-        }
-      ],
-      "overlay_orders": [],
-      "note": "PAPER MODE - no orders placed"
+      "side": "buy",
+      "symbol": "AVGO",
+      "dollars": 177.32301932662517,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "NVDA",
+      "dollars": 122.67698067337484,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "CAT",
+      "dollars": 176.2965196765825,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "GE",
+      "dollars": 123.7034803234175,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "SPG",
+      "dollars": 162.3219051565032,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "PSA",
+      "dollars": 137.6780948434968,
+      "reason": "open_or_add"
     }
-  ]
+  ],
+  "overlay_orders": [],
+  "paper_mode": true,
+  "pre_trade_check_failed": true,
+  "pre_trade_mismatches": 45,
+  "notes": "PAPER MODE \u2014 DELPHI_LIVE not set. Pre-trade check: 45 broker positions untracked by sleeves. Run /oracle-reconcile before live trading."
 }
