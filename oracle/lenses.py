@@ -315,12 +315,25 @@ def combine_lenses(
     smart_money: dict[str, list[str]] | None = None,
     activist_symbols: Iterable[str] = (),
     quality_rows: Iterable[dict] = (),
+    prices: dict[str, float] | None = None,
 ) -> list[dict]:
-    """Build a multi-lens row per symbol that hit at least one lens."""
-    from .screener import multi_lens_score
+    """Valuation-first combine: every name with sufficient data gets scored.
+
+    Entry criteria (any one is enough):
+      - Hit a lens (insider cluster, smart money, activist 13D)
+      - Passed quality prescreen
+      - Has a valuation score > 0 (cheap on fundamentals)
+
+    Valuation is computed from the quality snapshot + current price.
+    """
+    from shared.fundamentals import FundamentalSnapshot
+    from shared.quality import valuation_score as compute_valuation
+    from .screener import multi_lens_score, quality_score
+
     insider_syms = {c.get("symbol", "").upper() for c in insider_clusters if c.get("symbol")}
     sm = {s.upper() for s in (smart_money or {})}
     act = {s.upper() for s in activist_symbols}
+    px = prices or {}
     qmap: dict[str, dict] = {}
     for row in quality_rows:
         sym = row.get("symbol", "").upper()
@@ -330,36 +343,44 @@ def combine_lenses(
     universe_set = {s.upper() for s in universe}
     out: list[dict] = []
     for sym in sorted(universe_set):
-        in_any = (sym in insider_syms) or (sym in sm) or (sym in act) or (sym in qmap and qmap[sym].get("pass"))
-        if not in_any:
-            continue
         qrow = qmap.get(sym) or {}
-        # Only credit quality to names that passed the prescreen's data-quality +
-        # quality gate. Otherwise a name pulled in by another lens (e.g. an insider
-        # cluster) but with thin or failing fundamentals would still bank quality
-        # points off a sparse snapshot.
-        if qrow.get("pass"):
-            snap_dict = qrow.get("snapshot") or {}
-            from shared.fundamentals import FundamentalSnapshot
-            try:
-                snap = FundamentalSnapshot(**{k: v for k, v in snap_dict.items() if k in FundamentalSnapshot.__dataclass_fields__})
-            except Exception:
-                snap = FundamentalSnapshot(symbol=sym)
-            from .screener import quality_score
-            q = quality_score(snap)
-        else:
-            q = 0.0
+        snap_dict = qrow.get("snapshot") or {}
+
+        # Reconstruct snapshot for scoring
+        try:
+            snap = FundamentalSnapshot(**{k: v for k, v in snap_dict.items() if k in FundamentalSnapshot.__dataclass_fields__})
+        except Exception:
+            snap = FundamentalSnapshot(symbol=sym)
+
+        shares = snap_dict.get("shares_diluted") or snap_dict.get("shares_basic")
+        price = px.get(sym)
+        mcap = (shares * price) if (shares and price) else 0.0
+
+        # Compute valuation score (the new primary axis)
+        v = compute_valuation(snap, mcap) if mcap > 0 else 0.0
+
+        # Quality score (only for names with sufficient data)
+        q = quality_score(snap) if qrow.get("pass") else 0.0
+
+        hit_lens = (sym in insider_syms) or (sym in sm) or (sym in act)
+        passed_quality = qrow.get("pass", False)
+        has_valuation = v > 0.0
+
+        if not (hit_lens or passed_quality or has_valuation):
+            continue
+
         row = multi_lens_score(
             sym,
             insider_cluster=sym in insider_syms,
             smart_money=sym in sm,
             activist_13d=sym in act,
             quality=q,
+            valuation=v,
             sector_breadth=0.0,
         )
-        snap_dict = qrow.get("snapshot") or {}
-        shares = snap_dict.get("shares_diluted") or snap_dict.get("shares_basic")
         if shares:
             row["shares"] = shares
+        if mcap > 0:
+            row["market_cap"] = mcap
         out.append(row)
     return out

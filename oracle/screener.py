@@ -1,14 +1,21 @@
-"""Heavy quarterly screen.
+"""Heavy quarterly screen — valuation-first.
 
-Scores each candidate across multi-lens dimensions:
-  - insider clusters
-  - smart-money 13F holdings
-  - 13D activist filings
-  - broad quality screen
-  - sector breadth
+Discovery axis: statistical cheapness (FCF yield, earnings yield, P/B, ROE).
+Conviction boosters: insider clusters, smart-money 13F, 13D activist, quality.
 
-This module is a pure scorer — fetching is the caller's job. We accept
-pre-computed signal dicts and emit a ranked survivor list.
+The old screen discovered via lenses, then checked quality. This one discovers
+via valuation, then asks "who else is buying the dip?" The lenses are worth
+10× more when they confirm a valuation thesis than when they *are* the thesis.
+
+Weights:
+  valuation  40%   — primary discovery axis
+  quality    20%   — business quality (margins, growth, dilution)
+  insider    15%   — cluster buying confirms dip
+  smart_money 10%  — 13F conviction
+  activist   10%  — 13D pressure
+  sector      5%  — breadth confirmation
+
+This module is a pure scorer — fetching is the caller's job.
 """
 from __future__ import annotations
 
@@ -19,6 +26,7 @@ from shared.fundamentals import FundamentalSnapshot
 from shared.quality import (
     MIN_QUALITY_COMPONENTS, dilution_score, fcf_margin_score, gross_margin_score,
     mean_of_present, operating_margin_score, revenue_growth_score,
+    valuation_score,
 )
 
 log = logging.getLogger(__name__)
@@ -48,15 +56,17 @@ def multi_lens_score(
     smart_money: bool = False,
     activist_13d: bool = False,
     quality: float = 0.0,
+    valuation: float = 0.0,
     sector_breadth: float = 0.0,
 ) -> dict:
-    """Combine the 5 lenses into a composite score 0..1."""
+    """Valuation-first composite score 0..1."""
     score = (
-        (0.25 if insider_cluster else 0.0)
-        + (0.20 if smart_money else 0.0)
-        + (0.20 if activist_13d else 0.0)
-        + 0.25 * quality
-        + 0.10 * sector_breadth
+        0.40 * valuation
+        + 0.20 * quality
+        + (0.15 if insider_cluster else 0.0)
+        + (0.10 if smart_money else 0.0)
+        + (0.10 if activist_13d else 0.0)
+        + 0.05 * sector_breadth
     )
     return {
         "symbol": symbol,
@@ -66,6 +76,7 @@ def multi_lens_score(
             "smart_money": smart_money,
             "activist_13d": activist_13d,
             "quality": quality,
+            "valuation": valuation,
             "sector_breadth": sector_breadth,
         },
     }

@@ -231,29 +231,18 @@ def run_quality(sym_to_cik: dict, cache_dir: Path) -> None:
 
 # ---- Combine + rank ----
 
-def _estimate_market_caps(rows: list[dict]) -> dict[str, float]:
-    """Best-effort market cap estimation from shares × broker price.
-
-    Falls back gracefully when the broker is unavailable (CLI runs without
-    Robinhood credentials).  Returns {SYMBOL: market_cap} for symbols where
-    both shares and price are known.
-    """
-    need_price = {r["symbol"]: r["shares"] for r in rows if r.get("shares")}
-    if not need_price:
+def _fetch_prices(symbols: list[str]) -> dict[str, float]:
+    """Fetch current prices for valuation scoring and market-cap filtering."""
+    if not symbols:
         return {}
     try:
         from shared.broker import get_latest_prices
-        prices = get_latest_prices(list(need_price.keys()))
+        prices = get_latest_prices(symbols)
+        log("prices", f"fetched {len(prices)}/{len(symbols)} prices")
+        return prices
     except Exception:
-        log("mcap", "broker unavailable — skipping market-cap filter")
+        log("prices", "broker unavailable — valuation scoring will be limited")
         return {}
-    caps: dict[str, float] = {}
-    for sym, shares in need_price.items():
-        px = prices.get(sym)
-        if px:
-            caps[sym] = shares * px
-    log("mcap", f"estimated market caps for {len(caps)}/{len(need_price)} symbols")
-    return caps
 
 
 def combine_and_rank(cache_dir: Path, *, max_mcap: float | None = MAX_SCREEN_MCAP) -> None:
@@ -262,7 +251,7 @@ def combine_and_rank(cache_dir: Path, *, max_mcap: float | None = MAX_SCREEN_MCA
     sm_data = json.loads((cache_dir / "oracle_smart_money.json").read_text())["holders"]
     act_data = json.loads((cache_dir / "oracle_activist_13d.json").read_text())["symbols"]
 
-    # Universe = anything that hit any lens or passed quality
+    # Universe = anything that hit any lens or passed quality prescreen
     universe = set()
     for c in insiders_data:
         universe.add((c.get("symbol") or "").upper())
@@ -271,8 +260,11 @@ def combine_and_rank(cache_dir: Path, *, max_mcap: float | None = MAX_SCREEN_MCA
     for sym in act_data:
         universe.add(sym.upper())
     for row in quality_data:
-        if row.get("pass"):
-            universe.add(row["symbol"].upper())
+        sym = row.get("symbol", "").upper()
+        if sym:
+            universe.add(sym)
+
+    prices = _fetch_prices(list(universe))
 
     rows = combine_lenses(
         universe=universe,
@@ -280,14 +272,15 @@ def combine_and_rank(cache_dir: Path, *, max_mcap: float | None = MAX_SCREEN_MCA
         smart_money=sm_data,
         activist_symbols=act_data,
         quality_rows=quality_data,
+        prices=prices,
     )
 
-    market_caps = _estimate_market_caps(rows) if max_mcap else {}
+    market_caps = {r["symbol"]: r["market_cap"] for r in rows if r.get("market_cap")}
     top = rank_survivors(rows, top_n=100, market_caps=market_caps, max_mcap=max_mcap)
     write_json_atomic(cache_dir / "oracle_screen.json", {
         "top": top, "n_universe_hits": len(rows), "updated_at": _utc_now(),
     })
-    dropped = len(rows) - len([r for r in rows if market_caps.get(r["symbol"], 0) <= (max_mcap or float("inf")) or market_caps.get(r["symbol"], 0) == 0])
+    dropped = len(rows) - len(top) if max_mcap else 0
     log("combine", f"DONE — {len(rows)} universe hits, {dropped} filtered by mcap, top {len(top)} ranked")
 
 
