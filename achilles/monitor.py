@@ -366,10 +366,7 @@ def run_cycle(*, dry_run: bool = True, max_poll: int = POLL_CAP) -> CycleResult:
             prescreener_quality=prescreener_quality,
             screen_scores=screen_scores,
         )
-        if ev.event_class == "earnings_reaction":
-            score_quality = max(0.85, neglect_premium(oq))
-        else:
-            score_quality = neglect_premium(oq)
+        score_quality = neglect_premium(oq)
 
         score_out = score_event(
             playbook=pb,

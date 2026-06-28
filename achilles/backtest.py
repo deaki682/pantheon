@@ -541,8 +541,6 @@ def run_backtest(
             # works regardless. Use neglect as a mild boost instead.
             if quality_override is not None:
                 score_quality = quality_override
-            elif ev.event_class == "earnings_reaction":
-                score_quality = max(0.85, neglect_premium(oq))
             else:
                 score_quality = neglect_premium(oq)
 
@@ -987,10 +985,6 @@ def main():
     if event_classes:
         log.info("Filtering to event classes: %s", event_classes)
 
-    # IWM benchmark daily return for idle cash overlay
-    # IWM +37.95% over ~250 trading days → daily compound return
-    iwm_daily = (1.3795 ** (1.0 / 250)) - 1  # ~0.129% per day
-
     log.info("Running simulation...")
     output = run_backtest(
         prices, events_by_date, market_caps,
@@ -1004,7 +998,6 @@ def main():
         screen_scores=screen_scores,
         quality_override=args.quality_override,
         prescreener_snapshots=prescreener_snapshots,
-        benchmark_daily_return=iwm_daily,
     )
 
     # Save results
