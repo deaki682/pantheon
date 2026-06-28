@@ -6,10 +6,13 @@ candidate it can price — no concentration, no caps, no min-ticket — **marks 
 whole book to market on every run (equity curve vs SPY)**, and grades each
 position's forward return at its horizon.
 
-It answers two questions at once:
+It answers three questions at once:
   - *How is the paper book doing?* — the mark-to-market equity curve over time.
   - *Do the signals work?* — per-lens lift + conviction calibration from graded
     outcomes, with a real sample size the 8-name Oracle could never reach.
+  - *Are the weights right?* — valuation, quality, and score numeric terciles
+    tell you whether each axis actually predicts returns and whether the 40/20/15/10/10/5
+    weighting is empirically justified.
 
 State lives in its own namespace so it can never corrupt the real book:
 `cache/ghost_oracle_ledger.json` + `cache/ghost_oracle_curve.json`, persisted
@@ -25,9 +28,13 @@ under god name `ghost_oracle`.
    - From the screen: read `cache/oracle_screen.json` `top` rows, fetch a current
      quote per symbol (Robinhood `get_equity_quotes`), and
      `oracle.ghost.screen_rows_to_candidates(rows, price_lookup)`. Features carry
-     the lens flags, so lens lift is measurable.
+     the boolean lens flags (for lift) AND the numeric valuation/quality/score
+     values (for tercile analysis). Sector is also captured for per-sector return
+     grouping.
    - From dossiers (optional): `oracle.ghost.dossiers_to_candidates(dossiers)` —
-     features carry `conviction`, so conviction calibration is measurable.
+     features carry `conviction`, `potential_score`, `expected_cagr`, `asymmetry`,
+     and `sector` so conviction calibration AND derived-metric predictiveness are
+     measurable.
    - `oracle.ghost.open_entries(candidates, existing=ledger, today=…,
      skip_open=True)` and extend the ledger. `skip_open=True` is important for a
      recurring (e.g. weekly cron) run: the screen only refreshes quarterly, so
@@ -53,6 +60,14 @@ under god name `ghost_oracle`.
    - **per-lens lift**: mean forward return when each lens fired vs not. This is
      how you *empirically* recalibrate the screen weights instead of guessing.
    - **conviction tiers + monotonicity**: does high-conviction actually outperform?
+   - **valuation terciles**: does higher valuation score → higher forward return?
+     If not, the 40% valuation weight is unjustified.
+   - **quality terciles**: does higher quality score → higher forward return?
+     If not, the 20% quality weight is dead weight.
+   - **score terciles**: is the composite score monotonic in forward return?
+     This tests the whole weighting scheme end-to-end.
+   - **sector return**: per-sector mean return — are certain sectors consistently
+     producing the screen's best ideas?
    Write the report to `cache/ghost_oracle_report.json`.
 
 6. **Persist.** `oracle.ghost.save_ledger(...)`, then
@@ -70,5 +85,7 @@ under god name `ghost_oracle`.
 ## Hard rules
 
 - NEVER place a broker order. NEVER read or write the real `oracle_*` sleeve/ledger.
-- Feed what Ghost learns (lens lift, conviction calibration) *back* into the real
-  Oracle's weights only as evidence accumulates — don't overfit a small `n`.
+- Feed what Ghost learns (lens lift, conviction calibration, signal terciles)
+  *back* into the real Oracle's weights only as evidence accumulates — don't
+  overfit a small `n`. Use the valuation/quality terciles to empirically adjust
+  the 40/20 split; use per-lens lift to recalibrate the 15/10/10/5 boosters.

@@ -7,7 +7,7 @@ from shared.ghost import grade_entries, numeric_tercile_stats, open_entries, Gho
 
 def test_candidates_to_ghost_skips_blocked_and_unpriceable():
     cands = [
-        {"symbol": "AAA", "sector": "tech", "momentum": 0.2, "quality": 0.8, "score": 0.44},
+        {"symbol": "AAA", "sector": "tech", "momentum": 0.2, "score": 0.44},
         {"symbol": "BBB", "sector": "energy", "score": 0.0, "blocked": True},  # blocked
         {"symbol": "NOPX", "sector": "tech", "momentum": 0.1, "score": 0.1},   # unpriceable
     ]
@@ -20,8 +20,28 @@ def test_candidates_to_ghost_skips_blocked_and_unpriceable():
     assert cands_out[0]["horizon_days"] == 90
 
 
+def test_candidates_to_ghost_stamps_regime_and_chosen():
+    cands = [
+        {"symbol": "AAA", "sector": "tech", "momentum": 0.3, "score": 0.5},
+        {"symbol": "BBB", "sector": "energy", "momentum": 0.1, "score": 0.2},
+    ]
+    g = candidates_to_ghost(
+        cands, lambda s: 50.0,
+        regime="risk_on", chosen_sectors=["tech"],
+    )
+    assert g[0]["features"]["regime"] == "risk_on"
+    assert g[0]["features"]["chosen"] is True   # tech was chosen
+    assert g[1]["features"]["chosen"] is False   # energy was not chosen
+
+
+def test_candidates_to_ghost_chosen_none_when_no_sectors():
+    cands = [{"symbol": "AAA", "sector": "tech", "momentum": 0.1, "score": 0.1}]
+    g = candidates_to_ghost(cands, lambda s: 10.0)
+    assert g[0]["features"]["chosen"] is None
+    assert g[0]["features"]["regime"] is None
+
+
 def test_signal_report_per_sector_and_momentum_terciles():
-    # tech names up, energy down; momentum monotonic with return
     cands = [
         {"symbol": "T1", "sector": "tech", "momentum": 0.30, "score": 0.4},
         {"symbol": "T2", "sector": "tech", "momentum": 0.20, "score": 0.3},
@@ -29,7 +49,6 @@ def test_signal_report_per_sector_and_momentum_terciles():
         {"symbol": "E2", "sector": "energy", "momentum": -0.05, "score": 0.0},
     ]
     entry = {c["symbol"]: 100.0 for c in cands}
-    # higher momentum -> higher forward return
     exit_ = {"T1": 130.0, "T2": 120.0, "E1": 102.0, "E2": 95.0}
     g = candidates_to_ghost(cands, lambda s: entry[s])
     book = open_entries(g, today="2026-01-01")
@@ -39,18 +58,48 @@ def test_signal_report_per_sector_and_momentum_terciles():
     assert rep["n"] == 4
     assert rep["sector_return"]["tech"]["mean"] == pytest.approx(0.25)
     assert rep["sector_return"]["energy"]["mean"] == pytest.approx(-0.015)
-    # momentum should be monotonic (high tercile beats low tercile)
     mt = rep["momentum_terciles"]
     assert mt["terciles"]["high"]["mean"] >= mt["terciles"]["low"]["mean"]
 
 
+def test_signal_report_regime_return():
+    entries = []
+    for regime, ret in [("risk_on", 0.15), ("risk_on", 0.10),
+                        ("cautious", -0.02), ("risk_off", -0.08)]:
+        e = GhostEntry(f"R{len(entries)}", "2026-01-01", 100.0, 90, "sector",
+                       features={"regime": regime, "momentum": 0.1})
+        e.graded_return = ret
+        entries.append(e)
+    rep = signal_report(entries)
+    assert rep["regime_return"]["risk_on"]["mean"] == pytest.approx(0.125)
+    assert rep["regime_return"]["risk_off"]["mean"] == pytest.approx(-0.08)
+
+
+def test_signal_report_rotation_lift():
+    entries = []
+    for i in range(3):
+        e = GhostEntry(f"C{i}", "2026-01-01", 100.0, 90, "sector",
+                       features={"chosen": True, "momentum": 0.2})
+        e.graded_return = 0.12
+        entries.append(e)
+    for i in range(3):
+        e = GhostEntry(f"U{i}", "2026-01-01", 100.0, 90, "sector",
+                       features={"chosen": False, "momentum": 0.05})
+        e.graded_return = -0.04
+        entries.append(e)
+    rep = signal_report(entries)
+    lift = rep["rotation_lift"]["chosen"]
+    assert lift["mean_on"] == pytest.approx(0.12)
+    assert lift["mean_off"] == pytest.approx(-0.04)
+    assert lift["lift"] == pytest.approx(0.16)
+
+
 def test_numeric_tercile_stats_detects_predictive_signal():
-    # build entries where the feature perfectly orders returns
     entries = []
     for i in range(9):
         e = GhostEntry(f"S{i}", "2026-01-01", 100.0, 90, "sector",
                        features={"momentum": i / 10.0})
-        e.graded_return = i / 100.0  # higher momentum -> higher return
+        e.graded_return = i / 100.0
         entries.append(e)
     out = numeric_tercile_stats(entries, "momentum")
     assert out["n"] == 9
@@ -65,4 +114,7 @@ def test_numeric_tercile_stats_too_few():
 
 
 def test_signal_report_empty():
-    assert signal_report([])["n"] == 0
+    rep = signal_report([])
+    assert rep["n"] == 0
+    assert rep["regime_return"] == {}
+    assert rep["rotation_lift"] == {}

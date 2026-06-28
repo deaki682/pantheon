@@ -2,14 +2,19 @@
 import pytest
 
 from achilles.ghost import briefs_to_candidates, drift_report
-from shared.ghost import GhostEntry, grade_entries, open_entries
+from shared.ghost import GhostEntry, grade_entries, numeric_tercile_stats, open_entries
 
 
 def test_briefs_to_candidates_from_dicts():
     briefs = [
-        {"symbol": "AAA", "event_class": "earnings_beat", "score": 0.8, "disqualifiers": []},
-        {"symbol": "BBB", "event_class": "guidance_raise", "score": 0.6, "disqualifiers": ["illiquid"]},
-        {"symbol": "NOPX", "event_class": "spinoff", "score": 0.5, "disqualifiers": []},  # unpriceable
+        {"symbol": "AAA", "event_class": "earnings_beat", "score": 0.8,
+         "disqualifiers": [], "neglect": 0.7, "surprise_pct": 15.0,
+         "insider_preactivity": True, "concurrent_guidance": False,
+         "conviction": 0.85, "liquidity": 0.6},
+        {"symbol": "BBB", "event_class": "guidance_raise", "score": 0.6,
+         "disqualifiers": ["illiquid"]},
+        {"symbol": "NOPX", "event_class": "spinoff", "score": 0.5,
+         "disqualifiers": []},  # unpriceable
         {"symbol": "", "event_class": "x"},          # no symbol -> skipped
         {"symbol": "CCC", "event_class": ""},          # no class -> skipped
     ]
@@ -19,8 +24,28 @@ def test_briefs_to_candidates_from_dicts():
     assert cands[0]["source"] == "event"
     assert cands[0]["features"]["event_class"] == "earnings_beat"
     assert cands[0]["features"]["disqualified"] is False
-    assert cands[1]["features"]["disqualified"] is True  # had a disqualifier
-    assert cands[0]["horizon_days"] == 10  # short event horizon
+    assert cands[1]["features"]["disqualified"] is True
+    assert cands[0]["horizon_days"] == 10
+    # convergence signals captured
+    assert cands[0]["features"]["neglect"] == 0.7
+    assert cands[0]["features"]["surprise_pct"] == 15.0
+    assert cands[0]["features"]["insider_preactivity"] is True
+    assert cands[0]["features"]["concurrent_guidance"] is False
+    assert cands[0]["features"]["conviction"] == 0.85
+    assert cands[0]["features"]["liquidity"] == 0.6
+
+
+def test_briefs_to_candidates_missing_convergence_signals():
+    briefs = [{"symbol": "AAA", "event_class": "earnings_beat", "score": 0.5,
+               "disqualifiers": []}]
+    cands = briefs_to_candidates(briefs, lambda s: 10.0)
+    f = cands[0]["features"]
+    assert f["neglect"] is None
+    assert f["surprise_pct"] is None
+    assert f["insider_preactivity"] is None
+    assert f["concurrent_guidance"] is None
+    assert f["conviction"] is None
+    assert f["liquidity"] is None
 
 
 def test_briefs_to_candidates_reads_dataclass_like():
@@ -35,7 +60,6 @@ def test_briefs_to_candidates_reads_dataclass_like():
 
 
 def test_drift_report_measures_per_class_drift():
-    # earnings_beat names drift +8%, guidance_raise -3% -> measured per class
     briefs = [
         {"symbol": f"E{i}", "event_class": "earnings_beat", "disqualifiers": []} for i in range(3)
     ] + [
@@ -54,7 +78,6 @@ def test_drift_report_measures_per_class_drift():
 
 
 def test_drift_report_disqualifier_lift():
-    # disqualified events did worse -> negative lift validates the filter
     entries = []
     for i in range(3):
         e = GhostEntry(f"K{i}", "2026-01-01", 100.0, 10, "event",
@@ -68,10 +91,61 @@ def test_drift_report_disqualifier_lift():
         entries.append(e)
     rep = drift_report(entries)
     lift = rep["lens_lift"]["disqualified"]
-    assert lift["mean_on"] == pytest.approx(-0.05)   # disqualified
-    assert lift["mean_off"] == pytest.approx(0.10)    # kept
-    assert lift["lift"] == pytest.approx(-0.15)       # filter earns its keep
+    assert lift["mean_on"] == pytest.approx(-0.05)
+    assert lift["mean_off"] == pytest.approx(0.10)
+    assert lift["lift"] == pytest.approx(-0.15)
+
+
+def test_drift_report_neglect_terciles():
+    entries = []
+    for i in range(9):
+        e = GhostEntry(f"N{i}", "2026-01-01", 100.0, 10, "event",
+                       features={"neglect": i / 10.0, "event_class": "earnings_beat"})
+        e.graded_return = i / 100.0  # higher neglect -> higher drift
+        entries.append(e)
+    rep = drift_report(entries)
+    nt = rep["neglect_terciles"]
+    assert nt["monotonic"] is True
+    assert nt["terciles"]["high"]["mean"] > nt["terciles"]["low"]["mean"]
+
+
+def test_drift_report_surprise_and_liquidity_terciles():
+    entries = []
+    for i in range(9):
+        e = GhostEntry(f"S{i}", "2026-01-01", 100.0, 10, "event",
+                       features={"surprise_pct": i * 5.0, "liquidity": (8 - i) / 10.0,
+                                 "event_class": "earnings_beat"})
+        e.graded_return = i / 100.0
+        entries.append(e)
+    rep = drift_report(entries)
+    assert rep["surprise_terciles"]["n"] == 9
+    assert rep["liquidity_terciles"]["n"] == 9
+
+
+def test_drift_report_compound_signal_lift():
+    entries = []
+    for i in range(3):
+        e = GhostEntry(f"I{i}", "2026-01-01", 100.0, 10, "event",
+                       features={"insider_preactivity": True, "event_class": "earnings_beat"})
+        e.graded_return = 0.15
+        entries.append(e)
+    for i in range(3):
+        e = GhostEntry(f"X{i}", "2026-01-01", 100.0, 10, "event",
+                       features={"insider_preactivity": False, "event_class": "earnings_beat"})
+        e.graded_return = 0.02
+        entries.append(e)
+    rep = drift_report(entries)
+    lift = rep["lens_lift"]["insider_preactivity"]
+    assert lift["mean_on"] == pytest.approx(0.15)
+    assert lift["mean_off"] == pytest.approx(0.02)
+    assert lift["lift"] == pytest.approx(0.13)
 
 
 def test_drift_report_empty():
-    assert drift_report([])["n"] == 0
+    rep = drift_report([])
+    assert rep["n"] == 0
+    assert rep["neglect_terciles"] == {}
+    assert rep["surprise_terciles"] == {}
+    assert rep["conviction_terciles"] == {}
+    assert rep["score_terciles"] == {}
+    assert rep["liquidity_terciles"] == {}

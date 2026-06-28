@@ -89,13 +89,32 @@ def test_calibration_report_lens_lift_and_conviction_monotonic():
     assert rep["conviction_tiers"]["high"]["mean"] == pytest.approx(0.30)
 
 
+def test_calibration_report_valuation_and_quality_terciles():
+    entries = []
+    for i in range(9):
+        e = GhostEntry(f"V{i}", "2026-01-01", 100.0, 365, "screen",
+                       features={"valuation": i / 10.0, "quality": (8 - i) / 10.0,
+                                 "score": i / 10.0, "sector": "tech" if i < 5 else "finance"})
+        e.graded_return = i / 100.0  # higher valuation -> higher return
+        entries.append(e)
+    rep = calibration_report(entries)
+    assert rep["valuation_terciles"]["monotonic"] is True
+    assert rep["score_terciles"]["monotonic"] is True
+    assert "tech" in rep["sector_return"]
+    assert "finance" in rep["sector_return"]
+
+
 def test_calibration_report_empty():
-    assert calibration_report([])["n"] == 0
+    rep = calibration_report([])
+    assert rep["n"] == 0
+    assert rep["valuation_terciles"] == {}
+    assert rep["sector_return"] == {}
 
 
 def test_screen_rows_to_candidates_attaches_price_and_lenses():
     rows = [
-        {"symbol": "AAA", "score": 0.45, "lenses": {"smart_money": True, "quality": 0.9}},
+        {"symbol": "AAA", "score": 0.45, "sector": "tech",
+         "lenses": {"smart_money": True, "quality": 0.9, "valuation": 0.7}},
         {"symbol": "NOPX", "score": 0.4, "lenses": {}},  # unpriceable -> dropped
     ]
     prices = {"AAA": 12.0}
@@ -103,15 +122,43 @@ def test_screen_rows_to_candidates_attaches_price_and_lenses():
     assert len(cands) == 1
     assert cands[0]["symbol"] == "AAA" and cands[0]["price"] == 12.0
     assert cands[0]["features"]["smart_money"] is True
+    assert cands[0]["features"]["valuation"] == 0.7
+    assert cands[0]["features"]["sector"] == "tech"
     assert cands[0]["source"] == "screen"
 
 
+def test_screen_rows_separates_bool_quality_from_numeric():
+    rows = [
+        {"symbol": "AAA", "score": 0.5,
+         "lenses": {"insider_cluster": True, "quality": True, "valuation": 0.6}},
+    ]
+    cands = screen_rows_to_candidates(rows, lambda s: 10.0)
+    feats = cands[0]["features"]
+    assert feats["insider_cluster"] is True
+    assert feats["quality"] is None  # boolean quality excluded from numeric tercile
+    assert feats["valuation"] == 0.6
+
+
 def test_dossiers_to_candidates_uses_conviction_and_horizon():
-    dossiers = [{"symbol": "AAA", "current_price": 50.0, "conviction": 0.8, "horizon_years": 2.0}]
+    dossiers = [{"symbol": "AAA", "current_price": 50.0, "conviction": 0.8,
+                 "horizon_years": 2.0, "sector": "tech",
+                 "derived": {"potential_score": 0.45, "expected_cagr": 0.18,
+                              "asymmetry": 2.1}}]
     cands = dossiers_to_candidates(dossiers)
     assert cands[0]["features"]["conviction"] == 0.8
+    assert cands[0]["features"]["potential_score"] == 0.45
+    assert cands[0]["features"]["expected_cagr"] == 0.18
+    assert cands[0]["features"]["asymmetry"] == 2.1
+    assert cands[0]["features"]["sector"] == "tech"
     assert cands[0]["horizon_days"] == 730
     assert cands[0]["source"] == "dossier"
+
+
+def test_dossiers_to_candidates_missing_derived():
+    dossiers = [{"symbol": "AAA", "current_price": 50.0, "conviction": 0.5}]
+    cands = dossiers_to_candidates(dossiers)
+    assert cands[0]["features"]["potential_score"] is None
+    assert cands[0]["features"]["sector"] is None
 
 
 def test_ledger_save_load_roundtrip(tmp_path):
