@@ -75,5 +75,46 @@
   {
     "ts": "2026-06-28T23:42:05.787277+00:00",
     "equity": 1040.2948626349998
+  },
+  {
+    "ts": "2026-06-28T23:53:33.393798+00:00",
+    "equity": 999.5500000000002,
+    "cash": 99.55000000000013,
+    "n_positions": 8,
+    "positions": {
+      "ALSN": {
+        "shares": 0.9387516688918558,
+        "price": 119.84
+      },
+      "BFH": {
+        "shares": 1.0586242589630188,
+        "price": 106.27
+      },
+      "EQPT": {
+        "shares": 5.495847581827064,
+        "price": 20.47
+      },
+      "IBP": {
+        "shares": 0.4820051413881748,
+        "price": 233.4
+      },
+      "MTDR": {
+        "shares": 2.254283137962128,
+        "price": 49.905
+      },
+      "NYT": {
+        "shares": 1.5901060070671378,
+        "price": 70.75
+      },
+      "OLED": {
+        "shares": 1.2923607122343481,
+        "price": 87.05
+      },
+      "RLI": {
+        "shares": 1.9561815336463224,
+        "price": 57.51
+      }
+    },
+    "note": "paper cycle \u2014 EQPT/OLED/RLI/NYT/MTDR/BFH/ALSN/IBP positions opened (paper mode)"
   }
 ]

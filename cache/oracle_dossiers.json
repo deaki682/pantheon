@@ -1,768 +1,120 @@
 {
   "dossiers": [
     {
-      "symbol": "MTDR",
-      "business": "Matador Resources is a Permian Basin E&P with ~180K BOE/d production. It owns midstream assets via San Mateo Midstream, providing fee income and operational control over takeaway capacity.",
-      "thesis": "CEO Joseph Foran bought ~$2.5M of stock at $52\u201353 in 2026, now underwater \u2014 32 insider buys and zero sells across the company. At 12.8x earnings and 3.3x EV/EBITDA, the stock prices in mid-cycle $65 oil indefinitely. The Energy Transfer takeaway deal de-risks Permian volumes and could catalyze a rerating if gas/NGL realizations improve. The Ameredev acquisition added scale but levered the balance sheet; the bear case is a prolonged $60 oil environment tightening covenant room. Insiders buying into weakness is the deciding signal \u2014 they know the well economics and hedge positions better than any analyst.",
+      "symbol": "EQPT",
+      "business": "EquipmentShare.com (EQPT) is a construction equipment rental and jobsite technology company that operates 385+ full-service branches across 45 U.S. states, renting heavy equipment, aerial work platforms, and tools to contractors. Its business model combines traditional asset-heavy fleet rental \u2014 funded partly through its OWN Program where third-party owners supply $4.9B of the $8.8B fleet in exchange for revenue-sharing \u2014 with its proprietary T3 SaaS platform providing real-time telematics, remote access control, and jobsite intelligence as a software-driven revenue layer on top of the rental base.",
+      "thesis": "Insiders are buying meaningfully into weakness: CEO Jabbok Schlacks and co-founder/President William Schlacks each purchased 50,000 shares at ~$21 in mid-June 2026, a combined $2.1M open-market commitment at prices 16% below the IPO price, signaling conviction that the post-IPO correction has overshot. The bull case rests on EquipmentShare's rare combination of 37-38% rental revenue growth, expanding mature-branch EBITDA margins of 55%, an accelerating T3 telematics platform (revenue doubled to $66M in 2025), and a national branch network growing toward scale \u2014 all compressing toward profitability as unit economics mature. The genuine bear case is not cyclical but structural: with $3.1B+ in debt, $70M quarterly interest expense, consistent GAAP net losses despite modest EBITDA, negative free cash flow, and a lockup expiry on July 22, 2026 that will unleash insider selling pressure, the company must thread a narrow needle \u2014 sustaining 35%+ growth while the construction cycle is susceptible to macro softening, all while proving the T3 premium justifies a meaningful valuation premium over United Rentals' ~10x EV/EBITDA. The bear case is partially but not fully priced in: at $20.47 the stock already trades below its $24.50 IPO price, and the near-term lockup overhang likely adds more near-term pressure, but the combination of strong operating momentum, raised guidance, and founder-level open-market buying suggests the medium-term risk/reward favors buyers with 18-24 month patience.",
       "scenarios": {
         "bull": {
-          "target": 82.0,
-          "probability": 0.3
+          "target": 38.0,
+          "probability": 0.3,
+          "label": "T3 monetization inflects, branch scale drives FCF positive, re-rated to 12-13x 2027 EBITDA"
         },
         "base": {
-          "target": 58.0,
-          "probability": 0.45
+          "target": 26.0,
+          "probability": 0.45,
+          "label": "Steady 25-30% rental growth, leverage improves, lockup overhang absorbed, modest re-rating"
         },
         "bear": {
-          "target": 32.0,
-          "probability": 0.25
+          "target": 11.0,
+          "probability": 0.25,
+          "label": "Construction cycle softens, FCF deficit widens, debt refinancing pressure, OWN program investor withdrawal"
         }
       },
       "ratings": {
-        "moat": 0.45,
-        "runway": 0.55,
-        "quality": 0.6,
-        "management": 0.72
-      },
-      "citations": [
-        "MTDR 10-K 2025 (0001520697-25-000012)",
-        "Energy Transfer midstream agreement 8-K 2026",
-        "Form 4 Foran multiple buys 2026"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 50.2,
-      "high_52w": 66.84,
-      "decline_explanation": "",
-      "going_concern_explanation": "",
-      "insider_tier": "half",
-      "sector": "Energy",
-      "author": "oracle",
-      "created_at": "2026-06-28T22:26:39.566095",
-      "priced_at": "2026-06-28T23:38:48.913710",
-      "scenario_price": 50.16,
-      "drawdown_from_high": 0.24895272292040693,
-      "going_concern_flag": false,
-      "derived": {
-        "expected_price": 58.7,
-        "expected_return": 0.16932270916334669,
-        "expected_cagr": 0.08135225951738168,
-        "asymmetry": 2.0967032967032964,
-        "quality_mult": 1.08,
-        "asymmetry_mult": 1.4479997571489078,
-        "potential_score": 0.12722189618665827
-      },
-      "conviction": 0.16618653606035327
-    },
-    {
-      "symbol": "GPK",
-      "business": "Graphic Packaging International is North America's largest paperboard packaging manufacturer, with ~40% market share in coated recycled board and coated unbleached kraft, serving food and beverage customers on long-term contracts.",
-      "thesis": "CEO and a Director bought shares open-market at ~$11 in 2026, suggesting management views the litigation discount as excessive. At 12x earnings and 6.3x EV/EBITDA, GPK is historically cheap relative to packaging peers that trade at 8\u201310x EBITDA. Securities fraud class actions historically settle at 5\u201315% of claimed damages \u2014 real cost but not existential. Waco facility capex is nearly complete, which should sharply reduce maintenance spending from 2027 onward. Bear case: if courts certify the class and discovery reveals worse disclosure failures, settlement costs could materially impair cash flows for several years.",
-      "scenarios": {
-        "bull": {
-          "target": 18.0,
-          "probability": 0.25
-        },
-        "base": {
-          "target": 13.0,
-          "probability": 0.45
-        },
-        "bear": {
-          "target": 5.5,
-          "probability": 0.3
-        }
-      },
-      "ratings": {
-        "moat": 0.55,
-        "runway": 0.45,
-        "quality": 0.4,
-        "management": 0.35
-      },
-      "citations": [
-        "GPK 10-K 2025 (0001408075-25-000007)",
-        "SEC EDGAR corrective disclosure 8-Ks 2025-2026",
-        "Form 4 CEO buy 2026"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 11.005,
-      "high_52w": 23.76,
-      "decline_explanation": "Three SEC corrective disclosures triggered a securities fraud class action alleging management misrepresented Waco facility capex timing and containerboard market conditions. The stock fell 54% as litigation uncertainty, deteriorating containerboard pricing, and elevated capex obligations simultaneously compressed earnings and investor confidence in disclosure quality.",
-      "going_concern_explanation": "",
-      "insider_tier": "half",
-      "sector": "Materials",
-      "author": "oracle",
-      "created_at": "2026-06-28T22:26:39.566245",
-      "priced_at": "2026-06-28T23:38:48.913783",
-      "scenario_price": 10.86,
-      "drawdown_from_high": 0.5368265993265993,
-      "going_concern_flag": false,
-      "derived": {
-        "expected_price": 12.000000000000002,
-        "expected_return": 0.09041344843253074,
-        "expected_cagr": 0.04422863800631838,
-        "asymmetry": 1.058885861338177,
-        "quality_mult": 0.9375,
-        "asymmetry_mult": 1.029021798281347,
-        "potential_score": 0.04266771807824669
-      },
-      "conviction": 0.0591333712489267
-    },
-    {
-      "symbol": "GSHD",
-      "business": "Goosehead Insurance is a rapidly growing franchise-based personal lines insurance agency. It distributes auto, home, and life insurance via franchised and corporate agents on a proprietary tech-enabled quoting platform with carrier access to 150+ insurers.",
-      "thesis": "Goosehead grew revenue 16% in FY2025, and the franchise model is capital-light with high incremental margins. However, franchise agent count grew only 1% YoY \u2014 a dramatic deceleration from historical 15\u201320% annual rates \u2014 which is the core bear case. Executive Chairman Langowski planned a $14.48M share sale in 2026, a meaningful negative insider signal. At 40x earnings, the stock prices in near-perfect execution on agent count re-acceleration. The screen flagged this name on stale data showing older buys \u2014 current insider flow is net selling. Position requires evidence of agent growth recovering above 10% annually to justify.",
-      "scenarios": {
-        "bull": {
-          "target": 68.0,
-          "probability": 0.2
-        },
-        "base": {
-          "target": 42.0,
-          "probability": 0.45
-        },
-        "bear": {
-          "target": 22.0,
-          "probability": 0.35
-        }
-      },
-      "ratings": {
-        "moat": 0.52,
-        "runway": 0.62,
-        "quality": 0.55,
-        "management": 0.38
-      },
-      "citations": [
-        "GSHD 10-K 2025 (0001726978-25-000014)",
-        "Form 4 Langowski planned sale 2026",
-        "GSHD Q4 2025 earnings release"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 46.87,
-      "high_52w": 106.84,
-      "decline_explanation": "Franchise agent growth decelerated sharply to 1% YoY from historically 15\u201320%+ annual rates, triggering a valuation reset from 80\u201390x earnings toward 40x. The executive chairman planned a $14.48M share sale, adding a negative insider signal. The market re-rated the growth premium as the agent count plateau raised questions about franchise TAM saturation and agent retention economics.",
-      "going_concern_explanation": "",
-      "insider_tier": "half",
-      "sector": "Financials",
-      "author": "oracle",
-      "created_at": "2026-06-28T22:26:39.566262",
-      "priced_at": "2026-06-28T23:38:48.913803",
-      "scenario_price": 44.07,
-      "drawdown_from_high": 0.5613066267315612,
-      "going_concern_flag": false,
-      "derived": {
-        "expected_price": 40.2,
-        "expected_return": -0.14230851290804347,
-        "expected_cagr": -0.07388365358775983,
-        "asymmetry": 0.4854960078120515,
-        "quality_mult": 1.0175,
-        "asymmetry_mult": 0.69677543571229,
-        "potential_score": -0.052381220431738235
-      },
-      "conviction": 0.0
-    },
-    {
-      "symbol": "GRNT",
-      "business": "Granite Ridge Resources is a non-operated oil and gas E&P that acquires working interests across multiple basins (Permian, DJ, Haynesville). It earns revenue from operator-directed production and pays a high dividend yield (~10%), without controlling capital allocation at the well level.",
-      "thesis": "CEO, CFO, and a Director simultaneously bought shares on March 11, 2026 \u2014 37 insider buys with zero sells \u2014 a strongly coordinated signal at the $4.42 level. The 18\u201328% production growth outlook and ~10% dividend yield create meaningful total return if oil holds above $60. The non-operated model concentrates risk on commodity price and third-party operator decisions. The 8.875% senior notes raise refinancing risk and compress equity IRR materially in a falling oil environment. Bear case: oil drops to $55, operators cut activity, dividend is reduced to preserve covenant headroom.",
-      "scenarios": {
-        "bull": {
-          "target": 7.5,
-          "probability": 0.3
-        },
-        "base": {
-          "target": 5.0,
-          "probability": 0.45
-        },
-        "bear": {
-          "target": 2.0,
-          "probability": 0.25
-        }
-      },
-      "ratings": {
-        "moat": 0.2,
-        "runway": 0.3,
-        "quality": 0.38,
-        "management": 0.55
-      },
-      "citations": [
-        "GRNT 10-K 2025 (0001892416-25-000008)",
-        "Form 4 CEO/CFO/Director 2026-03-11",
-        "GRNT 8.875% senior notes indenture"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 4.54,
-      "high_52w": 6.66,
-      "decline_explanation": "GRNT fell 34% from its 52-week high driven by oil price softness, GAAP losses from high-yield debt service costs (8.875% notes), and concerns about operator capex reductions in a weaker commodity environment. The non-operated model means GRNT cannot control well-level spending. Dividend sustainability was questioned as FCF coverage tightened with declining oil realizations and rising interest costs.",
-      "going_concern_explanation": "",
-      "insider_tier": "half",
-      "sector": "Energy",
-      "author": "oracle",
-      "created_at": "2026-06-28T22:26:39.566289",
-      "priced_at": "2026-06-28T23:38:48.913816",
-      "scenario_price": 4.42,
-      "drawdown_from_high": 0.31831831831831836,
-      "going_concern_flag": false,
-      "derived": {
-        "expected_price": 5.0,
-        "expected_return": 0.1013215859030836,
-        "expected_cagr": 0.04943870040278364,
-        "asymmetry": 1.3984251968503938,
-        "quality_mult": 0.8575,
-        "asymmetry_mult": 1.1825502935817969,
-        "potential_score": 0.05013266534683926
-      },
-      "conviction": 0.06911366038524303
-    },
-    {
-      "symbol": "HCI",
-      "business": "HCI Group is a Florida-based property and casualty insurer with a combined ratio of 57% \u2014 among the most profitable in the sector. It also owns Exzeo, an insurance technology platform independently valued at approximately $2B, and participates in Florida Citizens depopulation.",
-      "thesis": "HCI posted record 2025 EPS of $22.72 but 2026 guidance implies normalization to ~$17 as favorable reserve releases from prior years roll off. At 7.9x forward PE versus the property insurance sector at 15\u201320x, the market prices in a material hurricane loss in 2026. The 57% combined ratio reflects disciplined underwriting and Florida Citizens depopulation upside \u2014 HCI selectively takes on Citizens policies below actuarial risk. The Exzeo technology spinoff, if executed, could unlock ~$2B of embedded value invisible in insurance segment earnings alone. Analyst consensus target of $245 implies 40% upside. Bear case: a Category 4\u20135 Florida landfall in 2026 that overwhelms reinsurance programs.",
-      "scenarios": {
-        "bull": {
-          "target": 265.0,
-          "probability": 0.3
-        },
-        "base": {
-          "target": 200.0,
-          "probability": 0.45
-        },
-        "bear": {
-          "target": 105.0,
-          "probability": 0.25
-        }
-      },
-      "ratings": {
-        "moat": 0.6,
-        "runway": 0.65,
-        "quality": 0.7,
-        "management": 0.68
-      },
-      "citations": [
-        "HCI 10-K 2025 (0001421461-25-000009)",
-        "Exzeo valuation disclosure 2026",
-        "FL Citizens depopulation program filings"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 180.46,
-      "high_52w": 210.5,
-      "decline_explanation": "",
-      "going_concern_explanation": "",
-      "insider_tier": "half",
-      "sector": "Financials",
-      "author": "oracle",
-      "created_at": "2026-06-28T22:26:39.566337",
-      "priced_at": "2026-06-28T23:38:48.913825",
-      "scenario_price": 175.25,
-      "drawdown_from_high": 0.14270783847980995,
-      "going_concern_flag": false,
-      "derived": {
-        "expected_price": 195.75,
-        "expected_return": 0.08472791754405407,
-        "expected_cagr": 0.041502720852929054,
-        "asymmetry": 1.3443943811290748,
-        "quality_mult": 1.1575,
-        "asymmetry_mult": 1.1594802202405503,
-        "potential_score": 0.055700733381770215
-      },
-      "conviction": 0.07648891508616551
-    },
-    {
-      "symbol": "EVTC",
-      "business": "EVERTEC is a payment technology company with a near-monopoly position in Puerto Rico payment processing and a rapidly growing Latin American business. It processes card payments, merchant acquiring, and banking technology, primarily for Popular Inc. and regional banks/retailers.",
-      "thesis": "COO and General Counsel collectively bought $1.78M in May 2026, while CEO/CFO sold $2.07M over the past year \u2014 a mixed insider picture. At 6.7x forward PE, EVTC is priced for Puerto Rico terminal decline. The bear case overlooks LatAm expansion growing 25%+ that is rapidly reducing single-country concentration. Popular's 10% pricing discount (Q4 2025) is a known headwind already in the run rate. Valuation appears to discount the LatAm segment entirely, which is growing fast enough to offset Puerto Rico compression. The operational buy from COO and GC outweighs the CEO/CFO sales in assessing management conviction on current operations.",
-      "scenarios": {
-        "bull": {
-          "target": 40.0,
-          "probability": 0.3
-        },
-        "base": {
-          "target": 28.0,
-          "probability": 0.45
-        },
-        "bear": {
-          "target": 15.0,
-          "probability": 0.25
-        }
-      },
-      "ratings": {
-        "moat": 0.6,
-        "runway": 0.58,
-        "quality": 0.62,
-        "management": 0.48
-      },
-      "citations": [
-        "EVTC 10-K 2025 (0001559865-25-000007)",
-        "Popular discount amendment 8-K 2025-Q4",
-        "Form 4 COO/GC 2026-05",
-        "EVTC Q1 2026 LatAm segment disclosure"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 27.37,
-      "high_52w": 37.79,
-      "decline_explanation": "EVTC fell 31% following Popular Bank negotiating a 10% pricing discount on its processing contract in Q4 2025, compressing the single largest revenue stream permanently. LatAm investment spending reduced near-term margins. CEO and CFO sales of $2.07M combined with the Popular contract repricing created negative market perception, while Puerto Rico organic growth moderated from prior elevated levels.",
-      "going_concern_explanation": "",
-      "insider_tier": "half",
-      "sector": "Technology",
-      "author": "oracle",
-      "created_at": "2026-06-28T22:26:39.566504",
-      "priced_at": "2026-06-28T23:38:48.913834",
-      "scenario_price": 25.96,
-      "drawdown_from_high": 0.27573432124900765,
-      "going_concern_flag": false,
-      "derived": {
-        "expected_price": 28.35,
-        "expected_return": 0.03580562659846542,
-        "expected_cagr": 0.017745364321776425,
-        "asymmetry": 1.2252223120452705,
-        "quality_mult": 1.0699999999999998,
-        "asymmetry_mult": 1.1068976068477474,
-        "potential_score": 0.021017262391444823
-      },
-      "conviction": 0.029578397885946517
-    },
-    {
-      "symbol": "RHLD",
-      "business": "Retail Holdings Ltd (RHLD) is a fee-based holding company founded September 2024, operating GPGI (insurance distribution) and Husky Holdings (specialty finance). It employs approximately 7 people at the holding-company level and generates fee income from portfolio subsidiaries.",
-      "thesis": "RHLD posted Q1 2026 EPS of $7.27 on a small float. However, FY2025 produced a GAAP loss and debt/equity exceeds 4x. Founded September 2024 with minimal operating history, the fee-based model avoids principal risk but concentrates on two early-stage subsidiaries whose financial performance cannot yet be reliably normalized. The insider buy flagged by the screen is the only meaningful positive signal. The opacity and novelty of the holding structure make this a high-uncertainty, high-variance outcome \u2014 the base case is near fair value at current price, not a deep discount. Sizing should reflect the severe information deficit and capital structure risk.",
-      "scenarios": {
-        "bull": {
-          "target": 220.0,
-          "probability": 0.2
-        },
-        "base": {
-          "target": 120.0,
-          "probability": 0.45
-        },
-        "bear": {
-          "target": 18.0,
-          "probability": 0.35
-        }
-      },
-      "ratings": {
-        "moat": 0.2,
-        "runway": 0.18,
-        "quality": 0.22,
-        "management": 0.35
-      },
-      "citations": [
-        "RHLD 10-K 2025 SEC EDGAR",
-        "Q1 2026 earnings press release",
-        "RHLD debt prospectus 2024-2025"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 133.96,
-      "high_52w": 236.19,
-      "decline_explanation": "RHLD fell 47% from its post-listing high as investors reassessed the opaque fee-based holding structure, FY2025 GAAP losses, and debt/equity exceeding 4x. The company was founded September 2024 with only 7 holding-company employees, making financial projection unreliable. The market de-rated from speculative listing premium toward capital structure concerns and earnings normalization uncertainty.",
-      "going_concern_explanation": "RHLD is a company founded September 2024 with GAAP losses in FY2025, debt/equity exceeding 4x, and only 7 holding-company employees. With two early-stage subsidiaries driving fee income, a sustained earnings shortfall combined with high leverage creates material refinancing and going-concern risk for equity holders.",
-      "insider_tier": "half",
-      "sector": "Financials",
-      "author": "oracle",
-      "created_at": "2026-06-28T22:26:39.566520",
-      "priced_at": "2026-06-28T23:38:48.913841",
-      "scenario_price": 126.46,
-      "drawdown_from_high": 0.4328295016723823,
-      "going_concern_flag": true,
-      "derived": {
-        "expected_price": 104.3,
-        "expected_return": -0.22140937593311438,
-        "expected_cagr": -0.11762217612471382,
-        "asymmetry": 0.4239885674863253,
-        "quality_mult": 0.7375,
-        "asymmetry_mult": 0.6511440451131572,
-        "potential_score": -0.056484372423183056
-      },
-      "conviction": 0.0
-    },
-    {
-      "symbol": "PODD",
-      "business": "Insulet Corporation makes the OmniPod, a tubeless, waterproof patch insulin pump worn by Type 1 and Type 2 diabetics. It grows through international expansion and Type 2 label extensions, competing with tubed pumps from Medtronic and Tandem.",
-      "thesis": "Insulet grew Q1 2026 revenue 34% YoY and Director Weatherman bought 3,450 shares at $144 on June 3, 2026 \u2014 a real open-market purchase at a meaningful premium to current levels, signaling conviction the recall noise is overdone. Two FDA recalls in 2026: a voluntary recall and a Class II recall covering 7M pods. Class II recalls historically create stock overhang and media noise but rarely indicate structural quality failure \u2014 the OmniPod 5 system is intact. The bear case is that the Class II recall triggers FDA heightened scrutiny leading to a manufacturing corrective action requiring a plant shutdown, which would be severe but unlikely given Insulet's manufacturing track record.",
-      "scenarios": {
-        "bull": {
-          "target": 255.0,
-          "probability": 0.3
-        },
-        "base": {
-          "target": 170.0,
-          "probability": 0.45
-        },
-        "bear": {
-          "target": 85.0,
-          "probability": 0.25
-        }
-      },
-      "ratings": {
-        "moat": 0.65,
-        "runway": 0.68,
-        "quality": 0.58,
-        "management": 0.6
-      },
-      "citations": [
-        "PODD 10-K 2025 (0001145986-25-000008)",
-        "FDA Class II recall notice Q2 2026 (7M pods)",
-        "Form 4 Weatherman 2026-06-03"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 159.0,
-      "high_52w": 354.88,
-      "decline_explanation": "Insulet fell 56% from its 52-week high after two FDA recalls in 2026: a voluntary recall of older pods and a second Class II recall covering 7M OmniPod units \u2014 the FDA's most serious recall category. This raised quality control questions and created an overhang on manufacturing credibility. Simultaneous sector rotation away from high-multiple growth MedTech compressed the premium valuation multiple alongside the operational uncertainty.",
-      "going_concern_explanation": "",
-      "insider_tier": "half",
-      "sector": "Healthcare",
-      "author": "oracle",
-      "created_at": "2026-06-28T22:26:39.566621",
-      "priced_at": "2026-06-28T23:38:48.913854",
-      "scenario_price": 155.34,
-      "drawdown_from_high": 0.5519612263300271,
-      "going_concern_flag": false,
-      "derived": {
-        "expected_price": 174.25,
-        "expected_return": 0.09591194968553451,
-        "expected_cagr": 0.04685813254974258,
-        "asymmetry": 1.5567567567567566,
-        "quality_mult": 1.1275,
-        "asymmetry_mult": 1.2477005877840872,
-        "potential_score": 0.06591919676418774
-      },
-      "conviction": 0.08987222850536891
-    },
-    {
-      "symbol": "CAVA",
-      "business": "CAVA Group is a Mediterranean fast-casual restaurant chain with approximately 390 US locations. It features customizable bowls with Middle Eastern-inspired ingredients and competes primarily with Chipotle. Same-store sales and new unit growth are the key operating metrics.",
-      "thesis": "CAVA's Q1 2026 same-store sales grew 9.7% \u2014 a strong rebound demonstrating the model's durability. Unit economics remain excellent at the restaurant level. However, Artal (major institutional holder) sold 3M shares on June 17, 2026, and there is zero management insider buying. At 160x earnings, CAVA is priced for Chipotle-level execution across a 10+ year expansion from 390 to 3,000+ locations. The question is not whether CAVA is a good business \u2014 it clearly is \u2014 but whether current pricing compensates for execution risk at scale, menu optionality, and competition from Sweetgreen, Chipotle, and independents. The valuation leaves almost no margin for error and significantly underweights the risk of unit economics normalization as the footprint matures.",
-      "scenarios": {
-        "bull": {
-          "target": 125.0,
-          "probability": 0.25
-        },
-        "base": {
-          "target": 78.0,
-          "probability": 0.5
-        },
-        "bear": {
-          "target": 40.0,
-          "probability": 0.25
-        }
-      },
-      "ratings": {
-        "moat": 0.55,
-        "runway": 0.72,
-        "quality": 0.7,
-        "management": 0.62
-      },
-      "citations": [
-        "CAVA 10-K 2025 (0001760689-25-000008)",
-        "Q1 2026 earnings release (SSS +9.7%)",
-        "Form 4 Artal sale 2026-06-17"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 83.4,
-      "high_52w": 98.79,
-      "decline_explanation": "",
-      "going_concern_explanation": "",
-      "insider_tier": "half",
-      "sector": "Consumer Discretionary",
-      "author": "oracle",
-      "created_at": "2026-06-28T22:26:39.566632",
-      "priced_at": "2026-06-28T23:38:48.913872",
-      "scenario_price": 81.23,
-      "drawdown_from_high": 0.15578499848162775,
-      "going_concern_flag": false,
-      "derived": {
-        "expected_price": 80.25,
-        "expected_return": -0.03776978417266197,
-        "expected_cagr": -0.019066660864593743,
-        "asymmetry": 0.9585253456221196,
-        "quality_mult": 1.1475,
-        "asymmetry_mult": 0.9790430764895484,
-        "potential_score": -0.021420476952164803
-      },
-      "conviction": 0.0
-    },
-    {
-      "symbol": "FHN",
-      "business": "First Horizon National Corporation is a regional bank focused on the mid-South US (Tennessee, Georgia, North Carolina) with approximately 450 branches, providing commercial banking, mortgage, and wealth management services.",
-      "thesis": "First Horizon is a quality regional bank at NIM 3.52% and ROTCE 15.1% \u2014 both well above peer medians. EPS beat all four quarters of 2025. CEO Bryan Jordan's October 2025 M&A comments removed the takeover premium that had supported the stock, bringing it from a high of $26.56 to current levels. The $1.2B buyback is accretive at book value ratios near tangible book. Consensus target of $27.03 implies only modest upside from here \u2014 FHN is fairly valued for its quality rather than deeply discounted. The screen flag may reflect stale insider data. Sizing should be conservative given proximity to fair value; the thesis is quality-at-fair-value rather than quality-at-discount.",
-      "scenarios": {
-        "bull": {
-          "target": 32.0,
-          "probability": 0.3
-        },
-        "base": {
-          "target": 27.0,
-          "probability": 0.5
-        },
-        "bear": {
-          "target": 18.0,
-          "probability": 0.2
-        }
-      },
-      "ratings": {
-        "moat": 0.5,
-        "runway": 0.65,
-        "quality": 0.68,
+        "moat": 0.48,
+        "runway": 0.38,
+        "quality": 0.52,
         "management": 0.65
       },
       "citations": [
-        "FHN 10-K 2025 (0001042514-25-000008)",
-        "Q4 2025 earnings call transcript",
-        "CEO Jordan M&A commentary Oct 2025",
-        "FHN $1.2B buyback announcement"
+        "annual-report-EQPT-2025",
+        "10-K-EQPT-FY2025-SEC-EDGAR-CIK-0001693736",
+        "10-Q-EQPT-Q12026-SEC-EDGAR",
+        "8-K-EQPT-Q12026-earnings-release-May-2026",
+        "8-K-EQPT-FY2025-earnings-release-March-2026"
       ],
       "horizon_years": 2.0,
-      "current_price": 25.55,
-      "high_52w": 26.56,
-      "decline_explanation": "",
+      "current_price": 20.47,
+      "high_52w": 35.5,
+      "decline_explanation": "The 42.3% decline from the $35.50 52-week high is a post-IPO correction combining several compounding factors rather than a single catalyst. The stock surged to $35.50 shortly after its January 23, 2026 IPO debut (opening at $28.50 vs. $24.50 IPO price), reflecting early investor enthusiasm for a tech-enabled rental story that was fundamentally priced for perfection. The primary drivers of the selloff are: (1) a widely anticipated lockup expiry on July 22, 2026 creating supply overhang as pre-IPO holders prepare to exit; (2) persistent GAAP net losses \u2014 Q1 2026 showed a $29M GAAP net loss after $70M in quarterly interest expense on over $3.1B in long-term debt; (3) negative free cash flow driven by $2.1-2.3B in gross fleet capex, making EQPT perpetually capital-markets dependent; (4) growth-multiple compression as investors recalibrated the T3 technology premium against peers United Rentals and Herc Rentals trading at ~10x EV/EBITDA; and (5) a 5.7% single-day drop on debt-issuance news when the company upsized a $1.35B senior secured notes offering, reminding markets that the balance sheet remains stretched. The bad news is partially but not fully priced in: the stock sits below its IPO price and the lockup risk is consensus knowledge, but the overhang will not clear until after July 22, and the market has not yet seen Q2 2026 results to validate whether 35%+ growth is sustainable heading into a potentially slowing construction backdrop.",
       "going_concern_explanation": "",
       "insider_tier": "half",
-      "sector": "Financials",
+      "sector": "Technology Services",
       "author": "oracle",
-      "created_at": "2026-06-28T22:26:39.566653",
-      "priced_at": "2026-06-28T23:38:48.913883",
-      "scenario_price": 25.68,
-      "drawdown_from_high": 0.03802710843373491,
+      "created_at": "2026-06-28T22:55:25.185833",
+      "priced_at": "2026-06-28T23:50:36.939254",
+      "scenario_price": 20.47,
+      "drawdown_from_high": 0.42338028169014086,
       "going_concern_flag": false,
       "derived": {
-        "expected_price": 26.700000000000003,
-        "expected_return": 0.045009784735812186,
-        "expected_cagr": 0.02225720087256522,
-        "asymmetry": 1.2814569536423837,
-        "quality_mult": 1.12,
-        "asymmetry_mult": 1.1320145554021748,
-        "potential_score": 0.028218932392284273
+        "expected_price": 25.85,
+        "expected_return": 0.26282364435759664,
+        "expected_cagr": 0.12375426333233408,
+        "asymmetry": 2.221330517423443,
+        "quality_mult": 1.0074999999999998,
+        "asymmetry_mult": 1.4904128681085127,
+        "potential_score": 0.18582828365295365
       },
-      "conviction": 0.039511010904185184
+      "conviction": 0.23315376734207738
     },
     {
-      "symbol": "GPOR",
-      "business": "Gulfport Energy is an independent natural gas-weighted exploration and production company focused on the Utica and Marcellus formations in Appalachian Ohio and the SCOOP Woodford/Springer plays in central Oklahoma, with production approximately 91% natural gas. The company generates revenue by selling natural gas, NGLs, and oil at commodity prices, augmented by a hedging program, and returns substantially all free cash flow to shareholders through an aggressive share repurchase program authorized at $1.5 billion.",
-      "thesis": "Insiders hold equity compensation grants and the screen flagged a cluster signal, but open-market evidence for 2025-2026 skews net selling \u2014 Chairman Cutt sold 7,500 shares and directors sold at prices above $170-$213, suggesting insiders harvested the 2025 rally rather than leaned into the pullback from the $225 high. The bull case is real: at 5.6x trailing P/E with sub-1x leverage, a $1.5B buyback authorization against a $2.9B market cap, and structurally rising LNG demand linking domestic gas to global prices, GPOR screens as cheap on a normalized basis with significant share-count shrinkage ahead. The genuine bear case is hedge roll-off: Q1 2026 free cash flow was materially supported by above-market fixed-price hedges rolling off by year-end, leaving GPOR exposed to a spot Henry Hub forecast of ~$3.34/MMBtu in H2 2026 and ~$3.46/MMBtu in 2027 \u2014 levels that compress FCF and challenge the repurchase cadence that drives the thesis. Compounding this is a CEO transition: John Reinhart resigned abruptly in March 2026 and the newly appointed CEO Dell'Osso (former Expand Energy) brings credibility but injects capital allocation uncertainty at precisely the moment hedge protection fades; the bear case is only partially priced in, as the stock's 28% drawdown from highs reflects the CEO shock more than the hedge cliff.",
+      "symbol": "OLED",
+      "business": "Universal Display Corporation (UDC) develops and licenses proprietary phosphorescent OLED (PHOLED) technologies and materials, earning revenue through a dual stream of royalty/licensing fees from display manufacturers and direct sales of emitter materials used in OLED panels. Operating a largely fabless, IP-centric model with 6,500+ patents worldwide, UDC functions as the essential toll-collector for the global OLED supply chain, with PPG Industries as its exclusive manufacturing partner for emitter chemicals.",
+      "thesis": "Insiders \u2014 CEO Steven Abramson (11,000 shares) and the CLO (3,694 shares) \u2014 bought in open market at roughly $92-$95 in May 2026, well into the stock's 46% drawdown, signaling conviction that the guidance-cut selloff overshot intrinsic value. The bull case rests on three compounding catalysts: (1) blue PHOLED commercialization is underway at LG Display on mass-production lines and broadens UDC's royalty TAM by roughly 25% per device (the technology was the missing piece for a full RGB phosphorescent stack), (2) the $400M buyback at depressed prices is accretive at ~19x earnings on a near-debt-free balance sheet, and (3) OLED penetration into IT (laptops, monitors) and automotive is still early-innings and diversifies away from smartphone dependence. The genuine bear case is not cosmetic: revenue growth has stalled at low single digits, royalty rates face renegotiation risk on the next LG/Samsung contract cycles, Chinese panel makers (BOE, Visionox) are investing heavily in OLED and may develop or license alternative emitter chemistry (including TADF), and the near-term demand backdrop for OLED smartphones is soft with Q1 2026 panel shipments down 12% YoY. Guidance was cut twice in less than six months. At 19x P/E with mid-single-digit growth and real technology substitution risk on the horizon, the bear case is partially \u2014 but not fully \u2014 priced in; blue PHOLED upside is not yet in guidance, making this a half-position rather than a full conviction buy.",
       "scenarios": {
         "bull": {
-          "target": 260.0,
-          "probability": 0.25,
-          "label": "Henry Hub strengthens to $4+ on LNG demand; buybacks retire 15%+ of float; Dell'Osso accelerates capital returns"
+          "target": 145.0,
+          "probability": 0.3,
+          "label": "Blue PHOLED ramp accelerates across Samsung and LG flagships by 2027, IT/automotive adoption adds a new revenue layer, buyback shrinks share count ~10%, and royalty rates hold; earnings recover toward $7+ EPS, re-rating to 20-22x"
         },
         "base": {
-          "target": 195.0,
-          "probability": 0.5,
-          "label": "Spot gas stays $3.25-$3.75; hedge roll-off moderates but does not crush FCF; buybacks continue at reduced pace; re-rating toward 7-8x earnings"
+          "target": 105.0,
+          "probability": 0.45,
+          "label": "Blue PHOLED contributes modestly, smartphone market stabilizes at low growth, buyback provides floor, 2027 revenue reaches $700-720M, earnings power of ~$5.50 EPS at 19x; stock grinds higher but well below prior highs"
         },
         "bear": {
-          "target": 100.0,
-          "probability": 0.25,
-          "label": "Henry Hub softens below $3; hedges fully expired; FCF collapses; CEO transition delays capital return clarity; stock de-rates to 3-4x trough earnings"
-        }
-      },
-      "ratings": {
-        "moat": 0.2,
-        "runway": 0.55,
-        "quality": 0.55,
-        "management": 0.45
-      },
-      "citations": [
-        "annual-report-GPOR-2025",
-        "GPOR-10-Q-Q1-2026-SEC-filing-gpor-20260331",
-        "GPOR-8-K-FY2026-Q1-results-ea027811201ex99-1",
-        "GPOR-8-K-FY2025-full-year-results",
-        "GPOR-DEF14A-2026-proxy-statement"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 167.49,
-      "high_52w": 225.78,
-      "decline_explanation": "",
-      "going_concern_explanation": "",
-      "insider_tier": "half",
-      "sector": "Energy Minerals",
-      "author": "oracle",
-      "created_at": "2026-06-28T22:55:25.185515",
-      "priced_at": "2026-06-28T23:38:48.913892",
-      "scenario_price": 162.53,
-      "drawdown_from_high": 0.25817167153866594,
-      "going_concern_flag": false,
-      "derived": {
-        "expected_price": 187.5,
-        "expected_return": 0.11946981909367715,
-        "expected_cagr": 0.05805000784163172,
-        "asymmetry": 1.3707215883834638,
-        "quality_mult": 0.9375,
-        "asymmetry_mult": 1.1707781977742255,
-        "potential_score": 0.06371595333900493
-      },
-      "conviction": 0.08700309697942177
-    },
-    {
-      "symbol": "CELH",
-      "business": "Celsius Holdings is an energy drink company whose flagship CELH brand markets itself around functional health benefits and thermogenic metabolism claims, distributed through a long-term exclusive agreement with PepsiCo through 2041. The company operates a capital-light model \u2014 formulating, branding, and marketing \u2014 while outsourcing manufacturing and leaning on PepsiCo's DSD network for shelf access, with revenue now spread across three brands following the 2025 acquisitions of Alani Nu (~$1.8B) and Rockstar Energy assets from PepsiCo.",
-      "thesis": "Insiders \u2014 including CEO John Fieldly, COO Eric Hanson, and Director Hal Kravitz \u2014 are buying at roughly $29, near multi-year lows, signaling they believe the market has overcorrected on fears about margin compression and acquisition integration complexity. The bull case rests on CELH now being a three-brand energy platform with 21% U.S. market share, $619M in FY2025 Adjusted EBITDA, a net cash position of ~$549M, and meaningful operational leverage as Alani Nu and Rockstar integration costs normalize toward the low-50% gross margin target. The genuine bear case is more structural: the core CELSIUS brand grew only ~6% organically in Q1 2026, headline revenue growth is overwhelmingly acquisition-driven channel-fill (PepsiCo loaded Alani Nu inventory just as it did with CELSIUS in 2022\u201323), the distribution agreement locks the company into PepsiCo's priorities until 2041 with no credible exit, two securities class-action lawsuits overhang the stock, and a P/E of 71x on depressed earnings leaves no margin of safety if organic growth stays single-digit. The bear case is partially \u2014 but not fully \u2014 priced in: the stock is cheap relative to its acquisition-inflated revenue base but still richly valued relative to the mid-single-digit organic growth that appears to be the realistic underlying trend, suggesting the risk/reward is asymmetric only if margin recovery and organic reacceleration both materialize.",
-      "scenarios": {
-        "bull": {
-          "label": "Margin recovery + organic reacceleration to double digits",
           "target": 52.0,
-          "probability": 0.25
-        },
-        "base": {
-          "label": "Integration proceeds, organic growth stabilizes at 8-10%, margins recover to low 50s",
-          "target": 36.0,
-          "probability": 0.45
-        },
-        "bear": {
-          "label": "Organic CELSIUS stagnation, Rockstar drag, litigation settlement, PepsiCo dependency exposed",
-          "target": 16.0,
-          "probability": 0.3
+          "probability": 0.25,
+          "label": "Chinese panel makers accelerate TADF or in-house emitter adoption, Samsung diversifies emitter sourcing, royalty renegotiations cut rates materially, blue PHOLED stalls technically; revenue drifts toward $580-600M and multiple compresses to 14-15x on structurally lower growth"
         }
       },
       "ratings": {
-        "moat": 0.45,
-        "runway": 0.55,
-        "quality": 0.5,
-        "management": 0.45
-      },
-      "citations": [
-        "annual-report-CELH-2025",
-        "SEC-8K-CELH-Q3-2025-ex991",
-        "SEC-8KA-CELH-FY2025-d334865dex993",
-        "SEC-ARS-CELH-FY2025-d825073dars",
-        "CELH-PepsiCo-partnership-press-release-2025-08-29"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 29.8,
-      "high_52w": 66.74,
-      "decline_explanation": "The 55.4% decline from the $66.74 52-week high (and ~70% from the March 2024 peak near $95-100) stems from a confluence of fundamental deterioration and de-rating. The primary catalyst was FY2024's near-flat North America organic growth (+1.4%) after the PepsiCo channel-fill from 2022-23 was fully absorbed, exposing that the CELSIUS brand's underlying consumer demand was decelerating sharply. Management's disclosure that PepsiCo's \"timing of orders\" negatively impacted revenue triggered a re-examination of the entire growth narrative. Two securities class-action lawsuits filed November 2024 through January 2025 added legal overhang. The 2025 acquisition of Alani Nu for ~$1.8B \u2014 funded partly through dilutive preferred shares issued to PepsiCo \u2014 along with the Rockstar asset purchase introduced $327.5M in one-time distributor termination fees, collapsing GAAP EPS by 44% to $0.25 in FY2025 while the P/E ratio at the prior peak was already stretched above 100x. A Texas regulatory inquiry into health claims added incremental uncertainty. The bear case is only partially priced in: the stock has de-rated dramatically from its peak multiple, but at 71x trailing earnings and with organic CELSIUS growth running at ~6%, any sustained multiple-compression or failure of margin recovery toward the 50%+ target could push the stock materially lower. The good news is Adjusted EBITDA of $619M and net cash of $549M establish a genuine earnings floor that limits catastrophic downside.",
-      "going_concern_explanation": "",
-      "insider_tier": "half",
-      "sector": "Consumer Non-Durables",
-      "author": "oracle",
-      "created_at": "2026-06-28T22:55:25.185556",
-      "priced_at": "2026-06-28T23:38:48.913899",
-      "scenario_price": 29.78,
-      "drawdown_from_high": 0.5534911597243033,
-      "going_concern_flag": false,
-      "derived": {
-        "expected_price": 34.0,
-        "expected_return": 0.14093959731543615,
-        "expected_cagr": 0.0681477413333027,
-        "asymmetry": 1.3405797101449275,
-        "quality_mult": 0.9875,
-        "asymmetry_mult": 1.1578340598483565,
-        "potential_score": 0.07791747881721561
-      },
-      "conviction": 0.10533925105593789
-    },
-    {
-      "symbol": "ALSN",
-      "business": "Allison Transmission Holdings (founded 1915, Indianapolis) designs and manufactures fully automatic transmissions and electrified propulsion systems for medium- and heavy-duty commercial and defense vehicles, and \u2014 following its January 2026 acquisition of Dana's Off-Highway Drive and Motion Systems business \u2014 now also produces driveline components and motion systems for mining, construction, and agriculture equipment. The company earns revenue through original equipment sales to truck and bus OEMs, a high-margin aftermarket parts and service stream, and defense platform content, with the expanded Off-Highway segment roughly doubling its addressable revenue base to a $5.5B-$5.9B annual run rate.",
-      "thesis": "Insiders filing Form 4s in 2026 reflect RSU vesting and dividend equivalent rights grants rather than open-market buying, so the \"insider cluster\" signal is a weaker-than-usual conviction indicator \u2014 the CFO in fact sold shares in May. The genuine bull case rests on the Dana Off-Highway acquisition: Allison paid $2.7B to nearly double revenue, targeting $120M in annual run-rate synergies, while the legacy transmission business still carries exceptional economics (37.5% EBITDA margins, $836M operating cash flow pre-deal, 47.7% gross margin) and a management team with a disciplined history of retiring 72% of its float since IPO. The real bear case is acquisition integration risk layered on a cyclical capital-goods exposure: Q1 2026 reported EPS of $1.33 missed $2.10 estimates due to $93M in one-time acquisition costs, leverage jumped materially on the $2.7B deal, and the Off-Highway business it acquired is itself cyclical \u2014 with mining and construction demand sensitive to commodity prices and capex cycles \u2014 all while the core auto-transmission market faces a long-duration secular headwind from electric drivetrains that eliminate the transmission altogether. At 18.6x P/E on depressed post-acquisition earnings and a 12.9% drawdown from the April 2026 high (itself only reached after the stock doubled from its $76 October 2025 lows), the market has partially priced in integration messiness, but the leverage and cyclicality risk are not fully resolved, making this a show-me story over the next 12-18 months rather than an obvious deep-value entry.",
-      "scenarios": {
-        "bull": {
-          "target": 185.0,
-          "probability": 0.25,
-          "label": "Integration delivers: $120M synergies realized, Off-Highway margins normalize toward legacy levels, buyback program restarts at scale, EV displacement slower than feared"
-        },
-        "base": {
-          "target": 138.0,
-          "probability": 0.5,
-          "label": "Gradual integration with modest synergy capture, earnings recover through 2027 as one-time costs roll off, leverage declines, multiple holds near 17-19x normalized earnings"
-        },
-        "bear": {
-          "target": 78.0,
-          "probability": 0.25,
-          "label": "Off-Highway integration disappoints or commodity cycle turns down, elevated debt constrains buybacks, EV truck adoption accelerates cutting core transmission TAM, multiple compression to 12-13x"
-        }
-      },
-      "ratings": {
-        "moat": 0.72,
-        "runway": 0.52,
-        "quality": 0.75,
+        "moat": 0.75,
+        "runway": 0.82,
+        "quality": 0.78,
         "management": 0.7
       },
       "citations": [
-        "annual-report-ALSN-2025",
-        "SEC Form 8-K FY2026 Q1 earnings (filed May 2026)",
-        "SEC Form 8-K FY2026 Dana Off-Highway acquisition close (filed Jan 2, 2026)",
-        "SEC Form 10-K FY2025 (Allison Transmission standalone)",
-        "SEC Form 4 filings ALSN insiders Feb-May 2026"
+        "annual-report-OLED-2025",
+        "OLED-10-K-FY2025-SEC-CIK-0001005284",
+        "OLED-10-Q-Q1-2026-SEC",
+        "OLED-8-K-Q1-2026-earnings-May2026",
+        "OLED-8-K-400M-buyback-May2026"
       ],
       "horizon_years": 2.0,
-      "current_price": 119.84,
-      "high_52w": 137.62,
-      "decline_explanation": "",
+      "current_price": 87.05,
+      "high_52w": 162.36,
+      "decline_explanation": "The 46.4% drawdown from the $162 52-week high resulted from a cascading series of fundamental misses: Q3 2025 revenue of $139.6M missed consensus by ~$26M (-14% YoY), Q4/full-year 2026 initial guidance of $650-700M was far below expectations, Q1 2026 revenue fell 14% YoY to $142M with net income down 44% as royalties collapsed from $74M to $54M, and full-year 2026 guidance was cut again to $630-670M. OLED smartphone panel shipments fell 12% in Q1 2026, customer concentration in three Asia-Pacific accounts drove outsized royalty volatility, and the market de-rated from a 30-40x growth multiple to ~19x as the growth thesis stalled. The bear case is partially priced in \u2014 current valuation is the cheapest in years \u2014 but not fully, because blue PHOLED's royalty uplift remains unproven in volume, earnings power has compressed ~50% from peak, and investors need proof of revenue inflection before re-rating. This is a value trap risk if blue PHOLED delays persist or Samsung diversifies emitter sourcing.",
       "going_concern_explanation": "",
       "insider_tier": "half",
-      "sector": "Producer Manufacturing",
+      "sector": "Electronic Technology",
       "author": "oracle",
-      "created_at": "2026-06-28T22:55:25.185578",
-      "priced_at": "2026-06-28T23:38:48.913907",
-      "scenario_price": 119.84,
-      "drawdown_from_high": 0.12919633774160733,
+      "created_at": "2026-06-28T22:55:25.185799",
+      "priced_at": "2026-06-28T23:50:36.939240",
+      "scenario_price": 87.05,
+      "drawdown_from_high": 0.46384577482138467,
       "going_concern_flag": false,
       "derived": {
-        "expected_price": 134.75,
-        "expected_return": 0.12441588785046731,
-        "expected_cagr": 0.060384782921024005,
-        "asymmetry": 1.5573613766730399,
-        "quality_mult": 1.1724999999999999,
-        "asymmetry_mult": 1.2479428579358272,
-        "potential_score": 0.08835579942836348
+        "expected_price": 103.75,
+        "expected_return": 0.19184376794945446,
+        "expected_cagr": 0.09171597402870968,
+        "asymmetry": 1.984022824536377,
+        "quality_mult": 1.2625,
+        "asymmetry_mult": 1.408553451075385,
+        "potential_score": 0.16309840031781025
       },
-      "conviction": 0.11858135293757888
-    },
-    {
-      "symbol": "GL",
-      "business": "Globe Life Inc. is a holding company for a direct-to-consumer life and health insurance franchise serving lower-middle income Americans through subsidiary brands including American Income Life, Liberty National, and Family Heritage. Its business model relies on a large contracted independent-agent salesforce and direct-mail/digital channels to distribute simplified-issue term and whole life policies and supplemental health products, generating recurring premium income with high underwriting margins (~16-17% operating ROE).",
-      "thesis": "Both the SEC and DOJ cleared Globe Life of all sales-practice allegations in July 2025 without enforcement action, removing the existential overhang that had crushed the stock to ~$85 in April 2024; insiders buying at or around those lows and the subsequent buyback program at an average of $126/share in 2025 reflect management conviction that the fraud narrative was overblown, and the stock has since nearly doubled. The bull case rests on a still-modest 12.4x P/E against accelerating operating EPS (~$14.52 in 2025, guided $15.40-$15.90 for 2026), a 16-17% ROE on equity ex-AOCI, aggressive share count reduction (~1.4M shares repurchased in Q1 2026 alone), and a structurally underserved market niche where switching costs and 60 years of direct-marketing data create durable pricing power. The genuine bear case is not the now-resolved fraud allegations but the structural tension in the distribution model itself: the MLM-adjacent contractor network at American Income Life faces rising agent turnover, persistent class-action litigation risk from labor misclassification claims that the DOJ closure did not address, and a long-duration fixed-income liability stack that becomes more expensive to reserve against in a higher-for-longer rate environment, compressing book value through AOCI. At 1.86x book and with the stock near its 52-week high after a 100%+ re-rating from the 2024 lows, most of the easy re-rating is already reflected; the bear case is not yet in the price, but neither is it likely to be catastrophic given the cleared regulatory overhang and consistent cash generation.",
-      "scenarios": {
-        "bull": {
-          "target": 270.0,
-          "probability": 0.25,
-          "label": "Sustained EPS compounding + multiple expansion: operating EPS reaches ~$18+ by end-2027 as buybacks shrink float, agent count grows 8-10% annually, and market re-rates to 15x on cleared regulatory slate; $270 implies ~15x $18 EPS"
-        },
-        "base": {
-          "target": 210.0,
-          "probability": 0.5,
-          "label": "Steady state: 2026-2027 EPS track guidance (~$15.65-$17), buybacks continue, stock trades 12-13x forward earnings; $210 implies ~12.5x $16.80 blended 2027E EPS"
-        },
-        "bear": {
-          "target": 115.0,
-          "probability": 0.25,
-          "label": "Distribution model breakdown: renewed litigation forces operational restructuring of AIL contractor network, agent count declines, lapse rates rise, earnings stall at $12-13; stock re-rates to 9-10x on sustained governance discount; $115 implies ~9x $12.50 stressed EPS"
-        }
-      },
-      "ratings": {
-        "moat": 0.55,
-        "runway": 0.55,
-        "quality": 0.65,
-        "management": 0.5
-      },
-      "citations": [
-        "annual-report-GL-2025",
-        "SEC Form 10-K FY2025 (CIK 0000320335)",
-        "SEC Form 8-K Q1 FY2026 earnings release (filed May 2026)",
-        "SEC Form 8-K Q4 FY2025 earnings release (filed Feb 2026)",
-        "Globe Life 8-K: Conclusion of SEC Investigation (July 24 2025)"
-      ],
-      "horizon_years": 2.0,
-      "current_price": 179.5,
-      "high_52w": 181.15,
-      "decline_explanation": "",
-      "going_concern_explanation": "",
-      "insider_tier": "half",
-      "sector": "Finance/Insurance",
-      "author": "oracle",
-      "created_at": "2026-06-28T22:55:25.185639",
-      "priced_at": "2026-06-28T23:38:48.913916",
-      "scenario_price": 179.04,
-      "drawdown_from_high": 0.009108473640629389,
-      "going_concern_flag": false,
-      "derived": {
-        "expected_price": 201.25,
-        "expected_return": 0.12116991643454034,
-        "expected_cagr": 0.05885311372000057,
-        "asymmetry": 1.4031007751937985,
-        "quality_mult": 1.0625,
-        "asymmetry_mult": 1.1845255485610255,
-        "potential_score": 0.07407008036456485
-      },
-      "conviction": 0.10040840368554582
+      "conviction": 0.2078446161965274
     },
     {
       "symbol": "RLI",
@@ -799,7 +151,7 @@
         "SEC Form 4 Director Kellogg purchase 2026-05-26"
       ],
       "horizon_years": 2.0,
-      "current_price": 57.56,
+      "current_price": 57.51,
       "high_52w": 72.48,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -807,20 +159,20 @@
       "sector": "Finance/Insurance",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185679",
-      "priced_at": "2026-06-28T23:38:48.913927",
+      "priced_at": "2026-06-28T23:50:36.939208",
       "scenario_price": 57.51,
-      "drawdown_from_high": 0.20584988962472406,
+      "drawdown_from_high": 0.20653973509933787,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 67.5,
-        "expected_return": 0.1726893676164003,
-        "expected_cagr": 0.08290782969576882,
-        "asymmetry": 1.8473804100227786,
+        "expected_return": 0.1737089201877935,
+        "expected_cagr": 0.08337847504359863,
+        "asymmetry": 1.8555111364934327,
         "quality_mult": 1.3325,
-        "asymmetry_mult": 1.35918372931064,
-        "potential_score": 0.1501553917289662
+        "asymmetry_mult": 1.3621714783732013,
+        "potential_score": 0.15133972766901022
       },
-      "conviction": 0.19306140371232727
+      "conviction": 0.1944255156691862
     },
     {
       "symbol": "NYT",
@@ -857,7 +209,7 @@
         "SEC-Form4-NYT-KopitLevien-November2025"
       ],
       "horizon_years": 2.0,
-      "current_price": 70.88,
+      "current_price": 70.75,
       "high_52w": 87.1,
       "decline_explanation": "",
       "going_concern_explanation": "",
@@ -865,20 +217,73 @@
       "sector": "Consumer Services",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185750",
-      "priced_at": "2026-06-28T23:38:48.913936",
+      "priced_at": "2026-06-28T23:50:36.939216",
       "scenario_price": 70.75,
-      "drawdown_from_high": 0.1862227324913892,
+      "drawdown_from_high": 0.187715269804822,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 82.75,
-        "expected_return": 0.16746613995485338,
-        "expected_cagr": 0.08049347057483569,
-        "asymmetry": 1.9149650349650356,
+        "expected_return": 0.1696113074204948,
+        "expected_cagr": 0.08148569450570853,
+        "asymmetry": 1.9323076923076923,
         "quality_mult": 1.205,
-        "asymmetry_mult": 1.3838226168714818,
-        "potential_score": 0.1342233655357838
+        "asymmetry_mult": 1.3900747074555713,
+        "potential_score": 0.1364917995569634
       },
-      "conviction": 0.17448485146478432
+      "conviction": 0.17715570244645884
+    },
+    {
+      "symbol": "MTDR",
+      "business": "Matador Resources is a Permian Basin E&P with ~180K BOE/d production. It owns midstream assets via San Mateo Midstream, providing fee income and operational control over takeaway capacity.",
+      "thesis": "CEO Joseph Foran bought ~$2.5M of stock at $52\u201353 in 2026, now underwater \u2014 32 insider buys and zero sells across the company. At 12.8x earnings and 3.3x EV/EBITDA, the stock prices in mid-cycle $65 oil indefinitely. The Energy Transfer takeaway deal de-risks Permian volumes and could catalyze a rerating if gas/NGL realizations improve. The Ameredev acquisition added scale but levered the balance sheet; the bear case is a prolonged $60 oil environment tightening covenant room. Insiders buying into weakness is the deciding signal \u2014 they know the well economics and hedge positions better than any analyst.",
+      "scenarios": {
+        "bull": {
+          "target": 82.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 58.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 32.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.55,
+        "quality": 0.6,
+        "management": 0.72
+      },
+      "citations": [
+        "MTDR 10-K 2025 (0001520697-25-000012)",
+        "Energy Transfer midstream agreement 8-K 2026",
+        "Form 4 Foran multiple buys 2026"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 49.905,
+      "high_52w": 66.84,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566095",
+      "priced_at": "2026-06-28T23:50:36.938949",
+      "scenario_price": 50.16,
+      "drawdown_from_high": 0.25336624775583483,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 58.7,
+        "expected_return": 0.17623484620779495,
+        "expected_cagr": 0.08454361194365756,
+        "asymmetry": 2.1510192683607925,
+        "quality_mult": 1.08,
+        "asymmetry_mult": 1.4666353563039425,
+        "potential_score": 0.13391422246030515
+      },
+      "conviction": 0.1741201962461536
     },
     {
       "symbol": "BFH",
@@ -923,7 +328,7 @@
       "sector": "Finance",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185765",
-      "priced_at": "2026-06-28T23:38:48.913946",
+      "priced_at": "2026-06-28T23:50:36.939223",
       "scenario_price": 106.27,
       "drawdown_from_high": 0.013827023014105544,
       "going_concern_flag": false,
@@ -937,6 +342,64 @@
         "potential_score": 0.10905701526886062
       },
       "conviction": 0.14426603192090237
+    },
+    {
+      "symbol": "ALSN",
+      "business": "Allison Transmission Holdings (founded 1915, Indianapolis) designs and manufactures fully automatic transmissions and electrified propulsion systems for medium- and heavy-duty commercial and defense vehicles, and \u2014 following its January 2026 acquisition of Dana's Off-Highway Drive and Motion Systems business \u2014 now also produces driveline components and motion systems for mining, construction, and agriculture equipment. The company earns revenue through original equipment sales to truck and bus OEMs, a high-margin aftermarket parts and service stream, and defense platform content, with the expanded Off-Highway segment roughly doubling its addressable revenue base to a $5.5B-$5.9B annual run rate.",
+      "thesis": "Insiders filing Form 4s in 2026 reflect RSU vesting and dividend equivalent rights grants rather than open-market buying, so the \"insider cluster\" signal is a weaker-than-usual conviction indicator \u2014 the CFO in fact sold shares in May. The genuine bull case rests on the Dana Off-Highway acquisition: Allison paid $2.7B to nearly double revenue, targeting $120M in annual run-rate synergies, while the legacy transmission business still carries exceptional economics (37.5% EBITDA margins, $836M operating cash flow pre-deal, 47.7% gross margin) and a management team with a disciplined history of retiring 72% of its float since IPO. The real bear case is acquisition integration risk layered on a cyclical capital-goods exposure: Q1 2026 reported EPS of $1.33 missed $2.10 estimates due to $93M in one-time acquisition costs, leverage jumped materially on the $2.7B deal, and the Off-Highway business it acquired is itself cyclical \u2014 with mining and construction demand sensitive to commodity prices and capex cycles \u2014 all while the core auto-transmission market faces a long-duration secular headwind from electric drivetrains that eliminate the transmission altogether. At 18.6x P/E on depressed post-acquisition earnings and a 12.9% drawdown from the April 2026 high (itself only reached after the stock doubled from its $76 October 2025 lows), the market has partially priced in integration messiness, but the leverage and cyclicality risk are not fully resolved, making this a show-me story over the next 12-18 months rather than an obvious deep-value entry.",
+      "scenarios": {
+        "bull": {
+          "target": 185.0,
+          "probability": 0.25,
+          "label": "Integration delivers: $120M synergies realized, Off-Highway margins normalize toward legacy levels, buyback program restarts at scale, EV displacement slower than feared"
+        },
+        "base": {
+          "target": 138.0,
+          "probability": 0.5,
+          "label": "Gradual integration with modest synergy capture, earnings recover through 2027 as one-time costs roll off, leverage declines, multiple holds near 17-19x normalized earnings"
+        },
+        "bear": {
+          "target": 78.0,
+          "probability": 0.25,
+          "label": "Off-Highway integration disappoints or commodity cycle turns down, elevated debt constrains buybacks, EV truck adoption accelerates cutting core transmission TAM, multiple compression to 12-13x"
+        }
+      },
+      "ratings": {
+        "moat": 0.72,
+        "runway": 0.52,
+        "quality": 0.75,
+        "management": 0.7
+      },
+      "citations": [
+        "annual-report-ALSN-2025",
+        "SEC Form 8-K FY2026 Q1 earnings (filed May 2026)",
+        "SEC Form 8-K FY2026 Dana Off-Highway acquisition close (filed Jan 2, 2026)",
+        "SEC Form 10-K FY2025 (Allison Transmission standalone)",
+        "SEC Form 4 filings ALSN insiders Feb-May 2026"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 119.84,
+      "high_52w": 137.62,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Producer Manufacturing",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:55:25.185578",
+      "priced_at": "2026-06-28T23:50:36.939138",
+      "scenario_price": 119.84,
+      "drawdown_from_high": 0.12919633774160733,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 134.75,
+        "expected_return": 0.12441588785046731,
+        "expected_cagr": 0.060384782921024005,
+        "asymmetry": 1.5573613766730399,
+        "quality_mult": 1.1724999999999999,
+        "asymmetry_mult": 1.2479428579358272,
+        "potential_score": 0.08835579942836348
+      },
+      "conviction": 0.11858135293757888
     },
     {
       "symbol": "IBP",
@@ -973,7 +436,7 @@
         "IBP-Form4-CFO-Miller-June2026"
       ],
       "horizon_years": 2.0,
-      "current_price": 233.32,
+      "current_price": 233.4,
       "high_52w": 349.0,
       "decline_explanation": "IBP fell ~33% from its 52-week high of $349 to the current $233 due to a combination of cyclical fundamental deterioration and sentiment re-rating. The proximate catalyst was the Q1 2026 earnings miss reported in May 2026: revenue fell 3.5% YoY to $660.5M, net income dropped 23% to $34.8M ($1.29 vs $1.64 EPS prior year), and operating margin compressed to 8.7% from 10.2%, with residential same-store sales plunging 11.2% as single-family housing starts remained depressed by elevated mortgage rates and geopolitical-driven consumer hesitation. The stock fell ~10.6% on the day of earnings, and was already down ~20% entering that print from prior weakness on deteriorating housing data. The decline is partly fundamental \u2014 IBP's core residential business genuinely is under pressure \u2014 but also partly overshoot: the company still generated $314M in trailing free cash flow, grew commercial installation sales over 20%, and management guided gross margins to hold in the 32-34% range for the full year. JPMorgan's cut to Underweight with a $195 target spooked institutional holders. The bear case is partially but not fully priced in at $233.",
       "going_concern_explanation": "",
@@ -981,78 +444,300 @@
       "sector": "Industrial Services",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185783",
-      "priced_at": "2026-06-28T23:38:48.913957",
+      "priced_at": "2026-06-28T23:50:36.939231",
       "scenario_price": 233.4,
-      "drawdown_from_high": 0.33146131805157597,
+      "drawdown_from_high": 0.33123209169054435,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 262.25,
-        "expected_return": 0.12399279958854792,
-        "expected_cagr": 0.06018526663435009,
-        "asymmetry": 1.6345250255362616,
+        "expected_return": 0.12360754070265645,
+        "expected_cagr": 0.060003556929247415,
+        "asymmetry": 1.6316326530612242,
         "quality_mult": 1.1375,
-        "asymmetry_mult": 1.278485442050969,
-        "potential_score": 0.08752606046044371
+        "asymmetry_mult": 1.2773537697369606,
+        "potential_score": 0.08718456296686557
       },
-      "conviction": 0.11753595148329432
+      "conviction": 0.11710533322287842
     },
     {
-      "symbol": "OLED",
-      "business": "Universal Display Corporation (UDC) develops and licenses proprietary phosphorescent OLED (PHOLED) technologies and materials, earning revenue through a dual stream of royalty/licensing fees from display manufacturers and direct sales of emitter materials used in OLED panels. Operating a largely fabless, IP-centric model with 6,500+ patents worldwide, UDC functions as the essential toll-collector for the global OLED supply chain, with PPG Industries as its exclusive manufacturing partner for emitter chemicals.",
-      "thesis": "Insiders \u2014 CEO Steven Abramson (11,000 shares) and the CLO (3,694 shares) \u2014 bought in open market at roughly $92-$95 in May 2026, well into the stock's 46% drawdown, signaling conviction that the guidance-cut selloff overshot intrinsic value. The bull case rests on three compounding catalysts: (1) blue PHOLED commercialization is underway at LG Display on mass-production lines and broadens UDC's royalty TAM by roughly 25% per device (the technology was the missing piece for a full RGB phosphorescent stack), (2) the $400M buyback at depressed prices is accretive at ~19x earnings on a near-debt-free balance sheet, and (3) OLED penetration into IT (laptops, monitors) and automotive is still early-innings and diversifies away from smartphone dependence. The genuine bear case is not cosmetic: revenue growth has stalled at low single digits, royalty rates face renegotiation risk on the next LG/Samsung contract cycles, Chinese panel makers (BOE, Visionox) are investing heavily in OLED and may develop or license alternative emitter chemistry (including TADF), and the near-term demand backdrop for OLED smartphones is soft with Q1 2026 panel shipments down 12% YoY. Guidance was cut twice in less than six months. At 19x P/E with mid-single-digit growth and real technology substitution risk on the horizon, the bear case is partially \u2014 but not fully \u2014 priced in; blue PHOLED upside is not yet in guidance, making this a half-position rather than a full conviction buy.",
+      "symbol": "GPOR",
+      "business": "Gulfport Energy is an independent natural gas-weighted exploration and production company focused on the Utica and Marcellus formations in Appalachian Ohio and the SCOOP Woodford/Springer plays in central Oklahoma, with production approximately 91% natural gas. The company generates revenue by selling natural gas, NGLs, and oil at commodity prices, augmented by a hedging program, and returns substantially all free cash flow to shareholders through an aggressive share repurchase program authorized at $1.5 billion.",
+      "thesis": "Insiders hold equity compensation grants and the screen flagged a cluster signal, but open-market evidence for 2025-2026 skews net selling \u2014 Chairman Cutt sold 7,500 shares and directors sold at prices above $170-$213, suggesting insiders harvested the 2025 rally rather than leaned into the pullback from the $225 high. The bull case is real: at 5.6x trailing P/E with sub-1x leverage, a $1.5B buyback authorization against a $2.9B market cap, and structurally rising LNG demand linking domestic gas to global prices, GPOR screens as cheap on a normalized basis with significant share-count shrinkage ahead. The genuine bear case is hedge roll-off: Q1 2026 free cash flow was materially supported by above-market fixed-price hedges rolling off by year-end, leaving GPOR exposed to a spot Henry Hub forecast of ~$3.34/MMBtu in H2 2026 and ~$3.46/MMBtu in 2027 \u2014 levels that compress FCF and challenge the repurchase cadence that drives the thesis. Compounding this is a CEO transition: John Reinhart resigned abruptly in March 2026 and the newly appointed CEO Dell'Osso (former Expand Energy) brings credibility but injects capital allocation uncertainty at precisely the moment hedge protection fades; the bear case is only partially priced in, as the stock's 28% drawdown from highs reflects the CEO shock more than the hedge cliff.",
       "scenarios": {
         "bull": {
-          "target": 145.0,
-          "probability": 0.3,
-          "label": "Blue PHOLED ramp accelerates across Samsung and LG flagships by 2027, IT/automotive adoption adds a new revenue layer, buyback shrinks share count ~10%, and royalty rates hold; earnings recover toward $7+ EPS, re-rating to 20-22x"
+          "target": 260.0,
+          "probability": 0.25,
+          "label": "Henry Hub strengthens to $4+ on LNG demand; buybacks retire 15%+ of float; Dell'Osso accelerates capital returns"
         },
         "base": {
-          "target": 105.0,
-          "probability": 0.45,
-          "label": "Blue PHOLED contributes modestly, smartphone market stabilizes at low growth, buyback provides floor, 2027 revenue reaches $700-720M, earnings power of ~$5.50 EPS at 19x; stock grinds higher but well below prior highs"
+          "target": 195.0,
+          "probability": 0.5,
+          "label": "Spot gas stays $3.25-$3.75; hedge roll-off moderates but does not crush FCF; buybacks continue at reduced pace; re-rating toward 7-8x earnings"
         },
         "bear": {
-          "target": 52.0,
+          "target": 100.0,
           "probability": 0.25,
-          "label": "Chinese panel makers accelerate TADF or in-house emitter adoption, Samsung diversifies emitter sourcing, royalty renegotiations cut rates materially, blue PHOLED stalls technically; revenue drifts toward $580-600M and multiple compresses to 14-15x on structurally lower growth"
+          "label": "Henry Hub softens below $3; hedges fully expired; FCF collapses; CEO transition delays capital return clarity; stock de-rates to 3-4x trough earnings"
         }
       },
       "ratings": {
-        "moat": 0.75,
-        "runway": 0.82,
-        "quality": 0.78,
-        "management": 0.7
+        "moat": 0.2,
+        "runway": 0.55,
+        "quality": 0.55,
+        "management": 0.45
       },
       "citations": [
-        "annual-report-OLED-2025",
-        "OLED-10-K-FY2025-SEC-CIK-0001005284",
-        "OLED-10-Q-Q1-2026-SEC",
-        "OLED-8-K-Q1-2026-earnings-May2026",
-        "OLED-8-K-400M-buyback-May2026"
+        "annual-report-GPOR-2025",
+        "GPOR-10-Q-Q1-2026-SEC-filing-gpor-20260331",
+        "GPOR-8-K-FY2026-Q1-results-ea027811201ex99-1",
+        "GPOR-8-K-FY2025-full-year-results",
+        "GPOR-DEF14A-2026-proxy-statement"
       ],
       "horizon_years": 2.0,
-      "current_price": 87.16,
-      "high_52w": 162.36,
-      "decline_explanation": "The 46.4% drawdown from the $162 52-week high resulted from a cascading series of fundamental misses: Q3 2025 revenue of $139.6M missed consensus by ~$26M (-14% YoY), Q4/full-year 2026 initial guidance of $650-700M was far below expectations, Q1 2026 revenue fell 14% YoY to $142M with net income down 44% as royalties collapsed from $74M to $54M, and full-year 2026 guidance was cut again to $630-670M. OLED smartphone panel shipments fell 12% in Q1 2026, customer concentration in three Asia-Pacific accounts drove outsized royalty volatility, and the market de-rated from a 30-40x growth multiple to ~19x as the growth thesis stalled. The bear case is partially priced in \u2014 current valuation is the cheapest in years \u2014 but not fully, because blue PHOLED's royalty uplift remains unproven in volume, earnings power has compressed ~50% from peak, and investors need proof of revenue inflection before re-rating. This is a value trap risk if blue PHOLED delays persist or Samsung diversifies emitter sourcing.",
+      "current_price": 162.53,
+      "high_52w": 225.78,
+      "decline_explanation": "",
       "going_concern_explanation": "",
       "insider_tier": "half",
-      "sector": "Electronic Technology",
+      "sector": "Energy Minerals",
       "author": "oracle",
-      "created_at": "2026-06-28T22:55:25.185799",
-      "priced_at": "2026-06-28T23:38:48.913967",
-      "scenario_price": 87.05,
-      "drawdown_from_high": 0.46316826804631694,
+      "created_at": "2026-06-28T22:55:25.185515",
+      "priced_at": "2026-06-28T23:50:36.939123",
+      "scenario_price": 162.53,
+      "drawdown_from_high": 0.28013995925236956,
       "going_concern_flag": false,
       "derived": {
-        "expected_price": 103.75,
-        "expected_return": 0.19033960532354288,
-        "expected_cagr": 0.09102685820448198,
-        "asymmetry": 1.9740614334470992,
-        "quality_mult": 1.2625,
-        "asymmetry_mult": 1.4050129655797128,
-        "potential_score": 0.16146606894152007
+        "expected_price": 187.5,
+        "expected_return": 0.15363317541376986,
+        "expected_cagr": 0.07407317041892902,
+        "asymmetry": 1.5587717895410202,
+        "quality_mult": 0.9375,
+        "asymmetry_mult": 1.2485078251821333,
+        "potential_score": 0.08670087459757744
       },
-      "conviction": 0.20599523204633174
+      "conviction": 0.1164950568565647
+    },
+    {
+      "symbol": "CELH",
+      "business": "Celsius Holdings is an energy drink company whose flagship CELH brand markets itself around functional health benefits and thermogenic metabolism claims, distributed through a long-term exclusive agreement with PepsiCo through 2041. The company operates a capital-light model \u2014 formulating, branding, and marketing \u2014 while outsourcing manufacturing and leaning on PepsiCo's DSD network for shelf access, with revenue now spread across three brands following the 2025 acquisitions of Alani Nu (~$1.8B) and Rockstar Energy assets from PepsiCo.",
+      "thesis": "Insiders \u2014 including CEO John Fieldly, COO Eric Hanson, and Director Hal Kravitz \u2014 are buying at roughly $29, near multi-year lows, signaling they believe the market has overcorrected on fears about margin compression and acquisition integration complexity. The bull case rests on CELH now being a three-brand energy platform with 21% U.S. market share, $619M in FY2025 Adjusted EBITDA, a net cash position of ~$549M, and meaningful operational leverage as Alani Nu and Rockstar integration costs normalize toward the low-50% gross margin target. The genuine bear case is more structural: the core CELSIUS brand grew only ~6% organically in Q1 2026, headline revenue growth is overwhelmingly acquisition-driven channel-fill (PepsiCo loaded Alani Nu inventory just as it did with CELSIUS in 2022\u201323), the distribution agreement locks the company into PepsiCo's priorities until 2041 with no credible exit, two securities class-action lawsuits overhang the stock, and a P/E of 71x on depressed earnings leaves no margin of safety if organic growth stays single-digit. The bear case is partially \u2014 but not fully \u2014 priced in: the stock is cheap relative to its acquisition-inflated revenue base but still richly valued relative to the mid-single-digit organic growth that appears to be the realistic underlying trend, suggesting the risk/reward is asymmetric only if margin recovery and organic reacceleration both materialize.",
+      "scenarios": {
+        "bull": {
+          "label": "Margin recovery + organic reacceleration to double digits",
+          "target": 52.0,
+          "probability": 0.25
+        },
+        "base": {
+          "label": "Integration proceeds, organic growth stabilizes at 8-10%, margins recover to low 50s",
+          "target": 36.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "label": "Organic CELSIUS stagnation, Rockstar drag, litigation settlement, PepsiCo dependency exposed",
+          "target": 16.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.55,
+        "quality": 0.5,
+        "management": 0.45
+      },
+      "citations": [
+        "annual-report-CELH-2025",
+        "SEC-8K-CELH-Q3-2025-ex991",
+        "SEC-8KA-CELH-FY2025-d334865dex993",
+        "SEC-ARS-CELH-FY2025-d825073dars",
+        "CELH-PepsiCo-partnership-press-release-2025-08-29"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 29.78,
+      "high_52w": 66.74,
+      "decline_explanation": "The 55.4% decline from the $66.74 52-week high (and ~70% from the March 2024 peak near $95-100) stems from a confluence of fundamental deterioration and de-rating. The primary catalyst was FY2024's near-flat North America organic growth (+1.4%) after the PepsiCo channel-fill from 2022-23 was fully absorbed, exposing that the CELSIUS brand's underlying consumer demand was decelerating sharply. Management's disclosure that PepsiCo's \"timing of orders\" negatively impacted revenue triggered a re-examination of the entire growth narrative. Two securities class-action lawsuits filed November 2024 through January 2025 added legal overhang. The 2025 acquisition of Alani Nu for ~$1.8B \u2014 funded partly through dilutive preferred shares issued to PepsiCo \u2014 along with the Rockstar asset purchase introduced $327.5M in one-time distributor termination fees, collapsing GAAP EPS by 44% to $0.25 in FY2025 while the P/E ratio at the prior peak was already stretched above 100x. A Texas regulatory inquiry into health claims added incremental uncertainty. The bear case is only partially priced in: the stock has de-rated dramatically from its peak multiple, but at 71x trailing earnings and with organic CELSIUS growth running at ~6%, any sustained multiple-compression or failure of margin recovery toward the 50%+ target could push the stock materially lower. The good news is Adjusted EBITDA of $619M and net cash of $549M establish a genuine earnings floor that limits catastrophic downside.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Consumer Non-Durables",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:55:25.185556",
+      "priced_at": "2026-06-28T23:50:36.939130",
+      "scenario_price": 29.78,
+      "drawdown_from_high": 0.5537908300869043,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 34.0,
+        "expected_return": 0.1417058428475486,
+        "expected_cagr": 0.06850636069587757,
+        "asymmetry": 1.3437348814707304,
+        "quality_mult": 0.9875,
+        "asymmetry_mult": 1.159195790826869,
+        "potential_score": 0.07841963140148443
+      },
+      "conviction": 0.10598081549343374
+    },
+    {
+      "symbol": "GL",
+      "business": "Globe Life Inc. is a holding company for a direct-to-consumer life and health insurance franchise serving lower-middle income Americans through subsidiary brands including American Income Life, Liberty National, and Family Heritage. Its business model relies on a large contracted independent-agent salesforce and direct-mail/digital channels to distribute simplified-issue term and whole life policies and supplemental health products, generating recurring premium income with high underwriting margins (~16-17% operating ROE).",
+      "thesis": "Both the SEC and DOJ cleared Globe Life of all sales-practice allegations in July 2025 without enforcement action, removing the existential overhang that had crushed the stock to ~$85 in April 2024; insiders buying at or around those lows and the subsequent buyback program at an average of $126/share in 2025 reflect management conviction that the fraud narrative was overblown, and the stock has since nearly doubled. The bull case rests on a still-modest 12.4x P/E against accelerating operating EPS (~$14.52 in 2025, guided $15.40-$15.90 for 2026), a 16-17% ROE on equity ex-AOCI, aggressive share count reduction (~1.4M shares repurchased in Q1 2026 alone), and a structurally underserved market niche where switching costs and 60 years of direct-marketing data create durable pricing power. The genuine bear case is not the now-resolved fraud allegations but the structural tension in the distribution model itself: the MLM-adjacent contractor network at American Income Life faces rising agent turnover, persistent class-action litigation risk from labor misclassification claims that the DOJ closure did not address, and a long-duration fixed-income liability stack that becomes more expensive to reserve against in a higher-for-longer rate environment, compressing book value through AOCI. At 1.86x book and with the stock near its 52-week high after a 100%+ re-rating from the 2024 lows, most of the easy re-rating is already reflected; the bear case is not yet in the price, but neither is it likely to be catastrophic given the cleared regulatory overhang and consistent cash generation.",
+      "scenarios": {
+        "bull": {
+          "target": 270.0,
+          "probability": 0.25,
+          "label": "Sustained EPS compounding + multiple expansion: operating EPS reaches ~$18+ by end-2027 as buybacks shrink float, agent count grows 8-10% annually, and market re-rates to 15x on cleared regulatory slate; $270 implies ~15x $18 EPS"
+        },
+        "base": {
+          "target": 210.0,
+          "probability": 0.5,
+          "label": "Steady state: 2026-2027 EPS track guidance (~$15.65-$17), buybacks continue, stock trades 12-13x forward earnings; $210 implies ~12.5x $16.80 blended 2027E EPS"
+        },
+        "bear": {
+          "target": 115.0,
+          "probability": 0.25,
+          "label": "Distribution model breakdown: renewed litigation forces operational restructuring of AIL contractor network, agent count declines, lapse rates rise, earnings stall at $12-13; stock re-rates to 9-10x on sustained governance discount; $115 implies ~9x $12.50 stressed EPS"
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.55,
+        "quality": 0.65,
+        "management": 0.5
+      },
+      "citations": [
+        "annual-report-GL-2025",
+        "SEC Form 10-K FY2025 (CIK 0000320335)",
+        "SEC Form 8-K Q1 FY2026 earnings release (filed May 2026)",
+        "SEC Form 8-K Q4 FY2025 earnings release (filed Feb 2026)",
+        "Globe Life 8-K: Conclusion of SEC Investigation (July 24 2025)"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 179.04,
+      "high_52w": 181.15,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Finance/Insurance",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:55:25.185639",
+      "priced_at": "2026-06-28T23:50:36.939193",
+      "scenario_price": 179.04,
+      "drawdown_from_high": 0.01164780568589574,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 201.25,
+        "expected_return": 0.12405049151027714,
+        "expected_cagr": 0.06021247470036739,
+        "asymmetry": 1.4203622735790133,
+        "quality_mult": 1.0625,
+        "asymmetry_mult": 1.1917895257045237,
+        "potential_score": 0.07624563395618689
+      },
+      "conviction": 0.10319993453264453
+    },
+    {
+      "symbol": "PODD",
+      "business": "Insulet Corporation makes the OmniPod, a tubeless, waterproof patch insulin pump worn by Type 1 and Type 2 diabetics. It grows through international expansion and Type 2 label extensions, competing with tubed pumps from Medtronic and Tandem.",
+      "thesis": "Insulet grew Q1 2026 revenue 34% YoY and Director Weatherman bought 3,450 shares at $144 on June 3, 2026 \u2014 a real open-market purchase at a meaningful premium to current levels, signaling conviction the recall noise is overdone. Two FDA recalls in 2026: a voluntary recall and a Class II recall covering 7M pods. Class II recalls historically create stock overhang and media noise but rarely indicate structural quality failure \u2014 the OmniPod 5 system is intact. The bear case is that the Class II recall triggers FDA heightened scrutiny leading to a manufacturing corrective action requiring a plant shutdown, which would be severe but unlikely given Insulet's manufacturing track record.",
+      "scenarios": {
+        "bull": {
+          "target": 255.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 170.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 85.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.68,
+        "quality": 0.58,
+        "management": 0.6
+      },
+      "citations": [
+        "PODD 10-K 2025 (0001145986-25-000008)",
+        "FDA Class II recall notice Q2 2026 (7M pods)",
+        "Form 4 Weatherman 2026-06-03"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 158.16,
+      "high_52w": 354.88,
+      "decline_explanation": "Insulet fell 56% from its 52-week high after two FDA recalls in 2026: a voluntary recall of older pods and a second Class II recall covering 7M OmniPod units \u2014 the FDA's most serious recall category. This raised quality control questions and created an overhang on manufacturing credibility. Simultaneous sector rotation away from high-multiple growth MedTech compressed the premium valuation multiple alongside the operational uncertainty.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Healthcare",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566621",
+      "priced_at": "2026-06-28T23:50:36.939085",
+      "scenario_price": 155.34,
+      "drawdown_from_high": 0.5543282236248873,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 174.25,
+        "expected_return": 0.10173242286292372,
+        "expected_cagr": 0.0496344234365238,
+        "asymmetry": 1.5884089666484418,
+        "quality_mult": 1.1275,
+        "asymmetry_mult": 1.2603209776277,
+        "potential_score": 0.07053110646586903
+      },
+      "conviction": 0.09584884302317109
+    },
+    {
+      "symbol": "HCI",
+      "business": "HCI Group is a Florida-based property and casualty insurer with a combined ratio of 57% \u2014 among the most profitable in the sector. It also owns Exzeo, an insurance technology platform independently valued at approximately $2B, and participates in Florida Citizens depopulation.",
+      "thesis": "HCI posted record 2025 EPS of $22.72 but 2026 guidance implies normalization to ~$17 as favorable reserve releases from prior years roll off. At 7.9x forward PE versus the property insurance sector at 15\u201320x, the market prices in a material hurricane loss in 2026. The 57% combined ratio reflects disciplined underwriting and Florida Citizens depopulation upside \u2014 HCI selectively takes on Citizens policies below actuarial risk. The Exzeo technology spinoff, if executed, could unlock ~$2B of embedded value invisible in insurance segment earnings alone. Analyst consensus target of $245 implies 40% upside. Bear case: a Category 4\u20135 Florida landfall in 2026 that overwhelms reinsurance programs.",
+      "scenarios": {
+        "bull": {
+          "target": 265.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 200.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 105.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.65,
+        "quality": 0.7,
+        "management": 0.68
+      },
+      "citations": [
+        "HCI 10-K 2025 (0001421461-25-000009)",
+        "Exzeo valuation disclosure 2026",
+        "FL Citizens depopulation program filings"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 180.14,
+      "high_52w": 210.5,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566337",
+      "priced_at": "2026-06-28T23:50:36.939056",
+      "scenario_price": 175.25,
+      "drawdown_from_high": 0.14422802850356298,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 195.75,
+        "expected_return": 0.08665482402575786,
+        "expected_cagr": 0.0424273711035017,
+        "asymmetry": 1.3552302368911369,
+        "quality_mult": 1.1575,
+        "asymmetry_mult": 1.1641435636944168,
+        "potential_score": 0.057170720276268
+      },
+      "conviction": 0.07842623619339517
     },
     {
       "symbol": "NE",
@@ -1089,7 +774,7 @@
         "Noble-Corp-8-K-jackup-divestiture-Dec-2025"
       ],
       "horizon_years": 2.0,
-      "current_price": 38.08,
+      "current_price": 38.32,
       "high_52w": 54.98,
       "decline_explanation": "Noble's 30.3% drawdown from its $54.98 52-week high reflects a convergence of fundamental deterioration and sentiment de-rating specific to the offshore drilling cycle. The primary catalysts were: (1) JPMorgan's downgrade to Neutral in late 2025 citing delayed ultra-deepwater contract opportunities and \"white space challenges\" for key rigs including BlackRhino, Noble Viking, and Gerry De Souza, with 2026/27 EBITDA projected 0.9%-10.8% below consensus; (2) Q1 2026 contract drilling revenue fell year-over-year from $874M to $786M due to fewer operating rig days, with one rig receiving early termination notice creating a $15M headwind; (3) Brent crude settling into the mid-to-high $60s per barrel through 2026 as Middle East geopolitical risk premiums unwound, cooling E&P offshore capital budgets; and (4) aggregate insider selling of over $15M at $43-50 per share confirmed management was not treating these levels as a buying opportunity. The bad news is only partially priced in: the $7.5B backlog provides a near-term floor, but the forward P/E above 31 does not embed a pessimistic scenario, and the risk of dayrate compression on 2027-2028 contract rollovers remains unresolved \u2014 the stock is range-bound rather than deeply oversold.",
       "going_concern_explanation": "",
@@ -1097,79 +782,394 @@
       "sector": "Industrial Services",
       "author": "oracle",
       "created_at": "2026-06-28T22:55:25.185816",
-      "priced_at": "2026-06-28T23:38:48.913977",
+      "priced_at": "2026-06-28T23:50:36.939248",
       "scenario_price": 38.32,
-      "drawdown_from_high": 0.30738450345580215,
+      "drawdown_from_high": 0.3030192797380865,
       "going_concern_flag": false,
       "derived": {
         "expected_price": 42.400000000000006,
-        "expected_return": 0.11344537815126077,
-        "expected_cagr": 0.05519921254294946,
-        "asymmetry": 1.178977272727273,
+        "expected_return": 0.10647181628392488,
+        "expected_cagr": 0.051889640734200215,
+        "asymmetry": 1.1452513966480447,
         "quality_mult": 0.9625,
-        "asymmetry_mult": 1.085807198690114,
-        "potential_score": 0.05768811350336666
+        "asymmetry_mult": 1.0701641914435582,
+        "potential_score": 0.05344804409233915
       },
-      "conviction": 0.07910715026739601
+      "conviction": 0.07351215138160705
     },
     {
-      "symbol": "EQPT",
-      "business": "EquipmentShare.com (EQPT) is a construction equipment rental and jobsite technology company that operates 385+ full-service branches across 45 U.S. states, renting heavy equipment, aerial work platforms, and tools to contractors. Its business model combines traditional asset-heavy fleet rental \u2014 funded partly through its OWN Program where third-party owners supply $4.9B of the $8.8B fleet in exchange for revenue-sharing \u2014 with its proprietary T3 SaaS platform providing real-time telematics, remote access control, and jobsite intelligence as a software-driven revenue layer on top of the rental base.",
-      "thesis": "Insiders are buying meaningfully into weakness: CEO Jabbok Schlacks and co-founder/President William Schlacks each purchased 50,000 shares at ~$21 in mid-June 2026, a combined $2.1M open-market commitment at prices 16% below the IPO price, signaling conviction that the post-IPO correction has overshot. The bull case rests on EquipmentShare's rare combination of 37-38% rental revenue growth, expanding mature-branch EBITDA margins of 55%, an accelerating T3 telematics platform (revenue doubled to $66M in 2025), and a national branch network growing toward scale \u2014 all compressing toward profitability as unit economics mature. The genuine bear case is not cyclical but structural: with $3.1B+ in debt, $70M quarterly interest expense, consistent GAAP net losses despite modest EBITDA, negative free cash flow, and a lockup expiry on July 22, 2026 that will unleash insider selling pressure, the company must thread a narrow needle \u2014 sustaining 35%+ growth while the construction cycle is susceptible to macro softening, all while proving the T3 premium justifies a meaningful valuation premium over United Rentals' ~10x EV/EBITDA. The bear case is partially but not fully priced in: at $20.47 the stock already trades below its $24.50 IPO price, and the near-term lockup overhang likely adds more near-term pressure, but the combination of strong operating momentum, raised guidance, and founder-level open-market buying suggests the medium-term risk/reward favors buyers with 18-24 month patience.",
+      "symbol": "GRNT",
+      "business": "Granite Ridge Resources is a non-operated oil and gas E&P that acquires working interests across multiple basins (Permian, DJ, Haynesville). It earns revenue from operator-directed production and pays a high dividend yield (~10%), without controlling capital allocation at the well level.",
+      "thesis": "CEO, CFO, and a Director simultaneously bought shares on March 11, 2026 \u2014 37 insider buys with zero sells \u2014 a strongly coordinated signal at the $4.42 level. The 18\u201328% production growth outlook and ~10% dividend yield create meaningful total return if oil holds above $60. The non-operated model concentrates risk on commodity price and third-party operator decisions. The 8.875% senior notes raise refinancing risk and compress equity IRR materially in a falling oil environment. Bear case: oil drops to $55, operators cut activity, dividend is reduced to preserve covenant headroom.",
       "scenarios": {
         "bull": {
-          "target": 38.0,
-          "probability": 0.3,
-          "label": "T3 monetization inflects, branch scale drives FCF positive, re-rated to 12-13x 2027 EBITDA"
+          "target": 7.5,
+          "probability": 0.3
         },
         "base": {
-          "target": 26.0,
-          "probability": 0.45,
-          "label": "Steady 25-30% rental growth, leverage improves, lockup overhang absorbed, modest re-rating"
+          "target": 5.0,
+          "probability": 0.45
         },
         "bear": {
-          "target": 11.0,
-          "probability": 0.25,
-          "label": "Construction cycle softens, FCF deficit widens, debt refinancing pressure, OWN program investor withdrawal"
+          "target": 2.0,
+          "probability": 0.25
         }
       },
       "ratings": {
-        "moat": 0.48,
-        "runway": 0.38,
-        "quality": 0.52,
+        "moat": 0.2,
+        "runway": 0.3,
+        "quality": 0.38,
+        "management": 0.55
+      },
+      "citations": [
+        "GRNT 10-K 2025 (0001892416-25-000008)",
+        "Form 4 CEO/CFO/Director 2026-03-11",
+        "GRNT 8.875% senior notes indenture"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 4.525,
+      "high_52w": 6.66,
+      "decline_explanation": "GRNT fell 34% from its 52-week high driven by oil price softness, GAAP losses from high-yield debt service costs (8.875% notes), and concerns about operator capex reductions in a weaker commodity environment. The non-operated model means GRNT cannot control well-level spending. Dividend sustainability was questioned as FCF coverage tightened with declining oil realizations and rising interest costs.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566289",
+      "priced_at": "2026-06-28T23:50:36.939047",
+      "scenario_price": 4.42,
+      "drawdown_from_high": 0.3205705705705705,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 5.0,
+        "expected_return": 0.10497237569060758,
+        "expected_cagr": 0.05117666245527319,
+        "asymmetry": 1.4138613861386133,
+        "quality_mult": 0.8575,
+        "asymmetry_mult": 1.1890590339165727,
+        "potential_score": 0.052180652441556494
+      },
+      "conviction": 0.07183317051590044
+    },
+    {
+      "symbol": "GPK",
+      "business": "Graphic Packaging International is North America's largest paperboard packaging manufacturer, with ~40% market share in coated recycled board and coated unbleached kraft, serving food and beverage customers on long-term contracts.",
+      "thesis": "CEO and a Director bought shares open-market at ~$11 in 2026, suggesting management views the litigation discount as excessive. At 12x earnings and 6.3x EV/EBITDA, GPK is historically cheap relative to packaging peers that trade at 8\u201310x EBITDA. Securities fraud class actions historically settle at 5\u201315% of claimed damages \u2014 real cost but not existential. Waco facility capex is nearly complete, which should sharply reduce maintenance spending from 2027 onward. Bear case: if courts certify the class and discovery reveals worse disclosure failures, settlement costs could materially impair cash flows for several years.",
+      "scenarios": {
+        "bull": {
+          "target": 18.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 13.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 5.5,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.45,
+        "quality": 0.4,
+        "management": 0.35
+      },
+      "citations": [
+        "GPK 10-K 2025 (0001408075-25-000007)",
+        "SEC EDGAR corrective disclosure 8-Ks 2025-2026",
+        "Form 4 CEO buy 2026"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 11.005,
+      "high_52w": 23.76,
+      "decline_explanation": "Three SEC corrective disclosures triggered a securities fraud class action alleging management misrepresented Waco facility capex timing and containerboard market conditions. The stock fell 54% as litigation uncertainty, deteriorating containerboard pricing, and elevated capex obligations simultaneously compressed earnings and investor confidence in disclosure quality.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Materials",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566245",
+      "priced_at": "2026-06-28T23:50:36.939014",
+      "scenario_price": 10.86,
+      "drawdown_from_high": 0.5368265993265993,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 12.000000000000002,
+        "expected_return": 0.09041344843253074,
+        "expected_cagr": 0.04422863800631838,
+        "asymmetry": 1.058885861338177,
+        "quality_mult": 0.9375,
+        "asymmetry_mult": 1.029021798281347,
+        "potential_score": 0.04266771807824669
+      },
+      "conviction": 0.0591333712489267
+    },
+    {
+      "symbol": "FHN",
+      "business": "First Horizon National Corporation is a regional bank focused on the mid-South US (Tennessee, Georgia, North Carolina) with approximately 450 branches, providing commercial banking, mortgage, and wealth management services.",
+      "thesis": "First Horizon is a quality regional bank at NIM 3.52% and ROTCE 15.1% \u2014 both well above peer medians. EPS beat all four quarters of 2025. CEO Bryan Jordan's October 2025 M&A comments removed the takeover premium that had supported the stock, bringing it from a high of $26.56 to current levels. The $1.2B buyback is accretive at book value ratios near tangible book. Consensus target of $27.03 implies only modest upside from here \u2014 FHN is fairly valued for its quality rather than deeply discounted. The screen flag may reflect stale insider data. Sizing should be conservative given proximity to fair value; the thesis is quality-at-fair-value rather than quality-at-discount.",
+      "scenarios": {
+        "bull": {
+          "target": 32.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 27.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 18.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.65,
+        "quality": 0.68,
         "management": 0.65
       },
       "citations": [
-        "annual-report-EQPT-2025",
-        "10-K-EQPT-FY2025-SEC-EDGAR-CIK-0001693736",
-        "10-Q-EQPT-Q12026-SEC-EDGAR",
-        "8-K-EQPT-Q12026-earnings-release-May-2026",
-        "8-K-EQPT-FY2025-earnings-release-March-2026"
+        "FHN 10-K 2025 (0001042514-25-000008)",
+        "Q4 2025 earnings call transcript",
+        "CEO Jordan M&A commentary Oct 2025",
+        "FHN $1.2B buyback announcement"
       ],
       "horizon_years": 2.0,
-      "current_price": 20.754,
-      "high_52w": 35.5,
-      "decline_explanation": "The 42.3% decline from the $35.50 52-week high is a post-IPO correction combining several compounding factors rather than a single catalyst. The stock surged to $35.50 shortly after its January 23, 2026 IPO debut (opening at $28.50 vs. $24.50 IPO price), reflecting early investor enthusiasm for a tech-enabled rental story that was fundamentally priced for perfection. The primary drivers of the selloff are: (1) a widely anticipated lockup expiry on July 22, 2026 creating supply overhang as pre-IPO holders prepare to exit; (2) persistent GAAP net losses \u2014 Q1 2026 showed a $29M GAAP net loss after $70M in quarterly interest expense on over $3.1B in long-term debt; (3) negative free cash flow driven by $2.1-2.3B in gross fleet capex, making EQPT perpetually capital-markets dependent; (4) growth-multiple compression as investors recalibrated the T3 technology premium against peers United Rentals and Herc Rentals trading at ~10x EV/EBITDA; and (5) a 5.7% single-day drop on debt-issuance news when the company upsized a $1.35B senior secured notes offering, reminding markets that the balance sheet remains stretched. The bad news is partially but not fully priced in: the stock sits below its IPO price and the lockup risk is consensus knowledge, but the overhang will not clear until after July 22, and the market has not yet seen Q2 2026 results to validate whether 35%+ growth is sustainable heading into a potentially slowing construction backdrop.",
+      "current_price": 25.55,
+      "high_52w": 26.56,
+      "decline_explanation": "",
       "going_concern_explanation": "",
       "insider_tier": "half",
-      "sector": "Technology Services",
+      "sector": "Financials",
       "author": "oracle",
-      "created_at": "2026-06-28T22:55:25.185833",
-      "priced_at": "2026-06-28T23:38:48.913987",
-      "scenario_price": 20.47,
-      "drawdown_from_high": 0.41538028169014085,
+      "created_at": "2026-06-28T22:26:39.566653",
+      "priced_at": "2026-06-28T23:50:36.939114",
+      "scenario_price": 25.68,
+      "drawdown_from_high": 0.03802710843373491,
       "going_concern_flag": false,
       "derived": {
-        "expected_price": 25.85,
-        "expected_return": 0.245543027850053,
-        "expected_cagr": 0.11603899029113363,
-        "asymmetry": 2.121714168546237,
-        "quality_mult": 1.0074999999999998,
-        "asymmetry_mult": 1.4566105068089537,
-        "potential_score": 0.17029128955099912
+        "expected_price": 26.700000000000003,
+        "expected_return": 0.045009784735812186,
+        "expected_cagr": 0.02225720087256522,
+        "asymmetry": 1.2814569536423837,
+        "quality_mult": 1.12,
+        "asymmetry_mult": 1.1320145554021748,
+        "potential_score": 0.028218932392284273
       },
-      "conviction": 0.21594277544152018
+      "conviction": 0.039511010904185184
+    },
+    {
+      "symbol": "EVTC",
+      "business": "EVERTEC is a payment technology company with a near-monopoly position in Puerto Rico payment processing and a rapidly growing Latin American business. It processes card payments, merchant acquiring, and banking technology, primarily for Popular Inc. and regional banks/retailers.",
+      "thesis": "COO and General Counsel collectively bought $1.78M in May 2026, while CEO/CFO sold $2.07M over the past year \u2014 a mixed insider picture. At 6.7x forward PE, EVTC is priced for Puerto Rico terminal decline. The bear case overlooks LatAm expansion growing 25%+ that is rapidly reducing single-country concentration. Popular's 10% pricing discount (Q4 2025) is a known headwind already in the run rate. Valuation appears to discount the LatAm segment entirely, which is growing fast enough to offset Puerto Rico compression. The operational buy from COO and GC outweighs the CEO/CFO sales in assessing management conviction on current operations.",
+      "scenarios": {
+        "bull": {
+          "target": 40.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 28.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 15.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.58,
+        "quality": 0.62,
+        "management": 0.48
+      },
+      "citations": [
+        "EVTC 10-K 2025 (0001559865-25-000007)",
+        "Popular discount amendment 8-K 2025-Q4",
+        "Form 4 COO/GC 2026-05",
+        "EVTC Q1 2026 LatAm segment disclosure"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 27.37,
+      "high_52w": 37.79,
+      "decline_explanation": "EVTC fell 31% following Popular Bank negotiating a 10% pricing discount on its processing contract in Q4 2025, compressing the single largest revenue stream permanently. LatAm investment spending reduced near-term margins. CEO and CFO sales of $2.07M combined with the Popular contract repricing created negative market perception, while Puerto Rico organic growth moderated from prior elevated levels.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Technology",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566504",
+      "priced_at": "2026-06-28T23:50:36.939065",
+      "scenario_price": 25.96,
+      "drawdown_from_high": 0.27573432124900765,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 28.35,
+        "expected_return": 0.03580562659846542,
+        "expected_cagr": 0.017745364321776425,
+        "asymmetry": 1.2252223120452705,
+        "quality_mult": 1.0699999999999998,
+        "asymmetry_mult": 1.1068976068477474,
+        "potential_score": 0.021017262391444823
+      },
+      "conviction": 0.029578397885946517
+    },
+    {
+      "symbol": "CAVA",
+      "business": "CAVA Group is a Mediterranean fast-casual restaurant chain with approximately 390 US locations. It features customizable bowls with Middle Eastern-inspired ingredients and competes primarily with Chipotle. Same-store sales and new unit growth are the key operating metrics.",
+      "thesis": "CAVA's Q1 2026 same-store sales grew 9.7% \u2014 a strong rebound demonstrating the model's durability. Unit economics remain excellent at the restaurant level. However, Artal (major institutional holder) sold 3M shares on June 17, 2026, and there is zero management insider buying. At 160x earnings, CAVA is priced for Chipotle-level execution across a 10+ year expansion from 390 to 3,000+ locations. The question is not whether CAVA is a good business \u2014 it clearly is \u2014 but whether current pricing compensates for execution risk at scale, menu optionality, and competition from Sweetgreen, Chipotle, and independents. The valuation leaves almost no margin for error and significantly underweights the risk of unit economics normalization as the footprint matures.",
+      "scenarios": {
+        "bull": {
+          "target": 125.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 78.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 40.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.72,
+        "quality": 0.7,
+        "management": 0.62
+      },
+      "citations": [
+        "CAVA 10-K 2025 (0001760689-25-000008)",
+        "Q1 2026 earnings release (SSS +9.7%)",
+        "Form 4 Artal sale 2026-06-17"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 83.41,
+      "high_52w": 98.79,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Consumer Discretionary",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566632",
+      "priced_at": "2026-06-28T23:50:36.939103",
+      "scenario_price": 81.23,
+      "drawdown_from_high": 0.15568377366130182,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 80.25,
+        "expected_return": -0.03788514566598722,
+        "expected_cagr": -0.019125464529732628,
+        "asymmetry": 0.9580741764570377,
+        "quality_mult": 1.1475,
+        "asymmetry_mult": 0.9788126360325748,
+        "potential_score": -0.02148148268857013
+      },
+      "conviction": 0.0
+    },
+    {
+      "symbol": "GSHD",
+      "business": "Goosehead Insurance is a rapidly growing franchise-based personal lines insurance agency. It distributes auto, home, and life insurance via franchised and corporate agents on a proprietary tech-enabled quoting platform with carrier access to 150+ insurers.",
+      "thesis": "Goosehead grew revenue 16% in FY2025, and the franchise model is capital-light with high incremental margins. However, franchise agent count grew only 1% YoY \u2014 a dramatic deceleration from historical 15\u201320% annual rates \u2014 which is the core bear case. Executive Chairman Langowski planned a $14.48M share sale in 2026, a meaningful negative insider signal. At 40x earnings, the stock prices in near-perfect execution on agent count re-acceleration. The screen flagged this name on stale data showing older buys \u2014 current insider flow is net selling. Position requires evidence of agent growth recovering above 10% annually to justify.",
+      "scenarios": {
+        "bull": {
+          "target": 68.0,
+          "probability": 0.2
+        },
+        "base": {
+          "target": 42.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 22.0,
+          "probability": 0.35
+        }
+      },
+      "ratings": {
+        "moat": 0.52,
+        "runway": 0.62,
+        "quality": 0.55,
+        "management": 0.38
+      },
+      "citations": [
+        "GSHD 10-K 2025 (0001726978-25-000014)",
+        "Form 4 Langowski planned sale 2026",
+        "GSHD Q4 2025 earnings release"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 46.84,
+      "high_52w": 106.84,
+      "decline_explanation": "Franchise agent growth decelerated sharply to 1% YoY from historically 15\u201320%+ annual rates, triggering a valuation reset from 80\u201390x earnings toward 40x. The executive chairman planned a $14.48M share sale, adding a negative insider signal. The market re-rated the growth premium as the agent count plateau raised questions about franchise TAM saturation and agent retention economics.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566262",
+      "priced_at": "2026-06-28T23:50:36.939034",
+      "scenario_price": 44.07,
+      "drawdown_from_high": 0.5615874204417821,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 40.2,
+        "expected_return": -0.1417591801878736,
+        "expected_cagr": -0.07358712238434073,
+        "asymmetry": 0.48677248677248663,
+        "quality_mult": 1.0175,
+        "asymmetry_mult": 0.6976908246297113,
+        "potential_score": -0.052239528650181194
+      },
+      "conviction": 0.0
+    },
+    {
+      "symbol": "RHLD",
+      "business": "Retail Holdings Ltd (RHLD) is a fee-based holding company founded September 2024, operating GPGI (insurance distribution) and Husky Holdings (specialty finance). It employs approximately 7 people at the holding-company level and generates fee income from portfolio subsidiaries.",
+      "thesis": "RHLD posted Q1 2026 EPS of $7.27 on a small float. However, FY2025 produced a GAAP loss and debt/equity exceeds 4x. Founded September 2024 with minimal operating history, the fee-based model avoids principal risk but concentrates on two early-stage subsidiaries whose financial performance cannot yet be reliably normalized. The insider buy flagged by the screen is the only meaningful positive signal. The opacity and novelty of the holding structure make this a high-uncertainty, high-variance outcome \u2014 the base case is near fair value at current price, not a deep discount. Sizing should reflect the severe information deficit and capital structure risk.",
+      "scenarios": {
+        "bull": {
+          "target": 220.0,
+          "probability": 0.2
+        },
+        "base": {
+          "target": 120.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 18.0,
+          "probability": 0.35
+        }
+      },
+      "ratings": {
+        "moat": 0.2,
+        "runway": 0.18,
+        "quality": 0.22,
+        "management": 0.35
+      },
+      "citations": [
+        "RHLD 10-K 2025 SEC EDGAR",
+        "Q1 2026 earnings press release",
+        "RHLD debt prospectus 2024-2025"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 133.62,
+      "high_52w": 236.19,
+      "decline_explanation": "RHLD fell 47% from its post-listing high as investors reassessed the opaque fee-based holding structure, FY2025 GAAP losses, and debt/equity exceeding 4x. The company was founded September 2024 with only 7 holding-company employees, making financial projection unreliable. The market de-rated from speculative listing premium toward capital structure concerns and earnings normalization uncertainty.",
+      "going_concern_explanation": "RHLD is a company founded September 2024 with GAAP losses in FY2025, debt/equity exceeding 4x, and only 7 holding-company employees. With two early-stage subsidiaries driving fee income, a sustained earnings shortfall combined with high leverage creates material refinancing and going-concern risk for equity holders.",
+      "insider_tier": "half",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566520",
+      "priced_at": "2026-06-28T23:50:36.939073",
+      "scenario_price": 126.46,
+      "drawdown_from_high": 0.4342690207036708,
+      "going_concern_flag": true,
+      "derived": {
+        "expected_price": 104.3,
+        "expected_return": -0.21942822930699002,
+        "expected_cagr": -0.11650027125470497,
+        "asymmetry": 0.4269157585192873,
+        "quality_mult": 0.7375,
+        "asymmetry_mult": 0.6533879081520313,
+        "potential_score": -0.05613840304401373
+      },
+      "conviction": 0.0
     }
   ],
-  "saved_at": "2026-06-28T23:38:48.914415"
+  "saved_at": "2026-06-28T23:50:36.939445"
 }

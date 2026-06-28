@@ -1,15 +1,63 @@
 {
-  "name": "oracle",
-  "cash": 1000.0,
-  "positions": {},
-  "pending_settlements": [],
-  "realized_pnl": 0.0,
-  "gfv_count": 0,
-  "trades_count": 0,
-  "cooldowns": {},
-  "halted": false,
+  "cash": 99.55000000000013,
   "contributed_cash": 1000.0,
   "cooldown_days": 31,
+  "cooldowns": {},
+  "gfv_count": 0,
+  "halted": false,
+  "name": "oracle",
   "peak_equity": 1000.0,
-  "updated_at": "2026-06-28T23:47:38Z"
+  "pending_settlements": [],
+  "positions": {
+    "ALSN": {
+      "avg_price": 119.84,
+      "entry_date": "2026-06-28",
+      "sector": "Producer Manufacturing",
+      "shares": 0.9387516688918558
+    },
+    "BFH": {
+      "avg_price": 106.27,
+      "entry_date": "2026-06-28",
+      "sector": "Finance",
+      "shares": 1.0586242589630188
+    },
+    "EQPT": {
+      "avg_price": 20.47,
+      "entry_date": "2026-06-28",
+      "sector": "Technology Services",
+      "shares": 5.495847581827064
+    },
+    "IBP": {
+      "avg_price": 233.4,
+      "entry_date": "2026-06-28",
+      "sector": "Industrial Services",
+      "shares": 0.4820051413881748
+    },
+    "MTDR": {
+      "avg_price": 49.905,
+      "entry_date": "2026-06-28",
+      "sector": "Energy",
+      "shares": 2.254283137962128
+    },
+    "NYT": {
+      "avg_price": 70.75,
+      "entry_date": "2026-06-28",
+      "sector": "Consumer Services",
+      "shares": 1.5901060070671378
+    },
+    "OLED": {
+      "avg_price": 87.05,
+      "entry_date": "2026-06-28",
+      "sector": "Electronic Technology",
+      "shares": 1.2923607122343481
+    },
+    "RLI": {
+      "avg_price": 57.51,
+      "entry_date": "2026-06-28",
+      "sector": "Finance/Insurance",
+      "shares": 1.9561815336463224
+    }
+  },
+  "realized_pnl": 0.0,
+  "trades_count": 8
 }

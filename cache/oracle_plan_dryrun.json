@@ -1,94 +1,65 @@
 {
-  "run_at": "2026-06-28T23:23:00.961331",
+  "run_at": "2026-06-28T23:52:19.803897",
   "mode": "paper",
-  "equity": 1040.29,
+  "equity": 1000.0,
   "targets": {
-    "ADSK": 117.03,
-    "AMT": 117.03,
-    "EQPT": 117.03,
-    "BSX": 117.03,
-    "META": 117.03,
-    "OLED": 117.03,
-    "RLI": 117.03,
-    "UBER": 117.03
+    "EQPT": 112.5,
+    "OLED": 112.5,
+    "RLI": 112.5,
+    "NYT": 112.5,
+    "MTDR": 112.5,
+    "BFH": 112.5,
+    "ALSN": 112.5,
+    "IBP": 112.5
   },
   "orders": [
     {
-      "side": "sell",
-      "symbol": "ESNT",
-      "dollars": 321.2,
-      "reason": "removed_from_book"
-    },
-    {
-      "side": "sell",
-      "symbol": "MTG",
-      "dollars": 313.92,
-      "reason": "removed_from_book"
-    },
-    {
-      "side": "sell",
-      "symbol": "RRC",
-      "dollars": 305.62,
-      "reason": "removed_from_book"
-    },
-    {
-      "side": "buy",
-      "symbol": "ADSK",
-      "dollars": 117.03,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "AMT",
-      "dollars": 117.03,
-      "reason": "open_or_add"
-    },
-    {
       "side": "buy",
       "symbol": "EQPT",
-      "dollars": 117.03,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "BSX",
-      "dollars": 117.03,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "META",
-      "dollars": 117.03,
+      "dollars": 112.5,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
       "symbol": "OLED",
-      "dollars": 117.03,
+      "dollars": 112.5,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
       "symbol": "RLI",
-      "dollars": 117.03,
+      "dollars": 112.5,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
-      "symbol": "UBER",
-      "dollars": 117.03,
+      "symbol": "NYT",
+      "dollars": 112.5,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "MTDR",
+      "dollars": 112.5,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "BFH",
+      "dollars": 112.5,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "ALSN",
+      "dollars": 112.5,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "IBP",
+      "dollars": 112.5,
       "reason": "open_or_add"
     }
-  ],
-  "note": "PAPER MODE \u2014 orders computed but not placed. Would rotate ESNT/MTG/RRC -> ADSK/AMT/EQPT/BSX/META/OLED/RLI/UBER based on potential_score ranking.",
-  "top_scores": {
-    "ADSK": 0.2254,
-    "AMT": 0.1973,
-    "EQPT": 0.1858,
-    "BSX": 0.1796,
-    "META": 0.1761,
-    "OLED": 0.1631,
-    "RLI": 0.1513,
-    "UBER": 0.1488
-  }
+  ]
 }
