@@ -719,7 +719,583 @@
         "potential_score": 0.03984237771591609
       },
       "conviction": 0.055328170764721074
+    },
+    {
+      "symbol": "VRRM",
+      "business": "Verra Mobility provides smart mobility technology solutions to government agencies and commercial fleets \u2014 automated photo enforcement (tolling, red-light, school-zone speed), commercial services (RAC fleet tolling, violations processing) and government solutions. Serves 40+ US states and several international jurisdictions. ~60% revenue from government, ~40% from commercial (primarily Avis Budget Group historically).",
+      "thesis": "Avis Budget Group (ABG) terminated its Commercial Services contract effective September 2026, removing $135-145M annualized revenue and $120-125M segment profit \u2014 the single largest customer. Bull case: management replaces ABG revenue via Hertz and Enterprise wins within 12-18 months, government segment (ATS) continues growing at 15%+ driven by new municipalities, and the stock's current enterprise value prices in permanent impairment. Bear: Hertz/Enterprise don't convert at comparable economics, EBITDA declines to $200M range and debt load (~$1.5B net) weighs on equity. The fallen knife is only catchable if replacement revenue materializes faster than the market expects.",
+      "scenarios": {
+        "bull": {
+          "target": 12.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 6.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 1.5,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.3,
+        "quality": 0.45,
+        "management": 0.45
+      },
+      "citations": [
+        "0001193125-26-209227"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 4.475,
+      "high_52w": 25.83,
+      "decline_explanation": "Avis Budget Group terminated Commercial Services contract effective Sep 2026, removing $135-145M annualized revenue and $120-125M segment profit (>10% of total revenue). Company cut 2026 guidance. Stock fell 72.7% in a single session; down 83% YTD from $25.83 high. Deutsche Bank and Baird downgraded. Bear case: replacement clients (Hertz/Enterprise) don't convert at comparable economics, leaving permanent EBITDA impairment.",
+      "sector": "Technology",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:58:52.962518",
+      "priced_at": "2026-06-28T09:58:52.962518",
+      "scenario_price": 4.475,
+      "drawdown_from_high": 0.8267518389469609,
+      "derived": {
+        "expected_price": 6.15,
+        "expected_return": 0.37430167597765385,
+        "expected_cagr": 0.17230613577582798,
+        "asymmetry": 2.1078431372549025,
+        "quality_mult": 0.925,
+        "asymmetry_mult": 1.451841292033982,
+        "potential_score": 0.23139907558089878
+      },
+      "conviction": 0.2814860139090646
+    },
+    {
+      "symbol": "WW",
+      "business": "WW International (formerly Weight Watchers) operates a behavioral weight management program via workshops and digital subscriptions. Emerged from prepackaged Chapter 11 bankruptcy in June 2025 with debt cut from $1.6B to ~$465M. ~$900M revenue run rate, ~4M subscribers. Expanding into GLP-1 medication management (telehealth) to offset secular decline in traditional coaching.",
+      "thesis": "Post-bankruptcy capital structure is dramatically improved (~$465M debt vs $1.6B pre-filing) but the core subscriber base continues eroding under GLP-1 drug disruption. Bull case: GLP-1 companion program (Clinic by WW) adds a new revenue stream \u2014 GLP-1 users still need behavioral support for maintenance and the company is positioned as the behavioral layer to Ozempic/Wegovy users. Bear case: GLP-1 drugs become so effective that behavioral coaching is deemed unnecessary; subscriber churn accelerates, cash burn resumes, and debt becomes unserviceable again within 2 years.",
+      "scenarios": {
+        "bull": {
+          "target": 40.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 18.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 5.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.35,
+        "runway": 0.4,
+        "quality": 0.3,
+        "management": 0.45
+      },
+      "citations": [
+        "0001193125-26-210307"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 15.88,
+      "high_52w": 46.95,
+      "decline_explanation": "Filed prepackaged Chapter 11 bankruptcy May 2025, emerged June 2025 with $1.15B debt cut. Post-emergence equity spiked to $46.95 on Jul 8 2025 but fell 66% as GLP-1 drug disruption (Ozempic/Wegovy) crushed the legacy weight-coaching subscriber base. Q1 2026 revenue down YoY, subscribers in secular decline. Bear case: GLP-1 efficacy makes behavioral coaching obsolete and cash flow deteriorates, threatening the restructured balance sheet within 2 years.",
+      "sector": "Consumer Discretionary",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:58:52.962620",
+      "priced_at": "2026-06-28T09:58:52.962620",
+      "scenario_price": 15.88,
+      "drawdown_from_high": 0.6617678381256655,
+      "derived": {
+        "expected_price": 20.25,
+        "expected_return": 0.2751889168765742,
+        "expected_cagr": 0.12924262976411494,
+        "asymmetry": 2.216911764705882,
+        "quality_mult": 0.875,
+        "asymmetry_mult": 1.4889297380017237,
+        "potential_score": 0.16837904551417024
+      },
+      "conviction": 0.21379797757439178
+    },
+    {
+      "symbol": "EFOR",
+      "business": "Aeyon (formerly Edgewater Federal Solutions) is a federal IT and mission support services firm serving defense, intelligence, and civilian agencies. Revenue ~$270M, primarily from DoD and federal civilian agencies. Capabilities include digital transformation, cybersecurity, data analytics, and cloud solutions for the US government.",
+      "thesis": "DOGE-driven federal IT spending cuts have compressed the book-to-bill ratio to 0.7x in the Federal segment, causing a ~74% collapse in Q1 2026 net income. Bull case: DOGE-era cuts are temporary and selectively applied; DoD IT modernization (JADC2, zero-trust, cloud migration) remains a bipartisan priority. At current prices the company trades at ~7x depressed earnings \u2014 any recovery in contract wins reprices to 14-16x. Bear: federal IT contracting tightens further, new contract wins don't offset recompetes lost, and smaller scale leaves EFOR disadvantaged vs Leidos/SAIC.",
+      "scenarios": {
+        "bull": {
+          "target": 35.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 22.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 12.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.4,
+        "runway": 0.45,
+        "quality": 0.4,
+        "management": 0.5
+      },
+      "citations": [
+        "0000890564-26-000037"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 19.29,
+      "high_52w": 60.75,
+      "decline_explanation": "Federal IT spending cuts under DOGE/Trump administration caused Federal segment book-to-bill to fall to 0.7x in Q1 2026. Q1 2026 EPS collapsed 73% YoY from $0.48 to $0.13; net income fell 74% to $5.5M. Full-year 2026 EPS estimate cut from $1.57 to $1.40. Contract wins not keeping pace with losses. Bear case: DOGE cuts deepen, recompetes are lost to larger primes (Leidos, SAIC), and business deteriorates further before any stabilization.",
+      "sector": "Technology",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:58:52.962641",
+      "priced_at": "2026-06-28T09:58:52.962641",
+      "scenario_price": 19.29,
+      "drawdown_from_high": 0.6824691358024692,
+      "derived": {
+        "expected_price": 22.25,
+        "expected_return": 0.15344738206324515,
+        "expected_cagr": 0.07398667685555815,
+        "asymmetry": 1.795839048925469,
+        "quality_mult": 0.9375,
+        "asymmetry_mult": 1.3400891943917275,
+        "potential_score": 0.09295194954664313
+      },
+      "conviction": 0.12434972687498846
+    },
+    {
+      "symbol": "FIS",
+      "business": "FIS (Fidelity National Information Services) provides technology solutions to financial institutions globally. After selling its Worldpay stake to JPMorgan for $6.6B and acquiring Global Payments Issuer Solutions business, FIS now focuses on core banking software, capital markets technology, and wealth management platforms. ~$10B revenue, serves 20,000+ financial institution clients worldwide.",
+      "thesis": "FIS completed a complex multi-year restructuring \u2014 divesting Worldpay and acquiring GP Issuer Solutions \u2014 leaving the market uncertain about its new positioning. Bull case: the refocused FIS is a pure-play financial technology infrastructure company with sticky recurring revenue (90%+) from banks and capital markets; integration costs normalize by 2027 and adjusted EPS recovers to $6-7. At $38 it trades at 6x normalized EPS. Bear: integration synergies disappoint, cloud migration disrupts existing clients, and the market re-rates it as an ex-growth legacy tech provider.",
+      "scenarios": {
+        "bull": {
+          "target": 65.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 45.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 30.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.5,
+        "quality": 0.5,
+        "management": 0.45
+      },
+      "citations": [
+        "0001136893-26-000040"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 38.57,
+      "high_52w": 82.74,
+      "decline_explanation": "FIS completed complex restructuring: sold remaining Worldpay stake to JPMorgan for $6.6B, simultaneously acquired Global Payments Issuer Solutions. Integration costs and earnings reset weighing on stock. Market uncertain about FIS's new focus on banking software and capital markets. Down 53% from 52w high, trading near all-time lows. Bear case: integration synergies disappoint, cloud migration disrupts existing clients, and FIS is re-rated as ex-growth legacy tech provider near $30.",
+      "sector": "Technology",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:58:52.962655",
+      "priced_at": "2026-06-28T09:58:52.962655",
+      "scenario_price": 38.57,
+      "drawdown_from_high": 0.5338409475465313,
+      "derived": {
+        "expected_price": 47.25,
+        "expected_return": 0.22504537205081676,
+        "expected_cagr": 0.10681767787238416,
+        "asymmetry": 3.700816802800466,
+        "quality_mult": 1.0125000000000002,
+        "asymmetry_mult": 1.9237507122287092,
+        "potential_score": 0.2080592161841861
+      },
+      "conviction": 0.25712497503671194
+    },
+    {
+      "symbol": "KBR",
+      "business": "KBR provides science, technology, and engineering solutions to defense, intelligence, and government customers globally. Two segments: Sustainable Technology Solutions (STS, ~$1.5B revenue) providing proprietary process technologies for energy and chemicals, and Government Solutions (~$5B revenue) including HomeSafe Alliance military household goods moving and Mission Technologies IT/cyber. KBR has announced plans to spin off Mission Technologies.",
+      "thesis": "HomeSafe Alliance's Global Household Goods Contract was terminated by USTRANSCOM after operational issues, triggering federal securities class action lawsuits. But KBR's core value lies in its STS segment (ammonia, refining, petrochemical process tech) which enjoys genuine moat via proprietary licensed technology. Bull case: pending Mission Technologies spin-off unlocks sum-of-the-parts value; STS grows as energy transition spending accelerates; legal exposure is bounded. Bear: legal liability from HomeSafe termination is larger than disclosed, DoD contract backlog fails to rebuild after USTRANSCOM removal, and Mission Tech spin fails to attract buyers at value-accretive price.",
+      "scenarios": {
+        "bull": {
+          "target": 55.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 40.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 25.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.5,
+        "quality": 0.55,
+        "management": 0.45
+      },
+      "citations": [
+        "0001357615-26-000141"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 33.36,
+      "high_52w": 52.23,
+      "decline_explanation": "HomeSafe Alliance JV's multi-billion-dollar Global Household Goods Contract was terminated by DoD's USTRANSCOM after operational failures, triggering multiple federal securities class action lawsuits. Mission Technology Solutions also experienced contract protest delays. Down 36% from $52.23 52w high. Bear case: legal liability from HomeSafe termination exceeds disclosures, DoD contract backlog fails to rebuild, Mission Tech spin fails to attract buyers at value-accretive prices.",
+      "sector": "Industrials",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:58:52.962669",
+      "priced_at": "2026-06-28T09:58:52.962669",
+      "scenario_price": 33.36,
+      "drawdown_from_high": 0.3612866168868466,
+      "derived": {
+        "expected_price": 40.75,
+        "expected_return": 0.2215227817745804,
+        "expected_cagr": 0.10522521767039872,
+        "asymmetry": 3.10622009569378,
+        "quality_mult": 1.0125000000000002,
+        "asymmetry_mult": 1.7624471894765472,
+        "potential_score": 0.18777206275956781
+      },
+      "conviction": 0.23528021313937142
+    },
+    {
+      "symbol": "CF",
+      "business": "CF Industries is the world's largest producer of hydrogen-based nitrogen fertilizers (urea, UAN, ammonia). Operates 6 nitrogen manufacturing complexes in North America and UK. ~$6B revenue at peak nitrogen prices, ~$4B at mid-cycle. Net cash position after years of buybacks. Growing blue ammonia (carbon capture) and green ammonia (electrolysis) initiatives for clean energy transition.",
+      "thesis": "Nitrogen fertilizer pricing has corrected from 2022 highs but North American natural gas advantage persists \u2014 CF's cost structure (Henry Hub-linked) is $150-200/tonne below European and Asian producers. Bull case: global food security spending keeps nitrogen demand firm, US gas advantage widens, and the company's clean ammonia investments (Donaldsonville blue ammonia) capture a carbon premium. Current FCF yield of 10%+ with aggressive buybacks creates shareholder value even in flat-price scenario. Bear: China resumes full urea export capacity, natural gas prices spike, or new capacity additions globally suppress nitrogen pricing for an extended period.",
+      "scenarios": {
+        "bull": {
+          "target": 145.0,
+          "probability": 0.35
+        },
+        "base": {
+          "target": 105.0,
+          "probability": 0.4
+        },
+        "bear": {
+          "target": 80.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.5,
+        "quality": 0.65,
+        "management": 0.7
+      },
+      "citations": [
+        "0001324404-26-000013"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 105.72,
+      "high_52w": 141.96,
+      "decline_explanation": "",
+      "sector": "Materials",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:58:52.962681",
+      "priced_at": "2026-06-28T09:58:52.962681",
+      "scenario_price": 105.72,
+      "drawdown_from_high": 0.2552831783601015,
+      "derived": {
+        "expected_price": 112.75,
+        "expected_return": 0.06649640559969727,
+        "expected_cagr": 0.032713128414516346,
+        "asymmetry": 2.1381026438569206,
+        "quality_mult": 1.125,
+        "asymmetry_mult": 1.4622252370469198,
+        "potential_score": 0.0538132071942703
+      },
+      "conviction": 0.07399533845016182
+    },
+    {
+      "symbol": "MRP",
+      "business": "Millrose Properties is a land banking REIT spun off from Lennar Corporation in early 2025. It acquires, develops, and options finished homesite lots to homebuilders, primarily Lennar (~85% of revenue). Millrose provides capital-light lot banking: homebuilders option finished lots and exercise options as homes sell, keeping lot inventory off builder balance sheets. Insider buying cluster: 4 insiders purchased $6.6M in May 2025.",
+      "thesis": "Millrose pioneered the land-light model for homebuilders \u2014 Lennar's decision to spin it off validates the strategy and creates a pure-play on lot banking economics. Bull case: other major homebuilders (DR Horton, PulteGroup) adopt similar structures and become customers, dramatically expanding TAM; Fed rate cuts improve housing affordability and accelerate lot option exercise. Bear case: housing market slows materially, homebuilders reduce option exercises and absorb losses on option forfeitures, and Millrose's Lennar concentration (~85%) becomes an existential risk if Lennar renegotiates terms or reduces its volume.",
+      "scenarios": {
+        "bull": {
+          "target": 40.0,
+          "probability": 0.35
+        },
+        "base": {
+          "target": 32.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 22.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.6,
+        "quality": 0.6,
+        "management": 0.6
+      },
+      "citations": [
+        "0001193125-26-208995"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 30.91,
+      "high_52w": 36.0,
+      "decline_explanation": "",
+      "sector": "Real Estate",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:58:52.962695",
+      "priced_at": "2026-06-28T09:58:52.962695",
+      "scenario_price": 30.91,
+      "drawdown_from_high": 0.1413888888888889,
+      "derived": {
+        "expected_price": 32.8,
+        "expected_return": 0.061145260433516535,
+        "expected_cagr": 0.0301190515826395,
+        "asymmetry": 1.7853535353535352,
+        "quality_mult": 1.0750000000000002,
+        "asymmetry_mult": 1.3361712223190316,
+        "potential_score": 0.0432625257158853
+      },
+      "conviction": 0.05993250975789455
+    },
+    {
+      "symbol": "INSW",
+      "business": "International Seaways is an ocean tanker company owning and operating crude and product tankers. Fleet of 80+ vessels including VLCCs, Suezmaxes, Aframaxes, and MR product tankers. ~$900M revenue at current spot rates. Significant FCF generation during elevated rate environments. Low leverage with net debt ~$1.2B. Returns capital via dividends and buybacks.",
+      "thesis": "Tanker rates remain structurally elevated above 2010s averages due to Red Sea disruption extending ton-miles, aging global fleet (20%+ vessels >20 years), and minimal new ordering constrained by shipyard capacity. Bull case: sanctions compliance drives Russian oil re-routing through longer voyages, Red Sea disruption persists, and fleet attrition tightens supply; INSW generates $15-20/share FCF and dividends back to $79 NAV within 18 months. Bear: geopolitical risks resolve, Red Sea reopens, sanctions enforcement weakens \u2014 spot rates collapse to breakeven and equity re-rates to 0.7x book.",
+      "scenarios": {
+        "bull": {
+          "target": 110.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 85.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 55.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.35,
+        "runway": 0.45,
+        "quality": 0.5,
+        "management": 0.55
+      },
+      "citations": [
+        "0001104659-26-056721"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 79.55,
+      "high_52w": 92.66,
+      "decline_explanation": "",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:58:52.962708",
+      "priced_at": "2026-06-28T09:58:52.962708",
+      "scenario_price": 79.55,
+      "drawdown_from_high": 0.1414849989207857,
+      "derived": {
+        "expected_price": 85.0,
+        "expected_return": 0.06851037083595224,
+        "expected_cagr": 0.03368775306470195,
+        "asymmetry": 1.4883910386965378,
+        "quality_mult": 0.9625,
+        "asymmetry_mult": 1.2199963273291186,
+        "potential_score": 0.039557724951847645
+      },
+      "conviction": 0.054943944865999406
+    },
+    {
+      "symbol": "GRBK",
+      "business": "Green Brick Partners is a homebuilder and land developer operating primarily in Atlanta GA, Dallas-Fort Worth TX, Denver CO, and other high-growth Sunbelt markets. Owns or controls ~40,000 lots. Unique hybrid model: combines own-brand homebuilding with co-investment in land projects alongside third-party homebuilders. Greenlight Capital is a meaningful long-term shareholder (3 13F filings). Revenue ~$1.8B, net income margins of 12-15%.",
+      "thesis": "Green Brick benefits from Sunbelt migration tailwinds and owns a differentiated land-light community development model. Greenlight Capital's concentrated position (disclosed across 3 separate 13F filings) validates the investment case. Bull case: Sunbelt demographics persist, rate normalization re-accelerates housing demand, and GRBK's semi-custom product mix (Trophy Signature, CB JENI) commands premium ASPs while maintaining industry-leading margins. Bears see cyclical risk from housing affordability crisis and concentration in Texas/Georgia (tariff and employment exposure).",
+      "scenarios": {
+        "bull": {
+          "target": 110.0,
+          "probability": 0.35
+        },
+        "base": {
+          "target": 85.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 55.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.6,
+        "quality": 0.65,
+        "management": 0.65
+      },
+      "citations": [
+        "0001628280-26-033612"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 80.26,
+      "high_52w": 83.18,
+      "decline_explanation": "",
+      "sector": "Consumer Discretionary",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:58:52.962743",
+      "priced_at": "2026-06-28T09:58:52.962743",
+      "scenario_price": 80.26,
+      "drawdown_from_high": 0.03510459245010822,
+      "derived": {
+        "expected_price": 87.75,
+        "expected_return": 0.09332170446050325,
+        "expected_cagr": 0.04562024868520176,
+        "asymmetry": 2.060372129849563,
+        "quality_mult": 1.1,
+        "asymmetry_mult": 1.4353996411625451,
+        "potential_score": 0.07203161745173314
+      },
+      "conviction": 0.09778489401188273
+    },
+    {
+      "symbol": "ECPG",
+      "business": "Encore Capital Group is the largest purchaser of charged-off consumer debt in the US and Europe. Buys non-performing receivables (credit cards, auto loans) from banks at deep discounts and collects through a combination of legal collections and payment plans. Midland Credit Management (US) and Cabot Financial (Europe) are primary operating subsidiaries. ~$1.9B revenue, $400-500M annual ERC (estimated remaining collections) deployable.",
+      "thesis": "Rising US consumer delinquencies (credit card charge-off rates at post-2010 highs) are expanding the supply of distressed paper at favorable purchase price multiples. Bull case: Encore's scale advantages in collections technology and legal infrastructure allow it to purchase at 8-9x and collect at 2-3x cost \u2014 current ROE of 15%+ compounds book value rapidly. Cabot (Europe) adds diversification as UK consumer stress rises. Bear: regulator tightens collections practices (CFPB enforcement), purchase price multiples compress as more capital chases distressed debt, or a rapid credit normalization cuts available supply.",
+      "scenarios": {
+        "bull": {
+          "target": 130.0,
+          "probability": 0.35
+        },
+        "base": {
+          "target": 95.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 65.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.55,
+        "quality": 0.6,
+        "management": 0.6
+      },
+      "citations": [
+        "0001084961-26-000039"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 90.49,
+      "high_52w": 92.64,
+      "decline_explanation": "",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:58:52.962760",
+      "priced_at": "2026-06-28T09:58:52.962760",
+      "scenario_price": 90.49,
+      "drawdown_from_high": 0.023208117443868748,
+      "derived": {
+        "expected_price": 101.25,
+        "expected_return": 0.11890816664824855,
+        "expected_cagr": 0.05778455587527298,
+        "asymmetry": 2.712534327187133,
+        "quality_mult": 1.0875,
+        "asymmetry_mult": 1.6469773305018904,
+        "potential_score": 0.10349721576791766
+      },
+      "conviction": 0.13744224101764146
+    },
+    {
+      "symbol": "ARLP",
+      "business": "Alliance Resource Partners is a diversified energy company and the largest coal producer in the eastern United States. Mines Appalachian and Illinois Basin thermal and metallurgical coal. Sells primarily to US electric utilities (long-term contracts) and metallurgical coal customers. Also operates oil & gas mineral rights (ARLP Minerals, ~15% of revenue). Distributes $2.40/unit annually (~9.8% yield at current price). Low leverage.",
+      "thesis": "ARLP generates 9-10% cash distribution yield backed by contracted utility revenues through 2026-2028. Bull case: AI data center power demand is keeping coal generation online longer than expected; natural gas price spikes increase coal's competitiveness; the royalty business provides upside optionality. Bear: US coal consumption continues secular decline as renewables displace it, long-term utility contracts expire without renewal, and the oil & gas royalty segment doesn't offset coal volume declines. The thesis is primarily about the distribution being safe, not capital appreciation.",
+      "scenarios": {
+        "bull": {
+          "target": 32.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 26.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 15.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.3,
+        "quality": 0.55,
+        "management": 0.6
+      },
+      "citations": [
+        "0001104659-26-057964"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 24.5,
+      "high_52w": 29.45,
+      "decline_explanation": "",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:58:52.962771",
+      "priced_at": "2026-06-28T09:58:52.962771",
+      "scenario_price": 24.5,
+      "drawdown_from_high": 0.168081494057725,
+      "derived": {
+        "expected_price": 24.75,
+        "expected_return": 0.010204081632652962,
+        "expected_cagr": 0.005089091390734879,
+        "asymmetry": 0.7894736842105263,
+        "quality_mult": 0.975,
+        "asymmetry_mult": 0.8885233166386386,
+        "potential_score": 0.004408731952143574
+      },
+      "conviction": 0.006278396486933957
+    },
+    {
+      "symbol": "NMIH",
+      "business": "NMI Holdings provides private mortgage insurance (PMI) to US residential mortgage lenders. PMI protects lenders against losses on mortgages with LTV > 80%. Competes with MGIC, Radian, Essent. Insurance-in-force ~$210B. Favorable loss ratio: PMI defaults are concentrated in recessions. Current housing equity cushion (HPA since 2020) is exceptionally high. Book value ~$27/share growing at ~15% annually through retained earnings.",
+      "thesis": "NMI is a capital-light compounder in a rational duopoly-plus structure. Rising home prices since 2020 have created massive equity cushions that protect against near-term default risk. Bull case: rate normalization re-accelerates purchase mortgage originations (PMI attach rate increases), NMI gains market share in the government-sponsored enterprise channel, and book value compounds to $40+ within 2 years. Bear: housing prices correct 10-15%, delinquency rates rise, and loss ratios normalize from historically low levels, compressing earnings and book growth.",
+      "scenarios": {
+        "bull": {
+          "target": 52.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 44.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 32.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.55,
+        "quality": 0.65,
+        "management": 0.65
+      },
+      "citations": [
+        "0001547903-26-000029"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 40.62,
+      "high_52w": 43.2,
+      "decline_explanation": "",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:58:52.962782",
+      "priced_at": "2026-06-28T09:58:52.962782",
+      "scenario_price": 40.62,
+      "drawdown_from_high": 0.05972222222222234,
+      "derived": {
+        "expected_price": 44.0,
+        "expected_return": 0.08321024126046295,
+        "expected_cagr": 0.04077386653415882,
+        "asymmetry": 1.9802784222737828,
+        "quality_mult": 1.1,
+        "asymmetry_mult": 1.4072236575163817,
+        "potential_score": 0.06311574455481216
+      },
+      "conviction": 0.08621992017607294
     }
   ],
-  "saved_at": "2026-06-28T09:13:02.422705"
+  "saved_at": "2026-06-28T09:58:52.962893"
 }
