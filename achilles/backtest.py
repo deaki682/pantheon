@@ -561,6 +561,8 @@ def run_backtest(
                 profit_target_price=profit_target_price,
                 time_stop_date=time_stop_date,
                 today=today,
+                trail_armed_at=pb.trail_armed_at,
+                trail_pct=pb.trail_pct,
             )
             if pos is None:
                 total_blocked += 1
@@ -579,18 +581,21 @@ def run_backtest(
             )
             open_trades[ev.event_id] = bt
 
-        # ── 5. Evaluate exits ──
+        # ── 5. Update high-water marks from intraday highs ──
+        for event_id, pos in sleeve.positions.items():
+            bar = prices.get(pos.symbol, {}).get(today)
+            if bar and bar["high"] > pos.high_water_price:
+                pos.high_water_price = bar["high"]
+
+        # ── 6. Evaluate exits ──
         to_close = []
         for event_id, pos in list(sleeve.positions.items()):
+            bar = prices.get(pos.symbol, {}).get(today)
             price = today_prices.get(pos.symbol)
             if not price:
-                # Use intraday low/high for stop checks if we have bar data
-                bar = prices.get(pos.symbol, {}).get(today)
                 if bar:
-                    # Check hard stop against low
                     if bar["low"] <= pos.hard_stop_price:
                         price = pos.hard_stop_price
-                    # Check profit target against high
                     elif bar["high"] >= pos.profit_target_price:
                         price = pos.profit_target_price
                     else:
@@ -601,20 +606,20 @@ def run_backtest(
             verdict = evaluate_exit(pos, price, today)
             if verdict["action"] == "exit":
                 to_close.append((event_id, price, verdict["reason"]))
+                continue
 
-        # Also check intraday stops using high/low data
-        for event_id, pos in list(sleeve.positions.items()):
-            if event_id in [t[0] for t in to_close]:
-                continue
-            bar = prices.get(pos.symbol, {}).get(today)
-            if not bar:
-                continue
-            # Hard stop hit during day (low touched stop)
-            if bar["low"] <= pos.hard_stop_price:
-                to_close.append((event_id, pos.hard_stop_price, "hard_stop"))
-            # Profit target hit during day (high touched target)
-            elif bar["high"] >= pos.profit_target_price:
-                to_close.append((event_id, pos.profit_target_price, "profit_target"))
+            # Check intraday stops if close-price didn't trigger
+            if bar:
+                if bar["low"] <= pos.hard_stop_price:
+                    to_close.append((event_id, pos.hard_stop_price, "hard_stop"))
+                elif bar["high"] >= pos.profit_target_price:
+                    to_close.append((event_id, pos.profit_target_price, "profit_target"))
+                elif pos.trail_armed_at > 0 and pos.trail_pct > 0:
+                    arm_price = pos.entry_price * (1.0 + pos.trail_armed_at)
+                    if pos.high_water_price >= arm_price:
+                        trail_level = pos.high_water_price * (1.0 - pos.trail_pct)
+                        if bar["low"] <= trail_level:
+                            to_close.append((event_id, trail_level, "trailing_stop"))
 
         for event_id, exit_price, reason in to_close:
             if event_id not in sleeve.positions:

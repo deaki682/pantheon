@@ -17,12 +17,14 @@ def test_six_classes():
 def test_default_uncalibrated():
     pbs = build_playbooks()
     # earnings_reaction is calibrated from backtest; others remain uncalibrated
+    # Non-earnings classes are disabled pending Ghost Achilles calibration
     for name, pb in pbs.items():
         if name == "earnings_reaction":
             assert pb.uncalibrated is False
+            assert pb.disabled is False
         else:
             assert pb.uncalibrated is True
-        assert pb.disabled is False
+            assert pb.disabled is True
 
 
 def test_earnings_params():

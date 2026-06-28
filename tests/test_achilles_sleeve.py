@@ -25,7 +25,7 @@ def test_init_defaults():
 def test_constants():
     assert HARD_FLOOR == 600.0
     assert DRAWDOWN_HALT == 0.40
-    assert MAX_CONCURRENT_POSITIONS == 8
+    assert MAX_CONCURRENT_POSITIONS == 20
     assert MAX_TRADES_PER_DAY == 5
     assert MIN_SCORE_TO_OPEN == 0.05
     assert PER_POSITION_CAP_FRAC == 0.10

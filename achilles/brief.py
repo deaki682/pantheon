@@ -62,6 +62,8 @@ def build_play(
         hard_stop_price=hard_stop,
         profit_target_price=profit_target,
         time_stop_date=time_stop,
+        trail_armed_at=playbook.trail_armed_at,
+        trail_pct=playbook.trail_pct,
     )
 
 
