@@ -25,8 +25,17 @@ def test_liquidity_mega_cap():
     assert liquidity_score(10_000_000_000) == pytest.approx(1.0)
 
 
-def test_liquidity_huge_cap_capped():
-    assert liquidity_score(500_000_000_000) == 1.0
+def test_liquidity_huge_cap_decays():
+    assert liquidity_score(500_000_000_000) < 1.0
+    assert liquidity_score(500_000_000_000) >= 0.2
+
+
+def test_liquidity_megacap_below_decay_start():
+    assert liquidity_score(40_000_000_000) == pytest.approx(1.0)
+
+
+def test_liquidity_megacap_above_decay_end():
+    assert liquidity_score(1_000_000_000_000) == pytest.approx(0.2)
 
 
 def test_liquidity_tiny():

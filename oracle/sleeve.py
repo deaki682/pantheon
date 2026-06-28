@@ -20,6 +20,7 @@ PER_NAME_CAP = 0.25  # let a top-conviction idea reach ~25% so it actually moves
 PER_SECTOR_CAP = 0.35
 CASH_FLOOR = 0.10
 MAX_POSITIONS = 8  # concentration target: a $1k research book holds the best ~5–8 names
+MAX_MCAP = 50_000_000_000  # $50B — insider signals lose edge above this
 
 # Circuit breakers
 DERISK_DRAWDOWN_VS_MARKET = 0.15  # 15% excess drawdown vs market -> derisk

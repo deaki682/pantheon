@@ -27,25 +27,35 @@ LIQ_ANCHORS = (
     (10_000_000_000, 1.0),
 )
 
+MEGACAP_DECAY_START = 50_000_000_000   # $50B — edge starts fading
+MEGACAP_DECAY_END = 200_000_000_000    # $200B — minimal edge left
+MEGACAP_FLOOR = 0.2                    # score floor for mega-caps
+
 
 def liquidity_score(market_cap: Optional[float]) -> float:
-    """Log-scaled liquidity score from market cap."""
+    """Log-scaled liquidity score from market cap.
+
+    Peaks at 1.0 around $10B, then decays above $50B — event-driven edge
+    fades as coverage density increases and market reaction speed rises.
+    """
     if not market_cap or market_cap <= 0:
         return 0.0
     cap = float(market_cap)
-    # Cap below smallest anchor -> 0.1
     if cap < LIQ_ANCHORS[0][0]:
         return 0.1
-    if cap >= LIQ_ANCHORS[-1][0]:
+    if cap < LIQ_ANCHORS[-1][0]:
+        for i in range(len(LIQ_ANCHORS) - 1):
+            lo_cap, lo_s = LIQ_ANCHORS[i]
+            hi_cap, hi_s = LIQ_ANCHORS[i + 1]
+            if lo_cap <= cap < hi_cap:
+                t = (math.log(cap) - math.log(lo_cap)) / (math.log(hi_cap) - math.log(lo_cap))
+                return lo_s + t * (hi_s - lo_s)
+    if cap <= MEGACAP_DECAY_START:
         return 1.0
-    # Linear interp on log scale between anchors
-    for i in range(len(LIQ_ANCHORS) - 1):
-        lo_cap, lo_s = LIQ_ANCHORS[i]
-        hi_cap, hi_s = LIQ_ANCHORS[i + 1]
-        if lo_cap <= cap < hi_cap:
-            t = (math.log(cap) - math.log(lo_cap)) / (math.log(hi_cap) - math.log(lo_cap))
-            return lo_s + t * (hi_s - lo_s)
-    return 1.0
+    if cap >= MEGACAP_DECAY_END:
+        return MEGACAP_FLOOR
+    t = (math.log(cap) - math.log(MEGACAP_DECAY_START)) / (math.log(MEGACAP_DECAY_END) - math.log(MEGACAP_DECAY_START))
+    return 1.0 - t * (1.0 - MEGACAP_FLOOR)
 
 
 def time_decay(first_seen_iso: str, now: Optional[datetime] = None) -> float:

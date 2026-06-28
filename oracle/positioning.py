@@ -17,7 +17,7 @@ from __future__ import annotations
 import math
 from typing import Iterable
 
-from .sleeve import CASH_FLOOR, MAX_POSITIONS, PER_NAME_CAP, PER_SECTOR_CAP, MIN_TICKET
+from .sleeve import CASH_FLOOR, MAX_MCAP, MAX_POSITIONS, PER_NAME_CAP, PER_SECTOR_CAP, MIN_TICKET
 
 
 def compute_derived(dossier: dict, *, current_price: float, horizon_years: float = 2.0) -> dict:
@@ -85,18 +85,19 @@ def size_book(
     cash_floor: float = CASH_FLOOR,
     max_positions: int = MAX_POSITIONS,
     min_ticket: float = MIN_TICKET,
+    max_mcap: float = MAX_MCAP,
     weighting: str = "equal",
 ) -> dict[str, float]:
     """Allocate dollar targets across candidates.
 
-    `scored` is a list of {symbol, conviction, sector}. Returns symbol -> $ target.
-    Constraints: per-name cap, per-sector cap, 10% cash floor.
+    `scored` is a list of {symbol, conviction, sector, market_cap?}.
+    Returns symbol -> $ target.
+    Constraints: per-name cap, per-sector cap, 10% cash floor, market-cap ceiling.
 
     Construction is rank-to-select, then size:
+      - FILTER: drop names above `max_mcap` — insider signals lose edge at mega-cap.
       - SELECT: rank by conviction, keep the best K — capped at `max_positions`
         AND at however many can clear `min_ticket` with the investable cash.
-        Without this, a large candidate set would dilute every position below the
-        min ticket and silently yield *fewer* trades (or none).
       - SIZE: `weighting="equal"` (default) gives each held name an equal slice;
         `weighting="conviction"` weights by conviction**1.5. Equal is the default
         because conviction here is self-assigned (dossier scenarios) and unproven
@@ -107,6 +108,8 @@ def size_book(
         return {}
     invest_share = max(0.0, 1.0 - cash_floor)
     items = [s for s in scored if s.get("conviction", 0) > 0]
+    if max_mcap > 0:
+        items = [s for s in items if (s.get("market_cap") or 0) <= max_mcap or not s.get("market_cap")]
     if not items:
         return {}
     # SELECT: rank by conviction, keep the best K we can fund above min_ticket.
