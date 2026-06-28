@@ -15,6 +15,20 @@ from typing import Any
 REQUIRED_SCENARIOS = ("bull", "base", "bear")
 REQUIRED_RATINGS = ("moat", "runway", "quality", "management")
 
+# A candidate down this far from its 52-week high is a potential falling knife.
+# Its dossier MUST explain what drove the decline (and the bear case) — a
+# confident thesis on a name down 40%+ that doesn't say *why* it fell is exactly
+# how a FISV-style knife rides an insider signal into the book.
+DRAWDOWN_FLAG_THRESHOLD = 0.30
+MIN_DECLINE_EXPLANATION_CHARS = 80
+
+
+def drawdown_from_high(current_price: float, high_52w: float) -> float:
+    """Fraction below the 52-week high (0.0 if data missing/invalid)."""
+    if not high_52w or high_52w <= 0 or not current_price or current_price <= 0:
+        return 0.0
+    return max(0.0, 1.0 - current_price / high_52w)
+
 
 class DossierError(ValueError):
     """Raised when a dossier fails structural validation."""
@@ -87,5 +101,20 @@ def validate_dossier(d: dict[str, Any]) -> dict[str, Any]:
             f"{d['symbol']}: bull target ({scenarios['bull']['target']}) "
             f"< bear target ({scenarios['bear']['target']})"
         )
+
+    # Falling-knife gate: if 52-week-high data is present and the name is down
+    # past the threshold, the dossier must explain the decline. We record the
+    # drawdown either way so it's visible in review.
+    high_52w = d.get("high_52w")
+    drawdown = drawdown_from_high(d.get("current_price"), high_52w)
+    d["drawdown_from_high"] = drawdown
+    if high_52w and drawdown >= DRAWDOWN_FLAG_THRESHOLD:
+        explanation = (d.get("decline_explanation") or "").strip()
+        if len(explanation) < MIN_DECLINE_EXPLANATION_CHARS:
+            raise DossierError(
+                f"{d['symbol']}: down {drawdown:.0%} from its 52-week high — a "
+                f"falling-knife candidate. Provide a `decline_explanation` covering "
+                f"what drove the drop and the bear case before this dossier is valid."
+            )
 
     return d
