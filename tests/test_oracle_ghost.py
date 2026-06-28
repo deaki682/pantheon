@@ -30,6 +30,19 @@ def test_open_entries_dedupes_same_day_same_source():
     assert len(later) == 1
 
 
+def test_open_entries_skip_open_avoids_reopening_held_names():
+    cands = [{"symbol": "AAA", "price": 10.0, "source": "screen"}]
+    day1 = open_entries(cands, today="2026-01-01")
+    # A later run over the same static screen must NOT re-open a still-open name.
+    assert open_entries(cands, existing=day1, today="2026-01-08", skip_open=True) == []
+    # Once it's graded/closed, it may re-open.
+    day1[0].graded_return = 0.1
+    assert len(open_entries(cands, existing=day1, today="2026-01-08", skip_open=True)) == 1
+    # Without skip_open, repeated entries over time are allowed (independent samples).
+    day1[0].graded_return = None
+    assert len(open_entries(cands, existing=day1, today="2026-01-08")) == 1
+
+
 def test_grade_entries_computes_return_at_horizon():
     e = GhostEntry("AAA", "2026-01-01", entry_price=100.0, horizon_days=30, source="screen")
     # before horizon -> not graded
