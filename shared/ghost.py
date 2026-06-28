@@ -47,14 +47,23 @@ def open_entries(
     *,
     today: str,
     default_horizon_days: int = 365,
+    skip_open: bool = False,
 ) -> list[GhostEntry]:
     """Build a paper entry for every priced candidate. No sizing, no caps.
 
     A candidate is {symbol, price, source?, horizon_days?, features?}. Names with
     no symbol or a non-positive price are skipped. Same-day re-opens of the same
-    (symbol, source) are de-duped so one run can't double-count.
+    (symbol, source) are always de-duped.
+
+    `skip_open=True` additionally skips any candidate that already has an
+    *ungraded* (still-open) entry, regardless of date. Use it for a recurring run
+    over a static candidate source (e.g. a weekly cron re-reading the quarterly
+    screen) so the same names aren't re-opened every run. Leave it False when you
+    want repeated entries over time as independent samples.
     """
+    existing = list(existing)
     seen = {(e.symbol, e.source, e.entry_date) for e in existing}
+    open_keys = {(e.symbol, e.source) for e in existing if not e.graded} if skip_open else set()
     out: list[GhostEntry] = []
     for c in candidates:
         sym = (c.get("symbol") or "").upper()
@@ -65,6 +74,8 @@ def open_entries(
         if not sym or price <= 0:
             continue
         source = c.get("source", "screen")
+        if skip_open and (sym, source) in open_keys:
+            continue
         key = (sym, source, today)
         if key in seen:
             continue

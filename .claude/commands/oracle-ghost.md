@@ -26,8 +26,11 @@ under god name `ghost_oracle`.
      the lens flags, so lens lift is measurable.
    - From dossiers (optional): `oracle.ghost.dossiers_to_candidates(dossiers)` —
      features carry `conviction`, so conviction calibration is measurable.
-   - `oracle.ghost.open_entries(candidates, existing=ledger, today=…)` and extend
-     the ledger. Same-day re-opens are de-duped automatically.
+   - `oracle.ghost.open_entries(candidates, existing=ledger, today=…,
+     skip_open=True)` and extend the ledger. `skip_open=True` is important for a
+     recurring (e.g. weekly cron) run: the screen only refreshes quarterly, so
+     without it every run would re-open the same ~100 names and bloat the ledger.
+     It opens a name only if it isn't already held open.
    - **Liquidity:** only open names you could realistically trade (a price/volume
      floor). Microcap paper returns are fantasy and will distort the stats.
 
