@@ -1,5 +1,5 @@
 {
-  "cash": 99.55357208515005,
+  "cash": 1000.0,
   "contributed_cash": 1000.0,
   "cooldown_days": 31,
   "cooldowns": {},
@@ -8,56 +8,7 @@
   "name": "oracle",
   "peak_equity": 1000.0,
   "pending_settlements": [],
-  "positions": {
-    "ADT": {
-      "avg_price": 6.39,
-      "entry_date": "2026-06-28",
-      "sector": "Consumer Discretionary - Security Services",
-      "shares": 17.60563
-    },
-    "EVTC": {
-      "avg_price": 27.37,
-      "entry_date": "2026-06-28",
-      "sector": "Technology - Payment Processing",
-      "shares": 4.11033
-    },
-    "FHN": {
-      "avg_price": 25.58,
-      "entry_date": "2026-06-28",
-      "sector": "Financials - Regional Banks",
-      "shares": 4.39796
-    },
-    "GPOR": {
-      "avg_price": 167.49,
-      "entry_date": "2026-06-28",
-      "sector": "Energy - Oil & Gas E&P",
-      "shares": 0.67168
-    },
-    "OLED": {
-      "avg_price": 87.16,
-      "entry_date": "2026-06-28",
-      "sector": "Technology - Semiconductors & Display Technology",
-      "shares": 1.29072
-    },
-    "RLI": {
-      "avg_price": 57.56,
-      "entry_date": "2026-06-28",
-      "sector": "Financials - Specialty Insurance",
-      "shares": 1.95448
-    },
-    "RRC": {
-      "avg_price": 37.59,
-      "entry_date": "2026-06-28",
-      "sector": "Energy - Oil & Gas E&P",
-      "shares": 2.99281
-    },
-    "THC": {
-      "avg_price": 189.0,
-      "entry_date": "2026-06-28",
-      "sector": "Health Care - Hospital Operators",
-      "shares": 0.59523
-    }
-  },
+  "positions": {},
   "realized_pnl": 0.0,
-  "trades_count": 8
+  "trades_count": 0
 }
