@@ -6,7 +6,7 @@ Runs steps 7–12 of `/oracle` only — assumes dossiers are already fresh.
 
 0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
 
-1. **Safety check.** Run `python -c "from shared.guards import kill_switch_active; assert not kill_switch_active(), 'KILL_SWITCH present — liquidate'"`. If a `KILL_SWITCH` file exists, liquidate all positions via the broker and stop. Then check `shared.guards.is_live("oracle")` — if `ORACLE_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders** in step 5. Log the planned orders to the decision log so they can be reviewed. Print "PAPER MODE — no orders placed" prominently.
+1. **Safety check.** Run `python -c "from shared.guards import kill_switch_active; assert not kill_switch_active(), 'KILL_SWITCH present — liquidate'"`. If a `KILL_SWITCH` file exists, liquidate all positions via the broker and stop. Then check `shared.guards.is_live("oracle")` — if `ORACLE_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders** in step 6. Log the planned orders to the decision log so they can be reviewed. Print "PAPER MODE — no orders placed" prominently.
 2. Restore sleeve from `cache/oracle_sleeve.json`.
 3. Load dossiers from `cache/oracle_dossiers.json`. Refresh `current_price` for each via Robinhood quotes.
 4. Rescore via `oracle.research.rescore_dossier`.
