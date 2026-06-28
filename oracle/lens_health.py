@@ -23,7 +23,9 @@ LENS_SPECS = {
     "insiders":     {"min_expected": 1, "universe_scaled": True},
     "quality":      {"min_expected": 1, "universe_scaled": True},
     "smart_money":  {"min_expected": 1, "universe_scaled": False},
-    "activist_13d": {"min_expected": 1, "universe_scaled": False},
+    # activist_13d uses EDGAR FTS (efts.sec.gov) which blocks datacenter IPs
+    # (GitHub Actions, etc.). Warn but don't block persist — it's a 12% signal.
+    "activist_13d": {"min_expected": 1, "universe_scaled": False, "warn_only": True},
 }
 
 FULL_RUN_THRESHOLD = 1000
@@ -48,14 +50,20 @@ def assess_lens(
         return LensHealth(lens, count, 0, False, True, "no spec — not checked")
     min_expected = spec["min_expected"]
     enforced = (universe_size >= full_run_threshold) if spec["universe_scaled"] else True
+    warn_only = spec.get("warn_only", False)
     if not enforced:
         return LensHealth(
             lens, count, min_expected, False, True,
             f"not enforced (universe {universe_size} < {full_run_threshold})",
         )
-    ok = count >= min_expected
-    reason = "ok" if ok else f"SYSTEMIC EMPTY — {count} results, expected >= {min_expected}"
-    return LensHealth(lens, count, min_expected, True, ok, reason)
+    healthy = count >= min_expected
+    if not healthy and warn_only:
+        return LensHealth(
+            lens, count, min_expected, True, True,
+            f"WARN — {count} results (expected >= {min_expected}), non-fatal",
+        )
+    reason = "ok" if healthy else f"SYSTEMIC EMPTY — {count} results, expected >= {min_expected}"
+    return LensHealth(lens, count, min_expected, True, healthy, reason)
 
 
 def assess(

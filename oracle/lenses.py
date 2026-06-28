@@ -12,8 +12,11 @@ The four lenses:
 from __future__ import annotations
 
 import json
+import logging
 import re
 from datetime import datetime, timedelta
+
+log = logging.getLogger(__name__)
 from typing import Callable, Iterable, Optional
 
 from shared.edgar import (
@@ -219,7 +222,8 @@ def search_recent_13d(
         try:
             raw = get(SEARCH_URL, params=params)
             payload = json.loads(raw)
-        except Exception:
+        except Exception as exc:
+            log.warning("13D search page %d failed: %s", page, exc)
             break
         hits = payload.get("hits", {}).get("hits", [])
         if not hits:
