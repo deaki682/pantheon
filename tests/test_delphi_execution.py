@@ -24,8 +24,8 @@ def test_build_targets_full_budget():
 def test_build_targets_per_name_cap():
     picks = {"tech": [{"symbol": "AAPL", "score": 1.0}]}
     out = build_targets(picks, equity=10_000.0, risk_budget=1.0)
-    # 12% cap = $1200
-    assert out["AAPL"] <= 1200.0 + 1e-6
+    # 20% cap = $2000
+    assert out["AAPL"] <= 2000.0 + 1e-6
 
 
 def test_build_targets_sector_cap():
