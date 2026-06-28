@@ -797,3 +797,185 @@ class TestPreTradeSanityCheck:
         # But if broker has positions and no sleeves exist → mismatch
         broker_positions = {"AAPL": 1.0}
         assert pre_trade_check(broker_positions, sleeve_paths=paths) is False
+
+
+# ── Test 11: Circuit breaker / halt isolation ─────────────────────────
+
+class TestCircuitBreakerIsolation:
+    def test_oracle_halt_doesnt_block_others(self):
+        """Oracle hitting 32% drawdown halts Oracle; Delphi and Achilles trade freely."""
+        oracle = OracleSleeve(initial_cash=1000.0)
+        delphi = DelphiSleeve(initial_cash=1000.0)
+        achilles = AchillesSleeve(initial_cash=1000.0)
+
+        oracle.halted = True
+
+        assert oracle.buy("AAPL", 1.0, 150.0, DATES[0]) is False
+        assert delphi.buy("AAPL", 1.0, 150.0, DATES[0]) is True
+        assert achilles.open(
+            event_id="evt-cb", symbol="AAPL", event_class="earnings",
+            entry_price=150.0, score=0.3,
+            hard_stop_price=130.0, profit_target_price=175.0,
+            time_stop_date="2026-07-02", today=DATES[0],
+        ) is not None
+
+    def test_achilles_hard_floor_doesnt_block_others(self):
+        """Achilles hitting $600 floor halts Achilles; Oracle and Delphi unaffected."""
+        oracle = OracleSleeve(initial_cash=1000.0)
+        delphi = DelphiSleeve(initial_cash=1000.0)
+        achilles = AchillesSleeve(initial_cash=600.0)
+
+        achilles.check_hard_floor()
+        assert achilles.halted is True
+
+        assert achilles.open(
+            event_id="evt-hf", symbol="AAPL", event_class="earnings",
+            entry_price=150.0, score=0.3,
+            hard_stop_price=130.0, profit_target_price=175.0,
+            time_stop_date="2026-07-02", today=DATES[0],
+        ) is None
+        assert oracle.buy("AAPL", 1.0, 150.0, DATES[0]) is True
+        assert delphi.buy("MSFT", 1.0, 300.0, DATES[0]) is True
+
+
+# ── Test 12: Settlement isolation ─────────────────────────────────────
+
+class TestSettlementIsolation:
+    def test_pending_settlements_per_sleeve(self):
+        """A sell in Oracle creates pending_settlements only in Oracle."""
+        oracle = OracleSleeve(initial_cash=1000.0)
+        delphi = DelphiSleeve(initial_cash=1000.0)
+
+        oracle.buy("AAPL", 1.0, 150.0, DATES[0])
+        oracle.sell("AAPL", 1.0, 155.0, DATES[1])
+
+        assert len(oracle.pending_settlements) == 1
+        assert len(delphi.pending_settlements) == 0
+        assert delphi.settled_cash(DATES[1]) == 1000.0
+
+    def test_gfv_count_per_sleeve(self):
+        """A GFV in one god doesn't increment another's count."""
+        oracle = OracleSleeve(initial_cash=500.0)
+        delphi = DelphiSleeve(initial_cash=1000.0)
+
+        oracle.buy("AAPL", 2.0, 150.0, DATES[0])
+        oracle.sell("AAPL", 2.0, 155.0, DATES[0])
+        # Buy with unsettled proceeds → GFV
+        oracle.buy("MSFT", 1.0, 300.0, DATES[0])
+
+        assert oracle.gfv_count >= 1
+        assert delphi.gfv_count == 0
+
+
+# ── Test 13: Max positions cap isolation ──────────────────────────────
+
+class TestMaxPositionsIsolation:
+    def test_achilles_cap_doesnt_block_oracle(self):
+        """Achilles at MAX_CONCURRENT_POSITIONS still lets Oracle buy."""
+        oracle = OracleSleeve(initial_cash=5000.0)
+        achilles = AchillesSleeve(initial_cash=5000.0)
+
+        # Spread across 4 days to avoid MAX_TRADES_PER_DAY (5)
+        days = DATES + ["2026-06-27", "2026-06-28", "2026-06-29"]
+        for i in range(20):
+            day = days[i // 5]
+            achilles.open(
+                event_id=f"evt-{i}", symbol=f"SYM{i}", event_class="earnings",
+                entry_price=10.0, score=0.3,
+                hard_stop_price=8.0, profit_target_price=13.0,
+                time_stop_date="2026-07-02", today=day,
+            )
+        assert len(achilles.positions) == 20
+
+        # Achilles is full
+        assert achilles.open(
+            event_id="evt-overflow", symbol="EXTRA", event_class="earnings",
+            entry_price=10.0, score=0.3,
+            hard_stop_price=8.0, profit_target_price=13.0,
+            time_stop_date="2026-07-02", today="2026-06-29",
+        ) is None
+
+        # Oracle is unaffected
+        assert oracle.buy("AAPL", 1.0, 150.0, DATES[0]) is True
+
+
+# ── Test 14: Trades-per-day isolation ─────────────────────────────────
+
+class TestTradesPerDayIsolation:
+    def test_achilles_daily_cap_doesnt_block_others(self):
+        """Achilles hitting MAX_TRADES_PER_DAY doesn't affect Oracle/Delphi."""
+        oracle = OracleSleeve(initial_cash=5000.0)
+        delphi = DelphiSleeve(initial_cash=5000.0)
+        achilles = AchillesSleeve(initial_cash=5000.0)
+
+        for i in range(5):
+            achilles.open(
+                event_id=f"daily-{i}", symbol=f"D{i}", event_class="earnings",
+                entry_price=10.0, score=0.3,
+                hard_stop_price=8.0, profit_target_price=13.0,
+                time_stop_date="2026-07-02", today=DATES[0],
+            )
+        assert achilles.trades_today(DATES[0]) == 5
+
+        # Achilles is capped for the day
+        assert achilles.open(
+            event_id="daily-overflow", symbol="EXTRA", event_class="earnings",
+            entry_price=10.0, score=0.3,
+            hard_stop_price=8.0, profit_target_price=13.0,
+            time_stop_date="2026-07-02", today=DATES[0],
+        ) is None
+
+        # Oracle and Delphi trade freely
+        assert oracle.buy("AAPL", 1.0, 150.0, DATES[0]) is True
+        assert delphi.buy("MSFT", 1.0, 300.0, DATES[0]) is True
+
+
+# ── Test 15: Halted state persists through save/load ──────────────────
+
+class TestHaltedPersistence:
+    def test_halted_survives_round_trip(self, tmp_path):
+        """A halted sleeve stays halted after save/load."""
+        oracle = OracleSleeve(initial_cash=1000.0)
+        oracle.halted = True
+
+        path = str(tmp_path / "oracle_sleeve.json")
+        oracle.save(path)
+        loaded = OracleSleeve.load(path)
+
+        assert loaded.halted is True
+        assert loaded.buy("AAPL", 1.0, 150.0, DATES[0]) is False
+
+    def test_achilles_halted_survives_round_trip(self, tmp_path):
+        """Achilles halted flag persists through save/load."""
+        achilles = AchillesSleeve(initial_cash=600.0)
+        achilles.check_hard_floor()
+        assert achilles.halted is True
+
+        path = str(tmp_path / "achilles_sleeve.json")
+        achilles.save(path)
+        loaded = AchillesSleeve.load(path)
+
+        assert loaded.halted is True
+        assert loaded.open(
+            event_id="post-load", symbol="AAPL", event_class="earnings",
+            entry_price=150.0, score=0.3,
+            hard_stop_price=130.0, profit_target_price=175.0,
+            time_stop_date="2026-07-02", today=DATES[0],
+        ) is None
+
+
+# ── Test 16: Peak equity independence ─────────────────────────────────
+
+class TestPeakEquityIsolation:
+    def test_peak_equity_per_god(self):
+        """Updating peak equity on one god doesn't touch the other."""
+        oracle = OracleSleeve(initial_cash=1000.0)
+        achilles = AchillesSleeve(initial_cash=1000.0)
+
+        oracle.buy("AAPL", 2.0, 150.0, DATES[0])
+        oracle.update_peak({"AAPL": 200.0})
+
+        assert oracle.peak_equity == pytest.approx(
+            oracle.cash + 2.0 * 200.0, abs=0.01
+        )
+        assert achilles.peak_equity == 1000.0
