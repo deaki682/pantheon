@@ -14,7 +14,7 @@ breaks, skip the cycle and open a PR; never silently patch the codebase.
 
 3. **Process settlements.** Advance `sleeve.process_settlements(today)`; today is UTC date.
 
-4. **Broker reconcile.** Call `/oracle-reconcile` to sync any pending fills since last run.
+4. **Broker reconcile.** Call `/oracle-reconcile` to sync any pending fills since last run. **NOTE:** If the ledger (`cache/oracle_ledger.jsonl`) is empty, reconcile is a no-op — do not add broker positions to the sleeve. The broker holds many pre-existing positions that are NOT Oracle's. Only ledger-tracked orders belong to Oracle.
 
 5. **Should we research?** Use `oracle.calendar.should_run(cache/oracle_cadence.json, "research", interval_days=3)`. If False, skip to step 7.
 
