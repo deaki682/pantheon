@@ -1,94 +1,65 @@
 {
-  "kind": "dry_run",
-  "generated_at": "2026-06-28T00:00:00",
-  "as_of_marks": "2026-06-26 close / 2026-06-26 AH (market closed Sun 6/28)",
-  "sleeve_equity": 1000.0,
-  "weighting": "equal",
-  "cash_floor": 0.1,
-  "orders_placed": false,
-  "note": "ORACLE_LIVE not set \u2014 dry run. Excluded MSFT ($2.76T), GOOG ($4.07T), META ($1.39T), AON ($70.1B) on $50B mcap cap. Book: ROP/GSHD/PODD/ADSK/CPRT/FISV/EXE/ZTS \u2014 8 equal-weight positions @ $112.50 each. Sectors: Tech\u00d72, HealthTech\u00d72, Finance, Retail, CommSvc, Energy.",
-  "positions": [
+  "date": "2026-06-28",
+  "orders": [
     {
-      "symbol": "ROP",
-      "sector": "Technology Services",
-      "conviction": 0.517,
+      "side": "buy",
+      "symbol": "VRRM",
       "dollars": 112.5,
-      "price": 338.31,
-      "shares": 0.3325
+      "reason": "open_or_add"
     },
     {
-      "symbol": "GSHD",
-      "sector": "Finance",
-      "conviction": 0.4839,
+      "side": "buy",
+      "symbol": "RLI",
       "dollars": 112.5,
-      "price": 46.87,
-      "shares": 2.4003
+      "reason": "open_or_add"
     },
     {
-      "symbol": "PODD",
-      "sector": "Health Technology",
-      "conviction": 0.3654,
+      "side": "buy",
+      "symbol": "FIS",
       "dollars": 112.5,
-      "price": 159.0,
-      "shares": 0.7075
+      "reason": "open_or_add"
     },
     {
-      "symbol": "ADSK",
-      "sector": "Technology Services",
-      "conviction": 0.3363,
+      "side": "buy",
+      "symbol": "KBR",
       "dollars": 112.5,
-      "price": 196.41,
-      "shares": 0.5728
+      "reason": "open_or_add"
     },
     {
-      "symbol": "CPRT",
-      "sector": "Retail Trade",
-      "conviction": 0.3295,
+      "side": "buy",
+      "symbol": "OLED",
       "dollars": 112.5,
-      "price": 30.45,
-      "shares": 3.6946
+      "reason": "open_or_add"
     },
     {
-      "symbol": "FISV",
-      "sector": "Commercial Services",
-      "conviction": 0.259,
+      "side": "buy",
+      "symbol": "THC",
       "dollars": 112.5,
-      "price": 49.48,
-      "shares": 2.2736
+      "reason": "open_or_add"
     },
     {
-      "symbol": "EXE",
-      "sector": "Energy Minerals",
-      "conviction": 0.2574,
+      "side": "buy",
+      "symbol": "WW",
       "dollars": 112.5,
-      "price": 88.47,
-      "shares": 1.2716
+      "reason": "open_or_add"
     },
     {
-      "symbol": "ZTS",
-      "sector": "Health Technology",
-      "conviction": 0.2538,
+      "side": "buy",
+      "symbol": "RRC",
       "dollars": 112.5,
-      "price": 76.5,
-      "shares": 1.4706
+      "reason": "open_or_add"
     }
   ],
-  "excluded": [
-    {
-      "symbol": "MSFT",
-      "reason": "mcap $2.76T > $50B ceiling"
-    },
-    {
-      "symbol": "GOOG",
-      "reason": "mcap $4.07T > $50B ceiling"
-    },
-    {
-      "symbol": "META",
-      "reason": "mcap $1.39T > $50B ceiling"
-    },
-    {
-      "symbol": "AON",
-      "reason": "mcap $70.1B > $50B ceiling"
-    }
-  ]
+  "targets": {
+    "VRRM": 112.5,
+    "RLI": 112.5,
+    "FIS": 112.5,
+    "KBR": 112.5,
+    "OLED": 112.5,
+    "THC": 112.5,
+    "WW": 112.5,
+    "RRC": 112.5
+  },
+  "mode": "paper",
+  "halt_reason": "pre_trade_check_failed_sleeve_broker_mismatch_48_symbols"
 }

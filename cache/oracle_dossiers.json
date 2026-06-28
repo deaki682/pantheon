@@ -34,7 +34,7 @@
       "sector": "Communication Services - Cable & Satellite",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713688",
-      "priced_at": "2026-06-28T09:02:17.713688",
+      "priced_at": "2026-06-28T11:41:08.321056",
       "scenario_price": 133.66,
       "drawdown_from_high": 0.6834876506666036,
       "derived": {
@@ -76,25 +76,25 @@
         "0001628280-26-031073"
       ],
       "horizon_years": 2.0,
-      "current_price": 167.49,
+      "current_price": 162.53,
       "high_52w": 225.78,
       "decline_explanation": "",
       "sector": "Energy - Oil & Gas E&P",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713756",
-      "priced_at": "2026-06-28T09:13:02.422447",
+      "priced_at": "2026-06-28T11:41:08.321115",
       "scenario_price": 162.53,
       "drawdown_from_high": 0.28013995925236956,
       "derived": {
         "expected_price": 184.60000000000002,
-        "expected_return": 0.10215535255836183,
-        "expected_cagr": 0.04983586934261397,
-        "asymmetry": 1.7337679656245366,
+        "expected_return": 0.13579031563403698,
+        "expected_cagr": 0.06573463659301093,
+        "asymmetry": 1.9664800895570125,
         "quality_mult": 1.0375,
-        "asymmetry_mult": 1.316726230324488,
-        "potential_score": 0.06808095373848547
+        "asymmetry_mult": 1.4023124079737055,
+        "potential_score": 0.09563726514782243
       },
-      "conviction": 0.09267857162018389
+      "conviction": 0.12770243105652113
     },
     {
       "symbol": "EVTC",
@@ -130,7 +130,7 @@
       "sector": "Technology - Payment Processing",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713777",
-      "priced_at": "2026-06-28T09:13:02.422494",
+      "priced_at": "2026-06-28T11:41:08.321135",
       "scenario_price": 27.37,
       "drawdown_from_high": 0.2755426151402859,
       "derived": {
@@ -178,7 +178,7 @@
       "sector": "Consumer Discretionary - Security Services",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713794",
-      "priced_at": "2026-06-28T09:13:02.422510",
+      "priced_at": "2026-06-28T11:41:08.321147",
       "scenario_price": 6.39,
       "drawdown_from_high": 0.28523489932885904,
       "derived": {
@@ -220,25 +220,25 @@
         "0000036966-26-000112"
       ],
       "horizon_years": 2.0,
-      "current_price": 25.58,
+      "current_price": 25.55,
       "high_52w": 26.56,
       "decline_explanation": "",
       "sector": "Financials - Regional Banks",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713809",
-      "priced_at": "2026-06-28T09:13:02.422522",
+      "priced_at": "2026-06-28T11:41:08.321156",
       "scenario_price": 25.55,
       "drawdown_from_high": 0.03802710843373491,
       "derived": {
         "expected_price": 28.3,
-        "expected_return": 0.10633307271305714,
-        "expected_cagr": 0.051823688986446514,
-        "asymmetry": 1.6662269129287604,
+        "expected_return": 0.10763209393346385,
+        "expected_cagr": 0.052441016842969645,
+        "asymmetry": 1.6788079470198671,
         "quality_mult": 1.0875,
-        "asymmetry_mult": 1.2908241216094314,
-        "potential_score": 0.07274860374825806
+        "asymmetry_mult": 1.295688213660936,
+        "potential_score": 0.07389258808646555
       },
-      "conviction": 0.0987085292891221
+      "conviction": 0.1001802739618809
     },
     {
       "symbol": "UAN",
@@ -274,7 +274,7 @@
       "sector": "Materials - Chemicals (Nitrogen Fertilizer)",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713825",
-      "priced_at": "2026-06-28T09:02:17.713825",
+      "priced_at": "2026-06-28T11:41:08.321165",
       "scenario_price": 110.23,
       "drawdown_from_high": 0.20982078853046593,
       "derived": {
@@ -316,25 +316,25 @@
         "0001104659-26-048474"
       ],
       "horizon_years": 2.0,
-      "current_price": 57.56,
+      "current_price": 57.51,
       "high_52w": 74.0,
       "decline_explanation": "",
       "sector": "Financials - Specialty Insurance",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713837",
-      "priced_at": "2026-06-28T09:13:02.422533",
+      "priced_at": "2026-06-28T11:41:08.321176",
       "scenario_price": 57.51,
       "drawdown_from_high": 0.22283783783783784,
       "derived": {
         "expected_price": 70.0,
-        "expected_return": 0.2161223071577485,
-        "expected_cagr": 0.10277935560915741,
-        "asymmetry": 2.771070615034168,
+        "expected_return": 0.21717962093548948,
+        "expected_cagr": 0.10325863737180385,
+        "asymmetry": 2.7832667047401487,
         "quality_mult": 1.2125,
-        "asymmetry_mult": 1.6646533017521,
-        "potential_score": 0.2074490423209187
+        "asymmetry_mult": 1.668312532093477,
+        "potential_score": 0.2088745605138099
       },
-      "conviction": 0.2564771456946272
+      "conviction": 0.25798975549936887
     },
     {
       "symbol": "ARDT",
@@ -370,7 +370,7 @@
       "sector": "Health Care - Hospital Operators",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713851",
-      "priced_at": "2026-06-28T09:02:17.713851",
+      "priced_at": "2026-06-28T11:41:08.321188",
       "scenario_price": 9.71,
       "drawdown_from_high": 0.37273901808785526,
       "derived": {
@@ -412,25 +412,25 @@
         "0001104659-26-021574"
       ],
       "horizon_years": 2.0,
-      "current_price": 123.57,
+      "current_price": 123.565,
       "high_52w": 135.21,
       "decline_explanation": "",
       "sector": "Industrials - Shipping & Ports",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713871",
-      "priced_at": "2026-06-28T09:02:17.713871",
+      "priced_at": "2026-06-28T11:41:08.321205",
       "scenario_price": 123.57,
-      "drawdown_from_high": 0.08608830707787896,
+      "drawdown_from_high": 0.08612528659122853,
       "derived": {
         "expected_price": 127.25,
-        "expected_return": 0.029780691106255697,
-        "expected_cagr": 0.014781105020317042,
-        "asymmetry": 1.197271398408316,
+        "expected_return": 0.02982236070084565,
+        "expected_cagr": 0.014801636134296858,
+        "asymmetry": 1.1974660927475025,
         "quality_mult": 0.975,
-        "asymmetry_mult": 1.0941989756933224,
-        "potential_score": 0.015769133223525175
+        "asymmetry_mult": 1.0942879386831887,
+        "potential_score": 0.015792320597174853
       },
-      "conviction": 0.022275487488531365
+      "conviction": 0.02230787390012856
     },
     {
       "symbol": "RRC",
@@ -460,25 +460,25 @@
         "0001193125-26-167076"
       ],
       "horizon_years": 2.0,
-      "current_price": 37.59,
+      "current_price": 37.37,
       "high_52w": 48.31,
       "decline_explanation": "",
       "sector": "Energy - Oil & Gas E&P",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713887",
-      "priced_at": "2026-06-28T09:13:02.422543",
+      "priced_at": "2026-06-28T11:41:08.321216",
       "scenario_price": 37.37,
       "drawdown_from_high": 0.22645415027944538,
       "derived": {
         "expected_price": 43.9,
-        "expected_return": 0.16786379356211745,
-        "expected_cagr": 0.0806774697207846,
-        "asymmetry": 2.156189865298267,
+        "expected_return": 0.17473909553117473,
+        "expected_cagr": 0.08385381649518342,
+        "asymmetry": 2.2085230969420953,
         "quality_mult": 1.0875,
-        "asymmetry_mult": 1.4683970393930474,
-        "potential_score": 0.12883238148104803
+        "asymmetry_mult": 1.4861100554609323,
+        "potential_score": 0.1355198998719663
       },
-      "conviction": 0.16810268001672546
+      "conviction": 0.17601244880508626
     },
     {
       "symbol": "YELP",
@@ -514,7 +514,7 @@
       "sector": "Communication Services - Internet Media",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713899",
-      "priced_at": "2026-06-28T09:02:17.713899",
+      "priced_at": "2026-06-28T11:41:08.321225",
       "scenario_price": 24.03,
       "drawdown_from_high": 0.33231453181439286,
       "derived": {
@@ -556,25 +556,25 @@
         "0000070318-26-000026"
       ],
       "horizon_years": 2.0,
-      "current_price": 189.0,
+      "current_price": 187.91,
       "high_52w": 247.21,
       "decline_explanation": "",
       "sector": "Health Care - Hospital Operators",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713911",
-      "priced_at": "2026-06-28T09:13:02.422553",
+      "priced_at": "2026-06-28T11:41:08.321234",
       "scenario_price": 187.91,
       "drawdown_from_high": 0.23987702762833218,
       "derived": {
         "expected_price": 227.6,
-        "expected_return": 0.2042328042328041,
-        "expected_cagr": 0.09737541626956636,
-        "asymmetry": 2.450704225352112,
+        "expected_return": 0.2112181363418657,
+        "expected_cagr": 0.10055355905192798,
+        "asymmetry": 2.512301530539265,
         "quality_mult": 1.075,
-        "asymmetry_mult": 1.5654725246238312,
-        "potential_score": 0.16387142914960062
+        "asymmetry_mult": 1.5850241419420918,
+        "potential_score": 0.1713333050546685
       },
-      "conviction": 0.20871893184386703
+      "conviction": 0.21710904972017686
     },
     {
       "symbol": "BFH",
@@ -610,7 +610,7 @@
       "sector": "Financials - Consumer Finance",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713925",
-      "priced_at": "2026-06-28T09:02:17.713925",
+      "priced_at": "2026-06-28T11:41:08.321242",
       "scenario_price": 106.27,
       "drawdown_from_high": 0.0,
       "derived": {
@@ -652,25 +652,25 @@
         "0001193125-26-197277"
       ],
       "horizon_years": 2.0,
-      "current_price": 87.16,
+      "current_price": 87.05,
       "high_52w": 162.36,
       "decline_explanation": "Universal Display fell 46.4% from its 52-week high as Samsung Display (50%+ of UDC revenues) reduced OLED panel production volumes in 2025 due to weaker smartphone demand and inventory correction. Apple's iPhone 17 cycle delivered slower OLED penetration in mid-range models than anticipated. Separately, Chinese OLED manufacturers (BOE, Visionox) captured mid-range smartphone share from Samsung, and investor concern grew about whether these Chinese fabs operate outside UDC's PHOLED patent umbrella. Revenue declined 1% TTM after years of consistent double-digit growth, breaking the growth narrative and compressing the multiple from 50x+ to ~18x EV/FCF. Founder-CEO Steven Abramson responded by purchasing $1M+ in shares in May 2026, as did two other senior insiders, totaling $1.47M in open-market purchases.",
       "sector": "Technology - Semiconductors & Display Technology",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713936",
-      "priced_at": "2026-06-28T09:13:02.422567",
+      "priced_at": "2026-06-28T11:41:08.321249",
       "scenario_price": 87.05,
       "drawdown_from_high": 0.46384577482138467,
       "derived": {
         "expected_price": 104.5,
-        "expected_return": 0.19894446994033976,
-        "expected_cagr": 0.09496322766581522,
-        "asymmetry": 2.315358361774744,
+        "expected_return": 0.2004595060310166,
+        "expected_cagr": 0.09565482978491757,
+        "asymmetry": 2.32639087018545,
         "quality_mult": 1.2125000000000001,
-        "asymmetry_mult": 1.5216301658993043,
-        "potential_score": 0.17520493063930476
+        "asymmetry_mult": 1.5252510843088918,
+        "potential_score": 0.17690087982920397
       },
-      "conviction": 0.2214271837607834
+      "conviction": 0.22331121473430615
     },
     {
       "symbol": "NXST",
@@ -706,7 +706,7 @@
       "sector": "Communication Services - Broadcasting",
       "author": "oracle",
       "created_at": "2026-06-28T09:02:17.713947",
-      "priced_at": "2026-06-28T09:02:17.713947",
+      "priced_at": "2026-06-28T11:41:08.321314",
       "scenario_price": 163.57,
       "drawdown_from_high": 0.3567833267793945,
       "derived": {
@@ -754,7 +754,7 @@
       "sector": "Technology",
       "author": "oracle",
       "created_at": "2026-06-28T09:58:52.962518",
-      "priced_at": "2026-06-28T09:58:52.962518",
+      "priced_at": "2026-06-28T11:41:08.321328",
       "scenario_price": 4.475,
       "drawdown_from_high": 0.8267518389469609,
       "derived": {
@@ -802,7 +802,7 @@
       "sector": "Consumer Discretionary",
       "author": "oracle",
       "created_at": "2026-06-28T09:58:52.962620",
-      "priced_at": "2026-06-28T09:58:52.962620",
+      "priced_at": "2026-06-28T11:41:08.321338",
       "scenario_price": 15.88,
       "drawdown_from_high": 0.6617678381256655,
       "derived": {
@@ -850,7 +850,7 @@
       "sector": "Technology",
       "author": "oracle",
       "created_at": "2026-06-28T09:58:52.962641",
-      "priced_at": "2026-06-28T09:58:52.962641",
+      "priced_at": "2026-06-28T11:41:08.321347",
       "scenario_price": 19.29,
       "drawdown_from_high": 0.6824691358024692,
       "derived": {
@@ -898,7 +898,7 @@
       "sector": "Technology",
       "author": "oracle",
       "created_at": "2026-06-28T09:58:52.962655",
-      "priced_at": "2026-06-28T09:58:52.962655",
+      "priced_at": "2026-06-28T11:41:08.321355",
       "scenario_price": 38.57,
       "drawdown_from_high": 0.5338409475465313,
       "derived": {
@@ -946,7 +946,7 @@
       "sector": "Industrials",
       "author": "oracle",
       "created_at": "2026-06-28T09:58:52.962669",
-      "priced_at": "2026-06-28T09:58:52.962669",
+      "priced_at": "2026-06-28T11:41:08.321363",
       "scenario_price": 33.36,
       "drawdown_from_high": 0.3612866168868466,
       "derived": {
@@ -994,7 +994,7 @@
       "sector": "Materials",
       "author": "oracle",
       "created_at": "2026-06-28T09:58:52.962681",
-      "priced_at": "2026-06-28T09:58:52.962681",
+      "priced_at": "2026-06-28T11:41:08.321370",
       "scenario_price": 105.72,
       "drawdown_from_high": 0.2552831783601015,
       "derived": {
@@ -1036,25 +1036,25 @@
         "0001193125-26-208995"
       ],
       "horizon_years": 2.0,
-      "current_price": 30.91,
+      "current_price": 30.906,
       "high_52w": 36.0,
       "decline_explanation": "",
       "sector": "Real Estate",
       "author": "oracle",
       "created_at": "2026-06-28T09:58:52.962695",
-      "priced_at": "2026-06-28T09:58:52.962695",
+      "priced_at": "2026-06-28T11:41:08.321377",
       "scenario_price": 30.91,
-      "drawdown_from_high": 0.1413888888888889,
+      "drawdown_from_high": 0.14150000000000007,
       "derived": {
         "expected_price": 32.8,
-        "expected_return": 0.061145260433516535,
-        "expected_cagr": 0.0301190515826395,
-        "asymmetry": 1.7853535353535352,
+        "expected_return": 0.06128259884812004,
+        "expected_cagr": 0.030185710854174097,
+        "asymmetry": 1.7869413878284304,
         "quality_mult": 1.0750000000000002,
-        "asymmetry_mult": 1.3361712223190316,
-        "potential_score": 0.0432625257158853
+        "asymmetry_mult": 1.3367652702806243,
+        "potential_score": 0.043377550673237286
       },
-      "conviction": 0.05993250975789455
+      "conviction": 0.060086970242643756
     },
     {
       "symbol": "INSW",
@@ -1090,7 +1090,7 @@
       "sector": "Energy",
       "author": "oracle",
       "created_at": "2026-06-28T09:58:52.962708",
-      "priced_at": "2026-06-28T09:58:52.962708",
+      "priced_at": "2026-06-28T11:41:08.321384",
       "scenario_price": 79.55,
       "drawdown_from_high": 0.1414849989207857,
       "derived": {
@@ -1138,7 +1138,7 @@
       "sector": "Consumer Discretionary",
       "author": "oracle",
       "created_at": "2026-06-28T09:58:52.962743",
-      "priced_at": "2026-06-28T09:58:52.962743",
+      "priced_at": "2026-06-28T11:41:08.321421",
       "scenario_price": 80.26,
       "drawdown_from_high": 0.03510459245010822,
       "derived": {
@@ -1186,7 +1186,7 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T09:58:52.962760",
-      "priced_at": "2026-06-28T09:58:52.962760",
+      "priced_at": "2026-06-28T11:41:08.321437",
       "scenario_price": 90.49,
       "drawdown_from_high": 0.023208117443868748,
       "derived": {
@@ -1228,25 +1228,25 @@
         "0001104659-26-057964"
       ],
       "horizon_years": 2.0,
-      "current_price": 24.5,
+      "current_price": 24.496,
       "high_52w": 29.45,
       "decline_explanation": "",
       "sector": "Energy",
       "author": "oracle",
       "created_at": "2026-06-28T09:58:52.962771",
-      "priced_at": "2026-06-28T09:58:52.962771",
+      "priced_at": "2026-06-28T11:41:08.321445",
       "scenario_price": 24.5,
-      "drawdown_from_high": 0.168081494057725,
+      "drawdown_from_high": 0.16821731748726654,
       "derived": {
         "expected_price": 24.75,
-        "expected_return": 0.010204081632652962,
-        "expected_cagr": 0.005089091390734879,
-        "asymmetry": 0.7894736842105263,
+        "expected_return": 0.010369039843239669,
+        "expected_cagr": 0.0051711495278998765,
+        "asymmetry": 0.790227464195451,
         "quality_mult": 0.975,
-        "asymmetry_mult": 0.8885233166386386,
-        "potential_score": 0.004408731952143574
+        "asymmetry_mult": 0.8889473911292225,
+        "potential_score": 0.004481957884916563
       },
-      "conviction": 0.006278396486933957
+      "conviction": 0.006382342751914627
     },
     {
       "symbol": "NMIH",
@@ -1282,7 +1282,7 @@
       "sector": "Financials",
       "author": "oracle",
       "created_at": "2026-06-28T09:58:52.962782",
-      "priced_at": "2026-06-28T09:58:52.962782",
+      "priced_at": "2026-06-28T11:41:08.321453",
       "scenario_price": 40.62,
       "drawdown_from_high": 0.05972222222222234,
       "derived": {
@@ -1327,23 +1327,23 @@
         "0001664710-26-000030"
       ],
       "horizon_years": 2.0,
-      "current_price": 10.5,
+      "current_price": 10.95,
       "high_52w": 22.55,
       "decline_explanation": "TROPOS program (KER-050 for myelofibrosis/MDS) was terminated in February 2026 after Phase 2 failed to demonstrate sufficient efficacy, triggering a 45% workforce reduction and the loss of the lead clinical catalyst. The stock had already declined from its ATH near $22.55 on broader biotech risk-off sentiment and lack of near-term binary events. As of June 2026, the stock trades below net cash ($14.27/share), signaling extreme market pessimism about any future pipeline success.",
       "sector": "Biotechnology",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520378",
-      "priced_at": "2026-06-28T11:34:18.520378",
+      "priced_at": "2026-06-28T11:41:08.321461",
       "scenario_price": 10.5,
-      "drawdown_from_high": 0.5343680709534369,
+      "drawdown_from_high": 0.5144124168514412,
       "derived": {
         "expected_price": 10.45,
-        "expected_return": -0.004761904761904856,
-        "expected_cagr": -0.002383793616956509,
-        "asymmetry": 0.9715909090909091,
+        "expected_return": -0.045662100456621,
+        "expected_cagr": -0.023097804515017528,
+        "asymmetry": 0.8555672268907564,
         "quality_mult": 0.9875,
-        "asymmetry_mult": 0.9856931110091564,
-        "potential_score": -0.0023203178344728603
+        "asymmetry_mult": 0.9249687707651304,
+        "potential_score": -0.02109768850150868
       },
       "conviction": 0.0
     },
@@ -1378,25 +1378,25 @@
         "0001193125-26-210356"
       ],
       "horizon_years": 2.0,
-      "current_price": 10.6,
+      "current_price": 11.19,
       "high_52w": 53.13,
       "decline_explanation": "On May 7 2026, Vital Farms slashed FY2026 EBITDA guidance from ~$110M to ~$5M \u2014 a 95%+ cut \u2014 due to massive losses in the recently-launched butter category (higher-than-expected input costs, distribution inefficiencies, retailer acceptance shortfalls). Simultaneously, the company announced the departure of its founder and CEO. The combined shock caused a near-80% decline from the 52-week high of $53.13, with the stock bottoming below $9. HPAI egg price normalization in Q2 2026 added further revenue headwinds to the egg segment.",
       "sector": "Consumer Staples",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520446",
-      "priced_at": "2026-06-28T11:34:18.520446",
+      "priced_at": "2026-06-28T11:41:08.321469",
       "scenario_price": 10.6,
-      "drawdown_from_high": 0.800489365706757,
+      "drawdown_from_high": 0.7893845285149633,
       "derived": {
         "expected_price": 11.425,
-        "expected_return": 0.0778301886792454,
-        "expected_cagr": 0.03818600870905864,
-        "asymmetry": 1.4393939393939397,
+        "expected_return": 0.021000893655049202,
+        "expected_cagr": 0.010445888533893388,
+        "asymmetry": 1.252897542883635,
         "quality_mult": 0.9,
-        "asymmetry_mult": 1.199747448171464,
-        "potential_score": 0.04123220985409177
+        "asymmetry_mult": 1.1193290592509582,
+        "potential_score": 0.01052314792711493
       },
-      "conviction": 0.05720193180866118
+      "conviction": 0.014920636000290255
     },
     {
       "symbol": "ERIE",
@@ -1429,25 +1429,25 @@
         "0001628280-26-026866"
       ],
       "horizon_years": 2.0,
-      "current_price": 235.0,
+      "current_price": 238.46,
       "high_52w": 380.67,
       "decline_explanation": "Erie Indemnity fell 38% from its 2025 ATH due to a convergence of negatives: (1) AM Best downgraded the Erie Insurance Exchange from A+ to A in late 2025 citing capitalization deterioration; (2) a significant cyber incident disrupted operations for several weeks; (3) new policy additions fell 22.8% signaling customer acquisition weakness; and (4) a $100M charitable gift to Hamot Health Foundation created a one-time earnings distortion. These catalysts together raised investor doubts about the durability of the management-fee model.",
       "sector": "Insurance",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520473",
-      "priced_at": "2026-06-28T11:34:18.520473",
+      "priced_at": "2026-06-28T11:41:08.321476",
       "scenario_price": 235.0,
-      "drawdown_from_high": 0.38266740221188955,
+      "drawdown_from_high": 0.3735781648146689,
       "derived": {
         "expected_price": 254.0,
-        "expected_return": 0.08085106382978724,
-        "expected_cagr": 0.03963987218160647,
-        "asymmetry": 1.8214285714285714,
+        "expected_return": 0.06516816237524115,
+        "expected_cagr": 0.03206984374859112,
+        "asymmetry": 1.6649877484345217,
         "quality_mult": 1.2000000000000002,
-        "asymmetry_mult": 1.349603116263656,
-        "potential_score": 0.06419771402950693
+        "asymmetry_mult": 1.2903440426624682,
+        "potential_score": 0.04965735819613291
       },
-      "conviction": 0.0876312322588888
+      "conviction": 0.06848136440794594
     },
     {
       "symbol": "CALM",
@@ -1480,25 +1480,25 @@
         "0001562762-26-000046"
       ],
       "horizon_years": 2.0,
-      "current_price": 79.0,
+      "current_price": 80.275,
       "high_52w": 126.4,
       "decline_explanation": "Cal-Maine's 37% decline is a textbook commodity mean-reversion. HPAI (Highly Pathogenic Avian Influenza) drove conventional egg prices to $4.00+/dozen in late 2024/early 2025, producing EPS of $10.38 in Q3 FY2025. As flock rebuilding accelerated through 2025 and supply normalized by early 2026, conventional prices fell to $1.50-1.80/dozen and Q3 FY2026 EPS collapsed to $1.06 \u2014 a purely cyclical reversal, not structural deterioration of the business.",
       "sector": "Consumer Staples",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520491",
-      "priced_at": "2026-06-28T11:34:18.520491",
+      "priced_at": "2026-06-28T11:41:08.321483",
       "scenario_price": 79.0,
-      "drawdown_from_high": 0.375,
+      "drawdown_from_high": 0.36491297468354433,
       "derived": {
         "expected_price": 81.25,
-        "expected_return": 0.028481012658227778,
-        "expected_cagr": 0.014140529048231931,
-        "asymmetry": 1.2916666666666667,
+        "expected_return": 0.012145748987854255,
+        "expected_cagr": 0.006054545731917216,
+        "asymmetry": 1.1760633036597423,
         "quality_mult": 1.15,
-        "asymmetry_mult": 1.136515141415488,
-        "potential_score": 0.018481564176582296
+        "asymmetry_mult": 1.0844645239286264,
+        "potential_score": 0.007550831062982854
       },
-      "conviction": 0.026056742806303768
+      "conviction": 0.010728931522473673
     },
     {
       "symbol": "SKYW",
@@ -1531,25 +1531,25 @@
         "0001104659-26-048542"
       ],
       "horizon_years": 2.0,
-      "current_price": 98.5,
+      "current_price": 99.19,
       "high_52w": 123.94,
       "decline_explanation": "",
       "sector": "Industrials",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520505",
-      "priced_at": "2026-06-28T11:34:18.520505",
+      "priced_at": "2026-06-28T11:41:08.321501",
       "scenario_price": 98.5,
-      "drawdown_from_high": 0.20526060997256734,
+      "drawdown_from_high": 0.19969340003227365,
       "derived": {
         "expected_price": 105.25,
-        "expected_return": 0.06852791878172582,
-        "expected_cagr": 0.03369624106007363,
-        "asymmetry": 2.1791044776119404,
+        "expected_return": 0.061094868434317995,
+        "expected_cagr": 0.030094591983822694,
+        "asymmetry": 2.0947645510383155,
         "quality_mult": 1.1749999999999998,
-        "asymmetry_mult": 1.47617901272574,
-        "potential_score": 0.05844647853623793
+        "asymmetry_mult": 1.4473301458334638,
+        "potential_score": 0.051179251990575006
       },
-      "conviction": 0.08010428565551375
+      "conviction": 0.07050441075402214
     },
     {
       "symbol": "AII",
@@ -1582,25 +1582,25 @@
         "0002007587-26-000063"
       ],
       "horizon_years": 2.0,
-      "current_price": 18.3,
+      "current_price": 18.73,
       "high_52w": 26.36,
       "decline_explanation": "AII stock peaked near $26 in early 2026 on enthusiasm for the Florida insurance market reform dividend and the de novo carrier thesis, then declined 31% as: (1) Q1 2026 results showed a 75% combined ratio that appeared alarming but was driven by quota share accounting and Citizens Insurance comparison distortions; (2) investors grew cautious about a sub-2-year-old Florida insurer lacking a full underwriting cycle track record; and (3) general insurance sector de-risking following cat-exposed carrier losses.",
       "sector": "Insurance",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520529",
-      "priced_at": "2026-06-28T11:34:18.520529",
+      "priced_at": "2026-06-28T11:41:08.321508",
       "scenario_price": 18.3,
-      "drawdown_from_high": 0.30576631259484066,
+      "drawdown_from_high": 0.28945371775417295,
       "derived": {
         "expected_price": 19.05,
-        "expected_return": 0.040983606557376984,
-        "expected_cagr": 0.020286041538046806,
-        "asymmetry": 1.3915662650602405,
+        "expected_return": 0.017084890549919907,
+        "expected_cagr": 0.008506266985941924,
+        "asymmetry": 1.24914089347079,
         "quality_mult": 0.975,
-        "asymmetry_mult": 1.179646669583838,
-        "potential_score": 0.023332102305911404
+        "asymmetry_mult": 1.1176497185929006,
+        "potential_score": 0.009269351230536219
       },
-      "conviction": 0.03278219856000897
+      "conviction": 0.013154641684753554
     },
     {
       "symbol": "DKL",
@@ -1633,25 +1633,25 @@
         "0001628280-26-028277"
       ],
       "horizon_years": 2.0,
-      "current_price": 50.5,
+      "current_price": 51.06,
       "high_52w": 55.89,
       "decline_explanation": "",
       "sector": "Energy",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520548",
-      "priced_at": "2026-06-28T11:34:18.520548",
+      "priced_at": "2026-06-28T11:41:08.321516",
       "scenario_price": 50.5,
-      "drawdown_from_high": 0.09643943460368587,
+      "drawdown_from_high": 0.08641975308641969,
       "derived": {
         "expected_price": 52.25,
-        "expected_return": 0.034653465346534684,
-        "expected_cagr": 0.017179170719954673,
-        "asymmetry": 1.4301075268817205,
+        "expected_return": 0.023305914610262324,
+        "expected_cagr": 0.01158584144414676,
+        "asymmetry": 1.2988792029887914,
         "quality_mult": 1.0750000000000002,
-        "asymmetry_mult": 1.1958710327128592,
-        "potential_score": 0.02208487807727441
+        "asymmetry_mult": 1.1396838171127952,
+        "potential_score": 0.014194510701643463
       },
-      "conviction": 0.031057323116976177
+      "conviction": 0.020073659042802006
     },
     {
       "symbol": "TEN",
@@ -1684,25 +1684,25 @@
         "0001193125-26-144027"
       ],
       "horizon_years": 2.0,
-      "current_price": 36.8,
+      "current_price": 36.73,
       "high_52w": 45.85,
       "decline_explanation": "",
       "sector": "Energy",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520562",
-      "priced_at": "2026-06-28T11:34:18.520562",
+      "priced_at": "2026-06-28T11:41:08.321523",
       "scenario_price": 36.8,
-      "drawdown_from_high": 0.197382769901854,
+      "drawdown_from_high": 0.19890948745910586,
       "derived": {
         "expected_price": 37.5,
-        "expected_return": 0.01902173913043481,
-        "expected_cagr": 0.009466066359060443,
-        "asymmetry": 1.178571428571429,
+        "expected_return": 0.02096378981758784,
+        "expected_cagr": 0.010427528236235162,
+        "asymmetry": 1.1897788404064558,
         "quality_mult": 0.975,
-        "asymmetry_mult": 1.085620296683619,
-        "potential_score": 0.010019639924921274
+        "asymmetry_mult": 1.0907698384198454,
+        "potential_score": 0.011089682457122687
       },
-      "conviction": 0.014211816329768978
+      "conviction": 0.01571757271167684
     },
     {
       "symbol": "RDN",
@@ -1735,25 +1735,25 @@
         "0001193125-26-215018"
       ],
       "horizon_years": 2.0,
-      "current_price": 37.2,
+      "current_price": 37.49,
       "high_52w": 38.84,
       "decline_explanation": "",
       "sector": "Insurance",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520598",
-      "priced_at": "2026-06-28T11:34:18.520598",
+      "priced_at": "2026-06-28T11:41:08.321530",
       "scenario_price": 37.2,
-      "drawdown_from_high": 0.04222451081359424,
+      "drawdown_from_high": 0.03475798146240994,
       "derived": {
         "expected_price": 40.5,
-        "expected_return": 0.08870967741935476,
-        "expected_cagr": 0.04341251546037861,
-        "asymmetry": 2.448087431693988,
+        "expected_return": 0.08028807682048544,
+        "expected_cagr": 0.039369076324904606,
+        "asymmetry": 2.3370696557245787,
         "quality_mult": 1.15,
-        "asymmetry_mult": 1.564636517435915,
-        "potential_score": 0.07811352805351854
+        "asymmetry_mult": 1.5287477410366233,
+        "potential_score": 0.06921319447315576
       },
-      "conviction": 0.10558978390886231
+      "conviction": 0.09414496576484788
     },
     {
       "symbol": "ESNT",
@@ -1786,25 +1786,25 @@
         "0001448893-26-000016"
       ],
       "horizon_years": 2.0,
-      "current_price": 62.0,
+      "current_price": 63.94,
       "high_52w": 67.09,
       "decline_explanation": "",
       "sector": "Insurance",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520621",
-      "priced_at": "2026-06-28T11:34:18.520621",
+      "priced_at": "2026-06-28T11:41:08.321537",
       "scenario_price": 62.0,
-      "drawdown_from_high": 0.07586823669697429,
+      "drawdown_from_high": 0.046951855716202195,
       "derived": {
         "expected_price": 64.89999999999999,
-        "expected_return": 0.046774193548386966,
-        "expected_cagr": 0.023119833425384817,
-        "asymmetry": 1.633333333333333,
+        "expected_return": 0.015014075695964912,
+        "expected_cagr": 0.007479069606890043,
+        "asymmetry": 1.2825888787602555,
         "quality_mult": 1.125,
-        "asymmetry_mult": 1.2780193008453875,
-        "potential_score": 0.03324104251871864
+        "asymmetry_mult": 1.1325144055420466,
+        "potential_score": 0.009528923328586498
       },
-      "conviction": 0.046377324006493525
+      "conviction": 0.01352051315926961
     },
     {
       "symbol": "BWFG",
@@ -1838,23 +1838,23 @@
         "0001505732-26-000046"
       ],
       "horizon_years": 2.0,
-      "current_price": 59.79,
+      "current_price": 59.77,
       "high_52w": 59.79,
       "decline_explanation": "",
       "sector": "Banking",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520642",
-      "priced_at": "2026-06-28T11:34:18.520642",
+      "priced_at": "2026-06-28T11:41:08.321544",
       "scenario_price": 59.79,
-      "drawdown_from_high": 0.0,
+      "drawdown_from_high": 0.0003345040976751035,
       "derived": {
         "expected_price": 59.35,
-        "expected_return": -0.007359090148854275,
-        "expected_cagr": -0.0036863396243401736,
-        "asymmetry": 0.8725332721431851,
+        "expected_return": -0.007026936590262656,
+        "expected_cagr": -0.003519662306507243,
+        "asymmetry": 0.8744832338079923,
         "quality_mult": 1.05,
-        "asymmetry_mult": 0.9340948946135961,
-        "potential_score": -0.003615560574053356
+        "asymmetry_mult": 0.9351380827492763,
+        "potential_score": -0.003455938774293683
       },
       "conviction": 0.0
     },
@@ -1890,23 +1890,23 @@
         "0000908937-26-000006"
       ],
       "horizon_years": 2.0,
-      "current_price": 28.1,
+      "current_price": 28.31,
       "high_52w": 30.11,
       "decline_explanation": "",
       "sector": "Media",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520659",
-      "priced_at": "2026-06-28T11:34:18.520659",
+      "priced_at": "2026-06-28T11:41:08.321551",
       "scenario_price": 28.1,
-      "drawdown_from_high": 0.06675523082032542,
+      "drawdown_from_high": 0.05978080371969452,
       "derived": {
         "expected_price": 27.700000000000003,
-        "expected_return": -0.014234875444839812,
-        "expected_cagr": -0.0071429485796254966,
-        "asymmetry": 0.8776595744680848,
+        "expected_return": -0.021547156481808383,
+        "expected_cagr": -0.010832247028750075,
+        "asymmetry": 0.8464360587002098,
         "quality_mult": 1.025,
-        "asymmetry_mult": 0.9368348704377335,
-        "potential_score": -0.006859057389815265
+        "asymmetry_mult": 0.9200195969109625,
+        "potential_score": -0.010215026533656378
       },
       "conviction": 0.0
     },
@@ -1942,25 +1942,25 @@
         "0001018164-26-000036"
       ],
       "horizon_years": 2.0,
-      "current_price": 222.0,
+      "current_price": 223.575,
       "high_52w": 239.44,
       "decline_explanation": "",
       "sector": "Industrials",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520680",
-      "priced_at": "2026-06-28T11:34:18.520680",
+      "priced_at": "2026-06-28T11:41:08.321558",
       "scenario_price": 222.0,
-      "drawdown_from_high": 0.07283661877714664,
+      "drawdown_from_high": 0.06625877046441697,
       "derived": {
         "expected_price": 224.0,
-        "expected_return": 0.009009009009008917,
-        "expected_cagr": 0.004494404667845231,
-        "asymmetry": 1.1470588235294115,
+        "expected_return": 0.0019009281001900469,
+        "expected_cagr": 0.0009500127879464859,
+        "asymmetry": 1.106806661839247,
         "quality_mult": 1.075,
-        "asymmetry_mult": 1.071008320943125,
-        "potential_score": 0.0051745606567189534
+        "asymmetry_mult": 1.0520487925183162,
+        "potential_score": 0.001074419291918764
       },
-      "conviction": 0.007364974181601425
+      "conviction": 0.0015337073696496395
     },
     {
       "symbol": "UVE",
@@ -1994,25 +1994,25 @@
         "0000891166-26-000010"
       ],
       "horizon_years": 2.0,
-      "current_price": 41.0,
+      "current_price": 41.23,
       "high_52w": 41.96,
       "decline_explanation": "",
       "sector": "Insurance",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520696",
-      "priced_at": "2026-06-28T11:34:18.520696",
+      "priced_at": "2026-06-28T11:41:08.321565",
       "scenario_price": 41.0,
-      "drawdown_from_high": 0.022878932316491962,
+      "drawdown_from_high": 0.017397521448999087,
       "derived": {
         "expected_price": 41.99999999999999,
-        "expected_return": 0.024390243902438824,
-        "expected_cagr": 0.012121654694947637,
-        "asymmetry": 1.263157894736842,
+        "expected_return": 0.018675721561969283,
+        "expected_cagr": 0.009294665378733358,
+        "asymmetry": 1.230109204368175,
         "quality_mult": 1.075,
-        "asymmetry_mult": 1.1239029738980326,
-        "potential_score": 0.01464533104223295
+        "asymmetry_mult": 1.1091028826795895,
+        "potential_score": 0.011081895677477496
       },
-      "conviction": 0.020704556900980053
+      "conviction": 0.015706623521677843
     },
     {
       "symbol": "RBCAA",
@@ -2046,25 +2046,25 @@
         "0001104659-26-024523"
       ],
       "horizon_years": 2.0,
-      "current_price": 90.15,
+      "current_price": 89.6,
       "high_52w": 90.15,
       "decline_explanation": "",
       "sector": "Banking",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520714",
-      "priced_at": "2026-06-28T11:34:18.520714",
+      "priced_at": "2026-06-28T11:41:08.321572",
       "scenario_price": 90.15,
-      "drawdown_from_high": 0.0,
+      "drawdown_from_high": 0.006100942872989568,
       "derived": {
         "expected_price": 93.0,
-        "expected_return": 0.03161397670549082,
-        "expected_cagr": 0.01568399451083735,
-        "asymmetry": 1.4850746268656712,
+        "expected_return": 0.0379464285714286,
+        "expected_cagr": 0.018796558971136523,
+        "asymmetry": 1.540540540540541,
         "quality_mult": 1.15,
-        "asymmetry_mult": 1.2186363800845892,
-        "potential_score": 0.021980049240346404
+        "asymmetry_mult": 1.2411851354816255,
+        "potential_score": 0.026829511032155213
       },
-      "conviction": 0.030912207774384748
+      "conviction": 0.03760265485508807
     },
     {
       "symbol": "MTG",
@@ -2098,25 +2098,25 @@
         "0000876437-26-000010"
       ],
       "horizon_years": 2.0,
-      "current_price": 27.6,
+      "current_price": 27.845,
       "high_52w": 29.97,
       "decline_explanation": "",
       "sector": "Insurance",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520732",
-      "priced_at": "2026-06-28T11:34:18.520732",
+      "priced_at": "2026-06-28T11:41:08.321579",
       "scenario_price": 27.6,
-      "drawdown_from_high": 0.07907907907907896,
+      "drawdown_from_high": 0.07090423757090425,
       "derived": {
         "expected_price": 28.6,
-        "expected_return": 0.03623188405797095,
-        "expected_cagr": 0.017954755408102985,
-        "asymmetry": 1.448275862068965,
+        "expected_return": 0.027114383192673897,
+        "expected_cagr": 0.013466518042245967,
+        "asymmetry": 1.3769523005487552,
         "quality_mult": 1.1749999999999998,
-        "asymmetry_mult": 1.2034433356286307,
-        "potential_score": 0.02538884861800029
+        "asymmetry_mult": 1.17343610842208,
+        "potential_score": 0.01856746576744938
       },
-      "conviction": 0.03561991568132894
+      "conviction": 0.026176254437707547
     },
     {
       "symbol": "BHRB",
@@ -2150,26 +2150,26 @@
         "0001964333-26-000016"
       ],
       "horizon_years": 2.0,
-      "current_price": 71.36,
+      "current_price": 71.34,
       "high_52w": 71.36,
       "decline_explanation": "",
       "sector": "Banking",
       "author": "oracle",
       "created_at": "2026-06-28T11:34:18.520750",
-      "priced_at": "2026-06-28T11:34:18.520750",
+      "priced_at": "2026-06-28T11:41:08.321586",
       "scenario_price": 71.36,
-      "drawdown_from_high": 0.0,
+      "drawdown_from_high": 0.0002802690582959233,
       "derived": {
         "expected_price": 71.9,
-        "expected_return": 0.007567264573991039,
-        "expected_cagr": 0.00377650130593854,
-        "asymmetry": 1.1685393258426966,
+        "expected_return": 0.007849733669750503,
+        "expected_cagr": 0.003917194627998333,
+        "asymmetry": 1.1710402999062788,
         "quality_mult": 1.1,
-        "asymmetry_mult": 1.0809899749038825,
-        "potential_score": 0.00449059605712408
+        "asymmetry_mult": 1.0821461545957083,
+        "potential_score": 0.0046628748138404985
       },
-      "conviction": 0.006394604162591189
+      "conviction": 0.006639112790557511
     }
   ],
-  "saved_at": "2026-06-28T11:34:18.520874"
+  "saved_at": "2026-06-28T11:41:08.321594"
 }
