@@ -1,4 +1,1071 @@
 {
-  "dossiers": [],
-  "saved_at": "2026-06-28T21:43:01.918873+00:00"
+  "dossiers": [
+    {
+      "symbol": "MTDR",
+      "business": "Matador Resources is a Permian Basin E&P with ~180K BOE/d production. It owns midstream assets via San Mateo Midstream, providing fee income and operational control over takeaway capacity.",
+      "thesis": "CEO Joseph Foran bought ~$2.5M of stock at $52\u201353 in 2026, now underwater \u2014 32 insider buys and zero sells across the company. At 12.8x earnings and 3.3x EV/EBITDA, the stock prices in mid-cycle $65 oil indefinitely. The Energy Transfer takeaway deal de-risks Permian volumes and could catalyze a rerating if gas/NGL realizations improve. The Ameredev acquisition added scale but levered the balance sheet; the bear case is a prolonged $60 oil environment tightening covenant room. Insiders buying into weakness is the deciding signal \u2014 they know the well economics and hedge positions better than any analyst.",
+      "scenarios": {
+        "bull": {
+          "target": 82.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 58.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 32.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.55,
+        "quality": 0.6,
+        "management": 0.72
+      },
+      "citations": [
+        "MTDR 10-K 2025 (0001520697-25-000012)",
+        "Energy Transfer midstream agreement 8-K 2026",
+        "Form 4 Foran multiple buys 2026"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 50.16,
+      "high_52w": 66.84,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566095",
+      "priced_at": "2026-06-28T22:26:39.566095",
+      "scenario_price": 50.16,
+      "drawdown_from_high": 0.24955116696588875,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 58.7,
+        "expected_return": 0.17025518341307833,
+        "expected_cagr": 0.08178333478246858,
+        "asymmetry": 2.1039647577092517,
+        "quality_mult": 1.08,
+        "asymmetry_mult": 1.4505050009252818,
+        "potential_score": 0.1281173069818626
+      },
+      "conviction": 0.16725243358461883
+    },
+    {
+      "symbol": "WTW",
+      "business": "Willis Towers Watson is a global advisory and brokerage firm spanning Risk & Broking (insurance placement), Health/Wealth/Career consulting, and the newly acquired Newfront digital brokerage platform for mid-market clients.",
+      "thesis": "Lucy Clarke (President Risk & Broking) bought $500K open-market in May 2026 at ~$263. WTW trades at 15.5x earnings versus insurance broker peers at 22\u201325x \u2014 a 40% discount that would narrow significantly if Newfront integration succeeds. The $1.3B Newfront acquisition adds digital distribution at mid-market scale; the integration risk is execution, not strategic. Q1 2026 organic growth of 3% was modest \u2014 acceleration to 5\u20136% would close the valuation gap. The bear case is integration cost overruns and continued margin pressure from tech investment, which would keep the stock range-bound near current levels.",
+      "scenarios": {
+        "bull": {
+          "target": 370.0,
+          "probability": 0.35
+        },
+        "base": {
+          "target": 295.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 195.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.68,
+        "quality": 0.7,
+        "management": 0.6
+      },
+      "citations": [
+        "WTW 10-K 2025 (0000105770-25-000009)",
+        "Form 4 Clarke 2026-05",
+        "Newfront acquisition 8-K 2026"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 258.41,
+      "high_52w": 352.79,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566220",
+      "priced_at": "2026-06-28T22:26:39.566220",
+      "scenario_price": 258.41,
+      "drawdown_from_high": 0.2675245896992545,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 301.25,
+        "expected_return": 0.16578305793119452,
+        "expected_cagr": 0.07971434089355056,
+        "asymmetry": 3.079679861220625,
+        "quality_mult": 1.1575000000000002,
+        "asymmetry_mult": 1.7549016671086233,
+        "potential_score": 0.16192363540848972
+      },
+      "conviction": 0.20651407667568267
+    },
+    {
+      "symbol": "GPK",
+      "business": "Graphic Packaging International is North America's largest paperboard packaging manufacturer, with ~40% market share in coated recycled board and coated unbleached kraft, serving food and beverage customers on long-term contracts.",
+      "thesis": "CEO and a Director bought shares open-market at ~$11 in 2026, suggesting management views the litigation discount as excessive. At 12x earnings and 6.3x EV/EBITDA, GPK is historically cheap relative to packaging peers that trade at 8\u201310x EBITDA. Securities fraud class actions historically settle at 5\u201315% of claimed damages \u2014 real cost but not existential. Waco facility capex is nearly complete, which should sharply reduce maintenance spending from 2027 onward. Bear case: if courts certify the class and discovery reveals worse disclosure failures, settlement costs could materially impair cash flows for several years.",
+      "scenarios": {
+        "bull": {
+          "target": 18.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 13.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 5.5,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.45,
+        "quality": 0.4,
+        "management": 0.35
+      },
+      "citations": [
+        "GPK 10-K 2025 (0001408075-25-000007)",
+        "SEC EDGAR corrective disclosure 8-Ks 2025-2026",
+        "Form 4 CEO buy 2026"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 10.86,
+      "high_52w": 23.76,
+      "decline_explanation": "Three SEC corrective disclosures triggered a securities fraud class action alleging management misrepresented Waco facility capex timing and containerboard market conditions. The stock fell 54% as litigation uncertainty, deteriorating containerboard pricing, and elevated capex obligations simultaneously compressed earnings and investor confidence in disclosure quality.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Materials",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566245",
+      "priced_at": "2026-06-28T22:26:39.566245",
+      "scenario_price": 10.86,
+      "drawdown_from_high": 0.542929292929293,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 12.000000000000002,
+        "expected_return": 0.10497237569060802,
+        "expected_cagr": 0.051176662455273414,
+        "asymmetry": 1.1100746268656718,
+        "quality_mult": 0.9375,
+        "asymmetry_mult": 1.0536007910331464,
+        "potential_score": 0.05054978629248037
+      },
+      "conviction": 0.06966819827680515
+    },
+    {
+      "symbol": "GSHD",
+      "business": "Goosehead Insurance is a rapidly growing franchise-based personal lines insurance agency. It distributes auto, home, and life insurance via franchised and corporate agents on a proprietary tech-enabled quoting platform with carrier access to 150+ insurers.",
+      "thesis": "Goosehead grew revenue 16% in FY2025, and the franchise model is capital-light with high incremental margins. However, franchise agent count grew only 1% YoY \u2014 a dramatic deceleration from historical 15\u201320% annual rates \u2014 which is the core bear case. Executive Chairman Langowski planned a $14.48M share sale in 2026, a meaningful negative insider signal. At 40x earnings, the stock prices in near-perfect execution on agent count re-acceleration. The screen flagged this name on stale data showing older buys \u2014 current insider flow is net selling. Position requires evidence of agent growth recovering above 10% annually to justify.",
+      "scenarios": {
+        "bull": {
+          "target": 68.0,
+          "probability": 0.2
+        },
+        "base": {
+          "target": 42.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 22.0,
+          "probability": 0.35
+        }
+      },
+      "ratings": {
+        "moat": 0.52,
+        "runway": 0.62,
+        "quality": 0.55,
+        "management": 0.38
+      },
+      "citations": [
+        "GSHD 10-K 2025 (0001726978-25-000014)",
+        "Form 4 Langowski planned sale 2026",
+        "GSHD Q4 2025 earnings release"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 44.07,
+      "high_52w": 106.84,
+      "decline_explanation": "Franchise agent growth decelerated sharply to 1% YoY from historically 15\u201320%+ annual rates, triggering a valuation reset from 80\u201390x earnings toward 40x. The executive chairman planned a $14.48M share sale, adding a negative insider signal. The market re-rated the growth premium as the agent count plateau raised questions about franchise TAM saturation and agent retention economics.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566262",
+      "priced_at": "2026-06-28T22:26:39.566262",
+      "scenario_price": 44.07,
+      "drawdown_from_high": 0.5875140396855111,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 40.2,
+        "expected_return": -0.08781484002722939,
+        "expected_cagr": -0.04491615029214813,
+        "asymmetry": 0.6195870282866206,
+        "quality_mult": 1.0175,
+        "asymmetry_mult": 0.7871385064184198,
+        "potential_score": -0.03597394800548971
+      },
+      "conviction": 0.0
+    },
+    {
+      "symbol": "EXE",
+      "business": "EQT Corporation (ticker: EXE) is America's largest natural gas producer, operating in the Appalachian basin with ~6 Bcf/d net production. The 2024 Equitrans Midstream acquisition created an integrated gas producer-to-pipeline platform via the Mountain Valley Pipeline.",
+      "thesis": "CEO Toby Rice bought at $88.90 on June 12, 2026 \u2014 essentially at the current market price \u2014 and CFO Jeremy Knop paid $96.43 in May (now underwater). Coordinated insider buying at multiple levels signals confidence the integrated model re-rates as LNG export capacity expands. At 6.6x earnings, the market prices in sub-$3 gas indefinitely. The 20-year Delfin LNG offtake deal creates price-linked export demand that reduces Appalachian basis risk. Bear case is a structural gas oversupply through 2027\u20132028 if coal retirement is slower than expected and associated Permian gas compresses prices.",
+      "scenarios": {
+        "bull": {
+          "target": 140.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 95.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 58.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.62,
+        "quality": 0.65,
+        "management": 0.72
+      },
+      "citations": [
+        "EXE 10-K 2025 (0000101778-25-000010)",
+        "Delfin LNG offtake 8-K 2026",
+        "Form 4 Rice 2026-06-12",
+        "Form 4 Knop 2026-05"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 88.77,
+      "high_52w": 126.62,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566276",
+      "priced_at": "2026-06-28T22:26:39.566276",
+      "scenario_price": 88.77,
+      "drawdown_from_high": 0.2989259200758174,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 99.25,
+        "expected_return": 0.11805790244451964,
+        "expected_cagr": 0.05738257146811332,
+        "asymmetry": 1.9979200519987002,
+        "quality_mult": 1.1475,
+        "asymmetry_mult": 1.4134779984133818,
+        "potential_score": 0.09307258009628949
+      },
+      "conviction": 0.12450061412167113
+    },
+    {
+      "symbol": "GRNT",
+      "business": "Granite Ridge Resources is a non-operated oil and gas E&P that acquires working interests across multiple basins (Permian, DJ, Haynesville). It earns revenue from operator-directed production and pays a high dividend yield (~10%), without controlling capital allocation at the well level.",
+      "thesis": "CEO, CFO, and a Director simultaneously bought shares on March 11, 2026 \u2014 37 insider buys with zero sells \u2014 a strongly coordinated signal at the $4.42 level. The 18\u201328% production growth outlook and ~10% dividend yield create meaningful total return if oil holds above $60. The non-operated model concentrates risk on commodity price and third-party operator decisions. The 8.875% senior notes raise refinancing risk and compress equity IRR materially in a falling oil environment. Bear case: oil drops to $55, operators cut activity, dividend is reduced to preserve covenant headroom.",
+      "scenarios": {
+        "bull": {
+          "target": 7.5,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 5.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 2.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.2,
+        "runway": 0.3,
+        "quality": 0.38,
+        "management": 0.55
+      },
+      "citations": [
+        "GRNT 10-K 2025 (0001892416-25-000008)",
+        "Form 4 CEO/CFO/Director 2026-03-11",
+        "GRNT 8.875% senior notes indenture"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 4.42,
+      "high_52w": 6.66,
+      "decline_explanation": "GRNT fell 34% from its 52-week high driven by oil price softness, GAAP losses from high-yield debt service costs (8.875% notes), and concerns about operator capex reductions in a weaker commodity environment. The non-operated model means GRNT cannot control well-level spending. Dividend sustainability was questioned as FCF coverage tightened with declining oil realizations and rising interest costs.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566289",
+      "priced_at": "2026-06-28T22:26:39.566289",
+      "scenario_price": 4.42,
+      "drawdown_from_high": 0.3363363363363363,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 5.0,
+        "expected_return": 0.13122171945701355,
+        "expected_cagr": 0.06358907452879259,
+        "asymmetry": 1.5272727272727271,
+        "quality_mult": 0.8575,
+        "asymmetry_mult": 1.2358287613066492,
+        "potential_score": 0.06738681518047751
+      },
+      "conviction": 0.09177840139483806
+    },
+    {
+      "symbol": "TKO",
+      "business": "TKO Group Holdings owns UFC (mixed martial arts), WWE (professional wrestling), and IMG (sports marketing and events). Revenue comes from media rights, live events, sponsorship, and licensing across all three properties with long-duration contractual cash flows.",
+      "thesis": "CEO Ari Emanuel, COO Mark Shapiro, and CFO Andrew Schleimer simultaneously bought stock at ~$185 in May 2026 \u2014 the stock is now at $203, up 10% from their entries. TKO guided FY2026 revenue to $5.675\u20135.775B, double-digit growth. UFC's media deal and WWE's Netflix partnership create durable, escalating revenue floors. Two analyst downgrades and Q3\u2013Q4 2025 EPS misses created the buying opportunity. Antitrust exposure is real (pending acquisition review) but limited to discrete assets rather than existential. The insider buy cluster at $185 represents a 10% margin of safety from here.",
+      "scenarios": {
+        "bull": {
+          "target": 280.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 220.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 145.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.75,
+        "runway": 0.65,
+        "quality": 0.68,
+        "management": 0.68
+      },
+      "citations": [
+        "TKO 10-K 2025 (0001977039-25-000010)",
+        "Form 4 Emanuel/Shapiro/Schleimer 2026-05-13",
+        "TKO FY2026 guidance 8-K 2026"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 203.65,
+      "high_52w": 226.94,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Communication Services",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566302",
+      "priced_at": "2026-06-28T22:26:39.566302",
+      "scenario_price": 203.65,
+      "drawdown_from_high": 0.10262624482242,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 219.25,
+        "expected_return": 0.07660201325804072,
+        "expected_cagr": 0.03759433944969115,
+        "asymmetry": 1.5621483375959075,
+        "quality_mult": 1.19,
+        "asymmetry_mult": 1.2498593271228198,
+        "potential_score": 0.05591528661177925
+      },
+      "conviction": 0.07677193211981848
+    },
+    {
+      "symbol": "CPRT",
+      "business": "Copart is the dominant online vehicle salvage auction platform, connecting insurance companies selling totaled vehicles to licensed dismantlers and rebuilders in 11 countries. Its proprietary digital auction and self-storage yard model generates high-margin marketplace revenue.",
+      "thesis": "Copart has an outstanding business model \u2014 high-ROE, asset-light marketplace with ~55% market share and 60%+ gross margins. ASPs are at all-time highs as EVs and complex repair vehicles drive higher salvage values. The structural negative is Progressive Insurance shifting salvage volume to IAA following the Solera acquisition, reducing units by ~9%. CEO Willis Johnson sold shares in 2026 with zero insider buying \u2014 the screen signal appears stale or based on historic data. At 29x earnings post-decline, Copart is not cheap, just less expensive than before. A volume recovery requires Progressive reversing course or new customer wins, neither imminent.",
+      "scenarios": {
+        "bull": {
+          "target": 44.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 30.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 18.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.82,
+        "runway": 0.75,
+        "quality": 0.8,
+        "management": 0.55
+      },
+      "citations": [
+        "CPRT 10-K 2025 (0000723254-25-000009)",
+        "Progressive Insurance Q1 2026 salvage volume disclosure",
+        "Form 4 Johnson 2026 sale"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 30.33,
+      "high_52w": 50.11,
+      "decline_explanation": "Copart fell 40% as Progressive Insurance, historically one of its largest customers, shifted salvage vehicle volume to IAA following Solera's acquisition. This structural volume loss reduced auction units by roughly 9%, directly compressing fee revenue. The broader de-rating of high-multiple quality compounders in 2025\u20132026 amplified the decline as the premium multiple compressed on lower growth visibility.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Industrials",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566315",
+      "priced_at": "2026-06-28T22:26:39.566315",
+      "scenario_price": 30.33,
+      "drawdown_from_high": 0.394731590500898,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 30.5,
+        "expected_return": 0.0056050115397296985,
+        "expected_cagr": 0.002798589717661004,
+        "asymmetry": 1.1086780210867806,
+        "quality_mult": 1.23,
+        "asymmetry_mult": 1.0529378049470826,
+        "potential_score": 0.0036244913245415877
+      },
+      "conviction": 0.005164462817704885
+    },
+    {
+      "symbol": "HCI",
+      "business": "HCI Group is a Florida-based property and casualty insurer with a combined ratio of 57% \u2014 among the most profitable in the sector. It also owns Exzeo, an insurance technology platform independently valued at approximately $2B, and participates in Florida Citizens depopulation.",
+      "thesis": "HCI posted record 2025 EPS of $22.72 but 2026 guidance implies normalization to ~$17 as favorable reserve releases from prior years roll off. At 7.9x forward PE versus the property insurance sector at 15\u201320x, the market prices in a material hurricane loss in 2026. The 57% combined ratio reflects disciplined underwriting and Florida Citizens depopulation upside \u2014 HCI selectively takes on Citizens policies below actuarial risk. The Exzeo technology spinoff, if executed, could unlock ~$2B of embedded value invisible in insurance segment earnings alone. Analyst consensus target of $245 implies 40% upside. Bear case: a Category 4\u20135 Florida landfall in 2026 that overwhelms reinsurance programs.",
+      "scenarios": {
+        "bull": {
+          "target": 265.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 200.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 105.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.65,
+        "quality": 0.7,
+        "management": 0.68
+      },
+      "citations": [
+        "HCI 10-K 2025 (0001421461-25-000009)",
+        "Exzeo valuation disclosure 2026",
+        "FL Citizens depopulation program filings"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 175.25,
+      "high_52w": 210.5,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566337",
+      "priced_at": "2026-06-28T22:26:39.566337",
+      "scenario_price": 175.25,
+      "drawdown_from_high": 0.167458432304038,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 195.75,
+        "expected_return": 0.11697574893009977,
+        "expected_cagr": 0.05687073425755318,
+        "asymmetry": 1.5330960854092528,
+        "quality_mult": 1.1575,
+        "asymmetry_mult": 1.2381825735364123,
+        "potential_score": 0.0815069275579754
+      },
+      "conviction": 0.10991513595301416
+    },
+    {
+      "symbol": "ROP",
+      "business": "Roper Technologies is a diversified vertical software and technology-enabled industrial conglomerate with SaaS platforms for healthcare (Strata), government (Deltek), education/childcare (Procare), and infrastructure (Neptune water metering).",
+      "thesis": "CEO Neil Hunn bought $1.2M in shares at $330\u2013350 in 2026, a conviction purchase directly into the weakness. Three portfolio companies face simultaneous headwinds: Deltek hit by DOGE federal spending cuts, Neptune disrupted by tariff uncertainty, and Procare digesting integration challenges. At 13.5x P/FCF versus its historical 22x, the market prices in a prolonged multi-year earnings trough. The 11% Q1 2026 revenue growth proves the business is not broken \u2014 these are transient, segment-specific headwinds. The software model has SaaS-like retention and pricing power; once macro/policy clarity returns, the FCF multiple should rerate toward 18\u201320x.",
+      "scenarios": {
+        "bull": {
+          "target": 490.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 375.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 235.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.72,
+        "runway": 0.7,
+        "quality": 0.75,
+        "management": 0.72
+      },
+      "citations": [
+        "ROP 10-K 2025 (0001604778-25-000009)",
+        "Q1 2026 earnings call transcript",
+        "Form 4 Hunn 2026",
+        "Neptune tariff disclosure 8-K 2026"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 334.46,
+      "high_52w": 575.77,
+      "decline_explanation": "Roper fell 42% as three portfolio companies simultaneously faced macro-driven headwinds: Deltek impacted by DOGE federal procurement budget cuts, Neptune disrupted by tariff uncertainty on water meter hardware, and Procare managing a challenging integration. Though each issue is segment-specific and potentially transient, the market re-rated the conglomerate discount wider across the entire enterprise simultaneously.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Technology",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566406",
+      "priced_at": "2026-06-28T22:26:39.566406",
+      "scenario_price": 334.46,
+      "drawdown_from_high": 0.41910832450457647,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 374.5,
+        "expected_return": 0.11971536207618261,
+        "expected_cagr": 0.058166037102014734,
+        "asymmetry": 1.8766137140559025,
+        "quality_mult": 1.2225,
+        "asymmetry_mult": 1.3698955120942262,
+        "potential_score": 0.0974105031654305
+      },
+      "conviction": 0.1299093363445606
+    },
+    {
+      "symbol": "EVTC",
+      "business": "EVERTEC is a payment technology company with a near-monopoly position in Puerto Rico payment processing and a rapidly growing Latin American business. It processes card payments, merchant acquiring, and banking technology, primarily for Popular Inc. and regional banks/retailers.",
+      "thesis": "COO and General Counsel collectively bought $1.78M in May 2026, while CEO/CFO sold $2.07M over the past year \u2014 a mixed insider picture. At 6.7x forward PE, EVTC is priced for Puerto Rico terminal decline. The bear case overlooks LatAm expansion growing 25%+ that is rapidly reducing single-country concentration. Popular's 10% pricing discount (Q4 2025) is a known headwind already in the run rate. Valuation appears to discount the LatAm segment entirely, which is growing fast enough to offset Puerto Rico compression. The operational buy from COO and GC outweighs the CEO/CFO sales in assessing management conviction on current operations.",
+      "scenarios": {
+        "bull": {
+          "target": 40.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 28.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 15.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.58,
+        "quality": 0.62,
+        "management": 0.48
+      },
+      "citations": [
+        "EVTC 10-K 2025 (0001559865-25-000007)",
+        "Popular discount amendment 8-K 2025-Q4",
+        "Form 4 COO/GC 2026-05",
+        "EVTC Q1 2026 LatAm segment disclosure"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 25.96,
+      "high_52w": 37.79,
+      "decline_explanation": "EVTC fell 31% following Popular Bank negotiating a 10% pricing discount on its processing contract in Q4 2025, compressing the single largest revenue stream permanently. LatAm investment spending reduced near-term margins. CEO and CFO sales of $2.07M combined with the Popular contract repricing created negative market perception, while Puerto Rico organic growth moderated from prior elevated levels.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Technology",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566504",
+      "priced_at": "2026-06-28T22:26:39.566504",
+      "scenario_price": 25.96,
+      "drawdown_from_high": 0.31304577930669486,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 28.35,
+        "expected_return": 0.09206471494607094,
+        "expected_cagr": 0.04501900219377397,
+        "asymmetry": 1.5372262773722625,
+        "quality_mult": 1.0699999999999998,
+        "asymmetry_mult": 1.239849296234128,
+        "potential_score": 0.05972395266021125
+      },
+      "conviction": 0.08178153040921388
+    },
+    {
+      "symbol": "RHLD",
+      "business": "Retail Holdings Ltd (RHLD) is a fee-based holding company founded September 2024, operating GPGI (insurance distribution) and Husky Holdings (specialty finance). It employs approximately 7 people at the holding-company level and generates fee income from portfolio subsidiaries.",
+      "thesis": "RHLD posted Q1 2026 EPS of $7.27 on a small float. However, FY2025 produced a GAAP loss and debt/equity exceeds 4x. Founded September 2024 with minimal operating history, the fee-based model avoids principal risk but concentrates on two early-stage subsidiaries whose financial performance cannot yet be reliably normalized. The insider buy flagged by the screen is the only meaningful positive signal. The opacity and novelty of the holding structure make this a high-uncertainty, high-variance outcome \u2014 the base case is near fair value at current price, not a deep discount. Sizing should reflect the severe information deficit and capital structure risk.",
+      "scenarios": {
+        "bull": {
+          "target": 220.0,
+          "probability": 0.2
+        },
+        "base": {
+          "target": 120.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 18.0,
+          "probability": 0.35
+        }
+      },
+      "ratings": {
+        "moat": 0.2,
+        "runway": 0.18,
+        "quality": 0.22,
+        "management": 0.35
+      },
+      "citations": [
+        "RHLD 10-K 2025 SEC EDGAR",
+        "Q1 2026 earnings press release",
+        "RHLD debt prospectus 2024-2025"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 126.46,
+      "high_52w": 236.19,
+      "decline_explanation": "RHLD fell 47% from its post-listing high as investors reassessed the opaque fee-based holding structure, FY2025 GAAP losses, and debt/equity exceeding 4x. The company was founded September 2024 with only 7 holding-company employees, making financial projection unreliable. The market de-rated from speculative listing premium toward capital structure concerns and earnings normalization uncertainty.",
+      "going_concern_explanation": "RHLD is a company founded September 2024 with GAAP losses in FY2025, debt/equity exceeding 4x, and only 7 holding-company employees. With two early-stage subsidiaries driving fee income, a sustained earnings shortfall combined with high leverage creates material refinancing and going-concern risk for equity holders.",
+      "insider_tier": "half",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566520",
+      "priced_at": "2026-06-28T22:26:39.566520",
+      "scenario_price": 126.46,
+      "drawdown_from_high": 0.4645835979508024,
+      "going_concern_flag": true,
+      "derived": {
+        "expected_price": 104.3,
+        "expected_return": -0.17523327534398225,
+        "expected_cagr": -0.09183331670005768,
+        "asymmetry": 0.49282158004267546,
+        "quality_mult": 0.7375,
+        "asymmetry_mult": 0.7020125212862485,
+        "potential_score": -0.04754525191858096
+      },
+      "conviction": 0.0
+    },
+    {
+      "symbol": "PGR",
+      "business": "Progressive Corporation is the second-largest US personal auto insurer and the fastest-growing homeowners insurer, with a combined ratio of 86.4%. Its Snapshot telematics platform enables usage-based pricing that attracts safer drivers.",
+      "thesis": "Progressive is an exceptional compounder with durable pricing advantages from telematics and disciplined underwriting. However, the insider signal from the screen is explicitly negative: a Director sold 7,000 shares on June 24, 2026, with no purchases \u2014 the screen may have flagged this on stale historical data. At 11.4x PE, Progressive is inexpensive for a compounder of its quality but the discount reflects normalization of profitability after exceptional 2024\u20132025 underwriting years rather than mispricing. Without a positive insider buy catalyst, this is a quality hold rather than a screen-triggered entry. Position only with evidence of genuine insider accumulation.",
+      "scenarios": {
+        "bull": {
+          "target": 285.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 228.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 155.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.8,
+        "runway": 0.75,
+        "quality": 0.82,
+        "management": 0.72
+      },
+      "citations": [
+        "PGR 10-K 2025 (0000080661-25-000006)",
+        "Form 4 Director sale 2026-06-24",
+        "PGR Q1 2026 combined ratio disclosure"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 218.52,
+      "high_52w": 267.93,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566534",
+      "priced_at": "2026-06-28T22:26:39.566534",
+      "scenario_price": 218.52,
+      "drawdown_from_high": 0.18441383943567347,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 230.5,
+        "expected_return": 0.054823357129782035,
+        "expected_cagr": 0.027045937205236292,
+        "asymmetry": 1.569899244332493,
+        "quality_mult": 1.2725,
+        "asymmetry_mult": 1.2529562020807004,
+        "potential_score": 0.04312168438513615
+      },
+      "conviction": 0.05974334736244491
+    },
+    {
+      "symbol": "GOOG",
+      "business": "Alphabet (Google) operates the world's dominant search engine, the largest digital advertising platform, YouTube, Google Cloud (63% growth Q1 2026), Waymo autonomous vehicles, and DeepMind AI research. Core business is search/YouTube advertising.",
+      "thesis": "Alphabet raised $85B in equity in Q1 2026 to fund $75B in annual AI infrastructure capex \u2014 unprecedented for a mega-cap. FCF fell 47% YoY from this surge. Revenue grew 22% and Cloud 63%, demonstrating the AI investment is landing in real workloads. The critical uncertainty is whether capex earns adequate returns given top AI researcher attrition and search commoditization risk. The antitrust environment softened under the current DOJ, reducing existential regulatory risk. At 22x earnings \u2014 below the S&P 500 multiple \u2014 GOOG is reasonably priced if capex productivity normalizes in 2027. Bear case: capex intensity persists at $75B+ and AI fails to produce differentiated search revenue.",
+      "scenarios": {
+        "bull": {
+          "target": 510.0,
+          "probability": 0.35
+        },
+        "base": {
+          "target": 360.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 215.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.88,
+        "runway": 0.82,
+        "quality": 0.78,
+        "management": 0.65
+      },
+      "citations": [
+        "GOOG 10-K 2025 (0001652044-25-000007)",
+        "Q1 2026 earnings call transcript",
+        "GOOG $85B equity offering prospectus 2026"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 340.88,
+      "high_52w": 404.47,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Communication Services",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566584",
+      "priced_at": "2026-06-28T22:26:39.566584",
+      "scenario_price": 340.88,
+      "drawdown_from_high": 0.15721808786807434,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 383.5,
+        "expected_return": 0.1250293358366581,
+        "expected_cagr": 0.060674000735691624,
+        "asymmetry": 2.3511280584683822,
+        "quality_mult": 1.2825,
+        "asymmetry_mult": 1.5333388596355282,
+        "potential_score": 0.11931585247265994
+      },
+      "conviction": 0.15671577413024063
+    },
+    {
+      "symbol": "MA",
+      "business": "Mastercard operates the second-largest global payment network, earning interchange and service fees on ~$9T in annual transaction volume across 150+ currencies. Pure network model with no credit risk; revenue grows with global commerce and card adoption.",
+      "thesis": "Mastercard grows EPS 20%+ annually with near-zero capital intensity. UK Competition Authority ruling (2026) and FCA probe on interchange fees represent real but geographically contained headwinds. The Credit Card Competition Act 2026 is the more significant US risk \u2014 mandating routing choice for credit cards could structurally impair interchange revenue similar to Durbin for debit. At 28.9x PE versus historical 35\u201338x, a portion of regulatory risk is already priced in. Sixteen percent revenue growth and 23% EPS growth make Mastercard a quality compounder at a reasonable (not cheap) valuation. Bear case: CCCA passes in full, compressing US interchange by 30\u201350%.",
+      "scenarios": {
+        "bull": {
+          "target": 650.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 510.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 335.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.92,
+        "runway": 0.88,
+        "quality": 0.9,
+        "management": 0.78
+      },
+      "citations": [
+        "MA 10-K 2025 (0000101830-25-000008)",
+        "UK CMA ruling 2026",
+        "Credit Card Competition Act 2026 text",
+        "MA Q1 2026 earnings"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 489.76,
+      "high_52w": 601.77,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Technology",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566599",
+      "priced_at": "2026-06-28T22:26:39.566599",
+      "scenario_price": 489.76,
+      "drawdown_from_high": 0.18613423733320034,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 517.0,
+        "expected_return": 0.05561907873244043,
+        "expected_cagr": 0.027433247823156925,
+        "asymmetry": 1.5531144998707678,
+        "quality_mult": 1.37,
+        "asymmetry_mult": 1.2462401453454979,
+        "potential_score": 0.04683812821356931
+      },
+      "conviction": 0.06472213472749044
+    },
+    {
+      "symbol": "MCO",
+      "business": "Moody's Corporation provides credit ratings (Moody's Investors Service) and data analytics/risk tools (Moody's Analytics) in a near-duopoly market with S&P Global. Revenue is split between episodic transaction fees (debt issuance) and recurring subscription fees.",
+      "thesis": "Moody's posted record Q1 2026 revenue of $2.1B (+8% YoY) and analyst consensus target is $572. At 32.3x earnings, it is priced for consistent high-single-digit growth \u2014 which it reliably delivers via fee escalators and debt issuance cycles. The AI threat to ratings is slow-moving: institutional buyers require regulatory-sanctioned ratings carrying legal liability protection that AI cannot replicate. The primary risk is a leveraged credit cycle downturn depressing issuance volumes, which would be sharp but temporary. At current price, the valuation appears fair for the quality; deep value opportunity would require a credit market selloff bringing the multiple to 24\u201326x.",
+      "scenarios": {
+        "bull": {
+          "target": 590.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 468.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 305.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.88,
+        "runway": 0.8,
+        "quality": 0.85,
+        "management": 0.72
+      },
+      "citations": [
+        "MCO 10-K 2025 (0000076301-25-000009)",
+        "Q1 2026 earnings release",
+        "Moody's Analytics subscription revenue disclosure"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 437.51,
+      "high_52w": 546.88,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566610",
+      "priced_at": "2026-06-28T22:26:39.566610",
+      "scenario_price": 437.51,
+      "drawdown_from_high": 0.19998902867173785,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 457.75,
+        "expected_return": 0.046261799730291875,
+        "expected_cagr": 0.02286939524569398,
+        "asymmetry": 1.1507810731265566,
+        "quality_mult": 1.3125,
+        "asymmetry_mult": 1.072744644883654,
+        "potential_score": 0.03219959043202901
+      },
+      "conviction": 0.04495747901683811
+    },
+    {
+      "symbol": "PODD",
+      "business": "Insulet Corporation makes the OmniPod, a tubeless, waterproof patch insulin pump worn by Type 1 and Type 2 diabetics. It grows through international expansion and Type 2 label extensions, competing with tubed pumps from Medtronic and Tandem.",
+      "thesis": "Insulet grew Q1 2026 revenue 34% YoY and Director Weatherman bought 3,450 shares at $144 on June 3, 2026 \u2014 a real open-market purchase at a meaningful premium to current levels, signaling conviction the recall noise is overdone. Two FDA recalls in 2026: a voluntary recall and a Class II recall covering 7M pods. Class II recalls historically create stock overhang and media noise but rarely indicate structural quality failure \u2014 the OmniPod 5 system is intact. The bear case is that the Class II recall triggers FDA heightened scrutiny leading to a manufacturing corrective action requiring a plant shutdown, which would be severe but unlikely given Insulet's manufacturing track record.",
+      "scenarios": {
+        "bull": {
+          "target": 255.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 170.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 85.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.68,
+        "quality": 0.58,
+        "management": 0.6
+      },
+      "citations": [
+        "PODD 10-K 2025 (0001145986-25-000008)",
+        "FDA Class II recall notice Q2 2026 (7M pods)",
+        "Form 4 Weatherman 2026-06-03"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 155.34,
+      "high_52w": 354.88,
+      "decline_explanation": "Insulet fell 56% from its 52-week high after two FDA recalls in 2026: a voluntary recall of older pods and a second Class II recall covering 7M OmniPod units \u2014 the FDA's most serious recall category. This raised quality control questions and created an overhang on manufacturing credibility. Simultaneous sector rotation away from high-multiple growth MedTech compressed the premium valuation multiple alongside the operational uncertainty.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Healthcare",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566621",
+      "priced_at": "2026-06-28T22:26:39.566621",
+      "scenario_price": 155.34,
+      "drawdown_from_high": 0.5622745716862038,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 174.25,
+        "expected_return": 0.12173297283378393,
+        "expected_cagr": 0.0591189606620135,
+        "asymmetry": 1.7001990332669885,
+        "quality_mult": 1.1275,
+        "asymmetry_mult": 1.3039168045803338,
+        "potential_score": 0.08691469757677979
+      },
+      "conviction": 0.11676489229814357
+    },
+    {
+      "symbol": "CAVA",
+      "business": "CAVA Group is a Mediterranean fast-casual restaurant chain with approximately 390 US locations. It features customizable bowls with Middle Eastern-inspired ingredients and competes primarily with Chipotle. Same-store sales and new unit growth are the key operating metrics.",
+      "thesis": "CAVA's Q1 2026 same-store sales grew 9.7% \u2014 a strong rebound demonstrating the model's durability. Unit economics remain excellent at the restaurant level. However, Artal (major institutional holder) sold 3M shares on June 17, 2026, and there is zero management insider buying. At 160x earnings, CAVA is priced for Chipotle-level execution across a 10+ year expansion from 390 to 3,000+ locations. The question is not whether CAVA is a good business \u2014 it clearly is \u2014 but whether current pricing compensates for execution risk at scale, menu optionality, and competition from Sweetgreen, Chipotle, and independents. The valuation leaves almost no margin for error and significantly underweights the risk of unit economics normalization as the footprint matures.",
+      "scenarios": {
+        "bull": {
+          "target": 125.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 78.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 40.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.72,
+        "quality": 0.7,
+        "management": 0.62
+      },
+      "citations": [
+        "CAVA 10-K 2025 (0001760689-25-000008)",
+        "Q1 2026 earnings release (SSS +9.7%)",
+        "Form 4 Artal sale 2026-06-17"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 81.23,
+      "high_52w": 98.79,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Consumer Discretionary",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566632",
+      "priced_at": "2026-06-28T22:26:39.566632",
+      "scenario_price": 81.23,
+      "drawdown_from_high": 0.17775078449235748,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 80.25,
+        "expected_return": -0.01206450818663063,
+        "expected_cagr": -0.0060505587237500436,
+        "asymmetry": 1.0616056269706522,
+        "quality_mult": 1.1475,
+        "asymmetry_mult": 1.0303424804261214,
+        "potential_score": -0.007153684466692924
+      },
+      "conviction": 0.0
+    },
+    {
+      "symbol": "VRTX",
+      "business": "Vertex Pharmaceuticals holds a near-monopoly in cystic fibrosis treatment (Trikafta/Kaftrio, treating ~90% of CF patients) and is diversifying into pain (suzetrigine/VX-548 approved), gene therapy (Casgevy with CRISPR Therapeutics), and kidney disease (povetacicept, PDUFA Nov 30, 2026).",
+      "thesis": "CEO Reshma Kewalramani bought $3.89M at ~$390 in August 2025 and a Director co-purchased $1.95M simultaneously \u2014 coordinated conviction-level insider buying well below the current $482 price. FY2026 revenue guidance of $12.95\u201313.1B implies continued CF dominance with limited generic threat for 10+ years. Pipeline setbacks (VX-993 failed, VX-264/VX-522 discontinued) concentrated remaining upside on suzetrigine pain (slow early ramp) and povetacicept PDUFA November 30, 2026 \u2014 a binary kidney disease catalyst. At ~32x earnings, valuation is full but supported by the CF franchise's visible long-duration cash flows. Bear case: povetacicept fails PDUFA and suzetrigine market penetration stalls below expectations.",
+      "scenarios": {
+        "bull": {
+          "target": 685.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 510.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 335.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.82,
+        "runway": 0.75,
+        "quality": 0.8,
+        "management": 0.78
+      },
+      "citations": [
+        "VRTX 10-K 2025 (0000875320-25-000009)",
+        "Povetacicept BLA acceptance FDA 2026 (PDUFA 2026-11-30)",
+        "Form 4 Kewalramani 2025-08",
+        "VRTX FY2026 revenue guidance 8-K"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 482.5,
+      "high_52w": 507.92,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Healthcare",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566642",
+      "priced_at": "2026-06-28T22:26:39.566642",
+      "scenario_price": 482.5,
+      "drawdown_from_high": 0.05004725153567491,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 518.75,
+        "expected_return": 0.07512953367875652,
+        "expected_cagr": 0.03688453247155565,
+        "asymmetry": 1.647457627118644,
+        "quality_mult": 1.2875,
+        "asymmetry_mult": 1.2835332590621265,
+        "potential_score": 0.06095349987170578
+      },
+      "conviction": 0.08339296184249789
+    },
+    {
+      "symbol": "FHN",
+      "business": "First Horizon National Corporation is a regional bank focused on the mid-South US (Tennessee, Georgia, North Carolina) with approximately 450 branches, providing commercial banking, mortgage, and wealth management services.",
+      "thesis": "First Horizon is a quality regional bank at NIM 3.52% and ROTCE 15.1% \u2014 both well above peer medians. EPS beat all four quarters of 2025. CEO Bryan Jordan's October 2025 M&A comments removed the takeover premium that had supported the stock, bringing it from a high of $26.56 to current levels. The $1.2B buyback is accretive at book value ratios near tangible book. Consensus target of $27.03 implies only modest upside from here \u2014 FHN is fairly valued for its quality rather than deeply discounted. The screen flag may reflect stale insider data. Sizing should be conservative given proximity to fair value; the thesis is quality-at-fair-value rather than quality-at-discount.",
+      "scenarios": {
+        "bull": {
+          "target": 32.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 27.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 18.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.65,
+        "quality": 0.68,
+        "management": 0.65
+      },
+      "citations": [
+        "FHN 10-K 2025 (0001042514-25-000008)",
+        "Q4 2025 earnings call transcript",
+        "CEO Jordan M&A commentary Oct 2025",
+        "FHN $1.2B buyback announcement"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 25.68,
+      "high_52w": 26.56,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-28T22:26:39.566653",
+      "priced_at": "2026-06-28T22:26:39.566653",
+      "scenario_price": 25.68,
+      "drawdown_from_high": 0.033132530120481896,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 26.700000000000003,
+        "expected_return": 0.03971962616822444,
+        "expected_cagr": 0.019666428871826902,
+        "asymmetry": 1.234375,
+        "quality_mult": 1.12,
+        "asymmetry_mult": 1.1110243021644486,
+        "potential_score": 0.02447186606299484
+      },
+      "conviction": 0.034355773988312466
+    }
+  ],
+  "saved_at": "2026-06-28T22:26:39.567348"
 }
