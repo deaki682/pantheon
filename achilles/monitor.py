@@ -96,6 +96,19 @@ def _symbols_from_cache(path):
             for d in data if isinstance(d, dict)
         ]
     if isinstance(data, dict):
+        # Each cache file nests symbols differently:
+        #   smart_money   → holders dict keyed by symbol
+        #   insider_clusters → clusters list of {symbol, ...}
+        #   activist_13d  → symbols list
+        #   screen        → top list of {symbol, ...}
+        if "holders" in data:
+            return list(data["holders"].keys())
+        if "clusters" in data:
+            return [c.get("symbol", "") for c in data["clusters"] if isinstance(c, dict)]
+        if "symbols" in data and isinstance(data["symbols"], list):
+            return list(data["symbols"])
+        if "top" in data:
+            return [r.get("symbol", "") for r in data["top"] if isinstance(r, dict)]
         return list(data.keys())
     return []
 
