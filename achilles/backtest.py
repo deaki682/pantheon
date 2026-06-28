@@ -254,6 +254,7 @@ def run_backtest(
     end_date: str = "",
     initial_cash: float = 1000.0,
     conservative_start: bool = False,
+    event_classes: Optional[set[str]] = None,
 ) -> dict:
     """Run full-fidelity Achilles backtest."""
 
@@ -311,6 +312,9 @@ def run_backtest(
                 continue
             seen_event_ids.add(ev.event_id)
             total_events += 1
+
+            if event_classes and ev.event_class not in event_classes:
+                continue
 
             pb = playbooks.get(ev.event_class)
             if not pb or pb.disabled:
@@ -680,6 +684,7 @@ def main():
     parser.add_argument("--end", default="", help="End date (YYYY-MM-DD)")
     parser.add_argument("--cash", type=float, default=1000.0, help="Initial cash")
     parser.add_argument("--conservative", action="store_true", help="Start in conservative mode")
+    parser.add_argument("--classes", default="", help="Comma-separated event classes to include (default: all)")
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args()
 
@@ -705,6 +710,10 @@ def main():
     log.info("Estimating market caps...")
     market_caps = estimate_market_caps(prices)
 
+    event_classes = set(args.classes.split(",")) if args.classes else None
+    if event_classes:
+        log.info("Filtering to event classes: %s", event_classes)
+
     log.info("Running simulation...")
     output = run_backtest(
         prices, events_by_date, market_caps,
@@ -712,6 +721,7 @@ def main():
         end_date=args.end,
         initial_cash=args.cash,
         conservative_start=args.conservative,
+        event_classes=event_classes,
     )
 
     # Save results
