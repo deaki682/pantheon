@@ -18,6 +18,7 @@ from shared.edgar import extract_ex_date, guidance_direction
 from shared.insiders import InsiderTxn, cluster_signal
 
 from .classify import classify_filing
+from .scoring import surprise_strength
 
 
 SPINOFF_PRE_DAYS = 7
@@ -103,19 +104,31 @@ def refine_spinoff(filing, body_text: str, *, today: str) -> Optional[Event]:
     )
 
 
-def build_event_for_filing(filing, *, body_text: str = "", today: str = "") -> list[Event]:
-    """For non-cluster classes, build Event(s) directly from filing + optional body."""
+def build_event_for_filing(
+    filing,
+    *,
+    body_text: str = "",
+    today: str = "",
+    surprise_pct: Optional[float] = None,
+) -> list[Event]:
+    """For non-cluster classes, build Event(s) directly from filing + optional body.
+
+    For earnings_reaction events, pass surprise_pct (EPS surprise %) to scale
+    event strength via the surprise curve. If None, strength defaults to 1.0.
+    """
     labels = classify_filing(filing)
     out: list[Event] = []
     for lbl in labels:
         if lbl == "earnings_reaction":
+            strength = surprise_strength(surprise_pct)
             out.append(Event(
                 event_id=f"earn:{filing.symbol}:{filing.accession_no}",
                 event_class="earnings_reaction",
                 symbol=filing.symbol or "",
                 filing_date=filing.filing_date,
                 accession_no=filing.accession_no,
-                strength=1.0,
+                strength=strength,
+                metadata={"surprise_pct": surprise_pct},
             ))
         elif lbl == "activist_13d":
             out.append(Event(

@@ -19,6 +19,23 @@ from .playbooks import CLASS_DISQUALIFIERS, Playbook, UNIVERSAL_DISQUALIFIERS
 # Time decay constants
 TIME_HALFLIFE_HOURS = 48.0
 
+# Surprise-strength curve for earnings_reaction
+# Backtest (214 trades, Q4 2025): sweet spot is 5-30% surprise.
+#   3-10%  → 73.6% WR, Sharpe 1.52
+#   10-20% → 67.6% WR, Sharpe 2.70
+#   >100%  → 41.7% WR, negative expectancy
+SURPRISE_ANCHORS = (
+    (0.0, 0.0),     # inline with estimate — no signal
+    (3.0, 0.3),     # too small, likely noise
+    (5.0, 0.7),     # borderline actionable
+    (10.0, 0.95),   # strong sweet spot
+    (20.0, 1.0),    # peak — best risk-adjusted return
+    (30.0, 0.8),    # still good but gap-chase risk rising
+    (50.0, 0.4),    # extreme — edge fading
+    (100.0, 0.15),  # negative expectancy territory
+    (200.0, 0.05),  # near-zero — these reverse
+)
+
 # Liquidity log-scale anchors (market cap -> score)
 LIQ_ANCHORS = (
     (50_000_000, 0.3),
@@ -30,6 +47,28 @@ LIQ_ANCHORS = (
 MEGACAP_DECAY_START = 50_000_000_000   # $50B — edge starts fading
 MEGACAP_DECAY_END = 200_000_000_000    # $200B — minimal edge left
 MEGACAP_FLOOR = 0.2                    # score floor for mega-caps
+
+
+def surprise_strength(surprise_pct: Optional[float]) -> float:
+    """Map EPS surprise % to event strength (0–1).
+
+    Uses absolute value — both beats and misses get the same curve; the
+    caller decides directionality (Achilles goes long on beats only).
+    """
+    if surprise_pct is None:
+        return 1.0  # no data → neutral, don't penalise
+    mag = abs(float(surprise_pct))
+    if mag <= SURPRISE_ANCHORS[0][0]:
+        return SURPRISE_ANCHORS[0][1]
+    if mag >= SURPRISE_ANCHORS[-1][0]:
+        return SURPRISE_ANCHORS[-1][1]
+    for i in range(len(SURPRISE_ANCHORS) - 1):
+        lo_s, lo_v = SURPRISE_ANCHORS[i]
+        hi_s, hi_v = SURPRISE_ANCHORS[i + 1]
+        if lo_s <= mag < hi_s:
+            t = (mag - lo_s) / (hi_s - lo_s)
+            return lo_v + t * (hi_v - lo_v)
+    return SURPRISE_ANCHORS[-1][1]
 
 
 def liquidity_score(market_cap: Optional[float]) -> float:
