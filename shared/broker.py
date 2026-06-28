@@ -356,3 +356,41 @@ def get_account_cash() -> Optional[float]:
     except Exception as exc:
         log.error("Account cash fetch failed: %s", exc)
     return None
+
+
+# ── earnings ──────────────────────────────────────────────────────────
+
+def get_earnings(symbol: str) -> Optional[dict]:
+    """Fetch the most recent earnings for a symbol.
+
+    Returns {actual_eps, estimate_eps, surprise_pct, report_date} or None.
+    """
+    if not login():
+        return None
+    _patch_imports()
+    from robin_stocks.robinhood import stocks
+
+    try:
+        results = stocks.get_earnings(symbol, info=None) or []
+        for row in reversed(results):
+            if not isinstance(row, dict):
+                continue
+            actual = row.get("eps", {}).get("actual")
+            estimate = row.get("eps", {}).get("estimate")
+            if actual is None or estimate is None:
+                continue
+            actual = float(actual)
+            estimate = float(estimate)
+            if abs(estimate) < 0.01:
+                continue
+            surprise_pct = (actual - estimate) / abs(estimate) * 100
+            report = row.get("report", {})
+            return {
+                "actual_eps": actual,
+                "estimate_eps": estimate,
+                "surprise_pct": round(surprise_pct, 2),
+                "report_date": report.get("date", ""),
+            }
+    except Exception as exc:
+        log.warning("Earnings fetch failed for %s: %s", symbol, exc)
+    return None

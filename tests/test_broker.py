@@ -62,6 +62,10 @@ def test_get_account_cash_without_login_returns_none():
     assert broker.get_account_cash() is None
 
 
+def test_get_earnings_without_login_returns_none():
+    assert broker.get_earnings("AAPL") is None
+
+
 def test_logout_when_not_logged_in():
     broker.logout()
     assert broker._logged_in is False

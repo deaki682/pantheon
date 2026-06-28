@@ -130,7 +130,8 @@ def test_quality_score_bounded_by_one_for_buybacks():
 
 def test_multi_lens_all():
     out = multi_lens_score("X", insider_cluster=True, smart_money=True,
-                            activist_13d=True, quality=1.0, sector_breadth=1.0)
+                            activist_13d=True, quality=1.0, valuation=1.0,
+                            sector_breadth=1.0)
     assert out["score"] == pytest.approx(1.0)
 
 
@@ -146,6 +147,53 @@ def test_rank_survivors_top_n():
     top = rank_survivors(rows, top_n=5)
     assert len(top) == 5
     assert top[0]["symbol"] == "S19"
+
+
+def test_multi_lens_valuation_dominant():
+    """Valuation-first: a cheap stock with no lens hits still scores meaningfully."""
+    out = multi_lens_score("X", valuation=0.8, quality=0.5)
+    assert out["score"] == pytest.approx(0.40 * 0.8 + 0.20 * 0.5)
+    assert out["lenses"]["valuation"] == 0.8
+
+
+# ---- valuation scoring ----
+
+def test_valuation_score_cheap_stock():
+    from shared.quality import valuation_score
+    snap = FundamentalSnapshot(
+        symbol="X", net_income_ttm=100e6, free_cash_flow_ttm=80e6,
+        equity=500e6, revenue_ttm=1e9,
+    )
+    mcap = 1e9  # P/E=10, FCF yield=8%, P/B=2, ROE=20%
+    v = valuation_score(snap, mcap)
+    assert v > 0.5  # should score well — it's cheap
+
+def test_valuation_score_expensive_stock():
+    from shared.quality import valuation_score
+    snap = FundamentalSnapshot(
+        symbol="X", net_income_ttm=100e6, free_cash_flow_ttm=50e6,
+        equity=500e6, revenue_ttm=1e9,
+    )
+    mcap = 50e9  # P/E=500, FCF yield=0.1%, P/B=100, ROE=20%
+    v = valuation_score(snap, mcap)
+    assert v < 0.3  # expensive — low score
+
+def test_valuation_score_no_mcap():
+    from shared.quality import valuation_score
+    snap = FundamentalSnapshot(symbol="X", net_income_ttm=100e6)
+    assert valuation_score(snap, 0.0) == 0.0
+
+def test_fcf_yield_score_negative():
+    from shared.quality import fcf_yield_score
+    snap = FundamentalSnapshot(symbol="X", free_cash_flow_ttm=-50e6)
+    assert fcf_yield_score(snap, 1e9) == 0.0
+
+def test_pb_score_sweet_spot():
+    from shared.quality import pb_score
+    snap = FundamentalSnapshot(symbol="X", equity=1e9)
+    assert pb_score(snap, 1e9) == pytest.approx(1.0)  # P/B = 1
+    assert pb_score(snap, 3e9) == pytest.approx(0.5)  # P/B = 3
+    assert pb_score(snap, 5e9) == pytest.approx(0.0)  # P/B = 5
 
 
 # ---- smart_money ----

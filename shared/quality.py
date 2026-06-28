@@ -79,3 +79,72 @@ def mean_of_present(values: Iterable[Optional[float]], *, min_count: int = 1) ->
     if not present:
         return 0.0
     return sum(present) / max(len(present), min_count)
+
+
+# ---- Valuation component scores ----
+
+def fcf_yield_score(snap: FundamentalSnapshot, market_cap: float) -> Optional[float]:
+    """FCF yield mapped to [0, 1]. Higher yield = cheaper = better score.
+
+    Anchors: 0% → 0, 5% → 0.5, 10%+ → 1.0.  Negative FCF → 0.
+    """
+    if snap.free_cash_flow_ttm is None or market_cap <= 0:
+        return None
+    fcf_yield = snap.free_cash_flow_ttm / market_cap
+    if fcf_yield <= 0:
+        return 0.0
+    return _clamp01(fcf_yield / 0.10)
+
+
+def earnings_yield_score(snap: FundamentalSnapshot, market_cap: float) -> Optional[float]:
+    """Earnings yield (inverse P/E) mapped to [0, 1].
+
+    Anchors: 0% → 0, 5% → 0.5, 10%+ → 1.0.  Negative earnings → 0.
+    """
+    if snap.net_income_ttm is None or market_cap <= 0:
+        return None
+    ey = snap.net_income_ttm / market_cap
+    if ey <= 0:
+        return 0.0
+    return _clamp01(ey / 0.10)
+
+
+def pb_score(snap: FundamentalSnapshot, market_cap: float) -> Optional[float]:
+    """Price-to-book mapped to [0, 1]. Lower P/B = cheaper = better score.
+
+    Anchors: P/B ≤ 1 → 1.0, P/B = 3 → 0.5, P/B ≥ 5 → 0.
+    Negative equity → None (meaningless ratio).
+    """
+    if snap.equity is None or snap.equity <= 0 or market_cap <= 0:
+        return None
+    pb = market_cap / snap.equity
+    return _clamp01((5.0 - pb) / 4.0)
+
+
+def roe_score(snap: FundamentalSnapshot) -> Optional[float]:
+    """Return on equity mapped to [0, 1].
+
+    Anchors: 0% → 0, 15% → 0.75, 20%+ → 1.0.
+    Guards against negative equity or earnings (both → 0).
+    """
+    if snap.net_income_ttm is None or snap.equity is None or snap.equity <= 0:
+        return None
+    roe = snap.net_income_ttm / snap.equity
+    if roe <= 0:
+        return 0.0
+    return _clamp01(roe / 0.20)
+
+
+MIN_VALUATION_COMPONENTS = 2
+
+
+def valuation_score(
+    snap: FundamentalSnapshot, market_cap: float
+) -> float:
+    """Composite valuation score 0–1. Higher = cheaper + better quality."""
+    return mean_of_present([
+        fcf_yield_score(snap, market_cap),
+        earnings_yield_score(snap, market_cap),
+        pb_score(snap, market_cap),
+        roe_score(snap),
+    ], min_count=MIN_VALUATION_COMPONENTS)
