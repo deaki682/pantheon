@@ -1,1 +1,725 @@
-[]
+{
+  "dossiers": [
+    {
+      "symbol": "CHTR",
+      "business": "Charter Communications (Spectrum) is the second-largest US cable operator with ~32M broadband subscribers and the Spectrum brand. Revenue ~$54.8B TTM, driven largely by residential and commercial broadband, video, and voice subscriptions. The company also operates Spectrum Mobile, an MVNO on Verizon's network.",
+      "thesis": "CHTR has fallen 68% from its 52-week high as fixed wireless access (FWA) competition from T-Mobile and Verizon accelerated broadband subscriber losses, while $94B in debt amplified market fears. The key question: does FWA permanently impair the cable franchise or merely slow its growth? Charter's own Spectrum One bundle (broadband + mobile) is adding mobile lines and slowing churn. CEO Christopher Winfrey and three other insiders bought $3.76M in stock in April-May 2026, signaling management believes equity is mispriced. FCF of $4.57B per year is real, though capex remains high at $10.5B. The bear case (existential debt + FWA kills broadband) is already largely priced in at $133 vs $422 prior high. An investment here is a bet that fiber/cable broadband retains structural advantages over FWA at higher usage tiers \u2014 a defensible but contested view.",
+      "scenarios": {
+        "bull": {
+          "target": 225.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 145.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 40.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.28,
+        "quality": 0.45,
+        "management": 0.55
+      },
+      "citations": [
+        "0001091667-26-000028"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 133.66,
+      "high_52w": 422.29,
+      "decline_explanation": "Charter fell ~68% as T-Mobile and Verizon captured millions of broadband customers with fixed wireless access (FWA), demonstrating cable's first meaningful broadband competition. Q2-Q4 2025 earnings showed accelerating net broadband subscriber losses. The market re-priced CHTR from a stable FCF compounder to a potentially impaired franchise under $94B of debt, creating a leverage spiral fear. Management's own capex-heavy Spectrum network buildout added near-term cash flow strain. Cord-cutting also eliminated video contribution margin. The CEO and three insiders bought $3.76M in April-May 2026 at current levels.",
+      "sector": "Communication Services - Cable & Satellite",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713688",
+      "priced_at": "2026-06-28T09:02:17.713688",
+      "scenario_price": 133.66,
+      "drawdown_from_high": 0.6834876506666036,
+      "derived": {
+        "expected_price": 133.5,
+        "expected_return": -0.001197067185395806,
+        "expected_cagr": -0.0005987128212190385,
+        "asymmetry": 0.8126912947540751,
+        "quality_mult": 0.9450000000000001,
+        "asymmetry_mult": 0.9014939238586553,
+        "potential_score": -0.0005100504920896486
+      },
+      "conviction": 0.0
+    },
+    {
+      "symbol": "GPOR",
+      "business": "Gulfport Energy is an independent E&P focused on the Utica and Marcellus shale in the Appalachian basin (primarily Ohio and Pennsylvania). Emerged from Chapter 11 bankruptcy in 2021 with a clean balance sheet. Revenue ~$1.46B TTM (+48.4% YoY), driven by natural gas and NGL production.",
+      "thesis": "Gulfport trades at a discount to intrinsic value following natural gas price weakness through 2025. Greenlight Capital (David Einhorn's value fund) holds the stock across multiple 13F periods, providing strong fundamental endorsement. The company emerged from bankruptcy with $0.82B in debt and one of the lowest Appalachian cost structures. Revenue surged 48% YoY as gas prices partially recovered. The LNG export build-out (Sabine Pass expansion, new Gulf Coast terminals) represents a structural demand catalyst. Bull: gas prices recover to $3.50+, FCF expands materially, buybacks accelerate. Bear: sustained gas oversupply from Permian associated gas keeps prices depressed. The bear case seems more than priced in \u2014 Greenlight's multi-year conviction provides independent fundamental validation that the gap is real.",
+      "scenarios": {
+        "bull": {
+          "target": 265.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 178.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 100.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.35,
+        "runway": 0.45,
+        "quality": 0.75,
+        "management": 0.6
+      },
+      "citations": [
+        "0001628280-26-031073"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 162.53,
+      "high_52w": 225.78,
+      "decline_explanation": "",
+      "sector": "Energy - Oil & Gas E&P",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713756",
+      "priced_at": "2026-06-28T09:02:17.713756",
+      "scenario_price": 162.53,
+      "drawdown_from_high": 0.28013995925236956,
+      "derived": {
+        "expected_price": 184.60000000000002,
+        "expected_return": 0.13579031563403698,
+        "expected_cagr": 0.06573463659301093,
+        "asymmetry": 1.9664800895570125,
+        "quality_mult": 1.0375,
+        "asymmetry_mult": 1.4023124079737055,
+        "potential_score": 0.09563726514782243
+      },
+      "conviction": 0.12770243105652113
+    },
+    {
+      "symbol": "EVTC",
+      "business": "EVERTEC is a leading payment technology and services company for banks and merchants in Latin America and the Caribbean. Dominant in Puerto Rico (~90% of electronic payments) and expanding across LatAm. Revenue ~$440M TTM (+10.4%), with 99.2% gross margins and 42.9% operating margins.",
+      "thesis": "EVERTEC's 27.5% drawdown reflects multiple compression in small-cap fintech, not fundamental deterioration. The business generates 43% operating margins from an entrenched payment processing position with switching costs built over decades. Five insiders (including CEO and board members) bought $2.25M in May-June 2026. Bull: LatAm digitization continues, margins expand with operating leverage, re-rates to 14x FCF = $38-42. Bear: Puerto Rico economic stagnation, global fintechs displace EVTC, high leverage ($0.98B debt / $0.14B FCF) bites. The 5-person insider cluster ($2.25M) is the decisive signal \u2014 management is buying meaningfully at these levels.",
+      "scenarios": {
+        "bull": {
+          "target": 42.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 33.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 18.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.55,
+        "quality": 0.75,
+        "management": 0.65
+      },
+      "citations": [
+        "0001559865-26-000030"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 27.37,
+      "high_52w": 37.78,
+      "decline_explanation": "",
+      "sector": "Technology - Payment Processing",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713777",
+      "priced_at": "2026-06-28T09:02:17.713777",
+      "scenario_price": 27.37,
+      "drawdown_from_high": 0.2755426151402859,
+      "derived": {
+        "expected_price": 31.95,
+        "expected_return": 0.16733649981731813,
+        "expected_cagr": 0.0804334777381337,
+        "asymmetry": 1.8736392742796153,
+        "quality_mult": 1.15,
+        "asymmetry_mult": 1.3688094368025139,
+        "potential_score": 0.12661281886722264
+      },
+      "conviction": 0.16546071051834133
+    },
+    {
+      "symbol": "ADT",
+      "business": "ADT Inc is the largest US residential and commercial security monitoring company, with ~6M customers under recurring monthly contracts. Revenue ~$5.13B TTM (+6.5%), FCF $1.58B, op margin 25.4%. Heavy leverage: $7.78B debt, $0.12B cash, but FCF provides a clear deleveraging path.",
+      "thesis": "ADT at $6.39 generates a 27% FCF yield relative to its $5.82B market cap \u2014 a level implying either severe cash flow deterioration or extreme undervaluation. Revenue grew 6.5% YoY with stable renewal rates. Five insiders bought $477K in May-June 2026. The $7.78B debt is the central risk (5x FCF), requiring FCF to hold for delevering to proceed. DIY competitors have taken share at the low end without derailing ADT's professional monitoring core. Bull: FCF holds at $1.5B+, stock re-rates to 9-12x on deleveraging. Bear: smart home alternatives erode core customer base, FCF drops, leverage becomes untenable. We lean toward bear being more than priced in \u2014 6.5% revenue growth suggests demand is intact.",
+      "scenarios": {
+        "bull": {
+          "target": 12.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 7.5,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 3.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.28,
+        "quality": 0.45,
+        "management": 0.5
+      },
+      "citations": [
+        "0001703056-26-000059"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 6.39,
+      "high_52w": 8.94,
+      "decline_explanation": "",
+      "sector": "Consumer Discretionary - Security Services",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713794",
+      "priced_at": "2026-06-28T09:02:17.713794",
+      "scenario_price": 6.39,
+      "drawdown_from_high": 0.28523489932885904,
+      "derived": {
+        "expected_price": 7.725,
+        "expected_return": 0.20892018779342725,
+        "expected_cagr": 0.09950906671724513,
+        "asymmetry": 1.985840707964602,
+        "quality_mult": 0.9325,
+        "asymmetry_mult": 1.4091986048689524,
+        "potential_score": 0.130762645425445
+      },
+      "conviction": 0.17039349351492206
+    },
+    {
+      "symbol": "FHN",
+      "business": "First Horizon Corporation is a Memphis-based regional bank with ~$80B in assets, 400+ branches across the southeastern US. Revenue ~$3.39B TTM (+16.3%), NI $0.98B, FCF $1.36B. Clean loan book, strong commercial banking franchise in one of the US's faster-growing economic regions.",
+      "thesis": "First Horizon trades at ~1.25x tangible book with 16.3% revenue growth driven by NIM expansion in the growing Southeast commercial banking market. Greenlight Capital (Einhorn) holds across multiple 13F periods. Quality is strong \u2014 minimal credit losses, rising NIM, diversified fee income. Bull: Southeast economy outperforms, NIM stays elevated, re-rates to 1.7x TBV = $34. Bear: Commercial real estate losses emerge, Fed cuts rates compressing NIM, large bank digital competition. Near the 52-week high (-3.8%), FHN is fair-to-slightly-undervalued \u2014 not a deep discount. Einhorn's sustained conviction is the most important signal; expected return is moderate (15-20% over 2 years).",
+      "scenarios": {
+        "bull": {
+          "target": 34.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 29.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 18.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.5,
+        "quality": 0.75,
+        "management": 0.65
+      },
+      "citations": [
+        "0000036966-26-000112"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 25.55,
+      "high_52w": 26.56,
+      "decline_explanation": "",
+      "sector": "Financials - Regional Banks",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713809",
+      "priced_at": "2026-06-28T09:02:17.713809",
+      "scenario_price": 25.55,
+      "drawdown_from_high": 0.03802710843373491,
+      "derived": {
+        "expected_price": 28.3,
+        "expected_return": 0.10763209393346385,
+        "expected_cagr": 0.052441016842969645,
+        "asymmetry": 1.6788079470198671,
+        "quality_mult": 1.0875,
+        "asymmetry_mult": 1.295688213660936,
+        "potential_score": 0.07389258808646555
+      },
+      "conviction": 0.1001802739618809
+    },
+    {
+      "symbol": "UAN",
+      "business": "CVR Partners LP is a nitrogen fertilizer MLP majority-owned by Carl Icahn's CVR Energy. Two plants in Coffeyville, KS and East Dubuque, IL producing UAN (urea ammonium nitrate) and ammonia. Revenue ~$0.66B TTM (+26.9%), op margin 28.9%, FCF ~$0.27B. Petcoke feedstock provides a cost advantage vs. gas-based peers.",
+      "thesis": "CVR Partners is a commodity cyclical at a reasonable valuation. Revenue grew 26.9% as fertilizer prices partially recovered. The 21% pullback reflects normalization from a fertilizer price spike, not franchise loss. As an MLP, most FCF is distributed to unitholders \u2014 income-oriented holding. Icahn ownership provides capital return discipline. Bull: global nitrogen demand grows, prices spike to $600+/ton, distributions restored. Bear: global surplus capacity (Middle East, Egypt) keeps prices depressed, plant maintenance capex rises. This is a position in an agricultural commodity cycle, not a growth stock. Hold for distribution yield.",
+      "scenarios": {
+        "bull": {
+          "target": 168.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 122.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 58.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.2,
+        "runway": 0.25,
+        "quality": 0.65,
+        "management": 0.5
+      },
+      "citations": [
+        "0001425292-26-000022"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 110.23,
+      "high_52w": 139.5,
+      "decline_explanation": "",
+      "sector": "Materials - Chemicals (Nitrogen Fertilizer)",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713825",
+      "priced_at": "2026-06-28T09:02:17.713825",
+      "scenario_price": 110.23,
+      "drawdown_from_high": 0.20982078853046593,
+      "derived": {
+        "expected_price": 117.5,
+        "expected_return": 0.0659530073482717,
+        "expected_cagr": 0.03245000234794504,
+        "asymmetry": 1.106069308826345,
+        "quality_mult": 0.9,
+        "asymmetry_mult": 1.0516982974343663,
+        "potential_score": 0.030714850998967487
+      },
+      "conviction": 0.04292963019894025
+    },
+    {
+      "symbol": "RLI",
+      "business": "RLI Corp is a specialty property and casualty insurance holding company based in Peoria, IL, underwriting surplus lines and specialty insurance through Casualty, Property, and Surety segments. Revenue ~$1.84B TTM (+10.7%), NI $0.37B, net cash position ($0.72B cash / $0.30B debt). Renowned for 50+ consecutive years of underwriting profitability \u2014 an almost unmatched track record.",
+      "thesis": "RLI's 22.3% pullback has created an unusual entry into one of the best-run specialty insurers in the US. Fifty consecutive years of underwriting profit is not luck \u2014 it reflects deep underwriting discipline and niche market selection. Four insiders (including CEO Kliethermes) bought $859K in May-June 2026. The insurance market remained hard in 2025-2026, enabling above-average premium rate increases. Net cash balance sheet allows opportunistic use of capital. Bull: Hard market extends, premiums grow 15%+, re-rates to 20x earnings = $90. Bear: Large catastrophe event directly hits RLI's portfolio, market softens. RLI has survived dozens of such events in 50 years \u2014 the track record is the answer. Disconfirming: combined ratio exceeds 100 for two consecutive years (would break the streak).",
+      "scenarios": {
+        "bull": {
+          "target": 90.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 70.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 40.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.75,
+        "runway": 0.5,
+        "quality": 0.8,
+        "management": 0.8
+      },
+      "citations": [
+        "0001104659-26-048474"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 57.51,
+      "high_52w": 74.0,
+      "decline_explanation": "",
+      "sector": "Financials - Specialty Insurance",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713837",
+      "priced_at": "2026-06-28T09:02:17.713837",
+      "scenario_price": 57.51,
+      "drawdown_from_high": 0.22283783783783784,
+      "derived": {
+        "expected_price": 70.0,
+        "expected_return": 0.21717962093548948,
+        "expected_cagr": 0.10325863737180385,
+        "asymmetry": 2.7832667047401487,
+        "quality_mult": 1.2125,
+        "asymmetry_mult": 1.668312532093477,
+        "potential_score": 0.2088745605138099
+      },
+      "conviction": 0.25798975549936887
+    },
+    {
+      "symbol": "ARDT",
+      "business": "Ardent Health Services is a for-profit hospital system operating ~30 hospitals primarily in Texas, Oklahoma, New Mexico, and New Jersey. IPO'd July 2024 at $16/share. Revenue ~$6.32B TTM (+10.2%), NI $0.13B (2% net margin). Debt: $1.12B, Cash: $0.61B. Backed by legacy Equity Group Investments.",
+      "thesis": "Ardent trades below its July 2024 IPO price despite 10.2% revenue growth, reflecting sector-wide hospital stock de-rating from Medicaid reimbursement fears and post-COVID labor cost normalization. The bear case (Medicaid cuts, thin margins) is real \u2014 any material reimbursement cut flows directly to the bottom line given 2% net margins. At $9.71 (below IPO price), the stock prices in most bad news (EV ~$10B / $6.32B revenue = 1.6x). CFO DeMichiei and director Lumsdaine bought $186K in June 2026. Bull: Margins improve as travel nursing costs normalize, Medicaid fears overblown, stock re-rates to $15-16. Bear: Federal Medicaid expansion rollback enacted, margins collapse further, equity impaired. Position sizing should be modest \u2014 the thin margin structure means the downside is severe if cuts materialize.",
+      "scenarios": {
+        "bull": {
+          "target": 16.0,
+          "probability": 0.28
+        },
+        "base": {
+          "target": 11.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 5.0,
+          "probability": 0.27
+        }
+      },
+      "ratings": {
+        "moat": 0.3,
+        "runway": 0.45,
+        "quality": 0.35,
+        "management": 0.5
+      },
+      "citations": [
+        "0001628280-26-031299"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 9.71,
+      "high_52w": 15.48,
+      "decline_explanation": "Ardent fell 37.3% from its IPO high (July 2024, ~$15.48 high) due to broad hospital sector de-rating driven by: (1) congressional debate over Medicaid expansion rollbacks \u2014 for-profit hospitals have high Medicaid patient mix; (2) post-pandemic labor cost normalization with nursing wages 15-20% above pre-COVID; (3) thin 2% net margins mean any reimbursement headwind goes directly to the bottom line; (4) IPO overhang as pre-IPO investors exited near the offering price. The decline is primarily sector sentiment and structural hospital cost issues, not Ardent-specific deterioration \u2014 revenue grew 10.2% YoY through this period. Management insiders responded by buying in June 2026 at current price levels below the IPO price.",
+      "sector": "Health Care - Hospital Operators",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713851",
+      "priced_at": "2026-06-28T09:02:17.713851",
+      "scenario_price": 9.71,
+      "drawdown_from_high": 0.37273901808785526,
+      "derived": {
+        "expected_price": 10.78,
+        "expected_return": 0.11019567456230672,
+        "expected_cagr": 0.05365823423077121,
+        "asymmetry": 1.3849178265314142,
+        "quality_mult": 0.9,
+        "asymmetry_mult": 1.1768253169147127,
+        "potential_score": 0.05683173165334009
+      },
+      "conviction": 0.07797983808346265
+    },
+    {
+      "symbol": "DAC",
+      "business": "Danaos Corporation is a leading international owner of containerships (~70 vessels, 450,000+ TEU capacity), deploying vessels under long-term time charters to major shipping lines (MSC, CMA CGM, HMM, etc.). Revenue ~$1.00B TTM (+104.7% YoY driven by Red Sea crisis charter rate spike), NI $0.54B (54% margin), op margin 56.9%. Foreign private issuer (Greece), files 20-F. Family-controlled (Drakopoulos).",
+      "thesis": "Danaos earned 54% net margins in its most recent year \u2014 extraordinary for a capital-intensive shipping company. The Red Sea crisis (Houthi attacks since late 2023) extended container voyage times 20-30%, dramatically increasing vessel demand and driving charter rates to multi-year highs. Danaos locked in long-term charters at elevated rates, providing 3-5 year earnings visibility. At $123.57, P/E is ~4.3x current earnings. Bull: Red Sea crisis persists, contracts renew at elevated rates, conservative Drakopoulos management returns capital via dividends and buybacks. Bear: Red Sea normalizes \u2014 Houthis reach ceasefire, shorter routes reduce vessel demand, charter rates collapse 50%, earnings impair substantially. Shipping is deeply cyclical and current earnings are elevated. For a 2-year horizon, existing long-term contracts provide substantial earnings floor even if rates fall. Disconfirming: rapid Red Sea ceasefire or global trade recession causing cargo volume collapse.",
+      "scenarios": {
+        "bull": {
+          "target": 185.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 125.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 62.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.3,
+        "runway": 0.35,
+        "quality": 0.65,
+        "management": 0.6
+      },
+      "citations": [
+        "0001104659-26-021574"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 123.57,
+      "high_52w": 135.21,
+      "decline_explanation": "",
+      "sector": "Industrials - Shipping & Ports",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713871",
+      "priced_at": "2026-06-28T09:02:17.713871",
+      "scenario_price": 123.57,
+      "drawdown_from_high": 0.08608830707787896,
+      "derived": {
+        "expected_price": 127.25,
+        "expected_return": 0.029780691106255697,
+        "expected_cagr": 0.014781105020317042,
+        "asymmetry": 1.197271398408316,
+        "quality_mult": 0.975,
+        "asymmetry_mult": 1.0941989756933224,
+        "potential_score": 0.015769133223525175
+      },
+      "conviction": 0.022275487488531365
+    },
+    {
+      "symbol": "RRC",
+      "business": "Range Resources Corporation is an Appalachian natural gas E&P focused on the Marcellus and Utica shale in southwestern Pennsylvania. One of the largest and lowest-cost natural gas producers in the US. Revenue ~$3.33B TTM (+38.7% YoY), FCF $1.75B, gross margin 94%. Minimal debt: $0.82B.",
+      "thesis": "Range Resources is one of the highest-quality Appalachian gas producers: premium Marcellus acreage, industry-leading break-even costs, minimal leverage ($0.82B debt), and $1.75B annual FCF at current prices. Trading at 5.5x EV/FCF with a structural demand catalyst: LNG exports are growing (new Gulf Coast capacity), data center electricity demand requires incremental gas generation, and industrial reshoring adds load. Revenue up 38.7% YoY as production and prices improve. Bull: Henry Hub sustains $3.50+, LNG build-out accelerates demand, stock re-rates to 8x EV/FCF = $60. Bear: Permian associated gas keeps supply abundant, Henry Hub reverts below $2.50/mcf, FCF halves. The 22.6% drawdown reflects gas price pessimism, not franchise impairment. Range's low cost structure and balance sheet ensure survival through downturns. This is the cleanest value proposition in the gas E&P screen.",
+      "scenarios": {
+        "bull": {
+          "target": 60.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 43.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 22.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.4,
+        "runway": 0.5,
+        "quality": 0.8,
+        "management": 0.65
+      },
+      "citations": [
+        "0001193125-26-167076"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 37.37,
+      "high_52w": 48.31,
+      "decline_explanation": "",
+      "sector": "Energy - Oil & Gas E&P",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713887",
+      "priced_at": "2026-06-28T09:02:17.713887",
+      "scenario_price": 37.37,
+      "drawdown_from_high": 0.22645415027944538,
+      "derived": {
+        "expected_price": 43.9,
+        "expected_return": 0.17473909553117473,
+        "expected_cagr": 0.08385381649518342,
+        "asymmetry": 2.2085230969420953,
+        "quality_mult": 1.0875,
+        "asymmetry_mult": 1.4861100554609323,
+        "potential_score": 0.1355198998719663
+      },
+      "conviction": 0.17601244880508626
+    },
+    {
+      "symbol": "YELP",
+      "business": "Yelp Inc operates a crowd-sourced local business review platform in the US, connecting consumers with local service businesses through search, reviews, and advertising. Revenue ~$0.85B TTM (+28.8% YoY), FCF $0.27B (31.8% margin), gross margin 92.1%. Nearly debt-free ($0.02B debt, $0.11B cash). ~58M shares.",
+      "thesis": "Yelp's 33% decline prices in an existential AI threat (Google AI, LLM assistants bypassing review sites) despite the business actively growing revenue 28.8% YoY with 31.8% FCF margins. The paradox: the market discounts future relevance while present operations are solid. At 5.2x P/FCF with near-zero debt, the stock prices in a significant decline that has not yet materialized in financials. Bull: Yelp's review database is licensed to AI systems (API deals), 28.8% revenue growth reflects genuine advertiser demand, buybacks at 5x FCF are highly accretive. Bear: Google AI Overviews and ChatGPT capture local discovery sessions, Yelp traffic declines, revenue decelerates to flat/negative, AI narrative compresses the multiple further. Concern: no insider cluster buying despite the seemingly cheap valuation \u2014 executives have not stepped up. This is the key disconfirming signal for the bull case. Lean mild buy with small sizing.",
+      "scenarios": {
+        "bull": {
+          "target": 42.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 28.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 12.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.38,
+        "runway": 0.28,
+        "quality": 0.65,
+        "management": 0.48
+      },
+      "citations": [
+        "0001345016-26-000040"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 24.03,
+      "high_52w": 35.99,
+      "decline_explanation": "Yelp fell 33.2% from its 52-week high as AI-powered local search (Google AI Overviews, ChatGPT local recommendations) emerged as a credible threat to review platforms. Google's AI features increasingly answer 'best restaurant near me' directly, reducing click-through to third-party review sites. In Q3-Q4 2025 Yelp reported slowing organic traffic growth and guided conservatively on 2026 advertiser spending. Small business advertisers began questioning Yelp ROI as AI alternatives captured consumer discovery sessions. The market de-rated from 8-10x FCF to 5x, pricing in structural decline. The underlying business still generates growing revenue and FCF, but the growth trajectory and long-term relevance are the concerns.",
+      "sector": "Communication Services - Internet Media",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713899",
+      "priced_at": "2026-06-28T09:02:17.713899",
+      "scenario_price": 24.03,
+      "drawdown_from_high": 0.33231453181439286,
+      "derived": {
+        "expected_price": 26.700000000000003,
+        "expected_return": 0.11111111111111116,
+        "expected_cagr": 0.05409255338945984,
+        "asymmetry": 1.2448046550290939,
+        "quality_mult": 0.9475,
+        "asymmetry_mult": 1.115708140612541,
+        "potential_score": 0.05718304829957406
+      },
+      "conviction": 0.07844246631167451
+    },
+    {
+      "symbol": "THC",
+      "business": "Tenet Healthcare Corporation operates ~70 hospitals and 600+ ambulatory surgical centers (ASCs) across the US, making it one of the largest for-profit hospital chains. Revenue ~$18.19B TTM (-0.5% YoY). Clean balance sheet: debt $4.12B, cash $2.97B (net debt only ~$1.15B), FCF $2.72B \u2014 unusual for the sector.",
+      "thesis": "Tenet is the best-capitalized large-cap hospital operator in the US, with $2.72B annual FCF and only $1.15B net debt. Greenlight Capital (Einhorn) holds across multiple 13F filing periods \u2014 deep fundamental conviction from a historically rigorous value investor. Revenue flat (-0.5%) reflects intentional pivot from lower-margin hospital procedures to higher-margin ASC procedures (the USPI subsidiary). At $187.91, EV/FCF is ~6.5x \u2014 very attractive for healthcare services with structural demographic tailwinds. Bull: Medicaid fears fail to materialize, ASC growth accelerates re-rating to 10x EV/FCF. Bear: Medicaid cuts of 10%+ enacted, hospital strikes worsen labor costs, ASC transition creates revenue gap. Tenet's clean balance sheet and FCF generation make this the cleanest hospital investment in the screen. The 24% drawdown is sector sentiment, not fundamental impairment.",
+      "scenarios": {
+        "bull": {
+          "target": 305.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 225.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 118.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.55,
+        "quality": 0.65,
+        "management": 0.65
+      },
+      "citations": [
+        "0000070318-26-000026"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 187.91,
+      "high_52w": 247.21,
+      "decline_explanation": "",
+      "sector": "Health Care - Hospital Operators",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713911",
+      "priced_at": "2026-06-28T09:02:17.713911",
+      "scenario_price": 187.91,
+      "drawdown_from_high": 0.23987702762833218,
+      "derived": {
+        "expected_price": 227.6,
+        "expected_return": 0.2112181363418657,
+        "expected_cagr": 0.10055355905192798,
+        "asymmetry": 2.512301530539265,
+        "quality_mult": 1.075,
+        "asymmetry_mult": 1.5850241419420918,
+        "potential_score": 0.1713333050546685
+      },
+      "conviction": 0.21710904972017686
+    },
+    {
+      "symbol": "BFH",
+      "business": "Bread Financial Holdings provides private-label and co-brand credit card solutions to retail, travel, and entertainment partners, managing ~$18B in credit card receivables. Revenue ~$4.25B TTM (-17.5% YoY net, reflecting provision normalization), FCF $1.64B (38.6% margin), op margin 38.9%. Near-net-cash: debt $4.31B, cash $3.64B (net debt ~$0.67B). Trading near 52-week high.",
+      "thesis": "Bread Financial trades near its 52-week high after years of underperformance, with the market finally recognizing the value. FCF of $1.64B on a $4.6B market cap = 35.7% FCF yield \u2014 even for a financial company this is exceptional. Revenue 'decline' of 17.5% reflects provision expense normalization and business restructuring, not underlying deterioration in the card franchise. Net debt of only $0.67B vs $1.64B FCF = 0.4x is unusually clean for a credit card lender. No insider cluster or smart money signal \u2014 this is purely a valuation screen result. Bull: Credit quality holds, buybacks at low multiples accrete value, re-rates to 5x FCF = $148. Bear: Consumer credit card delinquencies spike, net charge-offs rise, FCF impairs significantly. Trading at 52-week high limits near-term upside but the longer-term setup remains compelling if credit holds.",
+      "scenarios": {
+        "bull": {
+          "target": 148.0,
+          "probability": 0.28
+        },
+        "base": {
+          "target": 118.0,
+          "probability": 0.47
+        },
+        "bear": {
+          "target": 62.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.35,
+        "quality": 0.75,
+        "management": 0.55
+      },
+      "citations": [
+        "0001101215-26-000040"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 106.27,
+      "high_52w": 105.2,
+      "decline_explanation": "",
+      "sector": "Financials - Consumer Finance",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713925",
+      "priced_at": "2026-06-28T09:02:17.713925",
+      "scenario_price": 106.27,
+      "drawdown_from_high": 0.0,
+      "derived": {
+        "expected_price": 112.4,
+        "expected_return": 0.057683259621718275,
+        "expected_cagr": 0.02843729007738638,
+        "asymmetry": 1.0557397786311273,
+        "quality_mult": 1.0375,
+        "asymmetry_mult": 1.027491984704079,
+        "potential_score": 0.030314803407015072
+      },
+      "conviction": 0.042382511451636184
+    },
+    {
+      "symbol": "OLED",
+      "business": "Universal Display Corporation (UDC) is the primary licensor of phosphorescent OLED (PHOLED) materials technology to Samsung Display, LG Display, BOE, and other OLED manufacturers. Revenue ~$0.62B TTM (-1.0% YoY), gross margin 76.0%, op margin 36.2%, NI $0.21B. Zero long-term debt, $0.16B cash. An IP-driven business with minimal capital requirements.",
+      "thesis": "Universal Display's 46.4% decline has compressed the valuation from extreme premium (50x+ FCF at peak) to 17.9x EV/FCF \u2014 a meaningful but not yet bargain-level multiple for a zero-debt IP licensor. Founder-CEO Steven Abramson and two other insiders bought $1.47M in May 2026 \u2014 the strongest insider signal in the screen. The revenue dip (-1%) reflects Samsung Display inventory correction and slower OLED adoption in lower-priced Apple iPhones, not permanent erosion of the IP franchise. Bull: OLED expands into tablets, laptops, automotive, AR/VR \u2014 royalty base grows materially as these markets dwarf smartphones; revenue re-inflects to 10%+ growth, stock re-rates to 25x FCF = $150. Bear: Chinese OLED manufacturers develop outside UDC's patent umbrella; Samsung patent renewals come at lower rates; core patent expiry cycle creates terminal value concerns. The founder CEO buying $1M+ after a 46% decline is the decisive signal that the franchise is intact. This is probably the most interesting risk/reward on the full screen.",
+      "scenarios": {
+        "bull": {
+          "target": 155.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 100.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 52.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.75,
+        "runway": 0.6,
+        "quality": 0.8,
+        "management": 0.7
+      },
+      "citations": [
+        "0001193125-26-197277"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 87.05,
+      "high_52w": 162.36,
+      "decline_explanation": "Universal Display fell 46.4% from its 52-week high as Samsung Display (50%+ of UDC revenues) reduced OLED panel production volumes in 2025 due to weaker smartphone demand and inventory correction. Apple's iPhone 17 cycle delivered slower OLED penetration in mid-range models than anticipated. Separately, Chinese OLED manufacturers (BOE, Visionox) captured mid-range smartphone share from Samsung, and investor concern grew about whether these Chinese fabs operate outside UDC's PHOLED patent umbrella. Revenue declined 1% TTM after years of consistent double-digit growth, breaking the growth narrative and compressing the multiple from 50x+ to ~18x EV/FCF. Founder-CEO Steven Abramson responded by purchasing $1M+ in shares in May 2026, as did two other senior insiders, totaling $1.47M in open-market purchases.",
+      "sector": "Technology - Semiconductors & Display Technology",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713936",
+      "priced_at": "2026-06-28T09:02:17.713936",
+      "scenario_price": 87.05,
+      "drawdown_from_high": 0.46384577482138467,
+      "derived": {
+        "expected_price": 104.5,
+        "expected_return": 0.2004595060310166,
+        "expected_cagr": 0.09565482978491757,
+        "asymmetry": 2.32639087018545,
+        "quality_mult": 1.2125000000000001,
+        "asymmetry_mult": 1.5252510843088918,
+        "potential_score": 0.17690087982920397
+      },
+      "conviction": 0.22331121473430615
+    },
+    {
+      "symbol": "NXST",
+      "business": "Nexstar Media Group is the largest US local TV broadcaster, operating 200+ stations plus The CW Network (acquired 2022). Revenue ~$2.39B TTM (+135.5% YoY; elevated by CW consolidation and 2024 election political advertising). FCF $1.26B TTM (election-year elevated). Heavy leverage: debt $12.15B, cash $0.38B (net debt ~$11.77B).",
+      "thesis": "Nexstar's 35.7% decline from its 52-week high prices in secular local TV decline and existential debt risk. $12.15B debt vs. normalized FCF of ~$0.75-0.90B (off-election year) = 13-16x net debt/FCF. Bull: cord-cutting of local news is slower than entertainment, political advertising provides periodic FCF surges, debt paydown accelerates, CW Network digitizes successfully. Bear: retransmission consent fees decline as pay-TV subscribers exit, 2026 midterms underdeliver on political advertising, debt covenants restrict operations, CW Network remains a capital sink. The leverage is the binding constraint \u2014 this is a high-conviction bet that local TV declines slowly enough to service $12B in debt. Local news has proven more resilient than entertainment, and Nexstar's station footprint in small/mid markets where it is often the only local news source has strategic value. This is a speculative, levered position \u2014 size accordingly.",
+      "scenarios": {
+        "bull": {
+          "target": 290.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 185.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 72.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.38,
+        "runway": 0.22,
+        "quality": 0.45,
+        "management": 0.55
+      },
+      "citations": [
+        "0001193125-26-212539"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 163.57,
+      "high_52w": 254.3,
+      "decline_explanation": "Nexstar fell 35.7% from its 52-week high due to compounding pressures: (1) secular cord-cutting reducing cable TV subscriber bases, directly compressing retransmission consent fees (Nexstar's largest revenue source); (2) 2025 was an off-year for political advertising following the bumper 2024 election cycle, creating an earnings trough; (3) $12.15B debt from the 2022 CW Network acquisition creates financial fragility \u2014 investors fear a credit event if FCF declines; (4) CW Network has been slow to monetize digitally. The +135.5% revenue stat is misleading \u2014 it reflects CW acquisition accounting in the TTM period, not organic growth. Real organic retransmission and advertising revenue trends show the secular headwinds clearly. Stock fell from $254 as 2025 carriage negotiations with major pay-TV distributors came in below market expectations for retransmission fee rate increases.",
+      "sector": "Communication Services - Broadcasting",
+      "author": "oracle",
+      "created_at": "2026-06-28T09:02:17.713947",
+      "priced_at": "2026-06-28T09:02:17.713947",
+      "scenario_price": 163.57,
+      "drawdown_from_high": 0.3567833267793945,
+      "derived": {
+        "expected_price": 177.35,
+        "expected_return": 0.0842452772513298,
+        "expected_cagr": 0.0412709912656406,
+        "asymmetry": 1.150576972079648,
+        "quality_mult": 0.9,
+        "asymmetry_mult": 1.0726495103619111,
+        "potential_score": 0.03984237771591609
+      },
+      "conviction": 0.055328170764721074
+    }
+  ],
+  "saved_at": "2026-06-28T09:02:17.714085"
+}
