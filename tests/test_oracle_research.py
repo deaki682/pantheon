@@ -151,6 +151,30 @@ def test_update_scenarios_forces_fresh_price():
         update_scenarios(d, new_scenarios)  # missing current_price
 
 
+def test_make_dossier_sets_scenario_price():
+    d = _make(price=100)
+    assert d["scenario_price"] == 100.0
+
+
+def test_rescore_does_not_change_scenario_price():
+    d = _make(price=100)
+    rescore_dossier(d, current_price=130.0)
+    assert d["current_price"] == 130.0
+    assert d["scenario_price"] == 100.0
+
+
+def test_update_scenarios_resets_scenario_price():
+    d = _make(price=100)
+    new_scenarios = {
+        "bull": {"target": 200, "probability": 0.4},
+        "base": {"target": 120, "probability": 0.4},
+        "bear": {"target": 60, "probability": 0.2},
+    }
+    update_scenarios(d, new_scenarios, current_price=150.0)
+    assert d["scenario_price"] == 150.0
+    assert d["current_price"] == 150.0
+
+
 def test_price_age_hours_none_when_unstamped():
     d = _make(price=100)
     d.pop("priced_at", None)
@@ -194,11 +218,26 @@ def test_staleness_old_thesis_flagged():
 
 def test_staleness_price_drift_flagged():
     d = _make(price=100)
-    # base target is 100 (from _make), price drifted to 125 = 25% drift
+    # scenario_price is 100 (set by make_dossier), simulate price moving to 125
     d["current_price"] = 125.0
     flagged = check_staleness([d])
     assert len(flagged) == 1
     assert any("drifted" in r for r in flagged[0]["reasons"])
+
+
+def test_staleness_no_drift_when_price_near_anchor():
+    d = _make(price=100)
+    # Price moved 10% from scenario anchor — below 20% threshold
+    d["current_price"] = 110.0
+    assert check_staleness([d]) == []
+
+
+def test_staleness_missing_scenario_price_flagged():
+    d = _make(price=100)
+    d.pop("scenario_price", None)
+    flagged = check_staleness([d])
+    assert len(flagged) == 1
+    assert any("no scenario_price" in r for r in flagged[0]["reasons"])
 
 
 def test_staleness_no_priced_at_flagged():
