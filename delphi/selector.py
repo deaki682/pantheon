@@ -1,4 +1,9 @@
-"""Within-sector stock selection: 60% momentum + 40% quality."""
+"""Within-sector stock selection: pure momentum.
+
+Quality was backtested and showed no predictive value for forward returns
+within a sector. Momentum-only selection also eliminates look-ahead bias
+from fundamentals data that may not have been available at decision time.
+"""
 from __future__ import annotations
 
 from .signals import momentum
@@ -8,9 +13,8 @@ from .sleeve import MAX_NAMES_PER_SECTOR, is_blocked
 def score_stock(
     prices: list[float], quality: float, *, momentum_lookback: int = 63
 ) -> float:
-    """Per-stock score: 0.6 * momentum + 0.4 * quality (both ~ [-1, 1] range)."""
-    m = momentum(prices, momentum_lookback)
-    return 0.6 * m + 0.4 * quality
+    """Per-stock score: pure momentum. Quality arg retained for API compat."""
+    return momentum(prices, momentum_lookback)
 
 
 def pick_stocks(

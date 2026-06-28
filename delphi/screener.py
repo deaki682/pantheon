@@ -1,7 +1,10 @@
 """Screener for individual stocks inside chosen sectors.
 
-Combines momentum (price-based) and quality (fundamentals-based). The
-fundamentals quality scorer is shared with Oracle to keep one source of truth.
+Scores by momentum only. Quality (fundamentals) was tested in the backtest
+and showed no predictive value for within-sector stock selection — removing
+it also eliminates the look-ahead bias from using today's XBRL data to
+score past decisions. The quality scorer is kept available for the ghost
+shadow's signal validation.
 """
 from __future__ import annotations
 
@@ -16,10 +19,8 @@ from .sleeve import is_blocked
 
 
 def quality_for_delphi(snap: FundamentalSnapshot) -> float:
-    """Quality from fundamentals, weighted toward profitability + cash flow.
-
-    Same component scorers as Oracle (shared.quality), but omits gross margin.
-    """
+    """Quality from fundamentals. Retained for the ghost shadow's tercile
+    validation — not used in production scoring."""
     return mean_of_present([
         operating_margin_score(snap),
         fcf_margin_score(snap),
@@ -44,7 +45,7 @@ def build_candidate(
         "sector": sector,
         "momentum": m,
         "quality": q,
-        "score": 0.6 * m + 0.4 * q,
+        "score": m,
     }
 
 

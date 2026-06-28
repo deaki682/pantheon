@@ -5,6 +5,18 @@ Replays historical sector ETF + individual stock prices through the complete
 Delphi cycle: sector scoring -> regime classification -> stock selection ->
 target allocation -> order execution.  Compares against SPY buy-and-hold.
 
+Bias controls:
+  - Survivorship: constituent list is fixed large-caps stable across the test
+    window.  Results should be read as "rotation across known names", not as
+    stock-picking alpha.  The rotation signal itself (sector ETF momentum) has
+    no survivorship issue.
+  - Look-ahead on fundamentals: quality_override defaults to 0.0 in the sweep
+    because we cannot reconstruct point-in-time XBRL snapshots.  Quality is
+    tested only as a structural hypothesis (on/off), not calibrated.
+  - Overfitting: the sweep tests structural hypotheses (quality yes/no, regime
+    yes/no, concentration level) and validates each on BOTH halves of the data.
+    A config that wins in-sample but loses out-of-sample is flagged.
+
 Data files (pre-fetched via fetch_backtest_data.py or the /delphi skill):
   cache/delphi_bt_sector_prices.json   — {ETF: [{date, close, ...}]}
   cache/delphi_bt_stock_prices.json    — {SYM: [{date, close, ...}]}
@@ -35,8 +47,9 @@ from delphi.rotation import breadth, classify_regime, regime_params, rotation_pl
 from delphi.screener import quality_for_delphi
 from delphi.selector import score_stock
 from delphi.sleeve import (
-    BLOCKLIST, CASH_FLOOR, COOLDOWN_DAYS, MAX_NAMES_PER_SECTOR,
-    MIN_TICKET, PER_NAME_CAP, PER_SECTOR_CAP, REBAL_BAND, DelphiSleeve,
+    CASH_FLOOR, COOLDOWN_DAYS, MAX_NAMES_PER_SECTOR,
+    MIN_TICKET, OVERLAY_SYMBOL, PER_NAME_CAP, PER_SECTOR_CAP,
+    PICK_BLOCKLIST, REBAL_BAND, DelphiSleeve,
 )
 from delphi.execution import build_targets, plan_orders
 from shared.fundamentals import FundamentalSnapshot
@@ -57,7 +70,7 @@ REBALANCE_INTERVAL_DAYS = 5
 SECTOR_CONSTITUENTS: dict[str, list[str]] = {
     "technology":     ["AAPL", "MSFT", "NVDA", "AVGO", "CRM", "AMD", "ADBE", "ORCL", "CSCO", "ACN"],
     "financials":     ["BRK.B", "JPM", "V", "MA", "BAC", "WFC", "GS", "MS", "SPGI", "BLK"],
-    "energy":         ["XOM", "CVX", "COP", "EOG", "SLB", "MPC", "PSX", "VLO", "PXD", "OXY"],
+    "energy":         ["XOM", "CVX", "COP", "EOG", "SLB", "MPC", "PSX", "VLO", "OXY"],
     "healthcare":     ["UNH", "JNJ", "LLY", "ABBV", "MRK", "PFE", "TMO", "ABT", "DHR", "AMGN"],
     "industrials":    ["GE", "CAT", "RTX", "HON", "UNP", "BA", "DE", "LMT", "UPS", "ADP"],
     "staples":        ["PG", "KO", "PEP", "COST", "WMT", "PM", "MO", "MDLZ", "CL", "KHC"],
@@ -130,7 +143,6 @@ class BacktestConfig:
     cooldown_days: int = COOLDOWN_DAYS
     score_weighted: bool = False
     spy_overlay: bool = False
-    spy_overlay_frac: float = 0.0
     momentum_lookback: int = 63
 
 
@@ -195,6 +207,7 @@ def run_backtest(
     last_rebalance_idx = -cfg.rebalance_interval
 
     spy_start = None
+    prev_spy = None
 
     for day_idx, today in enumerate(trading_days):
         sleeve.process_settlements(today)
@@ -261,7 +274,7 @@ def run_backtest(
                     candidates: list[dict] = []
                     constituents = SECTOR_CONSTITUENTS.get(sec, [])
                     for sym in constituents:
-                        if sym.upper() in BLOCKLIST:
+                        if sym.upper() in PICK_BLOCKLIST:
                             continue
                         if sym not in stock_prices:
                             continue
@@ -354,9 +367,18 @@ def run_backtest(
                             shares=shares, reason=order.get("reason", ""),
                         ))
 
+        # ── SPY overlay: idle cash earns SPY daily return ──
+        spy_px = today_prices.get("SPY", 0)
+        if cfg.spy_overlay and spy_px and prev_spy and prev_spy > 0:
+            spy_daily_ret = spy_px / prev_spy - 1.0
+            idle = max(0.0, sleeve.cash)
+            if idle > 0 and spy_daily_ret != 0:
+                sleeve.cash += idle * spy_daily_ret
+        if spy_px:
+            prev_spy = spy_px
+
         # ── Record equity ──
         eq = sleeve.equity(today_prices)
-        spy_px = today_prices.get("SPY", 0)
         spy_ret = (spy_px / spy_start - 1.0) if (spy_start and spy_px) else 0.0
         equity_curve.append({
             "date": today,
@@ -432,6 +454,7 @@ def run_backtest(
             "regime_enabled": cfg.regime_enabled,
             "top_n_sectors": cfg.top_n_sectors,
             "score_weighted": cfg.score_weighted,
+            "spy_overlay": cfg.spy_overlay,
             "momentum_lookback": cfg.momentum_lookback,
             "max_names_per_sector": cfg.max_names_per_sector,
         },
@@ -498,6 +521,68 @@ def _score_weighted_targets(
 
 # ── parameter sweep ──────────────────────────────────────────────────
 
+def _sweep_configs() -> list[tuple[str, BacktestConfig]]:
+    """Structural hypotheses to test — each is a yes/no question, not a
+    parameter to tune.  Avoids overfitting: we want to know WHAT helps,
+    not the magic number that happened to work on this period."""
+    return [
+        # baseline: current Delphi as-shipped
+        ("baseline", BacktestConfig()),
+
+        # ── Hypothesis: quality hurts (look-ahead-free test) ──
+        ("no_quality", BacktestConfig(quality_override=0.0)),
+
+        # ── Hypothesis: regime filter hurts (sells at bottoms) ──
+        ("no_regime", BacktestConfig(regime_enabled=False)),
+
+        # ── Hypothesis: score-weighted beats equal-weight ──
+        ("score_weighted", BacktestConfig(score_weighted=True)),
+
+        # ── Hypothesis: concentration helps (fewer but bigger positions) ──
+        ("concentrated", BacktestConfig(max_names_per_sector=2)),
+
+        # ── Hypothesis: 2 sectors is better than 3 ──
+        ("2_sectors", BacktestConfig(top_n_sectors=2)),
+
+        # ── Rebalance frequency ──
+        ("monthly_rebal", BacktestConfig(rebalance_interval=21)),
+
+        # ── SPY overlay: idle cash earns SPY return instead of 0% ──
+        ("spy_overlay", BacktestConfig(spy_overlay=True)),
+
+        # ── SPY overlay + monthly (less churn + market floor) ──
+        ("spy+monthly", BacktestConfig(spy_overlay=True, rebalance_interval=21)),
+
+        # ── SPY overlay + concentrated ──
+        ("spy+conc", BacktestConfig(spy_overlay=True, max_names_per_sector=2)),
+
+        # ── SPY overlay + score-weighted ──
+        ("spy+sw", BacktestConfig(spy_overlay=True, score_weighted=True)),
+
+        # ── SPY overlay + 2 sectors ──
+        ("spy+2sec", BacktestConfig(spy_overlay=True, top_n_sectors=2)),
+
+        # ── SPY overlay + no regime ──
+        ("spy+no_regime", BacktestConfig(spy_overlay=True, regime_enabled=False)),
+
+        # ── Combined: SPY overlay + structural improvements ──
+        ("spy+conc+sw", BacktestConfig(
+            spy_overlay=True, max_names_per_sector=2, score_weighted=True,
+        )),
+        ("spy+conc+sw+monthly", BacktestConfig(
+            spy_overlay=True, max_names_per_sector=2, score_weighted=True,
+            rebalance_interval=21,
+        )),
+        ("spy+conc+monthly", BacktestConfig(
+            spy_overlay=True, max_names_per_sector=2, rebalance_interval=21,
+        )),
+        ("spy+2sec+sw+monthly", BacktestConfig(
+            spy_overlay=True, top_n_sectors=2, score_weighted=True,
+            rebalance_interval=21,
+        )),
+    ]
+
+
 def run_sweep(
     sector_prices: dict[str, dict[str, dict]],
     stock_prices: dict[str, dict[str, dict]],
@@ -506,73 +591,46 @@ def run_sweep(
     start_date: str = "",
     end_date: str = "",
 ) -> list[dict]:
-    """Grid search over key parameters. Returns sorted by alpha."""
-    configs = []
+    """Test structural hypotheses with split-half validation.
 
-    # Baseline
-    configs.append(("baseline", BacktestConfig()))
+    Runs each config on the full period, first half, and second half.
+    A result is only trustworthy if alpha is positive (or at least
+    directionally consistent) in BOTH halves — not just overall.
+    """
+    configs = _sweep_configs()
 
-    # No quality (momentum-only)
-    configs.append(("momentum_only", BacktestConfig(momentum_weight=1.0, quality_weight=0.0)))
-
-    # Quality override = 0 (ignore fundamentals)
-    configs.append(("quality_zero", BacktestConfig(quality_override=0.0)))
-
-    # Heavy momentum
-    configs.append(("heavy_momentum", BacktestConfig(momentum_weight=0.8, quality_weight=0.2)))
-
-    # No regime filter
-    configs.append(("no_regime", BacktestConfig(regime_enabled=False)))
-
-    # Score-weighted allocation
-    configs.append(("score_weighted", BacktestConfig(score_weighted=True)))
-
-    # Score-weighted + momentum-only
-    configs.append(("sw_mom_only", BacktestConfig(score_weighted=True, momentum_weight=1.0, quality_weight=0.0)))
-
-    # Fewer stocks per sector (2 instead of 4)
-    configs.append(("concentrated", BacktestConfig(max_names_per_sector=2)))
-
-    # Concentrated + momentum-only
-    configs.append(("conc_mom", BacktestConfig(max_names_per_sector=2, momentum_weight=1.0, quality_weight=0.0)))
-
-    # 2 sectors instead of 3
-    configs.append(("2_sectors", BacktestConfig(top_n_sectors=2)))
-
-    # Shorter momentum lookback (21 days)
-    configs.append(("short_mom", BacktestConfig(momentum_lookback=21)))
-
-    # Longer momentum lookback (126 days)
-    configs.append(("long_mom", BacktestConfig(momentum_lookback=126)))
-
-    # Weekly rebalance
-    configs.append(("weekly_rebal", BacktestConfig(rebalance_interval=5)))
-
-    # Monthly rebalance
-    configs.append(("monthly_rebal", BacktestConfig(rebalance_interval=21)))
-
-    # Faster timeframe weights (more weight on recent)
-    configs.append(("fast_weights", BacktestConfig(timeframe_weights=(0.5, 0.3, 0.2))))
-
-    # Slow timeframe weights (more weight on long-term)
-    configs.append(("slow_weights", BacktestConfig(timeframe_weights=(0.1, 0.3, 0.6))))
-
-    # Kitchen sink: concentrated + momentum-only + score-weighted + no regime
-    configs.append(("kitchen_sink", BacktestConfig(
-        max_names_per_sector=2, momentum_weight=1.0, quality_weight=0.0,
-        score_weighted=True, regime_enabled=False,
-    )))
+    # Determine the midpoint for split-half validation
+    all_prices = {**sector_prices, **stock_prices}
+    trading_days = get_trading_days(all_prices)
+    if start_date:
+        trading_days = [d for d in trading_days if d >= start_date]
+    if end_date:
+        trading_days = [d for d in trading_days if d <= end_date]
+    midpoint = trading_days[len(trading_days) // 2] if trading_days else ""
 
     results = []
     for name, cfg in configs:
         log.info("Sweep: %s", name)
-        out = run_backtest(
-            sector_prices, stock_prices, fundamentals, cfg,
-            start_date=start_date, end_date=end_date,
-        )
-        if "error" in out:
+
+        full = run_backtest(sector_prices, stock_prices, fundamentals, cfg,
+                            start_date=start_date, end_date=end_date)
+        if "error" in full:
             continue
-        r = out["results"]
+
+        first_half = run_backtest(sector_prices, stock_prices, fundamentals, cfg,
+                                  start_date=start_date, end_date=midpoint)
+        second_half = run_backtest(sector_prices, stock_prices, fundamentals, cfg,
+                                   start_date=midpoint, end_date=end_date)
+
+        r = full["results"]
+        h1 = first_half.get("results", {}).get("performance", {})
+        h2 = second_half.get("results", {}).get("performance", {})
+
+        h1_alpha = h1.get("alpha_pct", 0)
+        h2_alpha = h2.get("alpha_pct", 0)
+        both_positive = h1_alpha > 0 and h2_alpha > 0
+        consistent = (h1_alpha > 0) == (h2_alpha > 0)
+
         results.append({
             "name": name,
             "return_pct": r["performance"]["total_return_pct"],
@@ -581,6 +639,10 @@ def run_sweep(
             "sharpe": r["performance"]["sharpe"],
             "max_dd_pct": r["performance"]["max_drawdown_pct"],
             "trades": r["trades"]["total"],
+            "h1_alpha_pct": round(h1_alpha, 2),
+            "h2_alpha_pct": round(h2_alpha, 2),
+            "both_halves_positive": both_positive,
+            "halves_consistent": consistent,
             "config": r["config"],
         })
 
@@ -618,6 +680,7 @@ def print_report(output: dict) -> str:
     lines.append(f"Quality override : {c['quality_override']}")
     lines.append(f"Regime filter    : {'ON' if c['regime_enabled'] else 'OFF'}")
     lines.append(f"Score weighted   : {'YES' if c['score_weighted'] else 'NO'}")
+    lines.append(f"SPY overlay      : {'YES' if c.get('spy_overlay') else 'NO'}")
     lines.append(f"Mom lookback     : {c['momentum_lookback']}d")
     lines.append(f"Names/sector     : {c['max_names_per_sector']}")
     lines.append("")
@@ -645,17 +708,26 @@ def print_report(output: dict) -> str:
 
 def print_sweep(results: list[dict]) -> str:
     lines = []
-    lines.append("=" * 100)
-    lines.append("DELPHI PARAMETER SWEEP")
-    lines.append("=" * 100)
-    lines.append(f"{'Config':20s} {'Return':>8s} {'SPY':>8s} {'Alpha':>8s} {'Sharpe':>7s} {'MaxDD':>7s} {'Trades':>7s}")
-    lines.append("-" * 100)
+    lines.append("=" * 120)
+    lines.append("DELPHI PARAMETER SWEEP — split-half validated")
+    lines.append("=" * 120)
+    lines.append(
+        f"{'Config':24s} {'Return':>8s} {'SPY':>8s} {'Alpha':>8s} {'Sharpe':>7s} "
+        f"{'MaxDD':>7s} {'H1 α':>7s} {'H2 α':>7s} {'Valid':>6s}"
+    )
+    lines.append("-" * 120)
     for r in results:
+        valid = "YES" if r.get("both_halves_positive") else ("~" if r.get("halves_consistent") else "NO")
         lines.append(
-            f"{r['name']:20s} {r['return_pct']:+7.2f}% {r['spy_return_pct']:+7.2f}% "
-            f"{r['alpha_pct']:+7.2f}% {r['sharpe']:6.2f} {r['max_dd_pct']:6.2f}% {r['trades']:6d}"
+            f"{r['name']:24s} {r['return_pct']:+7.2f}% {r['spy_return_pct']:+7.2f}% "
+            f"{r['alpha_pct']:+7.2f}% {r['sharpe']:6.2f} {r['max_dd_pct']:6.2f}% "
+            f"{r.get('h1_alpha_pct', 0):+6.2f}% {r.get('h2_alpha_pct', 0):+6.2f}% "
+            f"{valid:>5s}"
         )
-    lines.append("=" * 100)
+    lines.append("")
+    lines.append("Valid = alpha positive in BOTH halves (not just overall).")
+    lines.append("  YES = trustworthy    ~ = same sign both halves    NO = likely overfit")
+    lines.append("=" * 120)
     text = "\n".join(lines)
     print(text)
     return text
@@ -674,6 +746,7 @@ def main():
     parser.add_argument("--quality-override", type=float, default=None)
     parser.add_argument("--no-regime", action="store_true", help="Disable regime filter")
     parser.add_argument("--score-weighted", action="store_true")
+    parser.add_argument("--spy-overlay", action="store_true", help="Idle cash earns SPY daily return")
     parser.add_argument("--rebalance-interval", type=int, default=None)
     parser.add_argument("--momentum-lookback", type=int, default=None)
     parser.add_argument("--max-names", type=int, default=None)
@@ -723,6 +796,8 @@ def main():
         cfg.regime_enabled = False
     if args.score_weighted:
         cfg.score_weighted = True
+    if args.spy_overlay:
+        cfg.spy_overlay = True
     if args.rebalance_interval is not None:
         cfg.rebalance_interval = args.rebalance_interval
     if args.momentum_lookback is not None:
