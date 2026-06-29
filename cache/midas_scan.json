@@ -1,0 +1,169 @@
+{
+  "finalists": [
+    {
+      "convergence_count": 2,
+      "current_price": 20.47,
+      "expected_magnitude": 0.12,
+      "expected_value": 0.0216,
+      "market_cap": 5200000000.0,
+      "pop_probability": 0.18,
+      "score": 0.3758,
+      "sector": "Industrials/Equipment Rental",
+      "signals": {
+        "activist_13d": 1.0,
+        "insider_cluster": 1.0
+      },
+      "symbol": "EQPT"
+    },
+    {
+      "convergence_count": 2,
+      "current_price": 23.46,
+      "expected_magnitude": 0.05,
+      "expected_value": 0.0075,
+      "market_cap": 4200000000.0,
+      "pop_probability": 0.15,
+      "score": 0.3385,
+      "sector": "Biotech",
+      "signals": {
+        "activist_13d": 1.0,
+        "insider_cluster": 0.75
+      },
+      "symbol": "KARD"
+    },
+    {
+      "convergence_count": 2,
+      "current_price": 29.03,
+      "expected_magnitude": 0.05,
+      "expected_value": 0.006,
+      "market_cap": 3400000000.0,
+      "pop_probability": 0.12,
+      "score": 0.2977,
+      "sector": "Pharma",
+      "signals": {
+        "activist_13d": 1.0,
+        "insider_cluster": 0.5
+      },
+      "symbol": "PBLS"
+    },
+    {
+      "convergence_count": 2,
+      "current_price": 46.84,
+      "expected_magnitude": 0.08,
+      "expected_value": 0.02,
+      "market_cap": 1700000000.0,
+      "pop_probability": 0.25,
+      "score": 0.2849,
+      "sector": "Insurance/Finance",
+      "signals": {
+        "insider_cluster": 1.0,
+        "smart_money": 0.333
+      },
+      "symbol": "GSHD"
+    },
+    {
+      "convergence_count": 2,
+      "current_price": 49.91,
+      "expected_magnitude": 0.08,
+      "expected_value": 0.0176,
+      "market_cap": 6200000000.0,
+      "pop_probability": 0.22,
+      "score": 0.2441,
+      "sector": "Energy/Oil E&P",
+      "signals": {
+        "insider_cluster": 1.0,
+        "smart_money": 0.333
+      },
+      "symbol": "MTDR"
+    },
+    {
+      "convergence_count": 1,
+      "current_price": 18.07,
+      "expected_magnitude": 0.06,
+      "expected_value": 0.0072,
+      "market_cap": 868000000.0,
+      "pop_probability": 0.12,
+      "score": 0.1795,
+      "sector": "Biotech",
+      "signals": {
+        "insider_cluster": 1.0
+      },
+      "symbol": "ODTX"
+    },
+    {
+      "convergence_count": 1,
+      "current_price": 37.37,
+      "expected_magnitude": 0.05,
+      "expected_value": 0.005,
+      "market_cap": 541000000.0,
+      "pop_probability": 0.1,
+      "score": 0.1756,
+      "sector": "Healthcare REIT",
+      "signals": {
+        "insider_cluster": 1.0
+      },
+      "symbol": "XRN"
+    },
+    {
+      "convergence_count": 1,
+      "current_price": 14.55,
+      "expected_magnitude": 0.07,
+      "expected_value": 0.0084,
+      "market_cap": 484000000.0,
+      "pop_probability": 0.12,
+      "score": 0.1737,
+      "sector": "MedTech",
+      "signals": {
+        "insider_cluster": 1.0
+      },
+      "symbol": "MOBI"
+    },
+    {
+      "convergence_count": 1,
+      "current_price": 11.19,
+      "expected_magnitude": 0.12,
+      "expected_value": 0.024,
+      "market_cap": 479000000.0,
+      "pop_probability": 0.2,
+      "score": 0.1734,
+      "sector": "Consumer/Agriculture",
+      "signals": {
+        "insider_cluster": 1.0
+      },
+      "symbol": "VITL"
+    },
+    {
+      "convergence_count": 1,
+      "current_price": 20.22,
+      "expected_magnitude": 0.05,
+      "expected_value": 0.005,
+      "market_cap": 406000000.0,
+      "pop_probability": 0.1,
+      "score": 0.1685,
+      "sector": "Finance/Banking",
+      "signals": {
+        "insider_cluster": 1.0
+      },
+      "symbol": "AVBC"
+    }
+  ],
+  "pick": {
+    "bear_case": "Zero forward EBITDA ($0-10M guided). Egg oversupply is structural \u2014 foodservice demand permanently shifted to processed. ERP disaster lost shelf space. Active securities fraud class action. 85% of decline may be justified by fundamentals, not just sentiment.",
+    "bull_case": "Extreme short squeeze setup (47% SI). 10 insiders buying at $8-10 (already up ~25-40% from their buys). If ANY positive news hits, forced covering could drive 15-25%+ move. Premium egg brand with loyal consumers. Pasture-raised is a secular trend. Insiders have visibility into ERP recovery and shelf space recapture.",
+    "catalyst": "10 insiders buying after 79% crash (from $53 to $11). 32-47% short interest with 5.2 days to cover = explosive squeeze potential. PE 10.8 on trailing.",
+    "catalyst_timing": "No specific catalyst this week. Q2 earnings August 6. Holiday-shortened week with thin volume could amplify squeeze.",
+    "convergence_count": 1,
+    "current_price": 11.19,
+    "expected_magnitude": 0.12,
+    "expected_value": 0.024,
+    "market_cap": 479000000.0,
+    "pop_probability": 0.2,
+    "priced_in_judgment": "Most of the bad news IS priced in at $11 (10.8x trailing PE, 79% off highs). But forward earnings are near zero, so 'priced in' depends on recovery timeline. Insiders are betting on recovery; shorts are betting against it.",
+    "researched_at": "2026-06-29T09:11:26.040164",
+    "score": 0.1734,
+    "sector": "Consumer/Agriculture",
+    "signals": {
+      "insider_cluster": 1.0
+    },
+    "symbol": "VITL"
+  }
+}
