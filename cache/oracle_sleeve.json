@@ -1,63 +1,63 @@
 {
-  "cash": 99.55219779835002,
-  "contributed_cash": 1000.0,
-  "cooldown_days": 31,
-  "cooldowns": {},
-  "gfv_count": 0,
-  "halted": false,
   "name": "oracle",
-  "peak_equity": 1000.0,
-  "pending_settlements": [],
+  "cash": 54.46955484190002,
   "positions": {
-    "ACM": {
-      "avg_price": 71.16,
-      "entry_date": "2026-06-29",
-      "sector": "Industrial Services",
-      "shares": 1.68634
-    },
     "CXT": {
+      "shares": 2.4671,
       "avg_price": 48.64,
       "entry_date": "2026-06-29",
-      "sector": "Producer Manufacturing",
-      "shares": 2.4671
-    },
-    "EQPT": {
-      "avg_price": 20.75,
-      "entry_date": "2026-06-29",
-      "sector": "Technology Services",
-      "shares": 2.89156
+      "sector": "Producer Manufacturing"
     },
     "HDSN": {
+      "shares": 21.58273,
       "avg_price": 5.56,
       "entry_date": "2026-06-29",
-      "sector": "Distribution Services",
-      "shares": 21.58273
+      "sector": "Distribution Services"
     },
     "J": {
+      "shares": 0.95472,
       "avg_price": 125.69,
       "entry_date": "2026-06-29",
-      "sector": "Technology Services",
-      "shares": 0.95472
+      "sector": "Technology Services"
     },
     "MRP": {
+      "shares": 3.87972,
       "avg_price": 30.93,
       "entry_date": "2026-06-29",
-      "sector": "Finance",
-      "shares": 3.87972
+      "sector": "Finance"
     },
     "PSN": {
+      "shares": 2.35571,
       "avg_price": 50.94,
       "entry_date": "2026-06-29",
-      "sector": "Technology Services",
-      "shares": 2.35571
+      "sector": "Technology Services"
     },
     "VITL": {
+      "shares": 10.87941,
       "avg_price": 11.03,
       "entry_date": "2026-06-29",
-      "sector": "Process Industries",
-      "shares": 10.87941
+      "sector": "Process Industries"
+    },
+    "INFU": {
+      "shares": 11.19701,
+      "avg_price": 10.05,
+      "entry_date": "2026-06-29",
+      "sector": "Healthcare"
+    },
+    "VTSI": {
+      "shares": 34.41284,
+      "avg_price": 3.27,
+      "entry_date": "2026-06-29",
+      "sector": "Technology"
     }
   },
+  "pending_settlements": [],
   "realized_pnl": 0.0,
-  "trades_count": 8
+  "gfv_count": 0,
+  "trades_count": 8,
+  "cooldowns": {},
+  "halted": false,
+  "contributed_cash": 1000.0,
+  "cooldown_days": 31,
+  "peak_equity": 1001.2681766419
 }

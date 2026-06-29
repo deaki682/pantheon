@@ -293,5 +293,51 @@
       "reason": "0 common dates, need 7"
     },
     "allocation": 1000.0
+  },
+  {
+    "ts": "2026-06-29T07:01:23.800686+00:00",
+    "equity": 1001.2681766419,
+    "cash": 54.46955484190002,
+    "n_positions": 8,
+    "positions": {
+      "CXT": {
+        "shares": 2.4671,
+        "price": 48.64
+      },
+      "HDSN": {
+        "shares": 21.58273,
+        "price": 5.56
+      },
+      "J": {
+        "shares": 0.95472,
+        "price": 125.69
+      },
+      "MRP": {
+        "shares": 3.87972,
+        "price": 30.93
+      },
+      "PSN": {
+        "shares": 2.35571,
+        "price": 50.94
+      },
+      "VITL": {
+        "shares": 10.87941,
+        "price": 11.19
+      },
+      "INFU": {
+        "shares": 11.19701,
+        "price": 10.05
+      },
+      "VTSI": {
+        "shares": 34.41284,
+        "price": 3.27
+      }
+    },
+    "note": "oracle cycle: cancelled ACM+EQPT pending buys (scored out of top-8); opened INFU+VTSI (new top-8 entries). 8 positions total. attribution skipped: <7 common date bars",
+    "attribution": {
+      "skipped": true,
+      "reason": "no historicals for MTUM \u2014 only 2 days equity curve"
+    },
+    "allocation": 1000.0
   }
 ]
