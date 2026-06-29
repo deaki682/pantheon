@@ -120,3 +120,31 @@ def test_position_without_cohort_id_loads():
     from shared.base_sleeve import SleevePosition
     pos = SleevePosition(shares=1.0, avg_price=50.0, entry_date="2026-01-01")
     assert pos.cohort_id == ""
+
+
+def test_cancel_buy_restores_cash():
+    s = OracleSleeve(initial_cash=1000.0)
+    s.buy("ACME", 2.0, 50.0, "2026-06-29")
+    cash_after_buy = s.cash
+    assert "ACME" in s.positions
+    s.cancel_buy("ACME", 2.0, 50.0)
+    assert "ACME" not in s.positions
+    assert s.cash == pytest.approx(1000.0)
+
+
+def test_cancel_buy_partial():
+    s = OracleSleeve(initial_cash=1000.0)
+    s.buy("ACME", 4.0, 50.0, "2026-06-29")
+    s.cancel_buy("ACME", 2.0, 50.0)
+    assert s.positions["ACME"].shares == pytest.approx(2.0)
+
+
+def test_cancel_buy_unknown_symbol():
+    s = OracleSleeve(initial_cash=1000.0)
+    assert s.cancel_buy("ZZZZ", 1.0, 50.0) is False
+
+
+def test_cancel_buy_excess_shares():
+    s = OracleSleeve(initial_cash=1000.0)
+    s.buy("ACME", 1.0, 50.0, "2026-06-29")
+    assert s.cancel_buy("ACME", 5.0, 50.0) is False

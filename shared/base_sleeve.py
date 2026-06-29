@@ -164,6 +164,24 @@ class BaseSleeve:
         self.trades_count += 1
         return True
 
+    def cancel_buy(self, symbol: str, shares: float, price: float) -> bool:
+        """Reverse an unfilled buy — restores cash and removes the position.
+
+        Use when a queued broker order is cancelled before it fills.
+        """
+        if symbol not in self.positions:
+            return False
+        pos = self.positions[symbol]
+        if shares > pos.shares + 1e-9:
+            return False
+        dollars = shares * price
+        fee = dollars * FEE_BPS / 10_000
+        self.cash += dollars + fee
+        pos.shares -= shares
+        if pos.shares <= 1e-9:
+            del self.positions[symbol]
+        return True
+
     def sell(
         self,
         symbol: str,
