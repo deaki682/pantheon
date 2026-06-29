@@ -57,8 +57,14 @@ Agent({
    between price and value given the bear case, not the absence of a bear case.
 
    - **Ground in current reality (do NOT rely on memory).** Fetch the **current
-     price and 52-week high** (broker quote); compute the drawdown. This is the
-     non-negotiable part — verify, don't recall.
+     price and 52-week high** from the broker — use `get_equity_quotes` for the
+     current price and `get_equity_fundamentals` for `high_52_weeks`. These
+     broker-sourced values MUST be passed to `make_dossier` as `broker_price=`
+     and `broker_high_52w=`. The validator cross-checks them against any
+     LLM-supplied values and rejects on >5% divergence. This prevents
+     hallucinated price data from entering the pipeline. Compute the drawdown
+     from the broker values. This is the non-negotiable part — verify, don't
+     recall.
    - **"Why is it here?"** Verify recent price action against current sources —
      latest 8-Ks, earnings/guidance changes, downgrades, lawsuits, recalls, news.
      **If the name is down >30% from its high, you MUST explain what drove the
@@ -77,8 +83,14 @@ Agent({
    - Fundamentals via `shared.fundamentals.build_snapshot`; cite ≥1 SEC accession.
    - Rate moat / runway / quality / management on [0, 1] after weighing both sides.
    - `oracle.research.make_dossier(..., current_price=…, high_52w=…,
-     decline_explanation=…)` — validates (incl. the falling-knife gate),
-     auto-normalizes probabilities, computes derived metrics, records the drawdown.
+     decline_explanation=…, broker_price=…, broker_high_52w=…)` — validates
+     (incl. the falling-knife gate AND broker price cross-check),
+     auto-normalizes probabilities, computes derived metrics, records the
+     drawdown. **Both `broker_price` and `broker_high_52w` are required** —
+     fetch them from `get_equity_quotes` and `get_equity_fundamentals`
+     respectively. Omitting them produces an unverified dossier (logged as a
+     warning); supplying values that diverge >5% from broker raises a
+     DossierError.
 5. If fewer than 8 fresh dossiers are produced (counting both refreshed and new), abort and warn — this command requires that minimum.
 6. Save via `oracle.research.save_dossiers`.
 7. Persist via `pantheon.persist("oracle", {"cache/oracle_dossiers.json": data})`.
