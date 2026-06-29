@@ -9,7 +9,7 @@ import trinity_dashboard as td
 def test_build_html_empty(tmp_path):
     html = td.build_html(cache_dir=str(tmp_path))
     assert "<!doctype html>" in html
-    assert "Trinity" in html
+    assert "Pantheon" in html
     # All three colors should appear
     assert "#D4AF37" in html
     assert "#9C27B0" in html
