@@ -113,3 +113,50 @@ def rank_survivors(
             log.info("market-cap filter (>$%.0fB): dropped %d names", max_mcap / 1e9, dropped)
     sorted_rows = sorted(out, key=lambda r: r.get("score", 0.0), reverse=True)
     return sorted_rows[:top_n]
+
+
+def pick_candidates(
+    screen_path: str,
+    dossiers_path: str,
+    *,
+    n: int = 40,
+    full_tier_only: bool = False,
+) -> list[dict]:
+    """Top N undossiered names from the screen, sorted by composite score.
+
+    Returns screen rows (not dossiers) so the caller knows exactly which
+    symbols to research and in what priority order.
+    """
+    import json
+    import os
+
+    if not os.path.exists(screen_path):
+        raise FileNotFoundError(f"screen not found: {screen_path}")
+
+    with open(screen_path) as f:
+        screen = json.load(f)
+    rows = screen.get("survivors") or screen.get("rows", [])
+
+    already: set[str] = set()
+    if os.path.exists(dossiers_path):
+        with open(dossiers_path) as f:
+            doss = json.load(f)
+        already = {d["symbol"] for d in doss.get("dossiers", [])}
+
+    candidates = []
+    for r in rows:
+        sym = r.get("symbol", "")
+        if sym in already:
+            continue
+        if full_tier_only and r.get("insider_tier") != "full":
+            continue
+        candidates.append(r)
+
+    candidates.sort(key=lambda r: r.get("score", 0.0), reverse=True)
+    selected = candidates[:n]
+
+    log.info(
+        "pick_candidates: %d screen rows, %d already dossiered, %d candidates -> returning %d",
+        len(rows), len(already), len(candidates), len(selected),
+    )
+    return selected

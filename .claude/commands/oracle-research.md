@@ -46,7 +46,13 @@ Agent({
    list. This ensures the bank never goes stale between screens — a dossier
    written 2 months ago whose company just reported earnings gets rewritten
    with current information before Oracle scores it.
-3. Pick 15–40 candidates from `cache/oracle_screen.json`. Research **wider** than the ~8 you'll ultimately hold, so the dossier scoring — not the screen — selects the book. Prefer names you haven't recently dossiered; the goal is to accumulate a bank of ≥30 dossiers across passes so sizing has real choice.
+3. **Pick candidates deterministically.** Call
+   `oracle.screener.pick_candidates("cache/oracle_screen.json", "cache/oracle_dossiers.json", n=40)`
+   — this returns the top N undossiered names from the screen, sorted by
+   composite score. Do NOT hand-pick or cherry-pick — use the list it returns,
+   in order. Research **wider** than the ~8 you'll hold so the dossier scoring,
+   not the screen, selects the book. The goal is to accumulate a bank of ≥30
+   dossiers across passes so sizing has real choice.
 4. For each candidate, build the dossier **balanced**. The screen surfaces names
    insiders are *buying* — which includes genuine bargains AND falling knives.
    The job is to tell them apart, which means arguing **both** sides honestly and

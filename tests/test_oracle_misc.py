@@ -10,7 +10,7 @@ from oracle.capital import (
     compute_allocation,
 )
 from oracle.prescreener import prescreen, batch_prescreen
-from oracle.screener import multi_lens_score, quality_score, rank_survivors
+from oracle.screener import multi_lens_score, pick_candidates, quality_score, rank_survivors
 from oracle.smart_money import (
     SMART_MONEY_FUNDS, Holding, activist_signal, is_fresh_13d,
     parse_13f_information_table, smart_money_holders,
@@ -329,3 +329,74 @@ def test_margin_scores_distrust_impossible_values():
     # plausible margins still score
     assert operating_margin_score(FundamentalSnapshot(symbol="Y", operating_margin_ttm=0.2)) == 1.0
     assert gross_margin_score(FundamentalSnapshot(symbol="Y", gross_margin_ttm=0.45)) > 0
+
+
+# ---- pick_candidates ----
+
+def _write_screen(path, rows):
+    import json
+    with open(str(path), "w") as f:
+        json.dump({"survivors": rows}, f)
+
+
+def _write_dossiers(path, symbols):
+    import json
+    with open(str(path), "w") as f:
+        json.dump({"dossiers": [{"symbol": s} for s in symbols]}, f)
+
+
+def test_pick_candidates_returns_undossiered_sorted(tmp_path):
+    screen = tmp_path / "screen.json"
+    doss = tmp_path / "dossiers.json"
+    _write_screen(screen, [
+        {"symbol": "A", "score": 0.9, "insider_tier": "full"},
+        {"symbol": "B", "score": 0.8, "insider_tier": "full"},
+        {"symbol": "C", "score": 0.7, "insider_tier": "full"},
+        {"symbol": "D", "score": 0.6, "insider_tier": "half"},
+    ])
+    _write_dossiers(doss, ["B"])
+    result = pick_candidates(str(screen), str(doss), n=10)
+    syms = [r["symbol"] for r in result]
+    assert syms == ["A", "C", "D"]
+
+
+def test_pick_candidates_respects_n(tmp_path):
+    screen = tmp_path / "screen.json"
+    doss = tmp_path / "dossiers.json"
+    _write_screen(screen, [
+        {"symbol": s, "score": 1.0 - i * 0.1, "insider_tier": "full"}
+        for i, s in enumerate(["A", "B", "C", "D", "E"])
+    ])
+    _write_dossiers(doss, [])
+    result = pick_candidates(str(screen), str(doss), n=3)
+    assert len(result) == 3
+    assert [r["symbol"] for r in result] == ["A", "B", "C"]
+
+
+def test_pick_candidates_full_tier_only(tmp_path):
+    screen = tmp_path / "screen.json"
+    doss = tmp_path / "dossiers.json"
+    _write_screen(screen, [
+        {"symbol": "A", "score": 0.9, "insider_tier": "half"},
+        {"symbol": "B", "score": 0.8, "insider_tier": "full"},
+        {"symbol": "C", "score": 0.7, "insider_tier": "full"},
+    ])
+    _write_dossiers(doss, [])
+    result = pick_candidates(str(screen), str(doss), n=10, full_tier_only=True)
+    syms = [r["symbol"] for r in result]
+    assert syms == ["B", "C"]
+
+
+def test_pick_candidates_no_dossier_file(tmp_path):
+    screen = tmp_path / "screen.json"
+    doss = tmp_path / "dossiers.json"  # does not exist
+    _write_screen(screen, [
+        {"symbol": "A", "score": 0.5, "insider_tier": "full"},
+    ])
+    result = pick_candidates(str(screen), str(doss), n=10)
+    assert len(result) == 1
+
+
+def test_pick_candidates_missing_screen_raises(tmp_path):
+    with pytest.raises(FileNotFoundError):
+        pick_candidates(str(tmp_path / "nope.json"), str(tmp_path / "d.json"))
