@@ -79,5 +79,83 @@
     },
     "orders_placed": [],
     "note": "Rotation plan computed but no orders placed due to pre_trade_check failure"
+  },
+  {
+    "date": "2026-06-29",
+    "run_at": "2026-06-29T04:47:43.801622Z",
+    "regime": "risk_on",
+    "breadth": 0.73,
+    "spy_1m": -0.0286,
+    "spy_3m": 0.1301,
+    "risk_budget": 1.0,
+    "sectors": [
+      "technology",
+      "industrials",
+      "real_estate"
+    ],
+    "picks": {
+      "technology": [
+        "AMD",
+        "TXN"
+      ],
+      "industrials": [
+        "CAT",
+        "GE"
+      ],
+      "real_estate": [
+        "SPG",
+        "PSA"
+      ]
+    },
+    "targets": {
+      "AMD": 200.0,
+      "TXN": 70.13,
+      "CAT": 176.31,
+      "GE": 123.69,
+      "SPG": 162.3,
+      "PSA": 137.7
+    },
+    "orders": [
+      {
+        "side": "buy",
+        "symbol": "AMD",
+        "dollars": 200.0,
+        "order_id": "6a41f896-957e-4d8b-858f-46af979357d5"
+      },
+      {
+        "side": "buy",
+        "symbol": "CAT",
+        "dollars": 176.31,
+        "order_id": "6a41f898-a0b8-402d-b393-a9397a1ccf18"
+      },
+      {
+        "side": "buy",
+        "symbol": "SPG",
+        "dollars": 162.3,
+        "order_id": "6a41f899-31f0-4b75-87f1-b3a79a5a0afe"
+      },
+      {
+        "side": "buy",
+        "symbol": "PSA",
+        "dollars": 137.7,
+        "order_id": "6a41f89b-bd5e-4f4c-85aa-913594695e12"
+      },
+      {
+        "side": "buy",
+        "symbol": "GE",
+        "dollars": 123.69,
+        "order_id": "6a41f89d-076d-4b18-9490-b856d7bc7e77"
+      },
+      {
+        "side": "buy",
+        "symbol": "TXN",
+        "dollars": 70.13,
+        "order_id": "6a41f89e-85f3-4013-929e-e854548974bb"
+      }
+    ],
+    "spy_overlay": null,
+    "equity_before": 1000.0,
+    "equity_after": 999.5649,
+    "cash_after": 129.4513
   }
 ]
