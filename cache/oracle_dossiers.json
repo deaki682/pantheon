@@ -4835,7 +4835,577 @@
         "potential_score": 0.23059311021517676
       },
       "conviction": 0.28065825548638634
+    },
+    {
+      "symbol": "LILA",
+      "business": "Liberty Latin America is a cable/telecom operator serving 5M+ subscribers across Puerto Rico, Chile, Costa Rica, Panama, and the Caribbean. Products include broadband, video, mobile (MVNO), and B2B services. ~80% of revenue is recurring subscription. John Malone controls via super-voting shares and has historically used cable vehicles to create long-run shareholder value via levered free cash flow.",
+      "thesis": "At $7.74 \u2014 14% below its 52-week high of $9.04 \u2014 LILA is a modestly discounted Malone cable stub. John Malone himself bought $136.85M of LILAK in 2025-2026, the largest insider purchase by dollar in our screen. The bear case (leverage, Puerto Rico storm risk, FX drag) appears mostly priced: EV/EBITDA trades near 5x while comparable Latin EM cable assets clear 7-8x. A sale of Chilean or C&W Caribbean assets, or a Malone-style recombination, would be the structural unlock. The going-concern risk is low: substantial covenant headroom and no near-term maturities. Bear case is priced-in; bull case is optionality from asset monetization.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.3,
+          "target": 14.5,
+          "description": "Asset monetization (Chile or C&W Caribbean) at 7x EBITDA + re-rating toward 6.5x blended EV/EBITDA. Puerto Rico broadband subscriber gains accelerate. Malone restructuring unlocks NAV."
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 10.5,
+          "description": "Steady FCF conversion, leverage held flat, modest organic growth in Puerto Rico and Chile. 6x EV/EBITDA rerate as LatAm cable comps hold. ~36% upside."
+        },
+        "bear": {
+          "probability": 0.25,
+          "target": 3.5,
+          "description": "Hurricane/storm hits Puerto Rico infrastructure; FX headwinds compress EBITDA; covenant breach forces dilutive equity issuance. Stock tests sub-$4."
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.6,
+        "quality": 0.35,
+        "management": 0.7
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=LILA&type=10-K"
+      ],
+      "horizon_years": 3.0,
+      "current_price": 7.739,
+      "high_52w": 9.04,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Communication Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T23:20:24.890814",
+      "priced_at": "2026-06-29T23:20:24.890814",
+      "scenario_price": 7.739,
+      "broker_price": 7.739,
+      "broker_high_52w": 9.04,
+      "price_verified": true,
+      "drawdown_from_high": 0.1439159292035398,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 9.95,
+        "expected_return": 0.2856958263341516,
+        "expected_cagr": 0.0873751690308171,
+        "asymmetry": 1.913941967445152,
+        "quality_mult": 1.05,
+        "asymmetry_mult": 1.3834529147915198,
+        "potential_score": 0.12692340388988993
+      },
+      "conviction": 0.16583090753414842
+    },
+    {
+      "symbol": "HLNE",
+      "business": "Hamilton Lane is an alternative asset management firm with $950B+ in AUM/AUS, specializing in private equity, private credit, and real assets for institutional and high-net-worth clients. Revenue split ~60% management fees / 40% advisory and reporting fees, with incentive fees providing upside. The business is highly recurring and capital-light with 40%+ operating margins.",
+      "thesis": "At $74.96 \u2014 53% below its 52-week high of $161 \u2014 HLNE has been reset by a broad alt-manager derating rather than any fundamental impairment. AUM grew through 2025; management fees are sticky. The insider cluster ($14.24M bought near $80-100) suggests insiders see the derating as overdone. The bear case is a prolonged private market fundraising drought (LP fatigue, denominator effect) delaying deployment and advisory revenues \u2014 but at 15x 2026E fee-related earnings vs 25-35x peers, this appears priced. Going-concern risk is negligible: the firm is debt-light and asset-light.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.35,
+          "target": 130.0,
+          "description": "Private market fundraising cycle recovers 2026-2027; fee-related earnings re-rate to 25x; wealth management expansion drives AUM growth above 15%/yr."
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 95.0,
+          "description": "Steady AUM growth 10-12%/yr, fee-related earnings compound at 15%, stock re-rates to 20x as alt-manager sentiment normalizes."
+        },
+        "bear": {
+          "probability": 0.2,
+          "target": 45.0,
+          "description": "LP fatigue deepens; fundraising stalls; advisory revenues drop 20%; stock stays at 12x fee-related earnings as growth narrative breaks."
+        }
+      },
+      "ratings": {
+        "moat": 0.72,
+        "runway": 0.74,
+        "quality": 0.64,
+        "management": 0.7
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=HLNE&type=10-K"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 74.96,
+      "high_52w": 161.13,
+      "decline_explanation": "HLNE fell ~53% from its $161 high due to a sector-wide derating of alt-asset managers as rising rates slowed private market fundraising and the denominator effect caused LPs to reduce private equity allocations in 2023-2025. No company-specific operational impairment; AUM continued growing throughout.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Financials",
+      "author": "oracle",
+      "created_at": "2026-06-29T23:20:24.890940",
+      "priced_at": "2026-06-29T23:20:24.890940",
+      "scenario_price": 74.96,
+      "broker_price": 74.96,
+      "broker_high_52w": 161.13,
+      "price_verified": true,
+      "drawdown_from_high": 0.5347855768634022,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 97.25,
+        "expected_return": 0.29735859124866604,
+        "expected_cagr": 0.13901650174554803,
+        "asymmetry": 3.2149532710280377,
+        "quality_mult": 1.2,
+        "asymmetry_mult": 1.7930290770168893,
+        "potential_score": 0.2991127557779241
+      },
+      "conviction": 0.34773472533953365
+    },
+    {
+      "symbol": "HUBS",
+      "business": "HubSpot is a cloud-based CRM and marketing automation platform serving 230,000+ SMB and mid-market customers globally. Products span Marketing Hub, Sales Hub, Service Hub, CMS Hub, and Operations Hub, with a freemium-to-paid land-and-expand model. Revenue is ~95% subscription, growing mid-20s% YoY with net dollar retention consistently above 100% and expanding operating leverage.",
+      "thesis": "At $184 \u2014 67% below its $568 high \u2014 HUBS has undergone severe multiple compression from 30x+ revenue to ~7x. The fundamental business is intact: SMB CRM penetration remains early, AI-augmented workflows are a genuine tailwind, and churn remains low. Insiders bought $2.59M near $170-200. The bear case is SaaS-cycle mean reversion plus Google/Salesforce competitive intensity \u2014 but at 7x forward revenue vs Salesforce at 8x on slower growth, the discount is hard to justify given HubSpot's superior growth rate. The decisive question: does growth re-accelerate to 20%+ (bull) or decelerate into 15% territory (bear)? SMB AI expansion is the swing factor.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.35,
+          "target": 380.0,
+          "description": "AI product suite accelerates SMB penetration; revenue growth re-rates to 22%+ with operating leverage inflecting to 20% margins; stock re-rates to 12x revenue over 3 years."
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 240.0,
+          "description": "Steady 18-20% revenue growth, gradual margin expansion to 15%+ operating margin, stock re-rates to 8-9x revenue over 3 years."
+        },
+        "bear": {
+          "probability": 0.2,
+          "target": 120.0,
+          "description": "SMB spending contracts; churn rises; Google/Salesforce competitive displacement accelerates; stock stays at 5-6x revenue on 12% growth."
+        }
+      },
+      "ratings": {
+        "moat": 0.72,
+        "runway": 0.71,
+        "quality": 0.78,
+        "management": 0.76
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=HUBS&type=10-K"
+      ],
+      "horizon_years": 3.0,
+      "current_price": 184.44,
+      "high_52w": 568.16,
+      "decline_explanation": "HUBS fell 67% from its 2021 peak as SaaS multiples compressed system-wide from 30x+ to 7x revenue when rates rose sharply 2022-2023. Concurrent SMB spending slowdown reduced net new ARR adds. No fundamental moat impairment occurred; this is pure multiple compression from a bubble-era valuation peak.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Technology",
+      "author": "oracle",
+      "created_at": "2026-06-29T23:20:24.891006",
+      "priced_at": "2026-06-29T23:20:24.891006",
+      "scenario_price": 184.44,
+      "broker_price": 184.44,
+      "broker_high_52w": 568.16,
+      "price_verified": true,
+      "drawdown_from_high": 0.6753731343283582,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 265.0,
+        "expected_return": 0.4367816091954022,
+        "expected_cagr": 0.128401323317058,
+        "asymmetry": 5.310831781502173,
+        "quality_mult": 1.2425,
+        "asymmetry_mult": 2.0,
+        "potential_score": 0.31907728844288913
+      },
+      "conviction": 0.3660750441865298
+    },
+    {
+      "symbol": "FUN",
+      "business": "Six Flags Entertainment (formerly Cedar Fair, merged 2024) operates 46 amusement and water parks across North America including Cedar Point, Knott's Berry Farm, and Six Flags branded parks. Revenue splits across admissions (~50%), in-park spending (~40%), and accommodations/other (~10%). The company is a regional leisure duopoly with recurring season pass revenue and significant pricing power in its local markets.",
+      "thesis": "At $20.55 \u2014 39% below its $33.50 high \u2014 FUN trades at ~7x 2026E EBITDA, a steep discount to its historical 11-12x. The Six Flags merger created integration complexity and elevated leverage (~$3.2B net debt) which explains the discount. Insiders bought $6.17M. The decisive question: will synergies materialize on schedule? If yes, at 7x EBITDA with $120M synergy upside, equity value nearly doubles. If no \u2014 consumer weakness and integration delays stress the leveraged capital structure. The bear case ($11) is meaningfully probable at 25%; this is a leveraged bet on execution.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.3,
+          "target": 34.0,
+          "description": "Six Flags synergies reach $120M+ by 2026; attendance and per-cap spending recover; EBITDA re-rates to 10x as leverage path becomes clear."
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 24.0,
+          "description": "Synergies hit $80M, modest EBITDA growth, leverage stable. Stock gradually re-rates to 8.5x EBITDA as merger anxiety fades."
+        },
+        "bear": {
+          "probability": 0.25,
+          "target": 11.0,
+          "description": "Consumer spending deteriorates; integration costs exceed synergies; refinancing risk at current leverage impairs equity to $11."
+        }
+      },
+      "ratings": {
+        "moat": 0.52,
+        "runway": 0.55,
+        "quality": 0.38,
+        "management": 0.52
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=FUN&type=10-K"
+      ],
+      "horizon_years": 2.5,
+      "current_price": 20.55,
+      "high_52w": 33.5,
+      "decline_explanation": "FUN fell ~39% from its $33.50 high following the Six Flags merger closing in Q3 2024, which added ~$3.2B in debt and introduced integration uncertainty. Attendance softness in H2 2024 and cautious consumer spending in 2025 added to concern. Decline reflects leverage overhang and merger execution risk, not a fundamental collapse of the regional park asset base or moat.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Consumer Discretionary",
+      "author": "oracle",
+      "created_at": "2026-06-29T23:20:24.891029",
+      "priced_at": "2026-06-29T23:20:24.891029",
+      "scenario_price": 20.55,
+      "broker_price": 20.55,
+      "broker_high_52w": 33.5,
+      "price_verified": true,
+      "drawdown_from_high": 0.3865671641791044,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 23.75,
+        "expected_return": 0.15571776155717765,
+        "expected_cagr": 0.05959698798488122,
+        "asymmetry": 1.690052356020942,
+        "quality_mult": 0.9925,
+        "asymmetry_mult": 1.300020136775174,
+        "potential_score": 0.07689620483795749
+      },
+      "conviction": 0.10403302164161532
+    },
+    {
+      "symbol": "OFIX",
+      "business": "Orthofix Medical is a medical device company specializing in musculoskeletal healing: spinal implants, bone stimulators (electrical and ultrasound), and orthopedic fixation devices. Revenue ~70% spine / 30% orthopedics. Merged with SeaSpine in 2023. Bone stimulators (iONE, SpinalStim) have defensible IP and insurance reimbursement; spine implants compete against Medtronic, Stryker, and Globus Medical in a fragmented market.",
+      "thesis": "At $9.68 \u2014 43% below its $17 high \u2014 OFIX trades at ~1.5x revenue but has never generated consistent GAAP profits. The bull case rests on bone stimulator IP defensibility and post-SeaSpine synergies ($30M+ guided) reaching FCF-positive by 2026. Insiders bought $2.29M. The bear case: CMS reimbursement pressure on bone stimulators compresses the highest-margin segment, and the spine business remains subscale against large-cap competitors. The priced-in question: at 1.5x revenue, the market is already pricing a partial synergy miss. If reimbursement holds and synergies hit $25M+, the upside to $17 is large; if reimbursement cuts 15-20%, the $5.50 floor is real. A roughly balanced risk/reward at this price.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.25,
+          "target": 17.0,
+          "description": "SeaSpine synergies reach $30M+; bone stimulator reimbursement holds; FCF positive by 2026; re-rates to 2.5x revenue."
+        },
+        "base": {
+          "probability": 0.5,
+          "target": 12.0,
+          "description": "Partial synergy capture ~$20M; steady spine growth; stock re-rates to 2x revenue over 18-24 months."
+        },
+        "bear": {
+          "probability": 0.25,
+          "target": 5.5,
+          "description": "CMS cuts bone stimulator reimbursement; spine loses share to larger peers; cash burn continues; dilutive raise at $6-7."
+        }
+      },
+      "ratings": {
+        "moat": 0.35,
+        "runway": 0.52,
+        "quality": 0.38,
+        "management": 0.42
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=OFIX&type=10-K"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 9.68,
+      "high_52w": 16.99,
+      "decline_explanation": "OFIX fell 43% from its $17 high as the SeaSpine merger integration took longer than guided, synergies lagged expectations, and CMS proposed cuts to bone stimulator reimbursement in 2024-2025 MPFS rulemakings. Broader small-cap medtech multiple compression amplified the company-specific integration risk.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Health Care",
+      "author": "oracle",
+      "created_at": "2026-06-29T23:20:24.891045",
+      "priced_at": "2026-06-29T23:20:24.891045",
+      "scenario_price": 9.68,
+      "broker_price": 9.68,
+      "broker_high_52w": 16.99,
+      "price_verified": true,
+      "drawdown_from_high": 0.4302530900529723,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 11.625,
+        "expected_return": 0.20092975206611574,
+        "expected_cagr": 0.09586940465829041,
+        "asymmetry": 1.751196172248804,
+        "quality_mult": 0.9175,
+        "asymmetry_mult": 1.3233276889148826,
+        "potential_score": 0.11640014009351278
+      },
+      "conviction": 0.15319591392430398
+    },
+    {
+      "symbol": "KRMD",
+      "business": "Surmodics (ticker KRMD) is a medical device company focused on surface modification coatings and in-vitro diagnostic (IVD) raw materials, serving OEM medical device manufacturers and diagnostics companies. The coating technologies (hydrophilic, hemocompatible, drug delivery) are applied to catheters, guidewires, and diagnostic test kits. Revenue is split ~65% medical device coatings / 35% IVD raw materials; both segments are high-margin and largely recurring.",
+      "thesis": "At $4.36 \u2014 34% below its $6.61 high \u2014 KRMD trades at deeply distressed multiples for what is a defensible niche: proprietary coating chemistries are embedded in customers' device regulatory submissions, creating substantial switching costs. Insiders bought $1.53M. The bear case is that the company has been unprofitable for extended periods due to R&D spending on its vascular intervention device program, which is capital-intensive with uncertain return. The decisive question: is the core coating/IVD business generating enough value to justify the stock even if the device program is written to zero? At 1.5x book and ~2x IVD+coating revenue, the answer appears yes \u2014 with the device program as free optionality.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.35,
+          "target": 10.0,
+          "description": "Vascular device program achieves regulatory milestone or partnership deal; core coating business grows 10%/yr; re-rates to 3x revenue as path to profitability firms up."
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 6.5,
+          "description": "Core IVD and coating revenue grows 6-8%/yr; device program wind-down or strategic sale unlocks cash; stock gradually re-rates to 2x revenue."
+        },
+        "bear": {
+          "probability": 0.2,
+          "target": 3.0,
+          "description": "Device program burn rate overwhelms core cash generation; equity raise at $3-4 dilutes holders significantly; stock tests book value."
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.72,
+        "quality": 0.61,
+        "management": 0.6
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=KRMD&type=10-K"
+      ],
+      "horizon_years": 2.5,
+      "current_price": 4.36,
+      "high_52w": 6.608,
+      "decline_explanation": "KRMD fell 34% from its $6.61 high as the company's vascular intervention device program continued burning cash without near-term revenue, compressing the stock toward its core business value. Small-cap medtech multiple compression and ongoing losses drove institutional exits despite the moated coating/IVD core business remaining intact.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Health Care",
+      "author": "oracle",
+      "created_at": "2026-06-29T23:22:13.599658",
+      "priced_at": "2026-06-29T23:22:13.599658",
+      "scenario_price": 4.36,
+      "broker_price": 4.36,
+      "broker_high_52w": 6.608,
+      "price_verified": true,
+      "drawdown_from_high": 0.34019370460048415,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 7.025,
+        "expected_return": 0.6112385321100917,
+        "expected_cagr": 0.21021891307770302,
+        "asymmetry": 7.2573529411764675,
+        "quality_mult": 1.12,
+        "asymmetry_mult": 2.0,
+        "potential_score": 0.4708903652940548
+      },
+      "conviction": 0.4896714381875831
+    },
+    {
+      "symbol": "ARTV",
+      "business": "Artera Health (ARTV) is a clinical-stage precision oncology company developing AI/genomic biomarker tests to predict radiotherapy benefit in prostate and other cancers. Its lead product, ArteraAI Prostate Test, is an FDA-authorized companion diagnostic for prostate cancer treatment decisions. The test is backed by RA Capital Management, a specialized life science investor, which led a $103.75M insider cluster purchase.",
+      "thesis": "At $9.61 \u2014 34% below its $14.53 high \u2014 ARTV is a clinical-stage diagnostic with one commercially authorized test and multiple pipeline biomarkers. RA Capital's $103.75M purchase is the largest conviction signal: RA Capital is a specialist healthcare fund with deep diligence capability and long clinical development expertise. The bear case is commercial ramp disappointment \u2014 oncology diagnostic adoption is slow, requires payer coverage battles, and the competitive landscape includes Decipher (Veracyte) and Foundation Medicine. At ~4x trailing revenue with a funded pipeline, RA Capital's entry price vs. today's $9.61 suggests limited near-term downside, but commercial validation of the prostate test is the swing factor.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.3,
+          "target": 28.0,
+          "description": "ArteraAI prostate test achieves broad payer coverage; 2nd indication (bladder or lung) receives authorization; revenue >$100M by 2028 at 5x multiple."
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 14.5,
+          "description": "Prostate test ramps to $50M revenue by 2027; pipeline progresses on schedule; stock re-rates to 4-5x forward revenue as commercial scale becomes visible."
+        },
+        "bear": {
+          "probability": 0.25,
+          "target": 3.5,
+          "description": "Payer coverage stalls; competing tests (Decipher, Oncotype) maintain market share; revenue growth misses; cash burn requires dilutive raise below $5."
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.8,
+        "quality": 0.55,
+        "management": 0.6
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=ARTV&type=10-K"
+      ],
+      "horizon_years": 2.5,
+      "current_price": 9.61,
+      "high_52w": 14.53,
+      "decline_explanation": "ARTV fell 34% from its $14.53 high as commercial launch of the prostate test proved slower than initial expectations, with payer coverage decisions pending and physician adoption requiring longer education cycles. Clinical-stage diagnostic company multiple compression in 2024-2025 amplified the decline despite RA Capital's continued conviction purchase.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Health Care",
+      "author": "oracle",
+      "created_at": "2026-06-29T23:22:13.599860",
+      "priced_at": "2026-06-29T23:22:13.599860",
+      "scenario_price": 9.61,
+      "broker_price": 9.61,
+      "broker_high_52w": 14.53,
+      "price_verified": true,
+      "drawdown_from_high": 0.3386097728836889,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 15.8,
+        "expected_return": 0.6441207075962541,
+        "expected_cagr": 0.22003834285416768,
+        "asymmetry": 3.6117839607201314,
+        "quality_mult": 1.1,
+        "asymmetry_mult": 1.9004694053628255,
+        "potential_score": 0.4599937524611898
+      },
+      "conviction": 0.4816652096557956
+    },
+    {
+      "symbol": "BORR",
+      "business": "Borr Drilling is an offshore jack-up drilling contractor operating 24+ modern jack-up rigs serving national oil companies and international majors in the Middle East, Southeast Asia, West Africa, and North Sea. The company was formed in 2016 specifically to acquire distressed modern jack-ups at trough prices. Revenue is entirely day-rate contract-based with multi-year contracts providing visibility. The rig fleet is among the youngest in the industry (avg build year 2013-2015), commanding premium day rates.",
+      "thesis": "At $4.22 \u2014 37% below its $6.66 high \u2014 BORR trades at ~4x 2026E EBITDA with ~70% of its fleet contracted through 2026. Insiders bought $7.44M. The offshore jack-up cycle thesis: post-2020 capex starvation created a structural supply deficit of modern jack-ups; OPEC+ production discipline supports continued shallow-water drilling demand; Borr's young fleet is priced at a premium. The bear case: the Odin rig suffered a well control incident in Q3 2025 delaying one rig and triggering insurance costs; oil prices fell 10-15% in early 2026 creating contract re-pricing risk; and two securities class-action investigations were filed regarding disclosure of rig delays. At 4x EBITDA the negatives appear priced \u2014 but the lawsuit creates tail risk.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.3,
+          "target": 7.5,
+          "description": "Oil stabilizes $75+; Odin rig returns to service H1 2026; contracts renew at $130K+/day; EBITDA expands to $450M; stock re-rates to 6x EBITDA."
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 5.25,
+          "description": "Stable contracting, Odin incident resolved, EBITDA ~$380M in 2026, modest re-rate to 5x. Securities investigation settles without material damage."
+        },
+        "bear": {
+          "probability": 0.25,
+          "target": 2.0,
+          "description": "Oil falls to $60; contract cancellations or day-rate cuts; securities lawsuit progresses to trial; EBITDA drops 30%; leverage becomes problematic."
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.6,
+        "quality": 0.55,
+        "management": 0.65
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001723580&type=6-K"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 4.215,
+      "high_52w": 6.655,
+      "decline_explanation": "BORR fell 37% from its $6.66 high following: (1) Q3 2025 Odin rig well control incident delaying one rig and triggering insurance claim process; (2) WTI crude oil declining 12% in early 2026 raising day-rate renewal risk; (3) securities class-action investigations filed regarding adequacy of rig incident disclosures. The fundamental jack-up demand picture remains intact; the decline is incident-driven.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-29T23:22:13.599895",
+      "priced_at": "2026-06-29T23:22:13.599895",
+      "scenario_price": 4.215,
+      "broker_price": 4.215,
+      "broker_high_52w": 6.655,
+      "price_verified": true,
+      "drawdown_from_high": 0.36664162283997004,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 5.112500000000001,
+        "expected_return": 0.21293001186239646,
+        "expected_cagr": 0.10133101829667734,
+        "asymmetry": 1.779683972911964,
+        "quality_mult": 1.0625,
+        "asymmetry_mult": 1.3340479649967478,
+        "potential_score": 0.1436292161715888
+      },
+      "conviction": 0.1855030491490024
+    },
+    {
+      "symbol": "PAR",
+      "business": "PAR Technology provides restaurant technology platforms: point-of-sale (Brink POS) and restaurant management software (PAR Punchh loyalty, PAR Data Central, MENU). The company has transitioned from a government IT contractor to a restaurant SaaS business serving enterprise chains (Yum!, McDonald's affiliates, Arcos Dorados). Revenue is predominantly recurring subscription (~80%+ of SaaS). The company made several acquisitions (Punchh, MENU, Stuzo) to build a restaurant management platform. Tangible book is negative due to goodwill.",
+      "thesis": "At $17.25 \u2014 76% below its $72 high \u2014 PAR has undergone severe derating from its 2021-2022 peak SaaS valuations. The business has grown ARR substantially through acquisitions and organic expansion, but has not yet achieved GAAP profitability. Voss Capital bought $15.76M \u2014 a concentrated value fund with a track record of deep-dive software investments. The fundamental question: is PAR's restaurant platform revenue durable and growing toward profitability, or are the acquisitions masking organic decay? At ~2x forward ARR, Voss's entry implies a view that ARR is worth $30-40/share at maturity. The bear case (72% drawdown) already assumes most of the SaaS premium is gone; the question is whether the underlying cash generation emerges.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.3,
+          "target": 38.0,
+          "description": "PAR achieves FCF-positive by 2026; ARR compounds 20%+; platform consolidation attracts strategic acquirer or re-rates to 4x ARR."
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 24.0,
+          "description": "Steady ARR growth 15-18%, path to FCF-positive in 2027, stock re-rates to 3x forward ARR as restaurant tech spending normalizes."
+        },
+        "bear": {
+          "probability": 0.25,
+          "target": 9.0,
+          "description": "ARR growth stalls as restaurant customers churn; cash burn requires dilutive equity raise; goodwill impairment charges; stock at 1.5x ARR."
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.55,
+        "quality": 0.45,
+        "management": 0.5
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=PAR&type=10-K"
+      ],
+      "horizon_years": 2.5,
+      "current_price": 17.25,
+      "high_52w": 72.15,
+      "decline_explanation": "PAR fell 76% from its $72 peak as SaaS valuation multiples compressed system-wide from 15-20x ARR to 2-3x when interest rates rose sharply 2022-2023. Multiple acquisitions (Punchh $500M, MENU, Stuzo) funded by dilutive stock issuance at high prices created overhang. The company remained unprofitable through the derating period, preventing any earnings-based re-rating. No fundamental platform collapse; pure multiple compression plus acquisition dilution from peak-priced deals.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Technology",
+      "author": "oracle",
+      "created_at": "2026-06-29T23:22:13.599918",
+      "priced_at": "2026-06-29T23:22:13.599918",
+      "scenario_price": 17.25,
+      "broker_price": 17.25,
+      "broker_high_52w": 72.15,
+      "price_verified": true,
+      "drawdown_from_high": 0.760914760914761,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 24.450000000000003,
+        "expected_return": 0.41739130434782634,
+        "expected_cagr": 0.14973011126707303,
+        "asymmetry": 3.018181818181818,
+        "quality_mult": 1.0125,
+        "asymmetry_mult": 1.7372915179041823,
+        "potential_score": 0.2633764129326246
+      },
+      "conviction": 0.31357068162836343
+    },
+    {
+      "symbol": "INR",
+      "business": "Inrad Optics (INR) is a niche optical components manufacturer serving defense, aerospace, and industrial laser markets. Products include precision crystals, optics, and laser components for DOD and commercial customers. Revenue is predominantly contract-based with defense programs providing multi-year visibility. The company is small-cap (~$100M market cap) with concentrated customer exposure to US government programs.",
+      "thesis": "At $12.76 \u2014 35% below its $19.59 high \u2014 INR trades at a forward P/E of ~3.7x based on defense program backlog. Gieselman (a Quantum preferred investor with documented sector expertise) bought common shares at $12.94 \u2014 essentially at today's price. The signal is unusual because Quantum-affiliated investors rarely move from preferred to common without high conviction on near-term equity appreciation. The bear case: single-customer concentration risk on US defense budgets; DOGE/sequestration risk could impair program continuity; optical components are niche but not highly moated. At 3.7x forward P/E, almost any continuation of current programs implies significant undervaluation.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.35,
+          "target": 24.5,
+          "description": "Defense optics programs expand with Ukraine/Pacific theater demand; backlog grows 20%+; re-rates to 7x forward earnings as growth visibility improves."
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 18.0,
+          "description": "Existing programs continue, modest revenue growth 8-10%, stock re-rates to 5x forward P/E as defense budget stability persists."
+        },
+        "bear": {
+          "probability": 0.2,
+          "target": 10.0,
+          "description": "DOD program cancellation or sequestration cuts key contract; revenue drops 20%; stock trades at 3x depressed earnings near current tangible book."
+        }
+      },
+      "ratings": {
+        "moat": 0.35,
+        "runway": 0.7,
+        "quality": 0.55,
+        "management": 0.6
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=INR&type=10-K"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 12.76,
+      "high_52w": 19.585,
+      "decline_explanation": "INR fell 35% from its $19.59 high as defense budget uncertainty in 2025 created concern about program continuity for small optics contractors. DOGE-related DOD spending reviews and continuing resolution budget cycles created timing uncertainty even for fully funded programs. The underlying backlog and program relationships remain intact; the decline is macro defense budget uncertainty, not contract cancellation.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Industrials",
+      "author": "oracle",
+      "created_at": "2026-06-29T23:22:13.599935",
+      "priced_at": "2026-06-29T23:22:13.599935",
+      "scenario_price": 12.76,
+      "broker_price": 12.76,
+      "broker_high_52w": 19.585,
+      "price_verified": true,
+      "drawdown_from_high": 0.3484809803420986,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 18.674999999999997,
+        "expected_return": 0.4635579937304073,
+        "expected_cagr": 0.2097760097350283,
+        "asymmetry": 7.4438405797101455,
+        "quality_mult": 1.0499999999999998,
+        "asymmetry_mult": 2.0,
+        "potential_score": 0.44052962044355937
+      },
+      "conviction": 0.4670501925857612
     }
   ],
-  "saved_at": "2026-06-29T08:33:39.648645"
+  "saved_at": "2026-06-29T23:23:19.560545"
 }
