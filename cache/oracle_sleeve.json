@@ -1,63 +1,14 @@
 {
-  "name": "oracle",
-  "cash": 54.46955484190002,
-  "positions": {
-    "CXT": {
-      "shares": 2.4671,
-      "avg_price": 48.64,
-      "entry_date": "2026-06-29",
-      "sector": "Producer Manufacturing"
-    },
-    "HDSN": {
-      "shares": 21.58273,
-      "avg_price": 5.56,
-      "entry_date": "2026-06-29",
-      "sector": "Distribution Services"
-    },
-    "J": {
-      "shares": 0.95472,
-      "avg_price": 125.69,
-      "entry_date": "2026-06-29",
-      "sector": "Technology Services"
-    },
-    "MRP": {
-      "shares": 3.87972,
-      "avg_price": 30.93,
-      "entry_date": "2026-06-29",
-      "sector": "Finance"
-    },
-    "PSN": {
-      "shares": 2.35571,
-      "avg_price": 50.94,
-      "entry_date": "2026-06-29",
-      "sector": "Technology Services"
-    },
-    "VITL": {
-      "shares": 10.87941,
-      "avg_price": 11.03,
-      "entry_date": "2026-06-29",
-      "sector": "Process Industries"
-    },
-    "INFU": {
-      "shares": 11.19701,
-      "avg_price": 10.05,
-      "entry_date": "2026-06-29",
-      "sector": "Healthcare"
-    },
-    "VTSI": {
-      "shares": 34.41284,
-      "avg_price": 3.27,
-      "entry_date": "2026-06-29",
-      "sector": "Technology"
-    }
-  },
-  "pending_settlements": [],
-  "realized_pnl": 0.0,
-  "gfv_count": 0,
-  "trades_count": 8,
-  "cooldowns": {},
-  "halted": false,
+  "cash": 1000.0,
   "contributed_cash": 1000.0,
   "cooldown_days": 31,
-  "peak_equity": 1001.2681766419
+  "cooldowns": {},
+  "gfv_count": 0,
+  "halted": false,
+  "name": "oracle",
+  "peak_equity": 1000.0,
+  "pending_settlements": [],
+  "positions": {},
+  "realized_pnl": 0.0,
+  "trades_count": 8
 }
