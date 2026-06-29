@@ -13,6 +13,8 @@ from shared.guards import (
     is_live,
     kill_switch_active,
     liquidate_if_kill,
+    pending_shares_from_orders,
+    pre_trade_check,
     read_ledger,
 )
 
@@ -184,3 +186,77 @@ def test_filter_broker_includes_ledger_symbols(tmp_path):
     result = filter_broker_to_gods(broker, sleeve_paths=sleeve_paths, ledger_paths=ledger_paths)
     assert "SOLD" in result
     assert "GOOGL" not in result
+
+
+# ------- pending_shares_from_orders -------
+
+def test_pending_shares_buy_queued():
+    orders = [
+        {"symbol": "VITL", "side": "buy", "state": "queued", "quantity": "10.0", "cumulative_quantity": "0.0"},
+        {"symbol": "MRP", "side": "buy", "state": "queued", "quantity": "4.0", "cumulative_quantity": "0.0"},
+    ]
+    pending = pending_shares_from_orders(orders)
+    assert pending["VITL"] == pytest.approx(10.0)
+    assert pending["MRP"] == pytest.approx(4.0)
+
+
+def test_pending_shares_partially_filled():
+    orders = [
+        {"symbol": "VITL", "side": "buy", "state": "partially_filled", "quantity": "10.0", "cumulative_quantity": "3.0"},
+    ]
+    pending = pending_shares_from_orders(orders)
+    assert pending["VITL"] == pytest.approx(7.0)
+
+
+def test_pending_shares_sell_subtracts():
+    orders = [
+        {"symbol": "VITL", "side": "sell", "state": "queued", "quantity": "5.0", "cumulative_quantity": "0.0"},
+    ]
+    pending = pending_shares_from_orders(orders)
+    assert pending["VITL"] == pytest.approx(-5.0)
+
+
+def test_pending_shares_ignores_filled_and_cancelled():
+    orders = [
+        {"symbol": "VITL", "side": "buy", "state": "filled", "quantity": "10.0", "cumulative_quantity": "10.0"},
+        {"symbol": "MRP", "side": "buy", "state": "cancelled", "quantity": "4.0", "cumulative_quantity": "0.0"},
+    ]
+    pending = pending_shares_from_orders(orders)
+    assert pending == {}
+
+
+def test_pending_shares_aggregates_same_symbol():
+    orders = [
+        {"symbol": "VITL", "side": "buy", "state": "queued", "quantity": "5.0", "cumulative_quantity": "0.0"},
+        {"symbol": "VITL", "side": "buy", "state": "confirmed", "quantity": "3.0", "cumulative_quantity": "0.0"},
+    ]
+    pending = pending_shares_from_orders(orders)
+    assert pending["VITL"] == pytest.approx(8.0)
+
+
+# ------- pre_trade_check with pending orders -------
+
+def test_pre_trade_check_passes_with_pending(tmp_path):
+    _write_sleeve(tmp_path / "o.json", {"VITL": 10.0, "MRP": 4.0})
+    sleeve_paths = {"oracle": str(tmp_path / "o.json")}
+    broker = {}  # broker shows 0 shares — orders haven't filled
+    pending = {"VITL": 10.0, "MRP": 4.0}  # but queued orders account for it
+    result = pre_trade_check(broker, sleeve_paths=sleeve_paths, pending_orders=pending)
+    assert result is True
+
+
+def test_pre_trade_check_fails_without_pending(tmp_path):
+    _write_sleeve(tmp_path / "o.json", {"VITL": 10.0, "MRP": 4.0})
+    sleeve_paths = {"oracle": str(tmp_path / "o.json")}
+    broker = {}  # broker shows 0, no pending info
+    result = pre_trade_check(broker, sleeve_paths=sleeve_paths)
+    assert result is False
+
+
+def test_pre_trade_check_partial_pending_still_fails(tmp_path):
+    _write_sleeve(tmp_path / "o.json", {"VITL": 10.0})
+    sleeve_paths = {"oracle": str(tmp_path / "o.json")}
+    broker = {}
+    pending = {"VITL": 5.0}  # only half accounted for
+    result = pre_trade_check(broker, sleeve_paths=sleeve_paths, pending_orders=pending)
+    assert result is False

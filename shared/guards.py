@@ -218,29 +218,67 @@ class PositionMismatch:
     per_god: dict[str, float]
 
 
+PENDING_ORDER_STATES = frozenset({"queued", "confirmed", "unconfirmed", "partially_filled"})
+
+
+def pending_shares_from_orders(
+    broker_orders: list[dict],
+) -> dict[str, float]:
+    """Extract {SYMBOL: unfilled_shares} from broker orders in pending states.
+
+    Pending states: queued, confirmed, unconfirmed, partially_filled.
+    For each, unfilled = quantity - cumulative_quantity.
+    """
+    pending: dict[str, float] = {}
+    for order in broker_orders:
+        state = (order.get("state") or "").lower()
+        if state not in PENDING_ORDER_STATES:
+            continue
+        sym = (order.get("symbol") or "").upper()
+        if not sym:
+            continue
+        qty = float(order.get("quantity") or 0)
+        filled = float(order.get("cumulative_quantity") or 0)
+        unfilled = qty - filled
+        if unfilled > 0:
+            side = (order.get("side") or "").lower()
+            if side == "buy":
+                pending[sym] = pending.get(sym, 0.0) + unfilled
+            elif side == "sell":
+                pending[sym] = pending.get(sym, 0.0) - unfilled
+    return pending
+
+
 def check_position_sanity(
     broker_positions: dict[str, float],
     *,
     sleeve_paths: Optional[dict[str, str]] = None,
+    pending_orders: Optional[dict[str, float]] = None,
     tolerance: float = 0.01,
 ) -> list[PositionMismatch]:
     """Compare broker's per-symbol share count against the sum of all sleeves.
 
     `broker_positions` is {SYMBOL: shares} from the broker's actual holdings.
-    Returns a list of mismatches where the difference exceeds `tolerance` shares.
+    `pending_orders` is {SYMBOL: unfilled_shares} from queued/confirmed orders
+    that haven't filled yet (from `pending_shares_from_orders`). When provided,
+    unfilled buy shares are added to broker_shares before comparing, so queued
+    orders don't trigger false mismatches.
 
+    Returns a list of mismatches where the difference exceeds `tolerance` shares.
     Call this before placing orders to catch sleeve drift early.
     """
     combined = aggregate_sleeve_shares(sleeve_paths)
+    pending = pending_orders or {}
     mismatches: list[PositionMismatch] = []
 
     # Only check positions that at least one sleeve claims. Broker-only
     # positions (pre-existing, manually placed) are invisible to the gods.
     for sym in sorted(combined.keys()):
         broker_shares = broker_positions.get(sym, 0.0)
+        broker_plus_pending = broker_shares + pending.get(sym, 0.0)
         per_god = combined[sym]
         sleeve_total = sum(per_god.values())
-        if abs(sleeve_total - broker_shares) > tolerance:
+        if abs(sleeve_total - broker_plus_pending) > tolerance:
             mismatches.append(PositionMismatch(
                 symbol=sym,
                 sleeve_total=sleeve_total,
@@ -248,9 +286,9 @@ def check_position_sanity(
                 per_god=dict(per_god),
             ))
             _guard_log.warning(
-                "POSITION MISMATCH %s: sleeves=%.4f shares, broker=%.4f shares, "
-                "per_god=%s",
-                sym, sleeve_total, broker_shares, per_god,
+                "POSITION MISMATCH %s: sleeves=%.4f shares, broker=%.4f shares "
+                "(+%.4f pending), per_god=%s",
+                sym, sleeve_total, broker_shares, pending.get(sym, 0.0), per_god,
             )
 
     return mismatches
@@ -260,13 +298,20 @@ def pre_trade_check(
     broker_positions: dict[str, float],
     *,
     sleeve_paths: Optional[dict[str, str]] = None,
+    pending_orders: Optional[dict[str, float]] = None,
     tolerance: float = 0.01,
 ) -> bool:
     """Return True if all sleeve positions match the broker. Log and return
     False if any mismatch is found — the caller should halt trading until
-    reconciliation resolves the drift."""
+    reconciliation resolves the drift.
+
+    Pass `pending_orders` (from `pending_shares_from_orders`) to account for
+    queued/confirmed orders that haven't filled yet — e.g. orders placed on
+    a weekend waiting for Monday open.
+    """
     mismatches = check_position_sanity(
-        broker_positions, sleeve_paths=sleeve_paths, tolerance=tolerance,
+        broker_positions, sleeve_paths=sleeve_paths,
+        pending_orders=pending_orders, tolerance=tolerance,
     )
     if mismatches:
         _guard_log.error(

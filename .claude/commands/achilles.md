@@ -28,7 +28,7 @@ Event-driven, short-horizon. Runs frequently (multiple times per day).
 
 9. **Score each event.** Use the matching playbook from `achilles.playbooks.build_playbooks()`. Compute company_quality (from Oracle's prescreener cache or fundamentals), market_cap (from broker fundamentals), first_seen_iso (when Achilles first observed the event). `achilles.scoring.score_event(...)`.
 
-10. **Pre-trade sanity check.** Before placing any orders, fetch the broker's actual equity positions, then filter through `shared.guards.filter_broker_to_gods(broker_positions)` to strip out pre-existing personal positions. Pass the filtered result to `shared.guards.pre_trade_check(filtered)`. If any symbol is out of sync, **halt trading and run `/oracle-reconcile`** before proceeding.
+10. **Pre-trade sanity check.** Before placing any orders, fetch the broker's actual equity positions, then filter through `shared.guards.filter_broker_to_gods(broker_positions)` to strip out pre-existing personal positions. Also fetch recent broker orders via `get_equity_orders` and compute `shared.guards.pending_shares_from_orders(broker_orders)` to account for queued orders awaiting fill. Pass both to `shared.guards.pre_trade_check(filtered, pending_orders=pending)`. If any symbol is out of sync, **halt trading and run `/oracle-reconcile`** before proceeding.
 
 11. **Write brief and (maybe) open.** For each event with score >= 0.05:
     - `achilles.brief.build_play(playbook, entry_price, today, entry_dollars=sleeve.position_dollars(score))`.

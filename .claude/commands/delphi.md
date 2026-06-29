@@ -19,7 +19,7 @@ Sector rotator with SPY core-satellite overlay. 8 steps.
 5. **Per-sector stock screen.** For each chosen sector, pull a small list of candidate stocks (top by market cap inside the sector, or from Oracle's screen). `delphi.screener.build_candidate(...)` each. `delphi.selector.select_for_sectors(...)` to keep top 2 per sector.
 
 6. **Build targets and plan sector orders.**
-   - First, fetch the broker's actual equity positions, then filter through `shared.guards.filter_broker_to_gods(broker_positions)` to strip out pre-existing personal positions. Pass the filtered result to `shared.guards.pre_trade_check(filtered)`. If any symbol is out of sync, **halt trading and run `/oracle-reconcile`** before proceeding.
+   - First, fetch the broker's actual equity positions, then filter through `shared.guards.filter_broker_to_gods(broker_positions)` to strip out pre-existing personal positions. Also fetch recent broker orders via `get_equity_orders` and compute `shared.guards.pending_shares_from_orders(broker_orders)` to account for queued orders awaiting fill. Pass both to `shared.guards.pre_trade_check(filtered, pending_orders=pending)`. If any symbol is out of sync, **halt trading and run `/oracle-reconcile`** before proceeding.
    - `delphi.execution.build_targets(picks_by_sector, equity=sleeve.equity(marks), risk_budget=plan["risk_budget"])` — score-weighted allocation (more dollars to higher-scored picks).
    - `delphi.execution.plan_orders(sleeve, targets, prices)` — honors 20% rebal band, ETF blocklist, min ticket $25.
    - Place market orders via Robinhood, append to `cache/delphi_ledger.jsonl`.
