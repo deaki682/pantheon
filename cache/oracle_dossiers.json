@@ -3007,7 +3007,40 @@
         "potential_score": 0.23100690314807396
       },
       "conviction": 0.28108335630023806
+    },
+    {
+      "symbol": "STRZ",
+      "business": "Starz Entertainment Corp. is a U.S. premium subscription video service delivering OTT streaming and traditional linear cable distribution, targeting women 18-49 and diverse audiences via franchises like Power, Outlander, BMF, and Spartacus. Spun off from Lions Gate Entertainment Corp. in May 2025, the company operates ~17.6M U.S. subscribers (12.7M OTT + 4.97M linear) and generates revenue via direct-to-consumer app, MVPD deals (Comcast, Charter, DirecTV, DISH), and OTT platform partnerships (Amazon, Apple, Google, Hulu).",
+      "thesis": "Bull: Starz is executing a cost-rationalization post-spinoff, with Adjusted OIBDA of 68.7M TTM, positive Q1 2026 operating cash flow (3.2M), and management accelerating its 20% margin target to H2 2027; OTT subs grew to 12.66M (from 11.77M a year ago), and at 85M market cap vs. ~.79B total assets the stock trades at a fraction of replacement cost, with M&A speculation (poison pill enacted March 2026) adding optionality. Bear: Revenue is in structural decline (down 7.3% YoY in the 9 months to Dec 2025, Q1 2026 down another 7.2%), GAAP net losses exceed 65M per quarter driven by massive content impairments (~28M in Q1 2026 alone), and 25M in total debt (3.1x leverage) leaves little margin for error; linear TV subscribers fell from 7.36M to 4.97M in one year and OTT revenue growth is negative (-6.4% in Q1 2026) despite subscriber gains, suggesting discounting pressure on ARPU. Is the bear case priced in? Partially: at 8.98 and ~85M market cap the stock is priced at roughly 1.2x trailing TTM Adjusted OIBDA of 68.7M \u2014 cheap if management hits the 2027 profitability target, but the stock has run 250%+ in 2026 from ~ with no GAAP profits and a coming 85-205M film contract termination charge looming in Q2 2026; the poison pill and CEO buying signal M&A interest but also defensive posture.",
+      "scenarios": {
+        "bull": {
+          "target": 48.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 30.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 14.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.35,
+        "runway": 0.42,
+        "quality": 0.3,
+        "management": 0.52
+      },
+      "citations": [
+        "0000929351-26-000031",
+        "0000929351-26-000011",
+        "0000929351-26-000030"
+      ],
+      "decline_explanation": "Revenue declined 7.3% YoY in the nine months ending Dec 2025 driven by (1) OTT discounting via multi-month payment plans reducing ARPU despite subscriber growth, and (2) ongoing cord-cutting causing linear subscribers to fall from 7.36M to 4.97M. GAAP operating losses are amplified by large content impairment charges (28M in Q1 2026, 68M in Q1 2025) as management rationalizes the content portfolio post-spinoff, and by accelerated amortization of the Starz Traditional Affiliate intangible as MVPD revenue declines.",
+      "sector": "Consumer Services",
+      "cik": "0000929351"
     }
   ],
-  "saved_at": "2026-06-29T04:21:43.647346"
+  "saved_at": "2026-06-29T06:37:55.225958"
 }
