@@ -325,6 +325,6 @@ def test_guard_files_includes_all_three_sleeves():
     assert "cache/achilles_sleeve.json" in GUARD_FILES
 
 
-def test_guard_files_count_six():
+def test_guard_files_count():
     from pantheon import GUARD_FILES
-    assert len(GUARD_FILES) == 6
+    assert len(GUARD_FILES) == 7

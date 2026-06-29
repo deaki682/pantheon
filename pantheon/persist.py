@@ -35,6 +35,10 @@ OWNERSHIP_PREFIXES: dict[str, list[str]] = {
         "cache/achilles_",
         "cache/achilles/",
     ],
+    "midas": [
+        "cache/midas_",
+        "cache/midas/",
+    ],
     "shared": [
         "cache/trinity_",
         "trinity_dashboard.html",
@@ -48,6 +52,7 @@ GUARD_FILES: list[str] = [
     "cache/oracle_sleeve.json",
     "cache/delphi_sleeve.json",
     "cache/achilles_sleeve.json",
+    "cache/midas_sleeve.json",
     "cache/oracle_screen.json",
     "cache/oracle_prescreener.json",
     "cache/oracle_dossiers.json",
