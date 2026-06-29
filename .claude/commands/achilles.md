@@ -31,7 +31,12 @@ Event-driven, short-horizon. Runs frequently (multiple times per day).
 10. **Pre-trade sanity check.** Before placing any orders, fetch the broker's actual equity positions, then filter through `shared.guards.filter_broker_to_gods(broker_positions)` to strip out pre-existing personal positions. Also fetch recent broker orders via `get_equity_orders` and compute `shared.guards.pending_shares_from_orders(broker_orders)` to account for queued orders awaiting fill. Pass both to `shared.guards.pre_trade_check(filtered, pending_orders=pending)`. If any symbol is out of sync, **halt trading and run `/oracle-reconcile`** before proceeding.
 
 11. **Write brief and (maybe) open.** For each event with score >= 0.05:
-    - `achilles.brief.build_play(playbook, entry_price, today, entry_dollars=sleeve.position_dollars(score))`.
+    - **You have full agency over exit parameters.** The playbook provides defaults, but you should reason about each trade and override when your judgment says to. `build_play()` accepts optional overrides: `hard_stop_pct`, `profit_target_pct`, `time_stop_days`, `trail_armed_at`, `trail_pct`. Consider the stock's volatility, market cap, catalyst type, and signal convergence when setting levels. Examples of when to override:
+      - Volatile micro-cap with thin liquidity → widen the stop to avoid noise
+      - High-conviction multi-signal convergence → tighten the profit target and arm a trailing stop
+      - Fast catalyst (activist 13D, M&A) → shorter time stop
+      - Slow drift play (neglected PEAD) → longer hold, wider stop
+    - `achilles.brief.build_play(playbook, entry_price, today, entry_dollars=sleeve.position_dollars(score), hard_stop_pct=..., profit_target_pct=..., time_stop_days=..., trail_armed_at=..., trail_pct=...)`.
     - `make_brief(...)`. Validate via `brief_check.validate_brief`.
     - `plan_open(...)`. If non-None, place market order via Robinhood, append to `cache/achilles_ledger.jsonl`, record open via `journal.append`.
 

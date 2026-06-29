@@ -14,6 +14,21 @@ def test_build_play_basic():
     assert p.time_stop_date == "2024-07-13"  # +45 days
 
 
+def test_build_play_llm_overrides():
+    pbs = build_playbooks()
+    pb = pbs["earnings_reaction"]
+    p = build_play(
+        playbook=pb, entry_price=100.0, entry_date="2024-05-29", entry_dollars=200.0,
+        hard_stop_pct=-0.10, profit_target_pct=0.15, time_stop_days=25,
+        trail_armed_at=0.06, trail_pct=0.04,
+    )
+    assert p.hard_stop_price == pytest.approx(90.0)
+    assert p.profit_target_price == pytest.approx(115.0)
+    assert p.time_stop_date == "2024-06-23"
+    assert p.trail_armed_at == pytest.approx(0.06)
+    assert p.trail_pct == pytest.approx(0.04)
+
+
 def test_build_play_rejects_zero_price():
     pbs = build_playbooks()
     with pytest.raises(ValueError):
