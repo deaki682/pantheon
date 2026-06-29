@@ -167,9 +167,9 @@ def build_html(cache_dir: str = "cache") -> str:
 <meta name="theme-color" content="#0e0f12">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Trinity">
+<meta name="apple-mobile-web-app-title" content="Pantheon">
 <meta http-equiv="refresh" content="900">
-<title>Trinity</title>
+<title>Pantheon</title>
 <style>
   * {{ box-sizing: border-box; }}
   body {{
@@ -229,7 +229,7 @@ def build_html(cache_dir: str = "cache") -> str:
 <body>
 <div class="header">
   <div>
-    <h1>Trinity</h1>
+    <h1>Pantheon</h1>
     <div class="meta">Updated {generated}</div>
   </div>
   <div class="total">${total_equity:,.2f}</div>
@@ -257,7 +257,7 @@ new Chart(ctx, {{
   }},
 }});
 // PWA manifest (inline to avoid a separate file)
-const m = {{name:"Trinity",short_name:"Trinity",display:"standalone",background_color:"#0e0f12",theme_color:"#0e0f12",start_url:"."}};
+const m = {{name:"Pantheon",short_name:"Pantheon",display:"standalone",background_color:"#0e0f12",theme_color:"#0e0f12",start_url:"."}};
 const link = document.createElement('link');
 link.rel = 'manifest';
 link.href = URL.createObjectURL(new Blob([JSON.stringify(m)], {{type:'application/json'}}));
