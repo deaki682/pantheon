@@ -4778,6 +4778,63 @@
         "potential_score": -0.03383126833693512
       },
       "conviction": 0.0
+    },
+    {
+      "symbol": "PATK",
+      "business": "Patrick Industries is a component solutions manufacturer serving the RV (45% of revenue), Housing (28%), Marine (17%), and Powersports (10%) markets, producing millwork, cabinets, wall/ceiling panels, countertops, composite panels, and audio/technology products. The company has grown to ~$4B in annual revenue through 60+ acquisitions since 2010, making it one of the two dominant OEM component suppliers alongside LCI Industries (Lippert).",
+      "thesis": "At $93 \u2014 37% below its Feb 2026 high of $148.50 \u2014 PATK trades at ~10x forward EBITDA and ~$300M in guided FCF (3.2% FCF yield) with 6 C-suite executives including CEO Andy Nemeth buying $2.53M of stock in May-June 2026, the broadest insider cluster in years. The decline is fully explained by a macro-driven RV cycle trough: RVIA cut its 2026 wholesale forecast to 314k units (down 8% from 342k in 2025), housing starts remain depressed, and a failed merger-of-equals with LCI Industries created uncertainty. But Patrick outperformed its own industry: Q1 2026 RV revenue fell only 7% vs. a 12% industry shipment decline, Marine grew 14%, Powersports grew 28%, and content-per-unit is rising 8% in RV and 17% in Marine \u2014 expanding its revenue regardless of unit volumes. The company is guiding $300M FCF for FY2026, carries no major debt maturities until 2028-2029, and has $734M liquidity. The bull case is that the RV cycle bottoms in 2026 with a recovery into 2027-2028 \u2014 every prior trough (2009, 2023) was followed by a 2-3 year upcycle \u2014 while Patrick's content-per-unit secular growth means it recovers faster than the industry. At cycle trough with insider validation and strong FCF, this is a classic cyclical-compounder opportunity rather than a value trap. Bear risk: tariff headwinds on wood/aluminum inputs, ongoing RV demand weakness if consumer retrenchment deepens further, and acquisition integration risk from $412M deployed in 2024 alone.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.35,
+          "target": 155.0,
+          "description": "RV industry shipments recover to 350-380k by 2027-28, housing starts rebound, and the Marine/Powersports mix (now 27% of revenue) continues 10-15% growth. Content-per-unit secular gains persist at 5-8% annually. Patrick re-rates to 14x EBITDA as a diversified compounder with proven M&A track record. CEO cluster buy at ~$88 proves prescient cycle call."
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 115.0,
+          "description": "RV industry stabilizes at 310-330k units through 2026-27 before a modest 2028 recovery. Housing starts remain soft. Patrick sustains 11-12% EBITDA margins, $280-300M FCF, and content-per-unit growth of 3-5%. At 11x normalized EBITDA ($490M), stock reaches $115-120 range. Dividend and buybacks support the floor."
+        },
+        "bear": {
+          "probability": 0.2,
+          "target": 65.0,
+          "description": "RV wholesale shipments fall below 280k (worse than 2023 trough), housing starts collapse further, and tariffs on wood/aluminum squeeze margins by 200+ bps. Net leverage rises above 3.5x forcing a pause in buybacks and M&A. FCF compresses to $150-180M. Stock de-rates to 8x trough EBITDA."
+        }
+      },
+      "ratings": {
+        "moat": 0.62,
+        "runway": 0.65,
+        "quality": 0.6,
+        "management": 0.72
+      },
+      "citations": [
+        "https://ir.patrickind.com/investor-news-events/press-releases/detail/305/patrick-industries-inc-reports-first-quarter-2026-financial-results",
+        "https://www.prnewswire.com/news-releases/patrick-industries-inc-reports-fourth-quarter-and-full-year-2025-financial-results-and-declares-quarterly-cash-dividend-302758754.html",
+        "0000076605-26-000045"
+      ],
+      "horizon_years": 2.5,
+      "current_price": 93.21,
+      "high_52w": 148.5,
+      "decline_explanation": "PATK fell 37% from its Feb 2026 high of $148.50 driven by four compounding factors: (1) RV industry deceleration \u2014 RVIA lowered its 2026 wholesale shipment forecast to 314k units (vs. 342k in 2025), an 8% decline, with Q1 2026 wholesale industry units down 12%; (2) Housing weakness \u2014 MH industry unit shipments fell 11% in Q1 2026 as affordability and financing costs constrained buyers; (3) Failed LCI Industries merger \u2014 April 2026 merger-of-equals discussions with LCI were terminated May 4 after failing to agree on key terms, creating M&A uncertainty and short-term selling pressure; (4) Macro/tariff anxiety \u2014 broader consumer discretionary sell-off tied to tariff uncertainty and consumer spending deceleration hit cyclical component suppliers disproportionately. Critically, Patrick outperformed the RV industry (revenue -7% vs. industry -12%) due to content-per-unit gains, and guided $300M FCF for FY2026 despite softer volumes.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Consumer Durables",
+      "author": "oracle",
+      "created_at": "2026-06-29T23:11:17.067493",
+      "priced_at": "2026-06-29T23:11:17.067493",
+      "scenario_price": 93.21,
+      "price_verified": false,
+      "drawdown_from_high": 0.3723232323232324,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 119.0,
+        "expected_return": 0.27668705074562827,
+        "expected_cagr": 0.10264009704482735,
+        "asymmetry": 3.833126550868487,
+        "quality_mult": 1.1475,
+        "asymmetry_mult": 1.9578372125558567,
+        "potential_score": 0.23059311021517676
+      },
+      "conviction": 0.28065825548638634
     }
   ],
   "saved_at": "2026-06-29T08:33:39.648645"
