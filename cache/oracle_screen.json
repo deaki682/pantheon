@@ -1,853 +1,1610 @@
 {
-  "n_universe_hits": 407,
-  "top": [
+  "rows": [
     {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.5953462491323713,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.4793019373698557,
-      "shares": 123480000,
-      "symbol": "MTDR",
-      "market_cap": 6197114563
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.0,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.39,
-      "shares": 296700000,
-      "symbol": "GPK",
-      "market_cap": 3256240682
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.0,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.39,
-      "shares": 36640000,
-      "symbol": "GSHD",
-      "market_cap": 1667769340
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.9858840836512531,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.347882612547688,
-      "shares": 130620000,
-      "symbol": "GRNT",
-      "market_cap": 596829400
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.9932559194662813,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.33898838791994224,
-      "shares": 12896000,
-      "symbol": "HCI",
-      "market_cap": 2299452434
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.902922429647545,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.33543836444713176,
-      "shares": 62578904,
       "symbol": "EVTC",
-      "market_cap": 1686548811
-    },
-    {
+      "score": 0.5333263282121397,
       "insider_backed": true,
-      "insider_tier": "half",
+      "insider_tier": "full",
       "lenses": {
-        "activist_13d": false,
         "insider_cluster": true,
-        "quality": 0.8969805968219192,
-        "sector_breadth": 0.0,
         "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.3345470895232879,
-      "shares": 8547474,
-      "symbol": "RHLD",
-      "market_cap": 1103359442
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
         "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.8514326843130686,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
+        "quality": 0.902922429647545,
+        "valuation": 0.7915518550600316,
+        "sector_breadth": 0.0
       },
-      "score": 0.3277149026469603,
-      "shares": 70202000,
-      "symbol": "PODD",
-      "market_cap": 10954904952
+      "shares": 62578904,
+      "market_cap": 1712784602.48
     },
     {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.8483254218781493,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.3272488132817224,
-      "shares": 118316000,
-      "symbol": "CAVA",
-      "market_cap": 9715085160
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.9029099701477582,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.3254364955221637,
-      "shares": 486868000,
-      "symbol": "FHN",
-      "market_cap": 12126489900
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.8263385626507127,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.32395078439760694,
-      "shares": 47205952,
-      "symbol": "OLED",
-      "market_cap": 4069665845
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.8899871558608365,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.3234980733791255,
-      "shares": 18695000,
-      "symbol": "GPOR",
-      "market_cap": 2920605640
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.8881487387345945,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.32322231081018915,
-      "shares": 161579000,
-      "symbol": "NE",
-      "market_cap": 6113802720
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.8,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.32,
-      "shares": 259764000,
-      "symbol": "CELH",
-      "market_cap": 7612969902
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": true,
-        "insider_cluster": true,
-        "quality": 0.0,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.32,
-      "shares": 226000000,
-      "symbol": "EQPT",
-      "market_cap": 5174942079
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.8,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.32,
-      "shares": 26965335,
-      "symbol": "IBP",
-      "market_cap": 6287961848
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": true,
-        "insider_cluster": true,
-        "quality": 0.0,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.32,
-      "symbol": "KARD",
-      "market_cap": 4190898104
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": true,
-        "insider_cluster": true,
-        "quality": 0.0,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.32,
-      "symbol": "PBLS",
-      "market_cap": 3429772002
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.8604158493526872,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.3190623774029031,
-      "shares": 84000000,
-      "symbol": "ALSN",
-      "market_cap": 9939050240
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.8411767537291378,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.31617651305937067,
-      "shares": 79740525,
-      "symbol": "GL",
-      "market_cap": 13901524992
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.762967244028646,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.31444508660429693,
-      "shares": 92187000,
-      "symbol": "RLI",
-      "market_cap": 5287373553
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.8045149987000499,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.3106772498050075,
-      "shares": 163699000,
-      "symbol": "NYT",
-      "market_cap": 11451787723
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.8,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.31,
-      "shares": 43200000,
-      "symbol": "BFH",
-      "market_cap": 4294062517
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.7077429979221173,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.3061614496883176,
-      "shares": 71978000,
-      "symbol": "JKHY",
-      "market_cap": 9589015968
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.6900374244473131,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.30350561366709694,
-      "shares": 108512000,
-      "symbol": "FND",
-      "market_cap": 6442411111
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.7516583100115438,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.30274874650173156,
-      "shares": 36775741,
-      "symbol": "ARLP",
-      "market_cap": 3151630864
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.75,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.3025,
-      "shares": 42613805,
-      "symbol": "LPG",
-      "market_cap": 1543171989
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.75,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.3025,
-      "shares": 49838000,
-      "symbol": "TDW",
-      "market_cap": 3338170113
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.6825004822114509,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.3023750723317176,
-      "shares": 12153000,
-      "symbol": "MRBK",
-      "market_cap": 236973679
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.6685551312989936,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.30028326969484903,
-      "shares": 44587704,
-      "symbol": "VITL",
-      "market_cap": 479474715
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.7342600216906106,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.30013900325359155,
-      "shares": 338000000,
-      "symbol": "SIRI",
-      "market_cap": 9529712200
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.6666666666666666,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.3,
-      "shares": 7800935,
-      "symbol": "BWFG",
-      "market_cap": 476556995
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.6666666666666666,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.3,
-      "shares": 166027250,
-      "symbol": "MRP",
-      "market_cap": 5131810936
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.6631068254921402,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.29946602382382104,
-      "shares": 40289000,
-      "symbol": "SHAK",
-      "market_cap": 2435765889
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.72472306468976,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.298708459703464,
-      "shares": 87596000,
-      "symbol": "THC",
-      "market_cap": 16186004079
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.6569016381023726,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.2985352457153559,
-      "shares": 128400000,
-      "symbol": "VVV",
-      "market_cap": 5126950549
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.7178019310634114,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.2976702896595117,
-      "shares": 55944000,
-      "symbol": "LIVN",
-      "market_cap": 4583105443
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.6390229376436733,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.295853440646551,
-      "symbol": "HLNE",
-      "market_cap": 4317198831
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.7025130906171133,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.295376963592567,
-      "shares": 659585375,
-      "symbol": "CCC",
-      "market_cap": 2934705000
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.6306914793563012,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.2946037219034452,
-      "shares": 9996000,
-      "symbol": "WW",
-      "market_cap": 158780318
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.6966688655709137,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.29450032983563706,
-      "shares": 32193791,
-      "symbol": "EXP",
-      "market_cap": 7217961187
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.6255266872648299,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.2938290030897245,
-      "shares": 11303885,
-      "symbol": "VTSI",
-      "market_cap": 36634356
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.6883527855844656,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.2932529178376698,
-      "shares": 44257000,
-      "symbol": "TFX",
-      "market_cap": 5737419291
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.6803464104088237,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.29205196156132357,
-      "shares": 139300000,
-      "symbol": "LW",
-      "market_cap": 6233995950
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.6070240430836482,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.29105360646254724,
-      "shares": 46364905,
-      "symbol": "KRMD",
-      "market_cap": 203942524
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.6018531771978688,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.29027797657968035,
-      "shares": 20893767,
-      "symbol": "INFU",
-      "market_cap": 201211588
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.6666666666666666,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.29,
-      "shares": 57331474,
-      "symbol": "BHF",
-      "market_cap": 3628851186
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.596675945622108,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.2895013918433162,
-      "shares": 506000000,
-      "symbol": "ELAN",
-      "market_cap": 12266492000
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.5958165384652638,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.2893724807697896,
-      "shares": 911313000,
       "symbol": "ADT",
-      "market_cap": 5046148014
-    },
-    {
+      "score": 0.5194534378738231,
       "insider_backed": true,
-      "insider_tier": "half",
+      "insider_tier": "full",
       "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.66176449310167,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.28926467396525046,
-      "shares": 287622000,
-      "symbol": "SHC",
-      "market_cap": 4954776625
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.6418699792960663,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.28628049689440993,
-      "shares": 316800000,
-      "symbol": "WU",
-      "market_cap": 2351074119
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
         "insider_cluster": true,
-        "quality": 0.5728487041937507,
-        "sector_breadth": 0.0,
         "smart_money": false,
-        "valuation": 0.0
+        "activist_13d": false,
+        "quality": 0.5958165384652638,
+        "valuation": 0.9203238284161344,
+        "sector_breadth": 0.0
       },
-      "score": 0.2859273056290626,
-      "shares": 42576086,
-      "symbol": "HDSN",
-      "market_cap": 232850808
+      "shares": 911313000,
+      "market_cap": 5823290070.0
     },
     {
+      "symbol": "ACCS",
+      "score": 0.5126382734440702,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.5380479448731207,
+        "valuation": 0.9277243268524086,
+        "sector_breadth": 0.0
+      },
+      "shares": 3860000,
+      "market_cap": 25765500.0
+    },
+    {
+      "symbol": "RLI",
+      "score": 0.4854734597470663,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.762967244028646,
+        "valuation": 0.6841134925710777,
+        "sector_breadth": 0.0
+      },
+      "shares": 92187000,
+      "market_cap": 5301674370.0
+    },
+    {
+      "symbol": "WW",
+      "score": 0.4821037219034452,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.6306914793563012,
+        "valuation": 0.75,
+        "sector_breadth": 0.0
+      },
+      "shares": 9996000,
+      "market_cap": 158736480.0
+    },
+    {
+      "symbol": "BWFG",
+      "score": 0.47764041067815155,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.6666666666666666,
+        "valuation": 0.7105616427126062,
+        "sector_breadth": 0.0
+      },
+      "shares": 7800935,
+      "market_cap": 466261884.95000005
+    },
+    {
+      "symbol": "ARDT",
+      "score": 0.4769498766280542,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.4958488517270124,
+        "valuation": 0.8102901954760094,
+        "sector_breadth": 0.0
+      },
+      "shares": 141775040,
+      "market_cap": 1376635638.4
+    },
+    {
+      "symbol": "MRP",
+      "score": 0.4722155087654151,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.6666666666666666,
+        "valuation": 0.6888620350616604,
+        "sector_breadth": 0.0
+      },
+      "shares": 166027250,
+      "market_cap": 5131171777.6
+    },
+    {
+      "symbol": "OLED",
+      "score": 0.46904463281426173,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.8263385626507127,
+        "valuation": 0.5803753936666194,
+        "sector_breadth": 0.0
+      },
+      "shares": 47205952,
+      "market_cap": 4109278121.6
+    },
+    {
+      "symbol": "HDSN",
+      "score": 0.46379261710959263,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.5728487041937507,
+        "valuation": 0.7114612459221201,
+        "sector_breadth": 0.0
+      },
+      "shares": 42576086,
+      "market_cap": 235658636.01000002
+    },
+    {
+      "symbol": "KBR",
+      "score": 0.4635457139292027,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.4480151990861779,
+        "valuation": 0.7853737362651039,
+        "sector_breadth": 0.0
+      },
+      "shares": 127000000,
+      "market_cap": 4236720000.0
+    },
+    {
+      "symbol": "VITL",
+      "score": 0.4612648404225445,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.6685551312989936,
+        "valuation": 0.6439262829107819,
+        "sector_breadth": 0.0
+      },
+      "shares": 44587704,
+      "market_cap": 498936407.76
+    },
+    {
+      "symbol": "RHLD",
+      "score": 0.45965823303720377,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.8969805968219192,
+        "valuation": 0.5004445740556636,
+        "sector_breadth": 0.0
+      },
+      "shares": 8547474,
+      "market_cap": 1142113475.88
+    },
+    {
+      "symbol": "BHRB",
+      "score": 0.45192866501054835,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3094436938209692,
+        "valuation": 0.8220484437496118,
+        "sector_breadth": 0.0
+      },
+      "shares": 15131481,
+      "market_cap": 1079479854.54
+    },
+    {
+      "symbol": "AII",
+      "score": 0.44806017003593823,
       "insider_backed": true,
       "insider_tier": "half",
       "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
         "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.6256922223591364,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
+        "quality": 0.0,
+        "valuation": 0.992240680143753,
+        "sector_breadth": 0.0
       },
-      "score": 0.28385383335387043,
-      "shares": 99878000,
-      "symbol": "HP",
-      "market_cap": 3374669870
+      "shares": 19579308,
+      "market_cap": 366720438.84000003
+    },
+    {
+      "symbol": "MRBK",
+      "score": 0.4439765143227755,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.6825004822114509,
+        "valuation": 0.5664057679642315,
+        "sector_breadth": 0.0
+      },
+      "shares": 12153000,
+      "market_cap": 242209290.0
+    },
+    {
+      "symbol": "JKHY",
+      "score": 0.4398385178048886,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.7077429979221173,
+        "valuation": 0.5347082724662839,
+        "sector_breadth": 0.0
+      },
+      "shares": 71978000,
+      "market_cap": 9714150880.0
+    },
+    {
+      "symbol": "NWBI",
+      "score": 0.4360420921928812,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.31633208619273634,
+        "valuation": 0.7543691170558829,
+        "sector_breadth": 0.0
+      },
+      "shares": 127598971,
+      "market_cap": 1931210426.085
+    },
+    {
+      "symbol": "GRNT",
+      "score": 0.4346656477277516,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.9858840836512531,
+        "valuation": 0.34713214072025456,
+        "sector_breadth": 0.0
+      },
+      "shares": 130620000,
+      "market_cap": 591055500.0
+    },
+    {
+      "symbol": "BOTJ",
+      "score": 0.43418559679172036,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3333333333333333,
+        "valuation": 0.7367423871668815,
+        "sector_breadth": 0.0
+      },
+      "shares": 4543338,
+      "market_cap": 111357214.38000001
+    },
+    {
+      "symbol": "MTDR",
+      "score": 0.4337232400478596,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.5953462491323713,
+        "valuation": 0.5776852107120156,
+        "sector_breadth": 0.0
+      },
+      "shares": 123480000,
+      "market_cap": 6162269400.0
+    },
+    {
+      "symbol": "IBP",
+      "score": 0.4324606020166243,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.8,
+        "valuation": 0.449842408066497,
+        "sector_breadth": 0.0
+      },
+      "shares": 26965335,
+      "market_cap": 6293709189.0
+    },
+    {
+      "symbol": "FLUT",
+      "score": 0.4244201177944244,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.5528222583223743,
+        "valuation": 0.565987116184273,
+        "sector_breadth": 0.0
+      },
+      "shares": 177000000,
+      "market_cap": 18459684000.0
+    },
+    {
+      "symbol": "GROW",
+      "score": 0.418953192835978,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.39338954193415243,
+        "valuation": 0.6397790461834204,
+        "sector_breadth": 0.0
+      },
+      "shares": 12585586,
+      "market_cap": 39518740.04
+    },
+    {
+      "symbol": "CZWI",
+      "score": 0.41808346113416184,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3333333333333333,
+        "valuation": 0.6723338445366475,
+        "sector_breadth": 0.0
+      },
+      "shares": 9634000,
+      "market_cap": 225917300.0
+    },
+    {
+      "symbol": "XRN",
+      "score": 0.4113612761219287,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.4587675794820192,
+        "valuation": 0.5701845567985032,
+        "sector_breadth": 0.0
+      },
+      "shares": 13235000,
+      "market_cap": 494591949.99999994
+    },
+    {
+      "symbol": "PODD",
+      "score": 0.40885572618078425,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.8514326843130686,
+        "valuation": 0.32456329413529583,
+        "sector_breadth": 0.0
+      },
+      "shares": 70202000,
+      "market_cap": 11103148320.0
+    },
+    {
+      "symbol": "MSIF",
+      "score": 0.40831202306697356,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.8332480922678941,
+        "sector_breadth": 0.0
+      },
+      "shares": 46116898,
+      "market_cap": 534494847.82
+    },
+    {
+      "symbol": "FND",
+      "score": 0.4063200532599441,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.6900374244473131,
+        "valuation": 0.41125775837138845,
+        "sector_breadth": 0.0
+      },
+      "shares": 108512000,
+      "market_cap": 6467315200.0
+    },
+    {
+      "symbol": "CELH",
+      "score": 0.4062532652726759,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.8,
+        "valuation": 0.3450130610907035,
+        "sector_breadth": 0.0
+      },
+      "shares": 259764000,
+      "market_cap": 7735771920.0
+    },
+    {
+      "symbol": "NWFL",
+      "score": 0.4042072747462826,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.17272836665012112,
+        "valuation": 0.7131920789950575,
+        "sector_breadth": 0.0
+      },
+      "shares": 10775000,
+      "market_cap": 346631750.0
+    },
+    {
+      "symbol": "VTSI",
+      "score": 0.4016775515077744,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.6255266872648299,
+        "valuation": 0.43139419367219956,
+        "sector_breadth": 0.0
+      },
+      "shares": 11303885,
+      "market_cap": 36624587.400000006
+    },
+    {
+      "symbol": "FRST",
+      "score": 0.40119755390443623,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3331984570149173,
+        "valuation": 0.6048711414087945,
+        "sector_breadth": 0.0
+      },
+      "shares": 24715000,
+      "market_cap": 410269000.00000006
+    },
+    {
+      "symbol": "ACM",
+      "score": 0.4004967581428388,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.43332443780401153,
+        "valuation": 0.5419923698889482,
+        "sector_breadth": 0.0
+      },
+      "shares": 129235000,
+      "market_cap": 9176977350.0
+    },
+    {
+      "symbol": "OTF",
+      "score": 0.39970484403658135,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3333333333333333,
+        "valuation": 0.5988193761463253,
+        "sector_breadth": 0.0
+      },
+      "shares": 464266454,
+      "market_cap": 4888725760.62
+    },
+    {
+      "symbol": "KRNY",
+      "score": 0.39837741322508696,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3174479621716361,
+        "valuation": 0.6030408755973661,
+        "sector_breadth": 0.0
+      },
+      "shares": 63251000,
+      "market_cap": 586969280.0
+    },
+    {
+      "symbol": "OPCH",
+      "score": 0.3964425451245452,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.518864084682394,
+        "valuation": 0.4744517296887444,
+        "sector_breadth": 0.0
+      },
+      "shares": 158209000,
+      "market_cap": 3441045750.0
+    },
+    {
+      "symbol": "STRT",
+      "score": 0.3962479099476538,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.322025684516598,
+        "valuation": 0.5917762290806564,
+        "sector_breadth": 0.0
+      },
+      "shares": 4141000,
+      "market_cap": 339976100.0
+    },
+    {
+      "symbol": "UBCP",
+      "score": 0.39616370292478015,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3295989563168942,
+        "valuation": 0.586895437908984,
+        "sector_breadth": 0.0
+      },
+      "shares": 5497474,
+      "market_cap": 88619280.88000001
+    },
+    {
+      "symbol": "POOL",
+      "score": 0.3929302886193851,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.5048489731294279,
+        "valuation": 0.46881177059988377,
+        "sector_breadth": 0.0
+      },
+      "shares": 36438000,
+      "market_cap": 7713924600.0
+    },
+    {
+      "symbol": "KMX",
+      "score": 0.3922524466527999,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3919287553643118,
+        "valuation": 0.5338525333926124,
+        "sector_breadth": 0.0
+      },
+      "shares": 142148000,
+      "market_cap": 7490488860.0
+    },
+    {
+      "symbol": "NCDL",
+      "score": 0.3887480736003587,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.7549922944014346,
+        "sector_breadth": 0.0
+      },
+      "shares": 49387065,
+      "market_cap": 629685078.75
+    },
+    {
+      "symbol": "BZUN",
+      "score": 0.375,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3333333333333333,
+        "valuation": 0.5,
+        "sector_breadth": 0.0
+      },
+      "shares": 173480754,
+      "market_cap": 481409092.34999996
+    },
+    {
+      "symbol": "VVV",
+      "score": 0.37388232263604837,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.6569016381023726,
+        "valuation": 0.30138830768277,
+        "sector_breadth": 0.0
+      },
+      "shares": 128400000,
+      "market_cap": 5161680000.0
+    },
+    {
+      "symbol": "WHF",
+      "score": 0.3722185439710975,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3333333333333333,
+        "valuation": 0.48887417588438997,
+        "sector_breadth": 0.0
+      },
+      "shares": 22168930,
+      "market_cap": 145871559.4
+    },
+    {
+      "symbol": "J",
+      "score": 0.37185411745870167,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.5281270857781224,
+        "valuation": 0.3705402183679332,
+        "sector_breadth": 0.0
+      },
+      "shares": 117261000,
+      "market_cap": 14735603565.0
+    },
+    {
+      "symbol": "CXT",
+      "score": 0.371104474306399,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.5302224708090115,
+        "valuation": 0.366284414740189,
+        "sector_breadth": 0.0
+      },
+      "shares": 58000000,
+      "market_cap": 2821700000.0
+    },
+    {
+      "symbol": "NCLH",
+      "score": 0.37040521685674255,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.4062371882477137,
+        "valuation": 0.43787855447834184,
+        "sector_breadth": 0.0
+      },
+      "shares": 466145101,
+      "market_cap": 9896260494.23
+    },
+    {
+      "symbol": "CAVA",
+      "score": 0.3696615652281841,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.8483254218781493,
+        "valuation": 0.16965100778584688,
+        "sector_breadth": 0.0
+      },
+      "shares": 118316000,
+      "market_cap": 9868737560.0
+    },
+    {
+      "symbol": "NEWT",
+      "score": 0.36648093043519625,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.665923721740785,
+        "sector_breadth": 0.0
+      },
+      "shares": 28673000,
+      "market_cap": 417765610.0
+    },
+    {
+      "symbol": "INFU",
+      "score": 0.3662240287142492,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.6018531771978688,
+        "valuation": 0.3037842085382756,
+        "sector_breadth": 0.0
+      },
+      "shares": 20893767,
+      "market_cap": 208310856.99
+    },
+    {
+      "symbol": "FRPT",
+      "score": 0.36309437495119185,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3797406940314329,
+        "valuation": 0.4245330833859077,
+        "sector_breadth": 0.0
+      },
+      "shares": 56060000,
+      "market_cap": 3223450000.0
+    },
+    {
+      "symbol": "PSN",
+      "score": 0.36303321245870435,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.4154139114210126,
+        "valuation": 0.40288450298220974,
+        "sector_breadth": 0.0
+      },
+      "shares": 108392000,
+      "market_cap": 5518236720.0
+    },
+    {
+      "symbol": "CCAP",
+      "score": 0.3611509911019448,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3333333333333333,
+        "valuation": 0.4446039644077791,
+        "sector_breadth": 0.0
+      },
+      "shares": 36923308,
+      "market_cap": 410587184.96
+    },
+    {
+      "symbol": "GPK",
+      "score": 0.35888616655759165,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.6355446662303665,
+        "sector_breadth": 0.0
+      },
+      "shares": 296700000,
+      "market_cap": 3265183500.0
+    },
+    {
+      "symbol": "MBBC",
+      "score": 0.35832452686747385,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.26643473003294443,
+        "valuation": 0.47343726945012854,
+        "sector_breadth": 0.0
+      },
+      "shares": 2744385,
+      "market_cap": 42537967.5
+    },
+    {
+      "symbol": "ADC",
+      "score": 0.3554771588941885,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.5056291899421087,
+        "valuation": 0.31853112161148883,
+        "sector_breadth": 0.0
+      },
+      "shares": 120375633,
+      "market_cap": 9268923741.0
+    },
+    {
+      "symbol": "ELAN",
+      "score": 0.3476882176311808,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.596675945622108,
+        "valuation": 0.23274730315145836,
+        "sector_breadth": 0.0
+      },
+      "shares": 506000000,
+      "market_cap": 12427360000.0
+    },
+    {
+      "symbol": "ROCK",
+      "score": 0.34715884279499754,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.4880848586631017,
+        "valuation": 0.29578445598212905,
+        "sector_breadth": 0.0
+      },
+      "shares": 29796000,
+      "market_cap": 1316983200.0
+    },
+    {
+      "symbol": "GWRS",
+      "score": 0.34225542766551664,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.5269018049031112,
+        "valuation": 0.2528806277201999,
+        "sector_breadth": 0.0
+      },
+      "shares": 28758361,
+      "market_cap": 208785700.85999998
+    },
+    {
+      "symbol": "MMSI",
+      "score": 0.34142532890450095,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3333333333333333,
+        "valuation": 0.36570131561800384,
+        "sector_breadth": 0.0
+      },
+      "shares": 60013000,
+      "market_cap": 4300531580.0
+    },
+    {
+      "symbol": "BOC",
+      "score": 0.3408504210360575,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.5223361402403833,
+        "valuation": 0.25,
+        "sector_breadth": 0.0
+      },
+      "shares": 30804628,
+      "market_cap": 416786616.84
+    },
+    {
+      "symbol": "RGR",
+      "score": 0.3404192100459991,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.4317041797677083,
+        "valuation": 0.30265433232337147,
+        "sector_breadth": 0.0
+      },
+      "shares": 16247380,
+      "market_cap": 621137337.4
+    },
+    {
+      "symbol": "SHAK",
+      "score": 0.3385636227940875,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.6631068254921402,
+        "valuation": 0.15639039588106596,
+        "sector_breadth": 0.0
+      },
+      "shares": 40289000,
+      "market_cap": 2293854215.0
+    },
+    {
+      "symbol": "STRZ",
+      "score": 0.3357477965004233,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.305750034093742,
+        "valuation": 0.35954116554544796,
+        "sector_breadth": 0.0
+      },
+      "shares": 16800000,
+      "market_cap": 484848000.0
+    },
+    {
+      "symbol": "ANIK",
+      "score": 0.33437181459775994,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.5337150380482422,
+        "valuation": 0.2172582355620944,
+        "sector_breadth": 0.0
+      },
+      "shares": 13531000,
+      "market_cap": 204047480.0
+    },
+    {
+      "symbol": "LWAY",
+      "score": 0.3335955125774531,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.37620285662265907,
+        "valuation": 0.30866033633621714,
+        "sector_breadth": 0.0
+      },
+      "shares": 15559000,
+      "market_cap": 457745780.0
+    },
+    {
+      "symbol": "EU",
+      "score": 0.3310321606493981,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3194505881450548,
+        "valuation": 0.33245828971055963,
+        "sector_breadth": 0.0
+      },
+      "shares": 191415846,
+      "market_cap": 257454312.87
+    },
+    {
+      "symbol": "PFBX",
+      "score": 0.330366199674911,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.521464798699644,
+        "sector_breadth": 0.0
+      },
+      "shares": 4617466,
+      "market_cap": 98121152.5
+    },
+    {
+      "symbol": "REI",
+      "score": 0.32952571598057256,
+      "insider_backed": true,
+      "insider_tier": "full",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.30794921764826166,
+        "valuation": 0.3333333333333333,
+        "sector_breadth": 0.0
+      },
+      "shares": 208558546,
+      "market_cap": 218986473.3
+    },
+    {
+      "symbol": "AVO",
+      "score": 0.32735309631624715,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.40140545527394844,
+        "valuation": 0.2685691121006195,
+        "sector_breadth": 0.0
+      },
+      "shares": 70783159,
+      "market_cap": 868509360.93
+    },
+    {
+      "symbol": "FGBI",
+      "score": 0.325,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.5,
+        "sector_breadth": 0.0
+      },
+      "shares": 15796040,
+      "market_cap": 168859667.6
+    },
+    {
+      "symbol": "MTEX",
+      "score": 0.325,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.5,
+        "sector_breadth": 0.0
+      },
+      "shares": 1931000,
+      "market_cap": 9770860.0
+    },
+    {
+      "symbol": "HUBS",
+      "score": 0.3244241974229956,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.555274394138056,
+        "valuation": 0.16453215320914882,
+        "sector_breadth": 0.0
+      },
+      "shares": 52578000,
+      "market_cap": 9751115880.0
+    },
+    {
+      "symbol": "FCN",
+      "score": 0.3240067551334656,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.4960270205338624,
+        "sector_breadth": 0.0
+      },
+      "shares": 30329000,
+      "market_cap": 4577859260.0
+    },
+    {
+      "symbol": "OFIX",
+      "score": 0.3208408238710767,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3889388258071782,
+        "valuation": 0.25,
+        "sector_breadth": 0.0
+      },
+      "shares": 40450000,
+      "market_cap": 394589750.00000006
+    },
+    {
+      "symbol": "DBD",
+      "score": 0.3202093477112343,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.4187789361441287,
+        "valuation": 0.22957002915846011,
+        "sector_breadth": 0.0
+      },
+      "shares": 35700000,
+      "market_cap": 3032001000.0000005
+    },
+    {
+      "symbol": "PATK",
+      "score": 0.31494441981061727,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.11415309109186056,
+        "valuation": 0.3912858245873526,
+        "sector_breadth": 0.0
+      },
+      "shares": 36047000,
+      "market_cap": 3428069700.0
+    },
+    {
+      "symbol": "BORR",
+      "score": 0.311231097890433,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.2012537816618503,
+        "valuation": 0.3241721225646219,
+        "sector_breadth": 0.0
+      },
+      "shares": 264547154,
+      "market_cap": 1150780119.8999999
+    },
+    {
+      "symbol": "FLNT",
+      "score": 0.3103542503074888,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3190283353832587,
+        "valuation": 0.25,
+        "sector_breadth": 0.0
+      },
+      "shares": 31332710,
+      "market_cap": 102771288.8
+    },
+    {
+      "symbol": "INR",
+      "score": 0.30410009862219933,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.17575323034448084,
+        "valuation": 0.3109484562821088,
+        "sector_breadth": 0.0
+      },
+      "shares": 17662870,
+      "market_cap": 228910795.20000002
+    },
+    {
+      "symbol": "CLNE",
+      "score": 0.30000000000000004,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.25,
+        "valuation": 0.25,
+        "sector_breadth": 0.0
+      },
+      "shares": 219667732,
+      "market_cap": 407483642.86
+    },
+    {
+      "symbol": "PAR",
+      "score": 0.29625836956521034,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.22505579710140214,
+        "valuation": 0.25,
+        "sector_breadth": 0.0
+      },
+      "shares": 40997000,
+      "market_cap": 692439330.0
+    },
+    {
+      "symbol": "HLNE",
+      "score": 0.295853440646551,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.6390229376436733,
+        "valuation": 0.0,
+        "sector_breadth": 0.0
+      }
+    },
+    {
+      "symbol": "NCEL",
+      "score": 0.2932881931034483,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.37315277241379313,
+        "sector_breadth": 0.0
+      },
+      "shares": 3843984,
+      "market_cap": 14607139.2
+    },
+    {
+      "symbol": "LODE",
+      "score": 0.29230420622215214,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.2,
+        "valuation": 0.24921682488860844,
+        "sector_breadth": 0.0
+      },
+      "shares": 36707660,
+      "market_cap": 158393552.9
+    },
+    {
+      "symbol": "ARTV",
+      "score": 0.2916029432542464,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.2923692282710559,
+        "valuation": 0.19099023605435206,
+        "sector_breadth": 0.0
+      },
+      "shares": 24678420,
+      "market_cap": 237899968.8
+    },
+    {
+      "symbol": "KRMD",
+      "score": 0.29105360646254724,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.6070240430836482,
+        "valuation": 0.0,
+        "sector_breadth": 0.0
+      },
+      "shares": 46364905,
+      "market_cap": 205860178.20000002
+    },
+    {
+      "symbol": "ACON",
+      "score": 0.2833333333333333,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.3333333333333333,
+        "sector_breadth": 0.0
+      },
+      "shares": 2129871,
+      "market_cap": 5974714.1292
+    },
+    {
+      "symbol": "AVBC",
+      "score": 0.2833333333333333,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.3333333333333333,
+        "sector_breadth": 0.0
+      },
+      "shares": 18557370,
+      "market_cap": 375230021.4
+    },
+    {
+      "symbol": "HRZN",
+      "score": 0.2833333333333333,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.3333333333333333,
+        "sector_breadth": 0.0
+      },
+      "shares": 47316637,
+      "market_cap": 209139535.54
+    },
+    {
+      "symbol": "INM",
+      "score": 0.2833333333333333,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.3333333333333333,
+        "sector_breadth": 0.0
+      },
+      "shares": 4048209,
+      "market_cap": 6234241.86
+    },
+    {
+      "symbol": "OXSQ",
+      "score": 0.2833333333333333,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.3333333333333333,
+        "sector_breadth": 0.0
+      },
+      "shares": 88278112,
+      "market_cap": 116527107.84
+    },
+    {
+      "symbol": "LILA",
+      "score": 0.2828212274618306,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.3064921992954202,
+        "valuation": 0.1473895902700703,
+        "sector_breadth": 0.0
+      },
+      "shares": 200300000,
+      "market_cap": 1428139000.0
+    },
+    {
+      "symbol": "AEBI",
+      "score": 0.2804982601430617,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.3219930405722467,
+        "sector_breadth": 0.0
+      },
+      "shares": 77406000,
+      "market_cap": 1012470480.0
+    },
+    {
+      "symbol": "CSPI",
+      "score": 0.2785931171236583,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.18741009940839384,
+        "valuation": 0.20192640884959684,
+        "sector_breadth": 0.0
+      },
+      "shares": 9713000,
+      "market_cap": 79646600.0
+    },
+    {
+      "symbol": "VIDA",
+      "score": 0.2737583992539048,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.2950335970156192,
+        "sector_breadth": 0.0
+      },
+      "shares": 4429508,
+      "market_cap": 12889868.280000001
+    },
+    {
+      "symbol": "FUN",
+      "score": 0.27189648491833246,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.4793098994555498,
+        "valuation": 0.0,
+        "sector_breadth": 0.0
+      },
+      "shares": 101485000,
+      "market_cap": 2234699700.0
+    },
+    {
+      "symbol": "XRAY",
+      "score": 0.26934594714213456,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.0,
+        "valuation": 0.2773837885685382,
+        "sector_breadth": 0.0
+      },
+      "shares": 199900000,
+      "market_cap": 2202898000.0
+    },
+    {
+      "symbol": "MYO",
+      "score": 0.2688099673429385,
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "insider_cluster": true,
+        "smart_money": false,
+        "activist_13d": false,
+        "quality": 0.45873311561958996,
+        "valuation": 0.0,
+        "sector_breadth": 0.0
+      },
+      "shares": 42269133,
+      "market_cap": 45439317.975
     }
   ],
-  "updated_at": "2026-06-28T23:16:41Z",
-  "mcap_filter_applied": true,
-  "max_mcap": 20000000000.0
+  "metadata": {
+    "total_universe": 10434,
+    "insider_backed": 210,
+    "after_mcap_filter": 100,
+    "full_tier": 55,
+    "half_tier": 45,
+    "valuation_nonzero": 142
+  }
 }
