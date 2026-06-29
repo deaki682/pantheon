@@ -1,0 +1,422 @@
+[
+  {
+    "symbol": "RTB",
+    "entry_date": "2026-06-29",
+    "entry_price": 11.73,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "ma_target",
+      "score": 0.24362618186345725,
+      "disqualified": false,
+      "neglect": 0.5476899966277323,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.2738449983138662,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "LRHC",
+    "entry_date": "2026-06-29",
+    "entry_price": 1.0867,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.23363887286014373,
+      "disqualified": false,
+      "neglect": 0.6207355513388739,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.310367775669437,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ADSK",
+    "entry_date": "2026-06-29",
+    "entry_price": 197.99,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.1787854153610048,
+      "disqualified": false,
+      "neglect": 0.4750000000000001,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.2375,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CAVA",
+    "entry_date": "2026-06-29",
+    "entry_price": 84.2295,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.2869859278143219,
+      "disqualified": false,
+      "neglect": 0.7624688818741182,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.3812344409370592,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "KMX",
+    "entry_date": "2026-06-29",
+    "entry_price": 53.4,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.3125245052712127,
+      "disqualified": false,
+      "neglect": 0.830320190074844,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.4151600950374221,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "XE",
+    "entry_date": "2026-06-29",
+    "entry_price": 19.45,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.24465372614805092,
+      "disqualified": false,
+      "neglect": 0.65,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.325,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "HLNE",
+    "entry_date": "2026-06-29",
+    "entry_price": 77.77,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.20802490180667166,
+      "disqualified": false,
+      "neglect": 0.5526839436494286,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.2763419718247144,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AVLN",
+    "entry_date": "2026-06-29",
+    "entry_price": 30.71,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.24465372607739214,
+      "disqualified": false,
+      "neglect": 0.65,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.325,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AVO",
+    "entry_date": "2026-06-29",
+    "entry_price": 12.3175,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.2853810727358214,
+      "disqualified": false,
+      "neglect": 0.7582050773433122,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.3791025386716562,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ODTX",
+    "entry_date": "2026-06-29",
+    "entry_price": 18.06,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.24465372599397556,
+      "disqualified": false,
+      "neglect": 0.65,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.325,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "TXO",
+    "entry_date": "2026-06-29",
+    "entry_price": 12.51,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "ma_target",
+      "score": 0.374971518687405,
+      "disqualified": false,
+      "neglect": 0.8429642118195841,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.4214821059097922,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "EROK",
+    "entry_date": "2026-06-29",
+    "entry_price": 21.09,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.2446537259400001,
+      "disqualified": false,
+      "neglect": 0.65,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.325,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "XRN",
+    "entry_date": "2026-06-29",
+    "entry_price": 37.27,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "ma_target",
+      "score": 0.383975667509735,
+      "disqualified": false,
+      "neglect": 0.8632062167240052,
+      "surprise_pct": null,
+      "insider_preactivity": true,
+      "concurrent_guidance": null,
+      "conviction": 1.9316031083620027,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "NEWT",
+    "entry_date": "2026-06-29",
+    "entry_price": 14.7,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.3548456701042913,
+      "disqualified": false,
+      "neglect": 0.9427597505755798,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.47137987528779,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "OTLK",
+    "entry_date": "2026-06-29",
+    "entry_price": 1.73,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.28856593303151595,
+      "disqualified": false,
+      "neglect": 0.7666666666666667,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.3833333333333333,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "LOVE",
+    "entry_date": "2026-06-29",
+    "entry_price": 16.929,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.23719140266946692,
+      "disqualified": false,
+      "neglect": 0.6301739784592854,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.3150869892296426,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "VRA",
+    "entry_date": "2026-06-29",
+    "entry_price": 4.04,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.2490394446992376,
+      "disqualified": false,
+      "neglect": 0.6616520494003938,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.3308260247001968,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "PFBX",
+    "entry_date": "2026-06-29",
+    "entry_price": 21.25,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.3650166037867291,
+      "disqualified": false,
+      "neglect": 0.9697820531101933,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.4848910265550965,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "GROW",
+    "entry_date": "2026-06-29",
+    "entry_price": 3.14,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.3043102069495118,
+      "disqualified": false,
+      "neglect": 0.8084963101663725,
+      "surprise_pct": null,
+      "insider_preactivity": true,
+      "concurrent_guidance": null,
+      "conviction": 1.9042481550831862,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AAP",
+    "entry_date": "2026-06-29",
+    "entry_price": 61.78,
+    "horizon_days": 10,
+    "source": "event",
+    "features": {
+      "event_class": "earnings_reaction",
+      "score": 0.22182912972334942,
+      "disqualified": false,
+      "neglect": 0.5893592420749025,
+      "surprise_pct": null,
+      "insider_preactivity": false,
+      "concurrent_guidance": null,
+      "conviction": 1.2946796210374512,
+      "liquidity": 0.6848566715013112
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  }
+]
