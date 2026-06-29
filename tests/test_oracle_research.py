@@ -312,3 +312,85 @@ def test_staleness_custom_thresholds():
     # Stale at 48-hour threshold
     flagged = check_staleness([d], age_hours=48)
     assert len(flagged) == 1
+
+
+# ---------- broker market-data verification ----------
+
+def test_broker_price_accepted_when_close():
+    d = make_dossier(
+        symbol="ACME", business="b", thesis="t",
+        scenarios={
+            "bull": {"target": 150, "probability": 0.3},
+            "base": {"target": 100, "probability": 0.5},
+            "bear": {"target": 50, "probability": 0.2},
+        },
+        ratings={"moat": 0.7, "runway": 0.7, "quality": 0.7, "management": 0.7},
+        citations=["acc-1"],
+        current_price=100.0,
+        broker_price=101.0,
+        broker_high_52w=140.0,
+        high_52w=139.0,
+    )
+    assert d["price_verified"] is True
+    assert d["broker_price"] == 101.0
+    assert d["high_52w"] == 140.0  # broker value is authoritative
+
+
+def test_broker_price_rejects_divergent_current_price():
+    from oracle.dossier_check import DossierError
+    with pytest.raises(DossierError, match="diverges"):
+        make_dossier(
+            symbol="ACME", business="b", thesis="t",
+            scenarios={
+                "bull": {"target": 150, "probability": 0.3},
+                "base": {"target": 100, "probability": 0.5},
+                "bear": {"target": 50, "probability": 0.2},
+            },
+            ratings={"moat": 0.7, "runway": 0.7, "quality": 0.7, "management": 0.7},
+            citations=["acc-1"],
+            current_price=100.0,
+            broker_price=80.0,  # 20% divergence — well above 5% tolerance
+        )
+
+
+def test_broker_high_52w_rejects_divergent():
+    from oracle.dossier_check import DossierError
+    with pytest.raises(DossierError, match="high_52w"):
+        make_dossier(
+            symbol="ACME", business="b", thesis="t",
+            scenarios={
+                "bull": {"target": 150, "probability": 0.3},
+                "base": {"target": 100, "probability": 0.5},
+                "bear": {"target": 50, "probability": 0.2},
+            },
+            ratings={"moat": 0.7, "runway": 0.7, "quality": 0.7, "management": 0.7},
+            citations=["acc-1"],
+            current_price=100.0,
+            broker_price=100.0,
+            high_52w=200.0,
+            broker_high_52w=140.0,  # LLM claimed 200 vs broker 140 — hallucinated
+        )
+
+
+def test_broker_high_52w_overrides_llm_value():
+    d = make_dossier(
+        symbol="ACME", business="b", thesis="t",
+        scenarios={
+            "bull": {"target": 150, "probability": 0.3},
+            "base": {"target": 100, "probability": 0.5},
+            "bear": {"target": 50, "probability": 0.2},
+        },
+        ratings={"moat": 0.7, "runway": 0.7, "quality": 0.7, "management": 0.7},
+        citations=["acc-1"],
+        current_price=100.0,
+        high_52w=138.0,
+        broker_price=100.0,
+        broker_high_52w=140.0,
+    )
+    # Broker value wins
+    assert d["high_52w"] == 140.0
+
+
+def test_no_broker_values_warns_unverified():
+    d = _make(price=100)
+    assert d.get("price_verified") is False

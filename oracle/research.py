@@ -32,6 +32,8 @@ def make_dossier(
     decline_explanation: str = "",
     going_concern_explanation: str = "",
     insider_tier: str = "full",
+    broker_price: float | None = None,
+    broker_high_52w: float | None = None,
 ) -> dict[str, Any]:
     """Build, validate, and return a dossier with derived fields filled in.
 
@@ -41,6 +43,11 @@ def make_dossier(
     `insider_tier` flows from the screen: "full" (insider-backed + cheap +
     quality), "half" (insider-backed but flagged). Stored on the dossier so
     size_book can apply tier-aware weighting.
+
+    `broker_price` and `broker_high_52w` are broker-sourced values fetched from
+    the market data API. When supplied, validate_dossier cross-checks them
+    against the LLM-supplied current_price/high_52w and rejects on >5%
+    divergence. The broker values are authoritative.
     """
     now = datetime.utcnow().isoformat()
     d: dict[str, Any] = {
@@ -59,15 +66,13 @@ def make_dossier(
         "sector": sector,
         "author": author,
         "created_at": now,
-        # priced_at records WHEN current_price was captured, separate from
-        # created_at. A rebalance that rewrites scenarios without re-pulling
-        # quotes leaves priced_at stale — the gap is the audit trail.
         "priced_at": now if current_price > 0 else None,
-        # scenario_price records what price the scenarios were anchored to.
-        # rescore updates current_price but leaves scenario_price alone —
-        # the gap between the two is real price drift since the thesis was written.
         "scenario_price": float(current_price) if current_price > 0 else None,
     }
+    if broker_price is not None:
+        d["broker_price"] = float(broker_price)
+    if broker_high_52w is not None:
+        d["broker_high_52w"] = float(broker_high_52w)
     validate_dossier(d)
     derived = compute_derived(d, current_price=current_price, horizon_years=horizon_years)
     d["derived"] = derived

@@ -6,11 +6,14 @@ A dossier MUST have:
   - bull target >= bear target
   - 4 ratings (moat, runway, quality, management) on [0, 1] (auto-scaled from [0, 10])
   - at least one citation (SEC filing accession or URL)
+  - broker-verified current_price and high_52w (when current_price > 0)
 """
 from __future__ import annotations
 
+import logging
 from typing import Any
 
+log = logging.getLogger(__name__)
 
 REQUIRED_SCENARIOS = ("bull", "base", "bear")
 REQUIRED_RATINGS = ("moat", "runway", "quality", "management")
@@ -25,6 +28,10 @@ MIN_DECLINE_EXPLANATION_CHARS = 80
 GOING_CONCERN_RUNWAY_THRESHOLD = 0.3
 GOING_CONCERN_LOSS_THRESHOLD = 0.80  # bear target < 20% of current price
 MIN_GOING_CONCERN_EXPLANATION_CHARS = 80
+
+# Broker cross-check: if the LLM-supplied price or 52w high diverges from
+# the broker value by more than this fraction, reject the dossier.
+PRICE_DIVERGENCE_TOLERANCE = 0.05
 
 
 def drawdown_from_high(current_price: float, high_52w: float) -> float:
@@ -105,6 +112,50 @@ def validate_dossier(d: dict[str, Any]) -> dict[str, Any]:
             f"{d['symbol']}: bull target ({scenarios['bull']['target']}) "
             f"< bear target ({scenarios['bear']['target']})"
         )
+
+    # Broker market-data verification: when broker values are present,
+    # cross-check against the LLM-supplied values and use the broker as
+    # authoritative. A >5% divergence means the LLM hallucinated the number.
+    current_price = d.get("current_price") or 0
+    broker_price = d.get("broker_price")
+    broker_high = d.get("broker_high_52w")
+    if current_price > 0:
+        if broker_price is not None and broker_price > 0:
+            divergence = abs(current_price - broker_price) / broker_price
+            if divergence > PRICE_DIVERGENCE_TOLERANCE:
+                raise DossierError(
+                    f"{d['symbol']}: current_price ${current_price:.2f} diverges "
+                    f"{divergence:.0%} from broker price ${broker_price:.2f} "
+                    f"(tolerance {PRICE_DIVERGENCE_TOLERANCE:.0%}). "
+                    f"Use the broker-sourced price."
+                )
+        elif broker_price is None:
+            log.warning(
+                "%s: no broker_price supplied — current_price $%.2f is unverified",
+                d.get("symbol"), current_price,
+            )
+            d["price_verified"] = False
+
+        if broker_high is not None and broker_high > 0:
+            high_52w_claimed = d.get("high_52w") or 0
+            if high_52w_claimed > 0:
+                divergence = abs(high_52w_claimed - broker_high) / broker_high
+                if divergence > PRICE_DIVERGENCE_TOLERANCE:
+                    raise DossierError(
+                        f"{d['symbol']}: high_52w ${high_52w_claimed:.2f} diverges "
+                        f"{divergence:.0%} from broker 52-week high ${broker_high:.2f} "
+                        f"(tolerance {PRICE_DIVERGENCE_TOLERANCE:.0%}). "
+                        f"Use the broker-sourced value."
+                    )
+            d["high_52w"] = broker_high
+        elif broker_high is None and (d.get("high_52w") or 0) > 0:
+            log.warning(
+                "%s: no broker_high_52w supplied — high_52w $%.2f is unverified",
+                d.get("symbol"), d.get("high_52w", 0),
+            )
+
+    if broker_price is not None and broker_high is not None:
+        d["price_verified"] = True
 
     # Falling-knife gate: if 52-week-high data is present and the name is down
     # past the threshold, the dossier must explain the decline. We record the
