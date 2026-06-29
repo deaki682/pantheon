@@ -3040,7 +3040,686 @@
       "decline_explanation": "Revenue declined 7.3% YoY in the nine months ending Dec 2025 driven by (1) OTT discounting via multi-month payment plans reducing ARPU despite subscriber growth, and (2) ongoing cord-cutting causing linear subscribers to fall from 7.36M to 4.97M. GAAP operating losses are amplified by large content impairment charges (28M in Q1 2026, 68M in Q1 2025) as management rationalizes the content portfolio post-spinoff, and by accelerated amortization of the Starz Traditional Affiliate intangible as MVPD revenue declines.",
       "sector": "Consumer Services",
       "cik": "0000929351"
+    },
+    {
+      "symbol": "ACCS",
+      "business": "ACCESS Newswire Inc. (rebranded from Issuer Direct Corporation in January 2025) is a Raleigh, NC-based communications platform serving 12,800+ public and private companies with press release distribution (under the ACCESS Newswire, Newswire.com, and PressRelease.com brands), media monitoring, investor relations websites, and earnings/event technologies. The company sold its SEC compliance/stock-transfer business to Equiniti Trust for $12M in February 2025, leaving it as a pure-play PR and IR communications SaaS provider with ~$12.2M ARR, 1,119 subscriptions, and 91 remote employees.",
+      "thesis": "The bull case rests on a genuine post-sale transformation: debt-free balance sheet, rising ARR per customer ($10,844 to $12,803 in one year), improving adjusted EBITDA margins (8% in 2024 to 14% in 2025), 92% subscription retention, and a stock trading below book value ($6.84 vs. $7.71 book) where CEO Balbirnie and two insiders have bought $236K at current levels. The bear case is that the core communications business is shrinking \u2014 revenue down 2% in FY2025 and another 3% in Q1 2026 \u2014 competing against PR Newswire (Cision), Business Wire (Berkshire Hathaway), and Globe Newswire with vastly superior brand and media relationships, a $14.15M goodwill impairment was taken in Q4 2024 on the Newswire.com tradename, and OCF collapsed from $3.16M to $0.56M in 2025. The bear case appears roughly priced in at 0.89x book value \u2014 not a hidden gem, but not a melting ice cube either if new ARR growth inflects; the outcome hinges on whether ACCESS Verified and social monitoring products can reverse the revenue decline.",
+      "scenarios": {
+        "bull": {
+          "target": 12.0,
+          "probability": 0.22
+        },
+        "base": {
+          "target": 7.5,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 3.5,
+          "probability": 0.28
+        }
+      },
+      "ratings": {
+        "moat": 0.18,
+        "runway": 0.42,
+        "quality": 0.38,
+        "management": 0.55
+      },
+      "citations": [
+        "0001683168-26-002018",
+        "0001683168-26-003723",
+        "0001683168-26-003696",
+        "0001683168-25-008210",
+        "0000843006-25-000041"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 6.84,
+      "high_52w": 13.1,
+      "decline_explanation": "The stock peaked at $13.10 in July 2025 on euphoria over the February 2025 sale of the compliance/stock-transfer business to Equiniti Trust for $12M, which produced a $6M after-tax gain, eliminated all debt, and triggered a rebranding to ACCESS Newswire. Once investors processed the reality \u2014 that the divested compliance segment had generated material revenue (its absence reduced consolidated topline by ~$5M annually), the remaining communications business was shrinking (down 2% in FY2025 and 3% in Q1 2026), a $14.15M goodwill impairment had been taken on the Newswire.com tradename, and OCF fell from $3.16M to $0.56M in 2025 \u2014 the stock retraced. The core business competes against PR Newswire (Cision) and Business Wire (Berkshire Hathaway), making market-share gains structurally difficult for a 91-person remote company, and the removal of the compliance segment's steady cash flow exposed the earnings fragility of the remaining business.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Technology Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T06:43:53.379093",
+      "priced_at": "2026-06-29T06:43:53.379093",
+      "scenario_price": 6.84,
+      "broker_price": 6.84,
+      "broker_high_52w": 13.1,
+      "price_verified": true,
+      "drawdown_from_high": 0.4778625954198473,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 7.370000000000001,
+        "expected_return": 0.07748538011695927,
+        "expected_cagr": 0.03801993242758073,
+        "asymmetry": 1.213857998289136,
+        "quality_mult": 0.8825000000000001,
+        "asymmetry_mult": 1.1017522399746396,
+        "potential_score": 0.03696664159416835
+      },
+      "conviction": 0.05143929252512647
+    },
+    {
+      "symbol": "VVV",
+      "business": "Valvoline Inc. is a pure-play automotive preventive maintenance retailer operating and franchising more than 2,400 quick-lube service centers (Valvoline Instant Oil Change, Oil Changers, and Great Canadian Oil Change brands) across the US and Canada, completing over 30 million services annually. The company divested its Global Products segment to Aramco in 2023 and has since focused on store-network expansion, including the December 2025 acquisition of Breeze Autocare (204 Oil Changers stores) for $637 million.",
+      "thesis": "The bull case rests on Valvoline's durable recurring-revenue model (oil changes every 3-5K miles), strong 8.2% same-store sales growth in Q2 FY2026, a rapidly expanding franchise network approaching 2,500 stores, and a 26% adjusted EBITDA margin that should improve with scale \u2014 insiders cluster-buying $451K reinforces conviction. The bear case centers on three risks: EV adoption gradually eroding the ICE addressable market (a slow but inevitable secular headwind), elevated post-Breeze leverage (~$1.6B long-term debt vs. ~$550M guided EBITDA implying ~2.9x net leverage), and competition from Jiffy Lube, dealerships, and independent quick-lubers constraining ticket growth. The reported P/E of 55x is misleading \u2014 on adjusted EPS guidance of ~$1.70 the real multiple is ~24x and EV/EBITDA is ~12x, a fair-but-not-cheap price for a leveraged franchise rollup consuming most OCF in growth capex; the bear risks appear only partially priced in as the stock near its 52-week high implies limited margin of safety if SSS momentum decelerates.",
+      "scenarios": {
+        "bull": {
+          "target": 62.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 47.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 28.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.7,
+        "quality": 0.6,
+        "management": 0.65
+      },
+      "citations": [
+        "0001674910-25-000135",
+        "0001674910-26-000045",
+        "0001674910-26-000040"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 40.2,
+      "high_52w": 41.33,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Consumer Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T06:43:53.379222",
+      "priced_at": "2026-06-29T06:43:53.379222",
+      "scenario_price": 40.2,
+      "broker_price": 40.2,
+      "broker_high_52w": 41.33,
+      "price_verified": true,
+      "drawdown_from_high": 0.02734091458988619,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 46.75,
+        "expected_return": 0.16293532338308458,
+        "expected_cagr": 0.07839479013164952,
+        "asymmetry": 2.1442622950819663,
+        "quality_mult": 1.15,
+        "asymmetry_mult": 1.4643299816236661,
+        "potential_score": 0.1320152178317999
+      },
+      "conviction": 0.17187665502569638
+    },
+    {
+      "symbol": "ADC",
+      "business": "Agree Realty Corporation is a net-lease REIT that acquires, develops, and operates single-tenant retail properties leased on a triple-net basis to leading necessity-based and investment-grade retailers across all 50 U.S. states, with 2,756 properties totaling ~55M sq ft as of Q1 2026. The company generates highly predictable cash flows through long-duration leases (11+ year weighted-average remaining term) to tenants including Walmart (5.6% of ABR), Tractor Supply (4.9%), Dollar General (3.9%), O'Reilly Auto Parts (3.0%), and TJX (3.0%), with ~68% of annualized base rent from investment-grade obligors.",
+      "thesis": "The bull case rests on ADC's fortress balance sheet (pro forma net debt/EBITDA 3.2x, $2.3B liquidity, no material maturities until 2028), accelerating AFFO growth (7.9% in Q1 2026, 5.4% guided for full-year at $4.54-4.58/share), an acquisition engine running at $1.4-1.6B/year at 7.1-7.2% cap rates well above cost of capital, and $2.9M in Agree family/director insider buying at $71-76 signaling deep management conviction. The bear case centers on REIT rate sensitivity \u2014 the 10-year yield remaining elevated compresses net lease multiples, 4.9x actual leverage leaves less cushion if cap rates reprice, and dollar store tenant stress (Dollar General's own operational struggles) could pressure occupancy. The bear case appears largely priced in at $77: ADC trades at 16.9x 2026 AFFO guidance midpoint, a meaningful discount to its 19-22x historical range, and the insider buying cluster at $71-76 provides a credible floor signal.",
+      "scenarios": {
+        "bull": {
+          "target": 96.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 87.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 65.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.72,
+        "runway": 0.75,
+        "quality": 0.82,
+        "management": 0.88
+      },
+      "citations": [
+        "0000917251-26-000013",
+        "0000917251-26-000046"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 77.03,
+      "high_52w": 82.08,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-29T06:43:53.379288",
+      "priced_at": "2026-06-29T06:43:53.379288",
+      "scenario_price": 77.03,
+      "broker_price": 77.03,
+      "broker_high_52w": 82.08,
+      "price_verified": true,
+      "drawdown_from_high": 0.06152534113060426,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 85.3,
+        "expected_return": 0.10736076853174081,
+        "expected_cagr": 0.05231210604636716,
+        "asymmetry": 2.365336658354114,
+        "quality_mult": 1.2925,
+        "asymmetry_mult": 1.5379651031002342,
+        "potential_score": 0.10398704518792146
+      },
+      "conviction": 0.1380456101256382
+    },
+    {
+      "symbol": "LWAY",
+      "business": "Lifeway Foods, Inc. is the dominant U.S. producer of drinkable kefir \u2014 a probiotic cultured dairy beverage \u2014 commanding roughly 80% of the domestic kefir market under its Lifeway, Fresh Made, GlenOaks Farms, and ProBugs brands sold through mainstream grocery, natural food, club, and foodservice channels. Founded in 1986 and headquartered in Morton Grove, IL, the company operates four owned manufacturing facilities and reported $212.5M in FY2025 net sales (+13.7% YoY), with Q1 2026 accelerating sharply to $63.0M (+36.7% YoY) as the Philadelphia plant ramp and distribution expansion hit stride.",
+      "thesis": "Bull: Lifeway is a structurally advantaged category captain with 80% market share in a probiotic niche growing at 10-15% annually, improving gross margins (27.5% in Q1 2026 vs. 23.9% a year earlier), Q1 2026 revenue acceleration to 37% YoY, and a $8.4M Divisadero/Zolezzi purchase in May 2026 \u2014 nearly 2% of market cap \u2014 signaling high-conviction at current prices; forward P/E of ~20x is undemanding for a branded food compounder with genuine dominant-niche moat. Bear: A 23% Danone stake overhang creates persistent secondary supply risk, governance tensions with CEO Julie Smolyansky and activists create headline risk, FY2025 FCF was -$16.4M as capex surged to $27.4M for Waukesha expansion (up to $50M more sanctioned through 2027), cash has compressed to $5.6M forcing revolver draws, and a credit covenant amendment was required in Q1 2026 to accommodate the investment cycle. The bear case is partially but not fully priced in at 14% off the 52-week high: the Danone overhang and negative FCF through the investment cycle are known risks, but the market has not fully discounted capex overrun or margin pressure scenarios.",
+      "scenarios": {
+        "bull": {
+          "target": 42.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 34.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 20.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.75,
+        "runway": 0.7,
+        "quality": 0.6,
+        "management": 0.45
+      },
+      "citations": [
+        "0001683168-26-001886",
+        "0001683168-26-003839",
+        "0001683168-25-001592",
+        "0001193125-24-259858"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 29.39,
+      "high_52w": 34.2,
+      "decline_explanation": "The 14.1% pullback from the Sep 2025 52-week high reflects three converging factors: FY2025 capex surged to $27.4M (vs. $6.7M in 2024) for the Waukesha plant and Philadelphia ramp, collapsing FCF to -$16.4M; Danone's 23% stake has been an active SC 13D filer with multiple 2024 amendments suggesting a potential block sale overhang; and a credit agreement amendment was required in Q1 2026 to exclude up to $50M of Waukesha capex from the fixed-charge coverage ratio covenant, signaling the investment cycle is larger and longer than initially telegraphed.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Consumer Non-Durables",
+      "author": "oracle",
+      "created_at": "2026-06-29T06:43:53.379320",
+      "priced_at": "2026-06-29T06:43:53.379320",
+      "scenario_price": 29.39,
+      "broker_price": 29.39,
+      "broker_high_52w": 34.2,
+      "price_verified": true,
+      "drawdown_from_high": 0.14064327485380124,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 32.9,
+        "expected_return": 0.11942837699897924,
+        "expected_cagr": 0.05803042347513765,
+        "asymmetry": 1.6115015974440892,
+        "quality_mult": 1.125,
+        "asymmetry_mult": 1.269449328427129,
+        "potential_score": 0.08287501737246232
+      },
+      "conviction": 0.11165303145405814
+    },
+    {
+      "symbol": "INFU",
+      "business": "InfuSystem Holdings provides ambulatory infusion pump rentals and services to oncology clinics, hospitals, and home-care patients across two segments: Patient Services (clinic-to-home DME rental billed to third-party payers, ~60% of revenue, high-margin) and Device Solutions (pump sales, rentals, and biomedical repair services, ~40% of revenue, lower-margin). The company's core Oncology Business \u2014 supplying 5-FU pumps for colorectal and other cancers \u2014 generates ~87% of Patient Services revenue and is underpinned by continuous chemotherapy infusion as the standard of care.",
+      "thesis": "Bull: InfuSystem is a capital-light infrastructure layer between oncologists and home infusion, with nearly 840 contracted payer networks, a proprietary pump fleet, same-day delivery logistics at seven U.S./Canada locations, and meaningful EBITDA margin expansion (14.4% in 2024 to 17.6% in 2025) driven by mix-shift toward higher-margin Patient Services; the GE Healthcare contract restructure ($7.1M annual headwind) is already absorbed in guidance, and CEO Lachance alongside two other insiders purchased $131K in May 2026 at sub-$200M market cap. Bear: Q1 2026 revenue declined 3.0% YoY due to the GE contract reset plus lapping a one-time software-update contract, Device Solutions is down 17% YoY, CMS competitive bidding and fee-schedule risk is perennial for a DME supplier, and at 8.6x EV/EBITDA much of the near-term margin story is reflected. The bear case is partially priced in \u2014 the 9% drawdown from the 52-week high and a sub-9x EV/EBITDA multiple for a growing healthcare services business suggest modest under-valuation if Patient Services growth is sustained and Q1 2026 Device headwinds are transitory.",
+      "scenarios": {
+        "bull": {
+          "target": 18.18,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 13.04,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 6.81,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.52,
+        "runway": 0.58,
+        "quality": 0.62,
+        "management": 0.65
+      },
+      "citations": [
+        "0001628280-26-012804",
+        "0001628280-26-032737",
+        "0001628280-25-048869",
+        "0001628280-25-012095"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 10.05,
+      "high_52w": 11.04,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Commercial Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T06:43:53.379343",
+      "priced_at": "2026-06-29T06:43:53.379343",
+      "scenario_price": 10.05,
+      "broker_price": 10.05,
+      "broker_high_52w": 11.04,
+      "price_verified": true,
+      "drawdown_from_high": 0.08967391304347816,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 13.336,
+        "expected_return": 0.3269651741293531,
+        "expected_cagr": 0.15193974414001055,
+        "asymmetry": 3.763888888888887,
+        "quality_mult": 1.0925,
+        "asymmetry_mult": 1.940074454470469,
+        "potential_score": 0.3220410497256089
+      },
+      "conviction": 0.36875337343680725
+    },
+    {
+      "symbol": "VTSI",
+      "business": "VirTra, Inc. designs and manufactures judgmental use-of-force training simulators and firearms training simulators sold primarily to law enforcement agencies, military branches, and corrections facilities in the U.S. and internationally. Revenue is generated through capital system sales (simulators and accessories), extended service warranties, the STEP subscription program (operating leases of simulators recognized ratably with 95% renewal rates), and customized software and content.",
+      "thesis": "Bull: At a $37M market cap with $17.9M in cash, the enterprise value is only ~$18M \u2014 less than 1x EV/Sales if revenue normalizes toward the FY2023 peak of $38.8M \u2014 and a $25.2M backlog (nearly 70% of annual revenue) is expected to convert mostly in H2 2026 as federal JAG/COPS grant programs reopen; the STEP subscription program (95% renewal, 19% of FY2025 revenue) provides a growing recurring floor. Bear: Revenue has declined three consecutive years ($38.8M \u2192 $26.4M \u2192 $22.4M \u2192 annualizing ~$15M from the Q1 2026 run-rate), the 79%+ government concentration makes the business structurally dependent on discretionary federal spending that has been actively cut under the current administration, and if the H2 2026 recovery fails to materialize cash could erode toward the share price. The bear case is partially but not fully priced in: the cash cushion provides multi-year runway, but if federal funding remains constrained through 2027, book value itself (~$3.92/share) could compress toward the current share price, offering limited margin of safety beyond cash.",
+      "scenarios": {
+        "bull": {
+          "target": 7.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 4.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 1.75,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.72,
+        "quality": 0.52,
+        "management": 0.55
+      },
+      "citations": [
+        "0001493152-26-012903",
+        "0001493152-26-022222",
+        "0001493152-26-022226",
+        "0001493152-25-021511",
+        "0001641172-25-022970"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 3.27,
+      "high_52w": 7.47,
+      "decline_explanation": "VTSI peaked at $7.47 on Aug 11, 2025 when Q2 FY2025 results showed +15% YoY revenue growth and $18.8M backlog. The stock then collapsed 56% as Q3 2025 results (reported Nov 10, 2025) revealed revenue plunged 29% YoY to $5.3M with an Adjusted EBITDA decline of 91%, reversing the positive trend. Full-year FY2025 revenue fell 15% to $22.4M (third consecutive annual decline from $38.8M in FY2023). Q1 2026 compounded the damage with revenue down 51% YoY to $3.5M and a $1.3M net loss. Root causes: (1) Trump administration transitions caused notable reductions in DoD-related program funding; (2) government continuing-resolution environments and shutdown threats froze DOJ COPS and JAG grant disbursements that law enforcement agencies rely on to fund simulator purchases; (3) international bookings with 6-12 month delivery timelines delayed revenue recognition into backlog; (4) customers literally could not accept delivery in Q1 2026 due to funding and procurement delays. Three consecutive quarters of missed expectations de-rated the stock from a recovery-story valuation to a distressed-government-vendor valuation.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Technology Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T06:43:53.379365",
+      "priced_at": "2026-06-29T06:43:53.379365",
+      "scenario_price": 3.27,
+      "broker_price": 3.27,
+      "broker_high_52w": 7.47,
+      "price_verified": true,
+      "drawdown_from_high": 0.5622489959839357,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 4.1875,
+        "expected_return": 0.28058103975535165,
+        "expected_cagr": 0.13162760648340122,
+        "asymmetry": 2.4539473684210527,
+        "quality_mult": 1.085,
+        "asymmetry_mult": 1.5665080173497525,
+        "potential_score": 0.22372233543397482
+      },
+      "conviction": 0.27356286885293424
+    },
+    {
+      "symbol": "NCDL",
+      "business": "Nuveen Churchill Direct Lending Corp. is a NYSE-listed business development company (listed January 2024) managed by Churchill Asset Management (a Nuveen/TIAA affiliate with $1T+ AUM) that originates and holds senior secured, floating-rate loans to private equity-backed U.S. middle market companies with EBITDA of $25M-$100M. As of Q1 2026, the portfolio totaled ~$1.98B at fair value across 150+ companies, predominantly first-lien debt, funded by $1.14B in credit facilities and $864M of net assets (NAV/share $17.50).",
+      "thesis": "Bull: At 0.73x P/B the market prices in credit losses far beyond what the reported data supports \u2014 non-accruals are only 1.28% of portfolio at cost (0.58% at FV), the portfolio marks at 97.7 cents on the dollar, NII covers the $0.38/quarter dividend at ~1.02x in Q1 2026, and three insiders bought $215K in May 2026; a re-rating toward 0.85-0.90x P/B as credit fears stabilize would imply 15-20% price appreciation plus a ~12% dividend yield. Bear: NII has declined 17.7% YoY as SOFR-linked yields compress alongside Fed rate cuts, non-accruals have risen 3.5x in one year (1 company at end-2024 to 5 companies by Q1 2026), NAV has eroded from $18.18 to $17.50, and leverage has crept to 1.32x debt/NAV \u2014 if credit losses accelerate, NAV could fall to $15-16/share and the dividend would need to be cut. The bear case is largely but not fully priced in at a 27% discount to NAV: institutional manager quality, thin-but-positive NII coverage, and insider buying suggest the discount is excessive relative to modest actual credit deterioration \u2014 though the NII compression trajectory warrants monitoring.",
+      "scenarios": {
+        "bull": {
+          "target": 15.4,
+          "probability": 0.2
+        },
+        "base": {
+          "target": 13.6,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 10.85,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.35,
+        "runway": 0.45,
+        "quality": 0.55,
+        "management": 0.72
+      },
+      "citations": [
+        "0001737924-26-000045",
+        "0001737924-26-000014",
+        "0001628280-25-023397",
+        "0001628280-25-008382"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 12.74,
+      "high_52w": 17.27,
+      "decline_explanation": "NCDL fell 26.2% from its July 2025 peak as the BDC sector broadly re-rated lower on three converging concerns: Fed rate cuts compressing floating-rate NII (NCDL's weighted average yield dropped ~94bps from FY2024 to FY2025, reducing NII by 17.7% YoY); rising non-accruals from 1 company at end-2024 to 5 companies by Q1 2026 signaling stressed LBO borrowers after years of high interest expense; and a sector-wide BDC discount expansion as investors rotated away from credit-sensitive income vehicles. NCDL's December 2023 NYSE IPO created an overhang of investors who bought near NAV and have since seen both NAV erosion and multiple compression.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-29T06:43:53.379390",
+      "priced_at": "2026-06-29T06:43:53.379390",
+      "scenario_price": 12.74,
+      "broker_price": 12.74,
+      "broker_high_52w": 17.27,
+      "price_verified": true,
+      "drawdown_from_high": 0.26230457440648525,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 13.134999999999998,
+        "expected_return": 0.03100470957613788,
+        "expected_cagr": 0.015384020740989435,
+        "asymmetry": 0.9382716049382713,
+        "quality_mult": 1.0175,
+        "asymmetry_mult": 0.9686442096757051,
+        "potential_score": 0.015162421358005449
+      },
+      "conviction": 0.021427695762175958
+    },
+    {
+      "symbol": "OTF",
+      "business": "Blue Owl Technology Finance Corp. is a publicly traded BDC (NYSE-listed June 2025) managing ~$14.9B in total assets across 203 portfolio companies, focused on providing first-lien senior secured debt to private equity-backed software and technology companies. It is externally managed by Blue Owl Capital (~$315B AUM) and is the largest dedicated technology-focused BDC by total assets, created via merger with OTF II in March 2025.",
+      "thesis": "Bull: At 0.64x P/B, OTF offers a 36% discount to a $16.49 NAV marked at 97 cents on the dollar and backed by 77.7% first-lien senior secured loans with a 0.1% non-accrual rate \u2014 one of the lowest in the BDC industry \u2014 suggesting the market is pricing in credit deterioration that has not materialized; insider buying of $195K by three executives in May 2026 and $350M+ in active buybacks at 82% of book signal high management conviction. Bear: Adjusted NII of $0.29/share does not cover the $0.35 base dividend (only GAAP NII of $0.37 does), the stock faced ongoing lock-up share releases completing June 2026, three Fed rate cuts durably compressed floating-rate income, and AI-driven disruption anxiety for software borrowers may widen credit spreads further. The bear case is partially but not fully priced in given the continued NII-to-dividend coverage risk and potential for private credit defaults to materialize.",
+      "scenarios": {
+        "bull": {
+          "target": 14.5,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 11.75,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 8.5,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.55,
+        "quality": 0.65,
+        "management": 0.72
+      },
+      "citations": [
+        "0001747777-26-000020",
+        "0001747777-26-000013",
+        "0001747777-25-267287",
+        "0001747777-25-194549"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 10.51,
+      "high_52w": 16.1,
+      "decline_explanation": "OTF fell 34.7% from its July 2025 peak of $16.10 due to five compounding factors: (1) Three Fed rate cuts (Sep-Dec 2025) compressed adjusted NII from ~$0.40+ to $0.29/share on the 96% floating-rate portfolio, raising dividend coverage concerns; (2) systematic monthly lock-up share releases Nov 2025 through June 2026 created persistent supply overhang; (3) Q4 2025 EPS missed consensus by 14%, triggering a 4.9% single-day drop; (4) AI disruption anxiety for software borrowers caused credit spread widening, producing $494M in unrealized losses in Q1 2026 alone and reducing NAV from $17.33 to $16.49/share; and (5) the broader BDC sector re-rated from ~0.97x to ~0.83x P/B amid private credit default fears, while OTF's tech concentration attracted a further sector-specific discount despite actual non-accruals of just 0.1% at fair value.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-29T06:43:53.379418",
+      "priced_at": "2026-06-29T06:43:53.379418",
+      "scenario_price": 10.51,
+      "broker_price": 10.51,
+      "broker_high_52w": 16.1,
+      "price_verified": true,
+      "drawdown_from_high": 0.34720496894409947,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 11.7625,
+        "expected_return": 0.11917221693625124,
+        "expected_cagr": 0.05790936139928893,
+        "asymmetry": 2.3820895522388064,
+        "quality_mult": 1.0925,
+        "asymmetry_mult": 1.5434019412449909,
+        "potential_score": 0.0976448322239129
+      },
+      "conviction": 0.1302005554924901
+    },
+    {
+      "symbol": "STRZ",
+      "business": "Starz Entertainment Corp. is a U.S. premium subscription video service delivering OTT streaming and traditional linear cable distribution, targeting women 18-49 and diverse audiences via franchises including Power, Outlander, BMF, and Spartacus. Spun off from Lions Gate Entertainment Corp. in May 2025, the company operates ~17.6M U.S. subscribers (12.7M OTT + 4.97M linear) and generates revenue via its direct-to-consumer app, MVPD deals (Comcast, Charter, DirecTV, DISH), and OTT platform partnerships (Amazon, Apple, Google, Hulu).",
+      "thesis": "Bull: Starz is executing a cost-rationalization post-spinoff with Adjusted OIBDA of $168.7M TTM, positive Q1 2026 operating cash flow ($73.2M), and management accelerating its 20% Adjusted OIBDA margin target to H2 2027 \u2014 one year ahead of prior guidance; OTT subs grew to 12.66M (from 11.77M), and at $485M market cap vs. ~$1.79B total assets the stock trades at ~2.9x TTM OIBDA with M&A optionality (poison pill enacted March 2026). Bear: Revenue is in structural decline (down 7.3% YoY in 9 months to Dec 2025, Q1 2026 down another 7.2%), GAAP net losses exceed $165M per quarter driven by massive content impairments (~$128M in Q1 2026 alone), $625M in total debt (3.1x leverage) leaves little margin for error, linear subscribers fell from 7.36M to 4.97M in one year, and a $185-205M film contract termination charge is coming in Q2-Q3 2026. The bear case is partially priced in: at ~2.9x TTM OIBDA the stock is cheap if management executes, but the 250%+ run from $8 to $29 in 2026 without GAAP profitability and compounding restructuring charges create meaningful downside if the margin thesis slips.",
+      "scenarios": {
+        "bull": {
+          "target": 48.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 30.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 14.0,
+          "probability": 0.3
+        }
+      },
+      "ratings": {
+        "moat": 0.35,
+        "runway": 0.42,
+        "quality": 0.3,
+        "management": 0.52
+      },
+      "citations": [
+        "0000929351-26-000031",
+        "0000929351-26-000011",
+        "0000929351-26-000030"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 28.98,
+      "high_52w": 29.25,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Consumer Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T06:43:53.379447",
+      "priced_at": "2026-06-29T06:43:53.379447",
+      "scenario_price": 28.98,
+      "broker_price": 28.98,
+      "broker_high_52w": 29.25,
+      "price_verified": true,
+      "drawdown_from_high": 0.009230769230769265,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 29.7,
+        "expected_return": 0.024844720496894457,
+        "expected_cagr": 0.012346146580750617,
+        "asymmetry": 1.0580774365821095,
+        "quality_mult": 0.8975,
+        "asymmetry_mult": 1.028628911018016,
+        "potential_score": 0.01139789397308211
+      },
+      "conviction": 0.01615085900058366
+    },
+    {
+      "symbol": "NWFL",
+      "business": "Norwood Financial Corp is the holding company for Wayne Bank, a community bank founded in 1870 and headquartered in Honesdale, PA, serving northeastern Pennsylvania (Pocono Mountains/Lake region) and adjacent New Jersey markets with approximately $2.9 billion in assets following its January 2026 acquisition of PB Bankshares and Presence Bank.",
+      "thesis": "Bull: NWFL trades at just 12x trailing earnings and 1.25x book while generating a 3.68% NIM (Q1 2026, improving +38bp YoY), sub-0.5% NPLs, and a 3.9% dividend yield \u2014 deeply discounted relative to regional M&A multiples of 1.4-1.7x TBV ($36-44/share), with four insiders buying at $28-30 now vindicated as the stock hits its 52-week high. Bear: The January 2026 PB Bankshares acquisition ($456M assets) caused Q1 2026 ROA to drop to 0.53% and ROE to 5.22% annualized from 10.73% as merger costs weigh; geographic concentration in resort/vacation real estate makes credit quality cyclically vulnerable, and falling rates could modestly compress NIM in Year 2. The bear case (transient merger dilution and modest rate risk) appears largely priced in at 1.25x book \u2014 normalized earnings recovery and M&A optionality provide upside not reflected in a 12x earnings multiple.",
+      "scenarios": {
+        "bull": {
+          "target": 42.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 36.0,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 26.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.52,
+        "runway": 0.55,
+        "quality": 0.68,
+        "management": 0.7
+      },
+      "citations": [
+        "0001013272-26-000005",
+        "0001013272-26-000003",
+        "0001562762-25-000042"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 32.49,
+      "high_52w": 32.49,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-29T06:43:53.379468",
+      "priced_at": "2026-06-29T06:43:53.379468",
+      "scenario_price": 32.49,
+      "broker_price": 32.49,
+      "broker_high_52w": 32.49,
+      "price_verified": true,
+      "drawdown_from_high": 0.0,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 35.800000000000004,
+        "expected_return": 0.10187750076946767,
+        "expected_cagr": 0.049703529940462676,
+        "asymmetry": 2.1979969183359,
+        "quality_mult": 1.1125,
+        "asymmetry_mult": 1.482564304958102,
+        "potential_score": 0.08197865574366273
+      },
+      "conviction": 0.11051475977074554
+    },
+    {
+      "symbol": "WHF",
+      "business": "WhiteHorse Finance is an externally managed business development company overseen by H.I.G. WhiteHorse Advisers (an affiliate of H.I.G. Capital), providing first-lien and second-lien debt financing to lower middle market U.S. companies with EBITDA of $10M-$50M. As of Q1 2026, it holds a $543M portfolio at fair value across approximately 60+ portfolio companies, funded by $328.5M in borrowings and $250.3M in net assets.",
+      "thesis": "WHF trades at 0.57x NAV ($6.59 vs $11.47/share), an extreme discount that prices in material credit deterioration \u2014 yet non-accruals improved sharply from $79.6M (Q1 2025) to $29.6M (Q1 2026, ~5.5% of portfolio), suggesting the worst credit stress is receding. The bear case is real: NII persistently undercovered the dividend (78.5% coverage in FY2025), the dividend was already cut 33% from $0.39 to $0.26/quarter, NAV has eroded 10.9% since FY2024, and leverage at 1.26x D/E leaves limited buffer. The bull case rests on insider conviction \u2014 CEO Aronson and directors bought $767K near current levels \u2014 combined with 0.57x P/B implying so much bad news is priced in that even a reversion to 0.65-0.70x NAV would yield 14-22% upside; whether that materializes depends on whether Q1 2026's near-parity NII coverage ($0.25 NII vs $0.26 dividend) proves durable.",
+      "scenarios": {
+        "bull": {
+          "target": 8.6,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 6.83,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 4.95,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.25,
+        "runway": 0.3,
+        "quality": 0.3,
+        "management": 0.45
+      },
+      "citations": [
+        "0001104659-26-056683",
+        "0001104659-26-024735",
+        "0001558370-25-002455"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 6.59,
+      "high_52w": 9.28,
+      "decline_explanation": "WHF fell 29% from its July 2025 high driven by persistent NII undercoverage of the dividend (78.5% in FY2025) leading to a 33% dividend cut from $0.39 to $0.26/quarter, NAV erosion from 12.87 to 11.47/share, and elevated non-accruals peaking at $79.6M (Q1 2025). The BDC sector broadly re-rated lower on rate-cut-driven NII compression and middle-market credit concerns. The 29% drawdown is just under the 30% falling-knife threshold \u2014 the near miss reflects that the dividend cut and NAV erosion were significant events, though credit quality has since improved.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-29T06:43:53.379489",
+      "priced_at": "2026-06-29T06:43:53.379489",
+      "scenario_price": 6.59,
+      "broker_price": 6.59,
+      "broker_high_52w": 9.28,
+      "price_verified": true,
+      "drawdown_from_high": 0.2898706896551724,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 6.802499999999999,
+        "expected_return": 0.03224582701062206,
+        "expected_cagr": 0.015994993595254803,
+        "asymmetry": 1.2256097560975612,
+        "quality_mult": 0.825,
+        "asymmetry_mult": 1.107072606515743,
+        "potential_score": 0.014608785881828613
+      },
+      "conviction": 0.02065342912486634
+    },
+    {
+      "symbol": "NEWT",
+      "business": "NewtekOne, Inc. is a Maryland-based bank holding company (Newtek Bank, N.A.) that converted from a BDC to a bank charter in 2023, originating government-guaranteed SBA 7(a) loans (50-90% SBA guarantee) to SMBs and selling guaranteed portions at a premium (~111% of par) while retaining unguaranteed tranches and servicing rights. Beyond SBA lending, the company provides SMBs with commercial banking (deposits, C&I, CRE loans), electronic payment processing (~$44M annual revenue), payroll/benefits solutions, and insurance services, targeting the 34-million SMB market through its proprietary NewTracker referral platform.",
+      "thesis": "Bull: NEWT trades at 6.5x P/E and ~1.07x tangible book while growing assets 33% YoY (to $2.74B in 2025, $2.89B by Q1 2026), deposits 90% in 18 months, and net income from $50.9M to $60.5M; the SBA 7(a) PLP status provides a structural origination moat, the 21.8% total risk-based capital ratio is fortress-like, and CEO Barry Sloane's continued insider buying signals conviction in the value gap at essentially the 52-week high. Bear: Non-performing assets have risen sharply from 4.6% to 5.9% of assets in 12 months (NPA $95M to $171M), SBA 7(a) origination volume fell 19% in 2025 ($943M to $768M), NIM is compressing (3.04% to 2.70% QoQ), and the gain-on-sale line is volatile \u2014 the 10-K explicitly flags government shutdown risk that can freeze SBA 7(a) approvals. The bear case is partially priced in: the 5.9% NPA overstates true loss severity because SBA guarantees absorb 50-90% of the SBA portion, and at 1.07x book the multiple already reflects the complexity discount; the key risk is a sustained SMB recession driving charge-offs on unguaranteed retained tranches.",
+      "scenarios": {
+        "bull": {
+          "target": 22.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 16.5,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 10.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.58,
+        "runway": 0.7,
+        "quality": 0.52,
+        "management": 0.72
+      },
+      "citations": [
+        "0001628280-26-016503",
+        "0001587987-26-000004",
+        "0001587987-25-000050"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 14.69,
+      "high_52w": 14.91,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-29T06:43:53.379509",
+      "priced_at": "2026-06-29T06:43:53.379509",
+      "scenario_price": 14.69,
+      "broker_price": 14.69,
+      "broker_high_52w": 14.91,
+      "price_verified": true,
+      "drawdown_from_high": 0.014755197853789426,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 16.525,
+        "expected_return": 0.12491490810074879,
+        "expected_cagr": 0.06062005831529915,
+        "asymmetry": 1.8703624733475481,
+        "quality_mult": 1.13,
+        "asymmetry_mult": 1.3676119600776926,
+        "potential_score": 0.09368232995304962
+      },
+      "conviction": 0.1252629043905309
     }
   ],
-  "saved_at": "2026-06-29T06:37:55.225958"
+  "saved_at": "2026-06-29T06:43:53.379624"
 }
