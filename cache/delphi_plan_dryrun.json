@@ -1,84 +1,64 @@
 {
-  "date": "2026-06-28",
-  "regime": "risk_on",
-  "breadth": 0.7272727272727273,
-  "spy_1m": -0.028609119739892885,
-  "spy_3m": 0.13005937156055736,
-  "risk_budget": 1.0,
-  "sectors": [
-    "technology",
-    "industrials",
-    "real_estate"
-  ],
-  "picks": {
+  "generated_at": "2026-06-29",
+  "mode": "paper",
+  "plan": {
+    "regime": "risk_on",
+    "breadth": 0.7272727272727273,
+    "spy_1m": -0.028609119739892885,
+    "spy_3m": 0.13005937156055736,
+    "risk_budget": 1.0,
+    "sectors": [
+      "technology",
+      "industrials",
+      "real_estate"
+    ]
+  },
+  "sector_scores": {
+    "technology": 0.2987,
+    "financials": 0.0223,
+    "energy": -0.0408,
+    "healthcare": 0.0619,
+    "industrials": 0.1174,
+    "staples": 0.0335,
+    "discretionary": -0.0368,
+    "utilities": 0.0183,
+    "real_estate": 0.1005,
+    "materials": 0.0535,
+    "communication": -0.1038
+  },
+  "picks_by_sector": {
     "technology": [
-      {
-        "symbol": "AVGO",
-        "sector": "technology",
-        "momentum": 0.17971009808832794,
-        "quality": 0.0,
-        "score": 0.17971009808832794
-      },
-      {
-        "symbol": "NVDA",
-        "sector": "technology",
-        "momentum": 0.12432842793739773,
-        "quality": 0.0,
-        "score": 0.12432842793739773
-      }
+      "AMD",
+      "CSCO"
     ],
     "industrials": [
-      {
-        "symbol": "CAT",
-        "sector": "industrials",
-        "momentum": 0.41849286821484943,
-        "quality": 0.0,
-        "score": 0.41849286821484943
-      },
-      {
-        "symbol": "GE",
-        "sector": "industrials",
-        "momentum": 0.2936474547749264,
-        "quality": 0.0,
-        "score": 0.2936474547749264
-      }
+      "CAT",
+      "GE"
     ],
     "real_estate": [
-      {
-        "symbol": "SPG",
-        "sector": "real_estate",
-        "momentum": 0.2480198019801978,
-        "quality": 0.0,
-        "score": 0.2480198019801978
-      },
-      {
-        "symbol": "PSA",
-        "sector": "real_estate",
-        "momentum": 0.21036528487743,
-        "quality": 0.0,
-        "score": 0.21036528487743
-      }
+      "PSA",
+      "EQIX"
     ]
   },
   "targets": {
-    "AVGO": 177.32301932662517,
-    "NVDA": 122.67698067337484,
-    "CAT": 176.2965196765825,
-    "GE": 123.7034803234175,
-    "SPG": 162.3219051565032,
-    "PSA": 137.6780948434968
+    "AMD": 200.0,
+    "CSCO": 59.36,
+    "CAT": 176.3,
+    "GE": 123.7,
+    "PSA": 183.92,
+    "EQIX": 116.08
   },
-  "orders": [
+  "planned_orders": [
     {
       "side": "buy",
-      "symbol": "AVGO",
-      "dollars": 177.32301932662517,
+      "symbol": "AMD",
+      "dollars": 200.0,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
-      "symbol": "NVDA",
-      "dollars": 122.67698067337484,
+      "symbol": "CSCO",
+      "dollars": 59.36117082322615,
       "reason": "open_or_add"
     },
     {
@@ -95,19 +75,21 @@
     },
     {
       "side": "buy",
-      "symbol": "SPG",
-      "dollars": 162.3219051565032,
+      "symbol": "PSA",
+      "dollars": 183.92002442274423,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
-      "symbol": "PSA",
-      "dollars": 137.6780948434968,
+      "symbol": "EQIX",
+      "dollars": 116.07997557725578,
       "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "SPY",
+      "dollars": 40.63882917677381,
+      "reason": "spy_overlay"
     }
-  ],
-  "overlay_orders": [],
-  "paper_mode": true,
-  "pre_trade_check_failed": true,
-  "mismatches_count": 45
+  ]
 }

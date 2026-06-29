@@ -1,48 +1,61 @@
 {
-  "timestamp": "2026-06-28T00:00:00Z",
+  "timestamp": "2026-06-29T02:59:55.443941+00:00",
   "regime": "risk_on",
-  "spy_1m": -0.028609119739892885,
-  "spy_3m": 0.13005937156055736,
-  "breadth": 0.7272727272727273,
+  "spy_1m": -0.0286,
+  "spy_3m": 0.1301,
+  "breadth": 0.7273,
   "risk_budget": 1.0,
   "sectors": [
     "technology",
     "industrials",
     "real_estate"
   ],
+  "sector_scores": {
+    "technology": 0.2987,
+    "industrials": 0.1174,
+    "real_estate": 0.1005,
+    "healthcare": 0.0619,
+    "materials": 0.0535,
+    "staples": 0.0335,
+    "financials": 0.0223,
+    "utilities": 0.0183,
+    "discretionary": -0.0368,
+    "energy": -0.0408,
+    "communication": -0.1038
+  },
   "picks": {
     "technology": [
-      "AVGO",
-      "NVDA"
+      "AMD",
+      "CSCO"
     ],
     "industrials": [
       "CAT",
       "GE"
     ],
     "real_estate": [
-      "SPG",
-      "PSA"
+      "PSA",
+      "EQIX"
     ]
   },
   "targets": {
-    "AVGO": 177.32301932662517,
-    "NVDA": 122.67698067337484,
-    "CAT": 176.2965196765825,
-    "GE": 123.7034803234175,
-    "SPG": 162.3219051565032,
-    "PSA": 137.6780948434968
+    "AMD": 200.0,
+    "CSCO": 59.36,
+    "CAT": 176.3,
+    "GE": 123.7,
+    "PSA": 183.92,
+    "EQIX": 116.08
   },
   "planned_orders": [
     {
       "side": "buy",
-      "symbol": "AVGO",
-      "dollars": 177.32301932662517,
+      "symbol": "AMD",
+      "dollars": 200.0,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
-      "symbol": "NVDA",
-      "dollars": 122.67698067337484,
+      "symbol": "CSCO",
+      "dollars": 59.36117082322615,
       "reason": "open_or_add"
     },
     {
@@ -59,20 +72,23 @@
     },
     {
       "side": "buy",
-      "symbol": "SPG",
-      "dollars": 162.3219051565032,
+      "symbol": "PSA",
+      "dollars": 183.92002442274423,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
-      "symbol": "PSA",
-      "dollars": 137.6780948434968,
+      "symbol": "EQIX",
+      "dollars": 116.07997557725578,
       "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "SPY",
+      "dollars": 40.63882917677381,
+      "reason": "spy_overlay"
     }
   ],
-  "overlay_orders": [],
-  "paper_mode": true,
-  "pre_trade_check_failed": true,
-  "pre_trade_mismatches": 45,
-  "notes": "PAPER MODE \u2014 DELPHI_LIVE not set. Pre-trade check: 45 broker positions untracked by sleeves. Run /oracle-reconcile before live trading."
+  "mode": "paper",
+  "note": "PAPER MODE \u2014 no orders placed"
 }
