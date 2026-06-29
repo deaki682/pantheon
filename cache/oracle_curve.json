@@ -206,5 +206,46 @@
     "n_positions": 0,
     "positions": {},
     "note": "paper cycle \u2014 PAPER MODE, no orders placed"
+  },
+  {
+    "ts": "2026-06-29T04:11:59.038408+00:00",
+    "equity": 999.52401718035,
+    "cash": 99.55219779835002,
+    "n_positions": 8,
+    "positions": {
+      "VITL": {
+        "shares": 10.87941,
+        "avg_price": 11.03
+      },
+      "PSN": {
+        "shares": 2.35571,
+        "avg_price": 50.94
+      },
+      "HDSN": {
+        "shares": 21.58273,
+        "avg_price": 5.56
+      },
+      "CXT": {
+        "shares": 2.4671,
+        "avg_price": 48.64
+      },
+      "J": {
+        "shares": 0.95472,
+        "avg_price": 125.69
+      },
+      "MRP": {
+        "shares": 3.87972,
+        "avg_price": 30.93
+      },
+      "ACM": {
+        "shares": 1.68634,
+        "avg_price": 71.16
+      },
+      "EQPT": {
+        "shares": 2.89156,
+        "avg_price": 20.75
+      }
+    },
+    "note": "oracle cycle: 8 buy orders queued (VITL/PSN/HDSN/CXT/J/MRP/ACM/EQPT)"
   }
 ]

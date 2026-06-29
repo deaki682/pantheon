@@ -1,14 +1,63 @@
 {
-  "name": "oracle",
-  "cash": 1000.0,
-  "positions": {},
-  "pending_settlements": [],
-  "realized_pnl": 0.0,
-  "gfv_count": 0,
-  "trades_count": 0,
-  "cooldowns": {},
-  "halted": false,
+  "cash": 99.55219779835002,
   "contributed_cash": 1000.0,
   "cooldown_days": 31,
-  "peak_equity": 1000.0
+  "cooldowns": {},
+  "gfv_count": 0,
+  "halted": false,
+  "name": "oracle",
+  "peak_equity": 1000.0,
+  "pending_settlements": [],
+  "positions": {
+    "ACM": {
+      "avg_price": 71.16,
+      "entry_date": "2026-06-29",
+      "sector": "Industrial Services",
+      "shares": 1.68634
+    },
+    "CXT": {
+      "avg_price": 48.64,
+      "entry_date": "2026-06-29",
+      "sector": "Producer Manufacturing",
+      "shares": 2.4671
+    },
+    "EQPT": {
+      "avg_price": 20.75,
+      "entry_date": "2026-06-29",
+      "sector": "Technology Services",
+      "shares": 2.89156
+    },
+    "HDSN": {
+      "avg_price": 5.56,
+      "entry_date": "2026-06-29",
+      "sector": "Distribution Services",
+      "shares": 21.58273
+    },
+    "J": {
+      "avg_price": 125.69,
+      "entry_date": "2026-06-29",
+      "sector": "Technology Services",
+      "shares": 0.95472
+    },
+    "MRP": {
+      "avg_price": 30.93,
+      "entry_date": "2026-06-29",
+      "sector": "Finance",
+      "shares": 3.87972
+    },
+    "PSN": {
+      "avg_price": 50.94,
+      "entry_date": "2026-06-29",
+      "sector": "Technology Services",
+      "shares": 2.35571
+    },
+    "VITL": {
+      "avg_price": 11.03,
+      "entry_date": "2026-06-29",
+      "sector": "Process Industries",
+      "shares": 10.87941
+    }
+  },
+  "realized_pnl": 0.0,
+  "trades_count": 8
 }
