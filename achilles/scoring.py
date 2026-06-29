@@ -142,17 +142,12 @@ def score_event(
     disqualifier_flags: Iterable[str] = (),
     now: Optional[datetime] = None,
 ) -> dict:
-    """Compute the multiplicative score. Disqualifiers zero it out.
+    """Compute the multiplicative score.
 
-    The neglect parameter (if provided) replaces company_quality in the
-    scoring formula. This inverts the quality signal: neglected stocks
-    score HIGHER because PEAD drift is strongest where coverage is thin.
+    Disqualifiers and disabled playbooks are flagged in the output but
+    do NOT zero the score — the LLM decides whether to proceed. The
+    score is always computed so the LLM has full information.
     """
-    if playbook.disabled:
-        return {"score": 0.0, "reason": "playbook_disabled"}
-    if has_disqualifier(disqualifier_flags, playbook.event_class):
-        return {"score": 0.0, "reason": "disqualified"}
-
     quality_factor = neglect if neglect is not None else company_quality
     liq = liquidity_score(market_cap)
     td = time_decay(first_seen_iso, now=now)
@@ -163,7 +158,7 @@ def score_event(
         * max(0.0, liq)
         * max(0.0, td)
     )
-    return {
+    result = {
         "score": raw,
         "components": {
             "base_rate": playbook.base_rate,
@@ -173,3 +168,9 @@ def score_event(
             "time_decay": td,
         },
     }
+    if playbook.disabled:
+        result["advisory"] = "playbook_disabled"
+    if has_disqualifier(disqualifier_flags, playbook.event_class):
+        result["advisory"] = "disqualified"
+        result["disqualifier_flags"] = list(disqualifier_flags)
+    return result

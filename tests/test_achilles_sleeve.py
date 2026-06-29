@@ -97,11 +97,12 @@ def test_open_event_keyed_same_symbol_two_events():
     assert s.positions["e1"].symbol == s.positions["e2"].symbol == "ACME"
 
 
-def test_open_blocked_by_min_score():
+def test_open_low_score_allowed():
+    """Score threshold is advisory — LLM decides, sleeve doesn't block."""
     s = AchillesSleeve(initial_cash=10000)
     args = _open_args()
-    args["score"] = 0.01  # below 0.05 threshold
-    assert s.open(**args) is None
+    args["score"] = 0.01
+    assert s.open(**args) is not None
 
 
 def test_open_blocked_when_halted():
@@ -121,7 +122,8 @@ def test_open_blocked_by_max_concurrent():
     assert s.open(**args) is None
 
 
-def test_open_blocked_by_trades_today():
+def test_open_past_daily_limit_allowed():
+    """Daily limit is advisory — LLM decides, sleeve doesn't block."""
     s = AchillesSleeve(initial_cash=10000)
     for i in range(MAX_TRADES_PER_DAY):
         args = _open_args()
@@ -129,7 +131,7 @@ def test_open_blocked_by_trades_today():
         s.open(**args)
     args = _open_args()
     args["event_id"] = "extra"
-    assert s.open(**args) is None
+    assert s.open(**args) is not None
 
 
 def test_trades_today_resets_on_new_day():
@@ -195,12 +197,13 @@ def test_persistence_roundtrip(tmp_path):
     assert s2.positions["e1"].symbol == "ACME"
 
 
-def test_cooldown_blocks_reentry():
+def test_cooldown_advisory_not_enforced():
+    """Cooldown is advisory — LLM decides, sleeve doesn't block."""
     s = AchillesSleeve(initial_cash=10000, conservative_mode=False)
     s.add_cooldown("ACME", "2024-05-29")
     args = _open_args()
     args["today"] = "2024-06-15"
-    assert s.open(**args) is None
+    assert s.open(**args) is not None
 
 
 def test_cooldown_expires():

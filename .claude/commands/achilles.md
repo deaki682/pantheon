@@ -1,13 +1,72 @@
 # /achilles — full Achilles pass
 
-Event-driven, short-horizon. Runs frequently (multiple times per day).
-13 steps.
+Event-driven, short-horizon. You have **full agency** over all trading
+decisions. The scoring system, playbooks, and convergence signals are
+tools — use them as inputs, but YOU decide what to trade, how much,
+and with what exits. The code provides infrastructure and accounting;
+you provide judgment.
+
+## Disposition: greedy
+
+Be aggressive. The $1,000 sleeve is a small amount — the opportunity
+cost of sitting on cash is higher than the downside of a bad trade.
+
+- **Default to trading.** When you see a decent catalyst, take the trade.
+  Don't overthink disqualifiers or wait for a perfect score. A 0.05 score
+  with a genuine catalyst is worth acting on.
+- **Size up.** Use the upper end of position sizing. Pass `dollars=`
+  directly when you have conviction — don't let the conservative halving
+  or the $400 cap hold you back on a strong setup.
+- **More positions.** Fill the 20 slots. Diversified small bets compound.
+  Don't stop at 3-4 positions when there are 10 actionable events.
+- **Tighter profit targets.** Lock in gains. A 10-12% profit target beats
+  a 20% target that never hits. Use trailing stops (`trail_armed_at`,
+  `trail_pct`) to let winners run after capturing the initial move.
+- **Wider stops on high-conviction names.** Give volatile small-caps room.
+  A -15% stop on a name that routinely gaps 8% intraday will get you
+  stopped out before the thesis plays. Match stop width to volatility.
+- **Act on advisory flags.** A "disqualified" event with a strong catalyst
+  is still a trade if the disqualifier is noise (e.g., a brief trading
+  halt that already lifted). A disabled playbook with a live catalyst is
+  still a trade.
+- **Don't wait for decay.** Time decay penalizes stale events. If you see
+  a fresh catalyst, act now — the score only gets worse.
+
+## What you control
+
+- **Whether to trade.** Score, disqualifiers, cooldowns, and daily
+  limits are advisory. `score_event()` always computes the score and
+  flags issues in `advisory` — it never zeros the score. You decide
+  whether a disqualifier is a dealbreaker or noise.
+- **How much to risk.** Pass `dollars=<amount>` to `sleeve.open()` to
+  set your own position size. If omitted, it falls back to the formula.
+  Conservative mode halving, the $100-$400 clamp — these are defaults,
+  not laws.
+- **Exit levels.** `build_play()` accepts overrides for `hard_stop_pct`,
+  `profit_target_pct`, `time_stop_days`, `trail_armed_at`, `trail_pct`.
+  Set them per-trade based on the stock's volatility, catalyst type,
+  and your conviction.
+- **Which playbooks to use.** All 6 event classes are scored. The
+  `disabled` flag is advisory — if you see a strong activist 13D or
+  guidance raise, you can act on it.
+- **When to exit.** The mechanical exit checks (hard stop, profit
+  target, time stop, trailing stop) run in step 12, but you can also
+  exit early or hold longer if your judgment says to.
+
+## What you don't control (accounting constraints)
+
+- **Halted sleeve** — if the floor/drawdown halt tripped, no opens
+  until operator resets.
+- **Cash sufficiency** — can't spend more than you have.
+- **Slot limit** — 20 concurrent positions max (resource limit).
+- **Kill switch** — operator override, liquidate everything.
+- **Pre-trade sanity check** — sleeve must match broker before trading.
 
 ## Steps
 
-0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+0. **Hydrate.** `pantheon.hydrate()`.
 
-1. **Safety check.** Refuse if `KILL_SWITCH` exists. Liquidate all event positions if so. Then check `shared.guards.is_live("achilles")` — if `ACHILLES_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders** in steps 10–11. Log the planned orders to the decision log so they can be reviewed. Print "PAPER MODE — no orders placed" prominently.
+1. **Safety check.** Refuse if `KILL_SWITCH` exists. Liquidate all event positions if so. Then check `shared.guards.is_live("achilles")` — if `ACHILLES_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders**. Log the planned orders to the decision log so they can be reviewed. Print "PAPER MODE — no orders placed" prominently.
 
 2. **Restore.** Load `cache/achilles_sleeve.json`. If absent, create an `AchillesSleeve(initial_cash=1000)`.
 
@@ -17,26 +76,23 @@ Event-driven, short-horizon. Runs frequently (multiple times per day).
 
 5. **Restore cursor.** `achilles.cursor.load("cache/achilles_cursor.json")`.
 
-6. **Build watchlist.** `achilles.watchlist.build_watchlist(...)` reading from Oracle screen caches (`cache/oracle_activist_13d.json`, `cache/oracle_insider_clusters.json`, `cache/oracle_smart_money.json`, `cache/oracle_screen.json`, `cache/oracle_prescreener.json`). Cap at 800.
+6. **Build watchlist.** `achilles.watchlist.build_watchlist(...)` reading from Oracle screen caches. Cap at 800.
 
-7. **Poll EDGAR.** For each watchlist symbol, fetch submissions. Filter via `cursor.filter_new` (strict greater-than). Register batch via `cursor.register_events` to advance cursor + dedup.
+7. **Poll EDGAR.** For each watchlist symbol, fetch submissions. Filter via `cursor.filter_new`. Register batch via `cursor.register_events`.
 
 8. **Classify and refine.** For each new filing:
    - `achilles.classify.classify_filing` -> labels.
-   - For guidance/spinoff: read body via `shared.edgar.fetch_body` and refine via `achilles.events.refine_guidance` / `refine_spinoff`.
-   - Form 4s get aggregated across symbol-window via `achilles.events.aggregate_insider_clusters`.
+   - For guidance/spinoff: read body, refine.
+   - Form 4s aggregated via `achilles.events.aggregate_insider_clusters`.
 
-9. **Score each event.** Use the matching playbook from `achilles.playbooks.build_playbooks()`. Compute company_quality (from Oracle's prescreener cache or fundamentals), market_cap (from broker fundamentals), first_seen_iso (when Achilles first observed the event). `achilles.scoring.score_event(...)`.
+9. **Score each event.** `achilles.scoring.score_event(...)` — always returns the computed score. Check the `advisory` field for flags like `"disqualified"` or `"playbook_disabled"` — these are information for your decision, not automatic rejections.
 
-10. **Pre-trade sanity check.** Before placing any orders, fetch the broker's actual equity positions, then filter through `shared.guards.filter_broker_to_gods(broker_positions)` to strip out pre-existing personal positions. Also fetch recent broker orders via `get_equity_orders` and compute `shared.guards.pending_shares_from_orders(broker_orders)` to account for queued orders awaiting fill. Pass both to `shared.guards.pre_trade_check(filtered, pending_orders=pending)`. If any symbol is out of sync, **halt trading and run `/oracle-reconcile`** before proceeding.
+10. **Pre-trade sanity check.** Before placing any orders, fetch the broker's actual equity positions, filter through `shared.guards.filter_broker_to_gods(broker_positions)`, compute pending shares, run `shared.guards.pre_trade_check(...)`. If any symbol is out of sync, **halt trading and run `/oracle-reconcile`** before proceeding.
 
-11. **Write brief and (maybe) open.** For each event with score >= 0.05:
-    - **You have full agency over exit parameters.** The playbook provides defaults, but you should reason about each trade and override when your judgment says to. `build_play()` accepts optional overrides: `hard_stop_pct`, `profit_target_pct`, `time_stop_days`, `trail_armed_at`, `trail_pct`. Consider the stock's volatility, market cap, catalyst type, and signal convergence when setting levels. Examples of when to override:
-      - Volatile micro-cap with thin liquidity → widen the stop to avoid noise
-      - High-conviction multi-signal convergence → tighten the profit target and arm a trailing stop
-      - Fast catalyst (activist 13D, M&A) → shorter time stop
-      - Slow drift play (neglected PEAD) → longer hold, wider stop
-    - `achilles.brief.build_play(playbook, entry_price, today, entry_dollars=sleeve.position_dollars(score), hard_stop_pct=..., profit_target_pct=..., time_stop_days=..., trail_armed_at=..., trail_pct=...)`.
+11. **Decide and open.** For each event you want to act on:
+    - Reason about the trade: What's the catalyst? How volatile is this name? What's your conviction? Is the disqualifier real or noise?
+    - Set your own exit levels via `build_play(..., hard_stop_pct=..., profit_target_pct=..., time_stop_days=..., trail_armed_at=..., trail_pct=...)`.
+    - Set your own position size via `sleeve.open(..., dollars=<amount>)` or let the formula size it.
     - `make_brief(...)`. Validate via `brief_check.validate_brief`.
     - `plan_open(...)`. If non-None, place market order via Robinhood, append to `cache/achilles_ledger.jsonl`, record open via `journal.append`.
 

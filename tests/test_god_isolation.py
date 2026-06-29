@@ -899,8 +899,8 @@ class TestMaxPositionsIsolation:
 # ── Test 14: Trades-per-day isolation ─────────────────────────────────
 
 class TestTradesPerDayIsolation:
-    def test_achilles_daily_cap_doesnt_block_others(self):
-        """Achilles hitting MAX_TRADES_PER_DAY doesn't affect Oracle/Delphi."""
+    def test_achilles_trades_dont_block_others(self):
+        """Achilles trading heavily doesn't affect Oracle/Delphi."""
         oracle = OracleSleeve(initial_cash=5000.0)
         delphi = DelphiSleeve(initial_cash=5000.0)
         achilles = AchillesSleeve(initial_cash=5000.0)
@@ -914,13 +914,13 @@ class TestTradesPerDayIsolation:
             )
         assert achilles.trades_today(DATES[0]) == 5
 
-        # Achilles is capped for the day
+        # Daily limit is advisory — Achilles can still open (LLM decides)
         assert achilles.open(
             event_id="daily-overflow", symbol="EXTRA", event_class="earnings",
             entry_price=10.0, score=0.3,
             hard_stop_price=8.0, profit_target_price=13.0,
             time_stop_date="2026-07-02", today=DATES[0],
-        ) is None
+        ) is not None
 
         # Oracle and Delphi trade freely
         assert oracle.buy("AAPL", 1.0, 150.0, DATES[0]) is True

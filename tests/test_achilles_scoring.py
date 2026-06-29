@@ -106,7 +106,7 @@ def test_no_disqualifier():
     assert not has_disqualifier(["unrelated_flag"], "earnings_reaction")
 
 
-def test_score_event_disqualified_zero():
+def test_score_event_disqualified_advisory():
     pbs = build_playbooks()
     out = score_event(
         playbook=pbs["earnings_reaction"],
@@ -115,10 +115,11 @@ def test_score_event_disqualified_zero():
         first_seen_iso=datetime.utcnow().isoformat(),
         disqualifier_flags=["trading_halt"],
     )
-    assert out["score"] == 0.0
+    assert out["score"] > 0.0
+    assert out["advisory"] == "disqualified"
 
 
-def test_score_event_disabled_playbook_zero():
+def test_score_event_disabled_playbook_advisory():
     pbs = build_playbooks()
     pb = pbs["earnings_reaction"]
     pb.disabled = True
@@ -128,7 +129,8 @@ def test_score_event_disabled_playbook_zero():
         market_cap=1_000_000_000,
         first_seen_iso=datetime.utcnow().isoformat(),
     )
-    assert out["score"] == 0.0
+    assert out["score"] > 0.0
+    assert out["advisory"] == "playbook_disabled"
 
 
 def test_score_event_multiplicative():

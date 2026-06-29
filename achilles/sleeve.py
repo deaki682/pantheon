@@ -190,11 +190,18 @@ class AchillesSleeve:
         trail_armed_at: float = 0.0,
         trail_pct: float = 0.0,
         conviction: float = 1.0,
+        dollars: Optional[float] = None,
     ) -> Optional[AchillesPosition]:
-        """Open a position. Returns the position on success, None on rejection."""
+        """Open a position. Returns the position on success, None on rejection.
+
+        The LLM has full agency over trade decisions. Judgment calls
+        (score threshold, cooldown, daily limit) are advisory — pass
+        ``dollars`` to set your own position size instead of using the
+        formula. Accounting constraints (halted, cash, duplicate event,
+        slot limit, positive price) are enforced unconditionally.
+        """
+        # ── Accounting constraints (non-negotiable) ──
         if self.halted:
-            return None
-        if score < MIN_SCORE_TO_OPEN:
             return None
         if entry_price <= 0:
             return None
@@ -202,22 +209,22 @@ class AchillesSleeve:
             return None
         if len(self.positions) >= MAX_CONCURRENT_POSITIONS:
             return None
-        if self.in_cooldown(symbol, today):
-            return None
-        self._ensure_today(today)
-        if self._trades_today >= MAX_TRADES_PER_DAY:
-            return None
 
-        dollars = self.position_dollars(score, conviction=conviction)
-        if dollars <= 0 or dollars > self.cash + 1e-9:
+        # ── Position sizing: LLM override or formula ──
+        if dollars is not None:
+            sized = max(0.0, float(dollars))
+        else:
+            sized = self.position_dollars(score, conviction=conviction)
+
+        if sized <= 0 or sized > self.cash + 1e-9:
             return None
-        fee = dollars * FEE_BPS / 10_000
-        total_cost = dollars + fee
+        fee = sized * FEE_BPS / 10_000
+        total_cost = sized + fee
         if total_cost > self.cash + 1e-9:
             return None
         if total_cost > self.settled_cash(today) + 1e-9:
             self.gfv_count += 1
-        shares = dollars / entry_price
+        shares = sized / entry_price
         pos = AchillesPosition(
             event_id=event_id,
             symbol=symbol.upper(),
@@ -225,7 +232,7 @@ class AchillesSleeve:
             shares=shares,
             entry_price=entry_price,
             entry_date=today,
-            dollars_at_entry=dollars,
+            dollars_at_entry=sized,
             hard_stop_price=hard_stop_price,
             profit_target_price=profit_target_price,
             time_stop_date=time_stop_date,
@@ -237,6 +244,7 @@ class AchillesSleeve:
         self.positions[event_id] = pos
         self.cash -= total_cost
         self.trades_count += 1
+        self._ensure_today(today)
         self._trades_today += 1
         return pos
 
