@@ -1,37 +1,54 @@
 {
-  "cash": 99.55000000000013,
+  "cash": 51.14776535714287,
   "contributed_cash": 1000.0,
   "cooldown_days": 31,
-  "cooldowns": {},
-  "gfv_count": 0,
+  "cooldowns": {
+    "ALSN": "2026-07-30",
+    "BFH": "2026-07-30",
+    "IBP": "2026-07-30"
+  },
+  "gfv_count": 3,
   "halted": false,
   "name": "oracle",
   "peak_equity": 1000.0,
-  "pending_settlements": [],
+  "pending_settlements": [
+    {
+      "amount": 112.44375,
+      "settle_date": "2026-06-30"
+    },
+    {
+      "amount": 112.44375,
+      "settle_date": "2026-06-30"
+    },
+    {
+      "amount": 112.44375,
+      "settle_date": "2026-06-30"
+    }
+  ],
   "positions": {
-    "ALSN": {
-      "avg_price": 119.84,
-      "entry_date": "2026-06-28",
-      "sector": "Producer Manufacturing",
-      "shares": 0.9387516688918558
-    },
-    "BFH": {
-      "avg_price": 106.27,
-      "entry_date": "2026-06-28",
-      "sector": "Finance",
-      "shares": 1.0586242589630188
-    },
     "EQPT": {
       "avg_price": 20.47,
       "entry_date": "2026-06-28",
       "sector": "Technology Services",
       "shares": 5.495847581827064
     },
-    "IBP": {
-      "avg_price": 233.4,
-      "entry_date": "2026-06-28",
-      "sector": "Industrial Services",
-      "shares": 0.4820051413881748
+    "JKHY": {
+      "avg_price": 134.96,
+      "entry_date": "2026-06-29",
+      "sector": "Technology Services",
+      "shares": 0.9522345245152004
+    },
+    "KBR": {
+      "avg_price": 33.36,
+      "entry_date": "2026-06-29",
+      "sector": "Technology Services",
+      "shares": 3.852325282631039
+    },
+    "MRP": {
+      "avg_price": 30.906,
+      "entry_date": "2026-06-29",
+      "sector": "Finance",
+      "shares": 4.158207837590482
     },
     "MTDR": {
       "avg_price": 49.905,
@@ -58,6 +75,6 @@
       "shares": 1.9561815336463224
     }
   },
-  "realized_pnl": 0.0,
-  "trades_count": 8
+  "realized_pnl": -0.16875,
+  "trades_count": 14
 }

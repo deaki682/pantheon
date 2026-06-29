@@ -116,5 +116,46 @@
       }
     },
     "note": "paper cycle \u2014 EQPT/OLED/RLI/NYT/MTDR/BFH/ALSN/IBP positions opened (paper mode)"
+  },
+  {
+    "ts": "2026-06-29T00:57:02.944603+00:00",
+    "equity": 999.1884796428573,
+    "cash": 51.14776535714287,
+    "n_positions": 8,
+    "positions": {
+      "EQPT": {
+        "shares": 5.495847581827064,
+        "price": 20.47
+      },
+      "MTDR": {
+        "shares": 2.254283137962128,
+        "price": 49.905
+      },
+      "NYT": {
+        "shares": 1.5901060070671378,
+        "price": 70.75
+      },
+      "OLED": {
+        "shares": 1.2923607122343481,
+        "price": 87.05
+      },
+      "RLI": {
+        "shares": 1.9561815336463224,
+        "price": 57.51
+      },
+      "MRP": {
+        "shares": 4.158207837590482,
+        "price": 30.906
+      },
+      "KBR": {
+        "shares": 3.852325282631039,
+        "price": 33.36
+      },
+      "JKHY": {
+        "shares": 0.9522345245152004,
+        "price": 134.96
+      }
+    },
+    "note": "paper cycle \u2014 MRP/KBR/JKHY bought; ALSN/BFH/IBP sold (paper mode, pre-trade check halt as expected)"
   }
 ]

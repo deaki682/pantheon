@@ -1,65 +1,53 @@
 {
-  "run_at": "2026-06-28T23:52:19.803897",
+  "ts": "2026-06-29T00:57:02.944603+00:00",
   "mode": "paper",
-  "equity": 1000.0,
-  "targets": {
-    "EQPT": 112.5,
-    "OLED": 112.5,
-    "RLI": 112.5,
-    "NYT": 112.5,
-    "MTDR": 112.5,
-    "BFH": 112.5,
-    "ALSN": 112.5,
-    "IBP": 112.5
-  },
-  "orders": [
+  "reason": "ORACLE_LIVE not set; pre_trade_check failed (expected: paper positions not in broker)",
+  "planned_orders": [
     {
-      "side": "buy",
-      "symbol": "EQPT",
-      "dollars": 112.5,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "OLED",
-      "dollars": 112.5,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "RLI",
-      "dollars": 112.5,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "NYT",
-      "dollars": 112.5,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "MTDR",
-      "dollars": 112.5,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "BFH",
-      "dollars": 112.5,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
+      "side": "sell",
       "symbol": "ALSN",
       "dollars": 112.5,
+      "reason": "removed_from_book"
+    },
+    {
+      "side": "sell",
+      "symbol": "BFH",
+      "dollars": 112.5,
+      "reason": "removed_from_book"
+    },
+    {
+      "side": "sell",
+      "symbol": "IBP",
+      "dollars": 112.5,
+      "reason": "removed_from_book"
+    },
+    {
+      "side": "buy",
+      "symbol": "MRP",
+      "dollars": 128.51357142857145,
       "reason": "open_or_add"
     },
     {
       "side": "buy",
-      "symbol": "IBP",
-      "dollars": 112.5,
+      "symbol": "KBR",
+      "dollars": 128.51357142857145,
+      "reason": "open_or_add"
+    },
+    {
+      "side": "buy",
+      "symbol": "JKHY",
+      "dollars": 128.51357142857145,
       "reason": "open_or_add"
     }
-  ]
+  ],
+  "targets": {
+    "MRP": 128.51357142857145,
+    "EQPT": 64.25678571428573,
+    "KBR": 128.51357142857145,
+    "OLED": 128.51357142857145,
+    "RLI": 128.51357142857145,
+    "NYT": 64.25678571428573,
+    "MTDR": 128.51357142857145,
+    "JKHY": 128.51357142857145
+  }
 }
