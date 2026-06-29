@@ -1,0 +1,35 @@
+[
+  {
+    "symbol": "VVV",
+    "business": "Valvoline Inc. is a pure-play automotive preventive maintenance retailer operating and franchising more than 2,400 quick-lube service centers (under the Valvoline Instant Oil Change, Oil Changers, and Great Canadian Oil Change brands) across the US and Canada, completing over 30 million services annually. The company divested its Global Products segment to Aramco in 2023 and has since focused on store network expansion, including the December 2025 acquisition of Breeze Autocare (204 Oil Changers stores) for $637 million.",
+    "thesis": "The bull case rests on Valvoline's durable recurring-revenue model (oil changes every 3-5K miles), strong 8.2% same-store sales growth in Q2 FY2026, a rapidly expanding franchise network approaching 2,500 stores, and a 26% adjusted EBITDA margin that should improve with scale -- insiders cluster-buying $451K at current prices reinforces confidence in intrinsic value. The bear case centers on three risks: EV adoption gradually eroding the addressable market of ICE vehicles (a slow-moving but inevitable secular headwind), elevated post-Breeze leverage (~$1.6B long-term debt vs ~$550M guided EBITDA implying ~2.9x net leverage), and competition from Jiffy Lube, dealerships, and independent quick-lubers that constrains ticket growth. The reported P/E of 55x is misleading -- on adjusted EPS guidance of ~$1.70 the multiple is ~24x and EV/EBITDA is ~12x, a fair-but-not-cheap price for a leveraged franchise rollup consuming most OCF in growth capex; the bear risks appear only partially priced in, as the stock trading near its 52-week high implies limited margin of safety if SSS momentum decelerates or EV headwinds arrive sooner than expected.",
+    "scenarios": {
+      "bull": {
+        "target": 62.0,
+        "probability": 0.3
+      },
+      "base": {
+        "target": 47.0,
+        "probability": 0.45
+      },
+      "bear": {
+        "target": 28.0,
+        "probability": 0.25
+      }
+    },
+    "ratings": {
+      "moat": 0.65,
+      "runway": 0.7,
+      "quality": 0.6,
+      "management": 0.65
+    },
+    "citations": [
+      "0001674910-25-000135",
+      "0001674910-26-000045",
+      "0001674910-26-000040"
+    ],
+    "decline_explanation": "",
+    "sector": "Consumer Services",
+    "cik": "0001674910"
+  }
+]
