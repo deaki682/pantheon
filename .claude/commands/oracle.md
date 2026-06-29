@@ -28,7 +28,7 @@ breaks, skip the cycle and open a PR; never silently patch the codebase.
 
 10. **Journal decisions.** Every buy/sell/hold/avoid gets a `JournalEntry` via `oracle.journal.append`. Grade any prior entries whose horizon has elapsed using actual prices.
 
-11. **Attribute and allocate.** Compute factor regression vs MTUM/QUAL/IWM/VTV with `oracle.attribution.factor_regression`. Update target capital with `oracle.capital.compute_allocation`. Inject/withdraw cash to match.
+11. **Attribute and allocate.** Fetch daily historicals for the 4 factor ETFs (MTUM, QUAL, IWM, VTV) via `get_equity_historicals` with `interval="day"` covering the equity curve's date range. Then call `oracle.attribution.compute_factor_attribution(equity_curve, factor_historicals)` — it aligns dates, computes returns, and runs the OLS regression end-to-end. If the result has `skipped=True`, log the reason and use defaults (alpha=0, alpha_t=0). Pass the result to `oracle.capital.compute_allocation`. Inject/withdraw cash to match.
 
 12. **Persist.** Save `cache/oracle_sleeve.json`, append to `cache/oracle_curve.json` (equity timestamp), then call `pantheon.persist("oracle", files, branch="claude/live")`.
 

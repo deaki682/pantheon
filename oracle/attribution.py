@@ -2,14 +2,23 @@
 
 Measures alpha after factor exposure. Reports the t-statistic of alpha.
 No third-party stats deps — we implement OLS by hand.
+
+compute_factor_attribution() is the end-to-end entry point: it takes the
+equity curve + broker historicals, aligns dates, computes returns, and
+runs the regression. The caller fetches ETF historicals via the broker MCP
+and passes them in — this module is pure math, no I/O.
 """
 from __future__ import annotations
 
+import logging
 import math
-from typing import Sequence
+from datetime import datetime
+from typing import Any, Sequence
 
+log = logging.getLogger(__name__)
 
 FACTOR_ETFS = ("MTUM", "QUAL", "IWM", "VTV")
+MIN_PERIODS = 6  # need at least 6 return periods for OLS with 5 regressors
 
 
 def _matmul(a: list[list[float]], b: list[list[float]]) -> list[list[float]]:
@@ -126,3 +135,128 @@ def factor_regression(
         "r2": res["r2"],
         "n": n,
     }
+
+
+# ---------------------------------------------------------------------------
+# End-to-end attribution from equity curve + broker historicals
+# ---------------------------------------------------------------------------
+
+def _parse_date(s: str) -> str:
+    """Extract YYYY-MM-DD from any ISO-ish timestamp."""
+    return s[:10]
+
+
+def _curve_to_daily(curve: list[dict[str, Any]]) -> dict[str, float]:
+    """Deduplicate the equity curve to one equity value per date (last wins)."""
+    daily: dict[str, float] = {}
+    for entry in curve:
+        ts = entry.get("ts") or entry.get("timestamp") or entry.get("date", "")
+        eq = entry.get("equity")
+        if not ts or eq is None:
+            continue
+        date = _parse_date(ts)
+        daily[date] = float(eq)
+    return daily
+
+
+def _historicals_to_daily(bars: list[dict[str, Any]]) -> dict[str, float]:
+    """Extract {date: close_price} from broker historicals bars."""
+    daily: dict[str, float] = {}
+    for bar in bars:
+        dt = bar.get("begins_at") or bar.get("date", "")
+        close = bar.get("close_price")
+        if not dt or close is None:
+            continue
+        date = _parse_date(dt)
+        daily[date] = float(close)
+    return daily
+
+
+def _compute_returns(prices: dict[str, float], dates: list[str]) -> list[float]:
+    """Compute period returns between consecutive dates."""
+    returns = []
+    for i in range(1, len(dates)):
+        prev = prices.get(dates[i - 1])
+        curr = prices.get(dates[i])
+        if prev and prev > 0 and curr is not None:
+            returns.append((curr - prev) / prev)
+        else:
+            returns.append(0.0)
+    return returns
+
+
+def compute_factor_attribution(
+    equity_curve: list[dict[str, Any]],
+    factor_historicals: dict[str, list[dict[str, Any]]],
+    *,
+    min_periods: int = MIN_PERIODS,
+) -> dict[str, Any] | None:
+    """End-to-end factor attribution from the equity curve and broker historicals.
+
+    Parameters
+    ----------
+    equity_curve : list of curve entries (from cache/oracle_curve.json)
+    factor_historicals : {ETF_symbol: [broker bar dicts]} for each of FACTOR_ETFS.
+        Fetch via get_equity_historicals with interval="day" covering the curve's
+        date range.
+    min_periods : minimum number of return periods required. With 4 factors + 1
+        intercept, OLS needs at least 6 observations.
+
+    Returns
+    -------
+    dict with {alpha, alpha_t, betas, beta_t, r2, n, skipped_reason} or
+    None if attribution was skipped (with reason logged).
+    """
+    oracle_daily = _curve_to_daily(equity_curve)
+    if len(oracle_daily) < 2:
+        log.info("Attribution skipped: equity curve has %d date(s), need >= 2", len(oracle_daily))
+        return {"skipped": True, "reason": f"equity curve has {len(oracle_daily)} date(s), need >= 2"}
+
+    factor_daily: dict[str, dict[str, float]] = {}
+    for etf in FACTOR_ETFS:
+        bars = factor_historicals.get(etf)
+        if not bars:
+            log.info("Attribution skipped: no historicals for %s", etf)
+            return {"skipped": True, "reason": f"no historicals for {etf}"}
+        factor_daily[etf] = _historicals_to_daily(bars)
+
+    oracle_dates = sorted(oracle_daily.keys())
+    factor_dates_sets = [set(factor_daily[etf].keys()) for etf in FACTOR_ETFS]
+    common_dates = sorted(
+        set(oracle_dates) & factor_dates_sets[0] & factor_dates_sets[1]
+        & factor_dates_sets[2] & factor_dates_sets[3]
+    )
+
+    if len(common_dates) < min_periods + 1:
+        log.info(
+            "Attribution skipped: %d common dates, need %d for %d return periods",
+            len(common_dates), min_periods + 1, min_periods,
+        )
+        return {
+            "skipped": True,
+            "reason": f"{len(common_dates)} common dates, need {min_periods + 1}",
+        }
+
+    oracle_returns = _compute_returns(oracle_daily, common_dates)
+    factor_returns = {
+        etf: _compute_returns(factor_daily[etf], common_dates)
+        for etf in FACTOR_ETFS
+    }
+
+    n_returns = len(oracle_returns)
+    if n_returns < min_periods:
+        return {"skipped": True, "reason": f"{n_returns} return periods, need {min_periods}"}
+
+    all_zero = all(abs(r) < 1e-12 for r in oracle_returns)
+    if all_zero:
+        log.info("Attribution skipped: Oracle returns are all zero (no price movement)")
+        return {"skipped": True, "reason": "oracle returns are all zero"}
+
+    try:
+        result = factor_regression(oracle_returns, factor_returns)
+        result["skipped"] = False
+        result["common_dates"] = len(common_dates)
+        return result
+    except ValueError as e:
+        log.warning("Attribution failed: %s", e)
+        return {"skipped": True, "reason": str(e)}
