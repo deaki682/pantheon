@@ -339,5 +339,51 @@
       "reason": "no historicals for MTUM \u2014 only 2 days equity curve"
     },
     "allocation": 1000.0
+  },
+  {
+    "ts": "2026-06-29T08:40:02.015154Z",
+    "equity": 999.5500000000002,
+    "cash": 99.55000000000013,
+    "n_positions": 8,
+    "positions": {
+      "VITL": {
+        "shares": 10.05362,
+        "price": 11.19
+      },
+      "INFU": {
+        "shares": 11.28385,
+        "price": 9.97
+      },
+      "PSN": {
+        "shares": 2.20978,
+        "price": 50.91
+      },
+      "HDSN": {
+        "shares": 20.3252,
+        "price": 5.535
+      },
+      "VTSI": {
+        "shares": 34.72222,
+        "price": 3.24
+      },
+      "CXT": {
+        "shares": 2.31244,
+        "price": 48.65
+      },
+      "J": {
+        "shares": 0.89524,
+        "price": 125.665
+      },
+      "MRP": {
+        "shares": 3.64007,
+        "price": 30.906
+      }
+    },
+    "note": "oracle cycle: cohort-2026-06-29 opened. 8 buys queued (VITL/INFU/PSN/HDSN/VTSI/CXT/J/MRP). attribution skipped: cohort day 0.",
+    "attribution": {
+      "skipped": true,
+      "reason": "cohort day 0, no common dates yet"
+    },
+    "allocation": 1000.0
   }
 ]

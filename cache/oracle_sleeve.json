@@ -1,14 +1,71 @@
 {
-  "cash": 1000.0,
+  "name": "oracle",
+  "cash": 99.55000000000013,
+  "positions": {
+    "VITL": {
+      "shares": 10.053619302949063,
+      "avg_price": 11.19,
+      "entry_date": "2026-06-29",
+      "sector": "Process Industries",
+      "cohort_id": "cohort-2026-06-29"
+    },
+    "INFU": {
+      "shares": 11.283851554663991,
+      "avg_price": 9.97,
+      "entry_date": "2026-06-29",
+      "sector": "Commercial Services",
+      "cohort_id": "cohort-2026-06-29"
+    },
+    "PSN": {
+      "shares": 2.20978196817914,
+      "avg_price": 50.91,
+      "entry_date": "2026-06-29",
+      "sector": "Technology Services",
+      "cohort_id": "cohort-2026-06-29"
+    },
+    "HDSN": {
+      "shares": 20.32520325203252,
+      "avg_price": 5.535,
+      "entry_date": "2026-06-29",
+      "sector": "Distribution Services",
+      "cohort_id": "cohort-2026-06-29"
+    },
+    "VTSI": {
+      "shares": 34.72222222222222,
+      "avg_price": 3.24,
+      "entry_date": "2026-06-29",
+      "sector": "Technology Services",
+      "cohort_id": "cohort-2026-06-29"
+    },
+    "CXT": {
+      "shares": 2.3124357656731758,
+      "avg_price": 48.65,
+      "entry_date": "2026-06-29",
+      "sector": "Producer Manufacturing",
+      "cohort_id": "cohort-2026-06-29"
+    },
+    "J": {
+      "shares": 0.895237337365217,
+      "avg_price": 125.665,
+      "entry_date": "2026-06-29",
+      "sector": "Technology Services",
+      "cohort_id": "cohort-2026-06-29"
+    },
+    "MRP": {
+      "shares": 3.6400698893418757,
+      "avg_price": 30.906,
+      "entry_date": "2026-06-29",
+      "sector": "Finance",
+      "cohort_id": "cohort-2026-06-29"
+    }
+  },
+  "pending_settlements": [],
+  "realized_pnl": 0.0,
+  "gfv_count": 0,
+  "trades_count": 16,
+  "cooldowns": {},
+  "halted": false,
   "contributed_cash": 1000.0,
   "cooldown_days": 31,
-  "cooldowns": {},
-  "gfv_count": 0,
-  "halted": false,
-  "name": "oracle",
-  "peak_equity": 1000.0,
-  "pending_settlements": [],
-  "positions": {},
-  "realized_pnl": 0.0,
-  "trades_count": 8
+  "peak_equity": 1000.0
 }
