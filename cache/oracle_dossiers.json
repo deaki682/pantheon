@@ -7,15 +7,18 @@
       "scenarios": {
         "bull": {
           "target": 48.0,
-          "probability": 0.38
+          "probability": 0.38,
+          "description": "Homebuilder adoption of asset-light land models accelerates beyond current projections, with non-Lennar counterparties expanding well past the current 17 to 30+, diversifying revenue concentration and demonstrating the HOPP'R platform's industry-wide appeal. Simultaneously, the Fed cuts rates meaningfully, compressing SOFR and reducing interest carry costs on the $1.835B facility, while housing starts recover toward the 4.7M-unit structural deficit, driving faster homesite takedowns and fee income growth that supports a re-rating to 15-16x earnings."
         },
         "base": {
           "target": 36.0,
-          "probability": 0.44
+          "probability": 0.44,
+          "description": "Lennar maintains its ~69% revenue anchor while non-Lennar agreements continue growing at the current pace, sustaining the $194.9M quarterly revenue run-rate with modest expansion. Rates remain elevated but stable, keeping borrowing costs manageable while the 9.5-10% contractual yield on homesites holds firm, supporting the $3+/year dividend and a gradual re-rating from 11x toward the sell-side's $38.60 consensus target as investor familiarity with the REIT structure deepens."
         },
         "bear": {
           "target": 20.0,
-          "probability": 0.18
+          "probability": 0.18,
+          "description": "Lennar experiences a significant slowdown in new community starts \u2014 due to either a housing demand shock from persistent 7%+ mortgage rates or company-specific margin pressure \u2014 and meaningfully reduces homesite takedowns, directly cutting MRP's fee income with limited contractual recourse. Concurrent with this demand pullback, SOFR remains elevated, compressing the spread between the 10-11% homesite yield and the SOFR+2% borrowing cost to near zero, forcing a dividend cut that triggers institutional selling and multiple compression back toward book value."
         }
       },
       "ratings": {
@@ -63,17 +66,20 @@
         "bull": {
           "target": 38.0,
           "probability": 0.3,
-          "label": "T3 monetization inflects, branch scale drives FCF positive, re-rated to 12-13x 2027 EBITDA"
+          "label": "T3 monetization inflects, branch scale drives FCF positive, re-rated to 12-13x 2027 EBITDA",
+          "description": "The lockup expiry on July 22, 2026 passes without catastrophic selling, clearing the primary overhang, while Q2 2026 results confirm 35%+ rental revenue growth and T3 SaaS revenue accelerating past $80M annualized. As the branch network matures toward the 55% EBITDA margin profile and the construction cycle holds up, the market re-rates EQPT toward a blended technology/rental multiple meaningfully above United Rentals' 10x EV/EBITDA, rewarding the founder-backed open-market buys at $21."
         },
         "base": {
           "target": 26.0,
           "probability": 0.45,
-          "label": "Steady 25-30% rental growth, leverage improves, lockup overhang absorbed, modest re-rating"
+          "label": "Steady 25-30% rental growth, leverage improves, lockup overhang absorbed, modest re-rating",
+          "description": "Post-lockup selling creates near-term pressure but exhausts itself by Q3 2026, after which the market refocuses on the underlying operating trajectory: sustained 35%+ rental growth, steady T3 platform scaling, and maturing branch-level unit economics compressing toward profitability. Macro headwinds in construction create some caution on multiples, but raised guidance and consistent execution allow the stock to recover toward the IPO price range as the capital structure concern is offset by visible EBITDA progress."
         },
         "bear": {
           "target": 11.0,
           "probability": 0.25,
-          "label": "Construction cycle softens, FCF deficit widens, debt refinancing pressure, OWN program investor withdrawal"
+          "label": "Construction cycle softens, FCF deficit widens, debt refinancing pressure, OWN program investor withdrawal",
+          "description": "The July 22 lockup expiry triggers a sustained wave of pre-IPO holder selling into a thin post-IPO market, compressing the stock as construction activity softens under macro pressure and growth decelerates below 30%. With $70M in quarterly interest expense consuming cash, negative free cash flow, and no clear path to GAAP profitability, the company is forced into dilutive capital markets activity, further pressuring the share price and validating the structural leverage concern that the bull case dismissed."
         }
       },
       "ratings": {
@@ -123,15 +129,18 @@
       "scenarios": {
         "bull": {
           "target": 55.0,
-          "probability": 0.28
+          "probability": 0.28,
+          "description": "The FY2027 defense budget's proposed 44% spending increase translates into a wave of new contract awards in KBR's cleared-workforce programs across defense, intelligence, and space \u2014 segments with lower DOGE structural risk than administrative services. Simultaneously, the Sustainable Technology Solutions spin-off executes cleanly, with the market re-rating the energy-transition technology business at a premium multiple (15-18x EBITDA) as hydrogen and LNG infrastructure capex accelerates globally. Together, these catalysts compress the discount to intrinsic value and push the stock back above its 52-week high."
         },
         "base": {
           "target": 42.0,
-          "probability": 0.47
+          "probability": 0.47,
+          "description": "DOGE-driven contract delays prove transient \u2014 a 1-2 quarter disruption rather than a structural reduction \u2014 and KBR's Mission Technology segment stabilizes with low-single-digit organic growth as the government contract book recovers through H2 2026 and 2027. The STS spin-off proceeds on schedule, providing modest multiple expansion even without aggressive energy-transition capex, while EPS recovers toward $3/share on a rebounding GovCon mix and steady STS margins. The stock re-rates from 10x toward 13-14x earnings, reflecting normalized GovCon multiples without requiring a full bull-case outcome."
         },
         "bear": {
           "target": 22.0,
-          "probability": 0.25
+          "probability": 0.25,
+          "description": "DOGE cuts prove structural rather than temporary \u2014 federal services addressable markets contract permanently, and KBR loses key cleared-workforce program renewals as agencies consolidate vendors or reduce headcount-dependent contracts. The Sustainable Technology Solutions spin-off is delayed or structured unfavorably, eliminating the multiple-expansion catalyst, while energy-transition capex decisions stall amid lower commodity prices. With EPS declining materially below $3/share and no re-rating catalyst in sight, the stock revisits the low-$20s."
         }
       },
       "ratings": {
@@ -178,17 +187,20 @@
         "bull": {
           "target": 145.0,
           "probability": 0.3,
-          "label": "Blue PHOLED ramp accelerates across Samsung and LG flagships by 2027, IT/automotive adoption adds a new revenue layer, buyback shrinks share count ~10%, and royalty rates hold; earnings recover toward $7+ EPS, re-rating to 20-22x"
+          "label": "Blue PHOLED ramp accelerates across Samsung and LG flagships by 2027, IT/automotive adoption adds a new revenue layer, buyback shrinks share count ~10%, and royalty rates hold; earnings recover toward $7+ EPS, re-rating to 20-22x",
+          "description": "Blue PHOLED ramps to volume production at LG Display and Samsung adopts the full RGB phosphorescent stack, expanding UDC's royalty TAM by ~25% per device and triggering a re-rating from 19x back toward 28-30x earnings as growth resumes. Concurrent OLED penetration into IT and automotive provides a second revenue leg, and the $400M buyback at depressed prices materially reduces share count, amplifying per-share earnings recovery."
         },
         "base": {
           "target": 105.0,
           "probability": 0.45,
-          "label": "Blue PHOLED contributes modestly, smartphone market stabilizes at low growth, buyback provides floor, 2027 revenue reaches $700-720M, earnings power of ~$5.50 EPS at 19x; stock grinds higher but well below prior highs"
+          "label": "Blue PHOLED contributes modestly, smartphone market stabilizes at low growth, buyback provides floor, 2027 revenue reaches $700-720M, earnings power of ~$5.50 EPS at 19x; stock grinds higher but well below prior highs",
+          "description": "Blue PHOLED commercialization proceeds gradually, contributing modest royalty uplift by late 2026 while smartphone OLED shipments stabilize after Q1's 12% YoY decline. Revenue returns to mid-single-digit growth within the $630-670M guidance band, and the multiple expands modestly from 19x toward 22-23x as investors gain confidence the guidance-cut cycle has ended and contract renegotiations with LG and Samsung are navigated without rate compression."
         },
         "bear": {
           "target": 52.0,
           "probability": 0.25,
-          "label": "Chinese panel makers accelerate TADF or in-house emitter adoption, Samsung diversifies emitter sourcing, royalty renegotiations cut rates materially, blue PHOLED stalls technically; revenue drifts toward $580-600M and multiple compresses to 14-15x on structurally lower growth"
+          "label": "Chinese panel makers accelerate TADF or in-house emitter adoption, Samsung diversifies emitter sourcing, royalty renegotiations cut rates materially, blue PHOLED stalls technically; revenue drifts toward $580-600M and multiple compresses to 14-15x on structurally lower growth",
+          "description": "Blue PHOLED volume ramp is delayed beyond 2027 due to manufacturing yield issues, and Samsung or BOE successfully qualifies a competing TADF-based emitter chemistry, neutralizing UDC's royalty expansion thesis. Concurrent royalty rate renegotiations on the next LG/Samsung contract cycles result in lower effective rates, guidance is cut a third time, and the stock de-rates further as investors price in a structurally lower earnings base near trough multiples."
         }
       },
       "ratings": {
@@ -239,17 +251,20 @@
         "bull": {
           "target": 90.0,
           "probability": 0.25,
-          "label": "Specialty repricing cycle resumes: casualty rates harden further, property E&S stabilizes, combined ratio holds sub-85, earnings rerate to 18-19x as AM Best A++ attracts institutional flows"
+          "label": "Specialty repricing cycle resumes: casualty rates harden further, property E&S stabilizes, combined ratio holds sub-85, earnings rerate to 18-19x as AM Best A++ attracts institutional flows",
+          "description": "The bull case requires casualty loss trends to stabilize at or below current loss ratios, allowing RLI's 10% casualty premium growth to compound into earnings recovery while property market tightening re-accelerates premium volume. Multiple expansion back toward 17-18x earnings becomes warranted if the AM Best A++ rating attracts new distribution relationships, and if the 2026 catastrophe reinsurance reduction proves prescient rather than reckless. Insider conviction around $50-52 is validated as a genuine floor, and 50 consecutive years of dividend growth attracts fresh yield-oriented capital as the story is re-rated toward its historical premium."
         },
         "base": {
           "target": 70.0,
           "probability": 0.5,
-          "label": "Steady compounder: casualty growth offsets property softness, combined ratio 86-89, EPS grows 6-8% annually, dividend streak continues, stock drifts to modest premium at 15x"
+          "label": "Steady compounder: casualty growth offsets property softness, combined ratio 86-89, EPS grows 6-8% annually, dividend streak continues, stock drifts to modest premium at 15x",
+          "description": "RLI navigates a transitional period in which property E&S capacity remains elevated and pressures property premiums for 1-2 more quarters, while casualty growth continues at high-single-digit rates and sustains underwriting profitability above the 90% combined ratio threshold. Earnings recover modestly from the Q1 2026 trough as one-time items fade, and the stock re-rates from 13-14x back toward its historical 16-17x multiple as the earnings trajectory turns positive again and insider buying signals prove accurate."
         },
         "bear": {
           "target": 40.0,
           "probability": 0.25,
-          "label": "Casualty reserve deterioration emerges, social inflation drives loss ratios above 65%, combined ratio breaks above 95 for the first time in three decades, multiple compresses to 9-10x as franchise shine fades"
+          "label": "Casualty reserve deterioration emerges, social inflation drives loss ratios above 65%, combined ratio breaks above 95 for the first time in three decades, multiple compresses to 9-10x as franchise shine fades",
+          "description": "Social inflation in personal umbrella and commercial transportation causes casualty loss development to accelerate materially beyond what is visible in current loss ratios, driving the combined ratio above 95% and breaking RLI's 29-year underwriting profit streak \u2014 a structurally damaging event for its brand and valuation premium. Simultaneously, the voluntary reduction in catastrophe reinsurance limits exposes the balance sheet to a large loss event, compounding earnings pressure and triggering multiple compression to peer-level 9-10x on deteriorating fundamentals."
         }
       },
       "ratings": {
@@ -300,17 +315,20 @@
         "bull": {
           "target": 110.0,
           "probability": 0.28,
-          "label": "Bundle flywheel accelerates: NYT reaches 15M+ subscribers ahead of 2027, ARPU expands via price increases and AI licensing revenue, operating leverage drives margins above 20%, multiple re-rates to 38-40x on durable FCF growth"
+          "label": "Bundle flywheel accelerates: NYT reaches 15M+ subscribers ahead of 2027, ARPU expands via price increases and AI licensing revenue, operating leverage drives margins above 20%, multiple re-rates to 38-40x on durable FCF growth",
+          "description": "The bundle strategy achieves escape velocity: multi-product subscriber penetration surpasses 60% and drives ARPU expansion above 10% annually, pushing the 15M subscriber target ahead of schedule while advertising revenue recovers alongside a stabilizing digital ad market. A re-rating toward 38-40x earnings is justified as the market recognizes the durability of the subscription flywheel and the absence of any credible competitor threatening the brand moat, pushing the stock toward the $110 level."
         },
         "base": {
           "target": 85.0,
           "probability": 0.47,
-          "label": "Steady compounding: subscriber adds normalize at 250-350K/quarter toward 15M by late 2027, digital sub revenue grows 14-16%, FCF expands modestly, valuation drifts toward analyst consensus of ~$84"
+          "label": "Steady compounding: subscriber adds normalize at 250-350K/quarter toward 15M by late 2027, digital sub revenue grows 14-16%, FCF expands modestly, valuation drifts toward analyst consensus of ~$84",
+          "description": "NYT reaches 15M subscribers by late 2027 on roughly 350-400K quarterly net adds, with the bundle mix continuing to lift ARPU at a mid-single-digit rate that offsets print revenue secular decline. Margin expansion is modest \u2014 cost discipline allows operating leverage to materialize gradually \u2014 and the stock re-rates from its current discount to analyst consensus toward ~$85 as subscriber growth deceleration fears prove overstated."
         },
         "bear": {
           "target": 48.0,
           "probability": 0.25,
-          "label": "Subscriber saturation bites: growth decelerates to sub-200K/quarter as bundled pricing resistance emerges, AI aggregators erode direct traffic, cost inflation squeezes margins, multiple contracts to 20-22x on slowing growth narrative"
+          "label": "Subscriber saturation bites: growth decelerates to sub-200K/quarter as bundled pricing resistance emerges, AI aggregators erode direct traffic, cost inflation squeezes margins, multiple contracts to 20-22x on slowing growth narrative",
+          "description": "Subscriber net adds deteriorate further below the Q1 2026 pace of 310K, with the 15M ceiling approaching faster than ARPU growth can compensate, revealing the bundle strategy as a penetration story rather than a durable pricing story. Cost growth of 8-10% outpaces revenue growth as investment in The Athletic and Games fails to convert to bundle attach, compressing margins and forcing a multiple de-rating from 30x toward 20x trailing earnings, driving the stock toward $48."
         }
       },
       "ratings": {
@@ -360,15 +378,18 @@
       "scenarios": {
         "bull": {
           "target": 82.0,
-          "probability": 0.3
+          "probability": 0.3,
+          "description": "WTI oil recovers to the $75-80 range on OPEC+ discipline and recovering global demand, while the Energy Transfer takeaway deal removes Permian basis differentials and improves realized NGL prices, collectively driving EBITDA well above consensus and enabling rapid deleveraging of the Ameredev acquisition debt. The San Mateo Midstream segment re-rates as a fee-generating asset, potentially attracting a partial monetization or JV partner, and the insider buying cluster at $52-53 is validated as the cycle trough."
         },
         "base": {
           "target": 58.0,
-          "probability": 0.45
+          "probability": 0.45,
+          "description": "Oil stabilizes in the $65-70 range, allowing Matador to generate sufficient free cash flow to steadily pay down Ameredev acquisition leverage while maintaining production around 180K BOE/d. The Energy Transfer agreement secures reliable takeaway without further basis blowouts, well economics in the core Delaware Basin hold at current strip prices, and the stock re-rates modestly from 3.3x EV/EBITDA toward mid-cycle multiples as balance sheet repair becomes visible."
         },
         "bear": {
           "target": 32.0,
-          "probability": 0.25
+          "probability": 0.25,
+          "description": "Oil falls into a sustained $55-60 range driven by demand weakness or an OPEC+ price war, compressing Permian well-level returns and forcing Matador to curtail drilling activity just as the Ameredev acquisition has levered the balance sheet to levels that tighten covenant headroom. Production growth stalls, free cash flow turns negative at strip prices, and the company is forced to cut capital return programs \u2014 validating the bear thesis that insiders bought into a value trap rather than a cycle bottom."
         }
       },
       "ratings": {
@@ -416,15 +437,18 @@
       "scenarios": {
         "bull": {
           "target": 190.0,
-          "probability": 0.3
+          "probability": 0.3,
+          "description": "Community bank M&A activity re-accelerates in FY2027 as the interest rate and regulatory environment normalizes, restoring deconversion fee revenue to historical levels and triggering a guidance raise that forces the market to re-rate JKHY back toward 23-25x earnings. Simultaneously, faster-payments revenue sustaining 40%+ growth and digital banking penetration deepening across 8,000 clients compounds the EPS trajectory toward $8.50+, making the 30% drawdown look like a textbook cyclical overreaction."
         },
         "base": {
           "target": 155.0,
-          "probability": 0.48
+          "probability": 0.48,
+          "description": "Deconversion fee headwinds persist through FY2026 but stabilize in FY2027 as the M&A pipeline gradually recovers, while core digital and payments revenue continues growing at high-single to low-double digits and the company navigates the Board Chair transition without cultural disruption. The market awards a modest multiple recovery from 19x to 21-22x as earnings visibility improves, delivering a return to the mid-$150s from current levels on the strength of the durable, high-switching-cost franchise."
         },
         "bear": {
           "target": 100.0,
-          "probability": 0.22
+          "probability": 0.22,
+          "description": "Deconversion fee revenue remains depressed for longer than expected as community bank M&A stays frozen amid regulatory uncertainty, and the market downgrades FY2027 estimates, extending the multiple compression toward 17x. Fintech challengers gain traction with de novo banks and credit unions, raising structural questions about long-term retention, while the Board Chair transition introduces execution risk that erodes management credibility with institutional investors, pushing the stock toward the $100 level as the premium franchise narrative weakens."
         }
       },
       "ratings": {
@@ -472,17 +496,20 @@
         "bull": {
           "target": 175.0,
           "probability": 0.25,
-          "label": "Credit normalization accelerates, buybacks compress share count 15%+, P/E re-rates to 12-13x on $13+ EPS"
+          "label": "Credit normalization accelerates, buybacks compress share count 15%+, P/E re-rates to 12-13x on $13+ EPS",
+          "description": "Net principal loss rates continue their downward trajectory \u2014 falling below 6.5% by year-end 2026 \u2014 confirming that the post-pandemic credit normalization is complete and that Bread Financial's tighter underwriting since 2023 has genuinely improved portfolio quality. The partner pipeline matures, with Ford, Dell, and AAA ramping meaningfully, more than offsetting prior attrition from Wayfair and Meijer, and ROTCE achieves the mid-to-high 20% target range \u2014 compressing the P/E from 8.7x toward a still-cheap 12-13x and driving per-share book value materially higher via the $840M remaining buyback authorization."
         },
         "base": {
           "target": 128.0,
           "probability": 0.5,
-          "label": "Steady credit improvement, mid-single-digit loan growth, buybacks continue, P/E stays 10-11x"
+          "label": "Steady credit improvement, mid-single-digit loan growth, buybacks continue, P/E stays 10-11x",
+          "description": "Credit quality stabilizes at current levels \u2014 net loss rates oscillating in the 7-7.5% range \u2014 without a further deterioration cycle, allowing Bread Financial to sustain mid-teens EPS and execute a steady buyback that reduces share count by 5-8% annually. The partner book is roughly stable: one or two smaller attritions are offset by new wins, leaving the loan portfolio flat to slightly growing. At 8.7x earnings with continued share repurchases, the stock drifts toward fair value in the low-$120s as the market gradually credits the credit-normalization story without awarding a premium multiple."
         },
         "bear": {
           "target": 68.0,
           "probability": 0.25,
-          "label": "Recession spikes NCO rates above 9%, one or two top-10 partner losses, book value erodes, multiple contracts to 6x"
+          "label": "Recession spikes NCO rates above 9%, one or two top-10 partner losses, book value erodes, multiple contracts to 6x",
+          "description": "Two or more top-10 retail partners elect not to renew private-label contracts in the same 12-18 month window, causing the loan portfolio to shrink faster than buybacks can offset and triggering operating deleverage that compresses EPS sharply. Concurrently, a consumer credit deterioration driven by unemployment pushes net charge-off rates back above 8.5%, forcing higher reserve builds that consume capital and crowd out buyback capacity. The combination of a shrinking book and deteriorating credit quality at a single-digit multiple produces a re-rating toward 5-6x depressed earnings."
         }
       },
       "ratings": {
@@ -532,15 +559,18 @@
       "scenarios": {
         "bull": {
           "target": 10.0,
-          "probability": 0.28
+          "probability": 0.28,
+          "description": "The ADT+ smart home platform, powered by Google's AI presence detection and Origin AI acquisition, achieves meaningful subscriber differentiation that arrests churn and attracts higher-ARPU customers away from DIY alternatives like Ring and SimpliSafe. Leverage declines toward 2.5x EBITDA ahead of schedule, unlocking accelerated buybacks that reduce share count materially, and the market re-rates the stock toward 10-11x EBITDA as the secular decline narrative is disproven by resilient net subscriber adds."
         },
         "base": {
           "target": 7.5,
-          "probability": 0.5
+          "probability": 0.5,
+          "description": "ADT's 6.1M existing subscribers remain sticky on 3-year average contracts while new DIY competition grows slowly enough that gross adds roughly offset attrition, keeping subscriber count roughly flat to modestly positive. Adj EBITDA continues growing low-to-mid single digits, leverage drifts down to ~2.6x, and the buyback program ($600M+ annually) provides per-share earnings growth even without top-line acceleration, supporting a gradual re-rating toward $7.50."
         },
         "bear": {
           "target": 3.5,
-          "probability": 0.22
+          "probability": 0.22,
+          "description": "DIY security adoption accelerates structurally as Ring integrates deeper into the Amazon ecosystem and SimpliSafe expands, causing ADT's gross adds to deteriorate and subscriber count to shrink by 3-5% annually. With $9B in gross debt, any sustained free cash flow shortfall triggers concerns about covenant headroom, forcing ADT to cut the dividend and scale back buybacks \u2014 removing the primary valuation supports and causing the stock to trade down toward 5-6x EBITDA."
         }
       },
       "ratings": {
@@ -587,17 +617,20 @@
         "bull": {
           "target": 185.0,
           "probability": 0.25,
-          "label": "Integration delivers: $120M synergies realized, Off-Highway margins normalize toward legacy levels, buyback program restarts at scale, EV displacement slower than feared"
+          "label": "Integration delivers: $120M synergies realized, Off-Highway margins normalize toward legacy levels, buyback program restarts at scale, EV displacement slower than feared",
+          "description": "The Dana Off-Highway integration delivers on its $120M synergy target ahead of schedule, with the combined entity demonstrating that Allison's disciplined capital allocation and operational rigor can successfully absorb a complex, cyclical driveline business. Mining and construction demand holds up as commodity prices remain supportive, the core transmission business sustains its 37%+ EBITDA margins, and rapid deleveraging from robust free cash flow allows management to resume aggressive share buybacks \u2014 replicating the 72% float reduction playbook on a larger revenue base."
         },
         "base": {
           "target": 138.0,
           "probability": 0.5,
-          "label": "Gradual integration with modest synergy capture, earnings recover through 2027 as one-time costs roll off, leverage declines, multiple holds near 17-19x normalized earnings"
+          "label": "Gradual integration with modest synergy capture, earnings recover through 2027 as one-time costs roll off, leverage declines, multiple holds near 17-19x normalized earnings",
+          "description": "Integration costs normalize after the Q1 2026 acquisition distortion, and Allison demonstrates mid-single-digit synergy realization within 18 months, stabilizing EPS back toward $8-9 on a fully consolidated basis. The core transmission business sustains pricing power and aftermarket revenue growth, Off-Highway delivers steady contributions from mining and construction end markets, and leverage trends downward \u2014 enabling the market to re-rate from current depressed post-deal multiples toward a normalized industrial compounder valuation."
         },
         "bear": {
           "target": 78.0,
           "probability": 0.25,
-          "label": "Off-Highway integration disappoints or commodity cycle turns down, elevated debt constrains buybacks, EV truck adoption accelerates cutting core transmission TAM, multiple compression to 12-13x"
+          "label": "Off-Highway integration disappoints or commodity cycle turns down, elevated debt constrains buybacks, EV truck adoption accelerates cutting core transmission TAM, multiple compression to 12-13x",
+          "description": "A cyclical downturn in mining and construction capex \u2014 driven by commodity price weakness or a broader industrial recession \u2014 hits the newly acquired Off-Highway segment precisely when Allison is most leveraged from the $2.7B deal, creating a debt-service burden that constrains the buyback program and pressures free cash flow. Simultaneously, EV drivetrain adoption accelerates in the medium-duty commercial segment, making the core transmission business face secular volume pressure, and integration complexity delays synergy realization \u2014 leaving investors holding a highly leveraged, cyclical business with a deteriorating long-term competitive moat."
         }
       },
       "ratings": {
@@ -648,17 +681,20 @@
         "bull": {
           "target": 340.0,
           "probability": 0.3,
-          "label": "Housing recovery + commercial acceleration: single-family starts rebound to 1.1M+ by mid-2027, commercial backlog converts, spray foam price increases hold, and IBP compounds earnings to ~$13 EPS on expanding margins, re-rating to 26x"
+          "label": "Housing recovery + commercial acceleration: single-family starts rebound to 1.1M+ by mid-2027, commercial backlog converts, spray foam price increases hold, and IBP compounds earnings to ~$13 EPS on expanding margins, re-rating to 26x",
+          "description": "Mortgage rates decline toward 6% by mid-2027, unlocking pent-up housing turnover and driving a sharp recovery in single-family starts that flows directly into IBP's residential installation backlog, while commercial momentum sustains 20%+ growth providing a near-term bridge. Margin recovery from 8.7% back toward 10%+ operating margins \u2014 aided by scale purchasing leverage and labor scheduling improvements from integrating recent acquisitions \u2014 drives EPS above $14 and justifies a re-rating back toward the $340 level."
         },
         "base": {
           "target": 270.0,
           "probability": 0.45,
-          "label": "Gradual normalization: residential stays soft through 2026 with modest recovery in 2027, acquisitions contribute ~$100M annual revenue, EPS reaches ~$10.50 on flat-to-slightly-improving margins, market awards ~25x"
+          "label": "Gradual normalization: residential stays soft through 2026 with modest recovery in 2027, acquisitions contribute ~$100M annual revenue, EPS reaches ~$10.50 on flat-to-slightly-improving margins, market awards ~25x",
+          "description": "Residential housing starts recover modestly in the second half of 2026 as rates stabilize and builder incentives absorb some of the affordability gap, while commercial installation growth continues in the high teens, allowing IBP to return to low-single-digit revenue growth by Q4 2026. EPS recovers toward $10-11 as gross margins hold in the guided 32-34% range, and the stock grinds back toward $270 as the cycle trough is confirmed without requiring a full housing recovery."
         },
         "bear": {
           "target": 155.0,
           "probability": 0.25,
-          "label": "Prolonged housing stagnation: mortgage rates stay above 7% through 2027, residential same-store declines persist at -8% to -10%, commercial slows, margin compression continues to 10-11% operating margin, EPS falls to ~$7.50, stock de-rates to 20x on cyclical concern"
+          "label": "Prolonged housing stagnation: mortgage rates stay above 7% through 2027, residential same-store declines persist at -8% to -10%, commercial slows, margin compression continues to 10-11% operating margin, EPS falls to ~$7.50, stock de-rates to 20x on cyclical concern",
+          "description": "Thirty-year mortgage rates remain above 7% through 2027, single-family starts stay near 2025 lows, and multifamily projects continue to be slow-walked as developers face construction financing constraints \u2014 leaving IBP's residential same-store sales in negative territory for a fifth consecutive quarter. The $977M net debt load becomes a concern as free cash flow compresses, EPS stays sub-$9, and a dividend or acquisition financing stress prompts further institutional selling, driving the stock toward $155."
         }
       },
       "ratings": {
@@ -709,17 +745,20 @@
         "bull": {
           "target": 260.0,
           "probability": 0.25,
-          "label": "Henry Hub strengthens to $4+ on LNG demand; buybacks retire 15%+ of float; Dell'Osso accelerates capital returns"
+          "label": "Henry Hub strengthens to $4+ on LNG demand; buybacks retire 15%+ of float; Dell'Osso accelerates capital returns",
+          "description": "Henry Hub spot prices recover to $4.00+/MMBtu in H2 2026 on LNG export demand growth and a cold winter draw, generating free cash flow that exceeds the hedge-supported levels of H1 2026 and demonstrating the company earns strong unhedged economics. The new CEO Dell'Osso accelerates the $1.5B buyback authorization, retiring 15-20% of the float in 12 months, and the stock re-rates as investors credit the shrinking share count and Expand Energy integration credibility."
         },
         "base": {
           "target": 195.0,
           "probability": 0.5,
-          "label": "Spot gas stays $3.25-$3.75; hedge roll-off moderates but does not crush FCF; buybacks continue at reduced pace; re-rating toward 7-8x earnings"
+          "label": "Spot gas stays $3.25-$3.75; hedge roll-off moderates but does not crush FCF; buybacks continue at reduced pace; re-rating toward 7-8x earnings",
+          "description": "Henry Hub settles near the $3.40-3.50/MMBtu consensus forecast for 2027 as hedges roll off, generating adequate but reduced free cash flow relative to Q1 2026's hedge-enhanced results. Dell'Osso stabilizes capital allocation strategy, the buyback program continues at a measured pace consuming roughly $400-500M annually, and sub-1x leverage provides financial flexibility through the transition, allowing the stock to recover toward intrinsic value as the hedge cliff becomes understood rather than feared."
         },
         "bear": {
           "target": 100.0,
           "probability": 0.25,
-          "label": "Henry Hub softens below $3; hedges fully expired; FCF collapses; CEO transition delays capital return clarity; stock de-rates to 3-4x trough earnings"
+          "label": "Henry Hub softens below $3; hedges fully expired; FCF collapses; CEO transition delays capital return clarity; stock de-rates to 3-4x trough earnings",
+          "description": "Henry Hub remains pinned at $3.00-3.20/MMBtu through 2027 as Permian associated gas growth and mild weather overwhelm LNG export capacity additions, collapsing GPOR's unhedged free cash flow to levels that cannot sustain the buyback cadence the thesis depends on. Simultaneously, Dell'Osso's strategic review introduces a 6-12 month pause in capital returns, insider sales at $170-213 prove prescient as the stock revisits post-hedge-cliff levels, and the sub-1x leverage advantage erodes as asset values decline with gas strip."
         }
       },
       "ratings": {
@@ -770,17 +809,20 @@
         "bull": {
           "label": "Margin recovery + organic reacceleration to double digits",
           "target": 52.0,
-          "probability": 0.25
+          "probability": 0.25,
+          "description": "Alani Nu channel-fill inventory normalization completes by mid-2026, revealing genuine consumer pull-through demand that reaccelerates Alani Nu organic growth above 20%, while the core CELSIUS brand stabilizes at high-single-digit growth and gross margins recover toward the 52-53% target as one-time distributor termination fees roll off. The securities class-action lawsuits settle without material liability, the net cash position funds opportunistic buybacks, and the market re-rates the now-diversified three-brand platform off a normalized 35-40x P/E as earnings power clarity returns."
         },
         "base": {
           "label": "Integration proceeds, organic growth stabilizes at 8-10%, margins recover to low 50s",
           "target": 36.0,
-          "probability": 0.45
+          "probability": 0.45,
+          "description": "CELSIUS organic growth remains in the mid-single digits as category saturation limits reacceleration, but Alani Nu adds genuine incremental revenue after its 2025 channel-fill normalizes, resulting in mid-teens consolidated growth and improving EBITDA margins toward 22-24% as integration costs decline. The PepsiCo distribution lock-in through 2041 remains a constraint on strategic flexibility but ensures shelf access stability, allowing the stock to drift toward $36 as investors pay a modest premium for the established market share position and cash-generative model."
         },
         "bear": {
           "label": "Organic CELSIUS stagnation, Rockstar drag, litigation settlement, PepsiCo dependency exposed",
           "target": 16.0,
-          "probability": 0.3
+          "probability": 0.3,
+          "description": "Alani Nu's post-acquisition channel-fill unwinds more severely than anticipated \u2014 mirroring the CELSIUS PepsiCo inventory reset of 2023-24 \u2014 producing a year of declining headline revenue that reveals the core CELSIUS brand growing below 5% organically. Gross margin recovery stalls due to PepsiCo pricing leverage and input cost inflation, the securities class-action lawsuits result in a material settlement drawing down the $549M cash buffer, and the 71x trailing P/E compresses toward 30-35x on declining earnings, driving the stock toward $16 as growth-premium investors exit."
         }
       },
       "ratings": {
@@ -831,17 +873,20 @@
         "bull": {
           "target": 270.0,
           "probability": 0.25,
-          "label": "Sustained EPS compounding + multiple expansion: operating EPS reaches ~$18+ by end-2027 as buybacks shrink float, agent count grows 8-10% annually, and market re-rates to 15x on cleared regulatory slate; $270 implies ~15x $18 EPS"
+          "label": "Sustained EPS compounding + multiple expansion: operating EPS reaches ~$18+ by end-2027 as buybacks shrink float, agent count grows 8-10% annually, and market re-rates to 15x on cleared regulatory slate; $270 implies ~15x $18 EPS",
+          "description": "Operating EPS growth accelerates above the guided $15.40-$15.90 range for 2026, driven by strong agent productivity at American Income Life and Family Heritage combined with sustained policy persistency in the lower-middle income demographic where Globe Life faces limited competition. Share repurchases intensify \u2014 the company removes 5-6% of diluted shares annually at below-intrinsic-value prices \u2014 and the market re-rates the stock from 12.4x toward 16-18x earnings as institutional investors who avoided the name during the 2024 short-seller campaign rebuild positions, compressing the discount to peer life insurer multiples."
         },
         "base": {
           "target": 210.0,
           "probability": 0.5,
-          "label": "Steady state: 2026-2027 EPS track guidance (~$15.65-$17), buybacks continue, stock trades 12-13x forward earnings; $210 implies ~12.5x $16.80 blended 2027E EPS"
+          "label": "Steady state: 2026-2027 EPS track guidance (~$15.65-$17), buybacks continue, stock trades 12-13x forward earnings; $210 implies ~12.5x $16.80 blended 2027E EPS",
+          "description": "EPS grows in the 6-8% annual range in line with management's guidance, supported by the direct-to-consumer distribution model's structural cost advantages. Labor misclassification litigation at American Income Life resolves without material financial impact, and the fixed-income portfolio's AOCI drag stabilizes as interest rate volatility moderates. The stock grinds modestly higher toward $210 as buybacks reduce share count and the regulatory overhang ceases to weigh on the multiple."
         },
         "bear": {
           "target": 115.0,
           "probability": 0.25,
-          "label": "Distribution model breakdown: renewed litigation forces operational restructuring of AIL contractor network, agent count declines, lapse rates rise, earnings stall at $12-13; stock re-rates to 9-10x on sustained governance discount; $115 implies ~9x $12.50 stressed EPS"
+          "label": "Distribution model breakdown: renewed litigation forces operational restructuring of AIL contractor network, agent count declines, lapse rates rise, earnings stall at $12-13; stock re-rates to 9-10x on sustained governance discount; $115 implies ~9x $12.50 stressed EPS",
+          "description": "Agent turnover at American Income Life accelerates, driven by intensifying labor misclassification litigation that changes the economics of the contractor model and forces Globe Life to reclassify agents as employees \u2014 materially increasing fixed costs and compressing the industry-leading operating margins that justify the current multiple. A sustained higher-for-longer interest rate environment widens the AOCI gap, reducing reported book value and creating pressure on regulators and rating agencies. With earnings growth stalling, the stock de-rates back toward the mid-$100s as the market reassesses whether the 2024-2025 re-rating was sustainable."
         }
       },
       "ratings": {
@@ -891,15 +936,18 @@
       "scenarios": {
         "bull": {
           "target": 95.0,
-          "probability": 0.35
+          "probability": 0.35,
+          "description": "BHRB's C&I loan book accelerates as the Northern Virginia federal contractor and defense technology corridor continues to attract capital investment, driving net loan growth above 10% annually and sustaining a 4%+ NIM even as rates modestly decline. Earnings growth compounds toward the 24-25% projected rate, and the market re-rates the stock from 9x toward 13-14x earnings as investors recognize the franchise's quality, pushing toward the $95 bull target over a two-year horizon."
         },
         "base": {
           "target": 78.0,
-          "probability": 0.45
+          "probability": 0.45,
+          "description": "BHRB maintains its 4.07-4.18% NIM range as rate cuts are modest and offset by disciplined loan repricing, with C&I and commercial real estate loan growth in the high single digits supporting mid-teens earnings growth off the elevated 2025 M&A-boosted base. The growth multiple expands modestly from 9x to 11x as the acquisition integration proves clean and the earnings trajectory normalizes to a sustainable organic run rate supporting a move to $78."
         },
         "bear": {
           "target": 48.0,
-          "probability": 0.2
+          "probability": 0.2,
+          "description": "Federal employment contract reductions in the DC/NoVA corridor cause CRE and C&I loan delinquencies to rise, compressing NIM as BHRB increases loan loss provisions and deposit competition heats up. Simultaneously, rate cuts exceed 150bps, NIM falls toward 3.5%, and the 2025 revenue surge proves to have been acquisition-driven flattery that masks flat or declining organic earnings \u2014 the stock de-rates sharply toward 6x normalized earnings near $48 as the growth premium collapses."
         }
       },
       "ratings": {
@@ -945,15 +993,18 @@
       "scenarios": {
         "bull": {
           "target": 255.0,
-          "probability": 0.3
+          "probability": 0.3,
+          "description": "The FDA Class II recall is resolved without manufacturing shutdown requirements, the OmniPod 5 platform emerges with credibility intact, and 34% YoY revenue growth in Q1 2026 continues as European and emerging market expansion accelerates Type 2 diabetes adoption. The Director's open-market purchase at $144 proves prescient as recall overhang clears, valuation multiples re-expand toward growth-MedTech peers, and Insulet captures further share from Medtronic's tubed pump installed base \u2014 driving a re-rating toward pre-recall valuation levels."
         },
         "base": {
           "target": 170.0,
-          "probability": 0.45
+          "probability": 0.45,
+          "description": "The recalls result in manageable corrective actions that modestly slow OmniPod unit shipments for 1-2 quarters but do not impair the manufacturing platform or OmniPod 5 commercialization, and revenue growth moderates to 15-20% as the company invests in quality remediation. The stock stabilizes as clarity on recall resolution emerges and the market recognizes that 34% revenue growth was genuinely extraordinary, pricing in a more normalized but still-premium growth trajectory for the industry's leading tubeless insulin delivery platform."
         },
         "bear": {
           "target": 85.0,
-          "probability": 0.25
+          "probability": 0.25,
+          "description": "FDA escalates the Class II recall into a Warning Letter following inspections that reveal systemic manufacturing control deficiencies at Insulet's primary production facility, triggering a mandatory shutdown or import alert that halts new OmniPod shipments for multiple quarters. This destroys the revenue growth narrative, forces the company to burn cash on remediation, and causes hospitals and payers to pause formulary support \u2014 collapsing both the fundamental earnings path and the premium growth multiple simultaneously."
         }
       },
       "ratings": {
@@ -1001,15 +1052,18 @@
       "scenarios": {
         "bull": {
           "target": 35.0,
-          "probability": 0.25
+          "probability": 0.25,
+          "description": "The Stelara revenue headwind proves to be a contained, one-time disruption: new complex therapy referrals in gene therapy, rare disease, and specialty biologics ramp to replace lost volume by Q3 2026, and OPCH wins new hospital discharge partnerships that expand its patient funnel. The market re-rates toward 22-24x earnings as investors distinguish between single-drug biosimilar risk and the structurally intact home infusion cost advantage, driving a recovery toward $35."
         },
         "base": {
           "target": 26.0,
-          "probability": 0.47
+          "probability": 0.47,
+          "description": "OPCH absorbs the $60-70M Stelara headwind through 2026 while new therapy categories and volume growth in anti-infectives and immunoglobulin provide partial offsets, stabilizing revenue in the $4.1-4.3B range. Policy risk from Medicaid and site-neutral payment proposals does not materialize into enacted legislation, and the market re-rates to a modest premium over the current 17x earnings level as revenue stabilizes and free cash flow proves durable, supporting a $26 target."
         },
         "bear": {
           "target": 12.0,
-          "probability": 0.28
+          "probability": 0.28,
+          "description": "Biosimilar displacement extends beyond Stelara to additional inflammatory biologics in OPCH's formulary, while CMS advances site-neutral payment rules that compress reimbursement rates on hospital-referred infusions \u2014 the dual headwind erodes both volume and per-infusion economics simultaneously. SG&A growth outpaces revenue as OPCH invests in clinical staff to defend patient relationships, margin compression accelerates, and the stock de-rates toward $12 as investors price in structural rather than cyclical revenue erosion."
         }
       },
       "ratings": {
@@ -1056,15 +1110,18 @@
       "scenarios": {
         "bull": {
           "target": 265.0,
-          "probability": 0.3
+          "probability": 0.3,
+          "description": "Florida avoids a major hurricane landfall in 2026, allowing HCI to post another year of combined ratio well below 80% and rebuilding investor confidence that its 57% normalized ratio reflects genuine underwriting discipline rather than weather luck. Concurrently, Exzeo executes a partial spinoff or strategic investment that surfaces the embedded $2B technology valuation \u2014 which is currently entirely invisible in P&C earnings \u2014 triggering a sharp re-rating of the sum-of-the-parts value and closing the gap to the 15-20x sector multiple."
         },
         "base": {
           "target": 200.0,
-          "probability": 0.45
+          "probability": 0.45,
+          "description": "HCI navigates a typical 2026 Florida hurricane season with manageable losses well within its reinsurance program, while EPS normalizes to the guided ~$17 level as favorable prior-year reserve releases fade. Citizens depopulation continues adding profitable policies at below-actuarial pricing, Exzeo matures without a near-term liquidity event, and the stock gradually re-rates from 7.9x toward 10-11x forward earnings as the market gains confidence that the 2025 reserve tailwinds are a feature of the model rather than a one-time event."
         },
         "bear": {
           "target": 105.0,
-          "probability": 0.25
+          "probability": 0.25,
+          "description": "A Category 4-5 hurricane makes direct Florida landfall in H2 2026, generating insured losses that exceed HCI's reinsurance retention thresholds and producing a combined ratio above 120% for the year \u2014 converting the record 2025 earnings into a material underwriting loss. Balance sheet book value erodes, the dividend is under pressure, and the stock re-prices toward tangible book value as investors question whether HCI's underwriting sophistication can persist through a true tail-risk event at the scale of its Florida concentration."
         }
       },
       "ratings": {
@@ -1112,15 +1169,18 @@
       "scenarios": {
         "bull": {
           "target": 20.0,
-          "probability": 0.33
+          "probability": 0.33,
+          "description": "Penns Woods merger synergies exceed the $20M initial estimate as commercial lending infrastructure scales and SBA originations push NWBI into the top 25 SBA lenders nationally, driving ROE above 12% and justifying a re-rating from a thrift-like 10x earnings to a community commercial bank multiple of 12-13x. C&I loan growth sustaining above 20% compounds NIM stability near 3.70%, delivering EPS growth that supports both the 5.3% dividend and meaningful buyback activity, attracting regional bank investors seeking yield with an improving credit story."
         },
         "base": {
           "target": 17.0,
-          "probability": 0.45
+          "probability": 0.45,
+          "description": "The Penns Woods integration stays on track with synergies materializing over 2026-2027, C&I loan growth moderating to a sustainable 12-15% as the initial acquisition boost fades, and NIM holding in the 3.55-3.70% range as deposit costs gradually reprice lower. Auto loan delinquencies remain elevated but manageable, nonaccruals continue their declining trend below $90M, and the stock earns a modest re-rating from 10x to 11x earnings as the transformation from savings institution to commercial bank platform gains investor recognition."
         },
         "bear": {
           "target": 10.0,
-          "probability": 0.22
+          "probability": 0.22,
+          "description": "Auto loan delinquency stress worsens as consumer credit quality deteriorates, pushing net charge-offs from 0.16% toward 0.40-0.50% and requiring elevated loan loss provisions that compress net income materially. A sharper-than-expected rate cut cycle compresses NIM toward 3.30% as the deposit repricing lag reverses, while CRE concentration in the regional portfolio comes under regulatory scrutiny. Combined, these headwinds cut EPS by 25-30%, threatening the dividend coverage and pushing the stock back toward the $10 tangible book value floor as the premium multiple proves unsustainable."
         }
       },
       "ratings": {
@@ -1167,17 +1227,20 @@
         "bull": {
           "target": 58.0,
           "probability": 0.25,
-          "label": "Cycle extension \u2014 oil recovers to $80+, new deepwater tenders fill white space at premium dayrates, dividend sustained from free cash flow, Barclays $56 target validated"
+          "label": "Cycle extension \u2014 oil recovers to $80+, new deepwater tenders fill white space at premium dayrates, dividend sustained from free cash flow, Barclays $56 target validated",
+          "description": "Brent crude recovers sustainably above $75/barrel, prompting major E&P operators to accelerate ultra-deepwater exploration and development programs \u2014 particularly in Guyana, Brazil, and West Africa \u2014 and filling the white space on Noble's BlackRhino, Noble Viking, and Gerry De Souza rigs at dayrates at or above their prior contract levels. The Aker BP Norwegian contract starting Q2 2027 establishes Noble's beachhead in a new basin and attracts additional harsh-environment floater demand, while free cash flow normalizes above the $2.00 dividend commitment, enabling buybacks that lift the depressed P/E toward cycle-normalized levels."
         },
         "base": {
           "target": 46.0,
           "probability": 0.45,
-          "label": "Backlog holds, mild dayrate softening on rollovers, Norwegian entry adds modest growth, refinancing reduces interest costs, stock re-rates to analyst consensus near $50"
+          "label": "Backlog holds, mild dayrate softening on rollovers, Norwegian entry adds modest growth, refinancing reduces interest costs, stock re-rates to analyst consensus near $50",
+          "description": "The $7.5 billion contracted backlog anchors near-term cash flows through 2027, with ExxonMobil's Guyana drillships operating at high utilization through February 2029 and providing earnings visibility that moderates downside even as contract rollovers occur at somewhat lower dayrates. Rig white space is partially filled at modestly lower dayrates, and the company sustains its dividend by drawing modestly on the balance sheet through H1 2026 before free cash flow normalizes. The stock recovers toward $46 as the market stabilizes its assessment of 2027-2028 contract renewal risk."
         },
         "bear": {
           "target": 24.0,
           "probability": 0.3,
-          "label": "Dayrate deterioration on contract renewals, rig white space extends, dividend cut forced by free cash flow shortfall, offshore capex cycle enters multi-quarter contraction as E&Ps defend balance sheets"
+          "label": "Dayrate deterioration on contract renewals, rig white space extends, dividend cut forced by free cash flow shortfall, offshore capex cycle enters multi-quarter contraction as E&Ps defend balance sheets",
+          "description": "Brent crude remains anchored in the mid-$60s through 2026-2027, causing E&P operators to defer ultra-deepwater exploration programs and leaving Noble's uncontracted rigs idle for extended periods at zero revenue contribution. Contract renewals on rigs rolling off backlog execute at dayrates 15-25% below current levels, compressing EBITDA and making the $2.00 annual dividend unsustainable \u2014 ultimately forcing a cut that triggers institutional selling. At 31x forward earnings embedding a recovery, the combination of dayrate compression and a dividend reduction produces a re-rating toward the low-$20s."
         }
       },
       "ratings": {
@@ -1227,15 +1290,18 @@
       "scenarios": {
         "bull": {
           "target": 7.5,
-          "probability": 0.3
+          "probability": 0.3,
+          "description": "WTI oil stabilizes above $65-70/barrel, prompting operators across GRNT's Permian, DJ, and Haynesville acreage to accelerate development activity and deliver on the 18-28% production growth outlook for 2026. Higher realized prices provide FCF coverage well above the $0.44 annualized dividend, the 8.875% senior notes are refinanced at a lower rate as credit markets improve, and the stock re-rates toward NAV near $7.50 as the combined yield-plus-growth story attracts income investors."
         },
         "base": {
           "target": 5.0,
-          "probability": 0.45
+          "probability": 0.45,
+          "description": "Oil holds in the $60-65 range, operators maintain current development pace, and GRNT delivers modest production growth in the low-to-mid teens, generating enough FCF to sustain the dividend at current levels without covenant pressure. The near-term commodity uncertainty prevents a meaningful re-rating, but the 10% yield provides a total return floor that keeps the stock near $5.00 as investors wait for a cleaner macro setup."
         },
         "bear": {
           "target": 2.0,
-          "probability": 0.25
+          "probability": 0.25,
+          "description": "Oil falls below $55/barrel for a sustained period, causing operators to cut capital programs and well completions across GRNT's non-operated acreage, resulting in flat-to-declining production and FCF that fails to cover the dividend. With the 8.875% senior notes requiring cash interest service and leverage rising, GRNT cuts the dividend to preserve covenant headroom \u2014 removing the primary investment rationale and causing equity value to compress toward $2.00 as the high-yield capital structure is re-examined."
         }
       },
       "ratings": {
@@ -1283,15 +1349,18 @@
       "scenarios": {
         "bull": {
           "target": 18.0,
-          "probability": 0.25
+          "probability": 0.25,
+          "description": "The securities fraud class action settles at the low end of the historical 5-10% range of claimed damages, producing a manageable one-time cash outflow that the balance sheet absorbs without impairing dividends or deleveraging capacity. The Waco facility begins delivering the expected cost and capacity improvements in 2027, containerboard pricing recovers as excess industry capacity is rationalized, and management's open-market buying at ~$11 is validated as the earnings trajectory rebounds \u2014 driving re-rating toward the 8-10x EV/EBITDA historical norm for packaging peers."
         },
         "base": {
           "target": 13.0,
-          "probability": 0.45
+          "probability": 0.45,
+          "description": "GPK navigates the litigation through a mid-range settlement over 2-3 years while Waco capex completion reduces the maintenance burden and containerboard pricing stabilizes near current levels rather than recovering meaningfully. Free cash flow improves as capex normalizes, allowing gradual deleveraging and dividend sustainability, and the stock modestly re-rates as litigation uncertainty becomes quantifiable \u2014 moving from maximum-fear pricing toward a modest discount to historical packaging multiples."
         },
         "bear": {
           "target": 5.5,
-          "probability": 0.3
+          "probability": 0.3,
+          "description": "Class action discovery uncovers additional disclosure failures beyond the three known corrective disclosures, enabling class certification and a court-imposed settlement significantly above historical norms \u2014 potentially representing multiple years of free cash flow. Simultaneously, containerboard pricing deteriorates further as recycled fiber costs rise and private label customers shift volumes to lower-cost alternatives, creating a scenario where elevated debt service, litigation costs, and compressed EBITDA converge to threaten dividend sustainability and trigger covenant pressure."
         }
       },
       "ratings": {
@@ -1339,15 +1408,18 @@
       "scenarios": {
         "bull": {
           "target": 90.0,
-          "probability": 0.25
+          "probability": 0.25,
+          "description": "A meaningful decline in mortgage rates toward 5.5-6% triggers a release of pent-up existing home sale transactions, directly restoring remodel spending and driving FND comparable store sales back to positive territory by Q1 2027, while the Pro contractor channel continues to provide a demand floor. Tariff exposure is managed through direct sourcing diversification away from China, gross margins recover toward 43-44%, and new store openings toward the 500-store target validate the long-term unit economics, re-rating the stock back toward $90."
         },
         "base": {
           "target": 65.0,
-          "probability": 0.47
+          "probability": 0.47,
+          "description": "Housing remains subdued in the near term but FND's Pro segment cushions the decline, allowing comps to recover to flat-to-slightly positive by Q4 2026 as easier year-over-year comparisons take hold and some tariff costs are passed through to consumers. The $400M buyback program reduces share count and provides EPS support, allowing FND to grow earnings modestly even with tepid demand, stabilizing the multiple near current levels and supporting a $65 price target."
         },
         "bear": {
           "target": 36.0,
-          "probability": 0.28
+          "probability": 0.28,
+          "description": "Mortgage rates stay above 6.5% through 2027, existing home sales remain near multi-decade lows, and tariff-driven cost increases on China-sourced flooring products prove harder to pass through than guided \u2014 driving gross margins below 42% and invalidating management's conservative guidance. At 32x earnings, any downside EPS revision compresses the multiple disproportionately, and competition from Home Depot and Lowe's on flooring selection limits FND's pricing power, pushing the stock toward $36."
         }
       },
       "ratings": {
@@ -1394,15 +1466,18 @@
       "scenarios": {
         "bull": {
           "target": 295.0,
-          "probability": 0.25
+          "probability": 0.25,
+          "description": "The 30-year mortgage rate declines toward 6% by late 2026 as Fed easing gains traction, unfreezing existing home sales and triggering a recovery in new pool installations from the 60,000-unit trough back toward 80,000+ units, with POOL capturing disproportionate share due to its fill-rate advantage and supplier rebate scale. Simultaneously, tariff risk on Chinese pool equipment is resolved through trade negotiation or domestic sourcing, removing a key investor overhang and allowing the stock to re-rate from trough 19x back toward the 25-28x mid-cycle multiple."
         },
         "base": {
           "target": 235.0,
-          "probability": 0.47
+          "probability": 0.47,
+          "description": "Mortgage rates remain sticky above 6.5% through most of 2026, keeping new pool construction near current depressed levels of 60,000 units, but POOL's 70% non-discretionary maintenance and chemical revenue provides a stable earnings floor while the company continues investing in its sales center network. As housing gradually thaws in 2027, POOL's unassailable distribution moat \u2014 built over 30 years across 440+ locations \u2014 positions it to recover volumes without ceding share, allowing earnings to recover toward $12-13/share and justifying a modest re-rating."
         },
         "bear": {
           "target": 140.0,
-          "probability": 0.28
+          "probability": 0.28,
+          "description": "Mortgage rates remain above 7% into 2027 as inflation proves stickier than expected, suppressing both new construction and existing home sale-linked pool renovations for a third consecutive year, while tariffs on Chinese-sourced equipment inflate product costs faster than POOL can pass them through to fragmented contractor customers. With fixed-cost investments in technology and new sales centers having elevated the break-even, operating leverage works in reverse \u2014 EPS grinds lower toward $8-9, the market refuses to award cyclical recovery multiples, and the stock tests its 2020 pandemic lows."
         }
       },
       "ratings": {
@@ -1448,15 +1523,18 @@
       "scenarios": {
         "bull": {
           "target": 32.0,
-          "probability": 0.3
+          "probability": 0.3,
+          "description": "The commercial banking cycle strengthens in the mid-South as infrastructure and reshoring investment accelerates, driving loan growth above 8% and sustaining ROTCE above 16% while the $1.2B buyback program reduces share count by 6-7%. Renewed M&A speculation returns as regional bank consolidation resumes \u2014 CEO Jordan's October 2025 comments were tactical rather than strategic \u2014 and the stock re-rates from fair value toward a modest acquisition premium, approaching $32 as quality-compounding and capital return compound."
         },
         "base": {
           "target": 27.0,
-          "probability": 0.5
+          "probability": 0.5,
+          "description": "FHN continues executing at a high level \u2014 four consecutive EPS beats, NIM holding near 3.50%, ROTCE above 15% \u2014 with the $1.2B buyback providing ongoing EPS accretion that offsets modest loan growth in a cautious commercial lending environment. The M&A premium overhang from Jordan's October comments fades as the franchise demonstrates standalone earnings power, and the stock grinds modestly higher toward the consensus $27 target as the market pays a fair-value multiple for a top-quartile regional bank."
         },
         "bear": {
           "target": 18.0,
-          "probability": 0.2
+          "probability": 0.2,
+          "description": "A mid-South regional recession or CRE credit cycle turns credit quality meaningfully, pushing loan loss provisions higher and compressing ROTCE from 15% toward 10-11% as the elevated commercial real estate exposure in Tennessee and Georgia faces vacancy stress. Simultaneously, a sharp rate cut cycle narrows NIM by 30-40 basis points, and the buyback program loses accretiveness as book value dilution risk returns, de-rating the stock from current levels toward $18 as the quality premium evaporates with deteriorating fundamentals."
         }
       },
       "ratings": {
@@ -1505,15 +1583,18 @@
       "scenarios": {
         "bull": {
           "target": 40.0,
-          "probability": 0.3
+          "probability": 0.3,
+          "description": "EVERTEC's Latin American segment sustains 25%+ revenue growth through 2026-2027, winning new banking technology and merchant acquiring mandates in Colombia, Chile, and Brazil that rapidly reduce Puerto Rico's share of total revenue below 50% \u2014 eliminating the single-customer-concentration discount embedded in the current 6.7x forward P/E. The Popular Bank pricing reset proves to be a one-time step-down rather than a recurring compression mechanism, and LatAm margin expansion from operating leverage offsets the Puerto Rico headwind, enabling overall EPS growth that closes the gap to peer payment processors trading at 15-20x earnings."
         },
         "base": {
           "target": 28.0,
-          "probability": 0.45
+          "probability": 0.45,
+          "description": "The Popular Bank 10% pricing discount is fully absorbed into the run rate by mid-2026, and LatAm growth at 20-25% annually offsets Puerto Rico's organic moderation, keeping total company revenue roughly flat to slightly growing. Near-term margin pressure from LatAm investment spending eases as new contracts ramp to full contribution, allowing EPS to stabilize near current levels. The stock remains range-bound near current prices as the market awaits evidence that LatAm scale is sufficient to re-rate the business above 7-8x earnings."
         },
         "bear": {
           "target": 15.0,
-          "probability": 0.25
+          "probability": 0.25,
+          "description": "Popular Bank exercises additional contract negotiating leverage \u2014 or elects to partially insource processing capabilities \u2014 triggering a second round of pricing concessions that further compress EVERTEC's largest and most profitable revenue stream beyond the already-absorbed 10% discount. Simultaneously, LatAm expansion burns cash faster than anticipated and encounters competitive pushback from regional incumbents, causing growth to decelerate below 15%. With the core business structurally shrinking and LatAm not yet at sufficient scale to replace it, earnings contract materially and the stock re-rates toward $15."
         }
       },
       "ratings": {
@@ -1562,15 +1643,18 @@
       "scenarios": {
         "bull": {
           "target": 48.0,
-          "probability": 0.3
+          "probability": 0.3,
+          "description": "XRN's pivot into senior housing gains traction as demographic demand from the 75M boomer cohort drives occupancy and rent growth across its healthcare and active adult portfolio, supporting Core FFO expansion beyond the $4.30-4.45 guidance range. The 3.74% weighted-average fixed-rate debt structure remains insulated from rate volatility through 2027-2028, allowing XRN to acquire additional assets at attractive cap rate spreads and achieve a re-rating toward 12x Core FFO near $48 as investors recognize the yield durability."
         },
         "base": {
           "target": 40.0,
-          "probability": 0.45
+          "probability": 0.45,
+          "description": "XRN sustains the $3.00 annualized monthly dividend on the strength of NNN-style healthcare leases with near-zero historical vacancy and fixed-rate debt costs locked well below the 8% dividend yield. Core FFO remains within the $4.30-4.45 guidance range, the senior housing pivot proceeds without major execution missteps, and the stock grinds modestly higher toward $40 as investors collect the yield while awaiting portfolio growth catalysts."
         },
         "bear": {
           "target": 24.0,
-          "probability": 0.25
+          "probability": 0.25,
+          "description": "Cap rates for healthcare real estate expand 75-100bps as interest rates rise or credit spreads widen, pressuring XRN's 44.4% LTV balance sheet and creating a difficult 2028 refinancing environment where the 3.74% locked rate resets materially higher. Simultaneously, the senior housing pivot encounters execution friction \u2014 operator underperformance or elevated turnover costs \u2014 compressing Core FFO toward $3.50/share, forcing a dividend reduction that causes the stock to reprice near 7x depressed FFO around $24."
         }
       },
       "ratings": {
@@ -1617,15 +1701,18 @@
       "scenarios": {
         "bull": {
           "target": 125.0,
-          "probability": 0.25
+          "probability": 0.25,
+          "description": "CAVA sustains 8-10% same-store sales growth for the next several years while simultaneously accelerating new unit openings toward 80+ per year, demonstrating that Mediterranean fast-casual has durability comparable to Chipotle's early expansion years and can maintain restaurant-level margins above 25% at scale. This execution track record compresses the 160x P/E multiple only modestly as earnings grow into the valuation rapidly \u2014 validating a path to 1,000+ units with consistent unit economics and justifying premium growth pricing."
         },
         "base": {
           "target": 78.0,
-          "probability": 0.5
+          "probability": 0.5,
+          "description": "CAVA's unit growth continues at 50-60 new locations per year with restaurant-level margins stable in the low-to-mid 20s%, but same-store sales growth decelerates to 4-6% as the brand matures from its novelty phase and competitive responses from Chipotle and Sweetgreen intensify. At 160x earnings, even strong execution produces only modest upside as the market recognizes the valuation already prices in near-perfect execution, keeping the stock range-bound or modestly below current levels."
         },
         "bear": {
           "target": 40.0,
-          "probability": 0.25
+          "probability": 0.25,
+          "description": "Same-store sales growth decelerates sharply to low-single digits as Mediterranean fast-casual reaches saturation in core coastal markets, new unit economics deteriorate as the brand expands into less-proven geographies with higher labor costs, and institutional holders including Artal accelerate distribution. Multiple compression from 160x toward 60-80x \u2014 still a growth premium \u2014 produces severe price destruction even without a fundamental breakdown, because the current valuation simply prices in a decade of Chipotle-equivalent flawless execution that rarely materializes at scale."
         }
       },
       "ratings": {
@@ -1673,15 +1760,18 @@
       "scenarios": {
         "bull": {
           "target": 68.0,
-          "probability": 0.2
+          "probability": 0.2,
+          "description": "Franchise agent count growth re-accelerates above 10% annually as Goosehead addresses the retention and economics issues that caused the prior deceleration \u2014 potentially via improved franchise fee structures or enhanced technology support \u2014 while the favorable personal lines pricing environment drives strong policy-in-force growth from the existing agent base. Revenue growth re-accelerates above 20%, justifying a premium multiple expansion back toward 55-60x earnings and a path toward $68."
         },
         "base": {
           "target": 42.0,
-          "probability": 0.45
+          "probability": 0.45,
+          "description": "Franchise agent growth recovers modestly to 5-7% annually \u2014 not the historical 15-20% pace but enough to sustain mid-teens revenue growth from the existing base as premium rates remain elevated and renewal retention holds. The market accepts a lower structural growth rate but rewards capital-light economics and improving free cash flow conversion, stabilizing the stock near current levels around $42 as investors await evidence of agent count re-acceleration."
         },
         "bear": {
           "target": 22.0,
-          "probability": 0.35
+          "probability": 0.35,
+          "description": "Franchise agent count stagnates or declines as agent retention deteriorates \u2014 possibly driven by franchisee economics deteriorating in a normalizing personal lines pricing environment \u2014 confirming that the 1% YoY growth was not a temporary trough but a structural TAM saturation signal. The executive chairman completes his $14.48M share sale, amplifying the negative insider signal, and investors reprice the growth premium further toward 25-30x earnings, driving the stock toward $22."
         }
       },
       "ratings": {
@@ -1729,15 +1819,18 @@
       "scenarios": {
         "bull": {
           "target": 220.0,
-          "probability": 0.2
+          "probability": 0.2,
+          "description": "GPGI insurance distribution and Husky Holdings specialty finance both achieve escape velocity \u2014 growing fee income materially faster than holding company overhead \u2014 while RHLD successfully raises additional capital at accretive terms that reduces the 4x+ debt/equity ratio to a manageable level. The fee-based model proves scalable through a third or fourth subsidiary acquisition, insider buying is validated, and the market assigns a private-equity-style holding company premium to the platform, re-rating toward NAV."
         },
         "base": {
           "target": 120.0,
-          "probability": 0.45
+          "probability": 0.45,
+          "description": "RHLD's two subsidiaries generate sufficient fee income to stabilize the holding company P&L and prevent further GAAP losses, but the opacity of the structure and the early operating history keep institutional investors sidelined at a discount to any intrinsic estimate. Without a clear catalyst \u2014 spinoff, liquidity event, or audited earnings inflection \u2014 the stock oscillates near current prices as the market balances nascent earnings power against the severe capital structure and information risks."
         },
         "bear": {
           "target": 18.0,
-          "probability": 0.35
+          "probability": 0.35,
+          "description": "One or both of GPGI and Husky Holdings encounters operational stress \u2014 whether from insurance distribution disruptions, specialty finance credit losses, or regulatory friction \u2014 that impairs fee income while the 4x+ leverage at the holding company creates a debt service burden the business cannot support without dilutive equity issuance. The FY2025 GAAP loss repeats or worsens, the opaque structure makes it impossible for investors to distinguish temporary setbacks from fundamental impairment, and the stock collapses toward minimal equity value as lenders and minority investors lose confidence."
         }
       },
       "ratings": {
@@ -2591,5 +2684,5 @@
       "conviction": 0.15079433863912894
     }
   ],
-  "saved_at": "2026-06-29T03:15:22.949444"
+  "saved_at": "2026-06-29T03:28:12.303014"
 }
