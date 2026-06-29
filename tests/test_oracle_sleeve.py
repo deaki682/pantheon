@@ -97,3 +97,26 @@ def test_persistence_roundtrip(tmp_path):
     assert isinstance(loaded, OracleSleeve)
     assert loaded.peak_equity == 2500.0
     assert "AAPL" in loaded.positions
+
+
+def test_position_cohort_id_default():
+    s = OracleSleeve(initial_cash=1000.0)
+    s.buy("ACME", 1.0, 50.0, "2026-06-29")
+    assert s.positions["ACME"].cohort_id == ""
+
+
+def test_position_cohort_id_persists(tmp_path):
+    s = OracleSleeve(initial_cash=1000.0)
+    s.buy("ACME", 1.0, 50.0, "2026-06-29")
+    s.positions["ACME"].cohort_id = "cohort-1"
+    p = tmp_path / "oracle.json"
+    s.save(str(p))
+    loaded = OracleSleeve.from_dict(__import__("json").loads(p.read_text()))
+    assert loaded.positions["ACME"].cohort_id == "cohort-1"
+
+
+def test_position_without_cohort_id_loads():
+    """Old sleeve data without cohort_id still loads (backward compat)."""
+    from shared.base_sleeve import SleevePosition
+    pos = SleevePosition(shares=1.0, avg_price=50.0, entry_date="2026-01-01")
+    assert pos.cohort_id == ""

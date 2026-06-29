@@ -59,3 +59,36 @@ def test_plan_orders_skips_below_min_ticket():
     s = OracleSleeve(initial_cash=1000)
     orders = plan_orders(s, targets={"AAPL": 30.0}, prices={"AAPL": 100.0})
     assert orders == []
+
+
+def test_plan_orders_cohort_holds_blocks_removal():
+    s = OracleSleeve(initial_cash=1000)
+    s.buy("AAPL", 1.0, 100.0, "2024-01-01")
+    s.buy("GOOG", 1.0, 100.0, "2024-01-01")
+    orders = plan_orders(
+        s, targets={}, prices={"AAPL": 100.0, "GOOG": 100.0},
+        cohort_holds={"AAPL", "GOOG"},
+    )
+    assert orders == []
+
+
+def test_plan_orders_cohort_holds_allows_thesis_break_exit():
+    s = OracleSleeve(initial_cash=1000)
+    s.buy("AAPL", 1.0, 100.0, "2024-01-01")
+    s.buy("GOOG", 1.0, 100.0, "2024-01-01")
+    # GOOG triggered thesis-break — removed from cohort_holds before calling
+    orders = plan_orders(
+        s, targets={}, prices={"AAPL": 100.0, "GOOG": 100.0},
+        cohort_holds={"AAPL"},
+    )
+    assert len(orders) == 1
+    assert orders[0]["symbol"] == "GOOG"
+    assert orders[0]["side"] == "sell"
+
+
+def test_plan_orders_cohort_holds_none_is_transparent():
+    s = OracleSleeve(initial_cash=1000)
+    s.buy("AAPL", 1.0, 100.0, "2024-01-01")
+    orders = plan_orders(s, targets={}, prices={"AAPL": 100.0}, cohort_holds=None)
+    assert len(orders) == 1
+    assert orders[0]["side"] == "sell"

@@ -45,6 +45,7 @@ class SleevePosition:
     avg_price: float
     entry_date: str
     sector: str = ""
+    cohort_id: str = ""
 
 
 @dataclass

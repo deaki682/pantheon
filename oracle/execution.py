@@ -22,6 +22,7 @@ def plan_orders(
     rebal_band: float = REBAL_BAND,
     min_ticket: float = MIN_TICKET,
     today: str | None = None,
+    cohort_holds: set[str] | None = None,
 ) -> list[dict]:
     """Compute the order list to move from current to targets.
 
@@ -29,10 +30,10 @@ def plan_orders(
     over-allocated or removed names. Positions inside the rebalance band are
     left alone.
 
-    When `today` is supplied, buys for names still inside their post-sell
-    cooldown window (`cooldowns[sym] > today`) are skipped — matching the guard
-    in `OracleSleeve.buy`. With `today=None` (the default) the planner is
-    permissive and the cooldown is enforced at the buy layer instead.
+    When ``cohort_holds`` is supplied, symbols in the set are immune from
+    "removed_from_book" sells.  The cohort module determines which symbols
+    should exit (via thesis-break checks) and removes them from the set
+    before calling this function.
 
     Returns: list of {side, symbol, dollars, reason}.
     """
@@ -47,6 +48,8 @@ def plan_orders(
     for sym, dollars in current_dollars.items():
         target = targets.get(sym, 0.0)
         if target <= 0:
+            if cohort_holds and sym in cohort_holds:
+                continue
             if dollars >= min_ticket / 2:  # always exit, even small remnants
                 orders.append({
                     "side": "sell", "symbol": sym, "dollars": dollars,
