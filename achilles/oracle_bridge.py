@@ -178,9 +178,9 @@ def load_screen_scores(path: str = SCREEN_PATH) -> dict[str, dict]:
     Returns {SYMBOL: {score, lenses: {insider_cluster, smart_money, ...}}}
     """
     data = _load_json(path, {})
-    top = data.get("top", []) if isinstance(data, dict) else data
+    rows = data.get("rows", data.get("survivors", data.get("top", []))) if isinstance(data, dict) else data
     out: dict[str, dict] = {}
-    for item in top:
+    for item in rows:
         if not isinstance(item, dict):
             continue
         sym = (item.get("symbol") or "").upper()

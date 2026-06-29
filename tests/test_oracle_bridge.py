@@ -190,3 +190,20 @@ def test_load_screen_scores(tmp_path):
     result = load_screen_scores(str(p))
     assert "ACME" in result
     assert result["ACME"]["score"] == 0.8
+
+
+def test_load_screen_scores_rows_key(tmp_path):
+    data = {"rows": [{"symbol": "XYZ", "score": 0.6, "lenses": {}}]}
+    p = tmp_path / "screen.json"
+    p.write_text(json.dumps(data))
+    result = load_screen_scores(str(p))
+    assert "XYZ" in result
+    assert result["XYZ"]["score"] == 0.6
+
+
+def test_load_screen_scores_survivors_key(tmp_path):
+    data = {"survivors": [{"symbol": "ABC", "score": 0.5, "lenses": {}}]}
+    p = tmp_path / "screen.json"
+    p.write_text(json.dumps(data))
+    result = load_screen_scores(str(p))
+    assert "ABC" in result
