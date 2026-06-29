@@ -1,16 +1,16 @@
 {
-  "cash": 1000.0,
-  "conservative_mode": true,
-  "contributed_cash": 1000.0,
-  "gfv_count": 0,
-  "halted": false,
   "name": "achilles",
-  "peak_equity": 1000.0,
-  "pending_settlements": [],
+  "cash": 1000.0,
   "positions": {},
+  "pending_settlements": [],
   "realized_pnl": 0.0,
-  "symbol_cooldowns": {},
+  "gfv_count": 0,
   "trades_count": 0,
-  "trades_today": 0,
-  "trades_today_date": ""
+  "halted": false,
+  "contributed_cash": 1000.0,
+  "peak_equity": 1000.0,
+  "conservative_mode": true,
+  "symbol_cooldowns": {},
+  "trades_today_date": "",
+  "trades_today": 0
 }
