@@ -273,12 +273,15 @@ def check_position_sanity(
 
     # Only check positions that at least one sleeve claims. Broker-only
     # positions (pre-existing, manually placed) are invisible to the gods.
+    # One-sided check: only flag when the sleeve claims MORE than the broker
+    # holds. The broker having extra shares is expected when the user's
+    # personal holdings overlap with a god's symbols.
     for sym in sorted(combined.keys()):
         broker_shares = broker_positions.get(sym, 0.0)
         broker_plus_pending = broker_shares + pending.get(sym, 0.0)
         per_god = combined[sym]
         sleeve_total = sum(per_god.values())
-        if abs(sleeve_total - broker_plus_pending) > tolerance:
+        if sleeve_total - broker_plus_pending > tolerance:
             mismatches.append(PositionMismatch(
                 symbol=sym,
                 sleeve_total=sleeve_total,

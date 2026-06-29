@@ -260,3 +260,21 @@ def test_pre_trade_check_partial_pending_still_fails(tmp_path):
     pending = {"VITL": 5.0}  # only half accounted for
     result = pre_trade_check(broker, sleeve_paths=sleeve_paths, pending_orders=pending)
     assert result is False
+
+
+def test_pre_trade_check_ignores_personal_overlap(tmp_path):
+    """Broker has MORE shares than sleeve — personal holdings overlap. Should pass."""
+    _write_sleeve(tmp_path / "d.json", {"AMD": 0.384, "CAT": 0.176})
+    sleeve_paths = {"delphi": str(tmp_path / "d.json")}
+    broker = {"AMD": 1.447, "CAT": 0.605}  # includes personal holdings
+    result = pre_trade_check(broker, sleeve_paths=sleeve_paths)
+    assert result is True
+
+
+def test_pre_trade_check_catches_missing_shares(tmp_path):
+    """Sleeve claims more than broker holds — real problem. Should fail."""
+    _write_sleeve(tmp_path / "o.json", {"VITL": 10.0})
+    sleeve_paths = {"oracle": str(tmp_path / "o.json")}
+    broker = {"VITL": 3.0}  # broker has fewer than sleeve claims
+    result = pre_trade_check(broker, sleeve_paths=sleeve_paths)
+    assert result is False
