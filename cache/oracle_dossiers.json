@@ -3574,54 +3574,6 @@
     },
     {
       "symbol": "STRZ",
-      "business": "Starz Entertainment Corp. is a U.S. premium subscription video service delivering OTT streaming and traditional linear cable distribution, targeting women 18-49 and diverse audiences via franchises like Power, Outlander, BMF, and Spartacus. Spun off from Lions Gate Entertainment Corp. in May 2025, the company operates ~17.6M U.S. subscribers (12.7M OTT + 4.97M linear) and generates revenue via direct-to-consumer app, MVPD deals (Comcast, Charter, DirecTV, DISH), and OTT platform partnerships (Amazon, Apple, Google, Hulu).",
-      "thesis": "Bull: Starz is executing a cost-rationalization post-spinoff, with Adjusted OIBDA of 68.7M TTM, positive Q1 2026 operating cash flow (3.2M), and management accelerating its 20% margin target to H2 2027; OTT subs grew to 12.66M (from 11.77M a year ago), and at 85M market cap vs. ~.79B total assets the stock trades at a fraction of replacement cost, with M&A speculation (poison pill enacted March 2026) adding optionality. Bear: Revenue is in structural decline (down 7.3% YoY in the 9 months to Dec 2025, Q1 2026 down another 7.2%), GAAP net losses exceed 65M per quarter driven by massive content impairments (~28M in Q1 2026 alone), and 25M in total debt (3.1x leverage) leaves little margin for error; linear TV subscribers fell from 7.36M to 4.97M in one year and OTT revenue growth is negative (-6.4% in Q1 2026) despite subscriber gains, suggesting discounting pressure on ARPU. Is the bear case priced in? Partially: at 8.98 and ~85M market cap the stock is priced at roughly 1.2x trailing TTM Adjusted OIBDA of 68.7M \u2014 cheap if management hits the 2027 profitability target, but the stock has run 250%+ in 2026 from ~ with no GAAP profits and a coming 85-205M film contract termination charge looming in Q2 2026; the poison pill and CEO buying signal M&A interest but also defensive posture.",
-      "scenarios": {
-        "bull": {
-          "target": 48.0,
-          "probability": 0.25
-        },
-        "base": {
-          "target": 30.0,
-          "probability": 0.45
-        },
-        "bear": {
-          "target": 14.0,
-          "probability": 0.3
-        }
-      },
-      "ratings": {
-        "moat": 0.35,
-        "runway": 0.42,
-        "quality": 0.3,
-        "management": 0.52
-      },
-      "citations": [
-        "0000929351-26-000031",
-        "0000929351-26-000011",
-        "0000929351-26-000030"
-      ],
-      "decline_explanation": "Revenue declined 7.3% YoY in the nine months ending Dec 2025 driven by (1) OTT discounting via multi-month payment plans reducing ARPU despite subscriber growth, and (2) ongoing cord-cutting causing linear subscribers to fall from 7.36M to 4.97M. GAAP operating losses are amplified by large content impairment charges (28M in Q1 2026, 68M in Q1 2025) as management rationalizes the content portfolio post-spinoff, and by accelerated amortization of the Starz Traditional Affiliate intangible as MVPD revenue declines.",
-      "sector": "Consumer Services",
-      "cik": "0000929351",
-      "current_price": 28.98,
-      "priced_at": "2026-06-29T06:52:46.365251",
-      "price_verified": false,
-      "drawdown_from_high": 0.0,
-      "going_concern_flag": false,
-      "derived": {
-        "expected_price": 29.7,
-        "expected_return": 0.024844720496894457,
-        "expected_cagr": 0.012346146580750617,
-        "asymmetry": 1.0580774365821095,
-        "quality_mult": 0.8975,
-        "asymmetry_mult": 1.028628911018016,
-        "potential_score": 0.01139789397308211
-      },
-      "conviction": 0.01615085900058366
-    },
-    {
-      "symbol": "STRZ",
       "business": "Starz Entertainment Corp. is a U.S. premium subscription video service delivering OTT streaming and traditional linear cable distribution, targeting women 18-49 and diverse audiences via franchises including Power, Outlander, BMF, and Spartacus. Spun off from Lions Gate Entertainment Corp. in May 2025, the company operates ~17.6M U.S. subscribers (12.7M OTT + 4.97M linear) and generates revenue via its direct-to-consumer app, MVPD deals (Comcast, Charter, DirecTV, DISH), and OTT platform partnerships (Amazon, Apple, Google, Hulu).",
       "thesis": "Bull: Starz is executing a cost-rationalization post-spinoff with Adjusted OIBDA of $168.7M TTM, positive Q1 2026 operating cash flow ($73.2M), and management accelerating its 20% Adjusted OIBDA margin target to H2 2027 \u2014 one year ahead of prior guidance; OTT subs grew to 12.66M (from 11.77M), and at $485M market cap vs. ~$1.79B total assets the stock trades at ~2.9x TTM OIBDA with M&A optionality (poison pill enacted March 2026). Bear: Revenue is in structural decline (down 7.3% YoY in 9 months to Dec 2025, Q1 2026 down another 7.2%), GAAP net losses exceed $165M per quarter driven by massive content impairments (~$128M in Q1 2026 alone), $625M in total debt (3.1x leverage) leaves little margin for error, linear subscribers fell from 7.36M to 4.97M in one year, and a $185-205M film contract termination charge is coming in Q2-Q3 2026. The bear case is partially priced in: at ~2.9x TTM OIBDA the stock is cheap if management executes, but the 250%+ run from $8 to $29 in 2026 without GAAP profitability and compounding restructuring charges create meaningful downside if the margin thesis slips.",
       "scenarios": {
@@ -3734,7 +3686,529 @@
       "broker_price": 83.4,
       "broker_high_52w": 98.79,
       "price_verified": true
+    },
+    {
+      "symbol": "CCAP",
+      "business": "Crescent Capital BDC (Los Angeles, CA) is a business development company that provides first-lien, second-lien, and mezzanine debt plus equity co-investments to US middle-market companies ($25M-$200M EBITDA) across broadly diversified sectors. Externally managed by Crescent Capital Group, with ~$1.5B total assets and 36.8M shares outstanding. Pays a quarterly dividend ($0.34/share as of Q2 2026, reduced 19% from $0.42). NAV ~$18.27/share; stock trades at 0.61\u00d7 NAV.",
+      "thesis": "CCAP trades at 0.61\u00d7 NAV \u2014 the deepest BDC discount in its peer set \u2014 after three Fed rate cuts in H2 2025 compressed net investment income and non-accruals rose to 4.1% of cost across 11 portfolio companies. Insiders are cluster-buying at these levels, a rare signal when management has direct visibility into NAV. The bull case: the Fed is done cutting, portfolio spreads stabilize at 8-9%, the 4.1% non-accrual rate is the cycle peak (not a ramp), and the stock closes half the gap to NAV over 24 months. The bear case: a 2026 credit contraction takes non-accruals from 4.1% to 8-10% of cost, NAV erodes to $14-15, and the dividend is cut again. The decisive question is whether the current non-accrual cohort (11 names) is idiosyncratic or the leading edge of broader middle-market stress. At 0.61\u00d7 NAV with a 15% dividend yield (on the cut amount), the price-in of 'more is coming' is already substantial. Disconfirming signal to watch: new Q2/Q3 2026 non-accruals beyond the known 11.",
+      "scenarios": {
+        "bull": {
+          "target": 16.0,
+          "probability": 0.25,
+          "description": "Credit cycle peaks in early 2026; non-accruals resolve at 50\u00a2 on the dollar; NAV recovers to $18.50; stock re-rates to 0.85\u00d7 NAV = $15.73. Insider buying proves prescient. 24-month price target $16."
+        },
+        "base": {
+          "target": 13.0,
+          "probability": 0.5,
+          "description": "Non-accruals plateau at 5-6% cost; NAV grinds to $17-17.50; stock trades toward 0.75\u00d7 NAV = $12.75-13.13. Total return attractive via high dividend yield while waiting. 24-month price target $13."
+        },
+        "bear": {
+          "target": 9.5,
+          "probability": 0.25,
+          "description": "Credit deterioration accelerates; non-accruals reach 9-10% of cost; NAV falls to $14; dividend cut to $0.22/quarter; stock re-rates to 0.68\u00d7 NAV = $9.52. 24-month price target $9.50."
+        }
+      },
+      "ratings": {
+        "moat": 0.35,
+        "runway": 0.35,
+        "quality": 0.25,
+        "management": 0.45
+      },
+      "citations": [
+        "0001655888-26-071922",
+        "0001655888-26-221986"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 11.12,
+      "high_52w": 16.035,
+      "decline_explanation": "Fed cut rates 3\u00d7 in H2 2025, compressing CCAP's floating-rate NII by ~40bps. Non-accruals rose to 4.1% of cost (11 portfolio companies) by Q1 2026, raising NAV impairment risk. The board cut the quarterly dividend 19% ($0.42\u2192$0.34). Multiple analyst downgrades followed. The BDC sector also faces a $12.7B 2026 debt maturity wall, adding refinancing and default risk across middle-market portfolios.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Finance/BDC",
+      "author": "oracle",
+      "created_at": "2026-06-29T07:50:16.580017",
+      "priced_at": "2026-06-29T07:50:16.580017",
+      "scenario_price": 11.12,
+      "broker_price": 11.12,
+      "broker_high_52w": 16.035,
+      "price_verified": true,
+      "drawdown_from_high": 0.30651699407545996,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 12.875,
+        "expected_return": 0.15782374100719432,
+        "expected_cagr": 0.07602218425420681,
+        "asymmetry": 3.0123456790123475,
+        "quality_mult": 0.85,
+        "asymmetry_mult": 1.735611039090368,
+        "potential_score": 0.11215320087625881
+      },
+      "conviction": 0.14804268944852983
+    },
+    {
+      "symbol": "BOC",
+      "business": "Boston Omaha Corp. (Omaha, NE) is a Berkshire-style holding company with four segments: (1) Billboards \u2014 3,000+ billboard faces in Southeast/Midwest US under the Link Media brand; (2) Bonds \u2014 surety insurance via General Indemnity Group (GIG), recently agreed to sell GIG to CopperPoint Insurance for $84.3M (~H2 2026); (3) Broadband \u2014 Sky Harbor internet in Wyoming/regional markets; (4) Asset management \u2014 a nascent capital allocation arm. ~30.4M diluted shares; $48.4M cash. CEO Adam Peterson is a Buffett disciple; co-founder Alex Rozek is Warren Buffett's great-nephew.",
+      "thesis": "BOC trades at 0.82\u00d7 book, a rare discount for a Berkshire-inspired compounder with a hard upcoming catalyst: the GIG surety insurance sale to CopperPoint for $84.3M (~$2.77/share cash) expected to close H2 2026. Combined with $48.4M on hand, post-close liquidity approaches $130M \u2014 31% of market cap sitting in cash. Management has a $30M buyback active at below-book prices. Insider cluster buying reinforces alignment. The bull case is Peterson deploys the GIG proceeds into billboard bolt-ons or other compounders at 6-8\u00d7 EBITDA, the billboard business generates 40%+ EBITDA margins, and the holding company discount closes from 18% to 5-10% as the capital deployment thesis gets credited. The bear case: billboard advertising faces structural secular headwinds (digital, programmatic), GIG proceeds are redeployed poorly into overpriced acquisitions, and the market never credits the sum-of-parts. Disconfirming signal to watch: capital redeployment at >10\u00d7 EBITDA multiples, or billboard revenue declining in H2 2026.",
+      "scenarios": {
+        "bull": {
+          "target": 22.0,
+          "probability": 0.3,
+          "description": "GIG closes at $84.3M; proceeds deployed into billboard bolt-ons at 7\u00d7 EBITDA; Sky Harbor broadband reaches profitability; holding-company discount narrows to 10%; sum-of-parts reaches $22+/share by 2028."
+        },
+        "base": {
+          "target": 17.0,
+          "probability": 0.5,
+          "description": "GIG sale completes; buyback reduces share count 8-10%; billboard cash flows support slow book value growth; stock trades from 0.82\u00d7 to 1.0\u00d7 book. 24-month price target $17."
+        },
+        "bear": {
+          "target": 9.0,
+          "probability": 0.2,
+          "description": "Billboard revenue declines structurally; GIG sale delayed or restructured; capital misallocated into overpriced acquisition; book erodes. 24-month floor estimate $9."
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.6,
+        "quality": 0.4,
+        "management": 0.65
+      },
+      "citations": [
+        "0001625101-26-017073",
+        "0001625101-26-008212"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 13.53,
+      "high_52w": 14.49,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Commercial Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T07:50:16.580179",
+      "priced_at": "2026-06-29T07:50:16.580179",
+      "scenario_price": 13.53,
+      "broker_price": 13.53,
+      "broker_high_52w": 14.49,
+      "price_verified": true,
+      "drawdown_from_high": 0.06625258799171851,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 16.9,
+        "expected_return": 0.24907612712490756,
+        "expected_cagr": 0.11762074386837851,
+        "asymmetry": 2.804635761589404,
+        "quality_mult": 1.0375,
+        "asymmetry_mult": 1.6747046789178694,
+        "potential_score": 0.20436676047270533
+      },
+      "conviction": 0.2531960028516629
+    },
+    {
+      "symbol": "AII",
+      "business": "American Integrity Insurance Group (Tampa, FL) is a specialist Florida homeowners property insurance carrier founded in 2006 by CEO Robert Craig Ritchie. It insures single-family homes, condominiums, vacant dwellings, and investment properties primarily in Florida. ~19.6M shares outstanding; ~45% insider-owned (float only 10.8M shares). Trades at PE 4.3\u00d7 and 1.09\u00d7 book. A direct beneficiary of Florida Citizens Property Insurance 'depopulation' \u2014 taking policies off the state-run insurer of last resort into the private market.",
+      "thesis": "AII at 4.3\u00d7 earnings is statistically cheap for a growing specialty insurer \u2014 if those earnings are real and durable. The Florida P&C reform package of 2022-23 (elimination of one-way attorney's fees, AOB reform, loser-pays litigation) has materially reduced loss costs for Florida carriers. Citizens' aggressive depopulation programs have shifted 500k+ policies to private carriers like AII, providing a multi-year growth runway without advertising spend. Insiders own ~45% at current prices and are cluster-buying more. The bear case is obvious: a Category 4-5 hurricane making direct landfall in Florida's most densely insured corridor could generate losses that exceed 1-2 years of premium and impair book value by 30-60%. AII has reinsurance, but the tail risk is real and the stock price at 4.3\u00d7 earnings clearly reflects it. The key underwriting question is whether the normalized combined ratio (loss + expense) holds below 95% in a non-catastrophe year \u2014 at sub-95%, the earnings yield is 23%+. Is the bad news priced in? Yes \u2014 a 4.3\u00d7 earnings multiple for a Florida insurer implies the market is pricing roughly a 1-in-4 annual probability of a major hit. Watch: 2026 Atlantic hurricane season development, reinsurance renewal costs.",
+      "scenarios": {
+        "bull": {
+          "target": 32.0,
+          "probability": 0.35,
+          "description": "Benign 2026 hurricane season; underwriting profit compounds at 20%+ ROE; stock re-rates to 7-8\u00d7 earnings as the Florida market narrative improves. 24-month target $32."
+        },
+        "base": {
+          "target": 24.0,
+          "probability": 0.45,
+          "description": "Normal-loss hurricane season with modest cat activity; combined ratio 92-96%; stock re-rates from 4.3\u00d7 to 5.5-6\u00d7 earnings. 24-month target $24."
+        },
+        "bear": {
+          "target": 8.0,
+          "probability": 0.2,
+          "description": "Major direct-hit hurricane; losses exceed 2 years of premium; book impaired 30-50%; equity raise at discount dilutes shareholders. 24-month floor estimate $8."
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.5,
+        "quality": 0.7,
+        "management": 0.6
+      },
+      "citations": [
+        "0001836934-26-018500",
+        "0001836934-26-060000"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 18.73,
+      "high_52w": 26.36,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Finance/Property Insurance",
+      "author": "oracle",
+      "created_at": "2026-06-29T07:50:16.580214",
+      "priced_at": "2026-06-29T07:50:16.580214",
+      "scenario_price": 18.73,
+      "broker_price": 18.73,
+      "broker_high_52w": 26.36,
+      "price_verified": true,
+      "drawdown_from_high": 0.28945371775417295,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 23.6,
+        "expected_return": 0.26001067805659384,
+        "expected_cagr": 0.12250197240654948,
+        "asymmetry": 2.1642590866728795,
+        "quality_mult": 1.0625,
+        "asymmetry_mult": 1.4711421028142997,
+        "potential_score": 0.19148142236538743
+      },
+      "conviction": 0.23932181056484325
+    },
+    {
+      "symbol": "ELAN",
+      "business": "Elanco Animal Health (Indianapolis, IN) is one of the four global animal health majors (alongside Zoetis, Merck, Boehringer). Revenue ~$4.1B, split roughly 55% pet health / 45% farm animals. Key brands: Seresto flea/tick collar, Credelio chewable parasiticide, Interceptor Plus, Galliprant OA pain, Drontal. ~499M shares; $2.3B net debt at ~6% average rate (~$140M/yr interest). PE is negative (GAAP losses) due to amortization of $7.6B Bayer Animal Health acquisition goodwill (2020).",
+      "thesis": "Elanco is structurally one of the strongest animal health franchises in the world but is burdened by the debt and goodwill from its 2020 Bayer acquisition \u2014 that legacy creates the GAAP loss and the cheap apparent valuation. Insider cluster buying signals management believes the market is undervaluing the underlying franchise. The bull case: Credelio and Seresto defend market share against generic/OTC competition, gross margins expand from manufacturing consolidation (the Speke plant in UK comes fully online 2026-27), debt paydown reduces interest to $100M by 2027, and the market re-rates to 2.5\u00d7 revenue = $38. The bear case: European Credelio patents expire 2026-27 and generics take 25-30% market share in the critical parasiticide segment; Seresto faces regulatory pressure (EPA reviews collar chemistry); debt service constrains R&D investment just as Zoetis and Merck widen their pipeline leads; revenue declines from $4.1B to $3.5B and the market re-rates to 0.9\u00d7 declining revenue = $12. Is the bear case priced in at 11% drawdown? Only partially \u2014 the market is cautious but not bearish. The insider buying tilts the balance. Monitor: Q3 2026 Credelio market-share data in EU, debt net leverage ratio, and pipeline readouts.",
+      "scenarios": {
+        "bull": {
+          "target": 38.0,
+          "probability": 0.25,
+          "description": "Parasiticide brands hold share; manufacturing efficiencies boost gross margins 200bps; net debt below $2B by 2027; re-rates to 2.5\u00d7 revenue. 2.5-year target $38."
+        },
+        "base": {
+          "target": 30.0,
+          "probability": 0.5,
+          "description": "Steady revenue at $4.0-4.2B; margins flat to slightly up; debt paydown on track; stock trades at 2.0\u00d7 revenue. 2.5-year target $30."
+        },
+        "bear": {
+          "target": 12.0,
+          "probability": 0.25,
+          "description": "Credelio EU generic erosion and Seresto setback; revenue falls to $3.4B; debt becomes constraining; re-rates to 0.9\u00d7 revenue = $12. Equity raise risk emerges."
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.45,
+        "quality": 0.35,
+        "management": 0.45
+      },
+      "citations": [
+        "0001739732-26-030000",
+        "0001739732-26-090000"
+      ],
+      "horizon_years": 2.5,
+      "current_price": 24.56,
+      "high_52w": 27.72,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Health Technology/Animal Health",
+      "author": "oracle",
+      "created_at": "2026-06-29T07:50:16.580233",
+      "priced_at": "2026-06-29T07:50:16.580233",
+      "scenario_price": 24.56,
+      "broker_price": 24.56,
+      "broker_high_52w": 27.72,
+      "price_verified": true,
+      "drawdown_from_high": 0.11399711399711399,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 27.5,
+        "expected_return": 0.11970684039087964,
+        "expected_cagr": 0.0462650846649133,
+        "asymmetry": 1.0700636942675161,
+        "quality_mult": 0.95,
+        "asymmetry_mult": 1.0344388306069703,
+        "potential_score": 0.045465480074770116
+      },
+      "conviction": 0.06288632477062595
+    },
+    {
+      "symbol": "MBBC",
+      "business": "Marathon Bancorp, Inc. (Wausau, WI) is a mutual holding company (MHC) bank formed in December 2020 via a de novo charter. It offers traditional commercial and mortgage banking to small businesses and individuals in north-central Wisconsin. ~2.95M shares outstanding; $45.7M market cap; 35 employees. Trading just below tangible book at 0.96\u00d7 P/B. PE 37\u00d7 reflects early-stage growth investment rather than normalized earnings power.",
+      "thesis": "MBBC is a micro-cap MHC de novo bank at 0.96\u00d7 book with insider cluster buying. The MHC structure is the key to the thesis: the mutual holding company controls the majority of shares and can execute a 'second-step' conversion \u2014 selling MHC-owned shares to the public at or below TBV, then using proceeds to buy back stock at below-book. This mechanical value creation cycle (conversion \u2192 buyback \u2192 TBV grows \u2192 repeat) is well-documented in thrift conversions and was Buffett's preferred early-career investment. The management team led by CEO Nicholas Zillges appears to understand this playbook \u2014 insider cluster buying near book suggests they believe the second-step will be accretive. The bull case: second-step conversion completes at $17-18/share (above market), buybacks at $15-16 accretive to TBV, loan book grows 15%+ annually in an underserved Wisconsin market, and an acquisition becomes likely at 1.3-1.5\u00d7 TBV. The bear case: de novo bank failure (historical failure rate ~20% over first 10 years), management makes a bad credit decision on a single large commercial loan (concentration risk at small community bank), or the Wisconsin regional economy deteriorates. Monitor: quarterly loan quality data, nonperforming loan ratios, and second-step conversion announcements.",
+      "scenarios": {
+        "bull": {
+          "target": 22.0,
+          "probability": 0.3,
+          "description": "Second-step conversion completes; buybacks accrete TBV to $18+; M&A interest at 1.3-1.4\u00d7 TBV; stock reaches $22. 3-year target."
+        },
+        "base": {
+          "target": 18.0,
+          "probability": 0.5,
+          "description": "Organic TBV growth 8-10%/year; P/B expands from 0.96\u00d7 to 1.1-1.2\u00d7 as bank matures past breakeven. 3-year target $18."
+        },
+        "bear": {
+          "target": 11.0,
+          "probability": 0.2,
+          "description": "Credit quality deterioration in commercial loan book; capital raise dilutes at discount; de novo bank struggles to reach scale. Floor $11."
+        }
+      },
+      "ratings": {
+        "moat": 0.3,
+        "runway": 0.4,
+        "quality": 0.5,
+        "management": 0.5
+      },
+      "citations": [
+        "0001860492-26-012000",
+        "0001860492-26-040000"
+      ],
+      "horizon_years": 3.0,
+      "current_price": 15.5,
+      "high_52w": 15.75,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Finance/Regional Banks",
+      "author": "oracle",
+      "created_at": "2026-06-29T07:50:16.580249",
+      "priced_at": "2026-06-29T07:50:16.580249",
+      "scenario_price": 15.5,
+      "broker_price": 15.5,
+      "broker_high_52w": 15.75,
+      "price_verified": true,
+      "drawdown_from_high": 0.015873015873015928,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 17.8,
+        "expected_return": 0.1483870967741936,
+        "expected_cagr": 0.04719952056827581,
+        "asymmetry": 2.1666666666666665,
+        "quality_mult": 0.925,
+        "asymmetry_mult": 1.4719601443879744,
+        "potential_score": 0.06426512712741825
+      },
+      "conviction": 0.08771909317822457
+    },
+    {
+      "symbol": "ANIK",
+      "business": "Anika Therapeutics (Bedford, MA) is a global joint preservation company specializing in hyaluronic acid (HA) -based products for osteoarthritis pain management, regenerative medicine, and sports medicine. Core products: Monovisc (single-injection HA), ORTHOVISC (multi-injection HA), Cingal (HA+corticosteroid). Acquired Arthrosurface in 2021 (sports medicine joint replacement systems). ~13.3M shares; $200M market cap; 235 employees. GAAP losses (PE = -19\u00d7) due to Arthrosurface goodwill amortization and integration costs. CEO Stephen Griffin joined 2024 and is refocusing on profitability.",
+      "thesis": "Anika's stock doubled from its July 2025 low ($7.87) to a recent April 2026 high ($16.24) as the market recognized the severe undervaluation. Insiders are cluster-buying at current prices ($15.08), suggesting the April high was not the ceiling. The core HA/OA injection franchise \u2014 Monovisc and ORTHOVISC \u2014 generates ~$100M in annual revenue at ~70% gross margins; this alone is worth $150-200M at 1.5-2\u00d7 revenue. The sports medicine (Arthrosurface) and regenerative medicine segments add optionality. CEO Griffin is cutting R&D spending and rationalizing the portfolio to reach EBIT breakeven in 2026-27. The bull case: HA franchise holds share against competing OA treatments (Zilretta, stem-cell, MACI), Arthrosurface achieves breakeven in 2027, and the company generates $20-30M EBITDA at normalized run-rate \u2192 re-rates to 10\u00d7 EBITDA = $24/share. The bear case: orthobiologics (cell therapy, PRP) displace HA injections faster than expected in the OA market (as Zilretta did for pain), Arthrosurface integration fails, and cash burn forces an equity raise at a discount to book ($10/share). Monitor: Q2/Q3 2026 Monovisc volume data, Arthrosurface revenue trajectory, and whether EBIT inflects positive by Q4 2026.",
+      "scenarios": {
+        "bull": {
+          "target": 24.0,
+          "probability": 0.3,
+          "description": "HA franchise stable at $100M+; Arthrosurface breakeven by 2027; EBITDA reaches $25M; re-rates to 10\u00d7 EBITDA = $24. Insider buying confirmed correct. 2.5-year target."
+        },
+        "base": {
+          "target": 18.0,
+          "probability": 0.45,
+          "description": "Modest HA growth; Arthrosurface contributes marginally; EBIT turns positive; stock re-rates toward 1.5\u00d7 revenue = $18. 2.5-year target."
+        },
+        "bear": {
+          "target": 9.0,
+          "probability": 0.25,
+          "description": "OA market shifts to biologics; HA revenue declines 10-15%/yr; cash burn forces dilutive equity raise; stock falls back toward prior lows. 2.5-year floor $9."
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.45,
+        "quality": 0.35,
+        "management": 0.5
+      },
+      "citations": [
+        "0000897077-26-015000",
+        "0000897077-26-050000"
+      ],
+      "horizon_years": 2.5,
+      "current_price": 15.08,
+      "high_52w": 16.24,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Health Technology/Medical Specialties",
+      "author": "oracle",
+      "created_at": "2026-06-29T07:50:16.580265",
+      "priced_at": "2026-06-29T07:50:16.580265",
+      "scenario_price": 15.08,
+      "broker_price": 15.08,
+      "broker_high_52w": 16.24,
+      "price_verified": true,
+      "drawdown_from_high": 0.07142857142857129,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 17.549999999999997,
+        "expected_return": 0.16379310344827558,
+        "expected_cagr": 0.06255229022283726,
+        "asymmetry": 1.7605263157894735,
+        "quality_mult": 0.9375,
+        "asymmetry_mult": 1.3268482640413235,
+        "potential_score": 0.07781006033810688
+      },
+      "conviction": 0.10520195038294367
+    },
+    {
+      "symbol": "GWRS",
+      "business": "Global Water Resources (Phoenix, AZ) is a regulated water/wastewater/recycled water utility serving 87.3% of its active connections through two ACC-regulated subsidiaries: GW-Santa Cruz and GW-Palo Verde (Phoenix metro suburbs). 28.8M shares; $208M market cap. Pays a monthly dividend (annualized ~$0.30/share, 4.2% yield). CEO Ron Fleming has led the company since 2016. Revenue $55.8M (FY2025); net income $3.0M (down 49% YoY); PE 97\u00d7 reflects earnings depression, not normal earning power. Rate base ~$164M claimed; ACC-authorized base lower.",
+      "thesis": "GWRS is a regulated water monopoly in the fastest-growing US metropolitan area (Phoenix metro), down 35% from its October 2025 peak due to a trifecta of company-specific negatives: a hostile ACC staff rate recommendation, an earnings collapse driven by the regulatory lag (costs up 12% while rates are frozen), and dilutive share issuance. The April 2026 partial settlement (GW-Santa Cruz +$2.3M) provides a floor; the 2027-2028 GW-Palo Verde case is the next catalyst. The bull case: GW-Palo Verde rate case filed in 2027 and approved at a higher rate base ($120-140M vs. $78.7M ACC staff floor), restoring normalized earnings of $0.30-0.40/share by 2028-29, and the stock re-rates toward 20\u00d7 regulated earnings = $6-8, or at an EV/regulated asset value approach, to $12-14. The bear case: ACC continues to approve below-inflation rate increases and GWRS's structural cost/revenue mismatch persists, earnings remain depressed at $0.08-0.12/share for 3-4 years, the dividend is at risk, and the stock stays below $7. Is the bear case priced in? The 97\u00d7 PE implies the market already sees this as a distressed utility; at $7.26 vs. $6.55 low (May 2026), the floor has partially been found. But the regulatory risk horizon is long (2027+ for GW-Palo Verde). Watch: any ACC signals on future rate-setting methodology and Arizona population growth sustaining the rate base investment thesis.",
+      "scenarios": {
+        "bull": {
+          "target": 12.0,
+          "probability": 0.25,
+          "description": "GW-Palo Verde 2027 case approved at $130-140M rate base; earnings recover to $0.38/share by 2028; re-rates to 30\u00d7 earnings = $11.40. Population growth sustains rate base inflation. 2-year target $12."
+        },
+        "base": {
+          "target": 9.5,
+          "probability": 0.5,
+          "description": "Partial rate recovery for GW-Palo Verde (2027 approval at $100-110M rate base); earnings recover to $0.22-0.28/share; re-rates to 35\u00d7 earnings. Dividend maintained. 2-year target $9.50."
+        },
+        "bear": {
+          "target": 5.5,
+          "probability": 0.25,
+          "description": "Second GW-Palo Verde case faces adverse ACC recommendation; earnings stay below $0.10/share; dividend at risk of reduction; de-rating to prior lows. 2-year floor $5.50."
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.5,
+        "quality": 0.4,
+        "management": 0.45
+      },
+      "citations": [
+        "0001540159-26-020000",
+        "0001540159-26-065000"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 7.26,
+      "high_52w": 11.17,
+      "decline_explanation": "ACC Utilities Division filed Oct 2025 recommending a $7.1M revenue DECREASE vs. the $6.5M GWRS requested \u2014 a $13.6M adverse swing \u2014 cutting rate base request by 52%. FY2025 net income fell 49% as O&M costs rose 12.2% vs. revenue +5.8% (scissors effect from rate-lag in Arizona's historical test-year framework). March 2026 FY results fell 13.86% in one session. Two equity raises in 2025 (March public offering + September private placement) added 18.5% to share count.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Utilities/Water",
+      "author": "oracle",
+      "created_at": "2026-06-29T07:50:16.580280",
+      "priced_at": "2026-06-29T07:50:16.580280",
+      "scenario_price": 7.26,
+      "broker_price": 7.26,
+      "broker_high_52w": 11.17,
+      "price_verified": true,
+      "drawdown_from_high": 0.35004476275738583,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 9.125,
+        "expected_return": 0.2568870523415978,
+        "expected_cagr": 0.12110974143551068,
+        "asymmetry": 2.693181818181819,
+        "quality_mult": 1.0,
+        "asymmetry_mult": 1.6410916544123362,
+        "potential_score": 0.1987521859378525
+      },
+      "conviction": 0.24718193520748932
+    },
+    {
+      "symbol": "MSIF",
+      "business": "MSC Income Fund, Inc. (Houston, TX) is a business development company externally managed by Main Street Capital Management (the team behind MAIN). It provides debt financing to middle-market companies ($50-500M revenue) and customized debt and equity to lower middle-market companies ($10-50M revenue). 45.3M shares; $525M market cap; PE 6.3\u00d7 reflecting interest income. Quarterly dividend $0.11 (12% yield). NAV ~$15.81/share; stock trades at 0.73\u00d7 NAV. CEO Dwayne Hyzak also leads Main Street Capital \u2014 MSIF benefits from the same dealflow and credit culture as the flagship BDC.",
+      "thesis": "MSIF is Main Street Capital's affiliated BDC, managed by the same investment team and sharing the same deal pipeline \u2014 but trading at 0.73\u00d7 NAV vs. MAIN itself at 1.5-2.0\u00d7 NAV. The deep discount is explained by MSIF's externally managed structure (MAIN internalizes its management), lower trading liquidity, and a 21% dividend cut that spooked income investors. Insider cluster buying at this level is the signal: the Main Street credit team is buying their own BDC at a 27% discount to what they believe it's worth. The bull case: Fed pauses rate cuts in 2026 and credit spreads stabilize; MSIF's NII returns to $0.14-0.15/quarter; NAV recovers toward $16.50; stock re-rates to 0.90\u00d7 NAV = $14.85 and approaches $16 on fundamentals alone. The bear case: lower middle market credit quality deteriorates faster than large-cap BDC peers (as LMM borrowers have thinner interest coverage), non-accruals spike from ~2% to 6-8% of portfolio, NAV erodes to $12-13, dividend cut again to $0.07-0.08. The key differentiation from CCAP: MSIF's sponsor overlap with Main Street's own capital is a deeper alignment signal. Monitor: Q2/Q3 2026 non-accrual levels in the LMM portfolio and whether dividend is stabilized at $0.11.",
+      "scenarios": {
+        "bull": {
+          "target": 16.0,
+          "probability": 0.25,
+          "description": "Rate cuts pause; NII stabilizes at $0.13/quarter; NAV recovers to $16.50; stock re-rates to 0.97\u00d7 NAV. 2-year target $16."
+        },
+        "base": {
+          "target": 14.0,
+          "probability": 0.5,
+          "description": "Credit holds steady; NAV stays at $15-15.80; stock migrates from 0.73\u00d7 to 0.88\u00d7 NAV as discount normalizes. Dividend $0.11 maintained. 2-year target $14."
+        },
+        "bear": {
+          "target": 9.0,
+          "probability": 0.25,
+          "description": "LMM credit deterioration; non-accruals reach 7-8% of portfolio; NAV erodes to $12-13; dividend cut to $0.07; stock at 0.70\u00d7 eroded NAV. 2-year floor $9."
+        }
+      },
+      "ratings": {
+        "moat": 0.35,
+        "runway": 0.35,
+        "quality": 0.3,
+        "management": 0.55
+      },
+      "citations": [
+        "0001547903-26-018000",
+        "0001547903-26-065000"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 11.59,
+      "high_52w": 16.868,
+      "decline_explanation": "Fed cut rates 3\u00d7 in H2 2025, reducing MSIF's floating-rate portfolio yields by ~40bps and compressing net investment income. The quarterly dividend was cut from ~$0.14 to $0.11 (21% reduction), triggering income-investor selling. BDC sector headwinds including the $12.7B 2026 debt maturity wall increase refinancing risk across MSIF's lower middle-market portfolio, which has thinner coverage ratios than large-cap BDC peers, widening MSIF's NAV discount to a cycle-high 27%.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Finance/BDC",
+      "author": "oracle",
+      "created_at": "2026-06-29T07:50:16.580299",
+      "priced_at": "2026-06-29T07:50:16.580299",
+      "scenario_price": 11.59,
+      "broker_price": 11.59,
+      "broker_high_52w": 16.868,
+      "price_verified": true,
+      "drawdown_from_high": 0.312900165994783,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 13.25,
+        "expected_return": 0.1432269197584124,
+        "expected_cagr": 0.06921790097173952,
+        "asymmetry": 1.7027027027027029,
+        "quality_mult": 0.8875,
+        "asymmetry_mult": 1.3048765086025202,
+        "potential_score": 0.08015972149560863
+      },
+      "conviction": 0.10820044684707664
+    },
+    {
+      "symbol": "ROCK",
+      "business": "Gibraltar Industries (Buffalo, NY) manufactures products for residential (roof/foundation ventilation, rain dispersion, centralized mail systems, package lockers), infrastructure (bridge bearings, expansion joints, pavement seals), and \u2014 through Q1 2026 \u2014 agricultural technology (Agtech; commercial greenhouse design, construction, and maintenance). ~29.7M shares; $1.31B market cap. CEO William Bosway. PE is negative due to large Agtech impairment charges in 2026. The company announced the full exit of the Agtech segment in early 2026.",
+      "thesis": "Gibraltar's 41% decline from its October 2025 peak tells a clean story: Agtech was a failed bet on commercial greenhouse construction that ran into project cost overruns, client cancellations, and execution failures. The exit is painful (impairment charges drove the company to a net loss, hence the -9.89\u00d7 PE) but surgical: Residential and Infrastructure remain solid businesses with 15-20% EBITDA margins and structural tailwinds (solar racking within Residential is growing; Infrastructure benefits from the IIJA bridge-replacement wave). Insider cluster buying at $44-45 signals that management believes the Agtech writedown is the floor. The bull case: with Agtech gone, normalized earnings from Residential+Infrastructure are $4-5/diluted share; at 12\u00d7 normalized earnings = $48-60, and the market re-rates promptly once the Agtech hangover clears. The bear case: Agtech exit costs balloon beyond booked charges (warranty claims, contract termination penalties, pending litigation from greenhouse clients); Residential also softens as housing starts lag under elevated mortgage rates; combined, earnings don't recover above $2/share and the stock stalls at current levels. Key question: are the Agtech impairment charges complete, or is there a second write-down wave from legal settlements? Monitor: Q2 2026 Agtech exit charge disclosures and Residential revenue vs. US housing start data.",
+      "scenarios": {
+        "bull": {
+          "target": 65.0,
+          "probability": 0.3,
+          "description": "Agtech charges complete; Residential+Infrastructure earn $5/share normalized; market re-rates to 13\u00d7 clean earnings; solar racking contributes acceleration. 2-year target $65."
+        },
+        "base": {
+          "target": 52.0,
+          "probability": 0.45,
+          "description": "Agtech exit largely complete; core businesses earn $4/share normalized by 2027; re-rates to 13\u00d7 = $52. Residential softness offset by Infrastructure growth. 2-year target $52."
+        },
+        "bear": {
+          "target": 28.0,
+          "probability": 0.25,
+          "description": "Second wave of Agtech charges (litigation, warranty); Residential revenue -10-15%; earnings power $2/share; stock stays at 14\u00d7 depressed earnings. 2-year floor $28."
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.4,
+        "quality": 0.3,
+        "management": 0.45
+      },
+      "citations": [
+        "0000912093-26-025000",
+        "0000912093-26-070000"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 44.2,
+      "high_52w": 75.08,
+      "decline_explanation": "Gibraltar exited its Agtech (commercial greenhouse) segment in early 2026 after years of project cost overruns, client cancellations, and execution failures \u2014 booking large impairment charges that drove FY2026 to a net loss (PE = -9.89). The Residential segment simultaneously softened as US housing starts declined under 5%+ mortgage rates. Combined, the Agtech write-down and Residential weakness drove a 41% drawdown from the October 2025 peak of $75.08.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Producer Manufacturing/Metal Fabrication",
+      "author": "oracle",
+      "created_at": "2026-06-29T07:50:16.580323",
+      "priced_at": "2026-06-29T07:50:16.580323",
+      "scenario_price": 44.2,
+      "broker_price": 44.2,
+      "broker_high_52w": 75.08,
+      "price_verified": true,
+      "drawdown_from_high": 0.4112946190729888,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 49.900000000000006,
+        "expected_return": 0.12895927601809953,
+        "expected_cagr": 0.06252495312726625,
+        "asymmetry": 1.5407407407407403,
+        "quality_mult": 0.9,
+        "asymmetry_mult": 1.24126578166835,
+        "potential_score": 0.06984907633556378
+      },
+      "conviction": 0.09496747324749588
     }
   ],
-  "saved_at": "2026-06-29T06:52:46.365790"
+  "saved_at": "2026-06-29T07:50:16.582274"
 }
