@@ -1169,7 +1169,522 @@
         "potential_score": -0.05613840304401373
       },
       "conviction": 0.0
+    },
+    {
+      "symbol": "MRP",
+      "business": "Millrose Properties is a land-banking REIT spun off from Lennar in February 2025, providing homebuilders 'just-in-time' entitled land via contractual homesite option agreements (its HOPP'R platform). It holds 143,000+ homesites across 904 communities in 30 states, earning fixed monthly option fees at ~10\u201311% yields. ~69% of revenue comes from Lennar; non-Lennar 'Other Agreements' have grown to $2.7B at 10.7% yield.",
+      "thesis": "At $30.93, MRP trades at ~11x FY2026 earnings with a 9.5\u201310% dividend yield backed by contractually fixed fee income \u2014 not NAV-dependent. The bull case is structural: the US housing supply deficit is 4.7M units and homebuilders are permanently shifting to asset-light land models that require MRP's capital. Q1 2026 revenue surged to $194.9M from $82.7M a year earlier, non-Lennar counterparties grew to 17, and $0.77/share quarterly dividend was declared (>$3/yr). The bear case is real: Lennar concentration means one client's pullback directly hits cash flows, floating-rate borrowings at SOFR+2% on a $1.835B credit facility compress margins if rates stay high, and a severe housing downturn could slow takedowns faster than option agreements allow for adjustment. The decisive call: at 11x with a 9.5% yield and a 5 Buy/0 Sell sell-side consensus at $38.60 avg target, the bear case is well-known and more than priced in.",
+      "scenarios": {
+        "bull": {
+          "target": 48.0,
+          "probability": 0.38
+        },
+        "base": {
+          "target": 36.0,
+          "probability": 0.44
+        },
+        "bear": {
+          "target": 20.0,
+          "probability": 0.18
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.75,
+        "quality": 0.65,
+        "management": 0.7
+      },
+      "citations": [
+        "0002017206-26-000002",
+        "0001193125-26-208995"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 30.93,
+      "high_52w": 36.0,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-29T00:24:30.498656",
+      "priced_at": "2026-06-29T00:24:30.498656",
+      "scenario_price": 30.93,
+      "drawdown_from_high": 0.14083333333333337,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 37.68,
+        "expected_return": 0.21823472356935025,
+        "expected_cagr": 0.10373670935117052,
+        "asymmetry": 3.2970417810308024,
+        "quality_mult": 1.15,
+        "asymmetry_mult": 1.8157758069295897,
+        "potential_score": 0.21661699819989325
+      },
+      "conviction": 0.2661516318210573
+    },
+    {
+      "symbol": "JKHY",
+      "business": "Jack Henry & Associates provides financial technology \u2014 core processing, digital banking, payments, and complementary services \u2014 to ~8,000 community and mid-size banks and credit unions under multi-year contracts with industry-leading switching costs. FY2026 guidance: $2.52\u2013$2.53B revenue, EPS $6.78\u2013$6.87, operating margin 24.7\u201324.9%. Digital revenue +9.9% and faster payments +46.4% in the latest quarter.",
+      "thesis": "JKHY is down 30% from its January 2026 high because deconversion fee revenue \u2014 earned when a bank client is acquired by a non-JKHY entity \u2014 collapsed as community bank M&A activity dried up. This is a cyclical, non-recurring headwind that says nothing about JKHY's competitive position. Switching costs are real: a community bank migration to a competing core typically takes 18\u201324 months, costs $2\u20135M, and disrupts operations \u2014 so attrition runs <1%/year. The bull case is a multiple re-rating back toward 23x as deconversion normalizes in FY2027, giving $190+ with EPS growing to $8.50. The bear case is not to be dismissed: at 19x FY2026 EPS, the stock is not statistically cheap for mid-single-digit core growth, and fintech challengers are gaining traction with smaller de novos and credit unions. Board Chair Foss retiring July 2026 adds management transition noise. The decisive call: the 30% decline prices in a sustained deconversion drought and multiple compression that is unlikely to be permanent; the core franchise is intact.",
+      "scenarios": {
+        "bull": {
+          "target": 190.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 155.0,
+          "probability": 0.48
+        },
+        "bear": {
+          "target": 100.0,
+          "probability": 0.22
+        }
+      },
+      "ratings": {
+        "moat": 0.8,
+        "runway": 0.75,
+        "quality": 0.8,
+        "management": 0.65
+      },
+      "citations": [
+        "0000779152-26-000021",
+        "0000779152-26-000004"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 135.0,
+      "high_52w": 193.39,
+      "decline_explanation": "FY2026 guidance disappointed as deconversion fee revenue \u2014 collected when a bank client is acquired by an entity not on JKHY's platform \u2014 fell sharply as community bank M&A volumes declined in 2025-2026. Management guided operating margins to 24.7-24.9% (below prior-year levels) and gave mixed signals on buyback pace, triggering a 6.2% single-day selloff and sustained de-rating from ~28x to ~19x FY2026 earnings. Board Chair David Foss announced retirement effective July 2026. Underlying core digital and payments revenues are intact and growing well above 5%.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Technology Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T00:24:30.498733",
+      "priced_at": "2026-06-29T00:24:30.498733",
+      "scenario_price": 135.0,
+      "drawdown_from_high": 0.3019287450230105,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 153.39999999999998,
+        "expected_return": 0.13629629629629614,
+        "expected_cagr": 0.06597199601879611,
+        "asymmetry": 2.142857142857143,
+        "quality_mult": 1.25,
+        "asymmetry_mult": 1.4638501094227998,
+        "potential_score": 0.120716391988694
+      },
+      "conviction": 0.15840130578900935
+    },
+    {
+      "symbol": "KBR",
+      "business": "KBR provides engineering, science, technology, and logistics solutions across two segments: Mission Technology Solutions (US/UK/Australia defense, intelligence, space, ~60% of revenue) and Sustainable Technology Solutions (proprietary process technologies for energy transition: hydrogen, LNG, ethylene). FY2026 target: $7.9\u2013$8.36B revenue, EBITDA margins up to 12.6%, with a Sustainable Tech spin-off being planned.",
+      "thesis": "KBR's 36% decline from its 2025 high is rooted in DOGE-driven federal contract delays (Q1 FY2026 revenue -5% YoY, EPS guidance cut) that indiscriminately punished GovCon contractors. The bull case is compelling: the FY2027 defense budget proposal is $1.5T (+44% vs FY2026 enacted), the Sustainable Tech spin-off should crystallize value as energy-transition technology commands a higher multiple than GovCon services, and Director Lewis Von Thaer bought 3,000 shares on the open market at ~$30.67 in May 2026 (now above water at $33.36). The bear case is substantive: DOGE cuts could be more structural and deep than a 1-2 quarter delay, STS growth depends on energy transition capex decisions that remain uncertain, and the spin-off adds execution risk. At 10x FY2026 earnings, a KBR that generates $3/share on a recovering government contract book is straightforwardly cheap; the bad news looks priced in.",
+      "scenarios": {
+        "bull": {
+          "target": 55.0,
+          "probability": 0.28
+        },
+        "base": {
+          "target": 42.0,
+          "probability": 0.47
+        },
+        "bear": {
+          "target": 22.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.65,
+        "quality": 0.55,
+        "management": 0.65
+      },
+      "citations": [
+        "0001357615-26-000141"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 33.36,
+      "high_52w": 52.23,
+      "decline_explanation": "KBR declined 36% as DOGE-driven federal hiring freezes and contract award delays hit the Mission Technology Solutions segment (government services). Q1 FY2026 revenue fell 5% YoY and management cut FY2026 EPS guidance. The GovCon sector broadly de-rated on fears that the Department of Government Efficiency would structurally reduce federal services addressable markets. KBR's cleared-workforce programs in defense, intelligence, and space face lower structural risk than administrative contractors, but market sentiment moved faster than underlying contract fundamentals.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Technology Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T00:24:30.498759",
+      "priced_at": "2026-06-29T00:24:30.498759",
+      "scenario_price": 33.36,
+      "drawdown_from_high": 0.3612866168868466,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 40.64,
+        "expected_return": 0.21822541966426856,
+        "expected_cagr": 0.10373249461283351,
+        "asymmetry": 2.133521126760564,
+        "quality_mult": 1.0875,
+        "asymmetry_mult": 1.4606577719508989,
+        "potential_score": 0.1647754709753479
+      },
+      "conviction": 0.20974020248169978
+    },
+    {
+      "symbol": "OPCH",
+      "business": "Option Care Health is the largest independent home and alternate-site infusion therapy provider in the US, delivering IV medications (immunoglobulin, anti-infectives, nutrition, bleeding disorders, and chronic inflammatory disease therapies) through ~170 pharmacies nationwide. ~$3.4B market cap, 6,528 employees. Contracts with managed care organizations, hospitals, and physicians. Home infusion saves payers ~50% vs hospital-administered infusion.",
+      "thesis": "OPCH has fallen 41% from its January 2026 high, primarily driven by Stelara (ustekinumab) biosimilar disruption \u2014 high-margin inflammatory disease infusions were partially displaced as patients shifted to self-administered alternatives. Management guided for a $60\u2013$70M FY2026 revenue headwind. The bear case is real: if biosimilar displacement expands beyond Stelara to other biologics in OPCH's mix, the therapy revenue base could structurally erode; Medicaid cuts and site-neutral payment policies add further policy tail risk; SG&A is rising. The bull case: the secular shift from hospital to home infusion (50% cost savings) is intact and growing, new complex therapies (gene therapy, rare disease, specialty biologics) are a growing share of the addressable market where OPCH has scale advantages, and OPCH is the dominant player in a market where scale = formulary access. At 17x earnings, the Stelara hit is more than priced in; the market is treating a one-drug disruption as permanent structural erosion.",
+      "scenarios": {
+        "bull": {
+          "target": 35.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 26.0,
+          "probability": 0.47
+        },
+        "bear": {
+          "target": 12.0,
+          "probability": 0.28
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.65,
+        "quality": 0.55,
+        "management": 0.6
+      },
+      "citations": [
+        "https://stockstory.org/us/stocks/nasdaq/opch",
+        "https://simplywall.st/stocks/us/healthcare/nasdaq-opch/option-care-health/news/does-option-care-healths-opch-revenue-miss-reframe-the-story"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 21.82,
+      "high_52w": 36.8,
+      "decline_explanation": "OPCH fell 41% when Stelara biosimilars launched in 2025, displacing high-margin home infusion volumes as inflammatory disease patients shifted to self-administered alternatives. Management guided for $60\u2013$70M FY2026 revenue headwind from Stelara inventory adjustments. Simultaneously, investor fears about Medicaid reimbursement cuts and CMS site-neutral payment proposals depressed the multiple. Q1 2026 revenue missed Street estimates and margin erosion from the therapy mix shift was confirmed. The decline conflates a known, quantified single-drug disruption with structural erosion of the entire home infusion model, which remains the lowest-cost care setting.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Health Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T00:24:30.498778",
+      "priced_at": "2026-06-29T00:24:30.498778",
+      "scenario_price": 21.82,
+      "drawdown_from_high": 0.4070652173913043,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 24.33,
+        "expected_return": 0.11503208065994497,
+        "expected_cagr": 0.05595079462063235,
+        "asymmetry": 1.1983561245272036,
+        "quality_mult": 1.075,
+        "asymmetry_mult": 1.0946945348028387,
+        "potential_score": 0.06584270627076347
+      },
+      "conviction": 0.08977277146821128
+    },
+    {
+      "symbol": "BHRB",
+      "business": "Burke Herbert Financial Services Corp. is a Virginia-based community bank holding company serving small-to-medium businesses, professionals, and individuals in the Northern Virginia / DC metro corridor and surrounding region. 2025: $338.5M revenue (+45% YoY), earnings $116.4M (+232%), TTM EPS $7.76. NIM stable at 4.07\u20134.18%. CEO David Boyle described Q1 2026 as 'on a good trajectory for the year.'",
+      "thesis": "BHRB at $71.34 \u2014 essentially at its 52-week high \u2014 trades at ~9.2x TTM earnings with a 4.1% NIM that ranks in the top tier of US community banks and an expected earnings growth rate of 24.7% annually. Insider buying at the 52-week high signals management confidence backed by non-public loan pipeline visibility, not a distressed rescue buy. The bull case: BHRB is building a commercial banking franchise in one of the most economically resilient corridors in the US (Northern Virginia, home to federal contractors, tech, and defense), with strong C&I loan growth and a disciplined deposit base. The bear case is material: the 45% revenue surge in 2025 was partly M&A-driven, creating comps-flattery risk; CRE concentration in the DC/NoVA market is the primary credit risk if federal employment contracts; and NIM would compress significantly if rates fall 150bps+. At 9.2x with 25% growth visibility and a strong NIM buffer, the risk/reward favors holding with a bull target of $95 over 2 years.",
+      "scenarios": {
+        "bull": {
+          "target": 95.0,
+          "probability": 0.35
+        },
+        "base": {
+          "target": 78.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 48.0,
+          "probability": 0.2
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.7,
+        "quality": 0.72,
+        "management": 0.72
+      },
+      "citations": [
+        "0001964333-26-000037"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 71.34,
+      "high_52w": 71.38,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-29T00:24:30.498792",
+      "priced_at": "2026-06-29T00:24:30.498792",
+      "scenario_price": 71.34,
+      "drawdown_from_high": 0.0005603810591200409,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 77.94999999999999,
+        "expected_return": 0.09265489206616184,
+        "expected_cagr": 0.04530134031587352,
+        "asymmetry": 1.7739931448157662,
+        "quality_mult": 1.1724999999999999,
+        "asymmetry_mult": 1.3319133398294973,
+        "potential_score": 0.07074567123897244
+      },
+      "conviction": 0.09612594196387614
+    },
+    {
+      "symbol": "NWBI",
+      "business": "Northwest Bancshares is a savings bank holding company serving small businesses, consumers, and commercial clients across PA, OH, NY, and IN. Following the Penns Woods Bancorp acquisition in 2024\u201325, NWBI entered the Top 100 US banks by assets with record 2025 revenue of $655M. Q1 2026: net income $51M (+$7M YoY), NIM 3.70%, C&I loans +26% YoY, annualized net charge-offs 0.16%.",
+      "thesis": "NWBI at $15.14 \u2014 near its 52-week high \u2014 offers a 5.3% dividend yield (well-covered at 16x earnings), NIM expansion from 3.26% (2024) to 3.70% (Q1 2026), and a transformational Penns Woods merger that upgraded the bank from a consumer savings institution to a commercial banking platform. Insiders buying near the 52-week high suggests the pipeline supports further performance. The bull case: commercial lending momentum continues (C&I +26%, SBA top-50 originator), merger synergies of $20M+ are still materializing, and the bank re-rates from a thrift multiple toward a community commercial bank multiple (12x+ vs current 10x). The bear case: elevated auto loan delinquencies are a credit quality yellow flag, NIM would compress materially if rates fall sharply (deposit repricing lag), and CRE concentration is a risk in a regional portfolio. At 16x with a 5.3% yield and improving credit metrics (nonaccruals declining: $90.9M vs $107.3M), the downside case is bounded.",
+      "scenarios": {
+        "bull": {
+          "target": 20.0,
+          "probability": 0.33
+        },
+        "base": {
+          "target": 17.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 10.0,
+          "probability": 0.22
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.6,
+        "quality": 0.55,
+        "management": 0.65
+      },
+      "citations": [
+        "0001471265-26-000014"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 15.14,
+      "high_52w": 15.34,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-29T00:24:30.498804",
+      "priced_at": "2026-06-29T00:24:30.498804",
+      "scenario_price": 15.14,
+      "drawdown_from_high": 0.01303780964797907,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 16.45,
+        "expected_return": 0.0865257595772786,
+        "expected_cagr": 0.04236546353823445,
+        "asymmetry": 1.4182879377431905,
+        "quality_mult": 1.0625,
+        "asymmetry_mult": 1.1909189467563233,
+        "potential_score": 0.05360719779178494
+      },
+      "conviction": 0.07372277596321186
+    },
+    {
+      "symbol": "ADT",
+      "business": "ADT Inc. provides home security monitoring, smart home automation, commercial security, and fire/life safety services to 6.1M subscribers. FY2025: $5.1B revenue (+5%), adj EBITDA $2.68B (+4%), adj EPS $0.89 (+19%). Google owns ~12% of ADT and is a strategic partner on the ADT+ smart home platform. In February 2026, ADT acquired Origin AI (AI-enabled presence detection). Leverage at 2.7x adj EBITDA; $1.5B share repurchase authorization announced.",
+      "thesis": "ADT at $6.39 trades at ~7x adj EBITDA and 9x adj EPS while returning ~16% of its market cap annually ($600M buybacks + $187M dividends in 2025). The bull case: 6.1M sticky subscribers on 3-year average contracts, ADT+ smart home integration with Google AI creating defensible differentiation vs DIY players, and leverage declining to target 2.5x from 2.7x which opens optionality. The bear case is genuine and material: DIY security (Ring, SimpliSafe, Vivint) continues to grow and structurally threatens the professional monitoring model; gross debt of ~$9B is significant even at 2.7x EBITDA and constrains financial flexibility; and subscriber growth is modest (1M new subs targeted by 2030 = ~1.6% annual net add). The decisive call: at a near-3.5% dividend yield and 9x adj EPS with active buybacks and a strategic Google partnership, the market is pricing in secular decline that has historically moved slower than feared in professionally-monitored security.",
+      "scenarios": {
+        "bull": {
+          "target": 10.0,
+          "probability": 0.28
+        },
+        "base": {
+          "target": 7.5,
+          "probability": 0.5
+        },
+        "bear": {
+          "target": 3.5,
+          "probability": 0.22
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.6,
+        "quality": 0.55,
+        "management": 0.6
+      },
+      "citations": [
+        "0001703056-26-000013"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 6.39,
+      "high_52w": 8.94,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Commercial Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T00:24:30.498816",
+      "priced_at": "2026-06-29T00:24:30.498816",
+      "scenario_price": 6.39,
+      "drawdown_from_high": 0.28523489932885904,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 7.32,
+        "expected_return": 0.1455399061032865,
+        "expected_cagr": 0.07029897977307553,
+        "asymmetry": 1.5898081157596733,
+        "quality_mult": 1.075,
+        "asymmetry_mult": 1.2608759319455953,
+        "potential_score": 0.09528616350891626
+      },
+      "conviction": 0.12726479973339977
+    },
+    {
+      "symbol": "POOL",
+      "business": "Pool Corporation is the world's dominant wholesale distributor of swimming pool supplies, equipment, chemicals, and irrigation products, serving pool service companies, contractors, and retailers via 440+ sales centers in North America and Europe. ~70% of revenue is non-discretionary (chemicals, replacement parts, maintenance). ~$7.7B market cap, 6,000 employees.",
+      "thesis": "POOL has fallen 39% from its July 2025 high as new US pool construction collapsed 40% from the 2022 peak to ~60,000 units in 2025, and Q4 2025 EPS ($0.84) missed the $0.98 estimate with operating income down 14% YoY. The bear case is real: elevated mortgage rates could suppress new pool installations for 2\u20133 more years, tariff uncertainty raises product cost risks, and at 19x trough earnings the stock is not statistically cheap. But the bull case is POOL's unassailable moat: a 440+ location network built over 30 years that delivers unmatched fill rates, supplier rebates, and cost structure that no entrant can replicate \u2014 proven across multiple housing cycles. Wall Street consensus at $281 vs $211 current already implies the market sees cycle trough. The decisive call: a dominant distributor with a 30-year irreplaceable moat at 39% below peak is a cycle bet, not a thesis bet; 70% non-discretionary revenue provides the base, and the rest follows housing.",
+      "scenarios": {
+        "bull": {
+          "target": 295.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 235.0,
+          "probability": 0.47
+        },
+        "bear": {
+          "target": 140.0,
+          "probability": 0.28
+        }
+      },
+      "ratings": {
+        "moat": 0.78,
+        "runway": 0.7,
+        "quality": 0.72,
+        "management": 0.72
+      },
+      "citations": [
+        "0000945841-25-000008"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 211.61,
+      "high_52w": 345.0,
+      "decline_explanation": "Pool Corp fell 39% as new US pool construction collapsed to ~60,000 units in 2025 (down 40% from the 2022 pandemic peak) as elevated 30-year mortgage rates suppressed existing home sales and new build activity. Q4 2025 adjusted EPS of $0.84 missed the $0.98 consensus estimate; revenue of $982M fell 0.5% YoY and operating income fell 14% as expenses rose 6% from technology investment and new sales center openings. Tariff uncertainty on Chinese-sourced pool equipment added to investor concerns. The decline reflects a genuine housing cycle trough in discretionary pool construction \u2014 not structural competitive erosion \u2014 as maintenance revenues remained resilient throughout.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Distribution Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T00:24:30.498831",
+      "priced_at": "2026-06-29T00:24:30.498831",
+      "scenario_price": 211.61,
+      "drawdown_from_high": 0.3866376811594202,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 223.39999999999998,
+        "expected_return": 0.055715703416662654,
+        "expected_cagr": 0.027480269113068,
+        "asymmetry": 1.0397340754483606,
+        "quality_mult": 1.23,
+        "asymmetry_mult": 1.019673514144778,
+        "potential_score": 0.03446571016868448
+      },
+      "conviction": 0.04804425233126175
+    },
+    {
+      "symbol": "FND",
+      "business": "Floor & Decor is a specialty retailer of hard-surface flooring (tile, wood, laminate, vinyl, stone) and accessories, with 240+ warehouse-format stores serving both DIY homeowners and professional contractors. Q1 2026: net sales $1,152M (-0.7%), comparable store sales -3.7%, diluted EPS $0.37 (-18%). The company unveiled a $400M share repurchase plan in Q1 2026 and PE 32x earnings.",
+      "thesis": "FND has fallen 35% as existing home sales \u2014 the primary driver of flooring remodel demand \u2014 stalled under 6.5%+ mortgage rates and consumer sentiment dropped. Q1 2026 comps fell 3.7% and management lowered FY2026 guidance, explicitly noting that 44.0% gross margin was likely a high point with tariff pressure ahead. The bear case is taken seriously: the stock still trades at 32x earnings after a 35% decline, so there is limited statistical margin of safety if housing stays weak into 2027 or tariff costs bite margins harder than guided. The bull case is a long-term store rollout story in an underpenetrated $20B+ flooring market where FND is gaining share vs Home Depot/Lowe's on selection and price, with 240+ stores against an eventual 500+ potential; the Pro segment (lower price sensitivity) provides a partial demand buffer. The decisive call: at 32x, FND requires a thesis on housing normalization that is not yet established. Marginally constructive, less compelling than POOL on moat quality and valuation entry. Insider confidence via $400M buyback.",
+      "scenarios": {
+        "bull": {
+          "target": 90.0,
+          "probability": 0.25
+        },
+        "base": {
+          "target": 65.0,
+          "probability": 0.47
+        },
+        "bear": {
+          "target": 36.0,
+          "probability": 0.28
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.68,
+        "quality": 0.62,
+        "management": 0.65
+      },
+      "citations": [
+        "0001628280-26-028899",
+        "0001628280-26-009760"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 59.61,
+      "high_52w": 92.41,
+      "decline_explanation": "Floor & Decor fell 35% as existing home sales remained suppressed under 6.5%+ 30-year mortgage rates throughout 2025, reducing demand for big-ticket flooring remodels. Q1 2026: comp store sales -3.7%, revenue -0.7%, EPS -18%, and management lowered FY2026 guidance citing 'challenging demand environment for big-ticket discretionary purchases' and 'elevated geopolitical tensions contributing to higher gas prices and a decline in consumer sentiment.' CFO noted gross margin of 44.0% is likely a year-high due to tariff headwinds from China-sourced flooring products and distribution center cost increases. The company is generating sufficient cash flow to fund a $400M buyback program, suggesting the decline is macro-driven.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Retail Trade",
+      "author": "oracle",
+      "created_at": "2026-06-29T00:24:30.498868",
+      "priced_at": "2026-06-29T00:24:30.498868",
+      "scenario_price": 59.61,
+      "drawdown_from_high": 0.3549399415647657,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 63.129999999999995,
+        "expected_return": 0.059050494883408744,
+        "expected_cagr": 0.02910179034117366,
+        "asymmetry": 1.149255763296424,
+        "quality_mult": 1.125,
+        "asymmetry_mult": 1.072033471164228,
+        "potential_score": 0.035097854981109754
+      },
+      "conviction": 0.048903541258618954
+    },
+    {
+      "symbol": "XRN",
+      "business": "Chiron Real Estate (formerly Global Medical REIT, rebranded February 2026) acquires purpose-built healthcare facilities and leases them to healthcare systems and physician groups, pivoting from pure medical-office to a diversified healthcare real estate platform including senior housing and active adult communities. 2025: $148.2M revenue, Core FFO $65.8M ($4.53/share). 2026 Core FFO guidance: $4.30\u2013$4.45/share. Monthly $0.25/share dividend ($3.00 annualized, ~8% yield). Leverage 44.4% LTV; $653.9M debt at 3.74% WA rate with no maturities in 2026\u20132027.",
+      "thesis": "XRN at $37.27 offers an 8% monthly dividend yield on a healthcare REIT with fixed-rate debt locked below 4% through at least 2028 and no near-term maturity risk. CEO Mark Decker bought ~10,000 shares on the open market at $32.58 in November 2025 \u2014 a 26% addition to his personal holding, the largest purchase in 12 months, totaling $1.6M of net purchases over the trailing year. The bull case: NNN-style healthcare leases carry near-zero historical vacancy, the senior housing pivot addresses a powerful demographic tailwind (75M boomers entering care-need years), and the 8% yield on locked-in 3.74% cost of debt is highly durable. The bear case: the strategic pivot to senior housing introduces operator performance risk and execution uncertainty; 44.4% LTV means any significant cap rate expansion creates a 2028 refinancing headwind; only 30 employees makes due diligence on tenant quality harder to assess. The decisive call: at 8x Core FFO with a CEO buying meaningfully below current prices and debt insulated from rate risk through 2027, the yield is real, the downside case requires a cap-rate expansion that has not materialized, and the senior housing pivot aligns with the clearest demographic tailwind in real estate.",
+      "scenarios": {
+        "bull": {
+          "target": 48.0,
+          "probability": 0.3
+        },
+        "base": {
+          "target": 40.0,
+          "probability": 0.45
+        },
+        "bear": {
+          "target": 24.0,
+          "probability": 0.25
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.62,
+        "quality": 0.55,
+        "management": 0.58
+      },
+      "citations": [
+        "https://www.stocktitan.net/sec-filings/GMRE/8-k-global-medical-reit-inc-reports-material-event-6fe23e09f15f.html",
+        "https://simplywall.st/stocks/us/real-estate/nyse-xrn/chiron-real-estate"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 37.27,
+      "high_52w": 39.93,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-29T00:24:30.498887",
+      "priced_at": "2026-06-29T00:24:30.498887",
+      "scenario_price": 37.27,
+      "drawdown_from_high": 0.06661657901327311,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 38.4,
+        "expected_return": 0.030319291655486857,
+        "expected_cagr": 0.015046448028604775,
+        "asymmetry": 0.9703089675960809,
+        "quality_mult": 1.05,
+        "asymmetry_mult": 0.9850426222230594,
+        "potential_score": 0.015562462252301823
+      },
+      "conviction": 0.021986777335495034
     }
   ],
-  "saved_at": "2026-06-28T23:50:36.939445"
+  "saved_at": "2026-06-29T00:24:30.499014"
 }
