@@ -3862,64 +3862,6 @@
       "conviction": 0.23932181056484325
     },
     {
-      "symbol": "ELAN",
-      "business": "Elanco Animal Health (Indianapolis, IN) is one of the four global animal health majors (alongside Zoetis, Merck, Boehringer). Revenue ~$4.1B, split roughly 55% pet health / 45% farm animals. Key brands: Seresto flea/tick collar, Credelio chewable parasiticide, Interceptor Plus, Galliprant OA pain, Drontal. ~499M shares; $2.3B net debt at ~6% average rate (~$140M/yr interest). PE is negative (GAAP losses) due to amortization of $7.6B Bayer Animal Health acquisition goodwill (2020).",
-      "thesis": "Elanco is structurally one of the strongest animal health franchises in the world but is burdened by the debt and goodwill from its 2020 Bayer acquisition \u2014 that legacy creates the GAAP loss and the cheap apparent valuation. Insider cluster buying signals management believes the market is undervaluing the underlying franchise. The bull case: Credelio and Seresto defend market share against generic/OTC competition, gross margins expand from manufacturing consolidation (the Speke plant in UK comes fully online 2026-27), debt paydown reduces interest to $100M by 2027, and the market re-rates to 2.5\u00d7 revenue = $38. The bear case: European Credelio patents expire 2026-27 and generics take 25-30% market share in the critical parasiticide segment; Seresto faces regulatory pressure (EPA reviews collar chemistry); debt service constrains R&D investment just as Zoetis and Merck widen their pipeline leads; revenue declines from $4.1B to $3.5B and the market re-rates to 0.9\u00d7 declining revenue = $12. Is the bear case priced in at 11% drawdown? Only partially \u2014 the market is cautious but not bearish. The insider buying tilts the balance. Monitor: Q3 2026 Credelio market-share data in EU, debt net leverage ratio, and pipeline readouts.",
-      "scenarios": {
-        "bull": {
-          "target": 38.0,
-          "probability": 0.25,
-          "description": "Parasiticide brands hold share; manufacturing efficiencies boost gross margins 200bps; net debt below $2B by 2027; re-rates to 2.5\u00d7 revenue. 2.5-year target $38."
-        },
-        "base": {
-          "target": 30.0,
-          "probability": 0.5,
-          "description": "Steady revenue at $4.0-4.2B; margins flat to slightly up; debt paydown on track; stock trades at 2.0\u00d7 revenue. 2.5-year target $30."
-        },
-        "bear": {
-          "target": 12.0,
-          "probability": 0.25,
-          "description": "Credelio EU generic erosion and Seresto setback; revenue falls to $3.4B; debt becomes constraining; re-rates to 0.9\u00d7 revenue = $12. Equity raise risk emerges."
-        }
-      },
-      "ratings": {
-        "moat": 0.55,
-        "runway": 0.45,
-        "quality": 0.35,
-        "management": 0.45
-      },
-      "citations": [
-        "0001739732-26-030000",
-        "0001739732-26-090000"
-      ],
-      "horizon_years": 2.5,
-      "current_price": 24.56,
-      "high_52w": 27.72,
-      "decline_explanation": "",
-      "going_concern_explanation": "",
-      "insider_tier": "half",
-      "sector": "Health Technology/Animal Health",
-      "author": "oracle",
-      "created_at": "2026-06-29T07:50:16.580233",
-      "priced_at": "2026-06-29T07:50:16.580233",
-      "scenario_price": 24.56,
-      "broker_price": 24.56,
-      "broker_high_52w": 27.72,
-      "price_verified": true,
-      "drawdown_from_high": 0.11399711399711399,
-      "going_concern_flag": false,
-      "derived": {
-        "expected_price": 27.5,
-        "expected_return": 0.11970684039087964,
-        "expected_cagr": 0.0462650846649133,
-        "asymmetry": 1.0700636942675161,
-        "quality_mult": 0.95,
-        "asymmetry_mult": 1.0344388306069703,
-        "potential_score": 0.045465480074770116
-      },
-      "conviction": 0.06288632477062595
-    },
-    {
       "symbol": "MBBC",
       "business": "Marathon Bancorp, Inc. (Wausau, WI) is a mutual holding company (MHC) bank formed in December 2020 via a de novo charter. It offers traditional commercial and mortgage banking to small businesses and individuals in north-central Wisconsin. ~2.95M shares outstanding; $45.7M market cap; 35 employees. Trading just below tangible book at 0.96\u00d7 P/B. PE 37\u00d7 reflects early-stage growth investment rather than normalized earnings power.",
       "thesis": "MBBC is a micro-cap MHC de novo bank at 0.96\u00d7 book with insider cluster buying. The MHC structure is the key to the thesis: the mutual holding company controls the majority of shares and can execute a 'second-step' conversion \u2014 selling MHC-owned shares to the public at or below TBV, then using proceeds to buy back stock at below-book. This mechanical value creation cycle (conversion \u2192 buyback \u2192 TBV grows \u2192 repeat) is well-documented in thrift conversions and was Buffett's preferred early-career investment. The management team led by CEO Nicholas Zillges appears to understand this playbook \u2014 insider cluster buying near book suggests they believe the second-step will be accretive. The bull case: second-step conversion completes at $17-18/share (above market), buybacks at $15-16 accretive to TBV, loan book grows 15%+ annually in an underserved Wisconsin market, and an acquisition becomes likely at 1.3-1.5\u00d7 TBV. The bear case: de novo bank failure (historical failure rate ~20% over first 10 years), management makes a bad credit decision on a single large commercial loan (concentration risk at small community bank), or the Wisconsin regional economy deteriorates. Monitor: quarterly loan quality data, nonperforming loan ratios, and second-step conversion announcements.",
@@ -4152,46 +4094,104 @@
       "conviction": 0.10820044684707664
     },
     {
+      "symbol": "ELAN",
+      "business": "Elanco Animal Health (Indianapolis, IN) is one of the four global animal health majors alongside Zoetis, Merck, and Boehringer. FY2025 revenue $4.715B (+6.2% vs. $4.439B in FY2024), split roughly 55% pet health / 45% farm animals. Key brands: Seresto flea/tick collar, Credelio chewable parasiticide, Interceptor Plus, Galliprant OA pain, Drontal. Gross margin 55%; EBITDA $676M (adjusted). ~499M diluted shares. Total debt $4.0B; cash $545M; net debt ~$3.47B at ~$220M/yr interest expense \u2014 legacy of the $7.6B Bayer Animal Health acquisition in 2020. FY2025 GAAP net loss -$232M (EPS -$0.47) vs. FY2024 net income $338M; the swing driven by non-cash charges (goodwill $4.78B + intangibles $3.41B = $8.19B combined) and $220M annual interest cost. Innovation revenue $461M+ in 2024.",
+      "thesis": "Elanco is one of the world's strongest animal health franchises \u2014 six consecutive quarters of organic revenue growth into FY2025, top-line expanding 6% to $4.7B with adjusted EBITDA of $676M \u2014 burdened by the $7.6B Bayer acquisition debt that generates $220M/year in interest and converts a near-breakeven operating business (-$4M operating income FY2025) into a GAAP net loss. Insider cluster buying signals management sees the stock as undervalued relative to the franchise value. Debt reduced by $304M in FY2025 (from $4.32B to $4.02B), showing the paydown trajectory is real. At net debt/EBITDA of 5.1\u00d7, leverage is elevated but declining. The bull case: Credelio and Seresto defend share, gross margins expand from manufacturing consolidation (Speke plant optimization), net debt falls below $3B by 2027, market re-rates to 2.5\u00d7 revenue = $38 on the deleveraged story. The bear case: European Credelio patent risk materializes with generics capturing 20-30% of the parasiticide segment (Credelio was a top-5 product in 2024); Seresto EPA regulatory pressure; $220M/yr interest burden limits R&D reinvestment just as Zoetis and Merck widen pipeline leads; revenue stalls near $4.5B and net debt/EBITDA stays above 5\u00d7, prompting a credit-risk discount. Is the bear case priced in at 11% drawdown? Only partially \u2014 the market is cautious but not pricing in a structural decline. The improving revenue trajectory and insider buying tilt the balance toward a mispriced opportunity. Monitor: Q3 2026 Credelio market-share data in EU, net debt level, and innovation revenue vs. $1.2B 2026 target.",
+      "scenarios": {
+        "bull": {
+          "target": 38.0,
+          "probability": 0.25,
+          "description": "Parasiticides hold share; manufacturing efficiencies expand gross margin to 57-58%; net debt falls to $2.8B by 2027; re-rates to 2.5\u00d7 revenue on a deleveraging story. 2.5-year target $38."
+        },
+        "base": {
+          "target": 30.0,
+          "probability": 0.5,
+          "description": "Steady revenue growth to $5.1B by 2027; margin flat; debt paydown on track to $3.5B; stock trades at 2.0\u00d7 forward revenue. 2.5-year target $30."
+        },
+        "bear": {
+          "target": 12.0,
+          "probability": 0.25,
+          "description": "Credelio EU generic erosion (-20-30% segment revenue); Seresto regulatory setback; revenue slides to $4.0B; leverage stays above 5\u00d7; market prices in debt-overhang discount. 2.5-year floor $12."
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.45,
+        "quality": 0.35,
+        "management": 0.45
+      },
+      "citations": [
+        "0001739104-26-000012",
+        "0001739104-26-000030"
+      ],
+      "horizon_years": 2.5,
+      "current_price": 24.56,
+      "high_52w": 27.72,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Health Technology/Animal Health",
+      "author": "oracle",
+      "created_at": "2026-06-29T08:02:14.455656",
+      "priced_at": "2026-06-29T08:02:14.455656",
+      "scenario_price": 24.56,
+      "broker_price": 24.56,
+      "broker_high_52w": 27.72,
+      "price_verified": true,
+      "drawdown_from_high": 0.11399711399711399,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 27.5,
+        "expected_return": 0.11970684039087964,
+        "expected_cagr": 0.0462650846649133,
+        "asymmetry": 1.0700636942675161,
+        "quality_mult": 0.95,
+        "asymmetry_mult": 1.0344388306069703,
+        "potential_score": 0.045465480074770116
+      },
+      "conviction": 0.06288632477062595
+    },
+    {
       "symbol": "ROCK",
-      "business": "Gibraltar Industries (Buffalo, NY) manufactures products for residential (roof/foundation ventilation, rain dispersion, centralized mail systems, package lockers), infrastructure (bridge bearings, expansion joints, pavement seals), and \u2014 through Q1 2026 \u2014 agricultural technology (Agtech; commercial greenhouse design, construction, and maintenance). ~29.7M shares; $1.31B market cap. CEO William Bosway. PE is negative due to large Agtech impairment charges in 2026. The company announced the full exit of the Agtech segment in early 2026.",
-      "thesis": "Gibraltar's 41% decline from its October 2025 peak tells a clean story: Agtech was a failed bet on commercial greenhouse construction that ran into project cost overruns, client cancellations, and execution failures. The exit is painful (impairment charges drove the company to a net loss, hence the -9.89\u00d7 PE) but surgical: Residential and Infrastructure remain solid businesses with 15-20% EBITDA margins and structural tailwinds (solar racking within Residential is growing; Infrastructure benefits from the IIJA bridge-replacement wave). Insider cluster buying at $44-45 signals that management believes the Agtech writedown is the floor. The bull case: with Agtech gone, normalized earnings from Residential+Infrastructure are $4-5/diluted share; at 12\u00d7 normalized earnings = $48-60, and the market re-rates promptly once the Agtech hangover clears. The bear case: Agtech exit costs balloon beyond booked charges (warranty claims, contract termination penalties, pending litigation from greenhouse clients); Residential also softens as housing starts lag under elevated mortgage rates; combined, earnings don't recover above $2/share and the stock stalls at current levels. Key question: are the Agtech impairment charges complete, or is there a second write-down wave from legal settlements? Monitor: Q2 2026 Agtech exit charge disclosures and Residential revenue vs. US housing start data.",
+      "business": "Gibraltar Industries (Buffalo, NY) manufactures products for residential (roof/foundation ventilation, rain dispersion, centralized mail systems, electronic package lockers) and infrastructure (bridge bearings, expansion joints, pavement seals, cable protection) markets. The former Agtech (commercial greenhouse) segment was classified as discontinued operations in the FY2025 10-K. In February 2025, Gibraltar acquired Lane Supply Inc. (residential building products distribution) for ~$118M, expanding the Residential segment. FY2025 continuing-ops revenue: $1,136M (+11% vs $1,023M in FY2024). Operating income: $122.75M (10.8% margin). Net income from continuing ops: $97.56M (~$3.28/diluted share). Total net loss to common shareholders: -$44.39M (EPS -$1.48) due to ~$142M Agtech discontinued-ops charge. ~29.7M diluted shares; $1.31B market cap. Effectively debt-free: $46M in lease obligations, zero financial debt; $115.7M cash. Book value ~$32/share. CEO William Bosway.",
+      "thesis": "Gibraltar's 41% decline from its October 2025 peak is almost entirely explained by the Agtech (commercial greenhouse) segment, which was classified as discontinued operations in the FY2025 10-K and generated ~$142M in losses that overwhelmed the $97.56M profit from continuing operations. The core business is intact and healthy: Residential + Infrastructure delivered $1.136B in revenue, $122.75M operating income (10.8% margin), and $97.56M net income in FY2025. Gibraltar is debt-free (zero financial debt, $115.7M cash), which eliminates balance-sheet risk and preserves optionality for bolt-on M&A (Lane Supply $118M Feb 2025 already demonstrates this). Insider cluster buying at $44-45 signals management believes continuing-ops value is mispriced. The bull case: Agtech exit costs are substantially booked; continuing ops sustain 10-12% operating margins as Lane Supply integrates; revenue grows to $1.3-1.4B by 2027; normalized EPS reaches $4.50-5.00/share on margin expansion; re-rates to 13-14\u00d7 = $58-70. The bear case: Agtech exit generates a second wave of charges (warranty claims, contract termination penalties, litigation from greenhouse clients); Residential softens as US housing starts lag under 5%+ mortgage rates; Lane Supply integration disappoints; EPS from continuing ops stagnates at $2.50-3.00/share. At current price, the market is pricing continuing ops at 13.5\u00d7 the $3.28/share \u2014 roughly fair for the current margin level but not pricing any recovery. The insider buying suggests the market is wrong about the Agtech tail risk. Watch: Q2/Q3 2026 Agtech exit charge disclosures (any additional impairment or litigation accruals), Lane Supply revenue contribution in Residential, and US housing start data.",
       "scenarios": {
         "bull": {
           "target": 65.0,
           "probability": 0.3,
-          "description": "Agtech charges complete; Residential+Infrastructure earn $5/share normalized; market re-rates to 13\u00d7 clean earnings; solar racking contributes acceleration. 2-year target $65."
+          "description": "Agtech charges complete; Lane Supply integrates well; Residential + Infrastructure expand margins to 13-14%; EPS from continuing ops reaches $4.75-5.00/share by 2027; re-rates to 13-14\u00d7 = $62-70. Debt-free balance sheet enables further bolt-ons. 2-year target $65."
         },
         "base": {
           "target": 52.0,
           "probability": 0.45,
-          "description": "Agtech exit largely complete; core businesses earn $4/share normalized by 2027; re-rates to 13\u00d7 = $52. Residential softness offset by Infrastructure growth. 2-year target $52."
+          "description": "Continuing ops sustain 10-11% margins; EPS grows to $3.75-4.00 by 2027 on Lane Supply contribution and revenue growth to $1.25B; market re-rates to 13\u00d7 normalized EPS. 2-year target $52."
         },
         "bear": {
           "target": 28.0,
           "probability": 0.25,
-          "description": "Second wave of Agtech charges (litigation, warranty); Residential revenue -10-15%; earnings power $2/share; stock stays at 14\u00d7 depressed earnings. 2-year floor $28."
+          "description": "Agtech second-wave charges (litigation, warranty); Residential housing exposure softens; Lane Supply underperforms; EPS stays at $2.00-2.50 and the market applies a 12\u00d7 multiple. 2-year floor $28."
         }
       },
       "ratings": {
         "moat": 0.45,
         "runway": 0.4,
-        "quality": 0.3,
+        "quality": 0.4,
         "management": 0.45
       },
       "citations": [
-        "0000912093-26-025000",
-        "0000912093-26-070000"
+        "0000912562-26-000025",
+        "0000912562-26-000016"
       ],
       "horizon_years": 2.0,
       "current_price": 44.2,
       "high_52w": 75.08,
-      "decline_explanation": "Gibraltar exited its Agtech (commercial greenhouse) segment in early 2026 after years of project cost overruns, client cancellations, and execution failures \u2014 booking large impairment charges that drove FY2026 to a net loss (PE = -9.89). The Residential segment simultaneously softened as US housing starts declined under 5%+ mortgage rates. Combined, the Agtech write-down and Residential weakness drove a 41% drawdown from the October 2025 peak of $75.08.",
+      "decline_explanation": "Agtech (commercial greenhouse) segment classified as discontinued operations in the FY2025 10-K, generating ~$142M in discontinued-ops losses that overwhelmed $97.56M continuing-ops net income, producing a -$44.39M net loss to shareholders (EPS -$1.48). Agtech suffered project cost overruns, client cancellations, and execution failures. The Residential segment also faced headwinds as US housing starts declined under elevated mortgage rates. Combined, these drove the 41% drawdown from the October 2025 peak of $75.08.",
       "going_concern_explanation": "",
       "insider_tier": "half",
       "sector": "Producer Manufacturing/Metal Fabrication",
       "author": "oracle",
-      "created_at": "2026-06-29T07:50:16.580323",
-      "priced_at": "2026-06-29T07:50:16.580323",
+      "created_at": "2026-06-29T08:02:14.455782",
+      "priced_at": "2026-06-29T08:02:14.455782",
       "scenario_price": 44.2,
       "broker_price": 44.2,
       "broker_high_52w": 75.08,
@@ -4203,12 +4203,12 @@
         "expected_return": 0.12895927601809953,
         "expected_cagr": 0.06252495312726625,
         "asymmetry": 1.5407407407407403,
-        "quality_mult": 0.9,
+        "quality_mult": 0.925,
         "asymmetry_mult": 1.24126578166835,
-        "potential_score": 0.06984907633556378
+        "potential_score": 0.07178932845599612
       },
-      "conviction": 0.09496747324749588
+      "conviction": 0.09747255882977601
     }
   ],
-  "saved_at": "2026-06-29T07:50:16.582274"
+  "saved_at": "2026-06-29T08:02:14.457753"
 }
