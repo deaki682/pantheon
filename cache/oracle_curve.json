@@ -247,5 +247,51 @@
       }
     },
     "note": "oracle cycle: 8 buy orders queued (VITL/PSN/HDSN/CXT/J/MRP/ACM/EQPT)"
+  },
+  {
+    "ts": "2026-06-29T04:21:43.652394+00:00",
+    "equity": 999.52401718035,
+    "cash": 99.55219779835002,
+    "n_positions": 8,
+    "positions": {
+      "ACM": {
+        "shares": 1.68634,
+        "price": 71.01
+      },
+      "CXT": {
+        "shares": 2.4671,
+        "price": 48.65
+      },
+      "EQPT": {
+        "shares": 2.89156,
+        "price": 20.47
+      },
+      "HDSN": {
+        "shares": 21.58273,
+        "price": 5.535
+      },
+      "J": {
+        "shares": 0.95472,
+        "price": 125.665
+      },
+      "MRP": {
+        "shares": 3.87972,
+        "price": 30.9056
+      },
+      "PSN": {
+        "shares": 2.35571,
+        "price": 50.91
+      },
+      "VITL": {
+        "shares": 10.87941,
+        "price": 11.19
+      }
+    },
+    "note": "oracle cycle: no new orders (all positions within rebalance band; 8 buy orders still queued)",
+    "attribution": {
+      "skipped": true,
+      "reason": "0 common dates, need 7"
+    },
+    "allocation": 1000.0
   }
 ]
