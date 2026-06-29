@@ -6,9 +6,9 @@
 <meta name="theme-color" content="#0e0f12">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Pantheon">
+<meta name="apple-mobile-web-app-title" content="Trinity">
 <meta http-equiv="refresh" content="900">
-<title>Pantheon</title>
+<title>Trinity</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -68,10 +68,10 @@
 <body>
 <div class="header">
   <div>
-    <h1>Pantheon</h1>
-    <div class="meta">Updated 2026-06-29T13:33:44.387482Z</div>
+    <h1>Trinity</h1>
+    <div class="meta">Updated 2026-06-29T13:38:41.225973Z</div>
   </div>
-  <div class="total">$3,998.75</div>
+  <div class="total">$3,995.30</div>
 </div>
 <div class="chart-wrap"><canvas id="c"></canvas></div>
 
@@ -81,7 +81,7 @@
             
           </div>
           <div class="god-stats">
-            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$997.91</span></div>
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$992.22</span></div>
             <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$99.55</span></div>
             <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+0.00</span></div>
             <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">21</span></div>
@@ -139,7 +139,7 @@
             
           </div>
           <div class="god-stats">
-            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,001.34</span></div>
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,003.58</span></div>
             <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$129.45</span></div>
             <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+0.00</span></div>
             <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">6</span></div>
@@ -208,7 +208,7 @@
 const ctx = document.getElementById('c').getContext('2d');
 new Chart(ctx, {
   type: 'line',
-  data: {"labels": ["2026-06-28", "2026-06-28T00:00:00", "2026-06-29", "2026-06-30"], "datasets": [{"label": "Oracle", "data": [null, 1000.0, 997.9084875131576, null], "borderColor": "#D4AF37", "backgroundColor": "#D4AF3740", "tension": 0.2, "spanGaps": true}, {"label": "Achilles", "data": [null, null, 1000.0, null], "borderColor": "#9C27B0", "backgroundColor": "#9C27B040", "tension": 0.2, "spanGaps": true}, {"label": "Delphi", "data": [1000.0, null, 1001.3421491567, null], "borderColor": "#00BCD4", "backgroundColor": "#00BCD440", "tension": 0.2, "spanGaps": true}, {"label": "Midas", "data": [null, null, 982.529298124, 999.500250124], "borderColor": "#DC143C", "backgroundColor": "#DC143C40", "tension": 0.2, "spanGaps": true}]},
+  data: {"labels": ["2026-06-28", "2026-06-28T00:00:00", "2026-06-29", "2026-06-30"], "datasets": [{"label": "Oracle", "data": [null, 1000.0, 992.2166708582147, null], "borderColor": "#D4AF37", "backgroundColor": "#D4AF3740", "tension": 0.2, "spanGaps": true}, {"label": "Achilles", "data": [null, null, 1000.0, null], "borderColor": "#9C27B0", "backgroundColor": "#9C27B040", "tension": 0.2, "spanGaps": true}, {"label": "Delphi", "data": [1000.0, null, 1003.5800952566999, null], "borderColor": "#00BCD4", "backgroundColor": "#00BCD440", "tension": 0.2, "spanGaps": true}, {"label": "Midas", "data": [null, null, 980.296278124, 999.500250124], "borderColor": "#DC143C", "backgroundColor": "#DC143C40", "tension": 0.2, "spanGaps": true}]},
   options: {
     responsive: true,
     maintainAspectRatio: false,
@@ -223,7 +223,7 @@ new Chart(ctx, {
   },
 });
 // PWA manifest (inline to avoid a separate file)
-const m = {name:"Pantheon",short_name:"Pantheon",display:"standalone",background_color:"#0e0f12",theme_color:"#0e0f12",start_url:"."};
+const m = {name:"Trinity",short_name:"Trinity",display:"standalone",background_color:"#0e0f12",theme_color:"#0e0f12",start_url:"."};
 const link = document.createElement('link');
 link.rel = 'manifest';
 link.href = URL.createObjectURL(new Blob([JSON.stringify(m)], {type:'application/json'}));
