@@ -89,7 +89,6 @@ def build_playbooks() -> dict[str, Playbook]:
             profit_target_pct=0.15, time_stop_days=30,
             citation="Cohen, Malloy & Pomorski (2012)",
             expected_hit_rate=0.58,
-            disabled=True,
         ),
         "activist_13d": Playbook(
             event_class="activist_13d",
@@ -97,7 +96,6 @@ def build_playbooks() -> dict[str, Playbook]:
             profit_target_pct=0.10, time_stop_days=10,
             citation="Brav, Jiang, Partnoy & Thomas (2008)",
             expected_hit_rate=0.60,
-            disabled=True,
         ),
         "ma_target": Playbook(
             event_class="ma_target",
@@ -105,7 +103,6 @@ def build_playbooks() -> dict[str, Playbook]:
             profit_target_pct=0.06, time_stop_days=15,
             citation="Andrade & Stafford (2004)",
             expected_hit_rate=0.65,
-            disabled=True,
         ),
         "spinoff_window": Playbook(
             event_class="spinoff_window",
@@ -113,7 +110,6 @@ def build_playbooks() -> dict[str, Playbook]:
             profit_target_pct=0.12, time_stop_days=25,
             citation="McConnell, Ozbilgin & Wahal (2001)",
             expected_hit_rate=0.55,
-            disabled=True,
         ),
         "guidance_revision": Playbook(
             event_class="guidance_revision",
@@ -121,7 +117,6 @@ def build_playbooks() -> dict[str, Playbook]:
             profit_target_pct=0.10, time_stop_days=10,
             citation="Tang (2014)",
             expected_hit_rate=0.55,
-            disabled=True,
         ),
     }
     for cls, pb in pbs.items():
