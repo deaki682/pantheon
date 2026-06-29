@@ -157,5 +157,73 @@
     "equity_before": 1000.0,
     "equity_after": 999.5649,
     "cash_after": 129.4513
+  },
+  {
+    "date": "2026-06-29",
+    "run_at": "2026-06-29T04:55:15Z",
+    "run_type": "delphi_full_pass",
+    "status": "SECTOR_ORDERS_ALREADY_PLACED_OVERLAY_SKIPPED",
+    "regime": "risk_on",
+    "breadth": 0.7273,
+    "spy_1m": -0.0286,
+    "spy_3m": 0.1301,
+    "risk_budget": 1.0,
+    "sectors": [
+      "technology",
+      "industrials",
+      "real_estate"
+    ],
+    "picks": {
+      "technology": [
+        "AMD",
+        "TXN"
+      ],
+      "industrials": [
+        "CAT",
+        "GE"
+      ],
+      "real_estate": [
+        "SPG",
+        "PSA"
+      ]
+    },
+    "sector_orders": "already_placed_at_04:47_UTC",
+    "spy_overlay": null,
+    "spy_overlay_reason": "pre_trade_check_failed",
+    "pre_trade_mismatches": [
+      {
+        "symbol": "AMD",
+        "sleeve": 0.3843,
+        "broker_plus_pending": 1.8308,
+        "extra_in_broker": 1.4465
+      },
+      {
+        "symbol": "CAT",
+        "sleeve": 0.1759,
+        "broker_plus_pending": 0.7808,
+        "extra_in_broker": 0.4291
+      },
+      {
+        "symbol": "PSA",
+        "sleeve": 0.4245,
+        "broker_plus_pending": 0.6793,
+        "extra_in_broker": 0.2548
+      },
+      {
+        "symbol": "SPG",
+        "sleeve": 0.7185,
+        "broker_plus_pending": 1.139,
+        "extra_in_broker": 0.4205
+      },
+      {
+        "symbol": "TXN",
+        "sleeve": 0.2491,
+        "broker_plus_pending": 2.1456,
+        "extra_in_broker": 1.6474
+      }
+    ],
+    "note": "Pre-trade check detected personal/pre-existing positions in broker overlapping with Delphi symbols. Sector orders confirmed in queued state. SPY overlay (~$29) deferred until reconciliation.",
+    "cash_in_sleeve": 129.4512565567,
+    "equity_in_sleeve": 999.56
   }
 ]
