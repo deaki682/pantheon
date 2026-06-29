@@ -43,6 +43,15 @@ OWNERSHIP_PREFIXES: dict[str, list[str]] = {
         "cache/trinity_",
         "trinity_dashboard.html",
     ],
+    "ghost_achilles": [
+        "cache/ghost_achilles_",
+    ],
+    "ghost_delphi": [
+        "cache/ghost_delphi_",
+    ],
+    "ghost_oracle": [
+        "cache/ghost_oracle_",
+    ],
 }
 
 
