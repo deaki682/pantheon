@@ -1,1 +1,46 @@
-[{"timestamp": "2026-06-28T03:30:00", "equity": 1000.0, "cash": 1000.0, "positions": 0, "events_scanned": 17, "events_actionable": 14, "top_event": "APOG earnings_reaction (score=0.187)", "note": "dry_run_market_wide_search"}, {"timestamp": "2026-06-28T10:34:02.994699", "equity": 1000.0, "cash": 1000.0, "positions": 0, "events_scanned": 798, "events_actionable": 0, "top_event": null, "note": "weekend_no_new_filings"}, {"date": "2026-06-29", "equity": 1000.0, "timestamp": "2026-06-29T02:35:19.486462"}, {"date": "2026-06-29", "equity": 1000.0, "timestamp": "2026-06-29T02:54:14.354906"}, {"date": "2026-06-29", "equity": 1000.0, "timestamp": "2026-06-29T05:04:55.973683"}, {"ts": "2026-06-29T05:22:52Z", "equity": 1000.0}]
+[
+  {
+    "timestamp": "2026-06-28T03:30:00",
+    "equity": 1000.0,
+    "cash": 1000.0,
+    "positions": 0,
+    "events_scanned": 17,
+    "events_actionable": 14,
+    "top_event": "APOG earnings_reaction (score=0.187)",
+    "note": "dry_run_market_wide_search"
+  },
+  {
+    "timestamp": "2026-06-28T10:34:02.994699",
+    "equity": 1000.0,
+    "cash": 1000.0,
+    "positions": 0,
+    "events_scanned": 798,
+    "events_actionable": 0,
+    "top_event": null,
+    "note": "weekend_no_new_filings"
+  },
+  {
+    "date": "2026-06-29",
+    "equity": 1000.0,
+    "timestamp": "2026-06-29T02:35:19.486462"
+  },
+  {
+    "date": "2026-06-29",
+    "equity": 1000.0,
+    "timestamp": "2026-06-29T02:54:14.354906"
+  },
+  {
+    "date": "2026-06-29",
+    "equity": 1000.0,
+    "timestamp": "2026-06-29T05:04:55.973683"
+  },
+  {
+    "ts": "2026-06-29T05:22:52Z",
+    "equity": 1000.0
+  },
+  {
+    "date": "2026-06-29",
+    "equity": 1000.0,
+    "timestamp": "2026-06-29T09:06:41.736220"
+  }
+]
