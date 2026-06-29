@@ -1,6 +1,6 @@
 # Pantheon — Autonomous Trading System
 
-Three gods share one Robinhood agentic account (`563854249`), each running
+Four gods share one Robinhood agentic account (`563854249`), each running
 an independent strategy with its own $1,000 sleeve.
 
 ## The Gods
@@ -21,6 +21,16 @@ into SPY. Rebalances on each run.
 catalysts (guidance changes, insider clusters, activist 13Ds, spinoffs).
 Scores events against playbooks, takes small positions with tight exits.
 Currently in conservative mode ($1,000 cash, no positions).
+
+**Midas** — Maximally concentrated weekly catalyst play. Scans the full
+~7,000-name universe every weekend, funnels through signal convergence
+scoring to 10 finalists, deep-researches each, picks ONE stock. Enters
+Monday open (all-in), exits Friday close or -10% stop. ~50 graded
+trades/year — fastest calibration path in Pantheon. The edge is signal
+convergence: when multiple independent informed-money signals (insider
+clusters, earnings beats, smart money, activist 13D, guidance raises)
+fire on the same name, the probability of a short-term pop increases
+non-linearly.
 
 ## Architecture
 
@@ -64,6 +74,7 @@ trades.
 | Quarterly | `/oracle-screen` | Refresh insider/13F/quality universe (~7,000 filers, 40-60 min) |
 | As needed | `/oracle-research` | Build dossiers to maintain pool of 60-80 |
 | At cohort review (~12 months) | `/oracle` | Grades all calls, closes cohort, selects new cohort from pool |
+| Weekly (weekend) | `/midas` | Full universe scan → convergence rank → deep research → pick ONE → enter Monday |
 
 ### Key Files (all in `cache/`, persisted to `claude/live`)
 
@@ -84,7 +95,11 @@ trades.
 | `delphi_sleeve.json` | delphi | Delphi's sleeve |
 | `delphi_ledger.jsonl` | delphi | Delphi's order ledger |
 | `achilles_sleeve.json` | achilles | Achilles' sleeve |
-| `trinity_dashboard.html` | shared | PWA dashboard for all three gods |
+| `midas_sleeve.json` | midas | Cash, position, weekly results, peak equity |
+| `midas_dossiers.json` | midas | This week's top-10 catalyst dossiers |
+| `midas_ledger.jsonl` | midas | Every order placed (for reconcile) |
+| `midas_curve.json` | midas | Equity timestamps for dashboard |
+| `trinity_dashboard.html` | shared | PWA dashboard for all four gods |
 
 ### Capital Scaling Gates (`oracle/capital.py`)
 
@@ -98,6 +113,44 @@ With 8 positions per 12-month cohort, reaching 30 graded calls takes ~4
 cohorts. The alpha_t gate requires ~15-20% annual alpha after factors —
 achievable only with excellent selection from a large dossier pool.
 
+## Midas Operating Cadence
+
+### Weekly Cycle
+
+| Day | Action |
+|-----|--------|
+| Weekend (Sat/Sun) | Full universe scan → convergence rank → deep research on top 10 → pick ONE |
+| Monday open | Enter: all-in market buy, set -10% stop and Friday exit date |
+| Mon–Thu (via /trinity) | Monitor stop-loss; exit immediately if -10% hit |
+| Friday close | Time-stop: market sell at close, grade the trade |
+
+### Signal Channels
+
+| Signal | Source | Strength |
+|--------|--------|----------|
+| Insider cluster | `shared.insiders` (via Oracle screen cache) | n_insiders / 4 |
+| Earnings beat | `achilles.earnings.compute_surprise` | surprise_strength curve |
+| Smart money | `oracle.smart_money.smart_money_holders` | n_holders / 3 |
+| Activist 13D | `oracle.lenses.search_recent_13d` | 1.0 (binary) |
+| Guidance raised | `shared.edgar.guidance_direction` | 1.0 (binary) |
+
+### Convergence Multipliers
+
+| Signals firing | Multiplier |
+|---------------|------------|
+| 1 | 1.0x |
+| 2 | 2.5x |
+| 3 | 5.0x |
+| 4+ | 8.0x |
+
+### Capital Scaling Gates (`midas/calibration.py`)
+
+Same gates as Oracle but reached ~6x faster:
+- 30+ graded trades (reachable in ~7 months at 1/week)
+- alpha > 0 (excess return over SPY benchmark)
+- alpha_t >= 2.0 (statistically significant)
+- convergence validates (multi-signal picks outperform single-signal)
+
 ### Cancelling Unfilled Orders
 
 If a queued order needs to be cancelled before it fills:
@@ -110,6 +163,6 @@ If a queued order needs to be cancelled before it fills:
 - Robinhood agentic account: `563854249`
 - The account holds ~15 personal positions alongside the gods. These
   pre-existing positions are filtered out by `filter_broker_to_gods()`.
-- God env vars: `ORACLE_LIVE=true`, `DELPHI_LIVE=true`, `ACHILLES_LIVE=true`
+- God env vars: `ORACLE_LIVE=true`, `DELPHI_LIVE=true`, `ACHILLES_LIVE=true`, `MIDAS_LIVE=true`
 - If any is not `"true"`, that god runs in paper mode (no broker orders).
 - `KILL_SWITCH` file triggers immediate liquidation of all god positions.

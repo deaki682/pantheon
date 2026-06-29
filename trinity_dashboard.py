@@ -7,7 +7,8 @@ Reads:
 Writes:
   - cache/trinity_dashboard.html
 
-Colors: Oracle gold (#D4AF37), Achilles purple (#9C27B0), Delphi cyan (#00BCD4).
+Colors: Oracle gold (#D4AF37), Achilles purple (#9C27B0), Delphi cyan (#00BCD4),
+        Midas crimson (#DC143C).
 """
 from __future__ import annotations
 
@@ -22,6 +23,7 @@ GODS = (
     ("oracle", "#D4AF37"),
     ("achilles", "#9C27B0"),
     ("delphi", "#00BCD4"),
+    ("midas", "#DC143C"),
 )
 
 
@@ -51,8 +53,19 @@ def _series_for(god: str, cache_dir: str) -> list[dict]:
 def _load_positions(god: str, cache_dir: str) -> list[dict]:
     """Load positions from a sleeve JSON. Returns list of {symbol, shares, avg_price, entry_date}."""
     sleeve = _load_json(os.path.join(cache_dir, f"{god}_sleeve.json"), {})
-    positions = sleeve.get("positions", {})
     out = []
+    # Midas: single "position" field (dict or None)
+    single_pos = sleeve.get("position")
+    if isinstance(single_pos, dict) and single_pos.get("symbol"):
+        out.append({
+            "symbol": single_pos["symbol"],
+            "shares": single_pos.get("shares", 0),
+            "avg_price": single_pos.get("avg_price", single_pos.get("entry_price", 0)),
+            "entry_date": single_pos.get("entry_date", ""),
+        })
+        return out
+    # Oracle/Delphi/Achilles: "positions" dict keyed by symbol or event_id
+    positions = sleeve.get("positions", {})
     for key, pos in positions.items():
         if isinstance(pos, dict):
             sym = pos.get("symbol", key)

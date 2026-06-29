@@ -1,0 +1,124 @@
+# /midas — weekly diamond finder
+
+Run Midas's complete weekly cycle: scan the full universe, funnel to 10
+finalists, deep-research each, pick ONE stock, enter Monday, manage
+through the week.
+
+Midas is maximally concentrated: one stock, all-in, one week. The edge
+is signal convergence — when multiple independent informed-money signals
+fire on the same name, the probability of a short-term pop increases
+non-linearly.
+
+## Steps
+
+0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/`.
+
+1. **Safety check.** Kill switch, `is_live("midas")` check. If not live, paper mode.
+
+2. **Restore state.** Read `cache/midas_sleeve.json`. If absent, initialize `MidasSleeve(initial_cash=1000.0)` and save.
+
+3. **Process settlements.** `sleeve.process_settlements(today)`.
+
+4. **Check existing position.** If Midas has an open position:
+   - Fetch current price via `get_equity_quotes`.
+   - **Hard stop:** If `sleeve.check_stop(current_price)`, exit immediately via broker market sell. `sleeve.exit(price=px, today=today, reason="hard_stop")`.
+   - **Time stop:** If `sleeve.should_time_stop(today)` (it's Friday or later), exit via broker market sell. `sleeve.exit(price=px, today=today, reason="time_stop")`.
+   - **Circuit breaker:** `sleeve.check_halt()` — if 40% drawdown from peak, liquidate.
+   - If position still open after checks, skip to step 13 (persist) — we're mid-week, no new entry.
+
+5. **If no position is open and it's not Monday**, skip to step 13. Midas only enters on Mondays.
+
+### Stage 1 — Quantitative Sieve (~7,000 → ~50-200)
+
+6. **Load signal data.** Use cached screen data from Oracle's quarterly scan:
+   - `cache/oracle_insider_clusters.json` — insider buying clusters
+   - `cache/oracle_smart_money.json` — 13F smart money holdings
+   - `cache/oracle_activist_13d.json` — activist 13D filings
+   - Fetch upcoming earnings via Robinhood `get_earnings_calendar` for this week
+   - Fetch recent earnings results via `get_earnings_results` for names that reported in the last 5 days
+
+7. **Run sieve.** `midas.scanner.stage1_sieve(universe, insider_clusters=…, smart_money_holders=…, activist_symbols=…, earnings_surprise=…, guidance_raised=…, market_caps=…)`. Output: ~50-200 names with at least one active signal.
+
+### Stage 2 — Convergence Rank (→ top 10)
+
+8. **Score and rank.** `midas.scanner.stage2_rank(candidates, top_n=10)`. The convergence multiplier non-linearly boosts names with 2+ simultaneous signals.
+
+### Stage 3 — Deep Research (10 → 1)
+
+9. **Build weekly catalyst dossiers.** For each of the top 10 finalists:
+   - Fetch current price, 52-week high from `get_equity_quotes` and `get_equity_fundamentals`
+   - Fetch latest 8-K filings from EDGAR
+   - Review what signals fired and why
+   - **Answer the key question:** What specifically could move this stock THIS week?
+   - Build a `WeeklyCatalystDossier`:
+     - `catalyst`: the specific event or signal convergence
+     - `catalyst_timing`: when does the catalyst resolve?
+     - `bull_case`: why could this pop 5-20%?
+     - `bear_case`: what kills the thesis?
+     - `priced_in_judgment`: is the catalyst already reflected in the price?
+     - `pop_probability`: honest estimate 0-1
+     - `expected_magnitude`: expected % move if it pops
+     - `expected_value`: probability × magnitude
+
+10. **Pick the winner.** `midas.scanner.pick_winner(dossiers)` — highest expected value. Save all dossiers to `cache/midas_dossiers.json`.
+
+### Execute
+
+11. **Size and enter.** Midas goes all-in: compute shares = `(sleeve.cash - fee_reserve) / entry_price`. Set `exit_date` to Friday of this week.
+    - Check `shared.guards.already_placed_today(ledger, symbol, "buy", today)`
+    - Place fractional-share market order via Robinhood MCP
+    - `sleeve.enter(symbol=…, shares=…, price=…, today=…, score=…, convergence_count=…, signals=…, exit_date=friday)`
+    - Append to `cache/midas_ledger.jsonl`
+
+12. **Update peak.** `sleeve.update_peak(marks)`.
+
+13. **Persist.** Save `cache/midas_sleeve.json`, append to `cache/midas_curve.json`, then `pantheon.persist("midas", files, branch="claude/live")`.
+
+## Exit Rules
+
+| Condition | Trigger | Action |
+|-----------|---------|--------|
+| Price drops 10% from entry | Any intraday check | Market sell immediately |
+| Friday (or exit_date reached) | `should_time_stop(today)` | Market sell at close |
+| 40% drawdown from peak equity | `check_halt()` | Halt sleeve, liquidate |
+| Kill switch | `KILL_SWITCH` file | Liquidate immediately |
+
+No profit target — let winners run to Friday. The asymmetry: cut losers at -10%, let winners go +5-20%+.
+
+## What /midas does NOT do
+
+- Enter on any day other than Monday
+- Hold more than one position
+- Hold through the weekend
+- Override the convergence scoring with gut feel
+- Add positions because the broker holds them (sleeve is authoritative)
+
+## Signal Channels (from existing infrastructure)
+
+| Signal | Source | Strength |
+|--------|--------|----------|
+| Insider cluster | `shared.insiders.cluster_signal` via Oracle screen | n_insiders / 4 |
+| Earnings beat | `achilles.earnings.compute_surprise` | surprise_strength curve |
+| Smart money | `oracle.smart_money.smart_money_holders` | n_holders / 3 |
+| Activist 13D | `oracle.lenses.search_recent_13d` | 1.0 (binary) |
+| Guidance raised | `shared.edgar.guidance_direction` | 1.0 (binary) |
+
+## Calibration
+
+Midas generates ~50 graded trades/year — the fastest calibration path in Pantheon. After each trade, `WeeklyResult` is appended to `sleeve.weekly_results`. Key metrics:
+- Hit rate (% of trades with positive return)
+- Per-signal attribution (which channels predict pops?)
+- Convergence validation (do multi-signal picks outperform single-signal?)
+- Alpha vs SPY benchmark
+
+Capital stays at $1,000 until 30+ graded trades show alpha > 0, alpha_t >= 2.0, and convergence validates.
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `cache/midas_sleeve.json` | Cash, position, weekly results, peak equity |
+| `cache/midas_dossiers.json` | This week's top-10 catalyst dossiers |
+| `cache/midas_ledger.jsonl` | Every order placed (for reconcile) |
+| `cache/midas_curve.json` | Equity timestamps for dashboard |
+| `cache/midas_cadence.json` | Last-run timestamps |

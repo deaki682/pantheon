@@ -31,6 +31,7 @@ _LIVE_ENV = {
     "oracle": "ORACLE_LIVE",
     "delphi": "DELPHI_LIVE",
     "achilles": "ACHILLES_LIVE",
+    "midas": "MIDAS_LIVE",
 }
 
 
@@ -112,6 +113,7 @@ LEDGER_PATHS = {
     "oracle": "cache/oracle_ledger.jsonl",
     "delphi": "cache/delphi_ledger.jsonl",
     "achilles": "cache/achilles_ledger.jsonl",
+    "midas": "cache/midas_ledger.jsonl",
 }
 
 
@@ -162,14 +164,16 @@ SLEEVE_PATHS = {
     "oracle": "cache/oracle_sleeve.json",
     "delphi": "cache/delphi_sleeve.json",
     "achilles": "cache/achilles_sleeve.json",
+    "midas": "cache/midas_sleeve.json",
 }
 
 
 def _load_sleeve_shares(path: str) -> dict[str, float]:
     """Load a sleeve JSON and return {SYMBOL: total_shares}.
 
-    Works for both BaseSleeve-style (positions keyed by symbol) and
-    AchillesSleeve-style (positions keyed by event_id with a symbol field).
+    Works for BaseSleeve-style (positions keyed by symbol),
+    AchillesSleeve-style (positions keyed by event_id with a symbol field),
+    and MidasSleeve-style (single "position" field, dict or None).
     Returns empty dict if the file doesn't exist or can't be parsed.
     """
     if not os.path.exists(path):
@@ -179,8 +183,15 @@ def _load_sleeve_shares(path: str) -> dict[str, float]:
             data = json.load(f)
     except (json.JSONDecodeError, OSError):
         return {}
-    positions = data.get("positions", {})
     out: dict[str, float] = {}
+    # Midas: single "position" field
+    single = data.get("position")
+    if isinstance(single, dict) and single.get("symbol"):
+        sym = single["symbol"].upper()
+        out[sym] = float(single.get("shares", 0))
+        return out
+    # Oracle/Delphi/Achilles: "positions" dict
+    positions = data.get("positions", {})
     for key, pos in positions.items():
         if not isinstance(pos, dict):
             continue
