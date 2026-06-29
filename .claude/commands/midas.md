@@ -30,14 +30,17 @@ non-linearly.
 
 ### Stage 1 — Quantitative Sieve (~7,000 → ~50-200)
 
-6. **Load signal data.** Use cached screen data from Oracle's quarterly scan:
-   - `cache/oracle_insider_clusters.json` — insider buying clusters
-   - `cache/oracle_smart_money.json` — 13F smart money holdings
-   - `cache/oracle_activist_13d.json` — activist 13D filings
-   - Fetch upcoming earnings via Robinhood `get_earnings_calendar` for this week
-   - Fetch recent earnings results via `get_earnings_results` for names that reported in the last 5 days
+6. **Load signal data.** Start from the FULL universe (`shared.edgar.fetch_company_tickers()`, ~7,000 filers), NOT Oracle's top-100 screen. Load the **raw lens caches** from Oracle's quarterly scan — these cover the entire universe, not the ranked subset:
+   - `cache/oracle_insider_clusters.json` — every insider buying cluster found across all ~7,000 filers
+   - `cache/oracle_smart_money.json` — all smart money 13F holdings (full universe coverage)
+   - `cache/oracle_activist_13d.json` — every fresh 13D filing found (full EDGAR search)
+   - Fetch this week's earnings reporters via Robinhood `get_earnings_calendar` (~50-100 names per week)
+   - Fetch `get_earnings_results` ONLY for names that reported in the last 5 days (not all 7,000)
+   - For guidance raised: search EDGAR for recent 8-K filings with items 7.01/8.01, run `guidance_direction()` on each
 
-7. **Run sieve.** `midas.scanner.stage1_sieve(universe, insider_clusters=…, smart_money_holders=…, activist_symbols=…, earnings_surprise=…, guidance_raised=…, market_caps=…)`. Output: ~50-200 names with at least one active signal.
+   **Key distinction:** `cache/oracle_screen.json` is Oracle's combined top-100 ranking — Midas does NOT use it. Midas starts from the raw signal data which covers the full universe, then applies its own convergence-based ranking.
+
+7. **Run sieve.** `midas.scanner.stage1_sieve(universe, insider_clusters=…, smart_money_holders=…, activist_symbols=…, earnings_surprise=…, guidance_raised=…, market_caps=…)`. Checks every symbol in the full universe against all signal sources. Output: ~50-200 names with at least one active signal.
 
 ### Stage 2 — Convergence Rank (→ top 10)
 
