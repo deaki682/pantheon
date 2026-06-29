@@ -1,94 +1,83 @@
-{
-  "timestamp": "2026-06-29T02:59:55.443941+00:00",
-  "regime": "risk_on",
-  "spy_1m": -0.0286,
-  "spy_3m": 0.1301,
-  "breadth": 0.7273,
-  "risk_budget": 1.0,
-  "sectors": [
-    "technology",
-    "industrials",
-    "real_estate"
-  ],
-  "sector_scores": {
-    "technology": 0.2987,
-    "industrials": 0.1174,
-    "real_estate": 0.1005,
-    "healthcare": 0.0619,
-    "materials": 0.0535,
-    "staples": 0.0335,
-    "financials": 0.0223,
-    "utilities": 0.0183,
-    "discretionary": -0.0368,
-    "energy": -0.0408,
-    "communication": -0.1038
-  },
-  "picks": {
-    "technology": [
-      "AMD",
-      "CSCO"
+[
+  {
+    "date": "2026-06-29",
+    "timestamp": "2026-06-29T04:27:46.685689+00:00",
+    "run_type": "delphi_full_pass",
+    "status": "HALTED",
+    "halt_reason": "pre_trade_check_failed",
+    "mismatches": [
+      {
+        "symbol": "ACM",
+        "sleeve": 1.68634,
+        "broker": 0.0,
+        "god": "oracle"
+      },
+      {
+        "symbol": "CXT",
+        "sleeve": 2.4671,
+        "broker": 0.0,
+        "god": "oracle"
+      },
+      {
+        "symbol": "EQPT",
+        "sleeve": 2.89156,
+        "broker": 0.0,
+        "god": "oracle"
+      },
+      {
+        "symbol": "HDSN",
+        "sleeve": 21.58273,
+        "broker": 0.0,
+        "god": "oracle"
+      },
+      {
+        "symbol": "J",
+        "sleeve": 0.95472,
+        "broker": 0.0,
+        "god": "oracle"
+      },
+      {
+        "symbol": "MRP",
+        "sleeve": 3.87972,
+        "broker": 0.0,
+        "god": "oracle"
+      },
+      {
+        "symbol": "PSN",
+        "sleeve": 2.35571,
+        "broker": 0.0,
+        "god": "oracle"
+      },
+      {
+        "symbol": "VITL",
+        "sleeve": 10.87941,
+        "broker": 0.0,
+        "god": "oracle"
+      }
     ],
-    "industrials": [
-      "CAT",
-      "GE"
+    "action_required": "Run /oracle-reconcile to sync oracle_sleeve.json with broker before Delphi can trade",
+    "regime": "risk_on",
+    "breadth": 0.7272727272727273,
+    "top_sectors": [
+      "technology",
+      "industrials",
+      "real_estate"
     ],
-    "real_estate": [
-      "PSA",
-      "EQIX"
-    ]
-  },
-  "targets": {
-    "AMD": 200.0,
-    "CSCO": 59.36,
-    "CAT": 176.3,
-    "GE": 123.7,
-    "PSA": 183.92,
-    "EQIX": 116.08
-  },
-  "planned_orders": [
-    {
-      "side": "buy",
-      "symbol": "AMD",
-      "dollars": 200.0,
-      "reason": "open_or_add"
+    "planned_picks": {
+      "technology": [
+        "AMD",
+        "QCOM"
+      ],
+      "industrials": [
+        "CAT",
+        "GE"
+      ],
+      "real_estate": [
+        "PSA",
+        "WELL"
+      ]
     },
-    {
-      "side": "buy",
-      "symbol": "CSCO",
-      "dollars": 59.36117082322615,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "CAT",
-      "dollars": 176.2965196765825,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "GE",
-      "dollars": 123.7034803234175,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "PSA",
-      "dollars": 183.92002442274423,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "EQIX",
-      "dollars": 116.07997557725578,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "SPY",
-      "dollars": 40.63882917677381,
-      "reason": "spy_overlay"
-    }
-  ],
-  "mode": "paper",
-  "note": "PAPER MODE \u2014 no orders placed"
-}
+    "orders_placed": [],
+    "note": "Rotation plan computed but no orders placed due to pre_trade_check failure"
+  }
+]
