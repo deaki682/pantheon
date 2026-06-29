@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e0f12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Trinity">
+<meta http-equiv="refresh" content="900">
+<title>Trinity</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, system-ui, 'SF Pro', sans-serif;
+    background: #0e0f12; color: #ddd;
+    margin: 0; padding: 16px;
+    padding-top: max(16px, env(safe-area-inset-top));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+    -webkit-font-smoothing: antialiased;
+  }
+  h1 { margin: 0 0 2px 0; font-size: 22px; font-weight: 600; letter-spacing: 0.03em; }
+  .header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .total { color: #fff; font-size: 28px; font-weight: 700; }
+  .meta { color: #666; font-size: 11px; }
+  .chart-wrap {
+    background: #16181d; padding: 12px; border-radius: 10px;
+    height: 35vh; min-height: 200px; margin-bottom: 16px;
+  }
+  canvas { height: 100% !important; }
+  .god-card {
+    background: #16181d; border-radius: 10px; padding: 14px;
+    margin-bottom: 12px; border-left: 3px solid;
+  }
+  .god-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .god-name { font-size: 16px; font-weight: 600; }
+  .badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+  .badge.halt { background: #d32f2f; color: #fff; }
+  .god-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+    margin-bottom: 10px;
+  }
+  @media (max-width: 400px) { .god-stats { grid-template-columns: repeat(2, 1fr); } }
+  .stat { text-align: center; }
+  .stat-label { display: block; font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat-value { display: block; font-size: 15px; font-weight: 600; margin-top: 2px; }
+  .stat-value.pos { color: #4caf50; }
+  .stat-value.neg { color: #ef5350; }
+  .positions {
+    width: 100%; border-collapse: collapse; font-size: 12px;
+  }
+  .positions th {
+    text-align: left; color: #888; font-weight: 500; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    padding: 4px 6px; border-bottom: 1px solid #23262d;
+  }
+  .positions td {
+    padding: 5px 6px; border-bottom: 1px solid #1a1d22;
+    font-variant-numeric: tabular-nums;
+  }
+  .no-positions { color: #555; font-size: 12px; font-style: italic; }
+  footer { color: #444; font-size: 10px; margin-top: 8px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <h1>Trinity</h1>
+    <div class="meta">Updated 2026-06-29T06:42:28.683716Z</div>
+  </div>
+  <div class="total">$3,000.74</div>
+</div>
+<div class="chart-wrap"><canvas id="c"></canvas></div>
+
+        <div class="god-card" style="border-color: #D4AF37">
+          <div class="god-header">
+            <span class="god-name" style="color: #D4AF37">Oracle</span>
+            
+          </div>
+          <div class="god-stats">
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,000.27</span></div>
+            <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$99.55</span></div>
+            <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+0.00</span></div>
+            <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">8</span></div>
+          </div>
+          <table class="positions"><thead><tr><th>Symbol</th><th>Shares</th><th>Avg Price</th><th>Value</th><th>Entry</th></tr></thead><tbody><tr>
+              <td>ACM</td>
+              <td>1.6863</td>
+              <td>$71.16</td>
+              <td>$120.00</td>
+              <td>2026-06-29</td>
+            </tr><tr>
+              <td>CXT</td>
+              <td>2.4671</td>
+              <td>$48.64</td>
+              <td>$120.00</td>
+              <td>2026-06-29</td>
+            </tr><tr>
+              <td>EQPT</td>
+              <td>2.8916</td>
+              <td>$20.75</td>
+              <td>$60.00</td>
+              <td>2026-06-29</td>
+            </tr><tr>
+              <td>HDSN</td>
+              <td>21.5827</td>
+              <td>$5.56</td>
+              <td>$120.00</td>
+              <td>2026-06-29</td>
+            </tr><tr>
+              <td>J</td>
+              <td>0.9547</td>
+              <td>$125.69</td>
+              <td>$120.00</td>
+              <td>2026-06-29</td>
+            </tr><tr>
+              <td>MRP</td>
+              <td>3.8797</td>
+              <td>$30.93</td>
+              <td>$120.00</td>
+              <td>2026-06-29</td>
+            </tr><tr>
+              <td>PSN</td>
+              <td>2.3557</td>
+              <td>$50.94</td>
+              <td>$120.00</td>
+              <td>2026-06-29</td>
+            </tr><tr>
+              <td>VITL</td>
+              <td>10.8794</td>
+              <td>$11.03</td>
+              <td>$120.00</td>
+              <td>2026-06-29</td>
+            </tr></tbody></table>
+        </div>
+
+        <div class="god-card" style="border-color: #9C27B0">
+          <div class="god-header">
+            <span class="god-name" style="color: #9C27B0">Achilles</span>
+            
+          </div>
+          <div class="god-stats">
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,000.00</span></div>
+            <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$1,000.00</span></div>
+            <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+0.00</span></div>
+            <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">0</span></div>
+          </div>
+          <div class="no-positions">No open positions</div>
+        </div>
+
+        <div class="god-card" style="border-color: #00BCD4">
+          <div class="god-header">
+            <span class="god-name" style="color: #00BCD4">Delphi</span>
+            
+          </div>
+          <div class="god-stats">
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,000.46</span></div>
+            <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$129.45</span></div>
+            <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+0.00</span></div>
+            <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">6</span></div>
+          </div>
+          <table class="positions"><thead><tr><th>Symbol</th><th>Shares</th><th>Avg Price</th><th>Value</th><th>Entry</th></tr></thead><tbody><tr>
+              <td>AMD</td>
+              <td>0.3843</td>
+              <td>$520.45</td>
+              <td>$200.00</td>
+              <td>2026-06-29</td>
+            </tr><tr>
+              <td>CAT</td>
+              <td>0.1759</td>
+              <td>$1002.52</td>
+              <td>$176.30</td>
+              <td>2026-06-29</td>
+            </tr><tr>
+              <td>GE</td>
+              <td>0.3343</td>
+              <td>$370.00</td>
+              <td>$123.69</td>
+              <td>2026-06-29</td>
+            </tr><tr>
+              <td>PSA</td>
+              <td>0.4245</td>
+              <td>$324.39</td>
+              <td>$137.70</td>
+              <td>2026-06-29</td>
+            </tr><tr>
+              <td>SPG</td>
+              <td>0.7185</td>
+              <td>$225.90</td>
+              <td>$162.30</td>
+              <td>2026-06-29</td>
+            </tr><tr>
+              <td>TXN</td>
+              <td>0.2491</td>
+              <td>$281.51</td>
+              <td>$70.13</td>
+              <td>2026-06-29</td>
+            </tr></tbody></table>
+        </div>
+<footer>Auto-refreshes every 15 min</footer>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+const ctx = document.getElementById('c').getContext('2d');
+new Chart(ctx, {
+  type: 'line',
+  data: {"labels": ["2026-06-28", "2026-06-28T00:00:00", "2026-06-29"], "datasets": [{"label": "Oracle", "data": [null, 1000.0, 1000.27389789835], "borderColor": "#D4AF37", "backgroundColor": "#D4AF3740", "tension": 0.2, "spanGaps": true}, {"label": "Achilles", "data": [null, null, 1000.0], "borderColor": "#9C27B0", "backgroundColor": "#9C27B040", "tension": 0.2, "spanGaps": true}, {"label": "Delphi", "data": [1000.0, null, 1000.4646124567], "borderColor": "#00BCD4", "backgroundColor": "#00BCD440", "tension": 0.2, "spanGaps": true}]},
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#ccc', font: { size: 11 } } },
+      tooltip: { mode: 'index', intersect: false },
+    },
+    scales: {
+      x: { ticks: { color: '#888', maxRotation: 45, font: { size: 10 } }, grid: { color: '#23262d' } },
+      y: { ticks: { color: '#888', font: { size: 10 }, callback: v => '$' + v.toLocaleString() }, grid: { color: '#23262d' } },
+    },
+  },
+});
+// PWA manifest (inline to avoid a separate file)
+const m = {name:"Trinity",short_name:"Trinity",display:"standalone",background_color:"#0e0f12",theme_color:"#0e0f12",start_url:"."};
+const link = document.createElement('link');
+link.rel = 'manifest';
+link.href = URL.createObjectURL(new Blob([JSON.stringify(m)], {type:'application/json'}));
+document.head.appendChild(link);
+</script>
+</body>
+</html>
