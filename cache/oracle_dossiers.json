@@ -2564,7 +2564,450 @@
         "potential_score": 0.11665741142629905
       },
       "conviction": 0.15350708304706717
+    },
+    {
+      "symbol": "KMX",
+      "business": "CarMax is the largest used-vehicle retailer in the United States, operating ~240 used-car superstores across 41 states. Revenue derives from retail used-vehicle sales (~75%), wholesale used-vehicle sales (~18%), and CarMax Auto Finance (CAF) net interest income (~7%). The company buys, reconditions, and resells used vehicles with a no-haggle transparent pricing model and nationwide inventory visibility through its website and app.",
+      "thesis": "BULL: CEO Bill Nash and three directors bought shares at $52\u201353 on June 22\u201325, 2026 ahead of Q1 FY2027 earnings that beat consensus by 39% ($1.31 vs $0.94 EPS). The setup is a cyclical recovery in used-car affordability as financing rates ease and the COVID-era supply-shock distortions fully normalize. BEAR: Persistent consumer affordability stress, elevated CarMax Auto Finance delinquencies, and a softening labor market could delay the earnings recovery further, while rising wholesale prices compress retail margins. PRICED IN: At roughly 18x forward consensus EPS the stock prices in a recovery but not an acceleration; the June 2026 insider cluster at precisely current market prices \u2014 four C-suite and board purchases \u2014 is the strongest contrary signal, suggesting management sees the trough in this quarter.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.3,
+          "target": 78.0
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 55.0
+        },
+        "bear": {
+          "probability": 0.25,
+          "target": 32.0
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.5,
+        "quality": 0.5,
+        "management": 0.5
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001170010&type=10-K",
+        "https://www.sec.gov/Archives/edgar/data/1170010/000117001026000025/kmx-20260228.htm"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 52.76,
+      "high_52w": 71.99,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Retail Trade",
+      "author": "oracle",
+      "created_at": "2026-06-29T04:04:40.842860",
+      "priced_at": "2026-06-29T04:04:40.842860",
+      "scenario_price": 52.76,
+      "broker_price": 52.76,
+      "broker_high_52w": 71.99,
+      "price_verified": true,
+      "drawdown_from_high": 0.26712043339352687,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 56.15,
+        "expected_return": 0.06425322213798323,
+        "expected_cagr": 0.03162649352272018,
+        "asymmetry": 1.4589595375722544,
+        "quality_mult": 1.025,
+        "asymmetry_mult": 1.2078739742093354,
+        "potential_score": 0.03915583888213367
+      },
+      "conviction": 0.05440121070618387
+    },
+    {
+      "symbol": "NCLH",
+      "business": "Norwegian Cruise Line Holdings operates three cruise brands \u2014 Norwegian Cruise Line (mass-market), Oceania Cruises (premium), and Regent Seven Seas Cruises (ultra-luxury) \u2014 serving roughly 5 million passengers annually. Revenue splits approximately 65% ticket sales and 35% onboard/other (beverage, excursions, specialty dining). The business carries ~$14B in net debt, reflecting capital-intensive fleet expansion through COVID-era financing.",
+      "thesis": "BULL: Elliott Management's board overhaul in early 2026 installs capital-allocation discipline in a business where prior management destroyed value through empire-building; NCLH's 2027\u20132028 new ship deliveries are already highly booked, and a normalization of Middle East oil premiums could flip EBITDA guidance back to $3B+. BEAR: FY2026 EBITDA guidance was slashed 16% to $2.48\u20132.64B on an Iran/Middle East oil-price spike that compressed fuel hedging economics, and any consumer travel-spend recession would hit the most leveraged cruise operator hardest \u2014 $14B net debt leaves no margin for another demand shock. PRICED IN: The stock is 22% below its 52-week high at ~$21, implying ~5x depressed EBITDA \u2014 cheap if the guidance cut is the trough, but not cheap if EBITDA stays in the $2.5B range and leverage remains above 5x; Elliott's involvement is the credible catalyst for the former.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.3,
+          "target": 32.0
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 22.0
+        },
+        "bear": {
+          "probability": 0.25,
+          "target": 11.0
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.45,
+        "quality": 0.35,
+        "management": 0.4
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001513761&type=10-K",
+        "https://www.sec.gov/Archives/edgar/data/1513761/000151376126000010/nclh-20260331.htm"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 21.24,
+      "high_52w": 27.18,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Consumer Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T04:04:40.842937",
+      "priced_at": "2026-06-29T04:04:40.842937",
+      "scenario_price": 21.24,
+      "broker_price": 21.24,
+      "broker_high_52w": 27.18,
+      "price_verified": true,
+      "drawdown_from_high": 0.2185430463576159,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 22.25,
+        "expected_return": 0.0475517890772128,
+        "expected_cagr": 0.02349977483007426,
+        "asymmetry": 1.2609375000000003,
+        "quality_mult": 0.9125,
+        "asymmetry_mult": 1.1229147340737855,
+        "potential_score": 0.02407927210624734
+      },
+      "conviction": 0.03381404196271265
+    },
+    {
+      "symbol": "PSN",
+      "business": "Parsons Corporation delivers technology and engineering solutions to US federal agencies (Federal Solutions, ~70% of revenue \u2014 intelligence community, DoD, cyber, missile defense) and state/local/international infrastructure clients (Critical Infrastructure, ~30% \u2014 transportation, environmental, utilities). The company is asset-light, relying on specialized personnel clearances and mission-critical relationships rather than physical capital.",
+      "thesis": "BULL: The record $6.6B funded backlog and $11B total backlog \u2014 built over years of strategic positioning in cyber resilience, missile defense, and space \u2014 provide multi-year earnings visibility even after the contract setbacks; Parsons is well-positioned for the DoD modernization budget cycle and growing cyber/electronic warfare demand, and insider buying confirms board conviction at the trough. BEAR: Three sequential shocks \u2014 a ~$1B confidential IC contract rolloff disclosed only retrospectively, loss of the FAA Air Traffic Control modernization contract to Peraton on December 5, 2025, and a Q4 FY2025 revenue miss \u2014 raise fundamental questions about whether contract replacement can keep pace with losses, especially under DOGE-era federal spending scrutiny. PRICED IN: The 43% drawdown from $89.50 has re-rated PSN from 15x to ~8x forward EBITDA, fully penalizing the lost contracts but leaving no credit for the robust remaining backlog and the growing electronic warfare / space pipeline; at current levels the bear case requires no recovery in contract wins, which seems unlikely given Parsons' security-cleared workforce moat.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.35,
+          "target": 82.0
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 62.0
+        },
+        "bear": {
+          "probability": 0.2,
+          "target": 38.0
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.6,
+        "quality": 0.55,
+        "management": 0.5
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001590714&type=10-K",
+        "https://www.sec.gov/Archives/edgar/data/1590714/000159071426000008/psn-20260329.htm"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 50.94,
+      "high_52w": 89.5,
+      "decline_explanation": "PSN's 43% drawdown from its 52-week high of $89.50 reflects three sequential shocks that hit within 90 days: (1) in late 2025, a classified intelligence community contract rolloff of approximately $1B in annualized revenue became public \u2014 the contract had been the single largest revenue contributor and Parsons could not pre-announce its loss due to classification constraints, creating a sudden credibility gap; (2) on December 5, 2025, the FAA awarded the Air Traffic Control modernization program recompete to Peraton rather than Parsons, eliminating a high-profile growth catalyst; and (3) Q4 FY2025 revenue and margin both missed consensus as the impact of lost work began flowing through the income statement. Investors repriced the stock from a growth-tech-services multiple (~15x EBITDA) to a distressed government services multiple (~8x), reflecting uncertainty about whether the remaining $11B backlog can be sustained.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Technology Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T04:04:40.842967",
+      "priced_at": "2026-06-29T04:04:40.842967",
+      "scenario_price": 50.94,
+      "broker_price": 50.94,
+      "broker_high_52w": 89.5,
+      "price_verified": true,
+      "drawdown_from_high": 0.4308379888268157,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 64.2,
+        "expected_return": 0.2603062426383982,
+        "expected_cagr": 0.12263361905761494,
+        "asymmetry": 4.200540958268935,
+        "quality_mult": 1.05,
+        "asymmetry_mult": 2.0,
+        "potential_score": 0.2575306000209914
+      },
+      "conviction": 0.3078141964555281
+    },
+    {
+      "symbol": "J",
+      "business": "Jacobs Solutions is a global professional services firm providing program management, engineering, construction management, and technical consulting to government and private-sector clients across infrastructure (transportation, water, environmental), people & places (buildings, urban development), and advanced facilities/technology (data centers, semiconductor fabs, life sciences). The January 2026 full acquisition of PA Consulting added UK-based management consulting and digital transformation capabilities, expanding Jacobs into advisory revenue streams.",
+      "thesis": "BULL: Jacobs is executing a deliberate pivot from legacy construction services to high-margin consulting and critical technology infrastructure \u2014 AI/data center project backlog doubled year-over-year, the $27B total backlog (up 22%) reflects strong Infrastructure Investment Act and compute-buildout demand, and the FY2026 adj EPS guidance of $7.10\u2013$7.35 (+18%) implies meaningful margin expansion that the 25% drawdown from the 52-week high has not credited. BEAR: PA Consulting integration risk is real \u2014 combining a UK advisory firm with a US engineering conglomerate is culturally and operationally complex; hyper-scale data center and semiconductor fab projects carry construction-phase risk; and loss of federal civilian agency work under spending reviews could weigh on the 30% government-facing revenue. PRICED IN: At ~17x forward adj EPS the stock trades at a discount to comparable high-value engineering/consulting peers (20x+), suggesting the market has penalized Jacobs for integration overhang rather than acknowledging the fundamental revenue quality improvement underway.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.35,
+          "target": 185.0
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 155.0
+        },
+        "bear": {
+          "probability": 0.2,
+          "target": 95.0
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.7,
+        "quality": 0.65,
+        "management": 0.65
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000052988&type=10-K",
+        "https://www.sec.gov/Archives/edgar/data/52988/000005298826000012/j-20260328.htm"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 125.69,
+      "high_52w": 168.44,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Technology Services",
+      "author": "oracle",
+      "created_at": "2026-06-29T04:04:40.842991",
+      "priced_at": "2026-06-29T04:04:40.842991",
+      "scenario_price": 125.69,
+      "broker_price": 125.69,
+      "broker_high_52w": 168.44,
+      "price_verified": true,
+      "drawdown_from_high": 0.2537995725480884,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 153.5,
+        "expected_return": 0.22125865223963714,
+        "expected_cagr": 0.10510571993797813,
+        "asymmetry": 3.381964809384164,
+        "quality_mult": 1.15,
+        "asymmetry_mult": 1.8390119111588603,
+        "potential_score": 0.22228427153139943
+      },
+      "conviction": 0.27206895911459716
+    },
+    {
+      "symbol": "FRPT",
+      "business": "Freshpet designs, manufactures, and markets fresh refrigerated food products for dogs and cats, sold through a company-owned network of ~35,000 refrigerated 'Freshpet Fridges' in retail stores (PetSmart, Petco, Walmart, Target, Kroger). The just-in-time manufacturing model operates from two main plants in Bethlehem, PA and Ennis, TX, selling through a premium refrigerated format that commands 2\u20135x pricing versus dry/canned kibble. The company is growing at 20%+ revenues but is not yet consistently profitable at the net income level.",
+      "thesis": "BULL: Freshpet is structurally disrupting the $50B US pet food market by converting dry-kibble households to refrigerated fresh food, with deep brand loyalty and high switching costs once owners observe health benefits; five directors bought shares open-market at $47\u201355 in Q2 2026, and the $150M buyback authorization signals board confidence that the legal overhangs are survivable. BEAR: The 33% decline reflects genuine uncertainty from three class action lawsuits alleging inventory/sales misrepresentations, an NAD/BBB ruling requiring modification of core 'freshness' marketing claims, and co-founder Billy Cyr's retirement \u2014 together these suggest the growth narrative may be more fragile than presented and execution risk rises with new leadership. PRICED IN: At ~3x forward revenue the stock has partially de-rated from its 6x peak, but legal liability from securities class actions is binary and genuinely difficult to price; the five-director buy cluster in the $47\u201355 range is the most credible signal that the lawsuits represent overblown litigation risk rather than evidence of fundamental deception.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.35,
+          "target": 90.0
+        },
+        "base": {
+          "probability": 0.4,
+          "target": 68.0
+        },
+        "bear": {
+          "probability": 0.25,
+          "target": 38.0
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.6,
+        "quality": 0.45,
+        "management": 0.4
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001621221&type=10-K",
+        "https://www.sec.gov/Archives/edgar/data/1621221/000162122126000010/frpt-20260329.htm"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 57.43,
+      "high_52w": 86.0,
+      "decline_explanation": "FRPT's 33% decline from the $86 52-week high reflects three converging legal and governance overhangs: (1) on March 17, 2026, the NAD/BBB upheld competitor challenges requiring Freshpet to modify its '100% real, high-quality ingredients' and feeding trial marketing claims \u2014 removing the primary competitive differentiation narrative and triggering an 11% single-session drop as investors questioned whether growth could sustain without the marketing language; (2) three separate securities fraud class actions filed in Q1\u2013Q2 2026 allege that management misrepresented sales velocity and inventory channel levels to investors during a period of rapid fridge rollout; and (3) co-founder and CEO Billy Cyr announced retirement, removing the brand identity figure who had guided Freshpet from a niche refrigerated concept to a mainstream retail presence, adding management continuity uncertainty at a critical inflection point.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Consumer Non-Durables",
+      "author": "oracle",
+      "created_at": "2026-06-29T04:04:40.843012",
+      "priced_at": "2026-06-29T04:04:40.843012",
+      "scenario_price": 57.43,
+      "broker_price": 57.43,
+      "broker_high_52w": 86.0,
+      "price_verified": true,
+      "drawdown_from_high": 0.33220930232558143,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 68.2,
+        "expected_return": 0.18753264844158113,
+        "expected_cagr": 0.08973971591457608,
+        "asymmetry": 2.3467833247555325,
+        "quality_mult": 1.0,
+        "asymmetry_mult": 1.531921448624417,
+        "potential_score": 0.13747419560300103
+      },
+      "conviction": 0.17830969103920258
+    },
+    {
+      "symbol": "MMSI",
+      "business": "Merit Medical Systems designs and manufactures single-use disposable medical devices across two segments: Cardiovascular (peripheral/cardiac intervention, interventional oncology/spine, and critical care, ~87% of revenue) and Endoscopy (GI stents, balloon dilators, inflation devices, ~13% of revenue). The company sells direct-to-hospital via a high-touch specialty sales force and also generates OEM revenue supplying branded peers.",
+      "thesis": "BULL: Merit is a quality compounder with 850+ patents, sticky procedural relationships, a clean 1.6x net leverage balance sheet, and a credible path to 20\u201322% non-GAAP operating margins; at 18x forward earnings the valuation reset offers a reasonable entry after a de-rating from growth-multiple territory. BEAR: The 26% drawdown reflects real deterioration \u2014 organic constant-currency growth was only 2.7% in Q1 2026 ex-divestitures, the OEM segment fell 14% YoY, tariffs cost ~120 bps of gross margin with a $15M full-year drag, and China volume-based procurement continues to compress pricing in an 11%-of-revenue market where Merit has no local manufacturing. PRICED IN: The market appears to have largely discounted the founder-exit overhang and near-term tariff/OEM headwinds; what is NOT yet priced in is either a reacceleration of therapeutic platform organic growth (bull) or a structural margin ceiling if tariff relief does not materialize and OEM destocking persists through 2026 (bear).",
+      "scenarios": {
+        "bull": {
+          "probability": 0.35,
+          "target": 105.0
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 82.0
+        },
+        "bear": {
+          "probability": 0.2,
+          "target": 52.0
+        }
+      },
+      "ratings": {
+        "moat": 0.65,
+        "runway": 0.7,
+        "quality": 0.7,
+        "management": 0.55
+      },
+      "citations": [
+        "https://www.sec.gov/Archives/edgar/data/0000856982/000085698226000025/mmsi-20260331x10q.htm",
+        "https://www.sec.gov/Archives/edgar/data/0000856982/000085698226000007/mmsi-20260224xex99d1.htm",
+        "https://www.sec.gov/Archives/edgar/data/0000856982/000085698225000060/mmsi-20251113xex99d1.htm",
+        "https://www.sec.gov/Archives/edgar/data/0000856982/000085698225000041/mmsi-20250707xex99d1.htm"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 71.73,
+      "high_52w": 96.74,
+      "decline_explanation": "The 26% drop from the July 2025 high (~$96.74) to ~$71.73 was driven by four compounding factors: (1) Q4 2025 earnings (reported Feb 2026) beat revenue estimates but missed non-GAAP EPS by ~2.5%, and 2026 guidance of 6\u20138% revenue growth marked a sharp deceleration from 2025's 12% pace, triggering a ~14% single-day drop; (2) tariff shock \u2014 Merit's manufacturing footprint exposed it to U.S. tariff actions with ~$15M full-year 2026 gross-margin headwind (120 bps in Q1 alone) and no China manufacturing to offset; (3) OEM segment -14% YoY in Q1 2026 due to APAC macro weakness and U.S. distributor destocking; (4) leadership uncertainty \u2014 founder Fred Lampropoulos resigned from the board in January 2026 after 38 years.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Health Technology",
+      "author": "oracle",
+      "created_at": "2026-06-29T04:04:40.843031",
+      "priced_at": "2026-06-29T04:04:40.843031",
+      "scenario_price": 71.73,
+      "broker_price": 71.73,
+      "broker_high_52w": 96.74,
+      "price_verified": true,
+      "drawdown_from_high": 0.25852801323134167,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 84.05000000000001,
+        "expected_return": 0.1717551930851806,
+        "expected_cagr": 0.08247641687252494,
+        "asymmetry": 2.950963000506841,
+        "quality_mult": 1.15,
+        "asymmetry_mult": 1.7178367211428567,
+        "potential_score": 0.16293317016169603
+      },
+      "conviction": 0.20765761133003247
+    },
+    {
+      "symbol": "RGR",
+      "business": "Sturm, Ruger & Co. is a US-based manufacturer of pistols, revolvers, and rifles sold through the wholesale firearms distribution channel, with a secondary Castings segment providing steel investment castings to third parties. Founded in 1949, the company operates lean manufacturing across facilities in Arizona, New Hampshire, North Carolina, and Kentucky (acquired via Anderson Manufacturing in 2025), selling predominantly to domestic consumers through independent dealers.",
+      "thesis": "RGR's reported loss in 2025 is substantially explained by one-time charges ($17M inventory write-off, $26M+ in restructuring/product rationalization, ~$3M in Beretta-related advisory costs, and leadership transition expenses) rather than permanent earnings impairment \u2014 on an adjusted basis EPS was $0.84 vs. $1.86 in 2024. The bull case rests on normalization of these non-recurring charges in 2026\u20132027, a fortress balance sheet ($105M cash, no debt), meaningful insider buying (CEO and directors buying open-market at $38\u2013$40), and a Beretta partnership providing strategic optionality at a $44.80/share floor price. The bear case centers on a structurally soft firearms demand cycle ('Trump Slump' eliminating political fear-premium, channel destocking, tariff headwinds, margin compression), Q1 2026 gross margin already down to 19.9% from 22% despite revenue growth, and the risk that the Beretta situation introduces governance uncertainty or distracts management.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.3,
+          "target": 58.0
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 44.0
+        },
+        "bear": {
+          "probability": 0.25,
+          "target": 26.0
+        }
+      },
+      "ratings": {
+        "moat": 0.45,
+        "runway": 0.5,
+        "quality": 0.65,
+        "management": 0.55
+      },
+      "citations": [
+        "https://www.sec.gov/Archives/edgar/data/0000095029/000117494726000555/ex99-1.htm",
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000095029&type=10-K"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 38.33,
+      "high_52w": 48.21,
+      "decline_explanation": "The 21% decline from the October 15, 2025 high of $48.21 was driven by four converging factors: (1) Beretta's disclosure of a 9%+ stake on October 14, 2025 triggering Ruger's poison pill shareholder rights plan \u2014 creating governance uncertainty and investor anxiety about a contested proxy fight; (2) Q3 2025 earnings disappointment with diluted EPS of only $0.10 on $126.8M revenue; (3) the broader firearms industry 'Trump Slump' \u2014 NICS checks falling seven consecutive months through August 2025 and actual retail unit sales contracting 9.6%; and (4) full-year 2025 annual loss disclosed in early 2026 ($0.27 diluted loss), which alarmed investors even though substantially driven by non-recurring charges. The proxy dispute with Beretta (resolved via cooperation agreement in spring 2026) added an overhang.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Consumer Durables",
+      "author": "oracle",
+      "created_at": "2026-06-29T04:04:40.843050",
+      "priced_at": "2026-06-29T04:04:40.843050",
+      "scenario_price": 38.33,
+      "broker_price": 38.33,
+      "broker_high_52w": 48.21,
+      "price_verified": true,
+      "drawdown_from_high": 0.20493673511719568,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 43.7,
+        "expected_return": 0.14009913905557014,
+        "expected_cagr": 0.06775425031023419,
+        "asymmetry": 1.9143552311435528,
+        "quality_mult": 1.0375,
+        "asymmetry_mult": 1.3836022662396708,
+        "potential_score": 0.09726036931198281
+      },
+      "conviction": 0.12972270195348512
+    },
+    {
+      "symbol": "CXT",
+      "business": "Crane NXT Co. is an industrial technology company providing authentication and detection solutions across three segments: Currency & Payments Infrastructure (CPI \u2014 bill validators, currency authentication hardware, payment devices for vending and self-checkout), Security Authentication Technologies (SAT \u2014 banknote micro-optics security threads and features supplied to ~80 central banks globally), and Detection & Traceability Technologies (DTT \u2014 Antares Vision's track-and-trace and inspection systems for pharma, food/beverage, and luxury goods). The US Currency subunit within CPI is the sole supplier of currency paper and security features to the US Bureau of Engraving and Printing, a relationship dating to 1879.",
+      "thesis": "BULL: CXT's US Currency franchise is a durable statutory monopoly operating through a multi-year high-denomination print cycle \u2014 the 2026 Federal Reserve order covers 3.8\u20135.1 billion notes with high-denomination notes up ~90% YoY and the new $10 bill launching in Q4 2026; the De La Rue Authentication (\u00a3300M, May 2025) and Antares Vision (\u20ac362M, April 2026) acquisitions position CXT as a global authentication platform, and the 2028 targets of ~$2.5B revenue with mid-20s% adj EBITDA imply a stock worth ~$90+. BEAR: The acquisitions are thesis-changing bets not yet proven \u2014 leverage rose to 2.9x with integration risk across multiple technology stacks and geographies; CPI's vending/kiosk end-market faces structural headwinds from cashless payment migration; Q1 2026 GAAP margins collapsed to 5.7% from 11.3% on acquisition amortization loads; and the 2026 adj EPS guidance midpoint of $4.25 was 5.5% below consensus expectations, triggering the de-rating. PRICED IN: At ~11x FY2026 adj EPS ($4.10\u2013$4.40 guidance), the stock prices in neither the US currency cycle upswing nor any accretion from the two large acquisitions \u2014 5 of 6 analysts have Buy ratings with average targets of ~$66\u201367 (street high: $85). The 29.5% drawdown from $69 reflects guidance-cut risk and acquisition integration uncertainty rather than structural deterioration in the core banknote and currency businesses.",
+      "scenarios": {
+        "bull": {
+          "probability": 0.35,
+          "target": 75.0
+        },
+        "base": {
+          "probability": 0.45,
+          "target": 58.0
+        },
+        "bear": {
+          "probability": 0.2,
+          "target": 36.0
+        }
+      },
+      "ratings": {
+        "moat": 0.75,
+        "runway": 0.65,
+        "quality": 0.6,
+        "management": 0.55
+      },
+      "citations": [
+        "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001892491&type=10-K",
+        "https://www.sec.gov/Archives/edgar/data/1892491/000189249126000012/cxt-20260331x10q.htm",
+        "https://www.sec.gov/Archives/edgar/data/1892491/000189249126000005/cxt-20260204xex99d1.htm"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 48.64,
+      "high_52w": 69.0,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Producer Manufacturing",
+      "author": "oracle",
+      "created_at": "2026-06-29T04:04:40.843070",
+      "priced_at": "2026-06-29T04:04:40.843070",
+      "scenario_price": 48.64,
+      "broker_price": 48.64,
+      "broker_high_52w": 69.0,
+      "price_verified": true,
+      "drawdown_from_high": 0.2950724637681159,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 59.550000000000004,
+        "expected_return": 0.2243009868421053,
+        "expected_cagr": 0.1064813540417684,
+        "asymmetry": 3.649525316455695,
+        "quality_mult": 1.1375,
+        "asymmetry_mult": 1.9103730830535943,
+        "potential_score": 0.23138924059216234
+      },
+      "conviction": 0.2814759187282031
     }
   ],
-  "saved_at": "2026-06-29T03:41:04.863342"
+  "saved_at": "2026-06-29T04:04:40.843191"
 }
