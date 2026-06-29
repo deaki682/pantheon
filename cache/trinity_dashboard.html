@@ -69,9 +69,9 @@
 <div class="header">
   <div>
     <h1>Trinity</h1>
-    <div class="meta">Updated 2026-06-29T07:12:55.517147Z</div>
+    <div class="meta">Updated 2026-06-29T07:44:24.610972Z</div>
   </div>
-  <div class="total">$3,001.73</div>
+  <div class="total">$3,000.46</div>
 </div>
 <div class="chart-wrap"><canvas id="c"></canvas></div>
 
@@ -81,60 +81,12 @@
             
           </div>
           <div class="god-stats">
-            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,001.27</span></div>
-            <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$54.47</span></div>
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,000.00</span></div>
+            <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$1,000.00</span></div>
             <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+0.00</span></div>
             <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">8</span></div>
           </div>
-          <table class="positions"><thead><tr><th>Symbol</th><th>Shares</th><th>Avg Price</th><th>Value</th><th>Entry</th></tr></thead><tbody><tr>
-              <td>CXT</td>
-              <td>2.4671</td>
-              <td>$48.64</td>
-              <td>$120.00</td>
-              <td>2026-06-29</td>
-            </tr><tr>
-              <td>HDSN</td>
-              <td>21.5827</td>
-              <td>$5.56</td>
-              <td>$120.00</td>
-              <td>2026-06-29</td>
-            </tr><tr>
-              <td>INFU</td>
-              <td>11.1970</td>
-              <td>$10.05</td>
-              <td>$112.53</td>
-              <td>2026-06-29</td>
-            </tr><tr>
-              <td>J</td>
-              <td>0.9547</td>
-              <td>$125.69</td>
-              <td>$120.00</td>
-              <td>2026-06-29</td>
-            </tr><tr>
-              <td>MRP</td>
-              <td>3.8797</td>
-              <td>$30.93</td>
-              <td>$120.00</td>
-              <td>2026-06-29</td>
-            </tr><tr>
-              <td>PSN</td>
-              <td>2.3557</td>
-              <td>$50.94</td>
-              <td>$120.00</td>
-              <td>2026-06-29</td>
-            </tr><tr>
-              <td>VITL</td>
-              <td>10.8794</td>
-              <td>$11.03</td>
-              <td>$120.00</td>
-              <td>2026-06-29</td>
-            </tr><tr>
-              <td>VTSI</td>
-              <td>34.4128</td>
-              <td>$3.27</td>
-              <td>$112.53</td>
-              <td>2026-06-29</td>
-            </tr></tbody></table>
+          <div class="no-positions">No open positions</div>
         </div>
 
         <div class="god-card" style="border-color: #9C27B0">
@@ -206,7 +158,7 @@
 const ctx = document.getElementById('c').getContext('2d');
 new Chart(ctx, {
   type: 'line',
-  data: {"labels": ["2026-06-28", "2026-06-28T00:00:00", "2026-06-29"], "datasets": [{"label": "Oracle", "data": [null, 1000.0, 1001.2681766419], "borderColor": "#D4AF37", "backgroundColor": "#D4AF3740", "tension": 0.2, "spanGaps": true}, {"label": "Achilles", "data": [null, null, 1000.0], "borderColor": "#9C27B0", "backgroundColor": "#9C27B040", "tension": 0.2, "spanGaps": true}, {"label": "Delphi", "data": [1000.0, null, 1000.4633668567001], "borderColor": "#00BCD4", "backgroundColor": "#00BCD440", "tension": 0.2, "spanGaps": true}]},
+  data: {"labels": ["2026-06-28", "2026-06-28T00:00:00", "2026-06-29"], "datasets": [{"label": "Oracle", "data": [null, 1000.0, 1000.0], "borderColor": "#D4AF37", "backgroundColor": "#D4AF3740", "tension": 0.2, "spanGaps": true}, {"label": "Achilles", "data": [null, null, 1000.0], "borderColor": "#9C27B0", "backgroundColor": "#9C27B040", "tension": 0.2, "spanGaps": true}, {"label": "Delphi", "data": [1000.0, null, 1000.4633668567001], "borderColor": "#00BCD4", "backgroundColor": "#00BCD440", "tension": 0.2, "spanGaps": true}]},
   options: {
     responsive: true,
     maintainAspectRatio: false,
