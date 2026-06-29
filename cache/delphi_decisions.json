@@ -225,5 +225,44 @@
     "note": "Pre-trade check detected personal/pre-existing positions in broker overlapping with Delphi symbols. Sector orders confirmed in queued state. SPY overlay (~$29) deferred until reconciliation.",
     "cash_in_sleeve": 129.4512565567,
     "equity_in_sleeve": 999.56
+  },
+  {
+    "date": "2026-06-29",
+    "regime": "risk_on",
+    "spy_1m_pct": -2.86,
+    "spy_3m_pct": 13.01,
+    "breadth": 0.73,
+    "risk_budget": 1.0,
+    "chosen_sectors": [
+      "technology",
+      "industrials",
+      "real_estate"
+    ],
+    "picks": {
+      "technology": [
+        "AMD",
+        "TXN"
+      ],
+      "industrials": [
+        "CAT",
+        "GE"
+      ],
+      "real_estate": [
+        "SPG",
+        "PSA"
+      ]
+    },
+    "sector_orders": [],
+    "overlay_orders": [
+      {
+        "side": "buy",
+        "symbol": "SPY",
+        "dollars": 27.91,
+        "reason": "spy_overlay",
+        "order_id": "6a42ea97-8daf-47c9-acc1-0dc5571821b3"
+      }
+    ],
+    "note": "All sector positions within rebal band; SPY overlay queued GFD at ~$741.00. Pre-trade check flagged Oracle HDSN fill-price drift (0.51sh) \u2014 recommend /oracle-reconcile.",
+    "equity_after": 1015.39
   }
 ]

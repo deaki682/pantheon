@@ -1,95 +1,57 @@
 {
-  "generated_at": "2026-06-29",
-  "mode": "paper",
-  "plan": {
-    "regime": "risk_on",
-    "breadth": 0.7272727272727273,
-    "spy_1m": -0.028609119739892885,
-    "spy_3m": 0.13005937156055736,
-    "risk_budget": 1.0,
-    "sectors": [
-      "technology",
-      "industrials",
-      "real_estate"
-    ]
-  },
+  "date": "2026-06-29",
+  "regime": "risk_on",
   "sector_scores": {
     "technology": 0.2987,
-    "financials": 0.0223,
-    "energy": -0.0408,
-    "healthcare": 0.0619,
     "industrials": 0.1174,
-    "staples": 0.0335,
-    "discretionary": -0.0368,
-    "utilities": 0.0183,
     "real_estate": 0.1005,
+    "healthcare": 0.0619,
     "materials": 0.0535,
+    "staples": 0.0335,
+    "financials": 0.0223,
+    "utilities": 0.0183,
+    "discretionary": -0.0368,
+    "energy": -0.0408,
     "communication": -0.1038
   },
-  "picks_by_sector": {
+  "candidate_scores": {
+    "AMD": 1.5597,
+    "TXN": 0.4758,
+    "NVDA": 0.1243,
+    "AAPL": 0.1221,
+    "MSFT": 0.0191,
+    "CAT": 0.4185,
+    "GE": 0.2936,
+    "UNP": 0.1219,
+    "HON": 0.0846,
+    "RTX": -0.0252,
+    "SPG": 0.248,
+    "PSA": 0.2104,
+    "EQIX": 0.1328,
+    "PLD": 0.0789,
+    "AMT": 0.0395
+  },
+  "picks": {
     "technology": [
       "AMD",
-      "CSCO"
+      "TXN"
     ],
     "industrials": [
       "CAT",
       "GE"
     ],
     "real_estate": [
-      "PSA",
-      "EQIX"
+      "SPG",
+      "PSA"
     ]
   },
-  "targets": {
-    "AMD": 200.0,
-    "CSCO": 59.36,
-    "CAT": 176.3,
-    "GE": 123.7,
-    "PSA": 183.92,
-    "EQIX": 116.08
-  },
-  "planned_orders": [
-    {
-      "side": "buy",
-      "symbol": "AMD",
-      "dollars": 200.0,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "CSCO",
-      "dollars": 59.36117082322615,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "CAT",
-      "dollars": 176.2965196765825,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "GE",
-      "dollars": 123.7034803234175,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "PSA",
-      "dollars": 183.92002442274423,
-      "reason": "open_or_add"
-    },
-    {
-      "side": "buy",
-      "symbol": "EQIX",
-      "dollars": 116.07997557725578,
-      "reason": "open_or_add"
-    },
+  "orders_placed": [
     {
       "side": "buy",
       "symbol": "SPY",
-      "dollars": 40.63882917677381,
-      "reason": "spy_overlay"
+      "dollars": 27.91,
+      "order_id": "6a42ea97-8daf-47c9-acc1-0dc5571821b3",
+      "state": "queued"
     }
   ]
 }

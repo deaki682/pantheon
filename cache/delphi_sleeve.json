@@ -1,50 +1,56 @@
 {
-  "cash": 129.4512565567,
+  "name": "delphi",
+  "cash": 101.5412565567,
   "contributed_cash": 1000.0,
   "cooldown_days": 7,
   "cooldowns": {},
   "gfv_count": 0,
   "halted": false,
-  "name": "delphi",
   "pending_settlements": [],
   "positions": {
     "AMD": {
+      "shares": 0.38428,
       "avg_price": 520.45,
       "entry_date": "2026-06-29",
-      "sector": "technology",
-      "shares": 0.38428
+      "sector": "technology"
     },
     "CAT": {
+      "shares": 0.17586,
       "avg_price": 1002.52,
       "entry_date": "2026-06-29",
-      "sector": "industrials",
-      "shares": 0.17586
+      "sector": "industrials"
     },
     "GE": {
+      "shares": 0.33429,
       "avg_price": 370.0,
       "entry_date": "2026-06-29",
-      "sector": "industrials",
-      "shares": 0.33429
+      "sector": "industrials"
     },
     "PSA": {
+      "shares": 0.42448,
       "avg_price": 324.39,
       "entry_date": "2026-06-29",
-      "sector": "real_estate",
-      "shares": 0.42448
+      "sector": "real_estate"
     },
     "SPG": {
+      "shares": 0.71845,
       "avg_price": 225.9,
       "entry_date": "2026-06-29",
-      "sector": "real_estate",
-      "shares": 0.71845
+      "sector": "real_estate"
     },
     "TXN": {
+      "shares": 0.24912,
       "avg_price": 281.51,
       "entry_date": "2026-06-29",
-      "sector": "technology",
-      "shares": 0.24912
+      "sector": "technology"
+    },
+    "SPY": {
+      "shares": 0.03766,
+      "avg_price": 741.0,
+      "entry_date": "2026-06-29",
+      "sector": "spy_overlay"
     }
   },
   "realized_pnl": 0.0,
-  "trades_count": 6
+  "trades_count": 7
 }
