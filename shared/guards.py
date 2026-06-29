@@ -106,6 +106,52 @@ def already_placed_today(
     return False
 
 
+# ------- Broker position filter -------
+
+LEDGER_PATHS = {
+    "oracle": "cache/oracle_ledger.jsonl",
+    "delphi": "cache/delphi_ledger.jsonl",
+    "achilles": "cache/achilles_ledger.jsonl",
+}
+
+
+def _god_claimed_symbols(
+    sleeve_paths: Optional[dict[str, str]] = None,
+    ledger_paths: Optional[dict[str, str]] = None,
+) -> set[str]:
+    """Symbols that any god currently holds or has ever traded."""
+    paths = sleeve_paths or SLEEVE_PATHS
+    ledgers = ledger_paths or LEDGER_PATHS
+    syms: set[str] = set()
+    for path in paths.values():
+        syms.update(_load_sleeve_shares(path).keys())
+    for path in ledgers.values():
+        for rec in read_ledger(path):
+            syms.add(rec.symbol.upper())
+    return syms
+
+
+def filter_broker_to_gods(
+    broker_positions: dict[str, float],
+    *,
+    sleeve_paths: Optional[dict[str, str]] = None,
+    ledger_paths: Optional[dict[str, str]] = None,
+) -> dict[str, float]:
+    """Strip broker positions down to only symbols any god has claimed.
+
+    The broker account holds pre-existing personal positions that the gods
+    did not place. This filter makes them invisible so no god reasons about
+    them, reconciles them, or mistakes them for its own.
+
+    A symbol is "claimed" if it appears in any sleeve's positions OR in any
+    god's order ledger. If no god has claimed anything, returns empty.
+    """
+    claimed = _god_claimed_symbols(sleeve_paths, ledger_paths)
+    if not claimed:
+        return {}
+    return {sym: shares for sym, shares in broker_positions.items() if sym.upper() in claimed}
+
+
 # ------- Cross-god position sanity check -------
 
 import logging as _logging
