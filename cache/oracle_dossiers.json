@@ -4208,7 +4208,577 @@
         "potential_score": 0.07178932845599612
       },
       "conviction": 0.09747255882977601
+    },
+    {
+      "symbol": "PFBX",
+      "business": "Peoples Financial Corporation is a 130-year-old Mississippi bank holding company headquartered in Biloxi, operating The Peoples Bank across 18 branches in Harrison, Hancock, Jackson, and Stone counties on Mississippi's Gulf Coast. Q1 2026: total assets $788M, deposits $666M, loans $269M, NIM 3.09% (up from 2.95% in Q1 2025), net income $1.45M ($0.31 EPS). CBLR 14.15% \u2014 massively overcapitalized. Pristine credit quality: NPA ratio 0.19% (nonaccrual loans only $517K). $127M FHLB credit line fully undrawn; total contingent liquidity >$162M. Only 4.6M shares outstanding \u2014 illiquid (~267 shares/day ADV).",
+      "thesis": "PFBX trades at 0.97x tangible book ($21.96) with an embedded activist catalyst: Stilwell Value LLC controls 15.99% and has waged a 6-year proxy war, filed a derivative lawsuit (motion to dismiss denied Oct 2024), and presses for a strategic sale. The bank itself is genuinely high quality \u2014 near-zero credit losses, 14% capital ratio, improving NIM \u2014 just poorly managed for shareholder returns. Bull case requires a sale at 1.4x book. Bear case: management continues winning proxy contests and the stock stays below book indefinitely. Extreme illiquidity (267 shares/day) makes this unsuitable for meaningful sizing regardless of thesis quality. The edge here is purely in the activist optionality, not the fundamental story.",
+      "scenarios": {
+        "bull": {
+          "target": 31.0,
+          "probability": 0.18,
+          "label": "Stilwell wins board seats, forces sale at 1.40x tangible book (~$30.75). Regional Gulf Coast acquirer 18-24 months out."
+        },
+        "base": {
+          "target": 23.5,
+          "probability": 0.5,
+          "label": "Stalemate persists. NIM drifts to 3.20%, EPS $1.25 annually. Stock re-rates slowly to 1.05x book as profitability improves."
+        },
+        "bear": {
+          "target": 16.5,
+          "probability": 0.32,
+          "label": "Gulf Coast economy softens, AOCI losses ($29.2M unrealized) crystallize on rate rise, deposits prove volatile. Stock falls to 0.75x book."
+        }
+      },
+      "ratings": {
+        "moat": 0.35,
+        "runway": 0.65,
+        "quality": 0.4,
+        "management": 0.25
+      },
+      "citations": [
+        "0001104659-26-059141"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 21.25,
+      "high_52w": 22.95,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-29T08:25:53.631464",
+      "priced_at": "2026-06-29T08:25:53.631464",
+      "scenario_price": 21.25,
+      "broker_price": 21.25,
+      "broker_high_52w": 22.95,
+      "price_verified": true,
+      "drawdown_from_high": 0.07407407407407407,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 22.61,
+        "expected_return": 0.06400000000000006,
+        "expected_cagr": 0.03150375665821015,
+        "asymmetry": 1.1546052631578947,
+        "quality_mult": 0.9125,
+        "asymmetry_mult": 1.0745255991170684,
+        "potential_score": 0.030889578610311448
+      },
+      "conviction": 0.04316849555686675
+    },
+    {
+      "symbol": "FLUT",
+      "business": "Flutter Entertainment is the world's largest online sports betting and gaming operator, parent of FanDuel (~43% US OSB market share), PokerStars, Betfair, Sky Betting & Gaming, and Sportsbet (Australia). FY2025: revenue $16.4B, Adj EBITDA $2.85B, FCF $407M. Total debt ~$12.3B. FY2026 guidance: revenue $18.3B (+12%), Adj EBITDA $2.87B (+1%) \u2014 a sharp guide-down from prior +4%. Q1 2026 FCF $153M. LSE listing to be cancelled August 2026 (NYSE primary). Fox Sports Option: Flutter must buy Fox's 18.6% FanDuel stake for $4.8B by March 2028.",
+      "thesis": "Flutter is a rare global gaming duopoly asset (FanDuel vs. DraftKings) trading at a large discount to intrinsic value after a 67% decline. The priced-in narrative: the $4.8B Fox Option, FanDuel CEO departure, India exit, and guidance cut have collectively destroyed the growth-stock multiple. The honest bull case: FanDuel has structural 40%+ market share in the world's largest legal OSB market, and at 10-11x EBITDA (current), the stock prices in no growth and permanent operating problems. The honest bear case: $12.3B existing debt + $4.8B Fox obligation = a $17B capital structure on $2.85B EBITDA, and if FanDuel margin expansion disappoints, the equity is leveraged to the downside. Insider signal (7 insiders including CEO, $1.05M May 2026) is real but modest for a $20B market cap company. The deciding question: can Flutter finance the Fox Option at tolerable cost while growing EBITDA? At current yields, it's doable but the margin of safety is thin.",
+      "scenarios": {
+        "bull": {
+          "target": 185.0,
+          "probability": 0.22,
+          "label": "FanDuel stabilizes at 40%+ market share, iGaming expansion drives margin upside, Fox Option financed via revolver at 6%, stock re-rates to 13x FY2027 EBITDA ~$3.4B = $185."
+        },
+        "base": {
+          "target": 118.0,
+          "probability": 0.44,
+          "label": "EBITDA grows to $3.0B by FY2027, Fox Option weighs on sentiment, stock at 11x EBITDA with debt overhang = ~$118 (12-month view)."
+        },
+        "bear": {
+          "target": 45.0,
+          "probability": 0.34,
+          "label": "Consumer OSB market matures faster than expected, FanDuel share erodes, EBITDA flat at $2.8B, Fox Option requires dilutive equity + refinancing at distressed spreads. Stock falls to 7x EBITDA with higher debt = $45."
+        }
+      },
+      "ratings": {
+        "moat": 0.7,
+        "runway": 0.45,
+        "quality": 0.58,
+        "management": 0.45
+      },
+      "citations": [
+        "0001635327-26-000045"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 104.19,
+      "high_52w": 313.69,
+      "decline_explanation": "Flutter/FanDuel fell 67% from its 52-week high due to a double guidance cut (Adj EBITDA growth from +4% to +1% for FY2026), the FanDuel CEO's departure, India operations exit with a large asset impairment, the looming Fox Sports Option obligation ($4.8B due March 2028), $12.3B in total debt, and US sports betting market maturation causing customer churn and rising acquisition costs despite FanDuel maintaining dominant market share.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Consumer Cyclical",
+      "author": "oracle",
+      "created_at": "2026-06-29T08:25:53.631541",
+      "priced_at": "2026-06-29T08:25:53.631541",
+      "scenario_price": 104.19,
+      "broker_price": 104.19,
+      "broker_high_52w": 313.69,
+      "price_verified": true,
+      "drawdown_from_high": 0.6678568013006472,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 107.92,
+        "expected_return": 0.035799980804299913,
+        "expected_cagr": 0.01774259064082595,
+        "asymmetry": 0.883406378263419,
+        "quality_mult": 1.045,
+        "asymmetry_mult": 0.9398970040719457,
+        "potential_score": 0.017426637138237677
+      },
+      "conviction": 0.024587866149054838
+    },
+    {
+      "symbol": "AVO",
+      "business": "Mission Produce is the world's largest avocado distributor, sourcing from Mexico, Peru, California, and Colombia, with cold-chain distribution to retailers, foodservice, and industrial customers across 25+ countries. FY2025 revenue $1,391M, Adj EBITDA $110.8M, FCF $37.2M. Q2 FY2026 (ended April 30): revenue -24% to $290.9M, gross margin 7.0%, net loss $7.2M \u2014 impacted by a Mexican avocado supply glut driving per-unit prices down 36%. Calavo Growers acquisition closed May 28, 2026 (~19% dilution + $202M in assumed debt), creating the dominant North American avocado supply chain.",
+      "thesis": "AVO has the strongest insider buying signal in the candidate pool: Chairman Bruce Taylor bought ~700K shares in June 2026 ($8.6M at ~$12.26), VP Jay Pack ~225K shares, and institutional insider Globalharvest ~1.56M shares earlier in 2026 \u2014 total open-market buying exceeding $12M. Insiders know the avocado supply cycle better than anyone. The core thesis: a Mexican avocado supply glut that hit Q2 FY2026 is a cyclical trough, not a structural change. Demand for avocados is secular (Millennial/Gen-Z diet trend, foodservice penetration). Calavo acquisition creates pricing power and supply chain integration \u2014 but at the cost of dilution and $202M debt. The bear case is that the glut proves multi-year, Calavo integration underwhelms, and AVO carries more leverage just as margins are compressed. At $12.26, AVO trades at ~9x normalized EBITDA \u2014 fair if the cycle turns but painful if it doesn't. The insider signal is the edge here.",
+      "scenarios": {
+        "bull": {
+          "target": 22.0,
+          "probability": 0.32,
+          "label": "Mexican supply glut normalizes by FY2027, Calavo synergies ($15-20M) materialize, combined entity generates $150M+ EBITDA, stock re-rates to 12x = $22."
+        },
+        "base": {
+          "target": 14.5,
+          "probability": 0.44,
+          "label": "Glut persists through FY2026, margin recovery partial in FY2027. Combined EBITDA $120M at 10x = $14.50 in 12 months."
+        },
+        "bear": {
+          "target": 7.5,
+          "probability": 0.24,
+          "label": "Chronic oversupply depresses avocado prices through FY2027, Calavo integration adds costs without synergies, balance sheet stress triggers covenant concerns. Stock at $7.50."
+        }
+      },
+      "ratings": {
+        "moat": 0.5,
+        "runway": 0.55,
+        "quality": 0.42,
+        "management": 0.65
+      },
+      "citations": [
+        "0001802974-26-000033"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 12.26,
+      "high_52w": 15.53,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Consumer Defensive",
+      "author": "oracle",
+      "created_at": "2026-06-29T08:25:53.631567",
+      "priced_at": "2026-06-29T08:25:53.631567",
+      "scenario_price": 12.26,
+      "broker_price": 12.26,
+      "broker_high_52w": 15.53,
+      "price_verified": true,
+      "drawdown_from_high": 0.210560206052801,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 15.219999999999999,
+        "expected_return": 0.24143556280587264,
+        "expected_cagr": 0.1141972728407985,
+        "asymmetry": 2.728291316526611,
+        "quality_mult": 1.03,
+        "asymmetry_mult": 1.6517540121115526,
+        "potential_score": 0.19428457769459617
+      },
+      "conviction": 0.24236186115020042
+    },
+    {
+      "symbol": "FGBI",
+      "business": "First Guaranty Bancshares is a Louisiana community bank holding company with ~$4.0B in total assets, $3.5B in deposits, and $1.9B in loans across 24 branches in Louisiana, Texas (being exited), and Mississippi. Q1 2026: net income $2.74M ($0.14 EPS, beat $0.07 consensus), NII $20.7M, NIM 2.07%. Capital: Tier 1 consolidated 11.60%, Tier 1 bank 13.45%, total capital ratio 14.34%. Asset quality: NPA ratio 2.11% ($83.5M), declining from $95.5M at year-end 2025. Announced March 2026: purchase-and-assumption agreement to exit troubled Texas markets (removes $122.7M in loans, adds ~100bps capital).",
+      "thesis": "FGBI is a distressed-credit recovery story now past its trough. The stock collapsed from $18+ to $4.31 in Dec 2025 after a Q3 2025 auto-parts manufacturer bankruptcy triggered a $52M one-time provisioning charge, pushing full-year losses and erasing goodwill. Q1 2026 marks the return to profitability ($2.74M net income, first clean quarter). The Texas exit announced in March 2026 removes the most troubled loan book and adds ~100bps to capital ratios (expected Q3 2026 close). The bear case: NIM at 2.07% is structurally low (heavy CRE concentration, rate-sensitive funding), and $83.5M in NPAs (2.11%) still needs work. $3M in April 2026 insider buying from multiple directors adds confidence that management believes the cleanup is real. At $10.72 = 0.90x book ($11.91), the stock is pricing in continued credit stress but not a disaster. The real question: does NIM expand toward 2.3-2.4% as the Texas drag exits, or does the core Louisiana book underperform?",
+      "scenarios": {
+        "bull": {
+          "target": 15.5,
+          "probability": 0.27,
+          "label": "Texas exit closes Q3 2026 cleanly, NPAs fall below $60M by year-end, NIM expands to 2.30%, stock re-rates to 1.25x book = $14.90. $15.50 on earnings re-rating by 2027."
+        },
+        "base": {
+          "target": 12.5,
+          "probability": 0.48,
+          "label": "Slow credit repair, NIM improves to 2.15-2.20%, Texas exit mildly accretive. Stock trades to 1.0-1.05x book = $11.91-12.50 over 12 months."
+        },
+        "bear": {
+          "target": 7.5,
+          "probability": 0.25,
+          "label": "Core Louisiana CRE book deteriorates post-Texas exit, additional provisioning required, capital raise dilutes shareholders at low book value. Stock returns to 0.63x book = $7.50."
+        }
+      },
+      "ratings": {
+        "moat": 0.25,
+        "runway": 0.6,
+        "quality": 0.3,
+        "management": 0.4
+      },
+      "citations": [
+        "0001408534-26-000047"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 10.72,
+      "high_52w": 11.015,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-29T08:25:53.631585",
+      "priced_at": "2026-06-29T08:25:53.631585",
+      "scenario_price": 10.72,
+      "broker_price": 10.72,
+      "broker_high_52w": 11.015,
+      "price_verified": true,
+      "drawdown_from_high": 0.026781661370857912,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 12.06,
+        "expected_return": 0.125,
+        "expected_cagr": 0.06066017177982119,
+        "asymmetry": 1.603229813664596,
+        "quality_mult": 0.8875,
+        "asymmetry_mult": 1.2661871163712715,
+        "potential_score": 0.06816632608622403
+      },
+      "conviction": 0.09278922224467889
+    },
+    {
+      "symbol": "FCN",
+      "business": "FTI Consulting is a global expert services firm across five segments: Corporate Finance & Restructuring, Forensic & Litigation Consulting, Economic Consulting, Technology, and Strategic Communications. FY2025: revenue $3,789M (+2.4%), net income $271M, normalized FCF ~$349M (reported $93.6M depressed by $255M in employee forgivable loans). Q1 2026: revenue $983M (+9.5%), operating income $83.9M, net income $57.6M \u2014 Corporate Finance segment +19.2% from elevated restructuring activity. Economic Consulting: -$7.3M operating loss (single segment drag). FY2026 guidance: EPS $8.90-$9.60. Active buyback: $507M remaining authorization.",
+      "thesis": "FCN offers a rare combination of insider buying (CEO Steven Gunby + 2 directors bought $2.1M May 2026) and a defensible earnings story at a reasonable multiple (~16x 2026 EPS). The bull case: FTI is a restructuring-cycle beneficiary in a credit-stress environment, with Corporate Finance growing 19% organically. The buyback ($507M remaining vs. ~$4.5B market cap = 11% of shares) provides a meaningful EPS floor. The bear case: Economic Consulting is structurally challenged (BigTech antitrust work declining, regulatory deregulation reducing litigation), and the 20% drawdown from $189 reflects real concern that the restructuring cycle peaks in 2026. The $255M forgivable loan program (one-time 2024 retention tool) depressed reported FCF for the past two years \u2014 normalized FCF is 3.7x the reported figure. At $151 = 16x 2026 EPS guidance midpoint, the valuation is reasonable but not dirt-cheap. The insider signal at this price vs. CEO's $2.1M purchase at $140-153 is a credible read.",
+      "scenarios": {
+        "bull": {
+          "target": 195.0,
+          "probability": 0.32,
+          "label": "Restructuring cycle extends 2-3 years (credit cycle peak delayed), Economic Consulting rebounds, buyback accelerates, stock re-rates to 20x FY2027 EPS $9.80 = $196."
+        },
+        "base": {
+          "target": 165.0,
+          "probability": 0.45,
+          "label": "FY2026 EPS $9.25 (midpoint of guidance), stock at 17-18x = $157-167. Corporate Finance moderates but maintains mid-teens growth through 2026."
+        },
+        "bear": {
+          "target": 105.0,
+          "probability": 0.23,
+          "label": "Restructuring cycle ends abruptly, all segments flatten, EPS $7.50, Economic Consulting loss widens. Multiple compresses to 14x in a cyclical downturn = $105."
+        }
+      },
+      "ratings": {
+        "moat": 0.6,
+        "runway": 0.7,
+        "quality": 0.65,
+        "management": 0.65
+      },
+      "citations": [
+        "0000887936-26-000054"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 151.1,
+      "high_52w": 189.3,
+      "decline_explanation": "",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Industrials",
+      "author": "oracle",
+      "created_at": "2026-06-29T08:25:53.631601",
+      "priced_at": "2026-06-29T08:25:53.631601",
+      "scenario_price": 151.1,
+      "broker_price": 151.1,
+      "broker_high_52w": 189.3,
+      "price_verified": true,
+      "drawdown_from_high": 0.2017960908610672,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 160.8,
+        "expected_return": 0.06419589675711457,
+        "expected_cagr": 0.03159870916801499,
+        "asymmetry": 1.324908044892955,
+        "quality_mult": 1.15,
+        "asymmetry_mult": 1.1510464998830217,
+        "potential_score": 0.04182732112696498
+      },
+      "conviction": 0.05800311941831171
+    },
+    {
+      "symbol": "EU",
+      "business": "enCore Energy is a US domestic uranium ISR producer, one of only three active US uranium extraction operations. Two operating plants in Texas (Alta Mesa: 695K lbs FY2025; Rosita CPP: near-depleted at 5,728 lbs FY2025). Development-stage Dewey-Burdock project in South Dakota (all federal permits received Sep 2025 after EPA appeal denied; state permits outstanding). FY2025: $43.2M revenue, $33.5M cost of sales, $63.5M net loss. Cash $41.6M + $115M in 5.5% convertible notes (Aug 2030). Q1 2026: $18.3M revenue, slight net income ($0.03/share). Forward sales: 900K lbs in 2026, ~4.5M lbs through 2030.",
+      "thesis": "EU presents a high-risk, binary uranium bet on three variables: uranium price recovery, Dewey-Burdock permitting, and management stability post-CEO change. The bull case: uranium spot at $65/lb is well below the $80-90/lb utilities need to incentivize new supply, and contracted volumes provide floor revenue. If D-B permits complete by 2027 and spot recovers to $85+, EU becomes a multi-plant ISR operator with significant production growth. The bear case is extensive: material weaknesses in internal controls remain unremediated, a securities class action lawsuit is active (potential cash drain), the new CEO comes from oil and gas (no uranium background), and the convertible notes ($115M due 2030) require refinancing or conversion. The 4 insider purchases totaling $397K are modest for the risk. Four insiders bought suggests bottom-fishing but not conviction. Only for investors with high risk tolerance and genuine uranium price view.",
+      "scenarios": {
+        "bull": {
+          "target": 3.2,
+          "probability": 0.18,
+          "label": "Uranium spot recovers to $85+/lb by 2027, Dewey-Burdock permitted and construction commences, class action settled at low cost, convertible notes refinanced. Stock re-rates to $3.20 on production growth story."
+        },
+        "base": {
+          "target": 1.8,
+          "probability": 0.4,
+          "label": "Uranium stays $65-75/lb, Texas operations maintain slight profitability, Dewey-Burdock permitting delayed to 2028. Stock at $1.80 on going-concern resolution and stable production."
+        },
+        "bear": {
+          "target": 0.55,
+          "probability": 0.42,
+          "label": "Uranium falls to $50/lb (extraction costs $34.88/lb but G&A bleeds cash), class action forces $30M+ settlement, dilutive equity raise below $1.00 to service notes. Stock at $0.55."
+        }
+      },
+      "ratings": {
+        "moat": 0.25,
+        "runway": 0.35,
+        "quality": 0.25,
+        "management": 0.25
+      },
+      "citations": [
+        "0001628280-26-022507"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 1.35,
+      "high_52w": 4.185,
+      "decline_explanation": "enCore Energy fell 68% from its 52-week high as uranium spot prices collapsed from ~$100/lb to ~$65/lb, the company disclosed material weaknesses in internal controls over financial reporting (unremediated through Dec 31 2025), a federal securities class action lawsuit was filed in March 2025 alleging misstatement of losses, both CEO and COO were replaced amid executive turmoil, and the Rosita CPP wellfield depleted to near-zero output (5,728 lbs FY2025 vs 73,488 lbs FY2024).",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-29T08:25:53.631618",
+      "priced_at": "2026-06-29T08:25:53.631618",
+      "scenario_price": 1.35,
+      "broker_price": 1.35,
+      "broker_high_52w": 4.185,
+      "price_verified": true,
+      "drawdown_from_high": 0.6774193548387096,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 1.5270000000000001,
+        "expected_return": 0.13111111111111118,
+        "expected_cagr": 0.06353707556958788,
+        "asymmetry": 0.9910714285714286,
+        "quality_mult": 0.775,
+        "asymmetry_mult": 0.9955257046261682,
+        "potential_score": 0.04902091374288255
+      },
+      "conviction": 0.06763403659879674
+    },
+    {
+      "symbol": "REI",
+      "business": "Ring Energy is a Permian Basin oil and gas E&P company producing ~19,351 BOE/day (Q1 2026: 87% oil by value). Q1 2026: revenue $73.7M (oil $76.2M, gas -$4.3M negative due to Permian takeaway constraints, NGLs $1.8M). Net loss -$220.6M (includes $162.1M ceiling test impairment + $77M unrealized derivative losses). Adj EBITDA (field-level): $49.7M. Total debt: $426M revolver (maturity June 2029); borrowing base $585M. OCF Q1: $25.9M; capex: $32.5M; FCF: -$9.4M. FY2025: revenue $307M, Adj EBITDA $184M.",
+      "thesis": "REI is an inexpensive Permian producer (asset value likely exceeds market cap at normalized oil prices) but the thesis requires commodity conviction Oracle doesn't have. The 4 insider buys that triggered the screen signal are plausible bottom-fishing, but the company carries $426M debt on $73.7M quarterly revenue, natural gas prices went deeply negative (-$2.54/Mcf), and the Q1 2026 ceiling test impairment proves reserve values are declining. The May 2026 equity offering at dilutive prices signals management is not confident in self-funding. Bull case: oil rebounds to $80+ and the stock doubles. Bear case: another impairment at next redetermination, borrowing base cut, and the equity becomes an option on debt recovery. This is not an Oracle-quality name \u2014 no durable business model, leveraged to commodity prices, and management is executing a playbook that requires $75+ oil to generate positive FCF. Pass.",
+      "scenarios": {
+        "bull": {
+          "target": 2.2,
+          "probability": 0.18,
+          "label": "Oil recovers to $80+/lb, ceiling test impairments reverse, Lime Rock acquisition proves accretive, debt refinanced at tighter spreads. Stock at $2.20."
+        },
+        "base": {
+          "target": 1.15,
+          "probability": 0.47,
+          "label": "Oil stays $65-70, OCF barely covers interest expense, company grinds but doesn't grow. Borrowing base maintained at redetermination. Stock flat at $1.15."
+        },
+        "bear": {
+          "target": 0.4,
+          "probability": 0.35,
+          "label": "Oil falls to $60, additional $150M ceiling impairment, borrowing base cut to $480M triggering partial paydown, dilutive equity raise at $0.50. Stock collapses to $0.40."
+        }
+      },
+      "ratings": {
+        "moat": 0.15,
+        "runway": 0.4,
+        "quality": 0.3,
+        "management": 0.25
+      },
+      "citations": [
+        "0001384195-26-000072"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 1.07,
+      "high_52w": 2.0,
+      "decline_explanation": "Ring Energy fell 47% from its $2.00 52-week high due to a 15% decline in oil prices reducing revenues, a -$162M ceiling test write-down of oil and gas reserves in Q1 2026, a dilutive 44.4M share equity offering in May 2026 increasing share count 21%, CEO succession in early 2026, and Permian Basin natural gas prices turning deeply negative (-$2.54/Mcf in Q1 2026 vs -$0.19/Mcf in Q1 2025), collectively compressing margins and making free cash flow generation negative.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Energy",
+      "author": "oracle",
+      "created_at": "2026-06-29T08:25:53.631634",
+      "priced_at": "2026-06-29T08:25:53.631634",
+      "scenario_price": 1.07,
+      "broker_price": 1.07,
+      "broker_high_52w": 2.0,
+      "price_verified": true,
+      "drawdown_from_high": 0.46499999999999997,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 1.0765,
+        "expected_return": 0.006074766355140149,
+        "expected_cagr": 0.0030327842873034694,
+        "asymmetry": 0.8673773987206824,
+        "quality_mult": 0.775,
+        "asymmetry_mult": 0.9313309823691481,
+        "potential_score": 0.002189007626446244
+      },
+      "conviction": 0.0031222692995760415
+    },
+    {
+      "symbol": "SHAK",
+      "business": "Shake Shack is a premium fast-casual burger chain with fine-dining roots, operating 440 company-owned Shacks (system-wide: 679 including 239 licensed) across 35 US states and internationally. FY2025: total revenue $1,445M (+15.4%), Shack sales $1,391M, restaurant-level margin 22.6%, Adj EBITDA $209.9M, net income $45.7M. Q1 FY2026 (ended Apr 1): revenue $366.7M (+14.3%), SSS +4.6% (+3.2% price/mix, +1.4% traffic), Adj EBITDA $37.0M (-9.3% YoY), operating loss -$2.6M. June 2026 guidance cut: FY2026 Adj EBITDA $225-235M (from $237-245M), Q2 SSS lowered to 2.5-3.0%. FY2026: 60-65 new company Shacks planned, target 1,500 long-term. Cash $313M, convertible notes $248M (0%, March 2028), Tax Receivable Agreement $246M.",
+      "thesis": "Shake Shack is a fallen growth stock (61% decline from $144.65) with a credible insider signal: founder Danny Meyer bought $2M at ~$70, and 5 additional insiders including CEO Rob Lynch bought $1.2M on May 15, 2026 \u2014 all post-earnings, after the stock fell 29% on Q1 results. The bull case: at $56.87, SHAK trades at ~11x FY2025 Adj EBITDA \u2014 far below the 30-40x it deserves if the 440\u21921,500 unit expansion story remains intact. Restaurant-level margins are expanding structurally (19.9%\u219221.4%\u219222.6%) despite the G&A spike. Digital revenue ($515M, 39% of sales) and 21 consecutive quarters of positive SSS show brand durability. The bear case: G&A of 14.6% of revenue (vs. 12.2% target) means the operating leverage story isn't materializing, beef inflation is structural, the June 2026 SSS guide cut to 2.5-3.0% signals consumer softness, and $248M convertible notes mature March 2028 \u2014 requiring refinancing at higher rates or dilutive conversion. Project Catalyst (multi-year tech overhaul) adds $50-60M/year in G&A before it pays back. The decisive test: can SHAK deliver restaurant-level margins of 23%+ while expanding G&A? That determines whether $56 is a floor or a ceiling.",
+      "scenarios": {
+        "bull": {
+          "target": 105.0,
+          "probability": 0.27,
+          "label": "Unit growth to 550+ by 2027, restaurant margins recover to 23%, Project Catalyst loyalty program drives digital AUV lift, stock re-rates to 20x FY2027 Adj EBITDA ~$260M = $105."
+        },
+        "base": {
+          "target": 70.0,
+          "probability": 0.43,
+          "label": "Units grow to 480 by 2027, margins stay 22%, G&A normalizes to 12.5% by 2027, stock at 15x FY2027 EBITDA ~$235M = $70."
+        },
+        "bear": {
+          "target": 32.0,
+          "probability": 0.3,
+          "label": "Consumer downturn persists, beef/labor costs stay elevated, convertible notes require dilutive equity raise, G&A doesn't normalize, stock at 10x impaired EBITDA $195M = $32."
+        }
+      },
+      "ratings": {
+        "moat": 0.55,
+        "runway": 0.55,
+        "quality": 0.55,
+        "management": 0.6
+      },
+      "citations": [
+        "0001620533-26-000026"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 56.87,
+      "high_52w": 144.65,
+      "decline_explanation": "Shake Shack fell 61% from its $144.65 peak as Q1 FY2026 Adj EBITDA declined 9.3% YoY despite 14.3% revenue growth, with G&A surging 32% from Project Catalyst technology investments and beef costs rising low-teens% YoY. A mid-quarter June 2026 guidance cut (SSS guide from 4% to 2.75%, Adj EBITDA cut to $225-235M) revealed unexpected consumer spending pressure. The stock was priced at 100x+ earnings at its peak with no margin for execution error, and two consecutive negative surprises \u2014 the Q1 miss and the June guide-down \u2014 forced a full multiple reset from growth-stock to value-stock pricing.",
+      "going_concern_explanation": "",
+      "insider_tier": "half",
+      "sector": "Consumer Cyclical",
+      "author": "oracle",
+      "created_at": "2026-06-29T08:25:53.631651",
+      "priced_at": "2026-06-29T08:25:53.631651",
+      "scenario_price": 56.87,
+      "broker_price": 56.87,
+      "broker_high_52w": 144.65,
+      "price_verified": true,
+      "drawdown_from_high": 0.6068441064638783,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 68.05,
+        "expected_return": 0.19658871109548093,
+        "expected_cagr": 0.09388697363826437,
+        "asymmetry": 1.741737032569361,
+        "quality_mult": 1.0625,
+        "asymmetry_mult": 1.3197488520810925,
+        "potential_score": 0.13165142728974638
+      },
+      "conviction": 0.17144616682921054
+    },
+    {
+      "symbol": "BZUN",
+      "business": "Baozun is a Chinese brand e-commerce management company that operates online stores and marketing for Western brands entering or expanding in China (GAP/BBM, MUJI, Microsoft, Levi's, Philips). FY2025: $1,422M USD revenue (+5.6%), first-ever GAAP operating profit $8.1M, net loss $242M (including $289M Mansen goodwill impairment). Cash $399.7M, net cash $227M. VIE structure represents only 4.4% of FY2025 revenues (low vs. typical Chinese ADR risk). Q1 2026: +15.3% revenue growth, continuing accelerating recovery. CEO Qiu Wenbin and co-founder purchased $824K in open-market shares.",
+      "thesis": "BZUN is a Chinese ADR with genuine operating inflection: first GAAP operating profit, accelerating Q1 2026 revenue growth (+15.3%), and CEO buying. The bull case: the market is pricing BZUN at ~0.7x enterprise value / revenue, implying near-zero value for a business that manages premium Western brands' entire China e-commerce operation. If BZUN reaches 3-4% GAAP operating margins on $1.5B revenue, it earns $45-60M \u2014 worth $500-600M at a reasonable multiple vs. the current ~$230M market cap. The bear case: US-China trade tensions and tariffs are existential to BZUN's model \u2014 if Western brands exit China or reduce China ambitions (as many are), Baozun loses clients. The Mansen write-down ($242M, FY2025) reflects the risk that China-focused acquisitions destroy capital. The BBM/GAP brand JV is under-earning its strategic cost. Liquidity (thin US trading, ADR discount) means even if BZUN is right, the stock can lag fundamentals for years. Insider buying ($824K) is meaningful at this price level but modest in absolute terms.",
+      "scenarios": {
+        "bull": {
+          "target": 5.5,
+          "probability": 0.22,
+          "label": "US-China tensions ease post-2026, Western brand e-commerce in China rebounds, Baozun reaches 3% operating margin on $1.6B revenue. Stock recovers to prior high at $5.50."
+        },
+        "base": {
+          "target": 3.5,
+          "probability": 0.45,
+          "label": "Revenue grows 8-10% annually, GAAP operating profit reaches $25-30M by 2027, discount narrows modestly. Stock at $3.50 in 12 months."
+        },
+        "bear": {
+          "target": 1.3,
+          "probability": 0.33,
+          "label": "Tariff escalation causes Western brand client exits, BBM/GAP JV proves unsalvageable, further write-downs required, ADR structural discount widens. Stock at $1.30."
+        }
+      },
+      "ratings": {
+        "moat": 0.4,
+        "runway": 0.6,
+        "quality": 0.35,
+        "management": 0.45
+      },
+      "citations": [
+        "0001104659-26-047177"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 2.77,
+      "high_52w": 4.88,
+      "decline_explanation": "Baozun fell 43% from its 52-week high due to persistent GAAP net losses including a $242M Mansen goodwill write-down in FY2025, Chinese ADR macro de-rating amid US-China trade tensions and tariff uncertainty, investor skepticism about the BBM/GAP brand management JV timeline to profitability, and thin US-listed share liquidity that amplifies institutional selling. The company only achieved its first GAAP operating profit in FY2025 after years of losses, leaving the track record insufficient to sustain growth-stock multiples.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Technology",
+      "author": "oracle",
+      "created_at": "2026-06-29T08:25:53.631730",
+      "priced_at": "2026-06-29T08:25:53.631730",
+      "scenario_price": 2.77,
+      "broker_price": 2.77,
+      "broker_high_52w": 4.88,
+      "price_verified": true,
+      "drawdown_from_high": 0.4323770491803278,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 3.2140000000000004,
+        "expected_return": 0.16028880866425999,
+        "expected_cagr": 0.07716702913905604,
+        "asymmetry": 1.2380952380952381,
+        "quality_mult": 0.95,
+        "asymmetry_mult": 1.1126972805283737,
+        "potential_score": 0.08157036629600735
+      },
+      "conviction": 0.10999579781292068
+    },
+    {
+      "symbol": "RHLD",
+      "business": "Resolute Holdings Management is an external asset manager earning 2.5% of Adj EBITDA from two managed companies: CompoSecure (metal payment cards, CMPO) and Husky Technologies (plastics injection molding). Q1 2026: management fees $12.9M (annualized ~$51.6M). David Cote (ex-Honeywell CEO, 10 years as CEO) is Executive Chairman. Only 8.26M shares outstanding. FY2025: fee revenue $12.3M but GAAP operating loss -$5.9M (corporate overhead + D&A). RHLD was spun off from Foley Trasimene Acquisition Corp II in 2023 as a taxable distribution \u2014 creating forced sellers.",
+      "thesis": "RHLD is trading at ~21x annualized management fees ($133.96 \u00d7 8.26M = $1.11B market cap / $51.6M fees). The bull case: David Cote's operational playbook (which generated 300%+ TSR at Honeywell) gets applied at CompoSecure and Husky, RHLD acquires a third managed company doubling the fee base, and the holding company premium justifies 25x fees. The bear case: this is fundamentally a 2.5%-of-EBITDA royalty on two mid-cycle industrial businesses \u2014 not a scalable manager with a growing AUM base. CompoSecure's metal payment card business faces secular risk from digital payments. Husky is cyclical plastics equipment. RHLD itself has no employees, no assets, and no moat beyond the Cote brand. Note: the screen flagged 'insider cluster' for RHLD, but open-market buying is absent \u2014 the flag appears to reflect option grants, not cash purchases. This is a pass for Oracle: the fee stream is too small and too concentrated, and there is no insider buying credibility.",
+      "scenarios": {
+        "bull": {
+          "target": 185.0,
+          "probability": 0.18,
+          "label": "RHLD acquires third managed company, total fee base grows to $80M+, David Cote accelerates value creation. At 25x $80M fees / 8.26M shares = $242. Near-term target $185."
+        },
+        "base": {
+          "target": 130.0,
+          "probability": 0.5,
+          "label": "Fee base stable at $52M, CompoSecure and Husky perform modestly, RHLD trades flat-to-slightly-down at 20x fees = $126. Dividend initiation could add $5-10 to target."
+        },
+        "bear": {
+          "target": 70.0,
+          "probability": 0.32,
+          "label": "Managed company earnings disappoint (CompoSecure loses card clients, Husky faces capex slowdown), fee revenue falls to $35M, multiple compresses to 15x on declining earnings. RHLD at $70."
+        }
+      },
+      "ratings": {
+        "moat": 0.35,
+        "runway": 0.6,
+        "quality": 0.45,
+        "management": 0.65
+      },
+      "citations": [
+        "0001628280-26-032173"
+      ],
+      "horizon_years": 2.0,
+      "current_price": 133.96,
+      "high_52w": 236.19,
+      "decline_explanation": "Resolute Holdings Management declined 43% from its $236.19 52-week high after investors reassessed the business model: GAAP consolidated results show operating losses despite management fee income, the fee base of ~$52M annualized is entirely dependent on CompoSecure and Husky performance with no path to diversification beyond acquisitions, the taxable spin-off structure created forced sellers who depressed the share price, and 8.26M shares outstanding creates extreme illiquidity amplifying any selling pressure.",
+      "going_concern_explanation": "",
+      "insider_tier": "full",
+      "sector": "Finance",
+      "author": "oracle",
+      "created_at": "2026-06-29T08:25:53.631747",
+      "priced_at": "2026-06-29T08:25:53.631747",
+      "scenario_price": 133.96,
+      "broker_price": 133.96,
+      "broker_high_52w": 236.19,
+      "price_verified": true,
+      "drawdown_from_high": 0.4328295016723823,
+      "going_concern_flag": false,
+      "derived": {
+        "expected_price": 120.7,
+        "expected_return": -0.09898477157360408,
+        "expected_cagr": -0.0507817803969437,
+        "asymmetry": 0.44887429643527194,
+        "quality_mult": 1.0125,
+        "asymmetry_mult": 0.6699808179606875,
+        "potential_score": -0.0344481040024424
+      },
+      "conviction": 0.0
     }
   ],
-  "saved_at": "2026-06-29T08:02:14.457753"
+  "saved_at": "2026-06-29T08:25:53.631840"
 }
