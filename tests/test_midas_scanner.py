@@ -120,6 +120,30 @@ class TestStage1Sieve:
         )
         assert len(candidates) == 1
 
+    def test_filters_pending_earnings(self):
+        universe = {"REPORT": "0001", "SAFE": "0002"}
+        candidates = stage1_sieve(
+            universe,
+            insider_clusters={
+                "REPORT": {"insider_count": 3},
+                "SAFE": {"insider_count": 3},
+            },
+            earnings_this_week={"REPORT"},
+        )
+        symbols = {c.symbol for c in candidates}
+        assert "SAFE" in symbols
+        assert "REPORT" not in symbols
+
+    def test_earnings_beat_not_filtered(self):
+        """A name that already reported and beat is a valid signal, not pending."""
+        universe = {"BEAT": "0001"}
+        candidates = stage1_sieve(
+            universe,
+            insider_clusters={"BEAT": {"insider_count": 2}},
+            earnings_this_week=set(),
+        )
+        assert len(candidates) == 1
+
 
 class TestStage2Rank:
     def test_ranks_by_score(self):

@@ -113,17 +113,25 @@ def stage1_sieve(
     quality_scores: Optional[dict] = None,
     market_caps: Optional[dict] = None,
     ipo_dates: Optional[dict[str, str]] = None,
+    earnings_this_week: Optional[set[str]] = None,
     today: Optional[str] = None,
 ) -> list[ScanCandidate]:
     """Stage 1: Filter universe to names with at least one active signal.
 
     universe: {symbol: cik} map (from shared.edgar.fetch_company_tickers)
     Each signal source is optional; pass whatever data you've gathered.
+
+    earnings_this_week: symbols with unresolved earnings reports this week.
+    These are excluded because entering before a binary event turns a
+    signal-convergence trade into a coin flip. Names that already reported
+    and beat (present in earnings_surprise with is_beat=True) are NOT in
+    this set — that's a valid signal, not a pending gamble.
     """
     candidates = []
     market_caps = market_caps or {}
     quality_scores = quality_scores or {}
     ipo_dates = ipo_dates or {}
+    pending_earnings = earnings_this_week or set()
     today = today or datetime.utcnow().strftime("%Y-%m-%d")
 
     for sym in universe:
@@ -134,6 +142,9 @@ def stage1_sieve(
             continue
 
         if _listing_too_recent(sym_upper, ipo_dates, today):
+            continue
+
+        if sym_upper in pending_earnings:
             continue
 
         signals = build_signal_map(
