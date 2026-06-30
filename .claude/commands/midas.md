@@ -24,6 +24,7 @@ non-linearly.
    - **Hard stop:** If `sleeve.check_stop(current_price)`, exit immediately via broker market sell. `sleeve.exit(price=px, today=today, reason="hard_stop")`.
    - **Time stop:** If `sleeve.should_time_stop(today)` (it's Friday or later), exit via broker market sell. `sleeve.exit(price=px, today=today, reason="time_stop")`.
    - **Circuit breaker:** `sleeve.check_halt()` — if 40% drawdown from peak, liquidate.
+   - **Top up:** If position is still open and `sleeve.cash > 50`, buy more of the same symbol with all available cash (minus $10 fee reserve). Compute shares = `(sleeve.cash - 10) / current_price`. Place fractional-share market order, update sleeve, append to ledger. Midas is all-in — idle cash is wasted capital.
    - If position still open after checks, skip to step 13 (persist) — we're mid-week, no new entry.
 
 5. **If no position is open and it's not Monday**, skip to step 13. Midas only enters on Mondays.
