@@ -1,0 +1,912 @@
+[
+  {
+    "symbol": "MU",
+    "entry_date": "2026-06-30",
+    "entry_price": 1145.28,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 1.997408987411343,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "INTC",
+    "entry_date": "2026-06-30",
+    "entry_price": 131.72,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 1.7918609580330647,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AMD",
+    "entry_date": "2026-06-30",
+    "entry_price": 539.49,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 1.4492214100876195,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AMAT",
+    "entry_date": "2026-06-30",
+    "entry_price": 694.64,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.8807602750852874,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "KLAC",
+    "entry_date": "2026-06-30",
+    "entry_price": 278.39,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.8032542653936339,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "LRCX",
+    "entry_date": "2026-06-30",
+    "entry_price": 410.91,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.7601627757549798,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "UNH",
+    "entry_date": "2026-06-30",
+    "entry_price": 419.82,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.5517279615597854,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CAT",
+    "entry_date": "2026-06-30",
+    "entry_price": 1033.19,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.4369019804183356,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CVS",
+    "entry_date": "2026-06-30",
+    "entry_price": 103.58,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.43502355223053457,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "LLY",
+    "entry_date": "2026-06-30",
+    "entry_price": 1229.93,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.34226408093330885,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "GE",
+    "entry_date": "2026-06-30",
+    "entry_price": 373.71,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.26014971675209053,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "C",
+    "entry_date": "2026-06-30",
+    "entry_price": 142.49,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.24467155835080368,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ABBV",
+    "entry_date": "2026-06-30",
+    "entry_price": 254.31,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.22748334781349544,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "BAC",
+    "entry_date": "2026-06-30",
+    "entry_price": 57.88,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.18728205128205144,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "MO",
+    "entry_date": "2026-06-30",
+    "entry_price": 74.05,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.161022264032612,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "IBM",
+    "entry_date": "2026-06-30",
+    "entry_price": 278.0,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.15166328348316016,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "TGT",
+    "entry_date": "2026-06-30",
+    "entry_price": 133.92,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.15081206496519717,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "D",
+    "entry_date": "2026-06-30",
+    "entry_price": 69.18,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.14045499505440184,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "VLO",
+    "entry_date": "2026-06-30",
+    "entry_price": 266.32,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.13549927517694216,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AXP",
+    "entry_date": "2026-06-30",
+    "entry_price": 340.88,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.1353583799626965,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "UNP",
+    "entry_date": "2026-06-30",
+    "entry_price": 272.7,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.12998798325943728,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "KHC",
+    "entry_date": "2026-06-30",
+    "entry_price": 24.19,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.1245932124593212,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "SBUX",
+    "entry_date": "2026-06-30",
+    "entry_price": 104.06,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.12254584681769143,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "V",
+    "entry_date": "2026-06-30",
+    "entry_price": 341.65,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.12049457216883663,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ABNB",
+    "entry_date": "2026-06-30",
+    "entry_price": 147.17,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.11653137091267718,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "JPM",
+    "entry_date": "2026-06-30",
+    "entry_price": 329.39,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.11498882946313715,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "PM",
+    "entry_date": "2026-06-30",
+    "entry_price": 182.87,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.1049546827794563,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "KO",
+    "entry_date": "2026-06-30",
+    "entry_price": 82.65,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.09833887043189371,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "MMM",
+    "entry_date": "2026-06-30",
+    "entry_price": 162.43,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.09712934819317787,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ETN",
+    "entry_date": "2026-06-30",
+    "entry_price": 408.26,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.08869333333333329,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "DE",
+    "entry_date": "2026-06-30",
+    "entry_price": 626.63,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.08415370508140274,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "PGR",
+    "entry_date": "2026-06-30",
+    "entry_price": 219.86,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.08390849930980093,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "MRK",
+    "entry_date": "2026-06-30",
+    "entry_price": 129.38,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.08385691547289942,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CL",
+    "entry_date": "2026-06-30",
+    "entry_price": 92.4,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.08082816703708051,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "JNJ",
+    "entry_date": "2026-06-30",
+    "entry_price": 258.51,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.07743925311549194,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AEP",
+    "entry_date": "2026-06-30",
+    "entry_price": 137.97,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.07537022603273558,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "MPC",
+    "entry_date": "2026-06-30",
+    "entry_price": 259.22,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.07448704663212458,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "TSLA",
+    "entry_date": "2026-06-30",
+    "entry_price": 411.84,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.06708122813835993,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "XEL",
+    "entry_date": "2026-06-30",
+    "entry_price": 81.98,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.05508365508365509,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "HD",
+    "entry_date": "2026-06-30",
+    "entry_price": 350.81,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.055035938768758896,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "WEC",
+    "entry_date": "2026-06-30",
+    "entry_price": 118.44,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.050745209368346256,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "WFC",
+    "entry_date": "2026-06-30",
+    "entry_price": 83.51,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.040493396461500186,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "UBER",
+    "entry_date": "2026-06-30",
+    "entry_price": 75.5,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.03311439518336079,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "TMO",
+    "entry_date": "2026-06-30",
+    "entry_price": 506.42,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.03188866475130925,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "PG",
+    "entry_date": "2026-06-30",
+    "entry_price": 148.45,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.031475819899944524,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "SO",
+    "entry_date": "2026-06-30",
+    "entry_price": 96.75,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.022619173448895413,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ED",
+    "entry_date": "2026-06-30",
+    "entry_price": 112.29,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.020539852767427202,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AMGN",
+    "entry_date": "2026-06-30",
+    "entry_price": 360.55,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.018704263554940148,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "MA",
+    "entry_date": "2026-06-30",
+    "entry_price": 509.64,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.013684461771023892,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ITW",
+    "entry_date": "2026-06-30",
+    "entry_price": 267.47,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.0038281103396511362,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "DUK",
+    "entry_date": "2026-06-30",
+    "entry_price": 128.33,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.0013264669163546294,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "BMY",
+    "entry_date": "2026-06-30",
+    "entry_price": 58.56,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.006447234475737917,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "WM",
+    "entry_date": "2026-06-30",
+    "entry_price": 223.37,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.006582165888370017,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "PYPL",
+    "entry_date": "2026-06-30",
+    "entry_price": 44.38,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.010479375696766935,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "EXC",
+    "entry_date": "2026-06-30",
+    "entry_price": 47.15,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.01090832808894493,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "SRE",
+    "entry_date": "2026-06-30",
+    "entry_price": 93.91,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.01479227864036925,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "NEE",
+    "entry_date": "2026-06-30",
+    "entry_price": 88.66,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.02742430890741554,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "HON",
+    "entry_date": "2026-06-30",
+    "entry_price": 227.8,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.03752043225185542,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "RTX",
+    "entry_date": "2026-06-30",
+    "entry_price": 187.33,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.03933333333333322,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "SCHW",
+    "entry_date": "2026-06-30",
+    "entry_price": 90.55,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.04674176229076743,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "LOW",
+    "entry_date": "2026-06-30",
+    "entry_price": 219.65,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.06998899144720128,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "MDT",
+    "entry_date": "2026-06-30",
+    "entry_price": 80.93,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.07918989646148589,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "GILD",
+    "entry_date": "2026-06-30",
+    "entry_price": 126.33,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.08628670620569934,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ABT",
+    "entry_date": "2026-06-30",
+    "entry_price": 92.71,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.11561575884765818,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CMCSA",
+    "entry_date": "2026-06-30",
+    "entry_price": 24.22,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.1569787678384964,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  }
+]
