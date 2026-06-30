@@ -1,7 +1,7 @@
 # Pantheon — Autonomous Trading System
 
 Four gods share one Robinhood agentic account (`563854249`), each running
-an independent strategy with its own $1,000 sleeve.
+an independent strategy with its own sleeve ($1,000 base; Delphi at $2,000).
 
 ## The Gods
 
@@ -13,9 +13,12 @@ $1,000; scales to $12,000 ceiling after 30+ graded calls prove skill
 (alpha_t >= 2.0, monotonic conviction). Realistically needs 4+ cohorts
 (~4 years) to accumulate enough graded calls.
 
-**Delphi** — Sector rotator with SPY core-satellite overlay. Rotates into
-the strongest SPDR sectors, picks 1-2 stocks per sector, deploys idle cash
-into SPY. Rebalances on each run.
+**Delphi** — Large-cap momentum compounder. Ranks a fixed 118-name universe
+by 65-day price momentum, holds the top 10 equal-weighted, exits when
+price breaks below the 20-day moving average. Rebalances on each run.
+5 LLM decision points per run (exit, entry, sizing, risk budget, universe
+curation) with override budgets to prevent second-guessing the mechanical
+system. Capital at $2,000; 7-day cooldown after selling a name.
 
 **Achilles** — PEAD earnings-season specialist. Trades only during the
 four ~6-week earnings windows (~16 weeks/year). Picks the strongest
@@ -164,6 +167,50 @@ If a queued order needs to be cancelled before it fills:
 1. `cancel_equity_order` at the broker
 2. `sleeve.cancel_buy(sym, shares, price)` — reverses the cash deduction
 3. `pantheon.persist(god, {sleeve_file: data})` — pushes corrected state
+
+## Delphi Operating Cadence
+
+### Strategy
+
+Pure price-momentum rotation across a curated 118-name large-cap universe
+($5B+ market cap). Ranks by 65-day momentum, holds top 10 equal-weighted,
+exits when price breaks below the 20-day moving average. No sector ETFs,
+no SPY core position — just individual stock momentum.
+
+### Key Parameters
+
+| Parameter | Value |
+|-----------|-------|
+| Universe | 118 large-cap names (manually curated) |
+| Momentum lookback | 65 days (~13 weeks) |
+| MA trailing stop | 20-day simple moving average |
+| Positions | 10 equal-weight |
+| Per-name cap | 20% of equity |
+| Cash floor | 5% |
+| Cooldown after sell | 7 days |
+| Min trade size | $25 |
+| Rebalance band | 20% drift before trading |
+| Circuit breaker | 40% drawdown from peak |
+
+### LLM Decision Points (5 per run)
+
+Each has an override budget to prevent the LLM from overriding the
+mechanical system too aggressively:
+
+1. **Exit judgment** — review positions below MA. Default: exit. Max 2 holds.
+2. **Entry judgment** — review top momentum candidates for red flags. Max 3 vetoes.
+3. **Sizing** — optional conviction tilts (0.5x–2.0x). Max 3 tilted names.
+4. **Risk budget** — breadth-based dial (0.5–1.0). >60% breadth → fully invested.
+5. **Universe curation** — add IPOs/spinoffs, remove delistings (quarterly only).
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `cache/delphi_sleeve.json` | Cash, positions, cooldowns, peak equity |
+| `cache/delphi_ledger.jsonl` | Every order placed |
+| `cache/delphi_curve.json` | Equity timestamps for dashboard |
+| `cache/delphi_decisions.jsonl` | LLM decision log per run |
 
 ## Account Context
 
