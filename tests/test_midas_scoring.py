@@ -3,6 +3,7 @@ import pytest
 from midas.scoring import (
     CONVERGENCE_MAX,
     CONVERGENCE_MULTIPLIERS,
+    CONVERGENCE_TIMING_FLOOR,
     MIN_MARKET_CAP,
     MAX_MARKET_CAP,
     QUALITY_VALUE_FLOOR,
@@ -136,13 +137,47 @@ class TestScoreCandidate:
 
     def test_timing_weights_applied(self):
         result = score_candidate(
-            signals={"activist_13d": 1.0},
+            signals={"insider_cluster": 1.0, "activist_13d": 1.0},
             quality_value=0.5, market_cap=1e9,
         )
         assert "timing_adjusted" in result
         assert result["timing_adjusted"]["activist_13d"] == pytest.approx(0.2)
 
-    def test_fast_signals_beat_slow_at_same_count(self):
+    def test_slow_signals_alone_score_zero(self):
+        """Signals below the timing floor can't carry a name on their own."""
+        result = score_candidate(
+            signals={"activist_13d": 1.0, "smart_money": 1.0},
+            quality_value=0.5, market_cap=1e9,
+        )
+        assert result["score"] == 0.0
+        assert result["convergence_count"] == 0
+
+    def test_slow_signal_does_not_elevate_convergence_tier(self):
+        """activist_13d contributes to mean_strength but not convergence count."""
+        without_slow = score_candidate(
+            signals={"short_squeeze": 0.8, "earnings_beat": 0.7},
+            quality_value=0.5, market_cap=1e9,
+        )
+        with_slow = score_candidate(
+            signals={"short_squeeze": 0.8, "earnings_beat": 0.7, "activist_13d": 1.0},
+            quality_value=0.5, market_cap=1e9,
+        )
+        assert without_slow["convergence_count"] == 2
+        assert with_slow["convergence_count"] == 2
+
+    def test_slow_signal_still_contributes_to_strength(self):
+        """Below-floor signals affect mean_strength, just not the multiplier."""
+        without_slow = score_candidate(
+            signals={"short_squeeze": 0.8, "earnings_beat": 0.7},
+            quality_value=0.5, market_cap=1e9,
+        )
+        with_slow = score_candidate(
+            signals={"short_squeeze": 0.8, "earnings_beat": 0.7, "activist_13d": 1.0},
+            quality_value=0.5, market_cap=1e9,
+        )
+        assert with_slow["score"] != without_slow["score"]
+
+    def test_fast_signals_beat_slow_at_same_raw_count(self):
         fast = score_candidate(
             signals={"short_squeeze": 0.8, "earnings_beat": 0.7},
             quality_value=0.5, market_cap=1e9,
@@ -151,13 +186,20 @@ class TestScoreCandidate:
             signals={"activist_13d": 0.8, "smart_money": 0.7},
             quality_value=0.5, market_cap=1e9,
         )
-        assert fast["score"] > slow["score"] * 2.0
+        assert fast["score"] > 0
+        assert slow["score"] == 0.0
 
     def test_timing_weights_all_channels_defined(self):
         for channel in ("insider_cluster", "earnings_beat", "smart_money",
                         "activist_13d", "guidance_raised", "volume_anomaly",
                         "short_squeeze"):
             assert channel in TIMING_WEIGHTS
+
+    def test_convergence_timing_floor_value(self):
+        assert CONVERGENCE_TIMING_FLOOR == 0.4
+        assert TIMING_WEIGHTS["activist_13d"] < CONVERGENCE_TIMING_FLOOR
+        assert TIMING_WEIGHTS["smart_money"] < CONVERGENCE_TIMING_FLOOR
+        assert TIMING_WEIGHTS["insider_cluster"] >= CONVERGENCE_TIMING_FLOOR
 
     def test_small_cap_neglect_boost(self):
         small = score_candidate(
