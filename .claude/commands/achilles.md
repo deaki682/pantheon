@@ -66,7 +66,7 @@ cost of sitting on cash is higher than the downside of a bad trade.
 
 0. **Hydrate.** `pantheon.hydrate()`.
 
-1. **Safety check.** Refuse if `KILL_SWITCH` exists. Liquidate all event positions if so. Then check `shared.guards.is_live("achilles")` — if `ACHILLES_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders**. Log the planned orders to the decision log so they can be reviewed. Print "PAPER MODE — no orders placed" prominently.
+1. **Safety check.** Refuse if `KILL_SWITCH` exists. Liquidate all event positions if so. Then check `shared.guards.is_live("achilles")` — if `ACHILLES_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders**. Print "PAPER MODE — no orders placed" prominently. **CRITICAL: In paper mode, do NOT update the sleeve, do NOT append to the ledger, and do NOT persist.** Paper mode is read-only — it must never change state.
 
 2. **Restore.** Load `cache/achilles_sleeve.json`. If absent, create an `AchillesSleeve(initial_cash=1000)`.
 

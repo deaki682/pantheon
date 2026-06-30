@@ -9,7 +9,7 @@ it can't: context, narrative, convergence.
 
 0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/`.
 
-1. **Safety check.** Refuse if `KILL_SWITCH` exists. Then check `shared.guards.is_live("delphi")` — if `DELPHI_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders**. Print "PAPER MODE — no orders placed" prominently.
+1. **Safety check.** Refuse if `KILL_SWITCH` exists. Then check `shared.guards.is_live("delphi")` — if `DELPHI_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders**. Print "PAPER MODE — no orders placed" prominently. **CRITICAL: In paper mode, do NOT update the sleeve, do NOT append to the ledger, and do NOT persist.** Paper mode is read-only — it must never change state.
 
 2. **Restore.** Load `cache/delphi_sleeve.json`. If absent, `DelphiSleeve(initial_cash=1000)`.
 

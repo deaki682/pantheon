@@ -13,7 +13,7 @@ non-linearly.
 
 0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/`.
 
-1. **Safety check.** Kill switch, `is_live("midas")` check. If not live, paper mode.
+1. **Safety check.** Kill switch, `is_live("midas")` check. If not live, paper mode. **CRITICAL: In paper mode, do NOT update the sleeve, do NOT append to the ledger, and do NOT persist.** Compute everything normally, print what *would* happen, then stop. Paper mode is read-only — it must never change state.
 
 2. **Restore state.** Read `cache/midas_sleeve.json`. If absent, initialize `MidasSleeve(initial_cash=1000.0)` and save.
 
