@@ -56,6 +56,7 @@ def build_signal_map(
     earnings_surprise: Optional[dict] = None,
     guidance_raised: Optional[set] = None,
     volume_anomalies: Optional[dict[str, float]] = None,
+    short_squeezes: Optional[dict[str, float]] = None,
 ) -> dict[str, float]:
     """Build the signal strength map for a single symbol.
 
@@ -64,6 +65,10 @@ def build_signal_map(
 
     volume_anomalies: {symbol: ratio} where ratio = recent_volume / avg_30d.
     Strength = min(1.0, ratio / 3.0). A ratio of 3x = full strength.
+
+    short_squeezes: {symbol: short_float_pct} where pct is 0-100.
+    Strength = min(1.0, pct / 50.0). 50%+ short float = full strength.
+    Only fires above 20% (finviz pre-filters).
     """
     signals: dict[str, float] = {}
     sym = symbol.upper()
@@ -95,6 +100,11 @@ def build_signal_map(
         ratio = volume_anomalies[sym]
         if ratio > 1.5:
             signals["volume_anomaly"] = min(1.0, ratio / 3.0)
+
+    if short_squeezes and sym in short_squeezes:
+        pct = short_squeezes[sym]
+        if pct > 20.0:
+            signals["short_squeeze"] = min(1.0, pct / 50.0)
 
     return signals
 
@@ -134,6 +144,7 @@ def stage1_sieve(
     earnings_surprise: Optional[dict] = None,
     guidance_raised: Optional[set] = None,
     volume_anomalies: Optional[dict[str, float]] = None,
+    short_squeezes: Optional[dict[str, float]] = None,
     quality_scores: Optional[dict] = None,
     market_caps: Optional[dict] = None,
     ipo_dates: Optional[dict[str, str]] = None,
@@ -191,6 +202,7 @@ def stage1_sieve(
             earnings_surprise=earnings_surprise,
             guidance_raised=guidance_raised,
             volume_anomalies=volume_anomalies,
+            short_squeezes=short_squeezes,
         )
 
         active = {k: v for k, v in signals.items() if v > 0}

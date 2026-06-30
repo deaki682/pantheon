@@ -4,6 +4,7 @@ from midas.prescan import (
     compute_volume_anomalies,
     form4_fts_to_clusters,
     merge_insider_clusters,
+    parse_finviz_short_text,
 )
 
 
@@ -109,3 +110,40 @@ class TestComputeVolumeAnomalies:
         anomalies = compute_volume_anomalies({"HOT": high, "COLD": low})
         assert "HOT" in anomalies
         assert anomalies["HOT"] == pytest.approx(5.0)
+
+
+class TestParseFinvizShortText:
+    def test_labeled_format(self):
+        text = "ACME: Short Float 45.20% | Short Ratio 3.5"
+        result = parse_finviz_short_text(text)
+        assert result["ACME"] == pytest.approx(45.20)
+
+    def test_compact_format(self):
+        text = "XYZ: 30.50%"
+        result = parse_finviz_short_text(text)
+        assert result["XYZ"] == pytest.approx(30.50)
+
+    def test_spaced_format(self):
+        text = "FOO  25.00%"
+        result = parse_finviz_short_text(text)
+        assert result["FOO"] == pytest.approx(25.0)
+
+    def test_below_minimum_excluded(self):
+        text = "LOW: Short Float 10.00%"
+        result = parse_finviz_short_text(text)
+        assert "LOW" not in result
+
+    def test_multiple_lines(self):
+        text = "ACME: Short Float 45.20%\nXYZ: Short Float 30.00%\nLOW: 5.00%"
+        result = parse_finviz_short_text(text)
+        assert len(result) == 2
+        assert "ACME" in result
+        assert "XYZ" in result
+        assert "LOW" not in result
+
+    def test_empty_input(self):
+        assert parse_finviz_short_text("") == {}
+
+    def test_no_matching_lines(self):
+        text = "No data available\nPlease try again later"
+        assert parse_finviz_short_text(text) == {}

@@ -6,17 +6,49 @@ the oldest insider signals can be 6+ weeks stale. This module provides
 fast, targeted weekly data gathering so Midas scores convergence on
 THIS WEEK's signals, not Oracle's leftovers.
 
-Three independent data paths:
+Four independent data paths:
   1. Fresh Form 4 search — EDGAR FTS for insider filings in last 14 days
   2. Recent earnings beats — all reporters from last 5 trading days
   3. Volume anomalies — computed from price historicals
+  4. Short squeeze candidates — high short float from finviz screener
 """
 from __future__ import annotations
 
 import logging
+import re
 from typing import Optional
 
 log = logging.getLogger(__name__)
+
+FINVIZ_SHORT_URL = (
+    "https://finviz.com/screener.ashx?v=131&f=sh_short_o20&o=-shortfloat"
+)
+
+
+SHORT_FLOAT_MIN = 20.0
+
+
+def parse_finviz_short_text(text: str) -> dict[str, float]:
+    """Parse ticker:short_float pairs from WebFetch output of finviz screener.
+
+    Handles multiple formats:
+      "ACME: Short Float 45.20% | Short Ratio 3.5"
+      "ACME: 45.20%"
+      "ACME  45.20%"
+    Returns {symbol: short_float_pct} for all parsed rows.
+    """
+    results: dict[str, float] = {}
+    for line in text.splitlines():
+        m = re.match(
+            r".*?([A-Z]{1,5})\b.*?(?:Short Float\s+)?(\d+\.?\d*)\s*%",
+            line,
+        )
+        if m:
+            sym = m.group(1)
+            pct = float(m.group(2))
+            if pct >= SHORT_FLOAT_MIN:
+                results[sym] = pct
+    return results
 
 
 def form4_fts_to_clusters(

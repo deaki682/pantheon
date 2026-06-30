@@ -49,13 +49,15 @@ non-linearly.
 
    **6d. Guidance raised.** Search EDGAR for recent 8-K filings with items 7.01/8.01, run `guidance_direction()` on each.
 
-   **6e. Volume anomalies (full candidate set).** After assembling all signal sources from 6a-6d, collect every symbol that has at least one signal. Fetch `get_equity_historicals` (30-day daily bars) for ALL of them. `midas.prescan.compute_volume_anomalies(historicals)` → `{symbol: ratio}`. Pass to sieve — ratio > 1.5x fires the signal, strength = min(1.0, ratio / 3.0).
+   **6e. Short squeeze candidates (finviz).** WebFetch `midas.prescan.FINVIZ_SHORT_URL` to get stocks with >20% short float. Parse with `midas.prescan.parse_finviz_short_text(text)` → `{symbol: short_float_pct}`. Pass as `short_squeezes` to the sieve — strength = min(1.0, pct / 50.0). This fires as an independent signal; combined with insider buying or earnings beats, it creates high-convergence squeeze setups.
 
-   **6f. Signal prices (freshness gate).** For each symbol with an insider cluster, record the price at signal time from the cluster's `latest_date`. Fetch current prices via `get_equity_quotes`. Pass both as `signal_prices` and `current_prices` to the sieve — names where price moved >15% since the signal fired are filtered out.
+   **6f. Volume anomalies (full candidate set).** After assembling all signal sources from 6a-6e, collect every symbol that has at least one signal. Fetch `get_equity_historicals` (30-day daily bars) for ALL of them. `midas.prescan.compute_volume_anomalies(historicals)` → `{symbol: ratio}`. Pass to sieve — ratio > 1.5x fires the signal, strength = min(1.0, ratio / 3.0).
+
+   **6g. Signal prices (freshness gate).** For each symbol with an insider cluster, record the price at signal time from the cluster's `latest_date`. Fetch current prices via `get_equity_quotes`. Pass both as `signal_prices` and `current_prices` to the sieve — names where price moved >15% since the signal fired are filtered out.
 
    **Key distinction:** `cache/oracle_screen.json` is Oracle's combined top-100 ranking — Midas does NOT use it. Midas starts from fresh signal data (augmented by Oracle's caches for breadth), then applies its own convergence-based ranking.
 
-7. **Run sieve.** `midas.scanner.stage1_sieve(universe, insider_clusters=merged_clusters, smart_money_holders=…, activist_symbols=…, earnings_surprise=…, guidance_raised=…, volume_anomalies=…, market_caps=…, ipo_dates=…, earnings_this_week=…, signal_prices=…, current_prices=…, today=today)`. Checks every symbol in the full universe against all signal sources. Filters out: names listed < 90 days, names with unresolved earnings this week, names where price already moved >15% since signal date. To get IPO dates: batch-fetch `get_equity_fundamentals` for candidates with signals and extract the `ipo_date` field. Output: ~50-200 names with at least one active signal, sufficient trading history, no pending earnings, and fresh signals.
+7. **Run sieve.** `midas.scanner.stage1_sieve(universe, insider_clusters=merged_clusters, smart_money_holders=…, activist_symbols=…, earnings_surprise=…, guidance_raised=…, volume_anomalies=…, short_squeezes=…, market_caps=…, ipo_dates=…, earnings_this_week=…, signal_prices=…, current_prices=…, today=today)`. Checks every symbol in the full universe against all signal sources. Filters out: names listed < 90 days, names with unresolved earnings this week, names where price already moved >15% since signal date. To get IPO dates: batch-fetch `get_equity_fundamentals` for candidates with signals and extract the `ipo_date` field. Output: ~50-200 names with at least one active signal, sufficient trading history, no pending earnings, and fresh signals.
 
 ### Stage 2 — Convergence Rank (→ top 10)
 
@@ -121,6 +123,7 @@ No profit target — let winners run to Friday. The asymmetry: cut losers at -10
 | Activist 13D | `oracle.lenses.search_recent_13d` | 1.0 (binary) |
 | Guidance raised | `shared.edgar.guidance_direction` | 1.0 (binary) |
 | Volume anomaly | `get_equity_historicals` (30-day bars) | min(1.0, ratio / 3.0), fires at 1.5x |
+| Short squeeze | finviz screener (>20% short float) | min(1.0, pct / 50.0) |
 
 ## Calibration
 

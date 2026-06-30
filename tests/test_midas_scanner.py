@@ -93,6 +93,34 @@ class TestBuildSignalMap:
         )
         assert "volume_anomaly" not in signals
 
+    def test_short_squeeze_fires(self):
+        signals = build_signal_map(
+            "ACME",
+            short_squeezes={"ACME": 50.0},
+        )
+        assert signals["short_squeeze"] == pytest.approx(1.0)
+
+    def test_short_squeeze_scaled(self):
+        signals = build_signal_map(
+            "ACME",
+            short_squeezes={"ACME": 30.0},
+        )
+        assert signals["short_squeeze"] == pytest.approx(0.6)
+
+    def test_short_squeeze_below_threshold(self):
+        signals = build_signal_map(
+            "ACME",
+            short_squeezes={"ACME": 15.0},
+        )
+        assert "short_squeeze" not in signals
+
+    def test_short_squeeze_missing_symbol(self):
+        signals = build_signal_map(
+            "ACME",
+            short_squeezes={"OTHER": 40.0},
+        )
+        assert "short_squeeze" not in signals
+
 
 class TestSignalStaleness:
     def test_stale_when_price_moved_up(self):
@@ -221,6 +249,15 @@ class TestStage1Sieve:
         )
         assert len(candidates) == 1
         assert "volume_anomaly" in candidates[0].signals
+
+    def test_short_squeeze_passes_through(self):
+        universe = {"SQ": "0001"}
+        candidates = stage1_sieve(
+            universe,
+            short_squeezes={"SQ": 35.0},
+        )
+        assert len(candidates) == 1
+        assert "short_squeeze" in candidates[0].signals
 
 
 class TestStage2Rank:

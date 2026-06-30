@@ -134,6 +134,7 @@ achievable only with excellent selection from a large dossier pool.
 | Activist 13D | `oracle.lenses.search_recent_13d` | 1.0 (binary) |
 | Guidance raised | `shared.edgar.guidance_direction` | 1.0 (binary) |
 | Volume anomaly | `get_equity_historicals` (30-day bars) | min(1.0, ratio / 3.0), fires at 1.5x |
+| Short squeeze | finviz screener (>20% short float) | min(1.0, pct / 50.0) |
 
 ### Convergence Multipliers
 
