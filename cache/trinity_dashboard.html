@@ -69,9 +69,9 @@
 <div class="header">
   <div>
     <h1>Pantheon</h1>
-    <div class="meta">Updated 2026-06-30T06:47:44.726577Z</div>
+    <div class="meta">Updated 2026-06-30T06:55:21.805069Z</div>
   </div>
-  <div class="total">$8,006.96</div>
+  <div class="total">$8,007.02</div>
 </div>
 <div class="chart-wrap"><canvas id="c"></canvas></div>
 
@@ -81,7 +81,7 @@
             
           </div>
           <div class="god-stats">
-            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,999.33</span></div>
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,999.21</span></div>
             <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$199.48</span></div>
             <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+0.00</span></div>
             <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">26</span></div>
@@ -139,7 +139,7 @@
             
           </div>
           <div class="god-stats">
-            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$2,008.44</span></div>
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$2,007.81</span></div>
             <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$388.30</span></div>
             <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+2.58</span></div>
             <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">15</span></div>
@@ -213,18 +213,12 @@
             
           </div>
           <div class="god-stats">
-            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,999.19</span></div>
-            <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$10.00</span></div>
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$2,000.00</span></div>
+            <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$2,000.00</span></div>
             <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+0.00</span></div>
-            <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">1</span></div>
+            <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">0</span></div>
           </div>
-          <table class="positions"><thead><tr><th>Symbol</th><th>Shares</th><th>Avg Price</th><th>Value</th><th>Entry</th></tr></thead><tbody><tr>
-              <td>VITL</td>
-              <td>176.0345</td>
-              <td>$11.19</td>
-              <td>$1969.83</td>
-              <td>2026-06-30</td>
-            </tr></tbody></table>
+          <div class="no-positions">No open positions</div>
         </div>
 <footer>Auto-refreshes every 15 min</footer>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -232,7 +226,7 @@
 const ctx = document.getElementById('c').getContext('2d');
 new Chart(ctx, {
   type: 'line',
-  data: {"labels": ["2026-06-28", "2026-06-28T00:00:00", "2026-06-29", "2026-06-30"], "datasets": [{"label": "Oracle", "data": [null, 1000.0, null, 1999.33], "borderColor": "#D4AF37", "backgroundColor": "#D4AF3740", "tension": 0.2, "spanGaps": true}, {"label": "Achilles", "data": [null, null, 1000.0, 2000.0], "borderColor": "#9C27B0", "backgroundColor": "#9C27B040", "tension": 0.2, "spanGaps": true}, {"label": "Delphi", "data": [1000.0, null, 999.5649, 2008.44], "borderColor": "#00BCD4", "backgroundColor": "#00BCD440", "tension": 0.2, "spanGaps": true}, {"label": "Midas", "data": [null, null, 999.500250124, 1999.19], "borderColor": "#DC143C", "backgroundColor": "#DC143C40", "tension": 0.2, "spanGaps": true}]},
+  data: {"labels": ["2026-06-28", "2026-06-28T00:00:00", "2026-06-29", "2026-06-30"], "datasets": [{"label": "Oracle", "data": [null, 1000.0, null, 1999.2098430957503], "borderColor": "#D4AF37", "backgroundColor": "#D4AF3740", "tension": 0.2, "spanGaps": true}, {"label": "Achilles", "data": [null, null, 1000.0, 2000.0], "borderColor": "#9C27B0", "backgroundColor": "#9C27B040", "tension": 0.2, "spanGaps": true}, {"label": "Delphi", "data": [1000.0, null, 999.5649, 2007.8053097958998], "borderColor": "#00BCD4", "backgroundColor": "#00BCD440", "tension": 0.2, "spanGaps": true}, {"label": "Midas", "data": [null, null, 999.500250124, 2000.0], "borderColor": "#DC143C", "backgroundColor": "#DC143C40", "tension": 0.2, "spanGaps": true}]},
   options: {
     responsive: true,
     maintainAspectRatio: false,
