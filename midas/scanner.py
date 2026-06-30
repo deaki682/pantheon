@@ -243,36 +243,46 @@ def stage2_rank(candidates: list[ScanCandidate], *, top_n: int = 10) -> list[dic
 
 @dataclass
 class WeeklyCatalystDossier:
-    """Stage 3 output: deep research on a finalist for this week's pick."""
+    """Stage 3 output: deep research on a finalist for this week's pick.
+
+    The LLM researches each finalist and can disqualify names with
+    active thesis-killers (guidance bombs, fraud, delisting risk).
+    pop_probability/expected_magnitude/expected_value are informational
+    only — they do NOT feed into pick_winner. The pick is purely
+    mechanical: highest timing-weighted convergence score among
+    non-disqualified names.
+    """
     symbol: str
     catalyst: str
     catalyst_timing: str
     bull_case: str
     bear_case: str
     priced_in_judgment: str
-    pop_probability: float
-    expected_magnitude: float
-    expected_value: float
     current_price: float
+    pop_probability: float = 0.0
+    expected_magnitude: float = 0.0
+    expected_value: float = 0.0
     signals: dict = field(default_factory=dict)
     convergence_count: int = 0
     score: float = 0.0
     researched_at: str = ""
     sector: str = ""
     market_cap: Optional[float] = None
+    disqualified: bool = False
+    disqualify_reason: str = ""
 
 
 def pick_winner(dossiers: list[WeeklyCatalystDossier]) -> Optional[WeeklyCatalystDossier]:
-    """Pick the single best candidate by score-weighted expected value.
+    """Pick the single best candidate by timing-weighted convergence score.
 
-    The score already incorporates timing weights (fast-resolving signals
-    like squeezes/earnings are worth more than slow ones like activist 13D)
-    and convergence multipliers. Multiplying by EV prevents the algorithm
-    from picking high-score names with no plausible one-week catalyst.
+    The LLM's only influence is the disqualification gate — it can veto
+    names with active thesis-killers, but it cannot promote names or
+    set probabilities that affect ranking. The pick is fully mechanical.
     """
-    if not dossiers:
+    eligible = [d for d in dossiers if not d.disqualified]
+    if not eligible:
         return None
-    return max(dossiers, key=lambda d: d.expected_value * d.score)
+    return max(eligible, key=lambda d: d.score)
 
 
 # ------- persistence -------

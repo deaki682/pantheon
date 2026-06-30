@@ -63,24 +63,30 @@ non-linearly.
 
 8. **Score and rank.** `midas.scanner.stage2_rank(candidates, top_n=10)`. The convergence multiplier non-linearly boosts names with 2+ simultaneous signals.
 
-### Stage 3 — Deep Research (10 → 1)
+### Stage 3 — LLM Disqualification Gate (10 → 1)
 
-9. **Build weekly catalyst dossiers.** For each of the top 10 finalists:
+9. **Research and disqualify.** For each of the top 10 finalists:
    - Fetch current price, 52-week high from `get_equity_quotes` and `get_equity_fundamentals`
    - Fetch latest 8-K filings from EDGAR
    - Review what signals fired and why
-   - **Answer the key question:** What specifically could move this stock THIS week?
+   - **The LLM's job is to DISQUALIFY, not to rank.** Look for active thesis-killers:
+     - Guidance bomb or earnings miss since the signal fired
+     - Ongoing SEC investigation or fraud allegation
+     - Delisting risk, going concern
+     - Price already gapped 15%+ on the catalyst (move is done)
+     - Binary event pending this week (earnings, FDA decision) that turns the trade into a coin flip
    - Build a `WeeklyCatalystDossier`:
      - `catalyst`: the specific event or signal convergence
      - `catalyst_timing`: when does the catalyst resolve?
      - `bull_case`: why could this pop 5-20%?
      - `bear_case`: what kills the thesis?
      - `priced_in_judgment`: is the catalyst already reflected in the price?
-     - `pop_probability`: honest estimate 0-1
-     - `expected_magnitude`: expected % move if it pops
-     - `expected_value`: probability × magnitude
+     - `disqualified`: True if any thesis-killer is found
+     - `disqualify_reason`: specific reason (e.g. "guidance bomb Jun 18, -14% gap")
+     - `pop_probability`, `expected_magnitude`, `expected_value`: optional, informational only — these do NOT affect pick_winner
+   - **Do NOT set pop_probability to justify the algorithm's ranking.** These fields are for your review only. The pick is mechanical.
 
-10. **Pick the winner.** `midas.scanner.pick_winner(dossiers)` — highest expected value. Save all dossiers to `cache/midas_dossiers.json`.
+10. **Pick the winner.** `midas.scanner.pick_winner(dossiers)` — highest timing-weighted convergence score among non-disqualified names. The LLM cannot promote a name; it can only veto. Save all dossiers to `cache/midas_dossiers.json`.
 
 ### Execute
 
@@ -110,6 +116,7 @@ No profit target — let winners run to Friday. The asymmetry: cut losers at -10
 - Enter on any day other than Monday
 - Hold more than one position
 - Hold through the weekend
+- Let LLM probability estimates affect the pick (score is mechanical)
 - Override the convergence scoring with gut feel
 - Add positions because the broker holds them (sleeve is authoritative)
 
