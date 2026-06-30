@@ -420,5 +420,40 @@
       "reason": "1 common dates, need 7"
     },
     "allocation": 1000.0
+  },
+  {
+    "ts": "2026-06-30T06:42:14.401430Z",
+    "date": "2026-06-30",
+    "equity": 1999.3322,
+    "cash": 199.4814,
+    "n_positions": 5,
+    "positions": {
+      "CXT": {
+        "shares": 7.323735,
+        "price": 49.14
+      },
+      "HDSN": {
+        "shares": 65.672977,
+        "price": 5.48
+      },
+      "J": {
+        "shares": 2.90678,
+        "price": 123.81
+      },
+      "PSN": {
+        "shares": 7.0207049999999995,
+        "price": 51.32
+      },
+      "VITL": {
+        "shares": 31.848101999999997,
+        "price": 11.3
+      }
+    },
+    "note": "oracle cycle: cohort-2026-06-29 held, no thesis-breaks. top-up buys queued for HDSN/CXT/VITL/J/PSN ($899.61 total). attribution skipped (<6 common dates with factor ETFs).",
+    "attribution": {
+      "skipped": true,
+      "reason": "cohort day 1, need 6+ common return dates"
+    },
+    "allocation": 1000.0
   }
 ]

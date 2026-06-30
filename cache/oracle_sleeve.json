@@ -1,50 +1,50 @@
 {
-  "cash": 1099.5500000000002,
-  "contributed_cash": 2000.0,
-  "cooldown_days": 31,
-  "cooldowns": {},
-  "gfv_count": 0,
-  "halted": false,
   "name": "oracle",
-  "peak_equity": 1000.0,
-  "pending_settlements": [],
+  "cash": 199.4813921007501,
   "positions": {
     "CXT": {
-      "avg_price": 48.454,
-      "cohort_id": "cohort-2026-06-29",
+      "shares": 7.323735,
+      "avg_price": 48.79203582734766,
       "entry_date": "2026-06-29",
       "sector": "Producer Manufacturing",
-      "shares": 3.714865
+      "cohort_id": "cohort-2026-06-29"
     },
     "HDSN": {
-      "avg_price": 5.59,
-      "cohort_id": "cohort-2026-06-29",
+      "shares": 65.672977,
+      "avg_price": 5.533934501400782,
       "entry_date": "2026-06-29",
       "sector": "Distribution Services",
-      "shares": 32.200357
+      "cohort_id": "cohort-2026-06-29"
     },
     "J": {
-      "avg_price": 126.416,
-      "cohort_id": "cohort-2026-06-29",
+      "shares": 2.90678,
+      "avg_price": 125.08653459154115,
       "entry_date": "2026-06-29",
       "sector": "Technology Services",
-      "shares": 1.42387
+      "cohort_id": "cohort-2026-06-29"
     },
     "PSN": {
-      "avg_price": 50.5928,
-      "cohort_id": "cohort-2026-06-29",
+      "shares": 7.0207049999999995,
+      "avg_price": 50.89229510882455,
       "entry_date": "2026-06-29",
       "sector": "Technology Services",
-      "shares": 3.557815
+      "cohort_id": "cohort-2026-06-29"
     },
     "VITL": {
-      "avg_price": 11.1799,
-      "cohort_id": "cohort-2026-06-29",
+      "shares": 31.848101999999997,
+      "avg_price": 11.239285277590483,
       "entry_date": "2026-06-29",
       "sector": "Process Industries",
-      "shares": 16.100322
+      "cohort_id": "cohort-2026-06-29"
     }
   },
+  "pending_settlements": [],
   "realized_pnl": 0.0,
-  "trades_count": 21
+  "gfv_count": 0,
+  "trades_count": 26,
+  "cooldowns": {},
+  "halted": false,
+  "contributed_cash": 2000.0,
+  "cooldown_days": 0,
+  "peak_equity": 1999.3322089607502
 }
