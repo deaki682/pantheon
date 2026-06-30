@@ -13,9 +13,11 @@ import json
 import logging
 import os
 from dataclasses import asdict, dataclass, field
+from datetime import datetime
 from typing import Optional
 
 from .scoring import (
+    MIN_LISTING_DAYS,
     SIGNAL_CHANNELS,
     liquidity_ok,
     rank_candidates,
@@ -87,6 +89,19 @@ def build_signal_map(
     return signals
 
 
+def _listing_too_recent(sym: str, ipo_dates: dict[str, str], today: str) -> bool:
+    """True if the symbol listed less than MIN_LISTING_DAYS ago."""
+    ipo = ipo_dates.get(sym)
+    if not ipo:
+        return False
+    try:
+        ipo_dt = datetime.strptime(ipo, "%Y-%m-%d").date()
+        today_dt = datetime.strptime(today, "%Y-%m-%d").date()
+        return (today_dt - ipo_dt).days < MIN_LISTING_DAYS
+    except (ValueError, TypeError):
+        return False
+
+
 def stage1_sieve(
     universe: dict[str, str],
     *,
@@ -97,21 +112,39 @@ def stage1_sieve(
     guidance_raised: Optional[set] = None,
     quality_scores: Optional[dict] = None,
     market_caps: Optional[dict] = None,
+    ipo_dates: Optional[dict[str, str]] = None,
+    earnings_this_week: Optional[set[str]] = None,
+    today: Optional[str] = None,
 ) -> list[ScanCandidate]:
     """Stage 1: Filter universe to names with at least one active signal.
 
     universe: {symbol: cik} map (from shared.edgar.fetch_company_tickers)
     Each signal source is optional; pass whatever data you've gathered.
+
+    earnings_this_week: symbols with unresolved earnings reports this week.
+    These are excluded because entering before a binary event turns a
+    signal-convergence trade into a coin flip. Names that already reported
+    and beat (present in earnings_surprise with is_beat=True) are NOT in
+    this set — that's a valid signal, not a pending gamble.
     """
     candidates = []
     market_caps = market_caps or {}
     quality_scores = quality_scores or {}
+    ipo_dates = ipo_dates or {}
+    pending_earnings = earnings_this_week or set()
+    today = today or datetime.utcnow().strftime("%Y-%m-%d")
 
     for sym in universe:
         sym_upper = sym.upper()
         mcap = market_caps.get(sym_upper)
 
         if mcap is not None and not liquidity_ok(mcap):
+            continue
+
+        if _listing_too_recent(sym_upper, ipo_dates, today):
+            continue
+
+        if sym_upper in pending_earnings:
             continue
 
         signals = build_signal_map(
@@ -178,10 +211,15 @@ class WeeklyCatalystDossier:
 
 
 def pick_winner(dossiers: list[WeeklyCatalystDossier]) -> Optional[WeeklyCatalystDossier]:
-    """Pick the single best candidate from Stage 3 dossiers by expected value."""
+    """Pick the single best candidate by score-weighted expected value.
+
+    Raw EV alone lets noisy single-signal estimates beat higher-confidence
+    multi-signal names. Multiplying by the convergence-adjusted score
+    re-applies the 1x/2.5x/5x/8x weighting at the pick stage.
+    """
     if not dossiers:
         return None
-    return max(dossiers, key=lambda d: d.expected_value)
+    return max(dossiers, key=lambda d: d.expected_value * d.score)
 
 
 # ------- persistence -------

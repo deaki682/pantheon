@@ -194,6 +194,24 @@ def _normalize(
     return fixed
 
 
+def topup_targets(
+    active_symbols: list[str],
+    equity: float,
+    *,
+    cash_floor: float = CASH_FLOOR,
+    per_name_cap: float = PER_NAME_CAP,
+) -> dict[str, float]:
+    """Equal-weight targets across existing cohort positions for deploying idle cash."""
+    if not active_symbols or equity <= 0:
+        return {}
+    invest = equity * max(0.0, 1.0 - cash_floor)
+    cap = equity * per_name_cap
+    per_name = min(invest / len(active_symbols), cap)
+    if per_name < MIN_TICKET:
+        return {}
+    return {sym: per_name for sym in active_symbols}
+
+
 def rotation_decision(
     incumbent_score: float, challenger_score: float, *, margin: float = 0.25
 ) -> bool:
