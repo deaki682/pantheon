@@ -1,50 +1,50 @@
 {
+  "cash": 1099.5500000000002,
+  "contributed_cash": 2000.0,
+  "cooldown_days": 31,
+  "cooldowns": {},
+  "gfv_count": 0,
+  "halted": false,
   "name": "oracle",
-  "cash": 99.55000000000013,
+  "peak_equity": 1000.0,
+  "pending_settlements": [],
   "positions": {
-    "VITL": {
-      "shares": 16.156689302949063,
-      "avg_price": 11.1415,
-      "entry_date": "2026-06-29",
-      "sector": "Process Industries",
-      "cohort_id": "cohort-2026-06-29"
-    },
-    "PSN": {
-      "shares": 3.534861968179140,
-      "avg_price": 50.919,
-      "entry_date": "2026-06-29",
-      "sector": "Technology Services",
-      "cohort_id": "cohort-2026-06-29"
-    },
-    "HDSN": {
-      "shares": 32.710523252032520,
-      "avg_price": 5.503,
-      "entry_date": "2026-06-29",
-      "sector": "Distribution Services",
-      "cohort_id": "cohort-2026-06-29"
-    },
     "CXT": {
-      "shares": 3.700175765673176,
       "avg_price": 48.647,
+      "cohort_id": "cohort-2026-06-29",
       "entry_date": "2026-06-29",
       "sector": "Producer Manufacturing",
-      "cohort_id": "cohort-2026-06-29"
+      "shares": 3.700175765673176
+    },
+    "HDSN": {
+      "avg_price": 5.503,
+      "cohort_id": "cohort-2026-06-29",
+      "entry_date": "2026-06-29",
+      "sector": "Distribution Services",
+      "shares": 32.71052325203252
     },
     "J": {
-      "shares": 1.432267337365217,
       "avg_price": 125.671,
+      "cohort_id": "cohort-2026-06-29",
       "entry_date": "2026-06-29",
       "sector": "Technology Services",
-      "cohort_id": "cohort-2026-06-29"
+      "shares": 1.432267337365217
+    },
+    "PSN": {
+      "avg_price": 50.919,
+      "cohort_id": "cohort-2026-06-29",
+      "entry_date": "2026-06-29",
+      "sector": "Technology Services",
+      "shares": 3.53486196817914
+    },
+    "VITL": {
+      "avg_price": 11.1415,
+      "cohort_id": "cohort-2026-06-29",
+      "entry_date": "2026-06-29",
+      "sector": "Process Industries",
+      "shares": 16.15668930294906
     }
   },
-  "pending_settlements": [],
   "realized_pnl": 0.0,
-  "gfv_count": 0,
-  "trades_count": 21,
-  "cooldowns": {},
-  "halted": false,
-  "contributed_cash": 1000.0,
-  "cooldown_days": 31,
-  "peak_equity": 1000.0
+  "trades_count": 21
 }
