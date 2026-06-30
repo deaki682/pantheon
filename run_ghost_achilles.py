@@ -35,6 +35,14 @@ GHOST_REPORT_PATH  = "cache/ghost_achilles_report.json"
 GHOST_CURSOR_PATH  = "cache/ghost_achilles_cursor.json"
 GHOST_STAGED_PATH  = "cache/ghost_achilles_staged_briefs.json"
 GHOST_QUOTES_PATH  = "cache/ghost_achilles_quotes.json"
+GHOST_FUNDAMENTALS_PATH = "cache/ghost_achilles_fundamentals.json"
+
+# Operator-staged MCP quotes/fundamentals, fetched *after* pantheon.hydrate()
+# has already run (hydrate() restores the whole cache/ tree from git as step 0,
+# so anything staged under cache/ before invocation gets clobbered). These live
+# outside cache/ so hydrate() never touches them.
+GHOST_QUOTES_PREFETCH_PATH = "cache_prefetch/ghost_achilles_quotes.json"
+GHOST_FUNDAMENTALS_PREFETCH_PATH = "cache_prefetch/ghost_achilles_fundamentals.json"
 
 SPY_SYMBOL = "SPY"
 MIN_PRICE  = 1.0    # skip sub-$1 stocks (likely delistings / warrants)
@@ -221,14 +229,29 @@ need_symbols.discard("")
 quotes: dict[str, float] = {}
 fundamentals: dict[str, dict] = {}
 
-# Load pre-fetched quotes (e.g. from MCP layer before the script runs)
-try:
-    with open(GHOST_QUOTES_PATH) as _f:
-        _raw_q = json.load(_f)
-    quotes = {k.upper(): float(v) for k, v in _raw_q.items() if v}
-    log.info("Pre-fetched quotes loaded: %d", len(quotes))
-except (FileNotFoundError, ValueError):
-    pass
+# Load pre-fetched quotes. Prefer the cache_prefetch/ copy (staged via MCP
+# *after* hydrate() ran, so it's never clobbered by the cache/ checkout in
+# Step 0); fall back to the cache/ copy persisted by a prior run.
+for _qpath in (GHOST_QUOTES_PREFETCH_PATH, GHOST_QUOTES_PATH):
+    try:
+        with open(_qpath) as _f:
+            _raw_q = json.load(_f)
+        quotes.update({k.upper(): float(v) for k, v in _raw_q.items() if v})
+    except (FileNotFoundError, ValueError):
+        continue
+log.info("Pre-fetched quotes loaded: %d", len(quotes))
+
+# Same prefer-prefetch-then-cache pattern for fundamentals (market caps).
+for _fpath in (GHOST_FUNDAMENTALS_PREFETCH_PATH, GHOST_FUNDAMENTALS_PATH):
+    try:
+        with open(_fpath) as _f:
+            _raw_f = json.load(_f)
+        for _sym, _mc in (_raw_f.get("market_caps") or {}).items():
+            if _mc:
+                fundamentals.setdefault(_sym.upper(), {"market_cap": float(_mc)})
+    except (FileNotFoundError, ValueError):
+        continue
+log.info("Pre-fetched fundamentals loaded: %d", len(fundamentals))
 
 if broker_ok and need_symbols:
     sym_list = sorted(need_symbols)
@@ -478,6 +501,7 @@ persist_files = {
     GHOST_CURSOR_PATH:  _read(GHOST_CURSOR_PATH),
     GHOST_STAGED_PATH:  _read(GHOST_STAGED_PATH),
     GHOST_QUOTES_PATH:  _read(GHOST_QUOTES_PATH),
+    GHOST_FUNDAMENTALS_PATH: _read(GHOST_FUNDAMENTALS_PATH),
 }
 
 try:
