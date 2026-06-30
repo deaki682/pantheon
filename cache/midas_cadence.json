@@ -1,11 +1,14 @@
 {
   "last_entry": null,
   "last_run": "2026-06-30",
-  "last_scan": "2026-06-30T10:05:00Z",
+  "last_scan": "2026-06-30",
   "last_scan_date": "2026-06-30",
+  "last_scan_stage": "stage3_complete",
   "pick": "EQPT",
   "pick_convergence": 3,
   "pick_score": 0.3279,
   "scan_candidates": 687,
-  "scan_finalists": 10
+  "scan_finalists": 10,
+  "winner": "DAKT",
+  "winner_score": 0.42309905755392146
 }

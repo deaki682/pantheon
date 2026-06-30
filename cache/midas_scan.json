@@ -1,162 +1,267 @@
 {
   "finalists": [
     {
-      "catalyst": "Q2 FY2026 earnings (Jun 29): EPS $2.63 slightly beat $2.57 est, but operating income collapsed -35.7% YoY, non-GAAP EPS -2.6% YoY; full-year guidance implies 0.25%-1.25% revenue growth at flat margins",
-      "convergence_count": 4,
-      "current_price": 19.19,
-      "disqualified": true,
-      "disqualify_reason": "Guidance bomb \u2014 stock down ~24% pre-market ($25.23\u2192$19.19) after Jun 29 earnings; operating income -35.7% YoY; structural BPO headwind confirmed; move is done",
-      "market_cap": 1539761798.0,
-      "score": 0.45280086983077056,
-      "signals": {
-        "earnings_beat": 0.23346303501945545,
-        "short_squeeze": 0.42479999999999996,
-        "smart_money": 0.3333333333333333,
-        "volume_anomaly": 0.6133333333333334
+      "active_signals": {
+        "earnings_beat": 0.98125,
+        "volume_anomaly": 1.0
       },
-      "symbol": "CNXC"
-    },
-    {
-      "catalyst": "Co-founders Jabbok & William Schlacks bought $2.87M; fresh Schedule 13D activist filing; $1.35B senior secured 2nd-lien note offering upsized Jun 16 (signals major strategic activity); volume 2.02x 30-day average",
-      "convergence_count": 3,
-      "current_price": 20.26,
-      "disqualified": false,
-      "disqualify_reason": "",
-      "market_cap": 5121852599.0,
-      "score": 0.3279103363269603,
-      "signals": {
-        "activist_13d": 1.0,
-        "insider_cluster": 1.0,
-        "volume_anomaly": 0.6733333333333333
+      "components": {
+        "convergence": 2.5,
+        "liquidity": 0.7956238255141737,
+        "mean_strength": 0.940625,
+        "neglect": 0.7538006322579744,
+        "quality_value": 0.3
       },
-      "symbol": "EQPT"
-    },
-    {
-      "catalyst": "Activist 13D filing + insider cluster buying + 1.67x volume anomaly; stock bounced 21.5% off 52-week low set Jun 22 ($13.98\u2192$17.00)",
-      "convergence_count": 3,
-      "current_price": 17.0,
-      "disqualified": false,
-      "disqualify_reason": "",
-      "market_cap": 1819325943.0,
-      "score": 0.2688601098335736,
-      "signals": {
-        "activist_13d": 1.0,
-        "insider_cluster": 0.5,
-        "volume_anomaly": 0.5566666666666666
-      },
-      "symbol": "ALKT"
-    },
-    {
-      "catalyst": "Insider cluster buying + short squeeze (32.5% short float); stock at multi-year lows after 79% decline from 52-week high",
       "convergence_count": 2,
-      "current_price": 11.31,
-      "disqualified": false,
-      "disqualify_reason": "",
-      "market_cap": 484616535.0,
-      "score": 0.2498668756186009,
-      "signals": {
-        "insider_cluster": 1.0,
-        "short_squeeze": 0.6506000000000001
-      },
-      "symbol": "VITL"
+      "convergence_multiplier": 2.5,
+      "market_cap": 974000000.0,
+      "score": 0.42309905755392146,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "DAKT",
+      "timing_adjusted": {
+        "earnings_beat": 0.98125,
+        "volume_anomaly": 0.9
+      }
     },
     {
-      "catalyst": "Insider cluster buying + short squeeze (32.7% short float); micro-float (7.5M shares) creates outsized squeeze potential",
-      "convergence_count": 2,
-      "current_price": 26.53,
-      "disqualified": false,
-      "disqualify_reason": "",
-      "market_cap": 400894113.0,
-      "score": 0.24232794657404957,
-      "signals": {
-        "insider_cluster": 1.0,
-        "short_squeeze": 0.6534
+      "active_signals": {
+        "earnings_beat": 1.0,
+        "volume_anomaly": 1.0
       },
-      "symbol": "BETR"
+      "components": {
+        "convergence": 2.5,
+        "liquidity": 0.62273459703167,
+        "mean_strength": 0.95,
+        "neglect": 0.8743617342646732,
+        "quality_value": 0.3
+      },
+      "convergence_count": 2,
+      "convergence_multiplier": 2.5,
+      "market_cap": 344000000.0,
+      "score": 0.3879529028511467,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "HELP",
+      "timing_adjusted": {
+        "earnings_beat": 1.0,
+        "volume_anomaly": 0.9
+      }
     },
     {
-      "catalyst": "Insider cluster buying + short squeeze (23.3% short float); pharma compounding (ImprimisRx) with pharmaceutical drug development pipeline",
-      "convergence_count": 2,
-      "current_price": 41.15,
-      "disqualified": false,
-      "disqualify_reason": "",
-      "market_cap": 1534243291.0,
-      "score": 0.2085505436074461,
-      "signals": {
-        "insider_cluster": 1.0,
-        "short_squeeze": 0.46520000000000006
+      "active_signals": {
+        "earnings_beat": 1.0,
+        "volume_anomaly": 0.7866666666666666
       },
-      "symbol": "HROW"
+      "components": {
+        "convergence": 2.5,
+        "liquidity": 0.7974893722257277,
+        "mean_strength": 0.854,
+        "neglect": 0.7521804370318348,
+        "quality_value": 0.3
+      },
+      "convergence_count": 2,
+      "convergence_multiplier": 2.5,
+      "market_cap": 985000000.0,
+      "score": 0.38420770685081895,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "APOG",
+      "timing_adjusted": {
+        "earnings_beat": 1.0,
+        "volume_anomaly": 0.708
+      }
     },
     {
-      "catalyst": "Insider cluster buying + short squeeze (26.5% short float); restaurant tech SaaS (POS systems) at 52-week lows",
-      "convergence_count": 2,
-      "current_price": 17.26,
-      "disqualified": false,
-      "disqualify_reason": "",
-      "market_cap": 711496950.0,
-      "score": 0.1739528713547954,
-      "signals": {
-        "insider_cluster": 0.5,
-        "short_squeeze": 0.5307999999999999
+      "active_signals": {
+        "short_squeeze": 0.5966,
+        "volume_anomaly": 1.0
       },
-      "symbol": "PAR"
+      "components": {
+        "convergence": 2.5,
+        "liquidity": 0.8391799304818468,
+        "mean_strength": 0.7483,
+        "neglect": 0.6849235440883099,
+        "quality_value": 0.3
+      },
+      "convergence_count": 2,
+      "convergence_multiplier": 2.5,
+      "market_cap": 1570000000.0,
+      "score": 0.32257758984634743,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "WEN",
+      "timing_adjusted": {
+        "short_squeeze": 0.5966,
+        "volume_anomaly": 0.9
+      }
     },
     {
-      "catalyst": "Insider cluster buying + short squeeze (24.1% short float); micro-float (4M shares) metal payment card / Arculus digital asset cold storage company",
-      "convergence_count": 2,
-      "current_price": 138.19,
-      "disqualified": false,
-      "disqualify_reason": "",
-      "market_cap": 1141137319.0,
-      "score": 0.1625957272231033,
-      "signals": {
-        "insider_cluster": 0.5,
-        "short_squeeze": 0.48100000000000004
+      "active_signals": {
+        "earnings_beat": 1.0,
+        "volume_anomaly": 0.7366666666666667
       },
-      "symbol": "RHLD"
+      "components": {
+        "convergence": 2.5,
+        "liquidity": 0.968646555619602,
+        "mean_strength": 0.8315,
+        "neglect": 0.49485663788989354,
+        "quality_value": 0.3
+      },
+      "convergence_count": 2,
+      "convergence_multiplier": 2.5,
+      "market_cap": 6970000000.0,
+      "score": 0.29892914201646464,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "AVAV",
+      "timing_adjusted": {
+        "earnings_beat": 1.0,
+        "volume_anomaly": 0.663
+      }
     },
     {
-      "catalyst": "Insider cluster buying + short squeeze (23.5% short float); Q1 FY27 results Jun 11 (flat revenue -0.1%, EBITDA -24.8%), new CFO appointed Jun 15, major product launches planned H2 FY27",
-      "convergence_count": 2,
-      "current_price": 16.76,
-      "disqualified": false,
-      "disqualify_reason": "",
-      "market_cap": 245339893.0,
-      "score": 0.16085862212759405,
-      "signals": {
-        "insider_cluster": 0.75,
-        "short_squeeze": 0.47
+      "active_signals": {
+        "short_squeeze": 0.642,
+        "volume_anomaly": 0.7999999999999999
       },
-      "symbol": "LOVE"
+      "components": {
+        "convergence": 2.5,
+        "liquidity": 0.8413651752063699,
+        "mean_strength": 0.681,
+        "neglect": 0.6812939311660111,
+        "quality_value": 0.3
+      },
+      "convergence_count": 2,
+      "convergence_multiplier": 2.5,
+      "market_cap": 1610000000.0,
+      "score": 0.29277057649971094,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "ZBIO",
+      "timing_adjusted": {
+        "short_squeeze": 0.642,
+        "volume_anomaly": 0.72
+      }
     },
     {
-      "catalyst": "Insider cluster buying (ATM purchases, management indicated Jun 3) + short squeeze (28.2% short float); ivonescimab Phase II + Phase III data released Jun 1; stock bouncing from 52-week low ($12.55 Jun 10)",
-      "convergence_count": 2,
-      "current_price": 14.32,
-      "disqualified": false,
-      "disqualify_reason": "",
-      "market_cap": 11114654160.0,
-      "score": 0.150243167869091,
-      "signals": {
-        "insider_cluster": 0.75,
-        "short_squeeze": 0.563
+      "active_signals": {
+        "earnings_beat": 0.7384615384615387,
+        "volume_anomaly": 0.6266666666666666
       },
-      "symbol": "SMMT"
+      "components": {
+        "convergence": 2.5,
+        "liquidity": 0.8292256071356475,
+        "mean_strength": 0.6512307692307693,
+        "neglect": 0.7014573172829762,
+        "quality_value": 0.3
+      },
+      "convergence_count": 2,
+      "convergence_multiplier": 2.5,
+      "market_cap": 1400000000.0,
+      "score": 0.28409927808220853,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "MLKN",
+      "timing_adjusted": {
+        "earnings_beat": 0.7384615384615387,
+        "volume_anomaly": 0.564
+      }
+    },
+    {
+      "active_signals": {
+        "earnings_beat": 0.7,
+        "volume_anomaly": 1.0
+      },
+      "components": {
+        "convergence": 2.5,
+        "liquidity": 0.5039128125863275,
+        "mean_strength": 0.8,
+        "neglect": 0.920662494958352,
+        "quality_value": 0.3
+      },
+      "convergence_count": 2,
+      "convergence_multiplier": 2.5,
+      "market_cap": 169000000.0,
+      "score": 0.2783601763663252,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "AOUT",
+      "timing_adjusted": {
+        "earnings_beat": 0.7,
+        "volume_anomaly": 0.9
+      }
+    },
+    {
+      "active_signals": {
+        "earnings_beat": 0.442187499999998,
+        "volume_anomaly": 0.7966666666666667
+      },
+      "components": {
+        "convergence": 2.5,
+        "liquidity": 1.0,
+        "mean_strength": 0.579593749999999,
+        "neglect": 0.42937447143750956,
+        "quality_value": 0.3
+      },
+      "convergence_count": 2,
+      "convergence_multiplier": 2.5,
+      "market_cap": 11000000000.0,
+      "score": 0.18664707004105022,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "AYI",
+      "timing_adjusted": {
+        "earnings_beat": 0.442187499999998,
+        "volume_anomaly": 0.7170000000000001
+      }
+    },
+    {
+      "active_signals": {
+        "earnings_beat": 0.2919708029197066,
+        "volume_anomaly": 0.66
+      },
+      "components": {
+        "convergence": 2.5,
+        "liquidity": 0.9004854239968865,
+        "mean_strength": 0.4429854014598533,
+        "neglect": 0.5923731710742677,
+        "quality_value": 0.3
+      },
+      "convergence_count": 2,
+      "convergence_multiplier": 2.5,
+      "market_cap": 3180000000.0,
+      "score": 0.1772240862808445,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "FUL",
+      "timing_adjusted": {
+        "earnings_beat": 0.2919708029197066,
+        "volume_anomaly": 0.5940000000000001
+      }
     }
   ],
   "pick": {
-    "catalyst": "Co-founders Jabbok & William Schlacks bought $2.87M; fresh Schedule 13D activist filing; $1.35B senior secured 2nd-lien note offering upsized Jun 16 (signals major strategic activity); volume 2.02x 30-day average",
-    "convergence_count": 3,
-    "current_price": 20.26,
-    "entry_planned": "2026-07-06 Monday open",
-    "market_cap": 5121852599.0,
-    "score": 0.3279103363269603,
+    "bear_case": "The intraday sell-off after the gap-up could signal distribution by large holders into the beat. Daktronics is cyclical and exposed to capex cuts in sports/venue construction. Competition from lower-cost display manufacturers (Samsung, LG) is ongoing.",
+    "bull_case": "A +69% EPS beat on Daktronics (LED scoreboards, video displays) with 3x confirming volume is a high-quality PEAD setup. The intraday give-back (gap $21.65 \u2192 close $19.35) signals institutional digestion is not complete; PEAD drift typically continues 3\u20135 days after such reversals. Current $20.19 sits $8 below 52-week high ($28.27) \u2014 ample room. No analyst coverage pressure at $974M cap means the signal is less priced-in.",
+    "catalyst": "FY2026 Q4 earnings beat: +68.75% EPS surprise (str=0.981) with 3.08x volume anomaly on earnings day. Stock gapped up to $21.65 then closed $19.35 \u2014 classic distribution intraday, creating a PEAD re-entry opportunity at $20.19.",
+    "catalyst_timing": "PEAD drift window: 1\u20135 trading days post-earnings. Earnings reported ~Jun 27.",
+    "convergence_count": 2,
+    "current_price": 20.19,
+    "disqualified": false,
+    "disqualify_reason": "",
+    "expected_magnitude": 0.12,
+    "expected_value": 0.07,
+    "market_cap": 974000000,
+    "pop_probability": 0.58,
+    "priced_in_judgment": "Not fully priced in. The gap-up reversal is consistent with an underreaction being corrected over multiple days. A +69% EPS beat at this cap with 3x volume is rarely absorbed in a single session.",
+    "researched_at": "2026-06-30",
+    "score": 0.42309905755392146,
+    "sector": "Producer Manufacturing",
     "signals": {
-      "activist_13d": 1.0,
-      "insider_cluster": 1.0,
-      "volume_anomaly": 0.6733333333333333
+      "earnings_beat": 0.981,
+      "volume_anomaly": 1.0
     },
-    "symbol": "EQPT"
+    "symbol": "DAKT"
   }
 }
