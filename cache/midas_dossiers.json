@@ -1,215 +1,215 @@
-{
-  "dossiers": [
-    {
-      "bear_case": "IPO lockup July 22 (130M+ shares), $3.14B debt, net loss $29M Q1, July 4 thin volume week",
-      "bull_case": "Founders buying $2.1M at ~$21, 38% revenue growth, analyst PT $39.33 (94% upside), deeply oversold",
-      "catalyst": "CEO+President insider buy ($2.1M), 13D filing (16.2% stake), board refresh, $1.35B refinancing \u2014 all within 3 weeks",
-      "catalyst_timing": "Already occurred (June 15-23). No discrete catalyst this week. Next earnings Sep 2. Lockup expires July 22.",
-      "convergence_count": 2,
-      "current_price": 20.26,
-      "expected_magnitude": 0.08,
-      "expected_value": 0.012,
-      "market_cap": 5121852599.0,
-      "pop_probability": 0.15,
-      "priced_in_judgment": "partially",
-      "researched_at": "2026-06-30",
-      "score": 0.3766,
-      "sector": "Industrials / Construction Equipment Rental",
-      "signals": {
-        "activist_13d": 1.0,
-        "insider_cluster": 1.0
-      },
-      "symbol": "EQPT"
+[
+  {
+    "symbol": "EQPT",
+    "catalyst": "Activist 13D + insider cluster + 1-week volume anomaly (2.0x) at 43% discount to 52-wk high",
+    "catalyst_timing": "Ongoing \u2014 activist pressure expected to build through Q3; volume accumulation just started",
+    "bull_case": "EquipmentShare is a digitally-native equipment rental platform that insiders and an activist both see as undervalued at $20 vs $35.50 high. 3-signal convergence (highest in this scan). Activist 13D compels public disclosure of intent to create shareholder value \u2014 M&A or operational improvements could re-rate the stock. Volume anomaly (Jun 26: 5.4M vs 2M baseline) confirms accumulation is active right now.",
+    "bear_case": "PE of 5,323 means essentially no near-term earnings support. Equipment rental is cyclical and sensitive to construction slowdowns. Activist may face management resistance. Price already bounced from May 5 low ($17.95) to $20.23.",
+    "priced_in_judgment": "Partially: the volume spike and small price bounce suggest some awareness. But activist narrative typically takes weeks to fully price in \u2014 most of the upside should still be ahead.",
+    "pop_probability": 0.4,
+    "expected_magnitude": 0.13,
+    "expected_value": 0.052,
+    "current_price": 20.23,
+    "signals": {
+      "insider_cluster": 1.0,
+      "activist_13d": 1.0,
+      "volume_anomaly": 0.6733333333333333
     },
-    {
-      "bear_case": "Guidance slashed 8.2%, AI disruption structural threat, offshoring accelerating, $175M restructuring costs, earnings declined 31%/yr for 5 years",
-      "bull_case": "Record FCF $242M, forward PE ~1.8x at $19.82, analysts maintain Outperform with $38-40 PTs",
-      "catalyst": "3-signal convergence (earnings beat + smart money + short squeeze) BUT guidance bomb crashed stock 22-25%",
-      "catalyst_timing": "Already resolved negatively \u2014 Q2 earnings June 29 with massive guidance cut",
-      "convergence_count": 3,
-      "current_price": 19.82,
-      "expected_magnitude": 0.05,
-      "expected_value": 0.005,
-      "market_cap": 1539761798.0,
-      "pop_probability": 0.1,
-      "priced_in_judgment": "no \u2014 the crash IS the repricing. Catching a falling knife.",
-      "researched_at": "2026-06-30",
-      "score": 0.2854,
-      "sector": "Technology Services / IT Services",
-      "signals": {
-        "earnings_beat": 0.233,
-        "short_squeeze": 0.425,
-        "smart_money": 0.333
-      },
-      "symbol": "CNXC"
+    "convergence_count": 3,
+    "score": 0.671220239239975,
+    "researched_at": "2026-06-30T09:15:00Z",
+    "sector": "Technology Services",
+    "market_cap": 5121852599
+  },
+  {
+    "symbol": "ALKT",
+    "catalyst": "FRESH activist 13D (last 14 days) + insider buying exactly at 52-wk low ($13.98 June 22) + volume accumulation (1.67x)",
+    "catalyst_timing": "Catalyst building now \u2014 activist disclosed 5%+ stake within last 14 days; thesis resolution over next 4-8 weeks as activist publishes demands",
+    "bull_case": "Alkami Technology is a digital banking SaaS platform at $1.8B market cap. The FRESH activist 13D is the most timely signal in this scan \u2014 someone just disclosed a 5%+ stake and intent to change the company, right when insiders were also buying at the June 22 52-week low ($13.98). That double-commitment at maximum pessimism is the classic setup. Price has recovered 21.6% already but is still 45% below the $30.88 high. Volume (1.67x) confirms ongoing accumulation. Activist could push for a strategic sale or operational overhaul of an undervalued SaaS franchise.",
+    "bear_case": "Stock already bounced 21.6% from the $13.98 low \u2014 some of the easy money is made. Unprofitable (PE -35.7). Activist could be a short-term speculator, not a committed change agent. Digital banking is crowded. If the activist 13D was already known to the market, the bounce is the signal.",
+    "priced_in_judgment": "Only partially: $13.98 \u2192 $17.00 (+21.6%) is the market just waking up; the activist angle is still fresh and the full re-rating (back toward the $22-25 range) hasn't happened yet.",
+    "pop_probability": 0.42,
+    "expected_magnitude": 0.15,
+    "expected_value": 0.063,
+    "current_price": 17.0,
+    "signals": {
+      "insider_cluster": 0.5,
+      "activist_13d": 1.0,
+      "volume_anomaly": 0.5566666666666666
     },
-    {
-      "bear_case": "12 days old, no revenue, at all-time high on pure momentum, signals are IPO artifacts, holiday week",
-      "bull_case": "Former MyoKardia team ($13B BMS acq), $400M+ cash, thin float (23.3M of 93M shares), 62% IPO pop momentum",
-      "catalyst": "IPO mechanics: 13D filings from Perceptive (8.9%) and ARCH are preferred-to-common conversions, not activist accumulation",
-      "catalyst_timing": "None this week. All clinical readouts H1 2027.",
-      "convergence_count": 2,
-      "current_price": 25.66,
-      "expected_magnitude": 0.08,
-      "expected_value": 0.012,
-      "market_cap": 4584883711.0,
-      "pop_probability": 0.15,
-      "priced_in_judgment": "yes \u2014 fully priced in via 62% IPO pop",
-      "researched_at": "2026-06-30",
-      "score": 0.3346,
-      "sector": "Health Technology / Biotechnology",
-      "signals": {
-        "activist_13d": 1.0,
-        "insider_cluster": 0.75
-      },
-      "symbol": "KARD"
+    "convergence_count": 3,
+    "score": 0.5814465046172973,
+    "researched_at": "2026-06-30T09:15:00Z",
+    "sector": "Technology Services",
+    "market_cap": 1819325943
+  },
+  {
+    "symbol": "CNXC",
+    "catalyst": "Smart money holders + volume anomaly (1.84x) + short squeeze \u2014 BUT pre-market showing -24% gap down (bid $18.70) suggesting another negative catalyst today (Jun 30)",
+    "catalyst_timing": "Broken thesis \u2014 additional negative news appears to be hitting today (Jun 30 pre-market)",
+    "bull_case": "If the pre-market gap down is overdone and CNXC stabilizes, a technical bounce from oversold could produce 8-12% intraday. Dividend yield of 5.6% provides some support.",
+    "bear_case": "CRITICAL BEAR: Pre-market trading at ~$19.19 vs $25.23 close = -24% gap down. This follows the June 18 'guidance bomb' (9.5M volume spike, -14% day). Another major negative catalyst appearing today means the fundamental thesis is deteriorating rapidly. Smart money may be wrong or already exiting. Do NOT enter this name.",
+    "priced_in_judgment": "Fully: the signals are stale relative to today's apparent bad news. The market is pricing in ongoing fundamental deterioration at Concentrix.",
+    "pop_probability": 0.12,
+    "expected_magnitude": 0.08,
+    "expected_value": 0.0096,
+    "current_price": 25.23,
+    "signals": {
+      "smart_money": 0.3333333333333333,
+      "volume_anomaly": 0.6133333333333334,
+      "short_squeeze": 0.42479999999999996
     },
-    {
-      "bear_case": "Q1 revenue missed, PE deeply negative, BYOOVIZ initial revenue minimal (stocking orders), July 1 dates are known events (sell-the-news risk), stock already bounced 44% from May lows, holiday week lower liquidity",
-      "bull_case": "Two revenue-unlocking events on July 1, VEVYE hitting record TRx, IHEEZO demand +34% YoY, management reaffirmed $350-365M FY26 revenue, insiders bought at $29-31, analyst consensus Strong Buy PT $68.86 (67% upside), squeeze potential with 23.3% short float",
-      "catalyst": "Dual July 1 launches: BYOOVIZ biosimilar (Lucentis) into $9B retinal market + IOPIDINE J-Code (J2374) enabling Medicare reimbursement. 4 insiders bought $469K at $29-31 in May. 23.3% short float.",
-      "catalyst_timing": "IMMEDIATE \u2014 both catalysts go live July 1 (first trading day this week)",
-      "convergence_count": 2,
-      "current_price": 41.16,
-      "expected_magnitude": 0.12,
-      "expected_value": 0.042,
-      "market_cap": 1534243291.0,
-      "pop_probability": 0.35,
-      "priced_in_judgment": "partially \u2014 dates known but execution/uptake data could surprise upside",
-      "researched_at": "2026-06-30",
-      "score": 0.3166,
-      "sector": "Health Technology / Pharmaceuticals (Ophthalmology)",
-      "signals": {
-        "insider_cluster": 1.0,
-        "short_squeeze": 0.465
-      },
-      "symbol": "HROW"
+    "convergence_count": 3,
+    "score": 0.39495969067090997,
+    "researched_at": "2026-06-30T09:15:00Z",
+    "sector": "Technology Services",
+    "market_cap": 1539761798
+  },
+  {
+    "symbol": "VITL",
+    "catalyst": "Insider buying cluster + short squeeze setup (>20% short float) on profitable consumer staples stock at 10.8x PE",
+    "catalyst_timing": "No specific date catalyst \u2014 thesis builds over the week as short covering accelerates",
+    "bull_case": "Vital Farms (pasture-raised eggs/dairy) is one of the few names in this scan that is actually profitable (PE 10.8x), trading at 79% below its 52-week high ($53.13) \u2014 an extreme dislocation. Insiders are buying, suggesting management sees near-term recovery. Short float >20% provides squeeze fuel. Consumer staples demand is durable regardless of macro. The June 18 volume spike (8.8M = 4.4x normal) shows a big move was already triggered \u2014 another catalyst could ignite again.",
+    "bear_case": "Down 79% from high suggests a fundamental problem (likely bird flu supply chain disruption). If the underlying issue (egg supply normalization) is still ongoing, insiders could be wrong about timing. Market cap $485M limits institutional FOMO.",
+    "priced_in_judgment": "Only partially priced in \u2014 insiders buying at current levels suggests they see the current price as materially below fair value. Short squeeze hasn't fired yet.",
+    "pop_probability": 0.35,
+    "expected_magnitude": 0.11,
+    "expected_value": 0.0385,
+    "current_price": 11.3,
+    "signals": {
+      "insider_cluster": 1.0,
+      "short_squeeze": 0.6506000000000001
     },
-    {
-      "bear_case": "Securities fraud class action, Wells Fargo $9 PT (below current), EBITDA down 20% YoY, CEO departed Dec 2025, S&P downgrade to BB, industry overcapacity",
-      "bull_case": "Directors buying at 52-week lows, Q1 beat, 4.7% dividend yield, Waco mill ramping, price increases sticking, new chairman",
-      "catalyst": "Two directors bought $354K at ~$11 in May. Class action lead plaintiff deadline July 6. Q1 beat ($0.09 vs $0.06). $60/ton price increase announced June 8.",
-      "catalyst_timing": "Class action deadline July 6 (next Monday). Next earnings late July.",
-      "convergence_count": 2,
-      "current_price": 10.66,
-      "expected_magnitude": 0.08,
-      "expected_value": 0.012,
-      "market_cap": 3152680207.0,
-      "pop_probability": 0.15,
-      "priced_in_judgment": "mostly \u2014 near lows, class action known, recovery priced at discount",
-      "researched_at": "2026-06-30",
-      "score": 0.3003,
-      "sector": "Process Industries / Containers/Packaging",
-      "signals": {
-        "insider_cluster": 0.5,
-        "smart_money": 1.0
-      },
-      "symbol": "GPK"
+    "convergence_count": 2,
+    "score": 0.35844799660704213,
+    "researched_at": "2026-06-30T09:15:00Z",
+    "sector": "Process Industries",
+    "market_cap": 484616535
+  },
+  {
+    "symbol": "KMX",
+    "catalyst": "Earnings beat (Q1 FY2027) + insider buying cluster \u2014 CarMax beat analyst estimates, stock ran +13% on Jun 18 but insiders continue to accumulate",
+    "catalyst_timing": "Earnings catalyst already fired (Jun 18). Now riding post-earnings momentum window (typically 2-3 weeks of sustained buying after a strong beat)",
+    "bull_case": "CarMax beat earnings and the stock validated the insider signal. Post-earnings drift is a well-documented phenomenon \u2014 stocks that beat significantly continue to outperform for 3-4 weeks. Insiders were positioned before the beat, suggesting they see more than one quarter of upside. PE 34.7x is reasonable for a market leader recovering from $30.26 lows.",
+    "bear_case": "Earnings catalyst already reflected in price \u2014 stock ran from $47.43 to $53.66 on earnings day. Post-earnings drift could be exhausted. $7.5B market cap means it needs large capital flows to move. No specific catalyst for next week.",
+    "priced_in_judgment": "Mostly priced in \u2014 earnings beat is now public knowledge. Insider signal adds credibility but the initial move has been made.",
+    "pop_probability": 0.28,
+    "expected_magnitude": 0.08,
+    "expected_value": 0.0224,
+    "current_price": 53.15,
+    "signals": {
+      "insider_cluster": 1.0,
+      "earnings_beat": 1.0
     },
-    {
-      "bear_case": "Deeply unprofitable ($70M net loss), two securities investigations, shorts aggressively adding (+1237% YoY), hostile rate environment, CEO rep risk",
-      "bull_case": "CEO buying near lows, 89% loan volume growth, analyst Buy ratings with 32-59% upside, short squeeze potential",
-      "catalyst": "CEO + director bought at $24-25, 22-33% short float, 3 fresh analyst Buy initiations ($35-42 PTs). No specific catalyst this week.",
-      "catalyst_timing": "Stale \u2014 buys 2-3 weeks old. Next earnings ~July 22. Holiday week.",
-      "convergence_count": 2,
-      "current_price": 26.53,
-      "expected_magnitude": 0.06,
-      "expected_value": 0.007,
-      "market_cap": 400894113.0,
-      "pop_probability": 0.12,
-      "priced_in_judgment": "yes \u2014 insider buys and initiations already reflected in $26 stabilization",
-      "researched_at": "2026-06-30",
-      "score": 0.3474,
-      "sector": "Finance / Mortgage Lending",
-      "signals": {
-        "insider_cluster": 1.0,
-        "short_squeeze": 0.653
-      },
-      "symbol": "BETR"
+    "convergence_count": 2,
+    "score": 0.35487318443618715,
+    "researched_at": "2026-06-30T09:15:00Z",
+    "sector": "Retail Trade",
+    "market_cap": 7542574036
+  },
+  {
+    "symbol": "BETR",
+    "catalyst": "Insider buying cluster + short squeeze (>20% short float) with June 26 volume spike (3.4x) \u2014 Better Home & Finance online mortgage platform",
+    "catalyst_timing": "No specific date \u2014 squeeze dynamic builds over the week if momentum continues",
+    "bull_case": "Better Home & Finance (online mortgage platform) has a >20% short float and insiders buying at lows. The June 26 volume spike (1.0M vs 290K baseline = 3.4x) is notable accumulation. Short squeeze potential is high with such a thin float (7.5M shares). If mortgage rates ease, the sector could get a quick re-rating.",
+    "bear_case": "Extremely wide pre-market spread (bid $24, ask $33.65) = illiquid and dangerous for execution. PE -2.26 = money-losing mortgage lender in a high-rate environment. 52-week high $94.06 = stock has already been crushed. $15M float makes it a meme stock risk \u2014 can reverse violently.",
+    "priced_in_judgment": "Not fully priced in \u2014 June 26 spike just started accumulation. But illiquidity makes entry and exit very risky with real capital.",
+    "pop_probability": 0.28,
+    "expected_magnitude": 0.13,
+    "expected_value": 0.0364,
+    "current_price": 26.58,
+    "signals": {
+      "insider_cluster": 1.0,
+      "short_squeeze": 0.6534
     },
-    {
-      "bear_case": "Barely profitable (EBITDA $0-10M guidance), egg price crash -42% YoY, ERP system disaster, class action lawsuit, multiple analyst downgrades, already bounced 42% from lows",
-      "bull_case": "10-insider cluster is exceptional signal, 0.6x sales at $11, analyst consensus PT $27 (139% upside), short squeeze potential (32.5% short, 5.4 days to cover)",
-      "catalyst": "10 insiders bought $440K+ at $8-9 in May (strongest cluster in screen) + 32.5% short float. No discrete event this week.",
-      "catalyst_timing": "None this week. Insider buys 6 weeks old. Q2 earnings Aug 6. Holiday week.",
-      "convergence_count": 2,
-      "current_price": 11.31,
-      "expected_magnitude": 0.12,
-      "expected_value": 0.022,
-      "market_cap": 484616535.0,
-      "pop_probability": 0.18,
-      "priced_in_judgment": "partially \u2014 42% bounce captured some value, still 79% below high",
-      "researched_at": "2026-06-30",
-      "score": 0.3584,
-      "sector": "Process Industries / Premium Branded Eggs",
-      "signals": {
-        "insider_cluster": 1.0,
-        "short_squeeze": 0.651
-      },
-      "symbol": "VITL"
+    "convergence_count": 2,
+    "score": 0.34737734267934434,
+    "researched_at": "2026-06-30T09:15:00Z",
+    "sector": "Finance",
+    "market_cap": 400894113
+  },
+  {
+    "symbol": "HROW",
+    "catalyst": "Insider buying cluster + short squeeze on pharma compounding company with near-term ophthalmic drug launch catalysts",
+    "catalyst_timing": "Catalysts expected Q3 2026 \u2014 FDA actions and new product launches in ophthalmic formulations",
+    "bull_case": "Harrow (pharma compounding, ophthalmic focus) has been running since June 10 ($33.46 \u2192 $41.15 = +23%) driven by insider buying + short squeeze dynamics. A prior scan identified this as a winner for July 1 catalysts. The continued insider accumulation suggests management sees near-term catalysts ahead. Short squeeze fuel remains with >20% short float. Ophthalmic compounding is a defensible niche market.",
+    "bear_case": "Already ran +23% from lows \u2014 the easy money may be made. PE -100.7 = heavily unprofitable. If the July 1 catalyst from the prior scan doesn't materialize, the squeeze could unwind.",
+    "priced_in_judgment": "Partially \u2014 the run from $33.46 to $41.15 is the market recognizing something. But if there's a true pipeline catalyst, significant further upside remains.",
+    "pop_probability": 0.32,
+    "expected_magnitude": 0.12,
+    "expected_value": 0.0384,
+    "current_price": 41.15,
+    "signals": {
+      "insider_cluster": 1.0,
+      "short_squeeze": 0.46520000000000006
     },
-    {
-      "bear_case": "3 weeks old IPO, clinical stage (Phase 1/2), $2.3B valuation for early data (5 evaluable patients), 13D is IPO mechanics not activist",
-      "bull_case": "$770M cash, Regeneron $2.32B deal, FDA Orphan+Fast Track for desmoid tumors, novel undruggable platform",
-      "catalyst": "Largest biotech IPO ever ($670M, Jun 9). 13D from RA Capital (23.8%) is pre-IPO preferred conversion. $2.32B Regeneron deal.",
-      "catalyst_timing": "None this week. In IPO quiet period. Phase 3 H1 2027. Lock-up Dec 2026.",
-      "convergence_count": 2,
-      "current_price": 29.44,
-      "expected_magnitude": 0.08,
-      "expected_value": 0.01,
-      "market_cap": 3478211763.0,
-      "pop_probability": 0.12,
-      "priced_in_judgment": "yes \u2014 IPO pop and Regeneron deal fully reflected",
-      "researched_at": "2026-06-30",
-      "score": 0.297,
-      "sector": "Health Technology / Pharmaceuticals",
-      "signals": {
-        "activist_13d": 1.0,
-        "insider_cluster": 0.5
-      },
-      "symbol": "PBLS"
+    "convergence_count": 2,
+    "score": 0.31658542943807505,
+    "researched_at": "2026-06-30T09:15:00Z",
+    "sector": "Health Technology",
+    "market_cap": 1534243291
+  },
+  {
+    "symbol": "GPK",
+    "catalyst": "Insider buying cluster + smart money holding on below-book-value packaging company with July 7 dividend payment",
+    "catalyst_timing": "Dividend payment on July 7 (exactly next Monday entry date) provides income buyer support",
+    "bull_case": "Graphic Packaging trades below book value (PB 0.97) with an 11.6x PE and 4.1% dividend yield. Insider buying + smart money agreement that this is undervalued. Dividend payable July 7 means income buyers will be accumulating this week. $3.2B stable packaging business trading at 55% below its $23.76 52-week high.",
+    "bear_case": "Down 55% from high suggests structural headwinds in paper packaging (plastic alternatives, volume declines). $3.2B market cap requires large capital flows to move meaningfully in one week. Low beta = boring trade.",
+    "priced_in_judgment": "Insiders and smart money are accumulating but there's no near-term catalyst beyond the dividend and valuation support. Most of the thesis is already in the price.",
+    "pop_probability": 0.25,
+    "expected_magnitude": 0.08,
+    "expected_value": 0.02,
+    "current_price": 10.65,
+    "signals": {
+      "insider_cluster": 0.5,
+      "smart_money": 1.0
     },
-    {
-      "bear_case": "Founder sold $8.8M+ (dwarfs $250K buying), removed from S&P index (forced selling), AI disruption fears, 55% decline from high, 45x PE expensive for insurance",
-      "bull_case": "85% Q1 EPS beat, 23% revenue growth, 57% EBITDA growth, Digital Agent AI 'Lily' resolving 19% of calls, analyst consensus PT $72-83 (50-73% upside)",
-      "catalyst": "5 insiders bought $250K at $35-38 in May-Jun, but founder sold $8.8M+ same period. Q1 85% EPS beat. New CTO for AI roadmap.",
-      "catalyst_timing": "None this week. Next earnings July 22. Holiday week.",
-      "convergence_count": 2,
-      "current_price": 48.04,
-      "expected_magnitude": 0.08,
-      "expected_value": 0.012,
-      "market_cap": 1710496051.0,
-      "pop_probability": 0.15,
-      "priced_in_judgment": "partially \u2014 Q1 beat reflected in 25% bounce, but still 55% below high",
-      "researched_at": "2026-06-30",
-      "score": 0.2847,
-      "sector": "Finance / Insurance Brokers",
-      "signals": {
-        "insider_cluster": 1.0,
-        "smart_money": 0.333
-      },
-      "symbol": "GSHD"
+    "convergence_count": 2,
+    "score": 0.3003435902678168,
+    "researched_at": "2026-06-30T09:15:00Z",
+    "sector": "Process Industries",
+    "market_cap": 3152680207
+  },
+  {
+    "symbol": "GSHD",
+    "catalyst": "Insider buying cluster + smart money interest in insurance disruptor with strong momentum run (+42% from May 28 lows)",
+    "catalyst_timing": "No specific near-term catalyst \u2014 riding momentum from May 28 lows",
+    "bull_case": "Goosehead Insurance has broken out +42% from its $33.68 low (May 28) to $47.98 in ~30 days. Insiders and smart money both present. Independent insurance brokers benefit from market disruption in personal lines. Volume trending up: Jun 18 (1.3M), Jun 22 (801K), Jun 26 (1.0M). PE 41.8x reflects growth expectations.",
+    "bear_case": "Already ran +42% in 30 days \u2014 momentum could be exhausted. PE 41.8x is expensive for an insurance broker. 52-week high is $106.84 so there's theoretical upside but near-term momentum may be crowded.",
+    "priced_in_judgment": "Partially: the momentum run suggests the market is waking up, but the $47.98 price is still 55% below the 52-week high.",
+    "pop_probability": 0.3,
+    "expected_magnitude": 0.1,
+    "expected_value": 0.03,
+    "current_price": 47.98,
+    "signals": {
+      "insider_cluster": 1.0,
+      "smart_money": 0.3333333333333333
     },
-    {
-      "bear_case": "Post-bankruptcy (emerged June 2025), $468M debt on $163M mcap, CEO vacancy since March 31, core subscription revenue declining, dilutive equity from restructuring, holiday week",
-      "bull_case": "5 insiders buying conviction, activist pressure for operational changes, GLP-1 clinical revenue +32% and subscribers +46% YoY (197K), potential CEO announcement catalyst, short squeeze setup",
-      "catalyst": "5 insiders bought 62,000+ shares at $9.55-$14.78 in May. Galloway Capital 8.42% activist stake (13D May 13). 21.1% short float. GLP-1 clinical pivot.",
-      "catalyst_timing": "No specific catalyst this week. CEO search ongoing. Next earnings Aug 10.",
-      "convergence_count": 2,
-      "current_price": 13.45,
-      "expected_magnitude": 0.1,
-      "expected_value": 0.04,
-      "market_cap": 163179765.0,
-      "pop_probability": 0.4,
-      "priced_in_judgment": "partially \u2014 insider buys reflected in $13-14 stabilization but GLP-1 pivot not fully valued",
-      "researched_at": "2026-06-30",
-      "score": 0.2453,
-      "sector": "Consumer Services / Weight Management",
-      "signals": {
-        "insider_cluster": 1.0,
-        "short_squeeze": 0.423
-      },
-      "symbol": "WW"
-    }
-  ]
-}
+    "convergence_count": 2,
+    "score": 0.28470223294109315,
+    "researched_at": "2026-06-30T09:15:00Z",
+    "sector": "Finance",
+    "market_cap": 1710496051
+  },
+  {
+    "symbol": "WW",
+    "catalyst": "Insider buying cluster + short squeeze (>20% short float) on Weight Watchers turnaround candidate",
+    "catalyst_timing": "No specific date catalyst \u2014 squeeze builds if momentum continues",
+    "bull_case": "WW International has a >20% short float and insiders buying at lows. The GLP-1 drug narrative could be fading, allowing WW's behavioral program to reclaim market share. PE essentially 0 suggests potential profitability recovery. Short float makes it a squeeze target.",
+    "bear_case": "Extremely illiquid: ~200K daily volume and $163M market cap. Very wide spreads. The GLP-1 (Ozempic/Wegovy) narrative has crushed WW \u2014 insiders may be too early. Very difficult to exit quickly with real capital.",
+    "priced_in_judgment": "Not fully priced in from a short squeeze perspective, but fundamental thesis is very weak.",
+    "pop_probability": 0.2,
+    "expected_magnitude": 0.12,
+    "expected_value": 0.024,
+    "current_price": 16.4,
+    "signals": {
+      "insider_cluster": 1.0,
+      "short_squeeze": 0.4228
+    },
+    "convergence_count": 2,
+    "score": 0.24525603770674578,
+    "researched_at": "2026-06-30T09:15:00Z",
+    "sector": "Consumer Services",
+    "market_cap": 163179764
+  }
+]
