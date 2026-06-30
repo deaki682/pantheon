@@ -38,14 +38,14 @@ or dossier score freshness.
    - `oracle.cohort.create_cohort(cohort_id, selected_dossiers, prices, inception_date=today, review_date=today+365)` → save to `cache/oracle_cohort.json`
    - Tag each sleeve position with `pos.cohort_id = cohort.cohort_id`
 
-   **B. Active cohort, not at review date:** Check thesis-breaks only.
+   **B. Active cohort, not at review date:** Check thesis-breaks, then top up.
    - For each symbol in `cohort.active_symbols()`:
      - Fetch current price
      - `oracle.cohort.check_thesis_break(sym, cohort, current_price=px, dossier=d)` — also pass `insider_reversal`, `fraud_flag`, `going_concern_flag`, `thesis_exhausted` if detected during research
      - If thesis-break returned: `oracle.cohort.record_exit(cohort, sym, exit_price=px, exit_date=today, exit_reason=reason)`; remove from `cohort_holds`
    - `cohort_holds = set(cohort.active_symbols())`
-   - `oracle.execution.plan_orders(sleeve, targets={}, prices, cohort_holds=cohort_holds)` → only thesis-break exits generate sell orders; no buys
-   - No mid-cohort replacements — freed slots stay as cash until next cohort
+   - **Top up idle cash.** If `sleeve.cash > CASH_FLOOR * sleeve.equity(marks) + MIN_TICKET`, there's deployable excess cash (e.g. from a capital injection). Recompute equal-weight targets across the active cohort positions using the current equity, then run `oracle.execution.plan_orders(sleeve, targets, prices, cohort_holds=cohort_holds)` → generates buy orders to bring underweight positions up to target. No new names — only existing cohort symbols get topped up. No mid-cohort replacements — freed thesis-break slots stay as cash.
+   - If no excess cash: `oracle.execution.plan_orders(sleeve, targets={}, prices, cohort_holds=cohort_holds)` → only thesis-break exits generate sell orders
 
    **C. Active cohort at review date** (`oracle.cohort.should_review(cohort, today)`):
    - `oracle.cohort.grade_cohort(cohort, final_prices)` → grade all 8 calls

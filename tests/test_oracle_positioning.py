@@ -7,6 +7,7 @@ from oracle.positioning import (
     potential_to_conviction,
     rotation_decision,
     size_book,
+    topup_targets,
 )
 
 
@@ -236,6 +237,26 @@ def test_size_book_none_tier_excluded():
     targets = size_book(scored, equity=10_000.0)
     assert "OK" in targets
     assert "NO" not in targets
+
+
+def test_topup_targets_equal_weight():
+    targets = topup_targets(["A", "B", "C", "D", "E", "F", "G", "H"], equity=2000.0)
+    assert len(targets) == 8
+    per_name = 2000.0 * 0.9 / 8  # $225 each, under 25% cap
+    assert all(v == pytest.approx(per_name) for v in targets.values())
+
+
+def test_topup_targets_respects_per_name_cap():
+    targets = topup_targets(["A"], equity=2000.0)
+    assert targets["A"] <= 500.0 + 1e-6
+
+
+def test_topup_targets_empty():
+    assert topup_targets([], equity=2000.0) == {}
+
+
+def test_topup_targets_zero_equity():
+    assert topup_targets(["A"], equity=0) == {}
 
 
 def test_rotation_decision_below_margin():
