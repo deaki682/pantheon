@@ -385,5 +385,40 @@
       "reason": "cohort day 0, no common dates yet"
     },
     "allocation": 1000.0
+  },
+  {
+    "ts": "2026-06-30T06:18:11.961359Z",
+    "date": "2026-06-30",
+    "equity": 1999.3665,
+    "cash": 1099.55,
+    "n_positions": 5,
+    "positions": {
+      "CXT": {
+        "shares": 3.714865,
+        "price": 49.14
+      },
+      "HDSN": {
+        "shares": 32.200357,
+        "price": 5.48
+      },
+      "J": {
+        "shares": 1.42387,
+        "price": 123.81
+      },
+      "PSN": {
+        "shares": 3.557815,
+        "price": 51.32
+      },
+      "VITL": {
+        "shares": 16.100322,
+        "price": 11.3
+      }
+    },
+    "note": "oracle cycle: cohort-2026-06-29 held. no thesis-breaks. no trades. attribution skipped (<7 common dates).",
+    "attribution": {
+      "skipped": true,
+      "reason": "1 common dates, need 7"
+    },
+    "allocation": 1000.0
   }
 ]
