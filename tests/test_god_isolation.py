@@ -335,9 +335,9 @@ class TestMultiDaySimulation:
             if oid:
                 append_order(ledger_path, OrderRecord(oid, o["symbol"], o["side"], o["dollars"], today))
 
-    def _run_delphi_day(self, sleeve, picks_by_sector, prices, today, ledger_path):
+    def _run_delphi_day(self, sleeve, picks, prices, today, ledger_path):
         """Simulate one Delphi pass."""
-        targets = build_targets(picks_by_sector, sleeve.equity(prices), risk_budget=1.0)
+        targets = build_targets(picks, sleeve.equity(prices), risk_budget=1.0)
         orders = delphi_plan_orders(sleeve, targets, prices)
         for o in orders:
             oid = _exec_order(sleeve, o, prices, today)
@@ -392,11 +392,12 @@ class TestMultiDaySimulation:
         # Oracle targets: buy AAPL and MSFT equally across the week
         oracle_targets = {"AAPL": 200.0, "MSFT": 300.0, "GOOG": 150.0}
 
-        # Delphi picks: sector rotation
-        delphi_picks = {
-            "tech": [{"symbol": "AAPL", "score": 0.7}, {"symbol": "MSFT", "score": 0.5}],
-            "finance": [{"symbol": "JPM", "score": 0.6}],
-        }
+        # Delphi picks: momentum ranked
+        delphi_picks = [
+            {"symbol": "AAPL"},
+            {"symbol": "MSFT"},
+            {"symbol": "JPM"},
+        ]
 
         # Achilles events: staggered across days
         achilles_events = [

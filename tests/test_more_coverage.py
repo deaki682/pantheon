@@ -7,8 +7,8 @@ from achilles.quotes import normalize_quotes
 from achilles.scoring import has_disqualifier
 from achilles.sleeve import AchillesPosition, AchillesSleeve
 from delphi.execution import build_targets
-from delphi.signals import composite_score, momentum, score_sectors
-from delphi.sleeve import PICK_BLOCKLIST, DelphiSleeve, is_blocked
+from delphi.signals import momentum
+from delphi.sleeve import DelphiSleeve
 from oracle.journal import JournalEntry, append, grade, read
 from oracle.learning import calibration_stats, conviction_tier
 from oracle.positioning import compute_derived, potential_to_conviction, size_book
@@ -154,38 +154,17 @@ def test_oracle_sleeve_persistence_keeps_peak():
 
 # --- Delphi ---
 
-def test_delphi_blocklist_includes_qqq():
-    assert is_blocked("QQQ")
-
-
-def test_delphi_sleeve_blocks_blockedlist_via_buy():
-    s = DelphiSleeve(initial_cash=1000)
-    assert s.buy("QQQ", 1, 100, "2024-05-29") is False
-
-
 def test_delphi_momentum_zero_lookback():
     assert momentum([100, 110], 0) == 0.0
 
 
-def test_delphi_score_sectors_only_canonical():
-    out = score_sectors({"XLK": [100] * 127, "ZZZ": [100] * 127}, [100] * 127)
-    assert "technology" in out
-    assert len(out) == 1
+def test_delphi_build_targets_empty():
+    assert build_targets([], equity=10_000, risk_budget=1.0) == {}
 
 
-def test_delphi_build_targets_empty_sectors():
-    assert build_targets({}, equity=10_000, risk_budget=1.0) == {}
-
-
-def test_delphi_composite_with_outperformance():
-    sec = [100.0] * 127
-    sec[-1] = 110
-    sec[-64] = 100
-    spy = [100.0] * 127
-    spy[-1] = 100  # SPY flat
-    spy[-64] = 100
-    out = composite_score(sec, spy)
-    assert out > 0
+def test_delphi_can_buy_any_stock():
+    s = DelphiSleeve(initial_cash=1000)
+    assert s.buy("AAPL", 1, 100, "2024-05-29") is True
 
 
 # --- Achilles ---
