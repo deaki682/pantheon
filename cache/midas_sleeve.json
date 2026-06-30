@@ -1,14 +1,14 @@
 {
-  "cash": 2000.0,
-  "contributed_cash": 2000.0,
-  "cooldowns": {},
-  "gfv_count": 0,
-  "halted": false,
   "name": "midas",
-  "peak_equity": 2000.0,
-  "pending_settlements": [],
+  "cash": 2000.0,
   "position": null,
+  "peak_equity": 2000.0,
   "realized_pnl": 0.0,
   "trades_count": 0,
+  "halted": false,
+  "contributed_cash": 2000.0,
+  "pending_settlements": [],
+  "gfv_count": 0,
+  "cooldowns": {},
   "weekly_results": []
 }
