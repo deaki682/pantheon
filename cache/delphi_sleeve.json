@@ -1,95 +1,110 @@
 {
-  "name": "delphi",
-  "cash": 388.30169999590004,
-  "positions": {
-    "AMD": {
-      "shares": 0.30966,
-      "avg_price": 520.45,
-      "entry_date": "2026-06-29",
-      "sector": "technology",
-      "cohort_id": ""
-    },
-    "CAT": {
-      "shares": 0.17586,
-      "avg_price": 1002.52,
-      "entry_date": "2026-06-29",
-      "sector": "industrials",
-      "cohort_id": ""
-    },
-    "GE": {
-      "shares": 0.43216,
-      "avg_price": 370.8517678637541,
-      "entry_date": "2026-06-29",
-      "sector": "industrials",
-      "cohort_id": ""
-    },
-    "PSA": {
-      "shares": 0.42448,
-      "avg_price": 324.39,
-      "entry_date": "2026-06-29",
-      "sector": "real_estate",
-      "cohort_id": ""
-    },
-    "SPG": {
-      "shares": 0.71845,
-      "avg_price": 225.9,
-      "entry_date": "2026-06-29",
-      "sector": "real_estate",
-      "cohort_id": ""
-    },
-    "MU": {
-      "shares": 0.17984,
-      "avg_price": 1156.1387900355871,
-      "entry_date": "2026-06-30",
-      "sector": "technology",
-      "cohort_id": ""
-    },
-    "INTC": {
-      "shares": 0.96464,
-      "avg_price": 132.64015591308674,
-      "entry_date": "2026-06-30",
-      "sector": "technology",
-      "cohort_id": ""
-    },
-    "AMAT": {
-      "shares": 0.22341,
-      "avg_price": 715.9034958148695,
-      "entry_date": "2026-06-30",
-      "sector": "technology",
-      "cohort_id": ""
-    },
-    "UNH": {
-      "shares": 0.381,
-      "avg_price": 419.79002624671915,
-      "entry_date": "2026-06-30",
-      "sector": "healthcare",
-      "cohort_id": ""
-    },
-    "LLY": {
-      "shares": 0.13049,
-      "avg_price": 1225.6877921679823,
-      "entry_date": "2026-06-30",
-      "sector": "healthcare",
-      "cohort_id": ""
-    }
-  },
-  "pending_settlements": [
-    {
-      "settle_date": "2026-07-01",
-      "amount": 71.0707684392
-    },
-    {
-      "settle_date": "2026-07-01",
-      "amount": 40.47975
-    }
-  ],
-  "realized_pnl": 2.584768239199997,
-  "gfv_count": 0,
-  "trades_count": 15,
+  "cash": 373.5131834932499,
+  "contributed_cash": 2000.0,
+  "cooldown_days": 7,
   "cooldowns": {
+    "MU": "2026-07-07",
+    "PSA": "2026-07-07",
+    "SPG": "2026-07-07",
     "TXN": "2026-07-07"
   },
+  "gfv_count": 1,
   "halted": false,
-  "contributed_cash": 2000.0,
-  "cooldown_days": 7
+  "name": "delphi",
+  "pending_settlements": [
+    {
+      "amount": 71.0707684392,
+      "settle_date": "2026-07-01"
+    },
+    {
+      "amount": 40.47975,
+      "settle_date": "2026-07-01"
+    },
+    {
+      "amount": 137.65367473199998,
+      "settle_date": "2026-07-01"
+    },
+    {
+      "amount": 163.40873675900002,
+      "settle_date": "2026-07-01"
+    },
+    {
+      "amount": 43.806141972,
+      "settle_date": "2026-07-01"
+    }
+  ],
+  "positions": {
+    "AMAT": {
+      "avg_price": 715.9034958148695,
+      "cohort_id": "",
+      "entry_date": "2026-06-30",
+      "sector": "technology",
+      "shares": 0.22341
+    },
+    "AMD": {
+      "avg_price": 520.45,
+      "cohort_id": "",
+      "entry_date": "2026-06-29",
+      "sector": "technology",
+      "shares": 0.30966
+    },
+    "C": {
+      "avg_price": 140.8,
+      "cohort_id": "",
+      "entry_date": "2026-06-30",
+      "sector": "",
+      "shares": 1.15184
+    },
+    "CAT": {
+      "avg_price": 1002.52,
+      "cohort_id": "",
+      "entry_date": "2026-06-29",
+      "sector": "industrials",
+      "shares": 0.17586
+    },
+    "CVS": {
+      "avg_price": 103.31,
+      "cohort_id": "",
+      "entry_date": "2026-06-30",
+      "sector": "",
+      "shares": 1.56983
+    },
+    "GE": {
+      "avg_price": 370.8517678637541,
+      "cohort_id": "",
+      "entry_date": "2026-06-29",
+      "sector": "industrials",
+      "shares": 0.43216
+    },
+    "INTC": {
+      "avg_price": 132.43654836351823,
+      "cohort_id": "",
+      "entry_date": "2026-06-30",
+      "sector": "technology",
+      "shares": 1.2313
+    },
+    "LLY": {
+      "avg_price": 1225.6877921679823,
+      "cohort_id": "",
+      "entry_date": "2026-06-30",
+      "sector": "healthcare",
+      "shares": 0.13049
+    },
+    "MU": {
+      "avg_price": 1156.1387900355871,
+      "cohort_id": "",
+      "entry_date": "2026-06-30",
+      "sector": "technology",
+      "shares": 0.14132
+    },
+    "UNH": {
+      "avg_price": 419.79002624671915,
+      "cohort_id": "",
+      "entry_date": "2026-06-30",
+      "sector": "healthcare",
+      "shares": 0.381
+    }
+  },
+  "realized_pnl": 2.9239333100291773,
+  "trades_count": 21
 }
