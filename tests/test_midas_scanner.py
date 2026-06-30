@@ -264,7 +264,7 @@ class TestStage2Rank:
     def test_ranks_by_score(self):
         candidates = [
             ScanCandidate("A", market_cap=1e9, signals={"insider_cluster": 1.0}, quality_value=0.5),
-            ScanCandidate("B", market_cap=1e9, signals={"insider_cluster": 1.0, "activist_13d": 1.0}, quality_value=0.5),
+            ScanCandidate("B", market_cap=1e9, signals={"insider_cluster": 1.0, "earnings_beat": 1.0}, quality_value=0.5),
         ]
         ranked = stage2_rank(candidates, top_n=10)
         assert ranked[0]["symbol"] == "B"

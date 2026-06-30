@@ -60,6 +60,7 @@ TIMING_WEIGHTS = {
 }
 
 QUALITY_VALUE_FLOOR = 0.3
+CONVERGENCE_TIMING_FLOOR = 0.4
 
 MIN_MARKET_CAP = 50_000_000
 MAX_MARKET_CAP = 20_000_000_000
@@ -128,18 +129,18 @@ def score_candidate(
         return {"score": 0.0, "reason": "liquidity_filter"}
 
     active = {k: v for k, v in signals.items() if k in SIGNAL_CHANNELS and v > 0}
-    n_active = len(active)
 
-    if n_active == 0:
+    if not active:
         return {"score": 0.0, "reason": "no_signals"}
 
     # Apply timing weights: strength × timing_weight per signal.
-    # This discounts slow-resolving signals (activist, 13F) so they
-    # don't dominate the ranking for a 5-day hold window.
     weighted = {k: v * TIMING_WEIGHTS.get(k, 0.5) for k, v in active.items()}
     mean_strength = sum(weighted.values()) / len(weighted)
 
-    conv = convergence_multiplier(n_active)
+    # Signals below the timing floor still contribute to mean_strength
+    # but don't elevate the convergence multiplier tier.
+    n_convergence = sum(1 for k in active if TIMING_WEIGHTS.get(k, 0.5) >= CONVERGENCE_TIMING_FLOOR)
+    conv = convergence_multiplier(n_convergence)
     neglect = neglect_score(market_cap)
     liq = _achilles_liquidity(market_cap)
 
@@ -149,7 +150,7 @@ def score_candidate(
 
     return {
         "score": raw,
-        "convergence_count": n_active,
+        "convergence_count": n_convergence,
         "convergence_multiplier": conv,
         "active_signals": active,
         "timing_adjusted": weighted,
