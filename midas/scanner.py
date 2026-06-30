@@ -19,6 +19,7 @@ from typing import Optional
 from .scoring import (
     MIN_LISTING_DAYS,
     SIGNAL_CHANNELS,
+    STALENESS_PCT,
     liquidity_ok,
     rank_candidates,
     score_candidate,
@@ -54,11 +55,15 @@ def build_signal_map(
     activist_symbols: Optional[set] = None,
     earnings_surprise: Optional[dict] = None,
     guidance_raised: Optional[set] = None,
+    volume_anomalies: Optional[dict[str, float]] = None,
 ) -> dict[str, float]:
     """Build the signal strength map for a single symbol.
 
     Each source is optional — the scan may not have all signals available
     for every name. Missing signals are 0 (not firing).
+
+    volume_anomalies: {symbol: ratio} where ratio = recent_volume / avg_30d.
+    Strength = min(1.0, ratio / 3.0). A ratio of 3x = full strength.
     """
     signals: dict[str, float] = {}
     sym = symbol.upper()
@@ -86,6 +91,11 @@ def build_signal_map(
     if guidance_raised and sym in guidance_raised:
         signals["guidance_raised"] = 1.0
 
+    if volume_anomalies and sym in volume_anomalies:
+        ratio = volume_anomalies[sym]
+        if ratio > 1.5:
+            signals["volume_anomaly"] = min(1.0, ratio / 3.0)
+
     return signals
 
 
@@ -102,6 +112,19 @@ def _listing_too_recent(sym: str, ipo_dates: dict[str, str], today: str) -> bool
         return False
 
 
+def _signal_is_stale(
+    sym: str,
+    signal_prices: dict[str, float],
+    current_prices: dict[str, float],
+) -> bool:
+    """True if the price moved more than STALENESS_PCT since the signal fired."""
+    sig_px = signal_prices.get(sym)
+    cur_px = current_prices.get(sym)
+    if not sig_px or not cur_px or sig_px <= 0:
+        return False
+    return abs(cur_px - sig_px) / sig_px > STALENESS_PCT
+
+
 def stage1_sieve(
     universe: dict[str, str],
     *,
@@ -110,10 +133,13 @@ def stage1_sieve(
     activist_symbols: Optional[set] = None,
     earnings_surprise: Optional[dict] = None,
     guidance_raised: Optional[set] = None,
+    volume_anomalies: Optional[dict[str, float]] = None,
     quality_scores: Optional[dict] = None,
     market_caps: Optional[dict] = None,
     ipo_dates: Optional[dict[str, str]] = None,
     earnings_this_week: Optional[set[str]] = None,
+    signal_prices: Optional[dict[str, float]] = None,
+    current_prices: Optional[dict[str, float]] = None,
     today: Optional[str] = None,
 ) -> list[ScanCandidate]:
     """Stage 1: Filter universe to names with at least one active signal.
@@ -126,14 +152,20 @@ def stage1_sieve(
     signal-convergence trade into a coin flip. Names that already reported
     and beat (present in earnings_surprise with is_beat=True) are NOT in
     this set — that's a valid signal, not a pending gamble.
+
+    signal_prices / current_prices: for the freshness gate. If the price
+    has moved >15% since the signal fired, the signal is stale.
     """
     candidates = []
     market_caps = market_caps or {}
     quality_scores = quality_scores or {}
     ipo_dates = ipo_dates or {}
     pending_earnings = earnings_this_week or set()
+    signal_prices = signal_prices or {}
+    current_prices = current_prices or {}
     today = today or datetime.utcnow().strftime("%Y-%m-%d")
 
+    stale_count = 0
     for sym in universe:
         sym_upper = sym.upper()
         mcap = market_caps.get(sym_upper)
@@ -147,6 +179,10 @@ def stage1_sieve(
         if sym_upper in pending_earnings:
             continue
 
+        if _signal_is_stale(sym_upper, signal_prices, current_prices):
+            stale_count += 1
+            continue
+
         signals = build_signal_map(
             sym_upper,
             insider_clusters=insider_clusters,
@@ -154,6 +190,7 @@ def stage1_sieve(
             activist_symbols=activist_symbols,
             earnings_surprise=earnings_surprise,
             guidance_raised=guidance_raised,
+            volume_anomalies=volume_anomalies,
         )
 
         active = {k: v for k, v in signals.items() if v > 0}
@@ -167,7 +204,10 @@ def stage1_sieve(
             quality_value=quality_scores.get(sym_upper, 0.0),
         ))
 
-    log.info("stage1_sieve: %d universe → %d with signals", len(universe), len(candidates))
+    log.info(
+        "stage1_sieve: %d universe → %d with signals (%d stale filtered)",
+        len(universe), len(candidates), stale_count,
+    )
     return candidates
 
 

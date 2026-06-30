@@ -3,6 +3,7 @@ import pytest
 from midas.scanner import (
     ScanCandidate,
     WeeklyCatalystDossier,
+    _signal_is_stale,
     build_signal_map,
     pick_winner,
     stage1_sieve,
@@ -63,6 +64,51 @@ class TestBuildSignalMap:
             earnings_surprise={"ACME": {"is_beat": False, "surprise_pct": -5.0}},
         )
         assert "earnings_beat" not in signals
+
+    def test_volume_anomaly_fires(self):
+        signals = build_signal_map(
+            "ACME",
+            volume_anomalies={"ACME": 3.0},
+        )
+        assert signals["volume_anomaly"] == pytest.approx(1.0)
+
+    def test_volume_anomaly_scaled(self):
+        signals = build_signal_map(
+            "ACME",
+            volume_anomalies={"ACME": 2.0},
+        )
+        assert signals["volume_anomaly"] == pytest.approx(2.0 / 3.0)
+
+    def test_volume_anomaly_below_threshold(self):
+        signals = build_signal_map(
+            "ACME",
+            volume_anomalies={"ACME": 1.2},
+        )
+        assert "volume_anomaly" not in signals
+
+    def test_volume_anomaly_missing_symbol(self):
+        signals = build_signal_map(
+            "ACME",
+            volume_anomalies={"OTHER": 5.0},
+        )
+        assert "volume_anomaly" not in signals
+
+
+class TestSignalStaleness:
+    def test_stale_when_price_moved_up(self):
+        assert _signal_is_stale("ACME", {"ACME": 100.0}, {"ACME": 120.0})
+
+    def test_stale_when_price_moved_down(self):
+        assert _signal_is_stale("ACME", {"ACME": 100.0}, {"ACME": 80.0})
+
+    def test_not_stale_small_move(self):
+        assert not _signal_is_stale("ACME", {"ACME": 100.0}, {"ACME": 110.0})
+
+    def test_not_stale_missing_signal_price(self):
+        assert not _signal_is_stale("ACME", {}, {"ACME": 110.0})
+
+    def test_not_stale_missing_current_price(self):
+        assert not _signal_is_stale("ACME", {"ACME": 100.0}, {})
 
 
 class TestStage1Sieve:
@@ -143,6 +189,38 @@ class TestStage1Sieve:
             earnings_this_week=set(),
         )
         assert len(candidates) == 1
+
+    def test_filters_stale_signals(self):
+        universe = {"STALE": "0001", "FRESH": "0002"}
+        candidates = stage1_sieve(
+            universe,
+            insider_clusters={
+                "STALE": {"insider_count": 3},
+                "FRESH": {"insider_count": 3},
+            },
+            signal_prices={"STALE": 100.0, "FRESH": 100.0},
+            current_prices={"STALE": 125.0, "FRESH": 105.0},
+        )
+        symbols = {c.symbol for c in candidates}
+        assert "FRESH" in symbols
+        assert "STALE" not in symbols
+
+    def test_no_signal_prices_skips_freshness(self):
+        universe = {"ACME": "0001"}
+        candidates = stage1_sieve(
+            universe,
+            insider_clusters={"ACME": {"insider_count": 2}},
+        )
+        assert len(candidates) == 1
+
+    def test_volume_anomaly_passes_through(self):
+        universe = {"VOL": "0001"}
+        candidates = stage1_sieve(
+            universe,
+            volume_anomalies={"VOL": 3.0},
+        )
+        assert len(candidates) == 1
+        assert "volume_anomaly" in candidates[0].signals
 
 
 class TestStage2Rank:

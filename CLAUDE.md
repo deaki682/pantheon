@@ -133,6 +133,7 @@ achievable only with excellent selection from a large dossier pool.
 | Smart money | `oracle.smart_money.smart_money_holders` | n_holders / 3 |
 | Activist 13D | `oracle.lenses.search_recent_13d` | 1.0 (binary) |
 | Guidance raised | `shared.edgar.guidance_direction` | 1.0 (binary) |
+| Volume anomaly | `get_equity_historicals` (30-day bars) | min(1.0, ratio / 3.0), fires at 1.5x |
 
 ### Convergence Multipliers
 

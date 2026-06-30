@@ -6,13 +6,14 @@ short-term pop increases non-linearly.
 
 score = convergence_multiplier × mean_signal_strength × neglect × liquidity
 
-Signals (6 channels):
+Signals (7 channels):
   1. insider_cluster   — 2+ insiders buying $10k+ in tight window
   2. earnings_beat     — EPS surprise via surprise_strength curve
   3. smart_money       — Berkshire/Baupost/Pershing etc. accumulated
   4. activist_13d      — fresh Schedule 13D filing
   5. guidance_raised   — forward guidance raised in 8-K
-  6. quality_value     — fundamental quality × valuation (floor, not signal)
+  6. volume_anomaly    — unusual recent volume vs 30-day average (timely)
+  7. quality_value     — fundamental quality × valuation (floor, not signal)
 """
 from __future__ import annotations
 
@@ -36,6 +37,7 @@ SIGNAL_CHANNELS = (
     "smart_money",
     "activist_13d",
     "guidance_raised",
+    "volume_anomaly",
 )
 
 QUALITY_VALUE_FLOOR = 0.3
@@ -43,6 +45,7 @@ QUALITY_VALUE_FLOOR = 0.3
 MIN_MARKET_CAP = 50_000_000
 MAX_MARKET_CAP = 20_000_000_000
 MIN_LISTING_DAYS = 90
+STALENESS_PCT = 0.15
 
 NEGLECT_ANCHORS = (
     (50_000_000, 1.0),
