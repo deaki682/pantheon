@@ -29,22 +29,33 @@ non-linearly.
 
 5. **If no position is open and it's not Monday**, skip to step 13. Midas only enters on Mondays.
 
-### Stage 1 — Quantitative Sieve (~7,000 → ~50-200)
+### Stage 1 — Weekly Pre-Scan + Sieve (~7,000 → ~50-200)
 
-6. **Load signal data.** Start from the FULL universe (`shared.edgar.fetch_company_tickers()`, ~7,000 filers), NOT Oracle's top-100 screen. Load the **raw lens caches** from Oracle's quarterly scan — these cover the entire universe, not the ranked subset:
-   - `cache/oracle_insider_clusters.json` — every insider buying cluster found across all ~7,000 filers
-   - `cache/oracle_smart_money.json` — all smart money 13F holdings (full universe coverage)
-   - `cache/oracle_activist_13d.json` — every fresh 13D filing found (full EDGAR search)
-   - Fetch this week's earnings reporters via Robinhood `get_earnings_calendar` (~50-100 names per week). Split into two sets:
-     - `earnings_this_week`: symbols with reports **not yet released** (report date is today or later this week). These are pending binary events — exclude from the sieve.
-     - Already-reported: symbols that reported in the last 5 days. Fetch `get_earnings_results` for these only. Beats become `earnings_surprise` signals; misses are ignored.
-   - For guidance raised: search EDGAR for recent 8-K filings with items 7.01/8.01, run `guidance_direction()` on each
-   - **Volume anomaly**: For candidates with at least one other signal, fetch `get_equity_historicals` (30-day daily bars). Compute `volume_anomalies = {sym: last_5d_avg_vol / 30d_avg_vol}`. Pass to sieve — ratio > 1.5x fires the signal, strength = min(1.0, ratio / 3.0). This is the most week-specific signal and naturally co-occurs with other catalysts.
-   - **Signal prices** (for freshness gate): For each symbol with an insider cluster, record the price at signal time from the cluster's `latest_date`. Fetch current prices via `get_equity_quotes`. Pass both as `signal_prices` and `current_prices` to the sieve — names where price moved >15% since the signal fired are filtered out (signal is stale / already priced in).
+6. **Weekly pre-scan.** Midas runs its OWN signal gathering — it does NOT just borrow Oracle's quarterly caches. Start from the FULL universe (`shared.edgar.fetch_company_tickers()`, ~7,000 filers).
 
-   **Key distinction:** `cache/oracle_screen.json` is Oracle's combined top-100 ranking — Midas does NOT use it. Midas starts from the raw signal data which covers the full universe, then applies its own convergence-based ranking.
+   **6a. Fresh insider data (last 14 days).** This is Midas's most important signal source. Oracle's `oracle_insider_clusters.json` is a quarterly batch — signals can be 6+ weeks stale. Instead:
+   - `oracle.lenses.search_recent_form4(date_from=14_days_ago, date_to=today)` — single EDGAR full-text search, returns {symbol: [filings]} across the entire universe in seconds.
+   - `midas.prescan.form4_fts_to_clusters(fts_results)` — converts to cluster format (counts distinct filers per symbol, keeps only 2+ filer clusters).
+   - `midas.prescan.merge_insider_clusters(oracle_cache, fresh_clusters)` — merges with Oracle's cache for breadth; fresh data takes precedence for any overlapping symbols.
 
-7. **Run sieve.** `midas.scanner.stage1_sieve(universe, insider_clusters=…, smart_money_holders=…, activist_symbols=…, earnings_surprise=…, guidance_raised=…, volume_anomalies=…, market_caps=…, ipo_dates=…, earnings_this_week=…, signal_prices=…, current_prices=…, today=today)`. Checks every symbol in the full universe against all signal sources. Filters out: names listed < 90 days (unreliable signals on new listings), names with unresolved earnings this week (binary gamble, not signal convergence), names where price already moved >15% since signal date (stale signals). To get IPO dates: batch-fetch `get_equity_fundamentals` for candidates with signals and extract the `ipo_date` field. Output: ~50-200 names with at least one active signal, sufficient trading history, no pending earnings, and fresh signals.
+   **6b. Recent earnings beats (standalone signal).** Earnings beats are a first-class entry point — a name can enter the sieve purely on an earnings beat, with no other signal needed.
+   - Fetch `get_earnings_calendar` for the **past 5 trading days** (not this coming week).
+   - For every name that already reported, fetch `get_earnings_results`. Beats become `earnings_surprise` signals.
+   - ALSO fetch this coming week's reporters → `earnings_this_week` set. These are EXCLUDED from the sieve (pending binary event, not signal convergence).
+
+   **6c. Smart money + activist 13D (Oracle cache).** These change quarterly, so Oracle's caches are fine:
+   - `cache/oracle_smart_money.json` — 13F smart money holdings
+   - `cache/oracle_activist_13d.json` — recent 13D filings
+
+   **6d. Guidance raised.** Search EDGAR for recent 8-K filings with items 7.01/8.01, run `guidance_direction()` on each.
+
+   **6e. Volume anomalies (full candidate set).** After assembling all signal sources from 6a-6d, collect every symbol that has at least one signal. Fetch `get_equity_historicals` (30-day daily bars) for ALL of them. `midas.prescan.compute_volume_anomalies(historicals)` → `{symbol: ratio}`. Pass to sieve — ratio > 1.5x fires the signal, strength = min(1.0, ratio / 3.0).
+
+   **6f. Signal prices (freshness gate).** For each symbol with an insider cluster, record the price at signal time from the cluster's `latest_date`. Fetch current prices via `get_equity_quotes`. Pass both as `signal_prices` and `current_prices` to the sieve — names where price moved >15% since the signal fired are filtered out.
+
+   **Key distinction:** `cache/oracle_screen.json` is Oracle's combined top-100 ranking — Midas does NOT use it. Midas starts from fresh signal data (augmented by Oracle's caches for breadth), then applies its own convergence-based ranking.
+
+7. **Run sieve.** `midas.scanner.stage1_sieve(universe, insider_clusters=merged_clusters, smart_money_holders=…, activist_symbols=…, earnings_surprise=…, guidance_raised=…, volume_anomalies=…, market_caps=…, ipo_dates=…, earnings_this_week=…, signal_prices=…, current_prices=…, today=today)`. Checks every symbol in the full universe against all signal sources. Filters out: names listed < 90 days, names with unresolved earnings this week, names where price already moved >15% since signal date. To get IPO dates: batch-fetch `get_equity_fundamentals` for candidates with signals and extract the `ipo_date` field. Output: ~50-200 names with at least one active signal, sufficient trading history, no pending earnings, and fresh signals.
 
 ### Stage 2 — Convergence Rank (→ top 10)
 

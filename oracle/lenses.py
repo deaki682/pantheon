@@ -250,6 +250,65 @@ def search_recent_13d(
     return out
 
 
+def search_recent_form4(
+    *,
+    date_from: str,
+    date_to: str,
+    http: Optional[HttpGet] = None,
+    max_pages: int = 50,
+) -> dict[str, list[dict]]:
+    """Search EDGAR full-text for Form 4 filings in [date_from, date_to].
+
+    Returns {symbol: [{"filer": name, "filing_date": date, "accession": acc}, ...]}.
+    Much faster than per-symbol fan-out for a 7-14 day window.
+    Grouped by issuer ticker so the caller can feed into cluster_signal().
+    """
+    get = http or _default_http
+    by_symbol: dict[str, list[dict]] = {}
+    seen: set[str] = set()
+    for page in range(max_pages):
+        params = {
+            "forms": "4",
+            "startdt": date_from,
+            "enddt": date_to,
+        }
+        if page > 0:
+            params["from"] = str(page * 10)
+        try:
+            raw = get(SEARCH_URL, params=params)
+            payload = json.loads(raw)
+        except Exception as exc:
+            log.warning("Form 4 search page %d failed: %s", page, exc)
+            break
+        hits = payload.get("hits", {}).get("hits", [])
+        if not hits:
+            break
+        for h in hits:
+            source = h.get("_source", {}) or {}
+            form = (source.get("form") or "").strip()
+            if form != "4":
+                continue
+            acc = source.get("adsh", "") or h.get("_id", "")
+            if not acc or acc in seen:
+                continue
+            seen.add(acc)
+            symbol = _ticker_from_display_names(source.get("display_names", []))
+            if not symbol:
+                continue
+            filer_names = source.get("display_names", [])
+            filer = filer_names[1] if len(filer_names) > 1 else ""
+            by_symbol.setdefault(symbol, []).append({
+                "filer": filer,
+                "filing_date": source.get("file_date", "") or source.get("filing_date", ""),
+                "accession": acc,
+            })
+    log.info(
+        "search_recent_form4: %d filings across %d symbols (%s to %s)",
+        len(seen), len(by_symbol), date_from, date_to,
+    )
+    return by_symbol
+
+
 # ------- Lens 4: Broad quality screen -------
 
 def fetch_quality_snapshot_for_symbol(
