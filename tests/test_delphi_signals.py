@@ -1,6 +1,10 @@
 import pytest
 
-from delphi.signals import UNIVERSE, momentum, moving_average, rank_by_momentum
+from delphi.signals import (
+    UNIVERSE, momentum, moving_average, rank_by_momentum,
+    exit_candidates, enrich_with_signals, breadth,
+)
+from shared.base_sleeve import BaseSleeve
 
 
 def test_universe_has_stocks():
@@ -54,3 +58,84 @@ def test_rank_by_momentum_sorted_descending():
     ranked = rank_by_momentum({"A": prices_a, "B": prices_b}, lookback=65, ma_period=20)
     assert ranked[0]["symbol"] == "B"
     assert ranked[1]["symbol"] == "A"
+
+
+# ---- exit_candidates ----
+
+def test_exit_candidates_flags_below_ma():
+    s = BaseSleeve("x", initial_cash=10_000)
+    s.buy("AAPL", 1.0, 150.0, "2024-05-29")
+    prices = {"AAPL": 95.0}
+    hist = {"AAPL": [100.0] * 25}
+    cands = exit_candidates(s.positions, prices, hist, ma_period=20)
+    assert len(cands) == 1
+    assert cands[0]["symbol"] == "AAPL"
+    assert cands[0]["pct_below_ma"] < 0
+
+
+def test_exit_candidates_skips_above_ma():
+    s = BaseSleeve("x", initial_cash=10_000)
+    s.buy("AAPL", 1.0, 150.0, "2024-05-29")
+    prices = {"AAPL": 105.0}
+    hist = {"AAPL": [100.0] * 25}
+    cands = exit_candidates(s.positions, prices, hist, ma_period=20)
+    assert len(cands) == 0
+
+
+def test_exit_candidates_includes_return_since_entry():
+    s = BaseSleeve("x", initial_cash=10_000)
+    s.buy("AAPL", 1.0, 100.0, "2024-05-29")
+    prices = {"AAPL": 90.0}
+    hist = {"AAPL": [95.0] * 25}
+    cands = exit_candidates(s.positions, prices, hist, ma_period=20)
+    assert cands[0]["return_since_entry"] == pytest.approx(-0.10)
+
+
+# ---- enrich_with_signals ----
+
+def test_enrich_adds_insider_flag():
+    cands = [{"symbol": "AAPL", "momentum": 0.3}]
+    clusters = {"AAPL": {"n_insiders": 3, "total_value": 500_000}}
+    enriched = enrich_with_signals(cands, insider_clusters=clusters)
+    assert enriched[0]["insider_buying"] is True
+    assert enriched[0]["insider_count"] == 3
+
+
+def test_enrich_no_signals():
+    cands = [{"symbol": "AAPL", "momentum": 0.3}]
+    enriched = enrich_with_signals(cands)
+    assert enriched[0]["insider_buying"] is False
+    assert enriched[0]["smart_money"] is False
+
+
+def test_enrich_smart_money_list():
+    cands = [{"symbol": "MSFT", "momentum": 0.2}]
+    sm = {"MSFT": ["Bridgewater", "Renaissance"]}
+    enriched = enrich_with_signals(cands, smart_money=sm)
+    assert enriched[0]["smart_money"] is True
+    assert enriched[0]["smart_money_holders"] == 2
+
+
+# ---- breadth ----
+
+def test_breadth_all_above():
+    prices = {sym: [100.0] * 25 for sym in UNIVERSE[:5]}
+    b = breadth(prices, ma_period=20)
+    assert b["pct_above_ma"] == 1.0
+    assert b["above_ma"] == 5
+
+
+def test_breadth_none_above():
+    prices = {}
+    for sym in UNIVERSE[:5]:
+        hist = [100.0] * 25
+        hist[-1] = 80.0
+        prices[sym] = hist
+    b = breadth(prices, ma_period=20)
+    assert b["pct_above_ma"] == 0.0
+
+
+def test_breadth_excludes_non_universe():
+    prices = {"ZZZZ": [100.0] * 25}
+    b = breadth(prices, ma_period=20)
+    assert b["total"] == 0

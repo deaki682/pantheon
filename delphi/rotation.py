@@ -1,16 +1,23 @@
-"""Momentum compounder — always fully invested.
+"""Momentum compounder — risk budget for LLM judgment.
 
 No regime filter. The trailing stop (price < 20-day MA) IS the risk
-management. When a name breaks its MA it gets sold; if fewer than 10
-names are above their MAs, the portfolio simply holds fewer positions
-with the remainder in cash.
+management. The LLM can modulate risk_budget based on market breadth
+and macro context — not as a binary on/off, but as a dial (0.5–1.0)
+that controls how much of the portfolio is invested.
 """
 from __future__ import annotations
 
 
-def rotation_plan() -> dict:
-    """Return a plan dict. Always fully invested — no regime gating."""
+def rotation_plan(*, risk_budget: float | None = None) -> dict:
+    """Return a plan dict.
+
+    risk_budget defaults to 1.0 (fully invested). The LLM can lower it
+    when breadth deteriorates or macro signals flash caution. Never goes
+    below 0.5 — Delphi doesn't go to cash, she just gets cautious.
+    """
+    rb = risk_budget if risk_budget is not None else 1.0
+    rb = max(0.5, min(1.0, rb))
     return {
         "regime": "momentum",
-        "risk_budget": 1.0,
+        "risk_budget": rb,
     }
