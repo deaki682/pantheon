@@ -13,9 +13,11 @@ import json
 import logging
 import os
 from dataclasses import asdict, dataclass, field
+from datetime import datetime
 from typing import Optional
 
 from .scoring import (
+    MIN_LISTING_DAYS,
     SIGNAL_CHANNELS,
     liquidity_ok,
     rank_candidates,
@@ -87,6 +89,19 @@ def build_signal_map(
     return signals
 
 
+def _listing_too_recent(sym: str, ipo_dates: dict[str, str], today: str) -> bool:
+    """True if the symbol listed less than MIN_LISTING_DAYS ago."""
+    ipo = ipo_dates.get(sym)
+    if not ipo:
+        return False
+    try:
+        ipo_dt = datetime.strptime(ipo, "%Y-%m-%d").date()
+        today_dt = datetime.strptime(today, "%Y-%m-%d").date()
+        return (today_dt - ipo_dt).days < MIN_LISTING_DAYS
+    except (ValueError, TypeError):
+        return False
+
+
 def stage1_sieve(
     universe: dict[str, str],
     *,
@@ -97,6 +112,8 @@ def stage1_sieve(
     guidance_raised: Optional[set] = None,
     quality_scores: Optional[dict] = None,
     market_caps: Optional[dict] = None,
+    ipo_dates: Optional[dict[str, str]] = None,
+    today: Optional[str] = None,
 ) -> list[ScanCandidate]:
     """Stage 1: Filter universe to names with at least one active signal.
 
@@ -106,12 +123,17 @@ def stage1_sieve(
     candidates = []
     market_caps = market_caps or {}
     quality_scores = quality_scores or {}
+    ipo_dates = ipo_dates or {}
+    today = today or datetime.utcnow().strftime("%Y-%m-%d")
 
     for sym in universe:
         sym_upper = sym.upper()
         mcap = market_caps.get(sym_upper)
 
         if mcap is not None and not liquidity_ok(mcap):
+            continue
+
+        if _listing_too_recent(sym_upper, ipo_dates, today):
             continue
 
         signals = build_signal_map(

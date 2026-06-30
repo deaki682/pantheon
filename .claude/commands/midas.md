@@ -41,7 +41,7 @@ non-linearly.
 
    **Key distinction:** `cache/oracle_screen.json` is Oracle's combined top-100 ranking — Midas does NOT use it. Midas starts from the raw signal data which covers the full universe, then applies its own convergence-based ranking.
 
-7. **Run sieve.** `midas.scanner.stage1_sieve(universe, insider_clusters=…, smart_money_holders=…, activist_symbols=…, earnings_surprise=…, guidance_raised=…, market_caps=…)`. Checks every symbol in the full universe against all signal sources. Output: ~50-200 names with at least one active signal.
+7. **Run sieve.** `midas.scanner.stage1_sieve(universe, insider_clusters=…, smart_money_holders=…, activist_symbols=…, earnings_surprise=…, guidance_raised=…, market_caps=…, ipo_dates=…, today=today)`. Checks every symbol in the full universe against all signal sources. Names listed less than 90 days ago are filtered out — insider/13F/momentum signals are unreliable on very new listings. To get IPO dates: after the sieve identifies candidates with signals (~50-200), batch-fetch `get_equity_fundamentals` for those symbols and extract the `ipo_date` field. Then re-run the sieve with `ipo_dates` populated, or filter the candidate list post-sieve. Output: ~50-200 names with at least one active signal and sufficient trading history.
 
 ### Stage 2 — Convergence Rank (→ top 10)
 

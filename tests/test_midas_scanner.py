@@ -95,6 +95,32 @@ class TestStage1Sieve:
         assert "HUGE" not in symbols
 
 
+    def test_filters_recent_ipo(self):
+        universe = {"NEW": "0001", "OLD": "0002"}
+        candidates = stage1_sieve(
+            universe,
+            insider_clusters={
+                "NEW": {"insider_count": 2},
+                "OLD": {"insider_count": 2},
+            },
+            ipo_dates={"NEW": "2026-06-01", "OLD": "2025-01-01"},
+            today="2026-06-30",
+        )
+        symbols = {c.symbol for c in candidates}
+        assert "OLD" in symbols
+        assert "NEW" not in symbols
+
+    def test_missing_ipo_date_passes(self):
+        universe = {"MYSTERY": "0001"}
+        candidates = stage1_sieve(
+            universe,
+            insider_clusters={"MYSTERY": {"insider_count": 2}},
+            ipo_dates={},
+            today="2026-06-30",
+        )
+        assert len(candidates) == 1
+
+
 class TestStage2Rank:
     def test_ranks_by_score(self):
         candidates = [
