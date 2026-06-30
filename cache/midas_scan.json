@@ -1,165 +1,212 @@
 {
   "finalists": [
     {
-      "convergence_count": 2,
-      "current_price": 20.47,
-      "expected_magnitude": 0.12,
-      "expected_value": 0.0216,
-      "market_cap": 5200000000.0,
-      "pop_probability": 0.18,
-      "score": 0.3758,
-      "sector": "Industrials/Equipment Rental",
-      "signals": {
-        "activist_13d": 1.0,
+      "active_signals": {
         "insider_cluster": 1.0
       },
-      "symbol": "EQPT"
-    },
-    {
-      "convergence_count": 2,
-      "current_price": 23.46,
-      "expected_magnitude": 0.05,
-      "expected_value": 0.0075,
-      "market_cap": 4200000000.0,
-      "pop_probability": 0.15,
-      "score": 0.3385,
-      "sector": "Biotech",
-      "signals": {
-        "activist_13d": 1.0,
-        "insider_cluster": 0.75
+      "components": {
+        "convergence": 1.0,
+        "liquidity": 0.846740550020281,
+        "mean_strength": 1.0,
+        "neglect": 0.6723656268585705,
+        "quality_value": 0.8472371423537883
       },
-      "symbol": "KARD"
+      "convergence_count": 1,
+      "convergence_multiplier": 1.0,
+      "market_cap": 1712784602.48,
+      "score": 0.48234840657850736,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "EVTC"
     },
     {
-      "convergence_count": 2,
-      "current_price": 29.03,
-      "expected_magnitude": 0.05,
-      "expected_value": 0.006,
-      "market_cap": 3400000000.0,
-      "pop_probability": 0.12,
-      "score": 0.2977,
-      "sector": "Pharma",
-      "signals": {
-        "activist_13d": 1.0,
-        "insider_cluster": 0.5
-      },
-      "symbol": "PBLS"
-    },
-    {
-      "convergence_count": 2,
-      "current_price": 46.84,
-      "expected_magnitude": 0.08,
-      "expected_value": 0.02,
-      "market_cap": 1700000000.0,
-      "pop_probability": 0.25,
-      "score": 0.2849,
-      "sector": "Insurance/Finance",
-      "signals": {
+      "active_signals": {
         "insider_cluster": 1.0,
-        "smart_money": 0.333
+        "smart_money": 0.3333333333333333
       },
-      "symbol": "GSHD"
-    },
-    {
+      "components": {
+        "convergence": 2.5,
+        "liquidity": 0.9579481361469123,
+        "mean_strength": 0.6666666666666666,
+        "neglect": 0.5101626158379066,
+        "quality_value": 0.5865157299221935
+      },
       "convergence_count": 2,
-      "current_price": 49.91,
-      "expected_magnitude": 0.08,
-      "expected_value": 0.0176,
-      "market_cap": 6200000000.0,
-      "pop_probability": 0.22,
-      "score": 0.2441,
-      "sector": "Energy/Oil E&P",
-      "signals": {
-        "insider_cluster": 1.0,
-        "smart_money": 0.333
-      },
+      "convergence_multiplier": 2.5,
+      "market_cap": 6162269400.0,
+      "score": 0.47772617938299383,
+      "sector": "",
+      "signal_details": {},
       "symbol": "MTDR"
     },
     {
-      "convergence_count": 1,
-      "current_price": 18.07,
-      "expected_magnitude": 0.06,
-      "expected_value": 0.0072,
-      "market_cap": 868000000.0,
-      "pop_probability": 0.12,
-      "score": 0.1795,
-      "sector": "Biotech",
-      "signals": {
+      "active_signals": {
         "insider_cluster": 1.0
       },
-      "symbol": "ODTX"
+      "components": {
+        "convergence": 1.0,
+        "liquidity": 0.6732516523466181,
+        "mean_strength": 1.0,
+        "neglect": 0.8545510133909201,
+        "quality_value": 0.6886141546896365
+      },
+      "convergence_count": 1,
+      "convergence_multiplier": 1.0,
+      "market_cap": 466261884.95000005,
+      "score": 0.3961789229812545,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "BWFG"
     },
     {
-      "convergence_count": 1,
-      "current_price": 37.37,
-      "expected_magnitude": 0.05,
-      "expected_value": 0.005,
-      "market_cap": 541000000.0,
-      "pop_probability": 0.1,
-      "score": 0.1756,
-      "sector": "Healthcare REIT",
-      "signals": {
+      "active_signals": {
         "insider_cluster": 1.0
       },
-      "symbol": "XRN"
+      "components": {
+        "convergence": 1.0,
+        "liquidity": 0.7126482997844561,
+        "mean_strength": 1.0,
+        "neglect": 0.8258634489331605,
+        "quality_value": 0.6665081121857539
+      },
+      "convergence_count": 1,
+      "convergence_multiplier": 1.0,
+      "market_cap": 591055500.0,
+      "score": 0.39227347122218104,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "GRNT"
     },
     {
-      "convergence_count": 1,
-      "current_price": 14.55,
-      "expected_magnitude": 0.07,
-      "expected_value": 0.0084,
-      "market_cap": 484000000.0,
-      "pop_probability": 0.12,
-      "score": 0.1737,
-      "sector": "MedTech",
-      "signals": {
+      "active_signals": {
         "insider_cluster": 1.0
       },
-      "symbol": "MOBI"
-    },
-    {
-      "convergence_count": 1,
-      "current_price": 11.19,
-      "expected_magnitude": 0.12,
-      "expected_value": 0.024,
-      "market_cap": 479000000.0,
-      "pop_probability": 0.2,
-      "score": 0.1734,
-      "sector": "Consumer/Agriculture",
-      "signals": {
-        "insider_cluster": 1.0
+      "components": {
+        "convergence": 1.0,
+        "liquidity": 0.6845029342502993,
+        "mean_strength": 1.0,
+        "neglect": 0.850138721267476,
+        "quality_value": 0.6562407071048877
       },
+      "convergence_count": 1,
+      "convergence_multiplier": 1.0,
+      "market_cap": 498936407.76,
+      "score": 0.38188119956118705,
+      "sector": "",
+      "signal_details": {},
       "symbol": "VITL"
     },
     {
-      "convergence_count": 1,
-      "current_price": 20.22,
-      "expected_magnitude": 0.05,
-      "expected_value": 0.005,
-      "market_cap": 406000000.0,
-      "pop_probability": 0.1,
-      "score": 0.1685,
-      "sector": "Finance/Banking",
-      "signals": {
+      "active_signals": {
+        "activist_13d": 1.0,
         "insider_cluster": 1.0
       },
-      "symbol": "AVBC"
+      "components": {
+        "convergence": 2.5,
+        "liquidity": 0.9418854151637699,
+        "mean_strength": 1.0,
+        "neglect": 0.5331431742073619,
+        "quality_value": 0.3
+      },
+      "convergence_count": 2,
+      "convergence_multiplier": 2.5,
+      "market_cap": 5121852599,
+      "score": 0.3766198349850233,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "EQPT"
+    },
+    {
+      "active_signals": {
+        "insider_cluster": 1.0
+      },
+      "components": {
+        "convergence": 1.0,
+        "liquidity": 0.9530336847488163,
+        "mean_strength": 1.0,
+        "neglect": 0.5171936062489535,
+        "quality_value": 0.7580701834406991
+      },
+      "convergence_count": 1,
+      "convergence_multiplier": 1.0,
+      "market_cap": 5823290070.0,
+      "score": 0.3736550132687504,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "ADT"
+    },
+    {
+      "active_signals": {
+        "insider_cluster": 1.0
+      },
+      "components": {
+        "convergence": 1.0,
+        "liquidity": 0.9448826099508199,
+        "mean_strength": 1.0,
+        "neglect": 0.5288551578855498,
+        "quality_value": 0.7235403682998618
+      },
+      "convergence_count": 1,
+      "convergence_multiplier": 1.0,
+      "market_cap": 5301674370.0,
+      "score": 0.36155749357545475,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "RLI"
+    },
+    {
+      "active_signals": {
+        "insider_cluster": 1.0
+      },
+      "components": {
+        "convergence": 1.0,
+        "liquidity": 0.942043310778087,
+        "mean_strength": 1.0,
+        "neglect": 0.5329172766533359,
+        "quality_value": 0.6777643508641635
+      },
+      "convergence_count": 1,
+      "convergence_multiplier": 1.0,
+      "market_cap": 5131171777.6,
+      "score": 0.34025882033582305,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "MRP"
+    },
+    {
+      "active_signals": {
+        "insider_cluster": 1.0
+      },
+      "components": {
+        "convergence": 1.0,
+        "liquidity": 0.5595819341003982,
+        "mean_strength": 1.0,
+        "neglect": 0.8990029967013853,
+        "quality_value": 0.6421549750579354
+      },
+      "convergence_count": 1,
+      "convergence_multiplier": 1.0,
+      "market_cap": 235658636.01000002,
+      "score": 0.3230462291483162,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "HDSN"
     }
   ],
   "pick": {
-    "bear_case": "Zero forward EBITDA ($0-10M guided). Egg oversupply is structural \u2014 foodservice demand permanently shifted to processed. ERP disaster lost shelf space. Active securities fraud class action. 85% of decline may be justified by fundamentals, not just sentiment.",
-    "bull_case": "Extreme short squeeze setup (47% SI). 10 insiders buying at $8-10 (already up ~25-40% from their buys). If ANY positive news hits, forced covering could drive 15-25%+ move. Premium egg brand with loyal consumers. Pasture-raised is a secular trend. Insiders have visibility into ERP recovery and shelf space recapture.",
-    "catalyst": "10 insiders buying after 79% crash (from $53 to $11). 32-47% short interest with 5.2 days to cover = explosive squeeze potential. PE 10.8 on trailing.",
-    "catalyst_timing": "No specific catalyst this week. Q2 earnings August 6. Holiday-shortened week with thin volume could amplify squeeze.",
+    "bear_case": "Securities fraud class action. ERP disaster still losing shelf space. Near-zero forward earnings with cash burn -$437M. 85% of the decline is justified by fundamentals. 10 insiders only bought $417K total = not huge conviction.",
+    "bull_case": "Extreme short-squeeze setup: 47% SI + 10 insider buys + holiday thin volume. If ANY positive news hits (shelf space recovery, ERP fix, analyst upgrade), forced covering could drive 15-30%+ in a single session. Pasture-raised eggs/butter are secular premium trends. Brand loyal customers.",
+    "catalyst": "10 insiders bought in tight 7-day cluster (May 13-19). 47% short interest with 5+ days to cover. 79% crash from $53 high. Stock now at $11.30 with 10.8x trailing PE.",
+    "catalyst_timing": "No specific catalyst this week. Holiday-shortened week with thin volume = amplified moves. Q2 earnings August 6. Short sellers must cover at some point.",
     "convergence_count": 1,
-    "current_price": 11.19,
-    "expected_magnitude": 0.12,
-    "expected_value": 0.024,
-    "market_cap": 479000000.0,
+    "current_price": 11.3,
+    "expected_magnitude": 0.15,
+    "expected_value": 0.03,
+    "market_cap": 484616535,
     "pop_probability": 0.2,
-    "priced_in_judgment": "Most of the bad news IS priced in at $11 (10.8x trailing PE, 79% off highs). But forward earnings are near zero, so 'priced in' depends on recovery timeline. Insiders are betting on recovery; shorts are betting against it.",
-    "researched_at": "2026-06-29T09:11:26.040164",
-    "score": 0.1734,
+    "priced_in_judgment": "Most bad news IS priced in at $11 (10.8x trailing PE, 79% off highs). But forward earnings near zero means the trailing PE is misleading. Insiders betting on recovery; shorts betting on continued deterioration.",
+    "researched_at": "2026-06-30T07:09:32.171652",
+    "score": 0.3819,
     "sector": "Consumer/Agriculture",
     "signals": {
       "insider_cluster": 1.0
