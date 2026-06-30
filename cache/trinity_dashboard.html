@@ -69,9 +69,9 @@
 <div class="header">
   <div>
     <h1>Pantheon</h1>
-    <div class="meta">Updated 2026-06-30T02:03:58.195177Z</div>
+    <div class="meta">Updated 2026-06-30T03:04:02.377981Z</div>
   </div>
-  <div class="total">$3,015.32</div>
+  <div class="total">$4,015.13</div>
 </div>
 <div class="chart-wrap"><canvas id="c"></canvas></div>
 
@@ -81,7 +81,7 @@
             
           </div>
           <div class="god-stats">
-            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,000.32</span></div>
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$999.90</span></div>
             <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$99.55</span></div>
             <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+0.00</span></div>
             <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">21</span></div>
@@ -139,7 +139,7 @@
             
           </div>
           <div class="god-stats">
-            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,015.00</span></div>
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,014.84</span></div>
             <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$101.54</span></div>
             <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+0.00</span></div>
             <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">7</span></div>
@@ -195,7 +195,7 @@
             
           </div>
           <div class="god-stats">
-            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$0.00</span></div>
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,000.39</span></div>
             <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$0.00</span></div>
             <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+0.00</span></div>
             <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">1</span></div>
@@ -214,7 +214,7 @@
 const ctx = document.getElementById('c').getContext('2d');
 new Chart(ctx, {
   type: 'line',
-  data: {"labels": ["2026-06-28", "2026-06-28T00:00:00", "2026-06-29", "2026-06-30"], "datasets": [{"label": "Oracle", "data": [null, 1000.0, null, 1000.32], "borderColor": "#D4AF37", "backgroundColor": "#D4AF3740", "tension": 0.2, "spanGaps": true}, {"label": "Achilles", "data": [null, null, 1000.0, 1000.0], "borderColor": "#9C27B0", "backgroundColor": "#9C27B040", "tension": 0.2, "spanGaps": true}, {"label": "Delphi", "data": [1000.0, null, 999.5649, 1015.0], "borderColor": "#00BCD4", "backgroundColor": "#00BCD440", "tension": 0.2, "spanGaps": true}, {"label": "Midas", "data": [null, null, 999.500250124, 0.0], "borderColor": "#DC143C", "backgroundColor": "#DC143C40", "tension": 0.2, "spanGaps": true}]},
+  data: {"labels": ["2026-06-28", "2026-06-28T00:00:00", "2026-06-29", "2026-06-30"], "datasets": [{"label": "Oracle", "data": [null, 1000.0, null, 999.9], "borderColor": "#D4AF37", "backgroundColor": "#D4AF3740", "tension": 0.2, "spanGaps": true}, {"label": "Achilles", "data": [null, null, 1000.0, 1000.0], "borderColor": "#9C27B0", "backgroundColor": "#9C27B040", "tension": 0.2, "spanGaps": true}, {"label": "Delphi", "data": [1000.0, null, 999.5649, 1014.84], "borderColor": "#00BCD4", "backgroundColor": "#00BCD440", "tension": 0.2, "spanGaps": true}, {"label": "Midas", "data": [null, null, 999.500250124, 1000.39], "borderColor": "#DC143C", "backgroundColor": "#DC143C40", "tension": 0.2, "spanGaps": true}]},
   options: {
     responsive: true,
     maintainAspectRatio: false,
