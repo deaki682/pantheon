@@ -1,51 +1,23 @@
 import pytest
 
-from delphi.screener import build_candidate, quality_for_delphi, screen_universe
-from shared.fundamentals import FundamentalSnapshot
+from delphi.screener import score_universe
+from delphi.signals import UNIVERSE
 
 
-def test_quality_zero_for_empty():
-    assert quality_for_delphi(FundamentalSnapshot(symbol="X")) == 0.0
+def test_score_universe_ranks():
+    prices_up = [100.0] * 70
+    prices_up[-1] = 130.0
+    prices_flat = [100.0] * 70
+
+    universe_prices = {UNIVERSE[0]: prices_up, UNIVERSE[1]: prices_flat}
+    ranked = score_universe(universe_prices)
+    assert len(ranked) >= 1
+    assert ranked[0]["symbol"] == UNIVERSE[0]
 
 
-def test_quality_full():
-    snap = FundamentalSnapshot(
-        symbol="X", operating_margin_ttm=0.25, free_cash_flow_ttm=30, revenue_ttm=100,
-        revenue_yoy=0.3, dilution_yoy=0.0,
-    )
-    assert quality_for_delphi(snap) > 0.7
-
-
-def test_quality_bounded_by_one_for_buybacks():
-    # Negative dilution_yoy (buyback / noisy share data) must not exceed 1.0.
-    snap = FundamentalSnapshot(
-        symbol="X", operating_margin_ttm=0.25, free_cash_flow_ttm=30, revenue_ttm=100,
-        revenue_yoy=0.3, dilution_yoy=-5.0,
-    )
-    assert 0.0 <= quality_for_delphi(snap) <= 1.0
-
-
-def test_build_candidate_blocked():
-    out = build_candidate("XLK", sector="tech", prices=[100] * 64, snap=None)
-    assert out.get("blocked") is True
-
-
-def test_build_candidate_normal():
-    prices = [100.0] * 64
-    prices[-1] = 110.0
-    out = build_candidate("AAPL", sector="technology", prices=prices, snap=None)
-    assert out["symbol"] == "AAPL"
-    assert out["sector"] == "technology"
-    assert out["momentum"] == pytest.approx(0.10)
-
-
-def test_screen_universe():
-    inp = {
-        "technology": [
-            ("AAPL", [100.0] * 64, None),
-            ("MSFT", [100.0] * 64, None),
-        ],
-    }
-    out = screen_universe(inp)
-    assert "technology" in out
-    assert len(out["technology"]) == 2
+def test_score_universe_filters_non_universe():
+    prices = [100.0] * 70
+    prices[-1] = 120.0
+    universe_prices = {"ZZZZ": prices}
+    ranked = score_universe(universe_prices)
+    assert len(ranked) == 0

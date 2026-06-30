@@ -4,8 +4,7 @@ import pytest
 from achilles.scoring import liquidity_score, score_event
 from achilles.playbooks import build_playbooks
 from achilles.sleeve import AchillesSleeve
-from delphi.rotation import classify_regime
-from delphi.signals import momentum, composite_score
+from delphi.signals import momentum
 from oracle.dossier_check import normalize_rating
 from oracle.positioning import (
     compute_derived, potential_to_conviction, rotation_decision, size_book,
@@ -242,17 +241,9 @@ def test_momentum_negative():
     assert momentum(prices, 63) == pytest.approx(-0.10)
 
 
-def test_composite_score_zero_when_flat():
-    prices = [100.0] * 127
-    spy = [100.0] * 127
-    assert composite_score(prices, spy) == 0.0
-
-
-def test_classify_regime_exactly_at_thresholds():
-    # spy_3m == 0.02 (just AT, not >) -> not risk_on
-    assert classify_regime(spy_1m=0.0, spy_3m=0.02, sector_breadth=0.6) == "neutral"
-    # spy_3m just past -5% -> risk_off
-    assert classify_regime(spy_1m=0.0, spy_3m=-0.051, sector_breadth=0.6) == "risk_off"
+def test_momentum_zero_when_flat():
+    prices = [100.0] * 70
+    assert momentum(prices, 65) == 0.0
 
 
 # ---- achilles ----
