@@ -1,72 +1,37 @@
-"""Multiplicative event scoring.
+"""PEAD-focused scoring for Achilles.
 
-score = base_rate × event_strength × neglect × liquidity × time_decay
+score = surprise_strength x confirming_boost x neglect x liquidity
 
-Multiplicative is intentional: any weak factor hurts the whole score. You
-can't compensate for terrible liquidity with great event strength.
+The base signal is always the earnings beat. Confirming signals (revenue
+beat, guidance raise, short squeeze, insider pre-buy) boost the base
+score but are never independent entry signals.
 
-The neglect factor replaces the old company_quality: PEAD drift is
-strongest in under-followed names, so neglected stocks score HIGHER.
-
-Disqualifiers (universal OR per-class) zero the score entirely.
+Preserved exports: surprise_strength, liquidity_score (used by Midas).
 """
 from __future__ import annotations
 
 import math
-from datetime import datetime, timedelta
-from typing import Iterable, Optional
-
-from .playbooks import CLASS_DISQUALIFIERS, Playbook, UNIVERSAL_DISQUALIFIERS
+from typing import Optional
 
 
-# Time decay constants
-TIME_HALFLIFE_HOURS = 48.0
+# --- Surprise-strength curve (shared with Midas) ---
 
-# Surprise-strength curve for earnings_reaction (small/mid-cap universe).
-# In small-caps, extreme beats (>100%) are low-estimate companies blowing
-# out — strongest PEAD signal, NOT reversal candidates. The large-cap
-# reversal finding doesn't apply: less coverage → slower repricing → more
-# drift. Curve stays flat above 20% instead of decaying.
 SURPRISE_ANCHORS = (
-    (0.0, 0.0),     # inline with estimate — no signal
-    (3.0, 0.3),     # too small, likely noise
-    (5.0, 0.7),     # borderline actionable
-    (10.0, 0.95),   # strong sweet spot
-    (20.0, 1.0),    # peak — stays at peak for small-caps
-    (50.0, 1.0),    # extreme beats drift hardest in small-caps
-    (100.0, 0.95),  # very extreme — slight caution, not penalty
-    (200.0, 0.85),  # massive — minor fade for data-quality risk
-    (500.0, 0.7),   # outlier — possible data issue
+    (0.0, 0.0),
+    (3.0, 0.3),
+    (5.0, 0.7),
+    (10.0, 0.95),
+    (20.0, 1.0),
+    (50.0, 1.0),
+    (100.0, 0.95),
+    (200.0, 0.85),
+    (500.0, 0.7),
 )
-
-# Liquidity log-scale anchors (market cap -> score)
-LIQ_ANCHORS = (
-    (50_000_000, 0.3),
-    (300_000_000, 0.6),
-    (1_000_000_000, 0.8),
-    (10_000_000_000, 1.0),
-)
-
-MEGACAP_DECAY_START = 50_000_000_000   # $50B — edge starts fading
-MEGACAP_DECAY_END = 200_000_000_000    # $200B — minimal edge left
-MEGACAP_FLOOR = 0.2                    # score floor for mega-caps
-
-# Compound signal boosts — applied to event_strength before scoring.
-# Cohen, Malloy & Pomorski (2012): insider-predicted beats have 2-3x drift,
-# but we start conservative and let live tracking calibrate.
-INSIDER_PREEARNINGS_BOOST_MIN = 1.15   # insiders active but timing unclear
-INSIDER_PREEARNINGS_BOOST_MAX = 1.50   # multiple insiders within lookback
-CONCURRENT_GUIDANCE_BOOST = 1.20       # guidance raised in same 8-K as beat
 
 
 def surprise_strength(surprise_pct: Optional[float]) -> float:
-    """Map EPS surprise % to event strength (0–1).
-
-    Uses absolute value — both beats and misses get the same curve; the
-    caller decides directionality (Achilles goes long on beats only).
-    """
     if surprise_pct is None:
-        return 1.0  # no data → neutral, don't penalise
+        return 1.0
     mag = abs(float(surprise_pct))
     if mag <= SURPRISE_ANCHORS[0][0]:
         return SURPRISE_ANCHORS[0][1]
@@ -81,12 +46,21 @@ def surprise_strength(surprise_pct: Optional[float]) -> float:
     return SURPRISE_ANCHORS[-1][1]
 
 
-def liquidity_score(market_cap: Optional[float]) -> float:
-    """Log-scaled liquidity score from market cap.
+# --- Liquidity curve (shared with Midas) ---
 
-    Peaks at 1.0 around $10B, then decays above $50B — event-driven edge
-    fades as coverage density increases and market reaction speed rises.
-    """
+LIQ_ANCHORS = (
+    (50_000_000, 0.3),
+    (300_000_000, 0.6),
+    (1_000_000_000, 0.8),
+    (10_000_000_000, 1.0),
+)
+
+MEGACAP_DECAY_START = 50_000_000_000
+MEGACAP_DECAY_END = 200_000_000_000
+MEGACAP_FLOOR = 0.2
+
+
+def liquidity_score(market_cap: Optional[float]) -> float:
     if not market_cap or market_cap <= 0:
         return 0.0
     cap = float(market_cap)
@@ -97,80 +71,132 @@ def liquidity_score(market_cap: Optional[float]) -> float:
             lo_cap, lo_s = LIQ_ANCHORS[i]
             hi_cap, hi_s = LIQ_ANCHORS[i + 1]
             if lo_cap <= cap < hi_cap:
-                t = (math.log(cap) - math.log(lo_cap)) / (math.log(hi_cap) - math.log(lo_cap))
+                t = (math.log(cap) - math.log(lo_cap)) / (
+                    math.log(hi_cap) - math.log(lo_cap)
+                )
                 return lo_s + t * (hi_s - lo_s)
     if cap <= MEGACAP_DECAY_START:
         return 1.0
     if cap >= MEGACAP_DECAY_END:
         return MEGACAP_FLOOR
-    t = (math.log(cap) - math.log(MEGACAP_DECAY_START)) / (math.log(MEGACAP_DECAY_END) - math.log(MEGACAP_DECAY_START))
+    t = (math.log(cap) - math.log(MEGACAP_DECAY_START)) / (
+        math.log(MEGACAP_DECAY_END) - math.log(MEGACAP_DECAY_START)
+    )
     return 1.0 - t * (1.0 - MEGACAP_FLOOR)
 
 
-def time_decay(first_seen_iso: str, now: Optional[datetime] = None) -> float:
-    """48-hour half-life decay, anchored to when Achilles first saw the event."""
-    if not first_seen_iso:
-        return 1.0
-    try:
-        seen = datetime.fromisoformat(first_seen_iso)
-    except ValueError:
-        return 1.0
-    now = now or datetime.utcnow()
-    hours = (now - seen).total_seconds() / 3600.0
-    if hours <= 0:
-        return 1.0
-    return 0.5 ** (hours / TIME_HALFLIFE_HOURS)
+# --- PEAD neglect curve (Achilles-specific) ---
+
+NEGLECT_ANCHORS = (
+    (50_000_000, 1.0),
+    (200_000_000, 0.90),
+    (500_000_000, 0.80),
+    (2_000_000_000, 0.60),
+    (10_000_000_000, 0.40),
+    (50_000_000_000, 0.25),
+)
+
+MIN_MARKET_CAP = 50_000_000
+MAX_MARKET_CAP = 50_000_000_000
 
 
-def has_disqualifier(flags: Iterable[str], event_class: str) -> bool:
-    flag_set = set(flags or ())
-    if any(d in flag_set for d in UNIVERSAL_DISQUALIFIERS):
-        return True
-    if any(d in flag_set for d in CLASS_DISQUALIFIERS.get(event_class, ())):
-        return True
-    return False
+def pead_neglect(market_cap: Optional[float]) -> float:
+    if not market_cap or market_cap <= 0:
+        return 0.0
+    cap = float(market_cap)
+    if cap < NEGLECT_ANCHORS[0][0]:
+        return 0.5
+    if cap >= NEGLECT_ANCHORS[-1][0]:
+        return NEGLECT_ANCHORS[-1][1]
+    for i in range(len(NEGLECT_ANCHORS) - 1):
+        lo_cap, lo_s = NEGLECT_ANCHORS[i]
+        hi_cap, hi_s = NEGLECT_ANCHORS[i + 1]
+        if lo_cap <= cap < hi_cap:
+            t = (math.log(cap) - math.log(lo_cap)) / (
+                math.log(hi_cap) - math.log(lo_cap)
+            )
+            return lo_s + t * (hi_s - lo_s)
+    return NEGLECT_ANCHORS[-1][1]
 
 
-def score_event(
+def market_cap_ok(market_cap: Optional[float]) -> bool:
+    if not market_cap or market_cap <= 0:
+        return False
+    return MIN_MARKET_CAP <= market_cap <= MAX_MARKET_CAP
+
+
+# --- Confirming signal boosts ---
+
+REVENUE_BEAT_BOOST = 0.15
+GUIDANCE_RAISED_BOOST = 0.25
+SHORT_SQUEEZE_MAX_BOOST = 0.30
+INSIDER_PREBUY_BOOST = 0.15
+
+
+def confirming_boost(
     *,
-    playbook: Playbook,
-    event_strength: float,
-    company_quality: float = 1.0,
-    neglect: Optional[float] = None,
-    market_cap: Optional[float],
-    first_seen_iso: str,
-    disqualifier_flags: Iterable[str] = (),
-    now: Optional[datetime] = None,
-) -> dict:
-    """Compute the multiplicative score.
+    revenue_beat: bool = False,
+    guidance_raised: bool = False,
+    short_float_pct: Optional[float] = None,
+    insider_prebuy: bool = False,
+) -> float:
+    boost = 1.0
+    if revenue_beat:
+        boost += REVENUE_BEAT_BOOST
+    if guidance_raised:
+        boost += GUIDANCE_RAISED_BOOST
+    if short_float_pct and short_float_pct > 20.0:
+        boost += min(SHORT_SQUEEZE_MAX_BOOST, short_float_pct / 100.0)
+    if insider_prebuy:
+        boost += INSIDER_PREBUY_BOOST
+    return boost
 
-    Disqualifiers and disabled playbooks are flagged in the output but
-    do NOT zero the score — the LLM decides whether to proceed. The
-    score is always computed so the LLM has full information.
-    """
-    quality_factor = neglect if neglect is not None else company_quality
-    liq = liquidity_score(market_cap)
-    td = time_decay(first_seen_iso, now=now)
-    raw = (
-        max(0.0, playbook.base_rate)
-        * max(0.0, event_strength)
-        * max(0.0, quality_factor)
-        * max(0.0, liq)
-        * max(0.0, td)
+
+def score_beat(
+    *,
+    surprise_pct: float,
+    market_cap: Optional[float] = None,
+    revenue_beat: bool = False,
+    guidance_raised: bool = False,
+    short_float_pct: Optional[float] = None,
+    insider_prebuy: bool = False,
+) -> dict:
+    if not market_cap_ok(market_cap):
+        return {"score": 0.0, "reason": "market_cap_filter"}
+
+    base = surprise_strength(surprise_pct)
+    if base <= 0:
+        return {"score": 0.0, "reason": "no_surprise"}
+
+    boost = confirming_boost(
+        revenue_beat=revenue_beat,
+        guidance_raised=guidance_raised,
+        short_float_pct=short_float_pct,
+        insider_prebuy=insider_prebuy,
     )
-    result = {
+    neglect = pead_neglect(market_cap)
+    liq = liquidity_score(market_cap)
+
+    raw = base * boost * neglect * liq
+
+    confirming = {}
+    if revenue_beat:
+        confirming["revenue_beat"] = True
+    if guidance_raised:
+        confirming["guidance_raised"] = True
+    if short_float_pct and short_float_pct > 20.0:
+        confirming["short_squeeze"] = short_float_pct
+    if insider_prebuy:
+        confirming["insider_prebuy"] = True
+
+    return {
         "score": raw,
+        "confirming_count": len(confirming),
+        "confirming_signals": confirming,
         "components": {
-            "base_rate": playbook.base_rate,
-            "event_strength": event_strength,
-            "neglect": quality_factor,
+            "surprise_strength": base,
+            "confirming_boost": boost,
+            "neglect": neglect,
             "liquidity": liq,
-            "time_decay": td,
         },
     }
-    if playbook.disabled:
-        result["advisory"] = "playbook_disabled"
-    if has_disqualifier(disqualifier_flags, playbook.event_class):
-        result["advisory"] = "disqualified"
-        result["disqualifier_flags"] = list(disqualifier_flags)
-    return result

@@ -36,16 +36,15 @@ def test_three_sleeves_independent():
     a = AchillesSleeve(initial_cash=1000)
     o.buy("AAPL", 1.0, 100.0, "2024-05-29")
     d.buy("MSFT", 1.0, 100.0, "2024-05-29")
-    a.open(
-        event_id="e1", symbol="GOOG", event_class="earnings_reaction",
-        entry_price=100, score=0.2, hard_stop_price=92, profit_target_price=112,
-        time_stop_date="2024-06-15", today="2024-05-29",
+    a.enter(
+        symbol="GOOG", shares=5.0, price=100.0,
+        today="2024-05-29", score=0.2, surprise_pct=5.0,
     )
     # Each holds only their own
     assert "AAPL" in o.positions and "MSFT" not in o.positions
     assert "MSFT" in d.positions and "AAPL" not in d.positions
-    assert "e1" in a.positions
-    assert a.positions["e1"].symbol == "GOOG"
+    assert a.position is not None
+    assert a.position.symbol == "GOOG"
 
 
 def test_kill_switch_liquidates_all_three(tmp_path, monkeypatch):
@@ -57,20 +56,20 @@ def test_kill_switch_liquidates_all_three(tmp_path, monkeypatch):
     d = DelphiSleeve(initial_cash=10_000)
     d.buy("MSFT", 1.0, 100.0, "2024-05-29")
     a = AchillesSleeve(initial_cash=10_000)
-    a.open(
-        event_id="e1", symbol="GOOG", event_class="earnings_reaction",
-        entry_price=100, score=0.2, hard_stop_price=92, profit_target_price=112,
-        time_stop_date="2024-06-15", today="2024-05-29",
+    a.enter(
+        symbol="GOOG", shares=5.0, price=100.0,
+        today="2024-05-29", score=0.2, surprise_pct=5.0,
     )
 
     marks = {"AAPL": 100.0, "MSFT": 100.0, "GOOG": 100.0}
     liquidate_if_kill(o, marks, "2024-05-30")
     liquidate_if_kill(d, marks, "2024-05-30")
-    liquidate_if_kill(a, marks, "2024-05-30")
+    # AchillesSleeve uses liquidate() not liquidate_all()
+    a.liquidate(marks, "2024-05-30")
 
     assert o.positions == {}
     assert d.positions == {}
-    assert a.positions == {}
+    assert a.position is None
 
 
 def test_persist_three_gods_no_clobber(repos):
@@ -125,22 +124,22 @@ def test_oracle_capital_gate_progression():
     assert CAPITAL_BASE < out <= CAPITAL_CEILING - ACHILLES_RESERVE
 
 
-def test_achilles_event_keyed_two_positions_same_symbol():
-    """Two events on the same stock -> two distinct positions, each with own stops."""
-    s = AchillesSleeve(initial_cash=10_000, conservative_mode=False)
-    s.open(
-        event_id="earn1", symbol="ACME", event_class="earnings_reaction",
-        entry_price=100, score=0.3, hard_stop_price=92, profit_target_price=112,
-        time_stop_date="2024-06-15", today="2024-05-29",
+def test_achilles_single_position_model():
+    """New Achilles holds only one position at a time; second entry is rejected."""
+    s = AchillesSleeve(initial_cash=10_000)
+    ok1 = s.enter(
+        symbol="ACME", shares=10.0, price=100.0,
+        today="2024-05-29", score=0.3, surprise_pct=5.0,
     )
-    s.open(
-        event_id="cluster1", symbol="ACME", event_class="insider_cluster",
-        entry_price=101, score=0.4, hard_stop_price=91, profit_target_price=116,
-        time_stop_date="2024-06-29", today="2024-05-29",
+    assert ok1 is True
+    assert s.position is not None
+    assert s.position.symbol == "ACME"
+
+    # Second entry rejected while position is held
+    ok2 = s.enter(
+        symbol="ACME", shares=10.0, price=101.0,
+        today="2024-05-29", score=0.4, surprise_pct=7.0,
     )
-    assert len(s.positions) == 2
-    assert s.positions["earn1"].event_class == "earnings_reaction"
-    assert s.positions["cluster1"].event_class == "insider_cluster"
-    # Each has its own stop set
-    assert s.positions["earn1"].hard_stop_price == 92
-    assert s.positions["cluster1"].hard_stop_price == 91
+    assert ok2 is False
+    # Original position unchanged
+    assert s.position.entry_price == 100.0

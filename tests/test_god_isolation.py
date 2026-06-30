@@ -18,7 +18,6 @@ import tempfile
 
 import pytest
 
-from achilles.execution import plan_open
 from achilles.sleeve import AchillesSleeve
 from delphi.execution import build_targets, plan_orders as delphi_plan_orders
 from delphi.sleeve import DelphiSleeve
@@ -105,12 +104,10 @@ class TestBudgetIsolation:
         assert oracle.cash == pytest.approx(1000.0 - 150.0 - 150.0 * 5 / 10000, abs=0.01)
         assert achilles.cash == 1000.0, "Achilles cash changed after Delphi buy"
 
-        # Achilles opens a position
-        achilles.open(
-            event_id="evt1", symbol="JPM", event_class="earnings",
-            entry_price=px["JPM"], score=0.5,
-            hard_stop_price=170.0, profit_target_price=220.0,
-            time_stop_date="2026-07-02", today=DATES[0],
+        # Achilles enters a position
+        achilles.enter(
+            symbol="JPM", shares=5.0, price=px["JPM"],
+            today=DATES[0], score=0.5, surprise_pct=8.0,
         )
         assert oracle.cash == pytest.approx(1000.0 - 150.0 * (1 + 5/10000), abs=0.01)
         assert delphi.cash == pytest.approx(1000.0 - 150.0 * (1 + 5/10000), abs=0.01)
@@ -124,11 +121,9 @@ class TestBudgetIsolation:
         px = PRICES["day1"]
         oracle.buy("AAPL", 2.0, px["AAPL"], DATES[0])
         delphi.buy("GOOG", 3.0, px["GOOG"], DATES[0])
-        achilles.open(
-            event_id="evt-eq", symbol="XOM", event_class="earnings",
-            entry_price=px["XOM"], score=0.3,
-            hard_stop_price=95.0, profit_target_price=130.0,
-            time_stop_date="2026-07-02", today=DATES[0],
+        achilles.enter(
+            symbol="XOM", shares=3.0, price=px["XOM"],
+            today=DATES[0], score=0.3, surprise_pct=5.0,
         )
 
         # At purchase prices, equity = initial - fees (since positions valued at cost)
@@ -156,21 +151,19 @@ class TestPositionIsolation:
 
         oracle.buy("AAPL", 1.0, 150.0, DATES[0])
         delphi.buy("GOOG", 1.0, 130.0, DATES[0])
-        achilles.open(
-            event_id="evt2", symbol="JPM", event_class="earnings",
-            entry_price=190.0, score=0.5,
-            hard_stop_price=170.0, profit_target_price=220.0,
-            time_stop_date="2026-07-02", today=DATES[0],
+        achilles.enter(
+            symbol="JPM", shares=5.0, price=190.0,
+            today=DATES[0], score=0.5, surprise_pct=8.0,
         )
 
         assert "AAPL" in oracle.positions
         assert "AAPL" not in delphi.positions
-        assert "evt2" not in oracle.positions  # wrong key type too
 
         assert "GOOG" in delphi.positions
         assert "GOOG" not in oracle.positions
 
-        assert "evt2" in achilles.positions
+        assert achilles.position is not None
+        assert achilles.position.symbol == "JPM"
         assert "JPM" not in oracle.positions
         assert "JPM" not in delphi.positions
 
@@ -296,16 +289,14 @@ class TestSymbolOverlap:
 
         oracle.buy("AAPL", 1.0, 150.0, DATES[0])
         delphi.buy("AAPL", 2.0, 150.0, DATES[0])
-        achilles.open(
-            event_id="evt-aapl", symbol="AAPL", event_class="earnings",
-            entry_price=150.0, score=0.3,
-            hard_stop_price=130.0, profit_target_price=175.0,
-            time_stop_date="2026-07-02", today=DATES[0],
+        achilles.enter(
+            symbol="AAPL", shares=3.0, price=150.0,
+            today=DATES[0], score=0.3, surprise_pct=5.0,
         )
 
         oracle_syms = set(oracle.positions.keys())
         delphi_syms = set(delphi.positions.keys())
-        achilles_syms = {p.symbol for p in achilles.positions.values()}
+        achilles_syms = {achilles.position.symbol} if achilles.position else set()
 
         overlap_od = oracle_syms & delphi_syms
         overlap_oa = oracle_syms & achilles_syms
@@ -316,10 +307,11 @@ class TestSymbolOverlap:
         assert overlap_da == {"AAPL"}
 
         # Combined broker exposure = sum of all gods' shares
+        achilles_aapl = achilles.position.shares if achilles.position else 0.0
         total_aapl_shares = (
             oracle.positions["AAPL"].shares
             + delphi.positions["AAPL"].shares
-            + sum(p.shares for p in achilles.positions.values() if p.symbol == "AAPL")
+            + achilles_aapl
         )
         assert total_aapl_shares > 3.0  # all three gods have AAPL
 
@@ -345,39 +337,29 @@ class TestMultiDaySimulation:
                 append_order(ledger_path, OrderRecord(oid, o["symbol"], o["side"], o["dollars"], today))
 
     def _run_achilles_day(self, sleeve, events, prices, today, ledger_path):
-        """Simulate one Achilles pass (open + exit check)."""
-        from achilles.brief import Brief, Play
+        """Simulate one Achilles pass (enter if no position, check exit)."""
+        if not events:
+            return
+
+        # Only enter if no current position
+        if sleeve.position is not None:
+            return
 
         for ev in events:
             px = prices.get(ev["symbol"], 0)
             if px <= 0:
                 continue
-            play = Play(
-                hard_stop_price=px * 0.9,
-                profit_target_price=px * 1.15,
-                time_stop_date="2026-07-10",
-                entry_dollars=sleeve.position_dollars(0.3),
+            shares = max(1, int(sleeve.cash * 0.3 / px))
+            ok = sleeve.enter(
+                symbol=ev["symbol"], shares=shares, price=px,
+                today=today, score=ev.get("score", 0.3), surprise_pct=5.0,
             )
-            brief = Brief(
-                event_id=ev["event_id"],
-                event_class=ev["event_class"],
-                symbol=ev["symbol"],
-                score=ev.get("score", 0.3),
-                play=play,
-            )
-            plan = plan_open(sleeve, brief, today=today, current_price=px)
-            if plan:
-                pos = sleeve.open(
-                    event_id=plan["event_id"], symbol=plan["symbol"],
-                    event_class=plan["event_class"], entry_price=plan["entry_price"],
-                    score=plan["score"], hard_stop_price=plan["hard_stop_price"],
-                    profit_target_price=plan["profit_target_price"],
-                    time_stop_date=plan["time_stop_date"], today=today,
-                )
-                if pos:
-                    oid = f"ach-{plan['event_id']}-{today}"
-                    append_order(ledger_path, OrderRecord(
-                        oid, plan["symbol"], "buy", plan["dollars"], today))
+            if ok:
+                dollars = shares * px
+                oid = f"ach-{ev['symbol']}-{today}"
+                append_order(ledger_path, OrderRecord(
+                    oid, ev["symbol"], "buy", dollars, today))
+                break  # only one position at a time
 
     def test_full_week_isolation(self, tmp_path):
         """Run all three gods through a 5-day week and verify isolation."""
@@ -401,10 +383,10 @@ class TestMultiDaySimulation:
 
         # Achilles events: staggered across days
         achilles_events = [
-            [{"event_id": "earn-aapl-d1", "event_class": "earnings", "symbol": "AAPL", "score": 0.4}],
-            [{"event_id": "earn-bac-d2", "event_class": "earnings", "symbol": "BAC", "score": 0.3}],
+            [{"symbol": "AAPL", "score": 0.4}],
+            [{"symbol": "BAC", "score": 0.3}],
             [],
-            [{"event_id": "earn-xom-d4", "event_class": "insider", "symbol": "XOM", "score": 0.5}],
+            [{"symbol": "XOM", "score": 0.5}],
             [],
         ]
 
@@ -440,11 +422,12 @@ class TestMultiDaySimulation:
                 assert oracle.cash == o_cash_before, \
                     f"Day {day_idx}: Oracle cash changed on non-trade day"
 
-            # Achilles cash should only change if it had events
+            # Achilles cash should only change if it had events and no position
             if not achilles_events[day_idx]:
                 assert achilles.cash == a_cash_before, \
                     f"Day {day_idx}: Achilles cash changed with no events"
 
+            achilles_sym = achilles.position.symbol if achilles.position else None
             snapshots.append({
                 "day": day_idx,
                 "oracle": {"cash": oracle.cash, "equity": oracle.equity(px),
@@ -452,7 +435,7 @@ class TestMultiDaySimulation:
                 "delphi": {"cash": delphi.cash, "equity": delphi.equity(px),
                            "positions": set(delphi.positions.keys())},
                 "achilles": {"cash": achilles.cash, "equity": achilles.equity(px),
-                             "positions": {p.symbol for p in achilles.positions.values()}},
+                             "position": achilles_sym},
             })
 
         # Final verification
@@ -467,10 +450,11 @@ class TestMultiDaySimulation:
             assert sleeve.equity(final_px) == pytest.approx(sleeve.cash + pos_value, abs=0.01), \
                 f"{god} equity inconsistent"
 
-        achilles_pos_value = sum(
-            p.shares * final_px.get(p.symbol, p.entry_price)
-            for p in achilles.positions.values()
-        )
+        if achilles.position:
+            achilles_pos_value = achilles.position.shares * final_px.get(
+                achilles.position.symbol, achilles.position.entry_price)
+        else:
+            achilles_pos_value = 0.0
         assert achilles.equity(final_px) == pytest.approx(
             achilles.cash + achilles_pos_value, abs=0.01), \
             "achilles equity inconsistent"
@@ -535,16 +519,14 @@ class TestKillSwitch:
         px = PRICES["day1"]
         oracle.buy("AAPL", 1.0, px["AAPL"], DATES[0])
         delphi.buy("MSFT", 0.5, px["MSFT"], DATES[0])
-        achilles.open(
-            event_id="evt-kill", symbol="JPM", event_class="earnings",
-            entry_price=px["JPM"], score=0.5,
-            hard_stop_price=170.0, profit_target_price=220.0,
-            time_stop_date="2026-07-02", today=DATES[0],
+        achilles.enter(
+            symbol="JPM", shares=5.0, price=px["JPM"],
+            today=DATES[0], score=0.5, surprise_pct=8.0,
         )
 
         assert len(oracle.positions) == 1
         assert len(delphi.positions) == 1
-        assert len(achilles.positions) == 1
+        assert achilles.position is not None
 
         ks_path = os.path.join(str(tmp_path), "KILL_SWITCH")
         with open(ks_path, "w") as f:
@@ -554,11 +536,11 @@ class TestKillSwitch:
 
         oracle.liquidate_all(px, DATES[1])
         delphi.liquidate_all(px, DATES[1])
-        achilles.liquidate_all(px, DATES[1])
+        achilles.liquidate(px, DATES[1])
 
         assert len(oracle.positions) == 0
         assert len(delphi.positions) == 0
-        assert len(achilles.positions) == 0
+        assert achilles.position is None
 
         # All cash recovered (minus fees)
         assert oracle.cash > 900.0
@@ -577,11 +559,9 @@ class TestPersistenceIsolation:
 
         oracle.buy("AAPL", 1.0, 150.0, DATES[0])
         delphi.buy("GOOG", 2.0, 130.0, DATES[0])
-        achilles.open(
-            event_id="evt-save", symbol="JPM", event_class="earnings",
-            entry_price=190.0, score=0.5,
-            hard_stop_price=170.0, profit_target_price=220.0,
-            time_stop_date="2026-07-02", today=DATES[0],
+        achilles.enter(
+            symbol="JPM", shares=5.0, price=190.0,
+            today=DATES[0], score=0.5, surprise_pct=8.0,
         )
 
         o_path = str(tmp_path / "oracle_sleeve.json")
@@ -600,8 +580,8 @@ class TestPersistenceIsolation:
         assert "GOOG" not in o2.positions
         assert "GOOG" in d2.positions
         assert "AAPL" not in d2.positions
-        assert "evt-save" in a2.positions
-        assert a2.positions["evt-save"].symbol == "JPM"
+        assert a2.position is not None
+        assert a2.position.symbol == "JPM"
 
     def test_overwrite_own_sleeve_only(self, tmp_path):
         """Re-saving one god doesn't affect other gods' files."""
@@ -721,25 +701,16 @@ class TestPreTradeSanityCheck:
         assert mismatches[0].sleeve_total == pytest.approx(1.0)
         assert mismatches[0].broker_shares == 0.0
 
-    def test_achilles_multi_event_same_symbol(self, tmp_path):
-        """Achilles with two events on same symbol sums correctly."""
+    def test_achilles_single_position(self, tmp_path):
+        """Achilles with a single position sums correctly."""
         achilles = AchillesSleeve(initial_cash=1000.0)
-        achilles.open(
-            event_id="e1", symbol="AAPL", event_class="earnings",
-            entry_price=150.0, score=0.3,
-            hard_stop_price=130.0, profit_target_price=175.0,
-            time_stop_date="2026-07-02", today=DATES[0],
-        )
-        achilles.open(
-            event_id="e2", symbol="AAPL", event_class="insider",
-            entry_price=150.0, score=0.3,
-            hard_stop_price=130.0, profit_target_price=175.0,
-            time_stop_date="2026-07-02", today=DATES[0],
+        achilles.enter(
+            symbol="AAPL", shares=3.0, price=150.0,
+            today=DATES[0], score=0.3, surprise_pct=5.0,
         )
         paths = self._save_sleeves(tmp_path, achilles=achilles)
 
-        achilles_aapl = sum(p.shares for p in achilles.positions.values()
-                           if p.symbol == "AAPL")
+        achilles_aapl = achilles.position.shares
 
         broker_positions = {"AAPL": achilles_aapl}
         assert pre_trade_check(broker_positions, sleeve_paths=paths) is True
@@ -756,17 +727,14 @@ class TestPreTradeSanityCheck:
 
         oracle.buy("AAPL", 1.0, 150.0, DATES[0])
         delphi.buy("AAPL", 2.0, 150.0, DATES[0])
-        achilles.open(
-            event_id="e-aapl", symbol="AAPL", event_class="earnings",
-            entry_price=150.0, score=0.3,
-            hard_stop_price=130.0, profit_target_price=175.0,
-            time_stop_date="2026-07-02", today=DATES[0],
+        achilles.enter(
+            symbol="AAPL", shares=3.0, price=150.0,
+            today=DATES[0], score=0.3, surprise_pct=5.0,
         )
 
         paths = self._save_sleeves(tmp_path, oracle, delphi, achilles)
 
-        achilles_aapl = sum(p.shares for p in achilles.positions.values()
-                           if p.symbol == "AAPL")
+        achilles_aapl = achilles.position.shares
         total = 1.0 + 2.0 + achilles_aapl
 
         # Exact match
@@ -810,28 +778,26 @@ class TestCircuitBreakerIsolation:
 
         assert oracle.buy("AAPL", 1.0, 150.0, DATES[0]) is False
         assert delphi.buy("AAPL", 1.0, 150.0, DATES[0]) is True
-        assert achilles.open(
-            event_id="evt-cb", symbol="AAPL", event_class="earnings",
-            entry_price=150.0, score=0.3,
-            hard_stop_price=130.0, profit_target_price=175.0,
-            time_stop_date="2026-07-02", today=DATES[0],
-        ) is not None
+        assert achilles.enter(
+            symbol="AAPL", shares=5.0, price=150.0,
+            today=DATES[0], score=0.3, surprise_pct=5.0,
+        ) is True
 
-    def test_achilles_hard_floor_doesnt_block_others(self):
-        """Achilles hitting $600 floor halts Achilles; Oracle and Delphi unaffected."""
+    def test_achilles_halt_doesnt_block_others(self):
+        """Achilles hitting halt blocks Achilles; Oracle and Delphi unaffected."""
         oracle = OracleSleeve(initial_cash=1000.0)
         delphi = DelphiSleeve(initial_cash=1000.0)
-        achilles = AchillesSleeve(initial_cash=600.0)
+        # Peak at 1000, but cash dropped to 500 -> 50% drawdown > 40% HALT_DRAWDOWN
+        achilles = AchillesSleeve(initial_cash=1000.0)
+        achilles.cash = 500.0
 
-        achilles.check_hard_floor()
+        achilles.check_halt()
         assert achilles.halted is True
 
-        assert achilles.open(
-            event_id="evt-hf", symbol="AAPL", event_class="earnings",
-            entry_price=150.0, score=0.3,
-            hard_stop_price=130.0, profit_target_price=175.0,
-            time_stop_date="2026-07-02", today=DATES[0],
-        ) is None
+        assert achilles.enter(
+            symbol="AAPL", shares=3.0, price=150.0,
+            today=DATES[0], score=0.3, surprise_pct=5.0,
+        ) is False
         assert oracle.buy("AAPL", 1.0, 150.0, DATES[0]) is True
         assert delphi.buy("MSFT", 1.0, 300.0, DATES[0]) is True
 
@@ -865,63 +831,63 @@ class TestSettlementIsolation:
         assert delphi.gfv_count == 0
 
 
-# ── Test 13: Max positions cap isolation ──────────────────────────────
+# ── Test 13: Achilles single position ────────────────────────────────
 
-class TestMaxPositionsIsolation:
+class TestAchillesSinglePosition:
+    def test_achilles_rejects_second_position(self):
+        """Achilles can only hold 1 position at a time."""
+        achilles = AchillesSleeve(initial_cash=5000.0)
+
+        ok = achilles.enter(
+            symbol="AAPL", shares=5.0, price=150.0,
+            today=DATES[0], score=0.3, surprise_pct=5.0,
+        )
+        assert ok is True
+        assert achilles.position is not None
+
+        # Second entry is rejected
+        ok2 = achilles.enter(
+            symbol="MSFT", shares=3.0, price=300.0,
+            today=DATES[0], score=0.4, surprise_pct=7.0,
+        )
+        assert ok2 is False
+
     def test_achilles_cap_doesnt_block_oracle(self):
-        """Achilles at MAX_CONCURRENT_POSITIONS still lets Oracle buy."""
+        """Achilles with a position still lets Oracle buy."""
         oracle = OracleSleeve(initial_cash=5000.0)
         achilles = AchillesSleeve(initial_cash=5000.0)
 
-        # Spread across 4 days to avoid MAX_TRADES_PER_DAY (5)
-        days = DATES + ["2026-06-27", "2026-06-28", "2026-06-29"]
-        for i in range(20):
-            day = days[i // 5]
-            achilles.open(
-                event_id=f"evt-{i}", symbol=f"SYM{i}", event_class="earnings",
-                entry_price=10.0, score=0.3,
-                hard_stop_price=8.0, profit_target_price=13.0,
-                time_stop_date="2026-07-02", today=day,
-            )
-        assert len(achilles.positions) == 20
+        achilles.enter(
+            symbol="SYM0", shares=10.0, price=10.0,
+            today=DATES[0], score=0.3, surprise_pct=5.0,
+        )
+        assert achilles.position is not None
 
-        # Achilles is full
-        assert achilles.open(
-            event_id="evt-overflow", symbol="EXTRA", event_class="earnings",
-            entry_price=10.0, score=0.3,
-            hard_stop_price=8.0, profit_target_price=13.0,
-            time_stop_date="2026-07-02", today="2026-06-29",
-        ) is None
+        # Achilles can't open another
+        ok = achilles.enter(
+            symbol="SYM1", shares=10.0, price=10.0,
+            today=DATES[0], score=0.3, surprise_pct=5.0,
+        )
+        assert ok is False
 
         # Oracle is unaffected
         assert oracle.buy("AAPL", 1.0, 150.0, DATES[0]) is True
 
 
-# ── Test 14: Trades-per-day isolation ─────────────────────────────────
+# ── Test 14: Achilles trading doesn't block others ──────────────────
 
-class TestTradesPerDayIsolation:
+class TestAchillesTradingIsolation:
     def test_achilles_trades_dont_block_others(self):
-        """Achilles trading heavily doesn't affect Oracle/Delphi."""
+        """Achilles entering a position doesn't affect Oracle/Delphi."""
         oracle = OracleSleeve(initial_cash=5000.0)
         delphi = DelphiSleeve(initial_cash=5000.0)
         achilles = AchillesSleeve(initial_cash=5000.0)
 
-        for i in range(5):
-            achilles.open(
-                event_id=f"daily-{i}", symbol=f"D{i}", event_class="earnings",
-                entry_price=10.0, score=0.3,
-                hard_stop_price=8.0, profit_target_price=13.0,
-                time_stop_date="2026-07-02", today=DATES[0],
-            )
-        assert achilles.trades_today(DATES[0]) == 5
-
-        # Daily limit is advisory — Achilles can still open (LLM decides)
-        assert achilles.open(
-            event_id="daily-overflow", symbol="EXTRA", event_class="earnings",
-            entry_price=10.0, score=0.3,
-            hard_stop_price=8.0, profit_target_price=13.0,
-            time_stop_date="2026-07-02", today=DATES[0],
-        ) is not None
+        achilles.enter(
+            symbol="D0", shares=10.0, price=10.0,
+            today=DATES[0], score=0.3, surprise_pct=5.0,
+        )
+        assert achilles.position is not None
 
         # Oracle and Delphi trade freely
         assert oracle.buy("AAPL", 1.0, 150.0, DATES[0]) is True
@@ -945,8 +911,10 @@ class TestHaltedPersistence:
 
     def test_achilles_halted_survives_round_trip(self, tmp_path):
         """Achilles halted flag persists through save/load."""
-        achilles = AchillesSleeve(initial_cash=600.0)
-        achilles.check_hard_floor()
+        # Peak at 1000, cash dropped to 500 -> 50% drawdown > 40% HALT_DRAWDOWN
+        achilles = AchillesSleeve(initial_cash=1000.0)
+        achilles.cash = 500.0
+        achilles.check_halt()
         assert achilles.halted is True
 
         path = str(tmp_path / "achilles_sleeve.json")
@@ -954,12 +922,10 @@ class TestHaltedPersistence:
         loaded = AchillesSleeve.load(path)
 
         assert loaded.halted is True
-        assert loaded.open(
-            event_id="post-load", symbol="AAPL", event_class="earnings",
-            entry_price=150.0, score=0.3,
-            hard_stop_price=130.0, profit_target_price=175.0,
-            time_stop_date="2026-07-02", today=DATES[0],
-        ) is None
+        assert loaded.enter(
+            symbol="AAPL", shares=3.0, price=150.0,
+            today=DATES[0], score=0.3, surprise_pct=5.0,
+        ) is False
 
 
 # ── Test 16: Peak equity independence ─────────────────────────────────

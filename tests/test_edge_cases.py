@@ -1,8 +1,7 @@
 """More edge-case coverage to push the suite past 500 tests."""
 import pytest
 
-from achilles.scoring import liquidity_score, score_event
-from achilles.playbooks import build_playbooks
+from achilles.scoring import liquidity_score, score_beat
 from achilles.sleeve import AchillesSleeve
 from delphi.signals import momentum
 from oracle.dossier_check import normalize_rating
@@ -248,45 +247,31 @@ def test_momentum_zero_when_flat():
 
 # ---- achilles ----
 
-def test_achilles_position_dollars_zero_equity():
-    s = AchillesSleeve(initial_cash=0)
-    # 10% of $0 = $0, clamped to $100 min, then halved (conservative default) → $50
-    out = s.position_dollars(score=0.5)
-    assert out == 50.0
-
-
-def test_achilles_open_blocked_zero_price():
+def test_achilles_enter_blocked_zero_price():
     s = AchillesSleeve(initial_cash=10_000)
-    out = s.open(
-        event_id="e1", symbol="X", event_class="earnings_reaction",
-        entry_price=0, score=0.5, hard_stop_price=0, profit_target_price=0,
-        time_stop_date="2024-06-15", today="2024-05-29",
+    ok = s.enter(
+        symbol="X", shares=5.0, price=0,
+        today="2024-05-29", score=0.5, surprise_pct=8.0,
     )
-    assert out is None
+    assert ok is False
 
 
-def test_achilles_open_blocked_duplicate_event_id():
-    s = AchillesSleeve(initial_cash=10_000, conservative_mode=False)
-    s.open(
-        event_id="e1", symbol="X", event_class="earnings_reaction",
-        entry_price=10, score=0.5, hard_stop_price=9, profit_target_price=11,
-        time_stop_date="2024-06-15", today="2024-05-29",
+def test_achilles_enter_blocked_when_position_held():
+    s = AchillesSleeve(initial_cash=10_000)
+    s.enter(
+        symbol="X", shares=5.0, price=10.0,
+        today="2024-05-29", score=0.5, surprise_pct=8.0,
     )
-    out = s.open(
-        event_id="e1", symbol="Y", event_class="earnings_reaction",
-        entry_price=10, score=0.5, hard_stop_price=9, profit_target_price=11,
-        time_stop_date="2024-06-15", today="2024-05-29",
+    ok = s.enter(
+        symbol="Y", shares=5.0, price=10.0,
+        today="2024-05-29", score=0.5, surprise_pct=8.0,
     )
-    assert out is None
+    assert ok is False
 
 
-def test_achilles_score_zero_when_quality_zero():
-    pbs = build_playbooks()
-    from datetime import datetime
-    out = score_event(
-        playbook=pbs["earnings_reaction"],
-        event_strength=1.0, company_quality=0.0, market_cap=1e9,
-        first_seen_iso=datetime.utcnow().isoformat(),
+def test_achilles_score_beat_zero_when_no_surprise():
+    out = score_beat(
+        surprise_pct=0.0, market_cap=1e9,
     )
     assert out["score"] == 0.0
 

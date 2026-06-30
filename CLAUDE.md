@@ -17,10 +17,15 @@ $1,000; scales to $12,000 ceiling after 30+ graded calls prove skill
 the strongest SPDR sectors, picks 1-2 stocks per sector, deploys idle cash
 into SPY. Rebalances on each run.
 
-**Achilles** — Event-driven, short-horizon. Watches EDGAR filings for
-catalysts (guidance changes, insider clusters, activist 13Ds, spinoffs).
-Scores events against playbooks, takes small positions with tight exits.
-Currently in conservative mode ($1,000 cash, no positions).
+**Achilles** — PEAD earnings-season specialist. Trades only during the
+four ~6-week earnings windows (~16 weeks/year). Picks the strongest
+earnings beat from small/mid-cap reporters, enters next trading day,
+holds 5 trading days, -8% hard stop. One position at a time, all-in.
+Sits in cash off-season. The edge is Post-Earnings Announcement Drift —
+the most robust short-horizon anomaly, strongest in neglected names with
+thin analyst coverage. Confirming signals (revenue beat, guidance raised,
+short squeeze, insider pre-buy) boost the base score but are never
+independent entry signals.
 
 **Midas** — Maximally concentrated weekly catalyst play. Scans the full
 ~7,000-name universe every weekend, funnels through signal convergence

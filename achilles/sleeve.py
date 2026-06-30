@@ -1,34 +1,23 @@
-"""AchillesSleeve — event-keyed, standalone (NOT a BaseSleeve).
+"""AchillesSleeve — single-position PEAD sleeve.
 
-Positions are keyed by event_id, not by symbol. The same stock can carry
-two simultaneous Achilles positions if it generated two distinct events.
-
-Each position has its own absolute-dollar hard stop, absolute-dollar
-profit target, and calendar time-stop date.
-
-Sticky $600 hard floor: at 40% drawdown or when equity <= $600, halt
-permanently until a manual reset.
+One position at a time. Enter on earnings beat, exit after 5 trading
+days or on -8% stop. Standalone (does NOT inherit BaseSleeve).
 """
 from __future__ import annotations
 
 import json
 import os
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from typing import Optional
 
 
-HARD_FLOOR = 600.0
-DRAWDOWN_HALT = 0.40
-MAX_CONCURRENT_POSITIONS = 20
-MAX_TRADES_PER_DAY = 5
-MIN_SCORE_TO_OPEN = 0.05
-PER_POSITION_CAP_FRAC = 0.10
-PER_POSITION_MIN = 100.0
-PER_POSITION_MAX = 400.0
-CONSERVATIVE_HALVE = 0.5
-FEE_BPS = 5  # 5 basis points
-STOP_COOLDOWN_DAYS = 90
+CAPITAL_BASE = 1_000.0
+HARD_STOP_PCT = -0.08
+HALT_DRAWDOWN = 0.40
+FEE_BPS = 5
+HOLD_DAYS = 5
+STOP_COOLDOWN_WEEKS = 4
 
 
 def _to_date(s: str):
@@ -43,22 +32,46 @@ def next_business_day(today: str) -> str:
             return d.strftime("%Y-%m-%d")
 
 
+def trading_days_ahead(today: str, n: int) -> str:
+    d = _to_date(today)
+    count = 0
+    while count < n:
+        d = d + timedelta(days=1)
+        if d.weekday() < 5:
+            count += 1
+    return d.strftime("%Y-%m-%d")
+
+
 @dataclass
 class AchillesPosition:
-    event_id: str
     symbol: str
-    event_class: str
     shares: float
     entry_price: float
     entry_date: str
-    dollars_at_entry: float
-    hard_stop_price: float
-    profit_target_price: float
-    time_stop_date: str
-    score: float = 0.0
-    trail_armed_at: float = 0.0  # 0 means no trailing
-    trail_pct: float = 0.0
-    high_water_price: float = 0.0
+    stop_price: float
+    exit_date: str
+    score: float
+    surprise_pct: float
+    revenue_beat: bool = False
+    guidance_raised: bool = False
+    short_float_pct: Optional[float] = None
+
+
+@dataclass
+class TradeResult:
+    symbol: str
+    entry_date: str
+    entry_price: float
+    exit_date: str
+    exit_price: float
+    exit_reason: str
+    return_pct: float
+    pnl: float
+    score: float
+    surprise_pct: float
+    revenue_beat: bool = False
+    guidance_raised: bool = False
+    short_float_pct: Optional[float] = None
 
 
 @dataclass
@@ -68,37 +81,29 @@ class Settlement:
 
 
 class AchillesSleeve:
-    """Standalone sleeve — does NOT inherit from BaseSleeve."""
 
-    def __init__(self, initial_cash: float = 1_000.0, conservative_mode: bool = True):
+    def __init__(self, initial_cash: float = CAPITAL_BASE):
         self.name = "achilles"
-        self.cash = float(initial_cash)
-        self.positions: dict[str, AchillesPosition] = {}
-        self.pending_settlements: list[Settlement] = []
+        self.cash: float = float(initial_cash)
+        self.position: Optional[AchillesPosition] = None
+        self.peak_equity: float = float(initial_cash)
         self.realized_pnl: float = 0.0
-        self.gfv_count: int = 0
         self.trades_count: int = 0
         self.halted: bool = False
         self.contributed_cash: float = float(initial_cash)
-        self.peak_equity: float = float(initial_cash)
-        self.conservative_mode: bool = conservative_mode
-        self.symbol_cooldowns: dict[str, str] = {}
-        self._trades_today_date: str = ""
-        self._trades_today: int = 0
+        self.pending_settlements: list[Settlement] = []
+        self.gfv_count: int = 0
+        self.cooldowns: dict[str, str] = {}
+        self.trade_results: list[TradeResult] = []
 
     # ------- accounting -------
-
-    def inject(self, amount: float) -> None:
-        if amount < 0:
-            raise ValueError("inject() requires non-negative amount")
-        self.cash += amount
-        self.contributed_cash += amount
 
     def equity(self, marks: Optional[dict[str, float]] = None) -> float:
         marks = marks or {}
         total = self.cash
-        for p in self.positions.values():
-            total += p.shares * marks.get(p.symbol, p.entry_price)
+        if self.position:
+            px = marks.get(self.position.symbol, self.position.entry_price)
+            total += self.position.shares * px
         return total
 
     def update_peak(self, marks: Optional[dict[str, float]] = None) -> None:
@@ -109,20 +114,19 @@ class AchillesSleeve:
     def absolute_drawdown(self, marks: Optional[dict[str, float]] = None) -> float:
         if self.peak_equity <= 0:
             return 0.0
-        eq = self.equity(marks)
-        return max(0.0, 1.0 - eq / self.peak_equity)
+        return max(0.0, 1.0 - self.equity(marks) / self.peak_equity)
 
-    def check_hard_floor(self, marks: Optional[dict[str, float]] = None) -> bool:
-        """Returns True iff the sleeve hit its floor and is now halted."""
-        eq = self.equity(marks)
-        if eq <= HARD_FLOOR + 1e-9 or self.absolute_drawdown(marks) >= DRAWDOWN_HALT - 1e-9:
+    def check_halt(self, marks: Optional[dict[str, float]] = None) -> bool:
+        if self.absolute_drawdown(marks) >= HALT_DRAWDOWN - 1e-9:
             self.halted = True
             return True
         return False
 
-    def manual_reset(self) -> None:
-        """Operator-only: clears the halted flag."""
-        self.halted = False
+    def inject(self, amount: float) -> None:
+        if amount < 0:
+            raise ValueError("inject() requires non-negative amount")
+        self.cash += amount
+        self.contributed_cash += amount
 
     def unsettled_cash(self, today: str) -> float:
         return sum(s.amount for s in self.pending_settlements if s.settle_date > today)
@@ -131,157 +135,192 @@ class AchillesSleeve:
         return self.cash - self.unsettled_cash(today)
 
     def process_settlements(self, today: str) -> None:
-        self.pending_settlements = [s for s in self.pending_settlements if s.settle_date > today]
-
-    # ------- daily counter -------
-
-    def _ensure_today(self, today: str) -> None:
-        if self._trades_today_date != today:
-            self._trades_today_date = today
-            self._trades_today = 0
-
-    def trades_today(self, today: str) -> int:
-        self._ensure_today(today)
-        return self._trades_today
-
-    # ------- cooldowns -------
-
-    def add_cooldown(self, symbol: str, today: str) -> None:
-        """Block a symbol for STOP_COOLDOWN_DAYS after a hard stop."""
-        d = _to_date(today) + timedelta(days=STOP_COOLDOWN_DAYS)
-        self.symbol_cooldowns[symbol.upper()] = d.strftime("%Y-%m-%d")
+        self.pending_settlements = [
+            s for s in self.pending_settlements if s.settle_date > today
+        ]
 
     def in_cooldown(self, symbol: str, today: str) -> bool:
-        until = self.symbol_cooldowns.get(symbol.upper())
+        until = self.cooldowns.get(symbol.upper())
         if not until:
             return False
         return today < until
 
-    # ------- position sizing -------
+    # ------- trading -------
 
-    def position_dollars(self, score: float, conviction: float = 1.0) -> float:
-        """Compute the absolute-dollar entry size from sleeve equity, score, and conviction.
-
-        Base = PER_POSITION_CAP_FRAC of equity, scaled by conviction multiplier.
-        Conviction comes from signal convergence: more converging signals → bigger bet.
-        Clamped to [PER_POSITION_MIN, PER_POSITION_MAX]. Halved in conservative mode.
-        """
-        base = PER_POSITION_CAP_FRAC * self.equity()
-        sized = base * max(1.0, conviction)
-        sized = max(PER_POSITION_MIN, min(PER_POSITION_MAX, sized))
-        if self.conservative_mode:
-            sized *= CONSERVATIVE_HALVE
-        return float(sized)
-
-    # ------- open / close -------
-
-    def open(
+    def enter(
         self,
         *,
-        event_id: str,
         symbol: str,
-        event_class: str,
-        entry_price: float,
-        score: float,
-        hard_stop_price: float,
-        profit_target_price: float,
-        time_stop_date: str,
+        shares: float,
+        price: float,
         today: str,
-        trail_armed_at: float = 0.0,
-        trail_pct: float = 0.0,
-        conviction: float = 1.0,
-        dollars: Optional[float] = None,
-    ) -> Optional[AchillesPosition]:
-        """Open a position. Returns the position on success, None on rejection.
-
-        The LLM has full agency over trade decisions. Judgment calls
-        (score threshold, cooldown, daily limit) are advisory — pass
-        ``dollars`` to set your own position size instead of using the
-        formula. Accounting constraints (halted, cash, duplicate event,
-        slot limit, positive price) are enforced unconditionally.
-        """
-        # ── Accounting constraints (non-negotiable) ──
+        score: float,
+        surprise_pct: float,
+        revenue_beat: bool = False,
+        guidance_raised: bool = False,
+        short_float_pct: Optional[float] = None,
+    ) -> bool:
         if self.halted:
-            return None
-        if entry_price <= 0:
-            return None
-        if event_id in self.positions:
-            return None
-        if len(self.positions) >= MAX_CONCURRENT_POSITIONS:
-            return None
+            return False
+        if self.position is not None:
+            return False
+        if shares <= 0 or price <= 0:
+            return False
+        if self.in_cooldown(symbol, today):
+            return False
 
-        # ── Position sizing: LLM override or formula ──
-        if dollars is not None:
-            sized = max(0.0, float(dollars))
-        else:
-            sized = self.position_dollars(score, conviction=conviction)
-
-        if sized <= 0 or sized > self.cash + 1e-9:
-            return None
-        fee = sized * FEE_BPS / 10_000
-        total_cost = sized + fee
+        dollars = shares * price
+        fee = dollars * FEE_BPS / 10_000
+        total_cost = dollars + fee
         if total_cost > self.cash + 1e-9:
-            return None
+            return False
+
         if total_cost > self.settled_cash(today) + 1e-9:
             self.gfv_count += 1
-        shares = sized / entry_price
-        pos = AchillesPosition(
-            event_id=event_id,
+
+        stop_price = round(price * (1.0 + HARD_STOP_PCT), 4)
+        exit_date = trading_days_ahead(today, HOLD_DAYS)
+
+        self.position = AchillesPosition(
             symbol=symbol.upper(),
-            event_class=event_class,
             shares=shares,
-            entry_price=entry_price,
+            entry_price=price,
             entry_date=today,
-            dollars_at_entry=sized,
-            hard_stop_price=hard_stop_price,
-            profit_target_price=profit_target_price,
-            time_stop_date=time_stop_date,
+            stop_price=stop_price,
+            exit_date=exit_date,
             score=score,
-            trail_armed_at=trail_armed_at,
-            trail_pct=trail_pct,
-            high_water_price=entry_price,
+            surprise_pct=surprise_pct,
+            revenue_beat=revenue_beat,
+            guidance_raised=guidance_raised,
+            short_float_pct=short_float_pct,
         )
-        self.positions[event_id] = pos
         self.cash -= total_cost
         self.trades_count += 1
-        self._ensure_today(today)
-        self._trades_today += 1
-        return pos
+        return True
 
-    def close(
-        self, event_id: str, *, exit_price: float, today: str,
-    ) -> Optional[float]:
-        """Close a position at the given exit price. Returns realized PnL or None."""
-        pos = self.positions.get(event_id)
-        if pos is None:
+    def exit(self, *, price: float, today: str, reason: str) -> Optional[float]:
+        if self.position is None:
             return None
-        if exit_price <= 0:
+        if price <= 0:
             return None
-        proceeds = pos.shares * exit_price
+
+        pos = self.position
+        proceeds = pos.shares * price
         fee = proceeds * FEE_BPS / 10_000
         net = proceeds - fee
-        realized = net - pos.dollars_at_entry
+        cost = pos.shares * pos.entry_price
+        realized = net - cost
+        return_pct = (price - pos.entry_price) / pos.entry_price
+
         self.realized_pnl += realized
         self.cash += net
-        self.pending_settlements.append(Settlement(next_business_day(today), net))
-        del self.positions[event_id]
+        self.pending_settlements.append(
+            Settlement(next_business_day(today), net)
+        )
+
+        result = TradeResult(
+            symbol=pos.symbol,
+            entry_date=pos.entry_date,
+            entry_price=pos.entry_price,
+            exit_date=today,
+            exit_price=price,
+            exit_reason=reason,
+            return_pct=return_pct,
+            pnl=realized,
+            score=pos.score,
+            surprise_pct=pos.surprise_pct,
+            revenue_beat=pos.revenue_beat,
+            guidance_raised=pos.guidance_raised,
+            short_float_pct=pos.short_float_pct,
+        )
+        self.trade_results.append(result)
+
+        if reason == "hard_stop":
+            cooldown_end = _to_date(today) + timedelta(weeks=STOP_COOLDOWN_WEEKS)
+            self.cooldowns[pos.symbol] = cooldown_end.strftime("%Y-%m-%d")
+
+        self.position = None
         self.trades_count += 1
         return realized
 
-    def liquidate_all(self, marks: dict[str, float], today: str) -> list[tuple[str, str, float]]:
-        """Kill-switch path: close every position at the given marks. Bypasses halted."""
-        out: list[tuple[str, str, float]] = []
+    def check_stop(self, current_price: float) -> bool:
+        if self.position is None:
+            return False
+        return current_price <= self.position.stop_price
+
+    def should_time_stop(self, today: str) -> bool:
+        if self.position is None:
+            return False
+        return today >= self.position.exit_date
+
+    def liquidate(self, marks: dict[str, float], today: str) -> Optional[float]:
+        if self.position is None:
+            return None
+        px = marks.get(self.position.symbol, self.position.entry_price)
         was_halted = self.halted
         self.halted = False
         try:
-            for eid in list(self.positions.keys()):
-                pos = self.positions[eid]
-                px = marks.get(pos.symbol, pos.entry_price)
-                realized = self.close(eid, exit_price=px, today=today)
-                if realized is not None:
-                    out.append((eid, pos.symbol, realized))
+            return self.exit(price=px, today=today, reason="liquidation")
         finally:
             self.halted = was_halted
+
+    # ------- calibration -------
+
+    def hit_rate(self) -> Optional[float]:
+        if not self.trade_results:
+            return None
+        hits = sum(1 for r in self.trade_results if r.return_pct > 0)
+        return hits / len(self.trade_results)
+
+    def graded_count(self) -> int:
+        return len(self.trade_results)
+
+    def avg_return(self) -> Optional[float]:
+        if not self.trade_results:
+            return None
+        return sum(r.return_pct for r in self.trade_results) / len(self.trade_results)
+
+    def hit_rate_by_surprise_bucket(self) -> dict[str, Optional[float]]:
+        buckets: dict[str, list[float]] = {
+            "3-10%": [], "10-20%": [], "20-50%": [], "50%+": [],
+        }
+        for r in self.trade_results:
+            pct = abs(r.surprise_pct)
+            if pct < 10:
+                buckets["3-10%"].append(1.0 if r.return_pct > 0 else 0.0)
+            elif pct < 20:
+                buckets["10-20%"].append(1.0 if r.return_pct > 0 else 0.0)
+            elif pct < 50:
+                buckets["20-50%"].append(1.0 if r.return_pct > 0 else 0.0)
+            else:
+                buckets["50%+"].append(1.0 if r.return_pct > 0 else 0.0)
+        return {
+            k: sum(v) / len(v) if v else None
+            for k, v in buckets.items()
+        }
+
+    def confirming_signal_stats(self) -> dict[str, dict]:
+        signals = {
+            "revenue_beat": {"with": [], "without": []},
+            "guidance_raised": {"with": [], "without": []},
+            "short_squeeze": {"with": [], "without": []},
+        }
+        for r in self.trade_results:
+            hit = 1.0 if r.return_pct > 0 else 0.0
+            key = "with" if r.revenue_beat else "without"
+            signals["revenue_beat"][key].append(hit)
+            key = "with" if r.guidance_raised else "without"
+            signals["guidance_raised"][key].append(hit)
+            key = "with" if r.short_float_pct and r.short_float_pct > 20 else "without"
+            signals["short_squeeze"][key].append(hit)
+        out = {}
+        for sig, groups in signals.items():
+            out[sig] = {
+                "with_hit_rate": sum(groups["with"]) / len(groups["with"]) if groups["with"] else None,
+                "without_hit_rate": sum(groups["without"]) / len(groups["without"]) if groups["without"] else None,
+                "with_n": len(groups["with"]),
+                "without_n": len(groups["without"]),
+            }
         return out
 
     # ------- persistence -------
@@ -290,35 +329,37 @@ class AchillesSleeve:
         return {
             "name": self.name,
             "cash": self.cash,
-            "positions": {k: asdict(v) for k, v in self.positions.items()},
-            "pending_settlements": [asdict(s) for s in self.pending_settlements],
+            "position": asdict(self.position) if self.position else None,
+            "peak_equity": self.peak_equity,
             "realized_pnl": self.realized_pnl,
-            "gfv_count": self.gfv_count,
             "trades_count": self.trades_count,
             "halted": self.halted,
             "contributed_cash": self.contributed_cash,
-            "peak_equity": self.peak_equity,
-            "conservative_mode": self.conservative_mode,
-            "symbol_cooldowns": self.symbol_cooldowns,
-            "trades_today_date": self._trades_today_date,
-            "trades_today": self._trades_today,
+            "pending_settlements": [asdict(s) for s in self.pending_settlements],
+            "gfv_count": self.gfv_count,
+            "cooldowns": dict(self.cooldowns),
+            "trade_results": [asdict(r) for r in self.trade_results],
         }
 
     @classmethod
     def from_dict(cls, data: dict) -> "AchillesSleeve":
-        s = cls(initial_cash=0.0, conservative_mode=bool(data.get("conservative_mode", True)))
+        s = cls(initial_cash=0.0)
         s.cash = float(data["cash"])
-        s.positions = {k: AchillesPosition(**v) for k, v in data.get("positions", {}).items()}
-        s.pending_settlements = [Settlement(**x) for x in data.get("pending_settlements", [])]
+        pos = data.get("position")
+        s.position = AchillesPosition(**pos) if pos else None
+        s.peak_equity = float(data.get("peak_equity", s.cash))
         s.realized_pnl = float(data.get("realized_pnl", 0.0))
-        s.gfv_count = int(data.get("gfv_count", 0))
         s.trades_count = int(data.get("trades_count", 0))
         s.halted = bool(data.get("halted", False))
         s.contributed_cash = float(data.get("contributed_cash", s.cash))
-        s.peak_equity = float(data.get("peak_equity", s.cash))
-        s.symbol_cooldowns = data.get("symbol_cooldowns", {})
-        s._trades_today_date = data.get("trades_today_date", "")
-        s._trades_today = int(data.get("trades_today", 0))
+        s.pending_settlements = [
+            Settlement(**x) for x in data.get("pending_settlements", [])
+        ]
+        s.gfv_count = int(data.get("gfv_count", 0))
+        s.cooldowns = dict(data.get("cooldowns", {}))
+        s.trade_results = [
+            TradeResult(**r) for r in data.get("trade_results", [])
+        ]
         return s
 
     def save(self, path: str) -> None:

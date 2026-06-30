@@ -1,10 +1,6 @@
 """Additional coverage to clear 500 tests."""
 import pytest
 
-from achilles.brief import Play, brief_from_dict, brief_to_dict, make_brief
-from achilles.playbooks import build_playbooks, recalibrate
-from achilles.quotes import normalize_quotes
-from achilles.scoring import has_disqualifier
 from achilles.sleeve import AchillesPosition, AchillesSleeve
 from delphi.execution import build_targets
 from delphi.signals import momentum
@@ -169,66 +165,31 @@ def test_delphi_can_buy_any_stock():
 
 # --- Achilles ---
 
-def test_achilles_play_dataclass():
-    p = Play(
-        entry_dollars=100, hard_stop_price=92, profit_target_price=112,
-        time_stop_date="2024-06-15",
-    )
-    assert p.entry_dollars == 100
-
-
-def test_achilles_brief_roundtrip_disqualified():
-    b = make_brief(
-        event_id="e1", event_class="earnings_reaction", symbol="X",
-        score=0, filing={}, setup={}, disqualifiers=["trading_halt"], play=None,
-    )
-    d = brief_to_dict(b)
-    b2 = brief_from_dict(d)
-    assert b2.disqualifiers == ["trading_halt"]
-    assert b2.play is None
-
-
-def test_achilles_recalibrate_full():
-    pbs = build_playbooks()
-    pb = pbs["earnings_reaction"]
-    recalibrate(
-        pb, new_base_rate=0.65, new_hold_days=12,
-        new_hard_stop_pct=-0.06, new_profit_target_pct=0.15,
-    )
-    assert pb.base_rate == 0.65
-    assert pb.expected_hit_rate == 0.65
-    assert pb.hard_stop_pct == -0.06
-    assert pb.profit_target_pct == 0.15
-    assert pb.uncalibrated is False
-
-
-def test_achilles_quotes_normalizes_uppercase():
-    rows = [{"symbol": "msft", "last_trade_price": 350}]
-    out = normalize_quotes(rows)
-    assert "MSFT" in out
-
-
 def test_achilles_position_dataclass():
     pos = AchillesPosition(
-        event_id="e", symbol="X", event_class="ma_target",
-        shares=10, entry_price=100, entry_date="2024-05-29",
-        dollars_at_entry=1000, hard_stop_price=95, profit_target_price=106,
-        time_stop_date="2024-06-15",
+        symbol="X", shares=10, entry_price=100, entry_date="2024-05-29",
+        stop_price=92.0, exit_date="2024-06-05", score=0.5, surprise_pct=8.0,
     )
     assert pos.symbol == "X"
     assert pos.shares == 10
 
 
-def test_achilles_conservative_mode_default():
+def test_achilles_enter_basic():
     s = AchillesSleeve()
-    assert s.conservative_mode is True
+    ok = s.enter(
+        symbol="AAPL", shares=5.0, price=100.0,
+        today="2024-05-29", score=0.5, surprise_pct=8.0,
+    )
+    assert ok is True
+    assert s.position is not None
+    assert s.position.symbol == "AAPL"
 
 
-def test_achilles_conservative_can_be_disabled():
-    s = AchillesSleeve(conservative_mode=False)
-    assert s.conservative_mode is False
-
-
-def test_achilles_disqualifier_check_combined():
-    """Universal AND class disqualifier present -> still disqualified."""
-    assert has_disqualifier(["trading_halt", "guidance_withdrawn"], "earnings_reaction")
+def test_achilles_rejects_when_halted():
+    s = AchillesSleeve()
+    s.halted = True
+    ok = s.enter(
+        symbol="AAPL", shares=5.0, price=100.0,
+        today="2024-05-29", score=0.5, surprise_pct=8.0,
+    )
+    assert ok is False
