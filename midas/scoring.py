@@ -4,9 +4,13 @@ The edge is signal convergence: when multiple independent informed-money
 signals fire on the same name simultaneously, the probability of a
 short-term pop increases non-linearly.
 
-score = convergence_multiplier × mean_signal_strength × neglect × liquidity
+score = convergence_multiplier × mean(strength × timing_weight) × neglect × liquidity
 
-Signals (8 channels):
+Each signal's raw strength is multiplied by a timing weight that reflects
+how well the signal's resolution timescale matches Midas's 5-day hold.
+Squeezes and earnings beats (days) get 1.0; activist 13D (months) gets 0.2.
+
+Signals (7 channels + quality floor):
   1. insider_cluster   — 2+ insiders buying $10k+ in tight window
   2. earnings_beat     — EPS surprise via surprise_strength curve
   3. smart_money       — Berkshire/Baupost/Pershing etc. accumulated
@@ -41,6 +45,19 @@ SIGNAL_CHANNELS = (
     "volume_anomaly",
     "short_squeeze",
 )
+
+# How well each signal's resolution timescale fits a 5-day hold.
+# Signals that can pay off within a week get 1.0; multi-month signals
+# get discounted so they don't dominate the convergence ranking.
+TIMING_WEIGHTS = {
+    "short_squeeze": 1.0,       # days–weeks
+    "earnings_beat": 1.0,       # 1–5 days (PEAD)
+    "volume_anomaly": 0.9,      # days
+    "guidance_raised": 0.8,     # days–weeks
+    "insider_cluster": 0.5,     # weeks–months
+    "smart_money": 0.3,         # months (13F is 45-day delayed)
+    "activist_13d": 0.2,        # 3–12 months
+}
 
 QUALITY_VALUE_FLOOR = 0.3
 
@@ -116,8 +133,11 @@ def score_candidate(
     if n_active == 0:
         return {"score": 0.0, "reason": "no_signals"}
 
-    strengths = list(active.values())
-    mean_strength = sum(strengths) / len(strengths)
+    # Apply timing weights: strength × timing_weight per signal.
+    # This discounts slow-resolving signals (activist, 13F) so they
+    # don't dominate the ranking for a 5-day hold window.
+    weighted = {k: v * TIMING_WEIGHTS.get(k, 0.5) for k, v in active.items()}
+    mean_strength = sum(weighted.values()) / len(weighted)
 
     conv = convergence_multiplier(n_active)
     neglect = neglect_score(market_cap)
@@ -132,6 +152,7 @@ def score_candidate(
         "convergence_count": n_active,
         "convergence_multiplier": conv,
         "active_signals": active,
+        "timing_adjusted": weighted,
         "components": {
             "convergence": conv,
             "mean_strength": mean_strength,

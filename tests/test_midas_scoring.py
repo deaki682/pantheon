@@ -6,6 +6,7 @@ from midas.scoring import (
     MIN_MARKET_CAP,
     MAX_MARKET_CAP,
     QUALITY_VALUE_FLOOR,
+    TIMING_WEIGHTS,
     convergence_multiplier,
     liquidity_ok,
     neglect_score,
@@ -101,11 +102,11 @@ class TestScoreCandidate:
 
     def test_three_signals_much_higher(self):
         two = score_candidate(
-            signals={"insider_cluster": 0.8, "earnings_beat": 0.7},
+            signals={"short_squeeze": 0.8, "earnings_beat": 0.7},
             quality_value=0.5, market_cap=1e9,
         )
         three = score_candidate(
-            signals={"insider_cluster": 0.8, "earnings_beat": 0.7, "activist_13d": 1.0},
+            signals={"short_squeeze": 0.8, "earnings_beat": 0.7, "volume_anomaly": 0.9},
             quality_value=0.5, market_cap=1e9,
         )
         assert three["score"] > two["score"] * 1.5
@@ -132,6 +133,31 @@ class TestScoreCandidate:
             quality_value=0.5, market_cap=1e9,
         )
         assert result["convergence_count"] == 1
+
+    def test_timing_weights_applied(self):
+        result = score_candidate(
+            signals={"activist_13d": 1.0},
+            quality_value=0.5, market_cap=1e9,
+        )
+        assert "timing_adjusted" in result
+        assert result["timing_adjusted"]["activist_13d"] == pytest.approx(0.2)
+
+    def test_fast_signals_beat_slow_at_same_count(self):
+        fast = score_candidate(
+            signals={"short_squeeze": 0.8, "earnings_beat": 0.7},
+            quality_value=0.5, market_cap=1e9,
+        )
+        slow = score_candidate(
+            signals={"activist_13d": 0.8, "smart_money": 0.7},
+            quality_value=0.5, market_cap=1e9,
+        )
+        assert fast["score"] > slow["score"] * 2.0
+
+    def test_timing_weights_all_channels_defined(self):
+        for channel in ("insider_cluster", "earnings_beat", "smart_money",
+                        "activist_13d", "guidance_raised", "volume_anomaly",
+                        "short_squeeze"):
+            assert channel in TIMING_WEIGHTS
 
     def test_small_cap_neglect_boost(self):
         small = score_candidate(

@@ -265,9 +265,10 @@ class WeeklyCatalystDossier:
 def pick_winner(dossiers: list[WeeklyCatalystDossier]) -> Optional[WeeklyCatalystDossier]:
     """Pick the single best candidate by score-weighted expected value.
 
-    Raw EV alone lets noisy single-signal estimates beat higher-confidence
-    multi-signal names. Multiplying by the convergence-adjusted score
-    re-applies the 1x/2.5x/5x/8x weighting at the pick stage.
+    The score already incorporates timing weights (fast-resolving signals
+    like squeezes/earnings are worth more than slow ones like activist 13D)
+    and convergence multipliers. Multiplying by EV prevents the algorithm
+    from picking high-score names with no plausible one-week catalyst.
     """
     if not dossiers:
         return None
