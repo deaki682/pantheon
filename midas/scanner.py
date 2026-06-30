@@ -178,10 +178,15 @@ class WeeklyCatalystDossier:
 
 
 def pick_winner(dossiers: list[WeeklyCatalystDossier]) -> Optional[WeeklyCatalystDossier]:
-    """Pick the single best candidate from Stage 3 dossiers by expected value."""
+    """Pick the single best candidate by score-weighted expected value.
+
+    Raw EV alone lets noisy single-signal estimates beat higher-confidence
+    multi-signal names. Multiplying by the convergence-adjusted score
+    re-applies the 1x/2.5x/5x/8x weighting at the pick stage.
+    """
     if not dossiers:
         return None
-    return max(dossiers, key=lambda d: d.expected_value)
+    return max(dossiers, key=lambda d: d.expected_value * d.score)
 
 
 # ------- persistence -------
