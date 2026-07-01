@@ -3144,5 +3144,211 @@
     "exit_date": "",
     "exit_price": 0.0,
     "graded_return": null
+  },
+  {
+    "symbol": "CLNE",
+    "entry_date": "2026-07-01",
+    "entry_price": 2.045,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "insider_cluster": true,
+      "smart_money": false,
+      "activist_13d": false,
+      "valuation": 0.25,
+      "quality": 0.25,
+      "score": 0.30000000000000004,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "PATK",
+    "entry_date": "2026-07-01",
+    "entry_price": 89.76,
+    "horizon_days": 912,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.32393384082631627,
+      "potential_score": 0.2740250373895076,
+      "expected_cagr": 0.11940088775141944,
+      "asymmetry": 4.611066235864294,
+      "sector": "Consumer Durables"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "LILA",
+    "entry_date": "2026-07-01",
+    "entry_price": 7.835,
+    "horizon_days": 1095,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.15543787973926282,
+      "potential_score": 0.11825589076861447,
+      "expected_cagr": 0.08291580771416895,
+      "asymmetry": 1.8449826989619376,
+      "sector": "Communication Services"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "HLNE",
+    "entry_date": "2026-07-01",
+    "entry_price": 78.82,
+    "horizon_days": 730,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.26584733123230353,
+      "potential_score": 0.21632679347957287,
+      "expected_cagr": 0.1107762612528238,
+      "asymmetry": 2.648285038438794,
+      "sector": "Financials"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "HUBS",
+    "entry_date": "2026-07-01",
+    "entry_price": 182.32,
+    "horizon_days": 1095,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.37580431112923796,
+      "potential_score": 0.3299039490716188,
+      "expected_cagr": 0.13275812839904177,
+      "asymmetry": 5.5510269576379985,
+      "sector": "Technology"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "FUN",
+    "entry_date": "2026-07-01",
+    "entry_price": 21.31,
+    "horizon_days": 912,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.0735210303763919,
+      "potential_score": 0.053454752573341965,
+      "expected_cagr": 0.04431632174777134,
+      "asymmetry": 1.477012609117362,
+      "sector": "Consumer Discretionary"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "OFIX",
+    "entry_date": "2026-07-01",
+    "entry_price": 9.13,
+    "horizon_days": 730,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.21947878503468443,
+      "potential_score": 0.17345535070251514,
+      "expected_cagr": 0.12839484129148304,
+      "asymmetry": 2.1680440771349856,
+      "sector": "Health Care"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "KRMD",
+    "entry_date": "2026-07-01",
+    "entry_price": 4.2,
+    "horizon_days": 912,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.5185977328652513,
+      "potential_score": 0.5117364309279538,
+      "expected_cagr": 0.22845376380712223,
+      "asymmetry": 8.45833333333333,
+      "sector": "Health Care"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ARTV",
+    "entry_date": "2026-07-01",
+    "entry_price": 9.7,
+    "horizon_days": 912,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.4712925822048978,
+      "potential_score": 0.44612405990985726,
+      "expected_cagr": 0.21549769910369743,
+      "asymmetry": 3.5419354838709682,
+      "sector": "Health Care"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "BORR",
+    "entry_date": "2026-07-01",
+    "entry_price": 4.14,
+    "horizon_days": 730,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.20690287701305676,
+      "potential_score": 0.1622667126173917,
+      "expected_cagr": 0.11126206704022445,
+      "asymmetry": 1.8841121495327107,
+      "sector": "Energy"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "PAR",
+    "entry_date": "2026-07-01",
+    "entry_price": 17.43,
+    "horizon_days": 912,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.30148866975115973,
+      "potential_score": 0.25116271571159043,
+      "expected_cagr": 0.14496600035884022,
+      "asymmetry": 2.928113879003559,
+      "sector": "Technology"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "INR",
+    "entry_date": "2026-07-01",
+    "entry_price": 12.73,
+    "horizon_days": 730,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.4693231536192479,
+      "potential_score": 0.44352141298612413,
+      "expected_cagr": 0.21120067285053534,
+      "asymmetry": 7.544871794871792,
+      "sector": "Industrials"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
   }
 ]
