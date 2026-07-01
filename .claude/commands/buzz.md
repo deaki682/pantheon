@@ -67,18 +67,20 @@ the actual chatter and recommends the top names with inspectable reasoning.
 
 ### Ghost — validate before trusting any of this
 
-7. **Shadow everything.** Open paper positions (via `shared.ghost`) on ALL
-   accelerating candidates — confirmed AND unconfirmed, LLM-recommended AND not —
-   at a ~5 trading-day horizon. Tag each with: `confirmed?`, `llm_recommended?`,
-   `insider_backed?`, `new_entrant?`. Grade forward returns.
+7. **Shadow everything.** Hand the accelerating candidates (confirmed AND
+   unconfirmed) to `buzz.ghost.candidates_to_ghost(candidates, price_lookup,
+   recommended=<LLM picks from step 6>, insider_backed=<insider set from step 4>)`,
+   then `buzz.ghost.open_entries(...)` at a 5-day horizon. The `recommended` and
+   `insider_backed` sets are what make the LLM and insider layers testable — pass
+   them through. Full ghost run lives in **`/buzz-ghost`**.
 
-8. **Measure whether each layer earns its place.** From the graded ghost book:
-   - Do **confirmed** names beat unconfirmed? (does the price/volume gate add lift?)
-   - Do **LLM-recommended** names beat the mechanical-only ranking? (is the thinking
-     real or theater?)
-   - Do **insider-backed** names beat the rest? (does the authenticity gate help?)
-   Keep only the layers the ghost proves add lift. This is exactly what convergence-
-   Midas never did — it hardcoded belief and never checked.
+8. **Measure whether each layer earns its place.** `buzz.ghost.buzz_report(ledger)`
+   → `signal_lift` answers all three at once: do **confirmed** names beat
+   unconfirmed (price/volume gate)? do **llm_recommended** names beat the reviewed
+   names it passed on (is the thinking real or theater)? do **insider_backed**
+   names beat the rest (authenticity gate)? Plus `accel_terciles`: does more
+   acceleration predict more return? Keep only the layers the ghost proves add
+   lift — exactly the check convergence-Midas never ran.
 
 ## Deliberately NOT built yet
 - No live sleeve / orders. v1 is a shortlist + ghost. Promotion to real capital
