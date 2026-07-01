@@ -2,26 +2,28 @@
   "finalists": [
     {
       "active_signals": {
-        "earnings_beat": 0.98125,
-        "volume_anomaly": 1.0
+        "earnings_beat": 0.9704225352112676,
+        "guidance_raised": 1.0,
+        "volume_anomaly": 0.7599999999999999
       },
       "components": {
-        "convergence": 2.5,
-        "liquidity": 0.7956238255141737,
-        "mean_strength": 0.940625,
-        "neglect": 0.7538006322579744,
+        "convergence": 5.0,
+        "liquidity": 0.8302350986635146,
+        "mean_strength": 0.8181408450704225,
+        "neglect": 0.69978058814899,
         "quality_value": 0.3
       },
-      "convergence_count": 2,
-      "convergence_multiplier": 2.5,
-      "market_cap": 974000000.0,
-      "score": 0.42309905755392146,
+      "convergence_count": 3,
+      "convergence_multiplier": 5.0,
+      "market_cap": 1416366001.260653,
+      "score": 0.7129881544877893,
       "sector": "",
       "signal_details": {},
-      "symbol": "DAKT",
+      "symbol": "PRGS",
       "timing_adjusted": {
-        "earnings_beat": 0.98125,
-        "volume_anomaly": 0.9
+        "earnings_beat": 0.9704225352112676,
+        "guidance_raised": 0.8,
+        "volume_anomaly": 0.6839999999999999
       }
     },
     {
@@ -31,15 +33,15 @@
       },
       "components": {
         "convergence": 2.5,
-        "liquidity": 0.62273459703167,
+        "liquidity": 0.6156996275565482,
         "mean_strength": 0.95,
-        "neglect": 0.8743617342646732,
+        "neglect": 0.8771205612738511,
         "quality_value": 0.3
       },
       "convergence_count": 2,
       "convergence_multiplier": 2.5,
-      "market_cap": 344000000.0,
-      "score": 0.3879529028511467,
+      "market_cap": 329735922.0,
+      "score": 0.38478049706518164,
       "sector": "",
       "signal_details": {},
       "symbol": "HELP",
@@ -51,25 +53,73 @@
     {
       "active_signals": {
         "earnings_beat": 1.0,
-        "volume_anomaly": 0.7866666666666666
+        "guidance_raised": 1.0
       },
       "components": {
         "convergence": 2.5,
-        "liquidity": 0.7974893722257277,
-        "mean_strength": 0.854,
-        "neglect": 0.7521804370318348,
+        "liquidity": 0.6608521603932458,
+        "mean_strength": 0.9,
+        "neglect": 0.8594135864869399,
         "quality_value": 0.3
       },
       "convergence_count": 2,
       "convergence_multiplier": 2.5,
-      "market_cap": 985000000.0,
-      "score": 0.38420770685081895,
+      "market_cap": 432725771.693667,
+      "score": 0.3833630945783112,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "QMCO",
+      "timing_adjusted": {
+        "earnings_beat": 1.0,
+        "guidance_raised": 0.8
+      }
+    },
+    {
+      "active_signals": {
+        "earnings_beat": 1.0,
+        "volume_anomaly": 0.7433333333333333
+      },
+      "components": {
+        "convergence": 2.5,
+        "liquidity": 0.7958113923922323,
+        "mean_strength": 0.8345,
+        "neglect": 0.753637733651078,
+        "quality_value": 0.3
+      },
+      "convergence_count": 2,
+      "convergence_multiplier": 2.5,
+      "market_cap": 975100390.919948,
+      "score": 0.3753707181675234,
       "sector": "",
       "signal_details": {},
       "symbol": "APOG",
       "timing_adjusted": {
         "earnings_beat": 1.0,
-        "volume_anomaly": 0.708
+        "volume_anomaly": 0.6689999999999999
+      }
+    },
+    {
+      "active_signals": {
+        "earnings_beat": 1.0,
+        "volume_anomaly": 0.94
+      },
+      "components": {
+        "convergence": 2.5,
+        "liquidity": 0.9831444694312763,
+        "mean_strength": 0.923,
+        "neglect": 0.4741148124585626,
+        "quality_value": 0.3
+      },
+      "convergence_count": 2,
+      "convergence_multiplier": 2.5,
+      "market_cap": 8236113960.0,
+      "score": 0.3226738930138412,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "AVAV",
+      "timing_adjusted": {
+        "earnings_beat": 1.0,
+        "volume_anomaly": 0.846
       }
     },
     {
@@ -79,15 +129,15 @@
       },
       "components": {
         "convergence": 2.5,
-        "liquidity": 0.8391799304818468,
+        "liquidity": 0.8396812385883083,
         "mean_strength": 0.7483,
-        "neglect": 0.6849235440883099,
+        "neglect": 0.6840908893467852,
         "quality_value": 0.3
       },
       "convergence_count": 2,
       "convergence_multiplier": 2.5,
-      "market_cap": 1570000000.0,
-      "score": 0.32257758984634743,
+      "market_cap": 1579087490.0,
+      "score": 0.32237790215272444,
       "sector": "",
       "signal_details": {},
       "symbol": "WEN",
@@ -98,170 +148,101 @@
     },
     {
       "active_signals": {
-        "earnings_beat": 1.0,
-        "volume_anomaly": 0.7366666666666667
-      },
-      "components": {
-        "convergence": 2.5,
-        "liquidity": 0.968646555619602,
-        "mean_strength": 0.8315,
-        "neglect": 0.49485663788989354,
-        "quality_value": 0.3
-      },
-      "convergence_count": 2,
-      "convergence_multiplier": 2.5,
-      "market_cap": 6970000000.0,
-      "score": 0.29892914201646464,
-      "sector": "",
-      "signal_details": {},
-      "symbol": "AVAV",
-      "timing_adjusted": {
-        "earnings_beat": 1.0,
-        "volume_anomaly": 0.663
-      }
-    },
-    {
-      "active_signals": {
         "short_squeeze": 0.642,
-        "volume_anomaly": 0.7999999999999999
+        "volume_anomaly": 0.8766666666666666
       },
       "components": {
         "convergence": 2.5,
-        "liquidity": 0.8413651752063699,
-        "mean_strength": 0.681,
-        "neglect": 0.6812939311660111,
+        "liquidity": 0.8409501276178739,
+        "mean_strength": 0.7155,
+        "neglect": 0.6819833102884811,
         "quality_value": 0.3
       },
       "convergence_count": 2,
       "convergence_multiplier": 2.5,
-      "market_cap": 1610000000.0,
-      "score": 0.29277057649971094,
+      "market_cap": 1602325108.26,
+      "score": 0.3077619243955998,
       "sector": "",
       "signal_details": {},
       "symbol": "ZBIO",
       "timing_adjusted": {
         "short_squeeze": 0.642,
-        "volume_anomaly": 0.72
+        "volume_anomaly": 0.7889999999999999
       }
     },
     {
       "active_signals": {
-        "earnings_beat": 0.7384615384615387,
-        "volume_anomaly": 0.6266666666666666
-      },
-      "components": {
-        "convergence": 2.5,
-        "liquidity": 0.8292256071356475,
-        "mean_strength": 0.6512307692307693,
-        "neglect": 0.7014573172829762,
-        "quality_value": 0.3
-      },
-      "convergence_count": 2,
-      "convergence_multiplier": 2.5,
-      "market_cap": 1400000000.0,
-      "score": 0.28409927808220853,
-      "sector": "",
-      "signal_details": {},
-      "symbol": "MLKN",
-      "timing_adjusted": {
-        "earnings_beat": 0.7384615384615387,
-        "volume_anomaly": 0.564
-      }
-    },
-    {
-      "active_signals": {
-        "earnings_beat": 0.7,
+        "insider_cluster": 1.0,
         "volume_anomaly": 1.0
       },
       "components": {
         "convergence": 2.5,
-        "liquidity": 0.5039128125863275,
-        "mean_strength": 0.8,
-        "neglect": 0.920662494958352,
+        "liquidity": 0.6569997187995797,
+        "mean_strength": 0.7,
+        "neglect": 0.8609243563570113,
         "quality_value": 0.3
       },
       "convergence_count": 2,
       "convergence_multiplier": 2.5,
-      "market_cap": 169000000.0,
-      "score": 0.2783601763663252,
+      "market_cap": 422805825.0,
+      "score": 0.2969542065179894,
       "sector": "",
       "signal_details": {},
-      "symbol": "AOUT",
+      "symbol": "AVBC",
       "timing_adjusted": {
-        "earnings_beat": 0.7,
+        "insider_cluster": 0.5,
         "volume_anomaly": 0.9
       }
     },
     {
       "active_signals": {
-        "earnings_beat": 0.442187499999998,
-        "volume_anomaly": 0.7966666666666667
+        "guidance_raised": 1.0,
+        "volume_anomaly": 0.6133333333333334
       },
       "components": {
         "convergence": 2.5,
-        "liquidity": 1.0,
-        "mean_strength": 0.579593749999999,
-        "neglect": 0.42937447143750956,
+        "liquidity": 0.6985163600204256,
+        "mean_strength": 0.676,
+        "neglect": 0.8381367955076356,
         "quality_value": 0.3
       },
       "convergence_count": 2,
       "convergence_multiplier": 2.5,
-      "market_cap": 11000000000.0,
-      "score": 0.18664707004105022,
+      "market_cap": 542852457.6,
+      "score": 0.296824297643769,
       "sector": "",
       "signal_details": {},
-      "symbol": "AYI",
+      "symbol": "NGS",
       "timing_adjusted": {
-        "earnings_beat": 0.442187499999998,
-        "volume_anomaly": 0.7170000000000001
+        "guidance_raised": 0.8,
+        "volume_anomaly": 0.552
       }
     },
     {
       "active_signals": {
-        "earnings_beat": 0.2919708029197066,
-        "volume_anomaly": 0.66
+        "short_squeeze": 0.4122,
+        "volume_anomaly": 1.0
       },
       "components": {
         "convergence": 2.5,
-        "liquidity": 0.9004854239968865,
-        "mean_strength": 0.4429854014598533,
-        "neglect": 0.5923731710742677,
+        "liquidity": 0.7995945827466344,
+        "mean_strength": 0.6561,
+        "neglect": 0.750352097910189,
         "quality_value": 0.3
       },
       "convergence_count": 2,
       "convergence_multiplier": 2.5,
-      "market_cap": 3180000000.0,
-      "score": 0.1772240862808445,
+      "market_cap": 997562419.0,
+      "score": 0.29523391485009526,
       "sector": "",
       "signal_details": {},
-      "symbol": "FUL",
+      "symbol": "VOR",
       "timing_adjusted": {
-        "earnings_beat": 0.2919708029197066,
-        "volume_anomaly": 0.5940000000000001
+        "short_squeeze": 0.4122,
+        "volume_anomaly": 0.9
       }
     }
   ],
-  "pick": {
-    "bear_case": "The intraday sell-off after the gap-up could signal distribution by large holders into the beat. Daktronics is cyclical and exposed to capex cuts in sports/venue construction. Competition from lower-cost display manufacturers (Samsung, LG) is ongoing.",
-    "bull_case": "A +69% EPS beat on Daktronics (LED scoreboards, video displays) with 3x confirming volume is a high-quality PEAD setup. The intraday give-back (gap $21.65 \u2192 close $19.35) signals institutional digestion is not complete; PEAD drift typically continues 3\u20135 days after such reversals. Current $20.19 sits $8 below 52-week high ($28.27) \u2014 ample room. No analyst coverage pressure at $974M cap means the signal is less priced-in.",
-    "catalyst": "FY2026 Q4 earnings beat: +68.75% EPS surprise (str=0.981) with 3.08x volume anomaly on earnings day. Stock gapped up to $21.65 then closed $19.35 \u2014 classic distribution intraday, creating a PEAD re-entry opportunity at $20.19.",
-    "catalyst_timing": "PEAD drift window: 1\u20135 trading days post-earnings. Earnings reported ~Jun 27.",
-    "convergence_count": 2,
-    "current_price": 20.19,
-    "disqualified": false,
-    "disqualify_reason": "",
-    "expected_magnitude": 0.12,
-    "expected_value": 0.07,
-    "market_cap": 974000000,
-    "pop_probability": 0.58,
-    "priced_in_judgment": "Not fully priced in. The gap-up reversal is consistent with an underreaction being corrected over multiple days. A +69% EPS beat at this cap with 3x volume is rarely absorbed in a single session.",
-    "researched_at": "2026-06-30",
-    "score": 0.42309905755392146,
-    "sector": "Producer Manufacturing",
-    "signals": {
-      "earnings_beat": 0.981,
-      "volume_anomaly": 1.0
-    },
-    "symbol": "DAKT"
-  }
+  "pick": null,
+  "scanned_at": "2026-07-01T12:00:00+00:00"
 }
