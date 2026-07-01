@@ -34,8 +34,9 @@ non-linearly.
 6. **Weekly pre-scan.** Midas runs its OWN signal gathering — it does NOT just borrow Oracle's quarterly caches. Start from the FULL universe (`shared.edgar.fetch_company_tickers()`, ~7,000 filers).
 
    **6a. Fresh insider data (last 14 days).** This is Midas's most important signal source. Oracle's `oracle_insider_clusters.json` is a quarterly batch — signals can be 6+ weeks stale. Instead:
-   - `oracle.lenses.search_recent_form4(date_from=14_days_ago, date_to=today)` — single EDGAR full-text search, returns {symbol: [filings]} across the entire universe in seconds.
-   - `midas.prescan.form4_fts_to_clusters(fts_results)` — converts to cluster format (counts distinct filers per symbol, keeps only 2+ filer clusters).
+   - `oracle.lenses.search_recent_form4(date_from=14_days_ago, date_to=today, cik_to_symbol=invert(universe))` — single EDGAR full-text search, returns {symbol: [filings]} across the entire universe in seconds. Form 4 `display_names` never carries a ticker in parens (unlike 13D) — the issuer is always the *last* entry, so the ticker must be resolved via a CIK -> symbol map built from `universe` (inverted from `shared.edgar.fetch_company_tickers()`), not from the display name text.
+   - `oracle.lenses.filter_form4_open_market_buys(fts_results)` — **required before clustering.** The raw FTS match includes every Form 4 (grants, option exercises, tax-withholding sales — codes A/M/F), which vastly outnumber genuine open-market buys (code P) at large, well-staffed issuers. Skipping this step makes "insider cluster" measure officer headcount, not accumulation. Fetches each filing's XML body (URL is derivable from the `filer_cik`/`primary_document`/`accession` fields `search_recent_form4` already attaches) and keeps only code-P buys >= $10k.
+   - `midas.prescan.form4_fts_to_clusters(buy_filtered_results)` — converts to cluster format (counts distinct filers per symbol, keeps only 2+ filer clusters). Must run on the buy-filtered dict, not the raw FTS output.
    - `midas.prescan.merge_insider_clusters(oracle_cache, fresh_clusters)` — merges with Oracle's cache for breadth; fresh data takes precedence for any overlapping symbols.
 
    **6b. Recent earnings beats (standalone signal).** Earnings beats are a first-class entry point — a name can enter the sieve purely on an earnings beat, with no other signal needed.

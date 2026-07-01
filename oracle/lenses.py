@@ -254,16 +254,26 @@ def search_recent_form4(
     *,
     date_from: str,
     date_to: str,
+    cik_to_symbol: Optional[dict[str, str]] = None,
     http: Optional[HttpGet] = None,
     max_pages: int = 50,
+    page_retries: int = 2,
 ) -> dict[str, list[dict]]:
     """Search EDGAR full-text for Form 4 filings in [date_from, date_to].
 
     Returns {symbol: [{"filer": name, "filing_date": date, "accession": acc}, ...]}.
     Much faster than per-symbol fan-out for a 7-14 day window.
     Grouped by issuer ticker so the caller can feed into cluster_signal().
+
+    Unlike Schedule 13D, EDGAR FTS ``display_names`` for a Form 4 never embeds
+    a ticker in parens — it's ``[filer_1, ..., filer_n, issuer]`` with only
+    ``(CIK ...)`` suffixes. The issuer is always the *last* entry (and its CIK
+    the last entry of ``ciks``), so the ticker must be resolved via
+    ``cik_to_symbol`` (e.g. ``shared.edgar.fetch_company_tickers()`` inverted
+    to CIK -> symbol). Filings for issuers not in the map are dropped.
     """
     get = http or _default_http
+    cik_map = cik_to_symbol or {}
     by_symbol: dict[str, list[dict]] = {}
     seen: set[str] = set()
     for page in range(max_pages):
@@ -274,12 +284,16 @@ def search_recent_form4(
         }
         if page > 0:
             params["from"] = str(page * 10)
-        try:
-            raw = get(SEARCH_URL, params=params)
-            payload = json.loads(raw)
-        except Exception as exc:
-            log.warning("Form 4 search page %d failed: %s", page, exc)
-            break
+        payload = None
+        for attempt in range(page_retries + 1):
+            try:
+                raw = get(SEARCH_URL, params=params)
+                payload = json.loads(raw)
+                break
+            except Exception as exc:
+                log.warning("Form 4 search page %d attempt %d failed: %s", page, attempt, exc)
+        if payload is None:
+            continue  # transient failure on this page — keep paginating
         hits = payload.get("hits", {}).get("hits", [])
         if not hits:
             break
@@ -292,21 +306,88 @@ def search_recent_form4(
             if not acc or acc in seen:
                 continue
             seen.add(acc)
-            symbol = _ticker_from_display_names(source.get("display_names", []))
+            display_names = source.get("display_names", []) or []
+            ciks = source.get("ciks", []) or []
+            if not display_names or not ciks:
+                continue
+            try:
+                issuer_cik = str(int(ciks[-1]))
+            except (ValueError, TypeError):
+                continue
+            symbol = cik_map.get(issuer_cik, "")
             if not symbol:
                 continue
-            filer_names = source.get("display_names", [])
-            filer = filer_names[1] if len(filer_names) > 1 else ""
+            filer = display_names[0]
+            try:
+                filer_cik = str(int(ciks[0]))
+            except (ValueError, TypeError):
+                filer_cik = ""
+            _id = h.get("_id", "")
+            primary_document = _id.split(":", 1)[1] if ":" in _id else ""
             by_symbol.setdefault(symbol, []).append({
                 "filer": filer,
                 "filing_date": source.get("file_date", "") or source.get("filing_date", ""),
                 "accession": acc,
+                "filer_cik": filer_cik,
+                "primary_document": primary_document,
             })
     log.info(
         "search_recent_form4: %d filings across %d symbols (%s to %s)",
         len(seen), len(by_symbol), date_from, date_to,
     )
     return by_symbol
+
+
+def filter_form4_open_market_buys(
+    fts_results: dict[str, list[dict]],
+    *,
+    min_dollars: float = 10_000.0,
+    http: Optional[HttpGet] = None,
+) -> dict[str, list[dict]]:
+    """Fetch each FTS-matched Form 4 body and keep only genuine open-market buys.
+
+    ``search_recent_form4`` returns every Form 4 EDGAR's full-text search
+    matches — grants (code A), option exercises (code M), and tax-withholding
+    dispositions (code F) vastly outnumber open-market buys (code P) for
+    large, well-staffed issuers. Counting raw filer fan-out as an
+    "accumulation" cluster rewards companies with many officers filing
+    routine paperwork, not companies insiders are actually buying. This
+    fetches the body EDGAR already gave us the address for (via
+    ``primary_document``/``filer_cik`` on each entry) and filters to
+    ``InsiderTxn.is_open_market_buy`` transactions worth at least
+    ``min_dollars``.
+
+    Returns {symbol: [{"filer":, "filing_date":, "accession":, "dollars":}]}
+    — same shape as the input, minus filings that don't survive the filter.
+    Compatible with ``midas.prescan.form4_fts_to_clusters``.
+    """
+    get = http or _default_http
+    out: dict[str, list[dict]] = {}
+    for sym, filings in fts_results.items():
+        for f in filings:
+            cik = f.get("filer_cik")
+            doc = f.get("primary_document")
+            acc = f.get("accession")
+            if not (cik and doc and acc):
+                continue
+            url = ARCHIVE_URL.format(
+                cik=int(cik), acc_no_clean=acc_no_clean(acc), file=_strip_xsl_prefix(doc),
+            )
+            try:
+                body = get(url)
+            except Exception:
+                continue
+            if "<ownershipDocument" not in body:
+                continue
+            for t in parse_form4(body, accession_no=acc):
+                if t.is_open_market_buy and t.dollars >= min_dollars:
+                    out.setdefault(sym, []).append({
+                        "filer": f.get("filer") or t.insider_name,
+                        "filing_date": f.get("filing_date") or t.transaction_date,
+                        "accession": acc,
+                        "dollars": t.dollars,
+                    })
+    return out
 
 
 # ------- Lens 4: Broad quality screen -------
