@@ -32,5 +32,73 @@
     "exit_date": "",
     "exit_price": 0.0,
     "graded_return": null
+  },
+  {
+    "symbol": "LGO",
+    "entry_date": "2026-07-01",
+    "entry_price": 0.6342,
+    "horizon_days": 5,
+    "source": "buzz",
+    "features": {
+      "confirmed": false,
+      "new_entrant": true,
+      "accel_ratio": 5.2,
+      "volume_ratio": 1.1
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "KORU",
+    "entry_date": "2026-07-01",
+    "entry_price": 781.35,
+    "horizon_days": 5,
+    "source": "buzz",
+    "features": {
+      "confirmed": false,
+      "new_entrant": true,
+      "accel_ratio": 3.4,
+      "volume_ratio": 0.8
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "YOU",
+    "entry_date": "2026-07-01",
+    "entry_price": 55.73,
+    "horizon_days": 5,
+    "source": "buzz",
+    "features": {
+      "confirmed": true,
+      "new_entrant": false,
+      "accel_ratio": 2.5,
+      "volume_ratio": 1.79,
+      "llm_recommended": false,
+      "insider_backed": false
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "OPEN",
+    "entry_date": "2026-07-01",
+    "entry_price": 4.62,
+    "horizon_days": 5,
+    "source": "buzz",
+    "features": {
+      "confirmed": true,
+      "new_entrant": false,
+      "accel_ratio": 2.14,
+      "volume_ratio": 2.77,
+      "llm_recommended": false,
+      "insider_backed": false
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
   }
 ]
