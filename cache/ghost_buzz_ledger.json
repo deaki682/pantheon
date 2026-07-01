@@ -1,0 +1,36 @@
+[
+  {
+    "symbol": "LUNR",
+    "entry_date": "2026-07-01",
+    "entry_price": 21.39,
+    "horizon_days": 5,
+    "source": "buzz",
+    "features": {
+      "confirmed": false,
+      "new_entrant": false,
+      "accel_ratio": 4.6,
+      "volume_ratio": 0.93
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "FCEL",
+    "entry_date": "2026-07-01",
+    "entry_price": 36.01,
+    "horizon_days": 5,
+    "source": "buzz",
+    "features": {
+      "confirmed": true,
+      "new_entrant": false,
+      "accel_ratio": 4.0,
+      "volume_ratio": 2.21,
+      "llm_recommended": true,
+      "insider_backed": false
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  }
+]
