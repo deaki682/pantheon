@@ -1,12 +1,15 @@
 {
-  "cash": 373.5131834932499,
+  "cash": 358.37156309165005,
   "contributed_cash": 2000.0,
   "cooldown_days": 7,
   "cooldowns": {
     "MU": "2026-07-07",
     "PSA": "2026-07-07",
     "SPG": "2026-07-07",
-    "TXN": "2026-07-07"
+    "TXN": "2026-07-07",
+    "C": "2026-07-08",
+    "GE": "2026-07-08",
+    "LLY": "2026-07-08"
   },
   "gfv_count": 1,
   "halted": false,
@@ -35,76 +38,76 @@
   ],
   "positions": {
     "AMAT": {
-      "avg_price": 715.9034958148695,
-      "cohort_id": "",
+      "shares": 0.229426,
+      "avg_price": 697.13,
       "entry_date": "2026-06-30",
       "sector": "technology",
-      "shares": 0.22341
+      "cohort_id": ""
     },
     "AMD": {
-      "avg_price": 520.45,
-      "cohort_id": "",
+      "shares": 0.30836,
+      "avg_price": 523.08,
       "entry_date": "2026-06-29",
       "sector": "technology",
-      "shares": 0.30966
-    },
-    "C": {
-      "avg_price": 140.8,
-      "cohort_id": "",
-      "entry_date": "2026-06-30",
-      "sector": "",
-      "shares": 1.15184
+      "cohort_id": ""
     },
     "CAT": {
-      "avg_price": 1002.52,
-      "cohort_id": "",
+      "shares": 0.17659,
+      "avg_price": 998.41,
       "entry_date": "2026-06-29",
       "sector": "industrials",
-      "shares": 0.17586
+      "cohort_id": ""
     },
     "CVS": {
-      "avg_price": 103.31,
-      "cohort_id": "",
+      "shares": 1.555983,
+      "avg_price": 104.2299,
       "entry_date": "2026-06-30",
       "sector": "",
-      "shares": 1.56983
-    },
-    "GE": {
-      "avg_price": 370.8517678637541,
-      "cohort_id": "",
-      "entry_date": "2026-06-29",
-      "sector": "industrials",
-      "shares": 0.43216
-    },
-    "INTC": {
-      "avg_price": 132.43654836351823,
-      "cohort_id": "",
-      "entry_date": "2026-06-30",
-      "sector": "technology",
-      "shares": 1.2313
-    },
-    "LLY": {
-      "avg_price": 1225.6877921679823,
-      "cohort_id": "",
-      "entry_date": "2026-06-30",
-      "sector": "healthcare",
-      "shares": 0.13049
+      "cohort_id": ""
     },
     "MU": {
-      "avg_price": 1156.1387900355871,
-      "cohort_id": "",
+      "shares": 0.14373999999999998,
+      "avg_price": 1142.45,
       "entry_date": "2026-06-30",
       "sector": "technology",
-      "shares": 0.14132
+      "cohort_id": ""
+    },
+    "INTC": {
+      "shares": 1.234645,
+      "avg_price": 132.0999,
+      "entry_date": "2026-06-30",
+      "sector": "technology",
+      "cohort_id": ""
     },
     "UNH": {
-      "avg_price": 419.79002624671915,
-      "cohort_id": "",
+      "shares": 0.378771,
+      "avg_price": 422.2599,
       "entry_date": "2026-06-30",
       "sector": "healthcare",
-      "shares": 0.381
+      "cohort_id": ""
+    },
+    "MRVL": {
+      "shares": 0.58825,
+      "avg_price": 279.6599,
+      "entry_date": "2026-07-01",
+      "sector": "technology",
+      "cohort_id": ""
+    },
+    "KLAC": {
+      "shares": 0.599745,
+      "avg_price": 274.2999,
+      "entry_date": "2026-07-01",
+      "sector": "technology",
+      "cohort_id": ""
+    },
+    "LRCX": {
+      "shares": 0.412161,
+      "avg_price": 399.1399,
+      "entry_date": "2026-07-01",
+      "sector": "technology",
+      "cohort_id": ""
     }
   },
   "realized_pnl": 2.9239333100291773,
-  "trades_count": 21
+  "trades_count": 27
 }
