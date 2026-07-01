@@ -61,6 +61,16 @@ it can't: context, narrative, convergence.
    - Pass to `delphi.rotation.rotation_plan(risk_budget=…)`.
    - **Bias check**: The backtest had NO regime filter and still returned +85%. Don't overthink this — the trailing stop already de-risks the portfolio naturally.
 
+### Circuit breaker
+
+Before executing, compute current marks and run `sleeve.check_halt(marks)`. If
+equity is **40% below peak** (`HALT_DRAWDOWN`), the breaker trips: set
+`sleeve.halted = True`, **place NO new buys this run** (the sleeve's `buy()`
+already refuses when halted), still process MA-break **exits** to de-risk, and
+log the trip. This is Delphi's protection against a momentum crash — the one
+regime where mechanical momentum keeps rotating into falling leaders. Only
+`sleeve.manual_reset()`-style operator action (clearing `halted`) resumes buys.
+
 ### Execute
 
 9. **Build targets and plan orders.**
@@ -77,7 +87,8 @@ it can't: context, narrative, convergence.
     - Save overrides to `cache/delphi_universe_overrides.json`.
     - This is NOT done every run — only when explicitly reviewing the universe.
 
-11. **Persist.** Save sleeve + curve + decision log. `pantheon.persist("delphi", ...)`.
+11. **Persist.** `sleeve.update_peak(marks)` to advance the high-water mark, then
+    save sleeve + curve + decision log. `pantheon.persist("delphi", ...)`.
 
 ## Decision log
 
