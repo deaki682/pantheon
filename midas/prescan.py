@@ -97,6 +97,154 @@ def merge_insider_clusters(
     return merged
 
 
+# ------- reaction-bar freshness (earnings / guidance) -------
+#
+# Earnings and guidance signals arrive with a calendar `report_date`, but the
+# calendar routinely lags the tape: the real gap-and-volume reaction can be
+# several trading days earlier than the reported date (observed on DAKT, PRGS).
+# The PEAD drift window Midas trades is only ~1-5 trading days, so a reaction
+# that already happened a week ago is a dead signal even though the beat is
+# "recent" by the calendar. We therefore locate the actual reaction bar on the
+# price/volume tape and gate freshness off THAT, not off report_date.
+
+REACTION_MIN_GAP = 0.04     # a bar must move >= 4% vs the prior close to count
+REACTION_VOL_RATIO = 1.5    # ...on >= 1.5x its trailing volume (when available)
+REACTION_LOOKBACK = 15      # search the most recent ~3 weeks of bars
+REACTION_VOL_BASELINE = 20  # trailing bars for the volume baseline
+
+# A reaction older than this many trading days at SCAN time is stale. The scan
+# runs on the weekend and entry is the following Monday, so a reaction already
+# 3 trading days old at scan will be ~4-5 days old at entry — the tail end of
+# the drift window. Beyond that the move is spent.
+MAX_REACTION_AGE_DAYS = 3
+
+
+def _bar_close(bar: dict) -> Optional[float]:
+    for k in ("close_price", "close", "close_pric", "adjusted_close"):
+        if bar.get(k) not in (None, ""):
+            try:
+                return float(bar[k])
+            except (TypeError, ValueError):
+                return None
+    return None
+
+
+def _bar_volume(bar: dict) -> float:
+    try:
+        return float(bar.get("volume", 0) or 0)
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _bar_date(bar: dict) -> str:
+    for k in ("begins_at", "date", "begin_at"):
+        if bar.get(k):
+            return str(bar[k])[:10]
+    return ""
+
+
+def find_reaction_bar(
+    bars: list[dict],
+    *,
+    lookback: int = REACTION_LOOKBACK,
+    min_gap: float = REACTION_MIN_GAP,
+    vol_ratio: float = REACTION_VOL_RATIO,
+    baseline: int = REACTION_VOL_BASELINE,
+) -> Optional[dict]:
+    """Locate the actual catalyst bar on the tape — the recent day with the
+    largest abnormal price move on elevated volume — instead of trusting the
+    reported calendar date.
+
+    bars: daily bars, oldest first (Robinhood get_equity_historicals shape).
+    Returns {index, date, pre_price, reaction_price, gap, vol_ratio, age_days}
+    for the most significant qualifying bar, or None if the tape shows no clear
+    reaction (e.g. an undigested beat that hasn't moved yet — deliberately NOT
+    treated as stale).
+
+    age_days = trading days between the reaction bar and the latest bar.
+    """
+    if not bars:
+        return None
+    valid = [(_bar_close(b), _bar_volume(b), _bar_date(b)) for b in bars]
+    valid = [(c, v, d) for (c, v, d) in valid if c is not None and c > 0]
+    if len(valid) < 2:
+        return None
+
+    last = len(valid) - 1
+    start = max(1, len(valid) - lookback)
+    best = None
+    best_score = 0.0
+    for i in range(start, len(valid)):
+        close_i, vol_i, date_i = valid[i]
+        prev_close = valid[i - 1][0]
+        if prev_close <= 0:
+            continue
+        gap = (close_i - prev_close) / prev_close
+        if abs(gap) < min_gap:
+            continue
+        base_slice = [v for (_, v, _) in valid[max(0, i - baseline):i]]
+        avg_base = sum(base_slice) / len(base_slice) if base_slice else 0.0
+        ratio = (vol_i / avg_base) if avg_base > 0 else float("inf")
+        # Require elevated volume when we have a baseline to judge it against.
+        if avg_base > 0 and ratio < vol_ratio:
+            continue
+        score = abs(gap) * (ratio if ratio != float("inf") else vol_ratio)
+        if score > best_score:
+            best_score = score
+            best = {
+                "index": i,
+                "date": date_i,
+                "pre_price": round(prev_close, 4),
+                "reaction_price": round(close_i, 4),
+                "gap": round(gap, 4),
+                "vol_ratio": (round(ratio, 2) if ratio != float("inf") else None),
+                "age_days": last - i,
+            }
+    return best
+
+
+def filter_stale_earnings_signals(
+    earnings_surprise: Optional[dict],
+    guidance_raised: Optional[set],
+    historicals: dict[str, list[dict]],
+    *,
+    max_age_days: int = MAX_REACTION_AGE_DAYS,
+) -> tuple[dict, set, dict[str, str]]:
+    """Drop earnings-beat / guidance-raised signals whose actual reaction bar
+    has already aged out of the drift window.
+
+    The insider-cluster staleness gate in `stage1_sieve` never covered these
+    two channels, so a fully-resolved, week-old pop passed the sieve looking
+    identical to a fresh one. This closes that gap using the real reaction bar
+    from the tape rather than the calendar `report_date`.
+
+    A name whose tape shows NO clear reaction is KEPT — that's an undigested
+    beat (the ideal pre-drift setup), not a stale one.
+
+    Returns (fresh_earnings_surprise, fresh_guidance_raised, dropped) where
+    `dropped` maps symbol -> reason for logging.
+    """
+    dropped: dict[str, str] = {}
+
+    def _fresh(sym: str) -> bool:
+        bars = historicals.get(sym) or historicals.get(sym.upper())
+        if not bars:
+            return True  # no tape to judge — don't over-filter
+        rb = find_reaction_bar(bars)
+        if rb is None:
+            return True  # no reaction yet — undigested beat, keep it
+        if rb["age_days"] > max_age_days:
+            dropped[sym] = f"reaction {rb['age_days']}d old ({rb['date']}), drift window closed"
+            return False
+        return True
+
+    fresh_earnings = {
+        sym: data for sym, data in (earnings_surprise or {}).items() if _fresh(sym)
+    }
+    fresh_guidance = {sym for sym in (guidance_raised or set()) if _fresh(sym)}
+    return fresh_earnings, fresh_guidance, dropped
+
+
 def compute_volume_anomalies(
     historicals: dict[str, list[dict]],
     *,

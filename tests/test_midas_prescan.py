@@ -2,10 +2,25 @@ import pytest
 
 from midas.prescan import (
     compute_volume_anomalies,
+    filter_stale_earnings_signals,
+    find_reaction_bar,
     form4_fts_to_clusters,
     merge_insider_clusters,
     parse_finviz_short_text,
 )
+
+
+def _bar(close, volume=100):
+    return {"close_price": str(close), "volume": volume, "begins_at": "2026-06-01T00:00:00Z"}
+
+
+def _series(closes, *, volumes=None):
+    """Build oldest-first daily bars from a list of closes."""
+    vols = volumes or [100] * len(closes)
+    return [
+        {"close_price": str(c), "volume": v, "begins_at": f"2026-06-{i+1:02d}T00:00:00Z"}
+        for i, (c, v) in enumerate(zip(closes, vols))
+    ]
 
 
 class TestForm4FtsToClusters:
@@ -147,3 +162,93 @@ class TestParseFinvizShortText:
     def test_no_matching_lines(self):
         text = "No data available\nPlease try again later"
         assert parse_finviz_short_text(text) == {}
+
+
+class TestFindReactionBar:
+    def test_finds_gap_up_on_volume(self):
+        # flat ~20 days, then a +8% gap on 3x volume, then flat for 2 more days
+        closes = [100.0] * 20 + [108.0, 108.5, 108.2]
+        vols = [100] * 20 + [300, 120, 110]
+        rb = find_reaction_bar(_series(closes, volumes=vols))
+        assert rb is not None
+        assert rb["gap"] > 0.05
+        assert rb["age_days"] == 2  # two bars after the reaction
+
+    def test_no_reaction_when_flat(self):
+        rb = find_reaction_bar(_series([100.0] * 25))
+        assert rb is None
+
+    def test_small_move_ignored(self):
+        # 2% wiggle never clears the 4% gap floor
+        closes = [100.0, 102.0] * 12
+        assert find_reaction_bar(_series(closes)) is None
+
+    def test_requires_volume_when_baseline_present(self):
+        # 8% gap but on NORMAL volume -> not a real reaction
+        closes = [100.0] * 20 + [108.0]
+        vols = [100] * 21
+        assert find_reaction_bar(_series(closes, volumes=vols)) is None
+
+    def test_empty_and_short(self):
+        assert find_reaction_bar([]) is None
+        assert find_reaction_bar(_series([100.0])) is None
+
+    def test_picks_most_significant(self):
+        # two reactions: older +6%/2x, recent +10%/4x -> pick the bigger
+        closes = [100.0] * 10 + [106.0] + [106.0] * 5 + [116.6]
+        vols = [100] * 10 + [200] + [100] * 5 + [400]
+        rb = find_reaction_bar(_series(closes, volumes=vols))
+        assert rb["gap"] > 0.08
+        assert rb["age_days"] == 0
+
+
+class TestFilterStaleEarningsSignals:
+    def test_drops_old_reaction(self):
+        # reaction 6 bars ago -> beyond the 3-day window -> dropped
+        closes = [50.0] * 15 + [56.0] + [56.0] * 6
+        vols = [100] * 15 + [400] + [100] * 6
+        hist = {"DAKT": _series(closes, volumes=vols)}
+        earn, guid, dropped = filter_stale_earnings_signals(
+            {"DAKT": {"is_beat": True}}, set(), hist
+        )
+        assert "DAKT" not in earn
+        assert "DAKT" in dropped
+
+    def test_keeps_fresh_reaction(self):
+        # reaction on the latest bar -> age 0 -> fresh
+        closes = [50.0] * 20 + [56.0]
+        vols = [100] * 20 + [400]
+        hist = {"FRSH": _series(closes, volumes=vols)}
+        earn, guid, dropped = filter_stale_earnings_signals(
+            {"FRSH": {"is_beat": True}}, set(), hist
+        )
+        assert "FRSH" in earn
+        assert not dropped
+
+    def test_keeps_undigested_beat(self):
+        # beat with no reaction on the tape yet -> the ideal pre-drift setup
+        hist = {"WAIT": _series([100.0] * 25)}
+        earn, guid, dropped = filter_stale_earnings_signals(
+            {"WAIT": {"is_beat": True}}, set(), hist
+        )
+        assert "WAIT" in earn
+
+    def test_keeps_when_no_historicals(self):
+        earn, guid, dropped = filter_stale_earnings_signals(
+            {"NODATA": {"is_beat": True}}, set(), {}
+        )
+        assert "NODATA" in earn  # don't over-filter without a tape
+
+    def test_filters_guidance_too(self):
+        closes = [30.0] * 15 + [34.0] + [34.0] * 6
+        vols = [100] * 15 + [400] + [100] * 6
+        hist = {"OLDG": _series(closes, volumes=vols)}
+        earn, guid, dropped = filter_stale_earnings_signals({}, {"OLDG"}, hist)
+        assert "OLDG" not in guid
+        assert "OLDG" in dropped
+
+    def test_none_inputs(self):
+        earn, guid, dropped = filter_stale_earnings_signals(None, None, {})
+        assert earn == {}
+        assert guid == set()
+        assert dropped == {}
