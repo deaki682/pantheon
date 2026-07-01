@@ -1,16 +1,23 @@
 {
   "scanned_at": "2026-07-01",
-  "universe": {
-    "apewisdom_rows": 804,
-    "accelerating": 10,
-    "small_mid_band": 2,
-    "confirmed": 1
-  },
-  "accelerating_pool": [
-    "NKE", "CAT", "LUNR", "AMD", "BE", "FCEL", "ASML", "PLTR", "NFLX", "NBIS"
-  ],
-  "dropped_mega_or_micro": [
-    "NKE", "CAT", "AMD", "BE", "ASML", "PLTR", "NFLX", "NBIS"
+  "note_on_two_pulls": "ApeWisdom was fetched twice this run ~6 minutes apart (live feed, mentions shift in real time). Both pulls' qualified candidates are kept -- nothing is discarded just because a later snapshot reshuffled the accelerating list.",
+  "pulls": [
+    {
+      "pulled_at": "2026-07-01T23:2x",
+      "apewisdom_rows": 804,
+      "accelerating": 10,
+      "small_mid_band": 2,
+      "confirmed": 1,
+      "accelerating_pool": ["NKE", "CAT", "LUNR", "AMD", "BE", "FCEL", "ASML", "PLTR", "NFLX", "NBIS"]
+    },
+    {
+      "pulled_at": "2026-07-01T23:3x",
+      "apewisdom_rows": 900,
+      "accelerating": 14,
+      "small_mid_band": 4,
+      "confirmed": 2,
+      "accelerating_pool": ["META", "RDDT", "CRWV", "LGO", "CAT", "PLTR", "NBIS", "KORU", "NOW", "IBM", "YOU", "GOOG", "VOO", "OPEN"]
+    }
   ],
   "qualified_set": [
     {
@@ -30,6 +37,43 @@
       "volume_ratio": 2.21,
       "confirmed": true,
       "confirm_reason": "confirmed"
+    },
+    {
+      "ticker": "LGO",
+      "market_cap": 62203251.6,
+      "accel_ratio": 5.2,
+      "price_change_pct": -0.0597,
+      "volume_ratio": 1.1,
+      "confirmed": false,
+      "confirm_reason": "no_price_no_volume"
+    },
+    {
+      "ticker": "KORU",
+      "market_cap": 1397972400.42,
+      "accel_ratio": 3.4,
+      "price_change_pct": -0.0576,
+      "volume_ratio": 0.8,
+      "confirmed": false,
+      "confirm_reason": "no_price_no_volume",
+      "note": "Leveraged South Korea 3x ETF, not a single-name equity -- would be vetoed on merits (no insiders/catalysts possible) even had it confirmed."
+    },
+    {
+      "ticker": "YOU",
+      "market_cap": 7442260707.43,
+      "accel_ratio": 2.5,
+      "price_change_pct": 0.048,
+      "volume_ratio": 1.79,
+      "confirmed": true,
+      "confirm_reason": "confirmed"
+    },
+    {
+      "ticker": "OPEN",
+      "market_cap": 4765800780.0,
+      "accel_ratio": 2.14,
+      "price_change_pct": 0.0744,
+      "volume_ratio": 2.77,
+      "confirmed": true,
+      "confirm_reason": "confirmed"
     }
   ],
   "recommendations": [
@@ -43,7 +87,31 @@
       "recommend": true,
       "insider_backed": false,
       "second_platform_confirmed": true,
-      "note": "Sole name in this week's confirmed basket. LUNR also accelerated and sits in the small/mid band but failed the volume-confirmation gate (price +14% on volume BELOW its 20-day baseline) so it is excluded from recommendations per the mechanical gate -- flagged for the ghost's unconfirmed control group only."
+      "note": "Sole recommended name this week. LUNR also accelerated and sits in the small/mid band but failed the volume-confirmation gate (price +14% on volume BELOW its 20-day baseline) so it is excluded from recommendations per the mechanical gate -- flagged for the ghost's unconfirmed control group only."
+    },
+    {
+      "ticker": "YOU",
+      "authenticity": "low",
+      "authenticity_notes": "4 distinct low-follower StockTwits accounts (2248, 99, 3, 63 followers) posted near-identical 'revenue $250M->$1.09B, long-duration compounder' talking points within a 26-minute window (18:55-19:21 UTC). Same canned thesis, multiple small accounts, tight time cluster -- a textbook coordinated-promotion signature, not organic conviction. Chatter isolated to StockTwits; no second-platform corroboration found.",
+      "direction": "bull (per the promotional posts) but unsupported",
+      "catalyst": "None found. Most recent 8-K (2026-06-23) is a routine credit-facility amendment (Amendment No. 4: commitment cut $100M->$50M, borrowing margin reduced) -- balance-sheet housekeeping, not a growth catalyst, and doesn't match the 'revenue transformation' narrative in chat.",
+      "insider_check": "CEO Caryn Seidman-Becker's two most recent Form 4s (2026-06-26, 2026-06-29) are option exercises followed by sell-to-cover / open-market sales (codes M then S/F) -- net insider SELLING. No open-market insider purchases (code P) in the trailing 3 weeks.",
+      "key_risk": "Seeded-looking chatter with no fundamental trigger and an insider selling into the move -- high odds of fade once the promotional push tapers.",
+      "confidence": 0.75,
+      "recommend": false,
+      "thesis": "Cleared the mechanical gates (price +4.8%, volume 1.79x) but the LLM read finds a coordinated-looking promotional cluster with no real catalyst and net insider selling. Veto."
+    },
+    {
+      "ticker": "OPEN",
+      "authenticity": "moderate-low",
+      "authenticity_notes": "Chatter spread across many distinct low-follower accounts (no single obvious cluster like YOU), but uniformly euphoric/ramp-style ('squeeze coming', 'look out above tomorrow', '$10 this year', 'more shares traded than SpaceX'). Opendoor has a long public history as a serial retail meme name with recurring hype-and-fade cycles unrelated to fundamentals.",
+      "direction": "bull (per chat) but speculative",
+      "catalyst": "No fresh 8-K -- most recent company filing was 2026-06-12, three weeks before this chatter spike. One StockTwits post cites a 'Q2 revenue $1.2B, +60%' figure attributed to unspecified 'social media chatter' -- an unverified rumor, not a company disclosure.",
+      "insider_check": "Insider David Benson sold 40,000 shares on 2026-06-16 near $4.83 (open-market sale). Two other insiders (Eric Wu, Keith Rabois) received routine equity award grants ($0 price) on 2026-06-15 -- not open-market purchases. No insider buying found; the one open-market transaction found was a sale.",
+      "key_risk": "Real price/volume move (vol 2.77x, +7.4%) but no confirmed catalyst behind it, hype-heavy language consistent with a chase/pump dynamic, and an insider sold into the same window. High reversal risk if the rumor doesn't materialize.",
+      "confidence": 0.7,
+      "recommend": false,
+      "thesis": "Cleared the mechanical gates on real volume, but the catalyst is an unverified rumor, chat tone reads as momentum-chasing, and the only insider activity this cycle is a sale. Veto."
     }
   ],
   "insider_backed_tickers": [],
