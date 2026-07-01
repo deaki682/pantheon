@@ -45,11 +45,11 @@ non-linearly.
    - Fetch current price, 52-week high from `get_equity_quotes` and `get_equity_fundamentals`
    - Fetch latest 8-K filings from EDGAR
    - Review what signals fired and why
-   - **The LLM's job is to DISQUALIFY, not to rank.** Look for active thesis-killers:
+   - **MANDATORY tape check — do NOT trust `report_date`.** Fetch 30-day historicals (`get_equity_historicals`) and run `midas.prescan.find_reaction_bar(bars)`. This hands you the *actual* reaction bar from the tape: its `date`, `gap`, `pre_price`, and `age_days` (trading days since the move). The calendar `report_date` routinely lags the tape (DAKT and PRGS both failed here — 2/2), so eyeballing it is not enough. **Disqualify if** `age_days` shows the drift window has closed (older than ~3 trading days) **or** the move from `pre_price` to the current price already exceeds ~15% (`STALENESS_PCT`) — the catalyst is priced in. Record the reaction date and drift in `disqualify_reason`. (Stage 1 already applies this gate mechanically; this is the human/LLM backstop, and it only works because the reaction data is handed to you here — not because you remembered to look.)
+   - **The LLM's job is to DISQUALIFY, not to rank.** Look for other active thesis-killers:
      - Guidance bomb or earnings miss since the signal fired
      - Ongoing SEC investigation or fraud allegation
      - Delisting risk, going concern
-     - Price already gapped 15%+ on the catalyst (move is done)
      - Binary event pending this week (earnings, FDA decision) that turns the trade into a coin flip
    - Build a `WeeklyCatalystDossier`:
      - `catalyst`: the specific event or signal convergence

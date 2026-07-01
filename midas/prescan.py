@@ -18,6 +18,8 @@ import logging
 import re
 from typing import Optional
 
+from .scoring import STALENESS_PCT
+
 log = logging.getLogger(__name__)
 
 FINVIZ_SHORT_URL = (
@@ -143,6 +145,14 @@ def _bar_date(bar: dict) -> str:
     return ""
 
 
+def _latest_close(bars: list[dict]) -> Optional[float]:
+    for b in reversed(bars):
+        c = _bar_close(b)
+        if c is not None and c > 0:
+            return c
+    return None
+
+
 def find_reaction_bar(
     bars: list[dict],
     *,
@@ -221,6 +231,14 @@ def filter_stale_earnings_signals(
     A name whose tape shows NO clear reaction is KEPT — that's an undigested
     beat (the ideal pre-drift setup), not a stale one.
 
+    Two complementary gates fire off the reaction bar:
+      - age gate: the reaction is older than `max_age_days` trading days, so
+        the drift window has closed (catches a faded, week-old pop).
+      - move gate: the price has already run more than `STALENESS_PCT` past the
+        pre-reaction price, so the catalyst is priced in (catches a big gap
+        that's still recent but already spent) — this is the insider-cluster
+        gate's exact mechanism, extended to earnings/guidance.
+
     Returns (fresh_earnings_surprise, fresh_guidance_raised, dropped) where
     `dropped` maps symbol -> reason for logging.
     """
@@ -235,6 +253,12 @@ def filter_stale_earnings_signals(
             return True  # no reaction yet — undigested beat, keep it
         if rb["age_days"] > max_age_days:
             dropped[sym] = f"reaction {rb['age_days']}d old ({rb['date']}), drift window closed"
+            return False
+        latest = _latest_close(bars)
+        pre = rb["pre_price"]
+        if latest and pre > 0 and abs(latest - pre) / pre > STALENESS_PCT:
+            moved = round(100 * abs(latest - pre) / pre)
+            dropped[sym] = f"price already moved {moved}% since reaction {rb['date']}, catalyst priced in"
             return False
         return True
 

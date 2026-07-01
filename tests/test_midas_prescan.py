@@ -215,7 +215,7 @@ class TestFilterStaleEarningsSignals:
         assert "DAKT" in dropped
 
     def test_keeps_fresh_reaction(self):
-        # reaction on the latest bar -> age 0 -> fresh
+        # reaction on the latest bar (age 0), +12% move stays under STALENESS_PCT
         closes = [50.0] * 20 + [56.0]
         vols = [100] * 20 + [400]
         hist = {"FRSH": _series(closes, volumes=vols)}
@@ -224,6 +224,17 @@ class TestFilterStaleEarningsSignals:
         )
         assert "FRSH" in earn
         assert not dropped
+
+    def test_drops_fresh_but_already_ran(self):
+        # reaction is recent (age 0) but a +25% gap has already priced it in
+        closes = [50.0] * 20 + [62.5]
+        vols = [100] * 20 + [400]
+        hist = {"RAN": _series(closes, volumes=vols)}
+        earn, guid, dropped = filter_stale_earnings_signals(
+            {"RAN": {"is_beat": True}}, set(), hist
+        )
+        assert "RAN" not in earn
+        assert "moved" in dropped["RAN"]
 
     def test_keeps_undigested_beat(self):
         # beat with no reaction on the tape yet -> the ideal pre-drift setup
