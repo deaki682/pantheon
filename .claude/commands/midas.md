@@ -1,8 +1,12 @@
-# /midas — weekly diamond finder
+# /midas — weekly entry + position management (light half)
 
-Run Midas's complete weekly cycle: scan the full universe, funnel to 10
-finalists, deep-research each, pick ONE stock, enter Monday, manage
-through the week.
+Run Midas's entry and management cycle: read this week's finalists from a
+prior `/midas-scan`, deep-research each, pick ONE stock, enter Monday, and
+manage the open position through the week.
+
+The heavy universe scan lives in **`/midas-scan`** — run that on the
+weekend first. This skill consumes its `cache/midas_scan.json` output; it
+does NOT scan the universe itself.
 
 Midas is maximally concentrated: one stock, all-in, one week. The edge
 is signal convergence — when multiple independent informed-money signals
@@ -29,40 +33,11 @@ non-linearly.
 
 5. **If no position is open and it's not Monday**, skip to step 13. Midas only enters on Mondays.
 
-### Stage 1 — Weekly Pre-Scan + Sieve (~7,000 → ~50-200)
+### Load this week's finalists (from /midas-scan)
 
-6. **Weekly pre-scan.** Midas runs its OWN signal gathering — it does NOT just borrow Oracle's quarterly caches. Start from the FULL universe (`shared.edgar.fetch_company_tickers()`, ~7,000 filers).
-
-   **6a. Fresh insider data (last 14 days).** This is Midas's most important signal source. Oracle's `oracle_insider_clusters.json` is a quarterly batch — signals can be 6+ weeks stale. Instead:
-   - `oracle.lenses.search_recent_form4(date_from=14_days_ago, date_to=today, cik_to_symbol=invert(universe))` — single EDGAR full-text search, returns {symbol: [filings]} across the entire universe in seconds. Form 4 `display_names` never carries a ticker in parens (unlike 13D) — the issuer is always the *last* entry, so the ticker must be resolved via a CIK -> symbol map built from `universe` (inverted from `shared.edgar.fetch_company_tickers()`), not from the display name text.
-   - `oracle.lenses.filter_form4_open_market_buys(fts_results)` — **required before clustering.** The raw FTS match includes every Form 4 (grants, option exercises, tax-withholding sales — codes A/M/F), which vastly outnumber genuine open-market buys (code P) at large, well-staffed issuers. Skipping this step makes "insider cluster" measure officer headcount, not accumulation. Fetches each filing's XML body (URL is derivable from the `filer_cik`/`primary_document`/`accession` fields `search_recent_form4` already attaches) and keeps only code-P buys >= $10k.
-   - `midas.prescan.form4_fts_to_clusters(buy_filtered_results)` — converts to cluster format (counts distinct filers per symbol, keeps only 2+ filer clusters). Must run on the buy-filtered dict, not the raw FTS output.
-   - `midas.prescan.merge_insider_clusters(oracle_cache, fresh_clusters)` — merges with Oracle's cache for breadth; fresh data takes precedence for any overlapping symbols.
-
-   **6b. Recent earnings beats (standalone signal).** Earnings beats are a first-class entry point — a name can enter the sieve purely on an earnings beat, with no other signal needed.
-   - Fetch `get_earnings_calendar` for the **past 5 trading days** (not this coming week).
-   - For every name that already reported, fetch `get_earnings_results`. Beats become `earnings_surprise` signals.
-   - ALSO fetch this coming week's reporters → `earnings_this_week` set. These are EXCLUDED from the sieve (pending binary event, not signal convergence).
-
-   **6c. Smart money + activist 13D (Oracle cache).** These change quarterly, so Oracle's caches are fine:
-   - `cache/oracle_smart_money.json` — 13F smart money holdings
-   - `cache/oracle_activist_13d.json` — recent 13D filings
-
-   **6d. Guidance raised.** Search EDGAR for recent 8-K filings with items 7.01/8.01, run `guidance_direction()` on each.
-
-   **6e. Short squeeze candidates (finviz).** WebFetch `midas.prescan.FINVIZ_SHORT_URL` to get stocks with >20% short float. Parse with `midas.prescan.parse_finviz_short_text(text)` → `{symbol: short_float_pct}`. Pass as `short_squeezes` to the sieve — strength = min(1.0, pct / 50.0). This fires as an independent signal; combined with insider buying or earnings beats, it creates high-convergence squeeze setups.
-
-   **6f. Volume anomalies (full candidate set).** After assembling all signal sources from 6a-6e, collect every symbol that has at least one signal. Fetch `get_equity_historicals` (30-day daily bars) for ALL of them. `midas.prescan.compute_volume_anomalies(historicals)` → `{symbol: ratio}`. Pass to sieve — ratio > 1.5x fires the signal, strength = min(1.0, ratio / 3.0).
-
-   **6g. Signal prices (freshness gate).** For each symbol with an insider cluster, record the price at signal time from the cluster's `latest_date`. Fetch current prices via `get_equity_quotes`. Pass both as `signal_prices` and `current_prices` to the sieve — names where price moved >15% since the signal fired are filtered out.
-
-   **Key distinction:** `cache/oracle_screen.json` is Oracle's combined top-100 ranking — Midas does NOT use it. Midas starts from fresh signal data (augmented by Oracle's caches for breadth), then applies its own convergence-based ranking.
-
-7. **Run sieve.** `midas.scanner.stage1_sieve(universe, insider_clusters=merged_clusters, smart_money_holders=…, activist_symbols=…, earnings_surprise=…, guidance_raised=…, volume_anomalies=…, short_squeezes=…, market_caps=…, ipo_dates=…, earnings_this_week=…, signal_prices=…, current_prices=…, today=today)`. Checks every symbol in the full universe against all signal sources. Filters out: names listed < 90 days, names with unresolved earnings this week, names where price already moved >15% since signal date. To get IPO dates: batch-fetch `get_equity_fundamentals` for candidates with signals and extract the `ipo_date` field. Output: ~50-200 names with at least one active signal, sufficient trading history, no pending earnings, and fresh signals.
-
-### Stage 2 — Convergence Rank (→ top 10)
-
-8. **Score and rank.** `midas.scanner.stage2_rank(candidates, top_n=10)`. The convergence multiplier non-linearly boosts names with 2+ simultaneous signals.
+6. **Load the scan.** `midas.scanner.load_scan("cache/midas_scan.json")`. This is the top-10 ranking produced by `/midas-scan` over the weekend.
+   - **If the file is missing** (`load_scan` returns `{}`) OR `scanned_at` is more than ~3 days old, **abort the entry** and tell the user to run `/midas-scan` first. Do NOT fall back to scanning the universe here — the whole point of the split is that the heavy scan is a separate pass. A stale scan means stale signals; entering on it would defeat the freshness gates the scan applied.
+   - Otherwise, take `data["finalists"]` — the ranked top 10 (each carries `symbol`, `score`, `convergence_count`, `active_signals`, `signal_details`, `sector`, `market_cap`).
 
 ### Stage 3 — LLM Disqualification Gate (10 → 1)
 
@@ -85,6 +60,7 @@ non-linearly.
      - `disqualified`: True if any thesis-killer is found
      - `disqualify_reason`: specific reason (e.g. "guidance bomb Jun 18, -14% gap")
      - `pop_probability`, `expected_magnitude`, `expected_value`: optional, informational only — these do NOT affect pick_winner
+   - **Carry the scan's numbers into the dossier.** Copy `score`, `convergence_count`, and `signals` (the `active_signals` map) straight from the loaded finalist onto the `WeeklyCatalystDossier`. `pick_winner` ranks on `d.score`, so it MUST be the scan's score — do not recompute or invent it.
    - **Do NOT set pop_probability to justify the algorithm's ranking.** These fields are for your review only. The pick is mechanical.
 
 10. **Pick the winner.** `midas.scanner.pick_winner(dossiers)` — highest timing-weighted convergence score among non-disqualified names. The LLM cannot promote a name; it can only veto. Save all dossiers to `cache/midas_dossiers.json`.
@@ -147,6 +123,7 @@ Capital stays at $1,000 until 30+ graded trades show alpha > 0, alpha_t >= 2.0, 
 
 | File | Purpose |
 |------|---------|
+| `cache/midas_scan.json` | This week's top-10 finalists from `/midas-scan` (input) |
 | `cache/midas_sleeve.json` | Cash, position, weekly results, peak equity |
 | `cache/midas_dossiers.json` | This week's top-10 catalyst dossiers |
 | `cache/midas_ledger.jsonl` | Every order placed (for reconcile) |

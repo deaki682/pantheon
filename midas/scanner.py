@@ -287,16 +287,38 @@ def pick_winner(dossiers: list[WeeklyCatalystDossier]) -> Optional[WeeklyCatalys
 
 # ------- persistence -------
 
-def save_scan(path: str, *, finalists: list[dict], pick: Optional[dict] = None) -> None:
+def save_scan(
+    path: str,
+    *,
+    finalists: list[dict],
+    pick: Optional[dict] = None,
+    scanned_at: Optional[str] = None,
+) -> None:
+    """Persist a stage-1/2 scan for a later entry pass to consume.
+
+    scanned_at is an ISO timestamp (pass one in — the scanner never calls
+    datetime.now() itself so the caller controls the clock). The entry
+    skill uses it to detect a stale scan.
+    """
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     data = {
         "finalists": finalists,
         "pick": pick,
+        "scanned_at": scanned_at,
     }
     tmp = path + ".tmp"
     with open(tmp, "w") as f:
         json.dump(data, f, indent=2, sort_keys=True)
     os.replace(tmp, path)
+
+
+def load_scan(path: str) -> dict:
+    """Load a saved scan. Returns {} if absent so callers can detect a
+    missing scan and tell the user to run /midas-scan first."""
+    if not os.path.exists(path):
+        return {}
+    with open(path) as f:
+        return json.load(f)
 
 
 def save_dossiers(path: str, dossiers: list[WeeklyCatalystDossier]) -> None:
