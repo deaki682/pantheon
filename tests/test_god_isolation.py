@@ -162,8 +162,7 @@ class TestPositionIsolation:
         assert "GOOG" in delphi.positions
         assert "GOOG" not in oracle.positions
 
-        assert achilles.position is not None
-        assert achilles.position.symbol == "JPM"
+        assert "JPM" in achilles.positions
         assert "JPM" not in oracle.positions
         assert "JPM" not in delphi.positions
 
@@ -296,7 +295,7 @@ class TestSymbolOverlap:
 
         oracle_syms = set(oracle.positions.keys())
         delphi_syms = set(delphi.positions.keys())
-        achilles_syms = {achilles.position.symbol} if achilles.position else set()
+        achilles_syms = set(achilles.positions.keys())
 
         overlap_od = oracle_syms & delphi_syms
         overlap_oa = oracle_syms & achilles_syms
@@ -307,7 +306,7 @@ class TestSymbolOverlap:
         assert overlap_da == {"AAPL"}
 
         # Combined broker exposure = sum of all gods' shares
-        achilles_aapl = achilles.position.shares if achilles.position else 0.0
+        achilles_aapl = achilles.positions["AAPL"].shares if "AAPL" in achilles.positions else 0.0
         total_aapl_shares = (
             oracle.positions["AAPL"].shares
             + delphi.positions["AAPL"].shares
@@ -337,12 +336,8 @@ class TestMultiDaySimulation:
                 append_order(ledger_path, OrderRecord(oid, o["symbol"], o["side"], o["dollars"], today))
 
     def _run_achilles_day(self, sleeve, events, prices, today, ledger_path):
-        """Simulate one Achilles pass (enter if no position, check exit)."""
+        """Simulate one Achilles pass — basket model, one slot per name."""
         if not events:
-            return
-
-        # Only enter if no current position
-        if sleeve.position is not None:
             return
 
         for ev in events:
@@ -359,7 +354,6 @@ class TestMultiDaySimulation:
                 oid = f"ach-{ev['symbol']}-{today}"
                 append_order(ledger_path, OrderRecord(
                     oid, ev["symbol"], "buy", dollars, today))
-                break  # only one position at a time
 
     def test_full_week_isolation(self, tmp_path):
         """Run all three gods through a 5-day week and verify isolation."""
@@ -427,7 +421,6 @@ class TestMultiDaySimulation:
                 assert achilles.cash == a_cash_before, \
                     f"Day {day_idx}: Achilles cash changed with no events"
 
-            achilles_sym = achilles.position.symbol if achilles.position else None
             snapshots.append({
                 "day": day_idx,
                 "oracle": {"cash": oracle.cash, "equity": oracle.equity(px),
@@ -435,7 +428,7 @@ class TestMultiDaySimulation:
                 "delphi": {"cash": delphi.cash, "equity": delphi.equity(px),
                            "positions": set(delphi.positions.keys())},
                 "achilles": {"cash": achilles.cash, "equity": achilles.equity(px),
-                             "position": achilles_sym},
+                             "positions": set(achilles.positions.keys())},
             })
 
         # Final verification
@@ -450,11 +443,10 @@ class TestMultiDaySimulation:
             assert sleeve.equity(final_px) == pytest.approx(sleeve.cash + pos_value, abs=0.01), \
                 f"{god} equity inconsistent"
 
-        if achilles.position:
-            achilles_pos_value = achilles.position.shares * final_px.get(
-                achilles.position.symbol, achilles.position.entry_price)
-        else:
-            achilles_pos_value = 0.0
+        achilles_pos_value = sum(
+            p.shares * final_px.get(s, p.entry_price)
+            for s, p in achilles.positions.items()
+        )
         assert achilles.equity(final_px) == pytest.approx(
             achilles.cash + achilles_pos_value, abs=0.01), \
             "achilles equity inconsistent"
@@ -526,7 +518,7 @@ class TestKillSwitch:
 
         assert len(oracle.positions) == 1
         assert len(delphi.positions) == 1
-        assert achilles.position is not None
+        assert "JPM" in achilles.positions
 
         ks_path = os.path.join(str(tmp_path), "KILL_SWITCH")
         with open(ks_path, "w") as f:
@@ -540,7 +532,7 @@ class TestKillSwitch:
 
         assert len(oracle.positions) == 0
         assert len(delphi.positions) == 0
-        assert achilles.position is None
+        assert achilles.positions == {}
 
         # All cash recovered (minus fees)
         assert oracle.cash > 900.0
@@ -580,8 +572,7 @@ class TestPersistenceIsolation:
         assert "GOOG" not in o2.positions
         assert "GOOG" in d2.positions
         assert "AAPL" not in d2.positions
-        assert a2.position is not None
-        assert a2.position.symbol == "JPM"
+        assert "JPM" in a2.positions
 
     def test_overwrite_own_sleeve_only(self, tmp_path):
         """Re-saving one god doesn't affect other gods' files."""
@@ -701,8 +692,8 @@ class TestPreTradeSanityCheck:
         assert mismatches[0].sleeve_total == pytest.approx(1.0)
         assert mismatches[0].broker_shares == 0.0
 
-    def test_achilles_single_position(self, tmp_path):
-        """Achilles with a single position sums correctly."""
+    def test_achilles_position_sums(self, tmp_path):
+        """Achilles basket positions sum correctly for the pre-trade check."""
         achilles = AchillesSleeve(initial_cash=1000.0)
         achilles.enter(
             symbol="AAPL", shares=3.0, price=150.0,
@@ -710,7 +701,7 @@ class TestPreTradeSanityCheck:
         )
         paths = self._save_sleeves(tmp_path, achilles=achilles)
 
-        achilles_aapl = achilles.position.shares
+        achilles_aapl = achilles.positions["AAPL"].shares
 
         broker_positions = {"AAPL": achilles_aapl}
         assert pre_trade_check(broker_positions, sleeve_paths=paths) is True
@@ -734,7 +725,7 @@ class TestPreTradeSanityCheck:
 
         paths = self._save_sleeves(tmp_path, oracle, delphi, achilles)
 
-        achilles_aapl = achilles.position.shares
+        achilles_aapl = achilles.positions["AAPL"].shares
         total = 1.0 + 2.0 + achilles_aapl
 
         # Exact match
@@ -831,44 +822,40 @@ class TestSettlementIsolation:
         assert delphi.gfv_count == 0
 
 
-# ── Test 13: Achilles single position ────────────────────────────────
+# ── Test 13: Achilles basket ─────────────────────────────────────────
 
-class TestAchillesSinglePosition:
-    def test_achilles_rejects_second_position(self):
-        """Achilles can only hold 1 position at a time."""
+class TestAchillesBasket:
+    def test_achilles_holds_a_basket(self):
+        """Achilles holds many distinct names (the diversified PEAD basket)."""
         achilles = AchillesSleeve(initial_cash=5000.0)
-
-        ok = achilles.enter(
+        assert achilles.enter(
             symbol="AAPL", shares=5.0, price=150.0,
             today=DATES[0], score=0.3, surprise_pct=5.0,
-        )
-        assert ok is True
-        assert achilles.position is not None
-
-        # Second entry is rejected
-        ok2 = achilles.enter(
+        ) is True
+        assert achilles.enter(
             symbol="MSFT", shares=3.0, price=300.0,
             today=DATES[0], score=0.4, surprise_pct=7.0,
-        )
-        assert ok2 is False
+        ) is True
+        assert set(achilles.positions) == {"AAPL", "MSFT"}
 
-    def test_achilles_cap_doesnt_block_oracle(self):
-        """Achilles with a position still lets Oracle buy."""
+    def test_achilles_full_basket_doesnt_block_oracle(self):
+        """A full Achilles basket still lets Oracle buy."""
+        from achilles.sleeve import MAX_POSITIONS
         oracle = OracleSleeve(initial_cash=5000.0)
-        achilles = AchillesSleeve(initial_cash=5000.0)
+        achilles = AchillesSleeve(initial_cash=50_000.0)
 
-        achilles.enter(
-            symbol="SYM0", shares=10.0, price=10.0,
-            today=DATES[0], score=0.3, surprise_pct=5.0,
-        )
-        assert achilles.position is not None
+        for i in range(MAX_POSITIONS):
+            achilles.enter(
+                symbol=f"SYM{i}", shares=10.0, price=10.0,
+                today=DATES[0], score=0.3, surprise_pct=5.0,
+            )
+        assert len(achilles.positions) == MAX_POSITIONS
 
-        # Achilles can't open another
-        ok = achilles.enter(
-            symbol="SYM1", shares=10.0, price=10.0,
+        # Basket full — Achilles can't open another
+        assert achilles.enter(
+            symbol="OVERFLOW", shares=10.0, price=10.0,
             today=DATES[0], score=0.3, surprise_pct=5.0,
-        )
-        assert ok is False
+        ) is False
 
         # Oracle is unaffected
         assert oracle.buy("AAPL", 1.0, 150.0, DATES[0]) is True
@@ -887,7 +874,7 @@ class TestAchillesTradingIsolation:
             symbol="D0", shares=10.0, price=10.0,
             today=DATES[0], score=0.3, surprise_pct=5.0,
         )
-        assert achilles.position is not None
+        assert "D0" in achilles.positions
 
         # Oracle and Delphi trade freely
         assert oracle.buy("AAPL", 1.0, 150.0, DATES[0]) is True

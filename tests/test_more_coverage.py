@@ -181,8 +181,8 @@ def test_achilles_enter_basic():
         today="2024-05-29", score=0.5, surprise_pct=8.0,
     )
     assert ok is True
-    assert s.position is not None
-    assert s.position.symbol == "AAPL"
+    assert "AAPL" in s.positions
+    assert s.positions["AAPL"].symbol == "AAPL"
 
 
 def test_achilles_rejects_when_halted():

@@ -47,6 +47,7 @@ class TestBeatCandidate:
         assert c.score == 0.0
         assert c.confirming_count == 0
         assert c.sector == ""
+        assert c.reaction_pct is None
 
     def test_optional_fields(self):
         c = BeatCandidate(
@@ -76,6 +77,7 @@ def _make_candidate(
     symbol="ACME",
     surprise_pct=15.0,
     market_cap=1_000_000_000,
+    reaction_pct=0.05,   # rewarded beat by default so it clears the gate
     **kwargs,
 ):
     return BeatCandidate(
@@ -85,6 +87,7 @@ def _make_candidate(
         estimate_eps=1.00,
         report_date="2026-07-15",
         market_cap=market_cap,
+        reaction_pct=reaction_pct,
         **kwargs,
     )
 
@@ -141,6 +144,27 @@ class TestRankBeats:
         # score was updated in-place (even if filtered, it's set)
         # If it passed, score > 0
         assert c.score > 0
+
+
+class TestReactionGate:
+    def test_drops_sold_beat(self):
+        # strong beat but the market SOLD it (negative reaction) -> dropped
+        sold = _make_candidate(symbol="SOLD", surprise_pct=20.0, reaction_pct=-0.04)
+        rewarded = _make_candidate(symbol="REWARD", surprise_pct=20.0, reaction_pct=0.06)
+        ranked = rank_beats([sold, rewarded])
+        syms = [c.symbol for c in ranked]
+        assert "SOLD" not in syms
+        assert "REWARD" in syms
+
+    def test_drops_unconfirmed_reaction(self):
+        unknown = _make_candidate(symbol="UNK", reaction_pct=None)
+        assert rank_beats([unknown]) == []
+
+    def test_require_reaction_false_keeps_all(self):
+        sold = _make_candidate(symbol="SOLD", surprise_pct=20.0, reaction_pct=-0.04)
+        unknown = _make_candidate(symbol="UNK", reaction_pct=None)
+        ranked = rank_beats([sold, unknown], require_reaction=False)
+        assert {c.symbol for c in ranked} == {"SOLD", "UNK"}
 
 
 # --- pick_best ---

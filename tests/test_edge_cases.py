@@ -256,17 +256,23 @@ def test_achilles_enter_blocked_zero_price():
     assert ok is False
 
 
-def test_achilles_enter_blocked_when_position_held():
+def test_achilles_enter_blocked_for_duplicate_symbol():
+    # basket holds many names, but not the SAME name twice
     s = AchillesSleeve(initial_cash=10_000)
     s.enter(
         symbol="X", shares=5.0, price=10.0,
         today="2024-05-29", score=0.5, surprise_pct=8.0,
     )
-    ok = s.enter(
+    # a different name is welcome
+    assert s.enter(
         symbol="Y", shares=5.0, price=10.0,
         today="2024-05-29", score=0.5, surprise_pct=8.0,
-    )
-    assert ok is False
+    ) is True
+    # but re-entering X is rejected
+    assert s.enter(
+        symbol="X", shares=5.0, price=10.0,
+        today="2024-05-29", score=0.5, surprise_pct=8.0,
+    ) is False
 
 
 def test_achilles_score_beat_zero_when_no_surprise():

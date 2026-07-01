@@ -43,8 +43,7 @@ def test_three_sleeves_independent():
     # Each holds only their own
     assert "AAPL" in o.positions and "MSFT" not in o.positions
     assert "MSFT" in d.positions and "AAPL" not in d.positions
-    assert a.position is not None
-    assert a.position.symbol == "GOOG"
+    assert "GOOG" in a.positions
 
 
 def test_kill_switch_liquidates_all_three(tmp_path, monkeypatch):
@@ -69,7 +68,7 @@ def test_kill_switch_liquidates_all_three(tmp_path, monkeypatch):
 
     assert o.positions == {}
     assert d.positions == {}
-    assert a.position is None
+    assert a.positions == {}
 
 
 def test_persist_three_gods_no_clobber(repos):
@@ -124,22 +123,17 @@ def test_oracle_capital_gate_progression():
     assert CAPITAL_BASE < out <= CAPITAL_CEILING - ACHILLES_RESERVE
 
 
-def test_achilles_single_position_model():
-    """New Achilles holds only one position at a time; second entry is rejected."""
+def test_achilles_basket_model():
+    """Achilles holds a diversified basket: many names, one slot per symbol."""
     s = AchillesSleeve(initial_cash=10_000)
-    ok1 = s.enter(
-        symbol="ACME", shares=10.0, price=100.0,
-        today="2024-05-29", score=0.3, surprise_pct=5.0,
-    )
-    assert ok1 is True
-    assert s.position is not None
-    assert s.position.symbol == "ACME"
+    assert s.enter(symbol="ACME", shares=10.0, price=100.0,
+                   today="2024-05-29", score=0.3, surprise_pct=5.0) is True
+    # A different name is welcome — that's the basket
+    assert s.enter(symbol="OTHER", shares=10.0, price=50.0,
+                   today="2024-05-29", score=0.4, surprise_pct=7.0) is True
+    assert set(s.positions) == {"ACME", "OTHER"}
 
-    # Second entry rejected while position is held
-    ok2 = s.enter(
-        symbol="ACME", shares=10.0, price=101.0,
-        today="2024-05-29", score=0.4, surprise_pct=7.0,
-    )
-    assert ok2 is False
-    # Original position unchanged
-    assert s.position.entry_price == 100.0
+    # But the SAME name a second time is rejected (no doubling up)
+    assert s.enter(symbol="ACME", shares=10.0, price=101.0,
+                   today="2024-05-29", score=0.4, surprise_pct=7.0) is False
+    assert s.positions["ACME"].entry_price == 100.0

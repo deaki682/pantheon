@@ -27,12 +27,25 @@ class BeatCandidate:
     insider_prebuy: bool = False
     market_cap: Optional[float] = None
     current_price: Optional[float] = None
+    reaction_pct: Optional[float] = None   # post-report reaction; None = unconfirmed
     score: float = 0.0
     confirming_count: int = 0
     sector: str = ""
 
 
-def rank_beats(candidates: list[BeatCandidate], *, top_n: int = 5) -> list[BeatCandidate]:
+def rank_beats(
+    candidates: list[BeatCandidate],
+    *,
+    top_n: int = 12,
+    require_reaction: bool = True,
+) -> list[BeatCandidate]:
+    """Score, gate, and rank beats into a basket of the top N.
+
+    require_reaction (default True): only keep beats the market REWARDED —
+    a confirmed positive post-report reaction. This drops 'sold beats'
+    (gap up, close red) and beats whose reaction we couldn't verify. Set
+    False only for backtests/paper runs where reaction data isn't gathered.
+    """
     scored = []
     for c in candidates:
         result = score_beat(
@@ -45,14 +58,17 @@ def rank_beats(candidates: list[BeatCandidate], *, top_n: int = 5) -> list[BeatC
         )
         c.score = result.get("score", 0.0)
         c.confirming_count = result.get("confirming_count", 0)
-        if c.score > 0:
-            scored.append(c)
+        if c.score <= 0:
+            continue
+        if require_reaction and not (c.reaction_pct is not None and c.reaction_pct > 0):
+            continue  # skip sold or unconfirmed beats — trade the reaction, not the headline
+        scored.append(c)
     scored.sort(key=lambda c: c.score, reverse=True)
     return scored[:top_n]
 
 
-def pick_best(candidates: list[BeatCandidate]) -> Optional[BeatCandidate]:
-    ranked = rank_beats(candidates)
+def pick_best(candidates: list[BeatCandidate], *, require_reaction: bool = True) -> Optional[BeatCandidate]:
+    ranked = rank_beats(candidates, require_reaction=require_reaction)
     return ranked[0] if ranked else None
 
 

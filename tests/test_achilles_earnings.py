@@ -4,8 +4,42 @@ from achilles.earnings import (
     EarningsSurprise,
     compute_surprise,
     is_actionable_beat,
+    is_rewarded_beat,
+    reaction_return,
     surprise_to_strength,
 )
+
+
+def _beat(is_beat=True):
+    return EarningsSurprise(symbol="X", actual_eps=1.1, estimate_eps=1.0,
+                            surprise_pct=10.0, is_beat=is_beat)
+
+
+class TestReactionGate:
+    def test_reaction_return_positive(self):
+        assert reaction_return(50.0, 53.0) == pytest.approx(0.06)
+
+    def test_reaction_return_negative(self):
+        # DAKT case: gap up then close red vs the prior close
+        assert reaction_return(20.11, 19.35) == pytest.approx(-0.0378, abs=1e-3)
+
+    def test_reaction_return_guards(self):
+        assert reaction_return(0, 10) is None
+        assert reaction_return(None, 10) is None
+        assert reaction_return("x", 10) is None
+
+    def test_rewarded_beat_true(self):
+        assert is_rewarded_beat(_beat(), 0.06) is True
+
+    def test_sold_beat_rejected(self):
+        # beat, but the market sold it -> not rewarded
+        assert is_rewarded_beat(_beat(), -0.04) is False
+
+    def test_unconfirmed_reaction_rejected(self):
+        assert is_rewarded_beat(_beat(), None) is False
+
+    def test_miss_never_rewarded(self):
+        assert is_rewarded_beat(_beat(is_beat=False), 0.10) is False
 
 
 def test_compute_surprise_beat():

@@ -21,14 +21,19 @@ curation) with override budgets to prevent second-guessing the mechanical
 system. Capital at $2,000; 7-day cooldown after selling a name.
 
 **Achilles** — PEAD earnings-season specialist. Trades only during the
-four ~6-week earnings windows (~16 weeks/year). Picks the strongest
-earnings beat from small/mid-cap reporters, enters next trading day,
-holds 5 trading days, -8% hard stop. One position at a time, all-in.
-Sits in cash off-season. The edge is Post-Earnings Announcement Drift —
-the most robust short-horizon anomaly, strongest in neglected names with
-thin analyst coverage. Confirming signals (revenue beat, guidance raised,
-short squeeze, insider pre-buy) boost the base score but are never
-independent entry signals.
+four ~6-week earnings windows (~16 weeks/year). Holds a **diversified
+equal-weighted basket** of up to 12 small/mid-cap earnings beats — not one
+all-in bet. PEAD is a thin statistical edge that only surfaces across many
+names, and a basket both preserves it and validates it far faster than one
+trade at a time. Each name: enter next trading day, hold 5 trading days,
+-8% hard stop, one slot per symbol, 4-week cooldown after a stop. Sits in
+cash off-season. The edge is Post-Earnings Announcement Drift — the most
+robust short-horizon anomaly, strongest in neglected names with thin
+analyst coverage. **Reaction-direction gate:** only goes long a beat the
+market *rewarded* (positive post-report reaction) — never a "sold beat"
+(gap up, close red), because the drift follows the reaction, not the EPS
+headline. Confirming signals (revenue beat, guidance raised, short squeeze,
+insider pre-buy) boost the base score but are never independent entry signals.
 
 **Midas** — Maximally concentrated weekly catalyst play. Scans the full
 ~7,000-name universe every weekend, funnels through signal convergence

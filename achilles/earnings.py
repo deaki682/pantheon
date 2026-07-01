@@ -104,6 +104,45 @@ def is_actionable_beat(surprise: EarningsSurprise) -> bool:
     return SURPRISE_MIN_PCT <= surprise.surprise_pct <= SURPRISE_MAX_PCT
 
 
+# ── reaction-direction gate ───────────────────────────────────────────
+#
+# PEAD drifts in the direction the market ACTUALLY reacted, not the direction
+# of the EPS headline. A company can beat and get *sold* (gap up, close red) —
+# that's a negative reaction, and the drift runs down, not up. Buying that beat
+# because "EPS beat" is betting against the drift. So Achilles only goes long a
+# beat the tape rewarded: positive surprise AND positive post-report reaction.
+
+
+def reaction_return(pre_report_close, post_report_close) -> Optional[float]:
+    """Price reaction to the report: (post - pre) / pre.
+
+    pre_report_close: the last close BEFORE the report.
+    post_report_close: the close on the reaction bar (report day or next day).
+    Returns a fraction (e.g. 0.06 = +6%), or None if it can't be computed.
+    """
+    try:
+        pre = float(pre_report_close)
+        post = float(post_report_close)
+    except (TypeError, ValueError):
+        return None
+    if pre <= 0:
+        return None
+    return (post - pre) / pre
+
+
+def is_rewarded_beat(surprise: EarningsSurprise, reaction_pct: Optional[float]) -> bool:
+    """A beat the market rewarded: positive surprise AND positive reaction.
+
+    reaction_pct None => unconfirmed => NOT rewarded. We do not go long a beat
+    whose reaction we can't verify — that's the whole point of the gate.
+    """
+    if not surprise.is_beat:
+        return False
+    if reaction_pct is None:
+        return False
+    return reaction_pct > 0
+
+
 def surprise_to_strength(surprise: EarningsSurprise) -> float:
     """Convert a surprise into event strength using the scoring curve.
 

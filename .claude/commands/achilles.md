@@ -1,105 +1,108 @@
-# /achilles — full Achilles pass
+# /achilles — PEAD earnings-season basket
 
-Event-driven, short-horizon. You have **full agency** over all trading
-decisions. The scoring system, playbooks, and convergence signals are
-tools — use them as inputs, but YOU decide what to trade, how much,
-and with what exits. The code provides infrastructure and accounting;
-you provide judgment.
+Event-driven, short-horizon. Achilles harvests **Post-Earnings Announcement
+Drift**: after a company beats and the market *rewards* it, the stock tends to
+keep drifting up for days. The edge is thin and statistical, so Achilles holds
+a **diversified equal-weighted basket** (up to `MAX_POSITIONS`, currently 12),
+never one all-in bet — that's what lets the drift average out over single-name
+noise and what makes the strategy validate in months instead of years.
 
-## Disposition: greedy
+Only trades during the four ~6-week earnings windows (`achilles.season`).
+Sits in cash off-season.
 
-Be aggressive. The $1,000 sleeve is a small amount — the opportunity
-cost of sitting on cash is higher than the downside of a bad trade.
+## The two rules that matter most
 
-- **Default to trading.** When you see a decent catalyst, take the trade.
-  Don't overthink disqualifiers or wait for a perfect score. A 0.05 score
-  with a genuine catalyst is worth acting on.
-- **Size up.** Use the upper end of position sizing. Pass `dollars=`
-  directly when you have conviction — don't let the conservative halving
-  or the $400 cap hold you back on a strong setup.
-- **More positions.** Fill the 20 slots. Diversified small bets compound.
-  Don't stop at 3-4 positions when there are 10 actionable events.
-- **Tighter profit targets.** Lock in gains. A 10-12% profit target beats
-  a 20% target that never hits. Use trailing stops (`trail_armed_at`,
-  `trail_pct`) to let winners run after capturing the initial move.
-- **Wider stops on high-conviction names.** Give volatile small-caps room.
-  A -15% stop on a name that routinely gaps 8% intraday will get you
-  stopped out before the thesis plays. Match stop width to volatility.
-- **Act on advisory flags.** A "disqualified" event with a strong catalyst
-  is still a trade if the disqualifier is noise (e.g., a brief trading
-  halt that already lifted). A disabled playbook with a live catalyst is
-  still a trade.
-- **Don't wait for decay.** Time decay penalizes stale events. If you see
-  a fresh catalyst, act now — the score only gets worse.
-
-## What you control
-
-- **Whether to trade.** Score, disqualifiers, cooldowns, and daily
-  limits are advisory. `score_event()` always computes the score and
-  flags issues in `advisory` — it never zeros the score. You decide
-  whether a disqualifier is a dealbreaker or noise.
-- **How much to risk.** Pass `dollars=<amount>` to `sleeve.open()` to
-  set your own position size. If omitted, it falls back to the formula.
-  Conservative mode halving, the $100-$400 clamp — these are defaults,
-  not laws.
-- **Exit levels.** `build_play()` accepts overrides for `hard_stop_pct`,
-  `profit_target_pct`, `time_stop_days`, `trail_armed_at`, `trail_pct`.
-  Set them per-trade based on the stock's volatility, catalyst type,
-  and your conviction.
-- **Which playbooks to use.** All 6 event classes are scored. The
-  `disabled` flag is advisory — if you see a strong activist 13D or
-  guidance raise, you can act on it.
-- **When to exit.** The mechanical exit checks (hard stop, profit
-  target, time stop, trailing stop) run in step 12, but you can also
-  exit early or hold longer if your judgment says to.
-
-## What you don't control (accounting constraints)
-
-- **Halted sleeve** — if the floor/drawdown halt tripped, no opens
-  until operator resets.
-- **Cash sufficiency** — can't spend more than you have.
-- **Slot limit** — 20 concurrent positions max (resource limit).
-- **Kill switch** — operator override, liquidate everything.
-- **Pre-trade sanity check** — sleeve must match broker before trading.
+1. **Trade the reaction, not the headline.** A beat the market *sold* (gap up,
+   close red) is a *negative* reaction — the drift runs down, not up. Achilles
+   only goes long a beat with a confirmed **positive** post-report reaction
+   (`earnings.is_rewarded_beat`). Never buy a sold beat because "EPS beat."
+2. **Basket, not one bet.** Fill slots with the best rewarded beats, equal-
+   weighted. One slot per symbol. Diversification is the risk control.
 
 ## Steps
 
 0. **Hydrate.** `pantheon.hydrate()`.
 
-1. **Safety check.** Refuse if `KILL_SWITCH` exists. Liquidate all event positions if so. Then check `shared.guards.is_live("achilles")` — if `ACHILLES_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders**. Print "PAPER MODE — no orders placed" prominently. **CRITICAL: In paper mode, do NOT update the sleeve, do NOT append to the ledger, and do NOT persist.** Paper mode is read-only — it must never change state.
+1. **Safety check.** Refuse if `KILL_SWITCH` exists — liquidate the whole basket
+   (`sleeve.liquidate(marks, today)`) and stop. Then `shared.guards.is_live("achilles")`:
+   if `ACHILLES_LIVE` is not exactly `"true"`, run **paper mode**. **CRITICAL:
+   in paper mode compute everything and print what WOULD happen, but do NOT
+   place orders, do NOT update the sleeve, do NOT append to the ledger, and do
+   NOT persist.** Paper mode is read-only.
 
-2. **Restore.** Load `cache/achilles_sleeve.json`. If absent, create an `AchillesSleeve(initial_cash=1000)`.
+2. **Season gate.** `achilles.season.is_earnings_season(today)`. If not in a
+   window, do exits/management only (step 8) — no new entries — then persist.
 
-3. **Floor check.** `sleeve.check_hard_floor()`. If True, do not open new positions. Continue to exits but no opens.
+3. **Restore.** Load `cache/achilles_sleeve.json` (or `AchillesSleeve(initial_cash=1000)`).
+   Legacy single-position sleeves migrate automatically on load.
 
-4. **Process settlements.**
+4. **Halt + settlements.** `sleeve.check_halt(marks)` (40% drawdown → halt, no
+   new opens). `sleeve.process_settlements(today)`.
 
-5. **Restore cursor.** `achilles.cursor.load("cache/achilles_cursor.json")`.
+### Find rewarded beats (only if season + slots open)
 
-6. **Build watchlist.** `achilles.watchlist.build_watchlist(...)` reading from Oracle screen caches. Cap at 800.
+5. **Recent reporters.** `get_earnings_calendar(start_date=today, days=-5)` — the
+   names that reported in the last ~5 trading days (the drift window is still
+   open). For each, `get_earnings_results` → actual vs estimate.
+   `achilles.earnings.compute_surprise(actual, estimate)`; keep
+   `is_actionable_beat` (3–500% surprise, small/mid-cap).
 
-7. **Poll EDGAR.** For each watchlist symbol, fetch submissions. Filter via `cursor.filter_new`. Register batch via `cursor.register_events`.
+6. **Confirm the reaction (the gate).** For each beat, fetch daily historicals
+   (`get_equity_historicals`) and compute the post-report reaction:
+   `achilles.earnings.reaction_return(pre_report_close, post_report_close)`.
+   Keep only `is_rewarded_beat(surprise, reaction_pct)` — positive surprise AND
+   positive reaction. Drop sold beats and beats whose reaction can't be verified.
+   Attach `reaction_pct`, confirming signals (revenue beat, guidance raised,
+   short float, insider pre-buy), and `market_cap` to a `BeatCandidate`.
 
-8. **Classify and refine.** For each new filing:
-   - `achilles.classify.classify_filing` -> labels.
-   - For guidance/spinoff: read body, refine.
-   - Form 4s aggregated via `achilles.events.aggregate_insider_clusters`.
+7. **Rank into the basket.** `achilles.scanner.rank_beats(candidates, top_n=sleeve.open_slots())`
+   — scores by surprise magnitude + confirming signals, drops unconfirmed
+   reactions (`require_reaction=True`), returns the top rewarded beats to fill
+   the open slots.
 
-9. **Score each event.** `achilles.scoring.score_event(...)` — always returns the computed score. Check the `advisory` field for flags like `"disqualified"` or `"playbook_disabled"` — these are information for your decision, not automatic rejections.
+### Execute
 
-10. **Pre-trade sanity check.** Before placing any orders, fetch the broker's actual equity positions, filter through `shared.guards.filter_broker_to_gods(broker_positions)`, compute pending shares, run `shared.guards.pre_trade_check(...)`. If any symbol is out of sync, **halt trading and run `/oracle-reconcile`** before proceeding.
+8. **Exits first.** `sleeve.due_exits(quotes, today)` → for each (symbol, reason)
+   place a market sell, `sleeve.exit(symbol=…, price=…, today=today, reason=reason)`,
+   append to `cache/achilles_ledger.jsonl`. Hard stop takes precedence over the
+   5-day time stop. A hard-stopped name gets a 4-week cooldown automatically.
 
-11. **Decide and open.** For each event you want to act on:
-    - Reason about the trade: What's the catalyst? How volatile is this name? What's your conviction? Is the disqualifier real or noise?
-    - Set your own exit levels via `build_play(..., hard_stop_pct=..., profit_target_pct=..., time_stop_days=..., trail_armed_at=..., trail_pct=...)`.
-    - Set your own position size via `sleeve.open(..., dollars=<amount>)` or let the formula size it.
-    - `make_brief(...)`. Validate via `brief_check.validate_brief`.
-    - `plan_open(...)`. If non-None, place market order via Robinhood, append to `cache/achilles_ledger.jsonl`, record open via `journal.append`.
+9. **Pre-trade sanity check.** Fetch broker positions, `filter_broker_to_gods`,
+   `shared.guards.pre_trade_check(...)`. If any symbol is out of sync, halt and
+   run `/oracle-reconcile` before opening.
 
-12. **Exits.** `plan_exits(sleeve, quotes, today)`. Place sell market orders for any triggered. Record close in journal. Update `playbooks` attribution (`record_outcome`, `maybe_autodisable`).
+10. **Enter the basket.** `size = sleeve.target_dollars(marks)` (equal weight =
+    equity / MAX_POSITIONS), clamped to available cash. For each ranked beat with
+    an open slot: `shares = size / price`, check `shared.guards.already_placed_today`,
+    place the market buy, `sleeve.enter(symbol=…, shares=…, price=…, today=today,
+    score=…, surprise_pct=…, reaction_pct=…, revenue_beat=…, guidance_raised=…,
+    short_float_pct=…)`, append to the ledger. Stop when slots are full.
 
-13. **Persist.** Save sleeve + cursor + curve. `pantheon.persist("achilles", ...)`.
+11. **Update peak + persist.** `sleeve.update_peak(marks)`, save sleeve, append
+    curve point, `pantheon.persist("achilles", …)`.
 
-## Halt path
+## Exit rules (per position)
 
-Sticky $600 floor or 40% drawdown -> permanent halt. Only `sleeve.manual_reset()` can clear (operator-only).
+| Condition | Trigger | Action |
+|-----------|---------|--------|
+| -8% from entry | `check_stop(sym, px)` | Market sell, 4-week cooldown |
+| 5 trading days elapsed | `should_time_stop(sym, today)` | Market sell at close |
+| 40% basket drawdown | `check_halt()` | Halt, no new opens |
+| Kill switch | `KILL_SWITCH` | Liquidate the whole basket |
+
+## What /achilles does NOT do
+
+- Enter outside an earnings window, or off a sold/unconfirmed beat.
+- Hold the same symbol in two slots, or exceed MAX_POSITIONS.
+- Go all-in on one name — the basket IS the strategy.
+- Add a position because the broker holds it (sleeve is authoritative).
+
+## Calibration
+
+The basket produces ~10–15 graded trades per season, so Achilles reaches a
+statistically meaningful sample far faster than a one-bet-a-week god. Key reads:
+`hit_rate`, `avg_return`, `hit_rate_by_surprise_bucket` (is the drift monotonic
+in surprise size?), and `confirming_signal_stats` (do revenue/guidance/squeeze
+confirmations actually lift the hit rate?). Capital stays at $1,000 until 30+
+graded trades show a real edge net of costs — costs are the main threat on
+small-caps, so watch slippage.
