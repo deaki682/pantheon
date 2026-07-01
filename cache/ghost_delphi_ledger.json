@@ -908,5 +908,47 @@
     "exit_date": "",
     "exit_price": 0.0,
     "graded_return": null
+  },
+  {
+    "symbol": "MRVL",
+    "entry_date": "2026-07-01",
+    "entry_price": 276.56,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 2.0496519246519243,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "SQ",
+    "entry_date": "2026-07-01",
+    "entry_price": 77.52,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.28010779855145707,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "GD",
+    "entry_date": "2026-07-01",
+    "entry_price": 362.22,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": -0.002927268633190594,
+      "above_ma": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
   }
 ]
