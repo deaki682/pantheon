@@ -9,7 +9,7 @@ think, trade, or override any god's logic.
 | Skill | Condition | Notes |
 |-------|-----------|-------|
 | `/trinity` | Market hours (9:30–16:00 ET, weekdays) | Dashboard refresh with live quotes |
-| `/midas-scan` | Weekend (Sat/Sun) | Heavy universe scan → top 10 → `cache/midas_scan.json` |
+| `/midas-scan` | Weekend AND `should_run("cache/midas_cadence.json", "scan", 5)` | Heavy universe scan → top 10 → `cache/midas_scan.json`. Cadence guard = once per weekend, not every hour |
 | `/midas` | Monday: enter from the weekend scan. Weekdays if position open: stop checks | Light entry / stop-check; reads the scan cache |
 | `/oracle` | `should_run("cache/oracle_cadence.json", "research", 3)` | Every 3 days |
 | `/delphi` | Market hours, weekdays | Rebalance check on each run |
@@ -40,6 +40,7 @@ think, trade, or override any god's logic.
 
    oracle_due = should_run("cache/oracle_cadence.json", "research", 3)
    screen_due = should_run("cache/oracle_cadence.json", "screen", 90)
+   midas_scan_due = should_run("cache/midas_cadence.json", "scan", 5)
    earnings_season = is_earnings_season(today)
 
    # Check if Midas has an open position (for weekday stop checks)
@@ -57,7 +58,7 @@ think, trade, or override any god's logic.
 
    **Conditional:**
    - `/delphi` — if market hours + weekday
-   - `/midas-scan` — if weekend (heavy universe scan → `cache/midas_scan.json`)
+   - `/midas-scan` — if weekend AND `midas_scan_due` (the cadence guard fires it once per weekend, not every hour)
    - `/midas` — if Monday (enter from the weekend scan), or weekday with open position (stop check)
    - `/oracle` — if `oracle_due`
    - `/achilles` — if `earnings_season` and market hours

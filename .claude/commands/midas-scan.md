@@ -58,7 +58,9 @@ means an entry pass stays light and a failed scan never risks the sleeve.
 
 5. **Save the finalists.** `midas.scanner.save_scan("cache/midas_scan.json", finalists=ranked, scanned_at=<UTC ISO timestamp>)`. Pass the timestamp explicitly (the scanner never reads the clock itself) so `/midas` can detect a stale scan. Do NOT write `midas_dossiers.json` here — that's Stage 3, owned by `/midas`.
 
-6. **Persist.** `pantheon.persist("midas", {"cache/midas_scan.json": data}, branch="claude/live")`. This is the ONLY file this skill writes. It never touches `midas_sleeve.json`, `midas_ledger.jsonl`, or `midas_curve.json`.
+6. **Mark the cadence.** `oracle.calendar.mark_run("cache/midas_cadence.json", "scan")`. This stamps the last-scan time so an hourly dispatcher (Zeus) won't re-run this heavy scan every hour of the weekend — it fires once, then the `should_run` guard blocks repeats until next weekend.
+
+7. **Persist.** `pantheon.persist("midas", {"cache/midas_scan.json": scan_data, "cache/midas_cadence.json": cadence_data}, branch="claude/live")`. These are the ONLY files this skill writes. It never touches `midas_sleeve.json`, `midas_ledger.jsonl`, or `midas_curve.json`.
 
 ## What /midas-scan does NOT do
 
