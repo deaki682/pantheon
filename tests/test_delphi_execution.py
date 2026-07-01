@@ -92,3 +92,25 @@ def test_plan_orders_hold_override_doesnt_affect_others():
     )
     assert not any(o["symbol"] == "AAPL" for o in out)
     assert any(o["symbol"] == "MSFT" and o["side"] == "sell" for o in out)
+
+
+# ── cooldown intent on sells (trim vs exit) ──────────────────────────
+
+def test_full_exit_sets_cooldown_flag():
+    s = DelphiSleeve(initial_cash=0)
+    s.positions["AAPL"] = __import__("shared.base_sleeve", fromlist=["SleevePosition"]).SleevePosition(
+        shares=2.0, avg_price=100.0, entry_date="2026-06-01")
+    out = plan_orders(s, targets={}, prices={"AAPL": 100.0})
+    assert out[0]["reason"] == "momentum_exit"
+    assert out[0]["set_cooldown"] is True
+
+
+def test_trim_does_not_set_cooldown():
+    s = DelphiSleeve(initial_cash=0)
+    s.positions["AAPL"] = __import__("shared.base_sleeve", fromlist=["SleevePosition"]).SleevePosition(
+        shares=4.0, avg_price=100.0, entry_date="2026-06-01")
+    # held $400 vs target $200 -> trim $200 (> min ticket, > band)
+    out = plan_orders(s, targets={"AAPL": 200.0}, prices={"AAPL": 100.0})
+    trims = [o for o in out if o["reason"] == "trim_to_target"]
+    assert len(trims) == 1
+    assert trims[0]["set_cooldown"] is False

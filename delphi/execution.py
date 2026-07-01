@@ -81,14 +81,20 @@ def plan_orders(
                 orders.append({
                     "side": "sell", "symbol": sym, "dollars": dollars,
                     "reason": "momentum_exit",
+                    "set_cooldown": True,
                 })
             continue
         if dollars > target * (1.0 + rebal_band):
             delta = dollars - target
             if delta >= min_ticket:
+                # A trim keeps the name in the book by design — cooling it
+                # would block future top-ups and force drift from target.
+                # Cooldowns exist to stop exit->re-entry churn, so only full
+                # momentum exits set one.
                 orders.append({
                     "side": "sell", "symbol": sym, "dollars": delta,
                     "reason": "trim_to_target",
+                    "set_cooldown": False,
                 })
 
     for sym, target in targets.items():

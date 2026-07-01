@@ -78,6 +78,13 @@ regime where mechanical momentum keeps rotating into falling leaders. Only
    - `delphi.execution.build_targets(picks, equity=sleeve.equity(marks), risk_budget=plan["risk_budget"], weight_overrides=overrides)`
    - `delphi.execution.plan_orders(sleeve, targets, prices, hold_overrides=holds)`
    - Place market orders via Robinhood, append to `cache/delphi_ledger.jsonl`.
+     **Every ledger row must record `shares` and `price`** — a row without them
+     is useless for reconcile.
+   - When applying sells to the sleeve, pass the planner's cooldown intent
+     through: `sleeve.sell(sym, shares, px, today, set_cooldown=order["set_cooldown"])`.
+     Full `momentum_exit` sells cool the name for 7 days; `trim_to_target`
+     sells do NOT (a trim keeps the name in the book — cooling it would block
+     top-ups and force drift from target).
 
 ### Decision Point 5: UNIVERSE CURATION (periodic)
 
@@ -92,7 +99,12 @@ regime where mechanical momentum keeps rotating into falling leaders. Only
 
 ## Decision log
 
-Every run, append a brief JSON record to `cache/delphi_decisions.jsonl`:
+Every run — **including no-trade runs** — append a record via
+`delphi.decisions.append_decision(record)` (validated JSONL writer; do NOT
+hand-write the file — a malformed write once destroyed the trail). Read it
+back with `delphi.decisions.load_decisions()` and roll up override usage with
+`delphi.decisions.override_summary()` for the monthly calibration review.
+Record shape:
 ```json
 {
   "date": "2026-06-30",
