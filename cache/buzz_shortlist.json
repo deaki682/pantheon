@@ -1,0 +1,51 @@
+{
+  "scanned_at": "2026-07-01",
+  "universe": {
+    "apewisdom_rows": 804,
+    "accelerating": 10,
+    "small_mid_band": 2,
+    "confirmed": 1
+  },
+  "accelerating_pool": [
+    "NKE", "CAT", "LUNR", "AMD", "BE", "FCEL", "ASML", "PLTR", "NFLX", "NBIS"
+  ],
+  "dropped_mega_or_micro": [
+    "NKE", "CAT", "AMD", "BE", "ASML", "PLTR", "NFLX", "NBIS"
+  ],
+  "qualified_set": [
+    {
+      "ticker": "LUNR",
+      "market_cap": 4638822788.41,
+      "accel_ratio": 4.6,
+      "price_change_pct": 0.1439,
+      "volume_ratio": 0.93,
+      "confirmed": false,
+      "confirm_reason": "price_without_volume"
+    },
+    {
+      "ticker": "FCEL",
+      "market_cap": 2434571282.0,
+      "accel_ratio": 4.0,
+      "price_change_pct": 0.8326,
+      "volume_ratio": 2.21,
+      "confirmed": true,
+      "confirm_reason": "confirmed"
+    }
+  ],
+  "recommendations": [
+    {
+      "ticker": "FCEL",
+      "authenticity": "mixed_but_leans_organic",
+      "direction": "bull",
+      "catalyst": "8-K filed 2026-06-22: Capital Equipment Purchase Agreement with Fit Energy USA LP for up to 380MW of carbonate fuel cell 'Blocks' supplying baseload power to data centers, phased over 4 stages (phase 0 = 30MW committed now, phases 1-3 optional on Fit's election). Fit also received 12M performance-vesting warrants at $26.44 strike tied to its own deposit milestones -- incentive-aligned, not a cash raise.",
+      "key_risk": "Stock already ran from ~$21 (6/25) to ~$36 (6/30), most of it in the last 2 sessions -- a large chunk of the move likely already happened before this shortlist. StockTwits chatter is heavy squeeze/meme language ('Apes', 'low float... hit circuit breakers', 'shorty beware') layered on top of the real catalyst, so part of the move is speculative momentum, not just the news. Only phase 0 (30MW) of the 380MW is contractually committed; phases 1-3 are Fit's option. The 12M warrants are real future dilution once vested/exercised. No fresh Form 4 insider buying in the surge window (last filing 6/15, pre-catalyst) -- no insider corroboration either way.",
+      "confidence": 0.55,
+      "recommend": true,
+      "insider_backed": false,
+      "second_platform_confirmed": true,
+      "note": "Sole name in this week's confirmed basket. LUNR also accelerated and sits in the small/mid band but failed the volume-confirmation gate (price +14% on volume BELOW its 20-day baseline) so it is excluded from recommendations per the mechanical gate -- flagged for the ghost's unconfirmed control group only."
+    }
+  ],
+  "insider_backed_tickers": [],
+  "llm_recommended_tickers": ["FCEL"]
+}

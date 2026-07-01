@@ -1,0 +1,37 @@
+{
+  "candidates": [
+    {
+      "accel_ratio": 4.6,
+      "confirm_reason": "price_without_volume",
+      "confirmed": false,
+      "market_cap": 4638822788.412028,
+      "mentions": 23,
+      "mentions_prev": 5,
+      "name": "Intuitive Machines",
+      "new_entrant": false,
+      "price_change_pct": 0.1439,
+      "rank_jump": 70,
+      "sector": "",
+      "ticker": "LUNR",
+      "upvotes": 51,
+      "volume_ratio": 0.93
+    },
+    {
+      "accel_ratio": 4.0,
+      "confirm_reason": "confirmed",
+      "confirmed": true,
+      "market_cap": 2434571282.0,
+      "mentions": 20,
+      "mentions_prev": 5,
+      "name": "FuelCell Energy",
+      "new_entrant": false,
+      "price_change_pct": 0.8326,
+      "rank_jump": 65,
+      "sector": "",
+      "ticker": "FCEL",
+      "upvotes": 35,
+      "volume_ratio": 2.21
+    }
+  ],
+  "scanned_at": "2026-07-01"
+}
