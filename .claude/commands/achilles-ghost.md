@@ -1,86 +1,74 @@
-# /achilles-ghost — paper-only event-study shadow
+# /achilles-ghost — paper-only PEAD-basket shadow
 
-Ghost Achilles runs Achilles's event detection but **places no orders and touches
-no real sleeve**. It opens a paper position on *every* classified event it can
-price — not just the few the $1k sleeve can afford — marks the book to market,
-and grades each one's short-horizon drift. Short horizons (~10 days) mean useful
-answers in weeks, not years.
+Ghost Achilles shadows the CURRENT Achilles strategy (diversified basket of
+market-rewarded earnings beats) but **places no orders and touches no real
+sleeve**. It opens a paper position on *every* actionable beat — rewarded,
+sold, and unconfirmed alike — because the names the live strategy refuses to
+buy are the control groups that prove whether each gate earns its place.
 
-The payoff is comprehensive signal validation:
-  - **per-event-class drift** — replaces the literature-seeded priors in
-    `playbooks.py` with measured numbers. This is how the 5 disabled playbooks
-    get turned on.
-  - **neglect terciles** — validates the core PEAD thesis (do neglected names
-    drift more?)
-  - **surprise/conviction/liquidity terciles** — validates each axis of the
-    multiplicative scoring formula
-  - **compound signal lift** — do insider pre-activity and concurrent guidance
-    boosts actually predict higher drift?
-  - **disqualifier lift** — do disqualifiers filter losers or kill winners?
+The one question this ghost exists to answer: **is the reaction-direction gate
+real?** If sold beats drift up as well as rewarded ones, the gate costs money.
+If they bleed, it saves it. That's the `rewarded` row of `signal_lift`.
 
-State lives in its own namespace: `cache/ghost_achilles_ledger.json` +
-`cache/ghost_achilles_curve.json`, persisted under god name `ghost_achilles`.
-Engine is `shared.ghost`; Achilles-specific bits are in `achilles.ghost`.
+State: `cache/ghost_achilles_ledger.json` + `_curve.json` + `_report.json`,
+persisted under god name `ghost_achilles`. Engine is `shared.ghost`; Achilles
+bits in `achilles.ghost`. New entries are tagged `source="pead"`; entries from
+the retired event-study ghost remain in the ledger but are filtered out of the
+report.
 
 ## Steps
 
-0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+0. **Hydrate.** `pantheon.hydrate()`.
 
-1. **Restore the ledger.** `shared.ghost.load_ledger("cache/ghost_achilles_ledger.json")`.
+1. **Season note.** Run during earnings windows (`achilles.season`) when beats
+   exist; off-season runs still mark/grade the open book — never skip those.
 
-2. **Open paper positions for every event.** From the day's classified briefs
-   (the same ones Achilles produces), **enrich each brief with convergence signals**
-   before passing to the ghost adapter:
-   - `neglect`: `achilles.convergence.neglect_premium(oracle_quality)` — the core
-     thesis factor. Must be on every brief so tercile analysis can validate it.
-   - `surprise_pct`: from `achilles.earnings.fetch_earnings_surprise` — drives the
-     surprise strength curve.
-   - `insider_preactivity`: from `achilles.oracle_bridge.has_insider_preactivity` —
-     compound signal.
-   - `concurrent_guidance`: from the LLM filing analysis — compound signal.
-   - `conviction`: from `achilles.convergence.conviction_multiplier` — sizing factor.
-   - `liquidity`: from `achilles.scoring.liquidity_score(market_cap)` — market cap
-     edge curve.
+2. **Restore the ledger.** `achilles.ghost.load_ledger("cache/ghost_achilles_ledger.json")`.
 
-   Then `achilles.ghost.briefs_to_candidates(briefs, price_lookup)` — this opens
-   EVERY event, **including disqualified ones**, so the report can test whether the
-   disqualifiers actually filter losers. Then `shared.ghost.open_entries(...)`.
-   Restrict to liquid names — illiquid event paper-fills are fiction.
+3. **Gather ALL actionable beats (not just the basket).** Same discovery the
+   live `/achilles` uses, minus the gates:
+   - `get_earnings_calendar(start_date=today, days=-5)` → recent reporters;
+     `get_earnings_results` per name → `compute_surprise`; keep
+     `is_actionable_beat` (3–500% surprise).
+   - Historicals per name → `reaction_return(pre_report_close, post_report_close)`
+     → attach `reaction_pct` (leave None when unconfirmable — that's a tag, not
+     a reject here).
+   - Attach confirming signals (revenue beat, guidance, short float) and
+     `market_cap` where available. Build `BeatCandidate`s.
+   - Also run the live selection (`rank_beats(candidates, top_n=12)`) and keep
+     its symbols as `basket_selected` — the end-to-end selection test.
 
-3. **Mark to market.** `shared.ghost.mark_to_market(ledger, price_lookup)` +
-   `append_equity_point(curve, today, snapshot, benchmark={"SPY": r})`; save the curve.
+4. **Open paper positions on everything.**
+   `achilles.ghost.beats_to_candidates(all_beats, price_lookup, basket_selected=<symbols>)`
+   then `achilles.ghost.open_entries(..., today=…)`. Sold beats are opened LONG
+   deliberately — they're the gate's control group. `skip_open=False`: each
+   week's beats are independent samples.
 
-4. **Grade matured positions.** `shared.ghost.grade_entries(ledger, price_lookup,
-   today=…)` — short horizons mature fast. Unpriceable names grade as a loss.
+5. **Mark to market.** `mark_to_market(ledger, price_lookup)` +
+   `append_equity_point(curve, today, snapshot, benchmark={"SPY": r})`.
 
-5. **Report.** `achilles.ghost.drift_report(ledger)` →
-   - **`class_drift[event_class]`**: the empirical mean drift per class — the
-     number the playbooks currently *guess*. Feed this back to recalibrate the
-     per-class priors (Bayesian-shrink toward the prior until `n` is large).
-     This is the gating data for enabling the 5 disabled playbooks.
-   - **`lens_lift`**: boolean signals —
-     - `disqualified`: did disqualified events actually underperform?
-     - `insider_preactivity`: did pre-earnings insider buying predict drift?
-     - `concurrent_guidance`: did simultaneous guidance raises amplify drift?
-   - **`neglect_terciles`**: core thesis test. Do high-neglect names drift more
-     than low-neglect names? If this isn't monotonic, the neglect premium is wrong.
-   - **`surprise_terciles`**: is the piecewise surprise strength curve correct?
-     Do larger surprises actually produce more drift?
-   - **`conviction_terciles`**: does higher conviction → higher returns? If yes,
-     the sizing multiplier is earning its keep.
-   - **`score_terciles`**: is the multiplicative score monotonic in forward return?
-     This tests the whole scoring formula end-to-end.
-   - **`liquidity_terciles`**: does the market cap edge curve correctly weight?
-     Is the mega-cap decay helping or hurting?
+6. **Grade matured positions.** `grade_entries(ledger, price_lookup, today=…)`
+   — 7-calendar-day horizon (≈ the 5-trading-day live hold). Unpriceable names
+   grade as a loss (survivorship guard).
+
+7. **Report.** `achilles.ghost.pead_report(ledger)` →
+   - **`signal_lift.rewarded`** — the reaction-direction gate's measured value.
+     THE number to watch.
+   - **`signal_lift.basket_selected`** — do the picks beat rewarded-but-passed-over?
+   - **`reaction_terciles`** — bigger reaction → bigger drift? (directional thesis)
+   - **`surprise_terciles`** — surprise magnitude curve check.
+   - **`cap_terciles`** — neglect thesis: healthy reading is LOW cap above high
+     (inverse monotonicity — the `monotonic` flag will read False when the
+     thesis is working; read the tercile means, not the flag).
    Write to `cache/ghost_achilles_report.json`.
 
-6. **Persist.** `shared.ghost.save_ledger(...)`, then
+8. **Persist.** `save_ledger(...)`, then
    `pantheon.persist("ghost_achilles", {…ledger, curve, report…}, branch="claude/live")`.
 
 ## Hard rules
 
 - NEVER place a broker order. NEVER touch the real `achilles_*` sleeve/ledger.
-- Recalibrate playbook drifts from measured `class_drift` only as `n` grows —
-  don't overfit a handful of events.
-- The neglect tercile is the single most important output. If it's flat or
-  inverted, the core thesis needs revisiting before going live with real money.
+- Open sold and unconfirmed beats too — without the control groups, the gate
+  can never be validated, only believed.
+- Feed conclusions back into the live strategy only as graded `n` grows; a
+  couple of weeks of earnings-season data is suggestive, not proof.
