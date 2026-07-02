@@ -42,3 +42,23 @@ PASS requires ALL of:
 3. A tier with <10 usable names or <30 news events is underpowered:
    informational only, cannot pass or fail alone.
 FAIL otherwise. No partial credit, no re-cuts, no "almost."
+
+## RESULT (recorded 2026-07-02, same day, one shot as pledged)
+
+FAIL — decisively.
+
+53 usable names (36 large / 17 small after validity; small tier heavily
+attrited by late IPOs, but both tiers cleared 30+ news events so both were
+powered). 689 crash events, 267 with confirmed news, EDGAR coverage to 2012
+for 44/51 names via archived submission files.
+
+- News-crash bounce (the hypothesis): large −0.11pp excess, small −0.05pp,
+  pooled −0.08pp, episode-clustered t = −1.25. The 2018-24 pattern
+  (+0.5/+2.0pp) evaporated completely on unseen data. It was noise.
+- The mirror lesson: in THIS period the no-news buckets were positive
+  (+1.05pp/+0.69pp) — the exact OPPOSITE of 2018-24, where no-news lost
+  1.3-1.5pp. Each conditioning flips sign across regimes. There is no stable
+  5-day crash-fade edge under either flag.
+
+Nemesis is retired as a capital strategy. The contrarian idea survives where
+it always lived: Oracle (insider-confirmed, 12-month clock) and dry powder.
