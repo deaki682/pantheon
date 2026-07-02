@@ -61,6 +61,10 @@ OWNERSHIP_PREFIXES: dict[str, list[str]] = {
     "ghost_buzz": [
         "cache/ghost_buzz_",
     ],
+    "ghost_nemesis": [
+        "cache/ghost_nemesis_",
+        "cache/nemesis_",
+    ],
 }
 
 
