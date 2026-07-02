@@ -1,6 +1,6 @@
 {
   "name": "delphi",
-  "cash": 333.83854412345,
+  "cash": 325.308897184544,
   "positions": {
     "AMAT": {
       "shares": 0.229426,
@@ -31,7 +31,7 @@
       "cohort_id": ""
     },
     "INTC": {
-      "shares": 1.234645,
+      "shares": 1.008326,
       "avg_price": 132.0999,
       "entry_date": "2026-06-30",
       "sector": "technology",
@@ -40,20 +40,6 @@
     "KLAC": {
       "shares": 0.599745,
       "avg_price": 274.2999,
-      "entry_date": "2026-07-01",
-      "sector": "technology",
-      "cohort_id": ""
-    },
-    "LRCX": {
-      "shares": 0.412161,
-      "avg_price": 399.1399,
-      "entry_date": "2026-07-01",
-      "sector": "technology",
-      "cohort_id": ""
-    },
-    "MRVL": {
-      "shares": 0.58825,
-      "avg_price": 279.6599,
       "entry_date": "2026-07-01",
       "sector": "technology",
       "cohort_id": ""
@@ -70,6 +56,20 @@
       "avg_price": 419.6,
       "entry_date": "2026-07-02",
       "sector": "healthcare",
+      "cohort_id": ""
+    },
+    "GOOGL": {
+      "shares": 0.464099,
+      "avg_price": 358.6299,
+      "entry_date": "2026-07-02",
+      "sector": "technology",
+      "cohort_id": ""
+    },
+    "BAC": {
+      "shares": 2.843669,
+      "avg_price": 58.53,
+      "entry_date": "2026-07-02",
+      "sector": "financials",
       "cohort_id": ""
     }
   },
@@ -97,11 +97,23 @@
     {
       "settle_date": "2026-07-03",
       "amount": 150.34295131979997
+    },
+    {
+      "settle_date": "2026-07-03",
+      "amount": 27.77357571717405
+    },
+    {
+      "settle_date": "2026-07-03",
+      "amount": 148.50150938136002
+    },
+    {
+      "settle_date": "2026-07-03",
+      "amount": 148.24143235492502
     }
   ],
-  "realized_pnl": -10.948878370170823,
-  "gfv_count": 1,
-  "trades_count": 29,
+  "realized_pnl": -45.34891468371176,
+  "gfv_count": 2,
+  "trades_count": 34,
   "cooldowns": {
     "C": "2026-07-08",
     "GE": "2026-07-08",
@@ -109,7 +121,9 @@
     "PSA": "2026-07-07",
     "SPG": "2026-07-07",
     "TXN": "2026-07-07",
-    "MU": "2026-07-09"
+    "MU": "2026-07-09",
+    "LRCX": "2026-07-09",
+    "MRVL": "2026-07-09"
   },
   "halted": false,
   "contributed_cash": 2000.0,
