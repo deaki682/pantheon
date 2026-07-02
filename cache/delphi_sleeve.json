@@ -1,10 +1,13 @@
 {
-  "cash": 325.308897184544,
+  "cash": 252.28005902142033,
   "contributed_cash": 2000.0,
   "cooldown_days": 7,
   "cooldowns": {
+    "AMD": "2026-07-09",
     "C": "2026-07-08",
     "GE": "2026-07-08",
+    "INTC": "2026-07-09",
+    "KLAC": "2026-07-09",
     "LLY": "2026-07-08",
     "LRCX": "2026-07-09",
     "MRVL": "2026-07-09",
@@ -13,7 +16,7 @@
     "SPG": "2026-07-07",
     "TXN": "2026-07-07"
   },
-  "gfv_count": 2,
+  "gfv_count": 5,
   "halted": false,
   "name": "delphi",
   "peak_equity": 1948.0283010234496,
@@ -53,9 +56,35 @@
     {
       "amount": 148.24143235492502,
       "settle_date": "2026-07-03"
+    },
+    {
+      "amount": 157.708948914582,
+      "settle_date": "2026-07-03"
+    },
+    {
+      "amount": 120.923503112445,
+      "settle_date": "2026-07-03"
+    },
+    {
+      "amount": 138.96342940156276,
+      "settle_date": "2026-07-03"
     }
   ],
   "positions": {
+    "AAPL": {
+      "avg_price": 308.2599,
+      "cohort_id": "",
+      "entry_date": "2026-07-02",
+      "sector": "",
+      "shares": 0.530266
+    },
+    "ABBV": {
+      "avg_price": 259.3133,
+      "cohort_id": "",
+      "entry_date": "2026-07-02",
+      "sector": "",
+      "shares": 0.630357
+    },
     "AMAT": {
       "avg_price": 697.13,
       "cohort_id": "",
@@ -63,12 +92,12 @@
       "sector": "technology",
       "shares": 0.229426
     },
-    "AMD": {
-      "avg_price": 523.08,
+    "AMZN": {
+      "avg_price": 244.6099,
       "cohort_id": "",
-      "entry_date": "2026-06-29",
-      "sector": "technology",
-      "shares": 0.30836
+      "entry_date": "2026-07-02",
+      "sector": "",
+      "shares": 0.668247
     },
     "BAC": {
       "avg_price": 58.53,
@@ -105,20 +134,6 @@
       "sector": "technology",
       "shares": 0.464099
     },
-    "INTC": {
-      "avg_price": 132.0999,
-      "cohort_id": "",
-      "entry_date": "2026-06-30",
-      "sector": "technology",
-      "shares": 1.008326
-    },
-    "KLAC": {
-      "avg_price": 274.2999,
-      "cohort_id": "",
-      "entry_date": "2026-07-01",
-      "sector": "technology",
-      "shares": 0.599745
-    },
     "UNH": {
       "avg_price": 422.2599,
       "cohort_id": "",
@@ -127,6 +142,6 @@
       "shares": 0.378771
     }
   },
-  "realized_pnl": -45.34891468371176,
-  "trades_count": 34
+  "realized_pnl": -86.75973934802201,
+  "trades_count": 40
 }
