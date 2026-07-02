@@ -69,9 +69,9 @@
 <div class="header">
   <div>
     <h1>Pantheon</h1>
-    <div class="meta">Updated 2026-07-01T22:42:26.186886Z</div>
+    <div class="meta">Updated 2026-07-02T14:20:42.156891Z</div>
   </div>
-  <div class="total">$7,995.45</div>
+  <div class="total">$8,036.51</div>
 </div>
 <div class="chart-wrap"><canvas id="c"></canvas></div>
 
@@ -81,7 +81,7 @@
             
           </div>
           <div class="god-stats">
-            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$2,068.98</span></div>
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$2,101.72</span></div>
             <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$199.48</span></div>
             <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+0.00</span></div>
             <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">26</span></div>
@@ -139,10 +139,10 @@
             
           </div>
           <div class="god-stats">
-            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,960.39</span></div>
-            <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$358.37</span></div>
-            <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+2.92</span></div>
-            <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">27</span></div>
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,948.03</span></div>
+            <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$333.84</span></div>
+            <div class="stat"><span class="stat-label">Realized</span><span class="stat-value neg">$-10.95</span></div>
+            <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">29</span></div>
           </div>
           <table class="positions"><thead><tr><th>Symbol</th><th>Shares</th><th>Avg Price</th><th>Value</th><th>Entry</th></tr></thead><tbody><tr>
               <td>AMAT</td>
@@ -169,6 +169,12 @@
               <td>$162.18</td>
               <td>2026-06-30</td>
             </tr><tr>
+              <td>ELV</td>
+              <td>0.4166</td>
+              <td>$419.60</td>
+              <td>$174.79</td>
+              <td>2026-07-02</td>
+            </tr><tr>
               <td>INTC</td>
               <td>1.2346</td>
               <td>$132.10</td>
@@ -193,12 +199,6 @@
               <td>$164.51</td>
               <td>2026-07-01</td>
             </tr><tr>
-              <td>MU</td>
-              <td>0.1437</td>
-              <td>$1142.45</td>
-              <td>$164.22</td>
-              <td>2026-06-30</td>
-            </tr><tr>
               <td>UNH</td>
               <td>0.3788</td>
               <td>$422.26</td>
@@ -213,7 +213,7 @@
             
           </div>
           <div class="god-stats">
-            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,966.09</span></div>
+            <div class="stat"><span class="stat-label">Equity</span><span class="stat-value">$1,986.76</span></div>
             <div class="stat"><span class="stat-label">Cash</span><span class="stat-value">$9.01</span></div>
             <div class="stat"><span class="stat-label">Realized</span><span class="stat-value pos">$+0.00</span></div>
             <div class="stat"><span class="stat-label">Trades</span><span class="stat-value">1</span></div>
@@ -232,7 +232,7 @@
 const ctx = document.getElementById('c').getContext('2d');
 new Chart(ctx, {
   type: 'line',
-  data: {"labels": ["2026-06-28", "2026-06-28T00:00:00", "2026-06-29", "2026-06-30", "2026-07-01"], "datasets": [{"label": "Oracle", "data": [null, 1000.0, null, 1997.026, 2068.97882715075], "borderColor": "#D4AF37", "backgroundColor": "#D4AF3740", "tension": 0.2, "spanGaps": true}, {"label": "Achilles", "data": [null, null, 1000.0, 2000.0, 2000.0], "borderColor": "#9C27B0", "backgroundColor": "#9C27B040", "tension": 0.2, "spanGaps": true}, {"label": "Delphi", "data": [1000.0, null, 999.5649, 2012.1544, 1960.3886993416502], "borderColor": "#00BCD4", "backgroundColor": "#00BCD440", "tension": 0.2, "spanGaps": true}, {"label": "Midas", "data": [2000.0, null, 999.500250124, 1936.9099, 1966.0852076941997], "borderColor": "#DC143C", "backgroundColor": "#DC143C40", "tension": 0.2, "spanGaps": true}]},
+  data: {"labels": ["2026-06-28", "2026-06-28T00:00:00", "2026-06-29", "2026-06-30", "2026-07-01", "2026-07-02"], "datasets": [{"label": "Oracle", "data": [null, 1000.0, null, 1997.026, null, 2101.72], "borderColor": "#D4AF37", "backgroundColor": "#D4AF3740", "tension": 0.2, "spanGaps": true}, {"label": "Achilles", "data": [null, null, 1000.0, 2000.0, null, 2000.0], "borderColor": "#9C27B0", "backgroundColor": "#9C27B040", "tension": 0.2, "spanGaps": true}, {"label": "Delphi", "data": [1000.0, null, 999.5649, 2012.1544, null, 1948.03], "borderColor": "#00BCD4", "backgroundColor": "#00BCD440", "tension": 0.2, "spanGaps": true}, {"label": "Midas", "data": [2000.0, null, 999.500250124, 1936.9099, 1966.0852076941997, 1986.76], "borderColor": "#DC143C", "backgroundColor": "#DC143C40", "tension": 0.2, "spanGaps": true}]},
   options: {
     responsive: true,
     maintainAspectRatio: false,
