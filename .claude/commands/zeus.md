@@ -10,6 +10,7 @@ think, trade, or override any god's logic.
 |-------|-----------|-------|
 | `/trinity` | Market hours (9:30–16:00 ET, weekdays) | Dashboard refresh with live quotes |
 | `/midas-scan` | Weekend AND `should_run("cache/midas_cadence.json", "scan", 5)` | Heavy universe scan → top 10 → `cache/midas_scan.json`. Cadence guard = once per weekend, not every hour |
+| `/nemesis` | Weekend AND `should_run("cache/nemesis_cadence.json", "scan", 5)` | Spinoff pipeline scan + Form 10 reading + ghost entries. Ghost-only, never trades. Cadence guard = once per weekend, not every hour |
 | `/midas` | Monday: enter from the weekend scan. Weekdays if position open: stop checks | Light entry / stop-check; reads the scan cache |
 | `/oracle` | `should_run("cache/oracle_cadence.json", "research", 3)` | Every 3 days |
 | `/delphi` | Market hours, weekdays | Rebalance check on each run |
@@ -59,6 +60,7 @@ think, trade, or override any god's logic.
    **Conditional:**
    - `/delphi` — if market hours + weekday
    - `/midas-scan` — if weekend AND `midas_scan_due` (the cadence guard fires it once per weekend, not every hour)
+   - `/nemesis` — if weekend AND `should_run("cache/nemesis_cadence.json", "scan", 5)` (same once-per-weekend cadence-guard pattern as `/midas-scan`)
    - `/midas` — if Monday (enter from the weekend scan), or weekday with open position (stop check)
    - `/oracle` — if `oracle_due`
    - `/achilles` — if `earnings_season` and market hours
@@ -80,6 +82,7 @@ think, trade, or override any god's logic.
    - `/delphi`
    - `/achilles`
    - `/midas-scan` (weekend) or `/midas` (Monday / open-position weekdays)
+   - `/nemesis` (weekend, if due — ghost-only, shares no state with the live gods)
 
    **Parallel group 2** (depends on group 1):
    - `/oracle` (needs screen output if screen just ran)
@@ -111,4 +114,4 @@ due — the cron just wakes it up.
 - Zeus does NOT override any god's logic or skip conditions.
 - Zeus does NOT persist any state. Each dispatched skill handles its own persistence.
 - If a skill fails, log the error and continue with the next skill. One god's failure does not block the others.
-- Weekend dispatches: only `/midas-scan` (heavy universe scan) runs. No `/trinity`, `/delphi`, `/achilles`, or `/midas` entry on weekends.
+- Weekend dispatches: only `/midas-scan` (heavy universe scan) and `/nemesis` (spinoff pipeline, ghost-only) run. No `/trinity`, `/delphi`, `/achilles`, or `/midas` entry on weekends.

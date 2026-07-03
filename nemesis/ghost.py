@@ -1,20 +1,32 @@
-"""Ghost Nemesis — the head-to-head test of fade-the-crash vs chase-the-flow.
+"""Ghost Nemesis — paper-only validation of the spinoff reader.
 
-The engine lives in `shared.ghost`; this adapter opens BOTH legs plus the
-control group every trigger week, tagged so the report can answer, from graded
-outcomes, the question the strategy was born from:
+The engine (open/grade/mark/persist/analysis) lives in `shared.ghost`; this is
+Nemesis v2's adapter. It paper-buys EVERY priceable spinco at its window
+trigger — the names the LLM read AND the names it never got to — because the
+untagged buy-all book is the baseline: academic spinoff outperformance needs
+no reader at all. On top of that baseline the report measures THE question
+this god exists to answer: does LLM document judgment add alpha over buying
+every spinoff?
 
-  - leg_returns (fade vs destination): which half of "target who's losing and
-    where the money's going" actually pays?
-  - signal_lift.news_driven: the conditioning check. News-driven crashes are
-    opened ON PURPOSE and should FAIL to bounce (drift, not revert) — a
-    negative lift here VALIDATES the no-news filter; a flat one kills it.
-  - signal_lift.sector_cascade: do flow-cascade crashes revert harder than
-    idiosyncratic ones?
-  - zscore_terciles: does a more violent crash mean a bigger bounce?
+  - llm_selected lift: do the LLM's picks beat the reviewed names it passed
+    over? This is the whole ballgame — positive lift means reading Form 10s
+    pays; flat means buy-all is the strategy and the reading is theater.
+  - verdict_groups: forward returns by "own" / "watch" / "avoid". If "avoid"
+    names re-rate just as hard, the garbage-barge detector detects nothing.
+  - conviction_terciles / incentive_terciles: do higher conviction and
+    stronger management incentive-alignment scores predict bigger re-ratings?
+    These are the two numbers the dossier forces the LLM to commit to.
+  - window_groups: "in_window" vs "late" entries — is the post-dump window
+    real, or does entry timing wash out over a 5-month hold?
 
-Entries are tagged source="nemesis". No sleeve, no orders — Nemesis earns a
-capital conversation only if a leg survives grading in the current regime.
+Fair comparison is enforced structurally, not by discipline: judgment
+features exist ONLY on symbols the LLM actually reviewed, so every lift
+compares picks against reviewed-but-passed-over names — never against names
+nobody read. An unread spinoff is not a rejected one.
+
+Entries are tagged source="spinoff". Ledger files may still carry entries
+from the retired v1 crash-fade ghost (source="nemesis"); the report filters
+those out so a dead strategy's shadow can't pollute the living one's verdict.
 """
 from __future__ import annotations
 
@@ -26,37 +38,67 @@ from shared.ghost import (  # noqa: F401
     open_entries, overall_stats, save_ledger,
 )
 
-HORIZON_DAYS = 7   # 5 trading days ≈ the reversal window the matrix measures
-SOURCE = "nemesis"
+SOURCE = "spinoff"
+HORIZON_DAYS = 150   # ~5 months — the re-rating window after the forced-seller dump
 
 
-def crashes_to_ghost(crashes: Iterable, price_lookup: PriceLookup) -> list[dict]:
-    """FADE leg + control: every crashed name, news-driven ones included.
+def spins_to_ghost(
+    spins: Iterable,
+    price_lookup: PriceLookup,
+    *,
+    reviewed: Optional[Iterable[str]] = None,
+    selected: Optional[Iterable[str]] = None,
+) -> list[dict]:
+    """Convert distributed spinoffs into ghost candidate dicts.
 
-    news_driven=None (unchecked) is kept but tagged unconfirmed rather than
-    silently treated as clean — the report needs the distinction.
+    Opens EVERY priceable spinco — the buy-all control leg. `spins` may be
+    plain dicts or objects with the same attribute names (symbol,
+    entry_window, and optionally market_cap / verdict / conviction /
+    incentive_alignment); the pipeline hands over dicts, dossier-bearing
+    code hands over objects. Names with no symbol or no positive price from
+    `price_lookup` are skipped — an unpriceable ghost position could never
+    be graded, so opening it would just be a hole in the ledger.
+
+    reviewed: symbols whose Form 10 the LLM actually read this cycle.
+    selected: the subset of those the LLM chose to (paper-)own.
+
+    FAIR-COMPARISON RULE: llm_selected / verdict / conviction /
+    incentive_alignment are attached ONLY to reviewed symbols, with
+    llm_selected = sym in selected. An unreviewed name carries no judgment
+    features at all — ABSENT, not False — so boolean_lift's picks-vs-passed
+    comparison can never be polluted by names the LLM never saw. Judgment
+    values riding on an unreviewed spin (say, a stale dossier from a prior
+    cycle) are deliberately dropped for the same reason.
     """
+    rev = {s.upper() for s in (reviewed or [])}
+    sel = {s.upper() for s in (selected or [])}
+
     out: list[dict] = []
-    for c in crashes:
-        get = c.get if isinstance(c, dict) else lambda k, d=None: getattr(c, k, d)
+    for spin in spins:
+        get = spin.get if isinstance(spin, dict) else (
+            lambda k, d=None: getattr(spin, k, d)
+        )
         sym = (get("symbol") or "").upper()
         if not sym:
             continue
-        px = get("price")
-        if px is None or float(px) <= 0:
-            px = price_lookup(sym)
+        px = price_lookup(sym)
         if px is None or float(px) <= 0:
             continue
-        news = get("news_driven")
-        features: dict = {
-            "leg": "fade",
-            "crash_zscore": get("zscore"),
-            "crash_day_return": get("day_return"),
-            "sector_cascade": bool(get("sector_cascade", False)),
-            "news_checked": news is not None,
-        }
-        if news is not None:
-            features["news_driven"] = bool(news)
+
+        features: dict = {"entry_window": get("entry_window")}
+        if get("market_cap") is not None:
+            features["market_cap"] = float(get("market_cap"))
+
+        # Judgment features gated on the reviewed set — see the docstring.
+        if sym in rev:
+            features["llm_selected"] = sym in sel
+            if get("verdict") is not None:
+                features["verdict"] = str(get("verdict"))
+            if get("conviction") is not None:
+                features["conviction"] = float(get("conviction"))
+            if get("incentive_alignment") is not None:
+                features["incentive_alignment"] = float(get("incentive_alignment"))
+
         out.append({
             "symbol": sym,
             "price": float(px),
@@ -67,54 +109,28 @@ def crashes_to_ghost(crashes: Iterable, price_lookup: PriceLookup) -> list[dict]
     return out
 
 
-def destinations_to_ghost(
-    destinations: Iterable[dict],
-    price_lookup: PriceLookup,
-) -> list[dict]:
-    """DESTINATION leg: the predicted receiver ETFs from the rotation matrix.
+def spinoff_report(entries: Iterable[GhostEntry]) -> dict:
+    """Judgment-vs-buy-all verdict from graded entries (source='spinoff' only).
 
-    Each destination dict comes from nemesis.rotation.predicted_destinations
-    ({symbol, excess, hit_rate, ...}); the matrix numbers ride along so the
-    report can later test whether higher predicted excess meant higher
-    realized return.
+    The llm_selected row of signal_lift is the single number the whole god
+    hangs on. Foreign-source entries (the retired v1 crash-fade ghost, any
+    other god sharing a ledger) are filtered out before anything is averaged.
     """
-    out: list[dict] = []
-    for d in destinations:
-        sym = (d.get("symbol") or "").upper()
-        if not sym:
-            continue
-        px = price_lookup(sym)
-        if px is None or float(px) <= 0:
-            continue
-        out.append({
-            "symbol": sym,
-            "price": float(px),
-            "horizon_days": HORIZON_DAYS,
-            "source": SOURCE,
-            "features": {
-                "leg": "destination",
-                "predicted_excess": d.get("excess"),
-                "predicted_hit_rate": d.get("hit_rate"),
-            },
-        })
-    return out
-
-
-def nemesis_report(entries: Iterable[GhostEntry]) -> dict:
-    """Head-to-head verdict from graded entries (source='nemesis' only)."""
     graded = [e for e in graded_only(entries) if e.source == SOURCE]
     if not graded:
         return {
             "n": 0, "mean_return": None, "hit_rate": None,
-            "leg_returns": {},
             "signal_lift": {},
-            "zscore_terciles": {},
-            "predicted_excess_terciles": {},
+            "conviction_terciles": {},
+            "incentive_terciles": {},
+            "verdict_groups": {},
+            "window_groups": {},
         }
     return {
         **overall_stats(graded),
-        "leg_returns": group_stats(graded, "leg"),
         "signal_lift": boolean_lift(graded),
-        "zscore_terciles": numeric_tercile_stats(graded, "crash_zscore"),
-        "predicted_excess_terciles": numeric_tercile_stats(graded, "predicted_excess"),
+        "conviction_terciles": numeric_tercile_stats(graded, "conviction"),
+        "incentive_terciles": numeric_tercile_stats(graded, "incentive_alignment"),
+        "verdict_groups": group_stats(graded, "verdict"),
+        "window_groups": group_stats(graded, "entry_window"),
     }
