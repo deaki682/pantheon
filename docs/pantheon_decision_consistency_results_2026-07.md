@@ -123,3 +123,34 @@ Accuracy — whether APOG or DAKT is the better bet, whether Oracle's
 conviction predicts returns. That is forward-only, same wall every
 other study this weekend hit. This measures process repeatability
 only, which is a precondition for accuracy to even be measurable.
+
+## Addendum results: Midas disqualify-veto consistency (2026-07-04)
+
+Run per the pre-committed addendum (blind file with recorded
+`disqualified`/`disqualify_reason` stripped — the leak in the earlier
+blind file disclosed and fixed). 10 finalists × 5 un-anchored
+decisions, production disaster-only framing.
+
+**Result: 0 flips in 50 decisions.** Every recorded veto (HELP, WEN,
+AVAV, AOUT) was independently re-derived 5/5 times with the same class
+of reason (e.g., HELP: catalyst fully priced after a +42% 3-day run —
+all five judges cited the same mechanism); every recorded pass held
+5/5. Frozen trigger (≥2/5 on any finalist) NOT fired: the single-pass
+veto stands, documented measured-stable.
+
+**The design principle this completes:** across three consistency
+probes, the pattern is now clean —
+
+| Judgment type | Measured stability |
+|---|---|
+| Binary gate w/ enumerated criteria (Midas veto) | 0/50 flips |
+| Verdict far from a threshold (RNA read) | 0/5 flips |
+| Continuous score AT a threshold (FDXF garbage 0.60, Oracle cut-line conviction) | 40–80% flips |
+
+LLM judgment is reliable when asked "does an enumerated disaster
+condition hold?" and dice when asked "is this 0.60 or 0.65?" near a
+line that matters. Future god designs should push LLM decisions toward
+enumerated binary gates (the Nemesis thesis-break list, the Midas
+veto) and away from load-bearing continuous scores — where continuous
+scores are unavoidable, the 3-draw median rules now in force are the
+mitigation.
