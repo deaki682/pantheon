@@ -106,6 +106,16 @@ control-group ledger.
    events = spinoffs.search_spinoff_registrations(date_from, date_to)
    spinoffs.update_pipeline(pipeline, events, today=today)
    ```
+   Then backfill tickers from the OFFICIAL registry — display names lie
+   (Qnity registered as "Novus SpinCo 1"; Cyprium renamed to Versigent;
+   Atrium took a recycled symbol — all three hid from the display-name
+   parser during the 2026-07-03 ocean sweep):
+   ```python
+   cik_to_sym = {}
+   for sym, cik in edgar.fetch_company_tickers().items():
+       cik_to_sym.setdefault(edgar.cik10(cik), sym)
+   filled = spinoffs.backfill_tickers(pipeline, cik_to_sym)
+   ```
    `update_pipeline` owns discovery state (company, ticker, filing dates,
    statuses "registered"/"ticker_assigned") and by contract never touches
    the runbook-owned lifecycle: statuses `distributed`/`entered`/`skipped`/
@@ -306,8 +316,8 @@ control-group ledger.
    `"distributed"` and `window_state` in (`in_window`, `late`) — NOT names
    already `entered` — as spin dicts:
    `{"symbol", "entry_window": window_state, "market_cap": <fundamentals,
-   if available>, "verdict"/"conviction"/"incentive_alignment": <from its
-   dossier, if one exists>}`. Then:
+   if available>, "verdict"/"conviction"/"incentive_alignment"/
+   "garbage_barge_risk": <from its dossier, if one exists>}`. Then:
    ```python
    from nemesis import ghost
    cands = ghost.spins_to_ghost(
@@ -366,15 +376,35 @@ control-group ledger.
       `sleeve.enter`'s trade-history refusal, which survives whatever
       the pipeline says.
 
-   d. **ENTRIES.** Only pipeline names whose `status` is `"distributed"`
-      or `"entered"` (NOT `skipped`/`expired`; "entered" qualifies because
-      step 4's ghost buy-all stamps it on the SAME run before this step
-      ever sees the name — excluding it would exclude everything, forever),
-      whose dossier verdict is `"own"`, AND whose `window_state` is
-      `"in_window"` — NEVER `"late"` with real money. The stale-window
-      re-buy loop is closed at the sleeve, not by status: `sleeve.enter`
-      refuses any symbol in its trade history (one shot per spinco, ever)
-      and any symbol currently held. The ghost buys late names to *measure* the decay;
+   d. **ENTRIES — the VETO rule (v2, operator directive 2026-07-03).**
+      Buy every pipeline name that clears ALL of:
+      - `status` is `"distributed"` or `"entered"` (NOT `skipped`/`expired`;
+        "entered" qualifies because step 4's ghost buy-all stamps it on the
+        SAME run before this step ever sees the name),
+      - `window_state` is `"in_window"` — NEVER `"late"` with real money,
+      - a VALIDATED deep-read dossier EXISTS (an unread name is never
+        bought — the veto cannot protect against a document nobody read),
+      - and the dossier does NOT condemn it: condemned = verdict `"avoid"`
+        OR `garbage_barge_risk > 0.6`. "Watch" is not a veto; only
+        condemnation is.
+
+      **Rule-change record:** v1 (frozen 2026-07-02, retired 2026-07-03
+      with ZERO fills and ZERO grades under it) bought only verdict
+      `"own"`. Changed by explicit operator directive after the ocean
+      replay: the mechanical buy-all leg returned +41.2% vs SPY +30.2%
+      over 2025-03→2026-07 with the entire excess carried by two names
+      (SOLS, Q) whose big-parent/converted-award profiles the own-gate's
+      incentive bar systematically fails, while the one catastrophic loss
+      (TWNPQ, −58%) is precisely the profile the garbage gate condemns.
+      The own-gate was selective in the wrong direction: strong against
+      disasters, structurally blind to the vintage-carriers. The ghost
+      experiment is UNAFFECTED — buy-all, own-selected (`signal_lift`),
+      and veto-filtered legs are all still measured, and the ≥20-graded
+      checkpoint re-decides the live rule among all three.
+
+      The stale-window re-buy loop stays closed at the sleeve:
+      `sleeve.enter` refuses any symbol in its trade history (one shot
+      per spinco, ever) and any symbol currently held. The ghost buys late names to *measure* the decay;
       live dollars don't pay to confirm it, because the backtested anomaly
       decays past ~one quarter. One live shot per spinco, EVER —
       `sleeve.enter` also enforces this against its own trade history.
@@ -413,12 +443,15 @@ control-group ledger.
      −100% (survivorship guard: a delisted spinco is an outcome, not
      missing data).
    - `ghost.spinoff_report(ledger)` → `cache/ghost_nemesis_report.json`.
-     Read it in this order: `signal_lift.llm_selected` (the whole ballgame
-     — do the LLM's picks beat the reviewed names it passed over?),
-     `verdict_groups` (if "avoid" re-rates as hard as "own", the
-     garbage-barge detector detects nothing), `conviction_terciles` /
-     `incentive_terciles` (do the two committed scores predict returns?),
-     `window_groups` (in_window vs late).
+     Read it in this order: the THREE-LEG race first — overall stats
+     (buy-all control) vs `veto_filtered` (the live v2 rule: everything
+     minus condemned) vs `signal_lift.llm_selected` (own-picks, the
+     retired v1 rule) — the ≥20-graded checkpoint re-decides the live
+     entry rule among these three. Then `verdict_groups` (if "avoid"
+     re-rates as hard as "own", the garbage-barge detector detects
+     nothing — and the veto rule loses its license), `condemned` (what
+     the veto excluded — its mean return is the veto's report card),
+     `conviction_terciles` / `incentive_terciles`, `window_groups`.
    - **Verdicts are slow by design.** HORIZON_DAYS = 150: the first graded
      cohort arrives ~5 months after the first entries, and a real sample
      takes a year-plus. Do not tune gates, thresholds, or the window
@@ -478,8 +511,11 @@ distributed and traded for weeks.
   mode computes and prints, but never changes live-god state.
 - Buy a `"late"` window with real money — the ghost measures the decay;
   live dollars never pay for it.
-- Buy a name without a VALIDATED "own"-verdict dossier — no dossier, no
-  verdict, no trade, however good the chart looks.
+- Buy a name without a VALIDATED deep-read dossier — no read, no trade,
+  however good the chart looks (the veto rule needs a document actually
+  read; unread names are never live-bought).
+- Buy a name the reading CONDEMNED — verdict "avoid" or garbage_barge_risk
+  above 0.6 is an absolute veto on live money.
 - Sell without a reason from `nemesis.sleeve.EXIT_REASONS` — and a
   thesis-break sell additionally requires its written dossier case.
 - Touch any other god's sleeve/ledger/curve, or mix `nemesis` and

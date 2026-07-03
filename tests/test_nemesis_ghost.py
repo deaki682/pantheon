@@ -125,6 +125,8 @@ class TestSpinoffReport:
             "incentive_terciles": {},
             "verdict_groups": {},
             "window_groups": {},
+            "veto_filtered": {},
+            "condemned": {},
         }
 
     def test_filters_foreign_sources(self):
@@ -215,3 +217,59 @@ class TestSpinoffReport:
         assert lift["n_on"] == 1 and lift["n_off"] == 1   # CTRL excluded
         assert lift["lift"] == pytest.approx(0.50)
         assert r["verdict_groups"]["own"]["mean"] == pytest.approx(0.40)
+
+
+# ------- veto_filtered: the bouncer leg (2026-07-03) -------
+
+def _entry(sym, ret, features):
+    return GhostEntry(symbol=sym, entry_date="2026-01-05", entry_price=10.0,
+                      horizon_days=150, source="spinoff", features=features,
+                      exit_date="2026-06-04", exit_price=10.0 * (1 + ret),
+                      graded_return=ret)
+
+
+class TestVetoFiltered:
+    def test_avoid_verdict_condemned(self):
+        entries = [
+            _entry("GOOD", 0.30, {"llm_selected": True, "verdict": "own"}),
+            _entry("BAD", -0.60, {"llm_selected": False, "verdict": "avoid"}),
+            _entry("BLIND", 0.10, {"entry_window": "in_window"}),  # unreviewed
+        ]
+        rep = spinoff_report(entries)
+        assert rep["veto_filtered"]["n"] == 2          # GOOD + unreviewed BLIND
+        assert rep["condemned"]["n"] == 1
+        assert rep["veto_filtered"]["mean_return"] == pytest.approx(0.20)
+
+    def test_garbage_over_gate_condemned_even_if_watch(self):
+        entries = [
+            _entry("W1", 0.10, {"verdict": "watch", "garbage_barge_risk": 0.75}),
+            _entry("W2", 0.20, {"verdict": "watch", "garbage_barge_risk": 0.30}),
+        ]
+        rep = spinoff_report(entries)
+        assert rep["veto_filtered"]["n"] == 1
+        assert rep["condemned"]["n"] == 1
+
+    def test_unreviewed_never_condemned(self):
+        entries = [_entry("X", -0.90, {"entry_window": "late"})]
+        rep = spinoff_report(entries)
+        assert rep["veto_filtered"]["n"] == 1
+        assert rep["condemned"] == {}
+
+    def test_empty_report_has_keys(self):
+        rep = spinoff_report([])
+        assert rep["veto_filtered"] == {}
+        assert rep["condemned"] == {}
+
+
+class TestGarbageTagGating:
+    def test_garbage_tag_only_on_reviewed(self):
+        spins = [
+            {"symbol": "REV", "entry_window": "in_window", "verdict": "watch",
+             "garbage_barge_risk": 0.8},
+            {"symbol": "UNREV", "entry_window": "in_window",
+             "garbage_barge_risk": 0.9},  # stale value on an unreviewed name
+        ]
+        cands = spins_to_ghost(spins, lambda s: 10.0, reviewed=["REV"], selected=[])
+        by = {c["symbol"]: c["features"] for c in cands}
+        assert by["REV"]["garbage_barge_risk"] == 0.8
+        assert "garbage_barge_risk" not in by["UNREV"]

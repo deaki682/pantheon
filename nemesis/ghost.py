@@ -98,6 +98,8 @@ def spins_to_ghost(
                 features["conviction"] = float(get("conviction"))
             if get("incentive_alignment") is not None:
                 features["incentive_alignment"] = float(get("incentive_alignment"))
+            if get("garbage_barge_risk") is not None:
+                features["garbage_barge_risk"] = float(get("garbage_barge_risk"))
 
         out.append({
             "symbol": sym,
@@ -125,7 +127,11 @@ def spinoff_report(entries: Iterable[GhostEntry]) -> dict:
             "incentive_terciles": {},
             "verdict_groups": {},
             "window_groups": {},
+            "veto_filtered": {},
+            "condemned": {},
         }
+    kept = [e for e in graded if not _condemned(e)]
+    tossed = [e for e in graded if _condemned(e)]
     return {
         **overall_stats(graded),
         "signal_lift": boolean_lift(graded),
@@ -133,4 +139,25 @@ def spinoff_report(entries: Iterable[GhostEntry]) -> dict:
         "incentive_terciles": numeric_tercile_stats(graded, "incentive_alignment"),
         "verdict_groups": group_stats(graded, "verdict"),
         "window_groups": group_stats(graded, "entry_window"),
+        # The THIRD contender — the "bouncer" strategy: buy every trigger
+        # EXCEPT names the reading condemned. Unreviewed names ride along
+        # (you cannot veto a document you never read; live reality is the
+        # same). At the promotion checkpoint this leg competes head-to-head
+        # with buy-all (overall stats above) and own-selected (signal_lift).
+        "veto_filtered": overall_stats(kept) if kept else {},
+        "condemned": overall_stats(tossed) if tossed else {},
     }
+
+
+def _condemned(e: GhostEntry) -> bool:
+    """A reviewed name the reading threw out: verdict 'avoid', or a
+    garbage_barge_risk past the own-gate's 0.6 line. Absence of judgment
+    tags (unreviewed) is never condemnation."""
+    f = e.features or {}
+    if str(f.get("verdict", "")).lower() == "avoid":
+        return True
+    g = f.get("garbage_barge_risk")
+    try:
+        return g is not None and float(g) > 0.6
+    except (TypeError, ValueError):
+        return False

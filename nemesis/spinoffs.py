@@ -325,3 +325,32 @@ def update_pipeline(pipeline: dict, events: list[SpinEvent], *, today: str) -> d
             )
 
     return pipeline
+
+
+def backfill_tickers(pipeline: dict, cik_to_symbol: dict) -> list[tuple[str, str]]:
+    """Fill missing tickers from the official CIK->symbol registry.
+
+    EDGAR full-text-search display names lie about tickers in three ways
+    the 2026-07-03 ocean sweep hit for real: registration shell names
+    (Qnity filed as "Novus SpinCo 1"), post-registration renames
+    (Cyprium -> Versigent), and recycled symbols (Atrium taking a prior
+    issuer's RNA). The company_tickers registry keyed by CIK is
+    authoritative for all three — a listing exists there the moment the
+    exchange assigns it, whatever the filing prose says.
+
+    Rules match update_pipeline's: a ticker already learned is never
+    overwritten, and runbook-owned statuses are never touched. Returns the
+    (cik, symbol) pairs actually filled so the runbook can log them.
+    """
+    filled: list[tuple[str, str]] = []
+    for cik, entry in pipeline.items():
+        if entry.get("ticker"):
+            continue
+        sym = cik_to_symbol.get(cik)
+        if not sym:
+            continue
+        entry["ticker"] = sym
+        if entry.get("status") not in RUNBOOK_STATUSES:
+            entry["status"] = "ticker_assigned"
+        filled.append((cik, sym))
+    return filled

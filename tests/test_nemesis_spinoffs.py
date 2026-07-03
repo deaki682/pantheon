@@ -10,6 +10,7 @@ import json
 import os
 
 from nemesis.spinoffs import (
+    backfill_tickers,
     SpinEvent,
     events_from_search_payload,
     extract_ticker,
@@ -388,3 +389,41 @@ class TestUpdatePipelineCompanyGuard:
         )
         update_pipeline(pipeline, [ev], today="2026-07-03")
         assert pipeline["0009999999"]["company"] == ""
+
+
+# ------- backfill_tickers (2026-07-03 ocean-sweep fix) -------
+
+class TestBackfillTickers:
+    def _pipe(self):
+        return {
+            "0002058873": {"company": "Novus SpinCo 1, Inc.", "ticker": None,
+                           "status": "registered"},
+            "0002078008": {"company": "Cyprium Holdings Ltd", "ticker": None,
+                           "status": "registered"},
+            "0002067876": {"company": "Versant Media Group", "ticker": "VSNT",
+                           "status": "entered"},
+        }
+
+    def test_fills_from_registry(self):
+        pipe = self._pipe()
+        filled = backfill_tickers(pipe, {"0002058873": "Q", "0002078008": "VGNT"})
+        assert dict(filled) == {"0002058873": "Q", "0002078008": "VGNT"}
+        assert pipe["0002058873"]["ticker"] == "Q"
+        assert pipe["0002058873"]["status"] == "ticker_assigned"
+
+    def test_never_overwrites_known_ticker(self):
+        pipe = self._pipe()
+        backfill_tickers(pipe, {"0002067876": "WRONG"})
+        assert pipe["0002067876"]["ticker"] == "VSNT"
+
+    def test_runbook_status_untouched(self):
+        pipe = {"0002000001": {"company": "X", "ticker": None, "status": "distributed"}}
+        backfill_tickers(pipe, {"0002000001": "XX"})
+        assert pipe["0002000001"]["ticker"] == "XX"
+        assert pipe["0002000001"]["status"] == "distributed"
+
+    def test_unknown_cik_left_alone(self):
+        pipe = self._pipe()
+        filled = backfill_tickers(pipe, {})
+        assert filled == []
+        assert pipe["0002058873"]["ticker"] is None
