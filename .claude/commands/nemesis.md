@@ -133,11 +133,22 @@ control-group ledger.
    a dossier in `cache/nemesis_dossiers.json`: fetch its Form 10 and have
    the LLM judge it.
 
+   **Weekly freshness sweep (watch list):** for every distributed,
+   not-yet-entered name with a dossier, `fetch_submissions(cik)` and
+   compare the newest 10-Q/10-K/8-K/13D against the dossier's
+   `researched_at`. A material new document — the first standalone
+   quarterly or annual, a guidance 8-K, a fresh 13D — triggers the
+   deep-read revision BEFORE the name's window opens, not after. A
+   window opening on a stale verdict is either a missed trade (a watch
+   that new numbers made an own) or a dodged bullet nobody aimed at (an
+   own the new numbers broke) — either way the experiment learns nothing
+   from luck. Routine no-news weeks trigger nothing.
+
    **A name that already HAS a dossier is not re-read** (the weekly Form 4
    re-sweep and thesis-break surveillance update specific fields; they are
    not re-reads). Re-reading requires either NEW primary documents (a
-   fresh 10-Q/8-K that changes the picture) or an explicit operator
-   instruction — and even then the new read is recorded as a revision
+   fresh 10-Q/8-K that changes the picture — the freshness sweep above is
+   what detects this) or an explicit operator instruction — and even then the new read is recorded as a revision
    with its `researched_at` bumped and the score changes justified
    against the prior read, NEVER a silent replacement. Two honest reads
    of the same documents can disagree; a disagreement is calibration
