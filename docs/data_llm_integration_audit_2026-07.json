@@ -1,0 +1,1009 @@
+{
+  "summary": "Audit every LLM decision surface across the gods for silent-failure modes, per the Pantheon failure taxonomy",
+  "agentCount": 28,
+  "logs": [],
+  "result": {
+    "total_findings": 23,
+    "confirmed": 17,
+    "results": [
+      {
+        "god": "oracle",
+        "finding": {
+          "title": "oracle-score.md still runs a score-rotation trade path the cohort model forbids",
+          "category": "prompt-defect",
+          "file": ".claude/commands/oracle-score.md",
+          "severity": "high",
+          "evidence": "Steps 5 and 8 instruct the LLM to 'Apply rotation rules (oracle.positioning.rotation_decision) — incumbent stays unless challenger >= 1.25x score' and then 'size_book -> plan_orders -> place orders', plus 'thesis-anchored exit checks via oracle.exits.exit_signal'. rotation_decision (positioning.py:215) and exit_signal's bull_hit TRIM/bear_hit REVIEW (exits.py:49-68) are the pre-cohort rotation strategy. But oracle.md/CLAUDE.md make Oracle a batch-and-hold cohort that 'exits ONLY on thesis-break — never on rank drift or score freshness' and explicitly list 'A new dossier scored higher' / 'Rank drift of any kind' as PROHIBITED exits. /oracle-score is a live invokable command (skill) whose header claims it 'Runs steps 7-12 of /oracle' — but oracle.md steps 7-12 are research/rescore/cohort/pretrade/journal, not rotation.",
+          "failure_mode": "Running /oracle-score against an active cohort re-sizes the whole book by current conviction and rotates names on score drift, and exit_signal fires bull_hit trims/bear_hit reviews — placing broker trades that directly violate the cohort hold discipline the strategy's entire edge depends on."
+        },
+        "verdict": {
+          "title": "/oracle-score is a live skill that runs the forbidden pre-cohort rotation/re-size/trim trade path",
+          "verdict": "CONFIRMED",
+          "why": "oracle-score.md is a registered live-invokable command with no cohort awareness. Step 5 (line 13) calls oracle.positioning.rotation_decision (positioning.py:215, challenger>=1.25x incumbent) — the exact \"new dossier scored higher\"/rank-drift exit oracle.md:100-103 prohibits during a hold. Step 6 (line 14) runs size_book->plan_orders->place orders; size_book (positioning.py:78-120) re-allocates the whole book by conviction rather than holding the fixed equal-weight cohort. Step 8 (line 16) calls exit_signal (exits.py:23-70), whose bull_hit TRIM-HALF and bear_hit REVIEW are not among the six permitted thesis-break exits (oracle.md:89-96). Orders are placed at the broker whenever ORACLE_LIVE=true (the documented live config). The header's \"runs steps 7-12 of /oracle\" is also false: /oracle step 8 is calibration-only rescore and step 9 is cohort logic, neither of which this command performs. The failure mode is the literal control flow as written, not hypothetical."
+        }
+      },
+      {
+        "god": "oracle",
+        "finding": {
+          "title": "Oracle dossier validator has no prose gate — a stub thesis/business passes as valid",
+          "category": "schema-stub",
+          "file": "oracle/dossier_check.py",
+          "severity": "high",
+          "evidence": "validate_dossier() checks symbol, citations, ratings, and scenarios but never inspects the 'thesis' or 'business' fields; the only len() checks (lines 168, 188) are on the conditional decline_explanation/going_concern_explanation. make_dossier (research.py:19-37) takes thesis/business as free strings with no minLength. So make_dossier(thesis='', business='', ...) validates and returns conviction. Contrast nemesis/dossier.py:36-38,125-131 which enforces _PROSE_FIELDS=(bull_case,bear_case,key_risk,forced_seller_map) at _MIN_PROSE=20 chars so 'n/a'/'none' fail loudly.",
+          "failure_mode": "A near-empty 'minimal to validate schema' dossier — no articulated thesis, no bull/bear reasoning — passes validation and enters the pool ranked by its scenario math alone; oracle.md step 9A then selects the annual 8-name cohort ('where Oracle's entire annual risk concentrates') from dossiers that carry no verified reasoning, exactly the RNA schema-stub failure class."
+        },
+        "verdict": {
+          "title": "Oracle dossier validator has no prose gate on thesis/business — schema-stub passes",
+          "verdict": "CONFIRMED",
+          "why": "Read oracle/dossier_check.py:62-197 end to end. validate_dossier() checks symbol (68), citations non-empty (71-73), the four ratings present (76-80), the three scenarios present with target+probability and bull>=bear (82-114), broker price/high divergence (116-158), and the two CONDITIONAL len() gates — decline_explanation (168) fires only when high_52w present and drawdown>=30%, going_concern_explanation (188) fires only when current_price>0 and runway<0.3 and implied_loss>=80%. It never reads d['thesis'] or d['business'] at all. make_dossier (research.py:19-80) accepts business/thesis as free strings, stores them verbatim (55-56), then calls validate_dossier and returns compute_derived + conviction. So make_dossier(thesis='', business='', ...) with a valid symbol, one citation, four ratings, and three coherent scenarios (and no drawdown/going-concern trigger) validates cleanly and returns a conviction score. A grep across oracle/ confirms thesis is only stored, snapshotted (cohort.py:71), and staleness-checked by AGE not content; business is only stored — no content gate anywhere in the pipeline. The nemesis contrast is exactly as described: nemesis/dossier.py:36-37 defines _PROSE_FIELDS=(bull_case,bear_case,key_risk,forced_seller_map) with _MIN_PROSE=20 and validate() (125-131) rejects any under 20 chars, so 'n/a'/'none' fail loudly. Oracle has no analogous unconditional prose floor, so a reasoning-free schema-stub dossier ranks by scenario math alone and is eligible for the annual 8-name cohort selection. Mechanism is real and non-hypothetical — confirmed from the code as written."
+        }
+      },
+      {
+        "god": "oracle",
+        "finding": {
+          "title": "insider_tier defaults to the most favorable weight ('full' = 1.0x)",
+          "category": "schema-stub",
+          "file": "oracle/research.py",
+          "severity": "medium",
+          "evidence": "make_dossier signature (research.py:34) sets insider_tier='full' by default, and size_book (positioning.py:125-127) maps _TIER_MULT={'full':1.0,'half':0.5} with _tier() returning .get(insider_tier,'full') default 1.0 — the maximum sizing multiplier. The taxonomy flags 'defaults that flatter'; nemesis takes the opposite hostile-default stance (incentive_alignment=0.0, garbage_barge_risk=1.0, dossier.py:64-65). A dossier that never sets a tier is sized as if it were the top 'insider-backed + cheap + quality' bucket.",
+          "failure_mode": "If the screen/analyst omits insider_tier (or writes an unrecognized value that .get resolves to 'full'), a flagged or unverified name silently receives full 1.0x book weight instead of the 0.5x 'half' haircut, over-sizing exactly the names that should be de-weighted."
+        },
+        "verdict": {
+          "title": "insider_tier defaults to the most favorable weight ('full' = 1.0x) in make_dossier and size_book",
+          "verdict": "CONFIRMED",
+          "why": "Read confirms the flattering default: research.py:34 sets make_dossier(insider_tier=\"full\") — the top bucket — and stores it verbatim (line 65); positioning.py:127 does _TIER_MULT.get(s.get(\"insider_tier\",\"full\"),0.0), so a scored row that OMITS the key resolves to \"full\"=1.0x. Screener.py:69 shows the intended safe default is \"none\" (excluded), making make_dossier's \"full\" default a genuine flattering asymmetry in the public/LLM-facing constructor: an off-pipeline or hand-built dossier for an unverified name is silently sized at 1.0x instead of the 0.5x \"half\" haircut or exclusion. One correction to the evidence: the \"unrecognized value → full\" sub-branch is FALSE — an unknown string hits the OUTER .get default of 0.0 (not 1.0) and is excluded at line 128, the opposite of over-sizing. Only the omission branch flatters, but that branch is real code as written, so the core defect stands."
+        }
+      },
+      {
+        "god": "oracle",
+        "finding": {
+          "title": "Mandatory broker price verification degrades to a warning when the fields are omitted",
+          "category": "swallowed-error",
+          "file": "oracle/dossier_check.py",
+          "severity": "medium",
+          "evidence": "oracle-research.md step 4 and oracle.md step 7 call broker_price/broker_high_52w 'required' and 'non-negotiable' and say 'the validator cross-checks them ... and rejects on >5% divergence'. But validate_dossier only rejects when the broker value IS supplied and diverges (lines 122-131); when broker_price is None it just log.warning + sets price_verified=False and accepts (132-137). Separately the falling-knife gate is `if high_52w and drawdown >= THRESHOLD` (163-166), so omitting high_52w/broker_high_52w skips the knife gate entirely.",
+          "failure_mode": "An LLM that forgets to pass broker_price/broker_high_52w gets a valid dossier with a hallucinated current_price and the falling-knife honesty gate silently disabled — the 'verify, don't recall' guard the runbook promises is unenforced precisely in the omission case it was written to catch."
+        },
+        "verdict": {
+          "title": "Oracle broker price verification is warn-only on omission, not enforced as the runbook claims",
+          "verdict": "CONFIRMED",
+          "why": "In oracle/dossier_check.py, validate_dossier hard-rejects (DossierError) only when broker_price/broker_high_52w ARE supplied and diverge >5% (lines 123-131, 143-149). When broker_price is None it merely log.warning + sets price_verified=False and accepts (lines 132-137); broker_high None is likewise warn-only (151-155). make_dossier (research.py) defaults both params to None and only writes them when present, so an omission flows into the warn-only branch with no higher enforcement. The falling-knife gate at lines 163-166 keys off d.get('high_52w'); with both the LLM value and broker_high absent, high_52w is falsy and the gate is skipped entirely. Meanwhile oracle-research.md (lines 68-73, 95) and oracle.md step 7 call these fields 'required' and 'non-negotiable' and promise the validator 'rejects on >5% divergence' — a guarantee the code only delivers in the supplied-and-diverges case, not the omission case the guard was written to catch. The runbook even concedes at lines 97-98 that omission just yields an unverified dossier logged as a warning. Mechanism is fully determinable from source; no runtime data needed."
+        }
+      },
+      {
+        "god": "oracle",
+        "finding": {
+          "title": "Citation gate accepts stub/placeholder citations",
+          "category": "schema-stub",
+          "file": "oracle/dossier_check.py",
+          "severity": "low",
+          "evidence": "validate_dossier line 71-73 only checks `citations = d.get('citations') or []; if not citations: raise`. Any non-empty list passes, including ['n/a'] or [''] (a one-element list is truthy). There is no per-item non-empty-string or accession/URL format check, despite the runbook requiring 'cite >=1 SEC accession' (oracle-research.md step 4).",
+          "failure_mode": "A dossier can satisfy the 'must cite filings' gate with a placeholder token that references nothing, so the judge treats an uncited thesis as evidence-backed and the citation requirement provides no real assurance the claims were read from filings."
+        },
+        "verdict": {
+          "title": "Oracle citation gate accepts stub/placeholder citations",
+          "verdict": "CONFIRMED",
+          "why": "In oracle/dossier_check.py, validate_dossier lines 71-73 are the sole citation check: `citations = d.get(\"citations\") or []; if not citations: raise DossierError(...)`. This only rejects an empty/missing list. Any non-empty list passes because a list is truthy when len>=1 — so `['n/a']`, `['']`, or `['c']` all satisfy the gate. There is no per-item validation: no non-empty-string check, no SEC accession-number pattern match, and no URL format check anywhere in the function (the rest validates scenarios, ratings, prices, drawdown, going-concern). oracle/research.py build_dossier (line 26, 59) just passes `citations` straight through to validate_dossier with no vetting. I found no other layer that validates citation content — the only other references are the docstring (line 8) and tests, and the tests actually confirm the weakness by feeding stub tokens like `citations=[\"c\"]` (tests/test_oracle_research.py:56,169) that pass validation. Meanwhile the runbook .claude/commands/oracle-research.md line 89 requires 'cite ≥1 SEC accession', a requirement the code does not enforce. So a dossier can clear the 'must cite filings' gate with a placeholder that references nothing, exactly the failure mode described."
+        }
+      },
+      {
+        "god": "delphi",
+        "finding": {
+          "title": "Decision-log validator accepts a date-only stub; override_summary fabricates flattering zeros for missing fields",
+          "category": "schema-stub",
+          "file": "delphi/decisions.py",
+          "severity": "high",
+          "evidence": "append_decision (line 20) sets REQUIRED_FIELDS = (\"date\",) — the only mandatory field. A record of just {\"date\": \"...\"} passes validation, even though the module docstring says its whole purpose is that 'the override budgets ... are unenforceable without a reliable record.' None of the override-tracking fields the runbook record-shape lists (exits_overridden, entries_vetoed, vetoed_symbols, weight_overrides, risk_budget) are required. override_summary then back-fills missing fields with flattering defaults: r.get(\"exits_overridden\", 0), r.get(\"entries_vetoed\", 0) (lines 59-60) and float(r.get(\"risk_budget\", 1.0) or 1.0) (line 63).",
+          "failure_mode": "An LLM run that actually overrode an exit or vetoed an entry but omitted the count field logs a valid stub; the monthly calibration rollup counts it as zero overrides and treats a missing risk_budget as 1.0 fully-invested. The audit trail built to detect the LLM second-guessing the mechanical system systematically under-reports exactly the overrides it exists to catch, and cannot distinguish 'no override happened' from 'override not recorded.'"
+        },
+        "verdict": {
+          "title": "Delphi decision-log validator accepts date-only stub; override_summary back-fills missing override fields as zero/1.0",
+          "verdict": "CONFIRMED",
+          "why": "Read delphi/decisions.py directly. Line 20: REQUIRED_FIELDS = (\"date\",); append_decision (lines 27-29) only checks that field, so a record of just {\"date\": \"...\"} passes validation despite the module docstring (lines 3-7) claiming it \"refuses anything but a proper record\" and that override budgets are \"unenforceable without a reliable record.\" override_summary (lines 59-63) back-fills every override field on missing rows: int(r.get(\"exits_overridden\", 0) or 0), int(r.get(\"entries_vetoed\", 0) or 0), and float(r.get(\"risk_budget\", 1.0) or 1.0). The runbook (.claude/commands/delphi.md lines 108-119) defines the proper record shape as carrying exits_overridden, entries_vetoed, vetoed_symbols, weight_overrides, and risk_budget — none required by the validator. This is not hypothetical: the module's own tests append partial records (tests/test_delphi_decisions.py line 11 logs {\"date\": ..., \"entries_vetoed\": 1, \"vetoed_symbols\": [...]} with no exits_overridden and no risk_budget). Such a row is counted as zero exits_overridden and risk_budget 1.0 (fully invested) in the monthly rollup. Both back-fills flatter the LLM's discipline: an omitted count reads as \"no override,\" and a missing risk_budget reads as full-conviction 1.0 rather than caution. The audit trail built to catch the LLM second-guessing the mechanical system systematically under-reports overrides and cannot distinguish \"no override happened\" from \"override not recorded.\" Mechanism is verifiable statically from the code, not runtime-dependent."
+        }
+      },
+      {
+        "god": "delphi",
+        "finding": {
+          "title": "exit_candidates silently drops any held position whose live price is None",
+          "category": "swallowed-error",
+          "file": "delphi/signals.py",
+          "severity": "medium",
+          "evidence": "exit_candidates (line 108-110): `px = prices.get(sym); if px is None: continue`. A held position whose quote failed to fetch is dropped from the exit-review list with no flag. The MA-break trailing stop is Delphi's core de-risking mechanism (runbook DP1: 'the mechanical system's MA exit is what made the backtest work').",
+          "failure_mode": "A position that has genuinely broken below its 20-day MA but happened to get a failed/None quote (batch fetch gap, halted symbol) is never surfaced as an exit candidate. The output is indistinguishable from a healthy position sitting above its MA, so the LLM never reviews it and the trailing-stop exit silently does not fire for that name — the one regime the stop exists to protect against."
+        },
+        "verdict": {
+          "title": "Delphi exit_candidates None-price drop does not suppress the MA-break exit",
+          "verdict": "FALSE_POSITIVE",
+          "why": "The literal code is as cited — signals.py:106-108 drops a held name whose live quote is None from exit_candidates. But that function is only the LLM review surface (it feeds hold_overrides). The trailing-stop exit is actually executed by execution.py plan_orders, which sells any sleeve position not present in `targets`. Targets derive from rank_by_momentum (signals.py:77, price >= ma only) via select_top, so a name that broke below its 20-day MA is excluded from targets and hits plan_orders' `target <= 0` momentum_exit sell — and plan_orders uses `prices.get(sym, pos.avg_price)` (execution.py:72), gracefully falling back to entry price when the quote is None. Dropping a name from exit_candidates only removes it from LLM hold-override consideration, which makes the exit MORE certain, not less. The claimed failure mode (exit silently does not fire) does not occur."
+        }
+      },
+      {
+        "god": "delphi",
+        "finding": {
+          "title": "breadth computes pct_above_ma over only the successfully-fetched subset with no coverage floor",
+          "category": "silent-empty",
+          "file": "delphi/signals.py",
+          "severity": "medium",
+          "evidence": "breadth (lines 167-174): `for sym, hist in universe_prices.items(): if sym not in UNIVERSE or not hist: continue; total += 1; ...`. The denominator is only names with non-empty history; there is no minimum-coverage guard. pct = above/total over whatever fetched. This value is the sole input to Decision Point 4 (runbook DP4: 'Breadth > 60% -> risk_budget = 1.0 fully invested').",
+          "failure_mode": "If the year-span batch fetch degrades and only, say, 15 of 118 names return history, breadth is computed over those 15. If they skew above-MA the reading can print ~100% and drive risk_budget to 1.0 (fully invested) during an actually-deteriorating market — the exact regime DP4 is meant to pull capital back in. A partial data outage silently inflates (or deflates) the regime signal."
+        },
+        "verdict": {
+          "title": "Delphi breadth has no coverage floor; partial price-fetch silently skews DP4 risk budget",
+          "verdict": "CONFIRMED",
+          "why": "In delphi/signals.py:167-174, breadth() counts total only over UNIVERSE names with non-empty history (skips missing/empty via continue) and computes pct = above/total with no minimum-coverage guard. The delphi.md runbook DP4 (lines 56-59) keys risk_budget solely off this pct (>60% -> 1.0 fully invested). Prices are batch-fetched (span=year, 10/call) with no coverage validation between fetch and breadth(). If a partial outage returns only a handful of names that skew above-MA, pct prints near 1.0 and drives risk_budget to 1.0 during a possibly deteriorating regime. The denominator floats with fetch coverage; the failure occurs in code and prompt as written. The dict does surface total, but DP4 guidance never checks it against ~118, so nothing prevents the inflated reading."
+        }
+      },
+      {
+        "god": "delphi",
+        "finding": {
+          "title": "Stated override budgets and weight/risk bounds are honor-system only — no Python clamp enforces them",
+          "category": "prompt-defect",
+          "file": ".claude/commands/delphi.md",
+          "severity": "medium",
+          "evidence": "The runbook presents hard limits as rules: override-budget table 'Max per run' (Exit holds 2, Entry vetoes 3, Weight tilts 3), DP3 'Never go below 0.5x or above 2.0x', DP4 'Never go below 50% invested'. But nothing enforces them: selector.select_top accepts an unbounded vetoes set; execution.build_targets applies weight_overrides with no clamp to [0.5,2.0] (only a per_name_cap at 20% equity, line 46) and accepts any positive risk_budget (line 29 invest_dollars = (1-CASH_FLOOR)*risk_budget*equity, so risk_budget=2.0 silently levers to ~1.9x equity). rotation_plan does not clamp either.",
+          "failure_mode": "The budgets read as mechanical guardrails but are purely the LLM policing itself. The only backstop — the decision log — has the flattering-default hole above, so an out-of-budget run (e.g. 6 vetoes, a 5.0x tilt, or risk_budget>1.0) executes with no rejection and, if the counts are under-logged, leaves no trace in the calibration rollup."
+        },
+        "verdict": {
+          "title": "Delphi override count budgets and weight-tilt bounds are honor-system; risk-budget bound is actually enforced",
+          "verdict": "CONFIRMED",
+          "why": "Verified by reading selector.py, execution.py, rotation.py, decisions.py. The count budgets (exit holds ≤2, entry vetoes ≤3, weight tilts ≤3) have no Python enforcement: select_top (lines 18-27) accepts an unbounded vetoes set and just backfills; build_targets (lines 33-37) accepts an unbounded weight_overrides dict with no clamp of individual weights to the stated [0.5,2.0] range (only per_name_cap=0.20 at line 46 plus normalization). decisions.py's docstring itself concedes the budgets are \"unenforceable without a reliable record.\" So the core honor-system defect genuinely occurs. However, the claim's risk-budget element is wrong: rotation.rotation_plan line 19 does clamp `rb = max(0.5, min(1.0, rb))`, and the runbook (steps 8-9) routes risk_budget through rotation_plan and passes plan[\"risk_budget\"] into build_targets — so the \"never below 50%/above 1.0\" bound IS mechanically enforced in the prescribed flow, contradicting the claim's \"rotation_plan does not clamp\" and \"risk_budget=2.0 levers to 1.9x.\" The defect is confirmed for the count budgets and weight-tilt bounds but overstated on the risk budget."
+        }
+      },
+      {
+        "god": "delphi",
+        "finding": {
+          "title": "load_decisions silently discards corrupt JSONL lines despite docstring claiming it counts them",
+          "category": "swallowed-error",
+          "file": "delphi/decisions.py",
+          "severity": "low",
+          "evidence": "load_decisions docstring (line 36): 'Read the log, skipping (but counting) corrupt lines rather than dying.' The implementation (lines 44-47) does `try: row = json.loads(line) except ValueError: continue` — no counter is kept, incremented, or returned. The caller/monthly review gets a clean list with zero indication any rows were dropped.",
+          "failure_mode": "A partially-corrupt append (the exact scenario the module was hardened against — 'once ended up containing a literal file path') drops those override records invisibly from override_summary. The calibration read under-counts overrides with no warning, and the documented 'counting' safety property does not exist, so no one is alerted that the audit trail lost rows."
+        },
+        "verdict": {
+          "title": "delphi load_decisions drops corrupt JSONL lines without the counting its docstring promises",
+          "verdict": "CONFIRMED",
+          "why": "In /home/user/pantheon/delphi/decisions.py, load_decisions (lines 35-50) has a docstring (line 36) stating it skips \"(but counting)\" corrupt lines, but the except ValueError branch (lines 46-47) just does `continue` with no counter incremented, no count returned, and no log/warning. The function returns only list[dict]. override_summary (lines 53-65) derives runs and all override tallies purely from that list, so any corrupt append — exactly the \"literal file path\" corruption the module header (lines 6-7) says actually happened — is silently omitted, under-counting overrides in the monthly calibration read with no signal. The documented counting safety property genuinely does not exist in the code as written."
+        }
+      },
+      {
+        "god": "midas",
+        "finding": {
+          "title": "Mechanical pick runs on the convergence score the god's own pre-registered test REFUTED, while the runbook's closing note says EV judgment 'carries the decision' — a direct contradiction",
+          "category": "prompt-defect",
+          "file": ".claude/commands/midas.md",
+          "severity": "high",
+          "evidence": "pick_winner (midas/scanner.py:285) returns max(eligible, key=lambda d: d.score), and d.score is the timing-weighted CONVERGENCE score copied verbatim from the scan (midas.md:64 'pick_winner ranks on d.score'; midas.md:67 'highest timing-weighted convergence score'; midas.md:65 'The pick is mechanical'). But the measured-result note at midas.md:157-167 states the convergence-multiplier thesis was REFUTED out-of-sample ('2+ co-signals -0.14%, monotonically WRONG direction') and concludes 'the dossier's expected-value judgment carries the decision.' pop_probability/expected_value are explicitly excluded from the pick (midas.md:63, scanner.py:250,262-264). The two statements are incompatible: the code decides on the refuted signal, the note claims EV decides.",
+          "failure_mode": "The all-in weekly pick is selected by the exact convergence-multiplier ranking the god proved does not predict 5-day drift, while an operator reading the closing note believes an expected-value judgment is driving it. Every week Midas bets the entire sleeve on the highest-convergence non-disqualified name — precisely the cohort that underperformed single-signal names in the prereg test — and the runbook masks this by asserting EV carries the decision when no code path reads EV."
+        },
+        "verdict": {
+          "title": "Midas runbook note claims EV carries the pick while pick_winner mechanically ranks on the refuted convergence score",
+          "verdict": "CONFIRMED",
+          "why": "Verified by reading both files. scanner.py:285 makes pick_winner return max(eligible, key=lambda d: d.score) where d.score is the timing-weighted convergence score; the docstring (250, 262-264) and midas.md (63, 65, 67, 119) all state EV/pop_probability do NOT affect the pick and the LLM can only veto, never promote. Yet the measured-result note at midas.md:157-167 says the convergence-multiplier thesis was REFUTED out-of-sample (2+ co-signals -0.14%, monotonically wrong direction) and then asserts 'the dossier's expected-value judgment carries the decision' while conceding the multiplier funnel runs 'unchanged.' No code path reads expected_value, and the veto gate is restricted to concrete thesis-killers, not EV ranking, so EV literally cannot carry the pick. The mechanical decision each week selects the highest-convergence surviving name — exactly the cohort the god's own prereg showed underperforms — while the note tells the operator EV governs. The contradiction is present in the file text and code as written, not hypothetical."
+        }
+      },
+      {
+        "god": "midas",
+        "finding": {
+          "title": "Stale-signal freshness gate defaults to KEEP when the price tape is missing or too short, so a failed historicals fetch is indistinguishable from an 'undigested beat' and passes a dead signal into the all-in pick",
+          "category": "silent-empty",
+          "file": "midas/prescan.py",
+          "severity": "high",
+          "evidence": "filter_stale_earnings_signals._fresh (prescan.py:248-253): 'if not bars: return True  # no tape to judge — don't over-filter' and 'if rb is None: return True  # no reaction yet — undigested beat, keep it'. find_reaction_bar returns None when len(valid) < 2 (prescan.py:180-181). So an empty/failed/1-bar get_equity_historicals response yields the same KEEP verdict as a genuinely fresh, unreacted beat. The default flatters the candidate (keeps the signal). The same collapse recurs at the LLM backstop: midas.md:49 tells the LLM to run find_reaction_bar and only disqualify on age/move, so a None from a failed fetch reads as 'fresh, do not disqualify.'",
+          "failure_mode": "On any weekend where EDGAR/Robinhood historicals fetch fails or returns a stub for a candidate, its earnings-beat or guidance signal is treated as fresh and survives the sieve. A week-old, fully-priced-in pop then ranks and can become the mechanical winner, and Midas enters all-in on a spent catalyst — the exact DAKT/PRGS failure the gate was built to catch, silently reintroduced whenever the tape is absent."
+        },
+        "verdict": {
+          "title": "Midas stale-earnings gate treats missing/short price tape as a fresh signal",
+          "verdict": "CONFIRMED",
+          "why": "Verified in midas/prescan.py. In _fresh (247-253), `if not bars: return True` and `if rb is None: return True` both KEEP the signal. find_reaction_bar (176-181) returns None on empty bars or len(valid)<2, so a failed/empty/1-bar get_equity_historicals response produces the same None→KEEP verdict as a genuine undigested beat — the two are indistinguishable at this call site. The earnings/guidance signals come from EDGAR/earnings-calendar sources independent of the historicals fetch, so a signal can survive while its tape is missing; a partial fetch failure over the full candidate set (fetched in scan step 2f) is a normal event. The dead signal then passes the sieve and can rank into the all-in pick — the exact DAKT/PRGS staleness the gate was built to catch. The claimed LLM backstop is not independent: midas-scan.md §2h (line 49) instructs running the same filter_stale_earnings_signals and restates that a no-reaction tape is KEPT. The mechanism is fully readable in code; only fetch-failure frequency is runtime-dependent, not the collapse itself."
+        }
+      },
+      {
+        "god": "midas",
+        "finding": {
+          "title": "WeeklyCatalystDossier presumes a name is tradeable by default (disqualified=False) with no minLength/content validation on the veto fields, so a silently-failed or stub dossier stays eligible for the all-in buy",
+          "category": "schema-stub",
+          "file": "midas/scanner.py",
+          "severity": "medium",
+          "evidence": "WeeklyCatalystDossier (scanner.py:244-272) defaults disqualified=False and disqualify_reason='' , and bull_case/bear_case/priced_in_judgment/catalyst are plain str with no minimum length or non-empty check. pick_winner (scanner.py:282) only filters d.disqualified — it never checks whether the research fields were actually populated. load_dossiers (scanner.py:333-338) reconstructs from JSON with no validation. There is no 'first answer FINAL' or required-evidence gate.",
+          "failure_mode": "If the LLM's per-finalist research errors out, times out, or emits a placeholder dossier (empty bull/bear case), the name defaults to disqualified=False and remains eligible. The mechanical pick_winner can then select an unresearched name by its scan score and Midas buys it all-in — the incentive-default-high pattern where garbage passes as a valid, tradeable candidate."
+        },
+        "verdict": {
+          "title": "Midas WeeklyCatalystDossier fail-open eligibility (no evidence gate on veto fields)",
+          "verdict": "FALSE_POSITIVE",
+          "why": "The cited code facts are all real (disqualified defaults False, veto strings unvalidated, pick_winner and sleeve.enter never read bull_case/bear_case), but the claimed failure mechanism does not genuinely occur as written. (1) No code path auto-produces a \"silently-failed or stub\" dossier: dossiers are hand-constructed by the LLM in the /midas Stage-3 steps, so there is no try/except or timeout handler that emits a default-eligible placeholder — the \"research errors out / times out → stub\" trigger maps to nothing mechanical. (2) The default-eligible posture is an intentional veto-only contract, not incentive-default-high over garbage. Names reaching Stage 3 already passed real quantitative gates in /midas-scan: the sieve, insider/earnings/13D/guidance/volume/squeeze signals, plus the >15% signal-price and reaction-bar freshness filters, then convergence ranking. The mechanical pick key (d.score) is copied straight from that validated scan, so an eligible-by-default finalist carries real signal provenance regardless of prose quality. (3) The proposed fix (minLength/non-empty bull_case) would not prevent the stated harm: a non-empty bull_case does not prove the LLM found a thesis-killer, so a length check cannot catch a missed guidance bomb/fraud — the harm is research quality, not schema laxity. (4) A mandatory adversarial kill-the-winner subagent pass (midas.md step 10) sits before any all-in buy specifically to refute the pick. The buy of an unresearched top-scored name therefore requires compounding LLM non-adherence (skip research AND carry score AND pass the kill-pass), which is a hypothetical prompt-diligence scenario, not a confirmed code/prompt defect. Under the strict \"genuinely occurs, not hypothetically\" bar, this is a false positive."
+        }
+      },
+      {
+        "god": "midas",
+        "finding": {
+          "title": "Convergence count treats correlated signals from a single event as independent, inflating the multiplier tier that drives the mechanical pick",
+          "category": "other",
+          "file": "midas/scoring.py",
+          "severity": "medium",
+          "evidence": "score_candidate computes n_convergence = count of distinct active channels above the timing floor (scoring.py:142) with no dedup for same-event signals, and convergence_multiplier jumps 1.0->2.5->5.0->8.0 on that raw count (scoring.py:79-84,143). build_signal_map fires earnings_beat, guidance_raised and volume_anomaly independently (scanner.py:81-102), but an earnings report is typically ONE event that trips all three (the beat, the guidance in the same 8-K, and the volume/gap bar that IS the reaction). The runbook offloads catching this to the human kill pass ('Is the convergence real or double-counted — two signals from the same event?', midas.md:76) but the mechanical score that actually ranks and picks does no such dedup.",
+          "failure_mode": "An earnings name mechanically earns 2-3 'convergence' signals from a single catalyst, vaulting it into the 5.0x-8.0x multiplier tier over a genuinely multi-source name, and pick_winner selects it. The all-in bet is placed on inflated, double-counted convergence — and this is the same convergence dimension the prereg test already found anti-predictive at the 5-day horizon."
+        },
+        "verdict": {
+          "title": "Midas convergence count double-counts correlated single-event signals, inflating the mechanical multiplier tier",
+          "verdict": "CONFIRMED",
+          "why": "Read scoring.py and scanner.py directly. score_candidate (scoring.py:142) computes n_convergence as a raw count of active channels whose timing_weight >= 0.4, with no grouping by originating event. earnings_beat (1.0), volume_anomaly (0.9), and guidance_raised (0.8) all clear that floor and are set independently in build_signal_map (scanner.py:81-102), keyed only on the symbol. A single earnings report can trip all three (EPS beat, same-release guidance, the reaction volume bar), yielding n_convergence=3 and convergence_multiplier=5.0 (scoring.py:79-84,143), the dominant factor in raw score (line 149). pick_winner (scanner.py:275-285) selects max by that score and the LLM can only disqualify, not re-rank; the double-count check exists only in the post-hoc human/subagent kill pass (midas.md:75), not in the mechanical scorer that produces the ranking and pick. So a single-catalyst name can vault into the 5.0x-8.0x tier over a genuinely multi-source name, exactly as claimed. The mechanism occurs in the code as written, not hypothetically."
+        }
+      },
+      {
+        "god": "achilles",
+        "finding": {
+          "title": "Reaction gate measures close-to-close, not the intraday open-to-close it claims to detect",
+          "category": "prompt-defect",
+          "file": "achilles/earnings.py",
+          "severity": "high",
+          "evidence": "reaction_return (earnings.py:116-130) computes (post_report_close - pre_report_close)/pre_report_close, and is_rewarded_beat (133-143) / rank_beats (scanner.py:63) accept any reaction_pct > 0. But achilles.md rule 1 (line 15-18) and CLAUDE.md define a 'sold beat' as 'gap up, close red' — an intraday fade below the OPEN. The two definitions diverge.",
+          "failure_mode": "A genuine sold beat that gaps up (e.g. +8% on open), fades intraday to close red but still ends +2% above the PRIOR close registers reaction_pct=+2% > 0, passes is_rewarded_beat, gets scored and bought — exactly the failure mode the gate is named to exclude. The 'report day or next day' bar choice in step 6 is also unspecified, so post-report drift can leak into the very 'reaction' used to predict drift."
+        },
+        "verdict": {
+          "title": "Achilles reaction gate close-to-close vs open-to-close",
+          "verdict": "FALSE_POSITIVE",
+          "why": "The code (earnings.py:116-130) does compute a close-to-close reaction, as claimed. But the claim's premise — that the gate is meant to detect intraday open-to-close and that 'close red' means a fade below the OPEN — is a misreading. The authoritative frozen design spec, docs/achilles_prereg_reaction_gate.md lines 44-46, defines the reaction as 'reaction-day close vs prior session close' with Rewarded ≥+3% / Sold ≤−3%. That IS close-to-close, and the code implements it faithfully; there is no divergence between design and code. The 'gap up, close red' idiom in achilles.md/CLAUDE.md means 'closed down on the day' (below prior close = negative close-to-close), exactly what the code rejects. The claim's example — gap +8%, fade, still close +2% above prior close — finished green on the day and is eligible by design, not by defect. The secondary 'report day or next day' looseness is a docstring nuance pinned down by the prereg (first session after the 8-K), not the open-vs-close failure alleged."
+        }
+      },
+      {
+        "god": "achilles",
+        "finding": {
+          "title": "reaction_return swallows data/parse failures into a silent basket under-fill",
+          "category": "swallowed-error",
+          "file": "achilles/earnings.py",
+          "severity": "medium",
+          "evidence": "reaction_return (earnings.py:123-130) wraps float() in try/except returning None on any parse failure or pre<=0; is_rewarded_beat (141-142) and rank_beats (scanner.py:63) then silently drop every name whose reaction is None. Nothing distinguishes 'historicals fetch/parse failed' from 'reaction genuinely not positive'.",
+          "failure_mode": "A bad historicals payload for several names during a busy reporting day silently shrinks the basket toward 1-2 positions with no warning. The strategy's entire risk control is 'basket, not one bet' (achilles.md line 19-20), so a data hiccup silently converts a diversified basket into a concentrated bet indistinguishable from a legitimately thin week."
+        },
+        "verdict": {
+          "title": "Achilles reaction_return None-swallow does not produce the claimed concentrated-bet failure",
+          "verdict": "FALSE_POSITIVE",
+          "why": "The low-level code mechanic the claim cites is accurate: reaction_return (earnings.py:123-130) returns None on TypeError/ValueError or pre<=0, and both is_rewarded_beat (141-142) and rank_beats (scanner.py:63) treat None identically to a genuine non-positive reaction, dropping the name with no log distinguishing 'fetch/parse failed' from 'reaction not positive'. But the claimed *failure mode* — that a data hiccup 'silently converts a diversified basket into a concentrated bet' — does not occur. Position sizing is fixed-denominator equal weight: sleeve.target_dollars() = equity / MAX_POSITIONS with MAX_POSITIONS = 12 (sleeve.py:163-169, 28), and the achilles command sizes each entry with exactly that value (.claude/commands/achilles.md:74). So when names drop out, each surviving name is still sized at equity/12 and the freed capital stays in cash — the basket UNDER-fills into more idle cash / lower exposure, the opposite of concentration. No single position can ever grow beyond the equal-weight target because of dropped names. Moreover, dropping unverified-reaction beats is explicitly documented intended behavior ('reaction_pct None => unconfirmed => NOT rewarded ... that's the whole point of the gate', earnings.py:136-137; 'Drop ... beats whose reaction can't be verified', command line 54) — a conservative safety gate, not a swallowed-error defect. The residual true point (no observability distinction between data failure and real negative reaction) is a minor logging gap with a benign, conservative consequence, not the harmful concentration risk asserted."
+        }
+      },
+      {
+        "god": "achilles",
+        "finding": {
+          "title": "LLM-attached confirming signals default False with no fetch method or unable-to-determine channel",
+          "category": "silent-empty",
+          "file": ".claude/commands/achilles.md",
+          "severity": "medium",
+          "evidence": "achilles.md step 6 (lines 55-56) instructs the LLM to 'Attach... confirming signals (revenue beat, guidance raised, short float, insider pre-buy)' with no source or fetch procedure. BeatCandidate (scanner.py:24-27) and score_beat (scoring.py:136-152) default these to False and simply omit the boost when False. A failed/shallow guidance read is indistinguishable from a real no-raise.",
+          "failure_mode": "This is the guidance-channel bug class: if the LLM reads a cover-shell 8-K or cannot locate the guidance exhibit, guidance_raised=False silently, the GUIDANCE_RAISED_BOOST (0.25) is dropped, and a genuinely guidance-raising beat is ranked below its true score with no log of 'could not determine'. Confirming stats (confirming_signal_stats, sleeve.py:343) then miscount these as confirmed-absent, biasing the calibration read of whether guidance actually lifts hit rate."
+        },
+        "verdict": {
+          "title": "Achilles confirming signals default False with no fetch method or \"unable-to-determine\" channel",
+          "verdict": "CONFIRMED",
+          "why": "Every link in the chain is verified in the code/prompt as written. achilles.md step 6 (lines 55-56) instructs the LLM to \"Attach reaction_pct, confirming signals (revenue beat, guidance raised, short float, insider pre-buy)\" — and unlike reaction_pct (which gets an explicit fetch/compute recipe: get_equity_historicals + reaction_return) and market_cap, the prompt gives NO source or fetch procedure for the confirming signals anywhere in the file. BeatCandidate (scanner.py:24-27) defaults revenue_beat=False, guidance_raised=False, short_float_pct=None, insider_prebuy=False, and the only tri-state field is reaction_pct (None=unconfirmed, line 30). There is no \"unable_to_determine\" field for the confirming signals. confirming_boost (scoring.py:144-151) applies each boost only under a bare truthiness test — `if guidance_raised: boost += GUIDANCE_RAISED_BOOST` (0.25) — so a False from a failed/shallow guidance read is indistinguishable from a real no-raise; the boost is silently dropped with no log, and score_beat's returned confirming_signals dict simply omits the key. Net effect on ranking: a genuinely guidance-raising beat whose exhibit the LLM couldn't locate gets scored below its true value (base*boost*neglect*liq with boost=1.0 instead of 1.25), and since rank_beats keeps only top_n to fill open slots, it can be pushed out of the basket. Net effect on calibration: confirming_signal_stats (sleeve.py:343-362) buckets each result via `\"with\" if r.guidance_raised else \"without\"`, so undetermined-guidance trades are miscounted into the \"without\" bucket, contaminating it with actually-guidance-raising names and diluting the with/without hit-rate delta — which directly undermines the stated calibration purpose in CLAUDE.md/achilles.md (\"do revenue/guidance/squeeze confirmations actually lift the hit rate?\"). The claim does not overstate: it explicitly limits the impact to ranking degradation and calibration bias, never claiming trades are wrongly entered or the reaction gate is bypassed (reaction_pct is correctly tri-state and gated at scanner.py:63). The failure mode genuinely occurs whenever the LLM cannot resolve a confirming signal, which is a realistic occurrence given no fetch procedure is specified."
+        }
+      },
+      {
+        "god": "achilles",
+        "finding": {
+          "title": "Scoring boundary trusts caller for direction and presence: None surprise scores as MAX, negative (miss) scores via abs()",
+          "category": "schema-stub",
+          "file": "achilles/scoring.py",
+          "severity": "medium",
+          "evidence": "score_beat (scoring.py:167) — the function that produces the ranking score — calls surprise_strength(surprise_pct), which returns 1.0 (maximum) when surprise_pct is None (scoring.py:33-34) and uses mag=abs(float(surprise_pct)) (line 35) so a negative surprise yields a positive strength. rank_beats (scanner.py:50-67) never re-checks is_beat or that surprise is present; direction is only guarded upstream in is_actionable_beat (earnings.py:100-104).",
+          "failure_mode": "If a BeatCandidate reaches ranking with surprise_pct=None (LLM couldn't compute) it gets base strength 1.0 = max, and a candidate with a negative surprise (a miss that slipped past the upstream filter) is scored with the same strength as an equal-magnitude beat. Because the only remaining guard is reaction>0, a miss with a positive close-to-close reaction can be scored and selected. The flattering default (missing→max) is the incentive-default-high antipattern at the boundary that generates the pick."
+        },
+        "verdict": {
+          "title": "Achilles score_beat/rank_beats trust caller for surprise direction and presence; None scores MAX, negative scores via abs()",
+          "verdict": "CONFIRMED",
+          "why": "Read directly: scoring.py:33-34 returns 1.0 (the curve maximum) for surprise_pct=None, and line 35 applies abs(), so a negative miss yields a positive strength equal to an equal-magnitude beat. score_beat's only guards are market_cap_ok and `base <= 0` — neither None (→1.0) nor a negative surprise (→positive) trips them. rank_beats (scanner.py:50-67), the deterministic ranker that generates the basket picks, never re-checks is_beat or that surprise is present; its only rejections are score<=0 and reaction<=0. Direction is enforced solely upstream in the LLM-driven skill steps (is_actionable_beat / is_rewarded_beat), which the ranker does not call. Since the /achilles skill has the agent hand-build each BeatCandidate, a candidate the LLM emits with surprise_pct=None scores strictly higher (1.0) than a genuine 15% beat (0.975) and sorts to the top, and a negative-surprise candidate with a mistakenly positive reaction_pct is scored at full magnitude and selected. This is the incentive-default-high antipattern at the pick-generating boundary, verified in the code as written."
+        }
+      },
+      {
+        "god": "nemesis",
+        "finding": {
+          "title": "validate() never requires pro_forma_notes or post_spin_insider_activity — two of the five mandated judgments can be empty",
+          "category": "schema-stub",
+          "file": "nemesis/dossier.py",
+          "severity": "medium",
+          "evidence": "_PROSE_FIELDS (line 36) is only (\"bull_case\",\"bear_case\",\"key_risk\",\"forced_seller_map\"). pro_forma_notes (line 68) and post_spin_insider_activity (line 69) default to \"\" and are checked by nothing in validate(). make_dossier() therefore accepts a dossier with empty pro-forma notes and an empty insider field. The runbook mandates both: 'Judge pro-forma honesty (pro_forma_notes)' and the Form-4 sweep rendered into post_spin_insider_activity under the 'LAW (RNA lesson): no absence claim without reconciliation.'",
+          "failure_mode": "The exact channel of the RNA live-veto bug ('a judge once scored a live veto on exactly that ambiguity') is unguarded by the schema: a dossier with an empty or non-reconciled post_spin_insider_activity field validates and can stand as a buyable verdict, so the honesty gate that is supposed to be non-advisory is enforced only by runbook prose, not by make_dossier()."
+        },
+        "verdict": {
+          "title": "validate() ignores two runbook-mandated dossier fields (pro_forma_notes, post_spin_insider_activity)",
+          "verdict": "CONFIRMED",
+          "why": "Read nemesis/dossier.py: _PROSE_FIELDS (line 36) covers only bull_case/bear_case/key_risk/forced_seller_map; validate() (lines 82-149) never references pro_forma_notes or post_spin_insider_activity, which default to \"\" (lines 68-69). So make_dossier() accepts empties for both, even for verdict \"own\". The runbook mandates both — pro_forma_notes as judgment #4 of five (line 314) and post_spin_insider_activity as the Form 4 sweep under an explicit \"LAW: no absence claim without reconciliation\" citing the RNA live-veto incident (lines 213-223). The live veto rule (step 5d) treats any \"validated + not condemned\" dossier as buyable and checks neither field, and nemesis/sleeve.py never references them, so the failure mode reaches live money. tests/test_nemesis_dossier.py directly proves it: the canonical valid dossier leaves post_spin_insider_activity=\"\" and test_valid_dossier_passes asserts validate()==[]. The failure genuinely occurs as written; the honesty gate is enforced only by prose, not by make_dossier()."
+        }
+      },
+      {
+        "god": "nemesis",
+        "finding": {
+          "title": "render_summary emits an insider-silence claim with no reconciliation, and the un-reconciled fetch path still exists",
+          "category": "silent-empty",
+          "file": "nemesis/insiders.py",
+          "severity": "medium",
+          "evidence": "render_summary (lines 58-67) returns 'No Form 4 transactions filed since distribution' whenever summarize_post_spin reports n_txns==0, with no reconciliation clause of its own. summarize_post_spin returns n_txns=0 both for genuine silence and for an empty txn list. fetch_post_spin_txns (lines 89-112) does zero failure counting, and nothing marks it deprecated in favor of sweep_with_reconciliation. The reconciliation clause is appended only by runbook discipline (step 3: 'render_summary(...) + render_reconciliation(recon)'), not by the code.",
+          "failure_mode": "If the Form-4 fetch/parse silently returns an empty list (network or parse failure via the un-reconciled path), render_summary produces a confident 'no purchases / no transactions' absence claim indistinguishable from real insider silence, and the judge scores incentive_alignment / the live veto on blindness mistaken for evidence — the precise SILENT-EMPTY failure the RNA lesson was meant to close."
+        },
+        "verdict": {
+          "title": "Nemesis render_summary silent-empty absence claim via un-reconciled fetch path",
+          "verdict": "FALSE_POSITIVE",
+          "why": "The cited code facts are individually accurate — render_summary (insiders.py:63-67) emits \"No Form 4 transactions filed since distribution\" at n_txns==0 with no reconciliation clause of its own, summarize_post_spin returns n_txns=0 for both real silence and an empty list, and fetch_post_spin_txns (89-112) does zero failure counting and carries no deprecation marker. But the claimed silent-empty failure mode does not occur as written. The operative program here is the runbook prompt (.claude/commands/nemesis.md:213-223), and it does NOT use fetch_post_spin_txns at all — it calls sweep_with_reconciliation, which explicitly counts failures (fails += 1 on every parse/fetch miss, lines 150-170) and returns recon. The runbook then mandates render_summary(...) + render_reconciliation(recon) and codifies it as a \"LAW (RNA lesson, 2026-07-03): no absence claim without reconciliation,\" with an explicit gate: if the clause reads INCOMPLETE the sweep re-runs before any incentive scoring. render_reconciliation (115-126) is precisely the clause that makes silence and blindness read differently. Crucially, grep confirms fetch_post_spin_txns has ZERO callers anywhere in the repo — it is an unused helper, not a live path feeding the judge. So reaching the described failure requires an LLM to bypass an explicit runbook LAW and invoke a non-wired function — a hypothetical, not a defect present in the code/prompt as written. The RNA lesson the claim invokes was in fact closed by the reconciliation infrastructure plus the runbook LAW; the claim is at best a defense-in-depth critique (function-level enforcement is absent, dead helper not deprecated), not a confirmed active silent-empty defect."
+        }
+      },
+      {
+        "god": "nemesis",
+        "finding": {
+          "title": "Revision judge is shown the prior scores it must 'justify each delta against' — anchoring exactly when new material docs demand an independent re-read",
+          "category": "anchoring-leakage",
+          "file": ".claude/commands/nemesis.md",
+          "severity": "medium",
+          "evidence": "Stage 3 Judge: 'On a revision of an existing dossier, the judge must justify each score delta against the prior read' (also step 3 body: 'score changes justified against the prior read'). Yet Stage 5 explicitly makes the boundary panel un-anchored ('un-anchored — they must not see the first judgment or each other'). The ordinary single-judge revision path is anchored while the panel is not — an internal inconsistency.",
+          "failure_mode": "Revisions are triggered by the freshness sweep when a material new 10-Q/8-K/13D lands — the moment an independent verdict matters most. Showing the judge the pre-news score biases it toward the prior value (drift instead of independent re-judgment), and that score drives the garbage_barge_risk/verdict veto on live money."
+        },
+        "verdict": {
+          "title": "Nemesis revision judge is anchored to prior scores exactly when new docs demand independent re-judgment",
+          "verdict": "CONFIRMED",
+          "why": "Verified in .claude/commands/nemesis.md. Stage 3 (lines 252-253) and step 3 body (184-186) require the revision judge to \"justify each score delta against the prior read,\" which is impossible without the prior scores present in context during judgment — so the pre-news scores anchor the judgment that produces the veto-driving fields (garbage_barge_risk/verdict, veto at line 424). Revisions are triggered by the freshness sweep on a material new 10-Q/8-K/13D (lines 173-179), i.e. exactly when an independent verdict matters most. The prompt itself proves anchoring is a known hazard: the Stage 5 boundary panel is explicitly \"un-anchored — they must not see the first judgment\" (267-268), and the consistency probe shows judges flip across the veto in 4/5 runs on identical extractions (269-275). The single-judge revision path is thus anchored while the supplementing panel is deliberately not — a real internal inconsistency, and for non-boundary revisions the anchored judge's score is the recorded live-money verdict. Mechanism is present in the prompt as written, not hypothetical, and confirmable without runtime."
+        }
+      },
+      {
+        "god": "nemesis",
+        "finding": {
+          "title": "Only the primary judge is required to run with extended thinking; the gate-flipping refuters and the median panel have no reasoning-budget mandate",
+          "category": "model-effort-mismatch",
+          "file": ".claude/commands/nemesis.md",
+          "severity": "low",
+          "evidence": "Stage 3 Judge mandates 'one pass, with extended thinking.' Stage 4 ('two MANDATORY adversarial passes ... if either flips a gate score, the judgment is re-run') and Stage 5 ('TWO additional independent judges ... take the per-field MEDIAN') specify no effort or extended-thinking requirement, despite both being able to move a gate score that touches live money.",
+          "failure_mode": "The adversarial refuters and panel judges — the passes explicitly designed to catch a gate-line error before real dollars ride — run at whatever default effort the harness supplies, lower than the primary judge, so a gate-flip they exist to detect can be missed by an under-resourced pass."
+        },
+        "verdict": {
+          "title": "Nemesis extended-thinking mandate covers only the primary judge, not the refuters or panel",
+          "verdict": "CONFIRMED",
+          "why": "In .claude/commands/nemesis.md Step 3, the phrase \"with extended thinking\" appears exactly once — on Stage 3 (Judge, line 251). Stage 4's two MANDATORY adversarial refuters (lines 254-262), which explicitly \"flip a gate score\" on the own-gate/garbage-barge veto lines that decide live buys, carry no effort or thinking-budget language. Stage 5's boundary panel (lines 263-275), whose per-field MEDIAN sets the recorded gate value at exactly the point where \"the veto touches live money,\" likewise carries none. The panel judges are explicitly required to be \"un-anchored — they must not see the first judgment or each other,\" i.e. isolated independent invocations that cannot inherit the primary judge's budget by default. So the passes specifically designed to catch a gate-line error before real dollars ride are the ones left without the effort mandate given to the lower-stakes single judge. The asymmetry is literal in the text, and the un-mandated passes demonstrably move the gate score, so the mechanism is real as written, not hypothetical."
+        }
+      },
+      {
+        "god": "nemesis",
+        "finding": {
+          "title": "SpinDossier.verdict defaults to 'watch', which the v2 veto rule now buys with live money",
+          "category": "schema-stub",
+          "file": "nemesis/dossier.py",
+          "severity": "medium",
+          "evidence": "verdict defaults to 'watch' (dossier.py line 76) and validate() accepts it ('watch' is in VERDICTS, and no gate forces the analyst to actively set it). The v2 veto rule (nemesis.md lines 416-426) buys every non-condemned name and states 'Watch is not a veto; only condemnation is' — so a 'watch' is a live buy. NEMESIS_LIVE was already flipped on 2026-07-03 with zero graded names.",
+          "failure_mode": "Under the retired v1 own-gate the default 'watch' was safe (only 'own' bought). After the rule flip nobody re-hardened the schema default: a dossier where the analyst sets a low garbage_barge_risk but never explicitly sets a verdict silently defaults to a buyable 'watch', turning an un-set field into a live entry."
+        },
+        "verdict": {
+          "title": "verdict default 'watch' is backstopped by garbage_barge_risk default and matches intended v2 design",
+          "verdict": "FALSE_POSITIVE",
+          "why": "All cited facts are true (verdict defaults to 'watch' at dossier.py:76, validate() doesn't force it, v2 buys non-condemned 'watch'), but the failure mechanism does not occur. The v2 condemnation gate also condemns garbage_barge_risk > 0.6, and that field defaults to a hostile 1.0 (dossier.py:65). So an un-set dossier is condemned regardless of verdict; the only way to reach a buyable state is to actively lower garbage_barge_risk to <=0.6, i.e. do the real balance-sheet read. Thus an un-set field can never become a live entry — the verdict stub is fully covered by the garbage stub. Moreover, buying a non-condemned 'watch' is the deliberate, documented v2 directive ('Watch is not a veto; only condemnation is'; use 'avoid' to withhold), not an un-hardened oversight, and validate() still requires full prose so no unread name is bought. A same-day order-placement pause (nemesis.md d0) further routes qualifying names to a manual operator buylist rather than auto-buying."
+        }
+      }
+    ]
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Audit"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Verify"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "audit:oracle",
+      "phaseIndex": 1,
+      "phaseTitle": "Audit",
+      "agentId": "aa5d9ccf1f4f6ae9b",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783107594737,
+      "queuedAt": 1783107594716,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "oracle",
+      "promptPreview": "You audit the LLM decision surface of the oracle god in the Pantheon trading repo at /home/user/pantheon.\nThe Pantheon failure taxonomy (from this weekend's bug discoveries):\n1. SILENT-EMPTY: a call whose failure output is indistinguishable from a legitimate empty result\n   (e.g. classifier reads a cover-shell doc and returns \"nothing found\" — the guidance-channel bug).\n2. SCHEMA-STUB: a schema th…",
+      "lastProgressAt": 1783107741006,
+      "tokens": 61071,
+      "toolCalls": 14,
+      "durationMs": 146269,
+      "resultPreview": "{\"god\":\"oracle\",\"findings\":[{\"title\":\"oracle-score.md still runs a score-rotation trade path the cohort model forbids\",\"category\":\"prompt-defect\",\"file\":\".claude/commands/oracle-score.md\",\"severity\":\"high\",\"evidence\":\"Steps 5 and 8 instruct the LLM to 'Apply rotation rules (oracle.positioning.rotation_decision) — incumbent stays unless challenger >= 1.25x score' and then 'size_book -> plan_orders …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "audit:delphi",
+      "phaseIndex": 1,
+      "phaseTitle": "Audit",
+      "agentId": "a8fe9e4265bbc11dc",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783107594738,
+      "queuedAt": 1783107594716,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "delphi",
+      "promptPreview": "You audit the LLM decision surface of the delphi god in the Pantheon trading repo at /home/user/pantheon.\nThe Pantheon failure taxonomy (from this weekend's bug discoveries):\n1. SILENT-EMPTY: a call whose failure output is indistinguishable from a legitimate empty result\n   (e.g. classifier reads a cover-shell doc and returns \"nothing found\" — the guidance-channel bug).\n2. SCHEMA-STUB: a schema th…",
+      "lastProgressAt": 1783107705865,
+      "tokens": 36071,
+      "toolCalls": 6,
+      "durationMs": 111126,
+      "resultPreview": "{\"god\":\"delphi\",\"findings\":[{\"title\":\"Decision-log validator accepts a date-only stub; override_summary fabricates flattering zeros for missing fields\",\"category\":\"schema-stub\",\"file\":\"delphi/decisions.py\",\"severity\":\"high\",\"evidence\":\"append_decision (line 20) sets REQUIRED_FIELDS = (\\\"date\\\",) — the only mandatory field. A record of just {\\\"date\\\": \\\"...\\\"} passes validation, even though the mod…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "audit:midas",
+      "phaseIndex": 1,
+      "phaseTitle": "Audit",
+      "agentId": "a04a7274471ab4a90",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783107705867,
+      "queuedAt": 1783107594717,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "midas",
+      "promptPreview": "You audit the LLM decision surface of the midas god in the Pantheon trading repo at /home/user/pantheon.\nThe Pantheon failure taxonomy (from this weekend's bug discoveries):\n1. SILENT-EMPTY: a call whose failure output is indistinguishable from a legitimate empty result\n   (e.g. classifier reads a cover-shell doc and returns \"nothing found\" — the guidance-channel bug).\n2. SCHEMA-STUB: a schema tha…",
+      "lastProgressAt": 1783107818665,
+      "tokens": 50336,
+      "toolCalls": 7,
+      "durationMs": 112798,
+      "resultPreview": "{\"god\":\"midas\",\"findings\":[{\"title\":\"Mechanical pick runs on the convergence score the god's own pre-registered test REFUTED, while the runbook's closing note says EV judgment 'carries the decision' — a direct contradiction\",\"category\":\"prompt-defect\",\"file\":\".claude/commands/midas.md\",\"severity\":\"high\",\"evidence\":\"pick_winner (midas/scanner.py:285) returns max(eligible, key=lambda d: d.score), an…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "audit:achilles",
+      "phaseIndex": 1,
+      "phaseTitle": "Audit",
+      "agentId": "a860bd321c287c455",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783107741008,
+      "queuedAt": 1783107594717,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "achilles",
+      "promptPreview": "You audit the LLM decision surface of the achilles god in the Pantheon trading repo at /home/user/pantheon.\nThe Pantheon failure taxonomy (from this weekend's bug discoveries):\n1. SILENT-EMPTY: a call whose failure output is indistinguishable from a legitimate empty result\n   (e.g. classifier reads a cover-shell doc and returns \"nothing found\" — the guidance-channel bug).\n2. SCHEMA-STUB: a schema …",
+      "lastProgressAt": 1783107884209,
+      "tokens": 50060,
+      "toolCalls": 10,
+      "durationMs": 143201,
+      "resultPreview": "{\"god\":\"achilles\",\"findings\":[{\"title\":\"Reaction gate measures close-to-close, not the intraday open-to-close it claims to detect\",\"category\":\"prompt-defect\",\"file\":\"achilles/earnings.py\",\"severity\":\"high\",\"evidence\":\"reaction_return (earnings.py:116-130) computes (post_report_close - pre_report_close)/pre_report_close, and is_rewarded_beat (133-143) / rank_beats (scanner.py:63) accept any reactio…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "audit:nemesis",
+      "phaseIndex": 1,
+      "phaseTitle": "Audit",
+      "agentId": "a8db667ac29834007",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783107818668,
+      "queuedAt": 1783107594717,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "nemesis",
+      "promptPreview": "You audit the LLM decision surface of the nemesis god in the Pantheon trading repo at /home/user/pantheon.\nThe Pantheon failure taxonomy (from this weekend's bug discoveries):\n1. SILENT-EMPTY: a call whose failure output is indistinguishable from a legitimate empty result\n   (e.g. classifier reads a cover-shell doc and returns \"nothing found\" — the guidance-channel bug).\n2. SCHEMA-STUB: a schema t…",
+      "lastProgressAt": 1783107998007,
+      "tokens": 58548,
+      "toolCalls": 8,
+      "durationMs": 179339,
+      "resultPreview": "{\"god\":\"nemesis\",\"findings\":[{\"title\":\"validate() never requires pro_forma_notes or post_spin_insider_activity — two of the five mandated judgments can be empty\",\"category\":\"schema-stub\",\"file\":\"nemesis/dossier.py\",\"severity\":\"medium\",\"evidence\":\"_PROSE_FIELDS (line 36) is only (\\\"bull_case\\\",\\\"bear_case\\\",\\\"key_risk\\\",\\\"forced_seller_map\\\"). pro_forma_notes (line 68) and post_spin_insider_activit…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "verify:delphi:schema-stub",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a50bcebaa5c43e861",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783107884230,
+      "queuedAt": 1783107705875,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Delphi decision-log validator accepts date-only stub; overr…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: delphi\nClaim: Decision-log validator a…",
+      "lastProgressAt": 1783107928600,
+      "tokens": 28832,
+      "toolCalls": 5,
+      "durationMs": 44370,
+      "resultPreview": "{\"title\":\"Delphi decision-log validator accepts date-only stub; override_summary back-fills missing override fields as zero/1.0\",\"verdict\":\"CONFIRMED\",\"why\":\"Read delphi/decisions.py directly. Line 20: REQUIRED_FIELDS = (\\\"date\\\",); append_decision (lines 27-29) only checks that field, so a record of just {\\\"date\\\": \\\"...\\\"} passes validation despite the module docstring (lines 3-7) claiming it \\\"…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 7,
+      "label": "verify:delphi:swallowed-error",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a7fecb937bf1b528c",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783107928601,
+      "queuedAt": 1783107705875,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Delphi exit_candidates None-price drop does not suppress th…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: delphi\nClaim: exit_candidates silently…",
+      "lastProgressAt": 1783108023002,
+      "tokens": 37481,
+      "toolCalls": 9,
+      "durationMs": 94401,
+      "resultPreview": "{\"title\":\"Delphi exit_candidates None-price drop does not suppress the MA-break exit\",\"verdict\":\"FALSE_POSITIVE\",\"why\":\"The literal code is as cited — signals.py:106-108 drops a held name whose live quote is None from exit_candidates. But that function is only the LLM review surface (it feeds hold_overrides). The trailing-stop exit is actually executed by execution.py plan_orders, which sells any …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 8,
+      "label": "verify:delphi:silent-empty",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "ae3bb8aa56768921b",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783107998009,
+      "queuedAt": 1783107705875,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Delphi breadth has no coverage floor; partial price-fetch s…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: delphi\nClaim: breadth computes pct_abo…",
+      "lastProgressAt": 1783108038074,
+      "tokens": 32579,
+      "toolCalls": 5,
+      "durationMs": 40064,
+      "resultPreview": "{\"title\":\"Delphi breadth has no coverage floor; partial price-fetch silently skews DP4 risk budget\",\"verdict\":\"CONFIRMED\",\"why\":\"In delphi/signals.py:167-174, breadth() counts total only over UNIVERSE names with non-empty history (skips missing/empty via continue) and computes pct = above/total with no minimum-coverage guard. The delphi.md runbook DP4 (lines 56-59) keys risk_budget solely off this…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 9,
+      "label": "verify:delphi:prompt-defect",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a3c660eae0ec6ad76",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108023003,
+      "queuedAt": 1783107705875,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Delphi override count budgets and weight-tilt bounds are ho…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: delphi\nClaim: Stated override budgets …",
+      "lastProgressAt": 1783108110879,
+      "tokens": 35046,
+      "toolCalls": 8,
+      "durationMs": 87875,
+      "resultPreview": "{\"title\":\"Delphi override count budgets and weight-tilt bounds are honor-system; risk-budget bound is actually enforced\",\"verdict\":\"CONFIRMED\",\"why\":\"Verified by reading selector.py, execution.py, rotation.py, decisions.py. The count budgets (exit holds ≤2, entry vetoes ≤3, weight tilts ≤3) have no Python enforcement: select_top (lines 18-27) accepts an unbounded vetoes set and just backfills; bui…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 10,
+      "label": "verify:delphi:swallowed-error",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a11fc44733c17c05a",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108038076,
+      "queuedAt": 1783107705875,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "delphi load_decisions drops corrupt JSONL lines without the…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: delphi\nClaim: load_decisions silently …",
+      "lastProgressAt": 1783108059450,
+      "tokens": 22717,
+      "toolCalls": 2,
+      "durationMs": 21374,
+      "resultPreview": "{\"title\":\"delphi load_decisions drops corrupt JSONL lines without the counting its docstring promises\",\"verdict\":\"CONFIRMED\",\"why\":\"In /home/user/pantheon/delphi/decisions.py, load_decisions (lines 35-50) has a docstring (line 36) stating it skips \\\"(but counting)\\\" corrupt lines, but the except ValueError branch (lines 46-47) just does `continue` with no counter incremented, no count returned, an…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 11,
+      "label": "verify:oracle:prompt-defect",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "af8e634919d88595a",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108059451,
+      "queuedAt": 1783107741016,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "/oracle-score is a live skill that runs the forbidden pre-c…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: oracle\nClaim: oracle-score.md still ru…",
+      "lastProgressAt": 1783108120270,
+      "tokens": 32579,
+      "toolCalls": 7,
+      "durationMs": 60819,
+      "resultPreview": "{\"title\":\"/oracle-score is a live skill that runs the forbidden pre-cohort rotation/re-size/trim trade path\",\"verdict\":\"CONFIRMED\",\"why\":\"oracle-score.md is a registered live-invokable command with no cohort awareness. Step 5 (line 13) calls oracle.positioning.rotation_decision (positioning.py:215, challenger>=1.25x incumbent) — the exact \\\"new dossier scored higher\\\"/rank-drift exit oracle.md:100…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 12,
+      "label": "verify:oracle:schema-stub",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "ac29ce432ab69d9c8",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108110880,
+      "queuedAt": 1783107741016,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Oracle dossier validator has no prose gate on thesis/busine…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: oracle\nClaim: Oracle dossier validator…",
+      "lastProgressAt": 1783108139801,
+      "tokens": 34909,
+      "toolCalls": 5,
+      "durationMs": 28920,
+      "resultPreview": "{\"title\":\"Oracle dossier validator has no prose gate on thesis/business — schema-stub passes\",\"verdict\":\"CONFIRMED\",\"why\":\"Read oracle/dossier_check.py:62-197 end to end. validate_dossier() checks symbol (68), citations non-empty (71-73), the four ratings present (76-80), the three scenarios present with target+probability and bull>=bear (82-114), broker price/high divergence (116-158), and the tw…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 13,
+      "label": "verify:oracle:schema-stub",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a4b1fb8e44cfe5617",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108120272,
+      "queuedAt": 1783107741016,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "insider_tier defaults to the most favorable weight ('full' …",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: oracle\nClaim: insider_tier defaults to…",
+      "lastProgressAt": 1783108245930,
+      "tokens": 37529,
+      "toolCalls": 6,
+      "durationMs": 125658,
+      "resultPreview": "{\"title\":\"insider_tier defaults to the most favorable weight ('full' = 1.0x) in make_dossier and size_book\",\"verdict\":\"CONFIRMED\",\"why\":\"Read confirms the flattering default: research.py:34 sets make_dossier(insider_tier=\\\"full\\\") — the top bucket — and stores it verbatim (line 65); positioning.py:127 does _TIER_MULT.get(s.get(\\\"insider_tier\\\",\\\"full\\\"),0.0), so a scored row that OMITS the key res…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 14,
+      "label": "verify:oracle:swallowed-error",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "ab1077e4d9a9a4111",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108139802,
+      "queuedAt": 1783107741016,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Oracle broker price verification is warn-only on omission, …",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: oracle\nClaim: Mandatory broker price v…",
+      "lastProgressAt": 1783108188813,
+      "tokens": 28631,
+      "toolCalls": 6,
+      "durationMs": 49009,
+      "resultPreview": "{\"title\":\"Oracle broker price verification is warn-only on omission, not enforced as the runbook claims\",\"verdict\":\"CONFIRMED\",\"why\":\"In oracle/dossier_check.py, validate_dossier hard-rejects (DossierError) only when broker_price/broker_high_52w ARE supplied and diverge >5% (lines 123-131, 143-149). When broker_price is None it merely log.warning + sets price_verified=False and accepts (lines 132-…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 15,
+      "label": "verify:oracle:schema-stub",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a3abc69110e332c00",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108188814,
+      "queuedAt": 1783107741016,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Oracle citation gate accepts stub/placeholder citations",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: oracle\nClaim: Citation gate accepts st…",
+      "lastProgressAt": 1783108214943,
+      "tokens": 27971,
+      "toolCalls": 6,
+      "durationMs": 26129,
+      "resultPreview": "{\"title\":\"Oracle citation gate accepts stub/placeholder citations\",\"verdict\":\"CONFIRMED\",\"why\":\"In oracle/dossier_check.py, validate_dossier lines 71-73 are the sole citation check: `citations = d.get(\\\"citations\\\") or []; if not citations: raise DossierError(...)`. This only rejects an empty/missing list. Any non-empty list passes because a list is truthy when len>=1 — so `['n/a']`, `['']`, or `[…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 16,
+      "label": "verify:midas:prompt-defect",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a1c0561fefaf61755",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108214945,
+      "queuedAt": 1783107818683,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Midas runbook note claims EV carries the pick while pick_wi…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: midas\nClaim: Mechanical pick runs on t…",
+      "lastProgressAt": 1783108281487,
+      "tokens": 32681,
+      "toolCalls": 3,
+      "durationMs": 66542,
+      "resultPreview": "{\"title\":\"Midas runbook note claims EV carries the pick while pick_winner mechanically ranks on the refuted convergence score\",\"verdict\":\"CONFIRMED\",\"why\":\"Verified by reading both files. scanner.py:285 makes pick_winner return max(eligible, key=lambda d: d.score) where d.score is the timing-weighted convergence score; the docstring (250, 262-264) and midas.md (63, 65, 67, 119) all state EV/pop_pr…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 17,
+      "label": "verify:midas:silent-empty",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a1d3e0104b4f34b0a",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108245932,
+      "queuedAt": 1783107818683,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Midas stale-earnings gate treats missing/short price tape a…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: midas\nClaim: Stale-signal freshness ga…",
+      "lastProgressAt": 1783108309481,
+      "tokens": 27703,
+      "toolCalls": 6,
+      "durationMs": 63549,
+      "resultPreview": "{\"title\":\"Midas stale-earnings gate treats missing/short price tape as a fresh signal\",\"verdict\":\"CONFIRMED\",\"why\":\"Verified in midas/prescan.py. In _fresh (247-253), `if not bars: return True` and `if rb is None: return True` both KEEP the signal. find_reaction_bar (176-181) returns None on empty bars or len(valid)<2, so a failed/empty/1-bar get_equity_historicals response produces the same None→…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 18,
+      "label": "verify:midas:schema-stub",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a590f68d9bf4de7c7",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108281489,
+      "queuedAt": 1783107818683,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Midas WeeklyCatalystDossier fail-open eligibility (no evide…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: midas\nClaim: WeeklyCatalystDossier pre…",
+      "lastProgressAt": 1783108408430,
+      "tokens": 40474,
+      "toolCalls": 6,
+      "durationMs": 126941,
+      "resultPreview": "{\"title\":\"Midas WeeklyCatalystDossier fail-open eligibility (no evidence gate on veto fields)\",\"verdict\":\"FALSE_POSITIVE\",\"why\":\"The cited code facts are all real (disqualified defaults False, veto strings unvalidated, pick_winner and sleeve.enter never read bull_case/bear_case), but the claimed failure mechanism does not genuinely occur as written. (1) No code path auto-produces a \\\"silently-fail…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 19,
+      "label": "verify:midas:other",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a2aa830c026fd9b45",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108309482,
+      "queuedAt": 1783107818683,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Midas convergence count double-counts correlated single-eve…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: midas\nClaim: Convergence count treats …",
+      "lastProgressAt": 1783108374490,
+      "tokens": 32814,
+      "toolCalls": 6,
+      "durationMs": 65008,
+      "resultPreview": "{\"title\":\"Midas convergence count double-counts correlated single-event signals, inflating the mechanical multiplier tier\",\"verdict\":\"CONFIRMED\",\"why\":\"Read scoring.py and scanner.py directly. score_candidate (scoring.py:142) computes n_convergence as a raw count of active channels whose timing_weight >= 0.4, with no grouping by originating event. earnings_beat (1.0), volume_anomaly (0.9), and gui…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 20,
+      "label": "verify:achilles:prompt-defect",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a2a55673ac3e54641",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108374492,
+      "queuedAt": 1783107884242,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Achilles reaction gate close-to-close vs open-to-close",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: achilles\nClaim: Reaction gate measures…",
+      "lastProgressAt": 1783108430625,
+      "tokens": 30508,
+      "toolCalls": 6,
+      "durationMs": 56133,
+      "resultPreview": "{\"title\":\"Achilles reaction gate close-to-close vs open-to-close\",\"verdict\":\"FALSE_POSITIVE\",\"why\":\"The code (earnings.py:116-130) does compute a close-to-close reaction, as claimed. But the claim's premise — that the gate is meant to detect intraday open-to-close and that 'close red' means a fade below the OPEN — is a misreading. The authoritative frozen design spec, docs/achilles_prereg_reaction…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 21,
+      "label": "verify:achilles:swallowed-error",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a35b6ec73601e36f3",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108408432,
+      "queuedAt": 1783107884243,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Achilles reaction_return None-swallow does not produce the …",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: achilles\nClaim: reaction_return swallo…",
+      "lastProgressAt": 1783108484403,
+      "tokens": 32459,
+      "toolCalls": 10,
+      "durationMs": 75971,
+      "resultPreview": "{\"title\":\"Achilles reaction_return None-swallow does not produce the claimed concentrated-bet failure\",\"verdict\":\"FALSE_POSITIVE\",\"why\":\"The low-level code mechanic the claim cites is accurate: reaction_return (earnings.py:123-130) returns None on TypeError/ValueError or pre<=0, and both is_rewarded_beat (141-142) and rank_beats (scanner.py:63) treat None identically to a genuine non-positive reac…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 22,
+      "label": "verify:achilles:silent-empty",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a8e594ecbf7a81a99",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108430626,
+      "queuedAt": 1783107884243,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Achilles confirming signals default False with no fetch met…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: achilles\nClaim: LLM-attached confirmin…",
+      "lastProgressAt": 1783108482786,
+      "tokens": 30743,
+      "toolCalls": 6,
+      "durationMs": 52158,
+      "resultPreview": "{\"title\":\"Achilles confirming signals default False with no fetch method or \\\"unable-to-determine\\\" channel\",\"verdict\":\"CONFIRMED\",\"why\":\"Every link in the chain is verified in the code/prompt as written. achilles.md step 6 (lines 55-56) instructs the LLM to \\\"Attach reaction_pct, confirming signals (revenue beat, guidance raised, short float, insider pre-buy)\\\" — and unlike reaction_pct (which ge…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 23,
+      "label": "verify:achilles:schema-stub",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a4d7556f16b79dd4e",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108482788,
+      "queuedAt": 1783107884243,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Achilles score_beat/rank_beats trust caller for surprise di…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: achilles\nClaim: Scoring boundary trust…",
+      "lastProgressAt": 1783108573429,
+      "tokens": 35563,
+      "toolCalls": 7,
+      "durationMs": 90641,
+      "resultPreview": "{\"title\":\"Achilles score_beat/rank_beats trust caller for surprise direction and presence; None scores MAX, negative scores via abs()\",\"verdict\":\"CONFIRMED\",\"why\":\"Read directly: scoring.py:33-34 returns 1.0 (the curve maximum) for surprise_pct=None, and line 35 applies abs(), so a negative miss yields a positive strength equal to an equal-magnitude beat. score_beat's only guards are market_cap_ok…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 24,
+      "label": "verify:nemesis:schema-stub",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "aa9aa45edba357c15",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108484404,
+      "queuedAt": 1783107998022,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "validate() ignores two runbook-mandated dossier fields (pro…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: nemesis\nClaim: validate() never requir…",
+      "lastProgressAt": 1783108597105,
+      "tokens": 48688,
+      "toolCalls": 9,
+      "durationMs": 112700,
+      "resultPreview": "{\"title\":\"validate() ignores two runbook-mandated dossier fields (pro_forma_notes, post_spin_insider_activity)\",\"verdict\":\"CONFIRMED\",\"why\":\"Read nemesis/dossier.py: _PROSE_FIELDS (line 36) covers only bull_case/bear_case/key_risk/forced_seller_map; validate() (lines 82-149) never references pro_forma_notes or post_spin_insider_activity, which default to \\\"\\\" (lines 68-69). So make_dossier() accep…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 25,
+      "label": "verify:nemesis:silent-empty",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "ab26f18ea154089d0",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108573430,
+      "queuedAt": 1783107998022,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Nemesis render_summary silent-empty absence claim via un-re…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: nemesis\nClaim: render_summary emits an…",
+      "lastProgressAt": 1783108647699,
+      "tokens": 34251,
+      "toolCalls": 7,
+      "durationMs": 74268,
+      "resultPreview": "{\"title\":\"Nemesis render_summary silent-empty absence claim via un-reconciled fetch path\",\"verdict\":\"FALSE_POSITIVE\",\"why\":\"The cited code facts are individually accurate — render_summary (insiders.py:63-67) emits \\\"No Form 4 transactions filed since distribution\\\" at n_txns==0 with no reconciliation clause of its own, summarize_post_spin returns n_txns=0 for both real silence and an empty list, a…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 26,
+      "label": "verify:nemesis:anchoring-leakage",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "ac53965aa10f79c2b",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108597106,
+      "queuedAt": 1783107998022,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Nemesis revision judge is anchored to prior scores exactly …",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: nemesis\nClaim: Revision judge is shown…",
+      "lastProgressAt": 1783108657325,
+      "tokens": 36646,
+      "toolCalls": 2,
+      "durationMs": 60218,
+      "resultPreview": "{\"title\":\"Nemesis revision judge is anchored to prior scores exactly when new docs demand independent re-judgment\",\"verdict\":\"CONFIRMED\",\"why\":\"Verified in .claude/commands/nemesis.md. Stage 3 (lines 252-253) and step 3 body (184-186) require the revision judge to \\\"justify each score delta against the prior read,\\\" which is impossible without the prior scores present in context during judgment — …"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 27,
+      "label": "verify:nemesis:model-effort-mismatch",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "a8b6adb83f8b048a9",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108647700,
+      "queuedAt": 1783107998022,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Nemesis extended-thinking mandate covers only the primary j…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: nemesis\nClaim: Only the primary judge …",
+      "lastProgressAt": 1783108716470,
+      "tokens": 36633,
+      "toolCalls": 2,
+      "durationMs": 68770,
+      "resultPreview": "{\"title\":\"Nemesis extended-thinking mandate covers only the primary judge, not the refuters or panel\",\"verdict\":\"CONFIRMED\",\"why\":\"In .claude/commands/nemesis.md Step 3, the phrase \\\"with extended thinking\\\" appears exactly once — on Stage 3 (Judge, line 251). Stage 4's two MANDATORY adversarial refuters (lines 254-262), which explicitly \\\"flip a gate score\\\" on the own-gate/garbage-barge veto lin…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 28,
+      "label": "verify:nemesis:schema-stub",
+      "phaseIndex": 2,
+      "phaseTitle": "Verify",
+      "agentId": "ada6b5bedb8e7403c",
+      "agentType": "general-purpose",
+      "model": "claude-opus-4-8",
+      "state": "done",
+      "startedAt": 1783108657327,
+      "queuedAt": 1783107998023,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "verdict default 'watch' is backstopped by garbage_barge_ris…",
+      "promptPreview": "Adversarially verify this claimed LLM-integration defect in /home/user/pantheon. Default verdict\nFALSE_POSITIVE unless you can confirm the mechanism by reading the cited file yourself.\nA defect is CONFIRMED only if the failure mode genuinely occurs in the code/prompt as written\n(not hypothetically). NEEDS_DATA if confirming requires runtime observation.\n\nGod: nemesis\nClaim: SpinDossier.verdict def…",
+      "lastProgressAt": 1783108762672,
+      "tokens": 27377,
+      "toolCalls": 4,
+      "durationMs": 105345,
+      "resultPreview": "{\"title\":\"verdict default 'watch' is backstopped by garbage_barge_risk default and matches intended v2 design\",\"verdict\":\"FALSE_POSITIVE\",\"why\":\"All cited facts are true (verdict defaults to 'watch' at dossier.py:76, validate() doesn't force it, v2 buys non-condemned 'watch'), but the failure mechanism does not occur. The v2 condemnation gate also condemns garbage_barge_risk > 0.6, and that field …"
+    }
+  ],
+  "totalTokens": 1020900,
+  "totalToolCalls": 178
+}
