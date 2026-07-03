@@ -1,0 +1,9672 @@
+{
+ "old": {
+  "0": {
+   "n": 306,
+   "mean": 0.0113,
+   "t": 1.75
+  },
+  "1": {
+   "n": 369,
+   "mean": 0.0018,
+   "t": 0.34
+  },
+  "2": {
+   "n": 217,
+   "mean": -0.0014,
+   "t": -0.17
+  }
+ },
+ "new": {
+  "0": {
+   "n": 306,
+   "mean": 0.0113,
+   "t": 1.75
+  },
+  "1": {
+   "n": 473,
+   "mean": 0.0002,
+   "t": 0.04
+  },
+  "2": {
+   "n": 113,
+   "mean": 0.0026,
+   "t": 0.17
+  }
+ },
+ "flips": 104,
+ "rows": [
+  {
+   "sym": "PRHI",
+   "k": "2025-08-22",
+   "earn_dates": [
+    "2025-08-18"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GRX",
+   "k": "2025-01-14",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "RICK",
+   "k": "2025-02-18",
+   "earn_dates": [
+    "2025-02-10"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NVNO",
+   "k": "2025-01-03",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SOWG",
+   "k": "2025-01-03",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SSII",
+   "k": "2025-02-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ACXP",
+   "k": "2025-01-08",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-01-07"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CET",
+   "k": "2025-01-08",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AMST",
+   "k": "2025-01-08",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FDBC",
+   "k": "2025-02-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BATRA",
+   "k": "2025-01-24",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "IBIO",
+   "k": "2025-01-13",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-01-02",
+    "2025-01-10",
+    "2025-01-13"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FRD",
+   "k": "2025-01-31",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ABTC",
+   "k": "2025-01-15",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-01-10",
+    "2025-01-14"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "IMDX",
+   "k": "2025-02-10",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-02-10"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MMD",
+   "k": "2025-01-21",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ANIX",
+   "k": "2025-01-15",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FLOC",
+   "k": "2025-01-22",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-01-21"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LOOP",
+   "k": "2025-01-27",
+   "earn_dates": [
+    "2025-01-15"
+   ],
+   "guid_dates": [
+    "2025-01-15"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "MXF",
+   "k": "2025-01-23",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PCSA",
+   "k": "2025-01-29",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SUNS",
+   "k": "2025-03-10",
+   "earn_dates": [
+    "2025-03-06"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "SFD",
+   "k": "2025-01-30",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-01-29"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CTOS",
+   "k": "2025-02-03",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-02-03"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MSIF",
+   "k": "2025-01-30",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-01-28"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CFFN",
+   "k": "2025-02-26",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ZNTL",
+   "k": "2025-02-04",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-01-28",
+    "2025-01-29"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "INR",
+   "k": "2025-02-03",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-02-03"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "UVSP",
+   "k": "2025-03-19",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FRST",
+   "k": "2025-02-06",
+   "earn_dates": [
+    "2025-01-28"
+   ],
+   "guid_dates": [
+    "2025-01-28"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "FNWD",
+   "k": "2025-02-10",
+   "earn_dates": [
+    "2025-01-28"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MBX",
+   "k": "2025-02-19",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TECX",
+   "k": "2025-02-07",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-01-30",
+    "2025-02-03"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CJMB",
+   "k": "2025-03-14",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "THFF",
+   "k": "2025-02-18",
+   "earn_dates": [
+    "2025-02-04"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BCDA",
+   "k": "2025-04-08",
+   "earn_dates": [
+    "2025-03-26"
+   ],
+   "guid_dates": [
+    "2025-03-31",
+    "2025-03-31"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "BZH",
+   "k": "2025-02-10",
+   "earn_dates": [
+    "2025-01-30"
+   ],
+   "guid_dates": [
+    "2025-02-06"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ZBIO",
+   "k": "2025-02-19",
+   "earn_dates": [
+    "2025-02-05"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "SRBK",
+   "k": "2025-03-12",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AMCR",
+   "k": "2025-02-14",
+   "earn_dates": [
+    "2025-02-04"
+   ],
+   "guid_dates": [
+    "2025-02-14"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ECBK",
+   "k": "2025-02-24",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MAGN",
+   "k": "2025-02-28",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ARCC",
+   "k": "2025-03-05",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PFX",
+   "k": "2025-02-21",
+   "earn_dates": [
+    "2025-02-07"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "AMTM",
+   "k": "2025-02-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CMTV",
+   "k": "2025-02-28",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FLNC",
+   "k": "2025-02-14",
+   "earn_dates": [
+    "2025-02-10"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MRP",
+   "k": "2025-02-18",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-02-07",
+    "2025-02-11"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TBRG",
+   "k": "2025-02-26",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-02-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "EVT",
+   "k": "2025-02-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AARD",
+   "k": "2025-02-19",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-02-14"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BEAT",
+   "k": "2025-02-21",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-02-18"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BRKR",
+   "k": "2025-03-11",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ECG",
+   "k": "2025-02-26",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "RZLT",
+   "k": "2025-03-28",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "RCEL",
+   "k": "2025-02-20",
+   "earn_dates": [
+    "2025-02-13"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SEPN",
+   "k": "2025-02-24",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-02-18"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "BFC",
+   "k": "2025-03-19",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "NKSH",
+   "k": "2025-03-17",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MITK",
+   "k": "2025-02-24",
+   "earn_dates": [
+    "2025-02-10"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ETG",
+   "k": "2025-02-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ETO",
+   "k": "2025-02-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PRG",
+   "k": "2025-02-27",
+   "earn_dates": [
+    "2025-02-19"
+   ],
+   "guid_dates": [
+    "2025-02-27"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "AENT",
+   "k": "2025-02-27",
+   "earn_dates": [
+    "2025-02-13"
+   ],
+   "guid_dates": [
+    "2025-02-13"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "SNBRQ",
+   "k": "2025-03-13",
+   "earn_dates": [
+    "2025-03-05"
+   ],
+   "guid_dates": [
+    "2025-03-13"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "PDFS",
+   "k": "2025-02-25",
+   "earn_dates": [
+    "2025-02-13"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MBC",
+   "k": "2025-03-04",
+   "earn_dates": [
+    "2025-02-18"
+   ],
+   "guid_dates": [
+    "2025-02-18"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "SIGI",
+   "k": "2025-02-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "OCSL",
+   "k": "2025-02-25",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SM",
+   "k": "2025-02-27",
+   "earn_dates": [
+    "2025-02-19"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TALK",
+   "k": "2025-03-03",
+   "earn_dates": [
+    "2025-02-20"
+   ],
+   "guid_dates": [
+    "2025-02-20"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "CRSP",
+   "k": "2026-01-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "DINO",
+   "k": "2025-03-05",
+   "earn_dates": [
+    "2025-02-20"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ACDC",
+   "k": "2025-02-28",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "GERN",
+   "k": "2025-03-03",
+   "earn_dates": [
+    "2025-02-26"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "RCUS",
+   "k": "2025-02-27",
+   "earn_dates": [
+    "2025-02-18",
+    "2025-02-25"
+   ],
+   "guid_dates": [
+    "2025-02-18",
+    "2025-02-19"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ZD",
+   "k": "2025-03-04",
+   "earn_dates": [
+    "2025-02-25"
+   ],
+   "guid_dates": [
+    "2025-02-25",
+    "2025-02-27"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "OSUR",
+   "k": "2025-02-27",
+   "earn_dates": [
+    "2025-02-25"
+   ],
+   "guid_dates": [
+    "2025-02-25"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "THM",
+   "k": "2025-03-05",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-03-04"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "IAUX",
+   "k": "2025-03-03",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-02-24"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "KYN",
+   "k": "2025-04-07",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "WBTN",
+   "k": "2025-03-21",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CCO",
+   "k": "2025-03-03",
+   "earn_dates": [
+    "2025-02-24"
+   ],
+   "guid_dates": [
+    "2025-02-24"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "IHRT",
+   "k": "2025-03-10",
+   "earn_dates": [
+    "2025-02-27"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LTRX",
+   "k": "2025-03-04",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PDSB",
+   "k": "2025-03-03",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-02-24",
+    "2025-02-26",
+    "2025-02-28"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MGY",
+   "k": "2025-05-05",
+   "earn_dates": [
+    "2025-04-30"
+   ],
+   "guid_dates": [
+    "2025-04-30"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "NTST",
+   "k": "2025-03-10",
+   "earn_dates": [
+    "2025-02-24"
+   ],
+   "guid_dates": [
+    "2025-02-24"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "INGN",
+   "k": "2025-03-04",
+   "earn_dates": [
+    "2025-02-25"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "STRA",
+   "k": "2025-03-05",
+   "earn_dates": [
+    "2025-02-27"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FTDR",
+   "k": "2025-03-05",
+   "earn_dates": [
+    "2025-02-27"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "AIM",
+   "k": "2025-04-23",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MAC",
+   "k": "2025-03-17",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "LSF",
+   "k": "2025-03-06",
+   "earn_dates": [
+    "2025-02-26"
+   ],
+   "guid_dates": [
+    "2025-03-05"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "EVH",
+   "k": "2025-03-10",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MCFT",
+   "k": "2025-04-17",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-04-07"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "HERZ",
+   "k": "2025-03-06",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PEB",
+   "k": "2025-03-07",
+   "earn_dates": [
+    "2025-02-26"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "DRTTF",
+   "k": "2025-03-24",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "TNYA",
+   "k": "2025-03-07",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-03-04"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "RC",
+   "k": "2025-03-06",
+   "earn_dates": [
+    "2025-03-03"
+   ],
+   "guid_dates": [
+    "2025-02-24"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "IE",
+   "k": "2025-03-10",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ECPG",
+   "k": "2025-03-05",
+   "earn_dates": [
+    "2025-02-26"
+   ],
+   "guid_dates": [
+    "2025-02-26",
+    "2025-02-26"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "MEGI",
+   "k": "2025-04-08",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ABCL",
+   "k": "2025-03-11",
+   "earn_dates": [
+    "2025-02-27"
+   ],
+   "guid_dates": [
+    "2025-02-27"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "CORZ",
+   "k": "2025-03-07",
+   "earn_dates": [
+    "2025-02-26"
+   ],
+   "guid_dates": [
+    "2025-02-26",
+    "2025-02-27",
+    "2025-03-04",
+    "2025-03-06"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "GAM",
+   "k": "2025-03-06",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "AWRE",
+   "k": "2025-03-12",
+   "earn_dates": [
+    "2025-03-05"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "VRME",
+   "k": "2025-03-11",
+   "earn_dates": [
+    "2025-03-06"
+   ],
+   "guid_dates": [
+    "2025-03-06"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "AMPY",
+   "k": "2025-03-10",
+   "earn_dates": [
+    "2025-03-05"
+   ],
+   "guid_dates": [
+    "2025-03-05"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "SEI",
+   "k": "2025-03-12",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FCNCA",
+   "k": "2025-03-12",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-03-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CULP",
+   "k": "2025-03-12",
+   "earn_dates": [
+    "2025-03-05"
+   ],
+   "guid_dates": [
+    "2025-03-05"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "CMTG",
+   "k": "2025-03-13",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CRMT",
+   "k": "2025-03-12",
+   "earn_dates": [
+    "2025-03-06",
+    "2025-03-10"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "LUCK",
+   "k": "2025-05-12",
+   "earn_dates": [
+    "2025-05-08"
+   ],
+   "guid_dates": [
+    "2025-05-08"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "VG",
+   "k": "2025-03-11",
+   "earn_dates": [
+    "2025-03-06"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "WSC",
+   "k": "2025-03-13",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-03-07",
+    "2025-03-13"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MFIC",
+   "k": "2025-03-11",
+   "earn_dates": [
+    "2025-02-25"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CRGY",
+   "k": "2025-03-19",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MVBF",
+   "k": "2025-03-18",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-03-18"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FNKO",
+   "k": "2025-03-17",
+   "earn_dates": [
+    "2025-03-06"
+   ],
+   "guid_dates": [
+    "2025-03-10"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "MEI",
+   "k": "2025-03-18",
+   "earn_dates": [
+    "2025-03-05"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TCPC",
+   "k": "2025-03-13",
+   "earn_dates": [
+    "2025-02-27",
+    "2025-02-27"
+   ],
+   "guid_dates": [
+    "2025-02-27",
+    "2025-02-27"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "NFE",
+   "k": "2025-03-13",
+   "earn_dates": [
+    "2025-03-03"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "PSEC",
+   "k": "2025-03-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PRLD",
+   "k": "2025-03-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "IMMR",
+   "k": "2025-03-21",
+   "earn_dates": [
+    "2025-03-12"
+   ],
+   "guid_dates": [
+    "2025-03-12"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "FSUN",
+   "k": "2025-05-09",
+   "earn_dates": [
+    "2025-04-28"
+   ],
+   "guid_dates": [
+    "2025-04-28"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "RAPP",
+   "k": "2025-03-13",
+   "earn_dates": [
+    "2025-03-11"
+   ],
+   "guid_dates": [
+    "2025-03-03"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ONEW",
+   "k": "2025-05-08",
+   "earn_dates": [
+    "2025-05-01"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SUIG",
+   "k": "2025-03-14",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "GEL",
+   "k": "2025-03-25",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "INVE",
+   "k": "2025-03-17",
+   "earn_dates": [
+    "2025-03-05"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MX",
+   "k": "2025-03-17",
+   "earn_dates": [
+    "2025-03-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PHAT",
+   "k": "2025-05-13",
+   "earn_dates": [
+    "2025-05-01"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GUTS",
+   "k": "2025-03-18",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-03-13"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BTMD",
+   "k": "2025-03-18",
+   "earn_dates": [
+    "2025-03-12"
+   ],
+   "guid_dates": [
+    "2025-03-17"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "GBLI",
+   "k": "2025-05-14",
+   "earn_dates": [
+    "2025-05-07"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FTHM",
+   "k": "2025-03-18",
+   "earn_dates": [
+    "2025-03-12"
+   ],
+   "guid_dates": [
+    "2025-03-10",
+    "2025-03-11",
+    "2025-03-17"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "LYEL",
+   "k": "2025-03-18",
+   "earn_dates": [
+    "2025-03-11"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "AFCG",
+   "k": "2025-03-17",
+   "earn_dates": [
+    "2025-03-13"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ZOMDF",
+   "k": "2025-03-18",
+   "earn_dates": [
+    "2025-03-14"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "HFFG",
+   "k": "2025-03-19",
+   "earn_dates": [
+    "2025-03-13"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ACHV",
+   "k": "2025-03-19",
+   "earn_dates": [
+    "2025-03-11"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CION",
+   "k": "2025-04-02",
+   "earn_dates": [
+    "2025-04-02"
+   ],
+   "guid_dates": [
+    "2025-04-02"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "MG",
+   "k": "2025-03-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BLNE",
+   "k": "2025-03-20",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-03-10",
+    "2025-03-12",
+    "2025-03-18",
+    "2025-03-19",
+    "2025-03-20"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TROX",
+   "k": "2025-05-09",
+   "earn_dates": [
+    "2025-05-01"
+   ],
+   "guid_dates": [
+    "2025-05-07"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ECC",
+   "k": "2025-03-21",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-03-11"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CIMG",
+   "k": "2025-04-03",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-03-28",
+    "2025-04-03"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "WSR",
+   "k": "2025-05-05",
+   "earn_dates": [
+    "2025-04-30"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GCBC",
+   "k": "2025-04-25",
+   "earn_dates": [
+    "2025-04-22"
+   ],
+   "guid_dates": [
+    "2025-04-16"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "GRWG",
+   "k": "2025-03-20",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-03-13"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "KYNB",
+   "k": "2025-03-25",
+   "earn_dates": [
+    "2025-03-17"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NEWT",
+   "k": "2025-05-13",
+   "earn_dates": [
+    "2025-05-06"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "XOMA",
+   "k": "2025-04-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ACNT",
+   "k": "2025-05-16",
+   "earn_dates": [
+    "2025-05-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FVR",
+   "k": "2025-03-24",
+   "earn_dates": [
+    "2025-03-20"
+   ],
+   "guid_dates": [
+    "2025-03-20",
+    "2025-03-24"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "QTI",
+   "k": "2025-04-10",
+   "earn_dates": [
+    "2025-03-31"
+   ],
+   "guid_dates": [
+    "2025-03-31",
+    "2025-04-10"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "TITN",
+   "k": "2025-04-07",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "IMNM",
+   "k": "2025-03-25",
+   "earn_dates": [
+    "2025-03-19"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ROLR",
+   "k": "2025-03-27",
+   "earn_dates": [
+    "2025-03-21"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "BLIN",
+   "k": "2025-03-28",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-03-25"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NTHI",
+   "k": "2025-05-19",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CATX",
+   "k": "2025-04-01",
+   "earn_dates": [
+    "2025-03-26"
+   ],
+   "guid_dates": [
+    "2025-03-26"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "WGO",
+   "k": "2025-04-03",
+   "earn_dates": [
+    "2025-03-27"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LOCL",
+   "k": "2025-04-02",
+   "earn_dates": [
+    "2025-03-31"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PGC",
+   "k": "2025-04-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FGBI",
+   "k": "2025-04-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ALMS",
+   "k": "2025-04-03",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-03-25"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NUVB",
+   "k": "2025-04-08",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SMA",
+   "k": "2025-04-03",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-03-21",
+    "2025-03-24",
+    "2025-04-03"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GME",
+   "k": "2025-04-07",
+   "earn_dates": [
+    "2025-03-25"
+   ],
+   "guid_dates": [
+    "2025-03-25",
+    "2025-04-01"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "EWTX",
+   "k": "2025-04-04",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-04-02",
+    "2025-04-02"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FF",
+   "k": "2025-04-04",
+   "earn_dates": [
+    "2025-03-28"
+   ],
+   "guid_dates": [
+    "2025-03-26"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "NMTC",
+   "k": "2025-04-07",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PANL",
+   "k": "2025-05-22",
+   "earn_dates": [
+    "2025-05-12"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "DOMO",
+   "k": "2025-04-04",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CMPX",
+   "k": "2025-04-08",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-04-01"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "HUMA",
+   "k": "2025-04-08",
+   "earn_dates": [
+    "2025-03-28"
+   ],
+   "guid_dates": [
+    "2025-03-25",
+    "2025-03-26",
+    "2025-03-27"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "HNRG",
+   "k": "2025-04-11",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "NWTG",
+   "k": "2025-04-15",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-04-07"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "RNXT",
+   "k": "2025-04-10",
+   "earn_dates": [
+    "2025-04-01"
+   ],
+   "guid_dates": [
+    "2025-04-01"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "PRHI",
+   "k": "2025-04-08",
+   "earn_dates": [
+    "2025-03-31"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "STRW",
+   "k": "2025-05-20",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-05-09",
+    "2025-05-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PEPG",
+   "k": "2025-06-02",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-05-28"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LIEN",
+   "k": "2025-06-09",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-05"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "RFM",
+   "k": "2025-04-11",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "RMM",
+   "k": "2025-04-11",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BATRA",
+   "k": "2025-05-29",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ROAD",
+   "k": "2025-04-15",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FINS",
+   "k": "2025-05-22",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-05-15"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BYRN",
+   "k": "2025-04-23",
+   "earn_dates": [
+    "2025-04-10"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "UPXI",
+   "k": "2025-04-25",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-04-21",
+    "2025-04-21",
+    "2025-04-24"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ONMD",
+   "k": "2025-11-26",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SINT",
+   "k": "2025-05-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "GREE",
+   "k": "2025-05-20",
+   "earn_dates": [
+    "2025-05-15"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FNLC",
+   "k": "2025-04-30",
+   "earn_dates": [
+    "2025-04-23"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "JMSB",
+   "k": "2025-04-28",
+   "earn_dates": [
+    "2025-04-23"
+   ],
+   "guid_dates": [
+    "2025-04-23"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "CHCT",
+   "k": "2025-05-14",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-05-06"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FTAI",
+   "k": "2025-05-02",
+   "earn_dates": [
+    "2025-04-30"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "HTLD",
+   "k": "2025-05-08",
+   "earn_dates": [
+    "2025-05-02"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BNL",
+   "k": "2025-05-06",
+   "earn_dates": [
+    "2025-04-25",
+    "2025-04-30"
+   ],
+   "guid_dates": [
+    "2025-04-25"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "BOTJ",
+   "k": "2025-05-23",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "WSBK",
+   "k": "2025-05-09",
+   "earn_dates": [
+    "2025-04-30"
+   ],
+   "guid_dates": [
+    "2025-04-30",
+    "2025-05-06"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "MERC",
+   "k": "2025-05-12",
+   "earn_dates": [
+    "2025-05-01"
+   ],
+   "guid_dates": [
+    "2025-05-01"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "INTT",
+   "k": "2025-05-14",
+   "earn_dates": [
+    "2025-05-02"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "HL",
+   "k": "2025-05-07",
+   "earn_dates": [
+    "2025-05-01"
+   ],
+   "guid_dates": [
+    "2025-05-01"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "AIRS",
+   "k": "2025-06-11",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-11"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "OFIX",
+   "k": "2025-05-12",
+   "earn_dates": [
+    "2025-05-06"
+   ],
+   "guid_dates": [
+    "2025-05-06"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "PRAA",
+   "k": "2025-05-09",
+   "earn_dates": [
+    "2025-05-05"
+   ],
+   "guid_dates": [
+    "2025-05-05"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "PTN",
+   "k": "2025-06-17",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "NPKI",
+   "k": "2025-05-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "HCWB",
+   "k": "2025-05-09",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ENR",
+   "k": "2025-05-13",
+   "earn_dates": [
+    "2025-05-06"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "HAIN",
+   "k": "2025-05-12",
+   "earn_dates": [
+    "2025-05-07"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FIEE",
+   "k": "2025-05-13",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ARQ",
+   "k": "2025-05-20",
+   "earn_dates": [
+    "2025-05-07"
+   ],
+   "guid_dates": [
+    "2025-05-06"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "LGND",
+   "k": "2025-05-13",
+   "earn_dates": [
+    "2025-05-08"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MIDD",
+   "k": "2025-05-14",
+   "earn_dates": [
+    "2025-05-07"
+   ],
+   "guid_dates": [
+    "2025-05-07"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "INNV",
+   "k": "2025-05-20",
+   "earn_dates": [
+    "2025-05-06"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TRIN",
+   "k": "2025-06-09",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CNDT",
+   "k": "2025-06-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PENN",
+   "k": "2025-05-22",
+   "earn_dates": [
+    "2025-05-08"
+   ],
+   "guid_dates": [
+    "2025-05-15"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "COLD",
+   "k": "2025-05-14",
+   "earn_dates": [
+    "2025-05-08"
+   ],
+   "guid_dates": [
+    "2025-05-08"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "NNBR",
+   "k": "2025-05-14",
+   "earn_dates": [
+    "2025-05-07"
+   ],
+   "guid_dates": [
+    "2025-05-07"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "MYO",
+   "k": "2025-05-15",
+   "earn_dates": [
+    "2025-05-07"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CVRX",
+   "k": "2025-05-14",
+   "earn_dates": [
+    "2025-05-08"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NCDL",
+   "k": "2025-05-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "APUS",
+   "k": "2025-05-14",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-05-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "RVSB",
+   "k": "2025-05-22",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FLL",
+   "k": "2025-06-17",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ERII",
+   "k": "2025-05-15",
+   "earn_dates": [
+    "2025-05-07"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LESL",
+   "k": "2025-05-14",
+   "earn_dates": [
+    "2025-05-08"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PSQH",
+   "k": "2025-05-16",
+   "earn_dates": [
+    "2025-05-08"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "VYX",
+   "k": "2025-05-19",
+   "earn_dates": [
+    "2025-05-08"
+   ],
+   "guid_dates": [
+    "2025-05-08"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "ULBI",
+   "k": "2025-05-14",
+   "earn_dates": [
+    "2025-05-09"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TXO",
+   "k": "2025-05-15",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-05-01",
+    "2025-05-13",
+    "2025-05-14"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "DCGO",
+   "k": "2025-05-14",
+   "earn_dates": [
+    "2025-05-08"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "IOVA",
+   "k": "2025-06-06",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BCDA",
+   "k": "2025-07-02",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-25",
+    "2025-07-02"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MASS",
+   "k": "2025-05-15",
+   "earn_dates": [
+    "2025-05-13"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ASYS",
+   "k": "2025-05-16",
+   "earn_dates": [
+    "2025-05-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "INFU",
+   "k": "2025-05-20",
+   "earn_dates": [
+    "2025-05-08"
+   ],
+   "guid_dates": [
+    "2025-05-09"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "MAGN",
+   "k": "2025-05-30",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CNTN",
+   "k": "2025-06-23",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "JRVR",
+   "k": "2025-05-20",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-05-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SELF",
+   "k": "2025-05-20",
+   "earn_dates": [
+    "2025-05-09"
+   ],
+   "guid_dates": [
+    "2025-05-09"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "INFQ",
+   "k": "2025-06-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "VFF",
+   "k": "2025-06-02",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-02"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MCY",
+   "k": "2025-05-28",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AURA",
+   "k": "2025-05-20",
+   "earn_dates": [
+    "2025-05-15"
+   ],
+   "guid_dates": [
+    "2025-05-16"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "SNDX",
+   "k": "2025-05-19",
+   "earn_dates": [
+    "2025-05-05"
+   ],
+   "guid_dates": [
+    "2025-05-05",
+    "2025-05-16"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "SDHC",
+   "k": "2025-05-20",
+   "earn_dates": [
+    "2025-05-14"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "OPAL",
+   "k": "2025-05-21",
+   "earn_dates": [
+    "2025-05-08"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "RLMD",
+   "k": "2025-05-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PAPL",
+   "k": "2025-05-28",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-05-19"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SRBK",
+   "k": "2025-05-30",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MRP",
+   "k": "2025-05-22",
+   "earn_dates": [
+    "2025-05-14"
+   ],
+   "guid_dates": [
+    "2025-05-14"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "BBDC",
+   "k": "2025-05-20",
+   "earn_dates": [
+    "2025-05-08"
+   ],
+   "guid_dates": [
+    "2025-05-08"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "FIP",
+   "k": "2025-05-23",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-05-16"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "PETS",
+   "k": "2025-05-23",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GROV",
+   "k": "2025-05-23",
+   "earn_dates": [
+    "2025-05-14"
+   ],
+   "guid_dates": [
+    "2025-05-14",
+    "2025-05-16"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "PRME",
+   "k": "2025-05-22",
+   "earn_dates": [
+    "2025-05-08"
+   ],
+   "guid_dates": [
+    "2025-05-19"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "BDL",
+   "k": "2025-05-30",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SLS",
+   "k": "2025-06-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "COCH",
+   "k": "2025-06-10",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "UBCP",
+   "k": "2025-05-23",
+   "earn_dates": [
+    "2025-05-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BCBP",
+   "k": "2025-05-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "GBDC",
+   "k": "2025-05-29",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-05-29"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "HIO",
+   "k": "2025-07-15",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MATV",
+   "k": "2025-05-30",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SBET",
+   "k": "2025-06-02",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-05-20",
+    "2025-05-30"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CALC",
+   "k": "2025-07-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "IMUX",
+   "k": "2025-06-04",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-05-28",
+    "2025-05-30"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ANIX",
+   "k": "2025-07-15",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "TWNPQ",
+   "k": "2025-08-01",
+   "earn_dates": [
+    "2025-07-30"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ABX",
+   "k": "2025-06-06",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-05"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "GECC",
+   "k": "2025-06-11",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SPWH",
+   "k": "2025-06-11",
+   "earn_dates": [
+    "2025-06-03"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ICFI",
+   "k": "2025-06-10",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AMPY",
+   "k": "2025-06-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CNTX",
+   "k": "2025-06-10",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-02"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "AYTU",
+   "k": "2025-06-10",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-06",
+    "2025-06-06",
+    "2025-06-09"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CABO",
+   "k": "2025-06-12",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-03"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "HURC",
+   "k": "2025-06-25",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "KYN",
+   "k": "2025-06-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BY",
+   "k": "2025-06-13",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "VOYG",
+   "k": "2025-06-13",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "HPP",
+   "k": "2025-06-16",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-11",
+    "2025-06-13"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "INUV",
+   "k": "2025-06-12",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "VRA",
+   "k": "2025-06-13",
+   "earn_dates": [
+    "2025-06-11"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ASIC",
+   "k": "2025-06-16",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "RZLT",
+   "k": "2025-06-24",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-13"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "XLO",
+   "k": "2025-06-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "OXM",
+   "k": "2025-06-20",
+   "earn_dates": [
+    "2025-06-11"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PFX",
+   "k": "2025-06-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "IMRX",
+   "k": "2025-06-20",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-17"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "WSC",
+   "k": "2025-08-06",
+   "earn_dates": [
+    "2025-07-31"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GIII",
+   "k": "2025-06-25",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FRHC",
+   "k": "2025-07-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CLAR",
+   "k": "2025-08-07",
+   "earn_dates": [
+    "2025-07-31"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CAI",
+   "k": "2025-06-23",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-20"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MBRX",
+   "k": "2025-06-23",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-18",
+    "2025-06-23"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CCIF",
+   "k": "2025-06-30",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "INTG",
+   "k": "2025-07-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BTBT",
+   "k": "2025-06-27",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-25",
+    "2025-06-27"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GBLI",
+   "k": "2025-08-11",
+   "earn_dates": [
+    "2025-08-06"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "EONR",
+   "k": "2025-08-19",
+   "earn_dates": [
+    "2025-08-19"
+   ],
+   "guid_dates": [
+    "2025-08-19"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "ACTU",
+   "k": "2025-06-30",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "NTWK",
+   "k": "2025-07-15",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PMNT",
+   "k": "2025-07-02",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-30"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FGBI",
+   "k": "2025-07-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "OMCC",
+   "k": "2025-07-17",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CLRB",
+   "k": "2025-07-03",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-06-26"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "COSO",
+   "k": "2025-07-07",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CMTV",
+   "k": "2025-08-04",
+   "earn_dates": [
+    "2025-07-22"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "STRW",
+   "k": "2025-07-22",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CIVB",
+   "k": "2025-07-15",
+   "earn_dates": [
+    "2025-07-11"
+   ],
+   "guid_dates": [
+    "2025-07-10",
+    "2025-07-11"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "HELE",
+   "k": "2025-07-15",
+   "earn_dates": [
+    "2025-07-10"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SKYA",
+   "k": "2025-08-26",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-08-25"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CRSP",
+   "k": "2025-08-08",
+   "earn_dates": [
+    "2025-08-04"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ELV",
+   "k": "2025-08-21",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BRCC",
+   "k": "2025-07-18",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-07-16"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PLBC",
+   "k": "2025-08-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "DMAC",
+   "k": "2025-07-25",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-07-17",
+    "2025-07-21"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LOOP",
+   "k": "2025-07-25",
+   "earn_dates": [
+    "2025-07-15"
+   ],
+   "guid_dates": [
+    "2025-07-15"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "CARL",
+   "k": "2025-07-24",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-07-24"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NIQ",
+   "k": "2025-09-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CVM",
+   "k": "2025-07-29",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SIGI",
+   "k": "2025-07-25",
+   "earn_dates": [
+    "2025-07-23"
+   ],
+   "guid_dates": [
+    "2025-07-23"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "MH",
+   "k": "2025-07-28",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-07-25"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "IMA",
+   "k": "2025-07-30",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-07-22",
+    "2025-07-24",
+    "2025-07-25",
+    "2025-07-29"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "JMSB",
+   "k": "2025-08-01",
+   "earn_dates": [
+    "2025-07-23"
+   ],
+   "guid_dates": [
+    "2025-07-21",
+    "2025-07-29"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ABSI",
+   "k": "2025-09-24",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "EPD",
+   "k": "2025-07-30",
+   "earn_dates": [
+    "2025-07-28"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FCNCA",
+   "k": "2025-08-05",
+   "earn_dates": [
+    "2025-07-25"
+   ],
+   "guid_dates": [
+    "2025-07-25"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "PCB",
+   "k": "2025-08-01",
+   "earn_dates": [
+    "2025-07-24"
+   ],
+   "guid_dates": [
+    "2025-07-24"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "TLRY",
+   "k": "2025-07-30",
+   "earn_dates": [
+    "2025-07-28"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NSPR",
+   "k": "2025-08-01",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-07-31"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FBIZ",
+   "k": "2025-08-01",
+   "earn_dates": [
+    "2025-07-24"
+   ],
+   "guid_dates": [
+    "2025-07-24",
+    "2025-07-29",
+    "2025-07-31"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "CZWI",
+   "k": "2025-08-01",
+   "earn_dates": [
+    "2025-07-28"
+   ],
+   "guid_dates": [
+    "2025-07-28"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "KRNY",
+   "k": "2025-09-23",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "TROX",
+   "k": "2025-08-01",
+   "earn_dates": [
+    "2025-07-31"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CNOB",
+   "k": "2025-08-05",
+   "earn_dates": [
+    "2025-07-29"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SI",
+   "k": "2025-08-05",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "XELB",
+   "k": "2025-08-05",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "NSP",
+   "k": "2025-08-06",
+   "earn_dates": [
+    "2025-08-01"
+   ],
+   "guid_dates": [
+    "2025-08-01"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "PRLB",
+   "k": "2025-08-07",
+   "earn_dates": [
+    "2025-07-31"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ASUR",
+   "k": "2025-08-06",
+   "earn_dates": [
+    "2025-07-31"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LUMN",
+   "k": "2025-08-15",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-08-05"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TFX",
+   "k": "2025-08-07",
+   "earn_dates": [
+    "2025-07-31"
+   ],
+   "guid_dates": [
+    "2025-07-31"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "OI",
+   "k": "2025-08-07",
+   "earn_dates": [
+    "2025-07-29"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FINS",
+   "k": "2025-08-14",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ARKR",
+   "k": "2025-08-19",
+   "earn_dates": [
+    "2025-08-11"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PINE",
+   "k": "2025-08-08",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MKZR",
+   "k": "2025-08-07",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-08-01"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FFAI",
+   "k": "2025-08-26",
+   "earn_dates": [
+    "2025-08-19"
+   ],
+   "guid_dates": [
+    "2025-08-13",
+    "2025-08-18",
+    "2025-08-19"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "FLY",
+   "k": "2025-08-08",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MEC",
+   "k": "2025-08-11",
+   "earn_dates": [
+    "2025-08-05"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SBH",
+   "k": "2025-08-11",
+   "earn_dates": [
+    "2025-08-05"
+   ],
+   "guid_dates": [
+    "2025-08-05"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "NMFC",
+   "k": "2025-09-16",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CSR",
+   "k": "2025-08-11",
+   "earn_dates": [
+    "2025-08-04"
+   ],
+   "guid_dates": [
+    "2025-08-04"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "FTRE",
+   "k": "2025-09-04",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CROX",
+   "k": "2025-08-14",
+   "earn_dates": [
+    "2025-08-07"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TRIN",
+   "k": "2025-09-04",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CFND",
+   "k": "2025-08-15",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "KRO",
+   "k": "2025-08-12",
+   "earn_dates": [
+    "2025-08-06"
+   ],
+   "guid_dates": [
+    "2025-08-06"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "MSDL",
+   "k": "2025-08-13",
+   "earn_dates": [
+    "2025-08-07"
+   ],
+   "guid_dates": [
+    "2025-08-06",
+    "2025-08-07"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "TPVG",
+   "k": "2025-08-20",
+   "earn_dates": [
+    "2025-08-06"
+   ],
+   "guid_dates": [
+    "2025-08-06"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "CAPL",
+   "k": "2025-08-13",
+   "earn_dates": [
+    "2025-08-07"
+   ],
+   "guid_dates": [
+    "2025-08-07"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "PRMB",
+   "k": "2025-08-14",
+   "earn_dates": [
+    "2025-08-07"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MDRR",
+   "k": "2025-08-15",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "RCEL",
+   "k": "2025-08-26",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-08-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MXCT",
+   "k": "2025-08-13",
+   "earn_dates": [
+    "2025-08-06"
+   ],
+   "guid_dates": [
+    "2025-08-06"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "BCDA",
+   "k": "2025-09-23",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-18",
+    "2025-09-18",
+    "2025-09-19",
+    "2025-09-22"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ADC",
+   "k": "2025-09-08",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ICUI",
+   "k": "2025-08-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "KODK",
+   "k": "2025-08-14",
+   "earn_dates": [
+    "2025-08-11"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "INR",
+   "k": "2025-08-22",
+   "earn_dates": [
+    "2025-08-11"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ACDC",
+   "k": "2025-08-18",
+   "earn_dates": [
+    "2025-08-07"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "AIOT",
+   "k": "2025-08-18",
+   "earn_dates": [
+    "2025-08-11"
+   ],
+   "guid_dates": [
+    "2025-08-11"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "EXE",
+   "k": "2025-08-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MYO",
+   "k": "2025-08-19",
+   "earn_dates": [
+    "2025-08-11"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FVR",
+   "k": "2025-08-20",
+   "earn_dates": [
+    "2025-08-13"
+   ],
+   "guid_dates": [
+    "2025-08-13",
+    "2025-08-13"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "AEBI",
+   "k": "2025-08-18",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-08-14"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SCWO",
+   "k": "2025-08-26",
+   "earn_dates": [
+    "2025-08-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ALXO",
+   "k": "2025-09-18",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "AEYE",
+   "k": "2025-09-08",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BW",
+   "k": "2025-08-20",
+   "earn_dates": [
+    "2025-08-11"
+   ],
+   "guid_dates": [
+    "2025-08-11",
+    "2025-08-18"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "EPSN",
+   "k": "2025-08-20",
+   "earn_dates": [
+    "2025-08-13"
+   ],
+   "guid_dates": [
+    "2025-08-13"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "ACOG",
+   "k": "2025-08-21",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ROLR",
+   "k": "2025-08-20",
+   "earn_dates": [
+    "2025-08-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NWTG",
+   "k": "2025-09-12",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ZVRA",
+   "k": "2025-09-15",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PEW",
+   "k": "2025-08-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ONMD",
+   "k": "2025-11-26",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CLDI",
+   "k": "2025-08-25",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-08-22"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MX",
+   "k": "2025-08-26",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AFCG",
+   "k": "2025-08-26",
+   "earn_dates": [
+    "2025-08-14"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "COTY",
+   "k": "2025-08-26",
+   "earn_dates": [
+    "2025-08-20"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SINT",
+   "k": "2025-08-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "STTK",
+   "k": "2025-09-02",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-08-26"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FEAM",
+   "k": "2025-08-27",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-08-19",
+    "2025-08-25"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "OPEN",
+   "k": "2025-09-15",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-11"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MSIF",
+   "k": "2025-09-10",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "COO",
+   "k": "2025-09-02",
+   "earn_dates": [
+    "2025-08-27"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BSLK",
+   "k": "2025-09-03",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BLNE",
+   "k": "2025-09-29",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-26"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "NAUT",
+   "k": "2025-09-09",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "TWAV",
+   "k": "2025-09-16",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-11"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "EARN",
+   "k": "2025-10-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "LUCK",
+   "k": "2025-09-16",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-10"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FINW",
+   "k": "2025-11-03",
+   "earn_dates": [
+    "2025-10-29"
+   ],
+   "guid_dates": [
+    "2025-10-29"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "SFD",
+   "k": "2025-09-09",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ORBS",
+   "k": "2025-09-10",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-02",
+    "2025-09-10"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SEI",
+   "k": "2025-09-09",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AARD",
+   "k": "2025-09-12",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-03"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SMMT",
+   "k": "2025-09-11",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-08"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MRAI",
+   "k": "2025-11-12",
+   "earn_dates": [
+    "2025-11-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GRX",
+   "k": "2025-11-05",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "RAPP",
+   "k": "2025-09-15",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-08",
+    "2025-09-08"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CAMP",
+   "k": "2025-09-11",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-10"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TTGT",
+   "k": "2025-09-15",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "NEXT",
+   "k": "2025-09-16",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-10"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LBRX",
+   "k": "2025-09-16",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AWHL",
+   "k": "2025-09-19",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-18"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PSEC",
+   "k": "2025-09-29",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "HAIN",
+   "k": "2025-09-22",
+   "earn_dates": [
+    "2025-09-15"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NXXT",
+   "k": "2025-09-22",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-10"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FLNA",
+   "k": "2025-10-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "GLIBA",
+   "k": "2025-11-18",
+   "earn_dates": [
+    "2025-11-05"
+   ],
+   "guid_dates": [
+    "2025-11-05",
+    "2025-11-14"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "WBI",
+   "k": "2025-09-22",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-18"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NTSK",
+   "k": "2025-09-22",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CULP",
+   "k": "2025-09-23",
+   "earn_dates": [
+    "2025-09-10"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "KYN",
+   "k": "2025-10-06",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "JSPR",
+   "k": "2025-09-24",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-19"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "RNGE",
+   "k": "2025-09-25",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-24"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ASIC",
+   "k": "2025-10-28",
+   "earn_dates": [
+    "2025-10-22"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MBX",
+   "k": "2025-10-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "DX",
+   "k": "2025-09-29",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PEPG",
+   "k": "2025-10-01",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-24",
+    "2025-09-26",
+    "2025-10-01"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ZIVO",
+   "k": "2025-10-09",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FGBI",
+   "k": "2025-10-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "REFI",
+   "k": "2025-10-16",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "KMX",
+   "k": "2025-10-06",
+   "earn_dates": [
+    "2025-09-25"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SPWH",
+   "k": "2025-10-03",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "NP",
+   "k": "2025-11-14",
+   "earn_dates": [
+    "2025-11-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "YCY",
+   "k": "2025-10-06",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-10-06"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CBK",
+   "k": "2025-10-09",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-10-03"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BGC",
+   "k": "2025-10-06",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-09-25"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ZBIO",
+   "k": "2025-10-09",
+   "earn_dates": [
+    "2025-10-08"
+   ],
+   "guid_dates": [
+    "2025-10-08"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "CPSH",
+   "k": "2025-10-09",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-10-08"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ANGO",
+   "k": "2025-10-22",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "HEI",
+   "k": "2025-10-14",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "STRO",
+   "k": "2025-10-16",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "GRF",
+   "k": "2025-10-21",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "VIRC",
+   "k": "2025-10-17",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "RMCF",
+   "k": "2025-10-21",
+   "earn_dates": [
+    "2025-10-14"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GAM",
+   "k": "2025-11-25",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SPMC",
+   "k": "2025-10-22",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-10-08"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NVCT",
+   "k": "2025-11-06",
+   "earn_dates": [
+    "2025-11-04"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TTRX",
+   "k": "2025-10-23",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-10-22"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FMNB",
+   "k": "2025-10-30",
+   "earn_dates": [
+    "2025-10-22"
+   ],
+   "guid_dates": [
+    "2025-10-22"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "GCBC",
+   "k": "2025-10-30",
+   "earn_dates": [
+    "2025-10-21"
+   ],
+   "guid_dates": [
+    "2025-10-22"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "KMI",
+   "k": "2025-11-03",
+   "earn_dates": [
+    "2025-10-22"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NMRA",
+   "k": "2025-10-29",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-10-27",
+    "2025-10-27"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "WDFC",
+   "k": "2025-10-29",
+   "earn_dates": [
+    "2025-10-22"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "INBK",
+   "k": "2025-10-30",
+   "earn_dates": [
+    "2025-10-22"
+   ],
+   "guid_dates": [
+    "2025-10-22"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "FRST",
+   "k": "2025-11-13",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MRP",
+   "k": "2025-10-30",
+   "earn_dates": [
+    "2025-10-23"
+   ],
+   "guid_dates": [
+    "2025-10-23"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "ANVS",
+   "k": "2025-11-12",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MPLT",
+   "k": "2025-10-30",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-10-29"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ANNX",
+   "k": "2025-11-19",
+   "earn_dates": [
+    "2025-11-10"
+   ],
+   "guid_dates": [
+    "2025-11-14"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "FMAO",
+   "k": "2025-11-06",
+   "earn_dates": [
+    "2025-10-27"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SLGN",
+   "k": "2025-11-10",
+   "earn_dates": [
+    "2025-10-29"
+   ],
+   "guid_dates": [
+    "2025-11-04",
+    "2025-11-05"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "APCX",
+   "k": "2026-05-22",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GBCI",
+   "k": "2025-11-05",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-10-29"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "EBF",
+   "k": "2025-11-03",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BOT",
+   "k": "2025-11-05",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MYE",
+   "k": "2025-11-04",
+   "earn_dates": [
+    "2025-10-30"
+   ],
+   "guid_dates": [
+    "2025-10-30"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "MVBF",
+   "k": "2025-12-08",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CRTO",
+   "k": "2025-11-04",
+   "earn_dates": [
+    "2025-10-29"
+   ],
+   "guid_dates": [
+    "2025-10-29"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "BBT",
+   "k": "2025-11-05",
+   "earn_dates": [
+    "2025-10-29"
+   ],
+   "guid_dates": [
+    "2025-10-29"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "SCKT",
+   "k": "2025-11-24",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NEWT",
+   "k": "2025-11-04",
+   "earn_dates": [
+    "2025-10-29"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "CVSA",
+   "k": "2025-11-05",
+   "earn_dates": [
+    "2025-10-30"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "RLMD",
+   "k": "2025-11-06",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-04",
+    "2025-11-05"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ASST",
+   "k": "2025-12-16",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-09",
+    "2025-12-15"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "BETA",
+   "k": "2025-11-07",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-06"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SMPL",
+   "k": "2025-11-19",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "GOOD",
+   "k": "2025-11-12",
+   "earn_dates": [
+    "2025-11-03"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SXC",
+   "k": "2025-11-12",
+   "earn_dates": [
+    "2025-11-04"
+   ],
+   "guid_dates": [
+    "2025-11-04"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "GLRE",
+   "k": "2025-11-19",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FINS",
+   "k": "2026-01-30",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "KREF",
+   "k": "2025-11-10",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "NCDL",
+   "k": "2025-11-17",
+   "earn_dates": [
+    "2025-11-04"
+   ],
+   "guid_dates": [
+    "2025-11-04"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "XZO",
+   "k": "2025-11-07",
+   "earn_dates": [
+    "2025-11-07"
+   ],
+   "guid_dates": [
+    "2025-11-06",
+    "2025-11-07"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "RXO",
+   "k": "2025-11-12",
+   "earn_dates": [
+    "2025-11-06"
+   ],
+   "guid_dates": [
+    "2025-11-06"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "CRSR",
+   "k": "2025-11-26",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FSK",
+   "k": "2025-11-12",
+   "earn_dates": [
+    "2025-11-05"
+   ],
+   "guid_dates": [
+    "2025-11-05"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "PENN",
+   "k": "2025-11-18",
+   "earn_dates": [
+    "2025-11-06"
+   ],
+   "guid_dates": [
+    "2025-11-06"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "LENZ",
+   "k": "2025-11-10",
+   "earn_dates": [
+    "2025-11-05"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "RHLD",
+   "k": "2025-11-12",
+   "earn_dates": [
+    "2025-11-03"
+   ],
+   "guid_dates": [
+    "2025-11-03"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "TRIN",
+   "k": "2025-11-10",
+   "earn_dates": [
+    "2025-11-05"
+   ],
+   "guid_dates": [
+    "2025-11-05"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "GBFH",
+   "k": "2025-11-12",
+   "earn_dates": [
+    "2025-10-29"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "EVMN",
+   "k": "2025-11-12",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BLLN",
+   "k": "2025-11-12",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-10"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FRPH",
+   "k": "2025-11-13",
+   "earn_dates": [
+    "2025-11-05"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BBSI",
+   "k": "2025-11-12",
+   "earn_dates": [
+    "2025-11-05"
+   ],
+   "guid_dates": [
+    "2025-11-05"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "PRSU",
+   "k": "2025-11-12",
+   "earn_dates": [
+    "2025-11-05"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FDBC",
+   "k": "2025-11-10",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-04"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "OBDC",
+   "k": "2025-11-14",
+   "earn_dates": [
+    "2025-11-05"
+   ],
+   "guid_dates": [
+    "2025-11-05"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "AMCR",
+   "k": "2025-11-12",
+   "earn_dates": [
+    "2025-11-05"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ARQ",
+   "k": "2025-11-13",
+   "earn_dates": [
+    "2025-11-05"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CGBD",
+   "k": "2025-11-17",
+   "earn_dates": [
+    "2025-11-04"
+   ],
+   "guid_dates": [
+    "2025-11-04"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "SUNC",
+   "k": "2025-11-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PRMB",
+   "k": "2025-11-13",
+   "earn_dates": [
+    "2025-11-06"
+   ],
+   "guid_dates": [
+    "2025-11-10"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "MRVI",
+   "k": "2025-12-09",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "DCTH",
+   "k": "2025-11-25",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-20"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SRTS",
+   "k": "2025-11-20",
+   "earn_dates": [
+    "2025-11-06"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SRV",
+   "k": "2025-12-22",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "TBRG",
+   "k": "2025-11-18",
+   "earn_dates": [
+    "2025-11-06"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SMA",
+   "k": "2025-11-18",
+   "earn_dates": [
+    "2025-11-05"
+   ],
+   "guid_dates": [
+    "2025-11-04",
+    "2025-11-17"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "SELF",
+   "k": "2025-12-05",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "TPVG",
+   "k": "2025-11-13",
+   "earn_dates": [
+    "2025-11-05"
+   ],
+   "guid_dates": [
+    "2025-11-05"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "SG",
+   "k": "2025-11-12",
+   "earn_dates": [
+    "2025-11-06"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ROP",
+   "k": "2025-11-12",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CRVO",
+   "k": "2025-11-13",
+   "earn_dates": [
+    "2025-11-10"
+   ],
+   "guid_dates": [
+    "2025-11-04"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "EML",
+   "k": "2025-11-14",
+   "earn_dates": [
+    "2025-11-04"
+   ],
+   "guid_dates": [
+    "2025-11-04"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "WHF",
+   "k": "2025-11-14",
+   "earn_dates": [
+    "2025-11-10"
+   ],
+   "guid_dates": [
+    "2025-11-10"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "SRZN",
+   "k": "2025-12-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BHVN",
+   "k": "2025-11-17",
+   "earn_dates": [
+    "2025-11-10"
+   ],
+   "guid_dates": [
+    "2025-11-13"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "FCNCA",
+   "k": "2025-12-01",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-18"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ALMS",
+   "k": "2025-11-19",
+   "earn_dates": [
+    "2025-11-13"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FTAI",
+   "k": "2025-11-13",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ELUT",
+   "k": "2025-12-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FSSL",
+   "k": "2025-11-28",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "EGBN",
+   "k": "2025-11-24",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "URG",
+   "k": "2025-11-21",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MNR",
+   "k": "2025-11-18",
+   "earn_dates": [
+    "2025-11-06"
+   ],
+   "guid_dates": [
+    "2025-11-06"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "KVHI",
+   "k": "2025-12-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "XRN",
+   "k": "2025-11-17",
+   "earn_dates": [
+    "2025-11-04"
+   ],
+   "guid_dates": [
+    "2025-11-13"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ARX",
+   "k": "2025-11-19",
+   "earn_dates": [
+    "2025-11-12"
+   ],
+   "guid_dates": [
+    "2025-11-12"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "AEBI",
+   "k": "2025-11-18",
+   "earn_dates": [
+    "2025-11-13"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NXB",
+   "k": "2025-11-17",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-17"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "VANI",
+   "k": "2025-12-31",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "TENX",
+   "k": "2025-11-19",
+   "earn_dates": [
+    "2025-11-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "AP",
+   "k": "2025-11-18",
+   "earn_dates": [
+    "2025-11-12"
+   ],
+   "guid_dates": [
+    "2025-11-07",
+    "2025-11-18"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "NWTG",
+   "k": "2025-11-20",
+   "earn_dates": [
+    "2025-11-13"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "UPXI",
+   "k": "2025-12-17",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-05"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TISI",
+   "k": "2025-12-03",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AISP",
+   "k": "2025-11-20",
+   "earn_dates": [
+    "2025-11-17"
+   ],
+   "guid_dates": [
+    "2025-11-17"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "NRDE",
+   "k": "2025-11-21",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-17"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "VENU",
+   "k": "2026-01-05",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FOSL",
+   "k": "2025-11-20",
+   "earn_dates": [
+    "2025-11-13"
+   ],
+   "guid_dates": [
+    "2025-11-06",
+    "2025-11-10",
+    "2025-11-12",
+    "2025-11-13"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "HLF",
+   "k": "2025-12-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BFLY",
+   "k": "2025-12-17",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "IIPR",
+   "k": "2025-11-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MLP",
+   "k": "2025-11-24",
+   "earn_dates": [
+    "2025-11-14"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "IPSC",
+   "k": "2025-12-29",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "EVLV",
+   "k": "2025-11-21",
+   "earn_dates": [
+    "2025-11-13"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "INSE",
+   "k": "2025-12-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "RPD",
+   "k": "2025-11-24",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "INV",
+   "k": "2025-11-25",
+   "earn_dates": [
+    "2025-11-13"
+   ],
+   "guid_dates": [
+    "2025-11-18"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "GLOO",
+   "k": "2025-11-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FRD",
+   "k": "2025-12-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BBWI",
+   "k": "2025-11-24",
+   "earn_dates": [
+    "2025-11-20"
+   ],
+   "guid_dates": [
+    "2025-11-20"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "AUID",
+   "k": "2025-11-26",
+   "earn_dates": [
+    "2025-11-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CFND",
+   "k": "2025-12-04",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CBC",
+   "k": "2025-11-25",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-21"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ADTN",
+   "k": "2025-12-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "EONR",
+   "k": "2025-11-28",
+   "earn_dates": [
+    "2025-11-18"
+   ],
+   "guid_dates": [
+    "2025-11-18"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "BRN",
+   "k": "2025-11-26",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-26"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "J",
+   "k": "2025-11-25",
+   "earn_dates": [
+    "2025-11-20"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "OFLX",
+   "k": "2025-12-08",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-05"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "DMLP",
+   "k": "2025-11-28",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CGEH",
+   "k": "2025-11-25",
+   "earn_dates": [
+    "2025-11-13"
+   ],
+   "guid_dates": [
+    "2025-11-24",
+    "2025-11-25"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "VRCA",
+   "k": "2025-11-25",
+   "earn_dates": [
+    "2025-11-14"
+   ],
+   "guid_dates": [
+    "2025-11-24"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "LFT",
+   "k": "2025-12-02",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-28"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "DFDV",
+   "k": "2025-11-25",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-13"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ICCC",
+   "k": "2025-12-03",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BMEA",
+   "k": "2025-12-04",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "KTTA",
+   "k": "2025-12-01",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-25"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CNTM",
+   "k": "2025-12-11",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-01",
+    "2025-12-08",
+    "2025-12-10"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MDBH",
+   "k": "2025-12-31",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ENR",
+   "k": "2025-12-02",
+   "earn_dates": [
+    "2025-11-18"
+   ],
+   "guid_dates": [
+    "2025-11-18"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "WMG",
+   "k": "2025-12-12",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PARK",
+   "k": "2025-12-03",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "HYNE",
+   "k": "2025-12-05",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-28",
+    "2025-12-03"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "XELB",
+   "k": "2025-12-19",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "DOMH",
+   "k": "2025-12-10",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AIRJ",
+   "k": "2025-12-10",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AMR",
+   "k": "2025-12-17",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PFBX",
+   "k": "2026-01-05",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "JFB",
+   "k": "2025-12-10",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "GAIA",
+   "k": "2025-12-10",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "NRIM",
+   "k": "2025-12-10",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-11-26"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MIDD",
+   "k": "2025-12-15",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-04"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "APRE",
+   "k": "2026-02-02",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-01-29"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "IGR",
+   "k": "2025-12-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AARD",
+   "k": "2025-12-12",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-10"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SEVN",
+   "k": "2025-12-11",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-10"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SI",
+   "k": "2025-12-15",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-03"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "CDNL",
+   "k": "2025-12-11",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "KLXE",
+   "k": "2025-12-16",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ADGM",
+   "k": "2025-12-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BLNK",
+   "k": "2025-12-12",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "VRA",
+   "k": "2025-12-15",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BCIC",
+   "k": "2025-12-16",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "RZLT",
+   "k": "2025-12-15",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "GRX",
+   "k": "2025-12-30",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "COO",
+   "k": "2025-12-16",
+   "earn_dates": [
+    "2025-12-04"
+   ],
+   "guid_dates": [
+    "2025-12-04"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "SEI",
+   "k": "2025-12-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "HYPD",
+   "k": "2025-12-19",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-10"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "NAVN",
+   "k": "2025-12-19",
+   "earn_dates": [
+    "2025-12-15"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BRR",
+   "k": "2025-12-22",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-11",
+    "2025-12-12"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ANDG",
+   "k": "2025-12-22",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-22"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "KYTX",
+   "k": "2025-12-22",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-15",
+    "2025-12-15",
+    "2025-12-18"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "IMNM",
+   "k": "2025-12-22",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-15",
+    "2025-12-17"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MDLN",
+   "k": "2025-12-22",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-22"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "AGIG",
+   "k": "2025-12-23",
+   "earn_dates": [],
+   "guid_dates": [
+    "2025-12-16"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "NRXS",
+   "k": "2026-02-13",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ADC",
+   "k": "2026-01-12",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-01-05"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GDV",
+   "k": "2026-01-28",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ENTX",
+   "k": "2026-02-11",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-02-04",
+    "2026-02-09"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FGBI",
+   "k": "2026-01-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "LMNR",
+   "k": "2026-01-09",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "LB",
+   "k": "2026-01-07",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "WBI",
+   "k": "2026-01-07",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PMCB",
+   "k": "2026-01-07",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "INDV",
+   "k": "2026-01-07",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ZBIO",
+   "k": "2026-02-13",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "IMRX",
+   "k": "2026-01-15",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-01-07"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "AKTS",
+   "k": "2026-01-12",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CMTV",
+   "k": "2026-02-02",
+   "earn_dates": [
+    "2026-01-27"
+   ],
+   "guid_dates": [
+    "2026-01-23",
+    "2026-01-29"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ZIVO",
+   "k": "2026-01-28",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FIS",
+   "k": "2026-03-09",
+   "earn_dates": [
+    "2026-02-24",
+    "2026-02-24"
+   ],
+   "guid_dates": [
+    "2026-03-09"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ONCY",
+   "k": "2026-02-13",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-02-04"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GME",
+   "k": "2026-01-22",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-01-08"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CABA",
+   "k": "2026-01-21",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-01-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "STEX",
+   "k": "2026-01-26",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "WS",
+   "k": "2026-02-03",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-01-22"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "THM",
+   "k": "2026-01-29",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-01-27"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "USAR",
+   "k": "2026-01-29",
+   "earn_dates": [
+    "2026-01-26"
+   ],
+   "guid_dates": [
+    "2026-01-26",
+    "2026-01-29"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "LIFE",
+   "k": "2026-01-30",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "IP",
+   "k": "2026-02-02",
+   "earn_dates": [
+    "2026-01-29"
+   ],
+   "guid_dates": [
+    "2026-01-23"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "SWZ",
+   "k": "2026-02-04",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "YSS",
+   "k": "2026-02-03",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "LXRX",
+   "k": "2026-02-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FMNB",
+   "k": "2026-03-05",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-02"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SRBK",
+   "k": "2026-03-20",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-19"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FRST",
+   "k": "2026-02-06",
+   "earn_dates": [
+    "2026-01-29"
+   ],
+   "guid_dates": [
+    "2026-01-29"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "PMN",
+   "k": "2026-02-23",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GAM",
+   "k": "2026-03-13",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MANE",
+   "k": "2026-02-05",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "EIKN",
+   "k": "2026-02-06",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BSTZ",
+   "k": "2026-02-12",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ARCC",
+   "k": "2026-02-09",
+   "earn_dates": [
+    "2026-02-04"
+   ],
+   "guid_dates": [
+    "2026-02-04"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "LEE",
+   "k": "2026-02-18",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-02-05"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CING",
+   "k": "2026-02-10",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-02-06"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LUCK",
+   "k": "2026-02-13",
+   "earn_dates": [
+    "2026-02-04"
+   ],
+   "guid_dates": [
+    "2026-02-04"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "VRNS",
+   "k": "2026-02-10",
+   "earn_dates": [
+    "2026-02-03"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CHRN",
+   "k": "2026-03-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "NXG",
+   "k": "2026-03-11",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ONMD",
+   "k": "2026-04-24",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BOBS",
+   "k": "2026-02-06",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "HCIC",
+   "k": "2026-02-09",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-02-06"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SGP",
+   "k": "2026-02-10",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-02-09"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TECX",
+   "k": "2026-02-12",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BCBP",
+   "k": "2026-03-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "COTY",
+   "k": "2026-03-09",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MPLT",
+   "k": "2026-02-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FNRN",
+   "k": "2026-02-19",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "APCX",
+   "k": "2026-03-05",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "TLPH",
+   "k": "2026-02-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "COCH",
+   "k": "2026-02-17",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-02-13"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "VERX",
+   "k": "2026-02-23",
+   "earn_dates": [
+    "2026-02-11"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ASST",
+   "k": "2026-02-19",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-02-13"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "CNVS",
+   "k": "2026-02-17",
+   "earn_dates": [
+    "2026-02-12",
+    "2026-02-17"
+   ],
+   "guid_dates": [
+    "2026-02-17"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "FBRT",
+   "k": "2026-03-04",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BLIN",
+   "k": "2026-02-26",
+   "earn_dates": [
+    "2026-02-18"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GGT",
+   "k": "2026-02-25",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-02-20"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CNDT",
+   "k": "2026-02-20",
+   "earn_dates": [
+    "2026-02-12"
+   ],
+   "guid_dates": [
+    "2026-02-12"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "EXE",
+   "k": "2026-03-09",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CEVA",
+   "k": "2026-02-23",
+   "earn_dates": [
+    "2026-02-17"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "HLNE",
+   "k": "2026-02-24",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-02-20"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "KYN",
+   "k": "2026-03-19",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "VEEE",
+   "k": "2026-03-19",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-19"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CMTG",
+   "k": "2026-03-03",
+   "earn_dates": [
+    "2026-02-18"
+   ],
+   "guid_dates": [
+    "2026-02-18"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "OFIX",
+   "k": "2026-03-10",
+   "earn_dates": [
+    "2026-02-24"
+   ],
+   "guid_dates": [
+    "2026-02-24"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "FSCO",
+   "k": "2026-03-16",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SXC",
+   "k": "2026-02-26",
+   "earn_dates": [
+    "2026-02-17"
+   ],
+   "guid_dates": [
+    "2026-02-17"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "AXR",
+   "k": "2026-04-22",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ABCL",
+   "k": "2026-02-27",
+   "earn_dates": [
+    "2026-02-24"
+   ],
+   "guid_dates": [
+    "2026-02-24"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "AHCO",
+   "k": "2026-03-03",
+   "earn_dates": [
+    "2026-02-24"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TNC",
+   "k": "2026-03-02",
+   "earn_dates": [
+    "2026-02-24"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LOGC",
+   "k": "2026-02-26",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-02-23",
+    "2026-02-26"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "TSLX",
+   "k": "2026-03-03",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-02-23"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FSK",
+   "k": "2026-03-03",
+   "earn_dates": [
+    "2026-02-25"
+   ],
+   "guid_dates": [
+    "2026-02-25"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "REXR",
+   "k": "2026-02-27",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-02-26"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LRMR",
+   "k": "2026-03-02",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-02-24"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ABSI",
+   "k": "2026-03-16",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-06"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PVLA",
+   "k": "2026-03-02",
+   "earn_dates": [
+    "2026-02-24"
+   ],
+   "guid_dates": [
+    "2026-02-24",
+    "2026-02-24"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "NMFC",
+   "k": "2026-03-03",
+   "earn_dates": [
+    "2026-02-24"
+   ],
+   "guid_dates": [
+    "2026-02-24"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "FBLG",
+   "k": "2026-03-04",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PRHI",
+   "k": "2026-04-02",
+   "earn_dates": [
+    "2026-03-30"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BBSI",
+   "k": "2026-03-16",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "GCBC",
+   "k": "2026-03-05",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "DCTH",
+   "k": "2026-03-06",
+   "earn_dates": [
+    "2026-02-26"
+   ],
+   "guid_dates": [
+    "2026-03-03"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ACIW",
+   "k": "2026-03-04",
+   "earn_dates": [
+    "2026-02-26"
+   ],
+   "guid_dates": [
+    "2026-02-26"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "HERZ",
+   "k": "2026-04-17",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "TRIN",
+   "k": "2026-03-11",
+   "earn_dates": [
+    "2026-02-25"
+   ],
+   "guid_dates": [
+    "2026-02-25"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "MSDL",
+   "k": "2026-03-03",
+   "earn_dates": [
+    "2026-02-26"
+   ],
+   "guid_dates": [
+    "2026-02-26"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "GENB",
+   "k": "2026-03-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ABTC",
+   "k": "2026-03-05",
+   "earn_dates": [
+    "2026-02-26"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ALTG",
+   "k": "2026-03-16",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SLRC",
+   "k": "2026-03-05",
+   "earn_dates": [
+    "2026-02-24"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NCDL",
+   "k": "2026-03-05",
+   "earn_dates": [
+    "2026-02-26"
+   ],
+   "guid_dates": [
+    "2026-02-26"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "CGBD",
+   "k": "2026-03-10",
+   "earn_dates": [
+    "2026-02-24"
+   ],
+   "guid_dates": [
+    "2026-02-24"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "MDRR",
+   "k": "2026-03-13",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SG",
+   "k": "2026-04-09",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FCNCA",
+   "k": "2026-03-17",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-03"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "AFCG",
+   "k": "2026-04-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "QSI",
+   "k": "2026-03-09",
+   "earn_dates": [
+    "2026-03-03"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "WHF",
+   "k": "2026-03-24",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FSSL",
+   "k": "2026-03-10",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-03"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "VSNT",
+   "k": "2026-03-10",
+   "earn_dates": [
+    "2026-03-03"
+   ],
+   "guid_dates": [
+    "2026-03-03"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "SSII",
+   "k": "2026-03-10",
+   "earn_dates": [
+    "2026-03-10"
+   ],
+   "guid_dates": [
+    "2026-03-10"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "TCPC",
+   "k": "2026-03-10",
+   "earn_dates": [
+    "2026-02-27"
+   ],
+   "guid_dates": [
+    "2026-02-27"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "LYEL",
+   "k": "2026-03-09",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "TKNO",
+   "k": "2026-03-09",
+   "earn_dates": [
+    "2026-02-26"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "EML",
+   "k": "2026-03-10",
+   "earn_dates": [
+    "2026-03-03"
+   ],
+   "guid_dates": [
+    "2026-03-03"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "ACNT",
+   "k": "2026-03-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "TGLS",
+   "k": "2026-03-11",
+   "earn_dates": [
+    "2026-02-26"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "XZO",
+   "k": "2026-03-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AEYE",
+   "k": "2026-03-17",
+   "earn_dates": [
+    "2026-03-05"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "KOS",
+   "k": "2026-03-12",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-02",
+    "2026-03-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "KRRO",
+   "k": "2026-03-12",
+   "earn_dates": [
+    "2026-03-09",
+    "2026-03-12"
+   ],
+   "guid_dates": [
+    "2026-03-09"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "NSP",
+   "k": "2026-03-11",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "REEMF",
+   "k": "2026-03-23",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MLAB",
+   "k": "2026-03-10",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-09"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BXSL",
+   "k": "2026-03-16",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-03"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LOAR",
+   "k": "2026-03-13",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PODC",
+   "k": "2026-04-21",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "FLNT",
+   "k": "2026-03-16",
+   "earn_dates": [
+    "2026-03-09"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MYO",
+   "k": "2026-03-16",
+   "earn_dates": [
+    "2026-03-09"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ARQ",
+   "k": "2026-03-19",
+   "earn_dates": [
+    "2026-03-10"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ULBI",
+   "k": "2026-03-16",
+   "earn_dates": [
+    "2026-03-10"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "AWRE",
+   "k": "2026-05-05",
+   "earn_dates": [
+    "2026-04-29"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "OSUR",
+   "k": "2026-03-16",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CSPI",
+   "k": "2026-05-13",
+   "earn_dates": [
+    "2026-05-07"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "STRA",
+   "k": "2026-04-24",
+   "earn_dates": [
+    "2026-04-23"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ECC",
+   "k": "2026-03-18",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SDHC",
+   "k": "2026-03-17",
+   "earn_dates": [
+    "2026-03-11"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SI",
+   "k": "2026-03-17",
+   "earn_dates": [
+    "2026-03-10"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SCM",
+   "k": "2026-03-17",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BJDX",
+   "k": "2026-05-18",
+   "earn_dates": [
+    "2026-05-07"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "CULP",
+   "k": "2026-03-20",
+   "earn_dates": [
+    "2026-03-11"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "HBIO",
+   "k": "2026-03-18",
+   "earn_dates": [
+    "2026-03-12"
+   ],
+   "guid_dates": [
+    "2026-03-06",
+    "2026-03-17"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "MTN",
+   "k": "2026-03-16",
+   "earn_dates": [
+    "2026-03-09"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PAL",
+   "k": "2026-05-15",
+   "earn_dates": [
+    "2026-05-07"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SBSW",
+   "k": "2026-03-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "NFBK",
+   "k": "2026-03-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "RHLD",
+   "k": "2026-03-18",
+   "earn_dates": [
+    "2026-03-12"
+   ],
+   "guid_dates": [
+    "2026-03-16"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "KLC",
+   "k": "2026-03-23",
+   "earn_dates": [
+    "2026-03-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BW",
+   "k": "2026-03-18",
+   "earn_dates": [
+    "2026-03-04"
+   ],
+   "guid_dates": [
+    "2026-03-04",
+    "2026-03-11",
+    "2026-03-16"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "KLTR",
+   "k": "2026-03-24",
+   "earn_dates": [
+    "2026-03-16"
+   ],
+   "guid_dates": [
+    "2026-03-16"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "IBIO",
+   "k": "2026-03-23",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-09"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MNR",
+   "k": "2026-03-23",
+   "earn_dates": [
+    "2026-03-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MED",
+   "k": "2026-05-12",
+   "earn_dates": [
+    "2026-05-04"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "LULU",
+   "k": "2026-04-03",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "TGEN",
+   "k": "2026-03-27",
+   "earn_dates": [
+    "2026-03-18"
+   ],
+   "guid_dates": [
+    "2026-03-18"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "BCIC",
+   "k": "2026-03-24",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "TISI",
+   "k": "2026-04-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "JAN",
+   "k": "2026-03-24",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PICS",
+   "k": "2026-03-26",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "GSM",
+   "k": "2026-03-25",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BORR",
+   "k": "2026-03-26",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "INSE",
+   "k": "2026-03-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "IAUX",
+   "k": "2026-03-31",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-17",
+    "2026-03-24",
+    "2026-03-27"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ACCS",
+   "k": "2026-05-19",
+   "earn_dates": [
+    "2026-05-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LFT",
+   "k": "2026-03-27",
+   "earn_dates": [
+    "2026-03-23"
+   ],
+   "guid_dates": [
+    "2026-03-23"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "LENZ",
+   "k": "2026-03-30",
+   "earn_dates": [
+    "2026-03-24"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "MSIF",
+   "k": "2026-05-19",
+   "earn_dates": [
+    "2026-05-07"
+   ],
+   "guid_dates": [
+    "2026-05-07"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "IMNM",
+   "k": "2026-05-19",
+   "earn_dates": [
+    "2026-05-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "IPX",
+   "k": "2026-03-30",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "VTS",
+   "k": "2026-04-01",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-26"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PGC",
+   "k": "2026-04-01",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-26"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "POCI",
+   "k": "2026-04-01",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-30"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LODE",
+   "k": "2026-04-01",
+   "earn_dates": [
+    "2026-03-25"
+   ],
+   "guid_dates": [
+    "2026-03-25"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "PCSA",
+   "k": "2026-05-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "NXB",
+   "k": "2026-04-01",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-03-18",
+    "2026-03-23",
+    "2026-03-31",
+    "2026-04-01"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BZUN",
+   "k": "2026-04-09",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ADC",
+   "k": "2026-05-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "VALE",
+   "k": "2026-04-03",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "LPCN",
+   "k": "2026-04-06",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-04-02",
+    "2026-04-02"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "VSXY",
+   "k": "2026-04-06",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SVC",
+   "k": "2026-04-02",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "HMH",
+   "k": "2026-04-06",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-04-02"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BOT",
+   "k": "2026-05-05",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "TBN",
+   "k": "2026-04-15",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-04-03",
+    "2026-04-09",
+    "2026-04-14",
+    "2026-04-15"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "USAU",
+   "k": "2026-04-13",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-04-03"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FTLF",
+   "k": "2026-04-14",
+   "earn_dates": [
+    "2026-04-01"
+   ],
+   "guid_dates": [
+    "2026-04-01",
+    "2026-04-07"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "VIRC",
+   "k": "2026-04-15",
+   "earn_dates": [
+    "2026-04-08"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CAG",
+   "k": "2026-04-15",
+   "earn_dates": [
+    "2026-04-01"
+   ],
+   "guid_dates": [
+    "2026-04-13"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "SUNE",
+   "k": "2026-05-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BEAT",
+   "k": "2026-04-16",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-04-16"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GRF",
+   "k": "2026-05-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "GLOO",
+   "k": "2026-04-16",
+   "earn_dates": [
+    "2026-04-14"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "AVEX",
+   "k": "2026-04-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AXIA",
+   "k": "2026-05-12",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ARXS",
+   "k": "2026-04-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "KLRA",
+   "k": "2026-04-20",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-04-20"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "ALMR",
+   "k": "2026-04-20",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-04-20"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PRLD",
+   "k": "2026-04-23",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-04-20",
+    "2026-04-21"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BFC",
+   "k": "2026-04-23",
+   "earn_dates": [
+    "2026-04-16"
+   ],
+   "guid_dates": [
+    "2026-04-22"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "HEPA",
+   "k": "2026-04-27",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ELMT",
+   "k": "2026-04-24",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-04-24"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CRESY",
+   "k": "2026-05-15",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SMPL",
+   "k": "2026-05-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "EFOR",
+   "k": "2026-04-27",
+   "earn_dates": [
+    "2026-04-22"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PFBX",
+   "k": "2026-04-27",
+   "earn_dates": [
+    "2026-04-22"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "KREF",
+   "k": "2026-04-27",
+   "earn_dates": [
+    "2026-04-22"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "XE",
+   "k": "2026-04-29",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "NCEL",
+   "k": "2026-04-29",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "AMST",
+   "k": "2026-05-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AUID",
+   "k": "2026-05-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "CZWI",
+   "k": "2026-05-05",
+   "earn_dates": [
+    "2026-04-27"
+   ],
+   "guid_dates": [
+    "2026-04-27"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "ANIK",
+   "k": "2026-05-04",
+   "earn_dates": [
+    "2026-04-29"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "FGBI",
+   "k": "2026-05-04",
+   "earn_dates": [
+    "2026-04-27"
+   ],
+   "guid_dates": [
+    "2026-05-01"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "SRAD",
+   "k": "2026-05-04",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SBMT",
+   "k": "2026-05-19",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PSUS",
+   "k": "2026-05-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "WSBK",
+   "k": "2026-05-06",
+   "earn_dates": [
+    "2026-04-29"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CSTM",
+   "k": "2026-05-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AVLN",
+   "k": "2026-05-01",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MCAH",
+   "k": "2026-05-05",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-05-05"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "GLND",
+   "k": "2026-05-04",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-04-30"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "NSPR",
+   "k": "2026-05-08",
+   "earn_dates": [
+    "2026-05-04"
+   ],
+   "guid_dates": [
+    "2026-05-01"
+   ],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "FTCI",
+   "k": "2026-05-07",
+   "earn_dates": [
+    "2026-05-05"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "TXO",
+   "k": "2026-05-11",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-05-04"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "PAM",
+   "k": "2026-05-28",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "ZOMDF",
+   "k": "2026-05-11",
+   "earn_dates": [
+    "2026-05-06"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "J",
+   "k": "2026-05-18",
+   "earn_dates": [
+    "2026-05-05"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "OI",
+   "k": "2026-05-12",
+   "earn_dates": [
+    "2026-04-28"
+   ],
+   "guid_dates": [
+    "2026-05-04"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "INFU",
+   "k": "2026-05-12",
+   "earn_dates": [
+    "2026-05-07"
+   ],
+   "guid_dates": [
+    "2026-04-30"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ODTX",
+   "k": "2026-05-11",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "PLSE",
+   "k": "2026-05-11",
+   "earn_dates": [
+    "2026-05-04"
+   ],
+   "guid_dates": [
+    "2026-04-27",
+    "2026-05-04",
+    "2026-05-06"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "ARTV",
+   "k": "2026-05-28",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MRP",
+   "k": "2026-05-13",
+   "earn_dates": [
+    "2026-05-06"
+   ],
+   "guid_dates": [
+    "2026-05-06"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "XRN",
+   "k": "2026-05-11",
+   "earn_dates": [
+    "2026-05-06"
+   ],
+   "guid_dates": [
+    "2026-05-06"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "OTF",
+   "k": "2026-05-14",
+   "earn_dates": [
+    "2026-05-06"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "NOMD",
+   "k": "2026-05-15",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MOBI",
+   "k": "2026-05-11",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AGIG",
+   "k": "2026-05-14",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "DMLP",
+   "k": "2026-05-22",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-05-12"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "STRT",
+   "k": "2026-05-14",
+   "earn_dates": [
+    "2026-05-07"
+   ],
+   "guid_dates": [
+    "2026-05-07"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "LTRN",
+   "k": "2026-05-14",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-05-14"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CNXU",
+   "k": "2026-05-14",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "HDSN",
+   "k": "2026-05-15",
+   "earn_dates": [
+    "2026-05-06"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "JKHY",
+   "k": "2026-05-14",
+   "earn_dates": [
+    "2026-05-05"
+   ],
+   "guid_dates": [
+    "2026-05-12"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "TONX",
+   "k": "2026-05-14",
+   "earn_dates": [
+    "2026-05-12"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "HROW",
+   "k": "2026-05-15",
+   "earn_dates": [
+    "2026-05-11"
+   ],
+   "guid_dates": [
+    "2026-05-11"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "ACM",
+   "k": "2026-05-14",
+   "earn_dates": [
+    "2026-05-11"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "OPAL",
+   "k": "2026-05-20",
+   "earn_dates": [
+    "2026-05-11"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "LMRI",
+   "k": "2026-05-21",
+   "earn_dates": [
+    "2026-05-12"
+   ],
+   "guid_dates": [
+    "2026-05-12"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "ONON",
+   "k": "2026-05-15",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "VIDA",
+   "k": "2026-05-18",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SHAK",
+   "k": "2026-05-18",
+   "earn_dates": [
+    "2026-05-07"
+   ],
+   "guid_dates": [
+    "2026-05-07",
+    "2026-05-07"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 1
+  },
+  {
+   "sym": "ACOG",
+   "k": "2026-05-19",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AEBI",
+   "k": "2026-05-19",
+   "earn_dates": [
+    "2026-05-14"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BRCB",
+   "k": "2026-05-21",
+   "earn_dates": [
+    "2026-05-12"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "EQPT",
+   "k": "2026-05-20",
+   "earn_dates": [
+    "2026-05-13"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "BXDC",
+   "k": "2026-05-19",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-05-19"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "EROK",
+   "k": "2026-05-19",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-05-19"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "CCAP",
+   "k": "2026-05-20",
+   "earn_dates": [
+    "2026-05-13"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SMWB",
+   "k": "2026-05-20",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "MTEX",
+   "k": "2026-05-20",
+   "earn_dates": [
+    "2026-05-14"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "SER",
+   "k": "2026-05-26",
+   "earn_dates": [
+    "2026-05-14"
+   ],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "SWIM",
+   "k": "2026-05-21",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "BLNE",
+   "k": "2026-05-19",
+   "earn_dates": [
+    "2026-05-14"
+   ],
+   "guid_dates": [
+    "2026-05-18"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "WW",
+   "k": "2026-05-21",
+   "earn_dates": [
+    "2026-05-07"
+   ],
+   "guid_dates": [],
+   "has_13d": true,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "OXSQ",
+   "k": "2026-05-21",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "STEX",
+   "k": "2026-05-22",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "SLMT",
+   "k": "2026-05-29",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "DBD",
+   "k": "2026-05-22",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  },
+  {
+   "sym": "AII",
+   "k": "2026-05-27",
+   "earn_dates": [],
+   "guid_dates": [
+    "2026-05-20"
+   ],
+   "has_13d": false,
+   "g_old": 1,
+   "g_new": 1
+  },
+  {
+   "sym": "HCWB",
+   "k": "2026-05-27",
+   "earn_dates": [
+    "2026-05-14"
+   ],
+   "guid_dates": [
+    "2026-05-21"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "OTLK",
+   "k": "2026-05-27",
+   "earn_dates": [
+    "2026-05-13",
+    "2026-05-18"
+   ],
+   "guid_dates": [
+    "2026-05-26"
+   ],
+   "has_13d": false,
+   "g_old": 2,
+   "g_new": 2
+  },
+  {
+   "sym": "UBCP",
+   "k": "2026-05-28",
+   "earn_dates": [],
+   "guid_dates": [],
+   "has_13d": false,
+   "g_old": 0,
+   "g_new": 0
+  }
+ ]
+}

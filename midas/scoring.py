@@ -46,6 +46,23 @@ SIGNAL_CHANNELS = (
     "short_squeeze",
 )
 
+# Convergence is supposed to mean independent informed-money sources agreeing
+# — not one press release counted three times. An earnings report routinely
+# trips earnings_beat (the EPS surprise), guidance_raised (often disclosed in
+# the SAME 8-K), and volume_anomaly (the reaction bar TO that report) — three
+# channel names, one underlying event. Added 2026-07-04 (LLM integration
+# audit, finding: "convergence count treats correlated signals from a single
+# event as independent"). insider_cluster/smart_money/activist_13d/
+# short_squeeze are genuinely distinct filers/data sources and stay singleton
+# clusters.
+SIGNAL_EVENT_CLUSTERS = (
+    frozenset({"earnings_beat", "guidance_raised", "volume_anomaly"}),
+    frozenset({"insider_cluster"}),
+    frozenset({"smart_money"}),
+    frozenset({"activist_13d"}),
+    frozenset({"short_squeeze"}),
+)
+
 # How well each signal's resolution timescale fits a 5-day hold.
 # Signals that can pay off within a week get 1.0; multi-month signals
 # get discounted so they don't dominate the convergence ranking.
@@ -138,8 +155,13 @@ def score_candidate(
     mean_strength = sum(weighted.values()) / len(weighted)
 
     # Signals below the timing floor still contribute to mean_strength
-    # but don't elevate the convergence multiplier tier.
-    n_convergence = sum(1 for k in active if TIMING_WEIGHTS.get(k, 0.5) >= CONVERGENCE_TIMING_FLOOR)
+    # but don't elevate the convergence multiplier tier. Count DISTINCT
+    # EVENT CLUSTERS with an active, above-floor member — not distinct
+    # channel names — so a single earnings report can't earn a 2x or 3x
+    # convergence bonus against itself (fixed 2026-07-04; see
+    # SIGNAL_EVENT_CLUSTERS above).
+    above_floor = {k for k in active if TIMING_WEIGHTS.get(k, 0.5) >= CONVERGENCE_TIMING_FLOOR}
+    n_convergence = sum(1 for cluster in SIGNAL_EVENT_CLUSTERS if cluster & above_floor)
     conv = convergence_multiplier(n_convergence)
     neglect = neglect_score(market_cap)
     liq = _achilles_liquidity(market_cap)

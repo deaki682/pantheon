@@ -102,15 +102,48 @@ class TestScoreCandidate:
         assert two["convergence_count"] == 2
 
     def test_three_signals_much_higher(self):
+        # Three GENUINELY independent sources above the convergence timing
+        # floor (short interest data, an earnings report, an insider cluster)
+        # should convergence-boost.
         two = score_candidate(
             signals={"short_squeeze": 0.8, "earnings_beat": 0.7},
             quality_value=0.5, market_cap=1e9,
         )
         three = score_candidate(
-            signals={"short_squeeze": 0.8, "earnings_beat": 0.7, "volume_anomaly": 0.9},
+            signals={"short_squeeze": 0.8, "earnings_beat": 0.7, "insider_cluster": 0.6},
             quality_value=0.5, market_cap=1e9,
         )
         assert three["score"] > two["score"] * 1.5
+
+    def test_same_event_signals_do_not_double_count(self):
+        # Fixed 2026-07-04 (LLM integration audit): earnings_beat,
+        # guidance_raised, and volume_anomaly can all fire from ONE
+        # earnings report. Adding volume_anomaly on top of earnings_beat
+        # must NOT bump the convergence tier — they're the same event.
+        one = score_candidate(
+            signals={"earnings_beat": 0.7},
+            quality_value=0.5, market_cap=1e9,
+        )
+        two = score_candidate(
+            signals={"earnings_beat": 0.7, "volume_anomaly": 0.9},
+            quality_value=0.5, market_cap=1e9,
+        )
+        three = score_candidate(
+            signals={"earnings_beat": 0.7, "volume_anomaly": 0.9, "guidance_raised": 0.5},
+            quality_value=0.5, market_cap=1e9,
+        )
+        assert one["convergence_count"] == 1
+        assert two["convergence_count"] == 1
+        assert three["convergence_count"] == 1
+
+    def test_distinct_events_do_count(self):
+        # An earnings beat AND a separate insider cluster ARE two distinct
+        # informed-money sources and should tier up.
+        result = score_candidate(
+            signals={"earnings_beat": 0.7, "insider_cluster": 0.6},
+            quality_value=0.5, market_cap=1e9,
+        )
+        assert result["convergence_count"] == 2
 
     def test_filtered_by_market_cap(self):
         result = score_candidate(
