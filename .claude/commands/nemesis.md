@@ -106,10 +106,15 @@ control-group ledger.
      quote → still pre-distribution; leave it and move on.
    - `get_equity_historicals` (daily bars, span long enough to reach back
      to the listing — 3 months minimum, a year for bootstrap names). The
-     **first bar with real volume is the first trading day** — earlier bars
-     are when-issued placeholders. Slice the series from that bar: day-one
-     volume must be in the series or the window's volume-normalization
-     ratio is meaningless.
+     **first bar with real volume is the first trading day** — and "real"
+     means `volume >= max(10_000, 0.02 * series_max_volume)`, not merely
+     nonzero. When-issued sessions print token volume for days or weeks
+     before the distribution (TRAX printed 200–31K shares for two weeks
+     before its true 769K-share dump day, 2026-04-20; slicing at the
+     first nonzero bar made the first-5-day baseline ~3K shares and the
+     vol_ratio a meaningless 254x that could never normalize). Slice the
+     series from the true dump day: day-one volume must be in the series
+     or the window's volume-normalization ratio is meaningless.
    - `nemesis.window.assess_window(sliced_bars)` → `WindowState`. The state
      machine answers "are the forced sellers done?" mechanically: volume
      normalized (last-5-day avg ≤ 50% of the first-5-day dump) AND price
