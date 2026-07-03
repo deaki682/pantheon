@@ -106,6 +106,16 @@ control-group ledger.
    events = spinoffs.search_spinoff_registrations(date_from, date_to)
    spinoffs.update_pipeline(pipeline, events, today=today)
    ```
+   **Recall backstop (added 2026-07-03 after the SOLS near-miss):** FTS
+   pagination can silently drop a page. Weekly, also pull
+   `spinoffs.tenb_from_daily_indexes(<today - 14d>, today)` — the complete
+   10-12B population from daily indexes — and diff against the FTS
+   events. Any index-only registrant: fetch its 10-12B and triage for
+   spin-off/distribution language before adding to the pipeline (most
+   index-only names are shells the keyword filter correctly excludes —
+   verified 4/4 on 2026-07-03 — but SOLS, the vintage's +79% name, was a
+   true spinoff lost to a pagination flake).
+
    Then backfill tickers from the OFFICIAL registry — display names lie
    (Qnity registered as "Novus SpinCo 1"; Cyprium renamed to Versigent;
    Atrium took a recycled symbol — all three hid from the display-name

@@ -354,3 +354,47 @@ def backfill_tickers(pipeline: dict, cik_to_symbol: dict) -> list[tuple[str, str
             entry["status"] = "ticker_assigned"
         filled.append((cik, sym))
     return filled
+
+
+def tenb_from_daily_indexes(
+    date_from: str, date_to: str
+):  # pragma: no cover - network
+    """Registrant CIKs that filed a 10-12B in the window, from EDGAR's
+    daily form indexes — the complete population, no search engine.
+
+    Recall backstop for search_spinoff_registrations: FTS pagination can
+    silently drop a page mid-sweep (it cost the scan SOLS — the vintage's
+    +79% name — on 2026-07-03 until an independent catalog caught it).
+    The weekly runbook diffs this against the FTS result; index-only
+    registrants get their filing fetched and keyword-triaged directly.
+    Returns {cik10: {"name", "first", "last", "n"}}.
+    """
+    import re as _re
+    from datetime import date as _date, timedelta as _td
+
+    out: dict[str, dict] = {}
+    d = _date.fromisoformat(date_from)
+    end = _date.fromisoformat(date_to)
+    pat = _re.compile(
+        r"^(10-12B(?:/A)?)\s+(.+?)\s{2,}(\d+)\s+(\d{4}-?\d{2}-?\d{2})\s+(\S+)\s*$"
+    )
+    while d <= end:
+        if d.weekday() < 5:
+            url = (f"https://www.sec.gov/Archives/edgar/daily-index/{d.year}"
+                   f"/QTR{(d.month - 1) // 3 + 1}/form.{d.strftime('%Y%m%d')}.idx")
+            try:
+                body = edgar.http_get(url)
+                text = body if isinstance(body, str) else body.decode(
+                    "latin-1", errors="replace")
+                for line in text.splitlines():
+                    m = pat.match(line)
+                    if m:
+                        cik = edgar.cik10(m.group(3))
+                        e = out.setdefault(cik, {"name": m.group(2).strip(),
+                                                 "first": d.isoformat(), "n": 0})
+                        e["n"] += 1
+                        e["last"] = d.isoformat()
+            except Exception:
+                pass  # holiday or transient; weekly overlap self-heals
+        d += _td(days=1)
+    return out
