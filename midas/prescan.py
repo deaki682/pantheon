@@ -239,14 +239,23 @@ def filter_stale_earnings_signals(
         that's still recent but already spent) — this is the insider-cluster
         gate's exact mechanism, extended to earnings/guidance.
 
-    Returns (fresh_earnings_surprise, fresh_guidance_raised, dropped) where
-    `dropped` maps symbol -> reason for logging.
+    Returns (fresh_earnings_surprise, fresh_guidance_raised, dropped, caveats).
+    `dropped` maps symbol -> reason it was filtered out. `caveats` maps
+    symbol -> reason it was KEPT WITHOUT actually being freshness-checked
+    (added 2026-07-04, LLM integration audit finding #3): a missing/empty
+    tape used to return the exact same `True` as a genuine undigested beat,
+    so a failed historicals fetch was silently indistinguishable from the
+    ideal pre-drift setup. Both are still kept by default (a data outage
+    must not be allowed to starve the sieve), but now the caller can see
+    which names were never actually verified fresh.
     """
     dropped: dict[str, str] = {}
+    caveats: dict[str, str] = {}
 
     def _fresh(sym: str) -> bool:
         bars = historicals.get(sym) or historicals.get(sym.upper())
         if not bars:
+            caveats[sym] = "no historicals fetched — kept unverified, not confirmed fresh"
             return True  # no tape to judge — don't over-filter
         rb = find_reaction_bar(bars)
         if rb is None:
@@ -266,7 +275,7 @@ def filter_stale_earnings_signals(
         sym: data for sym, data in (earnings_surprise or {}).items() if _fresh(sym)
     }
     fresh_guidance = {sym for sym in (guidance_raised or set()) if _fresh(sym)}
-    return fresh_earnings, fresh_guidance, dropped
+    return fresh_earnings, fresh_guidance, dropped, caveats
 
 
 def compute_volume_anomalies(

@@ -33,6 +33,16 @@ MIN_GOING_CONCERN_EXPLANATION_CHARS = 80
 # the broker value by more than this fraction, reject the dossier.
 PRICE_DIVERGENCE_TOLERANCE = 0.05
 
+# Prose floor: thesis/business must be an articulated read, not a stub.
+# Added 2026-07-04 (LLM integration audit, finding #4) — previously neither
+# field was checked at all, so make_dossier(thesis="", business="") passed
+# validation and could enter the annual cohort selection ranked on scenario
+# math alone. Mirrors nemesis/dossier.py's _PROSE_FIELDS/_MIN_PROSE gate.
+# 40 is comfortably below every real dossier on file (thesis >= 579 chars,
+# business >= 188 chars) — this catches stubs, not terse-but-real prose.
+PROSE_FIELDS = ("thesis", "business")
+MIN_PROSE_CHARS = 40
+
 
 def drawdown_from_high(current_price: float, high_52w: float) -> float:
     """Fraction below the 52-week high (0.0 if data missing/invalid)."""
@@ -71,6 +81,14 @@ def validate_dossier(d: dict[str, Any]) -> dict[str, Any]:
     citations = d.get("citations") or []
     if not citations:
         raise DossierError(f"{d['symbol']}: no citations — every dossier must cite filings")
+
+    for name in PROSE_FIELDS:
+        val = str(d.get(name) or "")
+        if len(val) < MIN_PROSE_CHARS:
+            raise DossierError(
+                f"{d['symbol']}: {name} must be at least {MIN_PROSE_CHARS} chars "
+                f"(got {len(val)}) — an unarticulated read is not research"
+            )
 
     ratings = d.get("ratings") or {}
     for key in REQUIRED_RATINGS:

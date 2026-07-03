@@ -161,7 +161,19 @@ The pre-registered convergence test (docs/midas_convergence_results_2026-07.md,
 the multiplier thesis at the 5-day horizon: quiet single-signal clusters
 +1.13%, 2+ co-signals -0.14%, monotonically WRONG direction. Until his
 own graded live trades say otherwise: the weekly pick memo must NOT cite
-convergence count as a reason to believe in a pick. The sieve and
-multipliers still run as coded (mechanical funnel, unchanged); the
-dossier's expected-value judgment carries the decision, and each week's
-result gets its convergence count recorded for the out-of-sample answer.
+convergence count as a reason to believe in a pick.
+
+**Correction (2026-07-04, LLM integration audit finding #2):** the
+sentence that used to stand here — "the dossier's expected-value
+judgment carries the decision" — was FALSE and has been removed. Per
+step 10 above and `pick_winner()`'s own docstring, the pick is and
+always was purely mechanical: `d.score` (the timing-weighted
+convergence score from stage2_rank), never the LLM's
+pop_probability/expected_magnitude/expected_value. That means the
+now-refuted convergence multiplier is not just "recorded for later" —
+**it is the actual mechanism currently selecting Monday's all-in
+pick.** No rule changes without its own pre-registration (multipliers
+"run as coded" stands), but the operator should know: the sieve's
+scoring formula is the load-bearing part, it is the part this weekend
+measured as wrong-signed, and the LLM layer only has veto power over
+it, not correction power.

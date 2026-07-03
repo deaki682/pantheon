@@ -12,6 +12,20 @@ swallowed-error, coverage-gap, prompt-defect). Every claimed defect
 then got an independent skeptic instructed to default to
 FALSE_POSITIVE and confirm only by reading the code itself.
 
+## Fix status (updated 2026-07-04, same day)
+
+All 5 HIGH findings addressed. Full test suite green after each change
+(`python3 -m pytest tests/` — 348 tests). Nothing below HIGH has been
+touched yet.
+
+| # | Finding | Status |
+|---|---|---|
+| 1 | `/oracle-score` rotation path | **FIXED** — command disabled; hard-refuses to run, points to `/oracle` |
+| 2 | Midas runbook contradiction | **FIXED** — false "expected-value carries the decision" sentence removed; runbook now states plainly that `d.score` (the refuted convergence multiplier) is the actual live mechanism |
+| 3 | Midas freshness gate fail-open | **FIXED** — `filter_stale_earnings_signals` now returns a `caveats` map distinguishing "no tape, kept unverified" from a genuine undigested beat; runbook updated to log it |
+| 4 | Oracle no prose gate | **FIXED** — `thesis`/`business` now require >=40 chars in `oracle/dossier_check.py` (mirrors the Nemesis `_PROSE_FIELDS` gate); all 93 live dossiers re-validated and still pass |
+| 5 | Delphi decision-log stub | **FIXED** — non-halted records must now log `exits_overridden`/`entries_vetoed`/`risk_budget` explicitly; `override_summary` reports `decided_runs`/`halted_runs` separately rather than defaulting missing fields to a flattering 0/1.0 |
+
 **23 findings, 17 CONFIRMED, 6 FALSE_POSITIVE** (the skeptics did their
 job — real false positives, listed at the bottom).
 
@@ -118,12 +132,9 @@ to be already handled correctly elsewhere in the pipeline.
 
 ## Recommendation
 
-No code has been changed by this audit — findings only, per the
-standing "never silently patch" discipline for anything touching live
-paths. Items 1–3 sit directly on money that trades Monday and warrant
-an explicit decision before then: **deprecate/gate `/oracle-score`
-against an active cohort, fix Midas's fail-open freshness default, and
-reconcile the Midas runbook's claim against its own refuted signal.**
-Items 4–5 (prose gate, decision-log stub) are structural and worth
-fixing on the same footing as the Nemesis fixes they mirror, on
+Findings were reported without touching code first, per the standing
+"never silently patch" discipline — items 1–5 were then fixed the same
+day with explicit operator sign-off (see the Fix status table above).
+Items 6–14 (MEDIUM) and 15–17 (LOW) remain unfixed and are worth
+addressing on the same footing as the items above, on
 whatever timeline the operator prefers.

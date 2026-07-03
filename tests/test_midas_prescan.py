@@ -208,7 +208,7 @@ class TestFilterStaleEarningsSignals:
         closes = [50.0] * 15 + [56.0] + [56.0] * 6
         vols = [100] * 15 + [400] + [100] * 6
         hist = {"DAKT": _series(closes, volumes=vols)}
-        earn, guid, dropped = filter_stale_earnings_signals(
+        earn, guid, dropped, caveats = filter_stale_earnings_signals(
             {"DAKT": {"is_beat": True}}, set(), hist
         )
         assert "DAKT" not in earn
@@ -219,7 +219,7 @@ class TestFilterStaleEarningsSignals:
         closes = [50.0] * 20 + [56.0]
         vols = [100] * 20 + [400]
         hist = {"FRSH": _series(closes, volumes=vols)}
-        earn, guid, dropped = filter_stale_earnings_signals(
+        earn, guid, dropped, caveats = filter_stale_earnings_signals(
             {"FRSH": {"is_beat": True}}, set(), hist
         )
         assert "FRSH" in earn
@@ -230,7 +230,7 @@ class TestFilterStaleEarningsSignals:
         closes = [50.0] * 20 + [62.5]
         vols = [100] * 20 + [400]
         hist = {"RAN": _series(closes, volumes=vols)}
-        earn, guid, dropped = filter_stale_earnings_signals(
+        earn, guid, dropped, caveats = filter_stale_earnings_signals(
             {"RAN": {"is_beat": True}}, set(), hist
         )
         assert "RAN" not in earn
@@ -239,27 +239,41 @@ class TestFilterStaleEarningsSignals:
     def test_keeps_undigested_beat(self):
         # beat with no reaction on the tape yet -> the ideal pre-drift setup
         hist = {"WAIT": _series([100.0] * 25)}
-        earn, guid, dropped = filter_stale_earnings_signals(
+        earn, guid, dropped, caveats = filter_stale_earnings_signals(
             {"WAIT": {"is_beat": True}}, set(), hist
         )
         assert "WAIT" in earn
 
     def test_keeps_when_no_historicals(self):
-        earn, guid, dropped = filter_stale_earnings_signals(
+        earn, guid, dropped, caveats = filter_stale_earnings_signals(
             {"NODATA": {"is_beat": True}}, set(), {}
         )
         assert "NODATA" in earn  # don't over-filter without a tape
+        # Fixed 2026-07-04 (LLM integration audit finding #3): a missing tape
+        # used to be silently indistinguishable from a genuine undigested
+        # beat. Now the caller can tell them apart via `caveats`.
+        assert "NODATA" in caveats
+
+    def test_keeps_undigested_beat_without_caveat(self):
+        # Contrast with the case above: real bars showing no reaction yet
+        # is a verified undigested beat, not an unverified one.
+        hist = {"WAIT": _series([100.0] * 25)}
+        earn, guid, dropped, caveats = filter_stale_earnings_signals(
+            {"WAIT": {"is_beat": True}}, set(), hist
+        )
+        assert "WAIT" in earn
+        assert "WAIT" not in caveats
 
     def test_filters_guidance_too(self):
         closes = [30.0] * 15 + [34.0] + [34.0] * 6
         vols = [100] * 15 + [400] + [100] * 6
         hist = {"OLDG": _series(closes, volumes=vols)}
-        earn, guid, dropped = filter_stale_earnings_signals({}, {"OLDG"}, hist)
+        earn, guid, dropped, caveats = filter_stale_earnings_signals({}, {"OLDG"}, hist)
         assert "OLDG" not in guid
         assert "OLDG" in dropped
 
     def test_none_inputs(self):
-        earn, guid, dropped = filter_stale_earnings_signals(None, None, {})
+        earn, guid, dropped, caveats = filter_stale_earnings_signals(None, None, {})
         assert earn == {}
         assert guid == set()
         assert dropped == {}

@@ -8,6 +8,8 @@ from oracle.dossier_check import DossierError, normalize_rating, validate_dossie
 def _good_dossier():
     return {
         "symbol": "ACME",
+        "business": "Runs a small industrial products business.",
+        "thesis": "Undervalued widget maker, cheap on assets.",
         "scenarios": {
             "bull": {"target": 150.0, "probability": 0.3},
             "base": {"target": 100.0, "probability": 0.5},
@@ -124,7 +126,7 @@ def test_falling_knife_requires_decline_explanation():
     from oracle.research import make_dossier
     from oracle.dossier_check import DossierError
     kw = dict(
-        symbol="FISV", business="payments", thesis="cheap compounder, insiders buying",
+        symbol="FISV", business="Payments processor serving small merchants nationwide.", thesis="Cheap compounder trading below intrinsic value; insiders buying.",
         scenarios={"bull": {"target": 78, "probability": 0.25},
                    "base": {"target": 62, "probability": 0.55},
                    "bear": {"target": 36, "probability": 0.20}},
@@ -149,7 +151,7 @@ def test_no_high_52w_does_not_flag():
     # Backward compatible: dossiers without 52-wk high data aren't gated.
     from oracle.research import make_dossier
     d = make_dossier(
-        symbol="OK", business="b", thesis="t",
+        symbol="OK", business="Runs a small industrial products business.", thesis="Undervalued widget maker, cheap on assets.",
         scenarios={"bull": {"target": 150, "probability": 0.3},
                    "base": {"target": 100, "probability": 0.5},
                    "bear": {"target": 60, "probability": 0.2}},

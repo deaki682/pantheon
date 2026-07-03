@@ -1,19 +1,32 @@
-# /oracle-score — score and trade from existing dossiers
+# /oracle-score — DEPRECATED, disabled 2026-07-04
 
-Runs steps 7–12 of `/oracle` only — assumes dossiers are already fresh.
+**This command is disabled and must not be used.** It predates the
+cohort model (implemented 2026-06-29) and ran a score-rotation trade
+path — incumbent-vs-challenger scoring, `rotation_decision`,
+`exit_signal` bull_hit/bear_hit trims — that directly contradicts
+Oracle's current strategy. `oracle.md`/`CLAUDE.md` define Oracle as
+buy-and-hold-to-thesis-break and explicitly list "a new dossier scored
+higher" and "rank drift of any kind" as PROHIBITED exit reasons. This
+command's own header claim ("runs steps 7-12 of /oracle") is also
+false under the current runbook — those steps are research,
+calibration-only rescoring, and cohort logic, none of which perform
+rotation.
+
+Found via the 2026-07-04 LLM integration audit
+(`docs/pantheon_llm_integration_audit_2026-07.md`, finding #1, HIGH
+severity, CONFIRMED): if this command were ever invoked against the
+live cohort, it would place real broker orders (`ORACLE_LIVE=true`)
+that violate the strategy's core discipline.
 
 ## Steps
 
-0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+1. **Refuse to run.** Print: "`/oracle-score` is deprecated and
+   disabled — Oracle runs exclusively via `/oracle` (cohort model).
+   See docs/pantheon_llm_integration_audit_2026-07.md finding #1."
+   Take no other action. Do not load state, do not compute rotation
+   decisions, do not place orders.
 
-1. **Safety check.** Run `python -c "from shared.guards import kill_switch_active; assert not kill_switch_active(), 'KILL_SWITCH present — liquidate'"`. If a `KILL_SWITCH` file exists, liquidate all positions via the broker and stop. Then check `shared.guards.is_live("oracle")` — if `ORACLE_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders** in step 6. Log the planned orders to the decision log so they can be reviewed. Print "PAPER MODE — no orders placed" prominently.
-2. Restore sleeve from `cache/oracle_sleeve.json`.
-3. Load dossiers from `cache/oracle_dossiers.json`. Refresh `current_price` for each via Robinhood quotes.
-4. Rescore via `oracle.research.rescore_dossier`.
-5. Apply rotation rules (`oracle.positioning.rotation_decision`) — incumbent stays unless challenger >= 1.25x score.
-6. **Pre-trade sanity check.** Fetch the broker's actual equity positions, then filter through `shared.guards.filter_broker_to_gods(broker_positions)` to strip out pre-existing personal positions. Also fetch recent broker orders via `get_equity_orders` and compute `shared.guards.pending_shares_from_orders(broker_orders)` to account for queued orders awaiting fill. Pass both to `shared.guards.pre_trade_check(filtered, pending_orders=pending)`. If any symbol is out of sync, **halt trading and run `/oracle-reconcile`** before proceeding. Then `size_book` -> `plan_orders` -> place orders via broker, log to ledger.
-7. Journal each decision.
-8. Apply thesis-anchored exit checks via `oracle.exits.exit_signal`.
-9. Persist.
-
-DO NOT do net-new research here — only the scoring/trading path.
+Use `/oracle` for the full cycle (research → cohort logic → thesis-
+break checks → journal → persist) or `/oracle-research` for a
+dossiers-only accumulation pass. Neither performs rotation on an
+active cohort.

@@ -17,8 +17,8 @@ from oracle.research import (
 def _make(symbol="ACME", price=100, bull=150, bear=50):
     return make_dossier(
         symbol=symbol,
-        business="widgets",
-        thesis="undervalued widget maker",
+        business="Makes industrial widgets sold through a direct sales force.",
+        thesis="Undervalued widget maker trading below replacement cost of assets.",
         scenarios={
             "bull": {"target": bull, "probability": 0.3},
             "base": {"target": 100, "probability": 0.5},
@@ -49,8 +49,8 @@ def test_make_dossier_validates():
     with pytest.raises(Exception):
         make_dossier(
             symbol="X",
-            business="b",
-            thesis="t",
+            business="Runs a small industrial products business.",
+            thesis="Undervalued widget maker, cheap on assets.",
             scenarios={"bull": {"target": 1, "probability": 1}},  # missing base/bear
             ratings={"moat": 0.5, "runway": 0.5, "quality": 0.5, "management": 0.5},
             citations=["c"],
@@ -62,8 +62,8 @@ def test_going_concern_gate_blocks_without_explanation():
     with pytest.raises(DossierError, match="going_concern"):
         make_dossier(
             symbol="RISKY",
-            business="cash burner",
-            thesis="speculative",
+            business="Early-stage biotech burning cash on clinical trials.",
+            thesis="Speculative early-stage biotech with binary trial readout.",
             scenarios={
                 "bull": {"target": 200, "probability": 0.2},
                 "base": {"target": 50, "probability": 0.3},
@@ -78,8 +78,8 @@ def test_going_concern_gate_blocks_without_explanation():
 def test_going_concern_gate_passes_with_explanation():
     d = make_dossier(
         symbol="RISKY",
-        business="cash burner",
-        thesis="speculative but explained",
+        business="Early-stage biotech burning cash on clinical trials.",
+        thesis="Speculative but the going-concern risk is explained below.",
         scenarios={
             "bull": {"target": 200, "probability": 0.2},
             "base": {"target": 50, "probability": 0.3},
@@ -99,8 +99,8 @@ def test_going_concern_gate_passes_with_explanation():
 def test_going_concern_gate_skipped_when_runway_ok():
     d = make_dossier(
         symbol="SAFE",
-        business="profitable",
-        thesis="solid",
+        business="Profitable, well-capitalized industrial compounder.",
+        thesis="Solid, well-capitalized compounder trading at fair value.",
         scenarios={
             "bull": {"target": 200, "probability": 0.3},
             "base": {"target": 100, "probability": 0.5},
@@ -158,8 +158,8 @@ def test_make_dossier_without_price_has_null_priced_at():
     # an unset field for a fresh price.
     d = make_dossier(
         symbol="X",
-        business="b",
-        thesis="t",
+        business="Runs a small industrial products business.",
+        thesis="Undervalued widget maker, cheap on assets.",
         scenarios={
             "bull": {"target": 1, "probability": 0.3},
             "base": {"target": 1, "probability": 0.5},
@@ -318,7 +318,7 @@ def test_staleness_custom_thresholds():
 
 def test_broker_price_accepted_when_close():
     d = make_dossier(
-        symbol="ACME", business="b", thesis="t",
+        symbol="ACME", business="Makes industrial widgets sold through distributors.", thesis="Undervalued widget maker, cheap on assets.",
         scenarios={
             "bull": {"target": 150, "probability": 0.3},
             "base": {"target": 100, "probability": 0.5},
@@ -340,7 +340,7 @@ def test_broker_price_rejects_divergent_current_price():
     from oracle.dossier_check import DossierError
     with pytest.raises(DossierError, match="diverges"):
         make_dossier(
-            symbol="ACME", business="b", thesis="t",
+            symbol="ACME", business="Makes industrial widgets sold through distributors.", thesis="Undervalued widget maker, cheap on assets.",
             scenarios={
                 "bull": {"target": 150, "probability": 0.3},
                 "base": {"target": 100, "probability": 0.5},
@@ -357,7 +357,7 @@ def test_broker_high_52w_rejects_divergent():
     from oracle.dossier_check import DossierError
     with pytest.raises(DossierError, match="high_52w"):
         make_dossier(
-            symbol="ACME", business="b", thesis="t",
+            symbol="ACME", business="Makes industrial widgets sold through distributors.", thesis="Undervalued widget maker, cheap on assets.",
             scenarios={
                 "bull": {"target": 150, "probability": 0.3},
                 "base": {"target": 100, "probability": 0.5},
@@ -374,7 +374,7 @@ def test_broker_high_52w_rejects_divergent():
 
 def test_broker_high_52w_overrides_llm_value():
     d = make_dossier(
-        symbol="ACME", business="b", thesis="t",
+        symbol="ACME", business="Makes industrial widgets sold through distributors.", thesis="Undervalued widget maker, cheap on assets.",
         scenarios={
             "bull": {"target": 150, "probability": 0.3},
             "base": {"target": 100, "probability": 0.5},
