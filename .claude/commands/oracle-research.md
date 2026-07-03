@@ -113,3 +113,31 @@ the same moment. A rebalance that rewrites scenarios but reuses the old
 `current_price` leaves the dossier internally inconsistent (and was the
 silent bug behind the "why is the dossier price different than today's
 quote?" question on 2026-06-28).
+
+## Reference-class priors (measured 2026-07-03 — read before every dossier)
+
+The full-population cluster replay (docs/oracle_replay_results_2026-07.md,
+934 events, 2025–26) measured the pond every screen candidate swims in:
+
+- **Base rate: 32% of insider clusters beat IWM at 12 months.** The
+  median cluster name TRAILS small-caps by ~27%; p10 is −88%. The upside
+  is a thin right tail (best event +955%). Your default posture on any
+  cluster name is therefore skepticism — the average name on your desk
+  loses, and the entire strategy is finding the tail.
+- **A cluster is table stakes, not conviction.** Mechanically bought,
+  the signal was REFUTED (−6.4%/yr vs IWM). Only selection can clear
+  that drag. Write every dossier as if the burden of proof is on the
+  bull case, because measured, it is.
+- **Quality-screen pass + cluster was the WORST cell** (−12.4%, t −2.0;
+  exploratory decomposition, one window — treat as a flag, not a law).
+  Plausible mechanism: trailing fundamentals lag real deterioration, so
+  "still looks clean + insiders buying the dip" often means the filings
+  haven't caught up yet. When the screen says quality-pass, ask "what
+  would these numbers look like NEXT quarter?" rather than taking the
+  pass as comfort.
+- **Activist 13D was the only lens that pointed positive** (+15%, noisy,
+  n=26). A 13D alongside a cluster deserves real weight in the read.
+
+These priors change how dossiers are READ, not what the sleeve does —
+no mechanical rule changed. Any screen-weighting change requires its own
+pre-registration on data the 2025–26 replay never touched.

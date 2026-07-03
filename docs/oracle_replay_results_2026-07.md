@@ -98,3 +98,30 @@ MDRR, MNR, MAGN (3 lenses each); CRSP, TXO, SEVN, AMR, VRCA, ZBIO
 (2 lenses, $18M–$53M clusters). Every name still requires a full
 balanced dossier before it can enter any cohort — this replay just
 showed why that filter is the whole game.
+
+## Addendum (2026-07-03, post-verdict): lens decomposition — LOOK, DON'T TOUCH
+
+Diagnostic slice of the same graded events, run after the frozen verdict
+to locate the convergence drag. Multiple comparisons; one window; no
+rule may cite this without fresh-data pre-registration.
+
+12-month excess vs IWM by lens combination:
+
+| Group | n | mean | t |
+|---|---|---|---|
+| Cluster only | 114 | −3.3% | −0.3 |
+| Cluster + quality-pass (no other lens) | 151 | **−12.4%** | **−2.0** |
+| Cluster + activist 13D | 26 | +15.3% | +0.6 |
+| Three lenses | 9 | −42.6% | −3.1 |
+
+The convergence failure is concentrated in the QUALITY lens. Candidate
+mechanism: the quality screen scores trailing filings, so "clean books +
+insiders buying the dip" selects businesses whose deterioration hasn't
+reached the filings yet, while names that already failed the screen are
+washed out. The 13D lens — the rarest — was the only one pointing
+positive. 5-day cut (Midas-relevant): 2+ lenses +0.63% vs cluster-only
++0.17%, insignificant; short-horizon convergence directionally survives.
+
+Standing follow-up (queued): pre-register the quality-lens test on data
+this replay never touched (2026–27 accumulating clusters, or a 2022–24
+backfill) before any cohort-2 screen change.
