@@ -132,8 +132,17 @@ control-group ledger.
    `shared.edgar.parse_submissions_recent(payload)` → take the latest
    10-12B (amendments `10-12B/A` supersede the original — read the newest,
    it has the final capital structure) or, failing that, the latest Form 10
-   document → `shared.edgar.fetch_body(filing)`. Record `filing.primary_url`
-   as `form10_url` in the dossier.
+   document. **The primary document of a 10-12B is a thin cover page — the
+   actual ~300-page information statement is Exhibit 99.1.** Fetch the
+   accession's directory listing
+   (`https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc_no_nodash}/index.json`
+   via `shared.edgar.http_get`), pick the LARGEST `.htm` exhibit (name
+   usually matches `exhibit991*` / `*informationstat*`; it dwarfs the
+   cover by 50x), and `shared.edgar.clean_html` that. Also worth pulling
+   while you're in the filing history: the most recent 10-Q (post-spin
+   economics), the closing 8-K (final debt actually drawn vs pro forma),
+   and any 13D/G (anchor-holder intent). Record the information-statement
+   exhibit URL as `form10_url` in the dossier.
 
    **Model routing:** a Form 10 body is enormous (300+ pages, easily 100k+
    tokens). As in `/oracle-research`, dispatch the extraction reads via the
@@ -261,21 +270,39 @@ control-group ledger.
       no case, no sell. `index_inclusion` is the one early *completion*
       exit: the orphan got discovered, so sell INTO the forced index
       buying — the exact mirror of the entry. Place market sells; every
-      ledger row MUST record shares and price.
+      ledger row MUST record shares and price. After any live exit the
+      pipeline entry KEEPS `status = "entered"` — a finished one-shot
+      never returns to `"distributed"`, which (with step 5d's status
+      filter) is what prevents re-buying a completed name on its stale
+      window state.
 
-   d. **ENTRIES.** Only pipeline names whose dossier verdict is `"own"` AND
-      whose `window_state` is `"in_window"` — NEVER `"late"` with real
-      money. The ghost buys late names to *measure* the decay; live
-      dollars don't pay to confirm it, because the backtested anomaly
-      decays past ~one quarter. Guards before every buy:
-      `shared.guards.pre_trade_check` on `filter_broker_to_gods`-filtered
-      broker positions (halt on any mismatch), and
-      `shared.guards.already_placed_today` against
+   d. **ENTRIES.** Only pipeline names whose `status` is `"distributed"`
+      (NOT `entered`/`skipped`/`expired` — `window_state` freezes once a
+      name is entered, so without this filter a time-stopped name would
+      re-buy forever on its stale `in_window`), whose dossier verdict is
+      `"own"`, AND whose `window_state` is `"in_window"` — NEVER `"late"`
+      with real money. The ghost buys late names to *measure* the decay;
+      live dollars don't pay to confirm it, because the backtested anomaly
+      decays past ~one quarter. One live shot per spinco, EVER —
+      `sleeve.enter` also enforces this against its own trade history.
+      Guards before every buy: `shared.guards.pre_trade_check` on
+      `filter_broker_to_gods`-filtered broker positions (halt on any
+      mismatch), and `shared.guards.already_placed_today` against
       `cache/nemesis_ledger.jsonl`. Size: `sleeve.target_dollars(marks)` —
-      equal weight, respecting `open_slots`. Place the fractional-share
-      market buy, `sleeve.enter(…, verdict=…, conviction=…,
-      incentive_alignment=…, entry_window=…)` carrying those fields from
-      the dossier, append the ledger row.
+      equal weight, respecting `open_slots`.
+
+      **Order matters — sleeve first, broker second.** Call
+      `sleeve.enter(…, verdict=…, conviction=…, incentive_alignment=…,
+      entry_window=…)` (fields from the dossier) BEFORE placing any broker
+      order. `enter()` returning False (halted, cooldown, basket full,
+      duplicate, one-shot history, insufficient cash incl. fee) means NO
+      broker order — a buy the sleeve refused would exist nowhere in god
+      state, invisible to the one-sided pre-trade check. Only after
+      `enter()` returns True: place the fractional-share market buy. If
+      the broker rejects or errors, `sleeve.cancel_entry(sym, today)`
+      reverses the bookkeeping and no ledger row is written. On a placed
+      order: append the ledger row and set the pipeline entry's `status`
+      to `"entered"`.
 
    e. **Peak / halt / persist.** `sleeve.update_peak(marks)`, then
       `sleeve.check_halt()` — a 40% drawdown from peak halts new entries

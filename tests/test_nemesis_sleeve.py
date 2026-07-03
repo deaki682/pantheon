@@ -301,11 +301,18 @@ class TestCooldowns:
         s.exit("SPNC", 25.0, "2026-07-16", "hard_stop")
         assert s.enter(**_enter_args(today="2026-10-13")) is False
 
-    def test_cooldown_allows_entry_after_expiry(self):
+    def test_cooldown_expiry_does_not_readmit_same_spinco(self):
+        # The one-shot rule outranks cooldown expiry: a traded spinoff is
+        # done forever, because the forced-seller window never recurs. The
+        # in_cooldown clock itself expires (pinned below), but the symbol
+        # stays blocked through trade_results. (Changed 2026-07-03 with the
+        # one-shot rule — the old assertion that expiry readmits the name
+        # was the re-buy loophole the review caught.)
         s = NemesisSleeve(initial_cash=1000.0)
         s.enter(**_enter_args(today="2026-07-06"))
         s.exit("SPNC", 25.0, "2026-07-16", "hard_stop")
-        assert s.enter(**_enter_args(today="2026-10-14")) is True
+        assert s.in_cooldown("SPNC", "2026-10-14") is False
+        assert s.enter(**_enter_args(today="2026-10-14")) is False
 
     def test_cooldown_different_symbol_ok(self):
         s = NemesisSleeve(initial_cash=1000.0)
@@ -664,3 +671,87 @@ class TestGuardsCompat:
         with open(p) as f:
             data = json.load(f)
         assert data["name"] == "nemesis"
+
+
+# ------- one-shot rule + cancel_entry (2026-07-03 review fixes) -------
+
+class TestOneShotRule:
+    def test_no_reentry_after_time_stop(self):
+        # time_stop sets no cooldown, but a completed one-shot is done
+        # forever — without this, a stale in_window state re-buys in a loop.
+        s = NemesisSleeve(initial_cash=1000.0)
+        s.enter("SPIN", 10.0, 20.0, "2026-01-05", verdict="own",
+                conviction=0.6, incentive_alignment=0.5, entry_window="in_window")
+        s.exit("SPIN", 22.0, "2026-06-04", "time_stop")
+        assert s.enter("SPIN", 10.0, 20.0, "2026-06-05", verdict="own",
+                       conviction=0.6, incentive_alignment=0.5,
+                       entry_window="in_window") is False
+
+    def test_no_reentry_after_index_inclusion(self):
+        s = NemesisSleeve(initial_cash=1000.0)
+        s.enter("SPIN", 10.0, 20.0, "2026-01-05", verdict="own",
+                conviction=0.6, incentive_alignment=0.5, entry_window="in_window")
+        s.exit("SPIN", 25.0, "2026-03-01", "index_inclusion")
+        assert s.enter("SPIN", 5.0, 25.0, "2026-03-02", verdict="own",
+                       conviction=0.6, incentive_alignment=0.5,
+                       entry_window="in_window") is False
+
+    def test_one_shot_survives_persistence_roundtrip(self):
+        s = NemesisSleeve(initial_cash=1000.0)
+        s.enter("SPIN", 10.0, 20.0, "2026-01-05", verdict="own",
+                conviction=0.6, incentive_alignment=0.5, entry_window="in_window")
+        s.exit("SPIN", 22.0, "2026-06-04", "time_stop")
+        s2 = NemesisSleeve.from_dict(s.to_dict())
+        assert s2.enter("SPIN", 10.0, 20.0, "2026-06-05", verdict="own",
+                        conviction=0.6, incentive_alignment=0.5,
+                        entry_window="in_window") is False
+
+    def test_other_symbols_unaffected(self):
+        s = NemesisSleeve(initial_cash=1000.0)
+        s.enter("SPIN", 10.0, 20.0, "2026-01-05", verdict="own",
+                conviction=0.6, incentive_alignment=0.5, entry_window="in_window")
+        s.exit("SPIN", 22.0, "2026-06-04", "time_stop")
+        assert s.enter("OTHR", 10.0, 20.0, "2026-06-05", verdict="own",
+                       conviction=0.6, incentive_alignment=0.5,
+                       entry_window="in_window") is True
+
+
+class TestCancelEntry:
+    def test_cancel_restores_cash_exactly(self):
+        s = NemesisSleeve(initial_cash=1000.0)
+        s.enter("SPIN", 10.0, 20.0, "2026-07-03", verdict="own",
+                conviction=0.6, incentive_alignment=0.5, entry_window="in_window")
+        assert s.cancel_entry("SPIN", "2026-07-03") is True
+        assert s.cash == pytest.approx(1000.0)
+        assert "SPIN" not in s.positions
+        assert s.trades_count == 0
+
+    def test_cancel_does_not_consume_one_shot(self):
+        # A cancelled entry never happened — re-entering must be allowed.
+        s = NemesisSleeve(initial_cash=1000.0)
+        s.enter("SPIN", 10.0, 20.0, "2026-07-03", verdict="own",
+                conviction=0.6, incentive_alignment=0.5, entry_window="in_window")
+        s.cancel_entry("SPIN", "2026-07-03")
+        assert s.enter("SPIN", 10.0, 20.0, "2026-07-03", verdict="own",
+                       conviction=0.6, incentive_alignment=0.5,
+                       entry_window="in_window") is True
+
+    def test_cancel_rejected_on_later_day(self):
+        # Same-day only: cancel is order-failure repair, not an exit path.
+        s = NemesisSleeve(initial_cash=1000.0)
+        s.enter("SPIN", 10.0, 20.0, "2026-07-03", verdict="own",
+                conviction=0.6, incentive_alignment=0.5, entry_window="in_window")
+        assert s.cancel_entry("SPIN", "2026-07-06") is False
+        assert "SPIN" in s.positions
+
+    def test_cancel_unknown_symbol(self):
+        s = NemesisSleeve(initial_cash=1000.0)
+        assert s.cancel_entry("NOPE", "2026-07-03") is False
+
+    def test_cancel_leaves_no_trade_result(self):
+        s = NemesisSleeve(initial_cash=1000.0)
+        s.enter("SPIN", 10.0, 20.0, "2026-07-03", verdict="own",
+                conviction=0.6, incentive_alignment=0.5, entry_window="in_window")
+        s.cancel_entry("SPIN", "2026-07-03")
+        assert s.trade_results == []
+        assert s.cooldowns == {}

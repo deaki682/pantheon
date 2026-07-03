@@ -328,3 +328,63 @@ class TestUpdatePipeline:
         assert set(reloaded) == {"0002067876", "0002078008", "0002034201"}
         assert reloaded["0002067876"]["status"] == "ticker_assigned"
         assert reloaded["0002078008"]["status"] == "registered"
+
+
+# ------- extract_ticker: legal-name parens (2026-07-03 review fix) -------
+
+class TestExtractTickerLegalNameParens:
+    def test_jurisdiction_paren_is_not_a_ticker(self):
+        # "(UK)" is part of the legal name — more name text follows it, so
+        # it is not adjacent to the CIK group and must not read as a ticker.
+        assert extract_ticker(
+            "Global Industries (UK) Ltd  (CIK 0001234567)"
+        ) is None
+
+    def test_real_ticker_wins_over_legal_name_paren(self):
+        assert extract_ticker(
+            "Global Industries (UK) Ltd  (GIL)  (CIK 0001234567)"
+        ) == "GIL"
+
+    def test_live_edgar_shape_bvi(self):
+        # Verbatim shape from EDGAR's live company list.
+        assert extract_ticker(
+            "New Century Logistics (BVI) Ltd  (NCEW)  (CIK 0001968043)"
+        ) == "NCEW"
+
+    def test_usa_paren_mid_name(self):
+        assert extract_ticker(
+            "Acme (USA) Holdings Inc  (CIK 0001234567)"
+        ) is None
+
+    def test_no_cik_group_uses_trailing_paren(self):
+        # Defensive: EDGAR always appends a CIK group, but if absent the
+        # trailing paren is still where a ticker annotation would live.
+        assert extract_ticker("Acme (USA) Holdings Inc (ACME)") == "ACME"
+
+
+class TestUpdatePipelineCompanyGuard:
+    def test_company_not_erased_by_nameless_event(self):
+        # A hit with cik but no display_names parses to company="" — it
+        # must not blank out a name an earlier sweep already learned.
+        pipeline = {}
+        ev_named = SpinEvent(
+            company="Versant Media Group, Inc.", cik="0002067876",
+            ticker="VSNT", first_filed="2026-01-05", last_filed="2026-01-05",
+            n_filings=1,
+        )
+        update_pipeline(pipeline, [ev_named], today="2026-06-01")
+        ev_nameless = SpinEvent(
+            company="", cik="0002067876", ticker=None,
+            first_filed="2026-06-01", last_filed="2026-06-01", n_filings=1,
+        )
+        update_pipeline(pipeline, [ev_nameless], today="2026-07-03")
+        assert pipeline["0002067876"]["company"] == "Versant Media Group, Inc."
+
+    def test_new_entry_from_nameless_event_gets_empty_company(self):
+        pipeline = {}
+        ev = SpinEvent(
+            company="", cik="0009999999", ticker=None,
+            first_filed="2026-06-01", last_filed="2026-06-01", n_filings=1,
+        )
+        update_pipeline(pipeline, [ev], today="2026-07-03")
+        assert pipeline["0009999999"]["company"] == ""

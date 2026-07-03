@@ -223,6 +223,14 @@ class NemesisSleeve:
             return False
         if sym in self.positions:
             return False  # one slot per spinco — no doubling up
+        if any(t.symbol == sym for t in self.trade_results):
+            # One live shot per spinoff event, EVER. The forced-seller
+            # window is a one-time consequence of the distribution; after
+            # a completed trade the pipeline's window_state is stale by
+            # construction (the runbook stops re-assessing entered names),
+            # so re-entering here would trade a signal that no longer
+            # exists — and would loop forever on the same stale state.
+            return False
         if len(self.positions) >= MAX_POSITIONS:
             return False  # basket full
         if shares <= 0 or price <= 0:
@@ -256,6 +264,26 @@ class NemesisSleeve:
         )
         self.cash -= total_cost
         self.trades_count += 1
+        return True
+
+    def cancel_entry(self, symbol: str, today: str) -> bool:
+        """Reverse a same-day enter() whose broker order failed or was
+        cancelled before filling. This is bookkeeping repair, NOT an exit:
+        no TradeResult, no cooldown, no realized P&L — the position simply
+        never happened, so the one-shot rule does not consume the name.
+        Restricted to the entry's own date so it can never be misused to
+        erase a losing hold from the record. (A gfv_count incremented by
+        the cancelled enter() is deliberately left standing — conservative
+        for the good-faith-violation tally.)"""
+        sym = symbol.upper()
+        pos = self.positions.get(sym)
+        if pos is None or pos.entry_date != today:
+            return False
+        dollars = pos.shares * pos.entry_price
+        fee = dollars * FEE_BPS / 10_000
+        self.cash += dollars + fee
+        self.trades_count -= 1
+        del self.positions[sym]
         return True
 
     def exit(self, symbol: str, price: float, today: str, reason: str) -> Optional[float]:

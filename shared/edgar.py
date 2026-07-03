@@ -214,7 +214,11 @@ def search_filings(
     forms: Optional[list[str]] = None,
     date_from: Optional[str] = None,
     date_to: Optional[str] = None,
+    offset: int = 0,
 ) -> dict:  # pragma: no cover - network
+    """One page of EDGAR full-text search. FTS pages at 10 hits; callers
+    that need the full result set must loop on `offset` (the API's `from`
+    param) until hits.total.value is exhausted."""
     params = {"q": query}
     if forms:
         params["forms"] = ",".join(forms)
@@ -223,6 +227,8 @@ def search_filings(
         params["startdt"] = date_from
     if date_to:
         params["enddt"] = date_to
+    if offset:
+        params["from"] = str(offset)
     return json.loads(_get(SEARCH_URL, params=params))
 
 

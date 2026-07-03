@@ -90,17 +90,37 @@ def extract_ticker(display_name: str) -> Optional[str]:
     have no exchange listing yet, and the ticker appearing in a later
     amendment is exactly the pipeline progression we want to observe.
 
+    The ticker annotation, when present, is the paren group EDGAR appends
+    immediately before the trailing "(CIK ...)" group. Parens inside the
+    legal name itself — "Global Industries (UK) Ltd", "Jerash Holdings
+    (US), Inc." — are followed by more name text, never directly by the
+    CIK group, so ADJACENCY to the CIK group is what identifies the
+    ticker. Taking the first ticker-shaped token in any paren would read
+    "(UK)" as a listing, and because update_pipeline never erases a known
+    ticker, the false value would permanently shadow the real one once
+    EDGAR backfills it.
+
     Multi-class listings show comma-separated tickers in one paren
     ("(BRK.A, BRK.B)"); we take the first, which EDGAR lists as primary.
     """
-    for group in _PAREN.finditer(display_name):
-        content = group.group(1).strip()
-        if content.upper().startswith("CIK"):
-            continue  # the "(CIK 0001234567)" group, never a ticker
-        for token in content.split(","):
-            token = token.strip()
-            if _TICKER_TOKEN.fullmatch(token):
-                return token
+    groups = list(_PAREN.finditer(display_name))
+    candidate = None
+    for i, g in enumerate(groups):
+        if g.group(1).strip().upper().startswith("CIK"):
+            if i > 0 and not display_name[groups[i - 1].end():g.start()].strip():
+                candidate = groups[i - 1]
+            break
+    else:
+        # No CIK group (defensive — EDGAR always appends one): the ticker
+        # annotation, if any, is still the trailing paren.
+        candidate = groups[-1] if groups else None
+
+    if candidate is None:
+        return None
+    for token in candidate.group(1).strip().split(","):
+        token = token.strip()
+        if _TICKER_TOKEN.fullmatch(token):
+            return token
     return None
 
 
@@ -192,11 +212,33 @@ def search_spinoff_registrations(
     (direct listings, emergences) at the cost of missing filers who never
     use the word; in practice the Form 10 of a genuine spinoff says it
     on page one.
+
+    EDGAR FTS pages at 10 hits, and one spinoff files 2-5 times (10-12B
+    plus amendments), so a single page can hold as few as 2-3 distinct
+    companies. Reading only the first page silently drops the rest of the
+    window — so we page until the reported total is exhausted (capped at
+    500 hits; a window that busy should be narrowed, not trusted).
     """
-    payload = edgar.search_filings(
-        "spin-off", forms=["10-12B"], date_from=date_from, date_to=date_to
-    )
-    return events_from_search_payload(payload)
+    hits: list[dict] = []
+    offset = 0
+    while True:
+        try:
+            payload = edgar.search_filings(
+                "spin-off", forms=["10-12B"],
+                date_from=date_from, date_to=date_to, offset=offset,
+            )
+        except Exception:
+            # EDGAR FTS 500s intermittently, sometimes mid-pagination. A
+            # partial sweep beats a dead sweep: keep the pages we have —
+            # the weekly cadence re-covers the window and heals the gap.
+            break
+        page = payload.get("hits", {}).get("hits", [])
+        hits.extend(page)
+        total = payload.get("hits", {}).get("total", {}).get("value", 0)
+        offset += len(page)
+        if not page or offset >= total or offset >= 500:
+            break
+    return events_from_search_payload({"hits": {"hits": hits}})
 
 
 # ------- Pipeline persistence -------
@@ -257,7 +299,14 @@ def update_pipeline(pipeline: dict, events: list[SpinEvent], *, today: str) -> d
             entry = {"first_seen": today}
             pipeline[ev.cik] = entry
 
-        entry["company"] = ev.company
+        # Like the ticker below, a learned company name is never erased by
+        # a degraded event: the parser tolerates hits with no display_names
+        # (company == ""), and a narrow re-scan must not blank out a name
+        # an earlier sweep already recorded.
+        if ev.company:
+            entry["company"] = ev.company
+        else:
+            entry.setdefault("company", "")
         if ev.ticker:
             entry["ticker"] = ev.ticker
         else:
