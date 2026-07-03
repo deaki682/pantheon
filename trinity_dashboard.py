@@ -7,7 +7,7 @@ Reads:
 Writes:
   - cache/trinity_dashboard.html
 
-Colors: Oracle gold (#D4AF37), Achilles purple (#9C27B0), Delphi cyan (#00BCD4),
+Colors: Oracle gold (#D4AF37), Achilles purple (#9C27B0), Delphi cyan (#00BCD4), Nemesis green (#2E7D32),
         Midas crimson (#DC143C).
 """
 from __future__ import annotations
@@ -24,6 +24,7 @@ GODS = (
     ("achilles", "#9C27B0"),
     ("delphi", "#00BCD4"),
     ("midas", "#DC143C"),
+    ("nemesis", "#2E7D32"),
 )
 
 

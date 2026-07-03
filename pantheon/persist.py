@@ -63,7 +63,14 @@ OWNERSHIP_PREFIXES: dict[str, list[str]] = {
     ],
     "ghost_nemesis": [
         "cache/ghost_nemesis_",
-        "cache/nemesis_",
+        "cache/nemesis_pipeline.json",
+        "cache/nemesis_dossiers.json",
+        "cache/nemesis_cadence.json",
+    ],
+    "nemesis": [
+        "cache/nemesis_sleeve.json",
+        "cache/nemesis_ledger.jsonl",
+        "cache/nemesis_curve.json",
     ],
 }
 
@@ -75,6 +82,7 @@ GUARD_FILES: list[str] = [
     "cache/delphi_sleeve.json",
     "cache/achilles_sleeve.json",
     "cache/midas_sleeve.json",
+    "cache/nemesis_sleeve.json",
     "cache/oracle_screen.json",
     "cache/oracle_prescreener.json",
     "cache/oracle_dossiers.json",

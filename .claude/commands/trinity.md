@@ -7,7 +7,7 @@ market hours via a timed routine. 5 steps.
 
 0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/`.
 
-1. **Load sleeves.** Read `cache/oracle_sleeve.json`, `cache/delphi_sleeve.json`, `cache/achilles_sleeve.json`, `cache/midas_sleeve.json`. Construct sleeve objects via each class's `.load()`.
+1. **Load sleeves.** Read `cache/oracle_sleeve.json`, `cache/delphi_sleeve.json`, `cache/achilles_sleeve.json`, `cache/midas_sleeve.json`, and `cache/nemesis_sleeve.json` (if present — Nemesis's live sleeve exists but may be empty while she paper-trades). Construct sleeve objects via each class's `.load()`.
 
 2. **Fetch live quotes.** Collect every symbol held across all four sleeves. Fetch current prices via Robinhood `get_equity_quotes`. Also fetch SPY for Delphi overlay reference.
 

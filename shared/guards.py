@@ -32,6 +32,7 @@ _LIVE_ENV = {
     "delphi": "DELPHI_LIVE",
     "achilles": "ACHILLES_LIVE",
     "midas": "MIDAS_LIVE",
+    "nemesis": "NEMESIS_LIVE",
 }
 
 
@@ -164,6 +165,7 @@ SLEEVE_PATHS = {
     "oracle": "cache/oracle_sleeve.json",
     "delphi": "cache/delphi_sleeve.json",
     "achilles": "cache/achilles_sleeve.json",
+    "nemesis": "cache/nemesis_sleeve.json",
     "midas": "cache/midas_sleeve.json",
 }
 
