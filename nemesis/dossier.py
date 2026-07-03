@@ -66,6 +66,10 @@ class SpinDossier:
     neglect: float = 0.0              # 0-1: how orphaned (no coverage, index exile)
     forced_seller_map: str = ""       # WHO must sell and why (index funds, mandates)
     pro_forma_notes: str = ""         # what the pro-forma adjustments hide
+    post_spin_insider_activity: str = ""  # Form 4 behavior since distribution —
+                                      # the evidence trail behind any
+                                      # incentive_alignment revision
+                                      # (nemesis.insiders.render_summary)
     bull_case: str = ""
     bear_case: str = ""
     key_risk: str = ""

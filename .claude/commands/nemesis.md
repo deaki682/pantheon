@@ -144,6 +144,23 @@ control-group ledger.
    and any 13D/G (anchor-holder intent). Record the information-statement
    exhibit URL as `form10_url` in the dossier.
 
+   **Post-spin Form 4 sweep (distributed names only):**
+   `nemesis.insiders.fetch_post_spin_txns(symbol, cik, distribution_date)`
+   → `summarize_post_spin(txns, since=distribution_date)` →
+   `render_summary(...)` into the dossier's `post_spin_insider_activity`
+   field. This is the behavioral check on the Form 10's paper incentives —
+   see the incentive_alignment instruction below. A name still
+   pre-distribution has nothing to sweep; note that and re-sweep on later
+   runs (insider buys can land any week of the hold, and for HELD names the
+   weekly re-sweep doubles as thesis-break surveillance — a wave of
+   code-"S" selling is how `insider_reversal`-style breaks announce
+   themselves). **FPI caveat:** foreign private issuers (Irish/foreign
+   plcs — OCTV is one) are Section 16-EXEMPT: their insiders never file
+   Form 4s, so zero transactions means the channel is dark, not that
+   insiders declined to buy. Record "FPI — Section 16 exempt, channel
+   unavailable" and leave incentive_alignment resting on the Form 10 and
+   13D evidence; never score the silence.
+
    **Model routing:** a Form 10 body is enormous (300+ pages, easily 100k+
    tokens). As in `/oracle-research`, dispatch the extraction reads via the
    Agent tool with `model: "sonnet"` — one subagent per section bundle
@@ -164,7 +181,14 @@ control-group ledger.
      Are there founder/CEO purchases or a meaningful stake? Greenblatt's
      tell: management that takes its pay in spinco equity expects the
      spinco to work; management compensated in parent stock is telling you
-     which company keeps the good business.
+     which company keeps the good business. **Then weigh what insiders
+     DID (the Form 4 sweep above): the Form 10's grants are promises
+     drafted by the parent's consultants; an officer's own cash buying in
+     the open market post-distribution is the one alignment signal that
+     can't be engineered, and it outranks any grant table. Conversely,
+     insider code-"S" selling into the forced-seller dump is a hard
+     negative. Score from both: paper incentives set the floor, observed
+     behavior moves it — and cite the sweep's numbers, not vibes.**
    - **Hunt the dumped liabilities** (`garbage_barge_risk`, 0–1; default
      1.0 — assume the parent dumped its problems until the pro-formas prove
      clean). Spinoffs are where parents park what they want off their
