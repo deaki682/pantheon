@@ -23,6 +23,12 @@
    "equity": 1999.80004615,
    "note": "weekday exits-only pass (rerun): OCTV buy still queued -- market closed for observed July 4th holiday, no exits due",
    "ts": "2026-07-03T15:13:05Z"
+  },
+  {
+   "date": "2026-07-03",
+   "equity": 1999.80004615,
+   "note": "weekday exits-only pass: confirmed via get_equity_orders OCTV order 6a474948 still state=queued/unfilled (cumulative_quantity=0); sleeve left unchanged, no true-up. due_exits([]) against last trade 17.41 vs stop 10.446 and exit_date 2026-11-29: none due. peak_equity unchanged, halted=false.",
+   "ts": "2026-07-03T18:00:00Z"
   }
  ]
 }
