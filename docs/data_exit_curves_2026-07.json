@@ -1,0 +1,29 @@
+{
+ "stamp": "LOOK, DON'T TOUCH \u2014 reference curve, 2021-24 ocean class, frozen -40% stop",
+ "curves_by_hold_days": {
+  "90": {
+   "n": 48,
+   "mean": -0.0266,
+   "t": -0.71,
+   "win": 0.42
+  },
+  "150": {
+   "n": 48,
+   "mean": -0.0099,
+   "t": -0.24,
+   "win": 0.5
+  },
+  "210": {
+   "n": 48,
+   "mean": 0.0678,
+   "t": 0.98,
+   "win": 0.48
+  },
+  "270": {
+   "n": 48,
+   "mean": 0.2052,
+   "t": 1.58,
+   "win": 0.48
+  }
+ }
+}
