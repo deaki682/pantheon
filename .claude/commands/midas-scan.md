@@ -54,7 +54,7 @@ means an entry pass stays light and a failed scan never risks the sleeve.
 
 ### Stage 2 — Convergence Rank (→ top 10)
 
-4. **Score and rank.** `midas.scanner.stage2_rank(candidates, top_n=10)`. The convergence multiplier non-linearly boosts names with 2+ simultaneous signals. Returns a list of finalist dicts carrying `symbol`, `score`, `convergence_count`, `active_signals`, `signal_details`, `sector`, `market_cap`, and score `components`.
+4. **Score and rank.** `midas.scanner.stage2_rank(candidates, top_n=10)`. Since 2026-07-04 (operator directive after the convergence thesis was refuted under two independent countings) the live `score` is **max timing-weighted signal strength** — the strongest single timely signal in a neglected, liquid name; convergence count no longer multiplies the ranking. Each finalist dict carries `symbol`, `score`, `score_legacy` (the old convergence-multiplier formula, ghost-only), `convergence_count`, `active_signals`, `signal_details`, `sector`, `market_cap`, and score `components`.
 
 ### Persist the scan (no trade)
 

@@ -249,8 +249,10 @@ class WeeklyCatalystDossier:
     active thesis-killers (guidance bombs, fraud, delisting risk).
     pop_probability/expected_magnitude/expected_value are informational
     only — they do NOT feed into pick_winner. The pick is purely
-    mechanical: highest timing-weighted convergence score among
-    non-disqualified names.
+    mechanical: highest live score among non-disqualified names (since
+    2026-07-04 the live score is max-of-timely-strengths — the refuted
+    convergence multiplier survives only in score_legacy, which the
+    ghost leg trades on paper).
     """
     symbol: str
     catalyst: str
@@ -265,6 +267,7 @@ class WeeklyCatalystDossier:
     signals: dict = field(default_factory=dict)
     convergence_count: int = 0
     score: float = 0.0
+    score_legacy: float = 0.0
     researched_at: str = ""
     sector: str = ""
     market_cap: Optional[float] = None
@@ -273,7 +276,9 @@ class WeeklyCatalystDossier:
 
 
 def pick_winner(dossiers: list[WeeklyCatalystDossier]) -> Optional[WeeklyCatalystDossier]:
-    """Pick the single best candidate by timing-weighted convergence score.
+    """Pick the single best candidate by the live score (since 2026-07-04:
+    max timing-weighted signal strength — the flattened, post-refutation
+    formula; see midas/scoring.py).
 
     The LLM's only influence is the disqualification gate — it can veto
     names with active thesis-killers, but it cannot promote names or

@@ -1,10 +1,20 @@
-"""Convergence-weighted scoring for Midas.
+"""Signal scoring for Midas.
 
-The edge is signal convergence: when multiple independent informed-money
-signals fire on the same name simultaneously, the probability of a
-short-term pop increases non-linearly.
+LIVE formula (operator directive 2026-07-04):
 
-score = convergence_multiplier × mean(strength × timing_weight) × neglect × liquidity
+    score = max(strength × timing_weight) × neglect × liquidity × quality
+
+The original thesis — signal convergence multiplying pop probability
+non-linearly — was REFUTED at the 5-day horizon under two independent
+countings (docs/midas_convergence_results_2026-07.md + correction
+addendum): multi-signal names did not beat quiet single-signal names.
+The convergence multiplier is therefore flattened out of the live
+ranking; the strongest single timely signal carries the pick.
+
+LEGACY formula (ghost leg only, graded weekly via /midas-ghost so the
+convergence thesis can earn its way back with live evidence):
+
+    score_legacy = convergence_multiplier × mean(strength × timing_weight) × neglect × liquidity × quality
 
 Each signal's raw strength is multiplied by a timing weight that reflects
 how well the signal's resolution timescale matches Midas's 5-day hold.
@@ -168,16 +178,37 @@ def score_candidate(
 
     qv_factor = max(quality_value, QUALITY_VALUE_FLOOR) if quality_value > 0 else QUALITY_VALUE_FLOOR
 
-    raw = conv * mean_strength * neglect * liq * qv_factor
+    # LIVE score (operator directive 2026-07-04): the convergence
+    # multiplier is FLATTENED out of the ranking. The pre-registered
+    # convergence test refuted the multiplier under two independent
+    # countings (docs/midas_convergence_results_2026-07.md and the
+    # correction addendum) — multi-signal names did NOT beat quiet ones
+    # at the 5-day horizon. The live pick is now "strongest single
+    # TIMELY signal in a neglected, liquid name": MAX of the
+    # timing-weighted strengths among above-floor signals, so an extra
+    # weaker signal never raises OR lowers a name's rank, and slow
+    # signals (13F/13D) still cannot carry a name on their own — the
+    # timing-floor gate the multiplier used to enforce is preserved
+    # explicitly. The old formula is kept below as score_legacy and
+    # ghost-traded weekly so the convergence thesis can earn its way
+    # back with live grades (see /midas-ghost).
+    best_strength = max((weighted[k] for k in above_floor), default=0.0)
+    raw = best_strength * neglect * liq * qv_factor
+
+    # LEGACY score — the exact pre-2026-07-04 formula (convergence
+    # multiplier x mean strength). Ghost leg only; never ranks live money.
+    raw_legacy = conv * mean_strength * neglect * liq * qv_factor
 
     return {
         "score": raw,
+        "score_legacy": raw_legacy,
         "convergence_count": n_convergence,
         "convergence_multiplier": conv,
         "active_signals": active,
         "timing_adjusted": weighted,
         "components": {
-            "convergence": conv,
+            "best_strength": best_strength,
+            "convergence_legacy": conv,
             "mean_strength": mean_strength,
             "neglect": neglect,
             "liquidity": liq,

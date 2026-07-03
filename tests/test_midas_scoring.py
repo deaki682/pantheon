@@ -90,6 +90,10 @@ class TestScoreCandidate:
         assert result["convergence_count"] == 1
 
     def test_two_signals_higher_than_one(self):
+        # Live score is max-of-timely-strengths: the earnings beat
+        # (0.7 x 1.0 timing) out-scores the insider cluster (0.8 x 0.5),
+        # so adding it raises the name's rank. Convergence count still
+        # tracks distinct events for the ghost A/B.
         one = score_candidate(
             signals={"insider_cluster": 0.8},
             quality_value=0.5, market_cap=1e9,
@@ -101,10 +105,12 @@ class TestScoreCandidate:
         assert two["score"] > one["score"]
         assert two["convergence_count"] == 2
 
-    def test_three_signals_much_higher(self):
-        # Three GENUINELY independent sources above the convergence timing
-        # floor (short interest data, an earnings report, an insider cluster)
-        # should convergence-boost.
+    def test_convergence_boost_lives_in_legacy_only(self):
+        # Operator directive 2026-07-04: the multiplier was refuted under
+        # two independent countings, so stacking a WEAKER independent
+        # signal no longer moves the LIVE score (max-of-timely carries) —
+        # but the legacy ghost formula still boosts, so the A/B race can
+        # settle whether the thesis deserves its way back.
         two = score_candidate(
             signals={"short_squeeze": 0.8, "earnings_beat": 0.7},
             quality_value=0.5, market_cap=1e9,
@@ -113,7 +119,22 @@ class TestScoreCandidate:
             signals={"short_squeeze": 0.8, "earnings_beat": 0.7, "insider_cluster": 0.6},
             quality_value=0.5, market_cap=1e9,
         )
-        assert three["score"] > two["score"] * 1.5
+        assert three["score"] == pytest.approx(two["score"])  # live: flat
+        assert three["score_legacy"] > two["score_legacy"] * 1.5  # ghost: boosted
+
+    def test_weaker_extra_signal_never_lowers_live_score(self):
+        # Under the old mean-based formula an extra weak signal could DRAG
+        # the average down; max-aggregation makes adding information
+        # rank-monotone.
+        strong = score_candidate(
+            signals={"earnings_beat": 0.9},
+            quality_value=0.5, market_cap=1e9,
+        )
+        with_weak = score_candidate(
+            signals={"earnings_beat": 0.9, "guidance_raised": 0.1},
+            quality_value=0.5, market_cap=1e9,
+        )
+        assert with_weak["score"] >= strong["score"]
 
     def test_same_event_signals_do_not_double_count(self):
         # Fixed 2026-07-04 (LLM integration audit): earnings_beat,
@@ -198,8 +219,11 @@ class TestScoreCandidate:
         assert without_slow["convergence_count"] == 2
         assert with_slow["convergence_count"] == 2
 
-    def test_slow_signal_still_contributes_to_strength(self):
-        """Below-floor signals affect mean_strength, just not the multiplier."""
+    def test_slow_signal_moves_legacy_not_live(self):
+        """Below-floor signals (13D/13F) affect the legacy mean-strength
+        formula but deliberately do NOT move the live max-of-timely score
+        (flatten directive 2026-07-04): a months-horizon filing shouldn't
+        re-rank a 5-day trade."""
         without_slow = score_candidate(
             signals={"short_squeeze": 0.8, "earnings_beat": 0.7},
             quality_value=0.5, market_cap=1e9,
@@ -208,7 +232,8 @@ class TestScoreCandidate:
             signals={"short_squeeze": 0.8, "earnings_beat": 0.7, "activist_13d": 1.0},
             quality_value=0.5, market_cap=1e9,
         )
-        assert with_slow["score"] != without_slow["score"]
+        assert with_slow["score"] == pytest.approx(without_slow["score"])
+        assert with_slow["score_legacy"] != without_slow["score_legacy"]
 
     def test_fast_signals_beat_slow_at_same_raw_count(self):
         fast = score_candidate(

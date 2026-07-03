@@ -156,14 +156,14 @@ achievable only with excellent selection from a large dossier pool.
 | Volume anomaly | `get_equity_historicals` (30-day bars) | min(1.0, ratio / 3.0), fires at 1.5x |
 | Short squeeze | finviz screener (>20% short float) | min(1.0, pct / 50.0) |
 
-### Convergence Multipliers
+### Scoring (flattened 2026-07-04, operator directive)
 
-| Signals firing | Multiplier |
-|---------------|------------|
-| 1 | 1.0x |
-| 2 | 2.5x |
-| 3 | 5.0x |
-| 4+ | 8.0x |
+Live score = max(strength × timing_weight) × neglect × liquidity ×
+quality — the strongest single timely signal carries the pick. The
+convergence multipliers (1x/2.5x/5x/8x) were REFUTED at the 5-day
+horizon under two independent countings (docs/RESEARCH_LEDGER.md) and
+survive only as `score_legacy`, ghost-traded weekly via /midas-ghost so
+the thesis can earn its way back with live grades.
 
 ### Capital Scaling Gates (`midas/calibration.py`)
 

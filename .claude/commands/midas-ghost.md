@@ -6,6 +6,15 @@ it can price — not just the single winner — marks the book to market,
 and grades each one's 5-day return. Short horizons mean useful answers
 in weeks, not months.
 
+**The 2026-07-04 A/B race:** since the convergence multiplier was
+flattened out of the live formula (operator directive; see the rule-
+change record in midas.md), every finalist carries both `score` (live,
+max-of-timely) and `score_legacy` (old convergence formula), and
+`finalists_to_candidates` flags each week's `live_pick` and
+`legacy_pick`. The report's `signal_lift` grades those two flags head-
+to-head — the multiplier earns its way back only if legacy picks beat
+live picks over a real sample (own prereg before any reversal).
+
 The payoff is signal-convergence validation:
   - **convergence_terciles** — do multi-signal names outperform single-signal
     names? This is the core thesis test. If it's flat or inverted, the

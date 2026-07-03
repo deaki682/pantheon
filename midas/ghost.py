@@ -40,6 +40,24 @@ def finalists_to_candidates(
     timing_adjusted. Dossier fields (disqualified, disqualify_reason) are
     optional — present only for names that went through stage 3.
     """
+    finalists = list(finalists)
+
+    # A/B flags for the 2026-07-04 flatten decision: which name would the
+    # LIVE (flattened, max-strength) formula pick this week, and which
+    # would the LEGACY (convergence-multiplier) formula have picked?
+    # Graded side by side via boolean_lift so the multiplier thesis can
+    # earn its way back with live evidence. Disqualified names are
+    # ineligible for either pick, matching pick_winner's rule.
+    def _argmax_sym(key: str) -> str:
+        eligible = [f for f in finalists
+                    if not f.get("disqualified") and f.get(key, 0) and (f.get("symbol") or "")]
+        if not eligible:
+            return ""
+        return max(eligible, key=lambda f: f.get(key, 0))["symbol"].upper()
+
+    live_pick = _argmax_sym("score")
+    legacy_pick = _argmax_sym("score_legacy")
+
     out: list[dict] = []
     for f in finalists:
         sym = (f.get("symbol") or "").upper()
@@ -56,8 +74,11 @@ def finalists_to_candidates(
         active_signals = f.get("active_signals", {})
         features: dict = {
             "score": f.get("score", 0),
+            "score_legacy": f.get("score_legacy", 0),
             "convergence_count": f.get("convergence_count", 0),
             "disqualified": bool(f.get("disqualified", False)),
+            "live_pick": sym == live_pick,
+            "legacy_pick": sym == legacy_pick,
         }
 
         for channel in ("insider_cluster", "earnings_beat", "smart_money",
@@ -102,6 +123,11 @@ def convergence_report(entries: Iterable[GhostEntry]) -> dict:
         **overall_stats(graded),
         "convergence_terciles": numeric_tercile_stats(graded, "convergence_count"),
         "score_terciles": numeric_tercile_stats(graded, "score"),
+        # The 2026-07-04 A/B: legacy (convergence-multiplier) formula vs the
+        # flattened live formula. signal_lift below also carries live_pick /
+        # legacy_pick booleans — the head-to-head of what each formula would
+        # have bought each week.
+        "score_legacy_terciles": numeric_tercile_stats(graded, "score_legacy"),
         "timing_weighted_terciles": numeric_tercile_stats(graded, "mean_timing_weighted"),
         "signal_lift": boolean_lift(graded),
     }

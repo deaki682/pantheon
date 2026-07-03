@@ -61,10 +61,10 @@ non-linearly.
      - `disqualified`: True if any thesis-killer is found
      - `disqualify_reason`: specific reason (e.g. "guidance bomb Jun 18, -14% gap")
      - `pop_probability`, `expected_magnitude`, `expected_value`: optional, informational only — these do NOT affect pick_winner
-   - **Carry the scan's numbers into the dossier.** Copy `score`, `convergence_count`, and `signals` (the `active_signals` map) straight from the loaded finalist onto the `WeeklyCatalystDossier`. `pick_winner` ranks on `d.score`, so it MUST be the scan's score — do not recompute or invent it.
+   - **Carry the scan's numbers into the dossier.** Copy `score`, `score_legacy`, `convergence_count`, and `signals` (the `active_signals` map) straight from the loaded finalist onto the `WeeklyCatalystDossier`. `pick_winner` ranks on `d.score`, so it MUST be the scan's score — do not recompute or invent it. (`score_legacy` never ranks live money — it exists so `/midas-ghost` can paper-trade the old formula's pick each week.)
    - **Do NOT set pop_probability to justify the algorithm's ranking.** These fields are for your review only. The pick is mechanical.
 
-10. **Pick the winner.** `midas.scanner.pick_winner(dossiers)` — highest timing-weighted convergence score among non-disqualified names. The LLM cannot promote a name; it can only veto. Save all dossiers to `cache/midas_dossiers.json`.
+10. **Pick the winner.** `midas.scanner.pick_winner(dossiers)` — highest live score (max timing-weighted signal strength since 2026-07-04) among non-disqualified names. The LLM cannot promote a name; it can only veto. Save all dossiers to `cache/midas_dossiers.json`.
 
     **Kill-the-winner pass (mandatory before any entry — added 2026-07-03).**
     Midas bets the entire sleeve on one name; nothing else in his week
@@ -166,14 +166,32 @@ convergence count as a reason to believe in a pick.
 **Correction (2026-07-04, LLM integration audit finding #2):** the
 sentence that used to stand here — "the dossier's expected-value
 judgment carries the decision" — was FALSE and has been removed. Per
-step 10 above and `pick_winner()`'s own docstring, the pick is and
-always was purely mechanical: `d.score` (the timing-weighted
-convergence score from stage2_rank), never the LLM's
-pop_probability/expected_magnitude/expected_value. That means the
-now-refuted convergence multiplier is not just "recorded for later" —
-**it is the actual mechanism currently selecting Monday's all-in
-pick.** No rule changes without its own pre-registration (multipliers
-"run as coded" stands), but the operator should know: the sieve's
-scoring formula is the load-bearing part, it is the part this weekend
-measured as wrong-signed, and the LLM layer only has veto power over
-it, not correction power.
+step 10 and `pick_winner()`'s own docstring, the pick is and always
+was purely mechanical — which meant the refuted convergence multiplier
+was the actual mechanism selecting Monday's all-in pick. That led
+directly to the rule change below.
+
+## RULE CHANGE RECORD: convergence multiplier flattened (2026-07-04)
+
+**Operator directive, on the record** (chose "Flatten + ghost the old
+formula" from the presented options after the refutation held under
+two independent countings — the original test AND the double-count-
+corrected re-run; see docs/midas_convergence_results_2026-07.md and
+docs/midas_convergence_correction_results_2026-07.md).
+
+- **Live formula (midas/scoring.py):**
+  `score = max(strength × timing_weight over above-floor signals) × neglect × liquidity × quality`
+  — the strongest single TIMELY signal carries the pick. Convergence
+  count no longer multiplies anything on the live path. The timing
+  floor is preserved: slow signals (13F/13D) still cannot carry a name.
+- **Legacy formula preserved as `score_legacy`** (the exact old
+  `convergence_multiplier × mean strength` math) on every finalist and
+  dossier. It never ranks live money.
+- **The ghost A/B (the way back):** `/midas-ghost` opens every
+  finalist weekly and its report now grades `live_pick` vs
+  `legacy_pick` head-to-head (plus `score_legacy` terciles). If the
+  legacy formula's picks demonstrably beat the live formula's over a
+  real sample (own prereg required before any reversal — suggested
+  checkpoint: ≥20 graded weeks), the multiplier can earn its way back.
+  Until then convergence count is a recorded feature, not a ranking
+  input, and the pick memo still must not cite it as conviction.
