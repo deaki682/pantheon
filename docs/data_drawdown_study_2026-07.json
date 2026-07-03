@@ -1,0 +1,106 @@
+{
+ "episodes_2010plus": [
+  {
+   "peak": "2011-04-25",
+   "trough": "2011-09-26",
+   "depth": -0.2557
+  },
+  {
+   "peak": "2015-06-15",
+   "trough": "2016-02-08",
+   "depth": -0.2446
+  },
+  {
+   "peak": "2018-08-27",
+   "trough": "2020-03-16",
+   "depth": -0.4139
+  },
+  {
+   "peak": "2021-11-01",
+   "trough": "2023-10-23",
+   "depth": -0.3292
+  },
+  {
+   "peak": "2024-11-25",
+   "trough": "2025-03-31",
+   "depth": -0.2509
+  }
+ ],
+ "betas": {
+  "oracle": {
+   "beta": 1.0,
+   "sd": 0.6146,
+   "n": 8,
+   "bench": "IWM"
+  },
+  "delphi": {
+   "beta": 1.0,
+   "sd": 0.017,
+   "n": 10,
+   "bench": "MTUM",
+   "gamma": 0.67
+  },
+  "achilles": {
+   "beta": 1.4,
+   "sd": 0.0809,
+   "n": 12,
+   "bench": "IWM"
+  },
+  "midas": {
+   "beta": 1.12,
+   "sd": 0.1125,
+   "n": 1,
+   "bench": "IWM"
+  },
+  "nemesis": {
+   "beta": 1.37,
+   "sd": 0.2824,
+   "n": 5,
+   "bench": "SPY"
+  }
+ },
+ "scenarios": {
+  "worst_measured": {
+   "C": {
+    "p50": -0.381,
+    "p10": -0.449,
+    "P(dd>50%)": 0.016,
+    "fired": 0.0
+   },
+   "A": {
+    "p50": -0.339,
+    "p10": -0.405,
+    "P(dd>50%)": 0.0,
+    "fired": 1.0
+   },
+   "B": {
+    "p50": -0.339,
+    "p10": -0.406,
+    "P(dd>50%)": 0.001,
+    "fired": 1.0
+   }
+  },
+  "synthetic_-60%": {
+   "C": {
+    "p50": -0.52,
+    "p10": -0.581,
+    "P(dd>50%)": 0.645,
+    "fired": 0.0
+   },
+   "A": {
+    "p50": -0.463,
+    "p10": -0.524,
+    "P(dd>50%)": 0.224,
+    "fired": 1.0
+   },
+   "B": {
+    "p50": -0.464,
+    "p10": -0.522,
+    "P(dd>50%)": 0.218,
+    "fired": 1.0
+   }
+  }
+ },
+ "false_trigger": 0.467,
+ "data_note": "pre-2010 broker history internally inconsistent (IWM 129 in 2004-12 vs 83 in 2007-06, bad 2000 bar) \u2014 excluded; GFC handled synthetically"
+}
