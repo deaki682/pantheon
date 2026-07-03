@@ -1,0 +1,61 @@
+{
+ "directive": "Operator directive 2026-07-03: do not place new live orders. Qualifying entries (veto-passed + in_window) are logged here with deadlines; the operator executes manually or lifts the pause.",
+ "pending": [
+  {
+   "symbol": "RNA",
+   "added": "2026-07-03",
+   "verdict": "watch",
+   "conviction": 0.62,
+   "garbage_barge_risk": 0.45,
+   "ref_price": 13.65,
+   "target_dollars": 400,
+   "window": "in_window, day 86/90 \u2014 LATE AFTER ~2026-07-09 (window expires; live never buys late)",
+   "thesis_line": "Below-net-cash Novartis-orphan biotech: $267.8M cash/no debt vs ~$233M cap; BMS milestones to ~$2.2B; IND catalyst 2H26. Watch not own: platform clawback to Novartis, ~12mo runway, zero insider buys."
+  }
+ ],
+ "watch_queue": [
+  {
+   "symbol": "FDXF",
+   "verdict": "watch",
+   "garbage_barge_risk": 0.6,
+   "note": "window likely opens within weeks; MANDATORY re-read at Aug 10-K before entry (boundary case)"
+  },
+  {
+   "symbol": "MBGL",
+   "verdict": "watch",
+   "garbage_barge_risk": 0.45,
+   "note": "day ~4; window can open from ~Jul 14"
+  },
+  {
+   "symbol": "SUNB",
+   "verdict": "watch",
+   "garbage_barge_risk": 0.25,
+   "note": "day ~85; needs tells to fire this week or goes late (structure: redomicile, weak forced-seller story)"
+  },
+  {
+   "symbol": "TRAX",
+   "verdict": "watch",
+   "garbage_barge_risk": 0.3,
+   "note": "day ~52; needs volume to normalize"
+  }
+ ],
+ "condemned_never_buy": [
+  {
+   "symbol": "VGNT",
+   "reason": "garbage 0.8 \u2014 $1.9B parent payday, negative equity (2/2 refuters)"
+  },
+  {
+   "symbol": "HONA",
+   "reason": "garbage 0.65 \u2014 $16B notes, insiders <1%"
+  }
+ ],
+ "executed": [
+  {
+   "symbol": "OCTV",
+   "order_id": "6a474948-fbd5-4f77-a7b1-ade4afb9e436",
+   "state": "queued for 2026-07-06 open",
+   "placed": "2026-07-03",
+   "note": "placed before the pause, operator-confirmed"
+  }
+ ]
+}
