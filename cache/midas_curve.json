@@ -237,5 +237,11 @@
     "equity": 1968.0541011541995,
     "note": "time-stop triggered (exit_date=2026-07-03, holiday-closed market): sell order queued for DAKT (order 6a473615), awaiting fill at next open Mon 2026-07-06. Position left open in sleeve pending actual fill confirmation.",
     "ts": "2026-07-03T04:10:30Z"
+  },
+  {
+    "date": "2026-07-03",
+    "equity": 1968.0541,
+    "note": "pending-exit guard: DAKT time-stop sell still queued (order 6a473615, holiday-closed market), no duplicate sell placed",
+    "ts": "2026-07-03T12:20:00Z"
   }
 ]
