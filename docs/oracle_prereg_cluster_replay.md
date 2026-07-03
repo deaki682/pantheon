@@ -65,9 +65,14 @@ them forward. It answers:
 
 ## Grading (FROZEN)
 
-- **Entry price**: first daily close ON or AFTER event date + 5 calendar
-  days (signal is public on filing; the lag is an honesty buffer for
-  filing delay — Form 4s are due within 2 business days).
+- **Entry price**: first daily close ON or AFTER knowability date + 5
+  calendar days, where knowability = max(transaction date, FILING date)
+  of the buy that completes the cluster. (Amended 2026-07-03, before any
+  outcome was computed: the raw sample contains delinquent Form 4s filed
+  up to two YEARS after their transaction dates — grading from
+  transaction dates would credit the signal with information nobody had.
+  Keying entry to the filing's public availability closes the look-ahead
+  hole and makes the test strictly harder.)
 - **Horizons**: +126 trading days (~6mo) and +252 trading days (~12mo),
   graded only where the horizon has elapsed.
 - **Benchmark**: IWM total return over the identical window; the graded
