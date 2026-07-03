@@ -1,0 +1,5381 @@
+{
+ "prereg": "docs/midas_prereg_convergence_test.md",
+ "groups": {
+  "0": {
+   "n": 306,
+   "mean": 0.0113,
+   "t": 1.75,
+   "win": 0.52,
+   "_sd": 0.11267460507999667
+  },
+  "1": {
+   "n": 369,
+   "mean": 0.0018,
+   "t": 0.34,
+   "win": 0.44,
+   "_sd": 0.10363777992906377
+  },
+  "2plus": {
+   "n": 217,
+   "mean": -0.0014,
+   "t": -0.17,
+   "win": 0.43,
+   "_sd": 0.12600392619937661
+  }
+ },
+ "verdict": "REFUTED",
+ "rows": [
+  {
+   "sym": "PRHI",
+   "knowable": "2025-08-22",
+   "co_signals": 1,
+   "h5_excess": -0.05935871128093029
+  },
+  {
+   "sym": "GRX",
+   "knowable": "2025-01-14",
+   "co_signals": 1,
+   "h5_excess": 0.05157457633958673
+  },
+  {
+   "sym": "RICK",
+   "knowable": "2025-02-18",
+   "co_signals": 1,
+   "h5_excess": -0.030312283463560075
+  },
+  {
+   "sym": "NVNO",
+   "knowable": "2025-01-03",
+   "co_signals": 0,
+   "h5_excess": -0.0661103307409292
+  },
+  {
+   "sym": "SOWG",
+   "knowable": "2025-01-03",
+   "co_signals": 0,
+   "h5_excess": -0.008875898506496949
+  },
+  {
+   "sym": "SSII",
+   "knowable": "2025-02-18",
+   "co_signals": 0,
+   "h5_excess": -0.10677204980615107
+  },
+  {
+   "sym": "ACXP",
+   "knowable": "2025-01-08",
+   "co_signals": 1,
+   "h5_excess": 0.2137070524412299
+  },
+  {
+   "sym": "CET",
+   "knowable": "2025-01-08",
+   "co_signals": 0,
+   "h5_excess": -0.009147543942778391
+  },
+  {
+   "sym": "AMST",
+   "knowable": "2025-01-08",
+   "co_signals": 0,
+   "h5_excess": 0.08043637574950036
+  },
+  {
+   "sym": "FDBC",
+   "knowable": "2025-02-20",
+   "co_signals": 0,
+   "h5_excess": 0.01917627994681359
+  },
+  {
+   "sym": "BATRA",
+   "knowable": "2025-01-24",
+   "co_signals": 1,
+   "h5_excess": 0.042221260316776865
+  },
+  {
+   "sym": "IBIO",
+   "knowable": "2025-01-13",
+   "co_signals": 1,
+   "h5_excess": 0.020078785454497705
+  },
+  {
+   "sym": "FRD",
+   "knowable": "2025-01-31",
+   "co_signals": 0,
+   "h5_excess": 0.041373515613450706
+  },
+  {
+   "sym": "ABTC",
+   "knowable": "2025-01-15",
+   "co_signals": 2,
+   "h5_excess": -0.16941893144047948
+  },
+  {
+   "sym": "IMDX",
+   "knowable": "2025-02-10",
+   "co_signals": 1,
+   "h5_excess": -0.014732332790516889
+  },
+  {
+   "sym": "MMD",
+   "knowable": "2025-01-21",
+   "co_signals": 0,
+   "h5_excess": 0.022204746136865405
+  },
+  {
+   "sym": "ANIX",
+   "knowable": "2025-01-15",
+   "co_signals": 0,
+   "h5_excess": 0.009670751524794463
+  },
+  {
+   "sym": "FLOC",
+   "knowable": "2025-01-22",
+   "co_signals": 1,
+   "h5_excess": -0.0017394959720489211
+  },
+  {
+   "sym": "LOOP",
+   "knowable": "2025-01-27",
+   "co_signals": 2,
+   "h5_excess": -0.0948970488835853
+  },
+  {
+   "sym": "MXF",
+   "knowable": "2025-01-23",
+   "co_signals": 0,
+   "h5_excess": 0.014490016995421184
+  },
+  {
+   "sym": "PCSA",
+   "knowable": "2025-01-29",
+   "co_signals": 0,
+   "h5_excess": -0.08756567058446507
+  },
+  {
+   "sym": "SUNS",
+   "knowable": "2025-03-10",
+   "co_signals": 2,
+   "h5_excess": 0.028856833115776803
+  },
+  {
+   "sym": "SFD",
+   "knowable": "2025-01-30",
+   "co_signals": 1,
+   "h5_excess": -0.0048219120392581916
+  },
+  {
+   "sym": "CTOS",
+   "knowable": "2025-02-03",
+   "co_signals": 1,
+   "h5_excess": -0.04098989433802991
+  },
+  {
+   "sym": "MSIF",
+   "knowable": "2025-01-30",
+   "co_signals": 1,
+   "h5_excess": 0.0030547093994681696
+  },
+  {
+   "sym": "CFFN",
+   "knowable": "2025-02-26",
+   "co_signals": 0,
+   "h5_excess": -0.028079438879056506
+  },
+  {
+   "sym": "ZNTL",
+   "knowable": "2025-02-04",
+   "co_signals": 1,
+   "h5_excess": 0.20304656447872937
+  },
+  {
+   "sym": "INR",
+   "knowable": "2025-02-03",
+   "co_signals": 1,
+   "h5_excess": -0.049112792735867106
+  },
+  {
+   "sym": "UVSP",
+   "knowable": "2025-03-19",
+   "co_signals": 0,
+   "h5_excess": 0.014103872409864326
+  },
+  {
+   "sym": "FRST",
+   "knowable": "2025-02-06",
+   "co_signals": 2,
+   "h5_excess": -0.03503650206424935
+  },
+  {
+   "sym": "FNWD",
+   "knowable": "2025-02-10",
+   "co_signals": 1,
+   "h5_excess": 0.04289478585355089
+  },
+  {
+   "sym": "MBX",
+   "knowable": "2025-02-19",
+   "co_signals": 1,
+   "h5_excess": 0.013218532318564846
+  },
+  {
+   "sym": "TECX",
+   "knowable": "2025-02-07",
+   "co_signals": 1,
+   "h5_excess": -0.02707085879186999
+  },
+  {
+   "sym": "CJMB",
+   "knowable": "2025-03-14",
+   "co_signals": 0,
+   "h5_excess": -0.15411511771141773
+  },
+  {
+   "sym": "THFF",
+   "knowable": "2025-02-18",
+   "co_signals": 1,
+   "h5_excess": 0.060573456539160575
+  },
+  {
+   "sym": "BCDA",
+   "knowable": "2025-04-08",
+   "co_signals": 2,
+   "h5_excess": -0.11615051496035778
+  },
+  {
+   "sym": "BZH",
+   "knowable": "2025-02-10",
+   "co_signals": 2,
+   "h5_excess": 0.033354647666405834
+  },
+  {
+   "sym": "ZBIO",
+   "knowable": "2025-02-19",
+   "co_signals": 2,
+   "h5_excess": -0.017651585275321624
+  },
+  {
+   "sym": "SRBK",
+   "knowable": "2025-03-12",
+   "co_signals": 0,
+   "h5_excess": 0.006618108813424062
+  },
+  {
+   "sym": "AMCR",
+   "knowable": "2025-02-14",
+   "co_signals": 2,
+   "h5_excess": 0.03669172743513338
+  },
+  {
+   "sym": "ECBK",
+   "knowable": "2025-02-24",
+   "co_signals": 0,
+   "h5_excess": 0.021831352310804353
+  },
+  {
+   "sym": "MAGN",
+   "knowable": "2025-02-28",
+   "co_signals": 1,
+   "h5_excess": 0.017397696338134927
+  },
+  {
+   "sym": "ARCC",
+   "knowable": "2025-03-05",
+   "co_signals": 0,
+   "h5_excess": -0.05894499939154074
+  },
+  {
+   "sym": "PFX",
+   "knowable": "2025-02-21",
+   "co_signals": 1,
+   "h5_excess": 0.08055798157014615
+  },
+  {
+   "sym": "AMTM",
+   "knowable": "2025-02-20",
+   "co_signals": 1,
+   "h5_excess": -0.028345155841793312
+  },
+  {
+   "sym": "CMTV",
+   "knowable": "2025-02-28",
+   "co_signals": 0,
+   "h5_excess": 0.024027780245015506
+  },
+  {
+   "sym": "FLNC",
+   "knowable": "2025-02-14",
+   "co_signals": 1,
+   "h5_excess": -0.05471373986127415
+  },
+  {
+   "sym": "MRP",
+   "knowable": "2025-02-18",
+   "co_signals": 1,
+   "h5_excess": -0.006511880037979756
+  },
+  {
+   "sym": "TBRG",
+   "knowable": "2025-02-26",
+   "co_signals": 1,
+   "h5_excess": -0.030681875202423048
+  },
+  {
+   "sym": "EVT",
+   "knowable": "2025-02-27",
+   "co_signals": 0,
+   "h5_excess": 0.0026607407770863345
+  },
+  {
+   "sym": "AARD",
+   "knowable": "2025-02-19",
+   "co_signals": 1,
+   "h5_excess": 0.011430262303126715
+  },
+  {
+   "sym": "BEAT",
+   "knowable": "2025-02-21",
+   "co_signals": 1,
+   "h5_excess": 0.09373066184035916
+  },
+  {
+   "sym": "BRKR",
+   "knowable": "2025-03-11",
+   "co_signals": 0,
+   "h5_excess": -0.06857896500174254
+  },
+  {
+   "sym": "ECG",
+   "knowable": "2025-02-26",
+   "co_signals": 0,
+   "h5_excess": 0.011641386502360573
+  },
+  {
+   "sym": "RZLT",
+   "knowable": "2025-03-28",
+   "co_signals": 0,
+   "h5_excess": -0.04191210542173207
+  },
+  {
+   "sym": "RCEL",
+   "knowable": "2025-02-20",
+   "co_signals": 1,
+   "h5_excess": -0.035188709902047255
+  },
+  {
+   "sym": "SEPN",
+   "knowable": "2025-02-24",
+   "co_signals": 2,
+   "h5_excess": 0.0070126085316646325
+  },
+  {
+   "sym": "BFC",
+   "knowable": "2025-03-19",
+   "co_signals": 0,
+   "h5_excess": 0.02111997666101273
+  },
+  {
+   "sym": "NKSH",
+   "knowable": "2025-03-17",
+   "co_signals": 0,
+   "h5_excess": 0.007972894793210505
+  },
+  {
+   "sym": "MITK",
+   "knowable": "2025-02-24",
+   "co_signals": 1,
+   "h5_excess": 0.007630288301836985
+  },
+  {
+   "sym": "ETG",
+   "knowable": "2025-02-27",
+   "co_signals": 0,
+   "h5_excess": 0.018786771020297244
+  },
+  {
+   "sym": "ETO",
+   "knowable": "2025-02-27",
+   "co_signals": 0,
+   "h5_excess": 0.01674121255955563
+  },
+  {
+   "sym": "PRG",
+   "knowable": "2025-02-27",
+   "co_signals": 2,
+   "h5_excess": 0.016071209755096683
+  },
+  {
+   "sym": "AENT",
+   "knowable": "2025-02-27",
+   "co_signals": 2,
+   "h5_excess": -0.20096995985960242
+  },
+  {
+   "sym": "SNBRQ",
+   "knowable": "2025-03-13",
+   "co_signals": 2,
+   "h5_excess": -0.019708734477507095
+  },
+  {
+   "sym": "PDFS",
+   "knowable": "2025-02-25",
+   "co_signals": 1,
+   "h5_excess": 0.019691607524000676
+  },
+  {
+   "sym": "MBC",
+   "knowable": "2025-03-04",
+   "co_signals": 2,
+   "h5_excess": -0.0480735475774422
+  },
+  {
+   "sym": "SIGI",
+   "knowable": "2025-02-27",
+   "co_signals": 0,
+   "h5_excess": 0.003328326887664046
+  },
+  {
+   "sym": "OCSL",
+   "knowable": "2025-02-25",
+   "co_signals": 1,
+   "h5_excess": 0.039619662340493855
+  },
+  {
+   "sym": "SM",
+   "knowable": "2025-02-27",
+   "co_signals": 1,
+   "h5_excess": 0.035093918491970966
+  },
+  {
+   "sym": "TALK",
+   "knowable": "2025-03-03",
+   "co_signals": 2,
+   "h5_excess": 0.03204029798927266
+  },
+  {
+   "sym": "CRSP",
+   "knowable": "2026-01-27",
+   "co_signals": 0,
+   "h5_excess": -0.049304514347484396
+  },
+  {
+   "sym": "DINO",
+   "knowable": "2025-03-05",
+   "co_signals": 1,
+   "h5_excess": 0.0368544056616984
+  },
+  {
+   "sym": "ACDC",
+   "knowable": "2025-02-28",
+   "co_signals": 0,
+   "h5_excess": 0.1836708513710419
+  },
+  {
+   "sym": "GERN",
+   "knowable": "2025-03-03",
+   "co_signals": 1,
+   "h5_excess": 0.05743508609864434
+  },
+  {
+   "sym": "RCUS",
+   "knowable": "2025-02-27",
+   "co_signals": 2,
+   "h5_excess": 0.04914009520401308
+  },
+  {
+   "sym": "ZD",
+   "knowable": "2025-03-04",
+   "co_signals": 2,
+   "h5_excess": 0.03638747748121873
+  },
+  {
+   "sym": "OSUR",
+   "knowable": "2025-02-27",
+   "co_signals": 2,
+   "h5_excess": 0.03043562762907115
+  },
+  {
+   "sym": "THM",
+   "knowable": "2025-03-05",
+   "co_signals": 1,
+   "h5_excess": 0.061935646123082
+  },
+  {
+   "sym": "IAUX",
+   "knowable": "2025-03-03",
+   "co_signals": 1,
+   "h5_excess": 0.19741719839504812
+  },
+  {
+   "sym": "KYN",
+   "knowable": "2025-04-07",
+   "co_signals": 0,
+   "h5_excess": 0.009807757722805732
+  },
+  {
+   "sym": "WBTN",
+   "knowable": "2025-03-21",
+   "co_signals": 0,
+   "h5_excess": -0.055192778507385465
+  },
+  {
+   "sym": "CCO",
+   "knowable": "2025-03-03",
+   "co_signals": 2,
+   "h5_excess": -0.12008444906464932
+  },
+  {
+   "sym": "IHRT",
+   "knowable": "2025-03-10",
+   "co_signals": 1,
+   "h5_excess": 0.058402287661231345
+  },
+  {
+   "sym": "LTRX",
+   "knowable": "2025-03-04",
+   "co_signals": 0,
+   "h5_excess": 0.04132852775369966
+  },
+  {
+   "sym": "PDSB",
+   "knowable": "2025-03-03",
+   "co_signals": 1,
+   "h5_excess": 0.09335641115040438
+  },
+  {
+   "sym": "MGY",
+   "knowable": "2025-05-05",
+   "co_signals": 2,
+   "h5_excess": -0.033117855850541944
+  },
+  {
+   "sym": "NTST",
+   "knowable": "2025-03-10",
+   "co_signals": 2,
+   "h5_excess": -0.02115500400543535
+  },
+  {
+   "sym": "INGN",
+   "knowable": "2025-03-04",
+   "co_signals": 1,
+   "h5_excess": -0.012528584357232697
+  },
+  {
+   "sym": "STRA",
+   "knowable": "2025-03-05",
+   "co_signals": 1,
+   "h5_excess": -0.055482162764046716
+  },
+  {
+   "sym": "FTDR",
+   "knowable": "2025-03-05",
+   "co_signals": 1,
+   "h5_excess": -0.037369094360313326
+  },
+  {
+   "sym": "AIM",
+   "knowable": "2025-04-23",
+   "co_signals": 0,
+   "h5_excess": 0.47948086590745875
+  },
+  {
+   "sym": "MAC",
+   "knowable": "2025-03-17",
+   "co_signals": 0,
+   "h5_excess": 0.009469328952139366
+  },
+  {
+   "sym": "LSF",
+   "knowable": "2025-03-06",
+   "co_signals": 2,
+   "h5_excess": 0.08432542953862665
+  },
+  {
+   "sym": "EVH",
+   "knowable": "2025-03-10",
+   "co_signals": 0,
+   "h5_excess": -0.04762874336979972
+  },
+  {
+   "sym": "MCFT",
+   "knowable": "2025-04-17",
+   "co_signals": 1,
+   "h5_excess": -0.01496332051672522
+  },
+  {
+   "sym": "HERZ",
+   "knowable": "2025-03-06",
+   "co_signals": 0,
+   "h5_excess": -0.00836091755154822
+  },
+  {
+   "sym": "PEB",
+   "knowable": "2025-03-07",
+   "co_signals": 1,
+   "h5_excess": -0.06577421305123976
+  },
+  {
+   "sym": "DRTTF",
+   "knowable": "2025-03-24",
+   "co_signals": 0,
+   "h5_excess": 0.13942672088865238
+  },
+  {
+   "sym": "TNYA",
+   "knowable": "2025-03-07",
+   "co_signals": 1,
+   "h5_excess": 0.13621292287719888
+  },
+  {
+   "sym": "RC",
+   "knowable": "2025-03-06",
+   "co_signals": 2,
+   "h5_excess": -0.0002779994183488288
+  },
+  {
+   "sym": "IE",
+   "knowable": "2025-03-10",
+   "co_signals": 0,
+   "h5_excess": 0.046295369422237664
+  },
+  {
+   "sym": "ECPG",
+   "knowable": "2025-03-05",
+   "co_signals": 2,
+   "h5_excess": -0.027431539001690597
+  },
+  {
+   "sym": "MEGI",
+   "knowable": "2025-04-08",
+   "co_signals": 0,
+   "h5_excess": 0.019160440022728098
+  },
+  {
+   "sym": "ABCL",
+   "knowable": "2025-03-11",
+   "co_signals": 2,
+   "h5_excess": 0.0030873270313100942
+  },
+  {
+   "sym": "CORZ",
+   "knowable": "2025-03-07",
+   "co_signals": 2,
+   "h5_excess": -0.05637346549286182
+  },
+  {
+   "sym": "GAM",
+   "knowable": "2025-03-06",
+   "co_signals": 1,
+   "h5_excess": -0.002183553868361221
+  },
+  {
+   "sym": "AWRE",
+   "knowable": "2025-03-12",
+   "co_signals": 1,
+   "h5_excess": 0.02043932469826837
+  },
+  {
+   "sym": "VRME",
+   "knowable": "2025-03-11",
+   "co_signals": 2,
+   "h5_excess": -0.01384805604580519
+  },
+  {
+   "sym": "AMPY",
+   "knowable": "2025-03-10",
+   "co_signals": 2,
+   "h5_excess": -0.029584725325781713
+  },
+  {
+   "sym": "SEI",
+   "knowable": "2025-03-12",
+   "co_signals": 1,
+   "h5_excess": 0.1510464714344475
+  },
+  {
+   "sym": "FCNCA",
+   "knowable": "2025-03-12",
+   "co_signals": 1,
+   "h5_excess": 0.008758096575238294
+  },
+  {
+   "sym": "CULP",
+   "knowable": "2025-03-12",
+   "co_signals": 2,
+   "h5_excess": 0.010586753680648764
+  },
+  {
+   "sym": "CMTG",
+   "knowable": "2025-03-13",
+   "co_signals": 0,
+   "h5_excess": -0.03912699949269216
+  },
+  {
+   "sym": "CRMT",
+   "knowable": "2025-03-12",
+   "co_signals": 2,
+   "h5_excess": 0.03286442645051646
+  },
+  {
+   "sym": "LUCK",
+   "knowable": "2025-05-12",
+   "co_signals": 2,
+   "h5_excess": -0.0048874848987808805
+  },
+  {
+   "sym": "VG",
+   "knowable": "2025-03-11",
+   "co_signals": 1,
+   "h5_excess": 0.008202996252905548
+  },
+  {
+   "sym": "WSC",
+   "knowable": "2025-03-13",
+   "co_signals": 1,
+   "h5_excess": -0.02476648785326052
+  },
+  {
+   "sym": "MFIC",
+   "knowable": "2025-03-11",
+   "co_signals": 1,
+   "h5_excess": -0.004960784487721304
+  },
+  {
+   "sym": "CRGY",
+   "knowable": "2025-03-19",
+   "co_signals": 0,
+   "h5_excess": 0.008842004188711172
+  },
+  {
+   "sym": "MVBF",
+   "knowable": "2025-03-18",
+   "co_signals": 1,
+   "h5_excess": 0.014627425005085515
+  },
+  {
+   "sym": "FNKO",
+   "knowable": "2025-03-17",
+   "co_signals": 2,
+   "h5_excess": -0.015411385223634055
+  },
+  {
+   "sym": "MEI",
+   "knowable": "2025-03-18",
+   "co_signals": 1,
+   "h5_excess": -0.02646201232977352
+  },
+  {
+   "sym": "TCPC",
+   "knowable": "2025-03-13",
+   "co_signals": 2,
+   "h5_excess": -0.008010862280122266
+  },
+  {
+   "sym": "NFE",
+   "knowable": "2025-03-13",
+   "co_signals": 2,
+   "h5_excess": 0.1860264580887918
+  },
+  {
+   "sym": "PSEC",
+   "knowable": "2025-03-20",
+   "co_signals": 0,
+   "h5_excess": -0.0030209572950828933
+  },
+  {
+   "sym": "PRLD",
+   "knowable": "2025-03-27",
+   "co_signals": 0,
+   "h5_excess": -0.08369844688876282
+  },
+  {
+   "sym": "IMMR",
+   "knowable": "2025-03-21",
+   "co_signals": 2,
+   "h5_excess": -0.026809610121058314
+  },
+  {
+   "sym": "FSUN",
+   "knowable": "2025-05-09",
+   "co_signals": 2,
+   "h5_excess": -0.002284554682339901
+  },
+  {
+   "sym": "RAPP",
+   "knowable": "2025-03-13",
+   "co_signals": 2,
+   "h5_excess": -0.010010777177360541
+  },
+  {
+   "sym": "ONEW",
+   "knowable": "2025-05-08",
+   "co_signals": 1,
+   "h5_excess": -0.03917032993772451
+  },
+  {
+   "sym": "SUIG",
+   "knowable": "2025-03-14",
+   "co_signals": 0,
+   "h5_excess": -0.0443487231153018
+  },
+  {
+   "sym": "GEL",
+   "knowable": "2025-03-25",
+   "co_signals": 0,
+   "h5_excess": -0.08615091491589089
+  },
+  {
+   "sym": "INVE",
+   "knowable": "2025-03-17",
+   "co_signals": 1,
+   "h5_excess": -0.005732650716132381
+  },
+  {
+   "sym": "MX",
+   "knowable": "2025-03-17",
+   "co_signals": 1,
+   "h5_excess": -0.08897579645927811
+  },
+  {
+   "sym": "PHAT",
+   "knowable": "2025-05-13",
+   "co_signals": 1,
+   "h5_excess": -0.05542598947457111
+  },
+  {
+   "sym": "GUTS",
+   "knowable": "2025-03-18",
+   "co_signals": 1,
+   "h5_excess": -0.039752797236279
+  },
+  {
+   "sym": "BTMD",
+   "knowable": "2025-03-18",
+   "co_signals": 2,
+   "h5_excess": -0.10129125877474043
+  },
+  {
+   "sym": "GBLI",
+   "knowable": "2025-05-14",
+   "co_signals": 1,
+   "h5_excess": -0.020627849323355818
+  },
+  {
+   "sym": "FTHM",
+   "knowable": "2025-03-18",
+   "co_signals": 2,
+   "h5_excess": -0.07313741262089435
+  },
+  {
+   "sym": "LYEL",
+   "knowable": "2025-03-18",
+   "co_signals": 1,
+   "h5_excess": 0.006951285519306016
+  },
+  {
+   "sym": "AFCG",
+   "knowable": "2025-03-17",
+   "co_signals": 1,
+   "h5_excess": -0.07797205829018561
+  },
+  {
+   "sym": "ZOMDF",
+   "knowable": "2025-03-18",
+   "co_signals": 1,
+   "h5_excess": -0.062829720313202
+  },
+  {
+   "sym": "HFFG",
+   "knowable": "2025-03-19",
+   "co_signals": 1,
+   "h5_excess": 0.2213331756143998
+  },
+  {
+   "sym": "ACHV",
+   "knowable": "2025-03-19",
+   "co_signals": 1,
+   "h5_excess": -0.05614751363099546
+  },
+  {
+   "sym": "CION",
+   "knowable": "2025-04-02",
+   "co_signals": 2,
+   "h5_excess": -0.012827400071841577
+  },
+  {
+   "sym": "MG",
+   "knowable": "2025-03-20",
+   "co_signals": 0,
+   "h5_excess": 0.011628351114171265
+  },
+  {
+   "sym": "BLNE",
+   "knowable": "2025-03-20",
+   "co_signals": 1,
+   "h5_excess": -0.09354685051065881
+  },
+  {
+   "sym": "TROX",
+   "knowable": "2025-05-09",
+   "co_signals": 2,
+   "h5_excess": -0.10144031017569155
+  },
+  {
+   "sym": "ECC",
+   "knowable": "2025-03-21",
+   "co_signals": 1,
+   "h5_excess": 0.04912090628575172
+  },
+  {
+   "sym": "CIMG",
+   "knowable": "2025-04-03",
+   "co_signals": 1,
+   "h5_excess": 0.09992891021897488
+  },
+  {
+   "sym": "WSR",
+   "knowable": "2025-05-05",
+   "co_signals": 1,
+   "h5_excess": -0.010005044620650216
+  },
+  {
+   "sym": "GCBC",
+   "knowable": "2025-04-25",
+   "co_signals": 2,
+   "h5_excess": -0.0252724687387198
+  },
+  {
+   "sym": "GRWG",
+   "knowable": "2025-03-20",
+   "co_signals": 1,
+   "h5_excess": -0.07073761863182715
+  },
+  {
+   "sym": "KYNB",
+   "knowable": "2025-03-25",
+   "co_signals": 1,
+   "h5_excess": -0.018793098263754304
+  },
+  {
+   "sym": "NEWT",
+   "knowable": "2025-05-13",
+   "co_signals": 1,
+   "h5_excess": -0.008119555759161678
+  },
+  {
+   "sym": "XOMA",
+   "knowable": "2025-04-02",
+   "co_signals": 0,
+   "h5_excess": 0.015727218896609108
+  },
+  {
+   "sym": "ACNT",
+   "knowable": "2025-05-16",
+   "co_signals": 1,
+   "h5_excess": -0.015113182820957638
+  },
+  {
+   "sym": "FVR",
+   "knowable": "2025-03-24",
+   "co_signals": 2,
+   "h5_excess": -0.025924708475729585
+  },
+  {
+   "sym": "QTI",
+   "knowable": "2025-04-10",
+   "co_signals": 2,
+   "h5_excess": 0.13985917746910181
+  },
+  {
+   "sym": "TITN",
+   "knowable": "2025-04-07",
+   "co_signals": 0,
+   "h5_excess": -0.02442159645978581
+  },
+  {
+   "sym": "IMNM",
+   "knowable": "2025-03-25",
+   "co_signals": 1,
+   "h5_excess": -0.02634526363177081
+  },
+  {
+   "sym": "ROLR",
+   "knowable": "2025-03-27",
+   "co_signals": 2,
+   "h5_excess": 0.05716760700383616
+  },
+  {
+   "sym": "BLIN",
+   "knowable": "2025-03-28",
+   "co_signals": 1,
+   "h5_excess": -0.0817851738544032
+  },
+  {
+   "sym": "NTHI",
+   "knowable": "2025-05-19",
+   "co_signals": 0,
+   "h5_excess": -0.009102521868910696
+  },
+  {
+   "sym": "CATX",
+   "knowable": "2025-04-01",
+   "co_signals": 2,
+   "h5_excess": 0.10001392369813433
+  },
+  {
+   "sym": "WGO",
+   "knowable": "2025-04-03",
+   "co_signals": 1,
+   "h5_excess": -0.02915784485260242
+  },
+  {
+   "sym": "LOCL",
+   "knowable": "2025-04-02",
+   "co_signals": 1,
+   "h5_excess": -0.05898990771949009
+  },
+  {
+   "sym": "PGC",
+   "knowable": "2025-04-01",
+   "co_signals": 0,
+   "h5_excess": -0.04436085860768246
+  },
+  {
+   "sym": "FGBI",
+   "knowable": "2025-04-02",
+   "co_signals": 0,
+   "h5_excess": 0.027966450274514276
+  },
+  {
+   "sym": "ALMS",
+   "knowable": "2025-04-03",
+   "co_signals": 1,
+   "h5_excess": -0.37775828110458
+  },
+  {
+   "sym": "NUVB",
+   "knowable": "2025-04-08",
+   "co_signals": 0,
+   "h5_excess": 0.014762576348773093
+  },
+  {
+   "sym": "SMA",
+   "knowable": "2025-04-03",
+   "co_signals": 1,
+   "h5_excess": -0.025377617288938614
+  },
+  {
+   "sym": "GME",
+   "knowable": "2025-04-07",
+   "co_signals": 2,
+   "h5_excess": 0.025353479768247755
+  },
+  {
+   "sym": "EWTX",
+   "knowable": "2025-04-04",
+   "co_signals": 1,
+   "h5_excess": 0.06723129481231549
+  },
+  {
+   "sym": "FF",
+   "knowable": "2025-04-04",
+   "co_signals": 2,
+   "h5_excess": -0.016531235601309868
+  },
+  {
+   "sym": "NMTC",
+   "knowable": "2025-04-07",
+   "co_signals": 0,
+   "h5_excess": -0.035463163356671545
+  },
+  {
+   "sym": "PANL",
+   "knowable": "2025-05-22",
+   "co_signals": 2,
+   "h5_excess": -0.03226553550379363
+  },
+  {
+   "sym": "DOMO",
+   "knowable": "2025-04-04",
+   "co_signals": 0,
+   "h5_excess": -0.10139419538376293
+  },
+  {
+   "sym": "CMPX",
+   "knowable": "2025-04-08",
+   "co_signals": 1,
+   "h5_excess": 0.14612338684842774
+  },
+  {
+   "sym": "HUMA",
+   "knowable": "2025-04-08",
+   "co_signals": 2,
+   "h5_excess": -0.08557631660092446
+  },
+  {
+   "sym": "HNRG",
+   "knowable": "2025-04-11",
+   "co_signals": 0,
+   "h5_excess": 0.018453462236423412
+  },
+  {
+   "sym": "NWTG",
+   "knowable": "2025-04-15",
+   "co_signals": 1,
+   "h5_excess": -0.08271896590668282
+  },
+  {
+   "sym": "RNXT",
+   "knowable": "2025-04-10",
+   "co_signals": 2,
+   "h5_excess": 0.07020180385997454
+  },
+  {
+   "sym": "PRHI",
+   "knowable": "2025-04-08",
+   "co_signals": 1,
+   "h5_excess": 0.044481362923916246
+  },
+  {
+   "sym": "STRW",
+   "knowable": "2025-05-20",
+   "co_signals": 1,
+   "h5_excess": 0.058411348276538266
+  },
+  {
+   "sym": "PEPG",
+   "knowable": "2025-06-02",
+   "co_signals": 1,
+   "h5_excess": -0.007597734493714592
+  },
+  {
+   "sym": "LIEN",
+   "knowable": "2025-06-09",
+   "co_signals": 2,
+   "h5_excess": -0.012529554829229683
+  },
+  {
+   "sym": "RFM",
+   "knowable": "2025-04-11",
+   "co_signals": 0,
+   "h5_excess": -0.0411720897944281
+  },
+  {
+   "sym": "RMM",
+   "knowable": "2025-04-11",
+   "co_signals": 0,
+   "h5_excess": -0.03515444644219112
+  },
+  {
+   "sym": "BATRA",
+   "knowable": "2025-05-29",
+   "co_signals": 0,
+   "h5_excess": 0.012404357071332806
+  },
+  {
+   "sym": "ROAD",
+   "knowable": "2025-04-15",
+   "co_signals": 0,
+   "h5_excess": 0.028644841325855985
+  },
+  {
+   "sym": "FINS",
+   "knowable": "2025-05-22",
+   "co_signals": 1,
+   "h5_excess": -0.036016222802513376
+  },
+  {
+   "sym": "BYRN",
+   "knowable": "2025-04-23",
+   "co_signals": 1,
+   "h5_excess": -0.018301839192319536
+  },
+  {
+   "sym": "UPXI",
+   "knowable": "2025-04-25",
+   "co_signals": 1,
+   "h5_excess": 0.03713658575668943
+  },
+  {
+   "sym": "ONMD",
+   "knowable": "2025-11-26",
+   "co_signals": 0,
+   "h5_excess": 0.3051561313394342
+  },
+  {
+   "sym": "SINT",
+   "knowable": "2025-05-01",
+   "co_signals": 0,
+   "h5_excess": 0.16954071073109533
+  },
+  {
+   "sym": "GREE",
+   "knowable": "2025-05-20",
+   "co_signals": 1,
+   "h5_excess": -0.08471671955032456
+  },
+  {
+   "sym": "FNLC",
+   "knowable": "2025-04-30",
+   "co_signals": 1,
+   "h5_excess": -0.046105932697866225
+  },
+  {
+   "sym": "JMSB",
+   "knowable": "2025-04-28",
+   "co_signals": 2,
+   "h5_excess": 0.005407952086889045
+  },
+  {
+   "sym": "CHCT",
+   "knowable": "2025-05-14",
+   "co_signals": 1,
+   "h5_excess": -0.010041975603153785
+  },
+  {
+   "sym": "FTAI",
+   "knowable": "2025-05-02",
+   "co_signals": 1,
+   "h5_excess": 0.028399680116756754
+  },
+  {
+   "sym": "HTLD",
+   "knowable": "2025-05-08",
+   "co_signals": 1,
+   "h5_excess": 0.005699412655906677
+  },
+  {
+   "sym": "BNL",
+   "knowable": "2025-05-06",
+   "co_signals": 2,
+   "h5_excess": -0.012048525650776853
+  },
+  {
+   "sym": "BOTJ",
+   "knowable": "2025-05-23",
+   "co_signals": 0,
+   "h5_excess": -0.003618915888547125
+  },
+  {
+   "sym": "WSBK",
+   "knowable": "2025-05-09",
+   "co_signals": 2,
+   "h5_excess": -0.0008203805874472669
+  },
+  {
+   "sym": "MERC",
+   "knowable": "2025-05-12",
+   "co_signals": 2,
+   "h5_excess": -0.12774252395627872
+  },
+  {
+   "sym": "INTT",
+   "knowable": "2025-05-14",
+   "co_signals": 1,
+   "h5_excess": -0.0004907171172581215
+  },
+  {
+   "sym": "HL",
+   "knowable": "2025-05-07",
+   "co_signals": 2,
+   "h5_excess": -0.015311808974180496
+  },
+  {
+   "sym": "AIRS",
+   "knowable": "2025-06-11",
+   "co_signals": 1,
+   "h5_excess": -0.0017444037775287136
+  },
+  {
+   "sym": "OFIX",
+   "knowable": "2025-05-12",
+   "co_signals": 3,
+   "h5_excess": -0.04118625421011901
+  },
+  {
+   "sym": "PRAA",
+   "knowable": "2025-05-09",
+   "co_signals": 2,
+   "h5_excess": -0.0970396504291583
+  },
+  {
+   "sym": "PTN",
+   "knowable": "2025-06-17",
+   "co_signals": 0,
+   "h5_excess": -0.08564952542853077
+  },
+  {
+   "sym": "NPKI",
+   "knowable": "2025-05-20",
+   "co_signals": 0,
+   "h5_excess": -0.003976282072257087
+  },
+  {
+   "sym": "HCWB",
+   "knowable": "2025-05-09",
+   "co_signals": 0,
+   "h5_excess": 0.0047789142177788735
+  },
+  {
+   "sym": "ENR",
+   "knowable": "2025-05-13",
+   "co_signals": 1,
+   "h5_excess": -0.01616344546742865
+  },
+  {
+   "sym": "HAIN",
+   "knowable": "2025-05-12",
+   "co_signals": 1,
+   "h5_excess": -0.01807716199005971
+  },
+  {
+   "sym": "FIEE",
+   "knowable": "2025-05-13",
+   "co_signals": 1,
+   "h5_excess": -0.0280689140814937
+  },
+  {
+   "sym": "ARQ",
+   "knowable": "2025-05-20",
+   "co_signals": 2,
+   "h5_excess": 0.06206126375218002
+  },
+  {
+   "sym": "LGND",
+   "knowable": "2025-05-13",
+   "co_signals": 1,
+   "h5_excess": -0.028772064594149827
+  },
+  {
+   "sym": "MIDD",
+   "knowable": "2025-05-14",
+   "co_signals": 2,
+   "h5_excess": 0.0032957862136314686
+  },
+  {
+   "sym": "INNV",
+   "knowable": "2025-05-20",
+   "co_signals": 1,
+   "h5_excess": -0.0014529714887714373
+  },
+  {
+   "sym": "TRIN",
+   "knowable": "2025-06-09",
+   "co_signals": 0,
+   "h5_excess": -0.01755468045737052
+  },
+  {
+   "sym": "CNDT",
+   "knowable": "2025-06-20",
+   "co_signals": 0,
+   "h5_excess": 0.022642717946298685
+  },
+  {
+   "sym": "PENN",
+   "knowable": "2025-05-22",
+   "co_signals": 2,
+   "h5_excess": -0.0057532714797587925
+  },
+  {
+   "sym": "COLD",
+   "knowable": "2025-05-14",
+   "co_signals": 2,
+   "h5_excess": -0.07412168766232685
+  },
+  {
+   "sym": "NNBR",
+   "knowable": "2025-05-14",
+   "co_signals": 2,
+   "h5_excess": -0.025740754436261115
+  },
+  {
+   "sym": "MYO",
+   "knowable": "2025-05-15",
+   "co_signals": 1,
+   "h5_excess": -0.06923471990671137
+  },
+  {
+   "sym": "CVRX",
+   "knowable": "2025-05-14",
+   "co_signals": 1,
+   "h5_excess": 0.02213582154250493
+  },
+  {
+   "sym": "NCDL",
+   "knowable": "2025-05-27",
+   "co_signals": 0,
+   "h5_excess": -0.022804284761978266
+  },
+  {
+   "sym": "APUS",
+   "knowable": "2025-05-14",
+   "co_signals": 1,
+   "h5_excess": 0.011664019560691852
+  },
+  {
+   "sym": "RVSB",
+   "knowable": "2025-05-22",
+   "co_signals": 0,
+   "h5_excess": -0.08015989878527463
+  },
+  {
+   "sym": "FLL",
+   "knowable": "2025-06-17",
+   "co_signals": 0,
+   "h5_excess": -0.03774961479403571
+  },
+  {
+   "sym": "ERII",
+   "knowable": "2025-05-15",
+   "co_signals": 1,
+   "h5_excess": -0.023978643037543823
+  },
+  {
+   "sym": "LESL",
+   "knowable": "2025-05-14",
+   "co_signals": 1,
+   "h5_excess": -0.034405293407985815
+  },
+  {
+   "sym": "PSQH",
+   "knowable": "2025-05-16",
+   "co_signals": 1,
+   "h5_excess": 0.1474445444729735
+  },
+  {
+   "sym": "VYX",
+   "knowable": "2025-05-19",
+   "co_signals": 2,
+   "h5_excess": -0.03860382432002951
+  },
+  {
+   "sym": "ULBI",
+   "knowable": "2025-05-14",
+   "co_signals": 1,
+   "h5_excess": 0.09609525269386388
+  },
+  {
+   "sym": "TXO",
+   "knowable": "2025-05-15",
+   "co_signals": 1,
+   "h5_excess": 0.009180067060707287
+  },
+  {
+   "sym": "DCGO",
+   "knowable": "2025-05-14",
+   "co_signals": 1,
+   "h5_excess": -0.035301882962906816
+  },
+  {
+   "sym": "IOVA",
+   "knowable": "2025-06-06",
+   "co_signals": 0,
+   "h5_excess": -0.06842322924816613
+  },
+  {
+   "sym": "BCDA",
+   "knowable": "2025-07-02",
+   "co_signals": 1,
+   "h5_excess": 0.09377721142614415
+  },
+  {
+   "sym": "MASS",
+   "knowable": "2025-05-15",
+   "co_signals": 1,
+   "h5_excess": 0.22355253669633457
+  },
+  {
+   "sym": "ASYS",
+   "knowable": "2025-05-16",
+   "co_signals": 1,
+   "h5_excess": 0.12266613996048359
+  },
+  {
+   "sym": "INFU",
+   "knowable": "2025-05-20",
+   "co_signals": 2,
+   "h5_excess": 0.16122659126519157
+  },
+  {
+   "sym": "MAGN",
+   "knowable": "2025-05-30",
+   "co_signals": 1,
+   "h5_excess": 0.12775380964130023
+  },
+  {
+   "sym": "CNTN",
+   "knowable": "2025-06-23",
+   "co_signals": 0,
+   "h5_excess": -0.11817940029859564
+  },
+  {
+   "sym": "JRVR",
+   "knowable": "2025-05-20",
+   "co_signals": 1,
+   "h5_excess": 0.0324657914122537
+  },
+  {
+   "sym": "SELF",
+   "knowable": "2025-05-20",
+   "co_signals": 2,
+   "h5_excess": 0.004234831334064104
+  },
+  {
+   "sym": "INFQ",
+   "knowable": "2025-06-27",
+   "co_signals": 0,
+   "h5_excess": -0.02650980749101195
+  },
+  {
+   "sym": "VFF",
+   "knowable": "2025-06-02",
+   "co_signals": 1,
+   "h5_excess": -0.09710458986744297
+  },
+  {
+   "sym": "MCY",
+   "knowable": "2025-05-28",
+   "co_signals": 0,
+   "h5_excess": -0.03840574546033526
+  },
+  {
+   "sym": "AURA",
+   "knowable": "2025-05-20",
+   "co_signals": 2,
+   "h5_excess": 0.05035780224302577
+  },
+  {
+   "sym": "SNDX",
+   "knowable": "2025-05-19",
+   "co_signals": 2,
+   "h5_excess": 0.12098827565709125
+  },
+  {
+   "sym": "SDHC",
+   "knowable": "2025-05-20",
+   "co_signals": 1,
+   "h5_excess": 0.045818755683946
+  },
+  {
+   "sym": "OPAL",
+   "knowable": "2025-05-21",
+   "co_signals": 1,
+   "h5_excess": 0.035130079787602186
+  },
+  {
+   "sym": "RLMD",
+   "knowable": "2025-05-20",
+   "co_signals": 0,
+   "h5_excess": 0.04691979630160281
+  },
+  {
+   "sym": "PAPL",
+   "knowable": "2025-05-28",
+   "co_signals": 1,
+   "h5_excess": 0.37585520350514545
+  },
+  {
+   "sym": "SRBK",
+   "knowable": "2025-05-30",
+   "co_signals": 0,
+   "h5_excess": 0.043870974954027586
+  },
+  {
+   "sym": "MRP",
+   "knowable": "2025-05-22",
+   "co_signals": 3,
+   "h5_excess": -0.007838701558010919
+  },
+  {
+   "sym": "BBDC",
+   "knowable": "2025-05-20",
+   "co_signals": 2,
+   "h5_excess": -0.002074462209272099
+  },
+  {
+   "sym": "FIP",
+   "knowable": "2025-05-23",
+   "co_signals": 2,
+   "h5_excess": -0.03977555506870245
+  },
+  {
+   "sym": "PETS",
+   "knowable": "2025-05-23",
+   "co_signals": 1,
+   "h5_excess": 0.028070828567154704
+  },
+  {
+   "sym": "GROV",
+   "knowable": "2025-05-23",
+   "co_signals": 2,
+   "h5_excess": -0.02177601075336888
+  },
+  {
+   "sym": "PRME",
+   "knowable": "2025-05-22",
+   "co_signals": 2,
+   "h5_excess": 0.04084062794991272
+  },
+  {
+   "sym": "BDL",
+   "knowable": "2025-05-30",
+   "co_signals": 0,
+   "h5_excess": 0.06786357642951324
+  },
+  {
+   "sym": "SLS",
+   "knowable": "2025-06-02",
+   "co_signals": 0,
+   "h5_excess": 0.03761681461791799
+  },
+  {
+   "sym": "COCH",
+   "knowable": "2025-06-10",
+   "co_signals": 1,
+   "h5_excess": 0.01894166990759283
+  },
+  {
+   "sym": "UBCP",
+   "knowable": "2025-05-23",
+   "co_signals": 1,
+   "h5_excess": -0.023906848797383917
+  },
+  {
+   "sym": "BCBP",
+   "knowable": "2025-05-27",
+   "co_signals": 0,
+   "h5_excess": -0.035919239222729216
+  },
+  {
+   "sym": "GBDC",
+   "knowable": "2025-05-29",
+   "co_signals": 1,
+   "h5_excess": -0.008906079587834181
+  },
+  {
+   "sym": "HIO",
+   "knowable": "2025-07-15",
+   "co_signals": 0,
+   "h5_excess": -0.02707368185491721
+  },
+  {
+   "sym": "MATV",
+   "knowable": "2025-05-30",
+   "co_signals": 0,
+   "h5_excess": 0.03519319833976886
+  },
+  {
+   "sym": "SBET",
+   "knowable": "2025-06-02",
+   "co_signals": 1,
+   "h5_excess": -0.5322034000337114
+  },
+  {
+   "sym": "CALC",
+   "knowable": "2025-07-18",
+   "co_signals": 0,
+   "h5_excess": -0.10122261715697389
+  },
+  {
+   "sym": "IMUX",
+   "knowable": "2025-06-04",
+   "co_signals": 1,
+   "h5_excess": -0.04182145966620998
+  },
+  {
+   "sym": "ANIX",
+   "knowable": "2025-07-15",
+   "co_signals": 0,
+   "h5_excess": -0.05296463525120121
+  },
+  {
+   "sym": "TWNPQ",
+   "knowable": "2025-08-01",
+   "co_signals": 1,
+   "h5_excess": -0.15014970158604546
+  },
+  {
+   "sym": "ABX",
+   "knowable": "2025-06-06",
+   "co_signals": 2,
+   "h5_excess": -0.05233213742807741
+  },
+  {
+   "sym": "GECC",
+   "knowable": "2025-06-11",
+   "co_signals": 0,
+   "h5_excess": -0.01850615524328869
+  },
+  {
+   "sym": "SPWH",
+   "knowable": "2025-06-11",
+   "co_signals": 1,
+   "h5_excess": -0.15010061221590065
+  },
+  {
+   "sym": "ICFI",
+   "knowable": "2025-06-10",
+   "co_signals": 0,
+   "h5_excess": -0.042647617260344495
+  },
+  {
+   "sym": "AMPY",
+   "knowable": "2025-06-20",
+   "co_signals": 1,
+   "h5_excess": -0.06357523077164995
+  },
+  {
+   "sym": "CNTX",
+   "knowable": "2025-06-10",
+   "co_signals": 1,
+   "h5_excess": -0.07284590277074221
+  },
+  {
+   "sym": "AYTU",
+   "knowable": "2025-06-10",
+   "co_signals": 1,
+   "h5_excess": 0.012748349845659757
+  },
+  {
+   "sym": "CABO",
+   "knowable": "2025-06-12",
+   "co_signals": 1,
+   "h5_excess": 0.005624401206403062
+  },
+  {
+   "sym": "HURC",
+   "knowable": "2025-06-25",
+   "co_signals": 0,
+   "h5_excess": 0.03236958036068294
+  },
+  {
+   "sym": "KYN",
+   "knowable": "2025-06-27",
+   "co_signals": 0,
+   "h5_excess": -0.03367043221694532
+  },
+  {
+   "sym": "BY",
+   "knowable": "2025-06-13",
+   "co_signals": 1,
+   "h5_excess": 0.03535076802006287
+  },
+  {
+   "sym": "VOYG",
+   "knowable": "2025-06-13",
+   "co_signals": 1,
+   "h5_excess": -0.048670122879788336
+  },
+  {
+   "sym": "HPP",
+   "knowable": "2025-06-16",
+   "co_signals": 1,
+   "h5_excess": -0.04041143019043558
+  },
+  {
+   "sym": "INUV",
+   "knowable": "2025-06-12",
+   "co_signals": 0,
+   "h5_excess": 0.0931111413582324
+  },
+  {
+   "sym": "VRA",
+   "knowable": "2025-06-13",
+   "co_signals": 1,
+   "h5_excess": -0.05538133877614404
+  },
+  {
+   "sym": "ASIC",
+   "knowable": "2025-06-16",
+   "co_signals": 1,
+   "h5_excess": -0.06592705716753278
+  },
+  {
+   "sym": "RZLT",
+   "knowable": "2025-06-24",
+   "co_signals": 1,
+   "h5_excess": 0.08904739847347853
+  },
+  {
+   "sym": "XLO",
+   "knowable": "2025-06-18",
+   "co_signals": 0,
+   "h5_excess": -0.0042067393588791635
+  },
+  {
+   "sym": "OXM",
+   "knowable": "2025-06-20",
+   "co_signals": 1,
+   "h5_excess": 0.12821891845003552
+  },
+  {
+   "sym": "PFX",
+   "knowable": "2025-06-20",
+   "co_signals": 0,
+   "h5_excess": -0.04957425707788499
+  },
+  {
+   "sym": "IMRX",
+   "knowable": "2025-06-20",
+   "co_signals": 1,
+   "h5_excess": 0.1459998244159879
+  },
+  {
+   "sym": "WSC",
+   "knowable": "2025-08-06",
+   "co_signals": 1,
+   "h5_excess": -0.025308358985883128
+  },
+  {
+   "sym": "GIII",
+   "knowable": "2025-06-25",
+   "co_signals": 0,
+   "h5_excess": 0.030947622688725307
+  },
+  {
+   "sym": "FRHC",
+   "knowable": "2025-07-02",
+   "co_signals": 0,
+   "h5_excess": 0.07883927497512055
+  },
+  {
+   "sym": "CLAR",
+   "knowable": "2025-08-07",
+   "co_signals": 1,
+   "h5_excess": 0.1035917582456557
+  },
+  {
+   "sym": "CAI",
+   "knowable": "2025-06-23",
+   "co_signals": 1,
+   "h5_excess": -0.04139519168253225
+  },
+  {
+   "sym": "MBRX",
+   "knowable": "2025-06-23",
+   "co_signals": 1,
+   "h5_excess": 0.7017595637288045
+  },
+  {
+   "sym": "CCIF",
+   "knowable": "2025-06-30",
+   "co_signals": 0,
+   "h5_excess": -0.025034523794259744
+  },
+  {
+   "sym": "INTG",
+   "knowable": "2025-07-01",
+   "co_signals": 0,
+   "h5_excess": 0.05189806367902561
+  },
+  {
+   "sym": "BTBT",
+   "knowable": "2025-06-27",
+   "co_signals": 1,
+   "h5_excess": 0.30233512681467634
+  },
+  {
+   "sym": "GBLI",
+   "knowable": "2025-08-11",
+   "co_signals": 1,
+   "h5_excess": -0.02742302894899662
+  },
+  {
+   "sym": "EONR",
+   "knowable": "2025-08-19",
+   "co_signals": 2,
+   "h5_excess": -0.044552911674165196
+  },
+  {
+   "sym": "ACTU",
+   "knowable": "2025-06-30",
+   "co_signals": 0,
+   "h5_excess": 0.01586737860782539
+  },
+  {
+   "sym": "NTWK",
+   "knowable": "2025-07-15",
+   "co_signals": 0,
+   "h5_excess": 0.057731209351700175
+  },
+  {
+   "sym": "PMNT",
+   "knowable": "2025-07-02",
+   "co_signals": 1,
+   "h5_excess": 0.10449108103550464
+  },
+  {
+   "sym": "FGBI",
+   "knowable": "2025-07-01",
+   "co_signals": 0,
+   "h5_excess": -0.04238366801997395
+  },
+  {
+   "sym": "OMCC",
+   "knowable": "2025-07-17",
+   "co_signals": 0,
+   "h5_excess": -0.040448500392419984
+  },
+  {
+   "sym": "CLRB",
+   "knowable": "2025-07-03",
+   "co_signals": 1,
+   "h5_excess": 0.02800432744320236
+  },
+  {
+   "sym": "COSO",
+   "knowable": "2025-07-07",
+   "co_signals": 0,
+   "h5_excess": -0.0013146251260474084
+  },
+  {
+   "sym": "CMTV",
+   "knowable": "2025-08-04",
+   "co_signals": 1,
+   "h5_excess": -0.042312657049164204
+  },
+  {
+   "sym": "STRW",
+   "knowable": "2025-07-22",
+   "co_signals": 0,
+   "h5_excess": 0.00017024513566754607
+  },
+  {
+   "sym": "CIVB",
+   "knowable": "2025-07-15",
+   "co_signals": 2,
+   "h5_excess": -0.06362926781790901
+  },
+  {
+   "sym": "HELE",
+   "knowable": "2025-07-15",
+   "co_signals": 1,
+   "h5_excess": 0.07037820119181304
+  },
+  {
+   "sym": "SKYA",
+   "knowable": "2025-08-26",
+   "co_signals": 1,
+   "h5_excess": -0.20715147659438504
+  },
+  {
+   "sym": "CRSP",
+   "knowable": "2025-08-08",
+   "co_signals": 1,
+   "h5_excess": -0.04917906161619634
+  },
+  {
+   "sym": "ELV",
+   "knowable": "2025-08-21",
+   "co_signals": 0,
+   "h5_excess": 0.039890436230950566
+  },
+  {
+   "sym": "BRCC",
+   "knowable": "2025-07-18",
+   "co_signals": 1,
+   "h5_excess": -0.06370750959110483
+  },
+  {
+   "sym": "PLBC",
+   "knowable": "2025-08-01",
+   "co_signals": 0,
+   "h5_excess": 0.012653234043683792
+  },
+  {
+   "sym": "DMAC",
+   "knowable": "2025-07-25",
+   "co_signals": 1,
+   "h5_excess": 0.06518760738461282
+  },
+  {
+   "sym": "LOOP",
+   "knowable": "2025-07-25",
+   "co_signals": 2,
+   "h5_excess": 0.05389616613062487
+  },
+  {
+   "sym": "CARL",
+   "knowable": "2025-07-24",
+   "co_signals": 1,
+   "h5_excess": -0.1472546341674913
+  },
+  {
+   "sym": "NIQ",
+   "knowable": "2025-09-02",
+   "co_signals": 0,
+   "h5_excess": 0.02976857038415459
+  },
+  {
+   "sym": "CVM",
+   "knowable": "2025-07-29",
+   "co_signals": 0,
+   "h5_excess": -0.24245756155281484
+  },
+  {
+   "sym": "SIGI",
+   "knowable": "2025-07-25",
+   "co_signals": 2,
+   "h5_excess": -0.00027184144375469455
+  },
+  {
+   "sym": "MH",
+   "knowable": "2025-07-28",
+   "co_signals": 1,
+   "h5_excess": -0.14878302087040018
+  },
+  {
+   "sym": "IMA",
+   "knowable": "2025-07-30",
+   "co_signals": 2,
+   "h5_excess": -0.1145057543238992
+  },
+  {
+   "sym": "JMSB",
+   "knowable": "2025-08-01",
+   "co_signals": 2,
+   "h5_excess": 0.003484719548375814
+  },
+  {
+   "sym": "ABSI",
+   "knowable": "2025-09-24",
+   "co_signals": 0,
+   "h5_excess": 0.24451325606031316
+  },
+  {
+   "sym": "EPD",
+   "knowable": "2025-07-30",
+   "co_signals": 1,
+   "h5_excess": 0.001087394940900932
+  },
+  {
+   "sym": "FCNCA",
+   "knowable": "2025-08-05",
+   "co_signals": 2,
+   "h5_excess": 0.009324696907743402
+  },
+  {
+   "sym": "PCB",
+   "knowable": "2025-08-01",
+   "co_signals": 2,
+   "h5_excess": 0.016184609264394467
+  },
+  {
+   "sym": "TLRY",
+   "knowable": "2025-07-30",
+   "co_signals": 1,
+   "h5_excess": 0.5111982462787086
+  },
+  {
+   "sym": "NSPR",
+   "knowable": "2025-08-01",
+   "co_signals": 1,
+   "h5_excess": -0.04833151976786354
+  },
+  {
+   "sym": "FBIZ",
+   "knowable": "2025-08-01",
+   "co_signals": 2,
+   "h5_excess": 0.018633718022710077
+  },
+  {
+   "sym": "CZWI",
+   "knowable": "2025-08-01",
+   "co_signals": 2,
+   "h5_excess": 0.004404142723896554
+  },
+  {
+   "sym": "KRNY",
+   "knowable": "2025-09-23",
+   "co_signals": 0,
+   "h5_excess": 0.016513911039691687
+  },
+  {
+   "sym": "TROX",
+   "knowable": "2025-08-01",
+   "co_signals": 1,
+   "h5_excess": 0.10956321707424177
+  },
+  {
+   "sym": "CNOB",
+   "knowable": "2025-08-05",
+   "co_signals": 1,
+   "h5_excess": 0.016157702729698187
+  },
+  {
+   "sym": "SI",
+   "knowable": "2025-08-05",
+   "co_signals": 0,
+   "h5_excess": 0.14451216903459851
+  },
+  {
+   "sym": "XELB",
+   "knowable": "2025-08-05",
+   "co_signals": 0,
+   "h5_excess": 0.10948077758521091
+  },
+  {
+   "sym": "NSP",
+   "knowable": "2025-08-06",
+   "co_signals": 2,
+   "h5_excess": 0.026271851373797173
+  },
+  {
+   "sym": "PRLB",
+   "knowable": "2025-08-07",
+   "co_signals": 1,
+   "h5_excess": 0.02153310898597105
+  },
+  {
+   "sym": "ASUR",
+   "knowable": "2025-08-06",
+   "co_signals": 1,
+   "h5_excess": -0.030039592091800627
+  },
+  {
+   "sym": "LUMN",
+   "knowable": "2025-08-15",
+   "co_signals": 1,
+   "h5_excess": 0.14290137770521594
+  },
+  {
+   "sym": "TFX",
+   "knowable": "2025-08-07",
+   "co_signals": 2,
+   "h5_excess": 0.04159556989089619
+  },
+  {
+   "sym": "OI",
+   "knowable": "2025-08-07",
+   "co_signals": 1,
+   "h5_excess": -0.014008663956241896
+  },
+  {
+   "sym": "FINS",
+   "knowable": "2025-08-14",
+   "co_signals": 1,
+   "h5_excess": -0.027309796425576405
+  },
+  {
+   "sym": "ARKR",
+   "knowable": "2025-08-19",
+   "co_signals": 1,
+   "h5_excess": -0.00680030862553882
+  },
+  {
+   "sym": "PINE",
+   "knowable": "2025-08-08",
+   "co_signals": 0,
+   "h5_excess": 0.034612678969969446
+  },
+  {
+   "sym": "MKZR",
+   "knowable": "2025-08-07",
+   "co_signals": 1,
+   "h5_excess": 0.020749859706035045
+  },
+  {
+   "sym": "FFAI",
+   "knowable": "2025-08-26",
+   "co_signals": 2,
+   "h5_excess": -0.2337660736014734
+  },
+  {
+   "sym": "FLY",
+   "knowable": "2025-08-08",
+   "co_signals": 0,
+   "h5_excess": -0.08285271144748152
+  },
+  {
+   "sym": "MEC",
+   "knowable": "2025-08-11",
+   "co_signals": 1,
+   "h5_excess": -0.013695465081777769
+  },
+  {
+   "sym": "SBH",
+   "knowable": "2025-08-11",
+   "co_signals": 2,
+   "h5_excess": -0.001215723801938795
+  },
+  {
+   "sym": "NMFC",
+   "knowable": "2025-09-16",
+   "co_signals": 0,
+   "h5_excess": -0.005977266312258922
+  },
+  {
+   "sym": "CSR",
+   "knowable": "2025-08-11",
+   "co_signals": 2,
+   "h5_excess": 0.020923046518525723
+  },
+  {
+   "sym": "FTRE",
+   "knowable": "2025-09-04",
+   "co_signals": 0,
+   "h5_excess": -0.007030625184611283
+  },
+  {
+   "sym": "CROX",
+   "knowable": "2025-08-14",
+   "co_signals": 1,
+   "h5_excess": -0.010239902419586722
+  },
+  {
+   "sym": "TRIN",
+   "knowable": "2025-09-04",
+   "co_signals": 0,
+   "h5_excess": -0.014679551833868931
+  },
+  {
+   "sym": "CFND",
+   "knowable": "2025-08-15",
+   "co_signals": 0,
+   "h5_excess": 0.010462740455321473
+  },
+  {
+   "sym": "KRO",
+   "knowable": "2025-08-12",
+   "co_signals": 2,
+   "h5_excess": 0.00011584386291585425
+  },
+  {
+   "sym": "MSDL",
+   "knowable": "2025-08-13",
+   "co_signals": 2,
+   "h5_excess": -0.02996380919408359
+  },
+  {
+   "sym": "TPVG",
+   "knowable": "2025-08-20",
+   "co_signals": 2,
+   "h5_excess": 0.03833359355504218
+  },
+  {
+   "sym": "CAPL",
+   "knowable": "2025-08-13",
+   "co_signals": 2,
+   "h5_excess": 0.008584865199339875
+  },
+  {
+   "sym": "PRMB",
+   "knowable": "2025-08-14",
+   "co_signals": 1,
+   "h5_excess": -0.03406321189145545
+  },
+  {
+   "sym": "MDRR",
+   "knowable": "2025-08-15",
+   "co_signals": 1,
+   "h5_excess": -0.1061526261204705
+  },
+  {
+   "sym": "RCEL",
+   "knowable": "2025-08-26",
+   "co_signals": 1,
+   "h5_excess": -0.03592225075765043
+  },
+  {
+   "sym": "MXCT",
+   "knowable": "2025-08-13",
+   "co_signals": 2,
+   "h5_excess": -0.026444489008096594
+  },
+  {
+   "sym": "BCDA",
+   "knowable": "2025-09-23",
+   "co_signals": 2,
+   "h5_excess": -0.021480009932952626
+  },
+  {
+   "sym": "ADC",
+   "knowable": "2025-09-08",
+   "co_signals": 0,
+   "h5_excess": -0.049839924191615426
+  },
+  {
+   "sym": "ICUI",
+   "knowable": "2025-08-27",
+   "co_signals": 0,
+   "h5_excess": 0.015336127142201006
+  },
+  {
+   "sym": "KODK",
+   "knowable": "2025-08-14",
+   "co_signals": 1,
+   "h5_excess": -0.07534423692458658
+  },
+  {
+   "sym": "INR",
+   "knowable": "2025-08-22",
+   "co_signals": 1,
+   "h5_excess": -0.00616790697930103
+  },
+  {
+   "sym": "ACDC",
+   "knowable": "2025-08-18",
+   "co_signals": 1,
+   "h5_excess": -0.050423267192991506
+  },
+  {
+   "sym": "AIOT",
+   "knowable": "2025-08-18",
+   "co_signals": 2,
+   "h5_excess": -0.028179370892966182
+  },
+  {
+   "sym": "EXE",
+   "knowable": "2025-08-18",
+   "co_signals": 0,
+   "h5_excess": 0.031313591883730174
+  },
+  {
+   "sym": "MYO",
+   "knowable": "2025-08-19",
+   "co_signals": 1,
+   "h5_excess": -0.034150582534851814
+  },
+  {
+   "sym": "FVR",
+   "knowable": "2025-08-20",
+   "co_signals": 2,
+   "h5_excess": -0.04006003902843802
+  },
+  {
+   "sym": "AEBI",
+   "knowable": "2025-08-18",
+   "co_signals": 1,
+   "h5_excess": 0.02164998820640429
+  },
+  {
+   "sym": "SCWO",
+   "knowable": "2025-08-26",
+   "co_signals": 1,
+   "h5_excess": 0.15579963991711976
+  },
+  {
+   "sym": "ALXO",
+   "knowable": "2025-09-18",
+   "co_signals": 1,
+   "h5_excess": 0.4600909261342332
+  },
+  {
+   "sym": "AEYE",
+   "knowable": "2025-09-08",
+   "co_signals": 0,
+   "h5_excess": 0.044405724495565346
+  },
+  {
+   "sym": "BW",
+   "knowable": "2025-08-20",
+   "co_signals": 3,
+   "h5_excess": 0.36837235324496476
+  },
+  {
+   "sym": "EPSN",
+   "knowable": "2025-08-20",
+   "co_signals": 2,
+   "h5_excess": 0.012240277773266639
+  },
+  {
+   "sym": "ACOG",
+   "knowable": "2025-08-21",
+   "co_signals": 0,
+   "h5_excess": 0.03160750514414501
+  },
+  {
+   "sym": "ROLR",
+   "knowable": "2025-08-20",
+   "co_signals": 1,
+   "h5_excess": -0.02076192237340979
+  },
+  {
+   "sym": "NWTG",
+   "knowable": "2025-09-12",
+   "co_signals": 0,
+   "h5_excess": -0.03698515892412668
+  },
+  {
+   "sym": "ZVRA",
+   "knowable": "2025-09-15",
+   "co_signals": 0,
+   "h5_excess": 0.2113343426490445
+  },
+  {
+   "sym": "PEW",
+   "knowable": "2025-08-20",
+   "co_signals": 0,
+   "h5_excess": -0.03620250812287262
+  },
+  {
+   "sym": "ONMD",
+   "knowable": "2025-11-26",
+   "co_signals": 0,
+   "h5_excess": 0.3051561313394342
+  },
+  {
+   "sym": "CLDI",
+   "knowable": "2025-08-25",
+   "co_signals": 1,
+   "h5_excess": -0.012612227447627244
+  },
+  {
+   "sym": "MX",
+   "knowable": "2025-08-26",
+   "co_signals": 0,
+   "h5_excess": -0.02568412287246391
+  },
+  {
+   "sym": "AFCG",
+   "knowable": "2025-08-26",
+   "co_signals": 1,
+   "h5_excess": 0.05865726030292939
+  },
+  {
+   "sym": "COTY",
+   "knowable": "2025-08-26",
+   "co_signals": 1,
+   "h5_excess": -0.0333495546365673
+  },
+  {
+   "sym": "SINT",
+   "knowable": "2025-08-27",
+   "co_signals": 0,
+   "h5_excess": -0.08482229309314149
+  },
+  {
+   "sym": "STTK",
+   "knowable": "2025-09-02",
+   "co_signals": 1,
+   "h5_excess": -0.05248933937621392
+  },
+  {
+   "sym": "FEAM",
+   "knowable": "2025-08-27",
+   "co_signals": 1,
+   "h5_excess": 0.18167348683808693
+  },
+  {
+   "sym": "OPEN",
+   "knowable": "2025-09-15",
+   "co_signals": 1,
+   "h5_excess": -0.010145370954774302
+  },
+  {
+   "sym": "MSIF",
+   "knowable": "2025-09-10",
+   "co_signals": 0,
+   "h5_excess": -0.015285023682767518
+  },
+  {
+   "sym": "COO",
+   "knowable": "2025-09-02",
+   "co_signals": 1,
+   "h5_excess": -0.0527344578836666
+  },
+  {
+   "sym": "BSLK",
+   "knowable": "2025-09-03",
+   "co_signals": 1,
+   "h5_excess": -0.007290795742125988
+  },
+  {
+   "sym": "BLNE",
+   "knowable": "2025-09-29",
+   "co_signals": 2,
+   "h5_excess": -0.18864548596614528
+  },
+  {
+   "sym": "NAUT",
+   "knowable": "2025-09-09",
+   "co_signals": 0,
+   "h5_excess": -0.10383078978535187
+  },
+  {
+   "sym": "TWAV",
+   "knowable": "2025-09-16",
+   "co_signals": 1,
+   "h5_excess": -0.10754320837136355
+  },
+  {
+   "sym": "EARN",
+   "knowable": "2025-10-02",
+   "co_signals": 0,
+   "h5_excess": -0.034735300105612876
+  },
+  {
+   "sym": "LUCK",
+   "knowable": "2025-09-16",
+   "co_signals": 1,
+   "h5_excess": 0.056560473302310954
+  },
+  {
+   "sym": "FINW",
+   "knowable": "2025-11-03",
+   "co_signals": 2,
+   "h5_excess": -0.0029714876667072954
+  },
+  {
+   "sym": "SFD",
+   "knowable": "2025-09-09",
+   "co_signals": 0,
+   "h5_excess": -0.016034007269758677
+  },
+  {
+   "sym": "ORBS",
+   "knowable": "2025-09-10",
+   "co_signals": 1,
+   "h5_excess": -0.021888976210181044
+  },
+  {
+   "sym": "SEI",
+   "knowable": "2025-09-09",
+   "co_signals": 0,
+   "h5_excess": 0.21931564135267978
+  },
+  {
+   "sym": "AARD",
+   "knowable": "2025-09-12",
+   "co_signals": 1,
+   "h5_excess": 0.09804511010796535
+  },
+  {
+   "sym": "SMMT",
+   "knowable": "2025-09-11",
+   "co_signals": 1,
+   "h5_excess": 0.03350937420905731
+  },
+  {
+   "sym": "MRAI",
+   "knowable": "2025-11-12",
+   "co_signals": 1,
+   "h5_excess": -0.1448306249171155
+  },
+  {
+   "sym": "GRX",
+   "knowable": "2025-11-05",
+   "co_signals": 0,
+   "h5_excess": 0.05475733726095133
+  },
+  {
+   "sym": "RAPP",
+   "knowable": "2025-09-15",
+   "co_signals": 1,
+   "h5_excess": 0.08257141656708356
+  },
+  {
+   "sym": "CAMP",
+   "knowable": "2025-09-11",
+   "co_signals": 1,
+   "h5_excess": -0.11358660048033764
+  },
+  {
+   "sym": "TTGT",
+   "knowable": "2025-09-15",
+   "co_signals": 0,
+   "h5_excess": -0.11403008883783594
+  },
+  {
+   "sym": "NEXT",
+   "knowable": "2025-09-16",
+   "co_signals": 1,
+   "h5_excess": 0.02150876125369583
+  },
+  {
+   "sym": "LBRX",
+   "knowable": "2025-09-16",
+   "co_signals": 0,
+   "h5_excess": -0.037354795927734497
+  },
+  {
+   "sym": "AWHL",
+   "knowable": "2025-09-19",
+   "co_signals": 1,
+   "h5_excess": -0.01426069791136031
+  },
+  {
+   "sym": "PSEC",
+   "knowable": "2025-09-29",
+   "co_signals": 0,
+   "h5_excess": 0.009724079251245965
+  },
+  {
+   "sym": "HAIN",
+   "knowable": "2025-09-22",
+   "co_signals": 1,
+   "h5_excess": -0.10789976301937243
+  },
+  {
+   "sym": "NXXT",
+   "knowable": "2025-09-22",
+   "co_signals": 1,
+   "h5_excess": 0.06228962357490064
+  },
+  {
+   "sym": "FLNA",
+   "knowable": "2025-10-02",
+   "co_signals": 0,
+   "h5_excess": 0.2800038130494431
+  },
+  {
+   "sym": "GLIBA",
+   "knowable": "2025-11-18",
+   "co_signals": 3,
+   "h5_excess": -0.09762003693238697
+  },
+  {
+   "sym": "WBI",
+   "knowable": "2025-09-22",
+   "co_signals": 1,
+   "h5_excess": 0.037247559398205565
+  },
+  {
+   "sym": "NTSK",
+   "knowable": "2025-09-22",
+   "co_signals": 0,
+   "h5_excess": -0.09747165920226375
+  },
+  {
+   "sym": "CULP",
+   "knowable": "2025-09-23",
+   "co_signals": 1,
+   "h5_excess": -0.019191680413501944
+  },
+  {
+   "sym": "KYN",
+   "knowable": "2025-10-06",
+   "co_signals": 0,
+   "h5_excess": -0.02885658458261864
+  },
+  {
+   "sym": "JSPR",
+   "knowable": "2025-09-24",
+   "co_signals": 1,
+   "h5_excess": -0.057624588246205755
+  },
+  {
+   "sym": "RNGE",
+   "knowable": "2025-09-25",
+   "co_signals": 1,
+   "h5_excess": -0.019553254490831673
+  },
+  {
+   "sym": "ASIC",
+   "knowable": "2025-10-28",
+   "co_signals": 1,
+   "h5_excess": -0.042918316728137285
+  },
+  {
+   "sym": "MBX",
+   "knowable": "2025-10-20",
+   "co_signals": 0,
+   "h5_excess": 0.20118275500591953
+  },
+  {
+   "sym": "DX",
+   "knowable": "2025-09-29",
+   "co_signals": 0,
+   "h5_excess": 0.05004028478484279
+  },
+  {
+   "sym": "PEPG",
+   "knowable": "2025-10-01",
+   "co_signals": 1,
+   "h5_excess": -0.07293721107133466
+  },
+  {
+   "sym": "ZIVO",
+   "knowable": "2025-10-09",
+   "co_signals": 0,
+   "h5_excess": 0.026398107741391286
+  },
+  {
+   "sym": "FGBI",
+   "knowable": "2025-10-02",
+   "co_signals": 0,
+   "h5_excess": -0.039664304735421374
+  },
+  {
+   "sym": "REFI",
+   "knowable": "2025-10-16",
+   "co_signals": 0,
+   "h5_excess": 0.0004595514038099324
+  },
+  {
+   "sym": "KMX",
+   "knowable": "2025-10-06",
+   "co_signals": 1,
+   "h5_excess": -0.030449502746834556
+  },
+  {
+   "sym": "SPWH",
+   "knowable": "2025-10-03",
+   "co_signals": 0,
+   "h5_excess": -0.047099503933161646
+  },
+  {
+   "sym": "NP",
+   "knowable": "2025-11-14",
+   "co_signals": 1,
+   "h5_excess": 0.01947209275235995
+  },
+  {
+   "sym": "YCY",
+   "knowable": "2025-10-06",
+   "co_signals": 1,
+   "h5_excess": 0.017814051789850294
+  },
+  {
+   "sym": "CBK",
+   "knowable": "2025-10-09",
+   "co_signals": 1,
+   "h5_excess": 0.02311978152951566
+  },
+  {
+   "sym": "BGC",
+   "knowable": "2025-10-06",
+   "co_signals": 1,
+   "h5_excess": 9.243058469876608e-05
+  },
+  {
+   "sym": "ZBIO",
+   "knowable": "2025-10-09",
+   "co_signals": 3,
+   "h5_excess": 0.010634084530559473
+  },
+  {
+   "sym": "CPSH",
+   "knowable": "2025-10-09",
+   "co_signals": 1,
+   "h5_excess": -0.14345070016711814
+  },
+  {
+   "sym": "ANGO",
+   "knowable": "2025-10-22",
+   "co_signals": 0,
+   "h5_excess": -0.018012103945566182
+  },
+  {
+   "sym": "HEI",
+   "knowable": "2025-10-14",
+   "co_signals": 0,
+   "h5_excess": 0.0008327960455618566
+  },
+  {
+   "sym": "STRO",
+   "knowable": "2025-10-16",
+   "co_signals": 0,
+   "h5_excess": -0.08714269808494257
+  },
+  {
+   "sym": "GRF",
+   "knowable": "2025-10-21",
+   "co_signals": 0,
+   "h5_excess": 0.030673735607327446
+  },
+  {
+   "sym": "VIRC",
+   "knowable": "2025-10-17",
+   "co_signals": 0,
+   "h5_excess": -0.03603404715143199
+  },
+  {
+   "sym": "RMCF",
+   "knowable": "2025-10-21",
+   "co_signals": 1,
+   "h5_excess": -0.026297585754237685
+  },
+  {
+   "sym": "GAM",
+   "knowable": "2025-11-25",
+   "co_signals": 0,
+   "h5_excess": -0.018121056247929257
+  },
+  {
+   "sym": "SPMC",
+   "knowable": "2025-10-22",
+   "co_signals": 1,
+   "h5_excess": 0.015813096356444456
+  },
+  {
+   "sym": "NVCT",
+   "knowable": "2025-11-06",
+   "co_signals": 1,
+   "h5_excess": 0.042445806159390975
+  },
+  {
+   "sym": "TTRX",
+   "knowable": "2025-10-23",
+   "co_signals": 1,
+   "h5_excess": -0.14502081038070735
+  },
+  {
+   "sym": "FMNB",
+   "knowable": "2025-10-30",
+   "co_signals": 2,
+   "h5_excess": 0.014298734357931053
+  },
+  {
+   "sym": "GCBC",
+   "knowable": "2025-10-30",
+   "co_signals": 2,
+   "h5_excess": 0.01712608130518567
+  },
+  {
+   "sym": "KMI",
+   "knowable": "2025-11-03",
+   "co_signals": 1,
+   "h5_excess": 0.049139239571643456
+  },
+  {
+   "sym": "NMRA",
+   "knowable": "2025-10-29",
+   "co_signals": 1,
+   "h5_excess": -0.06070039784811154
+  },
+  {
+   "sym": "WDFC",
+   "knowable": "2025-10-29",
+   "co_signals": 1,
+   "h5_excess": 0.02274529848682405
+  },
+  {
+   "sym": "INBK",
+   "knowable": "2025-10-30",
+   "co_signals": 2,
+   "h5_excess": 0.011513008894581178
+  },
+  {
+   "sym": "FRST",
+   "knowable": "2025-11-13",
+   "co_signals": 1,
+   "h5_excess": -0.005934686088356678
+  },
+  {
+   "sym": "MRP",
+   "knowable": "2025-10-30",
+   "co_signals": 2,
+   "h5_excess": -0.0028766324220337314
+  },
+  {
+   "sym": "ANVS",
+   "knowable": "2025-11-12",
+   "co_signals": 0,
+   "h5_excess": 0.3191596097227869
+  },
+  {
+   "sym": "MPLT",
+   "knowable": "2025-10-30",
+   "co_signals": 1,
+   "h5_excess": -0.0846479833999133
+  },
+  {
+   "sym": "ANNX",
+   "knowable": "2025-11-19",
+   "co_signals": 2,
+   "h5_excess": -0.12174575696266654
+  },
+  {
+   "sym": "FMAO",
+   "knowable": "2025-11-06",
+   "co_signals": 1,
+   "h5_excess": 0.006043598017136498
+  },
+  {
+   "sym": "SLGN",
+   "knowable": "2025-11-10",
+   "co_signals": 2,
+   "h5_excess": -0.005914990388981467
+  },
+  {
+   "sym": "APCX",
+   "knowable": "2026-05-22",
+   "co_signals": 1,
+   "h5_excess": 0.24315787866556637
+  },
+  {
+   "sym": "GBCI",
+   "knowable": "2025-11-05",
+   "co_signals": 1,
+   "h5_excess": -0.007514751367700745
+  },
+  {
+   "sym": "EBF",
+   "knowable": "2025-11-03",
+   "co_signals": 0,
+   "h5_excess": 0.008580026159831888
+  },
+  {
+   "sym": "BOT",
+   "knowable": "2025-11-05",
+   "co_signals": 0,
+   "h5_excess": -0.240016391277037
+  },
+  {
+   "sym": "MYE",
+   "knowable": "2025-11-04",
+   "co_signals": 2,
+   "h5_excess": 0.011174376580269318
+  },
+  {
+   "sym": "MVBF",
+   "knowable": "2025-12-08",
+   "co_signals": 0,
+   "h5_excess": -0.0498255470627984
+  },
+  {
+   "sym": "CRTO",
+   "knowable": "2025-11-04",
+   "co_signals": 2,
+   "h5_excess": -0.05697030678180526
+  },
+  {
+   "sym": "BBT",
+   "knowable": "2025-11-05",
+   "co_signals": 2,
+   "h5_excess": -0.02874070102926385
+  },
+  {
+   "sym": "SCKT",
+   "knowable": "2025-11-24",
+   "co_signals": 1,
+   "h5_excess": -0.005114318303837573
+  },
+  {
+   "sym": "NEWT",
+   "knowable": "2025-11-04",
+   "co_signals": 2,
+   "h5_excess": 0.012619174110735654
+  },
+  {
+   "sym": "CVSA",
+   "knowable": "2025-11-05",
+   "co_signals": 1,
+   "h5_excess": 0.031370366068795064
+  },
+  {
+   "sym": "RLMD",
+   "knowable": "2025-11-06",
+   "co_signals": 1,
+   "h5_excess": 0.34196831160142427
+  },
+  {
+   "sym": "ASST",
+   "knowable": "2025-12-16",
+   "co_signals": 2,
+   "h5_excess": -0.13265257042368794
+  },
+  {
+   "sym": "BETA",
+   "knowable": "2025-11-07",
+   "co_signals": 1,
+   "h5_excess": -0.27383953526107396
+  },
+  {
+   "sym": "SMPL",
+   "knowable": "2025-11-19",
+   "co_signals": 0,
+   "h5_excess": -0.05996140742533307
+  },
+  {
+   "sym": "GOOD",
+   "knowable": "2025-11-12",
+   "co_signals": 1,
+   "h5_excess": -0.05878054149995082
+  },
+  {
+   "sym": "SXC",
+   "knowable": "2025-11-12",
+   "co_signals": 2,
+   "h5_excess": -0.04939612260551618
+  },
+  {
+   "sym": "GLRE",
+   "knowable": "2025-11-19",
+   "co_signals": 0,
+   "h5_excess": 0.041647719133036665
+  },
+  {
+   "sym": "FINS",
+   "knowable": "2026-01-30",
+   "co_signals": 1,
+   "h5_excess": -0.011729396114732449
+  },
+  {
+   "sym": "KREF",
+   "knowable": "2025-11-10",
+   "co_signals": 0,
+   "h5_excess": -0.0010091191402106237
+  },
+  {
+   "sym": "NCDL",
+   "knowable": "2025-11-17",
+   "co_signals": 2,
+   "h5_excess": 0.003260264072889596
+  },
+  {
+   "sym": "XZO",
+   "knowable": "2025-11-07",
+   "co_signals": 2,
+   "h5_excess": -0.18613623708846172
+  },
+  {
+   "sym": "RXO",
+   "knowable": "2025-11-12",
+   "co_signals": 2,
+   "h5_excess": 0.11866300051555245
+  },
+  {
+   "sym": "CRSR",
+   "knowable": "2025-11-26",
+   "co_signals": 0,
+   "h5_excess": 0.05665099680154251
+  },
+  {
+   "sym": "FSK",
+   "knowable": "2025-11-12",
+   "co_signals": 2,
+   "h5_excess": 0.003289355159773466
+  },
+  {
+   "sym": "PENN",
+   "knowable": "2025-11-18",
+   "co_signals": 2,
+   "h5_excess": 0.049513184590345594
+  },
+  {
+   "sym": "LENZ",
+   "knowable": "2025-11-10",
+   "co_signals": 1,
+   "h5_excess": 0.21212618264467054
+  },
+  {
+   "sym": "RHLD",
+   "knowable": "2025-11-12",
+   "co_signals": 2,
+   "h5_excess": 0.14994805773942854
+  },
+  {
+   "sym": "TRIN",
+   "knowable": "2025-11-10",
+   "co_signals": 2,
+   "h5_excess": -0.029986668541403194
+  },
+  {
+   "sym": "GBFH",
+   "knowable": "2025-11-12",
+   "co_signals": 1,
+   "h5_excess": -0.10274483831970171
+  },
+  {
+   "sym": "EVMN",
+   "knowable": "2025-11-12",
+   "co_signals": 0,
+   "h5_excess": -0.03427434549792796
+  },
+  {
+   "sym": "BLLN",
+   "knowable": "2025-11-12",
+   "co_signals": 1,
+   "h5_excess": 0.254365346327309
+  },
+  {
+   "sym": "FRPH",
+   "knowable": "2025-11-13",
+   "co_signals": 1,
+   "h5_excess": -0.034518012200639436
+  },
+  {
+   "sym": "BBSI",
+   "knowable": "2025-11-12",
+   "co_signals": 2,
+   "h5_excess": -0.03295913055546584
+  },
+  {
+   "sym": "PRSU",
+   "knowable": "2025-11-12",
+   "co_signals": 1,
+   "h5_excess": -0.0032738959430507197
+  },
+  {
+   "sym": "FDBC",
+   "knowable": "2025-11-10",
+   "co_signals": 1,
+   "h5_excess": -0.02789630939390486
+  },
+  {
+   "sym": "OBDC",
+   "knowable": "2025-11-14",
+   "co_signals": 2,
+   "h5_excess": 0.03749069799976534
+  },
+  {
+   "sym": "AMCR",
+   "knowable": "2025-11-12",
+   "co_signals": 1,
+   "h5_excess": -0.028308509870237586
+  },
+  {
+   "sym": "ARQ",
+   "knowable": "2025-11-13",
+   "co_signals": 1,
+   "h5_excess": -0.021452148235032498
+  },
+  {
+   "sym": "CGBD",
+   "knowable": "2025-11-17",
+   "co_signals": 2,
+   "h5_excess": 0.015644942001931117
+  },
+  {
+   "sym": "SUNC",
+   "knowable": "2025-11-18",
+   "co_signals": 0,
+   "h5_excess": -0.03972574499765713
+  },
+  {
+   "sym": "PRMB",
+   "knowable": "2025-11-13",
+   "co_signals": 2,
+   "h5_excess": -0.05316175174115878
+  },
+  {
+   "sym": "MRVI",
+   "knowable": "2025-12-09",
+   "co_signals": 0,
+   "h5_excess": -0.05287096422160442
+  },
+  {
+   "sym": "DCTH",
+   "knowable": "2025-11-25",
+   "co_signals": 1,
+   "h5_excess": -0.015111432888762266
+  },
+  {
+   "sym": "SRTS",
+   "knowable": "2025-11-20",
+   "co_signals": 1,
+   "h5_excess": -0.07704305217754526
+  },
+  {
+   "sym": "SRV",
+   "knowable": "2025-12-22",
+   "co_signals": 0,
+   "h5_excess": -0.02429803510207007
+  },
+  {
+   "sym": "TBRG",
+   "knowable": "2025-11-18",
+   "co_signals": 1,
+   "h5_excess": 0.030446306650759647
+  },
+  {
+   "sym": "SMA",
+   "knowable": "2025-11-18",
+   "co_signals": 2,
+   "h5_excess": 0.025498838114341504
+  },
+  {
+   "sym": "SELF",
+   "knowable": "2025-12-05",
+   "co_signals": 0,
+   "h5_excess": 0.02181886383689835
+  },
+  {
+   "sym": "TPVG",
+   "knowable": "2025-11-13",
+   "co_signals": 2,
+   "h5_excess": 0.006256170382377135
+  },
+  {
+   "sym": "SG",
+   "knowable": "2025-11-12",
+   "co_signals": 1,
+   "h5_excess": 0.10219175909156997
+  },
+  {
+   "sym": "ROP",
+   "knowable": "2025-11-12",
+   "co_signals": 0,
+   "h5_excess": -0.040227504982195406
+  },
+  {
+   "sym": "CRVO",
+   "knowable": "2025-11-13",
+   "co_signals": 2,
+   "h5_excess": 0.1096963774918065
+  },
+  {
+   "sym": "EML",
+   "knowable": "2025-11-14",
+   "co_signals": 2,
+   "h5_excess": -0.012077815482521848
+  },
+  {
+   "sym": "WHF",
+   "knowable": "2025-11-14",
+   "co_signals": 2,
+   "h5_excess": -0.052425234021429956
+  },
+  {
+   "sym": "SRZN",
+   "knowable": "2025-12-02",
+   "co_signals": 0,
+   "h5_excess": 0.051710219418348746
+  },
+  {
+   "sym": "BHVN",
+   "knowable": "2025-11-17",
+   "co_signals": 2,
+   "h5_excess": -0.10977740380806056
+  },
+  {
+   "sym": "FCNCA",
+   "knowable": "2025-12-01",
+   "co_signals": 1,
+   "h5_excess": 0.048917595977837625
+  },
+  {
+   "sym": "ALMS",
+   "knowable": "2025-11-19",
+   "co_signals": 1,
+   "h5_excess": -0.006898993302003609
+  },
+  {
+   "sym": "FTAI",
+   "knowable": "2025-11-13",
+   "co_signals": 0,
+   "h5_excess": 0.0008683570098015903
+  },
+  {
+   "sym": "ELUT",
+   "knowable": "2025-12-18",
+   "co_signals": 0,
+   "h5_excess": 0.3086423075043466
+  },
+  {
+   "sym": "FSSL",
+   "knowable": "2025-11-28",
+   "co_signals": 0,
+   "h5_excess": -0.004393833728937313
+  },
+  {
+   "sym": "EGBN",
+   "knowable": "2025-11-24",
+   "co_signals": 0,
+   "h5_excess": 0.02822066079494112
+  },
+  {
+   "sym": "URG",
+   "knowable": "2025-11-21",
+   "co_signals": 0,
+   "h5_excess": 0.11558087184108068
+  },
+  {
+   "sym": "MNR",
+   "knowable": "2025-11-18",
+   "co_signals": 3,
+   "h5_excess": 0.0275546681954435
+  },
+  {
+   "sym": "KVHI",
+   "knowable": "2025-12-02",
+   "co_signals": 0,
+   "h5_excess": 0.22552677014567823
+  },
+  {
+   "sym": "XRN",
+   "knowable": "2025-11-17",
+   "co_signals": 2,
+   "h5_excess": 0.02244196236620888
+  },
+  {
+   "sym": "ARX",
+   "knowable": "2025-11-19",
+   "co_signals": 2,
+   "h5_excess": 0.03784287095066641
+  },
+  {
+   "sym": "AEBI",
+   "knowable": "2025-11-18",
+   "co_signals": 1,
+   "h5_excess": -0.04124661470080271
+  },
+  {
+   "sym": "NXB",
+   "knowable": "2025-11-17",
+   "co_signals": 1,
+   "h5_excess": 0.12836146091573242
+  },
+  {
+   "sym": "VANI",
+   "knowable": "2025-12-31",
+   "co_signals": 0,
+   "h5_excess": -0.018828048503987338
+  },
+  {
+   "sym": "TENX",
+   "knowable": "2025-11-19",
+   "co_signals": 1,
+   "h5_excess": -0.020856375341577582
+  },
+  {
+   "sym": "AP",
+   "knowable": "2025-11-18",
+   "co_signals": 2,
+   "h5_excess": 0.11026391850598927
+  },
+  {
+   "sym": "NWTG",
+   "knowable": "2025-11-20",
+   "co_signals": 1,
+   "h5_excess": 0.193971160955132
+  },
+  {
+   "sym": "UPXI",
+   "knowable": "2025-12-17",
+   "co_signals": 1,
+   "h5_excess": -0.09871643095991034
+  },
+  {
+   "sym": "TISI",
+   "knowable": "2025-12-03",
+   "co_signals": 0,
+   "h5_excess": -0.014022813932140665
+  },
+  {
+   "sym": "AISP",
+   "knowable": "2025-11-20",
+   "co_signals": 2,
+   "h5_excess": 0.031642393831844196
+  },
+  {
+   "sym": "NRDE",
+   "knowable": "2025-11-21",
+   "co_signals": 1,
+   "h5_excess": -0.09881430862713247
+  },
+  {
+   "sym": "VENU",
+   "knowable": "2026-01-05",
+   "co_signals": 0,
+   "h5_excess": -0.11805406975337018
+  },
+  {
+   "sym": "FOSL",
+   "knowable": "2025-11-20",
+   "co_signals": 2,
+   "h5_excess": 0.2528288345098104
+  },
+  {
+   "sym": "HLF",
+   "knowable": "2025-12-01",
+   "co_signals": 0,
+   "h5_excess": 0.2563500001382666
+  },
+  {
+   "sym": "BFLY",
+   "knowable": "2025-12-17",
+   "co_signals": 0,
+   "h5_excess": 0.02714974201020337
+  },
+  {
+   "sym": "IIPR",
+   "knowable": "2025-11-20",
+   "co_signals": 0,
+   "h5_excess": 0.031254480397789663
+  },
+  {
+   "sym": "MLP",
+   "knowable": "2025-11-24",
+   "co_signals": 1,
+   "h5_excess": -0.006261130779519064
+  },
+  {
+   "sym": "IPSC",
+   "knowable": "2025-12-29",
+   "co_signals": 0,
+   "h5_excess": 1.0167872702971723
+  },
+  {
+   "sym": "EVLV",
+   "knowable": "2025-11-21",
+   "co_signals": 1,
+   "h5_excess": 0.05532260412454515
+  },
+  {
+   "sym": "INSE",
+   "knowable": "2025-12-01",
+   "co_signals": 0,
+   "h5_excess": -0.004225295970024412
+  },
+  {
+   "sym": "RPD",
+   "knowable": "2025-11-24",
+   "co_signals": 0,
+   "h5_excess": 0.02207558394537945
+  },
+  {
+   "sym": "INV",
+   "knowable": "2025-11-25",
+   "co_signals": 3,
+   "h5_excess": -0.0033744809054636615
+  },
+  {
+   "sym": "GLOO",
+   "knowable": "2025-11-20",
+   "co_signals": 0,
+   "h5_excess": -0.18538346823712104
+  },
+  {
+   "sym": "FRD",
+   "knowable": "2025-12-02",
+   "co_signals": 0,
+   "h5_excess": 0.1086355964184269
+  },
+  {
+   "sym": "BBWI",
+   "knowable": "2025-11-24",
+   "co_signals": 2,
+   "h5_excess": 0.013925835216770155
+  },
+  {
+   "sym": "AUID",
+   "knowable": "2025-11-26",
+   "co_signals": 1,
+   "h5_excess": -0.03750351316352818
+  },
+  {
+   "sym": "CFND",
+   "knowable": "2025-12-04",
+   "co_signals": 0,
+   "h5_excess": -0.045053346530545046
+  },
+  {
+   "sym": "CBC",
+   "knowable": "2025-11-25",
+   "co_signals": 1,
+   "h5_excess": -0.011091704555849402
+  },
+  {
+   "sym": "ADTN",
+   "knowable": "2025-12-01",
+   "co_signals": 0,
+   "h5_excess": -0.024131619155036144
+  },
+  {
+   "sym": "EONR",
+   "knowable": "2025-11-28",
+   "co_signals": 2,
+   "h5_excess": -0.04332207639867314
+  },
+  {
+   "sym": "BRN",
+   "knowable": "2025-11-26",
+   "co_signals": 2,
+   "h5_excess": -0.11459481988851439
+  },
+  {
+   "sym": "J",
+   "knowable": "2025-11-25",
+   "co_signals": 1,
+   "h5_excess": 0.03297661816108244
+  },
+  {
+   "sym": "OFLX",
+   "knowable": "2025-12-08",
+   "co_signals": 1,
+   "h5_excess": -0.10968845178896058
+  },
+  {
+   "sym": "DMLP",
+   "knowable": "2025-11-28",
+   "co_signals": 0,
+   "h5_excess": 0.006300686603188055
+  },
+  {
+   "sym": "CGEH",
+   "knowable": "2025-11-25",
+   "co_signals": 2,
+   "h5_excess": 0.7851948621602296
+  },
+  {
+   "sym": "VRCA",
+   "knowable": "2025-11-25",
+   "co_signals": 3,
+   "h5_excess": 0.05279770452499988
+  },
+  {
+   "sym": "LFT",
+   "knowable": "2025-12-02",
+   "co_signals": 1,
+   "h5_excess": -0.011028017058459794
+  },
+  {
+   "sym": "DFDV",
+   "knowable": "2025-11-25",
+   "co_signals": 1,
+   "h5_excess": -0.07992961398531151
+  },
+  {
+   "sym": "ICCC",
+   "knowable": "2025-12-03",
+   "co_signals": 0,
+   "h5_excess": 0.11621266023435495
+  },
+  {
+   "sym": "BMEA",
+   "knowable": "2025-12-04",
+   "co_signals": 0,
+   "h5_excess": 0.02831510532781012
+  },
+  {
+   "sym": "KTTA",
+   "knowable": "2025-12-01",
+   "co_signals": 1,
+   "h5_excess": 0.02232337659634731
+  },
+  {
+   "sym": "CNTM",
+   "knowable": "2025-12-11",
+   "co_signals": 1,
+   "h5_excess": -0.1857414508759575
+  },
+  {
+   "sym": "MDBH",
+   "knowable": "2025-12-31",
+   "co_signals": 0,
+   "h5_excess": -0.03751005314104816
+  },
+  {
+   "sym": "ENR",
+   "knowable": "2025-12-02",
+   "co_signals": 2,
+   "h5_excess": 0.13163216505447428
+  },
+  {
+   "sym": "WMG",
+   "knowable": "2025-12-12",
+   "co_signals": 0,
+   "h5_excess": 0.022709373479713246
+  },
+  {
+   "sym": "PARK",
+   "knowable": "2025-12-03",
+   "co_signals": 0,
+   "h5_excess": 0.08427697331893169
+  },
+  {
+   "sym": "HYNE",
+   "knowable": "2025-12-05",
+   "co_signals": 1,
+   "h5_excess": 0.028250684240461288
+  },
+  {
+   "sym": "XELB",
+   "knowable": "2025-12-19",
+   "co_signals": 0,
+   "h5_excess": -0.1511152440874256
+  },
+  {
+   "sym": "DOMH",
+   "knowable": "2025-12-10",
+   "co_signals": 0,
+   "h5_excess": 0.014283894997287438
+  },
+  {
+   "sym": "AIRJ",
+   "knowable": "2025-12-10",
+   "co_signals": 0,
+   "h5_excess": 0.13466093630372367
+  },
+  {
+   "sym": "AMR",
+   "knowable": "2025-12-17",
+   "co_signals": 1,
+   "h5_excess": 0.007500550759375613
+  },
+  {
+   "sym": "PFBX",
+   "knowable": "2026-01-05",
+   "co_signals": 0,
+   "h5_excess": 0.003490413285613725
+  },
+  {
+   "sym": "JFB",
+   "knowable": "2025-12-10",
+   "co_signals": 0,
+   "h5_excess": -0.00799452504124809
+  },
+  {
+   "sym": "GAIA",
+   "knowable": "2025-12-10",
+   "co_signals": 0,
+   "h5_excess": -0.08192632275815637
+  },
+  {
+   "sym": "NRIM",
+   "knowable": "2025-12-10",
+   "co_signals": 1,
+   "h5_excess": -0.024238969021966317
+  },
+  {
+   "sym": "MIDD",
+   "knowable": "2025-12-15",
+   "co_signals": 1,
+   "h5_excess": 0.02467728178988504
+  },
+  {
+   "sym": "APRE",
+   "knowable": "2026-02-02",
+   "co_signals": 1,
+   "h5_excess": -0.07652060170045794
+  },
+  {
+   "sym": "IGR",
+   "knowable": "2025-12-18",
+   "co_signals": 0,
+   "h5_excess": 0.06139930000406102
+  },
+  {
+   "sym": "AARD",
+   "knowable": "2025-12-12",
+   "co_signals": 1,
+   "h5_excess": 0.056544432073204476
+  },
+  {
+   "sym": "SEVN",
+   "knowable": "2025-12-11",
+   "co_signals": 1,
+   "h5_excess": -0.030533740213642746
+  },
+  {
+   "sym": "SI",
+   "knowable": "2025-12-15",
+   "co_signals": 2,
+   "h5_excess": -6.306081674778419e-05
+  },
+  {
+   "sym": "CDNL",
+   "knowable": "2025-12-11",
+   "co_signals": 0,
+   "h5_excess": -0.08710920922501719
+  },
+  {
+   "sym": "KLXE",
+   "knowable": "2025-12-16",
+   "co_signals": 0,
+   "h5_excess": -0.04911933304429672
+  },
+  {
+   "sym": "ADGM",
+   "knowable": "2025-12-18",
+   "co_signals": 0,
+   "h5_excess": 0.06348460806093315
+  },
+  {
+   "sym": "BLNK",
+   "knowable": "2025-12-12",
+   "co_signals": 1,
+   "h5_excess": -0.10164939853521826
+  },
+  {
+   "sym": "VRA",
+   "knowable": "2025-12-15",
+   "co_signals": 0,
+   "h5_excess": -0.053743667985373667
+  },
+  {
+   "sym": "BCIC",
+   "knowable": "2025-12-16",
+   "co_signals": 0,
+   "h5_excess": 0.02612746621894413
+  },
+  {
+   "sym": "RZLT",
+   "knowable": "2025-12-15",
+   "co_signals": 0,
+   "h5_excess": 0.09017926704229584
+  },
+  {
+   "sym": "GRX",
+   "knowable": "2025-12-30",
+   "co_signals": 0,
+   "h5_excess": -0.036786570112143924
+  },
+  {
+   "sym": "COO",
+   "knowable": "2025-12-16",
+   "co_signals": 2,
+   "h5_excess": 0.00554593526050462
+  },
+  {
+   "sym": "SEI",
+   "knowable": "2025-12-18",
+   "co_signals": 0,
+   "h5_excess": 0.04754341848641752
+  },
+  {
+   "sym": "HYPD",
+   "knowable": "2025-12-19",
+   "co_signals": 2,
+   "h5_excess": -0.09390131373916677
+  },
+  {
+   "sym": "NAVN",
+   "knowable": "2025-12-19",
+   "co_signals": 1,
+   "h5_excess": 0.04143526096307948
+  },
+  {
+   "sym": "BRR",
+   "knowable": "2025-12-22",
+   "co_signals": 2,
+   "h5_excess": 0.023092281900102707
+  },
+  {
+   "sym": "ANDG",
+   "knowable": "2025-12-22",
+   "co_signals": 1,
+   "h5_excess": -0.0535684913286526
+  },
+  {
+   "sym": "KYTX",
+   "knowable": "2025-12-22",
+   "co_signals": 1,
+   "h5_excess": -0.18814173058073136
+  },
+  {
+   "sym": "IMNM",
+   "knowable": "2025-12-22",
+   "co_signals": 1,
+   "h5_excess": -0.11046005786481217
+  },
+  {
+   "sym": "MDLN",
+   "knowable": "2025-12-22",
+   "co_signals": 1,
+   "h5_excess": -0.07790714781190189
+  },
+  {
+   "sym": "AGIG",
+   "knowable": "2025-12-23",
+   "co_signals": 2,
+   "h5_excess": -0.05706997423279292
+  },
+  {
+   "sym": "NRXS",
+   "knowable": "2026-02-13",
+   "co_signals": 0,
+   "h5_excess": -0.017160306275735282
+  },
+  {
+   "sym": "ADC",
+   "knowable": "2026-01-12",
+   "co_signals": 1,
+   "h5_excess": -0.013789838983196412
+  },
+  {
+   "sym": "GDV",
+   "knowable": "2026-01-28",
+   "co_signals": 0,
+   "h5_excess": 0.00554920810328241
+  },
+  {
+   "sym": "ENTX",
+   "knowable": "2026-02-11",
+   "co_signals": 1,
+   "h5_excess": 0.11157356242075345
+  },
+  {
+   "sym": "FGBI",
+   "knowable": "2026-01-02",
+   "co_signals": 0,
+   "h5_excess": -0.004572018550146328
+  },
+  {
+   "sym": "LMNR",
+   "knowable": "2026-01-09",
+   "co_signals": 0,
+   "h5_excess": 0.030438560468225795
+  },
+  {
+   "sym": "LB",
+   "knowable": "2026-01-07",
+   "co_signals": 0,
+   "h5_excess": 0.09648560227238479
+  },
+  {
+   "sym": "WBI",
+   "knowable": "2026-01-07",
+   "co_signals": 0,
+   "h5_excess": 0.08168347294303335
+  },
+  {
+   "sym": "PMCB",
+   "knowable": "2026-01-07",
+   "co_signals": 0,
+   "h5_excess": -0.051568771904423105
+  },
+  {
+   "sym": "INDV",
+   "knowable": "2026-01-07",
+   "co_signals": 0,
+   "h5_excess": -0.05071566726860688
+  },
+  {
+   "sym": "ZBIO",
+   "knowable": "2026-02-13",
+   "co_signals": 0,
+   "h5_excess": -0.02659775173211143
+  },
+  {
+   "sym": "IMRX",
+   "knowable": "2026-01-15",
+   "co_signals": 1,
+   "h5_excess": 0.08595427860837623
+  },
+  {
+   "sym": "AKTS",
+   "knowable": "2026-01-12",
+   "co_signals": 0,
+   "h5_excess": 0.1223394565942566
+  },
+  {
+   "sym": "CMTV",
+   "knowable": "2026-02-02",
+   "co_signals": 2,
+   "h5_excess": 0.0026600941469047124
+  },
+  {
+   "sym": "ZIVO",
+   "knowable": "2026-01-28",
+   "co_signals": 0,
+   "h5_excess": -0.0644382432094407
+  },
+  {
+   "sym": "FIS",
+   "knowable": "2026-03-09",
+   "co_signals": 2,
+   "h5_excess": -0.007377596832909616
+  },
+  {
+   "sym": "ONCY",
+   "knowable": "2026-02-13",
+   "co_signals": 1,
+   "h5_excess": 0.016989183971299227
+  },
+  {
+   "sym": "GME",
+   "knowable": "2026-01-22",
+   "co_signals": 1,
+   "h5_excess": 0.02017062173015438
+  },
+  {
+   "sym": "CABA",
+   "knowable": "2026-01-21",
+   "co_signals": 1,
+   "h5_excess": -0.14572367449511459
+  },
+  {
+   "sym": "STEX",
+   "knowable": "2026-01-26",
+   "co_signals": 1,
+   "h5_excess": -0.1050137023895511
+  },
+  {
+   "sym": "WS",
+   "knowable": "2026-02-03",
+   "co_signals": 1,
+   "h5_excess": -0.05441413966793296
+  },
+  {
+   "sym": "THM",
+   "knowable": "2026-01-29",
+   "co_signals": 1,
+   "h5_excess": -0.027787843641977616
+  },
+  {
+   "sym": "USAR",
+   "knowable": "2026-01-29",
+   "co_signals": 2,
+   "h5_excess": -0.17035188136633228
+  },
+  {
+   "sym": "LIFE",
+   "knowable": "2026-01-30",
+   "co_signals": 0,
+   "h5_excess": -0.23297403438224462
+  },
+  {
+   "sym": "IP",
+   "knowable": "2026-02-02",
+   "co_signals": 2,
+   "h5_excess": 0.04702006815600135
+  },
+  {
+   "sym": "SWZ",
+   "knowable": "2026-02-04",
+   "co_signals": 0,
+   "h5_excess": 0.02425691026126442
+  },
+  {
+   "sym": "YSS",
+   "knowable": "2026-02-03",
+   "co_signals": 0,
+   "h5_excess": 0.08268303327578286
+  },
+  {
+   "sym": "LXRX",
+   "knowable": "2026-02-18",
+   "co_signals": 0,
+   "h5_excess": 0.02036737183286008
+  },
+  {
+   "sym": "FMNB",
+   "knowable": "2026-03-05",
+   "co_signals": 1,
+   "h5_excess": 0.01065864041492437
+  },
+  {
+   "sym": "SRBK",
+   "knowable": "2026-03-20",
+   "co_signals": 1,
+   "h5_excess": 0.0019897983194566704
+  },
+  {
+   "sym": "FRST",
+   "knowable": "2026-02-06",
+   "co_signals": 3,
+   "h5_excess": -0.018622015980008233
+  },
+  {
+   "sym": "PMN",
+   "knowable": "2026-02-23",
+   "co_signals": 1,
+   "h5_excess": 0.0816276004349068
+  },
+  {
+   "sym": "GAM",
+   "knowable": "2026-03-13",
+   "co_signals": 0,
+   "h5_excess": -0.02240826339452129
+  },
+  {
+   "sym": "MANE",
+   "knowable": "2026-02-05",
+   "co_signals": 0,
+   "h5_excess": 0.2462246841309984
+  },
+  {
+   "sym": "EIKN",
+   "knowable": "2026-02-06",
+   "co_signals": 0,
+   "h5_excess": 0.0710242475792987
+  },
+  {
+   "sym": "BSTZ",
+   "knowable": "2026-02-12",
+   "co_signals": 0,
+   "h5_excess": 0.01034620709549472
+  },
+  {
+   "sym": "ARCC",
+   "knowable": "2026-02-09",
+   "co_signals": 2,
+   "h5_excess": -0.007320110497585741
+  },
+  {
+   "sym": "LEE",
+   "knowable": "2026-02-18",
+   "co_signals": 1,
+   "h5_excess": 0.11300329204541515
+  },
+  {
+   "sym": "CING",
+   "knowable": "2026-02-10",
+   "co_signals": 1,
+   "h5_excess": 0.0882445851205258
+  },
+  {
+   "sym": "LUCK",
+   "knowable": "2026-02-13",
+   "co_signals": 2,
+   "h5_excess": -0.011624604502909253
+  },
+  {
+   "sym": "VRNS",
+   "knowable": "2026-02-10",
+   "co_signals": 1,
+   "h5_excess": -0.1436775334117455
+  },
+  {
+   "sym": "CHRN",
+   "knowable": "2026-03-20",
+   "co_signals": 0,
+   "h5_excess": 0.19564749324790842
+  },
+  {
+   "sym": "NXG",
+   "knowable": "2026-03-11",
+   "co_signals": 0,
+   "h5_excess": 0.03584123476711398
+  },
+  {
+   "sym": "ONMD",
+   "knowable": "2026-04-24",
+   "co_signals": 0,
+   "h5_excess": -0.16428691996907252
+  },
+  {
+   "sym": "BOBS",
+   "knowable": "2026-02-06",
+   "co_signals": 0,
+   "h5_excess": 0.08974205659459067
+  },
+  {
+   "sym": "HCIC",
+   "knowable": "2026-02-09",
+   "co_signals": 1,
+   "h5_excess": -0.06057272145250192
+  },
+  {
+   "sym": "SGP",
+   "knowable": "2026-02-10",
+   "co_signals": 1,
+   "h5_excess": 0.056680099076585666
+  },
+  {
+   "sym": "TECX",
+   "knowable": "2026-02-12",
+   "co_signals": 0,
+   "h5_excess": 0.011225623674000706
+  },
+  {
+   "sym": "BCBP",
+   "knowable": "2026-03-02",
+   "co_signals": 0,
+   "h5_excess": 0.014859690916653068
+  },
+  {
+   "sym": "COTY",
+   "knowable": "2026-03-09",
+   "co_signals": 0,
+   "h5_excess": -0.025768696333772656
+  },
+  {
+   "sym": "MPLT",
+   "knowable": "2026-02-20",
+   "co_signals": 1,
+   "h5_excess": 0.03306339348739107
+  },
+  {
+   "sym": "FNRN",
+   "knowable": "2026-02-19",
+   "co_signals": 0,
+   "h5_excess": 0.08984824192673879
+  },
+  {
+   "sym": "APCX",
+   "knowable": "2026-03-05",
+   "co_signals": 0,
+   "h5_excess": 0.054603599962932625
+  },
+  {
+   "sym": "TLPH",
+   "knowable": "2026-02-20",
+   "co_signals": 1,
+   "h5_excess": -0.04122740754803922
+  },
+  {
+   "sym": "COCH",
+   "knowable": "2026-02-17",
+   "co_signals": 2,
+   "h5_excess": -0.007860153477332377
+  },
+  {
+   "sym": "VERX",
+   "knowable": "2026-02-23",
+   "co_signals": 1,
+   "h5_excess": 0.0761262840680792
+  },
+  {
+   "sym": "ASST",
+   "knowable": "2026-02-19",
+   "co_signals": 2,
+   "h5_excess": 0.1781277947223212
+  },
+  {
+   "sym": "CNVS",
+   "knowable": "2026-02-17",
+   "co_signals": 2,
+   "h5_excess": -0.054545854035413455
+  },
+  {
+   "sym": "FBRT",
+   "knowable": "2026-03-04",
+   "co_signals": 0,
+   "h5_excess": -0.01798820956544922
+  },
+  {
+   "sym": "BLIN",
+   "knowable": "2026-02-26",
+   "co_signals": 1,
+   "h5_excess": 0.16173042244718583
+  },
+  {
+   "sym": "GGT",
+   "knowable": "2026-02-25",
+   "co_signals": 1,
+   "h5_excess": 0.043332166421020446
+  },
+  {
+   "sym": "CNDT",
+   "knowable": "2026-02-20",
+   "co_signals": 2,
+   "h5_excess": -0.06726367592646232
+  },
+  {
+   "sym": "EXE",
+   "knowable": "2026-03-09",
+   "co_signals": 0,
+   "h5_excess": 0.00525561857919743
+  },
+  {
+   "sym": "CEVA",
+   "knowable": "2026-02-23",
+   "co_signals": 1,
+   "h5_excess": -0.042996850260278885
+  },
+  {
+   "sym": "HLNE",
+   "knowable": "2026-02-24",
+   "co_signals": 1,
+   "h5_excess": 0.026831844303968122
+  },
+  {
+   "sym": "KYN",
+   "knowable": "2026-03-19",
+   "co_signals": 0,
+   "h5_excess": 0.0073547095479949975
+  },
+  {
+   "sym": "VEEE",
+   "knowable": "2026-03-19",
+   "co_signals": 1,
+   "h5_excess": -0.2525168736477489
+  },
+  {
+   "sym": "CMTG",
+   "knowable": "2026-03-03",
+   "co_signals": 2,
+   "h5_excess": -0.0873506914002885
+  },
+  {
+   "sym": "OFIX",
+   "knowable": "2026-03-10",
+   "co_signals": 2,
+   "h5_excess": 0.0059055118110236116
+  },
+  {
+   "sym": "FSCO",
+   "knowable": "2026-03-16",
+   "co_signals": 0,
+   "h5_excess": 0.0010318273206629813
+  },
+  {
+   "sym": "SXC",
+   "knowable": "2026-02-26",
+   "co_signals": 2,
+   "h5_excess": -0.0006128242262484207
+  },
+  {
+   "sym": "AXR",
+   "knowable": "2026-04-22",
+   "co_signals": 0,
+   "h5_excess": -0.008000621025020638
+  },
+  {
+   "sym": "ABCL",
+   "knowable": "2026-02-27",
+   "co_signals": 2,
+   "h5_excess": 0.039548456054207426
+  },
+  {
+   "sym": "AHCO",
+   "knowable": "2026-03-03",
+   "co_signals": 1,
+   "h5_excess": 0.09609112379528317
+  },
+  {
+   "sym": "TNC",
+   "knowable": "2026-03-02",
+   "co_signals": 1,
+   "h5_excess": 0.021280691295092358
+  },
+  {
+   "sym": "LOGC",
+   "knowable": "2026-02-26",
+   "co_signals": 2,
+   "h5_excess": 0.003931684925165824
+  },
+  {
+   "sym": "TSLX",
+   "knowable": "2026-03-03",
+   "co_signals": 1,
+   "h5_excess": -0.02062005134655076
+  },
+  {
+   "sym": "FSK",
+   "knowable": "2026-03-03",
+   "co_signals": 2,
+   "h5_excess": -0.04078251825521939
+  },
+  {
+   "sym": "REXR",
+   "knowable": "2026-02-27",
+   "co_signals": 1,
+   "h5_excess": -0.02037019144758867
+  },
+  {
+   "sym": "LRMR",
+   "knowable": "2026-03-02",
+   "co_signals": 1,
+   "h5_excess": -0.20818187097229301
+  },
+  {
+   "sym": "ABSI",
+   "knowable": "2026-03-16",
+   "co_signals": 1,
+   "h5_excess": -0.026337309498868144
+  },
+  {
+   "sym": "PVLA",
+   "knowable": "2026-03-02",
+   "co_signals": 2,
+   "h5_excess": -0.05937616581829264
+  },
+  {
+   "sym": "NMFC",
+   "knowable": "2026-03-03",
+   "co_signals": 2,
+   "h5_excess": -0.005307736200642621
+  },
+  {
+   "sym": "FBLG",
+   "knowable": "2026-03-04",
+   "co_signals": 0,
+   "h5_excess": -0.2763209121722553
+  },
+  {
+   "sym": "PRHI",
+   "knowable": "2026-04-02",
+   "co_signals": 1,
+   "h5_excess": -0.10888232136558018
+  },
+  {
+   "sym": "BBSI",
+   "knowable": "2026-03-16",
+   "co_signals": 0,
+   "h5_excess": 0.06453240759760603
+  },
+  {
+   "sym": "GCBC",
+   "knowable": "2026-03-05",
+   "co_signals": 0,
+   "h5_excess": -0.010306372244672013
+  },
+  {
+   "sym": "DCTH",
+   "knowable": "2026-03-06",
+   "co_signals": 2,
+   "h5_excess": -0.0039796730495490484
+  },
+  {
+   "sym": "ACIW",
+   "knowable": "2026-03-04",
+   "co_signals": 2,
+   "h5_excess": -0.0537179279500809
+  },
+  {
+   "sym": "HERZ",
+   "knowable": "2026-04-17",
+   "co_signals": 0,
+   "h5_excess": -0.012937183915396888
+  },
+  {
+   "sym": "TRIN",
+   "knowable": "2026-03-11",
+   "co_signals": 2,
+   "h5_excess": 0.03693513099296997
+  },
+  {
+   "sym": "MSDL",
+   "knowable": "2026-03-03",
+   "co_signals": 2,
+   "h5_excess": -0.011278636562092936
+  },
+  {
+   "sym": "GENB",
+   "knowable": "2026-03-02",
+   "co_signals": 0,
+   "h5_excess": 0.001276115115251275
+  },
+  {
+   "sym": "ABTC",
+   "knowable": "2026-03-05",
+   "co_signals": 2,
+   "h5_excess": -0.07314248227954212
+  },
+  {
+   "sym": "ALTG",
+   "knowable": "2026-03-16",
+   "co_signals": 0,
+   "h5_excess": -0.026078564535154003
+  },
+  {
+   "sym": "SLRC",
+   "knowable": "2026-03-05",
+   "co_signals": 1,
+   "h5_excess": -0.01546819442347036
+  },
+  {
+   "sym": "NCDL",
+   "knowable": "2026-03-05",
+   "co_signals": 2,
+   "h5_excess": 0.001097323771060088
+  },
+  {
+   "sym": "CGBD",
+   "knowable": "2026-03-10",
+   "co_signals": 2,
+   "h5_excess": 0.058241960409154414
+  },
+  {
+   "sym": "MDRR",
+   "knowable": "2026-03-13",
+   "co_signals": 1,
+   "h5_excess": -0.03628293153649709
+  },
+  {
+   "sym": "SG",
+   "knowable": "2026-04-09",
+   "co_signals": 0,
+   "h5_excess": 0.05909857004292762
+  },
+  {
+   "sym": "FCNCA",
+   "knowable": "2026-03-17",
+   "co_signals": 1,
+   "h5_excess": 0.02654993588859178
+  },
+  {
+   "sym": "AFCG",
+   "knowable": "2026-04-01",
+   "co_signals": 0,
+   "h5_excess": -0.16883145752183015
+  },
+  {
+   "sym": "QSI",
+   "knowable": "2026-03-09",
+   "co_signals": 1,
+   "h5_excess": -0.04231918347249519
+  },
+  {
+   "sym": "WHF",
+   "knowable": "2026-03-24",
+   "co_signals": 0,
+   "h5_excess": -0.02677909514497756
+  },
+  {
+   "sym": "FSSL",
+   "knowable": "2026-03-10",
+   "co_signals": 1,
+   "h5_excess": 0.04249087766468218
+  },
+  {
+   "sym": "VSNT",
+   "knowable": "2026-03-10",
+   "co_signals": 2,
+   "h5_excess": -0.030936593452134287
+  },
+  {
+   "sym": "SSII",
+   "knowable": "2026-03-10",
+   "co_signals": 2,
+   "h5_excess": 0.03531727651690608
+  },
+  {
+   "sym": "TCPC",
+   "knowable": "2026-03-10",
+   "co_signals": 2,
+   "h5_excess": 0.022389028294540037
+  },
+  {
+   "sym": "LYEL",
+   "knowable": "2026-03-09",
+   "co_signals": 0,
+   "h5_excess": -0.0688696893248022
+  },
+  {
+   "sym": "TKNO",
+   "knowable": "2026-03-09",
+   "co_signals": 1,
+   "h5_excess": -0.023994820414889984
+  },
+  {
+   "sym": "EML",
+   "knowable": "2026-03-10",
+   "co_signals": 2,
+   "h5_excess": 0.03659231161618681
+  },
+  {
+   "sym": "ACNT",
+   "knowable": "2026-03-18",
+   "co_signals": 0,
+   "h5_excess": 0.07533396196762532
+  },
+  {
+   "sym": "TGLS",
+   "knowable": "2026-03-11",
+   "co_signals": 1,
+   "h5_excess": -0.07252586073799594
+  },
+  {
+   "sym": "XZO",
+   "knowable": "2026-03-18",
+   "co_signals": 0,
+   "h5_excess": -0.03173472220386275
+  },
+  {
+   "sym": "AEYE",
+   "knowable": "2026-03-17",
+   "co_signals": 1,
+   "h5_excess": 0.056374526341522846
+  },
+  {
+   "sym": "KOS",
+   "knowable": "2026-03-12",
+   "co_signals": 1,
+   "h5_excess": 0.13841231753649297
+  },
+  {
+   "sym": "KRRO",
+   "knowable": "2026-03-12",
+   "co_signals": 2,
+   "h5_excess": -0.13545716526881457
+  },
+  {
+   "sym": "NSP",
+   "knowable": "2026-03-11",
+   "co_signals": 0,
+   "h5_excess": 0.2181522889749279
+  },
+  {
+   "sym": "REEMF",
+   "knowable": "2026-03-23",
+   "co_signals": 0,
+   "h5_excess": -0.14652628279854418
+  },
+  {
+   "sym": "MLAB",
+   "knowable": "2026-03-10",
+   "co_signals": 1,
+   "h5_excess": 0.04920761360894721
+  },
+  {
+   "sym": "BXSL",
+   "knowable": "2026-03-16",
+   "co_signals": 1,
+   "h5_excess": 0.0046893032861567985
+  },
+  {
+   "sym": "LOAR",
+   "knowable": "2026-03-13",
+   "co_signals": 0,
+   "h5_excess": -0.12108820958627076
+  },
+  {
+   "sym": "PODC",
+   "knowable": "2026-04-21",
+   "co_signals": 0,
+   "h5_excess": 0.08852483793355592
+  },
+  {
+   "sym": "FLNT",
+   "knowable": "2026-03-16",
+   "co_signals": 1,
+   "h5_excess": -0.16831683168316836
+  },
+  {
+   "sym": "MYO",
+   "knowable": "2026-03-16",
+   "co_signals": 2,
+   "h5_excess": -0.06676753590852047
+  },
+  {
+   "sym": "ARQ",
+   "knowable": "2026-03-19",
+   "co_signals": 1,
+   "h5_excess": 0.10184774661722595
+  },
+  {
+   "sym": "ULBI",
+   "knowable": "2026-03-16",
+   "co_signals": 1,
+   "h5_excess": -0.03243896908774857
+  },
+  {
+   "sym": "AWRE",
+   "knowable": "2026-05-05",
+   "co_signals": 1,
+   "h5_excess": -0.01943468442667351
+  },
+  {
+   "sym": "OSUR",
+   "knowable": "2026-03-16",
+   "co_signals": 0,
+   "h5_excess": -0.020264883631220365
+  },
+  {
+   "sym": "CSPI",
+   "knowable": "2026-05-13",
+   "co_signals": 1,
+   "h5_excess": -0.021436886255752352
+  },
+  {
+   "sym": "STRA",
+   "knowable": "2026-04-24",
+   "co_signals": 1,
+   "h5_excess": -0.05904031905639584
+  },
+  {
+   "sym": "ECC",
+   "knowable": "2026-03-18",
+   "co_signals": 1,
+   "h5_excess": 0.0316831683168316
+  },
+  {
+   "sym": "SDHC",
+   "knowable": "2026-03-17",
+   "co_signals": 1,
+   "h5_excess": 0.03498077755013729
+  },
+  {
+   "sym": "SI",
+   "knowable": "2026-03-17",
+   "co_signals": 1,
+   "h5_excess": 0.01641599274431249
+  },
+  {
+   "sym": "SCM",
+   "knowable": "2026-03-17",
+   "co_signals": 0,
+   "h5_excess": -0.002143470160969718
+  },
+  {
+   "sym": "BJDX",
+   "knowable": "2026-05-18",
+   "co_signals": 2,
+   "h5_excess": 1.2447461075689117
+  },
+  {
+   "sym": "CULP",
+   "knowable": "2026-03-20",
+   "co_signals": 1,
+   "h5_excess": -0.016114941291910934
+  },
+  {
+   "sym": "HBIO",
+   "knowable": "2026-03-18",
+   "co_signals": 2,
+   "h5_excess": -0.09565765565320583
+  },
+  {
+   "sym": "MTN",
+   "knowable": "2026-03-16",
+   "co_signals": 1,
+   "h5_excess": -0.015119782805209647
+  },
+  {
+   "sym": "PAL",
+   "knowable": "2026-05-15",
+   "co_signals": 1,
+   "h5_excess": 0.027139491234375646
+  },
+  {
+   "sym": "SBSW",
+   "knowable": "2026-03-20",
+   "co_signals": 0,
+   "h5_excess": 0.0642467732863935
+  },
+  {
+   "sym": "NFBK",
+   "knowable": "2026-03-20",
+   "co_signals": 0,
+   "h5_excess": 0.01866892245926166
+  },
+  {
+   "sym": "RHLD",
+   "knowable": "2026-03-18",
+   "co_signals": 2,
+   "h5_excess": -0.0014470677837015167
+  },
+  {
+   "sym": "KLC",
+   "knowable": "2026-03-23",
+   "co_signals": 1,
+   "h5_excess": 0.14167623326873313
+  },
+  {
+   "sym": "BW",
+   "knowable": "2026-03-18",
+   "co_signals": 2,
+   "h5_excess": -0.030106604410441107
+  },
+  {
+   "sym": "KLTR",
+   "knowable": "2026-03-24",
+   "co_signals": 2,
+   "h5_excess": -0.13815149342198962
+  },
+  {
+   "sym": "IBIO",
+   "knowable": "2026-03-23",
+   "co_signals": 1,
+   "h5_excess": 0.17841126333215462
+  },
+  {
+   "sym": "MNR",
+   "knowable": "2026-03-23",
+   "co_signals": 1,
+   "h5_excess": -0.179032194955016
+  },
+  {
+   "sym": "MED",
+   "knowable": "2026-05-12",
+   "co_signals": 2,
+   "h5_excess": -0.0012812637657924064
+  },
+  {
+   "sym": "LULU",
+   "knowable": "2026-04-03",
+   "co_signals": 0,
+   "h5_excess": -0.009821765312233444
+  },
+  {
+   "sym": "TGEN",
+   "knowable": "2026-03-27",
+   "co_signals": 2,
+   "h5_excess": 0.06182334145506174
+  },
+  {
+   "sym": "BCIC",
+   "knowable": "2026-03-24",
+   "co_signals": 0,
+   "h5_excess": 0.0023666205452863576
+  },
+  {
+   "sym": "TISI",
+   "knowable": "2026-04-01",
+   "co_signals": 0,
+   "h5_excess": -0.052836746453405525
+  },
+  {
+   "sym": "JAN",
+   "knowable": "2026-03-24",
+   "co_signals": 0,
+   "h5_excess": -0.02754705754649467
+  },
+  {
+   "sym": "PICS",
+   "knowable": "2026-03-26",
+   "co_signals": 0,
+   "h5_excess": 0.08847372279672805
+  },
+  {
+   "sym": "GSM",
+   "knowable": "2026-03-25",
+   "co_signals": 0,
+   "h5_excess": -0.08435301916896998
+  },
+  {
+   "sym": "BORR",
+   "knowable": "2026-03-26",
+   "co_signals": 0,
+   "h5_excess": -0.005221599485659922
+  },
+  {
+   "sym": "INSE",
+   "knowable": "2026-03-27",
+   "co_signals": 0,
+   "h5_excess": -0.06692882922218957
+  },
+  {
+   "sym": "IAUX",
+   "knowable": "2026-03-31",
+   "co_signals": 1,
+   "h5_excess": -0.0320718756402969
+  },
+  {
+   "sym": "ACCS",
+   "knowable": "2026-05-19",
+   "co_signals": 1,
+   "h5_excess": -0.0023325393833608654
+  },
+  {
+   "sym": "LFT",
+   "knowable": "2026-03-27",
+   "co_signals": 2,
+   "h5_excess": -0.0013003531376512
+  },
+  {
+   "sym": "LENZ",
+   "knowable": "2026-03-30",
+   "co_signals": 1,
+   "h5_excess": -0.048283393114472606
+  },
+  {
+   "sym": "MSIF",
+   "knowable": "2026-05-19",
+   "co_signals": 2,
+   "h5_excess": -0.009710404452069166
+  },
+  {
+   "sym": "IMNM",
+   "knowable": "2026-05-19",
+   "co_signals": 1,
+   "h5_excess": -0.12125659306935654
+  },
+  {
+   "sym": "IPX",
+   "knowable": "2026-03-30",
+   "co_signals": 0,
+   "h5_excess": 0.1921047608824833
+  },
+  {
+   "sym": "VTS",
+   "knowable": "2026-04-01",
+   "co_signals": 1,
+   "h5_excess": -0.02562569105750545
+  },
+  {
+   "sym": "PGC",
+   "knowable": "2026-04-01",
+   "co_signals": 1,
+   "h5_excess": -0.007075693878860312
+  },
+  {
+   "sym": "POCI",
+   "knowable": "2026-04-01",
+   "co_signals": 1,
+   "h5_excess": 0.057135441432873746
+  },
+  {
+   "sym": "LODE",
+   "knowable": "2026-04-01",
+   "co_signals": 3,
+   "h5_excess": -0.14863045452088341
+  },
+  {
+   "sym": "PCSA",
+   "knowable": "2026-05-01",
+   "co_signals": 0,
+   "h5_excess": -0.05832699378724482
+  },
+  {
+   "sym": "NXB",
+   "knowable": "2026-04-01",
+   "co_signals": 1,
+   "h5_excess": 0.07095897084463831
+  },
+  {
+   "sym": "BZUN",
+   "knowable": "2026-04-09",
+   "co_signals": 0,
+   "h5_excess": 0.11585798890527688
+  },
+  {
+   "sym": "ADC",
+   "knowable": "2026-05-18",
+   "co_signals": 0,
+   "h5_excess": -0.04143703531509024
+  },
+  {
+   "sym": "VALE",
+   "knowable": "2026-04-03",
+   "co_signals": 0,
+   "h5_excess": 0.018322911267055986
+  },
+  {
+   "sym": "LPCN",
+   "knowable": "2026-04-06",
+   "co_signals": 1,
+   "h5_excess": -0.07994083059715018
+  },
+  {
+   "sym": "VSXY",
+   "knowable": "2026-04-06",
+   "co_signals": 0,
+   "h5_excess": 0.06180237048784942
+  },
+  {
+   "sym": "SVC",
+   "knowable": "2026-04-02",
+   "co_signals": 0,
+   "h5_excess": -0.015268261685944085
+  },
+  {
+   "sym": "HMH",
+   "knowable": "2026-04-06",
+   "co_signals": 1,
+   "h5_excess": -0.031032026569209892
+  },
+  {
+   "sym": "BOT",
+   "knowable": "2026-05-05",
+   "co_signals": 0,
+   "h5_excess": -0.240016391277037
+  },
+  {
+   "sym": "TBN",
+   "knowable": "2026-04-15",
+   "co_signals": 1,
+   "h5_excess": 0.002153814080387839
+  },
+  {
+   "sym": "USAU",
+   "knowable": "2026-04-13",
+   "co_signals": 1,
+   "h5_excess": -0.05362879887658556
+  },
+  {
+   "sym": "FTLF",
+   "knowable": "2026-04-14",
+   "co_signals": 2,
+   "h5_excess": 0.029678189394983123
+  },
+  {
+   "sym": "VIRC",
+   "knowable": "2026-04-15",
+   "co_signals": 1,
+   "h5_excess": -0.02178711737815353
+  },
+  {
+   "sym": "CAG",
+   "knowable": "2026-04-15",
+   "co_signals": 2,
+   "h5_excess": -0.0477603541799384
+  },
+  {
+   "sym": "SUNE",
+   "knowable": "2026-05-01",
+   "co_signals": 0,
+   "h5_excess": -0.0040046290354320835
+  },
+  {
+   "sym": "BEAT",
+   "knowable": "2026-04-16",
+   "co_signals": 1,
+   "h5_excess": 0.023163094653472327
+  },
+  {
+   "sym": "GRF",
+   "knowable": "2026-05-27",
+   "co_signals": 0,
+   "h5_excess": 0.016852377327150725
+  },
+  {
+   "sym": "GLOO",
+   "knowable": "2026-04-16",
+   "co_signals": 2,
+   "h5_excess": -0.1252781506132229
+  },
+  {
+   "sym": "AVEX",
+   "knowable": "2026-04-20",
+   "co_signals": 0,
+   "h5_excess": -0.21121210411033042
+  },
+  {
+   "sym": "AXIA",
+   "knowable": "2026-05-12",
+   "co_signals": 0,
+   "h5_excess": -0.07016618708371913
+  },
+  {
+   "sym": "ARXS",
+   "knowable": "2026-04-20",
+   "co_signals": 0,
+   "h5_excess": -0.0018185836428949997
+  },
+  {
+   "sym": "KLRA",
+   "knowable": "2026-04-20",
+   "co_signals": 1,
+   "h5_excess": 0.06453531387180234
+  },
+  {
+   "sym": "ALMR",
+   "knowable": "2026-04-20",
+   "co_signals": 1,
+   "h5_excess": -0.11244907404440685
+  },
+  {
+   "sym": "PRLD",
+   "knowable": "2026-04-23",
+   "co_signals": 1,
+   "h5_excess": 0.03220160521941251
+  },
+  {
+   "sym": "BFC",
+   "knowable": "2026-04-23",
+   "co_signals": 2,
+   "h5_excess": -0.051691372654409706
+  },
+  {
+   "sym": "HEPA",
+   "knowable": "2026-04-27",
+   "co_signals": 0,
+   "h5_excess": 0.2299120883514867
+  },
+  {
+   "sym": "ELMT",
+   "knowable": "2026-04-24",
+   "co_signals": 1,
+   "h5_excess": -0.09515565635251466
+  },
+  {
+   "sym": "CRESY",
+   "knowable": "2026-05-15",
+   "co_signals": 0,
+   "h5_excess": 0.049638813543944726
+  },
+  {
+   "sym": "SMPL",
+   "knowable": "2026-05-18",
+   "co_signals": 0,
+   "h5_excess": 0.03200635663717821
+  },
+  {
+   "sym": "EFOR",
+   "knowable": "2026-04-27",
+   "co_signals": 1,
+   "h5_excess": -0.11552758806552832
+  },
+  {
+   "sym": "PFBX",
+   "knowable": "2026-04-27",
+   "co_signals": 1,
+   "h5_excess": -0.038438040847479815
+  },
+  {
+   "sym": "KREF",
+   "knowable": "2026-04-27",
+   "co_signals": 1,
+   "h5_excess": -0.023709358676937242
+  },
+  {
+   "sym": "XE",
+   "knowable": "2026-04-29",
+   "co_signals": 0,
+   "h5_excess": 0.08575707043033964
+  },
+  {
+   "sym": "NCEL",
+   "knowable": "2026-04-29",
+   "co_signals": 1,
+   "h5_excess": -0.14056674762734933
+  },
+  {
+   "sym": "AMST",
+   "knowable": "2026-05-18",
+   "co_signals": 0,
+   "h5_excess": -0.12421172020048565
+  },
+  {
+   "sym": "AUID",
+   "knowable": "2026-05-01",
+   "co_signals": 0,
+   "h5_excess": -0.0021286466798068338
+  },
+  {
+   "sym": "CZWI",
+   "knowable": "2026-05-05",
+   "co_signals": 2,
+   "h5_excess": 0.005764273346132498
+  },
+  {
+   "sym": "ANIK",
+   "knowable": "2026-05-04",
+   "co_signals": 1,
+   "h5_excess": 0.06100219582133004
+  },
+  {
+   "sym": "FGBI",
+   "knowable": "2026-05-04",
+   "co_signals": 2,
+   "h5_excess": -0.002206819375561442
+  },
+  {
+   "sym": "SRAD",
+   "knowable": "2026-05-04",
+   "co_signals": 0,
+   "h5_excess": 0.057804121543475695
+  },
+  {
+   "sym": "SBMT",
+   "knowable": "2026-05-19",
+   "co_signals": 0,
+   "h5_excess": 0.09993754825258017
+  },
+  {
+   "sym": "PSUS",
+   "knowable": "2026-05-01",
+   "co_signals": 0,
+   "h5_excess": 0.0015468085030100331
+  },
+  {
+   "sym": "WSBK",
+   "knowable": "2026-05-06",
+   "co_signals": 1,
+   "h5_excess": 0.02479630904347574
+  },
+  {
+   "sym": "CSTM",
+   "knowable": "2026-05-18",
+   "co_signals": 0,
+   "h5_excess": 0.01843373460590958
+  },
+  {
+   "sym": "AVLN",
+   "knowable": "2026-05-01",
+   "co_signals": 0,
+   "h5_excess": 0.12699501008401914
+  },
+  {
+   "sym": "MCAH",
+   "knowable": "2026-05-05",
+   "co_signals": 1,
+   "h5_excess": -0.0036554426161233833
+  },
+  {
+   "sym": "GLND",
+   "knowable": "2026-05-04",
+   "co_signals": 2,
+   "h5_excess": 0.008913336560540497
+  },
+  {
+   "sym": "NSPR",
+   "knowable": "2026-05-08",
+   "co_signals": 3,
+   "h5_excess": -0.13539360173244197
+  },
+  {
+   "sym": "FTCI",
+   "knowable": "2026-05-07",
+   "co_signals": 1,
+   "h5_excess": 0.052915333242331775
+  },
+  {
+   "sym": "TXO",
+   "knowable": "2026-05-11",
+   "co_signals": 1,
+   "h5_excess": -0.0689590756048647
+  },
+  {
+   "sym": "PAM",
+   "knowable": "2026-05-28",
+   "co_signals": 0,
+   "h5_excess": -0.01432696492328478
+  },
+  {
+   "sym": "ZOMDF",
+   "knowable": "2026-05-11",
+   "co_signals": 1,
+   "h5_excess": -0.04979392579287878
+  },
+  {
+   "sym": "J",
+   "knowable": "2026-05-18",
+   "co_signals": 1,
+   "h5_excess": 0.048609420187292196
+  },
+  {
+   "sym": "OI",
+   "knowable": "2026-05-12",
+   "co_signals": 2,
+   "h5_excess": 0.03473826344484654
+  },
+  {
+   "sym": "INFU",
+   "knowable": "2026-05-12",
+   "co_signals": 2,
+   "h5_excess": 0.015852439586944156
+  },
+  {
+   "sym": "ODTX",
+   "knowable": "2026-05-11",
+   "co_signals": 0,
+   "h5_excess": -0.042911153075763986
+  },
+  {
+   "sym": "PLSE",
+   "knowable": "2026-05-11",
+   "co_signals": 2,
+   "h5_excess": -0.03745845985981333
+  },
+  {
+   "sym": "ARTV",
+   "knowable": "2026-05-28",
+   "co_signals": 0,
+   "h5_excess": 0.0809903976844486
+  },
+  {
+   "sym": "MRP",
+   "knowable": "2026-05-13",
+   "co_signals": 2,
+   "h5_excess": -0.025208237908184605
+  },
+  {
+   "sym": "XRN",
+   "knowable": "2026-05-11",
+   "co_signals": 2,
+   "h5_excess": 0.028227801519093765
+  },
+  {
+   "sym": "OTF",
+   "knowable": "2026-05-14",
+   "co_signals": 1,
+   "h5_excess": -0.08732737636110466
+  },
+  {
+   "sym": "NOMD",
+   "knowable": "2026-05-15",
+   "co_signals": 0,
+   "h5_excess": -0.07127983810964589
+  },
+  {
+   "sym": "MOBI",
+   "knowable": "2026-05-11",
+   "co_signals": 0,
+   "h5_excess": 0.011177301294773123
+  },
+  {
+   "sym": "AGIG",
+   "knowable": "2026-05-14",
+   "co_signals": 0,
+   "h5_excess": -0.13029304029304012
+  },
+  {
+   "sym": "DMLP",
+   "knowable": "2026-05-22",
+   "co_signals": 1,
+   "h5_excess": 0.056935250879621924
+  },
+  {
+   "sym": "STRT",
+   "knowable": "2026-05-14",
+   "co_signals": 2,
+   "h5_excess": 0.05234151218986183
+  },
+  {
+   "sym": "LTRN",
+   "knowable": "2026-05-14",
+   "co_signals": 1,
+   "h5_excess": 0.00757103737686271
+  },
+  {
+   "sym": "CNXU",
+   "knowable": "2026-05-14",
+   "co_signals": 0,
+   "h5_excess": -0.13101461121115987
+  },
+  {
+   "sym": "HDSN",
+   "knowable": "2026-05-15",
+   "co_signals": 2,
+   "h5_excess": 0.039212546262838766
+  },
+  {
+   "sym": "JKHY",
+   "knowable": "2026-05-14",
+   "co_signals": 2,
+   "h5_excess": -0.09380430956943409
+  },
+  {
+   "sym": "TONX",
+   "knowable": "2026-05-14",
+   "co_signals": 1,
+   "h5_excess": 0.1275500969618617
+  },
+  {
+   "sym": "HROW",
+   "knowable": "2026-05-15",
+   "co_signals": 2,
+   "h5_excess": 0.10334321964732229
+  },
+  {
+   "sym": "ACM",
+   "knowable": "2026-05-14",
+   "co_signals": 1,
+   "h5_excess": -0.05688290636028781
+  },
+  {
+   "sym": "OPAL",
+   "knowable": "2026-05-20",
+   "co_signals": 1,
+   "h5_excess": 0.051596999912031816
+  },
+  {
+   "sym": "LMRI",
+   "knowable": "2026-05-21",
+   "co_signals": 2,
+   "h5_excess": -0.08474190937669368
+  },
+  {
+   "sym": "ONON",
+   "knowable": "2026-05-15",
+   "co_signals": 0,
+   "h5_excess": 0.00674940653470979
+  },
+  {
+   "sym": "VIDA",
+   "knowable": "2026-05-18",
+   "co_signals": 0,
+   "h5_excess": 0.4539361811985818
+  },
+  {
+   "sym": "SHAK",
+   "knowable": "2026-05-18",
+   "co_signals": 2,
+   "h5_excess": -0.08176509074543237
+  },
+  {
+   "sym": "ACOG",
+   "knowable": "2026-05-19",
+   "co_signals": 0,
+   "h5_excess": 0.04706185251974171
+  },
+  {
+   "sym": "AEBI",
+   "knowable": "2026-05-19",
+   "co_signals": 1,
+   "h5_excess": -0.036216620159652546
+  },
+  {
+   "sym": "BRCB",
+   "knowable": "2026-05-21",
+   "co_signals": 2,
+   "h5_excess": -0.018763400865596136
+  },
+  {
+   "sym": "EQPT",
+   "knowable": "2026-05-20",
+   "co_signals": 1,
+   "h5_excess": -0.09107625721905643
+  },
+  {
+   "sym": "BXDC",
+   "knowable": "2026-05-19",
+   "co_signals": 1,
+   "h5_excess": 0.0029379960806144023
+  },
+  {
+   "sym": "EROK",
+   "knowable": "2026-05-19",
+   "co_signals": 1,
+   "h5_excess": -0.10675460827510252
+  },
+  {
+   "sym": "CCAP",
+   "knowable": "2026-05-20",
+   "co_signals": 1,
+   "h5_excess": 0.013523961838993959
+  },
+  {
+   "sym": "SMWB",
+   "knowable": "2026-05-20",
+   "co_signals": 0,
+   "h5_excess": 0.09654395691929052
+  },
+  {
+   "sym": "MTEX",
+   "knowable": "2026-05-20",
+   "co_signals": 2,
+   "h5_excess": 0.026782854844722426
+  },
+  {
+   "sym": "SER",
+   "knowable": "2026-05-26",
+   "co_signals": 1,
+   "h5_excess": 0.06657613423322806
+  },
+  {
+   "sym": "SWIM",
+   "knowable": "2026-05-21",
+   "co_signals": 0,
+   "h5_excess": -0.009566032279037406
+  },
+  {
+   "sym": "BLNE",
+   "knowable": "2026-05-19",
+   "co_signals": 2,
+   "h5_excess": -0.0706252223101903
+  },
+  {
+   "sym": "WW",
+   "knowable": "2026-05-21",
+   "co_signals": 2,
+   "h5_excess": 0.150665721813124
+  },
+  {
+   "sym": "OXSQ",
+   "knowable": "2026-05-21",
+   "co_signals": 0,
+   "h5_excess": 0.010534197979664928
+  },
+  {
+   "sym": "STEX",
+   "knowable": "2026-05-22",
+   "co_signals": 0,
+   "h5_excess": -0.28209224722875836
+  },
+  {
+   "sym": "SLMT",
+   "knowable": "2026-05-29",
+   "co_signals": 0,
+   "h5_excess": -0.07903003404064768
+  },
+  {
+   "sym": "DBD",
+   "knowable": "2026-05-22",
+   "co_signals": 0,
+   "h5_excess": 0.05184621929753086
+  },
+  {
+   "sym": "AII",
+   "knowable": "2026-05-27",
+   "co_signals": 1,
+   "h5_excess": 0.027093341182572228
+  },
+  {
+   "sym": "HCWB",
+   "knowable": "2026-05-27",
+   "co_signals": 2,
+   "h5_excess": -0.28266453088540966
+  },
+  {
+   "sym": "OTLK",
+   "knowable": "2026-05-27",
+   "co_signals": 2,
+   "h5_excess": -0.12668261674165116
+  },
+  {
+   "sym": "UBCP",
+   "knowable": "2026-05-28",
+   "co_signals": 0,
+   "h5_excess": 0.0408347704823373
+  }
+ ]
+}

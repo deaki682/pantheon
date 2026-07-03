@@ -152,3 +152,16 @@ Capital stays at $1,000 until 30+ graded trades show alpha > 0, alpha_t >= 2.0, 
 | `cache/midas_ledger.jsonl` | Every order placed (for reconcile) |
 | `cache/midas_curve.json` | Equity timestamps for dashboard |
 | `cache/midas_cadence.json` | Last-run timestamps |
+
+
+## Measured result: convergence count is NOT conviction (2026-07-04)
+
+The pre-registered convergence test (docs/midas_convergence_results_2026-07.md,
+892 cluster events x complete earnings/guidance/13D catalogs) REFUTED
+the multiplier thesis at the 5-day horizon: quiet single-signal clusters
++1.13%, 2+ co-signals -0.14%, monotonically WRONG direction. Until his
+own graded live trades say otherwise: the weekly pick memo must NOT cite
+convergence count as a reason to believe in a pick. The sieve and
+multipliers still run as coded (mechanical funnel, unchanged); the
+dossier's expected-value judgment carries the decision, and each week's
+result gets its convergence count recorded for the out-of-sample answer.
