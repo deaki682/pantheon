@@ -1,0 +1,5388 @@
+{
+ "prereg": "docs/achilles_prereg_reaction_gate.md",
+ "counts": {
+  "unpriceable_no_bars": 45,
+  "graded": 293,
+  "excluded_lukewarm": 262
+ },
+ "rewarded": {
+  "n": 137,
+  "mean": -0.00598978102189781,
+  "sd": 0.07319847644335342,
+  "t": -0.9577875496697364
+ },
+ "sold": {
+  "n": 156,
+  "mean": -0.01603141025641025,
+  "sd": 0.08803371920297372,
+  "t": -2.2744949519161906
+ },
+ "spread_t": 1.0656764360151696,
+ "verdict": "inconclusive",
+ "results": [
+  {
+   "sym": "NEWTH",
+   "filed": "2025-01-06",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "RICK",
+   "filed": "2025-01-08",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0421,
+   "ret5": -0.0239,
+   "iwm5": 0.0511,
+   "excess": -0.075,
+   "entry": "2025-01-13",
+   "exit": "2025-01-17"
+  },
+  {
+   "sym": "SAY",
+   "filed": "2025-01-08",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "CMTL",
+   "filed": "2025-01-13",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1966,
+   "ret5": -0.1025,
+   "iwm5": 0.0126,
+   "excess": -0.1151,
+   "entry": "2025-01-15",
+   "exit": "2025-01-22"
+  },
+  {
+   "sym": "SRPT",
+   "filed": "2025-01-13",
+   "status": "excluded_lukewarm",
+   "reaction": 0.003377522587182158
+  },
+  {
+   "sym": "STT-PG",
+   "filed": "2025-01-17",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "DHI",
+   "filed": "2025-01-21",
+   "status": "excluded_lukewarm",
+   "reaction": 0.022477383437717657
+  },
+  {
+   "sym": "MBWM",
+   "filed": "2025-01-21",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0376,
+   "ret5": 0.0075,
+   "iwm5": -0.0031,
+   "excess": 0.0105,
+   "entry": "2025-01-23",
+   "exit": "2025-01-29"
+  },
+  {
+   "sym": "STX",
+   "filed": "2025-01-21",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0684,
+   "ret5": -0.0748,
+   "iwm5": -0.0031,
+   "excess": -0.0717,
+   "entry": "2025-01-23",
+   "exit": "2025-01-29"
+  },
+  {
+   "sym": "ZION",
+   "filed": "2025-01-21",
+   "status": "excluded_lukewarm",
+   "reaction": -0.015924106386583037
+  },
+  {
+   "sym": "CATY",
+   "filed": "2025-01-22",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0387,
+   "ret5": 0.0109,
+   "iwm5": -0.0013,
+   "excess": 0.0121,
+   "entry": "2025-01-24",
+   "exit": "2025-01-30"
+  },
+  {
+   "sym": "GTE",
+   "filed": "2025-01-24",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0573,
+   "ret5": -0.0573,
+   "iwm5": -0.0128,
+   "excess": -0.0445,
+   "entry": "2025-01-28",
+   "exit": "2025-02-03"
+  },
+  {
+   "sym": "MNSB",
+   "filed": "2025-01-27",
+   "status": "excluded_lukewarm",
+   "reaction": 0.004093567251461927
+  },
+  {
+   "sym": "CCB",
+   "filed": "2025-01-28",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0405,
+   "ret5": -0.0231,
+   "iwm5": 0.0039,
+   "excess": -0.0269,
+   "entry": "2025-01-30",
+   "exit": "2025-02-05"
+  },
+  {
+   "sym": "CPF",
+   "filed": "2025-01-29",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0514,
+   "ret5": 0.0344,
+   "iwm5": -0.0004,
+   "excess": 0.0348,
+   "entry": "2025-01-31",
+   "exit": "2025-02-06"
+  },
+  {
+   "sym": "IMNM",
+   "filed": "2025-01-29",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1241,
+   "ret5": 0.0844,
+   "iwm5": -0.0004,
+   "excess": 0.0849,
+   "entry": "2025-01-31",
+   "exit": "2025-02-06"
+  },
+  {
+   "sym": "BKR",
+   "filed": "2025-01-30",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0354,
+   "ret5": -0.0153,
+   "iwm5": 0.0203,
+   "excess": -0.0356,
+   "entry": "2025-02-03",
+   "exit": "2025-02-07"
+  },
+  {
+   "sym": "BSTT",
+   "filed": "2025-01-30",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "DAR",
+   "filed": "2025-01-30",
+   "status": "excluded_lukewarm",
+   "reaction": 0.022100954979536125
+  },
+  {
+   "sym": "DGX",
+   "filed": "2025-01-30",
+   "status": "excluded_lukewarm",
+   "reaction": -0.006517634159712404
+  },
+  {
+   "sym": "PFSI",
+   "filed": "2025-01-30",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0882,
+   "ret5": 0.0166,
+   "iwm5": 0.0203,
+   "excess": -0.0037,
+   "entry": "2025-02-03",
+   "exit": "2025-02-07"
+  },
+  {
+   "sym": "RRBI",
+   "filed": "2025-01-30",
+   "status": "excluded_lukewarm",
+   "reaction": 0.001615508885298711
+  },
+  {
+   "sym": "TTEK",
+   "filed": "2025-01-30",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0062893081761006275
+  },
+  {
+   "sym": "BEN",
+   "filed": "2025-01-31",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0683,
+   "ret5": -0.0093,
+   "iwm5": 0.0153,
+   "excess": -0.0246,
+   "entry": "2025-02-04",
+   "exit": "2025-02-10"
+  },
+  {
+   "sym": "CHD",
+   "filed": "2025-01-31",
+   "status": "excluded_lukewarm",
+   "reaction": 0.008623957543593797
+  },
+  {
+   "sym": "CION",
+   "filed": "2025-02-03",
+   "status": "excluded_lukewarm",
+   "reaction": -0.011965811965811812
+  },
+  {
+   "sym": "SAIA",
+   "filed": "2025-02-03",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0188346336174825
+  },
+  {
+   "sym": "HRB",
+   "filed": "2025-02-04",
+   "status": "excluded_lukewarm",
+   "reaction": -0.001102333272092637
+  },
+  {
+   "sym": "ACGP",
+   "filed": "2025-02-05",
+   "status": "excluded_lukewarm",
+   "reaction": 0.009315068493150669
+  },
+  {
+   "sym": "RXO",
+   "filed": "2025-02-05",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0009306654257794644
+  },
+  {
+   "sym": "TECH",
+   "filed": "2025-02-05",
+   "status": "excluded_lukewarm",
+   "reaction": -0.003189368770764034
+  },
+  {
+   "sym": "ALMS",
+   "filed": "2025-02-06",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1396,
+   "ret5": -0.0696,
+   "iwm5": -0.0062,
+   "excess": -0.0635,
+   "entry": "2025-02-10",
+   "exit": "2025-02-14"
+  },
+  {
+   "sym": "PM",
+   "filed": "2025-02-06",
+   "status": "excluded_lukewarm",
+   "reaction": -0.006262042389210021
+  },
+  {
+   "sym": "UGI",
+   "filed": "2025-02-06",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0003124023742580029
+  },
+  {
+   "sym": "ARKR",
+   "filed": "2025-02-10",
+   "status": "excluded_lukewarm",
+   "reaction": -0.012219156484036375
+  },
+  {
+   "sym": "NSP",
+   "filed": "2025-02-10",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.057,
+   "ret5": 0.0253,
+   "iwm5": 0.0188,
+   "excess": 0.0065,
+   "entry": "2025-02-12",
+   "exit": "2025-02-19"
+  },
+  {
+   "sym": "CARR",
+   "filed": "2025-02-11",
+   "status": "excluded_lukewarm",
+   "reaction": -0.023941068139963106
+  },
+  {
+   "sym": "IVT",
+   "filed": "2025-02-11",
+   "status": "excluded_lukewarm",
+   "reaction": 0.013594164456233404
+  },
+  {
+   "sym": "SPGI",
+   "filed": "2025-02-11",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01665094077815399
+  },
+  {
+   "sym": "D",
+   "filed": "2025-02-12",
+   "status": "excluded_lukewarm",
+   "reaction": 0.013946003933488216
+  },
+  {
+   "sym": "GAINZ",
+   "filed": "2025-02-12",
+   "status": "excluded_lukewarm",
+   "reaction": 0.00042789901583217826
+  },
+  {
+   "sym": "NI",
+   "filed": "2025-02-12",
+   "status": "excluded_lukewarm",
+   "reaction": 0.020618556701031077
+  },
+  {
+   "sym": "RPC",
+   "filed": "2025-02-12",
+   "status": "excluded_lukewarm",
+   "reaction": -0.015491866769945739
+  },
+  {
+   "sym": "SCI",
+   "filed": "2025-02-12",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0722,
+   "ret5": -0.0144,
+   "iwm5": -0.0417,
+   "excess": 0.0273,
+   "entry": "2025-02-14",
+   "exit": "2025-02-21"
+  },
+  {
+   "sym": "SEZL",
+   "filed": "2025-02-12",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0972,
+   "ret5": -0.1525,
+   "iwm5": -0.0417,
+   "excess": -0.1109,
+   "entry": "2025-02-14",
+   "exit": "2025-02-21"
+  },
+  {
+   "sym": "ELME",
+   "filed": "2025-02-13",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1123,
+   "ret5": -0.0088,
+   "iwm5": -0.0439,
+   "excess": 0.0351,
+   "entry": "2025-02-18",
+   "exit": "2025-02-24"
+  },
+  {
+   "sym": "ANEB",
+   "filed": "2025-02-14",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0977,
+   "ret5": -0.1399,
+   "iwm5": -0.0444,
+   "excess": -0.0955,
+   "entry": "2025-02-19",
+   "exit": "2025-02-25"
+  },
+  {
+   "sym": "BRN",
+   "filed": "2025-02-14",
+   "status": "excluded_lukewarm",
+   "reaction": -0.02857142857142858
+  },
+  {
+   "sym": "JOB",
+   "filed": "2025-02-14",
+   "status": "excluded_lukewarm",
+   "reaction": -0.007413509060955503
+  },
+  {
+   "sym": "CC",
+   "filed": "2025-02-18",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01830663615560646
+  },
+  {
+   "sym": "HQY",
+   "filed": "2025-02-18",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0047686329918756876
+  },
+  {
+   "sym": "MED",
+   "filed": "2025-02-18",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1141,
+   "ret5": 0.0127,
+   "iwm5": -0.0457,
+   "excess": 0.0584,
+   "entry": "2025-02-20",
+   "exit": "2025-02-26"
+  },
+  {
+   "sym": "BNL",
+   "filed": "2025-02-19",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0309,
+   "ret5": 0.0396,
+   "iwm5": -0.0602,
+   "excess": 0.0998,
+   "entry": "2025-02-21",
+   "exit": "2025-02-27"
+  },
+  {
+   "sym": "SKT",
+   "filed": "2025-02-19",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0387,
+   "ret5": -0.0328,
+   "iwm5": -0.0602,
+   "excess": 0.0274,
+   "entry": "2025-02-21",
+   "exit": "2025-02-27"
+  },
+  {
+   "sym": "BAND",
+   "filed": "2025-02-20",
+   "status": "excluded_lukewarm",
+   "reaction": -0.026345933562428425
+  },
+  {
+   "sym": "FANG",
+   "filed": "2025-02-24",
+   "status": "excluded_lukewarm",
+   "reaction": -0.021323197835469987
+  },
+  {
+   "sym": "PRIM",
+   "filed": "2025-02-24",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0962,
+   "ret5": -0.0694,
+   "iwm5": -0.0446,
+   "excess": -0.0248,
+   "entry": "2025-02-26",
+   "exit": "2025-03-04"
+  },
+  {
+   "sym": "WLK",
+   "filed": "2025-02-24",
+   "status": "excluded_lukewarm",
+   "reaction": 0.02337259198393138
+  },
+  {
+   "sym": "SOCGM",
+   "filed": "2025-02-25",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "ZD",
+   "filed": "2025-02-25",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0949,
+   "ret5": -0.1119,
+   "iwm5": -0.0332,
+   "excess": -0.0787,
+   "entry": "2025-02-27",
+   "exit": "2025-03-05"
+  },
+  {
+   "sym": "DTM",
+   "filed": "2025-02-26",
+   "status": "excluded_lukewarm",
+   "reaction": -0.02086186913918442
+  },
+  {
+   "sym": "INVA",
+   "filed": "2025-02-26",
+   "status": "excluded_lukewarm",
+   "reaction": -0.019553072625698165
+  },
+  {
+   "sym": "NSA",
+   "filed": "2025-02-26",
+   "status": "excluded_lukewarm",
+   "reaction": 0.020141250326968452
+  },
+  {
+   "sym": "VERA",
+   "filed": "2025-02-26",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0591,
+   "ret5": 0.0107,
+   "iwm5": -0.0301,
+   "excess": 0.0407,
+   "entry": "2025-02-28",
+   "exit": "2025-03-06"
+  },
+  {
+   "sym": "CLDX",
+   "filed": "2025-02-27",
+   "status": "excluded_lukewarm",
+   "reaction": 0.012801575578532898
+  },
+  {
+   "sym": "ONC",
+   "filed": "2025-02-27",
+   "status": "excluded_lukewarm",
+   "reaction": -0.023636755514045538
+  },
+  {
+   "sym": "PCRX",
+   "filed": "2025-02-27",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0524,
+   "ret5": -0.0279,
+   "iwm5": -0.0439,
+   "excess": 0.016,
+   "entry": "2025-03-03",
+   "exit": "2025-03-07"
+  },
+  {
+   "sym": "WTRG",
+   "filed": "2025-02-27",
+   "status": "excluded_lukewarm",
+   "reaction": 0.01091296247005591
+  },
+  {
+   "sym": "MSEX",
+   "filed": "2025-02-28",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1576,
+   "ret5": 0.1145,
+   "iwm5": -0.0251,
+   "excess": 0.1395,
+   "entry": "2025-03-04",
+   "exit": "2025-03-10"
+  },
+  {
+   "sym": "ANNX",
+   "filed": "2025-03-03",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0335,
+   "ret5": 0.0854,
+   "iwm5": -0.0276,
+   "excess": 0.113,
+   "entry": "2025-03-05",
+   "exit": "2025-03-11"
+  },
+  {
+   "sym": "RDVT",
+   "filed": "2025-03-03",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0303,
+   "ret5": -0.0439,
+   "iwm5": -0.0276,
+   "excess": -0.0163,
+   "entry": "2025-03-05",
+   "exit": "2025-03-11"
+  },
+  {
+   "sym": "WTI",
+   "filed": "2025-03-03",
+   "status": "excluded_lukewarm",
+   "reaction": -0.013071895424836666
+  },
+  {
+   "sym": "CRWD",
+   "filed": "2025-03-04",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0634,
+   "ret5": -0.0275,
+   "iwm5": -0.0227,
+   "excess": -0.0048,
+   "entry": "2025-03-06",
+   "exit": "2025-03-12"
+  },
+  {
+   "sym": "NAGE",
+   "filed": "2025-03-04",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.5268,
+   "ret5": -0.0667,
+   "iwm5": -0.0227,
+   "excess": -0.044,
+   "entry": "2025-03-06",
+   "exit": "2025-03-12"
+  },
+  {
+   "sym": "CLMB",
+   "filed": "2025-03-05",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1278,
+   "ret5": -0.1616,
+   "iwm5": -0.0335,
+   "excess": -0.1281,
+   "entry": "2025-03-07",
+   "exit": "2025-03-13"
+  },
+  {
+   "sym": "TPVG",
+   "filed": "2025-03-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0542,
+   "ret5": 0.0,
+   "iwm5": -0.0335,
+   "excess": 0.0335,
+   "entry": "2025-03-07",
+   "exit": "2025-03-13"
+  },
+  {
+   "sym": "ARCT",
+   "filed": "2025-03-06",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0889,
+   "ret5": -0.0188,
+   "iwm5": -0.0027,
+   "excess": -0.0161,
+   "entry": "2025-03-10",
+   "exit": "2025-03-14"
+  },
+  {
+   "sym": "MLR",
+   "filed": "2025-03-06",
+   "status": "excluded_lukewarm",
+   "reaction": 0.02905100064557775
+  },
+  {
+   "sym": "ELLA",
+   "filed": "2025-03-12",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "HBIO",
+   "filed": "2025-03-12",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0655,
+   "ret5": 0.0123,
+   "iwm5": 0.0241,
+   "excess": -0.0118,
+   "entry": "2025-03-14",
+   "exit": "2025-03-20"
+  },
+  {
+   "sym": "EVCM",
+   "filed": "2025-03-13",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0458,
+   "ret5": 0.0839,
+   "iwm5": 0.0053,
+   "excess": 0.0785,
+   "entry": "2025-03-17",
+   "exit": "2025-03-21"
+  },
+  {
+   "sym": "MNR",
+   "filed": "2025-03-13",
+   "status": "excluded_lukewarm",
+   "reaction": 0.022377622377622197
+  },
+  {
+   "sym": "RNAC",
+   "filed": "2025-03-13",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0488,
+   "ret5": 0.0145,
+   "iwm5": 0.0053,
+   "excess": 0.0092,
+   "entry": "2025-03-17",
+   "exit": "2025-03-21"
+  },
+  {
+   "sym": "MGX",
+   "filed": "2025-03-17",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0798,
+   "ret5": -0.0914,
+   "iwm5": 0.0214,
+   "excess": -0.1128,
+   "entry": "2025-03-19",
+   "exit": "2025-03-25"
+  },
+  {
+   "sym": "CRVO",
+   "filed": "2025-03-18",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0032119914346895317
+  },
+  {
+   "sym": "FLOC",
+   "filed": "2025-03-19",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0032573289902279035
+  },
+  {
+   "sym": "ELDN",
+   "filed": "2025-03-20",
+   "status": "excluded_lukewarm",
+   "reaction": 0.02034883720930236
+  },
+  {
+   "sym": "HYPD",
+   "filed": "2025-03-20",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0417,
+   "ret5": -0.1567,
+   "iwm5": -0.0315,
+   "excess": -0.1253,
+   "entry": "2025-03-24",
+   "exit": "2025-03-28"
+  },
+  {
+   "sym": "OUST",
+   "filed": "2025-03-20",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.3186,
+   "ret5": -0.1715,
+   "iwm5": -0.0315,
+   "excess": -0.1401,
+   "entry": "2025-03-24",
+   "exit": "2025-03-28"
+  },
+  {
+   "sym": "NRXP",
+   "filed": "2025-03-21",
+   "status": "excluded_lukewarm",
+   "reaction": -0.004807692307692402
+  },
+  {
+   "sym": "AMPG",
+   "filed": "2025-03-24",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0361,
+   "ret5": -0.0513,
+   "iwm5": -0.0406,
+   "excess": -0.0106,
+   "entry": "2025-03-26",
+   "exit": "2025-04-01"
+  },
+  {
+   "sym": "CHWY",
+   "filed": "2025-03-26",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01684210526315799
+  },
+  {
+   "sym": "CLSDQ",
+   "filed": "2025-03-27",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0777,
+   "ret5": -0.0811,
+   "iwm5": -0.0825,
+   "excess": 0.0014,
+   "entry": "2025-03-31",
+   "exit": "2025-04-04"
+  },
+  {
+   "sym": "PSTV",
+   "filed": "2025-03-27",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.2368,
+   "ret5": -0.2891,
+   "iwm5": -0.0825,
+   "excess": -0.2066,
+   "entry": "2025-03-31",
+   "exit": "2025-04-04"
+  },
+  {
+   "sym": "SCWO",
+   "filed": "2025-03-27",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0633,
+   "ret5": -0.1909,
+   "iwm5": -0.0825,
+   "excess": -0.1084,
+   "entry": "2025-03-31",
+   "exit": "2025-04-04"
+  },
+  {
+   "sym": "FTH",
+   "filed": "2025-03-28",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.2249,
+   "ret5": -0.1894,
+   "iwm5": -0.0977,
+   "excess": -0.0917,
+   "entry": "2025-04-01",
+   "exit": "2025-04-07"
+  },
+  {
+   "sym": "LOAR",
+   "filed": "2025-03-31",
+   "status": "excluded_lukewarm",
+   "reaction": 0.009624911535739411
+  },
+  {
+   "sym": "CWD",
+   "filed": "2025-04-01",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0049972237645752315
+  },
+  {
+   "sym": "DUOT",
+   "filed": "2025-04-02",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0502,
+   "ret5": -0.0609,
+   "iwm5": -0.0049,
+   "excess": -0.056,
+   "entry": "2025-04-04",
+   "exit": "2025-04-10"
+  },
+  {
+   "sym": "SBFM",
+   "filed": "2025-04-02",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1822,
+   "ret5": -0.2541,
+   "iwm5": -0.0049,
+   "excess": -0.2491,
+   "entry": "2025-04-04",
+   "exit": "2025-04-10"
+  },
+  {
+   "sym": "MAIN",
+   "filed": "2025-04-10",
+   "status": "excluded_lukewarm",
+   "reaction": 0.006604506604506621
+  },
+  {
+   "sym": "SEZL",
+   "filed": "2025-04-14",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0768,
+   "ret5": 0.0303,
+   "iwm5": 0.0245,
+   "excess": 0.0058,
+   "entry": "2025-04-16",
+   "exit": "2025-04-23"
+  },
+  {
+   "sym": "BANR",
+   "filed": "2025-04-16",
+   "status": "excluded_lukewarm",
+   "reaction": 0.013572386058981367
+  },
+  {
+   "sym": "FANG",
+   "filed": "2025-04-16",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.057,
+   "ret5": 0.0192,
+   "iwm5": 0.0493,
+   "excess": -0.0301,
+   "entry": "2025-04-21",
+   "exit": "2025-04-25"
+  },
+  {
+   "sym": "ATLO",
+   "filed": "2025-04-17",
+   "status": "excluded_lukewarm",
+   "reaction": 0.019642857142857073
+  },
+  {
+   "sym": "HBCP",
+   "filed": "2025-04-21",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1066,
+   "ret5": 0.0622,
+   "iwm5": 0.0164,
+   "excess": 0.0458,
+   "entry": "2025-04-23",
+   "exit": "2025-04-29"
+  },
+  {
+   "sym": "ALK",
+   "filed": "2025-04-23",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0998,
+   "ret5": 0.0769,
+   "iwm5": 0.0174,
+   "excess": 0.0595,
+   "entry": "2025-04-25",
+   "exit": "2025-05-01"
+  },
+  {
+   "sym": "MXL",
+   "filed": "2025-04-23",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1231,
+   "ret5": 0.0488,
+   "iwm5": 0.0174,
+   "excess": 0.0314,
+   "entry": "2025-04-25",
+   "exit": "2025-05-01"
+  },
+  {
+   "sym": "PM",
+   "filed": "2025-04-23",
+   "status": "excluded_lukewarm",
+   "reaction": 0.011659032776158318
+  },
+  {
+   "sym": "RRC",
+   "filed": "2025-04-23",
+   "status": "excluded_lukewarm",
+   "reaction": -0.005580029368575601
+  },
+  {
+   "sym": "AAL",
+   "filed": "2025-04-24",
+   "status": "excluded_lukewarm",
+   "reaction": 0.014568158168574374
+  },
+  {
+   "sym": "CFFI",
+   "filed": "2025-04-24",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0537,
+   "ret5": 0.034,
+   "iwm5": 0.0307,
+   "excess": 0.0032,
+   "entry": "2025-04-28",
+   "exit": "2025-05-02"
+  },
+  {
+   "sym": "GBCI",
+   "filed": "2025-04-24",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0425,
+   "ret5": 0.027,
+   "iwm5": 0.0307,
+   "excess": -0.0038,
+   "entry": "2025-04-28",
+   "exit": "2025-05-02"
+  },
+  {
+   "sym": "NVCR",
+   "filed": "2025-04-24",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0026954177897574594
+  },
+  {
+   "sym": "PCG-PH",
+   "filed": "2025-04-24",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "POOL",
+   "filed": "2025-04-24",
+   "status": "excluded_lukewarm",
+   "reaction": 0.010010391409767783
+  },
+  {
+   "sym": "PDLB",
+   "filed": "2025-04-25",
+   "status": "excluded_lukewarm",
+   "reaction": 0.02644230769230771
+  },
+  {
+   "sym": "MBINL",
+   "filed": "2025-04-28",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "NTST",
+   "filed": "2025-04-28",
+   "status": "excluded_lukewarm",
+   "reaction": 0.019169329073482455
+  },
+  {
+   "sym": "ACMR",
+   "filed": "2025-04-29",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0513,
+   "ret5": 0.0126,
+   "iwm5": 0.0087,
+   "excess": 0.0039,
+   "entry": "2025-05-01",
+   "exit": "2025-05-07"
+  },
+  {
+   "sym": "RBB",
+   "filed": "2025-04-29",
+   "status": "excluded_lukewarm",
+   "reaction": -0.02258469259723961
+  },
+  {
+   "sym": "CRK",
+   "filed": "2025-04-30",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0328,
+   "ret5": 0.1761,
+   "iwm5": 0.0144,
+   "excess": 0.1618,
+   "entry": "2025-05-02",
+   "exit": "2025-05-08"
+  },
+  {
+   "sym": "ITW",
+   "filed": "2025-04-30",
+   "status": "excluded_lukewarm",
+   "reaction": -0.002792713934392066
+  },
+  {
+   "sym": "NCSM",
+   "filed": "2025-04-30",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1532,
+   "ret5": -0.0825,
+   "iwm5": 0.0144,
+   "excess": -0.0968,
+   "entry": "2025-05-02",
+   "exit": "2025-05-08"
+  },
+  {
+   "sym": "OTEX",
+   "filed": "2025-04-30",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0461,
+   "ret5": 0.0555,
+   "iwm5": 0.0144,
+   "excess": 0.0411,
+   "entry": "2025-05-02",
+   "exit": "2025-05-08"
+  },
+  {
+   "sym": "SMP",
+   "filed": "2025-04-30",
+   "status": "excluded_lukewarm",
+   "reaction": 0.019557195571955566
+  },
+  {
+   "sym": "ITRI",
+   "filed": "2025-05-01",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0016658954187875885
+  },
+  {
+   "sym": "MTD",
+   "filed": "2025-05-01",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0411,
+   "ret5": -0.0132,
+   "iwm5": 0.0113,
+   "excess": -0.0245,
+   "entry": "2025-05-05",
+   "exit": "2025-05-09"
+  },
+  {
+   "sym": "RYAN",
+   "filed": "2025-05-01",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0318,
+   "ret5": 0.0369,
+   "iwm5": 0.0113,
+   "excess": 0.0256,
+   "entry": "2025-05-05",
+   "exit": "2025-05-09"
+  },
+  {
+   "sym": "AIRS",
+   "filed": "2025-05-02",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1954,
+   "ret5": 0.4025,
+   "iwm5": 0.0574,
+   "excess": 0.3452,
+   "entry": "2025-05-06",
+   "exit": "2025-05-12"
+  },
+  {
+   "sym": "LBTYK",
+   "filed": "2025-05-02",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01611278952668682
+  },
+  {
+   "sym": "VEL",
+   "filed": "2025-05-02",
+   "status": "excluded_lukewarm",
+   "reaction": -0.010514018691588745
+  },
+  {
+   "sym": "XOM",
+   "filed": "2025-05-02",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "IMRX",
+   "filed": "2025-05-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.048,
+   "ret5": 0.0323,
+   "iwm5": 0.0532,
+   "excess": -0.0209,
+   "entry": "2025-05-07",
+   "exit": "2025-05-13"
+  },
+  {
+   "sym": "NHI",
+   "filed": "2025-05-05",
+   "status": "excluded_lukewarm",
+   "reaction": 0.00420831141504463
+  },
+  {
+   "sym": "OCUL",
+   "filed": "2025-05-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0718,
+   "ret5": -0.0291,
+   "iwm5": 0.0532,
+   "excess": -0.0823,
+   "entry": "2025-05-07",
+   "exit": "2025-05-13"
+  },
+  {
+   "sym": "ADM",
+   "filed": "2025-05-06",
+   "status": "excluded_lukewarm",
+   "reaction": -0.009105960264900625
+  },
+  {
+   "sym": "ALAB",
+   "filed": "2025-05-06",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0037836322869954087
+  },
+  {
+   "sym": "ATROB",
+   "filed": "2025-05-06",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.2398,
+   "ret5": 0.1111,
+   "iwm5": 0.0351,
+   "excess": 0.076,
+   "entry": "2025-05-08",
+   "exit": "2025-05-14"
+  },
+  {
+   "sym": "CDRE",
+   "filed": "2025-05-06",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1962,
+   "ret5": -0.016,
+   "iwm5": 0.0351,
+   "excess": -0.0511,
+   "entry": "2025-05-08",
+   "exit": "2025-05-14"
+  },
+  {
+   "sym": "DDOG",
+   "filed": "2025-05-06",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0003771450122572739
+  },
+  {
+   "sym": "HMN",
+   "filed": "2025-05-06",
+   "status": "excluded_lukewarm",
+   "reaction": 0.002403268445085427
+  },
+  {
+   "sym": "JJSF",
+   "filed": "2025-05-06",
+   "status": "excluded_lukewarm",
+   "reaction": -0.020413436692506393
+  },
+  {
+   "sym": "ENTG",
+   "filed": "2025-05-07",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01671131521877789
+  },
+  {
+   "sym": "G",
+   "filed": "2025-05-07",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1516,
+   "ret5": 0.0371,
+   "iwm5": 0.0327,
+   "excess": 0.0044,
+   "entry": "2025-05-09",
+   "exit": "2025-05-15"
+  },
+  {
+   "sym": "MGNI",
+   "filed": "2025-05-07",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1979,
+   "ret5": 0.0379,
+   "iwm5": 0.0327,
+   "excess": 0.0052,
+   "entry": "2025-05-09",
+   "exit": "2025-05-15"
+  },
+  {
+   "sym": "NYT",
+   "filed": "2025-05-07",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0005699088145897369
+  },
+  {
+   "sym": "ROOT",
+   "filed": "2025-05-07",
+   "status": "excluded_lukewarm",
+   "reaction": 0.011148431358536381
+  },
+  {
+   "sym": "SHOO",
+   "filed": "2025-05-07",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0183603757472246
+  },
+  {
+   "sym": "WES",
+   "filed": "2025-05-07",
+   "status": "excluded_lukewarm",
+   "reaction": 0.018636995827538083
+  },
+  {
+   "sym": "AIV",
+   "filed": "2025-05-08",
+   "status": "excluded_lukewarm",
+   "reaction": -0.015018773466833557
+  },
+  {
+   "sym": "AKBA",
+   "filed": "2025-05-08",
+   "status": "excluded_lukewarm",
+   "reaction": -0.026717557251908497
+  },
+  {
+   "sym": "ALG",
+   "filed": "2025-05-08",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0721,
+   "ret5": 0.0202,
+   "iwm5": 0.0048,
+   "excess": 0.0154,
+   "entry": "2025-05-12",
+   "exit": "2025-05-16"
+  },
+  {
+   "sym": "APTOF",
+   "filed": "2025-05-08",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.11,
+   "ret5": -0.0718,
+   "iwm5": -0.0163,
+   "excess": -0.0555,
+   "entry": "2025-05-15",
+   "exit": "2025-05-21"
+  },
+  {
+   "sym": "CLDX",
+   "filed": "2025-05-08",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.061,
+   "ret5": 0.0673,
+   "iwm5": 0.0048,
+   "excess": 0.0625,
+   "entry": "2025-05-12",
+   "exit": "2025-05-16"
+  },
+  {
+   "sym": "CLNE",
+   "filed": "2025-05-08",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0643,
+   "ret5": 0.1882,
+   "iwm5": 0.0048,
+   "excess": 0.1834,
+   "entry": "2025-05-12",
+   "exit": "2025-05-16"
+  },
+  {
+   "sym": "CQP",
+   "filed": "2025-05-08",
+   "status": "excluded_lukewarm",
+   "reaction": 0.008067344791301112
+  },
+  {
+   "sym": "DCGO",
+   "filed": "2025-05-08",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.3991,
+   "ret5": 0.028,
+   "iwm5": 0.0048,
+   "excess": 0.0231,
+   "entry": "2025-05-12",
+   "exit": "2025-05-16"
+  },
+  {
+   "sym": "DFTX",
+   "filed": "2025-05-08",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.048,
+   "ret5": 0.0427,
+   "iwm5": 0.0048,
+   "excess": 0.0378,
+   "entry": "2025-05-12",
+   "exit": "2025-05-16"
+  },
+  {
+   "sym": "MSDL",
+   "filed": "2025-05-08",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0343,
+   "ret5": 0.0447,
+   "iwm5": 0.0048,
+   "excess": 0.0399,
+   "entry": "2025-05-12",
+   "exit": "2025-05-16"
+  },
+  {
+   "sym": "OWLTW",
+   "filed": "2025-05-08",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0667,
+   "ret5": -0.1667,
+   "iwm5": -0.0305,
+   "excess": -0.1362,
+   "entry": "2025-05-13",
+   "exit": "2025-05-23"
+  },
+  {
+   "sym": "RCD",
+   "filed": "2025-05-08",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "TG",
+   "filed": "2025-05-08",
+   "status": "excluded_lukewarm",
+   "reaction": 0.01330108827085863
+  },
+  {
+   "sym": "VERI",
+   "filed": "2025-05-08",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0905,
+   "ret5": -0.0316,
+   "iwm5": 0.0048,
+   "excess": -0.0364,
+   "entry": "2025-05-12",
+   "exit": "2025-05-16"
+  },
+  {
+   "sym": "ECTM",
+   "filed": "2025-05-09",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0612,
+   "ret5": -0.0028,
+   "iwm5": -0.0274,
+   "excess": 0.0246,
+   "entry": "2025-05-13",
+   "exit": "2025-05-21"
+  },
+  {
+   "sym": "AVBP",
+   "filed": "2025-05-12",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0445,
+   "ret5": 0.082,
+   "iwm5": 0.005,
+   "excess": 0.077,
+   "entry": "2025-05-14",
+   "exit": "2025-05-20"
+  },
+  {
+   "sym": "CUE",
+   "filed": "2025-05-12",
+   "status": "excluded_lukewarm",
+   "reaction": 0.022503328894806884
+  },
+  {
+   "sym": "NGS",
+   "filed": "2025-05-12",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1843,
+   "ret5": -0.0162,
+   "iwm5": 0.005,
+   "excess": -0.0212,
+   "entry": "2025-05-14",
+   "exit": "2025-05-20"
+  },
+  {
+   "sym": "SION",
+   "filed": "2025-05-12",
+   "status": "excluded_lukewarm",
+   "reaction": -0.005813953488372214
+  },
+  {
+   "sym": "WHF",
+   "filed": "2025-05-12",
+   "status": "excluded_lukewarm",
+   "reaction": -0.005359056806002238
+  },
+  {
+   "sym": "GURE",
+   "filed": "2025-05-13",
+   "status": "excluded_lukewarm",
+   "reaction": 0.019783616692426564
+  },
+  {
+   "sym": "GUTS",
+   "filed": "2025-05-13",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1328,
+   "ret5": 0.1948,
+   "iwm5": -0.0163,
+   "excess": 0.2111,
+   "entry": "2025-05-15",
+   "exit": "2025-05-21"
+  },
+  {
+   "sym": "PXLW",
+   "filed": "2025-05-13",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0487,
+   "ret5": -0.1196,
+   "iwm5": -0.0163,
+   "excess": -0.1033,
+   "entry": "2025-05-15",
+   "exit": "2025-05-21"
+  },
+  {
+   "sym": "SEER",
+   "filed": "2025-05-13",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.099,
+   "ret5": -0.0048,
+   "iwm5": -0.0163,
+   "excess": 0.0115,
+   "entry": "2025-05-15",
+   "exit": "2025-05-21"
+  },
+  {
+   "sym": "STOK",
+   "filed": "2025-05-13",
+   "status": "excluded_lukewarm",
+   "reaction": 0.006718924972004547
+  },
+  {
+   "sym": "STRR",
+   "filed": "2025-05-13",
+   "status": "excluded_lukewarm",
+   "reaction": 0.00700700700700696
+  },
+  {
+   "sym": "INBP",
+   "filed": "2025-05-14",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "LVLU",
+   "filed": "2025-05-14",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0913,
+   "ret5": 0.0838,
+   "iwm5": -0.025,
+   "excess": 0.1089,
+   "entry": "2025-05-16",
+   "exit": "2025-05-22"
+  },
+  {
+   "sym": "SNAL",
+   "filed": "2025-05-14",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0932,
+   "ret5": -0.0947,
+   "iwm5": -0.025,
+   "excess": -0.0697,
+   "entry": "2025-05-16",
+   "exit": "2025-05-22"
+  },
+  {
+   "sym": "AMAT",
+   "filed": "2025-05-15",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0525,
+   "ret5": -0.0309,
+   "iwm5": -0.0205,
+   "excess": -0.0104,
+   "entry": "2025-05-19",
+   "exit": "2025-05-23"
+  },
+  {
+   "sym": "GALT",
+   "filed": "2025-05-15",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0303,
+   "ret5": -0.0078,
+   "iwm5": -0.0205,
+   "excess": 0.0128,
+   "entry": "2025-05-19",
+   "exit": "2025-05-23"
+  },
+  {
+   "sym": "GRI",
+   "filed": "2025-05-15",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0345,
+   "ret5": -0.2258,
+   "iwm5": -0.0205,
+   "excess": -0.2053,
+   "entry": "2025-05-19",
+   "exit": "2025-05-23"
+  },
+  {
+   "sym": "LAC",
+   "filed": "2025-05-15",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1076,
+   "ret5": 0.0,
+   "iwm5": -0.0205,
+   "excess": 0.0205,
+   "entry": "2025-05-19",
+   "exit": "2025-05-23"
+  },
+  {
+   "sym": "RDIB",
+   "filed": "2025-05-16",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0583,
+   "ret5": 0.0322,
+   "iwm5": -0.0046,
+   "excess": 0.0368,
+   "entry": "2025-05-20",
+   "exit": "2025-05-27"
+  },
+  {
+   "sym": "MTR",
+   "filed": "2025-05-19",
+   "status": "excluded_lukewarm",
+   "reaction": 0.003274161735700165
+  },
+  {
+   "sym": "SBFM",
+   "filed": "2025-05-19",
+   "status": "excluded_lukewarm",
+   "reaction": 0.003355704697986406
+  },
+  {
+   "sym": "ANF",
+   "filed": "2025-05-29",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0548,
+   "ret5": 0.064,
+   "iwm5": 0.032,
+   "excess": 0.0319,
+   "entry": "2025-06-02",
+   "exit": "2025-06-06"
+  },
+  {
+   "sym": "COST",
+   "filed": "2025-05-29",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0312,
+   "ret5": -0.0187,
+   "iwm5": 0.032,
+   "excess": -0.0507,
+   "entry": "2025-06-02",
+   "exit": "2025-06-06"
+  },
+  {
+   "sym": "MOV",
+   "filed": "2025-05-29",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0006169031462061048
+  },
+  {
+   "sym": "COOT",
+   "filed": "2025-05-30",
+   "status": "excluded_lukewarm",
+   "reaction": 0.019336504602458726
+  },
+  {
+   "sym": "BNL",
+   "filed": "2025-06-02",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0037453183520599342
+  },
+  {
+   "sym": "ASAN",
+   "filed": "2025-06-03",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.2047,
+   "ret5": -0.0611,
+   "iwm5": 0.0236,
+   "excess": -0.0847,
+   "entry": "2025-06-05",
+   "exit": "2025-06-11"
+  },
+  {
+   "sym": "MTN",
+   "filed": "2025-06-05",
+   "status": "excluded_lukewarm",
+   "reaction": -0.02885732730794055
+  },
+  {
+   "sym": "SKIL",
+   "filed": "2025-06-09",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0346,
+   "ret5": -0.1194,
+   "iwm5": -0.0326,
+   "excess": -0.0868,
+   "entry": "2025-06-11",
+   "exit": "2025-06-17"
+  },
+  {
+   "sym": "MIND",
+   "filed": "2025-06-10",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1081,
+   "ret5": -0.005,
+   "iwm5": -0.0119,
+   "excess": 0.0069,
+   "entry": "2025-06-12",
+   "exit": "2025-06-18"
+  },
+  {
+   "sym": "PETS",
+   "filed": "2025-06-16",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0306,
+   "ret5": -0.0657,
+   "iwm5": 0.0169,
+   "excess": -0.0826,
+   "entry": "2025-06-18",
+   "exit": "2025-06-25"
+  },
+  {
+   "sym": "FDS",
+   "filed": "2025-06-23",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0013042582889046805
+  },
+  {
+   "sym": "MLKN",
+   "filed": "2025-06-25",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1249,
+   "ret5": 0.0701,
+   "iwm5": 0.0325,
+   "excess": 0.0376,
+   "entry": "2025-06-27",
+   "exit": "2025-07-03"
+  },
+  {
+   "sym": "BSPK",
+   "filed": "2025-07-07",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "ENVX",
+   "filed": "2025-07-07",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0315,
+   "ret5": 0.0718,
+   "iwm5": -0.0168,
+   "excess": 0.0886,
+   "entry": "2025-07-09",
+   "exit": "2025-07-15"
+  },
+  {
+   "sym": "ARTL",
+   "filed": "2025-07-11",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.223,
+   "ret5": -0.2075,
+   "iwm5": -0.0118,
+   "excess": -0.1957,
+   "entry": "2025-07-15",
+   "exit": "2025-07-21"
+  },
+  {
+   "sym": "PKOH",
+   "filed": "2025-07-16",
+   "status": "excluded_lukewarm",
+   "reaction": 0.023699421965317935
+  },
+  {
+   "sym": "STLE",
+   "filed": "2025-07-18",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "AGNCL",
+   "filed": "2025-07-21",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "CALX",
+   "filed": "2025-07-21",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0315,
+   "ret5": 0.0036,
+   "iwm5": -0.0095,
+   "excess": 0.013,
+   "entry": "2025-07-23",
+   "exit": "2025-07-29"
+  },
+  {
+   "sym": "WRB-PH",
+   "filed": "2025-07-21",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "IVZ",
+   "filed": "2025-07-22",
+   "status": "excluded_lukewarm",
+   "reaction": 0.00894117647058823
+  },
+  {
+   "sym": "ANIP",
+   "filed": "2025-07-23",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0019431988041854753
+  },
+  {
+   "sym": "BKU",
+   "filed": "2025-07-23",
+   "status": "excluded_lukewarm",
+   "reaction": -0.018710493046776078
+  },
+  {
+   "sym": "TEL",
+   "filed": "2025-07-23",
+   "status": "excluded_lukewarm",
+   "reaction": 0.017620273213225124
+  },
+  {
+   "sym": "CLST",
+   "filed": "2025-07-24",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0024291497975710286
+  },
+  {
+   "sym": "EFSI",
+   "filed": "2025-07-24",
+   "status": "excluded_lukewarm",
+   "reaction": -0.00388175574798455
+  },
+  {
+   "sym": "FIISO",
+   "filed": "2025-07-24",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "NDAQ",
+   "filed": "2025-07-24",
+   "status": "excluded_lukewarm",
+   "reaction": 0.014331550802139104
+  },
+  {
+   "sym": "SAH",
+   "filed": "2025-07-24",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0448,
+   "ret5": -0.0854,
+   "iwm5": -0.0462,
+   "excess": -0.0392,
+   "entry": "2025-07-28",
+   "exit": "2025-08-01"
+  },
+  {
+   "sym": "UNP",
+   "filed": "2025-07-24",
+   "status": "excluded_lukewarm",
+   "reaction": 0.019136586250680265
+  },
+  {
+   "sym": "VC",
+   "filed": "2025-07-24",
+   "status": "excluded_lukewarm",
+   "reaction": -0.015721358464344637
+  },
+  {
+   "sym": "FSUN",
+   "filed": "2025-07-28",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0833,
+   "ret5": -0.0356,
+   "iwm5": -0.0126,
+   "excess": -0.0231,
+   "entry": "2025-07-30",
+   "exit": "2025-08-05"
+  },
+  {
+   "sym": "CLW",
+   "filed": "2025-07-29",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1831,
+   "ret5": -0.0589,
+   "iwm5": 0.0005,
+   "excess": -0.0593,
+   "entry": "2025-07-31",
+   "exit": "2025-08-06"
+  },
+  {
+   "sym": "GIC",
+   "filed": "2025-07-29",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.2682,
+   "ret5": 0.0106,
+   "iwm5": 0.0005,
+   "excess": 0.0101,
+   "entry": "2025-07-31",
+   "exit": "2025-08-06"
+  },
+  {
+   "sym": "GTLS",
+   "filed": "2025-07-29",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0018611670020118876
+  },
+  {
+   "sym": "NMIH",
+   "filed": "2025-07-29",
+   "status": "excluded_lukewarm",
+   "reaction": -0.015542676501580699
+  },
+  {
+   "sym": "RSG",
+   "filed": "2025-07-29",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0582,
+   "ret5": 0.0152,
+   "iwm5": 0.0005,
+   "excess": 0.0147,
+   "entry": "2025-07-31",
+   "exit": "2025-08-06"
+  },
+  {
+   "sym": "ALL-PI",
+   "filed": "2025-07-30",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "CHRW",
+   "filed": "2025-07-30",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.181,
+   "ret5": 0.0319,
+   "iwm5": 0.0167,
+   "excess": 0.0151,
+   "entry": "2025-08-01",
+   "exit": "2025-08-07"
+  },
+  {
+   "sym": "HUM",
+   "filed": "2025-07-30",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0444,
+   "ret5": 0.0266,
+   "iwm5": 0.0167,
+   "excess": 0.0098,
+   "entry": "2025-08-01",
+   "exit": "2025-08-07"
+  },
+  {
+   "sym": "IONS",
+   "filed": "2025-07-30",
+   "status": "excluded_lukewarm",
+   "reaction": -0.008992391053723736
+  },
+  {
+   "sym": "PLPC",
+   "filed": "2025-07-30",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0977,
+   "ret5": 0.0223,
+   "iwm5": 0.0167,
+   "excess": 0.0056,
+   "entry": "2025-08-01",
+   "exit": "2025-08-07"
+  },
+  {
+   "sym": "ALNY",
+   "filed": "2025-07-31",
+   "status": "excluded_lukewarm",
+   "reaction": 0.024372832959412616
+  },
+  {
+   "sym": "AUPH",
+   "filed": "2025-07-31",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1347,
+   "ret5": 0.0726,
+   "iwm5": 0.0174,
+   "excess": 0.0552,
+   "entry": "2025-08-04",
+   "exit": "2025-08-08"
+  },
+  {
+   "sym": "BYFC",
+   "filed": "2025-07-31",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01098901098901095
+  },
+  {
+   "sym": "IDA",
+   "filed": "2025-07-31",
+   "status": "excluded_lukewarm",
+   "reaction": -0.007899146253889655
+  },
+  {
+   "sym": "NVST",
+   "filed": "2025-07-31",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1027,
+   "ret5": -0.0385,
+   "iwm5": 0.0174,
+   "excess": -0.0559,
+   "entry": "2025-08-04",
+   "exit": "2025-08-08"
+  },
+  {
+   "sym": "PCG-PH",
+   "filed": "2025-07-31",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "TILE",
+   "filed": "2025-08-01",
+   "status": "excluded_lukewarm",
+   "reaction": 0.02600568874441289
+  },
+  {
+   "sym": "KRYS",
+   "filed": "2025-08-04",
+   "status": "excluded_lukewarm",
+   "reaction": 0.01785978953609013
+  },
+  {
+   "sym": "PSTL",
+   "filed": "2025-08-04",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0472,
+   "ret5": 0.0102,
+   "iwm5": 0.0265,
+   "excess": -0.0163,
+   "entry": "2025-08-06",
+   "exit": "2025-08-12"
+  },
+  {
+   "sym": "SNDX",
+   "filed": "2025-08-04",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.211,
+   "ret5": 0.0054,
+   "iwm5": 0.0265,
+   "excess": -0.0211,
+   "entry": "2025-08-06",
+   "exit": "2025-08-12"
+  },
+  {
+   "sym": "VTS",
+   "filed": "2025-08-04",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0994,
+   "ret5": -0.0235,
+   "iwm5": 0.0265,
+   "excess": -0.05,
+   "entry": "2025-08-06",
+   "exit": "2025-08-12"
+  },
+  {
+   "sym": "CAT",
+   "filed": "2025-08-05",
+   "status": "excluded_lukewarm",
+   "reaction": -0.014992054901780127
+  },
+  {
+   "sym": "EGHT",
+   "filed": "2025-08-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0785,
+   "ret5": 0.1143,
+   "iwm5": 0.038,
+   "excess": 0.0763,
+   "entry": "2025-08-07",
+   "exit": "2025-08-13"
+  },
+  {
+   "sym": "HLMN",
+   "filed": "2025-08-05",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0331,
+   "ret5": 0.0288,
+   "iwm5": 0.038,
+   "excess": -0.0092,
+   "entry": "2025-08-07",
+   "exit": "2025-08-13"
+  },
+  {
+   "sym": "QLYS",
+   "filed": "2025-08-05",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0021437868463364262
+  },
+  {
+   "sym": "SMCIP",
+   "filed": "2025-08-05",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "UFCS",
+   "filed": "2025-08-05",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0716,
+   "ret5": 0.0702,
+   "iwm5": 0.038,
+   "excess": 0.0322,
+   "entry": "2025-08-07",
+   "exit": "2025-08-13"
+  },
+  {
+   "sym": "DHX",
+   "filed": "2025-08-06",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0812,
+   "ret5": -0.0524,
+   "iwm5": 0.0324,
+   "excess": -0.0849,
+   "entry": "2025-08-08",
+   "exit": "2025-08-14"
+  },
+  {
+   "sym": "GORO",
+   "filed": "2025-08-06",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0314,
+   "ret5": -0.0418,
+   "iwm5": 0.0324,
+   "excess": -0.0742,
+   "entry": "2025-08-08",
+   "exit": "2025-08-14"
+  },
+  {
+   "sym": "PNW",
+   "filed": "2025-08-06",
+   "status": "excluded_lukewarm",
+   "reaction": 0.013180639585133935
+  },
+  {
+   "sym": "SKYT",
+   "filed": "2025-08-06",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.4487,
+   "ret5": -0.1043,
+   "iwm5": 0.0324,
+   "excess": -0.1367,
+   "entry": "2025-08-08",
+   "exit": "2025-08-14"
+  },
+  {
+   "sym": "TARS",
+   "filed": "2025-08-06",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1515,
+   "ret5": 0.1364,
+   "iwm5": 0.0324,
+   "excess": 0.104,
+   "entry": "2025-08-08",
+   "exit": "2025-08-14"
+  },
+  {
+   "sym": "TKO",
+   "filed": "2025-08-06",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.033,
+   "ret5": 0.1849,
+   "iwm5": 0.0324,
+   "excess": 0.1525,
+   "entry": "2025-08-08",
+   "exit": "2025-08-14"
+  },
+  {
+   "sym": "AMPX",
+   "filed": "2025-08-07",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.044,
+   "ret5": -0.1276,
+   "iwm5": 0.0288,
+   "excess": -0.1564,
+   "entry": "2025-08-11",
+   "exit": "2025-08-15"
+  },
+  {
+   "sym": "BLZE",
+   "filed": "2025-08-07",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0689,
+   "ret5": 0.0863,
+   "iwm5": 0.0288,
+   "excess": 0.0575,
+   "entry": "2025-08-11",
+   "exit": "2025-08-15"
+  },
+  {
+   "sym": "CIFR",
+   "filed": "2025-08-07",
+   "status": "excluded_lukewarm",
+   "reaction": -0.024640657084188944
+  },
+  {
+   "sym": "DOCS",
+   "filed": "2025-08-07",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1371,
+   "ret5": -0.0151,
+   "iwm5": 0.0288,
+   "excess": -0.0439,
+   "entry": "2025-08-11",
+   "exit": "2025-08-15"
+  },
+  {
+   "sym": "ED",
+   "filed": "2025-08-07",
+   "status": "excluded_lukewarm",
+   "reaction": -0.00495238095238093
+  },
+  {
+   "sym": "GOCOQ",
+   "filed": "2025-08-07",
+   "status": "excluded_lukewarm",
+   "reaction": -0.02443280977312401
+  },
+  {
+   "sym": "IMUX",
+   "filed": "2025-08-07",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0335,
+   "ret5": 0.0275,
+   "iwm5": 0.0288,
+   "excess": -0.0013,
+   "entry": "2025-08-11",
+   "exit": "2025-08-15"
+  },
+  {
+   "sym": "LION",
+   "filed": "2025-08-07",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0711,
+   "ret5": -0.0204,
+   "iwm5": 0.0288,
+   "excess": -0.0492,
+   "entry": "2025-08-11",
+   "exit": "2025-08-15"
+  },
+  {
+   "sym": "OPAL",
+   "filed": "2025-08-07",
+   "status": "excluded_lukewarm",
+   "reaction": -0.022123893805309658
+  },
+  {
+   "sym": "OXSQ",
+   "filed": "2025-08-07",
+   "status": "excluded_lukewarm",
+   "reaction": 0.01724137931034475
+  },
+  {
+   "sym": "REPL",
+   "filed": "2025-08-07",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0347,
+   "ret5": 0.2153,
+   "iwm5": 0.0288,
+   "excess": 0.1865,
+   "entry": "2025-08-11",
+   "exit": "2025-08-15"
+  },
+  {
+   "sym": "VITL",
+   "filed": "2025-08-07",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0369,
+   "ret5": 0.0506,
+   "iwm5": 0.0288,
+   "excess": 0.0218,
+   "entry": "2025-08-11",
+   "exit": "2025-08-15"
+  },
+  {
+   "sym": "NODK",
+   "filed": "2025-08-08",
+   "status": "excluded_lukewarm",
+   "reaction": -0.014809041309430948
+  },
+  {
+   "sym": "FWRD",
+   "filed": "2025-08-11",
+   "status": "excluded_lukewarm",
+   "reaction": 0.019250962548127415
+  },
+  {
+   "sym": "IMDX",
+   "filed": "2025-08-11",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0383,
+   "ret5": 0.0117,
+   "iwm5": -0.009,
+   "excess": 0.0207,
+   "entry": "2025-08-13",
+   "exit": "2025-08-19"
+  },
+  {
+   "sym": "SKYH",
+   "filed": "2025-08-12",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0365,
+   "ret5": -0.0218,
+   "iwm5": -0.0133,
+   "excess": -0.0085,
+   "entry": "2025-08-14",
+   "exit": "2025-08-20"
+  },
+  {
+   "sym": "LVO",
+   "filed": "2025-08-13",
+   "status": "excluded_lukewarm",
+   "reaction": -0.007339449541284404
+  },
+  {
+   "sym": "BATL",
+   "filed": "2025-08-14",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0504,
+   "ret5": 0.0179,
+   "iwm5": 0.0335,
+   "excess": -0.0157,
+   "entry": "2025-08-18",
+   "exit": "2025-08-22"
+  },
+  {
+   "sym": "GALT",
+   "filed": "2025-08-14",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0505,
+   "ret5": 0.1714,
+   "iwm5": 0.0335,
+   "excess": 0.1379,
+   "entry": "2025-08-18",
+   "exit": "2025-08-22"
+  },
+  {
+   "sym": "LMFA",
+   "filed": "2025-08-14",
+   "status": "excluded_lukewarm",
+   "reaction": 0.012448132780082943
+  },
+  {
+   "sym": "COTY",
+   "filed": "2025-08-20",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.216,
+   "ret5": 0.1276,
+   "iwm5": 0.0389,
+   "excess": 0.0887,
+   "entry": "2025-08-22",
+   "exit": "2025-08-28"
+  },
+  {
+   "sym": "OKTA",
+   "filed": "2025-08-26",
+   "status": "excluded_lukewarm",
+   "reaction": 0.016055045871559592
+  },
+  {
+   "sym": "WSM",
+   "filed": "2025-08-27",
+   "status": "excluded_lukewarm",
+   "reaction": -0.021387313316334366
+  },
+  {
+   "sym": "CHPT",
+   "filed": "2025-09-03",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0547,
+   "ret5": -0.0261,
+   "iwm5": 0.013,
+   "excess": -0.0391,
+   "entry": "2025-09-05",
+   "exit": "2025-09-11"
+  },
+  {
+   "sym": "WLYB",
+   "filed": "2025-09-04",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0
+  },
+  {
+   "sym": "ARW",
+   "filed": "2025-09-17",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0316,
+   "ret5": -0.0334,
+   "iwm5": -0.0256,
+   "excess": -0.0079,
+   "entry": "2025-09-19",
+   "exit": "2025-09-25"
+  },
+  {
+   "sym": "RSSS",
+   "filed": "2025-09-18",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0687,
+   "ret5": 0.0294,
+   "iwm5": -0.0037,
+   "excess": 0.0331,
+   "entry": "2025-09-22",
+   "exit": "2025-09-26"
+  },
+  {
+   "sym": "TBNRL",
+   "filed": "2025-09-25",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "CCL",
+   "filed": "2025-09-29",
+   "status": "excluded_lukewarm",
+   "reaction": -0.016666666666666607
+  },
+  {
+   "sym": "PEW-WT",
+   "filed": "2025-10-03",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "WBHC",
+   "filed": "2025-10-10",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "SATLW",
+   "filed": "2025-10-15",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "CBSH",
+   "filed": "2025-10-16",
+   "status": "excluded_lukewarm",
+   "reaction": 0.02442748091603053
+  },
+  {
+   "sym": "PULM",
+   "filed": "2025-10-16",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0372,
+   "ret5": 0.0083,
+   "iwm5": 0.0114,
+   "excess": -0.0031,
+   "entry": "2025-10-20",
+   "exit": "2025-10-24"
+  },
+  {
+   "sym": "CHMG",
+   "filed": "2025-10-21",
+   "status": "excluded_lukewarm",
+   "reaction": 0.02444092618246585
+  },
+  {
+   "sym": "MLI",
+   "filed": "2025-10-21",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0016286644951140072
+  },
+  {
+   "sym": "PHM",
+   "filed": "2025-10-21",
+   "status": "excluded_lukewarm",
+   "reaction": -0.024823558043319593
+  },
+  {
+   "sym": "STLD",
+   "filed": "2025-10-21",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0342,
+   "ret5": 0.1001,
+   "iwm5": 0.0104,
+   "excess": 0.0897,
+   "entry": "2025-10-23",
+   "exit": "2025-10-29"
+  },
+  {
+   "sym": "HTB",
+   "filed": "2025-10-22",
+   "status": "excluded_lukewarm",
+   "reaction": -0.019680196801967975
+  },
+  {
+   "sym": "AUB-PA",
+   "filed": "2025-10-23",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "BWFG",
+   "filed": "2025-10-23",
+   "status": "excluded_lukewarm",
+   "reaction": 0.016636280765724543
+  },
+  {
+   "sym": "CIVB",
+   "filed": "2025-10-23",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0423,
+   "ret5": -0.0293,
+   "iwm5": -0.022,
+   "excess": -0.0073,
+   "entry": "2025-10-27",
+   "exit": "2025-10-31"
+  },
+  {
+   "sym": "MCB",
+   "filed": "2025-10-23",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0484,
+   "ret5": -0.0673,
+   "iwm5": -0.022,
+   "excess": -0.0452,
+   "entry": "2025-10-27",
+   "exit": "2025-10-31"
+  },
+  {
+   "sym": "BRX",
+   "filed": "2025-10-27",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0412,
+   "ret5": -0.0182,
+   "iwm5": -0.0307,
+   "excess": 0.0125,
+   "entry": "2025-10-29",
+   "exit": "2025-11-04"
+  },
+  {
+   "sym": "KDP",
+   "filed": "2025-10-27",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01300034211426615
+  },
+  {
+   "sym": "ABG",
+   "filed": "2025-10-28",
+   "status": "excluded_lukewarm",
+   "reaction": 0.006316503455000344
+  },
+  {
+   "sym": "AMT",
+   "filed": "2025-10-28",
+   "status": "excluded_lukewarm",
+   "reaction": -0.019921190893169793
+  },
+  {
+   "sym": "HOPE",
+   "filed": "2025-10-28",
+   "status": "excluded_lukewarm",
+   "reaction": -0.012048192771084265
+  },
+  {
+   "sym": "FPI",
+   "filed": "2025-10-29",
+   "status": "excluded_lukewarm",
+   "reaction": 0.02079207920792081
+  },
+  {
+   "sym": "HWKN",
+   "filed": "2025-10-29",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0504,
+   "ret5": -0.1529,
+   "iwm5": -0.0189,
+   "excess": -0.134,
+   "entry": "2025-10-31",
+   "exit": "2025-11-06"
+  },
+  {
+   "sym": "MELI",
+   "filed": "2025-10-29",
+   "status": "excluded_lukewarm",
+   "reaction": 0.02824140213944748
+  },
+  {
+   "sym": "NCSM",
+   "filed": "2025-10-29",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.07,
+   "ret5": -0.0365,
+   "iwm5": -0.0189,
+   "excess": -0.0175,
+   "entry": "2025-10-31",
+   "exit": "2025-11-06"
+  },
+  {
+   "sym": "NOW",
+   "filed": "2025-10-29",
+   "status": "excluded_lukewarm",
+   "reaction": 0.02520565975649891
+  },
+  {
+   "sym": "ODFL",
+   "filed": "2025-10-29",
+   "status": "excluded_lukewarm",
+   "reaction": 0.008227429662822416
+  },
+  {
+   "sym": "TYL",
+   "filed": "2025-10-29",
+   "status": "excluded_lukewarm",
+   "reaction": 0.00016736401673633772
+  },
+  {
+   "sym": "VRRM",
+   "filed": "2025-10-29",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01468120805369133
+  },
+  {
+   "sym": "ALNY",
+   "filed": "2025-10-30",
+   "status": "excluded_lukewarm",
+   "reaction": 0.014414093780585446
+  },
+  {
+   "sym": "ATR",
+   "filed": "2025-10-30",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0671,
+   "ret5": 0.0011,
+   "iwm5": -0.0185,
+   "excess": 0.0196,
+   "entry": "2025-11-03",
+   "exit": "2025-11-07"
+  },
+  {
+   "sym": "BWA",
+   "filed": "2025-10-30",
+   "status": "excluded_lukewarm",
+   "reaction": -0.026733121884911615
+  },
+  {
+   "sym": "CI",
+   "filed": "2025-10-30",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01088628085795229
+  },
+  {
+   "sym": "MCHB",
+   "filed": "2025-10-30",
+   "status": "excluded_lukewarm",
+   "reaction": -0.016886930983847193
+  },
+  {
+   "sym": "TEAM",
+   "filed": "2025-10-30",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0545,
+   "ret5": -0.0715,
+   "iwm5": -0.0185,
+   "excess": -0.053,
+   "entry": "2025-11-03",
+   "exit": "2025-11-07"
+  },
+  {
+   "sym": "FGBI",
+   "filed": "2025-10-31",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0534,
+   "ret5": -0.0374,
+   "iwm5": 0.0093,
+   "excess": -0.0467,
+   "entry": "2025-11-04",
+   "exit": "2025-11-10"
+  },
+  {
+   "sym": "LIN",
+   "filed": "2025-10-31",
+   "status": "excluded_lukewarm",
+   "reaction": -0.014630647860387258
+  },
+  {
+   "sym": "BWXT",
+   "filed": "2025-11-03",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0717,
+   "ret5": -0.0003,
+   "iwm5": 0.0094,
+   "excess": -0.0097,
+   "entry": "2025-11-05",
+   "exit": "2025-11-11"
+  },
+  {
+   "sym": "GOODN",
+   "filed": "2025-11-03",
+   "status": "excluded_lukewarm",
+   "reaction": 0.005285393258426918
+  },
+  {
+   "sym": "HLIT",
+   "filed": "2025-11-03",
+   "status": "excluded_lukewarm",
+   "reaction": -0.022492970946579205
+  },
+  {
+   "sym": "ORA",
+   "filed": "2025-11-03",
+   "status": "excluded_lukewarm",
+   "reaction": 0.007698015210536147
+  },
+  {
+   "sym": "VTS",
+   "filed": "2025-11-03",
+   "status": "excluded_lukewarm",
+   "reaction": -0.02934326967862133
+  },
+  {
+   "sym": "APO-PA",
+   "filed": "2025-11-04",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "CRVS",
+   "filed": "2025-11-04",
+   "status": "excluded_lukewarm",
+   "reaction": -0.014397905759162222
+  },
+  {
+   "sym": "KNF",
+   "filed": "2025-11-04",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0899,
+   "ret5": -0.008,
+   "iwm5": -0.0025,
+   "excess": -0.0054,
+   "entry": "2025-11-06",
+   "exit": "2025-11-12"
+  },
+  {
+   "sym": "MPC",
+   "filed": "2025-11-04",
+   "status": "excluded_lukewarm",
+   "reaction": 0.013059092393078675
+  },
+  {
+   "sym": "NVCT",
+   "filed": "2025-11-04",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0391,
+   "ret5": 0.0204,
+   "iwm5": -0.0025,
+   "excess": 0.0229,
+   "entry": "2025-11-06",
+   "exit": "2025-11-12"
+  },
+  {
+   "sym": "OFIX",
+   "filed": "2025-11-04",
+   "status": "excluded_lukewarm",
+   "reaction": 0.00672494956287828
+  },
+  {
+   "sym": "PARR",
+   "filed": "2025-11-04",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0716,
+   "ret5": 0.0569,
+   "iwm5": -0.0025,
+   "excess": 0.0594,
+   "entry": "2025-11-06",
+   "exit": "2025-11-12"
+  },
+  {
+   "sym": "PTLO",
+   "filed": "2025-11-04",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0391,
+   "ret5": -0.068,
+   "iwm5": -0.0025,
+   "excess": -0.0655,
+   "entry": "2025-11-06",
+   "exit": "2025-11-12"
+  },
+  {
+   "sym": "ADPT",
+   "filed": "2025-11-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1154,
+   "ret5": -0.0764,
+   "iwm5": -0.0068,
+   "excess": -0.0696,
+   "entry": "2025-11-07",
+   "exit": "2025-11-13"
+  },
+  {
+   "sym": "AKA",
+   "filed": "2025-11-05",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0023809523809523725
+  },
+  {
+   "sym": "ANY",
+   "filed": "2025-11-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0434,
+   "ret5": -0.1241,
+   "iwm5": -0.0068,
+   "excess": -0.1173,
+   "entry": "2025-11-07",
+   "exit": "2025-11-13"
+  },
+  {
+   "sym": "BMBL",
+   "filed": "2025-11-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.2177,
+   "ret5": -0.1116,
+   "iwm5": -0.0068,
+   "excess": -0.1048,
+   "entry": "2025-11-07",
+   "exit": "2025-11-13"
+  },
+  {
+   "sym": "ERII",
+   "filed": "2025-11-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1605,
+   "ret5": 0.0028,
+   "iwm5": -0.0068,
+   "excess": 0.0096,
+   "entry": "2025-11-07",
+   "exit": "2025-11-13"
+  },
+  {
+   "sym": "FC",
+   "filed": "2025-11-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1007,
+   "ret5": -0.0413,
+   "iwm5": -0.0068,
+   "excess": -0.0345,
+   "entry": "2025-11-07",
+   "exit": "2025-11-13"
+  },
+  {
+   "sym": "HNST",
+   "filed": "2025-11-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.2939,
+   "ret5": 0.1116,
+   "iwm5": -0.0068,
+   "excess": 0.1184,
+   "entry": "2025-11-07",
+   "exit": "2025-11-13"
+  },
+  {
+   "sym": "LANDP",
+   "filed": "2025-11-05",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "PEN",
+   "filed": "2025-11-05",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1732,
+   "ret5": 0.0536,
+   "iwm5": -0.0068,
+   "excess": 0.0604,
+   "entry": "2025-11-07",
+   "exit": "2025-11-13"
+  },
+  {
+   "sym": "TPVG",
+   "filed": "2025-11-05",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0343,
+   "ret5": 0.0401,
+   "iwm5": -0.0068,
+   "excess": 0.0469,
+   "entry": "2025-11-07",
+   "exit": "2025-11-13"
+  },
+  {
+   "sym": "WWW",
+   "filed": "2025-11-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0658,
+   "ret5": -0.0038,
+   "iwm5": -0.0068,
+   "excess": 0.003,
+   "entry": "2025-11-07",
+   "exit": "2025-11-13"
+  },
+  {
+   "sym": "AMLX",
+   "filed": "2025-11-06",
+   "status": "excluded_lukewarm",
+   "reaction": -0.012038523274478408
+  },
+  {
+   "sym": "AVTX",
+   "filed": "2025-11-06",
+   "status": "excluded_lukewarm",
+   "reaction": -0.023994811932555038
+  },
+  {
+   "sym": "CCOI",
+   "filed": "2025-11-06",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0585,
+   "ret5": -0.2575,
+   "iwm5": -0.0307,
+   "excess": -0.2267,
+   "entry": "2025-11-10",
+   "exit": "2025-11-14"
+  },
+  {
+   "sym": "CERS",
+   "filed": "2025-11-06",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.2128,
+   "ret5": -0.0526,
+   "iwm5": -0.0307,
+   "excess": -0.0219,
+   "entry": "2025-11-10",
+   "exit": "2025-11-14"
+  },
+  {
+   "sym": "CRDF",
+   "filed": "2025-11-06",
+   "status": "excluded_lukewarm",
+   "reaction": -0.026666666666666727
+  },
+  {
+   "sym": "EPAM",
+   "filed": "2025-11-06",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0435,
+   "ret5": 0.0074,
+   "iwm5": -0.0307,
+   "excess": 0.0382,
+   "entry": "2025-11-10",
+   "exit": "2025-11-14"
+  },
+  {
+   "sym": "EVRG",
+   "filed": "2025-11-06",
+   "status": "excluded_lukewarm",
+   "reaction": 0.000397035468501894
+  },
+  {
+   "sym": "INOD",
+   "filed": "2025-11-06",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.069,
+   "ret5": -0.1762,
+   "iwm5": -0.0307,
+   "excess": -0.1455,
+   "entry": "2025-11-10",
+   "exit": "2025-11-14"
+  },
+  {
+   "sym": "KNTK",
+   "filed": "2025-11-06",
+   "status": "excluded_lukewarm",
+   "reaction": 0.01924759405074372
+  },
+  {
+   "sym": "LCUT",
+   "filed": "2025-11-06",
+   "status": "excluded_lukewarm",
+   "reaction": 0.003278688524590345
+  },
+  {
+   "sym": "MNST",
+   "filed": "2025-11-06",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0516,
+   "ret5": 0.0212,
+   "iwm5": -0.0307,
+   "excess": 0.0519,
+   "entry": "2025-11-10",
+   "exit": "2025-11-14"
+  },
+  {
+   "sym": "MTD",
+   "filed": "2025-11-06",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0001875494922271015
+  },
+  {
+   "sym": "NHI",
+   "filed": "2025-11-06",
+   "status": "excluded_lukewarm",
+   "reaction": 0.019784889124950134
+  },
+  {
+   "sym": "PENN",
+   "filed": "2025-11-06",
+   "status": "excluded_lukewarm",
+   "reaction": -0.007508532423208258
+  },
+  {
+   "sym": "PSEC",
+   "filed": "2025-11-06",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0745,
+   "ret5": 0.0036,
+   "iwm5": -0.0307,
+   "excess": 0.0344,
+   "entry": "2025-11-10",
+   "exit": "2025-11-14"
+  },
+  {
+   "sym": "ROK",
+   "filed": "2025-11-06",
+   "status": "excluded_lukewarm",
+   "reaction": 0.002657718120805397
+  },
+  {
+   "sym": "SANA",
+   "filed": "2025-11-06",
+   "status": "excluded_lukewarm",
+   "reaction": 0.009876543209876631
+  },
+  {
+   "sym": "STRA",
+   "filed": "2025-11-06",
+   "status": "excluded_lukewarm",
+   "reaction": 0.00942769884477479
+  },
+  {
+   "sym": "TBRG",
+   "filed": "2025-11-06",
+   "status": "excluded_lukewarm",
+   "reaction": 0.00935550935550955
+  },
+  {
+   "sym": "TPR",
+   "filed": "2025-11-06",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0493,
+   "ret5": -0.0328,
+   "iwm5": -0.0307,
+   "excess": -0.0021,
+   "entry": "2025-11-10",
+   "exit": "2025-11-14"
+  },
+  {
+   "sym": "URGN",
+   "filed": "2025-11-06",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01274426508071369
+  },
+  {
+   "sym": "ACRE",
+   "filed": "2025-11-07",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0593,
+   "ret5": 0.021,
+   "iwm5": -0.0436,
+   "excess": 0.0646,
+   "entry": "2025-11-11",
+   "exit": "2025-11-17"
+  },
+  {
+   "sym": "BGSF",
+   "filed": "2025-11-07",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0763,
+   "ret5": 0.0183,
+   "iwm5": -0.0436,
+   "excess": 0.0619,
+   "entry": "2025-11-11",
+   "exit": "2025-11-17"
+  },
+  {
+   "sym": "CBL",
+   "filed": "2025-11-07",
+   "status": "excluded_lukewarm",
+   "reaction": -0.02195121951219514
+  },
+  {
+   "sym": "FDMT",
+   "filed": "2025-11-10",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0619,
+   "ret5": -0.0726,
+   "iwm5": -0.0464,
+   "excess": -0.0262,
+   "entry": "2025-11-12",
+   "exit": "2025-11-18"
+  },
+  {
+   "sym": "TSQ",
+   "filed": "2025-11-10",
+   "status": "excluded_lukewarm",
+   "reaction": 0.005535055350553542
+  },
+  {
+   "sym": "ANNA",
+   "filed": "2025-11-12",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0579,
+   "ret5": -0.0609,
+   "iwm5": -0.0181,
+   "excess": -0.0428,
+   "entry": "2025-11-14",
+   "exit": "2025-11-20"
+  },
+  {
+   "sym": "BKKT",
+   "filed": "2025-11-12",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.143,
+   "ret5": -0.124,
+   "iwm5": -0.0181,
+   "excess": -0.1059,
+   "entry": "2025-11-14",
+   "exit": "2025-11-20"
+  },
+  {
+   "sym": "BRTX",
+   "filed": "2025-11-12",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0942,
+   "ret5": -0.126,
+   "iwm5": -0.0181,
+   "excess": -0.1079,
+   "entry": "2025-11-14",
+   "exit": "2025-11-20"
+  },
+  {
+   "sym": "HYLN",
+   "filed": "2025-11-12",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1158,
+   "ret5": -0.0186,
+   "iwm5": -0.0181,
+   "excess": -0.0005,
+   "entry": "2025-11-14",
+   "exit": "2025-11-20"
+  },
+  {
+   "sym": "KLC",
+   "filed": "2025-11-12",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.192,
+   "ret5": -0.0401,
+   "iwm5": -0.0181,
+   "excess": -0.022,
+   "entry": "2025-11-14",
+   "exit": "2025-11-20"
+  },
+  {
+   "sym": "LYRA",
+   "filed": "2025-11-12",
+   "status": "excluded_lukewarm",
+   "reaction": -0.015463917525773252
+  },
+  {
+   "sym": "MGX",
+   "filed": "2025-11-12",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.086,
+   "ret5": -0.0848,
+   "iwm5": -0.0181,
+   "excess": -0.0667,
+   "entry": "2025-11-14",
+   "exit": "2025-11-20"
+  },
+  {
+   "sym": "SMTI",
+   "filed": "2025-11-12",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0711,
+   "ret5": -0.024,
+   "iwm5": -0.0181,
+   "excess": -0.0058,
+   "entry": "2025-11-14",
+   "exit": "2025-11-20"
+  },
+  {
+   "sym": "UNCY",
+   "filed": "2025-11-12",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.037,
+   "ret5": 0.0115,
+   "iwm5": -0.0181,
+   "excess": 0.0296,
+   "entry": "2025-11-14",
+   "exit": "2025-11-20"
+  },
+  {
+   "sym": "QTTB",
+   "filed": "2025-11-13",
+   "status": "excluded_lukewarm",
+   "reaction": -0.02262443438914019
+  },
+  {
+   "sym": "RSSS",
+   "filed": "2025-11-13",
+   "status": "excluded_lukewarm",
+   "reaction": 0.02893890675241173
+  },
+  {
+   "sym": "STUB",
+   "filed": "2025-11-13",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.2099,
+   "ret5": -0.2692,
+   "iwm5": -0.0036,
+   "excess": -0.2656,
+   "entry": "2025-11-17",
+   "exit": "2025-11-21"
+  },
+  {
+   "sym": "TLSIW",
+   "filed": "2025-11-13",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "ASNS",
+   "filed": "2025-11-14",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1802,
+   "ret5": -0.1437,
+   "iwm5": 0.0371,
+   "excess": -0.1809,
+   "entry": "2025-11-18",
+   "exit": "2025-11-24"
+  },
+  {
+   "sym": "FEMY",
+   "filed": "2025-11-14",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1128,
+   "ret5": 0.1754,
+   "iwm5": 0.0371,
+   "excess": 0.1383,
+   "entry": "2025-11-18",
+   "exit": "2025-11-24"
+  },
+  {
+   "sym": "IPDN",
+   "filed": "2025-11-14",
+   "status": "excluded_lukewarm",
+   "reaction": -0.010309278350515427
+  },
+  {
+   "sym": "MRKR",
+   "filed": "2025-11-14",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0345,
+   "ret5": 0.1767,
+   "iwm5": 0.0371,
+   "excess": 0.1396,
+   "entry": "2025-11-18",
+   "exit": "2025-11-24"
+  },
+  {
+   "sym": "IIIV",
+   "filed": "2025-11-17",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1054,
+   "ret5": -0.0522,
+   "iwm5": 0.0485,
+   "excess": -0.1007,
+   "entry": "2025-11-19",
+   "exit": "2025-11-25"
+  },
+  {
+   "sym": "CMBMF",
+   "filed": "2025-11-18",
+   "status": "excluded_lukewarm",
+   "reaction": 0.011494252873563315
+  },
+  {
+   "sym": "CYN",
+   "filed": "2025-11-19",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0364,
+   "ret5": 0.2465,
+   "iwm5": 0.0817,
+   "excess": 0.1648,
+   "entry": "2025-11-21",
+   "exit": "2025-11-28"
+  },
+  {
+   "sym": "AIFA",
+   "filed": "2025-11-20",
+   "status": "excluded_lukewarm",
+   "reaction": -0.02872628726287263
+  },
+  {
+   "sym": "J",
+   "filed": "2025-11-20",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0030966942788571705
+  },
+  {
+   "sym": "UNFI",
+   "filed": "2025-12-02",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0732,
+   "ret5": -0.0573,
+   "iwm5": 0.0235,
+   "excess": -0.0808,
+   "entry": "2025-12-04",
+   "exit": "2025-12-10"
+  },
+  {
+   "sym": "DG",
+   "filed": "2025-12-04",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0565,
+   "ret5": 0.001,
+   "iwm5": 0.0046,
+   "excess": -0.0036,
+   "entry": "2025-12-08",
+   "exit": "2025-12-12"
+  },
+  {
+   "sym": "CAL",
+   "filed": "2025-12-09",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0502,
+   "ret5": 0.0257,
+   "iwm5": -0.0291,
+   "excess": 0.0548,
+   "entry": "2025-12-11",
+   "exit": "2025-12-17"
+  },
+  {
+   "sym": "MTR",
+   "filed": "2025-12-19",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0568,
+   "ret5": 0.0737,
+   "iwm5": -0.0174,
+   "excess": 0.0911,
+   "entry": "2025-12-23",
+   "exit": "2025-12-30"
+  },
+  {
+   "sym": "WGO",
+   "filed": "2025-12-19",
+   "status": "excluded_lukewarm",
+   "reaction": -0.029727875600274345
+  },
+  {
+   "sym": "CRNX",
+   "filed": "2026-01-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0463,
+   "ret5": 0.0599,
+   "iwm5": 0.0193,
+   "excess": 0.0406,
+   "entry": "2026-01-07",
+   "exit": "2026-01-13"
+  },
+  {
+   "sym": "ACI",
+   "filed": "2026-01-07",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0336,
+   "ret5": 0.0407,
+   "iwm5": 0.0228,
+   "excess": 0.0179,
+   "entry": "2026-01-09",
+   "exit": "2026-01-15"
+  },
+  {
+   "sym": "CALM",
+   "filed": "2026-01-07",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0302,
+   "ret5": 0.0277,
+   "iwm5": 0.0228,
+   "excess": 0.0049,
+   "entry": "2026-01-09",
+   "exit": "2026-01-15"
+  },
+  {
+   "sym": "LMFA",
+   "filed": "2026-01-07",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1007,
+   "ret5": -0.021,
+   "iwm5": 0.0228,
+   "excess": -0.0439,
+   "entry": "2026-01-09",
+   "exit": "2026-01-15"
+  },
+  {
+   "sym": "BOOT",
+   "filed": "2026-01-09",
+   "status": "excluded_lukewarm",
+   "reaction": 0.02473552409669333
+  },
+  {
+   "sym": "HYPR",
+   "filed": "2026-01-12",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1176,
+   "ret5": 0.113,
+   "iwm5": 0.0255,
+   "excess": 0.0875,
+   "entry": "2026-01-14",
+   "exit": "2026-01-21"
+  },
+  {
+   "sym": "ACAD",
+   "filed": "2026-01-13",
+   "status": "excluded_lukewarm",
+   "reaction": 0.015117157974300799
+  },
+  {
+   "sym": "RCAT",
+   "filed": "2026-01-13",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0459,
+   "ret5": 0.3033,
+   "iwm5": 0.0217,
+   "excess": 0.2816,
+   "entry": "2026-01-15",
+   "exit": "2026-01-22"
+  },
+  {
+   "sym": "AVAH",
+   "filed": "2026-01-14",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.045,
+   "ret5": -0.1052,
+   "iwm5": -0.004,
+   "excess": -0.1012,
+   "entry": "2026-01-16",
+   "exit": "2026-01-23"
+  },
+  {
+   "sym": "LOOP",
+   "filed": "2026-01-14",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0342,
+   "ret5": 0.0354,
+   "iwm5": -0.004,
+   "excess": 0.0394,
+   "entry": "2026-01-16",
+   "exit": "2026-01-23"
+  },
+  {
+   "sym": "IIIN",
+   "filed": "2026-01-15",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0665,
+   "ret5": -0.0241,
+   "iwm5": 0.0109,
+   "excess": -0.035,
+   "entry": "2026-01-20",
+   "exit": "2026-01-26"
+  },
+  {
+   "sym": "ERAS",
+   "filed": "2026-01-20",
+   "status": "excluded_lukewarm",
+   "reaction": 0.024464831804281273
+  },
+  {
+   "sym": "HWC",
+   "filed": "2026-01-20",
+   "status": "excluded_lukewarm",
+   "reaction": 0.023816568047337228
+  },
+  {
+   "sym": "MBWM",
+   "filed": "2026-01-20",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0577,
+   "ret5": -0.0727,
+   "iwm5": -0.0242,
+   "excess": -0.0485,
+   "entry": "2026-01-22",
+   "exit": "2026-01-28"
+  },
+  {
+   "sym": "EQBK",
+   "filed": "2026-01-21",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0020408163265306367
+  },
+  {
+   "sym": "HBNC",
+   "filed": "2026-01-21",
+   "status": "excluded_lukewarm",
+   "reaction": 0.021381578947368363
+  },
+  {
+   "sym": "CNS",
+   "filed": "2026-01-22",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0417,
+   "ret5": -0.0253,
+   "iwm5": -0.0204,
+   "excess": -0.0049,
+   "entry": "2026-01-26",
+   "exit": "2026-01-30"
+  },
+  {
+   "sym": "FCX",
+   "filed": "2026-01-22",
+   "status": "excluded_lukewarm",
+   "reaction": 0.026508071367884467
+  },
+  {
+   "sym": "INDB",
+   "filed": "2026-01-22",
+   "status": "excluded_lukewarm",
+   "reaction": -0.027563943382170497
+  },
+  {
+   "sym": "RMBI",
+   "filed": "2026-01-22",
+   "status": "excluded_lukewarm",
+   "reaction": -0.022614840989399365
+  },
+  {
+   "sym": "AFBI",
+   "filed": "2026-01-23",
+   "status": "excluded_lukewarm",
+   "reaction": 0.009847365829640742
+  },
+  {
+   "sym": "FRAF",
+   "filed": "2026-01-27",
+   "status": "excluded_lukewarm",
+   "reaction": 0.02067824648469818
+  },
+  {
+   "sym": "WAL-PA",
+   "filed": "2026-01-27",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "BSTT",
+   "filed": "2026-01-29",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "CARE",
+   "filed": "2026-01-29",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0454,
+   "ret5": 0.0227,
+   "iwm5": 0.0253,
+   "excess": -0.0026,
+   "entry": "2026-02-02",
+   "exit": "2026-02-06"
+  },
+  {
+   "sym": "FXNC",
+   "filed": "2026-01-29",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0229037267080745
+  },
+  {
+   "sym": "MRBK",
+   "filed": "2026-01-29",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0005279831045407191
+  },
+  {
+   "sym": "PH",
+   "filed": "2026-01-29",
+   "status": "excluded_lukewarm",
+   "reaction": -0.013243357233234887
+  },
+  {
+   "sym": "AMGN",
+   "filed": "2026-02-03",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0815,
+   "ret5": 0.0023,
+   "iwm5": 0.025,
+   "excess": -0.0226,
+   "entry": "2026-02-05",
+   "exit": "2026-02-11"
+  },
+  {
+   "sym": "ARKO",
+   "filed": "2026-02-03",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0639,
+   "ret5": -0.0512,
+   "iwm5": 0.025,
+   "excess": -0.0762,
+   "entry": "2026-02-05",
+   "exit": "2026-02-11"
+  },
+  {
+   "sym": "ITW",
+   "filed": "2026-02-03",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0355,
+   "ret5": 0.0352,
+   "iwm5": 0.025,
+   "excess": 0.0102,
+   "entry": "2026-02-05",
+   "exit": "2026-02-11"
+  },
+  {
+   "sym": "RITM-PB",
+   "filed": "2026-02-03",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "CLFD",
+   "filed": "2026-02-04",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0456,
+   "ret5": 0.0653,
+   "iwm5": -0.0008,
+   "excess": 0.0661,
+   "entry": "2026-02-06",
+   "exit": "2026-02-12"
+  },
+  {
+   "sym": "KMPR",
+   "filed": "2026-02-04",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1309,
+   "ret5": -0.0535,
+   "iwm5": -0.0008,
+   "excess": -0.0527,
+   "entry": "2026-02-06",
+   "exit": "2026-02-12"
+  },
+  {
+   "sym": "LSAK",
+   "filed": "2026-02-04",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01754385964912264
+  },
+  {
+   "sym": "LTRX",
+   "filed": "2026-02-04",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0658,
+   "ret5": -0.0983,
+   "iwm5": -0.0008,
+   "excess": -0.0975,
+   "entry": "2026-02-06",
+   "exit": "2026-02-12"
+  },
+  {
+   "sym": "RAL",
+   "filed": "2026-02-04",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.3179,
+   "ret5": 0.0774,
+   "iwm5": -0.0008,
+   "excess": 0.0782,
+   "entry": "2026-02-06",
+   "exit": "2026-02-12"
+  },
+  {
+   "sym": "RM",
+   "filed": "2026-02-04",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1457,
+   "ret5": -0.018,
+   "iwm5": -0.0008,
+   "excess": -0.0172,
+   "entry": "2026-02-06",
+   "exit": "2026-02-12"
+  },
+  {
+   "sym": "TECH",
+   "filed": "2026-02-04",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0409,
+   "ret5": -0.1081,
+   "iwm5": -0.0008,
+   "excess": -0.1074,
+   "entry": "2026-02-06",
+   "exit": "2026-02-12"
+  },
+  {
+   "sym": "CMI",
+   "filed": "2026-02-05",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0686,
+   "ret5": 0.036,
+   "iwm5": -0.0071,
+   "excess": 0.0431,
+   "entry": "2026-02-09",
+   "exit": "2026-02-13"
+  },
+  {
+   "sym": "EQR",
+   "filed": "2026-02-05",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0343,
+   "ret5": -0.0044,
+   "iwm5": -0.0071,
+   "excess": 0.0027,
+   "entry": "2026-02-09",
+   "exit": "2026-02-13"
+  },
+  {
+   "sym": "FLS",
+   "filed": "2026-02-05",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.082,
+   "ret5": 0.052,
+   "iwm5": -0.0071,
+   "excess": 0.0591,
+   "entry": "2026-02-09",
+   "exit": "2026-02-13"
+  },
+  {
+   "sym": "G",
+   "filed": "2026-02-05",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0714,
+   "ret5": -0.0686,
+   "iwm5": -0.0071,
+   "excess": -0.0615,
+   "entry": "2026-02-09",
+   "exit": "2026-02-13"
+  },
+  {
+   "sym": "MTD",
+   "filed": "2026-02-05",
+   "status": "excluded_lukewarm",
+   "reaction": -0.006710778464764755
+  },
+  {
+   "sym": "TPGXL",
+   "filed": "2026-02-05",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "VTR",
+   "filed": "2026-02-05",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0339,
+   "ret5": 0.0219,
+   "iwm5": -0.0071,
+   "excess": 0.029,
+   "entry": "2026-02-09",
+   "exit": "2026-02-13"
+  },
+  {
+   "sym": "GILD",
+   "filed": "2026-02-10",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0582,
+   "ret5": -0.015,
+   "iwm5": -0.0091,
+   "excess": -0.0059,
+   "entry": "2026-02-12",
+   "exit": "2026-02-19"
+  },
+  {
+   "sym": "VSTS",
+   "filed": "2026-02-10",
+   "status": "excluded_lukewarm",
+   "reaction": 0.020000000000000018
+  },
+  {
+   "sym": "WELL",
+   "filed": "2026-02-10",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0351,
+   "ret5": -0.0048,
+   "iwm5": -0.0091,
+   "excess": 0.0042,
+   "entry": "2026-02-12",
+   "exit": "2026-02-19"
+  },
+  {
+   "sym": "TRUP",
+   "filed": "2026-02-12",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1301,
+   "ret5": -0.047,
+   "iwm5": -0.0072,
+   "excess": -0.0398,
+   "entry": "2026-02-17",
+   "exit": "2026-02-23"
+  },
+  {
+   "sym": "CEVA",
+   "filed": "2026-02-17",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01760391198044009
+  },
+  {
+   "sym": "GNK",
+   "filed": "2026-02-17",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0373,
+   "ret5": 0.0346,
+   "iwm5": 0.0077,
+   "excess": 0.027,
+   "entry": "2026-02-19",
+   "exit": "2026-02-25"
+  },
+  {
+   "sym": "CRL",
+   "filed": "2026-02-18",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0395,
+   "ret5": 0.0795,
+   "iwm5": 0.0119,
+   "excess": 0.0675,
+   "entry": "2026-02-20",
+   "exit": "2026-02-26"
+  },
+  {
+   "sym": "IOSP",
+   "filed": "2026-02-18",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0428,
+   "ret5": -0.0599,
+   "iwm5": 0.0119,
+   "excess": -0.0718,
+   "entry": "2026-02-20",
+   "exit": "2026-02-26"
+  },
+  {
+   "sym": "WINA",
+   "filed": "2026-02-18",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0379,
+   "ret5": -0.0198,
+   "iwm5": 0.0119,
+   "excess": -0.0318,
+   "entry": "2026-02-20",
+   "exit": "2026-02-26"
+  },
+  {
+   "sym": "EXR",
+   "filed": "2026-02-19",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0456,
+   "ret5": -0.0074,
+   "iwm5": -0.0076,
+   "excess": 0.0002,
+   "entry": "2026-02-23",
+   "exit": "2026-02-27"
+  },
+  {
+   "sym": "TRAK",
+   "filed": "2026-02-19",
+   "status": "excluded_lukewarm",
+   "reaction": -0.025583982202447175
+  },
+  {
+   "sym": "HLTC",
+   "filed": "2026-02-20",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "BHF",
+   "filed": "2026-02-23",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01087304125359767
+  },
+  {
+   "sym": "SCKT",
+   "filed": "2026-02-23",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.03,
+   "ret5": -0.0668,
+   "iwm5": -0.0227,
+   "excess": -0.0441,
+   "entry": "2026-02-25",
+   "exit": "2026-03-03"
+  },
+  {
+   "sym": "WGS",
+   "filed": "2026-02-23",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0733,
+   "ret5": -0.0516,
+   "iwm5": -0.0227,
+   "excess": -0.029,
+   "entry": "2026-02-25",
+   "exit": "2026-03-03"
+  },
+  {
+   "sym": "BBIO",
+   "filed": "2026-02-24",
+   "status": "excluded_lukewarm",
+   "reaction": -0.025911286780851972
+  },
+  {
+   "sym": "HSIC",
+   "filed": "2026-02-24",
+   "status": "excluded_lukewarm",
+   "reaction": -0.017276544691061768
+  },
+  {
+   "sym": "REZI",
+   "filed": "2026-02-24",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1439,
+   "ret5": -0.0847,
+   "iwm5": -0.0123,
+   "excess": -0.0725,
+   "entry": "2026-02-26",
+   "exit": "2026-03-04"
+  },
+  {
+   "sym": "SILA",
+   "filed": "2026-02-24",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "AVA",
+   "filed": "2026-02-25",
+   "status": "excluded_lukewarm",
+   "reaction": -0.020684560453090306
+  },
+  {
+   "sym": "GDRX",
+   "filed": "2026-02-25",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1878,
+   "ret5": 0.1508,
+   "iwm5": -0.0204,
+   "excess": 0.1711,
+   "entry": "2026-02-27",
+   "exit": "2026-03-05"
+  },
+  {
+   "sym": "HOVNP",
+   "filed": "2026-02-25",
+   "status": "excluded_lukewarm",
+   "reaction": 4.6296510631815835e-06
+  },
+  {
+   "sym": "INVA",
+   "filed": "2026-02-25",
+   "status": "excluded_lukewarm",
+   "reaction": -0.028877887788778867
+  },
+  {
+   "sym": "NMRK",
+   "filed": "2026-02-25",
+   "status": "excluded_lukewarm",
+   "reaction": 0.01638225255972703
+  },
+  {
+   "sym": "SAFT",
+   "filed": "2026-02-25",
+   "status": "excluded_lukewarm",
+   "reaction": -0.00904919704307916
+  },
+  {
+   "sym": "SBGI",
+   "filed": "2026-02-25",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1753,
+   "ret5": -0.0348,
+   "iwm5": -0.0204,
+   "excess": -0.0145,
+   "entry": "2026-02-27",
+   "exit": "2026-03-05"
+  },
+  {
+   "sym": "TKO",
+   "filed": "2026-02-25",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0801,
+   "ret5": -0.0299,
+   "iwm5": -0.0204,
+   "excess": -0.0095,
+   "entry": "2026-02-27",
+   "exit": "2026-03-05"
+  },
+  {
+   "sym": "ADSK",
+   "filed": "2026-02-26",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0532,
+   "ret5": 0.0717,
+   "iwm5": -0.0268,
+   "excess": 0.0986,
+   "entry": "2026-03-02",
+   "exit": "2026-03-06"
+  },
+  {
+   "sym": "ADTN",
+   "filed": "2026-02-26",
+   "status": "excluded_lukewarm",
+   "reaction": 0.029263370332996974
+  },
+  {
+   "sym": "EWTX",
+   "filed": "2026-02-26",
+   "status": "excluded_lukewarm",
+   "reaction": 0.026298044504383
+  },
+  {
+   "sym": "GTN-A",
+   "filed": "2026-02-26",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "IBP",
+   "filed": "2026-02-26",
+   "status": "excluded_lukewarm",
+   "reaction": 0.01785658830471104
+  },
+  {
+   "sym": "PBYI",
+   "filed": "2026-02-26",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.25,
+   "ret5": 0.098,
+   "iwm5": -0.0268,
+   "excess": 0.1248,
+   "entry": "2026-03-02",
+   "exit": "2026-03-06"
+  },
+  {
+   "sym": "SHEN",
+   "filed": "2026-02-26",
+   "status": "excluded_lukewarm",
+   "reaction": -0.023638968481375366
+  },
+  {
+   "sym": "SPT",
+   "filed": "2026-02-26",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0928,
+   "ret5": 0.0238,
+   "iwm5": -0.0268,
+   "excess": 0.0507,
+   "entry": "2026-03-02",
+   "exit": "2026-03-06"
+  },
+  {
+   "sym": "WWW",
+   "filed": "2026-02-26",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1156,
+   "ret5": -0.0509,
+   "iwm5": -0.0268,
+   "excess": -0.0241,
+   "entry": "2026-03-02",
+   "exit": "2026-03-06"
+  },
+  {
+   "sym": "ALXO",
+   "filed": "2026-02-27",
+   "status": "excluded_lukewarm",
+   "reaction": 0.004739336492891155
+  },
+  {
+   "sym": "BCSF",
+   "filed": "2026-02-27",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0030983733539892144
+  },
+  {
+   "sym": "NHC",
+   "filed": "2026-02-27",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0468,
+   "ret5": -0.0463,
+   "iwm5": -0.0124,
+   "excess": -0.034,
+   "entry": "2026-03-03",
+   "exit": "2026-03-09"
+  },
+  {
+   "sym": "NNBR",
+   "filed": "2026-03-04",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0523,
+   "ret5": -0.0929,
+   "iwm5": -0.0162,
+   "excess": -0.0766,
+   "entry": "2026-03-06",
+   "exit": "2026-03-12"
+  },
+  {
+   "sym": "RGTI",
+   "filed": "2026-03-04",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0445,
+   "ret5": -0.0331,
+   "iwm5": -0.0162,
+   "excess": -0.0169,
+   "entry": "2026-03-06",
+   "exit": "2026-03-12"
+  },
+  {
+   "sym": "CDR-PC",
+   "filed": "2026-03-05",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "MEI",
+   "filed": "2026-03-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1179,
+   "ret5": -0.1909,
+   "iwm5": -0.004,
+   "excess": -0.1868,
+   "entry": "2026-03-09",
+   "exit": "2026-03-13"
+  },
+  {
+   "sym": "RGNX",
+   "filed": "2026-03-05",
+   "status": "excluded_lukewarm",
+   "reaction": -0.008027522935779796
+  },
+  {
+   "sym": "ATAI",
+   "filed": "2026-03-06",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1475,
+   "ret5": -0.0495,
+   "iwm5": -0.016,
+   "excess": -0.0335,
+   "entry": "2026-03-10",
+   "exit": "2026-03-16"
+  },
+  {
+   "sym": "NL",
+   "filed": "2026-03-09",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0392,
+   "ret5": -0.0355,
+   "iwm5": -0.0091,
+   "excess": -0.0264,
+   "entry": "2026-03-11",
+   "exit": "2026-03-17"
+  },
+  {
+   "sym": "ONDS",
+   "filed": "2026-03-09",
+   "status": "excluded_lukewarm",
+   "reaction": 0.029835390946501894
+  },
+  {
+   "sym": "SBET",
+   "filed": "2026-03-09",
+   "status": "excluded_lukewarm",
+   "reaction": -0.02763157894736845
+  },
+  {
+   "sym": "SPRB",
+   "filed": "2026-03-09",
+   "status": "excluded_lukewarm",
+   "reaction": 0.010948317501207505
+  },
+  {
+   "sym": "CGEM",
+   "filed": "2026-03-10",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0402,
+   "ret5": -0.0695,
+   "iwm5": -0.0117,
+   "excess": -0.0577,
+   "entry": "2026-03-12",
+   "exit": "2026-03-18"
+  },
+  {
+   "sym": "LDI",
+   "filed": "2026-03-10",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0691,
+   "ret5": -0.1272,
+   "iwm5": -0.0117,
+   "excess": -0.1154,
+   "entry": "2026-03-12",
+   "exit": "2026-03-18"
+  },
+  {
+   "sym": "RAPP",
+   "filed": "2026-03-10",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0307,
+   "ret5": -0.1223,
+   "iwm5": -0.0117,
+   "excess": -0.1106,
+   "entry": "2026-03-12",
+   "exit": "2026-03-18"
+  },
+  {
+   "sym": "ULBI",
+   "filed": "2026-03-10",
+   "status": "excluded_lukewarm",
+   "reaction": 0.02617801047120416
+  },
+  {
+   "sym": "BWEN",
+   "filed": "2026-03-11",
+   "status": "excluded_lukewarm",
+   "reaction": 0.011261261261261257
+  },
+  {
+   "sym": "SFIX",
+   "filed": "2026-03-11",
+   "status": "excluded_lukewarm",
+   "reaction": -0.023668639053254448
+  },
+  {
+   "sym": "SUNS",
+   "filed": "2026-03-12",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0437,
+   "ret5": -0.0363,
+   "iwm5": -0.0302,
+   "excess": -0.0061,
+   "entry": "2026-03-16",
+   "exit": "2026-03-20"
+  },
+  {
+   "sym": "BKKT",
+   "filed": "2026-03-17",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0727,
+   "ret5": -0.0563,
+   "iwm5": 0.0362,
+   "excess": -0.0925,
+   "entry": "2026-03-19",
+   "exit": "2026-03-25"
+  },
+  {
+   "sym": "KMTS",
+   "filed": "2026-03-17",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0738,
+   "ret5": 0.0636,
+   "iwm5": 0.0362,
+   "excess": 0.0274,
+   "entry": "2026-03-19",
+   "exit": "2026-03-25"
+  },
+  {
+   "sym": "AEBI",
+   "filed": "2026-03-19",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.123,
+   "ret5": -0.0775,
+   "iwm5": -0.0165,
+   "excess": -0.061,
+   "entry": "2026-03-23",
+   "exit": "2026-03-27"
+  },
+  {
+   "sym": "GEMI",
+   "filed": "2026-03-19",
+   "status": "excluded_lukewarm",
+   "reaction": -0.006655574043261225
+  },
+  {
+   "sym": "UAMY",
+   "filed": "2026-03-19",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1043,
+   "ret5": 0.0331,
+   "iwm5": -0.0165,
+   "excess": 0.0495,
+   "entry": "2026-03-23",
+   "exit": "2026-03-27"
+  },
+  {
+   "sym": "PBT",
+   "filed": "2026-03-20",
+   "status": "excluded_lukewarm",
+   "reaction": 0.015957446808510634
+  },
+  {
+   "sym": "WATT",
+   "filed": "2026-03-25",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0634,
+   "ret5": 0.0067,
+   "iwm5": 0.0215,
+   "excess": -0.0147,
+   "entry": "2026-03-27",
+   "exit": "2026-04-02"
+  },
+  {
+   "sym": "DRMAW",
+   "filed": "2026-03-26",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.2227,
+   "ret5": 0.0719,
+   "iwm5": 0.0286,
+   "excess": 0.0433,
+   "entry": "2026-03-30",
+   "exit": "2026-04-06"
+  },
+  {
+   "sym": "VANI",
+   "filed": "2026-03-26",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0556,
+   "ret5": 0.0777,
+   "iwm5": 0.0286,
+   "excess": 0.0491,
+   "entry": "2026-03-30",
+   "exit": "2026-04-06"
+  },
+  {
+   "sym": "SQFTW",
+   "filed": "2026-03-30",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1385,
+   "ret5": -0.005,
+   "iwm5": 0.0422,
+   "excess": -0.0472,
+   "entry": "2026-04-01",
+   "exit": "2026-04-08"
+  },
+  {
+   "sym": "SGRP",
+   "filed": "2026-03-31",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0528,
+   "ret5": -0.0344,
+   "iwm5": 0.0695,
+   "excess": -0.1039,
+   "entry": "2026-04-02",
+   "exit": "2026-04-09"
+  },
+  {
+   "sym": "TVRD",
+   "filed": "2026-03-31",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0566,
+   "ret5": 0.0207,
+   "iwm5": 0.0695,
+   "excess": -0.0488,
+   "entry": "2026-04-02",
+   "exit": "2026-04-09"
+  },
+  {
+   "sym": "PXED",
+   "filed": "2026-04-07",
+   "status": "excluded_lukewarm",
+   "reaction": -0.008054123711340178
+  },
+  {
+   "sym": "OTEX",
+   "filed": "2026-04-10",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.058,
+   "ret5": 0.0508,
+   "iwm5": 0.0384,
+   "excess": 0.0124,
+   "entry": "2026-04-14",
+   "exit": "2026-04-20"
+  },
+  {
+   "sym": "BZAIW",
+   "filed": "2026-04-14",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "DTST",
+   "filed": "2026-04-14",
+   "status": "excluded_lukewarm",
+   "reaction": -0.014851485148514865
+  },
+  {
+   "sym": "VREOF",
+   "filed": "2026-04-14",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "ZION",
+   "filed": "2026-04-20",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01633624107850906
+  },
+  {
+   "sym": "BBNX",
+   "filed": "2026-04-21",
+   "status": "excluded_lukewarm",
+   "reaction": -0.005704971475142595
+  },
+  {
+   "sym": "DRVN",
+   "filed": "2026-04-21",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0307,
+   "ret5": 0.0159,
+   "iwm5": -0.0168,
+   "excess": 0.0328,
+   "entry": "2026-04-23",
+   "exit": "2026-04-29"
+  },
+  {
+   "sym": "FOR",
+   "filed": "2026-04-21",
+   "status": "excluded_lukewarm",
+   "reaction": 0.022064323111443462
+  },
+  {
+   "sym": "UAL",
+   "filed": "2026-04-21",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0558,
+   "ret5": -0.03,
+   "iwm5": -0.0168,
+   "excess": -0.0132,
+   "entry": "2026-04-23",
+   "exit": "2026-04-29"
+  },
+  {
+   "sym": "EFOR",
+   "filed": "2026-04-22",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.5169,
+   "ret5": 0.0498,
+   "iwm5": 0.0047,
+   "excess": 0.0451,
+   "entry": "2026-04-24",
+   "exit": "2026-04-30"
+  },
+  {
+   "sym": "RLI",
+   "filed": "2026-04-22",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.038,
+   "ret5": -0.051,
+   "iwm5": 0.0047,
+   "excess": -0.0557,
+   "entry": "2026-04-24",
+   "exit": "2026-04-30"
+  },
+  {
+   "sym": "STC",
+   "filed": "2026-04-22",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0387,
+   "ret5": -0.0156,
+   "iwm5": 0.0047,
+   "excess": -0.0203,
+   "entry": "2026-04-24",
+   "exit": "2026-04-30"
+  },
+  {
+   "sym": "FMFG",
+   "filed": "2026-04-24",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "HAPN",
+   "filed": "2026-04-27",
+   "status": "excluded_lukewarm",
+   "reaction": -0.018044237485448145
+  },
+  {
+   "sym": "ATEN",
+   "filed": "2026-04-28",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0533,
+   "ret5": 0.0068,
+   "iwm5": 0.05,
+   "excess": -0.0433,
+   "entry": "2026-04-30",
+   "exit": "2026-05-06"
+  },
+  {
+   "sym": "EXE",
+   "filed": "2026-04-28",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0416,
+   "ret5": -0.0242,
+   "iwm5": 0.05,
+   "excess": -0.0742,
+   "entry": "2026-04-30",
+   "exit": "2026-05-06"
+  },
+  {
+   "sym": "FCF",
+   "filed": "2026-04-28",
+   "status": "excluded_lukewarm",
+   "reaction": -0.02701271186440668
+  },
+  {
+   "sym": "AM",
+   "filed": "2026-04-29",
+   "status": "excluded_lukewarm",
+   "reaction": -0.000914076782449702
+  },
+  {
+   "sym": "ELC",
+   "filed": "2026-04-29",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0
+  },
+  {
+   "sym": "FBRT-PE",
+   "filed": "2026-04-29",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "FORM",
+   "filed": "2026-04-29",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0029513760790969013
+  },
+  {
+   "sym": "IONS",
+   "filed": "2026-04-29",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0009354536950419989
+  },
+  {
+   "sym": "MGPI",
+   "filed": "2026-04-29",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0407,
+   "ret5": -0.0455,
+   "iwm5": 0.0129,
+   "excess": -0.0584,
+   "entry": "2026-05-01",
+   "exit": "2026-05-07"
+  },
+  {
+   "sym": "SDHC",
+   "filed": "2026-04-29",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0638,
+   "ret5": -0.0766,
+   "iwm5": 0.0129,
+   "excess": -0.0896,
+   "entry": "2026-05-01",
+   "exit": "2026-05-07"
+  },
+  {
+   "sym": "ACR",
+   "filed": "2026-04-30",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0356,
+   "ret5": 0.0405,
+   "iwm5": 0.0196,
+   "excess": 0.0209,
+   "entry": "2026-05-04",
+   "exit": "2026-05-08"
+  },
+  {
+   "sym": "ARDX",
+   "filed": "2026-04-30",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0869,
+   "ret5": -0.0504,
+   "iwm5": 0.0196,
+   "excess": -0.07,
+   "entry": "2026-05-04",
+   "exit": "2026-05-08"
+  },
+  {
+   "sym": "CWST",
+   "filed": "2026-04-30",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0956,
+   "ret5": -0.0411,
+   "iwm5": 0.0196,
+   "excess": -0.0607,
+   "entry": "2026-05-04",
+   "exit": "2026-05-08"
+  },
+  {
+   "sym": "JLL",
+   "filed": "2026-04-30",
+   "status": "excluded_lukewarm",
+   "reaction": -0.009084336591959175
+  },
+  {
+   "sym": "OPCH",
+   "filed": "2026-04-30",
+   "status": "excluded_lukewarm",
+   "reaction": -0.014756517461878893
+  },
+  {
+   "sym": "PDM",
+   "filed": "2026-04-30",
+   "status": "excluded_lukewarm",
+   "reaction": -0.003588516746411363
+  },
+  {
+   "sym": "PK",
+   "filed": "2026-04-30",
+   "status": "excluded_lukewarm",
+   "reaction": -0.010462074978204061
+  },
+  {
+   "sym": "RNAC",
+   "filed": "2026-04-30",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0
+  },
+  {
+   "sym": "THRY",
+   "filed": "2026-04-30",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0698,
+   "ret5": -0.0231,
+   "iwm5": 0.0196,
+   "excess": -0.0427,
+   "entry": "2026-05-04",
+   "exit": "2026-05-08"
+  },
+  {
+   "sym": "IMO",
+   "filed": "2026-05-01",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0348,
+   "ret5": 0.0364,
+   "iwm5": -0.0098,
+   "excess": 0.0462,
+   "entry": "2026-05-06",
+   "exit": "2026-05-12"
+  },
+  {
+   "sym": "ALSN",
+   "filed": "2026-05-04",
+   "status": "excluded_lukewarm",
+   "reaction": -0.012941723496590063
+  },
+  {
+   "sym": "BLZE",
+   "filed": "2026-05-04",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.6358,
+   "ret5": -0.0941,
+   "iwm5": -0.0098,
+   "excess": -0.0843,
+   "entry": "2026-05-06",
+   "exit": "2026-05-12"
+  },
+  {
+   "sym": "CATX",
+   "filed": "2026-05-04",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0829,
+   "ret5": 0.0329,
+   "iwm5": -0.0098,
+   "excess": 0.0427,
+   "entry": "2026-05-06",
+   "exit": "2026-05-12"
+  },
+  {
+   "sym": "FDP",
+   "filed": "2026-05-05",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "GPOR",
+   "filed": "2026-05-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0758,
+   "ret5": -0.0071,
+   "iwm5": -0.0169,
+   "excess": 0.0098,
+   "entry": "2026-05-07",
+   "exit": "2026-05-13"
+  },
+  {
+   "sym": "IT",
+   "filed": "2026-05-05",
+   "status": "excluded_lukewarm",
+   "reaction": 0.010435480634156225
+  },
+  {
+   "sym": "LCII",
+   "filed": "2026-05-05",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0439,
+   "ret5": -0.0609,
+   "iwm5": -0.0169,
+   "excess": -0.044,
+   "entry": "2026-05-07",
+   "exit": "2026-05-13"
+  },
+  {
+   "sym": "LUMN",
+   "filed": "2026-05-05",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0628,
+   "ret5": -0.0486,
+   "iwm5": -0.0169,
+   "excess": -0.0317,
+   "entry": "2026-05-07",
+   "exit": "2026-05-13"
+  },
+  {
+   "sym": "MCY",
+   "filed": "2026-05-05",
+   "status": "excluded_lukewarm",
+   "reaction": -0.014674191893278676
+  },
+  {
+   "sym": "MTCH",
+   "filed": "2026-05-05",
+   "status": "excluded_lukewarm",
+   "reaction": 0.009296148738379806
+  },
+  {
+   "sym": "NVTS",
+   "filed": "2026-05-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0496,
+   "ret5": 0.2707,
+   "iwm5": -0.0169,
+   "excess": 0.2876,
+   "entry": "2026-05-07",
+   "exit": "2026-05-13"
+  },
+  {
+   "sym": "RYTM",
+   "filed": "2026-05-05",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0466,
+   "ret5": -0.0299,
+   "iwm5": -0.0169,
+   "excess": -0.013,
+   "entry": "2026-05-07",
+   "exit": "2026-05-13"
+  },
+  {
+   "sym": "UPST",
+   "filed": "2026-05-05",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0792,
+   "ret5": -0.0693,
+   "iwm5": -0.0169,
+   "excess": -0.0524,
+   "entry": "2026-05-07",
+   "exit": "2026-05-13"
+  },
+  {
+   "sym": "BVS",
+   "filed": "2026-05-06",
+   "status": "excluded_lukewarm",
+   "reaction": -0.024725274725274637
+  },
+  {
+   "sym": "CHGG",
+   "filed": "2026-05-06",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1034,
+   "ret5": -0.1923,
+   "iwm5": 0.0015,
+   "excess": -0.1938,
+   "entry": "2026-05-08",
+   "exit": "2026-05-14"
+  },
+  {
+   "sym": "MDLN",
+   "filed": "2026-05-06",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0035705784337062285
+  },
+  {
+   "sym": "PRGO",
+   "filed": "2026-05-06",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.044,
+   "ret5": -0.0798,
+   "iwm5": 0.0015,
+   "excess": -0.0813,
+   "entry": "2026-05-08",
+   "exit": "2026-05-14"
+  },
+  {
+   "sym": "SD",
+   "filed": "2026-05-06",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0352,
+   "ret5": 0.0189,
+   "iwm5": 0.0015,
+   "excess": 0.0175,
+   "entry": "2026-05-08",
+   "exit": "2026-05-14"
+  },
+  {
+   "sym": "AAON",
+   "filed": "2026-05-07",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0805,
+   "ret5": -0.0299,
+   "iwm5": -0.0257,
+   "excess": -0.0042,
+   "entry": "2026-05-11",
+   "exit": "2026-05-15"
+  },
+  {
+   "sym": "AFCG",
+   "filed": "2026-05-07",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0421,
+   "ret5": -0.0377,
+   "iwm5": -0.0257,
+   "excess": -0.012,
+   "entry": "2026-05-11",
+   "exit": "2026-05-15"
+  },
+  {
+   "sym": "AMRX",
+   "filed": "2026-05-07",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0379,
+   "ret5": -0.0928,
+   "iwm5": -0.0257,
+   "excess": -0.0671,
+   "entry": "2026-05-11",
+   "exit": "2026-05-15"
+  },
+  {
+   "sym": "AVTX",
+   "filed": "2026-05-07",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0568,
+   "ret5": -0.1866,
+   "iwm5": -0.0257,
+   "excess": -0.1609,
+   "entry": "2026-05-11",
+   "exit": "2026-05-15"
+  },
+  {
+   "sym": "CAI",
+   "filed": "2026-05-07",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.186,
+   "ret5": -0.1007,
+   "iwm5": -0.0257,
+   "excess": -0.0751,
+   "entry": "2026-05-11",
+   "exit": "2026-05-15"
+  },
+  {
+   "sym": "CLDT-PA",
+   "filed": "2026-05-07",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "CWK",
+   "filed": "2026-05-07",
+   "status": "excluded_lukewarm",
+   "reaction": 0.024548736462093768
+  },
+  {
+   "sym": "GEOS",
+   "filed": "2026-05-07",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0117647058823529
+  },
+  {
+   "sym": "IBRX",
+   "filed": "2026-05-07",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0966,
+   "ret5": -0.0551,
+   "iwm5": -0.0257,
+   "excess": -0.0294,
+   "entry": "2026-05-11",
+   "exit": "2026-05-15"
+  },
+  {
+   "sym": "KNTK",
+   "filed": "2026-05-07",
+   "status": "excluded_lukewarm",
+   "reaction": -0.019793814432989665
+  },
+  {
+   "sym": "ONL",
+   "filed": "2026-05-07",
+   "status": "excluded_lukewarm",
+   "reaction": 0.014084507042253502
+  },
+  {
+   "sym": "SMR",
+   "filed": "2026-05-07",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0023847376788552754
+  },
+  {
+   "sym": "SOCGM",
+   "filed": "2026-05-07",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "TRDA",
+   "filed": "2026-05-07",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0014598540145984717
+  },
+  {
+   "sym": "STHO",
+   "filed": "2026-05-08",
+   "status": "excluded_lukewarm",
+   "reaction": 0.002290950744558984
+  },
+  {
+   "sym": "COOK",
+   "filed": "2026-05-11",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0
+  },
+  {
+   "sym": "KGS",
+   "filed": "2026-05-11",
+   "status": "excluded_lukewarm",
+   "reaction": -0.005031779661016866
+  },
+  {
+   "sym": "LINC",
+   "filed": "2026-05-11",
+   "status": "excluded_lukewarm",
+   "reaction": 0.014343434343434325
+  },
+  {
+   "sym": "PESI",
+   "filed": "2026-05-11",
+   "status": "excluded_lukewarm",
+   "reaction": -0.0027272727272726893
+  },
+  {
+   "sym": "TSQ",
+   "filed": "2026-05-11",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0818,
+   "ret5": -0.077,
+   "iwm5": -0.0351,
+   "excess": -0.042,
+   "entry": "2026-05-13",
+   "exit": "2026-05-19"
+  },
+  {
+   "sym": "BTMWQ",
+   "filed": "2026-05-12",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "FGRS",
+   "filed": "2026-05-12",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "GUTS",
+   "filed": "2026-05-12",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.292,
+   "ret5": -0.0787,
+   "iwm5": -0.014,
+   "excess": -0.0647,
+   "entry": "2026-05-14",
+   "exit": "2026-05-20"
+  },
+  {
+   "sym": "IAUX-WT",
+   "filed": "2026-05-12",
+   "status": "unpriceable_no_bars"
+  },
+  {
+   "sym": "PEPG",
+   "filed": "2026-05-12",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0595,
+   "ret5": -0.1771,
+   "iwm5": -0.014,
+   "excess": -0.1632,
+   "entry": "2026-05-14",
+   "exit": "2026-05-20"
+  },
+  {
+   "sym": "Q",
+   "filed": "2026-05-12",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0377,
+   "ret5": -0.0645,
+   "iwm5": -0.014,
+   "excess": -0.0506,
+   "entry": "2026-05-14",
+   "exit": "2026-05-20"
+  },
+  {
+   "sym": "RZLT",
+   "filed": "2026-05-12",
+   "status": "excluded_lukewarm",
+   "reaction": 0.00909090909090926
+  },
+  {
+   "sym": "SSII",
+   "filed": "2026-05-13",
+   "status": "excluded_lukewarm",
+   "reaction": 0.0
+  },
+  {
+   "sym": "AQMS",
+   "filed": "2026-05-14",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.1082,
+   "ret5": -0.0458,
+   "iwm5": 0.0229,
+   "excess": -0.0687,
+   "entry": "2026-05-18",
+   "exit": "2026-05-22"
+  },
+  {
+   "sym": "CRDF",
+   "filed": "2026-05-14",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0347,
+   "ret5": 0.0659,
+   "iwm5": 0.0229,
+   "excess": 0.043,
+   "entry": "2026-05-18",
+   "exit": "2026-05-22"
+  },
+  {
+   "sym": "NWTG",
+   "filed": "2026-05-14",
+   "status": "excluded_lukewarm",
+   "reaction": -0.018018018018018056
+  },
+  {
+   "sym": "RDIB",
+   "filed": "2026-05-15",
+   "status": "excluded_lukewarm",
+   "reaction": -0.010638297872340385
+  },
+  {
+   "sym": "BRC",
+   "filed": "2026-05-18",
+   "status": "excluded_lukewarm",
+   "reaction": 0.013146985668601285
+  },
+  {
+   "sym": "TJX",
+   "filed": "2026-05-20",
+   "status": "excluded_lukewarm",
+   "reaction": -0.010991771873625988
+  },
+  {
+   "sym": "GSIT",
+   "filed": "2026-05-22",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0921,
+   "ret5": -0.0534,
+   "iwm5": 0.0017,
+   "excess": -0.0552,
+   "entry": "2026-05-27",
+   "exit": "2026-06-02"
+  },
+  {
+   "sym": "HPQ",
+   "filed": "2026-05-27",
+   "status": "excluded_lukewarm",
+   "reaction": -0.01883091408395432
+  },
+  {
+   "sym": "MLAB",
+   "filed": "2026-05-27",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.1355,
+   "ret5": 0.0535,
+   "iwm5": 0.0022,
+   "excess": 0.0513,
+   "entry": "2026-05-29",
+   "exit": "2026-06-04"
+  },
+  {
+   "sym": "MOV",
+   "filed": "2026-05-27",
+   "status": "graded",
+   "group": "rewarded",
+   "reaction": 0.0379,
+   "ret5": 0.062,
+   "iwm5": 0.0022,
+   "excess": 0.0598,
+   "entry": "2026-05-29",
+   "exit": "2026-06-04"
+  },
+  {
+   "sym": "PFBX",
+   "filed": "2026-05-27",
+   "status": "excluded_lukewarm",
+   "reaction": 0.014117647058823568
+  },
+  {
+   "sym": "ZWS",
+   "filed": "2026-05-27",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0367,
+   "ret5": 0.0064,
+   "iwm5": 0.0022,
+   "excess": 0.0042,
+   "entry": "2026-05-29",
+   "exit": "2026-06-04"
+  },
+  {
+   "sym": "BBW",
+   "filed": "2026-05-28",
+   "status": "graded",
+   "group": "sold",
+   "reaction": -0.0434,
+   "ret5": -0.0866,
+   "iwm5": -0.0233,
+   "excess": -0.0633,
+   "entry": "2026-06-01",
+   "exit": "2026-06-05"
+  }
+ ],
+ "smallmid_slices": [
+  {
+   "label": "small/mid (<$10B)",
+   "rewarded": {
+    "n": 108,
+    "mean": -0.00858796296296296,
+    "sd": 0.07716395666952162,
+    "t": -1.1566116223726675
+   },
+   "sold": {
+    "n": 143,
+    "mean": -0.015451748251748245,
+    "sd": 0.08987100446809967,
+    "t": -2.056013901533216
+   },
+   "spread_t": 0.649689335893134
+  },
+  {
+   "label": "  sub-slice small (<$2B) [exploratory]",
+   "rewarded": {
+    "n": 70,
+    "mean": -0.010105714285714284,
+    "sd": 0.0837544078627443,
+    "t": -1.0095047410862874
+   },
+   "sold": {
+    "n": 107,
+    "mean": -0.01877663551401869,
+    "sd": 0.09173818321872067,
+    "t": -2.1171885162701702
+   },
+   "spread_t": 0.6483402329767973
+  },
+  {
+   "label": "large (>=$10B) [complement]",
+   "rewarded": {
+    "n": 28,
+    "mean": 0.008682142857142857,
+    "sd": 0.05013742635161902,
+    "t": 0.9163131224981205
+   },
+   "sold": {
+    "n": 10,
+    "mean": -0.010650000000000001,
+    "sd": 0.04980384300209952,
+    "t": -0.6762180396274543
+   },
+   "spread_t": 1.0518108692796229
+  }
+ ],
+ "cap_note": "caps are current (2026-07-03), not as-of event date \u2014 disclosed approximation"
+}
