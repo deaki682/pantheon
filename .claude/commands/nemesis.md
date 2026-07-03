@@ -25,6 +25,12 @@ forced-seller flows). It never predicts prices.
   written gate is `signal_lift.llm_selected` positive over >= 20 graded
   reviewed names AND `verdict_groups` showing "own" beating "avoid".
   Flipping earlier is an explicit operator override, not a default.
+  **Override exercised 2026-07-03:** the operator flipped `NEMESIS_LIVE`
+  with zero graded names — on the record as the override, not the gate.
+  The written gate remains the measuring stick, the ghost buy-all
+  control runs unchanged, and the first graded cohort (~2026-11-29)
+  judges the decision either way. The flag lives in the `env` block of
+  `.claude/settings.json` so every session inherits it from main.
 - **The buy-all leg is sacred.** Every priceable in-window spinco is
   ghost-bought — read or unread, "own" or "avoid". It is the control group:
   academic spinoff outperformance needs no reader at all, so filtering the
@@ -77,7 +83,15 @@ control-group ledger.
    positions, skip steps 1–4 entirely — the scan/reading/ghost cadence is
    weekend work — and run step 5 as an **exits-only** pass: safety check
    (5a), restore (5b), exits (5c), then peak/halt/persist (5e). No new
-   entries (5d), no cadence mark, no ghost-file persist.
+   entries (5d), no cadence mark, no ghost-file persist. **Fill
+   reconciliation first:** before evaluating exits, check
+   `cache/nemesis_ledger.jsonl` for rows marked `"queued"` (orders placed
+   on a closed market — holiday/weekend entries queue for the next open).
+   `get_equity_orders` for each: if filled, true-up the sleeve position to
+   the ACTUAL fill price and date (entry_price, stop_price = fill ×
+   (1+HARD_STOP_PCT), exit_date = fill date + 150 days), update the ledger
+   row to `"filled"`, persist. The bookkeeping price at placement is a
+   reservation, not a record — grades run on real fills.
 
 1. **Weekly EDGAR scan.**
    `nemesis.spinoffs.search_spinoff_registrations(date_from=<today − ~8 months>, date_to=today)`
