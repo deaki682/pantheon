@@ -59,3 +59,38 @@ The 2026-07-04 convergence test used guidance as a FILING-PROXIMITY
 flag (any 7.01/8.01 near the cluster), explicitly NOT the classified
 direction, so its REFUTED verdict is unaffected by this coverage gap —
 that coarsening was disclosed in its prereg for exactly this reason.
+
+## Addendum-2 results: exhibit-text rerun (2026-07-04)
+
+Same seeded 900, re-classified from press-release EXHIBITS per the
+pre-committed addendum. Classification: **10 raised / 8 reaffirmed /
+2 lowered / 878 none-or-unknown / 2 no-exhibit** — the exhibit fix
+raised the hit rate from 0% to 1.1%.
+
+Graded (entry next open, 5td, excess vs IWM; none-group = seeded
+200-subsample):
+
+| Group | n graded | mean excess | t | win |
+|---|---|---|---|---|
+| Raised | 9 | +2.46% | 0.38 | 56% |
+| Reaffirmed | 7 | +1.04% | 0.44 | 71% |
+| None sample | 176 | +0.85% | 0.76 | 54% |
+
+Raised-vs-none spread +1.61%, t = 0.25. **Verdict: INCONCLUSIVE**
+(refutation floor was 100 raised events; we found 10 in 900).
+
+**The structural finding matters more than the returns:** even with
+perfect document access, the production classifier fires on ~1% of
+guidance-shaped 8-Ks — partly because `guidance_direction` requires
+the literal word "guidance" while issuers routinely write "raises
+outlook" (a NEW observed coverage gap, noted for any future rebuild
+prereg; not acted on here). A channel with this hit rate cannot reach
+statistical significance in any practical sample and contributes
+almost nothing to the sieve either way.
+
+**Consequence (per the pre-stated map):** inconclusive → the channel
+stays as-is (near-inert on cover shells) and the question waits for
+live grades. Practically: the channel is decorative. Anyone proposing
+to spend effort here should rebuild the classifier (exhibits +
+outlook-language) under its own prereg — or retire the channel at the
+next legitimate rule-change window. Nothing changed today.

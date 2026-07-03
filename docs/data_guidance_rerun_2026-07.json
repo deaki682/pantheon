@@ -1,0 +1,280 @@
+{
+ "groups": {
+  "raised": {
+   "n": 9,
+   "mean": 0.0246,
+   "t": 0.38,
+   "win": 0.56
+  },
+  "lowered": {
+   "n": 0
+  },
+  "reaffirmed": {
+   "n": 7,
+   "mean": 0.0104,
+   "t": 0.44,
+   "win": 0.71
+  },
+  "none_sample": {
+   "n": 176,
+   "mean": 0.0085,
+   "t": 0.76,
+   "win": 0.54
+  }
+ },
+ "verdict": "inconclusive",
+ "directional": [
+  {
+   "sym": "CNTM",
+   "cik": "0001895249",
+   "filed": "2025-02-20",
+   "acc": "0001104659-25-015675",
+   "doc": "tm257216d1_8k.htm",
+   "direction": "unknown",
+   "exhibit_direction": "raised",
+   "exhibit_doc": "tm257216d1_ex99-2.htm",
+   "status": "graded",
+   "ret5": -0.1648,
+   "excess": -0.1146
+  },
+  {
+   "sym": "PRCH",
+   "cik": "0001784535",
+   "filed": "2025-02-25",
+   "acc": "0001784535-25-000009",
+   "doc": "prch-20250225.htm",
+   "direction": "unknown",
+   "exhibit_direction": "raised",
+   "exhibit_doc": "prch-20250225xexx991.htm",
+   "status": "graded",
+   "ret5": 0.4825,
+   "excess": 0.5176
+  },
+  {
+   "sym": "EVRG",
+   "cik": "0001711269",
+   "filed": "2025-05-08",
+   "acc": "0001193125-25-115454",
+   "doc": "d810055d8k.htm",
+   "direction": "unknown",
+   "exhibit_direction": "reaffirmed",
+   "exhibit_doc": "d810055dex991.htm",
+   "status": "graded",
+   "ret5": -0.001,
+   "excess": -0.0423
+  },
+  {
+   "sym": "NAKAW",
+   "cik": "0001946573",
+   "filed": "2025-05-20",
+   "acc": "0001213900-25-045969",
+   "doc": "ea0242664-8k_kindly.htm",
+   "direction": "unknown",
+   "exhibit_direction": "lowered",
+   "exhibit_doc": "ea024266401ex99-1_kindly.htm",
+   "status": "unpriceable"
+  },
+  {
+   "sym": "NAKAW",
+   "cik": "0001946573",
+   "filed": "2025-05-27",
+   "acc": "0001641172-25-012417",
+   "doc": "form8-k.htm",
+   "direction": "unknown",
+   "exhibit_direction": "lowered",
+   "exhibit_doc": "ex99-1.htm",
+   "status": "unpriceable"
+  },
+  {
+   "sym": "NFG",
+   "cik": "0000070145",
+   "filed": "2025-07-30",
+   "acc": "0001193125-25-169337",
+   "doc": "d19257d8k.htm",
+   "direction": "unknown",
+   "exhibit_direction": "raised",
+   "exhibit_doc": "d19257dex99.htm",
+   "status": "graded",
+   "ret5": 0.0124,
+   "excess": 0.0152
+  },
+  {
+   "sym": "DTM",
+   "cik": "0001842022",
+   "filed": "2025-07-31",
+   "acc": "0001140361-25-028102",
+   "doc": "ef20052946_8k.htm",
+   "direction": "unknown",
+   "exhibit_direction": "reaffirmed",
+   "exhibit_doc": "ef20052946_99-1.htm",
+   "status": "graded",
+   "ret5": 0.0234,
+   "excess": 0.0044
+  },
+  {
+   "sym": "EIX",
+   "cik": "0000827052",
+   "filed": "2025-08-01",
+   "acc": "0000827052-25-000076",
+   "doc": "eix-20250731.htm",
+   "direction": "unknown",
+   "exhibit_direction": "reaffirmed",
+   "exhibit_doc": "a07eixjuly2025businessup.htm",
+   "status": "graded",
+   "ret5": 0.0492,
+   "excess": 0.032
+  },
+  {
+   "sym": "VISN",
+   "cik": "0001517228",
+   "filed": "2025-08-05",
+   "acc": "0001193125-25-173080",
+   "doc": "d19712d8k.htm",
+   "direction": "unknown",
+   "exhibit_direction": "raised",
+   "exhibit_doc": "d19712dex991.htm",
+   "status": "graded",
+   "ret5": 0.0273,
+   "excess": -0.0192
+  },
+  {
+   "sym": "NNBR",
+   "cik": "0000918541",
+   "filed": "2025-08-07",
+   "acc": "0000918541-25-000121",
+   "doc": "nnbr-20250806.htm",
+   "direction": "unknown",
+   "exhibit_direction": "reaffirmed",
+   "exhibit_doc": "pressrelease2025-q2.htm",
+   "status": "graded",
+   "ret5": 0.0502,
+   "excess": 0.0228
+  },
+  {
+   "sym": "PINE-PA",
+   "cik": "0001786117",
+   "filed": "2025-10-23",
+   "acc": "0001104659-25-101824",
+   "doc": "pine-20251023x8k.htm",
+   "direction": "unknown",
+   "exhibit_direction": "raised",
+   "exhibit_doc": "pine-20251023xex99d1.htm",
+   "status": "unpriceable"
+  },
+  {
+   "sym": "POOL",
+   "cik": "0000945841",
+   "filed": "2025-10-23",
+   "acc": "0001193125-25-248060",
+   "doc": "pool-20251023.htm",
+   "direction": "unknown",
+   "exhibit_direction": "raised",
+   "exhibit_doc": "pool-ex99_1.htm",
+   "status": "graded",
+   "ret5": -0.1111,
+   "excess": -0.0968
+  },
+  {
+   "sym": "IPAR",
+   "cik": "0000822663",
+   "filed": "2025-11-05",
+   "acc": "0001753926-25-001705",
+   "doc": "ipar-20251105.htm",
+   "direction": "unknown",
+   "exhibit_direction": "reaffirmed",
+   "exhibit_doc": "ex991_1.htm",
+   "status": "graded",
+   "ret5": -0.0289,
+   "excess": 0.0017
+  },
+  {
+   "sym": "MXCT",
+   "cik": "0001287098",
+   "filed": "2025-11-12",
+   "acc": "0001104659-25-110375",
+   "doc": "mxct-20251112x8k.htm",
+   "direction": "unknown",
+   "exhibit_direction": "reaffirmed",
+   "exhibit_doc": "mxct-20251112xex99d1.htm",
+   "status": "graded",
+   "ret5": 0.0724,
+   "excess": 0.125
+  },
+  {
+   "sym": "PSQH-WT",
+   "cik": "0001847064",
+   "filed": "2026-01-07",
+   "acc": "0001104659-26-001573",
+   "doc": "tm262332d1_8k.htm",
+   "direction": "unknown",
+   "exhibit_direction": "reaffirmed",
+   "exhibit_doc": "tm262332d1_ex99-1.htm",
+   "status": "unpriceable"
+  },
+  {
+   "sym": "DAN",
+   "cik": "0000026780",
+   "filed": "2026-02-18",
+   "acc": "0001193125-26-056030",
+   "doc": "d106316d8k.htm",
+   "direction": "unknown",
+   "exhibit_direction": "raised",
+   "exhibit_doc": "d106316dex991.htm",
+   "status": "graded",
+   "ret5": 0.0137,
+   "excess": 0.0006
+  },
+  {
+   "sym": "SERV",
+   "cik": "0001832483",
+   "filed": "2026-03-11",
+   "acc": "0001832483-26-000004",
+   "doc": "serv-20260311.htm",
+   "direction": "unknown",
+   "exhibit_direction": "raised",
+   "exhibit_doc": "serv-20251231xex991earning.htm",
+   "status": "graded",
+   "ret5": -0.111,
+   "excess": -0.1057
+  },
+  {
+   "sym": "DAN",
+   "cik": "0000026780",
+   "filed": "2026-03-25",
+   "acc": "0001193125-26-122764",
+   "doc": "d109600d8k.htm",
+   "direction": "unknown",
+   "exhibit_direction": "raised",
+   "exhibit_doc": "d109600dex991.htm",
+   "status": "graded",
+   "ret5": 0.014,
+   "excess": 0.0043
+  },
+  {
+   "sym": "BRZE",
+   "cik": "0001676238",
+   "filed": "2026-04-28",
+   "acc": "0000950103-26-006243",
+   "doc": "dp245711_8k.htm",
+   "direction": "reaffirmed",
+   "exhibit_direction": "reaffirmed",
+   "exhibit_doc": "dp245711_ex9901.htm",
+   "status": "graded",
+   "ret5": -0.0236,
+   "excess": -0.0706
+  },
+  {
+   "sym": "AHR",
+   "cik": "0001632970",
+   "filed": "2026-05-07",
+   "acc": "0001193125-26-212023",
+   "doc": "d146383d8k.htm",
+   "direction": "unknown",
+   "exhibit_direction": "raised",
+   "exhibit_doc": "d146383dex991.htm",
+   "status": "graded",
+   "ret5": -0.003,
+   "excess": 0.0196
+  }
+ ]
+}
