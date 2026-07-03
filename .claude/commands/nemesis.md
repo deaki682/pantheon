@@ -392,6 +392,14 @@ control-group ledger.
       `sleeve.enter`'s trade-history refusal, which survives whatever
       the pipeline says.
 
+   d0. **ORDER-PLACEMENT PAUSE (operator directive, 2026-07-03, later the
+      same day as go-live):** do NOT place new live buy orders. Names that
+      qualify under the veto rule below are instead appended to
+      `cache/ghost_nemesis_buylist.json` (the rolling buy list) with their
+      window deadline, reference price, and target size, and surfaced to
+      the operator. The operator executes manually or lifts this pause.
+      Exits and fill-reconciliation for EXISTING positions are unaffected.
+
    d. **ENTRIES — the VETO rule (v2, operator directive 2026-07-03).**
       Buy every pipeline name that clears ALL of:
       - `status` is `"distributed"` or `"entered"` (NOT `skipped`/`expired`;
