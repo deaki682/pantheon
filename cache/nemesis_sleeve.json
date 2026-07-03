@@ -1,0 +1,27 @@
+{
+  "cash": 1599.89234615,
+  "contributed_cash": 2000.0,
+  "cooldowns": {},
+  "gfv_count": 0,
+  "halted": false,
+  "name": "nemesis",
+  "peak_equity": 2000.0,
+  "pending_settlements": [],
+  "positions": {
+    "OCTV": {
+      "conviction": 0.6,
+      "entry_date": "2026-07-02",
+      "entry_price": 17.41,
+      "entry_window": "in_window",
+      "exit_date": "2026-11-29",
+      "incentive_alignment": 0.55,
+      "shares": 22.97,
+      "stop_price": 10.446,
+      "symbol": "OCTV",
+      "verdict": "own"
+    }
+  },
+  "realized_pnl": 0.0,
+  "trade_results": [],
+  "trades_count": 1
+}
