@@ -312,16 +312,19 @@ control-group ledger.
       buying — the exact mirror of the entry. Place market sells; every
       ledger row MUST record shares and price. After any live exit the
       pipeline entry KEEPS `status = "entered"` — a finished one-shot
-      never returns to `"distributed"`, which (with step 5d's status
-      filter) is what prevents re-buying a completed name on its stale
-      window state.
+      never returns to `"distributed"`; the re-buy protection lives in
+      `sleeve.enter`'s trade-history refusal, which survives whatever
+      the pipeline says.
 
    d. **ENTRIES.** Only pipeline names whose `status` is `"distributed"`
-      (NOT `entered`/`skipped`/`expired` — `window_state` freezes once a
-      name is entered, so without this filter a time-stopped name would
-      re-buy forever on its stale `in_window`), whose dossier verdict is
-      `"own"`, AND whose `window_state` is `"in_window"` — NEVER `"late"`
-      with real money. The ghost buys late names to *measure* the decay;
+      or `"entered"` (NOT `skipped`/`expired`; "entered" qualifies because
+      step 4's ghost buy-all stamps it on the SAME run before this step
+      ever sees the name — excluding it would exclude everything, forever),
+      whose dossier verdict is `"own"`, AND whose `window_state` is
+      `"in_window"` — NEVER `"late"` with real money. The stale-window
+      re-buy loop is closed at the sleeve, not by status: `sleeve.enter`
+      refuses any symbol in its trade history (one shot per spinco, ever)
+      and any symbol currently held. The ghost buys late names to *measure* the decay;
       live dollars don't pay to confirm it, because the backtested anomaly
       decays past ~one quarter. One live shot per spinco, EVER —
       `sleeve.enter` also enforces this against its own trade history.
