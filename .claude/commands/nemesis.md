@@ -1,4 +1,4 @@
-# /nemesis — spinoff pipeline scan + Form 10 reading + ghost entries
+# /nemesis — spinoff pipeline scan + Form 10 reading + ghost entries + gated live sleeve
 
 Nemesis v2 reads what the market discards. Every spinoff announces itself
 months in advance on SEC Form 10-12B (the "Form 10") — a 300-page document
@@ -12,10 +12,19 @@ things that decide a spinoff (management incentives, dumped liabilities,
 forced-seller flows). It never predicts prices.
 
 **Hard rules (non-negotiable):**
-- **NO broker orders. Ever.** Nemesis has no sleeve and no live ledger, and
-  gets none until the ghost's `llm_selected` lift proves that document
-  judgment adds alpha over buying every spinoff. Until then this command
-  produces paper entries and reports only.
+- **Live orders are GATED, not a default.** Broker orders happen ONLY when
+  `shared.guards.is_live("nemesis")` is true — the env var `NEMESIS_LIVE`
+  set to exactly `"true"`. Otherwise the live-sleeve step runs in paper
+  mode. **CRITICAL: In paper mode, do NOT place orders, do NOT update the
+  sleeve, do NOT append to the ledger, and do NOT persist live-god state.**
+  Compute everything normally, print what *would* happen, then move on.
+  Paper mode is read-only — it must never change live state. The ghost
+  buy-all leg runs IDENTICALLY in both modes and remains sacred: it is the
+  control group, and it does not care whether real dollars ride alongside
+  it. **Promotion advisory:** the operator flips the switch, but the
+  written gate is `signal_lift.llm_selected` positive over >= 20 graded
+  reviewed names AND `verdict_groups` showing "own" beating "avoid".
+  Flipping earlier is an explicit operator override, not a default.
 - **The buy-all leg is sacred.** Every priceable in-window spinco is
   ghost-bought — read or unread, "own" or "avoid". It is the control group:
   academic spinoff outperformance needs no reader at all, so filtering the
@@ -36,25 +45,39 @@ forced-seller flows). It never predicts prices.
 
 ## State files
 
-All in `cache/`, persisted under god name **`ghost_nemesis`** — its
-`OWNERSHIP_PREFIXES` entry covers both `cache/ghost_nemesis_*` and
-`cache/nemesis_*`, so one persist call carries everything below.
+All in `cache/`. Ownership is split two ways and `pantheon/persist.py`
+enforces the split: the ghost/pipeline files belong to god
+**`ghost_nemesis`**, the live-sleeve files to god **`nemesis`** — two
+separate persist calls, so a ghost run can never silently rewrite
+real-money state and a live run can never contaminate the experiment's
+control-group ledger.
 
-| File | Purpose |
-|------|---------|
-| `cache/nemesis_pipeline.json` | Tracked registrations, keyed by CIK |
-| `cache/nemesis_dossiers.json` | SpinDossiers — the LLM's Form 10 reads |
-| `cache/ghost_nemesis_ledger.json` | Paper entries (buy-all + judgment tags) |
-| `cache/ghost_nemesis_curve.json` | Paper equity curve |
-| `cache/ghost_nemesis_report.json` | Judgment-vs-buy-all verdict |
-| `cache/nemesis_cadence.json` | Last-run stamp for the weekly scan |
+| File | Owner | Purpose |
+|------|-------|---------|
+| `cache/nemesis_pipeline.json` | `ghost_nemesis` | Tracked registrations, keyed by CIK |
+| `cache/nemesis_dossiers.json` | `ghost_nemesis` | SpinDossiers — the LLM's Form 10 reads |
+| `cache/ghost_nemesis_ledger.json` | `ghost_nemesis` | Paper entries (buy-all + judgment tags) |
+| `cache/ghost_nemesis_curve.json` | `ghost_nemesis` | Paper equity curve |
+| `cache/ghost_nemesis_report.json` | `ghost_nemesis` | Judgment-vs-buy-all verdict |
+| `cache/nemesis_cadence.json` | `ghost_nemesis` | Last-run stamp for the weekly scan |
+| `cache/nemesis_sleeve.json` | `nemesis` | Live sleeve: cash, positions, peak equity |
+| `cache/nemesis_ledger.jsonl` | `nemesis` | Every live order placed (for reconcile) |
+| `cache/nemesis_curve.json` | `nemesis` | Live equity curve |
 
 ## Steps
 
 0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores
    `cache/` so this session starts from real pipeline/ledger state, not
-   empty defaults. No kill-switch or `is_live` check: this command never
-   trades, so paper vs live is irrelevant here.
+   empty defaults. Kill-switch and `is_live` are checked in step 5, where
+   the live sleeve lives — steps 1–4 never trade, so paper vs live is
+   irrelevant to them and they run identically in both modes.
+
+   **Weekday short-circuit (live position management):** when Zeus
+   dispatches this on a weekday because `cache/nemesis_sleeve.json` holds
+   positions, skip steps 1–4 entirely — the scan/reading/ghost cadence is
+   weekend work — and run step 5 as an **exits-only** pass: safety check
+   (5a), restore (5b), exits (5c), then peak/halt/persist (5e). No new
+   entries (5d), no cadence mark, no ghost-file persist.
 
 1. **Weekly EDGAR scan.**
    `nemesis.spinoffs.search_spinoff_registrations(date_from=<today − ~8 months>, date_to=today)`
@@ -209,7 +232,60 @@ All in `cache/`, persisted under god name **`ghost_nemesis`** — its
      with no broker price (untradeable, OTC-only) gets `"skipped"` — revisit
      it on a later run if it becomes priceable.
 
-5. **Mark / grade / report.**
+5. **Live sleeve (gated).** The live layer is additive: everything above
+   already ran and nothing below touches the ghost ledger. Its exit rules
+   are FROZEN NOW, before the first dollar — rules written in advance beat
+   rules tuned after losses (the week of refutations in `docs/` is why).
+
+   a. **Safety.** If `KILL_SWITCH` exists: restore the sleeve, place broker
+      market sells for every live position, `sleeve.liquidate(marks,
+      today)`, persist, and STOP. Then `shared.guards.is_live("nemesis")`:
+      if `NEMESIS_LIVE` is not exactly `"true"`, run **paper mode**.
+      **CRITICAL: In paper mode, do NOT place orders, do NOT update the
+      sleeve, do NOT append to the ledger, and do NOT persist live-god
+      state.** Compute the full exit/entry plan below, print what *would*
+      happen, then continue to step 6 — the ghost is unaffected either way.
+
+   b. **Restore.** Load `cache/nemesis_sleeve.json`, or initialize
+      `NemesisSleeve(initial_cash=nemesis.sleeve.CAPITAL_BASE)` ($2,000) if absent. Then
+      `sleeve.process_settlements(today)`.
+
+   c. **EXITS FIRST.** `sleeve.due_exits(quotes, today)` returns the two
+      mechanical exits: `hard_stop` (catastrophic −40% from entry — wide on
+      purpose, because forced-seller bottoms are noisy) and `time_stop`
+      (150 days — the horizon IS the thesis; past it, hold-and-hope is a
+      different strategy). Thesis-break exits are MANUAL-JUDGMENT-ONLY:
+      re-read the filings/news for each held name; a thesis-break sell
+      requires a written reason from `nemesis.sleeve.THESIS_BREAK_REASONS`
+      PLUS a one-paragraph case appended to the name's dossier — no reason,
+      no case, no sell. `index_inclusion` is the one early *completion*
+      exit: the orphan got discovered, so sell INTO the forced index
+      buying — the exact mirror of the entry. Place market sells; every
+      ledger row MUST record shares and price.
+
+   d. **ENTRIES.** Only pipeline names whose dossier verdict is `"own"` AND
+      whose `window_state` is `"in_window"` — NEVER `"late"` with real
+      money. The ghost buys late names to *measure* the decay; live
+      dollars don't pay to confirm it, because the backtested anomaly
+      decays past ~one quarter. Guards before every buy:
+      `shared.guards.pre_trade_check` on `filter_broker_to_gods`-filtered
+      broker positions (halt on any mismatch), and
+      `shared.guards.already_placed_today` against
+      `cache/nemesis_ledger.jsonl`. Size: `sleeve.target_dollars(marks)` —
+      equal weight, respecting `open_slots`. Place the fractional-share
+      market buy, `sleeve.enter(…, verdict=…, conviction=…,
+      incentive_alignment=…, entry_window=…)` carrying those fields from
+      the dossier, append the ledger row.
+
+   e. **Peak / halt / persist.** `sleeve.update_peak(marks)`, then
+      `sleeve.check_halt()` — a 40% drawdown from peak halts new entries
+      (exits still run). Append an equity point to
+      `cache/nemesis_curve.json`, then `pantheon.persist("nemesis",
+      {sleeve, ledger, curve})` — a SEPARATE persist call from the
+      `ghost_nemesis` one in step 7; `pantheon/persist.py` enforces the
+      ownership split.
+
+6. **Mark / grade / report.**
    - `ghost.mark_to_market(ledger, price_lookup)` →
      `ghost.append_equity_point(curve, today, snapshot)`; save the curve.
    - `ghost.grade_entries(ledger, price_lookup, today=today)` — grades
@@ -228,13 +304,29 @@ All in `cache/`, persisted under god name **`ghost_nemesis`** — its
      takes a year-plus. Do not tune gates, thresholds, or the window
      constants on a handful of grades — patience is the strategy.
 
-6. **Persist + mark cadence.** `ghost.save_ledger(...)`,
+7. **Persist + mark cadence.** `ghost.save_ledger(...)`,
    `spinoffs.save_pipeline(...)`, `dossier.save_dossiers(...)` (all atomic
    tmp + `os.replace`), then
    `oracle.calendar.mark_run("cache/nemesis_cadence.json", "scan")` so
    Zeus's `should_run` guard fires this once per weekend, not every hour.
    Finally `pantheon.persist("ghost_nemesis", {…pipeline, dossiers, ledger,
-   curve, report, cadence…}, branch="claude/live")`.
+   curve, report, cadence…}, branch="claude/live")`. The live-sleeve files
+   were already persisted under god `"nemesis"` in step 5e — ownership
+   enforcement means they cannot ride along here.
+
+## Live exit rules (FROZEN before the first dollar)
+
+Written now, while `NEMESIS_LIVE` is still unset, so no losing position can
+lobby for a looser rule later.
+
+| Condition | Trigger | Action |
+|-----------|---------|--------|
+| −40% from entry (catastrophic) | `hard_stop` via `sleeve.due_exits` | Market sell |
+| 150 days held | `time_stop` via `sleeve.due_exits` | Market sell — the horizon IS the thesis |
+| Thesis break (manual judgment) | reason from `THESIS_BREAK_REASONS` + one-paragraph dossier case | Market sell |
+| Index inclusion | early completion — orphan discovered | Market sell INTO forced index buying |
+| 40% drawdown from peak | `sleeve.check_halt()` | Halt new entries (exits still run) |
+| Kill switch | `KILL_SWITCH` file | Liquidate immediately |
 
 ## Bootstrap (first run)
 
@@ -262,9 +354,20 @@ distributed and traded for weeks.
 
 ## What /nemesis does NOT do
 
-- Place any broker order, or touch any god's sleeve/ledger/curve.
+- Place any broker order unless `NEMESIS_LIVE` is exactly `"true"` — paper
+  mode computes and prints, but never changes live-god state.
+- Buy a `"late"` window with real money — the ghost measures the decay;
+  live dollars never pay for it.
+- Buy a name without a VALIDATED "own"-verdict dossier — no dossier, no
+  verdict, no trade, however good the chart looks.
+- Sell without a reason from `nemesis.sleeve.EXIT_REASONS` — and a
+  thesis-break sell additionally requires its written dossier case.
+- Touch any other god's sleeve/ledger/curve, or mix `nemesis` and
+  `ghost_nemesis` state in one persist call.
 - Predict prices, target prices, or expected returns — anywhere, ever.
-- Skip the buy-all leg, or open only the LLM's picks.
-- Tune `nemesis/window.py` constants or the dossier honesty gates.
+- Skip the buy-all leg, or open only the LLM's picks — live trading never
+  replaces the control group.
+- Tune `nemesis/window.py` constants, the frozen exit rules, or the
+  dossier honesty gates.
 - Trade the parent, short anything, or touch options — long the spinco
-  orphan in paper, 150 days, that's the whole experiment.
+  orphan, 150 days, that's the whole experiment.

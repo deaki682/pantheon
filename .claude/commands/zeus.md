@@ -10,7 +10,7 @@ think, trade, or override any god's logic.
 |-------|-----------|-------|
 | `/trinity` | Market hours (9:30–16:00 ET, weekdays) | Dashboard refresh with live quotes |
 | `/midas-scan` | Weekend AND `should_run("cache/midas_cadence.json", "scan", 5)` | Heavy universe scan → top 10 → `cache/midas_scan.json`. Cadence guard = once per weekend, not every hour |
-| `/nemesis` | Weekend AND `should_run("cache/nemesis_cadence.json", "scan", 5)` | Spinoff pipeline scan + Form 10 reading + ghost entries. Ghost-only, never trades. Cadence guard = once per weekend, not every hour |
+| `/nemesis` | Weekend AND `should_run("cache/nemesis_cadence.json", "scan", 5)`, OR weekday if live position open | Weekend: full pass (pipeline scan + Form 10 reading + ghost entries + gated live sleeve; cadence guard = once per weekend). Weekday with live positions: exits-only pass — the runbook short-circuits, same pattern as `/midas` stop checks |
 | `/midas` | Monday: enter from the weekend scan. Weekdays if position open: stop checks | Light entry / stop-check; reads the scan cache |
 | `/oracle` | `should_run("cache/oracle_cadence.json", "research", 3)` | Every 3 days |
 | `/delphi` | Market hours, weekdays | Rebalance check on each run |
@@ -50,6 +50,13 @@ think, trade, or override any god's logic.
        with open("cache/midas_sleeve.json") as f:
            midas_sleeve = json.load(f)
    midas_has_position = bool(midas_sleeve.get("position"))
+
+   # Check if Nemesis holds live positions (for weekday exit checks)
+   nemesis_sleeve = {}
+   if os.path.exists("cache/nemesis_sleeve.json"):
+       with open("cache/nemesis_sleeve.json") as f:
+           nemesis_sleeve = json.load(f)
+   nemesis_has_position = bool(nemesis_sleeve.get("positions"))
    ```
 
 3. **Build the dispatch list.** Apply the conditions from the table above:
@@ -60,7 +67,7 @@ think, trade, or override any god's logic.
    **Conditional:**
    - `/delphi` — if market hours + weekday
    - `/midas-scan` — if weekend AND `midas_scan_due` (the cadence guard fires it once per weekend, not every hour)
-   - `/nemesis` — if weekend AND `should_run("cache/nemesis_cadence.json", "scan", 5)` (same once-per-weekend cadence-guard pattern as `/midas-scan`)
+   - `/nemesis` — if weekend AND `should_run("cache/nemesis_cadence.json", "scan", 5)` (same once-per-weekend cadence-guard pattern as `/midas-scan`), OR weekday when `nemesis_has_position` (live position management: exits-only pass — the runbook handles the short-circuit, mirroring the `/midas` weekday stop checks)
    - `/midas` — if Monday (enter from the weekend scan), or weekday with open position (stop check)
    - `/oracle` — if `oracle_due`
    - `/achilles` — if `earnings_season` and market hours
@@ -82,7 +89,7 @@ think, trade, or override any god's logic.
    - `/delphi`
    - `/achilles`
    - `/midas-scan` (weekend) or `/midas` (Monday / open-position weekdays)
-   - `/nemesis` (weekend, if due — ghost-only, shares no state with the live gods)
+   - `/nemesis` (weekend if due — full pass; or weekday with `nemesis_has_position` — exits-only. Shares no state with the other gods)
 
    **Parallel group 2** (depends on group 1):
    - `/oracle` (needs screen output if screen just ran)
@@ -114,4 +121,4 @@ due — the cron just wakes it up.
 - Zeus does NOT override any god's logic or skip conditions.
 - Zeus does NOT persist any state. Each dispatched skill handles its own persistence.
 - If a skill fails, log the error and continue with the next skill. One god's failure does not block the others.
-- Weekend dispatches: only `/midas-scan` (heavy universe scan) and `/nemesis` (spinoff pipeline, ghost-only) run. No `/trinity`, `/delphi`, `/achilles`, or `/midas` entry on weekends.
+- Weekend dispatches: only `/midas-scan` (heavy universe scan) and `/nemesis` (spinoff pipeline, gated live sleeve) run. No `/trinity`, `/delphi`, `/achilles`, or `/midas` entry on weekends.
