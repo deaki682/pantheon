@@ -42,9 +42,18 @@ them forward. It answers:
 - **Issuer identification**: index rows whose CIK maps to a listed ticker
   in the official company_tickers registry; other rows on the same
   accession are the reporting owners.
-- **Grant-mill exclusion**: issuers with >150 Form 4 filings in the span
+- **Grant-mill exclusion**: issuers with >60 Form 4 filings in the span
   are excluded (mega-cap compensation machinery, not conviction; also
   outside Oracle's small/mid pond).
+- **Candidacy pre-filter (fetch-budget honesty, amended 2026-07-03
+  BEFORE any events were computed — the first stage-3 attempt had a
+  parser bug and produced zero valid data)**: an issuer's filings are
+  fetched only if ≥2 distinct reporting owners filed within 14 days of
+  each other at least once in the span. This narrows the population to
+  TIGHT clusters — two buyers five weeks apart with no 14-day co-filing
+  overlap will be missed, and the results speak only to the tight-cluster
+  form of the signal. Tight co-filing is also the higher-conviction form;
+  the trade-off is disclosed here rather than discovered later.
 - **Cluster event**: ≥2 DISTINCT insiders each making open-market
   purchases (transaction code P, positive shares and price, parsed from
   the filing XML — filer counts alone are NOT a cluster, most Form 4s
