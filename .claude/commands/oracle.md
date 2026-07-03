@@ -45,7 +45,20 @@ or dossier score freshness.
      scenario probabilities. Fold non-flipping corrections in via
      `oracle.research.update_scenarios(d, new_scenarios, current_price=…)`;
      a refuted dossier is rescored (and may drop out of the top 8) BEFORE
-     selection, never patched afterward. Only then:
+     selection, never patched afterward.
+   - **3-draw median conviction for boundary names (mandatory since
+     2026-07-04).** Per the decision-consistency sweep
+     (docs/pantheon_decision_consistency_results_2026-07.md): conviction
+     re-scored blind from stored narrative alone flipped the actual
+     top-5 selection on 2 of 5 independent draws — conviction is the
+     mechanical input to `size_book`'s ranking, so this instability is
+     load-bearing, not cosmetic. For any name within the bottom 2 slots
+     of the cut line (i.e. whose inclusion/exclusion decides the
+     cohort), get 2 additional independent conviction re-scores from the
+     SAME dossier narrative (un-anchored) and take the median of the 3
+     before the cut is final. Names far from the cut line do not need
+     this — the finding was about boundary noise, not universal
+     unreliability. Only then:
    - `oracle.positioning.size_book(scored, equity=sleeve.equity(marks))` → targets
    - `oracle.execution.plan_orders(sleeve, targets, prices)` → initial buy orders
    - `oracle.cohort.create_cohort(cohort_id, selected_dossiers, prices, inception_date=today, review_date=today+365)` → save to `cache/oracle_cohort.json`
