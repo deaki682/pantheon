@@ -65,6 +65,28 @@ non-linearly.
 
 10. **Pick the winner.** `midas.scanner.pick_winner(dossiers)` — highest timing-weighted convergence score among non-disqualified names. The LLM cannot promote a name; it can only veto. Save all dossiers to `cache/midas_dossiers.json`.
 
+    **Kill-the-winner pass (mandatory before any entry — added 2026-07-03).**
+    Midas bets the entire sleeve on one name; nothing else in his week
+    deserves adversarial scrutiny more than the pick itself. Dispatch ONE
+    adversarial subagent (Agent tool, extended thinking) whose sole job is
+    to REFUTE the winner before Monday's buy: is the catalyst already
+    resolved or priced in (check the reaction bar, not the headline)? Is
+    the convergence real or double-counted (two signals from the same
+    event)? Any overnight news, filing, offering, or halt the weekend scan
+    missed? Rules:
+    - A kill requires a **concrete disqualifier** of the same class the
+      Stage 3 gate uses — a checkable fact, not discomfort. "I refute it
+      because it feels crowded" is not a kill.
+    - Record the outcome on the winner's dossier (`bear_case` gets the
+      refuter's strongest surviving objection either way) — over time,
+      calibration can check whether kill-pass survivors outperform.
+    - If the winner is killed: it counts as an LLM veto, the pick falls to
+      the next non-disqualified name by score, and THAT name gets its own
+      kill pass.
+    - If two consecutive winners are killed, sit the week in cash. A week
+      with no defensible pick is a signal, not a failure — the all-in
+      sizing is only earned by a pick that survives attack.
+
 ### Execute
 
 11. **Size and enter.** Midas goes all-in: compute shares = `(sleeve.cash - fee_reserve) / entry_price`. Set `exit_date` to Friday of this week.

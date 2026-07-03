@@ -33,6 +33,19 @@ or dossier score freshness.
 9. **Cohort logic.** Three branches:
 
    **A. No active cohort (first run or post-review):** Create a new cohort.
+   - **Deep verification of the finalists (mandatory — added 2026-07-03).**
+     A cohort locks ~8 names for a YEAR; the selection moment is where
+     Oracle's entire annual risk concentrates, so it gets the deep-read
+     standard (the pattern proven on Nemesis). Take the top ~15 dossiers
+     by conviction and, for each: dispatch extraction subagents to
+     re-verify the dossier's load-bearing claims against CURRENT filings
+     and prices (the thesis was written weeks ago — has a 10-Q since
+     contradicted it?), then one adversarial refuter attacking the
+     deciding judgment — *is the bad news actually priced in?* — and the
+     scenario probabilities. Fold non-flipping corrections in via
+     `oracle.research.update_scenarios(d, new_scenarios, current_price=…)`;
+     a refuted dossier is rescored (and may drop out of the top 8) BEFORE
+     selection, never patched afterward. Only then:
    - `oracle.positioning.size_book(scored, equity=sleeve.equity(marks))` → targets
    - `oracle.execution.plan_orders(sleeve, targets, prices)` → initial buy orders
    - `oracle.cohort.create_cohort(cohort_id, selected_dossiers, prices, inception_date=today, review_date=today+365)` → save to `cache/oracle_cohort.json`
@@ -42,7 +55,19 @@ or dossier score freshness.
    - For each symbol in `cohort.active_symbols()`:
      - Fetch current price
      - `oracle.cohort.check_thesis_break(sym, cohort, current_price=px, dossier=d)` — also pass `insider_reversal`, `fraud_flag`, `going_concern_flag`, `thesis_exhausted` if detected during research
-     - If thesis-break returned: `oracle.cohort.record_exit(cohort, sym, exit_price=px, exit_date=today, exit_reason=reason)`; remove from `cohort_holds`
+     - **Refute before you sell (mandatory — added 2026-07-03).** A
+       thesis-break sell ends a 12-month position early; the known
+       failure mode is panic-selling a headline. If the returned break is
+       judgment-based (`fraud`, `going_concern`, `insider_reversal`,
+       `thesis_exhausted`, `thesis_break`): dispatch ONE adversarial
+       subagent to argue AGAINST the break — is the "fraud" an
+       unconfirmed short report? Is the going-concern language actually
+       in the filing or only in a news paraphrase? Is the insider selling
+       10b5-1-scheduled rather than discretionary? Sell only if the break
+       case survives the attack, and journal the refuter's argument
+       either way. The `drawdown` break (≥40% from entry) is ARITHMETIC —
+       it executes immediately, no debate; discipline rules there.
+     - If thesis-break returned (and survived refutation where required): `oracle.cohort.record_exit(cohort, sym, exit_price=px, exit_date=today, exit_reason=reason)`; remove from `cohort_holds`
    - `cohort_holds = set(cohort.active_symbols())`
    - **Top up idle cash.** If `sleeve.cash > CASH_FLOOR * sleeve.equity(marks) + MIN_TICKET`, there's deployable excess cash (e.g. from a capital injection). Recompute equal-weight targets across the active cohort positions using the current equity, then run `oracle.execution.plan_orders(sleeve, targets, prices, cohort_holds=cohort_holds)` → generates buy orders to bring underweight positions up to target. No new names — only existing cohort symbols get topped up. No mid-cohort replacements — freed thesis-break slots stay as cash.
    - If no excess cash: `oracle.execution.plan_orders(sleeve, targets={}, prices, cohort_holds=cohort_holds)` → only thesis-break exits generate sell orders
