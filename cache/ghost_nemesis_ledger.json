@@ -1,0 +1,36 @@
+[
+  {
+    "symbol": "VSNT",
+    "entry_date": "2026-07-02",
+    "entry_price": 37.95,
+    "horizon_days": 150,
+    "source": "spinoff",
+    "features": {
+      "entry_window": "late",
+      "llm_selected": false,
+      "verdict": "avoid",
+      "conviction": 0.5,
+      "incentive_alignment": 0.45
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "OCTV",
+    "entry_date": "2026-07-02",
+    "entry_price": 17.4,
+    "horizon_days": 150,
+    "source": "spinoff",
+    "features": {
+      "entry_window": "in_window",
+      "llm_selected": false,
+      "verdict": "watch",
+      "conviction": 0.35,
+      "incentive_alignment": 0.4
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  }
+]
