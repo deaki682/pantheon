@@ -518,6 +518,23 @@ lobby for a looser rule later.
 | 40% drawdown from peak | `sleeve.check_halt()` | Halt new entries (exits still run) |
 | Kill switch | `KILL_SWITCH` file | Liquidate immediately |
 
+## Risk disclosure: the window is REGIME-DEPENDENT (measured 2026-07-03)
+
+The 2021–24 reference class (docs/nemesis_ocean_extension_results_2026-07.md,
+48 events, frozen trigger) put the buy-all control at **−1.0% mean excess
+vs SPY per event (t −0.2)** and a −12% portfolio path across 4.5 years.
+The +41% 2025–26 warm-vintage result was tail-carried and does NOT
+generalize. Operating posture this implies (no mechanical rule changed):
+
+- Expect the mechanical trigger alone to earn ~nothing on the average
+  name. The stack's measured value is the VETO discarding the left tail
+  (LYLT −100%, TWNPQ −58% are real members of this reference class).
+- Do not size, forecast, or advocate from warm-vintage economics; the
+  base-rate document for expectations is the combined 4.5-year class.
+- The three-leg ghost race (buy-all control vs veto-filtered vs own)
+  is the live experiment that decides everything at the ≥20-graded
+  checkpoint; nothing before that count is evidence.
+
 ## Bootstrap (first run)
 
 The first run is the same steps with a retroactive twist: the trailing
