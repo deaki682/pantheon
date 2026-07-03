@@ -63,3 +63,27 @@ over fixed extractions.
 Delphi's decision points (input not stored re-runnably); accuracy of any
 score (forward-only, same wall as reader accuracy). This measures
 CONSISTENCY only.
+
+## Addendum: Midas disqualify-veto consistency (2026-07-04, committed BEFORE any run)
+
+The original sweep tested `expected_value` — which the code audit then
+showed is informational-only. The LLM's REAL power over the all-in
+pick is the disqualification veto (it can kill a finalist, never
+promote one). That is the field that should have been tested; testing
+it now.
+
+- **Specimens:** this week's 10 finalists. Blind file strips the
+  recorded `disqualified`/`disqualify_reason` fields (the prior blind
+  file leaked them — fixed here, disclosed).
+- **Per finalist: 5 independent un-anchored veto decisions** from the
+  stored narrative (catalyst, bull/bear, priced_in_judgment, signals),
+  production framing (veto only for ACTIVE thesis-killers: guidance
+  bombs, fraud/going-concern, delisting risk, catalyst already fully
+  priced/reversed — not for mere bearishness).
+- **Metric:** per-finalist veto-flip rate vs the recorded decision
+  (recorded: HELP, WEN, AVAV, AOUT disqualified; the other 6 not).
+- **Frozen rule:** if ANY finalist flips in ≥ 2 of 5 runs (40%), a
+  3-run median disqualification vote becomes MANDATORY in /midas step
+  9 before pick_winner, mirroring the Nemesis boundary panel and the
+  Oracle 3-draw median. If all hold < 40%, single-pass veto stands,
+  documented measured-stable. One shot.

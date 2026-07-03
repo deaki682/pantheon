@@ -55,3 +55,36 @@ Midas's one-week horizon?
   prereg, not a weekend knob.
 - Not a test of his convergence multipliers (still untested folklore —
   noted for later, again).
+
+## Correction addendum 2 (2026-07-04, committed BEFORE recomputing)
+
+The original pass classified the PRIMARY document per the frozen spec —
+faithfully measuring what production trades — and returned 0 raised in
+900 because 7.01/8.01 primary docs are cover shells; the guidance text
+lives in the press-release exhibit (verified on a sampled filing). That
+verdict stands as recorded: the PRODUCTION channel is near-inert.
+
+This addendum pre-registers the HYPOTHETICAL-channel question: does
+guidance direction classified from EXHIBIT text carry 5-day edge? This
+is what decides whether the live channel should be fixed to read
+exhibits or retired.
+
+- **Same seeded 900 events.** For each, fetch the accession's exhibit
+  documents (ex-99*/press-release; largest non-primary HTML fallback)
+  and run the production `guidance_direction` regex on the exhibit
+  text. No new sampling.
+- **Grading:** every raised/lowered/reaffirmed event graded in full
+  (entry next session's open after filing date, 5 trading days, excess
+  vs IWM — identical mechanics to the original). The "none" comparison
+  group is graded from a seeded random subsample of 200
+  (`random.Random(20260705).sample`) to bound the bar-fetch load —
+  seed fixed here, before classification runs.
+- **Same thresholds as the original prereg**: validated iff raised
+  mean > 0 AND (raised − none) spread > 0 with t ≥ 2; refuted iff
+  raised ≤ 0 or spread ≤ 0 with ≥ 100 graded raised events; else
+  inconclusive. One shot on this addendum; no further re-cuts.
+- **Pre-stated consequence:** validated → a prereg'd code change to
+  read exhibits in the live path becomes eligible; refuted → recommend
+  RETIRING the guidance channel (weight 0) as dead weight;
+  inconclusive → channel stays as-is (near-inert) and the question
+  waits for live grades.
