@@ -1,0 +1,44 @@
+# Pantheon research ledger
+
+One row per completed study: what was asked, what the data said, what
+changed because of it. Every study has a pre-registration committed
+BEFORE its data existed and a results doc with the raw event table.
+Newest first. This file is the index — update it the same commit as
+any new results doc.
+
+| Date | Study | Verdict | What changed | Docs |
+|---|---|---|---|---|
+| 2026-07-03 | Pantheon correlated drawdown | **No new breaker** — book-level −25% halt fails false-trigger budget (47% vs 5%); per-god halts pass worst measured episode. GFC-scale loses ~half regardless: a capital-allocation fact, not a rule gap. | Nothing (per frozen criterion — that IS the result). Betas for all five gods now measured. | [prereg](pantheon_prereg_correlated_drawdown.md) · [results](pantheon_drawdown_results_2026-07.md) |
+| 2026-07-03 | Nemesis exit curves (LOOK DON'T TOUCH) | Excess rises monotonically past the 150d hold (+20.5% at 270d, t 1.6, in-sample). Re-rating may take 7–9 months. | Nothing — frozen rules stand; longer hold needs fresh-data prereg. | [results](nemesis_exit_curves_2026-07.md) |
+| 2026-07-03 | Spinoff ocean extension 2021–24 | **Trigger is regime-dependent**: −1.0% mean excess per event (t −0.2) across 48 bear/normal-vintage events; the warm-vintage +41% does not generalize. | Runbook risk disclosure (nemesis.md); expectations recalibrated. Veto remains the measured value. | [prereg](nemesis_prereg_ocean_extension.md) · [results](nemesis_ocean_extension_results_2026-07.md) |
+| 2026-07-03 | Judge-consistency probe | **Triggered**: FDXF's pass-line call flipped 4/5 on identical extractions; RNA stable 0/5. Boundary judgments are dice. | **3-judge median now MANDATORY** for boundary names (nemesis.md stage 5). FDXF Aug re-read runs under it. | [prereg](nemesis_prereg_judge_consistency.md) · [results](nemesis_judge_consistency_results_2026-07.md) |
+| 2026-07-03 | Oracle cluster replay (full population) | **REFUTED as auto-buy**: −6.4%/yr vs IWM at 12mo (n=291, win 32%); convergence not validated (quality lens the drag, 13D the only positive); 5–10d cut mildly positive. | Base-rate priors into oracle-research.md (reading calibration only). Quality-lens fix queued for fresh-data prereg before cohort-2. 253-name live tail → dossier candidates. | [prereg](oracle_prereg_cluster_replay.md) · [results](oracle_replay_results_2026-07.md) |
+| 2026-07-03 | Achilles reaction gate | **Inconclusive, buy-side absent**: rewarded reports show no 5-day drift anywhere (small/mid −0.9%); sold reports keep falling (−1.6%, t −2.3) — the ban half is real. | Nothing mechanical (prereg committed either way). Fall season = live test of beats+confirmations. | [prereg](achilles_prereg_reaction_gate.md) · [results](achilles_replay_results_2026-07.md) |
+| 2026-07-03 | Nemesis 2025–26 ocean + veto scorecard | Buy-all +41.2% vs SPY +30.2% (trailed IWM +45%); veto 3/3 pre-registered criteria, condemned the worst name (TWNPQ −58%). | v2 veto entry rule live (operator directive); three-leg ghost race running to ≥20-grade checkpoint. | runbook + `cache/ghost_nemesis_deepread_audit.json` |
+| (earlier) | Nemesis news-bounce prereg | FAILED — reported anyway; the precedent for one-shot honesty. | Nothing. | [prereg](nemesis_prereg_news_bounce.md) |
+
+## In flight
+
+- **Midas guidance-channel replay** — catalog sweeping now; seeded
+  sample (seed 20260704) grades on completion.
+  [prereg](midas_prereg_guidance_channel.md)
+
+## Standing findings (the pattern across studies)
+
+1. Every mechanical BUY trigger tested to date measures ≈ zero-to-
+   negative on its own. Every AVOIDANCE rule tested measures real:
+   sold-report ban, spinoff veto, boundary-panel rule.
+2. All ponds are lottery-shaped: win rates 32–50%, fat right tails.
+   Selection layers carry the entire burden of proof — that is what
+   the live graded calls and capital gates exist to test.
+3. All five gods are high-beta long equity (β 1.0–1.4, measured).
+   The correlated month is expected weather; the capital dial is the
+   only tail lever.
+
+## Rules of this ledger
+
+- Prereg before data; one dataset buys one decision, once.
+- LOOK-DON'T-TOUCH outputs may not be cited for rule changes without
+  a fresh-data prereg.
+- Failed and inconclusive studies get rows with the same prominence
+  as wins.

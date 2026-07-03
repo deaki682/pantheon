@@ -45,6 +45,13 @@ clusters, earnings beats, smart money, activist 13D, guidance raises)
 fire on the same name, the probability of a short-term pop increases
 non-linearly.
 
+## Research record
+
+**`docs/RESEARCH_LEDGER.md`** indexes every completed study (prereg →
+verdict → what changed). Read it before proposing any strategy change:
+most obvious ideas have already been measured, and each historical
+dataset buys ONE decision, once.
+
 ## Architecture
 
 - **State branch:** `origin/claude/live` — sleeves, curves, dossiers,
