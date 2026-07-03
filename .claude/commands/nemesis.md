@@ -260,6 +260,19 @@ control-group ledger.
       bootstrap disagreement (fast read: watch; deep read: own, refuters
       upheld) is the reference case for why the gates get attacked
       before a verdict stands.
+   5. *Boundary names get a 3-JUDGE MEDIAN (mandatory since 2026-07-03).*
+      If the judgment lands with `garbage_barge_risk` within ±0.05 of
+      the 0.60 veto line, OR verdict "avoid" with conviction < 0.7, run
+      TWO additional independent judges over the SAME extractions
+      (un-anchored — they must not see the first judgment or each
+      other) and take the per-field MEDIAN of the three before the
+      refuters run. Triggered by the pre-registered judge-consistency
+      probe (docs/nemesis_judge_consistency_results_2026-07.md): on
+      identical extractions, FDXF's pass-line call flipped across the
+      veto in 4 of 5 independent runs. A single judge at the boundary
+      is measured dice; the veto touches live money, so boundary calls
+      get a panel. (FDXF's own mandatory August 10-K re-read runs under
+      this rule.)
 
    **Analyst instructions — judge these five things, in this order:**
 
