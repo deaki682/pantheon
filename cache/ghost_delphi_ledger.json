@@ -2514,5 +2514,20 @@
     "exit_date": "",
     "exit_price": 0.0,
     "graded_return": null
+  },
+  {
+    "symbol": "XYZ",
+    "entry_date": "2026-07-03",
+    "entry_price": 78.83,
+    "horizon_days": 90,
+    "source": "momentum",
+    "features": {
+      "momentum": 0.382254953533228,
+      "above_ma": true,
+      "selected": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
   }
 ]
