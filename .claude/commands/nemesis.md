@@ -177,13 +177,33 @@ control-group ledger.
    unavailable" and leave incentive_alignment resting on the Form 10 and
    13D evidence; never score the silence.
 
-   **Model routing:** a Form 10 body is enormous (300+ pages, easily 100k+
-   tokens). As in `/oracle-research`, dispatch the extraction reads via the
-   Agent tool with `model: "sonnet"` — one subagent per section bundle
-   (compensation & equity-award treatment; pro-forma financials &
-   separation agreements; risk factors & business), each returning exact
-   quotes with section references. Reserve the main session model, **with
-   extended thinking**, for the judgment and the dossier itself.
+   **The deep-read standard (operator directive, 2026-07-03: cost is
+   accepted — every RECORDED verdict gets the full treatment; a fast
+   single-pass read is triage only and never becomes a dossier).** Four
+   stages per name:
+
+   1. *Prep:* download the complete document set (information-statement
+      exhibit, latest 10-Q, closing 8-K, any 13D/G) to working files,
+      split the information statement into section files, and run the
+      post-spin Form 4 sweep.
+   2. *Extract:* one subagent per section file — each reads its ENTIRE
+      file and returns structured facts with citations (section name +
+      quote fragment). "Not disclosed" beats a guess; no price talk.
+   3. *Judge:* one pass, **with extended thinking**, over all extractions
+      plus the insider sweep — produces every dossier field from the
+      skeptical defaults (incentive up from 0.0 only on evidence; garbage
+      down from 1.0 only on evidence). On a revision of an existing
+      dossier, the judge must justify each score delta against the prior
+      read.
+   4. *Refute:* two MANDATORY adversarial passes before anything is
+      recorded — an incentive-skeptic trying to push
+      `incentive_alignment` below the own-gate, and a balance-sheet
+      skeptic trying to push `garbage_barge_risk` above it. Fold in
+      their non-flipping corrections; if either flips a gate score, the
+      judgment is re-run with their evidence, not patched. The OCTV
+      bootstrap disagreement (fast read: watch; deep read: own, refuters
+      upheld) is the reference case for why the gates get attacked
+      before a verdict stands.
 
    **Analyst instructions — judge these five things, in this order:**
 
