@@ -8,6 +8,8 @@ any new results doc.
 
 | Date | Study | Verdict | What changed | Docs |
 |---|---|---|---|---|
+| 2026-07-04 | Blinded reader accuracy | **BLOCKED — infeasible**: de-anon gate identified 48/48 masked spinoffs (famous names are un-blindable by business description). Clean n=0. | Deep reads CANCELLED. Reframes the ≥20-grade live ghost race as THE reader-accuracy test (prospective, only uncontaminated venue). | [prereg](nemesis_prereg_blinded_reader.md) · [results](nemesis_blinded_reader_results_2026-07.md) |
+| 2026-07-04 | Midas guidance channel | **INCONCLUSIVE**: 0 raised in 900 (classifier reads 7.01/8.01 cover shells, not the exhibit press release — verified). | Flag: audit whether LIVE guidance path reads exhibits; if not, channel is near-inert in production. No rule changed. | [prereg](midas_prereg_guidance_channel.md) · [results](midas_guidance_results_2026-07.md) |
 | 2026-07-04 | Midas convergence test | **REFUTED**: quiet clusters +1.13% at 5d; 2+ co-signals −0.14%, monotonically wrong direction (892 events, complete catalogs). | Pick memo may not cite convergence count as conviction (midas.md); multipliers run as coded pending live grades. | [prereg](midas_prereg_convergence_test.md) · [results](midas_convergence_results_2026-07.md) |
 | 2026-07-03 | Pantheon correlated drawdown | **No new breaker** — book-level −25% halt fails false-trigger budget (47% vs 5%); per-god halts pass worst measured episode. GFC-scale loses ~half regardless: a capital-allocation fact, not a rule gap. | Nothing (per frozen criterion — that IS the result). Betas for all five gods now measured. | [prereg](pantheon_prereg_correlated_drawdown.md) · [results](pantheon_drawdown_results_2026-07.md) |
 | 2026-07-03 | Nemesis exit curves (LOOK DON'T TOUCH) | Excess rises monotonically past the 150d hold (+20.5% at 270d, t 1.6, in-sample). Re-rating may take 7–9 months. | Nothing — frozen rules stand; longer hold needs fresh-data prereg. | [results](nemesis_exit_curves_2026-07.md) |
@@ -17,12 +19,6 @@ any new results doc.
 | 2026-07-03 | Achilles reaction gate | **Inconclusive, buy-side absent**: rewarded reports show no 5-day drift anywhere (small/mid −0.9%); sold reports keep falling (−1.6%, t −2.3) — the ban half is real. | Nothing mechanical (prereg committed either way). Fall season = live test of beats+confirmations. | [prereg](achilles_prereg_reaction_gate.md) · [results](achilles_replay_results_2026-07.md) |
 | 2026-07-03 | Nemesis 2025–26 ocean + veto scorecard | Buy-all +41.2% vs SPY +30.2% (trailed IWM +45%); veto 3/3 pre-registered criteria, condemned the worst name (TWNPQ −58%). | v2 veto entry rule live (operator directive); three-leg ghost race running to ≥20-grade checkpoint. | runbook + `cache/ghost_nemesis_deepread_audit.json` |
 | (earlier) | Nemesis news-bounce prereg | FAILED — reported anyway; the precedent for one-shot honesty. | Nothing. | [prereg](nemesis_prereg_news_bounce.md) |
-
-## In flight
-
-- **Midas guidance-channel replay** — catalog sweeping now; seeded
-  sample (seed 20260704) grades on completion.
-  [prereg](midas_prereg_guidance_channel.md)
 
 ## Standing findings (the pattern across studies)
 
