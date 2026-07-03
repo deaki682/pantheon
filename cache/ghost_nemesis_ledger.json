@@ -60,10 +60,10 @@
   "features": {
    "entry_window": "in_window",
    "llm_selected": false,
-   "verdict": "avoid",
-   "conviction": 0.6,
-   "incentive_alignment": 0.1,
-   "garbage_barge_risk": 0.2
+   "verdict": "watch",
+   "conviction": 0.62,
+   "incentive_alignment": 0.2,
+   "garbage_barge_risk": 0.45
   },
   "exit_date": "",
   "exit_price": 0.0,
