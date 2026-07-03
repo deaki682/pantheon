@@ -2,74 +2,154 @@
   "finalists": [
     {
       "active_signals": {
-        "earnings_beat": 1.0,
-        "volume_anomaly": 0.7733333333333333
+        "earnings_beat": 1.0
       },
       "components": {
-        "convergence": 2.5,
-        "liquidity": 0.7958113923922323,
-        "mean_strength": 0.848,
-        "neglect": 0.753637733651078,
+        "best_strength": 1.0,
+        "convergence_legacy": 1.0,
+        "liquidity": 0.6478074529777665,
+        "mean_strength": 1.0,
+        "neglect": 0.864529186671406,
         "quality_value": 0.3
       },
-      "convergence_count": 2,
-      "convergence_multiplier": 2.5,
-      "market_cap": 975100390.919948,
-      "score": 0.38144322229605726,
+      "convergence_count": 1,
+      "convergence_multiplier": 1.0,
+      "market_cap": 400044920.0,
+      "score": 0.16801453513276307,
+      "score_legacy": 0.16801453513276307,
       "sector": "",
       "signal_details": {},
-      "symbol": "APOG",
+      "symbol": "QMCO",
       "timing_adjusted": {
-        "earnings_beat": 1.0,
-        "volume_anomaly": 0.696
+        "earnings_beat": 1.0
       }
     },
     {
       "active_signals": {
-        "short_squeeze": 0.9932,
+        "short_squeeze": 1.0
+      },
+      "components": {
+        "best_strength": 1.0,
+        "convergence_legacy": 1.0,
+        "liquidity": 0.863945235391427,
+        "mean_strength": 1.0,
+        "neglect": 0.6446503623396791,
+        "quality_value": 0.3
+      },
+      "convergence_count": 1,
+      "convergence_multiplier": 1.0,
+      "market_cap": 2087979243.046875,
+      "score": 0.16708278271101681,
+      "score_legacy": 0.16708278271101681,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "WOLF",
+      "timing_adjusted": {
+        "short_squeeze": 1.0
+      }
+    },
+    {
+      "active_signals": {
+        "short_squeeze": 0.4122,
         "volume_anomaly": 1.0
       },
       "components": {
-        "convergence": 2.5,
-        "liquidity": 0.5982589916820445,
-        "mean_strength": 0.9466,
-        "neglect": 0.8839546963422262,
+        "best_strength": 0.9,
+        "convergence_legacy": 2.5,
+        "liquidity": 0.8095507023082731,
+        "mean_strength": 0.6561,
+        "neglect": 0.7341366268381213,
         "quality_value": 0.3
       },
       "convergence_count": 2,
       "convergence_multiplier": 2.5,
-      "market_cap": 296896694.26081,
-      "score": 0.3754455884894124,
+      "market_cap": 1116229540.0,
+      "score": 0.16046662189869748,
+      "score_legacy": 0.2924504184103761,
       "sector": "",
       "signal_details": {},
-      "symbol": "TOYO",
+      "symbol": "VOR",
       "timing_adjusted": {
-        "short_squeeze": 0.9932,
+        "short_squeeze": 0.4122,
         "volume_anomaly": 0.9
       }
     },
     {
       "active_signals": {
-        "short_squeeze": 0.716,
-        "volume_anomaly": 0.7633333333333333
+        "smart_money": 0.3333333333333333,
+        "volume_anomaly": 1.0
       },
       "components": {
-        "convergence": 2.5,
-        "liquidity": 0.7619782583207633,
-        "mean_strength": 0.7015,
-        "neglect": 0.7830212285635549,
+        "best_strength": 0.9,
+        "convergence_legacy": 1.0,
+        "liquidity": 0.7329380717832343,
+        "mean_strength": 0.5,
+        "neglect": 0.8082421309954831,
         "quality_value": 0.3
       },
-      "convergence_count": 2,
-      "convergence_multiplier": 2.5,
-      "market_cap": 795419433.0,
-      "score": 0.3139099305797122,
+      "convergence_count": 1,
+      "convergence_multiplier": 1.0,
+      "market_cap": 667841980.95,
+      "score": 0.15994568583696644,
+      "score_legacy": 0.08885871435387024,
       "sector": "",
       "signal_details": {},
-      "symbol": "SPRY",
+      "symbol": "HTZ",
       "timing_adjusted": {
-        "short_squeeze": 0.716,
-        "volume_anomaly": 0.6869999999999999
+        "smart_money": 0.09999999999999999,
+        "volume_anomaly": 0.9
+      }
+    },
+    {
+      "active_signals": {
+        "smart_money": 0.3333333333333333,
+        "volume_anomaly": 1.0
+      },
+      "components": {
+        "best_strength": 0.9,
+        "convergence_legacy": 1.0,
+        "liquidity": 0.8316184275361157,
+        "mean_strength": 0.5,
+        "neglect": 0.6974829286258089,
+        "quality_value": 0.3
+      },
+      "convergence_count": 1,
+      "convergence_multiplier": 1.0,
+      "market_cap": 1439103858.734331,
+      "score": 0.15661070721101158,
+      "score_legacy": 0.08700594845056199,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "CNXC",
+      "timing_adjusted": {
+        "smart_money": 0.09999999999999999,
+        "volume_anomaly": 0.9
+      }
+    },
+    {
+      "active_signals": {
+        "guidance_raised": 1.0,
+        "volume_anomaly": 1.0
+      },
+      "components": {
+        "best_strength": 0.9,
+        "convergence_legacy": 1.0,
+        "liquidity": 0.8394504281746732,
+        "mean_strength": 0.8500000000000001,
+        "neglect": 0.6844742571456089,
+        "quality_value": 0.3
+      },
+      "convergence_count": 1,
+      "convergence_multiplier": 1.0,
+      "market_cap": 1574896946.173862,
+      "score": 0.15513719622356417,
+      "score_legacy": 0.14651846310003283,
+      "sector": "",
+      "signal_details": {},
+      "symbol": "PRGS",
+      "timing_adjusted": {
+        "guidance_raised": 0.8,
+        "volume_anomaly": 0.9
       }
     },
     {
@@ -78,16 +158,18 @@
         "volume_anomaly": 1.0
       },
       "components": {
-        "convergence": 2.5,
-        "liquidity": 0.6569997187995797,
+        "best_strength": 0.9,
+        "convergence_legacy": 2.5,
+        "liquidity": 0.6570785779081183,
         "mean_strength": 0.7,
-        "neglect": 0.8609243563570113,
+        "neglect": 0.8608934310432164,
         "quality_value": 0.3
       },
       "convergence_count": 2,
       "convergence_multiplier": 2.5,
-      "market_cap": 422805825.0,
-      "score": 0.2969542065179894,
+      "market_cap": 423006587.5,
+      "score": 0.15273215047808567,
+      "score_legacy": 0.29697918148516655,
       "sector": "",
       "signal_details": {},
       "symbol": "AVBC",
@@ -98,149 +180,83 @@
     },
     {
       "active_signals": {
-        "short_squeeze": 0.4498,
-        "volume_anomaly": 0.9166666666666666
+        "short_squeeze": 0.642,
+        "volume_anomaly": 0.9833333333333334
       },
       "components": {
-        "convergence": 2.5,
-        "liquidity": 0.8618347506542922,
-        "mean_strength": 0.6374,
-        "neglect": 0.6476697833792697,
+        "best_strength": 0.8850000000000001,
+        "convergence_legacy": 2.5,
+        "liquidity": 0.8470932247142862,
+        "mean_strength": 0.7635000000000001,
+        "neglect": 0.6717798468713847,
         "quality_value": 0.3
       },
       "convergence_count": 2,
       "convergence_multiplier": 2.5,
-      "market_cap": 2037857224.0,
-      "score": 0.26684001717097955,
+      "market_cap": 1719753189.48,
+      "score": 0.1510854716262451,
+      "score_legacy": 0.3258580722786388,
       "sector": "",
       "signal_details": {},
-      "symbol": "STOK",
+      "symbol": "ZBIO",
       "timing_adjusted": {
-        "short_squeeze": 0.4498,
-        "volume_anomaly": 0.825
+        "short_squeeze": 0.642,
+        "volume_anomaly": 0.8850000000000001
       }
     },
     {
       "active_signals": {
         "insider_cluster": 1.0,
-        "volume_anomaly": 0.7266666666666667
+        "volume_anomaly": 1.0
       },
       "components": {
-        "convergence": 2.5,
-        "liquidity": 0.7951373519462448,
-        "mean_strength": 0.577,
-        "neglect": 0.7542231261829563,
+        "best_strength": 0.9,
+        "convergence_legacy": 2.5,
+        "liquidity": 0.626753068007794,
+        "mean_strength": 0.7,
+        "neglect": 0.8727858544682174,
         "quality_value": 0.3
       },
       "convergence_count": 2,
       "convergence_multiplier": 2.5,
-      "market_cap": 971151808.9,
-      "score": 0.25952492630494245,
+      "market_cap": 352423052.0,
+      "score": 0.147695727240475,
+      "score_legacy": 0.2871861363009236,
       "sector": "",
       "signal_details": {},
-      "symbol": "AEBI",
+      "symbol": "NWFL",
       "timing_adjusted": {
         "insider_cluster": 0.5,
-        "volume_anomaly": 0.654
+        "volume_anomaly": 0.9
       }
     },
     {
       "active_signals": {
-        "short_squeeze": 0.4988,
-        "volume_anomaly": 0.7733333333333333
+        "smart_money": 0.3333333333333333,
+        "volume_anomaly": 1.0
       },
       "components": {
-        "convergence": 2.5,
-        "liquidity": 0.8555986664585156,
-        "mean_strength": 0.5973999999999999,
-        "neglect": 0.657652613926593,
+        "best_strength": 0.9,
+        "convergence_legacy": 1.0,
+        "liquidity": 0.8815694716242208,
+        "mean_strength": 0.5,
+        "neglect": 0.6194357807074733,
         "quality_value": 0.3
       },
-      "convergence_count": 2,
-      "convergence_multiplier": 2.5,
-      "market_cap": 1896676801.377499,
-      "score": 0.25211177569688376,
+      "convergence_count": 1,
+      "convergence_multiplier": 1.0,
+      "market_cap": 2557686776.397942,
+      "score": 0.14744043195392445,
+      "score_legacy": 0.08191135108551359,
       "sector": "",
       "signal_details": {},
-      "symbol": "SRPT",
+      "symbol": "AERO",
       "timing_adjusted": {
-        "short_squeeze": 0.4988,
-        "volume_anomaly": 0.696
-      }
-    },
-    {
-      "active_signals": {
-        "short_squeeze": 0.44799999999999995,
-        "volume_anomaly": 0.8766666666666666
-      },
-      "components": {
-        "convergence": 2.5,
-        "liquidity": 0.8862194187824615,
-        "mean_strength": 0.6184999999999999,
-        "neglect": 0.6127832103118983,
-        "quality_value": 0.3
-      },
-      "convergence_count": 2,
-      "convergence_multiplier": 2.5,
-      "market_cap": 2698342625.367892,
-      "score": 0.251912133996209,
-      "sector": "",
-      "signal_details": {},
-      "symbol": "UA",
-      "timing_adjusted": {
-        "short_squeeze": 0.44799999999999995,
-        "volume_anomaly": 0.7889999999999999
-      }
-    },
-    {
-      "active_signals": {
-        "insider_cluster": 0.5,
-        "volume_anomaly": 0.9766666666666667
-      },
-      "components": {
-        "convergence": 2.5,
-        "liquidity": 0.718725825247006,
-        "mean_strength": 0.5645,
-        "neglect": 0.8205852226201014,
-        "quality_value": 0.3
-      },
-      "convergence_count": 2,
-      "convergence_multiplier": 2.5,
-      "market_cap": 613080224.0,
-      "score": 0.24969632564719657,
-      "sector": "",
-      "signal_details": {},
-      "symbol": "KRNY",
-      "timing_adjusted": {
-        "insider_cluster": 0.25,
-        "volume_anomaly": 0.879
-      }
-    },
-    {
-      "active_signals": {
-        "short_squeeze": 0.5886,
-        "volume_anomaly": 0.5666666666666667
-      },
-      "components": {
-        "convergence": 2.5,
-        "liquidity": 0.8204473232482887,
-        "mean_strength": 0.5493,
-        "neglect": 0.7160377312181334,
-        "quality_value": 0.3
-      },
-      "convergence_count": 2,
-      "convergence_multiplier": 2.5,
-      "market_cap": 1265425600.294363,
-      "score": 0.24202346406715233,
-      "sector": "",
-      "signal_details": {},
-      "symbol": "SVRA",
-      "timing_adjusted": {
-        "short_squeeze": 0.5886,
-        "volume_anomaly": 0.51
+        "smart_money": 0.09999999999999999,
+        "volume_anomaly": 0.9
       }
     }
   ],
   "pick": null,
-  "scanned_at": "2026-07-01T10:15:00Z"
+  "scanned_at": "2026-07-03T21:45:00Z"
 }
