@@ -201,10 +201,16 @@ control-group ledger.
    exhibit URL as `form10_url` in the dossier.
 
    **Post-spin Form 4 sweep (distributed names only):**
-   `nemesis.insiders.fetch_post_spin_txns(symbol, cik, distribution_date)`
+   `nemesis.insiders.sweep_with_reconciliation(symbol, cik, distribution_date)`
    → `summarize_post_spin(txns, since=distribution_date)` →
-   `render_summary(...)` into the dossier's `post_spin_insider_activity`
-   field. This is the behavioral check on the Form 10's paper incentives —
+   `render_summary(...) + render_reconciliation(recon)` into the dossier's
+   `post_spin_insider_activity` field. **LAW (RNA lesson, 2026-07-03): no
+   absence claim without reconciliation.** A sweep that cannot count what
+   it should have seen may not assert insider silence — "zero buys" from
+   an unreconciled fetcher is indistinguishable from a network failure,
+   and a judge once scored a live veto on exactly that ambiguity. If the
+   reconciliation clause reads INCOMPLETE, the sweep re-runs before any
+   incentive scoring. This is the behavioral check on the Form 10's paper incentives —
    see the incentive_alignment instruction below. A name still
    pre-distribution has nothing to sweep; note that and re-sweep on later
    runs (insider buys can land any week of the hold, and for HELD names the

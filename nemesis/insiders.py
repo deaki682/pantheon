@@ -110,3 +110,62 @@ def fetch_post_spin_txns(
     return fetch_insider_txns_for_symbol(
         symbol, cik, days_back=max(gap + 7, 30), today=today_s
     )
+
+
+def render_reconciliation(recon: dict) -> str:
+    """Completeness clause for an absence claim. The 2026-07-03 RNA lesson:
+    'zero insider buys' is only evidence if the sweep can prove it saw
+    everything — a fetcher that swallows failures produces the same
+    sentence whether insiders were silent or the network was. Appended to
+    the sweep summary so silence and blindness can never read alike."""
+    n, parsed, fails = recon.get("on_record", 0), recon.get("parsed", 0), recon.get("failures", 0)
+    if fails or parsed < n:
+        return (f" [INCOMPLETE SWEEP: {parsed}/{n} ownership filings parsed, "
+                f"{fails} failures — absence claims UNRELIABLE, re-run before "
+                f"scoring insider silence]")
+    return f" [complete: {parsed}/{n} ownership filings parsed, 0 failures]"
+
+
+def sweep_with_reconciliation(
+    symbol: str,
+    cik: str,
+    distribution_date: str,
+    *,
+    today: Optional[str] = None,
+):  # pragma: no cover - network
+    """Form 4 sweep that counts what it should have seen. Returns
+    (txns, recon): every ownership filing on the issuer's submission
+    record is fetched and parsed, with explicit failure counting —
+    the summary sentence gets render_reconciliation(recon) appended so
+    a partial sweep can never masquerade as insider silence."""
+    import re as _re
+    from shared import edgar as _edgar
+    from shared.insiders import parse_form4 as _parse
+
+    subs = _edgar.fetch_submissions(cik)
+    r = subs.get("filings", {}).get("recent", {})
+    own = [(r["form"][i], r["accessionNumber"][i], r["primaryDocument"][i])
+           for i in range(len(r.get("form", [])))
+           if r["form"][i] in ("3", "4", "5", "3/A", "4/A", "5/A")]
+    txns, parsed, fails = [], 0, 0
+    block = _re.compile(r"<ownershipDocument.*?</ownershipDocument>", _re.DOTALL)
+    for form, acc, prim in own:
+        try:
+            accn = acc.replace("-", "")
+            base = f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{accn}/"
+            body = _edgar.http_get(base + prim)
+            text = body if isinstance(body, str) else body.decode("utf-8", errors="replace")
+            m = block.search(text)
+            if not m:
+                body = _edgar.http_get(base + acc + ".txt")
+                text = body if isinstance(body, str) else body.decode("utf-8", errors="replace")
+                m = block.search(text)
+            if m:
+                txns.extend(_parse(m.group(0), accession_no=acc))
+                parsed += 1
+            else:
+                fails += 1
+        except Exception:
+            fails += 1
+    recon = {"on_record": len(own), "parsed": parsed, "failures": fails}
+    return txns, recon

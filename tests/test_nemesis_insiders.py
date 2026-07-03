@@ -118,3 +118,21 @@ class TestRenderSummary:
         # rendering must be a real sentence, not a stub.
         text = render_summary(summarize_post_spin([], since="2026-05-29"))
         assert len(text) >= 20
+
+
+class TestRenderReconciliation:
+    def test_clean_sweep_states_completeness(self):
+        from nemesis.insiders import render_reconciliation
+        out = render_reconciliation({"on_record": 22, "parsed": 22, "failures": 0})
+        assert "complete: 22/22" in out
+        assert "UNRELIABLE" not in out
+
+    def test_partial_sweep_screams(self):
+        from nemesis.insiders import render_reconciliation
+        out = render_reconciliation({"on_record": 8, "parsed": 6, "failures": 2})
+        assert "INCOMPLETE" in out and "UNRELIABLE" in out
+
+    def test_zero_filings_is_complete_not_failed(self):
+        from nemesis.insiders import render_reconciliation
+        out = render_reconciliation({"on_record": 0, "parsed": 0, "failures": 0})
+        assert "complete: 0/0" in out
