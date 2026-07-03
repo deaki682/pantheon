@@ -1,4 +1,82 @@
 {
+  "0001958489": {
+    "company": "Cortigent, Inc.",
+    "first_seen": "2026-07-03",
+    "last_updated": "2026-07-03",
+    "status": "skipped",
+    "ticker": "CRGT",
+    "window_state": null
+  },
+  "0002011954": {
+    "company": "Twin Hospitality Group Inc.",
+    "distribution_date": "2025-12-05",
+    "dossier_verdict": "avoid",
+    "first_filed": "2024-11-01",
+    "first_seen": "2026-07-03",
+    "first_trade_date": "2025-12-05",
+    "last_filed": "2025-01-10",
+    "last_updated": "2026-07-03",
+    "n_filings": 1,
+    "status": "skipped",
+    "ticker": "TWNPQ",
+    "window_state": "late"
+  },
+  "0002023554": {
+    "company": "Sandisk Corp",
+    "distribution_date": "2025-02-21",
+    "dossier_verdict": "watch",
+    "first_filed": "2024-11-25",
+    "first_seen": "2026-07-03",
+    "first_trade_date": "2025-02-21",
+    "last_filed": "2025-01-27",
+    "last_updated": "2026-07-03",
+    "n_filings": 1,
+    "status": "entered",
+    "ticker": "SNDK",
+    "window_state": "late"
+  },
+  "0002035989": {
+    "company": "Amrize Ltd",
+    "distribution_date": "2025-06-23",
+    "dossier_verdict": "watch",
+    "first_filed": "2025-02-28",
+    "first_seen": "2026-07-03",
+    "first_trade_date": "2025-06-23",
+    "last_filed": "2025-05-07",
+    "last_updated": "2026-07-03",
+    "n_filings": 1,
+    "status": "entered",
+    "ticker": "AMRZ",
+    "window_state": "late"
+  },
+  "0002039497": {
+    "company": "Resolute Holdings Management, Inc.",
+    "distribution_date": "2025-02-28",
+    "dossier_verdict": "own",
+    "first_filed": "2024-12-30",
+    "first_seen": "2026-07-03",
+    "first_trade_date": "2025-02-28",
+    "last_filed": "2025-02-10",
+    "last_updated": "2026-07-03",
+    "n_filings": 1,
+    "status": "entered",
+    "ticker": "RHLD",
+    "window_state": "late"
+  },
+  "0002041385": {
+    "company": "Ralliant Corp",
+    "distribution_date": "2025-06-30",
+    "dossier_verdict": "watch",
+    "first_filed": "2025-05-05",
+    "first_seen": "2026-07-03",
+    "first_trade_date": "2025-06-30",
+    "last_filed": "2025-05-28",
+    "last_updated": "2026-07-03",
+    "n_filings": 1,
+    "status": "entered",
+    "ticker": "RAL",
+    "window_state": "late"
+  },
   "0002049860": {
     "company": "Electrified Materials Corp / IN",
     "first_filed": "2025-12-22",
@@ -8,6 +86,34 @@
     "n_filings": 3,
     "status": "registered",
     "ticker": null
+  },
+  "0002058873": {
+    "company": "Qnity Electronics, Inc.",
+    "distribution_date": "2025-10-31",
+    "dossier_verdict": "watch",
+    "first_filed": "2025-04-24",
+    "first_seen": "2026-07-03",
+    "first_trade_date": "2025-10-31",
+    "last_filed": "2025-06-18",
+    "last_updated": "2026-07-03",
+    "n_filings": 1,
+    "status": "entered",
+    "ticker": "Q",
+    "window_state": "late"
+  },
+  "0002064953": {
+    "company": "Solstice Advanced Materials Inc.",
+    "distribution_date": "2025-10-28",
+    "dossier_verdict": "watch",
+    "first_filed": "",
+    "first_seen": "2026-07-03",
+    "first_trade_date": "2025-10-28",
+    "last_filed": "",
+    "last_updated": "2026-07-03",
+    "n_filings": 1,
+    "status": "entered",
+    "ticker": "SOLS",
+    "window_state": "late"
   },
   "0002067876": {
     "company": "Versant Media Group, Inc.",
@@ -24,14 +130,18 @@
     "window_state": "late"
   },
   "0002078008": {
-    "company": "Versigent Ltd",
+    "company": "Versigent PLC",
+    "distribution_date": "2026-04-01",
+    "dossier_verdict": "avoid",
     "first_filed": "2025-11-14",
     "first_seen": "2026-07-02",
+    "first_trade_date": "2026-04-01",
     "last_filed": "2026-03-06",
-    "last_updated": "2026-07-02",
+    "last_updated": "2026-07-03",
     "n_filings": 11,
-    "status": "registered",
-    "ticker": null
+    "status": "entered",
+    "ticker": "VGNT",
+    "window_state": "in_window"
   },
   "0002082247": {
     "company": "FedEx Freight Holding Company, Inc.",
@@ -130,13 +240,17 @@
   },
   "0002093101": {
     "company": "Atrium Therapeutics, Inc.",
+    "distribution_date": "2026-02-27",
+    "dossier_verdict": "avoid",
     "first_filed": "2025-12-10",
     "first_seen": "2026-07-02",
+    "first_trade_date": "2026-02-27",
     "last_filed": "2026-02-17",
-    "last_updated": "2026-07-02",
+    "last_updated": "2026-07-03",
     "n_filings": 6,
-    "status": "registered",
-    "ticker": null
+    "status": "entered",
+    "ticker": "RNA",
+    "window_state": "in_window"
   },
   "0002104052": {
     "company": "Enviri II Corp",

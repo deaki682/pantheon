@@ -32,5 +32,149 @@
   "exit_date": "",
   "exit_price": 0.0,
   "graded_return": null
+ },
+ {
+  "symbol": "VGNT",
+  "entry_date": "2026-07-03",
+  "entry_price": 40.16,
+  "horizon_days": 150,
+  "source": "spinoff",
+  "features": {
+   "entry_window": "in_window",
+   "llm_selected": false,
+   "verdict": "avoid",
+   "conviction": 0.8,
+   "incentive_alignment": 0.2,
+   "garbage_barge_risk": 0.8
+  },
+  "exit_date": "",
+  "exit_price": 0.0,
+  "graded_return": null
+ },
+ {
+  "symbol": "RNA",
+  "entry_date": "2026-07-03",
+  "entry_price": 13.65,
+  "horizon_days": 150,
+  "source": "spinoff",
+  "features": {
+   "entry_window": "in_window",
+   "llm_selected": false,
+   "verdict": "avoid",
+   "conviction": 0.6,
+   "incentive_alignment": 0.1,
+   "garbage_barge_risk": 0.2
+  },
+  "exit_date": "",
+  "exit_price": 0.0,
+  "graded_return": null
+ },
+ {
+  "symbol": "SNDK",
+  "entry_date": "2026-07-03",
+  "entry_price": 1743.33,
+  "horizon_days": 150,
+  "source": "spinoff",
+  "features": {
+   "entry_window": "late",
+   "llm_selected": false,
+   "verdict": "watch",
+   "conviction": 0.55,
+   "incentive_alignment": 0.3,
+   "garbage_barge_risk": 0.45
+  },
+  "exit_date": "",
+  "exit_price": 0.0,
+  "graded_return": null
+ },
+ {
+  "symbol": "RHLD",
+  "entry_date": "2026-07-03",
+  "entry_price": 146.64,
+  "horizon_days": 150,
+  "source": "spinoff",
+  "features": {
+   "entry_window": "late",
+   "llm_selected": true,
+   "verdict": "own",
+   "conviction": 0.7,
+   "incentive_alignment": 0.65,
+   "garbage_barge_risk": 0.2
+  },
+  "exit_date": "",
+  "exit_price": 0.0,
+  "graded_return": null
+ },
+ {
+  "symbol": "AMRZ",
+  "entry_date": "2026-07-03",
+  "entry_price": 53.6,
+  "horizon_days": 150,
+  "source": "spinoff",
+  "features": {
+   "entry_window": "late",
+   "llm_selected": false,
+   "verdict": "watch",
+   "conviction": 0.7,
+   "incentive_alignment": 0.45,
+   "garbage_barge_risk": 0.4
+  },
+  "exit_date": "",
+  "exit_price": 0.0,
+  "graded_return": null
+ },
+ {
+  "symbol": "RAL",
+  "entry_date": "2026-07-03",
+  "entry_price": 68.38,
+  "horizon_days": 150,
+  "source": "spinoff",
+  "features": {
+   "entry_window": "late",
+   "llm_selected": false,
+   "verdict": "watch",
+   "conviction": 0.45,
+   "incentive_alignment": 0.35,
+   "garbage_barge_risk": 0.5
+  },
+  "exit_date": "",
+  "exit_price": 0.0,
+  "graded_return": null
+ },
+ {
+  "symbol": "SOLS",
+  "entry_date": "2026-07-03",
+  "entry_price": 80.25,
+  "horizon_days": 150,
+  "source": "spinoff",
+  "features": {
+   "entry_window": "late",
+   "llm_selected": false,
+   "verdict": "watch",
+   "conviction": 0.6,
+   "incentive_alignment": 0.4,
+   "garbage_barge_risk": 0.5
+  },
+  "exit_date": "",
+  "exit_price": 0.0,
+  "graded_return": null
+ },
+ {
+  "symbol": "Q",
+  "entry_date": "2026-07-03",
+  "entry_price": 141.75,
+  "horizon_days": 150,
+  "source": "spinoff",
+  "features": {
+   "entry_window": "late",
+   "llm_selected": false,
+   "verdict": "watch",
+   "conviction": 0.6,
+   "incentive_alignment": 0.2,
+   "garbage_barge_risk": 0.6
+  },
+  "exit_date": "",
+  "exit_price": 0.0,
+  "graded_return": null
  }
 ]
