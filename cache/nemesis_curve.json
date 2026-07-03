@@ -1,46 +1,52 @@
 {
- "points": [
-  {
-   "date": "2026-07-02",
-   "equity": 1999.8
-  },
-  {
-   "date": "2026-07-03",
-   "equity": 1999.8
-  },
-  {
-   "date": "2026-07-03",
-   "equity": 1999.8
-  },
-  {
-   "date": "2026-07-03",
-   "equity": 1999.80004615,
-   "note": "weekday exits-only pass: OCTV buy still queued (holiday), no exits due",
-   "ts": "2026-07-03T12:15:00Z"
-  },
-  {
-   "date": "2026-07-03",
-   "equity": 1999.80004615,
-   "note": "weekday exits-only pass (rerun): OCTV buy still queued -- market closed for observed July 4th holiday, no exits due",
-   "ts": "2026-07-03T15:13:05Z"
-  },
-  {
-   "date": "2026-07-03",
-   "equity": 1999.80004615,
-   "note": "weekday exits-only pass: confirmed via get_equity_orders OCTV order 6a474948 still state=queued/unfilled (cumulative_quantity=0); sleeve left unchanged, no true-up. due_exits([]) against last trade 17.41 vs stop 10.446 and exit_date 2026-11-29: none due. peak_equity unchanged, halted=false.",
-   "ts": "2026-07-03T18:00:00Z"
-  },
-  {
-   "date": "2026-07-03",
-   "equity": 1999.80004615,
-   "note": "weekday exits-only pass (Zeus dispatch): fill-check confirmed OCTV order 6a474948 still queued/unfilled (market closed, observed July 4th holiday); due_exits([]) vs last trade 17.41, stop 10.446, exit_date 2026-11-29 -- none due; no thesis-break review needed (position age 1 day); peak_equity unchanged at 2000.0, halted=false.",
-   "ts": "2026-07-03T18:11:38Z"
-  },
-  {
-   "date": "2026-07-03",
-   "equity": 1999.80004615,
-   "note": "weekday exits-only pass (agent orchestrator dispatch): fill-check via get_equity_orders confirms OCTV order 6a474948-fbd5-4f77-a7b1-ade4afb9e436 still state=queued/cumulative_quantity=0 (market closed for observed July 4th holiday, expected fill Mon 2026-07-06 open) -- no true-up performed. due_exits({'OCTV': 17.41}, '2026-07-03') vs stop_price=10.446 and exit_date=2026-11-29: none due (1 trading day held). 8-K/EDGAR spot-check found no filings post entry (last filing 2026-06-04, pre-spin closing docs); no thesis-break. peak_equity unchanged at 2000.0, halted=False.",
-   "ts": "2026-07-03T00:00:00Z"
-  }
- ]
+  "points": [
+    {
+      "date": "2026-07-02",
+      "equity": 1999.8
+    },
+    {
+      "date": "2026-07-03",
+      "equity": 1999.8
+    },
+    {
+      "date": "2026-07-03",
+      "equity": 1999.8
+    },
+    {
+      "date": "2026-07-03",
+      "equity": 1999.80004615,
+      "note": "weekday exits-only pass: OCTV buy still queued (holiday), no exits due",
+      "ts": "2026-07-03T12:15:00Z"
+    },
+    {
+      "date": "2026-07-03",
+      "equity": 1999.80004615,
+      "note": "weekday exits-only pass (rerun): OCTV buy still queued -- market closed for observed July 4th holiday, no exits due",
+      "ts": "2026-07-03T15:13:05Z"
+    },
+    {
+      "date": "2026-07-03",
+      "equity": 1999.80004615,
+      "note": "weekday exits-only pass: confirmed via get_equity_orders OCTV order 6a474948 still state=queued/unfilled (cumulative_quantity=0); sleeve left unchanged, no true-up. due_exits([]) against last trade 17.41 vs stop 10.446 and exit_date 2026-11-29: none due. peak_equity unchanged, halted=false.",
+      "ts": "2026-07-03T18:00:00Z"
+    },
+    {
+      "date": "2026-07-03",
+      "equity": 1999.80004615,
+      "note": "weekday exits-only pass (Zeus dispatch): fill-check confirmed OCTV order 6a474948 still queued/unfilled (market closed, observed July 4th holiday); due_exits([]) vs last trade 17.41, stop 10.446, exit_date 2026-11-29 -- none due; no thesis-break review needed (position age 1 day); peak_equity unchanged at 2000.0, halted=false.",
+      "ts": "2026-07-03T18:11:38Z"
+    },
+    {
+      "date": "2026-07-03",
+      "equity": 1999.80004615,
+      "note": "weekday exits-only pass (agent orchestrator dispatch): fill-check via get_equity_orders confirms OCTV order 6a474948-fbd5-4f77-a7b1-ade4afb9e436 still state=queued/cumulative_quantity=0 (market closed for observed July 4th holiday, expected fill Mon 2026-07-06 open) -- no true-up performed. due_exits({'OCTV': 17.41}, '2026-07-03') vs stop_price=10.446 and exit_date=2026-11-29: none due (1 trading day held). 8-K/EDGAR spot-check found no filings post entry (last filing 2026-06-04, pre-spin closing docs); no thesis-break. peak_equity unchanged at 2000.0, halted=False.",
+      "ts": "2026-07-03T00:00:00Z"
+    },
+    {
+      "date": "2026-07-03",
+      "equity": 1999.80004615,
+      "note": "weekday exits-only pass (Zeus hourly dispatch): fill-check via get_equity_orders confirms OCTV order 6a474948 still state=queued/cumulative_quantity=0 (market closed, observed July 4th holiday, expected fill Mon 2026-07-06 open) -- no true-up performed. due_exits vs last trade 17.41, stop 10.446, exit_date 2026-11-29: none due. peak_equity unchanged at 2000.0, halted=false.",
+      "ts": "2026-07-03T23:09:00Z"
+    }
+  ]
 }
