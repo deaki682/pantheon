@@ -128,6 +128,22 @@ control-group ledger.
    a dossier in `cache/nemesis_dossiers.json`: fetch its Form 10 and have
    the LLM judge it.
 
+   **A name that already HAS a dossier is not re-read** (the weekly Form 4
+   re-sweep and thesis-break surveillance update specific fields; they are
+   not re-reads). Re-reading requires either NEW primary documents (a
+   fresh 10-Q/8-K that changes the picture) or an explicit operator
+   instruction — and even then the new read is recorded as a revision
+   with its `researched_at` bumped and the score changes justified
+   against the prior read, NEVER a silent replacement. Two honest reads
+   of the same documents can disagree; a disagreement is calibration
+   data to surface, not noise to overwrite. Ghost judgment tags are
+   stamped from the STANDING dossier at entry time — an entry's tags are
+   the experiment's record and do not retroactively change when a
+   dossier is later revised. (Bootstrap 2026-07-02 lesson: the run
+   re-read OCTV over a standing refuter-verified dossier and silently
+   flipped own→watch; the ghost entry then carried the replacement's
+   tags. Both reads were honest — the overwrite was the defect.)
+
    **Fetch:** `shared.edgar.fetch_submissions(cik)` →
    `shared.edgar.parse_submissions_recent(payload)` → take the latest
    10-12B (amendments `10-12B/A` supersede the original — read the newest,
