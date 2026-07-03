@@ -46,3 +46,32 @@ None mechanical either way (his multipliers are folklore-in-production;
 changing them is a cohort-review decision needing its own prereg).
 Validated → the multipliers earn provisional trust. Refuted → his
 weekly pick memo must stop citing convergence count as conviction.
+
+## Correction addendum (2026-07-04, committed BEFORE recomputing)
+
+The 2026-07-04 LLM integration audit found the LIVE scorer
+(`midas/scoring.py`) counts `earnings_beat`, `guidance_raised`, and
+`volume_anomaly` as three independent channels even though one
+earnings report routinely trips all three (the beat, same-release
+guidance, and the reaction bar itself) — inflating the convergence
+tier on a single event. Re-reading this test's own co-signal join
+(`co_signals += earnings-8K-within-14d? + guidance-8K-within-14d? +
+13D-within-180d?`), it has the identical structural defect: an
+earnings 8-K and a guidance 8-K filed on the SAME DATE for the same
+issuer are very often the same combined release, counted here as two
+separate co-signals.
+
+This is a bug-fix correction, not a re-cut for a better answer (the
+same standard applied to the 2026-07-03 RNA extraction fix and the SC
+13D naming fix): the ORIGINAL result stands as recorded above and is
+NOT retracted. A SECOND, one-time, corrected pass is committed HERE,
+before recomputing, with the identical validation/refutation
+thresholds:
+
+- **Fix**: if an earnings-catalog filing and a guidance-catalog filing
+  share the same `(cik, filed date)`, they collapse to ONE co-signal
+  (a same-day combined release), not two. 13D stays independent (a
+  different filer, a different document, months apart in practice).
+- **Same three groups, same metric, same thresholds** as above,
+  applied to the corrected co-signal counts.
+- One shot on the correction; no further re-cuts regardless of result.
