@@ -26,7 +26,7 @@ non-linearly.
 4. **Check existing position.** If Midas has an open position:
    - Fetch current price via `get_equity_quotes`.
    - **Hard stop:** If `sleeve.check_stop(current_price)`, exit immediately via broker market sell. `sleeve.exit(price=px, today=today, reason="hard_stop")`.
-   - **Time stop:** If `sleeve.should_time_stop(today)` (it's Friday or later), exit via broker market sell. `sleeve.exit(price=px, today=today, reason="time_stop")`.
+   - **Time stop:** If `sleeve.should_time_stop(today)` (it's Friday or later), exit via broker market sell. `sleeve.exit(price=px, today=today, reason="time_stop")`. **Holiday caveat (learned 2026-07-03, the DAKT week):** if the exit date falls on a market holiday, the sell can't fill that day — place the market sell anyway (it queues for the next open) and record the ACTUAL fill price and date in the sleeve/ledger, not the stale quote. When that fill lands on a Monday, the proceeds settle T+1 — see the settlement note in step 11.
    - **Circuit breaker:** `sleeve.check_halt()` — if 40% drawdown from peak, liquidate.
    - **Top up:** If position is still open and `sleeve.cash > 50`, buy more of the same symbol with all available cash (minus $10 fee reserve). Compute shares = `(sleeve.cash - 10) / current_price`. Place fractional-share market order, update sleeve, append to ledger. Midas is all-in — idle cash is wasted capital.
    - If position still open after checks, skip to step 13 (persist) — we're mid-week, no new entry.
@@ -89,7 +89,7 @@ non-linearly.
 
 ### Execute
 
-11. **Size and enter.** Midas goes all-in: compute shares = `(sleeve.cash - fee_reserve) / entry_price`. Set `exit_date` to Friday of this week.
+11. **Size and enter.** Midas goes all-in: compute shares = `(sleeve.cash - fee_reserve) / entry_price`. Set `exit_date` to **the last trading session of this week — Friday normally, or the prior session when Friday is a market holiday** (check the exchange calendar; the 2026-07-03 DAKT week set a Friday exit_date on a closed market and bought a 3-day weekend of unplanned exposure). **Settlement guard:** if last week's exit filled TODAY (holiday-delayed Monday fill), those proceeds settle T+1 and are not spendable — size the entry to `settled_cash`, which in practice means the new entry waits until Tuesday. A skipped Monday beats a good-faith violation.
     - Check `shared.guards.already_placed_today(ledger, symbol, "buy", today)`
     - Place fractional-share market order via Robinhood MCP
     - `sleeve.enter(symbol=…, shares=…, price=…, today=…, score=…, convergence_count=…, signals=…, exit_date=friday)`
@@ -114,7 +114,7 @@ No profit target — let winners run to Friday. The asymmetry: cut losers at -10
 
 - Enter on any day other than Monday
 - Hold more than one position
-- Hold through the weekend
+- Hold through the weekend (when a market holiday makes this unavoidable — a Friday exit_date on a closed market — the sell queues for the next open; the rule is "exit at the earliest possible session", never "wait for a better one")
 - Let LLM probability estimates affect the pick (score is mechanical)
 - Override the convergence scoring with gut feel
 - Add positions because the broker holds them (sleeve is authoritative)
