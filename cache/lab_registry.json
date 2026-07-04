@@ -543,7 +543,7 @@
   "gauntlet_v2_fundamentals": {
    "slug": "gauntlet_v2_fundamentals",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "forward_testing",
    "created": "2026-07-04",
    "history": [
     {
@@ -553,6 +553,14 @@
     {
      "date": "2026-07-04",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "backtested"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "forward_testing"
     }
    ],
    "mechanism": "Factory-level meta-hypothesis on the LAST untouched house dataset (SF1 fundamentals, purchased 2026-07-04, never used in a study): the five strongest documented fundamentals anomalies \u2014 net share issuance (the corporation itself as counterparty: dilutes when overpriced, repurchases when not), asset growth, accruals, gross profitability, ROA \u2014 in simplest implementable long-only form, quarterly, datekey-keyed (filing-date PIT), on the v1 PIT universes, net of per-bucket costs. G1 pass (not tape); G2 PARTIAL and stated (mispricing claims, not constrained-counterparty structure) \u2014 hence counter-deflated bars, holdout touched once, 2x-cost + cliff hygiene, and the binding stopping rule: zero holdout survivors ends the historical-panel program permanently.",
@@ -565,12 +573,35 @@
     "population_definition": "gauntlet_v1_universes PIT snapshots (quarterly subset), SEP bars incl. delisted for pricing; SF1 ARQ fundamentals keyed by datekey (filing date) only; SF1 coverage per cell disclosed with an 80% SMALL-bucket impairment flag defined before results.",
     "metric": "Per-cell net daily equity curves -> DSR (n_trials=20) in-sample 2000-07..2015-12; PSR + benchmark-relative on holdout 2016-01..2025-12 (survivors only, touched once); 2x-cost rerun + parameter_cliff_report for any survivor.",
     "success_criteria": "Survivor = passes in-sample AND holdout AND 2x-cost AND not an isolated cliff peak -> earns >=20-grade paper forward test. Zero survivors = refuted + STOPPING RULE: historical-panel program ends permanently."
+   },
+   "backtest": {
+    "date": "2026-07-04",
+    "n": 20,
+    "mean_excess": 0.0223,
+    "mean_excess_shrunk": 0.01115,
+    "verdict": "supported",
+    "bias_checklist": {
+     "survivorship": "SEP delisted-inclusive panel; SF1 ARQ 673k filing-dated rows (1996-2025 incl. early-years supplement fixing first-snapshot starvation); coverage 81-100%/cell disclosed; held-union bars pulled for both windows with retry-backoff, 0 material gaps.",
+     "look_ahead": "Fundamentals keyed STRICTLY by SF1 datekey (filing date), never calendardate \u2014 the classic fundamentals sin; stale-filer guard (>400d) excludes lapsed reporters; execution at the close of the first trading day AFTER the quarterly signal date (no same-day fill).",
+     "selection": "20 cells enumerated in the committed prereg before any SF1 row was pulled; the DSR variance_of_sr bug (default 1.0) was found and fixed to the v1 cross-sectional convention BEFORE any verdict was recorded, and both the buggy (all-DSR-0) and fixed passes are on record.",
+     "multiple_testing": "20-cell grid, DSR deflated at n_trials=20 (variance_of_sr=0.0337 cross-sectional). House counter 133 \u2014 with that many lifetime hypotheses ~6-7 false positives at 5% are expected, which is EXACTLY why survivors earn only a paper forward test on FRESH data, not belief. The two-regime out-of-sample survival (2000-2015 AND 2016-2025) at 2x cost is far stronger evidence than a single in-sample DSR and is the basis for 'supported'.",
+     "overfitting": "Zero tuned parameters; N and bucket frozen; survivors REQUIRED a surviving parameter-neighbor (net_issuance both N; gross_prof both buckets) \u2014 asset_growth N50 LARGE cleared every stat bar but was EXCLUDED as an isolated peak per the frozen cliff rule.",
+     "costs_liquidity": "Per-bucket slippage (LARGE 5bps, SMALL 25bps) + $25 ticket; the forward-test survivors HELD at 2x slippage (net_issuance LARGE +14.3-15.1%, gross_prof N50 +11.6-11.7%); the thin passers (roa, gross_prof N25) died at 2x and were dropped \u2014 the cost stress did real work.",
+     "regime": "In-sample 2000-2015 (dot-com bust, GFC), holdout 2016-2025 (bull decade, high 11.43%/9.50% EW bar). Survivors beat their EW benchmark in BOTH regimes \u2014 the property v1's low-vol survivors LACKED (they died in the bull holdout). This two-regime survival is the finding.",
+     "small_n": "~3900 in-sample + ~2400 holdout daily obs/cell; PSR=1.0 in holdout is n-driven and NON-discriminating (any positive Sharpe clears it) \u2014 the BENCHMARK-beating is the real holdout bar, and that is what separated passers from failures. Forward test still needs >=20 graded paper quarters on fresh data before any validation claim."
+    },
+    "results_doc": "docs/lab_results_gauntlet_v2_fundamentals.md",
+    "notes": "FIRST SUPPORTED BACKTEST IN HOUSE HISTORY (earns a PAPER forward test \u2014 NOT live money, NOT validated). Two parameter-robust families cleared the full gauntlet (in-sample DSR at n=20 + holdout-EW-benchmark + 2x cost + non-isolated cliff): (1) NET-ISSUANCE-LOW LARGE [N25 & N50] \u2014 long the 50 lowest trailing-4Q share-count-change top-500 names, in-sample +9.1-9.3% vs 5.51%, holdout@2x +14.3-15.1% vs 11.43% (excess +2.9-3.7%/yr); (2) GROSS-PROFITABILITY-HIGH N50 [LARGE & SMALL] \u2014 holdout@2x +11.6-11.7% (excess +0.3-2.1%/yr). asset_growth_low N50 LARGE cleared every stat bar but was EXCLUDED as an isolated peak. CAVEATS FRONT AND CENTER: these are FAMOUS anomalies; McLean-Pontiff decay (~58% post-publication) means historical survival != live harvestability; house counter 133 implies expected false positives; the forward test on FRESH post-2026 data is the only arbiter. NET-ISSUANCE-LOW LARGE is the first mechanical LARGE-CAP strategy to beat its benchmark out-of-sample => a live Delphi-REPLACEMENT candidate (operator Lens A). Stopping rule does NOT fire. Artifacts docs/data/gauntlet_v2/."
+   },
+   "forward": {
+    "started": "2026-07-04",
+    "grades": []
    }
   },
   "gauntlet_v3_value": {
    "slug": "gauntlet_v3_value",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "backtested",
    "created": "2026-07-04",
    "history": [
     {
@@ -580,6 +611,10 @@
     {
      "date": "2026-07-04",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "backtested"
     }
    ],
    "mechanism": "The value family \u2014 the single most-documented anomaly the house has never tested. Four valuation multiples (P/B, P/S, P/E, EV/EBITDA) ranked on Sharadar DAILY point-in-time ratios, long the cheapest 50 equal-weight per bucket, quarterly, next-day-close execution. G1 pass (ratio = fundamentals/price, not tape); G2 PARTIAL and stated (mispricing/risk-premium claim, not constrained-counterparty structure) \u2014 hence the merciless in-run EW-of-universe benchmark. The literature is genuinely split (Hou-Xue-Zhang harsh, Jensen-Kelly-Pedersen kinder); the house frame \u2014 harvestable by a tiny equal-weighted book vs its own universe EW \u2014 is the arbiter, and gauntlet_v1 already killed every price family under it.",
@@ -592,6 +627,25 @@
     "population_definition": "gauntlet_v1_universes PIT top-500 (LARGE) / 501-2000 (SMALL) quarterly snapshots; ranking on DAILY pb/ps/pe/evebitda as-of the rebalance date (PIT by Sharadar construction); PE/EVEBITDA positive-only with the exclusion counted per rebalance; SEP delisted-inclusive bars for held names; coverage per cell disclosed.",
     "metric": "Per-cell net daily equity curve -> DSR (n_trials=8) in-sample 2000-07..2015-12; PSR + beats in-run bench_ew on holdout 2016-01..2025-12 (survivors only); 2x-cost + cliff.",
     "success_criteria": "Survivor = in-sample DSR>=0.95 AND > bench_ew, AND holdout PSR>=0.95 AND > bench_ew, AND 2x-cost stable, AND not an isolated cliff peak -> paper forward test. Zero survivors (with v2) = stopping rule."
+   },
+   "backtest": {
+    "date": "2026-07-04",
+    "n": 8,
+    "mean_excess": 0.0183,
+    "mean_excess_shrunk": 0.005229,
+    "verdict": "inconclusive",
+    "bias_checklist": {
+     "survivorship": "SEP delisted-inclusive; DAILY PIT multiples, coverage 76-100%/cell disclosed; PE/EVEBITDA positive-only exclusion counted per rebalance.",
+     "look_ahead": "DAILY valuation multiples are as-of-date (Sharadar computes daily from then-known fundamentals, no restatement); execution at next-day close.",
+     "selection": "8 cells frozen in the committed prereg (with a documented pre-data benchmark amendment); same DSR-variance fix as v2 applied before any verdict.",
+     "multiple_testing": "8-cell grid, DSR deflated at n_trials=8 (var_sr=0.0136); house counter 133.",
+     "overfitting": "Zero tuned parameters; the isolation test is the decider here \u2014 value_ps_low LARGE cleared in-sample+holdout+2x but its parameter/multiple-neighbors did NOT clear the full gauntlet (ps_SMALL died at 2x; ep/evebitda died at holdout), so no parameter-robust survivor exists \u2014 the honest read is 'value is alive but not cleanly harvestable standalone in this simple 4-multiple form.'",
+     "costs_liquidity": "Per-bucket slippage + 2x rerun; value_ps_low SMALL died going 1x->2x, value_ps_low LARGE held (+12.27% vs 11.43%) but stands alone.",
+     "regime": "Value beat its EW benchmark in-sample in 6/8 cells; in the bull holdout only price-to-sales sustained \u2014 consistent with value's known post-2008 weakness (esp. book-to-market, which failed in-sample here exactly as the modern literature predicts).",
+     "small_n": "~3900/~2400 daily obs; PSR n-driven; the benchmark bar is the real one. No parameter-robust survivor => no forward test; a composite/quality-overlaid value construction is the indicated follow-up, not a standalone value forward test."
+    },
+    "results_doc": "docs/lab_results_gauntlet_v3_value.md",
+    "notes": "Value is ALIVE but not cleanly harvestable standalone. 6/8 cells survived in-sample (price-to-sales, earnings-yield, EV/EBITDA both buckets; price-to-BOOK failed exactly as the modern literature predicts); 2 passed the holdout at 1x (value_ps both buckets); only value_ps_low LARGE survived 2x (+12.27% vs 11.43%) \u2014 but with NO parameter-robust neighbor (its SMALL twin died at 2x, its multiple-peers died at holdout), so it fails the isolated-peak bar and earns NO standalone forward test. INCONCLUSIVE, not refuted: value showed genuine two-regime signal, just not robustly enough in simple single-multiple form. The indicated follow-up is a COMPOSITE (net-issuance + gross-profitability + value, the three surviving families) and/or an LLM value-trap overlay on the value shortlist (operator Lens B) \u2014 a new prereg. Artifacts docs/data/gauntlet_v3/."
    }
   }
  }
