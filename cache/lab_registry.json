@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 96,
+ "hypotheses_ever": 98,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -239,6 +239,56 @@
    "status": "preregistered",
    "underutilized_because": "The full cluster signal is public (every Form 4 is EDGAR-visible) but almost nobody filters clusters by the ABSENCE of contemporaneous news/price/volume signal, since that requires a three-way negative screen most scanners are not built to run at all; if the quiet subset differs, it is underused because it is operationally annoying to isolate, not because it is secret.",
    "who_loses": "If real: market participants who only act on visible catalysts (news, volume, price pops) and structurally miss the quiet subset until the re-rating catches up -- the same late-reactor story as momentum, but at the filing-conviction layer rather than the price layer."
+  },
+  "delphi_ruleset_faithful": {
+   "slug": "delphi_ruleset_faithful",
+   "sponsor": "operator",
+   "status": "refuted",
+   "created": "2026-07-04",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
+    }
+   ],
+   "mechanism": "CORRECTION study for delphi_ruleset_fullwindow, whose primary cell mis-specified Delphi's rules (erratum in its results doc). This slug tests her ACTUAL semantics, mirrored line-for-line from delphi/signals.py::rank_by_momentum and delphi/backtest.py: the 20-day MA as an ENTRY FILTER inside the momentum ranking (below-MA names never ranked), 65-day momentum and MA on the same split-adjusted close series, top-10 equal weight, 20% rebalance band, cooldown-on-any-sell, daily (current live cadence) and weekly (original claim) evaluation, on the same 110 PIT top-119 universes.",
+   "who_loses": "Late reactors anchoring on stale prices, per the standard momentum story \u2014 if the edge exists at all in implementable long-only form.",
+   "underutilized_because": "Not underutilized; the open question was whether her true entry-filter design escapes the momentum graveyard where #11's strawman variant could not.",
+   "falsifiable_claim": "SUPPORTED iff faithful_daily full-window net excess CAGR > 0 vs BOTH the EW top-119 benchmark and SPY TR at 1x costs; REFUTED iff excess vs the EW benchmark <= 0.",
+   "prereg": {
+    "doc": "docs/lab_prereg_delphi_ruleset_faithful.md",
+    "date": "2026-07-04",
+    "population_definition": "Identical panel to delphi_ruleset_fullwindow: 110 quarter-end PIT top-119 US-common universes 1999-03-31..2026-06-30, 419 final tickers, SEP bars 1998-12 onward with delisted members through final bar; ADR/Canadian excluded by design; panel reuse disclosed as the house's erratum-correction path.",
+    "metric": "Net-of-cost full-window excess CAGR vs same-universe EW benchmark and SPY TR; IR; per-regime splits; per-reason round trips; 2x rerun.",
+    "success_criteria": "PASS: faithful_daily excess CAGR > 0 vs both benchmarks net at 1x slippage. REFUTED: excess vs EW <= 0. Two cells enumerated (daily primary, weekly); no other variants."
+   },
+   "backtest": {
+    "date": "2026-07-04",
+    "n": 2,
+    "mean_excess": -0.0828,
+    "mean_excess_shrunk": -0.007527,
+    "verdict": "refuted",
+    "bias_checklist": {
+     "survivorship": "Same panel as delphi_ruleset_fullwindow: 419 final tickers, 2.06M SEP bars, delisted members through final trading day, 0 missing, 0 price-return-only; universes from DAILY quarter-end cross-sections with the self-auditing top-119 boundary (only above-floor exclusions: 25 ADR/Canadian issuers excluded by the US-common-only design rule, verified per name).",
+     "look_ahead": "Structural: same-day-only snapshots, bars trimmed to the signal date, signal_lag=1 (signals at close t, fills at close t+1 \u2014 deliberately STRICTER than her live code's same-day execution, which is a small lookahead this study refuses); quarterly membership applies from the first trading day after its quarter-end; MA filter computed on the signal date's own closes.",
+     "selection": "Two cells enumerated in the committed correction prereg BEFORE any faithful cell was computed (the runner phase did not exist at prereg commit). Parameters are Delphi's pre-existing live values throughout; the correction was specified from her code, not from candidate results.",
+     "multiple_testing": "n_trials=2 this study; cumulative Delphi-family cells on this panel now 5 across two preregs, all enumerated. House counter hypotheses_ever after this record: 98. Verdict criterion is benchmark-relative sign \u2014 a 5-cell selection effect cannot manufacture a pass, and every one of the 5 failed anyway.",
+     "overfitting": "Zero parameters tuned in-study. Sharpe CI for the primary [-0.35, 0.39] straddles zero; the verdict rests on a -9.36pp/yr benchmark gap, not a threshold-adjacent statistic.",
+     "costs_liquidity": "5bps/side mega-cap slippage + $25 tickets, band damping modeled (trims gated at \u00b120%); realized turnover 37.4x/yr on the daily cell (374bps/yr drag), 18.8x weekly; 2x-slippage rerun: -5.04% CAGR, verdict unchanged. The design's own churn, not the cost assumption, is the story.",
+     "regime": "27-year window spanning six prereg-frozen regimes. Published table: 1999-2002 -25.7%/yr, 2003-07 -1.3%, 2008-12 -11.2%, 2013-19 +6.4%, 2020-21 +27.2%, 2021-26 +13.6%/yr (daily cell). The weekly cell's 2021-26 segment (+18.89%/yr) replicates #4's Run B (+19.15%/yr implied) within 0.3pp \u2014 cross-study validation that the era, not the rules, made that window.",
+     "small_n": "n_obs=6,913 daily returns; 10,971 round trips (median hold 3 trading days) on the primary cell; sharpe_ci published. No forward test follows \u2014 only supported backtests earn one, and this is refuted terminal."
+    },
+    "results_doc": "docs/lab_results_delphi_ruleset_faithful.md",
+    "notes": "faithful_daily (primary, current live cadence): -1.42% CAGR, Sharpe 0.01 [CI -0.35, 0.39], maxDD -90.5%, excess vs EW-119 -9.36%/yr (IR -0.58), vs SPY -10.10%/yr; -5.04% CAGR at 2x slippage. faithful_weekly (original claim's cadence): 0.74% CAGR, excess -7.20%/yr, maxDD -91.9%. Benchmark EW-119: 7.94%, maxDD -55.1%. Her true MA-entry-filter design churns HARDER than #11's mis-specified variant (names oscillate around their MA in and out of the eligible set; band cannot damp full dropouts): 10,971 round trips, median hold 3 trading days, 37.4x/yr turnover. mean_excess = mean of 2 cells (-9.36, -7.20)/2. Reconciliation: faithful_weekly 2021-26 = +18.89%/yr vs #4 Run B implied +19.15%/yr \u2014 the two studies agree; the era was real, and it was the outlier. Artifacts docs/data/delphi_fullwindow/faithful_results.json."
+   }
   }
  }
 }
