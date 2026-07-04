@@ -104,14 +104,26 @@ if PHASE == "holdings":
 
 elif PHASE == "bars":
     import shared.sharadar as sh
+    import time as _time
     union = json.load(open(f"{S}/held_union.json"))
     bars = {}
     CH = 30
+
+    def _fetch(chunk, attempts=4):
+        for a in range(attempts):
+            try:
+                return sh._datatable("SEP", ticker=",".join(chunk), **{
+                    "date.gte": "2000-04-01", "date.lte": "2016-03-31",
+                    "qopts.columns": "ticker,date,close,closeadj",
+                    "qopts.per_page": 10000})
+            except Exception as e:
+                if a == attempts - 1:
+                    raise
+                _time.sleep(2 ** (a + 1))
+        return []
+
     for i in range(0, len(union), CH):
-        for r in sh._datatable("SEP", ticker=",".join(union[i:i+CH]), **{
-                "date.gte": "2000-04-01", "date.lte": "2016-03-31",
-                "qopts.columns": "ticker,date,close,closeadj",
-                "qopts.per_page": 10000}):
+        for r in _fetch(union[i:i+CH]):
             if r.get("close") is None:
                 continue
             b = {"date": r["date"][:10], "close": float(r["close"])}
