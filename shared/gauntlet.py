@@ -182,6 +182,59 @@ def dollar_volume_pit_universe(
 SelectFn = Callable[[str, list[str], dict[str, list[dict]]], dict[str, float]]
 
 
+# ---------------------------------------------------------------------------
+# Point-in-time event feed (insider clusters, earnings, spinoffs, ...)
+# ---------------------------------------------------------------------------
+
+class PITEventFeed:
+    """Event table with the same structural no-lookahead guarantee
+    `simulate` gives bars.
+
+    Event-driven strategy families (insider clusters, PEAD, spinoffs,
+    lockups) join their signal in through the spec's closure — which
+    makes event data a lookahead surface the bar-trimming guarantee
+    does not cover. This class closes it: rows must be keyed by the
+    date the information became PUBLIC (the filing/announcement date,
+    default field `public_date`), never the economic event date — an
+    insider-cluster row keyed on the transaction date leaks the 2–10
+    day filing lag into every decision. The constructor refuses rows
+    missing the date field so the guarantee is structural, and select()
+    functions should only ever touch events via `upto(as_of)` /
+    `on(day)` / `by_symbol(as_of)`.
+    """
+
+    def __init__(self, rows: list[dict], *, date_field: str = "public_date"):
+        self.date_field = date_field
+        for i, r in enumerate(rows):
+            if not r.get(date_field):
+                raise ValueError(
+                    f"event row {i} missing '{date_field}' — every row must be "
+                    "keyed by the date the information became public "
+                    "(filing/announcement date, not the economic event date)")
+        self._rows = sorted(rows, key=lambda r: str(r[date_field])[:10])
+
+    def upto(self, as_of: str) -> list[dict]:
+        """All events public on or before `as_of` — never a future row."""
+        cutoff = str(as_of)[:10]
+        return [r for r in self._rows
+                if str(r[self.date_field])[:10] <= cutoff]
+
+    def on(self, day: str) -> list[dict]:
+        """Events that became public exactly on `day`."""
+        d = str(day)[:10]
+        return [r for r in self._rows if str(r[self.date_field])[:10] == d]
+
+    def by_symbol(self, as_of: str, *, symbol_field: str = "symbol") -> dict:
+        """`upto(as_of)` grouped by symbol, for O(1) lookups in select()."""
+        out: dict = {}
+        for r in self.upto(as_of):
+            out.setdefault(r.get(symbol_field), []).append(r)
+        return out
+
+    def __len__(self) -> int:
+        return len(self._rows)
+
+
 @dataclass
 class StrategySpec:
     """A grid entry: a name plus a rule that maps
@@ -214,6 +267,29 @@ def _trim(bars_by_symbol: dict[str, list[dict]],
             for s, bars in bars_by_symbol.items()}
 
 
+def _price_field_by_symbol(bars_by_symbol: dict[str, list[dict]]) -> dict[str, str]:
+    """Pick the marking price per symbol: total return when complete.
+
+    `close` is split-adjusted but dividend-EXCLUSIVE, so an equity curve
+    marked on it silently drops every dividend — ~2%/yr on the broad
+    market, and differentially worse for value/quality/dividend
+    families, which corrupts cross-family ranking (found 2026-07-04).
+    `close_total_return` (Sharadar closeadj) fixes that, but mixing the
+    two fields within one symbol would inject a fake jump at every
+    coverage gap — so the total-return series is used only when EVERY
+    bar of that symbol carries it; otherwise the whole symbol falls
+    back to `close` and is disclosed in the result's
+    `price_return_only_symbols`.
+    """
+    fields: dict[str, str] = {}
+    for s, bars in bars_by_symbol.items():
+        if bars and all(b.get("close_total_return") is not None for b in bars):
+            fields[s] = "close_total_return"
+        else:
+            fields[s] = "close"
+    return fields
+
+
 def simulate(
     spec: StrategySpec,
     snapshots: dict[str, list[str]],
@@ -232,12 +308,22 @@ def simulate(
     approximation — see module docstring on delisted-name handling;
     Sharadar SEP bars already run through a name's true final trading
     day, so gaps here are trading halts, not survivorship holes).
+
+    Marks and fills on `close_total_return` (split+dividend adjusted)
+    for every symbol whose bars carry it completely, so dividends
+    compound instead of vanishing; symbols without full total-return
+    coverage fall back to split-adjusted `close` and are disclosed in
+    the result's `price_return_only_symbols` — a results doc citing a
+    run with a non-empty list must say so. Note the `trimmed` bars a
+    spec's select() receives are untouched: signals computed on `close`
+    are legitimate; only the book's marking is total-return.
     """
     all_days = _trading_days(bars_by_symbol, start, end)
     if not all_days:
         raise ValueError("no trading days in bars_by_symbol for the given window")
     rebalance_dates = {d for d in snapshots if (not start or d >= start)
                         and (not end or d <= end)}
+    price_field = _price_field_by_symbol(bars_by_symbol)
 
     cash = initial_cash
     positions: dict[str, float] = {}
@@ -249,7 +335,7 @@ def simulate(
         for s, bars in bars_by_symbol.items():
             for b in bars:
                 if b["date"] == day:
-                    last_price[s] = b["close"]
+                    last_price[s] = b[price_field[s]]
 
         if day in rebalance_dates:
             universe = snapshots[day]
@@ -313,7 +399,9 @@ def simulate(
                              for s in positions)
         curve.append({"date": day, "equity": equity})
 
-    return {"curve": curve, "trades": trades, "stats": summarize(curve)}
+    return {"curve": curve, "trades": trades, "stats": summarize(curve),
+            "price_return_only_symbols": sorted(
+                s for s, f in price_field.items() if f == "close")}
 
 
 # ---------------------------------------------------------------------------
@@ -367,6 +455,33 @@ def summarize(curve: list[dict]) -> dict:
     return {"n_obs": n, "total_return": total_return, "cagr": cagr,
             "sharpe": sharpe, "sortino": sortino, "max_drawdown": max_dd,
             "win_rate": win_rate, "skew": skew, "kurtosis": kurt}
+
+
+def summarize_by_period(curve: list[dict], boundaries: list[str]) -> dict:
+    """Split one equity curve at boundary dates; summarize each segment.
+
+    The per-regime disclosure every Gauntlet results doc must print: a
+    full-panel Sharpe is an average over regimes a survivor may never
+    see again, and the house has been burned by exactly this (the
+    warm-vintage spinoff +41% that was −1% out of regime). Segments are
+    [start, b1), [b1, b2), …, [bn, end]; each maps
+    "<first-date>..<last-date>" → summarize(segment). Empty segments
+    are omitted; a boundary set that leaves everything in one segment
+    just returns the full-curve stats under one key.
+    """
+    cuts = sorted(str(b)[:10] for b in boundaries)
+    segments: list[list[dict]] = [[] for _ in range(len(cuts) + 1)]
+    for point in curve:
+        d = str(point["date"])[:10]
+        idx = sum(1 for c in cuts if d >= c)
+        segments[idx].append(point)
+    out: dict = {}
+    for seg in segments:
+        if not seg:
+            continue
+        label = f"{seg[0]['date']}..{seg[-1]['date']}"
+        out[label] = summarize(seg)
+    return out
 
 
 # ---------------------------------------------------------------------------

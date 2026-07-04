@@ -145,3 +145,53 @@ directly. `dollar_volume_pit_universe` is superseded as a SIZE proxy
 and survives only as a liquidity screen. **Phase (b) — the factory
 prereg — is unblocked**, and backlog #4 (Delphi PIT universe) is
 unblocked by the same purchase.
+
+## Addendum 2 (2026-07-04, evening): comprehensiveness review — dividend bug fixed, event-feed guard, regime splits
+
+A pre-phase-(b) review of "what does the engine NOT account for" found
+one genuine defect and two missing guards. All three are now in
+`shared/gauntlet.py`, each with regression tests (engine suite 19 → 36
+tests):
+
+- **Dividends were silently dropped (FIXED — was a real bug).**
+  `simulate()` marked and filled on SEP `close`, which is
+  split-adjusted but dividend-EXCLUSIVE — every curve was a
+  price-return curve, understating total returns ~2%/yr and
+  differentially penalizing value/quality/dividend families vs
+  zero-yield growth, corrupting exactly the cross-family ranking the
+  factory exists to produce. `simulate()` now marks on
+  `close_total_return` (Sharadar `closeadj`, already carried by
+  `to_shared_bars`) for any symbol whose bars have it completely;
+  symbols with gaps fall back to `close` WHOLE (mixing fields would
+  fake a jump at every gap) and are disclosed in the result's new
+  `price_return_only_symbols`. A results doc citing a run with a
+  non-empty list must say so. Regression test: a flat-price dividend
+  payer whose price-return curve is flat but whose total-return curve
+  compounds.
+
+- **`PITEventFeed` — structural no-lookahead for event data (NEW).**
+  The bar-trimming guarantee never covered event feeds (insider
+  clusters, PEAD, spinoffs, lockups), which join in through the spec's
+  closure — a fresh lookahead surface. `PITEventFeed` requires every
+  row to carry the date the information became PUBLIC (default field
+  `public_date`; constructor refuses rows without it — a cluster row
+  keyed on transaction date would leak the 2–10 day filing lag), and
+  select() functions touch events only via `upto(as_of)` / `on(day)` /
+  `by_symbol(as_of)`. Event-driven grid families in the factory prereg
+  must route their event tables through this class.
+
+- **`summarize_by_period` — per-regime disclosure (NEW).** Splits one
+  equity curve at boundary dates and summarizes each segment. Every
+  factory results doc must print per-regime splits so a survivor that
+  is one warm regime plus noise is visible (the spinoff ocean lesson:
+  +41% warm vintage, −1% out of regime).
+
+Still NOT accounted for, disclosed for the prereg to handle: slippage
+is a flat 10bps placeholder (per-liquidity-bucket numbers are a prereg
+obligation; re-run survivors at 2–3× assumed costs), no intraday
+prices (intraday stops only approximable at the close, disclosed
+per-family), and the LLM factor stays out of the simulation entirely —
+mechanical skeletons + headroom brackets in the grid, actual LLM lift
+measured only forward via ghost control arms (training-data
+contamination makes historical LLM judgment unrunnable; see the
+blinded-reader precedent).

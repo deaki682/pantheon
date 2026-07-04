@@ -10,6 +10,7 @@ import pytest
 
 from shared.gauntlet import (
     CostModel,
+    PITEventFeed,
     StrategySpec,
     build_snapshots,
     deflated_sharpe_ratio,
@@ -19,6 +20,7 @@ from shared.gauntlet import (
     probabilistic_sharpe_ratio,
     simulate,
     summarize,
+    summarize_by_period,
 )
 
 
@@ -144,6 +146,132 @@ def test_simulate_no_lookahead_strategy_sees_only_past_bars():
 
     simulate(StrategySpec("probe", select), snapshots, bars)
     assert seen_last_dates == ["2024-01-01", "2024-01-02"]  # never 01-03
+
+
+# ---------------------------------------------------------------------------
+# Total-return marking (dividends must compound, not vanish)
+# ---------------------------------------------------------------------------
+
+def _div_payer(days, price=10.0, div_growth=1.01):
+    """Flat price, compounding total-return series — a pure dividend payer."""
+    return [{"date": d, "close": price,
+             "close_total_return": price * div_growth ** i}
+            for i, d in enumerate(days)]
+
+
+def test_simulate_dividends_compound_via_total_return():
+    days = [f"2024-01-{i:02d}" for i in range(1, 11)]
+    bars = {"DIV": _div_payer(days)}
+    snapshots = {days[0]: ["DIV"]}
+    spec = StrategySpec("hold-div", lambda day, u, b: {"DIV": 1.0})
+    cost = CostModel(commission_bps=0.0, slippage_bps=0.0, min_ticket=1.0)
+
+    result = simulate(spec, snapshots, bars, initial_cash=1000.0, cost=cost)
+    # Price-return curve would be dead flat; total return compounds 1.01/day.
+    assert result["curve"][-1]["equity"] == pytest.approx(1000.0 * 1.01 ** 9)
+    assert result["price_return_only_symbols"] == []
+
+
+def test_simulate_incomplete_total_return_falls_back_whole_symbol():
+    # One bar missing close_total_return -> the WHOLE symbol marks on
+    # close (no fake jump from mixing fields), and the fallback is
+    # disclosed in price_return_only_symbols.
+    days = [f"2024-01-{i:02d}" for i in range(1, 6)]
+    bars_list = _div_payer(days)
+    del bars_list[2]["close_total_return"]
+    bars = {"DIV": bars_list}
+    snapshots = {days[0]: ["DIV"]}
+    spec = StrategySpec("hold", lambda day, u, b: {"DIV": 1.0})
+    cost = CostModel(commission_bps=0.0, slippage_bps=0.0, min_ticket=1.0)
+
+    result = simulate(spec, snapshots, bars, initial_cash=1000.0, cost=cost)
+    assert result["curve"][-1]["equity"] == pytest.approx(1000.0)  # flat close
+    assert result["price_return_only_symbols"] == ["DIV"]
+
+
+def test_simulate_mixed_symbols_each_use_own_field():
+    days = ["2024-01-01", "2024-01-02"]
+    bars = {
+        "DIV": _div_payer(days, div_growth=1.10),
+        "PLAIN": [{"date": d, "close": 10.0} for d in days],
+    }
+    snapshots = {days[0]: ["DIV", "PLAIN"]}
+    spec = StrategySpec("half-half", lambda day, u, b: {"DIV": 0.5, "PLAIN": 0.5})
+    cost = CostModel(commission_bps=0.0, slippage_bps=0.0, min_ticket=1.0)
+
+    result = simulate(spec, snapshots, bars, initial_cash=1000.0, cost=cost)
+    # DIV half grows 10%, PLAIN half flat -> book +5%.
+    assert result["curve"][-1]["equity"] == pytest.approx(1050.0)
+    assert result["price_return_only_symbols"] == ["PLAIN"]
+
+
+# ---------------------------------------------------------------------------
+# Point-in-time event feed
+# ---------------------------------------------------------------------------
+
+def _events():
+    return [
+        {"public_date": "2024-01-05", "symbol": "AAA", "kind": "cluster"},
+        {"public_date": "2024-01-10", "symbol": "BBB", "kind": "cluster"},
+        {"public_date": "2024-01-10", "symbol": "AAA", "kind": "13d"},
+    ]
+
+
+def test_event_feed_upto_never_returns_future_rows():
+    feed = PITEventFeed(_events())
+    assert feed.upto("2024-01-01") == []
+    assert [r["symbol"] for r in feed.upto("2024-01-05")] == ["AAA"]
+    assert len(feed.upto("2024-01-10")) == 3
+    assert len(feed.upto("2024-12-31")) == 3
+
+
+def test_event_feed_on_exact_day_only():
+    feed = PITEventFeed(_events())
+    assert len(feed.on("2024-01-10")) == 2
+    assert feed.on("2024-01-06") == []
+
+
+def test_event_feed_by_symbol_groups_without_future_leak():
+    feed = PITEventFeed(_events())
+    grouped = feed.by_symbol("2024-01-09")
+    assert set(grouped) == {"AAA"}
+    assert len(grouped["AAA"]) == 1  # the 01-10 rows are still in the future
+
+
+def test_event_feed_rejects_rows_missing_public_date():
+    with pytest.raises(ValueError, match="public_date"):
+        PITEventFeed([{"symbol": "AAA", "transaction_date": "2024-01-02"}])
+
+
+def test_event_feed_custom_date_field():
+    feed = PITEventFeed([{"filed": "2024-02-01", "symbol": "CCC"}],
+                        date_field="filed")
+    assert len(feed.upto("2024-02-01")) == 1
+    assert feed.upto("2024-01-31") == []
+
+
+# ---------------------------------------------------------------------------
+# Per-regime curve splits
+# ---------------------------------------------------------------------------
+
+def test_summarize_by_period_splits_at_boundaries():
+    flat = [{"date": f"2024-01-{i:02d}", "equity": 1000.0} for i in range(1, 6)]
+    rising = [{"date": f"2024-02-{i:02d}", "equity": 1000.0 * (1.01 ** i)}
+              for i in range(1, 6)]
+    out = summarize_by_period(flat + rising, ["2024-02-01"])
+    assert len(out) == 2
+    seg1, seg2 = (out[k] for k in sorted(out))
+    assert seg1["total_return"] == pytest.approx(0.0)
+    assert seg2["total_return"] > 0.03
+
+
+def test_summarize_by_period_no_boundaries_is_full_curve():
+    curve = [{"date": f"2024-01-{i:02d}", "equity": 1000.0 + i} for i in range(1, 5)]
+    out = summarize_by_period(curve, [])
+    assert len(out) == 1
+    (label,) = out
+    assert label == "2024-01-01..2024-01-04"
+    assert out[label]["n_obs"] == 3
 
 
 # ---------------------------------------------------------------------------
