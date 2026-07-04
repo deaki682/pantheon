@@ -96,6 +96,7 @@ def run_cell(
     cost: CostModel,
     start_idx: int,
     end_idx: int,
+    prices: np.ndarray | None = None,
 ) -> dict:
     """Simulate one grid cell.
 
@@ -105,8 +106,12 @@ def run_cell(
     signal-day data only). Returns {"curve", "stats"} like the
     reference engine (trades are not itemized — the screen needs
     curves, and turnover costs are applied inside).
+
+    `prices` lets a multi-cell screen pass `carry_forward(panel.closeadj)`
+    once instead of recomputing it per cell.
     """
-    prices = carry_forward(panel.closeadj)
+    if prices is None:
+        prices = carry_forward(panel.closeadj)
     exec_by_idx = {i: w for i, w in schedule}
     n_t = len(panel.tickers)
 
