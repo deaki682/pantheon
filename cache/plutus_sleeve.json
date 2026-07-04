@@ -1,0 +1,21 @@
+{
+  "cash": 0.0,
+  "contributed_cash": 0.0,
+  "cooldown_days": 0,
+  "cooldowns": {},
+  "gfv_count": 0,
+  "halted": false,
+  "name": "plutus",
+  "peak_equity": 0.0,
+  "pending_funding": {
+    "directive_date": "2026-07-04",
+    "expected": "all settled cash from Delphi's liquidation at the 2026-07-06 transition of power (~$1,950 at Thursday's mark); sells settle T+1, so the sweep lands and settles from 2026-07-07",
+    "from": "delphi",
+    "launch_doc": "docs/plutus_launch_override.md",
+    "note": "Operator directive (conscious override): Delphi retired, sleeve reallocated to Plutus. Research-only until funded AND the swept cash settles. First settled-cash quarterly rebalance is the launch."
+  },
+  "pending_settlements": [],
+  "positions": {},
+  "realized_pnl": 0.0,
+  "trades_count": 0
+}
