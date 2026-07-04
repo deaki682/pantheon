@@ -14,6 +14,25 @@
  },
  "strategies": {
   "gauntlet_v1": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Per-bucket linear slippage (LARGE 5bps, SMALL 25bps), $25 min ticket, $3 price floor, $1M median-21d-dollar-volume floor, at $10k/cell -- house scale, where these names are tradable. Prereg-mandated 2x-slippage disclosure on the five holdout cells: vol_L126__N10__LARGE: IS 9.15%/HO 8.52% at 2x slippage; vol_L126__N25__LARGE: IS 9.27%/HO 6.69% at 2x slippage; vol_L126__N50__LARGE: IS 9.48%/HO 8.55% at 2x slippage; vol_L126__N50__SMALL: IS 8.85%/HO 4.13% at 2x slippage; vol_L63__N25__LARGE: IS 8.81%/HO 8.76% at 2x slippage. Verdicts unchanged at 2x.",
+     "look_ahead": "Signals computed from raw closeadj through the month-end signal close t; execution at the NEXT month's first trading close via explicit signal/execution date pairs (engine signal_lag feature, added before any run; carry-forward fills price executions but can never satisfy signal-eligibility windows). Marketcap dated t derives from t's close and share count -- used for t's signal, traded t+1. No fundamentals, no restatement exposure.",
+     "multiple_testing": "90 trials by design, all counted: hypotheses_ever went 1 -> 91 at prereg time (house counter, registry adjustment record). DSR benchmarked against n_trials=90 with cross-sectional variance_of_sr=0.0556 measured on the grid's own 90 in-sample Sharpes. The holdout was touched exactly once, by the top-5 only. No cell beyond the 90 was ever computed.",
+     "overfitting": "Zero free parameters after the prereg commit: windows, N, buckets, floors, costs, splits and bars all frozen before data. 186 monthly rebalances and ~3,900 daily observations per cell in-sample; the <=5-survivor cap bounded selection intensity on the 120-month holdout. The refutation itself is the overfitting demonstration: 10 cells cleared a deflated in-sample bar and all 5 advancing cells failed out-of-sample against the benchmark.",
+     "regime": "In-sample 2000-2015 contains the dot-com crash and GFC; holdout 2016-2025 is one long bull with a fast COVID crash. Prereg section 9.7 named clearing both as the regime test; low-vol passed the crash-heavy sample and failed the bull decade against the benchmark -- the refutation IS the regime finding: the family's in-sample edge was crash exposure, not persistent alpha.",
+     "selection": "Population = every name passing the prereg's mechanical screens on each of 186 IS + 120 HO month-ends (no hand-picking; catalog saved as house population gauntlet_v1_universes, 612 rows with coverage note). The grid itself was the complete pre-committed catalog of variants: 90 cells enumerated in the prereg before any panel pull, none added or removed after.",
+     "small_n": "Per cell: ~3,900 IS daily returns, 186 IS + 120 HO monthly rebalances; DSR/PSR computed with each cell's own n_obs, skew and kurtosis. Factory-level mean_excess is the mean IS CAGR gap vs bucket benchmark across all 90 cells (-5.5%/yr, 14/90 positive); shrinkage on n=90 leaves the sign untouched. No forward test follows -- only a supported backtest earns one.",
+     "survivorship": "Sharadar SEP/DAILY panels include delisted names through their final trading day (verified SIVBQ/BBBYQ); universes built per-date from names alive that day. 27.2M IS bars across 14,240 tickers, 0 skipped. DAILY-vs-SEP mismatch: median 3 names/date (0.06%, max 16) excluded and disclosed. Delisting exits sellable at stale final close at next monthly rebalance -- optimistic, which can only have UNDERSTATED the refuted families' failure."
+    },
+    "date": "2026-07-04",
+    "mean_excess": -0.0547,
+    "mean_excess_shrunk": -0.044755,
+    "n": 90,
+    "notes": "Factory-level record: n=90 grid cells; mean_excess = mean in-sample CAGR excess vs same-bucket EW benchmark across the grid. Stage 1 killed 80/90 (all momentum/reversal/size/neglect); stage 2 (one holdout pass, top-5 low-vol) killed the rest: PSR vs zero = 1.0 for all five, but none beat the bucket benchmark 2016-2025. Per-cell data: docs/data/gauntlet_v1/.",
+    "results_doc": "docs/lab_results_gauntlet_v1.md",
+    "verdict": "refuted"
+   },
    "created": "2026-07-04",
    "falsifiable_claim": "At least one of the 90 pre-committed cells clears the frozen in-sample bar (DSR >= 0.95 with n_trials=90 AND net CAGR above the matching equal-weight bucket benchmark) and then the frozen holdout bar (PSR >= 0.95 AND beats the benchmark out-of-sample, net of costs). Zero passers at either stage refutes the factory.",
    "history": [
@@ -24,6 +43,10 @@
     {
      "date": "2026-07-04",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
     }
    ],
    "mechanism": "Factory-level meta-hypothesis: the best-documented cross-sectional equity anomalies \u2014 momentum (investor underreaction and slow information diffusion), short-term reversal (compensation for providing liquidity into price pressure), low-volatility (leverage-constrained investors overpaying for lottery-like high-vol names), and size/neglect (institutional mandates and analyst coverage thinning out below the top ~1000 names, leaving mispricings unharvested) \u2014 are each claimed by decades of academic literature to persist in US equities. Each grid cell is the simplest implementable long-only form of one such claim. The factory tests whether ANY survive realistic costs, a 16y in-sample, a 10y holdout, and deflation for 90 simultaneous tries at the house's own scale.",
@@ -36,7 +59,7 @@
    },
    "slug": "gauntlet_v1",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "refuted",
    "underutilized_because": "Not underutilized in the aggregate \u2014 these are famous factors \u2014 but famously fragile after costs, in long-only implementable form, at small size, outside backtest samples. The factory's point is precisely to measure how much of the published effect is harvestable by THIS house, and to build the graveyard of cells that are not.",
    "who_loses": "Momentum: late reactors who anchor on stale prices. Reversal: impatient liquidity demanders forced to sell into weakness. Low-vol: leverage-constrained lottery buyers overpaying for volatile names. Size/neglect: nobody is on the other side per se \u2014 the edge, if real, is a premium for holding what mandates and coverage ignore."
   },
