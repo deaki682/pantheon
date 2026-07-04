@@ -194,6 +194,40 @@ def bars_for(symbol: str, store: dict) -> list[dict]:
     return store.get("symbols", {}).get(symbol.upper(), {}).get("bars", [])
 
 
+def strip_preinception_padding(bars: list[dict]) -> tuple[list[dict], Optional[str]]:
+    """Drop a leading run of flat, constant-OHLC bars.
+
+    Discovered 2026-07-04 (cross_asset_trend study): when a requested
+    date range starts before a symbol's real listing date, Robinhood's
+    historicals endpoint pads the gap with a bar at a constant price
+    (open == high == low == close, typically volume 0) instead of
+    returning `not_found` for those dates. A naive lookback signal
+    (momentum, moving average, volatility) computed over this padding
+    reads it as a real zero-volatility trading history, which can
+    silently corrupt any signal whose window overlaps the padding.
+
+    This is NOT the same as a genuine low-volume day (real trading can
+    have volume=0 recorded with the price still moving — verified on
+    EEM/FXI in that study) — the reliable tell is the OHLC being
+    IDENTICAL to the first bar's close, run-length from the start.
+
+    Returns `(cleaned_bars, real_start_date)` — `real_start_date` is
+    `None` if every bar was padding (misconfigured range) or the list
+    was empty. Every study pulling bars for an instrument that might
+    have listed after the pull's start date should call this before
+    computing any signal.
+    """
+    if not bars:
+        return bars, None
+    c0 = bars[0]["close"]
+    i = 0
+    while i < len(bars) and bars[i]["open"] == bars[i]["high"] == bars[i]["low"] == bars[i]["close"] == c0:
+        i += 1
+    if i >= len(bars):
+        return [], None
+    return bars[i:], bars[i]["date"]
+
+
 def coverage(
     store: dict,
     symbols: Iterable[str],
