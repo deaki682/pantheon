@@ -88,10 +88,11 @@ for e in deduped:
     else: drop += 1
 print(f"kept {len(keep)} | screened {drop} | no bars {nobars}", flush=True)
 
-car = event_car(keep, bars, spy, max_offset=40)
+car = event_car(keep, bars, spy, max_offset=40, carry_last=True)
+car_dropped = event_car(keep, bars, spy, max_offset=25)  # survivors-only, disclosed
 singles = []
 for e in keep:
-    one = event_car([e], bars, spy, max_offset=25)
+    one = event_car([e], bars, spy, max_offset=25, carry_last=True)
     if one["n"][25] == 1:
         singles.append({"symbol": e["symbol"], "date": e["date"], "car25": one["mean_car"][25]})
 xs = [s["car25"] for s in singles]
@@ -104,7 +105,7 @@ per_year = {}
 for y in range(2016, 2026):
     evs = [e for e in keep if e["date"].startswith(str(y))]
     if evs:
-        cy = event_car(evs, bars, spy, max_offset=25)
+        cy = event_car(evs, bars, spy, max_offset=25, carry_last=True)
         per_year[str(y)] = {"n": cy["n"][25], "mean25": cy["mean_car"][25],
                              "median25": cy["median_car"][25]}
 report = {"prereg": "docs/lab_prereg_tender_target_14d9.md",
@@ -115,6 +116,7 @@ report = {"prereg": "docs/lab_prereg_tender_target_14d9.md",
           "per_event": singles, "per_year": per_year,
           "coverage": {"raw_14d9": len(raw), "matched_deduped": len(deduped),
                         "unmatched": unmatched, "no_bars": nobars, "screened": drop},
+          "survivors_only_at_25": {"n": car_dropped["n"][25], "mean": car_dropped["mean_car"][25]},
           "unpriceable": car["unpriceable"]}
 with open(f"{OUT}/results.json", "w") as f:
     json.dump(report, f, indent=1, default=str)
