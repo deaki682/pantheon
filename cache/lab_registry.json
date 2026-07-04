@@ -1,11 +1,45 @@
 {
- "hypotheses_ever": 1,
+ "counter_adjustments": [
+  {
+   "date": "2026-07-04",
+   "delta": 89,
+   "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
+  }
+ ],
+ "hypotheses_ever": 91,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
   "note": "house-lab generalization (operator directive): single registry + single multiple-testing counter; pre-migration file frozen as history"
  },
  "strategies": {
+  "gauntlet_v1": {
+   "created": "2026-07-04",
+   "falsifiable_claim": "At least one of the 90 pre-committed cells clears the frozen in-sample bar (DSR >= 0.95 with n_trials=90 AND net CAGR above the matching equal-weight bucket benchmark) and then the frozen holdout bar (PSR >= 0.95 AND beats the benchmark out-of-sample, net of costs). Zero passers at either stage refutes the factory.",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "Factory-level meta-hypothesis: the best-documented cross-sectional equity anomalies \u2014 momentum (investor underreaction and slow information diffusion), short-term reversal (compensation for providing liquidity into price pressure), low-volatility (leverage-constrained investors overpaying for lottery-like high-vol names), and size/neglect (institutional mandates and analyst coverage thinning out below the top ~1000 names, leaving mispricings unharvested) \u2014 are each claimed by decades of academic literature to persist in US equities. Each grid cell is the simplest implementable long-only form of one such claim. The factory tests whether ANY survive realistic costs, a 16y in-sample, a 10y holdout, and deflation for 90 simultaneous tries at the house's own scale.",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_gauntlet_v1.md",
+    "metric": "Net-of-cost daily equity curve per cell (signals at month-end close t, execution at close of first trading day of the next month, per-bucket slippage); annualized Sharpe -> deflated Sharpe (n_trials=90) in-sample, PSR on holdout; net CAGR vs matching equal-weight bucket benchmark.",
+    "population_definition": "Monthly point-in-time universes from the full Sharadar panel (SEP bars + DAILY marketcap, delisted names included through final trading day), 1998-12-01 to 2025-12-31: at each month-end signal date, names with both a DAILY marketcap and SEP bar, unadjusted close >= $3, median 21d dollar volume >= $1M; LARGE = marketcap ranks 1-500, SMALL = ranks 501-2000. Ranks 2001+ out of scope by design. Full construction rules frozen in the prereg doc, section 3.",
+    "success_criteria": "Stage 1 (all 90 cells, in-sample executions 2000-07..2015-12): survive iff DSR >= 0.95 AND net CAGR > bucket benchmark; top 5 survivors by DSR advance. Stage 2 (holdout executions 2016-01..2025-12, touched once): pass iff PSR vs 0 >= 0.95 AND net CAGR > benchmark holdout CAGR. Factory supported iff >=1 stage-2 passer; refuted iff zero at either stage; inconclusive only for >20% coverage failure. Survivors then face the standard >=20-grade paper forward gate on shrunk mean."
+   },
+   "slug": "gauntlet_v1",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "underutilized_because": "Not underutilized in the aggregate \u2014 these are famous factors \u2014 but famously fragile after costs, in long-only implementable form, at small size, outside backtest samples. The factory's point is precisely to measure how much of the published effect is harvestable by THIS house, and to build the graveyard of cells that are not.",
+   "who_loses": "Momentum: late reactors who anchor on stale prices. Reversal: impatient liquidity demanders forced to sell into weakness. Low-vol: leverage-constrained lottery buyers overpaying for volatile names. Size/neglect: nobody is on the other side per se \u2014 the edge, if real, is a premium for holding what mandates and coverage ignore."
+  },
   "ipo_lockup_reversion": {
    "backtest": {
     "bias_checklist": {
