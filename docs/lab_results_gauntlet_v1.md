@@ -12,7 +12,13 @@
 
 ## Verdict
 
-**HOLDOUT PENDING — this line is replaced by the stage-2 outcome.**
+**REFUTED** (registry record 2026-07-04, terminal). Stage 1 killed
+80/90 cells; the one holdout pass killed the remaining five: every
+top-5 low-vol cell earned positive absolute returns out-of-sample
+(PSR vs zero = 1.0000) but **none beat its bucket's equal-weight
+benchmark in 2016–2025** — and the prereg's bar was benchmark-relative
+for exactly this reason. The factory produced a graveyard and zero
+forward tests. `hypotheses_ever` stands at 91; any v2 is a new prereg.
 
 ## Stage 1 — in-sample screen (all 90 cells, executions 2000-07..2015-12)
 
@@ -58,7 +64,24 @@ precision all sit inside the top 4, and rank 5 exceeds rank 6 at the
 
 ## Stage 2 — holdout (top-5 cells, executions 2016-01..2025-12, touched once)
 
-**PENDING — filled by run_gauntlet_holdout.py output.**
+Holdout panel: 18.36M SEP rows, 13,343 tickers (253 off-calendar rows
+skipped, 0.001%). Benchmarks: LARGE 11.43% CAGR / Sharpe 0.70; SMALL
+9.50% / 0.53 — a bull decade.
+
+| cell | CAGR | Sharpe | maxDD | PSR vs 0 | beats benchmark | PASS |
+|---|---|---|---|---|---|---|
+| vol_L126__N50__SMALL | 5.57% | 0.47 | −41.4% | 1.0000 | no (9.50%) | **no** |
+| vol_L63__N25__LARGE | 9.22% | 0.76 | −29.8% | 1.0000 | no (11.43%) | **no** |
+| vol_L126__N10__LARGE | 8.85% | 0.75 | −26.1% | 1.0000 | no (11.43%) | **no** |
+| vol_L126__N25__LARGE | 6.97% | 0.57 | −34.4% | 1.0000 | no (11.43%) | **no** |
+| vol_L126__N50__LARGE | 8.79% | 0.69 | −35.0% | 1.0000 | no (11.43%) | **no** |
+
+Reading: real defensiveness (drawdowns −26% to −41% vs benchmarks'
+COVID-era troughs, all-positive absolute returns) — but the in-sample
+Sharpe advantage came from a sample containing two deep crashes, and
+in a decade with one fast crash and a long melt-up, low-vol lagged the
+market it was drawn from. Prereg §9.7 named this exact failure mode.
+Low-vol survives as a risk-shaping observation, not as citable alpha.
 
 ## Coverage / survivorship disclosure (mandatory)
 
@@ -102,5 +125,30 @@ numbers above and the robustness disclosure below.
 
 ## Robustness disclosure (prereg §9.6 — not a pass bar)
 
-**PENDING — survivor sensitivity at 2× SMALL slippage (50 bps), filled
-after stage 2.**
+The five holdout cells rerun at 2× slippage (LARGE 10 bps, SMALL 50
+bps; `run_gauntlet_robustness.py`, `docs/data/gauntlet_v1/robustness_results.json`):
+
+| cell | IS CAGR @1× → @2× | HO CAGR @1× → @2× |
+|---|---|---|
+| vol_L126__N50__SMALL | 10.27% → 8.85% | 5.57% → 4.13% |
+| vol_L63__N25__LARGE | 9.22% → 8.81% | 9.22% → 8.76% |
+| vol_L126__N10__LARGE | 9.50% → 9.15% | 8.85% → 8.52% |
+| vol_L126__N25__LARGE | 9.54% → 9.27% | 6.97% → 6.69% |
+| vol_L126__N50__LARGE | 9.70% → 9.48% | 8.79% → 8.55% |
+
+Monthly low-vol turnover is low; doubling slippage moves CAGR by well
+under 1.5%/yr everywhere and changes no verdict in either direction.
+
+## Registry / bookkeeping
+
+- `gauntlet_v1` → `refuted` (terminal) in `cache/lab_registry.json`,
+  full 8-item bias checklist in the record; factory-level
+  mean_excess = −5.47%/yr (mean IS CAGR gap vs bucket benchmark
+  across all 90 cells; 14/90 positive).
+- `hypotheses_ever` = 91 (1 prior + 90 gauntlet cells; counted at
+  prereg time).
+- House population `gauntlet_v1_universes` (612 rows: 306 month-ends ×
+  2 buckets with full member lists + coverage note) — reusable for
+  backlog #4 (Delphi PIT) and any future panel study.
+- Per-cell data: `docs/data/gauntlet_v1/` (screen results + manifest,
+  holdout results, robustness results).
