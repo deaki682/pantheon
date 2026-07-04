@@ -145,3 +145,157 @@ directly. `dollar_volume_pit_universe` is superseded as a SIZE proxy
 and survives only as a liquidity screen. **Phase (b) — the factory
 prereg — is unblocked**, and backlog #4 (Delphi PIT universe) is
 unblocked by the same purchase.
+
+## Addendum 2 (2026-07-04, evening): comprehensiveness review — dividend bug fixed, event-feed guard, regime splits
+
+A pre-phase-(b) review of "what does the engine NOT account for" found
+one genuine defect and two missing guards. All three are now in
+`shared/gauntlet.py`, each with regression tests (10 new; engine suite now 26 test
+functions — the “19 tests” claimed earlier in this doc was itself an
+overcount; it was 16):
+
+- **Dividends were silently dropped (FIXED — was a real bug).**
+  `simulate()` marked and filled on SEP `close`, which is
+  split-adjusted but dividend-EXCLUSIVE — every curve was a
+  price-return curve, understating total returns ~2%/yr and
+  differentially penalizing value/quality/dividend families vs
+  zero-yield growth, corrupting exactly the cross-family ranking the
+  factory exists to produce. `simulate()` now marks on
+  `close_total_return` (Sharadar `closeadj`, already carried by
+  `to_shared_bars`) for any symbol whose bars have it completely;
+  symbols with gaps fall back to `close` WHOLE (mixing fields would
+  fake a jump at every gap) and are disclosed in the result's new
+  `price_return_only_symbols`. A results doc citing a run with a
+  non-empty list must say so. Regression test: a flat-price dividend
+  payer whose price-return curve is flat but whose total-return curve
+  compounds.
+
+- **`PITEventFeed` — structural no-lookahead for event data (NEW).**
+  The bar-trimming guarantee never covered event feeds (insider
+  clusters, PEAD, spinoffs, lockups), which join in through the spec's
+  closure — a fresh lookahead surface. `PITEventFeed` requires every
+  row to carry the date the information became PUBLIC (default field
+  `public_date`; constructor refuses rows without it — a cluster row
+  keyed on transaction date would leak the 2–10 day filing lag), and
+  select() functions touch events only via `upto(as_of)` / `on(day)` /
+  `by_symbol(as_of)`. Event-driven grid families in the factory prereg
+  must route their event tables through this class.
+
+- **`summarize_by_period` — per-regime disclosure (NEW).** Splits one
+  equity curve at boundary dates and summarizes each segment. Every
+  factory results doc must print per-regime splits so a survivor that
+  is one warm regime plus noise is visible (the spinoff ocean lesson:
+  +41% warm vintage, −1% out of regime).
+
+Still NOT accounted for, disclosed for the prereg to handle: slippage
+is a flat 10bps placeholder (per-liquidity-bucket numbers are a prereg
+obligation; re-run survivors at 2–3× assumed costs), no intraday
+prices (intraday stops only approximable at the close, disclosed
+per-family), and the LLM factor stays out of the simulation entirely —
+mechanical skeletons + headroom brackets in the grid, actual LLM lift
+measured only forward via ghost control arms (training-data
+contamination makes historical LLM judgment unrunnable; see the
+blinded-reader precedent).
+
+## Addendum 3 (2026-07-04, night): exit-rule engine + uncertainty/robustness toolkit
+
+Post-gauntlet_v1 comprehensiveness pass #2, operator-directed ("as
+comprehensive as possible"). The two branches of the day (v1 factory
+run; comprehensiveness review) are now merged — the engine carries the
+pro-rata fill fix, signal_lag, total-return marking, and everything
+below. Engine suite: 26 → 57 tests.
+
+**`ExitRules` — daily position-level exits (the big one).** What the
+90 rank-and-hold cells deliberately lacked and every live god actually
+runs: `ma_period` (Delphi's 20-day-MA break), `stop_loss_pct`
+(Achilles -8%, Midas -10%), `trailing_stop_pct`, `time_stop_days`
+(Achilles 5d, Midas Friday), `profit_target_pct`, `cooldown_days`
+(Delphi 7d, Achilles 4wk). Triggers evaluate on RAW split-adjusted
+OHLC (what a god computes at the broker) — intraday rules use the
+day's low/high, gap-throughs fill at the open, close-only bars degrade
+to close-crossing; fills convert to the marking series so cash stays
+dividend-correct. Exits run before same-day rebalances; exited names
+can't be re-bought same day; every trade now carries a `reason`.
+**This unblocks the Delphi full-window ruleset study** (her exact
+rules, 1998→2026, on the v1 universe catalog) and honest PEAD/basket
+simulations for Achilles-family cells.
+
+**`delist_exit_haircut`** — robustness mode for the documented
+optimistic delisting bias: force-sell on a symbol's final panel bar at
+(1 − haircut) × final close, reason `delisting_exit`, instead of the
+legacy sellable-stale-close. Rerun survivors at 0.0 and 0.5.
+
+**Analytics that results docs kept hand-rolling:**
+- `excess_stats(curve, benchmark_curve)` — benchmark-relative CAGR
+  gap, beta, annualized alpha, tracking error, information ratio,
+  up/down capture. The v1 lesson (the bar is benchmark-relative) as a
+  function.
+- `trade_stats(trades)` — FIFO round-trips: win rate, avg win/loss,
+  profit factor, median holding days, per-exit-reason breakdown ("did
+  the stop save money or amputate winners?").
+- `turnover_stats(trades, curve)` — annual turnover + cost drag in
+  bps/yr (the fee-engine check, mechanized).
+- `periodic_dates(days, "W"|"M", "first"|"last")` — canonical weekly/
+  monthly rebalance calendars.
+
+**Uncertainty & study tooling:**
+- `sharpe_ci(curve)` — circular block-bootstrap CI on annualized
+  Sharpe (seeded, deterministic). Point-estimate Sharpes without
+  intervals invite over-reading; results docs should quote both.
+- `walk_forward_windows(days, train_days, test_days)` — K rolling
+  train/test splits; the defense against "the one split flattered it".
+- `parameter_cliff_report(cells)` — overfit smell-test: flags cells
+  whose metric is an isolated peak vs one-step parameter neighbors
+  (65d working while 55d and 75d fail is noise wearing a crown).
+- `event_car(events, bars, benchmark_bars)` — the event-study engine
+  for PITEventFeed populations: entry at first close strictly after
+  public date, per-offset mean/median CAR vs benchmark on total-return
+  series, mandatory `unpriceable` disclosure + coverage note. Turns
+  backlog #1 (quiet clusters), #7 (CEF tenders), #8 (PEAD horizon)
+  into one-call studies once their populations are deposited.
+
+Still open (next tier, offered): SPY/benchmark curve builder from
+Sharadar in one call; capacity analysis (position size vs ADV per
+fill); multi-sleeve portfolio combiner (correlated-drawdown studies on
+simulated books); Monte-Carlo trade-order shuffle for drawdown
+distributions; sector/exposure attribution once SF1 sector metadata is
+cached; a lab bridge that drafts the eight bias-checklist answers
+directly from a run's own disclosures (coverage, costs, splits, trial
+count).
+
+## Addendum 4 (2026-07-04, late night): benchmarks, capacity, portfolios, drawdown tails, lab bridge
+
+Comprehensiveness pass #3 (operator: "keep going"). Engine suite 57 →
+65 tests.
+
+- **`benchmark_curve(bars)`** — any name's total-return equity curve in
+  one call, `price_field` surfaced so nobody compares a total-return
+  strategy to a price-return benchmark. Feeds `excess_stats` directly.
+- **`capacity_stats(trades, bars)`** — per-fill participation vs
+  trailing ADV (window ends the day BEFORE the fill), share of fills
+  above 1/5/10% of ADV, worst offenders, and
+  `implied_max_equity_multiple` at a participation cap: "at what sleeve
+  size does this strategy stop existing?" answered before any
+  capital-gate conversation. Linear scaling = optimistic upper bound,
+  says so in the docstring.
+- **`combine_curves(curves, weights)`** — N simulated sleeves into one
+  book: combined stats, pairwise return correlations, and the
+  diversification gap (combined maxDD vs weighted-average maxDD — zero
+  gap means the sleeves crash together). The July 3 correlated-drawdown
+  question, mechanized for simulated books.
+- **`drawdown_distribution(curve)`** — block-bootstrap resequencing of
+  the same returns into n_sims paths: drawdown percentiles and
+  P(maxDD worse than 20/30/40%), for circuit-breaker calibration
+  against the distribution instead of one lucky path. Caveat in
+  docstring: bootstrap scrambles long-range regime structure; tails
+  are a floor.
+- **`draft_bias_checklist(result, ...)`** — the lab bridge: drafts all
+  eight `shared.lab.BIAS_CHECKLIST` answers from a run's own artifacts
+  (coverage disclosures, deflated-Sharpe bar at n_trials, bootstrap
+  CI, turnover/cost drag, per-regime splits, raw n). Keys match the
+  lab schema exactly (tested); >=60-char floor met; the docstring is
+  explicit that drafts are starting points the signing session owns.
+
+Next planned: the Delphi full-window ruleset prereg (her frozen rules
++ ExitRules MA-20 exit, 1999→2026, benchmark-relative), which this
+pass's benchmark/excess machinery was sequenced to serve.

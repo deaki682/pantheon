@@ -94,6 +94,47 @@ marked/graded by the daily god sessions that own their horizons.
    "shared"})`. Prereg/results docs, backlog and ledger edits are
    committed to the code branch in the same session.
 
+## The engine toolkit (read before writing any backtest code)
+
+`shared/gauntlet.py` is the house backtest engine, hardened across
+gauntlet_v1 and the 2026-07-04 comprehensiveness passes. A lab session
+that hand-rolls what it already provides is spending error budget for
+nothing. What it gives you:
+
+- **Simulation**: `simulate(spec, snapshots, bars, signal_lag=1,
+  exits=ExitRules(...), delist_exit_haircut=...)` — point-in-time
+  universes (`pit_snapshot`/`build_snapshots`), total-return marking
+  with `price_return_only_symbols` disclosure, execution lag,
+  position-level daily exits (MA break / hard stop / trailing / time
+  stop / profit target / cooldowns, OHLC-aware fills), pro-rata cash
+  scaling, per-liquidity `CostModel`, forced delisting-exit robustness
+  mode. `periodic_dates` builds weekly/monthly rebalance calendars.
+- **Event studies**: route every event table through `PITEventFeed`
+  (keyed on PUBLIC dates — constructor refuses anything else), then
+  `event_car(events, bars, benchmark_bars)` for CAR curves with the
+  mandatory `unpriceable` disclosure baked in.
+- **Judgment**: `expected_max_sharpe`/`deflated_sharpe_ratio` (the bar
+  is n_trials, never zero), `excess_stats` vs `benchmark_curve` (the
+  bar is benchmark-relative — gauntlet_v1's lesson), `sharpe_ci`
+  (quote the interval, not the point), `summarize_by_period` (regime
+  table is mandatory in results docs), `walk_forward_windows`,
+  `parameter_cliff_report` (isolated-peak overfit test on any grid).
+- **Reality checks**: `trade_stats` (per-exit-reason round-trips),
+  `turnover_stats` (cost drag), `capacity_stats` (participation vs
+  ADV — run before ANY capital conversation), `drawdown_distribution`
+  (breaker calibration), `combine_curves` (correlated-drawdown gap).
+- **Paperwork**: `draft_bias_checklist(result, ...)` drafts all eight
+  checklist answers from the run's own artifacts, keys matching
+  `shared.lab.BIAS_CHECKLIST`. The session signing `record_backtest`
+  owns the final wording — the draft guarantees the numbers, not the
+  honesty.
+- **Data**: `shared/sharadar.py` for survivorship-free panels (THE
+  LAW: resolve to FINAL tickers; DAILY cross-sections carry AS-TRADED
+  tickers — see run_delphi_fullwindow.py's layered resolver for the
+  known traps: preferred-series pollution, dead-holder suffixes like
+  JPM1/T1, spinoff-recycled symbols like AA). `shared/gauntlet_fast.py`
+  for big vectorized grids (monthly rank-and-hold only).
+
 ## Hard rules
 
 - NEVER a broker order, NEVER a live-book or sleeve mutation, from this

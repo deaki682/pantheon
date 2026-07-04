@@ -55,9 +55,14 @@ inherited from Midas (operator directive; prereg amendment #3 —
 granted before his first paper trade, so the experiment transferred
 uncontaminated; the flat $10k paper book was retired at birth).
 Long-only at the broker (inverse ETFs express short views), no
-leverage, no options. **Operator mandate: a green book, every day** —
-one full session daily, every red position re-underwritten same-day,
-green-day rate tracked vs SPY's own base rate. Every decision is
+leverage, no options. **Operator mandate (revised 2026-07-04): every
+position must earn its place TODAY** — one full session daily, every
+red position re-underwritten same-day (kill or consciously re-commit,
+never drift). The green-day rate is tracked vs SPY's own base rate as
+a DIAGNOSTIC only, never a target — the original "green book, every
+day" framing was demoted same-week because a daily-green target
+incentivizes selling winners early and nursing losers, contaminating
+the experiment. Every decision is
 journaled with a falsifiable prediction and graded without mercy
 (docs/proteus_prereg.md). Checkpoint at 30 closed trades or
 2027-01-15: validation keeps the sleeve, refutation retires him and
@@ -106,6 +111,15 @@ engine; `/lab` works the operator's backlog. PAPER ONLY — a validated
 strategy is citable in a live thesis, never an autopilot. The
 pre-migration `cache/proteus_lab.json` is frozen history (guarded).
 
+**The lab is the ONLY door for new strategies (2026-07-04, operator
+directive).** No new god scaffolding — commands, sleeves, ghost books —
+without a lab slug that survived the full ratchet first. Buzz was cut
+for entering through the side door (his hypothesis is backlog #10;
+`buzz/` package kept as the mechanical layer); Catalyst's standalone
+weekly session was retired the same day (event mapping belongs in
+`shared/event_calendar.py` deposits; `catalyst/` package kept as a
+library). See docs/RESEARCH_BACKLOG.md "Retired god scaffolding".
+
 ## Research record
 
 **`docs/RESEARCH_LEDGER.md`** indexes every completed study (prereg →
@@ -153,7 +167,7 @@ trades.
 | Every 3 days | `/oracle` | Reconcile, thesis-break check, research if due, journal, attribute |
 | Every 15-30 min (market hours) | `/trinity` | Refresh PWA dashboard with live quotes |
 | Quarterly | `/oracle-screen` | Refresh insider/13F/quality universe (~7,000 filers, 40-60 min) |
-| As needed | `/oracle-research` | Build dossiers to maintain pool of 60-80 |
+| On demand, ONLY when pool < 70 | `/oracle-research` | Rebuild dossier pool toward 60-80 after decay; frozen otherwise (2026-07-04 — pool at 93, no more polish until cohort-1 grades) |
 | At cohort review (~12 months) | `/oracle` | Grades all calls, closes cohort, selects new cohort from pool |
 | Weekly (weekend) | `/midas-scan` | Research-only universe scan feeding the `/midas-ghost` A/B (Midas live retired 2026-07-04) |
 | Daily | `/proteus` | One full discretionary session on his live sleeve (research-only when markets are closed or funding pending) |
@@ -185,7 +199,7 @@ trades.
 | `proteus_sleeve.json` | proteus | LIVE book: cash, contributed_cash, positions, closed trades |
 | `proteus_journal.jsonl` | proteus | Append-only decision record (validated writer — the only door to the book) |
 | `proteus_ledger.jsonl` | proteus | Every broker order placed (for reconcile) |
-| `proteus_curve.json` | proteus | Equity marks vs SPY (green-day scoreboard) |
+| `proteus_curve.json` | proteus | Equity marks vs SPY (green-day rate reported as diagnostic, never a target) |
 | `proteus_beliefs.md` | proteus | His living mind: worldview, watchlist, open theses, lessons |
 | `proteus_lab.json` | proteus | Strategy lab registry: hypothesis → prereg → backtest → forward test, bias checklists |
 | `proteus_lab_ghost_ledger.json` | proteus | Paper forward-test positions for lab strategies (shared.ghost engine) |
@@ -210,6 +224,11 @@ produces finalists on weekends and `/midas-ghost` paper-trades every
 finalist daily, grading `live_pick` vs `legacy_pick`. No live orders.
 The one remaining live duty is the DAKT wind-down sweep in
 `.claude/commands/midas.md`.
+
+**Death clock (2026-07-04):** the A/B race runs to exactly 20 graded
+weekly head-to-heads, then the preregistered comparison runs ONCE —
+legacy wins go to the operator with the numbers; anything else retires
+the entire program (scan, ghost, A/B) permanently. No extensions.
 
 ### Weekly Cycle (historical — how the live god operated)
 

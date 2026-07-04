@@ -1,141 +1,168 @@
-# Lab Results — `gauntlet_v1` (the strategy factory, backlog #9)
+# Results — `gauntlet_v1` (the strategy factory, backlog #9 phases c–d)
 
-**Slug:** `gauntlet_v1` | **Date:** 2026-07-04 | **Sponsor:** operator | **Verdict: REFUTED**
+- **Prereg:** [docs/lab_prereg_gauntlet_v1.md](lab_prereg_gauntlet_v1.md)
+  (committed 2026-07-04 before any panel pull; grid, splits, and bars
+  frozen there)
+- **Run:** 2026-07-04, `run_gauntlet_screen.py` (stage 1) and
+  `run_gauntlet_holdout.py` (stage 2), engine `shared/gauntlet.py` +
+  `shared/gauntlet_fast.py` (equivalence-pinned)
+- **Data:** Sharadar SEP + DAILY (entitled 2026-07-04). In-sample
+  panel: 27,239,343 SEP rows, 14,240 tickers, 1998-12-01→2016-01-31,
+  0 rows skipped.
 
-Prereg: `docs/lab_prereg_gauntlet_v1.md` (committed 2026-07-04 before any
-Sharadar panel pull beyond single-ticker/day entitlement probes, per
-`docs/lab_gauntlet_engine_status_2026-07-04.md`). Engine: `shared/gauntlet.py`,
-extended same day with the `signal_lag` execution-lag guard (commit
-`80405e3`) the prereg's §4 execution model requires.
+## Verdict
 
-## Population
+**REFUTED** (registry record 2026-07-04, terminal). Stage 1 killed
+80/90 cells; the one holdout pass killed the remaining five: every
+top-5 low-vol cell earned positive absolute returns out-of-sample
+(PSR vs zero = 1.0000) but **none beat its bucket's equal-weight
+benchmark in 2016–2025** — and the prereg's bar was benchmark-relative
+for exactly this reason. The factory produced a graveyard and zero
+forward tests. `hypotheses_ever` stands at 91; any v2 is a new prereg.
 
-Monthly point-in-time LARGE/SMALL universes built from the full Sharadar
-SEP+DAILY panel per the prereg's §3 mechanical screens, saved as the house
-population `gauntlet_v1_universes`
-(`cache/shared_pop_gauntlet_v1_universes.json`, 612 rows — one per
-signal-date × window × bucket, 1999-12 through 2025-11). Coverage note
-carried on the population record: median 3 names/date (max 16, 0.06%) had a
-DAILY marketcap but no SEP bar and were excluded; SMALL fills to exactly
-1500 names from ~2003 on (1421–1500 in 2000–2002, before that many names
-cleared the price/liquidity floors); ranks 2001+ (true micro-caps) excluded
-by design, not omission.
+## Stage 1 — in-sample screen (all 90 cells, executions 2000-07..2015-12)
 
-## The grid
+Benchmarks (equal-weight of the full eligible bucket, same execution
+model and slippage, min_ticket=0):
 
-90 pre-committed cells (15 signal families × N∈{10,25,50} ×
-{LARGE,SMALL} — full enumeration in the prereg §5). Zero cells added,
-removed, or re-parameterized after the prereg commit.
+| bucket | CAGR | Sharpe | maxDD |
+|---|---|---|---|
+| LARGE | 5.51% | 0.36 | −57.4% |
+| SMALL | 6.79% | 0.40 | −61.1% |
 
-## Result
+Family results (net of costs; Sharpe min/median/max across cells):
 
-| Metric | Value |
-|---|---|
-| Cells run | 90 (all) |
-| Stage 1 (in-sample, 2000-07..2015-12) survivors — DSR ≥ 0.95 (n_trials=90) AND beat bucket benchmark | 10 / 90, all in the **low-vol family** (`vol_L63`, `vol_L126`); every momentum, reversal, size, and neglect cell failed stage 1 |
-| Stage 2 (holdout, 2016-01..2025-12, touched once) — top 5 of the 10 by DSR advance | `vol_L126__N10__LARGE`, `vol_L126__N25__LARGE`, `vol_L126__N50__LARGE`, `vol_L126__N50__SMALL`, `vol_L63__N25__LARGE` |
-| Stage 2 outcome | All 5: holdout PSR vs 0 = 1.0 (genuinely positive risk-adjusted returns), but **none** beat the matching bucket's equal-weight benchmark net CAGR 2016–2025 — zero stage-2 passers |
-| Factory-level mean excess (mean in-sample CAGR gap vs same-bucket EW benchmark, all 90 cells) | **−5.47%/yr** (14/90 cells individually positive) |
-| Factory-level mean excess, shrunk (n=90) | **−4.48%/yr** |
-| 2× slippage sensitivity (prereg-mandated check on the 5 stage-2 cells) | `vol_L126__N10__LARGE` IS 9.15%/HO 8.52%; `vol_L126__N25__LARGE` IS 9.27%/HO 6.69%; `vol_L126__N50__LARGE` IS 9.48%/HO 8.55%; `vol_L126__N50__SMALL` IS 8.85%/HO 4.13%; `vol_L63__N25__LARGE` IS 8.81%/HO 8.76% — verdicts unchanged at 2× costs |
+| family | cells | Sharpe range | survivors |
+|---|---|---|---|
+| momentum (8 variants × 3 N × 2 buckets) | 48 | −0.16 / 0.15 / 0.33 | **0** |
+| reversal (3 × 3 × 2) | 18 | −0.15 / 0.14 / 0.24 | **0** |
+| low-vol (2 × 3 × 2) | 12 | 0.63 / 0.77 / 0.84 | **10** |
+| size (1 × 3 × 2) | 6 | 0.28 / 0.37 / 0.44 | **0** |
+| neglect (1 × 3 × 2) | 6 | 0.08 / 0.25 / 0.31 | **0** |
 
-**Verdict vs the frozen pass bars (prereg §7):** refuted iff stage 1 or
-stage 2 leaves zero passers. Stage 2 left zero — **REFUTED**, factory-wide.
+The graveyard, plainly: **every long-only momentum, reversal, size,
+and neglect cell died in-sample** — most with negative absolute CAGR
+after costs (short-lookback momentum was catastrophic: −70% to −82%
+max drawdowns; equal-weight monthly-rebalanced long-only momentum
+never beat its bucket's own equal-weight portfolio). This is the
+empirical floor under every god's priors the backlog item asked for:
+the simplest implementable forms of these famous anomalies do not
+survive costs and a same-universe benchmark in 2000–2015.
 
-## Reading the result
+**Low-volatility is the sole surviving family**: 10 of 12 cells
+cleared DSR ≥ 0.95 (n_trials=90, variance_of_sr = 0.0556 measured
+across the grid) AND beat their bucket benchmark. Sharpe 0.74–0.84 vs
+benchmarks' 0.36–0.40, with visibly shallower drawdowns (−31% to −45%
+vs −57%/−61%). Consistent with the literature: the low-vol anomaly was
+strongest precisely in samples containing two crashes.
 
-The one family that cleared the deflated in-sample bar — low-volatility —
-is exactly the family whose academic story is "leverage-constrained
-investors overpay for lottery-like high-vol names," and it is also the
-family most mechanically loaded on **regime**: low-vol tilts win big in
-crash-heavy samples and lag in one-directional bull markets. The in-sample
-window (2000–2015) contains the dot-com crash and the GFC; the holdout
-(2016–2025) is a ten-year bull interrupted by one fast COVID crash. All
-five survivors posted PSR = 1.0 in the holdout — they were not bad
-strategies in absolute terms — but the matching passive benchmark did
-better over the same stretch. **The refutation is itself the regime
-finding**: the in-sample edge these cells cleared was crash exposure being
-priced back into a calm decade, not a persistent, harvestable alpha.
+Top-5 by DSR (advance to holdout): `vol_L126__N50__SMALL`,
+`vol_L63__N25__LARGE`, `vol_L126__N10__LARGE`, `vol_L126__N25__LARGE`,
+`vol_L126__N50__LARGE`. The four cells with DSR = 1.0 at float
+precision all sit inside the top 4, and rank 5 exceeds rank 6 at the
+10th decimal — so the advancing SET is independent of any tie-break.
 
-Momentum (8 variants), reversal (3), size (1), and neglect (1) — 13 of 15
-signal families across all N/bucket combinations (78 of 90 cells) — failed
-even the in-sample deflated-Sharpe bar at this house's cost model and
-scale. That is the graveyard this factory was built to produce: these are
-not fringe variants, they are the textbook implementations of the four
-best-documented cross-sectional equity anomalies, and none of them clear
-realistic costs at $10k/cell with a 90-way multiple-testing correction.
+## Stage 2 — holdout (top-5 cells, executions 2016-01..2025-12, touched once)
 
-## Bias checklist
+Holdout panel: 18.36M SEP rows, 13,343 tickers (253 off-calendar rows
+skipped, 0.001%). Benchmarks: LARGE 11.43% CAGR / Sharpe 0.70; SMALL
+9.50% / 0.53 — a bull decade.
 
-Recorded in full in `cache/lab_registry.json` (`strategies.gauntlet_v1.backtest.bias_checklist`,
-persisted to `origin/claude/live`) via `shared.lab.record_backtest`. Summary:
+| cell | CAGR | Sharpe | maxDD | PSR vs 0 | beats benchmark | PASS |
+|---|---|---|---|---|---|---|
+| vol_L126__N50__SMALL | 5.57% | 0.47 | −41.4% | 1.0000 | no (9.50%) | **no** |
+| vol_L63__N25__LARGE | 9.22% | 0.76 | −29.8% | 1.0000 | no (11.43%) | **no** |
+| vol_L126__N10__LARGE | 8.85% | 0.75 | −26.1% | 1.0000 | no (11.43%) | **no** |
+| vol_L126__N25__LARGE | 6.97% | 0.57 | −34.4% | 1.0000 | no (11.43%) | **no** |
+| vol_L126__N50__LARGE | 8.79% | 0.69 | −35.0% | 1.0000 | no (11.43%) | **no** |
 
-- **survivorship**: Sharadar SEP/DAILY include delisted names through their
-  final trading day (spot-verified: SIVBQ, BBBYQ). 27.2M in-sample bars
-  across 14,240 tickers, 0 skipped. DAILY-vs-SEP mismatch: median 3
-  names/date (0.06%, max 16) excluded and disclosed. Delisted positions
-  sell at a stale final close at the next monthly rebalance — optimistic,
-  which can only have understated the refuted families' losses.
-- **look_ahead**: signals computed through signal-date t's close; execution
-  at t+1's close via the engine's `signal_lag` feature (added before any
-  screen run — the screen could not execute without it). Marketcap dated t
-  is used only for t's signal, traded t+1. No fundamentals, no restatement
-  exposure.
-- **multiple_testing**: 90 trials by design, all counted —
-  `hypotheses_ever` went 1→91 at prereg time (registry counter adjustment,
-  cited in the prereg §8). DSR benchmarked against `n_trials=90` with the
-  grid's own cross-sectional Sharpe variance. Holdout touched exactly once,
-  by the top 5 only; no cell beyond the 90 was ever computed.
-- **overfitting**: zero free parameters after the prereg commit — windows,
-  N, buckets, floors, costs, splits, and bars were all frozen before data.
-  The refutation is itself the overfitting demonstration: 10 cells cleared
-  a deflated in-sample bar and all 5 advancing cells failed out-of-sample
-  against the benchmark.
-- **regime**: in-sample spans the dot-com crash and GFC; holdout is one
-  long bull with a fast COVID crash (prereg §9.7 named clearing both as the
-  regime test). Low-vol passed the crash-heavy sample and failed the bull
-  decade against the benchmark — see "Reading the result" above.
-- **selection**: population is every name passing the prereg's mechanical
-  screens on each of 186 IS + 120 HO month-ends — no hand-picking, saved as
-  the house population `gauntlet_v1_universes` (612 rows, coverage note
-  above). The grid itself was the complete pre-committed catalog; nothing
-  added or removed post-commit.
-- **costs_liquidity**: per-bucket linear slippage (LARGE 5bps, SMALL
-  25bps), $25 min ticket, $3 price floor, $1M median-21d-dollar-volume
-  floor, at $10k/cell. 2× slippage sensitivity on the 5 stage-2 cells left
-  every verdict unchanged (table above).
-- **small_n**: ~3,900 in-sample daily returns and 186 IS + 120 HO monthly
-  rebalances per cell; DSR/PSR computed with each cell's own n_obs, skew,
-  and kurtosis. Factory-level mean_excess (−5.47%/yr, shrunk −4.48%/yr) is
-  the mean IS CAGR gap across all 90 cells; shrinkage on n=90 leaves the
-  sign untouched. No forward test follows a refuted verdict.
+Reading: real defensiveness (drawdowns −26% to −41% vs benchmarks'
+COVID-era troughs, all-positive absolute returns) — but the in-sample
+Sharpe advantage came from a sample containing two deep crashes, and
+in a decade with one fast crash and a long melt-up, low-vol lagged the
+market it was drawn from. Prereg §9.7 named this exact failure mode.
+Low-vol survives as a risk-shaping observation, not as citable alpha.
 
-## Known documentation gap
+## Coverage / survivorship disclosure (mandatory)
 
-The registry's `notes` field, written when `record_backtest` ran, points to
-`docs/data/gauntlet_v1/` for "per-cell data." That directory was never
-created and the per-cell daily equity curves (90 cells × ~300 months each)
-were not separately archived as flat files — they do not survive past the
-scratch session that computed them, per the project's design (heavy
-intermediate computation is not meant to persist; only the record you
-choose to `persist()` does). **The complete surviving record of this run's
-numbers is the registry entry itself**
-(`cache/lab_registry.json` → `strategies.gauntlet_v1`, persisted to
-`origin/claude/live`) plus this document, which transcribes it in full. Any
-future work needing the raw per-cell curves (e.g. a closer look at *why*
-the 5 low-vol survivors underperformed the benchmark specifically) would
-need to re-run the frozen grid definition against the `gauntlet_v1_universes`
-population — the universe and cost model are both already house assets, so
-that re-run is cheap; it just wasn't archived as a separate doc this time.
+- In-sample panel: 27.24M SEP rows across 14,240 tickers; 0 unparsable.
+  Delisted names present through their final trading day (Sharadar SEP
+  convention, verified on SIVBQ/BBBYQ at entitlement time).
+- DAILY (marketcap) vs SEP mismatch: median 3 names per signal date
+  (0.06% of the ~5,900 DAILY names/date; max 16) had a DAILY marketcap
+  but no SEP bar that day and were excluded — negligible, disclosed.
+- Universe funnel per signal date (medians): 5,925 DAILY names → 765
+  dropped by the $3 price floor, 1,977 by the $1M median-dollar-volume
+  floor → 2,848 eligible → LARGE = top 500, SMALL = next 1,500 (SMALL
+  filled to exactly 1,500 in later years; 1,421–1,500 in the early
+  2000s when fewer names cleared the floors).
+- No cell ever had fewer eligible names than its N — the prereg's
+  short-universe fallback (hold all eligible) never fired.
+- Delisting exits are optimistic by construction: a dead name's stale
+  final close is sellable at the next monthly rebalance (prereg §4
+  disclosure). Direction of bias: overstates returns, more so in SMALL
+  — and therefore does NOT rescue the refuted families, whose failure
+  it can only have understated.
 
-## Decision
+## Operational defaults beyond the prereg (all in `screen_manifest.json`)
 
-**REFUTED**, factory-wide, per the prereg's pre-committed pass bars
-(§7). `shared.lab.record_backtest` recorded this as `gauntlet_v1: refuted`
-— terminal for this slug. No forward test follows (only `supported`
-backtests earn the paper forward gate). This closes backlog #9. Backlog
-#4 (Delphi point-in-time universe rebuild) rides the same engine
-(`shared/gauntlet.py`, `signal_lag`) and the same Sharadar bulk-fetch
-plumbing, but is a distinct hypothesis (is Delphi's own 118-name momentum
-backtest survivorship-biased?) and remains open — the factory's refutation
-says nothing about whether *that specific* backtest's evidence is real.
+- Initial capital $10,000/cell (min_ticket $25 binds only on
+  sub-0.25% rebalance deltas).
+- Benchmarks run min_ticket=0 (a 500-name EW benchmark at $10k has $20
+  tickets; it is a measuring stick, not a tradable cell).
+- If fewer than N eligible: hold all eligible at 1/n (never fired).
+- Ranking ties break by ticker (deterministic).
+- Reference-engine equivalence: `run_cell` is pinned to
+  `shared.gauntlet.simulate` by tests; building those tests exposed
+  and fixed a sequential-fill allocation bug in the reference engine
+  (buys now scale pro-rata under a cash shortfall).
+
+## Bias checklist (final wording in the registry record)
+
+Filled at record_backtest time — the eight planned answers from prereg
+§9 held; the material updates from the actual run are the coverage
+numbers above and the robustness disclosure below.
+
+## Robustness disclosure (prereg §9.6 — not a pass bar)
+
+The five holdout cells rerun at 2× slippage (LARGE 10 bps, SMALL 50
+bps; `run_gauntlet_robustness.py`, `docs/data/gauntlet_v1/robustness_results.json`):
+
+| cell | IS CAGR @1× → @2× | HO CAGR @1× → @2× |
+|---|---|---|
+| vol_L126__N50__SMALL | 10.27% → 8.85% | 5.57% → 4.13% |
+| vol_L63__N25__LARGE | 9.22% → 8.81% | 9.22% → 8.76% |
+| vol_L126__N10__LARGE | 9.50% → 9.15% | 8.85% → 8.52% |
+| vol_L126__N25__LARGE | 9.54% → 9.27% | 6.97% → 6.69% |
+| vol_L126__N50__LARGE | 9.70% → 9.48% | 8.79% → 8.55% |
+
+Monthly low-vol turnover is low; doubling slippage moves CAGR by well
+under 1.5%/yr everywhere and changes no verdict in either direction.
+
+## Registry / bookkeeping
+
+- `gauntlet_v1` → `refuted` (terminal) in `cache/lab_registry.json`,
+  full 8-item bias checklist in the record; factory-level
+  mean_excess = −5.47%/yr (mean IS CAGR gap vs bucket benchmark
+  across all 90 cells; 14/90 positive).
+- `hypotheses_ever` = 91 (1 prior + 90 gauntlet cells; counted at
+  prereg time).
+- House population `gauntlet_v1_universes` (612 rows: 306 month-ends ×
+  2 buckets with full member lists + coverage note) — reusable for
+  backlog #4 (Delphi PIT) and any future panel study.
+- Per-cell data: `docs/data/gauntlet_v1/` (screen results + manifest,
+  holdout results, robustness results).
+
+## Merge note (2026-07-04, late) — the "documentation gap" was a branch gap
+
+A parallel session, reconstructing this study's documentation without
+visibility into the running session's branch, wrote an alternate
+version of this doc (preserved in git history on `origin/main` before
+this merge) stating that `docs/data/gauntlet_v1/` "was never created"
+and that the registry entry was the only surviving record. That was
+true on that branch and false in the repository as a whole: the
+per-cell artifacts (screen_results, screen_manifest, holdout_results,
+robustness_results) exist at `docs/data/gauntlet_v1/` and merged to
+the mainline with this note. Lesson for the house filed where it
+belongs: parallel sessions must check ALL `origin/claude/*` branches
+before declaring an artifact lost.

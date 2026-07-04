@@ -1,0 +1,37 @@
+{
+ "prereg": "docs/lab_prereg_gauntlet_v1.md",
+ "n_cells": 90,
+ "n_trials": 90,
+ "variance_of_sr": 0.055594831823404196,
+ "initial_cash": 10000.0,
+ "operational_defaults": [
+  "initial capital $10,000/cell",
+  "benchmarks min_ticket=0",
+  "fewer than N eligible -> hold all eligible at 1/n",
+  "ranking ties break by ticker"
+ ],
+ "benchmarks": {
+  "LARGE": {
+   "n_obs": 3898,
+   "total_return": 1.2924180966796355,
+   "cagr": 0.05509719665737478,
+   "sharpe": 0.35901039548956454,
+   "sortino": 0.46521735411560644,
+   "max_drawdown": -0.5738254745619294,
+   "win_rate": 0.5436121087737301,
+   "skew": -0.0010395909987665963,
+   "kurtosis": 12.044699363994072
+  },
+  "SMALL": {
+   "n_obs": 3898,
+   "total_return": 1.7616806562073921,
+   "cagr": 0.06787696603260907,
+   "sharpe": 0.398632733495707,
+   "sortino": 0.5339786573823504,
+   "max_drawdown": -0.6113829657890728,
+   "win_rate": 0.5356593124679323,
+   "skew": -0.14871599988021889,
+   "kurtosis": 8.624696384967248
+  }
+ }
+}

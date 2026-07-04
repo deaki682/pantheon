@@ -9,6 +9,12 @@ read-only with respect to the sleeve: it never touches
 `cache/midas_sleeve.json` or the ledger. Run it on the weekend; `/midas`
 consumes its output on Monday.
 
+**Death clock (operator directive, 2026-07-04).** Since live retirement,
+this scan exists ONLY to feed the `/midas-ghost` live-vs-legacy A/B.
+That race ends at 20 graded weeks (see the death-clock section in
+midas-ghost.md): validate per the prereg or the whole program — this
+command included — retires permanently. No extensions.
+
 Why split: stages 1-2 are almost all the network calls (EDGAR full-text,
 finviz, per-name historicals) and almost all the context. Isolating them
 means an entry pass stays light and a failed scan never risks the sleeve.

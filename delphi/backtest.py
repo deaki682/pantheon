@@ -93,7 +93,11 @@ def run_backtest(
     *,
     start_date: str = "",
     end_date: str = "",
+    universe_fn=None,
 ) -> dict:
+    """`universe_fn(date) -> list[str]` overrides the frozen UNIVERSE
+    constant per rebalance day (docs/lab_prereg_delphi_pit_universe.md
+    run B). Default None keeps the shipped behavior exactly."""
     trading_days = get_trading_days(stock_prices)
     if start_date:
         trading_days = [d for d in trading_days if d >= start_date]
@@ -126,8 +130,9 @@ def run_backtest(
         if day_idx - last_rebalance_idx >= cfg.rebalance_interval:
             last_rebalance_idx = day_idx
 
+            universe_today = universe_fn(today) if universe_fn else UNIVERSE
             universe_prices: dict[str, list[float]] = {}
-            for sym in UNIVERSE:
+            for sym in universe_today:
                 if sym in stock_prices:
                     series = _price_series(
                         stock_prices[sym], trading_days, day_idx,
