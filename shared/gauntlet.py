@@ -312,7 +312,11 @@ def simulate(
                 trades.append({"date": day, "symbol": s, "side": "sell",
                                 "shares": shares_sold, "price": px,
                                 "cost": cost_amt})
-            # Then buys, bounded by cash actually on hand.
+            # Then buys, bounded by cash actually on hand. When cash
+            # (after costs) can't cover every buy, all buys scale
+            # pro-rata — a sequential fill would silently short-change
+            # whichever symbol sorts last.
+            buy_deltas: dict[str, float] = {}
             for s in all_syms:
                 tgt = target_value.get(s, 0.0)
                 px = last_price.get(s)
@@ -322,14 +326,19 @@ def simulate(
                 delta = tgt - cur_shares * px
                 if delta < cost.min_ticket:
                     continue
-                denom = 1 + (cost.commission_bps + cost.slippage_bps) / 10_000.0
-                spend = min(delta, cash / denom)
+                buy_deltas[s] = delta
+            denom = 1 + (cost.commission_bps + cost.slippage_bps) / 10_000.0
+            total_buys = sum(buy_deltas.values())
+            scale = min(1.0, (cash / denom) / total_buys) if total_buys > 0 else 0.0
+            for s, delta in buy_deltas.items():
+                px = last_price[s]
+                spend = delta * scale
                 if spend < cost.min_ticket:
                     continue
                 shares_bought = spend / px
                 cost_amt = cost.total_cost(spend)
                 cash -= spend + cost_amt
-                positions[s] = cur_shares + shares_bought
+                positions[s] = positions.get(s, 0.0) + shares_bought
                 trades.append({"date": day, "symbol": s, "side": "buy",
                                 "shares": shares_bought, "price": px,
                                 "cost": cost_amt})
