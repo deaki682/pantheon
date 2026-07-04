@@ -72,6 +72,9 @@ OWNERSHIP_PREFIXES: dict[str, list[str]] = {
         "cache/nemesis_ledger.jsonl",
         "cache/nemesis_curve.json",
     ],
+    "ghost_proteus": [
+        "cache/ghost_proteus_",
+    ],
 }
 
 

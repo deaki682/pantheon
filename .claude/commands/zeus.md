@@ -20,6 +20,7 @@ think, trade, or override any god's logic.
 | `/delphi-ghost` | After `/delphi` runs | Paper shadow |
 | `/achilles-ghost` | After `/achilles` runs (earnings season only) | Paper shadow |
 | `/midas-ghost` | After `/midas` runs | Paper shadow |
+| `/proteus` | Weekend AND `should_run("cache/ghost_proteus_cadence.json", "session", 3)`; weekday only if his book has open positions (tend-the-book pass: marks, horizon expiries, kill conditions — step 2 of his liturgy short-circuits the rest) | Discretionary ghost — paper only, never trades real money; full session on weekends, position-tending on weekdays |
 
 ## Steps
 
@@ -72,6 +73,7 @@ think, trade, or override any god's logic.
    - `/oracle` — if `oracle_due`
    - `/achilles` — if `earnings_season` and market hours
    - `/oracle-screen` — if `screen_due` (runs before `/oracle` since oracle uses screen output)
+   - `/proteus` — if weekend AND `should_run("cache/ghost_proteus_cadence.json", "session", 3)` (full discretionary session), OR weekday when his book has open positions (tend-the-book only). PAPER ONLY — he never places broker orders regardless of any flag.
 
    **Ghosts (run after their parent):**
    - `/oracle-ghost` — after `/oracle`
@@ -90,6 +92,7 @@ think, trade, or override any god's logic.
    - `/achilles`
    - `/midas-scan` (weekend) or `/midas` (Monday / open-position weekdays)
    - `/nemesis` (weekend if due — full pass; or weekday with `nemesis_has_position` — exits-only. Shares no state with the other gods)
+   - `/proteus` (if due — paper-only; reads other gods' caches but owns only `cache/ghost_proteus_*`, so he parallelizes safely with everyone)
 
    **Parallel group 2** (depends on group 1):
    - `/oracle` (needs screen output if screen just ran)
@@ -121,4 +124,4 @@ due — the cron just wakes it up.
 - Zeus does NOT override any god's logic or skip conditions.
 - Zeus does NOT persist any state. Each dispatched skill handles its own persistence.
 - If a skill fails, log the error and continue with the next skill. One god's failure does not block the others.
-- Weekend dispatches: only `/midas-scan` (heavy universe scan) and `/nemesis` (spinoff pipeline, gated live sleeve) run. No `/trinity`, `/delphi`, `/achilles`, or `/midas` entry on weekends.
+- Weekend dispatches: only `/midas-scan` (heavy universe scan), `/nemesis` (spinoff pipeline, gated live sleeve), and `/proteus` (discretionary ghost, paper only) run. No `/trinity`, `/delphi`, `/achilles`, or `/midas` entry on weekends.

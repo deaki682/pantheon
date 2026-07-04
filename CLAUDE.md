@@ -45,6 +45,16 @@ clusters, earnings beats, smart money, activist 13D, guidance raises)
 fire on the same name, the probability of a short-term pop increases
 non-linearly.
 
+**Proteus** (ghost only — no real money) — The discretionary
+experiment: a complete investor with no frozen strategy, free to trade
+any US-listed name long or short on a $10,000 PAPER book, every
+decision journaled with a falsifiable prediction and graded without
+mercy (docs/proteus_prereg.md). Exists to answer whether free
+discretion beats frozen rules. Checkpoint at 30 closed trades or
+2027-01-15; validation earns a conversation about a live sleeve behind
+the standard capital gates, refutation retires him to the ledger.
+Owns only `cache/ghost_proteus_*`.
+
 ## Research record
 
 **`docs/RESEARCH_LEDGER.md`** indexes every completed study (prereg →
