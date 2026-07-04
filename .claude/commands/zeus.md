@@ -21,7 +21,8 @@ think, trade, or override any god's logic.
 | `/achilles-ghost` | After `/achilles` runs (earnings season only) | Paper shadow |
 | `/midas-ghost` | Market-hours weekdays, once per day (`should_run("cache/ghost_midas_cadence.json", "session", 1)`) | Paper shadow — the live-vs-legacy A/B race. Survives Midas's live retirement; consumes the weekend `/midas-scan` finalists directly |
 | `/proteus` | `should_run("cache/proteus_cadence.json", "session", 1)` — one full session per day, any day (operator mandate 2026-07-04: his purpose is a green book every day, so he hunts every day; weekends he researches with markets closed) | **LIVE since 2026-07-04** (operator directive): trades the real sleeve funded from Midas's retired capital. Until `proteus_sleeve.json` shows `pending_funding: null`, sessions are research-only |
-| `/proteus-lab` | Weekend AND `should_run("cache/proteus_cadence.json", "lab", 7)` | Strategy lab (operator mandate 2026-07-04): invent/pre-register/backtest/forward-test new strategies. PAPER ONLY — never a broker order |
+| `/proteus-lab` | Weekend AND `should_run("cache/proteus_cadence.json", "lab", 7)` | Proteus's weekly lab session — files into the HOUSE registry (`shared.lab`, sponsor="proteus") since 2026-07-04. PAPER ONLY — never a broker order. Run BEFORE `/lab` (both write `cache/lab_registry.json`; sequencing avoids a lost-update race) |
+| `/lab` | Weekend AND `should_run("cache/lab_cadence.json", "session", 7)` | The HOUSE research lab (operator directive 2026-07-04): works `docs/RESEARCH_BACKLOG.md` top-down through the shared.lab ratchet. PAPER ONLY. Run AFTER `/proteus-lab`, never concurrently with it |
 
 ## Steps
 
@@ -81,6 +82,7 @@ think, trade, or override any god's logic.
    - `/oracle-screen` — if `screen_due` (runs before `/oracle` since oracle uses screen output)
    - `/proteus` — if `should_run("cache/proteus_cadence.json", "session", 1)` (one full session per day, every day — the daily-green mandate). LIVE since 2026-07-04: he trades his own real sleeve (and only his own). Research-only until his sleeve's `pending_funding` clears.
    - `/proteus-lab` — if weekend AND `should_run("cache/proteus_cadence.json", "lab", 7)` (once per weekend; paper-only strategy research; run it after `/proteus` since both write `proteus_cadence.json`)
+   - `/lab` — if weekend AND `should_run("cache/lab_cadence.json", "session", 7)` (the house research lab; run it AFTER `/proteus-lab` completes — both write `cache/lab_registry.json`, and sequencing prevents a lost update)
    - `/midas-ghost` — market-hours weekdays, once per day (`should_run("cache/ghost_midas_cadence.json", "session", 1)`): opens paper entries when fresh finalists exist, marks/grades daily
 
    **Ghosts (run after their parent):**
@@ -133,5 +135,5 @@ due — the cron just wakes it up.
 - Zeus does NOT override any god's logic or skip conditions.
 - Zeus does NOT persist any state. Each dispatched skill handles its own persistence.
 - If a skill fails, log the error and continue with the next skill. One god's failure does not block the others.
-- Weekend dispatches: only `/midas-scan` (heavy universe scan, research-only), `/nemesis` (spinoff pipeline, gated live sleeve), `/proteus` (discretionary god — daily cadence includes weekends as research days; markets closed means no orders), and `/proteus-lab` (weekly strategy lab, paper only) run. No `/trinity`, `/delphi`, `/achilles`, or `/midas` on weekends.
+- Weekend dispatches: only `/midas-scan` (heavy universe scan, research-only), `/nemesis` (spinoff pipeline, gated live sleeve), `/proteus` (discretionary god — daily cadence includes weekends as research days; markets closed means no orders), `/proteus-lab` (weekly strategy lab, paper only), and `/lab` (house research lab, paper only, after `/proteus-lab`) run. No `/trinity`, `/delphi`, `/achilles`, or `/midas` on weekends.
 - Midas is retired from live trading (2026-07-04, operator directive — capital reallocated to Proteus). `/midas` exists only to finish the DAKT wind-down; `/midas-scan` and `/midas-ghost` continue as the convergence A/B research program.

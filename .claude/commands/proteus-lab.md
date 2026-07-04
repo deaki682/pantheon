@@ -4,9 +4,20 @@ The operator's mandate (2026-07-04): Proteus may come up with ENTIRELY
 NEW or completely underutilized stock strategies and test them — under
 the same discipline every house study runs on, with backtest bias held
 in front of his face mechanically, not by memory. Engine:
-`proteus/lab.py` — a validated writer that refuses hypothesis stubs,
-un-preregistered backtests, unaddressed bias items, second cuts at the
-same data, and early promotions.
+`shared.lab` (via the `proteus.lab` shim) — a validated writer that
+refuses hypothesis stubs, un-preregistered backtests, unaddressed bias
+items, second cuts at the same data, and early promotions.
+
+**House lab (2026-07-04, same day, operator directive):** the engine
+was generalized house-wide. His registry is now the HOUSE registry
+`cache/lab_registry.json` (a guard file) with ONE shared
+`hypotheses_ever` counter across all sponsors — his bias checklists
+cite the house count, not a private one. His strategies carry
+`sponsor="proteus"`. The pre-migration registry
+`cache/proteus_lab.json` is frozen history (also guarded). Ideas that
+need house-scale data he can't build in one weekend go to
+`docs/RESEARCH_BACKLOG.md` for the `/lab` session instead of dying in
+a note.
 
 **The lab is PAPER ONLY.** No broker orders, ever, from this skill. Lab
 forward-test trades do NOT count toward the live book's 30-trade
@@ -21,7 +32,7 @@ Weekends, once per week (`should_run("cache/proteus_cadence.json",
 work. A lab session with no new hypothesis is fine — tending an open
 forward test or honestly shelving a dead idea is work.
 
-## The pipeline (one-way ratchet, enforced by `proteus/lab.py`)
+## The pipeline (one-way ratchet, enforced by `shared.lab`)
 
     hypothesis -> preregistered -> backtested -> forward_testing -> validated
                        |               |                                |
@@ -29,7 +40,8 @@ forward test or honestly shelving a dead idea is work.
 
 ## Session liturgy
 
-0. **Hydrate.** `pantheon.hydrate()`. Load `lab = proteus.lab.load_lab()`.
+0. **Hydrate.** `pantheon.hydrate()`. Load `lab = shared.lab.load_lab()` (the house registry,
+   `cache/lab_registry.json`).
    Read `docs/RESEARCH_LEDGER.md` FIRST — the graveyard of refuted
    "obvious" ideas is his best prior. Then read the lab: statuses of
    every strategy, `hypotheses_ever` (his own multiple-testing count).
@@ -49,7 +61,8 @@ forward test or honestly shelving a dead idea is work.
    anything the ledger already refuted (insider clusters as auto-buy,
    convergence multipliers, raw PEAD buy-side...) unless the hypothesis
    states specifically what is DIFFERENT this time. Register via
-   `new_strategy(lab, slug=..., date=..., mechanism=..., who_loses=...,
+   `new_strategy(lab, slug=..., date=..., sponsor="proteus",
+   mechanism=..., who_loses=...,
    underutilized_because=..., falsifiable_claim=...)` — the writer
    refuses ideas that can't articulate why the edge exists, who is on
    the other side, and why it isn't already arbitraged away.
@@ -70,7 +83,7 @@ forward test or honestly shelving a dead idea is work.
    `record_backtest(lab, slug, date=..., n=..., mean_excess=...,
    verdict="supported"|"refuted"|"inconclusive", bias_checklist={...},
    results_doc=...)`. The writer refuses the record unless ALL EIGHT
-   bias items (`proteus.lab.BIAS_CHECKLIST`: survivorship, look_ahead,
+   bias items (`shared.lab.BIAS_CHECKLIST`: survivorship, look_ahead,
    selection, multiple_testing, overfitting, costs_liquidity, regime,
    small_n) are addressed in writing, ≥60 chars each — "n/a" without a
    why is rejected. The multiple_testing item must cite
@@ -84,10 +97,10 @@ forward test or honestly shelving a dead idea is work.
 5. **Forward test (the only road to validated).** A supported backtest
    is a licence to spend paper, not a result. `start_forward_test`,
    then run it via the shared ghost engine (paper positions in
-   `cache/proteus_lab_ghost_ledger.json` /
-   `cache/proteus_lab_ghost_curve.json`, `shared.ghost.open_entries`
-   with `features={"strategy": slug}`, marked and graded at horizon
-   with `grade_entries`). Each graded ghost trade's excess vs its SPY
+   `cache/lab_ghost_ledger.json` / `cache/lab_ghost_curve.json` —
+   shared with `/lab`; `shared.ghost.open_entries` with
+   `features={"strategy": slug}` so strategies never blur, marked and
+   graded at horizon with `grade_entries`). Each graded ghost trade's excess vs its SPY
    mirror goes in via `record_forward_grade`. `evaluate_forward` shows
    the running score (judged on the SHRUNK mean — small samples get no
    face value). At ≥20 grades, `conclude_forward` settles it:
@@ -96,7 +109,9 @@ forward test or honestly shelving a dead idea is work.
    record) so horizons don't rot between weekend lab sessions.
 
 6. **Persist.** `mark_run("cache/proteus_cadence.json", "lab")`, then
-   `pantheon.persist("proteus", {lab json, ghost ledger/curve, cadence})`.
+   `pantheon.persist("proteus", {cache/lab_registry.json, lab ghost
+   ledger/curve, cache/proteus_cadence.json})` — proteus owns the
+   `cache/lab_` prefix for exactly this.
    Prereg/results docs and ledger rows are committed to the code branch
    in the same session they're written.
 

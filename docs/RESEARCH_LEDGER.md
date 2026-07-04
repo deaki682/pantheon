@@ -44,3 +44,9 @@ any new results doc.
   a fresh-data prereg.
 - Failed and inconclusive studies get rows with the same prominence
   as wins.
+- Since 2026-07-04 the house lab (`shared.lab`, `/lab`, backlog at
+  docs/RESEARCH_BACKLOG.md) runs tradable hypotheses through one
+  registry (`cache/lab_registry.json`) with ONE house-wide
+  `hypotheses_ever` multiple-testing counter — per-god counters are
+  forbidden because sharding the denominator flatters everyone.
+  Lab verdicts still land here as rows, same rules as any study.

@@ -309,4 +309,4 @@ def test_guard_files_includes_all_three_sleeves():
 
 def test_guard_files_count():
     from pantheon import GUARD_FILES
-    assert len(GUARD_FILES) == 11  # +nemesis_sleeve (2026-07-03), +proteus sleeve/journal/lab (2026-07-04)
+    assert len(GUARD_FILES) == 12  # +nemesis_sleeve (2026-07-03), +proteus sleeve/journal/lab, +house lab_registry (2026-07-04)

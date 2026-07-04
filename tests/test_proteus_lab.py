@@ -1,7 +1,7 @@
-"""Tests for proteus.lab — the strategy lab's one-way ratchet."""
+"""Tests for the lab's one-way ratchet (shared.lab via the proteus shim)."""
 import pytest
 
-from proteus.journal import JournalError
+from proteus.lab import JournalError
 from proteus import lab as L
 
 MECH = ("Closed-end funds trading at extreme discounts into a board-mandated "
@@ -30,6 +30,7 @@ BIAS_OK = {k: ("Addressed in detail: " + v) for k, v in L.BIAS_CHECKLIST.items()
 def _lab_with_hypothesis():
     lab = L.load_lab("/nonexistent")
     L.new_strategy(lab, slug="cef_tender", date="2026-07-05",
+                   sponsor="proteus",
                    mechanism=MECH, who_loses=WHO,
                    underutilized_because=WHY, falsifiable_claim=CLAIM)
     return lab
@@ -48,9 +49,25 @@ def test_hypothesis_requires_articulation():
     lab = L.load_lab("/nonexistent")
     with pytest.raises(JournalError):
         L.new_strategy(lab, slug="stub", date="2026-07-05",
+                       sponsor="proteus",
                        mechanism="it goes up", who_loses=WHO,
                        underutilized_because=WHY, falsifiable_claim=CLAIM)
     assert lab["strategies"] == {}
+
+
+def test_sponsor_required_and_recorded():
+    lab = L.load_lab("/nonexistent")
+    with pytest.raises(JournalError, match="sponsor"):
+        L.new_strategy(lab, slug="orphan", date="2026-07-05", sponsor="  ",
+                       mechanism=MECH, who_loses=WHO,
+                       underutilized_because=WHY, falsifiable_claim=CLAIM)
+    L.new_strategy(lab, slug="named", date="2026-07-05", sponsor="Operator",
+                   mechanism=MECH, who_loses=WHO,
+                   underutilized_because=WHY, falsifiable_claim=CLAIM)
+    assert lab["strategies"]["named"]["sponsor"] == "operator"
+    summary = L.pipeline_summary(lab)
+    assert summary["hypotheses_ever"] == 1
+    assert summary["by_sponsor"] == {"operator": 1}
 
 
 def test_no_duplicate_slugs_and_counter_increments():
@@ -58,6 +75,7 @@ def test_no_duplicate_slugs_and_counter_increments():
     assert lab["hypotheses_ever"] == 1
     with pytest.raises(JournalError):
         L.new_strategy(lab, slug="cef_tender", date="2026-07-05",
+                       sponsor="proteus",
                        mechanism=MECH, who_loses=WHO,
                        underutilized_because=WHY, falsifiable_claim=CLAIM)
 

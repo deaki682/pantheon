@@ -79,6 +79,25 @@ returns the capital to the treasury. Owns only `cache/proteus_*`.
   any session that does the classification work deposits it
   (`add_events`, deduped on symbol+type+date; `upcoming()` for
   windows). Both caches persist under the `shared` prefix.
+- **`shared/populations.py`** — build-once event-population catalogs
+  (`cache/shared_populations.json` index + `cache/shared_pop_*.json`
+  rows). Every population records its definition, specific source, and
+  a mandatory coverage_note stating what is KNOWN missing.
+
+## The house research lab (2026-07-04)
+
+**`shared.lab`** + **`/lab`** + **`docs/RESEARCH_BACKLOG.md`**. One
+registry (`cache/lab_registry.json`, guarded) for every tradable
+hypothesis in the house, any sponsor (proteus, operator, any god), one
+house-wide `hypotheses_ever` multiple-testing counter. The ratchet:
+hypothesis → preregistered → backtested → forward_testing →
+validated/refuted; refuted is terminal per slug; prereg committed
+before data; all eight bias-checklist items addressed in writing;
+validation only via ≥20 graded paper forward trades on the shrunk
+mean. `/proteus-lab` is Proteus's weekly client session of the same
+engine; `/lab` works the operator's backlog. PAPER ONLY — a validated
+strategy is citable in a live thesis, never an autopilot. The
+pre-migration `cache/proteus_lab.json` is frozen history (guarded).
 
 ## Research record
 

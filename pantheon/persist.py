@@ -78,6 +78,13 @@ OWNERSHIP_PREFIXES: dict[str, list[str]] = {
     ],
     "proteus": [
         "cache/proteus_",
+        # /proteus-lab files into the house lab registry (2026-07-04).
+        "cache/lab_",
+    ],
+    # The house research lab (shared.lab). Any operator/house lab session
+    # persists as "lab"; /proteus-lab persists the same files as "proteus".
+    "lab": [
+        "cache/lab_",
     ],
 }
 
@@ -96,9 +103,12 @@ GUARD_FILES: list[str] = [
     # Proteus self-review finding #4). Out-of-band git surgery can still
     # bypass it — that is a deliberate operator act, not an accident.
     "cache/proteus_journal.jsonl",
-    # The lab registry holds refuted-terminal verdicts; losing it would
+    # The lab registries hold refuted-terminal verdicts; losing one would
     # silently permit the re-cuts the one-dataset rule forbids.
+    # proteus_lab.json is the frozen pre-house-lab registry; lab_registry.json
+    # is the live house registry (2026-07-04 generalization).
     "cache/proteus_lab.json",
+    "cache/lab_registry.json",
     "cache/oracle_screen.json",
     "cache/oracle_prescreener.json",
     "cache/oracle_dossiers.json",
