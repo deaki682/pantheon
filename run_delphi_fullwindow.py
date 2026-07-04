@@ -64,8 +64,28 @@ def quarter_ends() -> list[str]:
 
 
 def _resolver(ticker_rows: list[dict]):
-    """Window-aware as-traded -> TICKERS-row resolver over the local
-    TICKERS universe (exact ticker + relatedtickers sweep)."""
+    """Window-aware as-traded -> TICKERS-row resolver (US common only).
+
+    Layered disambiguation, each layer motivated by a real failure the
+    boundary audit caught on the first build:
+      1. COMMON-category filter FIRST — a mega-cap's preferred series
+         (JPM-PM, ...) all list the common's symbol in relatedtickers
+         and made JPM/BAC/T look 'ambiguous' in 2020.
+      2. Price-window filter; a unique survivor wins.
+      3. Dead-holder rule: Sharadar suffixes a digit onto companies
+         that DIED holding a recycled symbol (JPM1 = J.P. Morgan & Co,
+         T1 = AT&T Corp). A suffixed holder alive at `day` owns the
+         symbol (as-traded JPM in 1999 is J.P. Morgan & Co, not the
+         Chase lineage whose backdated window also covers 1999).
+      4. Exact-final match: if the lineage whose FINAL ticker is the
+         symbol was itself pricing at `day`, it owns it (AA after the
+         2016 Alcoa split — Howmet/Arconic still prices, but under a
+         different as-traded name).
+      5. One remaining related holder wins; anything still ambiguous
+         returns None and is EXCLUDED + logged, never guessed.
+    Returns (row, why) where why is None on success.
+    """
+    import re
     exact: dict[str, list[dict]] = {}
     related: dict[str, list[dict]] = {}
     for r in ticker_rows:
@@ -76,20 +96,30 @@ def _resolver(ticker_rows: list[dict]):
     def resolve(sym: str, day: str):
         cands = list(exact.get(sym, [])) + [
             r for r in related.get(sym, []) if r not in exact.get(sym, [])]
-        windowed = [r for r in cands
+        common = [r for r in cands if r.get("category") in COMMON]
+        if not common:
+            return None, ("category" if cands else "no_tickers_match")
+        windowed = [r for r in common
                     if (r.get("firstpricedate") or "0000") <= day
                     <= (r.get("lastpricedate") or "9999")]
-        hits = windowed or cands
-        if len(hits) == 1:
-            return hits[0]
-        if len(hits) > 1:
-            # recycled ticker: prefer the lineage for which sym is the
-            # historical name and which was still pricing that day
-            hist = [r for r in hits if str(r.get("ticker", "")).upper() != sym
-                    and (r.get("lastpricedate") or "9999") >= day]
-            if len(hist) == 1:
-                return hist[0]
-        return None
+        if len(windowed) == 1:
+            return windowed[0], None
+        if not windowed:
+            return None, "no_window_match"
+        dead_holders = [r for r in windowed
+                        if re.fullmatch(re.escape(sym) + r"\d",
+                                         str(r.get("ticker", "")).upper())]
+        if len(dead_holders) == 1:
+            return dead_holders[0], None
+        exacts = [r for r in windowed
+                  if str(r.get("ticker", "")).upper() == sym]
+        if len(exacts) == 1:
+            return exacts[0], None
+        others = [r for r in windowed
+                  if str(r.get("ticker", "")).upper() != sym]
+        if len(others) == 1:
+            return others[0], None
+        return None, "ambiguous"
 
     return resolve
 
@@ -120,11 +150,11 @@ def phase_universes(scratch: str) -> None:
             m = r.get("marketcap")
             if m is None:
                 continue
-            row = resolve(t, as_of)
+            row, why = resolve(t, as_of)
             if row is None:
-                excluded.append({"qe": qe, "ticker": t, "why": "unresolvable"})
-                continue
-            if row.get("category") not in COMMON:
+                if why != "category":  # ADRs/funds are excluded by design
+                    excluded.append({"qe": qe, "ticker": t, "why": why,
+                                     "marketcap": float(m)})
                 continue
             pool.append((float(m), t, str(row["ticker"]).upper()))
         pool.sort(reverse=True)
@@ -134,15 +164,29 @@ def phase_universes(scratch: str) -> None:
             "members": [{"traded": t, "final": f, "marketcap": m}
                         for m, t, f in members],
         }
+        # Boundary audit: an excluded name big enough for the top-119
+        # means the universe is WRONG, not just less covered.
+        floor_m = members[-1][0] if members else 0.0
+        boundary = [e for e in excluded if e["qe"] == qe
+                    and e["marketcap"] >= floor_m]
+        flag = f"  !! BOUNDARY: {[(e['ticker'], e['why']) for e in boundary]}" \
+            if boundary else ""
         print(f"{qe} (as_of {as_of}): {len(members)} members, "
-              f"pool {len(pool)}", flush=True)
+              f"pool {len(pool)}{flag}", flush=True)
     os.makedirs(scratch, exist_ok=True)
+    boundary_all = []
+    for qe, u in universes.items():
+        floor_m = u["members"][-1]["marketcap"] if u["members"] else 0.0
+        boundary_all += [e for e in excluded if e["qe"] == qe
+                          and e["marketcap"] >= floor_m]
     with gzip.open(f"{scratch}/universes.json.gz", "wt") as f:
-        json.dump({"universes": universes, "excluded": excluded}, f)
+        json.dump({"universes": universes, "excluded": excluded,
+                   "boundary_violations": boundary_all}, f)
     union = sorted({m["final"] for u in universes.values()
                     for m in u["members"]})
     print(f"quarters: {len(universes)}, union of final tickers: {len(union)}, "
-          f"excluded rows: {len(excluded)}")
+          f"excluded rows: {len(excluded)}, "
+          f"BOUNDARY VIOLATIONS: {len(boundary_all)}")
 
 
 def _minus_days(day: str, n: int) -> str:
@@ -341,7 +385,7 @@ def phase_cells(scratch: str, out_dir: str) -> None:
                             "marketcap quarter-end cross-sections"),
                 split_note=("No in-study tuning; parameters are Delphi's live "
                             "frozen values; 3 cells enumerated in the prereg"),
-                hypotheses_ever=94, regime_boundaries=REGIME_BOUNDARIES)
+                hypotheses_ever=96, regime_boundaries=REGIME_BOUNDARIES)
         report["cells"][name] = entry
     report["spy"] = {"stats": spy["stats"], "price_field": spy["price_field"]}
     report["universe_excluded"] = udata["excluded"]
