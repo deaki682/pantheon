@@ -1,4 +1,5 @@
 {
+ "frozen": "2026-07-04 \u2014 house-lab migration; do not write; history only",
  "hypotheses_ever": 1,
  "strategies": {
   "ipo_lockup_reversion": {
@@ -50,5 +51,6 @@
    "underutilized_because": "Lockup-expiry research and financial media coverage concentrate almost entirely on famous, mega-cap IPOs (exactly the kind session 3 rejected on EQPT/SPCX as already-published and priced-in); the broad population of small-cap, low-coverage IPOs has calendar-certain, EDGAR-documented lockup dates that are public but that no systematic screener or analyst desk tracks, leaving the effect unarbitraged specifically in names too small and unglamorous to attract the attention that kills it in famous names.",
    "who_loses": "Momentum shorts and lockup-cliff narrative traders who pile onto the anticipated overhang and are then squeezed as selling exhausts and price reverts; also pre-IPO holders forced to sell into a temporarily depressed, oversupplied tape rather than at a fundamentals-clearing price."
   }
- }
+ },
+ "superseded_by": "cache/lab_registry.json"
 }
