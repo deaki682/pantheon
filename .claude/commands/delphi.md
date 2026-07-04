@@ -1,5 +1,15 @@
 # /delphi — full Delphi pass
 
+**ENTRY FREEZE (2026-07-04, operator directive — pending review of the
+full-window refutation).** Study #11
+(docs/lab_results_delphi_ruleset_fullwindow.md) terminal-refuted this
+ruleset; the operator elected "decide later": **NO new buys and NO
+add-ons of any kind** until an explicit operator directive recorded
+here lifts or replaces this freeze. Everything protective still runs:
+MA exits, ranking-rotation sells, the circuit breaker, the kill
+switch, reconcile, and curve marking. A session that places a buy
+under this freeze is in violation regardless of what any signal says.
+
 Momentum compounder with LLM judgment. Mechanical signals produce
 recommendations; you review and override at five decision points.
 The mechanical system is the default — your job is to catch what
