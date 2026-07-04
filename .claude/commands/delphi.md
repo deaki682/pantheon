@@ -1,23 +1,68 @@
-# /delphi — full Delphi pass
+# /delphi — RETIRED 2026-07-04 (operator directive) — WIND-DOWN ONLY
 
-**OPERATOR OVERRIDE — RUN UNCHANGED (2026-07-04, in writing).** Study
-#11 reported a refutation, its accuracy audit found the cell
-mis-specified her rules (erratum filed), and the faithful correction
-study (`delphi_ruleset_faithful`,
-docs/lab_results_delphi_ruleset_faithful.md) then REFUTED her ACTUAL
-semantics harder: −9.36pp/yr vs her own universe's equal weight,
-−90.5% maxDD, five Delphi-family cells tested and five refuted, with
-the 2021–26 window cross-validated against #4's replay as the
-outlier era. The operator's standing directive regardless:
-**"don't freeze or change her yet."**
-Delphi runs exactly as specified below — normal entries, exits, all
-five decision points, no freeze — until the operator says otherwise.
-The consequence remains OPEN on the operator's desk; no session may
-retire, freeze, or modify her on its own initiative, and equally no
-session may cite the refuted backtest (or any window of it) as
-evidence FOR the strategy. A brief entry freeze existed earlier today
-(operator's first interim call) and was reversed by this directive
-within the hour.
+## ⚠️ Live retired; her sleeve funds Plutus
+
+The operator resolved Delphi's open consequence (2026-07-04): her strategy
+was refuted at the full window (`delphi_ruleset_faithful`,
+docs/lab_results_delphi_ruleset_faithful.md — −9.36pp/yr vs her own
+universe's equal weight; the edge was the 2021–26 era, not the ruleset), and
+her ~$2,000 large-cap sleeve is **reallocated to launch Plutus** — the
+net-issuance capital-return god (`docs/plutus_launch_override.md`,
+`.claude/commands/plutus.md`). This supersedes the earlier "don't freeze or
+change her yet" hold: the operator has now decided, in writing, to retire her
+and move the capital.
+
+Live trading is over. Delphi opens NO new positions and runs NO decision
+points. The only remaining duty is the wind-down sweep below. Everything
+after the wind-down section is retained for the record and for
+`/delphi-ghost`'s reference only — **do not execute it.** No session may cite
+any Delphi backtest as evidence FOR the strategy.
+
+### Wind-down procedure (idempotent; Zeus dispatches while it's pending)
+
+This is a retirement close-out on an explicit operator directive, so — like
+the Midas sweep — it runs regardless of `DELPHI_LIVE` (the paper-mode rule in
+step 1 does not apply to it). It is safe to re-run: each step no-ops once done.
+
+1. **Hydrate.** `pantheon.hydrate()`.
+2. **Safety.** If `KILL_SWITCH` exists, stop (the kill path liquidates
+   separately). Otherwise proceed — the wind-down IS a liquidation, just an
+   orderly one.
+3. **Reconcile any pending liquidation fills.** `get_equity_orders` filtered
+   through `filter_orders_by_ledger(orders, read_ledger("cache/delphi_ledger.jsonl"))`
+   — any wind-down sell that filled since last pass gets its ACTUAL fill
+   written into the sleeve (`sleeve.sell(sym, shares, avg_fill_price, fill_date,
+   set_cooldown=False)`) and a reconcile line appended to the ledger.
+4. **Liquidate whatever remains.** For every open position in
+   `cache/delphi_sleeve.json`, place a market sell for the full share count
+   (`place_equity_order`), append it to `cache/delphi_ledger.jsonl` as
+   `state:"queued"` with the order_id. Do NOT call `sleeve.sell()` on an
+   unfilled order — leave the position until step 3 on a later pass confirms
+   the fill (the sleeve records reality, not intentions). Orders placed on a
+   closed day queue for the next open; that is expected.
+5. **Sweep to Plutus — only once FLAT (no open positions, no pending sells).**
+   ```python
+   from plutus.sleeve import PlutusSleeve
+   amount = sleeve.settled_cash(today)   # only settled proceeds are sweepable
+   plutus = PlutusSleeve.load("cache/plutus_sleeve.json")
+   plutus.fund(amount=amount, source="delphi", date=today,
+               note="Delphi live retirement sweep (operator directive 2026-07-04)")
+   plutus.save("cache/plutus_sleeve.json")
+   sleeve.withdraw(amount)               # Delphi keeps nothing
+   ```
+   Delphi's Monday sells settle T+1, so `settled_cash` is $0 the day the
+   sells fill and the real sweep lands the following session. Sweep in
+   tranches as cash settles — `plutus.fund()` is additive and clears
+   `pending_funding` on the first tranche; Plutus's own settled-cash gate
+   keeps him from buying with the unsettled portion. Record on the Delphi
+   sleeve: `{"retired": "2026-07-04", "swept_to_plutus": <running total>,
+   "swept_on": today}`.
+6. **Persist BOTH gods.** `pantheon.persist("delphi", {sleeve, ledger, curve,
+   cadence})` and `pantheon.persist("plutus", {"cache/plutus_sleeve.json": …})`.
+7. **Done forever once flat and fully swept.** With no position, no pending
+   sell, and `settled_cash ≈ 0`, Zeus never dispatches `/delphi` again.
+
+---
 
 Momentum compounder with LLM judgment. Mechanical signals produce
 recommendations; you review and override at five decision points.

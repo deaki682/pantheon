@@ -2,10 +2,19 @@
 
 ## The decision
 
-The operator has directed that **Plutus launch LIVE with real money at
-the 2026-07-06 market open**, funded by Delphi's retiring ~$2,000
-large-cap sleeve, running the `gauntlet_v2_fundamentals` net-issuance-low
-N50 LARGE strategy.
+The operator has directed that **Plutus go LIVE with real money**, funded by
+Delphi's retiring ~$2,000 large-cap sleeve, running the
+`gauntlet_v2_fundamentals` net-issuance-low N50 LARGE strategy.
+
+**The 2026-07-06 session is a transition of power, not a launch-day buy**
+(operator clarification, 2026-07-04). Monday the agentic portfolio is
+*rearranged*: Delphi's positions are liquidated to cash and swept into
+Plutus's sleeve to create the buying power that funds the new regime. Those
+sells settle T+1, so Plutus's first quarterly rebalance — his actual first
+purchase — follows once the swept capital has settled (Tuesday+), gated
+mechanically by his settled-cash check. The launch is the moment he first
+holds the basket, which the transition makes possible; it is deliberately
+*not* a scramble to buy at Monday's open with unsettled proceeds.
 
 This is a **conscious override**, exactly the Proteus precedent: the
 operator is deliberately spending the risk budget the gates exist to
@@ -55,8 +64,9 @@ arm proves out forward.
   slow signal; the churn that sank Delphi is structurally absent).
 - Standard live-money gates: `KILL_SWITCH`, `is_live("plutus")`,
   `pre_trade_check` (sleeve>broker halts), `already_placed_today`.
-- `PLUTUS_LIVE` defaults FALSE. The operator arms it; the first live
-  rebalance IS the launch.
+- `PLUTUS_LIVE` defaults FALSE. The operator arms it. Once armed and funded
+  by the transition sweep, Plutus's first settled-cash rebalance is the
+  launch — no order fires before the swept capital settles.
 
 ## The checkpoint (this override is not permanent license)
 

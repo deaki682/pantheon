@@ -15,6 +15,11 @@ import json, os, sys
 from datetime import date, timedelta
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import shared.sharadar as sh
+# The basket lives in plutus.strategy — the SINGLE canonical implementation the
+# live god also trades, so this forward test and Plutus's live book are, by
+# construction, the same 50 names. Never re-implement it here (drift = a
+# forward test that no longer tracks what's live).
+from plutus.strategy import top_universe as top500, net_issuance_basket
 
 TRACKER = "cache/lab_forward_net_issuance.json"
 
@@ -25,38 +30,6 @@ def quarter_ends_through(today):
             qe=f"{y}-{m:02d}-{d:02d}"
             if "2026-06-30" <= qe <= today: out.append(qe)
     return out
-
-def top500(D):
-    for off in range(6):
-        dd=(date(*map(int,D.split('-')))-timedelta(days=off)).isoformat()
-        rows=sh._datatable("DAILY",**{"date.gte":dd,"date.lte":dd,
-            "qopts.columns":"ticker,marketcap","qopts.per_page":10000})
-        if rows: break
-    m={r["ticker"].upper():r["marketcap"] for r in rows if r.get("marketcap")}
-    return set(sorted(m,key=lambda t:-m[t])[:500])
-
-def net_issuance_basket(D, universe):
-    syms=sorted(universe)
-    rows=[]
-    for i in range(0,len(syms),90):
-        rows+=sh._datatable("SF1",ticker=",".join(syms[i:i+90]),dimension="ARQ",**{
-            "calendardate.gte":"2023-01-01","qopts.columns":"ticker,datekey,calendardate,shareswa",
-            "qopts.per_page":10000})
-    from collections import defaultdict
-    byt=defaultdict(list)
-    for r in rows:
-        if r.get("shareswa") is not None: byt[r["ticker"]].append(r)
-    for t in byt: byt[t].sort(key=lambda r:(r["calendardate"],r["datekey"]))
-    cand=[]
-    for t in universe:
-        u=[r for r in byt.get(t,[]) if r["datekey"]<=D]
-        if len(u)<8: continue
-        l8=u[-8:]
-        if l8[-1]["calendardate"] < (date(*map(int,D.split('-')))-timedelta(days=400)).isoformat(): continue
-        sc=sum(r["shareswa"] for r in l8[4:]); sp=sum(r["shareswa"] for r in l8[:4])
-        if sp>0: cand.append((sc/sp-1.0,t))
-    cand.sort()
-    return [t for _,t in cand[:50]]
 
 def closeadj(syms, D, table="SEP"):
     out={}

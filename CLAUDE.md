@@ -13,12 +13,19 @@ $1,000; scales to $12,000 ceiling after 30+ graded calls prove skill
 (alpha_t >= 2.0, monotonic conviction). Realistically needs 4+ cohorts
 (~4 years) to accumulate enough graded calls.
 
-**Delphi** — Large-cap momentum compounder. Ranks a fixed 118-name universe
-by 65-day price momentum, holds the top 10 equal-weighted, exits when
-price breaks below the 20-day moving average. Rebalances on each run.
-5 LLM decision points per run (exit, entry, sizing, risk budget, universe
-curation) with override budgets to prevent second-guessing the mechanical
-system. Capital at $2,000; 7-day cooldown after selling a name.
+**Delphi** (LIVE RETIRED 2026-07-04, operator directive — sleeve funds
+Plutus) — Was the large-cap momentum compounder: ranked a fixed 118-name
+universe by 65-day price momentum, held the top 10 equal-weighted, exited on
+a 20-day MA break, 5 LLM decision points per run. Her strategy was refuted at
+the full window (`delphi_ruleset_faithful`: −9.36pp/yr vs her own universe's
+equal weight; the edge was the 2021–26 era, not the ruleset), and the
+operator retired her, reallocating her ~$2,000 sleeve to launch Plutus. The
+transition of power runs at the 2026-07-06 open: `/delphi` becomes
+wind-down-only (liquidate positions → cash → sweep to Plutus), then never
+runs live again. `/delphi-ghost` may keep shadowing for the record. Her
+mechanics are retained in `.claude/commands/delphi.md` below the wind-down
+section for reference only — no session may cite any Delphi backtest as
+evidence FOR the strategy.
 
 **Achilles** — PEAD earnings-season specialist. Trades only during the
 four ~6-week earnings windows (~16 weeks/year). Holds a **diversified
@@ -67,6 +74,33 @@ journaled with a falsifiable prediction and graded without mercy
 (docs/proteus_prereg.md). Checkpoint at 30 closed trades or
 2027-01-15: validation keeps the sleeve, refutation retires him and
 returns the capital to the treasury. Owns only `cache/proteus_*`.
+
+**Plutus** (LIVE from 2026-07-06 — conscious operator override) — The
+net-issuance capital-return god: holds the 50 large-caps shrinking their own
+share count fastest (SF1 trailing-4Q weighted-shares change, top-500
+universe), equal-weighted, **quarterly rebalance only** — no intra-quarter
+churn. This is the frozen `gauntlet_v2_fundamentals` net-issuance-low N50
+LARGE spec, the house's FIRST and only SUPPORTED backtest (in-sample DSR +
+two-regime holdout + 2× cost + parameter-cliff). Launched by a **conscious
+override** (docs/plutus_launch_override.md), the Proteus precedent: real
+money on a strategy that is supported but NOT yet forward-validated — two
+house laws overridden in writing, with honest caveats on the record
+(net-issuance only ties SPY equal-weight; a famous decay-prone anomaly;
+multiple-testing counter at 141). He trades the pure mechanical spec — the
+LLM buyback-quality overlay stays a PAPER A/B in the lab, never touching his
+live book. Funded by Delphi's retiring ~$2,000 sleeve via the 2026-07-06
+transition of power (liquidate → sweep; his first settled-cash rebalance is
+the launch, T+1 after the sweep). 40% drawdown breaker; `PLUTUS_LIVE`
+defaults FALSE (operator arms it). Checkpoint at 4–8 graded forward quarters
+or a breaker trip: live grades — basket excess vs SPY — decide whether he
+keeps the capital. Owns only `cache/plutus_*`.
+
+**Transition of power (2026-07-06).** The Monday open is a portfolio
+*rearrange*, not a launch-day scramble: retiring god sleeves are liquidated
+to cash to create the buying power that funds the new regime. Delphi → Plutus
+is the first such transfer; the operator may free more capital for additional
+new gods as they clear the bar (TBD). No new god buys with unsettled
+proceeds — first purchases wait for T+1 settlement.
 
 ## Shared infrastructure (2026-07-04)
 
@@ -171,6 +205,7 @@ trades.
 | At cohort review (~12 months) | `/oracle` | Grades all calls, closes cohort, selects new cohort from pool |
 | Weekly (weekend) | `/midas-scan` | Research-only universe scan feeding the `/midas-ghost` A/B (Midas live retired 2026-07-04) |
 | Daily | `/proteus` | One full discretionary session on his live sleeve (research-only when markets are closed or funding pending) |
+| Trading days | `/plutus` | Net-issuance capital-return god (LIVE 2026-07-06). Self-gates to a once-per-quarter rebalance; monitoring-only otherwise. Research-only until funded by the Delphi sweep and the cash settles |
 | Weekly (weekend) | `/proteus-lab` | Strategy lab: invent → prereg → backtest (bias checklist enforced) → paper forward test. Never live money |
 
 ### Key Files (all in `cache/`, persisted to `claude/live`)
@@ -189,8 +224,13 @@ trades.
 | `oracle_smart_money.json` | oracle | Lens 2: 13F smart money holdings |
 | `oracle_activist_13d.json` | oracle | Lens 3: activist 13D filings |
 | `oracle_prescreener.json` | oracle | Lens 4: broad quality metrics |
-| `delphi_sleeve.json` | delphi | Delphi's sleeve |
+| `delphi_sleeve.json` | delphi | Delphi's sleeve (RETIRED 2026-07-04; wind-down sweeps to Plutus, then a guard record) |
 | `delphi_ledger.jsonl` | delphi | Delphi's order ledger |
+| `plutus_sleeve.json` | plutus | LIVE book: cash, contributed_cash, positions, peak_equity, pending_funding (guard file) |
+| `plutus_ledger.jsonl` | plutus | Every broker order placed (for reconcile + `filter_broker_to_gods`) |
+| `plutus_curve.json` | plutus | Equity marks vs SPY for the dashboard |
+| `plutus_decisions.jsonl` | plutus | Per-rebalance decision log (basket, turnover, breaker state) |
+| `plutus_cadence.json` | plutus | Last-traded quarter marker (gates the once-per-quarter rebalance) |
 | `achilles_sleeve.json` | achilles | Achilles' sleeve |
 | `midas_sleeve.json` | midas | RETIRED record: final cash swept to Proteus 2026-07 (kept as guard file) |
 | `midas_scan.json` | midas | Weekend scan finalists (research-only; feeds `/midas-ghost`) |
@@ -325,7 +365,10 @@ mechanical system too aggressively:
 - The account holds ~15 personal positions alongside the gods. These
   pre-existing positions are filtered out by `filter_broker_to_gods()`.
 - God env vars: `ORACLE_LIVE=true`, `DELPHI_LIVE=true`, `ACHILLES_LIVE=true`,
-  `NEMESIS_LIVE=true`, `PROTEUS_LIVE=true`, and `MIDAS_LIVE=false` (live
-  retired 2026-07-04; `.claude/settings.json` sets the last three).
+  `NEMESIS_LIVE=true`, `PROTEUS_LIVE=true`, `MIDAS_LIVE=false` (live retired
+  2026-07-04), and `PLUTUS_LIVE=false` (defaults FALSE — the operator arms it
+  to launch Plutus at the 2026-07-06 transition; `.claude/settings.json` sets
+  NEMESIS/PROTEUS/MIDAS/PLUTUS). Delphi's `DELPHI_LIVE` stays as-is only for
+  the wind-down; her retirement close-out runs regardless of the gate.
 - If any is not `"true"`, that god runs in paper mode (no broker orders).
 - `KILL_SWITCH` file triggers immediate liquidation of all god positions.

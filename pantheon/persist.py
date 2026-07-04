@@ -81,6 +81,9 @@ OWNERSHIP_PREFIXES: dict[str, list[str]] = {
         # /proteus-lab files into the house lab registry (2026-07-04).
         "cache/lab_",
     ],
+    "plutus": [
+        "cache/plutus_",
+    ],
     # The house research lab (shared.lab). Any operator/house lab session
     # persists as "lab"; /proteus-lab persists the same files as "proteus".
     "lab": [
@@ -98,6 +101,9 @@ GUARD_FILES: list[str] = [
     "cache/midas_sleeve.json",
     "cache/nemesis_sleeve.json",
     "cache/proteus_sleeve.json",
+    # Plutus went live 2026-07-06 (conscious override, docs/plutus_launch_override.md).
+    # His sleeve holds real money swept from Delphi — losing it would strand capital.
+    "cache/plutus_sleeve.json",
     # The prereg forbids journal resets after the first graded trade; this
     # makes the normal persist path enforce it mechanically (2026-07-04,
     # Proteus self-review finding #4). Out-of-band git surgery can still
