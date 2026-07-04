@@ -79,6 +79,13 @@ returns the capital to the treasury. Owns only `cache/proteus_*`.
   any session that does the classification work deposits it
   (`add_events`, deduped on symbol+type+date; `upcoming()` for
   windows). Both caches persist under the `shared` prefix.
+- **`shared/sharadar.py`** — survivorship-bias-free daily bars
+  (Sharadar SEP via Nasdaq Data Link, purchased 2026-07-04: 21,893
+  companies, 15,593 delisted, 1998+). THE LAW: SEP keys all history to
+  the FINAL ticker — always `resolve_ticker(symbol, as_of=...)` (or
+  `ingest_symbols`) before fetching; raw queries return nothing (SIVB,
+  FB) or the wrong company (recycled BBBY). QA:
+  docs/sharadar_qa_2026-07-04.md.
 - **`shared/populations.py`** — build-once event-population catalogs
   (`cache/shared_populations.json` index + `cache/shared_pop_*.json`
   rows). Every population records its definition, specific source, and
