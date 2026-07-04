@@ -150,8 +150,9 @@ unblocked by the same purchase.
 
 A pre-phase-(b) review of "what does the engine NOT account for" found
 one genuine defect and two missing guards. All three are now in
-`shared/gauntlet.py`, each with regression tests (engine suite 19 → 36
-tests):
+`shared/gauntlet.py`, each with regression tests (10 new; engine suite now 26 test
+functions — the “19 tests” claimed earlier in this doc was itself an
+overcount; it was 16):
 
 - **Dividends were silently dropped (FIXED — was a real bug).**
   `simulate()` marked and filled on SEP `close`, which is
