@@ -271,6 +271,36 @@ def _momentum_select(top_n: int, weight: float, lookback: int = 65):
     return select
 
 
+def _ma_filtered_momentum_select(top_n: int, weight: float,
+                                  lookback: int = 65, ma_period: int = 20):
+    """rank_by_momentum semantics exactly: momentum AND the 20d-MA
+    entry filter computed on the same split-adjusted close series;
+    only names with close >= SMA(ma_period) are ranked at all."""
+    need = max(lookback + 1, ma_period)
+
+    def select(day, universe, trimmed):
+        scored = []
+        for sym in universe:
+            if sym not in trimmed:
+                continue
+            tail = (trimmed.tail(sym, need)
+                    if hasattr(trimmed, "tail") else trimmed[sym][-need:])
+            if len(tail) < need:
+                continue
+            closes = [b["close"] for b in tail]
+            ma = sum(closes[-ma_period:]) / ma_period
+            price = closes[-1]
+            if price < ma:
+                continue  # the entry filter — her actual MA rule
+            base = closes[-(lookback + 1)]
+            if base <= 0:
+                continue
+            scored.append((price / base - 1.0, sym))
+        scored.sort(reverse=True)
+        return {sym: weight for _, sym in scored[:top_n]}
+    return select
+
+
 def _ew_select():
     def select(day, universe, trimmed):
         live = [s for s in universe if s in trimmed and trimmed.tail(s, 1)]
@@ -400,9 +430,80 @@ def phase_cells(scratch: str, out_dir: str) -> None:
     print(f"wrote {out_dir}/results.json")
 
 
+def phase_faithful(scratch: str, out_dir: str) -> None:
+    """docs/lab_prereg_delphi_ruleset_faithful.md — the corrected cells."""
+    with gzip.open(f"{scratch}/universes.json.gz", "rt") as f:
+        udata = json.load(f)
+    with gzip.open(f"{scratch}/bars.json.gz", "rt") as f:
+        bdata = json.load(f)
+    with gzip.open(f"{scratch}/spy.json.gz", "rt") as f:
+        spy_rows = json.load(f)
+    bars = _to_bar_dicts(bdata["bars"])
+    universes = udata["universes"]
+
+    from shared.gauntlet import _trading_days
+    all_days = _trading_days(bars, SIM_START, SIM_END)
+    weekly_signals = periodic_dates(all_days, "W", "last")
+    weekly_exec = _exec_days_after(weekly_signals, all_days)
+    daily_exec = all_days[1:]  # signal_lag=1 needs one prior day
+    snaps_w = _build_snapshots(universes, weekly_exec)
+    snaps_d = _build_snapshots(universes, daily_exec)
+    print(f"trading days {len(all_days)}, daily execs {len(snaps_d)}, "
+          f"weekly execs {len(snaps_w)}", flush=True)
+
+    spy_bars = [{"date": r["date"][:10], "close": float(r["close"]),
+                 "close_total_return": float(r["closeadj"])}
+                for r in spy_rows if r.get("closeadj") is not None]
+    spy = benchmark_curve(spy_bars, initial=10_000.0)
+
+    sel = _ma_filtered_momentum_select(10, 0.095)
+    cells = {
+        "faithful_daily": dict(snaps=snaps_d, cost=COST),
+        "faithful_weekly": dict(snaps=snaps_w, cost=COST),
+        "faithful_daily_2x": dict(snaps=snaps_d, cost=COST_2X),
+        "bench_ew": dict(snaps=snaps_w, cost=BENCH_COST, ew=True),
+    }
+    runs = {}
+    for name, cfg in cells.items():
+        print(f"running {name} ...", flush=True)
+        runs[name] = simulate(
+            StrategySpec(name, _ew_select() if cfg.get("ew") else sel),
+            cfg["snaps"], bars, initial_cash=10_000.0, cost=cfg["cost"],
+            start=SIM_START, end=SIM_END, signal_lag=1,
+            rebalance_band=0.0 if cfg.get("ew") else 0.20,
+            sell_cooldown_days=0 if cfg.get("ew") else 5)
+        print(f"  {name}: {runs[name]['stats']['cagr']:.2%} CAGR, "
+              f"sharpe {runs[name]['stats']['sharpe']:.2f}, "
+              f"maxDD {runs[name]['stats']['max_drawdown']:.1%}", flush=True)
+
+    os.makedirs(out_dir, exist_ok=True)
+    report = {"prereg": "docs/lab_prereg_delphi_ruleset_faithful.md",
+              "window": [SIM_START, SIM_END], "cells": {}}
+    for name, res in runs.items():
+        report["cells"][name] = {
+            "stats": res["stats"],
+            "vs_bench_ew": excess_stats(res["curve"], runs["bench_ew"]["curve"])
+            if name != "bench_ew" else None,
+            "vs_spy": excess_stats(res["curve"], spy["curve"]),
+            "sharpe_ci": sharpe_ci(res["curve"]),
+            "regimes": summarize_by_period(res["curve"], REGIME_BOUNDARIES),
+            "trades": trade_stats(res["trades"]),
+            "turnover": turnover_stats(res["trades"], res["curve"]),
+            "drawdown_dist": drawdown_distribution(res["curve"]),
+            "price_return_only_symbols": res["price_return_only_symbols"],
+            "n_trades": len(res["trades"]),
+        }
+    report["spy"] = {"stats": spy["stats"], "price_field": spy["price_field"]}
+    with open(f"{out_dir}/faithful_results.json", "w") as f:
+        json.dump(report, f, indent=1, default=str)
+    with gzip.open(f"{out_dir}/curve_faithful_daily.json.gz", "wt") as f:
+        json.dump(runs["faithful_daily"]["curve"], f)
+    print(f"wrote {out_dir}/faithful_results.json")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("phase", choices=["universes", "bars", "cells"])
+    ap.add_argument("phase", choices=["universes", "bars", "cells", "faithful"])
     ap.add_argument("--scratch", required=True)
     ap.add_argument("--out", default="docs/data/delphi_fullwindow")
     a = ap.parse_args()
@@ -410,5 +511,7 @@ if __name__ == "__main__":
         phase_universes(a.scratch)
     elif a.phase == "bars":
         phase_bars(a.scratch)
+    elif a.phase == "faithful":
+        phase_faithful(a.scratch, a.out)
     else:
         phase_cells(a.scratch, a.out)
