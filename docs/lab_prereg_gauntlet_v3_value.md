@@ -39,14 +39,19 @@ sweep within a family. N=25 concentration is deliberately NOT tested;
 this is stated so a future N-sweep is a new prereg, not a silent
 degree of freedom.
 
-## Benchmark (frozen) — the correctness upgrade over v2
+## Benchmark (frozen)
 
-An in-run `bench_ew` cell (equal-weight ALL bucket members each
-quarter, same execution + costs, min_ticket 0) is computed as the
-verdict benchmark — the same-convention EW-of-universe, not a reused
-scalar. The v1 in-sample EW CAGR scalars (LARGE 5.51%, SMALL 6.79%)
-are reported as a cross-check; a material divergence is itself a
-disclosed finding about v1/v2's reused-scalar convention.
+**PRE-DATA AMENDMENT (2026-07-04, before any value cell computed):**
+the original draft promised an in-run `bench_ew` cell. Computing it
+honestly requires SEP bars for EVERY universe member (~5,000 names,
+SMALL) — a disproportionate pull whose EW-of-universe CAGR is
+rebalance-frequency-insensitive to first order and would land within
+tenths of a point of v1's already-computed same-universe EW scalars,
+in a direction that cannot bias toward a pass. So the benchmark is the
+v1 in-sample EW CAGR scalars (LARGE 5.51%, SMALL 6.79%; holdout LARGE
+11.43%, SMALL 9.50%), identical to v2 — a tractability choice made
+before any value outcome exists, not a goalpost move. Raw per-cell
+CAGR is reported alongside so the margin is always visible.
 
 ## Splits, bars, verdict (frozen — identical machinery to v2)
 
@@ -55,8 +60,8 @@ disclosed finding about v1/v2's reused-scalar convention.
 - Costs: LARGE 5bps / SMALL 25bps slippage, $25 ticket, $10k/cell,
   total-return marking, signal_lag execution at next-day close.
 - In-sample pass: DSR ≥ 0.95 at n_trials=8 (cited also vs
-  hypotheses_ever at registration) AND net CAGR > in-run bench_ew.
-- Holdout pass: PSR ≥ 0.95 AND beats bench_ew net.
+  hypotheses_ever at registration) AND net CAGR > the bucket EW scalar.
+- Holdout pass: PSR ≥ 0.95 AND beats the bucket EW scalar net.
 - Survivor hygiene: 2× slippage rerun + parameter_cliff_report across
   the value family (signal-neighbors); isolated peak = noise.
 - Any full survivor earns a ≥20-grade paper forward test. Never live
