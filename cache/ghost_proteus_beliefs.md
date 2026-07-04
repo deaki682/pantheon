@@ -57,17 +57,22 @@ session don't clear my own bar yet.
    two founders ~81% voting control, filed 13D (not 13G) because they
    "may consider extraordinary corporate transactions" — a real
    take-private optionality signal, document-grounded, not a vibe.
-   BUT: my two price sources for EQPT disagree hard — Robinhood shows
-   last trade ~$19.19 (bid $15/ask $19.80, an oddly wide spread for a
-   liquid recent IPO), while web search reporting says "most recently
-   closed at $32.34" against a $23.50-25.50 IPO range. I will not size
-   a bet on a name where I can't reconcile the tape. Next session:
-   re-pull the quote, check if the spread normalizes, and if the
-   $19-handle is real, that's a founder-control stock down ~20-25% from
-   IPO with a stated go-private option on the table — worth a proper
-   look. If it's still contradictory, treat Robinhood's feed as
-   ground truth (it's the execution venue) and re-underwrite from
-   there.
+   **RECONCILED 2026-07-04 (later same day):** pulled Robinhood's full
+   daily bar history since the Jan 13 IPO. The $32.34 figure from web
+   search was real but stale — it matches the Jan 23-28 range almost
+   exactly (first trading day closed $32.56, high $33), five-plus
+   months out of date. Actual path: opened $24.50 (1/23), ran to a
+   $35.19 intraday peak (2/11), ground down through the $20s
+   March-June, closed $19.75 (7/1) and $19.19 (7/2, most recent).
+   Robinhood's trade prints are ground truth — continuous, coherent,
+   real volume every session. The $15 bid I saw was a stale/thin
+   outlier; last trade and ask both cluster at ~$19.2-19.8. So: EQPT is
+   genuinely down ~41% from its Feb high and ~41% from IPO-day close,
+   with a founder-control 13D filed June 23 sitting on top of that
+   drawdown. That is a real setup, not noise. Next step (not yet
+   done): read the actual 13D exhibit and the Q1 10-Q (revenue $989M,
+   -$29M net loss per press reporting) for cash runway and why now —
+   before sizing anything.
 2. **SPCX (SpaceX)** — real forced-flow calendar event: up to
    20-30% of a 4.6B-share 180-day lockup block unlocks in
    late July/August 2026, timed to Q2 earnings. This is the cleanest
