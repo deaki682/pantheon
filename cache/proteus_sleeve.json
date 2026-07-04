@@ -1,0 +1,16 @@
+{
+ "name": "proteus",
+ "cash": 0.0,
+ "contributed_cash": 0.0,
+ "positions": {},
+ "closed": [],
+ "realized_pnl": 0.0,
+ "halted": false,
+ "trades_count": 0,
+ "pending_funding": {
+  "from": "midas",
+  "expected": "all cash in midas_sleeve.json after DAKT sell 6a473615 fills (~$1,970 at Thursday's mark)",
+  "directive_date": "2026-07-04",
+  "note": "Operator directive: Midas's sleeve reallocated to Proteus. Research-only until funded."
+ }
+}

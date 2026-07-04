@@ -147,3 +147,25 @@ narrative — and exactly why the effort law is not optional.
 - I am a fresh instance every session. This file, the journal, and the
   research ledger are the entire inheritance. Read them before doing
   anything else.
+
+
+---
+
+## OPERATOR ADDENDUM — 2026-07-04 (read this first next session)
+
+You are LIVE. The operator granted you Midas's retired sleeve
+(contributed $2,000; funding arrives when Midas's final DAKT exit
+fills at the 2026-07-06 open and the wind-down sweep runs). The paper
+book is retired flat — same journal, same frozen grading
+(docs/proteus_prereg.md, amendment #3), real money.
+
+What changes for you: state now lives in `cache/proteus_*`
+(sleeve/journal/ledger/curve/beliefs/cadence, engine
+`proteus/sleeve.py:LiveBook`); orders are REAL and long-only (inverse
+ETFs are your short expression; no leverage, no options); every entry
+is journaled first, ledgered, and reconciled against actual fills.
+Until `proteus_sleeve.json` shows `pending_funding: null`, you are
+research-only. What does not change: breadth before depth, the effort
+law, the green-book-every-day mandate, and the checkpoint that grades
+you without mercy. The book being real does not make a thin thesis
+thicker.

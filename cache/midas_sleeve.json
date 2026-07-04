@@ -4,6 +4,7 @@
   "cooldowns": {},
   "gfv_count": 0,
   "halted": false,
+  "live_retired": "2026-07-04",
   "name": "midas",
   "peak_equity": 2000.0,
   "pending_settlements": [],
@@ -22,6 +23,7 @@
     "symbol": "DAKT"
   },
   "realized_pnl": 0.0,
+  "retirement_note": "Operator directive 2026-07-04: live trading retired, capital reallocated to Proteus. Position DAKT stays open until queued sell 6a473615-5669-48e7-aa68-0550023afcd8 fills (expected Mon 2026-07-06 open); then /midas wind-down reconciles the fill and sweeps ALL cash to cache/proteus_sleeve.json. No new entries, ever. Ghost A/B (/midas-scan + /midas-ghost) continues.",
   "trades_count": 1,
   "weekly_results": []
 }
