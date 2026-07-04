@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 133,
+ "hypotheses_ever": 137,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -646,6 +646,33 @@
     },
     "results_doc": "docs/lab_results_gauntlet_v3_value.md",
     "notes": "Value is ALIVE but not cleanly harvestable standalone. 6/8 cells survived in-sample (price-to-sales, earnings-yield, EV/EBITDA both buckets; price-to-BOOK failed exactly as the modern literature predicts); 2 passed the holdout at 1x (value_ps both buckets); only value_ps_low LARGE survived 2x (+12.27% vs 11.43%) \u2014 but with NO parameter-robust neighbor (its SMALL twin died at 2x, its multiple-peers died at holdout), so it fails the isolated-peak bar and earns NO standalone forward test. INCONCLUSIVE, not refuted: value showed genuine two-regime signal, just not robustly enough in simple single-multiple form. The indicated follow-up is a COMPOSITE (net-issuance + gross-profitability + value, the three surviving families) and/or an LLM value-trap overlay on the value shortlist (operator Lens B) \u2014 a new prereg. Artifacts docs/data/gauntlet_v3/."
+   }
+  },
+  "gauntlet_v4_composite": {
+   "slug": "gauntlet_v4_composite",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "created": "2026-07-04",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "Rank-composite of the three families that showed life in v2/v3 \u2014 net-issuance-low (SUPPORTED), gross-profitability-high (SUPPORTED), price-to-sales-low (alive) \u2014 equal-mean of within-bucket percentile ranks, long top-N, quarterly, next-day exec. Tests JKP's (2023) finding that composite factors are the most robust form, and directly seeks a stronger LARGE-bucket Delphi replacement than net-issuance alone. Gates inherited (fundamentals G1 pass, G2 partial); the merciless EW benchmark + two-regime + 2x + cliff apply.",
+   "who_loses": "Whoever is on the other side of the three underlying mispricings \u2014 buyback counterparties, glamour overpayers, low-profitability holders.",
+   "underutilized_because": "Composites are the crowded core of factor investing; the open house question is whether the combination is more ROBUST than its parts at house scale and cost \u2014 measured, not assumed.",
+   "falsifiable_claim": "At least one composite cell clears in-sample DSR (n=4) + holdout EW + 2x + non-isolated cliff AND shows lift over the best single family in the same bucket. Failing that, the composite adds nothing over net-issuance alone.",
+   "prereg": {
+    "doc": "docs/lab_prereg_gauntlet_v4_composite.md",
+    "date": "2026-07-04",
+    "population_definition": "v1 PIT universes; per member per quarter, mean of available percentile ranks across net-issuance (SF1), gross-profitability (SF1), price-to-sales (DAILY); >=2 of 3 signals required; top-N long; SEP delisted-inclusive bars; coverage disclosed.",
+    "metric": "Per-cell net daily curve -> DSR (n_trials=4) in-sample; holdout beats bucket EW scalar; 2x rerun; cliff; lift vs the best single family in-bucket reported.",
+    "success_criteria": "Survivor = in-sample DSR>=0.95 AND > EW scalar, holdout > EW scalar, 2x stable, non-isolated -> paper forward test (+ Delphi-candidate flag if LARGE). Counter +4."
    }
   }
  }
