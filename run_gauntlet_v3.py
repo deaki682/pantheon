@@ -106,11 +106,11 @@ elif PHASE in ("screen", "holdout"):
     gte, lte = (("2000-06-01", "2015-12-31") if PHASE == "screen"
                 else ("2016-01-01", "2025-12-31"))
     BENCH = BENCH_IS if PHASE == "screen" else BENCH_HO
+    slip_mult = float(sys.argv[4]) if len(sys.argv) > 4 else 1.0
     with gzip.open(f"{S}/v3_holdings_{window}.json.gz", "rt") as f: holdings = json.load(f)
     with gzip.open(f"{S}/v3_bars_{window}.json.gz", "rt") as f: bars = json.load(f)
     COSTS = {"LARGE": CostModel(0, 5.0*slip_mult, 25.0), "SMALL": CostModel(0, 25.0*slip_mult, 25.0)}
     only = sys.argv[3].split(",") if len(sys.argv) > 3 and sys.argv[3] else None
-    slip_mult = float(sys.argv[4]) if len(sys.argv) > 4 else 1.0
     all_days = sorted({b["date"] for bl in bars.values() for b in bl})
     def nxt(D):
         i = bisect.bisect_right(all_days, D)

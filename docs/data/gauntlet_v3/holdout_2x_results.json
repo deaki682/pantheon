@@ -1,0 +1,42 @@
+{
+ "results": {
+  "value_ps_low__LARGE": {
+   "stats": {
+    "n_obs": 2513,
+    "total_return": 2.172164888701338,
+    "cagr": 0.1227297450774909,
+    "sharpe": 0.693434845350338,
+    "sortino": 0.859431363123487,
+    "max_drawdown": -0.39303876114510816,
+    "win_rate": 0.5356148030242738,
+    "skew": -0.7803245339505648,
+    "kurtosis": 16.775260818600273
+   },
+   "bucket": "LARGE",
+   "beats": true,
+   "psr": 1.0,
+   "holdout_pass": true
+  },
+  "value_ps_low__SMALL": {
+   "stats": {
+    "n_obs": 2513,
+    "total_return": 1.3565968207110592,
+    "cagr": 0.08976342877180654,
+    "sharpe": 0.4580284516514473,
+    "sortino": 0.6193944425389663,
+    "max_drawdown": -0.5495924879095659,
+    "win_rate": 0.5169120573020295,
+    "skew": -0.36096330631791473,
+    "kurtosis": 11.782623020039006
+   },
+   "bucket": "SMALL",
+   "beats": false,
+   "psr": 1.0,
+   "holdout_pass": false
+  }
+ },
+ "benchmarks": {
+  "LARGE": 0.1143,
+  "SMALL": 0.095
+ }
+}
