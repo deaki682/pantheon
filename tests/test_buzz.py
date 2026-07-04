@@ -8,13 +8,7 @@ from buzz.acceleration import (
     parse_apewisdom,
     score_acceleration,
 )
-from buzz.confirm import Confirmation, confirm
-from buzz.scanner import (
-    BuzzCandidate,
-    build_candidate,
-    in_small_mid_band,
-    rank_basket,
-)
+from buzz.confirm import confirm
 
 
 # ── acceleration ──────────────────────────────────────────────────────
@@ -121,59 +115,3 @@ class TestConfirm:
         c = confirm(_bars([10.0, 10.1], [100, 100]))
         assert c.confirmed is False
         assert c.reason == "insufficient_history"
-
-
-# ── scanner ───────────────────────────────────────────────────────────
-
-class TestSmallMidBand:
-    def test_keeps_small_mid(self):
-        assert in_small_mid_band(500_000_000) is True
-
-    def test_drops_megacap(self):
-        assert in_small_mid_band(50_000_000_000) is False
-
-    def test_drops_microcap(self):
-        assert in_small_mid_band(10_000_000) is False
-
-    def test_drops_unknown(self):
-        assert in_small_mid_band(None) is False
-
-
-def _cand(ticker, accel, cap, confirmed=True, vol_ratio=2.0):
-    return BuzzCandidate(
-        ticker=ticker, mentions=100, mentions_prev=20, accel_ratio=accel,
-        rank_jump=10, new_entrant=False, upvotes=500, market_cap=cap,
-        price_change_pct=0.05, volume_ratio=vol_ratio, confirmed=confirmed,
-        confirm_reason="confirmed" if confirmed else "no_price_no_volume",
-    )
-
-
-class TestRankBasket:
-    def test_ranks_confirmed_small_mid_by_accel(self):
-        cands = [
-            _cand("LOW", 2.5, 1e9),
-            _cand("HIGH", 6.0, 1e9),
-            _cand("MEGA", 9.0, 50e9),          # mega -> filtered
-            _cand("FAKE", 8.0, 1e9, confirmed=False),  # unconfirmed -> filtered
-        ]
-        basket = rank_basket(cands, top_n=8)
-        assert [c.ticker for c in basket] == ["HIGH", "LOW"]
-
-    def test_top_n(self):
-        cands = [_cand(f"S{i}", 2.0 + i, 1e9) for i in range(10)]
-        assert len(rank_basket(cands, top_n=3)) == 3
-
-    def test_require_confirmation_false_keeps_unconfirmed(self):
-        cands = [_cand("FAKE", 8.0, 1e9, confirmed=False)]
-        assert rank_basket(cands, require_confirmation=False)[0].ticker == "FAKE"
-
-    def test_build_candidate_roundtrips_fields(self):
-        from buzz.acceleration import AccelSignal
-        sig = AccelSignal("XYZ", 120, 20, 6.0, 3, 15, 12, False, 400, "XYZ Corp")
-        conf = Confirmation(True, 0.07, 2.3, "confirmed")
-        c = build_candidate(sig, 800_000_000, conf, sector="Tech")
-        assert c.ticker == "XYZ"
-        assert c.accel_ratio == 6.0
-        assert c.confirmed is True
-        assert c.market_cap == 800_000_000
-        assert c.sector == "Tech"

@@ -35,9 +35,12 @@ Two gods were cut the same day the house reviewed all its creations:
   pantheon through the side door: full god scaffolding for a hypothesis
   with no prereg, no backtest, and no ledger row. The principle this cut
   enforces: **the lab is the only door for new strategies.** The
-  hypothesis lives on as backlog #10; the mechanical layer (`buzz/`
-  package) and his existing cache files on `claude/live` remain for the
-  lab study to reuse.
+  hypothesis lives on as backlog #10; the mechanical layer
+  (`buzz/acceleration.py`, `buzz/confirm.py`) and his existing cache
+  files on `claude/live` remain for the lab study to reuse. The god
+  scaffolding (`buzz/scanner.py`, `buzz/ghost.py`) was deleted with the
+  commands — if #10 validates, it gets rebuilt from the lab's spec, not
+  resurrected from the pre-prereg draft (git history keeps it).
 - **Catalyst** — command `/catalyst` removed. A weekly research report
   with no trader, no falsifiable claim, and no downstream consumer. Its
   one reusable output — the coming week's event map — belongs in
