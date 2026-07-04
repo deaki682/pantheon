@@ -75,6 +75,9 @@ OWNERSHIP_PREFIXES: dict[str, list[str]] = {
     "ghost_proteus": [
         "cache/ghost_proteus_",
     ],
+    "proteus": [
+        "cache/proteus_",
+    ],
 }
 
 
@@ -86,6 +89,7 @@ GUARD_FILES: list[str] = [
     "cache/achilles_sleeve.json",
     "cache/midas_sleeve.json",
     "cache/nemesis_sleeve.json",
+    "cache/proteus_sleeve.json",
     "cache/oracle_screen.json",
     "cache/oracle_prescreener.json",
     "cache/oracle_dossiers.json",

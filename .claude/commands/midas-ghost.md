@@ -32,6 +32,12 @@ State: `cache/ghost_midas_ledger.json` + `cache/ghost_midas_curve.json`,
 persisted under god name `ghost_midas`. Engine is `shared.ghost`; Midas
 bits in `midas.ghost`.
 
+**This ghost outlives the live god.** Midas's live sleeve was retired on
+2026-07-04 (capital reallocated to Proteus, operator directive), but this
+A/B race keeps running on its own daily cadence — mark the run with
+`oracle.calendar.mark_run("cache/ghost_midas_cadence.json", "session")`
+and persist that cadence file too (Zeus gates on it).
+
 ## Steps
 
 0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/`.
@@ -40,8 +46,11 @@ bits in `midas.ghost`.
 
 2. **Open paper positions for every finalist.** Load the most recent stage-2
    finalists from `cache/midas_dossiers.json` (the dossiers include both
-   disqualified and non-disqualified names). If no dossiers exist, run stages
-   1-2 of the `/midas` scan to produce finalists. Fetch a quote per symbol.
+   disqualified and non-disqualified names). **Since Midas's live retirement
+   (2026-07-04) no new dossiers are built** — fall back to the finalists in
+   `cache/midas_scan.json` (the weekend `/midas-scan` output; the
+   `disqualified`-lift channel simply stops accruing new data). If neither
+   exists, run stages 1-2 of the `/midas` scan to produce finalists. Fetch a quote per symbol.
    Pass ALL finalists to `midas.ghost.finalists_to_candidates(finalists,
    price_lookup)` — this opens every name including disqualified ones so the
    report can test whether disqualification helps. Then

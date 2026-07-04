@@ -1,6 +1,8 @@
 {
   "env": {
-    "NEMESIS_LIVE": "true"
+    "NEMESIS_LIVE": "true",
+    "PROTEUS_LIVE": "true",
+    "MIDAS_LIVE": "false"
   },
   "permissions": {
     "allow": [

@@ -122,3 +122,64 @@ files were again removed from claude/live. An effort law (err on the
 high-effort side; shortcuts require written justification) was added
 to his runbook the same day. The prohibition stands: no resets after
 his first GRADED trade without a prereg amendment.
+
+## Amendment #3 — LIVE CAPITAL GRANTED EARLY (2026-07-04, operator directive)
+
+The operator, on the record: *"i'm gonna take a chance on proteus.
+give him midas' 2k sleeve. close out midas' positions and put the live
+trading to sleep. keep the ghost."* This overrides the original
+sequencing (validation first, live sleeve after) — deliberately, by
+the only person with authority over capital. It amends the DESIGN
+before Proteus's first trade of any kind: the paper book stood flat at
+$10,000 with ZERO trades across three sessions, so nothing graded is
+contaminated and the checkpoint clock is untouched.
+
+**What changes:**
+
+- **The book is real.** Midas's live sleeve (contributed $2,000;
+  ~$9 cash + a queued DAKT exit worth ~$1,960 at Thursday's mark) is
+  swept in full to `cache/proteus_sleeve.json` when the DAKT sell
+  (order `6a473615`, queued over the holiday weekend) fills at the
+  2026-07-06 open. The exact funded amount is recorded in the sleeve,
+  in Proteus's journal, and in Midas's retirement record at sweep time.
+  Until that sweep lands, Proteus sessions are research-only.
+- **The paper book is retired at birth**, flat $10,000, 0 trades, 0
+  positions. Its files (`cache/ghost_proteus_book.json`, curve) leave
+  `claude/live`; git history keeps them. The journal and beliefs carry
+  over to `cache/proteus_journal.jsonl` / `cache/proteus_beliefs.md` —
+  his mind and his append-only record are continuous even though the
+  capital is new.
+- **Broker reality constrains the rails** (this supersedes the paper
+  rails where they conflict): LONG ONLY at the broker — no shorting on
+  Robinhood; short views are expressed through inverse/short ETFs held
+  long. No leverage, no options. Modeled costs (5 bps/side, borrow)
+  are dropped — fills are real and carry their own costs.
+  `kill_switch` is added to the journal's exit-reason enum for
+  house-level forced liquidation; a kill-switch exit still grades per
+  the frozen terms (it counts as a closed trade at its actual exit).
+
+**What does NOT change (the frozen core):**
+
+- Every decision journaled at decision time through the validated
+  writer: thesis, edge_class, falsifiable prediction, horizon,
+  confidence, exit plan, kill condition. Append-only, no backdating.
+- Grading: per-trade net excess vs the SPY mirror over the identical
+  window; predictions graded true/false as written; profitable trades
+  with failed predictions recorded as LUCK.
+- Checkpoint: 30 closed graded trades or 2027-01-15, whichever first.
+  Baseline for book-vs-SPY starts at the live funding date and amount.
+- Green-day rate reported (not gating) beside SPY's own base rate.
+- **Consequences at checkpoint (updated for the inverted stakes):**
+  VALIDATED → he keeps the sleeve and earns the standard capital-gate
+  conversation about scaling. REFUTED → retired to the ledger; the
+  remaining capital returns to the treasury. INCONCLUSIVE → operator
+  decides. One shot, no re-cuts.
+- Memory resets after his first GRADED trade remain forbidden without
+  a further amendment — and now that the money is real, so much the
+  more.
+
+**Honesty note.** Granting live capital before any validation is the
+operator consciously spending the risk budget the gates exist to
+protect. The house prediction from the original prereg stands
+unrevised. If discretion fails, it now fails with real money — that
+was the chance being taken, and the ledger row will say so either way.

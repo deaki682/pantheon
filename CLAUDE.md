@@ -35,29 +35,33 @@ market *rewarded* (positive post-report reaction) — never a "sold beat"
 headline. Confirming signals (revenue beat, guidance raised, short squeeze,
 insider pre-buy) boost the base score but are never independent entry signals.
 
-**Midas** — Maximally concentrated weekly catalyst play. Scans the full
-~7,000-name universe every weekend, funnels through signal convergence
-scoring to 10 finalists, deep-researches each, picks ONE stock. Enters
-Monday open (all-in), exits Friday close or -10% stop. ~50 graded
-trades/year — fastest calibration path in Pantheon. The edge is signal
-convergence: when multiple independent informed-money signals (insider
-clusters, earnings beats, smart money, activist 13D, guidance raises)
-fire on the same name, the probability of a short-term pop increases
-non-linearly.
+**Midas** (LIVE RETIRED 2026-07-04, operator directive — ghost A/B
+continues) — Was the maximally concentrated weekly catalyst play: full
+~7,000-name weekend scan → convergence funnel → ONE all-in pick,
+Monday to Friday. His founding thesis (convergence multipliers) was
+REFUTED twice (docs/RESEARCH_LEDGER.md) and the operator reallocated
+his $2k sleeve to Proteus. Wind-down: the final DAKT exit (order
+`6a473615`, queued over the 2026-07-04 holiday weekend) fills at the
+2026-07-06 open, then `/midas` sweeps all cash to Proteus's sleeve and
+never runs live again. `/midas-scan` (weekend) and `/midas-ghost`
+(daily) keep running the live-vs-legacy scoring A/B on paper — the
+convergence thesis can still earn its way back with ghost grades.
 
-**Proteus** (ghost only — no real money) — The discretionary
-experiment: a complete investor with no frozen strategy, hunting the
-ENTIRE US-listed universe (all equities, ADRs, and the full ETF
-window onto commodities/rates/currencies/countries/vol) long or short
-on a $10,000 PAPER book. **Operator mandate: a green book, every day**
-— one full session daily, every red position re-underwritten same-day,
+**Proteus** (LIVE since 2026-07-04) — The discretionary experiment: a
+complete investor with no frozen strategy, hunting the ENTIRE
+US-listed universe (all equities, ADRs, and the full ETF window onto
+commodities/rates/currencies/countries/vol) on a real ~$2,000 sleeve
+inherited from Midas (operator directive; prereg amendment #3 —
+granted before his first paper trade, so the experiment transferred
+uncontaminated; the flat $10k paper book was retired at birth).
+Long-only at the broker (inverse ETFs express short views), no
+leverage, no options. **Operator mandate: a green book, every day** —
+one full session daily, every red position re-underwritten same-day,
 green-day rate tracked vs SPY's own base rate. Every decision is
 journaled with a falsifiable prediction and graded without mercy
-(docs/proteus_prereg.md). Exists to answer whether free discretion
-beats frozen rules. Checkpoint at 30 closed trades or 2027-01-15;
-validation earns a conversation about a live sleeve behind the
-standard capital gates, refutation retires him to the ledger. Owns
-only `cache/ghost_proteus_*`.
+(docs/proteus_prereg.md). Checkpoint at 30 closed trades or
+2027-01-15: validation keeps the sleeve, refutation retires him and
+returns the capital to the treasury. Owns only `cache/proteus_*`.
 
 ## Research record
 
@@ -108,7 +112,8 @@ trades.
 | Quarterly | `/oracle-screen` | Refresh insider/13F/quality universe (~7,000 filers, 40-60 min) |
 | As needed | `/oracle-research` | Build dossiers to maintain pool of 60-80 |
 | At cohort review (~12 months) | `/oracle` | Grades all calls, closes cohort, selects new cohort from pool |
-| Weekly (weekend) | `/midas` | Full universe scan → convergence rank → deep research → pick ONE → enter Monday |
+| Weekly (weekend) | `/midas-scan` | Research-only universe scan feeding the `/midas-ghost` A/B (Midas live retired 2026-07-04) |
+| Daily | `/proteus` | One full discretionary session on his live sleeve (research-only when markets are closed or funding pending) |
 
 ### Key Files (all in `cache/`, persisted to `claude/live`)
 
@@ -129,11 +134,16 @@ trades.
 | `delphi_sleeve.json` | delphi | Delphi's sleeve |
 | `delphi_ledger.jsonl` | delphi | Delphi's order ledger |
 | `achilles_sleeve.json` | achilles | Achilles' sleeve |
-| `midas_sleeve.json` | midas | Cash, position, weekly results, peak equity |
-| `midas_dossiers.json` | midas | This week's top-10 catalyst dossiers |
-| `midas_ledger.jsonl` | midas | Every order placed (for reconcile) |
-| `midas_curve.json` | midas | Equity timestamps for dashboard |
-| `trinity_dashboard.html` | shared | PWA dashboard for all four gods |
+| `midas_sleeve.json` | midas | RETIRED record: final cash swept to Proteus 2026-07 (kept as guard file) |
+| `midas_scan.json` | midas | Weekend scan finalists (research-only; feeds `/midas-ghost`) |
+| `midas_ledger.jsonl` | midas | Every order placed (historical; for reconcile) |
+| `midas_curve.json` | midas | Equity timestamps (historical) |
+| `proteus_sleeve.json` | proteus | LIVE book: cash, contributed_cash, positions, closed trades |
+| `proteus_journal.jsonl` | proteus | Append-only decision record (validated writer — the only door to the book) |
+| `proteus_ledger.jsonl` | proteus | Every broker order placed (for reconcile) |
+| `proteus_curve.json` | proteus | Equity marks vs SPY (green-day scoreboard) |
+| `proteus_beliefs.md` | proteus | His living mind: worldview, watchlist, open theses, lessons |
+| `trinity_dashboard.html` | shared | PWA dashboard for all gods |
 
 ### Capital Scaling Gates (`oracle/capital.py`)
 
@@ -147,9 +157,15 @@ With 8 positions per 12-month cohort, reaching 30 graded calls takes ~4
 cohorts. The alpha_t gate requires ~15-20% annual alpha after factors —
 achievable only with excellent selection from a large dossier pool.
 
-## Midas Operating Cadence
+## Midas Operating Cadence (LIVE RETIRED 2026-07-04 — ghost A/B only)
 
-### Weekly Cycle
+Everything below survives only as the research program: `/midas-scan`
+produces finalists on weekends and `/midas-ghost` paper-trades every
+finalist daily, grading `live_pick` vs `legacy_pick`. No live orders.
+The one remaining live duty is the DAKT wind-down sweep in
+`.claude/commands/midas.md`.
+
+### Weekly Cycle (historical — how the live god operated)
 
 | Day | Action |
 |-----|--------|
@@ -243,6 +259,8 @@ mechanical system too aggressively:
 - Robinhood agentic account: `563854249`
 - The account holds ~15 personal positions alongside the gods. These
   pre-existing positions are filtered out by `filter_broker_to_gods()`.
-- God env vars: `ORACLE_LIVE=true`, `DELPHI_LIVE=true`, `ACHILLES_LIVE=true`, `MIDAS_LIVE=true`
+- God env vars: `ORACLE_LIVE=true`, `DELPHI_LIVE=true`, `ACHILLES_LIVE=true`,
+  `NEMESIS_LIVE=true`, `PROTEUS_LIVE=true`, and `MIDAS_LIVE=false` (live
+  retired 2026-07-04; `.claude/settings.json` sets the last three).
 - If any is not `"true"`, that god runs in paper mode (no broker orders).
 - `KILL_SWITCH` file triggers immediate liquidation of all god positions.

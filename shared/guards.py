@@ -33,6 +33,7 @@ _LIVE_ENV = {
     "achilles": "ACHILLES_LIVE",
     "midas": "MIDAS_LIVE",
     "nemesis": "NEMESIS_LIVE",
+    "proteus": "PROTEUS_LIVE",
 }
 
 
@@ -115,6 +116,7 @@ LEDGER_PATHS = {
     "delphi": "cache/delphi_ledger.jsonl",
     "achilles": "cache/achilles_ledger.jsonl",
     "midas": "cache/midas_ledger.jsonl",
+    "proteus": "cache/proteus_ledger.jsonl",
 }
 
 
@@ -167,6 +169,7 @@ SLEEVE_PATHS = {
     "achilles": "cache/achilles_sleeve.json",
     "nemesis": "cache/nemesis_sleeve.json",
     "midas": "cache/midas_sleeve.json",
+    "proteus": "cache/proteus_sleeve.json",
 }
 
 

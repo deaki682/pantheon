@@ -44,7 +44,8 @@ ENTER_FIELDS = ("date", "action", "symbol", "side", "dollars", "price",
                 "spy_price", "horizon_days", "confidence", "edge_class",
                 "thesis", "falsifiable_prediction", "exit_plan", "kill_condition")
 EXIT_FIELDS = ("date", "action", "symbol", "price", "spy_price", "exit_reason")
-EXIT_REASONS = ("exit_plan", "kill_condition", "horizon_expiry", "discretionary")
+EXIT_REASONS = ("exit_plan", "kill_condition", "horizon_expiry", "discretionary",
+                "kill_switch")  # house-level forced liquidation (live book, 2026-07-04)
 NOTE_FIELDS = ("date", "action", "text")
 
 

@@ -1,5 +1,60 @@
 # /midas — weekly entry + position management (light half)
 
+## ⚠️ LIVE RETIRED 2026-07-04 (operator directive) — WIND-DOWN ONLY
+
+The operator reallocated Midas's capital to Proteus's live sleeve after
+the convergence thesis was refuted twice (docs/RESEARCH_LEDGER.md). Live
+trading is asleep: `MIDAS_LIVE=false`, and this skill must NEVER open a
+new position. The ghost program continues — `/midas-scan` (weekend) and
+`/midas-ghost` (daily) keep running the live-vs-legacy A/B so the thesis
+can still earn its way back on paper.
+
+The ONLY remaining live duty is the wind-down below. It is bookkeeping
+on an already-placed order, so it runs regardless of `MIDAS_LIVE` (the
+paper-mode rule in step 1 does not apply to it). Everything after the
+wind-down section is retained for the record and for `/midas-ghost`'s
+reference — do not execute it.
+
+### Wind-down procedure (idempotent; Zeus dispatches while it's pending)
+
+1. **Hydrate.** `pantheon.hydrate()`.
+2. **Check the exit order.** `get_equity_orders(order_id="6a473615-5669-48e7-aa68-0550023afcd8")`
+   — the DAKT time-stop sell (98.444673 shares, market, queued 2026-07-03
+   on the observed holiday; fills at the next open, Mon 2026-07-06).
+   - **Still queued/open** → no-op. Persist nothing. Done this hour.
+   - **Filled** → proceed:
+3. **Reconcile the fill.** `sleeve.exit(price=<average_price from the
+   order>, today=<fill date>, reason="time_stop")`; update the ledger's
+   queued sell record with the actual fill (append a reconcile line, do
+   not rewrite history); clear `pending_exit_order_id` and
+   `pending_exit_note` from `cache/midas_cadence.json`; append the final
+   equity point to `cache/midas_curve.json`.
+   - **Cancelled/rejected/voided instead** (should not happen): place a
+     fresh market sell for the full position — the close-out is an
+     operator directive — then reconcile that fill on a later run.
+4. **Sweep everything to Proteus.**
+   ```python
+   from proteus.sleeve import LiveBook
+   amount = sleeve.cash            # ALL of it — Midas keeps nothing
+   book = LiveBook.load()          # cache/proteus_sleeve.json
+   book.fund(amount=amount, source="midas", date=today,
+             note="Midas live retirement sweep (operator directive 2026-07-04)")
+   book.save()
+   sleeve.cash = 0.0
+   ```
+   Record the swept amount in the midas sleeve as
+   `{"retired": "2026-07-04", "swept_to_proteus": amount, "swept_on": today}`.
+5. **Persist BOTH gods.** `pantheon.persist("midas", {sleeve, ledger,
+   curve, cadence})` and `pantheon.persist("proteus",
+   {"cache/proteus_sleeve.json": ...})`. Also append a `note` to
+   Proteus's journal (`proteus.journal.append_decision`, path
+   `cache/proteus_journal.jsonl`) recording the funding amount so his
+   book's provenance is in his own record.
+6. **Done forever.** With no position and no pending order, Zeus never
+   dispatches `/midas` again.
+
+---
+
 Run Midas's entry and management cycle: read this week's finalists from a
 prior `/midas-scan`, deep-research each, pick ONE stock, enter Monday, and
 manage the open position through the week.
