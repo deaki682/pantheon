@@ -929,5 +929,8 @@ def test_event_car_carry_last_freezes_stock_leg_at_cash_out():
     carried = event_car(events, bars, bench, max_offset=3, carry_last=True)
     assert dropped["n"][3] == 0                      # default: event vanishes
     assert carried["n"][3] == 1                      # carried: outcome kept
-    # stock frozen at +20% (12/10); benchmark +10% by offset 3 -> CAR +10%
-    assert carried["mean_car"][3] == pytest.approx(0.20 - 0.10)
+    # Entry is STRICTLY AFTER the public date -> day 2 close 11.0.
+    # Stock leg: live +9.09% at offset 1 (12/11), then frozen at 12.
+    assert carried["mean_car"][1] == pytest.approx(12 / 11 - 1)
+    # Offset 3: stock frozen (12/11 - 1) minus benchmark +10% -> -0.91%.
+    assert carried["mean_car"][3] == pytest.approx((12 / 11 - 1) - 0.10)
