@@ -178,14 +178,26 @@ elif PHASE == "screen":
                        initial_cash=10_000.0, cost=COSTS[bucket],
                        start="2000-06-01", end="2015-12-31")
         st = res["stats"]
+        results[cell] = {"stats": st, "bucket": bucket,
+                          "beats_benchmark": st["cagr"] > BENCH[bucket]}
+    # DSR needs the CROSS-SECTIONAL variance of the grid's Sharpes (v1
+    # convention, run_gauntlet_screen.py) — a two-pass computation, not
+    # the variance_of_sr=1.0 default. This is the deflation bar.
+    sharpes = [v["stats"]["sharpe"] for v in results.values()]
+    mean_s = sum(sharpes) / len(sharpes)
+    var_sr = sum((s - mean_s) ** 2 for s in sharpes) / len(sharpes)
+    for cell, v in results.items():
+        st = v["stats"]
         dsr = deflated_sharpe_ratio(st["sharpe"], n_trials=20, n_obs=st["n_obs"],
-                                     skew=st["skew"], kurtosis=st["kurtosis"])
-        results[cell] = {"stats": st, "dsr": dsr,
-                          "beats_benchmark": st["cagr"] > BENCH[bucket],
-                          "stage1_survivor": dsr >= 0.95 and st["cagr"] > BENCH[bucket]}
+                                     skew=st["skew"], kurtosis=st["kurtosis"],
+                                     variance_of_sr=var_sr)
+        v["dsr"] = dsr
+        v["stage1_survivor"] = dsr >= 0.95 and v["beats_benchmark"]
         print(f"{cell}: CAGR {st['cagr']:+.2%} sharpe {st['sharpe']:.2f} "
-              f"DSR {dsr:.3f} beats {results[cell]['beats_benchmark']} "
-              f"SURVIVOR {results[cell]['stage1_survivor']}", flush=True)
+              f"DSR {dsr:.3f} beats {v['beats_benchmark']} "
+              f"SURVIVOR {v['stage1_survivor']}", flush=True)
+    print(f"\nvariance_of_sr (cross-sectional): {var_sr:.5f}  "
+          f"expected_max_sharpe(20): {expected_max_sharpe(20, var_sr):.3f}")
     os.makedirs(OUT, exist_ok=True)
     cliff = parameter_cliff_report([
         {"params": {"signal": c.split("__")[0], "n": int(c.split("__")[1][1:]),
@@ -193,8 +205,8 @@ elif PHASE == "screen":
          "metric": results[c]["stats"]["sharpe"], "cell": c} for c in results])
     with open(f"{OUT}/insample_results.json", "w") as f:
         json.dump({"results": results, "cliff": cliff,
-                    "benchmarks_cagr": BENCH,
-                    "expected_max_sharpe_20": expected_max_sharpe(20)}, f,
+                    "benchmarks_cagr": BENCH, "variance_of_sr": var_sr,
+                    "expected_max_sharpe_20": expected_max_sharpe(20, var_sr)}, f,
                    indent=1, default=str)
     survivors = [c for c in results if results[c]["stage1_survivor"]]
     print("\nSTAGE-1 SURVIVORS:", survivors or "NONE")

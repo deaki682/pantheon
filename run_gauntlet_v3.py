@@ -130,28 +130,41 @@ elif PHASE in ("screen", "holdout"):
             return sel
         res = simulate(StrategySpec(cell, mk()), snaps, bars, initial_cash=10_000.0,
                        cost=COSTS[bucket], start=gte, end=lte)
-        st = res["stats"]
-        if PHASE == "screen":
+        results[cell] = {"stats": res["stats"], "bucket": bucket,
+                          "beats": res["stats"]["cagr"] > BENCH[bucket]}
+    if PHASE == "screen":
+        # cross-sectional variance_of_sr over the full grid (v1 convention)
+        sharpes = [v["stats"]["sharpe"] for v in results.values()]
+        mean_s = sum(sharpes) / len(sharpes)
+        var_sr = sum((s - mean_s) ** 2 for s in sharpes) / len(sharpes)
+        for cell, v in results.items():
+            st = v["stats"]
             dsr = deflated_sharpe_ratio(st["sharpe"], n_trials=8, n_obs=st["n_obs"],
-                                        skew=st["skew"], kurtosis=st["kurtosis"])
-            surv = dsr >= 0.95 and st["cagr"] > BENCH[bucket]
-            results[cell] = {"stats": st, "dsr": dsr, "beats": st["cagr"] > BENCH[bucket],
-                             "survivor": surv}
+                                        skew=st["skew"], kurtosis=st["kurtosis"],
+                                        variance_of_sr=var_sr)
+            v["dsr"] = dsr
+            v["survivor"] = dsr >= 0.95 and v["beats"]
             print(f"{cell}: CAGR {st['cagr']:+.2%} shrp {st['sharpe']:.2f} DSR {dsr:.3f} "
-                  f"bench {BENCH[bucket]:.2%} {'** SURVIVOR' if surv else ''}", flush=True)
-        else:
+                  f"bench {BENCH[v['bucket']]:.2%} {'** SURVIVOR' if v['survivor'] else ''}",
+                  flush=True)
+        print(f"\nvariance_of_sr: {var_sr:.5f}  emax_sharpe(8): "
+              f"{expected_max_sharpe(8, var_sr):.3f}")
+    else:
+        for cell, v in results.items():
+            st = v["stats"]
             psr = probabilistic_sharpe_ratio(st["sharpe"], 0.0, n_obs=st["n_obs"],
                                              skew=st["skew"], kurtosis=st["kurtosis"])
-            passed = psr >= 0.95 and st["cagr"] > BENCH[bucket]
-            results[cell] = {"stats": st, "psr": psr, "beats": st["cagr"] > BENCH[bucket],
-                             "holdout_pass": passed}
-            print(f"{cell}: HO CAGR {st['cagr']:+.2%} PSR {psr:.3f} bench {BENCH[bucket]:.2%} "
-                  f"{'** PASS' if passed else 'fail'}", flush=True)
+            v["psr"] = psr
+            v["holdout_pass"] = psr >= 0.95 and v["beats"]
+            print(f"{cell}: HO CAGR {st['cagr']:+.2%} PSR {psr:.3f} "
+                  f"bench {BENCH[v['bucket']]:.2%} {'** PASS' if v['holdout_pass'] else 'fail'}",
+                  flush=True)
     os.makedirs(OUT, exist_ok=True)
     fn = "insample_results.json" if PHASE == "screen" else "holdout_results.json"
     out = {"results": results, "benchmarks": BENCH}
     if PHASE == "screen":
-        out["expected_max_sharpe_8"] = expected_max_sharpe(8)
+        out["expected_max_sharpe_8"] = expected_max_sharpe(8, var_sr)
+        out["variance_of_sr"] = var_sr
         out["cliff"] = parameter_cliff_report([
             {"params": {"signal": c.split("__")[0], "bucket": c.rsplit("__",1)[1]},
              "metric": results[c]["stats"]["sharpe"], "cell": c} for c in results])
