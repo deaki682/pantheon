@@ -266,6 +266,22 @@ The retired paper-era files (`cache/ghost_proteus_*`) were removed from
    clears his bar is a respectable outcome journaled as a `note`,
    and patience will be visible in his record.
 
+   **House tooling he asked for and received (2026-07-04):**
+   `shared/historicals.py` — `plan_batches()` for ≤9-symbol history
+   calls, write each raw tool result straight to a scratch file (never
+   re-quote it in context), `ingest_raw()` into
+   `cache/shared_bars.json`, `coverage()` whose `missing` list is the
+   survivorship disclosure any backtest must print, and
+   `archive_bars()` to deposit delisted-name series he obtains
+   elsewhere (source citation mandatory). `shared/event_calendar.py` —
+   the shared IPO/lockup/spinoff calendar
+   (`cache/shared_event_calendar.json`): check `upcoming()` during the
+   sweep, and DEPOSIT any dates he hand-classifies via `add_events()`
+   so the work is done once. Both persist under the `shared` prefix —
+   the one exception to "he owns only `ghost_proteus_*`": he may
+   persist these two shared caches (data deposits only, never another
+   god's sleeve or state).
+
 4. **Decide (maybe).** For anything that survives his own scrutiny:
    - Fetch a live quote for the name AND SPY (both are recorded), and
      `get_equity_tradability` for the name.

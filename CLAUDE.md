@@ -63,6 +63,23 @@ journaled with a falsifiable prediction and graded without mercy
 2027-01-15: validation keeps the sleeve, refutation retires him and
 returns the capital to the treasury. Owns only `cache/proteus_*`.
 
+## Shared infrastructure (2026-07-04)
+
+- **`shared/historicals.py`** — batched price-history plumbing for any
+  study or god: `plan_batches()` (≤9 symbols/call), write raw tool
+  output straight to a scratch file, `ingest_raw()` into
+  `cache/shared_bars.json`, `coverage()` prints the per-symbol report
+  whose `missing` list is the mandatory survivorship-bias disclosure.
+  `archive_bars()` deposits hard-won delisted-ticker series (mandatory
+  source citation) into `cache/shared_bars_archive.json` so the next
+  study doesn't re-hit Robinhood's no-delisted-bars wall.
+- **`shared/event_calendar.py`** — validated, source-cited IPO /
+  lockup-expiry / spinoff / merger / SPAC-deadline / reconstitution
+  calendar at `cache/shared_event_calendar.json`. Any god reads it;
+  any session that does the classification work deposits it
+  (`add_events`, deduped on symbol+type+date; `upcoming()` for
+  windows). Both caches persist under the `shared` prefix.
+
 ## Research record
 
 **`docs/RESEARCH_LEDGER.md`** indexes every completed study (prereg →

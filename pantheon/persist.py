@@ -41,6 +41,7 @@ OWNERSHIP_PREFIXES: dict[str, list[str]] = {
     ],
     "shared": [
         "cache/trinity_",
+        "cache/shared_",
         "trinity_dashboard.html",
     ],
     "ghost_achilles": [
