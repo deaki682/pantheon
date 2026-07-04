@@ -731,3 +731,113 @@ def test_event_car_discloses_unpriceable():
     assert out["n_events_priced"] == 0
     assert len(out["unpriceable"]) == 2
     assert "unpriceable" in out["coverage_note"]
+
+
+# ---------------------------------------------------------------------------
+# Tier 3: benchmark_curve / capacity_stats / combine_curves /
+#         drawdown_distribution / draft_bias_checklist
+# ---------------------------------------------------------------------------
+
+from shared.gauntlet import (
+    benchmark_curve,
+    capacity_stats,
+    combine_curves,
+    draft_bias_checklist,
+    drawdown_distribution,
+)
+from shared.lab import BIAS_CHECKLIST
+
+
+def test_benchmark_curve_scales_and_prefers_total_return():
+    bars = [{"date": "2024-01-01", "close": 100.0, "close_total_return": 200.0},
+            {"date": "2024-01-02", "close": 100.0, "close_total_return": 210.0}]
+    out = benchmark_curve(bars, initial=1000.0)
+    assert out["price_field"] == "close_total_return"
+    assert out["curve"][0]["equity"] == pytest.approx(1000.0)
+    assert out["curve"][1]["equity"] == pytest.approx(1050.0)  # +5% TR, flat price
+
+
+def test_benchmark_curve_falls_back_to_close_and_says_so():
+    bars = [{"date": "2024-01-01", "close": 100.0},
+            {"date": "2024-01-02", "close": 110.0}]
+    out = benchmark_curve(bars)
+    assert out["price_field"] == "close"
+    assert out["curve"][1]["equity"] == pytest.approx(1100.0)
+
+
+def test_capacity_stats_participation_and_implied_multiple():
+    # ADV window (days before the fill): $10k/day dollar volume.
+    bars = {"AAA": [{"date": f"2024-01-{i:02d}", "close": 10.0, "volume": 1000}
+                    for i in range(1, 11)]}
+    trades = [{"date": "2024-01-10", "symbol": "AAA", "side": "buy",
+               "shares": 50, "price": 10.0, "cost": 0.0}]   # $500 = 5% of ADV
+    out = capacity_stats(trades, bars, adv_window=5)
+    assert out["n_fills"] == 1
+    assert out["participation_median"] == pytest.approx(0.05)
+    assert out["share_above_1pct"] == 1.0
+    assert out["share_above_10pct"] == 0.0
+    # p90 = 5% -> book can only be 0.2x current size before p90 > 1%.
+    assert out["implied_max_equity_multiple"] == pytest.approx(0.2)
+
+
+def test_capacity_stats_discloses_missing_volume():
+    bars = {"AAA": [{"date": "2024-01-01", "close": 10.0}]}   # no volume field
+    trades = [{"date": "2024-01-01", "symbol": "AAA", "side": "buy",
+               "shares": 1, "price": 10.0, "cost": 0.0}]
+    out = capacity_stats(trades, bars)
+    assert out["n_fills"] == 0
+    assert len(out["no_volume_fills"]) == 1
+
+
+def test_combine_curves_correlations_and_diversification_gap():
+    days = [f"2024-01-{i:02d}" for i in range(1, 12)]
+    up = [{"date": d, "equity": 1000.0 * (1.01 ** i)} for i, d in enumerate(days)]
+    down_up = [{"date": d, "equity": 1000.0 * (0.99 ** i if i < 5 else
+                                                0.99 ** 4 * 1.01 ** (i - 4))}
+               for i, d in enumerate(days)]
+    out = combine_curves({"a": up, "b": down_up})
+    assert out["correlations"]["a"]["a"] == pytest.approx(1.0)
+    assert out["correlations"]["a"]["b"] == out["correlations"]["b"]["a"]
+    assert out["correlations"]["a"]["b"] < 1.0
+    # Sleeve a never draws down; sleeve b does; the combined book's DD is
+    # SHALLOWER than the weighted average -> negative gap means diversification
+    # helped (gap = combined_dd - wavg_dd, both are <= 0 numbers).
+    assert out["stats"]["max_drawdown"] > out["weighted_avg_max_drawdown"]
+    assert out["diversification_gap"] > 0
+
+
+def test_combine_curves_rejects_bad_weights():
+    days = ["2024-01-01", "2024-01-02", "2024-01-03"]
+    c = [{"date": d, "equity": 1000.0} for d in days]
+    with pytest.raises(ValueError, match="weights"):
+        combine_curves({"a": c, "b": c}, weights={"a": 0.9, "b": 0.9})
+
+
+def test_drawdown_distribution_deterministic_and_sane():
+    import math as _m
+    curve = [{"date": f"d{i:04d}",
+              "equity": 1000.0 * _m.exp(0.0005 * i + 0.01 * _m.sin(i))}
+             for i in range(300)]
+    a = drawdown_distribution(curve, n_sims=200, block=10, seed=1)
+    b = drawdown_distribution(curve, n_sims=200, block=10, seed=1)
+    assert a == b
+    assert a["dd_worst"] <= a["dd_p05"] <= a["dd_p50"] <= 0.0
+    assert 0.0 <= a["prob_worse_than"]["40pct"] <= 1.0
+
+
+def test_draft_bias_checklist_matches_lab_keys_and_floor():
+    days = [f"2024-{1 + i // 28:02d}-{1 + i % 28:02d}" for i in range(120)]
+    bars = {"AAA": [{"date": d, "close": 10.0 * (1.001 ** i)}
+                    for i, d in enumerate(days)]}
+    result = simulate(_hold("AAA"), {days[0]: ["AAA"]}, bars,
+                      initial_cash=1000.0, cost=_NOCOST)
+    drafts = draft_bias_checklist(
+        result, n_trials=90, cost=_NOCOST,
+        panel_note="synthetic single-name panel",
+        split_note="no split (unit test)", hypotheses_ever=91,
+        regime_boundaries=[days[60]])
+    assert set(drafts) == set(BIAS_CHECKLIST)          # exact key match
+    assert all(len(v) >= 60 for v in drafts.values())  # lab's writing floor
+    assert "n_trials=90" in drafts["multiple_testing"]
+    assert "hypotheses_ever=91" in drafts["multiple_testing"]
+    assert "sharpe" in drafts["regime"]                # per-regime numbers present

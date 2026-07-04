@@ -262,3 +262,40 @@ distributions; sector/exposure attribution once SF1 sector metadata is
 cached; a lab bridge that drafts the eight bias-checklist answers
 directly from a run's own disclosures (coverage, costs, splits, trial
 count).
+
+## Addendum 4 (2026-07-04, late night): benchmarks, capacity, portfolios, drawdown tails, lab bridge
+
+Comprehensiveness pass #3 (operator: "keep going"). Engine suite 57 →
+65 tests.
+
+- **`benchmark_curve(bars)`** — any name's total-return equity curve in
+  one call, `price_field` surfaced so nobody compares a total-return
+  strategy to a price-return benchmark. Feeds `excess_stats` directly.
+- **`capacity_stats(trades, bars)`** — per-fill participation vs
+  trailing ADV (window ends the day BEFORE the fill), share of fills
+  above 1/5/10% of ADV, worst offenders, and
+  `implied_max_equity_multiple` at a participation cap: "at what sleeve
+  size does this strategy stop existing?" answered before any
+  capital-gate conversation. Linear scaling = optimistic upper bound,
+  says so in the docstring.
+- **`combine_curves(curves, weights)`** — N simulated sleeves into one
+  book: combined stats, pairwise return correlations, and the
+  diversification gap (combined maxDD vs weighted-average maxDD — zero
+  gap means the sleeves crash together). The July 3 correlated-drawdown
+  question, mechanized for simulated books.
+- **`drawdown_distribution(curve)`** — block-bootstrap resequencing of
+  the same returns into n_sims paths: drawdown percentiles and
+  P(maxDD worse than 20/30/40%), for circuit-breaker calibration
+  against the distribution instead of one lucky path. Caveat in
+  docstring: bootstrap scrambles long-range regime structure; tails
+  are a floor.
+- **`draft_bias_checklist(result, ...)`** — the lab bridge: drafts all
+  eight `shared.lab.BIAS_CHECKLIST` answers from a run's own artifacts
+  (coverage disclosures, deflated-Sharpe bar at n_trials, bootstrap
+  CI, turnover/cost drag, per-regime splits, raw n). Keys match the
+  lab schema exactly (tested); >=60-char floor met; the docstring is
+  explicit that drafts are starting points the signing session owns.
+
+Next planned: the Delphi full-window ruleset prereg (her frozen rules
++ ExitRules MA-20 exit, 1999→2026, benchmark-relative), which this
+pass's benchmark/excess machinery was sequenced to serve.

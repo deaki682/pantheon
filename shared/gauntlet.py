@@ -1155,3 +1155,306 @@ def event_car(events: list[dict], bars_by_symbol: dict[str, list[dict]],
             "distressed names; any positive mean CAR must survive that "
             "disclosure."),
     }
+
+
+# ---------------------------------------------------------------------------
+# Comprehensiveness pass 3 (2026-07-04): benchmarks, capacity, portfolio
+# combination, drawdown distributions, and the lab bridge.
+# ---------------------------------------------------------------------------
+
+def benchmark_curve(bars: list[dict], *, initial: float = 1000.0) -> dict:
+    """One benchmark's daily equity curve from canonical bars.
+
+    Feed it SPY (or any ETF/name) bars from `shared.sharadar.ingest_symbols`
+    / `to_shared_bars` and pass the resulting `curve` straight to
+    `excess_stats`. Uses the total-return series only when every bar
+    carries it (same whole-series rule as simulate); `price_field` in
+    the result says which one was used — a results doc comparing a
+    total-return strategy to a price-return benchmark is comparing
+    apples to half an orange, so the field is surfaced, not buried.
+    """
+    ordered = sorted(bars, key=lambda b: str(b["date"])[:10])
+    if not ordered:
+        raise ValueError("benchmark_curve: no bars")
+    field_name = ("close_total_return"
+                  if all(b.get("close_total_return") is not None for b in ordered)
+                  else "close")
+    p0 = ordered[0][field_name]
+    if p0 is None or p0 <= 0:
+        raise ValueError("benchmark_curve: first bar has no usable price")
+    curve = [{"date": str(b["date"])[:10],
+              "equity": initial * b[field_name] / p0} for b in ordered]
+    return {"curve": curve, "price_field": field_name,
+            "stats": summarize(curve)}
+
+
+def capacity_stats(trades: list[dict], bars_by_symbol: dict[str, list[dict]],
+                    *, adv_window: int = 21,
+                    participation_cap: float = 0.01) -> dict:
+    """Fill-size vs liquidity: at what sleeve size does this stop existing?
+
+    For every fill, participation = fill notional / trailing
+    `adv_window`-day average dollar volume (window ends the day BEFORE
+    the fill — what was knowable when the order was sized; a fill with
+    no prior volume history uses its own day and is flagged). Reports
+    the participation distribution, the share of fills above 1%/5%/10%
+    of ADV, the worst offenders, and `implied_max_equity_multiple`: how
+    many times larger the book could run before the p90 fill hits
+    `participation_cap` (linear scaling — optimistic, since real
+    impact is super-linear; treat it as an upper bound). Run this
+    BEFORE any capital-gate conversation.
+    """
+    date_index: dict[str, dict[str, int]] = {}
+    dollar_vol: dict[str, list[Optional[float]]] = {}
+    for s, bars in bars_by_symbol.items():
+        date_index[s] = {str(b["date"])[:10]: i for i, b in enumerate(bars)}
+        dollar_vol[s] = [
+            (float(b["close"]) * float(b["volume"]))
+            if b.get("volume") is not None and b.get("close") is not None
+            else None
+            for b in bars]
+
+    parts: list[dict] = []
+    no_volume: list[dict] = []
+    for t in trades:
+        s = t["symbol"]
+        i = date_index.get(s, {}).get(str(t["date"])[:10])
+        notional = t["shares"] * t["price"]
+        if i is None:
+            no_volume.append({"symbol": s, "date": t["date"],
+                              "why": "no bar on fill date"})
+            continue
+        window = [v for v in dollar_vol[s][max(0, i - adv_window):i]
+                  if v is not None and v > 0]
+        own_day = i < 1 or not window
+        if own_day:
+            window = [v for v in dollar_vol[s][i:i + 1] if v and v > 0]
+        if not window:
+            no_volume.append({"symbol": s, "date": t["date"],
+                              "why": "no volume data in window"})
+            continue
+        adv = sum(window) / len(window)
+        parts.append({"symbol": s, "date": t["date"], "side": t["side"],
+                      "notional": notional, "adv": adv,
+                      "participation": notional / adv,
+                      "adv_from_own_day": own_day})
+    if not parts:
+        return {"n_fills": 0, "no_volume_fills": no_volume}
+    ps = sorted(p["participation"] for p in parts)
+    n = len(ps)
+
+    def _pct(q: float) -> float:
+        return ps[min(n - 1, int(q * n))]
+
+    p90 = _pct(0.90)
+    return {
+        "n_fills": n,
+        "participation_median": _pct(0.50),
+        "participation_p90": p90,
+        "participation_max": ps[-1],
+        "share_above_1pct": sum(1 for p in ps if p > 0.01) / n,
+        "share_above_5pct": sum(1 for p in ps if p > 0.05) / n,
+        "share_above_10pct": sum(1 for p in ps if p > 0.10) / n,
+        "worst_fills": sorted(parts, key=lambda p: -p["participation"])[:5],
+        "implied_max_equity_multiple": (
+            participation_cap / p90 if p90 > 0 else math.inf),
+        "participation_cap": participation_cap,
+        "no_volume_fills": no_volume,
+    }
+
+
+def combine_curves(curves: dict[str, list[dict]],
+                    weights: Optional[dict[str, float]] = None) -> dict:
+    """Combine N sleeve curves into one book, with the numbers that
+    matter for a correlated-drawdown question.
+
+    Aligns on common dates, rescales each sleeve to its weight of a
+    $1,000 book at the first common date, sums. Reports the combined
+    stats, the pairwise daily-return correlation matrix, and the
+    diversification gap: combined max drawdown vs the weighted average
+    of the sleeves' own max drawdowns (zero gap = the sleeves crash
+    together and the 'diversification' is cosmetic — the July 3
+    drawdown study's question, mechanized for simulated books).
+    """
+    names = sorted(curves)
+    if len(names) < 2:
+        raise ValueError("combine_curves needs >= 2 curves")
+    if weights is None:
+        weights = {s: 1.0 / len(names) for s in names}
+    if abs(sum(weights.get(s, 0.0) for s in names) - 1.0) > 1e-6:
+        raise ValueError("weights must sum to 1.0 across the given curves")
+    eq = {s: {str(c["date"])[:10]: c["equity"] for c in curves[s]}
+          for s in names}
+    days = sorted(set.intersection(*(set(e) for e in eq.values())))
+    if len(days) < 3:
+        raise ValueError("fewer than 3 common dates across curves")
+    scaled: dict[str, list[float]] = {}
+    for s in names:
+        base = eq[s][days[0]]
+        if base <= 0:
+            raise ValueError(f"curve {s} starts at non-positive equity")
+        scaled[s] = [1000.0 * weights[s] * eq[s][d] / base for d in days]
+    combined = [{"date": d, "equity": sum(scaled[s][i] for s in names)}
+                for i, d in enumerate(days)]
+
+    rets = {s: [scaled[s][i] / scaled[s][i - 1] - 1.0
+                for i in range(1, len(days))] for s in names}
+    corr: dict[str, dict[str, float]] = {a: {} for a in names}
+    for a in names:
+        for b in names:
+            ma = sum(rets[a]) / len(rets[a])
+            mb = sum(rets[b]) / len(rets[b])
+            va = sum((x - ma) ** 2 for x in rets[a])
+            vb = sum((x - mb) ** 2 for x in rets[b])
+            cov = sum((rets[a][i] - ma) * (rets[b][i] - mb)
+                      for i in range(len(rets[a])))
+            corr[a][b] = cov / math.sqrt(va * vb) if va > 0 and vb > 0 else 0.0
+
+    per_sleeve = {s: summarize([{"date": days[i], "equity": scaled[s][i]}
+                                 for i in range(len(days))]) for s in names}
+    combined_stats = summarize(combined)
+    wavg_dd = sum(weights[s] * per_sleeve[s]["max_drawdown"] for s in names)
+    return {
+        "curve": combined,
+        "stats": combined_stats,
+        "per_sleeve_stats": per_sleeve,
+        "correlations": corr,
+        "weighted_avg_max_drawdown": wavg_dd,
+        "diversification_gap": combined_stats["max_drawdown"] - wavg_dd,
+    }
+
+
+def _block_bootstrap(rets: list[float], length: int, block: int, rng) -> list[float]:
+    out: list[float] = []
+    n = len(rets)
+    while len(out) < length:
+        start = rng.randrange(n)
+        for k in range(block):
+            out.append(rets[(start + k) % n])
+    return out[:length]
+
+
+def drawdown_distribution(curve: list[dict], *, n_sims: int = 1000,
+                           block: int = 21, seed: int = 7,
+                           thresholds: tuple = (0.20, 0.30, 0.40)) -> dict:
+    """Max-drawdown DISTRIBUTION via block-bootstrap resequencing.
+
+    The realized curve shows one path's drawdown; circuit-breaker
+    calibration needs the distribution — the same returns in unluckier
+    order. Resamples daily returns in blocks (preserving short-range
+    clustering), rebuilds n_sims equity paths of the same length, and
+    reports drawdown percentiles plus P(maxDD worse than each
+    threshold). Deterministic per seed. Caveat: bootstrap scrambles
+    LONG-range regime structure, so treat tail probabilities as a
+    floor, not gospel — crashes cluster harder than blocks remember.
+    """
+    import random as _random
+    equities = [c["equity"] for c in curve]
+    rets = [equities[i] / equities[i - 1] - 1.0
+            for i in range(1, len(equities)) if equities[i - 1] > 0]
+    n = len(rets)
+    if n < 2 * block:
+        return {"n_obs": n,
+                "note": f"need >= {2 * block} daily returns for block={block}"}
+    rng = _random.Random(seed)
+
+    def _max_dd(path_rets: list[float]) -> float:
+        eq, peak, dd = 1.0, 1.0, 0.0
+        for r in path_rets:
+            eq *= 1 + r
+            peak = max(peak, eq)
+            dd = min(dd, eq / peak - 1.0)
+        return dd
+
+    dds = sorted(_max_dd(_block_bootstrap(rets, n, block, rng))
+                 for _ in range(n_sims))
+
+    def _pct(q: float) -> float:
+        return dds[min(n_sims - 1, int(q * n_sims))]
+
+    return {
+        "n_obs": n, "n_sims": n_sims, "block": block, "seed": seed,
+        "realized_max_drawdown": summarize(curve)["max_drawdown"],
+        "dd_p50": _pct(0.50), "dd_p10": _pct(0.10), "dd_p05": _pct(0.05),
+        "dd_worst": dds[0],
+        "prob_worse_than": {f"{int(t * 100)}pct":
+                             sum(1 for d in dds if d < -t) / n_sims
+                             for t in thresholds},
+    }
+
+
+def draft_bias_checklist(result: dict, *, n_trials: int,
+                          cost: CostModel, panel_note: str,
+                          split_note: str, hypotheses_ever: int,
+                          regime_boundaries: Optional[list[str]] = None) -> dict:
+    """Draft the lab's eight bias-checklist answers from a run's own
+    artifacts — numbers generated, not remembered.
+
+    Every draft embeds figures computed from `result` (a simulate()
+    output): coverage disclosures, the deflated-Sharpe bar at
+    `n_trials`, bootstrap CI, cost drag, per-regime splits, raw n.
+    `panel_note` and `split_note` are the two facts the engine cannot
+    know (where the data came from; what was frozen when). Drafts are
+    STARTING POINTS for the record_backtest writing requirement — the
+    session signing the record owns the final wording; the lab's >=60-
+    char floor is met so a lazy session can't submit empty strings,
+    but an unedited draft is only honest if every number in it is.
+    Keys match shared.lab.BIAS_CHECKLIST exactly.
+    """
+    curve = result["curve"]
+    stats = result["stats"]
+    ci = sharpe_ci(curve)
+    tno = turnover_stats(result["trades"], curve)
+    pr_only = result.get("price_return_only_symbols", [])
+    bar = expected_max_sharpe(n_trials)
+    regime = (summarize_by_period(curve, regime_boundaries)
+              if regime_boundaries else None)
+    regime_txt = ("; ".join(f"{k}: sharpe {v['sharpe']:.2f}"
+                             for k, v in regime.items())
+                  if regime else "regime splits not computed — supply "
+                  "regime_boundaries and report them")
+    ci_txt = (f"bootstrap 95% CI [{ci['lo']:.2f}, {ci['hi']:.2f}]"
+              if ci.get("lo") is not None else "CI unavailable (short series)")
+    return {
+        "survivorship": (
+            f"Panel: {panel_note}. Delisted handling: bars run through each "
+            f"name's final trading day; {len(pr_only)} symbol(s) marked "
+            f"price-return-only (dividends missing): "
+            f"{', '.join(pr_only[:10]) or 'none'}."),
+        "look_ahead": (
+            f"Structural: universe snapshots read only same-day rows; "
+            f"select() sees bars trimmed to the signal date. {split_note}. "
+            "Event feeds (if any) route through PITEventFeed keyed on "
+            "public dates."),
+        "selection": (
+            f"{split_note}. The population/universe rule and every cell "
+            "were enumerated in the prereg before any panel data was "
+            "pulled; nothing was added after results were seen."),
+        "multiple_testing": (
+            f"n_trials={n_trials} enumerated this study; house counter "
+            f"hypotheses_ever={hypotheses_ever}. Observed Sharpe "
+            f"{stats['sharpe']:.2f} must clear expected max Sharpe "
+            f"{bar:.2f} under {n_trials} null trials (deflated-Sharpe bar), "
+            "not zero."),
+        "overfitting": (
+            f"Parameters per cell fixed by prereg; {split_note}. "
+            f"Sharpe {stats['sharpe']:.2f} with {ci_txt}; "
+            "parameter_cliff_report on the grid distinguishes plateaus "
+            "from isolated peaks before any cell is believed."),
+        "costs_liquidity": (
+            f"CostModel commission {cost.commission_bps}bps + slippage "
+            f"{cost.slippage_bps}bps per side, min ticket ${cost.min_ticket}; "
+            f"realized annual turnover {tno.get('annual_turnover', 0):.2f}x, "
+            f"cost drag {tno.get('cost_drag_bps_yr', 0):.0f}bps/yr. "
+            "Survivor reruns at 2x slippage required before any verdict."),
+        "regime": (
+            f"Window covers {curve[0]['date']}..{curve[-1]['date']}; "
+            f"per-regime: {regime_txt}. Any edge concentrated in one "
+            "segment is regime beta until shown otherwise."),
+        "small_n": (
+            f"n_obs={stats['n_obs']} daily returns; Sharpe "
+            f"{stats['sharpe']:.2f} ({ci_txt}); total return "
+            f"{stats['total_return']:.1%}. Forward validation still "
+            "requires >=20 graded paper trades on the shrunk mean "
+            "regardless of in-sample n."),
+    }
