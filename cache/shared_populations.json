@@ -1,0 +1,12 @@
+{
+ "populations": {
+  "gauntlet_v1_universes": {
+   "built": "2026-07-04",
+   "coverage_note": "Median 3 names/date (max 16, 0.06%) had a DAILY marketcap but no SEP bar and are excluded. SMALL filled to exactly 1500 from ~2003 on; 1421-1500 in 2000-2002 when fewer names cleared the price/liquidity floors. Marketcap ranks 2001+ (true micro-caps) excluded by design. Delisted names included through their final trading day (Sharadar convention).",
+   "definition": "Monthly point-in-time size-bucket universes per docs/lab_prereg_gauntlet_v1.md section 3: at each month-end signal date 1999-12..2025-11, names with Sharadar DAILY marketcap + SEP bar, unadjusted close >= $3, median 21d dollar volume >= $1M; LARGE = marketcap ranks 1-500, SMALL = ranks 501-2000. One row per (signal_date, window, bucket) with the full member list.",
+   "file": "cache/shared_pop_gauntlet_v1_universes.json",
+   "n": 612,
+   "source": "Sharadar SEP + DAILY via Nasdaq Data Link bulk exports pulled 2026-07-04 (entitled same day); built by run_gauntlet_screen.py / run_gauntlet_holdout.py"
+  }
+ }
+}
