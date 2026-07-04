@@ -98,3 +98,16 @@ printed beside it for honesty — a coin has a ~53% green-day rate in a
 bull tape, and his number means nothing without that baseline. The
 daily cadence will accelerate trade accumulation, so the 30-trade
 checkpoint likely arrives months earlier than originally expected.
+
+## Memory reset (2026-07-04, operator directive)
+
+After session 1, the operator observed single-stock fixation (repeated
+same-day deepening on one ticker) and directed a memory reset. Per
+house discipline the session was ARCHIVED, not deleted
+(docs/archive/proteus_session1_2026-07-04.md); his state files were
+removed from claude/live. No trades existed and the book was flat
+$10,000, so grading, the checkpoint clock, and all frozen criteria are
+UNAFFECTED. A breadth-before-depth guard was added to his runbook so
+the reset fixes the cause, not just the symptom. Resets after his
+first GRADED trade would contaminate the experiment and are hereby
+forbidden without a prereg amendment.
