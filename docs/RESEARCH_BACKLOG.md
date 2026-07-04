@@ -12,6 +12,37 @@ Created 2026-07-04 with the house lab (operator directive). Rules:
   lose.
 - Done items move to docs/RESEARCH_LEDGER.md and are struck here with a
   pointer.
+- **Candidate gates (2026-07-04):** every new item answers the five
+  binary gates in lab.md §3b (tape / constraint / capacity-inversion /
+  arithmetic / power) BEFORE earning a slug. The gates order the queue.
+
+## Queue order under the gates (2026-07-04 re-rank)
+
+Applying G1–G5 to the open items, using the day's ~100-cell graveyard
+as the prior:
+
+1. **#7 CEF tender/discount mechanics — new top of queue.** Passes
+   every gate: constrained counterparty with a document (the fund's
+   own tender offer at stated terms), not tape-derivable, capacity-
+   inverted (odd-lot and small-tender mechanics), quasi-contractual
+   terminal value, dense-enough event stream. The single
+   best-shaped untested hypothesis the house owns.
+2. **#1 quiet-cluster ghost** — already forward-accruing; G2 is its
+   weak point (insiders are informed, not constrained) but the cost
+   is sunk and the prereg is committed. Tend it, don't expand it.
+3. **#2 quality-lens validation** — G4/G2 weak (forecast-shaped), but
+   it buys a decision cohort-2 NEEDS and the deadline is real.
+4. **#5 guidance rebuild-or-retire** and **#3 sold-ban replication** —
+   gated on the fall earnings window; #3 is an avoidance rule (the
+   kind that has actually validated here).
+5. **#8 PEAD horizon** — G1-adjacent (reaction is tape) but anchored
+   to a non-tape event (the report); rides the fall season.
+6. **#10 retail-acceleration (ex-Buzz)** — fails G1 and G2; stays
+   last unless its mentions archive plus an operator override say
+   otherwise.
+- Operator's sector-rotation idea (2026-07-04 discussion): fails G1
+  as stated; needs a written override plus a frozen regime rule
+  before it can take a slug.
 
 | # | Question | Decision it buys | Data needed | Blockers | Priority |
 |---|----------|------------------|-------------|----------|----------|
