@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 125,
+ "hypotheses_ever": 133,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -565,6 +565,33 @@
     "population_definition": "gauntlet_v1_universes PIT snapshots (quarterly subset), SEP bars incl. delisted for pricing; SF1 ARQ fundamentals keyed by datekey (filing date) only; SF1 coverage per cell disclosed with an 80% SMALL-bucket impairment flag defined before results.",
     "metric": "Per-cell net daily equity curves -> DSR (n_trials=20) in-sample 2000-07..2015-12; PSR + benchmark-relative on holdout 2016-01..2025-12 (survivors only, touched once); 2x-cost rerun + parameter_cliff_report for any survivor.",
     "success_criteria": "Survivor = passes in-sample AND holdout AND 2x-cost AND not an isolated cliff peak -> earns >=20-grade paper forward test. Zero survivors = refuted + STOPPING RULE: historical-panel program ends permanently."
+   }
+  },
+  "gauntlet_v3_value": {
+   "slug": "gauntlet_v3_value",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "created": "2026-07-04",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "The value family \u2014 the single most-documented anomaly the house has never tested. Four valuation multiples (P/B, P/S, P/E, EV/EBITDA) ranked on Sharadar DAILY point-in-time ratios, long the cheapest 50 equal-weight per bucket, quarterly, next-day-close execution. G1 pass (ratio = fundamentals/price, not tape); G2 PARTIAL and stated (mispricing/risk-premium claim, not constrained-counterparty structure) \u2014 hence the merciless in-run EW-of-universe benchmark. The literature is genuinely split (Hou-Xue-Zhang harsh, Jensen-Kelly-Pedersen kinder); the house frame \u2014 harvestable by a tiny equal-weighted book vs its own universe EW \u2014 is the arbiter, and gauntlet_v1 already killed every price family under it.",
+   "who_loses": "Whoever overpays for glamour / underpays for cheap \u2014 a mispricing story, honestly labeled as such, not dressed as structure.",
+   "underutilized_because": "Famous and crowded in factor-fund form; the open house question is whether it survives implementable equal-weight long-only form at house costs against its own universe's equal weight \u2014 measured, not assumed.",
+   "falsifiable_claim": "At least one of the 8 enumerated value cells clears the frozen in-sample bar (DSR>=0.95 at n_trials=8 AND net CAGR > in-run bench_ew) and then the holdout (PSR>=0.95 AND beats bench_ew net, 2x-cost stable, not an isolated cliff peak). Zero holdout survivors across v2+v3 triggers the stopping rule.",
+   "prereg": {
+    "doc": "docs/lab_prereg_gauntlet_v3_value.md",
+    "date": "2026-07-04",
+    "population_definition": "gauntlet_v1_universes PIT top-500 (LARGE) / 501-2000 (SMALL) quarterly snapshots; ranking on DAILY pb/ps/pe/evebitda as-of the rebalance date (PIT by Sharadar construction); PE/EVEBITDA positive-only with the exclusion counted per rebalance; SEP delisted-inclusive bars for held names; coverage per cell disclosed.",
+    "metric": "Per-cell net daily equity curve -> DSR (n_trials=8) in-sample 2000-07..2015-12; PSR + beats in-run bench_ew on holdout 2016-01..2025-12 (survivors only); 2x-cost + cliff.",
+    "success_criteria": "Survivor = in-sample DSR>=0.95 AND > bench_ew, AND holdout PSR>=0.95 AND > bench_ew, AND 2x-cost stable, AND not an isolated cliff peak -> paper forward test. Zero survivors (with v2) = stopping rule."
    }
   }
  }
