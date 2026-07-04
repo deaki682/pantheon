@@ -1,0 +1,110 @@
+{
+ "results": {
+  "value_ps_low__LARGE": {
+   "stats": {
+    "n_obs": 2513,
+    "total_return": 2.189150099406124,
+    "cagr": 0.12333113290751974,
+    "sharpe": 0.6963502729456693,
+    "sortino": 0.8630521228721157,
+    "max_drawdown": -0.39285609153306056,
+    "win_rate": 0.5356148030242738,
+    "skew": -0.7804503043399177,
+    "kurtosis": 16.777134351677553
+   },
+   "bucket": "LARGE",
+   "beats": true,
+   "psr": 1.0,
+   "holdout_pass": true
+  },
+  "value_ps_low__SMALL": {
+   "stats": {
+    "n_obs": 2513,
+    "total_return": 1.4861034555989678,
+    "cagr": 0.09562540052078972,
+    "sharpe": 0.4787028421267448,
+    "sortino": 0.647783104612778,
+    "max_drawdown": -0.543149352101199,
+    "win_rate": 0.517707918822125,
+    "skew": -0.3596872926314898,
+    "kurtosis": 11.718545891987404
+   },
+   "bucket": "SMALL",
+   "beats": true,
+   "psr": 1.0,
+   "holdout_pass": true
+  },
+  "value_ep_high__LARGE": {
+   "stats": {
+    "n_obs": 2513,
+    "total_return": 1.8049766391761994,
+    "cagr": 0.10896463390392586,
+    "sharpe": 0.5959249414377901,
+    "sortino": 0.7122636059431121,
+    "max_drawdown": -0.4825666947787358,
+    "win_rate": 0.5435734182252288,
+    "skew": -0.838580316115616,
+    "kurtosis": 20.417588560632897
+   },
+   "bucket": "LARGE",
+   "beats": false,
+   "psr": 1.0,
+   "holdout_pass": false
+  },
+  "value_ep_high__SMALL": {
+   "stats": {
+    "n_obs": 2513,
+    "total_return": 1.1100959687515877,
+    "cagr": 0.07775626392606672,
+    "sharpe": 0.4268423844153964,
+    "sortino": 0.5645819888352276,
+    "max_drawdown": -0.5911006628846582,
+    "win_rate": 0.5196975726223637,
+    "skew": -0.45503679031832334,
+    "kurtosis": 11.373662883401824
+   },
+   "bucket": "SMALL",
+   "beats": false,
+   "psr": 1.0,
+   "holdout_pass": false
+  },
+  "value_evebitda_low__LARGE": {
+   "stats": {
+    "n_obs": 2513,
+    "total_return": 1.4620504326086312,
+    "cagr": 0.09455777647695185,
+    "sharpe": 0.5366579003640105,
+    "sortino": 0.6502668997547586,
+    "max_drawdown": -0.49230638347411404,
+    "win_rate": 0.5419816951850378,
+    "skew": -0.8103856073753054,
+    "kurtosis": 18.874693162026485
+   },
+   "bucket": "LARGE",
+   "beats": false,
+   "psr": 1.0,
+   "holdout_pass": false
+  },
+  "value_evebitda_low__SMALL": {
+   "stats": {
+    "n_obs": 2513,
+    "total_return": 1.1499788440710264,
+    "cagr": 0.07978183889887935,
+    "sharpe": 0.43334852067621193,
+    "sortino": 0.5752127983567127,
+    "max_drawdown": -0.6199629312384345,
+    "win_rate": 0.5228810187027457,
+    "skew": -0.4978920074877577,
+    "kurtosis": 11.500952834758163
+   },
+   "bucket": "SMALL",
+   "beats": false,
+   "psr": 1.0,
+   "holdout_pass": false
+  }
+ },
+ "benchmarks": {
+  "LARGE": 0.1143,
+  "SMALL": 0.095
+ }
+}

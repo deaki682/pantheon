@@ -108,8 +108,9 @@ elif PHASE in ("screen", "holdout"):
     BENCH = BENCH_IS if PHASE == "screen" else BENCH_HO
     with gzip.open(f"{S}/v3_holdings_{window}.json.gz", "rt") as f: holdings = json.load(f)
     with gzip.open(f"{S}/v3_bars_{window}.json.gz", "rt") as f: bars = json.load(f)
-    COSTS = {"LARGE": CostModel(0, 5.0, 25.0), "SMALL": CostModel(0, 25.0, 25.0)}
-    only = sys.argv[3].split(",") if len(sys.argv) > 3 else None
+    COSTS = {"LARGE": CostModel(0, 5.0*slip_mult, 25.0), "SMALL": CostModel(0, 25.0*slip_mult, 25.0)}
+    only = sys.argv[3].split(",") if len(sys.argv) > 3 and sys.argv[3] else None
+    slip_mult = float(sys.argv[4]) if len(sys.argv) > 4 else 1.0
     all_days = sorted({b["date"] for bl in bars.values() for b in bl})
     def nxt(D):
         i = bisect.bisect_right(all_days, D)
@@ -160,7 +161,8 @@ elif PHASE in ("screen", "holdout"):
                   f"bench {BENCH[v['bucket']]:.2%} {'** PASS' if v['holdout_pass'] else 'fail'}",
                   flush=True)
     os.makedirs(OUT, exist_ok=True)
-    fn = "insample_results.json" if PHASE == "screen" else "holdout_results.json"
+    _sfx = "" if slip_mult == 1.0 else f"_{slip_mult:g}x"
+    fn = "insample_results.json" if PHASE == "screen" else f"holdout{_sfx}_results.json"
     out = {"results": results, "benchmarks": BENCH}
     if PHASE == "screen":
         out["expected_max_sharpe_8"] = expected_max_sharpe(8, var_sr)
