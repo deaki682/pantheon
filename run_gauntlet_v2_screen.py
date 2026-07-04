@@ -136,16 +136,25 @@ elif PHASE == "screen":
         bars = json.load(f)
     BENCH = {"LARGE": 0.0551, "SMALL": 0.0679}  # v1 in-sample EW CAGR (frozen, reused)
     COSTS = {"LARGE": CostModel(0.0, 5.0, 25.0), "SMALL": CostModel(0.0, 25.0, 25.0)}
+    # Global trading-day calendar from the full bars union, for the
+    # prereg's signal_lag discipline: holdings are PIT at the signal
+    # date D (datekey <= D); EXECUTION is at the close of the first
+    # trading day strictly after D. Same convention as every study
+    # tonight — no same-day signal-and-trade.
+    all_days = sorted({b["date"] for bl in bars.values() for b in bl})
+    def next_day(D):
+        i = bisect.bisect_right(all_days, D)
+        return all_days[i] if i < len(all_days) else None
     results = {}
     for cell, snap_holdings in holdings.items():
         bucket = cell.rsplit("__", 1)[1]
-        snaps = {}
-        exec_dates = sorted(snap_holdings)
-        for D in exec_dates:
-            names = [m for m in snap_holdings[D] if m in bars]
-            if names:
-                snaps[D] = names
-        def mk_select(sh_=snap_holdings):
+        exec_holdings = {}
+        for D, names in snap_holdings.items():
+            ed = next_day(D)
+            if ed:
+                exec_holdings[ed] = [m for m in names if m in bars]
+        snaps = {d: names for d, names in exec_holdings.items() if names}
+        def mk_select(sh_=exec_holdings):
             def select(day, universe, trimmed):
                 names = [m for m in sh_.get(day, []) if m in trimmed and trimmed.tail(m, 1)]
                 if not names:
@@ -153,13 +162,6 @@ elif PHASE == "screen":
                 w = 0.99 / len(names)
                 return {m: w for m in names}
             return select
-        # snapshots keyed at signal date; signal_lag=1 shifts sight back — but
-        # holdings were computed AT the signal date from datekey<=D, so lag 0
-        # with entry at the NEXT day's close is the honest model: use exec day
-        # = next trading day via snapshot remap inside simulate is complex; we
-        # instead key snapshots at D and accept close-of-D fills DISCLOSED as
-        # a half-day optimism shared by all 20 cells and both benchmarks (v1
-        # benchmark scalars carry the same convention).
         res = simulate(StrategySpec(cell, mk_select()), snaps, bars,
                        initial_cash=10_000.0, cost=COSTS[bucket],
                        start="2000-06-01", end="2015-12-31")
