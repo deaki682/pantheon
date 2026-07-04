@@ -223,6 +223,7 @@ def simulate(
     cost: CostModel = CostModel(),
     start: Optional[str] = None,
     end: Optional[str] = None,
+    signal_lag: int = 0,
 ) -> dict:
     """Run one strategy through one point-in-time universe series.
 
@@ -232,10 +233,23 @@ def simulate(
     approximation — see module docstring on delisted-name handling;
     Sharadar SEP bars already run through a name's true final trading
     day, so gaps here are trading halts, not survivorship holes).
+
+    `signal_lag` (trading days) trims the bars the selection rule sees
+    to `signal_lag` days BEFORE the execution day, while trades still
+    fill at the execution day's close. With the default 0 the rule sees
+    the execution day's own close — same-day signal-and-trade, a one-
+    day look-ahead for fast signals. gauntlet_v1's prereg (section 4)
+    mandates signal_lag=1: signals through close of t, execution at
+    close of t+1. Lag counts positions in this simulation's own
+    trading-day index; a rebalance earlier than `signal_lag` days into
+    the window raises (no silent no-lag fallback).
     """
+    if signal_lag < 0:
+        raise ValueError(f"signal_lag must be >= 0, got {signal_lag}")
     all_days = _trading_days(bars_by_symbol, start, end)
     if not all_days:
         raise ValueError("no trading days in bars_by_symbol for the given window")
+    day_index = {d: i for i, d in enumerate(all_days)}
     rebalance_dates = {d for d in snapshots if (not start or d >= start)
                         and (not end or d <= end)}
 
@@ -253,7 +267,18 @@ def simulate(
 
         if day in rebalance_dates:
             universe = snapshots[day]
-            trimmed = _trim(bars_by_symbol, day)
+            if signal_lag:
+                i = day_index[day] - signal_lag
+                if i < 0:
+                    raise ValueError(
+                        f"{spec.name} on {day}: rebalance falls {signal_lag} "
+                        "trading day(s) from the window start — no lagged "
+                        "signal date exists; extend the bar window or drop "
+                        "this rebalance date")
+                signal_day = all_days[i]
+            else:
+                signal_day = day
+            trimmed = _trim(bars_by_symbol, signal_day)
             equity_now = cash + sum(
                 positions[s] * last_price.get(s, 0.0) for s in positions)
             weights = spec.select(day, universe, trimmed)
