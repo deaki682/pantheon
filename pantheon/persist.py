@@ -95,6 +95,9 @@ GUARD_FILES: list[str] = [
     # Proteus self-review finding #4). Out-of-band git surgery can still
     # bypass it — that is a deliberate operator act, not an accident.
     "cache/proteus_journal.jsonl",
+    # The lab registry holds refuted-terminal verdicts; losing it would
+    # silently permit the re-cuts the one-dataset rule forbids.
+    "cache/proteus_lab.json",
     "cache/oracle_screen.json",
     "cache/oracle_prescreener.json",
     "cache/oracle_dossiers.json",

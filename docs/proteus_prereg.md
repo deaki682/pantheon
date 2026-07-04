@@ -183,3 +183,30 @@ operator consciously spending the risk budget the gates exist to
 protect. The house prediction from the original prereg stands
 unrevised. If discretion fails, it now fails with real money — that
 was the chance being taken, and the ledger row will say so either way.
+
+## Amendment #4 — the strategy lab (2026-07-04, operator directive; ADDITIVE)
+
+The operator: Proteus may invent and test entirely new or completely
+underutilized stock strategies, with backtest bias always in view.
+This adds a research program (`/proteus-lab`, engine `proteus/lab.py`)
+alongside the live book. It changes NOTHING about how the live book is
+graded; it is recorded here because it touches checkpoint counting:
+
+- **Lab trades are paper and do NOT count toward the 30 closed graded
+  trades.** Only journaled live-book trades count, exactly as frozen.
+- The lab runs the house's own study discipline, mechanically
+  enforced: hypothesis must state mechanism/who-loses/why-unarbitraged;
+  prereg doc committed BEFORE data; a backtest result cannot be
+  recorded until all eight enumerated biases (survivorship, look-ahead,
+  selection, multiple-testing, overfitting, costs/liquidity, regime,
+  small-n) are addressed in writing; one dataset buys one decision,
+  once; refuted is terminal per slug; every study gets a
+  RESEARCH_LEDGER row, failures at full prominence.
+- **Backtest support alone is never "validated."** Promotion requires
+  a pre-registered paper forward test: ≥20 graded trades with positive
+  SHRUNK mean excess, settled by arithmetic (`conclude_forward`), not
+  judgment. Only `validated` strategies may be cited in a live thesis
+  as house-validated; live entries citing them still pass every
+  live-book rule (journal, typed kill condition, safety gates).
+- The lab cannot place broker orders or mutate the live book, by
+  construction and by runbook.

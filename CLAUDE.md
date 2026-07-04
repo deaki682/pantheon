@@ -114,6 +114,7 @@ trades.
 | At cohort review (~12 months) | `/oracle` | Grades all calls, closes cohort, selects new cohort from pool |
 | Weekly (weekend) | `/midas-scan` | Research-only universe scan feeding the `/midas-ghost` A/B (Midas live retired 2026-07-04) |
 | Daily | `/proteus` | One full discretionary session on his live sleeve (research-only when markets are closed or funding pending) |
+| Weekly (weekend) | `/proteus-lab` | Strategy lab: invent → prereg → backtest (bias checklist enforced) → paper forward test. Never live money |
 
 ### Key Files (all in `cache/`, persisted to `claude/live`)
 
@@ -143,6 +144,8 @@ trades.
 | `proteus_ledger.jsonl` | proteus | Every broker order placed (for reconcile) |
 | `proteus_curve.json` | proteus | Equity marks vs SPY (green-day scoreboard) |
 | `proteus_beliefs.md` | proteus | His living mind: worldview, watchlist, open theses, lessons |
+| `proteus_lab.json` | proteus | Strategy lab registry: hypothesis → prereg → backtest → forward test, bias checklists |
+| `proteus_lab_ghost_ledger.json` | proteus | Paper forward-test positions for lab strategies (shared.ghost engine) |
 | `trinity_dashboard.html` | shared | PWA dashboard for all gods |
 
 ### Capital Scaling Gates (`oracle/capital.py`)
