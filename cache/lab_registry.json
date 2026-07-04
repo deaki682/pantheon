@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 93,
+ "hypotheses_ever": 96,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -62,6 +62,56 @@
    "status": "refuted",
    "underutilized_because": "Retail/self-directed capital concentrates almost entirely on single-stock picking (as every prior house study -- Oracle, Midas, Gauntlet -- also did); a 17-ETF absolute-trend overlay requires no stock-picking skill and is mechanically trivial, yet is rarely run by small accounts who default to buy-and-hold or single-name bets. Professional CTAs run this with leverage and dozens of futures contracts unavailable to a long-only, no-leverage retail account -- this tests the stripped-down, house-constrained version.",
    "who_loses": "Non-forecasting flow: fuel hedgers locking costs regardless of price view, pensions shifting to bonds on a fixed schedule regardless of rate outlook, central banks defending currency bands, sovereign wealth funds rebalancing commodity allocations on policy schedules rather than return forecasts."
+  },
+  "delphi_ruleset_fullwindow": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "CostModel commission 0.0bps + slippage 5.0bps per side, min ticket $25.0; realized annual turnover 20.00x, cost drag 200bps/yr. Survivor reruns at 2x slippage required before any verdict.",
+     "look_ahead": "Structural: snapshots read same-day DAILY rows only; select() sees bars through the Friday signal close with signal_lag=1 (fills at next trading day's close); quarterly membership applies only from the first trading day after its quarter-end; MA exits evaluate on the day's own raw close and fill at that close. No event feeds used.",
+     "multiple_testing": "n_trials=3, all enumerated in the committed prereg (primary + no-exit + monthly ablations); nothing else was run against this panel in this study. House counter hypotheses_ever after this record: 96 (93 prior; +1 slug registration +2 manual for the ablation cells, gauntlet_v1 counting precedent). The verdict criterion is benchmark-relative sign, not a Sharpe race, so the n=3 selection effect cannot manufacture a pass.",
+     "overfitting": "Parameters per cell fixed by prereg; No in-study tuning; parameters are Delphi's live frozen values; 3 cells enumerated in the prereg. Sharpe 0.15 with bootstrap 95% CI [-0.21, 0.52]; parameter_cliff_report on the grid distinguishes plateaus from isolated peaks before any cell is believed.",
+     "regime": "Window spans dot-com bust, 2003-07 bull, GFC, 2013-19 bull, covid, 2021-26 momentum era. Per-regime table published: the ruleset lost money or lagged in EVERY regime before 2013 (1999-2002: -16.5%/yr; 2003-07: -0.7%; 2008-12: -5.9%) and only shone 2020-2021 (+29.4%/yr) and 2021-26 (+12.2%/yr) \u2014 the #4 window is the OUTLIER, exactly the era-dependence this study was designed to expose.",
+     "selection": "No in-study tuning; parameters are Delphi's live frozen values; 3 cells enumerated in the prereg. The population/universe rule and every cell were enumerated in the prereg before any panel data was pulled; nothing was added after results were seen.",
+     "small_n": "n_obs=6913 daily returns; Sharpe 0.15 (bootstrap 95% CI [-0.21, 0.52]); total return 34.3%. Forward validation still requires >=20 graded paper trades on the shrunk mean regardless of in-sample n.",
+     "survivorship": "Panel: Sharadar SEP for the union of 110 quarterly PIT top-119 lists (419 final tickers, 2.06M bars, 1998-12..2026-06), delisted members through their final trading day; universes from DAILY quarter-end cross-sections incl. names that later died. 0 union members missing bars; 0 price-return-only symbols (full closeadj coverage). 25 distinct ADR/Canadian mega-caps sat above the top-119 floor and were excluded BY DESIGN (US-common-only rule inherited from #4), verified name-by-name against TICKERS categories \u2014 a US-common universe definition, not a coverage hole."
+    },
+    "date": "2026-07-04",
+    "mean_excess": -0.0547,
+    "mean_excess_shrunk": -0.007135,
+    "n": 3,
+    "notes": "Primary cell (live ruleset): 1.08% CAGR, Sharpe 0.15 [CI -0.21, 0.52], maxDD -76.7%, excess vs EW-119 -6.86%/yr (IR -0.43), vs SPY -7.60%/yr. No-exit ablation: 6.92% CAGR \u2014 the 20-day-MA daily exit COST ~5.8pp/yr (4,552 MA-exit round trips, 32% win, -0.52% mean vs rebalance exits 81% win, +7.9% mean): the runbook's 'the exit made the backtest work' claim is inverted at full window. Monthly ablation: -0.61%. Benchmark EW-119: 7.94%, maxDD -55.1% (the exit did not even shrink book drawdown). 2x slippage: -0.93% CAGR. Turnover 20x/yr, cost drag ~200bps/yr. mean_excess = mean of 3 cells' excess-vs-EW (-6.86, -1.01, -8.54)/3. Per-cell artifacts docs/data/delphi_fullwindow/.",
+    "results_doc": "docs/lab_results_delphi_ruleset_fullwindow.md",
+    "verdict": "refuted"
+   },
+   "created": "2026-07-04",
+   "falsifiable_claim": "SUPPORTED iff the primary cell's full-window net excess CAGR > 0 vs BOTH the EW top-119 benchmark and SPY total return at 1x costs; REFUTED iff excess vs EW <= 0.",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
+    }
+   ],
+   "mechanism": "Confirmatory measurement of Delphi's live frozen ruleset (65-day momentum, top-10 equal-weight, 20-day-MA daily exit, weekly rebalance, 5-trading-day cooldown, 5% cash floor) over the full 1999-2026 Sharadar panel on blind quarterly PIT top-119 universes. The claimed edge: cross-sectional momentum among mega-caps, with the MA trailing exit transforming momentum's crash profile (the runbook credits the exit for the backtest). gauntlet_v1 killed exit-less momentum 2000-2015; #4 measured her rules strong 2021-2026 \u2014 this study decides rules vs era.",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_delphi_ruleset_fullwindow.md",
+    "metric": "Net-of-cost full-window excess CAGR vs same-universe EW benchmark and SPY TR; IR; per-regime splits; per-exit-reason round trips.",
+    "population_definition": "Quarter-end top-119 US common stocks by Sharadar DAILY marketcap, 1999-03-31..2026-06-30 (110 quarters), resolved to final tickers via layered window-aware TICKERS sweep; members' SEP bars 1998-12 onward, delisted included through final bar; ADR/Canadian issuers excluded by design.",
+    "success_criteria": "PASS: primary cell excess CAGR > 0 vs both benchmarks net at 1x slippage. REFUTED: excess vs EW benchmark <= 0. 3 cells enumerated (primary, no-exit, monthly); 2x-slippage rerun disclosed, not gating."
+   },
+   "slug": "delphi_ruleset_fullwindow",
+   "sponsor": "operator",
+   "status": "refuted",
+   "underutilized_because": "Not underutilized \u2014 mega-cap momentum is crowded; the open question was whether the exit overlay and weekly cadence rescue an otherwise-dead family.",
+   "who_loses": "Late reactors anchoring on stale prices, per the standard momentum story; and if the exit works, crash-riders who hold through momentum unwinds."
   },
   "gauntlet_v1": {
    "backtest": {
