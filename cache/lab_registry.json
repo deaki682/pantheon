@@ -549,11 +549,34 @@
    "who_loses": "Whoever is on the other side of the three underlying mispricings \u2014 buyback counterparties, glamour overpayers, low-profitability holders."
   },
   "gauntlet_v5_newfundamentals": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Per-bucket CostModel (LARGE 5bps / SMALL 25bps) plus a mandatory 2x slippage rerun which cash_op survived essentially undented (N50-LARGE +18.87%->+18.80%). SMALL bucket is the cost-fragile one and is flagged; capacity is a non-issue at the tiny-book scale this feeds.",
+     "look_ahead": "SF1 keyed by datekey (filing date); signal uses only datekey<=D; working-capital deltas use PIT balance-sheet levels; execution lagged to next trading-day close. Holdings spot-check shows period-appropriate names (2015 vs 2025 baskets differ correctly), no restated-data leakage.",
+     "multiple_testing": "16 cells DSR-deflated at n_trials=16 with cross-sectional variance_of_sr=0.01519 (not the 1.0 default that caused the v2 DSR=0 bug); house hypotheses_ever 141->153 (12 new cells). ~1-in-20 look good by chance, which is why the two-regime holdout and forward test gate the verdict.",
+     "overfitting": "Parameter-cliff / non-isolated-neighbor rule applied: cash_op survives all 4 (robust), fund_mom rejected as an isolated single-cell peak (the asset-growth lesson). Holdout touched once. Regime table printed; cash_op edge shown recovery-concentrated and not crash-robust in LARGE.",
+     "regime": "Two-regime OOS split plus a within-window segment breakdown: cash_op LARGE lost in dot-com (-6.9%) and GFC (-4.0%), its edge concentrated in recoveries; holdout outperformance rides a mega-cap-growth basket (AMZN/NVDA/META) = the same regime bet flagged for cap-weighting. Disclosed, not hidden.",
+     "selection": "The 16-cell grid was fully enumerated in the prereg committed to git BEFORE any return data; no cell added, dropped, or re-specified after seeing results. delta_rnd was NOT rescued despite passing holdout, because it failed the pre-committed in-sample gate.",
+     "small_n": "N25/N50 baskets benchmarked vs same-universe EW (an anomaly must beat the naive book, not merely be positive); Sharpe intervals implied by PSR/DSR quoted; the 8-cell effect-size summary is shrunk. cash_op is non-isolated across both N and both buckets, mitigating small-n fragility.",
+     "survivorship": "SEP delisted-inclusive and SF1 covers dead filers; per-cell coverage reported (cash_op 75-85%, delta_rnd 24% R&D-active-only disclosed). Held union 2274/1894 names incl. delisted."
+    },
+    "date": "2026-07-04",
+    "mean_excess": 0.033,
+    "mean_excess_shrunk": 0.009429,
+    "n": 8,
+    "notes": "cash_op (cash-based operating profitability) SUPPORTED: 4/4 cells cleared in-sample DSR>=0.95 + beat EW, holdout beat benchmark, survived 2x cost, non-isolated. delta_rnd REFUTED (in-sample dead all 4; holdout pass moot). fund_mom NOT supported (isolated N50-LARGE only; SMALL cells failed holdout; -13.9% GFC = momentum-crash shadow). gross_prof reference re-confirmed. Head-to-head cash_op vs gross_prof is HOLDOUT-driven + mega-cap-growth-flavored; in-sample gross_prof wins LARGE and is more crash-robust. Plutus second-factor CANDIDATE only, pending forward test; live spec unchanged.",
+    "results_doc": "docs/lab_results_gauntlet_v5_newfundamentals.md",
+    "verdict": "supported"
+   },
    "cells_new": 12,
    "cells_total_run": 16,
    "counter_note": "12 new cells added to hypotheses_ever (per-cell convention, matching gauntlet_v1); gross_prof 4 cells are a control re-run already counted in v2 and excluded from the discovery count.",
    "created": "2026-07-04",
    "falsifiable_claim": "Each signal fails if its equal-weight top-N basket does not beat the same-universe equal-weight benchmark in BOTH 2000-2015 and 2016-2025 at 2x cost in a non-isolated cell; fund_mom additionally dies if its excess loses significance after controlling for 12-1 price momentum.",
+   "forward": {
+    "grades": [],
+    "started": "2026-07-04"
+   },
    "history": [
     {
      "date": "2026-07-04",
@@ -562,6 +585,14 @@
     {
      "date": "2026-07-04",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "backtested"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "forward_testing"
     }
    ],
    "mechanism": "Three fundamentals families that survived a six-front alpha sweep, each a distinct underreaction to accounting information a naive screen misreads: cash-based operating profitability strips accruals from profitability (Ball-Gerakos-Linnainmaa-Nikolaev 2016) and the market underprices durable cash-realized quality; abnormal R&D increases mechanically depress GAAP earnings so screeners misrank investing firms as deteriorating (Eberhart-Maxwell-Siddique 2004); fundamental momentum captures sluggish analyst/price updating to the earnings trend itself, the object price momentum is only a noisy shadow of (Novy-Marx 2015).",
@@ -574,7 +605,7 @@
    },
    "slug": "gauntlet_v5_newfundamentals",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "forward_testing",
    "underutilized_because": "Cash-based OP and abnormal-R&D are accounting-construction refinements most naive screens do not compute; fundamental momentum is confounded with dead price momentum so it is dismissed; all three concentrate where sell-side coverage is thin.",
    "who_loses": "Earnings/quality screeners and passive value indexes anchoring on GAAP-reported E and B, plus analysts who revise too slowly; and lottery-seeking holders of the junk leg the long book avoids."
   },
