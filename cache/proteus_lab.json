@@ -1,4 +1,54 @@
 {
- "hypotheses_ever": 0,
- "strategies": {}
+ "hypotheses_ever": 1,
+ "strategies": {
+  "ipo_lockup_reversion": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Not formally modeled (no spread/slippage deduction), but this does not affect the verdict since the raw effect is already negative -- costs would only push it further negative. Many names show extreme reverse-split-adjusted price levels (e.g. VCIG entry/exit in the millions post-adjustment), a tell that this population skews toward chronically distressed, thinly-traded microcaps even before accounting for the 15 that vanished from the data entirely.",
+     "look_ahead": "Entry fixed at trading-day 185 from each name's own first trade -- a count-based rule using only information knowable at IPO time (the 180-day lockup term is boilerplate stated in the S-1/424B4 before day 0). No name was included or excluded based on anything that happened after its own IPO date; SPY's return uses the identical calendar dates as each stock's own entry/exit, not a shared window.",
+     "multiple_testing": "This is hypothesis #1 in lab['hypotheses_ever'] -- the first strategy ever registered in this lab. No prior variant of this idea was tried against this or any other dataset before this cut.",
+     "overfitting": "Two knobs total (185-trading-day entry offset, 60-trading-day hold), both fixed by the mechanism (lockup length + a round-number hold) in the prereg before any data was seen. Neither knob was adjusted after seeing the result -- this is the first and only cut on this design; a redesign requires a new slug and fresh prereg.",
+     "regime": "Single sample: 2023 IPO class held into 2024, a disinflation/soft-landing rally regime for SPY (each name's own SPY window returned +2% to +19%). Even against a rising market the median small-cap IPO fell -33% over the post-lockup 60-day window -- this looks like the well-documented long-run small-cap-IPO underperformance continuing past the lockup date, not a distinct reversal at it. Untested in a down-market regime, but the negative sign does not obviously depend on this being a bull-market sample.",
+     "selection": "Population built from the complete public 2023 IPO calendar (154 rows, stockanalysis.com), filtered by mechanical rules (SPAC-name pattern, spinoff, foreign cross-listing, missing price, price>$10) applied uniformly before any return was computed. IPO price<=$10 was used as an operational proxy for the prereg's '<$300M offer size' criterion rather than per-name S-1 totals -- verifying exact offer size for ~150 candidates individually would have cost as many tool calls as the rest of the study, for a threshold that already cleanly separates the list (obscure microcaps vs. the year's recognized large IPOs, no ambiguous middle case observed).",
+     "small_n": "Raw n=65, above the prereg's n>=30 floor. Shrunk mean (prior_n=20, prior_mean=0) is -8.01%, close to the raw -10.41% since n=65 dominates the prior -- shrinkage does not rescue this toward zero in any meaningful way. No forward test follows, since only a 'supported' backtest earns one under proteus/lab.py.",
+     "survivorship": "15/80 (18.75%) of the population could not be priced because the broker's historicals API does not serve bars for tickers now inactive/renamed/delisted, regardless of whether real trading data existed during the 2024 entry/exit window. Of 5 spot-checked via WebSearch, all 5 were distress outcomes (Nasdaq delisting-for-cause, forced reverse splits, business-combination exits, sub-$1 collapse) -- meaning the 65-name result almost certainly OVERSTATES the true population mean excess, not understates it. A free alternate data source (stooq.com) was unreachable (503 via proxy); stockanalysis.com's history page redirects a renamed ticker to its successor's current price series rather than the pre-rename history."
+    },
+    "date": "2026-07-04",
+    "mean_excess": -0.10407,
+    "mean_excess_shrunk": -0.079583,
+    "n": 65,
+    "notes": "Median excess -33.07%, win rate 18/65=27.7%, t=-0.62. Result is dominated in sign only by a single +1011.53% biotech outlier (BMR) that exceeds the entire net excess in magnitude -- excluding it, the other 64 names average roughly -25.9% excess. Fails the supported-criterion 'no single event >40% of total excess' on its own even before considering the negative mean.",
+    "results_doc": "docs/proteus_lab_results_ipo_lockup_reversion.md",
+    "verdict": "refuted"
+   },
+   "created": "2026-07-04",
+   "falsifiable_claim": "A mechanical, non-discretionary long entry exactly 185 trading days after IPO pricing (5 sessions after the standard 180-day lockup expires) across a complete population of small-cap (sub-$300M offer size) US IPOs, held 60 trading days, produces mean excess return vs SPY that is reliably positive (t>=1.5, n>=30); if mean excess is at or below zero, or the raw n is unreachable/inconclusive, the hypothesis is refuted or inconclusive as tested.",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
+    }
+   ],
+   "mechanism": "Standard IPO underwriting agreements impose a ~180-day lockup restricting pre-IPO holders (founders, employees, VC/PE funds) from selling. This is a fixed, calendar-certain, information-free event: on expiry, tradeable float mechanically increases as previously-restricted shares become sellable, independent of any change in the issuer's fundamentals. Anticipatory selling and short-side positioning into the well-known 'lockup cliff' narrative depresses price into and just after expiry as a pure supply/liquidity shock, not a valuation reassessment. Because the shock carries no new information, once the initial wave of lockup-driven selling is absorbed by the market (typically within 1-2 weeks), price should partially revert toward its pre-shock trend as the temporary oversupply clears and the stock re-prices on fundamentals rather than the float shock.",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/proteus_lab_prereg_ipo_lockup_reversion.md",
+    "metric": "Simple holding-period return minus SPY's simple return over the same calendar dates ('excess return'), entry T+185 trading days, 60-trading-day hold.",
+    "population_definition": "All US primary equity IPOs (common stock, standard underwritten IPO; excludes SPACs, closed-end funds, ADRs, uplistings, direct listings) that priced in calendar year 2023, with total offer size < $300M, sourced from a complete public IPO calendar for that year (not a hand-picked subset). Delisted/failed names are included, not dropped.",
+    "success_criteria": "Supported: n>=30, mean excess > 0, t>=1.5, no single event >40% of total excess. Refuted: mean excess<=0, or t<1.0. Else inconclusive."
+   },
+   "slug": "ipo_lockup_reversion",
+   "status": "refuted",
+   "underutilized_because": "Lockup-expiry research and financial media coverage concentrate almost entirely on famous, mega-cap IPOs (exactly the kind session 3 rejected on EQPT/SPCX as already-published and priced-in); the broad population of small-cap, low-coverage IPOs has calendar-certain, EDGAR-documented lockup dates that are public but that no systematic screener or analyst desk tracks, leaving the effect unarbitraged specifically in names too small and unglamorous to attract the attention that kills it in famous names.",
+   "who_loses": "Momentum shorts and lockup-cliff narrative traders who pile onto the anticipated overhang and are then squeezed as selling exhausts and price reverts; also pre-IPO holders forced to sell into a temporarily depressed, oversupplied tape rather than at a fundamentals-clearing price."
+  }
+ }
 }
