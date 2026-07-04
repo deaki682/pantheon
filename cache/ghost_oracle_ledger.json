@@ -3350,5 +3350,111 @@
     "exit_date": "",
     "exit_price": 0.0,
     "graded_return": null
+  },
+  {
+    "symbol": "EU",
+    "entry_date": "2026-07-04",
+    "entry_price": 1.295,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "insider_cluster": true,
+      "smart_money": false,
+      "activist_13d": false,
+      "valuation": 0.33245828971055963,
+      "quality": 0.3194505881450548,
+      "score": 0.3310321606493981,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "REI",
+    "entry_date": "2026-07-04",
+    "entry_price": 1.07,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "insider_cluster": true,
+      "smart_money": false,
+      "activist_13d": false,
+      "valuation": 0.3333333333333333,
+      "quality": 0.30794921764826166,
+      "score": 0.32952571598057256,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "EU",
+    "entry_date": "2026-07-04",
+    "entry_price": 1.295,
+    "horizon_days": 730,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.09474925418266877,
+      "potential_score": 0.06968031451973808,
+      "expected_cagr": 0.08588700109660552,
+      "asymmetry": 1.0958772770853311,
+      "sector": "Energy"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "REI",
+    "entry_date": "2026-07-04",
+    "entry_price": 1.07,
+    "horizon_days": 730,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.0031222692995760415,
+      "potential_score": 0.002189007626446244,
+      "expected_cagr": 0.0030327842873034694,
+      "asymmetry": 0.8673773987206824,
+      "sector": "Energy"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "MTEX",
+    "entry_date": "2026-07-04",
+    "entry_price": 5.16,
+    "horizon_days": 730,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.04433528778866791,
+      "potential_score": 0.031743702823977954,
+      "expected_cagr": 0.037102403501620085,
+      "asymmetry": 1.2590163934426228,
+      "sector": "Health Technology"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "DBD",
+    "entry_date": "2026-07-04",
+    "entry_price": 83.24,
+    "horizon_days": 730,
+    "source": "dossier",
+    "features": {
+      "conviction": 0.036928474735430816,
+      "potential_score": 0.026339317593769195,
+      "expected_cagr": 0.02233585042391506,
+      "asymmetry": 1.1235800344234084,
+      "sector": "Electronic Technology"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
   }
 ]

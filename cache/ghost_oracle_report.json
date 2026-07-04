@@ -1,12 +1,12 @@
 {
-  "n": 0,
-  "mean_return": null,
+  "conviction_monotonic": false,
+  "conviction_tiers": {},
   "hit_rate": null,
   "lens_lift": {},
-  "conviction_tiers": {},
-  "conviction_monotonic": false,
-  "valuation_terciles": {},
+  "mean_return": null,
+  "n": 0,
   "quality_terciles": {},
   "score_terciles": {},
-  "sector_return": {}
+  "sector_return": {},
+  "valuation_terciles": {}
 }
