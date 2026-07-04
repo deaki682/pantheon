@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 153,
+ "hypotheses_ever": 173,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -608,6 +608,35 @@
    "status": "forward_testing",
    "underutilized_because": "Cash-based OP and abnormal-R&D are accounting-construction refinements most naive screens do not compute; fundamental momentum is confounded with dead price momentum so it is dismissed; all three concentrate where sell-side coverage is thin.",
    "who_loses": "Earnings/quality screeners and passive value indexes anchoring on GAAP-reported E and B, plus analysts who revise too slowly; and lottery-seeking holders of the junk leg the long book avoids."
+  },
+  "gauntlet_v6_combinations": {
+   "cells_new": 20,
+   "cells_total_run": 32,
+   "created": "2026-07-04",
+   "falsifiable_claim": "Each new signal fails if its EW top-N basket does not beat same-universe EW in BOTH regimes at 2x cost in a non-isolated cell; a combination that does not beat its better standalone leg OR reduce holdout drawdown vs both legs is no better than the legs; change-signals subsumed by the gross-prof level are refuted.",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "Tail-preserving factor combinations that fix the house-refuted mean-rank composite by intersecting the tails (max-of-ranks minimized = hold only names strong on BOTH legs), so the alpha concentrated in each factor tail is preserved rather than averaged away: quality-at-a-price conditions cheapness on gross-profitability (Novy-Marx 2013 cheap-and-profitable), capital-return-at-a-price conditions buybacks on cheapness, net-issuance-intersect-gross-prof integrates the two Plutus factors; plus profitability-growth (change in gross-prof/assets, Novy-Marx w15940) and asset-turnover trend (Soliman 2008 DuPont efficiency change) as the two fundamental-change signals distinct from levels.",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_gauntlet_v6_combinations.md",
+    "metric": "EW top-N (25,50) basket CAGR, Sharpe, AND max-drawdown, benchmark-relative vs same-bucket EW, net per-bucket cost, quarterly rebalance, total-return marked; intersection operator = max(rankA,rankB) minimized.",
+    "population_definition": "Frozen gauntlet_v1_universes PIT catalog: top-2000 US by point-in-time Sharadar DAILY marketcap, quarterly, LARGE (top-500) / SMALL (501-2000), 2000-2025, delisted-inclusive SEP bars, SF1 ARQ keyed by datekey, DAILY price-to-sales as-traded at each signal date.",
+    "success_criteria": "SUPPORTED only if a non-isolated cell clears DSR>=0.95 (n_trials=32) + beats same-bucket EW in-sample AND holdout at 2x cost. Combination WIN = beat better leg holdout CAGR OR cut holdout maxDD vs both legs w/o losing return. Change-signal must beat the in-screen gross_prof reference (fund_mom lesson). net-iss-intersect-gross-prof beating both legs + the blend flags a Plutus tail-intersection upgrade candidate."
+   },
+   "slug": "gauntlet_v6_combinations",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "underutilized_because": "Naive rank-average compositing (the common approach) dilutes the tails and was refuted; the max-of-ranks intersection is rarely used, and change-signals are confounded with dead price momentum.",
+   "who_loses": "Investors anchoring on a single factor who overpay for cheap-but-junky or profitable-but-expensive names, and screeners that miss efficiency/margin improvement; the intersection avoids each factor value trap."
   },
   "ipo_lockup_reversion": {
    "backtest": {
