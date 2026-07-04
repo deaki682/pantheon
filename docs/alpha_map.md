@@ -196,3 +196,36 @@ the whole map. The single most promising build is the forced-flow
 event feed (family 14 / Lens B #1), which is also the highest-gate
 untested family. If the overnight compute allows, that catalog is the
 "leg-stretch" worth attempting.
+
+## RESULTS UPDATE (2026-07-04, post-sweep)
+
+The overnight sweep resolved the fundamentals and value families:
+
+- **Family 7 (net issuance)** — TESTED → **SUPPORTED (forward-testing).**
+  net-issuance-low LARGE beat its EW benchmark in both regimes at 2×
+  cost. The house's first supported backtest. **Lens A: the leading
+  Delphi-replacement candidate.**
+- **Family 10 (gross profitability / ROA)** — gross-profitability N50
+  **SUPPORTED (forward-testing)**, bucket-robust. ROA thin/died at 2×.
+- **Family 8 (asset growth)** — one cell cleared every stat bar but was
+  an isolated peak → excluded as noise. DEAD as robust.
+- **Family 9 (accruals)** — DEAD (in-sample).
+- **Family 11 (value)** — INCONCLUSIVE. Price-to-sales alive but not
+  parameter-robust standalone; book-to-market dead in-sample (literature-
+  consistent). → composite / LLM-overlay follow-up.
+
+**Net map movement:** for the first time the house has SUPPORTED (not
+validated — forward-testing) strategies. All are fundamentals-family,
+all long-only equal-weight, all now on paper forward tests whose fresh-
+data grades are the real arbiter. The price families remain uniformly
+dead. The constraint families (14, 17) remain the untested high-prior
+frontier (forced flows still need an event-feed build).
+
+**Confirmed follow-ups (each a NEW prereg):**
+1. **Composite gauntlet_v4** — net-issuance + gross-profitability +
+   price-to-sales, rank-combined, LARGE bucket (JKP's most-robust form;
+   directly a Delphi-replacement + Lens A).
+2. **LLM value-trap / buyback-quality overlay** — a reading step on the
+   mechanical fundamentals shortlist (Lens B).
+3. **Forced-flow event feed** — the highest-prior untested family
+   (Lens B #1), needs an index-reconstitution catalog build.
