@@ -493,7 +493,7 @@
   "tender_target_14d9": {
    "slug": "tender_target_14d9",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "backtested",
    "created": "2026-07-04",
    "history": [
     {
@@ -503,6 +503,10 @@
     {
      "date": "2026-07-04",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "backtested"
     }
    ],
    "mechanism": "Third-party tender-offer TARGETS: once the acquirer files its offer and the target board files its SC 14D-9 response, the acquirer is contractually bound to the filed price for a >=20-business-day window \u2014 the classic merger-arb convergence toward a quasi-contractual terminal value, with deal breaks as the fat left tail. Gates: G1 pass (filing anchor); G2 pass (two constraint documents: the offer and the 14D-9); G3 partial and honestly disclosed (arb is institutional; the odd-lot capacity story is per-holder mechanics, untestable from bars, and NOT part of this claim); G4 pass; G5 pass (dense). Anti-survivorship design is load-bearing: successful targets DELIST, so matching goes through Sharadar TICKERS secfilings-embedded CIKs with delisted names included \u2014 current-registrant matching would keep only busted deals.",
@@ -515,6 +519,25 @@
     "population_definition": "ALL SC 14D9 filings (exact type, /A excluded) 2016-2025 from EDGAR quarterly full-index; filer=target; CIK matched via Sharadar SEP TICKERS secfilings CIKs (delisted included), US common categories, window-checked; 180d per-CIK dedup; pre-filing listing screen; unmatched disclosed.",
     "metric": "Market-adjusted CAR vs SPY TR at +25 trading days from first close strictly after the 14D-9; curve to +40; per-year table.",
     "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30 -> immediate 2010-2015 replication slug. REFUTED: shrunk <= 0 at n>=30. Else INCONCLUSIVE."
+   },
+   "backtest": {
+    "date": "2026-07-04",
+    "n": 384,
+    "mean_excess": 0.001511,
+    "mean_excess_shrunk": 0.001436,
+    "verdict": "inconclusive",
+    "bias_checklist": {
+     "survivorship": "669 raw SC 14D9 filings 2016-2025; 384 matched-deduped targets via Sharadar TICKERS secfilings-embedded CIKs with DELISTED names included (the load-bearing choice: acquired targets delist); 224 unmatched (funds/foreign/units, disclosed); 0 no-bars, 0 screened. Mid-window attrition (255/384 series end before +25 \u2014 completions cashing out) handled by carry-at-cash-out grading; the survivor-only figure (+2.60% over 129 busted/lagging deals) is disclosed as the biased comparison, not used.",
+     "look_ahead": "Entry strictly after the 14D-9 acceptance date; pre-filing-only listing screen; carry-last freezes the stock leg at its final print while SPY keeps running.",
+     "selection": "Complete full-index catalog; window/rules frozen in the committed prereg; the carry-last measurement correction was made after observing ATTRITION COUNTS but the corrected number was computed blind to its direction (both computations published).",
+     "multiple_testing": "One primary statistic; counter at 105; verdict bars frozen. This is the fourth tender-family cell tonight \u2014 the family's cumulative story (announcement value possibly regime-bound, launch/response residual ~zero) is consistent, not mined.",
+     "overfitting": "Zero tuned parameters; offset 25 statutory; the engine change (carry_last) is a measurement-correctness fix with a synthetic-data regression test, not a knob.",
+     "costs_liquidity": "Gross study; at +0.15% mean the answer needs no cost model \u2014 real spreads turn a statistical zero into a reliable small negative for any harvester.",
+     "regime": "Per-year means straddle zero across 10 years (best 2018 +6.8%, worst 2021 -2.9%); no year clears the bar; medians negative in 8/10 years \u2014 the residual is carry-shaped, not edge-shaped.",
+     "small_n": "n=384 at 12.8x the floor; t 0.21; win 34.6%; median -1.45% \u2014 a precise zero, not an underpowered maybe."
+    },
+    "results_doc": "docs/lab_results_tender_target_14d9.md",
+    "notes": "STATISTICAL NULL under correct accounting: mean CAR(25) +0.15%, shrunk +0.14%, t 0.21, win 34.6%, median -1.45% across ALL 384 targets with completions carried at cash-out. The first-pass +2.60% was pure attrition bias (survivors = busted/lagging deals) \u2014 caught before recording; both figures published. Reading: the post-14D9 merger-arb residual is institutionally priced to zero gross at the daily-bar horizon \u2014 the G3 'partial' answer was the operative one. Not refuted (shrunk > 0), nowhere near supported; INCONCLUSIVE as frozen, economically a null. No follow-up variant is planned: a fourth anchor within the tender family would be timeline curve-fitting."
    }
   }
  }
