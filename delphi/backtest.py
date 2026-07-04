@@ -116,6 +116,8 @@ def run_backtest(
 
     spy_start = None
 
+    last_known: dict[str, float] = {}
+
     for day_idx, today in enumerate(trading_days):
         sleeve.process_settlements(today)
 
@@ -123,6 +125,7 @@ def run_backtest(
         for sym, by_date in stock_prices.items():
             if today in by_date:
                 today_prices[sym] = by_date[today]["close"]
+                last_known[sym] = today_prices[sym]
 
         if spy_start is None and "SPY" in today_prices:
             spy_start = today_prices["SPY"]
@@ -152,7 +155,7 @@ def run_backtest(
             picks = ranked[:cfg.max_positions]
 
             targets: dict[str, float] = {}
-            eq = sleeve.equity(today_prices)
+            eq = sleeve.equity({**last_known, **today_prices})
             if eq > 0 and picks:
                 invest = (1.0 - cfg.cash_floor) * eq
                 per_name = min(invest / len(picks), cfg.per_name_cap * eq)
@@ -162,7 +165,10 @@ def run_backtest(
 
             current: dict[str, float] = {}
             for sym, pos in sleeve.positions.items():
-                px = today_prices.get(sym, pos.avg_price)
+                # A name with no bar today marks (and exits) at its last
+                # traded price, not its entry price — exiting a delisted
+                # collapse at avg_price would erase the loss.
+                px = today_prices.get(sym, last_known.get(sym, pos.avg_price))
                 current[sym] = pos.shares * px
 
             sells = []
@@ -194,7 +200,7 @@ def run_backtest(
                 if sym not in sleeve.positions:
                     continue
                 pos = sleeve.positions[sym]
-                px = today_prices.get(sym, pos.avg_price)
+                px = today_prices.get(sym, last_known.get(sym, pos.avg_price))
                 dollars = order["dollars"]
                 shares = min(pos.shares, dollars / px) if px > 0 else 0
                 if shares > 0 and sleeve.sell(sym, shares, px, today):
@@ -223,7 +229,7 @@ def run_backtest(
                 "holdings": list(sleeve.positions.keys()),
             })
 
-        eq = sleeve.equity(today_prices)
+        eq = sleeve.equity({**last_known, **today_prices})
         spy_px = today_prices.get("SPY", 0)
         spy_ret = (spy_px / spy_start - 1.0) if (spy_start and spy_px) else 0.0
         equity_curve.append({
@@ -236,7 +242,7 @@ def run_backtest(
             "delphi_return": round((eq / cfg.initial_cash - 1.0), 4),
         })
 
-    final_eq = sleeve.equity(today_prices) if trading_days else cfg.initial_cash
+    final_eq = sleeve.equity({**last_known, **today_prices}) if trading_days else cfg.initial_cash
     total_return = (final_eq / cfg.initial_cash - 1.0)
 
     spy_final = today_prices.get("SPY", spy_start or 0) if trading_days else 0

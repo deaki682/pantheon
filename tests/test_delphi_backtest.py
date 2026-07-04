@@ -70,3 +70,33 @@ class TestRunBacktest:
         out = run_backtest(stock_prices, cfg)
         dates = [p["date"] for p in out["equity_curve"]]
         assert dates == sorted(dates)
+
+
+class TestDelistedExit:
+    def test_no_bar_position_exits_at_last_traded_price_not_avg_price(self):
+        """A name whose bars stop (delisting/collapse) must mark and exit
+        at its last traded price — exiting at avg_price would erase the
+        loss (the pre-2026-07-04 behavior)."""
+        start = "2025-01-02"
+        n = 150
+        stock_prices = {"SPY": _linear_bars(start, n, 500, 0.0)}
+        # One strong-momentum name (>= 65 bars so it ranks) that collapses
+        # 90% on its final print and then stops trading.
+        crash = _linear_bars(start, 100, 100, 0.01)
+        days = sorted(crash)
+        crash[days[-1]]["close"] = 10.0  # final print: -90%
+        stock_prices[UNIVERSE[0]] = crash
+        # A flat name so the universe never goes empty.
+        stock_prices[UNIVERSE[1]] = _linear_bars(start, n, 100, 0.0)
+
+        cfg = BacktestConfig(initial_cash=10_000.0)
+        r = run_backtest(stock_prices, cfg)
+        perf = r["results"]["performance"]
+        # The collapse must show up as a real loss: final equity clearly
+        # below initial. Under the avg_price bug the loss vanished.
+        assert perf["final_equity"] < 9_500.0
+        sells = [t for t in r["trades"] if t["side"] == "sell"
+                 and t["symbol"] == UNIVERSE[0]]
+        # Trims while it was still trading are fine; the terminal exit
+        # after bars stop must price at the last traded close (10.0).
+        assert sells and sells[-1]["price"] == pytest.approx(10.0)
