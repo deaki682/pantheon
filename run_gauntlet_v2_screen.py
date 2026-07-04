@@ -67,7 +67,8 @@ def quarterly_snapshots(window):
 
 if PHASE == "holdings":
     sf1 = load_sf1()
-    snaps = quarterly_snapshots("in_sample")
+    window = sys.argv[3] if len(sys.argv) > 3 else "in_sample"
+    snaps = quarterly_snapshots(window)
     holdings = {f"{sig}__N{n}__{b}": {} for sig, n, b in CELLS}
     coverage = defaultdict(list)
     for snap in snaps:
@@ -92,12 +93,12 @@ if PHASE == "holdings":
     report = {"coverage_mean": {c: sum(v)/len(v) for c, v in coverage.items()},
               "coverage_min": {c: min(v) for c, v in coverage.items()},
               "n_snapshots": {c: len(v) for c, v in coverage.items()}}
-    with gzip.open(f"{S}/holdings_insample.json.gz", "wt") as f:
+    with gzip.open(f"{S}/holdings_{window}.json.gz", "wt") as f:
         json.dump(holdings, f)
-    with open(f"{S}/coverage_insample.json", "w") as f:
+    with open(f"{S}/coverage_{window}.json", "w") as f:
         json.dump(report, f, indent=1)
     union = sorted({m for cell in holdings.values() for names in cell.values() for m in names})
-    with open(f"{S}/held_union.json", "w") as f:
+    with open(f"{S}/held_union_{window}.json", "w") as f:
         json.dump(union, f)
     print(json.dumps(report, indent=1)[:1200])
     print("held union:", len(union), "names")
@@ -105,7 +106,10 @@ if PHASE == "holdings":
 elif PHASE == "bars":
     import shared.sharadar as sh
     import time as _time
-    union = json.load(open(f"{S}/held_union.json"))
+    window = sys.argv[3] if len(sys.argv) > 3 else "in_sample"
+    gte = sys.argv[4] if len(sys.argv) > 4 else "2000-04-01"
+    lte = sys.argv[5] if len(sys.argv) > 5 else "2016-03-31"
+    union = json.load(open(f"{S}/held_union_{window}.json"))
     bars = {}
     CH = 30
 
@@ -113,7 +117,7 @@ elif PHASE == "bars":
         for a in range(attempts):
             try:
                 return sh._datatable("SEP", ticker=",".join(chunk), **{
-                    "date.gte": "2000-04-01", "date.lte": "2016-03-31",
+                    "date.gte": gte, "date.lte": lte,
                     "qopts.columns": "ticker,date,close,closeadj",
                     "qopts.per_page": 10000})
             except Exception as e:
@@ -134,7 +138,7 @@ elif PHASE == "bars":
             print(f"bars {min(i+CH, len(union))}/{len(union)}", flush=True)
     for t in bars:
         bars[t].sort(key=lambda b: b["date"])
-    with gzip.open(f"{S}/bars_insample.json.gz", "wt") as f:
+    with gzip.open(f"{S}/bars_{window}.json.gz", "wt") as f:
         json.dump(bars, f)
     print(f"DONE bars for {len(bars)} names")
 
@@ -210,3 +214,56 @@ elif PHASE == "screen":
                    indent=1, default=str)
     survivors = [c for c in results if results[c]["stage1_survivor"]]
     print("\nSTAGE-1 SURVIVORS:", survivors or "NONE")
+
+elif PHASE == "holdout":
+    from shared.gauntlet import (CostModel, StrategySpec, simulate,
+                                  probabilistic_sharpe_ratio)
+    only = set(sys.argv[3].split(",")) if len(sys.argv) > 3 else None
+    slip_mult = float(sys.argv[4]) if len(sys.argv) > 4 else 1.0
+    with gzip.open(f"{S}/holdings_holdout.json.gz", "rt") as f:
+        holdings = json.load(f)
+    with gzip.open(f"{S}/bars_holdout.json.gz", "rt") as f:
+        bars = json.load(f)
+    BENCH = {"LARGE": 0.1143, "SMALL": 0.0950}  # v1 holdout EW CAGR (frozen)
+    COSTS = {"LARGE": CostModel(0.0, 5.0 * slip_mult, 25.0),
+             "SMALL": CostModel(0.0, 25.0 * slip_mult, 25.0)}
+    all_days = sorted({b["date"] for bl in bars.values() for b in bl})
+    def next_day(D):
+        i = bisect.bisect_right(all_days, D)
+        return all_days[i] if i < len(all_days) else None
+    results = {}
+    for cell, snap_holdings in holdings.items():
+        if only and cell not in only:
+            continue
+        bucket = cell.rsplit("__", 1)[1]
+        exec_holdings = {}
+        for D, names in snap_holdings.items():
+            ed = next_day(D)
+            if ed:
+                exec_holdings[ed] = [m for m in names if m in bars]
+        snaps = {d: names for d, names in exec_holdings.items() if names}
+        def mk_select(sh_=exec_holdings):
+            def select(day, universe, trimmed):
+                names = [m for m in sh_.get(day, []) if m in trimmed and trimmed.tail(m, 1)]
+                return {m: 0.99 / len(names) for m in names} if names else {}
+            return select
+        res = simulate(StrategySpec(cell, mk_select()), snaps, bars,
+                       initial_cash=10_000.0, cost=COSTS[bucket],
+                       start="2016-01-01", end="2025-12-31")
+        st = res["stats"]
+        psr = probabilistic_sharpe_ratio(st["sharpe"], 0.0, n_obs=st["n_obs"],
+                                         skew=st["skew"], kurtosis=st["kurtosis"])
+        passed = psr >= 0.95 and st["cagr"] > BENCH[bucket]
+        results[cell] = {"stats": st, "psr": psr,
+                          "beats_benchmark": st["cagr"] > BENCH[bucket],
+                          "holdout_pass": passed}
+        print(f"{cell}: HO CAGR {st['cagr']:+.2%} sharpe {st['sharpe']:.2f} "
+              f"PSR {psr:.3f} bench {BENCH[bucket]:.2%} "
+              f"{'** PASS' if passed else 'fail'}", flush=True)
+    os.makedirs(OUT, exist_ok=True)
+    tag = "holdout" if slip_mult == 1.0 else f"holdout_{slip_mult:g}x"
+    with open(f"{OUT}/{tag}_results.json", "w") as f:
+        json.dump({"results": results, "benchmarks_cagr": BENCH,
+                    "slip_mult": slip_mult}, f, indent=1, default=str)
+    print("\nHOLDOUT PASSERS:",
+          [c for c in results if results[c]["holdout_pass"]] or "NONE")
