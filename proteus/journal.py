@@ -43,6 +43,16 @@ _PROSE_FLOORS = {
 ENTER_FIELDS = ("date", "action", "symbol", "side", "dollars", "price",
                 "spy_price", "horizon_days", "confidence", "edge_class",
                 "thesis", "falsifiable_prediction", "exit_plan", "kill_condition")
+
+# Typed kill conditions (added 2026-07-04, Proteus self-review finding #1).
+# The house's most robust finding: enumerated binary gates are rock-stable
+# (0/50 flips); prose judgments near a boundary are dice (40-80%). A typed
+# kill condition makes "did this fire" a lookup, not a re-litigation by a
+# fresh instance. The tag is OPTIONAL at the schema level, but the runbook
+# requires it for any condition with a numeric or date trigger.
+KILL_CONDITION_TYPES = ("drawdown_pct", "price_level", "thesis_date",
+                        "filing_event", "other")
+_KILL_VALUE_REQUIRED = ("drawdown_pct", "price_level", "thesis_date")
 EXIT_FIELDS = ("date", "action", "symbol", "price", "spy_price", "exit_reason")
 EXIT_REASONS = ("exit_plan", "kill_condition", "horizon_expiry", "discretionary",
                 "kill_switch")  # house-level forced liquidation (live book, 2026-07-04)
@@ -87,6 +97,31 @@ def validate_decision(record: dict) -> dict:
                 raise JournalError(
                     f"{name} must be at least {floor} chars — "
                     f"an unarticulated decision is not a decision")
+        kc_type = record.get("kill_condition_type")
+        if kc_type is not None:
+            if kc_type not in KILL_CONDITION_TYPES:
+                raise JournalError(
+                    f"kill_condition_type {kc_type!r} not in {KILL_CONDITION_TYPES}")
+            if kc_type in _KILL_VALUE_REQUIRED:
+                val = record.get("kill_condition_value")
+                if kc_type == "thesis_date":
+                    try:
+                        _date.fromisoformat(str(val))
+                    except (TypeError, ValueError):
+                        raise JournalError(
+                            "kill_condition_type=thesis_date requires "
+                            f"kill_condition_value as an ISO date, got {val!r}")
+                elif not (isinstance(val, (int, float)) and not isinstance(val, bool)):
+                    raise JournalError(
+                        f"kill_condition_type={kc_type} requires a numeric "
+                        f"kill_condition_value, got {val!r}")
+            elif kc_type == "other":
+                why = str(record.get("kill_condition_untyped_reason") or "")
+                if len(why) < 40:
+                    raise JournalError(
+                        "kill_condition_type=other requires a "
+                        "kill_condition_untyped_reason (>= 40 chars) explaining "
+                        "why no enumerated type fits")
     elif action == "exit":
         _require(record, EXIT_FIELDS)
         if record["exit_reason"] not in EXIT_REASONS:
@@ -296,7 +331,15 @@ def checkpoint_stats(closed: list) -> dict:
     k = max(1, n // 3)
     lo = sum(x for _, x in rows[:k]) / k
     hi = sum(x for _, x in rows[-k:]) / k
+    # mean_excess_shrunk: REPORTED, not gating (2026-07-04, self-review
+    # finding #3). Same shrinkage the rest of the house applies to small
+    # samples (oracle.learning.bayesian_shrunk_skill, prior_n=20 toward 0).
+    # The frozen verdict criteria (raw mean, t >= 2) are unchanged; this
+    # exists so a session reading its own record at n=8 sees an honestly
+    # deflated number next to the noisy raw one.
+    from oracle.learning import bayesian_shrunk_skill
     return {"n": n, "mean_excess": round(m, 4),
+            "mean_excess_shrunk": round(bayesian_shrunk_skill(m, n), 4),
             "t": round(t_stat, 2) if t_stat is not None else None,
             "win": round(sum(1 for x in xs if x > 0) / n, 2),
             "confidence_lo_tercile": round(lo, 4),

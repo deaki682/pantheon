@@ -90,6 +90,11 @@ GUARD_FILES: list[str] = [
     "cache/midas_sleeve.json",
     "cache/nemesis_sleeve.json",
     "cache/proteus_sleeve.json",
+    # The prereg forbids journal resets after the first graded trade; this
+    # makes the normal persist path enforce it mechanically (2026-07-04,
+    # Proteus self-review finding #4). Out-of-band git surgery can still
+    # bypass it — that is a deliberate operator act, not an accident.
+    "cache/proteus_journal.jsonl",
     "cache/oracle_screen.json",
     "cache/oracle_prescreener.json",
     "cache/oracle_dossiers.json",

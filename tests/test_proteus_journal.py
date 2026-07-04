@@ -156,3 +156,78 @@ def test_green_day_stats():
 def test_green_day_stats_empty():
     from proteus.journal import green_day_stats
     assert green_day_stats([])["green_rate"] is None
+
+
+# ---- typed kill conditions (2026-07-04, self-review finding #1) ----
+
+def test_kill_condition_type_optional_but_validated():
+    validate_decision(_enter())  # untyped still passes (schema-optional)
+    with pytest.raises(JournalError):
+        validate_decision(_enter(kill_condition_type="vibes"))
+
+
+def test_kill_condition_numeric_types_require_value():
+    validate_decision(_enter(kill_condition_type="drawdown_pct",
+                             kill_condition_value=-0.15))
+    validate_decision(_enter(kill_condition_type="price_level",
+                             kill_condition_value=17.5))
+    for kc in ("drawdown_pct", "price_level"):
+        with pytest.raises(JournalError):
+            validate_decision(_enter(kill_condition_type=kc))
+        with pytest.raises(JournalError):
+            validate_decision(_enter(kill_condition_type=kc,
+                                     kill_condition_value="soon"))
+        with pytest.raises(JournalError):
+            validate_decision(_enter(kill_condition_type=kc,
+                                     kill_condition_value=True))
+
+
+def test_kill_condition_thesis_date_requires_iso_date():
+    validate_decision(_enter(kill_condition_type="thesis_date",
+                             kill_condition_value="2026-08-15"))
+    with pytest.raises(JournalError):
+        validate_decision(_enter(kill_condition_type="thesis_date",
+                                 kill_condition_value="mid-August"))
+    with pytest.raises(JournalError):
+        validate_decision(_enter(kill_condition_type="thesis_date"))
+
+
+def test_kill_condition_filing_event_needs_no_value():
+    validate_decision(_enter(kill_condition_type="filing_event"))
+
+
+def test_kill_condition_other_requires_written_reason():
+    with pytest.raises(JournalError):
+        validate_decision(_enter(kill_condition_type="other"))
+    validate_decision(_enter(
+        kill_condition_type="other",
+        kill_condition_untyped_reason=(
+            "The trigger is a counterparty action with no numeric or "
+            "filing form: the founder publicly withdrawing the voting "
+            "agreement in any venue.")))
+
+
+# ---- shrunk small-sample stat (finding #3, reported-not-gating) ----
+
+def test_checkpoint_stats_reports_shrunk_mean():
+    closed = [{"excess": 0.10, "confidence": 0.5},
+              {"excess": 0.06, "confidence": 0.7}]
+    stats = checkpoint_stats(closed)
+    assert stats["mean_excess"] == pytest.approx(0.08)
+    # prior_n=20 toward 0: (2 * 0.08) / 22
+    assert stats["mean_excess_shrunk"] == pytest.approx(round(2 * 0.08 / 22, 4))
+    # frozen raw fields still present and unchanged
+    assert "t" in stats and "calibration_ok" in stats
+
+
+# ---- secondary price guard (finding #6) ----
+
+def test_secondary_price_suspect():
+    from shared.guards import secondary_price_suspect
+    assert secondary_price_suspect(32.0, 19.0)          # the EQPT case
+    assert not secondary_price_suspect(19.5, 19.0)      # normal drift
+    assert secondary_price_suspect(0.0, 19.0)           # unusable input
+    assert secondary_price_suspect(None, 19.0)
+    assert secondary_price_suspect(19.0, 0.0)
+    assert not secondary_price_suspect(114.9, 100.0)    # just inside 15%
+    assert secondary_price_suspect(115.1, 100.0)        # just outside

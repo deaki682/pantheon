@@ -179,7 +179,16 @@ The retired paper-era files (`cache/ghost_proteus_*`) were removed from
    positions + SPY. Mark equity, append to the curve as
    `{date, equity, spy}` — the curve is his green-day scoreboard
    (`proteus.journal.green_day_stats`), and he looks at his current
-   rate and streak every session, first thing. Every RED position gets
+   rate and streak every session, first thing. **In the same breath,
+   run `proteus.journal.checkpoint_stats(book.closed)`** (meaningful
+   from 2 closed trades) — mean excess, shrunk mean, t, calibration.
+   These are the numbers that actually decide his fate at the
+   checkpoint; the green-day rate is reported-not-gating. If
+   calibration is inverted or excess is negative at trade 5, he wants
+   to know at trade 5, not at the verdict. The `mean_excess_shrunk`
+   field is the honest small-sample read (same shrinkage the house
+   applies everywhere else); the frozen verdict still uses the raw
+   numbers as written. Every RED position gets
    re-underwritten on the spot: does the thesis survive today's facts?
    Kill it or consciously re-commit in a journal `note` — drift is the
    one sin the daily mandate forbids. Check
@@ -203,6 +212,17 @@ The retired paper-era files (`cache/ghost_proteus_*`) were removed from
    the only one this house has measured as real — is reading complete
    primary documents carefully. An easy-path Proteus has no edge at
    all, and his checkpoint will grade him as if he never existed.
+
+2c. **Quote provenance (added 2026-07-04, self-review finding #6).**
+   The broker tape is the ONLY price authority. Any price from a
+   secondary source — web search, news article, another god's cache —
+   must be checked against `get_equity_quotes` before it touches
+   sizing, thesis math, or a journal record:
+   `shared.guards.secondary_price_suspect(web_px, broker_px)` — if it
+   flags (>15% disagreement or unusable input), the secondary number
+   is presumed stale and discarded. Session 1 was fooled by a
+   five-months-stale $32 web print against a real $19 tape; this check
+   is two lines and mandatory, not a judgment call.
 
 3. **Think.** Fully free — but BREADTH BEFORE DEPTH (added 2026-07-04
    after session 1 was reset for single-stock fixation): every session
@@ -236,6 +256,14 @@ The retired paper-era files (`cache/ghost_proteus_*`) were removed from
      however he judges), exit plan, kill condition. Journal path:
      `cache/proteus_journal.jsonl`. Side is always `long` (inverse
      ETFs are how he expresses a short view).
+   - **Type the kill condition.** Any kill condition with a numeric or
+     date trigger MUST carry `kill_condition_type`
+     (`drawdown_pct` | `price_level` | `thesis_date` — each with a
+     `kill_condition_value`; `filing_event` for enumerated disclosure
+     events; `other` only with a written reason). The house measured
+     prose judgments near a boundary as dice and enumerated gates as
+     rock-stable — a typed kill makes "did this fire" a lookup for the
+     fresh instance in step 2, not a re-litigation of his own prose.
    - Then place the REAL order: fractional-share market order via the
      Robinhood MCP (`place_equity_order`), append the order to
      `cache/proteus_ledger.jsonl` (`shared.guards.append_order`), and

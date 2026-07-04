@@ -342,6 +342,29 @@ def pre_trade_check(
     return True
 
 
+# ------- Secondary-price staleness guard -------
+
+def secondary_price_suspect(
+    secondary_price: float, broker_price: float, tolerance: float = 0.15
+) -> bool:
+    """True when a price from a NON-broker source (web search, news article,
+    cached screen) disagrees with the broker's tape by more than `tolerance`.
+
+    Added 2026-07-04 (Proteus self-review finding #6) after a web-reported
+    $32 print turned out to be five months stale against the broker's real
+    $19 tape. The broker quote is the reference; a flagged secondary price
+    must not be used for any sizing, thesis math, or journal record.
+    Non-positive or missing inputs are suspect by definition.
+    """
+    try:
+        s, b = float(secondary_price), float(broker_price)
+    except (TypeError, ValueError):
+        return True
+    if s <= 0 or b <= 0:
+        return True
+    return abs(s - b) / b > tolerance
+
+
 # ------- Liquidate-on-kill helper -------
 
 def liquidate_if_kill(sleeve, marks: dict[str, float], today: str):
