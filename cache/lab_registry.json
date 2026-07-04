@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 142,
+ "hypotheses_ever": 153,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -549,6 +549,9 @@
    "who_loses": "Whoever is on the other side of the three underlying mispricings \u2014 buyback counterparties, glamour overpayers, low-profitability holders."
   },
   "gauntlet_v5_newfundamentals": {
+   "cells_new": 12,
+   "cells_total_run": 16,
+   "counter_note": "12 new cells added to hypotheses_ever (per-cell convention, matching gauntlet_v1); gross_prof 4 cells are a control re-run already counted in v2 and excluded from the discovery count.",
    "created": "2026-07-04",
    "falsifiable_claim": "Each signal fails if its equal-weight top-N basket does not beat the same-universe equal-weight benchmark in BOTH 2000-2015 and 2016-2025 at 2x cost in a non-isolated cell; fund_mom additionally dies if its excess loses significance after controlling for 12-1 price momentum.",
    "history": [
