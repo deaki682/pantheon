@@ -25,6 +25,26 @@ Created 2026-07-04 with the house lab (operator directive). Rules:
 | 8 | **Achilles PEAD horizon sensitivity**: is 5 trading days the right hold, or does the drift run 10-20 days in the neglected-name subset? | Achilles' hold parameter for the fall season (one decision, once) | Fresh season's trades (forward), or vendor bars for a clean replay on names outside the spent replay dataset | Sharadar SEP landed 2026-07-04 | Low — unblocked |
 | 9 | **The Gauntlet — strategy-factory simulation**: build a decade+ daily-bar simulation on the full Sharadar panel (~22k names incl. delisted, point-in-time market-cap universes, cost model) and run a PRE-COMMITTED grid of hundreds of simple strategy variants through it | A quantitative graveyard (which idea families are dead across 12 years x 22k names) + at most a few holdout survivors that earn forward tests — the empirical floor under every god's priors | Sharadar SEP bulk export; EDGAR event caches for event-driven families | **(a) DONE 2026-07-04** — engine (`shared/gauntlet.py`) + bulk fetch (`fetch_sep_bulk_range`, `fetch_daily_bulk_range`) built and tested; see [status doc](lab_gauntlet_engine_status_2026-07-04.md). The market-cap blocker found that morning (SEP-only subscription; DAILY/SF1 served free samples) was **RESOLVED same day** — operator bought the fundamentals entitlement; DAILY verified full (cross-sections ~5.5k names/day, late-1998+, delisted names through final day, marketcap in USD millions) and SF1 serves full quarterly history (AAPL ARQ back to 1993). Design prereg still REQUIRED before first run: full grid enumerated (hypotheses_ever += grid size), in-sample/holdout split frozen (holdout touched ONCE by survivors only), deflated-Sharpe / multiple-testing-corrected bar (implemented: `deflated_sharpe_ratio`), realistic costs at house size (implemented: `CostModel`). Survivors still face the standard >=20-grade forward gate | **GREEN-LIT by operator 2026-07-04** — top of queue, phase (a) done, data fully entitled. Next lab session starts (b): factory prereg (full grid enumerated, splits frozen) committed before any run, then (c) in-sample screen, (d) holdout pass for survivors only, (e) forward tests. #4 (Delphi PIT) rides the same engine/data pipeline rather than duplicating it |
 
+| 10 | **Retail-acceleration basket** (ex-Buzz): do names with *accelerating* (not merely loud) retail mentions, confirmed by real price/volume so it's organic money, outperform over ~5-day horizons as a diversified basket? | Whether the retired Buzz scaffolding earns its way back — validation via the standard lab ratchet (prereg → backtest → ≥20-grade paper forward test) would restore god status; anything less stays dead | ApeWisdom mentions time series (NO history vendor exists — start archiving weekly snapshots NOW so a backtest is possible later), bars for the confirmation gates | Mentions archive must accrue forward before any backtest is honest; mechanical layer already built and tested (`buzz/` package: `parse_apewisdom`, `accelerating`) | Low |
+
+## Retired god scaffolding (2026-07-04, operator directive)
+
+Two gods were cut the same day the house reviewed all its creations:
+
+- **Buzz** — commands `/buzz` and `/buzz-ghost` removed. He entered the
+  pantheon through the side door: full god scaffolding for a hypothesis
+  with no prereg, no backtest, and no ledger row. The principle this cut
+  enforces: **the lab is the only door for new strategies.** The
+  hypothesis lives on as backlog #10; the mechanical layer (`buzz/`
+  package) and his existing cache files on `claude/live` remain for the
+  lab study to reuse.
+- **Catalyst** — command `/catalyst` removed. A weekly research report
+  with no trader, no falsifiable claim, and no downstream consumer. Its
+  one reusable output — the coming week's event map — belongs in
+  `shared/event_calendar.py` deposits, which any session can make. The
+  `catalyst/` package remains as a library (the options-implied-move
+  math is citable by any god that wants a priced-in baseline).
+
 ## Standing sources of new items
 
 - Any god's post-mortem ("why did this trade lose?") that generalizes.

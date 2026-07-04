@@ -24,7 +24,10 @@ or dossier score freshness.
 
 5. **Broker reconcile.** Call `/oracle-reconcile` to sync any pending fills since last run. **NOTE:** If the ledger (`cache/oracle_ledger.jsonl`) is empty, reconcile is a no-op — do not add broker positions to the sleeve. The broker holds many pre-existing positions that are NOT Oracle's. Only ledger-tracked orders belong to Oracle.
 
-6. **Should we research?** Use `oracle.calendar.should_run(cache/oracle_cadence.json, "research", interval_days=3)`. If False, skip to step 8. Research keeps the dossier pool fresh for the NEXT cohort — it does NOT trigger position changes in the current cohort.
+6. **Should we research?** TWO gates, both must pass (pool floor added 2026-07-04, operator directive — the pool sits at 93 against a 60–80 target; research machinery is frozen at current size until cohort-1 produces graded calls):
+   - (a) `oracle.calendar.should_run(cache/oracle_cadence.json, "research", interval_days=3)`, AND
+   - (b) the dossier pool has decayed below **70** live dossiers (count `cache/oracle_dossiers.json`; stale/dropped dossiers don't count toward the floor).
+   If either gate fails, skip to step 8. Research keeps the dossier pool fresh for the NEXT cohort — it does NOT trigger position changes in the current cohort.
 
 7. **Research pass.** Same as before — refresh stale dossiers, pick new candidates via `oracle.screener.pick_candidates`, build balanced dossiers via `oracle.research.make_dossier`. The goal is to accumulate 60–100 dossiers across passes so the next cohort selection has real choice. Persist to `cache/oracle_dossiers.json`. **Market data verification:** For each dossier, fetch the current price from `get_equity_quotes` and `high_52_weeks` from `get_equity_fundamentals`, then pass both as `broker_price=` and `broker_high_52w=` to `make_dossier`.
 

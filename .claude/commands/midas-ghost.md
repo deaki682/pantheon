@@ -38,6 +38,20 @@ A/B race keeps running on its own daily cadence — mark the run with
 `oracle.calendar.mark_run("cache/ghost_midas_cadence.json", "session")`
 and persist that cadence file too (Zeus gates on it).
 
+**Death clock (operator directive, 2026-07-04).** This program runs to
+the ≥20-graded-weeks checkpoint and NOT ONE WEEK further. When the
+ledger holds 20 graded weekly `live_pick`-vs-`legacy_pick` head-to-heads,
+run the pre-registered comparison ONCE:
+- If legacy picks beat live picks per that prereg's frozen criteria,
+  the reversal case goes to the operator (with the numbers, not a
+  recommendation to un-retire).
+- Otherwise the ENTIRE program retires permanently — `/midas-scan`,
+  `/midas-ghost`, the weekly A/B, all of it. Write the ledger row,
+  persist the final report, and remove both commands.
+No extensions, no "one more season", no widening the question after
+seeing the data. The scan exists only to feed this race; when the race
+ends, so does the scan.
+
 ## Steps
 
 0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/`.

@@ -4,6 +4,14 @@ Writes dossiers WITHOUT triggering scoring/execution. Requires at least 8
 fresh dossiers in the result. Use when you want to accumulate research
 between full `/oracle` runs.
 
+**Pool-floor gate (2026-07-04, operator directive):** this command is
+ON-DEMAND ONLY while the dossier pool holds **≥ 70** live dossiers
+(count `cache/oracle_dossiers.json` first thing; the pool sat at 93
+against a 60–80 target when this gate was set). Below 70, rebuild
+toward the target band. At or above it, stop here — Oracle's problem
+is not dossier supply, and the research machinery stays frozen at
+current size until cohort-1 produces graded calls.
+
 ## Model routing
 
 Filing reading is high-token / low-reasoning — cheap inference matches the
