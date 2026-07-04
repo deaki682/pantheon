@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 RESEARCH_INTERVAL_DAYS = 3
@@ -94,6 +94,13 @@ def days_since(path: str, key: str, *, now: datetime | None = None) -> float | N
         ts = datetime.fromisoformat(raw)
     except ValueError:
         return None
+    # Timestamps have been written both naive (implicit UTC) and
+    # tz-aware (explicit UTC) across call sites; normalize both to
+    # naive UTC before subtracting so neither format crashes the other.
+    if ts.tzinfo is not None:
+        ts = ts.astimezone(timezone.utc).replace(tzinfo=None)
+    if now.tzinfo is not None:
+        now = now.astimezone(timezone.utc).replace(tzinfo=None)
     return (now - ts).total_seconds() / 86_400.0
 
 
