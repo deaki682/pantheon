@@ -123,6 +123,16 @@ marked/graded by the daily god sessions that own their horizons.
    `features={"strategy": slug}` in the lab ghost ledger. Validation at
    ≥20 grades on the SHRUNK mean, `conclude_forward`, no early calls.
 
+   **Tend the standing forward tests every session** (idempotent —
+   self-noops until a quarter matures):
+   - `net-issuance-low LARGE` (gauntlet_v2, the house's first supported
+     strategy): run `python3 run_forward_net_issuance.py roll` — grades
+     any matured quarter's basket excess vs SPY into the registry and
+     opens the next. See docs/forward_test_net_issuance.md. The tracked
+     version is FROZEN at the validated N50-LARGE spec; never "improve"
+     it here (improvements are separate slugs with their own forward
+     tests).
+
 8. **Persist.** `mark_run("cache/lab_cadence.json", "session")`, then
    `pantheon.persist("lab", {registry, ghost ledger/curve, cadence,
    any population files under cache/shared_*  — persist those as
