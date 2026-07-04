@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 137,
+ "hypotheses_ever": 139,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -696,6 +696,33 @@
     },
     "results_doc": "docs/lab_results_gauntlet_v4_composite.md",
     "notes": "REFUTED \u2014 and a genuinely useful negative. The naive equal-rank composite of the three surviving families (net-issuance + gross-profitability + price-to-sales) posted NEGATIVE in-sample CAGR (-2.6% to -9.4%) across all 4 cells vs +8-9% for each factor ALONE \u2014 it failed the in-sample screen and never reached holdout. Direction verified (top names rank high on all three; no bug). Mechanism: averaging percentile ranks pulls selection toward names that are moderately-good-at-everything and EXTREME-at-nothing, discarding the tail where each single factor's alpha lives (the net-issuance edge is in DEEP buybacks, not moderate ones). DELPHI-REPLACEMENT CONCLUSION (Lens A): naive compositing does NOT beat net-issuance-low LARGE alone \u2014 the standalone factor remains the candidate to forward-test. A tail-preserving construction (intersect-the-tails, or factor-weighted not rank-averaged) would be a NEW prereg. This closes the composite question for the naive form."
+   }
+  },
+  "buyback_quality_overlay": {
+   "slug": "buyback_quality_overlay",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "created": "2026-07-04",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "Lens B: a quality filter on the net-issuance-low LARGE shortlist separates genuine value-creating buybacks (FCF-funded, healthy business, bought cheap) from financial-engineering (debt-funded, dilution-offsetting, distressed). Three-arm PROSPECTIVE A/B vs SPY: R=raw-50 (validated control), M=mechanical-quality (SF1+DAILY facts), L=LLM-quality (reading that corrects the mechanical filter's sector-blindness and adds valuation discipline). Tests whether reading adds over a measured mechanical edge \u2014 the house's central open question. No backtest (spent panel + LLM contamination); fresh quarters only.",
+   "who_loses": "Same as the underlying factor \u2014 buyback counterparties; the overlay just avoids the bad buybacks that dilute the raw signal.",
+   "underutilized_because": "Every quant runs net-issuance blind; almost none can read 50 buyback contexts per quarter to separate genuine from engineered \u2014 the reading labor is the uncrowded moat.",
+   "falsifiable_claim": "PRIMARY: Arm L shrunk mean excess > Arm R over >=8 graded quarters (reading adds over raw). SECONDARY: M or L shrunk mean excess vs SPY > 0 (quality beats the market where raw only tied). Diagnostic A/B, no capital gate; a winner earns its own n>=20 forward test.",
+   "prereg": {
+    "doc": "docs/lab_prereg_buyback_quality_overlay.md",
+    "date": "2026-07-04",
+    "population_definition": "Each quarter's net-issuance-low LARGE top-50 (from the validated strategy), split into three equal-weight arms (R/M/L) sharing one next-day-close entry-price set; graded as basket total-return excess vs SPY per quarter; LLM per-name judgments recorded for audit.",
+    "metric": "Per-arm quarterly basket excess vs SPY; primary Arm L - Arm R shrunk mean over >=8 quarters; secondary arm-vs-SPY shrunk mean.",
+    "success_criteria": "Reading adds iff Arm L - Arm R shrunk mean > 0 at >=8 quarters; quality beats market iff M or L shrunk excess vs SPY > 0. Diagnostic only."
    }
   }
  }
