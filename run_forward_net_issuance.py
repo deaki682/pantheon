@@ -132,6 +132,26 @@ def main():
     open(TRACKER,"w").write(json.dumps(t,indent=1))
     if graded_any: save_lab(lab); persist("lab",{"cache/lab_registry.json":json.dumps(lab,indent=1)})
     persist("lab",{TRACKER:json.dumps(t,indent=1)})
+    # --- also grade the buyback-quality A/B arms (diagnostic, same exit prices) ---
+    ABF="cache/lab_buyback_quality_ab.json"
+    if os.path.exists(ABF):
+        ab=json.load(open(ABF)); still=[]
+        for o in ab["open"]:
+            exitpx=closeadj(list(o["entry_px"]), o["grade_due"]); spy_x=closeadj(["SPY"],o["grade_due"],"SFP").get("SPY")
+            if exitpx and spy_x and len(exitpx)>=0.7*len(o["entry_px"]):
+                spy_ret=spy_x/o["spy_entry"]-1; row={"quarter":o["quarter"],"spy_ret":round(spy_ret,4),"arms":{}}
+                for arm,names in o["arms"].items():
+                    rr=[exitpx[s]/o["entry_px"][s]-1 for s in names if s in exitpx and s in o["entry_px"]]
+                    if rr:
+                        br=sum(rr)/len(rr); row["arms"][arm]={"ret":round(br,4),"excess":round(br-spy_ret,4),"n":len(rr)}
+                ab["graded"].append(row)
+                L=row["arms"].get("L",{}).get("excess"); R=row["arms"].get("R",{}).get("excess")
+                print(f"A/B {o['quarter']}: R {row['arms'].get('R',{}).get('excess')} M {row['arms'].get('M',{}).get('excess')} L {L} | L-R {round((L-R),4) if (L is not None and R is not None) else None}")
+            else:
+                still.append(o)
+        ab["open"]=still; open(ABF,"w").write(json.dumps(ab,indent=1))
+        persist("lab",{ABF:json.dumps(ab,indent=1)})
+
     n_graded=len(t["graded_quarters"])
     print(f"tracker updated: {len(t['open'])} open, {n_graded}/20 graded quarters")
 
