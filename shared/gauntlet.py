@@ -389,6 +389,8 @@ def simulate(
     signal_lag: int = 0,
     exits: Optional[ExitRules] = None,
     delist_exit_haircut: Optional[float] = None,
+    rebalance_band: float = 0.0,
+    sell_cooldown_days: int = 0,
 ) -> dict:
     """Run one strategy through one point-in-time universe series.
 
@@ -433,6 +435,15 @@ def simulate(
     close behavior. Use as a robustness rerun, not a default — Sharadar
     final bars are real last trading days, and many "final bars" are
     simply the panel window ending.
+
+    `rebalance_band` (fraction, e.g. 0.20) is drift-band damping at
+    rebalances, matching delphi/backtest.py's semantics exactly: a held
+    name is trimmed only when its value exceeds target*(1+band) and
+    topped up only when below target*(1-band); FULL exits (target 0)
+    always fire. `sell_cooldown_days` blocks re-BUYING a name for N
+    trading days after any full rebalance exit (rotation sells), the
+    live cooldown-on-any-sell rule; ExitRules.cooldown_days continues
+    to govern exits triggered by exit rules.
     """
     if signal_lag < 0:
         raise ValueError(f"signal_lag must be >= 0, got {signal_lag}")
@@ -584,6 +595,9 @@ def simulate(
                 delta = tgt - cur_shares * px
                 if delta >= -cost.min_ticket:
                     continue
+                if (rebalance_band > 0.0 and tgt > 0.0
+                        and cur_shares * px <= tgt * (1.0 + rebalance_band)):
+                    continue  # inside the drift band — let it ride
                 sell_notional = min(-delta, cur_shares * px)
                 shares_sold = sell_notional / px
                 proceeds = shares_sold * px
@@ -599,6 +613,10 @@ def simulate(
                                 "cost": cost_amt, "reason": "rebalance"})
                 if s not in positions:
                     pos_meta.pop(s, None)
+                    if sell_cooldown_days > 0:
+                        cooldown_until[s] = max(
+                            cooldown_until.get(s, -1),
+                            day_index[day] + sell_cooldown_days)
             # Then buys, bounded by cash actually on hand. When cash
             # (after costs) can't cover every buy, all buys scale
             # pro-rata — a sequential fill would silently short-change
@@ -615,6 +633,9 @@ def simulate(
                 delta = tgt - cur_shares * px
                 if delta < cost.min_ticket:
                     continue
+                if (rebalance_band > 0.0
+                        and cur_shares * px >= tgt * (1.0 - rebalance_band)):
+                    continue  # inside the drift band — no top-up churn
                 buy_deltas[s] = delta
             denom = 1 + (cost.commission_bps + cost.slippage_bps) / 10_000.0
             total_buys = sum(buy_deltas.values())

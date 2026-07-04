@@ -1,10 +1,15 @@
 # /delphi — full Delphi pass
 
 **OPERATOR OVERRIDE — RUN UNCHANGED (2026-07-04, in writing).** Study
-#11 (docs/lab_results_delphi_ruleset_fullwindow.md) terminal-refuted
-this ruleset, and its prereg pre-committed a retire-or-demote
-consequence "unless the operator explicitly overrides in writing."
-The operator has so overridden: **"don't freeze or change her yet."**
+#11 reported a refutation, its accuracy audit found the cell
+mis-specified her rules (erratum filed), and the faithful correction
+study (`delphi_ruleset_faithful`,
+docs/lab_results_delphi_ruleset_faithful.md) then REFUTED her ACTUAL
+semantics harder: −9.36pp/yr vs her own universe's equal weight,
+−90.5% maxDD, five Delphi-family cells tested and five refuted, with
+the 2021–26 window cross-validated against #4's replay as the
+outlier era. The operator's standing directive regardless:
+**"don't freeze or change her yet."**
 Delphi runs exactly as specified below — normal entries, exits, all
 five decision points, no freeze — until the operator says otherwise.
 The consequence remains OPEN on the operator's desk; no session may
@@ -77,7 +82,7 @@ per trading day; every other hourly pass is monitoring-only.
      - **Exit** (default) — trend is broken, sell it. This is the right call ~80% of the time.
      - **Hold** — the drop is noise (market-wide selloff, one-day overreaction on high volume). Add to `hold_overrides`. Only hold if you have a specific reason — "it might bounce" is not a reason.
      - **Reduce** — split the difference. Sell half, keep half. Treat as an exit for half the shares.
-   - **Bias check**: The mechanical system's MA exit is what made the backtest work (+85% Sharpe 1.51). Override sparingly — at most 1-2 names per run. If you're overriding 3+, you're second-guessing the system.
+   - **Bias check**: Override sparingly — at most 1-2 names per run; if you're overriding 3+, you're second-guessing the system. (The old "+85% Sharpe 1.51" justification is retired: #4 measured the original alpha claim against a broken SPY leg, and the MA rule's full-window value is OPEN pending `delphi_ruleset_faithful`. The override BUDGET stands on decision-consistency grounds, not on the dead citation.)
 
 ### Decision Point 2: ENTRY JUDGMENT
 
@@ -107,7 +112,7 @@ per trading day; every other hourly pass is monitoring-only.
    - **Breadth < 40%** (deteriorating): `risk_budget = 0.70` (meaningful cash buffer)
    - These are guidelines, not rules. Use your judgment — a 38% breadth reading during a V-shaped recovery is different from 38% in a slow grind down.
    - Pass to `delphi.rotation.rotation_plan(risk_budget=…)`.
-   - **Bias check**: The backtest had NO regime filter and still returned +85%. Don't overthink this — the trailing stop already de-risks the portfolio naturally.
+   - **Bias check**: Don't overthink this — the system has no tested regime filter, and adding one ad hoc would be an untested rule change. (The old "+85% with no regime filter" citation is retired per #4/#11-erratum; the guideline stands on simplicity grounds, not on the dead number.)
 
 ### Circuit breaker
 
@@ -198,22 +203,28 @@ data over 2021-06..2026-06, the mechanical system on the curated list
 returned +85.6% vs SPY's +86.7% (−1.1pp, Sharpe 0.65) — it matched
 the index. The same mechanics on a blind point-in-time top-119-by-
 marketcap universe returned +143.5% (+56.8pp, Sharpe 0.87). One
-costless bull-window measurement — and the SAME DAY, the full-window
-study (backlog #11, docs/lab_results_delphi_ruleset_fullwindow.md)
-measured what that window was: **the outlier**. Over 1999→2026 on
-honest PIT top-119 universes, this exact ruleset returned 1.08%/yr
-against the universe's own equal-weight 7.94%/yr (−6.86pp/yr, −7.60pp
-vs SPY, negative outright at 2× costs), and the ablation INVERTED this
-section's founding claim: the 20-day-MA exit did not make the backtest
-work — it cost ~5.8pp/yr in whipsaw (4,552 MA-exit round trips, 32%
-win rate) while buying zero book-level drawdown protection (−76.7%
-with the exit, −76.8% without). Every regime before 2013 lost money.
-`delphi_ruleset_fullwindow` is terminal-refuted; the prereg's
-pre-committed consequence (retire-or-demote per the Midas precedent,
-absent an explicit written operator override) is with the operator.
-The capital gates still run on live graded calls only — but no session
-may cite the backtest, any window of it, or the MA exit as evidence
-for this strategy again. The LLM judgment layer is **additive, not
+costless bull-window measurement — evidence for the design, not proof
+of alpha; the capital gates still run on live graded calls only.
+**Full-window status (2026-07-04, twice-revised same day):** study #11
+(`delphi_ruleset_fullwindow`) reported a refutation of "her exact
+ruleset," but the operator-ordered accuracy audit found the primary
+cell MIS-SPECIFIED her rules (standalone daily MA stop on unfiltered
+entries, instead of the real MA-as-entry-filter inside the ranking,
+no rebalance band, no sell cooldown semantics) — see the erratum in
+docs/lab_results_delphi_ruleset_fullwindow.md. Its verdict stands only
+for the strawman variant it actually tested; its "MA exit is the
+saboteur" headline is RETRACTED as a claim about this design. Two
+findings survive the erratum and may be cited: exit-less top-10
+momentum on the honest universe earned 6.92%/yr vs the universe's own
+equal weight at 7.94%/yr over 1999–2026 (gauntlet-consistent), and
+the 2021–26 window is among the strongest momentum regimes in the
+panel. The faithful test (`delphi_ruleset_faithful`) has now reported:
+her ACTUAL semantics earned −1.42%/yr full-window at the live daily
+cadence (−9.36pp/yr vs benchmark; +0.74%/yr weekly), with the MA
+entry filter measured as the churn engine (median hold 3 trading
+days). The full-window question is ANSWERED: the edge was the era.
+No session may cite any Delphi backtest as evidence for this
+strategy; she trades on the operator's written override alone. The LLM judgment layer is **additive, not
 corrective** — it catches edge cases the mechanical system can't see
 (news, filings, narrative) without overriding the core signal
 (momentum ranking + MA exit).
