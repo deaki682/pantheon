@@ -651,7 +651,7 @@
   "gauntlet_v4_composite": {
    "slug": "gauntlet_v4_composite",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "refuted",
    "created": "2026-07-04",
    "history": [
     {
@@ -661,6 +661,10 @@
     {
      "date": "2026-07-04",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
     }
    ],
    "mechanism": "Rank-composite of the three families that showed life in v2/v3 \u2014 net-issuance-low (SUPPORTED), gross-profitability-high (SUPPORTED), price-to-sales-low (alive) \u2014 equal-mean of within-bucket percentile ranks, long top-N, quarterly, next-day exec. Tests JKP's (2023) finding that composite factors are the most robust form, and directly seeks a stronger LARGE-bucket Delphi replacement than net-issuance alone. Gates inherited (fundamentals G1 pass, G2 partial); the merciless EW benchmark + two-regime + 2x + cliff apply.",
@@ -673,6 +677,25 @@
     "population_definition": "v1 PIT universes; per member per quarter, mean of available percentile ranks across net-issuance (SF1), gross-profitability (SF1), price-to-sales (DAILY); >=2 of 3 signals required; top-N long; SEP delisted-inclusive bars; coverage disclosed.",
     "metric": "Per-cell net daily curve -> DSR (n_trials=4) in-sample; holdout beats bucket EW scalar; 2x rerun; cliff; lift vs the best single family in-bucket reported.",
     "success_criteria": "Survivor = in-sample DSR>=0.95 AND > EW scalar, holdout > EW scalar, 2x stable, non-isolated -> paper forward test (+ Delphi-candidate flag if LARGE). Counter +4."
+   },
+   "backtest": {
+    "date": "2026-07-04",
+    "n": 4,
+    "mean_excess": -0.114,
+    "mean_excess_shrunk": -0.019,
+    "verdict": "refuted",
+    "bias_checklist": {
+     "survivorship": "SEP delisted-inclusive; composite union 860(IS)/661(HO) names, coverage 80-91% (>=2 of 3 signals); disclosed. Smaller union than the single-factor sorts BY DESIGN (composite concentrates on cross-signal agreement).",
+     "look_ahead": "SF1 datekey-PIT + DAILY as-of multiples; next-day-close execution; identical to v2/v3.",
+     "selection": "4 cells frozen in the committed prereg before any composite holding computed; the equal-mean-of-ranks weighting frozen (not tuned). Direction VERIFIED post-result (top names rank 0.5-0.98 on all three signals; no ranking bug) before recording.",
+     "multiple_testing": "4-cell grid, DSR n_trials=4; counter 137. The single-factor components were already validated through the SAME simulate() engine (v2/v3), so the engine is not in question \u2014 only the composite ranking, which is new and failed.",
+     "overfitting": "Zero tuned parameters. The finding is the OPPOSITE of overfitting: the naive composite UNDERfits each factor's tail \u2014 averaging ranks pulls selection to the moderate middle and discards the extreme-tail names where the single-factor alpha concentrates.",
+     "costs_liquidity": "Per-bucket costs; irrelevant to the verdict \u2014 the composite is negative gross (in-sample CAGR -2.6% to -9.4%), so costs only deepen it.",
+     "regime": "In-sample 2000-2015 negative across all 4 cells; never reached holdout (in-sample failure terminates per the ratchet).",
+     "small_n": "~3900 daily obs/cell; the negative result is decisive (all 4 cells below benchmark AND below zero), not underpowered."
+    },
+    "results_doc": "docs/lab_results_gauntlet_v4_composite.md",
+    "notes": "REFUTED \u2014 and a genuinely useful negative. The naive equal-rank composite of the three surviving families (net-issuance + gross-profitability + price-to-sales) posted NEGATIVE in-sample CAGR (-2.6% to -9.4%) across all 4 cells vs +8-9% for each factor ALONE \u2014 it failed the in-sample screen and never reached holdout. Direction verified (top names rank high on all three; no bug). Mechanism: averaging percentile ranks pulls selection toward names that are moderately-good-at-everything and EXTREME-at-nothing, discarding the tail where each single factor's alpha lives (the net-issuance edge is in DEEP buybacks, not moderate ones). DELPHI-REPLACEMENT CONCLUSION (Lens A): naive compositing does NOT beat net-issuance-low LARGE alone \u2014 the standalone factor remains the candidate to forward-test. A tail-preserving construction (intersect-the-tails, or factor-weighted not rank-averaged) would be a NEW prereg. This closes the composite question for the naive form."
    }
   }
  }
