@@ -134,3 +134,65 @@ with the gods, not the gauntlet. If v2+v3 come up empty, that is not
 a failure of the search; it is the search completing, and it routes
 all remaining hope to the live instruments and an operator-
 commissioned forced-flow catalog.
+
+## Two operator lenses (added 2026-07-04, overnight directive)
+
+### Lens A — Delphi replacement candidates (the large-cap mechanical seat)
+
+Delphi's seat = a mechanical, rotational, large-cap ($5B+) long-only
+strategy. Her momentum ruleset is refuted (family score 5/5). What
+could honestly occupy that seat:
+
+- **value_*__LARGE cells (gauntlet_v3, running)** — the direct
+  replacement test: if any value multiple beats the LARGE EW
+  benchmark in-sample AND holdout, it IS a drop-in Delphi replacement
+  (same universe scale, mechanical, quarterly rotation). This is the
+  live search; verdict tonight.
+- **Low-volatility LARGE** — gauntlet_v1's only in-sample survivor
+  family. NOT benchmark-beating alpha, but real defensiveness
+  (shallower drawdowns). A candidate for the seat REFRAMED as "a
+  lower-drawdown large-cap core," not as an alpha engine — an
+  operator judgment call, not a lab validation. Flagged, not endorsed.
+- **Composite quality+value LARGE** — untested tonight (deferred with
+  the composites); the family JKP finds most robust. The strongest
+  UNTESTED Delphi-replacement candidate if v3-value shows life.
+- Honest default if all fail: the LARGE EW benchmark itself (or SPY)
+  is the thing to beat and nothing did — the seat's honest occupant
+  is then a low-cost index, and Delphi's capital is best not
+  deployed on a mechanical stock-picker at all.
+
+### Lens B — LLM-integration candidates (reading on a mechanical filter)
+
+The house's one measured real edge is careful reading of complete
+primary documents. A family benefits from LLM integration when: a
+mechanical filter narrows the universe cheaply, AND a
+document-reading step adds discriminating information the filter
+can't see, AND the reading is a comparative advantage (not a
+crowded, already-priced signal). Ranked by fit:
+
+1. **Forced flows / index reconstitution (family 14, UNTESTED)** —
+   HIGH fit. Mechanical filter: names with a scheduled index
+   add/drop. LLM read: the reconstitution announcement + the name's
+   float/liquidity to size the forced flow. The reading is niche and
+   time-boxed. This is the best combined candidate the map contains.
+2. **Spinoffs (Nemesis, LIVE)** — already the canonical LLM-read
+   family (Form 10 deep read). Working template.
+3. **Quiet insider clusters (LIVE-forward)** — mechanical cluster
+   filter + LLM read of the 8-K/context to confirm "quiet." Already
+   partly structured this way.
+4. **Tender offers (DEAD as mechanical)** — the residual is priced,
+   BUT the deal-BREAK subset is a reading task (does the 14D-9 /
+   financing / regulatory language predict breaks?). A possible LLM
+   revival of a mechanically-dead family — low prior, flagged only.
+5. **Value traps (if v3-value shows any life)** — value's classic
+   failure mode is the trap (cheap for a reason). An LLM read of
+   WHY-cheap on the mechanical value shortlist is the textbook
+   quality-overlay on a value filter — the exact "mechanical narrows,
+   LLM discriminates" shape. Contingent on v3-value not being flat-dead.
+
+The pattern: LLM integration earns its keep on the CONSTRAINT/event
+families (1-4), not the statistical-factor families — consistent with
+the whole map. The single most promising build is the forced-flow
+event feed (family 14 / Lens B #1), which is also the highest-gate
+untested family. If the overnight compute allows, that catalog is the
+"leg-stretch" worth attempting.
