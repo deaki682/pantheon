@@ -6,13 +6,63 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 92,
+ "hypotheses_ever": 93,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
   "note": "house-lab generalization (operator directive): single registry + single multiple-testing counter; pre-migration file frozen as history"
  },
  "strategies": {
+  "cross_asset_trend": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "3bps slippage (tighter than gauntlet_v1's LARGE-bucket 5bps, disclosed judgment call for highly liquid ETFs), $25 min ticket, $10k notional. Prereg-mandated 2x-slippage (6bps) sensitivity on the sole stage-1 survivor (sma_200): IS CAGR 1.03% (still beats benchmark's 0.08%), HO CAGR 1.11% (still loses to benchmark's 3.03%) -- verdict unchanged at 2x.",
+     "look_ahead": "signal_lag=1 (identical engine feature/discipline as gauntlet_v1): the selection rule sees bars only through the trading day before the execution day; trades fill at the execution day's own close. No fundamentals, no restatement exposure -- signals are pure price (252-day return, 200-day SMA).",
+     "multiple_testing": "2 trials by design, both counted: hypotheses_ever went from 92 to 93 at prereg (new_strategy +1, cell-count adjustment +1 -- one count per grid cell, same convention as gauntlet_v1). DSR benchmarked against n_trials=2 with variance_of_sr=0.01796 measured on the grid's own 2 in-sample Sharpes. Holdout touched exactly once, by the sole stage-1 survivor (sma_200).",
+     "overfitting": "Zero free parameters after the prereg commit: the 252-day and 200-day lookback windows are the canonical textbook values from the cited literature (Moskowitz-Ooi-Pedersen; Delphi's own 200-day-class MA convention), not tuned to this dataset. Portfolio construction (equal weight among currently-long assets, no top-N) has no free knob. abs_mom_252 failed stage 1 outright; sma_200 cleared stage 1 but then failed stage 2 against the SAME frozen benchmark bar -- the holdout did its job.",
+     "regime": "In-sample (2008-08..2017-12) spans the GFC recovery and the low-rate QE decade, where the always-invested benchmark barely made money (0.08%/yr CAGR) and a defensive trend filter had room to add value (sma_200 IS CAGR 1.21%). Holdout (2018-01..2026-06) includes the 2018 vol spike, COVID crash, and 2022 bond bear market, but ALSO a strong multi-year recovery that the always-invested benchmark captured in full (HO CAGR 3.03%) while sma_200's periodic cash exposure captured only part of it (HO CAGR 1.28%) -- the same 'a passive benchmark just did better in this decade' pattern that killed gauntlet_v1's low-vol survivors, now observed in a structurally different asset class and signal family.",
+     "selection": "Fixed, named 17-ETF universe (one liquid instrument per rates/credit/commodity/currency/country-equity slot) chosen for category coverage and inception history BEFORE any return was examined -- disclosed as a judgment call, not a performance-driven pick. The 2-cell grid (abs_mom_252, sma_200) was the complete pre-committed catalog; nothing added or removed after the prereg.",
+     "small_n": "215 monthly rebalances 2008-08..2026-06 (~112 in-sample, ~102 holdout); ~2,348 IS and ~2,134 HO daily equity-curve observations per cell for Sharpe/DSR/PSR, using each cell's own n_obs, skew and kurtosis. mean_excess (-0.24%/yr) and shrunk mean (-0.02%/yr, n=2) both sit near zero, honestly reflecting one cell failing badly (abs_mom_252) and one cell narrowly failing only at the holdout stage (sma_200) rather than a uniform result.",
+     "survivorship": "Fixed, currently-live, liquid 17-ETF universe -- no delistings in this window (disclosed in the prereg as a scope choice). A real infrastructure bug WAS found and fixed before any signal was computed: Robinhood's historicals endpoint pads dates before a symbol's real listing with a flat, constant-OHLC placeholder bar instead of returning not_found (confirmed on SHY: 418 identical 81.05 bars, volume 0, then a real 2.44M-volume jump on its true 2007-08-31 data-start date). Mechanically stripped per-symbol (open==high==low==close run from bar 0) before any lookback signal was computed -- verified against EEM/FXI, which show genuine day-to-day price variation despite occasional volume=0 records, so the strip correctly left their real history untouched. Now a reusable house utility: shared.historicals.strip_preinception_padding."
+    },
+    "date": "2026-07-04",
+    "mean_excess": -0.002391,
+    "mean_excess_shrunk": -0.000217,
+    "n": 2,
+    "notes": "2-cell grid on a fixed 17-ETF macro universe. Stage 1 (in-sample 2008-08..2017-12): abs_mom_252 DSR=0.00 (fails, also loses to benchmark IS CAGR: -1.48% vs 0.08%); sma_200 DSR=1.00 (passes) and beats benchmark IS CAGR (1.21% vs 0.08%) -- advances alone. Stage 2 (holdout 2018-01..2026-06, once): sma_200 PSR=1.00 (genuinely positive risk-adjusted return) but HO CAGR 1.28% does NOT beat the benchmark's 3.03% -- zero stage-2 passers. Unchanged at 2x slippage. Also produced a reusable house infrastructure fix: shared.historicals.strip_preinception_padding, guarding against Robinhood's flat pre-listing placeholder bars.",
+    "results_doc": "docs/lab_results_cross_asset_trend.md",
+    "verdict": "refuted"
+   },
+   "created": "2026-07-04",
+   "falsifiable_claim": "At least one of 2 pre-committed cells (252-day absolute momentum; 200-day SMA trend filter) clears DSR>=0.95 (n_trials=2) and beats the always-invested EW benchmark in-sample, then clears PSR>=0.95 and beats the benchmark on the untouched 2018-2026 holdout. Zero passers at either stage refutes.",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
+    }
+   ],
+   "mechanism": "Absolute (time-series) trend-following on macro asset-class ETFs (rates, credit, commodities, currencies, country equity indices): persistent one-directional order flow from non-forecasting actors (pension glide-path rebalancers, corporate hedgers, central banks defending currency bands, sovereign commodity allocators) creates autocorrelation a simple trend rule can ride. Structurally distinct from gauntlet_v1 cross-sectional equity momentum (refuted), whose proposed source was single-company analyst underreaction, not asset-class order flow.",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_cross_asset_trend.md",
+    "metric": "Net-of-cost monthly-rebalanced daily equity curve per cell (signal_lag=1, execution at next month's first trading-day close); annualized Sharpe -> DSR (n_trials=2) in-sample; PSR on holdout; net CAGR vs the equal-weight always-invested 17-ETF benchmark.",
+    "population_definition": "Fixed 17-ETF universe (TLT, IEF, SHY, LQD, HYG, GLD, SLV, USO, DBA, DBB, UUP, FXE, FXY, EEM, EFA, FXI, EWZ) chosen for asset-class category coverage and long inception history, not performance -- one per rates/credit/commodity/currency/country-equity slot. Vol-linked ETPs excluded by design (structural roll-decay confound). No PIT ranking; fixed named list, disclosed judgment call.",
+    "success_criteria": "Stage 1 (IS): DSR>=0.95 @ n_trials=2 AND beat EW benchmark IS CAGR -- advance. Stage 2 (holdout, once): PSR>=0.95 AND beat benchmark holdout CAGR -- supported. Refuted iff zero passers at either stage. Inconclusive only for >20% rebalance coverage failure."
+   },
+   "slug": "cross_asset_trend",
+   "sponsor": "operator",
+   "status": "refuted",
+   "underutilized_because": "Retail/self-directed capital concentrates almost entirely on single-stock picking (as every prior house study -- Oracle, Midas, Gauntlet -- also did); a 17-ETF absolute-trend overlay requires no stock-picking skill and is mechanically trivial, yet is rarely run by small accounts who default to buy-and-hold or single-name bets. Professional CTAs run this with leverage and dozens of futures contracts unavailable to a long-only, no-leverage retail account -- this tests the stripped-down, house-constrained version.",
+   "who_loses": "Non-forecasting flow: fuel hedgers locking costs regardless of price view, pensions shifting to bonds on a fixed schedule regardless of rate outlook, central banks defending currency bands, sovereign wealth funds rebalancing commodity allocations on policy schedules rather than return forecasts."
+  },
   "gauntlet_v1": {
    "backtest": {
     "bias_checklist": {
