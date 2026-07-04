@@ -111,3 +111,14 @@ UNAFFECTED. A breadth-before-depth guard was added to his runbook so
 the reset fixes the cause, not just the symptom. Resets after his
 first GRADED trade would contaminate the experiment and are hereby
 forbidden without a prereg amendment.
+
+## Memory reset #2 (2026-07-04, operator directive)
+
+The operator directed a second reset after session 2. Session 2 made
+no trades; the book was flat $10,000, so grading, the checkpoint
+clock, and all frozen criteria remain unaffected. The session is
+archived at docs/archive/proteus_session2_2026-07-04.md and his state
+files were again removed from claude/live. An effort law (err on the
+high-effort side; shortcuts require written justification) was added
+to his runbook the same day. The prohibition stands: no resets after
+his first GRADED trade without a prereg amendment.
