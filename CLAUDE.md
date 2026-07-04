@@ -46,14 +46,18 @@ fire on the same name, the probability of a short-term pop increases
 non-linearly.
 
 **Proteus** (ghost only — no real money) — The discretionary
-experiment: a complete investor with no frozen strategy, free to trade
-any US-listed name long or short on a $10,000 PAPER book, every
-decision journaled with a falsifiable prediction and graded without
-mercy (docs/proteus_prereg.md). Exists to answer whether free
-discretion beats frozen rules. Checkpoint at 30 closed trades or
-2027-01-15; validation earns a conversation about a live sleeve behind
-the standard capital gates, refutation retires him to the ledger.
-Owns only `cache/ghost_proteus_*`.
+experiment: a complete investor with no frozen strategy, hunting the
+ENTIRE US-listed universe (all equities, ADRs, and the full ETF
+window onto commodities/rates/currencies/countries/vol) long or short
+on a $10,000 PAPER book. **Operator mandate: a green book, every day**
+— one full session daily, every red position re-underwritten same-day,
+green-day rate tracked vs SPY's own base rate. Every decision is
+journaled with a falsifiable prediction and graded without mercy
+(docs/proteus_prereg.md). Exists to answer whether free discretion
+beats frozen rules. Checkpoint at 30 closed trades or 2027-01-15;
+validation earns a conversation about a live sleeve behind the
+standard capital gates, refutation retires him to the ledger. Owns
+only `cache/ghost_proteus_*`.
 
 ## Research record
 

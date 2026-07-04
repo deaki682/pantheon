@@ -301,3 +301,33 @@ def checkpoint_stats(closed: list) -> dict:
             "confidence_lo_tercile": round(lo, 4),
             "confidence_hi_tercile": round(hi, 4),
             "calibration_ok": hi >= lo}
+
+
+def green_day_stats(curve: list) -> dict:
+    """The daily-green scoreboard (operator mandate 2026-07-04).
+
+    curve: list of {date, equity, spy} marks, oldest first. A day is
+    green when equity rose vs the PRIOR mark. SPY's green-day rate over
+    the same marks is computed beside it — a raw green rate means
+    nothing without the tape's own base rate.
+    """
+    marks = [c for c in curve if c.get("equity")]
+    if len(marks) < 2:
+        return {"days": len(marks), "green_rate": None}
+    greens = spys = 0
+    streak = best_streak = 0
+    for prev, cur in zip(marks, marks[1:]):
+        if cur["equity"] > prev["equity"]:
+            greens += 1
+            streak += 1
+            best_streak = max(best_streak, streak)
+        else:
+            streak = 0
+        if cur.get("spy") and prev.get("spy") and cur["spy"] > prev["spy"]:
+            spys += 1
+    n = len(marks) - 1
+    return {"days": n,
+            "green_rate": round(greens / n, 3),
+            "spy_green_rate": round(spys / n, 3),
+            "current_streak": streak,
+            "best_streak": best_streak}

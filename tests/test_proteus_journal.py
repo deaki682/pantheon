@@ -134,3 +134,25 @@ def test_checkpoint_stats_calibration():
     s = checkpoint_stats(closed)
     assert s["n"] == 6
     assert s["calibration_ok"] is True
+
+
+def test_green_day_stats():
+    from proteus.journal import green_day_stats
+    curve = [
+        {"date": "d1", "equity": 10000, "spy": 700},
+        {"date": "d2", "equity": 10050, "spy": 705},  # green, spy green
+        {"date": "d3", "equity": 10040, "spy": 710},  # red, spy green
+        {"date": "d4", "equity": 10100, "spy": 708},  # green, spy red
+        {"date": "d5", "equity": 10150, "spy": 712},  # green, spy green
+    ]
+    s = green_day_stats(curve)
+    assert s["days"] == 4
+    assert s["green_rate"] == 0.75
+    assert s["spy_green_rate"] == 0.75
+    assert s["current_streak"] == 2
+    assert s["best_streak"] == 2
+
+
+def test_green_day_stats_empty():
+    from proteus.journal import green_day_stats
+    assert green_day_stats([])["green_rate"] is None

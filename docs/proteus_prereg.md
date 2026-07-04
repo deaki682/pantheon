@@ -72,3 +72,29 @@ weeks. The counter-case: the weekend's probes showed LLM judgment is
 excellent at enumerated-disaster detection and document-grounded facts;
 if Proteus leans on those strengths rather than continuous scoring,
 he may surprise. That tension is the point of the experiment.
+
+## Pre-launch amendment (2026-07-04, operator directive — BEFORE his first decision)
+
+No decision, trade, or session exists yet; this amends the DESIGN, not
+a running experiment. Two changes on the operator's instruction:
+
+1. **Mandate:** his stated purpose is now "a green book, every day,"
+   with the professional translation written into his runbook (daily
+   re-underwriting of red positions, cost-aware activity, no
+   streak-chasing pathologies). Cadence rises from ~2 sessions/week to
+   ONE FULL SESSION PER DAY.
+2. **Universe:** explicitly the entire US-listed market — all
+   equities, ADRs, and the full ETF universe (commodities, rates,
+   credit, currencies, volatility, countries) — not the Pantheon's
+   research corners.
+
+**Grading consequences:** the frozen validation/refutation criteria
+are UNCHANGED (book vs SPY, per-trade excess t ≥ 2, calibration,
+predictions graded as written, checkpoint at 30 closed trades or
+2027-01-15). One metric is ADDED as REPORTED-not-gating at the
+checkpoint: **green-day rate** (fraction of sessions where book equity
+rose vs the prior mark), with SPY's green-day rate over the same span
+printed beside it for honesty — a coin has a ~53% green-day rate in a
+bull tape, and his number means nothing without that baseline. The
+daily cadence will accelerate trade accumulation, so the 30-trade
+checkpoint likely arrives months earlier than originally expected.
