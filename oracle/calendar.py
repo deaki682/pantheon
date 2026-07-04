@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 RESEARCH_INTERVAL_DAYS = 3
@@ -84,14 +84,26 @@ def mark_run(path: str, key: str, *, now: datetime | None = None) -> None:
     _write(path, d)
 
 
+def _naive_utc(dt: datetime) -> datetime:
+    """Normalize to a naive UTC datetime so aware/naive timestamps compare.
+
+    mark_run defaults to naive datetime.utcnow(), but some callers pass an
+    explicit tz-aware now (e.g. datetime.now(timezone.utc)) — without this,
+    subtracting a naive and an aware datetime raises TypeError.
+    """
+    if dt.tzinfo is not None:
+        return dt.astimezone(timezone.utc).replace(tzinfo=None)
+    return dt
+
+
 def days_since(path: str, key: str, *, now: datetime | None = None) -> float | None:
-    now = now or datetime.utcnow()
+    now = _naive_utc(now or datetime.utcnow())
     d = _read(path)
     raw = d.get(key)
     if not raw:
         return None
     try:
-        ts = datetime.fromisoformat(raw)
+        ts = _naive_utc(datetime.fromisoformat(raw))
     except ValueError:
         return None
     return (now - ts).total_seconds() / 86_400.0
