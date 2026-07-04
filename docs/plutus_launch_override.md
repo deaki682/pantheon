@@ -48,18 +48,48 @@ protect. Two house laws are being overridden IN WRITING, knowingly:
   net-issuance is genuinely the best deployable candidate the house has —
   which is a statement about how rare edges are, not how strong this one is.
 
-## What Plutus trades (frozen at launch = the validated spec)
+## What Plutus trades — DELUXE AMENDMENT (2026-07-04, operator directive)
 
-net-issuance-low **N50 LARGE, equal-weight** — the exact version the
-gauntlet blessed and the forward test tracks. The LLM buyback-quality
-overlay (`buyback_quality_overlay`) stays a PAPER A/B; it is even less
-validated than the factor and does NOT touch the live book until its own
-arm proves out forward.
+The original launch spec was the pure validated factor (net-issuance-low N50
+LARGE equal-weight). The operator then directed the **deluxe package, "even
+if it's risky"** — three additions stacked on that spine, all selected in
+writing by the operator after seeing the honest return math (they widen both
+tails and only *maybe* shift the mean):
+
+1. **Second factor — gross-profitability.** The OTHER gauntlet survivor,
+   blended by equal factor rank with net-issuance. The blend itself was never
+   gauntleted (a reasonable combination of two separately-supported survivors).
+2. **LLM quality overlay, LIVE.** The Lens-B arm-L judgment now steers the
+   real book: each quarter the LLM prunes the ~50 composite candidates to the
+   healthy, cheap buybacks (~24–40 kept) and assigns conviction. **Zero graded
+   rounds** — this is the least validated piece, on real money.
+3. **Conviction / cap-weight tilt.** Off equal-weight toward a cap-lean
+   (`cap_blend` 0.5) and LLM conviction, chasing SPY (which is cap-weighted)
+   rather than tying it. Cap-weight is a MEASURED REGIME BET; this is the lever
+   most likely to just add drawdown.
+
+**Honest status of the deluxe stack: none of the three is forward-validated.**
+This is a larger override than the launch itself. It is justified only by the
+operator's explicit, informed choice — and bounded by two disciplines that do
+NOT bend:
+
+- **The pure control is always tracked.** `quarterly_basket` (the frozen N50
+  EW spec) and the paper forward test stay pure. Every live rebalance records
+  what the control would have held, and grading compares live deluxe
+  excess-vs-SPY to the control's. If deluxe does not beat pure over a real
+  sample, the additions are noise and get cut — that is the deal.
+- **The LLM A/B keeps running on paper** (`cache/lab_buyback_quality_ab.json`,
+  arms R/M/L) as the independent grader of the overlay piece.
 
 ## Risk controls (hard, non-negotiable)
 
-- **40% drawdown circuit breaker** from peak equity → liquidate + halt.
-- Equal-weight ~2%/name (50 names) — no single-name concentration.
+- **40% drawdown circuit breaker** from peak equity → liquidate + halt. (The
+  deluxe concentration makes this MORE likely to trip; that is understood.)
+- Per-name cap ~6% (floats to ~2× equal on small baskets) — the tilt may
+  concentrate, but no single name runs away.
+- ~24–40 names after the LLM prune — more concentrated than the pure 50, by
+  design; the diversification a thin factor needs is partly traded for the
+  conviction bet.
 - Quarterly rebalance only — no intra-quarter churn (net-issuance is a
   slow signal; the churn that sank Delphi is structurally absent).
 - Standard live-money gates: `KILL_SWITCH`, `is_live("plutus")`,
@@ -71,9 +101,14 @@ arm proves out forward.
 ## The checkpoint (this override is not permanent license)
 
 Plutus is graded like every god. At the forward test's first meaningful
-readings (4-8 graded quarters) OR a 40% breaker, the operator revisits:
-the live grades, not the backtest, decide whether Plutus keeps the
-capital. If the forward excess-vs-SPY is negative, Plutus is retired to
-the ledger with the answer, capital to the treasury — the same deal
-Proteus and Delphi got. The ledger row will say plainly: launched live,
-unvalidated, on a conscious operator override.
+readings (4-8 graded quarters) OR a 40% breaker, the operator revisits on
+TWO questions, not one:
+1. **Does Plutus beat SPY?** Negative live excess-vs-SPY retires him to the
+   ledger, capital to the treasury — the same deal Proteus and Delphi got.
+2. **Did the deluxe stack earn its risk?** Live deluxe excess vs the pure
+   control's excess. If deluxe trails the pure N50 spec, the LLM + blend +
+   tilt are noise and get cut back toward the pure factor — even if Plutus is
+   kept. The stack has to prove it added mean, not just variance.
+
+The ledger row will say plainly: launched live, unvalidated, deluxe stack on
+a conscious operator override — and whether the additions helped or hurt.

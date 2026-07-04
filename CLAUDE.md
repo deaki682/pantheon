@@ -75,25 +75,30 @@ journaled with a falsifiable prediction and graded without mercy
 2027-01-15: validation keeps the sleeve, refutation retires him and
 returns the capital to the treasury. Owns only `cache/proteus_*`.
 
-**Plutus** (LIVE from 2026-07-06 — conscious operator override) — The
-net-issuance capital-return god: holds the 50 large-caps shrinking their own
-share count fastest (SF1 trailing-4Q weighted-shares change, top-500
-universe), equal-weighted, **quarterly rebalance only** — no intra-quarter
-churn. This is the frozen `gauntlet_v2_fundamentals` net-issuance-low N50
-LARGE spec, the house's FIRST and only SUPPORTED backtest (in-sample DSR +
-two-regime holdout + 2× cost + parameter-cliff). Launched by a **conscious
-override** (docs/plutus_launch_override.md), the Proteus precedent: real
-money on a strategy that is supported but NOT yet forward-validated — two
-house laws overridden in writing, with honest caveats on the record
-(net-issuance only ties SPY equal-weight; a famous decay-prone anomaly;
-multiple-testing counter at 141). He trades the pure mechanical spec — the
-LLM buyback-quality overlay stays a PAPER A/B in the lab, never touching his
-live book. Funded by Delphi's retiring ~$2,000 sleeve via the 2026-07-06
-transition of power (liquidate → sweep; his first settled-cash rebalance is
-the launch, T+1 after the sweep). 40% drawdown breaker; `PLUTUS_LIVE`
-defaults FALSE (operator arms it). Checkpoint at 4–8 graded forward quarters
-or a breaker trip: live grades — basket excess vs SPY — decide whether he
-keeps the capital. Owns only `cache/plutus_*`.
+**Plutus** (LIVE from 2026-07-06 — conscious operator override, DELUXE
+stack) — The net-issuance capital-return god. His spine is the frozen
+`gauntlet_v2_fundamentals` net-issuance-low N50 LARGE factor (large-caps
+shrinking their share count fastest; SF1 trailing-4Q weighted-shares change,
+top-500 universe) — the house's FIRST and only SUPPORTED backtest (in-sample
+DSR + two-regime holdout + 2× cost + parameter-cliff). On that spine the
+operator bolted the **deluxe stack** ("the deluxe package, even if risky",
+2026-07-04): (1) a second factor, gross-profitability, blended by rank; (2) an
+LLM buyback-quality overlay LIVE (the Lens-B arm-L brain prunes ~50 candidates
+to ~24–40 healthy cheap buybacks + assigns conviction — **zero graded rounds**,
+the least-validated piece); (3) a conviction/cap-weight tilt (`cap_blend` 0.5)
+chasing SPY instead of tying it — a measured regime bet. **Quarterly rebalance
+only.** None of the three additions is forward-validated; the deluxe override
+is bounded by two disciplines that never bend — the **pure N50 EW control** is
+tracked every quarter (`quarterly_basket`, the frozen spec + paper forward
+test) and graded against live deluxe, and the LLM A/B keeps running on paper.
+Launched by **conscious override** (docs/plutus_launch_override.md incl. deluxe
+amendment), the Proteus precedent. Funded by Delphi's retiring ~$2,000 sleeve
+via the 2026-07-06 transition of power (liquidate → sweep; first settled-cash
+rebalance is the launch, T+1 after the sweep). 40% breaker (deluxe
+concentration makes it likelier to trip); `PLUTUS_LIVE` defaults FALSE
+(operator arms it). Checkpoint at 4–8 graded forward quarters or a breaker
+trip on TWO questions: does he beat SPY, AND did the deluxe stack beat the pure
+control (else the additions get cut). Owns only `cache/plutus_*`.
 
 **Transition of power (2026-07-06).** The Monday open is a portfolio
 *rearrange*, not a launch-day scramble: retiring god sleeves are liquidated
