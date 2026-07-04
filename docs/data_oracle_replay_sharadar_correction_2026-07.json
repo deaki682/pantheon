@@ -1,0 +1,52 @@
+{
+  "prereg": "docs/oracle_prereg_cluster_replay_sharadar.md",
+  "date": "2026-07-04",
+  "source_gap_events": 42,
+  "resolution_outcome": {
+    "no_ticker_match": 34,
+    "false_positive_recycled_ticker_wrong_window": 4,
+    "wrong_instrument_warrant_vs_common": 1,
+    "genuine_match_priced": 1
+  },
+  "still_unpriceable": 41,
+  "priced_event": {
+    "sym": "PHXE-P",
+    "cik": "0001818643",
+    "event_date": "2025-09-29",
+    "knowable_date": "2025-10-01",
+    "n_buyers": 7,
+    "dollars": 400000,
+    "n_lenses": 1,
+    "source": "sharadar SEP 2026-07-04, ticker PHXE-P resolved in-window (firstpricedate 2025-09-30, lastpricedate 2026-07-02), Phoenix Energy One LLC, NYSE",
+    "entry_date": "2025-10-06",
+    "entry_px": 20.3,
+    "iwm_entry_close": 246.81,
+    "h126": {
+      "exit_date": "2026-04-08",
+      "exit_px": 24.225,
+      "ret": 0.1933497536945814,
+      "iwm_exit_close": 260.47,
+      "iwm_ret": 0.05534621773834125,
+      "excess": 0.13800353595624015
+    },
+    "h252": {
+      "not_elapsed": true,
+      "note": "series only runs to 2026-07-02 (190 bars from 2025-09-30); +252 trading days from entry would need data through roughly Oct 2026"
+    }
+  },
+  "combined_h126": {
+    "n": 613,
+    "mean": -0.04091940276585503,
+    "sd": 0.6136874223945138,
+    "t": -1.650867816937191,
+    "win_rate": 0.3295269168026101,
+    "prior_n": 612,
+    "prior_mean": -0.04121176050886499
+  },
+  "combined_h252": {
+    "n": 291,
+    "mean": -0.06379872769656451,
+    "t": -1.0623559995285994,
+    "note": "unchanged -- PHXE-P's own 12-month horizon has not elapsed as of 2026-07-04"
+  }
+}
