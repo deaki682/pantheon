@@ -14,7 +14,7 @@ CELLS = [(sig, n, b) for sig in ("net_issuance_low", "asset_growth_low",
 
 def load_sf1():
     rows = []
-    for p in (0, 1):
+    for p in (0, 1, 2):
         rows += json.load(gzip.open(f"{S}/sf1_arq_part{p}.json.gz", "rt"))
     by_t = defaultdict(list)
     for r in rows:
