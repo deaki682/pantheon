@@ -132,6 +132,14 @@ marked/graded by the daily god sessions that own their horizons.
      version is FROZEN at the validated N50-LARGE spec; never "improve"
      it here (improvements are separate slugs with their own forward
      tests).
+   - `buyback_quality_overlay` (Lens B A/B, `cache/lab_buyback_quality_ab.json`):
+     the roll runner auto-grades the three arms (R/M/L) at maturity.
+     For a NEW quarter, the session does the LLM step: read each raw-
+     basket name's buyback quality (funding source, business health,
+     valuation discipline, sector-appropriate — do NOT penalize banks
+     for deposit "debt") and record the KEEP/DROP judgment + one-line
+     rationale for Arm L, per docs/lab_prereg_buyback_quality_overlay.md.
+     That reading IS the experiment.
 
 8. **Persist.** `mark_run("cache/lab_cadence.json", "session")`, then
    `pantheon.persist("lab", {registry, ghost ledger/curve, cadence,
