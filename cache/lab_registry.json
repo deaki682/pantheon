@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 91,
+ "hypotheses_ever": 92,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -112,6 +112,56 @@
    "status": "refuted",
    "underutilized_because": "Lockup-expiry research and financial media coverage concentrate almost entirely on famous, mega-cap IPOs (exactly the kind session 3 rejected on EQPT/SPCX as already-published and priced-in); the broad population of small-cap, low-coverage IPOs has calendar-certain, EDGAR-documented lockup dates that are public but that no systematic screener or analyst desk tracks, leaving the effect unarbitraged specifically in names too small and unglamorous to attract the attention that kills it in famous names.",
    "who_loses": "Momentum shorts and lockup-cliff narrative traders who pile onto the anticipated overhang and are then squeezed as selling exhausts and price reverts; also pre-IPO holders forced to sell into a temporarily depressed, oversupplied tape rather than at a fundamentals-clearing price."
+  },
+  "momentum_trend_exit_largecap": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Mega-cap top-119 names at $10k scale, 5bps per side first-order (total cost 12.9% of initial over 21 years on $258k turnover). Immaterial to the verdict: GROSS return was -47.8% vs SPY +331.6% \u2014 the strategy fails before any cost is charged, and 2x costs only deepen it.",
+     "look_ahead": "Membership from quarter-end marketcap effective the next trading day; signals use bars through the rebalance day itself \u2014 the shipped same-day convention of the code under test, shared by both benchmarks' construction. The refuted verdict cannot be rescued by removing look-ahead: same-day signal access can only have flattered the strategy.",
+     "multiple_testing": "Hypothesis #92 house-wide (counter cited from the shared registry). Related prior trials disclosed in the prereg: gauntlet_v1's 48 momentum cells (all refuted; monthly, no trend exit) and the two PIT-replay measurement runs (discovery sample, burned and excluded here). This was the first and only test of the momentum+trend-exit form; one run, no variants tried.",
+     "overfitting": "Zero parameters tuned in this study: every knob predates it, the discovery window was excluded, and exactly one window was run. The refutation is the out-of-regime test the discovery window could not provide: the form fails 21 years of pre-discovery data by t=-3.91.",
+     "regime": "The window spans dot-com crash, 2003-07 bull, GFC, and the 2010s bull. Attribution: -66% through 2000-2002, NEGATIVE returns through the 2003-2007 bull (whipsaw churn), -44%/-8.5% in 2008-09, roughly index-matching 2012-19, and outperformance only in 2020+. Combined with the +143% discovery window, the form is a bet on sustained mega-cap-led melt-ups, not persistent alpha.",
+     "selection": "Mechanical top-119-by-marketcap universe, zero hand-picks; strategy constants are Delphi's shipped values fixed before this study existed; window is every trading day 2000-07-03..2021-06-30 with no gaps chosen.",
+     "small_n": "251 monthly excess observations vs SPY: mean -0.843%/month, t=-3.91 \u2014 a decisively negative result, not an underpowered one. No forward test follows (only supported backtests earn one).",
+     "survivorship": "Universe built per-date from DAILY marketcap quarter-ends with delisted names included through their final trading day; all 352 union members loaded bars (zero unresolved renames, zero missing \u2014 DAILY history keys to final Sharadar tickers). The delisting-exit fix (commit 4816307) ensures collapses realize losses at last traded close; committed before this run."
+    },
+    "date": "2026-07-04",
+    "mean_excess": -0.00843,
+    "mean_excess_shrunk": -0.007808,
+    "n": 251,
+    "notes": "n=251 calendar-month excess observations vs SPY over 2000-07..2021-06. Net total return -60.8% (gross -47.8%) vs SPY +331.6% and EW-119 net CAGR 6.56%; maxDD -87.4%. The 2021-2026 discovery result (+56.8pp) was regime exposure: the mechanics lose money across every other regime in the sample. Per-run data: docs/data/momentum_trend_exit/.",
+    "results_doc": "docs/lab_results_momentum_trend_exit_largecap.md",
+    "verdict": "refuted"
+   },
+   "created": "2026-07-04",
+   "falsifiable_claim": "On the pre-discovery window 2000-07..2021-06, point-in-time top-119 universe, net of 5bps-per-side costs, the strategy's net CAGR exceeds BOTH SPY buy-and-hold CAGR and the equal-weight-119 net CAGR, with monthly-excess-vs-SPY t >= 1.5. Net CAGR at or below either benchmark refutes it (docs/lab_prereg_momentum_trend_exit_largecap.md).",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
+    }
+   ],
+   "mechanism": "Cross-sectional momentum (65-day) among the ~119 largest US common stocks, held only while price stays above its 20-day moving average, weekly rebalance, equal weight top 10. The cross-sectional leg harvests underreaction/slow information diffusion; the time-series MA exit truncates the crash left tail that historically destroys implementable long-only momentum (momentum crashes concentrate in sharp reversals off drawdown lows, where the MA filter is already in cash). The combination \u2014 not either leg alone \u2014 is the claim: gauntlet_v1 measured plain monthly momentum without the exit as dead across 48 cells, while the discovery window showed the combined form beating SPY by 56.8pp on a point-in-time large-cap universe.",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_momentum_trend_exit_largecap.md",
+    "metric": "delphi.backtest.run_backtest shipped constants + delisting-exit fix, executions 2000-07-03..2021-06-30, $10k initial; net of 5bps/side first-order costs; net CAGR vs SPY and vs quarterly-rebalanced EW-119 (5bps); monthly excess vs SPY t-stat (n~252).",
+    "population_definition": "Point-in-time top 119 US common stocks (Sharadar TICKERS Domestic Common Stock classes) by SHARADAR/DAILY marketcap at each of 84 calendar-quarter-end signal dates 2000-06-30..2021-03-31 (from the existing month-end house caches), effective the first trading day after; renamed/delisted members resolved to final Sharadar tickers, unresolvable members counted and disclosed. Prices: SEP closeadj, delisted included; SPY from SFP closeadj.",
+    "success_criteria": "Supported iff net CAGR > SPY CAGR AND net CAGR > EW-119 net CAGR AND monthly excess t >= 1.5. Refuted iff net CAGR <= either benchmark CAGR. Otherwise inconclusive, numbers published. One run, no variants; forward gate >= 20 monthly paper grades on shrunk mean if supported."
+   },
+   "slug": "momentum_trend_exit_largecap",
+   "sponsor": "operator",
+   "status": "refuted",
+   "underutilized_because": "Long-only, high-turnover, benchmark-agnostic trend exits are career-toxic for institutions: the strategy sits in cash during rallies off lows (tracking error), churns weekly (implementation cost at size), and concentrates in 10 names (concentration limits). None of those constraints bind a $2k sleeve trading commission-free mega-caps.",
+   "who_loses": "On the way up: late reactors anchored to stale prices who sell winners to rebalance too early. On the way down: disposition-effect holders who ride breakdowns below trend hoping to get back to even \u2014 the MA exit hands them the inventory at the top of the breakdown and buys back after the flush."
   }
  }
 }
