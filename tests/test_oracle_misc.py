@@ -4,7 +4,9 @@ import datetime
 import pytest
 
 from oracle.backtest import run as backtest_run
-from oracle.calendar import days_since, mark_run, should_run
+from oracle.calendar import (
+    days_since, is_trading_day, mark_run, ran_today, should_run,
+)
 from oracle.capital import (
     CAPITAL_BASE, CAPITAL_CEILING, ACHILLES_RESERVE,
     compute_allocation,
@@ -43,6 +45,49 @@ def test_days_since(tmp_path):
     long_ago = datetime.datetime.utcnow() - datetime.timedelta(days=10)
     mark_run(str(p), "screen", now=long_ago)
     assert days_since(str(p), "screen") >= 9.9
+
+
+def test_is_trading_day_weekday():
+    assert is_trading_day("2026-07-02")   # Thursday
+
+
+def test_is_trading_day_weekend():
+    assert not is_trading_day("2026-07-04")  # Saturday
+    assert not is_trading_day("2026-07-05")  # Sunday
+
+
+def test_is_trading_day_holiday():
+    # July-4 observed Friday — the day Delphi queued the churn orders.
+    assert not is_trading_day("2026-07-03")
+    assert not is_trading_day("2026-11-26")  # Thanksgiving
+    assert not is_trading_day("2027-07-05")  # July-4 observed Monday
+
+
+def test_is_trading_day_outside_table_raises():
+    with pytest.raises(ValueError):
+        is_trading_day("2028-01-03")
+
+
+def test_ran_today_no_record(tmp_path):
+    p = tmp_path / "cal.json"
+    assert not ran_today(str(p), "trade")
+
+
+def test_ran_today_same_calendar_date(tmp_path):
+    p = tmp_path / "cal.json"
+    mark_run(str(p), "trade")
+    assert ran_today(str(p), "trade")
+
+
+def test_ran_today_compares_dates_not_24h(tmp_path):
+    # A run late yesterday must not block an early run today (the flaw
+    # of should_run's rolling 24h window for a daily trade guard).
+    p = tmp_path / "cal.json"
+    yesterday_2300 = datetime.datetime.utcnow().replace(
+        hour=23, minute=0
+    ) - datetime.timedelta(days=1)
+    mark_run(str(p), "trade", now=yesterday_2300)
+    assert not ran_today(str(p), "trade")
 
 
 # ---- prescreener ----

@@ -13,7 +13,7 @@ think, trade, or override any god's logic.
 | `/nemesis` | Weekend AND `should_run("cache/nemesis_cadence.json", "scan", 5)`, OR weekday if live position open | Weekend: full pass (pipeline scan + Form 10 reading + ghost entries + gated live sleeve; cadence guard = once per weekend). Weekday with live positions: exits-only pass — the runbook short-circuits, same pattern as `/midas` stop checks |
 | `/midas` | Monday: enter from the weekend scan. Weekdays if position open: stop checks | Light entry / stop-check; reads the scan cache |
 | `/oracle` | `should_run("cache/oracle_cadence.json", "research", 3)` | Every 3 days |
-| `/delphi` | Market hours, weekdays | Rebalance check on each run |
+| `/delphi` | Market hours AND `is_trading_day(today)` AND NOT `ran_today("cache/delphi_cadence.json", "trade")` | ONE trade pass per trading day (guard added 2026-07-04 after hourly churn); holidays excluded. Skip entirely if already traded today — Delphi's signals are daily-bar, hourly re-runs only trade noise |
 | `/achilles` | `is_earnings_season(today)` | Only during 4 earnings windows/year |
 | `/oracle-screen` | `should_run("cache/oracle_cadence.json", "screen", 90)` | Quarterly heavy scan (~60 min) |
 | `/oracle-ghost` | After `/oracle` runs | Paper shadow |
@@ -66,7 +66,7 @@ think, trade, or override any god's logic.
    - `/trinity` — dashboard refresh
 
    **Conditional:**
-   - `/delphi` — if market hours + weekday
+   - `/delphi` — if market hours AND `oracle.calendar.is_trading_day(today)` (weekday + not an NYSE holiday) AND NOT `oracle.calendar.ran_today("cache/delphi_cadence.json", "trade")`. One trade pass per trading day — if she already traded today, don't dispatch her at all (2026-07-04 churn fix)
    - `/midas-scan` — if weekend AND `midas_scan_due` (the cadence guard fires it once per weekend, not every hour)
    - `/nemesis` — if weekend AND `should_run("cache/nemesis_cadence.json", "scan", 5)` (same once-per-weekend cadence-guard pattern as `/midas-scan`), OR weekday when `nemesis_has_position` (live position management: exits-only pass — the runbook handles the short-circuit, mirroring the `/midas` weekday stop checks)
    - `/midas` — if Monday (enter from the weekend scan), or weekday with open position (stop check)

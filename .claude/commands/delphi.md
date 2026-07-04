@@ -5,11 +5,45 @@ recommendations; you review and override at five decision points.
 The mechanical system is the default — your job is to catch what
 it can't: context, narrative, convergence.
 
+## RULE CHANGE RECORD — once-per-trading-day cadence (2026-07-04, operator approved)
+
+Delphi is a DAILY-BAR strategy (65-day momentum, 20-day MA) that Zeus
+dispatches HOURLY. Before this guard, every hourly pass re-ranked on
+intraday quotes and traded the whipsaw: 23 orders / $3,506 notional on a
+~$1,900 sleeve over Jul 1–3, including a 1-day AMZN round trip and two
+orders placed on the July-3 market holiday (both cancelled by the
+operator, ledger rows 2026-07-04). The signals only gain information
+once per day — at the daily close — so Delphi now TRADES at most once
+per trading day; every other hourly pass is monitoring-only.
+
 ## Steps
 
 0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/`.
 
 1. **Safety check.** Refuse if `KILL_SWITCH` exists. Then check `shared.guards.is_live("delphi")` — if `DELPHI_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders**. Print "PAPER MODE — no orders placed" prominently. **CRITICAL: In paper mode, do NOT update the sleeve, do NOT append to the ledger, and do NOT persist.** Paper mode is read-only — it must never change state.
+
+1b. **Cadence + market-day guard (2026-07-04).** Two checks decide
+   whether this pass may TRADE:
+
+   ```python
+   from oracle.calendar import is_trading_day, ran_today
+   market_open_today = is_trading_day(today)          # weekends AND NYSE holidays
+   already_traded    = ran_today("cache/delphi_cadence.json", "trade", today=today)
+   trade_pass = market_open_today and not already_traded
+   ```
+
+   - If `not market_open_today`: **stop after the safety check.** No
+     orders, no sleeve/ledger writes, no persist. The broker queues
+     orders placed on closed days and fills them at whatever Monday
+     brings — that is how the July-3 mess happened.
+   - If `already_traded`: this is a **monitoring-only pass** — you may
+     recompute marks and flag anything alarming for the operator, but
+     place NO orders and write NO state.
+   - Only a `trade_pass` proceeds through the decision points and
+     execution below. After a trade pass completes (whether or not any
+     order was actually placed — a no-trade decision still consumes the
+     day), call `oracle.calendar.mark_run("cache/delphi_cadence.json", "trade")`
+     and include `cache/delphi_cadence.json` in the persist.
 
 2. **Restore.** Load `cache/delphi_sleeve.json`. If absent, `DelphiSleeve(initial_cash=1000)`.
 
