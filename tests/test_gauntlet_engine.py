@@ -841,3 +841,28 @@ def test_draft_bias_checklist_matches_lab_keys_and_floor():
     assert "n_trials=90" in drafts["multiple_testing"]
     assert "hypotheses_ever=91" in drafts["multiple_testing"]
     assert "sharpe" in drafts["regime"]                # per-regime numbers present
+
+
+def test_lazy_trim_view_matches_eager_trim():
+    from shared.gauntlet import _LazyTrim, _trim
+    bars = {"AAA": _bars({"2024-01-01": 10.0, "2024-01-02": 11.0,
+                           "2024-01-03": 12.0}),
+            "BBB": _bars({"2024-01-02": 5.0})}
+    dates = {s: [b["date"] for b in bs] for s, bs in bars.items()}
+    lazy = _LazyTrim(bars, dates, "2024-01-02")
+    eager = _trim(bars, "2024-01-02")
+    assert lazy["AAA"] == eager["AAA"]
+    assert lazy.get("BBB") == eager["BBB"]
+    assert lazy.get("MISSING") is None
+    assert set(lazy) == set(eager) and len(lazy) == len(eager)
+    assert dict(lazy.items()) == eager
+    assert "AAA" in lazy
+
+
+def test_lazy_trim_tail_matches_full_slice():
+    from shared.gauntlet import _LazyTrim
+    bars = {"AAA": _bars({f"2024-01-{i:02d}": float(i) for i in range(1, 10)})}
+    dates = {"AAA": [b["date"] for b in bars["AAA"]]}
+    lazy = _LazyTrim(bars, dates, "2024-01-06")
+    assert lazy.tail("AAA", 3) == lazy["AAA"][-3:]
+    assert lazy.tail("AAA", 99) == lazy["AAA"]

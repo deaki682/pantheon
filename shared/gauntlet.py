@@ -306,6 +306,54 @@ def _trim(bars_by_symbol: dict[str, list[dict]],
             for s, bars in bars_by_symbol.items()}
 
 
+class _LazyTrim:
+    """Read-only, lazily-trimmed view of bars_by_symbol as of a date.
+
+    Behaviorally identical to `_trim`'s dict for select() consumers,
+    but O(log n) bisect + one slice per symbol ACCESSED instead of
+    copying the whole panel per rebalance — the difference between
+    minutes and hours on a 27-year weekly simulation. Bars lists are
+    assumed date-sorted (the engine's standing input contract).
+    """
+
+    def __init__(self, bars_by_symbol: dict[str, list[dict]],
+                 dates_by_symbol: dict[str, list[str]], as_of: str):
+        self._bars = bars_by_symbol
+        self._dates = dates_by_symbol
+        self._as_of = as_of
+
+    def _cut(self, sym: str) -> int:
+        import bisect
+        return bisect.bisect_right(self._dates[sym], self._as_of)
+
+    def __getitem__(self, sym: str) -> list[dict]:
+        return self._bars[sym][:self._cut(sym)]
+
+    def tail(self, sym: str, n: int) -> list[dict]:
+        """Last n bars as of the view date, without copying the full
+        history — the fast path for lookback signals (momentum, MAs)."""
+        cut = self._cut(sym)
+        return self._bars[sym][max(0, cut - n):cut]
+
+    def get(self, sym: str, default=None):
+        return self[sym] if sym in self._bars else default
+
+    def __contains__(self, sym: str) -> bool:
+        return sym in self._bars
+
+    def __iter__(self):
+        return iter(self._bars)
+
+    def __len__(self) -> int:
+        return len(self._bars)
+
+    def keys(self):
+        return self._bars.keys()
+
+    def items(self):
+        return ((s, self[s]) for s in self._bars)
+
+
 def _price_field_by_symbol(bars_by_symbol: dict[str, list[dict]]) -> dict[str, str]:
     """Pick the marking price per symbol: total return when complete.
 
@@ -397,6 +445,8 @@ def simulate(
     price_field = _price_field_by_symbol(bars_by_symbol)
     bar_lookup = {s: {b["date"]: b for b in bars}
                   for s, bars in bars_by_symbol.items()}
+    dates_by_symbol = {s: [b["date"] for b in bars]
+                       for s, bars in bars_by_symbol.items()}
     final_bar_date = {s: bars[-1]["date"] if bars else None
                       for s, bars in bars_by_symbol.items()}
 
@@ -513,7 +563,7 @@ def simulate(
                 signal_day = all_days[i]
             else:
                 signal_day = day
-            trimmed = _trim(bars_by_symbol, signal_day)
+            trimmed = _LazyTrim(bars_by_symbol, dates_by_symbol, signal_day)
             equity_now = cash + sum(
                 positions[s] * last_price.get(s, 0.0) for s in positions)
             weights = spec.select(day, universe, trimmed)
