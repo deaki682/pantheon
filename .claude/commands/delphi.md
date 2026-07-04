@@ -183,12 +183,23 @@ broken SPY leg and may not be cited): on honest survivorship-free
 data over 2021-06..2026-06, the mechanical system on the curated list
 returned +85.6% vs SPY's +86.7% (−1.1pp, Sharpe 0.65) — it matched
 the index. The same mechanics on a blind point-in-time top-119-by-
-marketcap universe returned +143.5% (+56.8pp, Sharpe 0.87): the edge,
-if any, lives in momentum + MA-exit on a TRUE large-cap cross-section,
-and the hand-curated list has been the conservative drag, not the
-source of inflation. One costless bull-window measurement — evidence
-for the design, not proof of alpha; the capital gates still run on
-live graded calls only. The LLM judgment layer is **additive, not
+marketcap universe returned +143.5% (+56.8pp, Sharpe 0.87). One
+costless bull-window measurement — and the SAME DAY, the full-window
+study (backlog #11, docs/lab_results_delphi_ruleset_fullwindow.md)
+measured what that window was: **the outlier**. Over 1999→2026 on
+honest PIT top-119 universes, this exact ruleset returned 1.08%/yr
+against the universe's own equal-weight 7.94%/yr (−6.86pp/yr, −7.60pp
+vs SPY, negative outright at 2× costs), and the ablation INVERTED this
+section's founding claim: the 20-day-MA exit did not make the backtest
+work — it cost ~5.8pp/yr in whipsaw (4,552 MA-exit round trips, 32%
+win rate) while buying zero book-level drawdown protection (−76.7%
+with the exit, −76.8% without). Every regime before 2013 lost money.
+`delphi_ruleset_fullwindow` is terminal-refuted; the prereg's
+pre-committed consequence (retire-or-demote per the Midas precedent,
+absent an explicit written operator override) is with the operator.
+The capital gates still run on live graded calls only — but no session
+may cite the backtest, any window of it, or the MA exit as evidence
+for this strategy again. The LLM judgment layer is **additive, not
 corrective** — it catches edge cases the mechanical system can't see
 (news, filings, narrative) without overriding the core signal
 (momentum ranking + MA exit).
