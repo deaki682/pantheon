@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 105,
+ "hypotheses_ever": 125,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -538,6 +538,33 @@
     },
     "results_doc": "docs/lab_results_tender_target_14d9.md",
     "notes": "STATISTICAL NULL under correct accounting: mean CAR(25) +0.15%, shrunk +0.14%, t 0.21, win 34.6%, median -1.45% across ALL 384 targets with completions carried at cash-out. The first-pass +2.60% was pure attrition bias (survivors = busted/lagging deals) \u2014 caught before recording; both figures published. Reading: the post-14D9 merger-arb residual is institutionally priced to zero gross at the daily-bar horizon \u2014 the G3 'partial' answer was the operative one. Not refuted (shrunk > 0), nowhere near supported; INCONCLUSIVE as frozen, economically a null. No follow-up variant is planned: a fourth anchor within the tender family would be timeline curve-fitting."
+   }
+  },
+  "gauntlet_v2_fundamentals": {
+   "slug": "gauntlet_v2_fundamentals",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "created": "2026-07-04",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "Factory-level meta-hypothesis on the LAST untouched house dataset (SF1 fundamentals, purchased 2026-07-04, never used in a study): the five strongest documented fundamentals anomalies \u2014 net share issuance (the corporation itself as counterparty: dilutes when overpriced, repurchases when not), asset growth, accruals, gross profitability, ROA \u2014 in simplest implementable long-only form, quarterly, datekey-keyed (filing-date PIT), on the v1 PIT universes, net of per-bucket costs. G1 pass (not tape); G2 PARTIAL and stated (mispricing claims, not constrained-counterparty structure) \u2014 hence counter-deflated bars, holdout touched once, 2x-cost + cliff hygiene, and the binding stopping rule: zero holdout survivors ends the historical-panel program permanently.",
+   "who_loses": "For issuance: counterparties of the corporation's own capital actions. For the rest: whoever overpays for growth/aggressive accruals \u2014 a mispricing story, honestly labeled as such rather than dressed up as structure.",
+   "underutilized_because": "Famous and crowded in factor-fund form; the open question is whether ANY of it survives implementable long-only form at house scale and costs after every price family died \u2014 measure, don't assume, in either direction.",
+   "falsifiable_claim": "At least one of the 20 enumerated cells clears the frozen in-sample bar (DSR>=0.95 at n_trials=20 AND beats same-bucket EW net) and then the frozen holdout bar (PSR>=0.95 AND beats benchmark net, 2x-cost stable, not an isolated cliff peak). Zero holdout survivors refutes the factory AND triggers the stopping rule ending all historical-panel sweeps.",
+   "prereg": {
+    "doc": "docs/lab_prereg_gauntlet_v2_fundamentals.md",
+    "date": "2026-07-04",
+    "population_definition": "gauntlet_v1_universes PIT snapshots (quarterly subset), SEP bars incl. delisted for pricing; SF1 ARQ fundamentals keyed by datekey (filing date) only; SF1 coverage per cell disclosed with an 80% SMALL-bucket impairment flag defined before results.",
+    "metric": "Per-cell net daily equity curves -> DSR (n_trials=20) in-sample 2000-07..2015-12; PSR + benchmark-relative on holdout 2016-01..2025-12 (survivors only, touched once); 2x-cost rerun + parameter_cliff_report for any survivor.",
+    "success_criteria": "Survivor = passes in-sample AND holdout AND 2x-cost AND not an isolated cliff peak -> earns >=20-grade paper forward test. Zero survivors = refuted + STOPPING RULE: historical-panel program ends permanently."
    }
   }
  }
