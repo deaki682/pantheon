@@ -1,0 +1,56 @@
+{
+ "A_frozen_2026_list": {
+  "period": "2021-06-30 to 2026-06-30",
+  "trading_days": 1255,
+  "config": {
+   "initial_cash": 1000.0,
+   "rebalance_interval": 5,
+   "max_positions": 10,
+   "momentum_lookback": 65,
+   "ma_period": 20
+  },
+  "performance": {
+   "final_equity": 1856.13,
+   "total_return_pct": 85.61,
+   "spy_return_pct": 86.69,
+   "alpha_pct": -1.08,
+   "sharpe": 0.65,
+   "max_drawdown_pct": 29.97,
+   "max_drawdown_date": "2022-10-14"
+  },
+  "trades": {
+   "total": 1964,
+   "buys": 972,
+   "sells": 992,
+   "turnover": 209187.26
+  },
+  "n_trades": 1964
+ },
+ "B_pit_top119": {
+  "period": "2021-06-30 to 2026-06-30",
+  "trading_days": 1255,
+  "config": {
+   "initial_cash": 1000.0,
+   "rebalance_interval": 5,
+   "max_positions": 10,
+   "momentum_lookback": 65,
+   "ma_period": 20
+  },
+  "performance": {
+   "final_equity": 2435.13,
+   "total_return_pct": 143.51,
+   "spy_return_pct": 86.69,
+   "alpha_pct": 56.82,
+   "sharpe": 0.87,
+   "max_drawdown_pct": 29.86,
+   "max_drawdown_date": "2022-10-11"
+  },
+  "trades": {
+   "total": 1990,
+   "buys": 982,
+   "sells": 1008,
+   "turnover": 203309.41
+  },
+  "n_trades": 1990
+ }
+}

@@ -148,6 +148,46 @@ def test_simulate_no_lookahead_strategy_sees_only_past_bars():
     assert seen_last_dates == ["2024-01-01", "2024-01-02"]  # never 01-03
 
 
+def test_simulate_signal_lag_hides_execution_day_bar():
+    bars = {"AAA": _bars({"2024-01-01": 10.0, "2024-01-02": 20.0, "2024-01-03": 30.0})}
+    snapshots = {"2024-01-02": ["AAA"], "2024-01-03": ["AAA"]}
+    seen_last_dates = []
+
+    def select(day, universe, trimmed):
+        seen_last_dates.append(trimmed["AAA"][-1]["date"])
+        return {"AAA": 1.0}
+
+    simulate(StrategySpec("probe", select), snapshots, bars, signal_lag=1)
+    # Executions on 01-02 and 01-03 see signals through 01-01 and 01-02.
+    assert seen_last_dates == ["2024-01-01", "2024-01-02"]
+
+
+def test_simulate_signal_lag_fills_at_execution_day_price():
+    bars = {"AAA": _bars({"2024-01-01": 10.0, "2024-01-02": 20.0, "2024-01-03": 20.0})}
+    snapshots = {"2024-01-02": ["AAA"]}
+    cost = CostModel(commission_bps=0.0, slippage_bps=0.0, min_ticket=0.0)
+    result = simulate(StrategySpec("s", lambda d, u, b: {"AAA": 1.0}),
+                      snapshots, bars, initial_cash=1000.0, cost=cost,
+                      signal_lag=1)
+    trade = result["trades"][0]
+    assert trade["date"] == "2024-01-02"
+    assert trade["price"] == 20.0  # execution-day close, not the signal day's 10.0
+
+
+def test_simulate_signal_lag_rejects_rebalance_at_window_start():
+    bars = {"AAA": _bars({"2024-01-01": 10.0, "2024-01-02": 20.0})}
+    snapshots = {"2024-01-01": ["AAA"]}
+    with pytest.raises(ValueError, match="no lagged signal date"):
+        simulate(StrategySpec("s", lambda d, u, b: {"AAA": 1.0}),
+                 snapshots, bars, signal_lag=1)
+
+
+def test_simulate_negative_signal_lag_rejected():
+    bars = {"AAA": _bars({"2024-01-01": 10.0})}
+    with pytest.raises(ValueError, match="signal_lag"):
+        simulate(StrategySpec("s", lambda d, u, b: {}), {}, bars, signal_lag=-1)
+
+
 # ---------------------------------------------------------------------------
 # Total-return marking (dividends must compound, not vanish)
 # ---------------------------------------------------------------------------

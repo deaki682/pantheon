@@ -299,6 +299,7 @@ def simulate(
     cost: CostModel = CostModel(),
     start: Optional[str] = None,
     end: Optional[str] = None,
+    signal_lag: int = 0,
 ) -> dict:
     """Run one strategy through one point-in-time universe series.
 
@@ -317,10 +318,23 @@ def simulate(
     run with a non-empty list must say so. Note the `trimmed` bars a
     spec's select() receives are untouched: signals computed on `close`
     are legitimate; only the book's marking is total-return.
+
+    `signal_lag` (trading days) trims the bars the selection rule sees
+    to `signal_lag` days BEFORE the execution day, while trades still
+    fill at the execution day's close. With the default 0 the rule sees
+    the execution day's own close — same-day signal-and-trade, a one-
+    day look-ahead for fast signals. gauntlet_v1's prereg (section 4)
+    mandates signal_lag=1: signals through close of t, execution at
+    close of t+1. Lag counts positions in this simulation's own
+    trading-day index; a rebalance earlier than `signal_lag` days into
+    the window raises (no silent no-lag fallback).
     """
+    if signal_lag < 0:
+        raise ValueError(f"signal_lag must be >= 0, got {signal_lag}")
     all_days = _trading_days(bars_by_symbol, start, end)
     if not all_days:
         raise ValueError("no trading days in bars_by_symbol for the given window")
+    day_index = {d: i for i, d in enumerate(all_days)}
     rebalance_dates = {d for d in snapshots if (not start or d >= start)
                         and (not end or d <= end)}
     price_field = _price_field_by_symbol(bars_by_symbol)
@@ -339,7 +353,18 @@ def simulate(
 
         if day in rebalance_dates:
             universe = snapshots[day]
-            trimmed = _trim(bars_by_symbol, day)
+            if signal_lag:
+                i = day_index[day] - signal_lag
+                if i < 0:
+                    raise ValueError(
+                        f"{spec.name} on {day}: rebalance falls {signal_lag} "
+                        "trading day(s) from the window start — no lagged "
+                        "signal date exists; extend the bar window or drop "
+                        "this rebalance date")
+                signal_day = all_days[i]
+            else:
+                signal_day = day
+            trimmed = _trim(bars_by_symbol, signal_day)
             equity_now = cash + sum(
                 positions[s] * last_price.get(s, 0.0) for s in positions)
             weights = spec.select(day, universe, trimmed)
@@ -373,7 +398,11 @@ def simulate(
                 trades.append({"date": day, "symbol": s, "side": "sell",
                                 "shares": shares_sold, "price": px,
                                 "cost": cost_amt})
-            # Then buys, bounded by cash actually on hand.
+            # Then buys, bounded by cash actually on hand. When cash
+            # (after costs) can't cover every buy, all buys scale
+            # pro-rata — a sequential fill would silently short-change
+            # whichever symbol sorts last.
+            buy_deltas: dict[str, float] = {}
             for s in all_syms:
                 tgt = target_value.get(s, 0.0)
                 px = last_price.get(s)
@@ -383,14 +412,19 @@ def simulate(
                 delta = tgt - cur_shares * px
                 if delta < cost.min_ticket:
                     continue
-                denom = 1 + (cost.commission_bps + cost.slippage_bps) / 10_000.0
-                spend = min(delta, cash / denom)
+                buy_deltas[s] = delta
+            denom = 1 + (cost.commission_bps + cost.slippage_bps) / 10_000.0
+            total_buys = sum(buy_deltas.values())
+            scale = min(1.0, (cash / denom) / total_buys) if total_buys > 0 else 0.0
+            for s, delta in buy_deltas.items():
+                px = last_price[s]
+                spend = delta * scale
                 if spend < cost.min_ticket:
                     continue
                 shares_bought = spend / px
                 cost_amt = cost.total_cost(spend)
                 cash -= spend + cost_amt
-                positions[s] = cur_shares + shares_bought
+                positions[s] = positions.get(s, 0.0) + shares_bought
                 trades.append({"date": day, "symbol": s, "side": "buy",
                                 "shares": shares_bought, "price": px,
                                 "cost": cost_amt})

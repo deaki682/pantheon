@@ -177,11 +177,21 @@ This log lets you calibrate: are your overrides helping or hurting?
 
 ## Design rationale
 
-The mechanical momentum system delivered +85% total return, Sharpe 1.51,
-+53.8pp alpha over SPY in backtesting. The LLM judgment layer is
-**additive, not corrective** — it catches edge cases the mechanical
-system can't see (news, filings, narrative) without overriding the
-core signal that produces alpha (momentum ranking + MA exit).
+**CORRECTED 2026-07-04** (PIT replay, docs/lab_results_delphi_pit_universe.md —
+the old "+53.8pp alpha, Sharpe 1.51" figures were computed against a
+broken SPY leg and may not be cited): on honest survivorship-free
+data over 2021-06..2026-06, the mechanical system on the curated list
+returned +85.6% vs SPY's +86.7% (−1.1pp, Sharpe 0.65) — it matched
+the index. The same mechanics on a blind point-in-time top-119-by-
+marketcap universe returned +143.5% (+56.8pp, Sharpe 0.87): the edge,
+if any, lives in momentum + MA-exit on a TRUE large-cap cross-section,
+and the hand-curated list has been the conservative drag, not the
+source of inflation. One costless bull-window measurement — evidence
+for the design, not proof of alpha; the capital gates still run on
+live graded calls only. The LLM judgment layer is **additive, not
+corrective** — it catches edge cases the mechanical system can't see
+(news, filings, narrative) without overriding the core signal
+(momentum ranking + MA exit).
 
 The override budgets exist because the biggest risk isn't missing a
 good trade — it's the LLM second-guessing a system that works. Every
