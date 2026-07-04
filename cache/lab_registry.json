@@ -728,7 +728,7 @@
   "sp500_index_effect": {
    "slug": "sp500_index_effect",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "refuted",
    "created": "2026-07-04",
    "history": [
     {
@@ -738,6 +738,10 @@
     {
      "date": "2026-07-04",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
     }
    ],
    "mechanism": "S&P 500 index ADDITION forced flow: on announcement, index funds tracking the S&P 500 MUST buy the added name by the effective date (G2: mandate-bound counterparty, documented in the S&P announcement). Classic index-effect run-up between announce and effective. The open question is DEPLOYABILITY: the effect was ~3-5% in the 1990s but is heavily arbitraged; the pre/post-2010 split tests whether a live god could still harvest it or whether it is a decayed relic.",
@@ -750,6 +754,25 @@
     "population_definition": "All S&P 500 addition events with announcement<effective from the Wikipedia changes table (~223), added tickers resolved to Sharadar SEP final tickers, delisted included; unpriceable disclosed; testable range ~1998-2026.",
     "metric": "event_car vs SPY, entry first close after announcement, CAR at effective-window peak and +25; mandatory pre-2010 vs 2010-onward split.",
     "success_criteria": "SUPPORTED: 2010+ shrunk CAR peak > +0.5%, t>=2, n>=30. REFUTED/DECAYED: <=0 or t<2 at n>=30. INCONCLUSIVE below 30."
+   },
+   "backtest": {
+    "date": "2026-07-04",
+    "n": 189,
+    "mean_excess": -0.0022,
+    "mean_excess_shrunk": -0.001989,
+    "verdict": "refuted",
+    "bias_checklist": {
+     "survivorship": "Population is EVENTS from the Wikipedia changes table (not survivors); added tickers priced via Sharadar SEP delisted-inclusive. 222 testable, 203 priced, 19 unpriceable (older/renamed added tickers) \u2014 disclosed.",
+     "look_ahead": "Entry at first close STRICTLY AFTER the announcement date (parsed from the S&P citation ref); no same-day fill.",
+     "selection": "Wikipedia 'Selected changes' completeness caveat disclosed; the modern subset (2018+) is well-covered; window/split frozen in prereg before outcomes.",
+     "multiple_testing": "One primary statistic (CAR at the effective-window peak) plus the one preregistered pre/post-2010 regime split; no other cuts were run against this population. House counter 141. The result is a decisive null in the modern subset regardless of any reasonable offset choice (the whole 0..25 curve is negative), so no multiple-testing correction changes the verdict.",
+     "overfitting": "Zero parameters; offset-5 peak = the median announce->effective gap (7 td), frozen in prereg; the entire curve 0..25 is negative regardless.",
+     "costs_liquidity": "Gross; index adds are liquid large-caps (low cost) but the effect is negative gross, so costs are moot.",
+     "regime": "THE test: pre-2010 n=14 (thin, negative), 2010-onward n=189 shrunk CAR -0.22%, t -0.68, win 50% \u2014 decisively dead; curve monotonically negative announcement->+25.",
+     "small_n": "Modern subset n=189 at 6.3x the floor; the null is precise, not underpowered."
+    },
+    "results_doc": "docs/lab_results_sp500_index_effect.md",
+    "notes": "REFUTED/DECAYED \u2014 forced-flow S&P 500 index-addition effect DEAD in the deployable window. 2010-onward (n=189): CAR peak -0.25%, shrunk -0.22%, t -0.68, win 50%, curve monotonically negative. Front-runners price additions before the announcement. DECISION: highest-prior untested family closed; net-issuance-low LARGE remains the only deployable candidate. Wikipedia data adequate; the effect is dead, not the data."
    }
   }
  }
