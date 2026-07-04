@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 139,
+ "hypotheses_ever": 141,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -723,6 +723,33 @@
     "population_definition": "Each quarter's net-issuance-low LARGE top-50 (from the validated strategy), split into three equal-weight arms (R/M/L) sharing one next-day-close entry-price set; graded as basket total-return excess vs SPY per quarter; LLM per-name judgments recorded for audit.",
     "metric": "Per-arm quarterly basket excess vs SPY; primary Arm L - Arm R shrunk mean over >=8 quarters; secondary arm-vs-SPY shrunk mean.",
     "success_criteria": "Reading adds iff Arm L - Arm R shrunk mean > 0 at >=8 quarters; quality beats market iff M or L shrunk excess vs SPY > 0. Diagnostic only."
+   }
+  },
+  "sp500_index_effect": {
+   "slug": "sp500_index_effect",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "created": "2026-07-04",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "S&P 500 index ADDITION forced flow: on announcement, index funds tracking the S&P 500 MUST buy the added name by the effective date (G2: mandate-bound counterparty, documented in the S&P announcement). Classic index-effect run-up between announce and effective. The open question is DEPLOYABILITY: the effect was ~3-5% in the 1990s but is heavily arbitraged; the pre/post-2010 split tests whether a live god could still harvest it or whether it is a decayed relic.",
+   "who_loses": "Index funds forced to buy at whatever price the effective-date rebalance sets \u2014 price-insensitive by mandate; the pre-effective buyer front-runs that flow.",
+   "underutilized_because": "Not underutilized \u2014 it is the textbook forced-flow trade; the question is whether anything is LEFT after two decades of arbitrage, measured on our own data with a regime split.",
+   "falsifiable_claim": "SUPPORTED iff the 2010-onward subset shrunk mean CAR at the effective-window peak > +0.5%, t>=2, n>=30; REFUTED/DECAYED iff <=0 or t<2 at n>=30.",
+   "prereg": {
+    "doc": "docs/lab_prereg_sp500_index_effect.md",
+    "date": "2026-07-04",
+    "population_definition": "All S&P 500 addition events with announcement<effective from the Wikipedia changes table (~223), added tickers resolved to Sharadar SEP final tickers, delisted included; unpriceable disclosed; testable range ~1998-2026.",
+    "metric": "event_car vs SPY, entry first close after announcement, CAR at effective-window peak and +25; mandatory pre-2010 vs 2010-onward split.",
+    "success_criteria": "SUPPORTED: 2010+ shrunk CAR peak > +0.5%, t>=2, n>=30. REFUTED/DECAYED: <=0 or t<2 at n>=30. INCONCLUSIVE below 30."
    }
   }
  }
