@@ -152,3 +152,17 @@ under 1.5%/yr everywhere and changes no verdict in either direction.
   backlog #4 (Delphi PIT) and any future panel study.
 - Per-cell data: `docs/data/gauntlet_v1/` (screen results + manifest,
   holdout results, robustness results).
+
+## Merge note (2026-07-04, late) — the "documentation gap" was a branch gap
+
+A parallel session, reconstructing this study's documentation without
+visibility into the running session's branch, wrote an alternate
+version of this doc (preserved in git history on `origin/main` before
+this merge) stating that `docs/data/gauntlet_v1/` "was never created"
+and that the registry entry was the only surviving record. That was
+true on that branch and false in the repository as a whole: the
+per-cell artifacts (screen_results, screen_manifest, holdout_results,
+robustness_results) exist at `docs/data/gauntlet_v1/` and merged to
+the mainline with this note. Lesson for the house filed where it
+belongs: parallel sessions must check ALL `origin/claude/*` branches
+before declaring an artifact lost.
