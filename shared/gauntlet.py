@@ -25,17 +25,20 @@ in docs/lab_gauntlet_engine_status_2026-07-04.md:
    therefore takes bars as an in-memory `bars_by_symbol` argument
    scoped to whatever candidate set phase (b) actually needs, rather
    than assuming a full-panel cache exists.
-2. **Market cap.** SHARADAR/DAILY (the per-day marketcap table) returns
-   HTTP 200 with the correct schema but ZERO rows for every query tried
-   (any ticker, any date, with or without a ticker filter) — verified
-   2026-07-04. SF1 (fundamentals) IS entitled but only as a thin
-   trailing-two-fiscal-year MRY (annual) slice — no MRQ/ARQ dimension,
-   no decade of history. Neither source can build a true point-in-time
-   market-cap universe today. `dollar_volume_pit_universe` below is the
-   interim proxy (price x volume from the confirmed-working SEP bulk
-   endpoint) until the operator decides whether to buy the DAILY/full
-   SF1 entitlement or accept the proxy. Backlog #4 (Delphi PIT universe)
-   hits the identical wall and should track the same decision.
+2. **Market cap — RESOLVED 2026-07-04 (same day).** SHARADAR/DAILY
+   initially served only its free sample (XOM 2018) — the SEP-only
+   subscription didn't entitle it. The operator bought the fundamentals
+   upgrade the same day; DAILY now serves full cross-sections (~5,500-
+   5,600 names/day, one page), history from late 1998, delisted names
+   through their final trading day (verified SIVBQ, BBBYQ), marketcap
+   in USD millions. `shared.sharadar.fetch_daily_bulk_range` is the
+   sanctioned pull; feed its rows straight to `pit_snapshot`/
+   `build_snapshots` with value_field="marketcap".
+   `dollar_volume_pit_universe` below predates the upgrade and is
+   SUPERSEDED for new work — kept because dollar-volume remains a
+   legitimate LIQUIDITY screen to layer on top of a size universe, and
+   because a committed prereg citing it stays honest. Backlog #4
+   (Delphi PIT) is unblocked by the same purchase.
 """
 from __future__ import annotations
 
@@ -146,16 +149,16 @@ def dollar_volume_pit_universe(
     floor: Optional[float] = None,
     ceiling: Optional[float] = None,
 ) -> dict[str, list[str]]:
-    """Interim PIT universe proxy: price x volume ("dollar volume") from
-    bulk SEP rows, in place of true market cap (see module docstring —
-    SHARADAR/DAILY is not entitled). `sep_rows` are raw SEP datatable
-    rows (ticker, date, close, volume, ...) as returned by
-    `shared.sharadar.fetch_sep_bulk_range`, NOT canonicalized bars.
+    """Dollar-volume (price x volume) universe from bulk SEP rows.
 
-    This is a LIQUIDITY proxy, not a SIZE proxy — a high-float low-price
-    stock can out-rank a thinly-traded large-cap. Phase (b)'s prereg
-    must name this substitution explicitly in its selection bias item
-    if it ships before real market-cap data lands.
+    Built as an interim market-cap proxy while SHARADAR/DAILY was
+    unentitled; SUPERSEDED for size universes since the 2026-07-04
+    fundamentals upgrade (use `fetch_daily_bulk_range` rows with
+    `pit_snapshot(value_field="marketcap")`). Still legitimate as a
+    LIQUIDITY screen layered on top of a size universe — that is why it
+    stays. `sep_rows` are raw SEP datatable rows (ticker, date, close,
+    volume, ...) as returned by `shared.sharadar.fetch_sep_bulk_range`,
+    NOT canonicalized bars.
     """
     dv_rows = []
     for r in sep_rows:

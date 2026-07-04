@@ -4,6 +4,7 @@ import pytest
 from shared.sharadar import (
     AmbiguousTicker,
     SharadarError,
+    fetch_daily_bulk_range,
     fetch_sep_bulk_range,
     resolve_ticker,
     to_shared_bars,
@@ -107,3 +108,37 @@ def test_fetch_sep_bulk_range_dedupes_and_uppercases_tickers(monkeypatch):
     monkeypatch.setattr("shared.sharadar._datatable", fake_datatable)
     fetch_sep_bulk_range("2024-01-01", "2024-01-05", tickers=["aapl", "AAPL", "msft"])
     assert captured["params"]["ticker"] == "AAPL,MSFT"
+
+
+def test_fetch_daily_bulk_range_targets_daily_table(monkeypatch):
+    captured = {}
+
+    def fake_datatable(table_name, **params):
+        captured["table"] = table_name
+        captured["params"] = params
+        return [{"ticker": "AAA", "date": "2024-01-02", "marketcap": 123.4}]
+
+    monkeypatch.setattr("shared.sharadar._datatable", fake_datatable)
+    rows = fetch_daily_bulk_range("2024-01-01", "2024-01-05")
+    assert captured["table"] == "DAILY"
+    assert "ticker" not in captured["params"]
+    assert captured["params"]["date.gte"] == "2024-01-01"
+    assert captured["params"]["date.lte"] == "2024-01-05"
+    assert rows[0]["marketcap"] == 123.4
+
+
+def test_daily_rows_feed_pit_snapshot_directly(monkeypatch):
+    # The integration contract: fetch_daily_bulk_range rows are directly
+    # consumable by shared.gauntlet.pit_snapshot with value_field="marketcap".
+    from shared.gauntlet import pit_snapshot
+
+    def fake_datatable(table_name, **params):
+        return [
+            {"ticker": "BIG", "date": "2024-01-02", "marketcap": 5000.0},
+            {"ticker": "MID", "date": "2024-01-02", "marketcap": 500.0},
+            {"ticker": "TINY", "date": "2024-01-02", "marketcap": 5.0},
+        ]
+
+    monkeypatch.setattr("shared.sharadar._datatable", fake_datatable)
+    rows = fetch_daily_bulk_range("2024-01-02", "2024-01-02")
+    assert pit_snapshot(rows, "2024-01-02", floor=100, ceiling=1000) == ["MID"]

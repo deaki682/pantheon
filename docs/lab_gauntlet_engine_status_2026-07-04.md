@@ -1,5 +1,11 @@
 # The Gauntlet — engine build status (2026-07-04)
 
+> **RESOLVED same day:** the market-cap blocker below is closed. The
+> operator bought the Sharadar fundamentals entitlement hours after
+> this doc was written; see the addendum at the bottom for what was
+> verified and what changed. The blocker section is kept as written
+> for the record.
+
 Backlog #9, phase (a): "engine + SEP bulk pipeline." Not a hypothesis,
 not a backtest — no `shared.lab` registry entry, no ledger row. This is
 a build-status note so the next lab session (or the operator) doesn't
@@ -104,3 +110,38 @@ appear in some snapshot, not the full ~20k-name roster.
 Phases (b) in-sample-grid prereg, (c) in-sample screen, (d) holdout
 pass, (e) forward tests — all still open, and (b) is gated on the
 market-cap decision above. Backlog line #9 updated to point here.
+
+## Addendum (2026-07-04, later the same day): blocker RESOLVED
+
+The operator chose option 1 and bought the fundamentals entitlement.
+Root cause of the earlier zero-row results, now precisely understood:
+the prior subscription was **SEP only**, and unentitled Sharadar
+tables serve a free *sample* instead of erroring — `DAILY`'s sample is
+XOM Oct–Dec 2018 only, `SF1`'s is Dow-30 names at annual (MRY)
+dimension. Real queries outside the sample return HTTP 200 with zero
+rows, which is what the morning's probes hit.
+
+Verified live after the upgrade:
+
+- `DAILY` per-ticker: AAPL 2024-01-02..05 returns 4 rows with
+  marketcap/ev/pe/pb/ps (marketcap and ev in **USD millions**).
+- `DAILY` bulk cross-section: 5,631 rows for 2024-01-02 and 5,518 for
+  2010-01-04, each in a single page — no per-name calls needed.
+- History depth: AAPL rows exist at 2000-12-29 and 1999-01-29 but not
+  1998-06-30 — coverage starts **late 1998**, matching SEP's span, so
+  a "decade+" panel is available with room to spare.
+- Delisted coverage: SIVBQ has rows through 2023-03-28 (SVB
+  bankruptcy) and BBBYQ through 2023-05-02 (delisting) — market cap
+  runs through each name's final trading day, so PIT universes will
+  correctly contain the names that later died.
+- `SF1` full depth: AAPL `ARQ` returns 128 quarterly rows back to
+  1993-12-31 — the quarterly point-in-time fundamentals dimension
+  exists now, not just the trailing-2-year MRY sample.
+
+What changed in code: `shared.sharadar.fetch_daily_bulk_range` (bulk
+DAILY pull, mirrors `fetch_sep_bulk_range`) is the sanctioned door;
+its rows feed `shared.gauntlet.pit_snapshot(value_field="marketcap")`
+directly. `dollar_volume_pit_universe` is superseded as a SIZE proxy
+and survives only as a liquidity screen. **Phase (b) — the factory
+prereg — is unblocked**, and backlog #4 (Delphi PIT universe) is
+unblocked by the same purchase.

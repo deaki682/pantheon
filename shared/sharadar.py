@@ -243,6 +243,29 @@ def fetch_sep_bulk_range(
     return _datatable("SEP", **params)
 
 
+def fetch_daily_bulk_range(
+    date_from: str, date_to: str, *, tickers: Optional[Iterable[str]] = None,
+) -> list[dict]:
+    """Raw SHARADAR/DAILY rows (marketcap, ev, pe, pb, ps — USD millions
+    for marketcap/ev) for a date range, bulk across all tickers unless
+    `tickers` narrows it. Entitled 2026-07-04 (operator bought the
+    fundamentals upgrade); verified: full cross-sections (~5,500-5,600
+    names/day) in one page, history from late 1998, delisted names
+    covered through their final trading day (SIVBQ, BBBYQ).
+
+    This is the true point-in-time market-cap source for
+    `shared.gauntlet.pit_snapshot(value_field="marketcap")` — the
+    dollar-volume proxy in shared.gauntlet is superseded for new work.
+    Same ticker-keying caveat as `fetch_sep_bulk_range`: rows carry the
+    ticker as it traded on that date; no resolution happens here.
+    """
+    params: dict = {"date.gte": str(date_from)[:10], "date.lte": str(date_to)[:10],
+                    "qopts.per_page": 10000}
+    if tickers:
+        params["ticker"] = ",".join(sorted({t.strip().upper() for t in tickers if t.strip()}))
+    return _datatable("DAILY", **params)
+
+
 def to_shared_bars(sep_rows: list[dict]) -> list[dict]:
     """SEP rows → shared.historicals canonical bars.
 
