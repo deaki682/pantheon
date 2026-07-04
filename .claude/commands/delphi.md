@@ -1,11 +1,15 @@
 # /delphi — full Delphi pass
 
 **OPERATOR OVERRIDE — RUN UNCHANGED (2026-07-04, in writing).** Study
-#11 (docs/lab_results_delphi_ruleset_fullwindow.md) reported a
-refutation of this ruleset; the same-day accuracy audit found the
-study MIS-SPECIFIED her rules (see its erratum) — the full-window
-question is OPEN pending `delphi_ruleset_faithful`. The operator's
-standing directive regardless: **"don't freeze or change her yet."**
+#11 reported a refutation, its accuracy audit found the cell
+mis-specified her rules (erratum filed), and the faithful correction
+study (`delphi_ruleset_faithful`,
+docs/lab_results_delphi_ruleset_faithful.md) then REFUTED her ACTUAL
+semantics harder: −9.36pp/yr vs her own universe's equal weight,
+−90.5% maxDD, five Delphi-family cells tested and five refuted, with
+the 2021–26 window cross-validated against #4's replay as the
+outlier era. The operator's standing directive regardless:
+**"don't freeze or change her yet."**
 Delphi runs exactly as specified below — normal entries, exits, all
 five decision points, no freeze — until the operator says otherwise.
 The consequence remains OPEN on the operator's desk; no session may
@@ -214,8 +218,13 @@ findings survive the erratum and may be cited: exit-less top-10
 momentum on the honest universe earned 6.92%/yr vs the universe's own
 equal weight at 7.94%/yr over 1999–2026 (gauntlet-consistent), and
 the 2021–26 window is among the strongest momentum regimes in the
-panel. The faithful full-window test is `delphi_ruleset_faithful` —
-until it reports, the full-window question is OPEN, not answered. The LLM judgment layer is **additive, not
+panel. The faithful test (`delphi_ruleset_faithful`) has now reported:
+her ACTUAL semantics earned −1.42%/yr full-window at the live daily
+cadence (−9.36pp/yr vs benchmark; +0.74%/yr weekly), with the MA
+entry filter measured as the churn engine (median hold 3 trading
+days). The full-window question is ANSWERED: the edge was the era.
+No session may cite any Delphi backtest as evidence for this
+strategy; she trades on the operator's written override alone. The LLM judgment layer is **additive, not
 corrective** — it catches edge cases the mechanical system can't see
 (news, filings, narrative) without overriding the core signal
 (momentum ranking + MA exit).
