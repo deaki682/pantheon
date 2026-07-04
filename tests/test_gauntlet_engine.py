@@ -915,3 +915,22 @@ def test_sell_cooldown_blocks_rebuy_after_rotation_exit():
                 if t["symbol"] == "AAA" and t["side"] == "buy"]
     # Sold 01-02 (idx 1); cooldown blocks idx <= 4 (01-05); rebuy 01-06.
     assert aaa_buys == ["2024-01-01", "2024-01-06"]
+
+
+def test_event_car_carry_last_freezes_stock_leg_at_cash_out():
+    days = ["2024-01-01", "2024-01-02", "2024-01-03", "2024-01-04", "2024-01-05"]
+    # target delists after day 3 at 12.0 (deal completes); benchmark keeps moving
+    bars = {"TGT": [{"date": d, "close": px} for d, px in
+                    zip(days[:3], [10.0, 11.0, 12.0])]}
+    bench = [{"date": d, "close": px} for d, px in
+             zip(days, [100.0, 100.0, 100.0, 110.0, 110.0])]
+    events = [{"symbol": "TGT", "public_date": "2024-01-01"}]
+    dropped = event_car(events, bars, bench, max_offset=3)
+    carried = event_car(events, bars, bench, max_offset=3, carry_last=True)
+    assert dropped["n"][3] == 0                      # default: event vanishes
+    assert carried["n"][3] == 1                      # carried: outcome kept
+    # Entry is STRICTLY AFTER the public date -> day 2 close 11.0.
+    # Stock leg: live +9.09% at offset 1 (12/11), then frozen at 12.
+    assert carried["mean_car"][1] == pytest.approx(12 / 11 - 1)
+    # Offset 3: stock frozen (12/11 - 1) minus benchmark +10% -> -0.91%.
+    assert carried["mean_car"][3] == pytest.approx((12 / 11 - 1) - 0.10)

@@ -1149,7 +1149,8 @@ def parameter_cliff_report(cells: list[dict]) -> list[dict]:
 def event_car(events: list[dict], bars_by_symbol: dict[str, list[dict]],
                benchmark_bars: list[dict], *, max_offset: int = 20,
                date_field: str = "public_date",
-               symbol_field: str = "symbol") -> dict:
+               symbol_field: str = "symbol",
+               carry_last: bool = False) -> dict:
     """Cumulative abnormal return curves for an event population.
 
     The event-study engine for PITEventFeed populations (insider
@@ -1161,6 +1162,14 @@ def event_car(events: list[dict], bars_by_symbol: dict[str, list[dict]],
     [public_date+1 ...] land in `unpriceable` — the mandatory
     survivorship disclosure, never silently dropped. Offsets with
     shrinking n (later offsets outrun the panel) report their own n.
+
+    `carry_last=False` (default) drops an event from offsets beyond
+    its final bar — correct when a series ending means missing data.
+    `carry_last=True` freezes the stock leg at its final print while
+    the benchmark keeps running — correct when the series ending IS
+    the outcome (an acquired target cashing out at the deal price).
+    For M&A-family populations the default silently drops exactly the
+    successes; pick deliberately and say which in the results doc.
     """
     field = _price_field_by_symbol(bars_by_symbol)
     bench_days = sorted(str(b["date"])[:10] for b in benchmark_bars)
@@ -1197,14 +1206,24 @@ def event_car(events: list[dict], bars_by_symbol: dict[str, list[dict]],
         b0 = bench_px[d0]
         b_days_from = [d for d in bench_days if d >= d0]
         n_events += 1
+        last_px = None
         for k in range(max_offset + 1):
-            if entry_i + k >= len(series) or k >= len(b_days_from):
+            if k >= len(b_days_from):
                 break
-            dk, pk = series[entry_i + k]
             bk = bench_px.get(b_days_from[k])
             if bk is None or p0 <= 0 or b0 <= 0:
                 break
-            car = (pk / p0 - 1.0) - (bk / b0 - 1.0)
+            if entry_i + k < len(series):
+                last_px = series[entry_i + k][1]
+            elif not carry_last or last_px is None:
+                break
+            # carry_last: the stock leg freezes at its final print (the
+            # cash-out — an acquired target's deal price) while the
+            # benchmark keeps running. Default drops the event instead —
+            # correct for missing data, WRONG for M&A populations where
+            # the series ending IS the outcome (the 14D9 attrition
+            # lesson: 255/384 successes silently vanished by +25).
+            car = (last_px / p0 - 1.0) - (bk / b0 - 1.0)
             cars_at[k].append(car)
 
     def _median(xs: list[float]) -> Optional[float]:
