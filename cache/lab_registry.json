@@ -443,7 +443,7 @@
   "cef_toc_anchor_2014_19": {
    "slug": "cef_toc_anchor_2014_19",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "refuted",
    "created": "2026-07-04",
    "history": [
     {
@@ -453,6 +453,10 @@
     {
      "date": "2026-07-04",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
     }
    ],
    "mechanism": "Out-of-sample replication of cef_tender_toc_anchor's announcement-anchor rule on the untouched 2014-2019 window: same constrained counterparty (the fund, bound by its own filed tender terms), same earliest-TO-C anchor, same 25-day statutory window, zero re-tuned parameters. Window 1 (2020-26) read +1.00%/t 1.92/win 61% with a rise-then-full-reversal hump peaking near day 25; this window tests both the level and the hump shape in a different rate/activist regime. Gates inherited from the parent slug (G1-G4 pass; G5 solved by replication instead of slow forward accrual).",
@@ -465,6 +469,25 @@
     "population_definition": "SC TO-I by listed CEFs 2014-01-01..2019-12-31 from EDGAR quarterly full-index (exact form type, /A excluded), 180d per-fund dedup, SFP category=CEF matching with delisted included and window-checked name fallback; kept iff an SC TO-C by the same CIK exists 1-90d before; pre-anchor listing screen; unpriceable disclosed.",
     "metric": "Market-adjusted CAR vs SPY TR at +25 trading days from first close strictly after the earliest TO-C; full curve to +40 published for the hump-shape check.",
     "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30 -> earns start_forward_test. REFUTED: shrunk <= 0 at n>=30. Else INCONCLUSIVE."
+   },
+   "backtest": {
+    "date": "2026-07-04",
+    "n": 65,
+    "mean_excess": -0.019612,
+    "mean_excess_shrunk": -0.014997,
+    "verdict": "refuted",
+    "bias_checklist": {
+     "survivorship": "120 CEF TO-I events 2014-2019 from full-index; 67 with prior TO-C; ZERO no-bars events (SFP delisted coverage held), 2 screened for sparse pre-anchor quotes \u2014 coverage is clean; nothing material sits in the unpriceable bucket.",
+     "look_ahead": "Identical structure to window 1: entry strictly after the earliest TO-C acceptance date; pre-anchor-only listing screen.",
+     "selection": "Window and rule frozen in the committed prereg before any 2014-2019 sweep; zero parameters differ from the parent slug \u2014 a pure out-of-sample replication.",
+     "multiple_testing": "One primary statistic, no secondaries; counter at 104. The parent window's near-miss (+0.81% shrunk, t 1.92) is precisely the kind of reading multiple-window replication exists to check \u2014 and it failed the check.",
+     "overfitting": "The hump-shape expectation (rise to ~25, reverse by 40) was stated in the prereg IN ADVANCE and did not replicate: the 2014-19 curve is monotonically negative from day 0. The window-1 peak-at-25 was the era, not the mechanism.",
+     "costs_liquidity": "Gross event study by design (same as the whole tender family); no cost model was applied, and none is needed for the verdict \u2014 real CEF spreads of 20-60bps/side would only deepen a result that is already -1.96% gross.",
+     "regime": "2014-2019 spans taper aftermath, 2015-16 credit stress, 2017 calm, 2018 Q4 crash: per-year means -0.7%, -4.0%, -1.5%, +1.1%, -1.3%, -2.4% \u2014 five of six negative; the one positive year (2017, n=9) is small and calm. Combined with window 1 (+1.0%), the announcement-anchor effect is REGIME-DEPENDENT at best: plausibly the 2024 activist/discount-management wave, not a persistent convergence mechanism.",
+     "small_n": "n=65 at 2.2x the floor; t -5.34; win 21.5%; medians match means (median -2.16% at 25) \u2014 no outlier dependence in either direction."
+    },
+    "results_doc": "docs/lab_results_cef_toc_anchor_2014_19.md",
+    "notes": "REPLICATION FAILED, decisively: mean CAR(25) -1.96%, shrunk -1.50%, t -5.34, win 21.5%, monotonic decline (no hump; the prereg's stated hump expectation refuted alongside the level). The parent thread's +1.00% (2020-26) is now best explained as regime \u2014 the 2024 activist tender wave \u2014 and earns NO forward test. cef_tender_toc_anchor remains recorded inconclusive on its own window; the tender-anchor family is closed absent genuinely new structure. One hour of replication bought what 2.3 years of forward accrual would have bought, before any paper capital moved."
    }
   }
  }
