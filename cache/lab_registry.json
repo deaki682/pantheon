@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 98,
+ "hypotheses_ever": 99,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -288,6 +288,33 @@
     },
     "results_doc": "docs/lab_results_delphi_ruleset_faithful.md",
     "notes": "faithful_daily (primary, current live cadence): -1.42% CAGR, Sharpe 0.01 [CI -0.35, 0.39], maxDD -90.5%, excess vs EW-119 -9.36%/yr (IR -0.58), vs SPY -10.10%/yr; -5.04% CAGR at 2x slippage. faithful_weekly (original claim's cadence): 0.74% CAGR, excess -7.20%/yr, maxDD -91.9%. Benchmark EW-119: 7.94%, maxDD -55.1%. Her true MA-entry-filter design churns HARDER than #11's mis-specified variant (names oscillate around their MA in and out of the eligible set; band cannot damp full dropouts): 10,971 round trips, median hold 3 trading days, 37.4x/yr turnover. mean_excess = mean of 2 cells (-9.36, -7.20)/2. Reconciliation: faithful_weekly 2021-26 = +18.89%/yr vs #4 Run B implied +19.15%/yr \u2014 the two studies agree; the era was real, and it was the outlier. Artifacts docs/data/delphi_fullwindow/faithful_results.json."
+   }
+  },
+  "cef_tender_convergence": {
+   "slug": "cef_tender_convergence",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "created": "2026-07-04",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "When a closed-end fund files an issuer tender offer (SC TO-I), the fund itself becomes a CONSTRAINED buyer: bound by its own filed terms to repurchase shares at an NAV-linked price (typically 98-100% of NAV) in an offer that must stay open at least 20 business days (rule 14e-1(a)). If the fund trades at a discount, the tender creates a quasi-contractual convergence path from market price toward the NAV-linked terminal value. Gates: G1 pass (filing-driven, not tape), G2 pass (the counterparty is the fund, the constraint is its own SC TO-I), G3 pass (CEFs are thin, tenders often odd-lot-prioritized, institutions cannot size in), G4 pass (contractual terminal value), G5 expected-pass (dense recurring event stream).",
+   "who_loses": "Nobody is outsmarted: the fund is a price-insensitive buyer BY ITS OWN FILED TERMS; sellers pre-expiry are liquidity-demanding holders exiting before the NAV-linked price is available.",
+   "underutilized_because": "Position sizes are capped by tiny fund ADVs and odd-lot mechanics \u2014 the research cost per deployable dollar exceeds any institution's threshold; it does not exceed ours.",
+   "falsifiable_claim": "SUPPORTED iff shrunk mean market-adjusted CAR at +25 trading days > +1.0% with t>=2 and n>=30 across the complete 2020-2026 SC TO-I catalog; REFUTED iff shrunk mean <= 0 at n>=30.",
+   "prereg": {
+    "doc": "docs/lab_prereg_cef_tender_convergence.md",
+    "date": "2026-07-04",
+    "population_definition": "ALL SC TO-I filings (excluding /A amendments) 2020-01-01..2026-05-15 via EDGAR full-text search, filer matched to listed CEFs (Sharadar SFP category CEF), one event per fund per 180 days, unmatched events disclosed as unpriceable \u2014 complete catalog, defined before it exists.",
+    "metric": "Market-adjusted CAR vs SPY at offsets 0-25 trading days from first close strictly after filing date (shared.gauntlet.event_car); primary statistic shrunk mean CAR(25).",
+    "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30 -> earns paper forward test. REFUTED: shrunk CAR(25) <= 0 at n>=30. Else INCONCLUSIVE. Secondary discount>=12% cut preregistered, non-gating."
    }
   }
  }
