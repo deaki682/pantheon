@@ -866,3 +866,52 @@ def test_lazy_trim_tail_matches_full_slice():
     lazy = _LazyTrim(bars, dates, "2024-01-06")
     assert lazy.tail("AAA", 3) == lazy["AAA"][-3:]
     assert lazy.tail("AAA", 99) == lazy["AAA"]
+
+
+# ---------------------------------------------------------------------------
+# rebalance_band + sell_cooldown_days (faithful-Delphi semantics)
+# ---------------------------------------------------------------------------
+
+def test_rebalance_band_suppresses_drift_trades_but_not_full_exits():
+    bars = {
+        "AAA": _bars({"2024-01-01": 10.0, "2024-01-02": 11.0, "2024-01-03": 11.0}),
+        "BBB": _bars({"2024-01-01": 10.0, "2024-01-02": 10.0, "2024-01-03": 10.0}),
+    }
+    snapshots = {"2024-01-01": ["AAA", "BBB"], "2024-01-02": ["AAA", "BBB"],
+                 "2024-01-03": ["AAA", "BBB"]}
+
+    def select(day, universe, trimmed):
+        if day == "2024-01-03":
+            return {"BBB": 0.5}          # AAA drops out entirely
+        return {"AAA": 0.5, "BBB": 0.5}
+
+    cost = CostModel(commission_bps=0.0, slippage_bps=0.0, min_ticket=1.0)
+    result = simulate(StrategySpec("band", select), snapshots, bars,
+                      initial_cash=1000.0, cost=cost, rebalance_band=0.20)
+    t_by_day = {}
+    for t in result["trades"]:
+        t_by_day.setdefault(t["date"], []).append((t["side"], t["symbol"]))
+    # Day 2: AAA drifted +10% (inside the 20% band) -> no trim, no top-up.
+    assert "2024-01-02" not in t_by_day
+    # Day 3: AAA target 0 -> full exit fires despite the band.
+    assert ("sell", "AAA") in t_by_day["2024-01-03"]
+
+
+def test_sell_cooldown_blocks_rebuy_after_rotation_exit():
+    days = [f"2024-01-{i:02d}" for i in range(1, 8)]
+    bars = {"AAA": _bars({d: 10.0 for d in days}),
+            "BBB": _bars({d: 10.0 for d in days})}
+    snapshots = {d: ["AAA", "BBB"] for d in days}
+
+    def select(day, universe, trimmed):
+        if day == "2024-01-02":
+            return {"BBB": 0.9}          # rotate out of AAA
+        return {"AAA": 0.9}              # want AAA every other day
+
+    cost = CostModel(commission_bps=0.0, slippage_bps=0.0, min_ticket=1.0)
+    result = simulate(StrategySpec("cd", select), snapshots, bars,
+                      initial_cash=1000.0, cost=cost, sell_cooldown_days=3)
+    aaa_buys = [t["date"] for t in result["trades"]
+                if t["symbol"] == "AAA" and t["side"] == "buy"]
+    # Sold 01-02 (idx 1); cooldown blocks idx <= 4 (01-05); rebuy 01-06.
+    assert aaa_buys == ["2024-01-01", "2024-01-06"]

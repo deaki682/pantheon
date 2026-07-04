@@ -1,5 +1,26 @@
 # Results — `delphi_ruleset_fullwindow` (backlog #11)
 
+> **ERRATUM (2026-07-04, same day — operator-ordered accuracy audit).**
+> The primary cell did NOT implement "her exact frozen live ruleset" as
+> this doc and the prereg claimed. In Delphi's real code
+> (`delphi/signals.py::rank_by_momentum`), the 20-day MA is an ENTRY
+> FILTER inside the ranking — only names above their MA are ever
+> ranked, and holdings below it drop out of the picks at the next
+> pass. The cell simulated here ranked ALL names (no MA entry filter)
+> and bolted on a standalone DAILY MA stop with a 5-day cooldown — so
+> it repeatedly bought below-MA names her rules would never enter and
+> then stopped out of them. The real system also carries a 20%
+> rebalance band and cooldown-on-any-sell (unmodeled here), and live
+> Delphi now evaluates DAILY (2026-07-04 cadence rule), not weekly.
+> **What remains valid:** every number below, as a measurement of the
+> variant actually simulated; the benchmark and SPY legs; the no-exit
+> momentum cell (gauntlet-consistent). **What is retracted:** the
+> claim that this tested her ruleset, and the "MA exit is the saboteur
+> of HER design" attribution — that measured a strawman. The faithful
+> re-test is `delphi_ruleset_faithful`
+> (docs/lab_prereg_delphi_ruleset_faithful.md); the registry verdict
+> stands for the mis-specified variant this slug actually froze.
+
 - **Prereg:** [docs/lab_prereg_delphi_ruleset_fullwindow.md](lab_prereg_delphi_ruleset_fullwindow.md)
   (committed 2026-07-04 before any data pull for this study)
 - **Run:** 2026-07-04, `run_delphi_fullwindow.py` (universes → bars →
