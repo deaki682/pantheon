@@ -1,5 +1,13 @@
 {
  "populations": {
+  "delphi_pit_top119": {
+   "built": "2026-07-04",
+   "coverage_note": "Delisted/renamed members included (SQ->XYZ resolved via resolve_ticker; TWTR-era members present). Dual-class listings retained per the blind rule (GOOG and GOOGL can both appear). Excludes ADRs, Canadian listings, preferreds, warrants, funds by TICKERS category; no other filter.",
+   "definition": "Top 119 US common stocks (Sharadar TICKERS categories Domestic Common Stock / Primary Class / Secondary Class) by SHARADAR/DAILY marketcap at each of 21 quarter-end signal dates 2021-03-31..2026-03-31, per docs/lab_prereg_delphi_pit_universe.md run B.",
+   "file": "cache/shared_pop_delphi_pit_top119.json",
+   "n": 21,
+   "source": "Sharadar DAILY + TICKERS via Nasdaq Data Link, pulled 2026-07-04; built by run_delphi_pit.py"
+  },
   "gauntlet_v1_universes": {
    "built": "2026-07-04",
    "coverage_note": "Median 3 names/date (max 16, 0.06%) had a DAILY marketcap but no SEP bar and are excluded. SMALL filled to exactly 1500 from ~2003 on; 1421-1500 in 2000-2002 when fewer names cleared the price/liquidity floors. Marketcap ranks 2001+ (true micro-caps) excluded by design. Delisted names included through their final trading day (Sharadar convention).",
