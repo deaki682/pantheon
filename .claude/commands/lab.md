@@ -57,6 +57,41 @@ marked/graded by the daily god sessions that own their horizons.
      predict anything?") → skip the registry, but the SAME discipline:
      prereg doc → data → results doc → ledger row.
 
+3b. **Candidate gates (2026-07-04, operator directive — answer in
+   writing BEFORE `new_strategy`).** The 2026-07-04 graveyard (~100
+   refuted cells in one day) separates cleanly on five axes; every new
+   hypothesis answers these five ENUMERATED gates (binary, per the
+   house finding that yes/no gates are stable and scored rubrics are
+   dice). Record the answers in the hypothesis's `mechanism` /
+   `who_loses` / `underutilized_because` fields:
+
+   - **G1 — Tape test:** is the signal computable from past
+     prices/volumes alone? YES → dead on arrival (the entire
+     price-signal family measured below do-nothing benchmarks across
+     27 years); requires an explicit operator override to proceed,
+     recorded in the prereg.
+   - **G2 — Constraint test:** can you name the counterparty AND the
+     document that constrains them (index methodology, lockup
+     agreement, tender terms, fund mandate, tax calendar)? NO →
+     back to the backlog until you can. "People underreact" is not a
+     constraint; it is the epitaph on 48 momentum cells.
+   - **G3 — Capacity-inversion test:** could a $100M fund harvest
+     this at its minimum viable position size? YES → downgrade
+     priority; our measured edge is standing where they cannot stoop
+     (house fills run at ~4e-6 of ADV).
+   - **G4 — Arithmetic test:** is there a quasi-contractual terminal
+     value (tender price, trust value, merger consideration, rights
+     terms), or is the payoff a drift forecast? Contractual →
+     upgrade. The house's only validated rule is an avoidance rule;
+     its best-measured positive readings are all structure, not
+     forecast.
+   - **G5 — Power test:** can the forward test plausibly reach ≥20
+     graded events within 12 months at the population's natural
+     rate? NO → deprioritize behind candidates that can be settled.
+
+   Gates order the QUEUE; the operator can override any of them in
+   writing. What no one can override: G2 unanswered means no slug.
+
 4. **Pre-register BEFORE data.** `docs/lab_prereg_<slug>.md`
    (population definition, metric + horizon, success thresholds,
    planned bias handling) — COMMITTED to the repo before pulling a
