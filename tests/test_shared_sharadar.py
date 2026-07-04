@@ -4,6 +4,7 @@ import pytest
 from shared.sharadar import (
     AmbiguousTicker,
     SharadarError,
+    fetch_sep_bulk_range,
     resolve_ticker,
     to_shared_bars,
 )
@@ -77,3 +78,32 @@ def test_to_shared_bars_canonicalizes_and_sorts():
 def test_to_shared_bars_skips_dateless_or_closeless():
     assert to_shared_bars([{"ticker": "X", "close": 5.0},
                            {"ticker": "X", "date": "2020-01-02"}]) == []
+
+
+def test_fetch_sep_bulk_range_omits_ticker_param_by_default(monkeypatch):
+    captured = {}
+
+    def fake_datatable(table_name, **params):
+        captured["table"] = table_name
+        captured["params"] = params
+        return [{"ticker": "AAA", "date": "2024-01-02", "close": 1.0}]
+
+    monkeypatch.setattr("shared.sharadar._datatable", fake_datatable)
+    rows = fetch_sep_bulk_range("2024-01-01", "2024-01-05")
+    assert captured["table"] == "SEP"
+    assert "ticker" not in captured["params"]
+    assert captured["params"]["date.gte"] == "2024-01-01"
+    assert captured["params"]["date.lte"] == "2024-01-05"
+    assert rows == [{"ticker": "AAA", "date": "2024-01-02", "close": 1.0}]
+
+
+def test_fetch_sep_bulk_range_dedupes_and_uppercases_tickers(monkeypatch):
+    captured = {}
+
+    def fake_datatable(table_name, **params):
+        captured["params"] = params
+        return []
+
+    monkeypatch.setattr("shared.sharadar._datatable", fake_datatable)
+    fetch_sep_bulk_range("2024-01-01", "2024-01-05", tickers=["aapl", "AAPL", "msft"])
+    assert captured["params"]["ticker"] == "AAPL,MSFT"

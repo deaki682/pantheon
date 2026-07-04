@@ -218,6 +218,31 @@ def fetch_sep_bars(
     return _datatable("SEP", **params)
 
 
+def fetch_sep_bulk_range(
+    date_from: str, date_to: str, *, tickers: Optional[Iterable[str]] = None,
+) -> list[dict]:
+    """Raw SEP rows for a date range across MANY tickers in one paginated
+    pull, instead of one call per name — the "bulk pipeline" half of
+    backlog #9 (The Gauntlet). Confirmed working 2026-07-04: omitting
+    `ticker` returns the full day's cross-section (~6,800 rows for a
+    single trading day, one page at qopts.per_page=10000).
+
+    Unlike `fetch_sep_bars`, no ticker resolution happens here — rows
+    come back keyed to whatever ticker SEP has on file for that date,
+    which is correct for point-in-time work (you want the ticker AS IT
+    TRADED then) but means results are NOT automatically coherent with
+    `shared.historicals` per-symbol keys the way `ingest_symbols` is;
+    callers doing PIT universe/backtest work should consume rows
+    directly (see `shared.gauntlet`) rather than merge them into
+    `cache/shared_bars.json`, which is sized for per-symbol studies.
+    """
+    params: dict = {"date.gte": str(date_from)[:10], "date.lte": str(date_to)[:10],
+                    "qopts.per_page": 10000}
+    if tickers:
+        params["ticker"] = ",".join(sorted({t.strip().upper() for t in tickers if t.strip()}))
+    return _datatable("SEP", **params)
+
+
 def to_shared_bars(sep_rows: list[dict]) -> list[dict]:
     """SEP rows → shared.historicals canonical bars.
 
