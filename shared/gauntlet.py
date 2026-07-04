@@ -755,6 +755,66 @@ def summarize_by_period(curve: list[dict], boundaries: list[str]) -> dict:
     return out
 
 
+def convexity_stats(trade_returns, *, benchmark_returns=None, tail_pct: float = 0.10) -> dict:
+    """The RETURN-oriented objective (2026-07-04 pivot): score an event/
+    situation strategy on CONVEXITY, not mean excess.
+
+    Return-maximization on a small long-only, no-leverage book comes from a
+    survivable FLOOR per bet and a large RIGHT TAIL — not from beating a
+    benchmark by a thin average. The gauntlet's mean-excess bar is the wrong
+    objective for that; this is the right one. The unit is the TRADE (one
+    event -> one net return), e.g. 0.15 = +15%. Pass `benchmark_returns`
+    (same length/order) to score excess-per-trade instead of raw.
+
+    Key fields:
+    - `floor`  : worst single trade — the survivability number (is the
+                 per-bet downside bounded? a merger break vs a wipeout).
+    - `payoff_ratio` : avg win / |avg loss| — asymmetry.
+    - `right_tail_share` : fraction of total positive P&L from the top
+                 `tail_pct` of trades — how much the result rides the tail
+                 (high = convex/lottery-shaped; know it before sizing).
+    - `expectancy` : mean net return per trade (the thing that compounds).
+    """
+    import statistics as _stats
+    if benchmark_returns is not None:
+        rs = [r - b for r, b in zip(trade_returns, benchmark_returns)]
+    else:
+        rs = list(trade_returns)
+    n = len(rs)
+    if n == 0:
+        return {"n": 0}
+    rs_sorted = sorted(rs)
+    wins = [r for r in rs if r > 0]
+    losses = [r for r in rs if r <= 0]
+
+    def pct(p):
+        i = min(len(rs_sorted) - 1, max(0, int(round(p * (len(rs_sorted) - 1)))))
+        return rs_sorted[i]
+
+    avg_win = sum(wins) / len(wins) if wins else 0.0
+    avg_loss = sum(losses) / len(losses) if losses else 0.0
+    mean = sum(rs) / n
+    k = max(1, int(round(tail_pct * n)))
+    total_pos = sum(r for r in rs if r > 0)
+    right_tail_share = (sum(r for r in rs_sorted[-k:] if r > 0) / total_pos
+                        if total_pos > 0 else 0.0)
+    payoff_ratio = (avg_win / abs(avg_loss)) if avg_loss < 0 else None
+    return {
+        "n": n,
+        "expectancy": round(mean, 4),
+        "median": round(_stats.median(rs), 4),
+        "win_rate": round(len(wins) / n, 3),
+        "avg_win": round(avg_win, 4),
+        "avg_loss": round(avg_loss, 4),
+        "payoff_ratio": round(payoff_ratio, 2) if payoff_ratio is not None else None,
+        "p95_upside": round(pct(0.95), 4),
+        "max": round(rs_sorted[-1], 4),
+        "p10_downside": round(pct(0.10), 4),
+        "floor": round(rs_sorted[0], 4),
+        "right_tail_share": round(right_tail_share, 3),
+    }
+
+
 def excess_stats(curve: list[dict], benchmark_curve: list[dict]) -> dict:
     """Benchmark-relative statistics from two daily equity curves.
 
