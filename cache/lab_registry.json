@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 103,
+ "hypotheses_ever": 104,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -438,6 +438,33 @@
     },
     "results_doc": "docs/lab_results_tender_followups.md",
     "notes": "Mean CAR(25) -1.82%, shrunk -1.66%, t -1.20, win 44%; small-cap half WORSE (-2.33%) \u2014 the capacity-inversion hope refuted alongside the headline. Operating self-tenders post-filing look like the CEF TO-I result: announcement value, if any, is spent by the filing; the offer window itself carries no harvestable drift at this anchor."
+   }
+  },
+  "cef_toc_anchor_2014_19": {
+   "slug": "cef_toc_anchor_2014_19",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "created": "2026-07-04",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "Out-of-sample replication of cef_tender_toc_anchor's announcement-anchor rule on the untouched 2014-2019 window: same constrained counterparty (the fund, bound by its own filed tender terms), same earliest-TO-C anchor, same 25-day statutory window, zero re-tuned parameters. Window 1 (2020-26) read +1.00%/t 1.92/win 61% with a rise-then-full-reversal hump peaking near day 25; this window tests both the level and the hump shape in a different rate/activist regime. Gates inherited from the parent slug (G1-G4 pass; G5 solved by replication instead of slow forward accrual).",
+   "who_loses": "Liquidity-demanding sellers between announcement and launch, facing a price-insensitive NAV-linked corporate bid documented in the TO-C/TO-I.",
+   "underutilized_because": "Same capacity inversion: thin funds, prorated tenders, research cost per deployable dollar below institutional thresholds only for us.",
+   "falsifiable_claim": "SUPPORTED iff shrunk mean CAR(25) > +1.0%, t>=2, n>=30 on screened 2014-2019 events; REFUTED iff shrunk <= 0 at n>=30; else INCONCLUSIVE. Hump-shape expectation (reversal by +40) stated in advance as a secondary check.",
+   "prereg": {
+    "doc": "docs/lab_prereg_cef_toc_anchor_2014_19.md",
+    "date": "2026-07-04",
+    "population_definition": "SC TO-I by listed CEFs 2014-01-01..2019-12-31 from EDGAR quarterly full-index (exact form type, /A excluded), 180d per-fund dedup, SFP category=CEF matching with delisted included and window-checked name fallback; kept iff an SC TO-C by the same CIK exists 1-90d before; pre-anchor listing screen; unpriceable disclosed.",
+    "metric": "Market-adjusted CAR vs SPY TR at +25 trading days from first close strictly after the earliest TO-C; full curve to +40 published for the hump-shape check.",
+    "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30 -> earns start_forward_test. REFUTED: shrunk <= 0 at n>=30. Else INCONCLUSIVE."
    }
   }
  }
