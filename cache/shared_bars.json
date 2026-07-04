@@ -1,0 +1,244 @@
+{
+ "symbols": {
+  "FB": {
+   "bars": [
+    {
+     "close": 329.13,
+     "close_total_return": 326.303,
+     "date": "2021-06-01",
+     "high": 331.42,
+     "low": 326.64,
+     "open": 330.15,
+     "volume": 11766000
+    },
+    {
+     "close": 329.15,
+     "close_total_return": 326.323,
+     "date": "2021-06-02",
+     "high": 331.87,
+     "low": 327.122,
+     "open": 330.38,
+     "volume": 11646000
+    },
+    {
+     "close": 326.04,
+     "close_total_return": 323.24,
+     "date": "2021-06-03",
+     "high": 327.375,
+     "low": 323.48,
+     "open": 325.78,
+     "volume": 12569000
+    },
+    {
+     "close": 330.35,
+     "close_total_return": 327.513,
+     "date": "2021-06-04",
+     "high": 332.455,
+     "low": 325.18,
+     "open": 325.9,
+     "volume": 13157000
+    },
+    {
+     "close": 336.58,
+     "close_total_return": 333.69,
+     "date": "2021-06-07",
+     "high": 337.69,
+     "low": 328.93,
+     "open": 329.48,
+     "volume": 20110000
+    },
+    {
+     "close": 333.68,
+     "close_total_return": 330.814,
+     "date": "2021-06-08",
+     "high": 338.3,
+     "low": 332.24,
+     "open": 336.7,
+     "volume": 14580000
+    },
+    {
+     "close": 330.25,
+     "close_total_return": 327.414,
+     "date": "2021-06-09",
+     "high": 336.8,
+     "low": 330.0,
+     "open": 335.74,
+     "volume": 13655000
+    },
+    {
+     "close": 332.46,
+     "close_total_return": 329.605,
+     "date": "2021-06-10",
+     "high": 333.94,
+     "low": 328.545,
+     "open": 330.785,
+     "volume": 13161000
+    }
+   ],
+   "sources": [
+    "sharadar SEP 2026-07-04 (requested FB -> final META, permaticker 194817)"
+   ],
+   "updated": "2026-07-04T03:55:26.411880"
+  },
+  "SIVB": {
+   "bars": [
+    {
+     "close": 590.07,
+     "close_total_return": 590.07,
+     "date": "2021-06-01",
+     "high": 596.82,
+     "low": 586.795,
+     "open": 591.5,
+     "volume": 266507
+    },
+    {
+     "close": 587.94,
+     "close_total_return": 587.94,
+     "date": "2021-06-02",
+     "high": 591.86,
+     "low": 584.97,
+     "open": 589.96,
+     "volume": 265262
+    },
+    {
+     "close": 589.21,
+     "close_total_return": 589.21,
+     "date": "2021-06-03",
+     "high": 598.64,
+     "low": 583.98,
+     "open": 587.29,
+     "volume": 250467
+    },
+    {
+     "close": 596.06,
+     "close_total_return": 596.06,
+     "date": "2021-06-04",
+     "high": 597.45,
+     "low": 586.605,
+     "open": 588.72,
+     "volume": 200779
+    },
+    {
+     "close": 602.38,
+     "close_total_return": 602.38,
+     "date": "2021-06-07",
+     "high": 603.39,
+     "low": 594.41,
+     "open": 599.3,
+     "volume": 233420
+    },
+    {
+     "close": 606.83,
+     "close_total_return": 606.83,
+     "date": "2021-06-08",
+     "high": 608.84,
+     "low": 594.26,
+     "open": 603.22,
+     "volume": 280841
+    },
+    {
+     "close": 594.23,
+     "close_total_return": 594.23,
+     "date": "2021-06-09",
+     "high": 606.94,
+     "low": 590.66,
+     "open": 605.92,
+     "volume": 346202
+    },
+    {
+     "close": 566.47,
+     "close_total_return": 566.47,
+     "date": "2021-06-10",
+     "high": 604.95,
+     "low": 565.4,
+     "open": 602.11,
+     "volume": 537948
+    }
+   ],
+   "sources": [
+    "sharadar SEP 2026-07-04 (requested SIVB -> final SIVBQ, permaticker 198834)"
+   ],
+   "updated": "2026-07-04T03:54:49.214486"
+  },
+  "TWTR": {
+   "bars": [
+    {
+     "close": 57.44,
+     "close_total_return": 57.44,
+     "date": "2021-06-01",
+     "high": 58.2,
+     "low": 56.27,
+     "open": 58.2,
+     "volume": 13115620
+    },
+    {
+     "close": 57.16,
+     "close_total_return": 57.16,
+     "date": "2021-06-02",
+     "high": 57.64,
+     "low": 56.32,
+     "open": 57.28,
+     "volume": 9459238
+    },
+    {
+     "close": 57.01,
+     "close_total_return": 57.01,
+     "date": "2021-06-03",
+     "high": 58.67,
+     "low": 55.83,
+     "open": 56.96,
+     "volume": 21976370
+    },
+    {
+     "close": 59.0,
+     "close_total_return": 59.0,
+     "date": "2021-06-04",
+     "high": 59.3,
+     "low": 57.32,
+     "open": 57.41,
+     "volume": 12250778
+    },
+    {
+     "close": 59.63,
+     "close_total_return": 59.63,
+     "date": "2021-06-07",
+     "high": 59.825,
+     "low": 57.72,
+     "open": 58.62,
+     "volume": 10533117
+    },
+    {
+     "close": 58.81,
+     "close_total_return": 58.81,
+     "date": "2021-06-08",
+     "high": 60.09,
+     "low": 57.82,
+     "open": 59.79,
+     "volume": 12765933
+    },
+    {
+     "close": 59.71,
+     "close_total_return": 59.71,
+     "date": "2021-06-09",
+     "high": 61.05,
+     "low": 59.41,
+     "open": 59.59,
+     "volume": 16144021
+    },
+    {
+     "close": 60.3,
+     "close_total_return": 60.3,
+     "date": "2021-06-10",
+     "high": 60.38,
+     "low": 58.74,
+     "open": 59.8,
+     "volume": 8709206
+    }
+   ],
+   "sources": [
+    "sharadar SEP 2026-07-04 (requested TWTR -> final TWTR, permaticker 187959)"
+   ],
+   "updated": "2026-07-04T03:54:51.366266"
+  }
+ }
+}
