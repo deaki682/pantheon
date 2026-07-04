@@ -1,0 +1,33 @@
+{
+ "prereg": "docs/lab_prereg_momentum_trend_exit_largecap.md",
+ "window": {
+  "start": "2000-07-03",
+  "end": "2021-06-30",
+  "years": 20.908730158730158
+ },
+ "strategy": {
+  "gross_total_return": -0.47840000000000005,
+  "turnover": 2587330.3,
+  "cost_first_order": 1293.66515,
+  "net_total_return": -0.607766515,
+  "net_cagr": -0.04377411360396544,
+  "sharpe_gross": -0.06,
+  "max_drawdown_pct": 87.41,
+  "trades": 9145,
+  "monthly_excess_vs_spy": {
+   "mean": -0.0084259762774333,
+   "t": -3.9119945744417515,
+   "n": 251
+  }
+ },
+ "spy": {
+  "total_return": 3.3164,
+  "cagr": 0.07244717354166585
+ },
+ "ew119": {
+  "net_cagr": 0.06555994355831318,
+  "sharpe": 0.42192551488397545,
+  "max_drawdown": -0.5372416468517793
+ },
+ "verdict": "refuted"
+}
