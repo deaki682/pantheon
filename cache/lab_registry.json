@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 99,
+ "hypotheses_ever": 100,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -293,7 +293,7 @@
   "cef_tender_convergence": {
    "slug": "cef_tender_convergence",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "refuted",
    "created": "2026-07-04",
    "history": [
     {
@@ -303,6 +303,10 @@
     {
      "date": "2026-07-04",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
     }
    ],
    "mechanism": "When a closed-end fund files an issuer tender offer (SC TO-I), the fund itself becomes a CONSTRAINED buyer: bound by its own filed terms to repurchase shares at an NAV-linked price (typically 98-100% of NAV) in an offer that must stay open at least 20 business days (rule 14e-1(a)). If the fund trades at a discount, the tender creates a quasi-contractual convergence path from market price toward the NAV-linked terminal value. Gates: G1 pass (filing-driven, not tape), G2 pass (the counterparty is the fund, the constraint is its own SC TO-I), G3 pass (CEFs are thin, tenders often odd-lot-prioritized, institutions cannot size in), G4 pass (contractual terminal value), G5 expected-pass (dense recurring event stream).",
@@ -315,6 +319,25 @@
     "population_definition": "ALL SC TO-I filings (excluding /A amendments) 2020-01-01..2026-05-15 via EDGAR full-text search, filer matched to listed CEFs (Sharadar SFP category CEF), one event per fund per 180 days, unmatched events disclosed as unpriceable \u2014 complete catalog, defined before it exists.",
     "metric": "Market-adjusted CAR vs SPY at offsets 0-25 trading days from first close strictly after filing date (shared.gauntlet.event_car); primary statistic shrunk mean CAR(25).",
     "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30 -> earns paper forward test. REFUTED: shrunk CAR(25) <= 0 at n>=30. Else INCONCLUSIVE. Secondary discount>=12% cut preregistered, non-gating."
+   },
+   "backtest": {
+    "date": "2026-07-04",
+    "n": 132,
+    "mean_excess": -0.01807,
+    "mean_excess_shrunk": -0.015692,
+    "verdict": "refuted",
+    "bias_checklist": {
+     "survivorship": "Population from EDGAR quarterly full-index (form.idx) \u2014 filings, not surviving funds; 3,010 raw SC TO-I rows 2020-01..2026-05, 153 CEF-matched events (+44 same-tender dupes deduped at 180d), 2,813 unmatched filers are operating companies and UNLISTED interval funds (no market price \u2014 out of scope by the frozen 'listed' definition; top unmatched are quarterly repurchase vehicles). Delisted-after-tender funds keep SFP bars through final day.",
+     "look_ahead": "Entry at first close STRICTLY AFTER the filing acceptance date; the listing screen (>=15 bars in the 30 calendar days BEFORE filing) uses pre-event data only. Note: funds often press-release tenders before the SC TO-I lands \u2014 our entry is thus conservative/late, which cannot manufacture the negative result (it can only have missed an earlier pop).",
+     "selection": "Complete catalog from full-index sweeps (no full-text query bias); window, dedup, and match rules frozen in the prereg before the catalog existed. One in-flight correction disclosed: a company-name parsing bug initially broke the name-match fallback; fixing it added 24 events BEFORE any outcome was computed.",
+     "multiple_testing": "One primary statistic; the preregistered secondary (stated-NAV discount>=12% cut) was NOT run \u2014 slug went terminal-refuted on the primary, mooting it. Counter +2 at record per the prereg's own commitment (hypotheses_ever 98->100 including registration). Verdict is a frozen sign+t bar, not a selected best cut.",
+     "overfitting": "Zero tuned parameters: offset 25 is the statutory minimum offer window; thresholds frozen pre-data. The listing screen is the frozen population definition ('listed CEF') made operational after sparse-quote vehicles (VCX six identical +314% artifacts, MSIF zero 2024 bars, EIIA weekly prints, FSCO) surfaced \u2014 BOTH raw (n=153, shrunk -0.76%, t -1.88) and listed-only (n=132, shrunk -1.57%, t -3.91) reported; the verdict is the same sign under both.",
+     "costs_liquidity": "Event study is gross of costs; costs only worsen a negative result. CEF spreads are wide \u2014 a forward test was the venue for net grading and none is earned.",
+     "regime": "2020-2026 spans covid, ZIRP, the 2022 rate shock, two bull legs. Per-year mean CAR(25): 2020 +0.1%, 2021 +0.7%, 2022 +2.9%, 2023 -2.9%, 2024 -1.4%, 2025 +0.2%, 2026 -6.5%(n=5) \u2014 no year clears the +1.0% bar; the lone positive year (2022, n=13) is the rate-shock discount-blowout cohort.",
+     "small_n": "n=132 listed events (153 raw) with 100% pricing coverage after the listing screen; shrunk mean cited; t=-3.91 \u2014 the NEGATIVE drift is itself statistically strong, not a null."
+    },
+    "results_doc": "docs/lab_results_cef_tender_convergence.md",
+    "notes": "PRIMARY (listed, n=132): mean market-adjusted CAR(25) -1.81%, shrunk -1.57%, t -3.91, win rate 33.3%; medians match means (no outlier dependence). Raw incl. sparse-quote vehicles (n=153): -0.86%, t -1.88, same sign. The curve is negative from offset 3 and worsens through 20-25 (expiry/proration re-widening window). Not merely 'no edge': post-filing tender windows UNDERPERFORM SPY significantly. Likely mechanism: any convergence is priced at the earlier press release (entry here is the SC TO-I filing), the NAV-linked terminal value applies only to prorated tendered shares, and discounts re-widen into expiry. A press-release-entry variant would be a NEW hypothesis (G5 power fine, but it must pass the gates again with a different event anchor). Artifacts: docs/data/cef_tenders/."
    }
   }
  }
