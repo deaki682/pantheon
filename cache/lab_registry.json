@@ -6,13 +6,190 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 141,
+ "hypotheses_ever": 142,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
   "note": "house-lab generalization (operator directive): single registry + single multiple-testing counter; pre-migration file frozen as history"
  },
  "strategies": {
+  "buyback_quality_overlay": {
+   "created": "2026-07-04",
+   "falsifiable_claim": "PRIMARY: Arm L shrunk mean excess > Arm R over >=8 graded quarters (reading adds over raw). SECONDARY: M or L shrunk mean excess vs SPY > 0 (quality beats the market where raw only tied). Diagnostic A/B, no capital gate; a winner earns its own n>=20 forward test.",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "Lens B: a quality filter on the net-issuance-low LARGE shortlist separates genuine value-creating buybacks (FCF-funded, healthy business, bought cheap) from financial-engineering (debt-funded, dilution-offsetting, distressed). Three-arm PROSPECTIVE A/B vs SPY: R=raw-50 (validated control), M=mechanical-quality (SF1+DAILY facts), L=LLM-quality (reading that corrects the mechanical filter's sector-blindness and adds valuation discipline). Tests whether reading adds over a measured mechanical edge \u2014 the house's central open question. No backtest (spent panel + LLM contamination); fresh quarters only.",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_buyback_quality_overlay.md",
+    "metric": "Per-arm quarterly basket excess vs SPY; primary Arm L - Arm R shrunk mean over >=8 quarters; secondary arm-vs-SPY shrunk mean.",
+    "population_definition": "Each quarter's net-issuance-low LARGE top-50 (from the validated strategy), split into three equal-weight arms (R/M/L) sharing one next-day-close entry-price set; graded as basket total-return excess vs SPY per quarter; LLM per-name judgments recorded for audit.",
+    "success_criteria": "Reading adds iff Arm L - Arm R shrunk mean > 0 at >=8 quarters; quality beats market iff M or L shrunk excess vs SPY > 0. Diagnostic only."
+   },
+   "slug": "buyback_quality_overlay",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "underutilized_because": "Every quant runs net-issuance blind; almost none can read 50 buyback contexts per quarter to separate genuine from engineered \u2014 the reading labor is the uncrowded moat.",
+   "who_loses": "Same as the underlying factor \u2014 buyback counterparties; the overlay just avoids the bad buybacks that dilute the raw signal."
+  },
+  "cef_tender_convergence": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Event study is gross of costs; costs only worsen a negative result. CEF spreads are wide \u2014 a forward test was the venue for net grading and none is earned.",
+     "look_ahead": "Entry at first close STRICTLY AFTER the filing acceptance date; the listing screen (>=15 bars in the 30 calendar days BEFORE filing) uses pre-event data only. Note: funds often press-release tenders before the SC TO-I lands \u2014 our entry is thus conservative/late, which cannot manufacture the negative result (it can only have missed an earlier pop).",
+     "multiple_testing": "One primary statistic; the preregistered secondary (stated-NAV discount>=12% cut) was NOT run \u2014 slug went terminal-refuted on the primary, mooting it. Counter +2 at record per the prereg's own commitment (hypotheses_ever 98->100 including registration). Verdict is a frozen sign+t bar, not a selected best cut.",
+     "overfitting": "Zero tuned parameters: offset 25 is the statutory minimum offer window; thresholds frozen pre-data. The listing screen is the frozen population definition ('listed CEF') made operational after sparse-quote vehicles (VCX six identical +314% artifacts, MSIF zero 2024 bars, EIIA weekly prints, FSCO) surfaced \u2014 BOTH raw (n=153, shrunk -0.76%, t -1.88) and listed-only (n=132, shrunk -1.57%, t -3.91) reported; the verdict is the same sign under both.",
+     "regime": "2020-2026 spans covid, ZIRP, the 2022 rate shock, two bull legs. Per-year mean CAR(25): 2020 +0.1%, 2021 +0.7%, 2022 +2.9%, 2023 -2.9%, 2024 -1.4%, 2025 +0.2%, 2026 -6.5%(n=5) \u2014 no year clears the +1.0% bar; the lone positive year (2022, n=13) is the rate-shock discount-blowout cohort.",
+     "selection": "Complete catalog from full-index sweeps (no full-text query bias); window, dedup, and match rules frozen in the prereg before the catalog existed. One in-flight correction disclosed: a company-name parsing bug initially broke the name-match fallback; fixing it added 24 events BEFORE any outcome was computed.",
+     "small_n": "n=132 listed events (153 raw) with 100% pricing coverage after the listing screen; shrunk mean cited; t=-3.91 \u2014 the NEGATIVE drift is itself statistically strong, not a null.",
+     "survivorship": "Population from EDGAR quarterly full-index (form.idx) \u2014 filings, not surviving funds; 3,010 raw SC TO-I rows 2020-01..2026-05, 153 CEF-matched events (+44 same-tender dupes deduped at 180d), 2,813 unmatched filers are operating companies and UNLISTED interval funds (no market price \u2014 out of scope by the frozen 'listed' definition; top unmatched are quarterly repurchase vehicles). Delisted-after-tender funds keep SFP bars through final day."
+    },
+    "date": "2026-07-04",
+    "mean_excess": -0.01807,
+    "mean_excess_shrunk": -0.015692,
+    "n": 132,
+    "notes": "PRIMARY (listed, n=132): mean market-adjusted CAR(25) -1.81%, shrunk -1.57%, t -3.91, win rate 33.3%; medians match means (no outlier dependence). Raw incl. sparse-quote vehicles (n=153): -0.86%, t -1.88, same sign. The curve is negative from offset 3 and worsens through 20-25 (expiry/proration re-widening window). Not merely 'no edge': post-filing tender windows UNDERPERFORM SPY significantly. Likely mechanism: any convergence is priced at the earlier press release (entry here is the SC TO-I filing), the NAV-linked terminal value applies only to prorated tendered shares, and discounts re-widen into expiry. A press-release-entry variant would be a NEW hypothesis (G5 power fine, but it must pass the gates again with a different event anchor). Artifacts: docs/data/cef_tenders/.",
+    "results_doc": "docs/lab_results_cef_tender_convergence.md",
+    "verdict": "refuted"
+   },
+   "created": "2026-07-04",
+   "falsifiable_claim": "SUPPORTED iff shrunk mean market-adjusted CAR at +25 trading days > +1.0% with t>=2 and n>=30 across the complete 2020-2026 SC TO-I catalog; REFUTED iff shrunk mean <= 0 at n>=30.",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
+    }
+   ],
+   "mechanism": "When a closed-end fund files an issuer tender offer (SC TO-I), the fund itself becomes a CONSTRAINED buyer: bound by its own filed terms to repurchase shares at an NAV-linked price (typically 98-100% of NAV) in an offer that must stay open at least 20 business days (rule 14e-1(a)). If the fund trades at a discount, the tender creates a quasi-contractual convergence path from market price toward the NAV-linked terminal value. Gates: G1 pass (filing-driven, not tape), G2 pass (the counterparty is the fund, the constraint is its own SC TO-I), G3 pass (CEFs are thin, tenders often odd-lot-prioritized, institutions cannot size in), G4 pass (contractual terminal value), G5 expected-pass (dense recurring event stream).",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_cef_tender_convergence.md",
+    "metric": "Market-adjusted CAR vs SPY at offsets 0-25 trading days from first close strictly after filing date (shared.gauntlet.event_car); primary statistic shrunk mean CAR(25).",
+    "population_definition": "ALL SC TO-I filings (excluding /A amendments) 2020-01-01..2026-05-15 via EDGAR full-text search, filer matched to listed CEFs (Sharadar SFP category CEF), one event per fund per 180 days, unmatched events disclosed as unpriceable \u2014 complete catalog, defined before it exists.",
+    "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30 -> earns paper forward test. REFUTED: shrunk CAR(25) <= 0 at n>=30. Else INCONCLUSIVE. Secondary discount>=12% cut preregistered, non-gating."
+   },
+   "slug": "cef_tender_convergence",
+   "sponsor": "operator",
+   "status": "refuted",
+   "underutilized_because": "Position sizes are capped by tiny fund ADVs and odd-lot mechanics \u2014 the research cost per deployable dollar exceeds any institution's threshold; it does not exceed ours.",
+   "who_loses": "Nobody is outsmarted: the fund is a price-insensitive buyer BY ITS OWN FILED TERMS; sellers pre-expiry are liquidity-demanding holders exiting before the NAV-linked price is available."
+  },
+  "cef_tender_toc_anchor": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Gross event study; the +1.0%-shrunk SUPPORTED bar exists partly as a cost buffer; CEF/small-cap spreads named as the reason a forward test grades net.",
+     "look_ahead": "Entry strictly after the anchor filing's acceptance date; listing screen uses pre-anchor bars only; anchors from EDGAR full-index dates.",
+     "multiple_testing": "One primary statistic, no secondary run; hypotheses_ever 102->103 with sibling slug's secondary. Frozen bars missed NARROWLY (shrunk +0.81% vs +1.0%; t 1.92 vs 2.0) \u2014 recorded INCONCLUSIVE, not talked up to supported.",
+     "overfitting": "Zero tuned parameters; offset 25 = statutory window; thresholds frozen pre-data; outlier audit run before recording (medians vs means, top-k exclusion sensitivity).",
+     "regime": "Events span 2020-2026; positive lean is broad-based (median +1.52% > mean, win 61%), not one era's outlier \u2014 but per-year cells are thin at n=82.",
+     "selection": "Populations frozen in the committed prereg before the TO-C sweep and before any operating outcome; the #7 catalog reused as frozen infrastructure, outcomes at THIS anchor never previously computed.",
+     "small_n": "n=82; shrunk mean cited; mean excl. top-1 +0.85%, excl. top-3 +0.63% \u2014 no single-event dependence. Below the frozen n/effect bars regardless.",
+     "survivorship": "82/153 frozen CEF events had a prior TO-C within 90 days (coverage disclosed \u2014 TO-C usage is self-selected by funds and this subset cannot speak for non-TO-C tenders); same listing screen as #7; delisted funds keep SFP bars."
+    },
+    "date": "2026-07-04",
+    "mean_excess": 0.010046,
+    "mean_excess_shrunk": 0.008076,
+    "n": 82,
+    "notes": "FIRST NON-NEGATIVE READING IN THE HOUSE: mean CAR(25) from the TO-C (announcement) anchor +1.00%, shrunk +0.81%, t 1.92, win 61%, median +1.52% \u2014 the sign flip vs #7's TO-I anchor (-1.81%, t -3.91) confirms #7's mechanism reading: the convergence is captured between announcement and launch. INCONCLUSIVE per frozen bars, missed narrowly on both. The honest continuation is FRESH data, not a re-cut: new TO-C events accrue forward from 2026-06; a forward-accrual continuation under the same frozen rule would be a new prereg the operator may commission.",
+    "results_doc": "docs/lab_results_tender_followups.md",
+    "verdict": "inconclusive"
+   },
+   "created": "2026-07-04",
+   "falsifiable_claim": "SUPPORTED iff shrunk mean CAR(25) from the TO-C anchor > +1.0%, t>=2, n>=30 quiet events; REFUTED iff shrunk <= 0 at n>=30; INCONCLUSIVE below n=30.",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "backtested"
+    }
+   ],
+   "mechanism": "#7 refuted the CEF-tender FILING-date entry and localized the failure to the anchor: the convergence toward the fund's NAV-linked, self-documented repurchase terms is plausibly captured between the ANNOUNCEMENT (SC TO-C communication) and the TO-I launch. Same constrained counterparty (the fund, bound by its own filed offer, rule 14e-1(a) 20-business-day minimum), earlier knowability anchor. Gates: G1-G4 pass as in #7; G5 uncertain (TO-C usage among CEFs unknown; n<30 -> inconclusive, honest).",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_tender_followups.md",
+    "metric": "Market-adjusted CAR vs SPY at +25 trading days from first close strictly after the earliest TO-C; shared.gauntlet.event_car.",
+    "population_definition": "The frozen #7 catalog's 153 CEF events joined to ALL SC TO-C filings by the same CIKs from the same 2020Q1-2026Q2 full-index sweeps; kept iff earliest TO-C >= 1 day before the TO-I; same pre-anchor listing screen.",
+    "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30. REFUTED: shrunk <= 0 at n>=30. Else INCONCLUSIVE. Overlap with #7's later-anchor outcomes disclosed."
+   },
+   "slug": "cef_tender_toc_anchor",
+   "sponsor": "operator",
+   "status": "backtested",
+   "underutilized_because": "Same capacity inversion as #7 \u2014 thin funds, prorated odd-lot mechanics; research cost per deployable dollar excludes institutions.",
+   "who_loses": "Sellers between announcement and launch who demand liquidity before the NAV-linked price is available; the fund is price-insensitive by its own filed terms."
+  },
+  "cef_toc_anchor_2014_19": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Gross event study by design (same as the whole tender family); no cost model was applied, and none is needed for the verdict \u2014 real CEF spreads of 20-60bps/side would only deepen a result that is already -1.96% gross.",
+     "look_ahead": "Identical structure to window 1: entry strictly after the earliest TO-C acceptance date; pre-anchor-only listing screen.",
+     "multiple_testing": "One primary statistic, no secondaries; counter at 104. The parent window's near-miss (+0.81% shrunk, t 1.92) is precisely the kind of reading multiple-window replication exists to check \u2014 and it failed the check.",
+     "overfitting": "The hump-shape expectation (rise to ~25, reverse by 40) was stated in the prereg IN ADVANCE and did not replicate: the 2014-19 curve is monotonically negative from day 0. The window-1 peak-at-25 was the era, not the mechanism.",
+     "regime": "2014-2019 spans taper aftermath, 2015-16 credit stress, 2017 calm, 2018 Q4 crash: per-year means -0.7%, -4.0%, -1.5%, +1.1%, -1.3%, -2.4% \u2014 five of six negative; the one positive year (2017, n=9) is small and calm. Combined with window 1 (+1.0%), the announcement-anchor effect is REGIME-DEPENDENT at best: plausibly the 2024 activist/discount-management wave, not a persistent convergence mechanism.",
+     "selection": "Window and rule frozen in the committed prereg before any 2014-2019 sweep; zero parameters differ from the parent slug \u2014 a pure out-of-sample replication.",
+     "small_n": "n=65 at 2.2x the floor; t -5.34; win 21.5%; medians match means (median -2.16% at 25) \u2014 no outlier dependence in either direction.",
+     "survivorship": "120 CEF TO-I events 2014-2019 from full-index; 67 with prior TO-C; ZERO no-bars events (SFP delisted coverage held), 2 screened for sparse pre-anchor quotes \u2014 coverage is clean; nothing material sits in the unpriceable bucket."
+    },
+    "date": "2026-07-04",
+    "mean_excess": -0.019612,
+    "mean_excess_shrunk": -0.014997,
+    "n": 65,
+    "notes": "REPLICATION FAILED, decisively: mean CAR(25) -1.96%, shrunk -1.50%, t -5.34, win 21.5%, monotonic decline (no hump; the prereg's stated hump expectation refuted alongside the level). The parent thread's +1.00% (2020-26) is now best explained as regime \u2014 the 2024 activist tender wave \u2014 and earns NO forward test. cef_tender_toc_anchor remains recorded inconclusive on its own window; the tender-anchor family is closed absent genuinely new structure. One hour of replication bought what 2.3 years of forward accrual would have bought, before any paper capital moved.",
+    "results_doc": "docs/lab_results_cef_toc_anchor_2014_19.md",
+    "verdict": "refuted"
+   },
+   "created": "2026-07-04",
+   "falsifiable_claim": "SUPPORTED iff shrunk mean CAR(25) > +1.0%, t>=2, n>=30 on screened 2014-2019 events; REFUTED iff shrunk <= 0 at n>=30; else INCONCLUSIVE. Hump-shape expectation (reversal by +40) stated in advance as a secondary check.",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
+    }
+   ],
+   "mechanism": "Out-of-sample replication of cef_tender_toc_anchor's announcement-anchor rule on the untouched 2014-2019 window: same constrained counterparty (the fund, bound by its own filed tender terms), same earliest-TO-C anchor, same 25-day statutory window, zero re-tuned parameters. Window 1 (2020-26) read +1.00%/t 1.92/win 61% with a rise-then-full-reversal hump peaking near day 25; this window tests both the level and the hump shape in a different rate/activist regime. Gates inherited from the parent slug (G1-G4 pass; G5 solved by replication instead of slow forward accrual).",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_cef_toc_anchor_2014_19.md",
+    "metric": "Market-adjusted CAR vs SPY TR at +25 trading days from first close strictly after the earliest TO-C; full curve to +40 published for the hump-shape check.",
+    "population_definition": "SC TO-I by listed CEFs 2014-01-01..2019-12-31 from EDGAR quarterly full-index (exact form type, /A excluded), 180d per-fund dedup, SFP category=CEF matching with delisted included and window-checked name fallback; kept iff an SC TO-C by the same CIK exists 1-90d before; pre-anchor listing screen; unpriceable disclosed.",
+    "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30 -> earns start_forward_test. REFUTED: shrunk <= 0 at n>=30. Else INCONCLUSIVE."
+   },
+   "slug": "cef_toc_anchor_2014_19",
+   "sponsor": "operator",
+   "status": "refuted",
+   "underutilized_because": "Same capacity inversion: thin funds, prorated tenders, research cost per deployable dollar below institutional thresholds only for us.",
+   "who_loses": "Liquidity-demanding sellers between announcement and launch, facing a price-insensitive NAV-linked corporate bid documented in the TO-C/TO-I."
+  },
   "cross_asset_trend": {
    "backtest": {
     "bias_checklist": {
@@ -62,6 +239,56 @@
    "status": "refuted",
    "underutilized_because": "Retail/self-directed capital concentrates almost entirely on single-stock picking (as every prior house study -- Oracle, Midas, Gauntlet -- also did); a 17-ETF absolute-trend overlay requires no stock-picking skill and is mechanically trivial, yet is rarely run by small accounts who default to buy-and-hold or single-name bets. Professional CTAs run this with leverage and dozens of futures contracts unavailable to a long-only, no-leverage retail account -- this tests the stripped-down, house-constrained version.",
    "who_loses": "Non-forecasting flow: fuel hedgers locking costs regardless of price view, pensions shifting to bonds on a fixed schedule regardless of rate outlook, central banks defending currency bands, sovereign wealth funds rebalancing commodity allocations on policy schedules rather than return forecasts."
+  },
+  "delphi_ruleset_faithful": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "5bps/side mega-cap slippage + $25 tickets, band damping modeled (trims gated at \u00b120%); realized turnover 37.4x/yr on the daily cell (374bps/yr drag), 18.8x weekly; 2x-slippage rerun: -5.04% CAGR, verdict unchanged. The design's own churn, not the cost assumption, is the story.",
+     "look_ahead": "Structural: same-day-only snapshots, bars trimmed to the signal date, signal_lag=1 (signals at close t, fills at close t+1 \u2014 deliberately STRICTER than her live code's same-day execution, which is a small lookahead this study refuses); quarterly membership applies from the first trading day after its quarter-end; MA filter computed on the signal date's own closes.",
+     "multiple_testing": "n_trials=2 this study; cumulative Delphi-family cells on this panel now 5 across two preregs, all enumerated. House counter hypotheses_ever after this record: 98. Verdict criterion is benchmark-relative sign \u2014 a 5-cell selection effect cannot manufacture a pass, and every one of the 5 failed anyway.",
+     "overfitting": "Zero parameters tuned in-study. Sharpe CI for the primary [-0.35, 0.39] straddles zero; the verdict rests on a -9.36pp/yr benchmark gap, not a threshold-adjacent statistic.",
+     "regime": "27-year window spanning six prereg-frozen regimes. Published table: 1999-2002 -25.7%/yr, 2003-07 -1.3%, 2008-12 -11.2%, 2013-19 +6.4%, 2020-21 +27.2%, 2021-26 +13.6%/yr (daily cell). The weekly cell's 2021-26 segment (+18.89%/yr) replicates #4's Run B (+19.15%/yr implied) within 0.3pp \u2014 cross-study validation that the era, not the rules, made that window.",
+     "selection": "Two cells enumerated in the committed correction prereg BEFORE any faithful cell was computed (the runner phase did not exist at prereg commit). Parameters are Delphi's pre-existing live values throughout; the correction was specified from her code, not from candidate results.",
+     "small_n": "n_obs=6,913 daily returns; 10,971 round trips (median hold 3 trading days) on the primary cell; sharpe_ci published. No forward test follows \u2014 only supported backtests earn one, and this is refuted terminal.",
+     "survivorship": "Same panel as delphi_ruleset_fullwindow: 419 final tickers, 2.06M SEP bars, delisted members through final trading day, 0 missing, 0 price-return-only; universes from DAILY quarter-end cross-sections with the self-auditing top-119 boundary (only above-floor exclusions: 25 ADR/Canadian issuers excluded by the US-common-only design rule, verified per name)."
+    },
+    "date": "2026-07-04",
+    "mean_excess": -0.0828,
+    "mean_excess_shrunk": -0.007527,
+    "n": 2,
+    "notes": "faithful_daily (primary, current live cadence): -1.42% CAGR, Sharpe 0.01 [CI -0.35, 0.39], maxDD -90.5%, excess vs EW-119 -9.36%/yr (IR -0.58), vs SPY -10.10%/yr; -5.04% CAGR at 2x slippage. faithful_weekly (original claim's cadence): 0.74% CAGR, excess -7.20%/yr, maxDD -91.9%. Benchmark EW-119: 7.94%, maxDD -55.1%. Her true MA-entry-filter design churns HARDER than #11's mis-specified variant (names oscillate around their MA in and out of the eligible set; band cannot damp full dropouts): 10,971 round trips, median hold 3 trading days, 37.4x/yr turnover. mean_excess = mean of 2 cells (-9.36, -7.20)/2. Reconciliation: faithful_weekly 2021-26 = +18.89%/yr vs #4 Run B implied +19.15%/yr \u2014 the two studies agree; the era was real, and it was the outlier. Artifacts docs/data/delphi_fullwindow/faithful_results.json.",
+    "results_doc": "docs/lab_results_delphi_ruleset_faithful.md",
+    "verdict": "refuted"
+   },
+   "created": "2026-07-04",
+   "falsifiable_claim": "SUPPORTED iff faithful_daily full-window net excess CAGR > 0 vs BOTH the EW top-119 benchmark and SPY TR at 1x costs; REFUTED iff excess vs the EW benchmark <= 0.",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
+    }
+   ],
+   "mechanism": "CORRECTION study for delphi_ruleset_fullwindow, whose primary cell mis-specified Delphi's rules (erratum in its results doc). This slug tests her ACTUAL semantics, mirrored line-for-line from delphi/signals.py::rank_by_momentum and delphi/backtest.py: the 20-day MA as an ENTRY FILTER inside the momentum ranking (below-MA names never ranked), 65-day momentum and MA on the same split-adjusted close series, top-10 equal weight, 20% rebalance band, cooldown-on-any-sell, daily (current live cadence) and weekly (original claim) evaluation, on the same 110 PIT top-119 universes.",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_delphi_ruleset_faithful.md",
+    "metric": "Net-of-cost full-window excess CAGR vs same-universe EW benchmark and SPY TR; IR; per-regime splits; per-reason round trips; 2x rerun.",
+    "population_definition": "Identical panel to delphi_ruleset_fullwindow: 110 quarter-end PIT top-119 US-common universes 1999-03-31..2026-06-30, 419 final tickers, SEP bars 1998-12 onward with delisted members through final bar; ADR/Canadian excluded by design; panel reuse disclosed as the house's erratum-correction path.",
+    "success_criteria": "PASS: faithful_daily excess CAGR > 0 vs both benchmarks net at 1x slippage. REFUTED: excess vs EW <= 0. Two cells enumerated (daily primary, weekly); no other variants."
+   },
+   "slug": "delphi_ruleset_faithful",
+   "sponsor": "operator",
+   "status": "refuted",
+   "underutilized_because": "Not underutilized; the open question was whether her true entry-filter design escapes the momentum graveyard where #11's strawman variant could not.",
+   "who_loses": "Late reactors anchoring on stale prices, per the standard momentum story \u2014 if the edge exists at all in implementable long-only form."
   },
   "delphi_ruleset_fullwindow": {
    "backtest": {
@@ -163,6 +390,191 @@
    "underutilized_because": "Not underutilized in the aggregate \u2014 these are famous factors \u2014 but famously fragile after costs, in long-only implementable form, at small size, outside backtest samples. The factory's point is precisely to measure how much of the published effect is harvestable by THIS house, and to build the graveyard of cells that are not.",
    "who_loses": "Momentum: late reactors who anchor on stale prices. Reversal: impatient liquidity demanders forced to sell into weakness. Low-vol: leverage-constrained lottery buyers overpaying for volatile names. Size/neglect: nobody is on the other side per se \u2014 the edge, if real, is a premium for holding what mandates and coverage ignore."
   },
+  "gauntlet_v2_fundamentals": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Per-bucket slippage (LARGE 5bps, SMALL 25bps) + $25 ticket; the forward-test survivors HELD at 2x slippage (net_issuance LARGE +14.3-15.1%, gross_prof N50 +11.6-11.7%); the thin passers (roa, gross_prof N25) died at 2x and were dropped \u2014 the cost stress did real work.",
+     "look_ahead": "Fundamentals keyed STRICTLY by SF1 datekey (filing date), never calendardate \u2014 the classic fundamentals sin; stale-filer guard (>400d) excludes lapsed reporters; execution at the close of the first trading day AFTER the quarterly signal date (no same-day fill).",
+     "multiple_testing": "20-cell grid, DSR deflated at n_trials=20 (variance_of_sr=0.0337 cross-sectional). House counter 133 \u2014 with that many lifetime hypotheses ~6-7 false positives at 5% are expected, which is EXACTLY why survivors earn only a paper forward test on FRESH data, not belief. The two-regime out-of-sample survival (2000-2015 AND 2016-2025) at 2x cost is far stronger evidence than a single in-sample DSR and is the basis for 'supported'.",
+     "overfitting": "Zero tuned parameters; N and bucket frozen; survivors REQUIRED a surviving parameter-neighbor (net_issuance both N; gross_prof both buckets) \u2014 asset_growth N50 LARGE cleared every stat bar but was EXCLUDED as an isolated peak per the frozen cliff rule.",
+     "regime": "In-sample 2000-2015 (dot-com bust, GFC), holdout 2016-2025 (bull decade, high 11.43%/9.50% EW bar). Survivors beat their EW benchmark in BOTH regimes \u2014 the property v1's low-vol survivors LACKED (they died in the bull holdout). This two-regime survival is the finding.",
+     "selection": "20 cells enumerated in the committed prereg before any SF1 row was pulled; the DSR variance_of_sr bug (default 1.0) was found and fixed to the v1 cross-sectional convention BEFORE any verdict was recorded, and both the buggy (all-DSR-0) and fixed passes are on record.",
+     "small_n": "~3900 in-sample + ~2400 holdout daily obs/cell; PSR=1.0 in holdout is n-driven and NON-discriminating (any positive Sharpe clears it) \u2014 the BENCHMARK-beating is the real holdout bar, and that is what separated passers from failures. Forward test still needs >=20 graded paper quarters on fresh data before any validation claim.",
+     "survivorship": "SEP delisted-inclusive panel; SF1 ARQ 673k filing-dated rows (1996-2025 incl. early-years supplement fixing first-snapshot starvation); coverage 81-100%/cell disclosed; held-union bars pulled for both windows with retry-backoff, 0 material gaps."
+    },
+    "date": "2026-07-04",
+    "mean_excess": 0.0223,
+    "mean_excess_shrunk": 0.01115,
+    "n": 20,
+    "notes": "FIRST SUPPORTED BACKTEST IN HOUSE HISTORY (earns a PAPER forward test \u2014 NOT live money, NOT validated). Two parameter-robust families cleared the full gauntlet (in-sample DSR at n=20 + holdout-EW-benchmark + 2x cost + non-isolated cliff): (1) NET-ISSUANCE-LOW LARGE [N25 & N50] \u2014 long the 50 lowest trailing-4Q share-count-change top-500 names, in-sample +9.1-9.3% vs 5.51%, holdout@2x +14.3-15.1% vs 11.43% (excess +2.9-3.7%/yr); (2) GROSS-PROFITABILITY-HIGH N50 [LARGE & SMALL] \u2014 holdout@2x +11.6-11.7% (excess +0.3-2.1%/yr). asset_growth_low N50 LARGE cleared every stat bar but was EXCLUDED as an isolated peak. CAVEATS FRONT AND CENTER: these are FAMOUS anomalies; McLean-Pontiff decay (~58% post-publication) means historical survival != live harvestability; house counter 133 implies expected false positives; the forward test on FRESH post-2026 data is the only arbiter. NET-ISSUANCE-LOW LARGE is the first mechanical LARGE-CAP strategy to beat its benchmark out-of-sample => a live Delphi-REPLACEMENT candidate (operator Lens A). Stopping rule does NOT fire. Artifacts docs/data/gauntlet_v2/.",
+    "results_doc": "docs/lab_results_gauntlet_v2_fundamentals.md",
+    "verdict": "supported"
+   },
+   "created": "2026-07-04",
+   "falsifiable_claim": "At least one of the 20 enumerated cells clears the frozen in-sample bar (DSR>=0.95 at n_trials=20 AND beats same-bucket EW net) and then the frozen holdout bar (PSR>=0.95 AND beats benchmark net, 2x-cost stable, not an isolated cliff peak). Zero holdout survivors refutes the factory AND triggers the stopping rule ending all historical-panel sweeps.",
+   "forward": {
+    "grades": [],
+    "started": "2026-07-04"
+   },
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "backtested"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "forward_testing"
+    }
+   ],
+   "mechanism": "Factory-level meta-hypothesis on the LAST untouched house dataset (SF1 fundamentals, purchased 2026-07-04, never used in a study): the five strongest documented fundamentals anomalies \u2014 net share issuance (the corporation itself as counterparty: dilutes when overpriced, repurchases when not), asset growth, accruals, gross profitability, ROA \u2014 in simplest implementable long-only form, quarterly, datekey-keyed (filing-date PIT), on the v1 PIT universes, net of per-bucket costs. G1 pass (not tape); G2 PARTIAL and stated (mispricing claims, not constrained-counterparty structure) \u2014 hence counter-deflated bars, holdout touched once, 2x-cost + cliff hygiene, and the binding stopping rule: zero holdout survivors ends the historical-panel program permanently.",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_gauntlet_v2_fundamentals.md",
+    "metric": "Per-cell net daily equity curves -> DSR (n_trials=20) in-sample 2000-07..2015-12; PSR + benchmark-relative on holdout 2016-01..2025-12 (survivors only, touched once); 2x-cost rerun + parameter_cliff_report for any survivor.",
+    "population_definition": "gauntlet_v1_universes PIT snapshots (quarterly subset), SEP bars incl. delisted for pricing; SF1 ARQ fundamentals keyed by datekey (filing date) only; SF1 coverage per cell disclosed with an 80% SMALL-bucket impairment flag defined before results.",
+    "success_criteria": "Survivor = passes in-sample AND holdout AND 2x-cost AND not an isolated cliff peak -> earns >=20-grade paper forward test. Zero survivors = refuted + STOPPING RULE: historical-panel program ends permanently."
+   },
+   "slug": "gauntlet_v2_fundamentals",
+   "sponsor": "operator",
+   "status": "forward_testing",
+   "underutilized_because": "Famous and crowded in factor-fund form; the open question is whether ANY of it survives implementable long-only form at house scale and costs after every price family died \u2014 measure, don't assume, in either direction.",
+   "who_loses": "For issuance: counterparties of the corporation's own capital actions. For the rest: whoever overpays for growth/aggressive accruals \u2014 a mispricing story, honestly labeled as such rather than dressed up as structure."
+  },
+  "gauntlet_v3_value": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Per-bucket slippage + 2x rerun; value_ps_low SMALL died going 1x->2x, value_ps_low LARGE held (+12.27% vs 11.43%) but stands alone.",
+     "look_ahead": "DAILY valuation multiples are as-of-date (Sharadar computes daily from then-known fundamentals, no restatement); execution at next-day close.",
+     "multiple_testing": "8-cell grid, DSR deflated at n_trials=8 (var_sr=0.0136); house counter 133.",
+     "overfitting": "Zero tuned parameters; the isolation test is the decider here \u2014 value_ps_low LARGE cleared in-sample+holdout+2x but its parameter/multiple-neighbors did NOT clear the full gauntlet (ps_SMALL died at 2x; ep/evebitda died at holdout), so no parameter-robust survivor exists \u2014 the honest read is 'value is alive but not cleanly harvestable standalone in this simple 4-multiple form.'",
+     "regime": "Value beat its EW benchmark in-sample in 6/8 cells; in the bull holdout only price-to-sales sustained \u2014 consistent with value's known post-2008 weakness (esp. book-to-market, which failed in-sample here exactly as the modern literature predicts).",
+     "selection": "8 cells frozen in the committed prereg (with a documented pre-data benchmark amendment); same DSR-variance fix as v2 applied before any verdict.",
+     "small_n": "~3900/~2400 daily obs; PSR n-driven; the benchmark bar is the real one. No parameter-robust survivor => no forward test; a composite/quality-overlaid value construction is the indicated follow-up, not a standalone value forward test.",
+     "survivorship": "SEP delisted-inclusive; DAILY PIT multiples, coverage 76-100%/cell disclosed; PE/EVEBITDA positive-only exclusion counted per rebalance."
+    },
+    "date": "2026-07-04",
+    "mean_excess": 0.0183,
+    "mean_excess_shrunk": 0.005229,
+    "n": 8,
+    "notes": "Value is ALIVE but not cleanly harvestable standalone. 6/8 cells survived in-sample (price-to-sales, earnings-yield, EV/EBITDA both buckets; price-to-BOOK failed exactly as the modern literature predicts); 2 passed the holdout at 1x (value_ps both buckets); only value_ps_low LARGE survived 2x (+12.27% vs 11.43%) \u2014 but with NO parameter-robust neighbor (its SMALL twin died at 2x, its multiple-peers died at holdout), so it fails the isolated-peak bar and earns NO standalone forward test. INCONCLUSIVE, not refuted: value showed genuine two-regime signal, just not robustly enough in simple single-multiple form. The indicated follow-up is a COMPOSITE (net-issuance + gross-profitability + value, the three surviving families) and/or an LLM value-trap overlay on the value shortlist (operator Lens B) \u2014 a new prereg. Artifacts docs/data/gauntlet_v3/.",
+    "results_doc": "docs/lab_results_gauntlet_v3_value.md",
+    "verdict": "inconclusive"
+   },
+   "created": "2026-07-04",
+   "falsifiable_claim": "At least one of the 8 enumerated value cells clears the frozen in-sample bar (DSR>=0.95 at n_trials=8 AND net CAGR > in-run bench_ew) and then the holdout (PSR>=0.95 AND beats bench_ew net, 2x-cost stable, not an isolated cliff peak). Zero holdout survivors across v2+v3 triggers the stopping rule.",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "backtested"
+    }
+   ],
+   "mechanism": "The value family \u2014 the single most-documented anomaly the house has never tested. Four valuation multiples (P/B, P/S, P/E, EV/EBITDA) ranked on Sharadar DAILY point-in-time ratios, long the cheapest 50 equal-weight per bucket, quarterly, next-day-close execution. G1 pass (ratio = fundamentals/price, not tape); G2 PARTIAL and stated (mispricing/risk-premium claim, not constrained-counterparty structure) \u2014 hence the merciless in-run EW-of-universe benchmark. The literature is genuinely split (Hou-Xue-Zhang harsh, Jensen-Kelly-Pedersen kinder); the house frame \u2014 harvestable by a tiny equal-weighted book vs its own universe EW \u2014 is the arbiter, and gauntlet_v1 already killed every price family under it.",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_gauntlet_v3_value.md",
+    "metric": "Per-cell net daily equity curve -> DSR (n_trials=8) in-sample 2000-07..2015-12; PSR + beats in-run bench_ew on holdout 2016-01..2025-12 (survivors only); 2x-cost + cliff.",
+    "population_definition": "gauntlet_v1_universes PIT top-500 (LARGE) / 501-2000 (SMALL) quarterly snapshots; ranking on DAILY pb/ps/pe/evebitda as-of the rebalance date (PIT by Sharadar construction); PE/EVEBITDA positive-only with the exclusion counted per rebalance; SEP delisted-inclusive bars for held names; coverage per cell disclosed.",
+    "success_criteria": "Survivor = in-sample DSR>=0.95 AND > bench_ew, AND holdout PSR>=0.95 AND > bench_ew, AND 2x-cost stable, AND not an isolated cliff peak -> paper forward test. Zero survivors (with v2) = stopping rule."
+   },
+   "slug": "gauntlet_v3_value",
+   "sponsor": "operator",
+   "status": "backtested",
+   "underutilized_because": "Famous and crowded in factor-fund form; the open house question is whether it survives implementable equal-weight long-only form at house costs against its own universe's equal weight \u2014 measured, not assumed.",
+   "who_loses": "Whoever overpays for glamour / underpays for cheap \u2014 a mispricing story, honestly labeled as such, not dressed as structure."
+  },
+  "gauntlet_v4_composite": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Per-bucket costs; irrelevant to the verdict \u2014 the composite is negative gross (in-sample CAGR -2.6% to -9.4%), so costs only deepen it.",
+     "look_ahead": "SF1 datekey-PIT + DAILY as-of multiples; next-day-close execution; identical to v2/v3.",
+     "multiple_testing": "4-cell grid, DSR n_trials=4; counter 137. The single-factor components were already validated through the SAME simulate() engine (v2/v3), so the engine is not in question \u2014 only the composite ranking, which is new and failed.",
+     "overfitting": "Zero tuned parameters. The finding is the OPPOSITE of overfitting: the naive composite UNDERfits each factor's tail \u2014 averaging ranks pulls selection to the moderate middle and discards the extreme-tail names where the single-factor alpha concentrates.",
+     "regime": "In-sample 2000-2015 negative across all 4 cells; never reached holdout (in-sample failure terminates per the ratchet).",
+     "selection": "4 cells frozen in the committed prereg before any composite holding computed; the equal-mean-of-ranks weighting frozen (not tuned). Direction VERIFIED post-result (top names rank 0.5-0.98 on all three signals; no ranking bug) before recording.",
+     "small_n": "~3900 daily obs/cell; the negative result is decisive (all 4 cells below benchmark AND below zero), not underpowered.",
+     "survivorship": "SEP delisted-inclusive; composite union 860(IS)/661(HO) names, coverage 80-91% (>=2 of 3 signals); disclosed. Smaller union than the single-factor sorts BY DESIGN (composite concentrates on cross-signal agreement)."
+    },
+    "date": "2026-07-04",
+    "mean_excess": -0.114,
+    "mean_excess_shrunk": -0.019,
+    "n": 4,
+    "notes": "REFUTED \u2014 and a genuinely useful negative. The naive equal-rank composite of the three surviving families (net-issuance + gross-profitability + price-to-sales) posted NEGATIVE in-sample CAGR (-2.6% to -9.4%) across all 4 cells vs +8-9% for each factor ALONE \u2014 it failed the in-sample screen and never reached holdout. Direction verified (top names rank high on all three; no bug). Mechanism: averaging percentile ranks pulls selection toward names that are moderately-good-at-everything and EXTREME-at-nothing, discarding the tail where each single factor's alpha lives (the net-issuance edge is in DEEP buybacks, not moderate ones). DELPHI-REPLACEMENT CONCLUSION (Lens A): naive compositing does NOT beat net-issuance-low LARGE alone \u2014 the standalone factor remains the candidate to forward-test. A tail-preserving construction (intersect-the-tails, or factor-weighted not rank-averaged) would be a NEW prereg. This closes the composite question for the naive form.",
+    "results_doc": "docs/lab_results_gauntlet_v4_composite.md",
+    "verdict": "refuted"
+   },
+   "created": "2026-07-04",
+   "falsifiable_claim": "At least one composite cell clears in-sample DSR (n=4) + holdout EW + 2x + non-isolated cliff AND shows lift over the best single family in the same bucket. Failing that, the composite adds nothing over net-issuance alone.",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
+    }
+   ],
+   "mechanism": "Rank-composite of the three families that showed life in v2/v3 \u2014 net-issuance-low (SUPPORTED), gross-profitability-high (SUPPORTED), price-to-sales-low (alive) \u2014 equal-mean of within-bucket percentile ranks, long top-N, quarterly, next-day exec. Tests JKP's (2023) finding that composite factors are the most robust form, and directly seeks a stronger LARGE-bucket Delphi replacement than net-issuance alone. Gates inherited (fundamentals G1 pass, G2 partial); the merciless EW benchmark + two-regime + 2x + cliff apply.",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_gauntlet_v4_composite.md",
+    "metric": "Per-cell net daily curve -> DSR (n_trials=4) in-sample; holdout beats bucket EW scalar; 2x rerun; cliff; lift vs the best single family in-bucket reported.",
+    "population_definition": "v1 PIT universes; per member per quarter, mean of available percentile ranks across net-issuance (SF1), gross-profitability (SF1), price-to-sales (DAILY); >=2 of 3 signals required; top-N long; SEP delisted-inclusive bars; coverage disclosed.",
+    "success_criteria": "Survivor = in-sample DSR>=0.95 AND > EW scalar, holdout > EW scalar, 2x stable, non-isolated -> paper forward test (+ Delphi-candidate flag if LARGE). Counter +4."
+   },
+   "slug": "gauntlet_v4_composite",
+   "sponsor": "operator",
+   "status": "refuted",
+   "underutilized_because": "Composites are the crowded core of factor investing; the open house question is whether the combination is more ROBUST than its parts at house scale and cost \u2014 measured, not assumed.",
+   "who_loses": "Whoever is on the other side of the three underlying mispricings \u2014 buyback counterparties, glamour overpayers, low-profitability holders."
+  },
+  "gauntlet_v5_newfundamentals": {
+   "created": "2026-07-04",
+   "falsifiable_claim": "Each signal fails if its equal-weight top-N basket does not beat the same-universe equal-weight benchmark in BOTH 2000-2015 and 2016-2025 at 2x cost in a non-isolated cell; fund_mom additionally dies if its excess loses significance after controlling for 12-1 price momentum.",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "Three fundamentals families that survived a six-front alpha sweep, each a distinct underreaction to accounting information a naive screen misreads: cash-based operating profitability strips accruals from profitability (Ball-Gerakos-Linnainmaa-Nikolaev 2016) and the market underprices durable cash-realized quality; abnormal R&D increases mechanically depress GAAP earnings so screeners misrank investing firms as deteriorating (Eberhart-Maxwell-Siddique 2004); fundamental momentum captures sluggish analyst/price updating to the earnings trend itself, the object price momentum is only a noisy shadow of (Novy-Marx 2015).",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_gauntlet_v5_newfundamentals.md",
+    "metric": "Equal-weight top-N (25,50) basket CAGR and Sharpe, benchmark-relative vs same-bucket equal weight, net of per-bucket costs, quarterly rebalance, total-return marked.",
+    "population_definition": "The frozen gauntlet_v1_universes PIT catalog: top-2000 US names by point-in-time Sharadar DAILY marketcap, quarterly, split LARGE (top-500) and SMALL (501-2000), 2000-2025, delisted-inclusive SEP bars, SF1 ARQ fundamentals keyed by datekey (filing date).",
+    "success_criteria": "SUPPORTED only if a non-isolated cell clears DSR>=0.95 (n_trials=16, cross-sectional variance_of_sr) and beats same-bucket EW in-sample AND holdout at 2x cost; fund_mom must also survive the price-momentum orthogonalization. Head-to-head: beating the in-screen gross_prof reference in both regimes flags a Plutus second-factor upgrade candidate."
+   },
+   "slug": "gauntlet_v5_newfundamentals",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "underutilized_because": "Cash-based OP and abnormal-R&D are accounting-construction refinements most naive screens do not compute; fundamental momentum is confounded with dead price momentum so it is dismissed; all three concentrate where sell-side coverage is thin.",
+   "who_loses": "Earnings/quality screeners and passive value indexes anchoring on GAAP-reported E and B, plus analysts who revise too slowly; and lottery-seeking holders of the junk leg the long book avoids."
+  },
   "ipo_lockup_reversion": {
    "backtest": {
     "bias_checklist": {
@@ -213,6 +625,56 @@
    "underutilized_because": "Lockup-expiry research and financial media coverage concentrate almost entirely on famous, mega-cap IPOs (exactly the kind session 3 rejected on EQPT/SPCX as already-published and priced-in); the broad population of small-cap, low-coverage IPOs has calendar-certain, EDGAR-documented lockup dates that are public but that no systematic screener or analyst desk tracks, leaving the effect unarbitraged specifically in names too small and unglamorous to attract the attention that kills it in famous names.",
    "who_loses": "Momentum shorts and lockup-cliff narrative traders who pile onto the anticipated overhang and are then squeezed as selling exhausts and price reverts; also pre-IPO holders forced to sell into a temporarily depressed, oversupplied tape rather than at a fundamentals-clearing price."
   },
+  "issuer_tender_operating": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Gross event study; the +1.0%-shrunk SUPPORTED bar exists partly as a cost buffer; CEF/small-cap spreads named as the reason a forward test grades net.",
+     "look_ahead": "Entry strictly after the anchor filing's acceptance date; listing screen uses pre-anchor bars only; anchors from EDGAR full-index dates.",
+     "multiple_testing": "One primary + the preregistered $2B capacity split (run): counter includes it; house counter now 103.",
+     "overfitting": "Zero tuned parameters; offset 25 = statutory window; thresholds frozen pre-data; outlier audit run before recording (medians vs means, top-k exclusion sensitivity).",
+     "regime": "2020-2026; negative in aggregate and in BOTH capacity halves \u2014 small -2.33%/t -1.08, large -0.78%/t -0.56; the G3 rescue the prereg named did not appear.",
+     "selection": "Populations frozen in the committed prereg before the TO-C sweep and before any operating outcome; the #7 catalog reused as frozen infrastructure, outcomes at THIS anchor never previously computed.",
+     "small_n": "n=206 screened; shrunk -1.66%; sign-based REFUTED bar met at 6.9x the n floor.",
+     "survivorship": "227 matched (206 after listing screen) of 2,797 non-CEF filers; the unmatched bulk is non-traded vehicles (BDC/interval/LLC funds 2,106, non-traded REITs), by-design foreign-issuer exclusions (DSX-class), plus rename misses (Assertio-class) \u2014 liquid listed filers (MCK, MGM, DISH, SLM) matched. Under-sampling of later-renamed/acquired filers disclosed as the residual survivorship caveat."
+    },
+    "date": "2026-07-04",
+    "mean_excess": -0.018159,
+    "mean_excess_shrunk": -0.016552,
+    "n": 206,
+    "notes": "Mean CAR(25) -1.82%, shrunk -1.66%, t -1.20, win 44%; small-cap half WORSE (-2.33%) \u2014 the capacity-inversion hope refuted alongside the headline. Operating self-tenders post-filing look like the CEF TO-I result: announcement value, if any, is spent by the filing; the offer window itself carries no harvestable drift at this anchor.",
+    "results_doc": "docs/lab_results_tender_followups.md",
+    "verdict": "refuted"
+   },
+   "created": "2026-07-04",
+   "falsifiable_claim": "SUPPORTED iff shrunk mean CAR(25) > +1.0%, t>=2, n>=30 on the screened population; REFUTED iff shrunk <= 0 at n>=30; secondary $2B split non-gating.",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
+    }
+   ],
+   "mechanism": "Operating-company issuer self-tenders (SC TO-I, non-CEF): the company itself is the constrained buyer, bound by its own filed dutch-auction range or fixed price for a >=20-business-day window \u2014 a quasi-contractual demand floor plus a management signal, documented in the filing. Gates: G1 pass (filing anchor), G2 pass (issuer bound by its own TO-I), G3 partial (mixed caps; preregistered $2B split is the capacity-inversion cut), G4 pass (filed price/range), G5 pass (hundreds of events).",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_tender_followups.md",
+    "metric": "Market-adjusted CAR vs SPY at +25 trading days from first close strictly after the TO-I filing date; SEP bars (closeadj); shared.gauntlet.event_car.",
+    "population_definition": "The same 3,010-row SC TO-I catalog minus CEF events; CIK->ticker via SEC company_tickers then exact-name match into full Sharadar SEP TICKERS (delisted included, window-checked) so dead filers are recovered; US common classes only; 180-day per-CIK dedup; unmatched disclosed.",
+    "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30 (screened). REFUTED: shrunk <= 0 at n>=30. Secondary: market-cap split at $2B, non-gating."
+   },
+   "slug": "issuer_tender_operating",
+   "sponsor": "operator",
+   "status": "refuted",
+   "underutilized_because": "The small-cap half (the preregistered cut) is where fills are too small for institutions; the large half is the control that discipline demands we report rather than cherry-pick.",
+   "who_loses": "Holders selling into the offer window below the filed range \u2014 liquidity demanders facing a disclosed, price-insensitive corporate bid."
+  },
   "quiet_cluster_ghost": {
    "created": "2026-07-04",
    "falsifiable_claim": "Quiet-cluster mean 12-month excess (vs IWM) > 0 with t>=2 on n>=30 graded events validates; mean excess <=0 or t<2 with n>=30 refutes; n<30 stays inconclusive. Fresh Form 4 population from 2026-06-01 onward only (spent replay data excluded by construction).",
@@ -240,496 +702,28 @@
    "underutilized_because": "The full cluster signal is public (every Form 4 is EDGAR-visible) but almost nobody filters clusters by the ABSENCE of contemporaneous news/price/volume signal, since that requires a three-way negative screen most scanners are not built to run at all; if the quiet subset differs, it is underused because it is operationally annoying to isolate, not because it is secret.",
    "who_loses": "If real: market participants who only act on visible catalysts (news, volume, price pops) and structurally miss the quiet subset until the re-rating catches up -- the same late-reactor story as momentum, but at the filing-conviction layer rather than the price layer."
   },
-  "delphi_ruleset_faithful": {
-   "slug": "delphi_ruleset_faithful",
-   "sponsor": "operator",
-   "status": "refuted",
-   "created": "2026-07-04",
-   "history": [
-    {
-     "date": "2026-07-04",
-     "to": "hypothesis"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "preregistered"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "refuted"
-    }
-   ],
-   "mechanism": "CORRECTION study for delphi_ruleset_fullwindow, whose primary cell mis-specified Delphi's rules (erratum in its results doc). This slug tests her ACTUAL semantics, mirrored line-for-line from delphi/signals.py::rank_by_momentum and delphi/backtest.py: the 20-day MA as an ENTRY FILTER inside the momentum ranking (below-MA names never ranked), 65-day momentum and MA on the same split-adjusted close series, top-10 equal weight, 20% rebalance band, cooldown-on-any-sell, daily (current live cadence) and weekly (original claim) evaluation, on the same 110 PIT top-119 universes.",
-   "who_loses": "Late reactors anchoring on stale prices, per the standard momentum story \u2014 if the edge exists at all in implementable long-only form.",
-   "underutilized_because": "Not underutilized; the open question was whether her true entry-filter design escapes the momentum graveyard where #11's strawman variant could not.",
-   "falsifiable_claim": "SUPPORTED iff faithful_daily full-window net excess CAGR > 0 vs BOTH the EW top-119 benchmark and SPY TR at 1x costs; REFUTED iff excess vs the EW benchmark <= 0.",
-   "prereg": {
-    "doc": "docs/lab_prereg_delphi_ruleset_faithful.md",
-    "date": "2026-07-04",
-    "population_definition": "Identical panel to delphi_ruleset_fullwindow: 110 quarter-end PIT top-119 US-common universes 1999-03-31..2026-06-30, 419 final tickers, SEP bars 1998-12 onward with delisted members through final bar; ADR/Canadian excluded by design; panel reuse disclosed as the house's erratum-correction path.",
-    "metric": "Net-of-cost full-window excess CAGR vs same-universe EW benchmark and SPY TR; IR; per-regime splits; per-reason round trips; 2x rerun.",
-    "success_criteria": "PASS: faithful_daily excess CAGR > 0 vs both benchmarks net at 1x slippage. REFUTED: excess vs EW <= 0. Two cells enumerated (daily primary, weekly); no other variants."
-   },
-   "backtest": {
-    "date": "2026-07-04",
-    "n": 2,
-    "mean_excess": -0.0828,
-    "mean_excess_shrunk": -0.007527,
-    "verdict": "refuted",
-    "bias_checklist": {
-     "survivorship": "Same panel as delphi_ruleset_fullwindow: 419 final tickers, 2.06M SEP bars, delisted members through final trading day, 0 missing, 0 price-return-only; universes from DAILY quarter-end cross-sections with the self-auditing top-119 boundary (only above-floor exclusions: 25 ADR/Canadian issuers excluded by the US-common-only design rule, verified per name).",
-     "look_ahead": "Structural: same-day-only snapshots, bars trimmed to the signal date, signal_lag=1 (signals at close t, fills at close t+1 \u2014 deliberately STRICTER than her live code's same-day execution, which is a small lookahead this study refuses); quarterly membership applies from the first trading day after its quarter-end; MA filter computed on the signal date's own closes.",
-     "selection": "Two cells enumerated in the committed correction prereg BEFORE any faithful cell was computed (the runner phase did not exist at prereg commit). Parameters are Delphi's pre-existing live values throughout; the correction was specified from her code, not from candidate results.",
-     "multiple_testing": "n_trials=2 this study; cumulative Delphi-family cells on this panel now 5 across two preregs, all enumerated. House counter hypotheses_ever after this record: 98. Verdict criterion is benchmark-relative sign \u2014 a 5-cell selection effect cannot manufacture a pass, and every one of the 5 failed anyway.",
-     "overfitting": "Zero parameters tuned in-study. Sharpe CI for the primary [-0.35, 0.39] straddles zero; the verdict rests on a -9.36pp/yr benchmark gap, not a threshold-adjacent statistic.",
-     "costs_liquidity": "5bps/side mega-cap slippage + $25 tickets, band damping modeled (trims gated at \u00b120%); realized turnover 37.4x/yr on the daily cell (374bps/yr drag), 18.8x weekly; 2x-slippage rerun: -5.04% CAGR, verdict unchanged. The design's own churn, not the cost assumption, is the story.",
-     "regime": "27-year window spanning six prereg-frozen regimes. Published table: 1999-2002 -25.7%/yr, 2003-07 -1.3%, 2008-12 -11.2%, 2013-19 +6.4%, 2020-21 +27.2%, 2021-26 +13.6%/yr (daily cell). The weekly cell's 2021-26 segment (+18.89%/yr) replicates #4's Run B (+19.15%/yr implied) within 0.3pp \u2014 cross-study validation that the era, not the rules, made that window.",
-     "small_n": "n_obs=6,913 daily returns; 10,971 round trips (median hold 3 trading days) on the primary cell; sharpe_ci published. No forward test follows \u2014 only supported backtests earn one, and this is refuted terminal."
-    },
-    "results_doc": "docs/lab_results_delphi_ruleset_faithful.md",
-    "notes": "faithful_daily (primary, current live cadence): -1.42% CAGR, Sharpe 0.01 [CI -0.35, 0.39], maxDD -90.5%, excess vs EW-119 -9.36%/yr (IR -0.58), vs SPY -10.10%/yr; -5.04% CAGR at 2x slippage. faithful_weekly (original claim's cadence): 0.74% CAGR, excess -7.20%/yr, maxDD -91.9%. Benchmark EW-119: 7.94%, maxDD -55.1%. Her true MA-entry-filter design churns HARDER than #11's mis-specified variant (names oscillate around their MA in and out of the eligible set; band cannot damp full dropouts): 10,971 round trips, median hold 3 trading days, 37.4x/yr turnover. mean_excess = mean of 2 cells (-9.36, -7.20)/2. Reconciliation: faithful_weekly 2021-26 = +18.89%/yr vs #4 Run B implied +19.15%/yr \u2014 the two studies agree; the era was real, and it was the outlier. Artifacts docs/data/delphi_fullwindow/faithful_results.json."
-   }
-  },
-  "cef_tender_convergence": {
-   "slug": "cef_tender_convergence",
-   "sponsor": "operator",
-   "status": "refuted",
-   "created": "2026-07-04",
-   "history": [
-    {
-     "date": "2026-07-04",
-     "to": "hypothesis"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "preregistered"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "refuted"
-    }
-   ],
-   "mechanism": "When a closed-end fund files an issuer tender offer (SC TO-I), the fund itself becomes a CONSTRAINED buyer: bound by its own filed terms to repurchase shares at an NAV-linked price (typically 98-100% of NAV) in an offer that must stay open at least 20 business days (rule 14e-1(a)). If the fund trades at a discount, the tender creates a quasi-contractual convergence path from market price toward the NAV-linked terminal value. Gates: G1 pass (filing-driven, not tape), G2 pass (the counterparty is the fund, the constraint is its own SC TO-I), G3 pass (CEFs are thin, tenders often odd-lot-prioritized, institutions cannot size in), G4 pass (contractual terminal value), G5 expected-pass (dense recurring event stream).",
-   "who_loses": "Nobody is outsmarted: the fund is a price-insensitive buyer BY ITS OWN FILED TERMS; sellers pre-expiry are liquidity-demanding holders exiting before the NAV-linked price is available.",
-   "underutilized_because": "Position sizes are capped by tiny fund ADVs and odd-lot mechanics \u2014 the research cost per deployable dollar exceeds any institution's threshold; it does not exceed ours.",
-   "falsifiable_claim": "SUPPORTED iff shrunk mean market-adjusted CAR at +25 trading days > +1.0% with t>=2 and n>=30 across the complete 2020-2026 SC TO-I catalog; REFUTED iff shrunk mean <= 0 at n>=30.",
-   "prereg": {
-    "doc": "docs/lab_prereg_cef_tender_convergence.md",
-    "date": "2026-07-04",
-    "population_definition": "ALL SC TO-I filings (excluding /A amendments) 2020-01-01..2026-05-15 via EDGAR full-text search, filer matched to listed CEFs (Sharadar SFP category CEF), one event per fund per 180 days, unmatched events disclosed as unpriceable \u2014 complete catalog, defined before it exists.",
-    "metric": "Market-adjusted CAR vs SPY at offsets 0-25 trading days from first close strictly after filing date (shared.gauntlet.event_car); primary statistic shrunk mean CAR(25).",
-    "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30 -> earns paper forward test. REFUTED: shrunk CAR(25) <= 0 at n>=30. Else INCONCLUSIVE. Secondary discount>=12% cut preregistered, non-gating."
-   },
-   "backtest": {
-    "date": "2026-07-04",
-    "n": 132,
-    "mean_excess": -0.01807,
-    "mean_excess_shrunk": -0.015692,
-    "verdict": "refuted",
-    "bias_checklist": {
-     "survivorship": "Population from EDGAR quarterly full-index (form.idx) \u2014 filings, not surviving funds; 3,010 raw SC TO-I rows 2020-01..2026-05, 153 CEF-matched events (+44 same-tender dupes deduped at 180d), 2,813 unmatched filers are operating companies and UNLISTED interval funds (no market price \u2014 out of scope by the frozen 'listed' definition; top unmatched are quarterly repurchase vehicles). Delisted-after-tender funds keep SFP bars through final day.",
-     "look_ahead": "Entry at first close STRICTLY AFTER the filing acceptance date; the listing screen (>=15 bars in the 30 calendar days BEFORE filing) uses pre-event data only. Note: funds often press-release tenders before the SC TO-I lands \u2014 our entry is thus conservative/late, which cannot manufacture the negative result (it can only have missed an earlier pop).",
-     "selection": "Complete catalog from full-index sweeps (no full-text query bias); window, dedup, and match rules frozen in the prereg before the catalog existed. One in-flight correction disclosed: a company-name parsing bug initially broke the name-match fallback; fixing it added 24 events BEFORE any outcome was computed.",
-     "multiple_testing": "One primary statistic; the preregistered secondary (stated-NAV discount>=12% cut) was NOT run \u2014 slug went terminal-refuted on the primary, mooting it. Counter +2 at record per the prereg's own commitment (hypotheses_ever 98->100 including registration). Verdict is a frozen sign+t bar, not a selected best cut.",
-     "overfitting": "Zero tuned parameters: offset 25 is the statutory minimum offer window; thresholds frozen pre-data. The listing screen is the frozen population definition ('listed CEF') made operational after sparse-quote vehicles (VCX six identical +314% artifacts, MSIF zero 2024 bars, EIIA weekly prints, FSCO) surfaced \u2014 BOTH raw (n=153, shrunk -0.76%, t -1.88) and listed-only (n=132, shrunk -1.57%, t -3.91) reported; the verdict is the same sign under both.",
-     "costs_liquidity": "Event study is gross of costs; costs only worsen a negative result. CEF spreads are wide \u2014 a forward test was the venue for net grading and none is earned.",
-     "regime": "2020-2026 spans covid, ZIRP, the 2022 rate shock, two bull legs. Per-year mean CAR(25): 2020 +0.1%, 2021 +0.7%, 2022 +2.9%, 2023 -2.9%, 2024 -1.4%, 2025 +0.2%, 2026 -6.5%(n=5) \u2014 no year clears the +1.0% bar; the lone positive year (2022, n=13) is the rate-shock discount-blowout cohort.",
-     "small_n": "n=132 listed events (153 raw) with 100% pricing coverage after the listing screen; shrunk mean cited; t=-3.91 \u2014 the NEGATIVE drift is itself statistically strong, not a null."
-    },
-    "results_doc": "docs/lab_results_cef_tender_convergence.md",
-    "notes": "PRIMARY (listed, n=132): mean market-adjusted CAR(25) -1.81%, shrunk -1.57%, t -3.91, win rate 33.3%; medians match means (no outlier dependence). Raw incl. sparse-quote vehicles (n=153): -0.86%, t -1.88, same sign. The curve is negative from offset 3 and worsens through 20-25 (expiry/proration re-widening window). Not merely 'no edge': post-filing tender windows UNDERPERFORM SPY significantly. Likely mechanism: any convergence is priced at the earlier press release (entry here is the SC TO-I filing), the NAV-linked terminal value applies only to prorated tendered shares, and discounts re-widen into expiry. A press-release-entry variant would be a NEW hypothesis (G5 power fine, but it must pass the gates again with a different event anchor). Artifacts: docs/data/cef_tenders/."
-   }
-  },
-  "cef_tender_toc_anchor": {
-   "slug": "cef_tender_toc_anchor",
-   "sponsor": "operator",
-   "status": "backtested",
-   "created": "2026-07-04",
-   "history": [
-    {
-     "date": "2026-07-04",
-     "to": "hypothesis"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "preregistered"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "backtested"
-    }
-   ],
-   "mechanism": "#7 refuted the CEF-tender FILING-date entry and localized the failure to the anchor: the convergence toward the fund's NAV-linked, self-documented repurchase terms is plausibly captured between the ANNOUNCEMENT (SC TO-C communication) and the TO-I launch. Same constrained counterparty (the fund, bound by its own filed offer, rule 14e-1(a) 20-business-day minimum), earlier knowability anchor. Gates: G1-G4 pass as in #7; G5 uncertain (TO-C usage among CEFs unknown; n<30 -> inconclusive, honest).",
-   "who_loses": "Sellers between announcement and launch who demand liquidity before the NAV-linked price is available; the fund is price-insensitive by its own filed terms.",
-   "underutilized_because": "Same capacity inversion as #7 \u2014 thin funds, prorated odd-lot mechanics; research cost per deployable dollar excludes institutions.",
-   "falsifiable_claim": "SUPPORTED iff shrunk mean CAR(25) from the TO-C anchor > +1.0%, t>=2, n>=30 quiet events; REFUTED iff shrunk <= 0 at n>=30; INCONCLUSIVE below n=30.",
-   "prereg": {
-    "doc": "docs/lab_prereg_tender_followups.md",
-    "date": "2026-07-04",
-    "population_definition": "The frozen #7 catalog's 153 CEF events joined to ALL SC TO-C filings by the same CIKs from the same 2020Q1-2026Q2 full-index sweeps; kept iff earliest TO-C >= 1 day before the TO-I; same pre-anchor listing screen.",
-    "metric": "Market-adjusted CAR vs SPY at +25 trading days from first close strictly after the earliest TO-C; shared.gauntlet.event_car.",
-    "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30. REFUTED: shrunk <= 0 at n>=30. Else INCONCLUSIVE. Overlap with #7's later-anchor outcomes disclosed."
-   },
-   "backtest": {
-    "date": "2026-07-04",
-    "n": 82,
-    "mean_excess": 0.010046,
-    "mean_excess_shrunk": 0.008076,
-    "verdict": "inconclusive",
-    "bias_checklist": {
-     "survivorship": "82/153 frozen CEF events had a prior TO-C within 90 days (coverage disclosed \u2014 TO-C usage is self-selected by funds and this subset cannot speak for non-TO-C tenders); same listing screen as #7; delisted funds keep SFP bars.",
-     "look_ahead": "Entry strictly after the anchor filing's acceptance date; listing screen uses pre-anchor bars only; anchors from EDGAR full-index dates.",
-     "selection": "Populations frozen in the committed prereg before the TO-C sweep and before any operating outcome; the #7 catalog reused as frozen infrastructure, outcomes at THIS anchor never previously computed.",
-     "multiple_testing": "One primary statistic, no secondary run; hypotheses_ever 102->103 with sibling slug's secondary. Frozen bars missed NARROWLY (shrunk +0.81% vs +1.0%; t 1.92 vs 2.0) \u2014 recorded INCONCLUSIVE, not talked up to supported.",
-     "overfitting": "Zero tuned parameters; offset 25 = statutory window; thresholds frozen pre-data; outlier audit run before recording (medians vs means, top-k exclusion sensitivity).",
-     "costs_liquidity": "Gross event study; the +1.0%-shrunk SUPPORTED bar exists partly as a cost buffer; CEF/small-cap spreads named as the reason a forward test grades net.",
-     "regime": "Events span 2020-2026; positive lean is broad-based (median +1.52% > mean, win 61%), not one era's outlier \u2014 but per-year cells are thin at n=82.",
-     "small_n": "n=82; shrunk mean cited; mean excl. top-1 +0.85%, excl. top-3 +0.63% \u2014 no single-event dependence. Below the frozen n/effect bars regardless."
-    },
-    "results_doc": "docs/lab_results_tender_followups.md",
-    "notes": "FIRST NON-NEGATIVE READING IN THE HOUSE: mean CAR(25) from the TO-C (announcement) anchor +1.00%, shrunk +0.81%, t 1.92, win 61%, median +1.52% \u2014 the sign flip vs #7's TO-I anchor (-1.81%, t -3.91) confirms #7's mechanism reading: the convergence is captured between announcement and launch. INCONCLUSIVE per frozen bars, missed narrowly on both. The honest continuation is FRESH data, not a re-cut: new TO-C events accrue forward from 2026-06; a forward-accrual continuation under the same frozen rule would be a new prereg the operator may commission."
-   }
-  },
-  "issuer_tender_operating": {
-   "slug": "issuer_tender_operating",
-   "sponsor": "operator",
-   "status": "refuted",
-   "created": "2026-07-04",
-   "history": [
-    {
-     "date": "2026-07-04",
-     "to": "hypothesis"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "preregistered"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "refuted"
-    }
-   ],
-   "mechanism": "Operating-company issuer self-tenders (SC TO-I, non-CEF): the company itself is the constrained buyer, bound by its own filed dutch-auction range or fixed price for a >=20-business-day window \u2014 a quasi-contractual demand floor plus a management signal, documented in the filing. Gates: G1 pass (filing anchor), G2 pass (issuer bound by its own TO-I), G3 partial (mixed caps; preregistered $2B split is the capacity-inversion cut), G4 pass (filed price/range), G5 pass (hundreds of events).",
-   "who_loses": "Holders selling into the offer window below the filed range \u2014 liquidity demanders facing a disclosed, price-insensitive corporate bid.",
-   "underutilized_because": "The small-cap half (the preregistered cut) is where fills are too small for institutions; the large half is the control that discipline demands we report rather than cherry-pick.",
-   "falsifiable_claim": "SUPPORTED iff shrunk mean CAR(25) > +1.0%, t>=2, n>=30 on the screened population; REFUTED iff shrunk <= 0 at n>=30; secondary $2B split non-gating.",
-   "prereg": {
-    "doc": "docs/lab_prereg_tender_followups.md",
-    "date": "2026-07-04",
-    "population_definition": "The same 3,010-row SC TO-I catalog minus CEF events; CIK->ticker via SEC company_tickers then exact-name match into full Sharadar SEP TICKERS (delisted included, window-checked) so dead filers are recovered; US common classes only; 180-day per-CIK dedup; unmatched disclosed.",
-    "metric": "Market-adjusted CAR vs SPY at +25 trading days from first close strictly after the TO-I filing date; SEP bars (closeadj); shared.gauntlet.event_car.",
-    "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30 (screened). REFUTED: shrunk <= 0 at n>=30. Secondary: market-cap split at $2B, non-gating."
-   },
-   "backtest": {
-    "date": "2026-07-04",
-    "n": 206,
-    "mean_excess": -0.018159,
-    "mean_excess_shrunk": -0.016552,
-    "verdict": "refuted",
-    "bias_checklist": {
-     "survivorship": "227 matched (206 after listing screen) of 2,797 non-CEF filers; the unmatched bulk is non-traded vehicles (BDC/interval/LLC funds 2,106, non-traded REITs), by-design foreign-issuer exclusions (DSX-class), plus rename misses (Assertio-class) \u2014 liquid listed filers (MCK, MGM, DISH, SLM) matched. Under-sampling of later-renamed/acquired filers disclosed as the residual survivorship caveat.",
-     "look_ahead": "Entry strictly after the anchor filing's acceptance date; listing screen uses pre-anchor bars only; anchors from EDGAR full-index dates.",
-     "selection": "Populations frozen in the committed prereg before the TO-C sweep and before any operating outcome; the #7 catalog reused as frozen infrastructure, outcomes at THIS anchor never previously computed.",
-     "multiple_testing": "One primary + the preregistered $2B capacity split (run): counter includes it; house counter now 103.",
-     "overfitting": "Zero tuned parameters; offset 25 = statutory window; thresholds frozen pre-data; outlier audit run before recording (medians vs means, top-k exclusion sensitivity).",
-     "costs_liquidity": "Gross event study; the +1.0%-shrunk SUPPORTED bar exists partly as a cost buffer; CEF/small-cap spreads named as the reason a forward test grades net.",
-     "regime": "2020-2026; negative in aggregate and in BOTH capacity halves \u2014 small -2.33%/t -1.08, large -0.78%/t -0.56; the G3 rescue the prereg named did not appear.",
-     "small_n": "n=206 screened; shrunk -1.66%; sign-based REFUTED bar met at 6.9x the n floor."
-    },
-    "results_doc": "docs/lab_results_tender_followups.md",
-    "notes": "Mean CAR(25) -1.82%, shrunk -1.66%, t -1.20, win 44%; small-cap half WORSE (-2.33%) \u2014 the capacity-inversion hope refuted alongside the headline. Operating self-tenders post-filing look like the CEF TO-I result: announcement value, if any, is spent by the filing; the offer window itself carries no harvestable drift at this anchor."
-   }
-  },
-  "cef_toc_anchor_2014_19": {
-   "slug": "cef_toc_anchor_2014_19",
-   "sponsor": "operator",
-   "status": "refuted",
-   "created": "2026-07-04",
-   "history": [
-    {
-     "date": "2026-07-04",
-     "to": "hypothesis"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "preregistered"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "refuted"
-    }
-   ],
-   "mechanism": "Out-of-sample replication of cef_tender_toc_anchor's announcement-anchor rule on the untouched 2014-2019 window: same constrained counterparty (the fund, bound by its own filed tender terms), same earliest-TO-C anchor, same 25-day statutory window, zero re-tuned parameters. Window 1 (2020-26) read +1.00%/t 1.92/win 61% with a rise-then-full-reversal hump peaking near day 25; this window tests both the level and the hump shape in a different rate/activist regime. Gates inherited from the parent slug (G1-G4 pass; G5 solved by replication instead of slow forward accrual).",
-   "who_loses": "Liquidity-demanding sellers between announcement and launch, facing a price-insensitive NAV-linked corporate bid documented in the TO-C/TO-I.",
-   "underutilized_because": "Same capacity inversion: thin funds, prorated tenders, research cost per deployable dollar below institutional thresholds only for us.",
-   "falsifiable_claim": "SUPPORTED iff shrunk mean CAR(25) > +1.0%, t>=2, n>=30 on screened 2014-2019 events; REFUTED iff shrunk <= 0 at n>=30; else INCONCLUSIVE. Hump-shape expectation (reversal by +40) stated in advance as a secondary check.",
-   "prereg": {
-    "doc": "docs/lab_prereg_cef_toc_anchor_2014_19.md",
-    "date": "2026-07-04",
-    "population_definition": "SC TO-I by listed CEFs 2014-01-01..2019-12-31 from EDGAR quarterly full-index (exact form type, /A excluded), 180d per-fund dedup, SFP category=CEF matching with delisted included and window-checked name fallback; kept iff an SC TO-C by the same CIK exists 1-90d before; pre-anchor listing screen; unpriceable disclosed.",
-    "metric": "Market-adjusted CAR vs SPY TR at +25 trading days from first close strictly after the earliest TO-C; full curve to +40 published for the hump-shape check.",
-    "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30 -> earns start_forward_test. REFUTED: shrunk <= 0 at n>=30. Else INCONCLUSIVE."
-   },
-   "backtest": {
-    "date": "2026-07-04",
-    "n": 65,
-    "mean_excess": -0.019612,
-    "mean_excess_shrunk": -0.014997,
-    "verdict": "refuted",
-    "bias_checklist": {
-     "survivorship": "120 CEF TO-I events 2014-2019 from full-index; 67 with prior TO-C; ZERO no-bars events (SFP delisted coverage held), 2 screened for sparse pre-anchor quotes \u2014 coverage is clean; nothing material sits in the unpriceable bucket.",
-     "look_ahead": "Identical structure to window 1: entry strictly after the earliest TO-C acceptance date; pre-anchor-only listing screen.",
-     "selection": "Window and rule frozen in the committed prereg before any 2014-2019 sweep; zero parameters differ from the parent slug \u2014 a pure out-of-sample replication.",
-     "multiple_testing": "One primary statistic, no secondaries; counter at 104. The parent window's near-miss (+0.81% shrunk, t 1.92) is precisely the kind of reading multiple-window replication exists to check \u2014 and it failed the check.",
-     "overfitting": "The hump-shape expectation (rise to ~25, reverse by 40) was stated in the prereg IN ADVANCE and did not replicate: the 2014-19 curve is monotonically negative from day 0. The window-1 peak-at-25 was the era, not the mechanism.",
-     "costs_liquidity": "Gross event study by design (same as the whole tender family); no cost model was applied, and none is needed for the verdict \u2014 real CEF spreads of 20-60bps/side would only deepen a result that is already -1.96% gross.",
-     "regime": "2014-2019 spans taper aftermath, 2015-16 credit stress, 2017 calm, 2018 Q4 crash: per-year means -0.7%, -4.0%, -1.5%, +1.1%, -1.3%, -2.4% \u2014 five of six negative; the one positive year (2017, n=9) is small and calm. Combined with window 1 (+1.0%), the announcement-anchor effect is REGIME-DEPENDENT at best: plausibly the 2024 activist/discount-management wave, not a persistent convergence mechanism.",
-     "small_n": "n=65 at 2.2x the floor; t -5.34; win 21.5%; medians match means (median -2.16% at 25) \u2014 no outlier dependence in either direction."
-    },
-    "results_doc": "docs/lab_results_cef_toc_anchor_2014_19.md",
-    "notes": "REPLICATION FAILED, decisively: mean CAR(25) -1.96%, shrunk -1.50%, t -5.34, win 21.5%, monotonic decline (no hump; the prereg's stated hump expectation refuted alongside the level). The parent thread's +1.00% (2020-26) is now best explained as regime \u2014 the 2024 activist tender wave \u2014 and earns NO forward test. cef_tender_toc_anchor remains recorded inconclusive on its own window; the tender-anchor family is closed absent genuinely new structure. One hour of replication bought what 2.3 years of forward accrual would have bought, before any paper capital moved."
-   }
-  },
-  "tender_target_14d9": {
-   "slug": "tender_target_14d9",
-   "sponsor": "operator",
-   "status": "backtested",
-   "created": "2026-07-04",
-   "history": [
-    {
-     "date": "2026-07-04",
-     "to": "hypothesis"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "preregistered"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "backtested"
-    }
-   ],
-   "mechanism": "Third-party tender-offer TARGETS: once the acquirer files its offer and the target board files its SC 14D-9 response, the acquirer is contractually bound to the filed price for a >=20-business-day window \u2014 the classic merger-arb convergence toward a quasi-contractual terminal value, with deal breaks as the fat left tail. Gates: G1 pass (filing anchor); G2 pass (two constraint documents: the offer and the 14D-9); G3 partial and honestly disclosed (arb is institutional; the odd-lot capacity story is per-holder mechanics, untestable from bars, and NOT part of this claim); G4 pass; G5 pass (dense). Anti-survivorship design is load-bearing: successful targets DELIST, so matching goes through Sharadar TICKERS secfilings-embedded CIKs with delisted names included \u2014 current-registrant matching would keep only busted deals.",
-   "who_loses": "Holders selling below the offer price before completion \u2014 liquidity/uncertainty sellers facing a bound corporate bid; arbs are the usual buyers, which is exactly why the G3 answer is 'partial' and the bar must clear costs.",
-   "underutilized_because": "Not underutilized in aggregate (merger arb is a crowded institutional trade); the open question is whether the IMPLEMENTABLE post-14D9 drift clears this house's frozen bars at all \u2014 the graveyard says measure before believing even famous edges.",
-   "falsifiable_claim": "SUPPORTED iff shrunk mean CAR(25) > +1.0%, t>=2, n>=30 on the screened population; REFUTED iff shrunk <= 0 at n>=30; SUPPORTED triggers an immediate 2010-2015 replication before anything else (standing policy).",
-   "prereg": {
-    "doc": "docs/lab_prereg_tender_target_14d9.md",
-    "date": "2026-07-04",
-    "population_definition": "ALL SC 14D9 filings (exact type, /A excluded) 2016-2025 from EDGAR quarterly full-index; filer=target; CIK matched via Sharadar SEP TICKERS secfilings CIKs (delisted included), US common categories, window-checked; 180d per-CIK dedup; pre-filing listing screen; unmatched disclosed.",
-    "metric": "Market-adjusted CAR vs SPY TR at +25 trading days from first close strictly after the 14D-9; curve to +40; per-year table.",
-    "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30 -> immediate 2010-2015 replication slug. REFUTED: shrunk <= 0 at n>=30. Else INCONCLUSIVE."
-   },
-   "backtest": {
-    "date": "2026-07-04",
-    "n": 384,
-    "mean_excess": 0.001511,
-    "mean_excess_shrunk": 0.001436,
-    "verdict": "inconclusive",
-    "bias_checklist": {
-     "survivorship": "669 raw SC 14D9 filings 2016-2025; 384 matched-deduped targets via Sharadar TICKERS secfilings-embedded CIKs with DELISTED names included (the load-bearing choice: acquired targets delist); 224 unmatched (funds/foreign/units, disclosed); 0 no-bars, 0 screened. Mid-window attrition (255/384 series end before +25 \u2014 completions cashing out) handled by carry-at-cash-out grading; the survivor-only figure (+2.60% over 129 busted/lagging deals) is disclosed as the biased comparison, not used.",
-     "look_ahead": "Entry strictly after the 14D-9 acceptance date; pre-filing-only listing screen; carry-last freezes the stock leg at its final print while SPY keeps running.",
-     "selection": "Complete full-index catalog; window/rules frozen in the committed prereg; the carry-last measurement correction was made after observing ATTRITION COUNTS but the corrected number was computed blind to its direction (both computations published).",
-     "multiple_testing": "One primary statistic; counter at 105; verdict bars frozen. This is the fourth tender-family cell tonight \u2014 the family's cumulative story (announcement value possibly regime-bound, launch/response residual ~zero) is consistent, not mined.",
-     "overfitting": "Zero tuned parameters; offset 25 statutory; the engine change (carry_last) is a measurement-correctness fix with a synthetic-data regression test, not a knob.",
-     "costs_liquidity": "Gross study; at +0.15% mean the answer needs no cost model \u2014 real spreads turn a statistical zero into a reliable small negative for any harvester.",
-     "regime": "Per-year means straddle zero across 10 years (best 2018 +6.8%, worst 2021 -2.9%); no year clears the bar; medians negative in 8/10 years \u2014 the residual is carry-shaped, not edge-shaped.",
-     "small_n": "n=384 at 12.8x the floor; t 0.21; win 34.6%; median -1.45% \u2014 a precise zero, not an underpowered maybe."
-    },
-    "results_doc": "docs/lab_results_tender_target_14d9.md",
-    "notes": "STATISTICAL NULL under correct accounting: mean CAR(25) +0.15%, shrunk +0.14%, t 0.21, win 34.6%, median -1.45% across ALL 384 targets with completions carried at cash-out. The first-pass +2.60% was pure attrition bias (survivors = busted/lagging deals) \u2014 caught before recording; both figures published. Reading: the post-14D9 merger-arb residual is institutionally priced to zero gross at the daily-bar horizon \u2014 the G3 'partial' answer was the operative one. Not refuted (shrunk > 0), nowhere near supported; INCONCLUSIVE as frozen, economically a null. No follow-up variant is planned: a fourth anchor within the tender family would be timeline curve-fitting."
-   }
-  },
-  "gauntlet_v2_fundamentals": {
-   "slug": "gauntlet_v2_fundamentals",
-   "sponsor": "operator",
-   "status": "forward_testing",
-   "created": "2026-07-04",
-   "history": [
-    {
-     "date": "2026-07-04",
-     "to": "hypothesis"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "preregistered"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "backtested"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "forward_testing"
-    }
-   ],
-   "mechanism": "Factory-level meta-hypothesis on the LAST untouched house dataset (SF1 fundamentals, purchased 2026-07-04, never used in a study): the five strongest documented fundamentals anomalies \u2014 net share issuance (the corporation itself as counterparty: dilutes when overpriced, repurchases when not), asset growth, accruals, gross profitability, ROA \u2014 in simplest implementable long-only form, quarterly, datekey-keyed (filing-date PIT), on the v1 PIT universes, net of per-bucket costs. G1 pass (not tape); G2 PARTIAL and stated (mispricing claims, not constrained-counterparty structure) \u2014 hence counter-deflated bars, holdout touched once, 2x-cost + cliff hygiene, and the binding stopping rule: zero holdout survivors ends the historical-panel program permanently.",
-   "who_loses": "For issuance: counterparties of the corporation's own capital actions. For the rest: whoever overpays for growth/aggressive accruals \u2014 a mispricing story, honestly labeled as such rather than dressed up as structure.",
-   "underutilized_because": "Famous and crowded in factor-fund form; the open question is whether ANY of it survives implementable long-only form at house scale and costs after every price family died \u2014 measure, don't assume, in either direction.",
-   "falsifiable_claim": "At least one of the 20 enumerated cells clears the frozen in-sample bar (DSR>=0.95 at n_trials=20 AND beats same-bucket EW net) and then the frozen holdout bar (PSR>=0.95 AND beats benchmark net, 2x-cost stable, not an isolated cliff peak). Zero holdout survivors refutes the factory AND triggers the stopping rule ending all historical-panel sweeps.",
-   "prereg": {
-    "doc": "docs/lab_prereg_gauntlet_v2_fundamentals.md",
-    "date": "2026-07-04",
-    "population_definition": "gauntlet_v1_universes PIT snapshots (quarterly subset), SEP bars incl. delisted for pricing; SF1 ARQ fundamentals keyed by datekey (filing date) only; SF1 coverage per cell disclosed with an 80% SMALL-bucket impairment flag defined before results.",
-    "metric": "Per-cell net daily equity curves -> DSR (n_trials=20) in-sample 2000-07..2015-12; PSR + benchmark-relative on holdout 2016-01..2025-12 (survivors only, touched once); 2x-cost rerun + parameter_cliff_report for any survivor.",
-    "success_criteria": "Survivor = passes in-sample AND holdout AND 2x-cost AND not an isolated cliff peak -> earns >=20-grade paper forward test. Zero survivors = refuted + STOPPING RULE: historical-panel program ends permanently."
-   },
-   "backtest": {
-    "date": "2026-07-04",
-    "n": 20,
-    "mean_excess": 0.0223,
-    "mean_excess_shrunk": 0.01115,
-    "verdict": "supported",
-    "bias_checklist": {
-     "survivorship": "SEP delisted-inclusive panel; SF1 ARQ 673k filing-dated rows (1996-2025 incl. early-years supplement fixing first-snapshot starvation); coverage 81-100%/cell disclosed; held-union bars pulled for both windows with retry-backoff, 0 material gaps.",
-     "look_ahead": "Fundamentals keyed STRICTLY by SF1 datekey (filing date), never calendardate \u2014 the classic fundamentals sin; stale-filer guard (>400d) excludes lapsed reporters; execution at the close of the first trading day AFTER the quarterly signal date (no same-day fill).",
-     "selection": "20 cells enumerated in the committed prereg before any SF1 row was pulled; the DSR variance_of_sr bug (default 1.0) was found and fixed to the v1 cross-sectional convention BEFORE any verdict was recorded, and both the buggy (all-DSR-0) and fixed passes are on record.",
-     "multiple_testing": "20-cell grid, DSR deflated at n_trials=20 (variance_of_sr=0.0337 cross-sectional). House counter 133 \u2014 with that many lifetime hypotheses ~6-7 false positives at 5% are expected, which is EXACTLY why survivors earn only a paper forward test on FRESH data, not belief. The two-regime out-of-sample survival (2000-2015 AND 2016-2025) at 2x cost is far stronger evidence than a single in-sample DSR and is the basis for 'supported'.",
-     "overfitting": "Zero tuned parameters; N and bucket frozen; survivors REQUIRED a surviving parameter-neighbor (net_issuance both N; gross_prof both buckets) \u2014 asset_growth N50 LARGE cleared every stat bar but was EXCLUDED as an isolated peak per the frozen cliff rule.",
-     "costs_liquidity": "Per-bucket slippage (LARGE 5bps, SMALL 25bps) + $25 ticket; the forward-test survivors HELD at 2x slippage (net_issuance LARGE +14.3-15.1%, gross_prof N50 +11.6-11.7%); the thin passers (roa, gross_prof N25) died at 2x and were dropped \u2014 the cost stress did real work.",
-     "regime": "In-sample 2000-2015 (dot-com bust, GFC), holdout 2016-2025 (bull decade, high 11.43%/9.50% EW bar). Survivors beat their EW benchmark in BOTH regimes \u2014 the property v1's low-vol survivors LACKED (they died in the bull holdout). This two-regime survival is the finding.",
-     "small_n": "~3900 in-sample + ~2400 holdout daily obs/cell; PSR=1.0 in holdout is n-driven and NON-discriminating (any positive Sharpe clears it) \u2014 the BENCHMARK-beating is the real holdout bar, and that is what separated passers from failures. Forward test still needs >=20 graded paper quarters on fresh data before any validation claim."
-    },
-    "results_doc": "docs/lab_results_gauntlet_v2_fundamentals.md",
-    "notes": "FIRST SUPPORTED BACKTEST IN HOUSE HISTORY (earns a PAPER forward test \u2014 NOT live money, NOT validated). Two parameter-robust families cleared the full gauntlet (in-sample DSR at n=20 + holdout-EW-benchmark + 2x cost + non-isolated cliff): (1) NET-ISSUANCE-LOW LARGE [N25 & N50] \u2014 long the 50 lowest trailing-4Q share-count-change top-500 names, in-sample +9.1-9.3% vs 5.51%, holdout@2x +14.3-15.1% vs 11.43% (excess +2.9-3.7%/yr); (2) GROSS-PROFITABILITY-HIGH N50 [LARGE & SMALL] \u2014 holdout@2x +11.6-11.7% (excess +0.3-2.1%/yr). asset_growth_low N50 LARGE cleared every stat bar but was EXCLUDED as an isolated peak. CAVEATS FRONT AND CENTER: these are FAMOUS anomalies; McLean-Pontiff decay (~58% post-publication) means historical survival != live harvestability; house counter 133 implies expected false positives; the forward test on FRESH post-2026 data is the only arbiter. NET-ISSUANCE-LOW LARGE is the first mechanical LARGE-CAP strategy to beat its benchmark out-of-sample => a live Delphi-REPLACEMENT candidate (operator Lens A). Stopping rule does NOT fire. Artifacts docs/data/gauntlet_v2/."
-   },
-   "forward": {
-    "started": "2026-07-04",
-    "grades": []
-   }
-  },
-  "gauntlet_v3_value": {
-   "slug": "gauntlet_v3_value",
-   "sponsor": "operator",
-   "status": "backtested",
-   "created": "2026-07-04",
-   "history": [
-    {
-     "date": "2026-07-04",
-     "to": "hypothesis"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "preregistered"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "backtested"
-    }
-   ],
-   "mechanism": "The value family \u2014 the single most-documented anomaly the house has never tested. Four valuation multiples (P/B, P/S, P/E, EV/EBITDA) ranked on Sharadar DAILY point-in-time ratios, long the cheapest 50 equal-weight per bucket, quarterly, next-day-close execution. G1 pass (ratio = fundamentals/price, not tape); G2 PARTIAL and stated (mispricing/risk-premium claim, not constrained-counterparty structure) \u2014 hence the merciless in-run EW-of-universe benchmark. The literature is genuinely split (Hou-Xue-Zhang harsh, Jensen-Kelly-Pedersen kinder); the house frame \u2014 harvestable by a tiny equal-weighted book vs its own universe EW \u2014 is the arbiter, and gauntlet_v1 already killed every price family under it.",
-   "who_loses": "Whoever overpays for glamour / underpays for cheap \u2014 a mispricing story, honestly labeled as such, not dressed as structure.",
-   "underutilized_because": "Famous and crowded in factor-fund form; the open house question is whether it survives implementable equal-weight long-only form at house costs against its own universe's equal weight \u2014 measured, not assumed.",
-   "falsifiable_claim": "At least one of the 8 enumerated value cells clears the frozen in-sample bar (DSR>=0.95 at n_trials=8 AND net CAGR > in-run bench_ew) and then the holdout (PSR>=0.95 AND beats bench_ew net, 2x-cost stable, not an isolated cliff peak). Zero holdout survivors across v2+v3 triggers the stopping rule.",
-   "prereg": {
-    "doc": "docs/lab_prereg_gauntlet_v3_value.md",
-    "date": "2026-07-04",
-    "population_definition": "gauntlet_v1_universes PIT top-500 (LARGE) / 501-2000 (SMALL) quarterly snapshots; ranking on DAILY pb/ps/pe/evebitda as-of the rebalance date (PIT by Sharadar construction); PE/EVEBITDA positive-only with the exclusion counted per rebalance; SEP delisted-inclusive bars for held names; coverage per cell disclosed.",
-    "metric": "Per-cell net daily equity curve -> DSR (n_trials=8) in-sample 2000-07..2015-12; PSR + beats in-run bench_ew on holdout 2016-01..2025-12 (survivors only); 2x-cost + cliff.",
-    "success_criteria": "Survivor = in-sample DSR>=0.95 AND > bench_ew, AND holdout PSR>=0.95 AND > bench_ew, AND 2x-cost stable, AND not an isolated cliff peak -> paper forward test. Zero survivors (with v2) = stopping rule."
-   },
-   "backtest": {
-    "date": "2026-07-04",
-    "n": 8,
-    "mean_excess": 0.0183,
-    "mean_excess_shrunk": 0.005229,
-    "verdict": "inconclusive",
-    "bias_checklist": {
-     "survivorship": "SEP delisted-inclusive; DAILY PIT multiples, coverage 76-100%/cell disclosed; PE/EVEBITDA positive-only exclusion counted per rebalance.",
-     "look_ahead": "DAILY valuation multiples are as-of-date (Sharadar computes daily from then-known fundamentals, no restatement); execution at next-day close.",
-     "selection": "8 cells frozen in the committed prereg (with a documented pre-data benchmark amendment); same DSR-variance fix as v2 applied before any verdict.",
-     "multiple_testing": "8-cell grid, DSR deflated at n_trials=8 (var_sr=0.0136); house counter 133.",
-     "overfitting": "Zero tuned parameters; the isolation test is the decider here \u2014 value_ps_low LARGE cleared in-sample+holdout+2x but its parameter/multiple-neighbors did NOT clear the full gauntlet (ps_SMALL died at 2x; ep/evebitda died at holdout), so no parameter-robust survivor exists \u2014 the honest read is 'value is alive but not cleanly harvestable standalone in this simple 4-multiple form.'",
-     "costs_liquidity": "Per-bucket slippage + 2x rerun; value_ps_low SMALL died going 1x->2x, value_ps_low LARGE held (+12.27% vs 11.43%) but stands alone.",
-     "regime": "Value beat its EW benchmark in-sample in 6/8 cells; in the bull holdout only price-to-sales sustained \u2014 consistent with value's known post-2008 weakness (esp. book-to-market, which failed in-sample here exactly as the modern literature predicts).",
-     "small_n": "~3900/~2400 daily obs; PSR n-driven; the benchmark bar is the real one. No parameter-robust survivor => no forward test; a composite/quality-overlaid value construction is the indicated follow-up, not a standalone value forward test."
-    },
-    "results_doc": "docs/lab_results_gauntlet_v3_value.md",
-    "notes": "Value is ALIVE but not cleanly harvestable standalone. 6/8 cells survived in-sample (price-to-sales, earnings-yield, EV/EBITDA both buckets; price-to-BOOK failed exactly as the modern literature predicts); 2 passed the holdout at 1x (value_ps both buckets); only value_ps_low LARGE survived 2x (+12.27% vs 11.43%) \u2014 but with NO parameter-robust neighbor (its SMALL twin died at 2x, its multiple-peers died at holdout), so it fails the isolated-peak bar and earns NO standalone forward test. INCONCLUSIVE, not refuted: value showed genuine two-regime signal, just not robustly enough in simple single-multiple form. The indicated follow-up is a COMPOSITE (net-issuance + gross-profitability + value, the three surviving families) and/or an LLM value-trap overlay on the value shortlist (operator Lens B) \u2014 a new prereg. Artifacts docs/data/gauntlet_v3/."
-   }
-  },
-  "gauntlet_v4_composite": {
-   "slug": "gauntlet_v4_composite",
-   "sponsor": "operator",
-   "status": "refuted",
-   "created": "2026-07-04",
-   "history": [
-    {
-     "date": "2026-07-04",
-     "to": "hypothesis"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "preregistered"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "refuted"
-    }
-   ],
-   "mechanism": "Rank-composite of the three families that showed life in v2/v3 \u2014 net-issuance-low (SUPPORTED), gross-profitability-high (SUPPORTED), price-to-sales-low (alive) \u2014 equal-mean of within-bucket percentile ranks, long top-N, quarterly, next-day exec. Tests JKP's (2023) finding that composite factors are the most robust form, and directly seeks a stronger LARGE-bucket Delphi replacement than net-issuance alone. Gates inherited (fundamentals G1 pass, G2 partial); the merciless EW benchmark + two-regime + 2x + cliff apply.",
-   "who_loses": "Whoever is on the other side of the three underlying mispricings \u2014 buyback counterparties, glamour overpayers, low-profitability holders.",
-   "underutilized_because": "Composites are the crowded core of factor investing; the open house question is whether the combination is more ROBUST than its parts at house scale and cost \u2014 measured, not assumed.",
-   "falsifiable_claim": "At least one composite cell clears in-sample DSR (n=4) + holdout EW + 2x + non-isolated cliff AND shows lift over the best single family in the same bucket. Failing that, the composite adds nothing over net-issuance alone.",
-   "prereg": {
-    "doc": "docs/lab_prereg_gauntlet_v4_composite.md",
-    "date": "2026-07-04",
-    "population_definition": "v1 PIT universes; per member per quarter, mean of available percentile ranks across net-issuance (SF1), gross-profitability (SF1), price-to-sales (DAILY); >=2 of 3 signals required; top-N long; SEP delisted-inclusive bars; coverage disclosed.",
-    "metric": "Per-cell net daily curve -> DSR (n_trials=4) in-sample; holdout beats bucket EW scalar; 2x rerun; cliff; lift vs the best single family in-bucket reported.",
-    "success_criteria": "Survivor = in-sample DSR>=0.95 AND > EW scalar, holdout > EW scalar, 2x stable, non-isolated -> paper forward test (+ Delphi-candidate flag if LARGE). Counter +4."
-   },
-   "backtest": {
-    "date": "2026-07-04",
-    "n": 4,
-    "mean_excess": -0.114,
-    "mean_excess_shrunk": -0.019,
-    "verdict": "refuted",
-    "bias_checklist": {
-     "survivorship": "SEP delisted-inclusive; composite union 860(IS)/661(HO) names, coverage 80-91% (>=2 of 3 signals); disclosed. Smaller union than the single-factor sorts BY DESIGN (composite concentrates on cross-signal agreement).",
-     "look_ahead": "SF1 datekey-PIT + DAILY as-of multiples; next-day-close execution; identical to v2/v3.",
-     "selection": "4 cells frozen in the committed prereg before any composite holding computed; the equal-mean-of-ranks weighting frozen (not tuned). Direction VERIFIED post-result (top names rank 0.5-0.98 on all three signals; no ranking bug) before recording.",
-     "multiple_testing": "4-cell grid, DSR n_trials=4; counter 137. The single-factor components were already validated through the SAME simulate() engine (v2/v3), so the engine is not in question \u2014 only the composite ranking, which is new and failed.",
-     "overfitting": "Zero tuned parameters. The finding is the OPPOSITE of overfitting: the naive composite UNDERfits each factor's tail \u2014 averaging ranks pulls selection to the moderate middle and discards the extreme-tail names where the single-factor alpha concentrates.",
-     "costs_liquidity": "Per-bucket costs; irrelevant to the verdict \u2014 the composite is negative gross (in-sample CAGR -2.6% to -9.4%), so costs only deepen it.",
-     "regime": "In-sample 2000-2015 negative across all 4 cells; never reached holdout (in-sample failure terminates per the ratchet).",
-     "small_n": "~3900 daily obs/cell; the negative result is decisive (all 4 cells below benchmark AND below zero), not underpowered."
-    },
-    "results_doc": "docs/lab_results_gauntlet_v4_composite.md",
-    "notes": "REFUTED \u2014 and a genuinely useful negative. The naive equal-rank composite of the three surviving families (net-issuance + gross-profitability + price-to-sales) posted NEGATIVE in-sample CAGR (-2.6% to -9.4%) across all 4 cells vs +8-9% for each factor ALONE \u2014 it failed the in-sample screen and never reached holdout. Direction verified (top names rank high on all three; no bug). Mechanism: averaging percentile ranks pulls selection toward names that are moderately-good-at-everything and EXTREME-at-nothing, discarding the tail where each single factor's alpha lives (the net-issuance edge is in DEEP buybacks, not moderate ones). DELPHI-REPLACEMENT CONCLUSION (Lens A): naive compositing does NOT beat net-issuance-low LARGE alone \u2014 the standalone factor remains the candidate to forward-test. A tail-preserving construction (intersect-the-tails, or factor-weighted not rank-averaged) would be a NEW prereg. This closes the composite question for the naive form."
-   }
-  },
-  "buyback_quality_overlay": {
-   "slug": "buyback_quality_overlay",
-   "sponsor": "operator",
-   "status": "preregistered",
-   "created": "2026-07-04",
-   "history": [
-    {
-     "date": "2026-07-04",
-     "to": "hypothesis"
-    },
-    {
-     "date": "2026-07-04",
-     "to": "preregistered"
-    }
-   ],
-   "mechanism": "Lens B: a quality filter on the net-issuance-low LARGE shortlist separates genuine value-creating buybacks (FCF-funded, healthy business, bought cheap) from financial-engineering (debt-funded, dilution-offsetting, distressed). Three-arm PROSPECTIVE A/B vs SPY: R=raw-50 (validated control), M=mechanical-quality (SF1+DAILY facts), L=LLM-quality (reading that corrects the mechanical filter's sector-blindness and adds valuation discipline). Tests whether reading adds over a measured mechanical edge \u2014 the house's central open question. No backtest (spent panel + LLM contamination); fresh quarters only.",
-   "who_loses": "Same as the underlying factor \u2014 buyback counterparties; the overlay just avoids the bad buybacks that dilute the raw signal.",
-   "underutilized_because": "Every quant runs net-issuance blind; almost none can read 50 buyback contexts per quarter to separate genuine from engineered \u2014 the reading labor is the uncrowded moat.",
-   "falsifiable_claim": "PRIMARY: Arm L shrunk mean excess > Arm R over >=8 graded quarters (reading adds over raw). SECONDARY: M or L shrunk mean excess vs SPY > 0 (quality beats the market where raw only tied). Diagnostic A/B, no capital gate; a winner earns its own n>=20 forward test.",
-   "prereg": {
-    "doc": "docs/lab_prereg_buyback_quality_overlay.md",
-    "date": "2026-07-04",
-    "population_definition": "Each quarter's net-issuance-low LARGE top-50 (from the validated strategy), split into three equal-weight arms (R/M/L) sharing one next-day-close entry-price set; graded as basket total-return excess vs SPY per quarter; LLM per-name judgments recorded for audit.",
-    "metric": "Per-arm quarterly basket excess vs SPY; primary Arm L - Arm R shrunk mean over >=8 quarters; secondary arm-vs-SPY shrunk mean.",
-    "success_criteria": "Reading adds iff Arm L - Arm R shrunk mean > 0 at >=8 quarters; quality beats market iff M or L shrunk excess vs SPY > 0. Diagnostic only."
-   }
-  },
   "sp500_index_effect": {
-   "slug": "sp500_index_effect",
-   "sponsor": "operator",
-   "status": "refuted",
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Gross; index adds are liquid large-caps (low cost) but the effect is negative gross, so costs are moot.",
+     "look_ahead": "Entry at first close STRICTLY AFTER the announcement date (parsed from the S&P citation ref); no same-day fill.",
+     "multiple_testing": "One primary statistic (CAR at the effective-window peak) plus the one preregistered pre/post-2010 regime split; no other cuts were run against this population. House counter 141. The result is a decisive null in the modern subset regardless of any reasonable offset choice (the whole 0..25 curve is negative), so no multiple-testing correction changes the verdict.",
+     "overfitting": "Zero parameters; offset-5 peak = the median announce->effective gap (7 td), frozen in prereg; the entire curve 0..25 is negative regardless.",
+     "regime": "THE test: pre-2010 n=14 (thin, negative), 2010-onward n=189 shrunk CAR -0.22%, t -0.68, win 50% \u2014 decisively dead; curve monotonically negative announcement->+25.",
+     "selection": "Wikipedia 'Selected changes' completeness caveat disclosed; the modern subset (2018+) is well-covered; window/split frozen in prereg before outcomes.",
+     "small_n": "Modern subset n=189 at 6.3x the floor; the null is precise, not underpowered.",
+     "survivorship": "Population is EVENTS from the Wikipedia changes table (not survivors); added tickers priced via Sharadar SEP delisted-inclusive. 222 testable, 203 priced, 19 unpriceable (older/renamed added tickers) \u2014 disclosed."
+    },
+    "date": "2026-07-04",
+    "mean_excess": -0.0022,
+    "mean_excess_shrunk": -0.001989,
+    "n": 189,
+    "notes": "REFUTED/DECAYED \u2014 forced-flow S&P 500 index-addition effect DEAD in the deployable window. 2010-onward (n=189): CAR peak -0.25%, shrunk -0.22%, t -0.68, win 50%, curve monotonically negative. Front-runners price additions before the announcement. DECISION: highest-prior untested family closed; net-issuance-low LARGE remains the only deployable candidate. Wikipedia data adequate; the effect is dead, not the data.",
+    "results_doc": "docs/lab_results_sp500_index_effect.md",
+    "verdict": "refuted"
+   },
    "created": "2026-07-04",
+   "falsifiable_claim": "SUPPORTED iff the 2010-onward subset shrunk mean CAR at the effective-window peak > +0.5%, t>=2, n>=30; REFUTED/DECAYED iff <=0 or t<2 at n>=30.",
    "history": [
     {
      "date": "2026-07-04",
@@ -745,35 +739,68 @@
     }
    ],
    "mechanism": "S&P 500 index ADDITION forced flow: on announcement, index funds tracking the S&P 500 MUST buy the added name by the effective date (G2: mandate-bound counterparty, documented in the S&P announcement). Classic index-effect run-up between announce and effective. The open question is DEPLOYABILITY: the effect was ~3-5% in the 1990s but is heavily arbitraged; the pre/post-2010 split tests whether a live god could still harvest it or whether it is a decayed relic.",
-   "who_loses": "Index funds forced to buy at whatever price the effective-date rebalance sets \u2014 price-insensitive by mandate; the pre-effective buyer front-runs that flow.",
-   "underutilized_because": "Not underutilized \u2014 it is the textbook forced-flow trade; the question is whether anything is LEFT after two decades of arbitrage, measured on our own data with a regime split.",
-   "falsifiable_claim": "SUPPORTED iff the 2010-onward subset shrunk mean CAR at the effective-window peak > +0.5%, t>=2, n>=30; REFUTED/DECAYED iff <=0 or t<2 at n>=30.",
    "prereg": {
-    "doc": "docs/lab_prereg_sp500_index_effect.md",
     "date": "2026-07-04",
-    "population_definition": "All S&P 500 addition events with announcement<effective from the Wikipedia changes table (~223), added tickers resolved to Sharadar SEP final tickers, delisted included; unpriceable disclosed; testable range ~1998-2026.",
+    "doc": "docs/lab_prereg_sp500_index_effect.md",
     "metric": "event_car vs SPY, entry first close after announcement, CAR at effective-window peak and +25; mandatory pre-2010 vs 2010-onward split.",
+    "population_definition": "All S&P 500 addition events with announcement<effective from the Wikipedia changes table (~223), added tickers resolved to Sharadar SEP final tickers, delisted included; unpriceable disclosed; testable range ~1998-2026.",
     "success_criteria": "SUPPORTED: 2010+ shrunk CAR peak > +0.5%, t>=2, n>=30. REFUTED/DECAYED: <=0 or t<2 at n>=30. INCONCLUSIVE below 30."
    },
+   "slug": "sp500_index_effect",
+   "sponsor": "operator",
+   "status": "refuted",
+   "underutilized_because": "Not underutilized \u2014 it is the textbook forced-flow trade; the question is whether anything is LEFT after two decades of arbitrage, measured on our own data with a regime split.",
+   "who_loses": "Index funds forced to buy at whatever price the effective-date rebalance sets \u2014 price-insensitive by mandate; the pre-effective buyer front-runs that flow."
+  },
+  "tender_target_14d9": {
    "backtest": {
-    "date": "2026-07-04",
-    "n": 189,
-    "mean_excess": -0.0022,
-    "mean_excess_shrunk": -0.001989,
-    "verdict": "refuted",
     "bias_checklist": {
-     "survivorship": "Population is EVENTS from the Wikipedia changes table (not survivors); added tickers priced via Sharadar SEP delisted-inclusive. 222 testable, 203 priced, 19 unpriceable (older/renamed added tickers) \u2014 disclosed.",
-     "look_ahead": "Entry at first close STRICTLY AFTER the announcement date (parsed from the S&P citation ref); no same-day fill.",
-     "selection": "Wikipedia 'Selected changes' completeness caveat disclosed; the modern subset (2018+) is well-covered; window/split frozen in prereg before outcomes.",
-     "multiple_testing": "One primary statistic (CAR at the effective-window peak) plus the one preregistered pre/post-2010 regime split; no other cuts were run against this population. House counter 141. The result is a decisive null in the modern subset regardless of any reasonable offset choice (the whole 0..25 curve is negative), so no multiple-testing correction changes the verdict.",
-     "overfitting": "Zero parameters; offset-5 peak = the median announce->effective gap (7 td), frozen in prereg; the entire curve 0..25 is negative regardless.",
-     "costs_liquidity": "Gross; index adds are liquid large-caps (low cost) but the effect is negative gross, so costs are moot.",
-     "regime": "THE test: pre-2010 n=14 (thin, negative), 2010-onward n=189 shrunk CAR -0.22%, t -0.68, win 50% \u2014 decisively dead; curve monotonically negative announcement->+25.",
-     "small_n": "Modern subset n=189 at 6.3x the floor; the null is precise, not underpowered."
+     "costs_liquidity": "Gross study; at +0.15% mean the answer needs no cost model \u2014 real spreads turn a statistical zero into a reliable small negative for any harvester.",
+     "look_ahead": "Entry strictly after the 14D-9 acceptance date; pre-filing-only listing screen; carry-last freezes the stock leg at its final print while SPY keeps running.",
+     "multiple_testing": "One primary statistic; counter at 105; verdict bars frozen. This is the fourth tender-family cell tonight \u2014 the family's cumulative story (announcement value possibly regime-bound, launch/response residual ~zero) is consistent, not mined.",
+     "overfitting": "Zero tuned parameters; offset 25 statutory; the engine change (carry_last) is a measurement-correctness fix with a synthetic-data regression test, not a knob.",
+     "regime": "Per-year means straddle zero across 10 years (best 2018 +6.8%, worst 2021 -2.9%); no year clears the bar; medians negative in 8/10 years \u2014 the residual is carry-shaped, not edge-shaped.",
+     "selection": "Complete full-index catalog; window/rules frozen in the committed prereg; the carry-last measurement correction was made after observing ATTRITION COUNTS but the corrected number was computed blind to its direction (both computations published).",
+     "small_n": "n=384 at 12.8x the floor; t 0.21; win 34.6%; median -1.45% \u2014 a precise zero, not an underpowered maybe.",
+     "survivorship": "669 raw SC 14D9 filings 2016-2025; 384 matched-deduped targets via Sharadar TICKERS secfilings-embedded CIKs with DELISTED names included (the load-bearing choice: acquired targets delist); 224 unmatched (funds/foreign/units, disclosed); 0 no-bars, 0 screened. Mid-window attrition (255/384 series end before +25 \u2014 completions cashing out) handled by carry-at-cash-out grading; the survivor-only figure (+2.60% over 129 busted/lagging deals) is disclosed as the biased comparison, not used."
     },
-    "results_doc": "docs/lab_results_sp500_index_effect.md",
-    "notes": "REFUTED/DECAYED \u2014 forced-flow S&P 500 index-addition effect DEAD in the deployable window. 2010-onward (n=189): CAR peak -0.25%, shrunk -0.22%, t -0.68, win 50%, curve monotonically negative. Front-runners price additions before the announcement. DECISION: highest-prior untested family closed; net-issuance-low LARGE remains the only deployable candidate. Wikipedia data adequate; the effect is dead, not the data."
-   }
+    "date": "2026-07-04",
+    "mean_excess": 0.001511,
+    "mean_excess_shrunk": 0.001436,
+    "n": 384,
+    "notes": "STATISTICAL NULL under correct accounting: mean CAR(25) +0.15%, shrunk +0.14%, t 0.21, win 34.6%, median -1.45% across ALL 384 targets with completions carried at cash-out. The first-pass +2.60% was pure attrition bias (survivors = busted/lagging deals) \u2014 caught before recording; both figures published. Reading: the post-14D9 merger-arb residual is institutionally priced to zero gross at the daily-bar horizon \u2014 the G3 'partial' answer was the operative one. Not refuted (shrunk > 0), nowhere near supported; INCONCLUSIVE as frozen, economically a null. No follow-up variant is planned: a fourth anchor within the tender family would be timeline curve-fitting.",
+    "results_doc": "docs/lab_results_tender_target_14d9.md",
+    "verdict": "inconclusive"
+   },
+   "created": "2026-07-04",
+   "falsifiable_claim": "SUPPORTED iff shrunk mean CAR(25) > +1.0%, t>=2, n>=30 on the screened population; REFUTED iff shrunk <= 0 at n>=30; SUPPORTED triggers an immediate 2010-2015 replication before anything else (standing policy).",
+   "history": [
+    {
+     "date": "2026-07-04",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "backtested"
+    }
+   ],
+   "mechanism": "Third-party tender-offer TARGETS: once the acquirer files its offer and the target board files its SC 14D-9 response, the acquirer is contractually bound to the filed price for a >=20-business-day window \u2014 the classic merger-arb convergence toward a quasi-contractual terminal value, with deal breaks as the fat left tail. Gates: G1 pass (filing anchor); G2 pass (two constraint documents: the offer and the 14D-9); G3 partial and honestly disclosed (arb is institutional; the odd-lot capacity story is per-holder mechanics, untestable from bars, and NOT part of this claim); G4 pass; G5 pass (dense). Anti-survivorship design is load-bearing: successful targets DELIST, so matching goes through Sharadar TICKERS secfilings-embedded CIKs with delisted names included \u2014 current-registrant matching would keep only busted deals.",
+   "prereg": {
+    "date": "2026-07-04",
+    "doc": "docs/lab_prereg_tender_target_14d9.md",
+    "metric": "Market-adjusted CAR vs SPY TR at +25 trading days from first close strictly after the 14D-9; curve to +40; per-year table.",
+    "population_definition": "ALL SC 14D9 filings (exact type, /A excluded) 2016-2025 from EDGAR quarterly full-index; filer=target; CIK matched via Sharadar SEP TICKERS secfilings CIKs (delisted included), US common categories, window-checked; 180d per-CIK dedup; pre-filing listing screen; unmatched disclosed.",
+    "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30 -> immediate 2010-2015 replication slug. REFUTED: shrunk <= 0 at n>=30. Else INCONCLUSIVE."
+   },
+   "slug": "tender_target_14d9",
+   "sponsor": "operator",
+   "status": "backtested",
+   "underutilized_because": "Not underutilized in aggregate (merger arb is a crowded institutional trade); the open question is whether the IMPLEMENTABLE post-14D9 drift clears this house's frozen bars at all \u2014 the graveyard says measure before believing even famous edges.",
+   "who_loses": "Holders selling below the offer price before completion \u2014 liquidity/uncertainty sellers facing a bound corporate bid; arbs are the usual buyers, which is exactly why the G3 answer is 'partial' and the bar must clear costs."
   }
  }
 }
