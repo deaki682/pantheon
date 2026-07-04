@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 102,
+ "hypotheses_ever": 103,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -343,7 +343,7 @@
   "cef_tender_toc_anchor": {
    "slug": "cef_tender_toc_anchor",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "backtested",
    "created": "2026-07-04",
    "history": [
     {
@@ -353,6 +353,10 @@
     {
      "date": "2026-07-04",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "backtested"
     }
    ],
    "mechanism": "#7 refuted the CEF-tender FILING-date entry and localized the failure to the anchor: the convergence toward the fund's NAV-linked, self-documented repurchase terms is plausibly captured between the ANNOUNCEMENT (SC TO-C communication) and the TO-I launch. Same constrained counterparty (the fund, bound by its own filed offer, rule 14e-1(a) 20-business-day minimum), earlier knowability anchor. Gates: G1-G4 pass as in #7; G5 uncertain (TO-C usage among CEFs unknown; n<30 -> inconclusive, honest).",
@@ -365,12 +369,31 @@
     "population_definition": "The frozen #7 catalog's 153 CEF events joined to ALL SC TO-C filings by the same CIKs from the same 2020Q1-2026Q2 full-index sweeps; kept iff earliest TO-C >= 1 day before the TO-I; same pre-anchor listing screen.",
     "metric": "Market-adjusted CAR vs SPY at +25 trading days from first close strictly after the earliest TO-C; shared.gauntlet.event_car.",
     "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30. REFUTED: shrunk <= 0 at n>=30. Else INCONCLUSIVE. Overlap with #7's later-anchor outcomes disclosed."
+   },
+   "backtest": {
+    "date": "2026-07-04",
+    "n": 82,
+    "mean_excess": 0.010046,
+    "mean_excess_shrunk": 0.008076,
+    "verdict": "inconclusive",
+    "bias_checklist": {
+     "survivorship": "82/153 frozen CEF events had a prior TO-C within 90 days (coverage disclosed \u2014 TO-C usage is self-selected by funds and this subset cannot speak for non-TO-C tenders); same listing screen as #7; delisted funds keep SFP bars.",
+     "look_ahead": "Entry strictly after the anchor filing's acceptance date; listing screen uses pre-anchor bars only; anchors from EDGAR full-index dates.",
+     "selection": "Populations frozen in the committed prereg before the TO-C sweep and before any operating outcome; the #7 catalog reused as frozen infrastructure, outcomes at THIS anchor never previously computed.",
+     "multiple_testing": "One primary statistic, no secondary run; hypotheses_ever 102->103 with sibling slug's secondary. Frozen bars missed NARROWLY (shrunk +0.81% vs +1.0%; t 1.92 vs 2.0) \u2014 recorded INCONCLUSIVE, not talked up to supported.",
+     "overfitting": "Zero tuned parameters; offset 25 = statutory window; thresholds frozen pre-data; outlier audit run before recording (medians vs means, top-k exclusion sensitivity).",
+     "costs_liquidity": "Gross event study; the +1.0%-shrunk SUPPORTED bar exists partly as a cost buffer; CEF/small-cap spreads named as the reason a forward test grades net.",
+     "regime": "Events span 2020-2026; positive lean is broad-based (median +1.52% > mean, win 61%), not one era's outlier \u2014 but per-year cells are thin at n=82.",
+     "small_n": "n=82; shrunk mean cited; mean excl. top-1 +0.85%, excl. top-3 +0.63% \u2014 no single-event dependence. Below the frozen n/effect bars regardless."
+    },
+    "results_doc": "docs/lab_results_tender_followups.md",
+    "notes": "FIRST NON-NEGATIVE READING IN THE HOUSE: mean CAR(25) from the TO-C (announcement) anchor +1.00%, shrunk +0.81%, t 1.92, win 61%, median +1.52% \u2014 the sign flip vs #7's TO-I anchor (-1.81%, t -3.91) confirms #7's mechanism reading: the convergence is captured between announcement and launch. INCONCLUSIVE per frozen bars, missed narrowly on both. The honest continuation is FRESH data, not a re-cut: new TO-C events accrue forward from 2026-06; a forward-accrual continuation under the same frozen rule would be a new prereg the operator may commission."
    }
   },
   "issuer_tender_operating": {
    "slug": "issuer_tender_operating",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "refuted",
    "created": "2026-07-04",
    "history": [
     {
@@ -380,6 +403,10 @@
     {
      "date": "2026-07-04",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-04",
+     "to": "refuted"
     }
    ],
    "mechanism": "Operating-company issuer self-tenders (SC TO-I, non-CEF): the company itself is the constrained buyer, bound by its own filed dutch-auction range or fixed price for a >=20-business-day window \u2014 a quasi-contractual demand floor plus a management signal, documented in the filing. Gates: G1 pass (filing anchor), G2 pass (issuer bound by its own TO-I), G3 partial (mixed caps; preregistered $2B split is the capacity-inversion cut), G4 pass (filed price/range), G5 pass (hundreds of events).",
@@ -392,6 +419,25 @@
     "population_definition": "The same 3,010-row SC TO-I catalog minus CEF events; CIK->ticker via SEC company_tickers then exact-name match into full Sharadar SEP TICKERS (delisted included, window-checked) so dead filers are recovered; US common classes only; 180-day per-CIK dedup; unmatched disclosed.",
     "metric": "Market-adjusted CAR vs SPY at +25 trading days from first close strictly after the TO-I filing date; SEP bars (closeadj); shared.gauntlet.event_car.",
     "success_criteria": "SUPPORTED: shrunk CAR(25) > +1.0%, t>=2, n>=30 (screened). REFUTED: shrunk <= 0 at n>=30. Secondary: market-cap split at $2B, non-gating."
+   },
+   "backtest": {
+    "date": "2026-07-04",
+    "n": 206,
+    "mean_excess": -0.018159,
+    "mean_excess_shrunk": -0.016552,
+    "verdict": "refuted",
+    "bias_checklist": {
+     "survivorship": "227 matched (206 after listing screen) of 2,797 non-CEF filers; the unmatched bulk is non-traded vehicles (BDC/interval/LLC funds 2,106, non-traded REITs), by-design foreign-issuer exclusions (DSX-class), plus rename misses (Assertio-class) \u2014 liquid listed filers (MCK, MGM, DISH, SLM) matched. Under-sampling of later-renamed/acquired filers disclosed as the residual survivorship caveat.",
+     "look_ahead": "Entry strictly after the anchor filing's acceptance date; listing screen uses pre-anchor bars only; anchors from EDGAR full-index dates.",
+     "selection": "Populations frozen in the committed prereg before the TO-C sweep and before any operating outcome; the #7 catalog reused as frozen infrastructure, outcomes at THIS anchor never previously computed.",
+     "multiple_testing": "One primary + the preregistered $2B capacity split (run): counter includes it; house counter now 103.",
+     "overfitting": "Zero tuned parameters; offset 25 = statutory window; thresholds frozen pre-data; outlier audit run before recording (medians vs means, top-k exclusion sensitivity).",
+     "costs_liquidity": "Gross event study; the +1.0%-shrunk SUPPORTED bar exists partly as a cost buffer; CEF/small-cap spreads named as the reason a forward test grades net.",
+     "regime": "2020-2026; negative in aggregate and in BOTH capacity halves \u2014 small -2.33%/t -1.08, large -0.78%/t -0.56; the G3 rescue the prereg named did not appear.",
+     "small_n": "n=206 screened; shrunk -1.66%; sign-based REFUTED bar met at 6.9x the n floor."
+    },
+    "results_doc": "docs/lab_results_tender_followups.md",
+    "notes": "Mean CAR(25) -1.82%, shrunk -1.66%, t -1.20, win 44%; small-cap half WORSE (-2.33%) \u2014 the capacity-inversion hope refuted alongside the headline. Operating self-tenders post-filing look like the CEF TO-I result: announcement value, if any, is spent by the filing; the offer window itself carries no harvestable drift at this anchor."
    }
   }
  }
