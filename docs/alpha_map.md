@@ -222,9 +222,9 @@ dead. The constraint families (14, 17) remain the untested high-prior
 frontier (forced flows still need an event-feed build).
 
 **Confirmed follow-ups (each a NEW prereg):**
-1. **Composite gauntlet_v4** — net-issuance + gross-profitability +
-   price-to-sales, rank-combined, LARGE bucket (JKP's most-robust form;
-   directly a Delphi-replacement + Lens A).
+1. ~~Composite gauntlet_v4 (naive rank-average)~~ — TESTED, REFUTED:
+   dilutes tail alpha (negative in-sample). A TAIL-PRESERVING composite
+   (intersect tails / factor-weight) is the only composite worth a prereg.
 2. **LLM value-trap / buyback-quality overlay** — a reading step on the
    mechanical fundamentals shortlist (Lens B).
 3. **Forced-flow event feed** — the highest-prior untested family

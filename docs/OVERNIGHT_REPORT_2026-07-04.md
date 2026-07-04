@@ -27,9 +27,10 @@ post-2026 data. Nothing is live.
 |---|---|---|---|
 | gauntlet_v2_fundamentals | 20 | **SUPPORTED → forward-testing** | +20 |
 | gauntlet_v3_value | 8 | inconclusive (value alive, not robust) | +8 |
+| gauntlet_v4_composite | 4 | REFUTED (naive rank-averaging dilutes tail alpha) | +4 |
 | alpha_map | — | enumeration of 15 families | — |
 
-Counter: 105 → 133. Every cell paid for in advance; DSR deflated at the
+Counter: 105 → 137. Every cell paid for in advance; DSR deflated at the
 grid size.
 
 ## Three defects caught before any verdict (the audit reflex)
