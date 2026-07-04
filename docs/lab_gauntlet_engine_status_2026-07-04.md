@@ -196,3 +196,69 @@ mechanical skeletons + headroom brackets in the grid, actual LLM lift
 measured only forward via ghost control arms (training-data
 contamination makes historical LLM judgment unrunnable; see the
 blinded-reader precedent).
+
+## Addendum 3 (2026-07-04, night): exit-rule engine + uncertainty/robustness toolkit
+
+Post-gauntlet_v1 comprehensiveness pass #2, operator-directed ("as
+comprehensive as possible"). The two branches of the day (v1 factory
+run; comprehensiveness review) are now merged — the engine carries the
+pro-rata fill fix, signal_lag, total-return marking, and everything
+below. Engine suite: 26 → 57 tests.
+
+**`ExitRules` — daily position-level exits (the big one).** What the
+90 rank-and-hold cells deliberately lacked and every live god actually
+runs: `ma_period` (Delphi's 20-day-MA break), `stop_loss_pct`
+(Achilles -8%, Midas -10%), `trailing_stop_pct`, `time_stop_days`
+(Achilles 5d, Midas Friday), `profit_target_pct`, `cooldown_days`
+(Delphi 7d, Achilles 4wk). Triggers evaluate on RAW split-adjusted
+OHLC (what a god computes at the broker) — intraday rules use the
+day's low/high, gap-throughs fill at the open, close-only bars degrade
+to close-crossing; fills convert to the marking series so cash stays
+dividend-correct. Exits run before same-day rebalances; exited names
+can't be re-bought same day; every trade now carries a `reason`.
+**This unblocks the Delphi full-window ruleset study** (her exact
+rules, 1998→2026, on the v1 universe catalog) and honest PEAD/basket
+simulations for Achilles-family cells.
+
+**`delist_exit_haircut`** — robustness mode for the documented
+optimistic delisting bias: force-sell on a symbol's final panel bar at
+(1 − haircut) × final close, reason `delisting_exit`, instead of the
+legacy sellable-stale-close. Rerun survivors at 0.0 and 0.5.
+
+**Analytics that results docs kept hand-rolling:**
+- `excess_stats(curve, benchmark_curve)` — benchmark-relative CAGR
+  gap, beta, annualized alpha, tracking error, information ratio,
+  up/down capture. The v1 lesson (the bar is benchmark-relative) as a
+  function.
+- `trade_stats(trades)` — FIFO round-trips: win rate, avg win/loss,
+  profit factor, median holding days, per-exit-reason breakdown ("did
+  the stop save money or amputate winners?").
+- `turnover_stats(trades, curve)` — annual turnover + cost drag in
+  bps/yr (the fee-engine check, mechanized).
+- `periodic_dates(days, "W"|"M", "first"|"last")` — canonical weekly/
+  monthly rebalance calendars.
+
+**Uncertainty & study tooling:**
+- `sharpe_ci(curve)` — circular block-bootstrap CI on annualized
+  Sharpe (seeded, deterministic). Point-estimate Sharpes without
+  intervals invite over-reading; results docs should quote both.
+- `walk_forward_windows(days, train_days, test_days)` — K rolling
+  train/test splits; the defense against "the one split flattered it".
+- `parameter_cliff_report(cells)` — overfit smell-test: flags cells
+  whose metric is an isolated peak vs one-step parameter neighbors
+  (65d working while 55d and 75d fail is noise wearing a crown).
+- `event_car(events, bars, benchmark_bars)` — the event-study engine
+  for PITEventFeed populations: entry at first close strictly after
+  public date, per-offset mean/median CAR vs benchmark on total-return
+  series, mandatory `unpriceable` disclosure + coverage note. Turns
+  backlog #1 (quiet clusters), #7 (CEF tenders), #8 (PEAD horizon)
+  into one-call studies once their populations are deposited.
+
+Still open (next tier, offered): SPY/benchmark curve builder from
+Sharadar in one call; capacity analysis (position size vs ADV per
+fill); multi-sleeve portfolio combiner (correlated-drawdown studies on
+simulated books); Monte-Carlo trade-order shuffle for drawdown
+distributions; sector/exposure attribution once SF1 sector metadata is
+cached; a lab bridge that drafts the eight bias-checklist answers
+directly from a run's own disclosures (coverage, costs, splits, trial
+count).

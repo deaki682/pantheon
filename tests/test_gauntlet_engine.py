@@ -360,3 +360,374 @@ def test_deflated_sharpe_single_trial_equals_plain_psr_at_zero_benchmark():
     dsr = deflated_sharpe_ratio(0.5, n_trials=1, n_obs=100)
     psr = probabilistic_sharpe_ratio(0.5, 0.0, n_obs=100)
     assert dsr == pytest.approx(psr)
+
+
+# ---------------------------------------------------------------------------
+# ExitRules — daily position-level exits
+# ---------------------------------------------------------------------------
+
+from shared.gauntlet import ExitRules, excess_stats, periodic_dates, trade_stats, turnover_stats
+
+_NOCOST = CostModel(commission_bps=0.0, slippage_bps=0.0, min_ticket=1.0)
+
+
+def _ohlc(rows):
+    """[(date, open, high, low, close)] -> bar list."""
+    return [{"date": d, "open": o, "high": h, "low": l, "close": c}
+            for d, o, h, l, c in rows]
+
+
+def _hold(sym):
+    return StrategySpec("hold", lambda day, u, b: {sym: 1.0})
+
+
+def test_exit_stop_loss_fills_at_stop_level_intraday():
+    bars = {"AAA": _ohlc([
+        ("2024-01-01", 10.0, 10.1, 9.9, 10.0),
+        ("2024-01-02", 10.0, 10.0, 9.1, 9.8),   # low pierces 9.2 stop
+        ("2024-01-03", 9.8, 9.9, 9.7, 9.8),
+    ])}
+    result = simulate(_hold("AAA"), {"2024-01-01": ["AAA"]}, bars,
+                      initial_cash=1000.0, cost=_NOCOST,
+                      exits=ExitRules(stop_loss_pct=0.08))
+    sell = [t for t in result["trades"] if t["side"] == "sell"][0]
+    assert sell["reason"] == "stop_loss"
+    assert sell["date"] == "2024-01-02"
+    assert sell["price"] == pytest.approx(9.2)   # the level, not the low
+    assert result["curve"][-1]["equity"] == pytest.approx(1000.0 * 9.2 / 10.0)
+
+
+def test_exit_stop_loss_gap_through_fills_at_open():
+    bars = {"AAA": _ohlc([
+        ("2024-01-01", 10.0, 10.1, 9.9, 10.0),
+        ("2024-01-02", 8.5, 8.6, 8.4, 8.5),      # gaps below the 9.2 stop
+    ])}
+    result = simulate(_hold("AAA"), {"2024-01-01": ["AAA"]}, bars,
+                      initial_cash=1000.0, cost=_NOCOST,
+                      exits=ExitRules(stop_loss_pct=0.08))
+    sell = [t for t in result["trades"] if t["side"] == "sell"][0]
+    assert sell["price"] == pytest.approx(8.5)   # the open — no fill at 9.2 exists
+
+
+def test_exit_trailing_stop_uses_prior_peak():
+    bars = {"AAA": _ohlc([
+        ("2024-01-01", 10.0, 10.1, 9.9, 10.0),
+        ("2024-01-02", 12.0, 12.1, 11.9, 12.0),  # peak close 12
+        ("2024-01-03", 11.0, 11.1, 10.7, 11.0),  # low 10.7 <= 12*0.9=10.8 -> exit
+    ])}
+    result = simulate(_hold("AAA"), {"2024-01-01": ["AAA"]}, bars,
+                      initial_cash=1000.0, cost=_NOCOST,
+                      exits=ExitRules(trailing_stop_pct=0.10))
+    sell = [t for t in result["trades"] if t["side"] == "sell"][0]
+    assert sell["reason"] == "trailing_stop"
+    assert sell["price"] == pytest.approx(10.8)
+
+
+def test_exit_profit_target_fills_at_target():
+    bars = {"AAA": _ohlc([
+        ("2024-01-01", 10.0, 10.1, 9.9, 10.0),
+        ("2024-01-02", 10.5, 12.3, 10.4, 11.0),  # high crosses 12.0 target
+    ])}
+    result = simulate(_hold("AAA"), {"2024-01-01": ["AAA"]}, bars,
+                      initial_cash=1000.0, cost=_NOCOST,
+                      exits=ExitRules(profit_target_pct=0.20))
+    sell = [t for t in result["trades"] if t["side"] == "sell"][0]
+    assert sell["reason"] == "profit_target"
+    assert sell["price"] == pytest.approx(12.0)
+
+
+def test_exit_ma_break_exits_at_close():
+    rows = [(f"2024-01-{i:02d}", 10.0, 10.0, 10.0, 10.0) for i in range(1, 6)]
+    rows.append(("2024-01-06", 9.0, 9.0, 8.9, 9.0))   # close 9 < MA5 (~9.8)
+    bars = {"AAA": _ohlc(rows)}
+    result = simulate(_hold("AAA"), {"2024-01-01": ["AAA"]}, bars,
+                      initial_cash=1000.0, cost=_NOCOST,
+                      exits=ExitRules(ma_period=5))
+    sell = [t for t in result["trades"] if t["side"] == "sell"][0]
+    assert sell["reason"] == "ma_exit"
+    assert sell["date"] == "2024-01-06"
+    assert sell["price"] == pytest.approx(9.0)
+
+
+def test_exit_time_stop_after_n_trading_days():
+    rows = [(f"2024-01-{i:02d}", 10.0, 10.0, 10.0, 10.0) for i in range(1, 8)]
+    bars = {"AAA": _ohlc(rows)}
+    result = simulate(_hold("AAA"), {"2024-01-01": ["AAA"]}, bars,
+                      initial_cash=1000.0, cost=_NOCOST,
+                      exits=ExitRules(time_stop_days=5))
+    sell = [t for t in result["trades"] if t["side"] == "sell"][0]
+    assert sell["reason"] == "time_stop"
+    assert sell["date"] == "2024-01-06"   # entered index 0, exits at index 5
+
+
+def test_exit_cooldown_blocks_rebuy_then_releases():
+    rows = [(f"2024-01-{i:02d}", 10.0, 10.0, 10.0, 10.0) for i in range(1, 3)]
+    rows.append(("2024-01-03", 8.0, 8.0, 7.9, 8.0))   # stop fires
+    rows += [(f"2024-01-{i:02d}", 8.0, 8.0, 8.0, 8.0) for i in range(4, 9)]
+    bars = {"AAA": _ohlc(rows)}
+    snapshots = {d: ["AAA"] for d in
+                 ["2024-01-01", "2024-01-04", "2024-01-06", "2024-01-08"]}
+    result = simulate(_hold("AAA"), snapshots, bars,
+                      initial_cash=1000.0, cost=_NOCOST,
+                      exits=ExitRules(stop_loss_pct=0.10, cooldown_days=3))
+    buys = [t["date"] for t in result["trades"] if t["side"] == "buy"]
+    # Stop fires 01-03 (index 2); cooldown blocks through index 5 (01-06).
+    assert buys == ["2024-01-01", "2024-01-08"]
+
+
+def test_exit_same_day_rebuy_blocked_even_without_cooldown():
+    rows = [("2024-01-01", 10.0, 10.0, 10.0, 10.0),
+            ("2024-01-02", 8.0, 8.0, 7.9, 8.0)]
+    bars = {"AAA": _ohlc(rows)}
+    snapshots = {"2024-01-01": ["AAA"], "2024-01-02": ["AAA"]}
+    result = simulate(_hold("AAA"), snapshots, bars,
+                      initial_cash=1000.0, cost=_NOCOST,
+                      exits=ExitRules(stop_loss_pct=0.10))
+    trades_0102 = [t for t in result["trades"] if t["date"] == "2024-01-02"]
+    assert [t["side"] for t in trades_0102] == ["sell"]   # no same-day rebuy
+
+
+def test_exit_fill_converts_to_total_return_series():
+    # Symbol marks on close_total_return (ratio 1.05 on exit day); the
+    # stop triggers on RAW prices but the book is credited in TR units.
+    bars = {"AAA": [
+        {"date": "2024-01-01", "open": 10.0, "high": 10.0, "low": 10.0,
+         "close": 10.0, "close_total_return": 10.0},
+        {"date": "2024-01-02", "open": 9.5, "high": 9.5, "low": 9.0,
+         "close": 9.1, "close_total_return": 9.555},   # ratio 1.05
+    ]}
+    result = simulate(_hold("AAA"), {"2024-01-01": ["AAA"]}, bars,
+                      initial_cash=1000.0, cost=_NOCOST,
+                      exits=ExitRules(stop_loss_pct=0.08))
+    sell = [t for t in result["trades"] if t["side"] == "sell"][0]
+    assert sell["price"] == pytest.approx(9.2 * 1.05)
+    assert result["curve"][-1]["equity"] == pytest.approx(1000.0 * 9.2 * 1.05 / 10.0)
+
+
+def test_exit_stop_precedes_ma_and_time():
+    rows = [(f"2024-01-{i:02d}", 10.0, 10.0, 10.0, 10.0) for i in range(1, 6)]
+    rows.append(("2024-01-06", 8.0, 8.0, 7.9, 8.0))
+    bars = {"AAA": _ohlc(rows)}
+    result = simulate(_hold("AAA"), {"2024-01-01": ["AAA"]}, bars,
+                      initial_cash=1000.0, cost=_NOCOST,
+                      exits=ExitRules(stop_loss_pct=0.10, ma_period=5,
+                                      time_stop_days=5))
+    sell = [t for t in result["trades"] if t["side"] == "sell"][0]
+    assert sell["reason"] == "stop_loss"
+
+
+def test_delist_exit_haircut_forces_final_bar_exit():
+    bars = {
+        "DEAD": _ohlc([("2024-01-01", 10.0, 10.0, 10.0, 10.0),
+                        ("2024-01-02", 4.0, 4.0, 4.0, 4.0)]),   # final bar
+        "LIVE": _ohlc([(f"2024-01-{i:02d}", 10.0, 10.0, 10.0, 10.0)
+                        for i in range(1, 5)]),
+    }
+    spec = StrategySpec("dead-half", lambda d, u, b: {"DEAD": 0.5, "LIVE": 0.5})
+    result = simulate(spec, {"2024-01-01": ["DEAD", "LIVE"]}, bars,
+                      initial_cash=1000.0, cost=_NOCOST,
+                      delist_exit_haircut=0.5)
+    sell = [t for t in result["trades"] if t["symbol"] == "DEAD"
+            and t["side"] == "sell"][0]
+    assert sell["reason"] == "delisting_exit"
+    assert sell["price"] == pytest.approx(2.0)   # 4.0 final close x (1 - 0.5)
+
+
+def test_exits_none_preserves_legacy_behavior():
+    bars = {"AAA": _bars({"2024-01-01": 10.0, "2024-01-02": 5.0})}
+    result = simulate(_hold("AAA"), {"2024-01-01": ["AAA"]}, bars,
+                      initial_cash=1000.0, cost=_NOCOST)
+    assert [t["side"] for t in result["trades"]] == ["buy"]   # rides it down
+    assert result["curve"][-1]["equity"] == pytest.approx(500.0)
+
+
+# ---------------------------------------------------------------------------
+# Analytics: excess_stats / trade_stats / turnover_stats / periodic_dates
+# ---------------------------------------------------------------------------
+
+def test_excess_stats_beta_one_alpha_zero_for_identical_curves():
+    curve = [{"date": f"2024-01-{i:02d}", "equity": 1000.0 * (1.01 ** i)}
+             for i in range(1, 11)]
+    out = excess_stats(curve, curve)
+    assert out["beta"] == pytest.approx(1.0)
+    assert out["alpha_annual"] == pytest.approx(0.0, abs=1e-9)
+    assert out["excess_cagr"] == pytest.approx(0.0, abs=1e-9)
+    assert out["information_ratio"] == 0.0
+
+
+def test_excess_stats_flat_strategy_vs_rising_benchmark():
+    flat = [{"date": f"2024-01-{i:02d}", "equity": 1000.0} for i in range(1, 11)]
+    rising = [{"date": f"2024-01-{i:02d}", "equity": 1000.0 * (1.01 ** i)}
+              for i in range(1, 11)]
+    out = excess_stats(flat, rising)
+    assert out["excess_cagr"] < 0
+    assert out["beta"] == pytest.approx(0.0, abs=1e-9)
+    assert out["up_capture"] == pytest.approx(0.0, abs=1e-9)
+
+
+def test_trade_stats_fifo_round_trips_and_reasons():
+    trades = [
+        {"date": "2024-01-01", "symbol": "A", "side": "buy", "shares": 10,
+         "price": 10.0, "cost": 0.0, "reason": "rebalance"},
+        {"date": "2024-01-11", "symbol": "A", "side": "sell", "shares": 10,
+         "price": 12.0, "cost": 0.0, "reason": "rebalance"},
+        {"date": "2024-01-01", "symbol": "B", "side": "buy", "shares": 10,
+         "price": 10.0, "cost": 0.0, "reason": "rebalance"},
+        {"date": "2024-01-06", "symbol": "B", "side": "sell", "shares": 10,
+         "price": 9.0, "cost": 0.0, "reason": "stop_loss"},
+    ]
+    out = trade_stats(trades)
+    assert out["n_round_trips"] == 2
+    assert out["win_rate"] == pytest.approx(0.5)
+    assert out["avg_win_pct"] == pytest.approx(0.20)
+    assert out["avg_loss_pct"] == pytest.approx(-0.10)
+    assert out["by_exit_reason"]["stop_loss"]["n"] == 1
+    assert out["by_exit_reason"]["stop_loss"]["mean_return"] == pytest.approx(-0.10)
+    assert out["median_holding_days"] in (5, 10)
+
+
+def test_trade_stats_partial_sell_splits_lot():
+    trades = [
+        {"date": "2024-01-01", "symbol": "A", "side": "buy", "shares": 10,
+         "price": 10.0, "cost": 0.0},
+        {"date": "2024-01-02", "symbol": "A", "side": "sell", "shares": 4,
+         "price": 11.0, "cost": 0.0},
+        {"date": "2024-01-03", "symbol": "A", "side": "sell", "shares": 6,
+         "price": 12.0, "cost": 0.0},
+    ]
+    out = trade_stats(trades)
+    assert out["n_round_trips"] == 2
+    assert out["win_rate"] == 1.0
+
+
+def test_turnover_stats_hand_calc():
+    curve = [{"date": f"2024-01-{i:02d}", "equity": 1000.0}
+             for i in range(1, 253 + 1)]  # one year, flat $1000
+    trades = [
+        {"date": "2024-01-01", "symbol": "A", "side": "buy", "shares": 50,
+         "price": 10.0, "cost": 1.0},
+        {"date": "2024-06-01", "symbol": "A", "side": "sell", "shares": 50,
+         "price": 10.0, "cost": 1.0},
+    ]
+    out = turnover_stats(trades, curve)
+    assert out["annual_turnover"] == pytest.approx(0.5, rel=1e-2)   # $500/$1000/1yr
+    assert out["total_costs"] == pytest.approx(2.0)
+    assert out["cost_drag_bps_yr"] == pytest.approx(20.0, rel=1e-2)
+
+
+def test_periodic_dates_month_and_week():
+    days = ["2024-01-30", "2024-01-31", "2024-02-01", "2024-02-02",
+            "2024-02-05", "2024-02-28"]
+    assert periodic_dates(days, "M", "last") == ["2024-01-31", "2024-02-28"]
+    assert periodic_dates(days, "M", "first") == ["2024-01-30", "2024-02-01"]
+    # ISO weeks: 01-30..02-02 are one week (Tue-Fri), 02-05 the next Mon.
+    assert periodic_dates(days, "W", "last") == ["2024-02-02", "2024-02-05", "2024-02-28"]
+
+
+def test_periodic_dates_rejects_bad_args():
+    with pytest.raises(ValueError, match="cadence"):
+        periodic_dates(["2024-01-01"], "Q")
+    with pytest.raises(ValueError, match="anchor"):
+        periodic_dates(["2024-01-01"], "M", "middle")
+
+
+# ---------------------------------------------------------------------------
+# Tier 2: sharpe_ci / walk_forward_windows / parameter_cliff_report / event_car
+# ---------------------------------------------------------------------------
+
+from shared.gauntlet import (
+    event_car,
+    parameter_cliff_report,
+    sharpe_ci,
+    walk_forward_windows,
+)
+
+
+def test_sharpe_ci_brackets_point_estimate_and_is_deterministic():
+    # 300 days of steady drift + wobble -> positive Sharpe, tight-ish CI.
+    curve = [{"date": f"2024-{1 + i // 28:02d}-{1 + i % 28:02d}",
+              "equity": 1000.0 * (1.001 ** i) * (1 + 0.002 * ((-1) ** i))}
+             for i in range(300)]
+    a = sharpe_ci(curve, n_boot=200, block=10, seed=42)
+    b = sharpe_ci(curve, n_boot=200, block=10, seed=42)
+    assert a == b                       # deterministic for a given seed
+    assert a["lo"] < a["sharpe"] < a["hi"]
+
+
+def test_sharpe_ci_refuses_short_series():
+    curve = [{"date": f"2024-01-{i:02d}", "equity": 1000.0 + i} for i in range(1, 10)]
+    out = sharpe_ci(curve, block=21)
+    assert out["lo"] is None and "note" in out
+
+
+def test_walk_forward_windows_shape_and_no_overlap():
+    days = [f"d{i:04d}" for i in range(10)]   # lexicographic == chronological
+    ws = walk_forward_windows(days, train_days=4, test_days=2)
+    assert ws[0] == {"train": ("d0000", "d0003"), "test": ("d0004", "d0005")}
+    assert ws[1] == {"train": ("d0002", "d0005"), "test": ("d0006", "d0007")}
+    assert ws[2] == {"train": ("d0004", "d0007"), "test": ("d0008", "d0009")}
+    assert len(ws) == 3                  # 4th window wouldn't fit; dropped
+    # default step == test_days -> test windows tile without overlap
+    tests_seen = [w["test"] for w in ws]
+    assert len(set(tests_seen)) == len(tests_seen)
+
+
+def test_parameter_cliff_report_flags_isolated_peak():
+    cells = []
+    for lb in (21, 63, 126):
+        for n in (10, 25):
+            metric = 2.0 if (lb == 63 and n == 10) else 0.1   # lone spike
+            cells.append({"params": {"lookback": lb, "n": n}, "metric": metric})
+    report = parameter_cliff_report(cells)
+    worst = report[0]
+    assert worst["params"] == {"lookback": 63, "n": 10}
+    assert worst["isolation"] == pytest.approx(2.0 - 0.1)
+    assert worst["n_neighbors"] == 3     # lb=21/n10, lb=126/n10, lb=63/n25
+
+
+def test_parameter_cliff_report_plateau_has_low_isolation():
+    cells = [{"params": {"lookback": lb}, "metric": 1.0} for lb in (21, 63, 126)]
+    report = parameter_cliff_report(cells)
+    assert all(r["isolation"] == pytest.approx(0.0) for r in report)
+
+
+def _flat_bench(days):
+    return [{"date": d, "close": 100.0} for d in days]
+
+
+def test_event_car_hand_calc_and_entry_day_convention():
+    days = [f"2024-01-{i:02d}" for i in range(1, 8)]
+    bars = {"AAA": [{"date": d, "close": px} for d, px in
+                    zip(days, [10.0, 10.0, 11.0, 12.0, 12.0, 12.0, 12.0])]}
+    events = [{"symbol": "AAA", "public_date": "2024-01-02"}]
+    out = event_car(events, bars, _flat_bench(days), max_offset=2)
+    # Entry at first day strictly AFTER 01-02 -> 01-03 close 11.0.
+    assert out["n_events_priced"] == 1
+    assert out["mean_car"][0] == pytest.approx(0.0)
+    assert out["mean_car"][1] == pytest.approx(12.0 / 11.0 - 1.0)   # flat benchmark
+    assert out["unpriceable"] == []
+
+
+def test_event_car_subtracts_benchmark():
+    days = ["2024-01-01", "2024-01-02", "2024-01-03"]
+    bars = {"AAA": [{"date": d, "close": px} for d, px in
+                    zip(days, [10.0, 10.0, 11.0])]}
+    bench = [{"date": d, "close": px} for d, px in
+             zip(days, [100.0, 100.0, 110.0])]
+    events = [{"symbol": "AAA", "public_date": "2024-01-01"}]
+    out = event_car(events, bars, bench, max_offset=1)
+    # Stock +10%, benchmark +10% -> CAR 0.
+    assert out["mean_car"][1] == pytest.approx(0.0)
+
+
+def test_event_car_discloses_unpriceable():
+    days = ["2024-01-01", "2024-01-02"]
+    bars = {"AAA": [{"date": "2024-01-01", "close": 10.0}]}
+    events = [
+        {"symbol": "AAA", "public_date": "2024-01-01"},   # no bar AFTER pub
+        {"symbol": "GONE", "public_date": "2024-01-01"},  # no bars at all
+    ]
+    out = event_car(events, bars, _flat_bench(days), max_offset=1)
+    assert out["n_events_priced"] == 0
+    assert len(out["unpriceable"]) == 2
+    assert "unpriceable" in out["coverage_note"]

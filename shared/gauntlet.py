@@ -247,6 +247,45 @@ class StrategySpec:
     params: dict = field(default_factory=dict)
 
 
+@dataclass(frozen=True)
+class ExitRules:
+    """Daily position-level exit rules, evaluated between rebalances.
+
+    This is what the 90-cell gauntlet_v1 grid deliberately lacked
+    (rank-and-hold only) and what every live god actually runs: Delphi's
+    20-day-MA trailing exit, Achilles' -8% hard stop + 5-day time stop,
+    Midas's -10% stop + Friday time stop. Added 2026-07-04 so bespoke
+    rulesets can be simulated as implemented, not as strawmen.
+
+    Trigger discipline — triggers evaluate on RAW split-adjusted prices
+    (`close`/`open`/`low`/`high`), because that is what a live god
+    computes stops and MAs on at the broker; book fills then convert to
+    the symbol's marking series (total-return ratio for that day) so
+    the cash accounting stays dividend-correct. Intraday rules
+    (stop_loss, trailing_stop, profit_target) use the day's low/high
+    when the bar carries them — gap-throughs fill at the open, ordinary
+    touches at the trigger level — and degrade to close-crossing checks
+    on close-only bars. Close rules (ma, time) fill at the close.
+
+    Evaluation order per held name per day (first hit wins):
+    stop_loss -> trailing_stop -> profit_target -> ma -> time. The
+    trailing stop compares against the PRIOR peak close (today's move
+    can trigger it, not ratchet it first). Exits run BEFORE any same-day
+    rebalance, and an exited name cannot be re-bought the same day;
+    `cooldown_days` extends that block for N further trading days.
+
+    All fields optional; None disables a rule. On adds to an existing
+    position, entry price averages in share-weighted; the time-stop
+    clock does NOT reset (first entry starts it).
+    """
+    ma_period: Optional[int] = None           # exit when close < SMA(N closes)
+    stop_loss_pct: Optional[float] = None     # 0.08 = exit -8% below entry
+    trailing_stop_pct: Optional[float] = None  # 0.10 = exit -10% below peak close
+    time_stop_days: Optional[int] = None      # exit at close after N trading days
+    profit_target_pct: Optional[float] = None  # 0.20 = exit +20% above entry
+    cooldown_days: int = 0                    # extra re-entry block after any exit
+
+
 def _trading_days(bars_by_symbol: dict[str, list[dict]],
                    start: Optional[str], end: Optional[str]) -> list[str]:
     days: set[str] = set()
@@ -300,6 +339,8 @@ def simulate(
     start: Optional[str] = None,
     end: Optional[str] = None,
     signal_lag: int = 0,
+    exits: Optional[ExitRules] = None,
+    delist_exit_haircut: Optional[float] = None,
 ) -> dict:
     """Run one strategy through one point-in-time universe series.
 
@@ -328,6 +369,22 @@ def simulate(
     close of t+1. Lag counts positions in this simulation's own
     trading-day index; a rebalance earlier than `signal_lag` days into
     the window raises (no silent no-lag fallback).
+
+    `exits` (see ExitRules) adds daily position-level exit evaluation —
+    MA breaks, hard/trailing stops, time stops, profit targets,
+    re-entry cooldowns. Exit sells carry a `reason` field in the trades
+    list ("stop_loss", "ma_exit", ...); rebalance trades carry
+    reason="rebalance".
+
+    `delist_exit_haircut` addresses the documented optimistic bias
+    around delistings (a dead name's stale final close was sellable at
+    the next rebalance): when set, any position still held on its
+    symbol's FINAL bar date in the panel is force-sold that day at
+    final close x (1 - haircut), reason "delisting_exit". 0.0 = exit at
+    the final print; 0.5 = assume half is lost; None = legacy stale-
+    close behavior. Use as a robustness rerun, not a default — Sharadar
+    final bars are real last trading days, and many "final bars" are
+    simply the panel window ending.
     """
     if signal_lag < 0:
         raise ValueError(f"signal_lag must be >= 0, got {signal_lag}")
@@ -338,18 +395,110 @@ def simulate(
     rebalance_dates = {d for d in snapshots if (not start or d >= start)
                         and (not end or d <= end)}
     price_field = _price_field_by_symbol(bars_by_symbol)
+    bar_lookup = {s: {b["date"]: b for b in bars}
+                  for s, bars in bars_by_symbol.items()}
+    final_bar_date = {s: bars[-1]["date"] if bars else None
+                      for s, bars in bars_by_symbol.items()}
 
     cash = initial_cash
     positions: dict[str, float] = {}
     last_price: dict[str, float] = {}
+    raw_last: dict[str, float] = {}          # last RAW close per symbol
+    closes_hist: dict[str, list[float]] = {}  # running raw closes (for MAs)
+    pos_meta: dict[str, dict] = {}           # entry_raw / entry_idx / peak_raw
+    cooldown_until: dict[str, int] = {}      # day index through which buys block
     curve: list[dict] = []
     trades: list[dict] = []
 
+    def _book_px(sym: str, raw_px: float, bar: dict) -> float:
+        """Convert a raw trigger price into the symbol's marking series."""
+        if price_field[sym] == "close_total_return" and bar.get("close"):
+            return raw_px * bar["close_total_return"] / bar["close"]
+        return raw_px
+
+    def _sell_all(sym: str, book_px: float, day_: str, reason: str) -> None:
+        nonlocal cash
+        shares = positions.pop(sym)
+        proceeds = shares * book_px
+        cost_amt = cost.total_cost(proceeds)
+        cash += proceeds - cost_amt
+        trades.append({"date": day_, "symbol": sym, "side": "sell",
+                        "shares": shares, "price": book_px,
+                        "cost": cost_amt, "reason": reason})
+        pos_meta.pop(sym, None)
+
     for day in all_days:
         for s, bars in bars_by_symbol.items():
-            for b in bars:
-                if b["date"] == day:
-                    last_price[s] = b[price_field[s]]
+            b = bar_lookup[s].get(day)
+            if b is not None:
+                last_price[s] = b[price_field[s]]
+                raw_last[s] = b["close"]
+                closes_hist.setdefault(s, []).append(b["close"])
+
+        # -- daily exit rules (before any same-day rebalance) ------------
+        if exits is not None and positions:
+            for s in list(positions):
+                b = bar_lookup[s].get(day)
+                if b is None:
+                    continue  # halted today — can't trade what doesn't print
+                meta = pos_meta.get(s)
+                if meta is None:
+                    continue
+                raw_close = b["close"]
+                lo, hi, op = b.get("low"), b.get("high"), b.get("open")
+                fill_raw: Optional[float] = None
+                reason: Optional[str] = None
+
+                def _stop_fill(level: float) -> Optional[float]:
+                    # Gap through the level -> the open is the best you get;
+                    # ordinary touch -> the level; close-only bars degrade
+                    # to a close-crossing check.
+                    if op is not None and op <= level:
+                        return op
+                    if lo is not None:
+                        return level if lo <= level else None
+                    return raw_close if raw_close <= level else None
+
+                if exits.stop_loss_pct is not None:
+                    fill_raw = _stop_fill(
+                        meta["entry_raw"] * (1 - exits.stop_loss_pct))
+                    reason = "stop_loss" if fill_raw is not None else None
+                if fill_raw is None and exits.trailing_stop_pct is not None:
+                    fill_raw = _stop_fill(
+                        meta["peak_raw"] * (1 - exits.trailing_stop_pct))
+                    reason = "trailing_stop" if fill_raw is not None else None
+                if fill_raw is None and exits.profit_target_pct is not None:
+                    level = meta["entry_raw"] * (1 + exits.profit_target_pct)
+                    if op is not None and op >= level:
+                        fill_raw, reason = op, "profit_target"
+                    elif hi is not None and hi >= level:
+                        fill_raw, reason = level, "profit_target"
+                    elif hi is None and op is None and raw_close >= level:
+                        fill_raw, reason = raw_close, "profit_target"
+                if fill_raw is None and exits.ma_period is not None:
+                    hist = closes_hist.get(s, [])
+                    if len(hist) >= exits.ma_period:
+                        sma = sum(hist[-exits.ma_period:]) / exits.ma_period
+                        if raw_close < sma:
+                            fill_raw, reason = raw_close, "ma_exit"
+                if fill_raw is None and exits.time_stop_days is not None:
+                    if day_index[day] - meta["entry_idx"] >= exits.time_stop_days:
+                        fill_raw, reason = raw_close, "time_stop"
+
+                if fill_raw is not None:
+                    _sell_all(s, _book_px(s, fill_raw, b), day, reason)
+                    cooldown_until[s] = day_index[day] + exits.cooldown_days
+                else:
+                    meta["peak_raw"] = max(meta["peak_raw"], raw_close)
+
+        # -- forced delisting exit (robustness mode) ---------------------
+        if delist_exit_haircut is not None:
+            for s in list(positions):
+                if final_bar_date.get(s) == day:
+                    b = bar_lookup[s][day]
+                    fill = b["close"] * (1 - delist_exit_haircut)
+                    _sell_all(s, _book_px(s, fill, b), day, "delisting_exit")
+                    cooldown_until[s] = day_index[day]  # never re-buyable anyway
 
         if day in rebalance_dates:
             universe = snapshots[day]
@@ -397,13 +546,17 @@ def simulate(
                     positions[s] = remaining
                 trades.append({"date": day, "symbol": s, "side": "sell",
                                 "shares": shares_sold, "price": px,
-                                "cost": cost_amt})
+                                "cost": cost_amt, "reason": "rebalance"})
+                if s not in positions:
+                    pos_meta.pop(s, None)
             # Then buys, bounded by cash actually on hand. When cash
             # (after costs) can't cover every buy, all buys scale
             # pro-rata — a sequential fill would silently short-change
             # whichever symbol sorts last.
             buy_deltas: dict[str, float] = {}
             for s in all_syms:
+                if day_index[day] <= cooldown_until.get(s, -1):
+                    continue  # exited today or still cooling down
                 tgt = target_value.get(s, 0.0)
                 px = last_price.get(s)
                 cur_shares = positions.get(s, 0.0)
@@ -424,14 +577,27 @@ def simulate(
                 shares_bought = spend / px
                 cost_amt = cost.total_cost(spend)
                 cash -= spend + cost_amt
-                positions[s] = positions.get(s, 0.0) + shares_bought
+                prior_shares = positions.get(s, 0.0)
+                positions[s] = prior_shares + shares_bought
+                raw_px = raw_last.get(s, px)
+                meta = pos_meta.get(s)
+                if meta is None or prior_shares <= 0:
+                    pos_meta[s] = {"entry_raw": raw_px,
+                                   "entry_idx": day_index[day],
+                                   "peak_raw": raw_px}
+                else:  # share-weighted average-in; time clock does not reset
+                    total = prior_shares + shares_bought
+                    meta["entry_raw"] = (meta["entry_raw"] * prior_shares
+                                          + raw_px * shares_bought) / total
+                    meta["peak_raw"] = max(meta["peak_raw"], raw_px)
                 trades.append({"date": day, "symbol": s, "side": "buy",
                                 "shares": shares_bought, "price": px,
-                                "cost": cost_amt})
+                                "cost": cost_amt, "reason": "rebalance"})
 
         equity = cash + sum(positions[s] * last_price.get(s, 0.0)
                              for s in positions)
-        curve.append({"date": day, "equity": equity})
+        curve.append({"date": day, "equity": equity,
+                       "n_positions": len(positions)})
 
     return {"curve": curve, "trades": trades, "stats": summarize(curve),
             "price_return_only_symbols": sorted(
@@ -518,6 +684,188 @@ def summarize_by_period(curve: list[dict], boundaries: list[str]) -> dict:
     return out
 
 
+def excess_stats(curve: list[dict], benchmark_curve: list[dict]) -> dict:
+    """Benchmark-relative statistics from two daily equity curves.
+
+    Aligns on common dates, then reports the numbers a benchmark-
+    relative pass bar actually needs: annualized excess return (CAGR
+    difference), beta and annualized alpha (daily OLS of strategy
+    returns on benchmark returns), tracking error, information ratio,
+    and up/down capture. gauntlet_v1's lesson made the bar benchmark-
+    relative; this makes the comparison one call instead of ad-hoc
+    arithmetic in every runner script.
+    """
+    eq = {str(c["date"])[:10]: c["equity"] for c in curve}
+    bq = {str(c["date"])[:10]: c["equity"] for c in benchmark_curve}
+    days = sorted(set(eq) & set(bq))
+    if len(days) < 3:
+        return {"n_obs": 0}
+    rs, rb = [], []
+    for i in range(1, len(days)):
+        p0, p1 = eq[days[i - 1]], eq[days[i]]
+        b0, b1 = bq[days[i - 1]], bq[days[i]]
+        if p0 <= 0 or b0 <= 0:
+            continue
+        rs.append(p1 / p0 - 1.0)
+        rb.append(b1 / b0 - 1.0)
+    n = len(rs)
+    if n < 2:
+        return {"n_obs": n}
+    mean_s = sum(rs) / n
+    mean_b = sum(rb) / n
+    var_b = sum((x - mean_b) ** 2 for x in rb) / n
+    cov = sum((rs[i] - mean_s) * (rb[i] - mean_b) for i in range(n)) / n
+    beta = cov / var_b if var_b > 0 else 0.0
+    alpha_daily = mean_s - beta * mean_b
+    diffs = [rs[i] - rb[i] for i in range(n)]
+    mean_d, std_d, _, _ = _moments(diffs)
+    years = n / 252.0
+    cagr_s = (eq[days[-1]] / eq[days[0]]) ** (1 / years) - 1.0 if years > 0 else 0.0
+    cagr_b = (bq[days[-1]] / bq[days[0]]) ** (1 / years) - 1.0 if years > 0 else 0.0
+    up = [(rs[i], rb[i]) for i in range(n) if rb[i] > 0]
+    down = [(rs[i], rb[i]) for i in range(n) if rb[i] < 0]
+    up_cap = (sum(s for s, _ in up) / sum(b for _, b in up)) if up and sum(b for _, b in up) != 0 else 0.0
+    down_cap = (sum(s for s, _ in down) / sum(b for _, b in down)) if down and sum(b for _, b in down) != 0 else 0.0
+    return {
+        "n_obs": n,
+        "cagr": cagr_s, "benchmark_cagr": cagr_b,
+        "excess_cagr": cagr_s - cagr_b,
+        "beta": beta,
+        "alpha_annual": alpha_daily * 252,
+        "tracking_error": std_d * math.sqrt(252),
+        "information_ratio": (mean_d / std_d) * math.sqrt(252) if std_d > 0 else 0.0,
+        "up_capture": up_cap, "down_capture": down_cap,
+    }
+
+
+def trade_stats(trades: list[dict]) -> dict:
+    """Round-trip statistics from a simulate() trades list (FIFO lots).
+
+    Matches sells against buy lots per symbol first-in-first-out and
+    reports: round-trip count, win rate, average win/loss %, profit
+    factor, median holding period (calendar days), and a per-exit-
+    reason breakdown — so an ExitRules run can answer 'did the stop
+    save money or amputate winners?' directly, the same signal_lift
+    question the ghosts ask live.
+    """
+    from datetime import date as _d
+
+    def _days(a: str, b: str) -> int:
+        y1, m1, d1 = map(int, a[:10].split("-"))
+        y2, m2, d2 = map(int, b[:10].split("-"))
+        return (_d(y2, m2, d2) - _d(y1, m1, d1)).days
+
+    lots: dict[str, list[dict]] = {}
+    round_trips: list[dict] = []
+    for t in trades:
+        sym = t["symbol"]
+        if t["side"] == "buy":
+            lots.setdefault(sym, []).append(
+                {"shares": t["shares"], "price": t["price"], "date": t["date"]})
+            continue
+        remaining = t["shares"]
+        while remaining > 1e-12 and lots.get(sym):
+            lot = lots[sym][0]
+            take = min(remaining, lot["shares"])
+            ret = (t["price"] - lot["price"]) / lot["price"] if lot["price"] > 0 else 0.0
+            round_trips.append({
+                "symbol": sym, "return_pct": ret,
+                "holding_days": _days(lot["date"], t["date"]),
+                "reason": t.get("reason", "rebalance"),
+                "notional": take * lot["price"],
+            })
+            lot["shares"] -= take
+            remaining -= take
+            if lot["shares"] <= 1e-12:
+                lots[sym].pop(0)
+    n = len(round_trips)
+    if n == 0:
+        return {"n_round_trips": 0}
+    wins = [r for r in round_trips if r["return_pct"] > 0]
+    losses = [r for r in round_trips if r["return_pct"] <= 0]
+    gross_win = sum(r["return_pct"] * r["notional"] for r in wins)
+    gross_loss = -sum(r["return_pct"] * r["notional"] for r in losses)
+    hold = sorted(r["holding_days"] for r in round_trips)
+    by_reason: dict[str, dict] = {}
+    for r in round_trips:
+        g = by_reason.setdefault(r["reason"], {"n": 0, "wins": 0, "sum_return": 0.0})
+        g["n"] += 1
+        g["wins"] += 1 if r["return_pct"] > 0 else 0
+        g["sum_return"] += r["return_pct"]
+    for g in by_reason.values():
+        g["win_rate"] = g["wins"] / g["n"]
+        g["mean_return"] = g["sum_return"] / g["n"]
+    return {
+        "n_round_trips": n,
+        "win_rate": len(wins) / n,
+        "avg_win_pct": sum(r["return_pct"] for r in wins) / len(wins) if wins else 0.0,
+        "avg_loss_pct": sum(r["return_pct"] for r in losses) / len(losses) if losses else 0.0,
+        "profit_factor": gross_win / gross_loss if gross_loss > 0 else math.inf,
+        "median_holding_days": hold[n // 2],
+        "by_exit_reason": by_reason,
+    }
+
+
+def turnover_stats(trades: list[dict], curve: list[dict]) -> dict:
+    """Annual turnover and cost attribution from a simulate() result.
+
+    turnover = annualized sell notional / average equity (single-
+    sided); cost_drag_bps_yr = total costs paid / average equity /
+    years, in bps. The number that decides whether a paper edge
+    survives its own trading — the fee-engine check Proteus runs by
+    hand, mechanized.
+    """
+    if not curve:
+        return {"n_obs": 0}
+    equities = [c["equity"] for c in curve]
+    avg_eq = sum(equities) / len(equities)
+    years = max(len(equities) - 1, 1) / 252.0
+    sell_notional = sum(t["shares"] * t["price"] for t in trades
+                        if t["side"] == "sell")
+    buy_notional = sum(t["shares"] * t["price"] for t in trades
+                       if t["side"] == "buy")
+    total_costs = sum(t.get("cost", 0.0) for t in trades)
+    return {
+        "n_obs": len(equities),
+        "avg_equity": avg_eq,
+        "annual_turnover": (sell_notional / avg_eq / years) if avg_eq > 0 else 0.0,
+        "buy_notional": buy_notional,
+        "sell_notional": sell_notional,
+        "total_costs": total_costs,
+        "cost_drag_bps_yr": (total_costs / avg_eq / years * 10_000) if avg_eq > 0 else 0.0,
+    }
+
+
+def periodic_dates(days: list[str], cadence: str = "M",
+                    anchor: str = "last") -> list[str]:
+    """Rebalance calendar from a trading-day list: weekly or monthly.
+
+    cadence "M" groups by calendar month, "W" by ISO week; anchor
+    "last" takes each group's final trading day (signal at the close
+    that ends the period), "first" its opening day. Feed the result to
+    snapshot construction so a weekly-cadence god (Delphi) or monthly
+    grid cell shares one canonical calendar-building path.
+    """
+    from datetime import date as _d
+    if cadence not in ("M", "W"):
+        raise ValueError(f"cadence must be 'M' or 'W', got {cadence!r}")
+    if anchor not in ("first", "last"):
+        raise ValueError(f"anchor must be 'first' or 'last', got {anchor!r}")
+    groups: dict = {}
+    for day in sorted(str(d)[:10] for d in days):
+        if cadence == "M":
+            key = day[:7]
+        else:
+            y, m, dd = map(int, day.split("-"))
+            iso = _d(y, m, dd).isocalendar()
+            key = (iso[0], iso[1])
+        if anchor == "first":
+            groups.setdefault(key, day)
+        else:
+            groups[key] = day
+    return sorted(groups.values())
+
+
 # ---------------------------------------------------------------------------
 # Deflated Sharpe ratio (Bailey & Lopez de Prado, 2014) — the
 # multiple-testing-corrected bar backlog #9 requires by name.
@@ -601,3 +949,209 @@ def deflated_sharpe_ratio(
     benchmark = expected_max_sharpe(n_trials, variance_of_sr)
     return probabilistic_sharpe_ratio(sr_observed, benchmark, n_obs,
                                        skew=skew, kurtosis=kurtosis)
+
+
+# ---------------------------------------------------------------------------
+# Uncertainty, robustness, and study helpers (comprehensiveness pass 2,
+# 2026-07-04): every function here answers a question a results doc keeps
+# having to answer by hand.
+# ---------------------------------------------------------------------------
+
+def sharpe_ci(curve: list[dict], *, n_boot: int = 1000, block: int = 21,
+               seed: int = 7, ci: float = 0.95) -> dict:
+    """Circular block-bootstrap confidence interval on annualized Sharpe.
+
+    A 12-year Sharpe carries ~±0.3 of sampling noise; a results doc
+    quoting the point estimate without an interval invites over-
+    reading. Blocks (default 21 trading days) preserve short-range
+    autocorrelation the iid bootstrap would destroy. Deterministic for
+    a given seed — cite the seed in the results doc.
+    """
+    import random as _random
+    equities = [c["equity"] for c in curve]
+    rets = [equities[i] / equities[i - 1] - 1.0
+            for i in range(1, len(equities)) if equities[i - 1] > 0]
+    n = len(rets)
+    if n < 2 * block:
+        return {"n_obs": n, "sharpe": summarize(curve)["sharpe"],
+                "lo": None, "hi": None,
+                "note": f"need >= {2 * block} daily returns for block={block}"}
+    rng = _random.Random(seed)
+
+    def _sharpe(xs: list[float]) -> float:
+        m, s, _, _ = _moments(xs)
+        return (m / s) * math.sqrt(252) if s > 0 else 0.0
+
+    boots = []
+    n_blocks = math.ceil(n / block)
+    for _ in range(n_boot):
+        sample: list[float] = []
+        for _ in range(n_blocks):
+            start_i = rng.randrange(n)
+            for k in range(block):
+                sample.append(rets[(start_i + k) % n])   # circular
+        boots.append(_sharpe(sample[:n]))
+    boots.sort()
+    alpha = (1 - ci) / 2
+    lo_i = max(0, int(alpha * n_boot) - 1)
+    hi_i = min(n_boot - 1, int((1 - alpha) * n_boot))
+    return {"n_obs": n, "sharpe": _sharpe(rets),
+            "lo": boots[lo_i], "hi": boots[hi_i],
+            "n_boot": n_boot, "block": block, "seed": seed, "ci": ci}
+
+
+def walk_forward_windows(days: list[str], *, train_days: int = 756,
+                          test_days: int = 252,
+                          step_days: Optional[int] = None) -> list[dict]:
+    """Rolling train/test windows over a trading-day list.
+
+    The holdout discipline generalized: instead of one in-sample/holdout
+    split, K non-overlapping (by default) test windows each preceded by
+    their own training window — the standard defense against 'the one
+    split happened to flatter it'. Returns [{train: (d0, d1),
+    test: (d2, d3)}, ...]; a window that doesn't fully fit is dropped,
+    never truncated silently.
+    """
+    ds = sorted(str(d)[:10] for d in days)
+    step = step_days if step_days is not None else test_days
+    if train_days < 1 or test_days < 1 or step < 1:
+        raise ValueError("train_days, test_days, and step_days must be >= 1")
+    out = []
+    i = 0
+    while i + train_days + test_days <= len(ds):
+        out.append({
+            "train": (ds[i], ds[i + train_days - 1]),
+            "test": (ds[i + train_days], ds[i + train_days + test_days - 1]),
+        })
+        i += step
+    return out
+
+
+def parameter_cliff_report(cells: list[dict]) -> list[dict]:
+    """Overfit smell-test: is each cell's metric an isolated peak?
+
+    `cells` = [{"params": {...}, "metric": float, ...}]. For every
+    cell, finds its one-step neighbors (cells differing in exactly one
+    param — adjacent value for numeric params, any other value for
+    categorical ones) and reports the gap between the cell and its
+    neighborhood. A real effect is a plateau: 65-day momentum working
+    while 55 and 75 both fail is noise wearing a crown. Sorted by
+    isolation (metric minus neighbor mean), worst offender first.
+    """
+    def _neighbors(a: dict, b: dict, numeric_steps: dict) -> bool:
+        pa, pb = a["params"], b["params"]
+        if set(pa) != set(pb):
+            return False
+        diff = [k for k in pa if pa[k] != pb[k]]
+        if len(diff) != 1:
+            return False
+        k = diff[0]
+        va, vb = pa[k], pb[k]
+        if isinstance(va, (int, float)) and isinstance(vb, (int, float)):
+            vals = numeric_steps[k]
+            ia, ib = vals.index(va), vals.index(vb)
+            return abs(ia - ib) == 1
+        return True   # categorical: every other value is a neighbor
+
+    numeric_steps: dict = {}
+    for c in cells:
+        for k, v in c["params"].items():
+            if isinstance(v, (int, float)):
+                numeric_steps.setdefault(k, set()).add(v)
+    numeric_steps = {k: sorted(v) for k, v in numeric_steps.items()}
+
+    out = []
+    for c in cells:
+        neigh = [o["metric"] for o in cells
+                 if o is not c and _neighbors(c, o, numeric_steps)]
+        if not neigh:
+            out.append({**c, "n_neighbors": 0, "neighbor_mean": None,
+                        "isolation": None})
+            continue
+        nm = sum(neigh) / len(neigh)
+        out.append({**c, "n_neighbors": len(neigh), "neighbor_mean": nm,
+                    "neighbor_min": min(neigh), "isolation": c["metric"] - nm})
+    return sorted(out, key=lambda r: (r["isolation"] is None,
+                                       -(r["isolation"] or 0.0)))
+
+
+def event_car(events: list[dict], bars_by_symbol: dict[str, list[dict]],
+               benchmark_bars: list[dict], *, max_offset: int = 20,
+               date_field: str = "public_date",
+               symbol_field: str = "symbol") -> dict:
+    """Cumulative abnormal return curves for an event population.
+
+    The event-study engine for PITEventFeed populations (insider
+    clusters, PEAD, lockups, tenders): entry at the close of the FIRST
+    trading day strictly AFTER the event's public date (no same-day
+    fill — the filing might post after hours), then per-offset
+    CAR_k = (P_{t0+k}/P_{t0} - 1) - (B_{t0+k}/B_{t0} - 1) on total-
+    return series where available. Events whose symbol has no bar in
+    [public_date+1 ...] land in `unpriceable` — the mandatory
+    survivorship disclosure, never silently dropped. Offsets with
+    shrinking n (later offsets outrun the panel) report their own n.
+    """
+    field = _price_field_by_symbol(bars_by_symbol)
+    bench_days = sorted(str(b["date"])[:10] for b in benchmark_bars)
+    bench_px = {}
+    b_field = "close_total_return" if all(
+        b.get("close_total_return") is not None for b in benchmark_bars
+    ) and benchmark_bars else "close"
+    for b in benchmark_bars:
+        bench_px[str(b["date"])[:10]] = b[b_field]
+
+    sums = [0.0] * (max_offset + 1)
+    cars_at: list[list[float]] = [[] for _ in range(max_offset + 1)]
+    unpriceable: list[dict] = []
+    n_events = 0
+    for ev in events:
+        sym = ev.get(symbol_field)
+        pub = str(ev.get(date_field, ""))[:10]
+        bars = bars_by_symbol.get(sym)
+        if not bars or not pub:
+            unpriceable.append({"symbol": sym, "date": pub,
+                                "why": "no bars for symbol"})
+            continue
+        series = [(str(b["date"])[:10], b[field[sym]]) for b in bars]
+        entry_i = next((i for i, (d, _) in enumerate(series) if d > pub), None)
+        if entry_i is None:
+            unpriceable.append({"symbol": sym, "date": pub,
+                                "why": "no bar after public date"})
+            continue
+        d0, p0 = series[entry_i]
+        if d0 not in bench_px:
+            unpriceable.append({"symbol": sym, "date": pub,
+                                "why": f"benchmark missing entry day {d0}"})
+            continue
+        b0 = bench_px[d0]
+        b_days_from = [d for d in bench_days if d >= d0]
+        n_events += 1
+        for k in range(max_offset + 1):
+            if entry_i + k >= len(series) or k >= len(b_days_from):
+                break
+            dk, pk = series[entry_i + k]
+            bk = bench_px.get(b_days_from[k])
+            if bk is None or p0 <= 0 or b0 <= 0:
+                break
+            car = (pk / p0 - 1.0) - (bk / b0 - 1.0)
+            cars_at[k].append(car)
+
+    def _median(xs: list[float]) -> Optional[float]:
+        if not xs:
+            return None
+        ys = sorted(xs)
+        return ys[len(ys) // 2]
+
+    return {
+        "offsets": list(range(max_offset + 1)),
+        "n": [len(c) for c in cars_at],
+        "mean_car": [sum(c) / len(c) if c else None for c in cars_at],
+        "median_car": [_median(c) for c in cars_at],
+        "n_events_priced": n_events,
+        "unpriceable": unpriceable,
+        "coverage_note": (
+            f"{n_events} events priced, {len(unpriceable)} unpriceable "
+            "(listed) — unpriceable events are disproportionately delisted/"
+            "distressed names; any positive mean CAR must survive that "
+            "disclosure."),
+    }
