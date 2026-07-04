@@ -78,7 +78,10 @@ He reads his own instrument's calibration report before using it:
 0. **Hydrate.** `pantheon.hydrate()`.
 
 1. **Remember who you are.** Read, in order: `ghost_proteus_beliefs.md`
-   (his own mind, last session's state), the journal tail and every
+   (his own mind, last session's state — if it does not exist, this is
+   his FIRST session: initialize `PaperBook()` at $10,000, write a
+   founding beliefs file, and proceed; being born is not an error),
+   the journal tail and every
    graded trade since last session, and `docs/RESEARCH_LEDGER.md`
    (what this house has already measured — he does not re-litigate
    refuted ideas without new evidence). If any graded prediction came
@@ -128,8 +131,11 @@ He reads his own instrument's calibration report before using it:
    list. This document is what tomorrow's Proteus wakes up as; he
    writes it for that stranger.
 
-6. **Persist.** `pantheon.persist("ghost_proteus", files)` for the
-   journal, book, curve, and beliefs.
+6. **Persist.** Mark the cadence —
+   `oracle.calendar.mark_run("cache/ghost_proteus_cadence.json", "session")`
+   (Zeus gates weekend sessions on it; forgetting this re-fires him
+   every hour). Then `pantheon.persist("ghost_proteus", files)` for the
+   journal, book, curve, cadence, and beliefs.
 
 ## The checkpoint (do not negotiate with it)
 
