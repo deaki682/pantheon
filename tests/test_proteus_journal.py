@@ -2,7 +2,8 @@ import pytest
 
 from proteus.journal import (
     CAPITAL_BASE, JournalError, PaperBook, append_decision, checkpoint_stats,
-    load_journal, validate_decision,
+    load_journal, validate_decision, trade_drought_stats,
+    DROUGHT_SESSIONS, DROUGHT_MIN_DAYS,
 )
 
 THESIS = ("A genuine, articulated thesis about why this position has edge, "
@@ -231,3 +232,71 @@ def test_secondary_price_suspect():
     assert secondary_price_suspect(19.0, 0.0)
     assert not secondary_price_suspect(114.9, 100.0)    # just inside 15%
     assert secondary_price_suspect(115.1, 100.0)        # just outside
+
+
+# ---- trade-drought diagnostic (paralysis guard, reported-not-gating) ----
+
+def _notes(dates):
+    return [{"action": "note", "date": d, "text": "sweep, no trade"} for d in dates]
+
+
+def test_drought_unfunded_never_flags():
+    # $0, market shut: the weekend research sessions must NEVER count as a drought
+    recs = _notes(["2026-06-30", "2026-07-01", "2026-07-04", "2026-07-05"])
+    s = trade_drought_stats(recs, today="2026-07-05", funded=False, cash=0.0,
+                            equity=0.0, funded_since=None)
+    assert s["drought_flag"] is False
+    assert "clock not started" in s["status"]
+
+
+def test_drought_funded_deployed_is_not_a_drought():
+    recs = _notes(["2026-07-07"])
+    s = trade_drought_stats(recs, today="2026-08-01", funded=True, cash=100.0,
+                            equity=1000.0, funded_since="2026-07-07")
+    assert s["drought_flag"] is False
+    assert s["deployed_pct"] == pytest.approx(0.9)
+    assert "deployed" in s["status"]
+
+
+def test_drought_within_calendar_floor_does_not_flag():
+    # 8 all-cash sessions but only 9 days since funding -> floor blocks the flag
+    dates = ["2026-07-07", "2026-07-08", "2026-07-09", "2026-07-10",
+             "2026-07-13", "2026-07-14", "2026-07-15", "2026-07-16"]
+    s = trade_drought_stats(_notes(dates), today="2026-07-16", funded=True,
+                            cash=1000.0, equity=1000.0, funded_since="2026-07-07")
+    assert s["sessions_all_cash"] >= DROUGHT_SESSIONS
+    assert s["days_since"] < DROUGHT_MIN_DAYS
+    assert s["drought_flag"] is False
+
+
+def test_drought_flags_when_sustained_and_all_cash():
+    dates = ["2026-07-07", "2026-07-08", "2026-07-09", "2026-07-10",
+             "2026-07-13", "2026-07-14", "2026-07-15", "2026-07-16"]
+    s = trade_drought_stats(_notes(dates), today="2026-08-05", funded=True,
+                            cash=1000.0, equity=1000.0, funded_since="2026-07-07")
+    assert s["drought_flag"] is True
+    assert s["days_since"] == 29
+    assert s["deployed_pct"] == pytest.approx(0.0)
+    assert "DROUGHT" in s["status"]
+
+
+def test_drought_ignores_pre_funding_sessions():
+    # 4 unfunded weekend notes + only 2 funded sessions -> window starts at funding
+    recs = _notes(["2026-06-30", "2026-07-01", "2026-07-04", "2026-07-05",
+                   "2026-07-07", "2026-07-08"])
+    s = trade_drought_stats(recs, today="2026-08-01", funded=True, cash=1000.0,
+                            equity=1000.0, funded_since="2026-07-07")
+    assert s["sessions_all_cash"] == 2          # only the two post-funding dates
+    assert s["drought_flag"] is False
+
+
+def test_drought_resets_after_a_trade():
+    recs = _notes(["2026-07-07", "2026-07-08", "2026-07-09", "2026-07-10",
+                   "2026-07-13", "2026-07-14", "2026-07-15", "2026-07-16"])
+    recs.append({"action": "enter", "date": "2026-07-20", "symbol": "MFP"})
+    recs += _notes(["2026-07-21", "2026-07-22"])
+    s = trade_drought_stats(recs, today="2026-08-15", funded=True, cash=1000.0,
+                            equity=1000.0, funded_since="2026-07-07")
+    assert s["last_entry_date"] == "2026-07-20"
+    assert s["sessions_all_cash"] == 2          # only sessions AFTER the entry
+    assert s["drought_flag"] is False

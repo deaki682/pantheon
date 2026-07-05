@@ -209,7 +209,24 @@ The retired paper-era files (`cache/ghost_proteus_*`) were removed from
    to know at trade 5, not at the verdict. The `mean_excess_shrunk`
    field is the honest small-sample read (same shrinkage the house
    applies everywhere else); the frozen verdict still uses the raw
-   numbers as written. Every RED position gets
+   numbers as written. **Also report
+   `proteus.journal.trade_drought_stats(journal, today=today, funded=book.is_funded(),
+   cash=book.cash, equity=book.equity(marks), funded_since=<cadence 'funded_date'>)`**
+   — the paralysis diagnostic, the deliberate mirror of the overtrading
+   guards (2026-07-05). It is REPORTED, NEVER GATING and NEVER a trade
+   target: a session must never place a trade to clear it (that would
+   recreate the exact overtrading incentive the experiment forbids). Its
+   only job is to make a sustained refusal to deploy funded capital
+   *visible* instead of hiding behind the word "patience." The clock
+   starts only when funded and cannot fire inside the calendar floor
+   (`DROUGHT_MIN_DAYS`), so unfunded/closed-market sessions never count —
+   but once `drought_flag` is true (funded, ~all-cash across
+   `DROUGHT_SESSIONS` opportunity-sessions and past the floor), the
+   session owes one honest paragraph in beliefs: are the leads genuinely
+   sub-bar, or is this the easy-path failure mode wearing a prudent mask?
+   Record the funding date to `proteus_cadence.json` (key `funded_date`)
+   at the sweep so the window starts from real dry powder, not the
+   pending-funding weekends. Every RED position gets
    re-underwritten on the spot: does the thesis survive today's facts?
    Kill it or consciously re-commit in a journal `note` — drift is the
    one sin the daily mandate forbids. Check
