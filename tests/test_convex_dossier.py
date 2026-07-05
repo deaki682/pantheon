@@ -1,7 +1,8 @@
 import pytest
 
 from oracle.convex_dossier import (make_convex_dossier, asymmetry_score,
-                                   rank_by_asymmetry, ConvexDossierError)
+                                   convexity_score, rank_by_asymmetry,
+                                   rank_by_convexity, ConvexDossierError)
 
 
 def _good(**over):
@@ -74,3 +75,52 @@ def test_rank_by_asymmetry_convex_only():
     flat = _good(symbol="FLAT", upside_x=1.2, prob_upside=0.4, floor_pct=0.3)  # score -0.10, not convex
     ranked = rank_by_asymmetry([lo, flat, hi])
     assert [d["symbol"] for d in ranked] == ["HI", "LO"]   # FLAT dropped (non-convex)
+
+
+def test_bounded_low_multiple_is_convex():
+    # The BOLD/Tang shape: buy ~$1 of net cash for ~$0.80 with a forced buyer.
+    # Modest 1.35x multiple, high probability, hard cash floor -> the PUREST
+    # convexity. The old upside_x>=1.5 gate wrongly dropped this.
+    d = _good(symbol="BOLD", upside_x=1.35, prob_upside=0.6, floor_pct=0.20,
+              floor_hardness="hard")
+    assert d["convex"] is True                       # positive expectancy + real floor
+    assert d["asymmetry_score"] == pytest.approx(0.6 * 0.35 - 0.4 * 0.20)
+
+
+def test_no_real_floor_is_not_convex():
+    # A "floor" worse than the reality cap isn't a floor.
+    d = _good(symbol="NOFLOOR", upside_x=3.0, prob_upside=0.5, floor_pct=0.75)
+    assert d["convex"] is False
+
+
+def test_convexity_score_annualizes():
+    # Equal asymmetry, different horizons: the nearer catalyst ranks higher.
+    near = _good(symbol="NEAR", upside_x=1.6, prob_upside=0.5, floor_pct=0.2,
+                 horizon_months=6)
+    far = _good(symbol="FAR", upside_x=1.6, prob_upside=0.5, floor_pct=0.2,
+                horizon_months=36)
+    assert near["asymmetry_score"] == pytest.approx(far["asymmetry_score"])
+    assert near["convexity_score"] > far["convexity_score"]
+    assert rank_by_convexity([far, near])[0]["symbol"] == "NEAR"
+
+
+def test_convexity_score_weights_floor_hardness():
+    # Equal asymmetry + horizon: the hard asset floor outranks the soft one.
+    hard = _good(symbol="HARD", upside_x=1.8, prob_upside=0.5, floor_pct=0.2,
+                 floor_hardness="hard")
+    soft = _good(symbol="SOFT", upside_x=1.8, prob_upside=0.5, floor_pct=0.2,
+                 floor_hardness="soft")
+    assert hard["convexity_score"] > soft["convexity_score"]
+    assert rank_by_convexity([soft, hard])[0]["symbol"] == "HARD"
+
+
+def test_convexity_score_formula():
+    assert convexity_score(0.30, 6.0, "hard") == pytest.approx(0.30 * (12.0 / 6.0) * 1.0)
+    assert convexity_score(0.30, 36.0, "soft") == pytest.approx(0.30 * (12.0 / 36.0) * 0.45)
+    # sub-month catalyst is floored at 1 month (no annualization blow-up)
+    assert convexity_score(0.10, 0.2, "medium") == pytest.approx(0.10 * 12.0 * 0.7)
+
+
+def test_requires_valid_floor_hardness():
+    with pytest.raises(ConvexDossierError):
+        _good(floor_hardness="rock-solid")

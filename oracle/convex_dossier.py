@@ -6,18 +6,39 @@ wrong. Every field below is load-bearing; the builder refuses a dossier that
 can't state its floor, its structural mispricing, and a checkable kill.
 
 asymmetry_score = P(upside)·(upside_x − 1) − (1 − P(upside))·floor_pct
-  — the expected payoff of the bet in return terms. Positive = favorable
-  asymmetry. This, NOT a lens-conviction number, is the selection signal.
+  — the expected payoff of the bet in return terms, over its whole horizon.
+  Positive = favorable asymmetry.
+
+convexity_score = annualize(asymmetry_score) · floor_hardness_weight
+  — the SELECTION metric. Two corrections the raw asymmetry_score can't make
+  on its own (both surfaced by the 2026-07-05 forced-seller scan):
+    1. Annualize by horizon — a bounded +30% in 6 months should not rank
+       below a low-odds 3x that needs 3 years. Raw asymmetry ignored time and
+       over-weighted distant biotech optionality.
+    2. Weight by floor hardness — a hard asset/net-cash floor deserves full
+       credit; a soft/contingent floor (zoning, thin tangible book) is
+       discounted, because a floor that might not hold is not really a floor.
+  The `convex` FLAG is now "positive expectancy + a real (bounded) floor" —
+  NOT "big multiple". A near-certain bounded win (buy $1 of net cash for $0.80
+  with a forced buyer — the Tang/Concentra shape) is the PUREST convexity even
+  at a 1.3x multiple; the old upside_x>=1.5 gate wrongly dropped it.
 """
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any
+from typing import Any, Optional
 
 WHY_MISPRICED_TYPES = {"neglect", "forced_seller", "hard_catalyst"}
 KILL_TYPES = {"price_level", "drawdown_pct", "thesis_date", "filing_event"}
 # triggers the house has measured at ~zero — a thesis that reduces to these is noise
 DEAD_TRIGGERS = ("insider", "quality lens", "trades cheap", "undervalued", "buyback")
+
+# floor hardness — how much to trust the stated floor. asset/net-cash = hard;
+# book/tangible-book = medium; contingent (zoning, liquidation timing, soft
+# marks) = soft. A soft floor earns less than half a hard one in the ranking.
+FLOOR_HARDNESS_WEIGHT = {"hard": 1.0, "medium": 0.7, "soft": 0.45}
+FLOOR_REALITY_CAP = 0.60      # a "floor" worse than -60% is not a floor -> not convex
+DEFAULT_HORIZON_MONTHS = 12.0
 
 
 class ConvexDossierError(ValueError):
@@ -25,10 +46,26 @@ class ConvexDossierError(ValueError):
 
 
 def asymmetry_score(floor_pct: float, upside_x: float, prob_upside: float) -> float:
-    """Expected asymmetric payoff (return units). floor_pct is the worst
-    plausible LOSS as a positive fraction (0.25 = −25%); upside_x is the win
-    multiple (1.8 = +80%); prob_upside is P(the upside case)."""
+    """Expected asymmetric payoff (return units) over the whole horizon.
+    floor_pct is the worst plausible LOSS as a positive fraction (0.25 = −25%);
+    upside_x is the win multiple (1.8 = +80%); prob_upside is P(the upside case)."""
     return prob_upside * (upside_x - 1.0) - (1.0 - prob_upside) * floor_pct
+
+
+def convexity_score(asymmetry: float, horizon_months: float,
+                    floor_hardness: str = "medium") -> float:
+    """The selection metric: annualized expected asymmetry, discounted by how
+    HARD the floor is.
+
+    - Annualize by 12/horizon_months so a bounded near-term win isn't buried
+      under a low-odds far-off multiple (a +30% in 6mo beats a +30% in 3yr).
+    - Multiply by the floor-hardness weight so a real asset/cash floor outranks
+      a soft/contingent one at equal expectancy.
+    horizon_months is floored at 1.0 (a sub-month catalyst doesn't earn a 12x
+    annualization blow-up)."""
+    h = max(1.0, float(horizon_months))
+    w = FLOOR_HARDNESS_WEIGHT.get(floor_hardness, 0.7)
+    return (asymmetry * (12.0 / h)) * w
 
 
 def _req(cond: bool, msg: str) -> None:
@@ -59,6 +96,8 @@ def make_convex_dossier(
     spy_price: float = 0.0,
     sector: str = "",
     lens_score: float = 0.0,        # the OLD mechanical score — kept ONLY as the A/B baseline input
+    floor_hardness: str = "medium",  # hard (asset/net-cash) | medium (book) | soft (contingent)
+    horizon_months: Optional[float] = None,  # months to the re-rating; default 12
     author: str = "oracle",
 ) -> dict[str, Any]:
     sym = symbol.upper()
@@ -67,6 +106,10 @@ def make_convex_dossier(
     _req(0.0 < float(floor_pct) <= 1.0, "floor_pct must be a positive fraction in (0,1] — no floor = growth gamble, not an Oracle name")
     _req(float(upside_x) >= 1.0, "upside_x must be >=1.0 (a win multiple)")
     _req(0.0 <= float(prob_upside) <= 1.0, "prob_upside must be in [0,1]")
+    _req(floor_hardness in FLOOR_HARDNESS_WEIGHT,
+         f"floor_hardness must be one of {sorted(FLOOR_HARDNESS_WEIGHT)} — how hard is the floor, really?")
+    hz = DEFAULT_HORIZON_MONTHS if horizon_months is None else float(horizon_months)
+    _req(hz > 0, "horizon_months must be > 0 (months to the re-rating)")
     _req(why_mispriced_type in WHY_MISPRICED_TYPES,
          f"why_mispriced_type must be one of {sorted(WHY_MISPRICED_TYPES)} — name the STRUCTURE, not 'the market underappreciates it'")
     _req(len(why_mispriced) >= 40, "why_mispriced must state the structural reason (>=40 chars)")
@@ -81,6 +124,7 @@ def make_convex_dossier(
     dead_trigger_risk = any(t in hay for t in DEAD_TRIGGERS)
 
     score = asymmetry_score(float(floor_pct), float(upside_x), float(prob_upside))
+    cscore = convexity_score(score, hz, floor_hardness)
     now = datetime.utcnow().isoformat()
     return {
         "symbol": sym, "spec": "convex", "author": author, "created_at": now,
@@ -89,7 +133,11 @@ def make_convex_dossier(
         # --- asymmetry (the edge) ---
         "floor_pct": float(floor_pct), "upside_x": float(upside_x),
         "prob_upside": float(prob_upside), "asymmetry_score": round(score, 4),
-        "convex": bool(score > 0 and float(upside_x) >= 1.5),
+        "floor_hardness": floor_hardness, "horizon_months": hz,
+        "convexity_score": round(cscore, 4),
+        # convex = positive expectancy + a REAL (bounded) floor — not "big multiple".
+        # The old upside_x>=1.5 gate wrongly dropped bounded near-certain wins.
+        "convex": bool(score > 0 and float(floor_pct) <= FLOOR_REALITY_CAP),
         # --- structural mispricing (G2) + catalyst (G4) ---
         "why_mispriced_type": why_mispriced_type, "why_mispriced": why_mispriced,
         "catalyst": catalyst, "catalyst_date": catalyst_date,
@@ -104,8 +152,17 @@ def make_convex_dossier(
     }
 
 
-def rank_by_asymmetry(dossiers: list[dict]) -> list[dict]:
-    """The selection order: best asymmetric payoff first. Convex names only —
-    a non-convex dossier (negative score or thin upside) is not book-worthy."""
+def rank_by_convexity(dossiers: list[dict]) -> list[dict]:
+    """The selection order: best convexity_score first (annualized asymmetry,
+    floor-hardness weighted). Convex names only — a non-convex dossier (negative
+    expectancy, or no real floor) is not book-worthy. This is the fix for the
+    raw-asymmetry ranking that over-weighted distant biotech multiples over
+    hard-floor near-catalyst names."""
     convex = [d for d in dossiers if d.get("convex")]
-    return sorted(convex, key=lambda d: -d.get("asymmetry_score", -9))
+    return sorted(convex, key=lambda d: -d.get("convexity_score", -9))
+
+
+# back-compat alias — the runbook/tests may still call rank_by_asymmetry; it now
+# ranks by the improved convexity_score (annualized + floor-hardness weighted).
+def rank_by_asymmetry(dossiers: list[dict]) -> list[dict]:
+    return rank_by_convexity(dossiers)
