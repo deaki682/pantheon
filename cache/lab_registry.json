@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 196,
+ "hypotheses_ever": 197,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -1180,6 +1180,33 @@
    "status": "backtested",
    "underutilized_because": "Not underutilized in aggregate (merger arb is a crowded institutional trade); the open question is whether the IMPLEMENTABLE post-14D9 drift clears this house's frozen bars at all \u2014 the graveyard says measure before believing even famous edges.",
    "who_loses": "Holders selling below the offer price before completion \u2014 liquidity/uncertainty sellers facing a bound corporate bid; arbs are the usual buyers, which is exactly why the G3 answer is 'partial' and the bar must clear costs."
+  },
+  "thematic_etf_firesale_reversal": {
+   "created": "2026-07-05",
+   "falsifiable_claim": "Long the most forced-sold (flow-pressure/ADV), most-illiquid constituents of shrinking thematic ETFs, entered at outflow-exhaustion, earns POSITIVE excess vs a size-and-sector-matched EW benchmark at 63d in-sample AND holdout net of realistic microcap cost; if excess <=0 or the small/illiquid subset is the WORST subset (the spinoff_orphans shape), it is false.",
+   "history": [
+    {
+     "date": "2026-07-05",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "An ETF redemption is non-discretionary: shares redeemed -> AP receives the in-kind basket and unwinds it, fund holdings shrink by replication mandate, the sale bound by the prospectus not by any view of value. In a BROAD ETF per-name flow is negligible and instantly arbitraged (the Greenwood-Sammon offset that killed the S&P index-effect). In a THEMATIC/niche ETF the same outflow dollar lands on a handful of small illiquid names the fund owns in size (often multiples of a constituent daily volume), so the forced sale moves price and no deep-pocketed arbitrageur can cheaply absorb it \u2014 capacity-inverted. Ponzi Funds (arXiv 2405.12768) documents the inflow side (~20x-ADV positions, -6%/yr specialized-ETF constituent alpha, reversal concentrated in the most-illiquid names); this tests the outflow/reversal symmetry long-only.",
+   "prereg": {
+    "date": "2026-07-05",
+    "doc": "docs/lab_prereg_thematic_etf_firesale_reversal.md",
+    "metric": "Excess 63d return of the forced-sold-constituent EW basket vs a size-AND-sector-matched EW benchmark (NOT raw return), net of realistic microcap round-trip cost + 2x stress; monotonicity in pressure/ADV.",
+    "population_definition": "All US-listed thematic/sector/niche EQUITY ETFs existing at ANY point 2015-01-01..2025-12-31 with a stated non-broad theme and >=15 equity constituents, INCLUDING funds that later closed/liquidated (the closing-ETF forced sale is the core case); EXCLUDING broad-market (SPY/IVV/VTI/IWM/QQQ-class), leveraged/inverse, and bond/commodity funds. Constituents drawn from periodic holdings snapshots x daily shares-outstanding flow x Sharadar SEP delisting-inclusive bars.",
+    "success_criteria": "SUPPORTED iff positive excess vs size-and-sector-matched EW at 63d, in-sample (<=2019) AND holdout (2020-25), net of cost + 2x stress, AND monotone in pressure/ADV, AND the small/illiquid subset is NOT the worst subset, AND >=20 tradable events/12mo. Excess <=0 net of cost OR non-monotone OR small-subset-worst -> REFUTED terminal (the buy-the-forced-sold-microcap family closes). Data un-buildable -> stays preregistered."
+   },
+   "slug": "thematic_etf_firesale_reversal",
+   "sponsor": "lab",
+   "status": "preregistered",
+   "underutilized_because": "The house tested the EVENT side of forced flow (index add/delete, CEF tenders \u2014 all refuted) but NEVER the underlying-holdings side; large capital cannot exploit the illiquid tail where the effect lives, and the daily-holdings archive for CLOSED thematic ETFs is scarce/costly to build.",
+   "who_loses": "The redeeming Authorized Participant unwinding the in-kind basket into a thin market is the forced price-insensitive seller; the reversal buyer harvests the temporary dislocation the AP creates."
   }
  }
 }
