@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 192,
+ "hypotheses_ever": 193,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -922,6 +922,33 @@
    "status": "refuted",
    "underutilized_because": "Not underutilized \u2014 it is the textbook forced-flow trade; the question is whether anything is LEFT after two decades of arbitrage, measured on our own data with a regime split.",
    "who_loses": "Index funds forced to buy at whatever price the effective-date rebalance sets \u2014 price-insensitive by mandate; the pre-effective buyer front-runs that flow."
+  },
+  "spinoff_orphans": {
+   "created": "2026-07-05",
+   "falsifiable_claim": "Small-child spinoffs earn positive 252d excess vs size-matched EW, t>=2, holdout + 2x cost + non-isolated, AND the small tail beats the crowded full-set control.",
+   "history": [
+    {
+     "date": "2026-07-05",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "Small spun-off subsidiary is force-sold by the parent's index funds (child not index-eligible) and large-cap/sector mandates (child doesn't fit) into a thin, uncovered market -> underpricing that unwinds over 3-12mo as the orphan finds its natural holders. Edge lives ONLY in the small/neglected tail; the large-cap spin effect is arbitraged (Greenblatt, well-known).",
+   "prereg": {
+    "date": "2026-07-05",
+    "doc": "docs/lab_prereg_spinoff_orphans.md",
+    "metric": "Total-return excess vs size-matched SMALL/MICRO EW bucket over {63,126,252}d (primary 252d), entry T+1 after the child's first-trade date; primary subset = SMALL/MICRO child at listing, crowded control = full set.",
+    "population_definition": "US corporate spinoffs 2015-01-01..2024-12-31 where a subsidiary was distributed to parent shareholders and the child listed on a major US exchange (NYSE/NASDAQ/NYSEMKT). Per event: parent, child ticker, first-trade date, child market-cap-at-listing bucket (to isolate the SMALL/MICRO tail), re-failure flag. Re-failures/delistings KEPT, exit at last print. Built exhaustively from spinoff trackers + Edgar Form 10/10-12B, cross-checked to Sharadar SEP; coverage_note discloses known-missing (OTC-only spins, size-ambiguous).",
+    "success_criteria": "Pass ALL or refuted: (1) small-tail in-sample 252d mean excess>0, t>=2, n>=30; (2) small-tail holdout 2020-24 mean excess>0, n>=20; (3) positive at 2x cost in holdout; (4) non-isolated across horizons; (5) the small tail beats the crowded full-set control. Any miss => refuted. A skewed/survivorship-floored population is not a fair test."
+   },
+   "slug": "spinoff_orphans",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "underutilized_because": "Capacity-inverted to the small tail (a $100M fund can harvest large spins, not micro orphans); the famous large-cap version is crowded, so the residual is strictly small/neglected \u2014 below institutional reach.",
+   "who_loses": "Parent's index funds (methodology exclusion) + large-cap/sector mandates (fit exclusion) + no analyst coverage at listing."
   },
   "tender_target_14d9": {
    "backtest": {
