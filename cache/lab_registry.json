@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 193,
+ "hypotheses_ever": 194,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -872,6 +872,33 @@
    "status": "preregistered",
    "underutilized_because": "The full cluster signal is public (every Form 4 is EDGAR-visible) but almost nobody filters clusters by the ABSENCE of contemporaneous news/price/volume signal, since that requires a three-way negative screen most scanners are not built to run at all; if the quiet subset differs, it is underused because it is operationally annoying to isolate, not because it is secret.",
    "who_loses": "If real: market participants who only act on visible catalysts (news, volume, price pops) and structurally miss the quiet subset until the re-rating catches up -- the same late-reactor story as momentum, but at the filing-conviction layer rather than the price layer."
+  },
+  "residual_momentum_llm": {
+   "created": "2026-07-05",
+   "falsifiable_claim": "Residual 12-1 momentum earns positive excess vs same-bucket EW, t>=2, non-isolated, holdout + 2x cost, AND beats a raw-momentum control.",
+   "history": [
+    {
+     "date": "2026-07-05",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "Factor-neutral (residual) 12-1 momentum: momentum of returns AFTER removing market/size exposure, which strips the crash-prone factor tilt (Blitz-Huij-Martens) that sank raw momentum. Long-only top-N, monthly. An LLM reversal-prune (non-price overlay) drops extended/blow-off names likely to mean-revert.",
+   "prereg": {
+    "date": "2026-07-05",
+    "doc": "docs/lab_prereg_residual_momentum_llm.md",
+    "metric": "Annualized excess vs same-bucket equal-weight benchmark, long-only top-{25,50} equal-weight monthly rebalance, signal = cumulative RESIDUAL return t-12..t-2 (returns residualized on market+size), x {LARGE,SMALL}; turnover+2x cost reported.",
+    "population_definition": "Liquid US common stocks via the gauntlet_v1 PIT universes (LARGE ranks 1-500, SMALL 501-2000), point-in-time survivorship-free monthly snapshots 1999-2025 with price>=$3 and 21d dollar-vol>=$1M floors already applied; delisted names included through final bar. No new population build needed (systematic on the panel).",
+    "success_criteria": "Pass ALL or refuted: (1) in-sample excess>0 t>=2 non-isolated across {N25,N50}x{LARGE,SMALL}; (2) holdout same-sign positive; (3) positive at 2x cost in holdout (the turnover gate); (4) beats a raw-12-1-momentum control on the same universe. Miss any => refuted. Then forward-test the LLM reversal-prune A/B (Arm A vs Arm B)."
+   },
+   "slug": "residual_momentum_llm",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "underutilized_because": "Raw momentum is crowded/dead after costs; residual momentum is less-implemented long-only (mostly a long-short institutional factor), and the LLM reversal-prune is a fresh non-price overlay untested here.",
+   "who_loses": "G1-FAIL (price signal) \u2014 operator override 2026-07-05 recorded in prereg. The tradable edge, if any, is the residual construction rescuing where raw momentum died PLUS the LLM's non-price reversal read."
   },
   "sp500_index_effect": {
    "backtest": {
