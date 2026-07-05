@@ -1005,6 +1005,25 @@
    "who_loses": "Index funds forced to buy at whatever price the effective-date rebalance sets \u2014 price-insensitive by mandate; the pre-effective buyer front-runs that flow."
   },
   "spinoff_orphans": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "30bps + 2x stress; holdout negative at both (-22.6% -> -23.2%). Small spinoffs are thin; the negative result is not a cost artifact (it's negative pre-cost) -- costs only deepen it.",
+     "look_ahead": "Entry T+1 after the child's FIRST-TRADE date (public); benchmark is contemporaneous; no fundamentals used before their date. IPO-first carve-outs use the IPO date (disclosed borderline cases in coverage_note).",
+     "multiple_testing": "House hypotheses_ever = 196 at this record. Small grid (3 horizons x in/holdout x small/full); ALL negative for the small tail, so no correction needed to reject. Criterion 5 (small-vs-full) fails outright.",
+     "overfitting": "Thresholds frozen in the prereg; holdout touched once. In-sample was already only FLAT (+0.1% 252d, t 0.01) -- not an in-sample fit that failed out-of-sample, but a non-edge in-sample that turned sharply negative in holdout.",
+     "regime": "In-sample 2015-19 flat; holdout 2020-24 catastrophic (-22 to -25%, t -2 to -4.5). Not a single-cluster win to ablate -- it's a loss that WORSENS out-of-sample. Sector-diverse population (not the post_bk energy trap).",
+     "selection": "Exhaustive research fan-out (227), filtered to 204 US-parent major-exchange, 200 priceable. Benchmark is the size-matched SMALL/MICRO EW bucket, so the small-tail underperformance is bucket-relative, not a size artifact.",
+     "small_n": "Small tail n=89 (52 in-sample / 37 holdout); holdout t -2.1 to -4.5 = a significant NEGATIVE, not an underpowered null. Full set n=200 flat. Adequate power for a confident rejection.",
+     "survivorship": "Delisted children KEPT, exit at last print (37 re-failers preserved). The KNOWN floor: micro/OTC failures under-captured (coverage_note), which biases the measured excess UPWARD \u2014 so the refutation is CONSERVATIVE: the true small-tail return is even more negative than the -9.3% measured."
+    },
+    "date": "2026-07-05",
+    "mean_excess": -0.0933,
+    "mean_excess_shrunk": -0.076181,
+    "n": 89,
+    "notes": "REFUTED decisively. Small/micro spinoff tail UNDERPERFORMS size-matched EW by -9.3% at 252d (holdout -22.6%, t -2.1); criterion 5 fails (small -9.3% vs full +1.6% -- small is the WORST subset, opposite of thesis). Survivorship floor biases UP, so refutation is conservative. Clean kill on a fair population (unlike post_bk). NOT an event_diversifier_sleeve component.",
+    "results_doc": "docs/lab_results_spinoff_orphans.md",
+    "verdict": "refuted"
+   },
    "created": "2026-07-05",
    "falsifiable_claim": "Small-child spinoffs earn positive 252d excess vs size-matched EW, t>=2, holdout + 2x cost + non-isolated, AND the small tail beats the crowded full-set control.",
    "history": [
@@ -1015,6 +1034,10 @@
     {
      "date": "2026-07-05",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "refuted"
     }
    ],
    "mechanism": "Small spun-off subsidiary is force-sold by the parent's index funds (child not index-eligible) and large-cap/sector mandates (child doesn't fit) into a thin, uncovered market -> underpricing that unwinds over 3-12mo as the orphan finds its natural holders. Edge lives ONLY in the small/neglected tail; the large-cap spin effect is arbitraged (Greenblatt, well-known).",
@@ -1027,7 +1050,7 @@
    },
    "slug": "spinoff_orphans",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "refuted",
    "underutilized_because": "Capacity-inverted to the small tail (a $100M fund can harvest large spins, not micro orphans); the famous large-cap version is crowded, so the residual is strictly small/neglected \u2014 below institutional reach.",
    "who_loses": "Parent's index funds (methodology exclusion) + large-cap/sector mandates (fit exclusion) + no analyst coverage at listing."
   },
