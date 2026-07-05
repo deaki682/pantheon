@@ -59,16 +59,20 @@ to trade.
    - **adversarial paragraph** — "what does the disciplined house know that says
      this is a mistake?" If it reduces to a refuted trigger (insider/quality/
      cheap) or a base-rate violation with no reason, cut BEFORE the book.
-   Use the deep-read machinery (extraction + adversarial refuter subagents) on
-   any name near the selection cut — the selection moment is where the annual
-   risk concentrates. Persist to `cache/oracle_dossiers.json`.
+   Build each via `oracle.convex_dossier.make_convex_dossier(...)` — the writer
+   REFUSES a dossier without a floor, a structural `why_mispriced_type`
+   (neglect/forced_seller/hard_catalyst), or a typed kill, and flags
+   `dead_trigger_risk` if the thesis leans on a refuted signal. It derives
+   `asymmetry_score = P(up)·(upside_x−1) − (1−P(up))·floor_pct` — the selection
+   metric. Use the deep-read machinery (extraction + adversarial refuter
+   subagents) on any name near the cut. Persist to `cache/oracle_dossiers.json`.
 
-3. **Select a CONVEX book (concentrated, conviction-weighted).** Rank
-   candidates by ASYMMETRY (`upside_x` × probability vs `floor_pct`), NOT by
-   lens conviction. Take the few best; size by conviction within a per-name cap
-   (concentration is the return lever — no equal 8-name cohort). Horizons are
-   multi-month/patient, but a name must EARN its slot on asymmetry, not on a
-   signal.
+3. **Select a CONVEX book (concentrated, conviction-weighted).**
+   `oracle.convex_dossier.rank_by_asymmetry(dossiers)` orders by asymmetry_score
+   and drops non-convex names (thin upside / negative score) automatically. Take
+   the few best; size within a per-name cap (concentration is the return lever —
+   no equal 8-name cohort). Horizons are multi-month/patient, but a name must
+   EARN its slot on asymmetry, not on a signal.
 
 4. **Record the A/B (measure the edge).** For EVERY candidate in the pool this
    round, `oracle.ab.record_selection(ab, round_id, date, candidates=[...])`
