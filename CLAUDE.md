@@ -1,7 +1,15 @@
 # Pantheon — Autonomous Trading System
 
-Four gods share one Robinhood agentic account (`563854249`), each running
-an independent strategy with its own sleeve ($1,000 base; Delphi at $2,000).
+**Mandate (2026-07-05, docs/portfolio_mandate_2026-07-05.md):** a fully managed,
+fully agentic portfolio whose purpose is to **grow funds — headlined by the
+LLM-edge experiments.** Growth is the goal; the experiments (Hermes/Oracle/
+Proteus A/Bs — "does an LLM beat a screen?") are the engine. Anchored by the one
+proven engine (Plutus = bull participation + a backtested edge), headlined by the
+experiments (~58%), no dead cash, never blow-up-able. Scored on growth AND the
+experiments' edge — NOT on beating SPY's raw bull return, NOT on Sharpe in a vacuum.
+
+The gods share one Robinhood agentic account (`563854249`), each running an
+independent strategy with its own sleeve.
 
 ## The Gods
 
