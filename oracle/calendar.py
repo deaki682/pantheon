@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 RESEARCH_INTERVAL_DAYS = 3
@@ -94,6 +94,14 @@ def days_since(path: str, key: str, *, now: datetime | None = None) -> float | N
         ts = datetime.fromisoformat(raw)
     except ValueError:
         return None
+    # Cadence files accumulate a mix of naive and tz-aware timestamps
+    # (different callers stamp mark_run() differently). Both are UTC in
+    # practice, so normalize to naive UTC before subtracting rather than
+    # letting mismatched awareness raise.
+    if ts.tzinfo is not None:
+        ts = ts.astimezone(timezone.utc).replace(tzinfo=None)
+    if now.tzinfo is not None:
+        now = now.astimezone(timezone.utc).replace(tzinfo=None)
     return (now - ts).total_seconds() / 86_400.0
 
 

@@ -47,6 +47,19 @@ def test_days_since(tmp_path):
     assert days_since(str(p), "screen") >= 9.9
 
 
+def test_should_run_mixed_naive_and_aware_timestamps(tmp_path):
+    # Different callers have stamped mark_run() with naive and tz-aware
+    # datetimes (e.g. "...T04:14:30+00:00" vs "...T04:14:30"). should_run
+    # must not crash comparing across that mix — both are UTC in practice.
+    p = tmp_path / "cal.json"
+    aware_ts = (
+        datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=10)
+    ).isoformat()
+    p.write_text('{"research": "%s"}' % aware_ts)
+    assert should_run(str(p), "research", interval_days=3)
+    assert days_since(str(p), "research") >= 9.9
+
+
 def test_is_trading_day_weekday():
     assert is_trading_day("2026-07-02")   # Thursday
 
