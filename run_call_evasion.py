@@ -25,14 +25,20 @@ volatility volatile sudden suddenly seldom occasionally somewhat nearly apparent
 imprecise improbable intangible reconsider recalculate turbulence uncertainly""".split())
 
 # ---- 1. month-end panel returns + SMALL bucket EW benchmark ----
-print("loading panel...", flush=True)
+# MEMORY SCOPE: only load daily bars for tickers in the SMALL universe (a few
+# thousand), not all 11,824 -- loading every daily bar OOM-killed the first run.
+U=json.load(open(f"{OUT}/universes.json"))["universes"]
+NEEDED=set()
+for snap in U:
+    NEEDED |= set(U[snap]["SMALL"])
+print(f"loading panel (scoped to {len(NEEDED)} SMALL-universe tickers)...", flush=True)
 mk=defaultdict(list)  # ticker -> [(dateint, closeadj)] sorted
 for part in sorted(f for f in os.listdir(OUT) if f.startswith("sep_part")):
     for r in json.load(gzip.open(f"{OUT}/{part}","rt")):
+        if r["ticker"] not in NEEDED: continue
         ca=r.get("closeadj")
         if ca and ca>0: mk[r["ticker"]].append((d2i(r["date"]),ca))
 for t in mk: mk[t].sort()
-U=json.load(open(f"{OUT}/universes.json"))["universes"]
 # bucket EW daily index
 acc=defaultdict(lambda:[0.0,0])
 for snap in sorted(U):
