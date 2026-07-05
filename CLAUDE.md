@@ -34,20 +34,26 @@ mechanics are retained in `.claude/commands/delphi.md` below the wind-down
 section for reference only — no session may cite any Delphi backtest as
 evidence FOR the strategy.
 
-**Achilles** — PEAD earnings-season specialist. Trades only during the
-four ~6-week earnings windows (~16 weeks/year). Holds a **diversified
-equal-weighted basket** of up to 12 small/mid-cap earnings beats — not one
-all-in bet. PEAD is a thin statistical edge that only surfaces across many
-names, and a basket both preserves it and validates it far faster than one
-trade at a time. Each name: enter next trading day, hold 5 trading days,
--8% hard stop, one slot per symbol, 4-week cooldown after a stop. Sits in
-cash off-season. The edge is Post-Earnings Announcement Drift — the most
-robust short-horizon anomaly, strongest in neglected names with thin
-analyst coverage. **Reaction-direction gate:** only goes long a beat the
-market *rewarded* (positive post-report reaction) — never a "sold beat"
-(gap up, close red), because the drift follows the reaction, not the EPS
-headline. Confirming signals (revenue beat, guidance raised, short squeeze,
-insider pre-buy) boost the base score but are never independent entry signals.
+**Achilles** (RETIRED as a standalone god 2026-07-05, operator directive —
+PEAD folded into Proteus as a seasonal mode; docs/achilles_fold_into_proteus_2026-07-05.md)
+— Was the PEAD earnings-season specialist: a diversified equal-weighted basket of
+up to 12 small/mid-cap earnings beats, held 5 days, −8% stop, traded only during
+the four ~6-week earnings windows (~16 weeks/year), cash off-season. Retired for
+two reasons: he was **capital-inefficient** (a dedicated sleeve idle ~70% of the
+year), and the **long half he actually trades measured absent** (the reaction-gate
+replay found no 5-day drift on rewarded beats; only the un-tradable short side was
+real). His **~$2,000 sleeve winds to cash and returns to the treasury** for the
+pending allocation. The `achilles/` package is KEPT as a library (the
+Buzz/Catalyst precedent): **Proteus runs the PEAD basket as a seasonal MODE**
+during the earnings windows on his own sleeve — `achilles.scanner`/`scoring`/
+`season`/`earnings`, carrying the reaction-direction gate (only a beat the market
+*rewarded*, never a "sold beat"), the **reaction-magnitude guard**
+(`MAX_REACTION_PCT` — a beat that already popped too far has spent its drift), and
+the confirming signals. The `achilles_pead_gauntlet` (preregistered 2026-07-05)
+still runs, now to tell Proteus whether the mode is worth using — the MICRO band
+(exchange-listed, tradable, fully visible in SEP) a first-class test. No PEAD
+backtest may be cited as evidence FOR the strategy except a SUPPORTED,
+forward-confirmed gauntlet cell.
 
 **Midas** (LIVE RETIRED 2026-07-04, operator directive — ghost A/B
 continues) — Was the maximally concentrated weekly catalyst play: full
@@ -83,10 +89,16 @@ not stupid"):** NO hard per-position cap — he may go all-in when
 conviction earns it — but a position past 25% of the book requires an
 explicit `risk_ack` (the sleeve refuses unconscious concentration), and
 a 40% drawdown from peak HALTS new entries without force-selling (his
-convex bets play out; only the kill switch liquidates). Checkpoint at 30
-closed trades or 2027-01-15: validation keeps the sleeve, refutation
-retires him and returns the capital to the treasury. Owns only
-`cache/proteus_*`.
+convex bets play out; only the kill switch liquidates). **Seasonal PEAD
+mode (2026-07-05, Achilles fold):** during the four earnings windows
+(`achilles.season`) Proteus may run the diversified beat-basket as one
+discretionary play on his own sleeve (`achilles.scanner`/`scoring`/
+`earnings`, with the reaction-direction gate + magnitude guard + sold-beat
+ban) — journaled and graded like any decision, with the honest caveat that
+the long drift is unproven until `achilles_pead_gauntlet` says otherwise;
+never an autopilot. Checkpoint at 30 closed trades or 2027-01-15:
+validation keeps the sleeve, refutation retires him and returns the
+capital to the treasury. Owns only `cache/proteus_*`.
 
 **Plutus** (LIVE from 2026-07-06 — conscious operator override, DELUXE
 stack) — The net-issuance capital-return god. His spine is the frozen
@@ -267,7 +279,7 @@ trades.
 | `plutus_curve.json` | plutus | Equity marks vs SPY for the dashboard |
 | `plutus_decisions.jsonl` | plutus | Per-rebalance decision log (basket, turnover, breaker state) |
 | `plutus_cadence.json` | plutus | Last-traded quarter marker (gates the once-per-quarter rebalance) |
-| `achilles_sleeve.json` | achilles | Achilles' sleeve |
+| `achilles_sleeve.json` | achilles | RETIRED record 2026-07-05: wound to cash, returned to treasury (kept as guard file) |
 | `midas_sleeve.json` | midas | RETIRED record: final cash swept to Proteus 2026-07 (kept as guard file) |
 | `midas_scan.json` | midas | Weekend scan finalists (research-only; feeds `/midas-ghost`) |
 | `midas_ledger.jsonl` | midas | Every order placed (historical; for reconcile) |
