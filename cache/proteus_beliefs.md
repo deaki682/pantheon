@@ -190,3 +190,57 @@ reopen, and the funding sweep should have landed. That session owes a
 genuine fresh breadth sweep — not a reflexive re-check of EQPT/SPCX —
 and, once `pending_funding` clears, is the first session where a real
 order is actually possible.
+
+---
+
+## Session 5 (manual weekend demo fire, Sun 2026-07-05 ET)
+
+Still unfunded (`pending_funding` unchanged; Midas DAKT exit fills at the
+Mon 07-06 open, sweep after). Research-only. I did NOT re-run EQPT/SPCX —
+they were correctly closed, and re-chewing unchanged facts is the exact
+busywork sessions 3-4 warned against. Instead: a genuine fresh forced-flow
+sweep for what lands THIS WEEK. It paid off.
+
+**NEW LIVE LEAD — MFP (Midera Food Processing), the deepening target for
+the funded Tuesday session.** Middleby (MIDD, ~$7.46B) spins its food-
+processing unit as Midera 1-for-1, distribution 12:01am ET Mon 07-06,
+intended ticker MFP on Nasdaq Global Select. Secondary sources report MFP
+**replaces Redwood Trust in the S&P SmallCap 600 effective 07-08**. If that
+holds, the trade is a two-sided microstructure play, NOT a generic spinoff
+bet: MIDD holders forced-dump a small food-equipment stub 07-06/07 → an
+S&P 600 index bid mechanically absorbs it 07-08. That index-inclusion
+forced-buy is the differentiated angle — and it's a *microstructure/forced-
+flow* trade, which is mine, distinct from Oracle's *fundamental* spinoff
+dossier channel (Nemesis fold). This is the cleanest edge type in my
+mandate: a price-insensitive counterparty (the index fund) that MUST buy.
+
+**Before I touch it (Tuesday), the effort law and quote-provenance rule
+are non-negotiable:**
+1. VERIFY the S&P DJI announcement directly (primary) — the add date, that
+   it's really MFP replacing Redwood Trust, and the effective time. Secondary
+   sources are a lead, not a fact.
+2. Pull the actual tape: `get_equity_quotes` on MFP once it trades 07-06.
+   Every price I have now is web/closed-market and must be re-verified.
+3. Size the dump vs the index bid: what's MFP's float, and how big is the
+   mechanical S&P 600 buy relative to daily volume? If the index buy is a
+   rounding error against float (the SPCX mistake — $7.3B vs $2T), there's
+   no edge. Do the arithmetic before the thesis.
+4. Kill conditions to pre-commit: MFP gaps UP into the index add (no dump to
+   buy → no trade); liquidity too thin to enter/exit at my size; or the
+   index-add fact fails primary verification.
+
+**Watchlist (trigger conditions for the Tuesday funded session):**
+
+| Name | Trigger | What's needed |
+|---|---|---|
+| MFP (Midera) | Funded Tuesday 07-07 + MFP trading 07-06 with an observable spinoff dump into the 07-08 S&P 600 add | Primary S&P DJI verification, live tape, float/flow arithmetic, pre-committed kills (above). Highest-priority lead. |
+| SPCX | Post-07-07 Nasdaq-100 inclusion price action | DEMOTED to a data-point: how efficiently does this market price the most-published forced-flow event of the year? Not a trade — a calibration read on whether famous index events leave room. |
+| ASRT / Selectis / merger-arb | — | NOT mine. Cash-merger break-risk is Hermes's A/B. Flag to Hermes, don't trade in this book. |
+| EQPT | New filing / name-specific catalyst distinct from the rejected boilerplate | CLOSED as a lead. Do not re-open on the same facts. |
+| General | Mon 07-06 reopen (first live session since the reset) + funding sweep landing | Fresh breadth sweep; MFP deep-read FIRST, then wander. |
+
+**Process note banked this session:** the fresh sweep beat the reflex. The
+value wasn't in re-reading EQPT for a fourth time — it was in asking "what
+forced-flow lands THIS week?" and finding a differentiated index-inclusion
+angle the prior sessions couldn't have seen. Breadth before depth is not a
+slogan; it's where this lead came from.
