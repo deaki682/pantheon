@@ -166,3 +166,26 @@ edges we hold, not finding more.
 > pre-committed in-sample criterion fails. NOT recorded as refuted (would burn the slug on sub-standard
 > data). Slug stays `preregistered`; a fair test needs a survivorship-complete, sector-diversified
 > EDGAR plan-of-reorg build (a real project). Moved to cram #2 (spinoff_orphans).
+
+---
+
+## Operator stance (2026-07-05, for the record)
+
+**The operator is comfortable with refutation.** Refuted is a *valued* outcome,
+not a failure — it buys a real decision (don't risk capital there) and sharpens
+the map of what's dead. The lab is directed to keep churning, researching, and
+thinking out-of-the-box indefinitely; a session must NEVER soften a verdict,
+avoid a hard test, or keep a refuted idea alive to spare feelings or optics. The
+moat is the search-and-retire machine, not any single god. Kill freely; the
+capital rides beta while the search runs.
+
+## Cram out-of-box wave (2026-07-05) — queued behind the forced-seller batch
+
+Directions that differ in KIND from the event-population / factor-backtest work,
+seeded so the hunt has fresh non-obvious hypotheses ready. Honest gate reads
+(incl. the weak points) up front.
+
+| # | Candidate | Thesis / decision it buys | Gate read (honest) |
+|---|-----------|---------------------------|--------------------|
+| **14** | **`avoidance_overlay` — the "beta-minus-landmines" god** | Every buy-signal died, but the LLM's ONE measured-real skill is AVOIDANCE (Achilles sold-ban −1.6%/wk was the only thing that half-validated; Nemesis veto condemned TWNPQ −58%; Plutus Lens-B is a keep/drop). So make avoidance the THESIS, not a garnish: hold beta/Plutus, LLM VETOES the names it reads as fraud / going-concern / covenant-breach / terminal-decline. **Decision it buys:** whether avoidance is a standalone god or an overlay folded into Plutus/Proteus. **Backtest path:** mechanical distress flags (EDGAR going-concern, auditor resignation, restatement, covenant breach) as the avoidance signal first; LLM version as the forward A/B (Arm A LLM-veto vs Arm B mechanical vs Arm C no-veto). | G1 PASS (filing/text read, not price). **G2 WEAK — the honest flag:** it's an information-PROCESSING edge (read deterioration before slow institutions), not a structural-constraint edge; "the market underreacts" is not a constraint. It's a CAPABILITY-FRONTIER bet that DECAYS with adoption (house-view doc). G3 **SCALABLE (rare plus)** — avoidance applies to the whole book at any size, unlike the capacity-capped forced-seller scraps → fits the growth mandate as an overlay. G4 fail (avoids drift, no contractual terminal). G5 strong (whole-universe). |
+| **15** | **`event_diversifier_sleeve` — the portfolio IS the god** | The small forced-seller/event edges (post-BK, spinoff-orphans, merger-arb, sub-NAV, CEF-discount) are each modest and capacity-capped, but UNCORRELATED. Combined into one convex event sleeve, the *diversification* compounds with far lower drawdown than any piece — the free lunch is construction, not discovery. **Decision it buys:** whether Oracle becomes a multi-edge event-driven diversifier fund rather than the house hunting one big edge. | SECOND-ORDER — activates once ≥2 component edges clear their own backtests (can't combine unproven scraps). G1/G2/G4 INHERITED per-component. G3 capacity-capped (sum of capped edges) but that's fine for a diversifier. G5 **HELPED** — the combined event rate across channels beats any single edge's thin cadence. **Test:** `combine_curves` / correlated-drawdown gap — does the combined sleeve's Sharpe/maxDD beat the best single component? |
