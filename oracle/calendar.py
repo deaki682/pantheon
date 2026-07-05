@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 RESEARCH_INTERVAL_DAYS = 3
@@ -84,14 +84,29 @@ def mark_run(path: str, key: str, *, now: datetime | None = None) -> None:
     _write(path, d)
 
 
+def _as_utc(dt: datetime) -> datetime:
+    """Normalize to timezone-aware UTC.
+
+    Cadence timestamps on disk are a mix of naive (datetime.utcnow(), implicitly
+    UTC) and offset-aware (datetime.now(timezone.utc)) depending on which caller
+    wrote them — subtracting one from the other raises TypeError. Bug-hunt fix
+    2026-07-05: Zeus's hourly should_run() calls crashed on cache/oracle_cadence.json's
+    "research" key, which some legacy writer stamped offset-aware while mark_run's
+    default (datetime.utcnow()) is naive.
+    """
+    if dt.tzinfo is None:
+        return dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
+
+
 def days_since(path: str, key: str, *, now: datetime | None = None) -> float | None:
-    now = now or datetime.utcnow()
+    now = _as_utc(now or datetime.utcnow())
     d = _read(path)
     raw = d.get(key)
     if not raw:
         return None
     try:
-        ts = datetime.fromisoformat(raw)
+        ts = _as_utc(datetime.fromisoformat(raw))
     except ValueError:
         return None
     return (now - ts).total_seconds() / 86_400.0
