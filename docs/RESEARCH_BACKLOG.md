@@ -204,3 +204,47 @@ not the informational one. Two angles hiding in the most-arbitraged ground.
 > **spinoff_orphans — CRAM #2: REFUTED 2026-07-05.** Fair population (227, sector-diverse), clean kill: small tail underperforms size-matched EW -9.3% (holdout -22.6%). Opposite of thesis; criterion 5 fails. Terminal. Not a diversifier-sleeve component. See [ledger](RESEARCH_LEDGER.md) / [results](lab_results_spinoff_orphans.md). Cram continues: residual_momentum_llm (ready) -> avoidance_direct / call_evasion -> sub-NAV / odd-lot.
 
 > **CRAM update 2026-07-05:** `residual_momentum_llm` REFUTED (momentum closed in all forms). `avoidance_direct` mechanical arm **SUPPORTED (weak/decaying)** -- first non-refutation; the 'LLM=avoidance' foundation holds. Next: forward LLM-vs-mechanical A/B for avoidance (measure #1 of the LLM instrument track); cram continues to sub-NAV / odd-lot / call_evasion lexicon arm.
+
+> **call_evasion — VERDICT filed 2026-07-05: INCONCLUSIVE, LLM lost to the word-count.** The blind LLM candor-read on 53 MD&A packets was FLAT (Spearman +0.02) while the crude Loughran-McDonald lexicon showed the only pulse (−0.27, t=−1.99) and the LLM added nothing in the joint OLS (t=0.19). Prereg premise ("LLM evasion beats mere tone") negative. Slug → backtested; stays open only for the transcript-gated Q&A arm. See [ledger](RESEARCH_LEDGER.md) / [results](lab_results_call_evasion.md).
+
+---
+
+## Exhaustive-hunt output (2026-07-05 re-run, 14-domain full sweep — 86 mapped, 12 promising, 2 verified)
+
+**The seam this sweep found: forced-flow's UNDERLYING side.** The house has killed the
+EVENT side of forced flow (index add/delete, CEF tenders — all refuted). It has NEVER
+tested the reversal of forced SELLING in the concentrated *underlying holdings* a
+distressed fund is forced to dump. Freshly evidenced 2024-26: **Ponzi Funds** (arXiv
+2405.12768, ~−6%/yr constituent alpha at ~20× ADV); **Residual Supply** (arXiv
+2605.30672, +160–342bps decile spreads, doubling when absorption is tight). **0
+GOD_CANDIDATE** (no scalable engine — consistent with the house prior); **2
+LAB_HYPOTHESIS** survivors. Both FAIL G4 (reversion forecast, not contract) and carry the
+small-cap-reversal refutation headwind — real hypotheses to test honestly, NOT god tracks.
+
+Survivors (enter the ratchet top-down; neither auto-slugs; recon does NOT tick `hypotheses_ever`):
+
+| # | Item | Verdict | Gate reads | Next step |
+|---|---|---|---|---|
+| **18** | **`thematic_etf_firesale_reversal`** — buy orphaned constituents of SHRINKING thematic ETFs | LAB_HYPOTHESIS | G1✓ (daily flow state, not price forecast) · G2✓-caveat (redeeming AP is the named seller; in-kind redemption is one step removed but non-offsetting in the illiquid tail Greenwood-Sammon can't reach) · G3✓✓ STRONG (effect lives only where ETF position ≫ constituent ADV; $19k ideal) · **G4✗ (reversion forecast, not contract)** · G5~ (~20/yr, unverified) | **Cleanest advantage: daily-public ETF holdings + shares-out sidestep BOTH the N-PORT lag AND the Wardlaw-2020 return-contamination.** Prereg BEFORE data. Survivorship-free constituent panel (issuer daily basket + shares-out + Sharadar SEP bars). Signal = LONG when per-constituent forced-sell pressure (net redemption × weight / ADV) EXHAUSTS. DECISIVE guard (from spinoff_orphans/ipo_lockup): excess vs SIZE-and-SECTOR-matched EW, NOT raw return. Pre-commit kills: (a) reversal excess ≤0 net of realistic microcap cost, (b) small/illiquid subset is the WORST subset again, (c) <20 events/12mo. Mid-priority — two-refutation headwind (spinoff_orphans −9.3%, ipo_lockup −10.4%, identical shape). |
+| **19** | **`absorption_pressure_reversal`** — mutual-fund redemption fire-sale reversal (residual-supply construction ONLY) | LAB_HYPOTHESIS | G1✓ (return-orthogonal residual-supply signal, survives pre-event-return controls — NOT the Wardlaw-contaminated FIT) · G2✓✓ STRONG/durable ('40-Act daily-redemption fund = named non-discretionary seller; no Greenwood-Sammon offset) · G3✓ PATHOLOGICAL (edge only in lowest-$-volume names: 375bps/3mo low-vol vs 4–24bps high-vol) · G4✗ · G5~ | Viable ONLY with the return-orthogonal residual-supply construction (the classic Coval-Stafford FIT measure is Wardlaw-2020 contaminated — the reversal vanishes once cleaned). Same size-matched-benchmark + realistic-cost discipline as #18. LOWER priority than #18 (which observes the forcing event directly rather than inferring it). |
+
+Kills logged (do not slug; do not re-surface): **SPAC redemption-floor arb** (contractual
+floor real but G4 upside too thin for this book + most-crowded riskless arb); **fund
+liquidation overhang** (wind-down carries a best-execution duty = NOT forced-price-insensitive,
+G2 weak); **distressed deep-discount preferreds** (G1 discount-lean + RH baby-bond
+tradability); **foreign-filing/ADR translation latency** (crowded text underreaction, NO
+forced counterparty — the exact edge the house-view says LLMs dissolved); **credit-agreement
+exhibit read** (covenant binds issuer→lenders, equity is residual — no forced seller pays
+you); **intangible-adjusted profitability factor** (pure factor, G2/G4 fail; fights the
+'fundamentals spanned' prior). **Russell small-cap DELETION reversal** (from the delta
+pre-run): LAB but low-priority — Greenwood-Sammon shows the deletion effect decayed to
+~−0.6%, and it's the same dumped-microcap shape as the two terminal refutations; log
+behind the underlying-holdings family, which is more fertile. Avoidance-overlay text ideas
+(non-GAAP-gap, comment-letters, exec-departure) fold onto the existing Lens-B slate (#14) —
+justify at most ONE more A/B arm (credit-agreement had the best G2 of that cluster), not four new flags.
+
+Hunt meta-finding (re-run): the fertile corner is the **UNDERLYING-HOLDINGS side of forced
+flow** — not the event side (mined dry) and not the text-avoidance side (decaying, already
+queued as #14). Growth still comes from proving the edges we hold; these two are the first
+genuinely-new structural hypotheses since the evening sweep, and they enter the ratchet
+behind the already-queued forced-seller batch (#4 post-BK, #13 odd-lot).
