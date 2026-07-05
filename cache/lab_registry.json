@@ -85,6 +85,10 @@
    },
    "created": "2026-07-05",
    "falsifiable_claim": "Mechanical distress-exclusion beats random-exclusion (in-sample+holdout, non-isolated); then forward, LLM veto beats the mechanical screen over >=20 graded periods.",
+   "forward": {
+    "grades": [],
+    "started": "2026-07-05"
+   },
    "history": [
     {
      "date": "2026-07-05",
@@ -97,6 +101,10 @@
     {
      "date": "2026-07-05",
      "to": "backtested"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "forward_testing"
     }
    ],
    "mechanism": "Excluding names an LLM flags as fraud/going-concern/covenant-breach/terminal-decline risk raises a basket's return; the test is whether the LLM veto beats a mechanical distress screen (Altman-Z/going-concern/short-interest/accruals) and random exclusion. Direct measurement of the house's 'LLM=avoidance' assumption.",
@@ -109,7 +117,7 @@
    },
    "slug": "avoidance_direct",
    "sponsor": "operator",
-   "status": "backtested",
+   "status": "forward_testing",
    "underutilized_because": "Reading complete filing populations for deterioration at scale is exactly the LLM's claimed edge; slow institutions hold deteriorating names mechanically until forced recognition.",
    "who_loses": "Market underreacts to deterioration in filings (info-processing edge, G2-WEAK, capability-frontier that decays) \u2014 but it's the one thing the house has a positive read on (Achilles sold-ban -1.6%/wk)."
   },
