@@ -10,7 +10,7 @@ import shared.sharadar as sh
 import requests
 
 OUT = "data/achilles_gauntlet"
-COLS = "ticker,date,close,closeadj,low"
+COLS = "ticker,date,open,close,closeadj,low"  # open added 2026-07-05: gap-through stop fills need it
 DATE_FROM, DATE_TO = "2000-01-01", "2025-12-31"
 BATCH = 250
 

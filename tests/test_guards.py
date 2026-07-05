@@ -278,3 +278,27 @@ def test_pre_trade_check_catches_missing_shares(tmp_path):
     broker = {"VITL": 3.0}  # broker has fewer than sleeve claims
     result = pre_trade_check(broker, sleeve_paths=sleeve_paths)
     assert result is False
+
+
+def test_pending_sell_never_creates_phantom_mismatch(tmp_path):
+    """bug-hunt 2026-07-05: a queued-but-unfilled SELL leaves the shares AT the
+    broker; subtracting it manufactured a phantom sleeve>broker shortfall that
+    false-halted every god (the queued DAKT wind-down sell would have frozen
+    Plutus's launch reconcile)."""
+    import json as _json
+    from shared.guards import check_position_sanity, pre_trade_check
+    sleeve = tmp_path / "midas_sleeve.json"
+    sleeve.write_text(_json.dumps({"position": {"symbol": "DAKT", "shares": 98.44}}))
+    paths = {"midas": str(sleeve)}
+    broker = {"DAKT": 98.44}                       # broker still holds them
+    pending = {"DAKT": -98.44}                     # queued sell, unfilled
+    mismatches = check_position_sanity(broker, sleeve_paths=paths, pending_orders=pending)
+    assert mismatches == []                        # no phantom shortfall
+    assert pre_trade_check(broker, sleeve_paths=paths, pending_orders=pending)
+    # pending BUYS are still credited (queued weekend buy not yet in broker)
+    mm2 = check_position_sanity({"DAKT": 0.0}, sleeve_paths=paths,
+                                pending_orders={"DAKT": 98.44})
+    assert mm2 == []
+    # and a REAL shortfall still trips
+    mm3 = check_position_sanity({"DAKT": 0.0}, sleeve_paths=paths, pending_orders={})
+    assert len(mm3) == 1

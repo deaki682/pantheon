@@ -146,7 +146,8 @@ class LiveBook:
     def enter(self, *, symbol: str, shares: float, price: float,
               date: str, spy_price: float, horizon_days: int,
               confidence: float, edge_class: str,
-              risk_ack: str = "", equity: Optional[float] = None) -> Position:
+              risk_ack: str = "", equity: Optional[float] = None,
+              marks: Optional[dict] = None) -> Position:
         symbol = symbol.upper()
         if self.halted:
             raise JournalError(
@@ -164,7 +165,20 @@ class LiveBook:
         # of the book he must pass an explicit, substantive risk_ack naming the
         # worst case and why it's survivable. This forbids UNCONSCIOUS
         # concentration, not greed (operator directive 2026-07-05).
-        book_eq = self.equity({}) if equity is None else float(equity)
+        # The denominator must be LIVE equity (bug-hunt 2026-07-05): equity({})
+        # marks held names at stale entry prices, so a declining book could let
+        # a >25% position slip past the gate un-acked. With open positions the
+        # caller MUST supply live `marks` (or a live `equity`); a cash-only book
+        # needs neither (cash IS live equity).
+        if equity is not None:
+            book_eq = float(equity)
+        elif self.positions and marks is None:
+            raise JournalError(
+                "concentration gate needs LIVE equity: pass marks={sym: live_px} "
+                "(or equity=) when the book holds positions — stale entry-price "
+                "equity can wave a >25% position through un-acked")
+        else:
+            book_eq = self.equity(marks or {})
         frac = dollars / book_eq if book_eq > 0 else 1.0
         if frac > CONCENTRATION_ACK_PCT and len(risk_ack.strip()) < RISK_ACK_MIN_CHARS:
             raise JournalError(

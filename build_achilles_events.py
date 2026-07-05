@@ -42,7 +42,10 @@ small_sets = {d: set(U[d]["SMALL"]) for d in udates}
 micro_sets = {d: set(U[d]["MICRO"]) for d in udates}
 
 def bucket_at(ticker, datekey):
-    i = bisect.bisect_right(udates, datekey) - 1   # latest snapshot on/before datekey
+    # STRICTLY-PRIOR snapshot (bug-hunt 2026-07-05: bisect_right let an event
+    # landing exactly on a month-end snapshot date bucket itself from that same
+    # day's ranks — a same-day peek; bisect_left picks the prior snapshot)
+    i = bisect.bisect_left(udates, datekey) - 1
     if i < 0:
         return None
     d = udates[i]

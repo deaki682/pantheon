@@ -42,6 +42,9 @@ def record_selection(ab: dict, *, round_id: str, date: str, candidates: list,
         key = (c["symbol"].upper(), round_id)
         if key in existing:
             continue
+        existing.add(key)   # bug-hunt 2026-07-05: also dedupe WITHIN a call — a
+        # symbol repeated in one candidates list wrote two rows, and record_grade
+        # resolves only the first, leaving a permanent unresolved orphan
         ab["candidates"].append({
             "round_id": round_id, "date": date, "symbol": c["symbol"].upper(),
             "lens_score": round(float(c.get("lens_score", 0)), 4),
@@ -63,8 +66,15 @@ def record_grade(ab: dict, *, round_id: str, symbol: str, exit_price: float,
               if x["symbol"] == sym and x["round_id"] == round_id and not x["resolved"]), None)
     if c is None:
         raise ValueError(f"{sym}/{round_id}: no open candidate to grade")
-    net = exit_price / c["entry_price"] - 1.0 if c["entry_price"] else 0.0
-    spy = spy_exit / c["spy_entry"] - 1.0 if c["spy_entry"] else 0.0
+    # bug-hunt 2026-07-05: never fabricate a 0% grade from a missing mark — a
+    # silent 0.0 excess is a made-up data point that can flip the keep-vs-fold
+    # verdict. Fail loudly; fix the record, then grade.
+    if not c.get("entry_price") or not c.get("spy_entry"):
+        raise ValueError(
+            f"{sym}/{round_id}: cannot grade without entry_price/spy_entry "
+            f"(got {c.get('entry_price')!r}/{c.get('spy_entry')!r})")
+    net = exit_price / c["entry_price"] - 1.0
+    spy = spy_exit / c["spy_entry"] - 1.0
     c["resolved"] = True
     ab["graded"].append({
         **{k: c[k] for k in ("round_id", "symbol", "arm_a_llm", "arm_b_screen",
@@ -80,19 +90,31 @@ def llm_lift(ab: dict) -> dict:
     """Arm A (dossier-selected) vs Arm B (top-by-lens-score screen), on realized
     excess-vs-SPY. The headline the reframe is judged on."""
     g = ab["graded"]
-    a = [x["excess"] for x in g if x["arm_a_llm"]]
+    rows_a = [x for x in g if x["arm_a_llm"]]
+    a = [x["excess"] for x in rows_a]
     b = [x["excess"] for x in g if x["arm_b_screen"]]
     # names the LLM PASSED that the screen would have bought — the discriminating set
     passed = [x["excess"] for x in g if x["arm_b_screen"] and not x["arm_a_llm"]]
     A = convexity_stats(a) if a else {"n": 0}
     B = convexity_stats(b) if b else {"n": 0}
-    lift = (A.get("expectancy", 0.0) - B.get("expectancy", 0.0)) if (a and b) else None
+    # bug-hunt 2026-07-05: Arm A is a CONVICTION-WEIGHTED book, so the headline
+    # lift must weight by conviction — the equal-weight expectancy only measures
+    # name selection and ignores the sizing skill the A/B claims to test. EW is
+    # kept as the secondary, selection-only read.
+    w = [max(0.0, float(x.get("conviction") or 0.0)) for x in rows_a]
+    if a and sum(w) > 0:
+        a_weighted = sum(wi * xi for wi, xi in zip(w, a)) / sum(w)
+    else:
+        a_weighted = A.get("expectancy", 0.0) if a else None
+    lift = (a_weighted - B.get("expectancy", 0.0)) if (a and b) else None
     return {
         "n_graded": len(g),
         "arm_A_dossier": A,
+        "arm_A_conviction_weighted_expectancy": round(a_weighted, 4) if a_weighted is not None else None,
         "arm_B_screen": B,
         "screen_picks_llm_passed": convexity_stats(passed) if passed else {"n": 0},
         "oracle_llm_lift": round(lift, 4) if lift is not None else None,
+        "oracle_llm_lift_equal_weight": round(A.get("expectancy", 0.0) - B.get("expectancy", 0.0), 4) if (a and b) else None,
         "verdict": ("dossiers add alpha" if (lift or 0) > 0 else
                     "dossiers neutral/negative -> fold into Proteus" if lift is not None
                     else "insufficient graded data"),

@@ -63,12 +63,19 @@ think, trade, or override any god's logic.
 
    # Delphi wind-down (live retired 2026-07-04): dispatch /delphi ONLY to
    # liquidate her remaining positions and sweep the cash to Plutus.
+   # BUG-HUNT FIX 2026-07-05: gate on remaining positions OR unswept cash —
+   # NEVER on the `retired` flag alone. delphi.md stamps `retired` on the first
+   # FLAT pass, which lands Monday while proceeds are still unsettled (T+1);
+   # keying off `retired` stopped dispatch before Tuesday's settled cash could
+   # sweep, stranding ~$2k in a dead sleeve and underfunding Plutus's launch.
+   # Also fail CLOSED on a missing sleeve file (no file = nothing to wind down).
    delphi_sleeve = {}
    if os.path.exists("cache/delphi_sleeve.json"):
        with open("cache/delphi_sleeve.json") as f:
            delphi_sleeve = json.load(f)
-   delphi_wind_down = bool(delphi_sleeve.get("positions")) or (
-       not delphi_sleeve.get("retired"))
+   delphi_wind_down = bool(delphi_sleeve) and (
+       bool(delphi_sleeve.get("positions"))
+       or float(delphi_sleeve.get("cash", 0) or 0) > 1.0)   # unswept cash keeps it alive
 
    # Check if Nemesis holds live positions (for weekday exit checks)
    nemesis_sleeve = {}
@@ -108,19 +115,33 @@ think, trade, or override any god's logic.
    parent god completes (they may depend on freshly-written cache files
    like `midas_dossiers.json`).
 
-   **Parallel group 1** (independent gods, run together):
+   **Group 0 — SWEEP BARRIER (sequential; must fully complete AND persist
+   before group 1 dispatches).** A sweeping god WRITES the funded god's sleeve,
+   so they can never run in parallel (bug-hunt 2026-07-05 — the old inline
+   "run BEFORE" note inside a "run together" block was a self-contradiction):
+   - `/delphi` (weekday, while `delphi_wind_down`) — its sweep writes PLUTUS's funding
+   - `/midas` (weekday, while `midas_wind_down`) — its sweep writes PROTEUS's funding
+
+   **Parallel group 1** (independent gods, run together — only after group 0):
    - `/oracle-screen` (if due — run first since `/oracle` uses its output)
-   - `/delphi` (weekday wind-down only, while `delphi_wind_down` — run BEFORE `/plutus` on a sweep day; the sweep writes Plutus's funding)
-   - `/plutus` (live; owns only `cache/plutus_*`, parallelizes safely — but AFTER `/delphi` on a sweep day)
+   - `/plutus` (live; owns only `cache/plutus_*`, parallelizes safely within this group)
    - `/hermes` (live; owns only `cache/hermes_*`, parallelizes safely — tend deals + detect + LLM read + grade LLM-lift)
-   - `/midas-scan` (weekend) or `/midas` (weekday wind-down only, while `midas_wind_down`)
-   - `/proteus` (if due — live; owns only `cache/proteus_*`, so he parallelizes safely with everyone. Runs the seasonal PEAD mode during earnings windows. EXCEPTION: on the day the Midas wind-down sweep runs, run `/midas` BEFORE `/proteus` — the sweep writes Proteus's funding)
+   - `/midas-scan` (weekend; `/midas` weekday wind-down runs in GROUP 0, never here)
+   - `/proteus` (if due — live; owns only `cache/proteus_*`, so he parallelizes safely within this group. Runs the seasonal PEAD mode during earnings windows. His funding sweep, if pending, already landed in group 0)
 
    **Parallel group 2** (depends on group 1):
    - `/oracle` (needs screen output if screen just ran)
 
-   **Parallel group 3** (ghosts, after their parents):
-   - `/oracle-ghost`, `/delphi-ghost`, `/achilles-ghost`
+   **Parallel group 3** (ghosts — parentless cadences since the retirements/folds;
+   bug-hunt 2026-07-05: "after their parent" orphaned the shadows of gods that
+   no longer dispatch):
+   - `/oracle-ghost` — after `/oracle` (its parent still runs)
+   - `/achilles-ghost` — market-hours weekdays, once per day
+     (`should_run("cache/ghost_achilles_cadence.json", "session", 1)`); parentless
+     since the fold — it self-discovers beats and keeps grading the gate questions
+   - `/delphi-ghost` — market-hours weekdays, once per day
+     (`should_run("cache/ghost_delphi_cadence.json", "session", 1)`); parentless
+     since the retirement — shadows for the record
    - `/midas-ghost` (parentless since the live retirement — runs on its own daily cadence)
 
    **Last:**
