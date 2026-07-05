@@ -40,9 +40,14 @@ to trade.
 1. **Idea-source (the lenses, demoted).** Run the lenses ONLY to surface
    candidates worth researching — insider clusters, 13F, 13D, quality
    prescreen, plus neglect signals (thin coverage, small size, forced-seller
-   calendars). No mechanical scoring drives selection; this is a cheap net.
-   Record each candidate's `lens_score` (the old mechanical number) purely as
-   the Arm-B baseline input for the A/B — never as the decision.
+   calendars). **Forced-seller channels are first-class idea-sources:**
+   spinoff-orphans (via the `nemesis.*` library — Form 10 reading + the pipeline
+   scan, folded in 2026-07-05), index deletions, sub-NAV wind-downs, and
+   distressed sub-cash names. No mechanical scoring drives selection; this is a
+   cheap net. Every candidate — spinoff included — must EARN its slot through the
+   convex-dossier discipline in step 2 (a floorless levered carve-out like OCTV
+   is refused there). Record each candidate's `lens_score` purely as the Arm-B
+   baseline input for the A/B — never as the decision.
 
 2. **Deep dossiers (the new spec — the edge).** For candidates worth the work,
    write/refresh a dossier that ANSWERS, in writing (docs/oracle_reframe §"How

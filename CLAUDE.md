@@ -412,12 +412,14 @@ mechanical system too aggressively:
 - Robinhood agentic account: `563854249`
 - The account holds ~15 personal positions alongside the gods. These
   pre-existing positions are filtered out by `filter_broker_to_gods()`.
-- God env vars: `ORACLE_LIVE=true`, `DELPHI_LIVE=true`, `ACHILLES_LIVE=true`,
-  `NEMESIS_LIVE=true`, `PROTEUS_LIVE=true`, `MIDAS_LIVE=false` (live retired
-  2026-07-04), `PLUTUS_LIVE=false` (defaults FALSE — the operator arms it
-  to launch Plutus at the 2026-07-06 transition), and `HERMES_LIVE=false`
-  (merger-arb LLM A/B, operator arms it; `.claude/settings.json` sets
-  NEMESIS/PROTEUS/MIDAS/PLUTUS/HERMES). Delphi's `DELPHI_LIVE` stays as-is only
+- God env vars: `ORACLE_LIVE=true`, `DELPHI_LIVE=true`,
+  `ACHILLES_LIVE=false` (retired 2026-07-05 — PEAD folded into Proteus),
+  `NEMESIS_LIVE=false` (retired 2026-07-05 — spinoff channel folded into Oracle;
+  docs/nemesis_fold_into_oracle_2026-07-05.md), `PROTEUS_LIVE=true`,
+  `MIDAS_LIVE=false` (live retired 2026-07-04), `PLUTUS_LIVE=false` (defaults
+  FALSE — the operator arms it to launch Plutus at the 2026-07-06 transition),
+  and `HERMES_LIVE=false` (merger-arb LLM A/B, operator arms it;
+  `.claude/settings.json` sets these). Delphi's `DELPHI_LIVE` stays as-is only
   for the wind-down; her retirement close-out runs regardless of the gate.
 - If any is not `"true"`, that god runs in paper mode (no broker orders).
 - `KILL_SWITCH` file triggers immediate liquidation of all god positions.

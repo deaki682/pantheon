@@ -1,4 +1,22 @@
-# /nemesis — spinoff pipeline scan + Form 10 reading + ghost entries + gated live sleeve
+# /nemesis — RETIRED as a standalone god 2026-07-05 (operator directive)
+
+**RETIRED — read docs/nemesis_fold_into_oracle_2026-07-05.md first.** Nemesis is
+no longer a standalone god: the mechanical "buy spinoffs" premise had no measured
+alpha (buy-all trailed IWM; −1.0%/event out of the warm vintage), the claimed
+edge (the veto) was unproven (n=3), and its first live pick (OCTV) failed the
+floor test. **Spinoff forced-selling is folded into Oracle as a sourcing
+channel** — any spinoff candidate must now pass Oracle's convex-dossier discipline
+(floor + catalyst + structural mispricing + already-fired guard), which refuses
+floorless carve-outs like OCTV. This command is **wind-down / library-reference
+only**: `NEMESIS_LIVE=false`, no live orders; the OCTV order was cancelled and the
+~$2,000 sleeve returned to the treasury. The `nemesis/` package (Form 10 reading
+especially) is KEPT as the library Oracle imports. `/nemesis-ghost` may keep
+shadowing on paper. **No spinoff backtest may be cited as evidence FOR the
+strategy** — the forced-seller edge is measured only via Oracle's live A/B.
+
+---
+
+## Legacy mechanics (retained for the `nemesis.*` library Oracle imports)
 
 Nemesis v2 reads what the market discards. Every spinoff announces itself
 months in advance on SEC Form 10-12B (the "Form 10") — a 300-page document
