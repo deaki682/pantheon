@@ -157,3 +157,12 @@ Hunt meta-finding: the contractual-payoff × tiny-capacity quadrant is real but
 supply-starved (~1%/yr ceiling). The evening scan's coverage was validated as
 ~complete for a long-only no-options $19k book — growth comes from proving the
 edges we hold, not finding more.
+
+> **post_bk_emergence — CRAM #1 update 2026-07-05: population inadequate, NOT recorded.** The fast
+> research fan-out produced 84 emergences but ~70% energy, time-clustered 2016-2021, survivorship-
+> floored (OTC re-failers under-captured) — failing the prereg's own exhaustiveness bar. A first-pass
+> sim on 52 priceable names shows raw 252d +32.5% but that is ENTIRELY the 2020-21 recovery cohort
+> (holdout +113% vs in-sample 2015-19 ~ -18%) = regime/recovery beta, not a forced-seller drift; the
+> pre-committed in-sample criterion fails. NOT recorded as refuted (would burn the slug on sub-standard
+> data). Slug stays `preregistered`; a fair test needs a survivorship-complete, sector-diversified
+> EDGAR plan-of-reorg build (a real project). Moved to cram #2 (spinoff_orphans).
