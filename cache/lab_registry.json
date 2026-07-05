@@ -64,6 +64,25 @@
    "who_loses": "The underreacting marginal holder: investors who don't fully update on a surprise until later, and index/passive flows that ignore small-cap earnings \u2014 the drift is their delayed repricing."
   },
   "avoidance_direct": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Momentum: turnover 0.39/mo, 1.4%/yr drag (2.8% at 2x); still ~0. Avoidance: an exclusion overlay (low turnover); alpha is small (~1%/yr holdout) but pre-cost-robust as a tilt.",
+     "look_ahead": "Signal (distress / momentum) computed from data with datekey/period strictly before the hold month; entry the month AFTER the snapshot; benchmark contemporaneous. No forward data.",
+     "multiple_testing": "House hypotheses_ever=196. Small grid (k in {5,10,20} x in/holdout for avoidance; {resid,raw} x in/holdout for momentum); non-isolated (monotonic) checks applied.",
+     "overfitting": "Thresholds frozen in prereg; holdout touched once. Avoidance: in-sample t~4 AND holdout same-sign beats-random (not an in-sample-only fit). Momentum: dead in-sample too, so no overfit to explain away.",
+     "regime": "In-sample <=2015 / holdout 2016+. Avoidance: positive+beats-random in BOTH but decays in holdout (capability-frontier decay). Momentum: ~0 in both.",
+     "selection": "Full SMALL/MICRO PIT membership each month; benchmark = same-bucket EW so the effect is bucket-relative. Random-exclusion arm is the null control.",
+     "small_n": "Avoidance monthly obs n=192 in / 118 holdout; in-sample t~4 is well-powered, holdout t~1-1.5 under-powered for the small effect. Momentum n=163/119; genuinely ~0, not just underpowered.",
+     "survivorship": "Survivorship-free achilles panel (delisted through final bar). Distress from SF1 PIT by datekey; monthly PIT universe. LARGE bucket pending a bar pull (SMALL/MICRO only) -- disclosed, not a survivorship issue."
+    },
+    "date": "2026-07-05",
+    "mean_excess": 0.00163,
+    "mean_excess_shrunk": 0.001476,
+    "n": 192,
+    "notes": "SUPPORTED at precondition (mechanical arm). Distress-exclusion avoidance-alpha strongly positive in-sample (t~4, monotonic in k), beats random(~0), and positive+beats-random at every k in holdout (non-isolated) though not independently significant (t~1-1.5) and decaying (~1%/yr). Clears pre-committed bar -> avoidance thesis NOT refuted, overlay #14 lives, LLM-vs-mechanical forward A/B justified. Small/decaying overlay, not an engine. LLM increment untested.",
+    "results_doc": "docs/lab_results_avoidance_direct.md",
+    "verdict": "supported"
+   },
    "created": "2026-07-05",
    "falsifiable_claim": "Mechanical distress-exclusion beats random-exclusion (in-sample+holdout, non-isolated); then forward, LLM veto beats the mechanical screen over >=20 graded periods.",
    "history": [
@@ -74,6 +93,10 @@
     {
      "date": "2026-07-05",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "backtested"
     }
    ],
    "mechanism": "Excluding names an LLM flags as fraud/going-concern/covenant-breach/terminal-decline risk raises a basket's return; the test is whether the LLM veto beats a mechanical distress screen (Altman-Z/going-concern/short-interest/accruals) and random exclusion. Direct measurement of the house's 'LLM=avoidance' assumption.",
@@ -86,7 +109,7 @@
    },
    "slug": "avoidance_direct",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "backtested",
    "underutilized_because": "Reading complete filing populations for deterioration at scale is exactly the LLM's claimed edge; slow institutions hold deteriorating names mechanically until forced recognition.",
    "who_loses": "Market underreacts to deterioration in filings (info-processing edge, G2-WEAK, capability-frontier that decays) \u2014 but it's the one thing the house has a positive read on (Achilles sold-ban -1.6%/wk)."
   },
@@ -928,6 +951,25 @@
    "who_loses": "If real: market participants who only act on visible catalysts (news, volume, price pops) and structurally miss the quiet subset until the re-rating catches up -- the same late-reactor story as momentum, but at the filing-conviction layer rather than the price layer."
   },
   "residual_momentum_llm": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Momentum: turnover 0.39/mo, 1.4%/yr drag (2.8% at 2x); still ~0. Avoidance: an exclusion overlay (low turnover); alpha is small (~1%/yr holdout) but pre-cost-robust as a tilt.",
+     "look_ahead": "Signal (distress / momentum) computed from data with datekey/period strictly before the hold month; entry the month AFTER the snapshot; benchmark contemporaneous. No forward data.",
+     "multiple_testing": "House hypotheses_ever=196. Small grid (k in {5,10,20} x in/holdout for avoidance; {resid,raw} x in/holdout for momentum); non-isolated (monotonic) checks applied.",
+     "overfitting": "Thresholds frozen in prereg; holdout touched once. Avoidance: in-sample t~4 AND holdout same-sign beats-random (not an in-sample-only fit). Momentum: dead in-sample too, so no overfit to explain away.",
+     "regime": "In-sample <=2015 / holdout 2016+. Avoidance: positive+beats-random in BOTH but decays in holdout (capability-frontier decay). Momentum: ~0 in both.",
+     "selection": "Full SMALL/MICRO PIT membership each month; benchmark = same-bucket EW so the effect is bucket-relative. Random-exclusion arm is the null control.",
+     "small_n": "Avoidance monthly obs n=192 in / 118 holdout; in-sample t~4 is well-powered, holdout t~1-1.5 under-powered for the small effect. Momentum n=163/119; genuinely ~0, not just underpowered.",
+     "survivorship": "Survivorship-free achilles panel (delisted through final bar). Distress from SF1 PIT by datekey; monthly PIT universe. LARGE bucket pending a bar pull (SMALL/MICRO only) -- disclosed, not a survivorship issue."
+    },
+    "date": "2026-07-05",
+    "mean_excess": 0.00485,
+    "mean_excess_shrunk": 0.004152,
+    "n": 119,
+    "notes": "REFUTED. In-sample ~0 (t0.21), does NOT beat raw-momentum control (resid HO +0.49 vs raw +0.66). Residual construction adds nothing; momentum family now closed in every form (raw/curated/residual). No forward test.",
+    "results_doc": "docs/lab_results_residual_momentum_llm.md",
+    "verdict": "refuted"
+   },
    "created": "2026-07-05",
    "falsifiable_claim": "Residual 12-1 momentum earns positive excess vs same-bucket EW, t>=2, non-isolated, holdout + 2x cost, AND beats a raw-momentum control.",
    "history": [
@@ -938,6 +980,10 @@
     {
      "date": "2026-07-05",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "refuted"
     }
    ],
    "mechanism": "Factor-neutral (residual) 12-1 momentum: momentum of returns AFTER removing market/size exposure, which strips the crash-prone factor tilt (Blitz-Huij-Martens) that sank raw momentum. Long-only top-N, monthly. An LLM reversal-prune (non-price overlay) drops extended/blow-off names likely to mean-revert.",
@@ -950,7 +996,7 @@
    },
    "slug": "residual_momentum_llm",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "refuted",
    "underutilized_because": "Raw momentum is crowded/dead after costs; residual momentum is less-implemented long-only (mostly a long-short institutional factor), and the LLM reversal-prune is a fresh non-price overlay untested here.",
    "who_loses": "G1-FAIL (price signal) \u2014 operator override 2026-07-05 recorded in prereg. The tradable edge, if any, is the residual construction rescuing where raw momentum died PLUS the LLM's non-price reversal read."
   },
