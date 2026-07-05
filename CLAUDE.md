@@ -5,13 +5,20 @@ an independent strategy with its own sleeve ($1,000 base; Delphi at $2,000).
 
 ## The Gods
 
-**Oracle** — Patient small/mid-cap researcher. Insider-accumulation signal
-with 6-18 month horizon. Uses a **cohort model**: selects 8 positions once,
-holds ~12 months, exits only on thesis-break. Research runs continuously to
-maintain a pool of 60-80 dossiers for the next cohort. Capital starts at
-$1,000; scales to $12,000 ceiling after 30+ graded calls prove skill
-(alpha_t >= 2.0, monotonic conviction). Realistically needs 4+ cohorts
-(~4 years) to accumulate enough graded calls.
+**Oracle** (REFRAMED 2026-07-05 — docs/oracle_reframe_2026-07-05.md) — Was the
+insider-accumulation cohort god; that mechanical spine was refuted (insider
+clusters −6.4%/yr, quality lens the drag), so Oracle is recast as a **measured
+LLM deep-research convex engine**: the lenses are demoted to an idea-sourcing
+net, the **dossier is the edge** (written for ASYMMETRY — bounded floor +
+catalyst upside + structural mispricing, not "cheap + good"), the book is
+**concentrated and conviction-weighted** (not an equal 8-name cohort), and a
+dossier-vs-screen A/B (`oracle.ab`) MEASURES whether the research beats the
+screen (Oracle LLM-lift) — the same question Hermes asks, on the value/neglect
+side. The legacy cohort `cohort-2026-06-29` (CXT/HDSN/J/PSN/VITL, green) is
+FROZEN and HELD by the operator (untouched); the reframed engine runs a fresh
+sleeve `pending_funding` (research/paper-only until funded). Checkpoint on
+LLM-lift: dossiers add alpha → keep + concentrate; neutral/negative → fold into
+Proteus.
 
 **Delphi** (LIVE RETIRED 2026-07-04, operator directive — sleeve funds
 Plutus) — Was the large-cap momentum compounder: ranked a fixed 118-name

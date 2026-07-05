@@ -1,124 +1,119 @@
-# /oracle — full Oracle pass (cohort model)
+# /oracle — deep-research convex engine (REFRAMED 2026-07-05)
 
-Run Oracle's complete cycle: restore state, load cohort, research, check
-thesis-breaks, execute, journal, attribute, allocate capital, persist.
-Fail-safe — if any step breaks, skip the cycle and open a PR; never
-silently patch the codebase.
+**REFRAMED — read docs/oracle_reframe_2026-07-05.md first.** Oracle is no
+longer an insider-signal factor god. Its mechanical spine was refuted (insider
+clusters −6.4%/yr, quality lens the drag), so it is recast as what it actually
+is: a **measured LLM deep-research convex engine.** The lenses are now just an
+idea-sourcing net; the **dossier is the edge**, written for ASYMMETRY (bounded
+floor + catalyst upside + structural mispricing) and GRADED against the screen
+it came from. The book is **concentrated and conviction-weighted**, not an
+equal 8-name cohort. Fail-safe: if any step breaks, skip and open a PR — never
+silently patch.
 
-Oracle uses a **batch-and-hold cohort model**: positions are selected once
-per cohort (~12-month horizon) and held until review. During the hold
-period, exits happen ONLY on thesis-break conditions — never on rank drift
-or dossier score freshness.
+## ⚠️ Legacy cohort — HELD, not managed (operator directive 2026-07-05)
 
-## Steps
+The prior cohort `cohort-2026-06-29` (**CXT, HDSN, J, PSN, VITL**) is FROZEN and
+HELD by the operator — do NOT sell, thesis-break-check, top up, or rebalance
+them. The live state is left UNTOUCHED: `cache/oracle_sleeve.json` +
+`cache/oracle_cohort.json` remain as the legacy snapshot (the green positions
+stay exactly where they are). The reframed engine gets a **fresh sleeve when the
+operator funds it** — until then it is `pending_funding` and runs research +
+dossiers + paper A/B only, placing NO orders and never touching the legacy
+names. At funding, the operator decides whether the legacy positions move to a
+personal hold (removed from Oracle's ledger → invisible via
+`filter_broker_to_gods`) or stay parked; the reframed book starts clean either
+way. Every session: skip the legacy symbols — they are not the reframed engine's
+to trade.
 
-0. **Hydrate.** `pantheon.hydrate()` — fetches `claude/live` and restores `cache/` into the working tree so this session starts with real state, not empty defaults.
+## Session liturgy
 
-1. **Safety check.** Run `python -c "from shared.guards import kill_switch_active; assert not kill_switch_active(), 'KILL_SWITCH present — liquidate'"`. If a `KILL_SWITCH` file exists, liquidate all positions via the broker and stop. Then check `shared.guards.is_live("oracle")` — if `ORACLE_LIVE` env var is not exactly `"true"`, run in **paper mode**: compute everything normally but **do not place broker orders** in step 10. Log the planned orders to the decision log so they can be reviewed. Print "PAPER MODE — no orders placed" prominently.
+0. **Hydrate.** `pantheon.hydrate()`.
 
-2. **Restore state.** Read `cache/oracle_sleeve.json`. If absent, call `/oracle-setup` first.
+0b. **Safety gates.** `kill_switch_active()` → liquidate (fresh-sleeve positions
+   only, never the legacy hold) + stop. `is_live("oracle")` → if `ORACLE_LIVE`
+   != `"true"`, PAPER MODE (compute + journal, place nothing, mutate nothing).
+   **Funding gate:** load the fresh sleeve; if `pending_funding` is set, the
+   reframed engine isn't funded — research + dossiers + paper A/B only, no
+   orders. **Pre-trade:** `filter_broker_to_gods` (legacy names are personal =
+   invisible) + `pre_trade_check` + `already_placed_today` before any order.
 
-3. **Load cohort.** `oracle.cohort.load_cohort("cache/oracle_cohort.json")`. If None, this is the first run or post-review — a new cohort will be created in step 9.
+1. **Idea-source (the lenses, demoted).** Run the lenses ONLY to surface
+   candidates worth researching — insider clusters, 13F, 13D, quality
+   prescreen, plus neglect signals (thin coverage, small size, forced-seller
+   calendars). No mechanical scoring drives selection; this is a cheap net.
+   Record each candidate's `lens_score` (the old mechanical number) purely as
+   the Arm-B baseline input for the A/B — never as the decision.
 
-4. **Process settlements.** Advance `sleeve.process_settlements(today)`; today is UTC date.
+2. **Deep dossiers (the new spec — the edge).** For candidates worth the work,
+   write/refresh a dossier that ANSWERS, in writing (docs/oracle_reframe §"How
+   dossiers are written now"):
+   - **floor_pct** — what bounds the downside (asset/cash/liquidation floor);
+     no identifiable floor → it's a growth gamble, not an Oracle name.
+   - **upside_x** + the SPECIFIC path to the re-rating (magnitude, not "cheap").
+   - **why_mispriced (structural, G2)** — neglect / forced seller / hard
+     catalyst. "The market underappreciates quality" is refuted; cut it.
+   - **catalyst + catalyst_date (contractual > forecast, G4)** — anchor to a
+     hard event where possible.
+   - **falsifiable prediction + typed kill_condition** (price_level / drawdown_pct
+     / thesis_date / filing_event).
+   - **adversarial paragraph** — "what does the disciplined house know that says
+     this is a mistake?" If it reduces to a refuted trigger (insider/quality/
+     cheap) or a base-rate violation with no reason, cut BEFORE the book.
+   Use the deep-read machinery (extraction + adversarial refuter subagents) on
+   any name near the selection cut — the selection moment is where the annual
+   risk concentrates. Persist to `cache/oracle_dossiers.json`.
 
-5. **Broker reconcile.** Call `/oracle-reconcile` to sync any pending fills since last run. **NOTE:** If the ledger (`cache/oracle_ledger.jsonl`) is empty, reconcile is a no-op — do not add broker positions to the sleeve. The broker holds many pre-existing positions that are NOT Oracle's. Only ledger-tracked orders belong to Oracle.
+3. **Select a CONVEX book (concentrated, conviction-weighted).** Rank
+   candidates by ASYMMETRY (`upside_x` × probability vs `floor_pct`), NOT by
+   lens conviction. Take the few best; size by conviction within a per-name cap
+   (concentration is the return lever — no equal 8-name cohort). Horizons are
+   multi-month/patient, but a name must EARN its slot on asymmetry, not on a
+   signal.
 
-6. **Should we research?** TWO gates, both must pass (pool floor added 2026-07-04, operator directive — the pool sits at 93 against a 60–80 target; research machinery is frozen at current size until cohort-1 produces graded calls):
-   - (a) `oracle.calendar.should_run(cache/oracle_cadence.json, "research", interval_days=3)`, AND
-   - (b) the dossier pool has decayed below **70** live dossiers (count `cache/oracle_dossiers.json`; stale/dropped dossiers don't count toward the floor).
-   If either gate fails, skip to step 8. Research keeps the dossier pool fresh for the NEXT cohort — it does NOT trigger position changes in the current cohort.
+4. **Record the A/B (measure the edge).** For EVERY candidate in the pool this
+   round, `oracle.ab.record_selection(ab, round_id, date, candidates=[...])`
+   with `lens_score`, `llm_selected` (did the dossier pick it), `conviction`,
+   `floor_pct`, `upside_x`, `entry_price`, `spy_entry`, `catalyst`. The
+   mechanical Arm-B baseline (top-N by lens_score) is computed automatically.
+   This IS the experiment: the dossier book (Arm A) vs the screen (Arm B).
 
-7. **Research pass.** Same as before — refresh stale dossiers, pick new candidates via `oracle.screener.pick_candidates`, build balanced dossiers via `oracle.research.make_dossier`. The goal is to accumulate 60–100 dossiers across passes so the next cohort selection has real choice. Persist to `cache/oracle_dossiers.json`. **Market data verification:** For each dossier, fetch the current price from `get_equity_quotes` and `high_52_weeks` from `get_equity_fundamentals`, then pass both as `broker_price=` and `broker_high_52w=` to `make_dossier`.
+5. **Execute (fresh sleeve, live).** `pre_trade_check`, size within the per-name
+   cap, place fractional-share orders, append `cache/oracle_ledger.jsonl`,
+   update the sleeve with ACTUAL fills. Journal every decision (buy/hold/pass)
+   with its thesis + typed kill.
 
-8. **Rescore (calibration only).** Walk every dossier; refresh `current_price` via broker quotes; rescore. This is for calibration and learning — rescoring does NOT drive trading decisions during a cohort hold period.
+6. **Tend + grade.** Each session: check every held name's typed kill_condition
+   against current facts (a quote/filing) — fire it if triggered (the kill is a
+   promise). At a name's horizon or exit, `oracle.ab.record_grade(...)` and,
+   periodically, `oracle.ab.llm_lift(ab)` — **the headline: do the dossiers beat
+   the screen?**
 
-9. **Cohort logic.** Three branches:
+7. **Persist.** Sleeve + dossiers + ledger + curve + `cache/oracle_ab.json` +
+   cadence → `pantheon.persist("oracle", ...)`.
 
-   **A. No active cohort (first run or post-review):** Create a new cohort.
-   - **Deep verification of the finalists (mandatory — added 2026-07-03).**
-     A cohort locks ~8 names for a YEAR; the selection moment is where
-     Oracle's entire annual risk concentrates, so it gets the deep-read
-     standard (the pattern proven on Nemesis). Take the top ~15 dossiers
-     by conviction and, for each: dispatch extraction subagents to
-     re-verify the dossier's load-bearing claims against CURRENT filings
-     and prices (the thesis was written weeks ago — has a 10-Q since
-     contradicted it?), then one adversarial refuter attacking the
-     deciding judgment — *is the bad news actually priced in?* — and the
-     scenario probabilities. Fold non-flipping corrections in via
-     `oracle.research.update_scenarios(d, new_scenarios, current_price=…)`;
-     a refuted dossier is rescored (and may drop out of the top 8) BEFORE
-     selection, never patched afterward.
-   - **3-draw median conviction for boundary names (mandatory since
-     2026-07-04).** Per the decision-consistency sweep
-     (docs/pantheon_decision_consistency_results_2026-07.md): conviction
-     re-scored blind from stored narrative alone flipped the actual
-     top-5 selection on 2 of 5 independent draws — conviction is the
-     mechanical input to `size_book`'s ranking, so this instability is
-     load-bearing, not cosmetic. For any name within the bottom 2 slots
-     of the cut line (i.e. whose inclusion/exclusion decides the
-     cohort), get 2 additional independent conviction re-scores from the
-     SAME dossier narrative (un-anchored) and take the median of the 3
-     before the cut is final. Names far from the cut line do not need
-     this — the finding was about boundary noise, not universal
-     unreliability. Only then:
-   - `oracle.positioning.size_book(scored, equity=sleeve.equity(marks))` → targets
-   - `oracle.execution.plan_orders(sleeve, targets, prices)` → initial buy orders
-   - `oracle.cohort.create_cohort(cohort_id, selected_dossiers, prices, inception_date=today, review_date=today+365)` → save to `cache/oracle_cohort.json`
-   - Tag each sleeve position with `pos.cohort_id = cohort.cohort_id`
+## Kill conditions (the only exits — typed, promise-not-suggestion)
 
-   **B. Active cohort, not at review date:** Check thesis-breaks, then top up.
-   - For each symbol in `cohort.active_symbols()`:
-     - Fetch current price
-     - `oracle.cohort.check_thesis_break(sym, cohort, current_price=px, dossier=d)` — also pass `insider_reversal`, `fraud_flag`, `going_concern_flag`, `thesis_exhausted` if detected during research
-     - **Refute before you sell (mandatory — added 2026-07-03).** A
-       thesis-break sell ends a 12-month position early; the known
-       failure mode is panic-selling a headline. If the returned break is
-       judgment-based (`fraud`, `going_concern`, `insider_reversal`,
-       `thesis_exhausted`, `thesis_break`): dispatch ONE adversarial
-       subagent to argue AGAINST the break — is the "fraud" an
-       unconfirmed short report? Is the going-concern language actually
-       in the filing or only in a news paraphrase? Is the insider selling
-       10b5-1-scheduled rather than discretionary? Sell only if the break
-       case survives the attack, and journal the refuter's argument
-       either way. The `drawdown` break (≥40% from entry) is ARITHMETIC —
-       it executes immediately, no debate; discipline rules there.
-     - If thesis-break returned (and survived refutation where required): `oracle.cohort.record_exit(cohort, sym, exit_price=px, exit_date=today, exit_reason=reason)`; remove from `cohort_holds`
-   - `cohort_holds = set(cohort.active_symbols())`
-   - **Top up idle cash.** If `sleeve.cash > CASH_FLOOR * sleeve.equity(marks) + MIN_TICKET`, there's deployable excess cash (e.g. from a capital injection). Recompute equal-weight targets across the active cohort positions using the current equity, then run `oracle.execution.plan_orders(sleeve, targets, prices, cohort_holds=cohort_holds)` → generates buy orders to bring underweight positions up to target. No new names — only existing cohort symbols get topped up. No mid-cohort replacements — freed thesis-break slots stay as cash.
-   - If no excess cash: `oracle.execution.plan_orders(sleeve, targets={}, prices, cohort_holds=cohort_holds)` → only thesis-break exits generate sell orders
+A held name exits ONLY on its journaled, typed kill firing, or a hard structural
+break: **fraud** (SEC/fraud filing), **going_concern** (bankruptcy/going-concern
+disclosure), **thesis_date** passed without the catalyst, **drawdown** ≥ its
+`floor_pct` (arithmetic — executes immediately, no debate), **price_level** hit,
+or a **filing_event** the kill named. A judgment-based break (fraud/
+going_concern) gets ONE adversarial refuter before selling (is the "fraud" an
+unconfirmed short report? is the going-concern language in the filing or a news
+paraphrase?) — sell only if the break survives; journal either way. **Prohibited
+exits:** "a new dossier scored higher", rank drift, "flat after 60 days",
+sector-out-of-favor. Patience is the edge.
 
-   **C. Active cohort at review date** (`oracle.cohort.should_review(cohort, today)`):
-   - `oracle.cohort.grade_cohort(cohort, final_prices)` → grade all 8 calls
-   - Convert graded results to `JournalEntry` records for the calibration dataset
-   - Save closed cohort to `cache/oracle_cohort_history.jsonl`
-   - Fall through to branch A to create the next cohort
+## The checkpoint
 
-10. **Pre-trade check and place orders.** Fetch broker equity positions, filter through `shared.guards.filter_broker_to_gods(broker_positions)`. Fetch recent broker orders, compute `shared.guards.pending_shares_from_orders(broker_orders)`. Run `shared.guards.pre_trade_check(filtered, pending_orders=pending)`. If any symbol is out of sync, halt and run `/oracle-reconcile`. Place fractional-share market orders via Robinhood MCP. Append each order to `cache/oracle_ledger.jsonl`.
+At ~20 graded names (or a date): **Oracle LLM-lift = Arm A (dossier) − Arm B
+(screen).** Positive and material → the deep research is real alpha; Oracle
+earns concentration + capital. Zero/negative → the dossiers are rationalization
+and Oracle folds into Proteus. The numbers decide, not the narrative — the same
+question Hermes asks on the event side, Oracle asks on the value/neglect side.
 
-11. **Journal decisions.** Every buy/sell/hold/avoid gets a `JournalEntry` via `oracle.journal.append`. Grade any prior entries whose horizon has elapsed using actual prices.
+## Halt
 
-12. **Attribute and allocate.** Fetch daily historicals for the 4 factor ETFs (MTUM, QUAL, IWM, VTV) via `get_equity_historicals`. Run `oracle.attribution.compute_factor_attribution(equity_curve, factor_historicals)`. Pass to `oracle.capital.compute_allocation`. Inject/withdraw cash to match.
-
-13. **Persist.** Save `cache/oracle_sleeve.json`, `cache/oracle_cohort.json`, append to `cache/oracle_curve.json` (equity timestamp), then call `pantheon.persist("oracle", files, branch="claude/live")`.
-
-## Thesis-break conditions (the only permitted exits during hold)
-
-1. **fraud** — SEC investigation or fraud allegation filed
-2. **going_concern** — bankruptcy filing or going-concern disclosure
-3. **insider_reversal** — the same insiders who accumulated begin net-selling
-4. **drawdown** — position loss >= 40% from entry price
-5. **thesis_exhausted** — original catalyst resolved without price response
-6. **thesis_break** — moat AND quality ratings both collapsed below 0.2
-
-## Prohibited exits during hold
-
-- "A new dossier scored higher"
-- "The sector is out of favor this month"
-- "The position is flat after 60 days"
-- Rank drift of any kind
-
-## Halt conditions
-
-- Circuit breaker hit (`sleeve.check_circuit_breakers` returns "halt"). Set `sleeve.halted = True`, stop opening, exit positions if appropriate.
-- Code-level error: catch, log to `cache/oracle_errors.jsonl`, OPEN A PR. Do not auto-patch.
+- Circuit breaker (`sleeve.check_circuit_breakers` = "halt") → set halted, stop
+  opening. Code error → log `cache/oracle_errors.jsonl`, OPEN A PR, do not
+  auto-patch.
