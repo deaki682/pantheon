@@ -274,3 +274,37 @@ behind the already-queued forced-seller batch (#4 post-BK, #13 odd-lot).
 > slice echoed spinoff_orphans/ipo_lockup). Recommendation: **do NOT buy ETF-holdings data for #18 on
 > current evidence**; leave it preregistered/data-blocked as a standing option that re-opens only if a
 > survivorship-free daily-holdings source arrives cheaply for another reason.
+
+---
+
+## Weird-hunt output (2026-07-05, 12 unconventional domains — 75 mapped, 6 promising, 1 verified)
+
+Deliberately off-beat sweep (attention/salience, settlement plumbing, number psychology, network
+topology, reflexive flows, bio-rhythms, behavioral tells, calendar micro-structure, lottery/skew,
+long-tail info-geometry, weird forced-flow corners, wrapper mechanics). Same 5 gates, extra-strict G1.
+Most weird ideas died on G1 (no forced seller = "crowd misprices" = noise); 2 auto-dropped in
+synthesis (a stray test injection; a net-issuance/Lens-B relabel). **0 GOD_CANDIDATE; 1 LAB_HYPOTHESIS.**
+
+| # | Item | Verdict | Gate reads | Next step |
+|---|---|---|---|---|
+| **20** | **`drip_paydate_pressure`** — DRIP reinvestment creates a price-insensitive forced BUYER on calendar-certain pay dates | LAB_HYPOTHESIS | G1✓ (real mechanical flow) · **G2✓✓ HARD (the prize: named, contract-bound, price-insensitive forced buyer = DRIP plan administrator, on a calendar-certain date — a genuine weird spine, not a G1 sentiment fail)** · G3✓ but double-edged (edge only in illiquid high-limits-to-arb names — where cost also lives) · **G4✗ (pressure hump COMPLETELY reverses → required round-trip, a reversion forecast, no contract pays you)** · G5✓ (thousands of pay dates/yr; monthly-pay CEFs give dozens) | Prereg a cheap survivorship-free backtest BEFORE data (Sharadar bars + calendar-certain CEF/high-DRIP pay-date calendar). DECISIVE pre-committed kill = net-of-realistic-retail-round-trip-cost excess ≤0 vs a size/liquidity/yield-matched EW benchmark (NOT raw return). Test the round-trip explicitly at 1× AND 2× cost + the tightest-cost expression (monthly-pay CEF basket). Pre-commit kills: (a) net excess ≤0 at realistic spread, (b) the illiquid/high-spread subset is the WORST subset (the three-refutation pattern), (c) effect decayed post-2017-publication. **Honest prior: expected death at the cost gate** — published effect (Berkman-Koch JFQA 2017, Hartzmark-Solomon AER 2024) whose gross edge scales with the exact spread you pay. Low priority; file behind the forced-seller batch. Not a god — a whisker from REJECT.
+
+Kills logged (do not slug; do not re-surface): **coverage_termination_shock** (broker research-coverage
+termination as an attention shock — breaks on structural gates + external evidence; the exogenous-event
+framing is cleaner than static-neglect but doesn't clear G2/G4/power); **holdco_stub_discount_collapse**
+(graveyard-adjacent relabel of the already-killed term/target-term CEF pull-to-NAV — same discount-lean
+G1, same board/controller escape-hatch G4; listed-stake NAV arithmetic doesn't rescue it); most
+bio-rhythm / ticker-psychology / calendar theories (pure G1, no forced counterparty).
+
+> **STRATEGICALLY-FLAGGED REJECT — `vol_control_releveraging`.** Named a REAL and GROWING forced
+> counterparty (~$132B systematic vol-control funds, prospectus-bound to mechanically RE-LEVER after
+> realized vol falls, −0.95 vol-to-exposure). Excellent, strengthening G2. But our long-only /
+> no-leverage / no-derivatives book can only express it as "buy the VIX dip" — a forbidden G1 timing
+> signal. **A perfect named counterparty attached to an instrument we are not allowed to trade.** REJECT
+> for THIS book — but log it: **re-open only if the mandate ever gains derivatives/futures**, because the
+> counterparty is real and growing.
+
+Weird-hunt meta-finding: even in deliberately unconventional territory the pattern held — the single
+real-spine survivor (DRIP) still fails G4 and rides a cost-gated round-trip, expected to die at cost.
+No engine hides in the weird corners either; consistent with LEAN_ON_BETA (growth = prove the edges
+already held, not find a new one). Recon only — did NOT tick `hypotheses_ever`.
