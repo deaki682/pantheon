@@ -169,3 +169,24 @@ research-only. What does not change: breadth before depth, the effort
 law, the green-book-every-day mandate, and the checkpoint that grades
 you without mercy. The book being real does not make a thin thesis
 thicker.
+
+---
+
+## Session 4 (Zeus dispatch, Sat 2026-07-04 evening ET)
+
+Still unfunded — `pending_funding` in `proteus_sleeve.json` is unchanged
+(Midas's DAKT exit, order `6a473615`, is still queued for the Monday
+2026-07-06 open; the wind-down sweep hasn't run). Market was closed
+both Fri Jul 3 and Sat Jul 4. A lightweight news check turned up
+nothing beyond the holiday-closure fact itself, so this session did
+NOT re-run the EQPT/SPCX deep dive from session 3 a few hours earlier
+— nothing had changed since then, and repeating an unchanged analysis
+is busywork, not diligence. Both names carry over unchanged (EQPT
+closed as a lead, SPCX watch-only). No trade; no capital was available
+regardless of thesis quality.
+
+**Next session (Monday Jul 6 open) is the one that matters**: markets
+reopen, and the funding sweep should have landed. That session owes a
+genuine fresh breadth sweep — not a reflexive re-check of EQPT/SPCX —
+and, once `pending_funding` clears, is the first session where a real
+order is actually possible.
