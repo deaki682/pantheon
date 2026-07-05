@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 191,
+ "hypotheses_ever": 192,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -818,6 +818,33 @@
    "status": "refuted",
    "underutilized_because": "The small-cap half (the preregistered cut) is where fills are too small for institutions; the large half is the control that discipline demands we report rather than cherry-pick.",
    "who_loses": "Holders selling into the offer window below the filed range \u2014 liquidity demanders facing a disclosed, price-insensitive corporate bid."
+  },
+  "post_bk_emergence": {
+   "created": "2026-07-05",
+   "falsifiable_claim": "Post-emergence reorg equity earns positive 252d excess vs size-matched EW, holdout + 2x cost + non-isolated + not-only-2020-energy.",
+   "history": [
+    {
+     "date": "2026-07-05",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "Reorganized common equity distributed to former creditors is force-sold by CLOs / leveraged-loan funds whose indentures + mandates BAR holding equity (price-insensitive forced seller); coverage lapsed, indices absent, generalists screen out just-bankrupt -> underpricing at emergence that unwinds over 3-12mo.",
+   "prereg": {
+    "date": "2026-07-05",
+    "doc": "docs/lab_prereg_post_bk_emergence.md",
+    "metric": "Total-return excess vs the size-matched SMALL/MICRO equal-weight bucket over {63,126,252} trading days (primary 252d), entry T+1 after the emergence effective date.",
+    "population_definition": "Every US company whose reorganized common equity became publicly tradable on a major exchange (NYSE/NASDAQ/NYSEMKT) upon emergence from a Chapter 11 with emergence effective date 2015-01-01..2024-12-31 (>= ~6mo of post-emergence bars through 2025). New-CIK and continued-ticker reorgs both included. Re-failures/delistings KEPT and exited at last print (survivorship). Built exhaustively from EDGAR 8-K Item 1.03 / plan effectiveness / ASC 852 fresh-start disclosures + bankruptcy trackers, cross-checked to Sharadar TICKERS/SEP for a tradable bar series; coverage_note discloses known-missing (OTC-only reorgs excluded).",
+    "success_criteria": "Pass ALL or refuted: (1) in-sample 252d mean excess>0, t>=2, n>=30; (2) holdout 2020-24 same-sign mean excess>0, n>=20; (3) still positive at 2x cost in holdout; (4) non-isolated across adjacent horizons; (5) positive with the 2020-21 energy-emergence cluster excluded. Any miss => refuted (terminal)."
+   },
+   "slug": "post_bk_emergence",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "underutilized_because": "Capacity-inverted, screen-barred for institutions, and no contractual terminal (G4-fail) so it needs discretionary per-name underwriting \u2014 where a patient small book + LLM reading fits.",
+   "who_loses": "CLOs / leveraged-loan funds (indenture equity-divestiture clauses) + index funds + generalist screens."
   },
   "quiet_cluster_ghost": {
    "created": "2026-07-04",
