@@ -12,8 +12,12 @@ from achilles.pead_gauntlet import seasonal_sue
 
 OUT = "data/achilles_gauntlet"
 
-# --- load SF1, group EPS by ticker ---
-by_ticker = defaultdict(list)   # ticker -> [(calendardate, eps, datekey)]
+# --- load SF1; DEDUPE amended filings (same fiscal quarter, later 10-Q/A date).
+# Keep the EARLIEST datekey per (ticker, calendardate) = the original filing, i.e.
+# when the surprise first became public (the correct PEAD event date) and the
+# as-first-reported eps. Not deduping double-counts quarters and misaligns the
+# seasonal (q vs q-4) indexing, corrupting every affected SUE. ---
+seen = {}   # (ticker, calendardate) -> (datekey, eps)
 n = 0
 for part in sorted(os.listdir(OUT)):
     if not part.startswith("sf1_arq_part"):
@@ -22,9 +26,14 @@ for part in sorted(os.listdir(OUT)):
         eps, cd, dk = r.get("eps"), r.get("calendardate"), r.get("datekey")
         if eps is None or not cd or not dk:
             continue
-        by_ticker[r["ticker"]].append((cd, float(eps), dk))
+        key = (r["ticker"], cd)
+        if key not in seen or dk < seen[key][0]:
+            seen[key] = (dk, float(eps))
         n += 1
-print(f"SF1: {n} eps rows, {len(by_ticker)} tickers", flush=True)
+by_ticker = defaultdict(list)   # ticker -> [(calendardate, eps, datekey)]
+for (tkr, cd), (dk, eps) in seen.items():
+    by_ticker[tkr].append((cd, eps, dk))
+print(f"SF1: {n} raw eps rows -> {len(seen)} unique quarters, {len(by_ticker)} tickers", flush=True)
 
 # --- universe snapshots -> per-date bucket membership, sorted dates for lookup ---
 U = json.load(open(f"{OUT}/universes.json"))["universes"]
