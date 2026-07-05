@@ -610,10 +610,33 @@
    "who_loses": "Earnings/quality screeners and passive value indexes anchoring on GAAP-reported E and B, plus analysts who revise too slowly; and lottery-seeking holders of the junk leg the long book avoids."
   },
   "gauntlet_v6_combinations": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "per-bucket CostModel (LARGE 5bps/SMALL 25bps) + 2x rerun capability; value/P-S leg tilts smaller/cheaper (cost-fragile), SMALL flagged; intersection baskets can thin below N (realized size disclosed).",
+     "look_ahead": "SF1 datekey-PIT, DAILY ps as-traded on signal date, signal<=D, execution lagged next-day close. No restated-data leak (ARQ as-first-filed). Intersection ranks computed within-snapshot cross-section.",
+     "multiple_testing": "32 cells DSR-deflated at n_trials=32 with cross-sectional variance_of_sr=0.01105 (not 1.0); house counter 153->173 (20 new). Two-regime holdout + forward test gate the verdict against the ~1-in-20 chance survivor.",
+     "overfitting": "parameter-cliff non-isolated rule applied: netiss_x_grossprof survives 3 cells, quality_at_price flagged borderline-isolated, delta_ato held. Holdout touched once. maxDD reported per cell (32-70%) - the honest risk.",
+     "regime": "two-regime OOS + maxDD per cell; the winner is HOLDOUT-DRIVEN (underperformed both legs in-sample, wins only 2016-25) - disclosed as the central caveat, same regime-favored pattern as all house survivors.",
+     "selection": "32-cell grid enumerated in prereg before data; the max-of-ranks intersection operator fixed in advance (not searched to whatever won); delta_gpoa NOT rescued despite holdout pass (failed pre-committed in-sample gate).",
+     "small_n": "N25/N50 vs same-universe EW; intersection thins the basket so realized-N reported; Sharpe via PSR/DSR; the combination gate (beat better leg OR cut drawdown) is the small-n-robust bar, only netiss_x_grossprof passed it.",
+     "survivorship": "SEP delisted-inclusive + SF1/DAILY cover dead filers; per-cell coverage 0.6-0.87 reported; P/S coverage (financials lack it) disclosed; held union 2522/1853 incl. delisted."
+    },
+    "date": "2026-07-05",
+    "mean_excess": 0.03,
+    "mean_excess_shrunk": 0.003913,
+    "n": 3,
+    "notes": "netiss_x_grossprof (tail-INTERSECTION of Plutus two factors) SUPPORTED: cleared both gates non-isolated, holdout N50-LARGE +15.1% beats both legs (netiss 14.4, gross-prof 11.8) with 32% mDD - the intersection beats the naive mean-rank blend v4 refuted. Plutus-upgrade candidate (holdout-driven, underperformed legs in-sample). capreturn_at_price supported but NOT better than its netiss leg. quality_at_price WEAK - drawdown-cure thesis for value combos refuted (higher mDD, marginal). delta_gpoa REFUTED in-sample (3rd improving-fundamentals kill). delta_ato passed gates but HELD pending orthogonalization.",
+    "results_doc": "docs/lab_results_gauntlet_v6_combinations.md",
+    "verdict": "supported"
+   },
    "cells_new": 20,
    "cells_total_run": 32,
    "created": "2026-07-04",
    "falsifiable_claim": "Each new signal fails if its EW top-N basket does not beat same-universe EW in BOTH regimes at 2x cost in a non-isolated cell; a combination that does not beat its better standalone leg OR reduce holdout drawdown vs both legs is no better than the legs; change-signals subsumed by the gross-prof level are refuted.",
+   "forward": {
+    "grades": [],
+    "started": "2026-07-05"
+   },
    "history": [
     {
      "date": "2026-07-04",
@@ -622,6 +645,14 @@
     {
      "date": "2026-07-04",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "backtested"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "forward_testing"
     }
    ],
    "mechanism": "Tail-preserving factor combinations that fix the house-refuted mean-rank composite by intersecting the tails (max-of-ranks minimized = hold only names strong on BOTH legs), so the alpha concentrated in each factor tail is preserved rather than averaged away: quality-at-a-price conditions cheapness on gross-profitability (Novy-Marx 2013 cheap-and-profitable), capital-return-at-a-price conditions buybacks on cheapness, net-issuance-intersect-gross-prof integrates the two Plutus factors; plus profitability-growth (change in gross-prof/assets, Novy-Marx w15940) and asset-turnover trend (Soliman 2008 DuPont efficiency change) as the two fundamental-change signals distinct from levels.",
@@ -634,7 +665,7 @@
    },
    "slug": "gauntlet_v6_combinations",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "forward_testing",
    "underutilized_because": "Naive rank-average compositing (the common approach) dilutes the tails and was refuted; the max-of-ranks intersection is rarely used, and change-signals are confounded with dead price momentum.",
    "who_loses": "Investors anchoring on a single factor who overpay for cheap-but-junky or profitable-but-expensive names, and screeners that miss efficiency/margin improvement; the intersection avoids each factor value trap."
   },
