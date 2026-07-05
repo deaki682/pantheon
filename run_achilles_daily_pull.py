@@ -1,0 +1,59 @@
+"""achilles_pead_gauntlet phase 1b: DAILY marketcap panel (for PIT universes).
+
+Pulls ticker,date,marketcap for the whole window, one gzipped part PER YEAR
+(bounded memory), so we can build monthly SMALL(501-2000)/MICRO(2001-3500)
+point-in-time universes by marketcap rank. marketcap is USD millions; rows are
+keyed to the ticker as it traded that day (correct for PIT). Delisted names
+covered through their final trading day.
+"""
+import gzip, json, os, sys, time
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import shared.sharadar as sh
+import requests
+
+OUT = "data/achilles_gauntlet"
+os.makedirs(OUT, exist_ok=True)
+COLS = "ticker,date,marketcap"
+
+
+def _get(url, params, tries=6):
+    """Resilient GET — a transient reset/timeout must not abort a 28-year pull."""
+    for a in range(tries):
+        try:
+            r = requests.get(url, params=params, timeout=120)
+            r.raise_for_status()
+            return r.json()
+        except Exception as e:
+            if a == tries - 1:
+                raise
+            wait = min(30, 2 ** a)
+            print(f"  retry {a+1}/{tries} after {type(e).__name__}: sleeping {wait}s", flush=True)
+            time.sleep(wait)
+grand = 0
+for year in range(1999, 2027):
+    part_path = f"{OUT}/daily_mcap_{year}.json.gz"
+    if os.path.exists(part_path):
+        print(f"DAILY {year}: exists, skip", flush=True)
+        continue
+    rows, cursor, yr_total = [], None, 0
+    params = {"date.gte": f"{year}-01-01", "date.lte": f"{year}-12-31",
+              "qopts.columns": COLS, "qopts.per_page": 10000, "api_key": sh._api_key()}
+    while True:
+        p = dict(params)
+        if cursor:
+            p["qopts.cursor_id"] = cursor
+        payload = _get(f"{sh.BASE_URL}/DAILY.json", p)
+        dt = payload["datatable"]
+        cols = [c["name"] for c in dt["columns"]]
+        rows.extend(dict(zip(cols, row)) for row in dt["data"])
+        yr_total += len(dt["data"])
+        cursor = (payload.get("meta") or {}).get("next_cursor_id")
+        if not cursor:
+            break
+        time.sleep(0.2)
+    with gzip.open(part_path, "wt") as f:
+        json.dump(rows, f)
+    grand += yr_total
+    print(f"DAILY {year}: {yr_total} rows (grand {grand})", flush=True)
+open(f"{OUT}/daily_DONE", "w").write(str(grand))
+print(f"DAILY DONE: {grand} rows", flush=True)

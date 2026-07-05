@@ -1,0 +1,48 @@
+"""achilles_pead_gauntlet phase 1a: SF1 ARQ panel (EPS for SUE). PAPER ONLY.
+
+Pulls as-reported quarterly EPS + revenue + weighted shares, keyed to datekey
+(filing date = point-in-time), 1998Q4 onward. Writes gzipped parts to
+data/achilles_gauntlet/. Adapted from run_gauntlet_v2_pull.py.
+"""
+import gzip, json, os, sys, time
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import shared.sharadar as sh
+import requests
+
+OUT = "data/achilles_gauntlet"
+os.makedirs(OUT, exist_ok=True)
+# A house-shared fundamentals panel, not an Achilles silo: eps (Achilles SUE),
+# shareswa (Plutus net-issuance), gp+assets (gross-profitability), ncfo (cash-op
+# candidate), netinc+revenue (general). One pull, many gods.
+COLS = "ticker,datekey,calendardate,eps,revenue,shareswa,gp,assets,netinc,ncfo"
+rows, part, total = [], 0, 0
+params = {"dimension": "ARQ", "calendardate.gte": "1998-12-31",
+          "qopts.columns": COLS, "qopts.per_page": 10000,
+          "api_key": sh._api_key()}
+cursor = None
+while True:
+    p = dict(params)
+    if cursor:
+        p["qopts.cursor_id"] = cursor
+    r = requests.get(f"{sh.BASE_URL}/SF1.json", params=p, timeout=120)
+    r.raise_for_status()
+    payload = r.json()
+    dt = payload["datatable"]
+    cols = [c["name"] for c in dt["columns"]]
+    rows.extend(dict(zip(cols, row)) for row in dt["data"])
+    total += len(dt["data"])
+    if len(rows) >= 400_000:
+        with gzip.open(f"{OUT}/sf1_arq_part{part}.json.gz", "wt") as f:
+            json.dump(rows, f)
+        print(f"SF1 part {part}: {len(rows)} rows (total {total})", flush=True)
+        rows, part = [], part + 1
+    cursor = (payload.get("meta") or {}).get("next_cursor_id")
+    if not cursor:
+        break
+    time.sleep(0.25)
+if rows:
+    with gzip.open(f"{OUT}/sf1_arq_part{part}.json.gz", "wt") as f:
+        json.dump(rows, f)
+    print(f"SF1 part {part}: {len(rows)} rows (total {total})", flush=True)
+open(f"{OUT}/sf1_DONE", "w").write(str(total))
+print(f"SF1 DONE: {total} ARQ rows in {part+1} parts", flush=True)

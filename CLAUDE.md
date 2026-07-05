@@ -1,39 +1,67 @@
 # Pantheon — Autonomous Trading System
 
-Four gods share one Robinhood agentic account (`563854249`), each running
-an independent strategy with its own sleeve ($1,000 base; Delphi at $2,000).
+**Mandate (2026-07-05, docs/portfolio_mandate_2026-07-05.md):** a fully managed,
+fully agentic portfolio whose purpose is to **grow funds — headlined by the
+LLM-edge experiments.** Growth is the goal; the experiments (Hermes/Oracle/
+Proteus A/Bs — "does an LLM beat a screen?") are the engine. Anchored by the one
+proven engine (Plutus = bull participation + a backtested edge), headlined by the
+experiments (~58%), no dead cash, never blow-up-able. Scored on growth AND the
+experiments' edge — NOT on beating SPY's raw bull return, NOT on Sharpe in a vacuum.
+
+The gods share one Robinhood agentic account (`563854249`), each running an
+independent strategy with its own sleeve.
 
 ## The Gods
 
-**Oracle** — Patient small/mid-cap researcher. Insider-accumulation signal
-with 6-18 month horizon. Uses a **cohort model**: selects 8 positions once,
-holds ~12 months, exits only on thesis-break. Research runs continuously to
-maintain a pool of 60-80 dossiers for the next cohort. Capital starts at
-$1,000; scales to $12,000 ceiling after 30+ graded calls prove skill
-(alpha_t >= 2.0, monotonic conviction). Realistically needs 4+ cohorts
-(~4 years) to accumulate enough graded calls.
+**Oracle** (REFRAMED 2026-07-05 — docs/oracle_reframe_2026-07-05.md) — Was the
+insider-accumulation cohort god; that mechanical spine was refuted (insider
+clusters −6.4%/yr, quality lens the drag), so Oracle is recast as a **measured
+LLM deep-research convex engine**: the lenses are demoted to an idea-sourcing
+net, the **dossier is the edge** (written for ASYMMETRY — bounded floor +
+catalyst upside + structural mispricing, not "cheap + good"), the book is
+**concentrated and conviction-weighted** (not an equal 8-name cohort), and a
+dossier-vs-screen A/B (`oracle.ab`) MEASURES whether the research beats the
+screen (Oracle LLM-lift) — the same question Hermes asks, on the value/neglect
+side. The legacy cohort `cohort-2026-06-29` (CXT/HDSN/J/PSN/VITL, green) is
+FROZEN and HELD by the operator (untouched); the reframed engine runs a fresh
+sleeve `pending_funding` (research/paper-only until funded). Checkpoint on
+LLM-lift: dossiers add alpha → keep + concentrate; neutral/negative → fold into
+Proteus.
 
-**Delphi** — Large-cap momentum compounder. Ranks a fixed 118-name universe
-by 65-day price momentum, holds the top 10 equal-weighted, exits when
-price breaks below the 20-day moving average. Rebalances on each run.
-5 LLM decision points per run (exit, entry, sizing, risk budget, universe
-curation) with override budgets to prevent second-guessing the mechanical
-system. Capital at $2,000; 7-day cooldown after selling a name.
+**Delphi** (LIVE RETIRED 2026-07-04, operator directive — sleeve funds
+Plutus) — Was the large-cap momentum compounder: ranked a fixed 118-name
+universe by 65-day price momentum, held the top 10 equal-weighted, exited on
+a 20-day MA break, 5 LLM decision points per run. Her strategy was refuted at
+the full window (`delphi_ruleset_faithful`: −9.36pp/yr vs her own universe's
+equal weight; the edge was the 2021–26 era, not the ruleset), and the
+operator retired her, reallocating her ~$2,000 sleeve to launch Plutus. The
+transition of power runs at the 2026-07-06 open: `/delphi` becomes
+wind-down-only (liquidate positions → cash → sweep to Plutus), then never
+runs live again. `/delphi-ghost` may keep shadowing for the record. Her
+mechanics are retained in `.claude/commands/delphi.md` below the wind-down
+section for reference only — no session may cite any Delphi backtest as
+evidence FOR the strategy.
 
-**Achilles** — PEAD earnings-season specialist. Trades only during the
-four ~6-week earnings windows (~16 weeks/year). Holds a **diversified
-equal-weighted basket** of up to 12 small/mid-cap earnings beats — not one
-all-in bet. PEAD is a thin statistical edge that only surfaces across many
-names, and a basket both preserves it and validates it far faster than one
-trade at a time. Each name: enter next trading day, hold 5 trading days,
--8% hard stop, one slot per symbol, 4-week cooldown after a stop. Sits in
-cash off-season. The edge is Post-Earnings Announcement Drift — the most
-robust short-horizon anomaly, strongest in neglected names with thin
-analyst coverage. **Reaction-direction gate:** only goes long a beat the
-market *rewarded* (positive post-report reaction) — never a "sold beat"
-(gap up, close red), because the drift follows the reaction, not the EPS
-headline. Confirming signals (revenue beat, guidance raised, short squeeze,
-insider pre-buy) boost the base score but are never independent entry signals.
+**Achilles** (RETIRED as a standalone god 2026-07-05, operator directive —
+PEAD folded into Proteus as a seasonal mode; docs/achilles_fold_into_proteus_2026-07-05.md)
+— Was the PEAD earnings-season specialist: a diversified equal-weighted basket of
+up to 12 small/mid-cap earnings beats, held 5 days, −8% stop, traded only during
+the four ~6-week earnings windows (~16 weeks/year), cash off-season. Retired for
+two reasons: he was **capital-inefficient** (a dedicated sleeve idle ~70% of the
+year), and the **long half he actually trades measured absent** (the reaction-gate
+replay found no 5-day drift on rewarded beats; only the un-tradable short side was
+real). His **~$2,000 sleeve winds to cash and returns to the treasury** for the
+pending allocation. The `achilles/` package is KEPT as a library (the
+Buzz/Catalyst precedent): **Proteus runs the PEAD basket as a seasonal MODE**
+during the earnings windows on his own sleeve — `achilles.scanner`/`scoring`/
+`season`/`earnings`, carrying the reaction-direction gate (only a beat the market
+*rewarded*, never a "sold beat"), the **reaction-magnitude guard**
+(`MAX_REACTION_PCT` — a beat that already popped too far has spent its drift), and
+the confirming signals. The `achilles_pead_gauntlet` (preregistered 2026-07-05)
+still runs, now to tell Proteus whether the mode is worth using — the MICRO band
+(exchange-listed, tradable, fully visible in SEP) a first-class test. No PEAD
+backtest may be cited as evidence FOR the strategy except a SUPPORTED,
+forward-confirmed gauntlet cell.
 
 **Midas** (LIVE RETIRED 2026-07-04, operator directive — ghost A/B
 continues) — Was the maximally concentrated weekly catalyst play: full
@@ -64,9 +92,70 @@ day" framing was demoted same-week because a daily-green target
 incentivizes selling winners early and nursing losers, contaminating
 the experiment. Every decision is
 journaled with a falsifiable prediction and graded without mercy
-(docs/proteus_prereg.md). Checkpoint at 30 closed trades or
-2027-01-15: validation keeps the sleeve, refutation retires him and
-returns the capital to the treasury. Owns only `cache/proteus_*`.
+(docs/proteus_prereg.md). **Risk rails (2026-07-05, "smart and greedy,
+not stupid"):** NO hard per-position cap — he may go all-in when
+conviction earns it — but a position past 25% of the book requires an
+explicit `risk_ack` (the sleeve refuses unconscious concentration), and
+a 40% drawdown from peak HALTS new entries without force-selling (his
+convex bets play out; only the kill switch liquidates). **Seasonal PEAD
+mode (2026-07-05, Achilles fold):** during the four earnings windows
+(`achilles.season`) Proteus may run the diversified beat-basket as one
+discretionary play on his own sleeve (`achilles.scanner`/`scoring`/
+`earnings`, with the reaction-direction gate + magnitude guard + sold-beat
+ban) — journaled and graded like any decision, with the honest caveat that
+the long drift is unproven until `achilles_pead_gauntlet` says otherwise;
+never an autopilot. Checkpoint at 30 closed trades or 2027-01-15:
+validation keeps the sleeve, refutation retires him and returns the
+capital to the treasury. Owns only `cache/proteus_*`.
+
+**Plutus** (LIVE from 2026-07-06 — conscious operator override, DELUXE
+stack) — The net-issuance capital-return god. His spine is the frozen
+`gauntlet_v2_fundamentals` net-issuance-low N50 LARGE factor (large-caps
+shrinking their share count fastest; SF1 trailing-4Q weighted-shares change,
+top-500 universe) — the house's FIRST and only SUPPORTED backtest (in-sample
+DSR + two-regime holdout + 2× cost + parameter-cliff). On that spine the
+operator bolted the **deluxe stack** ("the deluxe package, even if risky",
+2026-07-04): (1) a second factor, gross-profitability, blended by rank; (2) an
+LLM buyback-quality overlay LIVE (the Lens-B arm-L brain prunes ~50 candidates
+to ~24–40 healthy cheap buybacks + assigns conviction — **zero graded rounds**,
+the least-validated piece); (3) a conviction/cap-weight tilt (`cap_blend` 0.5)
+chasing SPY instead of tying it — a measured regime bet. **Quarterly rebalance
+only.** None of the three additions is forward-validated; the deluxe override
+is bounded by two disciplines that never bend — the **pure N50 EW control** is
+tracked every quarter (`quarterly_basket`, the frozen spec + paper forward
+test) and graded against live deluxe, and the LLM A/B keeps running on paper.
+Launched by **conscious override** (docs/plutus_launch_override.md incl. deluxe
+amendment), the Proteus precedent. Funded by Delphi's retiring ~$2,000 sleeve
+via the 2026-07-06 transition of power (liquidate → sweep; first settled-cash
+rebalance is the launch, T+1 after the sweep). 40% breaker (deluxe
+concentration makes it likelier to trip); `PLUTUS_LIVE` defaults FALSE
+(operator arms it). Checkpoint at 4–8 graded forward quarters or a breaker
+trip on TWO questions: does he beat SPY, AND did the deluxe stack beat the pure
+control (else the additions get cut). Owns only `cache/plutus_*`.
+
+**Transition of power (2026-07-06).** The Monday open is a portfolio
+*rearrange*, not a launch-day scramble: retiring god sleeves are liquidated
+to cash to create the buying power that funds the new regime. Delphi → Plutus
+is the first such transfer; the operator may free more capital for additional
+new gods as they clear the bar (TBD). No new god buys with unsettled
+proceeds — first purchases wait for T+1 settlement.
+
+**Hermes** (merger-arb LLM A/B — conscious override, `HERMES_LIVE` default
+FALSE) — The return program's first engine and the house's first strategy where
+an LLM's judgment rides real money and is MEASURED. Trades small/mid-cap **cash**
+merger targets: long the target below the announced offer, hold to resolution —
+a bounded CONTRACTUAL floor (the deal-break, ~-15%) and a convex payoff (many
+small bounded wins, rare bounded losses, occasional topping-bid tail), the shape
+a small book needs (docs/return_convexity_pivot_2026-07-04.md). The A/B (operator
+directive): **Arm A = LLM reads each deal's break risk, LIVE real money** (only
+kept deals get capital); **Arm B = mechanical all-deals, paper.** LLM-lift = A -
+B (`hermes.ab`) is the dollar answer to "does an LLM read a deal better than a
+screen?" — the gods' unique power, on real money, measured. Launched conscious
+override (docs/hermes_launch_override.md): NO in-house backtest (a clean one is
+completion-biased — breaks don't delist), going live on the academic prior
+(Mitchell-Pulvino) + the bounded floor. Risk controls: 15% per-deal cap, <=10
+concurrent deals, -15% break-stop, cash-only, standard live gates. Checkpoint at
+~20 graded deals on LLM-lift. Owns only `cache/hermes_*`.
 
 ## Shared infrastructure (2026-07-04)
 
@@ -171,6 +260,8 @@ trades.
 | At cohort review (~12 months) | `/oracle` | Grades all calls, closes cohort, selects new cohort from pool |
 | Weekly (weekend) | `/midas-scan` | Research-only universe scan feeding the `/midas-ghost` A/B (Midas live retired 2026-07-04) |
 | Daily | `/proteus` | One full discretionary session on his live sleeve (research-only when markets are closed or funding pending) |
+| Trading days | `/plutus` | Net-issuance capital-return god (LIVE 2026-07-06). Self-gates to a once-per-quarter rebalance; monitoring-only otherwise. Research-only until funded by the Delphi sweep and the cash settles |
+| Trading days | `/hermes` | Merger-arb LLM A/B engine. Tend open deals (break-stop/completion), detect new cash deals, LLM break-risk read (Arm A live / Arm B paper), grade LLM-lift. Paper until `HERMES_LIVE` armed + sleeve funded |
 | Weekly (weekend) | `/proteus-lab` | Strategy lab: invent → prereg → backtest (bias checklist enforced) → paper forward test. Never live money |
 
 ### Key Files (all in `cache/`, persisted to `claude/live`)
@@ -189,9 +280,14 @@ trades.
 | `oracle_smart_money.json` | oracle | Lens 2: 13F smart money holdings |
 | `oracle_activist_13d.json` | oracle | Lens 3: activist 13D filings |
 | `oracle_prescreener.json` | oracle | Lens 4: broad quality metrics |
-| `delphi_sleeve.json` | delphi | Delphi's sleeve |
+| `delphi_sleeve.json` | delphi | Delphi's sleeve (RETIRED 2026-07-04; wind-down sweeps to Plutus, then a guard record) |
 | `delphi_ledger.jsonl` | delphi | Delphi's order ledger |
-| `achilles_sleeve.json` | achilles | Achilles' sleeve |
+| `plutus_sleeve.json` | plutus | LIVE book: cash, contributed_cash, positions, peak_equity, pending_funding (guard file) |
+| `plutus_ledger.jsonl` | plutus | Every broker order placed (for reconcile + `filter_broker_to_gods`) |
+| `plutus_curve.json` | plutus | Equity marks vs SPY for the dashboard |
+| `plutus_decisions.jsonl` | plutus | Per-rebalance decision log (basket, turnover, breaker state) |
+| `plutus_cadence.json` | plutus | Last-traded quarter marker (gates the once-per-quarter rebalance) |
+| `achilles_sleeve.json` | achilles | RETIRED record 2026-07-05: wound to cash, returned to treasury (kept as guard file) |
 | `midas_sleeve.json` | midas | RETIRED record: final cash swept to Proteus 2026-07 (kept as guard file) |
 | `midas_scan.json` | midas | Weekend scan finalists (research-only; feeds `/midas-ghost`) |
 | `midas_ledger.jsonl` | midas | Every order placed (historical; for reconcile) |
@@ -324,8 +420,14 @@ mechanical system too aggressively:
 - Robinhood agentic account: `563854249`
 - The account holds ~15 personal positions alongside the gods. These
   pre-existing positions are filtered out by `filter_broker_to_gods()`.
-- God env vars: `ORACLE_LIVE=true`, `DELPHI_LIVE=true`, `ACHILLES_LIVE=true`,
-  `NEMESIS_LIVE=true`, `PROTEUS_LIVE=true`, and `MIDAS_LIVE=false` (live
-  retired 2026-07-04; `.claude/settings.json` sets the last three).
+- God env vars: `ORACLE_LIVE=true`, `DELPHI_LIVE=true`,
+  `ACHILLES_LIVE=false` (retired 2026-07-05 — PEAD folded into Proteus),
+  `NEMESIS_LIVE=false` (retired 2026-07-05 — spinoff channel folded into Oracle;
+  docs/nemesis_fold_into_oracle_2026-07-05.md), `PROTEUS_LIVE=true`,
+  `MIDAS_LIVE=false` (live retired 2026-07-04), `PLUTUS_LIVE=false` (defaults
+  FALSE — the operator arms it to launch Plutus at the 2026-07-06 transition),
+  and `HERMES_LIVE=true` (merger-arb LLM A/B — ARMED 2026-07-05, funded $4,000
+  from the freed Achilles+Nemesis capital; `.claude/settings.json` sets these). Delphi's `DELPHI_LIVE` stays as-is only
+  for the wind-down; her retirement close-out runs regardless of the gate.
 - If any is not `"true"`, that god runs in paper mode (no broker orders).
 - `KILL_SWITCH` file triggers immediate liquidation of all god positions.

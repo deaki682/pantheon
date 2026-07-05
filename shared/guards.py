@@ -34,6 +34,8 @@ _LIVE_ENV = {
     "midas": "MIDAS_LIVE",
     "nemesis": "NEMESIS_LIVE",
     "proteus": "PROTEUS_LIVE",
+    "plutus": "PLUTUS_LIVE",
+    "hermes": "HERMES_LIVE",
 }
 
 
@@ -117,6 +119,8 @@ LEDGER_PATHS = {
     "achilles": "cache/achilles_ledger.jsonl",
     "midas": "cache/midas_ledger.jsonl",
     "proteus": "cache/proteus_ledger.jsonl",
+    "plutus": "cache/plutus_ledger.jsonl",
+    "hermes": "cache/hermes_ledger.jsonl",
 }
 
 
@@ -170,6 +174,8 @@ SLEEVE_PATHS = {
     "nemesis": "cache/nemesis_sleeve.json",
     "midas": "cache/midas_sleeve.json",
     "proteus": "cache/proteus_sleeve.json",
+    "plutus": "cache/plutus_sleeve.json",
+    "hermes": "cache/hermes_sleeve.json",
 }
 
 

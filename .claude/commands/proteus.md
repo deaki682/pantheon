@@ -219,6 +219,13 @@ The retired paper-era files (`cache/ghost_proteus_*`) were removed from
    headline) — if triggered, exit (reason `kill_condition`); the kill
    condition is a promise, not a suggestion. Exit plans likewise.
    Journal every exit with its `exit_reason`.
+   **Then the ruin breaker:** `book.update_peak(marks)` and
+   `book.check_halt(marks)`. A 40% drawdown from peak equity sets
+   `halted` — which blocks NEW entries only; it does NOT force-sell
+   (his convex bets play out to their own kill conditions, and the kill
+   switch remains the only forced-liquidation path). This is the single
+   line between a greedy experiment and a stupid one: don't dig the hole
+   deeper once already 40% down. If halted, this session is tend-only.
    **Tend the lab's paper positions too** (if
    `cache/proteus_lab_ghost_ledger.json` has open entries): mark to
    market, grade anything at horizon, and `record_forward_grade` each
@@ -316,6 +323,16 @@ The retired paper-era files (`cache/ghost_proteus_*`) were removed from
      fills, not hopes). Exits work the same: journal `exit` record
      first, then the real sell, then `book.exit(...)` at the actual
      fill.
+   - **Size however conviction earns — even all-in.** There is NO hard
+     per-position cap: Proteus is the true experiment and may concentrate
+     to 100% if the bet deserves it. The ONE gate: a position past 25% of
+     the book (`CONCENTRATION_ACK_PCT`) requires an explicit `risk_ack`
+     passed to `book.enter(risk_ack=...)` (≥ 80 chars) that names the
+     worst-case loss and why it's survivable/justified — and fold that
+     same acknowledgment into the journal thesis. This forbids
+     UNCONSCIOUS concentration, not greed. Smart and greedy, not stupid
+     (operator directive 2026-07-05). Going big is his call; going big by
+     accident is refused by the sleeve.
    - Before committing any entry, one adversarial pass on himself:
      "What does the disciplined house know that says this is a
      mistake?" If the honest answer is a refuted-trigger thesis or a

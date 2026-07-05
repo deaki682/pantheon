@@ -1,8 +1,11 @@
 {
   "env": {
-    "NEMESIS_LIVE": "true",
+    "NEMESIS_LIVE": "false",
     "PROTEUS_LIVE": "true",
+    "ACHILLES_LIVE": "false",
     "MIDAS_LIVE": "false",
+    "PLUTUS_LIVE": "false",
+    "HERMES_LIVE": "true",
     "NASDAQ_DATA_LINK_API_KEY": "SAsjptwN2xAVivQgs_Y9"
   },
   "permissions": {

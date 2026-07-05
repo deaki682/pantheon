@@ -167,6 +167,28 @@ class TestReactionGate:
         assert {c.symbol for c in ranked} == {"SOLD", "UNK"}
 
 
+class TestReactionMagnitudeGuard:
+    """The 'already fired' guard: a beat that already popped too far has spent
+    its drift (the Oracle-BOLD lesson applied to PEAD)."""
+
+    def test_drops_already_fired_beat(self):
+        moderate = _make_candidate(symbol="MOD", surprise_pct=20.0, reaction_pct=0.08)
+        fired = _make_candidate(symbol="FIRED", surprise_pct=20.0, reaction_pct=0.35)  # +35% pop
+        ranked = rank_beats([moderate, fired])
+        syms = [c.symbol for c in ranked]
+        assert "FIRED" not in syms      # already fired -> dropped
+        assert "MOD" in syms
+
+    def test_fired_guard_applies_even_without_require_reaction(self):
+        fired = _make_candidate(symbol="FIRED", surprise_pct=20.0, reaction_pct=0.40)
+        assert rank_beats([fired], require_reaction=False) == []
+
+    def test_cap_is_configurable(self):
+        c = _make_candidate(symbol="C", surprise_pct=20.0, reaction_pct=0.15)
+        assert rank_beats([c], max_reaction_pct=0.10) == []     # tighter cap drops it
+        assert [x.symbol for x in rank_beats([c], max_reaction_pct=0.25)] == ["C"]
+
+
 # --- pick_best ---
 
 

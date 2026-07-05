@@ -10,11 +10,13 @@ think, trade, or override any god's logic.
 |-------|-----------|-------|
 | `/trinity` | Market hours (9:30–16:00 ET, weekdays) | Dashboard refresh with live quotes |
 | `/midas-scan` | Weekend AND `should_run("cache/midas_cadence.json", "scan", 5)` | Heavy universe scan → top 10 → `cache/midas_scan.json`. Cadence guard = once per weekend, not every hour. **Research-only since 2026-07-04** — output feeds `/midas-ghost` (the A/B race), never a live entry |
-| `/nemesis` | Weekend AND `should_run("cache/nemesis_cadence.json", "scan", 5)`, OR weekday if live position open | Weekend: full pass (pipeline scan + Form 10 reading + ghost entries + gated live sleeve; cadence guard = once per weekend). Weekday with live positions: exits-only pass — the runbook short-circuits, same pattern as `/midas` stop checks |
 | `/midas` | **WIND-DOWN ONLY** (live retired 2026-07-04, operator directive): weekday, and ONLY while `cache/midas_sleeve.json` still has a `position` or `cache/midas_cadence.json` has a `pending_exit_order_id` | Reconcile the queued DAKT sell (order `6a473615`) when it fills, then sweep ALL cash to Proteus's sleeve (see midas.md wind-down). NO new entries, ever. Once the sweep is done, never dispatch `/midas` again |
 | `/oracle` | `should_run("cache/oracle_cadence.json", "research", 3)` | Every 3 days |
-| `/delphi` | Market hours AND `is_trading_day(today)` AND NOT `ran_today("cache/delphi_cadence.json", "trade")` | ONE trade pass per trading day (guard added 2026-07-04 after hourly churn); holidays excluded. Skip entirely if already traded today — Delphi's signals are daily-bar, hourly re-runs only trade noise |
-| `/achilles` | `is_earnings_season(today)` | Only during 4 earnings windows/year |
+| `/delphi` | **WIND-DOWN ONLY** (live retired 2026-07-04, operator directive): weekday, and ONLY while `cache/delphi_sleeve.json` still has open `positions` OR unswept settled cash | Liquidate her positions to cash, sweep to Plutus's sleeve (see delphi.md wind-down). NO new entries, ever. Once flat and fully swept, never dispatch `/delphi` again |
+| `/plutus` | Market hours AND `is_trading_day(today)` | **LIVE since 2026-07-06** (conscious override, docs/plutus_launch_override.md): net-issuance capital-return god, funded by Delphi's retired sleeve. The runbook self-gates — it only REBALANCES at a fresh quarter-end (once/quarter), every other pass is monitoring-only. Research-only until `plutus_sleeve.json` shows `pending_funding: null` and the swept cash has settled |
+| `/hermes` | Market hours AND `is_trading_day(today)` | **LIVE since 2026-07-05** (armed, funded $4k; docs/hermes_launch_override.md): merger-arb LLM A/B. Tend open deals (break-stop / completion / past-close), detect new small-cap cash deals, LLM break-risk read (Arm A live / Arm B paper), grade LLM-lift. Owns only `cache/hermes_*`, parallelizes safely. Research-only until settled cash backs the sleeve |
+| `/achilles` | **FOLDED into Proteus 2026-07-05** — NO standalone dispatch | PEAD now runs as a seasonal MODE inside `/proteus` during earnings windows; the `achilles/` package is a library. Do not dispatch `/achilles` (wind-down/library-only) |
+| `/nemesis` | **FOLDED into Oracle 2026-07-05** — NO standalone dispatch | Spinoff forced-selling is now an `/oracle` sourcing channel (via the `nemesis.*` library). Sleeve retired, OCTV cancelled. Do not dispatch `/nemesis` (wind-down/library-only) |
 | `/oracle-screen` | `should_run("cache/oracle_cadence.json", "screen", 90)` | Quarterly heavy scan (~60 min) |
 | `/oracle-ghost` | After `/oracle` runs | Paper shadow |
 | `/delphi-ghost` | After `/delphi` runs | Paper shadow |
@@ -59,6 +61,15 @@ think, trade, or override any god's logic.
    midas_wind_down = bool(midas_sleeve.get("position")) or bool(
        midas_cadence.get("pending_exit_order_id"))
 
+   # Delphi wind-down (live retired 2026-07-04): dispatch /delphi ONLY to
+   # liquidate her remaining positions and sweep the cash to Plutus.
+   delphi_sleeve = {}
+   if os.path.exists("cache/delphi_sleeve.json"):
+       with open("cache/delphi_sleeve.json") as f:
+           delphi_sleeve = json.load(f)
+   delphi_wind_down = bool(delphi_sleeve.get("positions")) or (
+       not delphi_sleeve.get("retired"))
+
    # Check if Nemesis holds live positions (for weekday exit checks)
    nemesis_sleeve = {}
    if os.path.exists("cache/nemesis_sleeve.json"):
@@ -73,12 +84,13 @@ think, trade, or override any god's logic.
    - `/trinity` — dashboard refresh
 
    **Conditional:**
-   - `/delphi` — if market hours AND `oracle.calendar.is_trading_day(today)` (weekday + not an NYSE holiday) AND NOT `oracle.calendar.ran_today("cache/delphi_cadence.json", "trade")`. One trade pass per trading day — if she already traded today, don't dispatch her at all (2026-07-04 churn fix)
+   - `/delphi` — ONLY if `delphi_wind_down` on a weekday (liquidate remaining positions + sweep to Plutus). Live retired 2026-07-04; no new entries. Once her sleeve is flat and marked `retired` with cash fully swept, never dispatch `/delphi` again
+   - `/plutus` — if market hours AND `oracle.calendar.is_trading_day(today)`. LIVE since 2026-07-06 (conscious override): net-issuance god funded by Delphi's retired sleeve. The runbook self-gates to a once-per-quarter rebalance; every other pass is monitoring-only. Owns only `cache/plutus_*`, so parallelizes safely. EXCEPTION: on a day the Delphi wind-down sweep runs, dispatch `/delphi` BEFORE `/plutus` — the sweep writes Plutus's funding
+   - `/hermes` — if market hours AND `oracle.calendar.is_trading_day(today)`. LIVE since 2026-07-05 (armed, $4k): merger-arb LLM A/B. Tend open deals, detect new cash deals, LLM break-risk read (Arm A live / Arm B paper), grade LLM-lift. Owns only `cache/hermes_*`, parallelizes safely. Research-only until settled cash backs the sleeve
    - `/midas-scan` — if weekend AND `midas_scan_due` (the cadence guard fires it once per weekend, not every hour). Research-only: feeds the ghost A/B
-   - `/nemesis` — if weekend AND `should_run("cache/nemesis_cadence.json", "scan", 5)` (same once-per-weekend cadence-guard pattern as `/midas-scan`), OR weekday when `nemesis_has_position` (live position management: exits-only pass — the runbook handles the short-circuit, mirroring the `/midas` weekday stop checks)
    - `/midas` — ONLY if `midas_wind_down` on a weekday (reconcile the final exit + sweep to Proteus). Live retired 2026-07-04; there are no new entries and no Monday dispatch once the sweep completes
-   - `/oracle` — if `oracle_due`
-   - `/achilles` — if `earnings_season` and market hours
+   - `/oracle` — if `oracle_due` (its idea-sourcing now includes the folded spinoff channel via the `nemesis.*` library)
+   - `/achilles`, `/nemesis` — FOLDED 2026-07-05, NEVER dispatched as standalone gods. PEAD runs inside `/proteus` seasonally; spinoffs are an `/oracle` channel. Their packages are libraries only.
    - `/oracle-screen` — if `screen_due` (runs before `/oracle` since oracle uses screen output)
    - `/proteus` — if `should_run("cache/proteus_cadence.json", "session", 1)` (one full session per day, every day — the daily-green mandate). LIVE since 2026-07-04: he trades his own real sleeve (and only his own). Research-only until his sleeve's `pending_funding` clears.
    - `/proteus-lab` — if weekend AND `should_run("cache/proteus_cadence.json", "lab", 7)` (once per weekend; paper-only strategy research; run it after `/proteus` since both write `proteus_cadence.json`)
@@ -98,11 +110,11 @@ think, trade, or override any god's logic.
 
    **Parallel group 1** (independent gods, run together):
    - `/oracle-screen` (if due — run first since `/oracle` uses its output)
-   - `/delphi`
-   - `/achilles`
+   - `/delphi` (weekday wind-down only, while `delphi_wind_down` — run BEFORE `/plutus` on a sweep day; the sweep writes Plutus's funding)
+   - `/plutus` (live; owns only `cache/plutus_*`, parallelizes safely — but AFTER `/delphi` on a sweep day)
+   - `/hermes` (live; owns only `cache/hermes_*`, parallelizes safely — tend deals + detect + LLM read + grade LLM-lift)
    - `/midas-scan` (weekend) or `/midas` (weekday wind-down only, while `midas_wind_down`)
-   - `/nemesis` (weekend if due — full pass; or weekday with `nemesis_has_position` — exits-only. Shares no state with the other gods)
-   - `/proteus` (if due — live; owns only `cache/proteus_*`, so he parallelizes safely with everyone. EXCEPTION: on the day the Midas wind-down sweep runs, run `/midas` BEFORE `/proteus` — the sweep writes Proteus's funding)
+   - `/proteus` (if due — live; owns only `cache/proteus_*`, so he parallelizes safely with everyone. Runs the seasonal PEAD mode during earnings windows. EXCEPTION: on the day the Midas wind-down sweep runs, run `/midas` BEFORE `/proteus` — the sweep writes Proteus's funding)
 
    **Parallel group 2** (depends on group 1):
    - `/oracle` (needs screen output if screen just ran)
@@ -135,5 +147,5 @@ due — the cron just wakes it up.
 - Zeus does NOT override any god's logic or skip conditions.
 - Zeus does NOT persist any state. Each dispatched skill handles its own persistence.
 - If a skill fails, log the error and continue with the next skill. One god's failure does not block the others.
-- Weekend dispatches: only `/midas-scan` (heavy universe scan, research-only), `/nemesis` (spinoff pipeline, gated live sleeve), `/proteus` (discretionary god — daily cadence includes weekends as research days; markets closed means no orders), `/proteus-lab` (weekly strategy lab, paper only), and `/lab` (house research lab, paper only, after `/proteus-lab`) run. No `/trinity`, `/delphi`, `/achilles`, or `/midas` on weekends.
+- Weekend dispatches: only `/midas-scan` (heavy universe scan, research-only), `/proteus` (discretionary god — daily cadence includes weekends as research days; markets closed means no orders), `/proteus-lab` (weekly strategy lab, paper only), and `/lab` (house research lab, paper only, after `/proteus-lab`) run. No `/trinity`, `/plutus`, `/hermes`, or `/midas` on weekends (markets closed — nothing to trade). `/achilles` and `/nemesis` are folded and never dispatched.
 - Midas is retired from live trading (2026-07-04, operator directive — capital reallocated to Proteus). `/midas` exists only to finish the DAKT wind-down; `/midas-scan` and `/midas-ghost` continue as the convergence A/B research program.

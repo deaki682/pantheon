@@ -1,4 +1,20 @@
-# /achilles — PEAD earnings-season basket
+# /achilles — RETIRED as a standalone god 2026-07-05 (operator directive)
+
+**RETIRED — read docs/achilles_fold_into_proteus_2026-07-05.md first.** Achilles
+is no longer a standalone god: he was capital-inefficient (a sleeve idle ~70% of
+the year) and the long-side drift he traded measured absent (the 2026-07-03
+reaction-gate replay). **PEAD is folded into Proteus as a seasonal mode** — during
+the earnings windows Proteus runs the beat-basket on his own sleeve using the
+`achilles.*` library. This command is **wind-down / library-reference only**:
+`ACHILLES_LIVE=false`, no live orders. The sleeve is wound to cash and returned to
+the treasury. `/achilles-ghost` may keep shadowing for the record (paper only).
+The mechanics below are retained for the library Proteus imports — **no session
+may cite any Achilles backtest as evidence FOR the strategy** (the Delphi rule);
+only a SUPPORTED, forward-confirmed `achilles_pead_gauntlet` cell counts.
+
+---
+
+## Legacy mechanics (retained for the `achilles.*` library Proteus imports)
 
 Event-driven, short-horizon. Achilles harvests **Post-Earnings Announcement
 Drift**: after a company beats and the market *rewards* it, the stock tends to
@@ -58,7 +74,12 @@ Sits in cash off-season.
 7. **Rank into the basket.** `achilles.scanner.rank_beats(candidates, top_n=sleeve.open_slots())`
    — scores by surprise magnitude + confirming signals, drops unconfirmed
    reactions (`require_reaction=True`), returns the top rewarded beats to fill
-   the open slots.
+   the open slots. **The 'already fired' guard (`max_reaction_pct`, default
+   0.20):** a beat whose initial post-report reaction already ran past the cap
+   is dropped — the drift is spent (PEAD is a moderate-surprise phenomenon;
+   extreme initial reactions revert, they don't drift). Enter moderate
+   reactions, never a name that already popped hard. The exact cap is a
+   hypothesis the Achilles gauntlet will refine.
 
 ### Execute
 

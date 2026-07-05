@@ -78,6 +78,22 @@ Two gods were cut the same day the house reviewed all its creations:
   `catalyst/` package remains as a library (the options-implied-move
   math is citable by any god that wants a priced-in baseline).
 
+## The Alpha Bounty (2026-07-04) — 9-front sweep additions
+
+Full menu + gate scores in **[docs/alpha_bounty_2026-07-04.md](alpha_bounty_2026-07-04.md)**.
+Prioritized new items (the long-factor space is spanned; live edge is structure + text):
+
+| Priority | Item | Score | Path |
+|---|---|---|---|
+| **1** | `gauntlet_v6` — tail-preserving combinations + growth (quality-at-a-price, cap-return-at-a-price, net-iss∩gross-prof, ΔGPOA, ΔATO; min-rank) | 4/5 | RUNNABLE-NOW, one prereg |
+| **2** | Spinoff-PARENT drift (add parent leg to Nemesis catalog) | 4/5 | near-free event study |
+| **3** | Small-cap cash merger-arb (contractual G4, forced-seller G2) | 4/5 | EDGAR feed build; gauntlet-able |
+| **4** | Post-bankruptcy-emergence equity (untested LONG leg of killed distress) | 5/5 prior | hard EDGAR population build; god-able |
+| **5** | Lens-B avoidance slate: Beneish M-score + distress-disclosure bundle + Lazy-Prices — exclusion overlays on Plutus | 4/5 each | EDGAR/SF1 builds |
+| 6 | Activist 13D (small-mid + escalation); buyback-authorization timing residual | 3/5 | feed builds |
+
+Kills logged (do not slug): sin-premium (owned-factor relabel), earnings-persistence (published null), NOA/ΔNWC/capex (accruals+asset-growth relabels), seasonality (G1-fail), ROIC-WACC (imports dead factors), ESG forced-flows (dead by Greenwood-Sammon).
+
 ## Standing sources of new items
 
 - Any god's post-mortem ("why did this trade lose?") that generalizes.

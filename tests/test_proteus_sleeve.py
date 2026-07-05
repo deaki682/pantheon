@@ -2,7 +2,10 @@
 import pytest
 
 from proteus.journal import JournalError
-from proteus.sleeve import LiveBook
+from proteus.sleeve import LiveBook, CONCENTRATION_ACK_PCT, HALT_DRAWDOWN
+
+_ACK = ("Worst case the thesis is wrong and this convex name draws down ~35% to its "
+        "asset floor; that is survivable at this size and the conviction earns the bet.")
 
 
 def _funded(amount=1968.05):
@@ -53,20 +56,82 @@ def test_no_leverage_and_one_position_per_symbol():
         book.enter(symbol="BIG", shares=100, price=10.0, date="2026-07-06",
                    spy_price=745.0, horizon_days=5, confidence=0.5,
                    edge_class="value")
+    # 5 * $10 = $50 = 50% of a $100 book: past the concentration line, so it
+    # needs an ack (see the dedicated concentration tests below).
     book.enter(symbol="OK", shares=5, price=10.0, date="2026-07-06",
                spy_price=745.0, horizon_days=5, confidence=0.5,
-               edge_class="value")
+               edge_class="value", risk_ack=_ACK)
     with pytest.raises(JournalError):
         book.enter(symbol="OK", shares=1, price=10.0, date="2026-07-06",
                    spy_price=745.0, horizon_days=5, confidence=0.5,
-                   edge_class="value")
+                   edge_class="value", risk_ack=_ACK)
+
+
+def test_small_position_needs_no_ack():
+    # A position at/under the concentration line enters freely, no ack.
+    book = _funded(1000.0)
+    dollars = CONCENTRATION_ACK_PCT * 1000.0 - 1.0   # just under the line
+    book.enter(symbol="SM", shares=dollars / 10.0, price=10.0, date="2026-07-06",
+               spy_price=745.0, horizon_days=5, confidence=0.5, edge_class="value")
+    assert "SM" in book.positions
+
+
+def test_concentration_past_line_requires_ack():
+    book = _funded(1000.0)
+    # 40% of the book, no ack -> refused.
+    with pytest.raises(JournalError):
+        book.enter(symbol="BIG", shares=40, price=10.0, date="2026-07-06",
+                   spy_price=745.0, horizon_days=5, confidence=0.7, edge_class="value")
+    # a too-thin ack is still refused
+    with pytest.raises(JournalError):
+        book.enter(symbol="BIG", shares=40, price=10.0, date="2026-07-06",
+                   spy_price=745.0, horizon_days=5, confidence=0.7,
+                   edge_class="value", risk_ack="yolo")
+
+
+def test_all_in_allowed_with_conscious_ack():
+    # The experiment CAN go all-in — greed is fine, unconscious greed is not.
+    book = _funded(1000.0)
+    book.enter(symbol="CONV", shares=100, price=10.0, date="2026-07-06",
+               spy_price=745.0, horizon_days=30, confidence=0.85,
+               edge_class="special_situation", risk_ack=_ACK)
+    assert book.cash == pytest.approx(0.0)
+    assert book.positions["CONV"].dollars == pytest.approx(1000.0)
+
+
+def test_drawdown_breaker_halts_new_entries_without_liquidating():
+    book = _funded(1000.0)
+    book.enter(symbol="HELD", shares=100, price=10.0, date="2026-07-06",
+               spy_price=745.0, horizon_days=60, confidence=0.8,
+               edge_class="value", risk_ack=_ACK)
+    # mark it down 45% -> past the 40% breaker
+    marks = {"HELD": 5.5, "SPY": 745.0}
+    assert book.absolute_drawdown(marks) >= HALT_DRAWDOWN
+    assert book.check_halt(marks) is True
+    assert book.halted
+    # the existing position is NOT force-sold — it plays out to its kill
+    assert "HELD" in book.positions
+    # but no new entry is allowed while halted
+    book.cash = 500.0  # pretend some cash freed up
+    with pytest.raises(JournalError):
+        book.enter(symbol="NEW", shares=1, price=10.0, date="2026-07-07",
+                   spy_price=745.0, horizon_days=5, confidence=0.5, edge_class="value")
+
+
+def test_peak_equity_survives_roundtrip(tmp_path):
+    path = str(tmp_path / "proteus_sleeve.json")
+    book = _funded(1000.0)
+    book.update_peak({})
+    book.save(path)
+    loaded = LiveBook.load(path)
+    assert loaded.peak_equity == pytest.approx(1000.0)
 
 
 def test_exit_records_real_fill_no_modeled_fees():
     book = _funded(1000.0)
     book.enter(symbol="ABC", shares=10, price=50.0, date="2026-07-06",
                spy_price=700.0, horizon_days=10, confidence=0.6,
-               edge_class="momentum")
+               edge_class="momentum", risk_ack=_ACK)  # $500 = 50% -> ack
     trade = book.exit(symbol="ABC", price=55.0, date="2026-07-10",
                       spy_price=707.0, exit_reason="exit_plan")
     assert trade.net_return == pytest.approx(0.10)
