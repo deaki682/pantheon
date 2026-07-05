@@ -11,7 +11,10 @@ import requests
 
 OUT = "data/achilles_gauntlet"
 os.makedirs(OUT, exist_ok=True)
-COLS = "ticker,datekey,calendardate,eps,revenue,shareswa"
+# A house-shared fundamentals panel, not an Achilles silo: eps (Achilles SUE),
+# shareswa (Plutus net-issuance), gp+assets (gross-profitability), ncfo (cash-op
+# candidate), netinc+revenue (general). One pull, many gods.
+COLS = "ticker,datekey,calendardate,eps,revenue,shareswa,gp,assets,netinc,ncfo"
 rows, part, total = [], 0, 0
 params = {"dimension": "ARQ", "calendardate.gte": "1998-12-31",
           "qopts.columns": COLS, "qopts.per_page": 10000,
