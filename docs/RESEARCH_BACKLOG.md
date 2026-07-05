@@ -248,3 +248,17 @@ flow** — not the event side (mined dry) and not the text-avoidance side (decay
 queued as #14). Growth still comes from proving the edges we hold; these two are the first
 genuinely-new structural hypotheses since the evening sweep, and they enter the ratchet
 behind the already-queued forced-seller batch (#4 post-BK, #13 odd-lot).
+
+> **#18 `thematic_etf_firesale_reversal` — PREREGISTERED then DATA-BLOCKED 2026-07-05.**
+> Feasibility probe on commit: the daily-flow backtest as frozen is NOT buildable with house
+> data. Sharadar SEP is equities-only (no ETFs — SPY/ARKK/XLK all empty), and there is no
+> daily ETF shares-outstanding / holdings source for CLOSED funds in the repo or free feeds.
+> Only EDGAR N-PORT exists, and it is inadequate for the frozen design: quarterly (not daily),
+> clean only post-2019 (collapses the ≤2019 in-sample), month-end net-assets only (a
+> Δ-net-assets flow proxy confounds flow with return — the Wardlaw-2020 contamination, and ARKK
+> is the cautionary case: AUM fell on PERFORMANCE while net flows were positive). Per the prereg's
+> own pre-commitment, the slug **STAYS `preregistered`, not refuted** — the ratchet caught the wall
+> before a contaminated build burned the slug (the `post_bk_emergence` precedent). Clean unblock =
+> a paid ETF-holdings-history source (operator decision). An exploratory LOOK-DON'T-TOUCH peek on
+> LIQUIDATED thematic ETFs (100%-basket dump = forced event, no flow proxy needed) is being run to
+> smell-test whether the seam justifies buying data — its output may NOT be cited for any rule change.
