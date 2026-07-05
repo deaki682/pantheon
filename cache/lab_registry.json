@@ -6,13 +6,40 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 173,
+ "hypotheses_ever": 191,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
   "note": "house-lab generalization (operator directive): single registry + single multiple-testing counter; pre-migration file frozen as history"
  },
  "strategies": {
+  "achilles_pead_gauntlet": {
+   "created": "2026-07-05",
+   "falsifiable_claim": "At least one non-isolated (hold, reaction-cap, universe) cell beats its own bucket's equal-weight in BOTH the 2000-2015 in-sample and the 2016-2025 holdout windows, and still shows positive excess at 2x cost in the holdout. If no cell survives, the long-only PEAD spine is refuted.",
+   "history": [
+    {
+     "date": "2026-07-05",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "Post-Earnings Announcement Drift: prices underreact to earnings surprises and drift in the surprise direction over the following days/weeks, strongest in neglected small/micro-cap names with thin analyst coverage. Achilles trades the long half \u2014 buy a beat the market rewarded (positive SUE + positive post-report reaction), hold ~5 days, -8% stop, equal-weight basket. This study tests whether that long-only spine survives a survivorship-free, two-regime, cost-stressed gauntlet in the universe/parameters he actually uses, after the 2026-07-03 replay found the long-side 5-day drift absent and only the short side (sold beats keep falling) real.",
+   "prereg": {
+    "date": "2026-07-05",
+    "doc": "docs/lab_prereg_achilles_pead_gauntlet.md",
+    "metric": "Excess CAGR vs the entry's own marketcap-bucket equal-weight over identical holding windows, net of a per-bucket cost model, gated again at 2x cost; DSR with cross-sectional variance_of_sr, n_trials=18.",
+    "population_definition": "Every SF1 ARQ quarterly filing 1998-2025 in the PIT marketcap-rank universe (SMALL 501-2000, MICRO 2001-3500) with a computable seasonal-random-walk SUE (datekey-PIT) and a verifiable SEP reaction bar around datekey; delisted/acquired names included via resolve_ticker to the final ticker. Known hole: deep-OTC/pink names outside Sharadar SEP exchange history (disclosed).",
+    "success_criteria": "A cell is SUPPORTED only if it beats bucket-EW in-sample AND in the holdout after 1x cost, stays positive-excess at 2x cost in the holdout, and is NOT an isolated peak (an adjacent grid cell also clears). No surviving cell -> REFUTED -> narrow/reframe/retire per the pre-committed decision rule."
+   },
+   "slug": "achilles_pead_gauntlet",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "underutilized_because": "The edge lives in thin, neglected micro/small-caps too small and illiquid for funds to bother, where the drift can sit inside the spread \u2014 so it's real on paper but hard to harvest at size, exactly what the 2x-cost gate exists to test.",
+   "who_loses": "The underreacting marginal holder: investors who don't fully update on a surprise until later, and index/passive flows that ignore small-cap earnings \u2014 the drift is their delayed repricing."
+  },
   "buyback_quality_overlay": {
    "created": "2026-07-04",
    "falsifiable_claim": "PRIMARY: Arm L shrunk mean excess > Arm R over >=8 graded quarters (reading adds over raw). SECONDARY: M or L shrunk mean excess vs SPY > 0 (quality beats the market where raw only tied). Diagnostic A/B, no capital gate; a winner earns its own n>=20 forward test.",
