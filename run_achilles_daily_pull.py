@@ -14,6 +14,21 @@ import requests
 OUT = "data/achilles_gauntlet"
 os.makedirs(OUT, exist_ok=True)
 COLS = "ticker,date,marketcap"
+
+
+def _get(url, params, tries=6):
+    """Resilient GET — a transient reset/timeout must not abort a 28-year pull."""
+    for a in range(tries):
+        try:
+            r = requests.get(url, params=params, timeout=120)
+            r.raise_for_status()
+            return r.json()
+        except Exception as e:
+            if a == tries - 1:
+                raise
+            wait = min(30, 2 ** a)
+            print(f"  retry {a+1}/{tries} after {type(e).__name__}: sleeping {wait}s", flush=True)
+            time.sleep(wait)
 grand = 0
 for year in range(1999, 2027):
     part_path = f"{OUT}/daily_mcap_{year}.json.gz"
@@ -27,9 +42,7 @@ for year in range(1999, 2027):
         p = dict(params)
         if cursor:
             p["qopts.cursor_id"] = cursor
-        r = requests.get(f"{sh.BASE_URL}/DAILY.json", params=p, timeout=120)
-        r.raise_for_status()
-        payload = r.json()
+        payload = _get(f"{sh.BASE_URL}/DAILY.json", p)
         dt = payload["datatable"]
         cols = [c["name"] for c in dt["columns"]]
         rows.extend(dict(zip(cols, row)) for row in dt["data"])
