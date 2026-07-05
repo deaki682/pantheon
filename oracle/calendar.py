@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 RESEARCH_INTERVAL_DAYS = 3
@@ -86,6 +86,8 @@ def mark_run(path: str, key: str, *, now: datetime | None = None) -> None:
 
 def days_since(path: str, key: str, *, now: datetime | None = None) -> float | None:
     now = now or datetime.utcnow()
+    if now.tzinfo is not None:
+        now = now.replace(tzinfo=None)
     d = _read(path)
     raw = d.get(key)
     if not raw:
@@ -94,6 +96,8 @@ def days_since(path: str, key: str, *, now: datetime | None = None) -> float | N
         ts = datetime.fromisoformat(raw)
     except ValueError:
         return None
+    if ts.tzinfo is not None:
+        ts = ts.astimezone(timezone.utc).replace(tzinfo=None)
     return (now - ts).total_seconds() / 86_400.0
 
 
