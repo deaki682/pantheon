@@ -28,6 +28,7 @@ PER_DEAL_CAP = 0.15        # no single deal above 15% of equity
 MAX_CONCURRENT = 10        # diversify across deals; one break must be survivable
 BREAK_STOP_PCT = 0.15      # exit if the target falls 15% below entry (deal-break signature)
 CASH_RESERVE = 0.02        # keep 2% cash
+HALT_DRAWDOWN = 0.40       # 40% drawdown from peak halts new entries (pantheon standard)
 
 
 class HermesError(Exception):
@@ -74,6 +75,7 @@ class HermesBook:
     closed: list = field(default_factory=list)      # list[ClosedDeal]
     realized_pnl: float = 0.0
     halted: bool = False
+    peak_equity: float = 0.0
     pending_funding: Optional[dict] = None
     name: str = "hermes"
 
@@ -86,6 +88,7 @@ class HermesBook:
         b = cls(cash=raw.get("cash", 0.0), contributed_cash=raw.get("contributed_cash", 0.0),
                 realized_pnl=raw.get("realized_pnl", 0.0), halted=raw.get("halted", False),
                 pending_funding=raw.get("pending_funding"))
+        b.peak_equity = float(raw.get("peak_equity") or raw.get("cash", 0.0))
         b.positions = {s: DealPosition(**p) for s, p in raw.get("positions", {}).items()}
         b.closed = [ClosedDeal(**t) for t in raw.get("closed", [])]
         return b
@@ -96,7 +99,8 @@ class HermesBook:
             "name": self.name, "cash": self.cash, "contributed_cash": self.contributed_cash,
             "positions": {s: asdict(p) for s, p in self.positions.items()},
             "closed": [asdict(t) for t in self.closed], "realized_pnl": self.realized_pnl,
-            "halted": self.halted, "pending_funding": self.pending_funding,
+            "halted": self.halted, "peak_equity": self.peak_equity,
+            "pending_funding": self.pending_funding,
             "trades_count": len(self.closed),
         }, open(path, "w"), indent=1)
 
@@ -109,6 +113,8 @@ class HermesBook:
         pf = self.pending_funding or {}
         if pf.get("from") == source:
             self.pending_funding = None
+        if self.cash > self.peak_equity:
+            self.peak_equity = self.cash
 
     def is_funded(self) -> bool:
         return self.pending_funding is None and self.contributed_cash > 0
@@ -118,6 +124,26 @@ class HermesBook:
         for s, p in self.positions.items():
             eq += p.shares * float(marks.get(s, p.entry_price))
         return eq
+
+    # -- ruin breaker (parity with the rest of the roster; halts new entries) --
+    def update_peak(self, marks: Optional[dict] = None) -> None:
+        eq = self.equity(marks or {})
+        if eq > self.peak_equity:
+            self.peak_equity = eq
+
+    def absolute_drawdown(self, marks: Optional[dict] = None) -> float:
+        if self.peak_equity <= 0:
+            return 0.0
+        return max(0.0, 1.0 - self.equity(marks or {}) / self.peak_equity)
+
+    def check_halt(self, marks: Optional[dict] = None) -> bool:
+        """Trip the breaker (halt new entries) if drawdown from peak >=
+        HALT_DRAWDOWN. Existing deals are not liquidated — each already carries
+        its own contractual break-stop."""
+        if self.absolute_drawdown(marks) >= HALT_DRAWDOWN - 1e-9:
+            self.halted = True
+            return True
+        return False
 
     # -- sizing: the ruin guard --
     def max_deal_dollars(self, equity: float) -> float:

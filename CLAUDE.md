@@ -78,9 +78,15 @@ day" framing was demoted same-week because a daily-green target
 incentivizes selling winners early and nursing losers, contaminating
 the experiment. Every decision is
 journaled with a falsifiable prediction and graded without mercy
-(docs/proteus_prereg.md). Checkpoint at 30 closed trades or
-2027-01-15: validation keeps the sleeve, refutation retires him and
-returns the capital to the treasury. Owns only `cache/proteus_*`.
+(docs/proteus_prereg.md). **Risk rails (2026-07-05, "smart and greedy,
+not stupid"):** NO hard per-position cap — he may go all-in when
+conviction earns it — but a position past 25% of the book requires an
+explicit `risk_ack` (the sleeve refuses unconscious concentration), and
+a 40% drawdown from peak HALTS new entries without force-selling (his
+convex bets play out; only the kill switch liquidates). Checkpoint at 30
+closed trades or 2027-01-15: validation keeps the sleeve, refutation
+retires him and returns the capital to the treasury. Owns only
+`cache/proteus_*`.
 
 **Plutus** (LIVE from 2026-07-06 — conscious operator override, DELUXE
 stack) — The net-issuance capital-return god. His spine is the frozen

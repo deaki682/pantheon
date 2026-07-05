@@ -29,6 +29,23 @@ BELIEFS_PATH = "cache/proteus_beliefs.md"
 LEDGER_PATH = "cache/proteus_ledger.jsonl"
 CADENCE_PATH = "cache/proteus_cadence.json"
 
+# Proteus is the TRUE experiment (operator directive 2026-07-05: "make him
+# smart and greedy, not stupid"). There is deliberately NO hard per-position
+# cap — he may concentrate as far as all-in if the conviction earns it. The
+# two rails below don't limit his greed; they forbid the two ways a
+# discretionary book blows up by ACCIDENT rather than by choice:
+#   1. CONCENTRATION_ACK_PCT — a position past this fraction of the book is
+#      allowed, but ONLY with an explicit, substantive risk acknowledgment.
+#      Going big is his call; going big without naming the downside is not.
+#   2. HALT_DRAWDOWN — a 40% drawdown from peak equity HALTS NEW ENTRIES
+#      (it does NOT force-sell — his convex bets play out to their own kill
+#      conditions; the kill switch remains the only forced-liquidation path).
+#      The line between a greedy experiment and a stupid one is "don't dig the
+#      hole deeper once you're already 40% down."
+CONCENTRATION_ACK_PCT = 0.25   # past 25% of the book, a conscious ack is required
+RISK_ACK_MIN_CHARS = 80        # the ack must name the worst case + why it's survivable
+HALT_DRAWDOWN = 0.40           # 40% drawdown from peak halts NEW entries (no liquidation)
+
 
 @dataclass
 class LiveBook:
@@ -38,6 +55,7 @@ class LiveBook:
     closed: list = field(default_factory=list)       # list[ClosedTrade]
     realized_pnl: float = 0.0
     halted: bool = False
+    peak_equity: float = 0.0
     pending_funding: Optional[dict] = None
     name: str = "proteus"
 
@@ -54,6 +72,9 @@ class LiveBook:
             halted=raw.get("halted", False),
             pending_funding=raw.get("pending_funding"),
         )
+        # `or cash` heals a legacy null/absent peak; self-corrects upward on the
+        # next update_peak and can't false-trip (equity >= cash == peak).
+        book.peak_equity = float(raw.get("peak_equity") or raw.get("cash", 0.0))
         book.positions = {s: Position(**p) for s, p in raw.get("positions", {}).items()}
         book.closed = [ClosedTrade(**t) for t in raw.get("closed", [])]
         return book
@@ -68,6 +89,7 @@ class LiveBook:
             "closed": [asdict(t) for t in self.closed],
             "realized_pnl": self.realized_pnl,
             "halted": self.halted,
+            "peak_equity": self.peak_equity,
             "trades_count": len(self.closed),
             "pending_funding": self.pending_funding,
         }, open(path, "w"), indent=1)
@@ -83,6 +105,10 @@ class LiveBook:
         pf = self.pending_funding or {}
         if pf.get("from") == source:
             self.pending_funding = None
+        # advance the high-water mark to the funded cash so the breaker measures
+        # drawdown from the real starting equity, not from 0.
+        if self.cash > self.peak_equity:
+            self.peak_equity = self.cash
 
     def is_funded(self) -> bool:
         return self.pending_funding is None and self.contributed_cash > 0
@@ -95,13 +121,36 @@ class LiveBook:
             eq += p.shares * float(marks.get(sym, p.entry_price))
         return eq
 
+    # -- ruin breaker (halts NEW entries; never force-sells — see module note) --
+    def update_peak(self, marks: Optional[dict] = None) -> None:
+        eq = self.equity(marks or {})
+        if eq > self.peak_equity:
+            self.peak_equity = eq
+
+    def absolute_drawdown(self, marks: Optional[dict] = None) -> float:
+        if self.peak_equity <= 0:
+            return 0.0
+        return max(0.0, 1.0 - self.equity(marks or {}) / self.peak_equity)
+
+    def check_halt(self, marks: Optional[dict] = None) -> bool:
+        """Trip the breaker (set halted) if drawdown from peak >= HALT_DRAWDOWN.
+        Halting blocks new entries only; existing positions are NOT liquidated
+        (that is the kill switch's job) — Proteus's convex bets play out to
+        their own journaled kill conditions."""
+        if self.absolute_drawdown(marks) >= HALT_DRAWDOWN - 1e-9:
+            self.halted = True
+            return True
+        return False
+
     # -- trades (record ACTUAL broker fills; journal record comes first) --
     def enter(self, *, symbol: str, shares: float, price: float,
               date: str, spy_price: float, horizon_days: int,
-              confidence: float, edge_class: str) -> Position:
+              confidence: float, edge_class: str,
+              risk_ack: str = "", equity: Optional[float] = None) -> Position:
         symbol = symbol.upper()
         if self.halted:
-            raise JournalError("book is halted — no new entries")
+            raise JournalError(
+                "book is halted — no new entries (drawdown breaker tripped or kill switch)")
         if not self.is_funded():
             raise JournalError("book is not funded yet — research only")
         if symbol in self.positions:
@@ -110,6 +159,20 @@ class LiveBook:
         if dollars > self.cash + 1e-6:
             raise JournalError(
                 f"{symbol}: ${dollars:,.2f} exceeds cash ${self.cash:,.2f} — no leverage")
+        # Conscious-concentration gate: NO hard cap — Proteus may size a name as
+        # far as all-in if the conviction earns it. But past CONCENTRATION_ACK_PCT
+        # of the book he must pass an explicit, substantive risk_ack naming the
+        # worst case and why it's survivable. This forbids UNCONSCIOUS
+        # concentration, not greed (operator directive 2026-07-05).
+        book_eq = self.equity({}) if equity is None else float(equity)
+        frac = dollars / book_eq if book_eq > 0 else 1.0
+        if frac > CONCENTRATION_ACK_PCT and len(risk_ack.strip()) < RISK_ACK_MIN_CHARS:
+            raise JournalError(
+                f"{symbol}: {frac:.0%} of the book is past the "
+                f"{CONCENTRATION_ACK_PCT:.0%} conscious-concentration line — pass "
+                f"risk_ack (>= {RISK_ACK_MIN_CHARS} chars) naming the worst-case loss "
+                "and why it's survivable/justified. Going big is allowed; going big "
+                "by accident is not.")
         self.cash -= dollars
         pos = Position(symbol=symbol, side="long", dollars=dollars,
                        shares=shares, entry_price=price,
