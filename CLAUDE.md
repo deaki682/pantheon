@@ -107,6 +107,23 @@ is the first such transfer; the operator may free more capital for additional
 new gods as they clear the bar (TBD). No new god buys with unsettled
 proceeds — first purchases wait for T+1 settlement.
 
+**Hermes** (merger-arb LLM A/B — conscious override, `HERMES_LIVE` default
+FALSE) — The return program's first engine and the house's first strategy where
+an LLM's judgment rides real money and is MEASURED. Trades small/mid-cap **cash**
+merger targets: long the target below the announced offer, hold to resolution —
+a bounded CONTRACTUAL floor (the deal-break, ~-15%) and a convex payoff (many
+small bounded wins, rare bounded losses, occasional topping-bid tail), the shape
+a small book needs (docs/return_convexity_pivot_2026-07-04.md). The A/B (operator
+directive): **Arm A = LLM reads each deal's break risk, LIVE real money** (only
+kept deals get capital); **Arm B = mechanical all-deals, paper.** LLM-lift = A -
+B (`hermes.ab`) is the dollar answer to "does an LLM read a deal better than a
+screen?" — the gods' unique power, on real money, measured. Launched conscious
+override (docs/hermes_launch_override.md): NO in-house backtest (a clean one is
+completion-biased — breaks don't delist), going live on the academic prior
+(Mitchell-Pulvino) + the bounded floor. Risk controls: 15% per-deal cap, <=10
+concurrent deals, -15% break-stop, cash-only, standard live gates. Checkpoint at
+~20 graded deals on LLM-lift. Owns only `cache/hermes_*`.
+
 ## Shared infrastructure (2026-07-04)
 
 - **`shared/historicals.py`** — batched price-history plumbing for any
@@ -211,6 +228,7 @@ trades.
 | Weekly (weekend) | `/midas-scan` | Research-only universe scan feeding the `/midas-ghost` A/B (Midas live retired 2026-07-04) |
 | Daily | `/proteus` | One full discretionary session on his live sleeve (research-only when markets are closed or funding pending) |
 | Trading days | `/plutus` | Net-issuance capital-return god (LIVE 2026-07-06). Self-gates to a once-per-quarter rebalance; monitoring-only otherwise. Research-only until funded by the Delphi sweep and the cash settles |
+| Trading days | `/hermes` | Merger-arb LLM A/B engine. Tend open deals (break-stop/completion), detect new cash deals, LLM break-risk read (Arm A live / Arm B paper), grade LLM-lift. Paper until `HERMES_LIVE` armed + sleeve funded |
 | Weekly (weekend) | `/proteus-lab` | Strategy lab: invent → prereg → backtest (bias checklist enforced) → paper forward test. Never live money |
 
 ### Key Files (all in `cache/`, persisted to `claude/live`)
@@ -371,9 +389,10 @@ mechanical system too aggressively:
   pre-existing positions are filtered out by `filter_broker_to_gods()`.
 - God env vars: `ORACLE_LIVE=true`, `DELPHI_LIVE=true`, `ACHILLES_LIVE=true`,
   `NEMESIS_LIVE=true`, `PROTEUS_LIVE=true`, `MIDAS_LIVE=false` (live retired
-  2026-07-04), and `PLUTUS_LIVE=false` (defaults FALSE — the operator arms it
-  to launch Plutus at the 2026-07-06 transition; `.claude/settings.json` sets
-  NEMESIS/PROTEUS/MIDAS/PLUTUS). Delphi's `DELPHI_LIVE` stays as-is only for
-  the wind-down; her retirement close-out runs regardless of the gate.
+  2026-07-04), `PLUTUS_LIVE=false` (defaults FALSE — the operator arms it
+  to launch Plutus at the 2026-07-06 transition), and `HERMES_LIVE=false`
+  (merger-arb LLM A/B, operator arms it; `.claude/settings.json` sets
+  NEMESIS/PROTEUS/MIDAS/PLUTUS/HERMES). Delphi's `DELPHI_LIVE` stays as-is only
+  for the wind-down; her retirement close-out runs regardless of the gate.
 - If any is not `"true"`, that god runs in paper mode (no broker orders).
 - `KILL_SWITCH` file triggers immediate liquidation of all god positions.
