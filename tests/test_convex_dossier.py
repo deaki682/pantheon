@@ -124,3 +124,18 @@ def test_convexity_score_formula():
 def test_requires_valid_floor_hardness():
     with pytest.raises(ConvexDossierError):
         _good(floor_hardness="rock-solid")
+
+
+def test_already_fired_catalyst_is_not_convex():
+    # BOLD lesson: a name bought AFTER a big catalyst pop has spent its
+    # convexity and inherits the deal-break downside. It must drop out.
+    fired = _good(symbol="FIRED", upside_x=1.35, prob_upside=0.6, floor_pct=0.2,
+                  floor_hardness="hard", recent_runup_pct=0.79)
+    assert fired["catalyst_fired_risk"] is True
+    assert fired["convex"] is False
+    assert rank_by_convexity([fired]) == []          # dropped from the book
+    # a modest run off the base is fine — not fired
+    ok = _good(symbol="OK", upside_x=1.35, prob_upside=0.6, floor_pct=0.2,
+               floor_hardness="hard", recent_runup_pct=0.15)
+    assert ok["catalyst_fired_risk"] is False
+    assert ok["convex"] is True

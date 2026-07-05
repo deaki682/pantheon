@@ -39,6 +39,13 @@ DEAD_TRIGGERS = ("insider", "quality lens", "trades cheap", "undervalued", "buyb
 FLOOR_HARDNESS_WEIGHT = {"hard": 1.0, "medium": 0.7, "soft": 0.45}
 FLOOR_REALITY_CAP = 0.60      # a "floor" worse than -60% is not a floor -> not convex
 DEFAULT_HORIZON_MONTHS = 12.0
+# The "already fired" guard (added 2026-07-05 after BOLD ranked #1 on a price
+# taken AFTER a +79% single-day catalyst pop). A convex bet must be entered
+# BEFORE the catalyst re-rates the floor-to-ceiling gap; buying after the pop
+# forfeits the convexity and inherits the deal-break downside. A name that has
+# already run past this cap off its pre-catalyst base is NOT convex — the
+# asymmetry has fired. Pass recent_runup_pct from the price history.
+RUNUP_FIRED_CAP = 0.50
 
 
 class ConvexDossierError(ValueError):
@@ -98,6 +105,7 @@ def make_convex_dossier(
     lens_score: float = 0.0,        # the OLD mechanical score — kept ONLY as the A/B baseline input
     floor_hardness: str = "medium",  # hard (asset/net-cash) | medium (book) | soft (contingent)
     horizon_months: Optional[float] = None,  # months to the re-rating; default 12
+    recent_runup_pct: float = 0.0,   # % run off the pre-catalyst base — the "already fired" check
     author: str = "oracle",
 ) -> dict[str, Any]:
     sym = symbol.upper()
@@ -122,6 +130,8 @@ def make_convex_dossier(
     # soft flag: does the thesis lean on a house-refuted trigger?
     hay = (thesis + " " + why_mispriced).lower()
     dead_trigger_risk = any(t in hay for t in DEAD_TRIGGERS)
+    # the "already fired" guard: has the catalyst already re-rated the name?
+    catalyst_fired_risk = float(recent_runup_pct) >= RUNUP_FIRED_CAP
 
     score = asymmetry_score(float(floor_pct), float(upside_x), float(prob_upside))
     cscore = convexity_score(score, hz, floor_hardness)
@@ -135,9 +145,14 @@ def make_convex_dossier(
         "prob_upside": float(prob_upside), "asymmetry_score": round(score, 4),
         "floor_hardness": floor_hardness, "horizon_months": hz,
         "convexity_score": round(cscore, 4),
-        # convex = positive expectancy + a REAL (bounded) floor — not "big multiple".
-        # The old upside_x>=1.5 gate wrongly dropped bounded near-certain wins.
-        "convex": bool(score > 0 and float(floor_pct) <= FLOOR_REALITY_CAP),
+        "recent_runup_pct": float(recent_runup_pct),
+        "catalyst_fired_risk": catalyst_fired_risk,
+        # convex = positive expectancy + a REAL (bounded) floor + the catalyst
+        # has NOT already fired. The old upside_x>=1.5 gate wrongly dropped
+        # bounded near-certain wins; the missing runup guard wrongly KEPT names
+        # bought at the top of a pop (BOLD, +79% before the scan priced it).
+        "convex": bool(score > 0 and float(floor_pct) <= FLOOR_REALITY_CAP
+                       and not catalyst_fired_risk),
         # --- structural mispricing (G2) + catalyst (G4) ---
         "why_mispriced_type": why_mispriced_type, "why_mispriced": why_mispriced,
         "catalyst": catalyst, "catalyst_date": catalyst_date,
