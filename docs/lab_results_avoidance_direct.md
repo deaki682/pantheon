@@ -27,3 +27,34 @@ pre-committed precondition (Arm B > Arm C, both windows, non-isolated), so
 `avoidance_overlay` (#14) is NOT dead and the forward LLM-vs-mechanical A/B proceeds.
 Caveat: mechanical-only; the LLM increment (the real question) is untested. Runner:
 `run_avoidance_direct.py`.
+
+## Robustness pass (2026-07-05) — the support is weaker than it first read
+
+Decomposing the distress composite into its 4 components (each run ALONE as the
+exclusion signal, k=10%) and breaking the holdout out by year:
+
+| Signal | in-sample (t) | holdout (t) |
+|--------|---------------|-------------|
+| ROA-only | +0.10% (2.32) | +0.02% (0.49) |
+| CFOA-only | +0.11% (3.34) | +0.04% (0.77) |
+| **GPOA-only (quality)** | +0.11% (4.65) | **+0.05% (1.49)** |
+| **Dilution-only (= net-issuance)** | +0.09% (4.19) | **+0.06% (1.89)** |
+| COMPOSITE | +0.16% (4.16) | +0.06% (1.21) |
+
+**Two honest downgrades:**
+1. **It's largely Plutus's own factors.** GPOA-only holdout (+0.05%) ~= the composite
+   (+0.06%), and dilution-only (= net-issuance, Plutus's other factor) is the
+   STRONGEST single holdout component. The mechanical "avoidance" alpha is dominated
+   by gross-profitability + net-issuance — the two factors Plutus already trades. It
+   is NOT a novel avoidance edge; it re-derives known quality/capital-return factors.
+2. **The holdout is a 2021 phenomenon.** Composite holdout by year: 2021 +0.55%/mo
+   (t 3.41), but 2020 −0.22, 2025 −0.30, 2017/2019 negative. Strip 2021 (the
+   post-COVID junk-rally reversal) and the out-of-sample support mostly evaporates.
+
+**Consequence.** The mechanical precondition technically cleared its pre-committed
+bar (beat random, both windows), so the slug stays `forward_testing` — but the
+"SUPPORTED" is qualified: the mechanical signal is factor-redundant and
+regime-concentrated. **The forward LLM arm's bar is now sharper: it must add
+avoidance BEYOND gross-profitability + net-issuance, not merely beat random.** If
+the LLM read only re-derives Plutus's factors, it adds nothing. Runner:
+`run_avoidance_decomp.py`.
