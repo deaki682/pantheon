@@ -14,6 +14,25 @@
  },
  "strategies": {
   "achilles_pead_gauntlet": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "One-way costs SMALL 30bps / MICRO 60bps plus a 2x stress. Excess is negative at 1x and roughly doubles negative at 2x \u2014 loss scales with cost, so no thin-margin positive case survives. Adjusted OHLC for gap-through stop fills (open-below-stop fills at the open, not the stop level).",
+     "look_ahead": "Timeline guard prereg-faithful: i0=last bar STRICTLY before datekey; reaction over i0->i0+2; ENTRY at i0+3 close (day AFTER the reaction bar) so entry never touches a close used to measure the reaction. SUE from trailing SF1 EPS only (seasonal random walk), no analyst estimates, no forward data.",
+     "multiple_testing": "House hypotheses_ever = 191 at this record. 18 cells (2 buckets x 3 holds x 3 reaction-caps) is a small pre-committed grid; the non-isolated-peak rule (a passer needs an adjacent passer) guards a lone lucky cell. Moot: ALL 18 negative, so no multiple-testing correction is needed to reject.",
+     "overfitting": "SUE threshold fixed at the 80th pct of IN-SAMPLE events only (1.074) and applied unchanged to the holdout, touched once. No parameter tuned on the holdout. Every cell negative in BOTH windows rules out an in-sample fit that merely failed out-of-sample.",
+     "regime": "Two-regime split by entry date: in-sample <=2015-12-31, holdout 2016-2025. Both negative across all cells (SMALL -0.4 to -0.7% holdout; MICRO -0.8 to -1.2%). Not a single-era artifact \u2014 negative throughout the modern Reg-FD, decimalized, low-friction era.",
+     "selection": "Universe = exchange-listed SMALL 501-2000 + MICRO 2001-3500 mktcap bands, 312 monthly PIT snapshots. Benchmark is the event's OWN bucket equal-weight over the identical window, so selecting into a size band cannot manufacture excess \u2014 the comparison is band-internal.",
+     "small_n": "n large, not small: 221,510 events priced; per-cell holdout n = 3,131-5,433; holdout t -3.5 to -9.2. This is a high-powered, confident rejection \u2014 the result is significantly NEGATIVE, not an underpowered non-significant null.",
+     "survivorship": "Survivorship-free Sharadar SEP keyed to FINAL tickers (30.6M bars / 11,824 names incl. delisted); a series ending mid-hold EXITS AT LAST PRINT and the trade is KEPT (reason 'delist'), never dropped \u2014 dropping delistings would be classic survivorship inflation. 5,103 short-series events skipped and disclosed."
+    },
+    "date": "2026-07-05",
+    "mean_excess": -0.0034,
+    "mean_excess_shrunk": -0.003388,
+    "n": 5433,
+    "notes": "REFUTED. 18/18 cells negative excess vs bucket-EW, in-sample AND holdout, worse at 2x cost. Recorded n/mean = the LEAST-negative cell (SMALL h10 holdout, -0.34%, t-4.3) so the record shows the most-favorable reading is still a significant loss. MICRO worse than SMALL. Proteus seasonal PEAD mode shelved; achilles/ kept as plumbing.",
+    "results_doc": "docs/lab_results_achilles_pead_gauntlet.md",
+    "verdict": "refuted"
+   },
    "created": "2026-07-05",
    "falsifiable_claim": "At least one non-isolated (hold, reaction-cap, universe) cell beats its own bucket's equal-weight in BOTH the 2000-2015 in-sample and the 2016-2025 holdout windows, and still shows positive excess at 2x cost in the holdout. If no cell survives, the long-only PEAD spine is refuted.",
    "history": [
@@ -24,6 +43,10 @@
     {
      "date": "2026-07-05",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "refuted"
     }
    ],
    "mechanism": "Post-Earnings Announcement Drift: prices underreact to earnings surprises and drift in the surprise direction over the following days/weeks, strongest in neglected small/micro-cap names with thin analyst coverage. Achilles trades the long half \u2014 buy a beat the market rewarded (positive SUE + positive post-report reaction), hold ~5 days, -8% stop, equal-weight basket. This study tests whether that long-only spine survives a survivorship-free, two-regime, cost-stressed gauntlet in the universe/parameters he actually uses, after the 2026-07-03 replay found the long-side 5-day drift absent and only the short side (sold beats keep falling) real.",
@@ -36,7 +59,7 @@
    },
    "slug": "achilles_pead_gauntlet",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "refuted",
    "underutilized_because": "The edge lives in thin, neglected micro/small-caps too small and illiquid for funds to bother, where the drift can sit inside the spread \u2014 so it's real on paper but hard to harvest at size, exactly what the 2x-cost gate exists to test.",
    "who_loses": "The underreacting marginal holder: investors who don't fully update on a surprise until later, and index/passive flows that ignore small-cap earnings \u2014 the drift is their delayed repricing."
   },
