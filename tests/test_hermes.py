@@ -1,8 +1,31 @@
 import pytest
 
 from hermes.sleeve import (HermesBook, HermesError, PER_DEAL_CAP, MAX_CONCURRENT,
-                           BREAK_STOP_PCT)
+                           BREAK_STOP_PCT, MIN_SPREAD)
 from hermes import ab as HAB
+
+
+def _funded_book(cash=1000.0):
+    b = HermesBook()
+    b.pending_funding = {"from": "operator"}
+    b.fund(amount=cash, source="operator", date="2026-07-06")
+    return b
+
+
+def test_min_spread_gate_rejects_spent_arb():
+    b = _funded_book(1000.0)
+    # trading AT the offer — no arb edge left
+    with pytest.raises(HermesError):
+        b.enter(symbol="ATOFFER", shares=10, price=10.0, offer_price=10.0,
+                date="2026-07-06", expected_close="2026-10-01", spy_price=500.0, equity=1000.0)
+    # trading ABOVE the offer — topping-bid speculation, not arb
+    with pytest.raises(HermesError):
+        b.enter(symbol="ABOVE", shares=10, price=10.2, offer_price=10.0,
+                date="2026-07-06", expected_close="2026-10-01", spy_price=500.0, equity=1000.0)
+    # a healthy spread still enters
+    p = b.enter(symbol="OK", shares=10, price=9.5, offer_price=10.0,
+                date="2026-07-06", expected_close="2026-10-01", spy_price=500.0, equity=1000.0)
+    assert p.spread() >= MIN_SPREAD
 
 
 # ── sleeve: funding + sizing (the ruin guard) ─────────────────────────

@@ -58,7 +58,12 @@ Sits in cash off-season.
 7. **Rank into the basket.** `achilles.scanner.rank_beats(candidates, top_n=sleeve.open_slots())`
    — scores by surprise magnitude + confirming signals, drops unconfirmed
    reactions (`require_reaction=True`), returns the top rewarded beats to fill
-   the open slots.
+   the open slots. **The 'already fired' guard (`max_reaction_pct`, default
+   0.20):** a beat whose initial post-report reaction already ran past the cap
+   is dropped — the drift is spent (PEAD is a moderate-surprise phenomenon;
+   extreme initial reactions revert, they don't drift). Enter moderate
+   reactions, never a name that already popped hard. The exact cap is a
+   hypothesis the Achilles gauntlet will refine.
 
 ### Execute
 

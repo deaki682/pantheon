@@ -95,7 +95,10 @@ Every announced cash deal Hermes detects is recorded ONCE with the LLM's read:
    - `equity = book.equity(marks)`; check `book.can_enter(sym, dollars, equity)`
      — bounded by `PER_DEAL_CAP` (15% of equity), `MAX_CONCURRENT` (10 deals),
      cash reserve. Size SMALL and diversify: the ruin guard is that one break is
-     survivable (target book-level worst ≤ ~12%).
+     survivable (target book-level worst ≤ ~12%). **`book.enter` also refuses a
+     spread below `MIN_SPREAD` (1%)** — a deal trading at/above the offer has no
+     arb edge left (that's topping-bid speculation, not arb); don't enter a spent
+     spread. Enter for the remaining spread, not after it's gone.
    - Fetch the live quote + SPY, `get_equity_tradability`.
    - Place a fractional-share market/limit buy (`place_equity_order`), append to
      `cache/hermes_ledger.jsonl` (`shared.guards.append_order`), `book.enter(...)`

@@ -29,6 +29,9 @@ MAX_CONCURRENT = 10        # diversify across deals; one break must be survivabl
 BREAK_STOP_PCT = 0.15      # exit if the target falls 15% below entry (deal-break signature)
 CASH_RESERVE = 0.02        # keep 2% cash
 HALT_DRAWDOWN = 0.40       # 40% drawdown from peak halts new entries (pantheon standard)
+MIN_SPREAD = 0.01          # refuse a NEW entry with <1% remaining to the offer — the
+                           # arb edge is spent (or it's trading at/above offer = topping-
+                           # bid speculation, not arb). The "already fired" guard, event side.
 
 
 class HermesError(Exception):
@@ -173,6 +176,11 @@ class HermesBook:
         ok, why = self.can_enter(symbol, dollars, equity)
         if not ok:
             raise HermesError(f"{symbol}: cannot enter — {why}")
+        spread = offer_price / price - 1.0 if price > 0 else -1.0
+        if spread < MIN_SPREAD:
+            raise HermesError(
+                f"{symbol}: remaining spread {spread:.1%} below the {MIN_SPREAD:.0%} "
+                "minimum — no arb edge left (at/above offer = topping-bid speculation)")
         self.cash -= dollars
         pos = DealPosition(symbol=symbol, shares=shares, entry_price=price,
                            offer_price=offer_price, entry_date=date,

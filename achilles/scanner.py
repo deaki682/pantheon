@@ -13,6 +13,18 @@ from typing import Optional
 
 from .scoring import market_cap_ok, score_beat
 
+# The "already fired" guard (added 2026-07-05, the Oracle-BOLD lesson applied to
+# PEAD). Achilles enters the day AFTER the report, betting on continued drift —
+# but a beat whose initial post-report reaction ALREADY ran past this cap has
+# been fully repriced by the market, and the academic PEAD edge is a moderate-
+# surprise phenomenon: extreme initial reactions revert, they don't drift. So a
+# reaction bigger than the cap is "fired" and dropped, exactly like Oracle's
+# RUNUP_FIRED_CAP. Direction (rewarded vs sold) was already gated; this gates
+# MAGNITUDE. Units: a FRACTION, matching reaction_pct (reaction_return returns
+# (post-pre)/pre, so 0.20 = +20%). The exact cap is a hypothesis for the
+# Achilles gauntlet to refine.
+MAX_REACTION_PCT = 0.20
+
 
 @dataclass
 class BeatCandidate:
@@ -38,6 +50,7 @@ def rank_beats(
     *,
     top_n: int = 12,
     require_reaction: bool = True,
+    max_reaction_pct: float = MAX_REACTION_PCT,
 ) -> list[BeatCandidate]:
     """Score, gate, and rank beats into a basket of the top N.
 
@@ -45,6 +58,11 @@ def rank_beats(
     a confirmed positive post-report reaction. This drops 'sold beats'
     (gap up, close red) and beats whose reaction we couldn't verify. Set
     False only for backtests/paper runs where reaction data isn't gathered.
+
+    max_reaction_pct (the 'already fired' guard): drop beats whose confirmed
+    initial reaction already ran past this cap — the drift is spent (see
+    MAX_REACTION_PCT). Applies whenever reaction data is present, independent of
+    require_reaction. Direction is gated above; this gates MAGNITUDE.
     """
     scored = []
     for c in candidates:
@@ -62,13 +80,17 @@ def rank_beats(
             continue
         if require_reaction and not (c.reaction_pct is not None and c.reaction_pct > 0):
             continue  # skip sold or unconfirmed beats — trade the reaction, not the headline
+        if c.reaction_pct is not None and c.reaction_pct > max_reaction_pct:
+            continue  # already fired — the initial pop spent the drift; don't chase it
         scored.append(c)
     scored.sort(key=lambda c: c.score, reverse=True)
     return scored[:top_n]
 
 
-def pick_best(candidates: list[BeatCandidate], *, require_reaction: bool = True) -> Optional[BeatCandidate]:
-    ranked = rank_beats(candidates, require_reaction=require_reaction)
+def pick_best(candidates: list[BeatCandidate], *, require_reaction: bool = True,
+              max_reaction_pct: float = MAX_REACTION_PCT) -> Optional[BeatCandidate]:
+    ranked = rank_beats(candidates, require_reaction=require_reaction,
+                        max_reaction_pct=max_reaction_pct)
     return ranked[0] if ranked else None
 
 
