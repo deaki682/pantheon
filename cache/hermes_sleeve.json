@@ -1,17 +1,12 @@
 {
  "name": "hermes",
- "cash": 0.0,
- "contributed_cash": 0.0,
+ "cash": 4000.0,
+ "contributed_cash": 4000.0,
  "positions": {},
  "closed": [],
  "realized_pnl": 0.0,
  "halted": false,
- "pending_funding": {
-  "from": "operator",
-  "expected": "a small dedicated merger-arb sleeve set by the operator at arming (HERMES_LIVE=true)",
-  "directive_date": "2026-07-05",
-  "launch_doc": "docs/hermes_launch_override.md",
-  "note": "Conscious override: merger-arb LLM A/B. Research/paper-only until funded AND HERMES_LIVE armed. Arm A (LLM) live, Arm B (mechanical) paper; LLM-lift = A-B."
- },
+ "peak_equity": 4000.0,
+ "pending_funding": null,
  "trades_count": 0
 }
