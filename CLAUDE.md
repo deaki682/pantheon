@@ -418,8 +418,8 @@ mechanical system too aggressively:
   docs/nemesis_fold_into_oracle_2026-07-05.md), `PROTEUS_LIVE=true`,
   `MIDAS_LIVE=false` (live retired 2026-07-04), `PLUTUS_LIVE=false` (defaults
   FALSE — the operator arms it to launch Plutus at the 2026-07-06 transition),
-  and `HERMES_LIVE=false` (merger-arb LLM A/B, operator arms it;
-  `.claude/settings.json` sets these). Delphi's `DELPHI_LIVE` stays as-is only
+  and `HERMES_LIVE=true` (merger-arb LLM A/B — ARMED 2026-07-05, funded $4,000
+  from the freed Achilles+Nemesis capital; `.claude/settings.json` sets these). Delphi's `DELPHI_LIVE` stays as-is only
   for the wind-down; her retirement close-out runs regardless of the gate.
 - If any is not `"true"`, that god runs in paper mode (no broker orders).
 - `KILL_SWITCH` file triggers immediate liquidation of all god positions.
