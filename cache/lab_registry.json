@@ -149,6 +149,25 @@
    "who_loses": "Same as the underlying factor \u2014 buyback counterparties; the overlay just avoids the bad buybacks that dilute the raw signal."
   },
   "call_evasion": {
+   "backtest": {
+    "bias_checklist": {
+     "costs_liquidity": "Long-only exclusion expression at 63d hold, low turnover; transaction costs are not the binding constraint because the raw LLM signal is already null (no edge to erode).",
+     "look_ahead": "Signal (filing MD&A text) is known at the filing date; entry is T+1 on the next available bar; forward 63d return uses only post-filing prices. No future data enters the blind read.",
+     "multiple_testing": "One slug, two preregistered arms (lexicon + LLM), counted once in hypotheses_ever. No arm-shopping: both arms were specified in the prereg before data; the LLM arm was NOT selected post hoc for being the winner (it lost).",
+     "overfitting": "No parameters were tuned to the outcome. The candor rubric was fixed before scoring; raters were blind to returns. The null result cannot be an overfit \u2014 nothing was fit.",
+     "regime": "Sample is 2023-24 only; NO in-sample <=2015 (EDGAR recent-window limit). Disclosed as a power/regime gap \u2014 the edge is untested across regimes.",
+     "selection": "Filings stratified into lexicon-density terciles, capped 2 per ticker for spread; BDC/REIT/table-only filings with no genuine MD&A prose were dropped (disclosed) \u2014 a modality filter, not an outcome filter.",
+     "small_n": "n=53 blind-scored filings is underpowered for a t>=2 validation; this is explicitly a directional PRE-SCREEN, not a validation. The flat LLM result would need far larger n to call an edge.",
+     "survivorship": "Sharadar SEP survivorship-free panel; delisted names retain final-ticker history via resolve_ticker, so failed filers stay in the sample."
+    },
+    "date": "2026-07-05",
+    "mean_excess": 0.0136,
+    "mean_excess_shrunk": 0.009874,
+    "n": 53,
+    "notes": "Lexicon whole-filing -1.96%/63d t=-0.75 (no in-sample). LLM candor read on 53 blind MD&A packets: flat (Spearman +0.02), HIGH-LOW +1.36% wrong sign; lexicon on same filings -3.88% Spearman t=-1.99. LLM adds nothing beyond word-count (OLS t=0.19). The word-counter beat the LLM. True Q&A-evasion arm transcript-blocked/untested; slug stays open only for that arm. Prose-proxy = do not re-run.",
+    "results_doc": "docs/lab_results_call_evasion.md",
+    "verdict": "inconclusive"
+   },
    "created": "2026-07-05",
    "falsifiable_claim": "High-uncertainty-language names underperform same-bucket EW at 63d (t>=2, holdout+2x cost, non-isolated); then forward, LLM evasion-read beats the lexicon over >=20 graded quarters.",
    "history": [
@@ -159,6 +178,10 @@
     {
      "date": "2026-07-05",
      "to": "preregistered"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "backtested"
     }
    ],
    "mechanism": "Management EVASION on earnings calls (non-answers to analyst Q&A, deflection, hedged/refused guidance reaffirmations) predicts negative 1-3mo drift; an LLM reads evasion (a structural Q&A property) where a word-count lexicon reads only tone. The evasion-minus-lexicon gap is the LLM-native increment.",
@@ -171,7 +194,7 @@
    },
    "slug": "call_evasion",
    "sponsor": "operator",
-   "status": "preregistered",
+   "status": "backtested",
    "underutilized_because": "Scoring Q&A responsiveness across the full call population is exactly the LLM's strength and beyond a research desk's manual reach; the neglected/small-cap tail is uncovered.",
    "who_loses": "Market underreacts to soft linguistic/evasion signals a human desk can't read across thousands of calls (info-processing edge, G2-WEAK, capability-frontier, decaying as LLM transcript-reading commoditizes)."
   },
