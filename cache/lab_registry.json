@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 194,
+ "hypotheses_ever": 196,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -63,6 +63,33 @@
    "underutilized_because": "The edge lives in thin, neglected micro/small-caps too small and illiquid for funds to bother, where the drift can sit inside the spread \u2014 so it's real on paper but hard to harvest at size, exactly what the 2x-cost gate exists to test.",
    "who_loses": "The underreacting marginal holder: investors who don't fully update on a surprise until later, and index/passive flows that ignore small-cap earnings \u2014 the drift is their delayed repricing."
   },
+  "avoidance_direct": {
+   "created": "2026-07-05",
+   "falsifiable_claim": "Mechanical distress-exclusion beats random-exclusion (in-sample+holdout, non-isolated); then forward, LLM veto beats the mechanical screen over >=20 graded periods.",
+   "history": [
+    {
+     "date": "2026-07-05",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "Excluding names an LLM flags as fraud/going-concern/covenant-breach/terminal-decline risk raises a basket's return; the test is whether the LLM veto beats a mechanical distress screen (Altman-Z/going-concern/short-interest/accruals) and random exclusion. Direct measurement of the house's 'LLM=avoidance' assumption.",
+   "prereg": {
+    "date": "2026-07-05",
+    "doc": "docs/lab_prereg_avoidance_direct.md",
+    "metric": "'Avoidance alpha' = return of (universe minus excluded-names, EW) minus the full universe EW, per arm, at 63/252d; head-to-head Arm A (LLM veto) vs Arm B (mechanical distress) vs Arm C (random), across exclusion fractions 5/10/20%.",
+    "population_definition": "Plutus top-500 LARGE + a SMALL/MICRO bucket (gauntlet_v1/achilles PIT universes), monthly/quarterly, survivorship-free. Each name carries mechanical distress flags (SF1 Altman-Z inputs, net-debt spike, accruals; EDGAR going-concern language) computable historically; the LLM veto arm is scored forward on live names (cost-gated).",
+    "success_criteria": "Backtest: mechanical avoidance alpha (Arm B) > random (Arm C), in-sample AND holdout, non-isolated across {LARGE,SMALL} and k in {5,10,20}% (miss => avoidance thesis refuted, kills overlay #14). Forward: Arm A (LLM) beats Arm B over >=20 graded periods = the headline (does the LLM read deterioration better than a checklist)."
+   },
+   "slug": "avoidance_direct",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "underutilized_because": "Reading complete filing populations for deterioration at scale is exactly the LLM's claimed edge; slow institutions hold deteriorating names mechanically until forced recognition.",
+   "who_loses": "Market underreacts to deterioration in filings (info-processing edge, G2-WEAK, capability-frontier that decays) \u2014 but it's the one thing the house has a positive read on (Achilles sold-ban -1.6%/wk)."
+  },
   "buyback_quality_overlay": {
    "created": "2026-07-04",
    "falsifiable_claim": "PRIMARY: Arm L shrunk mean excess > Arm R over >=8 graded quarters (reading adds over raw). SECONDARY: M or L shrunk mean excess vs SPY > 0 (quality beats the market where raw only tied). Diagnostic A/B, no capital gate; a winner earns its own n>=20 forward test.",
@@ -89,6 +116,33 @@
    "status": "preregistered",
    "underutilized_because": "Every quant runs net-issuance blind; almost none can read 50 buyback contexts per quarter to separate genuine from engineered \u2014 the reading labor is the uncrowded moat.",
    "who_loses": "Same as the underlying factor \u2014 buyback counterparties; the overlay just avoids the bad buybacks that dilute the raw signal."
+  },
+  "call_evasion": {
+   "created": "2026-07-05",
+   "falsifiable_claim": "High-uncertainty-language names underperform same-bucket EW at 63d (t>=2, holdout+2x cost, non-isolated); then forward, LLM evasion-read beats the lexicon over >=20 graded quarters.",
+   "history": [
+    {
+     "date": "2026-07-05",
+     "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-05",
+     "to": "preregistered"
+    }
+   ],
+   "mechanism": "Management EVASION on earnings calls (non-answers to analyst Q&A, deflection, hedged/refused guidance reaffirmations) predicts negative 1-3mo drift; an LLM reads evasion (a structural Q&A property) where a word-count lexicon reads only tone. The evasion-minus-lexicon gap is the LLM-native increment.",
+   "prereg": {
+    "date": "2026-07-05",
+    "doc": "docs/lab_prereg_call_evasion.md",
+    "metric": "Excess vs same-bucket EW at {21,63}d (primary 63d), entry T+1 after the report/call; long-only expression = exclude/underweight high-evasion (or high-uncertainty-language) names within the bucket; high-vs-low tercile spread reported.",
+    "population_definition": "US earnings events for a size-matched universe. BACKTEST arm uses available EDGAR text (10-Q/10-K MD&A + 8-K earnings exhibits) for the Loughran-McDonald uncertainty/weak-modal lexicon baseline, survivorship-free. FORWARD arm requires earnings-CALL TRANSCRIPT sourcing (vendor/scrape \u2014 the gating build) for the LLM evasion score on live calls.",
+    "success_criteria": "Backtest (lexicon): high-uncertainty-language underperforms same-bucket EW at 63d, t>=2, holdout+2x cost, non-isolated. Forward (LLM evasion A/B): LLM evasion-read beats the lexicon over >=20 graded quarters (the evasion-over-tone increment)."
+   },
+   "slug": "call_evasion",
+   "sponsor": "operator",
+   "status": "preregistered",
+   "underutilized_because": "Scoring Q&A responsiveness across the full call population is exactly the LLM's strength and beyond a research desk's manual reach; the neglected/small-cap tail is uncovered.",
+   "who_loses": "Market underreacts to soft linguistic/evasion signals a human desk can't read across thousands of calls (info-processing edge, G2-WEAK, capability-frontier, decaying as LLM transcript-reading commoditizes)."
   },
   "cef_tender_convergence": {
    "backtest": {
