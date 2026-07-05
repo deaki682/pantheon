@@ -157,3 +157,48 @@ Hunt meta-finding: the contractual-payoff × tiny-capacity quadrant is real but
 supply-starved (~1%/yr ceiling). The evening scan's coverage was validated as
 ~complete for a long-only no-options $19k book — growth comes from proving the
 edges we hold, not finding more.
+
+> **post_bk_emergence — CRAM #1 update 2026-07-05: population inadequate, NOT recorded.** The fast
+> research fan-out produced 84 emergences but ~70% energy, time-clustered 2016-2021, survivorship-
+> floored (OTC re-failers under-captured) — failing the prereg's own exhaustiveness bar. A first-pass
+> sim on 52 priceable names shows raw 252d +32.5% but that is ENTIRELY the 2020-21 recovery cohort
+> (holdout +113% vs in-sample 2015-19 ~ -18%) = regime/recovery beta, not a forced-seller drift; the
+> pre-committed in-sample criterion fails. NOT recorded as refuted (would burn the slug on sub-standard
+> data). Slug stays `preregistered`; a fair test needs a survivorship-complete, sector-diversified
+> EDGAR plan-of-reorg build (a real project). Moved to cram #2 (spinoff_orphans).
+
+---
+
+## Operator stance (2026-07-05, for the record)
+
+**The operator is comfortable with refutation.** Refuted is a *valued* outcome,
+not a failure — it buys a real decision (don't risk capital there) and sharpens
+the map of what's dead. The lab is directed to keep churning, researching, and
+thinking out-of-the-box indefinitely; a session must NEVER soften a verdict,
+avoid a hard test, or keep a refuted idea alive to spare feelings or optics. The
+moat is the search-and-retire machine, not any single god. Kill freely; the
+capital rides beta while the search runs.
+
+## Cram out-of-box wave (2026-07-05) — queued behind the forced-seller batch
+
+Directions that differ in KIND from the event-population / factor-backtest work,
+seeded so the hunt has fresh non-obvious hypotheses ready. Honest gate reads
+(incl. the weak points) up front.
+
+| # | Candidate | Thesis / decision it buys | Gate read (honest) |
+|---|-----------|---------------------------|--------------------|
+| **14** | **`avoidance_overlay` — the "beta-minus-landmines" god** | Every buy-signal died, but the LLM's ONE measured-real skill is AVOIDANCE (Achilles sold-ban −1.6%/wk was the only thing that half-validated; Nemesis veto condemned TWNPQ −58%; Plutus Lens-B is a keep/drop). So make avoidance the THESIS, not a garnish: hold beta/Plutus, LLM VETOES the names it reads as fraud / going-concern / covenant-breach / terminal-decline. **Decision it buys:** whether avoidance is a standalone god or an overlay folded into Plutus/Proteus. **Backtest path:** mechanical distress flags (EDGAR going-concern, auditor resignation, restatement, covenant breach) as the avoidance signal first; LLM version as the forward A/B (Arm A LLM-veto vs Arm B mechanical vs Arm C no-veto). | G1 PASS (filing/text read, not price). **G2 WEAK — the honest flag:** it's an information-PROCESSING edge (read deterioration before slow institutions), not a structural-constraint edge; "the market underreacts" is not a constraint. It's a CAPABILITY-FRONTIER bet that DECAYS with adoption (house-view doc). G3 **SCALABLE (rare plus)** — avoidance applies to the whole book at any size, unlike the capacity-capped forced-seller scraps → fits the growth mandate as an overlay. G4 fail (avoids drift, no contractual terminal). G5 strong (whole-universe). |
+| **15** | **`event_diversifier_sleeve` — the portfolio IS the god** | The small forced-seller/event edges (post-BK, spinoff-orphans, merger-arb, sub-NAV, CEF-discount) are each modest and capacity-capped, but UNCORRELATED. Combined into one convex event sleeve, the *diversification* compounds with far lower drawdown than any piece — the free lunch is construction, not discovery. **Decision it buys:** whether Oracle becomes a multi-edge event-driven diversifier fund rather than the house hunting one big edge. | SECOND-ORDER — activates once ≥2 component edges clear their own backtests (can't combine unproven scraps). G1/G2/G4 INHERITED per-component. G3 capacity-capped (sum of capped edges) but that's fine for a diversifier. G5 **HELPED** — the combined event rate across channels beats any single edge's thin cadence. **Test:** `combine_curves` / correlated-drawdown gap — does the combined sleeve's Sharpe/maxDD beat the best single component? |
+
+### Trodden-ground wave (2026-07-05) — edge in the MOST-efficient corners
+
+The principle: efficiency kills INFORMATION edges but not STRUCTURAL/MECHANICAL
+ones — the flows the crowd creates BY crowding. Look for the mechanical residue,
+not the informational one. Two angles hiding in the most-arbitraged ground.
+
+| # | Candidate | Thesis / decision it buys | Gate read (honest) |
+|---|-----------|---------------------------|--------------------|
+| **16** | **`passive_crowding_reflexivity`** — trade the distortion indexing creates in the S&P 500 itself | Every S&P dollar buys mega-caps in proportion to size, price-insensitively → mechanically inflates the top regardless of fundamentals; passive % keeps RISING (deepening barrier). Edge = the flow, not stock-picking: cap-weight vs equal-weight at concentration extremes, index add/delete flow, top-heaviness mean-reversion. **Decision it buys:** whether an EW-vs-CW tilt (or an index-flow overlay) earns a real, GROWING structural premium in the most-efficient universe. | G1 borderline (uses index weights, but the signal is a FLOW state, not a price forecast). **G2 STRONG + growing** — passive funds are the named price-insensitive counterparty and the pool expands yearly. G3 **SCALABLE** (it IS the S&P — a rare growth-compatible structural edge). G4 fail (drift/mean-reversion). G5 strong. The standout: durable, scalable, strengthening. |
+| **17** | **`overnight_intraday_split`** — the equity premium accrues overnight, not intraday | In SPY/large-caps, ~the entire historical equity premium is earned close→open; the intraday session is ~flat-to-negative. Persists in the most-studied instrument because it's structural (overnight = macro news + futures flows + ETF-creation hit a market that can't trade), not an info edge anyone arbitrages by "knowing" it. **Decision it buys:** whether a close-buy/open-sell overlay (or just tilting exposure to the overnight window) is real net of costs — likely NOT for a small book (daily turnover), but a clean, famous, mechanical oddity worth one measurement. | G1 FAIL (pure price/time signal) → needs operator override; the mechanism is structural (flow-timing), not predictive. G2 medium (overnight-flow structure). G3 scalable but G5-killed-by-COST (daily round-trips) — the turnover gate is the likely killer, same as momentum. Measure, expect refutation-by-cost. |
+
+> **spinoff_orphans — CRAM #2: REFUTED 2026-07-05.** Fair population (227, sector-diverse), clean kill: small tail underperforms size-matched EW -9.3% (holdout -22.6%). Opposite of thesis; criterion 5 fails. Terminal. Not a diversifier-sleeve component. See [ledger](RESEARCH_LEDGER.md) / [results](lab_results_spinoff_orphans.md). Cram continues: residual_momentum_llm (ready) -> avoidance_direct / call_evasion -> sub-NAV / odd-lot.

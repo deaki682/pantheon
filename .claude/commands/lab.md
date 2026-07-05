@@ -169,6 +169,39 @@ marked/graded by the daily god sessions that own their horizons.
    "shared"})`. Prereg/results docs, backlog and ledger edits are
    committed to the code branch in the same session.
 
+## The LLM instrument track (2026-07-05, operator directive)
+
+The whole portfolio is a ~58% bet on the LLM having an edge — so the lab measures
+the **instrument itself**, not just market factors. This is a SEPARATE track with
+its own record (`cache/lab_llm_instrument.json`, guarded) and its own counter
+(`llm_measurements_ever`) — it does NOT tick the market-strategy `hypotheses_ever`,
+because it's calibrating the tool, not testing an edge. Precedent: the house has
+already measured LLM calibration ("continuous scores near thresholds are dice,
+40–80% flip; binary gates rock-stable, 0/50"). This formalizes and extends it.
+
+**The six measures** (each preregistered like any study; results to the ledger):
+1. **Avoidance** — does the LLM veto beat a mechanical distress screen? (`avoidance_direct`)
+2. **Text→signal reading** — does it read soft signals a lexicon can't? (`call_evasion`)
+3. **Conviction calibration** — pooled across ALL A/Bs, do high-conviction calls
+   beat low-conviction ones, or is conviction noise? (prior: likely noise — which
+   would mean conviction/cap tilts add variance, not edge.)
+4. **Selection vs base-rate** — THE master metric: pool Hermes / Oracle /
+   Plutus-overlay / Proteus and ask whether LLM selection beats the mechanical
+   basket *at all*. This is the number the whole 58% bet rides on.
+5. **Researcher vs trader** — compare the hit-rate of LLM-*designed* strategies
+   (the lab's yield) against LLM-*discretionary* trades (Proteus). If research
+   beats trading, point the LLM at research and let rules trade.
+6. **Decay-watch** — is any measured LLM edge shrinking as adoption spreads?
+   (the house-view rotation signal; feeds the delta hunt.)
+
+**Cadence:** measures 3–6 are computed from the live A/B / lab record whenever
+enough graded events exist (report even at small n, flag the n); 1–2 are their own
+preregistered studies. The roll-up is one honest house figure — **"how much the
+LLM adds, and where"** — reported at every mandate checkpoint. If measure 4 comes
+back ~0 on a real sample, the mandate's own rule fires: shrink the experiments
+toward the beta floor. The instrument track is how that verdict gets made with
+numbers instead of faith.
+
 ## The engine toolkit (read before writing any backtest code)
 
 `shared/gauntlet.py` is the house backtest engine, hardened across

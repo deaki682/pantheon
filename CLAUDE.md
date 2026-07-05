@@ -1,12 +1,20 @@
 # Pantheon — Autonomous Trading System
 
-**Mandate (2026-07-05, docs/portfolio_mandate_2026-07-05.md):** a fully managed,
-fully agentic portfolio whose purpose is to **grow funds — headlined by the
-LLM-edge experiments.** Growth is the goal; the experiments (Hermes/Oracle/
-Proteus A/Bs — "does an LLM beat a screen?") are the engine. Anchored by the one
-proven engine (Plutus = bull participation + a backtested edge), headlined by the
-experiments (~58%), no dead cash, never blow-up-able. Scored on growth AND the
-experiments' edge — NOT on beating SPY's raw bull return, NOT on Sharpe in a vacuum.
+**Mandate (2026-07-05, REVISED post-verdict — docs/portfolio_mandate_2026-07-05.md):**
+a fully managed, fully agentic portfolio whose purpose is to **grow funds** via a
+**floor-plus-option** structure (allocation ratio held by operator decision).
+**Beta (Plutus, ~26%) is the reliable FLOOR** — long large-cap equity carrying the
+market's own compounding; where the dollar growth actually comes from (its
+net-issuance tilt is thin, ~ties SPY — the beta is the point). **The experiments
+(Hermes/Oracle/Proteus + Plutus's LLM overlay, ~58%) are the right-tail OPTION** —
+cheap, measured, and UNPROVEN; the only path to *outsized* growth since beta is
+capped at market returns. The day's research is the honest prior: no scalable
+alpha exists (growth-hunt `LEAN_ON_BETA`), the LLM's only measured-real skill is
+AVOIDANCE, so **~58% is a conscious, priced BET that a real LLM edge exists — not a
+proven engine.** Growth = the beta floor + the option value of an A/B proving a
+forward-real LLM-lift and getting concentrated behind. Scored on growth AND
+LLM-lift; if no experiment shows a forward-real lift on a real sample, shrink them
+toward the floor. NOT scored on beating SPY's raw bull return or Sharpe in a vacuum.
 
 The gods share one Robinhood agentic account (`563854249`), each running an
 independent strategy with its own sleeve.
