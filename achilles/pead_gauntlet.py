@@ -21,23 +21,36 @@ from typing import Callable, Optional
 
 # ── SUE: Standardized Unexpected Earnings (seasonal random walk, Bernard-Thomas)
 
+def _prior_year_quarter(cd: str) -> str:
+    """calendardate exactly 4 fiscal quarters earlier. Sharadar normalizes
+    calendardate to quarter-ends (03-31/06-30/09-30/12-31), so same month/day,
+    year-1 is exact and leap-safe."""
+    return str(int(cd[:4]) - 1) + cd[4:]
+
+
 def seasonal_sue(eps_series: list[tuple[str, float]], *, min_history: int = 8
                  ) -> dict[str, float]:
     """SUE per quarter from a per-entity EPS series (needs only reported EPS —
     no analyst estimates).
 
-    eps_series: (calendardate, eps) sorted ascending, one row per fiscal quarter.
-    SUE_t = (eps_t - eps_{t-4}) / std(the trailing `min_history` seasonal deltas
-    eps_q - eps_{q-4}), the classic seasonal-random-walk surprise. Returns
-    {calendardate: sue} only for quarters with enough history for a stable std.
+    SUE_t = (eps_t - eps_{t-4}) / std(the trailing `min_history` valid seasonal
+    deltas), the classic seasonal-random-walk surprise. The q-4 comparison is
+    aligned BY CALENDAR QUARTER, never by list position (bug-hunt 2026-07-05:
+    positional i-4 indexing silently turned any gapped series — a dropped
+    null-eps quarter — into cross-quarter comparisons, corrupting the SUE for
+    that quarter and polluting the std window for up to 8 more). A quarter
+    whose exact prior-year quarter is missing gets NO delta and NO SUE — we
+    skip, never fabricate across a gap. Returns {calendardate: sue} only for
+    quarters with enough valid history for a stable std.
     """
-    out: dict[str, float] = {}
-    n = len(eps_series)
-    # seasonal deltas d_q = eps_q - eps_{q-4}
+    eps_by_cd = {cd: e for cd, e in eps_series}
+    # validly-aligned seasonal deltas, chronological
     deltas: list[tuple[str, float]] = []
-    for i in range(4, n):
-        d = eps_series[i][1] - eps_series[i - 4][1]
-        deltas.append((eps_series[i][0], d))
+    for cd in sorted(eps_by_cd):
+        prior = _prior_year_quarter(cd)
+        if prior in eps_by_cd:
+            deltas.append((cd, eps_by_cd[cd] - eps_by_cd[prior]))
+    out: dict[str, float] = {}
     for k in range(len(deltas)):
         if k < min_history:
             continue
@@ -101,11 +114,18 @@ def in_listing_window(ticker: str, date: str, emap: dict[str, dict]) -> bool:
 
 def simulate_trade(path: list[dict], *, hold_days: int, stop_pct: float = 0.08
                    ) -> Optional[dict]:
-    """path: daily bars from the entry day forward, each {date, px, low} on an
-    adjusted (total-return) basis; path[0] is the entry bar (px = entry close).
-    Hold up to hold_days trading days; exit early at the -stop_pct level if a
-    day's low breaches it (intraday stop). Returns the trade or None if the path
-    is too short to even hold one day."""
+    """path: daily bars from the entry day forward, each {date, px, low[, open]}
+    on an adjusted (total-return) basis; path[0] is the entry bar (px = entry
+    close). Hold up to hold_days trading days; exit early at the -stop_pct level
+    if a day's low breaches it (intraday stop).
+
+    GAP-THROUGH FILLS (bug-hunt 2026-07-05): a stop is filled at the stop level
+    ONLY when the day traded through it intraday. If the bar OPENS at/below the
+    stop (gapped through overnight), the fill is the OPEN — a real stop on a
+    name that opened at -18% fills near -18%, not at -8%. Booking stop-level
+    fills on gap-throughs floored the left tail and inflated the verdict's
+    mean/t. If no open is provided, the stop level is used (disclosed
+    optimistic bound). Returns None if the path is too short to hold one day."""
     if len(path) < 2:
         return None
     entry = path[0]["px"]
@@ -116,8 +136,10 @@ def simulate_trade(path: list[dict], *, hold_days: int, stop_pct: float = 0.08
     for i in range(1, last + 1):
         bar = path[i]
         if bar.get("low", bar["px"]) <= stop:
-            return {"exit_date": bar["date"], "exit_px": stop, "hold_used": i,
-                    "reason": "stop", "gross_ret": stop / entry - 1.0}
+            o = bar.get("open")
+            fill = o if (o is not None and o <= stop) else stop
+            return {"exit_date": bar["date"], "exit_px": fill, "hold_used": i,
+                    "reason": "stop", "gross_ret": fill / entry - 1.0}
     exit_bar = path[last]
     return {"exit_date": exit_bar["date"], "exit_px": exit_bar["px"], "hold_used": last,
             "reason": "time", "gross_ret": exit_bar["px"] / entry - 1.0}

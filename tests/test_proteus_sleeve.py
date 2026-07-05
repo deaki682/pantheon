@@ -196,3 +196,27 @@ def test_proteus_is_live_env_gate():
     assert is_live("proteus", {"PROTEUS_LIVE": "true"})
     assert not is_live("proteus", {"PROTEUS_LIVE": "false"})
     assert not is_live("proteus", {})
+
+
+def test_concentration_gate_requires_live_marks_with_positions():
+    """bug-hunt 2026-07-05: equity({}) marks held names at stale entry prices,
+    so a declining book could wave a >25% position through un-acked. With open
+    positions the caller must supply live marks (or equity)."""
+    book = _funded(1000.0)
+    book.enter(symbol="HELD", shares=50, price=10.0, date="2026-07-06",
+               spy_price=745.0, horizon_days=30, confidence=0.7,
+               edge_class="value", risk_ack=_ACK)          # $500 held
+    # no marks, no equity, positions open -> refused outright
+    with pytest.raises(JournalError):
+        book.enter(symbol="NEW", shares=10, price=10.0, date="2026-07-07",
+                   spy_price=745.0, horizon_days=5, confidence=0.5, edge_class="value")
+    # HELD has crashed 60%: live equity = 500 cash + 200 = 700 -> $200 = 29% > 25% -> needs ack
+    with pytest.raises(JournalError):
+        book.enter(symbol="NEW", shares=20, price=10.0, date="2026-07-07",
+                   spy_price=745.0, horizon_days=5, confidence=0.5, edge_class="value",
+                   marks={"HELD": 4.0})
+    # same trade WITH the ack passes
+    book.enter(symbol="NEW", shares=20, price=10.0, date="2026-07-07",
+               spy_price=745.0, horizon_days=5, confidence=0.5, edge_class="value",
+               marks={"HELD": 4.0}, risk_ack=_ACK)
+    assert "NEW" in book.positions

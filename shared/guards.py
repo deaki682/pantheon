@@ -300,7 +300,12 @@ def check_position_sanity(
     # personal holdings overlap with a god's symbols.
     for sym in sorted(combined.keys()):
         broker_shares = broker_positions.get(sym, 0.0)
-        broker_plus_pending = broker_shares + pending.get(sym, 0.0)
+        # Only credit pending BUYS; NEVER subtract pending sells (bug-hunt
+        # 2026-07-05): a queued-but-unfilled sell leaves the shares AT the
+        # broker, so subtracting it manufactured a phantom sleeve>broker
+        # shortfall that false-halted every god (e.g. the queued DAKT
+        # wind-down sell would have frozen Plutus's launch reconcile).
+        broker_plus_pending = broker_shares + max(0.0, pending.get(sym, 0.0))
         per_god = combined[sym]
         sleeve_total = sum(per_god.values())
         if sleeve_total - broker_plus_pending > tolerance:

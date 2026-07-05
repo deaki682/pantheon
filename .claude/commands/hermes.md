@@ -61,6 +61,14 @@ Every announced cash deal Hermes detects is recorded ONCE with the LLM's read:
      firm close date reached / delisted at the offer), exit at the offer/last
      (reason `completed` or `topping_bid` if a higher bid landed) and record the
      resolution. Reconcile the ACTUAL fill.
+   - **CVR rule (2026-07-05, from the alpha-hunt CVR autopsy):** on a cash+CVR
+     deal, Hermes's bet is the CASH leg only — SELL at/near close and NEVER hold
+     the CVR through settlement. A CVR is a compound forecast with an adversarial
+     payer (milestone dollars come out of the acquirer's pocket; Celgene's $9 CVR
+     went to $0 on a 36-day "delay"), i.e. the exact opposite of the contractual
+     floor this book exists to harvest. If the broker delivers a tradable CVR
+     anyway, sell it into the first liquid market; if untradable, write it to $0
+     in the sleeve and treat any payout as found money.
    - **Past-close flag:** `book.past_close(today)` — deals past their expected
      close that haven't resolved get a manual look (delayed? renegotiated?
      re-read the situation and update `expected_close`, or exit if the thesis

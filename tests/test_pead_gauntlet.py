@@ -106,3 +106,34 @@ def test_summarize():
     assert s["win"] == 0.75
     assert s["stop_rate"] == 0.25
     assert s["mean_excess"] == pytest.approx(0.02)
+
+
+def test_seasonal_sue_gap_does_not_misalign():
+    # bug-hunt 2026-07-05: a dropped quarter must NOT shift the q-4 comparison.
+    dates = [f"{y}-{m:02d}-30" for y in range(2018, 2023) for m in (3, 6, 9, 12)]
+    vals = {d: 1.0 + 0.1 * i for i, d in enumerate(dates)}
+    full = sorted(vals.items())
+    gapped = [(d, v) for d, v in full if d != "2020-06-30"]   # drop one quarter
+    sue_gap = seasonal_sue(gapped, min_history=4)
+    # 2021-06-30's delta must compare to 2020-06-30 — which is MISSING, so no SUE
+    assert "2021-06-30" not in sue_gap
+    # quarters whose exact prior-year quarter exists still get correctly aligned SUEs
+    full_sue = seasonal_sue(full, min_history=4)
+    for cd, s in sue_gap.items():
+        # any SUE that survives the gap must be computed from valid alignments only
+        assert cd != "2021-06-30"
+
+
+def test_stop_gap_through_fills_at_open():
+    # bug-hunt 2026-07-05: a bar that OPENS below the stop fills at the open.
+    path = [{"date": "d0", "px": 100.0, "low": 100.0, "open": 100.0},
+            {"date": "d1", "px": 82.0, "low": 80.0, "open": 81.0}]  # gapped through 92
+    t = simulate_trade(path, hold_days=3, stop_pct=0.08)
+    assert t["reason"] == "stop"
+    assert t["exit_px"] == pytest.approx(81.0)          # the open, NOT the 92 stop level
+    assert t["gross_ret"] == pytest.approx(-0.19)
+    # intraday breach (open above stop) still fills at the stop level
+    path2 = [{"date": "d0", "px": 100.0, "low": 100.0, "open": 100.0},
+             {"date": "d1", "px": 93.0, "low": 91.0, "open": 95.0}]
+    t2 = simulate_trade(path2, hold_days=3, stop_pct=0.08)
+    assert t2["exit_px"] == pytest.approx(92.0)

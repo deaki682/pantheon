@@ -101,3 +101,59 @@ Kills logged (do not slug): sin-premium (owned-factor relabel), earnings-persist
 - Operator curiosity — filed here first so it gets a prereg, not a vibe.
 - Proteus lab hypotheses that need house-scale data he can't build in
   one weekend session.
+
+## House-view steer (2026-07-05) — map every new item by its barrier
+
+Read docs/house_view_llm_edge_2026-07-05.md before proposing. The LLM edge is
+real but narrow (reading text→signal, strongest small/negative/neglected),
+**decays with adoption**, and is eaten by costs + overtrading. So the queue is
+re-steered by the barrier an edge sits behind:
+
+- **STOP proposing crowded-text edges** (news/headline sentiment, naive 10-K
+  sentiment) — they fail the barrier test (LLMs already dissolved "text is hard").
+  Do not slug them.
+- **FAVOR structural forced-seller hypotheses** (durable barrier; also passes G2).
+  This is where core research weight goes — items #3 (merger-arb), #4
+  (post-BK-emergence), spinoff-orphans, index-deletion, sub-NAV wind-downs.
+- **PILOT one capability-frontier hypothesis at a time** (a *window* edge,
+  measured for decay from day one):
+  - **#11 (new) Full-document synthesis vs headline read** — does an LLM reading
+    the ENTIRE merger docket + exhibits + litigation history beat a headline/
+    summary read on the same deals? Decision it buys: whether Hermes/Oracle should
+    invest in deep-document reads or stay shallow. Barrier: long-context frontier
+    the fleet isn't exploiting. G-gates: G2 (structural deals) + power (needs a
+    deal population).
+  - **#12 (new) Agentic cross-referencing edge** — does an agent that CONNECTS
+    sources (index-deletion filing + distressed holder + price dislocation, à la
+    the 2026-07-05 forced-seller scan) surface convex names a single-doc screen
+    misses? Decision it buys: whether Oracle's sourcing should be agentic-multi-source
+    vs single-lens. Barrier: agentic-reasoning frontier.
+- **Read A/B decay as the rotate signal.** When any LLM-lift (Hermes, Oracle,
+  Proteus) trends toward zero, the edge is crowding — the lab should already be
+  testing the next barrier, not defending the old one.
+
+The moat is the rotation, not the position: durable barriers for the core,
+frontier windows for the extra, ruthless decay-measurement to know when to move.
+
+## Exhaustive-hunt output (2026-07-05, 14-domain full sweep — 147 mapped, 8 verified)
+
+Survivors (enter the ratchet top-down; neither auto-slugs):
+
+| Item | Verdict | Gate reads | Next step |
+|---|---|---|---|
+| **#13 Odd-lot tender/Dutch/exchange proration-exemption arb** | LAB_HYPOTHESIS | G2✓ G4✓ (Rule 13e-4 odd-lot carve-out = issuer contractually bound, un-proratable by rule) G5✗ (~3-8 strong events/yr) | Forward event log from EDGAR (SC TO-I/13E-4/S-4) tagging odd-lot carve-outs; ONE live 99-share operational test on RH; kill if supply <12/yr or RH can't un-prorate or median $/event <$150. Opportunistic-only ceiling (~1%/yr of book) — never a god |
+| **#4 Post-BK-emergence equity** (re-confirmed) | LAB_HYPOTHESIS | G2✓ verified real (CLO indentures force divestiture of reorg equity) G4✗ G5 thin (~10-20/yr) | Already queued — execute the existing #4 prereg; population from confirmed Plans of Reorganization 2015-2025 |
+
+Kills logged (do not slug; do not re-surface): term/target-term CEF pull-to-NAV
+(42/44 are bond funds, priced to par, board escape-hatch breaks G4); Hatch-Waxman
+P-IV exclusivity (statutory windfall ≠ forced counterparty; AG cannibalization);
+IPO lockup-expiry reversal (ALREADY terminal-refuted: ipo_lockup_reversion,
+-10.4% mean excess — the hunt's verify caught the synthesis missing our own
+graveyard); event-contagion cross-referencing (Cohen-Frazzini relabel, no forced
+seller); tradable CVR arb (compound forecast w/ adversarial payer — Celgene $9→$0;
+NOT a contract). Short-vol VRP flagged anti-convex — never propose for this book.
+
+Hunt meta-finding: the contractual-payoff × tiny-capacity quadrant is real but
+supply-starved (~1%/yr ceiling). The evening scan's coverage was validated as
+~complete for a long-only no-options $19k book — growth comes from proving the
+edges we hold, not finding more.
