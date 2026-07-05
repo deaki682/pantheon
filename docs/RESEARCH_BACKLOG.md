@@ -259,6 +259,18 @@ behind the already-queued forced-seller batch (#4 post-BK, #13 odd-lot).
 > is the cautionary case: AUM fell on PERFORMANCE while net flows were positive). Per the prereg's
 > own pre-commitment, the slug **STAYS `preregistered`, not refuted** — the ratchet caught the wall
 > before a contaminated build burned the slug (the `post_bk_emergence` precedent). Clean unblock =
-> a paid ETF-holdings-history source (operator decision). An exploratory LOOK-DON'T-TOUCH peek on
-> LIQUIDATED thematic ETFs (100%-basket dump = forced event, no flow proxy needed) is being run to
-> smell-test whether the seam justifies buying data — its output may NOT be cited for any rule change.
+> a paid ETF-holdings-history source (operator decision).
+>
+> **EXPLORATORY PEEK OUTCOME (2026-07-05, LOOK-DON'T-TOUCH — may NOT be cited for any rule change):**
+> Ran the liquidated-thematic-ETF smell-test on 3 cannabis funds (POTX/THCX/PSDN). DATA-DEFEATED,
+> with one substantive lesson: (1) N-PORT series resolution failed for 2/3 (POTX/THCX file under large
+> multi-series trusts — the fund's series didn't resolve even in a 60-filing wide search); (2) **PSDN was
+> already down to 4 tiny holdings MONTHS before its close** — the insight: a dying thematic fund BLEEDS OUT
+> GRADUALLY over its decline, it does NOT hold a full basket to the end and dump it in one forced event,
+> so the clean "100% forced liquidation" premise is weaker than assumed; (3) the OTC MSOs that carry the
+> effect aren't in SEP; (4) the n=2 names that DID resolve showed the graveyard's wrong-sign pattern —
+> dumped −4.5% into the close, then KEPT FALLING −6.1%/63d (no reversion). Net: NO positive signal to
+> justify buying data, mild DISCOURAGEMENT (clean-dump events rarer/messier than assumed + the resolvable
+> slice echoed spinoff_orphans/ipo_lockup). Recommendation: **do NOT buy ETF-holdings data for #18 on
+> current evidence**; leave it preregistered/data-blocked as a standing option that re-opens only if a
+> survivorship-free daily-holdings source arrives cheaply for another reason.
