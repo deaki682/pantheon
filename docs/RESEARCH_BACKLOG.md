@@ -134,3 +134,26 @@ re-steered by the barrier an edge sits behind:
 
 The moat is the rotation, not the position: durable barriers for the core,
 frontier windows for the extra, ruthless decay-measurement to know when to move.
+
+## Exhaustive-hunt output (2026-07-05, 14-domain full sweep — 147 mapped, 8 verified)
+
+Survivors (enter the ratchet top-down; neither auto-slugs):
+
+| Item | Verdict | Gate reads | Next step |
+|---|---|---|---|
+| **#13 Odd-lot tender/Dutch/exchange proration-exemption arb** | LAB_HYPOTHESIS | G2✓ G4✓ (Rule 13e-4 odd-lot carve-out = issuer contractually bound, un-proratable by rule) G5✗ (~3-8 strong events/yr) | Forward event log from EDGAR (SC TO-I/13E-4/S-4) tagging odd-lot carve-outs; ONE live 99-share operational test on RH; kill if supply <12/yr or RH can't un-prorate or median $/event <$150. Opportunistic-only ceiling (~1%/yr of book) — never a god |
+| **#4 Post-BK-emergence equity** (re-confirmed) | LAB_HYPOTHESIS | G2✓ verified real (CLO indentures force divestiture of reorg equity) G4✗ G5 thin (~10-20/yr) | Already queued — execute the existing #4 prereg; population from confirmed Plans of Reorganization 2015-2025 |
+
+Kills logged (do not slug; do not re-surface): term/target-term CEF pull-to-NAV
+(42/44 are bond funds, priced to par, board escape-hatch breaks G4); Hatch-Waxman
+P-IV exclusivity (statutory windfall ≠ forced counterparty; AG cannibalization);
+IPO lockup-expiry reversal (ALREADY terminal-refuted: ipo_lockup_reversion,
+-10.4% mean excess — the hunt's verify caught the synthesis missing our own
+graveyard); event-contagion cross-referencing (Cohen-Frazzini relabel, no forced
+seller); tradable CVR arb (compound forecast w/ adversarial payer — Celgene $9→$0;
+NOT a contract). Short-vol VRP flagged anti-convex — never propose for this book.
+
+Hunt meta-finding: the contractual-payoff × tiny-capacity quadrant is real but
+supply-starved (~1%/yr ceiling). The evening scan's coverage was validated as
+~complete for a long-only no-options $19k book — growth comes from proving the
+edges we hold, not finding more.

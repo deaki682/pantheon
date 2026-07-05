@@ -47,6 +47,28 @@ marked/graded by the daily god sessions that own their horizons.
    — the arithmetic settles it, not enthusiasm. Supported-but-idle
    backtests get their forward tests started. Only then new work.
 
+2b. **THE HUNT PHASE (2026-07-05, operator directive — every session).**
+   Run the standing `alpha-hunt` workflow (`.claude/workflows/alpha-hunt.js`,
+   invoke via the Workflow tool by name) BEFORE working the backlog:
+   - **Weekly (default): `mode=delta`** — 4 agents sweep what CHANGED since
+     the last hunt (new events/filings, market dislocations, capability-frontier
+     openings, and a DECAY WATCH on the house's own live A/Bs — shrinking
+     LLM-lift is the rotate signal).
+   - **Quarterly (or on operator request): `mode=full`** — the 14-domain
+     exhaustive sweep (gate with
+     `should_run("cache/lab_cadence.json", "full_hunt", 90)`, then `mark_run`).
+   The hunt is the methodology proven 2026-07-05 (147 candidates → 2 survivors;
+   verification caught a graveyard miss the synthesis made): adversarial recon
+   fan-out → synthesis cross-checked against the LIVE repo record → a
+   kill-attempt verify per finalist.
+   **Rules of the hunt:** it is RECONNAISSANCE — it tests no data and therefore
+   does NOT tick `hypotheses_ever` (only `new_strategy` does; hunt often, slug
+   sparingly). Nothing it returns auto-slugs: GOD_CANDIDATE / LAB_HYPOTHESIS
+   survivors are APPENDED TO THE BACKLOG with their gate reads and enter the
+   ratchet like any other item, top-down. REJECTs with a novel kill-reason get
+   a one-line "kills logged" note in the backlog so the next hunt doesn't
+   re-surface them.
+
 3. **Work the backlog top-down.** For the highest-priority unblocked
    item:
    - **Tradable hypothesis** → `new_strategy(lab, slug=…, date=…,
