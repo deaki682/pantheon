@@ -1,0 +1,47 @@
+{
+ "detected": [
+  {
+   "symbol": "SLP",
+   "detect_date": "2026-07-05",
+   "entry_price": 18.38,
+   "offer_price": 18.5,
+   "spy_entry": 744.8,
+   "expected_close": "2026-10-15",
+   "spread": 0.0065,
+   "llm_verdict": "drop",
+   "llm_rationale": "Clean all-cash PE take-private (Altaris, healthcare-sim software; definitive agmt Jun 16). Break risk low \u2014 no antitrust angle, Altaris well-capitalised. But spread is only +0.65%, BELOW the 1% MIN_SPREAD floor: the market has already compressed it. No arb edge left to harvest \u2014 drop, don't deploy real capital + slippage for a near-certain 0.65%.",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "resolved": false
+  },
+  {
+   "symbol": "AVNS",
+   "detect_date": "2026-07-05",
+   "entry_price": 24.93,
+   "offer_price": 25.0,
+   "spy_entry": 744.8,
+   "expected_close": "2026-12-31",
+   "spread": 0.0028,
+   "llm_verdict": "drop",
+   "llm_rationale": "All-cash PE buyout (American Industrial Partners, $1.272B, 72% premium; definitive Apr 14, close H2-26 pending routine regulatory). Med-device, no plausible antitrust block; near-par price signals the market prices it near-certain. Spread +0.28% \u2014 essentially closed, far below the 1% floor. Drop: no residual spread.",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "resolved": false
+  },
+  {
+   "symbol": "KORE",
+   "detect_date": "2026-07-05",
+   "entry_price": 9.23,
+   "offer_price": 9.25,
+   "spy_entry": 744.8,
+   "expected_close": "2026-08-31",
+   "spread": 0.0022,
+   "llm_verdict": "drop",
+   "llm_rationale": "All-cash PE take-private (Searchlight+Abry, $726M; definitive Feb 26, NO financing condition \u2014 a plus). Only residual risk is the majority-of-minority vote, but the ~700% premium all but guarantees approval. Old deal near close; spread +0.22%. Drop: spent spread, no edge.",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "resolved": false
+  }
+ ],
+ "graded": []
+}
