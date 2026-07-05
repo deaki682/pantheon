@@ -52,16 +52,18 @@ year), and the **long half he actually trades measured absent** (the reaction-ga
 replay found no 5-day drift on rewarded beats; only the un-tradable short side was
 real). His **~$2,000 sleeve winds to cash and returns to the treasury** for the
 pending allocation. The `achilles/` package is KEPT as a library (the
-Buzz/Catalyst precedent): **Proteus runs the PEAD basket as a seasonal MODE**
-during the earnings windows on his own sleeve — `achilles.scanner`/`scoring`/
-`season`/`earnings`, carrying the reaction-direction gate (only a beat the market
-*rewarded*, never a "sold beat"), the **reaction-magnitude guard**
-(`MAX_REACTION_PCT` — a beat that already popped too far has spent its drift), and
-the confirming signals. The `achilles_pead_gauntlet` (preregistered 2026-07-05)
-still runs, now to tell Proteus whether the mode is worth using — the MICRO band
-(exchange-listed, tradable, fully visible in SEP) a first-class test. No PEAD
-backtest may be cited as evidence FOR the strategy except a SUPPORTED,
-forward-confirmed gauntlet cell.
+Buzz/Catalyst precedent). The PEAD-basket-as-a-Proteus-seasonal-MODE idea was
+tested by the `achilles_pead_gauntlet` and **REFUTED 2026-07-05** (docs/
+lab_results_achilles_pead_gauntlet.md): 18/18 cells NEGATIVE excess vs
+same-bucket EW, in-sample AND holdout, worse at 2× cost; the tradable long PEAD
+drift is absent/reversed in the exchange-listed SMALL/MICRO universe (MICRO
+worse than SMALL). **The seasonal PEAD mode is SHELVED — not a supported edge,
+may not be cited as one.** The `achilles/` package (`scanner`/`scoring`/
+`season`/`earnings`, the reaction-direction gate + `MAX_REACTION_PCT` magnitude
+guard) is retained as mechanical PLUMBING only — never as an autopilot or a
+cited edge. No PEAD backtest may be cited as evidence FOR the strategy (the only
+PEAD reading the house measured as real was the *short* side of a sold beat,
+which is un-tradable long-only).
 
 **Midas** (LIVE RETIRED 2026-07-04, operator directive — ghost A/B
 continues) — Was the maximally concentrated weekly catalyst play: full
@@ -98,13 +100,12 @@ conviction earns it — but a position past 25% of the book requires an
 explicit `risk_ack` (the sleeve refuses unconscious concentration), and
 a 40% drawdown from peak HALTS new entries without force-selling (his
 convex bets play out; only the kill switch liquidates). **Seasonal PEAD
-mode (2026-07-05, Achilles fold):** during the four earnings windows
-(`achilles.season`) Proteus may run the diversified beat-basket as one
-discretionary play on his own sleeve (`achilles.scanner`/`scoring`/
-`earnings`, with the reaction-direction gate + magnitude guard + sold-beat
-ban) — journaled and graded like any decision, with the honest caveat that
-the long drift is unproven until `achilles_pead_gauntlet` says otherwise;
-never an autopilot. Checkpoint at 30 closed trades or 2027-01-15:
+mode — SHELVED 2026-07-05:** the `achilles_pead_gauntlet` REFUTED the
+tradable long PEAD drift (18/18 cells negative excess, holdout + 2× cost;
+docs/lab_results_achilles_pead_gauntlet.md), so Proteus does NOT run a PEAD
+beat-basket as an edge and may not cite it as one. An earnings beat may still
+appear inside a discretionary thesis as ordinary context, but "PEAD drift" is
+not a mechanism the book trades. Checkpoint at 30 closed trades or 2027-01-15:
 validation keeps the sleeve, refutation retires him and returns the
 capital to the treasury. Owns only `cache/proteus_*`.
 

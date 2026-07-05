@@ -375,3 +375,96 @@ def green_day_stats(curve: list) -> dict:
             "spy_green_rate": round(spys / n, 3),
             "current_streak": streak,
             "best_streak": best_streak}
+
+
+# Drought thresholds. A flag is a REVIEW TRIGGER, never a trade target — see
+# the docstring. Deliberately loose so it can only fire on a real, sustained
+# refusal to deploy, not on ordinary patience.
+DROUGHT_SESSIONS = 8      # opportunity-sessions all-cash before it's worth a look
+DROUGHT_MIN_DAYS = 21     # calendar floor — cannot fire during the funded ramp-up
+DROUGHT_CASH_FRACTION = 0.90   # "essentially all cash" = <10% deployed
+
+
+def trade_drought_stats(records: list, *, today: str, funded: bool,
+                        cash: float, equity: float,
+                        funded_since: Optional[str] = None,
+                        threshold_sessions: int = DROUGHT_SESSIONS,
+                        min_days: int = DROUGHT_MIN_DAYS) -> dict:
+    """Paralysis diagnostic — the mirror of the overtrading guards.
+
+    REPORTED, NEVER GATING (same rule as green_day_stats). This does NOT
+    tell Proteus to trade; a daily-or-session trade *target* is exactly the
+    incentive the whole experiment is built to avoid. It exists so a
+    sustained refusal to deploy funded capital cannot hide behind the word
+    "patience": the operator (and the fresh instance each session) sees an
+    honest count of how long the book has sat ~all-cash while opportunities
+    came and went, and decides whether that's discipline or paralysis.
+
+    The window starts at the LATER of the last entry and `funded_since` —
+    unfunded/closed-market sessions (when no trade was possible) are never
+    counted against him. The flag additionally requires a `min_days`
+    calendar floor, so it is structurally impossible to fire during the
+    first few weeks of being funded no matter how many sessions run.
+
+    records: journal decisions (dicts, any order). funded/cash/equity: the
+    live book's current state. funded_since: ISO date capital landed
+    (the runbook records it in the cadence file); None pre-funding.
+    """
+    def _d(s):
+        try:
+            return _date.fromisoformat(str(s)[:10])
+        except (ValueError, TypeError):
+            return None
+
+    entries = [r for r in records if r.get("action") == "enter" and r.get("date")]
+    last_entry = max((r["date"] for r in entries), default=None)
+
+    # window start = later of (last entry, funding date)
+    starts = [d for d in (last_entry, funded_since) if d]
+    window_start = max(starts) if starts else None
+
+    if window_start is not None:
+        session_dates = {r["date"] for r in records
+                         if r.get("date") and r.get("action") in ("note", "enter", "exit")
+                         and r["date"] >= window_start}
+        # the window_start session itself isn't a "since" session unless it's
+        # an entry day we've moved past; count strictly-after distinct dates
+        session_dates.discard(window_start) if last_entry == window_start else None
+    else:
+        session_dates = {r["date"] for r in records
+                         if r.get("date") and r.get("action") in ("note", "enter", "exit")}
+
+    n_sessions = len(session_dates)
+
+    ws, td = _d(window_start), _d(today)
+    days_since = (td - ws).days if (ws and td) else None
+
+    deployed = None
+    if equity and equity > 0:
+        deployed = 1.0 - max(0.0, cash) / equity
+
+    all_cash = deployed is not None and deployed < (1.0 - DROUGHT_CASH_FRACTION)
+    flag = bool(funded and all_cash
+                and n_sessions >= threshold_sessions
+                and (days_since is not None and days_since >= min_days))
+
+    if not funded:
+        status = "unfunded — drought clock not started (no trade was possible)"
+    elif last_entry is None and deployed is not None and deployed >= (1.0 - DROUGHT_CASH_FRACTION):
+        status = "funded and deployed — no drought"
+    elif not all_cash:
+        status = f"funded, {round((deployed or 0)*100)}% deployed — not a drought"
+    elif flag:
+        status = (f"DROUGHT: funded and ~all cash for {n_sessions} sessions / "
+                  f"{days_since}d — review whether actionable leads are being passed")
+    else:
+        status = (f"funded, all-cash {n_sessions} sessions / {days_since or 0}d "
+                  f"— within patience floor ({threshold_sessions} sessions & {min_days}d)")
+
+    return {"drought_flag": flag,
+            "sessions_all_cash": n_sessions,
+            "days_since": days_since,
+            "deployed_pct": round(deployed, 3) if deployed is not None else None,
+            "last_entry_date": last_entry,
+            "window_start": window_start,
+            "status": status}
