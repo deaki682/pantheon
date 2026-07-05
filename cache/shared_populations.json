@@ -1,5 +1,13 @@
 {
  "populations": {
+  "achilles_pead_universes": {
+   "built": "2026-07-05",
+   "coverage_note": "KNOWN MISSING: OTC/pink names below the major-exchange line are excluded by design (not tradable at the broker; also thin in SEP). 1,029 ticker-date rows dropped by the listing-window guard (recycled/out-of-window). No deep-OTC coverage. Marketcap-rank buckets shift membership monthly by construction.",
+   "definition": "Monthly point-in-time marketcap-rank universes 2000-2025: SMALL=rank 501-2000, MICRO=rank 2001-3500, restricted to tradable common equity on major US exchanges (NYSE/NASDAQ/NYSEMKT), each name validated in its TICKERS listing window (recycled-ticker guard). Ranked by Sharadar DAILY marketcap on each month-end.",
+   "file": "cache/shared_pop_achilles_pead_universes.json",
+   "n": 312,
+   "source": "Sharadar DAILY (marketcap) + TICKERS, pulled 2026-07-05; built by build_achilles_universes.py"
+  },
   "delphi_pit_top119": {
    "built": "2026-07-04",
    "coverage_note": "Delisted/renamed members included (SQ->XYZ resolved via resolve_ticker; TWTR-era members present). Dual-class listings retained per the blind rule (GOOG and GOOGL can both appear). Excludes ADRs, Canadian listings, preferreds, warrants, funds by TICKERS category; no other filter.",
