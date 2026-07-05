@@ -216,6 +216,13 @@ verdict → what changed). Read it before proposing any strategy change:
 most obvious ideas have already been measured, and each historical
 dataset buys ONE decision, once.
 
+**`docs/house_view_llm_edge_2026-07-05.md`** — the strategic prior: where the
+LLM edge actually is (reading text→signal, small/negative/neglected), that it
+DECAYS with adoption, and how to look ahead by mapping every edge to its barrier
+(avoid barriers LLMs dissolve; camp on structural forced-seller/capacity/patience;
+ride the capability frontier). Read it before proposing a "new" edge — the moat is
+the rotation, not the position.
+
 ## Architecture
 
 - **State branch:** `origin/claude/live` — sleeves, curves, dossiers,

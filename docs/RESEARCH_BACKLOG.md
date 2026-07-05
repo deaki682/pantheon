@@ -101,3 +101,36 @@ Kills logged (do not slug): sin-premium (owned-factor relabel), earnings-persist
 - Operator curiosity — filed here first so it gets a prereg, not a vibe.
 - Proteus lab hypotheses that need house-scale data he can't build in
   one weekend session.
+
+## House-view steer (2026-07-05) — map every new item by its barrier
+
+Read docs/house_view_llm_edge_2026-07-05.md before proposing. The LLM edge is
+real but narrow (reading text→signal, strongest small/negative/neglected),
+**decays with adoption**, and is eaten by costs + overtrading. So the queue is
+re-steered by the barrier an edge sits behind:
+
+- **STOP proposing crowded-text edges** (news/headline sentiment, naive 10-K
+  sentiment) — they fail the barrier test (LLMs already dissolved "text is hard").
+  Do not slug them.
+- **FAVOR structural forced-seller hypotheses** (durable barrier; also passes G2).
+  This is where core research weight goes — items #3 (merger-arb), #4
+  (post-BK-emergence), spinoff-orphans, index-deletion, sub-NAV wind-downs.
+- **PILOT one capability-frontier hypothesis at a time** (a *window* edge,
+  measured for decay from day one):
+  - **#11 (new) Full-document synthesis vs headline read** — does an LLM reading
+    the ENTIRE merger docket + exhibits + litigation history beat a headline/
+    summary read on the same deals? Decision it buys: whether Hermes/Oracle should
+    invest in deep-document reads or stay shallow. Barrier: long-context frontier
+    the fleet isn't exploiting. G-gates: G2 (structural deals) + power (needs a
+    deal population).
+  - **#12 (new) Agentic cross-referencing edge** — does an agent that CONNECTS
+    sources (index-deletion filing + distressed holder + price dislocation, à la
+    the 2026-07-05 forced-seller scan) surface convex names a single-doc screen
+    misses? Decision it buys: whether Oracle's sourcing should be agentic-multi-source
+    vs single-lens. Barrier: agentic-reasoning frontier.
+- **Read A/B decay as the rotate signal.** When any LLM-lift (Hermes, Oracle,
+  Proteus) trends toward zero, the edge is crowding — the lab should already be
+  testing the next barrier, not defending the old one.
+
+The moat is the rotation, not the position: durable barriers for the core,
+frontier windows for the extra, ruthless decay-measurement to know when to move.
