@@ -1,0 +1,77 @@
+{
+  "reconciled_at": "2026-07-06",
+  "n_top": 40,
+  "n_dropped": 1,
+  "n_flagged": 7,
+  "n_clean": 32,
+  "dropped": [
+    {
+      "ticker": "FTH",
+      "why": "stale-cap 31->590M, pb=-0.22"
+    }
+  ],
+  "flagged": [
+    {
+      "ticker": "AIFC",
+      "why": "crypto-treasury"
+    },
+    {
+      "ticker": "BATL",
+      "why": "pb=-0.42"
+    },
+    {
+      "ticker": "LAWR",
+      "why": "pb=119.05"
+    },
+    {
+      "ticker": "SKYA",
+      "why": "crypto-treasury"
+    },
+    {
+      "ticker": "AVX",
+      "why": "crypto-treasury"
+    },
+    {
+      "ticker": "BNC",
+      "why": "crypto-treasury"
+    },
+    {
+      "ticker": "NAKA",
+      "why": "crypto-treasury"
+    }
+  ],
+  "clean": [
+    "CRMT",
+    "PSHG",
+    "ENLV",
+    "FSP",
+    "APUS",
+    "CTRM",
+    "WKEY",
+    "WVVI",
+    "VTGN",
+    "NAII",
+    "DLNG",
+    "CTXR",
+    "ONL",
+    "EDUC",
+    "SPWH",
+    "CLW",
+    "HPP",
+    "WWR",
+    "CSIQ",
+    "DXLG",
+    "NUS",
+    "KTTA",
+    "EONR",
+    "GLBS",
+    "ZOOZ",
+    "IMPP",
+    "BNGO",
+    "UFI",
+    "XLO",
+    "REI",
+    "ESBA",
+    "BHM"
+  ]
+}
