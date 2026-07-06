@@ -83,7 +83,15 @@ def floors(row: dict) -> Floors:
     net_cash nets against `debt` (Sharadar's TOTAL debt), not one line — the XRN
     discipline. ncav is Graham's net-current-asset value (current assets less ALL
     liabilities, senior and not). tangible_book strips intangibles+goodwill (the
-    MNRO discipline; Sharadar folds goodwill into `intangibles`)."""
+    MNRO discipline; Sharadar folds goodwill into `intangibles`).
+
+    KNOWN COVERAGE-STAGE GENEROSITY (measured on MED, 2026-07-06): Sharadar's
+    `debt` field INCLUDES capitalized lease obligations, so net_cash slightly
+    OVERSTATES the true cash floor for lease-heavy operators (a lease is matched
+    by a right-of-use asset, not a cash claim). This is left generous on purpose —
+    the precision read nets the real liability stack name by name (MED's screen
+    'debt' was entirely leases; its true floor sat at ~par, and it was rejected).
+    Do NOT tighten it here into a false-precision; that is the gate's job."""
     cash = _num(row, "cashneq") + _num(row, "investmentsc")
     net_cash = cash - _num(row, "debt")
     ncav = _num(row, "assetsc") - _num(row, "liabilities")
