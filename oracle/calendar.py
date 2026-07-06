@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 RESEARCH_INTERVAL_DAYS = 3
@@ -84,6 +84,11 @@ def mark_run(path: str, key: str, *, now: datetime | None = None) -> None:
     _write(path, d)
 
 
+def _as_utc(dt: datetime) -> datetime:
+    """Coerce a naive or aware datetime to aware UTC (naive is assumed UTC)."""
+    return dt.replace(tzinfo=timezone.utc) if dt.tzinfo is None else dt.astimezone(timezone.utc)
+
+
 def days_since(path: str, key: str, *, now: datetime | None = None) -> float | None:
     now = now or datetime.utcnow()
     d = _read(path)
@@ -94,7 +99,7 @@ def days_since(path: str, key: str, *, now: datetime | None = None) -> float | N
         ts = datetime.fromisoformat(raw)
     except ValueError:
         return None
-    return (now - ts).total_seconds() / 86_400.0
+    return (_as_utc(now) - _as_utc(ts)).total_seconds() / 86_400.0
 
 
 def should_run(
