@@ -279,8 +279,18 @@ FORM_TO_FAMILY = {
     "SC TO-I": "odd_lot_tender", "SC TO-I/A": "odd_lot_tender",
     "N-8F": "fund_liquidation", "N-8F ORDR": "fund_liquidation",
     "10-12B": "spinoff_largecap", "10-12B/A": "spinoff_largecap",
-    "25-NSE": "delisting", "25": "delisting",
 }
+# DELISTING (Form 25 / 25-NSE) — ADDED then DEMOTED 2026-07-06 after measuring it.
+# A live sweep produced 105 tradable "delistings"; on inspection ~all were NOISE:
+# 39 non-common securities (warrants/preferred/bankruptcy-Q/units) and 66 "plain
+# common" dominated by healthy mega-caps (V/WMT/PEP/LLY/XOM/FDX — all trading
+# normally) that filed a Form 25 to delist a specific NOTE/WARRANT, not the
+# company. Genuine whole-company exchange delistings are distress/going-private
+# (no floor / Hermes). KEY correction: a Form 25 is NOT the index-DELETION
+# mechanic — a solvent stock forced off an INDEX while it keeps trading is an
+# S&P/Russell index-provider announcement, a DIFFERENT source (not EDGAR). So the
+# delisting family is not form-enumerated; the index-deletion channel is future
+# work against index-reconstitution data. This is loosen -> measure -> correct.
 # Considered and deliberately NOT added (judgment, not timidity): SC 13E3
 # (going-private = cash-out, Hermes's domain); Form 15 / 15-12G / 15-15D
 # (going-dark deregistration — real forced flow but the result is an illiquid,

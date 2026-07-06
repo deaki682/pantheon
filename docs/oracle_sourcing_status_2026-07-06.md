@@ -80,3 +80,23 @@ tradability filter** (most of the 81 are non-traded funds — the clean signal i
 "does it have a live listed quote?"). Keyword full-text search is retained only
 as a supplement for families with no single defining form (e.g. rights offerings
 buried in S-1/424B prose). Answer key saved: `cache/oracle_stage1_answerkey.json`.
+
+## LOOSEN -> MEASURE -> CORRECT (2026-07-06): the delisting channel is the wrong instrument
+
+Loosened coverage (added Form 25/25-NSE "delisting", widened the window 2->3mo,
+de-blunted the tradability filter). The wider sweep produced 124 tradable
+(from 14) + 296 flagged. But on measuring the new delisting channel: of its 105
+tradable hits, ~all were NOISE — 39 non-common securities (warrants/preferred/
+bankruptcy-Q/units) and 66 "plain common" dominated by healthy mega-caps
+(V/WMT/PEP/LLY/XOM/FDX, all trading normally) that filed a Form 25 to delist a
+specific NOTE/WARRANT, not the company. Genuine whole-company exchange delistings
+are distress or going-private — no floor, or Hermes's.
+
+**Correction:** a Form 25 is NOT the index-DELETION forced-seller mechanic. A
+solvent stock forced off an INDEX while it keeps trading is an S&P/Russell
+index-provider announcement — a different data source (not EDGAR). The delisting
+channel is DEMOTED (removed from form enumeration); index-deletion is future work
+against index-reconstitution data. The kept wins from the loosening: the wider
+window + N-8F ORDR fix grew the clean CEF/BDC tender leads to 7 (JOF, EVV, EFR,
+EVF, PGIM, EIIA, FRBP), and the de-blunted tradability split preserves flagged
+names instead of dropping them. Loosen -> measure -> correct, with a number.

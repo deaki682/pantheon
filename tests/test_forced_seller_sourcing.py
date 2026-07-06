@@ -125,19 +125,21 @@ def test_sweep_by_form_keeps_all_when_filter_off():
     assert len(out) == 3  # SC TO-I x2 + N-8F, all enumerated; 8-K is not a mapped form
 
 
-def test_delisting_family_is_live_and_form_mapped():
-    # the loosened-coverage additions (2026-07-06)
-    assert not fss.is_graveyard("delisting")
-    assert fss.family_by_key("delisting") is not None
-    assert fss.FORM_TO_FAMILY["25-NSE"] == "delisting"
+def test_delisting_demoted_not_form_enumerated():
+    # DEMOTED 2026-07-06: Form 25 measured as ~all security-level/distress noise;
+    # the real index-deletion mechanic is an index-provider announcement, not EDGAR.
+    assert "25-NSE" not in fss.FORM_TO_FAMILY
+    assert "25" not in fss.FORM_TO_FAMILY
+    assert "delisting" not in set(fss.FORM_TO_FAMILY.values())
     assert fss.FORM_TO_FAMILY["N-8F ORDR"] == "fund_liquidation"  # real form string, not bare N-8F
 
 
-def test_enumerate_catches_delisting_form():
+def test_delisting_form_no_longer_enumerated():
+    # a 25-NSE line must NOT produce a candidate (channel demoted); the tender does
     idx = ("25-NSE           SOME DELISTED CO                              4242424    2026-06-01  edgar/data/x.txt\n"
            "SC TO-I          A TENDER FUND                                 5252525    2026-06-01  edgar/data/y.txt\n")
     out = fss.sweep_by_form("2026-06-01", "2026-06-01", cik_to_ticker={"0004242424": "DLST", "0005252525": "TND"},
                             tradable_only=True, http_get=lambda url: idx)
-    fams = {c["cik"]: c["family"] for c in out}
-    assert fams["0004242424"] == "delisting"
-    assert fams["0005252525"] == "odd_lot_tender"
+    ciks = {c["cik"] for c in out}
+    assert "0004242424" not in ciks           # delisting demoted
+    assert ciks == {"0005252525"}             # only the tender survives
