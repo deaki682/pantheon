@@ -44,3 +44,13 @@
 {"date": "2026-07-03", "dollars": 130.0, "order_id": "6a47d324-9b64-41a1-af47-0d5f7c5a309e", "price": 78.83, "reason": "momentum_entry", "shares": 1.6491183559558544, "side": "buy", "symbol": "XYZ"}
 {"date": "2026-07-04", "note": "operator-directed cancel 2026-07-04: order placed on July-3 market holiday by hourly-pass churn; broker state=cancelled, 0 filled; position+cooldown reversed", "order_id": "6a47d301-a695-4519-9118-9274b206ce5c", "side": "cancel_sell", "symbol": "AMZN"}
 {"date": "2026-07-04", "note": "operator-directed cancel 2026-07-04: same holiday churn; broker state=cancelled, 0 filled; cash refunded, position removed", "order_id": "6a47d324-9b64-41a1-af47-0d5f7c5a309e", "side": "cancel_buy", "symbol": "XYZ"}
+{"date": "2026-07-06", "symbol": "AAPL", "side": "sell", "shares": 0.530266, "order_id": "6a4b2ac8-88dd-4443-8c17-aa7c03055524", "state": "queued", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "ABBV", "side": "sell", "shares": 0.630357, "order_id": "6a4b2ac9-20eb-482a-afec-ccf6fd0b349c", "state": "queued", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "AMAT", "side": "sell", "shares": 0.229426, "order_id": "6a4b2acb-1ff1-41c0-88e3-a89f6216b834", "state": "queued", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "BAC", "side": "sell", "shares": 2.843669, "order_id": "6a4b2acc-c3af-435e-a6dd-ec62ca141b28", "state": "queued", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "CVS", "side": "sell", "shares": 1.555983, "order_id": "6a4b2acd-83b4-4036-9070-3d0f1e45d52e", "state": "queued", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "ELV", "side": "sell", "shares": 0.416298, "order_id": "6a4b2ace-0aea-4be0-88b2-9149f5685baa", "state": "queued", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "GOOGL", "side": "sell", "shares": 0.464099, "order_id": "6a4b2acf-a5d4-4bda-b81a-5f2045c73121", "state": "queued", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "IBM", "side": "sell", "shares": 0.637604, "order_id": "6a4b2ad1-90df-4357-a7dd-abc31e2ae51b", "state": "queued", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "UNH", "side": "sell", "shares": 0.378771, "order_id": "6a4b2ad2-756f-4326-893c-c0612e1b4432", "state": "queued", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "AMZN", "side": "sell", "shares": 0.668247, "order_id": "6a4b2ad3-1c13-4afe-8237-8463df3fe8a5", "state": "queued", "reason": "wind_down_liquidation"}
