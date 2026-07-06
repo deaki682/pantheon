@@ -1,3 +1,8 @@
+> **SUPERSEDED 2026-07-06 by `docs/oracle_upside_spec.md` (the bible).** This
+> roadmap was written floor-first (bounded-downside convexity). The operator recut
+> Oracle to hunt the biggest REAL upside over a 6–24mo hold — the funnel shape here
+> is still useful, but the SELECTION criterion is upside, not floor. Read the spec.
+
 # Oracle — the finest LLM stock picker (build reference, 2026-07-06)
 
 A skeleton of what Oracle looks like at its highest degree: an instrument that

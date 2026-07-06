@@ -1,4 +1,11 @@
-"""Convex dossiers — the reframed Oracle's edge (docs/oracle_reframe_2026-07-05.md).
+"""Convex dossiers — RETIRED for SELECTION 2026-07-06 (see oracle.upside_dossier +
+docs/oracle_upside_spec.md). The floor-first gate below made Oracle an avoidance
+machine (one bounded liquidation a quarter); Oracle was recut to hunt the biggest
+REAL upside over a 6–24mo hold. This module is kept only for (a) the primary-
+citation discipline that lives on in upside_dossier.blowup_check, and (b) history.
+Do NOT use make_convex_dossier / rank_fundable to select the upside book.
+
+Convex dossiers — the reframed Oracle's edge (docs/oracle_reframe_2026-07-05.md).
 
 The old dossier confirmed dead signals ("insider + quality + cheap"). A convex
 dossier establishes ASYMMETRY and names the STRUCTURAL reason the price is

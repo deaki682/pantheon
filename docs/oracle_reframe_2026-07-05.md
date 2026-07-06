@@ -1,3 +1,10 @@
+> **SUPERSEDED 2026-07-06 for SELECTION — see `docs/oracle_upside_spec.md` (the
+> bible).** The floor/convex framing below collapsed into an avoidance machine
+> (one bounded liquidation a quarter). Oracle was recut to a single objective:
+> the biggest REAL upside over a 6–24mo hold. Floors are now only a conviction
+> bonus; the primary-source discipline here survives as the blowup filter's
+> lineage. Retained as history.
+
 # Oracle reframe — from insider-signal factor god to measured deep-research convex engine (2026-07-05)
 
 ## The diagnosis (why the reframe)

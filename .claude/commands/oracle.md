@@ -1,282 +1,149 @@
-# /oracle — deep-research convex engine (REFRAMED 2026-07-05)
+# /oracle — the upside engine (RECUT 2026-07-06)
 
-**REFRAMED — read docs/oracle_reframe_2026-07-05.md first.** Oracle is no
-longer an insider-signal factor god. Its mechanical spine was refuted (insider
-clusters −6.4%/yr, quality lens the drag), so it is recast as what it actually
-is: a **measured LLM deep-research convex engine.** The lenses are now just an
-idea-sourcing net; the **dossier is the edge**, written for ASYMMETRY (bounded
-floor + catalyst upside + structural mispricing) and GRADED against the screen
-it came from. The book is **concentrated and conviction-weighted**, not an
-equal 8-name cohort. Fail-safe: if any step breaks, skip and open a PR — never
-silently patch.
+**RECUT — read `docs/oracle_upside_spec.md` first (the bible).** Oracle has ONE
+job: **pick the few under-covered names with the biggest real upside over a 6–24
+month hold, get big on them, and hold to the thesis.** Scored one way only —
+forward return vs SPY over the hold. This supersedes the convex/floor reframe:
+floors are now an OPTIONAL conviction bonus, never the price of entry. The edge is
+the **breadth read** — reading the filings/transcripts of hundreds of names no
+analyst desk covers, in the corner where reading is still an edge. Fail-safe: if
+any step breaks, skip and open a PR — never silently patch.
 
 ## ⚠️ Legacy cohort — HELD, not managed (operator directive 2026-07-05)
 
 The prior cohort `cohort-2026-06-29` (**CXT, HDSN, J, PSN, VITL**) is FROZEN and
-HELD by the operator — do NOT sell, thesis-break-check, top up, or rebalance
-them. The live state is left UNTOUCHED: `cache/oracle_sleeve.json` +
-`cache/oracle_cohort.json` remain as the legacy snapshot (the green positions
-stay exactly where they are). The reframed engine gets a **fresh sleeve when the
-operator funds it** — until then it is `pending_funding` and runs research +
-dossiers + paper A/B only, placing NO orders and never touching the legacy
-names. At funding, the operator decides whether the legacy positions move to a
-personal hold (removed from Oracle's ledger → invisible via
-`filter_broker_to_gods`) or stay parked; the reframed book starts clean either
-way. Every session: skip the legacy symbols — they are not the reframed engine's
-to trade.
+HELD by the operator — do NOT sell, thesis-break-check, top up, or rebalance them.
+`cache/oracle_sleeve.json` + `cache/oracle_cohort.json` stay UNTOUCHED as the
+legacy snapshot. The upside engine gets a fresh sleeve when the operator funds it;
+until then it is `pending_funding` — research + dossiers + paper A/B only, NO
+orders, and it never touches the legacy names. Every session: skip the legacy
+symbols; they are not the engine's to trade.
 
-## Standing posture (2026-07-06, operator directive — the proactivity default)
+## The objective (never drift from this)
 
-Oracle's job is to find the best asymmetric bets in the **whole universe**, not
-to perfectly vet a handful the lenses happened to surface. Run every session in
-**HUNT mode** by default:
+```
+maximize E[ fwd_return(pick, t) − fwd_return(SPY, t) ]  for t ∈ {6,12,24} months
+pick ∈ hunting_ground ; selection = the LLM breadth-read, not a screen
+returns are right-tail-dominated → SIZING and HOLDING matter more than hit-rate
+```
 
-- **SOURCE WIDE, every session — all THREE legs.** Run the unified sourcing pass
-  (`python3 run_oracle_sourcing.py`) across the whole universe BEFORE working the
-  lens net. It covers every why_mispriced type the gate can fund, so nothing
-  convex is left behind for lack of a net:
-  - **forced_seller** — form-enumerate price-insensitive SUPPLY events (issuer
-    tenders, fund wind-downs, large-cap spinoffs) off EDGAR daily indexes
-    (`oracle.forced_seller_sourcing`, measured 100% recall vs 12% keyword).
-  - **hard_catalyst** — form-enumerate activist SC 13D / 13D-amendments +
-    a strategic-review 8-K keyword supplement (`oracle.hard_catalyst_sourcing`);
-    each 13D carries `requires_item4_read` (the index can't see a campaign).
-  - **neglect** — screen the whole Sharadar fundamentals panel for names below a
-    countable floor (net cash / net-net / tangible book) with no event to trip a
-    form index (`oracle.neglect_screen`; FX-clean USD reporters, financials &
-    mortgage-REITs excluded, cash-runway flagged). This is the family that
-    produced 4 of 5 pre-rebuild names (ARVN/VTSI/ALCO/RNA) — the forced-seller
-    net is blind to it.
-  The four legacy lenses are a narrow, biased, ~zero-measured-alpha net; the
-  durable convex edges live in these three structural families. Goal: coverage
-  of thousands, not depth on forty.
-- **MEASURED 2026-07-06 — NEGLECT is the spine; the event legs are OVERLAYS.** A
-  full primary-source verification of all three legs (~40 names,
-  docs/oracle_neglect_verification + oracle_event_legs_verification) found the
-  fundable convex floors live in the **neglect** leg (4 FUND / 11 WATCH / 12 KILL).
-  The **forced_seller** leg yields the rare JOF-style *recurring common
-  conditional-tender* but its SC TO-I enumeration mostly surfaces
-  preferred/leverage tenders and non-traded at-NAV funds (1 FUND / 2 WATCH / 5
-  KILL). The **hard_catalyst** leg as a standalone net measured **0 fundable of
-  14** — raw 13D + strategic-review keywords are too noisy (false positives,
-  acquirer-side, concluded deals, Hermes-domain, floorless distress). So: source
-  neglect as the spine, and use activist-13D / strategic-review / forced-seller
-  as a **catalyst overlay by INTERSECTION** with an already-verified below-floor
-  name. A catalyst is a bonus on a floor, NEVER a substitute for one.
-- **DRIVE TO A VERIFIED PICK, not a list.** A candidate list is not a
-  deliverable; a primary-source-**verified** dossier (or an honest kill) is.
-  Push each promising name through `make_convex_dossier` → `verify_dossier` →
-  `rank_fundable` to a decision — don't stop at "here are some names."
-- **BOTH STAGES, ALWAYS.** Widen the net (sourcing) AND keep it honest (the
-  four-trap verification gate). Sourcing without verification funds phantom
-  floors (the 2026-07-06 XRN/SMHI/MNRO/GYRO kills); verification without
-  sourcing just polishes forty names.
-- **AMBITION WITH RIGOR.** Bias toward building and acting over hedging — but
-  the verification gate is non-negotiable. Hunt hungrily; fund nothing unverified.
-- **BUILD THE MACHINE, not just the picks.** When the sourcing or verification
-  tooling has a gap, fix the tooling — a better engine compounds every future
-  session; one pick doesn't. (Open engine work: a fund-vs-operating-company
-  issuer-type filter to drop keyword false positives, and catching CEF/BDC
-  tender *commencement* filings with runway rather than post-expiry results —
-  see docs/oracle_sourcing_status_2026-07-06.md.)
+The whole engine is the 7-stage funnel in `docs/oracle_upside_spec.md`. The EDGE
+is isolated to the reading stages (2, 3, 5); everything else is deterministic code
+you run and audit. Do NOT reintroduce a floor mandate, an avoidance score, or a
+convexity/floor-hardness metric — those are retired (see Failure Modes below).
 
 ## Session liturgy
 
-0. **Hydrate.** `pantheon.hydrate()`.
+0. **Hydrate.** `pantheon.hydrate()`. Read `cache/oracle_beliefs.md` (the forward
+   worldview + open theses + what decayed) BEFORE anything else.
 
-0b. **Safety gates.** `kill_switch_active()` → liquidate (fresh-sleeve positions
-   only, never the legacy hold) + stop. `is_live("oracle")` → if `ORACLE_LIVE`
-   != `"true"`, PAPER MODE (compute + journal, place nothing, mutate nothing).
-   **Funding gate:** load the fresh sleeve; if `pending_funding` is set, the
-   reframed engine isn't funded — research + dossiers + paper A/B only, no
-   orders. **Pre-trade:** `filter_broker_to_gods` (legacy names are personal =
-   invisible) + `pre_trade_check` + `already_placed_today` before any order.
+0b. **Safety gates.** `kill_switch_active()` → liquidate fresh-sleeve positions
+   only (never the legacy hold) + stop. `is_live("oracle")` → if `ORACLE_LIVE` !=
+   `"true"`, PAPER mode (compute + journal, mutate nothing). **Funding gate:** if
+   the fresh sleeve is `pending_funding`, research/dossiers/paper-A/B only, no
+   orders. **Pre-trade (when funded):** `filter_broker_to_gods` (legacy = personal
+   = invisible) + `pre_trade_check` + `already_placed_today`.
 
-1. **Source WIDE first, lenses second (2026-07-06) — the FOUR-leg pass.** The
-   PRIMARY sourcing is the unified whole-universe sweep — run it every session:
-   `python3 run_oracle_sourcing.py` runs the three why_mispriced event/state legs
-   and writes one combined `cache/oracle_sourced_candidates.json`:
-   - **forced_seller** (`oracle.forced_seller_sourcing.sweep_by_form`) — issuer
-     tenders / fund wind-downs / large-cap spinoffs, graveyard-excluded,
-     Hermes-deduped, tradability-split.
-   - **hard_catalyst** (`oracle.hard_catalyst_sourcing.sweep_by_form` +
-     `sweep_strategic_review`) — activist 13D campaigns + strategic-review 8-Ks.
-     DEMOTED to a cross-reference signal (measured 0/14 standalone, 13D channel a
-     data desert) — intersect it, don't fund it alone (see the overlay below).
-   - **neglect** (`oracle.neglect_screen.screen_panel`) — below-floor names from
-     the Sharadar panel; needs the pulled data (`run_oracle_neglect_pull.py`
-     refreshes `data/oracle_neglect/` quarterly with fresh fundamentals). This is
-     the SPINE — the leg where the fundable floors actually live.
-   PLUS the fourth lens (run alongside): **asset_revaluation**
-   (`python3 run_oracle_asset_revaluation.py` / `oracle.asset_revaluation.screen_panel`)
-   — the OPPOSITE mispricing: land / farmland / timber / real estate carried BELOW
-   market at historical cost (the ALCO gap). Floors that GROW, several with a live
-   realization catalyst (SRG/STHO/NLOP). floor_basis=`transacting_asset`; the
-   precision read appraises the true NAV.
-   THEN, the **catalyst overlay** (`python3 run_oracle_catalyst_overlay.py`) —
-   INTERSECT the neglect/asset floors with activist-13D / live strategic-review
-   catalysts. A floor + a live catalyst (NNDM, FULC, and the SEER take-under) is
-   the strongest convex shape; a catalyst overlays a floor, never substitutes.
-   THEN the four legacy lenses (insider/13F/13D/quality) as a SECONDARY net —
-   narrow, biased, ~zero-measured-alpha. Sourcing is a WIDE cheap net, not a
-   decision; every candidate must EARN its slot through the convex-dossier +
-   verification discipline (steps 2/2c). Record each candidate's `lens_score`
-   purely as the Arm-B baseline input — never as the decision.
-   *Known engine gaps to tighten (docs/oracle_*_2026-07-06.md):* a
-   fund-vs-operating-company issuer filter; catching CEF/BDC tender
-   *commencement* (not post-expiry) filings; an index-DELETION channel against
-   S&P/Russell data (Form 25 measured ~all noise, DEMOTED); and the backlog
-   lenses (#18-22: lookthrough-holdco-NAV, tax-loss-selling, inventory_heavy flag).
+1. **STAGE 0–1 · Field + Spotlight (DETERMINISTIC).** Refresh the field (universe
+   tags, the EDGAR change firehose, the forming-themes map), then run the
+   two-direction spotlight over the HUNTING GROUND only
+   (`oracle.upside_sourcing.screen_panel`): bottom-up (revenue acceleration,
+   beat-and-raise, relative strength, a growth catalyst) AND top-down (an
+   under-covered beneficiary of a forming theme whose numbers may not have bent
+   yet). This AIMS the reader to ~300 names; it is NOT the edge — quants own these
+   signals. Persist `cache/oracle_upside_candidates.json`. Log what was dropped;
+   never silently truncate. *(Data pull: refresh the acceleration/coverage panel;
+   the neglect balance-sheet pull is retired as the spine — trajectory, not
+   floors.)*
 
-1c. **FRESHNESS reconcile vs the live broker (2026-07-06 — cheapest filter, do it
-   BEFORE dossiers).** Sharadar's marketcap uses a share count that LAGS
-   post-quarter conversions/splits/raises (FTH: stale 1.34M sh → phantom "$31M cap,
-   85% below net cash"; the true post-conversion cap was $590M, ABOVE the floor).
-   Cross-check the screen shortlist against a live Robinhood `get_equity_fundamentals`
-   pull (≤10 symbols/call) and run `oracle.freshness.reconcile_with_fundamentals`:
-   (a) fresh market cap → recompute the discount and DROP any name back above its
-   floor; (b) P/B sanity → `book_contradicts_floor` on P/B ≤ 0 (negative book) or
-   ≥ 3 (currency/data artifact, e.g. a yen filer); (c) description →
-   `crypto_treasury` for the coin-pile shells the name hides (AVX/BNC/NAKA/AIFC/SKYA).
-   `is_clean()` gates the verification queue. First run dropped 1 + flagged 7 of the
-   top 40 with zero 10-Q reads. (Live count catches stale COMMON; as-converted
-   preferred/warrants are still the 10-Q's job.)
+2. **STAGE 2 · The breadth read — THE EDGE (JUDGMENT, fan out).** For every
+   spotlighted name, read the actual filings + recent transcripts (`shared.edgar`;
+   deep-read subagents for the fan-out) and form a VARIANT VIEW answering: is the
+   inflection **real** (evidenced in the numbers/text, not narrative), **durable**
+   (a multi-quarter S-curve, not a one-print pop), **large** (a path to ≥ +50% over
+   the hold), and has the market **not arrived** (still under-covered / mispriced
+   vs the read)? For thematic names: genuinely in the wave's path, or a mirage?
+   KEEP only q1∧q2∧q3∧q4 (~50 names, each with its open_question). KILL the
+   already-priced, decelerating, mirage, or sub-+50% — recorded with a reason.
 
-2. **Deep dossiers (the new spec — the edge).** For candidates worth the work,
-   write/refresh a dossier that ANSWERS, in writing (docs/oracle_reframe §"How
-   dossiers are written now"):
-   - **floor_pct** — what bounds the downside (asset/cash/liquidation floor);
-     no identifiable floor → it's a growth gamble, not an Oracle name.
-   - **upside_x** + the SPECIFIC path to the re-rating (magnitude, not "cheap").
-   - **why_mispriced (structural, G2)** — neglect / forced seller / hard
-     catalyst. "The market underappreciates quality" is refuted; cut it.
-   - **catalyst + catalyst_date (contractual > forecast, G4)** — anchor to a
-     hard event where possible.
-   - **falsifiable prediction + typed kill_condition** (price_level / drawdown_pct
-     / thesis_date / filing_event).
-   - **adversarial paragraph** — "what does the disciplined house know that says
-     this is a mistake?" If it reduces to a refuted trigger (insider/quality/
-     cheap) or a base-rate violation with no reason, cut BEFORE the book.
-   Build each via `oracle.convex_dossier.make_convex_dossier(...)` — the writer
-   REFUSES a dossier without a floor, a structural `why_mispriced_type`
-   (neglect/forced_seller/hard_catalyst), or a typed kill, and flags
-   `dead_trigger_risk` if the thesis leans on a refuted signal. Also pass
-   **`floor_hardness`** (`hard` = asset/net-cash · `medium` = book · `soft` =
-   contingent/thin — a floor that might not hold is not a hard floor) and
-   **`horizon_months`** (months to the re-rating). It derives
-   `asymmetry_score = P(up)·(upside_x−1) − (1−P(up))·floor_pct` (raw expectancy)
-   and the SELECTION metric `convexity_score` = annualized asymmetry ×
-   floor-hardness weight — so a bounded near-certain win (the Tang/Concentra
-   sub-net-cash shape) is not buried under a low-odds far-off multiple, and a
-   hard floor outranks a hopeful one. `convex` now means "positive expectancy +
-   a real (bounded) floor", NOT "big multiple". Use the deep-read machinery
-   (extraction + adversarial refuter subagents) on any name near the cut.
-   Persist to `cache/oracle_dossiers.json`.
+3. **STAGE 3 · Dossier + bear (JUDGMENT, deep + adversarial).** For each survivor,
+   assemble the record (≈3y of 10-K/10-Q, 8-Ks in window, proxy, transcripts) and
+   write the dossier via `oracle.upside_dossier.make_upside_dossier(...)` — it
+   REFUSES a name without significant upside (`upside_x ≥ 1.5`), a real
+   `inflection_type` + cited `inflection_evidence`, an in-window horizon, a bear
+   paragraph, and a primary citation. Then run **BEAR×3** independent refuters
+   (already priced? about to decelerate? dilution coming? theme stalling?) — set
+   `bear_verdict="refuted"` if the majority kill it. Then the SURVIVAL gate
+   `blowup_check(d, going_concern=…, fraud=…, delisting=…)` — runway must clear the
+   horizon (+6mo) or be self-funding; no going-concern/fraud/delisting; the upside
+   path primary-grounded. This is NOT a floor check — it only stops a landmine
+   before the thesis pays. Persist `cache/oracle_upside_dossiers.json`; keep the
+   kills with reasons.
 
-2c. **VERIFY against PRIMARY FILINGS before the book (2026-07-06, MANDATORY —
-   the launch-gate lesson).** A dossier's self-reported `convex` flag is NOT
-   enough to fund it.
-   **CLEAR THE WHOLE CLEAN QUEUE — do not stop short (2026-07-06).** Verify EVERY
-   name the `verification_queue` emits that passed the freshness gate (`is_clean`),
-   not a convenient subset. The expensive stages (sweep thousands → screen →
-   freshness) already ran; the ~40–75 names left ARE the survivors, and
-   verification is the cheap tail AND a GATE not a selector — verifying more never
-   dilutes the fund list (soft/asserted floors still get killed), it only makes the
-   kill/watch record complete. The ONLY names to skip are the ones freshness
-   already flagged (stale marketcap / crypto-treasury / book-contradicts-floor) —
-   those are phantom floors, never spend a filing-read on them. Stopping at "26 of
-   40 clean" is a coverage leak; finish the queue. (`per_family` default is 12 ≈
-   ≤75 queued across 5 families — raise `ORACLE_PER_FAMILY` for wider coverage, the
-   only bound is real token cost at hundreds.) The 2026-07-06 launch gate killed 4 of 8 dossiers a
-   fundamentals-API pass had waved through — XRN ("debt-free" missed a $653M
-   credit line), MNRO (P/B<1 was 100% goodwill, tangible book NEGATIVE), SMHI
-   ("$20 NAV" was an activist claim in NO filing, catalyst already fired), GYRO
-   (a melting liquidation PROJECTION, not an audited NAV). Every one shared a
-   shape a snapshot cannot see and a primary filing reveals. So for EACH name
-   near the cut, pull the actual 10-K/10-Q/8-K (`shared.edgar`; deep-read
-   subagents for a fan-out) and run
-   `oracle.convex_dossier.verify_dossier(dossier, floor_basis=…,
-   debt_reconciled_full_stack=…, catalyst_fired=…, book_survives_goodwill=…,
-   primary_citations=[…], verdict=…)`. It runs the four traps, each a real kill:
-   - **primary_source_cited** — a snapshot citation (Robinhood/Yahoo) is NOT a
-     floor source; at least one real filing must back it (killed XRN).
-   - **floor_not_merely_asserted** — `floor_basis` on the trust ladder
-     `cash > net_net > transacting_asset > book > asserted`; an *asserted* NAV
-     (activist appraisal, management projection) is not a floor (killed SMHI/GYRO).
-   - **book_survives_goodwill** — for a book floor, tangible book (ex-goodwill)
-     must still support it (killed MNRO).
-   - **debt_reconciled_full_stack** — debt taken off the FULL liability stack,
-     not one balance-sheet line (killed XRN).
-   - **catalyst_not_already_fired** — the re-rating hasn't already happened.
-   Verification RE-STAMPS `floor_hardness` from the true `floor_basis` (a
-   self-reported "hard" on an asserted floor cannot survive), and only a name
-   whose traps ALL pass with verdict keep/revise becomes `verified`. **Cite the
-   accession numbers in the dossier.** A name that fails is retracted with its
-   reason (the record keeps it, per docs; never silently drop).
+4. **STAGE 4 · Sizing — FIRST-CLASS (DETERMINISTIC).** `rank_fundable(dossiers,
+   calibration)` (fundable = qualifies ∧ blowup-passed ∧ bear-kept), then
+   `size_upside_book(ranked, equity)` — it concentrates into the best 3–6,
+   conviction-weighted (`prob_upside × (upside_x−1) × measured hit-rate`), caps any
+   name at 30% and any theme/sector cluster at 40% of equity, and drops
+   view-diluting dust (< 6%). Getting BIG on the best few is the mechanism; an
+   equal-weight book is a failure mode. Persist `cache/oracle_upside_book.json`.
 
-3. **Select a CONVEX book (concentrated, conviction-weighted) — from VERIFIED
-   names only.** Use `oracle.convex_dossier.rank_fundable(dossiers)` (NOT
-   `rank_by_convexity`) — it returns only names that are BOTH convex AND
-   primary-source-`verified`, best convexity first, so an unverified dossier
-   (however good its self-reported numbers) structurally cannot receive capital.
-   `rank_by_convexity` stays the pure-math research view; `rank_fundable` is the
-   gated view money flows through. Take the few best; size via
-   `oracle.positioning.size_book` — the per-name cap now **scales with
-   `floor_hardness`** (hard = full 25% cap · medium = 0.7× · soft = 0.45×), so the
-   sleeve mechanically CANNOT concentrate into a softer floor more than a harder
-   one (2026-07-06). Concentration is the return lever — but the biggest bets are
-   forced to be the hardest-floored, which is what makes the concentration a
-   *bounded* option rather than a naked one. **The scored dicts passed to
-   `size_book` MUST carry `floor_hardness`** (verified dossiers always do — the gate
-   stamps it from the true `floor_basis`); a name with none keeps the full cap, so
-   never hand-build a convex scored row without it. No equal 8-name cohort.
-   Horizons are multi-month/patient, but a name must EARN its slot on
-   risk-adjusted convexity, verified against filings — not on a signal or a raw multiple.
+5. **STAGE 5 · Hold (JUDGMENT gated by typed kills).** For every held name,
+   re-underwrite on FACTS (a fresh quote/filing) and run
+   `evaluate_exit(dossier, …)`. Exit ONLY on a typed thesis-break —
+   fundamental_break (growth/margins reversed in a filing), dilution_event /
+   going-concern, catalyst_fail (dated catalyst passed without occurring),
+   thesis_date, or an explicit price_level kill. **A drawdown is NEVER an exit** —
+   hold the eventual +200% name through a −25% wobble; that patience IS the edge.
+   Journal every hold/exit with the reason.
 
-4. **Record the A/B (measure the edge).** For EVERY candidate in the pool this
-   round, `oracle.ab.record_selection(ab, round_id, date, candidates=[...])`
-   with `lens_score`, `llm_selected` (did the dossier pick it), `conviction`,
-   `floor_pct`, `upside_x`, `entry_price`, `spy_entry`, `catalyst`. The
-   mechanical Arm-B baseline (top-N by lens_score) is computed automatically.
-   This IS the experiment: the dossier book (Arm A) vs the screen (Arm B).
+6. **STAGE 6 · Verdict + A/B (DETERMINISTIC).** At each name's 6/12/24-month mark
+   or exit, grade `fwd_return(pick) − fwd_return(SPY)` and vs its own falsifiable
+   prediction. Record the A/B (`cache/oracle_upside_ab.json`): Arm A = the book
+   (the reading), Arm B = the spotlight top-N (the screen). **LLM-lift = A − B**
+   answers: did the reading beat the aim? Raw forward return vs SPY is the headline
+   score; the A/B says whether the LLM judgment earned its keep.
 
-5. **Execute (fresh sleeve, live).** `pre_trade_check`, size within the per-name
-   cap, place fractional-share orders, append `cache/oracle_ledger.jsonl`,
-   update the sleeve with ACTUAL fills. Journal every decision (buy/hold/pass)
-   with its thesis + typed kill.
+7. **STAGE 7 · Memory (DETERMINISTIC + prose).** Update
+   `cache/oracle_upside_calibration.json` (hit-rate + mean lift per
+   inflection_type) from the grades — it feeds Stage-3 ranking and Stage-4 sizing
+   next session. Rewrite `cache/oracle_beliefs.md` (worldview, open theses,
+   lessons, decayed edges). Rotate: down-weight an inflection_type or theme whose
+   edge decayed. The loop is what sharpens the engine.
 
-6. **Tend + grade.** Each session: check every held name's typed kill_condition
-   against current facts (a quote/filing) — fire it if triggered (the kill is a
-   promise). At a name's horizon or exit, `oracle.ab.record_grade(...)` and,
-   periodically, `oracle.ab.llm_lift(ab)` — **the headline: do the dossiers beat
-   the screen?**
+8. **Persist.** Field + candidates + dossiers + book + A/B + calibration + beliefs
+   + curve → `pantheon.persist("oracle", {...})` with `cache/oracle_`-prefixed keys.
 
-7. **Persist.** Sleeve + dossiers + ledger + curve + `cache/oracle_ab.json` +
-   cadence → `pantheon.persist("oracle", ...)`.
+## Execution (fresh sleeve, when funded + live)
 
-## Kill conditions (the only exits — typed, promise-not-suggestion)
-
-A held name exits ONLY on its journaled, typed kill firing, or a hard structural
-break: **fraud** (SEC/fraud filing), **going_concern** (bankruptcy/going-concern
-disclosure), **thesis_date** passed without the catalyst, **drawdown** ≥ its
-`floor_pct` (arithmetic — executes immediately, no debate), **price_level** hit,
-or a **filing_event** the kill named. A judgment-based break (fraud/
-going_concern) gets ONE adversarial refuter before selling (is the "fraud" an
-unconfirmed short report? is the going-concern language in the filing or a news
-paraphrase?) — sell only if the break survives; journal either way. **Prohibited
-exits:** "a new dossier scored higher", rank drift, "flat after 60 days",
-sector-out-of-favor. Patience is the edge.
+`pre_trade_check`, size to the `size_upside_book` weights, place fractional-share
+orders, append `cache/oracle_ledger.jsonl`, update the sleeve with ACTUAL fills.
+Journal every decision (buy/hold/pass) with its thesis + typed kill. Never add a
+broker position to the sleeve without a matching ledger entry.
 
 ## The checkpoint
 
-At ~20 graded names (or a date): **Oracle LLM-lift = Arm A (dossier) − Arm B
-(screen).** Positive and material → the deep research is real alpha; Oracle
-earns concentration + capital. Zero/negative → the dossiers are rationalization
-and Oracle folds into Proteus. The numbers decide, not the narrative — the same
-question Hermes asks on the event side, Oracle asks on the value/neglect side.
+At ~20 graded names (or a date): **does the book beat SPY over the 6–24mo hold,
+and does LLM-lift (A − B) show the reading beat the screen?** Both positive and
+material → the reading is real upside alpha; Oracle earns concentration + capital.
+Zero/negative → the reads are rationalization and Oracle folds into Proteus. The
+forward returns decide, not the narrative.
+
+## Failure modes (self-check; on violation → stop, open a PR, do not silent-patch)
+
+- **F1** drifting to mega-cap / well-covered names → violates the hunting ground;
+  the edge evaporates where the Street already reads.
+- **F2** funding on `spotlight_score` → that's Arm B; the READING must drive
+  selection.
+- **F3** selling a name on a drawdown → violates Stage 5; it bleeds the right tail.
+- **F4** equal-weighting the book → no view expressed; concentrate.
+- **F5** citing a snapshot (Robinhood/Yahoo) as evidence → ungrounded thesis.
+- **F6** reintroducing a floor mandate / avoidance score / convexity metric → those
+  are retired; Oracle optimizes UPSIDE, and a floor is only a conviction bonus.
+- **F7** claiming "it works" without grades → only Stage-6 forward return settles it.
 
 ## Halt
 
-- Circuit breaker (`sleeve.check_circuit_breakers` = "halt") → set halted, stop
-  opening. Code error → log `cache/oracle_errors.jsonl`, OPEN A PR, do not
-  auto-patch.
+Circuit breaker (`sleeve.check_circuit_breakers` = "halt") → set halted, stop
+opening. Code error → log `cache/oracle_errors.jsonl`, open a PR, do not
+auto-patch.

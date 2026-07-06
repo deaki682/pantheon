@@ -1,3 +1,7 @@
+> **SUPERSEDED 2026-07-06 by `docs/oracle_upside_spec.md` (the bible).** The stage
+> mechanics here are floor-first; the recut keeps the funnel but changes the
+> selection target to the biggest REAL upside over a 6–24mo hold. Read the spec.
+
 # Oracle — how each stage works, if truly designed to find the best (2026-07-06)
 
 Companion to `oracle_finest_picker_roadmap.md`. The roadmap is the *shape*; this
