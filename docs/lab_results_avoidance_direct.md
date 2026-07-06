@@ -27,8 +27,14 @@ return minus the full-universe EW return ("avoidance alpha"). In-sample
   (non-isolated), but the effect is **decaying** — roughly ~1%/yr and no
   longer independently significant at any single k (t≈1–1.5, n=118,
   underpowered for an effect this small at this n).
-- Mean avoidance alpha (registry, holdout-period average): 0.163%/mo raw,
-  shrunk to 0.148%/mo.
+- The registry's single summary figure (mean avoidance alpha 0.163%/mo raw,
+  shrunk to 0.148%/mo) carries `n=192`, which the bias checklist ties to the
+  **in-sample** count ("n=192 in / 118 holdout") — so this number is most
+  likely the in-sample average, not a holdout figure. **No precise holdout
+  point estimate is recoverable from the registry** — only the qualitative
+  description above (same-sign, beats random at every k, t≈1–1.5, ~1%/yr).
+  Flagging this explicitly: an earlier version of this doc mislabeled this
+  figure as "holdout-period average," which was wrong.
 
 ## Reading
 
@@ -46,6 +52,18 @@ return minus the full-universe EW return ("avoidance alpha"). In-sample
 3. **This measures ONLY the mechanical floor.** The headline question — does an
    LLM veto read deterioration better than a checklist (Arm A vs B)? — is
    untested here by design; it requires live forward reads.
+
+## Reproducibility caveat (added on review)
+
+`run_avoidance_direct.py` prints results to stdout only — it saves no results
+file. This doc (and the registry entry it's built from) reflects a summary a
+prior session typed into `cache/lab_registry.json`; neither that session's
+raw per-cell output nor this one independently re-ran the backtest against
+the achilles panel. The numbers above are only as reliable as that prior
+recording. If this result is ever load-bearing for a capital decision, it
+should be re-run from raw data with the per-k, per-window table saved to a
+results JSON (as `gauntlet_v1`/`achilles_pead_gauntlet` did), not taken on
+the registry's word alone.
 
 ## Consequence (pre-committed, applied)
 

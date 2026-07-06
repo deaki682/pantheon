@@ -54,6 +54,15 @@ Registry mean excess (residual, holdout): 0.485%/mo, shrunk to 0.415%/mo.
    consequence ("Miss any [criterion] => refuted"), and there is no base
    signal left to overlay a prune onto.
 
+## Reproducibility caveat (added on review)
+
+`run_residual_momentum.py` prints results to stdout only — no results file is
+saved. This doc reflects a summary a prior session typed into
+`cache/lab_registry.json`; neither that session's raw per-month output nor
+this one independently re-ran the backtest against the achilles panel. Treat
+the numbers above as only as reliable as that prior recording, not as
+independently reproduced.
+
 ## Consequence (pre-committed, applied)
 
 `residual_momentum_llm` → **refuted** (terminal). No forward test. The G1

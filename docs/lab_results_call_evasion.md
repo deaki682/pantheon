@@ -56,6 +56,16 @@ noise at this n.
    reading is: **the cheap proxy failed to show an LLM increment; the real
    test (transcripts) was never run.**
 
+## Reproducibility caveat (added on review)
+
+This doc reflects a summary + bias checklist a prior session recorded into
+`cache/lab_registry.json`; the underlying 53 blind LLM candor scores and the
+lexicon computation were not independently re-run or re-inspected here. The
+top-line numbers (mean_excess 1.36%, n=53) do internally match the registry's
+notes text, which is more than could be confirmed for the other two studies
+tended this session — but there is still no per-filing score sheet to audit
+against.
+
 ## Consequence (pre-committed, applied honestly)
 
 Per the prereg: full refutation requires the lexicon AND (later) the LLM
