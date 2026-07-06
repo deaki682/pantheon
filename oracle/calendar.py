@@ -94,6 +94,13 @@ def days_since(path: str, key: str, *, now: datetime | None = None) -> float | N
         ts = datetime.fromisoformat(raw)
     except ValueError:
         return None
+    # Cadence files mix naive and tz-aware timestamps (mark_run defaults to
+    # naive utcnow(), but some callers pass tz-aware now=). Normalize both
+    # sides to naive UTC so should_run never crashes on the comparison.
+    if ts.tzinfo is not None:
+        ts = ts.replace(tzinfo=None)
+    if now.tzinfo is not None:
+        now = now.replace(tzinfo=None)
     return (now - ts).total_seconds() / 86_400.0
 
 
