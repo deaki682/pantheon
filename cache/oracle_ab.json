@@ -1,65 +1,6 @@
 {
-  "candidates": [
-    {
-      "round_id": "convex-2026-07-05",
-      "date": "2026-07-05",
-      "symbol": "RNA",
-      "lens_score": 0.0,
-      "arm_a_llm": true,
-      "arm_b_screen": true,
-      "conviction": 0.25,
-      "floor_pct": 0.25,
-      "upside_x": 3.25,
-      "catalyst": "ATR-1072 IND filing (H2 2026) and platform validation as rare-cardiomyopathy comps re-rate",
-      "entry_price": 13.65,
-      "spy_entry": 744.8,
-      "resolved": false
-    },
-    {
-      "round_id": "convex-2026-07-05",
-      "date": "2026-07-05",
-      "symbol": "VTSI",
-      "lens_score": 0.0,
-      "arm_a_llm": true,
-      "arm_b_screen": true,
-      "conviction": 0.174,
-      "floor_pct": 0.35,
-      "upside_x": 2.25,
-      "catalyst": "Backlog conversion showing up as sequential revenue recovery on the Q2/Q3 2026 prints",
-      "entry_price": 3.11,
-      "spy_entry": 744.8,
-      "resolved": false
-    },
-    {
-      "round_id": "convex-2026-07-05",
-      "date": "2026-07-05",
-      "symbol": "ARVN",
-      "lens_score": 0.0,
-      "arm_a_llm": true,
-      "arm_b_screen": true,
-      "conviction": 0.14,
-      "floor_pct": 0.35,
-      "upside_x": 1.85,
-      "catalyst": "Rigel/Pfizer milestone and royalty inflows from the approved PROTAC through 2026-2027",
-      "entry_price": 8.39,
-      "spy_entry": 744.8,
-      "resolved": false
-    },
-    {
-      "round_id": "convex-2026-07-05",
-      "date": "2026-07-05",
-      "symbol": "ALCO",
-      "lens_score": 0.0,
-      "arm_a_llm": true,
-      "arm_b_screen": true,
-      "conviction": 0.1,
-      "floor_pct": 0.25,
-      "upside_x": 1.65,
-      "catalyst": "Rolling land-sale + entitlement program converts cost-basis acres to cash at market",
-      "entry_price": 41.78,
-      "spy_entry": 744.8,
-      "resolved": false
-    }
-  ],
-  "graded": []
+  "candidates": [],
+  "graded": [],
+  "reset_at": "2026-07-06",
+  "reset_note": "Fresh launch: prior unresolved/unfunded selections cleared (none were graded, so no real LLM-lift data is lost). A/B structure retained; new selections accrue from verified fresh-launch dossiers."
 }
