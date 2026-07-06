@@ -281,15 +281,21 @@ def size_upside_book(
     min_weight: float = 0.06,
     max_name_weight: float = 0.30,
     max_cluster_weight: float = 0.40,
+    fragility_lambda: float = 1.0,
     cluster_key: Optional[Callable[[dict], str]] = None,
     calibration: Optional[dict] = None,
 ) -> dict[str, float]:
-    """Concentrate the book into the best 3–6 names, conviction-weighted, and
-    hold the risk caps. weight_raw ∝ conviction · (upside_x − 1) · calib_hit_rate
-    — conviction (prob_upside) × the SIZE of the move × how real that inflection
-    type has proven. Then: cap any name at max_name_weight, cap any correlation
-    cluster (theme/sector) at max_cluster_weight, drop anything below min_weight
-    (no view-diluting dust), and normalise the survivors to invested_target·equity.
+    """Concentrate the book into the best 3–6 names, conviction-weighted, DOWNSIDE-
+    aware, and hold the risk caps. weight_raw ∝ conviction · (upside_x − 1) ·
+    calib_hit_rate · (1 − λ·downside_pct) — conviction × the SIZE of the move × how
+    real that inflection type has proven × a FRAGILITY HAIRCUT. The haircut fixes a
+    real flaw (2026-07-06): the old formula ignored downside, so the name with the
+    biggest upside got the biggest position even when it could go to ZERO (SABR was
+    sized largest despite a −55% downside). Sizing by upside magnitude alone
+    concentrates into the tail; the (1 − λ·downside) term pushes the fragile,
+    can-go-to-zero names BELOW the safer ones with comparable edge. Then: cap any
+    name at max_name_weight, cap any correlation cluster at max_cluster_weight, drop
+    anything below min_weight, normalise the survivors to invested_target·equity.
 
     This is where 6–24mo upside is actually made: getting big on the best few.
     Equal-weighting or dusting the budget across many names is a FAILURE MODE (F4).
@@ -312,7 +318,9 @@ def size_upside_book(
         conv = float(d.get("prob_upside", 0.0))
         move = max(0.0, float(d.get("upside_x", 1.0)) - 1.0)     # SIZE of the move
         cw = calib_weight(d.get("inflection_type", ""), calibration)
-        raw[d["symbol"]] = max(0.0, conv * move * cw)
+        dn = float(d.get("downside_pct", 0.0) or 0.0)           # loss if wrong
+        frag = max(0.1, 1.0 - fragility_lambda * dn)            # FRAGILITY HAIRCUT — a
+        raw[d["symbol"]] = max(0.0, conv * move * cw * frag)    # can-go-to-zero name can't lead
     tot = sum(raw.values())
     if tot <= 0:
         return {}

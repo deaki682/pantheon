@@ -241,6 +241,36 @@ def test_sizing_empty():
     assert size_upside_book([], equity=100_000.0) == {}
 
 
+def test_sizing_fragility_haircut_demotes_can_go_to_zero():
+    # Identical conviction + upside, but FRAGILE can go to zero (big downside) and
+    # SAFE can't. The fragile name must get LESS. (Fillers keep caps from binding.)
+    ranked = rank_fundable([
+        _fundable("FRAGILE", upside_x=2.5, prob_upside=0.5, downside_pct=0.60, sector="s1"),
+        _fundable("SAFE", upside_x=2.5, prob_upside=0.5, downside_pct=0.20, sector="s2"),
+        _fundable("F1", upside_x=2.0, prob_upside=0.4, downside_pct=0.3, sector="s3"),
+        _fundable("F2", upside_x=2.0, prob_upside=0.4, downside_pct=0.3, sector="s4"),
+    ])
+    book = size_upside_book(ranked, equity=100_000.0)
+    assert book["SAFE"] > book["FRAGILE"]
+
+
+def test_sizing_haircut_flips_low_ev_fragile_and_lambda_off_recovers_old():
+    # SABR-like: high upside*conviction but LOW expected value (−55% downside). The
+    # old downside-blind sizer made it the LARGEST; the haircut puts a steadier,
+    # higher-EV name above it. lambda=0 recovers the old (flawed) behavior.
+    names = [
+        _fundable("SABRLIKE", upside_x=2.0, prob_upside=0.40, downside_pct=0.55, sector="s1"),
+        _fundable("STEADY", upside_x=1.6, prob_upside=0.55, downside_pct=0.25, sector="s2"),
+        _fundable("F1", upside_x=2.0, prob_upside=0.4, downside_pct=0.3, sector="s3"),
+        _fundable("F2", upside_x=2.0, prob_upside=0.4, downside_pct=0.3, sector="s4"),
+    ]
+    ranked = rank_fundable(names)
+    on = size_upside_book(ranked, equity=100_000.0)               # haircut ON (default)
+    assert on["STEADY"] > on["SABRLIKE"]
+    off = size_upside_book(ranked, equity=100_000.0, fragility_lambda=0.0)   # old behavior
+    assert off["SABRLIKE"] > off["STEADY"]
+
+
 # ---- exit predicates: drawdown is never an exit ----------------------------
 def test_drawdown_alone_never_exits():
     d = _dossier(current_price=10.0)
