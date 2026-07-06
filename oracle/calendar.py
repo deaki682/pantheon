@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 RESEARCH_INTERVAL_DAYS = 3
@@ -94,6 +94,13 @@ def days_since(path: str, key: str, *, now: datetime | None = None) -> float | N
         ts = datetime.fromisoformat(raw)
     except ValueError:
         return None
+    # Timestamps may be stored either naive (assumed UTC, from mark_run's
+    # datetime.utcnow()) or offset-aware (from callers using datetime.now(tz)).
+    # Normalize both sides to naive UTC before subtracting.
+    if ts.tzinfo is not None:
+        ts = ts.astimezone(timezone.utc).replace(tzinfo=None)
+    if now.tzinfo is not None:
+        now = now.astimezone(timezone.utc).replace(tzinfo=None)
     return (now - ts).total_seconds() / 86_400.0
 
 
