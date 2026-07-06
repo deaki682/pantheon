@@ -85,9 +85,45 @@ individually too noisy:
 
 Across all three legs and ~40 primary-source verifications: **Oracle's real,
 repeatable edge is the neglect leg — below-floor value in small, uncovered names.**
-The forced-seller leg yields the occasional JOF; the hard_catalyst leg, as an
-independent sourcing engine, does not work. The right architecture going forward
+The forced-seller leg yields the occasional JOF; the hard_catalyst leg's
+STRATEGIC-REVIEW-KEYWORD half is measured too noisy to stand alone, while its
+ACTIVIST-13D half is UNTESTED here (a data gap — see "Data-completeness" below) and
+must not be written off. The right architecture going forward
 is **neglect as the spine, with forced_seller and activist-13D as catalyst
 OVERLAYS on already-floored names** — not as standalone nets. That is the
 house-view thesis (camp on structural forced-seller/neglect; a catalyst is a
 bonus on a floor, never a substitute for one), now measured.
+
+## Data-completeness audit (2026-07-06) — a real gap on the 13D channel
+
+Prompted by the "0 fundable" result looking suspicious. Checked the EDGAR daily
+form index directly across five trading days. The parser is CORRECT and COMPLETE
+(reads all ~5,000 data rows/day), but the environment's EDGAR is **missing the
+activist-filing channel**:
+
+| Form | filings/day | verdict |
+|---|---|---|
+| Form 4 (insider) | ~1,700–2,090 | realistic, complete |
+| 8-K | ~235–324 | realistic, complete |
+| 10-Q | 4–27 | realistic, complete |
+| SC TO-I | 0–6 | thin but present (forced-seller CEF findings are valid) |
+| **SC 13D** | **0** | **near-empty — data gap** |
+| **SC 13D/A** | **0–1** | **near-empty — data gap** |
+| SC 13G / 13G/A | 0 | empty |
+
+**Correction to an overstatement.** The hard_catalyst "0 of 14" was **13 from the
+strategic-review KEYWORD sweep + 1 from the 13D channel**. So:
+- The **strategic-review keyword** finding (noisy, structurally mismatched) is
+  ROBUST — the 8-K data is complete and 13 names really did fail.
+- The **activist-13D** channel was **effectively UNTESTED** — with ~0 SC 13D in
+  the environment's index, the net had almost nothing to enumerate, and the lone
+  hit (GNK) was an acquirer TO-T, not a friendly activist. It is WRONG to conclude
+  "activist-13D sourcing doesn't work." It remains the most promising untested
+  catalyst channel and must be re-measured against live/complete EDGAR.
+
+**What IS trustworthy (data-complete):** the NEGLECT + asset-revaluation legs run
+on the Sharadar fundamentals panel (5,700 names with marketcap, 5,593 with SF1) —
+complete; and every primary-source VERIFICATION read an actual, complete 10-Q/10-K.
+So the book (5 verified names) and all KILL/WATCH verdicts stand on complete data.
+The only measurement weakened by a data gap is the activist-13D overlay — flagged,
+not trusted.

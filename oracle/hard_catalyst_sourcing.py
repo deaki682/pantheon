@@ -1,16 +1,23 @@
 """Hard-catalyst sourcing — the value-realization leg (2026-07-06).
 
-DEMOTED 2026-07-06 to a CROSS-REFERENCE SIGNAL, not a standalone sourcing leg.
-A full primary-source verification of every candidate this leg produced measured
-**0 fundable out of 14** (docs/oracle_event_legs_verification_2026-07-06.md). The
-raw SC 13D enumeration and strategic-review keyword sweep are each too noisy to
-stand alone, in five structural ways that no threshold fixes:
+DEMOTED 2026-07-06 to a CROSS-REFERENCE SIGNAL, not a standalone sourcing leg —
+with an IMPORTANT DATA CAVEAT (measured 2026-07-06). Of the 14 candidates this leg
+produced, 13 came from the STRATEGIC-REVIEW KEYWORD sweep and 1 from the 13D
+channel; all 14 verified un-fundable. The strategic-review KEYWORD finding is
+robust (the 8-K data is complete — ~250/day) and noisy in five structural ways no
+threshold fixes:
   1. keyword false positives ("strategic" = routine capital-allocation / acquirer
      language): ZYME, LIF, WY, AIRT, JHX;
   2. ACQUIRER-side (the company is the buyer, not the target): JHX, LIF, BTU;
   3. already-CONCLUDED deals (the keyword matched a completion/BK 8-K): EHAB, NOTV;
-  4. HERMES's domain (a hostile/cash TENDER, a TO-T mis-read as a 13D): GNK;
-  5. no FLOOR / distress (levered stub or going-concern): FWRD, GWH, DAIC, TXMD.
+  4. no FLOOR / distress (levered stub or going-concern): FWRD, GWH, DAIC, TXMD.
+BUT the ACTIVIST-13D channel is UNTESTED here, not measured dead: the environment's
+EDGAR daily index carries ~ZERO SC 13D and 0-1 SC 13D/A per day (vs realistic
+~1,900 Form 4 / ~250 8-K), so the 13D net had almost no data to enumerate — the
+lone 13D hit (GNK) was an acquirer TO-T, not a friendly activist. Do NOT conclude
+activist-13D sourcing fails; it is the most promising untested catalyst channel and
+must be re-measured against LIVE/complete EDGAR. See
+docs/oracle_event_legs_verification_2026-07-06.md "Data-completeness".
 CORRECT ROLE: an activist 13D or a live strategic review is a catalyst OVERLAY on
 a name that ALREADY has a verified below-floor (a neglect FUND/WATCH) — the
 "floor + catalyst" convex combo. The catalyst never SUBSTITUTES for a floor. Use
