@@ -26,6 +26,8 @@ GODS = (
     ("midas", "#DC143C"),   # live retired 2026-07-04; shown until the wind-down sweep completes
     ("nemesis", "#2E7D32"),
     ("proteus", "#1565C0"),
+    ("plutus", "#FF6F00"),  # live 2026-07-06
+    ("hermes", "#7C4DFF"),  # live 2026-07-05
 )
 
 
