@@ -69,7 +69,7 @@ if os.path.exists(_ec):
     for e in (_ecd.get("events", _ecd) if isinstance(_ecd, dict) else _ecd):
         if isinstance(e, dict) and e.get("type") in SPECIAL_TYPES and e.get("symbol"):
             special_syms.add(e["symbol"].upper())
-print(f"special-situation feed: {len(special_syms)} symbols (event_calendar; thin until EDGAR sweep)", flush=True)
+print(f"special-situation feed: {len(special_syms)} symbols (event_calendar — EDGAR spinoff/IPO sweep)", flush=True)
 
 # ---- current marketcap + recent (~5wk) trend -------------------------------
 daily = json.load(gzip.open(DAILY, "rt"))
@@ -149,8 +149,9 @@ cov["known_missing"] = [
     "earnings_surprise + range_reversal: verify-slice nets — need live per-name data "
     "(Robinhood get_earnings_results 8Q, and the true 52wk range) so they activate in "
     "reconcile_top on the top slice, not on the on-disk bulk pass",
-    "special_situation: mechanism wired (reads shared_event_calendar) but THIN — the "
-    "EDGAR spinoff/IPO/reorg sweep (forced_seller_sourcing) must populate the calendar",
+    "special_situation: ACTIVE — fed by the EDGAR 6-month spinoff/IPO sweep "
+    "(run_oracle_special_situations.py -> shared_event_calendar, 134 operating-co events, "
+    "SPACs/units filtered); refresh the sweep to keep the window current",
     "thematic: ACTIVE from the industry map (oracle/themes.py) — operator-editable, "
     "keyword match on live descriptions in the verify slice sharpens it further",
 ]
