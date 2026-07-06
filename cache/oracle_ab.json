@@ -1,5 +1,20 @@
 {
- "candidates": [],
+ "candidates": [
+  {
+   "round_id": "fresh-2026-07-06",
+   "date": "2026-07-06",
+   "arm_A_llm": [
+    "XBIT",
+    "PHUN",
+    "INVE",
+    "IMPP",
+    "AMPY",
+    "FPH"
+   ],
+   "pool_n": 60,
+   "spy_entry": 747.65
+  }
+ ],
  "graded": [],
  "reset_at": "20260706T125825Z",
  "reset_note": "OPERATOR WIPE 20260706T125825Z \u2014 forget current FUND/WATCH/KILL (XBIT/STRS/STHO); re-run blind like the first time. Legacy cohort (CXT/HDSN/J/PSN/VITL) untouched."
