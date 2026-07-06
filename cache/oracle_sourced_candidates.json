@@ -1,8 +1,1215 @@
 {
-  "swept": "2026-06-01..2026-07-06",
-  "method": "form_enumeration+tradability",
-  "n": 14,
+  "swept": "2026-04-06..2026-07-06",
+  "method": "form_enumeration; tradable split",
+  "n_tradable": 124,
+  "n_nontradable": 296,
   "candidates": [
+    {
+      "cik": "0001403161",
+      "ticker": "V",
+      "company": "VISA INC.",
+      "families": [
+        "delisting",
+        "odd_lot_tender"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE",
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-13",
+      "last_filed": "2026-06-15",
+      "n_filings": 3,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001554625",
+      "ticker": "PRIF-PL",
+      "company": "Priority Income Fund, Inc.",
+      "families": [
+        "delisting",
+        "odd_lot_tender"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE",
+        "SC TO-I"
+      ],
+      "first_filed": "2026-04-24",
+      "last_filed": "2026-06-18",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000846617",
+      "ticker": "DCBG",
+      "company": "Dime Community Bancshares, Inc. /NY/",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-04-06",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001754836",
+      "ticker": "EICA",
+      "company": "Eagle Point Income Co Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-04-06",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001835654",
+      "ticker": "INVZ",
+      "company": "Innoviz Technologies Ltd.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-04-06",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000844150",
+      "ticker": "RBSPF",
+      "company": "NatWest Group plc",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-06-15",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001089907",
+      "ticker": "SWKHL",
+      "company": "SWK Holdings Corp",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-04-06",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001521332",
+      "ticker": "APTV",
+      "company": "Aptiv PLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-07",
+      "last_filed": "2026-04-07",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000104169",
+      "ticker": "WMT",
+      "company": "Walmart Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-07",
+      "last_filed": "2026-04-07",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001301236",
+      "ticker": "SOHOB",
+      "company": "Sotherly Hotels Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25"
+      ],
+      "first_filed": "2026-04-08",
+      "last_filed": "2026-04-08",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000901832",
+      "ticker": "AZN",
+      "company": "ASTRAZENECA PLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-08",
+      "last_filed": "2026-05-28",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000773840",
+      "ticker": "HONIV",
+      "company": "HONEYWELL INTERNATIONAL INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-10",
+      "last_filed": "2026-04-10",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001854275",
+      "ticker": "ZCARW",
+      "company": "Zoomcar Holdings, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-15",
+      "last_filed": "2026-06-25",
+      "n_filings": 4,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001829311",
+      "ticker": "BMNP",
+      "company": "BITMINE IMMERSION TECHNOLOGIES, INC.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25"
+      ],
+      "first_filed": "2026-04-16",
+      "last_filed": "2026-04-16",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001779474",
+      "ticker": "MAPS",
+      "company": "WM TECHNOLOGY, INC.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25"
+      ],
+      "first_filed": "2026-04-17",
+      "last_filed": "2026-04-17",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001896036",
+      "ticker": "EIIA",
+      "company": "Eagle Point Institutional Income Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-17",
+      "last_filed": "2026-05-28",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001327273",
+      "ticker": "LYRA",
+      "company": "Lyra Therapeutics, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25"
+      ],
+      "first_filed": "2026-04-20",
+      "last_filed": "2026-04-20",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000866729",
+      "ticker": "SCHL",
+      "company": "SCHOLASTIC CORP",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-21",
+      "last_filed": "2026-04-23",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001527590",
+      "ticker": "RC-PC",
+      "company": "Ready Capital Corp",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-22",
+      "last_filed": "2026-04-22",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001759186",
+      "ticker": "ZSQR",
+      "company": "Coeptis Therapeutics Holdings, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-24",
+      "last_filed": "2026-04-24",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000077476",
+      "ticker": "PEP",
+      "company": "PEPSICO INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-27",
+      "last_filed": "2026-04-27",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001836833",
+      "ticker": "PL",
+      "company": "Planet Labs PBC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-27",
+      "last_filed": "2026-04-27",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001281895",
+      "ticker": "RCKTW",
+      "company": "ROCKET PHARMACEUTICALS, INC.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-27",
+      "last_filed": "2026-05-28",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002039060",
+      "ticker": "RBNE",
+      "company": "Robin Energy Ltd.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-27",
+      "last_filed": "2026-04-27",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001716951",
+      "ticker": "OCCIN",
+      "company": "OFS Credit Company, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-28",
+      "last_filed": "2026-04-28",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000068622",
+      "ticker": "CTHH",
+      "company": "QWEST CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-04-30",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001222922",
+      "ticker": "EVV",
+      "company": "Eaton Vance Ltd Duration Income Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-06-01",
+      "n_filings": 3,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001258623",
+      "ticker": "EFR",
+      "company": "Eaton Vance Senior Floating-Rate Trust",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-06-01",
+      "n_filings": 3,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001070732",
+      "ticker": "EVF",
+      "company": "Eaton Vance Senior Income Trust",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-06-01",
+      "n_filings": 3,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001791706",
+      "ticker": "LAAOF",
+      "company": "Li Auto Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-04-30",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001567683",
+      "ticker": "CWEN",
+      "company": "Clearway Energy, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-05-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000036966",
+      "ticker": "FHN-PF",
+      "company": "FIRST HORIZON CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-05-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001899830",
+      "ticker": "PERFF",
+      "company": "Perfect Corp.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-05-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001923622",
+      "ticker": "PGIM",
+      "company": "PGIM Private Credit Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-06-29",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001321741",
+      "ticker": "GAINI",
+      "company": "GLADSTONE INVESTMENT CORPORATION\\DE",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-04",
+      "last_filed": "2026-05-04",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001254699",
+      "ticker": "QVCDQ",
+      "company": "QVC INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-04",
+      "last_filed": "2026-05-04",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001779128",
+      "ticker": "SRTA",
+      "company": "Strata Critical Medical, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-06",
+      "last_filed": "2026-05-06",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001956439",
+      "ticker": "ENHA",
+      "company": "Enhanced Group Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25"
+      ],
+      "first_filed": "2026-05-07",
+      "last_filed": "2026-05-07",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000768899",
+      "ticker": "TBI",
+      "company": "TrueBlue, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-07",
+      "last_filed": "2026-05-07",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001604174",
+      "ticker": "ECCV",
+      "company": "Eagle Point Credit Co Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-08",
+      "last_filed": "2026-05-08",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001782999",
+      "ticker": "PRTCY",
+      "company": "PureTech Health plc",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25"
+      ],
+      "first_filed": "2026-05-11",
+      "last_filed": "2026-05-11",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000312069",
+      "ticker": "BCLYF",
+      "company": "BARCLAYS PLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-11",
+      "last_filed": "2026-05-12",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001306965",
+      "ticker": "RYDAF",
+      "company": "Shell plc",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-11",
+      "last_filed": "2026-05-11",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000933267",
+      "ticker": "IRS",
+      "company": "IRSA INVESTMENTS & REPRESENTATIONS INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-12",
+      "last_filed": "2026-05-12",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001160106",
+      "ticker": "LLOBF",
+      "company": "Lloyds Banking Group plc",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-12",
+      "last_filed": "2026-05-12",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001825248",
+      "ticker": "FRBP",
+      "company": "Franklin BSP Capital Corp",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-12",
+      "last_filed": "2026-05-12",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001476840",
+      "ticker": "EXFY",
+      "company": "Expensify, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-13",
+      "last_filed": "2026-06-12",
+      "n_filings": 4,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001582982",
+      "ticker": "CCLD",
+      "company": "CareCloud, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-14",
+      "last_filed": "2026-05-14",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001705012",
+      "ticker": "FATPQ",
+      "company": "Fat Brands, Inc",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-14",
+      "last_filed": "2026-05-14",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001075124",
+      "ticker": "TMSOF",
+      "company": "THOMSON REUTERS CORP /CAN/",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-14",
+      "last_filed": "2026-05-14",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000024741",
+      "ticker": "GLW",
+      "company": "CORNING INC /NY",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-15",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001419951",
+      "ticker": "DTST",
+      "company": "Data Storage Corp",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-18",
+      "last_filed": "2026-05-18",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001802450",
+      "ticker": "MSPRZ",
+      "company": "MSP Recovery, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-18",
+      "last_filed": "2026-05-18",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001782037",
+      "ticker": "YGMZF",
+      "company": "MingZhu Logistics Holdings Ltd",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-18",
+      "last_filed": "2026-05-18",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001527599",
+      "ticker": "SYBX",
+      "company": "SYNLOGIC, INC.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-18",
+      "last_filed": "2026-05-18",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001561032",
+      "ticker": "NHPAP",
+      "company": "National Healthcare Properties, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-18",
+      "last_filed": "2026-06-22",
+      "n_filings": 3,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001029199",
+      "ticker": "EEFT",
+      "company": "EURONET WORLDWIDE, INC.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-21",
+      "last_filed": "2026-05-21",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001053507",
+      "ticker": "AMT",
+      "company": "AMERICAN TOWER CORP /MA/",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-22",
+      "last_filed": "2026-05-22",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002023730",
+      "ticker": "HDRNW",
+      "company": "GigCapital7 Corp.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-22",
+      "last_filed": "2026-05-22",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001719406",
+      "ticker": "NRXP",
+      "company": "NRX Pharmaceuticals, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-22",
+      "last_filed": "2026-05-22",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001947244",
+      "ticker": "USGO",
+      "company": "U.S. GoldMining Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-22",
+      "last_filed": "2026-05-22",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001633336",
+      "ticker": "CCAP",
+      "company": "Crescent Capital BDC, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-26",
+      "last_filed": "2026-05-26",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001089113",
+      "ticker": "HBCYF",
+      "company": "HSBC HOLDINGS PLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-26",
+      "last_filed": "2026-05-26",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001692705",
+      "ticker": "HTT",
+      "company": "High Templar Tech Ltd",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-26",
+      "last_filed": "2026-06-29",
+      "n_filings": 3,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000896493",
+      "ticker": "GPUS-PD",
+      "company": "Hyperscale Data, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-26",
+      "last_filed": "2026-06-10",
+      "n_filings": 4,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001675033",
+      "ticker": "GECCI",
+      "company": "Great Elm Capital Corp.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-27",
+      "last_filed": "2026-05-27",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000891478",
+      "ticker": "BCDRF",
+      "company": "Banco Santander, S.A.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-27",
+      "last_filed": "2026-06-10",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000911216",
+      "ticker": "PTN",
+      "company": "PALATIN TECHNOLOGIES INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001048911",
+      "ticker": "FDX",
+      "company": "FEDEX CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001495222",
+      "ticker": "OXLCZ",
+      "company": "Oxford Lane Capital Corp.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-29",
+      "last_filed": "2026-05-29",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
     {
       "cik": "0000859796",
       "ticker": "JOF",
@@ -39,52 +1246,52 @@
       "source": "form_enumeration"
     },
     {
-      "cik": "0001222922",
-      "ticker": "EVV",
-      "company": "Eaton Vance Ltd Duration Income Fund",
+      "cik": "0000059478",
+      "ticker": "LLY",
+      "company": "ELI LILLY & Co",
       "families": [
-        "odd_lot_tender"
+        "delisting"
       ],
-      "family": "odd_lot_tender",
+      "family": "delisting",
       "forms": [
-        "SC TO-I/A"
+        "25-NSE"
       ],
-      "first_filed": "2026-06-01",
-      "last_filed": "2026-06-01",
+      "first_filed": "2026-06-02",
+      "last_filed": "2026-06-02",
       "n_filings": 1,
       "tradable": true,
       "source": "form_enumeration"
     },
     {
-      "cik": "0001258623",
-      "ticker": "EFR",
-      "company": "Eaton Vance Senior Floating-Rate Trust",
+      "cik": "0001900720",
+      "ticker": "EPWKF",
+      "company": "EPWK Holdings Ltd.",
       "families": [
-        "odd_lot_tender"
+        "delisting"
       ],
-      "family": "odd_lot_tender",
+      "family": "delisting",
       "forms": [
-        "SC TO-I/A"
+        "25-NSE"
       ],
-      "first_filed": "2026-06-01",
-      "last_filed": "2026-06-01",
+      "first_filed": "2026-06-02",
+      "last_filed": "2026-06-02",
       "n_filings": 1,
       "tradable": true,
       "source": "form_enumeration"
     },
     {
-      "cik": "0001070732",
-      "ticker": "EVF",
-      "company": "Eaton Vance Senior Income Trust",
+      "cik": "0001058307",
+      "ticker": "NXPL",
+      "company": "NextPlat Corp",
       "families": [
-        "odd_lot_tender"
+        "delisting"
       ],
-      "family": "odd_lot_tender",
+      "family": "delisting",
       "forms": [
-        "SC TO-I/A"
+        "25-NSE"
       ],
-      "first_filed": "2026-06-01",
-      "last_filed": "2026-06-01",
+      "first_filed": "2026-06-02",
+      "last_filed": "2026-06-02",
       "n_filings": 1,
       "tradable": true,
       "source": "form_enumeration"
@@ -108,32 +1315,186 @@
       "source": "form_enumeration"
     },
     {
-      "cik": "0000896493",
-      "ticker": "GPUS-PD",
-      "company": "Hyperscale Data, Inc.",
+      "cik": "0000010795",
+      "ticker": "BDX",
+      "company": "BECTON DICKINSON & CO",
       "families": [
-        "odd_lot_tender"
+        "delisting"
       ],
-      "family": "odd_lot_tender",
+      "family": "delisting",
       "forms": [
-        "SC TO-I/A"
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-04",
+      "last_filed": "2026-06-04",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001939365",
+      "ticker": "IVPR",
+      "company": "INSPIRE VETERINARY PARTNERS, INC.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-04",
+      "last_filed": "2026-06-04",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002049662",
+      "ticker": "FACWW",
+      "company": "Factorial Energy Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-05",
+      "last_filed": "2026-06-05",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001231346",
+      "ticker": "SA",
+      "company": "SEABRIDGE GOLD INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-05",
+      "last_filed": "2026-06-05",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001865494",
+      "ticker": "IOBTQ",
+      "company": "IO Biotech, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-08",
+      "last_filed": "2026-06-08",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001785424",
+      "ticker": "KPLT",
+      "company": "Katapult Holdings, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-08",
+      "last_filed": "2026-06-08",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001355096",
+      "ticker": "QVCGQ",
+      "company": "QVC Group, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-08",
+      "last_filed": "2026-06-08",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001994624",
+      "ticker": "STAI",
+      "company": "ScanTech AI Systems Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-08",
+      "last_filed": "2026-06-08",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002093524",
+      "ticker": "APURR",
+      "company": "Aperture AC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
       ],
       "first_filed": "2026-06-09",
-      "last_filed": "2026-06-10",
+      "last_filed": "2026-06-09",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001439124",
+      "ticker": "AXIA-PC",
+      "company": "AXIA Energia S.A.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25",
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-10",
+      "last_filed": "2026-06-11",
       "n_filings": 2,
       "tradable": true,
       "source": "form_enumeration"
     },
     {
-      "cik": "0000891478",
-      "ticker": "BCDRF",
-      "company": "Banco Santander, S.A.",
+      "cik": "0002095443",
+      "ticker": "BREZR",
+      "company": "Breeze Acquisition Corp. II",
       "families": [
-        "odd_lot_tender"
+        "delisting"
       ],
-      "family": "odd_lot_tender",
+      "family": "delisting",
       "forms": [
-        "SC TO-I/A"
+        "25-NSE"
       ],
       "first_filed": "2026-06-10",
       "last_filed": "2026-06-10",
@@ -142,26 +1503,783 @@
       "source": "form_enumeration"
     },
     {
-      "cik": "0001476840",
-      "ticker": "EXFY",
-      "company": "Expensify, Inc.",
+      "cik": "0001816431",
+      "ticker": "QSI",
+      "company": "Quantum-Si Inc",
       "families": [
-        "odd_lot_tender"
+        "delisting"
       ],
-      "family": "odd_lot_tender",
+      "family": "delisting",
       "forms": [
-        "SC TO-I/A"
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-10",
+      "last_filed": "2026-06-10",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000035527",
+      "ticker": "FITB-PK",
+      "company": "FIFTH THIRD BANCORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25"
       ],
       "first_filed": "2026-06-11",
+      "last_filed": "2026-06-11",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001590364",
+      "ticker": "FTAIM",
+      "company": "FTAI Aviation Ltd.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-12",
       "last_filed": "2026-06-12",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001984014",
+      "ticker": "BLMZF",
+      "company": "Harrison Global Holdings Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-15",
+      "last_filed": "2026-06-15",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000898174",
+      "ticker": "RZC",
+      "company": "REINSURANCE GROUP OF AMERICA INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-15",
+      "last_filed": "2026-06-15",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001852551",
+      "ticker": "NVA-WT",
+      "company": "Nova Minerals Ltd",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-16",
+      "last_filed": "2026-06-16",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001823878",
+      "ticker": "MYPS",
+      "company": "PLAYSTUDIOS, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-17",
+      "last_filed": "2026-06-17",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001409970",
+      "ticker": "LC",
+      "company": "LendingClub Corp",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25"
+      ],
+      "first_filed": "2026-06-18",
+      "last_filed": "2026-06-18",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001849221",
+      "ticker": "PMNT",
+      "company": "Perfect Moment Ltd.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-18",
+      "last_filed": "2026-06-18",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001802457",
+      "ticker": "ORGNW",
+      "company": "Origin Materials, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25",
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-22",
+      "last_filed": "2026-06-23",
       "n_filings": 2,
       "tradable": true,
       "source": "form_enumeration"
     },
     {
-      "cik": "0001561032",
-      "ticker": "NHPAP",
-      "company": "National Healthcare Properties, Inc.",
+      "cik": "0002048951",
+      "ticker": "TMSWW",
+      "company": "Live Oak Acquisition Corp. V",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-22",
+      "last_filed": "2026-06-22",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001803901",
+      "ticker": "TALKW",
+      "company": "Talkspace, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-22",
+      "last_filed": "2026-06-22",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001962738",
+      "ticker": "CASIF",
+      "company": "CASI Pharmaceuticals, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-23",
+      "last_filed": "2026-06-23",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001659323",
+      "ticker": "ITRMF",
+      "company": "Iterum Therapeutics plc",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-23",
+      "last_filed": "2026-06-23",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002102155",
+      "ticker": "QLEP-WT",
+      "company": "Quantum Leap Acquisition Corp",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-23",
+      "last_filed": "2026-06-23",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001847903",
+      "ticker": "CNTA",
+      "company": "Centessa Pharmaceuticals plc",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-24",
+      "last_filed": "2026-06-24",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001306830",
+      "ticker": "CE",
+      "company": "Celanese Corp",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001866368",
+      "ticker": "CWAN",
+      "company": "Clearwater Analytics Holdings, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001865631",
+      "ticker": "NXNVW",
+      "company": "NEXTNAV INC.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-26",
+      "last_filed": "2026-06-26",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001119639",
+      "ticker": "PBR-A",
+      "company": "PETROBRAS - PETROLEO BRASILEIRO SA",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-26",
+      "last_filed": "2026-06-26",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001127703",
+      "ticker": "PRA",
+      "company": "PROASSURANCE CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-26",
+      "last_filed": "2026-06-26",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001782941",
+      "ticker": "TIRXF",
+      "company": "TIAN RUIXIANG HOLDINGS LTD",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-26",
+      "last_filed": "2026-06-26",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001145255",
+      "ticker": "HNNAZ",
+      "company": "HENNESSY ADVISORS INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-29",
+      "last_filed": "2026-06-29",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001840502",
+      "ticker": "TBLAW",
+      "company": "Taboola.com Ltd.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-29",
+      "last_filed": "2026-06-29",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001674356",
+      "ticker": "TPTA",
+      "company": "Terra Property Trust, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-30",
+      "last_filed": "2026-06-30",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002034269",
+      "ticker": "CEPT",
+      "company": "Cantor Equity Partners II, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-07-01",
+      "last_filed": "2026-07-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001821159",
+      "ticker": "EVGOW",
+      "company": "EVgo Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-07-01",
+      "last_filed": "2026-07-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001274173",
+      "ticker": "JHG",
+      "company": "Janus Henderson Group Ltc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-07-01",
+      "last_filed": "2026-07-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001462223",
+      "ticker": "NIXXW",
+      "company": "Nixxy, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-07-01",
+      "last_filed": "2026-07-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001633931",
+      "ticker": "BLD",
+      "company": "QXO Insulation, LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-07-01",
+      "last_filed": "2026-07-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002052161",
+      "ticker": "RAAQW",
+      "company": "Real Asset Acquisition Corp.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-07-01",
+      "last_filed": "2026-07-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001320414",
+      "ticker": "SEM",
+      "company": "SELECT MEDICAL HOLDINGS CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-07-01",
+      "last_filed": "2026-07-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001567925",
+      "ticker": "SILA",
+      "company": "Sila Realty Trust, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-07-01",
+      "last_filed": "2026-07-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001473844",
+      "ticker": "STEL",
+      "company": "Stellar Bancorp, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-07-01",
+      "last_filed": "2026-07-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001606268",
+      "ticker": "VIASP",
+      "company": "Via Renewables, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-07-01",
+      "last_filed": "2026-07-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001819438",
+      "ticker": "GWH-WT",
+      "company": "ESS Tech, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-07-02",
+      "last_filed": "2026-07-02",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000034088",
+      "ticker": "XOM",
+      "company": "EXXON MOBIL CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-07-02",
+      "last_filed": "2026-07-02",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    }
+  ],
+  "nontradable_flagged": [
+    {
+      "cik": "0000809844",
+      "ticker": null,
+      "company": "MFS HIGH YIELD MUNICIPAL TRUST",
+      "families": [
+        "delisting",
+        "odd_lot_tender"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE",
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-06-08",
+      "n_filings": 4,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000847411",
+      "ticker": null,
+      "company": "MFS INVESTMENT GRADE MUNICIPAL TRUST",
+      "families": [
+        "delisting",
+        "odd_lot_tender"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE",
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-13",
+      "last_filed": "2026-06-08",
+      "n_filings": 4,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001485894",
+      "ticker": null,
+      "company": "J.P. Morgan Exchange-Traded Fund Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-04-06",
+      "n_filings": 14,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000876661",
+      "ticker": null,
+      "company": "NEW YORK STOCK EXCHANGE LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-07-02",
+      "n_filings": 103,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001354457",
+      "ticker": null,
+      "company": "Nasdaq Stock Market LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-07-01",
+      "n_filings": 107,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001635073",
+      "ticker": null,
+      "company": "Nushares ETF Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-04-13",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000852495",
+      "ticker": null,
+      "company": "CASH TRUST SERIES INC",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-04-06",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001202806",
+      "ticker": null,
+      "company": "FEDERATED PREMIER INTERMEDIATE MUNICIPAL INCOME FUND",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-04-06",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001609211",
+      "ticker": null,
+      "company": "AMG Pantheon Fund, LLC",
       "families": [
         "odd_lot_tender"
       ],
@@ -169,16 +2287,4336 @@
       "forms": [
         "SC TO-I/A"
       ],
-      "first_filed": "2026-06-17",
-      "last_filed": "2026-06-22",
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-04-21",
       "n_filings": 2,
-      "tradable": true,
+      "tradable": false,
       "source": "form_enumeration"
     },
     {
-      "cik": "0001554625",
-      "ticker": "PRIF-PL",
-      "company": "Priority Income Fund, Inc.",
+      "cik": "0001609212",
+      "ticker": null,
+      "company": "AMG Pantheon Master Fund, LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-04-06",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001859919",
+      "ticker": null,
+      "company": "Barings Private Credit Corp",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-06-01",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001920145",
+      "ticker": null,
+      "company": "Goldman Sachs Private Credit Corp.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-07-01",
+      "n_filings": 4,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001788420",
+      "ticker": null,
+      "company": "Keystone Private Income Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-06",
+      "last_filed": "2026-04-29",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001909799",
+      "ticker": null,
+      "company": "Aptiv Global Financing Designated Activity Co",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-07",
+      "last_filed": "2026-04-07",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001543199",
+      "ticker": null,
+      "company": "Aptiv LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-07",
+      "last_filed": "2026-04-07",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001417835",
+      "ticker": null,
+      "company": "Cboe BZX Exchange, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-07",
+      "last_filed": "2026-06-30",
+      "n_filings": 13,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001540305",
+      "ticker": null,
+      "company": "ETF Series Solutions",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-07",
+      "last_filed": "2026-04-07",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000859737",
+      "ticker": null,
+      "company": "HOLOGIC INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-07",
+      "last_filed": "2026-04-07",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001487712",
+      "ticker": null,
+      "company": "AIR LEASE CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-08",
+      "last_filed": "2026-04-08",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001862005",
+      "ticker": null,
+      "company": "AstraZeneca Finance LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-08",
+      "last_filed": "2026-05-28",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001953726",
+      "ticker": null,
+      "company": "MidBridge Private Markets Fund",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F",
+        "N-8F ORDR"
+      ],
+      "first_filed": "2026-04-08",
+      "last_filed": "2026-06-25",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001970509",
+      "ticker": null,
+      "company": "Haymaker Acquisition Corp. 4",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-09",
+      "last_filed": "2026-04-09",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001012100",
+      "ticker": null,
+      "company": "SEALED AIR CORP/DE",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-09",
+      "last_filed": "2026-04-09",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001762229",
+      "ticker": null,
+      "company": "Yieldstreet Alternative Income Fund Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-09",
+      "last_filed": "2026-04-09",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001424958",
+      "ticker": null,
+      "company": "Direxion Shares ETF Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-10",
+      "last_filed": "2026-04-17",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001884021",
+      "ticker": null,
+      "company": "Volatility Shares Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-10",
+      "last_filed": "2026-04-10",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001950803",
+      "ticker": null,
+      "company": "Stepstone Private Credit Fund LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-10",
+      "last_filed": "2026-05-01",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001771146",
+      "ticker": null,
+      "company": "ETF Opportunities Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-13",
+      "last_filed": "2026-06-26",
+      "n_filings": 4,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001143362",
+      "ticker": null,
+      "company": "NYSE ARCA, INC.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-13",
+      "last_filed": "2026-07-02",
+      "n_filings": 18,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001860424",
+      "ticker": null,
+      "company": "Onex Direct Lending BDC Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-13",
+      "last_filed": "2026-05-12",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001512931",
+      "ticker": null,
+      "company": "MONROE CAPITAL Corp",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-14",
+      "last_filed": "2026-04-14",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001854919",
+      "ticker": null,
+      "company": "Dynamic Alternatives Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-14",
+      "last_filed": "2026-06-30",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001803958",
+      "ticker": null,
+      "company": "KKR Real Estate Select Trust Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-14",
+      "last_filed": "2026-06-17",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001572661",
+      "ticker": null,
+      "company": "Principal Exchange-Traded Funds",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25"
+      ],
+      "first_filed": "2026-04-15",
+      "last_filed": "2026-04-15",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001479026",
+      "ticker": null,
+      "company": "Goldman Sachs ETF Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-15",
+      "last_filed": "2026-06-10",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002044519",
+      "ticker": null,
+      "company": "Coatue Innovative Strategies Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-15",
+      "last_filed": "2026-06-16",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001957121",
+      "ticker": null,
+      "company": "Felicitas Private Markets Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-15",
+      "last_filed": "2026-06-30",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002044490",
+      "ticker": null,
+      "company": "SEG Partners Long/Short Equity Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-15",
+      "last_filed": "2026-07-01",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001301483",
+      "ticker": null,
+      "company": "Alpha Core Strategies Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-16",
+      "last_filed": "2026-05-14",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001677615",
+      "ticker": null,
+      "company": "Federated Hermes Project & Trade Finance Tender Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-16",
+      "last_filed": "2026-04-16",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001682662",
+      "ticker": null,
+      "company": "Peachtree Alternative Strategies Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-16",
+      "last_filed": "2026-06-18",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001918642",
+      "ticker": null,
+      "company": "StepStone Private Venture & Growth Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-16",
+      "last_filed": "2026-04-24",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002023773",
+      "ticker": null,
+      "company": "iDirect Multi-Strategy Fund, LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-04-17",
+      "last_filed": "2026-04-17",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001543188",
+      "ticker": null,
+      "company": "AB Multi-Manager Alternative Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-17",
+      "last_filed": "2026-05-15",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001918712",
+      "ticker": null,
+      "company": "ARES STRATEGIC INCOME FUND",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-17",
+      "last_filed": "2026-06-26",
+      "n_filings": 4,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001918767",
+      "ticker": null,
+      "company": "Constitution Capital Access Fund, LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-17",
+      "last_filed": "2026-04-17",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002027033",
+      "ticker": null,
+      "company": "Eagle Point Trinity Senior Secured Lending Co",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-17",
+      "last_filed": "2026-05-28",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001053352",
+      "ticker": null,
+      "company": "HERITAGE COMMERCE CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-20",
+      "last_filed": "2026-04-20",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001862971",
+      "ticker": null,
+      "company": "Popular Income Plus Fund, Inc.",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F"
+      ],
+      "first_filed": "2026-04-20",
+      "last_filed": "2026-04-20",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001559109",
+      "ticker": null,
+      "company": "ETFis Series Trust I",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-21",
+      "last_filed": "2026-04-21",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000909108",
+      "ticker": null,
+      "company": "DIAMOND HILL INVESTMENT GROUP INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-22",
+      "last_filed": "2026-04-22",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001845337",
+      "ticker": null,
+      "company": "Day One Biopharmaceuticals, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-23",
+      "last_filed": "2026-04-23",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001359057",
+      "ticker": null,
+      "company": "Manager Directed Portfolios",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-23",
+      "last_filed": "2026-04-23",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001924868",
+      "ticker": null,
+      "company": "Tidal Trust II",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-23",
+      "last_filed": "2026-06-18",
+      "n_filings": 6,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000783316",
+      "ticker": null,
+      "company": "Value Line Core Bond Fund",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F"
+      ],
+      "first_filed": "2026-04-23",
+      "last_filed": "2026-04-23",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000882381",
+      "ticker": null,
+      "company": "MORGAN STANLEY INCOME OPPORTUNITIES FUND",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F ORDR"
+      ],
+      "first_filed": "2026-04-23",
+      "last_filed": "2026-04-23",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001847283",
+      "ticker": null,
+      "company": "Puerto Rico Residents Tax-Free Fund VI, Inc.",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F ORDR"
+      ],
+      "first_filed": "2026-04-23",
+      "last_filed": "2026-04-23",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001944285",
+      "ticker": null,
+      "company": "Tema ETF Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25"
+      ],
+      "first_filed": "2026-04-24",
+      "last_filed": "2026-04-24",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000864270",
+      "ticker": null,
+      "company": "AMERICAN HONDA FINANCE CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-24",
+      "last_filed": "2026-05-29",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001702510",
+      "ticker": null,
+      "company": "Carlyle Credit Solutions, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-24",
+      "last_filed": "2026-06-22",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002035713",
+      "ticker": null,
+      "company": "Crestline Lending Solutions, LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-24",
+      "last_filed": "2026-06-22",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001890107",
+      "ticker": null,
+      "company": "First Eagle Private Credit Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-24",
+      "last_filed": "2026-06-05",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001903070",
+      "ticker": null,
+      "company": "Hartford Schroders Private Opportunities Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-24",
+      "last_filed": "2026-04-27",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001959353",
+      "ticker": null,
+      "company": "Oxford Park Income Fund, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-24",
+      "last_filed": "2026-06-01",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001178879",
+      "ticker": null,
+      "company": "AMICUS THERAPEUTICS, INC.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-27",
+      "last_filed": "2026-04-27",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001415726",
+      "ticker": null,
+      "company": "Innovator ETFs Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-27",
+      "last_filed": "2026-04-27",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000899782",
+      "ticker": null,
+      "company": "NUVEEN MISSOURI QUALITY MUNICIPAL INCOME FUND",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-27",
+      "last_filed": "2026-04-27",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001087786",
+      "ticker": null,
+      "company": "NUVEEN NEW JERSEY QUALITY MUNICIPAL INCOME FUND",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-27",
+      "last_filed": "2026-04-27",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000870780",
+      "ticker": null,
+      "company": "NUVEEN PENNSYLVANIA QUALITY MUNICIPAL INCOME FUND",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-27",
+      "last_filed": "2026-04-27",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001742912",
+      "ticker": null,
+      "company": "Tidal Trust I",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-27",
+      "last_filed": "2026-06-22",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001812554",
+      "ticker": null,
+      "company": "Blue Owl Credit Income Corp.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-27",
+      "last_filed": "2026-05-26",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001869453",
+      "ticker": null,
+      "company": "Blue Owl Technology Income Corp.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-27",
+      "last_filed": "2026-05-26",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001930679",
+      "ticker": null,
+      "company": "KKR FS Income Trust",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-27",
+      "last_filed": "2026-06-01",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001975736",
+      "ticker": null,
+      "company": "KKR FS Income Trust Select",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-27",
+      "last_filed": "2026-06-01",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001786205",
+      "ticker": null,
+      "company": "Arcellx, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-28",
+      "last_filed": "2026-04-28",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001831840",
+      "ticker": null,
+      "company": "SEMrush Holdings, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-28",
+      "last_filed": "2026-04-28",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001830974",
+      "ticker": null,
+      "company": "Aspiriant Capital Appreciation Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-28",
+      "last_filed": "2026-06-24",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001830921",
+      "ticker": null,
+      "company": "Aspiriant Real Assets Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-28",
+      "last_filed": "2026-06-24",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001989393",
+      "ticker": null,
+      "company": "PARTNERS GROUP NEXT GENERATION INFRASTRUCTURE, LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-28",
+      "last_filed": "2026-06-05",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001991706",
+      "ticker": null,
+      "company": "Partners Group Growth, LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-28",
+      "last_filed": "2026-06-05",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001938649",
+      "ticker": null,
+      "company": "Partners Group Lending Fund, LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-04-28",
+      "last_filed": "2026-04-28",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001447247",
+      "ticker": null,
+      "company": "Partners Group Private Equity Fund, LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-28",
+      "last_filed": "2026-05-18",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001912938",
+      "ticker": null,
+      "company": "First Trust Private Assets Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-28",
+      "last_filed": "2026-05-29",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001983514",
+      "ticker": null,
+      "company": "LGAM Private Credit LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-28",
+      "last_filed": "2026-06-01",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001973476",
+      "ticker": null,
+      "company": "North Haven Private Income Fund A LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-28",
+      "last_filed": "2026-06-23",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001851322",
+      "ticker": null,
+      "company": "North Haven Private Income Fund LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-28",
+      "last_filed": "2026-06-23",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001834253",
+      "ticker": null,
+      "company": "Smart Share Global Ltd",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-29",
+      "last_filed": "2026-04-29",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001899610",
+      "ticker": null,
+      "company": "Carlyle AlpInvest Private Markets Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-29",
+      "last_filed": "2026-06-03",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001920453",
+      "ticker": null,
+      "company": "Fidelity Private Credit Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-29",
+      "last_filed": "2026-06-05",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001919369",
+      "ticker": null,
+      "company": "VISTA CREDIT STRATEGIC LENDING CORP.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-29",
+      "last_filed": "2026-06-24",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001918661",
+      "ticker": null,
+      "company": "ESH Acquisition Corp.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-04-30",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001071255",
+      "ticker": null,
+      "company": "GOLDEN ENTERTAINMENT, INC.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-04-30",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001756701",
+      "ticker": null,
+      "company": "LINKBANCORP, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-04-30",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001649363",
+      "ticker": null,
+      "company": "ABS Long/Short Strategies Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-04-30",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001816389",
+      "ticker": null,
+      "company": "BlackRock Private Investments Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-06-24",
+      "n_filings": 4,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000868082",
+      "ticker": null,
+      "company": "EVERFLOW EASTERN PARTNERS LP",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-07-02",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001877967",
+      "ticker": null,
+      "company": "Fairway Private Equity & Venture Capital Opportunities Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-04-30",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001905379",
+      "ticker": null,
+      "company": "Innovation Access Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-05-21",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002054995",
+      "ticker": null,
+      "company": "Lincoln Partners Group Royalty Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-06-17",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002008748",
+      "ticker": null,
+      "company": "Lord Abbett Private Credit Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-04-30",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002041841",
+      "ticker": null,
+      "company": "Lord Abbett Private Credit Fund S",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-06-09",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001742313",
+      "ticker": null,
+      "company": "Monroe Capital Income Plus Corp",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-06-05",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001913724",
+      "ticker": null,
+      "company": "TPG Twin Brook Capital Income Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-04-30",
+      "last_filed": "2026-05-05",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000351834",
+      "ticker": null,
+      "company": "SunOpta Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-05-01",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001603652",
+      "ticker": null,
+      "company": "Urgent.ly Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-05-01",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001899017",
+      "ticker": null,
+      "company": "Bain Capital Private Credit",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-05-01",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001803498",
+      "ticker": null,
+      "company": "Blackstone Private Credit Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-06-04",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001830926",
+      "ticker": null,
+      "company": "EMERY PARTNERS INCOME CREDIT STRATEGIES FUND",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-05-01",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001742836",
+      "ticker": null,
+      "company": "Macquarie Focused Access Fund, LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-05-01",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002037804",
+      "ticker": null,
+      "company": "New Mountain Private Credit Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-06-03",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001833936",
+      "ticker": null,
+      "company": "BlackRock Alpha Strategies Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-06-24",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001989817",
+      "ticker": null,
+      "company": "HPS Corporate Capital Solutions Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-05-11",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001838126",
+      "ticker": null,
+      "company": "HPS Corporate Lending Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-05-11",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001875084",
+      "ticker": null,
+      "company": "PGIM Real Estate Fund Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-05-01",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001181848",
+      "ticker": null,
+      "company": "SKYBRIDGE OPPORTUNITY FUND",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-05-01",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001520568",
+      "ticker": null,
+      "company": "Skybridge G II Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-05-01",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001901037",
+      "ticker": null,
+      "company": "Stellus Private Credit BDC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-01",
+      "last_filed": "2026-05-01",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001830188",
+      "ticker": null,
+      "company": "United Homes Group, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-04",
+      "last_filed": "2026-05-04",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001856156",
+      "ticker": null,
+      "company": "FS MVP Private Markets Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-04",
+      "last_filed": "2026-05-04",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001901164",
+      "ticker": null,
+      "company": "T. Rowe Price OHA Select Private Credit Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-04",
+      "last_filed": "2026-05-04",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001978024",
+      "ticker": null,
+      "company": "Apollo S3 Private Markets Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-04",
+      "last_filed": "2026-05-15",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002011134",
+      "ticker": null,
+      "company": "Kioni Holdings Ltd",
+      "families": [
+        "spinoff_largecap"
+      ],
+      "family": "spinoff_largecap",
+      "forms": [
+        "10-12B"
+      ],
+      "first_filed": "2026-05-05",
+      "last_filed": "2026-05-05",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001529390",
+      "ticker": null,
+      "company": "Cambria ETF Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-05",
+      "last_filed": "2026-05-05",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000034563",
+      "ticker": null,
+      "company": "FARMER BROTHERS CO",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-05",
+      "last_filed": "2026-05-05",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001587982",
+      "ticker": null,
+      "company": "Investment Managers Series Trust II",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-05",
+      "last_filed": "2026-06-26",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001831363",
+      "ticker": null,
+      "company": "Terns Pharmaceuticals, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-05",
+      "last_filed": "2026-05-05",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002029010",
+      "ticker": null,
+      "company": "North Haven Private Assets Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-05",
+      "last_filed": "2026-06-17",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001503123",
+      "ticker": null,
+      "company": "DBX ETF TRUST",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25",
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-06",
+      "last_filed": "2026-05-20",
+      "n_filings": 4,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001600626",
+      "ticker": null,
+      "company": "Peakstone Realty Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-06",
+      "last_filed": "2026-05-06",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001803491",
+      "ticker": null,
+      "company": "Hamilton Lane Private Assets Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-06",
+      "last_filed": "2026-06-25",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002041398",
+      "ticker": null,
+      "company": "Hamilton Lane Private Secondary Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-06",
+      "last_filed": "2026-06-25",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002047692",
+      "ticker": null,
+      "company": "Hamilton Lane Venture Capital & Growth Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-06",
+      "last_filed": "2026-06-25",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001982701",
+      "ticker": null,
+      "company": "AB Private Lending Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-06",
+      "last_filed": "2026-06-26",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001837532",
+      "ticker": null,
+      "company": "Apollo Debt Solutions BDC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-06",
+      "last_filed": "2026-05-15",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001902649",
+      "ticker": null,
+      "company": "BlackRock Private Credit Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-06",
+      "last_filed": "2026-05-11",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001589390",
+      "ticker": null,
+      "company": "Evanston Multi-Alpha Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-06",
+      "last_filed": "2026-06-26",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001959604",
+      "ticker": null,
+      "company": "Jefferies Credit Partners BDC Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-06",
+      "last_filed": "2026-07-01",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001911066",
+      "ticker": null,
+      "company": "Nuveen Churchill Private Capital Income Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-06",
+      "last_filed": "2026-05-29",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001407736",
+      "ticker": null,
+      "company": "SEI Structured Credit Fund, LP",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-06",
+      "last_filed": "2026-06-24",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001408970",
+      "ticker": null,
+      "company": "AdvisorShares Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-07",
+      "last_filed": "2026-05-07",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001125259",
+      "ticker": null,
+      "company": "CARNIVAL PLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-07",
+      "last_filed": "2026-05-07",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000858470",
+      "ticker": null,
+      "company": "Coterra Energy Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-07",
+      "last_filed": "2026-05-07",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001976336",
+      "ticker": null,
+      "company": "Antares Private Credit Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-07",
+      "last_filed": "2026-06-25",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001885778",
+      "ticker": null,
+      "company": "John Hancock Marathon Asset-Based Lending Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-07",
+      "last_filed": "2026-05-07",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001988855",
+      "ticker": null,
+      "company": "Manulife Private Credit Plus Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-07",
+      "last_filed": "2026-05-18",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000896429",
+      "ticker": null,
+      "company": "CANTALOUPE, INC.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-08",
+      "last_filed": "2026-05-08",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001856236",
+      "ticker": null,
+      "company": "European Wax Center, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-08",
+      "last_filed": "2026-05-08",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002032379",
+      "ticker": null,
+      "company": "Willow Lane Acquisition Corp.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-08",
+      "last_filed": "2026-05-08",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001876006",
+      "ticker": null,
+      "company": "Ares Private Markets Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-08",
+      "last_filed": "2026-06-04",
+      "n_filings": 4,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001810256",
+      "ticker": null,
+      "company": "Bow River Capital Evergreen Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-08",
+      "last_filed": "2026-05-08",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001955857",
+      "ticker": null,
+      "company": "Brookfield Infrastructure Income Fund Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-08",
+      "last_filed": "2026-05-27",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001475457",
+      "ticker": null,
+      "company": "GROSVENOR REGISTERED MULTI-STRATEGY FUND (TI 1), LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-08",
+      "last_filed": "2026-06-26",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001475456",
+      "ticker": null,
+      "company": "GROSVENOR REGISTERED MULTI-STRATEGY FUND (TI 2), LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-08",
+      "last_filed": "2026-06-26",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001212030",
+      "ticker": null,
+      "company": "GROSVENOR REGISTERED MULTI-STRATEGY MASTER FUND, LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-08",
+      "last_filed": "2026-06-26",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001738008",
+      "ticker": null,
+      "company": "Hedge Fund Guided Portfolio Solution",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-08",
+      "last_filed": "2026-06-26",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001645666",
+      "ticker": null,
+      "company": "Kezar Life Sciences, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-11",
+      "last_filed": "2026-05-11",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000731288",
+      "ticker": null,
+      "company": "PACCAR FINANCIAL CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-11",
+      "last_filed": "2026-05-11",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001333621",
+      "ticker": null,
+      "company": "Shell International Finance B.V.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-11",
+      "last_filed": "2026-05-11",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001607939",
+      "ticker": null,
+      "company": "Udemy, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-11",
+      "last_filed": "2026-05-11",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001521945",
+      "ticker": null,
+      "company": "Prospect Floating Rate & Alternative Income Fund, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-11",
+      "last_filed": "2026-06-26",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001064642",
+      "ticker": null,
+      "company": "SPDR SERIES TRUST",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-12",
+      "last_filed": "2026-05-18",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001789470",
+      "ticker": null,
+      "company": "StepStone Private Markets",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-12",
+      "last_filed": "2026-07-02",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001634452",
+      "ticker": null,
+      "company": "AB Private Credit Investors Corp",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-12",
+      "last_filed": "2026-05-29",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001911321",
+      "ticker": null,
+      "company": "Kennedy Lewis Capital Co",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-12",
+      "last_filed": "2026-06-01",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001743907",
+      "ticker": null,
+      "company": "Sun Country Airlines Holdings, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-13",
+      "last_filed": "2026-05-13",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001862281",
+      "ticker": null,
+      "company": "ADAMS STREET PRIVATE EQUITY NAVIGATOR FUND LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-13",
+      "last_filed": "2026-05-15",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001492422",
+      "ticker": null,
+      "company": "Apellis Pharmaceuticals, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-14",
+      "last_filed": "2026-05-14",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001005757",
+      "ticker": null,
+      "company": "CSG SYSTEMS INTERNATIONAL INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-14",
+      "last_filed": "2026-05-14",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001561680",
+      "ticker": null,
+      "company": "Tri Pointe Homes, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-14",
+      "last_filed": "2026-05-14",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001993402",
+      "ticker": null,
+      "company": "Antares Strategic Credit Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-14",
+      "last_filed": "2026-06-25",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001930087",
+      "ticker": null,
+      "company": "Golub Capital Private Credit Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-14",
+      "last_filed": "2026-06-29",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002034268",
+      "ticker": null,
+      "company": "Cantor Equity Partners III, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-15",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001803737",
+      "ticker": null,
+      "company": "Enhabit, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-15",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001829280",
+      "ticker": null,
+      "company": "Forian Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-15",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001129155",
+      "ticker": null,
+      "company": "MARINE PRODUCTS CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-15",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001945422",
+      "ticker": null,
+      "company": "Oak Woods Acquisition Corp",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-15",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001616668",
+      "ticker": null,
+      "company": "Pacer Funds Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-15",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001076673",
+      "ticker": null,
+      "company": "Advantage Advisers Xanthus Fund, L.L.C.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-15",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002090145",
+      "ticker": null,
+      "company": "CAIS Sports, Media & Entertainment Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-06-23",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002033620",
+      "ticker": null,
+      "company": "Coller Private Credit Secondaries",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-15",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001969180",
+      "ticker": null,
+      "company": "Coller Secondaries Private Equity Opportunities Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-15",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002008602",
+      "ticker": null,
+      "company": "Franklin Lexington Private Markets Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-20",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002020407",
+      "ticker": null,
+      "company": "HarbourVest Private Investments Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-15",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001940499",
+      "ticker": null,
+      "company": "JPMorgan Private Markets Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-28",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002061233",
+      "ticker": null,
+      "company": "Morgan Stanley Private Markets & Alternatives Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-15",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001588272",
+      "ticker": null,
+      "company": "NexPoint Capital, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-06-23",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001872371",
+      "ticker": null,
+      "company": "Oaktree Strategic Credit Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-06-17",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002031283",
+      "ticker": null,
+      "company": "Stone Point Credit Income Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-06-25",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001606789",
+      "ticker": null,
+      "company": "iDirect Private Markets Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-05-15",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001709447",
+      "ticker": null,
+      "company": "AIP Alternative Lending Fund A",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-07-02",
+      "n_filings": 3,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001944831",
+      "ticker": null,
+      "company": "Willow Tree Capital Corp",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-15",
+      "last_filed": "2026-06-25",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000876717",
+      "ticker": null,
+      "company": "ABRDN GLOBAL INCOME FUND, INC.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-18",
+      "last_filed": "2026-05-18",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001143313",
+      "ticker": null,
+      "company": "NYSE AMERICAN LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-18",
+      "last_filed": "2026-06-23",
+      "n_filings": 4,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001484565",
+      "ticker": null,
+      "company": "SOLENO THERAPEUTICS INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-18",
+      "last_filed": "2026-05-18",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001987221",
+      "ticker": null,
+      "company": "John Hancock Comvest Private Income Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-18",
+      "last_filed": "2026-06-23",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001853513",
+      "ticker": null,
+      "company": "Mister Car Wash, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-19",
+      "last_filed": "2026-05-19",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002031750",
+      "ticker": null,
+      "company": "Ares Core Infrastructure Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-20",
+      "last_filed": "2026-06-26",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001661306",
+      "ticker": null,
+      "company": "Hancock Park Corporate Income, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-05-22",
+      "last_filed": "2026-05-22",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001954360",
+      "ticker": null,
+      "company": "Crescent Private Credit Income Corp",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-26",
+      "last_filed": "2026-06-26",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002052961",
+      "ticker": null,
+      "company": "FT Vest Hedged Equity Income Fund: Series B1",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-26",
+      "last_filed": "2026-05-26",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002052411",
+      "ticker": null,
+      "company": "FT Vest Total Return Income Fund: Series B1",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-26",
+      "last_filed": "2026-05-26",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001516212",
+      "ticker": null,
+      "company": "SSGA Active Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-27",
+      "last_filed": "2026-05-27",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000924901",
+      "ticker": null,
+      "company": "Veris Residential, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-27",
+      "last_filed": "2026-05-27",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001588474",
+      "ticker": null,
+      "company": "INFINITY CORE ALTERNATIVE FUND",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-05-27",
+      "last_filed": "2026-05-27",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001811114",
+      "ticker": null,
+      "company": "BBR ALO Fund, LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-27",
+      "last_filed": "2026-05-27",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000794619",
+      "ticker": null,
+      "company": "AMERICAN WOODMARK CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001133470",
+      "ticker": null,
+      "company": "CALAVO GROWERS INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000230211",
+      "ticker": null,
+      "company": "FEDERAL EXPRESS CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001139191",
+      "ticker": null,
+      "company": "FEDERAL EXPRESS EUROPE INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001139193",
+      "ticker": null,
+      "company": "FEDERAL EXPRESS HOLDINGS S A, LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001139197",
+      "ticker": null,
+      "company": "FEDERAL EXPRESS INTERNATIONAL INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001139206",
+      "ticker": null,
+      "company": "FEDEX CORPORATE SERVICES INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001139208",
+      "ticker": null,
+      "company": "FEDEX FREIGHT CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001139414",
+      "ticker": null,
+      "company": "FEDEX FREIGHT INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001139209",
+      "ticker": null,
+      "company": "FEDEX GROUND PACKAGE SYSTEM INC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001293525",
+      "ticker": null,
+      "company": "FedEx Office & Print Services, Inc",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001327228",
+      "ticker": null,
+      "company": "Alternative Investment Partners Absolute Return Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001343668",
+      "ticker": null,
+      "company": "Alternative Investment Partners Absolute Return Fund STS",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-28",
+      "last_filed": "2026-05-28",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001928561",
+      "ticker": null,
+      "company": "Bitwise Funds Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-29",
+      "last_filed": "2026-05-29",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001879238",
+      "ticker": null,
+      "company": "BondBloxx ETF Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-05-29",
+      "last_filed": "2026-05-29",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001264033",
+      "ticker": null,
+      "company": "TALCOTT RESOLUTION LIFE INSURANCE CO- SEPARATE ACCOUNT TWELV",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F"
+      ],
+      "first_filed": "2026-05-29",
+      "last_filed": "2026-05-29",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002013732",
+      "ticker": null,
+      "company": "FT Vest Hedged Equity Income Fund: Series A2",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-05-29",
+      "last_filed": "2026-05-29",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001818105",
+      "ticker": null,
+      "company": "NB Private Markets Access Fund LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-29",
+      "last_filed": "2026-06-04",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001817825",
+      "ticker": null,
+      "company": "Steele Creek Capital Corp",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-29",
+      "last_filed": "2026-07-02",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001169578",
+      "ticker": null,
+      "company": "AETOS DISTRESSED INVESTMENT STRATEGIES FUND LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-29",
+      "last_filed": "2026-06-01",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001169583",
+      "ticker": null,
+      "company": "AETOS LONG/SHORT STRATEGIES FUND LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-29",
+      "last_filed": "2026-06-01",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001169580",
+      "ticker": null,
+      "company": "AETOS MULTI-STRATEGY ARBITRAGE FUND LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-05-29",
+      "last_filed": "2026-06-01",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000045876",
+      "ticker": null,
+      "company": "ENVIRI Corp",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-01",
+      "last_filed": "2026-06-01",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000923139",
+      "ticker": null,
+      "company": "FLUSHING FINANCIAL CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-01",
+      "last_filed": "2026-06-01",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001489096",
+      "ticker": null,
+      "company": "Thermon Group Holdings, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-01",
+      "last_filed": "2026-06-01",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001786835",
+      "ticker": null,
+      "company": "Star Mountain Lower Middle-Market Capital Corp",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-01",
+      "last_filed": "2026-06-01",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000355019",
+      "ticker": null,
+      "company": "FONAR CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-03",
+      "last_filed": "2026-06-03",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001257927",
+      "ticker": null,
+      "company": "WEITZ FUNDS",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F"
+      ],
+      "first_filed": "2026-06-03",
+      "last_filed": "2026-06-03",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001821080",
+      "ticker": null,
+      "company": "Humankind Benefit Corp",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F ORDR"
+      ],
+      "first_filed": "2026-06-03",
+      "last_filed": "2026-06-03",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001264926",
+      "ticker": null,
+      "company": "MASTER BOND LLC",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F ORDR"
+      ],
+      "first_filed": "2026-06-03",
+      "last_filed": "2026-06-03",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000806564",
+      "ticker": null,
+      "company": "MORGAN STANLEY MORTGAGE SECURITIES TRUST",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F ORDR"
+      ],
+      "first_filed": "2026-06-03",
+      "last_filed": "2026-06-03",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000005114",
+      "ticker": null,
+      "company": "VAN KAMPEN MONEY MARKET FUND",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F ORDR"
+      ],
+      "first_filed": "2026-06-03",
+      "last_filed": "2026-06-03",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001960208",
+      "ticker": null,
+      "company": "Carbon Revolution Public Ltd Co",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-04",
+      "last_filed": "2026-06-04",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000038009",
+      "ticker": null,
+      "company": "FORD MOTOR CREDIT CO LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-05",
+      "last_filed": "2026-06-05",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002043597",
+      "ticker": null,
+      "company": "Private Debt & Income Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-05",
+      "last_filed": "2026-06-18",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000845606",
+      "ticker": null,
+      "company": "MFS HIGH INCOME MUNICIPAL TRUST",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-08",
+      "last_filed": "2026-06-08",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001633061",
+      "ticker": null,
+      "company": "Amplify ETF Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-09",
+      "last_filed": "2026-06-09",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002002038",
+      "ticker": null,
+      "company": "Legato Merger Corp. III",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-10",
+      "last_filed": "2026-06-10",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000937556",
+      "ticker": null,
+      "company": "MASIMO CORP",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-10",
+      "last_filed": "2026-06-10",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002006815",
+      "ticker": null,
+      "company": "Voyager Acquisition Corp./Cayman Islands",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-10",
+      "last_filed": "2026-06-10",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001348911",
+      "ticker": null,
+      "company": "KalVista Pharmaceuticals, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-11",
+      "last_filed": "2026-06-11",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002029492",
+      "ticker": null,
+      "company": "Mountain Lake Acquisition Corp.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-11",
+      "last_filed": "2026-06-11",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002032950",
+      "ticker": null,
+      "company": "Horizon Space Acquisition II Corp.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-12",
+      "last_filed": "2026-06-12",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002021966",
+      "ticker": null,
+      "company": "FT Vest Total Return Income Fund: Series A2",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-06-12",
+      "last_filed": "2026-06-12",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001649373",
+      "ticker": null,
+      "company": "SANTANDER UK GROUP HOLDINGS PLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-15",
+      "last_filed": "2026-06-15",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001616203",
+      "ticker": null,
+      "company": "Pomona Investment Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-15",
+      "last_filed": "2026-06-22",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001005201",
+      "ticker": null,
+      "company": "Assertio Therapeutics, Inc",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-16",
+      "last_filed": "2026-06-16",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001408100",
+      "ticker": null,
+      "company": "Kennedy-Wilson Holdings, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-16",
+      "last_filed": "2026-06-16",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001845809",
+      "ticker": null,
+      "company": "Putnam ETF Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-16",
+      "last_filed": "2026-06-16",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001722388",
+      "ticker": null,
+      "company": "Tidal Trust III",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-16",
+      "last_filed": "2026-07-02",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002026675",
+      "ticker": null,
+      "company": "Align Alternative Access Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-16",
+      "last_filed": "2026-06-18",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001689873",
+      "ticker": null,
+      "company": "GraniteShares ETF Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-18",
+      "last_filed": "2026-06-18",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002067009",
+      "ticker": null,
+      "company": "FT Vest Hedged Equity Income Fund: Series B2",
       "families": [
         "odd_lot_tender"
       ],
@@ -189,30 +6627,474 @@
       "first_filed": "2026-06-18",
       "last_filed": "2026-06-18",
       "n_filings": 1,
-      "tradable": true,
+      "tradable": false,
       "source": "form_enumeration"
     },
     {
-      "cik": "0001692705",
-      "ticker": "HTT",
-      "company": "High Templar Tech Ltd",
+      "cik": "0002066984",
+      "ticker": null,
+      "company": "FT Vest Total Return Income Fund: Series B2",
       "families": [
         "odd_lot_tender"
       ],
       "family": "odd_lot_tender",
       "forms": [
-        "SC TO-I/A"
+        "SC TO-I"
       ],
-      "first_filed": "2026-06-25",
-      "last_filed": "2026-06-29",
-      "n_filings": 2,
-      "tradable": true,
+      "first_filed": "2026-06-18",
+      "last_filed": "2026-06-18",
+      "n_filings": 1,
+      "tradable": false,
       "source": "form_enumeration"
     },
     {
-      "cik": "0001854275",
-      "ticker": "ZCARW",
-      "company": "Zoomcar Holdings, Inc.",
+      "cik": "0001620515",
+      "ticker": null,
+      "company": "Princeton Everest Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-06-18",
+      "last_filed": "2026-06-18",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000851170",
+      "ticker": null,
+      "company": "MFS CHARTER INCOME TRUST",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-22",
+      "last_filed": "2026-06-22",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000833021",
+      "ticker": null,
+      "company": "MFS INTERMEDIATE HIGH INCOME FUND",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-22",
+      "last_filed": "2026-06-22",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000876882",
+      "ticker": null,
+      "company": "NYSE TEXAS, INC.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-22",
+      "last_filed": "2026-06-22",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001160661",
+      "ticker": null,
+      "company": "SOUTHERN POWER CO",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-22",
+      "last_filed": "2026-06-22",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002065443",
+      "ticker": null,
+      "company": "AAM Alternatives Trust",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F"
+      ],
+      "first_filed": "2026-06-22",
+      "last_filed": "2026-06-22",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001186641",
+      "ticker": null,
+      "company": "A&Q Long/Short Strategies Fund LLC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-22",
+      "last_filed": "2026-06-23",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001506707",
+      "ticker": null,
+      "company": "A&Q Multi-Strategy Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-22",
+      "last_filed": "2026-06-23",
+      "n_filings": 2,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002049717",
+      "ticker": null,
+      "company": "JM Group Ltd",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-23",
+      "last_filed": "2026-06-23",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000812427",
+      "ticker": null,
+      "company": "CNA HOLDINGS LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001314497",
+      "ticker": null,
+      "company": "Celanese Acetate LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001314498",
+      "ticker": null,
+      "company": "Celanese Americas LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001314499",
+      "ticker": null,
+      "company": "Celanese Chemicals, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001513332",
+      "ticker": null,
+      "company": "Celanese Global Relocation LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001314502",
+      "ticker": null,
+      "company": "Celanese International Corp",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001314503",
+      "ticker": null,
+      "company": "Celanese Ltd.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001681009",
+      "ticker": null,
+      "company": "Celanese Sales U.S. Ltd.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001314514",
+      "ticker": null,
+      "company": "Celanese US Holdings LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001314506",
+      "ticker": null,
+      "company": "Celtran, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001513331",
+      "ticker": null,
+      "company": "KEP Americas Engineering Plastics, LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001314511",
+      "ticker": null,
+      "company": "Ticona Fortron Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001314512",
+      "ticker": null,
+      "company": "Ticona LLC",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001314513",
+      "ticker": null,
+      "company": "Ticona Polymers, Inc.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001671416",
+      "ticker": null,
+      "company": "BlackRock Collateral Trust",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F ORDR"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001876160",
+      "ticker": null,
+      "company": "First Eagle Global Opportunities Fund",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F ORDR"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001004658",
+      "ticker": null,
+      "company": "VIRTUS RETIREMENT TRUST",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F ORDR"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002020510",
+      "ticker": null,
+      "company": "Hamilton Lane Private Infrastructure Fund",
       "families": [
         "odd_lot_tender"
       ],
@@ -223,13 +7105,81 @@
       "first_filed": "2026-06-25",
       "last_filed": "2026-06-25",
       "n_filings": 1,
-      "tradable": true,
+      "tradable": false,
       "source": "form_enumeration"
     },
     {
-      "cik": "0001923622",
-      "ticker": "PGIM",
-      "company": "PGIM Private Credit Fund",
+      "cik": "0001557157",
+      "ticker": null,
+      "company": "Petrobras Global Finance B.V.",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-26",
+      "last_filed": "2026-06-26",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001904800",
+      "ticker": null,
+      "company": "Destiny Alternative Fund (TEI) LLC",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F"
+      ],
+      "first_filed": "2026-06-26",
+      "last_filed": "2026-06-26",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001824796",
+      "ticker": null,
+      "company": "Destiny Alternative Fund LLC",
+      "families": [
+        "fund_liquidation"
+      ],
+      "family": "fund_liquidation",
+      "forms": [
+        "N-8F"
+      ],
+      "first_filed": "2026-06-26",
+      "last_filed": "2026-06-26",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001976322",
+      "ticker": null,
+      "company": "Themes ETF Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-29",
+      "last_filed": "2026-06-29",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002082559",
+      "ticker": null,
+      "company": "Golub Capital Private Income Fund I",
       "families": [
         "odd_lot_tender"
       ],
@@ -240,7 +7190,93 @@
       "first_filed": "2026-06-29",
       "last_filed": "2026-06-29",
       "n_filings": 1,
-      "tradable": true,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002082557",
+      "ticker": null,
+      "company": "Golub Capital Private Income Fund S",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-06-29",
+      "last_filed": "2026-06-29",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000919160",
+      "ticker": null,
+      "company": "GUINNESS ATKINSON FUNDS",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-30",
+      "last_filed": "2026-06-30",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0002043954",
+      "ticker": null,
+      "company": "REX ETF Trust",
+      "families": [
+        "delisting"
+      ],
+      "family": "delisting",
+      "forms": [
+        "25-NSE"
+      ],
+      "first_filed": "2026-06-30",
+      "last_filed": "2026-06-30",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001858660",
+      "ticker": null,
+      "company": "USVC Venture Capital Access Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-06-30",
+      "last_filed": "2026-06-30",
+      "n_filings": 1,
+      "tradable": false,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001709406",
+      "ticker": null,
+      "company": "AIP Alternative Lending Fund P",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-07-02",
+      "last_filed": "2026-07-02",
+      "n_filings": 2,
+      "tradable": false,
       "source": "form_enumeration"
     }
   ]
