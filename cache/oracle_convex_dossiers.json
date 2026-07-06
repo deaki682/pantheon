@@ -78,7 +78,18 @@
         "BioSpace/PRNewswire 2026-02-27",
         "Robinhood fundamentals 2026-07-02"
       ],
-      "lens_score": 0.0
+      "lens_score": 0.0,
+      "verification_2026_07_06": {
+        "verdict": "REVISE-KEEP",
+        "floor": "CONFIRMED & STRONGER than stated: $267.8M cash, ZERO debt, stock ~13% BELOW $15.66/sh gross cash, at book. Real runway ~3-3.5yr (into ~2029), not the boilerplate 12mo.",
+        "corrections": [
+          "'No sell-side coverage' is FALSE \u2014 Leerink has Outperform, $25 PT; drop the undiscovered/neglect leg.",
+          "Forced-seller catalyst is ~4.5mo STALE (spin was 2026-02-27); re-anchor the edge on the H2-2026 ATR-1072 IND (a real, dated, unfired binary).",
+          "Note $45.7M BMS deferred-revenue is a real performance-obligation claim on the cash; single-asset binary at the IND."
+        ],
+        "primary_sources": "10-Q acc 0001193125-26-224243; Form 10 acc 0001193125-25-314415; 8-K acc 0001193125-26-083227"
+      },
+      "needs_rewrite": true
     },
     "VTSI": {
       "symbol": "VTSI",
@@ -116,7 +127,19 @@
         "StockTitan Q1 2026 recap",
         "Robinhood 2026-07-02"
       ],
-      "lens_score": 0.0
+      "lens_score": 0.0,
+      "verification_2026_07_06": {
+        "verdict": "REVISE-WEAK-KEEP",
+        "floor": "CONFIRMED: cash $17.85M = ~51% of market cap, net cash ~$12M, trades ~0.84x TANGIBLE book at a genuine 52-wk low, no going-concern, multi-year runway.",
+        "corrections": [
+          "Fix label: 0.79x total book / 0.84x TANGIBLE book (not '0.79x tangible').",
+          "KILL the '$25.2M converts in H2 2026' catalyst \u2014 only ~$13.2M is near-term convertible; total backlog is DECLINING, not rising.",
+          "Reframe honestly: a 3-YEAR revenue decline (not a one-quarter blip) with collapsed Q1 bookings ($3.8M) and structural DoD-funding risk; the recovery is an unproven hope management has repeated 2yrs.",
+          "Flag $14.4M inventory as write-down risk to tangible book. This is the WEAKEST survivor \u2014 floor real, catalyst questionable."
+        ],
+        "primary_sources": "10-Q acc 0001493152-26-022222; 10-K acc 0001493152-26-012903"
+      },
+      "needs_rewrite": true
     },
     "SMHI": {
       "symbol": "SMHI",
@@ -153,7 +176,10 @@
         "PRNewswire Chernett letter 2026-06-22",
         "Maritime Executive Saffar 2026-06-29"
       ],
-      "lens_score": 0.0
+      "lens_score": 0.0,
+      "retracted": true,
+      "retracted_at": "2026-07-06",
+      "retraction_reason": "KILLED on primary-source diligence (10-Q acc 0001690334-26-000008 + 13D). The '$20 fleet NAV' is the activists' own unaudited claim, in NO SEC filing; real audited book is ~$9.15/sh (stock ~17% below book, not '62% below a $20 NAV'). The dossier's '~$1B enterprise value' is a ~2x factual error (real EV ~$494M). The activist catalyst already fired (stock popped ~15-19% on the 6/22 letter; board committed to nothing). Kill condition already met: Q1 operating LOSS at 59% fleet utilization while the sector runs 78-80% \u2014 a company-specific execution problem, which is WHY it's cheap. Same failure mode as XRN: an asserted NAV that dissolves on real reading."
     },
     "ARVN": {
       "symbol": "ARVN",
@@ -190,7 +216,18 @@
         "ARVN Q1 2026 8-K/10-Q",
         "VEPPANU approval + Rigel license 2026"
       ],
-      "lens_score": 0.0
+      "lens_score": 0.0,
+      "verification_2026_07_06": {
+        "verdict": "REVISE-KEEP",
+        "floor": "CONFIRMED & slightly conservative: $614.9M liquid = ~$9.53/sh vs $8.39 price (~0.88x cash), ~zero debt. Owns VEPPANU (first FDA-approved PROTAC) monetized as a non-dilutive Rigel royalty + a SECOND Novartis royalty the dossier missed.",
+        "corrections": [
+          "Raise cash figure to ~$9.53/sh (dossier undercounted).",
+          "THE key caveat: it's a ~2.5yr ERODING floor (~$69M/qtr burn, guided into 2H2028), NOT a permanent hard floor \u2014 floor_hardness should be softer than 'medium'. Frame as a slow melt actively refrozen by restructuring + royalties.",
+          "Correct the Rigel structure (Arvinas+Pfizer JOINTLY licensed to Rigel; ~50% of $70M+$15M+up-to-$320M + mid-teens-to-mid-20s royalties)."
+        ],
+        "primary_sources": "10-Q acc 0001628280-26-033669; Rigel 8-K acc 0001628280-26-033874; FDA-approval 8-K acc 0001628280-26-029210"
+      },
+      "needs_rewrite": true
     },
     "ALCO": {
       "symbol": "ALCO",
@@ -228,7 +265,18 @@
         "Alico Q2 FY2026 results",
         "strategic-transformation announcement"
       ],
-      "lens_score": 0.0
+      "lens_score": 0.0,
+      "verification_2026_07_06": {
+        "verdict": "REVISE-KEEP",
+        "floor": "CONFIRMED & transaction-PROVEN (the key distinction from SMHI/MNRO): land at cost $114.08M (exact), net debt ~$31.8M, real land sales $34.6M YTD at $9,000-10,500/acre, real $50M buyback shrinking the count, covered dividend. Defensible NAV ~$45-56/sh backs ~current price.",
+        "corrections": [
+          "The '$635M' is MANAGEMENT'S OWN comp estimate and sits ABOVE realized prices \u2014 cite as an optimistic ceiling, not base case. Realistic NAV ~$45-56, upside ~$70-85.",
+          "DROP the 'market misses it / screens as ag' NEGLECT claim \u2014 it's at 3x book in a widely-covered special situation; it's a NAV-REALIZATION play, not an overlooked mispricing.",
+          "Monitor: ~$10M/yr ag cash burn skims proceeds; ~13yr monetization runway; best parcels may sell first."
+        ],
+        "primary_sources": "10-K (period 2025-09-30) + Q2 FY2026 10-Q acc filed 2026-05-11; land-sale PR 2026-01-15"
+      },
+      "needs_rewrite": true
     },
     "MNRO": {
       "symbol": "MNRO",
@@ -266,7 +314,10 @@
         "S&P SmallCap 600 recon 2026-06-05",
         "Robinhood fundamentals 2026-07-02"
       ],
-      "lens_score": 0.0
+      "lens_score": 0.0,
+      "retracted": true,
+      "retracted_at": "2026-07-06",
+      "retraction_reason": "KILLED on primary-source diligence (10-K FY2026 acc 0000876427-26-000007). The sub-1.0 P/B is 100% goodwill \u2014 TANGIBLE book is NEGATIVE (-$5.09/sh); $736M impairable goodwill on $591M equity. Three dossier claims factually wrong: '$17.23 below book' (real discount ~13%/$2.50), '47 owned stores' (actually 290, with NO announced monetization program \u2014 the sale-leaseback catalyst was invented), and CEO 'sale incentive' (the $40 PSU hurdle is a pure stock-PRICE target, not a change-of-control trigger). Dividend uncovered by earnings (payout ~1600% of EPS), only ~90% covered by FCF that HALVED YoY. Newest quarter comps -2.4% with a net loss. Classic goodwill value trap."
     },
     "GYRO": {
       "symbol": "GYRO",
@@ -304,7 +355,10 @@
         "GYRO 10-Q 2028 target",
         "Flowerfield PSA 8-K"
       ],
-      "lens_score": 0.0
+      "lens_score": 0.0,
+      "retracted": true,
+      "retracted_at": "2026-07-06",
+      "retraction_reason": "KILLED on primary-source diligence (Q1 2026 10-Q + FY2025 10-K, CIK 1589061). The '$11.79 floor' is not a floor \u2014 it's a management liquidation PROJECTION to a repeatedly-slipping 2028, net of ~$24M future costs, dependent on selling entitled land near top-of-range. NAV/share is DEMONSTRABLY MELTING: -42% in 3.5 years ($20.48 -> $11.79) via a dilutive 2024 rights offering (+40% shares) plus markdowns. The Flowerfield sale is contingent on entitlements under an ACTIVE Article 78 lawsuit; closing already slipped to 2029. The dossier's own kill condition (timeline slippage) has ALREADY triggered twice. No shareholder distribution since 2017; $2.23M officer retention bonuses. Value trap, not liquidation arb."
     },
     "XRN": {
       "symbol": "XRN",
