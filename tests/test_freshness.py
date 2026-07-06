@@ -79,3 +79,23 @@ def test_asset_reval_uses_nav_floor():
     out = fr.reconcile_marketcap(c, 260e6)
     assert out["below_floor"] is True                          # $260M < $400M nav
     assert out["marketcap_source"] == "robinhood"
+
+
+# --- 2026-07-06 audit fixes: is_clean fail-closed + full reconciliation ---
+def test_is_clean_fails_closed_when_unreconciled():
+    # a raw candidate that never went through reconciliation (no marketcap_source)
+    # must NOT be reported clean
+    assert fr.is_clean({"ticker": "RAW", "below_floor": True}) is False
+    # once reconciled and still below floor, clean
+    rec = fr.reconcile_marketcap(_cand("INVE", 63e6, 114e6, 0.45), 62.8e6)
+    assert fr.is_clean(rec) is True
+
+
+def test_apply_full_reconciliation_runs_all_three_checks():
+    cands = [_cand("INVE", 63e6, 114e6, 0.45), _cand("AVX", 42e6, 115e6, 0.63)]
+    feed = {"INVE": {"market_cap": 62.8e6, "pb_ratio": "0.46", "description": "RFID security"},
+            "AVX": {"market_cap": 41.9e6, "pb_ratio": "0.25",
+                    "description": "we mine Bitcoin, an Avalanche digital asset treasury"}}
+    kept, dropped = fr.apply_full_reconciliation(cands, feed)
+    assert "INVE" in [c["ticker"] for c in kept]
+    assert "AVX" in [c["ticker"] for c in dropped]      # crypto caught by the full check

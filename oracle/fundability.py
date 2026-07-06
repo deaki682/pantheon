@@ -42,6 +42,10 @@ FLOOR_W = {
     "net_cash": 1.0, "ncav": 0.9, "net_net": 0.9, "cash": 1.0,
     "tangible_book": 0.55, "book": 0.55,
     "asset_land": 0.70, "transacting_asset": 0.70, "asset_resource": 0.40,
+    # office/retail/hotel REITs where cost OVERSTATES a re-rated market — cost is a
+    # ceiling, not a floor; surfaced but heavily down-trusted so they don't
+    # monopolize the land-NAV verification slots (2026-07-06 audit fix).
+    "asset_suspect": 0.30,
 }
 # cap weighting — micro-caps below this are illiquid/manipulable (down-weight);
 # names above the neglect ceiling are less likely to be genuinely uncovered.
@@ -74,21 +78,37 @@ def candidate_discount(cand: dict) -> Optional[float]:
     return None
 
 
-def discount_score(discount: Optional[float]) -> float:
+# The caution/trap band is calibrated on NET-CASH names: >80% below countable cash
+# is where phantom-debt / stale-count / going-concern traps cluster, so a deep
+# net-cash discount is a yellow flag. But a floor measured at HISTORICAL COST (land,
+# resource reserves) is already conservative, so a DEEPER discount to cost is a
+# stronger margin of safety, not a trap signal — the failure mode there is
+# cost-OVERSTATES (handled separately by the suspect family), not too-deep. So for
+# asset-cost floors the sweet spot extends higher before any penalty (2026-07-06
+# calibration fix — this is why FPH at 74% below land-NAV-at-cost is no longer
+# penalized like an 74%-below-net-cash trap).
+_COST_BASIS_FAMILIES = {"land_nav", "resource_nav"}
+_ASSET_SWEET_HI = 0.85
+
+
+def discount_score(discount: Optional[float], *, family: str = "") -> float:
     """1.0 across the sweet spot, ramping to 0 below it, and DECAYING toward the
-    trap zone above it — a deep discount is a yellow flag, not a green one."""
+    trap zone above it — a deep discount is a yellow flag on a CASH floor. For
+    cost-basis floors (land/resource) the sweet spot extends to _ASSET_SWEET_HI
+    because a deeper discount to conservative cost is a stronger margin, not a trap."""
     if discount is None:
         return 0.0
     d = float(discount)
     if d <= 0:
         return 0.0
+    sweet_hi = _ASSET_SWEET_HI if family in _COST_BASIS_FAMILIES else SWEET_HI
     if d < SWEET_LO:
         return d / SWEET_LO                      # 0..1 ramp into the sweet spot
-    if d <= SWEET_HI:
+    if d <= sweet_hi:
         return 1.0                               # sweet spot
-    if d <= TRAP_HI:
-        # linear decay 1.0 -> 0.5 across the (0.65, 0.80] caution band
-        return 1.0 - 0.5 * (d - SWEET_HI) / (TRAP_HI - SWEET_HI)
+    if d <= TRAP_HI and sweet_hi < TRAP_HI:
+        # linear decay 1.0 -> 0.5 across (sweet_hi, 0.80] caution band
+        return 1.0 - 0.5 * (d - sweet_hi) / (TRAP_HI - sweet_hi)
     # trap zone: >80% off -> heavily discounted (every launch-gate KILL sat here),
     # decaying 0.5 -> 0.15 across (0.80, 1.0].
     return max(0.15, 0.5 - 2.0 * (d - TRAP_HI))
@@ -120,6 +140,10 @@ def clean_weight(cand: dict) -> float:
         w *= 0.2
     if cand.get("stale_marketcap"):
         w *= 0.5
+    if cand.get("cost_overstates"):      # office/retail REIT — cost is a ceiling
+        w *= 0.4
+    if cand.get("commodity_dependent"):  # reserve value swings with strip price
+        w *= 0.7
     return w
 
 
@@ -136,9 +160,10 @@ def cap_weight(cand: dict) -> float:
 
 def fundability_prior(cand: dict) -> float:
     """The ranker: sweet-spot discount x floor-hardness x clean-flags x cap. Now
-    floor-agnostic in the discount term, so the asset-reval family is ranked on
-    its real land-NAV discount rather than sinking as zero-discount."""
-    return (discount_score(candidate_discount(cand))
+    floor-agnostic in the discount term (asset-reval names ranked on their real
+    land-NAV discount) and family-aware in the sweet spot (cost-basis floors get
+    the extended band)."""
+    return (discount_score(candidate_discount(cand), family=candidate_family(cand))
             * floor_weight(cand) * clean_weight(cand) * cap_weight(cand))
 
 
@@ -151,7 +176,13 @@ def rank_candidates(cands: list[dict]) -> list[dict]:
         c["rank_discount"] = candidate_discount(c)
         c["fundability"] = round(fundability_prior(c), 4)
         out.append(c)
-    return sorted(out, key=lambda c: -c["fundability"])
+    # Primary: fundability. Secondary (tiebreak): deeper discount first — within the
+    # saturated sweet-spot band many names tie on fundability, and the deeper
+    # discount is the larger margin of safety, so it should win its verification
+    # slot deterministically rather than by list order (2026-07-06 fix — this is
+    # why FPH/SDHC/AFCG, the deepest-coverage land names, now lead land_nav instead
+    # of sinking to the arbitrary bottom of a 16-way tie).
+    return sorted(out, key=lambda c: (-c["fundability"], -(c.get("rank_discount") or -9)))
 
 
 # ---------------------------------------------------------------------------
@@ -168,7 +199,11 @@ def rank_candidates(cands: list[dict]) -> list[dict]:
 FLOOR_FAMILY = {
     "net_cash": "net_cash", "ncav": "net_cash", "net_net": "net_cash", "cash": "net_cash",
     "tangible_book": "tangible_book", "book": "tangible_book",
-    "asset_land": "land_nav", "transacting_asset": "land_nav", "asset_resource": "resource_nav",
+    "asset_land": "land_nav", "transacting_asset": "land_nav",
+    "asset_resource": "resource_nav",
+    # suspect (cost-overstates) property types get their OWN family so they never
+    # crowd out genuine land developers in the land_nav budget.
+    "asset_suspect": "suspect_nav",
 }
 
 

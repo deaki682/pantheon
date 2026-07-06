@@ -181,3 +181,34 @@ def test_screen_panel_ranks_by_discount_and_excludes():
     out = ns.screen_panel(sf1, mcap, meta, exclude_tickers={"CCC"})
     assert [c["ticker"] for c in out] == ["AAA", "BBB"]  # deepest first
     assert out[0]["discount"] > out[1]["discount"]
+
+
+# --- 2026-07-06 audit fixes: phantom-floor guards ---
+from oracle import neglect_screen as _ns
+
+
+def test_blank_currency_rejected_not_defaulted_usd():
+    # a foreign filer with a MISSING currency must be rejected, not coerced to USD
+    assert _ns.is_common_tradable({"isdelisted": "N", "currency": "USD", "name": "OK Co",
+                                   "category": "Domestic Common Stock",
+                                   "location": "California; U.S.A"}) is True
+    assert _ns.is_common_tradable({"isdelisted": "N", "currency": None, "name": "Foreign Co",
+                                   "location": "Tokyo; Japan"}) is False
+    assert _ns.is_common_tradable({"isdelisted": "N", "currency": "", "name": "Foreign Co",
+                                   "location": "Seoul; Korea"}) is False
+
+
+def test_null_debt_makes_net_cash_untrusted():
+    # missing `debt` line -> net_cash floor must be marked untrusted (the XRN trap)
+    fl = _ns.floors({"cashneq": 100e6, "investmentsc": 0, "assetsc": 120e6,
+                     "liabilities": 30e6, "equity": 90e6, "intangibles": 0})  # no 'debt'
+    assert "net_cash" in fl.untrusted
+    # best_floor must skip the untrusted net_cash floor even though it's the deepest
+    bf = _ns.best_floor(50e6, fl)
+    assert bf is None or bf["floor_type"] != "net_cash"
+
+
+def test_null_liabilities_makes_ncav_untrusted():
+    fl = _ns.floors({"cashneq": 10e6, "investmentsc": 0, "debt": 5e6, "assetsc": 200e6,
+                     "equity": 150e6, "intangibles": 0})  # no 'liabilities'
+    assert "ncav" in fl.untrusted

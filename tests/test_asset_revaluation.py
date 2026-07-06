@@ -30,9 +30,14 @@ def test_metrics_ltta_and_nav():
 
 def test_appreciation_industry_classifier():
     assert ar.is_appreciation_asset(_meta(industry="Farm Products")) == "land"
-    assert ar.is_appreciation_asset(_meta(industry="REIT - Office")) == "land"
+    # office/retail/hotel/healthcare REITs: cost is a CEILING, not a floor -> suspect
+    assert ar.is_appreciation_asset(_meta(industry="REIT - Office")) == "suspect"
+    assert ar.is_appreciation_asset(_meta(industry="REIT - Retail")) == "suspect"
     assert ar.is_appreciation_asset(_meta(industry="Gold")) == "resource"
     assert ar.is_appreciation_asset(_meta(industry="Steel")) is None  # depreciates, not appreciates
+    # plant-heavy PP&E wrongly-included industries were removed
+    assert ar.is_appreciation_asset(_meta(industry="Agricultural Inputs")) is None
+    assert ar.is_appreciation_asset(_meta(industry="Paper & Paper Products")) is None
     assert ar.is_appreciation_asset(_meta(industry="Software - Application")) is None
 
 

@@ -106,11 +106,47 @@ def reconcile_with_fundamentals(
 
 
 def is_clean(cand: dict) -> bool:
-    """A reconciled candidate is clean if the fresh cap still leaves it below its
-    floor AND neither the book-contradiction nor the crypto-treasury flag fired."""
-    return bool(cand.get("below_floor", True)
+    """A candidate is clean only if reconciliation ACTUALLY RAN against a live feed
+    (marketcap_source stamped) AND the fresh cap still leaves it below its floor AND
+    neither the book-contradiction nor the crypto-treasury flag fired.
+
+    FAIL-CLOSED (2026-07-06 audit fix): an UN-reconciled candidate (no
+    marketcap_source) returns False, not True — otherwise this gate passes every
+    raw candidate the moment reconciliation is skipped (which is exactly how the
+    live pipeline shipped: reconciliation was never called, so is_clean rubber-
+    stamped everything). The floor/crypto/book flags only exist after a reconcile;
+    absent them, the honest answer is 'not verified clean', not 'clean'."""
+    if not cand.get("marketcap_source"):
+        return False
+    return bool(cand.get("below_floor", False)
                 and not cand.get("book_contradicts_floor")
                 and not cand.get("crypto_treasury"))
+
+
+def apply_full_reconciliation(
+    candidates: list[dict], rh_row_by_ticker: dict[str, dict], *,
+    divergence_flag: float = DIVERGENCE_FLAG, drop_unclean: bool = True,
+) -> tuple[list[dict], list[dict]]:
+    """Reconcile a candidate list against a live {ticker: get_equity_fundamentals
+    row} feed, running the FULL check (marketcap + book-contradiction + crypto),
+    not just the marketcap (the audit found apply_reconciliation silently ran only
+    1 of the 3 advertised checks). Returns (kept, dropped): a name is dropped when
+    the fresh cap pushes it above its floor, its book contradicts the floor, or it
+    is a crypto treasury. `kept` is re-sorted by reconciled discount, deepest first.
+    A ticker missing from the feed is reconciled marketcap-only and, under
+    drop_unclean, dropped as not-clean (fail-closed — we could not confirm it)."""
+    kept, dropped = [], []
+    for c in candidates:
+        rc = reconcile_with_fundamentals(c, rh_row_by_ticker.get(c.get("ticker")),
+                                         divergence_flag=divergence_flag)
+        if drop_unclean and not is_clean(rc):
+            rc.setdefault("dropped_reason",
+                          "freshness: not below floor / book-contradiction / crypto / unreconciled")
+            dropped.append(rc)
+        else:
+            kept.append(rc)
+    kept.sort(key=lambda c: -(c.get("discount") or -9))
+    return kept, dropped
 
 
 def apply_reconciliation(

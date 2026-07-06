@@ -122,3 +122,41 @@ def test_kill_verdict_blocks_even_if_traps_pass():
     d = _verify(_dossier(), verdict="kill")
     assert d["verified"] is False
     assert not is_fundable(d)
+
+
+# --- 2026-07-06 audit fixes: gate fail-open holes closed ---
+from oracle import convex_dossier as _cd
+
+
+def test_primary_citation_rejects_incidental_substrings():
+    # snapshot-only citations must NOT pass on incidental characters
+    assert _cd.is_primary_citation("Q3 consensus-1.2% miss, StockTitan recap") is False
+    assert _cd.is_primary_citation("Robinhood fundamentals; accrued interest note") is False
+    assert _cd.is_primary_citation("Yahoo Finance key statistics") is False
+    # real primary sources still pass
+    assert _cd.is_primary_citation("10-Q filed 2026-05-14") is True
+    assert _cd.is_primary_citation("SEC accession 0001171843-26-003419") is True
+    assert _cd.is_primary_citation("https://www.sec.gov/Archives/edgar/data/...") is True
+
+
+def test_book_floor_goodwill_trap_fails_closed_on_unknown():
+    d = _cd.make_convex_dossier(
+        "TST", business="b", thesis="x" * 130,
+        floor_pct=0.2, upside_x=1.5, prob_upside=0.5,
+        why_mispriced_type="neglect", why_mispriced="y" * 45,
+        catalyst="c", catalyst_date="", falsifiable_prediction="p" * 25,
+        prediction_date="2027-01-01", kill_condition="k", kill_condition_type="thesis_date",
+        kill_condition_value="2027-01-01", adversarial="z" * 65,
+        citations=["10-K accession 0001234567-26-000001"], current_price=1.0)
+    # book floor + goodwill UNKNOWN (None) must NOT verify (MNRO trap)
+    _cd.verify_dossier(d, floor_basis="book", debt_reconciled_full_stack=True,
+                       catalyst_fired=False, book_survives_goodwill=None, verdict="keep")
+    assert d["verified"] is False
+    # explicit confirmation passes
+    _cd.verify_dossier(d, floor_basis="book", debt_reconciled_full_stack=True,
+                       catalyst_fired=False, book_survives_goodwill=True, verdict="keep")
+    assert d["verified"] is True
+    # a CASH floor with unknown goodwill still passes (goodwill irrelevant)
+    _cd.verify_dossier(d, floor_basis="cash", debt_reconciled_full_stack=True,
+                       catalyst_fired=False, book_survives_goodwill=None, verdict="keep")
+    assert d["verified"] is True

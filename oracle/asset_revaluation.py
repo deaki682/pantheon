@@ -52,16 +52,28 @@ AR_LEVERAGE_MAX = 0.70       # net_debt / long-term tangible assets
 # by the neglect gate). Plant/equipment-heavy industries (Steel, Chemicals) are
 # deliberately excluded — their PP&E depreciates below cost, it does not appreciate.
 LAND_REAL_ASSET_INDUSTRIES = frozenset({
-    # farmland / agriculture
-    "Farm Products", "Agricultural Inputs",
+    # farmland / agriculture (raw land appreciates; NOTE "Agricultural Inputs" —
+    # fertilizer/ag-chemical PLANTS — was REMOVED 2026-07-06: it is depreciating
+    # PP&E, not appreciating land, and contradicted the lens's own exclusion rule)
+    "Farm Products",
     # vineyards / distilleries — own land + appreciating aging inventory
     "Beverages - Wineries & Distilleries",
-    # timberland / forest products
-    "Lumber & Wood Production", "Paper & Paper Products",
-    # equity real estate — GAAP depreciated-cost book understates appreciating property
+    # timberland (raw forest land appreciates; "Paper & Paper Products" — mills —
+    # was REMOVED 2026-07-06 as plant-heavy PP&E)
+    "Lumber & Wood Production",
+    # equity real estate where replacement cost broadly HOLDS or exceeds book —
+    # land developers, residential/industrial/specialty
     "Real Estate - Development", "Real Estate Services", "Real Estate - Diversified",
-    "REIT - Office", "REIT - Retail", "REIT - Residential", "REIT - Industrial",
-    "REIT - Diversified", "REIT - Specialty", "REIT - Hotel & Motel",
+    "REIT - Residential", "REIT - Industrial", "REIT - Diversified", "REIT - Specialty",
+})
+# Property types whose depreciated cost OVERSTATES a re-rated-down market — cost is
+# a CEILING, not a floor (2026-07-06 audit fix). Still SOURCED (the coverage stage
+# leaves nothing behind) but tagged cost_overstates + floor_type 'asset_suspect' so
+# the ranker down-weights them and the precision read must prove market > cost. This
+# is why office REITs (BHM/ESBA at 13-23x cost coverage) no longer monopolize the
+# land-NAV verification slots ahead of genuine land developers like FPH.
+COST_OVERSTATES_INDUSTRIES = frozenset({
+    "REIT - Office", "REIT - Retail", "REIT - Hotel & Motel",
     "REIT - Healthcare Facilities",
 })
 # Resource RESERVES (metals/coal/uranium) — reserves carried at cost can be worth
@@ -92,11 +104,15 @@ def asset_metrics(row: dict) -> dict:
 
 
 def is_appreciation_asset(meta: dict) -> Optional[str]:
-    """Return 'land' if the name is in a land/real-estate/timber appreciation
-    industry, 'resource' for a commodity-reserve industry, else None."""
+    """Return 'land' for a land/real-estate/timber appreciation industry (cost
+    understates), 'suspect' for a re-rated property type where cost OVERSTATES
+    market (office/retail/hotel/healthcare — surfaced but down-trusted),
+    'resource' for a commodity-reserve industry, else None."""
     ind = meta.get("industry") or ""
     if ind in LAND_REAL_ASSET_INDUSTRIES:
         return "land"
+    if ind in COST_OVERSTATES_INDUSTRIES:
+        return "suspect"
     if ind in RESOURCE_RESERVE_INDUSTRIES:
         return "resource"
     return None
@@ -130,14 +146,22 @@ def screen_name(
     coverage = m["nav_at_cost"] / mcap_usd if mcap_usd > 0 else 0.0
     if coverage < coverage_min:
         return None
+    # floor_type is what the downstream ranker/family logic keys on — emit it (the
+    # 2026-07-06 audit fix; its absence made the whole land family invisible to the
+    # fundability prior). land -> asset_land, resource -> asset_resource, and the
+    # re-rated 'suspect' property types -> asset_suspect (down-trusted).
+    floor_type = {"land": "asset_land", "resource": "asset_resource",
+                  "suspect": "asset_suspect"}[kind]
     return {
         "ticker": row.get("ticker"),
         "company": meta.get("name"),
         "sector": meta.get("sector"),
         "industry": meta.get("industry"),
-        "asset_kind": kind,                       # land | resource
+        "asset_kind": kind,                       # land | resource | suspect
         "commodity_dependent": kind == "resource",
+        "cost_overstates": kind == "suspect",     # office/retail/hotel REIT — cost is a ceiling
         "why_mispriced_type": "neglect",
+        "floor_type": floor_type,
         "floor_basis": "transacting_asset",
         "ltta_usd": round(m["ltta"], 0),          # long-term tangible assets at cost
         "net_debt_usd": round(m["net_debt"], 0),

@@ -212,18 +212,36 @@ FLOOR_BASIS = {
 # A citation is PRIMARY if it points at an actual SEC filing, not a snapshot or
 # a secondary recap. XRN's dossier cited "Robinhood fundamentals" as
 # load-bearing — that is the tell this refuses to accept as a floor source.
-_PRIMARY_MARKERS = (
-    "sec.gov", "edgar", "accession", "acc ", "acc.", "10-k", "10-q", "8-k",
-    "def 14a", "s-1", "form 10", "13d", "13g", "sc to", "424b",
+#
+# HARDENED 2026-07-06 (audit finding): the old bare-substring match let a
+# snapshot-only citation pass on incidental characters — "s-1" matched
+# "consensus-1.2%", "acc " matched "accrued", etc. Now split into (a) unambiguous
+# domain/word markers matched as substrings, and (b) filing-type codes matched
+# only on a word boundary, plus a real accession-number pattern.
+import re as _re
+
+_PRIMARY_SUBSTR = ("sec.gov", "edgar", "accession no", "accession number")
+_PRIMARY_FORM_CODES = (
+    r"10-k", r"10-q", r"8-k", r"20-f", r"6-k", r"def\s?14a", r"defa?14a",
+    r"s-1", r"s-3", r"form\s?10", r"13[dg]", r"sc\s?to", r"424b\d?",
 )
+# accession numbers look like 0001234567-26-000123
+_ACC_NO = _re.compile(r"\b\d{10}-\d{2}-\d{6}\b")
+_FORM_RE = _re.compile(r"(?<![a-z0-9])(?:" + "|".join(_PRIMARY_FORM_CODES) + r")(?![a-z0-9])")
 
 
 def is_primary_citation(c: str) -> bool:
-    """True if the citation references a real SEC filing (accession no., an
-    EDGAR/sec.gov URL, or a named filing type) rather than a fundamentals
-    snapshot (Robinhood/Yahoo) or a secondary recap (StockTitan/Seeking Alpha)."""
+    """True if the citation references a real SEC filing — an EDGAR/sec.gov URL, a
+    real accession number, or a filing-type code on a WORD BOUNDARY — rather than a
+    fundamentals snapshot (Robinhood/Yahoo) or a secondary recap (StockTitan/
+    Seeking Alpha). Word-boundary matching stops incidental substrings ("s-1" in
+    "consensus-1%", "acc " in "accrued") from faking a primary source."""
     s = (c or "").lower()
-    return any(m in s for m in _PRIMARY_MARKERS)
+    if any(m in s for m in _PRIMARY_SUBSTR):
+        return True
+    if _ACC_NO.search(s):
+        return True
+    return bool(_FORM_RE.search(s))
 
 
 def verify_dossier(
@@ -249,11 +267,22 @@ def verify_dossier(
     _req(verdict in {"keep", "revise", "kill"}, "verdict must be keep|revise|kill")
     cites = list(primary_citations if primary_citations is not None else dossier.get("citations", []))
 
+    # The goodwill trap must FAIL-CLOSED for a book floor (2026-07-06 audit fix):
+    # a `book` floor's whole risk is that reported book is goodwill/intangibles
+    # (MNRO: tangible book −$5/sh). If the verifier did not affirmatively confirm
+    # tangible book survives (book_survives_goodwill left None/unknown), a book
+    # floor must NOT pass. For non-book floors (cash/net_net/transacting_asset)
+    # goodwill is irrelevant, so unknown is fine — only an explicit False fails.
+    if floor_basis == "book":
+        book_ok = book_survives_goodwill is True
+    else:
+        book_ok = book_survives_goodwill is not False
+
     traps = {
         # each key is a specific tonight-kill made impossible:
         "primary_source_cited": any(is_primary_citation(c) for c in cites),   # XRN cited only a snapshot
         "floor_not_merely_asserted": floor_basis != "asserted",               # SMHI's $20 activist NAV
-        "book_survives_goodwill": book_survives_goodwill is not False,          # MNRO's negative tangible book
+        "book_survives_goodwill": book_ok,                                     # MNRO's negative tangible book (fail-closed on book floors)
         "debt_reconciled_full_stack": bool(debt_reconciled_full_stack),        # XRN's missed credit line
         "catalyst_not_already_fired": not bool(catalyst_fired),                # SMHI's already-popped catalyst
     }

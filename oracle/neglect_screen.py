@@ -93,6 +93,7 @@ class Floors:
     net_cash: float        # cashneq + current investments − TOTAL debt
     ncav: float            # total current assets − TOTAL liabilities (Graham net-net)
     tangible_book: float   # common equity − intangibles (incl. goodwill)
+    untrusted: frozenset = frozenset()  # floor types whose required inputs were ABSENT
 
 
 def floors(row: dict) -> Floors:
@@ -114,7 +115,21 @@ def floors(row: dict) -> Floors:
     net_cash = cash - _num(row, "debt")
     ncav = _num(row, "assetsc") - _num(row, "liabilities")
     tangible_book = _num(row, "equity") - _num(row, "intangibles")
-    return Floors(net_cash=net_cash, ncav=ncav, tangible_book=tangible_book)
+    # Data-completeness guard (2026-07-06 audit fix): a floor whose SENIOR-CLAIM
+    # input is ABSENT is a phantom, not a floor. `_num` coerces a missing field to
+    # 0, so a null `debt` line makes net_cash = full cash (the XRN "debt-free off a
+    # missing line" trap) and a null `liabilities` makes ncav = the entire current-
+    # asset base. Mark such floors untrusted so best_floor skips them rather than
+    # emitting a false below-floor hit.
+    untrusted = set()
+    if row.get("debt") is None:
+        untrusted.add("net_cash")
+    if row.get("liabilities") is None:
+        untrusted.add("ncav")
+    if row.get("equity") is None:
+        untrusted.add("tangible_book")
+    return Floors(net_cash=net_cash, ncav=ncav, tangible_book=tangible_book,
+                  untrusted=frozenset(untrusted))
 
 
 def best_floor(mcap_usd: float, fl: Floors) -> Optional[dict]:
@@ -126,6 +141,8 @@ def best_floor(mcap_usd: float, fl: Floors) -> Optional[dict]:
     'below book') — the strongest true statement about it."""
     vals = {"net_cash": fl.net_cash, "ncav": fl.ncav, "tangible_book": fl.tangible_book}
     for ftype in _FLOOR_ORDER:
+        if ftype in fl.untrusted:          # required input was absent — phantom floor, skip
+            continue
         floor = vals[ftype]
         if floor > 0 and mcap_usd < floor:
             return {
@@ -161,7 +178,11 @@ def is_common_tradable(meta: dict) -> bool:
     same-currency names produce a real floor-vs-price comparison."""
     if meta.get("isdelisted") != "N":
         return False
-    if (meta.get("currency") or "USD") != "USD":
+    # FX-artifact guard: require an EXPLICIT USD reporting currency. A missing/
+    # blank currency must be REJECTED, not defaulted to USD (2026-07-06 audit fix)
+    # — a foreign ADR with a blank TICKERS currency but a non-USD SF1 balance sheet
+    # would otherwise slip through and show a phantom floor-vs-USD-cap discount.
+    if meta.get("currency") != "USD":
         return False
     loc = (meta.get("location") or "").lower()
     if any(x in loc for x in EXCLUDE_LOCATIONS):        # China/HK domicile — unreachable floor
