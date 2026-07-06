@@ -1,0 +1,58 @@
+{
+ "spec": "oracle_upside_dossiers",
+ "ran": "2026-07-06",
+ "dossiers": [
+  {
+   "symbol": "SABR",
+   "spec": "upside",
+   "author": "oracle",
+   "created_at": "2026-07-06T15:11:23.119650",
+   "business": "Sabre Corp \u2014 global travel-technology / GDS air-distribution + IT software.",
+   "thesis": "The equity is a thin sliver on a ~$4.6B enterprise where a real operational turn is now flowing against a shrinking-but-heavy debt load: six consecutive improving EPS prints, EBITDA and bookings inflecting while the stock is still priced like distressed debt-heavy equity ~40% below its prior high. Consensus underweights how EV re-rating + paydown compounds through ~5.5x leverage into the equity over 6-24 months.",
+   "sector": "Technology Services",
+   "coverage": null,
+   "theme": "travel_tech",
+   "current_price": 2.03,
+   "spy_price": 0.0,
+   "inflection_type": "turnaround",
+   "inflection_evidence": "Q1 2026 (8-K acc 0001628280-26-031703): revenue $760M +8% YoY, Normalized Adj EBITDA $169M +21% (margin +235bps to 22.2%), air bookings +6% to 87M (2-yr high), EPS +$0.06 vs -$0.03 est (6th improving print); gross debt $5.2B(24)->$4.44B(Mar26).",
+   "upside_x": 2.0,
+   "prob_upside": 0.4,
+   "downside_pct": 0.55,
+   "expected_return": 0.07,
+   "annualized_er": 0.0467,
+   "horizon_months": 18.0,
+   "recent_runup_pct": 0.3,
+   "already_run": false,
+   "qualifies": true,
+   "catalyst": "FCF crossing positive in 2027 + continued EBITDA beats driving an EV/EBITDA re-rate through ~5.5x leverage; next print Q2 2026",
+   "catalyst_date": "2026-08-06",
+   "runway_months": 36,
+   "falsifiable_prediction": "Normalized Adj EBITDA grows YoY for the next 3 prints and gross debt falls further through FY2026.",
+   "prediction_date": "2027-05-01",
+   "kill_condition": "Adj EBITDA growth stalls/reverses on any print, or a debt maturity/refi shock",
+   "kill_type": "fundamental_break",
+   "kill_value": "EBITDA YoY<=0",
+   "adversarial": "The interest burden IS the thesis: ~$450M+/yr interest (2025 refis at 11.125%) vs ~$585M EBITDA leaves razor-thin equity FCF; any EBITDA stall or GDS secular disintermediation (airline NDC/direct-connect bypass) impairs the levered equity fast and asymmetrically. Negative book equity today; can go to zero.",
+   "dead_tell_risk": false,
+   "citations": [
+    "Q1 2026 earnings 8-K, SEC EDGAR accession 0001628280-26-031703"
+   ],
+   "floor_pct": null,
+   "lens_score": 9.0,
+   "blowup_checked": true,
+   "blowup": false,
+   "blowup_flags": {
+    "survives_to_thesis": true,
+    "no_going_concern": true,
+    "no_fraud": true,
+    "no_delisting": true,
+    "primary_grounded": true
+   },
+   "bear_verdict": "keep",
+   "blowup_note": "$665M cash, >90% debt pushed to 2029+, no maturity wall; FY26 FCF ~breakeven ex-restructuring. Survives the hold.",
+   "blowup_checked_by": "oracle",
+   "fundable": true
+  }
+ ]
+}

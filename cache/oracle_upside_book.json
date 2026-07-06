@@ -1,0 +1,10 @@
+{
+ "spec": "oracle_upside_book",
+ "ran": "2026-07-06",
+ "status": "pending_funding_paper",
+ "equity_nominal": 10000.0,
+ "book": {
+  "SABR": 3000.0
+ },
+ "note": "1 fundable of 10 read; SABR the sole survivor. Paper only \u2014 Oracle pending_funding."
+}

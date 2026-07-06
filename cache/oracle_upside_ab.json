@@ -1,0 +1,27 @@
+{
+ "spec": "oracle_upside_ab",
+ "round": "2026-07-06-r1",
+ "arm_a_reading": [
+  "SABR"
+ ],
+ "arm_b_spotlight_topN": [
+  "XMAX",
+  "WTI",
+  "WLY",
+  "SRZN",
+  "SLN"
+ ],
+ "note": "Arm A = the breadth read funded SABR (1 of 10). Arm B = the mechanical spotlight top-N. Grade fwd return vs SPY at 6/12/24mo; LLM-lift = A - B.",
+ "read_verdicts": {
+  "SABR": "KEEP",
+  "WLY": "KILL-arrived",
+  "KPTI": "KILL-going_concern",
+  "POET": "KILL-prerev_arrived",
+  "MX": "KILL-arrived_margin_down",
+  "BBCP": "KILL-arrived",
+  "EPC": "KILL-MnA_rerate",
+  "MRVI": "KILL-arrived",
+  "MEI": "KILL-arrived",
+  "PAYS": "KILL-priced_for_perfection"
+ }
+}
