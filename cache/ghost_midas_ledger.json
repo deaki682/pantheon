@@ -17,9 +17,9 @@
       "volume_anomaly": false,
       "short_squeeze": false
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-06",
+    "exit_price": 20.055,
+    "graded_return": -0.006686478454680622
   },
   {
     "symbol": "HELP",
@@ -39,9 +39,9 @@
       "volume_anomaly": false,
       "short_squeeze": false
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-06",
+    "exit_price": 6.06,
+    "graded_return": -0.1191860465116279
   },
   {
     "symbol": "APOG",
@@ -61,9 +61,9 @@
       "volume_anomaly": false,
       "short_squeeze": false
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-06",
+    "exit_price": 40.26,
+    "graded_return": -0.12668112798264652
   },
   {
     "symbol": "WEN",
@@ -83,9 +83,9 @@
       "volume_anomaly": false,
       "short_squeeze": false
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-06",
+    "exit_price": 7.975,
+    "graded_return": -0.03450363196125905
   },
   {
     "symbol": "AVAV",
@@ -105,9 +105,9 @@
       "volume_anomaly": false,
       "short_squeeze": false
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-06",
+    "exit_price": 180.0,
+    "graded_return": 0.29496402877697836
   },
   {
     "symbol": "ZBIO",
@@ -127,9 +127,9 @@
       "volume_anomaly": false,
       "short_squeeze": false
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-06",
+    "exit_price": 27.29,
+    "graded_return": 0.06810176125244616
   },
   {
     "symbol": "MLKN",
@@ -149,9 +149,9 @@
       "volume_anomaly": false,
       "short_squeeze": false
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-06",
+    "exit_price": 21.035,
+    "graded_return": 0.028103616813294208
   },
   {
     "symbol": "AOUT",
@@ -171,9 +171,9 @@
       "volume_anomaly": false,
       "short_squeeze": false
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-06",
+    "exit_price": 13.96,
+    "graded_return": 0.035608308605341366
   },
   {
     "symbol": "AYI",
@@ -193,9 +193,9 @@
       "volume_anomaly": false,
       "short_squeeze": false
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-06",
+    "exit_price": 360.43,
+    "graded_return": -0.01955823948642621
   },
   {
     "symbol": "FUL",
@@ -214,6 +214,240 @@
       "guidance_raised": false,
       "volume_anomaly": false,
       "short_squeeze": false
+    },
+    "exit_date": "2026-07-06",
+    "exit_price": 56.795,
+    "graded_return": -0.039651673993912784
+  },
+  {
+    "symbol": "QMCO",
+    "entry_date": "2026-07-06",
+    "entry_price": 10.15,
+    "horizon_days": 5,
+    "source": "convergence",
+    "features": {
+      "score": 0.16801453513276307,
+      "score_legacy": 0.16801453513276307,
+      "convergence_count": 1,
+      "disqualified": false,
+      "live_pick": true,
+      "legacy_pick": false,
+      "insider_cluster": false,
+      "earnings_beat": true,
+      "smart_money": false,
+      "activist_13d": false,
+      "guidance_raised": false,
+      "volume_anomaly": false,
+      "short_squeeze": false,
+      "mean_timing_weighted": 1.0
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "WOLF",
+    "entry_date": "2026-07-06",
+    "entry_price": 42.01,
+    "horizon_days": 5,
+    "source": "convergence",
+    "features": {
+      "score": 0.16708278271101681,
+      "score_legacy": 0.16708278271101681,
+      "convergence_count": 1,
+      "disqualified": false,
+      "live_pick": false,
+      "legacy_pick": false,
+      "insider_cluster": false,
+      "earnings_beat": false,
+      "smart_money": false,
+      "activist_13d": false,
+      "guidance_raised": false,
+      "volume_anomaly": false,
+      "short_squeeze": true,
+      "mean_timing_weighted": 1.0
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "VOR",
+    "entry_date": "2026-07-06",
+    "entry_price": 19.485,
+    "horizon_days": 5,
+    "source": "convergence",
+    "features": {
+      "score": 0.16046662189869748,
+      "score_legacy": 0.2924504184103761,
+      "convergence_count": 2,
+      "disqualified": false,
+      "live_pick": false,
+      "legacy_pick": false,
+      "insider_cluster": false,
+      "earnings_beat": false,
+      "smart_money": false,
+      "activist_13d": false,
+      "guidance_raised": false,
+      "volume_anomaly": true,
+      "short_squeeze": true,
+      "mean_timing_weighted": 0.6561
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "HTZ",
+    "entry_date": "2026-07-06",
+    "entry_price": 2.105,
+    "horizon_days": 5,
+    "source": "convergence",
+    "features": {
+      "score": 0.15994568583696644,
+      "score_legacy": 0.08885871435387024,
+      "convergence_count": 1,
+      "disqualified": false,
+      "live_pick": false,
+      "legacy_pick": false,
+      "insider_cluster": false,
+      "earnings_beat": false,
+      "smart_money": true,
+      "activist_13d": false,
+      "guidance_raised": false,
+      "volume_anomaly": true,
+      "short_squeeze": false,
+      "mean_timing_weighted": 0.5
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CNXC",
+    "entry_date": "2026-07-06",
+    "entry_price": 23.9195,
+    "horizon_days": 5,
+    "source": "convergence",
+    "features": {
+      "score": 0.15661070721101158,
+      "score_legacy": 0.08700594845056199,
+      "convergence_count": 1,
+      "disqualified": false,
+      "live_pick": false,
+      "legacy_pick": false,
+      "insider_cluster": false,
+      "earnings_beat": false,
+      "smart_money": true,
+      "activist_13d": false,
+      "guidance_raised": false,
+      "volume_anomaly": true,
+      "short_squeeze": false,
+      "mean_timing_weighted": 0.5
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "PRGS",
+    "entry_date": "2026-07-06",
+    "entry_price": 37.87,
+    "horizon_days": 5,
+    "source": "convergence",
+    "features": {
+      "score": 0.15513719622356417,
+      "score_legacy": 0.14651846310003283,
+      "convergence_count": 1,
+      "disqualified": false,
+      "live_pick": false,
+      "legacy_pick": false,
+      "insider_cluster": false,
+      "earnings_beat": false,
+      "smart_money": false,
+      "activist_13d": false,
+      "guidance_raised": true,
+      "volume_anomaly": true,
+      "short_squeeze": false,
+      "mean_timing_weighted": 0.8500000000000001
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AVBC",
+    "entry_date": "2026-07-06",
+    "entry_price": 20.92,
+    "horizon_days": 5,
+    "source": "convergence",
+    "features": {
+      "score": 0.15273215047808567,
+      "score_legacy": 0.29697918148516655,
+      "convergence_count": 2,
+      "disqualified": false,
+      "live_pick": false,
+      "legacy_pick": false,
+      "insider_cluster": true,
+      "earnings_beat": false,
+      "smart_money": false,
+      "activist_13d": false,
+      "guidance_raised": false,
+      "volume_anomaly": true,
+      "short_squeeze": false,
+      "mean_timing_weighted": 0.7
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "NWFL",
+    "entry_date": "2026-07-06",
+    "entry_price": 32.37,
+    "horizon_days": 5,
+    "source": "convergence",
+    "features": {
+      "score": 0.147695727240475,
+      "score_legacy": 0.2871861363009236,
+      "convergence_count": 2,
+      "disqualified": false,
+      "live_pick": false,
+      "legacy_pick": false,
+      "insider_cluster": true,
+      "earnings_beat": false,
+      "smart_money": false,
+      "activist_13d": false,
+      "guidance_raised": false,
+      "volume_anomaly": true,
+      "short_squeeze": false,
+      "mean_timing_weighted": 0.7
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AERO",
+    "entry_date": "2026-07-06",
+    "entry_price": 17.3,
+    "horizon_days": 5,
+    "source": "convergence",
+    "features": {
+      "score": 0.14744043195392445,
+      "score_legacy": 0.08191135108551359,
+      "convergence_count": 1,
+      "disqualified": false,
+      "live_pick": false,
+      "legacy_pick": false,
+      "insider_cluster": false,
+      "earnings_beat": false,
+      "smart_money": true,
+      "activist_13d": false,
+      "guidance_raised": false,
+      "volume_anomaly": true,
+      "short_squeeze": false,
+      "mean_timing_weighted": 0.5
     },
     "exit_date": "",
     "exit_price": 0.0,

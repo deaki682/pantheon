@@ -1,9 +1,109 @@
 {
-  "n": 0,
-  "mean_return": null,
-  "hit_rate": null,
-  "convergence_terciles": {},
-  "score_terciles": {},
-  "timing_weighted_terciles": {},
-  "signal_lift": {}
+  "n": 10,
+  "mean_return": 0.008051051705750701,
+  "hit_rate": 0.4,
+  "convergence_terciles": {
+    "n": 10,
+    "terciles": {
+      "high": {
+        "n": 3,
+        "mean": -0.00786720162499921
+      },
+      "mid": {
+        "n": 4,
+        "mean": 0.08916644372036492
+      },
+      "low": {
+        "n": 3,
+        "mean": -0.08418455098298501
+      }
+    },
+    "monotonic": false
+  },
+  "score_terciles": {
+    "n": 10,
+    "terciles": {
+      "high": {
+        "n": 3,
+        "mean": -0.08418455098298501
+      },
+      "mid": {
+        "n": 4,
+        "mean": 0.08916644372036492
+      },
+      "low": {
+        "n": 3,
+        "mean": -0.00786720162499921
+      }
+    },
+    "monotonic": false
+  },
+  "score_legacy_terciles": {
+    "n": 0,
+    "terciles": {},
+    "monotonic": false
+  },
+  "timing_weighted_terciles": {
+    "n": 0,
+    "terciles": {},
+    "monotonic": false
+  },
+  "signal_lift": {
+    "activist_13d": {
+      "n_on": 0,
+      "mean_on": null,
+      "n_off": 10,
+      "mean_off": 0.008051051705750701,
+      "lift": null
+    },
+    "disqualified": {
+      "n_on": 4,
+      "mean_on": 0.044220664727358194,
+      "n_off": 6,
+      "mean_off": -0.016062023641987628,
+      "lift": 0.06028268836934582
+    },
+    "earnings_beat": {
+      "n_on": 0,
+      "mean_on": null,
+      "n_off": 10,
+      "mean_off": 0.008051051705750701,
+      "lift": null
+    },
+    "guidance_raised": {
+      "n_on": 0,
+      "mean_on": null,
+      "n_off": 10,
+      "mean_off": 0.008051051705750701,
+      "lift": null
+    },
+    "insider_cluster": {
+      "n_on": 0,
+      "mean_on": null,
+      "n_off": 10,
+      "mean_off": 0.008051051705750701,
+      "lift": null
+    },
+    "short_squeeze": {
+      "n_on": 0,
+      "mean_on": null,
+      "n_off": 10,
+      "mean_off": 0.008051051705750701,
+      "lift": null
+    },
+    "smart_money": {
+      "n_on": 0,
+      "mean_on": null,
+      "n_off": 10,
+      "mean_off": 0.008051051705750701,
+      "lift": null
+    },
+    "volume_anomaly": {
+      "n_on": 0,
+      "mean_on": null,
+      "n_off": 10,
+      "mean_off": 0.008051051705750701,
+      "lift": null
+    }
+  }
 }
