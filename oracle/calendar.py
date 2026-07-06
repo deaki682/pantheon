@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 RESEARCH_INTERVAL_DAYS = 3
@@ -94,6 +94,13 @@ def days_since(path: str, key: str, *, now: datetime | None = None) -> float | N
         ts = datetime.fromisoformat(raw)
     except ValueError:
         return None
+    # Cadence files accumulate a mix of naive and tz-aware timestamps
+    # depending on which code path wrote them; normalize before subtracting
+    # so a stray aware stamp doesn't crash every future should_run() call.
+    if ts.tzinfo is not None and now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    elif ts.tzinfo is None and now.tzinfo is not None:
+        ts = ts.replace(tzinfo=timezone.utc)
     return (now - ts).total_seconds() / 86_400.0
 
 
