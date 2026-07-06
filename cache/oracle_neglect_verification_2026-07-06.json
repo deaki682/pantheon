@@ -5,7 +5,7 @@
   "n": 27,
   "summary": {
     "FUND": 4,
-    "WATCH": 11,
+    "WATCH": 12,
     "KILL": 12
   },
   "verdicts": [
@@ -197,6 +197,14 @@
       "price": 1.47,
       "true_discount": 0.13,
       "note": "Thin ~13% (below price ex-$76M volatile equity securities); pile under threat of biotech-pivot M&A; guarded only by live Murchinson proxy fight (EGM 7/31)."
+    },
+    {
+      "ticker": "VTSI",
+      "verdict": "WATCH",
+      "price": 3.11,
+      "true_discount": 0.16,
+      "note": "below tangible book ~16% but SOFT book (half inventory + mortgaged HQ); net cash only $0.92 vs $3.11; business flipped to op-loss, rev -51% YoY, inventory building. Floor at risk of melting. The one unverified pre-rebuild like \u2014 verified WATCH, not a missed FUND."
     }
-  ]
+  ],
+  "audit_note": "2026-07-06 legacy-name audit: every previously-liked name traced. Legacy cohort (CXT/HDSN/J/PSN/VITL) correctly not re-surfaced (large-cap/above-floor, old insider thesis, held by operator). ARVN/RNA re-found+rejected. XRN/MNRO now correctly excluded (hardened floors). VTSI re-found -> WATCH. No floor-thesis FUND was silently dropped."
 }
