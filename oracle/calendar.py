@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 RESEARCH_INTERVAL_DAYS = 3
@@ -84,14 +84,26 @@ def mark_run(path: str, key: str, *, now: datetime | None = None) -> None:
     _write(path, d)
 
 
+def _to_naive_utc(dt: datetime) -> datetime:
+    """Normalize a datetime to naive UTC so aware and naive values compare.
+
+    Timestamps in cadence files come from multiple writers — some use
+    datetime.utcnow() (naive), others datetime.now(timezone.utc) (aware) —
+    and subtracting one from the other raises TypeError.
+    """
+    if dt.tzinfo is not None:
+        return dt.astimezone(timezone.utc).replace(tzinfo=None)
+    return dt
+
+
 def days_since(path: str, key: str, *, now: datetime | None = None) -> float | None:
-    now = now or datetime.utcnow()
+    now = _to_naive_utc(now or datetime.utcnow())
     d = _read(path)
     raw = d.get(key)
     if not raw:
         return None
     try:
-        ts = datetime.fromisoformat(raw)
+        ts = _to_naive_utc(datetime.fromisoformat(raw))
     except ValueError:
         return None
     return (now - ts).total_seconds() / 86_400.0
