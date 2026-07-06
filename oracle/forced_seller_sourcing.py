@@ -27,7 +27,9 @@ Two disciplines are baked in, because tonight's diligence bought them dearly:
 """
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
+from datetime import date, timedelta
 from typing import Callable, Optional
 
 from nemesis.spinoffs import events_from_search_payload  # generic FTS-hit parser
@@ -241,3 +243,99 @@ def sweep(
     # multi-channel names first, then oldest filing (closest to actionable)
     return sorted(by_cik.values(),
                   key=lambda c: (-len(c.get("families", [])), c.get("first_filed", "")))
+
+
+# =====================================================================
+# Form-enumeration sourcing — the MEASURED Stage-1 upgrade (2026-07-06)
+# =====================================================================
+# Measured (run_stage1_answerkey.py, June 2026): the keyword `sweep` above had
+# only **12% recall** against the form-enumerated answer key (11 of 92 SC TO-I /
+# N-8F filers). Form enumeration is **100% recall by construction** — a SC TO-I
+# IS a tender offer, so enumerate EVERY one from EDGAR's daily FORM indexes
+# rather than keyword-searching for it. Precision then comes from a cheap
+# tradability filter (a CIK absent from SEC's ticker map is non-listed — the
+# private-credit-fund noise that made up most of the 81 misses). Keyword `sweep`
+# is retained ONLY for families with no single defining form (post-BK 8-Ks,
+# rights offerings buried in S-1/424B prose).
+
+# Forms that ARE a forced-seller event -> the family they belong to.
+FORM_TO_FAMILY = {
+    "SC TO-I": "odd_lot_tender", "SC TO-I/A": "odd_lot_tender",
+    "N-8F": "fund_liquidation",
+    "10-12B": "spinoff_largecap", "10-12B/A": "spinoff_largecap",
+}
+_IDX_SPLIT = re.compile(r"\s{2,}")  # daily-index fields are 2+-space separated
+
+
+def enumerate_by_form(
+    date_from: str, date_to: str, forms,
+    *, http_get: Callable[[str], object] = edgar.http_get,
+) -> dict[str, dict]:
+    """Every filer of `forms` in the window from EDGAR daily FORM indexes —
+    complete by construction, no keyword. Returns
+    {cik10: {name, forms:set, first, last, n}}. Prefix-split parse (no
+    backtracking); holidays/transient failures are skipped (cadence self-heals)."""
+    formset = set(forms)
+    out: dict[str, dict] = {}
+    d, end = date.fromisoformat(date_from), date.fromisoformat(date_to)
+    while d <= end:
+        if d.weekday() < 5:  # weekdays only
+            url = (f"https://www.sec.gov/Archives/edgar/daily-index/{d.year}"
+                   f"/QTR{(d.month - 1)//3 + 1}/form.{d.strftime('%Y%m%d')}.idx")
+            try:
+                body = http_get(url)
+                text = body if isinstance(body, str) else body.decode("latin-1", "replace")
+                for line in text.splitlines():
+                    parts = _IDX_SPLIT.split(line.strip())
+                    if len(parts) < 5 or parts[0] not in formset or not parts[2].isdigit():
+                        continue
+                    cik = edgar.cik10(parts[2])
+                    e = out.setdefault(cik, {"name": parts[1].strip(), "forms": set(),
+                                             "first": d.isoformat(), "n": 0})
+                    e["forms"].add(parts[0]); e["n"] += 1; e["last"] = d.isoformat()
+            except Exception:
+                pass
+        d += timedelta(days=1)
+    return out
+
+
+def cik_to_ticker_map() -> dict[str, str]:  # pragma: no cover - network
+    """{cik10: TICKER} from SEC's master ticker file — the LISTED universe. A CIK
+    absent from this map has no public ticker (non-traded fund) → the tradability
+    filter for `sweep_by_form`."""
+    return {cik: sym for sym, cik in edgar.fetch_company_tickers().items()}
+
+
+def sweep_by_form(
+    date_from: str, date_to: str, *,
+    cik_to_ticker: Optional[dict[str, str]] = None,
+    exclude_ciks: Optional[set[str]] = None,
+    tradable_only: bool = True,
+    http_get: Callable[[str], object] = edgar.http_get,
+) -> list[dict]:
+    """PRIMARY Stage-1 sourcing (measured 100% recall). Enumerate every
+    form-defined forced-seller event in the window, tag by family, attach a
+    tradability flag (CIK in SEC's ticker map = listed), and by default keep only
+    tradable names — dropping the non-traded private-fund noise cheaply.
+    Graveyard families are never enumerated."""
+    exclude = exclude_ciks or set()
+    forms = [f for f, fam in FORM_TO_FAMILY.items() if not is_graveyard(fam)]
+    raw = enumerate_by_form(date_from, date_to, forms, http_get=http_get)
+    c2t = cik_to_ticker or {}
+    out: list[dict] = []
+    for cik, e in raw.items():
+        if cik in exclude:
+            continue
+        fams = sorted({FORM_TO_FAMILY[f] for f in e["forms"] if f in FORM_TO_FAMILY})
+        if not fams:
+            continue
+        tradable = cik in c2t
+        if tradable_only and not tradable:
+            continue
+        out.append({
+            "cik": cik, "ticker": c2t.get(cik), "company": e["name"],
+            "families": fams, "family": fams[0], "forms": sorted(e["forms"]),
+            "first_filed": e["first"], "last_filed": e["last"],
+            "n_filings": e["n"], "tradable": tradable, "source": "form_enumeration",
+        })
+    return sorted(out, key=lambda c: (-len(c["families"]), c.get("first_filed", "")))

@@ -87,3 +87,39 @@ def test_sweep_excludes_known_ciks():
     out = fss.sweep("2026-06-01", "2026-06-30", families=fams,
                     exclude_ciks={"0000555555"}, search_fn=fake)
     assert out == []
+
+
+# --- form-enumeration path (the measured Stage-1 upgrade) ---
+
+_FAKE_IDX = (
+    "Form Type        Company                                       CIK        Date Filed  File Name\n"
+    "-----------------------------------------------------------------------------------------------\n"
+    "SC TO-I          JAPAN SMALLER CAPITALIZATION FUND INC          859796     2026-06-01  edgar/data/859796/x.txt\n"
+    "SC TO-I          Blackstone Private Credit Fund                 1803498    2026-06-01  edgar/data/1803498/y.txt\n"
+    "N-8F             Some Winddown Fund LLC                         1234567    2026-06-01  edgar/data/1234567/z.txt\n"
+    "8-K              Random Operating Co                            9999999    2026-06-01  edgar/data/9999999/a.txt\n"
+)
+
+
+def test_enumerate_by_form_parses_daily_index():
+    got = fss.enumerate_by_form("2026-06-01", "2026-06-01", ["SC TO-I", "N-8F"],
+                                http_get=lambda url: _FAKE_IDX)
+    assert set(got) == {"0000859796", "0001803498", "0001234567"}  # 8-K excluded
+    assert got["0000859796"]["forms"] == {"SC TO-I"}
+    assert got["0000859796"]["name"].startswith("JAPAN SMALLER")
+
+
+def test_sweep_by_form_tradability_filter_drops_nontraded():
+    # only JOF is in the listed-ticker map; the private funds are not
+    out = fss.sweep_by_form("2026-06-01", "2026-06-01",
+                            cik_to_ticker={"0000859796": "JOF"},
+                            tradable_only=True, http_get=lambda url: _FAKE_IDX)
+    assert {c["cik"] for c in out} == {"0000859796"}
+    jof = out[0]
+    assert jof["ticker"] == "JOF" and jof["family"] == "odd_lot_tender" and jof["tradable"]
+
+
+def test_sweep_by_form_keeps_all_when_filter_off():
+    out = fss.sweep_by_form("2026-06-01", "2026-06-01", cik_to_ticker={},
+                            tradable_only=False, http_get=lambda url: _FAKE_IDX)
+    assert len(out) == 3  # SC TO-I x2 + N-8F, all enumerated; 8-K is not a mapped form
