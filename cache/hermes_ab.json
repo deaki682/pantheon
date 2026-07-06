@@ -41,6 +41,34 @@
    "break_risk": "low",
    "arm_a_live": false,
    "resolved": false
+  },
+  {
+   "symbol": "DXLG",
+   "detect_date": "2026-07-06",
+   "entry_price": 0.6517,
+   "offer_price": 0.82,
+   "spy_entry": 749.31,
+   "expected_close": "2026-06-22 (already lapsed, unresolved)",
+   "spread": 0.2582,
+   "llm_verdict": "drop",
+   "llm_rationale": "Unsolicited/hostile third-party tender (Zodiac Partners II / Camac Fund, $46M) NOT a negotiated definitive merger agreement -- DXL's board formally recommended stockholders REJECT it, and the offer carries a financing contingency (ABL facility + $10M sponsor equity, not fully committed cash on hand). The ~26% spread is the market pricing a high probability of failure, not an uncaptured arb -- 'fat spread on a shaky deal is a trap.' No board support, no contractual floor. Drop.",
+   "break_risk": "high",
+   "arm_a_live": false,
+   "resolved": false
+  },
+  {
+   "symbol": "GBCS",
+   "detect_date": "2026-07-06",
+   "entry_price": 3.3,
+   "offer_price": 5.75,
+   "spy_entry": 749.31,
+   "expected_close": "unspecified (announced 2026-06-23, no financing contingency per press release)",
+   "spread": 0.7424,
+   "llm_verdict": "drop",
+   "llm_rationale": "Selectis Health (Black Pearl Equities, all-cash, no financing contingency per the 8-K) is otherwise a clean small-cap definitive agreement, but the target trades OTCQB and is NOT tradable at our broker (get_equity_quotes returns missing_instrument). Secondary sources disagree sharply on the live price ($2.97 vs $3.66 same-day) -- exactly the secondary-price-suspect case the house guards against; there is no broker tape to size against or execute on. Drop for lack of an executable venue, not for deal quality.",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "resolved": false
   }
  ],
  "graded": []
