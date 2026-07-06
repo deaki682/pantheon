@@ -165,8 +165,17 @@ def _two_factor_scores(D: str, universe: set):
 
 def _rank_map(scores: dict, *, ascending: bool) -> dict:
     """Map each key to its 0-based rank (0 = best). ascending=True ranks small
-    values best (net issuance); False ranks large values best (gross prof)."""
-    order = sorted(scores, key=lambda k: scores[k], reverse=not ascending)
+    values best (net issuance); False ranks large values best (gross prof).
+
+    DETERMINISTIC tiebreak by ticker (2026-07-06 bugfix): `scores` is built by
+    iterating a SET (universe), so its key order is hash-seed-dependent; sorting
+    by score alone left equal-score names in a non-reproducible order, which
+    propagated to composite_basket and made the LIVE deluxe pick differ run-to-run.
+    Sorting by (score, ticker) — with the sign flipped for descending — pins ties."""
+    if ascending:
+        order = sorted(scores, key=lambda k: (scores[k], k))
+    else:
+        order = sorted(scores, key=lambda k: (-scores[k], k))   # large-value-first, ticker tiebreak
     return {k: i for i, k in enumerate(order)}
 
 
@@ -189,7 +198,10 @@ def composite_basket(D: str, universe: set = None, size: int = BASKET_SIZE) -> l
         return []
     ni_rank = _rank_map({t: net_iss[t] for t in both}, ascending=True)
     gp_rank = _rank_map({t: gross_prof[t] for t in both}, ascending=False)
-    composite = sorted(both, key=lambda t: (ni_rank[t] + gp_rank[t]) / 2.0)
+    # DETERMINISTIC tiebreak by ticker (2026-07-06 bugfix): `both` is a set, so
+    # sorting by composite score alone broke ties in hash-seed order — the 50-name
+    # cutoff could include different names run-to-run. The `, t` pins it.
+    composite = sorted(both, key=lambda t: ((ni_rank[t] + gp_rank[t]) / 2.0, t))
     return composite[:size]
 
 
