@@ -80,13 +80,45 @@ to trade.
    (extraction + adversarial refuter subagents) on any name near the cut.
    Persist to `cache/oracle_dossiers.json`.
 
-3. **Select a CONVEX book (concentrated, conviction-weighted).**
-   `oracle.convex_dossier.rank_by_convexity(dossiers)` orders by convexity_score
-   (annualized asymmetry × floor-hardness) and drops non-convex names (negative
-   expectancy / no real floor) automatically. Take the few best; size within a
-   per-name cap (concentration is the return lever — no equal 8-name cohort).
-   Horizons are multi-month/patient, but a name must EARN its slot on
-   risk-adjusted convexity, not on a signal or a raw multiple.
+2c. **VERIFY against PRIMARY FILINGS before the book (2026-07-06, MANDATORY —
+   the launch-gate lesson).** A dossier's self-reported `convex` flag is NOT
+   enough to fund it. The 2026-07-06 launch gate killed 4 of 8 dossiers a
+   fundamentals-API pass had waved through — XRN ("debt-free" missed a $653M
+   credit line), MNRO (P/B<1 was 100% goodwill, tangible book NEGATIVE), SMHI
+   ("$20 NAV" was an activist claim in NO filing, catalyst already fired), GYRO
+   (a melting liquidation PROJECTION, not an audited NAV). Every one shared a
+   shape a snapshot cannot see and a primary filing reveals. So for EACH name
+   near the cut, pull the actual 10-K/10-Q/8-K (`shared.edgar`; deep-read
+   subagents for a fan-out) and run
+   `oracle.convex_dossier.verify_dossier(dossier, floor_basis=…,
+   debt_reconciled_full_stack=…, catalyst_fired=…, book_survives_goodwill=…,
+   primary_citations=[…], verdict=…)`. It runs the four traps, each a real kill:
+   - **primary_source_cited** — a snapshot citation (Robinhood/Yahoo) is NOT a
+     floor source; at least one real filing must back it (killed XRN).
+   - **floor_not_merely_asserted** — `floor_basis` on the trust ladder
+     `cash > net_net > transacting_asset > book > asserted`; an *asserted* NAV
+     (activist appraisal, management projection) is not a floor (killed SMHI/GYRO).
+   - **book_survives_goodwill** — for a book floor, tangible book (ex-goodwill)
+     must still support it (killed MNRO).
+   - **debt_reconciled_full_stack** — debt taken off the FULL liability stack,
+     not one balance-sheet line (killed XRN).
+   - **catalyst_not_already_fired** — the re-rating hasn't already happened.
+   Verification RE-STAMPS `floor_hardness` from the true `floor_basis` (a
+   self-reported "hard" on an asserted floor cannot survive), and only a name
+   whose traps ALL pass with verdict keep/revise becomes `verified`. **Cite the
+   accession numbers in the dossier.** A name that fails is retracted with its
+   reason (the record keeps it, per docs; never silently drop).
+
+3. **Select a CONVEX book (concentrated, conviction-weighted) — from VERIFIED
+   names only.** Use `oracle.convex_dossier.rank_fundable(dossiers)` (NOT
+   `rank_by_convexity`) — it returns only names that are BOTH convex AND
+   primary-source-`verified`, best convexity first, so an unverified dossier
+   (however good its self-reported numbers) structurally cannot receive capital.
+   `rank_by_convexity` stays the pure-math research view; `rank_fundable` is the
+   gated view money flows through. Take the few best; size within a per-name cap
+   (concentration is the return lever — no equal 8-name cohort). Horizons are
+   multi-month/patient, but a name must EARN its slot on risk-adjusted
+   convexity, verified against filings — not on a signal or a raw multiple.
 
 4. **Record the A/B (measure the edge).** For EVERY candidate in the pool this
    round, `oracle.ab.record_selection(ab, round_id, date, candidates=[...])`
