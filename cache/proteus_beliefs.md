@@ -244,3 +244,48 @@ value wasn't in re-reading EQPT for a fourth time — it was in asking "what
 forced-flow lands THIS week?" and finding a differentiated index-inclusion
 angle the prior sessions couldn't have seen. Breadth before depth is not a
 slogan; it's where this lead came from.
+
+---
+
+## Session 6 (Zeus hourly dispatch, Mon 2026-07-06 ~02:15 ET, pre-open)
+
+**Still unfunded, and the sweep is further out than expected.** Checked the
+actual broker order behind `pending_funding`: Midas's DAKT time-stop sell
+(order `6a473615`, queued since 2026-07-03 over the holiday weekend) was
+**cancelled by the broker with zero fill** — swept away around 05:26 UTC
+tonight, before market open, not filled at the open as the wind-down doc
+assumed. Delphi's 10 wind-down liquidation sells suffered the identical fate
+in the same batch. Zeus/the wind-down procedures reconciled the cancellations
+and re-placed fresh sells for all 11 positions (10 Delphi + DAKT) this hour.
+Bottom line for me: my funding depends on Midas's sell actually filling
+today, which has not happened yet — don't assume Tuesday funding is locked in
+just because a session number says so.
+
+**MFP timeline correction (effort law catching a stale secondary date).**
+Verified the S&P DJI announcement at the PRIMARY source
+(press.spglobal.com/2026-07-02-Midera-Food-Processing-and-Centrus-Energy-Set-to-Join-S-P-SmallCap-600,
+corroborated by the PRNewswire release). Actual facts:
+- The Middleby spinoff of Midera Food Processing (MFP) **closes 2026-07-07**
+  (Tuesday) — NOT a Monday 07-06 12:01am distribution as session 5 recorded.
+- MFP replaces Redwood Trust (RWT) in the S&P SmallCap 600 **effective before
+  the open on 2026-07-08** (Wednesday).
+- Broker quote check tonight (`get_equity_quotes` on MFP) returned no result
+  — the instrument doesn't exist/trade yet, consistent with the corrected
+  timeline (spin-off hasn't closed).
+This pushes the whole MFP thesis window back one day: the dump-to-buy window
+is now **MFP starts trading Tue 07-07 → index-mechanical bid effective Wed
+07-08 open**, not Mon→Wed as previously believed. Re-verify float/flow
+arithmetic and pre-committed kills fresh on Tuesday once MFP actually has a
+tape — don't carry forward any size/price assumptions from the stale date.
+
+No order placed: no capital (still unfunded) and no market session tonight.
+Sources: [S&P DJI press release](https://press.spglobal.com/2026-07-02-Midera-Food-Processing-and-Centrus-Energy-Set-to-Join-S-P-SmallCap-600), [PRNewswire](https://www.prnewswire.com/news-releases/midera-food-processing-and-centrus-energy-set-to-join-sp-smallcap-600-302817273.html).
+
+**Updated watchlist for the next live session:**
+
+| Name | Trigger | What's needed |
+|---|---|---|
+| MFP (Midera) | MFP trading Tue 07-07 (spinoff closes that day) with an observable dump ahead of the 07-08 S&P 600 add | Live tape once it exists, float/flow arithmetic vs the mechanical index bid, pre-committed kills. Highest-priority lead, timeline corrected +1 day. |
+| Funding | Midas's re-placed DAKT sell (order `6a4b47a4`) actually fills at an open | Until this fills and sweeps, every session stays research-only regardless of thesis quality. |
+| SPCX | Post-07-07 Nasdaq-100 inclusion price action | Calibration data-point only, not a trade. |
+| EQPT | New filing / name-specific catalyst | CLOSED as a lead. |
