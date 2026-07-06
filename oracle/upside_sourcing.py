@@ -170,6 +170,80 @@ def screen_row(row: dict, forming_themes: Optional[set[str]] = None) -> Optional
     }
 
 
+# ---- Stage 1c: freshness / identity reconcile vs live Robinhood -------------
+# The spotlight runs on the on-disk Sharadar panel, which carries two faults a
+# live cross-check catches (measured 2026-07-06): (1) RECYCLED TICKERS — SF1 keys
+# history to the final ticker, so "OSG" (Overseas Shipholding, taken private 2024)
+# now resolves to an unrelated Ambac-successor insurer (the SIVB/BBBY LAW); and
+# (2) the accel/margin proxy mis-fires on FINANCIALS (muni-bond LPs, insurers) and
+# on micro-SHELLS (a 7-employee 2024 holdco whose "acceleration" is off ~zero).
+# So before spending the (expensive) breadth read, reconcile the queue against a
+# live get_equity_fundamentals pull (≤10 syms/call) and drop the artifacts. The
+# assistant supplies `live` = {SYM: {sector, num_employees, pb_ratio, market_cap,
+# description}} because the broker feed is not importable in a script.
+_FINANCIAL_SECTORS = {"finance", "financial", "specialty insurance"}
+SHELL_MAX_EMPLOYEES = 25
+ARTIFACT_PB_MAX = 20.0          # extreme POSITIVE P/B = shell/data artifact (RHLD=40);
+                                # negative P/B is fine (levered turnarounds: SABR/IRWD)
+
+
+def reconcile_queue(candidates: list[dict], live: dict) -> tuple[list[dict], list[dict]]:
+    """Drop the names a live cross-check exposes as un-fundable BEFORE the read.
+    Returns (kept, dropped) — each dropped candidate stamped with `drop_reason`
+    (never silently removed, spec I5). A candidate with NO live entry is KEPT but
+    flagged `unreconciled` (couldn't verify — the read will check it)."""
+    kept, dropped = [], []
+    for c in candidates:
+        f = live.get(c["symbol"])
+        if not f:
+            c = dict(c); c["unreconciled"] = True
+            kept.append(c); continue
+        sector = (f.get("sector") or "").strip().lower()
+        emp = f.get("num_employees")
+        pb = f.get("pb_ratio")
+        reason = None
+        if sector in _FINANCIAL_SECTORS:
+            reason = f"financial sector ({f.get('sector')}) — accel/margin proxy meaningless"
+        elif emp is not None and int(emp) < SHELL_MAX_EMPLOYEES:
+            reason = f"micro-shell ({emp} employees) — acceleration off a near-zero base"
+        elif pb is not None and float(pb) > ARTIFACT_PB_MAX:
+            reason = f"P/B {pb} > {ARTIFACT_PB_MAX} — shell / data artifact"
+        if reason:
+            c = dict(c); c["drop_reason"] = reason
+            dropped.append(c)
+        else:
+            kept.append(c)
+    return kept, dropped
+
+
+# The TRUE arrival gate needs the live 52-WEEK range, not a 6-month proxy. A name
+# that bottomed 3 months ago and tripled shows "20% below its 6mo high" (looks
+# early) but is 90% up its 52-week range (ARRIVED). Measured 2026-07-06: the read
+# killed LIND/IRWD/NNBR/RRGB all on "already ran 2–4x" while the 6mo proxy waved
+# them through. So compute range position from live Robinhood high_52_weeks /
+# low_52_weeks and treat a name high in its range as arrived.
+RANGE_POS_ARRIVED = 0.60        # > this far up the 52wk range = likely already repriced
+
+
+def range_position(price: float, low_52w: float, high_52w: float) -> Optional[float]:
+    """Where the price sits in its 52-week range: 0 = at the low, 1 = at the high.
+    None if the range is degenerate."""
+    if price is None or low_52w is None or high_52w is None:
+        return None
+    span = float(high_52w) - float(low_52w)
+    if span <= 0:
+        return None
+    return max(0.0, min(1.0, (float(price) - float(low_52w)) / span))
+
+
+def is_arrived_52w(f: dict) -> Optional[bool]:
+    """True if the live fundamentals put the name high in its 52-week range (the
+    real 'already ran' test). None if the range data is missing."""
+    rp = range_position(f.get("last_price") or f.get("price"),
+                        f.get("low_52_weeks"), f.get("high_52_weeks"))
+    return None if rp is None else rp > RANGE_POS_ARRIVED
+
+
 def screen_panel(panel: list[dict], forming_themes: Optional[set[str]] = None,
                  limit: Optional[int] = None) -> list[dict]:
     """Run Stage 1 over the whole panel; return candidates sorted by spotlight_score

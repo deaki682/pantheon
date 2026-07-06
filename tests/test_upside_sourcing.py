@@ -2,6 +2,9 @@ from oracle.upside_sourcing import (
     arrival_penalty,
     bottom_up_signals,
     in_hunting_ground,
+    is_arrived_52w,
+    range_position,
+    reconcile_queue,
     screen_panel,
     screen_row,
     spotlight_score,
@@ -63,6 +66,35 @@ def test_arrival_penalty_at_high():
     assert arrival_penalty({"pct_below_high": 0.02}) < 1.0     # near the high -> penalized
     assert arrival_penalty({"pct_below_high": 0.35}) == 1.0    # room to run -> no penalty
     assert arrival_penalty({}) == 1.0                          # unknown -> no penalty
+
+
+def test_reconcile_drops_financials_shells_artifacts():
+    cands = [{"symbol": "GOOD"}, {"symbol": "FIN"}, {"symbol": "SHELL"},
+             {"symbol": "ARTIFACT"}, {"symbol": "UNKNOWN"}]
+    live = {
+        "GOOD": {"sector": "Technology Services", "num_employees": 3200, "pb_ratio": 2.9},
+        "FIN": {"sector": "Finance", "num_employees": 17, "pb_ratio": 0.5},
+        "SHELL": {"sector": "Commercial Services", "num_employees": 7, "pb_ratio": 40.0},
+        "ARTIFACT": {"sector": "Industrials", "num_employees": 500, "pb_ratio": 45.0},
+        # UNKNOWN has no live entry -> kept but flagged
+    }
+    kept, dropped = reconcile_queue(cands, live)
+    ksym = {c["symbol"] for c in kept}
+    dsym = {c["symbol"] for c in dropped}
+    assert "GOOD" in ksym
+    assert dsym == {"FIN", "SHELL", "ARTIFACT"}
+    assert all(c.get("drop_reason") for c in dropped)
+    assert any(c["symbol"] == "UNKNOWN" and c.get("unreconciled") for c in kept)
+
+
+def test_range_position_and_arrived():
+    # RRGB-like: $2.46-$8.26, now $7.15 -> ~82% up range -> arrived
+    assert range_position(7.15, 2.46, 8.26) > 0.6
+    assert is_arrived_52w({"last_price": 7.15, "low_52_weeks": 2.46, "high_52_weeks": 8.26}) is True
+    # ACVA-like: $4.07-$16.76, now $7.40 -> ~26% up range -> NOT arrived
+    assert range_position(7.40, 4.07, 16.76) < 0.6
+    assert is_arrived_52w({"last_price": 7.40, "low_52_weeks": 4.07, "high_52_weeks": 16.76}) is False
+    assert is_arrived_52w({"last_price": 7.40}) is None   # missing range -> unknown
 
 
 def test_screen_row_penalizes_arrived_name():
