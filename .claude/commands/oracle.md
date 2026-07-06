@@ -116,6 +116,20 @@ to perfectly vet a handful the lenses happened to surface. Run every session in
    against S&P/Russell reconstitution data (a Form 25 is the wrong instrument —
    measured ~all noise, DEMOTED).
 
+1c. **FRESHNESS reconcile vs the live broker (2026-07-06 — cheapest filter, do it
+   BEFORE dossiers).** Sharadar's marketcap uses a share count that LAGS
+   post-quarter conversions/splits/raises (FTH: stale 1.34M sh → phantom "$31M cap,
+   85% below net cash"; the true post-conversion cap was $590M, ABOVE the floor).
+   Cross-check the screen shortlist against a live Robinhood `get_equity_fundamentals`
+   pull (≤10 symbols/call) and run `oracle.freshness.reconcile_with_fundamentals`:
+   (a) fresh market cap → recompute the discount and DROP any name back above its
+   floor; (b) P/B sanity → `book_contradicts_floor` on P/B ≤ 0 (negative book) or
+   ≥ 3 (currency/data artifact, e.g. a yen filer); (c) description →
+   `crypto_treasury` for the coin-pile shells the name hides (AVX/BNC/NAKA/AIFC/SKYA).
+   `is_clean()` gates the verification queue. First run dropped 1 + flagged 7 of the
+   top 40 with zero 10-Q reads. (Live count catches stale COMMON; as-converted
+   preferred/warrants are still the 10-Q's job.)
+
 2. **Deep dossiers (the new spec — the edge).** For candidates worth the work,
    write/refresh a dossier that ANSWERS, in writing (docs/oracle_reframe §"How
    dossiers are written now"):
