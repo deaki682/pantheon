@@ -1,5 +1,21 @@
 {
-  "candidates": [],
+  "candidates": [
+    {
+      "round_id": "fresh-2026-07-06",
+      "date": "2026-07-06",
+      "symbol": "JOF",
+      "lens_score": 0.0,
+      "arm_a_llm": true,
+      "arm_b_screen": true,
+      "conviction": 0.0084,
+      "floor_pct": 0.15,
+      "upside_x": 1.15,
+      "catalyst": "Recurring 9%-trigger Conditional Tender Offer at 98% NAV + ~10% managed distribution; live \u221210.4% discount.",
+      "entry_price": 11.68,
+      "spy_entry": 747.03,
+      "resolved": false
+    }
+  ],
   "graded": [],
   "reset_at": "2026-07-06",
   "reset_note": "Fresh launch: prior unresolved/unfunded selections cleared (none were graded, so no real LLM-lift data is lost). A/B structure retained; new selections accrue from verified fresh-launch dossiers."

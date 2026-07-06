@@ -3,6 +3,62 @@
   "reset_at": "2026-07-06",
   "reset_note": "FRESH LAUNCH from scratch under the 2026-07-06 rules (whole-universe forced-seller sourcing + primary-source verification gate). Operator directive: forget all prior dossier choices and start clean. This is NOT a buy-launch \u2014 it tees up VERIFIED choices for when funding lands. The prior pool (9 dossiers incl. the 4 survivors + 4 launch-gate kills) is archived in oracle_convex_dossiers_archive_pre_reset_2026_07_06.json for the audit trail; the learning survives in the verification gate's four traps + RESEARCH_LEDGER. Legacy cohort (CXT/HDSN/J/PSN/VITL) untouched \u2014 operator-held, not the engine's.",
   "built": "2026-07-06",
-  "source": "empty \u2014 rebuild via oracle.forced_seller_sourcing sweep -> make_convex_dossier -> verify_dossier",
-  "dossiers": {}
+  "source": "fresh launch: first verified name \u2014 sourced by forced_seller_sourcing (form-enum), cleared by verify_dossier",
+  "dossiers": {
+    "JOF": {
+      "symbol": "JOF",
+      "spec": "convex",
+      "author": "oracle",
+      "created_at": "2026-07-06T08:15:47.964871",
+      "business": "Japan Smaller Capitalization Fund, Inc. \u2014 a US-listed (NYSE) closed-end fund (Nomura-advised) holding a diversified portfolio of Japanese small-cap equities; audited daily NAV.",
+      "thesis": "JOF trades at $11.68 against a published, audited daily NAV of $13.04 \u2014 a live \u221210.4% discount, not an asserted one. A US-listed vehicle for Japanese small-caps is structurally orphaned (no natural US buyer base for foreign small-caps), so the discount is persistent \u2014 but it is GOVERNED: a standing board Conditional Tender Offer auto-tenders up to 10% of shares at 98% of NAV whenever the average discount exceeds 9% over the annual measurement window, which caps how wide the discount can run and periodically compresses it toward NAV.",
+      "sector": "Closed-End Fund / Japan small-cap equity",
+      "current_price": 11.68,
+      "spy_price": 747.03,
+      "floor_pct": 0.15,
+      "upside_x": 1.15,
+      "prob_upside": 0.55,
+      "asymmetry_score": 0.015,
+      "floor_hardness": "medium",
+      "horizon_months": 15.0,
+      "convexity_score": 0.0084,
+      "recent_runup_pct": 0.0,
+      "catalyst_fired_risk": false,
+      "convex": true,
+      "why_mispriced_type": "neglect",
+      "why_mispriced": "A US-listed Japan-small-cap CEF is a structurally orphaned vehicle \u2014 no natural US holder base \u2014 so it sits at a persistent ~10% discount to a real, daily-published NAV, with a board discount-control tender that forces periodic compression a passive holder pool won't.",
+      "catalyst": "Recurring Conditional Tender Offer: the >9%-average-discount trigger fired this year at 10.5% and, with the discount still \u221210.4%, is likely to trigger again in the next measurement window; plus a re-leveled ~10% managed distribution ($0.0956/mo) that itself pressures the discount narrower.",
+      "catalyst_date": "2027-03-31",
+      "falsifiable_prediction": "The discount to NAV narrows from \u221210.4% toward \u22643% (via the next CTO trigger and/or the managed distribution) within ~15 months, while NAV is marked daily above the price.",
+      "prediction_date": "2027-09-30",
+      "kill_condition": "Exit on a 15% drawdown from entry (the floor \u2014 a NAV/yen risk-off broke the thesis), or if the board abandons the Conditional Tender Offer discount-control policy.",
+      "kill_condition_type": "drawdown_pct",
+      "kill_condition_value": 0.15,
+      "adversarial": "Honest bear case: the IMMEDIATE tender window closed 7/1/26, so the near-term forcing event is spent and the next is ~a year out and conditional; the floor is Japan-equity + yen BETA, not contractual \u2014 NAV itself can fall 15-20% in a risk-off; post-tender proration returns unsold shares as mild overhang; and the CTO CAPS the discount (~9-10%) rather than erasing it, so the discount can linger between tenders. Convexity is real but MODEST \u2014 a floor-plus-small-upside value play, not a multibagger.",
+      "dead_trigger_risk": false,
+      "citations": [
+        "JOF SC TO-I (tender offer), filed 2026-06-01, accession 0001140361-26-023437",
+        "JOF N-CSR (FY ended 2026-02-28; CTO policy + 9% trigger), filed 2026-05-05, accession 0001133228-26-007999",
+        "JOF tender expiration/preliminary results PR, GlobeNewswire 2026-07-02 (22.0M shares tendered, prorated, 98% of NAV)",
+        "NAV/discount: CEFConnect JOF \u2014 NAV $13.04, price $11.68, discount \u221210.43% as of 2026-07-02"
+      ],
+      "lens_score": 0.0,
+      "verification": {
+        "verified_at": "2026-07-06T08:15:47.964950",
+        "verified_by": "oracle",
+        "floor_basis": "transacting_asset",
+        "traps": {
+          "primary_source_cited": true,
+          "floor_not_merely_asserted": true,
+          "book_survives_goodwill": true,
+          "debt_reconciled_full_stack": true,
+          "catalyst_not_already_fired": true
+        },
+        "verdict": "keep",
+        "notes": "Primary-source verified: SC TO-I + N-CSR confirm the recurring 9%-trigger CTO at 98% NAV; NAV $13.04 vs $11.68 = live \u221210.4% discount (CEFConnect, N-CSR framework). Only real archetype of 7 sourced CEF/BDC leads; 6 were preferred-leverage tenders, non-traded at-NAV redemptions, or illiquid marked-down BDCs.",
+        "passed": true
+      },
+      "verified": true
+    }
+  }
 }
