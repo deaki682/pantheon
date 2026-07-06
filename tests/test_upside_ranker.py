@@ -1,6 +1,7 @@
 from oracle.upside_ranker import (
     ALL_NETS,
     composite_score,
+    earnings_signal,
     net_acceleration,
     net_earnings_surprise,
     net_range_reversal,
@@ -9,6 +10,26 @@ from oracle.upside_ranker import (
     rank_all,
     reconcile_top,
 )
+
+
+def test_earnings_signal_yoy_trajectory_no_estimate():
+    # thinly-covered name, no consensus -> YoY loss-narrowing trajectory
+    r = [{"eps": {"estimate": None, "actual": a}} for a in
+         ["-0.62", "-0.58", "-0.47", "-0.54", "-0.37"]]
+    sig = earnings_signal(r)
+    assert "eps_surprise" not in sig
+    assert sig["eps_yoy_improve"] > 0        # -0.37 vs -0.62 a year ago = improving
+
+
+def test_earnings_signal_surprise_when_estimate_exists():
+    r = [{"eps": {"estimate": "0.40", "actual": "0.50"}}]
+    sig = earnings_signal(r)
+    assert sig["eps_surprise"] > 0
+
+
+def test_net_earnings_uses_trajectory_fallback():
+    assert net_earnings_surprise({"eps_yoy_improve": 0.4}) == 0.4
+    assert net_earnings_surprise({"symbol": "X"}) is None
 
 
 # ---- individual nets -------------------------------------------------------

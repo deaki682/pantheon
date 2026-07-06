@@ -87,13 +87,43 @@ def net_range_reversal(row: dict) -> Optional[float]:
 
 
 def net_earnings_surprise(row: dict) -> Optional[float]:
-    """Beat-and-raise. Needs eps_surprise (and optionally guidance_raised). None if
-    no earnings feed for this row (net INACTIVE)."""
+    """Beat-and-raise OR earnings TRAJECTORY. Prefers a real surprise (actual vs
+    consensus) when one exists; falls back to YoY EPS improvement for the
+    thinly-covered names that have NO consensus estimate (most of Oracle's hunting
+    ground — see HURC). None if neither is present (net INACTIVE for this row)."""
     eps = row.get("eps_surprise")
-    if eps is None:
-        return None
-    beat = max(0.0, min(1.0, float(eps) / 0.10))
-    return min(1.0, beat * (1.4 if row.get("guidance_raised") else 1.0))
+    if eps is not None:
+        beat = max(0.0, min(1.0, float(eps) / 0.10))
+        return min(1.0, beat * (1.4 if row.get("guidance_raised") else 1.0))
+    traj = row.get("eps_yoy_improve")     # signed fraction: (latest - year_ago)/|year_ago|
+    if traj is not None:
+        return max(0.0, min(1.0, float(traj)))
+    return None
+
+
+def earnings_signal(results: list) -> dict:
+    """Parse Robinhood get_earnings_results (trailing ≤8 quarters, ascending) into
+    the earnings net's inputs. Returns {eps_surprise, eps_yoy_improve} where
+    eps_surprise = (actual-estimate)/|estimate| on the latest REPORTED quarter when
+    a consensus exists, and eps_yoy_improve = (latest-actual − year-ago-actual) /
+    |year-ago-actual| otherwise (losses narrowing counts as improvement)."""
+    reported = [r for r in (results or []) if (r.get("eps") or {}).get("actual") is not None]
+    if not reported:
+        return {}
+    last = reported[-1]
+    a = float(last["eps"]["actual"])
+    est = (last.get("eps") or {}).get("estimate")
+    out = {}
+    if est is not None:
+        est = float(est)
+        if est != 0:
+            out["eps_surprise"] = (a - est) / abs(est)
+    # YoY trajectory: same quarter one year back (4 reported quarters earlier)
+    if len(reported) >= 5:
+        ya = float(reported[-5]["eps"]["actual"])
+        if ya != 0:
+            out["eps_yoy_improve"] = (a - ya) / abs(ya)
+    return out
 
 
 def net_thematic(row: dict, themes: Optional[set] = None) -> Optional[float]:

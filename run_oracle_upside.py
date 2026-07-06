@@ -21,6 +21,7 @@ from collections import defaultdict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from oracle import upside_ranker as ur
+from oracle.themes import tag_theme
 
 SF1 = "data/oracle_neglect/sf1_bs_part0.json.gz"
 DAILY = "data/achilles_gauntlet/daily_mcap_2026.json.gz"
@@ -40,6 +41,7 @@ for m in _meta_raw:
     if t not in meta or (m.get("isdelisted") == "N" and meta[t].get("isdelisted") != "N"):
         meta[t] = m
 EXCLUDE_SECTORS = {"Financial Services", "Real Estate"}   # not inflection hunting ground
+EXCLUDE_INDUSTRIES = {"Shell Companies"}                  # SPACs / blank-check shells
 EXCLUDE_LOCATIONS = {"China", "Hong Kong"}                # unreachable / VIE risk
 
 
@@ -51,9 +53,23 @@ def meta_ok(t: str) -> bool:
         return False
     if m.get("sector") in EXCLUDE_SECTORS:
         return False
+    if m.get("industry") in EXCLUDE_INDUSTRIES:
+        return False
     if (m.get("location") or "") in EXCLUDE_LOCATIONS:
         return False
     return True
+
+
+# ---- special_situation feed: symbols with a spinoff/IPO/reorg event ----------
+SPECIAL_TYPES = {"spinoff", "ipo", "reorg_emergence", "post_reorg"}
+special_syms = set()
+_ec = "cache/shared_event_calendar.json"
+if os.path.exists(_ec):
+    _ecd = json.load(open(_ec))
+    for e in (_ecd.get("events", _ecd) if isinstance(_ecd, dict) else _ecd):
+        if isinstance(e, dict) and e.get("type") in SPECIAL_TYPES and e.get("symbol"):
+            special_syms.add(e["symbol"].upper())
+print(f"special-situation feed: {len(special_syms)} symbols (event_calendar; thin until EDGAR sweep)", flush=True)
 
 # ---- current marketcap + recent (~5wk) trend -------------------------------
 daily = json.load(gzip.open(DAILY, "rt"))
@@ -93,10 +109,17 @@ for t, rows in byt.items():
               if r.get("revenue") and r["revenue"] > 0 and r.get("netinc") is not None]
     latest = rows[-1]
     mc = mcap.get(t)
+    m = meta.get(t) or {}
+    th = tag_theme(m.get("industry"), m.get("name") or "")
     row = {"symbol": t, "mcap": mc, "coverage": None,
-           "sector": (meta.get(t) or {}).get("sector"),
+           "sector": m.get("sector"),
            "revenue": rev, "op_margin": margin,
            "ret_recent": ret_recent.get(t), "spy_ret_recent": median_recent}
+    if th:                                    # thematic net input (whole-universe, from industry)
+        row["theme"] = th["theme"]
+        row["theme_strength"] = th["theme_strength"]
+    if t in special_syms:                     # special_situation net input
+        row["special_situation"] = "event"
     # value_floor inputs from the latest balance sheet (SF1)
     if mc and mc > 0:
         eq, intang = latest.get("equity"), latest.get("intangibles") or 0.0
@@ -113,16 +136,21 @@ print(f"panel {len(panel)} tickers ({n_valuefloor} with value_floor inputs; "
       f"{n_excluded} excluded: financials/REITs/non-USD/China)", flush=True)
 
 # ---- pass 1: systematic best-first ranking over the WHOLE universe ----------
-out = ur.rank_all(panel, themes=set())     # thematic net inactive (no themes map yet)
+from oracle.themes import ACTIVE_THEMES
+out = ur.rank_all(panel, themes=ACTIVE_THEMES)     # thematic net ACTIVE (industry map)
 ranked, cov = out["ranked"], out["coverage"]
 
 # coverage_note: what ran, what is KNOWN missing (spec I5 / populations discipline)
 cov["known_missing"] = [
-    "universe = 5,593 SF1 filers on disk; ~20% of US-listed (recent IPOs, thin-filers, "
-    "many ADRs) NOT in the panel — needs a full-universe pull",
-    "earnings_surprise net: activates on the live-verify slice (Robinhood get_earnings_results)",
-    "thematic net: INACTIVE — needs a maintained forming-themes map + business tagging",
-    "special_situation net: INACTIVE — needs EDGAR spinoff/IPO/reorg events (forced_seller_sourcing)",
+    "universe = SF1 filers on disk; ~20% of US-listed (recent IPOs, thin-filers, many "
+    "ADRs) NOT in the panel — needs a full-universe SF1 pull",
+    "earnings_surprise + range_reversal: verify-slice nets — need live per-name data "
+    "(Robinhood get_earnings_results 8Q, and the true 52wk range) so they activate in "
+    "reconcile_top on the top slice, not on the on-disk bulk pass",
+    "special_situation: mechanism wired (reads shared_event_calendar) but THIN — the "
+    "EDGAR spinoff/IPO/reorg sweep (forced_seller_sourcing) must populate the calendar",
+    "thematic: ACTIVE from the industry map (oracle/themes.py) — operator-editable, "
+    "keyword match on live descriptions in the verify slice sharpens it further",
 ]
 json.dump({"spec": "oracle_upside_rank_all", "ran": "2026-07-06",
            "coverage": cov, "n_ranked": len(ranked), "ranked": ranked},
