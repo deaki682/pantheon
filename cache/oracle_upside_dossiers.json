@@ -1,6 +1,7 @@
 {
  "spec": "oracle_upside_dossiers",
  "ran": "2026-07-06",
+ "verified": "2026-07-06",
  "dossiers": [
   {
    "symbol": "SABR",
@@ -49,10 +50,15 @@
     "no_delisting": true,
     "primary_grounded": true
    },
-   "bear_verdict": "keep",
+   "bear_verdict": "refuted",
    "blowup_note": "$665M cash, >90% debt pushed to 2029+, no maturity wall; FY26 FCF ~breakeven ex-restructuring. Survives the hold.",
    "blowup_checked_by": "oracle",
-   "fundable": true
+   "fundable": true,
+   "verification": {
+    "verdict": "refuted",
+    "date": "2026-07-06",
+    "note": "REFUTED: FY26 FCF guided NEGATIVE ~$70M; interest ~$491M ~= adj EBITDA ~$585M (1.2x); net leverage ~6.5x not 5.5x; the $5.2B->$4.44B deleveraging was ASSET-SALE-funded, not organic. Core mechanism contradicts mgmt's own numbers."
+   }
   },
   {
    "symbol": "ACVA",
@@ -68,15 +74,15 @@
    "spy_price": 0.0,
    "inflection_type": "margin_turn",
    "inflection_evidence": "Adj EBITDA $59M FY2025 (>2x YoY on $760M rev +19%), guided $73-77M FY2026; Q1-26 (8-K acc 0001637873-26-000019) adj EBITDA $17M above guide, non-GAAP net income turned POSITIVE (+$7M), GAAP loss narrowing to -$11M \u2014 on units +3% / GMV +5% (operating leverage, not a volume S-curve).",
-   "upside_x": 1.8,
-   "prob_upside": 0.4,
+   "upside_x": 1.6,
+   "prob_upside": 0.35,
    "downside_pct": 0.35,
-   "expected_return": 0.11,
-   "annualized_er": 0.0733,
+   "expected_return": -0.0175,
+   "annualized_er": -0.0117,
    "horizon_months": 18.0,
    "recent_runup_pct": 0.15,
    "already_run": false,
-   "qualifies": true,
+   "qualifies": false,
    "catalyst": "A quarter where unit/GMV growth reaccelerates alongside another EBITDA beat, re-rating EV/S from ~1.35x toward ~2.5x; next print early Aug 2026",
    "catalyst_date": "2026-08-06",
    "runway_months": "self_funding",
@@ -105,7 +111,12 @@
    "bear_verdict": "keep",
    "blowup_note": "Net cash ~$141M ($341M cash vs $200M debt), positive adj EBITDA + non-GAAP NI \u2014 self-funding.",
    "blowup_checked_by": "oracle",
-   "fundable": true
+   "fundable": true,
+   "verification": {
+    "verdict": "survives_with_caveats",
+    "date": "2026-07-06",
+    "note": "Net cash (~$141M) + margin turn CONFIRMED, but 'adj EBITDA doubled' is overstated ~4x (~+28%), SBC-heavy (GAAP loss), and the VOLUME-reacceleration leg is CONTRADICTED (mgmt guides the wholesale market down mid-single-digit). Survives on margin + share gains; dead-money risk. Conviction haircut."
+   }
   },
   {
    "symbol": "CBZ",
@@ -157,7 +168,12 @@
    "bear_verdict": "keep",
    "blowup_note": "self-funding / profitable / positive FCF per the read; no going-concern, fraud, or delisting.",
    "blowup_checked_by": "oracle",
-   "fundable": true
+   "fundable": true,
+   "verification": {
+    "verdict": "survives",
+    "date": "2026-07-06",
+    "note": "Survival gate clean (leverage 3.9x->3.4x, FCF +$64M, organic +1% not declining, EBITDA guide genuinely raised). Risk: H2 reaccel unproven + EPS raise partly buyback-driven. Next print Jul 23."
+   }
   },
   {
    "symbol": "FRPT",
@@ -206,10 +222,15 @@
     "no_delisting": true,
     "primary_grounded": true
    },
-   "bear_verdict": "keep",
+   "bear_verdict": "refuted",
    "blowup_note": "self-funding / profitable / positive FCF per the read; no going-concern, fraud, or delisting.",
    "blowup_checked_by": "oracle",
-   "fundable": true
+   "fundable": true,
+   "verification": {
+    "verdict": "refuted",
+    "date": "2026-07-06",
+    "note": "REFUTED: Q1 'GAAP profit' was a one-time $62M gain on an equity-investment sale; clean operating margin ~1.5%; adj EBITDA margin COMPRESSED YoY; '15x cheap' is a non-recurring-item artifact. + Mars/Nestle fresh-pet encroachment."
+   }
   },
   {
    "symbol": "EYE",
@@ -258,10 +279,15 @@
     "no_delisting": true,
     "primary_grounded": true
    },
-   "bear_verdict": "keep",
+   "bear_verdict": "refuted",
    "blowup_note": "self-funding / profitable / positive FCF per the read; no going-concern, fraud, or delisting.",
    "blowup_checked_by": "oracle",
-   "fundable": true
+   "fundable": true,
+   "verification": {
+    "verdict": "refuted",
+    "date": "2026-07-06",
+    "note": "REFUTED: back-half comp REACCEL catalyst contradicted by mgmt's June guidance (Q2 tracking LOW-single-digit = deceleration); 10.2% margin is the seasonal peak already >= 'mid-cycle target'; sell-side slashed PTs."
+   }
   },
   {
    "symbol": "NCNO",
@@ -310,10 +336,15 @@
     "no_delisting": true,
     "primary_grounded": true
    },
-   "bear_verdict": "keep",
+   "bear_verdict": "refuted",
    "blowup_note": "self-funding / profitable / positive FCF per the read; no going-concern, fraud, or delisting.",
    "blowup_checked_by": "oracle",
-   "fundable": true
+   "fundable": true,
+   "verification": {
+    "verdict": "refuted",
+    "date": "2026-07-06",
+    "note": "REFUTED: FY27 guide is DECELERATION (~8%); the sub-growth 'reaccel' is a one-time 10% renewal price hike, not AI demand; 1.6x target ($28) sits ABOVE every published analyst PT."
+   }
   }
  ]
 }

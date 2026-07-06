@@ -93,3 +93,17 @@ a recent upturn — not the top.
 - The TOP-DOWN thematic net (needs a forming-themes map) — off this run, under-counts.
 - Real analyst-coverage data (proxied as thin) and eps_surprise (an earnings feed).
 - y/y or TTM revenue trajectory (needs the year-ago quarter) to de-noise accel.
+
+## ADVERSARIAL VERIFICATION — the book collapsed 6 -> 1 (2026-07-06)
+
+Before launch, ran a BEAR refutation pass on the 6-name book. It REFUTED 4 (SABR
+neg-FCF/asset-sale-deleveraging; EYE catalyst-contradicted-by-guidance; FRPT
+one-time-$62M-gain-faked-profit; NCNO price-hike-not-reaccel) and left ACVA -EV
+after its volume leg was refuted. Only CBZ survived clean. **The single-pass reads
+were systematically too credulous** — they took one-time gains, price hikes, and
+asset-sale deleveraging at face value. LESSON: the BEAR×3 adversarial gate is
+MANDATORY before any name is fundable; a single read is a hypothesis, not a
+verified pick. Oracle is NOT launch-ready — one verified name is not a book, and
+it is unproven (zero graded). Path: paper-run CBZ (next print Jul 23) + re-source
+through the FULL gate (read -> BEAR -> blowup) before any live money.
+

@@ -1,15 +1,10 @@
 {
  "spec": "oracle_upside_book",
  "ran": "2026-07-06",
- "status": "pending_funding_paper",
+ "status": "pending_funding_paper_POST_ADVERSARIAL_VERIFY",
  "equity_nominal": 10000.0,
  "book": {
-  "CBZ": 1548.89,
-  "FRPT": 1642.76,
-  "ACVA": 1501.96,
-  "NCNO": 1267.28,
-  "EYE": 1161.67,
-  "SABR": 1877.44
+  "CBZ": 3000.0
  },
- "note": "6 fundable of 28 read across 3 rounds. Round 3 (queue rebuilt around low-52wk-range + live-field reconcile) converted 4/10 vs 2/18 on the momentum-biased queue. Concentrated to the top 6 by annualized ER. Paper only."
+ "note": "Adversarial verification (BEAR pass) REFUTED 4 of 6 (SABR/EYE/FRPT/NCNO); 2 survive (CBZ clean, ACVA with caveats + conviction haircut). Sizer now downside-aware (fragility haircut). NOT launch-ready \u2014 2 unproven survivors, zero graded. Paper only."
 }
