@@ -1,12 +1,29 @@
 """Hard-catalyst sourcing — the value-realization leg (2026-07-06).
 
-The third why_mispriced type. Where the NEGLECT leg finds names below a floor
-with NO catalyst (the mispricing is structural inattention) and the FORCED_SELLER
-leg finds price-insensitive SUPPLY, this leg finds names with a dated, filed
-CATALYST that will close a discount: an activist who has filed a 13D to force
-value realization, or a board that has announced a strategic-alternatives / sale
-process. The convex shape is a bounded floor (the standalone business) plus a
-catalyst with a clock on it (the campaign / the process).
+DEMOTED 2026-07-06 to a CROSS-REFERENCE SIGNAL, not a standalone sourcing leg.
+A full primary-source verification of every candidate this leg produced measured
+**0 fundable out of 14** (docs/oracle_event_legs_verification_2026-07-06.md). The
+raw SC 13D enumeration and strategic-review keyword sweep are each too noisy to
+stand alone, in five structural ways that no threshold fixes:
+  1. keyword false positives ("strategic" = routine capital-allocation / acquirer
+     language): ZYME, LIF, WY, AIRT, JHX;
+  2. ACQUIRER-side (the company is the buyer, not the target): JHX, LIF, BTU;
+  3. already-CONCLUDED deals (the keyword matched a completion/BK 8-K): EHAB, NOTV;
+  4. HERMES's domain (a hostile/cash TENDER, a TO-T mis-read as a 13D): GNK;
+  5. no FLOOR / distress (levered stub or going-concern): FWRD, GWH, DAIC, TXMD.
+CORRECT ROLE: an activist 13D or a live strategic review is a catalyst OVERLAY on
+a name that ALREADY has a verified below-floor (a neglect FUND/WATCH) — the
+"floor + catalyst" convex combo. The catalyst never SUBSTITUTES for a floor. Use
+`sweep_by_form` / `sweep_strategic_review` to build the catalyst set, then
+INTERSECT with the neglect leg's floored names; do not fund a catalyst-only hit.
+
+Where the NEGLECT leg finds names below a floor with NO catalyst (the mispricing
+is structural inattention) and the FORCED_SELLER leg finds price-insensitive
+SUPPLY, this leg finds names with a dated, filed CATALYST that will close a
+discount: an activist who has filed a 13D to force value realization, or a board
+that has announced a strategic-alternatives / sale process. The convex shape is a
+bounded floor (the standalone business) plus a catalyst with a clock on it — but
+the FLOOR must come from elsewhere (the intersection), not from this leg alone.
 
 Like the forced-seller leg, the spine is FORM ENUMERATION off EDGAR's daily
 indexes — a SC 13D **is** an activist position, so enumerate every one rather than

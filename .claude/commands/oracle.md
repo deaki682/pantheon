@@ -50,6 +50,19 @@ to perfectly vet a handful the lenses happened to surface. Run every session in
   The four legacy lenses are a narrow, biased, ~zero-measured-alpha net; the
   durable convex edges live in these three structural families. Goal: coverage
   of thousands, not depth on forty.
+- **MEASURED 2026-07-06 — NEGLECT is the spine; the event legs are OVERLAYS.** A
+  full primary-source verification of all three legs (~40 names,
+  docs/oracle_neglect_verification + oracle_event_legs_verification) found the
+  fundable convex floors live in the **neglect** leg (4 FUND / 11 WATCH / 12 KILL).
+  The **forced_seller** leg yields the rare JOF-style *recurring common
+  conditional-tender* but its SC TO-I enumeration mostly surfaces
+  preferred/leverage tenders and non-traded at-NAV funds (1 FUND / 2 WATCH / 5
+  KILL). The **hard_catalyst** leg as a standalone net measured **0 fundable of
+  14** — raw 13D + strategic-review keywords are too noisy (false positives,
+  acquirer-side, concluded deals, Hermes-domain, floorless distress). So: source
+  neglect as the spine, and use activist-13D / strategic-review / forced-seller
+  as a **catalyst overlay by INTERSECTION** with an already-verified below-floor
+  name. A catalyst is a bonus on a floor, NEVER a substitute for one.
 - **DRIVE TO A VERIFIED PICK, not a list.** A candidate list is not a
   deliverable; a primary-source-**verified** dossier (or an honest kill) is.
   Push each promising name through `make_convex_dossier` → `verify_dossier` →

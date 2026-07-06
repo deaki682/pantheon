@@ -137,7 +137,14 @@ LIVE_FAMILIES: tuple[Family, ...] = (
         mechanism="Rule 13e-4 odd-lot provision: <100-share holders tender "
                   "un-proratable at the top price — an issuer contractually bound.",
         note="LAB_HYPOTHESIS (live, supply-starved ~1%/yr ceiling). "
-             "Opportunistic-only; never a full position.",
+             "Opportunistic-only; never a full position. MEASURED 2026-07-06 "
+             "(docs/oracle_event_legs_verification_2026-07-06.md): SC TO-I "
+             "enumeration mostly surfaces the WRONG mechanism — Auction-Preferred/ "
+             "leverage tenders (EVV/EFR/EVF: not a common pull-to-NAV) and "
+             "NON-TRADED interval/BDC funds (EIIA/PGIM/FRBP/PRIF: transact at NAV, "
+             "no listed discount, broker-untradable). Only a RECURRING COMMON "
+             "conditional-tender-at-NAV (JOF) is convex. Next build: a tradability "
+             "+ common-vs-preferred filter before these reach the dossier stage.",
     ),
     Family(
         key="delisting",
