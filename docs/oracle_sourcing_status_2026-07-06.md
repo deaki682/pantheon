@@ -59,3 +59,24 @@ SMHI's asserted one); run it through `verify_dossier` before any position.
 
 Both are tooling improvements that compound every future session — per the
 standing posture, build the machine, not just the picks.
+
+## MEASURED (2026-07-06): keyword search has 12% recall — switch Stage 1 to form-enumeration
+
+Built the yardstick (`run_stage1_answerkey.py`): for June 2026, enumerated the
+**definitionally-complete** set of two form-defined forced-seller families from
+EDGAR's daily form indexes — every `SC TO-I` / `SC TO-I/A` (issuer tenders) and
+`N-8F` (fund deregistrations), **92 distinct filers**, no keyword. Then scored
+the current keyword sweep against it:
+
+- **Keyword sweep recall = 12%** (caught 11 of 92; missed 81).
+- The 81 misses include a large private-credit-BDC / interval-fund tender
+  cluster (Barings, Goldman Sachs Private Credit, Blackstone Private Credit,
+  First Eagle, Lord Abbett, Antares, Willow Tree, Crestline, …).
+
+**Verdict — with a number, not a hunch:** rebuild Stage 1 around **form
+enumeration** (daily form indexes → every filing of the forms that ARE the
+events → 100% recall by construction), and move precision to a cheap **Stage-2
+tradability filter** (most of the 81 are non-traded funds — the clean signal is
+"does it have a live listed quote?"). Keyword full-text search is retained only
+as a supplement for families with no single defining form (e.g. rights offerings
+buried in S-1/424B prose). Answer key saved: `cache/oracle_stage1_answerkey.json`.

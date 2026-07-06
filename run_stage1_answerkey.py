@@ -21,8 +21,10 @@ TARGET_FORMS = {
 WINDOW_FROM = sys.argv[1] if len(sys.argv) > 1 else "2026-06-01"
 WINDOW_TO   = sys.argv[2] if len(sys.argv) > 2 else "2026-06-30"
 
-# index line: FORM  NAME  CIK  DATE  FILENAME  (2+ spaces separate fields)
-_PAT = re.compile(r"^(.+?)\s{2,}(.+?)\s{2,}(\d+)\s{2,}(\d{4}-\d{2}-\d{2})\s{2,}(\S+)\s*$")
+# index line: FORM  NAME  CIK  DATE  FILENAME  (2+ spaces separate fields).
+# Split on runs of 2+ spaces (fast, no backtracking); the form "SC TO-I" keeps
+# its single internal space as one field. Filter by exact form match.
+_SPLIT = re.compile(r"\s{2,}")
 
 
 def enumerate_forms(date_from, date_to, forms):
@@ -39,19 +41,20 @@ def enumerate_forms(date_from, date_to, forms):
                 body = edgar.http_get(url)
                 text = body if isinstance(body, str) else body.decode("latin-1", errors="replace")
                 for line in text.splitlines():
-                    m = _PAT.match(line)
-                    if not m:
+                    parts = _SPLIT.split(line.strip())
+                    if len(parts) < 5 or parts[0] not in formset:
                         continue
-                    form = m.group(1).strip()
-                    if form not in formset:
+                    form, name, rawcik = parts[0], parts[1], parts[2]
+                    if not rawcik.isdigit():
                         continue
-                    cik = edgar.cik10(m.group(3))
-                    e = out.setdefault(cik, {"name": m.group(2).strip(), "forms": set(),
+                    cik = edgar.cik10(rawcik)
+                    e = out.setdefault(cik, {"name": name.strip(), "forms": set(),
                                              "first": d.isoformat(), "n": 0})
                     e["forms"].add(form); e["n"] += 1; e["last"] = d.isoformat()
                 days += 1
+                print(f"  {d} ok ({len(out)} filers so far)", flush=True)
             except Exception as ex:
-                print(f"  {d}: {type(ex).__name__} (skipped)", flush=True)
+                print(f"  {d}: {type(ex).__name__} (skipped/holiday)", flush=True)
         d += timedelta(days=1)
     return out, days
 
