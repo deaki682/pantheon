@@ -1,4 +1,4 @@
-# Lab results — `residual_momentum_llm` (REFUTED, 2026-07-05)
+# Lab results — `residual_momentum_llm` (REFUTED, 2026-07-05; INDEPENDENTLY RE-VERIFIED 2026-07-06)
 
 **Verdict: REFUTED.** Residual (factor-neutral) 12-1 momentum does not clear
 in-sample, and even where directionally positive in the holdout it does NOT
@@ -7,6 +7,12 @@ momentum family, in every form the house has now tried (raw, curated-universe,
 and residual), is closed. Filed to close a loose end: the backtest was recorded
 in the lab registry same-day but this results doc and ledger row were never
 written before the session ended.
+
+**2026-07-06 update: independently re-derived from scratch and CONFIRMED.** The
+achilles panel was fully re-pulled from Sharadar in a fresh container and the
+backtest re-run with output saved this time
+(`docs/data/residual_momentum_llm/results.json`). The re-derived numbers match
+the registry's recorded figures almost to the decimal — see below.
 
 Prereg: `docs/lab_prereg_residual_momentum_llm.md` (committed before data,
 with a written **G1 operator override** — this is a pure price signal, run
@@ -27,6 +33,20 @@ stress checked). In-sample ≤2015-12-31 / holdout 2016+.
 | Raw 12-1 (control) | — | **+0.66%/mo** | 119 |
 
 Registry mean excess (residual, holdout): 0.485%/mo, shrunk to 0.415%/mo.
+
+## Re-derived, real numbers (2026-07-06 — see `docs/data/residual_momentum_llm/results.json`)
+
+| Signal | Window | Mean | t | n |
+|---|---|---|---|---|
+| Residual | in | 0.059%/mo | 0.21 | 163 |
+| Residual | out | **0.485%/mo** | 1.07 | 119 |
+| Raw (control) | in | −0.016%/mo | −0.05 | 163 |
+| Raw (control) | out | 0.662%/mo | 1.41 | 119 |
+
+Turnover (resid): 0.39/mo → ~1.4%/yr cost drag (2× ≈ 2.8%); resid holdout net
+of 2× cost: 0.373%/mo, t=0.82. The registry's `mean_excess` (0.485%/mo) matches
+the resid/holdout cell exactly. Every number and the verdict check out against
+the real re-run.
 
 ## Reading
 
@@ -54,14 +74,12 @@ Registry mean excess (residual, holdout): 0.485%/mo, shrunk to 0.415%/mo.
    consequence ("Miss any [criterion] => refuted"), and there is no base
    signal left to overlay a prune onto.
 
-## Reproducibility caveat (added on review)
+## Reproducibility caveat — RESOLVED 2026-07-06
 
-`run_residual_momentum.py` prints results to stdout only — no results file is
-saved. This doc reflects a summary a prior session typed into
-`cache/lab_registry.json`; neither that session's raw per-month output nor
-this one independently re-ran the backtest against the achilles panel. Treat
-the numbers above as only as reliable as that prior recording, not as
-independently reproduced.
+As of 2026-07-05 this doc rested entirely on an unverified registry summary.
+As of 2026-07-06 the backtest has been independently re-derived end-to-end
+from raw Sharadar data and the full output saved to
+`docs/data/residual_momentum_llm/results.json` — closed.
 
 ## Consequence (pre-committed, applied)
 
