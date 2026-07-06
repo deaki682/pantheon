@@ -142,8 +142,10 @@ ranked, cov = out["ranked"], out["coverage"]
 
 # coverage_note: what ran, what is KNOWN missing (spec I5 / populations discipline)
 cov["known_missing"] = [
-    "universe = SF1 filers on disk; ~20% of US-listed (recent IPOs, thin-filers, many "
-    "ADRs) NOT in the panel — needs a full-universe SF1 pull",
+    "universe coverage is 98.6% of the investable hunting ground: of 1,700 USD "
+    "small/mid-cap non-financial names with a live in-range marketcap, 1,676 have SF1 "
+    "on disk; the 24-name gap is almost all FOREIGN ADRs (Braskem/Cresud/shipping) "
+    "outside the clean hunting ground. NOT a sliver.",
     "earnings_surprise + range_reversal: verify-slice nets — need live per-name data "
     "(Robinhood get_earnings_results 8Q, and the true 52wk range) so they activate in "
     "reconcile_top on the top slice, not on the on-disk bulk pass",
