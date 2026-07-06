@@ -110,6 +110,60 @@
     "passed": true
    },
    "verified": true
+  },
+  {
+   "symbol": "STHO",
+   "spec": "convex",
+   "author": "oracle",
+   "created_at": "2026-07-06T11:36:50.685927",
+   "business": "Star Holdings \u2014 the 2023 iStar/Safehold spin-off holding the legacy non-ground-lease assets (a ~18.8% marked-to-market stake in Safehold/SAFE, plus land, operating real estate, and loans), in a declared monetization/wind-down; externally managed by Safehold (Jay Sugarman).",
+   "thesis": "STHO trades at $9.23 vs a wind-down NAV of ~$23/share. The DOMINANT asset is LIQUID and marked-to-market: ~13.5M SAFE shares (18.8% of Safehold) worth ~$221M, and SAFE net of its $92.8M margin loan is ~$10.64/share \u2014 already ABOVE the whole stock price \u2014 so the ~$225M book of land / operating RE / loans is priced at roughly zero. The market applies a permanent Sugarman/Safehold related-party discount, but the manager fee is stepping DOWN hard ($25M FY24 -> $15M FY25 -> $10M FY26 -> $7.5M -> 2.0% of book), the termination penalty rolls off 3/31/2027, and both debt facilities mature 3/31/2028 \u2014 a forcing function for monetization.",
+   "sector": "Real Estate",
+   "current_price": 9.23,
+   "spy_price": 0.0,
+   "floor_pct": 0.2,
+   "upside_x": 1.6,
+   "prob_upside": 0.5,
+   "asymmetry_score": 0.2,
+   "floor_hardness": "medium",
+   "horizon_months": 24.0,
+   "convexity_score": 0.07,
+   "recent_runup_pct": 0.0,
+   "catalyst_fired_risk": false,
+   "convex": true,
+   "why_mispriced_type": "forced_seller",
+   "why_mispriced": "Declared wind-down / monetization vehicle with an external-manager conflict overhang and SAFE-price gearing via a margin loan \u2014 index and liquidity-constrained holders sell the levered stub below the value of its own liquid core holding.",
+   "catalyst": "Active monetization: land-development sales, mezz repayments (Asbury Park repaid in full), sub-NAV buybacks, a steeply declining fee schedule (termination penalty off 3/31/2027) and a 3/31/2028 debt-maturity wall forcing realization.",
+   "catalyst_date": "2028-03-31",
+   "falsifiable_prediction": "By 2028-06-30 STHO monetizes assets / buys back stock such that cumulative realization + residual NAV exceeds ~$14/share; if the SAFE-net-of-margin value per share falls below the price and no buyback/sale closes the gap, the thesis is wrong.",
+   "prediction_date": "2028-06-30",
+   "kill_condition": "SAFE-net-of-margin per share falls below the stock price AND the wind-down stalls (no asset sales/buybacks for two consecutive quarters), or a covenant/margin-call event on the 2028 facilities.",
+   "kill_condition_type": "thesis_date",
+   "kill_condition_value": "2028-06-30",
+   "adversarial": "The house knows the overhang is real and must be sized around: Sugarman/Safehold controls the manager AND extends STHO's credit facility AND dictates how STHO votes its SAFE shares; the value is geared to SAFE's price through the margin loan; and it is a slow, levered wind-down with no distributions yet \u2014 a bounded convex stub, not a clean compounder. Size small.",
+   "dead_trigger_risk": false,
+   "citations": [
+    "STHO 10-Q period 2026-03-31, filed 2026-05-08, SEC accession 0001953366-26-000010 (SAFE stake FV $183.0M @ $13.53/18.8%, debt maturities 3/31/2028, fee schedule + $55M termination fee, Safe voting restriction)",
+    "STHO 10-K FY2025, filed 2026-02-17, accession 0001953366-26-000003",
+    "SAFE stake independently marked at market (SAFE $16.39, 2026-07-02)"
+   ],
+   "lens_score": 0.0,
+   "verification": {
+    "verified_at": "2026-07-06T11:36:50.685982",
+    "verified_by": "oracle",
+    "floor_basis": "transacting_asset",
+    "traps": {
+     "primary_source_cited": true,
+     "floor_not_merely_asserted": true,
+     "book_survives_goodwill": true,
+     "debt_reconciled_full_stack": true,
+     "catalyst_not_already_fired": true
+    },
+    "verdict": "keep",
+    "notes": "Blind land-family verifier (rebuilt pipeline). SAFE stake is a liquid public equity marked to market (not asserted NAV); SAFE net of $92.8M margin > price. Net debt $161.4M reconciled full-stack. Active monetization + 2028 debt wall = catalyst. Sugarman/Safehold conflict priced-in overhang.",
+    "passed": true
+   },
+   "verified": true
   }
  ],
  "coldstart_result": {
@@ -139,5 +193,32 @@
    "XLO"
   ],
   "note": "Blind cold-start of the top-14 fundability-ranked names, zero name memory, incumbents given no special treatment. 2 FUND / 6 WATCH / 6 KILL (~14% fundable, matching the historical neglect rate)."
+ },
+ "rebuild_result_2026-07-06": {
+  "note": "Cold start #2, re-run through the FIXED unified pipeline (run_oracle_pipeline.py) after the ~30-bug audit. All legs run, freshness applied, per-family ranking. FPH is now FOUND (#1 land_nav post-freshness) and graded honestly = WATCH (real deep land floor, no realization catalyst).",
+  "fund_added": [
+   "STHO"
+  ],
+  "watch_added": [
+   "FPH",
+   "LPA",
+   "BCYC"
+  ],
+  "kill": [
+   "AFCG",
+   "BRNS",
+   "FBIO",
+   "NXDT",
+   "IMA",
+   "IXHL(stale)",
+   "SDHC(stale)",
+   "BNC(crypto)",
+   "AVX(crypto)"
+  ],
+  "book_fund": [
+   "XBIT",
+   "STRS",
+   "STHO"
+  ]
  }
 }
