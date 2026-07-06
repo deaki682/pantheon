@@ -1,0 +1,224 @@
+{
+ "spec": "convex",
+ "reset_at": "2026-07-06-COLDSTART",
+ "reset_note": "FULL WIPE \u2014 cleared every FUND/WATCH/KILL incl FPH; machine re-runs with zero memory",
+ "dossiers": [
+  {
+   "symbol": "XBIT",
+   "spec": "convex",
+   "author": "oracle",
+   "created_at": "2026-07-06T11:01:19.713935",
+   "business": "XBiotech \u2014 antibody biotech; a near-net-net cash box funded by the 2019/2020 Janssen bermekimab sale, owns its Austin manufacturing facility.",
+   "thesis": "XBIT trades at $2.30 vs $3.63/share hard net cash ($110.6M cash, ZERO financial debt, ~$4.8M non-tax liabilities) \u2014 ~63% of net cash. The market prices it as a cash-incinerating biotech after the Dec-2024 natrunixib Phase-II failure paused the rheumatology program, but it ignores a management team that has RETURNED ~$495M since 2019 via modified-Dutch tenders (Feb-2020, May-2023) and a $2.47 dividend (Jul-2021). The disciplined house knows the tender history is a proven, repeatable mechanism, not a hoped-for readout.",
+   "sector": "Healthcare/Biotech",
+   "current_price": 2.3,
+   "spy_price": 0.0,
+   "floor_pct": 0.2,
+   "upside_x": 1.58,
+   "prob_upside": 0.5,
+   "asymmetry_score": 0.19,
+   "floor_hardness": "hard",
+   "horizon_months": 18.0,
+   "convexity_score": 0.1267,
+   "recent_runup_pct": 0.0,
+   "catalyst_fired_risk": false,
+   "convex": true,
+   "why_mispriced_type": "neglect",
+   "why_mispriced": "Post-clinical-failure neglect: a small, uncovered cash box whose lead pipeline just failed, so it is dumped by biotech holders at a fraction of countable cash despite zero debt and a facility it owns.",
+   "catalyst": "A modified-Dutch-auction tender or special dividend \u2014 the mechanism XBIT has used repeatedly to return the pile rather than burn it.",
+   "catalyst_date": "",
+   "falsifiable_prediction": "Within 18 months XBIT either announces a tender/dividend OR the price closes the gap to >=0.85x net cash; if neither and cash burns below $3.00/sh net, the neglect thesis is wrong.",
+   "prediction_date": "2027-12-31",
+   "kill_condition": "Net cash per share falls below $3.00 (burn without a capital-return action) or a going-concern / new dilutive raise appears.",
+   "kill_condition_type": "thesis_date",
+   "kill_condition_value": "2027-12-31",
+   "adversarial": "The house knows the catalyst is DORMANT \u2014 no live tender/ATM/dividend in 2026 \u2014 and the lead program failed, so unlocking the discount is management-dependent with ~3yr of melt; realization risk, not floor risk, is the bet.",
+   "dead_trigger_risk": false,
+   "citations": [
+    "XBIT 10-Q period 2026-03-31, filed 2026-05-14, SEC accession 0001171843-26-003419, CIK 0001626878 (sec.gov/Archives/edgar/data/1626878/000117184326003419/)",
+    "natrunixib Phase-II failure / rheumatology pause, company release 2024-12-23"
+   ],
+   "lens_score": 0.0,
+   "verification": {
+    "verified_at": "2026-07-06T11:01:19.713982",
+    "verified_by": "oracle",
+    "floor_basis": "cash",
+    "traps": {
+     "primary_source_cited": true,
+     "floor_not_merely_asserted": true,
+     "book_survives_goodwill": true,
+     "debt_reconciled_full_stack": true,
+     "catalyst_not_already_fired": true
+    },
+    "verdict": "keep",
+    "notes": "Primary 10-Q read: $115.46M cash, $0 financial debt, $4.82M total liabilities, 30.49M FD (options deep OTM). Net cash $3.63/sh. Cold-start blind verifier (task aa64/a47f XBIT).",
+    "passed": true
+   },
+   "verified": true
+  },
+  {
+   "symbol": "STRS",
+   "spec": "convex",
+   "author": "oracle",
+   "created_at": "2026-07-06T11:01:19.714009",
+   "business": "Stratus Properties \u2014 Austin TX real-estate developer (entitled land, mixed-use, retail) in a stockholder-approved complete liquidation & dissolution.",
+   "thesis": "STRS trades at $28.51 vs management's stockholder-approved liquidation estimate of $29.73-$37.69/share \u2014 BELOW even the conservative low end. The board (3/24/26) and stockholders (6/1/26) approved a Plan of Complete Liquidation; a $5.00/share initial distribution (17.5% of price) pays 7/20/26, and Austin land carried at cost understates market. The market discounts the illiquid, non-SEC-reporting land wind-down after delisting (~8/10/26); the floor is a real, board-approved net-realizable estimate, not an asserted NAV.",
+   "sector": "Real Estate",
+   "current_price": 28.51,
+   "spy_price": 0.0,
+   "floor_pct": 0.15,
+   "upside_x": 1.18,
+   "prob_upside": 0.6,
+   "asymmetry_score": 0.048,
+   "floor_hardness": "medium",
+   "horizon_months": 18.0,
+   "convexity_score": 0.0224,
+   "recent_runup_pct": 0.0,
+   "catalyst_fired_risk": false,
+   "convex": true,
+   "why_mispriced_type": "forced_seller",
+   "why_mispriced": "Forced-seller / orphaned-security discount: an in-progress liquidation that will delist and deregister, leaving an untradeable dark stub \u2014 index and liquidity-constrained holders sell below realizable value.",
+   "catalyst": "The liquidating distribution schedule \u2014 $5.00/sh on 7/20/26, then serial payouts as Austin land and operating properties are sold (Jones Crossing already sold for $46.5M).",
+   "catalyst_date": "2026-07-20",
+   "falsifiable_prediction": "By 2028-06-30 cumulative liquidating distributions reach >=$29.73/share (the conservative estimate); if the running total tracks below $26/share, the land-at-cost floor was wrong.",
+   "prediction_date": "2028-06-30",
+   "kill_condition": "A revised liquidation estimate cuts the low end below $26/share, or a distribution is suspended/reversed.",
+   "kill_condition_type": "thesis_date",
+   "kill_condition_value": "2028-06-30",
+   "adversarial": "The house knows the margin to the CONSERVATIVE estimate is thin (~4%), and after ~8/10/26 you hold an untradeable dark stub trusting a 6-month-stale, Austin-land-market-dependent estimate through lender/partner consents and reserve draws \u2014 a multi-year illiquid special situation, not a liquid position.",
+   "dead_trigger_risk": false,
+   "citations": [
+    "STRS 8-K 'Approval of Liquidation' accession 0000885508-26-000006 ($29.73-$37.69/sh estimate)",
+    "STRS 8-K 'Initial Liquidating Distribution' filed 2026-07-01, accession 0000885508-26-000035 ($5.00/sh, record 7/13 pay 7/20)",
+    "STRS 10-Q period 2026-03-31, filed 2026-05-12 (7,982,723 sh; total debt $143.76M; cash $73.54M)",
+    "STRS 8-K 2026-06-26 accession 0000885508-26-000033 (Jones Crossing $46.5M sale)"
+   ],
+   "lens_score": 0.0,
+   "verification": {
+    "verified_at": "2026-07-06T11:01:19.714064",
+    "verified_by": "oracle",
+    "floor_basis": "transacting_asset",
+    "traps": {
+     "primary_source_cited": true,
+     "floor_not_merely_asserted": true,
+     "book_survives_goodwill": true,
+     "debt_reconciled_full_stack": true,
+     "catalyst_not_already_fired": true
+    },
+    "verdict": "keep",
+    "notes": "Board+stockholder-approved liquidation; net debt $70.2M reconciled; assets transacting (Jones Crossing $46.5M). $5 distribution is only 17.5% \u2014 bulk of catalyst remains. Cold-start blind verifier (task a937 STRS).",
+    "passed": true
+   },
+   "verified": true
+  },
+  {
+   "symbol": "STHO",
+   "spec": "convex",
+   "author": "oracle",
+   "created_at": "2026-07-06T11:36:50.685927",
+   "business": "Star Holdings \u2014 the 2023 iStar/Safehold spin-off holding the legacy non-ground-lease assets (a ~18.8% marked-to-market stake in Safehold/SAFE, plus land, operating real estate, and loans), in a declared monetization/wind-down; externally managed by Safehold (Jay Sugarman).",
+   "thesis": "STHO trades at $9.23 vs a wind-down NAV of ~$23/share. The DOMINANT asset is LIQUID and marked-to-market: ~13.5M SAFE shares (18.8% of Safehold) worth ~$221M, and SAFE net of its $92.8M margin loan is ~$10.64/share \u2014 already ABOVE the whole stock price \u2014 so the ~$225M book of land / operating RE / loans is priced at roughly zero. The market applies a permanent Sugarman/Safehold related-party discount, but the manager fee is stepping DOWN hard ($25M FY24 -> $15M FY25 -> $10M FY26 -> $7.5M -> 2.0% of book), the termination penalty rolls off 3/31/2027, and both debt facilities mature 3/31/2028 \u2014 a forcing function for monetization.",
+   "sector": "Real Estate",
+   "current_price": 9.23,
+   "spy_price": 0.0,
+   "floor_pct": 0.2,
+   "upside_x": 1.6,
+   "prob_upside": 0.5,
+   "asymmetry_score": 0.2,
+   "floor_hardness": "medium",
+   "horizon_months": 24.0,
+   "convexity_score": 0.07,
+   "recent_runup_pct": 0.0,
+   "catalyst_fired_risk": false,
+   "convex": true,
+   "why_mispriced_type": "forced_seller",
+   "why_mispriced": "Declared wind-down / monetization vehicle with an external-manager conflict overhang and SAFE-price gearing via a margin loan \u2014 index and liquidity-constrained holders sell the levered stub below the value of its own liquid core holding.",
+   "catalyst": "Active monetization: land-development sales, mezz repayments (Asbury Park repaid in full), sub-NAV buybacks, a steeply declining fee schedule (termination penalty off 3/31/2027) and a 3/31/2028 debt-maturity wall forcing realization.",
+   "catalyst_date": "2028-03-31",
+   "falsifiable_prediction": "By 2028-06-30 STHO monetizes assets / buys back stock such that cumulative realization + residual NAV exceeds ~$14/share; if the SAFE-net-of-margin value per share falls below the price and no buyback/sale closes the gap, the thesis is wrong.",
+   "prediction_date": "2028-06-30",
+   "kill_condition": "SAFE-net-of-margin per share falls below the stock price AND the wind-down stalls (no asset sales/buybacks for two consecutive quarters), or a covenant/margin-call event on the 2028 facilities.",
+   "kill_condition_type": "thesis_date",
+   "kill_condition_value": "2028-06-30",
+   "adversarial": "The house knows the overhang is real and must be sized around: Sugarman/Safehold controls the manager AND extends STHO's credit facility AND dictates how STHO votes its SAFE shares; the value is geared to SAFE's price through the margin loan; and it is a slow, levered wind-down with no distributions yet \u2014 a bounded convex stub, not a clean compounder. Size small.",
+   "dead_trigger_risk": false,
+   "citations": [
+    "STHO 10-Q period 2026-03-31, filed 2026-05-08, SEC accession 0001953366-26-000010 (SAFE stake FV $183.0M @ $13.53/18.8%, debt maturities 3/31/2028, fee schedule + $55M termination fee, Safe voting restriction)",
+    "STHO 10-K FY2025, filed 2026-02-17, accession 0001953366-26-000003",
+    "SAFE stake independently marked at market (SAFE $16.39, 2026-07-02)"
+   ],
+   "lens_score": 0.0,
+   "verification": {
+    "verified_at": "2026-07-06T11:36:50.685982",
+    "verified_by": "oracle",
+    "floor_basis": "transacting_asset",
+    "traps": {
+     "primary_source_cited": true,
+     "floor_not_merely_asserted": true,
+     "book_survives_goodwill": true,
+     "debt_reconciled_full_stack": true,
+     "catalyst_not_already_fired": true
+    },
+    "verdict": "keep",
+    "notes": "Blind land-family verifier (rebuilt pipeline). SAFE stake is a liquid public equity marked to market (not asserted NAV); SAFE net of $92.8M margin > price. Net debt $161.4M reconciled full-stack. Active monetization + 2028 debt wall = catalyst. Sugarman/Safehold conflict priced-in overhang.",
+    "passed": true
+   },
+   "verified": true
+  }
+ ],
+ "coldstart_result": {
+  "ran_at": "2026-07-06",
+  "verified_names": [
+   "XBIT",
+   "STRS"
+  ],
+  "fund": [
+   "XBIT",
+   "STRS"
+  ],
+  "watch": [
+   "PHUN",
+   "ARL",
+   "SAFE",
+   "AIV",
+   "IMPP",
+   "UFI"
+  ],
+  "kill": [
+   "WKEY",
+   "TCI",
+   "CTRM",
+   "INVE",
+   "WWR",
+   "XLO"
+  ],
+  "note": "Blind cold-start of the top-14 fundability-ranked names, zero name memory, incumbents given no special treatment. 2 FUND / 6 WATCH / 6 KILL (~14% fundable, matching the historical neglect rate)."
+ },
+ "rebuild_result_2026-07-06": {
+  "note": "Cold start #2, re-run through the FIXED unified pipeline (run_oracle_pipeline.py) after the ~30-bug audit. All legs run, freshness applied, per-family ranking. FPH is now FOUND (#1 land_nav post-freshness) and graded honestly = WATCH (real deep land floor, no realization catalyst).",
+  "fund_added": [
+   "STHO"
+  ],
+  "watch_added": [
+   "FPH",
+   "LPA",
+   "BCYC"
+  ],
+  "kill": [
+   "AFCG",
+   "BRNS",
+   "FBIO",
+   "NXDT",
+   "IMA",
+   "IXHL(stale)",
+   "SDHC(stale)",
+   "BNC(crypto)",
+   "AVX(crypto)"
+  ],
+  "book_fund": [
+   "XBIT",
+   "STRS",
+   "STHO"
+  ]
+ }
+}
