@@ -32,7 +32,11 @@ def _get(url, params, tries=6):
 
 # ---- 1. TICKERS with sector (exclude financials; identify common stock / exchange) ----
 print("pulling TICKERS metadata (sector/category/exchange)...", flush=True)
-tk_cols = "ticker,name,exchange,category,isdelisted,sector,industry,scalemarketcap"
+# currency + location are REQUIRED by oracle.neglect_screen.is_common_tradable
+# (the FX-artifact guard hard-rejects non-USD reporters; location drives the
+# China/HK unreachable-floor exclusion). Omitting them made the screen reject
+# EVERY name -> 0 candidates (2026-07-06 fresh-run bug).
+tk_cols = "ticker,name,exchange,category,isdelisted,sector,industry,scalemarketcap,currency,location"
 rows, cursor = [], None
 while True:
     p = {"qopts.columns": tk_cols, "qopts.per_page": 10000, "api_key": sh._api_key()}
