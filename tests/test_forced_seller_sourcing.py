@@ -123,3 +123,21 @@ def test_sweep_by_form_keeps_all_when_filter_off():
     out = fss.sweep_by_form("2026-06-01", "2026-06-01", cik_to_ticker={},
                             tradable_only=False, http_get=lambda url: _FAKE_IDX)
     assert len(out) == 3  # SC TO-I x2 + N-8F, all enumerated; 8-K is not a mapped form
+
+
+def test_delisting_family_is_live_and_form_mapped():
+    # the loosened-coverage additions (2026-07-06)
+    assert not fss.is_graveyard("delisting")
+    assert fss.family_by_key("delisting") is not None
+    assert fss.FORM_TO_FAMILY["25-NSE"] == "delisting"
+    assert fss.FORM_TO_FAMILY["N-8F ORDR"] == "fund_liquidation"  # real form string, not bare N-8F
+
+
+def test_enumerate_catches_delisting_form():
+    idx = ("25-NSE           SOME DELISTED CO                              4242424    2026-06-01  edgar/data/x.txt\n"
+           "SC TO-I          A TENDER FUND                                 5252525    2026-06-01  edgar/data/y.txt\n")
+    out = fss.sweep_by_form("2026-06-01", "2026-06-01", cik_to_ticker={"0004242424": "DLST", "0005252525": "TND"},
+                            tradable_only=True, http_get=lambda url: idx)
+    fams = {c["cik"]: c["family"] for c in out}
+    assert fams["0004242424"] == "delisting"
+    assert fams["0005252525"] == "odd_lot_tender"

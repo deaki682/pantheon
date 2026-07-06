@@ -139,6 +139,19 @@ LIVE_FAMILIES: tuple[Family, ...] = (
         note="LAB_HYPOTHESIS (live, supply-starved ~1%/yr ceiling). "
              "Opportunistic-only; never a full position.",
     ),
+    Family(
+        key="delisting",
+        label="Exchange delisting / index removal",
+        query="removal from listing",   # form-enumeration only; query is a fallback
+        forms=("25-NSE", "25"),
+        mechanism="A Form 25 removes a security from an exchange/index; index and "
+                  "mandate-bound funds must sell it regardless of value — the "
+                  "index-DELETION forced flow (distinct from the refuted "
+                  "index-ADDITION effect; house-view flags deletions as live).",
+        note="NOISY channel — many Form 25s are distress delistings (no floor) or "
+             "merger completions (Hermes). Form-enumerated; the tradability filter "
+             "+ verification gate do the heavy filtering. Source, don't trust.",
+    ),
 )
 
 
@@ -258,12 +271,22 @@ def sweep(
 # is retained ONLY for families with no single defining form (post-BK 8-Ks,
 # rights offerings buried in S-1/424B prose).
 
-# Forms that ARE a forced-seller event -> the family they belong to.
+# Forms that ARE a forced-seller event -> the family they belong to. Form strings
+# verified against real EDGAR daily indexes 2026-06 (e.g. the dereg form is
+# "N-8F ORDR", not bare "N-8F"; delisting is "25-NSE"). Loosened 2026-07-06 to add
+# the delisting channel (25-NSE/25 — 58 hits/4 days we were missing entirely).
 FORM_TO_FAMILY = {
     "SC TO-I": "odd_lot_tender", "SC TO-I/A": "odd_lot_tender",
-    "N-8F": "fund_liquidation",
+    "N-8F": "fund_liquidation", "N-8F ORDR": "fund_liquidation",
     "10-12B": "spinoff_largecap", "10-12B/A": "spinoff_largecap",
+    "25-NSE": "delisting", "25": "delisting",
 }
+# Considered and deliberately NOT added (judgment, not timidity): SC 13E3
+# (going-private = cash-out, Hermes's domain); Form 15 / 15-12G / 15-15D
+# (going-dark deregistration — real forced flow but the result is an illiquid,
+# no-floor gray-market stub we can't trade); SC TO-T (third-party tender = merger,
+# Hermes); N-14 fund-merger (murkier forced-seller mechanic — revisit if a clean
+# convex case appears).
 _IDX_SPLIT = re.compile(r"\s{2,}")  # daily-index fields are 2+-space separated
 
 
