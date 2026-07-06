@@ -1,4 +1,5 @@
 from oracle.upside_sourcing import (
+    arrival_penalty,
     bottom_up_signals,
     in_hunting_ground,
     screen_panel,
@@ -50,9 +51,28 @@ def test_beat_and_raise_stronger_than_bare_beat():
     assert "eps_beat" in bottom_up_signals(beat_row)
 
 
-def test_rel_strength_fires():
-    assert "rel_strength" in bottom_up_signals({"ret_6m": 0.35, "spy_ret_6m": 0.10})
-    assert "rel_strength" not in bottom_up_signals({"ret_6m": 0.12, "spy_ret_6m": 0.10})
+def test_rel_strength_fires_on_recent_trend():
+    # recent (~5wk) trend beating the market fires; a faded name (recently negative)
+    # does NOT, even if it was up over 6 months (the blowoff-fade fix).
+    assert "rel_strength" in bottom_up_signals({"ret_recent": 0.15, "spy_ret_recent": 0.02})
+    assert "rel_strength" not in bottom_up_signals({"ret_recent": -0.20, "spy_ret_recent": 0.02})
+    assert "rel_strength" not in bottom_up_signals({"ret_recent": 0.03, "spy_ret_recent": 0.02})
+
+
+def test_arrival_penalty_at_high():
+    assert arrival_penalty({"pct_below_high": 0.02}) < 1.0     # near the high -> penalized
+    assert arrival_penalty({"pct_below_high": 0.35}) == 1.0    # room to run -> no penalty
+    assert arrival_penalty({}) == 1.0                          # unknown -> no penalty
+
+
+def test_screen_row_penalizes_arrived_name():
+    # two names, identical signals; the one at its high scores lower
+    base = {"mcap": 8e8, "coverage": 2, "revenue": [100, 112, 158],
+            "ret_recent": 0.15, "spy_ret_recent": 0.02}
+    early = screen_row({**base, "symbol": "EARLY", "pct_below_high": 0.35})
+    arrived = screen_row({**base, "symbol": "ARRIVED", "pct_below_high": 0.02})
+    assert arrived["at_high"] is True and early["at_high"] is False
+    assert early["spotlight_score"] > arrived["spotlight_score"]
 
 
 def test_margin_turn_fires():

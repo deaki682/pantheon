@@ -31,7 +31,14 @@ SPECIAL_SITUATIONS = {"spinoff", "post_reorg", "ipo"}   # ipo<18mo handled by th
 ACCEL_MIN_PP = 2.0          # rev growth must ACCELERATE by ≥2pp q/q to count
 MARGIN_TURN_MIN_PP = 1.0    # operating margin up ≥1pp q/q
 EPS_BEAT_MIN = 0.02         # ≥2% EPS surprise
-REL_STRENGTH_MIN = 0.10     # 6-mo return beating the market by ≥10pp
+# RECENT trend, not 6-mo trailing (2026-07-06 fix). The first run's 6mo rel-strength
+# net surfaced blowoff-and-fade names — spikes captured inside the window that had
+# already deflated, which the read killed 6/9 on "already arrived". Recent
+# (≈4–6wk) trend drops the faded names (they're negative recently), and a
+# near-high penalty (below) sinks the ones that already repriced to their high.
+RECENT_STRENGTH_MIN = 0.05  # recent (~5wk) return beating the market by ≥5pp
+NEAR_HIGH_FRAC = 0.10       # within 10% of the window high = "arrived"; penalize
+NEAR_HIGH_PENALTY = 0.4     # score multiplier for names sitting at their high
 
 
 def in_hunting_ground(row: dict) -> bool:
@@ -65,7 +72,8 @@ def bottom_up_signals(row: dict) -> dict[str, float]:
       op_margin: [older..newer] quarterly operating margin (fraction)
       eps_surprise: latest EPS surprise (fraction)
       guidance_raised: bool
-      ret_6m, spy_ret_6m: 6-month total returns (fraction)
+      ret_recent, spy_ret_recent: RECENT (~5wk) total returns (fraction) — the
+        momentum measure. NOT 6-mo trailing (which surfaced faded spikes).
     """
     sig: dict[str, float] = {}
     rev = [float(x) for x in (row.get("revenue") or []) if x is not None]
@@ -90,15 +98,27 @@ def bottom_up_signals(row: dict) -> dict[str, float]:
         else:
             sig["eps_beat"] = beat * 0.6
 
-    r6, s6 = row.get("ret_6m"), row.get("spy_ret_6m")
-    if r6 is not None and s6 is not None:
-        rs = float(r6) - float(s6)
-        if rs >= REL_STRENGTH_MIN:
-            sig["rel_strength"] = min(1.0, rs / 0.50)
+    rr, sr = row.get("ret_recent"), row.get("spy_ret_recent")
+    if rr is not None and sr is not None:
+        rs = float(rr) - float(sr)
+        if rs >= RECENT_STRENGTH_MIN:      # RECENTLY trending up more than the market
+            sig["rel_strength"] = min(1.0, rs / 0.25)
 
     if row.get("growth_catalyst"):     # a discrete opening event (new product/contract/approval)
         sig["growth_catalyst"] = 1.0
     return sig
+
+
+def arrival_penalty(row: dict) -> float:
+    """Down-weight names that have already REPRICED to their high (the 'arrived'
+    failure mode the first run's read killed 6/9 on). `pct_below_high` is the
+    distance below the window high (0 = at high, 0.4 = 40% below). A name within
+    NEAR_HIGH_FRAC of its high is penalized; a name with room to run is not. Returns
+    a multiplier in (0,1]. Unknown → 1.0 (no penalty)."""
+    pbh = row.get("pct_below_high")
+    if pbh is None:
+        return 1.0
+    return NEAR_HIGH_PENALTY if float(pbh) < NEAR_HIGH_FRAC else 1.0
 
 
 def top_down_signal(row: dict, forming_themes: Optional[set[str]] = None) -> dict[str, float]:
@@ -136,13 +156,16 @@ def screen_row(row: dict, forming_themes: Optional[set[str]] = None) -> Optional
     if not bottom and not top:
         return None
     nets = sorted(list(bottom.keys()) + list(top.keys()))
+    penalty = arrival_penalty(row)
     return {
         "symbol": (row.get("symbol") or row.get("ticker") or "").upper(),
         "mcap": row.get("mcap"), "coverage": row.get("coverage"),
         "sector": row.get("sector"), "theme": row.get("theme"),
         "special_situation": row.get("special_situation"),
         "nets": nets, "direction": ("both" if bottom and top else ("bottom_up" if bottom else "top_down")),
-        "spotlight_score": spotlight_score(bottom, top),
+        "pct_below_high": row.get("pct_below_high"), "ret_recent": row.get("ret_recent"),
+        "at_high": penalty < 1.0,
+        "spotlight_score": round(spotlight_score(bottom, top) * penalty, 4),
         "open_question": "Is the inflection real, durable, large, and not-yet-arrived? (Stage-2 read)",
     }
 

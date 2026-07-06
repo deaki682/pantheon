@@ -35,17 +35,25 @@ for r in daily:
         mdate[t], mcap[t] = d, float(r["marketcap"]) * 1e6
 print(f"marketcap: {len(mcap)} tickers", flush=True)
 
-# 6-mo return proxy = mcap[last]/mcap[first] - 1 (shares ~const over 6mo);
-# market proxy = the cross-sectional MEDIAN return, so rel_strength = beat the median.
+# RECENT-trend momentum (2026-07-06 fix) — NOT 6mo trailing (which surfaced faded
+# spikes). recent = last ~25 trading days (~5wk). Also distance below the window
+# high (pct_below_high) to penalize already-arrived names near their high.
 all_dates = sorted({d for v in series.values() for d in v})
 d0, d1 = all_dates[0], all_dates[-1]
-ret6 = {}
+d_recent = all_dates[-25] if len(all_dates) >= 25 else all_dates[0]
+ret_recent, pct_below_high = {}, {}
 for t, v in series.items():
-    if d0 in v and d1 in v and v[d0] > 0:
-        ret6[t] = v[d1] / v[d0] - 1.0
-_sorted = sorted(ret6.values())
-median_ret = _sorted[len(_sorted) // 2] if _sorted else 0.0
-print(f"6-mo momentum: {len(ret6)} tickers ({d0}->{d1}); market(median) ret={median_ret:+.1%}", flush=True)
+    if d1 not in v or v[d1] <= 0:
+        continue
+    if d_recent in v and v[d_recent] > 0:
+        ret_recent[t] = v[d1] / v[d_recent] - 1.0
+    hi = max(v.values())
+    if hi > 0:
+        pct_below_high[t] = 1.0 - v[d1] / hi
+_sorted = sorted(ret_recent.values())
+median_recent = _sorted[len(_sorted) // 2] if _sorted else 0.0
+print(f"recent momentum: {len(ret_recent)} tickers ({d_recent}->{d1}, ~5wk); "
+      f"market(median) recent ret={median_recent:+.1%}", flush=True)
 
 # ---- SF1 quarterly trajectory ----------------------------------------------
 byt = defaultdict(list)
@@ -66,11 +74,15 @@ for t, rows in byt.items():
     panel.append({
         "symbol": t, "mcap": mcap.get(t), "coverage": None,   # thin-coverage proxy
         "revenue": rev, "op_margin": margin,
-        "ret_6m": ret6.get(t), "spy_ret_6m": median_ret,       # momentum vs the median stock
+        "ret_recent": ret_recent.get(t), "spy_ret_recent": median_recent,  # RECENT trend vs median
+        "pct_below_high": pct_below_high.get(t),               # distance below the window high
     })
 print(f"panel: {len(panel)} tickers with trajectory", flush=True)
 
 # ---- Stage 1: spotlight (bottom-up nets on disk data) ----------------------
+# Skip the FROZEN legacy cohort — not the engine's to trade (operator directive).
+LEGACY = {"CXT", "HDSN", "J", "PSN", "VITL"}
+panel = [r for r in panel if r["symbol"] not in LEGACY]
 cands = us.screen_panel(panel, forming_themes=set())   # no themes wired this run
 queued = [c for c in cands if c.get("queued")]
 print(f"spotlight: {len(cands)} candidates ({len(queued)} in hunting ground w/ a signal)", flush=True)
@@ -82,9 +94,12 @@ out = {"spec": "oracle_upside_stage1", "ran": "2026-07-06",
 os.makedirs("cache", exist_ok=True)
 json.dump(out, open("cache/oracle_upside_candidates.json", "w"), indent=1)
 
-print("\n=== top spotlight (bottom-up) ===", flush=True)
+print("\n=== top spotlight (recent-trend, arrival-penalized) ===", flush=True)
 for c in cands[:25]:
     m = (c.get("mcap") or 0) / 1e6
-    print(f"  {c['symbol']:7s} score={c['spotlight_score']:5.2f} "
-          f"cap=${m:6.0f}M nets={c['nets']}", flush=True)
+    pbh = c.get("pct_below_high")
+    rr = c.get("ret_recent")
+    print(f"  {c['symbol']:7s} score={c['spotlight_score']:5.2f} cap=${m:6.0f}M "
+          f"recent={ (rr*100 if rr is not None else 0):+5.0f}% "
+          f"belowHigh={ (pbh*100 if pbh is not None else 0):3.0f}% nets={c['nets']}", flush=True)
 print(f"\nwrote cache/oracle_upside_candidates.json ({len(queued)} queued for the breadth read)", flush=True)
