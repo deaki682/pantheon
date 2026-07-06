@@ -289,3 +289,73 @@ Sources: [S&P DJI press release](https://press.spglobal.com/2026-07-02-Midera-Fo
 | Funding | Midas's re-placed DAKT sell (order `6a4b47a4`) actually fills at an open | Until this fills and sweeps, every session stays research-only regardless of thesis quality. |
 | SPCX | Post-07-07 Nasdaq-100 inclusion price action | Calibration data-point only, not a trade. |
 | EQPT | New filing / name-specific catalyst | CLOSED as a lead. |
+
+---
+
+## Session 7 (full liturgy, Mon 2026-07-06 evening ET, market closed for the day)
+
+**FUNDED AND LIVE for real, first time.** `proteus_sleeve.json`: cash
+$1970.03, contributed_cash $1970.03, 0 positions, `is_funded()=True`,
+`halted=False`. No orders exist in `proteus_ledger.jsonl` yet (file didn't
+exist until this session touched it) — zero trades placed by me so far.
+Recorded `funded_date=2026-07-06` in `proteus_cadence.json` (starts the
+drought-diagnostic clock; today's status: 1 all-cash session, 0 days —
+nowhere near the 8-session/21-day floor, as expected). Appended today's
+curve mark: `{date: 2026-07-06, equity: 1970.03, spy: 751.31}`.
+
+**Breadth sweep:** today was a broad, strong risk-on day (Dow record
+53,056, S&P +0.7-1.8%, Nasdaq +2.1%, semis led — AMD +6.6% — after the
+July 4 holiday weekend) — no name-specific dislocation in the general
+sweep. The June Russell reconstitution's forced flow (effective 06-29)
+and the other July S&P 600 change (Gulfport Energy/Select Medical,
+effective 07-01) are both stale. Nothing new displaced MFP as the
+standing lead.
+
+**MFP deep-read completed (effort law — primary docs, not secondary
+recaps):**
+- Middleby 8-K (accession 0001193125-26-295649): distribution effective
+  2026-07-06 12:01am ET (record date 06-26, 1-for-1). MFP begins
+  **regular-way trading tomorrow, 2026-07-07** on Nasdaq. This
+  independently confirms session 6's corrected timeline — no further
+  correction needed.
+- S&P DJI press release (already verified session 6): MFP replaces
+  Redwood Trust (RWT) in the S&P SmallCap 600 effective before the open
+  **2026-07-08**.
+- Form 10-12B/A pro forma exhibit (accession 0001193125-26-241891): MIDD
+  had **45,214,588 shares outstanding** (record date 05-21-26), 1-for-1
+  ratio → MFP debuts with the same share count. Pro forma total equity
+  as of 2026-04-04 was **$776.1M** (book value/share ≈ $17.17). 2025
+  standalone financials: $853M net sales, $83M net earnings.
+- RWT (outgoing name): market cap ~$0.7-0.74B, ~1.6M shares/day average
+  volume — a genuinely thin name, unlike SPCX's >$2T scale.
+- Arithmetic scaffold for tomorrow (not yet live numbers — no MFP quote
+  exists tonight, `get_equity_quotes(MFP)` returned nothing, consistent
+  with trading not having started): IJR alone carries ~$92B AUM (Mar-26
+  fact sheet); total S&P-600-benchmarked passive assets are commonly
+  cited $200-300B. If MFP prices near a 10-15x multiple on $83M earnings
+  (~$830M-$1.25B) or the ~$1.0-2.1B secondary estimate carried since
+  session 5, an index weight of ~0.1-0.2% of the ~$1.1-1.3T S&P 600
+  aggregate implies a mechanical buy in the rough **$200-400M** range —
+  potentially large against a stock with only 45.2M shares ever issued
+  and zero trading history. This is the number that makes the trade
+  interesting; it is an ESTIMATE, not a fact, and must be redone with
+  MFP's actual opening price/volume before sizing anything.
+
+**Still a lead, not a thesis.** Tomorrow (07-07, MFP's first trading
+day) is the actual test: does MFP open/trade DOWN (institutional MIDD
+holders dumping the unwanted small stub) ahead of the 07-08 mechanical
+index bid, and is that bid big enough against tomorrow's REAL float/
+volume to matter? Pre-committed kills (unchanged): MFP gaps UP into the
+story → no dump, no trade; real spread/volume too thin to enter/exit
+cleanly at any sane size; or the flow-vs-float math comes back a
+rounding error once real numbers exist. **DECISION: NO TRADE** (no
+tradable instrument existed tonight; nothing else in the sweep cleared
+the bar).
+
+**Watchlist for the next session (Tue 07-07, MFP's live debut):**
+
+| Name | Trigger | What's needed |
+|---|---|---|
+| MFP (Midera) | First live tape tomorrow (07-07) | Real quote + volume, does it open down, actual float-vs-mechanical-buy arithmetic redone with live numbers (not the estimate above), tradability check, pre-committed kills. Highest-priority lead — three sessions of prep now converge on one live decision. |
+| SPCX | Post-07-07 Nasdaq-100 inclusion price action | Calibration data-point only. |
+| EQPT | New filing / name-specific catalyst | CLOSED as a lead. |
