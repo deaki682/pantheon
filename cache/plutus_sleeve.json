@@ -1,15 +1,51 @@
 {
-  "cash": 236.6022631978908,
-  "contributed_cash": 236.6022631978908,
+  "cash": 3876.0975490765904,
+  "contributed_cash": 5000.00226319789,
   "cooldown_days": 0,
   "cooldowns": {},
   "gfv_count": 0,
   "halted": false,
   "name": "plutus",
-  "peak_equity": 236.6022631978908,
+  "peak_equity": 5000.00226319789,
   "pending_funding": null,
   "pending_settlements": [],
-  "positions": {},
+  "positions": {
+    "AAPL": {
+      "avg_price": 312.61,
+      "cohort_id": "",
+      "entry_date": "2026-07-06",
+      "sector": "",
+      "shares": 0.95966
+    },
+    "ADBE": {
+      "avg_price": 218.35,
+      "cohort_id": "",
+      "entry_date": "2026-07-06",
+      "sector": "",
+      "shares": 0.66402
+    },
+    "MA": {
+      "avg_price": 534.4,
+      "cohort_id": "",
+      "entry_date": "2026-07-06",
+      "sector": "",
+      "shares": 0.56137
+    },
+    "NVDA": {
+      "avg_price": 195.35,
+      "cohort_id": "",
+      "entry_date": "2026-07-06",
+      "sector": "",
+      "shares": 1.5357
+    },
+    "ZTS": {
+      "avg_price": 74.6,
+      "cohort_id": "",
+      "entry_date": "2026-07-06",
+      "sector": "",
+      "shares": 1.0504
+    }
+  },
   "realized_pnl": 0.0,
-  "trades_count": 0
+  "trades_count": 5
 }

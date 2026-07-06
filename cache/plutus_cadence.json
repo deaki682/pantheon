@@ -1,4 +1,4 @@
 {
  "last_quarter": null,
- "note": "2026-07-06: deluxe pipeline COMPUTED for 2026Q2 (signal 2026-06-30). 50 composite candidates -> LLM read kept 47, dropped 3 (EA/TER expensive top-of-cycle buybacks, JD China-ADR governance). $5,000 target book weighted (cap_blend 0.5), cross-referenced vs LIVE Robinhood quotes (all 50 active). NOT executed: only $1,135.96 of $19.4k cash was settled today; ~$18k from Monday's liquidation settles T+1. Deploy the full $5,000 in one clean pass on the next settled trading day (expected 2026-07-07). Finalized book in cache/plutus_pending_rebalance.json."
+ "note": "2026-07-06: Plutus 2026Q2 deluxe launch STARTED. Funded sleeve to $5,000 (mandate 26%). 50 composite candidates -> LLM kept 47 / dropped 3 (EA,TER,JD). Cross-referenced LIVE Robinhood quotes. Only $1,135.96 settled today, so QUEUED tranche 1 = 5 names ($1,123.35: AAPL/NVDA/MA/ADBE/ZTS at full weight) for the 2026-07-07 open. COMPLETE the remaining 42 names to full $5,000 on the next settled pass (T+1). Leave last_quarter=None until the book is fully deployed, then set 2026Q2. Book+reads in cache/plutus_pending_rebalance.json."
 }
