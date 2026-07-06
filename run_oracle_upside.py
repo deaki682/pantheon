@@ -1,105 +1,142 @@
-"""Oracle upside engine — Stage 0-1 runner (field + spotlight).
+"""Oracle upside engine — Stage 0-1 runner: the SYSTEMATIC best-first ranker.
 
-Builds panel rows from the SF1 quarterly trajectory + daily marketcap already on
-disk and runs oracle.upside_sourcing.screen_panel over the HUNTING GROUND. This
-first run wires the BOTTOM-UP nets that the on-disk data supports — revenue
-acceleration and a net-income margin-turn proxy — plus the hunting-ground gate.
+Pass 1 of the machine (oracle.upside_ranker.rank_all): compose EVERY data-fed net
+over the WHOLE universe and rank best-first. No hand-picking, no sliver — every
+in-ground name is ranked or recorded as dropped-with-reason, and a coverage report
+states exactly what ran and what is KNOWN missing.
 
-HONEST COVERAGE NOTE (spec I5): relative-strength (needs a returns pull),
-eps_surprise (needs an earnings feed), analyst coverage (proxied as thin — the
-hunting ground is small-cap by construction), and the TOP-DOWN thematic lens
-(needs a themes map) are NOT wired here yet — so this run sources on acceleration
-alone and UNDER-counts (a name that is a pure thematic or pure rel-strength play
-is missed this pass). The spotlight is recall-oriented and only AIMS the reader;
-Stage 2 (the breadth read) is the edge and does the real work.
+Nets active on this on-disk pass: acceleration (SF1 revenue/margin trajectory),
+recent_strength (daily-marketcap ~5wk trend), value_floor (SF1 tangible-book /
+net-cash vs marketcap). Nets that activate on the LIVE-verified top slice
+(assistant pulls Robinhood, runs upside_ranker.reconcile_top): range_reversal
+(true 52wk range), earnings_surprise (get_earnings_results). Nets still needing a
+feed (logged INACTIVE, wiring is the follow-on): thematic (a forming-themes map),
+special_situation (EDGAR spinoff/IPO/reorg events).
+
+Emits cache/oracle_upside_candidates.json (full ranking + coverage) and prints the
+top-N symbol batches for the assistant's live-verify pull.
 """
 import gzip, json, os, sys
 from collections import defaultdict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from oracle import upside_sourcing as us
+from oracle import upside_ranker as ur
 
 SF1 = "data/oracle_neglect/sf1_bs_part0.json.gz"
 DAILY = "data/achilles_gauntlet/daily_mcap_2026.json.gz"
+META = "data/oracle_neglect/tickers_meta.json"
+LEGACY = {"CXT", "HDSN", "J", "PSN", "VITL"}     # frozen legacy cohort — never the engine's
+TOP_N_VERIFY = 250                                # how deep the live-verify slice goes
 
-# ---- marketcap ($M -> $), latest per ticker + 6-mo momentum proxy ----------
-daily = json.load(gzip.open(DAILY, "rt"))
-mcap, mdate = {}, {}
-series = defaultdict(dict)   # ticker -> {date: mcap_$M}
-for r in daily:
-    t, d = r.get("ticker"), r.get("date", "")
-    if not t or r.get("marketcap") is None:
+# ---- ticker meta: sector (exclude financials — value_floor loves cheap banks/
+# REITs but they aren't inflection names) + FX/reachability guard (USD reporters,
+# no China/HK VIEs) + real sector tags for the candidates ---------------------
+_meta_raw = json.load(open(META))
+meta = {}
+for m in _meta_raw:
+    t = m.get("ticker")
+    if not t:
         continue
-    series[t][d] = float(r["marketcap"])
-    if d > mdate.get(t, ""):
-        mdate[t], mcap[t] = d, float(r["marketcap"]) * 1e6
-print(f"marketcap: {len(mcap)} tickers", flush=True)
+    if t not in meta or (m.get("isdelisted") == "N" and meta[t].get("isdelisted") != "N"):
+        meta[t] = m
+EXCLUDE_SECTORS = {"Financial Services", "Real Estate"}   # not inflection hunting ground
+EXCLUDE_LOCATIONS = {"China", "Hong Kong"}                # unreachable / VIE risk
 
-# RECENT-trend momentum (2026-07-06 fix) — NOT 6mo trailing (which surfaced faded
-# spikes). recent = last ~25 trading days (~5wk). Also distance below the window
-# high (pct_below_high) to penalize already-arrived names near their high.
+
+def meta_ok(t: str) -> bool:
+    m = meta.get(t)
+    if not m:
+        return True                                        # unknown -> keep, live-verify catches it
+    if (m.get("currency") or "USD") != "USD":
+        return False
+    if m.get("sector") in EXCLUDE_SECTORS:
+        return False
+    if (m.get("location") or "") in EXCLUDE_LOCATIONS:
+        return False
+    return True
+
+# ---- current marketcap + recent (~5wk) trend -------------------------------
+daily = json.load(gzip.open(DAILY, "rt"))
+series = defaultdict(dict)
+for r in daily:
+    if r.get("ticker") and r.get("marketcap") is not None:
+        series[r["ticker"]][r.get("date", "")] = float(r["marketcap"])
 all_dates = sorted({d for v in series.values() for d in v})
 d0, d1 = all_dates[0], all_dates[-1]
 d_recent = all_dates[-25] if len(all_dates) >= 25 else all_dates[0]
-ret_recent, pct_below_high = {}, {}
+mcap, ret_recent = {}, {}
 for t, v in series.items():
-    if d1 not in v or v[d1] <= 0:
-        continue
-    if d_recent in v and v[d_recent] > 0:
-        ret_recent[t] = v[d1] / v[d_recent] - 1.0
-    hi = max(v.values())
-    if hi > 0:
-        pct_below_high[t] = 1.0 - v[d1] / hi
-_sorted = sorted(ret_recent.values())
-median_recent = _sorted[len(_sorted) // 2] if _sorted else 0.0
-print(f"recent momentum: {len(ret_recent)} tickers ({d_recent}->{d1}, ~5wk); "
-      f"market(median) recent ret={median_recent:+.1%}", flush=True)
+    if d1 in v and v[d1] > 0:
+        mcap[t] = v[d1] * 1e6
+        if d_recent in v and v[d_recent] > 0:
+            ret_recent[t] = v[d1] / v[d_recent] - 1.0
+_sr = sorted(ret_recent.values())
+median_recent = _sr[len(_sr) // 2] if _sr else 0.0
+print(f"marketcap {len(mcap)} | recent-trend {len(ret_recent)} ({d_recent}->{d1}); median {median_recent:+.1%}", flush=True)
 
-# ---- SF1 quarterly trajectory ----------------------------------------------
+# ---- SF1: latest balance sheet + revenue/margin trajectory -----------------
 byt = defaultdict(list)
 for r in json.load(gzip.open(SF1, "rt")):
     if r.get("ticker"):
         byt[r["ticker"]].append(r)
 
-panel = []
+panel, n_valuefloor, n_excluded = [], 0, 0
 for t, rows in byt.items():
+    if t in LEGACY:
+        continue
+    if not meta_ok(t):                       # financials / REITs / non-USD / China excluded
+        n_excluded += 1
+        continue
     rows.sort(key=lambda r: (r.get("calendardate") or ""))
     rev = [r.get("revenue") for r in rows if r.get("revenue") is not None]
-    # net-income margin proxy per quarter (op_margin field the screen reads)
-    margin = []
-    for r in rows:
-        rv, ni = r.get("revenue"), r.get("netinc")
-        if rv and rv > 0 and ni is not None:
-            margin.append(ni / rv)
-    panel.append({
-        "symbol": t, "mcap": mcap.get(t), "coverage": None,   # thin-coverage proxy
-        "revenue": rev, "op_margin": margin,
-        "ret_recent": ret_recent.get(t), "spy_ret_recent": median_recent,  # RECENT trend vs median
-        "pct_below_high": pct_below_high.get(t),               # distance below the window high
-    })
-print(f"panel: {len(panel)} tickers with trajectory", flush=True)
+    margin = [r["netinc"] / r["revenue"] for r in rows
+              if r.get("revenue") and r["revenue"] > 0 and r.get("netinc") is not None]
+    latest = rows[-1]
+    mc = mcap.get(t)
+    row = {"symbol": t, "mcap": mc, "coverage": None,
+           "sector": (meta.get(t) or {}).get("sector"),
+           "revenue": rev, "op_margin": margin,
+           "ret_recent": ret_recent.get(t), "spy_ret_recent": median_recent}
+    # value_floor inputs from the latest balance sheet (SF1)
+    if mc and mc > 0:
+        eq, intang = latest.get("equity"), latest.get("intangibles") or 0.0
+        cash = (latest.get("cashneq") or 0.0) + (latest.get("investmentsc") or 0.0)
+        debt = latest.get("debt") or 0.0
+        if eq is not None:
+            tb = float(eq) - float(intang)
+            if tb > 0:
+                row["price_to_tangible_book"] = mc / tb
+        row["net_cash_ratio"] = (cash - debt) / mc
+        n_valuefloor += 1
+    panel.append(row)
+print(f"panel {len(panel)} tickers ({n_valuefloor} with value_floor inputs; "
+      f"{n_excluded} excluded: financials/REITs/non-USD/China)", flush=True)
 
-# ---- Stage 1: spotlight (bottom-up nets on disk data) ----------------------
-# Skip the FROZEN legacy cohort — not the engine's to trade (operator directive).
-LEGACY = {"CXT", "HDSN", "J", "PSN", "VITL"}
-panel = [r for r in panel if r["symbol"] not in LEGACY]
-cands = us.screen_panel(panel, forming_themes=set())   # no themes wired this run
-queued = [c for c in cands if c.get("queued")]
-print(f"spotlight: {len(cands)} candidates ({len(queued)} in hunting ground w/ a signal)", flush=True)
+# ---- pass 1: systematic best-first ranking over the WHOLE universe ----------
+out = ur.rank_all(panel, themes=set())     # thematic net inactive (no themes map yet)
+ranked, cov = out["ranked"], out["coverage"]
 
-out = {"spec": "oracle_upside_stage1", "ran": "2026-07-06",
-       "coverage_note": "BOTTOM-UP acceleration + margin-turn only; rel-strength/"
-                        "eps/coverage/thematic NOT wired this run (under-counts).",
-       "n_candidates": len(cands), "candidates": cands}
-os.makedirs("cache", exist_ok=True)
-json.dump(out, open("cache/oracle_upside_candidates.json", "w"), indent=1)
+# coverage_note: what ran, what is KNOWN missing (spec I5 / populations discipline)
+cov["known_missing"] = [
+    "universe = 5,593 SF1 filers on disk; ~20% of US-listed (recent IPOs, thin-filers, "
+    "many ADRs) NOT in the panel — needs a full-universe pull",
+    "earnings_surprise net: activates on the live-verify slice (Robinhood get_earnings_results)",
+    "thematic net: INACTIVE — needs a maintained forming-themes map + business tagging",
+    "special_situation net: INACTIVE — needs EDGAR spinoff/IPO/reorg events (forced_seller_sourcing)",
+]
+json.dump({"spec": "oracle_upside_rank_all", "ran": "2026-07-06",
+           "coverage": cov, "n_ranked": len(ranked), "ranked": ranked},
+          open("cache/oracle_upside_candidates.json", "w"), indent=1)
 
-print("\n=== top spotlight (recent-trend, arrival-penalized) ===", flush=True)
-for c in cands[:25]:
-    m = (c.get("mcap") or 0) / 1e6
-    pbh = c.get("pct_below_high")
-    rr = c.get("ret_recent")
-    print(f"  {c['symbol']:7s} score={c['spotlight_score']:5.2f} cap=${m:6.0f}M "
-          f"recent={ (rr*100 if rr is not None else 0):+5.0f}% "
-          f"belowHigh={ (pbh*100 if pbh is not None else 0):3.0f}% nets={c['nets']}", flush=True)
-print(f"\nwrote cache/oracle_upside_candidates.json ({len(queued)} queued for the breadth read)", flush=True)
+print(f"\n=== COVERAGE ===\n  panel={cov['n_panel']}  ranked={cov['n_ranked']}  "
+      f"dropped={cov['dropped']}\n  active_nets={cov['active_nets']}\n  inactive_nets={cov['inactive_nets']}", flush=True)
+print("\n=== top 20 (whole-universe composite, pre-live-verify) ===", flush=True)
+for c in ranked[:20]:
+    print(f"  #{c['rank']:<3} {c['symbol']:6} comp={c['composite']:5.2f} "
+          f"nets={ {k: round(v,2) for k,v in c['nets'].items()} }", flush=True)
+
+print(f"\n=== TOP {TOP_N_VERIFY} SYMBOLS FOR LIVE VERIFY (batches of 10) ===", flush=True)
+top = [c["symbol"] for c in ranked[:TOP_N_VERIFY]]
+for i in range(0, len(top), 10):
+    print(json.dumps(top[i:i+10]), flush=True)
+print(f"\nwrote cache/oracle_upside_candidates.json ({len(ranked)} ranked; top {len(top)} queued for live verify)", flush=True)
