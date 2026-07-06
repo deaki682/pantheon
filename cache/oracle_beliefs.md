@@ -9,6 +9,20 @@ Oracle hunts the few under-covered names with the biggest REAL upside over a
 6–24mo hold. The edge is the breadth read — reading filings the desk doesn't, in
 the small-cap corner. The spotlight only AIMS; the read decides.
 
+## The book (6 names, paper — pending_funding, 2026-07-06)
+
+Washed-out QUALITY inflections priced as broken — the validated Oracle profile.
+Sized by conviction × move; all self-funding except SABR (levered).
+
+| # | Name | Thesis | up_x / p / down | rank |
+|---|------|--------|-----------------|------|
+| 1 | CBZ | prof-services rollup over-corrected 55% on Marcum integration; organic reaccel + delever | 1.6 / .55 / .25 | top EV |
+| 2 | FRPT | Freshpet de-rated 35%; Q1 volume reaccel +14.6% + crossed to GAAP profit + FCF | 1.7 / .50 / .30 | |
+| 3 | ACVA | washed-out net-cash auto marketplace; adj EBITDA >2x, re-rate priced out | 1.8 / .40 / .35 | |
+| 4 | NCNO | banking SaaS margin/FCF turn (+79% op inc), buyback, AI optionality | 1.6 / .45 / .30 | |
+| 5 | EYE | National Vision margin turnaround 3.6→10.2%, +comps, 0.8x levered | 1.55 / .45 / .25 | |
+| 6 | SABR | levered travel-tech deleveraging turnaround, 6 improving prints (can go to 0) | 2.0 / .40 / .55 | biggest size |
+
 ## Open theses (paper — pending_funding)
 
 - **ACVA (ACV Auctions)** — KEEP/FUND (paper). Washed-out NET-CASH used-vehicle
@@ -25,7 +39,20 @@ the small-cap corner. The spotlight only AIMS; the read decides.
   burden IS the thesis), 18mo. Catalyst: FCF→positive 2027 + continued beats
   re-rating EV through ~5.5x leverage. Next print 2026-08-06. Kill: EBITDA YoY ≤ 0.
 
-## The decisive lesson (2026-07-06, rounds 1+2 = 18 reads, 2 keeps)
+## The queue is the engine (2026-07-06, round 3 — the proof)
+
+Rebuilt the queue around the winning profile — **LOW in the 52-week range (live
+Robinhood range) + recent upturn**, with a live-field reconcile dropping
+financials, micro-shells, and recycled tickers before the read. Result: **4 keeps
+of 10 (40%)** vs **2 of 18 (11%)** on the momentum-biased queue — ~4× the
+conversion. The 6 kills were all VALUE TRAPS (cheap-but-deteriorating: ODD −26%
+guided down, FLO an M&A-consolidation mirage, OI earnings −87%, PAR/NABL organic
+decel, VRDN catalyst-fired). The 4 keeps were washed-out QUALITY inflections
+priced as broken. Lesson: **the read is only as good as the queue; hunt the lower
+half of the 52-week range and the read converts.** Fold `is_arrived_52w` into the
+spotlight so the queue arrives pre-cleaned.
+
+## The earlier lesson (rounds 1+2 = 18 reads, 2 keeps)
 
 **The keeps are the names LOW in their 52-week range; every kill was high in
 range / already ran.** SABR (~40% below prior high) and ACVA (~26% up 52wk range,

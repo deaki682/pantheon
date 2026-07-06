@@ -4,8 +4,12 @@
  "status": "pending_funding_paper",
  "equity_nominal": 10000.0,
  "book": {
-  "ACVA": 3000.0,
-  "SABR": 3000.0
+  "CBZ": 1548.89,
+  "FRPT": 1642.76,
+  "ACVA": 1501.96,
+  "NCNO": 1267.28,
+  "EYE": 1161.67,
+  "SABR": 1877.44
  },
- "note": "2 fundable of 18 read across 2 rounds (SABR, ACVA) \u2014 both washed-out, low-in-52wk-range, real margin inflection with the re-rate priced out. Paper only \u2014 Oracle pending_funding."
+ "note": "6 fundable of 28 read across 3 rounds. Round 3 (queue rebuilt around low-52wk-range + live-field reconcile) converted 4/10 vs 2/18 on the momentum-biased queue. Concentrated to the top 6 by annualized ER. Paper only."
 }

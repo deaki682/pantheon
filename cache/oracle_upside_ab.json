@@ -2,32 +2,33 @@
  "spec": "oracle_upside_ab",
  "rounds": [
   "2026-07-06-r1",
-  "2026-07-06-r2"
+  "2026-07-06-r2",
+  "2026-07-06-r3"
  ],
  "arm_a_reading": [
   "SABR",
-  "ACVA"
+  "ACVA",
+  "CBZ",
+  "FRPT",
+  "EYE",
+  "NCNO"
  ],
- "note": "Arm A = breadth read funded SABR + ACVA (2 of 18 read across 2 rounds). Grade fwd return vs SPY at 6/12/24mo; LLM-lift = A - B.",
- "read_verdicts": {
-  "SABR": "KEEP-levered_turnaround",
-  "ACVA": "KEEP-washed_out_net_cash_margin_turn",
-  "WLY": "KILL-arrived",
-  "KPTI": "KILL-going_concern",
-  "POET": "KILL-prerev_arrived",
-  "MX": "KILL-arrived_margin_down",
-  "BBCP": "KILL-arrived",
-  "EPC": "KILL-MnA_rerate",
-  "MRVI": "KILL-arrived",
-  "MEI": "KILL-arrived",
-  "PAYS": "KILL-priced_for_perfection",
-  "IRWD": "KILL-arrived_6x",
-  "OSG": "KILL-recycled_ticker",
-  "LIND": "KILL-arrived",
-  "DFIN": "KILL-small_priced",
-  "NNBR": "KILL-arrived_preferred_overhang",
-  "SLP": "KILL-mechanical_margin",
-  "RRGB": "KILL-arrived_distressed"
+ "conversion": {
+  "momentum_queue_r1_r2": "2 of 18 (11%)",
+  "low_52wk_range_queue_r3": "4 of 10 (40%)"
  },
- "lesson": "The 2 keeps were the only 2 names LOW in their 52wk range; all 16 kills were arrived/not-real. The true arrival gate needs the live Robinhood 52wk range (range_position/is_arrived_52w), not the 6mo proxy."
+ "note": "Arm A = the breadth read funded 6 washed-out inflections. Arm B = the spotlight top-N. Grade fwd return vs SPY at 6/12/24mo; LLM-lift = A - B.",
+ "r3_verdicts": {
+  "CBZ": "KEEP-services_rollup_overcorrection",
+  "FRPT": "KEEP-volume_reaccel_FCF_turn",
+  "EYE": "KEEP-margin_turnaround",
+  "NCNO": "KEEP-margin_FCF_turn_AI_optionality",
+  "ODD": "KILL-deteriorating_value_trap",
+  "NABL": "KILL-decelerating_margin_harvest",
+  "FLO": "KILL-MnA_artifact_organic_down",
+  "OI": "KILL-earnings_collapse_levered",
+  "PAR": "KILL-organic_decel_convert_overhang",
+  "VRDN": "KILL-catalyst_fired_clinical_crack"
+ },
+ "lesson": "Rebuilding the queue around LOW-in-52wk-range (live Robinhood range) + live-field reconcile (drop financials/shells/recycled-tickers) roughly 4x-ed the read conversion (11%->40%). The kills were value traps (cheap-but-deteriorating); the keeps were washed-out QUALITY inflections priced as broken. The 52wk-range gate belongs IN the spotlight next."
 }
