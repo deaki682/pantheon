@@ -29,3 +29,8 @@
 {"date": "2026-06-30", "dollars": 177.95, "order_id": "6a4364c5-f55f-40e3-ab9e-000b60c6bd4a", "side": "buy", "symbol": "VITL"}
 {"date": "2026-06-30", "dollars": 183.6, "order_id": "6a4364c6-2c1f-4c73-8e10-31170e9a0463", "side": "buy", "symbol": "J"}
 {"date": "2026-06-30", "dollars": 177.3, "order_id": "6a4364c7-478e-4c84-9c47-87c5dc9b5a16", "side": "buy", "symbol": "PSN"}
+{"ts": "2026-07-06", "god": "oracle", "action": "sell", "symbol": "CXT", "shares": 7.212012, "price": 53.5201, "proceeds": 385.99, "realized_pnl": 28.65, "source": "operator_liquidation_for_launch"}
+{"ts": "2026-07-06", "god": "oracle", "action": "sell", "symbol": "HDSN", "shares": 65.672977, "price": 6.1819, "proceeds": 405.97, "realized_pnl": 42.54, "source": "operator_liquidation_for_launch"}
+{"ts": "2026-07-06", "god": "oracle", "action": "sell", "symbol": "J", "shares": 2.889455, "price": 128.6801, "proceeds": 371.82, "realized_pnl": 8.22, "source": "operator_liquidation_for_launch"}
+{"ts": "2026-07-06", "god": "oracle", "action": "sell", "symbol": "PSN", "shares": 6.968092, "price": 57.1101, "proceeds": 397.95, "realized_pnl": 40.65, "source": "operator_liquidation_for_launch"}
+{"ts": "2026-07-06", "god": "oracle", "action": "sell", "symbol": "VITL", "shares": 31.848102, "price": 12.5116, "proceeds": 398.47, "realized_pnl": 40.52, "source": "operator_liquidation_for_launch"}

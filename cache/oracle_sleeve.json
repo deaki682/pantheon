@@ -1,50 +1,17 @@
 {
-  "cash": 199.4813921007501,
-  "contributed_cash": 2000.0,
-  "cooldown_days": 31,
-  "cooldowns": {},
-  "gfv_count": 0,
-  "halted": false,
-  "name": "oracle",
-  "peak_equity": 2139.36743584575,
-  "pending_settlements": [],
-  "positions": {
-    "CXT": {
-      "avg_price": 49.54789315381061,
-      "cohort_id": "cohort-2026-06-29",
-      "entry_date": "2026-06-29",
-      "sector": "Producer Manufacturing",
-      "shares": 7.212012
-    },
-    "HDSN": {
-      "avg_price": 5.533934501400782,
-      "cohort_id": "cohort-2026-06-29",
-      "entry_date": "2026-06-29",
-      "sector": "Distribution Services",
-      "shares": 65.672977
-    },
-    "J": {
-      "avg_price": 125.83687927308092,
-      "cohort_id": "cohort-2026-06-29",
-      "entry_date": "2026-06-29",
-      "sector": "Technology Services",
-      "shares": 2.889455
-    },
-    "PSN": {
-      "avg_price": 51.27659049277765,
-      "cohort_id": "cohort-2026-06-29",
-      "entry_date": "2026-06-29",
-      "sector": "Technology Services",
-      "shares": 6.968092
-    },
-    "VITL": {
-      "avg_price": 11.239285277590483,
-      "cohort_id": "cohort-2026-06-29",
-      "entry_date": "2026-06-29",
-      "sector": "Process Industries",
-      "shares": 31.848101999999997
-    }
-  },
-  "realized_pnl": 0.0,
-  "trades_count": 26
+ "cash": 2159.6773,
+ "contributed_cash": 2000.0,
+ "cooldown_days": 31,
+ "cooldowns": {},
+ "gfv_count": 0,
+ "halted": false,
+ "name": "oracle",
+ "peak_equity": 2139.36743584575,
+ "pending_settlements": [],
+ "positions": {},
+ "realized_pnl": 160.58,
+ "trades_count": 26,
+ "liquidated": true,
+ "liquidated_on": "2026-07-06",
+ "liquidated_note": "Legacy cohort-2026-06-29 (CXT/HDSN/J/PSN/VITL) liquidated at OPERATOR direction as part of a full-account liquidation for the 2026-07-06 god launch (not a thesis exit). Proceeds ~$1960 realized (+$161 vs entry). Positions emptied to match the now-empty broker; capital returns to the operator/treasury for reallocation. The reframed UPSIDE engine funds a separate fresh sleeve when armed (state in cache/oracle_upside_*)."
 }
