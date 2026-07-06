@@ -92,29 +92,41 @@ to perfectly vet a handful the lenses happened to surface. Run every session in
    orders. **Pre-trade:** `filter_broker_to_gods` (legacy names are personal =
    invisible) + `pre_trade_check` + `already_placed_today` before any order.
 
-1. **Source WIDE first, lenses second (2026-07-06) — the THREE-leg pass.** The
+1. **Source WIDE first, lenses second (2026-07-06) — the FOUR-leg pass.** The
    PRIMARY sourcing is the unified whole-universe sweep — run it every session:
-   `python3 run_oracle_sourcing.py` runs all three why_mispriced legs and writes
-   one combined `cache/oracle_sourced_candidates.json`:
+   `python3 run_oracle_sourcing.py` runs the three why_mispriced event/state legs
+   and writes one combined `cache/oracle_sourced_candidates.json`:
    - **forced_seller** (`oracle.forced_seller_sourcing.sweep_by_form`) — issuer
      tenders / fund wind-downs / large-cap spinoffs, graveyard-excluded,
      Hermes-deduped, tradability-split.
    - **hard_catalyst** (`oracle.hard_catalyst_sourcing.sweep_by_form` +
      `sweep_strategic_review`) — activist 13D campaigns + strategic-review 8-Ks.
+     DEMOTED to a cross-reference signal (measured 0/14 standalone, 13D channel a
+     data desert) — intersect it, don't fund it alone (see the overlay below).
    - **neglect** (`oracle.neglect_screen.screen_panel`) — below-floor names from
      the Sharadar panel; needs the pulled data (`run_oracle_neglect_pull.py`
-     refreshes `data/oracle_neglect/` quarterly with fresh fundamentals).
-   THEN run the four legacy lenses (insider/13F/13D/quality) as a SECONDARY net —
-   narrow, biased, ~zero-measured-alpha; the durable edges are in the three legs.
-   Sourcing is a WIDE cheap net, not a decision; every candidate — swept or
-   lensed — must EARN its slot through the convex-dossier + verification
-   discipline (steps 2/2c). Record each candidate's `lens_score` purely as the
-   Arm-B baseline input — never as the decision.
-   *Known engine gaps to tighten (docs/oracle_sourcing_status_2026-07-06.md):* a
+     refreshes `data/oracle_neglect/` quarterly with fresh fundamentals). This is
+     the SPINE — the leg where the fundable floors actually live.
+   PLUS the fourth lens (run alongside): **asset_revaluation**
+   (`python3 run_oracle_asset_revaluation.py` / `oracle.asset_revaluation.screen_panel`)
+   — the OPPOSITE mispricing: land / farmland / timber / real estate carried BELOW
+   market at historical cost (the ALCO gap). Floors that GROW, several with a live
+   realization catalyst (SRG/STHO/NLOP). floor_basis=`transacting_asset`; the
+   precision read appraises the true NAV.
+   THEN, the **catalyst overlay** (`python3 run_oracle_catalyst_overlay.py`) —
+   INTERSECT the neglect/asset floors with activist-13D / live strategic-review
+   catalysts. A floor + a live catalyst (NNDM, FULC, and the SEER take-under) is
+   the strongest convex shape; a catalyst overlays a floor, never substitutes.
+   THEN the four legacy lenses (insider/13F/13D/quality) as a SECONDARY net —
+   narrow, biased, ~zero-measured-alpha. Sourcing is a WIDE cheap net, not a
+   decision; every candidate must EARN its slot through the convex-dossier +
+   verification discipline (steps 2/2c). Record each candidate's `lens_score`
+   purely as the Arm-B baseline input — never as the decision.
+   *Known engine gaps to tighten (docs/oracle_*_2026-07-06.md):* a
    fund-vs-operating-company issuer filter; catching CEF/BDC tender
-   *commencement* (not post-expiry) filings; and an index-DELETION channel
-   against S&P/Russell reconstitution data (a Form 25 is the wrong instrument —
-   measured ~all noise, DEMOTED).
+   *commencement* (not post-expiry) filings; an index-DELETION channel against
+   S&P/Russell data (Form 25 measured ~all noise, DEMOTED); and the backlog
+   lenses (#18-22: lookthrough-holdco-NAV, tax-loss-selling, inventory_heavy flag).
 
 1c. **FRESHNESS reconcile vs the live broker (2026-07-06 — cheapest filter, do it
    BEFORE dossiers).** Sharadar's marketcap uses a share count that LAGS
