@@ -1,8 +1,21 @@
 {
  "name": "hermes",
- "cash": 4000.0,
+ "cash": 3520.0000250656003,
  "contributed_cash": 4000.0,
- "positions": {},
+ "positions": {
+  "ALOT": {
+   "symbol": "ALOT",
+   "shares": 16.836256,
+   "entry_price": 28.5099,
+   "offer_price": 29.0,
+   "entry_date": "2026-07-06",
+   "expected_close": "2026-Q3 (outside date 2026-11-17)",
+   "break_stop": 24.2334,
+   "spy_entry": 750.99,
+   "deal_type": "cash",
+   "dollars": 479.9999749343999
+  }
+ },
  "closed": [],
  "realized_pnl": 0.0,
  "halted": false,
