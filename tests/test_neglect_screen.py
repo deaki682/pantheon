@@ -94,6 +94,44 @@ def test_common_tradable_gate():
     assert ns.is_common_tradable(_meta(category="ADR Common Stock"))  # USD ADR ok
 
 
+def test_hardening_excludes_china_and_crypto():
+    # China/HK domicile — unreachable floor
+    assert not ns.is_common_tradable(_meta(location="Beijing; China"))
+    assert not ns.is_common_tradable(_meta(location="Hong Kong"))
+    assert ns.is_common_tradable(_meta(location="California; U.S.A"))
+    # crypto-treasury name — floor isn't hard
+    assert not ns.is_common_tradable(_meta(name="Cypherpunk Technologies Inc"))
+    assert not ns.is_common_tradable(_meta(name="MicroBitcoin Blockchain Corp"))
+    assert ns.is_common_tradable(_meta(name="Identiv Inc"))
+
+
+def test_investments_heavy_flag():
+    # $10M cash + $90M investments below a $150M... use net cash floor; investments dominate
+    row = _bs(ticker="INV", cashneq=10e6, investmentsc=90e6, debt=0)
+    cand = ns.screen_name(row, 60e6, _meta(name="Inv Heavy"))
+    assert cand["floor_type"] == "net_cash"
+    assert cand["investments_frac"] == 0.9
+    assert cand["investments_heavy"] is True
+    # mostly hard cash -> not flagged
+    row2 = _bs(ticker="CSH", cashneq=90e6, investmentsc=10e6, debt=0)
+    cand2 = ns.screen_name(row2, 60e6, _meta(name="Cash Rich"))
+    assert cand2["investments_heavy"] is False
+
+
+def test_recent_dilution_flag():
+    row = _bs(ticker="DIL", cashneq=100e6, debt=0, sharesbas=44e6)
+    # shares grew 9M -> 44M (~5x) -> flagged
+    cand = ns.screen_name(row, 60e6, _meta(name="Diluter"), prior_sharesbas=9e6)
+    assert cand["recent_dilution"] is True
+    assert cand["share_growth_qoq"] > 3
+    # flat share count -> not flagged
+    cand2 = ns.screen_name(row, 60e6, _meta(name="Stable"), prior_sharesbas=43.5e6)
+    assert cand2["recent_dilution"] is False
+    # no prior -> None, not flagged
+    cand3 = ns.screen_name(row, 60e6, _meta(name="Unknown"))
+    assert cand3["share_growth_qoq"] is None and cand3["recent_dilution"] is False
+
+
 def test_screen_name_emits_neglect_candidate():
     # 500M net cash, burns 30M/q -> 16.7q runway (>8) -> NOT eroding
     row = _bs(ticker="ARVN", cashneq=500e6, investmentsc=0, debt=0, ncfo=-30e6,

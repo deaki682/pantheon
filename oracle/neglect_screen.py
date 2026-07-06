@@ -53,6 +53,24 @@ EXCLUDE_SECTORS = frozenset({"Financial Services"})
 # Residential/Industrial, which own real buildings — are KEPT; their book is a
 # genuine, if illiquid, transacting-asset floor the precision gate can test).
 EXCLUDE_INDUSTRIES = frozenset({"REIT - Mortgage"})
+
+# --- hardening from the 2026-07-06 full-cohort verification (27 names) ---
+# China/HK-DOMICILED names: the floor (cash) carries VIE/reachability/governance/
+# fraud risk that makes a "below net cash" discount un-actionable — the house view
+# already flags these. Excluded by SEC-registered LOCATION. (CAVEAT: a China
+# operating company registered at a US address — e.g. AIFA "California; U.S.A" —
+# slips this gate; catching it needs the 10-Q, a precision-stage job.)
+EXCLUDE_LOCATIONS = ("china", "hong kong")
+# CRYPTO/DIGITAL-ASSET TREASURIES: the "cash/investments" is a volatile
+# mark-to-market coin pile, NOT a hard floor (CYPH's floor was 91% Zcash, halved
+# in a quarter). Excluded by name marker. (A generic-named shell that pivoted to
+# crypto still needs the filing read — precision-stage.)
+CRYPTO_NAME_MARKERS = ("crypto", "bitcoin", "blockchain", "zcash", "ethereum",
+                       "ether ", "digital asset", "cypherpunk", "coin ", "web3",
+                       "token", "defi", "metaverse", "stablecoin")
+# Flag thresholds (do NOT exclude — the precision read decides):
+INVESTMENTS_HEAVY_FRAC = 0.60   # investments > 60% of the liquid pile => verify they're liquid marketable securities, not crypto/structured notes/private stakes
+DILUTION_FLAG_QOQ = 0.20        # shares grew >20% QoQ => active ATM/conversion diluting the per-share floor
 # Common stock only (incl. ADRs / Canadian) — no warrants, preferred, units,
 # funds, ETNs. A category must START with one of these AND not be a warrant.
 _COMMON_PREFIXES = ("Domestic Common Stock", "ADR Common Stock", "Canadian Common Stock")
@@ -145,6 +163,12 @@ def is_common_tradable(meta: dict) -> bool:
         return False
     if (meta.get("currency") or "USD") != "USD":
         return False
+    loc = (meta.get("location") or "").lower()
+    if any(x in loc for x in EXCLUDE_LOCATIONS):        # China/HK domicile — unreachable floor
+        return False
+    name = (meta.get("name") or "").lower()
+    if any(m in name for m in CRYPTO_NAME_MARKERS):     # crypto-treasury — floor isn't hard
+        return False
     cat = (meta.get("category") or "")
     if "Warrant" in cat:
         return False
@@ -159,12 +183,16 @@ def screen_name(
     row: dict, mcap_usd: float, meta: dict, *,
     neglect_cap_usd: float = NEGLECT_CAP_USD,
     min_cap_usd: float = MIN_CAP_USD,
+    prior_sharesbas: Optional[float] = None,
 ) -> Optional[dict]:
     """Screen ONE name → a neglect sourcing candidate, or None if it doesn't sit
     below a real floor in the coverage window. Pure: `row` is the latest SF1
     balance sheet, `mcap_usd` the current marketcap in dollars, `meta` the
-    TICKERS row. Emits a candidate tagged `why_mispriced_type='neglect'` with the
-    floor_basis the verification gate consumes."""
+    TICKERS row. `prior_sharesbas` is the previous quarter's share count (for the
+    recent-dilution flag). Emits a candidate tagged `why_mispriced_type='neglect'`
+    with the floor_basis the verification gate consumes, plus precision-stage
+    FLAGS (investments_heavy, recent_dilution) that mark — not exclude — the
+    common ways a raw net-cash screen lies (the filing read decides)."""
     if not is_common_tradable(meta):
         return None
     if not (min_cap_usd <= mcap_usd <= neglect_cap_usd):
@@ -175,6 +203,19 @@ def screen_name(
         return None
     runway = cash_runway_quarters(row, fl.net_cash)
     eroding = runway is not None and runway < MIN_RUNWAY_Q
+    # investments-heavy: how much of the liquid pile is `investmentsc` (which may
+    # be crypto / structured notes / private stakes / marked securities) vs hard
+    # cash. High => the "cash" floor needs a liquidity read (NNDM/AIFA/CYPH shape).
+    cash = _num(row, "cashneq"); inv = _num(row, "investmentsc")
+    liquid = cash + inv
+    inv_frac = (inv / liquid) if liquid > 0 else 0.0
+    investments_heavy = inv_frac >= INVESTMENTS_HEAVY_FRAC
+    # recent-dilution: shares grew fast QoQ => an active ATM/conversion is melting
+    # the per-share floor into the market (TPET/MSAI shape).
+    cur_sh = _num(row, "sharesbas")
+    share_growth = ((cur_sh / prior_sharesbas - 1.0)
+                    if (prior_sharesbas and prior_sharesbas > 0 and cur_sh > 0) else None)
+    recent_dilution = share_growth is not None and share_growth >= DILUTION_FLAG_QOQ
     return {
         "ticker": row.get("ticker"),
         "company": meta.get("name"),
@@ -191,6 +232,10 @@ def screen_name(
         "tangible_book_usd": round(fl.tangible_book, 0),
         "runway_quarters": runway,
         "eroding_floor": eroding,
+        "investments_frac": round(inv_frac, 2),
+        "investments_heavy": investments_heavy,
+        "share_growth_qoq": (round(share_growth, 3) if share_growth is not None else None),
+        "recent_dilution": recent_dilution,
         "as_of": row.get("datekey"),
         "source": "neglect_screen",
         "mechanism": ("Structural neglect: an uncovered small-cap priced below a "
@@ -207,14 +252,18 @@ def screen_panel(
     neglect_cap_usd: float = NEGLECT_CAP_USD,
     min_cap_usd: float = MIN_CAP_USD,
     exclude_tickers: Optional[set[str]] = None,
+    prior_sharesbas_by_ticker: Optional[dict[str, float]] = None,
 ) -> list[dict]:
     """Run the screen across the whole panel → candidates, deepest discount first.
 
     `sf1_by_ticker` is one (latest) balance sheet per ticker, `mcap_by_ticker`
     the current marketcap in DOLLARS (caller converts Sharadar's $M), and
-    `meta_by_ticker` the TICKERS metadata. `exclude_tickers` skips names already
-    in the pool/pipeline so the screen surfaces only what's NEW."""
+    `meta_by_ticker` the TICKERS metadata. `prior_sharesbas_by_ticker` (optional)
+    gives the previous quarter's share count per ticker for the recent-dilution
+    flag. `exclude_tickers` skips names already in the pool/pipeline so the screen
+    surfaces only what's NEW."""
     exclude = exclude_tickers or set()
+    prior = prior_sharesbas_by_ticker or {}
     out: list[dict] = []
     for ticker, row in sf1_by_ticker.items():
         if ticker in exclude:
@@ -224,7 +273,8 @@ def screen_panel(
         if mcap is None or meta is None:
             continue
         cand = screen_name(row, mcap, meta,
-                           neglect_cap_usd=neglect_cap_usd, min_cap_usd=min_cap_usd)
+                           neglect_cap_usd=neglect_cap_usd, min_cap_usd=min_cap_usd,
+                           prior_sharesbas=prior.get(ticker))
         if cand:
             out.append(cand)
     return sorted(out, key=lambda c: -c["discount"])

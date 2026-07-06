@@ -95,12 +95,18 @@ print(f"[3/3] NEGLECT — screening the Sharadar fundamentals panel...", flush=T
 neg_cands = []
 try:
     sf1_rows = json.load(gzip.open(f"{NEG}/sf1_bs_part0.json.gz", "rt"))
-    sf1_by_ticker: dict[str, dict] = {}
+    _by_ticker_rows: dict[str, list] = {}
     for r in sf1_rows:
         t = r.get("ticker")
-        if t and (sf1_by_ticker.get(t) is None
-                  or (r.get("datekey") or "") > (sf1_by_ticker[t].get("datekey") or "")):
-            sf1_by_ticker[t] = r
+        if t:
+            _by_ticker_rows.setdefault(t, []).append(r)
+    sf1_by_ticker: dict[str, dict] = {}
+    prior_sharesbas: dict[str, float] = {}
+    for t, rows in _by_ticker_rows.items():
+        rows.sort(key=lambda r: (r.get("datekey") or ""))
+        sf1_by_ticker[t] = rows[-1]
+        if len(rows) >= 2 and rows[-2].get("sharesbas"):
+            prior_sharesbas[t] = float(rows[-2]["sharesbas"])
     daily = json.load(gzip.open(DAILY, "rt"))
     mcap_by_ticker: dict[str, float] = {}
     mcap_date: dict[str, str] = {}
@@ -123,7 +129,8 @@ try:
         if cur != "USD":
             meta_by_ticker[t]["currency"] = cur
     neg_cands = ns.screen_panel(sf1_by_ticker, mcap_by_ticker, meta_by_ticker,
-                                exclude_tickers=exclude_tickers)
+                                exclude_tickers=exclude_tickers,
+                                prior_sharesbas_by_ticker=prior_sharesbas)
     by_type: dict[str, int] = {}
     for c in neg_cands:
         by_type[c["floor_type"]] = by_type.get(c["floor_type"], 0) + 1

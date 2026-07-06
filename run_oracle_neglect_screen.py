@@ -14,17 +14,22 @@ from oracle import neglect_screen as ns
 NEG = "data/oracle_neglect"
 DAILY = "data/achilles_gauntlet/daily_mcap_2026.json.gz"
 
-# ---- latest SF1 balance sheet per ticker -----------------------------------
+# ---- latest + prior SF1 balance sheet per ticker ---------------------------
 sf1_rows = json.load(gzip.open(f"{NEG}/sf1_bs_part0.json.gz", "rt"))
-sf1_by_ticker: dict[str, dict] = {}
+by_ticker_rows: dict[str, list] = {}
 for r in sf1_rows:
     t = r.get("ticker")
-    if not t:
-        continue
-    prev = sf1_by_ticker.get(t)
-    if prev is None or (r.get("datekey") or "") > (prev.get("datekey") or ""):
-        sf1_by_ticker[t] = r
-print(f"latest SF1 balance sheet for {len(sf1_by_ticker)} tickers", flush=True)
+    if t:
+        by_ticker_rows.setdefault(t, []).append(r)
+sf1_by_ticker: dict[str, dict] = {}
+prior_sharesbas: dict[str, float] = {}
+for t, rows in by_ticker_rows.items():
+    rows.sort(key=lambda r: (r.get("datekey") or ""))
+    sf1_by_ticker[t] = rows[-1]                    # latest
+    if len(rows) >= 2 and rows[-2].get("sharesbas"):
+        prior_sharesbas[t] = float(rows[-2]["sharesbas"])   # prior quarter (dilution flag)
+print(f"latest SF1 balance sheet for {len(sf1_by_ticker)} tickers "
+      f"({len(prior_sharesbas)} with a prior quarter for the dilution flag)", flush=True)
 
 # ---- current marketcap ($M -> $) -------------------------------------------
 daily = json.load(gzip.open(DAILY, "rt"))
@@ -83,7 +88,8 @@ if exclude:
 
 # ---- screen ----------------------------------------------------------------
 cands = ns.screen_panel(sf1_by_ticker, mcap_by_ticker, meta_by_ticker,
-                        exclude_tickers=exclude)
+                        exclude_tickers=exclude,
+                        prior_sharesbas_by_ticker=prior_sharesbas)
 
 by_type: dict[str, int] = {}
 for c in cands:
