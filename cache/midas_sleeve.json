@@ -1,29 +1,40 @@
 {
-  "cash": 9.005108454199899,
+  "cash": 0.0,
   "contributed_cash": 2000.0,
   "cooldowns": {},
   "gfv_count": 0,
   "halted": false,
-  "live_retired": "2026-07-04",
   "name": "midas",
   "peak_equity": 2000.0,
-  "pending_settlements": [],
-  "position": {
-    "convergence_count": 2,
-    "entry_date": "2026-06-30",
-    "entry_price": 20.2144,
-    "exit_date": "2026-07-03",
-    "score": 0.42309905755392146,
-    "shares": 98.444673,
-    "signals": {
-      "earnings_beat": 0.981,
-      "volume_anomaly": 1.0
-    },
-    "stop_price": 18.193,
-    "symbol": "DAKT"
-  },
-  "realized_pnl": 0.0,
-  "retirement_note": "Operator directive 2026-07-04: live trading retired, capital reallocated to Proteus. Position DAKT stays open until queued sell 6a473615-5669-48e7-aa68-0550023afcd8 fills (expected Mon 2026-07-06 open); then /midas wind-down reconciles the fill and sweeps ALL cash to cache/proteus_sleeve.json. No new entries, ever. Ghost A/B (/midas-scan + /midas-ghost) continues.",
-  "trades_count": 1,
-  "weekly_results": []
+  "pending_settlements": [
+    {
+      "amount": 1961.021331723555,
+      "settle_date": "2026-07-07"
+    }
+  ],
+  "position": null,
+  "realized_pnl": -28.978666167645088,
+  "retired": "2026-07-04",
+  "swept_on": "2026-07-06",
+  "swept_to_proteus": 1970.026440177755,
+  "trades_count": 2,
+  "weekly_results": [
+    {
+      "convergence_count": 2,
+      "entry_date": "2026-06-30",
+      "entry_price": 20.2144,
+      "exit_date": "2026-07-06",
+      "exit_price": 19.93,
+      "exit_reason": "time_stop",
+      "pnl": -28.978666167645088,
+      "return_pct": -0.014069178407471976,
+      "score": 0.42309905755392146,
+      "signals": {
+        "earnings_beat": 0.981,
+        "volume_anomaly": 1.0
+      },
+      "symbol": "DAKT",
+      "week_id": "2026-W27"
+    }
+  ]
 }

@@ -261,5 +261,10 @@
     "equity": 1968.0541011541995,
     "note": "pending-exit guard (Zeus hourly dispatch): DAKT time-stop sell still queued (order 6a473615, market closed for observed July 4th holiday, verified via get_equity_orders state=queued/cumulative_quantity=0), no duplicate sell placed. Awaiting fill at next open Mon 2026-07-06.",
     "ts": "2026-07-03T23:09:00Z"
+  },
+  {
+    "date": "2026-07-06",
+    "equity": 0.0,
+    "note": "wind_down_complete_swept_to_proteus"
   }
 ]

@@ -4,8 +4,8 @@
   "last_scan": "2026-06-30",
   "last_scan_date": "2026-06-30",
   "last_scan_stage": "stage3_complete",
-  "pending_exit_note": "DAKT time-stop sell re-queued 2026-07-06T06:13:56Z after the prior order (6a473615, queued since 2026-07-03) was cancelled by the broker with 0 fill (observed ~05:26Z, before market open). Awaiting fill at today's open.",
-  "pending_exit_order_id": "6a4b47a4-e0e0-47a2-be54-ba60168ae8de",
+  "pending_exit_note": null,
+  "pending_exit_order_id": null,
   "pick": "EQPT",
   "pick_convergence": 3,
   "pick_score": 0.3279,
@@ -13,6 +13,7 @@
   "scan_candidates": 687,
   "scan_finalists": 10,
   "wind_down": true,
+  "wind_down_complete": "2026-07-06",
   "wind_down_note": "Live retired 2026-07-04. After the DAKT sweep, /midas never runs again.",
   "winner": "DAKT",
   "winner_score": 0.42309905755392146
