@@ -1,0 +1,41 @@
+{
+  "window": "2026-04-06..2026-07-06",
+  "n_neglect": 280,
+  "n_neglect_mapped": 280,
+  "n_13d_subjects": 1,
+  "n_form_overlay": 0,
+  "form_overlay": [],
+  "n_curated": 2,
+  "curated_overlay": [
+    {
+      "ticker": "NNDM",
+      "cik": "0001643303",
+      "company": "NANO DIMENSION LTD",
+      "floor_type": "net_cash",
+      "floor_basis": "net_net",
+      "discount": 0.2599,
+      "marketcap_usd": 303400000.0,
+      "eroding_floor": false,
+      "investments_heavy": false,
+      "catalyst_kind": "activist_proxy",
+      "catalyst": "LIVE Murchinson activist proxy fight (DEFC14A; EGM 2026-07-31) opposing a biotech-pivot M&A that would spend the cash pile. Verified WATCH \u2014 thin floor, governance-only demand (no capital-return yet).",
+      "source": "curated_verification",
+      "note": "FLOOR + a verified LIVE catalyst \u2014 the convex combo; drive through the four-trap gate."
+    },
+    {
+      "ticker": "FULC",
+      "cik": "0001680581",
+      "company": "FULCRUM THERAPEUTICS INC",
+      "floor_type": "net_cash",
+      "floor_basis": "net_net",
+      "discount": 0.2214,
+      "marketcap_usd": 255900000.0,
+      "eroding_floor": false,
+      "investments_heavy": true,
+      "catalyst_kind": "strategic_review",
+      "catalyst": "LIVE Leerink strategic-alternatives review (engaged 2026-05-31 after 85% RIF); sub-net-cash cash shell. Verified WATCH \u2014 reverse-merge-away risk.",
+      "source": "curated_verification",
+      "note": "FLOOR + a verified LIVE catalyst \u2014 the convex combo; drive through the four-trap gate."
+    }
+  ]
+}
