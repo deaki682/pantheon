@@ -3,7 +3,7 @@
   "reset_at": "2026-07-06",
   "reset_note": "FRESH LAUNCH from scratch under the 2026-07-06 rules (whole-universe forced-seller sourcing + primary-source verification gate). Operator directive: forget all prior dossier choices and start clean. This is NOT a buy-launch \u2014 it tees up VERIFIED choices for when funding lands. The prior pool (9 dossiers incl. the 4 survivors + 4 launch-gate kills) is archived in oracle_convex_dossiers_archive_pre_reset_2026_07_06.json for the audit trail; the learning survives in the verification gate's four traps + RESEARCH_LEDGER. Legacy cohort (CXT/HDSN/J/PSN/VITL) untouched \u2014 operator-held, not the engine's.",
   "built": "2026-07-06",
-  "source": "fresh launch: first verified name \u2014 sourced by forced_seller_sourcing (form-enum), cleared by verify_dossier",
+  "source": "fresh launch: first verified name \u2014 sourced by forced_seller_sourcing (form-enum), cleared by verify_dossier | +INVE (neglect leg, 2026-07-06): 2nd verified name, post-divestiture cash box ~29% below net cash, primary-source 10-Q verified.",
   "dossiers": {
     "JOF": {
       "symbol": "JOF",
@@ -56,6 +56,59 @@
         },
         "verdict": "keep",
         "notes": "Primary-source verified: SC TO-I + N-CSR confirm the recurring 9%-trigger CTO at 98% NAV; NAV $13.04 vs $11.68 = live \u221210.4% discount (CEFConnect, N-CSR framework). Only real archetype of 7 sourced CEF/BDC leads; 6 were preferred-leverage tenders, non-traded at-NAV redemptions, or illiquid marked-down BDCs.",
+        "passed": true
+      },
+      "verified": true
+    },
+    "INVE": {
+      "symbol": "INVE",
+      "spec": "convex",
+      "author": "oracle",
+      "created_at": "2026-07-06T08:53:54.681307",
+      "business": "Identiv, Inc. \u2014 after divesting its Physical Access and Credentials/identity businesses for cash, a small IoT/RFID inlay & specialty-tag maker sitting on a large cash pile (revenue ~$7.4M/quarter).",
+      "thesis": "After selling its physical-access and identity businesses for cash, Identiv is a ~$63M-cap company holding $124.5M cash and ZERO debt, trading ~29% below net cash on a fully-diluted, net-of-all-liabilities basis. The market misprices it because it is small and sell-side-uncovered and its remaining money-losing IoT/RFID stub makes quant and index screens read the P&L losses rather than the debt-free balance sheet \u2014 nobody is forced to close the cash gap.",
+      "sector": "Technology",
+      "current_price": 2.61,
+      "spy_price": 0.0,
+      "floor_pct": 0.2,
+      "upside_x": 1.45,
+      "prob_upside": 0.5,
+      "asymmetry_score": 0.125,
+      "floor_hardness": "hard",
+      "horizon_months": 18.0,
+      "convexity_score": 0.0833,
+      "recent_runup_pct": 0.0,
+      "catalyst_fired_risk": false,
+      "convex": true,
+      "why_mispriced_type": "neglect",
+      "why_mispriced": "Post-divestiture cash box: a small, uncovered stock whose money-losing operating stub makes screens read the losses not the debt-free $124.5M balance sheet; no analyst, no index, no forced buyer to close the gap.",
+      "catalyst": "Capital return (existing $10M repurchase authorization; potential larger return), an accretive redeployment of the cash the market credits, or an activist forcing realization of the sub-net-cash discount.",
+      "catalyst_date": "",
+      "falsifiable_prediction": "Within ~18 months INVE re-rates toward net cash (>= $3.30/sh) OR the net-cash-per-FD-share floor holds >= $3.30 while price lags.",
+      "prediction_date": "2028-01-06",
+      "kill_condition": "Net cash per fully-diluted share falls below $3.00 (accelerated burn or a value-destroying acquisition), or a definitive agreement to spend the cash on an unrelated >$40M acquisition at a premium to book.",
+      "kill_condition_type": "filing_event",
+      "kill_condition_value": "10-Q shows net cash per FD share < $3.00, or a >$40M unrelated acquisition",
+      "adversarial": "The house case against: a value trap \u2014 a sub-$5 microcap cash box can sit ~30% below net cash for years (dead money); the operating stub bleeds ~$14M/yr, slowly melting the floor; the 7.13M as-converted Series B dilutes the common claim ~23% (the headline 49%-below-net-cash screen is really ~29% fully diluted); management controls the cash and could torch it on a bad deal; and there is NO dated catalyst forcing realization.",
+      "dead_trigger_risk": false,
+      "citations": [
+        "SEC 10-Q Identiv Inc, filed 2026-05-14, accession 0001193125-26-223705 (inve-20260331.htm): cash & equivalents $124.525M, restricted cash $0.3M, total liabilities $10.482M, ZERO debt/credit facility; Series B preferred as-converted 7,126,723 sh; common outstanding 24,006,212 sh (as of 2026-05-04); no goodwill (intangibles $0); no noncontrolling interests (wholly-owned subs).",
+        "https://www.sec.gov/Archives/edgar/data/1036044/000119312526223705/inve-20260331.htm"
+      ],
+      "lens_score": 0.0,
+      "verification": {
+        "verified_at": "2026-07-06T08:53:54.681354",
+        "verified_by": "oracle",
+        "floor_basis": "net_net",
+        "traps": {
+          "primary_source_cited": true,
+          "floor_not_merely_asserted": true,
+          "book_survives_goodwill": true,
+          "debt_reconciled_full_stack": true,
+          "catalyst_not_already_fired": true
+        },
+        "verdict": "keep",
+        "notes": "Primary-source verified against the 2026-03-31 10-Q. Floor is HARD: $124.5M cash, zero debt, $10.5M all-operating liabilities, no goodwill, no minority interests. Net-of-everything cash = $114.0M; fully diluted 31.13M sh (24.0M common + 7.13M as-converted Series B) => $3.66/sh vs $2.61 price = ~29% below net cash. The 4 traps pass on FLOOR integrity; the CATALYST is the weak leg (undated neglect) \u2014 size as a bounded-floor position, not a top-conviction catalyst bet.",
         "passed": true
       },
       "verified": true

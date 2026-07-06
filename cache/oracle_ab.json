@@ -14,6 +14,22 @@
       "entry_price": 11.68,
       "spy_entry": 747.03,
       "resolved": false
+    },
+    {
+      "round_id": "fresh-2026-07-06",
+      "date": "2026-07-06",
+      "symbol": "INVE",
+      "lens_score": 0.0,
+      "arm_a_llm": true,
+      "arm_b_screen": true,
+      "conviction": 0.0833,
+      "floor_pct": 0.2,
+      "upside_x": 1.45,
+      "catalyst": "Post-divestiture cash box ~29% below net cash (FD); capital return / accretive redeployment / activist \u2014 undated (neglect).",
+      "entry_price": 2.61,
+      "spy_entry": 748.37,
+      "resolved": false,
+      "note": "neglect-leg sourced; LLM read corrected screen headline 49%->29% below net cash via 7.13M as-converted Series B dilution."
     }
   ],
   "graded": [],
