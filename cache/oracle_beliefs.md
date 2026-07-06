@@ -11,13 +11,30 @@ the small-cap corner. The spotlight only AIMS; the read decides.
 
 ## Open theses (paper — pending_funding)
 
+- **ACVA (ACV Auctions)** — KEEP/FUND (paper). Washed-out NET-CASH used-vehicle
+  marketplace; the inflection is MARGIN not volume (adj EBITDA >2x to $59M, guided
+  $73–77M; non-GAAP NI turned positive) while the stock de-rated twice on volume
+  guide-downs to ~1.35x EV/sales, ~26% up its 52wk range (−56% from high). upside_x
+  1.8, p 0.40, downside 0.35, 18mo, self-funding (net cash ~$141M). Catalyst:
+  unit/GMV reaccel + EBITDA beat re-rating EV/S toward ~2.5x; next print early Aug.
+  Kill: 2 prints decel units + EBITDA guide cut. Highest-ranked fundable (net cash).
 - **SABR (Sabre Corp)** — KEEP/FUND (paper). Levered deleveraging turnaround: a
   thin equity sliver on a ~$4.6B EV, six consecutive improving EPS prints, EBITDA
   +21% / bookings at a 2-yr high, still priced like distressed debt ~40% below its
   prior high. upside_x 2.0, p 0.40, downside 0.55 (can go to zero — the interest
   burden IS the thesis), 18mo. Catalyst: FCF→positive 2027 + continued beats
   re-rating EV through ~5.5x leverage. Next print 2026-08-06. Kill: EBITDA YoY ≤ 0.
-  Sole survivor of the first 10-name read.
+
+## The decisive lesson (2026-07-06, rounds 1+2 = 18 reads, 2 keeps)
+
+**The keeps are the names LOW in their 52-week range; every kill was high in
+range / already ran.** SABR (~40% below prior high) and ACVA (~26% up 52wk range,
+−56% from high) survived; all 16 kills were arrived (LIND 83%, RRGB 90%, IRWD 6x,
+NNBR/MEI/MRVI/BBCP 2–4x up range) or not-real (KPTI going-concern, POET pre-rev,
+OSG recycled ticker, SLP mechanical margin). The pattern: **Oracle's edge is
+washed-out names where a real margin/turnaround inflection is priced OUT, not
+momentum names where it is priced IN.** Hunt the lower half of the 52wk range with
+a recent upturn — not the top.
 
 ## Lessons
 

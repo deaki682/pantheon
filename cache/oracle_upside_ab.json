@@ -1,19 +1,17 @@
 {
  "spec": "oracle_upside_ab",
- "round": "2026-07-06-r1",
+ "rounds": [
+  "2026-07-06-r1",
+  "2026-07-06-r2"
+ ],
  "arm_a_reading": [
-  "SABR"
+  "SABR",
+  "ACVA"
  ],
- "arm_b_spotlight_topN": [
-  "XMAX",
-  "WTI",
-  "WLY",
-  "SRZN",
-  "SLN"
- ],
- "note": "Arm A = the breadth read funded SABR (1 of 10). Arm B = the mechanical spotlight top-N. Grade fwd return vs SPY at 6/12/24mo; LLM-lift = A - B.",
+ "note": "Arm A = breadth read funded SABR + ACVA (2 of 18 read across 2 rounds). Grade fwd return vs SPY at 6/12/24mo; LLM-lift = A - B.",
  "read_verdicts": {
-  "SABR": "KEEP",
+  "SABR": "KEEP-levered_turnaround",
+  "ACVA": "KEEP-washed_out_net_cash_margin_turn",
   "WLY": "KILL-arrived",
   "KPTI": "KILL-going_concern",
   "POET": "KILL-prerev_arrived",
@@ -22,6 +20,14 @@
   "EPC": "KILL-MnA_rerate",
   "MRVI": "KILL-arrived",
   "MEI": "KILL-arrived",
-  "PAYS": "KILL-priced_for_perfection"
- }
+  "PAYS": "KILL-priced_for_perfection",
+  "IRWD": "KILL-arrived_6x",
+  "OSG": "KILL-recycled_ticker",
+  "LIND": "KILL-arrived",
+  "DFIN": "KILL-small_priced",
+  "NNBR": "KILL-arrived_preferred_overhang",
+  "SLP": "KILL-mechanical_margin",
+  "RRGB": "KILL-arrived_distressed"
+ },
+ "lesson": "The 2 keeps were the only 2 names LOW in their 52wk range; all 16 kills were arrived/not-real. The true arrival gate needs the live Robinhood 52wk range (range_position/is_arrived_52w), not the 6mo proxy."
 }
