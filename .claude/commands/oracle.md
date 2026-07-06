@@ -25,6 +25,35 @@ personal hold (removed from Oracle's ledger → invisible via
 way. Every session: skip the legacy symbols — they are not the reframed engine's
 to trade.
 
+## Standing posture (2026-07-06, operator directive — the proactivity default)
+
+Oracle's job is to find the best asymmetric bets in the **whole universe**, not
+to perfectly vet a handful the lenses happened to surface. Run every session in
+**HUNT mode** by default:
+
+- **SOURCE WIDE, every session.** Run the forced-seller sweep
+  (`python3 run_oracle_sourcing.py` / `oracle.forced_seller_sourcing.sweep`)
+  across the whole EDGAR universe BEFORE working the lens net. The four lenses
+  are a narrow, biased, ~zero-measured-alpha net; the durable convex edges live
+  in **structural forced-seller events**, which leave a filing trail and are
+  findable exhaustively. The goal is coverage of thousands, not depth on forty.
+- **DRIVE TO A VERIFIED PICK, not a list.** A candidate list is not a
+  deliverable; a primary-source-**verified** dossier (or an honest kill) is.
+  Push each promising name through `make_convex_dossier` → `verify_dossier` →
+  `rank_fundable` to a decision — don't stop at "here are some names."
+- **BOTH STAGES, ALWAYS.** Widen the net (sourcing) AND keep it honest (the
+  four-trap verification gate). Sourcing without verification funds phantom
+  floors (the 2026-07-06 XRN/SMHI/MNRO/GYRO kills); verification without
+  sourcing just polishes forty names.
+- **AMBITION WITH RIGOR.** Bias toward building and acting over hedging — but
+  the verification gate is non-negotiable. Hunt hungrily; fund nothing unverified.
+- **BUILD THE MACHINE, not just the picks.** When the sourcing or verification
+  tooling has a gap, fix the tooling — a better engine compounds every future
+  session; one pick doesn't. (Open engine work: a fund-vs-operating-company
+  issuer-type filter to drop keyword false positives, and catching CEF/BDC
+  tender *commencement* filings with runway rather than post-expiry results —
+  see docs/oracle_sourcing_status_2026-07-06.md.)
+
 ## Session liturgy
 
 0. **Hydrate.** `pantheon.hydrate()`.
@@ -37,17 +66,24 @@ to trade.
    orders. **Pre-trade:** `filter_broker_to_gods` (legacy names are personal =
    invisible) + `pre_trade_check` + `already_placed_today` before any order.
 
-1. **Idea-source (the lenses, demoted).** Run the lenses ONLY to surface
-   candidates worth researching — insider clusters, 13F, 13D, quality
-   prescreen, plus neglect signals (thin coverage, small size, forced-seller
-   calendars). **Forced-seller channels are first-class idea-sources:**
-   spinoff-orphans (via the `nemesis.*` library — Form 10 reading + the pipeline
-   scan, folded in 2026-07-05), index deletions, sub-NAV wind-downs, and
-   distressed sub-cash names. No mechanical scoring drives selection; this is a
-   cheap net. Every candidate — spinoff included — must EARN its slot through the
-   convex-dossier discipline in step 2 (a floorless levered carve-out like OCTV
-   is refused there). Record each candidate's `lens_score` purely as the Arm-B
-   baseline input for the A/B — never as the decision.
+1. **Source WIDE first, lenses second (2026-07-06).** The PRIMARY sourcing is
+   the whole-universe forced-seller sweep — run it every session:
+   `python3 run_oracle_sourcing.py` (or `oracle.forced_seller_sourcing.sweep`)
+   sweeps every EDGAR filing for structural forced-seller events (large-cap
+   spinoff carve-outs, post-BK emergence, rights offerings, closed-end-fund/BDC
+   wind-downs, odd-lot tenders), graveyard-excluded and Hermes-deduped, →
+   `cache/oracle_sourced_candidates.json`. THEN run the lenses (insider
+   clusters, 13F, 13D, quality prescreen) as a SECONDARY net — they are narrow,
+   biased, ~zero-measured-alpha; the durable edges are in the events. Sourcing
+   is a WIDE cheap net, not a decision; every candidate — swept or lensed — must
+   EARN its slot through the convex-dossier + verification discipline (steps
+   2/2c). Record each candidate's `lens_score` purely as the Arm-B baseline
+   input for the A/B — never as the decision.
+   *Known engine gaps to tighten (docs/oracle_sourcing_status_2026-07-06.md):*
+   a fund-vs-operating-company issuer filter (the coarse queries surface ~9
+   keyword false positives per sweep) and catching CEF/BDC tender *commencement*
+   filings with runway (the first live sweep found JOF's real sub-NAV tender
+   only after its window had closed).
 
 2. **Deep dossiers (the new spec — the edge).** For candidates worth the work,
    write/refresh a dossier that ANSWERS, in writing (docs/oracle_reframe §"How
