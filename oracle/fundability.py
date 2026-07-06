@@ -216,10 +216,12 @@ def candidate_family(cand: dict) -> str:
     return "tangible_book"
 
 
-def rank_by_family(cands: list[dict], per_family: int = 8) -> dict[str, list[dict]]:
+def rank_by_family(cands: list[dict], per_family: int = 12) -> dict[str, list[dict]]:
     """Rank within each floor family and keep the top `per_family` of each, so a
     land/asset-NAV name is never buried under the net-cash pile. Returns
-    {family: [ranked candidates]}."""
+    {family: [ranked candidates]}. Default 12 (raised from 8, 2026-07-06): the
+    verification tail is cheap and a GATE not a selector — wider coverage strictly
+    improves the kill/watch record; over-ride via ORACLE_PER_FAMILY."""
     ranked = rank_candidates(cands)
     fams: dict[str, list[dict]] = {}
     for c in ranked:
@@ -227,7 +229,7 @@ def rank_by_family(cands: list[dict], per_family: int = 8) -> dict[str, list[dic
     return {f: rows[:per_family] for f, rows in fams.items()}
 
 
-def verification_queue(cands: list[dict], per_family: int = 8) -> list[dict]:
+def verification_queue(cands: list[dict], per_family: int = 12) -> list[dict]:
     """The precision-stage queue: the per-family top-N, interleaved so each family
     gets a fair share of the verification budget rather than net-cash monopolizing
     it. This is what the runbook should verify, NOT a global top-N."""

@@ -123,7 +123,7 @@ print(f"merged: {len(cands)} unique candidates "
       f"({sum(1 for c in cands if c.get('floor_type') in CASH_FLOORS)} cash-floor)", flush=True)
 
 # ---- per-family fundability ranking + verification queue -------------------
-PER_FAMILY = int(os.environ.get("ORACLE_PER_FAMILY", "8"))
+PER_FAMILY = int(os.environ.get("ORACLE_PER_FAMILY", "12"))
 fams = fb.rank_by_family(cands, per_family=PER_FAMILY)
 queue = fb.verification_queue(cands, per_family=PER_FAMILY)
 

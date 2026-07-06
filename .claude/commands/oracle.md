@@ -175,7 +175,19 @@ to perfectly vet a handful the lenses happened to surface. Run every session in
 
 2c. **VERIFY against PRIMARY FILINGS before the book (2026-07-06, MANDATORY —
    the launch-gate lesson).** A dossier's self-reported `convex` flag is NOT
-   enough to fund it. The 2026-07-06 launch gate killed 4 of 8 dossiers a
+   enough to fund it.
+   **CLEAR THE WHOLE CLEAN QUEUE — do not stop short (2026-07-06).** Verify EVERY
+   name the `verification_queue` emits that passed the freshness gate (`is_clean`),
+   not a convenient subset. The expensive stages (sweep thousands → screen →
+   freshness) already ran; the ~40–75 names left ARE the survivors, and
+   verification is the cheap tail AND a GATE not a selector — verifying more never
+   dilutes the fund list (soft/asserted floors still get killed), it only makes the
+   kill/watch record complete. The ONLY names to skip are the ones freshness
+   already flagged (stale marketcap / crypto-treasury / book-contradicts-floor) —
+   those are phantom floors, never spend a filing-read on them. Stopping at "26 of
+   40 clean" is a coverage leak; finish the queue. (`per_family` default is 12 ≈
+   ≤75 queued across 5 families — raise `ORACLE_PER_FAMILY` for wider coverage, the
+   only bound is real token cost at hundreds.) The 2026-07-06 launch gate killed 4 of 8 dossiers a
    fundamentals-API pass had waved through — XRN ("debt-free" missed a $653M
    credit line), MNRO (P/B<1 was 100% goodwill, tangible book NEGATIVE), SMHI
    ("$20 NAV" was an activist claim in NO filing, catalyst already fired), GYRO
