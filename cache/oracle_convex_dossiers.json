@@ -343,7 +343,10 @@
         "cache/oracle_prescreener.json snapshot fetched_at 2026-06-28T14:09:30Z",
         "cache/oracle_insider_clusters.json (XRN appears 3x, insider_count=9 dedup pending) updated_at 2026-06-28"
       ],
-      "lens_score": 0.0
+      "lens_score": 0.0,
+      "retracted": true,
+      "retracted_at": "2026-07-06",
+      "retraction_reason": "KILLED after real primary-source (SEC EDGAR 10-K/10-Q/8-K) diligence. Every load-bearing fact in the draft thesis was wrong: (1) NOT debt-free -- a fundamentals-API read of the 'Notes payable' line ($1.15M) missed a $652.7M credit facility; the REIT is ~45% levered. (2) NOT profitable/+57% growth -- FY2025 was a GAAP net LOSS ($6.9M); the growth figure does not reconcile with any reported number. (3) Dividend was NOT recently raised -- cut twice, ~54% cumulatively, in the last 14 months, explicitly to fund a ~$425M pivot into unproven senior-housing operating assets. (4) NOT neglected -- real sell-side coverage (BMO, Compass Point), just downgraded; renamed from Global Medical REIT Feb 2026; a live sole-tenant Ch. 11 bankruptcy; a new preferred investor (Maewyn) with a board seat and debt-consent rights. Kept in the record (not deleted) as a disclosed near-miss: a fast fundamentals-API pass produced a factually wrong thesis that real filing diligence caught before any position was taken -- direct evidence for the LLM instrument track on why primary-source reading matters."
     }
   }
 }
