@@ -25,6 +25,61 @@ personal hold (removed from Oracle's ledger → invisible via
 way. Every session: skip the legacy symbols — they are not the reframed engine's
 to trade.
 
+## Standing posture (2026-07-06, operator directive — the proactivity default)
+
+Oracle's job is to find the best asymmetric bets in the **whole universe**, not
+to perfectly vet a handful the lenses happened to surface. Run every session in
+**HUNT mode** by default:
+
+- **SOURCE WIDE, every session — all THREE legs.** Run the unified sourcing pass
+  (`python3 run_oracle_sourcing.py`) across the whole universe BEFORE working the
+  lens net. It covers every why_mispriced type the gate can fund, so nothing
+  convex is left behind for lack of a net:
+  - **forced_seller** — form-enumerate price-insensitive SUPPLY events (issuer
+    tenders, fund wind-downs, large-cap spinoffs) off EDGAR daily indexes
+    (`oracle.forced_seller_sourcing`, measured 100% recall vs 12% keyword).
+  - **hard_catalyst** — form-enumerate activist SC 13D / 13D-amendments +
+    a strategic-review 8-K keyword supplement (`oracle.hard_catalyst_sourcing`);
+    each 13D carries `requires_item4_read` (the index can't see a campaign).
+  - **neglect** — screen the whole Sharadar fundamentals panel for names below a
+    countable floor (net cash / net-net / tangible book) with no event to trip a
+    form index (`oracle.neglect_screen`; FX-clean USD reporters, financials &
+    mortgage-REITs excluded, cash-runway flagged). This is the family that
+    produced 4 of 5 pre-rebuild names (ARVN/VTSI/ALCO/RNA) — the forced-seller
+    net is blind to it.
+  The four legacy lenses are a narrow, biased, ~zero-measured-alpha net; the
+  durable convex edges live in these three structural families. Goal: coverage
+  of thousands, not depth on forty.
+- **MEASURED 2026-07-06 — NEGLECT is the spine; the event legs are OVERLAYS.** A
+  full primary-source verification of all three legs (~40 names,
+  docs/oracle_neglect_verification + oracle_event_legs_verification) found the
+  fundable convex floors live in the **neglect** leg (4 FUND / 11 WATCH / 12 KILL).
+  The **forced_seller** leg yields the rare JOF-style *recurring common
+  conditional-tender* but its SC TO-I enumeration mostly surfaces
+  preferred/leverage tenders and non-traded at-NAV funds (1 FUND / 2 WATCH / 5
+  KILL). The **hard_catalyst** leg as a standalone net measured **0 fundable of
+  14** — raw 13D + strategic-review keywords are too noisy (false positives,
+  acquirer-side, concluded deals, Hermes-domain, floorless distress). So: source
+  neglect as the spine, and use activist-13D / strategic-review / forced-seller
+  as a **catalyst overlay by INTERSECTION** with an already-verified below-floor
+  name. A catalyst is a bonus on a floor, NEVER a substitute for one.
+- **DRIVE TO A VERIFIED PICK, not a list.** A candidate list is not a
+  deliverable; a primary-source-**verified** dossier (or an honest kill) is.
+  Push each promising name through `make_convex_dossier` → `verify_dossier` →
+  `rank_fundable` to a decision — don't stop at "here are some names."
+- **BOTH STAGES, ALWAYS.** Widen the net (sourcing) AND keep it honest (the
+  four-trap verification gate). Sourcing without verification funds phantom
+  floors (the 2026-07-06 XRN/SMHI/MNRO/GYRO kills); verification without
+  sourcing just polishes forty names.
+- **AMBITION WITH RIGOR.** Bias toward building and acting over hedging — but
+  the verification gate is non-negotiable. Hunt hungrily; fund nothing unverified.
+- **BUILD THE MACHINE, not just the picks.** When the sourcing or verification
+  tooling has a gap, fix the tooling — a better engine compounds every future
+  session; one pick doesn't. (Open engine work: a fund-vs-operating-company
+  issuer-type filter to drop keyword false positives, and catching CEF/BDC
+  tender *commencement* filings with runway rather than post-expiry results —
+  see docs/oracle_sourcing_status_2026-07-06.md.)
+
 ## Session liturgy
 
 0. **Hydrate.** `pantheon.hydrate()`.
@@ -37,17 +92,55 @@ to trade.
    orders. **Pre-trade:** `filter_broker_to_gods` (legacy names are personal =
    invisible) + `pre_trade_check` + `already_placed_today` before any order.
 
-1. **Idea-source (the lenses, demoted).** Run the lenses ONLY to surface
-   candidates worth researching — insider clusters, 13F, 13D, quality
-   prescreen, plus neglect signals (thin coverage, small size, forced-seller
-   calendars). **Forced-seller channels are first-class idea-sources:**
-   spinoff-orphans (via the `nemesis.*` library — Form 10 reading + the pipeline
-   scan, folded in 2026-07-05), index deletions, sub-NAV wind-downs, and
-   distressed sub-cash names. No mechanical scoring drives selection; this is a
-   cheap net. Every candidate — spinoff included — must EARN its slot through the
-   convex-dossier discipline in step 2 (a floorless levered carve-out like OCTV
-   is refused there). Record each candidate's `lens_score` purely as the Arm-B
-   baseline input for the A/B — never as the decision.
+1. **Source WIDE first, lenses second (2026-07-06) — the FOUR-leg pass.** The
+   PRIMARY sourcing is the unified whole-universe sweep — run it every session:
+   `python3 run_oracle_sourcing.py` runs the three why_mispriced event/state legs
+   and writes one combined `cache/oracle_sourced_candidates.json`:
+   - **forced_seller** (`oracle.forced_seller_sourcing.sweep_by_form`) — issuer
+     tenders / fund wind-downs / large-cap spinoffs, graveyard-excluded,
+     Hermes-deduped, tradability-split.
+   - **hard_catalyst** (`oracle.hard_catalyst_sourcing.sweep_by_form` +
+     `sweep_strategic_review`) — activist 13D campaigns + strategic-review 8-Ks.
+     DEMOTED to a cross-reference signal (measured 0/14 standalone, 13D channel a
+     data desert) — intersect it, don't fund it alone (see the overlay below).
+   - **neglect** (`oracle.neglect_screen.screen_panel`) — below-floor names from
+     the Sharadar panel; needs the pulled data (`run_oracle_neglect_pull.py`
+     refreshes `data/oracle_neglect/` quarterly with fresh fundamentals). This is
+     the SPINE — the leg where the fundable floors actually live.
+   PLUS the fourth lens (run alongside): **asset_revaluation**
+   (`python3 run_oracle_asset_revaluation.py` / `oracle.asset_revaluation.screen_panel`)
+   — the OPPOSITE mispricing: land / farmland / timber / real estate carried BELOW
+   market at historical cost (the ALCO gap). Floors that GROW, several with a live
+   realization catalyst (SRG/STHO/NLOP). floor_basis=`transacting_asset`; the
+   precision read appraises the true NAV.
+   THEN, the **catalyst overlay** (`python3 run_oracle_catalyst_overlay.py`) —
+   INTERSECT the neglect/asset floors with activist-13D / live strategic-review
+   catalysts. A floor + a live catalyst (NNDM, FULC, and the SEER take-under) is
+   the strongest convex shape; a catalyst overlays a floor, never substitutes.
+   THEN the four legacy lenses (insider/13F/13D/quality) as a SECONDARY net —
+   narrow, biased, ~zero-measured-alpha. Sourcing is a WIDE cheap net, not a
+   decision; every candidate must EARN its slot through the convex-dossier +
+   verification discipline (steps 2/2c). Record each candidate's `lens_score`
+   purely as the Arm-B baseline input — never as the decision.
+   *Known engine gaps to tighten (docs/oracle_*_2026-07-06.md):* a
+   fund-vs-operating-company issuer filter; catching CEF/BDC tender
+   *commencement* (not post-expiry) filings; an index-DELETION channel against
+   S&P/Russell data (Form 25 measured ~all noise, DEMOTED); and the backlog
+   lenses (#18-22: lookthrough-holdco-NAV, tax-loss-selling, inventory_heavy flag).
+
+1c. **FRESHNESS reconcile vs the live broker (2026-07-06 — cheapest filter, do it
+   BEFORE dossiers).** Sharadar's marketcap uses a share count that LAGS
+   post-quarter conversions/splits/raises (FTH: stale 1.34M sh → phantom "$31M cap,
+   85% below net cash"; the true post-conversion cap was $590M, ABOVE the floor).
+   Cross-check the screen shortlist against a live Robinhood `get_equity_fundamentals`
+   pull (≤10 symbols/call) and run `oracle.freshness.reconcile_with_fundamentals`:
+   (a) fresh market cap → recompute the discount and DROP any name back above its
+   floor; (b) P/B sanity → `book_contradicts_floor` on P/B ≤ 0 (negative book) or
+   ≥ 3 (currency/data artifact, e.g. a yen filer); (c) description →
+   `crypto_treasury` for the coin-pile shells the name hides (AVX/BNC/NAKA/AIFC/SKYA).
+   `is_clean()` gates the verification queue. First run dropped 1 + flagged 7 of the
+   top 40 with zero 10-Q reads. (Live count catches stale COMMON; as-converted
+   preferred/warrants are still the 10-Q's job.)
 
 2. **Deep dossiers (the new spec — the edge).** For candidates worth the work,
    write/refresh a dossier that ANSWERS, in writing (docs/oracle_reframe §"How
@@ -80,13 +173,45 @@ to trade.
    (extraction + adversarial refuter subagents) on any name near the cut.
    Persist to `cache/oracle_dossiers.json`.
 
-3. **Select a CONVEX book (concentrated, conviction-weighted).**
-   `oracle.convex_dossier.rank_by_convexity(dossiers)` orders by convexity_score
-   (annualized asymmetry × floor-hardness) and drops non-convex names (negative
-   expectancy / no real floor) automatically. Take the few best; size within a
-   per-name cap (concentration is the return lever — no equal 8-name cohort).
-   Horizons are multi-month/patient, but a name must EARN its slot on
-   risk-adjusted convexity, not on a signal or a raw multiple.
+2c. **VERIFY against PRIMARY FILINGS before the book (2026-07-06, MANDATORY —
+   the launch-gate lesson).** A dossier's self-reported `convex` flag is NOT
+   enough to fund it. The 2026-07-06 launch gate killed 4 of 8 dossiers a
+   fundamentals-API pass had waved through — XRN ("debt-free" missed a $653M
+   credit line), MNRO (P/B<1 was 100% goodwill, tangible book NEGATIVE), SMHI
+   ("$20 NAV" was an activist claim in NO filing, catalyst already fired), GYRO
+   (a melting liquidation PROJECTION, not an audited NAV). Every one shared a
+   shape a snapshot cannot see and a primary filing reveals. So for EACH name
+   near the cut, pull the actual 10-K/10-Q/8-K (`shared.edgar`; deep-read
+   subagents for a fan-out) and run
+   `oracle.convex_dossier.verify_dossier(dossier, floor_basis=…,
+   debt_reconciled_full_stack=…, catalyst_fired=…, book_survives_goodwill=…,
+   primary_citations=[…], verdict=…)`. It runs the four traps, each a real kill:
+   - **primary_source_cited** — a snapshot citation (Robinhood/Yahoo) is NOT a
+     floor source; at least one real filing must back it (killed XRN).
+   - **floor_not_merely_asserted** — `floor_basis` on the trust ladder
+     `cash > net_net > transacting_asset > book > asserted`; an *asserted* NAV
+     (activist appraisal, management projection) is not a floor (killed SMHI/GYRO).
+   - **book_survives_goodwill** — for a book floor, tangible book (ex-goodwill)
+     must still support it (killed MNRO).
+   - **debt_reconciled_full_stack** — debt taken off the FULL liability stack,
+     not one balance-sheet line (killed XRN).
+   - **catalyst_not_already_fired** — the re-rating hasn't already happened.
+   Verification RE-STAMPS `floor_hardness` from the true `floor_basis` (a
+   self-reported "hard" on an asserted floor cannot survive), and only a name
+   whose traps ALL pass with verdict keep/revise becomes `verified`. **Cite the
+   accession numbers in the dossier.** A name that fails is retracted with its
+   reason (the record keeps it, per docs; never silently drop).
+
+3. **Select a CONVEX book (concentrated, conviction-weighted) — from VERIFIED
+   names only.** Use `oracle.convex_dossier.rank_fundable(dossiers)` (NOT
+   `rank_by_convexity`) — it returns only names that are BOTH convex AND
+   primary-source-`verified`, best convexity first, so an unverified dossier
+   (however good its self-reported numbers) structurally cannot receive capital.
+   `rank_by_convexity` stays the pure-math research view; `rank_fundable` is the
+   gated view money flows through. Take the few best; size within a per-name cap
+   (concentration is the return lever — no equal 8-name cohort). Horizons are
+   multi-month/patient, but a name must EARN its slot on risk-adjusted
+   convexity, verified against filings — not on a signal or a raw multiple.
 
 4. **Record the A/B (measure the edge).** For EVERY candidate in the pool this
    round, `oracle.ab.record_selection(ab, round_id, date, candidates=[...])`

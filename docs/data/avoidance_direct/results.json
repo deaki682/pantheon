@@ -1,0 +1,15 @@
+{
+  "snapshot_date": "2026-07-06",
+  "note": "Independently re-derived from raw Sharadar data (DAILY marketcap 1999-2026 -> PIT universes -> SEP bars -> SF1 distress composite), NOT copied from the registry. Confirms the registry's recorded verdict.",
+  "universe": "SMALL+MICRO PIT, 312 monthly snapshots, 11824 union tickers",
+  "cells": [
+    {"k": 0.05, "window": "in",  "distress_mean_pct": 0.086, "distress_t": 3.77, "n": 192, "random_mean_pct": 0.004,  "random_t": 1.06},
+    {"k": 0.05, "window": "out", "distress_mean_pct": 0.026, "distress_t": 0.92, "n": 118, "random_mean_pct": -0.013, "random_t": -1.93},
+    {"k": 0.10, "window": "in",  "distress_mean_pct": 0.163, "distress_t": 4.16, "n": 192, "random_mean_pct": 0.001,  "random_t": 0.14},
+    {"k": 0.10, "window": "out", "distress_mean_pct": 0.06,  "distress_t": 1.21, "n": 118, "random_mean_pct": 0.009,  "random_t": 1.03},
+    {"k": 0.20, "window": "in",  "distress_mean_pct": 0.271, "distress_t": 4.30, "n": 192, "random_mean_pct": 0.002,  "random_t": 0.18},
+    {"k": 0.20, "window": "out", "distress_mean_pct": 0.107, "distress_t": 1.47, "n": 118, "random_mean_pct": -0.014, "random_t": -1.11}
+  ],
+  "verdict": "supported_at_precondition",
+  "cross_check": "registry mean_excess 0.163%/mo (n=192) matches the k=10% IN-SAMPLE cell exactly -- confirms the 2026-07-05 results doc's correction (that figure is in-sample, not holdout, as originally mislabeled)."
+}

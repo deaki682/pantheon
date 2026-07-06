@@ -1,0 +1,16 @@
+{
+  "snapshot_date": "2026-07-06",
+  "note": "Independently re-derived from raw Sharadar data, NOT copied from the registry. Confirms the registry's recorded verdict.",
+  "universe": "SMALL bucket PIT, 312 monthly snapshots, 11804 tickers with monthly marks",
+  "cells": [
+    {"signal": "resid", "window": "in",  "mean_pct": 0.059, "t": 0.21, "n": 163},
+    {"signal": "resid", "window": "out", "mean_pct": 0.485, "t": 1.07, "n": 119},
+    {"signal": "raw",   "window": "in",  "mean_pct": -0.016, "t": -0.05, "n": 163},
+    {"signal": "raw",   "window": "out", "mean_pct": 0.662, "t": 1.41, "n": 119}
+  ],
+  "avg_monthly_turnover_resid": 0.39,
+  "resid_holdout_at_2x_cost_pct": 0.373,
+  "resid_holdout_at_2x_cost_t": 0.82,
+  "verdict": "refuted",
+  "cross_check": "registry mean_excess 0.485%/mo (n=119) matches the resid-holdout cell exactly."
+}

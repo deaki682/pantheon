@@ -34,7 +34,23 @@ side. The legacy cohort `cohort-2026-06-29` (CXT/HDSN/J/PSN/VITL, green) is
 FROZEN and HELD by the operator (untouched); the reframed engine runs a fresh
 sleeve `pending_funding` (research/paper-only until funded). Checkpoint on
 LLM-lift: dossiers add alpha → keep + concentrate; neutral/negative → fold into
-Proteus.
+Proteus. **Two-stage machine + HUNT posture (2026-07-06, operator directive):**
+Oracle runs a wide **coverage** stage — a unified whole-universe sourcing pass
+(`run_oracle_sourcing.py`) across ALL THREE why_mispriced legs, one per structural
+family the precision gate can fund, so nothing convex is left behind for lack of a
+net: **forced_seller** (`oracle.forced_seller_sourcing` — form-enumerate tenders/
+wind-downs/spinoffs, 100% recall vs 12% keyword), **hard_catalyst**
+(`oracle.hard_catalyst_sourcing` — activist SC 13D campaigns + strategic-review
+8-Ks), and **neglect** (`oracle.neglect_screen` — the whole Sharadar panel screened
+for names below a countable floor, net-cash/net-net/tangible-book, FX-clean and
+financials-excluded; the family that produced 4 of 5 pre-rebuild names the
+event-net was blind to). All feed a **precision** stage: a primary-source
+verification gate (`verify_dossier` / `rank_fundable`) whose four traps make the
+2026-07-06 launch-gate kills (phantom-debt XRN, goodwill-book MNRO, asserted-NAV
+SMHI, melting-projection GYRO) structurally unfundable. The standing posture is
+**source wide every session (all three legs), drive to a verified pick (not a
+list), build the machine not just the picks — ambition WITH rigor, funding nothing
+unverified** (see `.claude/commands/oracle.md` "Standing posture").
 
 **Delphi** (LIVE RETIRED 2026-07-04, operator directive — sleeve funds
 Plutus) — Was the large-cap momentum compounder: ranked a fixed 118-name
