@@ -74,3 +74,15 @@
 {"date": "2026-07-06", "symbol": "IBM", "side": "sell", "shares": 0.637604, "order_id": "6a4b476f-4633-4335-a8bb-816a83a206a6", "state": "queued", "reason": "wind_down_liquidation"}
 {"date": "2026-07-06", "symbol": "UNH", "side": "sell", "shares": 0.378771, "order_id": "6a4b4773-d9ac-43e3-b6ef-cf9f2d2e74ca", "state": "queued", "reason": "wind_down_liquidation"}
 {"date": "2026-07-06", "symbol": "AMZN", "side": "sell", "shares": 0.668247, "order_id": "6a4b4778-e2ca-4f1b-91dc-b96909801deb", "state": "queued", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "AAPL", "side": "reconcile_fill", "shares": 0.530266, "price": 307.58, "order_id": "6a4b474c-172a-4d6e-ae16-9f053b1ecffb", "state": "filled", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "ABBV", "side": "reconcile_fill", "shares": 0.630357, "price": 259.92, "order_id": "6a4b4751-96e1-4d41-b874-05110619c7b4", "state": "filled", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "AMAT", "side": "reconcile_fill", "shares": 0.229426, "price": 628.8, "order_id": "6a4b4756-8260-4771-b60b-0048386d55d6", "state": "filled", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "BAC", "side": "reconcile_fill", "shares": 2.843669, "price": 59.2, "order_id": "6a4b475b-042d-49d0-816c-96b93752286a", "state": "filled", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "CVS", "side": "reconcile_fill", "shares": 1.555983, "price": 105.05, "order_id": "6a4b475f-9998-4250-903a-af2a9e9b48b0", "state": "filled", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "ELV", "side": "reconcile_fill", "shares": 0.416298, "price": 416.44, "order_id": "6a4b4764-ea8f-43c5-a4c5-7434b93960b4", "state": "filled", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "GOOGL", "side": "reconcile_fill", "shares": 0.464099, "price": 361.4, "order_id": "6a4b4768-5f02-4857-b06b-b616c818ffaf", "state": "filled", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "IBM", "side": "reconcile_fill", "shares": 0.637604, "price": 289.47, "order_id": "6a4b476f-4633-4335-a8bb-816a83a206a6", "state": "filled", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "UNH", "side": "reconcile_fill", "shares": 0.378771, "price": 423.49, "order_id": "6a4b4773-d9ac-43e3-b6ef-cf9f2d2e74ca", "state": "filled", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "symbol": "AMZN", "side": "reconcile_fill", "shares": 0.668247, "price": 243.78, "order_id": "6a4b4778-e2ca-4f1b-91dc-b96909801deb", "state": "filled", "reason": "wind_down_liquidation"}
+{"date": "2026-07-06", "side": "dust_writeoff", "symbol": "ELV", "shares": 0.00026199999999998447, "note": "broker confirmed 0 shares held; local sleeve dust zeroed"}
+{"date": "2026-07-06", "side": "sweep", "amount": 236.6022631978908, "destination": "plutus", "note": "Delphi live retirement sweep tranche (settled portion) (operator directive 2026-07-04)"}

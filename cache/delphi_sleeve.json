@@ -1,156 +1,136 @@
 {
- "cash": 236.602263197891,
- "contributed_cash": 2000.0,
- "cooldown_days": 7,
- "cooldowns": {
-  "AMD": "2026-07-09",
-  "C": "2026-07-08",
-  "CAT": "2026-07-09",
-  "GE": "2026-07-08",
-  "INTC": "2026-07-09",
-  "KLAC": "2026-07-09",
-  "LLY": "2026-07-08",
-  "LRCX": "2026-07-09",
-  "MRVL": "2026-07-09",
-  "MU": "2026-07-09",
-  "PSA": "2026-07-07",
-  "SPG": "2026-07-07",
-  "TXN": "2026-07-07"
- },
- "gfv_count": 6,
- "halted": false,
- "name": "delphi",
- "peak_equity": 1948.0283010234496,
- "pending_settlements": [
-  {
-   "amount": 71.0707684392,
-   "settle_date": "2026-07-01"
+  "cash": 1651.14664120624,
+  "contributed_cash": 1763.3977368021092,
+  "cooldown_days": 7,
+  "cooldowns": {
+    "AMD": "2026-07-09",
+    "C": "2026-07-08",
+    "CAT": "2026-07-09",
+    "GE": "2026-07-08",
+    "INTC": "2026-07-09",
+    "KLAC": "2026-07-09",
+    "LLY": "2026-07-08",
+    "LRCX": "2026-07-09",
+    "MRVL": "2026-07-09",
+    "MU": "2026-07-09",
+    "PSA": "2026-07-07",
+    "SPG": "2026-07-07",
+    "TXN": "2026-07-07"
   },
-  {
-   "amount": 40.47975,
-   "settle_date": "2026-07-01"
+  "dust_writeoff": {
+    "ELV": [
+      0.00026199999999998447,
+      419.6
+    ]
   },
-  {
-   "amount": 137.65367473199998,
-   "settle_date": "2026-07-01"
-  },
-  {
-   "amount": 163.40873675900002,
-   "settle_date": "2026-07-01"
-  },
-  {
-   "amount": 43.806141972,
-   "settle_date": "2026-07-01"
-  },
-  {
-   "amount": 150.34295131979997,
-   "settle_date": "2026-07-03"
-  },
-  {
-   "amount": 27.77357571717405,
-   "settle_date": "2026-07-03"
-  },
-  {
-   "amount": 148.50150938136002,
-   "settle_date": "2026-07-03"
-  },
-  {
-   "amount": 148.24143235492502,
-   "settle_date": "2026-07-03"
-  },
-  {
-   "amount": 157.708948914582,
-   "settle_date": "2026-07-03"
-  },
-  {
-   "amount": 120.923503112445,
-   "settle_date": "2026-07-03"
-  },
-  {
-   "amount": 138.96342940156276,
-   "settle_date": "2026-07-03"
-  },
-  {
-   "amount": 167.67663740017048,
-   "settle_date": "2026-07-03"
-  },
-  {
-   "amount": 161.82193171842002,
-   "settle_date": "2026-07-06"
-  }
- ],
- "positions": {
-  "AAPL": {
-   "avg_price": 308.2599,
-   "cohort_id": "",
-   "entry_date": "2026-07-02",
-   "sector": "",
-   "shares": 0.530266
-  },
-  "ABBV": {
-   "avg_price": 259.3133,
-   "cohort_id": "",
-   "entry_date": "2026-07-02",
-   "sector": "",
-   "shares": 0.630357
-  },
-  "AMAT": {
-   "avg_price": 697.13,
-   "cohort_id": "",
-   "entry_date": "2026-06-30",
-   "sector": "technology",
-   "shares": 0.229426
-  },
-  "BAC": {
-   "avg_price": 58.53,
-   "cohort_id": "",
-   "entry_date": "2026-07-02",
-   "sector": "financials",
-   "shares": 2.843669
-  },
-  "CVS": {
-   "avg_price": 104.2299,
-   "cohort_id": "",
-   "entry_date": "2026-06-30",
-   "sector": "",
-   "shares": 1.555983
-  },
-  "ELV": {
-   "avg_price": 419.6,
-   "cohort_id": "",
-   "entry_date": "2026-07-02",
-   "sector": "healthcare",
-   "shares": 0.41656
-  },
-  "GOOGL": {
-   "avg_price": 358.6299,
-   "cohort_id": "",
-   "entry_date": "2026-07-02",
-   "sector": "technology",
-   "shares": 0.464099
-  },
-  "IBM": {
-   "avg_price": 287.1999,
-   "cohort_id": "",
-   "entry_date": "2026-07-02",
-   "sector": "",
-   "shares": 0.637604
-  },
-  "UNH": {
-   "avg_price": 422.2599,
-   "cohort_id": "",
-   "entry_date": "2026-06-30",
-   "sector": "healthcare",
-   "shares": 0.378771
-  },
-  "AMZN": {
-   "avg_price": 244.6099,
-   "shares": 0.668247,
-   "entry_date": "2026-07-02",
-   "cohort_id": "",
-   "sector": ""
-  }
- },
- "realized_pnl": -97.03022397473153,
- "trades_count": 44
+  "dust_writeoff_note": "Broker confirmed 0 shares held for every Delphi name post wind-down-sell (get_equity_positions, 2026-07-06); a $0.11 ELV rounding residual in the local sleeve record was zeroed to match reality.",
+  "gfv_count": 6,
+  "halted": false,
+  "name": "delphi",
+  "peak_equity": 1948.0283010234496,
+  "pending_settlements": [
+    {
+      "amount": 71.0707684392,
+      "settle_date": "2026-07-01"
+    },
+    {
+      "amount": 40.47975,
+      "settle_date": "2026-07-01"
+    },
+    {
+      "amount": 137.65367473199998,
+      "settle_date": "2026-07-01"
+    },
+    {
+      "amount": 163.40873675900002,
+      "settle_date": "2026-07-01"
+    },
+    {
+      "amount": 43.806141972,
+      "settle_date": "2026-07-01"
+    },
+    {
+      "amount": 150.34295131979997,
+      "settle_date": "2026-07-03"
+    },
+    {
+      "amount": 27.77357571717405,
+      "settle_date": "2026-07-03"
+    },
+    {
+      "amount": 148.50150938136002,
+      "settle_date": "2026-07-03"
+    },
+    {
+      "amount": 148.24143235492502,
+      "settle_date": "2026-07-03"
+    },
+    {
+      "amount": 157.708948914582,
+      "settle_date": "2026-07-03"
+    },
+    {
+      "amount": 120.923503112445,
+      "settle_date": "2026-07-03"
+    },
+    {
+      "amount": 138.96342940156276,
+      "settle_date": "2026-07-03"
+    },
+    {
+      "amount": 167.67663740017048,
+      "settle_date": "2026-07-03"
+    },
+    {
+      "amount": 161.82193171842002,
+      "settle_date": "2026-07-06"
+    },
+    {
+      "amount": 163.01766667186,
+      "settle_date": "2026-07-07"
+    },
+    {
+      "amount": 163.76047024428,
+      "settle_date": "2026-07-07"
+    },
+    {
+      "amount": 144.19093726559998,
+      "settle_date": "2026-07-07"
+    },
+    {
+      "amount": 168.2610321976,
+      "settle_date": "2026-07-07"
+    },
+    {
+      "amount": 163.374286142925,
+      "settle_date": "2026-07-07"
+    },
+    {
+      "amount": 173.27645755044,
+      "settle_date": "2026-07-07"
+    },
+    {
+      "amount": 167.64151591069998,
+      "settle_date": "2026-07-07"
+    },
+    {
+      "amount": 184.47494626506003,
+      "settle_date": "2026-07-07"
+    },
+    {
+      "amount": 160.325527924605,
+      "settle_date": "2026-07-07"
+    },
+    {
+      "amount": 162.82380103316999,
+      "settle_date": "2026-07-07"
+    }
+  ],
+  "positions": {},
+  "realized_pnl": -109.0007874195916,
+  "retired": "2026-07-04",
+  "swept_note": "Partial sweep (settled tranche only); remaining unsettled proceeds sweep on future settle dates as they clear.",
+  "swept_on": "2026-07-06",
+  "swept_to_plutus": 236.6022631978908,
+  "trades_count": 54
 }
