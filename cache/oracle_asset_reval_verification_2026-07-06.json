@@ -1,0 +1,42 @@
+{
+  "verified_at": "2026-07-06",
+  "lens": "asset_revaluation",
+  "cohort": "live-catalyst names",
+  "summary": {
+    "FUND": 0,
+    "WATCH": 4,
+    "KILL": 0
+  },
+  "verdicts": [
+    {
+      "ticker": "HHH",
+      "verdict": "WATCH",
+      "price": 74.27,
+      "nav_per_share": "~95-115",
+      "discount_to_nav": "~26-35%",
+      "note": "Defensible hard-asset MPC land NAV; insider (Pershing Square) transacting at $100 anchors floor ~26% above price; Ackman Berkshire-style holdco catalyst. But heavy leverage ($5.8B debt +$1B pref), decade-slow land realization, pivot deploys into insurance not realization. Strongest of the four."
+    },
+    {
+      "ticker": "STHO",
+      "verdict": "WATCH",
+      "price": 9.2,
+      "discount_to_nav": "~35-40% haircut",
+      "note": "Active winddown but soft floor \u2014 77% of equity is levered Safehold stock + illiquid Asbury Park land; conflicted external manager (8% SAFE loan +$55M termination fee + fee load) eats NAV; open-ended."
+    },
+    {
+      "ticker": "SRG",
+      "verdict": "WATCH",
+      "price": 2.665,
+      "discount_to_nav": "~34% to book",
+      "note": "Real equity cushion (assets >> $50M debt +$70M pref) but liquidation STALLED \u2014 zero common distributions in 4yr, marquee Dallas sale slips to ~2028, July-31 term-loan cliff + going-concern doubt, serial impairments melt the floor, shareholder revolt."
+    },
+    {
+      "ticker": "NLOP",
+      "verdict": "WATCH",
+      "price": 11.16,
+      "discount_to_nav": "~3% to book (harvested)",
+      "note": "Catalyst already FIRED \u2014 59->18 properties, sales +34% above book, ~$15/sh specials paid, termination authority approved, near-zero leverage. Value harvested; residual stub ~at book on low-quality office dregs."
+    }
+  ],
+  "takeaway": "The asset_revaluation lens finds REAL hidden-asset discounts (all 4 have hard-asset floors + 25-40% NAV discounts, more real than the melting cash-boxes), but the realization CATALYST is the gate and none cleared cleanly: harvested (NLOP), stalled (SRG), soft/conflicted (STHO), leverage+slow (HHH). 0 clean FUND, 4 constructive WATCH. HHH the best (insider-anchored NAV + compounding catalyst). Lens validated as a candidate source; clean-FUND base rate stays low."
+}
