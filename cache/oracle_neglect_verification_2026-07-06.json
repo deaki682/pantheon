@@ -1,0 +1,202 @@
+{
+  "verified_at": "2026-07-06",
+  "method": "parallel primary-source verification (10-Q/10-K), four-trap gate",
+  "cohort": "neglect leg net-cash sub-cohort (>=10% screen discount), US-domiciled",
+  "n": 27,
+  "summary": {
+    "FUND": 4,
+    "WATCH": 11,
+    "KILL": 12
+  },
+  "verdicts": [
+    {
+      "ticker": "XBIT",
+      "verdict": "FUND",
+      "price": 2.3,
+      "true_discount": 0.366,
+      "note": "$115M cash, zero debt/leases/preferred, recurring capital-return history (2 tenders+special div); ~37% below net cash (25% FD). Melts ~$36M/yr."
+    },
+    {
+      "ticker": "SEER",
+      "verdict": "FUND",
+      "price": 2.02,
+      "true_discount": 0.25,
+      "note": "$219.5M liquid net cash vs $111M cap, BUYING BACK stock; 25-49% below even FD/net-of-leases. Screen understated it (missed $52.8M LT treasuries)."
+    },
+    {
+      "ticker": "LAB",
+      "verdict": "FUND",
+      "price": 0.9128,
+      "true_discount": 0.2,
+      "note": "$526M net cash vs $356M cap; feared Casdin/Viking preferred already converted (no senior stack); ~20% FD/32% shares-out below. Post-SomaScan divestiture."
+    },
+    {
+      "ticker": "INVE",
+      "verdict": "FUND",
+      "price": 2.61,
+      "true_discount": 0.29,
+      "note": "$124.5M cash zero debt, post-divestiture cash box; ~29% below net cash FD. (verified earlier)"
+    },
+    {
+      "ticker": "MED",
+      "verdict": "KILL",
+      "price": 11.01,
+      "true_discount": null,
+      "note": "Screen's $16M 'debt' is operating leases; net of $54.4M liabilities trades ~at net cash. Going concern in GLP-1 decline. (verified earlier)"
+    },
+    {
+      "ticker": "FTH",
+      "verdict": "KILL",
+      "price": 22.88,
+      "true_discount": null,
+      "note": "Stale share count: preferred converted 6/2026 (1.34M->25.78M sh); trades ~3x net cash PREMIUM, going concern + $150M ATM."
+    },
+    {
+      "ticker": "FBIO",
+      "verdict": "KILL",
+      "price": 3.04,
+      "true_discount": null,
+      "note": "Holdco phantom: '$203M net cash' is total equity mislabeled; one-time PRV windfall; behind $85.7M senior preferred + $40M NCI + $98M payables common claim ~zero."
+    },
+    {
+      "ticker": "RNA",
+      "verdict": "KILL",
+      "price": 13.65,
+      "true_discount": null,
+      "note": "Screen artifact (gross cash + basic shares + phantom $5.46 bid). RNA=Atrium spinoff; at true $13.65 trades ~22% ABOVE FD net cash, burns $124M/yr."
+    },
+    {
+      "ticker": "MSAI",
+      "verdict": "KILL",
+      "price": 4.94,
+      "true_discount": null,
+      "note": "~49% discount real but melting floor: $60M ATM (6x cap), serial below-NAV placements, 1-for-40 reverse split. Never returns capital."
+    },
+    {
+      "ticker": "FLNA",
+      "verdict": "KILL",
+      "price": 1.28,
+      "true_discount": null,
+      "note": "Former Cassava Sciences; '31% below' ignores $32.75M binding securities-settlement; net cash ~$0.96 vs $1.28 = 33% PREMIUM. Drug failed Ph3."
+    },
+    {
+      "ticker": "LIDR",
+      "verdict": "KILL",
+      "price": 1.42,
+      "true_discount": null,
+      "note": "~0% FD discount once liabilities+shares counted; floor melts ~$34M/yr into serial-dilution machine (ATM+CSPA ~doubled count; fresh $56.6M ATM)."
+    },
+    {
+      "ticker": "TPET",
+      "verdict": "KILL",
+      "price": 0.296,
+      "true_discount": null,
+      "note": "~37% discount real but pile is 100% fresh ATM proceeds under an open $65M ATM, earmarked for oil drilling; shares 9M->44M (5x) in 7mo."
+    },
+    {
+      "ticker": "AMWL",
+      "verdict": "KILL",
+      "price": 9.265,
+      "true_discount": null,
+      "note": "Refuted: all 3 share classes + dilutive awards + $12.8M JV NCI => ~4-6% PREMIUM to net cash (screen priced off Class A only). Burns ~$66M/yr."
+    },
+    {
+      "ticker": "AIFA",
+      "verdict": "KILL",
+      "price": 2.24,
+      "true_discount": null,
+      "note": "China de-SPAC shell; '$27M cash' is illiquid China structured notes; largest asset $20M DEFAULTED loans; behind $38M claims + $2.3B RTO. Hard net cash -$33.5M."
+    },
+    {
+      "ticker": "CYPH",
+      "verdict": "KILL",
+      "price": 0.6959,
+      "true_discount": null,
+      "note": "Crypto-treasury shell (ex-Leap Therapeutics, Zcash treasury); 'net cash' 91% ZEC (halved last Q); hard cash net ~$3.7M vs $74-106M cap; $200M ATM."
+    },
+    {
+      "ticker": "LPCN",
+      "verdict": "KILL",
+      "price": 2.39,
+      "true_discount": null,
+      "note": "Thin ~6% FD discount over melting pile; $50M ATM sold below NCAV into binary PPD-drug burn. Leaking-floor trap."
+    },
+    {
+      "ticker": "KTTA",
+      "verdict": "WATCH",
+      "price": 0.552,
+      "true_discount": 0.62,
+      "note": "62% below net cash VERIFIED (hard clean cash, no debt/preferred/dilution) but burns ~$19M/yr, no catalyst, sub-$1 listing risk."
+    },
+    {
+      "ticker": "PHUN",
+      "verdict": "WATCH",
+      "price": 2.04,
+      "true_discount": 0.54,
+      "note": "~54% below a hard $91M net-cash floor (crypto negligible, zero warrants/debt, low burn) but new CEO + fresh $200M shelf = forward dilution risk."
+    },
+    {
+      "ticker": "PXLW",
+      "verdict": "WATCH",
+      "price": 6.075,
+      "true_discount": 0.29,
+      "note": "China sub SOLD (NCI now $0, cash repatriated); $55M clean US cash ~29% below, but continuing-ops melts ~33%/yr, no catalyst."
+    },
+    {
+      "ticker": "RVP",
+      "verdict": "WATCH",
+      "price": 0.7335,
+      "true_discount": 0.29,
+      "note": "Real 27-31% discount (preferred only $2.9M; $56M 'liability' is a non-cash grant) but founder poison-pill makes cash unreachable; core business bleeds."
+    },
+    {
+      "ticker": "VGAS",
+      "verdict": "WATCH",
+      "price": 1.0,
+      "true_discount": 0.2,
+      "note": "NCI symmetric (already FD in screen); ~15-25% discount real over clean balance sheet, but pre-revenue melting cash, controlling sponsor take-under risk."
+    },
+    {
+      "ticker": "KROS",
+      "verdict": "WATCH",
+      "price": 11.26,
+      "true_discount": 0.11,
+      "note": "Clean zero-debt $281M cash but discount only ~9-13% FD, capital-return catalyst ALREADY FIRED (Oct-2025 $194M tender), none pending; burns ~$16M/q."
+    },
+    {
+      "ticker": "FULC",
+      "verdict": "WATCH",
+      "price": 3.71,
+      "true_discount": 0.11,
+      "note": "Real ~$333M cash in a LIVE Leerink strategic review, indefinite runway (85% RIF), but honest FD discount only ~10-12%; reverse-merger-away risk."
+    },
+    {
+      "ticker": "PEW",
+      "verdict": "WATCH",
+      "price": 2.8,
+      "true_discount": 0.0,
+      "note": "Clean $106M real cash (no crypto despite name), buying back, but '30% below' refuted; trades AT conservative net cash, no margin at this price."
+    },
+    {
+      "ticker": "MYPS",
+      "verdict": "WATCH",
+      "price": 0.5937,
+      "true_discount": 0.0,
+      "note": "Debt-free founder studio, cash-flow-positive, but '17% below' evaporates after $26M min-guarantee/earnout claims; $40M buyback unused; delisting clock."
+    },
+    {
+      "ticker": "ARVN",
+      "verdict": "WATCH",
+      "price": 8.3,
+      "true_discount": 0.0,
+      "note": "'11% below' is a basic-share illusion; FD net cash $7.85 < $8.30 price; melts ~$70M/q; restructuring de-emphasized lead asset."
+    },
+    {
+      "ticker": "NNDM",
+      "verdict": "WATCH",
+      "price": 1.47,
+      "true_discount": 0.13,
+      "note": "Thin ~13% (below price ex-$76M volatile equity securities); pile under threat of biotech-pivot M&A; guarded only by live Murchinson proxy fight (EGM 7/31)."
+    }
+  ]
+}
