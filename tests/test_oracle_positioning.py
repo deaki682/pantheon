@@ -270,3 +270,28 @@ def test_rotation_decision_above_margin():
 def test_rotation_decision_no_incumbent():
     assert rotation_decision(0, 0.1) is True
     assert rotation_decision(0, 0) is False
+
+
+def test_per_name_cap_scales_with_floor_hardness():
+    """The largest bet must be the hardest-floored: a hard floor may reach the
+    full 25% cap; a soft floor is capped proportionally lower (0.45x), even at
+    identical conviction. This is what makes concentration a bounded option."""
+    equity = 10000.0
+    scored = [
+        {"symbol": "HARD", "conviction": 0.9, "sector": "A", "floor_hardness": "hard"},
+        {"symbol": "SOFT", "conviction": 0.9, "sector": "B", "floor_hardness": "soft"},
+    ]
+    t = size_book(scored, equity)
+    # hard reaches the full per-name cap (25%); soft is capped at 0.45x (11.25%)
+    assert t["HARD"] == pytest.approx(0.25 * equity, rel=1e-3)
+    assert t["SOFT"] == pytest.approx(0.45 * 0.25 * equity, rel=1e-3)
+    assert t["HARD"] > t["SOFT"]
+
+
+def test_missing_floor_hardness_keeps_full_cap():
+    """Legacy / non-convex names (no floor concept) keep the full 25% cap — only a
+    DECLARED softer floor is scaled down, so this change is non-disruptive."""
+    equity = 10000.0
+    scored = [{"symbol": "X", "conviction": 0.9, "sector": "A"}]  # no floor_hardness
+    t = size_book(scored, equity)
+    assert t["X"] == pytest.approx(0.25 * equity, rel=1e-3)

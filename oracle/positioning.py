@@ -19,6 +19,16 @@ from typing import Iterable
 
 from .sleeve import CASH_FLOOR, MAX_MCAP, MAX_POSITIONS, PER_NAME_CAP, PER_SECTOR_CAP, MIN_TICKET
 
+# The per-name cap scales with FLOOR HARDNESS: the sleeve must not be able to
+# concentrate into a softer floor more than a harder one. The convex thesis is
+# "bounded downside scales with size" — that only holds if the biggest positions
+# are the hardest-floored. Single source of truth with the scoring weights in
+# convex_dossier (hard=full cap · medium=0.7× · soft=0.45×).
+try:
+    from .convex_dossier import FLOOR_HARDNESS_WEIGHT as _HARDNESS_CAP_MULT
+except Exception:  # pragma: no cover - defensive; keep sizing self-contained
+    _HARDNESS_CAP_MULT = {"hard": 1.0, "medium": 0.7, "soft": 0.45}
+
 
 def compute_derived(dossier: dict, *, current_price: float, horizon_years: float = 2.0) -> dict:
     """Return a dict of derived metrics for a dossier."""
@@ -134,8 +144,18 @@ def size_book(
     else:
         weights = {s["symbol"]: _tier(s) for s in items}
     sectors = {s["symbol"]: s.get("sector", "") for s in items}
+    # Per-name cap scaled by floor hardness: a hard floor may reach the full cap,
+    # a declared medium/soft floor is capped proportionally lower — so the largest
+    # bets are mechanically the hardest-floored, not merely the highest-conviction.
+    # A name that declares NO floor_hardness (legacy / non-convex paths that have no
+    # floor concept) keeps the full cap; only an explicitly softer floor is scaled
+    # down. Convex dossiers always carry floor_hardness (verification stamps it). (2026-07-06.)
+    name_caps = {
+        s["symbol"]: per_name_cap * _HARDNESS_CAP_MULT.get(s.get("floor_hardness"), 1.0)
+        for s in items
+    }
     # Initial normalization
-    targets = _normalize(weights, equity, invest_share, per_name_cap)
+    targets = _normalize(weights, equity, invest_share, name_caps)
     # Sector cap enforcement (one pass — clip exceeders, redistribute residue).
     cap_dollars = per_sector_cap * equity
     sector_totals: dict[str, float] = {}
@@ -164,12 +184,17 @@ def size_book(
 
 
 def _normalize(
-    weights: dict[str, float], equity: float, invest_share: float, per_name_cap: float,
+    weights: dict[str, float], equity: float, invest_share: float,
+    per_name_cap: float | dict[str, float],
 ) -> dict[str, float]:
+    """`per_name_cap` may be a single fraction (applied to every name) OR a
+    dict symbol -> cap-fraction (per-name, e.g. floor-hardness-scaled)."""
     if not weights:
         return {}
     invest_dollars = equity * invest_share
-    cap_dollars = equity * per_name_cap
+    def _cap(sym: str) -> float:
+        frac = per_name_cap[sym] if isinstance(per_name_cap, dict) else per_name_cap
+        return equity * frac
     # Iterate: cap any over-the-cap names, redistribute the residue across uncapped.
     remaining = dict(weights)
     fixed: dict[str, float] = {}
@@ -183,8 +208,8 @@ def _normalize(
         any_capped = False
         for sym, w in list(remaining.items()):
             share = w / total_w * budget_left
-            if share > cap_dollars + 1e-9:
-                fixed[sym] = cap_dollars
+            if share > _cap(sym) + 1e-9:
+                fixed[sym] = _cap(sym)
                 del remaining[sym]
                 any_capped = True
         if not any_capped:

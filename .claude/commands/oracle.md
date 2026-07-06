@@ -208,10 +208,18 @@ to perfectly vet a handful the lenses happened to surface. Run every session in
    primary-source-`verified`, best convexity first, so an unverified dossier
    (however good its self-reported numbers) structurally cannot receive capital.
    `rank_by_convexity` stays the pure-math research view; `rank_fundable` is the
-   gated view money flows through. Take the few best; size within a per-name cap
-   (concentration is the return lever — no equal 8-name cohort). Horizons are
-   multi-month/patient, but a name must EARN its slot on risk-adjusted
-   convexity, verified against filings — not on a signal or a raw multiple.
+   gated view money flows through. Take the few best; size via
+   `oracle.positioning.size_book` — the per-name cap now **scales with
+   `floor_hardness`** (hard = full 25% cap · medium = 0.7× · soft = 0.45×), so the
+   sleeve mechanically CANNOT concentrate into a softer floor more than a harder
+   one (2026-07-06). Concentration is the return lever — but the biggest bets are
+   forced to be the hardest-floored, which is what makes the concentration a
+   *bounded* option rather than a naked one. **The scored dicts passed to
+   `size_book` MUST carry `floor_hardness`** (verified dossiers always do — the gate
+   stamps it from the true `floor_basis`); a name with none keeps the full cap, so
+   never hand-build a convex scored row without it. No equal 8-name cohort.
+   Horizons are multi-month/patient, but a name must EARN its slot on
+   risk-adjusted convexity, verified against filings — not on a signal or a raw multiple.
 
 4. **Record the A/B (measure the edge).** For EVERY candidate in the pool this
    round, `oracle.ab.record_selection(ab, round_id, date, candidates=[...])`
