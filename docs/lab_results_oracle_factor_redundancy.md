@@ -1,5 +1,14 @@
 # Diagnostic — Oracle dossier factor-redundancy check (2026-07-05)
 
+> **SCOPE CORRECTION (2026-07-06):** this ran on the **legacy, pre-reframe**
+> `oracle_dossiers.json` (95-name insider/quality-lens pool, frozen since 2026-07-04),
+> NOT the reframed convex engine. A parallel routine cold-started Oracle on 2026-07-06;
+> the live reframed book is now `oracle_convex_dossiers.json` (XBIT/STRS/STHO, n=3, a
+> different schema: `asymmetry_score`/`floor_pct`/`upside_x`/`convexity_score`). The
+> orthogonality finding below holds for the LEGACY asymmetry scoring and is *indicative*
+> of the reframe's philosophy, but is UNCONFIRMED for the convex engine — n=3 is far too
+> small to regress. Re-run this check once the reframed convex pool grows to ≥30 names.
+
 **Question (the decision it buys):** is Oracle's LLM dossier judgment orthogonal to
 value + quality + net-issuance factors, or does it re-derive them — the way
 `avoidance_direct` collapsed into Plutus's own GPOA + net-issuance? If redundant →
