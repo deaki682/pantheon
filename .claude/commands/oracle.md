@@ -31,12 +31,25 @@ Oracle's job is to find the best asymmetric bets in the **whole universe**, not
 to perfectly vet a handful the lenses happened to surface. Run every session in
 **HUNT mode** by default:
 
-- **SOURCE WIDE, every session.** Run the forced-seller sweep
-  (`python3 run_oracle_sourcing.py` / `oracle.forced_seller_sourcing.sweep`)
-  across the whole EDGAR universe BEFORE working the lens net. The four lenses
-  are a narrow, biased, ~zero-measured-alpha net; the durable convex edges live
-  in **structural forced-seller events**, which leave a filing trail and are
-  findable exhaustively. The goal is coverage of thousands, not depth on forty.
+- **SOURCE WIDE, every session — all THREE legs.** Run the unified sourcing pass
+  (`python3 run_oracle_sourcing.py`) across the whole universe BEFORE working the
+  lens net. It covers every why_mispriced type the gate can fund, so nothing
+  convex is left behind for lack of a net:
+  - **forced_seller** — form-enumerate price-insensitive SUPPLY events (issuer
+    tenders, fund wind-downs, large-cap spinoffs) off EDGAR daily indexes
+    (`oracle.forced_seller_sourcing`, measured 100% recall vs 12% keyword).
+  - **hard_catalyst** — form-enumerate activist SC 13D / 13D-amendments +
+    a strategic-review 8-K keyword supplement (`oracle.hard_catalyst_sourcing`);
+    each 13D carries `requires_item4_read` (the index can't see a campaign).
+  - **neglect** — screen the whole Sharadar fundamentals panel for names below a
+    countable floor (net cash / net-net / tangible book) with no event to trip a
+    form index (`oracle.neglect_screen`; FX-clean USD reporters, financials &
+    mortgage-REITs excluded, cash-runway flagged). This is the family that
+    produced 4 of 5 pre-rebuild names (ARVN/VTSI/ALCO/RNA) — the forced-seller
+    net is blind to it.
+  The four legacy lenses are a narrow, biased, ~zero-measured-alpha net; the
+  durable convex edges live in these three structural families. Goal: coverage
+  of thousands, not depth on forty.
 - **DRIVE TO A VERIFIED PICK, not a list.** A candidate list is not a
   deliverable; a primary-source-**verified** dossier (or an honest kill) is.
   Push each promising name through `make_convex_dossier` → `verify_dossier` →
@@ -66,24 +79,29 @@ to perfectly vet a handful the lenses happened to surface. Run every session in
    orders. **Pre-trade:** `filter_broker_to_gods` (legacy names are personal =
    invisible) + `pre_trade_check` + `already_placed_today` before any order.
 
-1. **Source WIDE first, lenses second (2026-07-06).** The PRIMARY sourcing is
-   the whole-universe forced-seller sweep — run it every session:
-   `python3 run_oracle_sourcing.py` (or `oracle.forced_seller_sourcing.sweep`)
-   sweeps every EDGAR filing for structural forced-seller events (large-cap
-   spinoff carve-outs, post-BK emergence, rights offerings, closed-end-fund/BDC
-   wind-downs, odd-lot tenders), graveyard-excluded and Hermes-deduped, →
-   `cache/oracle_sourced_candidates.json`. THEN run the lenses (insider
-   clusters, 13F, 13D, quality prescreen) as a SECONDARY net — they are narrow,
-   biased, ~zero-measured-alpha; the durable edges are in the events. Sourcing
-   is a WIDE cheap net, not a decision; every candidate — swept or lensed — must
-   EARN its slot through the convex-dossier + verification discipline (steps
-   2/2c). Record each candidate's `lens_score` purely as the Arm-B baseline
-   input for the A/B — never as the decision.
-   *Known engine gaps to tighten (docs/oracle_sourcing_status_2026-07-06.md):*
-   a fund-vs-operating-company issuer filter (the coarse queries surface ~9
-   keyword false positives per sweep) and catching CEF/BDC tender *commencement*
-   filings with runway (the first live sweep found JOF's real sub-NAV tender
-   only after its window had closed).
+1. **Source WIDE first, lenses second (2026-07-06) — the THREE-leg pass.** The
+   PRIMARY sourcing is the unified whole-universe sweep — run it every session:
+   `python3 run_oracle_sourcing.py` runs all three why_mispriced legs and writes
+   one combined `cache/oracle_sourced_candidates.json`:
+   - **forced_seller** (`oracle.forced_seller_sourcing.sweep_by_form`) — issuer
+     tenders / fund wind-downs / large-cap spinoffs, graveyard-excluded,
+     Hermes-deduped, tradability-split.
+   - **hard_catalyst** (`oracle.hard_catalyst_sourcing.sweep_by_form` +
+     `sweep_strategic_review`) — activist 13D campaigns + strategic-review 8-Ks.
+   - **neglect** (`oracle.neglect_screen.screen_panel`) — below-floor names from
+     the Sharadar panel; needs the pulled data (`run_oracle_neglect_pull.py`
+     refreshes `data/oracle_neglect/` quarterly with fresh fundamentals).
+   THEN run the four legacy lenses (insider/13F/13D/quality) as a SECONDARY net —
+   narrow, biased, ~zero-measured-alpha; the durable edges are in the three legs.
+   Sourcing is a WIDE cheap net, not a decision; every candidate — swept or
+   lensed — must EARN its slot through the convex-dossier + verification
+   discipline (steps 2/2c). Record each candidate's `lens_score` purely as the
+   Arm-B baseline input — never as the decision.
+   *Known engine gaps to tighten (docs/oracle_sourcing_status_2026-07-06.md):* a
+   fund-vs-operating-company issuer filter; catching CEF/BDC tender
+   *commencement* (not post-expiry) filings; and an index-DELETION channel
+   against S&P/Russell reconstitution data (a Form 25 is the wrong instrument —
+   measured ~all noise, DEMOTED).
 
 2. **Deep dossiers (the new spec — the edge).** For candidates worth the work,
    write/refresh a dossier that ANSWERS, in writing (docs/oracle_reframe §"How

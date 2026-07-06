@@ -100,3 +100,52 @@ against index-reconstitution data. The kept wins from the loosening: the wider
 window + N-8F ORDR fix grew the clean CEF/BDC tender leads to 7 (JOF, EVV, EFR,
 EVF, PGIM, EIIA, FRBP), and the de-blunted tradability split preserves flagged
 names instead of dropping them. Loosen -> measure -> correct, with a number.
+
+## THREE-LEG COVERAGE COMPLETE (2026-07-06): neglect + hard_catalyst added
+
+Fixed the architectural gap the fresh launch exposed: the sourcing net covered
+only forced-seller EVENTS, so a name whose mispricing is structural NEGLECT (a
+below-floor state with no filing to enumerate) or a HARD CATALYST (an activist
+campaign / sale process) could never surface — yet 4 of 5 names Oracle liked
+pre-rebuild (ARVN/VTSI/ALCO/RNA) were neglect theses. Coverage now spans all
+three why_mispriced types the precision gate can fund, one leg each:
+
+| Leg | Module | Method | First live pass |
+|---|---|---|---|
+| **forced_seller** | `oracle.forced_seller_sourcing` | EDGAR daily-index form enumeration (SC TO-I / N-8F / 10-12B) + tradability split | 21 tradable |
+| **hard_catalyst** | `oracle.hard_catalyst_sourcing` | SC 13D / 13D-A form enumeration (each `requires_item4_read`) + strategic-review 8-K keyword supplement | 1 activist 13D + 13 strategic-review (EHAB/FWRD/ZYME/BTU/WY — real in-play names) |
+| **neglect** | `oracle.neglect_screen` | whole Sharadar panel screened for price < countable floor | 323 below-floor names |
+
+Unified in `run_oracle_sourcing.py` → one combined
+`cache/oracle_sourced_candidates.json` (358 actionable candidates across the
+three legs, first pass). Every candidate still faces the same
+`make_convex_dossier → verify_dossier → rank_fundable` gate.
+
+**The neglect screen — how it stays honest at the COVERAGE stage** (the precision
+gate does the rest). Three floors per name from the latest SF1 balance sheet,
+hardest reported first: **net_cash** (`cashneq + investmentsc − TOTAL debt` — nets
+against the full debt line, the XRN discipline) → **ncav** (Graham net-net) →
+**tangible_book** (`equity − intangibles`, strips goodwill — the MNRO discipline),
+each mapped to the gate's `floor_basis` (net_cash/ncav→`net_net`,
+tangible_book→`book`). Two measurement bugs found and fixed with numbers, not
+hunches:
+- **FX artifact.** Sharadar SF1 is in the filer's reporting currency but DAILY
+  marketcap is USD — GRVY (Korea, KRW) showed a phantom ~100% "discount" (616
+  billion KRW of book vs a $456M USD cap). Fixed: screen USD reporters only
+  (TICKERS `currency`), and because a ticker can carry BOTH a KRW and a USD row,
+  any non-USD row forces the ticker out (ambiguous currency ⇒ not screenable).
+  Dropped the FX false positives (452 → 354).
+- **Financials in disguise.** Mortgage REITs sit under the Real Estate *sector*
+  but their "book" is a leveraged marked-to-model mortgage-loan float — a mREIT
+  at 0.6x book is the norm, not a floor. Excluded at the *industry* gate
+  (`REIT - Mortgage`); equity REITs (own real buildings) are KEPT (354 → 323).
+Cash-runway is computed from quarterly `ncfo` and short-runway names are FLAGGED
+`eroding_floor` (the ARVN caveat: a burning net-cash floor has a fuse), not
+dropped — the dossier stage prices the erosion. Financials (banks/insurers),
+warrants/preferred/units/funds, and delisted shells are excluded; small-cap only
+($10M–$3B, where neglect lives).
+
+Coverage is deliberately generous (323 below-floor names is a *net*, not a book);
+the four-trap verification gate is what turns the net into funded picks. Tests:
+`tests/test_neglect_screen.py` (14), `tests/test_hard_catalyst_sourcing.py` (6),
+green with the existing forced-seller + verification suites.
