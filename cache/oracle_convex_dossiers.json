@@ -1,7 +1,7 @@
 {
  "spec": "convex",
  "reset_at": "20260706T125825Z-FRESHRUN",
- "reset_note": "Blind first-time run 2026-07-06: 60 sourced -> four-trap verified -> 6 floor-fundable -> DEEP adversarial upside research -> 0 FUND / 6 WATCH (no name has a catalyst that survives scrutiny).",
+ "reset_note": "Blind first-time run 2026-07-06: 313 sourced -> 60 floor-verified -> deep adversarial upside research. The 6 best floors ALL demoted to WATCH (catalyst-less value traps); cranking the full list, exactly ONE name cleared the bar: STHO (liquid SAFE-stake floor + explicit liquidation returning capital). Result: 1 FUND / rest WATCH.",
  "run_date": "2026-07-06",
  "dossiers": [
   {
@@ -339,23 +339,73 @@
    "analyst_verdict": "WATCH",
    "target_price": 7.0,
    "edge_researched": true
+  },
+  {
+   "symbol": "STHO",
+   "spec": "convex",
+   "author": "oracle",
+   "created_at": "2026-07-06T13:52:43.577414",
+   "business": "Star Holdings \u2014 the iStar wind-down vehicle; dominant asset is ~13.5M Safehold (SAFE) shares plus legacy real estate, in an explicit multi-year liquidation.",
+   "thesis": "A complex liquidating stub whose floor is a LIQUID, mark-to-market asset: ~13.5M Safehold shares worth ~$222M against a ~$115M term loan plus legacy RE, versus a ~$111M market cap \u2014 and it is in an explicit 3-5 year liquidation that is RETURNING capital right now (a $10M buyback executing below NAV), with 2026 the stated capital-returns phase.",
+   "sector": "Real Estate Services",
+   "current_price": 9.16,
+   "spy_price": 0.0,
+   "floor_pct": 0.28,
+   "upside_x": 1.35,
+   "prob_upside": 0.55,
+   "asymmetry_score": 0.0665,
+   "floor_hardness": "medium",
+   "horizon_months": 15.0,
+   "convexity_score": 0.0372,
+   "recent_runup_pct": 0.0,
+   "catalyst_fired_risk": false,
+   "convex": true,
+   "why_mispriced_type": "hard_catalyst",
+   "why_mispriced": "A liquidating iStar-legacy stub the market underprices for complexity \u2014 but the wind-down is a filed, dated plan actively distributing, so the discount to a liquid NAV is forced to close.",
+   "catalyst": "Explicit liquidation (started 2023) actively returning capital: $10M buyback executing at a discount to NAV, 2026 framed as the capital-returns phase, term/margin-loan paydown clears the path to a cash distribution.",
+   "catalyst_date": "2026-12-31",
+   "falsifiable_prediction": "STHO re-rates toward NAV (~$12/sh) within 12-18 months as the liquidation distributes and the buyback continues, absent a large SAFE selloff.",
+   "prediction_date": "2027-07-06",
+   "kill_condition": "A SAFE price collapse marks the levered NAV below the cap, or the liquidation stalls / term-loan (ext. 2028) issue.",
+   "kill_condition_type": "drawdown_pct",
+   "kill_condition_value": 0.3,
+   "adversarial": "The floor is levered to a SINGLE volatile security (SAFE) \u2014 a rate-driven SAFE selloff marks the NAV down and the equity falls more than 1:1; the term loan was extended to 2028, stretching the timeline; iStar-legacy structural complexity is why it trades at a discount at all.",
+   "dead_trigger_risk": true,
+   "citations": [
+    "STHO 10-Q 0001953366-26-000010"
+   ],
+   "lens_score": 0.53,
+   "verification": {
+    "verified_at": "2026-07-06T13:52:43.577469",
+    "verified_by": "oracle",
+    "floor_basis": "transacting_asset",
+    "traps": {
+     "primary_source_cited": true,
+     "floor_not_merely_asserted": true,
+     "book_survives_goodwill": true,
+     "debt_reconciled_full_stack": true,
+     "catalyst_not_already_fired": true
+    },
+    "verdict": "keep",
+    "notes": "Deep catalyst triage 2026-07-06: only FUND name of the blind run \u2014 liquid SAFE-stake floor + explicit liquidation returning capital.",
+    "passed": true
+   },
+   "verified": true,
+   "conviction": 0.55,
+   "analyst_verdict": "FUND",
+   "edge_researched": true
   }
  ],
  "run_summary": {
   "sourced": 313,
   "queued": 60,
   "floor_verified": 6,
-  "fund": 0,
+  "deep_researched": 23,
+  "fund": 1,
   "watch": 6,
-  "kill": 37,
-  "note": "Every floor is real; deep upside research demoted all 6 to WATCH \u2014 controlled-shareholder taxes, empire-preservation cash boxes, and dead-money NAV traps. Oracle funds nothing today.",
-  "watch_names": [
-   "XBIT",
-   "PHUN",
-   "INVE",
-   "IMPP",
-   "AMPY",
-   "FPH"
-  ]
+  "fund_names": [
+   "STHO"
+  ],
+  "note": "~1-in-60 hit rate. Lesson: floors are everywhere, catalysts are scarce \u2014 the one FUND is a filed liquidation, not a deep-value screen name. Pivot the hunt to the catalyst legs (liquidations, tenders, activist-13D-vs-net-cash)."
  }
 }
