@@ -1,0 +1,10 @@
+[
+  {
+    "date": "2026-07-06",
+    "timestamp": "2026-07-06T14:20:00Z",
+    "equity": 236.6022631978908,
+    "cash": 236.6022631978908,
+    "benchmark": {},
+    "note": "First live pass post-launch. Funding gate cleared (pending_funding=None) but only the settled tranche of Delphi's sweep has landed ($236.60 of ~$1,888 total); remainder settles 2026-07-07. Deferred the full deluxe-pipeline rebalance to avoid a degenerate ~30-name book at $8/name that would immediately need re-trading once the rest settles (quarterly-only, no intra-quarter churn). Monitoring-only this pass."
+  }
+]
