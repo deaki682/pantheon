@@ -1,0 +1,134 @@
+{
+  "verified_at": "2026-07-06",
+  "method": "parallel primary-source verification, leg-matched briefs",
+  "forced_seller": {
+    "summary": {
+      "FUND": 1,
+      "WATCH": 2,
+      "KILL": 5
+    },
+    "note": "FUND=JOF only (verified earlier). The SC TO-I enumeration mostly surfaces Auction-Preferred-Share leverage tenders (NOT common pull-to-NAV) or non-traded interval/BDC funds (transact at NAV, no discount).",
+    "verdicts": [
+      {
+        "t": "JOF",
+        "v": "FUND",
+        "note": "recurring COMMON conditional-tender-at-98%-NAV governor; verified earlier"
+      },
+      {
+        "t": "EVV",
+        "v": "WATCH",
+        "note": "real ~7% disc but SC TO-I is an APS/leverage tender, not common pull-to-NAV; 40% leverage, soft NAV"
+      },
+      {
+        "t": "EFR",
+        "v": "WATCH",
+        "note": "real ~11% disc but tender is preferred cleanup; 31% leverage, soft floating-loan NAV, no mechanism"
+      },
+      {
+        "t": "EVF",
+        "v": "KILL",
+        "note": "~12% disc but preferred tender only; tiny levered senior-loan CEF, soft NAV, no common catalyst"
+      },
+      {
+        "t": "EIIA",
+        "v": "KILL",
+        "note": "non-traded interval CLO fund; transacts at NAV, no listed discount"
+      },
+      {
+        "t": "PGIM",
+        "v": "KILL",
+        "note": "non-traded private-credit BDC; broker-untradable, transacts at NAV"
+      },
+      {
+        "t": "FRBP",
+        "v": "KILL",
+        "note": "non-traded private BDC; broker-untradable, transacts at NAV"
+      },
+      {
+        "t": "PRIF",
+        "v": "KILL",
+        "note": "non-traded common; only par-priced term-preferreds trade (not a sub-NAV equity)"
+      }
+    ]
+  },
+  "hard_catalyst": {
+    "summary": {
+      "FUND": 0,
+      "WATCH": 0,
+      "KILL": 14
+    },
+    "note": "ZERO fundable. Strategic-review-8K keyword + raw SC 13D enumeration is structurally mismatched to Oracle's bounded-floor thesis: false positives, acquirer-side, already-concluded, Hermes-domain, or floorless distress.",
+    "verdicts": [
+      {
+        "t": "GNK",
+        "v": "KILL",
+        "reason": "hostile all-cash tender (Diana Shipping), fully priced, Hermes domain; floor is the bid not fleet NAV (trades above book)"
+      },
+      {
+        "t": "EHAB",
+        "v": "KILL",
+        "reason": "closed cash deal (Kinderhook $13.80, delisted 5/15); keyword matched the completion 8-K"
+      },
+      {
+        "t": "FWRD",
+        "v": "KILL",
+        "reason": "sale fizzled (PE bidders + activist gone); covenant-tight levered stub, debt swamps equity, no floor"
+      },
+      {
+        "t": "ZYME",
+        "v": "KILL",
+        "reason": "keyword false positive (own capital-allocation boilerplate); at 52wk high; thin 8% net-cash floor"
+      },
+      {
+        "t": "NOTV",
+        "v": "KILL",
+        "reason": "prepackaged Chapter 11, equity cancelled for zero recovery"
+      },
+      {
+        "t": "GWH",
+        "v": "KILL",
+        "reason": "distress pivot not a sale; going concern, ~1q runway, no floor"
+      },
+      {
+        "t": "TXMD",
+        "v": "KILL",
+        "reason": "inverted asymmetry: $0.73 cash under $2.11 price; sole royalty asset under $11.5M lawsuit; already popped 2x"
+      },
+      {
+        "t": "AIRT",
+        "v": "KILL",
+        "reason": "keyword false positive (acquisitive holdco language); leveraged, controlling holder, no clean floor"
+      },
+      {
+        "t": "JHX",
+        "v": "KILL",
+        "reason": "acquirer-side false positive (buying AZEK); $15-20B large-cap"
+      },
+      {
+        "t": "DAIC",
+        "v": "KILL",
+        "reason": "distressed nano-cap; real sale-exploration but death-spiral financing, no floor"
+      },
+      {
+        "t": "IONX",
+        "v": "KILL",
+        "reason": "fresh de-SPAC (going PUBLIC, not sold); no catalyst, no floor"
+      },
+      {
+        "t": "LIF",
+        "v": "KILL",
+        "reason": "acquirer-side false positive (bought Nativo); $5B+ growth name"
+      },
+      {
+        "t": "BTU",
+        "v": "KILL",
+        "reason": "terminated-deal acquirer (walked from Anglo met-coal); not a target"
+      },
+      {
+        "t": "WY",
+        "v": "KILL",
+        "reason": "large-cap timber REIT false positive; no sale process"
+      }
+    ]
+  }
+}
