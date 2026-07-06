@@ -1,0 +1,247 @@
+{
+  "swept": "2026-06-01..2026-07-06",
+  "method": "form_enumeration+tradability",
+  "n": 14,
+  "candidates": [
+    {
+      "cik": "0000859796",
+      "ticker": "JOF",
+      "company": "JAPAN SMALLER CAPITALIZATION FUND INC",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-06-01",
+      "last_filed": "2026-06-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001702780",
+      "ticker": "OPTU",
+      "company": "Optimum Communications, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-01",
+      "last_filed": "2026-07-01",
+      "n_filings": 3,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001222922",
+      "ticker": "EVV",
+      "company": "Eaton Vance Ltd Duration Income Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-01",
+      "last_filed": "2026-06-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001258623",
+      "ticker": "EFR",
+      "company": "Eaton Vance Senior Floating-Rate Trust",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-01",
+      "last_filed": "2026-06-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001070732",
+      "ticker": "EVF",
+      "company": "Eaton Vance Senior Income Trust",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-01",
+      "last_filed": "2026-06-01",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001590877",
+      "ticker": "RGNX",
+      "company": "REGENXBIO Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I",
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-03",
+      "last_filed": "2026-07-01",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000896493",
+      "ticker": "GPUS-PD",
+      "company": "Hyperscale Data, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-09",
+      "last_filed": "2026-06-10",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0000891478",
+      "ticker": "BCDRF",
+      "company": "Banco Santander, S.A.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-10",
+      "last_filed": "2026-06-10",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001476840",
+      "ticker": "EXFY",
+      "company": "Expensify, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-11",
+      "last_filed": "2026-06-12",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001561032",
+      "ticker": "NHPAP",
+      "company": "National Healthcare Properties, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-17",
+      "last_filed": "2026-06-22",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001554625",
+      "ticker": "PRIF-PL",
+      "company": "Priority Income Fund, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-06-18",
+      "last_filed": "2026-06-18",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001692705",
+      "ticker": "HTT",
+      "company": "High Templar Tech Ltd",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-29",
+      "n_filings": 2,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001854275",
+      "ticker": "ZCARW",
+      "company": "Zoomcar Holdings, Inc.",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I/A"
+      ],
+      "first_filed": "2026-06-25",
+      "last_filed": "2026-06-25",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    },
+    {
+      "cik": "0001923622",
+      "ticker": "PGIM",
+      "company": "PGIM Private Credit Fund",
+      "families": [
+        "odd_lot_tender"
+      ],
+      "family": "odd_lot_tender",
+      "forms": [
+        "SC TO-I"
+      ],
+      "first_filed": "2026-06-29",
+      "last_filed": "2026-06-29",
+      "n_filings": 1,
+      "tradable": true,
+      "source": "form_enumeration"
+    }
+  ]
+}
