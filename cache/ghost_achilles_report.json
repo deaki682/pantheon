@@ -2,11 +2,9 @@
   "n": 0,
   "mean_return": null,
   "hit_rate": null,
-  "class_drift": {},
-  "lens_lift": {},
-  "neglect_terciles": {},
+  "signal_lift": {},
+  "reaction_terciles": {},
   "surprise_terciles": {},
-  "conviction_terciles": {},
   "score_terciles": {},
-  "liquidity_terciles": {}
+  "cap_terciles": {}
 }
