@@ -75,3 +75,36 @@ Oracle now has **two** verified fresh-launch names — JOF (forced-seller /
 CEF sub-NAV) and INVE (neglect / sub-net-cash cash box) — one from each of two
 different legs, both cleared by the same four-trap gate. Still `pending_funding`
 (research/paper until the sleeve is funded).
+
+## The other side of the gate — MED (Medifast) REJECTED as a screen false-positive
+
+Same run, opposite outcome — the discipline working both ways. The screen ranked
+MED "20% below net cash" (net_cash $153M vs $122M cap). The primary-source read
+(10-Q, 2026-03-31, accession 0001628280-26-029898) dissolved it:
+
+- The screen's `debt=$16M` is **operating lease obligations, not debt** — MED has
+  ZERO real borrowings (no revolver, no term loan). Sharadar's `debt` field folds
+  in capitalized leases.
+- Cash + current investments = $168.9M, but total liabilities are **$54.4M**
+  (incl. $38.3M payables/accruals a going-concern must pay). Net of all
+  liabilities ≈ $114.5M / 11.12M sh = **$10.30/sh** — versus an $11.01 price. The
+  stock trades *slightly ABOVE* its conservative net-cash floor, not below it.
+- Unlike INVE (a $124.5M cash box, $10.5M liabilities, a tiny stub), MED is a
+  **going concern in GLP-1-driven structural decline** whose cash funds real
+  working capital and could be consumed if OPTAVIA keeps shrinking into cash burn.
+
+Verdict: **not fundable** — no hard-floor margin of safety once operating
+liabilities are properly netted; the headline discount was an artifact of
+mislabeling leases as debt and ignoring payables. Recorded as a triage kill, not
+added to the pool. (The same shape to watch for across the tangible_book tail:
+Sharadar `debt` includes leases, so the screen slightly overstates net cash for
+lease-heavy operators — a known coverage-stage generosity the precision read
+corrects, name by name.)
+
+## Net of the run
+
+Two names entered the gate from the neglect leg; **one cleared** (INVE — a hard,
+verified, debt-free floor with real margin of safety) and **one was rejected**
+(MED — a soft going-concern floor at ~par). That 1-for-2 is the machine behaving
+correctly: coverage is generous, the primary-source read is what turns a ranked
+list into a funded decision — and it says NO as readily as YES.
