@@ -93,6 +93,57 @@ class CascadeResult:
                 "budget_hit": self.budget_hit, "coverage": self.coverage}
 
 
+def dedup_packets(packets: list) -> list:
+    """Order-preserving dedup by uppercased symbol — a name is never read twice."""
+    seen: set = set()
+    out: list = []
+    for p in packets:
+        s = str(p.get("symbol", "")).upper()
+        if s and s not in seen:
+            seen.add(s)
+            out.append(p)
+    return out
+
+
+def plan_tier(current: list, tier: Tier, remaining_budget: int) -> dict:
+    """Decide, for one tier, who the remaining budget can afford to read and who is
+    starved — plus the request batch to hand the model. Pure: no model touched, so
+    the budget/coverage arithmetic is identical whether a run is in-process
+    (`run_cascade`) or stepwise (`CascadeRunner`)."""
+    if tier.est_tokens > 0:
+        affordable = max(0, remaining_budget // tier.est_tokens)
+    else:
+        affordable = len(current)
+    to_read = current[:affordable]
+    skipped = current[affordable:]
+    reqs = [{"symbol": str(p.get("symbol", "")).upper(), "prompt": tier.prompt(p),
+             "model": tier.model, "effort": tier.effort} for p in to_read]
+    return {"to_read": to_read, "skipped": skipped, "reqs": reqs}
+
+
+def apply_tier(tier: Tier, to_read: list, raws: list) -> dict:
+    """Parse + gate one tier's raw model outputs into advances/drops, and count the
+    spend. Raises if the model wasn't 1:1 with the requests (a fan-out that loses or
+    reorders a read would silently corrupt the cascade). Pure and injectable-free."""
+    if len(raws) != len(to_read):
+        raise ValueError(f"model_read returned {len(raws)} outputs for {len(to_read)} "
+                         f"requests in tier {tier.name!r} — must be 1:1 and in order")
+    advanced: list = []
+    dropped: list = []
+    spent = 0
+    for p, raw in zip(to_read, raws):
+        verdict = tier.parse(raw, p)
+        spent += int(verdict.get(TOKENS_KEY, tier.est_tokens))
+        if tier.keep(p, verdict):
+            advanced.append({**p, f"{tier.name}_verdict": verdict})
+        else:
+            dropped.append(Dropped(str(p.get("symbol", "")).upper(), tier.name,
+                                   str(verdict.get("reason", ""))[:200]))
+    coverage = {"read": len(to_read), "advanced": len(advanced),
+                "dropped": len(to_read) - len(advanced), "skipped_budget": 0}
+    return {"advanced": advanced, "dropped": dropped, "coverage": coverage, "spent": spent}
+
+
 def run_cascade(packets: list, lens: Lens, model_read: ModelRead, *,
                 budget_tokens: int) -> CascadeResult:
     """Run `packets` through `lens`'s tiers under a hard token `budget`.
@@ -104,15 +155,7 @@ def run_cascade(packets: list, lens: Lens, model_read: ModelRead, *,
     truncation reads as 'covered the field' when it didn't. Returns the survivors
     (with their per-tier verdicts attached) plus a full coverage/spend report.
     """
-    # dedup by symbol, preserving order (a name must never be read twice)
-    seen: set = set()
-    current: list = []
-    for p in packets:
-        s = str(p.get("symbol", "")).upper()
-        if s and s not in seen:
-            seen.add(s)
-            current.append(p)
-
+    current = dedup_packets(packets)
     dropped: list = []
     skipped_for_budget: list = []
     coverage: dict = {}
@@ -120,37 +163,21 @@ def run_cascade(packets: list, lens: Lens, model_read: ModelRead, *,
     budget_hit = False
 
     for tier in lens.tiers:
-        remaining = budget_tokens - spent
-        if tier.est_tokens > 0:
-            affordable = max(0, remaining // tier.est_tokens)
-        else:
-            affordable = len(current)
-        to_read = current[:affordable]
-        skipped = current[affordable:]
+        plan = plan_tier(current, tier, budget_tokens - spent)
+        to_read, skipped = plan["to_read"], plan["skipped"]
         for p in skipped:
             skipped_for_budget.append(str(p.get("symbol", "")).upper())
         if skipped:
             budget_hit = True
 
-        reqs = [{"symbol": str(p.get("symbol", "")).upper(), "prompt": tier.prompt(p),
-                 "model": tier.model, "effort": tier.effort} for p in to_read]
-        raws = model_read(reqs) if reqs else []
-        if len(raws) != len(to_read):
-            raise ValueError(f"model_read returned {len(raws)} outputs for {len(to_read)} "
-                             f"requests in tier {tier.name!r} — must be 1:1 and in order")
-
-        advanced: list = []
-        for p, raw in zip(to_read, raws):
-            verdict = tier.parse(raw, p)
-            spent += int(verdict.get(TOKENS_KEY, tier.est_tokens))
-            if tier.keep(p, verdict):
-                advanced.append({**p, f"{tier.name}_verdict": verdict})
-            else:
-                dropped.append(Dropped(str(p.get("symbol", "")).upper(), tier.name,
-                                       str(verdict.get("reason", ""))[:200]))
-        coverage[tier.name] = {"read": len(to_read), "advanced": len(advanced),
-                               "dropped": len(to_read) - len(advanced), "skipped_budget": len(skipped)}
-        current = advanced
+        raws = model_read(plan["reqs"]) if plan["reqs"] else []
+        applied = apply_tier(tier, to_read, raws)
+        dropped.extend(applied["dropped"])
+        spent += applied["spent"]
+        cov = applied["coverage"]
+        cov["skipped_budget"] = len(skipped)
+        coverage[tier.name] = cov
+        current = applied["advanced"]
 
     return CascadeResult(survivors=current, dropped=dropped,
                          skipped_for_budget=skipped_for_budget, coverage=coverage,
