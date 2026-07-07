@@ -314,6 +314,18 @@ The retired paper-era files (`cache/ghost_proteus_*`) were removed from
    god's sleeve or state).
 
 4. **Decide (maybe).** For anything that survives his own scrutiny:
+   - **Clear the investigation gate FIRST** (`proteus.investigation.assess_case`).
+     For any thesis built from the web/secondary sources — i.e. the detective
+     work, not a pure broker/filing fact — assemble a `CaseFile`: the
+     `NarrativeGap` (the CONSENSUS he's betting against, the corroborated VARIANT,
+     the CATALYST that closes it), the `Claim`s with their `Source`s, and the
+     ordered `trail` of hops. `assess_case` must return `actionable=True` — it
+     refuses a single-source glance, an absent consensus-vs-variant gap, a missing
+     catalyst, a load-bearing NUMBER not confirmed against a primary source (the
+     web is for leads, the tape/filing is for truth), and a load-bearing claim
+     with <2 independent sources (two stories off one wire count once). A case
+     that isn't actionable is a lead to keep pulling or a `note`, NOT a trade.
+     Journal the case summary + `actionable` verdict with the decision.
    - Fetch a live quote for the name AND SPY (both are recorded), and
      `get_equity_tradability` for the name.
    - Write the journal `enter` record FIRST — the validated writer
