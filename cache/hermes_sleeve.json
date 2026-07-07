@@ -1,6 +1,6 @@
 {
  "name": "hermes",
- "cash": 3520.0000250656003,
+ "cash": 2926.7535250656,
  "contributed_cash": 4000.0,
  "positions": {
   "ALOT": {
@@ -14,6 +14,18 @@
    "spy_entry": 750.99,
    "deal_type": "cash",
    "dollars": 479.9999749343999
+  },
+  "FSEA": {
+   "symbol": "FSEA",
+   "shares": 35.0,
+   "entry_price": 16.9499,
+   "offer_price": 17.25,
+   "entry_date": "2026-07-07",
+   "expected_close": "2026-Q4",
+   "break_stop": 14.4074,
+   "spy_entry": 747.05,
+   "deal_type": "cash",
+   "dollars": 593.2465
   }
  },
  "closed": [],
