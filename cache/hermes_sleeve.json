@@ -1,73 +1,85 @@
 {
-  "name": "hermes",
-  "cash": 1126.7536367475,
-  "contributed_cash": 4000.0,
-  "positions": {
-    "ALOT": {
-      "symbol": "ALOT",
-      "shares": 16.836256,
-      "entry_price": 28.5099,
-      "offer_price": 29.0,
-      "entry_date": "2026-07-06",
-      "expected_close": "2026-Q3 (outside date 2026-11-17)",
-      "break_stop": 24.2334,
-      "spy_entry": 750.99,
-      "deal_type": "cash",
-      "dollars": 479.9999749343999
-    },
-    "FSEA": {
-      "symbol": "FSEA",
-      "shares": 35.0,
-      "entry_price": 16.9499,
-      "offer_price": 17.25,
-      "entry_date": "2026-07-07",
-      "expected_close": "2026-Q4",
-      "break_stop": 14.4074,
-      "spy_entry": 747.05,
-      "deal_type": "cash",
-      "dollars": 593.2465
-    },
-    "APGE": {
-      "symbol": "APGE",
-      "shares": 4.495395,
-      "entry_price": 133.4699,
-      "offer_price": 135.11,
-      "entry_date": "2026-07-07",
-      "expected_close": "Q3 2026",
-      "break_stop": 113.4494,
-      "spy_entry": 746.46,
-      "deal_type": "cash",
-      "dollars": 599.9999211105
-    },
-    "RAMP": {
-      "symbol": "RAMP",
-      "shares": 15.953797,
-      "entry_price": 37.6086,
-      "offer_price": 38.5,
-      "entry_date": "2026-07-07",
-      "expected_close": "2026-12-31",
-      "break_stop": 31.9673,
-      "spy_entry": 746.46,
-      "deal_type": "cash",
-      "dollars": 599.9999698542
-    },
-    "GBTG": {
-      "symbol": "GBTG",
-      "shares": 63.830466,
-      "entry_price": 9.3999,
-      "offer_price": 9.5,
-      "entry_date": "2026-07-07",
-      "expected_close": "2H 2026",
-      "break_stop": 7.9899,
-      "spy_entry": 746.46,
-      "deal_type": "cash",
-      "dollars": 599.9999973534001
-    }
+ "name": "hermes",
+ "cash": 661.49,
+ "contributed_cash": 4000.0,
+ "positions": {
+  "ALOT": {
+   "symbol": "ALOT",
+   "shares": 16.836256,
+   "entry_price": 28.51,
+   "offer_price": 29.0,
+   "entry_date": "2026-07-06",
+   "expected_close": "2026-Q3 (outside 2026-11-17)",
+   "break_stop": 24.2334,
+   "spy_entry": 750.99,
+   "deal_type": "cash",
+   "dollars": 480.0
   },
-  "closed": [],
-  "realized_pnl": 0.0,
-  "halted": false,
-  "peak_equity": 4000.5102713056,
-  "pending_funding": null,
-  "trades_count": 0
+  "APGE": {
+   "symbol": "APGE",
+   "shares": 4.0,
+   "entry_price": 133.48,
+   "offer_price": 135.11,
+   "entry_date": "2026-07-07",
+   "expected_close": "Q3 2026",
+   "break_stop": 113.46,
+   "spy_entry": 751.31,
+   "deal_type": "cash",
+   "dollars": 533.92
+  },
+  "RAMP": {
+   "symbol": "RAMP",
+   "shares": 15.0,
+   "entry_price": 37.66,
+   "offer_price": 38.5,
+   "entry_date": "2026-07-07",
+   "expected_close": "2026-12-31",
+   "break_stop": 32.01,
+   "spy_entry": 751.31,
+   "deal_type": "cash",
+   "dollars": 564.9
+  },
+  "GBTG": {
+   "symbol": "GBTG",
+   "shares": 63.0,
+   "entry_price": 9.4,
+   "offer_price": 9.5,
+   "entry_date": "2026-07-07",
+   "expected_close": "2H 2026",
+   "break_stop": 7.99,
+   "spy_entry": 751.31,
+   "deal_type": "cash",
+   "dollars": 592.2
+  },
+  "TMHC": {
+   "symbol": "TMHC",
+   "shares": 8.0,
+   "entry_price": 71.78,
+   "offer_price": 72.5,
+   "entry_date": "2026-07-07",
+   "expected_close": "2H 2026",
+   "break_stop": 61.01,
+   "spy_entry": 751.31,
+   "deal_type": "cash",
+   "dollars": 574.24
+  },
+  "FSEA": {
+   "symbol": "FSEA",
+   "shares": 35.0,
+   "entry_price": 16.95,
+   "offer_price": 16.95,
+   "entry_date": "2026-07-07",
+   "expected_close": "unknown (VERIFY terms)",
+   "break_stop": 14.41,
+   "spy_entry": 751.31,
+   "deal_type": "cash",
+   "dollars": 593.25
+  }
+ },
+ "closed": [],
+ "realized_pnl": 0.0,
+ "halted": false,
+ "peak_equity": 4000.0,
+ "pending_funding": null,
+ "trades_count": 0
 }
