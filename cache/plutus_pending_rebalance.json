@@ -1,423 +1,424 @@
 {
- "status": "TRANCHE_1_QUEUED",
- "computed": "2026-07-06",
- "signal_date": "2026-06-30",
- "quarter": "2026Q2",
- "intended_equity": 5000.0,
- "allocation_note": "Plutus intended portion = ~$5,000 (26% of the ~$19.9k floor+option book) per docs/portfolio_mandate_2026-07-05.md and CLAUDE.md ('Beta (Plutus, ~26%)'). The launch-override's ~$2,000 was the Delphi seed/source, superseded by the mandate on intended size.",
- "deluxe_targets": {
-  "TPR": 0.009704914848465671,
-  "KR": 0.012490432175599224,
-  "ADBE": 0.02899787696516637,
-  "JBHT": 0.007458350253026219,
-  "HCA": 0.023235173354844284,
-  "BKNG": 0.029361247835842468,
-  "WSM": 0.010284067127117817,
-  "CMCSA": 0.028410011601534522,
-  "EBAY": 0.013827226788282741,
-  "EXPE": 0.01087848026447704,
-  "FICO": 0.013150969636747153,
-  "IDXX": 0.011499884397793996,
-  "MSCI": 0.014813089656363548,
-  "FDX": 0.01696771827868535,
-  "LRCX": 0.033233851842319535,
-  "ODFL": 0.010779467154125299,
-  "ORLY": 0.023384460067095204,
-  "GWW": 0.0143018334379227,
-  "MA": 0.06,
-  "AAPL": 0.0600000000003433,
-  "SYY": 0.013538060625380698,
-  "LVS": 0.011847322116719843,
-  "FTNT": 0.017038888124594625,
-  "FERG": 0.014528345045978011,
-  "ZTS": 0.01567168544213741,
-  "NTAP": 0.010809079986434213,
-  "NEM": 0.01781948717418963,
-  "NVS": 0.030859510473304767,
-  "QCOM": 0.03237651391068453,
-  "CL": 0.015284842051185635,
-  "EOG": 0.017800853265613707,
-  "AMAT": 0.03848025804976227,
-  "SU": 0.015650794033522566,
-  "DELL": 0.029841532880144152,
-  "KLAC": 0.03188466495790921,
-  "ROST": 0.017694966537068948,
-  "OTIS": 0.012159962609502726,
-  "AZO": 0.02062423959153365,
-  "ADSK": 0.013715763472464561,
-  "NVDA": 0.0600000000003433,
-  "CRM": 0.028299328458493922,
-  "WDAY": 0.009812993854347966,
-  "TWLO": 0.007989080771947434,
-  "ITW": 0.02046444309899302,
-  "CMG": 0.015320695567059115,
-  "ABNB": 0.0182302273847802,
-  "KGC": 0.009477404830151194
- },
- "llm_reads": {
-  "TPR": {
-   "keep": true,
-   "conviction": 1.0,
-   "rationale": "Coach reaccel, FCF-funded shrink; PE 46 rich, near 52wk high"
+  "allocation_note": "Plutus intended portion = ~$5,000 (26% of the ~$19.9k floor+option book) per docs/portfolio_mandate_2026-07-05.md and CLAUDE.md ('Beta (Plutus, ~26%)'). The launch-override's ~$2,000 was the Delphi seed/source, superseded by the mandate on intended size.",
+  "cap_blend": 0.5,
+  "completion_note": "Tranche 2 (42 names, $3,776.64) queued for the 07-07 open on settled T+1 buying power. Full 47-name deluxe book deployed to ~$4,900. last_quarter=2026Q2 set; monitoring-only until 2026Q3. Reconcile actual fills next /plutus pass.",
+  "computed": "2026-07-06",
+  "control_basket": [
+    "GM",
+    "AIG",
+    "VOD",
+    "HCA",
+    "KR",
+    "DHI",
+    "MPC",
+    "BTI",
+    "TPR",
+    "MTB",
+    "PYPL",
+    "HMC",
+    "LVS",
+    "WFC",
+    "JCI",
+    "ADBE",
+    "AFL",
+    "DELL",
+    "IQV",
+    "JBHT",
+    "CARR",
+    "C",
+    "FLEX",
+    "ON",
+    "IMO",
+    "NTRS",
+    "GS",
+    "BAC",
+    "EXPE",
+    "CMCSA",
+    "MET",
+    "AMP",
+    "HLT",
+    "STLD",
+    "EA",
+    "JBL",
+    "TECK",
+    "EBAY",
+    "TTE",
+    "STT",
+    "JD",
+    "NVS",
+    "BNY",
+    "LNG",
+    "BCS",
+    "XOM",
+    "TWLO",
+    "VLO",
+    "TFC",
+    "CNC"
+  ],
+  "coverage_note": "50/50 composite candidates priced with live Robinhood quotes (all active, traded 2026-07-06).",
+  "deluxe_targets": {
+    "AAPL": 0.0600000000003433,
+    "ABNB": 0.0182302273847802,
+    "ADBE": 0.02899787696516637,
+    "ADSK": 0.013715763472464561,
+    "AMAT": 0.03848025804976227,
+    "AZO": 0.02062423959153365,
+    "BKNG": 0.029361247835842468,
+    "CL": 0.015284842051185635,
+    "CMCSA": 0.028410011601534522,
+    "CMG": 0.015320695567059115,
+    "CRM": 0.028299328458493922,
+    "DELL": 0.029841532880144152,
+    "EBAY": 0.013827226788282741,
+    "EOG": 0.017800853265613707,
+    "EXPE": 0.01087848026447704,
+    "FDX": 0.01696771827868535,
+    "FERG": 0.014528345045978011,
+    "FICO": 0.013150969636747153,
+    "FTNT": 0.017038888124594625,
+    "GWW": 0.0143018334379227,
+    "HCA": 0.023235173354844284,
+    "IDXX": 0.011499884397793996,
+    "ITW": 0.02046444309899302,
+    "JBHT": 0.007458350253026219,
+    "KGC": 0.009477404830151194,
+    "KLAC": 0.03188466495790921,
+    "KR": 0.012490432175599224,
+    "LRCX": 0.033233851842319535,
+    "LVS": 0.011847322116719843,
+    "MA": 0.06,
+    "MSCI": 0.014813089656363548,
+    "NEM": 0.01781948717418963,
+    "NTAP": 0.010809079986434213,
+    "NVDA": 0.0600000000003433,
+    "NVS": 0.030859510473304767,
+    "ODFL": 0.010779467154125299,
+    "ORLY": 0.023384460067095204,
+    "OTIS": 0.012159962609502726,
+    "QCOM": 0.03237651391068453,
+    "ROST": 0.017694966537068948,
+    "SU": 0.015650794033522566,
+    "SYY": 0.013538060625380698,
+    "TPR": 0.009704914848465671,
+    "TWLO": 0.007989080771947434,
+    "WDAY": 0.009812993854347966,
+    "WSM": 0.010284067127117817,
+    "ZTS": 0.01567168544213741
   },
-  "KR": {
-   "keep": true,
-   "conviction": 1.2,
-   "rationale": "defensive grocer, disciplined FCF buyback, near 52wk low; PE 34 elevated but re-rating room"
+  "dropped": [
+    "EA",
+    "TER",
+    "JD"
+  ],
+  "execution_gate": "Full $5,000 deploys at T+1 once Monday's liquidation proceeds settle (~$18k of the $19.4k cash is unsettled; buying power was $1,135.96 on 2026-07-06). No buys on unsettled cash (good-faith rule). Execute the entirety in one clean pass next settled trading day.",
+  "intended_equity": 5000.0,
+  "llm_reads": {
+    "AAPL": {
+      "conviction": 1.3,
+      "keep": true,
+      "rationale": "largest FCF-funded buyback anywhere, supreme quality; PE 37 elevated, near 52wk high"
+    },
+    "ABNB": {
+      "conviction": 1.1,
+      "keep": true,
+      "rationale": "asset-light travel, huge FCF buyback, PE 36 full, near 52wk high"
+    },
+    "ADBE": {
+      "conviction": 1.8,
+      "keep": true,
+      "rationale": "software franchise at PE 12.6 (washed out 386->218); big FCF buyback at trough valuation \u2014 best discipline in book"
+    },
+    "ADSK": {
+      "conviction": 1.2,
+      "keep": true,
+      "rationale": "design-software franchise, PE 30, FCF buyback, de-rated from 329 high"
+    },
+    "AMAT": {
+      "conviction": 0.9,
+      "keep": true,
+      "rationale": "elite semicap, PE 56 near cycle peak \u2014 buyback discipline concern at the top of the cycle"
+    },
+    "AZO": {
+      "conviction": 1.6,
+      "keep": true,
+      "rationale": "the canonical buyback-shrinker (share count down ~70% over 20y), PE 22, at 52wk low \u2014 elite discipline"
+    },
+    "BKNG": {
+      "conviction": 1.4,
+      "keep": true,
+      "rationale": "asset-light OTA, huge FCF, disciplined buyback, PE 24, pulled back from highs"
+    },
+    "CL": {
+      "conviction": 1.0,
+      "keep": true,
+      "rationale": "defensive staple, PE 37 rich for the group, steady FCF buyback"
+    },
+    "CMCSA": {
+      "conviction": 1.7,
+      "keep": true,
+      "rationale": "PE 4.7, 5.5% yield, FCF gusher buying back at trough; cable subs decline is the bear but buyback massively accretive"
+    },
+    "CMG": {
+      "conviction": 1.3,
+      "keep": true,
+      "rationale": "elite restaurant growth, FCF buyback, de-rated (57->34), disciplined"
+    },
+    "CRM": {
+      "conviction": 1.4,
+      "keep": true,
+      "rationale": "CRM leader at PE 19 (276->165, near low), newly disciplined FCF buyback \u2014 cheap quality"
+    },
+    "DELL": {
+      "conviction": 1.0,
+      "keep": true,
+      "rationale": "AI-server tailwind, PE 31 after 110->411 run near high; FCF buyback, equity negative from repurchase"
+    },
+    "EA": {
+      "conviction": 1.0,
+      "keep": false,
+      "rationale": "DROP: PE 58 slow-growth games at all-time high \u2014 buying back richly-valued stagnant grower, poor value discipline"
+    },
+    "EBAY": {
+      "conviction": 1.1,
+      "keep": true,
+      "rationale": "mature marketplace, steady FCF buyback, PE 26 fair"
+    },
+    "EOG": {
+      "conviction": 1.2,
+      "keep": true,
+      "rationale": "low-cost E&P, PE 12.9, strong FCF, disciplined buyback+div"
+    },
+    "EXPE": {
+      "conviction": 1.1,
+      "keep": true,
+      "rationale": "OTA, FCF buyback, PE 24, travel-cyclical but reasonable"
+    },
+    "FDX": {
+      "conviction": 1.1,
+      "keep": true,
+      "rationale": "logistics, PE 17, FCF buyback, cyclical but fairly valued"
+    },
+    "FERG": {
+      "conviction": 1.2,
+      "keep": true,
+      "rationale": "quality building-products distributor, FCF buyback, PE 25 reasonable"
+    },
+    "FICO": {
+      "conviction": 1.4,
+      "keep": true,
+      "rationale": "scores monopoly/pricing power, PE 40 (de-rated from ~80), disciplined buyback of an elite compounder"
+    },
+    "FTNT": {
+      "conviction": 0.9,
+      "keep": true,
+      "rationale": "elite cyber FCF margins, buyback shrinking equity hard; PE 60 at 52wk high tempers conviction"
+    },
+    "GWW": {
+      "conviction": 1.0,
+      "keep": true,
+      "rationale": "elite MRO distributor, PE 36, quality high but near 52wk high"
+    },
+    "HCA": {
+      "conviction": 1.4,
+      "keep": true,
+      "rationale": "hospital cash machine, PE 14; buyback part debt-funded but coverage strong, sector-appropriate leverage"
+    },
+    "IDXX": {
+      "conviction": 1.0,
+      "keep": true,
+      "rationale": "elite vet-dx franchise, PE 41 rich, modest buyback"
+    },
+    "ITW": {
+      "conviction": 1.3,
+      "keep": true,
+      "rationale": "elite serial-buyback industrial, high ROIC, PE 25 reasonable"
+    },
+    "JBHT": {
+      "conviction": 0.8,
+      "keep": true,
+      "rationale": "intermodal, FCF buyback but PE 44 rich in a freight downcycle, near 52wk high"
+    },
+    "JD": {
+      "conviction": 1.0,
+      "keep": false,
+      "rationale": "DROP: China ADR \u2014 VIE/delisting/geopolitical overhang; a real FCF buyback can't offset the structural governance discount"
+    },
+    "KGC": {
+      "conviction": 1.0,
+      "keep": true,
+      "rationale": "gold miner, PE 10.4 (cheapest), buyback+div; commodity-cyclical, gold near highs"
+    },
+    "KLAC": {
+      "conviction": 0.9,
+      "keep": true,
+      "rationale": "elite process-control semicap, PE 66 at cycle peak \u2014 same top-of-cycle buyback concern as the group"
+    },
+    "KR": {
+      "conviction": 1.2,
+      "keep": true,
+      "rationale": "defensive grocer, disciplined FCF buyback, near 52wk low; PE 34 elevated but re-rating room"
+    },
+    "LRCX": {
+      "conviction": 0.8,
+      "keep": true,
+      "rationale": "elite semicap but PE 66 at cycle peak after 90->349 run \u2014 buying back near the top, valuation-discipline concern"
+    },
+    "LVS": {
+      "conviction": 1.2,
+      "keep": true,
+      "rationale": "Macau/Singapore casinos, PE 17, at 52wk low, buyback + recovery; sector-appropriate leverage"
+    },
+    "MA": {
+      "conviction": 1.6,
+      "keep": true,
+      "rationale": "payments network, wide moat, huge FCF, disciplined buyback, pulled back from highs"
+    },
+    "MSCI": {
+      "conviction": 1.3,
+      "keep": true,
+      "rationale": "index/data monopoly, recurring rev, disciplined buyback shrinking equity, PE 34 for superb quality"
+    },
+    "NEM": {
+      "conviction": 1.0,
+      "keep": true,
+      "rationale": "gold major, PE 12.6, buyback from bullion cash flow; commodity-cyclical (gold near highs)"
+    },
+    "NTAP": {
+      "conviction": 1.1,
+      "keep": true,
+      "rationale": "storage, PE 24, FCF buyback, mature but healthy"
+    },
+    "NVDA": {
+      "conviction": 1.2,
+      "keep": true,
+      "rationale": "supreme franchise, massive FCF buyback; PE 30 reasonable for the growth but a crowded mega-cap"
+    },
+    "NVS": {
+      "conviction": 1.0,
+      "keep": true,
+      "rationale": "major pharma, PE 22, disciplined buyback+div; foreign ADR"
+    },
+    "ODFL": {
+      "conviction": 0.9,
+      "keep": true,
+      "rationale": "best-in-class LTL, PE 45, freight-cyclical and richly priced"
+    },
+    "ORLY": {
+      "conviction": 1.5,
+      "keep": true,
+      "rationale": "textbook serial buyback-shrinker (equity negative from decades of repurchase), at 52wk low today, disciplined"
+    },
+    "OTIS": {
+      "conviction": 1.3,
+      "keep": true,
+      "rationale": "elevator service-annuity moat, PE 19, disciplined buyback, near 52wk low"
+    },
+    "QCOM": {
+      "conviction": 1.3,
+      "keep": true,
+      "rationale": "semis+licensing, PE 19, disciplined FCF buyback, de-rated from 259 high"
+    },
+    "ROST": {
+      "conviction": 1.2,
+      "keep": true,
+      "rationale": "off-price retailer, elite serial buybacker, PE 30, near high but disciplined"
+    },
+    "SU": {
+      "conviction": 1.1,
+      "keep": true,
+      "rationale": "Canadian integrated oil, PE 14, FCF buyback+div, cheap"
+    },
+    "SYY": {
+      "conviction": 1.2,
+      "keep": true,
+      "rationale": "defensive food distribution, FCF buyback, PE 23, near low-half of range"
+    },
+    "TER": {
+      "conviction": 0.9,
+      "keep": false,
+      "rationale": "DROP: PE 68 semicap-test at cycle peak after 88->379 run \u2014 repurchasing peak-cycle earnings at peak multiple"
+    },
+    "TPR": {
+      "conviction": 1.0,
+      "keep": true,
+      "rationale": "Coach reaccel, FCF-funded shrink; PE 46 rich, near 52wk high"
+    },
+    "TWLO": {
+      "conviction": 0.8,
+      "keep": true,
+      "rationale": "comms-API turnaround, GAAP PE optically 324 but buyback is real-FCF-funded; ran hard, valuation full"
+    },
+    "WDAY": {
+      "conviction": 1.0,
+      "keep": true,
+      "rationale": "HR SaaS, PE 42, FCF buyback, washed out from 249 high"
+    },
+    "WSM": {
+      "conviction": 1.1,
+      "keep": true,
+      "rationale": "high-ROIC home retailer, FCF buyback, PE 25 reasonable, near high"
+    },
+    "ZTS": {
+      "conviction": 1.6,
+      "keep": true,
+      "rationale": "elite animal-health franchise at PE 12.4 (161->75, near low) \u2014 disciplined buyback at washed-out valuation"
+    }
   },
-  "ADBE": {
-   "keep": true,
-   "conviction": 1.8,
-   "rationale": "software franchise at PE 12.6 (washed out 386->218); big FCF buyback at trough valuation \u2014 best discipline in book"
-  },
-  "JBHT": {
-   "keep": true,
-   "conviction": 0.8,
-   "rationale": "intermodal, FCF buyback but PE 44 rich in a freight downcycle, near 52wk high"
-  },
-  "HCA": {
-   "keep": true,
-   "conviction": 1.4,
-   "rationale": "hospital cash machine, PE 14; buyback part debt-funded but coverage strong, sector-appropriate leverage"
-  },
-  "BKNG": {
-   "keep": true,
-   "conviction": 1.4,
-   "rationale": "asset-light OTA, huge FCF, disciplined buyback, PE 24, pulled back from highs"
-  },
-  "EA": {
-   "keep": false,
-   "conviction": 1.0,
-   "rationale": "DROP: PE 58 slow-growth games at all-time high \u2014 buying back richly-valued stagnant grower, poor value discipline"
-  },
-  "WSM": {
-   "keep": true,
-   "conviction": 1.1,
-   "rationale": "high-ROIC home retailer, FCF buyback, PE 25 reasonable, near high"
-  },
-  "CMCSA": {
-   "keep": true,
-   "conviction": 1.7,
-   "rationale": "PE 4.7, 5.5% yield, FCF gusher buying back at trough; cable subs decline is the bear but buyback massively accretive"
-  },
-  "EBAY": {
-   "keep": true,
-   "conviction": 1.1,
-   "rationale": "mature marketplace, steady FCF buyback, PE 26 fair"
-  },
-  "EXPE": {
-   "keep": true,
-   "conviction": 1.1,
-   "rationale": "OTA, FCF buyback, PE 24, travel-cyclical but reasonable"
-  },
-  "FICO": {
-   "keep": true,
-   "conviction": 1.4,
-   "rationale": "scores monopoly/pricing power, PE 40 (de-rated from ~80), disciplined buyback of an elite compounder"
-  },
-  "IDXX": {
-   "keep": true,
-   "conviction": 1.0,
-   "rationale": "elite vet-dx franchise, PE 41 rich, modest buyback"
-  },
-  "MSCI": {
-   "keep": true,
-   "conviction": 1.3,
-   "rationale": "index/data monopoly, recurring rev, disciplined buyback shrinking equity, PE 34 for superb quality"
-  },
-  "FDX": {
-   "keep": true,
-   "conviction": 1.1,
-   "rationale": "logistics, PE 17, FCF buyback, cyclical but fairly valued"
-  },
-  "LRCX": {
-   "keep": true,
-   "conviction": 0.8,
-   "rationale": "elite semicap but PE 66 at cycle peak after 90->349 run \u2014 buying back near the top, valuation-discipline concern"
-  },
-  "ODFL": {
-   "keep": true,
-   "conviction": 0.9,
-   "rationale": "best-in-class LTL, PE 45, freight-cyclical and richly priced"
-  },
-  "ORLY": {
-   "keep": true,
-   "conviction": 1.5,
-   "rationale": "textbook serial buyback-shrinker (equity negative from decades of repurchase), at 52wk low today, disciplined"
-  },
-  "GWW": {
-   "keep": true,
-   "conviction": 1.0,
-   "rationale": "elite MRO distributor, PE 36, quality high but near 52wk high"
-  },
-  "MA": {
-   "keep": true,
-   "conviction": 1.6,
-   "rationale": "payments network, wide moat, huge FCF, disciplined buyback, pulled back from highs"
-  },
-  "AAPL": {
-   "keep": true,
-   "conviction": 1.3,
-   "rationale": "largest FCF-funded buyback anywhere, supreme quality; PE 37 elevated, near 52wk high"
-  },
-  "TER": {
-   "keep": false,
-   "conviction": 0.9,
-   "rationale": "DROP: PE 68 semicap-test at cycle peak after 88->379 run \u2014 repurchasing peak-cycle earnings at peak multiple"
-  },
-  "SYY": {
-   "keep": true,
-   "conviction": 1.2,
-   "rationale": "defensive food distribution, FCF buyback, PE 23, near low-half of range"
-  },
-  "LVS": {
-   "keep": true,
-   "conviction": 1.2,
-   "rationale": "Macau/Singapore casinos, PE 17, at 52wk low, buyback + recovery; sector-appropriate leverage"
-  },
-  "FTNT": {
-   "keep": true,
-   "conviction": 0.9,
-   "rationale": "elite cyber FCF margins, buyback shrinking equity hard; PE 60 at 52wk high tempers conviction"
-  },
-  "FERG": {
-   "keep": true,
-   "conviction": 1.2,
-   "rationale": "quality building-products distributor, FCF buyback, PE 25 reasonable"
-  },
-  "ZTS": {
-   "keep": true,
-   "conviction": 1.6,
-   "rationale": "elite animal-health franchise at PE 12.4 (161->75, near low) \u2014 disciplined buyback at washed-out valuation"
-  },
-  "NTAP": {
-   "keep": true,
-   "conviction": 1.1,
-   "rationale": "storage, PE 24, FCF buyback, mature but healthy"
-  },
-  "NEM": {
-   "keep": true,
-   "conviction": 1.0,
-   "rationale": "gold major, PE 12.6, buyback from bullion cash flow; commodity-cyclical (gold near highs)"
-  },
-  "NVS": {
-   "keep": true,
-   "conviction": 1.0,
-   "rationale": "major pharma, PE 22, disciplined buyback+div; foreign ADR"
-  },
-  "QCOM": {
-   "keep": true,
-   "conviction": 1.3,
-   "rationale": "semis+licensing, PE 19, disciplined FCF buyback, de-rated from 259 high"
-  },
-  "CL": {
-   "keep": true,
-   "conviction": 1.0,
-   "rationale": "defensive staple, PE 37 rich for the group, steady FCF buyback"
-  },
-  "EOG": {
-   "keep": true,
-   "conviction": 1.2,
-   "rationale": "low-cost E&P, PE 12.9, strong FCF, disciplined buyback+div"
-  },
-  "AMAT": {
-   "keep": true,
-   "conviction": 0.9,
-   "rationale": "elite semicap, PE 56 near cycle peak \u2014 buyback discipline concern at the top of the cycle"
-  },
-  "SU": {
-   "keep": true,
-   "conviction": 1.1,
-   "rationale": "Canadian integrated oil, PE 14, FCF buyback+div, cheap"
-  },
-  "DELL": {
-   "keep": true,
-   "conviction": 1.0,
-   "rationale": "AI-server tailwind, PE 31 after 110->411 run near high; FCF buyback, equity negative from repurchase"
-  },
-  "JD": {
-   "keep": false,
-   "conviction": 1.0,
-   "rationale": "DROP: China ADR \u2014 VIE/delisting/geopolitical overhang; a real FCF buyback can't offset the structural governance discount"
-  },
-  "KLAC": {
-   "keep": true,
-   "conviction": 0.9,
-   "rationale": "elite process-control semicap, PE 66 at cycle peak \u2014 same top-of-cycle buyback concern as the group"
-  },
-  "ROST": {
-   "keep": true,
-   "conviction": 1.2,
-   "rationale": "off-price retailer, elite serial buybacker, PE 30, near high but disciplined"
-  },
-  "OTIS": {
-   "keep": true,
-   "conviction": 1.3,
-   "rationale": "elevator service-annuity moat, PE 19, disciplined buyback, near 52wk low"
-  },
-  "AZO": {
-   "keep": true,
-   "conviction": 1.6,
-   "rationale": "the canonical buyback-shrinker (share count down ~70% over 20y), PE 22, at 52wk low \u2014 elite discipline"
-  },
-  "ADSK": {
-   "keep": true,
-   "conviction": 1.2,
-   "rationale": "design-software franchise, PE 30, FCF buyback, de-rated from 329 high"
-  },
-  "NVDA": {
-   "keep": true,
-   "conviction": 1.2,
-   "rationale": "supreme franchise, massive FCF buyback; PE 30 reasonable for the growth but a crowded mega-cap"
-  },
-  "CRM": {
-   "keep": true,
-   "conviction": 1.4,
-   "rationale": "CRM leader at PE 19 (276->165, near low), newly disciplined FCF buyback \u2014 cheap quality"
-  },
-  "WDAY": {
-   "keep": true,
-   "conviction": 1.0,
-   "rationale": "HR SaaS, PE 42, FCF buyback, washed out from 249 high"
-  },
-  "TWLO": {
-   "keep": true,
-   "conviction": 0.8,
-   "rationale": "comms-API turnaround, GAAP PE optically 324 but buyback is real-FCF-funded; ran hard, valuation full"
-  },
-  "ITW": {
-   "keep": true,
-   "conviction": 1.3,
-   "rationale": "elite serial-buyback industrial, high ROIC, PE 25 reasonable"
-  },
-  "CMG": {
-   "keep": true,
-   "conviction": 1.3,
-   "rationale": "elite restaurant growth, FCF buyback, de-rated (57->34), disciplined"
-  },
-  "ABNB": {
-   "keep": true,
-   "conviction": 1.1,
-   "rationale": "asset-light travel, huge FCF buyback, PE 36 full, near 52wk high"
-  },
-  "KGC": {
-   "keep": true,
-   "conviction": 1.0,
-   "rationale": "gold miner, PE 10.4 (cheapest), buyback+div; commodity-cyclical, gold near highs"
+  "n_candidates": 50,
+  "n_dropped": 3,
+  "n_kept": 47,
+  "quarter": "2026Q2",
+  "remaining_for_t1_completion": [
+    "TPR",
+    "KR",
+    "JBHT",
+    "HCA",
+    "BKNG",
+    "WSM",
+    "CMCSA",
+    "EBAY",
+    "EXPE",
+    "FICO",
+    "IDXX",
+    "MSCI",
+    "FDX",
+    "LRCX",
+    "ODFL",
+    "ORLY",
+    "GWW",
+    "SYY",
+    "LVS",
+    "FTNT",
+    "FERG",
+    "NTAP",
+    "NEM",
+    "NVS",
+    "QCOM",
+    "CL",
+    "EOG",
+    "AMAT",
+    "SU",
+    "DELL",
+    "KLAC",
+    "ROST",
+    "OTIS",
+    "AZO",
+    "ADSK",
+    "CRM",
+    "WDAY",
+    "TWLO",
+    "ITW",
+    "CMG",
+    "ABNB",
+    "KGC"
+  ],
+  "signal_date": "2026-06-30",
+  "status": "COMPLETE_2026-07-07",
+  "tranche1_queued_2026_07_06": {
+    "AAPL": 300.0,
+    "ADBE": 144.99,
+    "MA": 300.0,
+    "NVDA": 300.0,
+    "ZTS": 78.36
   }
- },
- "control_basket": [
-  "GM",
-  "AIG",
-  "VOD",
-  "HCA",
-  "KR",
-  "DHI",
-  "MPC",
-  "BTI",
-  "TPR",
-  "MTB",
-  "PYPL",
-  "HMC",
-  "LVS",
-  "WFC",
-  "JCI",
-  "ADBE",
-  "AFL",
-  "DELL",
-  "IQV",
-  "JBHT",
-  "CARR",
-  "C",
-  "FLEX",
-  "ON",
-  "IMO",
-  "NTRS",
-  "GS",
-  "BAC",
-  "EXPE",
-  "CMCSA",
-  "MET",
-  "AMP",
-  "HLT",
-  "STLD",
-  "EA",
-  "JBL",
-  "TECK",
-  "EBAY",
-  "TTE",
-  "STT",
-  "JD",
-  "NVS",
-  "BNY",
-  "LNG",
-  "BCS",
-  "XOM",
-  "TWLO",
-  "VLO",
-  "TFC",
-  "CNC"
- ],
- "n_candidates": 50,
- "n_kept": 47,
- "n_dropped": 3,
- "dropped": [
-  "EA",
-  "TER",
-  "JD"
- ],
- "cap_blend": 0.5,
- "execution_gate": "Full $5,000 deploys at T+1 once Monday's liquidation proceeds settle (~$18k of the $19.4k cash is unsettled; buying power was $1,135.96 on 2026-07-06). No buys on unsettled cash (good-faith rule). Execute the entirety in one clean pass next settled trading day.",
- "coverage_note": "50/50 composite candidates priced with live Robinhood quotes (all active, traded 2026-07-06).",
- "tranche1_queued_2026_07_06": {
-  "AAPL": 300.0,
-  "NVDA": 300.0,
-  "MA": 300.0,
-  "ADBE": 144.99,
-  "ZTS": 78.36
- },
- "remaining_for_t1_completion": [
-  "TPR",
-  "KR",
-  "JBHT",
-  "HCA",
-  "BKNG",
-  "WSM",
-  "CMCSA",
-  "EBAY",
-  "EXPE",
-  "FICO",
-  "IDXX",
-  "MSCI",
-  "FDX",
-  "LRCX",
-  "ODFL",
-  "ORLY",
-  "GWW",
-  "SYY",
-  "LVS",
-  "FTNT",
-  "FERG",
-  "NTAP",
-  "NEM",
-  "NVS",
-  "QCOM",
-  "CL",
-  "EOG",
-  "AMAT",
-  "SU",
-  "DELL",
-  "KLAC",
-  "ROST",
-  "OTIS",
-  "AZO",
-  "ADSK",
-  "CRM",
-  "WDAY",
-  "TWLO",
-  "ITW",
-  "CMG",
-  "ABNB",
-  "KGC"
- ]
 }

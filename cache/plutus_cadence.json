@@ -1,4 +1,4 @@
 {
- "last_quarter": null,
- "note": "2026-07-06: Plutus 2026Q2 deluxe launch STARTED. Funded sleeve to $5,000 (mandate 26%). 50 composite candidates -> LLM kept 47 / dropped 3 (EA,TER,JD). Cross-referenced LIVE Robinhood quotes. Only $1,135.96 settled today, so QUEUED tranche 1 = 5 names ($1,123.35: AAPL/NVDA/MA/ADBE/ZTS at full weight) for the 2026-07-07 open. COMPLETE the remaining 42 names to full $5,000 on the next settled pass (T+1). Leave last_quarter=None until the book is fully deployed, then set 2026Q2. Book+reads in cache/plutus_pending_rebalance.json."
+  "last_quarter": "2026Q2",
+  "note": "2026-07-07: Plutus 2026Q2 deluxe COMPLETE. Tranche 2 = 42 remaining names ($3,776.64) queued at the 07-07 open on settled T+1 buying power ($18,308), completing the 47-name deluxe book to ~$4,900 (2% cash floor) of the intended $5,000. Tranche 1 (AAPL/NVDA/MA/ADBE/ZTS, $1,123) queued 07-06. last_quarter set to 2026Q2 -> monitoring-only until 2026Q3. Residual ~$1,650 stays as sleeve cash (contributed $6,651 vs intended $5,000 book) pending operator treasury call. Actual fills reconcile next pass."
 }
