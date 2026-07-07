@@ -163,6 +163,15 @@ The retired paper-era files (`cache/ghost_proteus_*`) were removed from
 
 0. **Hydrate.** `pantheon.hydrate()`.
 
+0a. **PAUSE gate (check FIRST, before any compute).**
+   `shared.guards.is_paused("proteus")` → if True, Proteus is on a soft HOLD:
+   **STOP immediately.** Do NOT sweep, research, read, journal, or place anything —
+   the hold exists to spend no credits and open no new positions while the current
+   human-imitation Proteus is replaced by the spare-no-expense machine-native build.
+   A pause is NOT a kill: touch nothing, liquidate nothing (the kill switch remains
+   the only forced-exit path). Print the guard's `reason` and end.
+   (`cache/proteus_paused.json`, `until:null` = lift explicitly; no auto-resume.)
+
 0b. **Safety gates (live money — non-negotiable, checked before
    anything else).**
    - `shared.guards.kill_switch_active()` → if true, liquidate every
