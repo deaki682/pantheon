@@ -1,37 +1,73 @@
 {
- "name": "hermes",
- "cash": 2926.7535250656,
- "contributed_cash": 4000.0,
- "positions": {
-  "ALOT": {
-   "symbol": "ALOT",
-   "shares": 16.836256,
-   "entry_price": 28.5099,
-   "offer_price": 29.0,
-   "entry_date": "2026-07-06",
-   "expected_close": "2026-Q3 (outside date 2026-11-17)",
-   "break_stop": 24.2334,
-   "spy_entry": 750.99,
-   "deal_type": "cash",
-   "dollars": 479.9999749343999
+  "name": "hermes",
+  "cash": 1126.7536367475,
+  "contributed_cash": 4000.0,
+  "positions": {
+    "ALOT": {
+      "symbol": "ALOT",
+      "shares": 16.836256,
+      "entry_price": 28.5099,
+      "offer_price": 29.0,
+      "entry_date": "2026-07-06",
+      "expected_close": "2026-Q3 (outside date 2026-11-17)",
+      "break_stop": 24.2334,
+      "spy_entry": 750.99,
+      "deal_type": "cash",
+      "dollars": 479.9999749343999
+    },
+    "FSEA": {
+      "symbol": "FSEA",
+      "shares": 35.0,
+      "entry_price": 16.9499,
+      "offer_price": 17.25,
+      "entry_date": "2026-07-07",
+      "expected_close": "2026-Q4",
+      "break_stop": 14.4074,
+      "spy_entry": 747.05,
+      "deal_type": "cash",
+      "dollars": 593.2465
+    },
+    "APGE": {
+      "symbol": "APGE",
+      "shares": 4.495395,
+      "entry_price": 133.4699,
+      "offer_price": 135.11,
+      "entry_date": "2026-07-07",
+      "expected_close": "Q3 2026",
+      "break_stop": 113.4494,
+      "spy_entry": 746.46,
+      "deal_type": "cash",
+      "dollars": 599.9999211105
+    },
+    "RAMP": {
+      "symbol": "RAMP",
+      "shares": 15.953797,
+      "entry_price": 37.6086,
+      "offer_price": 38.5,
+      "entry_date": "2026-07-07",
+      "expected_close": "2026-12-31",
+      "break_stop": 31.9673,
+      "spy_entry": 746.46,
+      "deal_type": "cash",
+      "dollars": 599.9999698542
+    },
+    "GBTG": {
+      "symbol": "GBTG",
+      "shares": 63.830466,
+      "entry_price": 9.3999,
+      "offer_price": 9.5,
+      "entry_date": "2026-07-07",
+      "expected_close": "2H 2026",
+      "break_stop": 7.9899,
+      "spy_entry": 746.46,
+      "deal_type": "cash",
+      "dollars": 599.9999973534001
+    }
   },
-  "FSEA": {
-   "symbol": "FSEA",
-   "shares": 35.0,
-   "entry_price": 16.9499,
-   "offer_price": 17.25,
-   "entry_date": "2026-07-07",
-   "expected_close": "2026-Q4",
-   "break_stop": 14.4074,
-   "spy_entry": 747.05,
-   "deal_type": "cash",
-   "dollars": 593.2465
-  }
- },
- "closed": [],
- "realized_pnl": 0.0,
- "halted": false,
- "peak_equity": 4000.0,
- "pending_funding": null,
- "trades_count": 0
+  "closed": [],
+  "realized_pnl": 0.0,
+  "halted": false,
+  "peak_equity": 4000.5102713056,
+  "pending_funding": null,
+  "trades_count": 0
 }
