@@ -94,8 +94,18 @@ Every announced cash deal Hermes detects is recorded ONCE with the LLM's read:
    next sweep once the proxy files — supplement with an 8-K Item 1.01 check when a
    fresh announcement is known.)
 
-3. **The LLM read (Arm A — this is the experiment).** For EACH detected deal,
-   read the break risk with real effort (the edge is reading, not the headline):
+3. **The LLM read (Arm A — this is the experiment). PINNED BRAIN: the Opus tier
+   at HIGH effort — non-negotiable.** The read rides real money on a tiny deal
+   universe (dozens), so the brain is never economized, and the A/B only means
+   something if the read is a FIXED variable rather than whatever model Zeus
+   happened to dispatch (the 2026-07-07 calibration proved a weaker model
+   confidently flips real keep/drop calls). If THIS session is already the Opus
+   tier, do the read inline at high effort. If it is NOT, delegate the read to a
+   subagent pinned `model: 'opus', effort: 'high'` (the `opus` alias = the current
+   strongest Opus) and use its verdict. Either way, pass `read_model` / `read_effort`
+   to `record_detection` (they default to the pinned Opus/high) so every graded
+   deal carries which brain made the call. For EACH detected deal, read the break
+   risk with real effort (the edge is reading, not the headline):
    - **Regulatory:** antitrust (HSR second request?), CFIUS (foreign acquirer,
      sensitive sector?), sector regulators. The #1 break cause.
    - **Financing:** is it a strategic (cash on hand) or a PE/financed deal with a

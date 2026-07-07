@@ -17,6 +17,16 @@ from shared.gauntlet import convexity_stats
 
 AB_PATH = "cache/hermes_ab.json"
 
+# The break-risk read is the whole experiment and it rides real money on a tiny
+# deal universe, so it is PINNED to the strongest reasoning brain at high effort —
+# never economized, and never left to whatever model happened to run /hermes (the
+# calibration proved model tier flips real keep/drop calls). Stored on every
+# detection so each graded deal carries which brain made the call; if the arm ever
+# runs on a different brain, llm_lift can be split by read_model. `opus` is the
+# tier alias (auto-tracks the current strongest Opus) — see `.claude/commands/hermes.md`.
+HERMES_READ_MODEL = "opus"
+HERMES_READ_EFFORT = "high"
+
 
 def load_ab(path: str = AB_PATH) -> dict:
     if not os.path.exists(path):
@@ -32,10 +42,13 @@ def save_ab(ab: dict, path: str = AB_PATH) -> None:
 def record_detection(ab: dict, *, symbol: str, detect_date: str, entry_price: float,
                      offer_price: float, spy_entry: float, expected_close: str,
                      llm_verdict: str, llm_rationale: str, break_risk: str,
-                     arm_a_live: bool) -> dict:
+                     arm_a_live: bool, read_model: str = HERMES_READ_MODEL,
+                     read_effort: str = HERMES_READ_EFFORT) -> dict:
     """Record a detected deal + the LLM's read. `llm_verdict` in {keep, drop};
     `arm_a_live` True iff it was actually taken with real money (kept AND fit the
-    sizing cap). Deduped on symbol+detect_date."""
+    sizing cap). `read_model`/`read_effort` pin WHICH brain made the call so the
+    A/B measures a fixed variable, not whatever session ran — defaults to the
+    pinned Opus/high. Deduped on symbol+detect_date."""
     if llm_verdict not in ("keep", "drop"):
         raise ValueError(f"llm_verdict must be keep|drop, got {llm_verdict!r}")
     key = (symbol.upper(), detect_date)
@@ -47,7 +60,8 @@ def record_detection(ab: dict, *, symbol: str, detect_date: str, entry_price: fl
         "spy_entry": round(float(spy_entry), 4), "expected_close": expected_close,
         "spread": round(offer_price / entry_price - 1.0, 4) if entry_price else 0.0,
         "llm_verdict": llm_verdict, "llm_rationale": llm_rationale,
-        "break_risk": break_risk, "arm_a_live": bool(arm_a_live), "resolved": False,
+        "break_risk": break_risk, "arm_a_live": bool(arm_a_live),
+        "read_model": read_model, "read_effort": read_effort, "resolved": False,
     })
     return ab
 
@@ -66,6 +80,8 @@ def record_resolution(ab: dict, *, symbol: str, exit_price: float, exit_date: st
     ab["graded"].append({
         **{k: det[k] for k in ("symbol", "detect_date", "entry_price", "offer_price",
                                "spread", "llm_verdict", "break_risk", "arm_a_live")},
+        "read_model": det.get("read_model", "unpinned_legacy"),
+        "read_effort": det.get("read_effort", "unpinned_legacy"),
         "exit_price": round(float(exit_price), 4), "exit_date": exit_date,
         "outcome": outcome, "net_return": round(net, 6),
         "spy_return": round(spy, 6), "excess": round(net - spy, 6),
