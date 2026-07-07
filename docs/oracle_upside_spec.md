@@ -71,10 +71,17 @@ STAGE 2  BREADTH READ   ~300 → ~50   *** THE EDGE ***   [JUDGMENT, fan-out]
   EDGE = breadth: hundreds of deep reads of names no desk covers, before coverage prices them.
 
 STAGE 3  DOSSIER + BEAR   ~50 → ~12               [JUDGMENT, deep + adversarial×3]
-  write UpsideDossier (§4); BEAR×3 attack (already_priced? decelerating? dilution? theme stalling?);
+  write UpsideDossier (§4); resolve_bears() — BEAR×3 as a LOAD-BEARING gate:
+    ≥3 INDEPENDENT critiques (distinct type); each defended with a PRIMARY filing
+    (uncited/thin = partial, unanswerable = conceded); a FATAL-type critique
+    (faked_earnings | guidance_contradiction | quality_of_deleveraging |
+     one_time_driver | going_concern | secular_decline) must be survived in FULL;
+    emits refutation_margin (defended − landed) that gates AND tilts sizing.
   run blowup_filter (§6.3).
-  KEEP iff dossier.qualifies (§5) ∧ survives_majority_bear ∧ ¬blowup.
-  EMITS dossiers ranked by rank_key (§5).
+  KEEP iff dossier.qualifies (§5) ∧ bear_verdict=survived (≥3 angles, no fatal
+    landed, margin>0) ∧ ¬blowup.  [the 6→1 collapse was a book sized before it
+    was ever really attacked — a single-pass read is a hypothesis, not a pick.]
+  EMITS dossiers ranked by rank_key (§5), sized by conviction × margin.
 
 STAGE 4  SIZING   ~12 → 3–6   *** FIRST-CLASS ***  [DETERMINISTIC]
   weight_i ∝ conviction_i · (upside_x_i − 1) · calib_hit_rate(type_i);
@@ -129,7 +136,9 @@ rank_key         = annualized_er · calib_weight(inflection_type)             (D
 
 qualifies iff upside_x ≥ 1.5 ∧ expected_return > 0 ∧ horizon ∈ [6,24]
             ∧ recent_runup_pct < 0.50 (not already run)
-is_fundable iff qualifies ∧ blowup_checked ∧ ¬blowup ∧ bear_verdict ≠ refuted
+is_fundable iff qualifies ∧ blowup_checked ∧ ¬blowup ∧ bear_resolved ∧ bear_verdict = survived
+  (resolve_bears sets survived only when ≥3 distinct critiques were raised, no
+   FATAL critique landed uncited/conceded, and refutation_margin > 0)
 ```
 No convexity_score, no floor_hardness weight, no floor requirement. Upside
 magnitude is REWARDED, not penalized.

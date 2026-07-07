@@ -11,10 +11,40 @@ from oracle.upside_dossier import (
     is_primary_citation,
     make_upside_dossier,
     rank_fundable,
+    resolve_bears,
     size_upside_book,
 )
 
 PRIMARY = ["10-K FY2025 (accession 0001234567-26-000045)"]
+_CITE = ["10-Q Q1-FY2026 (accession 0001234567-26-000045)"]
+
+# Three independent critiques, each answered with a primary-cited defense — the
+# canonical SURVIVED bear pass. Distinct types, none fatal-landing, margin > 0.
+def _good_bears():
+    return [
+        {"critique_type": "guidance_contradiction",
+         "critique": "The re-acceleration is contradicted by next-quarter guidance implying deceleration.",
+         "severity": 0.8,
+         "defense": "The 10-Q MD&A guides FY revenue +30–32%, ABOVE the trailing rate; the 'decel' misreads one seasonal quarter.",
+         "defense_citations": list(_CITE), "concede": False},
+        {"critique_type": "one_time_driver",
+         "critique": "The margin turn looks like a one-time cost credit rather than a structural improvement.",
+         "severity": 0.6,
+         "defense": "Gross margin ex-credit is still +240bps; the 10-Q reconciles the credit at $2M against an $18M gross-profit gain.",
+         "defense_citations": list(_CITE), "concede": False},
+        {"critique_type": "valuation_priced_in",
+         "critique": "At ~1.9x sales the ramp may already be priced into the multiple by the market.",
+         "severity": 0.5,
+         "defense": "Direct comps trade ~3.2x on similar growth; the 10-K discloses backlog implying the ramp is not yet in consensus numbers.",
+         "defense_citations": ["10-K FY2025 (accession 0001234567-26-000045)"], "concede": False},
+    ]
+
+
+def _resolved(d):
+    """A dossier taken all the way through the gate: survive-to-thesis + BEAR×3."""
+    blowup_check(d, going_concern=False, fraud=False, delisting=False)
+    resolve_bears(d, _good_bears())
+    return d
 
 
 def _dossier(**over):
@@ -122,17 +152,22 @@ def test_negative_expectancy_disqualifies():
 
 
 # ---- blowup filter (survival, not floor) -----------------------------------
-def test_blowup_clean_passes_and_is_fundable():
+def test_blowup_clean_passes_but_needs_bear_pass():
+    # Survival alone is no longer enough — the name must also survive its own
+    # BEAR×3 before it is fundable (the gate the 2026-07-06 book skipped).
     d = _dossier()
     blowup_check(d, going_concern=False, fraud=False, delisting=False)
     assert d["blowup"] is False
+    assert is_fundable(d) is False          # bears not resolved yet
+    resolve_bears(d, _good_bears())
+    assert d["bear_verdict"] == "survived"
     assert is_fundable(d) is True
 
 
 def test_no_floor_but_fundable():
-    # The whole point: no floor_pct, no assets — but real upside + survives → fundable.
-    d = _dossier(floor_pct=None)
-    blowup_check(d, going_concern=False, fraud=False, delisting=False)
+    # The whole point: no floor_pct, no assets — but real upside + survives blowup
+    # AND survives the bear pass → fundable.
+    d = _resolved(_dossier(floor_pct=None))
     assert d["floor_pct"] is None
     assert is_fundable(d) is True
 
@@ -170,30 +205,101 @@ def test_bear_refuted_not_fundable():
     assert is_fundable(d) is False
 
 
+# ---- the adversarial gate (BEAR×3, load-bearing) ---------------------------
+def test_resolve_bears_survives_and_scores_margin():
+    d = _resolved(_dossier())
+    assert d["bear_resolved"] is True
+    assert d["bear_verdict"] == "survived"
+    assert d["fatal_landed"] is False
+    assert d["n_distinct_critique_types"] == 3
+    assert d["refutation_margin"] > 0            # all three defended → +Σseverity
+    assert 0.0 < d["refutation_margin_norm"] <= 1.0
+
+
+def test_fewer_than_three_distinct_bears_refuted():
+    d = _dossier()
+    blowup_check(d, going_concern=False, fraud=False, delisting=False)
+    resolve_bears(d, _good_bears()[:2])          # only two angles
+    assert d["bear_verdict"] == "refuted"
+    assert is_fundable(d) is False
+
+
+def test_fatal_critique_conceded_refutes_despite_positive_margin():
+    # Three soft critiques survive (margin positive), but a fourth FATAL one is
+    # conceded — the mirage shape. A fatal landing overrides a positive margin.
+    d = _dossier()
+    blowup_check(d, going_concern=False, fraud=False, delisting=False)
+    bears = _good_bears() + [{
+        "critique_type": "faked_earnings",
+        "critique": "The reported GAAP profit is entirely a one-time equity-sale gain, not operations.",
+        "severity": 0.9, "defense": "", "defense_citations": [], "concede": True}]
+    resolve_bears(d, bears)
+    assert d["fatal_landed"] is True
+    assert d["bear_verdict"] == "refuted"
+    assert is_fundable(d) is False
+
+
+def test_uncited_defense_does_not_survive():
+    # A fatal critique answered WITHOUT a primary citation is only 'partial' →
+    # fatal_landed → refuted. A snapshot defense cannot neutralize a real bear.
+    d = _dossier()
+    blowup_check(d, going_concern=False, fraud=False, delisting=False)
+    bears = _good_bears()[:2] + [{
+        "critique_type": "guidance_contradiction",
+        "critique": "Management's own next-quarter guide implies the growth rate rolls over hard.",
+        "severity": 0.7,
+        "defense": "I think the guide is just conservative sandbagging by the team, they always do this.",
+        "defense_citations": ["Yahoo Finance article"], "concede": False}]
+    resolve_bears(d, bears)
+    assert d["bears"][-1]["verdict"] == "partial"
+    assert d["fatal_landed"] is True
+    assert d["bear_verdict"] == "refuted"
+
+
+def test_negative_margin_refuted():
+    # Bear case outweighs the defense: mostly conceded → margin ≤ 0 → refuted.
+    d = _dossier()
+    blowup_check(d, going_concern=False, fraud=False, delisting=False)
+    bears = [
+        {"critique_type": "competitive_erosion",
+         "critique": "A larger competitor just undercut price across the core product line.",
+         "severity": 0.7, "defense": "", "defense_citations": [], "concede": True},
+        {"critique_type": "demand_softening",
+         "critique": "End-market bookings are flat-to-down for two consecutive quarters now.",
+         "severity": 0.6, "defense": "", "defense_citations": [], "concede": True},
+        {"critique_type": "dilution_overhang",
+         "critique": "A convertible matures inside the horizon and will likely be settled in stock.",
+         "severity": 0.5, "defense": "", "defense_citations": [], "concede": True}]
+    resolve_bears(d, bears)
+    assert d["refutation_margin"] < 0
+    assert d["bear_verdict"] == "refuted"
+
+
+def test_resolve_bears_rejects_bad_critique_type():
+    d = _dossier()
+    with pytest.raises(UpsideDossierError):
+        resolve_bears(d, [{"critique_type": "vibes", "critique": "x" * 50,
+                           "severity": 0.5, "defense": "", "defense_citations": []}])
+
+
 # ---- ranking rewards upside magnitude --------------------------------------
 def test_rank_rewards_bigger_annualized_er():
-    small = _dossier(symbol="SMALL", upside_x=1.6, prob_upside=0.5, downside_pct=0.2)
-    big = _dossier(symbol="BIG", upside_x=3.0, prob_upside=0.5, downside_pct=0.3)
-    for d in (small, big):
-        blowup_check(d, going_concern=False, fraud=False, delisting=False)
+    small = _resolved(_dossier(symbol="SMALL", upside_x=1.6, prob_upside=0.5, downside_pct=0.2))
+    big = _resolved(_dossier(symbol="BIG", upside_x=3.0, prob_upside=0.5, downside_pct=0.3))
     ranked = rank_fundable([small, big])
     assert [d["symbol"] for d in ranked][0] == "BIG"
 
 
 def test_rank_excludes_unfundable():
-    ok = _dossier(symbol="OK")
-    bad = _dossier(symbol="BAD", runway_months=1.0)
-    for d in (ok, bad):
-        blowup_check(d, going_concern=False, fraud=False, delisting=False)
+    ok = _resolved(_dossier(symbol="OK"))
+    bad = _resolved(_dossier(symbol="BAD", runway_months=1.0))   # blows up on survival
     ranked = rank_fundable([ok, bad])
     assert [d["symbol"] for d in ranked] == ["OK"]
 
 
 # ---- sizing: concentrate, cap, no dust -------------------------------------
 def _fundable(sym, **over):
-    d = _dossier(symbol=sym, **over)
-    blowup_check(d, going_concern=False, fraud=False, delisting=False)
-    return d
+    return _resolved(_dossier(symbol=sym, **over))
 
 
 def test_sizing_concentrates_top_names():
@@ -239,6 +345,45 @@ def test_sizing_cluster_cap():
 
 def test_sizing_empty():
     assert size_upside_book([], equity=100_000.0) == {}
+
+
+def _weak_bears():
+    # Survives (no fatal type, margin > 0) but less decisively than _good_bears:
+    # one non-fatal critique is only PARTIAL (uncited), so the margin is smaller.
+    return [
+        {"critique_type": "valuation_priced_in",
+         "critique": "At the current multiple a good chunk of the ramp may already be discounted.",
+         "severity": 0.5, "defense": "Comps sit ~3x on similar growth; backlog is disclosed in the 10-K.",
+         "defense_citations": ["10-K FY2025 (accession 0001234567-26-000045)"], "concede": False},
+        {"critique_type": "competitive_erosion",
+         "critique": "A larger vendor could bundle a competing product and pressure win rates.",
+         "severity": 0.6, "defense": "They mostly serve a different tier, I believe.",
+         "defense_citations": [], "concede": False},          # uncited → partial
+        {"critique_type": "demand_softening",
+         "critique": "Macro could soften the end-market and slow the bookings trajectory.",
+         "severity": 0.4, "defense": "Bookings grew 22% in the 10-Q with coverage ratio rising.",
+         "defense_citations": list(_CITE), "concede": False},
+    ]
+
+
+def test_refutation_margin_tilts_sizing():
+    # Two names identical in upside/conviction/downside; only how decisively each
+    # survived its bears differs. The higher refutation margin gets the bigger bet.
+    strong = _dossier(symbol="STRONG", sector="s1")
+    blowup_check(strong, going_concern=False, fraud=False, delisting=False)
+    resolve_bears(strong, _good_bears())                 # norm = 1.0
+    weak = _dossier(symbol="WEAK", sector="s2")
+    blowup_check(weak, going_concern=False, fraud=False, delisting=False)
+    resolve_bears(weak, _weak_bears())                   # survives, lower norm
+    assert strong["bear_verdict"] == weak["bear_verdict"] == "survived"
+    assert weak["refutation_margin_norm"] < strong["refutation_margin_norm"]
+    # comparably-sized fillers so neither STRONG nor WEAK is pinned at the 30% cap
+    # (a capped name can't express the margin tilt) — the tilt shows in the gap.
+    fillers = [_fundable(s, upside_x=2.0, prob_upside=0.45, sector=f"f{i}")
+               for i, s in enumerate(["F1", "F2", "F3", "F4"])]
+    book = size_upside_book(rank_fundable([strong, weak] + fillers), equity=100_000.0)
+    assert book["STRONG"] < 0.30 * 100_000.0        # not cap-pinned
+    assert book["STRONG"] > book["WEAK"]
 
 
 def test_sizing_fragility_haircut_demotes_can_go_to_zero():

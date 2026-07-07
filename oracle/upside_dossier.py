@@ -43,6 +43,27 @@ DEAD_TELLS = (
     "insider", "quality lens", "deep value", "mispriced and cheap",
 )
 
+# ---- adversarial resolution (spec §3 Stage-3: BEAR×3, made load-bearing) ----
+# The critiques an upside thesis can die on. The reader raises them; the bull
+# defends each against PRIMARY filings; resolve_bears() adjudicates.
+CRITIQUE_TYPES = {
+    "faked_earnings", "guidance_contradiction", "quality_of_deleveraging",
+    "one_time_driver", "demand_softening", "competitive_erosion",
+    "accounting_flag", "valuation_priced_in", "dilution_overhang",
+    "secular_decline", "going_concern", "other",
+}
+# A critique of these types that is NOT fully survived is FATAL — these are the
+# exact shapes that faked the 2026-07-06 book: FRPT (a one-time equity-sale gain
+# dressed as GAAP profit), EYE/NCNO (a "reaccel" the guidance/price-hike
+# contradicts), SABR (asset-sale-funded deleveraging on negative FCF). A fatal
+# critique must be answered IN FULL with a primary citation, or the thesis is a
+# mirage — a positive margin from softer critiques cannot rescue it.
+FATAL_CRITIQUE_TYPES = {
+    "faked_earnings", "guidance_contradiction", "quality_of_deleveraging",
+    "one_time_driver", "going_concern", "secular_decline",
+}
+MIN_BEARS = 3               # attack from ≥3 INDEPENDENT angles or it isn't a bear pass
+
 
 class UpsideDossierError(ValueError):
     pass
@@ -193,9 +214,12 @@ def make_upside_dossier(
         "floor_pct": (float(floor_pct) if floor_pct is not None else None),
         # --- A/B baseline input (never a selection signal) ---
         "lens_score": float(lens_score),
-        # --- set by blowup_check / bear (Stage 3) ---
+        # --- set by blowup_check (Stage 3 survival) ---
         "blowup_checked": False, "blowup": None, "blowup_flags": {},
-        "bear_verdict": "keep",
+        # --- set by resolve_bears (Stage 3 adversarial resolution) ---
+        "bear_resolved": False, "bears": [], "refutation_margin": None,
+        "refutation_margin_norm": None, "n_distinct_critique_types": 0,
+        "fatal_landed": None, "bear_verdict": "unresolved",
     }
 
 
@@ -242,14 +266,101 @@ def blowup_check(
 
 def is_fundable(dossier: dict) -> bool:
     """Book-eligible = qualifies (significant upside, +EV, in-window, not already
-    run) AND the blowup check has RUN and PASSED AND the Stage-3 bear did not
-    refute it. An unchecked dossier is not fundable — survival must be affirmed."""
+    run) AND the blowup check RAN and PASSED AND the Stage-3 BEAR×3 RAN and the
+    thesis SURVIVED it (resolve_bears set bear_verdict="survived", which itself
+    requires ≥3 independent critiques, no fatal critique landing, and a positive
+    refutation margin). An unchecked OR un-refuted dossier is NOT fundable —
+    survival AND surviving-your-own-bears must both be affirmed. This is the gate
+    the 2026-07-06 book skipped: it was sized before it was ever really attacked."""
     return bool(
         dossier.get("qualifies")
         and dossier.get("blowup_checked")
         and dossier.get("blowup") is False
-        and dossier.get("bear_verdict", "keep") != "refuted"
+        and dossier.get("bear_resolved")
+        and dossier.get("bear_verdict") == "survived"
     )
+
+
+# ---- adversarial resolution (spec §3 Stage-3) — the load-bearing gate -------
+def resolve_bears(
+    dossier: dict,
+    bears: list[dict],
+    *,
+    min_bears: int = MIN_BEARS,
+    resolved_by: str = "oracle",
+) -> dict:
+    """Adjudicate the BEAR×3 pass and reduce it to a fundability verdict + a
+    refutation MARGIN — the "measure which outweighs the other" step, made
+    structural instead of one credulous paragraph.
+
+    `bears`: a list of {critique_type, critique (≥40 chars), severity (0..1),
+    defense (the bull's answer), defense_citations (list), concede (bool)}.
+    A bear is:
+      - SURVIVED  → the defense is substantive (≥40) AND primary-cited (a
+                    snapshot defense does NOT neutralize a real critique);
+      - CONCEDED  → the bull explicitly cannot answer it;
+      - PARTIAL   → anything else (thin or uncited answer — a half-neutralized
+                    critique still does damage).
+
+    The thesis is REFUTED (not fundable) if ANY holds:
+      - fewer than `min_bears` DISTINCT critique types were raised (you didn't
+        genuinely attack it from independent angles);
+      - a FATAL-type critique was not fully survived (fatal_landed) — these are
+        the mirage shapes that faked the 2026-07-06 book;
+      - the net refutation margin ≤ 0 (the surviving bear case outweighs the
+        cited defense).
+    Otherwise it SURVIVED, and `refutation_margin_norm` ∈ (0,1] tilts sizing: a
+    decisively-defended thesis earns a bigger bet than one that barely held.
+    Re-derives `fundable`.
+    """
+    _req(isinstance(bears, list) and len(bears) > 0, "bears must be a non-empty list")
+    resolved: list[dict] = []
+    total_sev = 0.0
+    margin = 0.0
+    fatal_landed = False
+    types: set[str] = set()
+    for b in bears:
+        ct = (b.get("critique_type") or "").strip()
+        _req(ct in CRITIQUE_TYPES,
+             f"critique_type must be one of {sorted(CRITIQUE_TYPES)} (got {ct!r})")
+        crit = (b.get("critique") or "").strip()
+        _req(len(crit) >= 40, "each critique must be specific (≥40 chars) — name the exact flaw")
+        sev = float(b.get("severity", 0.0))
+        _req(0.0 <= sev <= 1.0, "severity must be in [0,1]")
+        concede = bool(b.get("concede", False))
+        defense = (b.get("defense") or "").strip()
+        cited = any(is_primary_citation(c) for c in (b.get("defense_citations") or []))
+        if concede:
+            verdict = "conceded"
+        elif len(defense) >= 40 and cited:
+            verdict = "survived"
+        else:
+            verdict = "partial"
+        damage = {"survived": 0.0, "partial": 0.5, "conceded": 1.0}[verdict]
+        if ct in FATAL_CRITIQUE_TYPES and verdict != "survived":
+            fatal_landed = True
+        total_sev += sev
+        margin += sev * (1.0 - 2.0 * damage)   # survived +sev, partial 0, conceded −sev
+        types.add(ct)
+        resolved.append({"critique_type": ct, "critique": crit, "severity": sev,
+                         "verdict": verdict, "cited": cited,
+                         "defense": defense, "defense_citations": list(b.get("defense_citations") or [])})
+
+    distinct = len(types)
+    enough = distinct >= min_bears and len(bears) >= min_bears
+    norm = (margin / total_sev) if total_sev > 0 else 0.0
+    survived = bool(enough and (not fatal_landed) and margin > 0)
+
+    dossier["bear_resolved"] = True
+    dossier["bears"] = resolved
+    dossier["n_distinct_critique_types"] = distinct
+    dossier["refutation_margin"] = round(margin, 4)
+    dossier["refutation_margin_norm"] = round(norm, 4)
+    dossier["fatal_landed"] = fatal_landed
+    dossier["bear_verdict"] = "survived" if survived else "refuted"
+    dossier["bear_resolved_by"] = resolved_by
+    dossier["fundable"] = is_fundable(dossier)
+    return dossier
 
 
 # ---- ranking (spec §5) -----------------------------------------------------
@@ -320,7 +431,13 @@ def size_upside_book(
         cw = calib_weight(d.get("inflection_type", ""), calibration)
         dn = float(d.get("downside_pct", 0.0) or 0.0)           # loss if wrong
         frag = max(0.1, 1.0 - fragility_lambda * dn)            # FRAGILITY HAIRCUT — a
-        raw[d["symbol"]] = max(0.0, conv * move * cw * frag)    # can-go-to-zero name can't lead
+        # REFUTATION-MARGIN TILT: the thesis that most decisively outweighed its
+        # own bears earns the bigger bet. norm ∈ (0,1] for a fundable name → mfac
+        # ∈ (0.7,1.3]; absent (legacy/unresolved) → neutral 1.0 so old books size
+        # unchanged. This is "measure which outweighs the other" reaching the size.
+        norm = d.get("refutation_margin_norm")
+        mfac = 1.0 if norm is None else max(0.7, min(1.3, 0.7 + 0.6 * float(norm)))
+        raw[d["symbol"]] = max(0.0, conv * move * cw * frag * mfac)  # can-go-to-zero name can't lead
     tot = sum(raw.values())
     if tot <= 0:
         return {}

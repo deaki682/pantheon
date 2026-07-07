@@ -71,9 +71,21 @@ convexity/floor-hardness metric — those are retired (see Failure Modes below).
    write the dossier via `oracle.upside_dossier.make_upside_dossier(...)` — it
    REFUSES a name without significant upside (`upside_x ≥ 1.5`), a real
    `inflection_type` + cited `inflection_evidence`, an in-window horizon, a bear
-   paragraph, and a primary citation. Then run **BEAR×3** independent refuters
-   (already priced? about to decelerate? dilution coming? theme stalling?) — set
-   `bear_verdict="refuted"` if the majority kill it. Then the SURVIVAL gate
+   paragraph, and a primary citation. Then run **BEAR×3 as a LOAD-BEARING gate**
+   via `oracle.upside_dossier.resolve_bears(d, bears)` — NOT a vibe check. Raise
+   ≥3 INDEPENDENT critiques (distinct `critique_type`), and for EACH the bull must
+   post a `defense` backed by a **primary filing** (`defense_citations`); an
+   uncited or thin answer is only PARTIAL, an unanswerable one is CONCEDED. A
+   critique of a FATAL type (`faked_earnings`, `guidance_contradiction`,
+   `quality_of_deleveraging`, `one_time_driver`, `going_concern`, `secular_decline`
+   — the exact shapes that faked the 2026-07-06 book) must be answered IN FULL with
+   a filing or the name is `refuted`. The resolver returns a **refutation margin**
+   (defended severity − landed severity); the name is fundable only if ≥3 distinct
+   angles were raised, no fatal critique landed, AND the margin > 0. The margin
+   also TILTS Stage-4 sizing — the thesis that most decisively outweighed its bears
+   gets the bigger bet. A single-pass "looks fine" is exactly the credulity that
+   collapsed the last book 6→1; a name is a hypothesis until it survives its own
+   bears on the filings. Then the SURVIVAL gate
    `blowup_check(d, going_concern=…, fraud=…, delisting=…)` — runway must clear the
    horizon (+6mo) or be self-funding; no going-concern/fraud/delisting; the upside
    path primary-grounded. This is NOT a floor check — it only stops a landmine
@@ -81,7 +93,8 @@ convexity/floor-hardness metric — those are retired (see Failure Modes below).
    kills with reasons.
 
 4. **STAGE 4 · Sizing — FIRST-CLASS (DETERMINISTIC).** `rank_fundable(dossiers,
-   calibration)` (fundable = qualifies ∧ blowup-passed ∧ bear-kept), then
+   calibration)` (fundable = qualifies ∧ blowup-passed ∧ bear-**survived** with a
+   positive refutation margin), then
    `size_upside_book(ranked, equity)` — it concentrates into the best 3–6,
    conviction-weighted (`prob_upside × (upside_x−1) × measured hit-rate`), caps any
    name at 30% and any theme/sector cluster at 40% of equity, and drops
