@@ -38,14 +38,23 @@ convexity/floor-hardness metric — those are retired (see Failure Modes below).
    worldview + open theses + what decayed) BEFORE anything else.
 
 0a. **PAUSE gate (check FIRST, before any compute).** `shared.guards.is_paused("oracle")`
-   → if True, Oracle is on a soft HOLD: **STOP immediately.** Do NOT source, read,
-   score, journal, or place anything — the whole point of the hold is to spend no
-   credits and write no pre-rebuild output. A pause is NOT a kill: touch nothing,
-   liquidate nothing (the frozen legacy cohort stays exactly as-is). Print the
-   guard's `reason` and end. (Current hold, 2026-07-07: deactivated until the
-   Stage-1 Sonnet-read cascade replaces the no-edge top-50 sliver — Oracle is
-   untestable until it reads the whole hunting ground. `cache/oracle_paused.json`,
-   `until:null` = lift explicitly; no auto-resume.)
+   → a pause freezes the expensive **SOURCING** engine; it NEVER abandons live money.
+   Branch on whether the fresh sleeve holds live positions or unreconciled orders:
+   - **TEND-ONLY (fresh sleeve has live positions or queued/unfilled orders):**
+     reconcile broker fills into the sleeve, mark equity, and check EVERY held
+     name's typed `kill_condition` against current facts — **fire any triggered
+     kill and grade at horizon** (a kill is a promise; a drawdown/thesis-break must
+     execute even under a pause). Persist. Do NOT source, read, score, or SELECT
+     new names, and place no new buys — tending is free (no cascade), so the hold's
+     "spend no credits" intent holds. Then end.
+   - **FULL STOP (fresh sleeve flat):** touch nothing, spend nothing, print the
+     guard's `reason` and end.
+   Either branch leaves the frozen legacy cohort (CXT/HDSN/J/PSN/VITL) exactly
+   as-is. (Current hold, 2026-07-07: SOURCING frozen until the Stage-1 Sonnet-read
+   cascade + weekend credit reset — Oracle is untestable until it reads the whole
+   hunting ground. But the **convex book funded 2026-07-07 (SEER/NNDM/FULC) IS a
+   live position set and MUST be tended** under the branch above. `cache/oracle_paused.json`,
+   `until:null` = lift the sourcing freeze explicitly; no auto-resume.)
 
 0b. **Safety gates.** `kill_switch_active()` → liquidate fresh-sleeve positions
    only (never the legacy hold) + stop. `is_live("oracle")` → if `ORACLE_LIVE` !=
