@@ -74,14 +74,25 @@ Every announced cash deal Hermes detects is recorded ONCE with the LLM's read:
      re-read the situation and update `expected_close`, or exit if the thesis
      broke).
 
-2. **Find today's deal universe.** Build/refresh the active cash-deal watchlist:
-   announced, not-yet-closed cash acquisitions of small/mid-cap US targets, with
-   the target trading BELOW the offer (a live spread). Sources: news/EDGAR
-   (8-K Item 1.01 "material definitive agreement", DEFM14A), merger trackers,
-   the target's own filings. For each, record: target symbol, cash offer price,
-   current price (`get_equity_quotes` — the ONLY price authority), expected
-   close, spread = offer/price − 1. Verify it is CASH and the target is
-   tradable (`get_equity_tradability`).
+2. **Find the COMPLETE deal universe (systematic — not a session watchlist).**
+   Run `python3 run_hermes_sourcing.py` (→ `cache/hermes_deal_universe.json`). It
+   sweeps EDGAR's daily form indexes for the TARGET's own merger/tender paper
+   (DEFM14A / PREM14A / DEFM14C / PREM14C / SC 14D9) over a trailing ~120-day
+   window — the complete population, no keyword, keyed to the target CIK. This
+   REPLACES the old ad-hoc "build a watchlist from news/EDGAR" step, which was a
+   sourcing SLIVER: it surfaced only what a run happened to find, and a missed
+   deal is both an un-tradable loss AND a biased denominator that makes the Arm-A/B
+   lift lie (Arm B = "every DETECTED deal" is only an honest control if detected ==
+   all). `hermes.sourcing.new_candidates(...)` drops deals already tracked. The
+   enumerator does NOT decide cash-vs-stock or price — every candidate carries
+   `requires_read=True`; that is Stage 3's job. For each candidate you take
+   forward, record: target symbol, cash offer price, current price
+   (`get_equity_quotes` — the ONLY price authority), expected close,
+   spread = offer/price − 1. Verify it is CASH and the target is tradable
+   (`get_equity_tradability`). (Known gap the sweep discloses: a deal whose only
+   paper so far is an 8-K merger agreement with no proxy/14D-9 yet is caught on the
+   next sweep once the proxy files — supplement with an 8-K Item 1.01 check when a
+   fresh announcement is known.)
 
 3. **The LLM read (Arm A — this is the experiment).** For EACH detected deal,
    read the break risk with real effort (the edge is reading, not the headline):
