@@ -42,10 +42,20 @@ think, trade, or override any god's logic.
    ```python
    from oracle.calendar import should_run
    from achilles.season import is_earnings_season
+   from shared.guards import is_paused
    import json, os
 
-   oracle_due = should_run("cache/oracle_cadence.json", "research", 3)
-   screen_due = should_run("cache/oracle_cadence.json", "screen", 90)
+   # Oracle is on a soft HOLD (cache/oracle_paused.json) — do NOT dispatch the
+   # Oracle family (/oracle, /oracle-screen, /oracle-ghost) while paused. This
+   # spends no credits and writes no pre-Stage-1-rebuild output. (A pause is not a
+   # kill — nothing is liquidated; the frozen legacy cohort is untouched.)
+   oracle_paused = is_paused("oracle")
+   oracle_due = (not oracle_paused) and should_run("cache/oracle_cadence.json", "research", 3)
+   screen_due = (not oracle_paused) and should_run("cache/oracle_cadence.json", "screen", 90)
+   # Proteus is on a soft HOLD (cache/proteus_paused.json) pending the
+   # spare-no-expense rebuild — do NOT dispatch /proteus while paused (no runs, no
+   # new entries, no credits). /proteus-lab (paper research) is unaffected.
+   proteus_paused = is_paused("proteus")
    midas_scan_due = should_run("cache/midas_cadence.json", "scan", 5)
    earnings_season = is_earnings_season(today)
 
@@ -99,7 +109,7 @@ think, trade, or override any god's logic.
    - `/oracle` — if `oracle_due` (its idea-sourcing now includes the folded spinoff channel via the `nemesis.*` library)
    - `/achilles`, `/nemesis` — FOLDED 2026-07-05, NEVER dispatched as standalone gods. PEAD runs inside `/proteus` seasonally; spinoffs are an `/oracle` channel. Their packages are libraries only.
    - `/oracle-screen` — if `screen_due` (runs before `/oracle` since oracle uses screen output)
-   - `/proteus` — if `should_run("cache/proteus_cadence.json", "session", 1)` (one full session per day, every day — the daily-green mandate). LIVE since 2026-07-04: he trades his own real sleeve (and only his own). Research-only until his sleeve's `pending_funding` clears.
+   - `/proteus` — if `(not proteus_paused)` AND `should_run("cache/proteus_cadence.json", "session", 1)`. **PAUSED 2026-07-07 (soft hold) pending the spare-no-expense rebuild — not dispatched while `cache/proteus_paused.json` is active.** When live: one full session per day; trades his own real sleeve (and only his own); research-only until `pending_funding` clears.
    - `/proteus-lab` — if weekend AND `should_run("cache/proteus_cadence.json", "lab", 7)` (once per weekend; paper-only strategy research; run it after `/proteus` since both write `proteus_cadence.json`)
    - `/lab` — if weekend AND `should_run("cache/lab_cadence.json", "session", 7)` (the house research lab; run it AFTER `/proteus-lab` completes — both write `cache/lab_registry.json`, and sequencing prevents a lost update)
    - `/midas-ghost` — market-hours weekdays, once per day (`should_run("cache/ghost_midas_cadence.json", "session", 1)`): opens paper entries when fresh finalists exist, marks/grades daily

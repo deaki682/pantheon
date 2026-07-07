@@ -133,6 +133,30 @@ def test_ab_records_and_lift():
     assert lift["verdict"] == "LLM adds value"
 
 
+def test_ab_pins_read_brain():
+    # every read defaults to the pinned Opus/high brain, and it survives grading
+    ab = {"detected": [], "graded": []}
+    HAB.record_detection(ab, symbol="PIN", detect_date="2026-07-06", entry_price=9.0,
+                         offer_price=10.0, spy_entry=500.0, expected_close="2026-10-01",
+                         llm_verdict="keep", llm_rationale="x", break_risk="low", arm_a_live=True)
+    d = ab["detected"][0]
+    assert d["read_model"] == HAB.HERMES_READ_MODEL and d["read_effort"] == HAB.HERMES_READ_EFFORT
+    HAB.record_resolution(ab, symbol="PIN", exit_price=10.0, exit_date="2026-10-01",
+                          spy_exit=505.0, outcome="completed")
+    assert ab["graded"][0]["read_model"] == HAB.HERMES_READ_MODEL   # graded deal carries the brain
+
+
+def test_ab_legacy_detection_grades_without_brain_field():
+    # a detection written before the pin (no read_model) must still resolve cleanly
+    ab = {"detected": [{"symbol": "OLD", "detect_date": "2026-07-01", "entry_price": 9.0,
+                        "offer_price": 10.0, "spy_entry": 500.0, "spread": 0.111,
+                        "llm_verdict": "keep", "break_risk": "low", "arm_a_live": True,
+                        "resolved": False}], "graded": []}
+    HAB.record_resolution(ab, symbol="OLD", exit_price=10.0, exit_date="2026-10-01",
+                          spy_exit=505.0, outcome="completed")
+    assert ab["graded"][0]["read_model"] == "unpinned_legacy"
+
+
 def test_ab_dedup():
     ab = {"detected": [], "graded": []}
     for _ in range(2):

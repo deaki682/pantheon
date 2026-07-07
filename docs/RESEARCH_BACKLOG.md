@@ -202,3 +202,141 @@ not the informational one. Two angles hiding in the most-arbitraged ground.
 | **17** | **`overnight_intraday_split`** — the equity premium accrues overnight, not intraday | In SPY/large-caps, ~the entire historical equity premium is earned close→open; the intraday session is ~flat-to-negative. Persists in the most-studied instrument because it's structural (overnight = macro news + futures flows + ETF-creation hit a market that can't trade), not an info edge anyone arbitrages by "knowing" it. **Decision it buys:** whether a close-buy/open-sell overlay (or just tilting exposure to the overnight window) is real net of costs — likely NOT for a small book (daily turnover), but a clean, famous, mechanical oddity worth one measurement. | G1 FAIL (pure price/time signal) → needs operator override; the mechanism is structural (flow-timing), not predictive. G2 medium (overnight-flow structure). G3 scalable but G5-killed-by-COST (daily round-trips) — the turnover gate is the likely killer, same as momentum. Measure, expect refutation-by-cost. |
 
 > **spinoff_orphans — CRAM #2: REFUTED 2026-07-05.** Fair population (227, sector-diverse), clean kill: small tail underperforms size-matched EW -9.3% (holdout -22.6%). Opposite of thesis; criterion 5 fails. Terminal. Not a diversifier-sleeve component. See [ledger](RESEARCH_LEDGER.md) / [results](lab_results_spinoff_orphans.md). Cram continues: residual_momentum_llm (ready) -> avoidance_direct / call_evasion -> sub-NAV / odd-lot.
+
+> **call_evasion — tended 2026-07-05 (loose end closed, not a new run).** Backtest was already recorded in the lab registry (verdict inconclusive) but its results doc and ledger row had never been written — filed now. Lexicon on 53 blind-scored MD&A packets: -3.88% Spearman t=-1.99 (just under threshold); LLM candor prose-proxy: FLAT, wrong-signed, zero increment over the lexicon (OLS t=0.19). **The word-counter beat the LLM** on this proxy. Stays open ONLY for a true transcript-based Q&A-evasion arm (never built — no vendor); this MD&A-prose-proxy method must NOT be re-run. See [ledger](RESEARCH_LEDGER.md) / [results](lab_results_call_evasion.md).
+
+> **avoidance_direct + residual_momentum_llm — CLOSED 2026-07-05 (loose ends, not new runs).** Both backtests had actually already completed earlier the same day — recorded in the lab registry with full stats and verdicts — but the results docs and ledger rows were never written before that session ended. Closed now, no data re-pull was needed (an initial assumption that the raw `data/achilles_gauntlet` panel needed regenerating was wrong; the verdicts were already sitting in `cache/lab_registry.json`). **residual_momentum_llm → REFUTED** (in-sample ~0, holdout loses to the raw-momentum control; momentum closed in every form now tried). **avoidance_direct → mechanical precondition SUPPORTED** (small, decaying ~1%/yr, real) → status `forward_testing`, but **zero forward periods are actually graded and zero ghost positions are open** — the LLM-veto-vs-mechanical forward bootstrap (pick a live universe, score both arms, open the first `shared.ghost` period) is real unbuilt work, next in the queue. See [ledger](RESEARCH_LEDGER.md) / [results: avoidance](lab_results_avoidance_direct.md) / [results: residual momentum](lab_results_residual_momentum_llm.md).
+
+## Oracle coverage gaps (2026-07-06) — floor types & flows the 3-leg machine can't see
+
+Surfaced by the legacy-name audit + the full three-leg verification. NOT dial
+tweaks — each is a floor TYPE or a forced-seller FLOW the current machine is
+structurally blind to. Ranked by expected value; honest gate reads.
+
+| # | Gap / new lens | Why the current machine misses it | Gate read |
+|---|---|---|---|
+| **18** | **`asset_revaluation` — assets worth MORE than book (the ALCO gap)** | The neglect screen finds `price < book`; this is the OPPOSITE — land/timber/farmland/buildings/reserves carried at HISTORICAL COST worth multiples at market (ALCO's Florida acreage), plus owned real estate on operating companies (retailers/restaurants owning their stores) and natural-resource reserves below PV-10. A below-book screen can't see a hidden-asset floor. **The single biggest blind spot — the classic deep-value hunting ground.** | G1 PASS (asset appraisal, not price forecast). G2 STRONG (structural: illiquid hard assets marked at cost, no forced re-mark). G4 needs a realization catalyst (sale/spin) — pairs with the catalyst overlay. Data: property/segment footnotes, acreage, reserve reports — NOT a clean Sharadar field, needs filing parse. |
+| **19** | **`lookthrough_holdco_nav` — a holdco below the market value of its listed stakes** | The screen values a holding company on its own book/cash; it ignores that the parent owns a stake in another LISTED company worth more than the parent's whole market cap (equity-method/cost-carried). Look-through NAV, not book NAV. | G1 PASS. G2 medium-strong (holdco discount is structural/persistent but can be a value trap w/o a catalyst — controlled-company risk, cf. RVP). Needs a stake-mapping step. |
+| **20** | **`index_deletion_flow` — forced selling when a name is DROPPED from an index** | Real forced-seller mechanic (index funds must sell regardless of value), but NOT in EDGAR — a Form 25 was measured as the WRONG instrument (2026-07-06, ~all noise). The correct source is S&P/Russell reconstitution announcements. Currently un-sourced. | G2 STRONG (named price-insensitive counterparty). Blocked on a non-EDGAR data source (index-provider announcements / reconstitution calendars). |
+| **21** | **`tax_loss_selling` — calendar-driven forced selling of small-cap losers** | A mechanical, non-filing forced-seller flow: Nov–Dec tax-loss dumping of down-YTD small-caps → Jan bounce. No EDGAR trail, so the filing-based machine is blind to it entirely. Well-documented seasonal. | G1 borderline (uses YTD return, but the signal is a FLOW window not a forecast). G2 medium (structural calendar mechanic, decays with awareness). G5 whole-universe. A distinct calendar lens. |
+| **22** | **book-QUALITY blindness + data-freshness holes (screen hardening, not a new leg)** | Two coverage holes in the neglect screen itself: (a) it can't tell HARD cash from SOFT inventory/receivables — VTSI's "book" was half slow inventory building into −51% revenue; we flag `investments_heavy` but not `inventory_heavy`. (b) it only sees names in the recent Sharadar SF1 pull, so a JUST-divested / just-restructured name (the freshest, best neglect — INVE right after its sale) can be invisible for a quarter, and the $10M–$3B cap band clips a rare large cash-box and the nano-cap tail. | Cheap fixes: add an `inventory_heavy` / `receivables_heavy` flag (parallels `investments_heavy`); widen/parameterize the cap band for a sensitivity pass; refresh the SF1 pull each quarter and add a "recently-filed 8-K divestiture" freshness hook. |
+
+> **The deepest gap is the mandate, not a lens (2026-07-06).** Across ~40
+> verifications the machine is FLOOR-rich and CATALYST/UPSIDE-poor: it reliably
+> finds cheap safety (bounded melting floors) but rarely the right-tail asymmetry
+> the "option" side of the mandate wants. The only upside engine that works is the
+> catalyst OVERLAY (activist-on-a-floor → NNDM/FULC), and it is thin. Gaps #18–#21
+> matter most where they ADD a realization catalyst to a floor (asset sale, index
+> event, holdco unlock), not just another cheap floor. Build the ones that supply
+> UPSIDE on a floor first.
+
+> **NUMBERING NOTE (2026-07-06 merge):** the Oracle-audit coverage-gap items above and the
+> lab-hunt survivors below were numbered in PARALLEL on two branches and both used #18–#21.
+> Reference lab-hunt items by SLUG (`thematic_etf_firesale_reversal`, `absorption_pressure_reversal`,
+> `drip_paydate_pressure`), not number, until a house renumber. No content lost in the merge.
+
+> **CRAM update 2026-07-05:** `residual_momentum_llm` REFUTED (momentum closed in all forms). `avoidance_direct` mechanical arm **SUPPORTED (weak/decaying)** -- first non-refutation; the 'LLM=avoidance' foundation holds. Next: forward LLM-vs-mechanical A/B for avoidance (measure #1 of the LLM instrument track); cram continues to sub-NAV / odd-lot / call_evasion lexicon arm.
+
+> **call_evasion — VERDICT filed 2026-07-05: INCONCLUSIVE, LLM lost to the word-count.** The blind LLM candor-read on 53 MD&A packets was FLAT (Spearman +0.02) while the crude Loughran-McDonald lexicon showed the only pulse (−0.27, t=−1.99) and the LLM added nothing in the joint OLS (t=0.19). Prereg premise ("LLM evasion beats mere tone") negative. Slug → backtested; stays open only for the transcript-gated Q&A arm. See [ledger](RESEARCH_LEDGER.md) / [results](lab_results_call_evasion.md).
+
+---
+
+## Exhaustive-hunt output (2026-07-05 re-run, 14-domain full sweep — 86 mapped, 12 promising, 2 verified)
+
+**The seam this sweep found: forced-flow's UNDERLYING side.** The house has killed the
+EVENT side of forced flow (index add/delete, CEF tenders — all refuted). It has NEVER
+tested the reversal of forced SELLING in the concentrated *underlying holdings* a
+distressed fund is forced to dump. Freshly evidenced 2024-26: **Ponzi Funds** (arXiv
+2405.12768, ~−6%/yr constituent alpha at ~20× ADV); **Residual Supply** (arXiv
+2605.30672, +160–342bps decile spreads, doubling when absorption is tight). **0
+GOD_CANDIDATE** (no scalable engine — consistent with the house prior); **2
+LAB_HYPOTHESIS** survivors. Both FAIL G4 (reversion forecast, not contract) and carry the
+small-cap-reversal refutation headwind — real hypotheses to test honestly, NOT god tracks.
+
+Survivors (enter the ratchet top-down; neither auto-slugs; recon does NOT tick `hypotheses_ever`):
+
+| # | Item | Verdict | Gate reads | Next step |
+|---|---|---|---|---|
+| **18** | **`thematic_etf_firesale_reversal`** ✅ PREREGISTERED 2026-07-05 ([prereg](lab_prereg_thematic_etf_firesale_reversal.md), hypotheses_ever 197) — buy orphaned constituents of SHRINKING thematic ETFs | LAB_HYPOTHESIS | G1✓ (daily flow state, not price forecast) · G2✓-caveat (redeeming AP is the named seller; in-kind redemption is one step removed but non-offsetting in the illiquid tail Greenwood-Sammon can't reach) · G3✓✓ STRONG (effect lives only where ETF position ≫ constituent ADV; $19k ideal) · **G4✗ (reversion forecast, not contract)** · G5~ (~20/yr, unverified) | **Cleanest advantage: daily-public ETF holdings + shares-out sidestep BOTH the N-PORT lag AND the Wardlaw-2020 return-contamination.** Prereg BEFORE data. Survivorship-free constituent panel (issuer daily basket + shares-out + Sharadar SEP bars). Signal = LONG when per-constituent forced-sell pressure (net redemption × weight / ADV) EXHAUSTS. DECISIVE guard (from spinoff_orphans/ipo_lockup): excess vs SIZE-and-SECTOR-matched EW, NOT raw return. Pre-commit kills: (a) reversal excess ≤0 net of realistic microcap cost, (b) small/illiquid subset is the WORST subset again, (c) <20 events/12mo. Mid-priority — two-refutation headwind (spinoff_orphans −9.3%, ipo_lockup −10.4%, identical shape). |
+| **19** | **`absorption_pressure_reversal`** — mutual-fund redemption fire-sale reversal (residual-supply construction ONLY) | LAB_HYPOTHESIS | G1✓ (return-orthogonal residual-supply signal, survives pre-event-return controls — NOT the Wardlaw-contaminated FIT) · G2✓✓ STRONG/durable ('40-Act daily-redemption fund = named non-discretionary seller; no Greenwood-Sammon offset) · G3✓ PATHOLOGICAL (edge only in lowest-$-volume names: 375bps/3mo low-vol vs 4–24bps high-vol) · G4✗ · G5~ | Viable ONLY with the return-orthogonal residual-supply construction (the classic Coval-Stafford FIT measure is Wardlaw-2020 contaminated — the reversal vanishes once cleaned). Same size-matched-benchmark + realistic-cost discipline as #18. LOWER priority than #18 (which observes the forcing event directly rather than inferring it). |
+
+Kills logged (do not slug; do not re-surface): **SPAC redemption-floor arb** (contractual
+floor real but G4 upside too thin for this book + most-crowded riskless arb); **fund
+liquidation overhang** (wind-down carries a best-execution duty = NOT forced-price-insensitive,
+G2 weak); **distressed deep-discount preferreds** (G1 discount-lean + RH baby-bond
+tradability); **foreign-filing/ADR translation latency** (crowded text underreaction, NO
+forced counterparty — the exact edge the house-view says LLMs dissolved); **credit-agreement
+exhibit read** (covenant binds issuer→lenders, equity is residual — no forced seller pays
+you); **intangible-adjusted profitability factor** (pure factor, G2/G4 fail; fights the
+'fundamentals spanned' prior). **Russell small-cap DELETION reversal** (from the delta
+pre-run): LAB but low-priority — Greenwood-Sammon shows the deletion effect decayed to
+~−0.6%, and it's the same dumped-microcap shape as the two terminal refutations; log
+behind the underlying-holdings family, which is more fertile. Avoidance-overlay text ideas
+(non-GAAP-gap, comment-letters, exec-departure) fold onto the existing Lens-B slate (#14) —
+justify at most ONE more A/B arm (credit-agreement had the best G2 of that cluster), not four new flags.
+
+Hunt meta-finding (re-run): the fertile corner is the **UNDERLYING-HOLDINGS side of forced
+flow** — not the event side (mined dry) and not the text-avoidance side (decaying, already
+queued as #14). Growth still comes from proving the edges we hold; these two are the first
+genuinely-new structural hypotheses since the evening sweep, and they enter the ratchet
+behind the already-queued forced-seller batch (#4 post-BK, #13 odd-lot).
+
+> **#18 `thematic_etf_firesale_reversal` — PREREGISTERED then DATA-BLOCKED 2026-07-05.**
+> Feasibility probe on commit: the daily-flow backtest as frozen is NOT buildable with house
+> data. Sharadar SEP is equities-only (no ETFs — SPY/ARKK/XLK all empty), and there is no
+> daily ETF shares-outstanding / holdings source for CLOSED funds in the repo or free feeds.
+> Only EDGAR N-PORT exists, and it is inadequate for the frozen design: quarterly (not daily),
+> clean only post-2019 (collapses the ≤2019 in-sample), month-end net-assets only (a
+> Δ-net-assets flow proxy confounds flow with return — the Wardlaw-2020 contamination, and ARKK
+> is the cautionary case: AUM fell on PERFORMANCE while net flows were positive). Per the prereg's
+> own pre-commitment, the slug **STAYS `preregistered`, not refuted** — the ratchet caught the wall
+> before a contaminated build burned the slug (the `post_bk_emergence` precedent). Clean unblock =
+> a paid ETF-holdings-history source (operator decision).
+>
+> **EXPLORATORY PEEK OUTCOME (2026-07-05, LOOK-DON'T-TOUCH — may NOT be cited for any rule change):**
+> Ran the liquidated-thematic-ETF smell-test on 3 cannabis funds (POTX/THCX/PSDN). DATA-DEFEATED,
+> with one substantive lesson: (1) N-PORT series resolution failed for 2/3 (POTX/THCX file under large
+> multi-series trusts — the fund's series didn't resolve even in a 60-filing wide search); (2) **PSDN was
+> already down to 4 tiny holdings MONTHS before its close** — the insight: a dying thematic fund BLEEDS OUT
+> GRADUALLY over its decline, it does NOT hold a full basket to the end and dump it in one forced event,
+> so the clean "100% forced liquidation" premise is weaker than assumed; (3) the OTC MSOs that carry the
+> effect aren't in SEP; (4) the n=2 names that DID resolve showed the graveyard's wrong-sign pattern —
+> dumped −4.5% into the close, then KEPT FALLING −6.1%/63d (no reversion). Net: NO positive signal to
+> justify buying data, mild DISCOURAGEMENT (clean-dump events rarer/messier than assumed + the resolvable
+> slice echoed spinoff_orphans/ipo_lockup). Recommendation: **do NOT buy ETF-holdings data for #18 on
+> current evidence**; leave it preregistered/data-blocked as a standing option that re-opens only if a
+> survivorship-free daily-holdings source arrives cheaply for another reason.
+
+---
+
+## Weird-hunt output (2026-07-05, 12 unconventional domains — 75 mapped, 6 promising, 1 verified)
+
+Deliberately off-beat sweep (attention/salience, settlement plumbing, number psychology, network
+topology, reflexive flows, bio-rhythms, behavioral tells, calendar micro-structure, lottery/skew,
+long-tail info-geometry, weird forced-flow corners, wrapper mechanics). Same 5 gates, extra-strict G1.
+Most weird ideas died on G1 (no forced seller = "crowd misprices" = noise); 2 auto-dropped in
+synthesis (a stray test injection; a net-issuance/Lens-B relabel). **0 GOD_CANDIDATE; 1 LAB_HYPOTHESIS.**
+
+| # | Item | Verdict | Gate reads | Next step |
+|---|---|---|---|---|
+| **20** | **`drip_paydate_pressure`** — DRIP reinvestment creates a price-insensitive forced BUYER on calendar-certain pay dates | LAB_HYPOTHESIS | G1✓ (real mechanical flow) · **G2✓✓ HARD (the prize: named, contract-bound, price-insensitive forced buyer = DRIP plan administrator, on a calendar-certain date — a genuine weird spine, not a G1 sentiment fail)** · G3✓ but double-edged (edge only in illiquid high-limits-to-arb names — where cost also lives) · **G4✗ (pressure hump COMPLETELY reverses → required round-trip, a reversion forecast, no contract pays you)** · G5✓ (thousands of pay dates/yr; monthly-pay CEFs give dozens) | Prereg a cheap survivorship-free backtest BEFORE data (Sharadar bars + calendar-certain CEF/high-DRIP pay-date calendar). DECISIVE pre-committed kill = net-of-realistic-retail-round-trip-cost excess ≤0 vs a size/liquidity/yield-matched EW benchmark (NOT raw return). Test the round-trip explicitly at 1× AND 2× cost + the tightest-cost expression (monthly-pay CEF basket). Pre-commit kills: (a) net excess ≤0 at realistic spread, (b) the illiquid/high-spread subset is the WORST subset (the three-refutation pattern), (c) effect decayed post-2017-publication. **Honest prior: expected death at the cost gate** — published effect (Berkman-Koch JFQA 2017, Hartzmark-Solomon AER 2024) whose gross edge scales with the exact spread you pay. Low priority; file behind the forced-seller batch. Not a god — a whisker from REJECT.
+
+Kills logged (do not slug; do not re-surface): **coverage_termination_shock** (broker research-coverage
+termination as an attention shock — breaks on structural gates + external evidence; the exogenous-event
+framing is cleaner than static-neglect but doesn't clear G2/G4/power); **holdco_stub_discount_collapse**
+(graveyard-adjacent relabel of the already-killed term/target-term CEF pull-to-NAV — same discount-lean
+G1, same board/controller escape-hatch G4; listed-stake NAV arithmetic doesn't rescue it); most
+bio-rhythm / ticker-psychology / calendar theories (pure G1, no forced counterparty).
+
+> **STRATEGICALLY-FLAGGED REJECT — `vol_control_releveraging`.** Named a REAL and GROWING forced
+> counterparty (~$132B systematic vol-control funds, prospectus-bound to mechanically RE-LEVER after
+> realized vol falls, −0.95 vol-to-exposure). Excellent, strengthening G2. But our long-only /
+> no-leverage / no-derivatives book can only express it as "buy the VIX dip" — a forbidden G1 timing
+> signal. **A perfect named counterparty attached to an instrument we are not allowed to trade.** REJECT
+> for THIS book — but log it: **re-open only if the mandate ever gains derivatives/futures**, because the
+> counterparty is real and growing.
+
+Weird-hunt meta-finding: even in deliberately unconventional territory the pattern held — the single
+real-spine survivor (DRIP) still fails G4 and rides a cost-gated round-trip, expected to die at cost.
+No engine hides in the weird corners either; consistent with LEAN_ON_BETA (growth = prove the edges
+already held, not find a new one). Recon only — did NOT tick `hypotheses_ever`.

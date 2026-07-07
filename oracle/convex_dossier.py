@@ -1,4 +1,11 @@
-"""Convex dossiers — the reframed Oracle's edge (docs/oracle_reframe_2026-07-05.md).
+"""Convex dossiers — RETIRED for SELECTION 2026-07-06 (see oracle.upside_dossier +
+docs/oracle_upside_spec.md). The floor-first gate below made Oracle an avoidance
+machine (one bounded liquidation a quarter); Oracle was recut to hunt the biggest
+REAL upside over a 6–24mo hold. This module is kept only for (a) the primary-
+citation discipline that lives on in upside_dossier.blowup_check, and (b) history.
+Do NOT use make_convex_dossier / rank_fundable to select the upside book.
+
+Convex dossiers — the reframed Oracle's edge (docs/oracle_reframe_2026-07-05.md).
 
 The old dossier confirmed dead signals ("insider + quality + cheap"). A convex
 dossier establishes ASYMMETRY and names the STRUCTURAL reason the price is
@@ -181,3 +188,147 @@ def rank_by_convexity(dossiers: list[dict]) -> list[dict]:
 # ranks by the improved convexity_score (annualized + floor-hardness weighted).
 def rank_by_asymmetry(dossiers: list[dict]) -> list[dict]:
     return rank_by_convexity(dossiers)
+
+
+# =====================================================================
+# Primary-source verification gate (2026-07-06)
+# =====================================================================
+# The launch-gate diligence on 2026-07-06 killed 4 of 8 dossiers that a
+# fundamentals-API pass had waved through as "convex":
+#   - MNRO: P/B<1 was 100% GOODWILL; tangible book was NEGATIVE (-$5/sh).
+#   - XRN : "debt-free ($1.15M)" MISSED a $652.7M credit facility — the fast
+#           read took one balance-sheet line, not the full liability stack.
+#   - SMHI: the "$20 fleet NAV" was an activist's claim in NO SEC filing; the
+#           real audited book was ~$9, and the catalyst had already popped.
+#   - GYRO: the "$11.79 floor" was a management liquidation PROJECTION melting
+#           42% over 3.5yr, under active litigation, kill-condition already tripped.
+# Every one shared a shape a fundamentals snapshot cannot see and a primary
+# filing reveals. So `convex` (computed from self-reported numbers) is NO LONGER
+# sufficient to fund a name. A dossier must additionally pass four primary-source
+# traps — each the exact hole one of those four fell through — cited to actual
+# filings. This makes tonight's four errors structurally impossible to fund again.
+
+# What the floor actually IS, hardest -> softest, ordered by how tonight's names
+# held up: countable cash (RNA/ARVN survived) > net-net > transacting assets
+# (ALCO's land selling for real $/acre survived) > book (MNRO's goodwill mirage
+# died) > asserted (SMHI's activist appraisal — not a floor at all — died).
+FLOOR_BASIS = {
+    "cash": 1.0, "net_net": 0.9, "transacting_asset": 0.75, "book": 0.55, "asserted": 0.0,
+}
+
+# A citation is PRIMARY if it points at an actual SEC filing, not a snapshot or
+# a secondary recap. XRN's dossier cited "Robinhood fundamentals" as
+# load-bearing — that is the tell this refuses to accept as a floor source.
+#
+# HARDENED 2026-07-06 (audit finding): the old bare-substring match let a
+# snapshot-only citation pass on incidental characters — "s-1" matched
+# "consensus-1.2%", "acc " matched "accrued", etc. Now split into (a) unambiguous
+# domain/word markers matched as substrings, and (b) filing-type codes matched
+# only on a word boundary, plus a real accession-number pattern.
+import re as _re
+
+_PRIMARY_SUBSTR = ("sec.gov", "edgar", "accession no", "accession number")
+_PRIMARY_FORM_CODES = (
+    r"10-k", r"10-q", r"8-k", r"20-f", r"6-k", r"def\s?14a", r"defa?14a",
+    r"s-1", r"s-3", r"form\s?10", r"13[dg]", r"sc\s?to", r"424b\d?",
+)
+# accession numbers look like 0001234567-26-000123
+_ACC_NO = _re.compile(r"\b\d{10}-\d{2}-\d{6}\b")
+_FORM_RE = _re.compile(r"(?<![a-z0-9])(?:" + "|".join(_PRIMARY_FORM_CODES) + r")(?![a-z0-9])")
+
+
+def is_primary_citation(c: str) -> bool:
+    """True if the citation references a real SEC filing — an EDGAR/sec.gov URL, a
+    real accession number, or a filing-type code on a WORD BOUNDARY — rather than a
+    fundamentals snapshot (Robinhood/Yahoo) or a secondary recap (StockTitan/
+    Seeking Alpha). Word-boundary matching stops incidental substrings ("s-1" in
+    "consensus-1%", "acc " in "accrued") from faking a primary source."""
+    s = (c or "").lower()
+    if any(m in s for m in _PRIMARY_SUBSTR):
+        return True
+    if _ACC_NO.search(s):
+        return True
+    return bool(_FORM_RE.search(s))
+
+
+def verify_dossier(
+    dossier: dict,
+    *,
+    floor_basis: str,               # cash|net_net|transacting_asset|book|asserted — what the floor IS, per filings
+    debt_reconciled_full_stack: bool,   # was debt taken off the FULL liability stack, not one line? (the XRN trap)
+    catalyst_fired: bool,           # has the catalyst already re-rated the name? (the SMHI trap)
+    book_survives_goodwill: Optional[bool] = None,  # for book floors: does tangible book (ex-goodwill) still support it? (the MNRO trap)
+    primary_citations: Optional[list[str]] = None,  # defaults to the dossier's own citations
+    verdict: str = "keep",          # keep | revise | kill (the reader's conclusion)
+    notes: str = "",
+    verified_by: str = "oracle",
+) -> dict:
+    """Stamp a primary-source verification onto a dossier and set `verified`.
+
+    Runs the four traps that tonight's four kills each failed. A dossier only
+    becomes `verified` (and thus fundable) if ALL traps pass AND the reader's
+    verdict is keep/revise. On pass, it also RE-STAMPS floor_hardness from the
+    true floor_basis — so a self-reported 'hard' on an asserted floor cannot
+    survive contact with the verification."""
+    _req(floor_basis in FLOOR_BASIS, f"floor_basis must be one of {sorted(FLOOR_BASIS)}")
+    _req(verdict in {"keep", "revise", "kill"}, "verdict must be keep|revise|kill")
+    cites = list(primary_citations if primary_citations is not None else dossier.get("citations", []))
+
+    # The goodwill trap must FAIL-CLOSED for a book floor (2026-07-06 audit fix):
+    # a `book` floor's whole risk is that reported book is goodwill/intangibles
+    # (MNRO: tangible book −$5/sh). If the verifier did not affirmatively confirm
+    # tangible book survives (book_survives_goodwill left None/unknown), a book
+    # floor must NOT pass. For non-book floors (cash/net_net/transacting_asset)
+    # goodwill is irrelevant, so unknown is fine — only an explicit False fails.
+    if floor_basis == "book":
+        book_ok = book_survives_goodwill is True
+    else:
+        book_ok = book_survives_goodwill is not False
+
+    traps = {
+        # each key is a specific tonight-kill made impossible:
+        "primary_source_cited": any(is_primary_citation(c) for c in cites),   # XRN cited only a snapshot
+        "floor_not_merely_asserted": floor_basis != "asserted",               # SMHI's $20 activist NAV
+        "book_survives_goodwill": book_ok,                                     # MNRO's negative tangible book (fail-closed on book floors)
+        "debt_reconciled_full_stack": bool(debt_reconciled_full_stack),        # XRN's missed credit line
+        "catalyst_not_already_fired": not bool(catalyst_fired),                # SMHI's already-popped catalyst
+    }
+    passed = all(traps.values()) and verdict in {"keep", "revise"}
+
+    dossier["verification"] = {
+        "verified_at": datetime.utcnow().isoformat(),
+        "verified_by": verified_by,
+        "floor_basis": floor_basis,
+        "traps": traps,
+        "verdict": verdict,
+        "notes": notes,
+        "passed": passed,
+    }
+    dossier["verified"] = passed
+    if passed:
+        # rank on the VERIFIED floor hardness, not the self-reported one
+        w = FLOOR_BASIS[floor_basis]
+        dossier["floor_hardness"] = "hard" if w >= 0.9 else ("medium" if w >= 0.55 else "soft")
+        dossier["convexity_score"] = round(
+            convexity_score(dossier.get("asymmetry_score", 0.0),
+                            dossier.get("horizon_months", DEFAULT_HORIZON_MONTHS),
+                            dossier["floor_hardness"]), 4)
+    return dossier
+
+
+def is_fundable(dossier: dict) -> bool:
+    """Book-eligible = convex (positive expectancy + real floor) AND
+    primary-source-verified (passed the four traps) AND the catalyst hasn't
+    fired. An UNVERIFIED dossier — however good its self-reported numbers — is
+    NOT fundable. Each of tonight's four kills fails this gate."""
+    return bool(dossier.get("convex") and dossier.get("verified")
+                and not dossier.get("catalyst_fired_risk"))
+
+
+def rank_fundable(dossiers: list[dict]) -> list[dict]:
+    """The BOOK order — only verified, convex names, best convexity first. Use
+    THIS, not rank_by_convexity, to select what actually gets capital.
+    rank_by_convexity stays the pure-math research view; rank_fundable is the
+    gated view that money flows through."""
+    return sorted((d for d in dossiers if is_fundable(d)),
+                  key=lambda d: -d.get("convexity_score", -9))

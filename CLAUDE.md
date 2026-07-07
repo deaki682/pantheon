@@ -21,20 +21,36 @@ independent strategy with its own sleeve.
 
 ## The Gods
 
-**Oracle** (REFRAMED 2026-07-05 — docs/oracle_reframe_2026-07-05.md) — Was the
-insider-accumulation cohort god; that mechanical spine was refuted (insider
-clusters −6.4%/yr, quality lens the drag), so Oracle is recast as a **measured
-LLM deep-research convex engine**: the lenses are demoted to an idea-sourcing
-net, the **dossier is the edge** (written for ASYMMETRY — bounded floor +
-catalyst upside + structural mispricing, not "cheap + good"), the book is
-**concentrated and conviction-weighted** (not an equal 8-name cohort), and a
-dossier-vs-screen A/B (`oracle.ab`) MEASURES whether the research beats the
-screen (Oracle LLM-lift) — the same question Hermes asks, on the value/neglect
-side. The legacy cohort `cohort-2026-06-29` (CXT/HDSN/J/PSN/VITL, green) is
-FROZEN and HELD by the operator (untouched); the reframed engine runs a fresh
-sleeve `pending_funding` (research/paper-only until funded). Checkpoint on
-LLM-lift: dossiers add alpha → keep + concentrate; neutral/negative → fold into
-Proteus.
+**Oracle** (RECUT 2026-07-06 — docs/oracle_upside_spec.md, THE BIBLE) — Was the
+insider-cohort god (spine refuted), then briefly a floor/convex value engine
+(which collapsed into an avoidance machine that funded one bounded liquidation a
+quarter — the wrong optimization). RECUT to a single objective by operator
+directive: **pick the few under-covered names with the biggest REAL upside over a
+6–24 month hold, get big on them, and hold to the thesis.** Scored one way only —
+forward return vs SPY over the hold; no floor term, no avoidance term, no Sharpe.
+The **edge is the breadth read** — reading the filings/transcripts of hundreds of
+names no analyst desk covers, in the neglected corner (small/mid-cap, thinly
+covered, or fresh special situations) where reading is still an edge; Oracle cedes
+the mega-cap momentum names to the quants. A 7-stage funnel (spec §3): field →
+two-direction **spotlight** (`oracle.upside_sourcing` — bottom-up acceleration/
+beat-raise/rel-strength + top-down thematic; AIMS the reader, not the edge) →
+**breadth read** (the variant view: is the inflection real/durable/large/not-yet-
+arrived) → **dossier + BEAR×3** (`oracle.upside_dossier.make_upside_dossier` refuses
+a name without `upside_x ≥ 1.5`, a real `inflection_type`, cited evidence, a bear
+paragraph; the **blowup filter** is a SURVIVAL gate — runway clears the horizon, no
+going-concern/fraud/delisting — NOT a floor) → **sizing** (`size_upside_book`:
+concentrate 3–6, conviction-weighted, 30% name / 40% cluster caps, no dust — getting
+BIG on the best few is the mechanism) → **hold** (`evaluate_exit`: a drawdown is
+NEVER an exit, only a typed thesis-break is) → **verdict + A/B** (forward return vs
+SPY is the headline; Arm A the reading vs Arm B the spotlight screen = LLM-lift) →
+**memory** (hit-rate per inflection_type feeds next session's ranking + sizing).
+Floors survive only as an OPTIONAL conviction bonus. Legacy cohort
+`cohort-2026-06-29` (CXT/HDSN/J/PSN/VITL, green) FROZEN and HELD (untouched); the
+upside engine runs a fresh sleeve `pending_funding` (research/paper-only until
+funded). Checkpoint at ~20 graded names: book beats SPY over the hold AND LLM-lift
+positive → concentrate + fund; else fold into Proteus. The prior floor-centric docs
+(`oracle_reframe_2026-07-05`, `oracle_finest_picker_*`, the `convex_dossier` gate)
+are SUPERSEDED for selection — retained only as history / the blowup-filter lineage.
 
 **Delphi** (LIVE RETIRED 2026-07-04, operator directive — sleeve funds
 Plutus) — Was the large-cap momentum compounder: ranked a fixed 118-name
@@ -248,7 +264,14 @@ the rotation, not the position.
 
 ## Oracle Operating Cadence
 
-### Cohort Model (implemented 2026-06-29)
+> **RECUT 2026-07-06 — the Cohort Model below describes the FROZEN legacy cohort
+> only (CXT/HDSN/J/PSN/VITL, held untouched). The live engine is now the UPSIDE
+> engine: read `.claude/commands/oracle.md` + `docs/oracle_upside_spec.md`. It runs
+> the 7-stage upside funnel (spotlight → breadth read → dossier+bear → sizing →
+> hold → verdict → memory), holds to a typed thesis-break (a drawdown is never an
+> exit), and is scored on forward return vs SPY over a 6–24mo hold.**
+
+### Cohort Model (implemented 2026-06-29 — LEGACY, frozen cohort only)
 
 Oracle does NOT rotate positions on score drift. It holds a fixed cohort
 of ~8 names for ~12 months. The only exits during a cohort are thesis-break
@@ -285,8 +308,14 @@ trades.
 | File | Owner | Purpose |
 |------|-------|---------|
 | `oracle_sleeve.json` | oracle | Cash, positions, cooldowns, peak equity |
-| `oracle_cohort.json` | oracle | Active cohort: positions, entry prices, thesis snapshots, review date |
-| `oracle_dossiers.json` | oracle | Full dossier pool (target: 60-80 across 8+ sectors) |
+| `oracle_cohort.json` | oracle | LEGACY frozen cohort (held, untouched) |
+| `oracle_upside_candidates.json` | oracle | Stage-1 spotlight survivors (upside engine) |
+| `oracle_upside_dossiers.json` | oracle | Stage-2/3 upside dossiers (+ kept kills) |
+| `oracle_upside_book.json` | oracle | Stage-4 funded book (concentrated weights) |
+| `oracle_upside_ab.json` | oracle | Stage-6 A/B: reading (A) vs spotlight (B) |
+| `oracle_upside_calibration.json` | oracle | Stage-7 hit-rate per inflection_type |
+| `oracle_beliefs.md` | oracle | Forward worldview + open theses (read@start/write@end) |
+| `oracle_dossiers.json` | oracle | LEGACY floor/convex dossier pool (retired for selection) |
 | `oracle_screen.json` | oracle | Top 100 from quarterly screen |
 | `oracle_cadence.json` | oracle | Last-run timestamps for research/screen |
 | `oracle_ledger.jsonl` | oracle | Every order placed (for reconcile) |
