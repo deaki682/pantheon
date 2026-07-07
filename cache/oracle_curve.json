@@ -478,5 +478,14 @@
     "n_positions": 5,
     "note": "oracle cycle: cohort-2026-06-29 held, no thesis-breaks (all 5 positions up from entry, largest drawdown 0%). no excess cash for top-up (cash $199.48 < 10% floor $213.94 + $50 ticket). research pass: dossier pool at 93 (target 60-100), no stale dossiers (0 flagged), added candidates from screen. attribution skipped: insufficient equity-curve history (2 daily dates, need 6+). capital gate: 3 graded calls (need 30) -- stays at base allocation.",
     "ts": "2026-07-04T04:14:30.752608+00:00"
+  },
+  {
+    "date": "2026-07-07",
+    "timestamp": "2026-07-07T14:17:00Z",
+    "equity": 4089.75,
+    "spy": 746.95,
+    "cash": 2227.63,
+    "peak_equity": 4089.75,
+    "note": "tend-only: reconciled SEER/NNDM/FULC broker fills into sleeve; kill_conditions checked (no bid withdrawal, no value-destructive M&A, no dilutive reverse merger found) \u2014 none triggered"
   }
 ]

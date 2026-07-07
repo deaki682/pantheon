@@ -1,14 +1,36 @@
 {
-  "cash": 4109.677299999999,
+  "cash": 2227.626744999999,
   "contributed_cash": 3950.0,
   "cooldown_days": 31,
   "cooldowns": {},
   "gfv_count": 0,
   "halted": false,
   "name": "oracle",
-  "peak_equity": 2139.36743584575,
+  "peak_equity": 4089.7549449999988,
   "pending_settlements": [],
-  "positions": {},
+  "positions": {
+    "FULC": {
+      "avg_price": 3.72,
+      "cohort_id": "",
+      "entry_date": "2026-07-07",
+      "sector": "",
+      "shares": 155.0
+    },
+    "NNDM": {
+      "avg_price": 1.46,
+      "cohort_id": "",
+      "entry_date": "2026-07-07",
+      "sector": "",
+      "shares": 427.0
+    },
+    "SEER": {
+      "avg_price": 2.19,
+      "cohort_id": "",
+      "entry_date": "2026-07-07",
+      "sector": "",
+      "shares": 311.0
+    }
+  },
   "realized_pnl": 160.58,
-  "trades_count": 26
+  "trades_count": 29
 }
