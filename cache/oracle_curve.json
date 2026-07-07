@@ -487,5 +487,11 @@
     "cash": 2227.63,
     "peak_equity": 4089.75,
     "note": "tend-only: reconciled SEER/NNDM/FULC broker fills into sleeve; kill_conditions checked (no bid withdrawal, no value-destructive M&A, no dilutive reverse merger found) \u2014 none triggered"
+  },
+  {
+    "timestamp": "2026-07-07T15:12:00Z",
+    "equity": 4107.73,
+    "cash": 2227.626744999999,
+    "positions_value": 1880.1
   }
 ]
