@@ -56,6 +56,12 @@ think, trade, or override any god's logic.
    # spare-no-expense rebuild — do NOT dispatch /proteus while paused (no runs, no
    # new entries, no credits). /proteus-lab (paper research) is unaffected.
    proteus_paused = is_paused("proteus")
+   # Hermes freeze (cache/hermes_paused.json) — set when the book is mid-reconcile
+   # (e.g. an auto-run over-deployed and trims are pending). While paused, do NOT
+   # dispatch /hermes: no new detection, no new entries, no top-ups. Tending
+   # (break-stops/completion on OPEN deals) may run manually; the freeze only stops
+   # the auto-run from touching the book before an operator finalizes. Lift explicitly.
+   hermes_paused = is_paused("hermes")
    midas_scan_due = should_run("cache/midas_cadence.json", "scan", 5)
    earnings_season = is_earnings_season(today)
 
@@ -103,7 +109,7 @@ think, trade, or override any god's logic.
    **Conditional:**
    - `/delphi` — ONLY if `delphi_wind_down` on a weekday (liquidate remaining positions + sweep to Plutus). Live retired 2026-07-04; no new entries. Once her sleeve is flat and marked `retired` with cash fully swept, never dispatch `/delphi` again
    - `/plutus` — if market hours AND `oracle.calendar.is_trading_day(today)`. LIVE since 2026-07-06 (conscious override): net-issuance god funded by Delphi's retired sleeve. The runbook self-gates to a once-per-quarter rebalance; every other pass is monitoring-only. Owns only `cache/plutus_*`, so parallelizes safely. EXCEPTION: on a day the Delphi wind-down sweep runs, dispatch `/delphi` BEFORE `/plutus` — the sweep writes Plutus's funding
-   - `/hermes` — if market hours AND `oracle.calendar.is_trading_day(today)`. LIVE since 2026-07-05 (armed, $4k): merger-arb LLM A/B. Tend open deals, detect new cash deals, LLM break-risk read (Arm A live / Arm B paper), grade LLM-lift. Owns only `cache/hermes_*`, parallelizes safely. Research-only until settled cash backs the sleeve
+   - `/hermes` — if `(not hermes_paused)` AND market hours AND `oracle.calendar.is_trading_day(today)`. LIVE since 2026-07-05 (armed, $4k): merger-arb LLM A/B. Tend open deals, detect new cash deals, LLM break-risk read (Arm A live / Arm B paper), grade LLM-lift. Owns only `cache/hermes_*`, parallelizes safely. Research-only until settled cash backs the sleeve. **FROZEN 2026-07-07 (`cache/hermes_paused.json`): an auto-run over-deployed (double-bought APGE/RAMP/GBTG + added FSEA); trims are queued for the 07-08 open and the sleeve is reconciled — do NOT dispatch until the operator lifts the freeze.**
    - `/midas-scan` — if weekend AND `midas_scan_due` (the cadence guard fires it once per weekend, not every hour). Research-only: feeds the ghost A/B
    - `/midas` — ONLY if `midas_wind_down` on a weekday (reconcile the final exit + sweep to Proteus). Live retired 2026-07-04; there are no new entries and no Monday dispatch once the sweep completes
    - `/oracle` — if `oracle_due` (its idea-sourcing now includes the folded spinoff channel via the `nemesis.*` library)
