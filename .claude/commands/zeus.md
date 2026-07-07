@@ -11,7 +11,7 @@ think, trade, or override any god's logic.
 | `/trinity` | Market hours (9:30–16:00 ET, weekdays) | Dashboard refresh with live quotes |
 | `/midas-scan` | Weekend AND `should_run("cache/midas_cadence.json", "scan", 5)` | Heavy universe scan → top 10 → `cache/midas_scan.json`. Cadence guard = once per weekend, not every hour. **Research-only since 2026-07-04** — output feeds `/midas-ghost` (the A/B race), never a live entry |
 | `/midas` | **WIND-DOWN ONLY** (live retired 2026-07-04, operator directive): weekday, and ONLY while `cache/midas_sleeve.json` still has a `position` or `cache/midas_cadence.json` has a `pending_exit_order_id` | Reconcile the queued DAKT sell (order `6a473615`) when it fills, then sweep ALL cash to Proteus's sleeve (see midas.md wind-down). NO new entries, ever. Once the sweep is done, never dispatch `/midas` again |
-| `/oracle` | `should_run("cache/oracle_cadence.json", "research", 3)` | Every 3 days |
+| `/oracle` | `should_run("cache/oracle_cadence.json", "research", 3)` OR `oracle_tend_only_due` | Every 3 days for a full sourcing pass; ALSO dispatch every hour (regardless of pause/cadence) whenever the fresh sleeve holds live positions or unreconciled orders — `/oracle` self-gates via its own step 0a to a free tend-only pass (reconcile fills, mark, check typed kill_conditions) that never sources/reads/selects. See "Oracle pause" note below — a pause is SOURCING-only, never a tending-only skip |
 | `/delphi` | **WIND-DOWN ONLY** (live retired 2026-07-04, operator directive): weekday, and ONLY while `cache/delphi_sleeve.json` still has open `positions` OR unswept settled cash | Liquidate her positions to cash, sweep to Plutus's sleeve (see delphi.md wind-down). NO new entries, ever. Once flat and fully swept, never dispatch `/delphi` again |
 | `/plutus` | Market hours AND `is_trading_day(today)` | **LIVE since 2026-07-06** (conscious override, docs/plutus_launch_override.md): net-issuance capital-return god, funded by Delphi's retired sleeve. The runbook self-gates — it only REBALANCES at a fresh quarter-end (once/quarter), every other pass is monitoring-only. Research-only until `plutus_sleeve.json` shows `pending_funding: null` and the swept cash has settled |
 | `/hermes` | Market hours AND `is_trading_day(today)` | **LIVE since 2026-07-05** (armed, funded $4k; docs/hermes_launch_override.md): merger-arb LLM A/B. Tend open deals (break-stop / completion / past-close), detect new small-cap cash deals, LLM break-risk read (Arm A live / Arm B paper), grade LLM-lift. Owns only `cache/hermes_*`, parallelizes safely. Research-only until settled cash backs the sleeve |
@@ -46,11 +46,32 @@ think, trade, or override any god's logic.
    import json, os
 
    # Oracle is on a soft HOLD (cache/oracle_paused.json) — do NOT dispatch the
-   # Oracle family (/oracle, /oracle-screen, /oracle-ghost) while paused. This
-   # spends no credits and writes no pre-Stage-1-rebuild output. (A pause is not a
-   # kill — nothing is liquidated; the frozen legacy cohort is untouched.)
+   # Oracle family (/oracle, /oracle-screen, /oracle-ghost) for SOURCING while
+   # paused. This spends no credits and writes no pre-Stage-1-rebuild output.
+   # (A pause is not a kill — nothing is liquidated; the frozen legacy cohort
+   # is untouched.)
+   #
+   # BUG-HUNT FIX 2026-07-07: a pause does NOT excuse tending live money.
+   # oracle.md step 0a (added 15d4816, "tend-only carve-out") branches on
+   # whether the FRESH sleeve holds live positions or unreconciled orders —
+   # if so it runs a free tend-only pass (reconcile fills, mark, fire any
+   # triggered typed kill_condition) even while paused; only brand-new
+   # SOURCING is frozen. The dispatch table below had gone stale relative to
+   # that carve-out (`oracle_due = not oracle_paused and ...` blanket-skips
+   # the whole family), which meant Zeus's mechanical dispatch could starve a
+   # funded convex book (e.g. the SEER/NNDM/FULC book funded 2026-07-07,
+   # ~$1,950 with typed kill-promises) of its every-session tend requirement.
+   # Dispatch /oracle whenever EITHER the normal cadence is due OR the fresh
+   # sleeve is non-empty — oracle.md's own 0a decides tend-only vs full-stop
+   # vs full-sourcing; Zeus just needs to not gate the invocation itself.
    oracle_paused = is_paused("oracle")
-   oracle_due = (not oracle_paused) and should_run("cache/oracle_cadence.json", "research", 3)
+   oracle_sleeve = {}
+   if os.path.exists("cache/oracle_sleeve.json"):
+       with open("cache/oracle_sleeve.json") as f:
+           oracle_sleeve = json.load(f)
+   oracle_tend_only_due = oracle_paused and bool(oracle_sleeve.get("positions"))
+   oracle_due = oracle_tend_only_due or (
+       (not oracle_paused) and should_run("cache/oracle_cadence.json", "research", 3))
    screen_due = (not oracle_paused) and should_run("cache/oracle_cadence.json", "screen", 90)
    # Proteus is on a soft HOLD (cache/proteus_paused.json) pending the
    # spare-no-expense rebuild — do NOT dispatch /proteus while paused (no runs, no
@@ -106,7 +127,7 @@ think, trade, or override any god's logic.
    - `/hermes` — if market hours AND `oracle.calendar.is_trading_day(today)`. LIVE since 2026-07-05 (armed, $4k): merger-arb LLM A/B. Tend open deals, detect new cash deals, LLM break-risk read (Arm A live / Arm B paper), grade LLM-lift. Owns only `cache/hermes_*`, parallelizes safely. Research-only until settled cash backs the sleeve
    - `/midas-scan` — if weekend AND `midas_scan_due` (the cadence guard fires it once per weekend, not every hour). Research-only: feeds the ghost A/B
    - `/midas` — ONLY if `midas_wind_down` on a weekday (reconcile the final exit + sweep to Proteus). Live retired 2026-07-04; there are no new entries and no Monday dispatch once the sweep completes
-   - `/oracle` — if `oracle_due` (its idea-sourcing now includes the folded spinoff channel via the `nemesis.*` library)
+   - `/oracle` — if `oracle_due` (cadence-due sourcing pass, OR `oracle_tend_only_due` while paused with a live fresh-sleeve book — oracle.md's own step 0a self-limits the latter to reconcile+kill-check, no sourcing/credits). Its idea-sourcing (when not paused) includes the folded spinoff channel via the `nemesis.*` library
    - `/achilles`, `/nemesis` — FOLDED 2026-07-05, NEVER dispatched as standalone gods. PEAD runs inside `/proteus` seasonally; spinoffs are an `/oracle` channel. Their packages are libraries only.
    - `/oracle-screen` — if `screen_due` (runs before `/oracle` since oracle uses screen output)
    - `/proteus` — if `(not proteus_paused)` AND `should_run("cache/proteus_cadence.json", "session", 1)`. **PAUSED 2026-07-07 (soft hold) pending the spare-no-expense rebuild — not dispatched while `cache/proteus_paused.json` is active.** When live: one full session per day; trades his own real sleeve (and only his own); research-only until `pending_funding` clears.
@@ -175,7 +196,14 @@ due — the cron just wakes it up.
 ## Hard rules
 
 - Zeus does NOT trade. It only invokes skills.
-- Zeus does NOT override any god's logic or skip conditions.
+- Zeus does NOT override any god's logic or skip conditions. Corollary: a
+  god-level pause file only gates what that god's OWN runbook says it gates
+  (e.g. oracle.md's pause gates sourcing, not tending a funded live book) —
+  Zeus must not add a broader blanket skip in its own dispatch table than the
+  god's runbook actually implements, or it silently starves live positions of
+  required tending. If a dispatch condition here looks stricter than the
+  target skill's own pause/gate logic, trust the skill and dispatch it; the
+  skill will self-limit correctly.
 - Zeus does NOT persist any state. Each dispatched skill handles its own persistence.
 - If a skill fails, log the error and continue with the next skill. One god's failure does not block the others.
 - Weekend dispatches: only `/midas-scan` (heavy universe scan, research-only), `/proteus` (discretionary god — daily cadence includes weekends as research days; markets closed means no orders), `/proteus-lab` (weekly strategy lab, paper only), and `/lab` (house research lab, paper only, after `/proteus-lab`) run. No `/trinity`, `/plutus`, `/hermes`, or `/midas` on weekends (markets closed — nothing to trade). `/achilles` and `/nemesis` are folded and never dispatched.
