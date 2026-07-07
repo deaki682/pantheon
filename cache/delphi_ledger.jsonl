@@ -86,3 +86,4 @@
 {"date": "2026-07-06", "symbol": "AMZN", "side": "reconcile_fill", "shares": 0.668247, "price": 243.78, "order_id": "6a4b4778-e2ca-4f1b-91dc-b96909801deb", "state": "filled", "reason": "wind_down_liquidation"}
 {"date": "2026-07-06", "side": "dust_writeoff", "symbol": "ELV", "shares": 0.00026199999999998447, "note": "broker confirmed 0 shares held; local sleeve dust zeroed"}
 {"date": "2026-07-06", "side": "sweep", "amount": 236.6022631978908, "destination": "plutus", "note": "Delphi live retirement sweep tranche (settled portion) (operator directive 2026-07-04)"}
+{"date": "2026-07-07", "side": "sweep", "amount": 1651.14664120624, "destination": "plutus", "note": "Delphi final wind-down sweep tranche (operator directive 2026-07-04)"}
