@@ -1,0 +1,7 @@
+{
+ "paused": true,
+ "until": null,
+ "since": "2026-07-07",
+ "reason": "FROZEN after an auto-run over-deployment: the ~15:00 UTC scheduled /hermes re-bought APGE/RAMP/GBTG on top of the morning positions (doubling them, breaching the 15% per-deal cap) and added FSEA, draining buying power to ~$3.06k. Root cause: the morning orders were logged to the ledger/A/B but NOT entered into the sleeve, so the auto-run saw an empty cash-rich sleeve and re-deployed. Trims (APGE -4.5 / RAMP -16 / GBTG -64 sh) are QUEUED for the 2026-07-08 open; sleeve reconciled to the intended 6-deal $4k book. Do NOT dispatch /hermes until the trims fill and the operator lifts this. FSEA's deal terms are UNVERIFIED (the auto-run's read was lost) \u2014 verify at the next tend.",
+ "resume_when": "trims filled at the 2026-07-08 open, sleeve==broker confirmed, operator lifts explicitly"
+}
