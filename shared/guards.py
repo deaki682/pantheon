@@ -48,6 +48,38 @@ def is_live(god: str, env: Optional[dict] = None) -> bool:
     return env.get(var, "").strip().lower() == "true"
 
 
+def paused_guard(god: str, cache_dir: str = "cache") -> Optional[dict]:
+    """Return the pause record for `god` (or None). A pause is a soft HOLD — the
+    god does not run this session — distinct from the kill switch, which
+    LIQUIDATES. Reads `cache/<god>_paused.json` = {"paused": bool, "until":
+    "YYYY-MM-DD"|null, "reason": str}. Corrupt/absent → None (fail open: a torn
+    file must never wedge a god off silently)."""
+    path = os.path.join(cache_dir, f"{god.lower()}_paused.json")
+    if not os.path.exists(path):
+        return None
+    try:
+        rec = json.load(open(path))
+    except Exception:
+        return None
+    return rec if isinstance(rec, dict) else None
+
+
+def is_paused(god: str, today: Optional[str] = None, cache_dir: str = "cache") -> bool:
+    """True iff `god` is on a soft hold right now. Paused when the guard file has
+    paused=true AND (no `until`, i.e. hold-until-manually-lifted, OR today <=
+    until). `until` is a deliberate deactivation, not an auto-resume convenience —
+    omit it to require an explicit un-pause (the safe default when the reason is
+    'not ready yet', not 'busy until a date')."""
+    rec = paused_guard(god, cache_dir)
+    if not rec or not rec.get("paused"):
+        return False
+    until = rec.get("until")
+    if not until:
+        return True
+    t = today or date.today().isoformat()
+    return t <= str(until)
+
+
 # ------- Order ledger -------
 
 @dataclass

@@ -37,6 +37,16 @@ convexity/floor-hardness metric — those are retired (see Failure Modes below).
 0. **Hydrate.** `pantheon.hydrate()`. Read `cache/oracle_beliefs.md` (the forward
    worldview + open theses + what decayed) BEFORE anything else.
 
+0a. **PAUSE gate (check FIRST, before any compute).** `shared.guards.is_paused("oracle")`
+   → if True, Oracle is on a soft HOLD: **STOP immediately.** Do NOT source, read,
+   score, journal, or place anything — the whole point of the hold is to spend no
+   credits and write no pre-rebuild output. A pause is NOT a kill: touch nothing,
+   liquidate nothing (the frozen legacy cohort stays exactly as-is). Print the
+   guard's `reason` and end. (Current hold, 2026-07-07: deactivated until the
+   Stage-1 Sonnet-read cascade replaces the no-edge top-50 sliver — Oracle is
+   untestable until it reads the whole hunting ground. `cache/oracle_paused.json`,
+   `until:null` = lift explicitly; no auto-resume.)
+
 0b. **Safety gates.** `kill_switch_active()` → liquidate fresh-sleeve positions
    only (never the legacy hold) + stop. `is_live("oracle")` → if `ORACLE_LIVE` !=
    `"true"`, PAPER mode (compute + journal, mutate nothing). **Funding gate:** if

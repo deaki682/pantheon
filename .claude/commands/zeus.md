@@ -42,10 +42,16 @@ think, trade, or override any god's logic.
    ```python
    from oracle.calendar import should_run
    from achilles.season import is_earnings_season
+   from shared.guards import is_paused
    import json, os
 
-   oracle_due = should_run("cache/oracle_cadence.json", "research", 3)
-   screen_due = should_run("cache/oracle_cadence.json", "screen", 90)
+   # Oracle is on a soft HOLD (cache/oracle_paused.json) — do NOT dispatch the
+   # Oracle family (/oracle, /oracle-screen, /oracle-ghost) while paused. This
+   # spends no credits and writes no pre-Stage-1-rebuild output. (A pause is not a
+   # kill — nothing is liquidated; the frozen legacy cohort is untouched.)
+   oracle_paused = is_paused("oracle")
+   oracle_due = (not oracle_paused) and should_run("cache/oracle_cadence.json", "research", 3)
+   screen_due = (not oracle_paused) and should_run("cache/oracle_cadence.json", "screen", 90)
    midas_scan_due = should_run("cache/midas_cadence.json", "scan", 5)
    earnings_season = is_earnings_season(today)
 
