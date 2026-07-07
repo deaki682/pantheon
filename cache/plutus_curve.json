@@ -26,5 +26,15 @@
       "SPY": 751.81
     },
     "note": "Hourly Zeus monitoring pass. Delphi wind-down checked: still flat, settled_cash(today)=$0 (her remaining $1,651.15 all settles 2026-07-07), so no new sweep tranche landed this pass. Plutus funding unchanged at $236.60 settled of ~$1,888 expected. Quarter 2026Q2 rebalance stays deferred (last_quarter marker still null). No orders placed."
+  },
+  {
+    "date": "2026-07-07",
+    "timestamp": "2026-07-07T14:12:00Z",
+    "equity": 4895.22,
+    "spy": 747.655,
+    "cash": 0.0,
+    "peak_equity": 4899.9055677999995,
+    "drawdown": 0.000955,
+    "halted": false
   }
 ]
