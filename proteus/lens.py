@@ -57,8 +57,10 @@ def deep_prompt(p: dict) -> str:
         "  \"claims\": a list of { text, kind ('numeric'|'qualitative'), load_bearing (bool), sources: "
         "[ { source_type ('sec_filing'|'broker_tape'|'regulatory_docket'|'court_record'|'news'|"
         "'analyst'|'forum'|'industry_press'|'foreign_press'|'company_ir'|'other'), origin (outlet/"
-        "domain), ref (url/accession) } ] }. A load-bearing NUMBER must include a PRIMARY source "
-        "(filing/tape); a load-bearing qualitative claim needs >=2 INDEPENDENT sources.\n"
+        "domain), ref (url/accession) } ] }. EVERY load-bearing claim needs >=2 INDEPENDENT sources "
+        "(distinct outlets/domains — triangulate); a load-bearing NUMBER must ALSO include at least one "
+        "PRIMARY source among them (sec_filing/broker_tape/regulatory_docket/court_record — the web is "
+        "for leads, the tape/filing is for truth).\n"
         "  \"trail\": the ordered hops you followed (>=2) — the edge is synthesis, not a lone datapoint.\n"
         f"Name: {p.get('name','')} ({p['symbol']}). Evidence: {p}"
     )
