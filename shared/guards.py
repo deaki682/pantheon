@@ -11,9 +11,12 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from dataclasses import dataclass
 from datetime import datetime, date
 from typing import Iterable, Optional
+
+_ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}")  # pause `until` must be ISO or it's treated as null
 
 
 KILL_SWITCH_FILE = "KILL_SWITCH"
@@ -52,16 +55,25 @@ def paused_guard(god: str, cache_dir: str = "cache") -> Optional[dict]:
     """Return the pause record for `god` (or None). A pause is a soft HOLD — the
     god does not run this session — distinct from the kill switch, which
     LIQUIDATES. Reads `cache/<god>_paused.json` = {"paused": bool, "until":
-    "YYYY-MM-DD"|null, "reason": str}. Corrupt/absent → None (fail open: a torn
-    file must never wedge a god off silently)."""
+    "YYYY-MM-DD"|null, "reason": str}.
+
+    FAIL CLOSED (audit 2026-07-10): a pause file that EXISTS but cannot be
+    parsed is treated as an active hold-until-lifted pause, not ignored — these
+    files round-trip through git/hydrate constantly, and a torn freeze file
+    silently un-freezing a god mid-reconcile is the worse failure (the Hermes
+    freeze is exactly such a file). Absent file → None (not paused), unchanged."""
     path = os.path.join(cache_dir, f"{god.lower()}_paused.json")
     if not os.path.exists(path):
         return None
     try:
         rec = json.load(open(path))
     except Exception:
-        return None
-    return rec if isinstance(rec, dict) else None
+        return {"paused": True, "until": None,
+                "reason": f"UNPARSEABLE pause file {path} — failing closed; fix or delete it to resume"}
+    if not isinstance(rec, dict):
+        return {"paused": True, "until": None,
+                "reason": f"MALFORMED pause file {path} (not an object) — failing closed"}
+    return rec
 
 
 def is_paused(god: str, today: Optional[str] = None, cache_dir: str = "cache") -> bool:
@@ -69,15 +81,21 @@ def is_paused(god: str, today: Optional[str] = None, cache_dir: str = "cache") -
     paused=true AND (no `until`, i.e. hold-until-manually-lifted, OR today <=
     until). `until` is a deliberate deactivation, not an auto-resume convenience —
     omit it to require an explicit un-pause (the safe default when the reason is
-    'not ready yet', not 'busy until a date')."""
+    'not ready yet', not 'busy until a date').
+
+    A non-ISO `until` (audit 2026-07-10: '07/15/2026' compared lexicographically
+    would fail open) is treated as null — hold until explicitly lifted."""
     rec = paused_guard(god, cache_dir)
     if not rec or not rec.get("paused"):
         return False
     until = rec.get("until")
     if not until:
         return True
+    u = str(until)
+    if not _ISO_DATE.match(u):
+        return True  # unintelligible until = hold-until-lifted, never auto-resume
     t = today or date.today().isoformat()
-    return t <= str(until)
+    return t <= u
 
 
 # ------- Order ledger -------

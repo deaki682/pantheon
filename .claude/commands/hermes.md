@@ -38,6 +38,17 @@ Every announced cash deal Hermes detects is recorded ONCE with the LLM's read:
 
 0. **Hydrate.** `pantheon.hydrate()`.
 
+0a. **PAUSE gate (check FIRST — audit 2026-07-10: the freeze must hold even
+   when /hermes is invoked directly, not via Zeus).** `shared.guards.is_paused("hermes")`
+   → a pause freezes DEPLOYMENT, never abandons live money. While paused:
+   - **TEND-ONLY:** reconcile broker fills into the sleeve, mark the book, and
+     check every open deal's break-stop / completion / deal-break news — a
+     triggered break-stop or a completed deal STILL EXECUTES (those are
+     promises). Persist what changed.
+   - Do NOT detect new deals, run new LLM reads, enter anything, or top up.
+   - Print the pause `reason` and end. Only the operator lifts the freeze
+     (delete/flip `cache/hermes_paused.json`).
+
 0b. **Safety gates (live money — non-negotiable, before anything else).**
    - `shared.guards.kill_switch_active()` → if true, `book.liquidate_all(marks,
      today)` + real sells, persist, stop.

@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
 RESEARCH_INTERVAL_DAYS = 3
@@ -77,22 +77,33 @@ def _write(path: str, data: dict) -> None:
     os.replace(tmp, path)
 
 
+def _aware_utc(ts: datetime) -> datetime:
+    """Normalize any datetime to timezone-aware UTC. Cadence files in the wild
+    hold a MIX of naive ('2026-07-05T12:00:00'), offset-aware ('...+00:00'), and
+    Z-suffixed timestamps; comparing naive to aware raises TypeError, which
+    killed Zeus's whole gate block (audit 2026-07-10). Naive is assumed UTC —
+    every writer in the house stamps UTC."""
+    if ts.tzinfo is None:
+        return ts.replace(tzinfo=timezone.utc)
+    return ts.astimezone(timezone.utc)
+
+
 def mark_run(path: str, key: str, *, now: datetime | None = None) -> None:
-    now = now or datetime.utcnow()
+    now = _aware_utc(now or datetime.now(timezone.utc))
     d = _read(path)
     d[key] = now.isoformat()
     _write(path, d)
 
 
 def days_since(path: str, key: str, *, now: datetime | None = None) -> float | None:
-    now = now or datetime.utcnow()
+    now = _aware_utc(now or datetime.now(timezone.utc))
     d = _read(path)
     raw = d.get(key)
     if not raw:
         return None
     try:
-        ts = datetime.fromisoformat(raw)
-    except ValueError:
+        ts = _aware_utc(datetime.fromisoformat(raw.replace("Z", "+00:00")))
+    except (ValueError, TypeError, AttributeError):
         return None
     return (now - ts).total_seconds() / 86_400.0
 
