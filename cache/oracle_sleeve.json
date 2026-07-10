@@ -1,36 +1,51 @@
 {
-  "cash": 2227.626744999999,
-  "contributed_cash": 3950.0,
-  "cooldown_days": 31,
-  "cooldowns": {},
-  "gfv_count": 0,
-  "halted": false,
-  "name": "oracle",
-  "peak_equity": 2139.36743584575,
-  "pending_settlements": [],
-  "positions": {
-    "FULC": {
-      "avg_price": 3.72,
-      "cohort_id": "",
-      "entry_date": "2026-07-07",
-      "sector": "Healthcare",
-      "shares": 155
-    },
-    "NNDM": {
-      "avg_price": 1.46,
-      "cohort_id": "",
-      "entry_date": "2026-07-07",
-      "sector": "Technology",
-      "shares": 427
-    },
-    "SEER": {
-      "avg_price": 2.19,
-      "cohort_id": "",
-      "entry_date": "2026-07-07",
-      "sector": "Healthcare",
-      "shares": 311
-    }
+ "cash": 2227.626744999999,
+ "contributed_cash": 3950.0,
+ "cooldown_days": 31,
+ "cooldowns": {},
+ "gfv_count": 0,
+ "halted": false,
+ "name": "oracle",
+ "peak_equity": 2139.36743584575,
+ "pending_settlements": [],
+ "positions": {
+  "FULC": {
+   "avg_price": 3.72,
+   "cohort_id": "",
+   "entry_date": "2026-07-07",
+   "sector": "Healthcare",
+   "shares": 155
   },
-  "realized_pnl": 160.58,
-  "trades_count": 29
+  "NNDM": {
+   "avg_price": 1.46,
+   "cohort_id": "",
+   "entry_date": "2026-07-07",
+   "sector": "Technology",
+   "shares": 427
+  },
+  "SEER": {
+   "avg_price": 2.19,
+   "cohort_id": "",
+   "entry_date": "2026-07-07",
+   "sector": "Healthcare",
+   "shares": 311
+  }
+ },
+ "realized_pnl": 160.58,
+ "trades_count": 29,
+ "pending_rotation": {
+  "note": "operator directive 2026-07-10: sell SEER/NNDM/FULC at open, top sleeve to $4,500, buy 6-name upside book; reconcile ACTUAL fills after open, then remove this key",
+  "target_equity": 4500.0,
+  "orders": [
+   "6a50be4d-13c1-462c-bd64-91410c96e76f",
+   "6a50be63-f5b2-40c7-976c-53f758401220",
+   "6a50be72-691b-483e-9e45-d450f80d9ac7",
+   "6a50be83-8acc-466d-b493-fc8848949e36",
+   "6a50be92-e03e-4dbc-8d78-fff4908124ea",
+   "6a50beab-2832-4caf-8d8f-76a3b347df80",
+   "6a50beb9-a04f-4c2a-b521-2295cf41c7b9",
+   "6a50bec5-8ec5-421d-8b1d-2b3e6bca4bed",
+   "6a50beeb-5e02-468e-969e-1ac6b3eea33d"
+  ]
+ }
 }
