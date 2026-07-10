@@ -1,6 +1,6 @@
 {
  "name": "hermes",
- "cash": 661.49,
+ "cash": 659.56,
  "contributed_cash": 4000.0,
  "positions": {
   "ALOT": {
@@ -9,7 +9,7 @@
    "entry_price": 28.51,
    "offer_price": 29.0,
    "entry_date": "2026-07-06",
-   "expected_close": "2026-Q3 (outside 2026-11-17)",
+   "expected_close": "2026-09-30",
    "break_stop": 24.2334,
    "spy_entry": 750.99,
    "deal_type": "cash",
@@ -21,7 +21,7 @@
    "entry_price": 133.48,
    "offer_price": 135.11,
    "entry_date": "2026-07-07",
-   "expected_close": "Q3 2026",
+   "expected_close": "2026-09-30",
    "break_stop": 113.46,
    "spy_entry": 751.31,
    "deal_type": "cash",
@@ -30,14 +30,14 @@
   "RAMP": {
    "symbol": "RAMP",
    "shares": 15.0,
-   "entry_price": 37.66,
+   "entry_price": 37.71,
    "offer_price": 38.5,
    "entry_date": "2026-07-07",
    "expected_close": "2026-12-31",
-   "break_stop": 32.01,
+   "break_stop": 32.0535,
    "spy_entry": 751.31,
    "deal_type": "cash",
-   "dollars": 564.9
+   "dollars": 565.65
   },
   "GBTG": {
    "symbol": "GBTG",
@@ -45,7 +45,7 @@
    "entry_price": 9.4,
    "offer_price": 9.5,
    "entry_date": "2026-07-07",
-   "expected_close": "2H 2026",
+   "expected_close": "2026-12-31",
    "break_stop": 7.99,
    "spy_entry": 751.31,
    "deal_type": "cash",
@@ -57,7 +57,7 @@
    "entry_price": 71.78,
    "offer_price": 72.5,
    "entry_date": "2026-07-07",
-   "expected_close": "2H 2026",
+   "expected_close": "2026-08-31",
    "break_stop": 61.01,
    "spy_entry": 751.31,
    "deal_type": "cash",
@@ -67,9 +67,9 @@
    "symbol": "FSEA",
    "shares": 35.0,
    "entry_price": 16.95,
-   "offer_price": 16.95,
+   "offer_price": 17.25,
    "entry_date": "2026-07-07",
-   "expected_close": "unknown (VERIFY terms)",
+   "expected_close": "2026-09-30",
    "break_stop": 14.41,
    "spy_entry": 751.31,
    "deal_type": "cash",
@@ -77,7 +77,7 @@
   }
  },
  "closed": [],
- "realized_pnl": 0.0,
+ "realized_pnl": -1.18,
  "halted": false,
  "peak_equity": 4000.0,
  "pending_funding": null,
