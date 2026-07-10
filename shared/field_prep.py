@@ -27,6 +27,7 @@ from shared.read_cascade import build_packet
 # in $MILLIONS. Every cross-source ratio has to reconcile that, in one place.
 MCAP_DOLLARS_PER_MUSD = 1_000_000.0
 DOLLARS_PER_MUSD = 1_000_000.0
+TREND_ARTIFACT_PCT = 200.0   # |recent trend| above this = split/share-count artifact, flag + sort last
 
 
 @dataclass
@@ -121,12 +122,24 @@ def marketcap_series(daily_rows: list, *, recent_window: int = 25) -> tuple:
 
 # --- SF1 trajectories + balance-sheet floor inputs --------------------------
 def _sf1_by_ticker(sf1_rows: list) -> dict:
-    byt: dict = defaultdict(list)
+    """Group SF1 rows by ticker, ONE row per calendardate (audit 2026-07-10):
+    the ARQ pull carries restatement/amendment copies of the same quarter under
+    distinct datekeys — 575/5593 tickers — which padded trajectories with
+    duplicate quarters (a real acceleration read as a plateau) and let
+    `rows[-1]` resolve to a superseded restatement. Keep the max-datekey copy
+    per calendardate (the latest filed view of that quarter)."""
+    best: dict = defaultdict(dict)
     for r in sf1_rows:
-        if r.get("ticker"):
-            byt[r["ticker"]].append(r)
-    for rows in byt.values():
-        rows.sort(key=lambda r: (r.get("calendardate") or ""))
+        t = r.get("ticker")
+        if not t:
+            continue
+        cd = r.get("calendardate") or ""
+        prev = best[t].get(cd)
+        if prev is None or (r.get("datekey") or "") > (prev.get("datekey") or ""):
+            best[t][cd] = r
+    byt: dict = {}
+    for t, by_cd in best.items():
+        byt[t] = [by_cd[cd] for cd in sorted(by_cd)]
     return byt
 
 
@@ -151,6 +164,33 @@ def net_cash_ratio_pct(latest: dict, mcap_musd: Optional[float]) -> Optional[flo
     debt = latest.get("debt") or 0.0
     mcap_dollars = mcap_musd * MCAP_DOLLARS_PER_MUSD
     return round((float(cash) - float(debt)) / mcap_dollars * 100.0, 2)
+
+
+def screen_score(p: dict) -> float:
+    """Arm-B screen: a DETERMINISTIC, model-free trajectory composite computed
+    from packet fields alone (2026-07-10, replaces the dead lens_score). This is
+    'the aim without the reading' — revenue acceleration primary, then the
+    margin turn, then relative strength — so the A/B isolates the filing-
+    grounded reading (Opus + BEAR×3) as the only difference between arms. An
+    LLM confidence must NEVER be used here: both arms LLM-driven measures
+    nothing (audit 2026-07-10)."""
+    rev = [x for x in (p.get("revenue_trajectory") or []) if isinstance(x, (int, float))]
+    mgn = [x for x in (p.get("margin_trajectory") or []) if isinstance(x, (int, float))]
+    score = 0.0
+    if len(rev) >= 3 and rev[-2] > 0 and rev[-3] > 0:
+        g1 = rev[-1] / rev[-2] - 1.0
+        g0 = rev[-2] / rev[-3] - 1.0
+        score += max(-1.0, min(1.0, g1))                    # growth
+        score += 0.5 * max(-1.0, min(1.0, g1 - g0))         # acceleration
+    if len(mgn) >= 2:
+        score += max(-1.0, min(1.0, mgn[-1] - mgn[-2]))     # margin delta
+        if mgn[-2] < 0.0 <= mgn[-1]:
+            score += 0.5                                     # the sign flip itself
+    rt = p.get("recent_trend_pct")
+    spy = p.get("spy_recent_trend_pct") or 0.0
+    if rt is not None and abs(rt) <= TREND_ARTIFACT_PCT:
+        score += max(-0.5, min(0.5, (rt - spy) / 100.0))    # relative strength
+    return round(score, 4)
 
 
 # --- assembly ---------------------------------------------------------------
@@ -215,6 +255,9 @@ def assemble_field(sf1_rows: list, daily_rows: list, meta_rows: list, *,
             spy_recent_trend_pct=round(median_recent * 100.0, 2),
             as_of=as_of, location=m.get("location") or "", **extra))
 
+    # names with a live marketcap but no SF1 fundamentals never become packets —
+    # count them (audit 2026-07-10: 141 vanished silently vs the docstring's claim)
+    drops["no_sf1"] = sum(1 for t in mcap_musd if t not in byt)
     coverage = {"as_of": as_of, "n_packets": len(packets),
                 "n_sf1_tickers": len(byt), "drops": drops,
                 "median_recent_trend_pct": round(median_recent * 100.0, 2),
@@ -225,7 +268,19 @@ def assemble_field(sf1_rows: list, daily_rows: list, meta_rows: list, *,
                             "min_mcap_musd": opt.min_mcap_musd, "max_mcap_musd": opt.max_mcap_musd,
                             "revenue_quarters": opt.revenue_quarters}}
     # order best-known-first so a budget-bound cascade reads the liveliest names
-    # first; the ordering is a hint, never a filter (every packet is still present)
-    packets.sort(key=lambda p: (p.get("recent_trend_pct") is None,
-                                -(p.get("recent_trend_pct") or 0.0)))
+    # first; the ordering is a hint, never a filter (every packet is still present).
+    # |trend| > TREND_ARTIFACT_PCT is a reverse-split / thin-float / share-count
+    # artifact (SMX +3275%): flag it and sort it LAST, never first (audit
+    # 2026-07-10 — garbage names were occupying the cheapest read slots).
+    for p in packets:
+        rt = p.get("recent_trend_pct")
+        if rt is not None and abs(rt) > TREND_ARTIFACT_PCT:
+            p["trend_artifact"] = True
+
+    def _order(p):
+        rt = p.get("recent_trend_pct")
+        junk = rt is None or p.get("trend_artifact", False)
+        return (junk, -(rt or 0.0) if not junk else 0.0)
+
+    packets.sort(key=_order)
     return {"packets": packets, "coverage": coverage}

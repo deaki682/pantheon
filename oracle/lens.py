@@ -68,7 +68,11 @@ def deep_prompt(p: dict) -> str:
         "(EXACTLY one of: dilution_event, filing_event, fundamental_break, price_level, thesis_date), "
         "kill_value, adversarial (the bear case), citations (>=1 primary SEC filing), current_price }\n"
         "  \"blowup\": { going_concern, fraud, delisting }  (booleans)\n"
-        "  \"bears\": a list of >=3 INDEPENDENT critiques, each { critique_type (EXACTLY one of: "
+        "  \"bears\": a list of >=3 INDEPENDENT critiques — AT LEAST ONE of a FATAL type "
+        "(faked_earnings, guidance_contradiction, quality_of_deleveraging, one_time_driver, "
+        "going_concern, secular_decline, accounting_flag): the attack MUST test whether the "
+        "inflection is a mirage (a one-time gain, an acquisition bump, cooked books) — a bear "
+        "pass with only soft critiques is refused. Each critique { critique_type (EXACTLY one of: "
         "accounting_flag, competitive_erosion, demand_softening, dilution_overhang, faked_earnings, "
         "going_concern, guidance_contradiction, one_time_driver, quality_of_deleveraging, "
         "secular_decline, valuation_priced_in, other), critique (the specific "
@@ -90,6 +94,12 @@ def deep_parse(raw: dict, p: dict) -> dict:
     try:
         # symbol is authoritative from the packet, not the model's echo of it
         body = {k: v for k, v in raw["dossier"].items() if k != "symbol"}
+        # recent_runup_pct is authoritative from PACKET DATA, never the model
+        # (audit 2026-07-10: deep_prompt never asked for it, so it defaulted to
+        # 0.0 and the already-run guard was vacuous in production). The packet's
+        # recent_trend_pct is a percentage; ALREADY_RUN_CAP compares a fraction.
+        if "recent_runup_pct" not in body and p.get("recent_trend_pct") is not None:
+            body["recent_runup_pct"] = max(0.0, float(p["recent_trend_pct"]) / 100.0)
         d = make_upside_dossier(p["symbol"], **body)
         b = raw.get("blowup") or {}
         blowup_check(d, going_concern=bool(b.get("going_concern")),

@@ -15,13 +15,24 @@ import json
 import os
 from shared.gauntlet import convexity_stats
 
-AB_PATH = "cache/oracle_ab.json"
+# audit 2026-07-10: the module wrote cache/oracle_ab.json while the spec/runbook
+# named cache/oracle_upside_ab.json (which held unparseable hand-written prose) —
+# the A/B state the checkpoint judges was a file the code never read. One path,
+# the spec's; the legacy rounds were migrated in, the prose archived to
+# cache/oracle_upside_ab_narrative_legacy.json.
+AB_PATH = "cache/oracle_upside_ab.json"
+CALIBRATION_PATH = "cache/oracle_upside_calibration.json"
 
 
 def load_ab(path: str = AB_PATH) -> dict:
     if not os.path.exists(path):
         return {"candidates": [], "graded": []}
-    return json.load(open(path))
+    d = json.load(open(path))
+    if not isinstance(d, dict) or "candidates" not in d:
+        raise ValueError(
+            f"{path} is not module-schema A/B state (expected candidates/graded keys) — "
+            "migrate or archive it; never silently start over")
+    return d
 
 
 def save_ab(ab: dict, path: str = AB_PATH) -> None:
@@ -32,10 +43,25 @@ def save_ab(ab: dict, path: str = AB_PATH) -> None:
 def record_selection(ab: dict, *, round_id: str, date: str, candidates: list,
                      baseline_n: int = 8) -> dict:
     """Record a selection round. `candidates`: list of dicts each with symbol,
-    lens_score, llm_selected(bool), conviction, floor_pct, upside_x,
-    entry_price, spy_entry, catalyst. The mechanical Arm-B baseline is the
-    top-`baseline_n` by lens_score (marked arm_b). Deduped on symbol+round."""
+    lens_score (the DETERMINISTIC screen score — for the cascade pipeline use
+    `shared.field_prep.screen_score(packet)`, never an LLM confidence: both arms
+    LLM-driven measures nothing), llm_selected(bool), conviction, upside_x,
+    entry_price, spy_entry, catalyst, and (cascade) inflection_type +
+    horizon_months. The mechanical Arm-B baseline is the top-`baseline_n` by
+    lens_score (marked arm_b). Deduped on symbol+round.
+
+    VALIDATES (audit 2026-07-10): `llm_selected` must be present explicitly and
+    entry marks must be real — a raw cascade survivor passed straight in used to
+    default llm_selected=False / entry 0.0, silently corrupting Arm A to empty
+    and creating permanently ungradable rows."""
     existing = {(c["symbol"], c["round_id"]) for c in ab["candidates"]}
+    for c in candidates:
+        if "llm_selected" not in c:
+            raise ValueError(f"{c.get('symbol')}: candidate missing explicit llm_selected "
+                             "(map survivors to the candidate schema; do not pass raw)")
+        if not float(c.get("entry_price") or 0) or not float(c.get("spy_entry") or 0):
+            raise ValueError(f"{c.get('symbol')}: entry_price/spy_entry required at "
+                             "selection (grading later cannot backfill an entry mark)")
     ranked = sorted(candidates, key=lambda c: -float(c.get("lens_score", 0)))
     baseline = {c["symbol"] for c in ranked[:baseline_n]}
     for c in candidates:
@@ -48,11 +74,13 @@ def record_selection(ab: dict, *, round_id: str, date: str, candidates: list,
         ab["candidates"].append({
             "round_id": round_id, "date": date, "symbol": c["symbol"].upper(),
             "lens_score": round(float(c.get("lens_score", 0)), 4),
-            "arm_a_llm": bool(c.get("llm_selected", False)),
+            "arm_a_llm": bool(c["llm_selected"]),
             "arm_b_screen": c["symbol"] in baseline,
             "conviction": c.get("conviction"),
             "floor_pct": c.get("floor_pct"), "upside_x": c.get("upside_x"),
             "catalyst": c.get("catalyst", ""),
+            "inflection_type": c.get("inflection_type", ""),
+            "horizon_months": c.get("horizon_months"),
             "entry_price": round(float(c.get("entry_price", 0)), 4),
             "spy_entry": round(float(c.get("spy_entry", 0)), 4), "resolved": False,
         })
@@ -79,11 +107,58 @@ def record_grade(ab: dict, *, round_id: str, symbol: str, exit_price: float,
     ab["graded"].append({
         **{k: c[k] for k in ("round_id", "symbol", "arm_a_llm", "arm_b_screen",
                              "lens_score", "conviction", "floor_pct", "upside_x")},
+        "inflection_type": c.get("inflection_type", ""),
+        "horizon_months": c.get("horizon_months"),
         "exit_price": round(float(exit_price), 4), "exit_date": exit_date,
         "net_return": round(net, 6), "spy_return": round(spy, 6),
         "excess": round(net - spy, 6),
     })
     return ab
+
+
+def due_for_grade(ab: dict, today: str) -> list[dict]:
+    """Every UNRESOLVED candidate whose horizon has passed — BOTH arms (audit
+    2026-07-10: if only held names grade, Arm B is truncated exactly on the
+    discriminating set and the lift is biased). Rows without a horizon are due
+    immediately at 12 months from entry as the mandate midpoint."""
+    from datetime import date as _d, timedelta as _td
+    out = []
+    for c in ab["candidates"]:
+        if c.get("resolved"):
+            continue
+        try:
+            y, m, dd = map(int, (c.get("date") or "")[:10].split("-"))
+            months = float(c.get("horizon_months") or 12.0)
+            due = _d(y, m, dd) + _td(days=int(months * 30.44))
+            if due.isoformat() <= today:
+                out.append(c)
+        except (ValueError, TypeError):
+            out.append(c)   # malformed date never exempts a row — surface it
+    return out
+
+
+def update_calibration(ab: dict, path: str = CALIBRATION_PATH) -> dict:
+    """STAGE-7 MEMORY WRITER (audit 2026-07-10: `calib_weight` read this file
+    but nothing ever wrote it — the calibration term was a frozen 0.5 constant
+    and the learn-loop was inert). Aggregate graded rows by inflection_type into
+    {type: {n, hit_rate, mean_lift}} and persist. `calib_weight`'s own n<5
+    shrinkage keeps a thin type at neutral 0.5."""
+    agg: dict = {}
+    for g in ab["graded"]:
+        it = (g.get("inflection_type") or "").strip().lower()
+        if not it:
+            continue
+        row = agg.setdefault(it, {"n": 0, "hits": 0, "lift_sum": 0.0})
+        row["n"] += 1
+        row["hits"] += 1 if float(g.get("excess") or 0) > 0 else 0
+        row["lift_sum"] += float(g.get("excess") or 0)
+    out = {it: {"n": r["n"],
+                "hit_rate": round(r["hits"] / r["n"], 4),
+                "mean_lift": round(r["lift_sum"] / r["n"], 6)}
+           for it, r in agg.items() if r["n"] > 0}
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    json.dump(out, open(path, "w"), indent=1)
+    return out
 
 
 def llm_lift(ab: dict) -> dict:
@@ -107,8 +182,18 @@ def llm_lift(ab: dict) -> dict:
     else:
         a_weighted = A.get("expectancy", 0.0) if a else None
     lift = (a_weighted - B.get("expectancy", 0.0)) if (a and b) else None
+    # survivorship guard (audit 2026-07-10): unresolved Arm-B rows mean the
+    # screen arm is truncated exactly on the discriminating set — surface it
+    # loudly; the checkpoint must not trust a lift while these are non-zero.
+    unresolved_b = sum(1 for c in ab["candidates"]
+                       if not c.get("resolved") and c.get("arm_b_screen"))
+    unresolved_a = sum(1 for c in ab["candidates"]
+                       if not c.get("resolved") and c.get("arm_a_llm"))
     return {
         "n_graded": len(g),
+        "unresolved_arm_b": unresolved_b,
+        "unresolved_arm_a": unresolved_a,
+        "lift_trustworthy": unresolved_b == 0,
         "arm_A_dossier": A,
         "arm_A_conviction_weighted_expectancy": round(a_weighted, 4) if a_weighted is not None else None,
         "arm_B_screen": B,
