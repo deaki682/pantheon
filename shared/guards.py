@@ -107,6 +107,12 @@ class OrderRecord:
     side: str  # "buy" | "sell"
     dollars: float
     date: str  # YYYY-MM-DD
+    # Fill-fidelity fields (audit 2026-07-10: a ledger of placement notionals
+    # cannot reconstruct cash or shares — record reality, not intent). Optional
+    # for backward compatibility with pre-existing JSONL rows.
+    shares: Optional[float] = None   # actual filled shares
+    price: Optional[float] = None    # actual fill price
+    status: str = "placed"           # placed | filled | cancelled
 
 
 def append_order(path: str, record: OrderRecord) -> None:

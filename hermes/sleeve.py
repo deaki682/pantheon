@@ -16,13 +16,18 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from dataclasses import dataclass, asdict, field
 from datetime import date as _date
 from typing import Optional
 
+from shared.guards import OrderRecord, append_order, already_placed_today, read_ledger
+
 SLEEVE_PATH = "cache/hermes_sleeve.json"
 LEDGER_PATH = "cache/hermes_ledger.jsonl"
 CURVE_PATH = "cache/hermes_curve.json"
+
+_ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 PER_DEAL_CAP = 0.15        # no single deal above 15% of equity
 MAX_CONCURRENT = 10        # diversify across deals; one break must be survivable
@@ -152,7 +157,9 @@ class HermesBook:
     def max_deal_dollars(self, equity: float) -> float:
         return PER_DEAL_CAP * equity
 
-    def can_enter(self, symbol: str, dollars: float, equity: float) -> tuple[bool, str]:
+    def can_enter(self, symbol: str, dollars: float, equity: float,
+                  today: Optional[str] = None,
+                  ledger_path: str = LEDGER_PATH) -> tuple[bool, str]:
         if self.halted:
             return False, "book halted"
         if not self.is_funded():
@@ -165,15 +172,35 @@ class HermesBook:
             return False, "exceeds available cash"
         if dollars > self.max_deal_dollars(equity) + 1e-6:
             return False, f"exceeds per-deal cap ({PER_DEAL_CAP:.0%} of equity)"
+        # Ledger-aware duplicate guard (audit 2026-07-10: the incident's morning
+        # buys were IN the ledger when the auto-run re-bought them — the sleeve
+        # was the corrupted state, the ledger was the honest one; consult it).
+        if today and os.path.exists(ledger_path) and already_placed_today(
+                read_ledger(ledger_path), symbol, "buy", today):
+            return False, f"a {symbol} buy is already in the ledger today — reconcile before re-entering"
         return True, "ok"
 
     # -- trades (record ACTUAL broker fills; journal/A-B record comes first) --
+    # ATOMIC DOOR (audit 2026-07-10, the incident's root cause): when an
+    # `order_id` is passed, enter/exit append the ledger row AND save the sleeve
+    # to disk inside the same call — an order can no longer exist at the broker
+    # with the sleeve un-mutated on disk (the state the auto-run exploited).
+    # Paper/test paths omit order_id and touch no files.
     def enter(self, *, symbol: str, shares: float, price: float, offer_price: float,
               date: str, expected_close: str, spy_price: float, equity: float,
-              deal_type: str = "cash") -> DealPosition:
+              deal_type: str = "cash", order_id: Optional[str] = None,
+              sleeve_path: str = SLEEVE_PATH, ledger_path: str = LEDGER_PATH) -> DealPosition:
         symbol = symbol.upper()
+        if deal_type != "cash":
+            raise HermesError(
+                f"{symbol}: deal_type {deal_type!r} refused — Hermes trades CASH "
+                "mergers only (a stock deal has no contractual dollar floor)")
+        if not _ISO_DATE.match(expected_close or ""):
+            raise HermesError(
+                f"{symbol}: expected_close {expected_close!r} must be ISO YYYY-MM-DD "
+                "(best estimate; 'Q3 2026'-style strings made past_close() inert — audit 2026-07-10)")
         dollars = shares * price
-        ok, why = self.can_enter(symbol, dollars, equity)
+        ok, why = self.can_enter(symbol, dollars, equity, today=date, ledger_path=ledger_path)
         if not ok:
             raise HermesError(f"{symbol}: cannot enter — {why}")
         spread = offer_price / price - 1.0 if price > 0 else -1.0
@@ -188,10 +215,16 @@ class HermesBook:
                            break_stop=round(price * (1 - BREAK_STOP_PCT), 4),
                            spy_entry=spy_price, deal_type=deal_type, dollars=dollars)
         self.positions[symbol] = pos
+        if order_id is not None:
+            append_order(ledger_path, OrderRecord(
+                order_id=order_id, symbol=symbol, side="buy", dollars=dollars,
+                date=date, shares=shares, price=price, status="filled"))
+            self.save(sleeve_path)
         return pos
 
     def exit(self, *, symbol: str, price: float, date: str, spy_price: float,
-             outcome: str) -> ClosedDeal:
+             outcome: str, order_id: Optional[str] = None,
+             sleeve_path: str = SLEEVE_PATH, ledger_path: str = LEDGER_PATH) -> ClosedDeal:
         symbol = symbol.upper()
         if symbol not in self.positions:
             raise HermesError(f"{symbol}: no open deal to exit")
@@ -206,6 +239,11 @@ class HermesBook:
                        outcome=outcome, dollars=p.dollars)
         self.closed.append(t)
         self.realized_pnl += proceeds - p.dollars
+        if order_id is not None:
+            append_order(ledger_path, OrderRecord(
+                order_id=order_id, symbol=symbol, side="sell", dollars=proceeds,
+                date=date, shares=p.shares, price=price, status="filled"))
+            self.save(sleeve_path)
         return t
 
     def break_triggered(self, marks: dict) -> list[str]:
@@ -220,12 +258,25 @@ class HermesBook:
 
     def past_close(self, today: str) -> list[str]:
         """Deals past their expected close date that haven't resolved — flag for
-        a manual look (deal delayed, or the close/delist needs reconciling)."""
+        a manual look (deal delayed, or the close/delist needs reconciling).
+        An UNPARSEABLE expected_close is also flagged (audit 2026-07-10: 'Q3
+        2026'-style strings compared lexicographically > any ISO date, so a
+        stalled deal would never get its mandated look)."""
         out = []
         for s, p in self.positions.items():
-            if p.expected_close and p.expected_close < today:
+            ec = p.expected_close or ""
+            if not _ISO_DATE.match(ec):
+                out.append(s)          # unintelligible date = needs a look, not a skip
+            elif ec < today:
                 out.append(s)
         return out
+
+    def missing_marks(self, marks: dict) -> list[str]:
+        """Open positions with NO quote in `marks`. equity()/break_triggered()
+        fall back to entry_price for a missing mark, which silently shows zero
+        loss (audit 2026-07-10) — the tend liturgy must treat a non-empty result
+        here as a must-refetch before trusting any breaker/break-stop answer."""
+        return [s for s in self.positions if s not in marks]
 
     def liquidate_all(self, marks: dict, today: str) -> list[tuple]:
         """Kill-switch path."""
@@ -238,3 +289,49 @@ class HermesBook:
             sold.append((s, shares, px))
         self.halted = True
         return sold
+
+
+def hermes_reconcile(book: HermesBook, broker_shares: dict,
+                     ledger_path: str = LEDGER_PATH) -> list[str]:
+    """TWO-SIDED, Hermes-scoped reconcile (audit 2026-07-10). The house-wide
+    `pre_trade_check` is deliberately one-sided — `broker > sleeve` is waved
+    through as personal overlap — but that excuse NEVER applies to a symbol in
+    Hermes's own ledger: god-bought shares the sleeve doesn't know about are
+    exactly the orders-ledgered-but-not-sleeved incident state. Returns a list
+    of human-readable mismatches; the runbook refuses ALL new entries while it
+    is non-empty. Legacy ledger rows without fill shares are noted, not guessed."""
+    problems: list[str] = []
+    net: dict = {}
+    legacy: set = set()
+    if os.path.exists(ledger_path):
+        for line in open(ledger_path):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                r = json.loads(line)
+            except json.JSONDecodeError:
+                problems.append(f"ledger: unparseable row {line[:60]!r}")
+                continue
+            sym = (r.get("symbol") or "").upper()
+            if not sym or r.get("status") == "cancelled":
+                continue
+            sh = r.get("shares")
+            if sh is None:
+                legacy.add(sym)     # placement-notional row; can't replay shares
+                continue
+            net[sym] = net.get(sym, 0.0) + (float(sh) if r.get("side") == "buy" else -float(sh))
+    for sym in sorted(set(net) | set(book.positions)):
+        sleeve_sh = book.positions[sym].shares if sym in book.positions else 0.0
+        if sym in net and abs(net[sym] - sleeve_sh) > 1e-4:
+            problems.append(
+                f"{sym}: ledger net {net[sym]:.4f} sh != sleeve {sleeve_sh:.4f} sh")
+        broker_sh = float(broker_shares.get(sym, 0.0))
+        if sleeve_sh - broker_sh > 1e-4:
+            problems.append(f"{sym}: sleeve {sleeve_sh:.4f} sh > broker {broker_sh:.4f} sh (missing shares)")
+        if sym not in legacy and sym in net and broker_sh - max(sleeve_sh, 0.0) > 1e-4 \
+                and broker_sh - net.get(sym, 0.0) > 1e-4:
+            problems.append(
+                f"{sym}: broker {broker_sh:.4f} sh exceeds both sleeve and ledger — "
+                "god-bought shares unaccounted for (the incident signature)")
+    return problems

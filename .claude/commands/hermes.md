@@ -140,17 +140,44 @@ Every announced cash deal Hermes detects is recorded ONCE with the LLM's read:
      arb edge left (that's topping-bid speculation, not arb); don't enter a spent
      spread. Enter for the remaining spread, not after it's gone.
    - Fetch the live quote + SPY, `get_equity_tradability`.
-   - Place a fractional-share market/limit buy (`place_equity_order`), append to
-     `cache/hermes_ledger.jsonl` (`shared.guards.append_order`), `book.enter(...)`
-     with the ACTUAL fill (sets the break-stop automatically). If the fill is
-     pending at session end, record the order and enter the book next session.
+   - **The ATOMIC order flow (audit 2026-07-10 — this ordering is the incident
+     fix, never deviate):**
+     1. `append_order(LEDGER_PATH, OrderRecord(order_id="intent", symbol, "buy",
+        dollars, date, status="placed"))` — the INTENT row goes in BEFORE the
+        broker sees the order, so a crash mid-placement leaves a ledger claim,
+        never an invisible order.
+     2. `place_equity_order` (fractional market/limit buy).
+     3. On the fill: `book.enter(..., order_id=<broker order id>)` — the atomic
+        door appends the FILLED ledger row (actual shares + fill price) and
+        SAVES the sleeve to disk in the same call. An order can no longer exist
+        at the broker with the sleeve un-mutated (the state the auto-run
+        exploited). `enter` also refuses non-cash deals, non-ISO
+        `expected_close`, and a same-day ledgered duplicate.
+     4. If the fill is pending at session end: the intent row already carries
+        the claim; next session's step-0b reconcile picks the fill up.
+   - **Two-sided reconcile before ANY entry:** `hermes.sleeve.hermes_reconcile(
+     book, broker_shares)` must return [] — it replays the ledger's fill rows
+     against the sleeve and broker, and the "personal overlap" excuse never
+     applies to a symbol Hermes's own ledger claims. Non-empty = HALT entries,
+     reconcile first.
+   - **Marks discipline:** `book.missing_marks(marks)` must be [] before
+     trusting any break-stop/breaker answer — a missing quote silently marks a
+     position at entry (zero loss).
 
 5. **Mark + curve.** `book.equity(marks)`, append `{date, equity, spy}` to
    `cache/hermes_curve.json`.
 
-6. **Grade the A/B.** `hermes.ab.llm_lift(ab)` — report Arm A (LLM kept) vs Arm
-   B (all detected) convexity + the lift once a few deals have graded. This is
-   the headline the checkpoint judges.
+6. **Grade the A/B.**
+   - **Sweep the dropped deals FIRST (audit 2026-07-10 — mandatory, every
+     session):** `hermes.ab.sweep_unresolved(ab, marks=…, spy_price=…, today=…)`
+     paper-grades every unresolved detection past its expected close at the
+     market price — fetch quotes for ALL unresolved detected symbols, not just
+     held ones. Without this only kept deals grade, and the lift is biased on
+     the exact half that matters most (avoidance is the LLM's one measured-real
+     skill).
+   - Then `hermes.ab.llm_lift(ab)` — report Arm A (LLM kept) vs Arm B (all
+     detected) convexity + the lift once a few deals have graded. This is the
+     headline the checkpoint judges.
 
 7. **Persist.** `pantheon.persist("hermes", {"cache/hermes_sleeve.json": …,
    "cache/hermes_ledger.jsonl": …, "cache/hermes_curve.json": …,

@@ -89,6 +89,34 @@ def record_resolution(ab: dict, *, symbol: str, exit_price: float, exit_date: st
     return ab
 
 
+def sweep_unresolved(ab: dict, *, marks: dict, spy_price: float, today: str) -> list[str]:
+    """PAPER-grade every unresolved detection past its expected_close (audit
+    2026-07-10: only the live tend path resolved deals, so the LLM's DROPPED
+    deals never graded — survivorship that biases the lift toward zero, on the
+    exact half of the experiment that matters most: avoidance is the LLM's one
+    measured-real skill). For each detection whose expected_close < today (or is
+    unparseable/blank — never let a malformed date exempt a row) and whose
+    symbol has a mark, resolve at the market price with outcome
+    'paper_swept_past_close'. A missing mark leaves the row unresolved and
+    reports it, loudly, rather than guessing. Returns the swept symbols."""
+    swept: list[str] = []
+    for det in ab["detected"]:
+        if det.get("resolved"):
+            continue
+        ec = det.get("expected_close") or ""
+        iso = len(ec) >= 10 and ec[4:5] == "-" and ec[7:8] == "-"
+        if iso and ec[:10] >= today:
+            continue                      # not yet due
+        px = marks.get(det["symbol"])
+        if px is None:
+            continue                      # caller sees it still unresolved
+        record_resolution(ab, symbol=det["symbol"], exit_price=float(px),
+                          exit_date=today, spy_exit=float(spy_price),
+                          outcome="paper_swept_past_close")
+        swept.append(det["symbol"])
+    return swept
+
+
 def llm_lift(ab: dict) -> dict:
     """The headline: convexity of Arm A (LLM kept) vs Arm B (all detected), and
     the lift. Meaningful once a handful of deals have graded."""
