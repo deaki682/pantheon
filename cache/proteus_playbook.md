@@ -78,6 +78,15 @@ experiment — the prediction is about MECHANICS, not price). Kill-spec
 stands: actionable supply <12/yr, OR RH can't deliver un-prorated
 acceptance, OR median $/event <$150 → kill the hunting ground.
 
+**OPERATOR DEPENDENCY (flagged to operator 2026-07-11, acknowledged):
+the tender ELECTION has no API path** — the agentic toolset has no
+corporate-action endpoint. I buy the shares; the OPERATOR submits the
+tender instruction in-app/via RH support. On a live deal: notify the
+operator EARLY with symbol, share count, the odd-lot election language
+quoted from the offer document, and the broker cutoff (assume 1–3 days
+before offer expiry). Build the timeline around the operator's
+availability, not the offer's last day.
+
 ## Settled-cash discipline (cash account physics)
 
 - Before ANY order: settled buying power ≥ order size (2026-07-11 reading:
