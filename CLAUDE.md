@@ -120,7 +120,8 @@ self-modification that cannot break other gods** — he may rewrite anything
 he owns and touch shared code, gated by the full test suite staying green
 (never weakening tests he doesn't own), commits to `main` prefixed
 `proteus:`. The invariant floor (bounded loss, kill-switch-first, integrity
-gate, honest grading) is the ONLY thing he may never rewrite. No fixed
+gate, honest grading, and the Effort Law — never lazy, re-issued for v2
+2026-07-11) is the ONLY thing he may never rewrite. No fixed
 checkpoint — he lives at the operator's pleasure; the kill switch is the
 only termination; his graded record is his defense. Owns `cache/proteus_*`,
 `proteus/`, and `tests/test_proteus_*.py`. `/proteus-lab` retired with v1.
