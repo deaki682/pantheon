@@ -348,12 +348,14 @@ def test_sizing_empty():
 
 
 def _weak_bears():
-    # Survives (no fatal type, margin > 0) but less decisively than _good_bears:
-    # one non-fatal critique is only PARTIAL (uncited), so the margin is smaller.
+    # Survives (the one fatal-type critique is fully survived, margin > 0) but
+    # less decisively than _good_bears: a non-fatal critique is only PARTIAL
+    # (uncited), so the margin is smaller. (2026-07-10: resolve_bears now
+    # REQUIRES a fatal-type critique to be raised — a soft-only pass is refused.)
     return [
-        {"critique_type": "valuation_priced_in",
-         "critique": "At the current multiple a good chunk of the ramp may already be discounted.",
-         "severity": 0.5, "defense": "Comps sit ~3x on similar growth; backlog is disclosed in the 10-K.",
+        {"critique_type": "one_time_driver",
+         "critique": "The margin improvement could be a one-time credit rather than structural gain.",
+         "severity": 0.5, "defense": "The 10-Q reconciles margins ex-credit still up +180bps on mix; the credit is $1M against a $12M gross-profit gain.",
          "defense_citations": ["10-K FY2025 (accession 0001234567-26-000045)"], "concede": False},
         {"critique_type": "competitive_erosion",
          "critique": "A larger vendor could bundle a competing product and pressure win rates.",
