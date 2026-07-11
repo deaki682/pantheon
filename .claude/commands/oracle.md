@@ -129,19 +129,34 @@ convexity/floor-hardness metric — those are retired (see Failure Modes below).
    hold the eventual +200% name through a −25% wobble; that patience IS the edge.
    Journal every hold/exit with the reason.
 
-6. **STAGE 6 · Verdict + A/B (DETERMINISTIC).** At each name's 6/12/24-month mark
-   or exit, grade `fwd_return(pick) − fwd_return(SPY)` and vs its own falsifiable
-   prediction. Record the A/B (`cache/oracle_upside_ab.json`): Arm A = the book
-   (the reading), Arm B = the spotlight top-N (the screen). **LLM-lift = A − B**
-   answers: did the reading beat the aim? Raw forward return vs SPY is the headline
-   score; the A/B says whether the LLM judgment earned its keep.
+6. **STAGE 6 · Verdict + A/B (DETERMINISTIC — wired 2026-07-10; the audit found
+   this layer connected to nothing).** The mechanics are `oracle.ab` and the ONE
+   state file is `cache/oracle_upside_ab.json`:
+   - **At funding:** `record_selection(ab, round_id=…, date=…, candidates=[…])`
+     for EVERY name that entered the deep tier (not just the funded book — the
+     passed names ARE Arm B). Each candidate carries `llm_selected` (in the
+     funded book?), `lens_score = shared.field_prep.screen_score(packet)` (the
+     DETERMINISTIC trajectory screen — never an LLM confidence; both arms
+     LLM-driven measures nothing), `conviction = prob_upside`, `upside_x`,
+     `inflection_type`, `horizon_months`, and REAL `entry_price`/`spy_entry`
+     captured that day (record_selection refuses rows without them).
+   - **Every session:** `due_for_grade(ab, today)` → grade EVERY due name, BOTH
+     arms (`record_grade` with a live quote — the screen's passed names are
+     paper-graded, never dropped; an ungraded Arm B is survivorship bias on the
+     discriminating set).
+   - **The headline:** `llm_lift(ab)` — trust it only when
+     `lift_trustworthy` (no unresolved Arm-B rows). **LLM-lift = A − B**
+     answers: did the reading beat the aim?
 
-7. **STAGE 7 · Memory (DETERMINISTIC + prose).** Update
+7. **STAGE 7 · Memory (DETERMINISTIC + prose).** After any grading,
+   `oracle.ab.update_calibration(ab)` writes
    `cache/oracle_upside_calibration.json` (hit-rate + mean lift per
-   inflection_type) from the grades — it feeds Stage-3 ranking and Stage-4 sizing
-   next session. Rewrite `cache/oracle_beliefs.md` (worldview, open theses,
-   lessons, decayed edges). Rotate: down-weight an inflection_type or theme whose
-   edge decayed. The loop is what sharpens the engine.
+   inflection_type) — the WRITER the audit found missing (calib_weight read a
+   file nothing produced; the learn-loop was inert). It feeds Stage-3 ranking
+   and Stage-4 sizing next session via `calib_weight` (n<5 stays neutral 0.5).
+   Rewrite `cache/oracle_beliefs.md` (worldview, open theses, lessons, decayed
+   edges). Rotate: down-weight an inflection_type or theme whose edge decayed.
+   The loop is what sharpens the engine.
 
 8. **Persist.** Field + candidates + dossiers + book + A/B + calibration + beliefs
    + curve → `pantheon.persist("oracle", {...})` with `cache/oracle_`-prefixed keys.
@@ -152,6 +167,20 @@ convexity/floor-hardness metric — those are retired (see Failure Modes below).
 orders, append `cache/oracle_ledger.jsonl`, update the sleeve with ACTUAL fills.
 Journal every decision (buy/hold/pass) with its thesis + typed kill. Never add a
 broker position to the sleeve without a matching ledger entry.
+
+**Execution discipline (audit 2026-07-10):**
+- **Settled cash only:** size the book against SETTLED cash, never total
+  equity — `equity()` includes unsettled proceeds and `buy()` only counts a
+  GFV instead of blocking. A skipped day beats a good-faith violation.
+- **Liquidity gate:** before ANY order, `get_equity_tradability` on every
+  target, and skip (leave as cash) any name whose dollar order is large vs its
+  typical volume — the hunting ground is small/micro-caps and `size_upside_book`
+  does not know liquidity.
+- **Cluster tags:** every dossier handed to `size_upside_book` MUST carry a
+  non-empty `sector` (and `theme` when known) — with both empty the 40%
+  correlation-cluster cap silently degrades to per-symbol and cannot bind
+  (audit: two same-theme names sized to 60% combined). Enrich from the field
+  packet before sizing.
 
 ## The checkpoint
 

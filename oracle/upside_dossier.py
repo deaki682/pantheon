@@ -61,6 +61,10 @@ CRITIQUE_TYPES = {
 FATAL_CRITIQUE_TYPES = {
     "faked_earnings", "guidance_contradiction", "quality_of_deleveraging",
     "one_time_driver", "going_concern", "secular_decline",
+    # audit 2026-07-10: `accounting_flag` was a walkable downgrade seam — the
+    # same books-quality problem typed accounting_flag instead of faked_earnings
+    # could be CONCEDED at severity 1.0 and still fund on the margin math.
+    "accounting_flag",
 }
 MIN_BEARS = 3               # attack from ≥3 INDEPENDENT angles or it isn't a bear pass
 
@@ -111,17 +115,48 @@ _ACC_NO = _re.compile(r"\b\d{10}-\d{2}-\d{6}\b")
 _FORM_RE = _re.compile(r"(?<![a-z0-9])(?:" + "|".join(_PRIMARY_FORM_CODES) + r")(?![a-z0-9])")
 
 
-def is_primary_citation(c: str) -> bool:
+def is_primary_citation(c) -> bool:
     """True if the citation points at a real SEC filing (EDGAR/sec.gov URL, a real
     accession number, or a filing-type code on a word boundary) — not a snapshot
     (Robinhood/Yahoo) or a secondary recap. Word-boundary matching stops
-    incidental substrings ('s-1' in 'consensus-1%') from faking a primary source."""
-    s = (c or "").lower()
+    incidental substrings ('s-1' in 'consensus-1%') from faking a primary source.
+    Non-string entries (a model returning [{'url': …}]) are stringified, not
+    crashed on (audit 2026-07-10)."""
+    s = str(c or "").lower()
     if any(m in s for m in _PRIMARY_SUBSTR):
         return True
     if _ACC_NO.search(s):
         return True
     return bool(_FORM_RE.search(s))
+
+
+def strike_unverifiable_citations(raw: dict, real_accessions: list[str]) -> dict:
+    """PROVENANCE gate (audit 2026-07-10): format-only citation checking cannot
+    distinguish a grounded dossier from a hallucinated one — a correctly-shaped
+    but fabricated accession passes `is_primary_citation`. Given the accession
+    numbers ACTUALLY retrieved from EDGAR for this name (the ff_edgar_pull
+    bundle), strike from the raw deep-read every dossier citation and every
+    bear defense_citation that contains a dashed accession NOT in that list.
+    Citations with no accession token (bare '10-K' prose) are struck too — they
+    are unresolvable. What survives is provably a filing we fetched. Mutates
+    and returns `raw`; downstream, an empty citations list fails the writer and
+    an uncited defense drops to partial (fatal critiques land)."""
+    real = {a.replace("-", "") for a in (real_accessions or [])}
+
+    def _ok(c) -> bool:
+        s = str(c or "")
+        accs = _ACC_NO.findall(s.lower())
+        if not accs:
+            return False                      # no resolvable accession = unverifiable
+        return all(a.replace("-", "") in real for a in accs)
+
+    d = raw.get("dossier") or {}
+    if isinstance(d.get("citations"), list):
+        d["citations"] = [c for c in d["citations"] if _ok(c)]
+    for b in raw.get("bears") or []:
+        if isinstance(b, dict) and isinstance(b.get("defense_citations"), list):
+            b["defense_citations"] = [c for c in b["defense_citations"] if _ok(c)]
+    return raw
 
 
 # ---- the writer (spec §4) --------------------------------------------------
@@ -159,6 +194,11 @@ def make_upside_dossier(
     sym = symbol.upper()
     _req(bool(sym), "symbol required")
     _req(len(thesis) >= 120, "thesis must be the variant view — what consensus underweights over 6–24mo (≥120 chars)")
+    # normalize enum inputs (audit 2026-07-10: ' Earnings_Accel' failed a good
+    # name over formatting, indistinguishable from a real refutation; parity
+    # with resolve_bears' critique_type stripping)
+    inflection_type = (inflection_type or "").strip().lower()
+    kill_type = (kill_type or "").strip().lower()
     _req(inflection_type in INFLECTION_TYPES,
          f"inflection_type must be one of {sorted(INFLECTION_TYPES)} — name what is BENDING, not 'it's cheap'")
     _req(len(inflection_evidence) >= 40, "inflection_evidence must cite the SPECIFIC number/fact bending (≥40 chars)")
@@ -242,8 +282,17 @@ def blowup_check(
     company that dilutes 80% before it plays out does not."""
     runway = dossier.get("runway_months")
     horizon = float(dossier.get("horizon_months", HORIZON_MAX))
+    # coerce numeric-string runway ("18" — a plausible model output for a
+    # float|"self_funding" field) instead of failing it closed; bool is an int
+    # subclass and must NOT read as 1.0 months (audit 2026-07-10)
+    if isinstance(runway, str) and runway != "self_funding":
+        try:
+            runway = float(runway)
+        except ValueError:
+            pass
     survives = (runway == "self_funding") or (
-        isinstance(runway, (int, float)) and float(runway) >= horizon + RUNWAY_BUFFER_MONTHS)
+        isinstance(runway, (int, float)) and not isinstance(runway, bool)
+        and float(runway) >= horizon + RUNWAY_BUFFER_MONTHS)
     grounded = (primary_grounded if primary_grounded is not None
                 else any(is_primary_citation(c) for c in dossier.get("citations", [])))
 
@@ -320,7 +369,7 @@ def resolve_bears(
     fatal_landed = False
     types: set[str] = set()
     for b in bears:
-        ct = (b.get("critique_type") or "").strip()
+        ct = (b.get("critique_type") or "").strip().lower()
         _req(ct in CRITIQUE_TYPES,
              f"critique_type must be one of {sorted(CRITIQUE_TYPES)} (got {ct!r})")
         crit = (b.get("critique") or "").strip()
@@ -348,8 +397,13 @@ def resolve_bears(
 
     distinct = len(types)
     enough = distinct >= min_bears and len(bears) >= min_bears
+    # audit 2026-07-10: the fatal gate only punished fatal critiques the model
+    # CHOSE to raise — a credulous read raising three soft critiques and never
+    # mentioning one_time_driver sailed through (the exact FRPT/SABR mirage).
+    # The attack must test at least one mirage shape, or it wasn't an attack.
+    fatal_raised = bool(types & FATAL_CRITIQUE_TYPES)
     norm = (margin / total_sev) if total_sev > 0 else 0.0
-    survived = bool(enough and (not fatal_landed) and margin > 0)
+    survived = bool(enough and fatal_raised and (not fatal_landed) and margin > 0)
 
     dossier["bear_resolved"] = True
     dossier["bears"] = resolved
@@ -357,7 +411,11 @@ def resolve_bears(
     dossier["refutation_margin"] = round(margin, 4)
     dossier["refutation_margin_norm"] = round(norm, 4)
     dossier["fatal_landed"] = fatal_landed
+    dossier["fatal_raised"] = fatal_raised
     dossier["bear_verdict"] = "survived" if survived else "refuted"
+    if not survived and enough and not fatal_raised:
+        dossier["bear_verdict_note"] = ("refuted: no fatal-type critique raised — "
+                                        "the bear pass never tested the mirage shapes")
     dossier["bear_resolved_by"] = resolved_by
     dossier["fundable"] = is_fundable(dossier)
     return dossier

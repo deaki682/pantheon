@@ -11,16 +11,16 @@ think, trade, or override any god's logic.
 | `/trinity` | Market hours (9:30–16:00 ET, weekdays) | Dashboard refresh with live quotes |
 | `/midas-scan` | Weekend AND `should_run("cache/midas_cadence.json", "scan", 5)` | Heavy universe scan → top 10 → `cache/midas_scan.json`. Cadence guard = once per weekend, not every hour. **Research-only since 2026-07-04** — output feeds `/midas-ghost` (the A/B race), never a live entry |
 | `/midas` | **WIND-DOWN ONLY** (live retired 2026-07-04, operator directive): weekday, and ONLY while `cache/midas_sleeve.json` still has a `position` or `cache/midas_cadence.json` has a `pending_exit_order_id` | Reconcile the queued DAKT sell (order `6a473615`) when it fills, then sweep ALL cash to Proteus's sleeve (see midas.md wind-down). NO new entries, ever. Once the sweep is done, never dispatch `/midas` again |
-| `/oracle` | `should_run("cache/oracle_cadence.json", "research", 3)` | Every 3 days |
+| `/oracle` | Weekday AND ( `should_run("cache/oracle_cadence.json", "research", 3)` OR `oracle_tend_due` — the fresh sleeve holds live positions/unfilled orders ) | Every 3 days for a full session. **TEND OVERRIDE (audit 2026-07-10): a pause NEVER blocks tending live money** — if the fresh sleeve holds positions (SEER/NNDM/FULC), dispatch `/oracle` daily on weekdays regardless of `oracle_paused`; oracle.md's own 0a gate runs its TEND-ONLY branch (reconcile, mark, check typed kills — no sourcing, no credits) |
 | `/delphi` | **WIND-DOWN ONLY** (live retired 2026-07-04, operator directive): weekday, and ONLY while `cache/delphi_sleeve.json` still has open `positions` OR unswept settled cash | Liquidate her positions to cash, sweep to Plutus's sleeve (see delphi.md wind-down). NO new entries, ever. Once flat and fully swept, never dispatch `/delphi` again |
 | `/plutus` | Market hours AND `is_trading_day(today)` | **LIVE since 2026-07-06** (conscious override, docs/plutus_launch_override.md): net-issuance capital-return god, funded by Delphi's retired sleeve. The runbook self-gates — it only REBALANCES at a fresh quarter-end (once/quarter), every other pass is monitoring-only. Research-only until `plutus_sleeve.json` shows `pending_funding: null` and the swept cash has settled |
-| `/hermes` | Market hours AND `is_trading_day(today)` | **LIVE since 2026-07-05** (armed, funded $4k; docs/hermes_launch_override.md): merger-arb LLM A/B. Tend open deals (break-stop / completion / past-close), detect new small-cap cash deals, LLM break-risk read (Arm A live / Arm B paper), grade LLM-lift. Owns only `cache/hermes_*`, parallelizes safely. Research-only until settled cash backs the sleeve |
+| `/hermes` | `(not hermes_paused)` AND market hours AND `is_trading_day(today)` | **LIVE since 2026-07-05** (armed, funded $4k; docs/hermes_launch_override.md): merger-arb LLM A/B. Tend open deals (break-stop / completion / past-close), detect new small-cap cash deals, LLM break-risk read (Arm A live / Arm B paper), grade LLM-lift. Owns only `cache/hermes_*`, parallelizes safely. Research-only until settled cash backs the sleeve. **The pause condition is part of THIS ROW (audit 2026-07-10 — the table must never contradict the steps)** |
 | `/achilles` | **RETIRED 2026-07-05** — NO standalone dispatch | The PEAD seasonal mode was REFUTED and SHELVED 2026-07-05 (docs/lab_results_achilles_pead_gauntlet.md), and Proteus v1 (its host) was scrapped 2026-07-11; the `achilles/` package is a library only. Do not dispatch `/achilles` |
 | `/nemesis` | **FOLDED into Oracle 2026-07-05** — NO standalone dispatch | Spinoff forced-selling is now an `/oracle` sourcing channel (via the `nemesis.*` library). Sleeve retired, OCTV cancelled. Do not dispatch `/nemesis` (wind-down/library-only) |
 | `/oracle-screen` | `should_run("cache/oracle_cadence.json", "screen", 90)` | Quarterly heavy scan (~60 min) |
-| `/oracle-ghost` | After `/oracle` runs | Paper shadow |
-| `/delphi-ghost` | After `/delphi` runs | Paper shadow |
-| `/achilles-ghost` | After `/achilles` runs (earnings season only) | Paper shadow |
+| `/oracle-ghost` | After `/oracle` runs | Paper shadow (its parent still dispatches) |
+| `/delphi-ghost` | Market-hours weekdays, once per day (`should_run("cache/ghost_delphi_cadence.json", "session", 1)`) | Paper shadow — PARENTLESS since Delphi's retirement (audit 2026-07-10: the old "after `/delphi`" condition would orphan it; never a reason to run `/delphi`) |
+| `/achilles-ghost` | Market-hours weekdays, once per day (`should_run("cache/ghost_achilles_cadence.json", "session", 1)`) | Paper shadow — PARENTLESS since the fold (audit 2026-07-10: the old "after `/achilles`" condition misreads as permission to dispatch the folded `/achilles`; NEVER dispatch `/achilles`) |
 | `/midas-ghost` | Market-hours weekdays, once per day (`should_run("cache/ghost_midas_cadence.json", "session", 1)`) | Paper shadow — the live-vs-legacy A/B race. Survives Midas's live retirement; consumes the weekend `/midas-scan` finalists directly |
 | `/proteus` | `should_run("cache/proteus_cadence.json", "session", 1)` — one session per day, any day. **LAUNCHED 2026-07-11** (build/study mode until the $2,500 settles at the 2026-07-13 open — no live order before that). Normal `is_paused` semantics apply — a pause file Proteus didn't write means the operator is holding him | **Proteus v2 (operator directive 2026-07-11 — docs/proteus_v2_charter.md):** the autonomous self-coding agent on a fresh $2,500 sleeve. v1 is scrapped; do not apply v1's rules (`pending_funding`, seasonal PEAD mode, 30-trade checkpoint) |
 | `/proteus-lab` | **RETIRED with Proteus v1 (2026-07-11)** — never dispatched | v2 is exempt from the lab ratchet (charter decision 1) and runs his own education inside `/proteus`. The house `/lab` is unaffected |
@@ -38,19 +38,37 @@ think, trade, or override any god's logic.
    - `is_monday` — for Midas entry
    - `today` — ISO date string
 
+1.5. **KILL SWITCH (before everything — audit 2026-07-10).**
+   `shared.guards.kill_switch_active()` → if TRUE, dispatch EVERY god whose
+   sleeve holds live positions (`/oracle`, `/hermes`, `/plutus`, `/proteus`, and
+   any wind-down god), **overriding every pause, freeze, cadence, and
+   market-hours condition** — each god's own 0b gate performs its liquidation.
+   A pause is a soft hold; the kill switch is the operator pulling the cord, and
+   a paused god's live book must never ride unliquidated because Zeus skipped
+   it. Log loudly, dispatch the liquidations, then exit (nothing else runs on a
+   kill-switch hour).
+
 2. **Check cadence files.** Read the cadence/state files to decide what's due:
    ```python
    from oracle.calendar import should_run
-   from achilles.season import is_earnings_season
    from shared.guards import is_paused, paused_guard
    import json, os
 
-   # Oracle is on a soft HOLD (cache/oracle_paused.json) — do NOT dispatch the
-   # Oracle family (/oracle, /oracle-screen, /oracle-ghost) while paused. This
-   # spends no credits and writes no pre-Stage-1-rebuild output. (A pause is not a
-   # kill — nothing is liquidated; the frozen legacy cohort is untouched.)
+   # Oracle pause (cache/oracle_paused.json) freezes the expensive SOURCING —
+   # it NEVER blocks tending live money (audit 2026-07-10: the old all-or-nothing
+   # gate made the funded convex book's kill-promises unreachable). If the fresh
+   # sleeve holds positions or unfilled orders, /oracle dispatches on weekdays
+   # REGARDLESS of the pause; oracle.md's 0a gate runs its TEND-ONLY branch
+   # (reconcile + mark + typed-kill checks; no sourcing, no credits). The pause
+   # still fully gates /oracle-screen and fresh research.
    oracle_paused = is_paused("oracle")
-   oracle_due = (not oracle_paused) and should_run("cache/oracle_cadence.json", "research", 3)
+   oracle_sleeve = {}
+   if os.path.exists("cache/oracle_sleeve.json"):
+       with open("cache/oracle_sleeve.json") as f:
+           oracle_sleeve = json.load(f)
+   oracle_tend_due = is_weekday and bool(oracle_sleeve.get("positions"))
+   oracle_due = (oracle_tend_due
+                 or ((not oracle_paused) and should_run("cache/oracle_cadence.json", "research", 3)))
    screen_due = (not oracle_paused) and should_run("cache/oracle_cadence.json", "screen", 90)
    # Proteus v2 self-launch (operator directive 2026-07-11): the v1 rebuild pause
    # file is SUPERSEDED. On/after 2026-07-13, dispatch /proteus even while
@@ -69,7 +87,6 @@ think, trade, or override any god's logic.
    # the auto-run from touching the book before an operator finalizes. Lift explicitly.
    hermes_paused = is_paused("hermes")
    midas_scan_due = should_run("cache/midas_cadence.json", "scan", 5)
-   earnings_season = is_earnings_season(today)
 
    # Midas wind-down (live retired 2026-07-04): dispatch /midas ONLY to
    # reconcile the final queued exit and sweep cash to Proteus.
@@ -99,12 +116,6 @@ think, trade, or override any god's logic.
        bool(delphi_sleeve.get("positions"))
        or float(delphi_sleeve.get("cash", 0) or 0) > 1.0)   # unswept cash keeps it alive
 
-   # Check if Nemesis holds live positions (for weekday exit checks)
-   nemesis_sleeve = {}
-   if os.path.exists("cache/nemesis_sleeve.json"):
-       with open("cache/nemesis_sleeve.json") as f:
-           nemesis_sleeve = json.load(f)
-   nemesis_has_position = bool(nemesis_sleeve.get("positions"))
    ```
 
 3. **Build the dispatch list.** Apply the conditions from the table above:
@@ -118,19 +129,18 @@ think, trade, or override any god's logic.
    - `/hermes` — if `(not hermes_paused)` AND market hours AND `oracle.calendar.is_trading_day(today)`. LIVE since 2026-07-05 (armed, $4k): merger-arb LLM A/B. Tend open deals, detect new cash deals, LLM break-risk read (Arm A live / Arm B paper), grade LLM-lift. Owns only `cache/hermes_*`, parallelizes safely. Research-only until settled cash backs the sleeve. **FROZEN 2026-07-07 (`cache/hermes_paused.json`): an auto-run over-deployed (double-bought APGE/RAMP/GBTG + added FSEA); trims are queued for the 07-08 open and the sleeve is reconciled — do NOT dispatch until the operator lifts the freeze.**
    - `/midas-scan` — if weekend AND `midas_scan_due` (the cadence guard fires it once per weekend, not every hour). Research-only: feeds the ghost A/B
    - `/midas` — ONLY if `midas_wind_down` on a weekday (reconcile the final exit + sweep to Proteus). Live retired 2026-07-04; there are no new entries and no Monday dispatch once the sweep completes
-   - `/oracle` — if `oracle_due` (its idea-sourcing now includes the folded spinoff channel via the `nemesis.*` library)
+   - `/oracle` — if `oracle_due` (weekdays only). Two doors in: the 3-day research cadence (blocked while `oracle_paused`), or `oracle_tend_due` — the fresh sleeve holds live positions, which dispatches DAILY regardless of the pause so the typed kill-promises are checked (oracle.md 0a runs tend-only under a pause; its idea-sourcing includes the folded spinoff channel via the `nemesis.*` library)
    - `/achilles`, `/nemesis` — FOLDED 2026-07-05, NEVER dispatched as standalone gods. PEAD was refuted/shelved (no live host); spinoffs are an `/oracle` channel. Their packages are libraries only.
    - `/oracle-screen` — if `screen_due` (runs before `/oracle` since oracle uses screen output)
-   - `/proteus` — if `(not proteus_paused)` AND `should_run("cache/proteus_cadence.json", "session", 1)`. **Proteus v2 (2026-07-11, docs/proteus_v2_charter.md): first dispatch on/after 2026-07-13 is the self-launch** (the launch session archives v1 state and replaces the stale pause file itself). One session per day; fully autonomous on his own $2,500 sleeve (and only his own).
+   - `/proteus` — if `(not proteus_paused)` AND `should_run("cache/proteus_cadence.json", "session", 1)`. **Proteus v2, LAUNCHED 2026-07-11 (docs/proteus_v2_charter.md)** — one session per day, fully autonomous on his own $2,500 sleeve (and only his own); build/study mode until the $2,500 settles at the 2026-07-13 open (no live order before that).
    - `/proteus-lab` — RETIRED with Proteus v1 (2026-07-11). Never dispatched; v2 educates himself inside `/proteus`.
    - `/lab` — if weekend AND `should_run("cache/lab_cadence.json", "session", 7)` (the house research lab)
    - `/midas-ghost` — market-hours weekdays, once per day (`should_run("cache/ghost_midas_cadence.json", "session", 1)`): opens paper entries when fresh finalists exist, marks/grades daily
 
-   **Ghosts (run after their parent):**
-   - `/oracle-ghost` — after `/oracle`
-   - `/delphi-ghost` — after `/delphi`
-   - `/achilles-ghost` — after `/achilles`
-   - `/midas-ghost` — after `/midas`
+   **Ghosts:** `/oracle-ghost` runs after `/oracle` (its parent still
+   dispatches). `/delphi-ghost`, `/achilles-ghost`, and `/midas-ghost` are
+   PARENTLESS (their parents are retired/folded and must never be dispatched) —
+   they run on their own daily cadences, listed in group 3 below.
 
 4. **Dispatch.** Run the due skills. Independent gods can run in parallel
    since they never touch each other's sleeves. Ghosts run after their
