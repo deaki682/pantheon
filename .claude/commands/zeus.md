@@ -22,7 +22,7 @@ think, trade, or override any god's logic.
 | `/delphi-ghost` | After `/delphi` runs | Paper shadow |
 | `/achilles-ghost` | After `/achilles` runs (earnings season only) | Paper shadow |
 | `/midas-ghost` | Market-hours weekdays, once per day (`should_run("cache/ghost_midas_cadence.json", "session", 1)`) | Paper shadow — the live-vs-legacy A/B race. Survives Midas's live retirement; consumes the weekend `/midas-scan` finalists directly |
-| `/proteus` | From **2026-07-13**: `should_run("cache/proteus_cadence.json", "session", 1)` — one session per day, any day. **First dispatch on/after 2026-07-13 IS the v2 self-launch**: dispatch it even though `cache/proteus_paused.json` still carries the v1 rebuild reason (the launch session replaces that file itself). After launch, normal `is_paused` semantics apply — a pause file Proteus didn't write means the operator is holding him | **Proteus v2 (operator directive 2026-07-11 — docs/proteus_v2_charter.md):** the autonomous self-coding agent on a fresh $2,500 sleeve. v1 is scrapped; do not apply v1's rules (`pending_funding`, seasonal PEAD mode, 30-trade checkpoint) |
+| `/proteus` | `should_run("cache/proteus_cadence.json", "session", 1)` — one session per day, any day. **LAUNCHED 2026-07-11** (build/study mode until the $2,500 settles at the 2026-07-13 open — no live order before that). Normal `is_paused` semantics apply — a pause file Proteus didn't write means the operator is holding him | **Proteus v2 (operator directive 2026-07-11 — docs/proteus_v2_charter.md):** the autonomous self-coding agent on a fresh $2,500 sleeve. v1 is scrapped; do not apply v1's rules (`pending_funding`, seasonal PEAD mode, 30-trade checkpoint) |
 | `/proteus-lab` | **RETIRED with Proteus v1 (2026-07-11)** — never dispatched | v2 is exempt from the lab ratchet (charter decision 1) and runs his own education inside `/proteus`. The house `/lab` is unaffected |
 | `/lab` | Weekend AND `should_run("cache/lab_cadence.json", "session", 7)` | The HOUSE research lab (operator directive 2026-07-04): works `docs/RESEARCH_BACKLOG.md` top-down through the shared.lab ratchet. PAPER ONLY. Run AFTER `/proteus-lab`, never concurrently with it |
 
@@ -56,11 +56,12 @@ think, trade, or override any god's logic.
    # file is SUPERSEDED. On/after 2026-07-13, dispatch /proteus even while
    # cache/proteus_paused.json still carries the v1 rebuild reason — the launch
    # session replaces it. After launch, honor is_paused normally (a fresh pause
-   # file means the operator is holding him). Before 2026-07-13: do not dispatch.
+   # file means the operator is holding him). LAUNCHED 2026-07-11 (operator:
+   # launch immediately; build/study mode until the $2,500 settles 2026-07-13).
    proteus_rec = paused_guard("proteus")
    proteus_v1_hold = bool(proteus_rec and proteus_rec.get("paused")
                           and "rebuild" in str(proteus_rec.get("reason", "")))
-   proteus_paused = (today < "2026-07-13") or (is_paused("proteus") and not proteus_v1_hold)
+   proteus_paused = is_paused("proteus") and not proteus_v1_hold
    # Hermes freeze (cache/hermes_paused.json) — set when the book is mid-reconcile
    # (e.g. an auto-run over-deployed and trims are pending). While paused, do NOT
    # dispatch /hermes: no new detection, no new entries, no top-ups. Tending

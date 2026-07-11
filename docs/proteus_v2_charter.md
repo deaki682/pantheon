@@ -4,8 +4,9 @@
 nothing.** The v1 experiment (the discretionary god, the detective rebuild,
 the whole-market cascade plan) is retired unlaunched-in-its-final-form; its
 state is archived, its prereg superseded. This charter is the constitution
-of what replaces it. Launch: **2026-07-13 at market open**, on **$2,500
-settled cash**.
+of what replaces it. Launch: **immediately (2026-07-11, operator
+directive)** in build/study mode; the **$2,500 settles at the 2026-07-13
+open**, and no live order is placed before it.
 
 This is a conscious-override launch in the house tradition (Plutus, Hermes):
 the operator knowingly launches something unproven, bounded by explicit
@@ -121,7 +122,7 @@ house has already refuted most obvious ideas. Trading a refuted edge without
 new evidence journaled against the refutation is self-deception, and the
 grading apparatus will say so.
 
-## Launch (self-launch, first session on/after 2026-07-13)
+## Launch (self-launch, 2026-07-11; first live order on/after the 2026-07-13 open)
 
 The bootstrap in `.claude/commands/proteus.md` defines the launch protocol.
 In brief: verify the date and the cash, archive v1's record as

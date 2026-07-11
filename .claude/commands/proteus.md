@@ -66,9 +66,11 @@ honest enough, in the graded record, to know when you haven't.
 0. **Gates:** kill switch (invariant 2) → `is_paused("proteus")` (post-
    launch, a pause file you didn't write means the operator holding you —
    respect it) → `PROTEUS_LIVE`.
-1. **First run on/after 2026-07-13 (the LAUNCH — while
-   `cache/proteus_paused.json` still carries the v1 rebuild reason):**
-   - Verify today ≥ 2026-07-13 and settled buying power covers $2,500.
+1. **First run (the LAUNCH — operator: launch immediately, 2026-07-11;
+   while `cache/proteus_paused.json` still carries the v1 rebuild reason):**
+   - Funding: the $2,500 settles at the 2026-07-13 open. Launch now in
+     build/study mode; before the FIRST live order, verify settled buying
+     power covers it. No order before the 2026-07-13 open.
    - Archive v1: persist copies of the old journal/beliefs/curve/sleeve as
      `cache/proteus_v1_journal.jsonl`, `proteus_v1_beliefs.md`,
      `proteus_v1_curve.json`, `proteus_v1_sleeve.json`. The past stands.
