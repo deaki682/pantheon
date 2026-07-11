@@ -44,6 +44,17 @@ ENTER_FIELDS = ("date", "action", "symbol", "side", "dollars", "price",
                 "spy_price", "horizon_days", "confidence", "edge_class",
                 "thesis", "falsifiable_prediction", "exit_plan", "kill_condition")
 
+# Option entries (v2, 2026-07-11 — the playbook's 7-gate checklist made
+# mechanical). instrument defaults to "equity"; an "option" entry is a LONG
+# call/put only (the Level 2 executable menu) and must carry the contract
+# identity, the bounded worst case, the dated catalyst with expiry buffer,
+# and the priced-vs-my-read arithmetic AS PROSE (gate 3 — the journal shows
+# the numbers, not a vibe).
+INSTRUMENTS = ("equity", "option")
+OPTION_ENTER_FIELDS = ("underlying", "option_type", "strike", "expiration",
+                       "contracts", "max_loss", "catalyst_date", "edge_arithmetic")
+OPTION_EDGE_ARITHMETIC_FLOOR = 80
+
 # Typed kill conditions (added 2026-07-04, Proteus self-review finding #1).
 # The house's most robust finding: enumerated binary gates are rock-stable
 # (0/50 flips); prose judgments near a boundary are dice (40-80%). A typed
@@ -69,11 +80,69 @@ def _require(record: dict, fields: tuple) -> None:
         raise JournalError(f"decision missing fields {missing}")
 
 
+def _validate_option_enter(record: dict) -> None:
+    """Option-entry gates the playbook makes mechanical (long calls/puts only).
+
+    symbol = OCC contract symbol, price = per-share premium, dollars = total
+    net debit. Imports proteus.options lazily to keep module load light.
+    """
+    from proteus.options import (CATALYST_EXPIRY_BUFFER_DAYS, MULTIPLIER,
+                                 OPTION_TYPES, expiry_clears_catalyst)
+    _require(record, OPTION_ENTER_FIELDS)
+    if record["side"] != "long":
+        raise JournalError(
+            "option entries must be side=long — long calls/puts are the "
+            "executable Level 2 menu; nothing else has accounting here")
+    if record["option_type"] not in OPTION_TYPES:
+        raise JournalError(
+            f"option_type must be one of {OPTION_TYPES}, got {record['option_type']!r}")
+    strike = record["strike"]
+    if not (isinstance(strike, (int, float)) and not isinstance(strike, bool) and strike > 0):
+        raise JournalError(f"strike must be a positive number, got {strike!r}")
+    n = record["contracts"]
+    if not (isinstance(n, int) and not isinstance(n, bool) and n >= 1):
+        raise JournalError(f"contracts must be a positive int, got {n!r}")
+    for date_field in ("expiration", "catalyst_date"):
+        try:
+            _date.fromisoformat(str(record[date_field]))
+        except (TypeError, ValueError):
+            raise JournalError(
+                f"{date_field} must be an ISO date, got {record[date_field]!r}")
+    if record["expiration"] <= record["date"]:
+        raise JournalError(
+            f"expiration {record['expiration']} is not after entry date {record['date']}")
+    if not expiry_clears_catalyst(record["catalyst_date"], record["expiration"]):
+        raise JournalError(
+            f"expiration {record['expiration']} does not clear catalyst "
+            f"{record['catalyst_date']} by the {CATALYST_EXPIRY_BUFFER_DAYS}-day "
+            "buffer (playbook gate 2) — a thesis right a week late must still pay")
+    debit = record["contracts"] * record["price"] * MULTIPLIER
+    if abs(record["dollars"] - debit) > 0.01:
+        raise JournalError(
+            f"dollars {record['dollars']} != contracts*premium*{MULTIPLIER} "
+            f"= {debit:.2f} — the journal records the real net debit")
+    max_loss = record["max_loss"]
+    if not (isinstance(max_loss, (int, float)) and not isinstance(max_loss, bool)):
+        raise JournalError(f"max_loss must be a number, got {max_loss!r}")
+    if abs(max_loss - debit) > 0.01:
+        raise JournalError(
+            f"max_loss {max_loss} != net debit {debit:.2f} — a long option's "
+            "worst case IS the premium paid (invariant 1, computed at entry)")
+    if len(str(record.get("edge_arithmetic") or "")) < OPTION_EDGE_ARITHMETIC_FLOOR:
+        raise JournalError(
+            f"edge_arithmetic must be >= {OPTION_EDGE_ARITHMETIC_FLOOR} chars showing "
+            "p(thesis)/my expected move vs the chain's priced move and the breakeven "
+            "(playbook gate 3) — the numbers, not a vibe")
+
+
 def validate_decision(record: dict) -> dict:
     """Validate one journal record. Returns it untouched on success."""
     if not isinstance(record, dict):
         raise JournalError(f"decision must be a dict, got {type(record).__name__}")
     action = record.get("action")
+    instrument = record.get("instrument", "equity")
+    if instrument not in INSTRUMENTS:
+        raise JournalError(f"instrument must be one of {INSTRUMENTS}, got {instrument!r}")
     if action == "enter":
         _require(record, ENTER_FIELDS)
         if record["side"] not in ("long", "short"):
@@ -122,14 +191,24 @@ def validate_decision(record: dict) -> dict:
                         "kill_condition_type=other requires a "
                         "kill_condition_untyped_reason (>= 40 chars) explaining "
                         "why no enumerated type fits")
+        if instrument == "option":
+            _validate_option_enter(record)
     elif action == "exit":
         _require(record, EXIT_FIELDS)
         if record["exit_reason"] not in EXIT_REASONS:
             raise JournalError(
                 f"exit_reason {record['exit_reason']!r} not in {EXIT_REASONS}")
-        for px_field in ("price", "spy_price"):
-            if not (isinstance(record[px_field], (int, float)) and record[px_field] > 0):
-                raise JournalError(f"{px_field} must be a positive number")
+        # An option can expire worthless: exit premium 0.0 is a real, gradeable
+        # outcome, not a malformed price. Equities keep the strictly-positive rule.
+        _px_floor_ok = ((lambda v: isinstance(v, (int, float)) and v >= 0)
+                        if instrument == "option"
+                        else (lambda v: isinstance(v, (int, float)) and v > 0))
+        if not _px_floor_ok(record["price"]):
+            raise JournalError(
+                "price must be a positive number"
+                + (" (>= 0 for options — worthless expiry)" if instrument == "option" else ""))
+        if not (isinstance(record["spy_price"], (int, float)) and record["spy_price"] > 0):
+            raise JournalError("spy_price must be a positive number")
     elif action == "note":
         _require(record, NOTE_FIELDS)
         if len(str(record.get("text") or "")) < 40:

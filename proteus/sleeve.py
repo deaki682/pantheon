@@ -21,6 +21,7 @@ from datetime import date as _date
 from typing import Optional
 
 from proteus.journal import Position, ClosedTrade, JournalError
+from proteus.options import MULTIPLIER, ClosedOptionTrade, OptionPosition
 
 SLEEVE_PATH = "cache/proteus_sleeve.json"
 JOURNAL_PATH = "cache/proteus_journal.jsonl"
@@ -53,6 +54,12 @@ class LiveBook:
     contributed_cash: float = 0.0
     positions: dict = field(default_factory=dict)    # symbol -> Position
     closed: list = field(default_factory=list)       # list[ClosedTrade]
+    # Long options (v2, 2026-07-11). Keyed by OCC symbol, kept OUT of
+    # `positions` on purpose: guards' _load_sleeve_shares reads `positions`
+    # as broker EQUITY shares (filter_broker_to_gods / pre_trade_check), and
+    # an option contract is not an equity share.
+    option_positions: dict = field(default_factory=dict)   # occ -> OptionPosition
+    closed_options: list = field(default_factory=list)     # list[ClosedOptionTrade]
     realized_pnl: float = 0.0
     halted: bool = False
     peak_equity: float = 0.0
@@ -77,6 +84,10 @@ class LiveBook:
         book.peak_equity = float(raw.get("peak_equity") or raw.get("cash", 0.0))
         book.positions = {s: Position(**p) for s, p in raw.get("positions", {}).items()}
         book.closed = [ClosedTrade(**t) for t in raw.get("closed", [])]
+        book.option_positions = {
+            occ: OptionPosition(**p) for occ, p in raw.get("option_positions", {}).items()}
+        book.closed_options = [
+            ClosedOptionTrade(**t) for t in raw.get("closed_options", [])]
         return book
 
     def save(self, path: str = SLEEVE_PATH) -> None:
@@ -87,10 +98,12 @@ class LiveBook:
             "contributed_cash": self.contributed_cash,
             "positions": {s: asdict(p) for s, p in self.positions.items()},
             "closed": [asdict(t) for t in self.closed],
+            "option_positions": {occ: asdict(p) for occ, p in self.option_positions.items()},
+            "closed_options": [asdict(t) for t in self.closed_options],
             "realized_pnl": self.realized_pnl,
             "halted": self.halted,
             "peak_equity": self.peak_equity,
-            "trades_count": len(self.closed),
+            "trades_count": len(self.closed) + len(self.closed_options),
             "pending_funding": self.pending_funding,
         }, open(path, "w"), indent=1)
 
@@ -115,10 +128,17 @@ class LiveBook:
 
     # -- exposure math --
     def equity(self, marks: dict) -> float:
-        """Cash + live value of longs. marks: symbol -> price."""
+        """Cash + live value of longs + live value of long options.
+
+        marks: symbol -> price. Option positions are marked by their OCC
+        symbol at the PER-SHARE premium (broker chain quote), falling back
+        to entry premium like equities fall back to entry price.
+        """
         eq = self.cash
         for sym, p in self.positions.items():
             eq += p.shares * float(marks.get(sym, p.entry_price))
+        for occ, p in self.option_positions.items():
+            eq += p.contracts * float(marks.get(occ, p.entry_premium)) * MULTIPLIER
         return eq
 
     # -- ruin breaker (halts NEW entries; never force-sells — see module note) --
@@ -142,6 +162,37 @@ class LiveBook:
             return True
         return False
 
+    def _concentration_gate(self, *, label: str, dollars: float,
+                            equity: Optional[float], marks: Optional[dict],
+                            risk_ack: str) -> None:
+        # Conscious-concentration gate: NO hard cap — Proteus may size a name as
+        # far as all-in if the conviction earns it. But past CONCENTRATION_ACK_PCT
+        # of the book he must pass an explicit, substantive risk_ack naming the
+        # worst case and why it's survivable. This forbids UNCONSCIOUS
+        # concentration, not greed (operator directive 2026-07-05).
+        # The denominator must be LIVE equity (bug-hunt 2026-07-05): equity({})
+        # marks held names at stale entry prices, so a declining book could let
+        # a >25% position slip past the gate un-acked. With open positions the
+        # caller MUST supply live `marks` (or a live `equity`); a cash-only book
+        # needs neither (cash IS live equity).
+        if equity is not None:
+            book_eq = float(equity)
+        elif (self.positions or self.option_positions) and marks is None:
+            raise JournalError(
+                "concentration gate needs LIVE equity: pass marks={sym: live_px} "
+                "(or equity=) when the book holds positions — stale entry-price "
+                "equity can wave a >25% position through un-acked")
+        else:
+            book_eq = self.equity(marks or {})
+        frac = dollars / book_eq if book_eq > 0 else 1.0
+        if frac > CONCENTRATION_ACK_PCT and len(risk_ack.strip()) < RISK_ACK_MIN_CHARS:
+            raise JournalError(
+                f"{label}: {frac:.0%} of the book is past the "
+                f"{CONCENTRATION_ACK_PCT:.0%} conscious-concentration line — pass "
+                f"risk_ack (>= {RISK_ACK_MIN_CHARS} chars) naming the worst-case loss "
+                "and why it's survivable/justified. Going big is allowed; going big "
+                "by accident is not.")
+
     # -- trades (record ACTUAL broker fills; journal record comes first) --
     def enter(self, *, symbol: str, shares: float, price: float,
               date: str, spy_price: float, horizon_days: int,
@@ -160,33 +211,8 @@ class LiveBook:
         if dollars > self.cash + 1e-6:
             raise JournalError(
                 f"{symbol}: ${dollars:,.2f} exceeds cash ${self.cash:,.2f} — no leverage")
-        # Conscious-concentration gate: NO hard cap — Proteus may size a name as
-        # far as all-in if the conviction earns it. But past CONCENTRATION_ACK_PCT
-        # of the book he must pass an explicit, substantive risk_ack naming the
-        # worst case and why it's survivable. This forbids UNCONSCIOUS
-        # concentration, not greed (operator directive 2026-07-05).
-        # The denominator must be LIVE equity (bug-hunt 2026-07-05): equity({})
-        # marks held names at stale entry prices, so a declining book could let
-        # a >25% position slip past the gate un-acked. With open positions the
-        # caller MUST supply live `marks` (or a live `equity`); a cash-only book
-        # needs neither (cash IS live equity).
-        if equity is not None:
-            book_eq = float(equity)
-        elif self.positions and marks is None:
-            raise JournalError(
-                "concentration gate needs LIVE equity: pass marks={sym: live_px} "
-                "(or equity=) when the book holds positions — stale entry-price "
-                "equity can wave a >25% position through un-acked")
-        else:
-            book_eq = self.equity(marks or {})
-        frac = dollars / book_eq if book_eq > 0 else 1.0
-        if frac > CONCENTRATION_ACK_PCT and len(risk_ack.strip()) < RISK_ACK_MIN_CHARS:
-            raise JournalError(
-                f"{symbol}: {frac:.0%} of the book is past the "
-                f"{CONCENTRATION_ACK_PCT:.0%} conscious-concentration line — pass "
-                f"risk_ack (>= {RISK_ACK_MIN_CHARS} chars) naming the worst-case loss "
-                "and why it's survivable/justified. Going big is allowed; going big "
-                "by accident is not.")
+        self._concentration_gate(label=symbol, dollars=dollars, equity=equity,
+                                 marks=marks, risk_ack=risk_ack)
         self.cash -= dollars
         pos = Position(symbol=symbol, side="long", dollars=dollars,
                        shares=shares, entry_price=price,
@@ -219,6 +245,87 @@ class LiveBook:
         self.realized_pnl += proceeds - p.dollars
         return trade
 
+    # -- long options (v2, 2026-07-11; journal record comes first, always) --
+    def enter_option(self, *, underlying: str, option_type: str, strike: float,
+                     expiration: str, contracts: int, premium: float,
+                     date: str, spy_price: float, catalyst_date: str,
+                     horizon_days: int, confidence: float, edge_class: str,
+                     risk_ack: str = "", equity: Optional[float] = None,
+                     marks: Optional[dict] = None) -> OptionPosition:
+        """Record a FILLED long call/put buy. premium is the per-share fill.
+
+        Max loss on a long option is the net debit — computed here, at entry,
+        and stored on the position (invariant 1). Same gates as equities:
+        funded, not halted, cash-bounded, conscious concentration on the debit.
+        """
+        from proteus.options import OPTION_TYPES, occ_symbol
+        if self.halted:
+            raise JournalError(
+                "book is halted — no new entries (drawdown breaker tripped or kill switch)")
+        if not self.is_funded():
+            raise JournalError("book is not funded yet — research only")
+        if option_type not in OPTION_TYPES:
+            raise JournalError(f"option_type must be call|put, got {option_type!r}")
+        if not (isinstance(contracts, int) and not isinstance(contracts, bool)
+                and contracts >= 1):
+            raise JournalError(f"contracts must be a positive int, got {contracts!r}")
+        if not (isinstance(premium, (int, float)) and premium > 0):
+            raise JournalError(f"premium must be a positive number, got {premium!r}")
+        if expiration <= date:
+            raise JournalError(f"expiration {expiration} is not after entry date {date}")
+        occ = occ_symbol(underlying, expiration, option_type, strike)
+        if occ in self.option_positions:
+            raise JournalError(f"{occ}: already open — one position per contract")
+        cost = contracts * premium * MULTIPLIER
+        if cost > self.cash + 1e-6:
+            raise JournalError(
+                f"{occ}: net debit ${cost:,.2f} exceeds cash ${self.cash:,.2f} — no leverage")
+        self._concentration_gate(label=occ, dollars=cost, equity=equity,
+                                 marks=marks, risk_ack=risk_ack)
+        self.cash -= cost
+        pos = OptionPosition(occ=occ, underlying=underlying.upper(),
+                             option_type=option_type, strike=float(strike),
+                             expiration=expiration, contracts=contracts,
+                             entry_premium=premium, cost=cost, max_loss=cost,
+                             entry_date=date, spy_entry=spy_price,
+                             catalyst_date=catalyst_date, horizon_days=horizon_days,
+                             confidence=confidence, edge_class=edge_class)
+        self.option_positions[occ] = pos
+        return pos
+
+    def exit_option(self, *, occ: str, premium: float, date: str,
+                    spy_price: float, exit_reason: str) -> ClosedOptionTrade:
+        """Record a FILLED sell-to-close (or a worthless expiry at premium=0.0)."""
+        if occ not in self.option_positions:
+            raise JournalError(f"{occ}: no open option position to exit")
+        if not (isinstance(premium, (int, float)) and premium >= 0):
+            raise JournalError(f"premium must be >= 0, got {premium!r}")
+        p = self.option_positions.pop(occ)
+        proceeds = p.contracts * premium * MULTIPLIER
+        self.cash += proceeds
+        net_return = premium / p.entry_premium - 1
+        spy_ret = spy_price / p.spy_entry - 1
+        trade = ClosedOptionTrade(
+            occ=occ, underlying=p.underlying, option_type=p.option_type,
+            strike=p.strike, expiration=p.expiration, contracts=p.contracts,
+            entry_premium=p.entry_premium, exit_premium=premium,
+            cost=p.cost, proceeds=proceeds,
+            entry_date=p.entry_date, exit_date=date, exit_reason=exit_reason,
+            net_return=round(net_return, 6), spy_return=round(spy_ret, 6),
+            excess=round(net_return - spy_ret, 6),
+            confidence=p.confidence, edge_class=p.edge_class,
+            horizon_days=p.horizon_days,
+        )
+        self.closed_options.append(trade)
+        self.realized_pnl += proceeds - p.cost
+        return trade
+
+    def expired_options(self, today: str) -> list[str]:
+        """OCC symbols at/past expiration — must be closed out this session
+        (sold before the bell or written off worthless; never left dangling)."""
+        return [occ for occ, p in self.option_positions.items()
+                if p.expiration <= today]
+
     def horizon_expired(self, today: str) -> list[str]:
         """Symbols whose declared horizon has elapsed — must exit this session."""
         out = []
@@ -240,5 +347,13 @@ class LiveBook:
             self.exit(symbol=sym, price=px, date=today,
                       spy_price=spy, exit_reason="kill_switch")
             sold.append((sym, shares, px))
+        for occ in list(self.option_positions.keys()):
+            p = self.option_positions[occ]
+            px = float(marks.get(occ, p.entry_premium))
+            spy = float(marks.get("SPY", p.spy_entry))
+            contracts = p.contracts
+            self.exit_option(occ=occ, premium=px, date=today,
+                             spy_price=spy, exit_reason="kill_switch")
+            sold.append((occ, contracts, px))
         self.halted = True
         return sold
