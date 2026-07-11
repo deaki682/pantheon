@@ -101,37 +101,29 @@ never runs live again. `/midas-scan` (weekend) and `/midas-ghost`
 (daily) keep running the live-vs-legacy scoring A/B on paper — the
 convergence thesis can still earn its way back with ghost grades.
 
-**Proteus** (LIVE since 2026-07-04) — The discretionary experiment: a
-complete investor with no frozen strategy, hunting the ENTIRE
-US-listed universe (all equities, ADRs, and the full ETF window onto
-commodities/rates/currencies/countries/vol) on a real ~$2,000 sleeve
-inherited from Midas (operator directive; prereg amendment #3 —
-granted before his first paper trade, so the experiment transferred
-uncontaminated; the flat $10k paper book was retired at birth).
-Long-only at the broker (inverse ETFs express short views), no
-leverage, no options. **Operator mandate (revised 2026-07-04): every
-position must earn its place TODAY** — one full session daily, every
-red position re-underwritten same-day (kill or consciously re-commit,
-never drift). The green-day rate is tracked vs SPY's own base rate as
-a DIAGNOSTIC only, never a target — the original "green book, every
-day" framing was demoted same-week because a daily-green target
-incentivizes selling winners early and nursing losers, contaminating
-the experiment. Every decision is
-journaled with a falsifiable prediction and graded without mercy
-(docs/proteus_prereg.md). **Risk rails (2026-07-05, "smart and greedy,
-not stupid"):** NO hard per-position cap — he may go all-in when
-conviction earns it — but a position past 25% of the book requires an
-explicit `risk_ack` (the sleeve refuses unconscious concentration), and
-a 40% drawdown from peak HALTS new entries without force-selling (his
-convex bets play out; only the kill switch liquidates). **Seasonal PEAD
-mode — SHELVED 2026-07-05:** the `achilles_pead_gauntlet` REFUTED the
-tradable long PEAD drift (18/18 cells negative excess, holdout + 2× cost;
-docs/lab_results_achilles_pead_gauntlet.md), so Proteus does NOT run a PEAD
-beat-basket as an edge and may not cite it as one. An earnings beat may still
-appear inside a discretionary thesis as ordinary context, but "PEAD drift" is
-not a mechanism the book trades. Checkpoint at 30 closed trades or 2027-01-15:
-validation keeps the sleeve, refutation retires him and returns the
-capital to the treasury. Owns only `cache/proteus_*`.
+**Proteus v2** (self-launching 2026-07-13 — conscious operator override,
+docs/proteus_v2_charter.md) — **v1 is SCRAPPED (operator directive
+2026-07-11): its mandate, prereg, detective/cascade rebuild, risk rails, and
+checkpoint no longer apply; its state is archived as `cache/proteus_v1_*` at
+launch.** v2 is the autonomous, self-improving money-making agent: one goal —
+**grow a fresh $2,500 sleeve as much as he can, compounding** — and he
+launches himself, codes himself, debugs himself, and pursues his own
+education to do it. Four constitutional decisions: (1) **graded, no lab
+ratchet** — every position-changing decision journaled with a falsifiable
+prediction and graded without mercy, but exempt from prereg→backtest→forward
+gating; (2) **fully autonomous** — no per-trade approval, no breaker, no
+concentration ack, all-in allowed; (3) **bounded-loss instruments only** —
+long stock/ETFs (inverse/leveraged included), long options, debit spreads,
+covered calls, cash-secured puts, defined-risk spreads; NO margin, naked
+shorts, or naked calls — the sleeve can hit $0, never below; (4) **free
+self-modification that cannot break other gods** — he may rewrite anything
+he owns and touch shared code, gated by the full test suite staying green
+(never weakening tests he doesn't own), commits to `main` prefixed
+`proteus:`. The invariant floor (bounded loss, kill-switch-first, integrity
+gate, honest grading) is the ONLY thing he may never rewrite. No fixed
+checkpoint — he lives at the operator's pleasure; the kill switch is the
+only termination; his graded record is his defense. Owns `cache/proteus_*`,
+`proteus/`, and `tests/test_proteus_*.py`. `/proteus-lab` retired with v1.
 
 **Plutus** (LIVE from 2026-07-06 — conscious operator override, DELUXE
 stack) — The net-issuance capital-return god. His spine is the frozen
@@ -298,10 +290,10 @@ trades.
 | On demand, ONLY when pool < 70 | `/oracle-research` | Rebuild dossier pool toward 60-80 after decay; frozen otherwise (2026-07-04 — pool at 93, no more polish until cohort-1 grades) |
 | At cohort review (~12 months) | `/oracle` | Grades all calls, closes cohort, selects new cohort from pool |
 | Weekly (weekend) | `/midas-scan` | Research-only universe scan feeding the `/midas-ghost` A/B (Midas live retired 2026-07-04) |
-| Daily | `/proteus` | One full discretionary session on his live sleeve (research-only when markets are closed or funding pending) |
+| Daily | `/proteus` | Proteus v2: one autonomous session — build, study, or trade at his own judgment (self-launch 2026-07-13; docs/proteus_v2_charter.md) |
 | Trading days | `/plutus` | Net-issuance capital-return god (LIVE 2026-07-06). Self-gates to a once-per-quarter rebalance; monitoring-only otherwise. Research-only until funded by the Delphi sweep and the cash settles |
 | Trading days | `/hermes` | Merger-arb LLM A/B engine. Tend open deals (break-stop/completion), detect new cash deals, LLM break-risk read (Arm A live / Arm B paper), grade LLM-lift. Paper until `HERMES_LIVE` armed + sleeve funded |
-| Weekly (weekend) | `/proteus-lab` | Strategy lab: invent → prereg → backtest (bias checklist enforced) → paper forward test. Never live money |
+| — | `/proteus-lab` | RETIRED with Proteus v1 (2026-07-11) — v2 educates himself inside `/proteus`; the house `/lab` continues |
 
 ### Key Files (all in `cache/`, persisted to `claude/live`)
 
@@ -337,13 +329,14 @@ trades.
 | `midas_scan.json` | midas | Weekend scan finalists (research-only; feeds `/midas-ghost`) |
 | `midas_ledger.jsonl` | midas | Every order placed (historical; for reconcile) |
 | `midas_curve.json` | midas | Equity timestamps (historical) |
-| `proteus_sleeve.json` | proteus | LIVE book: cash, contributed_cash, positions, closed trades |
-| `proteus_journal.jsonl` | proteus | Append-only decision record (validated writer — the only door to the book) |
-| `proteus_ledger.jsonl` | proteus | Every broker order placed (for reconcile) |
-| `proteus_curve.json` | proteus | Equity marks vs SPY (green-day rate reported as diagnostic, never a target) |
-| `proteus_beliefs.md` | proteus | His living mind: worldview, watchlist, open theses, lessons |
-| `proteus_lab.json` | proteus | Strategy lab registry: hypothesis → prereg → backtest → forward test, bias checklists |
-| `proteus_lab_ghost_ledger.json` | proteus | Paper forward-test positions for lab strategies (shared.ghost engine) |
+| `proteus_sleeve.json` | proteus | v2 LIVE book: cash, contributed_cash, positions (fresh $2,500 at the 2026-07-13 self-launch; guard file) |
+| `proteus_journal.jsonl` | proteus | v2 append-only graded decision record (journal-before-order; the past never edited) |
+| `proteus_ledger.jsonl` | proteus | Every broker order placed (`shared.guards.append_order` — reconcile + `filter_broker_to_gods` depend on it) |
+| `proteus_curve.json` | proteus | Equity marks vs SPY |
+| `proteus_beliefs.md` | proteus | His living mind, rewritten each session for the stranger who wakes tomorrow |
+| `proteus_v1_*` | proteus | Frozen v1 archive (journal/beliefs/curve/sleeve), written once at the v2 launch |
+| `proteus_lab.json` | proteus | v1 lab registry — frozen history (guarded) |
+| `proteus_lab_ghost_ledger.json` | proteus | v1 paper forward-test positions — frozen history |
 | `trinity_dashboard.html` | shared | PWA dashboard for all gods |
 
 ### Capital Scaling Gates (`oracle/capital.py`)
@@ -468,7 +461,8 @@ mechanical system too aggressively:
 - God env vars: `ORACLE_LIVE=true`, `DELPHI_LIVE=true`,
   `ACHILLES_LIVE=false` (retired 2026-07-05 — PEAD folded into Proteus),
   `NEMESIS_LIVE=false` (retired 2026-07-05 — spinoff channel folded into Oracle;
-  docs/nemesis_fold_into_oracle_2026-07-05.md), `PROTEUS_LIVE=true`,
+  docs/nemesis_fold_into_oracle_2026-07-05.md), `PROTEUS_LIVE=true` (ARMED
+  2026-07-11 for the v2 self-launch at the 2026-07-13 open),
   `MIDAS_LIVE=false` (live retired 2026-07-04), `PLUTUS_LIVE=false` (defaults
   FALSE — the operator arms it to launch Plutus at the 2026-07-06 transition),
   and `HERMES_LIVE=true` (merger-arb LLM A/B — ARMED 2026-07-05, funded $4,000
