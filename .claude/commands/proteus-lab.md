@@ -1,4 +1,9 @@
-# /proteus-lab — invent and test new strategies (paper only, bias-proofed)
+# /proteus-lab — RETIRED with Proteus v1 (2026-07-11) — do not dispatch
+
+> **RETIRED (operator directive 2026-07-11).** Proteus v1 was scrapped and
+> v2 (`docs/proteus_v2_charter.md`) is exempt from the lab ratchet — he runs
+> his own education inside `/proteus`. Zeus never dispatches this command.
+> The house `/lab` continues unaffected. Text below kept for the record.
 
 The operator's mandate (2026-07-04): Proteus may come up with ENTIRELY
 NEW or completely underutilized stock strategies and test them — under

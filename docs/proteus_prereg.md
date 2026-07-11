@@ -1,5 +1,12 @@
 # Pre-registration: Proteus — the discretionary ghost
 
+> **SUPERSEDED 2026-07-11 (operator directive).** Proteus v1 — this prereg,
+> its grading terms, its 30-trade/2027-01-15 checkpoint — is SCRAPPED. The
+> replacement is Proteus v2 (`docs/proteus_v2_charter.md`): a new $2,500
+> sleeve, a new constitution, self-launching 2026-07-13. This document is
+> frozen history; no session grades against it. v1 state is archived as
+> `cache/proteus_v1_*` at the v2 launch.
+
 Committed 2026-07-04, before Proteus makes his first decision. This
 document freezes how he is GRADED. Nothing here constrains how he
 THINKS — that is the experiment.
