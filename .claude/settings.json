@@ -10,6 +10,7 @@
     "NASDAQ_DATA_LINK_API_KEY": "SAsjptwN2xAVivQgs_Y9"
   },
   "permissions": {
+    "defaultMode": "bypassPermissions",
     "allow": [
       "Bash",
       "Read",
@@ -18,10 +19,24 @@
       "Glob",
       "Grep",
       "Agent",
+      "Task",
+      "Skill",
+      "TodoWrite",
+      "NotebookEdit",
+      "BashOutput",
+      "KillBash",
+      "Monitor",
+      "Tmux",
+      "REPL",
+      "SendUserFile",
       "WebFetch",
       "WebSearch",
+      "Workflow",
+      "ToolSearch",
       "mcp__Robinhood",
-      "mcp__github"
+      "mcp__github",
+      "mcp__Gmail",
+      "mcp__Claude_Code_Remote"
     ],
     "deny": []
   }
