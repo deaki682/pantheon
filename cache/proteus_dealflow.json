@@ -1,0 +1,227 @@
+{
+ "updated": "2026-07-11",
+ "window": [
+  "2026-05-27",
+  "2026-07-11"
+ ],
+ "candidates": [
+  {
+   "accession": "0001661306-26-000051",
+   "doc": "hpci_q2_26_to-ia_7.2.26.htm",
+   "cik": "1661306",
+   "name": "Hancock Park Corporate Income, Inc.  (CIK 0001661306)",
+   "form": "SC TO-I",
+   "filed": "2026-07-06",
+   "odd_lot_priority": false,
+   "offer": {
+    "kind": "unknown",
+    "low": null,
+    "high": null
+   },
+   "expiration": "2026-06-29",
+   "flags": {
+    "financing_condition": false,
+    "minimum_tender_condition": false,
+    "going_private_13e3": true
+   },
+   "doc_url": "https://www.sec.gov/Archives/edgar/data/1661306/000166130626000051/hpci_q2_26_to-ia_7.2.26.htm",
+   "text_len": 3555,
+   "read_verdict": "NOT_ACTIONABLE \u2014 non-traded BDC, no odd-lot priority detected, expired 6/29."
+  },
+  {
+   "accession": "0001554625-26-000011",
+   "doc": "exhibit99a1b062026.htm",
+   "cik": "1554625",
+   "name": "Priority Income Fund, Inc.  (PRIF-PD, PRIF-PK, PRIF-PL)  (CIK 0001554625)",
+   "form": "SC TO-I",
+   "filed": "2026-06-18",
+   "odd_lot_priority": true,
+   "offer": {
+    "kind": "unknown",
+    "low": null,
+    "high": null
+   },
+   "expiration": "2026-07-31",
+   "flags": {
+    "financing_condition": false,
+    "minimum_tender_condition": false,
+    "going_private_13e3": false
+   },
+   "doc_url": "https://www.sec.gov/Archives/edgar/data/1554625/000155462526000011/exhibit99a1b062026.htm",
+   "text_len": 11854,
+   "read_verdict": "NOT_ACTIONABLE \u2014 tender is for NON-TRADED common at 7/31 NAV; listed PRIF preferreds are registrant tickers only. No market to buy the tendered instrument."
+  },
+  {
+   "accession": "0001193125-26-280680",
+   "doc": "ck0001919369-ex99_a1ii.htm",
+   "cik": "1919369",
+   "name": "VISTA CREDIT STRATEGIC LENDING CORP.  (CIK 0001919369)",
+   "form": "SC TO-I",
+   "filed": "2026-06-24",
+   "odd_lot_priority": true,
+   "offer": {
+    "kind": "unknown",
+    "low": null,
+    "high": null
+   },
+   "expiration": "2026-07-23",
+   "flags": {
+    "financing_condition": false,
+    "minimum_tender_condition": false,
+    "going_private_13e3": false
+   },
+   "doc_url": "https://www.sec.gov/Archives/edgar/data/1919369/000119312526280680/ck0001919369-ex99_a1ii.htm",
+   "text_len": 55809,
+   "read_verdict": "NOT_ACTIONABLE \u2014 non-traded BDC, no listed market."
+  },
+  {
+   "accession": "0001104659-26-068976",
+   "doc": "tm2616081d1_ex99-xb.htm",
+   "cik": "1876006",
+   "name": "Ares Private Markets Fund  (CIK 0001876006)",
+   "form": "SC TO-I",
+   "filed": "2026-06-01",
+   "odd_lot_priority": true,
+   "offer": {
+    "kind": "unknown",
+    "low": null,
+    "high": null
+   },
+   "expiration": "2026-06-29",
+   "flags": {
+    "financing_condition": false,
+    "minimum_tender_condition": true,
+    "going_private_13e3": false
+   },
+   "doc_url": "https://www.sec.gov/Archives/edgar/data/1876006/000110465926068976/tm2616081d1_ex99-xb.htm",
+   "text_len": 49900,
+   "read_verdict": "NOT_ACTIONABLE \u2014 non-traded interval fund."
+  },
+  {
+   "accession": "0001213900-26-063179",
+   "doc": "ea029202901ex99a1a.htm",
+   "cik": "1702780",
+   "name": "Optimum Communications, Inc.  (OPTU)  (CIK 0001702780)",
+   "form": "SC TO-I",
+   "filed": "2026-06-01",
+   "odd_lot_priority": true,
+   "offer": {
+    "kind": "fixed",
+    "low": 2.5,
+    "high": 2.5
+   },
+   "expiration": null,
+   "flags": {
+    "financing_condition": true,
+    "minimum_tender_condition": true,
+    "going_private_13e3": false
+   },
+   "doc_url": "https://www.sec.gov/Archives/edgar/data/1702780/000121390026063179/ea029202901ex99a1a.htm",
+   "text_len": 234186,
+   "read_verdict": "STALE/RISKY \u2014 OTC micro (OPTU), fixed $2.50 w/ financing + minimum conditions, filed 6/1, expiry unparsed; liquidity and conditions fail the read bar. Revisit only on fresh amendment."
+  },
+  {
+   "accession": "0001476840-26-000063",
+   "doc": "exhibit5aiii-pressreleasef.htm",
+   "cik": "1476840",
+   "name": "Expensify, Inc.  (EXFY)  (CIK 0001476840)",
+   "form": "SC TO-I",
+   "filed": "2026-06-12",
+   "odd_lot_priority": true,
+   "offer": {
+    "kind": "dutch",
+    "low": 0.98,
+    "high": 1.2
+   },
+   "expiration": null,
+   "flags": {
+    "financing_condition": false,
+    "minimum_tender_condition": false,
+    "going_private_13e3": false
+   },
+   "doc_url": "https://www.sec.gov/Archives/edgar/data/1476840/000147684026000063/exhibit5aiii-pressreleasef.htm",
+   "text_len": 4021,
+   "read_verdict": "NOT_ACTIONABLE \u2014 hit was SC TO-I/A Amdt 3 FINAL RESULTS; Dutch $0.98-1.20 tender expired/settled before scan. Original filed 2026-05-13 (pre-window)."
+  },
+  {
+   "accession": "0001104659-26-078244",
+   "doc": "tm2615016-5_sctoia.htm",
+   "cik": "1918712",
+   "name": "ARES STRATEGIC INCOME FUND  (CIK 0001918712)",
+   "form": "SC TO-I",
+   "filed": "2026-06-26",
+   "odd_lot_priority": true,
+   "offer": {
+    "kind": "fixed",
+    "low": 27.0,
+    "high": 27.0
+   },
+   "expiration": null,
+   "flags": {
+    "financing_condition": false,
+    "minimum_tender_condition": false,
+    "going_private_13e3": true
+   },
+   "doc_url": "https://www.sec.gov/Archives/edgar/data/1918712/000110465926078244/tm2615016-5_sctoia.htm",
+   "text_len": 5674,
+   "read_verdict": "NOT_ACTIONABLE \u2014 non-traded fund."
+  },
+  {
+   "accession": "0001104659-26-077545",
+   "doc": "tm2615016-4_sctoia.htm",
+   "cik": "1918712",
+   "name": "ARES STRATEGIC INCOME FUND  (CIK 0001918712)",
+   "form": "SC TO-I",
+   "filed": "2026-06-25",
+   "odd_lot_priority": true,
+   "offer": {
+    "kind": "unknown",
+    "low": null,
+    "high": null
+   },
+   "expiration": "2026-06-18",
+   "flags": {
+    "financing_condition": false,
+    "minimum_tender_condition": false,
+    "going_private_13e3": true
+   },
+   "doc_url": "https://www.sec.gov/Archives/edgar/data/1918712/000110465926077545/tm2615016-4_sctoia.htm",
+   "text_len": 5952,
+   "read_verdict": "NOT_ACTIONABLE \u2014 non-traded fund."
+  },
+  {
+   "accession": "0001140361-26-023437",
+   "doc": "ny20074859x2_exa1i.htm",
+   "cik": "859796",
+   "name": "JAPAN SMALLER CAPITALIZATION FUND INC  (JOF)  (CIK 0000859796)",
+   "form": "SC TO-I",
+   "filed": "2026-06-01",
+   "odd_lot_priority": false,
+   "offer": {
+    "kind": "unknown",
+    "low": null,
+    "high": null
+   },
+   "expiration": "2026-07-01",
+   "flags": {
+    "financing_condition": false,
+    "minimum_tender_condition": true,
+    "going_private_13e3": false
+   },
+   "doc_url": "https://www.sec.gov/Archives/edgar/data/859796/000114036126023437/ny20074859x2_exa1i.htm",
+   "text_len": 83178,
+   "read_verdict": "NOT_ACTIONABLE \u2014 no odd-lot priority (pro-rata CEF tender), expired 7/1."
+  }
+ ],
+ "supply_log": [
+  {
+   "window": [
+    "2026-05-27",
+    "2026-07-11"
+   ],
+   "hits": 9,
+   "actionable": 0,
+   "note": "first supply data point for backlog #13 kill-spec (<12 actionable/yr kills)"
+  }
+ ]
+}
