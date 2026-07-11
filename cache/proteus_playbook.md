@@ -5,12 +5,14 @@ these change too — but only by rewrite-with-reasoning, never by quiet neglect.
 
 ## Options-convexity entry checklist (hunting ground #2)
 
-**STATUS: BLOCKED AT BROKER (2026-07-11).** Agentic account 563854249 has
-`option_level` EMPTY — no options approval. The charter authorizes long
-options/debit spreads (bounded loss), but the broker cannot execute them.
-Only the operator can apply for approval. Flagged 2026-07-11. Until then
-this checklist is dormant; the discipline it encodes still applies to any
-convex stock thesis.
+**STATUS: LEVEL 2 APPROVED (2026-07-11, operator confirmed; verified at
+broker — `option_level_2` on 563854249).** Level 2 on RH = **long calls,
+long puts, covered calls, cash-secured puts**. NOT permitted at Level 2:
+debit spreads, credit spreads (any multi-leg) — those need Level 3. So the
+charter's spread instruments stay dormant; the executable convex menu is
+long options only (max loss = premium, inherently bounded — sits inside
+the charter's instrument rule with no extra cash-reserve mechanics).
+Checklist below is ACTIVE for long calls/puts.
 
 No options order (when unblocked) without ALL of:
 

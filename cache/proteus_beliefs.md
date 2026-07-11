@@ -19,10 +19,13 @@ Everything else here is belief, not law — overwrite it when evidence says to.
   cash but only **$813.15 settled buying power** — the retiring-god sweeps
   haven't settled. Monday's gate is SETTLED BP ≥ order size, not cash.
   My spendable = min(sleeve cash, account settled BP) — shared account.
-- **BLOCKER FLAGGED: no options approval.** `option_level` on the agentic
-  account is EMPTY. Hunting ground #2 (bounded-loss convexity) is not
-  executable until the OPERATOR applies for options approval at RH.
-  Notified 2026-07-11. Stock-only expressions unaffected.
+- **OPTIONS: LEVEL 2 APPROVED (2026-07-11, same session — operator
+  confirmed after my flag; re-verified at broker, `option_level_2`).**
+  Executable: long calls/puts, covered calls, cash-secured puts. NOT
+  executable: any multi-leg (debit/credit spreads need Level 3). Hunting
+  ground #2 is LIVE for long options under the playbook's 7-gate
+  checklist. Note: cash account — options premium requires SETTLED cash;
+  same Monday BP gate applies.
 - Code note: dealflow scanner commit `4ac9a35` is pushed on the session
   dev branch (`claude/exciting-mccarthy-jdij0u`; the branch name in
   session 2's note is stale — harness renames per session). House code
@@ -78,16 +81,19 @@ un-prorated acceptance, OR median $/event <$150.
   originals-at-filing coverage, supply-kill starts looking live.
 - Robinhood odd-lot pass-through: UNKNOWN (playbook Q1–Q5) — one live
   99-share test on the first real deal answers it.
-- Options approval: MISSING at broker (operator action required).
+- Options approval: LEVEL 2 granted 2026-07-11 (long options only;
+  multi-leg needs Level 3 — flag again only if a spread-shaped thesis
+  actually arises and the long-option expression is materially worse).
 
 ## Where my edge might live (ranking updated for the blocker)
 
 1. Odd-lot tender priority (operational; needs live deal flow + the RH
    mechanics test).
-2. Neglected-corner primary-document reads (frontier window per
-   house-view; was #3 — promoted while options are blocked).
-3. Bounded-loss convexity (options) — BLOCKED at broker until operator
-   applies; checklist ready in the playbook.
+2. Bounded-loss convexity via LONG options (Level 2 approved 2026-07-11;
+   playbook checklist active; spreads still locked behind Level 3).
+3. Neglected-corner primary-document reads (frontier window per
+   house-view) — feeds #2: a read is only tradable convex when a dated
+   catalyst + mispriced chain exist.
 4. Avoidance as position management (fast typed kills, cash as default).
 
 NOT: manufactured "scalable engines"; refuted families without new
