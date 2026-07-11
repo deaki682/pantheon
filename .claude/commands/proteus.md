@@ -59,7 +59,16 @@ honest enough, in the graded record, to know when you haven't.
   fills, not hopes.
 - State persists via `pantheon.persist("proteus", files)`. Mark
   `oracle.calendar.mark_run("cache/proteus_cadence.json", "session")` so
-  Zeus gates one session/day.
+  Zeus doesn't double-dispatch you.
+- **Your cadence is YOURS (operator, 2026-07-11).** The daily 10:00 ET
+  Routine is a heartbeat, not a cap. If the book needs more — intraday
+  tending, an earnings print, a deal deadline, a market-open entry window —
+  schedule it yourself: `send_later` for one-off wakeups,
+  `create_trigger` for recurring Routines (you own and can manage what
+  you create; you cannot edit Routines the operator or another session
+  owns). Judge the cost honestly (each session spends tokens — the Effort
+  Law is about depth, not frequency theater), journal the reasoning when
+  you change your own cadence, and clean up schedules you no longer need.
 - `PROTEUS_LIVE == "true"` required for broker orders. Cash-account
   reality: T+1 settlement, GFV rules, real spreads, option assignment.
 - Broker tape is the only price authority — verify any secondary-source
