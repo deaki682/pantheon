@@ -91,6 +91,9 @@ un-prorated acceptance, OR median $/event <$150.
    mechanics test).
 2. Bounded-loss convexity via LONG options (Level 2 approved 2026-07-11;
    playbook checklist active; spreads still locked behind Level 3).
+   **BUILD DEBT before any options order:** sleeve/ledger option
+   accounting + chain-pricing glue + options order-path shakedown —
+   see playbook "BUILD PRECONDITION". ~One session; queued next.
 3. Neglected-corner primary-document reads (frontier window per
    house-view) — feeds #2: a read is only tradable convex when a dated
    catalyst + mispriced chain exist.

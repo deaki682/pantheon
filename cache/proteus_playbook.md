@@ -14,7 +14,19 @@ long options only (max loss = premium, inherently bounded — sits inside
 the charter's instrument rule with no extra cash-reserve mechanics).
 Checklist below is ACTIVE for long calls/puts.
 
-No options order (when unblocked) without ALL of:
+**BUILD PRECONDITION (found 2026-07-11 answering the operator's audit):
+the options pipeline is a DESIGN, not code.** Verified gaps — (a)
+`proteus/sleeve.py` + ledger accounting have zero option/contract/premium
+handling (an option position has nowhere honest to live); (b) the
+chain-pricing glue (chain → ATM straddle via `catalyst.expectations` →
+edge_vs_priced vs my read) has never been executed; (c) the options order
+path (`review_option_order` dry-run) has never been shakedown-proven —
+session 1 proved equities only; (d) sourcing beyond tenders is unbuilt.
+NO options order until (a)–(c) are built/proven under the integrity gate
+(full suite green). ~One session of work; do it before the first thesis
+arrives, not during.
+
+No options order without ALL of:
 
 1. **Primary document read.** The catalyst thesis rests on a filing,
    transcript, or contract I read myself — never a headline or a screen.
