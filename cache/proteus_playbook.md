@@ -14,17 +14,22 @@ long options only (max loss = premium, inherently bounded — sits inside
 the charter's instrument rule with no extra cash-reserve mechanics).
 Checklist below is ACTIVE for long calls/puts.
 
-**BUILD PRECONDITION (found 2026-07-11 answering the operator's audit):
-the options pipeline is a DESIGN, not code.** Verified gaps — (a)
-`proteus/sleeve.py` + ledger accounting have zero option/contract/premium
-handling (an option position has nowhere honest to live); (b) the
-chain-pricing glue (chain → ATM straddle via `catalyst.expectations` →
-edge_vs_priced vs my read) has never been executed; (c) the options order
-path (`review_option_order` dry-run) has never been shakedown-proven —
-session 1 proved equities only; (d) sourcing beyond tenders is unbuilt.
-NO options order until (a)–(c) are built/proven under the integrity gate
-(full suite green). ~One session of work; do it before the first thesis
-arrives, not during.
+**BUILD PRECONDITION — CLEARED 2026-07-11 session 4 (commit `a8c2938`,
+suite 1808 green).** (a) `proteus/options.py` + sleeve `option_positions`:
+long calls/puts live honestly with `max_loss = net debit` computed at
+entry; journal validates `instrument="option"` entries against gates 2/3/4
+mechanically (catalyst-expiry buffer, debit/max_loss consistency,
+edge-arithmetic floor); worthless expiry records at 0.0. (b) Chain glue
+executed on real SPY chain data (Sep-18 755 straddle): `priced_read`
+breakeven cross-checked EXACTLY against the broker's own break_even_price
+(776.42). (c) `review_option_order` dry-run returned clean structure on
+563854249 — order_checks (it flags wide spreads itself:
+OPTION_WIDE_BID_ASK_SPREAD), fees, collateral, live greeks. NO order
+placed. (d) sourcing beyond tenders: still unbuilt — the only remaining
+gap, and it's a research gap, not plumbing.
+**Fee reality (from the dry-run): ~$0.04/contract/side (OCC+ORF).**
+Immaterial vs a $150+ debit; remember it exists on multi-contract size.
+Remaining hard rule: the 7 gates below, every time.
 
 No options order without ALL of:
 
