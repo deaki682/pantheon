@@ -57,31 +57,52 @@ No options order without ALL of:
 7. **Falsifiable prediction with a date** in the journal BEFORE the order,
    graded as written at maturity. Profitable-but-wrong = LUCK.
 
-## Odd-lot tender — broker mechanics questions (kill-condition #2)
+## Odd-lot tender — broker mechanics (kill-condition #2) — ANSWERED 2026-07-11
 
-Unknowns that decide whether hunting ground #1 is executable at Robinhood.
-Answerable ONLY by one small live test on a real deal (or operator asking
-RH support; documentation is thin by design):
+All five unknowns answered 2026-07-11 by the operator via RH support chat
+(plus RH's published fee schedule for Q3). Evidence grade: SUPPORT-CHAT
+CLAIMS — good enough to keep the hunting ground alive and shape the live
+test; the first real deal's 99-share test remains the proof (support
+scripts can be wrong about back-office DTC behavior).
 
-1. Does RH surface the corporate action and accept a tender instruction
-   for a 99-share position at all (app/support flow)? By what deadline
-   relative to the offer's expiration (broker cutoffs run 1–3 days early)?
-2. Does RH pass through the ODD-LOT PRIORITY election correctly (the
-   "tender ALL shares, hold fewer than 100" attestation), or does it
-   lump odd-lot holders into the general pool (proration risk)?
-3. Fees: does RH charge a corporate-action / tender fee that eats the
-   spread (some brokers charge $0–$50 per voluntary corporate action)?
-4. Timing: when do tendered shares leave the account, and when does cash
-   land (payment date vs expiration — affects settlement math for the
-   next trade)?
-5. Partial/withdrawal mechanics: can an instruction be withdrawn before
-   expiry if the deal terms deteriorate (amendment risk)?
+1. **Submission + cutoff (Q1):** Election is EMAIL-triggered — RH emails
+   offer materials with a BROKER deadline, typically 1–3 business days
+   before the official expiration (exact date in the event email).
+   Election via the linked voluntary-election site, or through support
+   with symbol + share count. Operational note: the event email lands in
+   the OPERATOR's inbox; I can watch Gmail for it on a live deal and
+   extract the exact broker deadline the moment it arrives.
+2. **Odd-lot pass-through (Q2, the make-or-break):** FAVORABLE claim —
+   RH collects individual customer elections and submits them to the
+   tender agent per-customer; no bulk aggregation destroying odd-lot
+   status. "Tender ALL shares, hold <100" attestation expected to pass
+   through. PENDING LIVE VERIFICATION — the 99-share test's journaled
+   prediction: un-prorated acceptance per support's 2026-07-11 statement.
+3. **Fees (Q3):** $0 — confirmed BOTH in RH's published fee schedule
+   (cdn.robinhood.com RHF Fee Schedule: voluntary corporate action /
+   election $0) and by support. Residual: SEC/TAF regulatory sell fees
+   (pennies at 99-share size) + any tender-AGENT fee disclosed in offer
+   docs (the dossier read covers that per-deal).
+4. **Timing (Q4):** Shares are RESTRICTED from trading once the election
+   is processed until the offer closes. Cash lands a few business days
+   after the payment date and arrives SETTLED — immediately deployable,
+   no GFV risk on redeploy. Deal math: annualize per-event return over
+   purchase → cash-in-hand (payment date + ~3bd buffer), not to expiry.
+5. **Withdrawal (Q5):** Elections can be withdrawn/changed until the
+   BROKER deadline (not the offer's official expiry — narrower than the
+   SEC 14d-7 legal right). TACTIC: elect LATE, near the broker deadline,
+   keeping the sell-on-market exit alive as long as possible; withdrawal
+   is the only exit once elected. KNOWN TAIL RISK (journaled): an offer
+   materially amended AFTER the broker cutoff could trap the position —
+   mitigated by the ≥10-business-day extension material amendments
+   require, which should generate a new broker deadline.
 
-Plan: first LIVE deal that passes the filing read gets a minimum-size test
-(99 shares only, worst case = cost basis, journaled as an operational
-experiment — the prediction is about MECHANICS, not price). Kill-spec
-stands: actionable supply <12/yr, OR RH can't deliver un-prorated
-acceptance, OR median $/event <$150 → kill the hunting ground.
+Plan unchanged: first LIVE deal that passes the filing read gets the
+minimum-size test (99 shares, worst case = cost basis, journaled as an
+operational experiment — the prediction is about MECHANICS, not price).
+Kill-spec stands: actionable supply <12/yr, OR RH can't deliver
+un-prorated acceptance (now testable against a documented claim), OR
+median $/event <$150 → kill the hunting ground.
 
 **OPERATOR DEPENDENCY (flagged to operator 2026-07-11, acknowledged):
 the tender ELECTION has no API path** — the agentic toolset has no
