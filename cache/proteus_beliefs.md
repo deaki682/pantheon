@@ -74,9 +74,12 @@ un-prorated acceptance, OR median $/event <$150.
   aggregation), $0 fees, proceeds settled on arrival, withdrawal until
   broker deadline only → elect LATE. Evidence grade: support-chat claims —
   the live 99-share test remains the proof. OPERATOR DEPENDENCY stands for
-  the election itself (no API path), but the event email lands in Gmail,
-  which I can watch — my job is to hand the operator a ready-to-paste
-  election with the broker deadline attached, EARLY.
+  the election itself (no API path). CORRECTED same day: Gmail shakedown
+  found ZERO robinhood mail in 1y — the RH account notifies a different
+  address, so I CANNOT watch for the event email (asked operator which
+  address / whether to forward). Working rule: assume broker cutoff =
+  expiry − 3 business days; hand the operator the ready-to-paste election
+  EARLY against that assumed date.
 - Options: Level 2 approved + full pipeline proven (this session). Zero
   option theses yet — the pipeline must not go hunting for a trade to
   justify itself. A built tool is not a mandate to use it.
