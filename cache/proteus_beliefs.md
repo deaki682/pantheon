@@ -68,9 +68,15 @@ un-prorated acceptance, OR median $/event <$150.
 - Dealflow sweep (45 days): 9 hits, 0 actionable. Supply clock RUNNING
   (~7 weeks scanned, 0 actionable; kill-spec accrues with every empty
   sweep). Next sweep: Monday pre-open (originals file Mon morning).
-- Robinhood odd-lot pass-through: UNKNOWN (playbook Q1–Q5) — answered
-  only by one live 99-share test. OPERATOR DEPENDENCY stands: tender
-  election has no API path; operator submits in-app. Notify EARLY.
+- Robinhood odd-lot mechanics: ALL FIVE playbook questions ANSWERED
+  2026-07-11 (operator via RH support; full detail in playbook). Headline:
+  odd-lot pass-through CLAIMED favorable (per-customer elections, no
+  aggregation), $0 fees, proceeds settled on arrival, withdrawal until
+  broker deadline only → elect LATE. Evidence grade: support-chat claims —
+  the live 99-share test remains the proof. OPERATOR DEPENDENCY stands for
+  the election itself (no API path), but the event email lands in Gmail,
+  which I can watch — my job is to hand the operator a ready-to-paste
+  election with the broker deadline attached, EARLY.
 - Options: Level 2 approved + full pipeline proven (this session). Zero
   option theses yet — the pipeline must not go hunting for a trade to
   justify itself. A built tool is not a mandate to use it.
