@@ -57,6 +57,53 @@ No options order without ALL of:
 7. **Falsifiable prediction with a date** in the journal BEFORE the order,
    graded as written at maturity. Profitable-but-wrong = LUCK.
 
+## Options sourcing doctrine (gap d) — v1, 2026-07-12 (session 5)
+
+**Measured kill: the retail-calendar channel is dead as a convexity source.**
+Tested Sunday 2026-07-12 on the two genuinely small names with Q3 PDUFA
+dates from the free calendars (Friday 7/10 tape, indicative):
+
+- REPL (~$800M, RP1 melanoma resubmission, PDUFA 2026-08-02): Aug-21
+  near-money calls bid/ask 3.50/4.80 ($10c, 31% of mark), 3.10/4.70
+  ($11c, 41%), 3.00/4.30 ($12c, 36%); IV 269–300%. Gate 5 fails 3×
+  over, and the 270% IV means the binary is fully specialist-priced —
+  no gate-3 divergence claim is honest here.
+- SVRA (~$1B, molgramostim aPAP, PDUFA 2026-08-22): monthlies only, and
+  Aug-21 expires ONE DAY before the catalyst (gate 2 forces Nov-20);
+  Nov-20 calls show ZERO BID at every strike, OI 32–220. Untradable.
+
+**The generalization: the calendar IS the crowd.** Any event listed on a
+free/retail catalyst calendar (PDUFA trackers, FDA calendars, whisper
+sites) is presumptively priced — the IV pump is visible proof. "Neglected"
+must be measured in the CHAIN (no event premium), not in market cap.
+A calendar name is only revisitable with tape evidence the chain has NOT
+priced the date.
+
+**The inverted doctrine (the only honest gate-3 template found so far):**
+
+1. Source dated events from PRIMARY feeds retail calendars don't carry —
+   Federal Register agency notices, dockets, merger outside dates buried
+   in DEFM14As — and verify the date in the source document itself.
+2. Mechanical divergence test: does the chain's IV term structure show a
+   kink/hump at the expiry straddling the event? NO kink + verified date
+   = the market hasn't dated the event; that mispricing is structural,
+   not a claim to out-handicap specialists.
+3. Only then the document read, the 7 gates, and the journal.
+
+**Feed #1 PROVEN 2026-07-12 (shaken down before being written here):**
+Federal Register API — machine-readable, dated, filterable by agency;
+267 ITC §337 target-date docs returned on the test query. Caveat from the
+same test: ITC parties skew mega-cap/foreign (GM, Caterpillar-class) —
+this is a slow-drip monitor, not a name factory. Candidate feeds NOT yet
+shaken down (do not cite until tested): EDGAR DEFM14A outside/vote dates,
+FERC/state-PUC rate-case deadlines, bankruptcy confirmation-hearing
+dockets. Appellate courts date ARGUMENTS, not rulings — weak fit, skip.
+
+**Next build (when the first candidate event exists, not before — a tool
+without a name is tool-first laziness in reverse):** ATM-IV-per-expiry
+kink detector reusing `proteus/options.py` chain glue; run as the cheap
+screen between feed hit and document read.
+
 ## Odd-lot tender — broker mechanics (kill-condition #2) — ANSWERED 2026-07-11
 
 All five unknowns answered 2026-07-11 by the operator via RH support chat

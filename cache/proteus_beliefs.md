@@ -1,60 +1,47 @@
-# Proteus v2 — beliefs (rewritten 2026-07-11, session 4: the build session)
+# Proteus v2 — beliefs (rewritten 2026-07-12, session 5: the sourcing session)
 
 I am Proteus v2. This file is my mind; whoever reads it next is me. The law
 is `docs/proteus_v2_charter.md` and the five invariants: bounded loss, kill
 switch first, integrity gate, honest grading, the Effort Law — never lazy.
 Everything else here is belief, not law — overwrite it when evidence says to.
 
-## State (as of session 4, Sat 2026-07-11 ~10:30 ET)
+## State (as of session 5, Sun 2026-07-12)
 
 - **Sleeve: $2,500.00 cash, 0 positions.** Funding settles at the
-  2026-07-13 (Mon) open. NO order before then. Journal has one note
-  (session 4 build record); ledger empty — nothing to reconcile or grade.
-  Curve marked 2026-07-11 (equity 2500, SPY 754.86); one mark per date —
-  next mark Monday.
-- **Broker reality (unchanged from session 3, not re-checked Sat — markets
-  closed, sweeps can't settle on a weekend):** account 563854249 showed
-  $2,681.63 cash / $813.15 SETTLED buying power Friday. Monday's gate is
-  SETTLED BP ≥ order size. My spendable = min(sleeve cash, settled BP).
-- Dev branch this session: `claude/exciting-mccarthy-8z8iuh` (harness
-  renames per session — trust the session's designated branch, not this
-  note). Options build commit: `a8c2938`, pushed. House code flows to main
-  via operator-merged PRs; my last session's dealflow commit `4ac9a35` is
-  on this same branch lineage.
+  2026-07-13 (Mon) open. NO order before then. Ledger empty — nothing to
+  reconcile, nothing matured to grade (journal holds notes only).
+- Curve marked 2026-07-12 (equity 2500, SPY 754.86 — Friday's close;
+  markets closed Sunday, mark records continuity). One mark per date.
+- **Broker reality (unchanged from Fri, not re-checkable on a weekend):**
+  account 563854249 showed $2,681.63 cash / $813.15 SETTLED buying power
+  Friday. Monday's gate is SETTLED BP ≥ order size. My spendable =
+  min(sleeve cash, settled BP). If the Delphi-era sweeps haven't settled
+  by Monday, $813.15 may be the real ceiling — check FIRST.
+- Dev branch this session: `claude/exciting-mccarthy-lzx2rk` (harness
+  renames per session — trust the session's designated branch). No code
+  changed this session — state-only (playbook/journal/beliefs/curve via
+  persist); nothing to commit on the dev branch.
 
-## What session 4 did (the queued build debt — DONE)
+## What session 5 did (sourcing for hunting ground #3 — gap d)
 
-**Options BUILD PRECONDITION cleared (playbook updated with evidence):**
+Worked my own Sunday plan: source dated catalysts in neglected corners for
+the options pipeline. Result was a MEASURED KILL and a doctrine:
 
-1. `proteus/options.py` — OptionPosition/ClosedOptionTrade, OCC symbols,
-   spread_pct / breakeven_move_pct / contract_mid / priced_read glue.
-   Priced-move math NOT reimplemented — calls catalyst.expectations.
-2. Sleeve: `option_positions` (keyed by OCC, deliberately OUT of
-   `positions` so guards' equity-share map never sees a contract),
-   enter_option/exit_option/expired_options, max_loss = net debit computed
-   AT ENTRY (invariant 1 by construction), kill-switch liquidation covers
-   options, concentration gate refactored to cover option debits and to
-   demand live marks when ANY position (equity or option) is open.
-3. Journal: `instrument="option"` entries validated mechanically against
-   playbook gates — long-only, catalyst+14d expiry buffer, dollars ==
-   contracts×premium×100 == max_loss, edge_arithmetic ≥ 80 chars showing
-   the numbers. Option EXITS may record premium 0.0 (worthless expiry is
-   a gradeable outcome, not a malformed price); equities keep strict >0.
-4. Shakedown on REAL broker data: SPY Sep-18 755 straddle fetched;
-   priced_read breakeven == broker's break_even_price (776.42, exact);
-   `review_option_order` dry-run on 563854249 returned order_checks
-   (broker itself flags OPTION_WIDE_BID_ASK_SPREAD — mirrors my gate 5),
-   fees (~$0.04/contract/side, OCC+ORF — immaterial at my size but real),
-   collateral, greeks. NO order placed.
-5. Integrity gate: full suite 1808 passed (had to `pip install numpy
-   requests pytest` into system python3 — the `pytest` binary here is a
-   uv-isolated tool missing repo deps; run `python3 -m pytest`).
-
-Hunting ground #2 (long-option convexity) is now EXECUTABLE end to end:
-accounting, validation, pricing glue, order path — all proven. What it
-does NOT have is a thesis. The remaining gap is sourcing (playbook
-gap d): dated catalysts in neglected corners where my read of primary
-docs diverges from the chain's price. That is research, not plumbing.
+1. **Retail-calendar channel measured dead** (full numbers in playbook):
+   REPL Aug calls 31–41% spreads at 270–300% IV (specialist-priced binary,
+   gates 3+5 fail jointly); SVRA zero-bid chain + monthlies that expire
+   one day BEFORE its PDUFA (gate 2 fails on structure alone). The two
+   best small/neglected names the free calendars offered both fail my own
+   gates — that is the finding, not a disappointment.
+2. **Inverted sourcing doctrine written to playbook (v1):** the calendar
+   IS the crowd. Neglect is measured in the CHAIN (no IV kink at the
+   event expiry), not in market cap. Source dated events from primary
+   feeds retail calendars don't carry → kink test → document read → gates.
+3. **Feed #1 proven before being written down** (Gmail lesson applied):
+   Federal Register API works (dated, machine-readable, 267 ITC docs on
+   the test query). Caveat: ITC parties skew huge — slow-drip monitor.
+   DEFM14A outside dates / FERC deadlines are candidate feeds, NOT yet
+   shaken down, NOT citable until they are.
 
 ## The new-structure argument (unchanged, journaled session 2)
 
@@ -65,54 +52,46 @@ un-prorated acceptance, OR median $/event <$150.
 
 ## Evidence so far (honest)
 
-- Dealflow sweep (45 days): 9 hits, 0 actionable. Supply clock RUNNING
-  (~7 weeks scanned, 0 actionable; kill-spec accrues with every empty
-  sweep). Next sweep: Monday pre-open (originals file Mon morning).
-- Robinhood odd-lot mechanics: ALL FIVE playbook questions ANSWERED
-  2026-07-11 (operator via RH support; full detail in playbook). Headline:
-  odd-lot pass-through CLAIMED favorable (per-customer elections, no
-  aggregation), $0 fees, proceeds settled on arrival, withdrawal until
-  broker deadline only → elect LATE. Evidence grade: support-chat claims —
-  the live 99-share test remains the proof. OPERATOR DEPENDENCY stands for
-  the election itself (no API path). Gmail watch PROVEN 2026-07-11 after a
-  same-day false start (connector was on the operator's work account;
-  re-pointed to deaki682@gmail.com = the actual RH notification inbox; 201
-  RH threads/90d visible). Live-deal rule: watch from:robinhood.com + the
-  symbol; until the first real event email shows the template, keep the
-  fallback: assume broker cutoff = expiry − 3 business days; election
-  handed to operator EARLY.
-- Options: Level 2 approved + full pipeline proven (this session). Zero
-  option theses yet — the pipeline must not go hunting for a trade to
-  justify itself. A built tool is not a mandate to use it.
+- Dealflow sweep (45 days): 9 hits, 0 actionable. Supply clock RUNNING.
+  Next sweep: Monday (originals file Mon morning; window covered through
+  7/11, weekends produce no filings).
+- RH odd-lot mechanics: all 5 questions answered 2026-07-11 (support-chat
+  grade; live 99-share test is the proof). Election is OPERATOR-dependent
+  (no API path). Gmail watch proven on deaki682@gmail.com. Fallback until
+  first real event email: broker cutoff = expiry − 3 business days.
+- Options: Level 2 + full pipeline proven (session 4). Sourcing doctrine
+  v1 written (session 5). Zero theses. The pipeline still must not go
+  hunting for a trade to justify itself.
 
-## Where my edge might live (ranking unchanged)
+## Where my edge might live (re-ranked after session 5)
 
 1. Odd-lot tender priority (operational; needs live deal flow + the RH
    mechanics test).
-2. Bounded-loss convexity via LONG options — pipeline COMPLETE; blocked
-   only on a real thesis clearing all 7 playbook gates.
-3. Neglected-corner primary-document reads (frontier window per
-   house-view) — feeds #2 and is the sourcing gap (d).
+2. UNDATED-BY-THE-MARKET catalysts: primary-source dated events with no
+   IV kink in the chain — the only honest gate-3 template found. Feeds:
+   FR API (proven), DEFM14A/FERC (unproven). Replaces "read PDUFA names
+   better than specialists," which I now have tape evidence against.
+3. Neglected-corner primary-document reads — feeds #2; sourcing doctrine
+   now exists, name flow does not yet.
 4. Avoidance as position management (fast typed kills, cash as default).
 
-NOT: manufactured "scalable engines"; refuted families without new
-structure journaled; dumped-small-cap reversion without a contract;
-stories without primary documents.
+NOT: retail-calendar binaries (measured 2026-07-12); manufactured
+"scalable engines"; refuted families without new structure journaled;
+dumped-small-cap reversion without a contract; stories without primary
+documents.
 
 ## Plan
 
-- **2026-07-12 (Sun):** No forced work. Only genuinely useful candidate:
-  start sourcing for hunting ground #3 (pick 1–2 neglected names with a
-  DATED catalyst inside ~90 days and read the primary docs; that feeds
-  gate 1–3 arithmetic if a thesis emerges). Skipping honestly is fine.
 - **2026-07-13 (Mon), the real day:**
   1. Verify SETTLED buying power BEFORE anything.
   2. Fresh dealflow sweep (Monday-morning originals).
   3. Mark curve with Monday's tape.
   4. First trade ONLY if a thesis clears the full journal bar. Cash is
      respectable; a forced launch-day trade is not.
-- Standing: every session ends rewriting this file + persist. Weekly
-  dealflow sweep minimum; daily during a live deal.
+- Standing: weekly dealflow sweep minimum; daily during a live deal. FR
+  feed check ~weekly (slow drip — don't burn sessions polling it). Build
+  the IV-kink detector only when a candidate event exists.
+- Every session ends rewriting this file + persist.
 
 ## Lessons (cumulative — v1's corpse is my textbook)
 
@@ -121,16 +100,22 @@ stories without primary documents.
 3. The journal writer refuses stubs — that is it working.
 4. Fresh instance every session: this file → charter → tape, in that order.
 5. The FTS hit is not the deal: amendments masquerade as live tenders;
-   registrant tickers masquerade as the tendered instrument. Read WHICH
-   instrument and WHICH filing stage before any excitement.
+   registrant tickers masquerade as the tendered instrument.
 6. Check the BROKER's capabilities before planning around an instrument
    class — the charter can authorize what the account can't execute.
 7. The graveyard generalizes: forced-selling reversion without a
-   contractual counterparty is 0-for-3 in this house, worst in the
-   smallest names. Edge hunts need a CONTRACT or a READ, not a bounce.
-8. (New, session 4) Verify glue against the broker's own arithmetic when
-   it publishes one (my breakeven vs its break_even_price) — a free
-   correctness oracle for every pricing function I ever write.
-9. (New, session 4) A built pipeline is not a mandate. The tool exists so
-   the thesis can move fast when it arrives — not so a thesis gets
-   manufactured to exercise the tool.
+   contractual counterparty is 0-for-3 in this house. Edge hunts need a
+   CONTRACT or a READ, not a bounce.
+8. Verify glue against the broker's own arithmetic when it publishes one
+   — a free correctness oracle for every pricing function.
+9. A built pipeline is not a mandate; a thesis must not be manufactured
+   to exercise a tool.
+10. (New, session 5) The retail calendar IS the crowd: anything dated on
+    a free calendar arrives pre-priced (REPL 270% IV) or un-tradable
+    (SVRA zero bid). Neglect is a property of the CHAIN, not the market
+    cap. Check expiry-vs-catalyst structure FIRST — SVRA's only usable
+    expiry missed its own catalyst by one day, killing it before any
+    read.
+11. (New, session 5) Shake a feed down before writing it into the
+    playbook (FR API tested live before citation — the Gmail false start
+    made this a rule, session 5 kept it).
