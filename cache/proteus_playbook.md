@@ -69,9 +69,15 @@ scripts can be wrong about back-office DTC behavior).
    offer materials with a BROKER deadline, typically 1–3 business days
    before the official expiration (exact date in the event email).
    Election via the linked voluntary-election site, or through support
-   with symbol + share count. Operational note: the event email lands in
-   the OPERATOR's inbox; I can watch Gmail for it on a live deal and
-   extract the exact broker deadline the moment it arrives.
+   with symbol + share count. Operational note — CORRECTED after a live
+   Gmail shakedown (2026-07-11): the connected Gmail (deaki682@) has ZERO
+   Robinhood mail in the past year, so the RH account notifies a
+   DIFFERENT address — I CANNOT watch for the event email as first
+   claimed (unverified-claim violation, caught same day; asked operator
+   which address RH uses / whether to forward). Until that's resolved,
+   the working rule on a live deal: assume broker cutoff = official
+   expiration MINUS 3 business days, and hand the operator the
+   ready-to-paste election EARLY against that assumed date.
 2. **Odd-lot pass-through (Q2, the make-or-break):** FAVORABLE claim —
    RH collects individual customer elections and submits them to the
    tender agent per-customer; no bulk aggregation destroying odd-lot
