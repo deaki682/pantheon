@@ -1,33 +1,245 @@
 {
-  "symbols": [
-    "MEGL",
-    "STWI",
-    "NCI",
-    "EROC",
-    "HWKE",
-    "SAFX",
-    "PBLS",
-    "HCAT",
-    "SMHI",
-    "CAES",
-    "VRXA",
-    "NEN",
-    "USDW",
-    "ALLT",
-    "KARD",
-    "AZTR",
-    "SLBT",
-    "EQS",
-    "EQPT",
-    "CNTA",
-    "RTB",
-    "LRHC",
-    "ADTX",
-    "TBBB",
-    "ALGS",
-    "FSK"
+  "filings": [
+    {
+      "accession_no": "0001213900-26-076953",
+      "cik": "0001574565",
+      "filing_date": "2026-07-10",
+      "form": "SC 13D",
+      "symbol": "EVGN"
+    },
+    {
+      "accession_no": "0000912282-26-000961",
+      "cik": "0001534133",
+      "filing_date": "2026-07-10",
+      "form": "SC 13D",
+      "symbol": "CALC"
+    },
+    {
+      "accession_no": "0002141719-26-000003",
+      "cik": "0002088256",
+      "filing_date": "2026-07-09",
+      "form": "SC 13D",
+      "symbol": ""
+    },
+    {
+      "accession_no": "0001734341-26-000007",
+      "cik": "0001614178",
+      "filing_date": "2026-07-09",
+      "form": "SC 13D",
+      "symbol": "YEXT"
+    },
+    {
+      "accession_no": "0001493152-26-032723",
+      "cik": "0001775734",
+      "filing_date": "2026-07-09",
+      "form": "SC 13D",
+      "symbol": ""
+    },
+    {
+      "accession_no": "0000950103-26-010462",
+      "cik": "0002094496",
+      "filing_date": "2026-07-09",
+      "form": "SC 13D",
+      "symbol": "SECZ"
+    },
+    {
+      "accession_no": "0000950103-26-010461",
+      "cik": "0002094496",
+      "filing_date": "2026-07-09",
+      "form": "SC 13D",
+      "symbol": "SECZ"
+    },
+    {
+      "accession_no": "0000905148-26-003216",
+      "cik": "0001451809",
+      "filing_date": "2026-07-09",
+      "form": "SC 13D",
+      "symbol": "SITM"
+    },
+    {
+      "accession_no": "0001213900-26-076497",
+      "cik": "0001734750",
+      "filing_date": "2026-07-08",
+      "form": "SC 13D",
+      "symbol": "MOVE"
+    },
+    {
+      "accession_no": "0001213900-26-076496",
+      "cik": "0001734750",
+      "filing_date": "2026-07-08",
+      "form": "SC 13D",
+      "symbol": "MOVE"
+    },
+    {
+      "accession_no": "0001104659-26-081782",
+      "cik": "0001604191",
+      "filing_date": "2026-07-08",
+      "form": "SC 13D",
+      "symbol": "GRDX"
+    },
+    {
+      "accession_no": "0001213900-26-076019",
+      "cik": "0002113481",
+      "filing_date": "2026-07-07",
+      "form": "SC 13D",
+      "symbol": ""
+    },
+    {
+      "accession_no": "0001193125-26-297650",
+      "cik": "0001224133",
+      "filing_date": "2026-07-07",
+      "form": "SC 13D",
+      "symbol": "MCHX"
+    },
+    {
+      "accession_no": "0001104659-26-081193",
+      "cik": "0002063706",
+      "filing_date": "2026-07-07",
+      "form": "SC 13D",
+      "symbol": ""
+    },
+    {
+      "accession_no": "0001214659-26-008243",
+      "cik": "0001017303",
+      "filing_date": "2026-07-06",
+      "form": "SC 13D",
+      "symbol": "TACT"
+    },
+    {
+      "accession_no": "0001213900-26-074959",
+      "cik": "0002125551",
+      "filing_date": "2026-07-02",
+      "form": "SC 13D",
+      "symbol": ""
+    },
+    {
+      "accession_no": "0001193125-26-295162",
+      "cik": "0001534133",
+      "filing_date": "2026-07-02",
+      "form": "SC 13D",
+      "symbol": "CALC"
+    },
+    {
+      "accession_no": "0001193125-26-295053",
+      "cik": "0001959604",
+      "filing_date": "2026-07-02",
+      "form": "SC 13D",
+      "symbol": ""
+    },
+    {
+      "accession_no": "0000902664-26-003000",
+      "cik": "0001787297",
+      "filing_date": "2026-07-02",
+      "form": "SC 13D",
+      "symbol": "PASG"
+    },
+    {
+      "accession_no": "0000779335-26-000006",
+      "cik": "0000014846",
+      "filing_date": "2026-07-02",
+      "form": "SC 13D",
+      "symbol": "BRT"
+    },
+    {
+      "accession_no": "0000779335-26-000005",
+      "cik": "0000712770",
+      "filing_date": "2026-07-02",
+      "form": "SC 13D",
+      "symbol": "OLP"
+    },
+    {
+      "accession_no": "0001437749-26-022352",
+      "cik": "0002013792",
+      "filing_date": "2026-07-01",
+      "form": "SC 13D",
+      "symbol": "EWSB"
+    },
+    {
+      "accession_no": "0001193125-26-292841",
+      "cik": "0001498547",
+      "filing_date": "2026-07-01",
+      "form": "SC 13D",
+      "symbol": "CMRF"
+    },
+    {
+      "accession_no": "0001214659-26-007982",
+      "cik": "0001643303",
+      "filing_date": "2026-06-30",
+      "form": "SC 13D",
+      "symbol": "NNDM"
+    },
+    {
+      "accession_no": "0001976454-26-000002",
+      "cik": "0001927719",
+      "filing_date": "2026-06-29",
+      "form": "SC 13D",
+      "symbol": ""
+    },
+    {
+      "accession_no": "0001193125-26-288406",
+      "cik": "0002123613",
+      "filing_date": "2026-06-29",
+      "form": "SC 13D",
+      "symbol": "KARD"
+    },
+    {
+      "accession_no": "0000950157-26-000772",
+      "cik": "0001549107",
+      "filing_date": "2026-06-29",
+      "form": "SC 13D",
+      "symbol": "MANU"
+    },
+    {
+      "accession_no": "0000902664-26-002944",
+      "cik": "0001529274",
+      "filing_date": "2026-06-29",
+      "form": "SC 13D",
+      "symbol": "ALKT"
+    },
+    {
+      "accession_no": "0001213900-26-072628",
+      "cik": "0002049662",
+      "filing_date": "2026-06-26",
+      "form": "SC 13D",
+      "symbol": ""
+    },
+    {
+      "accession_no": "0001185185-26-002683",
+      "cik": "0001419275",
+      "filing_date": "2026-06-26",
+      "form": "SC 13D",
+      "symbol": "RTB"
+    },
+    {
+      "accession_no": "0001104659-26-078371",
+      "cik": "0000746514",
+      "filing_date": "2026-06-26",
+      "form": "SC 13D",
+      "symbol": "NEN"
+    }
   ],
-  "count": 40,
-  "date_from": "2026-05-29",
-  "date_to": "2026-06-28"
+  "lookback_days": 30,
+  "symbols": [
+    "ALKT",
+    "BRT",
+    "CALC",
+    "CMRF",
+    "EVGN",
+    "EWSB",
+    "GRDX",
+    "KARD",
+    "MANU",
+    "MCHX",
+    "MOVE",
+    "NEN",
+    "NNDM",
+    "OLP",
+    "PASG",
+    "RTB",
+    "SECZ",
+    "SITM",
+    "TACT",
+    "YEXT"
+  ],
+  "updated_at": "2026-07-12T09:46:58.510512+00:00"
 }

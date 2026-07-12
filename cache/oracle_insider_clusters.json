@@ -1,19 +1,25 @@
 {
   "clusters": [
     {
-      "earliest_date": "2026-04-29",
-      "insider_count": 3,
+      "earliest_date": "2026-06-30",
+      "insider_count": 9,
       "insiders": [
-        "CHEUNG MARTINA",
-        "Clay Catherine R",
-        "Moritz Robert Edward Jr."
+        "Aeppel Glyn",
+        "GLASSCOCK LARRY C",
+        "LEIBOWITZ REUBEN S",
+        "LEWIS RANDALL J",
+        "RODKIN GARY M",
+        "Roe Peggy",
+        "SELIG STEFAN M",
+        "STEWART MARTA R",
+        "Smith Daniel C."
       ],
-      "latest_date": "2026-05-01",
-      "symbol": "SPGI",
-      "total_dollars": 2576773.28388
+      "latest_date": "2026-06-30",
+      "symbol": "SPG",
+      "total_dollars": 520107.91
     },
     {
-      "earliest_date": "2026-05-04",
+      "earliest_date": "2026-05-13",
       "insider_count": 3,
       "insiders": [
         "Clark Benjamin M.",
@@ -22,7 +28,7 @@
       ],
       "latest_date": "2026-06-11",
       "symbol": "ECL",
-      "total_dollars": 2719510.6
+      "total_dollars": 2513981.0
     },
     {
       "earliest_date": "2026-05-19",
@@ -63,16 +69,15 @@
       "total_dollars": 5487493.5
     },
     {
-      "earliest_date": "2026-05-11",
-      "insider_count": 3,
+      "earliest_date": "2026-05-13",
+      "insider_count": 2,
       "insiders": [
         "Bisaro Paul",
-        "DAMELIO FRANK A",
-        "MCCALLISTER MICHAEL B"
+        "DAMELIO FRANK A"
       ],
       "latest_date": "2026-05-13",
       "symbol": "ZTS",
-      "total_dollars": 886366.9
+      "total_dollars": 653093.5
     },
     {
       "earliest_date": "2026-05-15",
@@ -86,36 +91,6 @@
       "latest_date": "2026-05-22",
       "symbol": "AMRZ",
       "total_dollars": 2717313.96
-    },
-    {
-      "earliest_date": "2026-04-30",
-      "insider_count": 8,
-      "insiders": [
-        "Arduini Peter J",
-        "CULP H LAWRENCE JR",
-        "Hochman Rodney F",
-        "Jimenez Frank R",
-        "Lobo Kevin",
-        "SACCARO JAMES",
-        "Stromberg William J",
-        "Yang Watkin Phoebe L."
-      ],
-      "latest_date": "2026-05-22",
-      "symbol": "GEHC",
-      "total_dollars": 6423135.903500001
-    },
-    {
-      "earliest_date": "2026-06-05",
-      "insider_count": 4,
-      "insiders": [
-        "BANKS LEE C",
-        "Giadrossi Nicoletta",
-        "LINEBARGER NORMAN THOMAS",
-        "Yetman Christopher"
-      ],
-      "latest_date": "2026-06-05",
-      "symbol": "INIO",
-      "total_dollars": 4559976.0
     },
     {
       "earliest_date": "2026-06-16",
@@ -133,29 +108,20 @@
       "total_dollars": 1723401.25
     },
     {
-      "earliest_date": "2026-05-04",
-      "insider_count": 2,
+      "earliest_date": "2026-06-05",
+      "insider_count": 4,
       "insiders": [
-        "Clarke Lucy",
-        "Hess Carl Aaron"
+        "BANKS LEE C",
+        "Giadrossi Nicoletta",
+        "LINEBARGER NORMAN THOMAS",
+        "Yetman Christopher"
       ],
-      "latest_date": "2026-05-06",
-      "symbol": "WTW",
-      "total_dollars": 1009500.04
+      "latest_date": "2026-06-05",
+      "symbol": "INIO",
+      "total_dollars": 4559976.0
     },
     {
-      "earliest_date": "2026-05-08",
-      "insider_count": 2,
-      "insiders": [
-        "Batista de Lima Filho Pedro",
-        "Corso Matte Ana Silvia"
-      ],
-      "latest_date": "2026-06-03",
-      "symbol": "AXIA3",
-      "total_dollars": 57893451.0
-    },
-    {
-      "earliest_date": "2026-05-07",
+      "earliest_date": "2026-06-04",
       "insider_count": 2,
       "insiders": [
         "Teunissen Marcel",
@@ -163,23 +129,49 @@
       ],
       "latest_date": "2026-06-12",
       "symbol": "EXE",
-      "total_dollars": 560880.0
+      "total_dollars": 368020.0
     },
     {
-      "earliest_date": "2026-05-08",
-      "insider_count": 7,
+      "earliest_date": "2026-06-05",
+      "insider_count": 11,
       "insiders": [
-        "BRYANT JOHN A",
-        "Bishop James Philip",
-        "Bomhard Stefan Andreas",
-        "Jackson Jeremy Peter",
-        "LIU DON H",
+        "BHATIA MANISH H",
+        "Barron Hal",
+        "Branderiz Eric",
+        "DENMAN KENNETH D",
+        "Daugherty Paul R.",
+        "Dehoff Kevin Scott",
+        "JIMENEZ JOSEPH",
+        "Kapur Vimal",
+        "Narang Prineha",
+        "SHARAN NITESH",
+        "Stepniak Michal"
+      ],
+      "latest_date": "2026-06-05",
+      "symbol": "QNT",
+      "total_dollars": 24661920.0
+    },
+    {
+      "earliest_date": "2026-05-11",
+      "insider_count": 2,
+      "insiders": [
         "Lennon Carolan",
         "Taylor Daniel Mark"
       ],
       "latest_date": "2026-05-12",
       "symbol": "FLUT",
-      "total_dollars": 1045574.66856
+      "total_dollars": 299582.7665
+    },
+    {
+      "earliest_date": "2026-07-02",
+      "insider_count": 2,
+      "insiders": [
+        "Farina Matias Osvaldo",
+        "Marin Horacio Daniel"
+      ],
+      "latest_date": "2026-07-02",
+      "symbol": "YPF",
+      "total_dollars": 532929.6
     },
     {
       "earliest_date": "2026-05-26",
@@ -193,7 +185,7 @@
       "total_dollars": 284412.5
     },
     {
-      "earliest_date": "2026-05-08",
+      "earliest_date": "2026-05-13",
       "insider_count": 2,
       "insiders": [
         "Fernandez Manuel J",
@@ -201,7 +193,7 @@
       ],
       "latest_date": "2026-05-15",
       "symbol": "J",
-      "total_dollars": 477650.157
+      "total_dollars": 428512.77
     },
     {
       "earliest_date": "2026-05-14",
@@ -239,17 +231,6 @@
       "total_dollars": 103616650.0
     },
     {
-      "earliest_date": "2026-05-26",
-      "insider_count": 2,
-      "insiders": [
-        "KADOW JOSEPH JOHN",
-        "Thompson Douglas W."
-      ],
-      "latest_date": "2026-06-03",
-      "symbol": "CAVA",
-      "total_dollars": 661550.0
-    },
-    {
       "earliest_date": "2026-06-03",
       "insider_count": 2,
       "insiders": [
@@ -273,46 +254,6 @@
       "latest_date": "2026-06-12",
       "symbol": "RYAN",
       "total_dollars": 4568609.121
-    },
-    {
-      "earliest_date": "2026-05-07",
-      "insider_count": 7,
-      "insiders": [
-        "Byng-Thorne Zillah",
-        "CHIDSEY JOHN",
-        "COHEN JONATHAN Z",
-        "Cil Jose E.",
-        "Lansberry Kevin Allen",
-        "MacDonald Brian P",
-        "PAGLIUCA STEPHEN G"
-      ],
-      "latest_date": "2026-06-02",
-      "symbol": "NCLH",
-      "total_dollars": 29163646.21
-    },
-    {
-      "earliest_date": "2026-05-11",
-      "insider_count": 3,
-      "insiders": [
-        "NORRINGTON LORRIE M",
-        "Rangan Yamini",
-        "Shah Dharmesh"
-      ],
-      "latest_date": "2026-05-12",
-      "symbol": "HUBS",
-      "total_dollars": 2585781.46
-    },
-    {
-      "earliest_date": "2026-05-14",
-      "insider_count": 3,
-      "insiders": [
-        "Kapoor Gaurav",
-        "Poloni Lara",
-        "Rudd Troy"
-      ],
-      "latest_date": "2026-06-16",
-      "symbol": "ACM",
-      "total_dollars": 699391.02
     },
     {
       "earliest_date": "2026-05-14",
@@ -339,6 +280,42 @@
       "total_dollars": 2907343.4499999997
     },
     {
+      "earliest_date": "2026-05-18",
+      "insider_count": 4,
+      "insiders": [
+        "CHIDSEY JOHN",
+        "COHEN JONATHAN Z",
+        "Cil Jose E.",
+        "PAGLIUCA STEPHEN G"
+      ],
+      "latest_date": "2026-06-02",
+      "symbol": "NCLH",
+      "total_dollars": 28197160.0
+    },
+    {
+      "earliest_date": "2026-05-14",
+      "insider_count": 3,
+      "insiders": [
+        "Kapoor Gaurav",
+        "Poloni Lara",
+        "Rudd Troy"
+      ],
+      "latest_date": "2026-06-16",
+      "symbol": "ACM",
+      "total_dollars": 699391.02
+    },
+    {
+      "earliest_date": "2026-05-26",
+      "insider_count": 2,
+      "insiders": [
+        "KADOW JOSEPH JOHN",
+        "Thompson Douglas W."
+      ],
+      "latest_date": "2026-06-03",
+      "symbol": "CAVA",
+      "total_dollars": 661550.0
+    },
+    {
       "earliest_date": "2026-05-21",
       "insider_count": 3,
       "insiders": [
@@ -349,19 +326,6 @@
       "latest_date": "2026-05-22",
       "symbol": "CELH",
       "total_dollars": 716358.0
-    },
-    {
-      "earliest_date": "2026-05-07",
-      "insider_count": 4,
-      "insiders": [
-        "Hope James D",
-        "PEREZ DE LA MESA MANUEL J",
-        "STOKELY JOHN E",
-        "WHALEN DAVID G"
-      ],
-      "latest_date": "2026-05-13",
-      "symbol": "POOL",
-      "total_dollars": 4042725.56
     },
     {
       "earliest_date": "2026-06-22",
@@ -378,16 +342,22 @@
       "total_dollars": 1268036.74
     },
     {
-      "earliest_date": "2026-04-27",
-      "insider_count": 3,
+      "earliest_date": "2026-06-26",
+      "insider_count": 9,
       "insiders": [
-        "GARCIA LAURA",
-        "HYLE KATHLEEN W",
-        "Wallace Michael J Wallace"
+        "Brooks Henry F",
+        "Charles Dirkson R",
+        "Danmola Taiwo K.",
+        "Deal Stanley A",
+        "Egan David John",
+        "Mays Jason",
+        "Meixner Willibald",
+        "Quinn Michael (Mike) Joseph",
+        "Sanders Nick"
       ],
-      "latest_date": "2026-04-27",
-      "symbol": "XE",
-      "total_dollars": 280600.0
+      "latest_date": "2026-06-26",
+      "symbol": "DPC",
+      "total_dollars": 75821493.0
     },
     {
       "earliest_date": "2026-05-27",
@@ -405,80 +375,15 @@
       "total_dollars": 681443.26
     },
     {
-      "earliest_date": "2026-05-15",
-      "insider_count": 4,
-      "insiders": [
-        "BHATIA NAVEEN",
-        "HILL W BRYAN",
-        "Schlacks Jabbok",
-        "Schlacks William J."
-      ],
-      "latest_date": "2026-06-15",
-      "symbol": "EQPT",
-      "total_dollars": 2870809.67
-    },
-    {
-      "earliest_date": "2026-05-08",
-      "insider_count": 4,
+      "earliest_date": "2026-05-12",
+      "insider_count": 2,
       "insiders": [
         "Ball George L.",
-        "Holdsworth Mark Keith",
-        "McMahon Harry T.",
-        "Smith Carey A."
+        "Holdsworth Mark Keith"
       ],
       "latest_date": "2026-05-13",
       "symbol": "PSN",
-      "total_dollars": 2128718.36
-    },
-    {
-      "earliest_date": "2026-05-11",
-      "insider_count": 4,
-      "insiders": [
-        "Hilsheimer Lawrence A.",
-        "Miller Michael Thomas",
-        "Niswonger Jason R",
-        "Wheeler Brad A"
-      ],
-      "latest_date": "2026-06-11",
-      "symbol": "IBP",
-      "total_dollars": 1042804.0249999999
-    },
-    {
-      "earliest_date": "2026-05-04",
-      "insider_count": 2,
-      "insiders": [
-        "LANGLEY BRYAN",
-        "PAULSEN BRADLEY"
-      ],
-      "latest_date": "2026-05-04",
-      "symbol": "FND",
-      "total_dollars": 372975.0
-    },
-    {
-      "earliest_date": "2026-05-11",
-      "insider_count": 3,
-      "insiders": [
-        "Kaye Eric A.",
-        "Temple Chris",
-        "Weiler Melissa"
-      ],
-      "latest_date": "2026-05-22",
-      "symbol": "OTF",
-      "total_dollars": 194710.0
-    },
-    {
-      "earliest_date": "2026-05-08",
-      "insider_count": 5,
-      "insiders": [
-        "Ahmad Fawad",
-        "Houston Daniel Joseph",
-        "Khan Omar",
-        "Likosar Jeffrey",
-        "Miller Kimberly"
-      ],
-      "latest_date": "2026-05-29",
-      "symbol": "ADT",
-      "total_dollars": 477415.098
+      "total_dollars": 1012673.36
     },
     {
       "earliest_date": "2026-05-19",
@@ -492,6 +397,17 @@
       "latest_date": "2026-06-01",
       "symbol": "RLI",
       "total_dollars": 858955.0
+    },
+    {
+      "earliest_date": "2026-07-08",
+      "insider_count": 2,
+      "insiders": [
+        "Griffith William J.G.",
+        "ICONIQ Strategic Partners VIII Holdings, L.P."
+      ],
+      "latest_date": "2026-07-08",
+      "symbol": "NTSK",
+      "total_dollars": 14432129.768
     },
     {
       "earliest_date": "2026-05-14",
@@ -519,17 +435,6 @@
       "total_dollars": 6616482.9977
     },
     {
-      "earliest_date": "2026-06-05",
-      "insider_count": 2,
-      "insiders": [
-        "GENERAL ATLANTIC GENPAR, L.P.",
-        "General Atlantic (LFT), L.P."
-      ],
-      "latest_date": "2026-06-05",
-      "symbol": "LFTO",
-      "total_dollars": 59999962.0
-    },
-    {
       "earliest_date": "2026-05-13",
       "insider_count": 3,
       "insiders": [
@@ -540,34 +445,6 @@
       "latest_date": "2026-05-13",
       "symbol": "FCN",
       "total_dollars": 2076583.8
-    },
-    {
-      "earliest_date": "2026-05-26",
-      "insider_count": 3,
-      "insiders": [
-        "BERKMAN DAVID J",
-        "Kramer Andrea Anigati",
-        "Rogers Hartley R."
-      ],
-      "latest_date": "2026-06-11",
-      "symbol": "HLNE",
-      "total_dollars": 14241108.139999999
-    },
-    {
-      "earliest_date": "2026-04-30",
-      "insider_count": 7,
-      "insiders": [
-        "Bigley Deirdre Mary",
-        "Fleet George",
-        "KURTZ WILLIAM",
-        "Koerl Carsten",
-        "Ramanathan Rajani",
-        "Walder Marc",
-        "YABUKI JEFFERY W"
-      ],
-      "latest_date": "2026-05-06",
-      "symbol": "SRAD",
-      "total_dollars": 11349413.386495
     },
     {
       "earliest_date": "2026-05-13",
@@ -581,6 +458,18 @@
       "latest_date": "2026-05-20",
       "symbol": "KBR",
       "total_dollars": 945165.6
+    },
+    {
+      "earliest_date": "2026-05-26",
+      "insider_count": 3,
+      "insiders": [
+        "BERKMAN DAVID J",
+        "Kramer Andrea Anigati",
+        "Rogers Hartley R."
+      ],
+      "latest_date": "2026-06-11",
+      "symbol": "HLNE",
+      "total_dollars": 14241108.139999999
     },
     {
       "earliest_date": "2026-05-12",
@@ -597,41 +486,40 @@
       "total_dollars": 1245733.17226
     },
     {
-      "earliest_date": "2026-05-07",
-      "insider_count": 3,
-      "insiders": [
-        "ABRAMSON STEVEN V",
-        "ELIAS RICHARD C",
-        "Premutico Mauro"
-      ],
-      "latest_date": "2026-05-11",
-      "symbol": "OLED",
-      "total_dollars": 1465644.5
-    },
-    {
-      "earliest_date": "2026-05-05",
-      "insider_count": 5,
-      "insiders": [
-        "Aronson Martha Goldberg",
-        "Lloyd Brian G.",
-        "Parra Raul Jr.",
-        "Smith Christian Adam",
-        "Voigt Michel J."
-      ],
-      "latest_date": "2026-05-11",
-      "symbol": "MMSI",
-      "total_dollars": 573293.5
-    },
-    {
-      "earliest_date": "2026-05-29",
+      "earliest_date": "2026-06-05",
       "insider_count": 2,
       "insiders": [
-        "Yang Yunyun (Alice)",
-        "Ye Guofu"
+        "GENERAL ATLANTIC GENPAR, L.P.",
+        "General Atlantic (LFT), L.P."
       ],
-      "latest_date": "2026-06-01",
-      "symbol": "MNSO",
-      "total_dollars": 13802020.0
+      "latest_date": "2026-06-05",
+      "symbol": "LFTO",
+      "total_dollars": 59999962.0
+    },
+    {
+      "earliest_date": "2026-05-15",
+      "insider_count": 4,
+      "insiders": [
+        "BHATIA NAVEEN",
+        "HILL W BRYAN",
+        "Schlacks Jabbok",
+        "Schlacks William J."
+      ],
+      "latest_date": "2026-06-15",
+      "symbol": "EQPT",
+      "total_dollars": 2870809.67
+    },
+    {
+      "earliest_date": "2026-06-11",
+      "insider_count": 3,
+      "insiders": [
+        "Levy Guy",
+        "RA CAPITAL MANAGEMENT, L.P.",
+        "SEBULSKY ALAN"
+      ],
+      "latest_date": "2026-06-15",
+      "symbol": "PBLS",
+      "total_dollars": 434498528.5355
     },
     {
       "earliest_date": "2026-06-24",
@@ -645,39 +533,26 @@
       "total_dollars": 45319.6
     },
     {
-      "earliest_date": "2026-05-04",
-      "insider_count": 4,
-      "insiders": [
-        "KRAEMER HARRY M JANSEN JR",
-        "RADEMACHER JOHN CHARLES",
-        "SULLIVAN TIMOTHY P",
-        "Sethna Meenal"
-      ],
-      "latest_date": "2026-05-07",
-      "symbol": "OPCH",
-      "total_dollars": 1875225.0470999999
-    },
-    {
-      "earliest_date": "2026-06-11",
+      "earliest_date": "2026-05-29",
       "insider_count": 2,
       "insiders": [
-        "RA CAPITAL MANAGEMENT, L.P.",
-        "SEBULSKY ALAN"
+        "Yang Yunyun (Alice)",
+        "Ye Guofu"
       ],
-      "latest_date": "2026-06-15",
-      "symbol": "PBLS",
-      "total_dollars": 424498528.5355
+      "latest_date": "2026-06-01",
+      "symbol": "MNSO",
+      "total_dollars": 13802020.0
     },
     {
-      "earliest_date": "2026-05-07",
+      "earliest_date": "2026-07-07",
       "insider_count": 2,
       "insiders": [
-        "HAGEMANN ROBERT",
-        "Stafeil Jeffrey"
+        "Bhappu Ross R.",
+        "HANSEN BRUCE D"
       ],
-      "latest_date": "2026-05-08",
-      "symbol": "GPK",
-      "total_dollars": 353992.3650776
+      "latest_date": "2026-07-08",
+      "symbol": "UUUU",
+      "total_dollars": 1018700.0
     },
     {
       "earliest_date": "2026-05-22",
@@ -692,36 +567,6 @@
       "total_dollars": 249141.33409999998
     },
     {
-      "earliest_date": "2026-05-05",
-      "insider_count": 6,
-      "insiders": [
-        "Augsburger Blake",
-        "Filer Matthew S",
-        "NEMETH ANDY L",
-        "Petkovich Jacob R",
-        "Roeder Charles R",
-        "WELCH M SCOTT"
-      ],
-      "latest_date": "2026-06-10",
-      "symbol": "PATK",
-      "total_dollars": 2532840.825
-    },
-    {
-      "earliest_date": "2026-05-08",
-      "insider_count": 6,
-      "insiders": [
-        "BREWSTER DARYL G",
-        "Biegger David",
-        "GEORGE WALTER N.",
-        "Kelley Jacki Sue",
-        "MCLEVISH TIMOTHY R",
-        "Steeneck Craig D."
-      ],
-      "latest_date": "2026-05-20",
-      "symbol": "FRPT",
-      "total_dollars": 458229.02
-    },
-    {
       "earliest_date": "2026-06-12",
       "insider_count": 2,
       "insiders": [
@@ -733,16 +578,34 @@
       "total_dollars": 1160078.0
     },
     {
-      "earliest_date": "2026-05-12",
-      "insider_count": 3,
+      "earliest_date": "2026-05-18",
+      "insider_count": 5,
       "insiders": [
-        "HADDRILL RICHARD M",
-        "JAFFER REHAN",
-        "Spiegel Marilyn G"
+        "BREWSTER DARYL G",
+        "Biegger David",
+        "Kelley Jacki Sue",
+        "MCLEVISH TIMOTHY R",
+        "Steeneck Craig D."
       ],
-      "latest_date": "2026-06-15",
-      "symbol": "FUN",
-      "total_dollars": 6174037.5
+      "latest_date": "2026-05-20",
+      "symbol": "FRPT",
+      "total_dollars": 348889.02
+    },
+    {
+      "earliest_date": "2026-06-01",
+      "insider_count": 7,
+      "insiders": [
+        "Dubin Cynthia S",
+        "Gamboni Francesca Paola Leandra",
+        "Gorjanc Christine Marie",
+        "Neumann Karl-Thomas",
+        "Shen Xiaojie",
+        "Vahland Winfried",
+        "Zhang Quan (Joe)"
+      ],
+      "latest_date": "2026-07-02",
+      "symbol": "PSNY",
+      "total_dollars": 414937.31
     },
     {
       "earliest_date": "2026-05-15",
@@ -758,6 +621,32 @@
       "latest_date": "2026-05-15",
       "symbol": "SHAK",
       "total_dollars": 3232567.5927999998
+    },
+    {
+      "earliest_date": "2026-06-11",
+      "insider_count": 5,
+      "insiders": [
+        "Barber Michael J",
+        "Gladden Brian T",
+        "HOLDEN BETSY D",
+        "HOSEIN CLYDE",
+        "MCKEON BRIAN P"
+      ],
+      "latest_date": "2026-06-15",
+      "symbol": "XRAY",
+      "total_dollars": 515799.41153
+    },
+    {
+      "earliest_date": "2026-06-22",
+      "insider_count": 3,
+      "insiders": [
+        "ARCH Venture Partners XIII, LLC",
+        "BERNS PAUL L",
+        "HRTG GPE, LLC"
+      ],
+      "latest_date": "2026-06-22",
+      "symbol": "KARD",
+      "total_dollars": 90000000.0
     },
     {
       "earliest_date": "2026-05-15",
@@ -777,212 +666,16 @@
       "total_dollars": 191245900.0
     },
     {
-      "earliest_date": "2026-04-30",
-      "insider_count": 4,
+      "earliest_date": "2026-05-12",
+      "insider_count": 3,
       "insiders": [
-        "Betchkal Gregory J.",
-        "Bowers Urich T",
-        "Hunter Timothy M",
-        "Schosser Douglas M"
-      ],
-      "latest_date": "2026-05-27",
-      "symbol": "NWBI",
-      "total_dollars": 328033.0
-    },
-    {
-      "earliest_date": "2026-06-11",
-      "insider_count": 5,
-      "insiders": [
-        "Barber Michael J",
-        "Gladden Brian T",
-        "HOLDEN BETSY D",
-        "HOSEIN CLYDE",
-        "MCKEON BRIAN P"
+        "HADDRILL RICHARD M",
+        "JAFFER REHAN",
+        "Spiegel Marilyn G"
       ],
       "latest_date": "2026-06-15",
-      "symbol": "XRAY",
-      "total_dollars": 515799.41153
-    },
-    {
-      "earliest_date": "2026-06-05",
-      "insider_count": 5,
-      "insiders": [
-        "El-Erian Anna",
-        "Groh Douglas",
-        "Radford Lawrence P",
-        "SHEPSTON MICHELLE H",
-        "White Heather Eileen"
-      ],
-      "latest_date": "2026-06-05",
-      "symbol": "SSMR",
-      "total_dollars": 804127.5
-    },
-    {
-      "earliest_date": "2026-06-05",
-      "insider_count": 11,
-      "insiders": [
-        "BHATIA MANISH H",
-        "Barron Hal",
-        "Branderiz Eric",
-        "DENMAN KENNETH D",
-        "Daugherty Paul R.",
-        "Dehoff Kevin Scott",
-        "JIMENEZ JOSEPH",
-        "Kapur Vimal",
-        "Narang Prineha",
-        "SHARAN NITESH",
-        "Stepniak Michal"
-      ],
-      "latest_date": "2026-06-05",
-      "symbol": "QNT",
-      "total_dollars": 24661920.0
-    },
-    {
-      "earliest_date": "2026-05-11",
-      "insider_count": 2,
-      "insiders": [
-        "DUGGAN ROBERT W",
-        "LAVIOLETTE PAUL A"
-      ],
-      "latest_date": "2026-05-11",
-      "symbol": "PLSE",
-      "total_dollars": 13295337.770000001
-    },
-    {
-      "earliest_date": "2026-05-07",
-      "insider_count": 5,
-      "insiders": [
-        "Castrillo-Salgado Joaquin A.",
-        "D'ANGELO FRANK G.",
-        "Rodriguez-Gonzalez Luis A",
-        "SMITH BRIAN JOHN",
-        "Vizcarrondo Miguel"
-      ],
-      "latest_date": "2026-06-12",
-      "symbol": "EVTC",
-      "total_dollars": 2251251.3128
-    },
-    {
-      "earliest_date": "2026-05-04",
-      "insider_count": 2,
-      "insiders": [
-        "GENERAL ATLANTIC GENPAR (BERMUDA), L.P.",
-        "GENERAL ATLANTIC, L.P."
-      ],
-      "latest_date": "2026-05-14",
-      "symbol": "ALKT",
-      "total_dollars": 135189347.36
-    },
-    {
-      "earliest_date": "2026-05-14",
-      "insider_count": 4,
-      "insiders": [
-        "BAUM MARK L",
-        "BOLL ANDREW R.",
-        "Graves Adrienne L",
-        "SILVERNAIL LAUREN P"
-      ],
-      "latest_date": "2026-05-18",
-      "symbol": "HROW",
-      "total_dollars": 468720.0
-    },
-    {
-      "earliest_date": "2026-06-04",
-      "insider_count": 3,
-      "insiders": [
-        "Augusto Cazotto Andre",
-        "Batista Costa Jose Antonio",
-        "Pruett William Rodney"
-      ],
-      "latest_date": "2026-06-11",
-      "symbol": "PICS",
-      "total_dollars": 1669888.88
-    },
-    {
-      "earliest_date": "2026-05-11",
-      "insider_count": 4,
-      "insiders": [
-        "ASHKEN IAN G H",
-        "BALDEW RUBEN",
-        "BRISBY DOMINIC",
-        "Gottesman Noam"
-      ],
-      "latest_date": "2026-05-15",
-      "symbol": "NOMD",
-      "total_dollars": 9157028.9451
-    },
-    {
-      "earliest_date": "2026-05-08",
-      "insider_count": 5,
-      "insiders": [
-        "ABRAHAMS DARROW A",
-        "BURNS RANDOLPH L",
-        "Chapin Samuel R.",
-        "Haudrich John",
-        "Restrepo Eduardo"
-      ],
-      "latest_date": "2026-05-15",
-      "symbol": "OI",
-      "total_dollars": 279367.8307
-    },
-    {
-      "earliest_date": "2026-06-09",
-      "insider_count": 3,
-      "insiders": [
-        "Morand De Oliveira Bruno",
-        "Schorn Patrick",
-        "Troim Tor Olav"
-      ],
-      "latest_date": "2026-06-17",
-      "symbol": "BORR",
-      "total_dollars": 7444600.0
-    },
-    {
-      "earliest_date": "2026-06-05",
-      "insider_count": 2,
-      "insiders": [
-        "DeMichiei Robert",
-        "LUMSDAINE ALFRED"
-      ],
-      "latest_date": "2026-06-05",
-      "symbol": "ARDT",
-      "total_dollars": 186399.8
-    },
-    {
-      "earliest_date": "2026-05-01",
-      "insider_count": 3,
-      "insiders": [
-        "Carroll Jill",
-        "Novo Holdings A/S",
-        "SR ONE CAPITAL MANAGEMENT, LLC"
-      ],
-      "latest_date": "2026-05-01",
-      "symbol": "AVLN",
-      "total_dollars": 24999984.0
-    },
-    {
-      "earliest_date": "2026-04-29",
-      "insider_count": 3,
-      "insiders": [
-        "Barnwell Julian Forrest Jr.",
-        "McLaughlin Shawn Patrick",
-        "Riojas Jose David"
-      ],
-      "latest_date": "2026-06-03",
-      "symbol": "BHRB",
-      "total_dollars": 773175.4
-    },
-    {
-      "earliest_date": "2026-06-09",
-      "insider_count": 3,
-      "insiders": [
-        "Fain Clara",
-        "Peres Nechemia Jacob",
-        "Ramot Daniel"
-      ],
-      "latest_date": "2026-06-16",
-      "symbol": "VIA",
-      "total_dollars": 487291.3517
+      "symbol": "FUN",
+      "total_dollars": 6174037.5
     },
     {
       "earliest_date": "2026-05-14",
@@ -999,6 +692,140 @@
       "total_dollars": 764543.0
     },
     {
+      "earliest_date": "2026-05-12",
+      "insider_count": 2,
+      "insiders": [
+        "GENERAL ATLANTIC GENPAR (BERMUDA), L.P.",
+        "GENERAL ATLANTIC, L.P."
+      ],
+      "latest_date": "2026-05-14",
+      "symbol": "ALKT",
+      "total_dollars": 65859500.0
+    },
+    {
+      "earliest_date": "2026-06-05",
+      "insider_count": 5,
+      "insiders": [
+        "El-Erian Anna",
+        "Groh Douglas",
+        "Radford Lawrence P",
+        "SHEPSTON MICHELLE H",
+        "White Heather Eileen"
+      ],
+      "latest_date": "2026-06-05",
+      "symbol": "SSMR",
+      "total_dollars": 804127.5
+    },
+    {
+      "earliest_date": "2026-05-14",
+      "insider_count": 4,
+      "insiders": [
+        "BAUM MARK L",
+        "BOLL ANDREW R.",
+        "Graves Adrienne L",
+        "SILVERNAIL LAUREN P"
+      ],
+      "latest_date": "2026-05-18",
+      "symbol": "HROW",
+      "total_dollars": 468720.0
+    },
+    {
+      "earliest_date": "2026-05-11",
+      "insider_count": 4,
+      "insiders": [
+        "ASHKEN IAN G H",
+        "BALDEW RUBEN",
+        "BRISBY DOMINIC",
+        "Gottesman Noam"
+      ],
+      "latest_date": "2026-05-15",
+      "symbol": "NOMD",
+      "total_dollars": 9157028.9451
+    },
+    {
+      "earliest_date": "2026-06-26",
+      "insider_count": 2,
+      "insiders": [
+        "Blackford Leo Price",
+        "Hill John C"
+      ],
+      "latest_date": "2026-06-26",
+      "symbol": "CET",
+      "total_dollars": 22771.23
+    },
+    {
+      "earliest_date": "2026-06-09",
+      "insider_count": 3,
+      "insiders": [
+        "Fain Clara",
+        "Peres Nechemia Jacob",
+        "Ramot Daniel"
+      ],
+      "latest_date": "2026-06-16",
+      "symbol": "VIA",
+      "total_dollars": 487291.3517
+    },
+    {
+      "earliest_date": "2026-05-22",
+      "insider_count": 5,
+      "insiders": [
+        "BRACKEN CHARLES H R",
+        "MALONE JOHN C",
+        "Nair Balan",
+        "PADDICK BRENDAN J",
+        "WINTER JOHN M"
+      ],
+      "latest_date": "2026-06-26",
+      "symbol": "LILA",
+      "total_dollars": 140183769.15530002
+    },
+    {
+      "earliest_date": "2026-06-04",
+      "insider_count": 3,
+      "insiders": [
+        "Augusto Cazotto Andre",
+        "Batista Costa Jose Antonio",
+        "Pruett William Rodney"
+      ],
+      "latest_date": "2026-06-11",
+      "symbol": "PICS",
+      "total_dollars": 1669888.88
+    },
+    {
+      "earliest_date": "2026-06-05",
+      "insider_count": 2,
+      "insiders": [
+        "DeMichiei Robert",
+        "LUMSDAINE ALFRED"
+      ],
+      "latest_date": "2026-06-05",
+      "symbol": "ARDT",
+      "total_dollars": 186399.8
+    },
+    {
+      "earliest_date": "2026-05-14",
+      "insider_count": 2,
+      "insiders": [
+        "Chapin Samuel R.",
+        "Restrepo Eduardo"
+      ],
+      "latest_date": "2026-05-15",
+      "symbol": "OI",
+      "total_dollars": 131800.965
+    },
+    {
+      "earliest_date": "2026-06-09",
+      "insider_count": 3,
+      "insiders": [
+        "Morand De Oliveira Bruno",
+        "Schorn Patrick",
+        "Troim Tor Olav"
+      ],
+      "latest_date": "2026-06-17",
+      "symbol": "BORR",
+      "total_dollars": 7444600.0
+    },
+    {
       "earliest_date": "2026-05-20",
       "insider_count": 3,
       "insiders": [
@@ -1009,30 +836,6 @@
       "latest_date": "2026-05-26",
       "symbol": "ROCK",
       "total_dollars": 823334.3295
-    },
-    {
-      "earliest_date": "2026-05-08",
-      "insider_count": 4,
-      "insiders": [
-        "BRACKEN CHARLES H R",
-        "MALONE JOHN C",
-        "Nair Balan",
-        "PADDICK BRENDAN J"
-      ],
-      "latest_date": "2026-06-24",
-      "symbol": "LILA",
-      "total_dollars": 136851396.6173
-    },
-    {
-      "earliest_date": "2026-04-28",
-      "insider_count": 2,
-      "insiders": [
-        "Arima Anastasios",
-        "Hannigan Todd"
-      ],
-      "latest_date": "2026-04-29",
-      "symbol": "IPX",
-      "total_dollars": 2571409.0
     },
     {
       "earliest_date": "2026-05-13",
@@ -1047,14 +850,15 @@
     },
     {
       "earliest_date": "2026-06-11",
-      "insider_count": 2,
+      "insider_count": 3,
       "insiders": [
+        "Globalharvest Holdings Venture Ltd",
         "Pack Jay A",
         "Taylor Bruce C."
       ],
-      "latest_date": "2026-06-23",
+      "latest_date": "2026-07-09",
       "symbol": "AVO",
-      "total_dollars": 12299984.48
+      "total_dollars": 44751746.63
     },
     {
       "earliest_date": "2026-05-15",
@@ -1071,42 +875,16 @@
       "total_dollars": 247315.0
     },
     {
-      "earliest_date": "2026-05-08",
-      "insider_count": 7,
+      "earliest_date": "2026-03-26",
+      "insider_count": 3,
       "insiders": [
-        "Chu Shelley",
-        "Dimension Capital II, L.P.",
-        "Haas Jason",
-        "LEIDEN JEFFREY M",
-        "Li Nan (LN)",
-        "SR ONE CAPITAL MANAGEMENT, LLC",
-        "TPG GP A, LLC"
+        "MILLENNIUM MANAGEMENT LLC",
+        "Parikh Anand Kiran",
+        "STEPHENSON BRIAN C"
       ],
-      "latest_date": "2026-05-11",
-      "symbol": "ODTX",
-      "total_dollars": 75319986.0
-    },
-    {
-      "earliest_date": "2026-06-18",
-      "insider_count": 2,
-      "insiders": [
-        "Black Benjamin David",
-        "Dinsdale Mike John"
-      ],
-      "latest_date": "2026-06-22",
-      "symbol": "PWRL",
-      "total_dollars": 347050.426
-    },
-    {
-      "earliest_date": "2026-05-07",
-      "insider_count": 2,
-      "insiders": [
-        "ADAMS WILLIAM H III",
-        "SIMPSON BOB R"
-      ],
-      "latest_date": "2026-06-23",
-      "symbol": "TXO",
-      "total_dollars": 31080572.757000007
+      "latest_date": "2026-07-01",
+      "symbol": "SNSE",
+      "total_dollars": 2530483.9751
     },
     {
       "earliest_date": "2026-05-19",
@@ -1120,15 +898,73 @@
       "total_dollars": 315745.0
     },
     {
-      "earliest_date": "2026-04-07",
+      "earliest_date": "2026-05-14",
       "insider_count": 2,
       "insiders": [
-        "Kang Andrew Kai",
-        "Weinstein Marc Adam"
+        "Pascal Keith",
+        "Voss Capital, LP"
       ],
-      "latest_date": "2026-04-07",
-      "symbol": "BOT",
-      "total_dollars": 2900000.0
+      "latest_date": "2026-06-12",
+      "symbol": "PAR",
+      "total_dollars": 15762551.134
+    },
+    {
+      "earliest_date": "2026-06-18",
+      "insider_count": 2,
+      "insiders": [
+        "Black Benjamin David",
+        "Dinsdale Mike John"
+      ],
+      "latest_date": "2026-06-22",
+      "symbol": "PWRL",
+      "total_dollars": 347050.426
+    },
+    {
+      "earliest_date": "2026-06-03",
+      "insider_count": 3,
+      "insiders": [
+        "Hochman Russell C.",
+        "Minan Peter Francis",
+        "Purvis Edgar M Jr"
+      ],
+      "latest_date": "2026-06-05",
+      "symbol": "NVRI",
+      "total_dollars": 1414824.42
+    },
+    {
+      "earliest_date": "2026-05-12",
+      "insider_count": 3,
+      "insiders": [
+        "Hassen Marissa",
+        "McCally John",
+        "Vichness Shaul"
+      ],
+      "latest_date": "2026-05-15",
+      "symbol": "NCDL",
+      "total_dollars": 215485.22
+    },
+    {
+      "earliest_date": "2026-06-30",
+      "insider_count": 2,
+      "insiders": [
+        "BENTSUR RON",
+        "Mosseri Marlio Charles"
+      ],
+      "latest_date": "2026-06-30",
+      "symbol": "NVCT",
+      "total_dollars": 1166000.0
+    },
+    {
+      "earliest_date": "2026-05-12",
+      "insider_count": 3,
+      "insiders": [
+        "Pettet Bruce T.",
+        "Seyfert Todd William",
+        "WIDMAN PHILLIP"
+      ],
+      "latest_date": "2026-05-20",
+      "symbol": "RGR",
+      "total_dollars": 288615.0
     },
     {
       "earliest_date": "2026-05-13",
@@ -1145,51 +981,73 @@
       "total_dollars": 838936.92
     },
     {
-      "earliest_date": "2026-05-14",
+      "earliest_date": "2026-06-08",
       "insider_count": 2,
       "insiders": [
-        "Pascal Keith",
-        "Voss Capital, LP"
+        "Fields Curtland E",
+        "Wong-Zaza Melvina"
       ],
-      "latest_date": "2026-06-12",
-      "symbol": "PAR",
-      "total_dollars": 15762551.134
+      "latest_date": "2026-06-18",
+      "symbol": "KRNY",
+      "total_dollars": 211203.38000000003
     },
     {
       "earliest_date": "2026-05-12",
-      "insider_count": 3,
+      "insider_count": 4,
       "insiders": [
-        "Hassen Marissa",
-        "McCally John",
-        "Vichness Shaul"
+        "Barber Jamie Allen",
+        "Cypher Matthew",
+        "Marston Ronald",
+        "Wittman Lori"
       ],
-      "latest_date": "2026-05-15",
-      "symbol": "NCDL",
-      "total_dollars": 215485.22
+      "latest_date": "2026-05-14",
+      "symbol": "XRN",
+      "total_dollars": 250112.6702
     },
     {
-      "earliest_date": "2026-05-12",
-      "insider_count": 3,
+      "earliest_date": "2026-05-18",
+      "insider_count": 4,
       "insiders": [
-        "Pettet Bruce T.",
-        "Seyfert Todd William",
-        "WIDMAN PHILLIP"
+        "Beit-On Harel Moshe",
+        "Eilam Barak",
+        "Offer Or",
+        "Rapaport-Dagim Tamar"
       ],
-      "latest_date": "2026-05-20",
-      "symbol": "RGR",
-      "total_dollars": 288615.0
+      "latest_date": "2026-06-01",
+      "symbol": "SMWB",
+      "total_dollars": 1020716.0
     },
     {
-      "earliest_date": "2026-06-03",
-      "insider_count": 3,
+      "earliest_date": "2026-05-18",
+      "insider_count": 4,
       "insiders": [
-        "Hochman Russell C.",
-        "Minan Peter Francis",
-        "Purvis Edgar M Jr"
+        "Carol Nutter",
+        "Dalton Travis",
+        "Kim Michael",
+        "Prince John Michael"
       ],
-      "latest_date": "2026-06-05",
-      "symbol": "NVRI",
-      "total_dollars": 1414824.42
+      "latest_date": "2026-06-09",
+      "symbol": "CTEV",
+      "total_dollars": 493444.525
+    },
+    {
+      "earliest_date": "2026-05-13",
+      "insider_count": 10,
+      "insiders": [
+        "Amoo-Gottfried Kofi Owusu",
+        "Coon Stephanie",
+        "Cyr William B.",
+        "Flanagan Glenda J",
+        "Holland Joseph Michael",
+        "Kennedy Kelly J.",
+        "Pappas Peter Nicholas",
+        "Post Denny Marie",
+        "Ruiz Gisel",
+        "Van Hoven Reena Chauhan"
+      ],
+      "latest_date": "2026-05-19",
+      "symbol": "VITL",
+      "total_dollars": 416990.92000000004
     },
     {
       "earliest_date": "2026-05-15",
@@ -1215,23 +1073,23 @@
         "Niemann John O. Jr.",
         "Walker Jeffrey B."
       ],
-      "latest_date": "2026-06-23",
+      "latest_date": "2026-06-30",
       "symbol": "MSIF",
-      "total_dollars": 199920.15649999998
+      "total_dollars": 269638.07649999997
     },
     {
-      "earliest_date": "2026-06-08",
+      "earliest_date": "2026-07-07",
       "insider_count": 2,
       "insiders": [
-        "Fields Curtland E",
-        "Wong-Zaza Melvina"
+        "Carver Kyle",
+        "KIRSCH ARTHUR S"
       ],
-      "latest_date": "2026-06-18",
-      "symbol": "KRNY",
-      "total_dollars": 211203.38000000003
+      "latest_date": "2026-07-08",
+      "symbol": "EVMN",
+      "total_dollars": 146260.0
     },
     {
-      "earliest_date": "2026-05-07",
+      "earliest_date": "2026-05-11",
       "insider_count": 4,
       "insiders": [
         "Advani Loveen",
@@ -1241,65 +1099,7 @@
       ],
       "latest_date": "2026-06-11",
       "symbol": "BETR",
-      "total_dollars": 1722477.54
-    },
-    {
-      "earliest_date": "2026-05-18",
-      "insider_count": 4,
-      "insiders": [
-        "Carol Nutter",
-        "Dalton Travis",
-        "Kim Michael",
-        "Prince John Michael"
-      ],
-      "latest_date": "2026-06-09",
-      "symbol": "CTEV",
-      "total_dollars": 493444.525
-    },
-    {
-      "earliest_date": "2026-05-11",
-      "insider_count": 9,
-      "insiders": [
-        "Barber Jamie Allen",
-        "Cole Henry",
-        "Crowley Paula",
-        "Cypher Matthew",
-        "Decker Mark Okey Jr",
-        "Holley Danica",
-        "KIERNAN ROBERT J",
-        "Marston Ronald",
-        "Wittman Lori"
-      ],
-      "latest_date": "2026-05-14",
-      "symbol": "XRN",
-      "total_dollars": 624925.7352
-    },
-    {
-      "earliest_date": "2026-05-11",
-      "insider_count": 2,
-      "insiders": [
-        "GC Corp.",
-        "RA CAPITAL MANAGEMENT, L.P."
-      ],
-      "latest_date": "2026-06-16",
-      "symbol": "ARTV",
-      "total_dollars": 103750036.38999999
-    },
-    {
-      "earliest_date": "2026-05-11",
-      "insider_count": 7,
-      "insiders": [
-        "Curnes Nelson Bunker",
-        "HARRINGTON WILLIAM T",
-        "Leavitt Chase C.",
-        "Lucchese Cynthia L",
-        "Mead Dana G Jr.",
-        "Osage University GP III, LLC",
-        "Tansey Casey M"
-      ],
-      "latest_date": "2026-06-09",
-      "symbol": "MOBI",
-      "total_dollars": 19088949.0
+      "total_dollars": 1433702.54
     },
     {
       "earliest_date": "2026-05-12",
@@ -1313,23 +1113,26 @@
       "total_dollars": 310150.0
     },
     {
-      "earliest_date": "2026-05-13",
-      "insider_count": 10,
+      "earliest_date": "2026-06-23",
+      "insider_count": 2,
       "insiders": [
-        "Amoo-Gottfried Kofi Owusu",
-        "Coon Stephanie",
-        "Cyr William B.",
-        "Flanagan Glenda J",
-        "Holland Joseph Michael",
-        "Kennedy Kelly J.",
-        "Pappas Peter Nicholas",
-        "Post Denny Marie",
-        "Ruiz Gisel",
-        "Van Hoven Reena Chauhan"
+        "Corbus Barclay",
+        "Scully Stephen"
       ],
-      "latest_date": "2026-05-19",
-      "symbol": "VITL",
-      "total_dollars": 416990.92000000004
+      "latest_date": "2026-06-25",
+      "symbol": "CLNE",
+      "total_dollars": 68535.8
+    },
+    {
+      "earliest_date": "2026-05-14",
+      "insider_count": 2,
+      "insiders": [
+        "Divisadero Street Capital Management, LP",
+        "Zolezzi William"
+      ],
+      "latest_date": "2026-05-15",
+      "symbol": "LWAY",
+      "total_dollars": 8401936.469
     },
     {
       "earliest_date": "2026-05-13",
@@ -1345,17 +1148,38 @@
       "total_dollars": 366271.71
     },
     {
-      "earliest_date": "2026-05-18",
-      "insider_count": 4,
+      "earliest_date": "2026-05-11",
+      "insider_count": 2,
       "insiders": [
-        "Beit-On Harel Moshe",
-        "Eilam Barak",
-        "Offer Or",
-        "Rapaport-Dagim Tamar"
+        "GC Corp.",
+        "RA CAPITAL MANAGEMENT, L.P."
+      ],
+      "latest_date": "2026-06-26",
+      "symbol": "ARTV",
+      "total_dollars": 104042162.86999999
+    },
+    {
+      "earliest_date": "2026-05-11",
+      "insider_count": 3,
+      "insiders": [
+        "Curnes Nelson Bunker",
+        "Green Park & Golf Ventures - Houston, LLC",
+        "Green Park & Golf Ventures II, LLC"
+      ],
+      "latest_date": "2026-06-09",
+      "symbol": "MOBI",
+      "total_dollars": 2687019.0
+    },
+    {
+      "earliest_date": "2026-05-22",
+      "insider_count": 2,
+      "insiders": [
+        "Kenan Frank H. II",
+        "Royal Jeffrey C"
       ],
       "latest_date": "2026-06-01",
-      "symbol": "SMWB",
-      "total_dollars": 1020716.0
+      "symbol": "BOC",
+      "total_dollars": 1192233.1939
     },
     {
       "earliest_date": "2026-05-18",
@@ -1371,50 +1195,27 @@
       "total_dollars": 1077080.5
     },
     {
-      "earliest_date": "2026-06-23",
-      "insider_count": 2,
+      "earliest_date": "2026-06-18",
+      "insider_count": 14,
       "insiders": [
-        "Corbus Barclay",
-        "Scully Stephen"
+        "Andracchio Vincent Charles II",
+        "Boone Sandra Bell",
+        "DEATON STEVEN G",
+        "Day Ronald Arvin",
+        "Ferebee John Jethro Jr",
+        "Floyd Gregory Everette",
+        "Ford Douglas IV",
+        "Gussenhoven John Walter",
+        "LUCAS JAMES A JR",
+        "Paul Charles Albert III",
+        "Pritchard Patrick Wayne",
+        "Robbins Charles Austin Jr",
+        "Shannon Kevin Meek",
+        "Suiter Overton Stokes III"
       ],
-      "latest_date": "2026-06-25",
-      "symbol": "CLNE",
-      "total_dollars": 68535.8
-    },
-    {
-      "earliest_date": "2026-05-22",
-      "insider_count": 2,
-      "insiders": [
-        "Kenan Frank H. II",
-        "Royal Jeffrey C"
-      ],
-      "latest_date": "2026-06-01",
-      "symbol": "BOC",
-      "total_dollars": 1192233.1939
-    },
-    {
-      "earliest_date": "2026-05-07",
-      "insider_count": 4,
-      "insiders": [
-        "Brunet Craig Jeffry",
-        "SALUTE RICHARD J",
-        "SLOANE BARRY",
-        "Zink Gregory L"
-      ],
-      "latest_date": "2026-06-15",
-      "symbol": "NEWT",
-      "total_dollars": 271493.0
-    },
-    {
-      "earliest_date": "2026-05-14",
-      "insider_count": 2,
-      "insiders": [
-        "Divisadero Street Capital Management, LP",
-        "Zolezzi William"
-      ],
-      "latest_date": "2026-05-15",
-      "symbol": "LWAY",
-      "total_dollars": 8401936.469
+      "latest_date": "2026-06-18",
+      "symbol": "FCBM",
+      "total_dollars": 1650112.5
     },
     {
       "earliest_date": "2026-05-14",
@@ -1429,56 +1230,17 @@
       "total_dollars": 130025.312
     },
     {
-      "earliest_date": "2026-05-05",
-      "insider_count": 2,
+      "earliest_date": "2026-05-13",
+      "insider_count": 4,
       "insiders": [
-        "Engine Capital Management, LP",
-        "HENNEMAN JOHN B III"
-      ],
-      "latest_date": "2026-05-07",
-      "symbol": "OFIX",
-      "total_dollars": 2294222.4480000003
-    },
-    {
-      "earliest_date": "2026-04-27",
-      "insider_count": 8,
-      "insiders": [
-        "BALL JAMES N",
         "Cozzone Robert D",
-        "Doane Thomas",
         "GILLES MICHAEL O",
         "Jensen Barry H",
-        "Karmelek Nicolas",
-        "Murphy Michael Dennis",
         "Nelson Jonathan Michael"
       ],
       "latest_date": "2026-06-03",
       "symbol": "AVBC",
-      "total_dollars": 467413.7529
-    },
-    {
-      "earliest_date": "2026-05-12",
-      "insider_count": 4,
-      "insiders": [
-        "DEGASPERIS CORRADO",
-        "Drozdoff Leo M",
-        "Pei Steven Yu-Tsung",
-        "SPENCE ROBERT"
-      ],
-      "latest_date": "2026-06-12",
-      "symbol": "LODE",
-      "total_dollars": 4177055.7156000007
-    },
-    {
-      "earliest_date": "2026-05-12",
-      "insider_count": 2,
-      "insiders": [
-        "OnePointTwo Capital Ventures LLC",
-        "Purcell Lynn Sebastian"
-      ],
-      "latest_date": "2026-06-18",
-      "symbol": "CNXU",
-      "total_dollars": 838000.0
+      "total_dollars": 216691.15290000002
     },
     {
       "earliest_date": "2026-05-22",
@@ -1494,29 +1256,16 @@
       "total_dollars": 2500957.95
     },
     {
-      "earliest_date": "2026-04-30",
-      "insider_count": 4,
-      "insiders": [
-        "Carroll Joseph W",
-        "McCaffery John Martin JR",
-        "Schmalzle Ronald R",
-        "Shook James"
-      ],
-      "latest_date": "2026-05-26",
-      "symbol": "NWFL",
-      "total_dollars": 86590.7
-    },
-    {
-      "earliest_date": "2026-05-07",
+      "earliest_date": "2026-05-14",
       "insider_count": 3,
       "insiders": [
-        "Mullins Andrea",
-        "Nelson Blake",
-        "Sunderland Todd"
+        "Dols Scott V.",
+        "Nisar Nadeem",
+        "Sutton Scott McDougald"
       ],
-      "latest_date": "2026-05-07",
-      "symbol": "NXG",
-      "total_dollars": 81654.65000000001
+      "latest_date": "2026-06-11",
+      "symbol": "OPAL",
+      "total_dollars": 283718.07
     },
     {
       "earliest_date": "2026-05-12",
@@ -1531,63 +1280,17 @@
       "total_dollars": 286430.4064
     },
     {
-      "earliest_date": "2026-05-14",
-      "insider_count": 3,
-      "insiders": [
-        "Dols Scott V.",
-        "Nisar Nadeem",
-        "Sutton Scott McDougald"
-      ],
-      "latest_date": "2026-06-11",
-      "symbol": "OPAL",
-      "total_dollars": 283718.07
-    },
-    {
-      "earliest_date": "2026-05-18",
+      "earliest_date": "2026-05-13",
       "insider_count": 4,
       "insiders": [
-        "HEILI WAYNE W.",
-        "Little Richard H",
-        "PELIZZA MARK S",
-        "SHERIFF WILLIAM M"
+        "DEGASPERIS CORRADO",
+        "Drozdoff Leo M",
+        "Pei Steven Yu-Tsung",
+        "SPENCE ROBERT"
       ],
       "latest_date": "2026-06-12",
-      "symbol": "EU",
-      "total_dollars": 397284.31
-    },
-    {
-      "earliest_date": "2026-04-30",
-      "insider_count": 2,
-      "insiders": [
-        "Fitzgerald John Taylor Maloney",
-        "Horowitz Joshua"
-      ],
-      "latest_date": "2026-06-15",
-      "symbol": "KWY",
-      "total_dollars": 54634.07
-    },
-    {
-      "earliest_date": "2026-06-15",
-      "insider_count": 2,
-      "insiders": [
-        "Johl Sundip Singh",
-        "McKinney Paul D."
-      ],
-      "latest_date": "2026-06-15",
-      "symbol": "REI",
-      "total_dollars": 338340.10000000003
-    },
-    {
-      "earliest_date": "2026-04-29",
-      "insider_count": 3,
-      "insiders": [
-        "Klingerman Brian D",
-        "Lehman Jessica M.",
-        "MCMICHAEL W BRUCE JR"
-      ],
-      "latest_date": "2026-05-26",
-      "symbol": "CCFN",
-      "total_dollars": 136019.22
+      "symbol": "LODE",
+      "total_dollars": 4075905.7156000007
     },
     {
       "earliest_date": "2026-06-09",
@@ -1605,28 +1308,90 @@
       "total_dollars": 629643.95
     },
     {
-      "earliest_date": "2026-04-30",
+      "earliest_date": "2026-05-15",
       "insider_count": 2,
       "insiders": [
-        "Black Wade Newton",
-        "Naugle Charles Travis"
+        "Fitzgerald John Taylor Maloney",
+        "Horowitz Joshua"
       ],
-      "latest_date": "2026-05-29",
-      "symbol": "SBMT",
-      "total_dollars": 189779.75
+      "latest_date": "2026-06-30",
+      "symbol": "KWY",
+      "total_dollars": 54628.65
     },
     {
-      "earliest_date": "2026-05-22",
+      "earliest_date": "2026-06-15",
+      "insider_count": 2,
+      "insiders": [
+        "Johl Sundip Singh",
+        "McKinney Paul D."
+      ],
+      "latest_date": "2026-06-15",
+      "symbol": "REI",
+      "total_dollars": 338340.10000000003
+    },
+    {
+      "earliest_date": "2026-05-13",
+      "insider_count": 7,
+      "insiders": [
+        "Feeler Jeffrey R",
+        "Gaglione Kenneth",
+        "Hartree Partners, LP",
+        "Mansy Loan Nguyen",
+        "Parrillo Richard",
+        "Prouty Eric A",
+        "Sheriff Alan"
+      ],
+      "latest_date": "2026-07-07",
+      "symbol": "HDSN",
+      "total_dollars": 4657303.791599999
+    },
+    {
+      "earliest_date": "2026-05-12",
+      "insider_count": 2,
+      "insiders": [
+        "OnePointTwo Capital Ventures LLC",
+        "Purcell Lynn Sebastian"
+      ],
+      "latest_date": "2026-06-18",
+      "symbol": "CNXU",
+      "total_dollars": 838000.0
+    },
+    {
+      "earliest_date": "2026-05-18",
       "insider_count": 4,
       "insiders": [
-        "GRAY STEVEN D",
-        "Gieselman Scott",
-        "Poole David P",
-        "Quinn William J"
+        "HEILI WAYNE W.",
+        "Little Richard H",
+        "PELIZZA MARK S",
+        "SHERIFF WILLIAM M"
       ],
-      "latest_date": "2026-06-17",
-      "symbol": "INR",
-      "total_dollars": 1962475.4127
+      "latest_date": "2026-06-12",
+      "symbol": "EU",
+      "total_dollars": 397284.31
+    },
+    {
+      "earliest_date": "2026-06-18",
+      "insider_count": 3,
+      "insiders": [
+        "Fox Mary",
+        "HEYER ANDREW R",
+        "Nelson Shawn David"
+      ],
+      "latest_date": "2026-06-22",
+      "symbol": "LOVE",
+      "total_dollars": 490146.4
+    },
+    {
+      "earliest_date": "2026-07-10",
+      "insider_count": 3,
+      "insiders": [
+        "Beck Scott Arthur",
+        "GELSINGER PATRICK P",
+        "Green Derek Todd"
+      ],
+      "latest_date": "2026-07-10",
+      "symbol": "GLOO",
+      "total_dollars": 5999997.25
     },
     {
       "earliest_date": "2026-05-26",
@@ -1640,6 +1405,19 @@
       "latest_date": "2026-06-02",
       "symbol": "OTLK",
       "total_dollars": 5265630.8377
+    },
+    {
+      "earliest_date": "2026-05-22",
+      "insider_count": 4,
+      "insiders": [
+        "GRAY STEVEN D",
+        "Gieselman Scott",
+        "Poole David P",
+        "Quinn William J"
+      ],
+      "latest_date": "2026-06-17",
+      "symbol": "INR",
+      "total_dollars": 1962475.4127
     },
     {
       "earliest_date": "2026-05-15",
@@ -1656,19 +1434,15 @@
       "total_dollars": 1821429.38
     },
     {
-      "earliest_date": "2026-05-13",
-      "insider_count": 6,
+      "earliest_date": "2026-05-11",
+      "insider_count": 2,
       "insiders": [
-        "Feeler Jeffrey R",
-        "Gaglione Kenneth",
-        "Mansy Loan Nguyen",
-        "Parrillo Richard",
-        "Prouty Eric A",
-        "Sheriff Alan"
+        "Imbesi Anthony Mark",
+        "Warriner Kenneth Thomas"
       ],
-      "latest_date": "2026-05-14",
-      "symbol": "HDSN",
-      "total_dollars": 148745.0
+      "latest_date": "2026-05-13",
+      "symbol": "MRBK",
+      "total_dollars": 35381.0
     },
     {
       "earliest_date": "2026-05-14",
@@ -1683,17 +1457,6 @@
       "total_dollars": 158080.65
     },
     {
-      "earliest_date": "2026-04-30",
-      "insider_count": 2,
-      "insiders": [
-        "Imbesi Anthony Mark",
-        "Warriner Kenneth Thomas"
-      ],
-      "latest_date": "2026-05-13",
-      "symbol": "MRBK",
-      "total_dollars": 53796.0
-    },
-    {
       "earliest_date": "2026-05-28",
       "insider_count": 2,
       "insiders": [
@@ -1703,134 +1466,6 @@
       "latest_date": "2026-05-28",
       "symbol": "QTTB",
       "total_dollars": 30000000.0
-    },
-    {
-      "earliest_date": "2026-06-18",
-      "insider_count": 3,
-      "insiders": [
-        "Fox Mary",
-        "HEYER ANDREW R",
-        "Nelson Shawn David"
-      ],
-      "latest_date": "2026-06-22",
-      "symbol": "LOVE",
-      "total_dollars": 490146.4
-    },
-    {
-      "earliest_date": "2026-04-30",
-      "insider_count": 4,
-      "insiders": [
-        "Conner Michael R",
-        "FELBER FRANCIS E",
-        "Olson Timothy L",
-        "SKARVAN KATHLEEN"
-      ],
-      "latest_date": "2026-05-18",
-      "symbol": "CZWI",
-      "total_dollars": 90757.4
-    },
-    {
-      "earliest_date": "2026-05-21",
-      "insider_count": 2,
-      "insiders": [
-        "Lekstrom Morgan Lee",
-        "Marciano Anthony Mark"
-      ],
-      "latest_date": "2026-06-12",
-      "symbol": "STEX",
-      "total_dollars": 272881.05046
-    },
-    {
-      "earliest_date": "2026-06-08",
-      "insider_count": 3,
-      "insiders": [
-        "LEDERMAN SETH",
-        "Stillwell Richard Newcomb",
-        "Taylor Carolyn E."
-      ],
-      "latest_date": "2026-06-12",
-      "symbol": "TNXP",
-      "total_dollars": 132128.25
-    },
-    {
-      "earliest_date": "2026-05-20",
-      "insider_count": 2,
-      "insiders": [
-        "Krygier Christopher D",
-        "Liebman Michael J"
-      ],
-      "latest_date": "2026-05-20",
-      "symbol": "GWRS",
-      "total_dollars": 85260.492895
-    },
-    {
-      "earliest_date": "2026-05-20",
-      "insider_count": 5,
-      "insiders": [
-        "DAVIS EUGENE I",
-        "DellaFortuna Felicia",
-        "Hawks Carney",
-        "Sjoqvist Nikolaj H",
-        "Volkmann Jonathan"
-      ],
-      "latest_date": "2026-05-27",
-      "symbol": "WW",
-      "total_dollars": 625686.4823
-    },
-    {
-      "earliest_date": "2026-05-15",
-      "insider_count": 2,
-      "insiders": [
-        "Hadfield Chris",
-        "Kabot Brian"
-      ],
-      "latest_date": "2026-05-21",
-      "symbol": "MNTS",
-      "total_dollars": 35141.01
-    },
-    {
-      "earliest_date": "2026-04-30",
-      "insider_count": 2,
-      "insiders": [
-        "Griffin Stephen D.",
-        "HENNEMAN JOHN B III"
-      ],
-      "latest_date": "2026-05-01",
-      "symbol": "ANIK",
-      "total_dollars": 223200.16
-    },
-    {
-      "earliest_date": "2026-06-01",
-      "insider_count": 2,
-      "insiders": [
-        "Fox David Morton",
-        "SHAMIR NACHUM"
-      ],
-      "latest_date": "2026-06-03",
-      "symbol": "MDWD",
-      "total_dollars": 133896.19
-    },
-    {
-      "earliest_date": "2026-05-14",
-      "insider_count": 2,
-      "insiders": [
-        "Olsen Sarah Josephine",
-        "Wilson Kevin Mark"
-      ],
-      "latest_date": "2026-05-14",
-      "symbol": "TONX",
-      "total_dollars": 56286.0
-    },
-    {
-      "earliest_date": "2026-05-19",
-      "insider_count": 2,
-      "insiders": [
-        "AULT MILTON C III",
-        "Horne William B."
-      ],
-      "latest_date": "2026-06-18",
-      "symbol": "GPUS",
-      "total_dollars": 144521.4
     },
     {
       "earliest_date": "2026-05-14",
@@ -1847,16 +1482,82 @@
       "total_dollars": 1527966.86
     },
     {
-      "earliest_date": "2026-05-08",
+      "earliest_date": "2026-06-08",
       "insider_count": 3,
       "insiders": [
-        "GENDRON PAUL ANDREW",
-        "Lachance Carrie",
-        "Steele Barry G"
+        "LEDERMAN SETH",
+        "Stillwell Richard Newcomb",
+        "Taylor Carolyn E."
       ],
-      "latest_date": "2026-05-11",
-      "symbol": "INFU",
-      "total_dollars": 131469.0
+      "latest_date": "2026-06-12",
+      "symbol": "TNXP",
+      "total_dollars": 132128.25
+    },
+    {
+      "earliest_date": "2026-05-21",
+      "insider_count": 2,
+      "insiders": [
+        "Lekstrom Morgan Lee",
+        "Marciano Anthony Mark"
+      ],
+      "latest_date": "2026-06-12",
+      "symbol": "STEX",
+      "total_dollars": 272881.05046
+    },
+    {
+      "earliest_date": "2026-05-20",
+      "insider_count": 2,
+      "insiders": [
+        "Krygier Christopher D",
+        "Liebman Michael J"
+      ],
+      "latest_date": "2026-05-20",
+      "symbol": "GWRS",
+      "total_dollars": 85260.492895
+    },
+    {
+      "earliest_date": "2026-05-14",
+      "insider_count": 2,
+      "insiders": [
+        "Olsen Sarah Josephine",
+        "Wilson Kevin Mark"
+      ],
+      "latest_date": "2026-05-14",
+      "symbol": "TONX",
+      "total_dollars": 56286.0
+    },
+    {
+      "earliest_date": "2026-05-18",
+      "insider_count": 2,
+      "insiders": [
+        "Black Wade Newton",
+        "Naugle Charles Travis"
+      ],
+      "latest_date": "2026-05-29",
+      "symbol": "SBMT",
+      "total_dollars": 134995.75
+    },
+    {
+      "earliest_date": "2026-06-01",
+      "insider_count": 2,
+      "insiders": [
+        "Fox David Morton",
+        "SHAMIR NACHUM"
+      ],
+      "latest_date": "2026-06-03",
+      "symbol": "MDWD",
+      "total_dollars": 133896.19
+    },
+    {
+      "earliest_date": "2026-05-15",
+      "insider_count": 2,
+      "insiders": [
+        "D'Angelo Lauren",
+        "Opaleye Management Inc."
+      ],
+      "latest_date": "2026-06-26",
+      "symbol": "ACOG",
+      "total_dollars": 2055978.5038
     },
     {
       "earliest_date": "2026-05-18",
@@ -1868,41 +1569,6 @@
       "latest_date": "2026-05-18",
       "symbol": "UTGN",
       "total_dollars": 533112.0
-    },
-    {
-      "earliest_date": "2026-04-30",
-      "insider_count": 3,
-      "insiders": [
-        "McAnally Bruce",
-        "REYNOLDS MARSHALL T",
-        "Smith Edgar R. III"
-      ],
-      "latest_date": "2026-04-30",
-      "symbol": "FGBI",
-      "total_dollars": 2999993.0100000002
-    },
-    {
-      "earliest_date": "2026-05-18",
-      "insider_count": 3,
-      "insiders": [
-        "Lobach David M Jr",
-        "Macy Michael B",
-        "Yurconic John T"
-      ],
-      "latest_date": "2026-06-15",
-      "symbol": "EMYB",
-      "total_dollars": 57627.8
-    },
-    {
-      "earliest_date": "2026-05-26",
-      "insider_count": 2,
-      "insiders": [
-        "Qiu Wenbin",
-        "Wu Junhua"
-      ],
-      "latest_date": "2026-06-24",
-      "symbol": "BZUN",
-      "total_dollars": 823730.0
     },
     {
       "earliest_date": "2026-05-15",
@@ -1918,15 +1584,52 @@
       "total_dollars": 73357953.87303999
     },
     {
-      "earliest_date": "2026-05-15",
+      "earliest_date": "2026-05-26",
       "insider_count": 2,
       "insiders": [
-        "D'Angelo Lauren",
-        "Opaleye Management Inc."
+        "Qiu Wenbin",
+        "Wu Junhua"
+      ],
+      "latest_date": "2026-06-24",
+      "symbol": "BZUN",
+      "total_dollars": 823730.0
+    },
+    {
+      "earliest_date": "2026-05-18",
+      "insider_count": 3,
+      "insiders": [
+        "Lobach David M Jr",
+        "Macy Michael B",
+        "Yurconic John T"
       ],
       "latest_date": "2026-06-15",
-      "symbol": "ACOG",
-      "total_dollars": 1079488.6326000001
+      "symbol": "EMYB",
+      "total_dollars": 57627.8
+    },
+    {
+      "earliest_date": "2026-05-20",
+      "insider_count": 5,
+      "insiders": [
+        "DAVIS EUGENE I",
+        "DellaFortuna Felicia",
+        "Hawks Carney",
+        "Sjoqvist Nikolaj H",
+        "Volkmann Jonathan"
+      ],
+      "latest_date": "2026-05-27",
+      "symbol": "WW",
+      "total_dollars": 625686.4823
+    },
+    {
+      "earliest_date": "2026-05-20",
+      "insider_count": 2,
+      "insiders": [
+        "COHEN JONATHAN H",
+        "ROSENTHAL SAUL B"
+      ],
+      "latest_date": "2026-05-20",
+      "symbol": "OXSQ",
+      "total_dollars": 333310.04189999995
     },
     {
       "earliest_date": "2026-05-21",
@@ -1941,6 +1644,17 @@
       "total_dollars": 767213.9
     },
     {
+      "earliest_date": "2026-07-08",
+      "insider_count": 2,
+      "insiders": [
+        "Cohen Scot",
+        "SHULMAN JOHN D"
+      ],
+      "latest_date": "2026-07-08",
+      "symbol": "WRAP",
+      "total_dollars": 133914.00000000003
+    },
+    {
       "earliest_date": "2026-06-08",
       "insider_count": 5,
       "insiders": [
@@ -1953,29 +1667,6 @@
       "latest_date": "2026-06-12",
       "symbol": "GUTS",
       "total_dollars": 127414.1564
-    },
-    {
-      "earliest_date": "2026-05-20",
-      "insider_count": 2,
-      "insiders": [
-        "COHEN JONATHAN H",
-        "ROSENTHAL SAUL B"
-      ],
-      "latest_date": "2026-05-20",
-      "symbol": "OXSQ",
-      "total_dollars": 333310.04189999995
-    },
-    {
-      "earliest_date": "2026-05-04",
-      "insider_count": 3,
-      "insiders": [
-        "BAQAR HASSAN",
-        "Furlan Melanie Sue",
-        "SWETS LARRY G JR"
-      ],
-      "latest_date": "2026-06-25",
-      "symbol": "GLND",
-      "total_dollars": 614820.6
     },
     {
       "earliest_date": "2026-06-17",
@@ -2002,15 +1693,41 @@
       "total_dollars": 105732.5
     },
     {
-      "earliest_date": "2026-05-06",
+      "earliest_date": "2026-06-30",
+      "insider_count": 4,
+      "insiders": [
+        "Aguera Pedro Alonso",
+        "Escorsa Enric Asuncion",
+        "Mera Francisco Jose Riberas",
+        "Richer Marc Sabe"
+      ],
+      "latest_date": "2026-06-30",
+      "symbol": "WBX",
+      "total_dollars": 4980440.9088
+    },
+    {
+      "earliest_date": "2026-05-15",
       "insider_count": 2,
       "insiders": [
-        "BRYANT WILLIAM C III",
-        "JAMERSON PHILLIP C"
+        "Hadfield Chris",
+        "Kabot Brian"
       ],
-      "latest_date": "2026-05-07",
-      "symbol": "BOTJ",
-      "total_dollars": 47500.63
+      "latest_date": "2026-05-21",
+      "symbol": "MNTS",
+      "total_dollars": 35141.01
+    },
+    {
+      "earliest_date": "2026-06-01",
+      "insider_count": 4,
+      "insiders": [
+        "Conlin Matthew",
+        "GEYGAN JAMES",
+        "GLOBAL VALUE INVESTMENT CORP.",
+        "Schulke Ryan"
+      ],
+      "latest_date": "2026-06-12",
+      "symbol": "FLNT",
+      "total_dollars": 358505.6145
     },
     {
       "earliest_date": "2026-06-12",
@@ -2024,17 +1741,39 @@
       "total_dollars": 204820.85
     },
     {
-      "earliest_date": "2026-04-29",
-      "insider_count": 4,
+      "earliest_date": "2026-05-12",
+      "insider_count": 3,
       "insiders": [
         "Barnes Ronald G",
-        "SWETMAN CHEVIS",
         "Sliman George J III",
         "Stilwell Joseph"
       ],
-      "latest_date": "2026-06-03",
+      "latest_date": "2026-07-02",
       "symbol": "PFBX",
-      "total_dollars": 308344.45
+      "total_dollars": 192803.7
+    },
+    {
+      "earliest_date": "2026-06-09",
+      "insider_count": 2,
+      "insiders": [
+        "VIRTUE DOUGLAS A",
+        "VIRTUE ROBERT A"
+      ],
+      "latest_date": "2026-07-09",
+      "symbol": "VIRC",
+      "total_dollars": 91545.3568
+    },
+    {
+      "earliest_date": "2026-05-12",
+      "insider_count": 3,
+      "insiders": [
+        "Gano Ann M",
+        "Lober Ralph J II",
+        "Parkinson John W"
+      ],
+      "latest_date": "2026-06-17",
+      "symbol": "CBKM",
+      "total_dollars": 56368.0
     },
     {
       "earliest_date": "2026-05-27",
@@ -2052,30 +1791,15 @@
       "total_dollars": 155137.63
     },
     {
-      "earliest_date": "2026-05-01",
-      "insider_count": 4,
+      "earliest_date": "2026-06-18",
+      "insider_count": 2,
       "insiders": [
-        "Gano Ann M",
-        "Gerzina Joseph A",
-        "Lober Ralph J II",
-        "Parkinson John W"
+        "Mohindru Mani",
+        "PACE GARY W"
       ],
-      "latest_date": "2026-06-17",
-      "symbol": "CBKM",
-      "total_dollars": 105043.0
-    },
-    {
-      "earliest_date": "2026-06-01",
-      "insider_count": 4,
-      "insiders": [
-        "Conlin Matthew",
-        "GEYGAN JAMES",
-        "GLOBAL VALUE INVESTMENT CORP.",
-        "Schulke Ryan"
-      ],
-      "latest_date": "2026-06-12",
-      "symbol": "FLNT",
-      "total_dollars": 358505.6145
+      "latest_date": "2026-06-18",
+      "symbol": "CRDF",
+      "total_dollars": 66490.63
     },
     {
       "earliest_date": "2026-05-11",
@@ -2091,27 +1815,60 @@
       "total_dollars": 138629.87600000002
     },
     {
-      "earliest_date": "2026-05-06",
-      "insider_count": 3,
-      "insiders": [
-        "ALVAREZ ANTONIO R",
-        "Carroll Anthony",
-        "SADASIVAM SHAKER"
-      ],
-      "latest_date": "2026-05-07",
-      "symbol": "FTCI",
-      "total_dollars": 145385.0
-    },
-    {
-      "earliest_date": "2026-06-18",
+      "earliest_date": "2026-06-01",
       "insider_count": 2,
       "insiders": [
-        "Mohindru Mani",
-        "PACE GARY W"
+        "Smith Stan",
+        "Vitoc Vlad"
       ],
-      "latest_date": "2026-06-18",
-      "symbol": "CRDF",
-      "total_dollars": 66490.63
+      "latest_date": "2026-06-01",
+      "symbol": "MAIA",
+      "total_dollars": 201085.78999999998
+    },
+    {
+      "earliest_date": "2026-05-19",
+      "insider_count": 2,
+      "insiders": [
+        "Frommer Richard N.",
+        "Sweeney Daniel T."
+      ],
+      "latest_date": "2026-05-19",
+      "symbol": "PROP",
+      "total_dollars": 79858.25
+    },
+    {
+      "earliest_date": "2026-05-18",
+      "insider_count": 3,
+      "insiders": [
+        "Dakos Andrew",
+        "GOLDSTEIN PHILLIP",
+        "SELL MORITZ A"
+      ],
+      "latest_date": "2026-07-06",
+      "symbol": "SWZ",
+      "total_dollars": 239439.0851
+    },
+    {
+      "earliest_date": "2026-05-18",
+      "insider_count": 2,
+      "insiders": [
+        "Anderson Micah Payne",
+        "Wilson Kevin John"
+      ],
+      "latest_date": "2026-06-15",
+      "symbol": "LEEEF",
+      "total_dollars": 154319.81
+    },
+    {
+      "earliest_date": "2026-05-21",
+      "insider_count": 2,
+      "insiders": [
+        "Maimon Keren Kalima",
+        "Sade Ron"
+      ],
+      "latest_date": "2026-05-21",
+      "symbol": "SLMT",
+      "total_dollars": 11421060.0
     },
     {
       "earliest_date": "2026-05-14",
@@ -2128,37 +1885,39 @@
       "total_dollars": 4466750.37
     },
     {
-      "earliest_date": "2026-06-01",
+      "earliest_date": "2026-06-30",
       "insider_count": 2,
       "insiders": [
-        "Smith Stan",
-        "Vitoc Vlad"
+        "Koshewa Tamra L",
+        "MILLS RICHARD C"
       ],
-      "latest_date": "2026-06-01",
-      "symbol": "MAIA",
-      "total_dollars": 201085.78999999998
-    },
-    {
-      "earliest_date": "2026-05-18",
-      "insider_count": 2,
-      "insiders": [
-        "Dakos Andrew",
-        "SELL MORITZ A"
-      ],
-      "latest_date": "2026-06-18",
-      "symbol": "SWZ",
-      "total_dollars": 150101.12
+      "latest_date": "2026-06-30",
+      "symbol": "CREX",
+      "total_dollars": 799998.5
     },
     {
       "earliest_date": "2026-05-19",
       "insider_count": 2,
       "insiders": [
-        "Frommer Richard N.",
-        "Sweeney Daniel T."
+        "AULT MILTON C III",
+        "Horne William B."
       ],
-      "latest_date": "2026-05-19",
-      "symbol": "PROP",
-      "total_dollars": 79858.25
+      "latest_date": "2026-06-30",
+      "symbol": "GPUS",
+      "total_dollars": 241473.9
+    },
+    {
+      "earliest_date": "2026-06-11",
+      "insider_count": 4,
+      "insiders": [
+        "Danges Kyle B.",
+        "Davis Rodger",
+        "Endeavor Blockchain, LLC",
+        "Morrison Daniel J"
+      ],
+      "latest_date": "2026-06-30",
+      "symbol": "BGDE",
+      "total_dollars": 17255817.2848
     },
     {
       "earliest_date": "2026-05-14",
@@ -2172,41 +1931,6 @@
       "total_dollars": 317778.1466
     },
     {
-      "earliest_date": "2026-06-11",
-      "insider_count": 4,
-      "insiders": [
-        "Danges Kyle B.",
-        "Davis Rodger",
-        "Endeavor Blockchain, LLC",
-        "Morrison Daniel J"
-      ],
-      "latest_date": "2026-06-12",
-      "symbol": "BGDE",
-      "total_dollars": 555817.2848
-    },
-    {
-      "earliest_date": "2026-05-21",
-      "insider_count": 2,
-      "insiders": [
-        "Maimon Keren Kalima",
-        "Sade Ron"
-      ],
-      "latest_date": "2026-05-21",
-      "symbol": "SLMT",
-      "total_dollars": 11421060.0
-    },
-    {
-      "earliest_date": "2026-05-12",
-      "insider_count": 2,
-      "insiders": [
-        "KEYSER D JEFFREY",
-        "Schalop Lee Troy"
-      ],
-      "latest_date": "2026-05-12",
-      "symbol": "LTRN",
-      "total_dollars": 200001.28
-    },
-    {
       "earliest_date": "2026-05-12",
       "insider_count": 3,
       "insiders": [
@@ -2217,17 +1941,6 @@
       "latest_date": "2026-06-12",
       "symbol": "AGIG",
       "total_dollars": 91194.055
-    },
-    {
-      "earliest_date": "2026-05-18",
-      "insider_count": 2,
-      "insiders": [
-        "Anderson Micah Payne",
-        "Wilson Kevin John"
-      ],
-      "latest_date": "2026-06-15",
-      "symbol": "LEEEF",
-      "total_dollars": 154319.81
     },
     {
       "earliest_date": "2026-06-03",
@@ -2243,86 +1956,15 @@
       "total_dollars": 119653.6999
     },
     {
-      "earliest_date": "2026-05-19",
-      "insider_count": 4,
-      "insiders": [
-        "Drake Mimi K",
-        "Eberwein Jeffrey E.",
-        "Fruhbeis Todd Michael",
-        "Parks Louis A."
-      ],
-      "latest_date": "2026-06-22",
-      "symbol": "STRR",
-      "total_dollars": 884260.5000000001
-    },
-    {
-      "earliest_date": "2026-05-14",
+      "earliest_date": "2026-05-12",
       "insider_count": 2,
       "insiders": [
-        "BARBER GRANT",
-        "Boudreau Alanna"
+        "KEYSER D JEFFREY",
+        "Schalop Lee Troy"
       ],
-      "latest_date": "2026-05-29",
-      "symbol": "VTSI",
-      "total_dollars": 45501.71
-    },
-    {
-      "earliest_date": "2026-05-01",
-      "insider_count": 2,
-      "insiders": [
-        "Gator Capital Management, LLC",
-        "Pilecki Derek Steven"
-      ],
-      "latest_date": "2026-06-03",
-      "symbol": "GROW",
-      "total_dollars": 304694.9526
-    },
-    {
-      "earliest_date": "2026-06-08",
-      "insider_count": 2,
-      "insiders": [
-        "Choudhury Mahesh",
-        "Panigrahi Bhaskar"
-      ],
-      "latest_date": "2026-06-18",
-      "symbol": "CNTM",
-      "total_dollars": 53591973.0
-    },
-    {
-      "earliest_date": "2026-05-19",
-      "insider_count": 3,
-      "insiders": [
-        "Liuzza Nicholas Reyland JR",
-        "Milton Tiffany",
-        "Moe Christopher R."
-      ],
-      "latest_date": "2026-05-19",
-      "symbol": "BLNE",
-      "total_dollars": 79279.0
-    },
-    {
-      "earliest_date": "2026-05-06",
-      "insider_count": 4,
-      "insiders": [
-        "ROUBIN GARY S",
-        "Slosman Marvin",
-        "Stuka Paul",
-        "Ward Scott R."
-      ],
-      "latest_date": "2026-05-27",
-      "symbol": "NSPR",
-      "total_dollars": 365922.4
-    },
-    {
-      "earliest_date": "2026-05-01",
-      "insider_count": 2,
-      "insiders": [
-        "Amlani Ajay K",
-        "STAFFORD JOHN S III"
-      ],
-      "latest_date": "2026-06-12",
-      "symbol": "AWRE",
-      "total_dollars": 232218.53999999998
+      "latest_date": "2026-05-12",
+      "symbol": "LTRN",
+      "total_dollars": 200001.28
     },
     {
       "earliest_date": "2026-05-18",
@@ -2338,6 +1980,75 @@
     },
     {
       "earliest_date": "2026-05-19",
+      "insider_count": 4,
+      "insiders": [
+        "Drake Mimi K",
+        "Eberwein Jeffrey E.",
+        "Fruhbeis Todd Michael",
+        "Parks Louis A."
+      ],
+      "latest_date": "2026-06-29",
+      "symbol": "STRR",
+      "total_dollars": 994360.5000000001
+    },
+    {
+      "earliest_date": "2026-06-08",
+      "insider_count": 2,
+      "insiders": [
+        "Choudhury Mahesh",
+        "Panigrahi Bhaskar"
+      ],
+      "latest_date": "2026-06-18",
+      "symbol": "CNTM",
+      "total_dollars": 53591973.0
+    },
+    {
+      "earliest_date": "2026-05-01",
+      "insider_count": 2,
+      "insiders": [
+        "Gator Capital Management, LLC",
+        "Pilecki Derek Steven"
+      ],
+      "latest_date": "2026-06-03",
+      "symbol": "GROW",
+      "total_dollars": 304694.9526
+    },
+    {
+      "earliest_date": "2026-05-19",
+      "insider_count": 3,
+      "insiders": [
+        "Liuzza Nicholas Reyland JR",
+        "Milton Tiffany",
+        "Moe Christopher R."
+      ],
+      "latest_date": "2026-05-19",
+      "symbol": "BLNE",
+      "total_dollars": 79279.0
+    },
+    {
+      "earliest_date": "2026-05-14",
+      "insider_count": 2,
+      "insiders": [
+        "BARBER GRANT",
+        "Boudreau Alanna"
+      ],
+      "latest_date": "2026-05-29",
+      "symbol": "VTSI",
+      "total_dollars": 45501.71
+    },
+    {
+      "earliest_date": "2026-05-12",
+      "insider_count": 2,
+      "insiders": [
+        "Slosman Marvin",
+        "Stuka Paul"
+      ],
+      "latest_date": "2026-05-27",
+      "symbol": "NSPR",
+      "total_dollars": 60025.0
+    },
+    {
+      "earliest_date": "2026-05-19",
       "insider_count": 2,
       "insiders": [
         "Marshall Richard Peter",
@@ -2348,26 +2059,15 @@
       "total_dollars": 74851.45
     },
     {
-      "earliest_date": "2026-06-12",
+      "earliest_date": "2026-05-13",
       "insider_count": 2,
       "insiders": [
-        "Chan Phillip P.",
-        "MARIANI PETER J"
+        "Amlani Ajay K",
+        "STAFFORD JOHN S III"
       ],
-      "latest_date": "2026-06-15",
-      "symbol": "CTSO",
-      "total_dollars": 148897.59000000003
-    },
-    {
-      "earliest_date": "2026-06-16",
-      "insider_count": 2,
-      "insiders": [
-        "Ben-Noon Alon",
-        "Eisenberg Or"
-      ],
-      "latest_date": "2026-06-16",
-      "symbol": "NRSN",
-      "total_dollars": 400000.0
+      "latest_date": "2026-06-12",
+      "symbol": "AWRE",
+      "total_dollars": 141359.55
     },
     {
       "earliest_date": "2026-05-15",
@@ -2382,48 +2082,26 @@
       "total_dollars": 236356.81029999998
     },
     {
-      "earliest_date": "2026-05-07",
+      "earliest_date": "2026-06-16",
       "insider_count": 2,
       "insiders": [
-        "CARUSO JAMES V",
-        "Longcor Jarrod"
+        "Ben-Noon Alon",
+        "Eisenberg Or"
       ],
-      "latest_date": "2026-05-07",
-      "symbol": "CLRB",
-      "total_dollars": 49996.799999999996
+      "latest_date": "2026-06-16",
+      "symbol": "NRSN",
+      "total_dollars": 400000.0
     },
     {
-      "earliest_date": "2026-04-29",
+      "earliest_date": "2026-06-12",
       "insider_count": 2,
       "insiders": [
-        "Garchik Stephen Jeffrey",
-        "Jisser Ken"
+        "Chan Phillip P.",
+        "MARIANI PETER J"
       ],
-      "latest_date": "2026-04-29",
-      "symbol": "AUID",
-      "total_dollars": 187499.49000000002
-    },
-    {
-      "earliest_date": "2026-04-27",
-      "insider_count": 2,
-      "insiders": [
-        "Revel Michel",
-        "Samuel Olivier"
-      ],
-      "latest_date": "2026-04-27",
-      "symbol": "NCEL",
-      "total_dollars": 374998.25
-    },
-    {
-      "earliest_date": "2026-04-14",
-      "insider_count": 2,
-      "insiders": [
-        "Brennan James Robert",
-        "Maskin Scott"
-      ],
-      "latest_date": "2026-04-14",
-      "symbol": "SUNE",
-      "total_dollars": 1199999.82
+      "latest_date": "2026-06-15",
+      "symbol": "CTSO",
+      "total_dollars": 148897.59000000003
     },
     {
       "earliest_date": "2026-05-19",
@@ -2435,6 +2113,31 @@
       "latest_date": "2026-05-20",
       "symbol": "MTEX",
       "total_dollars": 62155.36
+    },
+    {
+      "earliest_date": "2026-05-19",
+      "insider_count": 2,
+      "insiders": [
+        "ADAR1 Capital Management, LLC",
+        "Vivo Opportunity, LLC"
+      ],
+      "latest_date": "2026-07-02",
+      "symbol": "INM",
+      "total_dollars": 1123250.4498
+    },
+    {
+      "earliest_date": "2025-06-29",
+      "insider_count": 5,
+      "insiders": [
+        "Haen Steven",
+        "Mangold James E",
+        "Schmalz Charles D",
+        "Schneider Kory J",
+        "Vander Loop Kailee"
+      ],
+      "latest_date": "2026-06-29",
+      "symbol": "EWSB",
+      "total_dollars": 1716710.0
     },
     {
       "earliest_date": "2026-05-22",
@@ -2449,17 +2152,6 @@
       "total_dollars": 430000.25
     },
     {
-      "earliest_date": "2026-05-11",
-      "insider_count": 2,
-      "insiders": [
-        "Breidbart Scott",
-        "Ness Brent"
-      ],
-      "latest_date": "2026-05-12",
-      "symbol": "ACON",
-      "total_dollars": 38010.54
-    },
-    {
       "earliest_date": "2026-04-28",
       "insider_count": 2,
       "insiders": [
@@ -2471,7 +2163,7 @@
       "total_dollars": 599999.3300000001
     },
     {
-      "earliest_date": "2026-04-30",
+      "earliest_date": "2026-05-15",
       "insider_count": 5,
       "insiders": [
         "Guy Wendy",
@@ -2480,20 +2172,20 @@
         "SKIBSTED RUSSELL",
         "Young David"
       ],
-      "latest_date": "2026-06-15",
+      "latest_date": "2026-07-01",
       "symbol": "PCSA",
-      "total_dollars": 98878.65
+      "total_dollars": 100035.75
     },
     {
-      "earliest_date": "2026-05-19",
+      "earliest_date": "2026-06-08",
       "insider_count": 2,
       "insiders": [
-        "ADAR1 Capital Management, LLC",
-        "Vivo Opportunity, LLC"
+        "Maimon Shalom Arik",
+        "OAS ENERGY LLC"
       ],
-      "latest_date": "2026-06-08",
-      "symbol": "INM",
-      "total_dollars": 1113102.3998
+      "latest_date": "2026-07-07",
+      "symbol": "CUEN",
+      "total_dollars": 33803.1716
     },
     {
       "earliest_date": "2026-03-14",
@@ -2510,99 +2202,6 @@
       "total_dollars": 125000.0
     },
     {
-      "earliest_date": "2026-06-22",
-      "insider_count": 3,
-      "insiders": [
-        "ARCH Venture Partners XIII, LLC",
-        "BERNS PAUL L",
-        "HRTG GPE, LLC"
-      ],
-      "latest_date": "2026-06-22",
-      "symbol": "KARD",
-      "total_dollars": 90000000.0
-    },
-    {
-      "earliest_date": "2026-06-26",
-      "insider_count": 9,
-      "insiders": [
-        "Brooks Henry F",
-        "Charles Dirkson R",
-        "Danmola Taiwo K.",
-        "Deal Stanley A",
-        "Egan David John",
-        "Mays Jason",
-        "Meixner Willibald",
-        "Quinn Michael (Mike) Joseph",
-        "Sanders Nick"
-      ],
-      "latest_date": "2026-06-26",
-      "symbol": "DPC",
-      "total_dollars": 75821493.0
-    },
-    {
-      "earliest_date": "2026-05-01",
-      "insider_count": 2,
-      "insiders": [
-        "Liu Suying",
-        "Mountain Crest Holdings 6 LLC"
-      ],
-      "latest_date": "2026-05-01",
-      "symbol": "MCAH",
-      "total_dollars": 500000.0
-    },
-    {
-      "earliest_date": "2026-04-30",
-      "insider_count": 8,
-      "insiders": [
-        "ACKMAN WILLIAM A",
-        "Botta Nicholas Anthony",
-        "Coussin Halit",
-        "Falzone Jessica A",
-        "Gonnella Michael",
-        "Hakim Ben",
-        "Herring Bruce",
-        "ISRAEL RYAN"
-      ],
-      "latest_date": "2026-06-17",
-      "symbol": "PSUS",
-      "total_dollars": 311593940.0
-    },
-    {
-      "earliest_date": "2026-03-26",
-      "insider_count": 3,
-      "insiders": [
-        "MILLENNIUM MANAGEMENT LLC",
-        "Parikh Anand Kiran",
-        "STEPHENSON BRIAN C"
-      ],
-      "latest_date": "2026-06-26",
-      "symbol": "SNSE",
-      "total_dollars": 2204356.5951
-    },
-    {
-      "earliest_date": "2026-06-18",
-      "insider_count": 14,
-      "insiders": [
-        "Andracchio Vincent Charles II",
-        "Boone Sandra Bell",
-        "DEATON STEVEN G",
-        "Day Ronald Arvin",
-        "Ferebee John Jethro Jr",
-        "Floyd Gregory Everette",
-        "Ford Douglas IV",
-        "Gussenhoven John Walter",
-        "LUCAS JAMES A JR",
-        "Paul Charles Albert III",
-        "Pritchard Patrick Wayne",
-        "Robbins Charles Austin Jr",
-        "Shannon Kevin Meek",
-        "Suiter Overton Stokes III"
-      ],
-      "latest_date": "2026-06-18",
-      "symbol": "FCBM",
-      "total_dollars": 1650112.5
-    },
-    {
       "earliest_date": "2026-06-04",
       "insider_count": 4,
       "insiders": [
@@ -2616,7 +2215,7 @@
       "total_dollars": 1170000.0
     },
     {
-      "earliest_date": "2026-04-28",
+      "earliest_date": "2026-05-19",
       "insider_count": 5,
       "insiders": [
         "Chin Yung-Pei",
@@ -2625,110 +2224,92 @@
         "Wei Che-Chia",
         "Yuan Lipen"
       ],
-      "latest_date": "2026-06-22",
+      "latest_date": "2026-07-07",
       "symbol": "TSM",
-      "total_dollars": 367089.014
+      "total_dollars": 510854.694
     },
     {
-      "earliest_date": "2026-04-28",
+      "earliest_date": "2026-06-30",
+      "insider_count": 9,
+      "insiders": [
+        "Aeppel Glyn",
+        "GLASSCOCK LARRY C",
+        "LEIBOWITZ REUBEN S",
+        "LEWIS RANDALL J",
+        "RODKIN GARY M",
+        "Roe Peggy",
+        "SELIG STEFAN M",
+        "STEWART MARTA R",
+        "Smith Daniel C."
+      ],
+      "latest_date": "2026-06-30",
+      "symbol": "SPG",
+      "total_dollars": 520107.91
+    },
+    {
+      "earliest_date": "2026-06-01",
+      "insider_count": 7,
+      "insiders": [
+        "Dubin Cynthia S",
+        "Gamboni Francesca Paola Leandra",
+        "Gorjanc Christine Marie",
+        "Neumann Karl-Thomas",
+        "Shen Xiaojie",
+        "Vahland Winfried",
+        "Zhang Quan (Joe)"
+      ],
+      "latest_date": "2026-07-02",
+      "symbol": "PSNY",
+      "total_dollars": 414937.31
+    },
+    {
+      "earliest_date": "2026-05-22",
       "insider_count": 5,
       "insiders": [
-        "Chin Yung-Pei",
-        "Mii Yuh-Jier",
-        "Tien Bor-Zen",
-        "Wei Che-Chia",
-        "Yuan Lipen"
-      ],
-      "latest_date": "2026-06-22",
-      "symbol": "TSM",
-      "total_dollars": 367089.014
-    },
-    {
-      "earliest_date": "2026-05-08",
-      "insider_count": 4,
-      "insiders": [
         "BRACKEN CHARLES H R",
         "MALONE JOHN C",
         "Nair Balan",
-        "PADDICK BRENDAN J"
-      ],
-      "latest_date": "2026-06-24",
-      "symbol": "LILA",
-      "total_dollars": 136851396.6173
-    },
-    {
-      "earliest_date": "2026-05-08",
-      "insider_count": 4,
-      "insiders": [
-        "BRACKEN CHARLES H R",
-        "MALONE JOHN C",
-        "Nair Balan",
-        "PADDICK BRENDAN J"
-      ],
-      "latest_date": "2026-06-24",
-      "symbol": "LILA",
-      "total_dollars": 136851396.6173
-    },
-    {
-      "earliest_date": "2026-05-07",
-      "insider_count": 4,
-      "insiders": [
-        "Brunet Craig Jeffry",
-        "SALUTE RICHARD J",
-        "SLOANE BARRY",
-        "Zink Gregory L"
-      ],
-      "latest_date": "2026-06-15",
-      "symbol": "NEWT",
-      "total_dollars": 271493.0
-    },
-    {
-      "earliest_date": "2026-03-26",
-      "insider_count": 3,
-      "insiders": [
-        "MILLENNIUM MANAGEMENT LLC",
-        "Parikh Anand Kiran",
-        "STEPHENSON BRIAN C"
+        "PADDICK BRENDAN J",
+        "WINTER JOHN M"
       ],
       "latest_date": "2026-06-26",
-      "symbol": "SNSE",
-      "total_dollars": 2204356.5951
+      "symbol": "LILA",
+      "total_dollars": 140183769.15530002
     },
     {
-      "earliest_date": "2026-05-11",
-      "insider_count": 9,
+      "earliest_date": "2025-05-25",
+      "insider_count": 2,
       "insiders": [
-        "Barber Jamie Allen",
-        "Cole Henry",
-        "Crowley Paula",
-        "Cypher Matthew",
-        "Decker Mark Okey Jr",
-        "Holley Danica",
-        "KIERNAN ROBERT J",
-        "Marston Ronald",
-        "Wittman Lori"
+        "COTHILL MICHAEL",
+        "SEVELL MICHAEL"
       ],
-      "latest_date": "2026-05-14",
-      "symbol": "XRN",
-      "total_dollars": 624925.7352
+      "latest_date": "2026-05-25",
+      "symbol": "HMMR",
+      "total_dollars": 5481598.176
     },
     {
-      "earliest_date": "2026-05-11",
-      "insider_count": 9,
+      "earliest_date": "2026-05-19",
+      "insider_count": 2,
       "insiders": [
-        "Barber Jamie Allen",
-        "Cole Henry",
-        "Crowley Paula",
-        "Cypher Matthew",
-        "Decker Mark Okey Jr",
-        "Holley Danica",
-        "KIERNAN ROBERT J",
-        "Marston Ronald",
-        "Wittman Lori"
+        "AULT MILTON C III",
+        "Horne William B."
       ],
-      "latest_date": "2026-05-14",
-      "symbol": "XRN",
-      "total_dollars": 624925.7352
+      "latest_date": "2026-06-30",
+      "symbol": "GPUS",
+      "total_dollars": 241473.9
+    },
+    {
+      "earliest_date": "2026-05-14",
+      "insider_count": 4,
+      "insiders": [
+        "AGREE RICHARD",
+        "Agree Joey",
+        "Lehmkuhl Greg",
+        "RAKOLTA JOHN JR"
+      ],
+      "latest_date": "2026-06-04",
+      "symbol": "ADC",
+      "total_dollars": 2907343.4499999997
     },
     {
       "earliest_date": "2026-05-21",
@@ -2754,121 +2335,6 @@
       "total_dollars": 35141.01
     },
     {
-      "earliest_date": "2026-05-07",
-      "insider_count": 4,
-      "insiders": [
-        "Brunet Craig Jeffry",
-        "SALUTE RICHARD J",
-        "SLOANE BARRY",
-        "Zink Gregory L"
-      ],
-      "latest_date": "2026-06-15",
-      "symbol": "NEWT",
-      "total_dollars": 271493.0
-    },
-    {
-      "earliest_date": "2026-05-07",
-      "insider_count": 4,
-      "insiders": [
-        "Brunet Craig Jeffry",
-        "SALUTE RICHARD J",
-        "SLOANE BARRY",
-        "Zink Gregory L"
-      ],
-      "latest_date": "2026-06-15",
-      "symbol": "NEWT",
-      "total_dollars": 271493.0
-    },
-    {
-      "earliest_date": "2026-05-07",
-      "insider_count": 4,
-      "insiders": [
-        "Brunet Craig Jeffry",
-        "SALUTE RICHARD J",
-        "SLOANE BARRY",
-        "Zink Gregory L"
-      ],
-      "latest_date": "2026-06-15",
-      "symbol": "NEWT",
-      "total_dollars": 271493.0
-    },
-    {
-      "earliest_date": "2026-05-07",
-      "insider_count": 4,
-      "insiders": [
-        "Brunet Craig Jeffry",
-        "SALUTE RICHARD J",
-        "SLOANE BARRY",
-        "Zink Gregory L"
-      ],
-      "latest_date": "2026-06-15",
-      "symbol": "NEWT",
-      "total_dollars": 271493.0
-    },
-    {
-      "earliest_date": "2026-05-29",
-      "insider_count": 2,
-      "insiders": [
-        "Yang Yunyun (Alice)",
-        "Ye Guofu"
-      ],
-      "latest_date": "2026-06-01",
-      "symbol": "MNSO",
-      "total_dollars": 13802020.0
-    },
-    {
-      "earliest_date": "2026-05-08",
-      "insider_count": 4,
-      "insiders": [
-        "BRACKEN CHARLES H R",
-        "MALONE JOHN C",
-        "Nair Balan",
-        "PADDICK BRENDAN J"
-      ],
-      "latest_date": "2026-06-24",
-      "symbol": "LILA",
-      "total_dollars": 136851396.6173
-    },
-    {
-      "earliest_date": "2026-05-08",
-      "insider_count": 4,
-      "insiders": [
-        "BRACKEN CHARLES H R",
-        "MALONE JOHN C",
-        "Nair Balan",
-        "PADDICK BRENDAN J"
-      ],
-      "latest_date": "2026-06-24",
-      "symbol": "LILA",
-      "total_dollars": 136851396.6173
-    },
-    {
-      "earliest_date": "2026-05-08",
-      "insider_count": 4,
-      "insiders": [
-        "BRACKEN CHARLES H R",
-        "MALONE JOHN C",
-        "Nair Balan",
-        "PADDICK BRENDAN J"
-      ],
-      "latest_date": "2026-06-24",
-      "symbol": "LILA",
-      "total_dollars": 136851396.6173
-    },
-    {
-      "earliest_date": "2026-05-08",
-      "insider_count": 4,
-      "insiders": [
-        "BRACKEN CHARLES H R",
-        "MALONE JOHN C",
-        "Nair Balan",
-        "PADDICK BRENDAN J"
-      ],
-      "latest_date": "2026-06-24",
-      "symbol": "LILA",
-      "total_dollars": 136851396.6173
-    },
-    {
       "earliest_date": "2026-05-18",
       "insider_count": 3,
       "insiders": [
@@ -2881,18 +2347,18 @@
       "total_dollars": 601707.8262
     },
     {
-      "earliest_date": "2026-05-15",
+      "earliest_date": "2026-05-22",
       "insider_count": 5,
       "insiders": [
-        "Gordon Gary B.",
-        "Patience David",
-        "Stansky Michael P",
-        "Szela Mary T",
-        "Wahlstrom Mats"
+        "BRACKEN CHARLES H R",
+        "MALONE JOHN C",
+        "Nair Balan",
+        "PADDICK BRENDAN J",
+        "WINTER JOHN M"
       ],
-      "latest_date": "2026-05-15",
-      "symbol": "TLSI",
-      "total_dollars": 1821429.38
+      "latest_date": "2026-06-26",
+      "symbol": "LILA",
+      "total_dollars": 140183769.15530002
     },
     {
       "earliest_date": "2026-06-16",
@@ -2919,60 +2385,57 @@
       "total_dollars": 126999.36
     },
     {
-      "earliest_date": "2026-05-04",
-      "insider_count": 3,
+      "earliest_date": "2026-05-15",
+      "insider_count": 5,
       "insiders": [
-        "BAQAR HASSAN",
-        "Furlan Melanie Sue",
-        "SWETS LARRY G JR"
+        "Gordon Gary B.",
+        "Patience David",
+        "Stansky Michael P",
+        "Szela Mary T",
+        "Wahlstrom Mats"
       ],
-      "latest_date": "2026-06-25",
-      "symbol": "GLND",
-      "total_dollars": 614820.6
-    },
-    {
-      "earliest_date": "2026-05-01",
-      "insider_count": 2,
-      "insiders": [
-        "Liu Suying",
-        "Mountain Crest Holdings 6 LLC"
-      ],
-      "latest_date": "2026-05-01",
-      "symbol": "MCAH",
-      "total_dollars": 500000.0
-    },
-    {
-      "earliest_date": "2026-05-20",
-      "insider_count": 2,
-      "insiders": [
-        "COHEN JONATHAN H",
-        "ROSENTHAL SAUL B"
-      ],
-      "latest_date": "2026-05-20",
-      "symbol": "OXSQ",
-      "total_dollars": 333310.04189999995
-    },
-    {
-      "earliest_date": "2026-05-20",
-      "insider_count": 2,
-      "insiders": [
-        "COHEN JONATHAN H",
-        "ROSENTHAL SAUL B"
-      ],
-      "latest_date": "2026-05-20",
-      "symbol": "OXSQ",
-      "total_dollars": 333310.04189999995
+      "latest_date": "2026-05-15",
+      "symbol": "TLSI",
+      "total_dollars": 1821429.38
     },
     {
       "earliest_date": "2026-05-11",
-      "insider_count": 2,
+      "insider_count": 4,
       "insiders": [
-        "Breidbart Scott",
-        "Ness Brent"
+        "Advani Loveen",
+        "FRATER HUGH R",
+        "Garg Vishal",
+        "Talwar Harit"
       ],
-      "latest_date": "2026-05-12",
-      "symbol": "ACON",
-      "total_dollars": 38010.54
+      "latest_date": "2026-06-11",
+      "symbol": "BETR",
+      "total_dollars": 1433702.54
+    },
+    {
+      "earliest_date": "2026-05-12",
+      "insider_count": 4,
+      "insiders": [
+        "Barber Jamie Allen",
+        "Cypher Matthew",
+        "Marston Ronald",
+        "Wittman Lori"
+      ],
+      "latest_date": "2026-05-14",
+      "symbol": "XRN",
+      "total_dollars": 250112.6702
+    },
+    {
+      "earliest_date": "2026-05-12",
+      "insider_count": 4,
+      "insiders": [
+        "Barber Jamie Allen",
+        "Cypher Matthew",
+        "Marston Ronald",
+        "Wittman Lori"
+      ],
+      "latest_date": "2026-05-14",
+      "symbol": "XRN",
+      "total_dollars": 250112.6702
     },
     {
       "earliest_date": "2026-06-09",
@@ -2990,66 +2453,6 @@
       "total_dollars": 629643.95
     },
     {
-      "earliest_date": "2026-05-08",
-      "insider_count": 2,
-      "insiders": [
-        "Batista de Lima Filho Pedro",
-        "Corso Matte Ana Silvia"
-      ],
-      "latest_date": "2026-06-03",
-      "symbol": "AXIA3",
-      "total_dollars": 57893451.0
-    },
-    {
-      "earliest_date": "2026-05-14",
-      "insider_count": 4,
-      "insiders": [
-        "AGREE RICHARD",
-        "Agree Joey",
-        "Lehmkuhl Greg",
-        "RAKOLTA JOHN JR"
-      ],
-      "latest_date": "2026-06-04",
-      "symbol": "ADC",
-      "total_dollars": 2907343.4499999997
-    },
-    {
-      "earliest_date": "2026-05-19",
-      "insider_count": 2,
-      "insiders": [
-        "AULT MILTON C III",
-        "Horne William B."
-      ],
-      "latest_date": "2026-06-18",
-      "symbol": "GPUS",
-      "total_dollars": 144521.4
-    },
-    {
-      "earliest_date": "2026-05-07",
-      "insider_count": 4,
-      "insiders": [
-        "Advani Loveen",
-        "FRATER HUGH R",
-        "Garg Vishal",
-        "Talwar Harit"
-      ],
-      "latest_date": "2026-06-11",
-      "symbol": "BETR",
-      "total_dollars": 1722477.54
-    },
-    {
-      "earliest_date": "2026-04-30",
-      "insider_count": 3,
-      "insiders": [
-        "McAnally Bruce",
-        "REYNOLDS MARSHALL T",
-        "Smith Edgar R. III"
-      ],
-      "latest_date": "2026-04-30",
-      "symbol": "FGBI",
-      "total_dollars": 2999993.0100000002
-    },
-    {
       "earliest_date": "2026-05-19",
       "insider_count": 4,
       "insiders": [
@@ -3058,14 +2461,36 @@
         "Fruhbeis Todd Michael",
         "Parks Louis A."
       ],
-      "latest_date": "2026-06-22",
+      "latest_date": "2026-06-29",
       "symbol": "STRR",
-      "total_dollars": 884260.5000000001
+      "total_dollars": 994360.5000000001
+    },
+    {
+      "earliest_date": "2026-05-20",
+      "insider_count": 2,
+      "insiders": [
+        "COHEN JONATHAN H",
+        "ROSENTHAL SAUL B"
+      ],
+      "latest_date": "2026-05-20",
+      "symbol": "OXSQ",
+      "total_dollars": 333310.04189999995
+    },
+    {
+      "earliest_date": "2026-05-20",
+      "insider_count": 2,
+      "insiders": [
+        "COHEN JONATHAN H",
+        "ROSENTHAL SAUL B"
+      ],
+      "latest_date": "2026-05-20",
+      "symbol": "OXSQ",
+      "total_dollars": 333310.04189999995
     }
   ],
   "progress": {
-    "done": 10433,
-    "total": 10433
+    "done": 9304,
+    "total": 9304
   },
-  "updated_at": "2026-06-28T15:44:46.720149+00:00"
+  "updated_at": "2026-07-12T11:32:47.620271+00:00"
 }
