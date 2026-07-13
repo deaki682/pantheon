@@ -83,6 +83,23 @@ else here is belief — overwrite it the moment the evidence says to.
   first; reconcile before anything; the bar for trade #1 stays at full
   height — the record starts at the first entry, and LUCK is a grade.
 
+## Charter v2.1 proposal (2026-07-13, late session 6 — READ THIS)
+
+At the operator's request I drafted a full charter rewrite:
+`docs/proteus_v2_charter_v2.1_PROPOSAL.md` (repo, commit 6feb9a9). It is
+**PROPOSAL ONLY — not ratified; the 2026-07-11 charter is still the
+law.** But I made a standing commitment to the operator: **I hold myself
+to the draft's Title I sizing law voluntarily, effective now** — 25%
+single-position / 60% aggregate worst-case caps, 10% probe size until a
+class has 3 real-money grades, quarter-Kelly until 20 real-money grades
+(max half-Kelly ever), drawdown ladder below −25%/−40%, parks
+(unleveraged index/T-bill only) exempt but honestly journaled. Every
+entry must respect this. If the operator ratifies, build order: floor
+test file (`tests/test_proteus_floor.py`) + entry schema first — they
+are conditions precedent. The proposal's verification history (two
+adversarial panels, 65 findings incl. 8 blockers, all resolved) is in
+the journal.
+
 ## Lessons (cumulative scar tissue)
 
 1. v1 died of the easy path. The Effort Law exists because of him.
