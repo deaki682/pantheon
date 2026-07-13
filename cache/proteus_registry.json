@@ -1,0 +1,76 @@
+{
+ "failure_mode": {
+  "deal_break": {
+   "created": "2026-07-13",
+   "definition": "The announced deal, tender, or offer is withdrawn, amended down, or fails to close on its stated terms.",
+   "why_no_existing": "registry seeded at creation alongside the ratified charter's machine artifacts - no prior taxonomy existed to reuse"
+  },
+  "event_no_show": {
+   "created": "2026-07-13",
+   "definition": "The dated event resolves without the predicted market reaction, or is postponed past the position's expiry or horizon.",
+   "why_no_existing": "registry seeded at creation alongside the ratified charter's machine artifacts - no prior taxonomy existed to reuse"
+  },
+  "liquidity_gap": {
+   "created": "2026-07-13",
+   "definition": "The exit requires selling into a market too thin to absorb the position near the marked price.",
+   "why_no_existing": "registry seeded at creation alongside the ratified charter's machine artifacts - no prior taxonomy existed to reuse"
+  },
+  "macro_selloff": {
+   "created": "2026-07-13",
+   "definition": "A broad market drawdown realizes the worst case regardless of the position's own thesis.",
+   "why_no_existing": "registry seeded at creation alongside the ratified charter's machine artifacts - no prior taxonomy existed to reuse"
+  },
+  "thesis_misread": {
+   "created": "2026-07-13",
+   "definition": "The primary document was read wrong: the extracted date, term, or scope does not say what the entry claimed it says.",
+   "why_no_existing": "registry seeded at creation alongside the ratified charter's machine artifacts - no prior taxonomy existed to reuse"
+  }
+ },
+ "judgment_type": {
+  "date_extraction": {
+   "created": "2026-07-13",
+   "definition": "A judgment that a specific future date (vote, outside date, decision deadline) is real, correctly extracted, and load-bearing.",
+   "why_no_existing": "registry seeded at creation alongside the ratified charter's machine artifacts - no prior taxonomy existed to reuse"
+  },
+  "document_read": {
+   "created": "2026-07-13",
+   "definition": "A judgment formed by reading the primary document (filing, transcript, court order) for the specific name, beyond any mechanical screen.",
+   "why_no_existing": "registry seeded at creation alongside the ratified charter's machine artifacts - no prior taxonomy existed to reuse"
+  },
+  "priced_move_read": {
+   "created": "2026-07-13",
+   "definition": "A judgment that the option chain's implied move misprices the document-read distribution around a dated event.",
+   "why_no_existing": "registry seeded at creation alongside the ratified charter's machine artifacts - no prior taxonomy existed to reuse"
+  },
+  "screen_mechanical": {
+   "created": "2026-07-13",
+   "definition": "A purely mechanical screen verdict with no individual read - the Arm-B style baseline judgment.",
+   "why_no_existing": "registry seeded at creation alongside the ratified charter's machine artifacts - no prior taxonomy existed to reuse"
+  }
+ },
+ "reclassifications": [],
+ "strategy_classes": {
+  "event_convexity": {
+   "capacity_capped": false,
+   "created": "2026-07-13",
+   "definition": "Long options (Level 2 menu) on primary-source dated events (court/agency decisions, merger votes, outside dates) where the chain's priced move understates the document-read distribution; expiry clears the catalyst by the buffer; worst case is the full debit through the catalyst.",
+   "hunting_ground": "event_convexity",
+   "ledger_family": "event_catalyst"
+  },
+  "neglected_read": {
+   "capacity_capped": false,
+   "created": "2026-07-13",
+   "definition": "Equity long in a small/neglected name where reading the primary documents yields a variant view the tape has not priced; the CRCT read (2026-07-13) is the template - the read must survive its own bear pass before sizing.",
+   "hunting_ground": "neglected_corner_reads",
+   "ledger_family": "special_situation"
+  },
+  "odd_lot_tender": {
+   "capacity_capped": true,
+   "created": "2026-07-13",
+   "definition": "Buy 99 or fewer shares of a LISTED tender target with odd-lot priority below the offer price; tender all shares; worst case is the post-expiry price if the tender fails or amends down. Capacity-capped by construction (~99 shares per event).",
+   "hunting_ground": "odd_lot_tender",
+   "ledger_family": "tender_arb"
+  }
+ },
+ "version": 1
+}

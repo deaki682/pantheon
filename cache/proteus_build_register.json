@@ -1,0 +1,61 @@
+{
+ "machines": {
+  "benchmark_stack": {
+   "built": "2026-07-13",
+   "kill_spec": "Charter-mandated artifact (arts. 14/15/23): retired only by ratified charter amendment; the failure signal is a pattern of false refusals or a computation the journal contradicts - either is an integrity event, not a prune.",
+   "mark": "NOT-YET",
+   "marks": [],
+   "observable": "Every record brief carries both lines computed by this code.",
+   "sentence": "Improves the shrink-or-concentrate decision at every review by scoring the sleeve against SPY and the deployment-adjusted line, defined once and never re-fit."
+  },
+  "calibration_ledger": {
+   "built": "2026-07-13",
+   "kill_spec": "Charter-mandated artifact (arts. 14/15/23): retired only by ratified charter amendment; the failure signal is a pattern of false refusals or a computation the journal contradicts - either is an integrity event, not a prune.",
+   "mark": "NOT-YET",
+   "marks": [],
+   "observable": "calibration_table computed at every session open once grades exist; multiplier steps only per the once-defined rule.",
+   "sentence": "Improves conviction sizing by routing the Kelly multiplier and stated probabilities through measured hit rates instead of recollection."
+  },
+  "controlled_registry": {
+   "built": "2026-07-13",
+   "kill_spec": "Charter-mandated artifact (arts. 14/15/23): retired only by ratified charter amendment; the failure signal is a pattern of false refusals or a computation the journal contradicts - either is an integrity event, not a prune.",
+   "mark": "NOT-YET",
+   "marks": [],
+   "observable": "Every entry and grade carries registered class and tags; reclassifications carry their mapping and never reset counters.",
+   "sentence": "Improves sizing and calibration by fixing class and tag taxonomies so grade ladders and calibration tables cannot be gamed by renaming."
+  },
+  "dealflow_tender_scanner": {
+   "built": "2026-06 (retro-registered 2026-07-13 per art. 14 effectivity)",
+   "kill_spec": "Backlog #13: fewer than 12 actionable listed odd-lot tenders per year, or broker mechanics make the priority un-capturable - either kills the ground and the scanner with it.",
+   "mark": "NOT-YET",
+   "marks": [],
+   "observable": "Actionable tender candidates surfaced per quarter, each with its read verdict logged in proteus_dealflow.json.",
+   "sentence": "Improves the odd-lot entry decision by scanning every SC TO-I filing so no listed odd-lot tender is missed while the sleeve waits in cash."
+  },
+  "entry_schema": {
+   "built": "2026-07-13",
+   "kill_spec": "Charter-mandated artifact (arts. 14/15/23): retired only by ratified charter amendment; the failure signal is a pattern of false refusals or a computation the journal contradicts - either is an integrity event, not a prune.",
+   "mark": "NOT-YET",
+   "marks": [],
+   "observable": "Zero grading violations traced to a missing entry duty; refusal messages list every unmet duty in one round trip.",
+   "sentence": "Improves every position-changing decision by refusing, mechanically and before the order, any entry that violates Title I sizing, the honesty floors, or a per-entry charter duty."
+  },
+  "eventfeed": {
+   "built": "2026-07-13 (session 6)",
+   "kill_spec": "If two consecutive review periods pass in which no stored event survives its document read as load-bearing for any entry or gradable shadow, the feed is not aiming anything - prune it.",
+   "mark": "NOT-YET",
+   "marks": [],
+   "observable": "Stored events whose dates survive the document read and feed an entered or shadow-graded position; extraction error rate tracked against reads.",
+   "sentence": "Improves event-convexity entry timing by keeping a validated, plausibility-filtered store of primary-source dated events (ITC votes, merger votes, outside dates) that AIMS the document read."
+  },
+  "options_plumbing": {
+   "built": "2026-07-11 (session 4)",
+   "kill_spec": "If the event-convexity class records 5 real-money grades with negative summed P&L, or the priced_move_read judgment type calibrates worse than 25 points off, the plumbing's ground is dead and the code goes with it.",
+   "mark": "NOT-YET",
+   "marks": [],
+   "observable": "First staged long-option entry passes journal, sleeve accounting, and broker dry-run without manual arithmetic.",
+   "sentence": "Improves event-convexity execution by making long-option accounting, chain reads, and order dry-runs mechanical so a dated-event thesis can be expressed with a bounded debit."
+  }
+ },
+ "version": 1
+}

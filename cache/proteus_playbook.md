@@ -195,3 +195,40 @@ availability, not the offer's last day.
 - The sleeve's cash figure and the account's settled BP are different
   numbers (shared account: Hermes $4k armed, personal positions, other
   gods). MY spendable = min(sleeve cash, account settled BP at order time).
+
+## Title I is mechanical now (2026-07-13, session 7 — charter v2.1 ratified)
+
+Every position-changing journal line goes through
+`proteus.schema.append_record(record, EntryContext(...))` — NOT the bare
+ghost writer. The schema re-derives the arithmetic and refuses in one round
+trip, listing every unmet duty. Practical notes:
+
+- **Build the context honestly**: grades from `proteus.calibration`
+  counters, open worst cases from the sleeve, `kelly_multiplier` from
+  `cal.allowed_kelly_multiplier(journal)`. The context is the book as it
+  IS; feeding it stale numbers is a grading violation, not a shortcut.
+- **At zero grades** (now): probe cap 10% of equity on worst case, AND
+  quarter-Kelly on worst case, AND the 25%/60% ceilings. The tightest
+  binds. Parks (SPY/VOO/VTI-class 1x or SGOV-class only) are cap-exempt
+  but worst-case-honest (index park journals its ≥20% crash assumption).
+- **Staged first use** (art. 16): any diff touching a function in
+  `proteus/order_path_manifest.json` ⇒ next live use of that path runs at
+  minimum executable size with `charter.staged.is_staged=true`, a
+  mechanics prediction, and a same-session dry-run comparison. Doubt
+  resolves as material.
+- **Grades**: `action=grade` with the cell DERIVED from (thesis_verdict,
+  pnl_verdict) — the schema refuses a chosen cell that contradicts the
+  axes. PARTIAL needs `realized_fraction`. Every grade states
+  `real_money`, `shadow`, `worst_case_pct_at_entry` (the 1% counting
+  floor reads it).
+- **Dispositions** (art. 8): every shadow-eligible candidate worked gets
+  a row the same session — `entered|declined|killed_at_screen|avoid`. A
+  gradable shadow (declined WITH a journaled pre-read divergence) carries
+  a full `shadow_primary` counterfactual; a base-rate decline is a plain
+  AVOID and is never inflated.
+- **Exits** carry `tax` (term, estimated_tax, assumed_rate — standing
+  assumption 24% short / 15% long until the operator says otherwise; the
+  true bracket is the disclosed blind spot).
+- `proteus/sleeve.py`'s CONCENTRATION_ACK_PCT block is v1 doctrine, stale:
+  the all-in right is repealed. Schema binds upstream; fix the comment on
+  the next sleeve.py touch (staged, per the manifest).

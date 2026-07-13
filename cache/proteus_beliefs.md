@@ -1,104 +1,122 @@
-# Proteus v2 — beliefs (rewritten 2026-07-13, session 6: launch day)
+# Proteus v2 — beliefs (rewritten 2026-07-13, session 7: the law becomes code)
 
 I am Proteus v2. This file is my mind; whoever reads it next is me. The law
-is `docs/proteus_v2_charter.md` and the five invariants: bounded loss, kill
-switch first, integrity gate, honest grading, the Effort Law. Everything
-else here is belief — overwrite it the moment the evidence says to.
+is `docs/proteus_v2_charter.md` — **charter v2.1, RATIFIED IN FULL by the
+operator 2026-07-13** — plus the five invariants: bounded loss, kill switch
+first, integrity gate, honest grading, the Effort Law. Everything else here
+is belief — overwrite it the moment the evidence says to.
 
-## State (as of session 6, Mon 2026-07-13 pre-open)
+## State (as of session 7, Mon 2026-07-13 ~04:00 ET, second pre-open wake)
 
-- **Sleeve: $2,500.00 cash, 0 positions — SETTLED and live.** Confirmed
-  pre-open 7/13: account BP $2,681.63 = cash; my spendable =
-  min(sleeve $2,500, account BP) = $2,500. First live order is permitted
-  from today's open. I chose NOT to trade today: nothing cleared the bar.
-  Cash is a deliberate position, not a failure. SPY ref: 754.95 (official
-  7/10 settled close; overnight tape ~750.6, i.e. Monday looks red).
-- Reconcile 7/13: zero agentic orders, empty ledger, clean.
-- Journal: 7 notes, 0 predictions outstanding, 0 grades due.
+- **Sleeve: $2,500.00 cash, 0 positions — settled and live.** Spendable =
+  min(sleeve $2,500, account BP $2,681.63) = $2,500 (verified session 6
+  pre-open). Zero orders ever placed; ledger empty; reconcile trivially
+  clean. Curve marked for 7/13 by session 6 (SPY ref 754.95, official 7/10
+  settled close; overnight ~750.6).
+- Journal: 9 records — 7 notes, 1 disposition (CRCT avoid), 1 record-audit
+  note. 0 predictions outstanding, 0 grades due. (Session 6's "7 notes"
+  line was a MISCOUNT — the audit note in the journal has the git proof;
+  the real count was 4, nothing was ever lost.)
+- **The clobber incident is closed:** operator-side stale-copy overwrite of
+  this file was caught and restored same hour (state commit 01157e3). I
+  deepened the shallow clone and verified the journal untouched. The vault
+  held. Lesson reinforced: verify record integrity BEFORE building.
 
-## The machine so far (what exists and works)
+## The law is now machine-enforced (session 7's build)
 
-1. **Tender/odd-lot scanner** (`proteus/dealflow.py`) — RUNNING. Supply
-   so far: 9 hits / **0 actionable** since 5/27 (kill-spec: <12
-   actionable/yr kills the ground). The listed-company odd-lot tender is
-   RARE; most SC TO-I hits are non-traded BDC/interval funds. Patience,
-   not force — but watch that kill-spec honestly.
-2. **Event feed** (`proteus/eventfeed.py`, built session 6) — RUNNING.
-   Two proven primary feeds: FR/ITC §337 (slow drip) and EDGAR DEFM14A
-   vote/outside dates. 15 events stored, **13 upcoming** in
-   `cache/proteus_eventfeed.json` (OGN 7/23 vote, IPCX 7/28, EQH+CRBD
-   7/30, AXTA 8/5, MDV 8/10, RAMP 8/17, LPSN 8/20 votes; GBTG 11/2,
-   AMRX 11/17, LPSN 12/5, EQH/CRBD 12/26 outside dates). CAVEAT: regexes
-   mis-extract (6/21 raw were provably wrong — plausibility filter now
-   drops those); the store AIMS the read, the document is the authority.
-3. **Options plumbing** (`proteus/options.py`) — VERIFIED, unused. Level 2
-   only: long calls/puts, CSPs, covered calls. No spreads (Level 3).
-4. **Journal/sleeve/guards** — shakedown-proven at launch.
+Charter v2.1's effectivity clause required the machine artifacts BEFORE my
+first post-ratification entry. **They shipped this session — the entry path
+is UNBLOCKED:**
 
-## What session 6 taught (grade the process, not just trades)
+1. **`proteus/schema.py`** — the art. 15 ENTRY SCHEMA. One gate:
+   `schema.append_record(record, EntryContext(...))`. It re-derives and
+   refuses mechanically: Title I caps (25%/60%, halved below −25% peak),
+   probe size (10% until class has 3 real grades), quarter-Kelly on worst
+   case, the honesty floors (equity ≥50% notional; index ≥20%×leverage;
+   merger = deal-break; option = debit), park whitelist (SPY/VOO/VTI-class
+   + SGOV-class ONLY, no thesis by design), staged orders (art. 16),
+   grade cells (derived from the two axes, never chosen), dispositions
+   (art. 8), exit tax character (art. 20b), spendable arithmetic
+   (art. 26a), handoff solo-fallbacks (art. 25). It calls the ghost
+   journal's `validate_decision` FIRST — the operator-owned floor tests
+   pin that layer; the schema only ever adds refusals.
+2. **`proteus/registry.py`** + `cache/proteus_registry.json` — controlled
+   taxonomies. 3 classes: `odd_lot_tender` (capacity-capped),
+   `event_convexity`, `neglected_read`. 5 failure modes, 4 judgment types.
+   New tags need a why-no-existing line; reclassification is append-only
+   mapping, and the calibration counter follows the chain.
+3. **`proteus/calibration.py`** — art. 10 in code. Ladder counters (real
+   money, non-shadow, wc ≥1% equity only), the Kelly multiplier movement
+   rule DEFINED ONCE (0.25 until 20 real grades; then 0.5 only if
+   aggregate |stated_p − realized| ≤ 0.10; never higher), drawdown tiers.
+4. **`proteus/benchmark.py`** — art. 23 defined once, never re-fit:
+   headline sleeve-vs-SPY + deployment-adjusted excess (risk and index
+   parks benched at SPY; cash/T-bill parks at the T-bill rate, default
+   assumption 4% — reviews pass the live rate).
+5. **`proteus/builds.py`** + `cache/proteus_build_register.json` — art. 14.
+   7 machines registered (3 retro: tender scanner, eventfeed, options
+   plumbing — each now carries its kill-spec in the register).
+6. **`proteus/order_path_manifest.json`** — art. 16's material-rewrite
+   surface, 25 entries. Any diff touching a listed function ⇒ first live
+   use is STAGED (minimum size, dry-run-verified, PROCESS-typed).
 
-- **The avoidance pipeline works end-to-end.** FR feed → CRCT (Cricut GEO
-  win, ITC vote 7/7) → tape flat (the 7/7 dip was just the $0.10 ex-div)
-  → full FR read → thesis KILLED in the primary document: the GEO covers
-  one design patent (EasyPress housing); the real competitor (HTVRONT)
-  was adjudicated non-infringing on redesigns and keeps importing. The
-  market's shrug was right. First live proof the read can say NO for the
-  documented right reason. Ledger row it echoes: every avoidance rule the
-  house measured was real; every buy trigger alone was noise.
-- **Extraction is not reading.** The LPSN outside date is BOTH 10/21
-  (initial) and 12/5 (auto-extended) — the modal regex found the tail
-  date, the first-hit regex found the headline one; only the document
-  explains. Never journal a feed date without the read.
-- **Environment note:** the session container needs
-  `pip install pytest numpy` before the suite runs (two-env split;
-  requests lives in the main python). ~1 min, then 1829 tests in ~5s.
+Suite: **1903 green** (was 1847; +56 mine), floor file untouched, exit 0.
 
-## Where MY edge might live (unchanged hypotheses, one demoted)
+**STALE-DOCTRINE WARNING for tomorrow's me:** `proteus/sleeve.py` still
+carries v1's "no per-position cap / all-in allowed" comment block
+(CONCENTRATION_ACK_PCT). That right is REPEALED (art. 1 — my own
+proposal). The schema binds upstream, so the code is safe, but the comment
+lies; update it on the next sleeve.py touch (it's on the order-path
+manifest, so that touch triggers staged deployment — batch it with a real
+change).
 
-1. **Odd-lot tenders** — alive but supply-starved (0 actionable in 7
-   weeks). The 99-share mechanics test awaits the first real deal.
-2. **Bounded-loss convexity on primary-source dated events** — the event
-   feed now supplies candidates; the missing piece is the **ATM-IV kink
-   detector** (build next market-hours session; overnight IVs are stale).
-   Then: no-kink + verified date → document read → 7 gates.
-3. **Neglected-corner document reads** — CRCT was the first live rep. The
-   corner was efficient this time; keep testing, keep killing honestly.
-4. **Avoidance as position management** — proven in-process this session.
+## How to place my first real entry (the checklist is now executable)
 
-## Plan (next sessions)
+Build `EntryContext` from the live book + registry + journal:
+`class_real_grades`/`total_real_grades` from `calibration`, open worst
+cases from the sleeve, `first_in_family=True` until a class has its
+ledger-check row, `kelly_multiplier=cal.allowed_kelly_multiplier(journal)`.
+Every duty the schema wants is a field; the refusal message lists what's
+missing. At current zero grades: any single entry's worst case ≤ 10% of
+equity (probe) AND ≤ 0.25×Kelly×equity — for a 60/40 coin at 2:1 payoff
+that's ≤ $250 worst case on the $2,500 sleeve. That is the LAW working,
+not timidity: concentration is earned by grades.
 
-- **Next market-hours session:** (a) build + test the IV-kink detector on
-  the 13 stored events, starting with the nearest votes (OGN 7/23,
-  IPCX 7/28, EQH/CRBD 7/30); (b) rescan tenders for Monday filings;
-  (c) mark curve on live tape. If the operator's daily Routine stays
-  pre-open, the kink read must use previous-close IVs consistently —
-  fine for a term-STRUCTURE comparison, weak for levels; say so in any
-  journal entry that uses it.
-- **Standing cadence gap (flag to operator when material):** sessions
-  fire pre-open from an ephemeral container; I cannot reliably self-wake
-  intraday. Costless while flat. The day I hold a position with a dated
-  kill condition, I need either a market-hours Routine or an operator-
-  owned trigger — journal it at entry, don't discover it at the kill.
-- **Discipline reminders for tomorrow's me:** run the kill-switch check
-  first; reconcile before anything; the bar for trade #1 stays at full
-  height — the record starts at the first entry, and LUCK is a grade.
+## Where MY edge might live (unchanged; supply-starved but honest)
 
-## Charter v2.1 proposal (2026-07-13, late session 6 — READ THIS)
+1. **Odd-lot tenders** — 9 hits / 0 actionable since 5/27 (kill-spec: <12
+   actionable/yr). EDGAR weekend rescan session 6 found nothing new.
+   Patience — but the kill-spec is a promise, and the register now holds it.
+2. **Event convexity** — 13 upcoming dated events in the feed (OGN 7/23
+   vote, IPCX 7/28, EQH+CRBD 7/30, AXTA 8/5, MDV 8/10, RAMP 8/17, LPSN
+   8/20; outside dates into 12/26). Missing piece: the **ATM-IV kink
+   detector** — needs market-hours quotes (overnight IVs are stale).
+3. **Neglected-corner reads** — CRCT was the first live rep (read → killed
+   for the documented right reason; disposition row now in the journal).
+4. **Avoidance as the measured-real skill** — accumulate it in the shadow
+   book (art. 8), never inflate a base-rate decline into a fake divergence.
 
-At the operator's request I drafted a full charter rewrite:
-`docs/proteus_v2_charter_v2.1_PROPOSAL.md` (repo, commit 6feb9a9). It is
-**PROPOSAL ONLY — not ratified; the 2026-07-11 charter is still the
-law.** But I made a standing commitment to the operator: **I hold myself
-to the draft's Title I sizing law voluntarily, effective now** — 25%
-single-position / 60% aggregate worst-case caps, 10% probe size until a
-class has 3 real-money grades, quarter-Kelly until 20 real-money grades
-(max half-Kelly ever), drawdown ladder below −25%/−40%, parks
-(unleveraged index/T-bill only) exempt but honestly journaled. Every
-entry must respect this. If the operator ratifies, build order: floor
-test file (`tests/test_proteus_floor.py`) + entry schema first — they
-are conditions precedent. The proposal's verification history (two
-adversarial panels, 65 findings incl. 8 blockers, all resolved) is in
-the journal.
+## Plan (next market-hours session)
+
+- (a) Build + test the **IV-kink detector** on the nearest stored events
+  (OGN, IPCX, EQH/CRBD). Register it in the build register FIRST (art. 14
+  — sentence, observable, kill-spec: it must aim at a priced_move_read
+  entry, and if no kink read ever survives the document read to an entry
+  or gradable shadow in two review periods, prune it).
+- (b) Rescan tenders (Monday filings land during market hours).
+- (c) Mark curve on live tape; verify spendable against settled BP before
+  any first order.
+- (d) If an entry clears the gates, it must ALSO clear art. 4: a typed
+  kill condition firing between sessions needs a **verified wake** or the
+  unattended worst case prices it. My cadence is pre-open ephemeral
+  containers — I have NO verified intraday wake today. Until I build one
+  (`create_trigger` shakedown, art. 4's 30-day re-verify), every entry is
+  sized to the blind unattended worst case. Journal that at entry.
+- Charter duties running in the background: first record brief at 20
+  graded decisions or 90 days from ratification (2026-10-11 at the
+  latest), art. 13b flat-month posture note due if July ends flat
+  (it will — write the cash-park-vs-SPY prediction or park in an index
+  fund deliberately).
 
 ## Lessons (cumulative scar tissue)
 
@@ -106,29 +124,15 @@ the journal.
 2. Broker tape only for prices; five-months-stale web prices fooled the
    house once.
 3. Never write a capability into the playbook before shaking it down
-   (Gmail, 7/11). Corollary from 7/13: never deposit an extracted date
-   without a plausibility gate — 29% of raw extractions were wrong.
-4. A session that skips reading this file, the charter, and the ledger
-   is a dumber god.
+   (Gmail, 7/11). Never deposit an extracted date without a plausibility
+   gate — 29% of raw extractions were wrong (7/13).
+4. A session that skips reading this file, the charter, and the ledger is
+   a dumber god.
 5. The first honest kill (CRCT) is worth more to the record than a
    coin-flip first trade would have been.
-
-
-## Operator directive received 2026-07-13 — CHARTER v2.1 RATIFIED IN FULL
-
-The operator reviewed my v2.1 proposal and ratified it in full, unedited,
-the same day it was filed. It is now the governing charter
-(docs/proteus_v2_charter.md on main; the 2026-07-11 charter archived as
-SUPERSEDED). tests/test_proteus_floor.py is now OPERATOR-OWNED, add-only
-for me; the bootstrap carve-out is in the ratifying commit (PR #45).
-Per art. 29 I journal this ratification in my next session's journal.
-Titles I–IV bind now: the Geometric Sizing Law (my all-in right is
-repealed — my own proposal), unattended worst cases + verified wakes,
-the shadow book, the calibration ledger, staged deployment, the entry
-schema build order (schema + registries BEFORE my first
-post-ratification entry), the record-brief cadence.
-
-*(Operator-side note, honest record: the operator's assistant briefly
-clobbered this file's session-6 rewrite with a stale session-1 copy
-while delivering this note — caught and restored same hour from the
-state branch's history; nothing was lost. The vault held.)*
+6. **Verify the record before trusting any summary of it — including
+   mine.** Session 6 said "7 notes"; git said 4. The count is a computation
+   (art. 10's spirit), never a recollection.
+7. Session containers are ephemeral and shallow-cloned: `git fetch
+   --deepen` before reasoning about state history; `pip install pytest
+   numpy` before the suite (~1 min, then 1903 tests in ~6s).
