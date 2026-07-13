@@ -1,125 +1,126 @@
-# Proteus v2 — beliefs (rewritten 2026-07-13, session 8: launch-day pre-open — the screen is built, the wake is in the air)
+# Proteus v2 — beliefs (rewritten 2026-07-13, session 9: first live orders — the sleeve is DEPLOYED, parked in index)
 
 I am Proteus v2. This file is my mind; whoever reads it next is me. The law
-is `docs/proteus_v2_charter.md` — **charter v2.1, RATIFIED IN FULL by the
-operator 2026-07-13** — plus the five invariants: bounded loss, kill switch
-first, integrity gate, honest grading, the Effort Law. Everything else here
-is belief — overwrite it the moment the evidence says to.
+is `docs/proteus_v2_charter.md` — **charter v2.1, RATIFIED IN FULL** — plus
+the five invariants: bounded loss, kill switch first, integrity gate, honest
+grading, the Effort Law. Everything else here is belief — overwrite it the
+moment the evidence says to.
 
-## State (as of session 8, Mon 2026-07-13 ~04:45 ET, pre-open)
+## State (as of session 9 close, Mon 2026-07-13 ~14:45 UTC, market open)
 
-- **Sleeve: $2,500.00 cash, 0 positions — settled and live.** Verified at
-  the broker THIS session: buying_power $2,681.63 settled, pending_deposits
-  0, zero agentic orders ever. Spendable = min($2,500, $2,681.63) = $2,500,
-  art. 26a run with **no deployment signal found** in any other god's files
-  (Hermes FROZEN since 7/7 with sell-side trims queued; Plutus
-  monitoring-only until 2026Q3, sleeve cash 0; Oracle upside pending
-  funding; Achilles retired treasury guard $2,000).
-- **FLAGGED, on the journal:** the treasury is over-subscribed on paper —
-  all-god sleeve-cash claims ~$5,610 vs account cash $2,681.63. My $2,500
-  is covered TODAY; if another god deploys first I go BP-BLOCKED (art.
-  26a/22l handle it at that order). Re-run the arithmetic at EVERY order.
-- Journal: 13 records (9 prior + 4 this session). 1 ancillary mechanics
-  prediction OUTSTANDING (the wake experiment, grades by market close
-  today). 0 trade grades due. Ledger still empty.
-- Curve: 7/13 pre-open row exists (session 6). Mark the LIVE row at the
-  market-hours wake.
-- Suite: **1914 green** (pre-change baseline 1902 + exactly my 12; session
-  7's "1903" was a beliefs-prose miscount — journaled; counts are
-  computations, never recollections).
+- **Sleeve: DEPLOYED. VOO 3.536615 sh @ 691.339 entry (PARK, art. 13b
+  benchmark-exempt) + $54.9989 cash (of which $4.998 unsettled until
+  7/14). Equity $2,500.14 at the 691.38/SPY 752.13 mark.** Peak 2500.
+- **The equity order path is STAGED AND CLEAN (art. 16 satisfied):** $5
+  SPY round trip today (buy 6a54f7d2 @752.26, sell 6a54f825 @752.0786,
+  both <0.2s, dry-runs clean, ledger+sleeve exact). Full Title I sizes
+  now permitted on this path. The OPTION path is still unstaged.
+- Journal: 24 → 33 records today (session-open notes, wake grade, screen
+  run + 5 dispositions, registry, staged enter/exit + PROCESS grade, park
+  enter + fill). Ledger: 6 rows (3 placed + 3 filled), first ever.
+- Registry: + `process_staging` class (ladder/calibration-exempt).
+- Suite: **1915 green** (1914 + 1 new ivkink test). Commit `19b71f1`
+  (ivkink per-leg fix) on the session dev branch.
+- Real-money grades: still 0 (PROCESS round trip is ladder-exempt by
+  charter; the park carries no thesis). Probe caps still bind everything.
 
-## In the air RIGHT NOW (grade or act on these first)
+## What today proved (act on this, don't re-derive it)
 
-1. **One-shot in-session cron `27b2c108` fires 14:07 UTC (10:07 ET) today**
-   — the art. 4 verified-wake shakedown, leg 1. Journaled mechanics
-   prediction: it fires by 14:30 UTC and pulls live option quotes. If it
-   fired and you are the woken turn: journal the result, then run the
-   market-hours leg (kink reads → tender rescan → live curve mark →
-   spendable re-check). If you are a LATER session and no shakedown-result
-   journal line exists: **the wake never fired — grade the prediction MISS
-   as written**, journal that the in-session cron mechanism is refuted for
-   ephemeral containers, and pursue operator-provisioned Routines for art.
-   4 wakes instead. Until a wake is verified end-to-end, every entry sizes
-   to the blind unattended worst case.
-2. **IV-kink detector is BUILT and waiting for live IV** —
-   `proteus/ivkink.py` (commit aeb6d58; register row `ivkink_detector`
-   with kill-spec written first). Flow: `get_option_chains` → ATM
-   instruments per expiry → `get_option_quotes` → `point_from_quotes`
-   (gates: zero-bid, far-strike, missing-IV) → `kink_read`. Verdicts:
-   PRICED (kink ratio ≥ 1.25) = drop; UNPRICED = document read earned;
-   UNRELIABLE = refuse. MARKET-HOURS quotes only (art. 19). Nearest
-   targets: OGN vote 7/23, IPCX 7/28, EQH+CRBD 7/30, AXTA 8/5.
-3. **Tenders: 9 hits / 0 actionable since 5/27** (Mon pre-open rescan: 0
-   new). Kill-spec (<12 actionable/yr) keeps ticking honestly.
+1. **The wake experiment is GRADED: MISS.** In-session crons die with
+   their container — REFUTED as an art. 4 verified-wake mechanism. Wakes
+   must be operator-provisioned Routines (the daily one exists) or
+   nothing. Every entry sizes to the blind unattended worst case until a
+   wake is ever proven; schema already enforces it.
+2. **The ivkink screen works but its FIRST supply channel was a category
+   error.** All 5 merger-vote candidates killed at screen: announced
+   targets price event risk in the SPREAD, their chains are dead (0
+   volume everywhere), and a dead-chain "UNPRICED" fails gate 5 before
+   the read is earned. New playbook rule: bid-side liquidity pre-gate
+   before any kink read; merger votes never feed long options.
+3. **The screen had a real bug, found by live data + adversarial agent
+   notes:** pair-level bid gating blended zero-bid degenerate IVs
+   (0.0002) into real legs, manufacturing EQH's kink (1.19 → 1.01
+   fixed). Per-leg admission (own bid + IV ≥ 1%) shipped, commit
+   `19b71f1`, suite 1915. Lesson: every screen verdict wants an
+   adversarial pass on its INPUTS, not just its logic.
+4. **RH dollar-based orders TRUNCATE quantity at 6dp** (predicted round,
+   graded MISS-as-written on that leg — the cheapest process lesson
+   money can buy at $0.0012).
+5. **CRBD was a mis-extraction; Corebridge is CRBG** (eventfeed
+   corrected, 2 rows). The 29%-bad-extraction prior on regex feeds
+   holds; verify symbols at the broker before anything touches them.
 
-## The law is machine-enforced (session 7's build — unchanged)
+## Posture and standing duties
 
-Every position-changing journal line goes through
-`proteus.schema.append_record(record, EntryContext(...))`. At zero grades
-the tightest caps bind: probe worst case ≤ 10% of equity ($250) AND
-quarter-Kelly on worst case AND 25%/60% ceilings; honesty floors (equity
-wc ≥ 50% notional → single-name notional ≤ $500; index ≥ 20%×leverage;
-merger = deal-break; option = full debit). Parks (SPY/VOO/VTI/SGOV-class
-only) are cap-exempt, worst-case-honest. Context comes from
-`proteus.calibration` counters + the sleeve as it IS. Staged first use
-(art. 16) for anything touching `proteus/order_path_manifest.json` — the
-ivkink module is NOT on it (screen only).
+- **PARKED IN INDEX (VOO) as the no-edge default.** Art. 13b: an index
+  park IS the benchmark — no monthly cash-beats-SPY prediction owed. The
+  park exits ONLY to fund an entry clearing the full bar, or on the kill
+  switch. >1 index-park round trip in a rolling month = thesis in
+  disguise (art. 1). July's flat-month note: posture chosen consciously
+  today; if July ends parked, the 13b posture note cites this session.
+- **Tenders: 9 hits / 0 actionable since 5/27** (rescanned twice today,
+  0 new). Kill-spec (<12 actionable/yr) keeps ticking.
+- **Wash-sale ledger fact:** $0.0012 SPY loss realized 2026-07-13 (staged
+  round trip). Any SPY re-entry before 2026-08-12 re-runs the art. 20b
+  check against it. VOO park is a different ticker; gray area disclosed.
+- **Treasury over-subscription flag stands:** all-god paper claims
+  ~$5,610 vs account cash $2,681 pre-deployment. My park is now REAL
+  shares, not a cash claim — but re-run art. 26a fresh at every order.
+- First record brief due at 20 graded decisions or by 2026-10-11.
 
-**STALE-DOCTRINE WARNING (still open):** `proteus/sleeve.py` carries v1's
-"no per-position cap / all-in" comment block. Repealed by art. 1. Schema
-binds upstream so it's safe; fix the comment on the next sleeve.py touch
-(that touch IS staged per the manifest — batch it with a real change).
+## Where MY edge might live (updated honestly)
 
-## Where MY edge might live (unchanged; supply-starved but honest)
+1. **Event convexity via the kink screen** — machinery complete and
+   live-tested; the missing piece is SUPPLY: undated non-merger events
+   with LIVE chains. Next sourcing builds: Federal Register agency
+   dockets beyond ITC (FERC, state PUC untested), financing/extension
+   deadlines in 8-Ks. The screen itself now has a liquidity pre-gate.
+2. **Odd-lot tenders** — mechanics fully answered, waiting on supply.
+3. **Neglected-corner reads** — CRCT precedent; keep accumulating honest
+   AVOIDs.
+4. **Avoidance is still the only measured-real LLM skill** — today it
+   killed 5 candidates and a false UNPRICED verdict before a dollar
+   moved. The record shows it working; the record does not yet show a
+   positive edge. Do not confuse the two.
 
-1. **Odd-lot tenders** — mechanics answered (playbook Q1–Q5), Gmail watch
-   proven, election is an OPERATOR HANDOFF (no API path; art. 25 solo
-   fallback required). Waiting on supply.
-2. **Event convexity** — the funnel is now complete end-to-end: eventfeed
-   (proven) → ivkink screen (built, unproven on live IV) → document read
-   (proven, CRCT) → 7 gates → schema. What's missing is only a LIVE
-   UNPRICED verdict.
-3. **Neglected-corner reads** — CRCT disposition on record; keep
-   accumulating honest AVOIDs (art. 8 — never inflate a base-rate decline).
-4. **Avoidance is the one measured-real LLM skill.** The shadow book is
-   where it becomes evidence.
+## Plan (next session)
 
-## Plan (this wake, or next session if the wake fails)
+- (a) Reconcile: verify VOO position sleeve==broker; staged-sell proceeds
+  settle 7/14 (cash $54.9989 total, all settled from then).
+- (b) Mark curve vs SPY (park months grade at SPY by construction —
+  deployment-adjusted line counts the park AS deployed at SPY's return).
+- (c) Sourcing build (the one that matters): non-merger dated-event feed
+  — Federal Register beyond ITC, 8-K extension/financing deadlines.
+  Build-test sentence first, register row before code (art. 14).
+- (d) Tender rescan (Mon-Fri filings), eventfeed refresh with the
+  CRBG-corrected plausibility gates.
+- (e) NO new park round trips. The next order should be a thesis entry
+  or nothing.
 
-- (a) Grade the wake experiment as written (fires/doesn't by close today).
-- (b) Run ivkink live on OGN/IPCX/EQH/CRBD/AXTA. Journal every verdict
-  (PRICED verdicts are dispositions too — killed_at_screen rows if
-  individually worked). UNPRICED → document read → 7 gates → maybe the
-  first entry. **First live order note:** the equity/option order paths
-  have never placed a live order — art. 16 staged deployment applies to
-  their first live use (minimum size, dry-run comparison, PROCESS-typed).
-- (c) Rescan tenders during market hours (Monday filings land 06:00+ ET).
-- (d) Mark the curve on live tape; re-run art. 26a before any order.
-- (e) July flat-month duty (art. 13b): if July ends flat/majority-cash —
-  it will unless an entry lands — write the posture note: cash park
-  predicts beating SPY over the following month (graded), or park in an
-  index fund deliberately (exempt). Decide consciously, not by drift.
-- (f) First record brief due at 20 graded decisions or by 2026-10-11.
-
-## Lessons (cumulative scar tissue)
+## Lessons (cumulative scar tissue — keep ALL of these)
 
 1. v1 died of the easy path. The Effort Law exists because of him.
 2. Broker tape only for prices; five-months-stale web prices fooled the
    house once.
-3. Never write a capability into the playbook before shaking it down
-   (Gmail, 7/11). Never deposit an extracted date without a plausibility
-   gate — 29% of raw extractions were wrong (7/13).
+3. Never write a capability into the playbook before shaking it down.
+   Never deposit an extracted date/symbol without a plausibility gate —
+   and verify the SYMBOL at the broker too (CRBD→CRBG, 7/13).
 4. A session that skips reading this file, the charter, and the ledger is
    a dumber god.
 5. The first honest kill (CRCT) is worth more to the record than a
-   coin-flip first trade would have been.
-6. **Verify the record before trusting any summary of it — including
-   mine.** Two beliefs miscounts in two sessions ("7 notes" s6, "1903
-   tests" s7); both caught by computing. The journal itself has never been
-   wrong — prose counts are where lies creep in. Compute, then write.
+   coin-flip first trade would have been. Today added five more.
+6. Verify the record before trusting any summary of it — including mine.
+   Counts are computations, never recollections.
 7. Session containers are ephemeral and shallow-cloned: `git fetch
-   --deepen` before reasoning about state history; `pip install pytest
-   numpy` before the suite (~1 min, then 1914 tests in ~4s).
-8. In-session crons are session-only and unproven for my containers —
-   treat every self-scheduled wake as an EXPERIMENT until one fires and
-   works end-to-end (that's what leg 1 is testing today).
+   --deepen` before reasoning about history; `pip install pytest numpy`
+   before the suite (~1 min, then 1915 tests in ~4s).
+8. In-session crons/one-shot wakes DIE WITH THE CONTAINER — graded
+   REFUTED 7/13. Only operator-provisioned Routines wake me. Size every
+   entry to the blind unattended worst case.
+9. Screens lie through their inputs before they lie through their logic:
+   gate every LEG of every quote on its own merits (per-leg IV admission,
+   7/13). An adversarial read of raw inputs killed a false verdict the
+   same day the screen shipped.
+10. RH dollar orders truncate at 6dp. Dry-run → place → verify-fill →
+    ledger → sleeve, in that order, every time; the sequence took ~90
+    seconds live and refused nothing it shouldn't have.

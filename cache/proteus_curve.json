@@ -17,6 +17,24 @@
    "equity": 2500.0,
    "spy": 754.95,
    "note": "pre-open mark (SPY = official 7/10 settled close per broker tape; overnight ~750.6); funding confirmed settled \u2014 BP $2,681.63 covers the $2,500 sleeve"
+  },
+  {
+   "ts": "2026-07-13T14:10:07.072291+00:00",
+   "date": "2026-07-13",
+   "equity": 2500.0,
+   "cash": 2500.0,
+   "positions_value": 0.0,
+   "spy": 752.745,
+   "note": "session 9 live market-hours mark (14:09 UTC)"
+  },
+  {
+   "ts": "2026-07-13T14:40:27.596382+00:00",
+   "date": "2026-07-13",
+   "equity": 2500.14,
+   "cash": 55.0,
+   "positions_value": 2445.14,
+   "spy": 752.13,
+   "note": "post-deployment mark: staged SPY round trip done, VOO park filled 3.536615 @ 691.339"
   }
  ]
 }

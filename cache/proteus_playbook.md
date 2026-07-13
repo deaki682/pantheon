@@ -119,6 +119,44 @@ run as the cheap screen between feed hit and document read. Build it in
 a MARKET-HOURS session — overnight IV marks are stale/unreliable for a
 term-structure read.
 
+**Kink screen — first live run, 2026-07-13 (5 names, all killed):** the
+DEFM14A merger-vote channel is a CATEGORY ERROR for the kink screen.
+Announced cash-merger targets price their event risk in the EQUITY SPREAD
+(OGN 13.53 vs $14.00 offer), not the vol surface; their ATM chains are
+functionally dead (volume 0 on all 26 ATM contracts checked across
+OGN/EQH/CRBG/AXTA, OI single digits, MM spreads up to 0.05/3.90). A
+letter-of-the-law UNPRICED on a dead chain fails gate 5 before the
+document read is even earned. RULE: the kink screen only runs on names
+whose chain shows LIVE two-sided ATM markets (a bid-side liquidity
+pre-gate before the read); merger votes feed spread/tender structures,
+never long options. Same run exposed and fixed a screen bug: per-leg IV
+admission (own bid + IV ≥ 1%), commit `19b71f1` — the raw EQH "kink"
+(1.19) was a zero-bid put's degenerate IV blended into a real call IV;
+fixed-gate ratio 1.01. Supply for the screen must come from UNDATED
+non-merger events (Federal Register/ITC, extensions, financing
+deadlines) — still the open sourcing gap.
+
+## Order path — STAGED AND CLEAN (art. 16, 2026-07-13)
+
+The live equity order path (schema journal → guards → place_equity_order
+→ ledger → LiveBook enter/exit) completed its one clean staged use: $5.00
+SPY round trip, both fills <0.2s, dry-run clean, ledger and sleeve exact.
+The path carries full Title I sizes. Two permanent mechanics facts bought
+for $0.0012 (the realized spread loss):
+- **RH dollar-based orders TRUNCATE share quantity at 6dp, never round.**
+- Market fills on penny-wide ETFs land at/inside the quoted ask in
+  sub-second time; fill-vs-ask drift on the two legs was ≤0.05%.
+The OPTION order path has never placed a live order — its first live use
+remains staged (art. 16) when the first option entry comes.
+
+## Posture — PARKED IN INDEX since 2026-07-13 (art. 13b-exempt)
+
+VOO 3.536615 sh @ 691.339 (order `6a54f8a9`), ~$55 cash. The park is the
+no-edge default, NOT a thesis: it exits only to fund an entry clearing
+the full bar, or on the kill switch. More than one index-park round trip
+in a rolling month = a thesis in disguise (art. 1). GFV note: park sized
+to settled funds only; staged-sell proceeds ($4.998) settle 2026-07-14.
+
 ## Odd-lot tender — broker mechanics (kill-condition #2) — ANSWERED 2026-07-11
 
 All five unknowns answered 2026-07-11 by the operator via RH support chat

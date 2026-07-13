@@ -82,24 +82,24 @@
    "notes": "regex-extracted from primary doc; full read required before any trade"
   },
   {
-   "symbol": "CRBD",
+   "symbol": "CRBG",
    "name": "Corebridge Financial, Inc.  (CRBD, CRBG)  (CIK 0001889539)",
    "event_type": "merger_vote",
    "event_date": "2026-07-30",
    "filed": "2026-06-23",
    "source": "DEFM14A 0001193125-26-279656",
    "source_url": "https://www.sec.gov/Archives/edgar/data/1889539/000119312526279656/d115497ddefm14a.htm",
-   "notes": "regex-extracted from primary doc; full read required before any trade"
+   "notes": "regex-extracted from primary doc; full read required before any trade | SYMBOL CORRECTED 2026-07-13: regex extracted CRBD; broker tape confirms Corebridge trades as CRBG (journal, session 9)"
   },
   {
-   "symbol": "CRBD",
+   "symbol": "CRBG",
    "name": "Corebridge Financial, Inc.  (CRBD, CRBG)  (CIK 0001889539)",
    "event_type": "outside_date",
    "event_date": "2026-12-26",
    "filed": "2026-06-23",
    "source": "DEFM14A 0001193125-26-279656",
    "source_url": "https://www.sec.gov/Archives/edgar/data/1889539/000119312526279656/d115497ddefm14a.htm",
-   "notes": "regex-extracted from primary doc; full read required before any trade"
+   "notes": "regex-extracted from primary doc; full read required before any trade | SYMBOL CORRECTED 2026-07-13: regex extracted CRBD; broker tape confirms Corebridge trades as CRBG (journal, session 9)"
   },
   {
    "symbol": "MDV",

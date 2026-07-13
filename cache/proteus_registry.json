@@ -70,6 +70,13 @@
    "definition": "Buy 99 or fewer shares of a LISTED tender target with odd-lot priority below the offer price; tender all shares; worst case is the post-expiry price if the tender fails or amends down. Capacity-capped by construction (~99 shares per event).",
    "hunting_ground": "odd_lot_tender",
    "ledger_family": "tender_arb"
+  },
+  "process_staging": {
+   "capacity_capped": true,
+   "created": "2026-07-13",
+   "definition": "Art. 16 staged-deployment orders: the first live use of a new or materially rewritten order/sizing/kill path runs at minimum executable size in a liquid park-class instrument, PROCESS-typed, dry-run-verified, excluded from ladder counting and trade calibration. Carries mechanics predictions only, never a thesis.",
+   "hunting_ground": "none_process_only",
+   "ledger_family": "process"
   }
  },
  "version": 1

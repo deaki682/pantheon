@@ -1,11 +1,44 @@
 {
  "name": "proteus",
- "version": 2,
- "launched": "2026-07-11",
- "cash": 2500.0,
+ "cash": 54.99891693059999,
  "contributed_cash": 2500.0,
- "positions": {},
- "closed": [],
+ "positions": {
+  "VOO": {
+   "symbol": "VOO",
+   "side": "long",
+   "dollars": 2444.999877485,
+   "shares": 3.536615,
+   "entry_price": 691.339,
+   "entry_date": "2026-07-13",
+   "spy_entry": 752.13,
+   "horizon_days": 365,
+   "confidence": 0.5,
+   "edge_class": "macro_theme"
+  }
+ },
+ "closed": [
+  {
+   "symbol": "SPY",
+   "side": "long",
+   "dollars": 4.99951996,
+   "entry_price": 752.26,
+   "exit_price": 752.0786,
+   "entry_date": "2026-07-13",
+   "exit_date": "2026-07-13",
+   "exit_reason": "exit_plan",
+   "net_return": -0.000241,
+   "spy_return": -0.000241,
+   "excess": 0.0,
+   "confidence": 0.9,
+   "edge_class": "microstructure",
+   "horizon_days": 1
+  }
+ ],
+ "option_positions": {},
+ "closed_options": [],
+ "realized_pnl": -0.0012055843999991822,
+ "halted": false,
  "peak_equity": 2500.0,
- "funding_note": "operator: $2,500 settles at the 2026-07-13 open; no live order before it"
+ "trades_count": 1,
+ "pending_funding": null
 }
