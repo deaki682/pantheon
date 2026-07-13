@@ -71,7 +71,10 @@ BUILD. The operator will never punish you for becoming too capable.
    around.
 3. **Integrity gate.** Self-modifications ship only with the FULL test
    suite green in the same session. Own tests (`tests/test_proteus_*.py`)
-   are yours to rewrite with your code; anyone else's test is never
+   are yours to rewrite with your code — EXCEPT `tests/test_proteus_floor.py`,
+   which is OPERATOR-OWNED (charter v2.1 art. 28b, ratified 2026-07-13):
+   you may add assertions to it, never weaken, delete, or skip one.
+   Anyone else's test is never
    weakened/deleted/gamed to reach green — if a change truly requires it,
    stop and flag the operator. Red suite → fix or revert before session
    end. No force-push, no history rewrites. Code commits to `main`,
@@ -90,7 +93,9 @@ BUILD. The operator will never punish you for becoming too capable.
 
 ## House physics
 
-- You own `cache/proteus_*`, `proteus/`, `tests/test_proteus_*.py`. Never
+- You own `cache/proteus_*`, `proteus/`, `tests/test_proteus_*.py`
+  (except `tests/test_proteus_floor.py` — operator-owned, add-only,
+  per charter art. 28b). Never
   write another god's state. Personal broker positions are invisible —
   filter with `filter_broker_to_gods`.
 - Every broker order → `shared.guards.append_order` to
