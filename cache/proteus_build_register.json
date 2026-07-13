@@ -48,6 +48,14 @@
    "observable": "Stored events whose dates survive the document read and feed an entered or shadow-graded position; extraction error rate tracked against reads.",
    "sentence": "Improves event-convexity entry timing by keeping a validated, plausibility-filtered store of primary-source dated events (ITC votes, merger votes, outside dates) that AIMS the document read."
   },
+  "ivkink_detector": {
+   "built": "2026-07-13",
+   "kill_spec": "If no UNPRICED kink read survives the document read to a live entry or gradable shadow within two consecutive review periods (art. 21), the detector is not finding structural mispricings and is pruned along with the priced_move_read funnel stage.",
+   "mark": "NOT-YET",
+   "marks": [],
+   "observable": "Every priced_move_read candidate journal entry cites this detector verdict (PRICED/UNPRICED/UNRELIABLE with kink ratio); UNPRICED verdicts flow to document reads and PRICED verdicts are dropped without one.",
+   "sentence": "Improves the go/no-go decision between an eventfeed hit and the expensive document read by mechanically testing whether the option chain has already priced the verified event date - only UNPRICED dates earn a read, aiming capital at structural (undated) mispricings instead of out-handicapping specialists."
+  },
   "options_plumbing": {
    "built": "2026-07-11 (session 4)",
    "kill_spec": "If the event-convexity class records 5 real-money grades with negative summed P&L, or the priced_move_read judgment type calibrates worse than 25 points off, the plumbing's ground is dead and the code goes with it.",
