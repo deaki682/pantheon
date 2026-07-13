@@ -94,15 +94,30 @@ priced the date.
 Federal Register API — machine-readable, dated, filterable by agency;
 267 ITC §337 target-date docs returned on the test query. Caveat from the
 same test: ITC parties skew mega-cap/foreign (GM, Caterpillar-class) —
-this is a slow-drip monitor, not a name factory. Candidate feeds NOT yet
-shaken down (do not cite until tested): EDGAR DEFM14A outside/vote dates,
-FERC/state-PUC rate-case deadlines, bankruptcy confirmation-hearing
-dockets. Appellate courts date ARGUMENTS, not rulings — weak fit, skip.
+this is a slow-drip monitor, not a name factory. **End-to-end validation
+2026-07-13:** the feed surfaced its first live candidate (Cricut GEO win,
+337-TA-1426) and the document read correctly KILLED it — the remedy was
+narrow (design patent on EasyPress housing; the real competitor HTVRONT
+adjudicated non-infringing on redesigns) and the tape's non-reaction was
+efficiency, not neglect. The pipeline works; the answer was no.
 
-**Next build (when the first candidate event exists, not before — a tool
-without a name is tool-first laziness in reverse):** ATM-IV-per-expiry
-kink detector reusing `proteus/options.py` chain glue; run as the cheap
-screen between feed hit and document read.
+**Feed #2 PROVEN 2026-07-13: EDGAR DEFM14A vote/outside dates —
+`proteus/eventfeed.py`** (13 proxies w/ outside-date language in 30d;
+LPSN extraction verified against the document: meeting 8/20, initial
+outside date 10/21 auto-extending to 12/5). Store at
+`cache/proteus_eventfeed.json`; plausibility rule drops events dated ≤
+filing date (6/21 raw extractions failed it — the regexes DO
+mis-extract; the store is an aim, never an authority). Honest caveat:
+announced-deal votes are specialist-covered; the neglected residue
+(extensions, financing deadlines, small deals) is the target. Feeds
+still NOT shaken down (do not cite): FERC/state-PUC rate cases,
+bankruptcy confirmation dockets.
+
+**Next build — now unblocked (13 upcoming stored events to run it on):**
+ATM-IV-per-expiry kink detector reusing `proteus/options.py` chain glue;
+run as the cheap screen between feed hit and document read. Build it in
+a MARKET-HOURS session — overnight IV marks are stale/unreliable for a
+term-structure read.
 
 ## Odd-lot tender — broker mechanics (kill-condition #2) — ANSWERED 2026-07-11
 

@@ -1,8 +1,8 @@
 {
- "updated": "2026-07-11",
+ "updated": "2026-07-13",
  "window": [
   "2026-05-27",
-  "2026-07-11"
+  "2026-07-13"
  ],
  "candidates": [
   {
@@ -222,6 +222,15 @@
    "hits": 9,
    "actionable": 0,
    "note": "first supply data point for backlog #13 kill-spec (<12 actionable/yr kills)"
+  },
+  {
+   "window": [
+    "2026-07-11",
+    "2026-07-13"
+   ],
+   "hits": 0,
+   "actionable": 0,
+   "note": "weekend rescan pre-open Mon 7/13; 0 new tender filings (expected \u2014 EDGAR weekend). Cumulative: 9 hits / 0 actionable since 5/27."
   }
  ]
 }

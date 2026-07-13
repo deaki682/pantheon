@@ -1,0 +1,155 @@
+{
+ "updated": "2026-07-13",
+ "events": [
+  {
+   "symbol": "LEG",
+   "name": "LEGGETT & PLATT INC  (LEG)  (CIK 0000058492)",
+   "event_type": "outside_date",
+   "event_date": "2028-04-13",
+   "filed": "2026-07-09",
+   "source": "DEFM14A 0000058492-26-000364",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/58492/000005849226000364/legdefm14a.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "OGN",
+   "name": "Organon & Co.  (OGN)  (CIK 0001821825)",
+   "event_type": "merger_vote",
+   "event_date": "2026-07-23",
+   "filed": "2026-06-17",
+   "source": "DEFM14A 0001193125-26-273323",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1821825/000119312526273323/d15298ddefm14a.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "OGN",
+   "name": "Organon & Co.  (OGN)  (CIK 0001821825)",
+   "event_type": "outside_date",
+   "event_date": "2027-04-26",
+   "filed": "2026-06-17",
+   "source": "DEFM14A 0001193125-26-273323",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1821825/000119312526273323/d15298ddefm14a.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "LPSN",
+   "name": "LIVEPERSON INC  (LPSN)  (CIK 0001102993)",
+   "event_type": "merger_vote",
+   "event_date": "2026-08-20",
+   "filed": "2026-07-09",
+   "source": "DEFM14A 0001213900-26-076759",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1102993/000121390026076759/ea0297465-01.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "LPSN",
+   "name": "LIVEPERSON INC  (LPSN)  (CIK 0001102993)",
+   "event_type": "outside_date",
+   "event_date": "2026-12-05",
+   "filed": "2026-07-09",
+   "source": "DEFM14A 0001213900-26-076759",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1102993/000121390026076759/ea0297465-01.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "RAMP",
+   "name": "LiveRamp Holdings, Inc.  (RAMP)  (CIK 0000733269)",
+   "event_type": "merger_vote",
+   "event_date": "2026-08-17",
+   "filed": "2026-07-06",
+   "source": "DEFM14A 0001104659-26-080505",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/733269/000110465926080505/tm264528-7_defm14aseq1.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "EQH",
+   "name": "Equitable Holdings, Inc.  (EQH, EQH-PA, EQH-PC)  (CIK 0001333986)",
+   "event_type": "merger_vote",
+   "event_date": "2026-07-30",
+   "filed": "2026-06-23",
+   "source": "DEFM14A 0001193125-26-279668",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1333986/000119312526279668/d115497ddefm14a.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "EQH",
+   "name": "Equitable Holdings, Inc.  (EQH, EQH-PA, EQH-PC)  (CIK 0001333986)",
+   "event_type": "outside_date",
+   "event_date": "2026-12-26",
+   "filed": "2026-06-23",
+   "source": "DEFM14A 0001193125-26-279668",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1333986/000119312526279668/d115497ddefm14a.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "CRBD",
+   "name": "Corebridge Financial, Inc.  (CRBD, CRBG)  (CIK 0001889539)",
+   "event_type": "merger_vote",
+   "event_date": "2026-07-30",
+   "filed": "2026-06-23",
+   "source": "DEFM14A 0001193125-26-279656",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1889539/000119312526279656/d115497ddefm14a.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "CRBD",
+   "name": "Corebridge Financial, Inc.  (CRBD, CRBG)  (CIK 0001889539)",
+   "event_type": "outside_date",
+   "event_date": "2026-12-26",
+   "filed": "2026-06-23",
+   "source": "DEFM14A 0001193125-26-279656",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1889539/000119312526279656/d115497ddefm14a.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "MDV",
+   "name": "MODIV INDUSTRIAL, INC.  (MDV, MDV-PA)  (CIK 0001645873)",
+   "event_type": "merger_vote",
+   "event_date": "2026-08-10",
+   "filed": "2026-06-24",
+   "source": "DEFM14A 0001104659-26-077331",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1645873/000110465926077331/tm2615734-8_defm14a.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "AMRX",
+   "name": "Amneal Pharmaceuticals, Inc.  (AMRX)  (CIK 0001723128)",
+   "event_type": "outside_date",
+   "event_date": "2026-11-17",
+   "filed": "2026-06-29",
+   "source": "DEFM14A 0001140361-26-026611",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1723128/000114036126026611/ny20075452x2_defm14a.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "GBTG",
+   "name": "Global Business Travel Group, Inc.  (GBTG)  (CIK 0001820872)",
+   "event_type": "outside_date",
+   "event_date": "2026-11-02",
+   "filed": "2026-07-06",
+   "source": "DEFM14A 0001140361-26-027649",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1820872/000114036126027649/ny20072693x2_defm14a.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "IPCX",
+   "name": "Inflection Point Acquisition Corp. III  (IPCX, IPCXR, IPCXU)  (CIK 0002012318)",
+   "event_type": "merger_vote",
+   "event_date": "2026-07-28",
+   "filed": "2026-07-08",
+   "source": "DEFM14A 0001213900-26-076450",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/2012318/000121390026076450/ea0297441-01.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "AXTA",
+   "name": "Axalta Coating Systems Ltd.  (AXTA)  (CIK 0001616862)",
+   "event_type": "merger_vote",
+   "event_date": "2026-08-05",
+   "filed": "2026-06-24",
+   "source": "DEFM14A 0001193125-26-280277",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1616862/000119312526280277/d107826ddefm14a.htm",
+   "notes": "regex-extracted from primary doc; full read required before any trade"
+  }
+ ]
+}
