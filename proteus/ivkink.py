@@ -51,6 +51,13 @@ MIN_EXPIRIES = 4
 # skew, not the term structure.
 MAX_ATM_DISTANCE_PCT = 0.10
 
+# No real equity option trades below 1% implied vol; a mark under this is a
+# degenerate placeholder (seen live 2026-07-13: zero-bid merger-target puts
+# quoting IV 0.0002 with delta -1), and blending it with a real leg
+# manufactures a front-point dip — exactly the false kink the screen exists
+# to avoid.
+MIN_LEG_IV = 0.01
+
 VERDICTS = ("PRICED", "UNPRICED", "UNRELIABLE")
 
 
@@ -96,19 +103,33 @@ def point_from_quotes(*, asof: str, expiration: str, strike: float,
     """Build one term-structure point from a live ATM call/put quote pair.
 
     Returns (point, "") or (None, reason). The gates are the house's scar
-    tissue: a contract with no bid on either side is a stale/untradable
-    mark, and a strike far from spot measures skew, not term structure.
+    tissue: a strike far from spot measures skew, not term structure, and
+    each leg is admitted on its OWN merits — its own live bid and a
+    non-degenerate IV. The first live run (2026-07-13, EQH) showed why
+    pair-level gating lies: a zero-bid put carrying IV 0.0002 blended with
+    a real 39% call IV halves the front point and manufactures a kink.
     """
     if spot <= 0:
         return None, "spot <= 0"
     if abs(strike - spot) / spot > MAX_ATM_DISTANCE_PCT:
         return None, (f"strike {strike} is {abs(strike - spot) / spot:.0%} "
                       f"from spot — not ATM")
-    if not (_has_bid(call_quote) or _has_bid(put_quote)):
-        return None, "zero bid on both legs — stale or untradable marks"
-    ivs = [v for v in (_iv(call_quote), _iv(put_quote)) if v is not None]
+    ivs, dropped = [], []
+    for leg, quote in (("call", call_quote), ("put", put_quote)):
+        if not _has_bid(quote):
+            dropped.append(f"{leg}: zero bid")
+            continue
+        v = _iv(quote)
+        if v is None:
+            dropped.append(f"{leg}: no implied vol")
+            continue
+        if v < MIN_LEG_IV:
+            dropped.append(f"{leg}: degenerate iv {v:g} < {MIN_LEG_IV}")
+            continue
+        ivs.append(v)
     if not ivs:
-        return None, "no implied vol on either leg"
+        return None, ("no admissible leg (zero bid on both legs, missing or "
+                      "degenerate marks) — " + "; ".join(dropped))
     t = year_frac(asof, expiration)
     if t <= 0:
         return None, "expiration not after as-of date"

@@ -132,6 +132,41 @@ def test_point_from_quotes_gates():
     assert p is None and "after" in why
 
 
+def test_point_from_quotes_per_leg_admission():
+    """Each leg is admitted on its own bid and a non-degenerate IV — a
+    zero-bid or garbage-IV leg never blends into the point (the live EQH
+    false-kink of 2026-07-13)."""
+    good_call = {"bid_price": "1.20", "ask_price": "1.40",
+                 "implied_volatility": "0.386611"}
+
+    # zero-bid put with a degenerate IV: point rests on the call ALONE
+    dead_put = {"bid_price": "0", "ask_price": "2.45",
+                "implied_volatility": "0.000224"}
+    p, why = point_from_quotes(asof=ASOF, expiration="2026-08-14", strike=100,
+                               spot=101, call_quote=good_call,
+                               put_quote=dead_put)
+    assert why == "" and p is not None
+    assert p.iv == pytest.approx(0.386611)   # NOT the 0.19 blend
+
+    # a bid-carrying leg with a degenerate IV is still refused
+    degenerate_bid_put = {"bid_price": "0.10", "ask_price": "2.45",
+                          "implied_volatility": "0.0008"}
+    p, why = point_from_quotes(asof=ASOF, expiration="2026-08-14", strike=100,
+                               spot=101, call_quote=good_call,
+                               put_quote=degenerate_bid_put)
+    assert why == "" and p is not None
+    assert p.iv == pytest.approx(0.386611)
+
+    # both legs inadmissible (one no-bid, one degenerate) -> refused
+    nobid_call = {"bid_price": "0", "ask_price": "0.05",
+                  "implied_volatility": "0.30"}
+    p, why = point_from_quotes(asof=ASOF, expiration="2026-08-14", strike=100,
+                               spot=101, call_quote=nobid_call,
+                               put_quote=degenerate_bid_put)
+    assert p is None and "no admissible leg" in why
+    assert "zero bid" in why and "degenerate" in why
+
+
 def test_result_is_json_serializable():
     import json
     out = kink_read(_flat(), asof=ASOF, event_date="2026-09-25")
