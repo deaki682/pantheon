@@ -1,0 +1,35 @@
+{
+ "_doc": "Charter v2.1 art. 16: the order-path manifest. Any diff touching a function listed here (or exercised by tests/test_proteus_floor.py) is a MATERIAL rewrite of the order, sizing, or kill path: its first live use runs staged (minimum executable size, dry-run-verified, journaled PROCESS entry). Doubt resolves as material. Maintained by Proteus; created 2026-07-13 with the ratified charter's machine artifacts.",
+ "version": 1,
+ "order_path": [
+  "shared.guards.append_order",
+  "shared.guards.read_ledger",
+  "shared.guards.already_placed_today",
+  "shared.guards.pre_trade_check",
+  "shared.guards.check_position_sanity",
+  "shared.guards.filter_broker_to_gods",
+  "proteus.journal.validate_decision",
+  "proteus.journal.append_decision",
+  "proteus.schema.validate_record",
+  "proteus.schema.append_record",
+  "proteus.sleeve.LiveBook.enter",
+  "proteus.sleeve.LiveBook.exit",
+  "proteus.sleeve.LiveBook.enter_option",
+  "proteus.sleeve.LiveBook.exit_option"
+ ],
+ "sizing_path": [
+  "proteus.schema.EntryContext",
+  "proteus.calibration.kelly_fraction",
+  "proteus.calibration.allowed_kelly_multiplier",
+  "proteus.calibration.real_money_position_grades",
+  "proteus.calibration.drawdown_tier",
+  "proteus.sleeve.LiveBook.equity"
+ ],
+ "kill_path": [
+  "shared.guards.kill_switch_active",
+  "shared.guards.liquidate_if_kill",
+  "proteus.sleeve.LiveBook.liquidate_all",
+  "proteus.sleeve.LiveBook.expired_options",
+  "proteus.sleeve.LiveBook.horizon_expired"
+ ]
+}
