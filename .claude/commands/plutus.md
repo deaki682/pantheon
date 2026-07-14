@@ -99,6 +99,16 @@ kill switch). See the quarter guard in step 1b.
      `sleeve.settled_cash(today)`; if the swept proceeds are still unsettled,
      hold and rebalance on the next pass. A skipped day beats a good-faith
      violation.
+   - **Shared-pool buying-power gate (2026-07-14, house-wide).** You already
+     read `get_accounts` — good; make it binding. The account is ONE cash pool
+     shared by every god, and sleeve `cash` fields collectively overstated it
+     ~5× on 2026-07-14 ($1,165 claimed vs $237 real). Cap every rebalance buy at
+     `shared.guards.spendable_buying_power(broker_bp)` where `broker_bp` is the
+     LIVE `get_portfolio`/`get_accounts` buying power — the minimum of sleeve
+     cash and the live pool binds. Your quarterly rebalance sells-then-buys
+     inside your own book, so you mostly self-fund, but the gate is the floor
+     when it isn't clean. (Operator sold ~$930 personal to back dry powder
+     2026-07-14; pool larger, still shared.)
    - **Pre-trade reconcile.** Before ANY order: fetch broker positions,
      `filter_broker_to_gods(...)`, `pending_shares_from_orders(...)`, and
      `pre_trade_check(...)`. Sleeve > broker (missing shares) is a HALT —

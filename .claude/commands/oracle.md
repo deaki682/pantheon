@@ -169,6 +169,16 @@ Journal every decision (buy/hold/pass) with its thesis + typed kill. Never add a
 broker position to the sleeve without a matching ledger entry.
 
 **Execution discipline (audit 2026-07-10):**
+- **Shared-pool buying-power gate (2026-07-14, house-wide).** The account is
+  ONE cash pool shared by every god; your sleeve `cash` field is bookkeeping
+  that can badly overstate reality (on 2026-07-14 the four sleeves claimed
+  ~$1,165 against a real $237 buying power). Before ANY buy, read the LIVE
+  broker buying power (`get_portfolio` → `buying_power`, or `get_accounts`) and
+  cap every order at `shared.guards.spendable_buying_power(broker_bp)`. Sleeve
+  cash is the ceiling, the live pool is the floor, and the MINIMUM binds — never
+  size a buy from sleeve cash alone. (The operator sold ~$930 of a personal
+  holding on 2026-07-14 to back the gods' claimed dry powder, but the pool is
+  still shared: if two gods reach for it the same session, the second is capped.)
 - **Settled cash only:** size the book against SETTLED cash, never total
   equity — `equity()` includes unsettled proceeds and `buy()` only counts a
   GFV instead of blocking. A skipped day beats a good-faith violation.

@@ -62,6 +62,17 @@ Every announced cash deal Hermes detects is recorded ONCE with the LLM's read:
      `filter_orders_by_ledger` to record fills; then broker positions →
      `filter_broker_to_gods` → `pre_trade_check` (+ `pending_shares_from_orders`).
      Sleeve > broker halts. `already_placed_today` to never double-place.
+   - **Shared-pool buying-power gate (2026-07-14, house-wide).** You are the
+     only god that BUYS on opportunity without a self-funding sell, so this is
+     yours to watch most. The account is ONE cash pool shared by every god; your
+     sleeve `cash` ($659.56 on 2026-07-14) can overstate what is actually
+     spendable (real account buying power that day was $237). Before entering a
+     NEW deal, read the LIVE broker buying power (`get_portfolio` →
+     `buying_power`, or `get_accounts`) and cap the order at
+     `shared.guards.spendable_buying_power(broker_bp)` — never size from sleeve
+     cash alone. Over-deploying the shared pool is exactly what froze you on
+     2026-07-07. (The operator sold ~$930 of a personal holding on 2026-07-14 to
+     back the gods' dry powder; the pool is larger now but still shared.)
 
 1. **Tend open deals FIRST.** For every open position:
    - Fetch the live quote (`get_equity_quotes`) + SPY.
