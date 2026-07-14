@@ -133,6 +133,51 @@ def test_doc_url():
                    "000121390026076759/ea0297465-01.htm")
 
 
+# ------- 8-K financing-deadline extraction (feed #3) -------
+
+# Extension-amendment style: the NEW date is restated, the OLD appears once.
+EXT_8K = (
+    "On July 10, 2026, the Company entered into a Third Amendment to the "
+    "Credit Agreement, pursuant to which the maturity date has been "
+    "extended from September 30, 2026 to March 31, 2027. Following the "
+    "amendment, the maturity date of the term loan is March 31, 2027, "
+    "subject to the terms described therein. As amended, the maturity "
+    "date is March 31, 2027."
+)
+
+FORBEARANCE_8K = (
+    "The lenders agreed to forbear from exercising remedies during the "
+    "forbearance period, which expires on October 15, 2026, unless "
+    "earlier terminated."
+)
+
+
+def test_extract_deadline_date_modal_new_date_wins():
+    assert ef.extract_deadline_date(EXT_8K, filed="2026-07-10") == "2027-03-31"
+
+
+def test_extract_deadline_date_drops_past_dates_vs_filed():
+    # Only the already-past old maturity date appears near the term.
+    text = ("the maturity date of the notes was September 30, 2025, "
+            "as previously disclosed.")
+    assert ef.extract_deadline_date(text, filed="2026-07-10") is None
+
+
+def test_extract_deadline_date_forbearance():
+    assert ef.extract_deadline_date(
+        FORBEARANCE_8K, filed="2026-07-10") == "2026-10-15"
+
+
+def test_extract_deadline_date_no_filed_keeps_all():
+    # Without a filing date the plausibility cut is deferred to add_events.
+    assert ef.extract_deadline_date(
+        "the maturity date was January 5, 2020") == "2020-01-05"
+
+
+def test_extract_deadline_date_absent():
+    assert ef.extract_deadline_date("no deadline language here") is None
+
+
 # ------- FR plumbing -------
 
 def test_fr_query_url_encodes_conditions():

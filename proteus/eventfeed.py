@@ -170,6 +170,90 @@ def enrich_proxy(rec: dict) -> dict:  # pragma: no cover - network
     return out
 
 
+# ------- 8-K financing-deadline feed (pure parse, network scan) -------
+#
+# Feed #3 (build register: feed3_8k_financing_deadlines, 2026-07-14).
+# Small companies announce debt-maturity extensions, forbearance
+# agreements, and waiver windows in 8-Ks (often the EX-10 exhibit). The
+# new deadline is a dated, non-merger catalyst no retail calendar
+# carries — exactly the supply the chain-kink screen needs. THE FEED
+# ONLY AIMS THE READ; the filing is the authority.
+
+DEADLINE_FORMS = ("8-K",)
+
+DEADLINE_QUERIES = (
+    '"maturity date has been extended"',
+    '"extension of the maturity date"',
+    '"forbearance agreement"',
+)
+
+_DEADLINE_TERM = re.compile(
+    r"maturity\s+date|forbearance\s+(?:period|agreement)|"
+    r"waiver\s+(?:period|shall\s+expire)", re.IGNORECASE)
+
+
+def _all_dates_near(term: re.Pattern, text: str) -> list[str]:
+    """ALL parseable dates within the window around each term hit.
+    The proxy extractors' first-date-wins heuristic fails on 8-K prose,
+    where the announcement date ('On July 10, 2026, the Company entered
+    into...') leads every window; deadline extraction needs the full
+    window population so the filter+modal can find the restated new
+    date (measured on live text, 2026-07-14)."""
+    found: list[str] = []
+    for m in term.finditer(text):
+        lo = max(0, m.start() - _WINDOW)
+        hi = min(len(text), m.end() + _WINDOW)
+        for dm in _US_DATE.finditer(text[lo:hi]):
+            d = parse_us_date(dm.group(0))
+            if d:
+                found.append(d)
+    return found
+
+
+def extract_deadline_date(text: str,
+                          filed: Optional[str] = None) -> Optional[str]:
+    """Modal date near a deadline term, restricted to dates strictly
+    after the filing date when one is given (a deadline already past at
+    filing is history, not a catalyst). Modal beats first: extension
+    amendments restate the new date several times and mention the old
+    one once."""
+    hits = _all_dates_near(_DEADLINE_TERM, text)
+    if filed:
+        hits = [d for d in hits if d > filed]
+    if not hits:
+        return None
+    return Counter(hits).most_common(1)[0][0]
+
+
+def scan_deadlines(date_from: str,
+                   date_to: str) -> list[dict]:  # pragma: no cover - network
+    """Sweep EDGAR FTS for 8-Ks carrying financing-deadline language.
+    Dedupes on accession across the query list."""
+    seen: set = set()
+    out: list[dict] = []
+    for q in DEADLINE_QUERIES:
+        page = edgar.search_filings(
+            q, forms=list(DEADLINE_FORMS),
+            date_from=date_from, date_to=date_to)
+        for r in parse_fts_hits(page):
+            if r["accession"] and r["accession"] not in seen:
+                seen.add(r["accession"])
+                out.append(r)
+    return out
+
+
+def enrich_deadline(rec: dict) -> dict:  # pragma: no cover - network
+    """Fetch the matched document (frequently the EX-10 exhibit itself)
+    and attach the extracted deadline. The document remains the
+    authority; this aims the read."""
+    out = dict(rec)
+    url = doc_url(rec)
+    text = edgar.clean_html(edgar.http_get(url)) if url else ""
+    out["doc_url"] = url
+    out["deadline_date"] = extract_deadline_date(text, rec.get("filed"))
+    return out
+
+
 # ------- Federal Register / ITC feed (pure parse, network fetch) -------
 
 FR_API = "https://www.federalregister.gov/api/v1/documents.json"
