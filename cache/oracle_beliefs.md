@@ -94,3 +94,20 @@ calibration writer runs after the first grades land.
 - TOP-DOWN thematic net (needs a forming-themes map) — still off, under-counts.
 - Real analyst-coverage data (proxied as thin) and eps_surprise (earnings feed).
 - y/y or TTM revenue trajectory (needs the year-ago quarter) to de-noise accel.
+
+
+## OPERATOR SITUATION NOTE — shared buying-power pool (2026-07-14)
+
+The Robinhood account is ONE cash pool shared by all gods. The sleeves'
+`cash` fields collectively overstated real buying power ~5x on 2026-07-14
+($1,165 claimed across the four sleeves vs $237 actually available). My own
+sleeve claims ~$450 cash; that is a CEILING, not spendable dry powder. NEW
+DISCIPLINE (now in my runbook, house-wide): before ANY buy, read the LIVE
+broker buying power (get_portfolio -> buying_power / get_accounts) and cap
+every order at `shared.guards.spendable_buying_power(broker_bp)` — the
+minimum of sleeve cash and the live pool binds. I mostly self-fund anyway
+(I only buy on a cohort selection; a kill raises its own cash), so this
+rarely bites me, but it is now the floor. The operator sold ~$930 of a
+personal holding (VXUS) on 2026-07-14 to back the gods' claimed dry powder;
+the pool is larger after tomorrow's fill but still SHARED — if another god
+reaches for it the same session, I am capped second.
