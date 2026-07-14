@@ -432,6 +432,26 @@ def secondary_price_suspect(
     return abs(s - b) / b > tolerance
 
 
+# ------- Shared-account buying power -------
+
+def spendable_buying_power(broker_buying_power, reserved_for_other_gods: float = 0.0) -> float:
+    """The house-wide shared-pool buy gate (mirrors Proteus charter art. 26a).
+
+    The Robinhood account (563854249) is ONE cash pool shared by every live god.
+    A sleeve's own ``cash`` field is per-god bookkeeping and can badly overstate
+    what is actually spendable: on 2026-07-14 the four sleeves collectively claimed
+    ~$1,165 of cash against a real account buying power of $237. Before ANY buy, a
+    god must read the LIVE broker buying power (get_portfolio -> buying_power, or
+    get_accounts) and cap its order at what this returns — the broker buying power
+    minus any cash another god has earmarked for imminent deployment this session.
+    NEVER size a buy from sleeve cash alone; sleeve cash is a ceiling, the live
+    pool is the floor, and the minimum of the two binds.
+    """
+    bp = max(0.0, float(broker_buying_power))
+    reserved = max(0.0, float(reserved_for_other_gods))
+    return max(0.0, bp - reserved)
+
+
 # ------- Liquidate-on-kill helper -------
 
 def liquidate_if_kill(sleeve, marks: dict[str, float], today: str):

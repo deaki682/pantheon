@@ -302,3 +302,22 @@ def test_pending_sell_never_creates_phantom_mismatch(tmp_path):
     # and a REAL shortfall still trips
     mm3 = check_position_sanity({"DAKT": 0.0}, sleeve_paths=paths, pending_orders={})
     assert len(mm3) == 1
+
+
+# ------- spendable_buying_power (shared-pool gate, 2026-07-14) -------
+
+def test_spendable_caps_at_broker_pool_not_sleeve_cash():
+    from shared.guards import spendable_buying_power
+    # sleeve may CLAIM more, but the live pool is the real ceiling
+    assert spendable_buying_power(237.12) == 237.12
+
+
+def test_spendable_subtracts_other_gods_reservation():
+    from shared.guards import spendable_buying_power
+    assert abs(spendable_buying_power(1167.0, reserved_for_other_gods=660.0) - 507.0) < 1e-9
+
+
+def test_spendable_never_negative():
+    from shared.guards import spendable_buying_power
+    assert spendable_buying_power(100.0, reserved_for_other_gods=500.0) == 0.0
+    assert spendable_buying_power(0.0) == 0.0
