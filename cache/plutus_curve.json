@@ -1,71 +1,71 @@
 [
-  {
-    "benchmark": {},
-    "cash": 236.6022631978908,
-    "date": "2026-07-06",
-    "equity": 236.6022631978908,
-    "note": "First live pass post-launch. Funding gate cleared (pending_funding=None) but only the settled tranche of Delphi's sweep has landed ($236.60 of ~$1,888 total); remainder settles 2026-07-07. Deferred the full deluxe-pipeline rebalance to avoid a degenerate ~30-name book at $8/name that would immediately need re-trading once the rest settles (quarterly-only, no intra-quarter churn). Monitoring-only this pass.",
-    "timestamp": "2026-07-06T14:20:00Z"
+ {
+  "benchmark": {},
+  "cash": 236.6022631978908,
+  "date": "2026-07-06",
+  "equity": 236.6022631978908,
+  "note": "First live pass post-launch. Funding gate cleared (pending_funding=None) but only the settled tranche of Delphi's sweep has landed ($236.60 of ~$1,888 total); remainder settles 2026-07-07. Deferred the full deluxe-pipeline rebalance to avoid a degenerate ~30-name book at $8/name that would immediately need re-trading once the rest settles (quarterly-only, no intra-quarter churn). Monitoring-only this pass.",
+  "timestamp": "2026-07-06T14:20:00Z"
+ },
+ {
+  "benchmark": {
+   "SPY": 750.99
   },
-  {
-    "benchmark": {
-      "SPY": 750.99
-    },
-    "cash": 236.6022631978908,
-    "date": "2026-07-06",
-    "equity": 236.6022631978908,
-    "note": "Hourly Zeus monitoring pass. No new positions, funding gate cleared but settled cash still just the first tranche (36.60); the remaining ~$1,651 Delphi tranche settles 2026-07-07. Quarter 2026Q2 rebalance stays deferred (last_quarter marker still null) until settled cash covers a non-degenerate deluxe book. No orders placed.",
-    "timestamp": "2026-07-06T18:14:00Z"
+  "cash": 236.6022631978908,
+  "date": "2026-07-06",
+  "equity": 236.6022631978908,
+  "note": "Hourly Zeus monitoring pass. No new positions, funding gate cleared but settled cash still just the first tranche (36.60); the remaining ~$1,651 Delphi tranche settles 2026-07-07. Quarter 2026Q2 rebalance stays deferred (last_quarter marker still null) until settled cash covers a non-degenerate deluxe book. No orders placed.",
+  "timestamp": "2026-07-06T18:14:00Z"
+ },
+ {
+  "benchmark": {
+   "SPY": 751.81
   },
-  {
-    "benchmark": {
-      "SPY": 751.81
-    },
-    "cash": 236.6022631978908,
-    "date": "2026-07-06",
-    "equity": 236.6022631978908,
-    "note": "Hourly Zeus monitoring pass. Delphi wind-down checked: still flat, settled_cash(today)=$0 (her remaining $1,651.15 all settles 2026-07-07), so no new sweep tranche landed this pass. Plutus funding unchanged at $236.60 settled of ~$1,888 expected. Quarter 2026Q2 rebalance stays deferred (last_quarter marker still null). No orders placed.",
-    "timestamp": "2026-07-06T19:13:00Z"
-  },
-  {
-    "cash": 0.0,
-    "date": "2026-07-07",
-    "drawdown": 0.000955,
-    "equity": 4895.22,
-    "halted": false,
-    "peak_equity": 4899.9055677999995,
-    "spy": 747.655,
-    "timestamp": "2026-07-07T14:12:00Z"
-  },
-  {
-    "cash": 0.0,
-    "date": "2026-07-07",
-    "drawdown": 0.000187,
-    "equity": 4898.99,
-    "halted": false,
-    "peak_equity": 4899.9055677999995,
-    "spy": 746.55,
-    "timestamp": "2026-07-07T15:13:00Z"
-  },
-  {
-    "cash": 0.0,
-    "date": "2026-07-07",
-    "drawdown": 0.0,
-    "equity": 4910.29,
-    "halted": false,
-    "peak_equity": 4910.29399059,
-    "spy": 747.67,
-    "timestamp": "2026-07-07T16:13:00Z"
-  },
-  {
-    "cash": 0.0,
-    "date": "2026-07-14",
-    "drawdown": 0.0,
-    "equity": 4955.08,
-    "halted": false,
-    "note": "Monitoring-only pass (2026Q2 already traded; next rebalance 2026Q3). Reconciled all 47 positions to actual broker fills (queue-time indicative -> dollar-order actuals) per 07-07 decision log.",
-    "peak_equity": 4955.082736000101,
-    "spy": 750.165,
-    "timestamp": "2026-07-14T14:08:00Z"
-  }
+  "cash": 236.6022631978908,
+  "date": "2026-07-06",
+  "equity": 236.6022631978908,
+  "note": "Hourly Zeus monitoring pass. Delphi wind-down checked: still flat, settled_cash(today)=$0 (her remaining $1,651.15 all settles 2026-07-07), so no new sweep tranche landed this pass. Plutus funding unchanged at $236.60 settled of ~$1,888 expected. Quarter 2026Q2 rebalance stays deferred (last_quarter marker still null). No orders placed.",
+  "timestamp": "2026-07-06T19:13:00Z"
+ },
+ {
+  "cash": 0.0,
+  "date": "2026-07-07",
+  "drawdown": 0.000955,
+  "equity": 4895.22,
+  "halted": false,
+  "peak_equity": 4899.9055677999995,
+  "spy": 747.655,
+  "timestamp": "2026-07-07T14:12:00Z"
+ },
+ {
+  "cash": 0.0,
+  "date": "2026-07-07",
+  "drawdown": 0.000187,
+  "equity": 4898.99,
+  "halted": false,
+  "peak_equity": 4899.9055677999995,
+  "spy": 746.55,
+  "timestamp": "2026-07-07T15:13:00Z"
+ },
+ {
+  "cash": 0.0,
+  "date": "2026-07-07",
+  "drawdown": 0.0,
+  "equity": 4910.29,
+  "halted": false,
+  "peak_equity": 4910.29399059,
+  "spy": 747.67,
+  "timestamp": "2026-07-07T16:13:00Z"
+ },
+ {
+  "cash": 0.0,
+  "date": "2026-07-14",
+  "drawdown": 0.0,
+  "equity": 4971.79,
+  "halted": false,
+  "note": "Monitoring-only pass (2026Q2 already traded; next rebalance 2026Q3). 47/47 positions marked live at ~11:06 ET.",
+  "peak_equity": 4971.786134525999,
+  "spy": 752.5433,
+  "timestamp": "2026-07-14T15:06:00Z"
+ }
 ]
