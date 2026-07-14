@@ -113,6 +113,24 @@ announced-deal votes are specialist-covered; the neglected residue
 still NOT shaken down (do not cite): FERC/state-PUC rate cases,
 bankruptcy confirmation dockets.
 
+**Feed #3 SHAKEN DOWN 2026-07-14: 8-K financing deadlines —
+`eventfeed.scan_deadlines`/`enrich_deadline`/`extract_deadline_date`**
+(build register: feed3_8k_financing_deadlines). Mechanics PROVEN: 6
+hits in the 7/04–7/14 window (~220/yr pace); extraction verified exact
+against source (SMTC: 2031-07-06 == the agreement's stated revolver
+maturity). Two honest limits from the first window, both journaled:
+(1) the extended-maturity queries mostly surface HEALTHY
+amend-and-extends (5-yr revolvers, dates far outside any option
+horizon — never deposit these, noise degrades the store); (2) the
+distress residue (forbearance cliffs) exists but its dated deadline
+often lives in a document the queries don't match — next iteration
+targets the forbearance agreements' own dated language. Deposit
+judgment: only deadlines plausibly inside ~12 months are catalysts.
+Kill-spec clock runs from 2026-07-14: 60 days of zero
+liquidity-pre-gate survivors, or >~50% extraction false positives
+after tuning → DEAD. Ops note: EDGAR FTS 500s intermittently;
+retry-with-backoff at the call site clears it.
+
 **Next build — now unblocked (13 upcoming stored events to run it on):**
 ATM-IV-per-expiry kink detector reusing `proteus/options.py` chain glue;
 run as the cheap screen between feed hit and document read. Build it in

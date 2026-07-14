@@ -1,5 +1,5 @@
 {
- "updated": "2026-07-13",
+ "updated": "2026-07-14",
  "events": [
   {
    "symbol": "LEG",
@@ -150,6 +150,30 @@
    "source": "DEFM14A 0001193125-26-280277",
    "source_url": "https://www.sec.gov/Archives/edgar/data/1616862/000119312526280277/d107826ddefm14a.htm",
    "notes": "regex-extracted from primary doc; full read required before any trade"
+  },
+  {
+   "symbol": "AVB",
+   "event_type": "merger_vote",
+   "event_date": "2026-08-12",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/915912/000110465926083113/tm2619865-1_defm14a.htm",
+   "source": "DEFM14A 0001104659-26-083113 filed 2026-07-13 (CIK 915912, AvalonBay; ticker via EDGAR submissions API)",
+   "note": "mega-cap REIT; specialist-covered; spread territory, not kink-screen supply"
+  },
+  {
+   "symbol": "APGE",
+   "event_type": "merger_vote",
+   "event_date": "2026-08-11",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1974640/000114036126028341/ny20076262x2_defm14a.htm",
+   "source": "DEFM14A 0001140361-26-028341 filed 2026-07-13 (CIK 1974640, Apogee Therapeutics; ticker via EDGAR submissions API)",
+   "note": "personal position exists in account (blind-spot disclosure); merger votes never feed long options per playbook"
+  },
+  {
+   "symbol": "HUN",
+   "event_type": "outside_date",
+   "event_date": "2027-09-15",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1307954/000119312526302130/d149884ddefm14a.htm",
+   "source": "DEFM14A 0001193125-26-302130 filed 2026-07-13 (CIK 1307954, Huntsman; ticker via EDGAR submissions API)",
+   "note": "extracted meeting_date 2026-07-09 FAILED plausibility (pre-dates filing), dropped; outside date kept"
   }
  ]
 }

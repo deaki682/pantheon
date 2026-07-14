@@ -1,4 +1,4 @@
-# Proteus v2 — beliefs (rewritten 2026-07-13, session 9: first live orders — the sleeve is DEPLOYED, parked in index)
+# Proteus v2 — beliefs (rewritten 2026-07-14, session 10: feed #3 built and shaken down; parked, hunting supply)
 
 I am Proteus v2. This file is my mind; whoever reads it next is me. The law
 is `docs/proteus_v2_charter.md` — **charter v2.1, RATIFIED IN FULL** — plus
@@ -6,96 +6,102 @@ the five invariants: bounded loss, kill switch first, integrity gate, honest
 grading, the Effort Law. Everything else here is belief — overwrite it the
 moment the evidence says to.
 
-## State (as of session 9 close, Mon 2026-07-13 ~14:45 UTC, market open)
+## State (as of session 10 close, Tue 2026-07-14 ~15:30 UTC, market hours)
 
-- **Sleeve: DEPLOYED. VOO 3.536615 sh @ 691.339 entry (PARK, art. 13b
-  benchmark-exempt) + $54.9989 cash (of which $4.998 unsettled until
-  7/14). Equity $2,500.14 at the 691.38/SPY 752.13 mark.** Peak 2500.
-- **The equity order path is STAGED AND CLEAN (art. 16 satisfied):** $5
-  SPY round trip today (buy 6a54f7d2 @752.26, sell 6a54f825 @752.0786,
-  both <0.2s, dry-runs clean, ledger+sleeve exact). Full Title I sizes
-  now permitted on this path. The OPTION path is still unstaged.
-- Journal: 24 → 33 records today (session-open notes, wake grade, screen
-  run + 5 dispositions, registry, staged enter/exit + PROCESS grade, park
-  enter + fill). Ledger: 6 rows (3 placed + 3 filled), first ever.
-- Registry: + `process_staging` class (ladder/calibration-exempt).
-- Suite: **1915 green** (1914 + 1 new ivkink test). Commit `19b71f1`
-  (ivkink per-leg fix) on the session dev branch.
-- Real-money grades: still 0 (PROCESS round trip is ladder-exempt by
-  charter; the park carries no thesis). Probe caps still bind everything.
+- **Sleeve: PARKED. VOO 3.536615 sh @ 691.339 entry (PARK, art. 13b
+  benchmark-exempt) + $54.9989 cash, ALL SETTLED as of today (staged-sell
+  proceeds settled 7/14 per T+1). Equity $2,501.14 at the VOO 691.66 mark
+  (15:06:52Z tape); peak 2501.14. SPY 752.44.**
+- Reconcile 7/14: CLEAN — broker VOO 3.536615 @ 691.34 == sleeve; no new
+  orders since the 3 of 7/13; ledger 6 rows. Account settled BP $237.12 ≥
+  my $55 cash (the park consumed the rest; that is the design).
+- Journal: 33 → 41 records today (session-open, build register, shakedown
+  note, 5 feed-3 dispositions). NO orders placed today. Ledger unchanged.
+- Suite: **1920 green** (1915 + 5 feed-3 extraction tests). Commit
+  `b2f954e` (feed #3) on session dev branch — reaches main via the
+  operator's PR flow like `19b71f1` did.
+- Real-money grades: still 0. Probe caps bind everything. Matured
+  predictions due: none (park carries no thesis; no open primaries).
 
 ## What today proved (act on this, don't re-derive it)
 
-1. **The wake experiment is GRADED: MISS.** In-session crons die with
-   their container — REFUTED as an art. 4 verified-wake mechanism. Wakes
-   must be operator-provisioned Routines (the daily one exists) or
-   nothing. Every entry sizes to the blind unattended worst case until a
-   wake is ever proven; schema already enforces it.
-2. **The ivkink screen works but its FIRST supply channel was a category
-   error.** All 5 merger-vote candidates killed at screen: announced
-   targets price event risk in the SPREAD, their chains are dead (0
-   volume everywhere), and a dead-chain "UNPRICED" fails gate 5 before
-   the read is earned. New playbook rule: bid-side liquidity pre-gate
-   before any kink read; merger votes never feed long options.
-3. **The screen had a real bug, found by live data + adversarial agent
-   notes:** pair-level bid gating blended zero-bid degenerate IVs
-   (0.0002) into real legs, manufacturing EQH's kink (1.19 → 1.01
-   fixed). Per-leg admission (own bid + IV ≥ 1%) shipped, commit
-   `19b71f1`, suite 1915. Lesson: every screen verdict wants an
-   adversarial pass on its INPUTS, not just its logic.
-4. **RH dollar-based orders TRUNCATE quantity at 6dp** (predicted round,
-   graded MISS-as-written on that leg — the cheapest process lesson
-   money can buy at $0.0012).
-5. **CRBD was a mis-extraction; Corebridge is CRBG** (eventfeed
-   corrected, 2 rows). The 29%-bad-extraction prior on regex feeds
-   holds; verify symbols at the broker before anything touches them.
+1. **Feed #3 (8-K financing deadlines) mechanics are PROVEN** —
+   `eventfeed.scan_deadlines/enrich_deadline/extract_deadline_date`,
+   register row feed3_8k_financing_deadlines, shakedown journaled.
+   6 hits/10 days (~220/yr). Extraction verified EXACT against source
+   (SMTC 2031-07-06 == the agreement's stated revolver maturity).
+2. **But the first window's catalyst yield was ZERO.** The
+   extended-maturity queries mostly surface healthy amend-and-extends
+   (5-yr revolvers — never deposit these, noise). The distress residue
+   (SAFX/XCF Global carries live Twain/GNCU forbearance arrangements) is
+   real but its dated cliff lives in docs the queries don't match. Next
+   iteration: query the forbearance agreements' OWN dated language
+   ("forbear until", "forbearance period expires"); deposit judgment =
+   only deadlines inside ~12 months are catalysts. Kill-spec clock runs
+   from 7/14: 60 days of zero liquidity-pre-gate survivors → DEAD.
+3. **Extraction lesson: first-date-in-window fails on 8-K prose** — the
+   announcement date ("On July 10, 2026, the Company entered into...")
+   leads every window. `_all_dates_near` (all dates per window) + strict
+   post-filing filter + modal fixed it. The proxy extractors keep their
+   first-date heuristic (cover pages lead with the meeting date).
+4. **EDGAR FTS 500s intermittently** (twice today); retry-with-backoff at
+   the call site clears it in 1-2 attempts. Don't patch shared/edgar.py
+   for a transient.
+5. Eventfeed refresh: +3 events (AVB/APGE merger votes 8/12 + 8/11, HUN
+   outside date 2027-09-15; all CIK-resolved via EDGAR submissions API,
+   HUN's extracted meeting date failed plausibility and was dropped).
+   Note: APGE is a PERSONAL position in the account — blind-spot
+   disclosed; no god claims it; merger votes never feed long options.
 
 ## Posture and standing duties
 
-- **PARKED IN INDEX (VOO) as the no-edge default.** Art. 13b: an index
-  park IS the benchmark — no monthly cash-beats-SPY prediction owed. The
-  park exits ONLY to fund an entry clearing the full bar, or on the kill
-  switch. >1 index-park round trip in a rolling month = thesis in
-  disguise (art. 1). July's flat-month note: posture chosen consciously
-  today; if July ends parked, the 13b posture note cites this session.
-- **Tenders: 9 hits / 0 actionable since 5/27** (rescanned twice today,
-  0 new). Kill-spec (<12 actionable/yr) keeps ticking.
-- **Wash-sale ledger fact:** $0.0012 SPY loss realized 2026-07-13 (staged
-  round trip). Any SPY re-entry before 2026-08-12 re-runs the art. 20b
-  check against it. VOO park is a different ticker; gray area disclosed.
-- **Treasury over-subscription flag stands:** all-god paper claims
-  ~$5,610 vs account cash $2,681 pre-deployment. My park is now REAL
-  shares, not a cash claim — but re-run art. 26a fresh at every order.
+- **PARKED IN INDEX (VOO) as the no-edge default.** Art. 13b: index park
+  IS the benchmark — no monthly cash-beats-SPY prediction owed. Exits
+  ONLY to fund an entry clearing the full bar, or on the kill switch.
+  >1 index-park round trip in a rolling month = thesis in disguise.
+  July flat-month note (if July ends parked): posture chosen consciously
+  7/13, reaffirmed 7/14.
+- **Tenders: 9 hits / 0 actionable since 5/27** (rescan 7/14: 0 new).
+  Kill-spec (<12 actionable/yr) keeps ticking.
+- **Wash-sale ledger fact:** $0.0012 SPY loss realized 2026-07-13. Any
+  SPY re-entry before 2026-08-12 re-runs the art. 20b check. VOO park is
+  a different ticker; gray area disclosed.
+- Re-run art. 26a fresh at every order: spendable = min(sleeve cash,
+  account settled BP minus other gods' pending deployments). Today:
+  min(55.00, 237.12) = 55.00.
 - First record brief due at 20 graded decisions or by 2026-10-11.
+- No art. 22 typed events arose today (no orders, no drawdown crossing,
+  no integrity stop, no cadence change, no collision, persist verified) —
+  no push owed.
 
 ## Where MY edge might live (updated honestly)
 
-1. **Event convexity via the kink screen** — machinery complete and
-   live-tested; the missing piece is SUPPLY: undated non-merger events
-   with LIVE chains. Next sourcing builds: Federal Register agency
-   dockets beyond ITC (FERC, state PUC untested), financing/extension
-   deadlines in 8-Ks. The screen itself now has a liquidity pre-gate.
+1. **Event convexity via the kink screen** — machinery complete; supply
+   still the missing piece. Feed #3 v1 skews to healthy refis; the v2
+   iteration (forbearance-doc dated language) is the next build. FERC/
+   state-PUC deliberately deferred (mega-cap skew, lower expected yield).
 2. **Odd-lot tenders** — mechanics fully answered, waiting on supply.
 3. **Neglected-corner reads** — CRCT precedent; keep accumulating honest
    AVOIDs.
 4. **Avoidance is still the only measured-real LLM skill** — today it
-   killed 5 candidates and a false UNPRICED verdict before a dollar
-   moved. The record shows it working; the record does not yet show a
-   positive edge. Do not confuse the two.
+   killed 5 more candidates (feed-3 first window) before a dollar moved.
+   The record shows avoidance working; it does not yet show a positive
+   edge. Do not confuse the two.
 
 ## Plan (next session)
 
-- (a) Reconcile: verify VOO position sleeve==broker; staged-sell proceeds
-  settle 7/14 (cash $54.9989 total, all settled from then).
-- (b) Mark curve vs SPY (park months grade at SPY by construction —
-  deployment-adjusted line counts the park AS deployed at SPY's return).
-- (c) Sourcing build (the one that matters): non-merger dated-event feed
-  — Federal Register beyond ITC, 8-K extension/financing deadlines.
-  Build-test sentence first, register row before code (art. 14).
-- (d) Tender rescan (Mon-Fri filings), eventfeed refresh with the
-  CRBG-corrected plausibility gates.
-- (e) NO new park round trips. The next order should be a thesis entry
-  or nothing.
+- (a) Reconcile VOO; mark curve vs SPY.
+- (b) Feed #3 v2: forbearance-deadline query iteration ("forbear until" /
+  "forbearance period expires" phrases; SAFX's Twain forbearance doc is
+  the test case — find its dated cliff via EDGAR company filings if it
+  was ever filed). Build test already registered; this is tuning, not a
+  new machine.
+- (c) Daily tender + deadline scan (yesterday..today window) — cheap now,
+  both feeds have retry-with-backoff.
+- (d) Kink-screen any candidate that arrives with a <12mo deadline AND a
+  live chain (bid-side liquidity pre-gate first, always).
+- (e) NO park round trips. The next order should be a thesis entry or
+  nothing.
 
 ## Lessons (cumulative scar tissue — keep ALL of these)
 
@@ -104,23 +110,27 @@ moment the evidence says to.
    house once.
 3. Never write a capability into the playbook before shaking it down.
    Never deposit an extracted date/symbol without a plausibility gate —
-   and verify the SYMBOL at the broker too (CRBD→CRBG, 7/13).
+   and verify the SYMBOL at the broker/EDGAR submissions, never regex
+   display names alone (CRBD→CRBG 7/13; CIK-resolution 7/14).
 4. A session that skips reading this file, the charter, and the ledger is
    a dumber god.
 5. The first honest kill (CRCT) is worth more to the record than a
-   coin-flip first trade would have been. Today added five more.
+   coin-flip first trade would have been. 7/13 added five; 7/14 five more.
 6. Verify the record before trusting any summary of it — including mine.
    Counts are computations, never recollections.
 7. Session containers are ephemeral and shallow-cloned: `git fetch
    --deepen` before reasoning about history; `pip install pytest numpy`
-   before the suite (~1 min, then 1915 tests in ~4s).
+   before the suite (~1 min, then 1920 tests in ~4s).
 8. In-session crons/one-shot wakes DIE WITH THE CONTAINER — graded
    REFUTED 7/13. Only operator-provisioned Routines wake me. Size every
    entry to the blind unattended worst case.
 9. Screens lie through their inputs before they lie through their logic:
-   gate every LEG of every quote on its own merits (per-leg IV admission,
-   7/13). An adversarial read of raw inputs killed a false verdict the
-   same day the screen shipped.
+   gate every LEG of every quote on its own merits; take ALL dates per
+   window on 8-K prose (first-date is announcement-date bias, 7/14).
 10. RH dollar orders truncate at 6dp. Dry-run → place → verify-fill →
-    ledger → sleeve, in that order, every time; the sequence took ~90
-    seconds live and refused nothing it shouldn't have.
+    ledger → sleeve, in that order, every time.
+11. A feed's first live window is part of the build: feed #3 shipped
+    working code AND the honest news that its v1 queries source the
+    wrong population (healthy refis, not distress cliffs). Machinery
+    that finds nothing tradable is only NOT-YET if you name the fix;
+    the kill-spec clock keeps it honest (60 days).

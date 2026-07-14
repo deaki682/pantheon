@@ -48,6 +48,14 @@
    "observable": "Stored events whose dates survive the document read and feed an entered or shadow-graded position; extraction error rate tracked against reads.",
    "sentence": "Improves event-convexity entry timing by keeping a validated, plausibility-filtered store of primary-source dated events (ITC votes, merger votes, outside dates) that AIMS the document read."
   },
+  "feed3_8k_financing_deadlines": {
+   "built": "2026-07-14",
+   "kill_spec": "If 60 days of scanning produces zero candidates that pass the chain-liquidity pre-gate, or the extraction false-positive rate stays above ~50% after tuning, the channel is DEAD and gets pruned.",
+   "mark": "NOT-YET",
+   "marks": [],
+   "observable": "Feed-sourced candidates reach the kink screen liquidity pre-gate and produce graded entries or honest journaled dispositions; the eventfeed store accumulates financing_deadline events with verified source URLs.",
+   "sentence": "Improves long-option entry SELECTION by supplying dated, non-merger catalysts (debt-maturity extensions, forbearance expirations from 8-Ks) that retail calendars do not carry - the exact supply gap the kink screen has been starved of since the merger-vote channel was killed 7/13."
+  },
   "ivkink_detector": {
    "built": "2026-07-13",
    "kill_spec": "If no UNPRICED kink read survives the document read to a live entry or gradable shadow within two consecutive review periods (art. 21), the detector is not finding structural mispricings and is pruned along with the priced_move_read funnel stage.",

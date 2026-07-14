@@ -1,8 +1,8 @@
 {
- "updated": "2026-07-13",
+ "updated": "2026-07-14",
  "window": [
   "2026-05-27",
-  "2026-07-13"
+  "2026-07-14"
  ],
  "candidates": [
   {
@@ -231,6 +231,15 @@
    "hits": 0,
    "actionable": 0,
    "note": "weekend rescan pre-open Mon 7/13; 0 new tender filings (expected \u2014 EDGAR weekend). Cumulative: 9 hits / 0 actionable since 5/27."
+  },
+  {
+   "window": [
+    "2026-07-13",
+    "2026-07-14"
+   ],
+   "hits": 0,
+   "actionable": 0,
+   "note": "session 10 rescan (Mon 7/13 filings): 0 new tender hits (first try 500d, retry clean). Cumulative: 9 hits / 0 actionable since 5/27. Kill-spec (<12 actionable/yr) ticking."
   }
  ]
 }
