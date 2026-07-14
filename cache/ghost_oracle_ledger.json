@@ -3456,5 +3456,1449 @@
     "exit_date": "",
     "exit_price": 0.0,
     "graded_return": null
+  },
+  {
+    "symbol": "GSHD",
+    "entry_date": "2026-07-14",
+    "entry_price": 54.85,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.0,
+      "score": 0.39,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ALKT",
+    "entry_date": "2026-07-14",
+    "entry_price": 17.69,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": true,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.30151089687994337,
+      "score": 0.3652266345319915,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "EXE",
+    "entry_date": "2026-07-14",
+    "entry_price": 87.14,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.9979319088792817,
+      "score": 0.3496897863318923,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "TKO",
+    "entry_date": "2026-07-14",
+    "entry_price": 180.92,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.9463552393764999,
+      "score": 0.341953285906475,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CPRT",
+    "entry_date": "2026-07-14",
+    "entry_price": 27.45,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 1.0,
+      "score": 0.33999999999999997,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "HCI",
+    "entry_date": "2026-07-14",
+    "entry_price": 182.93,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.9932559194662813,
+      "score": 0.33898838791994224,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ROP",
+    "entry_date": "2026-07-14",
+    "entry_price": 360.65,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.988935246113002,
+      "score": 0.3383402869169503,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "PGR",
+    "entry_date": "2026-07-14",
+    "entry_price": 234.41,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.9533939551926277,
+      "score": 0.33300909327889416,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "GOOG",
+    "entry_date": "2026-07-14",
+    "entry_price": 350.6705,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.9516876420930981,
+      "score": 0.3327531463139647,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "GOOGL",
+    "entry_date": "2026-07-14",
+    "entry_price": 352.53,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.9516876420930981,
+      "score": 0.3327531463139647,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "MA",
+    "entry_date": "2026-07-14",
+    "entry_price": 537.76,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.9500584935014026,
+      "score": 0.3325087740252104,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "SPG",
+    "entry_date": "2026-07-14",
+    "entry_price": 219.61,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.8690110344719639,
+      "score": 0.33035165517079457,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "MCO",
+    "entry_date": "2026-07-14",
+    "entry_price": 496.02,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.9292287079404403,
+      "score": 0.32938430619106607,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "VRTX",
+    "entry_date": "2026-07-14",
+    "entry_price": 480.25,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.9087391576267874,
+      "score": 0.3263108736440181,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "FHN",
+    "entry_date": "2026-07-14",
+    "entry_price": 25.83,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.9029099701477582,
+      "score": 0.3254364955221637,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "COP",
+    "entry_date": "2026-07-14",
+    "entry_price": 112.855,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.8914067398357652,
+      "score": 0.3237110109753648,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "GPOR",
+    "entry_date": "2026-07-14",
+    "entry_price": 154.616,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.8899871558608365,
+      "score": 0.3234980733791255,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "META",
+    "entry_date": "2026-07-14",
+    "entry_price": 656.73,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.8897405181515472,
+      "score": 0.3234610777227321,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "NE",
+    "entry_date": "2026-07-14",
+    "entry_price": 41.82,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.8881487387345945,
+      "score": 0.32322231081018915,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "DVN",
+    "entry_date": "2026-07-14",
+    "entry_price": 43.72,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.8851588524580023,
+      "score": 0.32277382786870035,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AMT",
+    "entry_date": "2026-07-14",
+    "entry_price": 169.51,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.8692318354173473,
+      "score": 0.3203847753126021,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "KARD",
+    "entry_date": "2026-07-14",
+    "entry_price": 23.64,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": true,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.0,
+      "score": 0.32,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ALSN",
+    "entry_date": "2026-07-14",
+    "entry_price": 115.975,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.8604158493526872,
+      "score": 0.3190623774029031,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CSCO",
+    "entry_date": "2026-07-14",
+    "entry_price": 119.25,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.8486269839611669,
+      "score": 0.317294047594175,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "GL",
+    "entry_date": "2026-07-14",
+    "entry_price": 178.41,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.8411767537291378,
+      "score": 0.31617651305937067,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ABNB",
+    "entry_date": "2026-07-14",
+    "entry_price": 146.34,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.8364104204802875,
+      "score": 0.3154615630720431,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ZTS",
+    "entry_date": "2026-07-14",
+    "entry_price": 75.385,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.7517274304325998,
+      "score": 0.31275911456489,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ADSK",
+    "entry_date": "2026-07-14",
+    "entry_price": 212.27,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.75,
+      "score": 0.3125,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "UNP",
+    "entry_date": "2026-07-14",
+    "entry_price": 289.13,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.8080621002347989,
+      "score": 0.3112093150352198,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "NYT",
+    "entry_date": "2026-07-14",
+    "entry_price": 75.01,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.8045149987000499,
+      "score": 0.3106772498050075,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "BFH",
+    "entry_date": "2026-07-14",
+    "entry_price": 97.175,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.8,
+      "score": 0.31,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "JNJ",
+    "entry_date": "2026-07-14",
+    "entry_price": 257.82,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.7946101107004415,
+      "score": 0.3091915166050662,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AMRZ",
+    "entry_date": "2026-07-14",
+    "entry_price": 49.08,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.7273474487916166,
+      "score": 0.3091021173187425,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AMZN",
+    "entry_date": "2026-07-14",
+    "entry_price": 247.33,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.7874143994077365,
+      "score": 0.3081121599111605,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "QSR",
+    "entry_date": "2026-07-14",
+    "entry_price": 75.565,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.7780886617432691,
+      "score": 0.3067132992614904,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "FISV",
+    "entry_date": "2026-07-14",
+    "entry_price": 51.185,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.7035855970940605,
+      "score": 0.30553783956410907,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "VZ",
+    "entry_date": "2026-07-14",
+    "entry_price": 42.7025,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.7689366609756835,
+      "score": 0.30534049914635253,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "UBER",
+    "entry_date": "2026-07-14",
+    "entry_price": 74.28,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.7573211023572521,
+      "score": 0.3035981653535878,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ARLP",
+    "entry_date": "2026-07-14",
+    "entry_price": 24.67,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.7516583100115438,
+      "score": 0.30274874650173156,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "LPG",
+    "entry_date": "2026-07-14",
+    "entry_price": 40.14,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.75,
+      "score": 0.3025,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "TDW",
+    "entry_date": "2026-07-14",
+    "entry_price": 74.35,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.75,
+      "score": 0.3025,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AON",
+    "entry_date": "2026-07-14",
+    "entry_price": 367.33,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.7412473563424513,
+      "score": 0.3011871034513677,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "BMY",
+    "entry_date": "2026-07-14",
+    "entry_price": 59.365,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.7390067038140696,
+      "score": 0.3008510055721104,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CMCSA",
+    "entry_date": "2026-07-14",
+    "entry_price": 23.98,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.7367417617828482,
+      "score": 0.30051126426742725,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "BSX",
+    "entry_date": "2026-07-14",
+    "entry_price": 44.66,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.6693641015951882,
+      "score": 0.30040461523927825,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "SIRI",
+    "entry_date": "2026-07-14",
+    "entry_price": 30.67,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.7342600216906106,
+      "score": 0.30013900325359155,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "THC",
+    "entry_date": "2026-07-14",
+    "entry_price": 194.9,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.72472306468976,
+      "score": 0.298708459703464,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "LIVN",
+    "entry_date": "2026-07-14",
+    "entry_price": 82.97,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.7178019310634114,
+      "score": 0.2976702896595117,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "STZ",
+    "entry_date": "2026-07-14",
+    "entry_price": 134.52,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.7078174377039839,
+      "score": 0.2961726156555976,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "MSFT",
+    "entry_date": "2026-07-14",
+    "entry_price": 391.02,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.70494896266035,
+      "score": 0.2957423443990525,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ECL",
+    "entry_date": "2026-07-14",
+    "entry_price": 271.88,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.6363687674029611,
+      "score": 0.2954553151104442,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CCC",
+    "entry_date": "2026-07-14",
+    "entry_price": 6.24,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.7025130906171133,
+      "score": 0.295376963592567,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "UNH",
+    "entry_date": "2026-07-14",
+    "entry_price": 429.23,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.697779346401058,
+      "score": 0.2946669019601587,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "EXP",
+    "entry_date": "2026-07-14",
+    "entry_price": 205.07,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6966688655709137,
+      "score": 0.29450032983563706,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "UPS",
+    "entry_date": "2026-07-14",
+    "entry_price": 112.885,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6950889899555427,
+      "score": 0.2942633484933314,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "KVUE",
+    "entry_date": "2026-07-14",
+    "entry_price": 19.245,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6933687182857067,
+      "score": 0.294005307742856,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ELV",
+    "entry_date": "2026-07-14",
+    "entry_price": 425.22,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6901472075276549,
+      "score": 0.29352208112914824,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "TFX",
+    "entry_date": "2026-07-14",
+    "entry_price": 136.205,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6883527855844656,
+      "score": 0.2932529178376698,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "LW",
+    "entry_date": "2026-07-14",
+    "entry_price": 46.951,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6803464104088237,
+      "score": 0.29205196156132357,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CNC",
+    "entry_date": "2026-07-14",
+    "entry_price": 68.3,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6682851662445458,
+      "score": 0.2902427749366819,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AER",
+    "entry_date": "2026-07-14",
+    "entry_price": 149.1,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6666666666666666,
+      "score": 0.29,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "BHF",
+    "entry_date": "2026-07-14",
+    "entry_price": 66.6,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6666666666666666,
+      "score": 0.29,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "COF",
+    "entry_date": "2026-07-14",
+    "entry_price": 202.975,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6666666666666666,
+      "score": 0.29,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "SHC",
+    "entry_date": "2026-07-14",
+    "entry_price": 18.155,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.66176449310167,
+      "score": 0.28926467396525046,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CI",
+    "entry_date": "2026-07-14",
+    "entry_price": 304.49,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6594350069447001,
+      "score": 0.288915251041705,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CRM",
+    "entry_date": "2026-07-14",
+    "entry_price": 171.17,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6563763110063848,
+      "score": 0.2884564466509577,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "FERG",
+    "entry_date": "2026-07-14",
+    "entry_price": 233.22,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6513183844347086,
+      "score": 0.2876977576652063,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "KO",
+    "entry_date": "2026-07-14",
+    "entry_price": 84.27,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6490766097886385,
+      "score": 0.28736149146829576,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "WU",
+    "entry_date": "2026-07-14",
+    "entry_price": 7.865,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6418699792960663,
+      "score": 0.28628049689440993,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "HP",
+    "entry_date": "2026-07-14",
+    "entry_price": 33.975,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6256922223591364,
+      "score": 0.28385383335387043,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ABG",
+    "entry_date": "2026-07-14",
+    "entry_price": 210.74,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6241825300583735,
+      "score": 0.28362737950875605,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "KR",
+    "entry_date": "2026-07-14",
+    "entry_price": 59.33,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6230074793951594,
+      "score": 0.2834511219092739,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "FDX",
+    "entry_date": "2026-07-14",
+    "entry_price": 313.8,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6229307032596799,
+      "score": 0.283439605488952,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "DAL",
+    "entry_date": "2026-07-14",
+    "entry_price": 86.24,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6198976518496606,
+      "score": 0.2829846477774491,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "HRI",
+    "entry_date": "2026-07-14",
+    "entry_price": 148.31,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.6059603090159167,
+      "score": 0.2808940463523875,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "GRBK",
+    "entry_date": "2026-07-14",
+    "entry_price": 71.905,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.598178446354856,
+      "score": 0.2797267669532284,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
   }
 ]
