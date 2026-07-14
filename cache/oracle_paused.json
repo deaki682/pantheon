@@ -1,15 +1,7 @@
 {
- "paused": true,
- "until": null,
- "since": "2026-07-07",
- "reason": "SOURCING frozen pre-Stage-1-rebuild (operator directive 2026-07-07): the full read-cascade engine stays off (no sourcing, no credits) until the Sonnet-read cascade is armed AND the weekend all-models reset. BUT this is now a TEND-ONLY hold, not a full stop: the operator funded a bounded convex book (SEER/NNDM/FULC, ~$1,950 from treasury 2026-07-07) that IS live money with typed kill-promises. Every session must reconcile fills, mark, check each name's kill_condition and fire if triggered, and grade at horizon \u2014 but source/select NO new names until the freeze lifts. Legacy cohort (CXT/HDSN/J/PSN/VITL) stays FROZEN and HELD.",
- "resume_when": "Stage-1 Sonnet-read cascade built AND all-models credits reset (weekend) \u2014 lift the SOURCING freeze explicitly; tending continues regardless.",
- "mode": "tend_only",
- "live_book": {
-  "convex-2026-07-07": [
-   "SEER",
-   "NNDM",
-   "FULC"
-  ]
- }
+ "paused": false,
+ "lifted": "2026-07-14",
+ "lifted_by": "operator directive (relayed 2026-07-14)",
+ "history": "SOURCING freeze 2026-07-07 -> resume condition MET: the Stage-1 read-cascade was built, calibrated, and ran the full 3,154-name field 2026-07-10, producing the live 6-name upside book (round upside-2026-07-10-r1: TPC/KLIC/PAY/ZVRA/QTWO/LXU, $4,500 basis). The interim convex book (SEER/NNDM/FULC) was sold into that rotation. Legacy cohort (CXT/HDSN/J/PSN/VITL) stays FROZEN and HELD.",
+ "first_session_duty": "Rewrite cache/oracle_beliefs.md to reflect reality: the 07-06 'NOT launch-ready' text predates the cascade rebuild and the live 07-10 book. Reconcile fills, mark, check every typed kill_condition as usual."
 }
