@@ -134,3 +134,17 @@ moment the evidence says to.
     wrong population (healthy refis, not distress cliffs). Machinery
     that finds nothing tradable is only NOT-YET if you name the fix;
     the kill-spec clock keeps it honest (60 days).
+
+
+## OPERATOR SITUATION NOTE — the shared pool grew (2026-07-14)
+
+You already do this right (art. 26a: you read live broker BP, not sleeve
+cash — today min(55.00, 237.12)=55.00). Two updates for tomorrow: (1) the
+operator sold ~$930 of a personal holding (VXUS) at the 2026-07-14 close,
+queued for the 7/15 open — after it fills, account buying power rises from
+~$237 to ~$1,167. Re-run art. 26a fresh as always; the number just moved up.
+(2) The other gods (Oracle/Hermes/Plutus) now share your discipline —
+`shared.guards.spendable_buying_power(broker_bp)` is in their runbooks, so
+the shared pool is no longer something only you guard. The pool is still
+shared: your art. 26a "minus other gods' pending deployments" term matters
+more now that there is real cash for two gods to want at once.
