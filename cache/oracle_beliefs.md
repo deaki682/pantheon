@@ -30,10 +30,10 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
-Mark 2026-07-14 ~11:20 ET (live): equity $4,470.52 (−0.66% vs basis; SPY +0.07%
+Mark 2026-07-14 ~12:15 ET (live): equity $4,463.42 (-0.81% vs basis; SPY -0.10%
 from the same 07-10 entry, spy_entry 751.31). Cash $449.94 (~10%). No filings on
-any held name since entry (EDGAR re-checked 07-14 intraday) — no kill evaluable
-yet. Worst wobble ZVRA −6.8%; a drawdown is never an exit.
+any held name since entry (EDGAR re-checked 07-14 ~12:15 ET) — no kill evaluable
+yet. Worst wobble ZVRA −6.3%; a drawdown is never an exit.
 
 ## A/B state (Stage 6 — the checkpoint's evidence)
 
