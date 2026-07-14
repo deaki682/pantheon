@@ -4900,5 +4900,95 @@
     "exit_date": "",
     "exit_price": 0.0,
     "graded_return": null
+  },
+  {
+    "symbol": "SABR",
+    "entry_date": "2026-07-14",
+    "entry_price": 1.695,
+    "horizon_days": 548,
+    "source": "dossier",
+    "features": {
+      "conviction": null,
+      "potential_score": null,
+      "expected_cagr": null,
+      "asymmetry": null,
+      "sector": "Technology Services",
+      "inflection_type": "turnaround"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ACVA",
+    "entry_date": "2026-07-14",
+    "entry_price": 6.94,
+    "horizon_days": 548,
+    "source": "dossier",
+    "features": {
+      "conviction": null,
+      "potential_score": null,
+      "expected_cagr": null,
+      "asymmetry": null,
+      "sector": "Technology Services",
+      "inflection_type": "margin_turn"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CBZ",
+    "entry_date": "2026-07-14",
+    "entry_price": 40.18,
+    "horizon_days": 548,
+    "source": "dossier",
+    "features": {
+      "conviction": null,
+      "potential_score": null,
+      "expected_cagr": null,
+      "asymmetry": null,
+      "sector": "Commercial Services",
+      "inflection_type": "turnaround"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "EYE",
+    "entry_date": "2026-07-14",
+    "entry_price": 19.65,
+    "horizon_days": 548,
+    "source": "dossier",
+    "features": {
+      "conviction": null,
+      "potential_score": null,
+      "expected_cagr": null,
+      "asymmetry": null,
+      "sector": "Retail Trade",
+      "inflection_type": "turnaround"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "NCNO",
+    "entry_date": "2026-07-14",
+    "entry_price": 17.34,
+    "horizon_days": 548,
+    "source": "dossier",
+    "features": {
+      "conviction": null,
+      "potential_score": null,
+      "expected_cagr": null,
+      "asymmetry": null,
+      "sector": "Technology Services",
+      "inflection_type": "margin_turn"
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
   }
 ]
