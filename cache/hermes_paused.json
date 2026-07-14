@@ -6,5 +6,10 @@
  "first_session_duties_MANDATORY": [
   "1. BEFORE anything else: full broker reconcile - get_equity_orders + filter_orders_by_ledger, confirm sleeve==broker for all six deals (ALOT/APGE/RAMP/GBTG/TMHC/FSEA). Any mismatch: HALT, re-freeze this file, notify the operator.",
   "2. BEFORE any new entry or top-up: verify FSEA's deal terms from the primary filing (the over-deploying run's read was lost) - offer price, cash vs stock, expected close, and the break-stop re-derived. Until verified, FSEA is tend-only."
- ]
+ ],
+ "first_session_duties_completed": {
+  "date": "2026-07-14",
+  "1_reconcile": "DONE - broker==sleeve exact on all six (ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / TMHC 8 / FSEA 35); hermes_reconcile()==[]; no pending orders; the 07-07 incident's three unledgered buy order-ids (6a4d186d/6a4d1876/6a4d187e) appended to the ledger as documentation rows (no shares field - offset exactly by the ledgered trims)",
+  "2_fsea_verification": "DONE - PREM14A 2026-06-23 (d155500dprem14a.htm) verified: $17.25/share ALL-CASH, no CVR, acquirer Cambridge Financial Group ($6.92B assets)/Cambridge Savings Bank, definitive agreement 2026-05-04, NO financing condition, shareholder vote 2026-08-27, FRB waiver + bank merger applications filed, outside date 2027-04-30, $3.5M termination fee. Sleeve offer/expected_close/break-stop (16.95*0.85=14.41) all check out. FSEA released from tend-only."
+ }
 }

@@ -54,7 +54,7 @@
    "llm_rationale": "Unsolicited/hostile third-party tender (Zodiac Partners II / Camac Fund, $46M) NOT a negotiated definitive merger agreement -- DXL's board formally recommended stockholders REJECT it, and the offer carries a financing contingency (ABL facility + $10M sponsor equity, not fully committed cash on hand). The ~26% spread is the market pricing a high probability of failure, not an uncaptured arb -- 'fat spread on a shaky deal is a trap.' No board support, no contractual floor. Drop.",
    "break_risk": "high",
    "arm_a_live": false,
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "GBCS",
@@ -76,13 +76,15 @@
    "entry_price": 28.505,
    "offer_price": 29.0,
    "spy_entry": 750.99,
-   "expected_close": "2026-Q3 (outside date 2026-11-17)",
+   "expected_close": "2026-09-30",
    "spread": 0.0174,
    "llm_verdict": "keep",
    "llm_rationale": "Arcline (PE sponsor) definitive all-cash buyout, $272M EV, unanimous board approval, 209% premium to unaffected price -- strong signal no higher bid exists. NO financing condition (explicit in the merger agreement) removes the #2 break cause. Antitrust: Arcline is a financial sponsor, not a strategic competitor in aerospace/defense instrumentation or labeling/packaging -- low horizontal-overlap risk, though the reverse termination fee carve-out for antitrust-specific failure shows the parties contemplated *some* HSR risk (not zero, not high). Shareholder vote is the main open condition on a deal already this rich. Spread +1.74% over ~Q3 close (~3 months) is a real, uncaptured arb edge. Keep.",
    "break_risk": "low",
    "arm_a_live": true,
-   "resolved": false
+   "resolved": false,
+   "expected_close_original": "2026-Q3 (outside date 2026-11-17)",
+   "expected_close_note": "normalized to ISO best-estimate 2026-07-14 (audit 2026-07-10: non-ISO dates broke past-close semantics; held names use the sleeve's enter()-gated estimate)"
   },
   {
    "symbol": "APGE",
@@ -90,7 +92,7 @@
    "entry_price": 133.77,
    "offer_price": 135.11,
    "spy_entry": 751.31,
-   "expected_close": "Q3 2026",
+   "expected_close": "2026-09-30",
    "spread": 0.01,
    "llm_verdict": "keep",
    "llm_rationale": "AbbVie all-cash $135.11; unanimous boards, $381M reverse-termination fee; well-capitalized strategic, standard vote+HSR. Clean, ~6% annualized to Q3 close.",
@@ -100,7 +102,9 @@
    "read_effort": "high",
    "resolved": false,
    "entered": true,
-   "entered_date": "2026-07-07"
+   "entered_date": "2026-07-07",
+   "expected_close_original": "Q3 2026",
+   "expected_close_note": "normalized to ISO best-estimate 2026-07-14 (audit 2026-07-10: non-ISO dates broke past-close semantics; held names use the sleeve's enter()-gated estimate)"
   },
   {
    "symbol": "RAMP",
@@ -126,7 +130,7 @@
    "entry_price": 9.4,
    "offer_price": 9.5,
    "spy_entry": 751.31,
-   "expected_close": "2H 2026",
+   "expected_close": "2026-12-31",
    "spread": 0.0106,
    "llm_verdict": "keep",
    "llm_rationale": "Long Lake / General Catalyst PE go-private $9.50; ~69% of votes locked (Amex/Expedia/QIA/BlackRock) de-risks the shareholder vote; PE financing + antitrust the watch.",
@@ -136,7 +140,9 @@
    "read_effort": "high",
    "resolved": false,
    "entered": true,
-   "entered_date": "2026-07-07"
+   "entered_date": "2026-07-07",
+   "expected_close_original": "2H 2026",
+   "expected_close_note": "normalized to ISO best-estimate 2026-07-14 (audit 2026-07-10: non-ISO dates broke past-close semantics; held names use the sleeve's enter()-gated estimate)"
   },
   {
    "symbol": "TMHC",
@@ -144,7 +150,7 @@
    "entry_price": 71.78,
    "offer_price": 72.5,
    "spy_entry": 751.31,
-   "expected_close": "2H 2026",
+   "expected_close": "2026-08-31",
    "spread": 0.01,
    "llm_verdict": "keep",
    "llm_rationale": "Berkshire all-cash $72.50; ~nil financing risk, HSR only \u2014 cleanest break risk of the set. Limit priced so a fill only occurs at >=1% spread.",
@@ -152,7 +158,9 @@
    "arm_a_live": true,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": false,
+   "expected_close_original": "2H 2026",
+   "expected_close_note": "normalized to ISO best-estimate 2026-07-14 (audit 2026-07-10: non-ISO dates broke past-close semantics; held names use the sleeve's enter()-gated estimate)"
   },
   {
    "symbol": "LPRO",
@@ -160,7 +168,7 @@
    "entry_price": 3.11,
    "offer_price": 3.15,
    "spy_entry": 751.31,
-   "expected_close": "Q3 2026",
+   "expected_close": "2026-09-30",
    "spread": 0.0129,
    "llm_verdict": "keep",
    "llm_rationale": "ANV Group all-cash tender $3.15 (78% premium), board-approved; unfamiliar sponsor makes financing the watch. Limit priced to fill only at >=1% spread.",
@@ -169,7 +177,9 @@
    "read_model": "opus",
    "read_effort": "high",
    "resolved": false,
-   "note": "live order cancelled 0-filled \u2014 never held; corrected audit 2026-07-10"
+   "note": "live order cancelled 0-filled \u2014 never held; corrected audit 2026-07-10",
+   "expected_close_original": "Q3 2026",
+   "expected_close_note": "normalized to ISO best-estimate 2026-07-14 (audit 2026-07-10: non-ISO dates broke past-close semantics; held names use the sleeve's enter()-gated estimate)"
   },
   {
    "symbol": "NUVL",
@@ -201,7 +211,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "GRTX",
@@ -225,7 +235,7 @@
    "entry_price": 3.26,
    "offer_price": 4.0,
    "spy_entry": 747.05,
-   "expected_close": "2026-Q3 (outside date extended to 8/17 for a fee)",
+   "expected_close": "2026-08-17",
    "spread": 0.227,
    "llm_verdict": "drop",
    "llm_rationale": "Cash+CVR deal ($4.00) but acquirer Kuva Labs has no committed financing and already paid to extend deadlines twice; the 22.7% spread is the market pricing a break, not a gift.",
@@ -233,7 +243,9 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": false,
+   "expected_close_original": "2026-Q3 (outside date extended to 8/17 for a fee)",
+   "expected_close_note": "normalized to ISO best-estimate 2026-07-14 (audit 2026-07-10: non-ISO dates broke past-close semantics; held names use the sleeve's enter()-gated estimate)"
   },
   {
    "symbol": "IDXG",
@@ -249,7 +261,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "FSEA",
@@ -281,7 +293,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "ATER",
@@ -297,7 +309,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "MCHX",
@@ -313,7 +325,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "CPIX",
@@ -329,7 +341,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "AIRI",
@@ -345,7 +357,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "BRNS",
@@ -361,7 +373,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "SKYE",
@@ -377,7 +389,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "ANY",
@@ -393,7 +405,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "CCRN",
@@ -409,7 +421,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "TBRG",
@@ -425,7 +437,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "GORO",
@@ -441,7 +453,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "NFBK",
@@ -457,7 +469,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "STRS",
@@ -473,7 +485,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "BIRD",
@@ -489,8 +501,414 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
+   "resolved": true
+  },
+  {
+   "symbol": "HUN",
+   "detect_date": "2026-07-14",
+   "entry_price": 11.9,
+   "offer_price": 11.9,
+   "spy_entry": 750.34,
+   "expected_close": "2027-06-30",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "DEFM14A (2026-07-13) covers an all-STOCK merger of equals with Olin (0.5476 OLN per HUN share) forming OlinHuntsman, announced 2026-06-15; no cash consideration, no contractual dollar break-floor. Cash-only mandate disqualifies on structure. Close targeted H1 2027 with regulatory review still ahead. Drop.",
+   "break_risk": "med",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
+  },
+  {
+   "symbol": "ORGN",
+   "detect_date": "2026-07-14",
+   "entry_price": 0.0,
+   "offer_price": 0.0,
+   "spy_entry": 750.34,
+   "expected_close": "n/a",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "PREM14A is NOT an acquisition: board approved a plan of complete liquidation and dissolution 2026-05-01, estimated distribution a very wide $0.61-$3.54/share. Form 25 filed, delisted from Nasdaq effective 2026-07-02 (not tradable at our broker). No acquirer, no offer, no floor. Drop.",
+   "break_risk": "high",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": true
+  },
+  {
+   "symbol": "RMAX",
+   "detect_date": "2026-07-14",
+   "entry_price": 11.39,
+   "offer_price": 11.39,
+   "spy_entry": 750.34,
+   "expected_close": "2026-12-31",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "DEFM14A is a stock-AND-cash election with The Real Brokerage (Canadian): $13.80 cash election PRORATED to a $60-80M aggregate cap, so the marginal holder receives 5.154 REAX shares - a stock deal with a small cash sleeve, no contractual cash floor. Today's +7.5% move has no confirmed topping bid behind it (losing Party C's nominal $15 was partly stock); reads as vote/arb positioning into the ~Aug-14 special meeting. The 21% notional gap to $13.80 is a proration trap, not arb edge. Drop.",
+   "break_risk": "med",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
+  },
+  {
+   "symbol": "LPSN",
+   "detect_date": "2026-07-14",
+   "entry_price": 1.77,
+   "offer_price": 1.77,
+   "spy_entry": 750.34,
+   "expected_close": "2026-10-21",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "Whole-company buyout by SoundHound AI, but common holders receive SoundHound Class A STOCK (aggregate ~$42.8M, SOUN collared $7-12 VWAP); only TASE-cleared holders get cash (capped $7.5M). Bolted to a $260M+ secured-note-into-stock restructuring that is a closing condition - distress-flavored stock-for-stock whose payoff floats with SOUN. No cash floor, high break risk. Drop.",
+   "break_risk": "high",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
+  },
+  {
+   "symbol": "LEG",
+   "detect_date": "2026-07-14",
+   "entry_price": 10.655,
+   "offer_price": 10.655,
+   "spy_entry": 750.34,
+   "expected_close": "2026-12-31",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "DEFM14A is an all-STOCK merger with Somnigroup (0.1455 sh per LEG share, ~$2.5B, LEG holders ~9% of combined co); HSR waiting period already expired 2026-06-03 so regulatory risk is low, but pure stock - no cash consideration, no contractual dollar floor. Structure disqualifies for a cash-only book. Drop.",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
    "resolved": false
   }
  ],
- "graded": []
+ "graded": [
+  {
+   "symbol": "DXLG",
+   "detect_date": "2026-07-06",
+   "entry_price": 0.6517,
+   "offer_price": 0.82,
+   "spread": 0.2582,
+   "llm_verdict": "drop",
+   "break_risk": "high",
+   "arm_a_live": false,
+   "read_model": "unpinned_legacy",
+   "read_effort": "unpinned_legacy",
+   "exit_price": 0.62,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": -0.048642,
+   "spy_return": 0.001375,
+   "excess": -0.050017
+  },
+  {
+   "symbol": "GNK",
+   "detect_date": "2026-07-07",
+   "entry_price": 25.0,
+   "offer_price": 24.8,
+   "spread": -0.008,
+   "llm_verdict": "drop",
+   "break_risk": "high",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 25.36,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": 0.0144,
+   "spy_return": -0.001291,
+   "excess": 0.015691
+  },
+  {
+   "symbol": "IDXG",
+   "detect_date": "2026-07-07",
+   "entry_price": 1.65,
+   "offer_price": 1.65,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 1.51,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": -0.084848,
+   "spy_return": 0.004404,
+   "excess": -0.089252
+  },
+  {
+   "symbol": "ELSE",
+   "detect_date": "2026-07-07",
+   "entry_price": 7.69,
+   "offer_price": 7.75,
+   "spread": 0.0078,
+   "llm_verdict": "drop",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 7.69,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": 0.0,
+   "spy_return": 0.004404,
+   "excess": -0.004404
+  },
+  {
+   "symbol": "ATER",
+   "detect_date": "2026-07-07",
+   "entry_price": 1.4,
+   "offer_price": 1.4,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 1.2,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": -0.142857,
+   "spy_return": 0.004404,
+   "excess": -0.147261
+  },
+  {
+   "symbol": "MCHX",
+   "detect_date": "2026-07-07",
+   "entry_price": 1.78,
+   "offer_price": 1.78,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 1.69,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": -0.050562,
+   "spy_return": 0.004404,
+   "excess": -0.054966
+  },
+  {
+   "symbol": "CPIX",
+   "detect_date": "2026-07-07",
+   "entry_price": 6.22,
+   "offer_price": 6.22,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 6.495,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": 0.044212,
+   "spy_return": 0.004404,
+   "excess": 0.039808
+  },
+  {
+   "symbol": "AIRI",
+   "detect_date": "2026-07-07",
+   "entry_price": 3.01,
+   "offer_price": 3.01,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 2.665,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": -0.114618,
+   "spy_return": 0.004404,
+   "excess": -0.119022
+  },
+  {
+   "symbol": "BRNS",
+   "detect_date": "2026-07-07",
+   "entry_price": 0.6305,
+   "offer_price": 0.6305,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 0.616,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": -0.022998,
+   "spy_return": 0.004404,
+   "excess": -0.027402
+  },
+  {
+   "symbol": "SKYE",
+   "detect_date": "2026-07-07",
+   "entry_price": 0.71,
+   "offer_price": 0.71,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 0.6458,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": -0.090423,
+   "spy_return": 0.004404,
+   "excess": -0.094827
+  },
+  {
+   "symbol": "ANY",
+   "detect_date": "2026-07-07",
+   "entry_price": 2.52,
+   "offer_price": 2.52,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 1.86,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": -0.261905,
+   "spy_return": 0.004404,
+   "excess": -0.266309
+  },
+  {
+   "symbol": "CCRN",
+   "detect_date": "2026-07-07",
+   "entry_price": 13.21,
+   "offer_price": 13.25,
+   "spread": 0.003,
+   "llm_verdict": "drop",
+   "break_risk": "medium",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 13.225,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": 0.001136,
+   "spy_return": 0.004404,
+   "excess": -0.003268
+  },
+  {
+   "symbol": "GORO",
+   "detect_date": "2026-07-07",
+   "entry_price": 1.28,
+   "offer_price": 1.28,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 1.29,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": 0.007812,
+   "spy_return": 0.004404,
+   "excess": 0.003409
+  },
+  {
+   "symbol": "NFBK",
+   "detect_date": "2026-07-07",
+   "entry_price": 14.85,
+   "offer_price": 14.85,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 14.765,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": -0.005724,
+   "spy_return": 0.004404,
+   "excess": -0.010128
+  },
+  {
+   "symbol": "STRS",
+   "detect_date": "2026-07-07",
+   "entry_price": 27.85,
+   "offer_price": 27.85,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 20.545,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": -0.262298,
+   "spy_return": 0.004404,
+   "excess": -0.266702
+  },
+  {
+   "symbol": "BIRD",
+   "detect_date": "2026-07-07",
+   "entry_price": 3.7,
+   "offer_price": 3.7,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 2.88,
+   "exit_date": "2026-07-14",
+   "outcome": "paper_swept_past_close",
+   "net_return": -0.221622,
+   "spy_return": 0.004404,
+   "excess": -0.226026
+  },
+  {
+   "symbol": "ORGN",
+   "detect_date": "2026-07-14",
+   "entry_price": 0.0,
+   "offer_price": 0.0,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "high",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 0.0,
+   "exit_date": "2026-07-14",
+   "outcome": "not_a_deal_delisted_untradable",
+   "net_return": 0.0,
+   "spy_return": 0.0,
+   "excess": 0.0
+  },
+  {
+   "symbol": "TBRG",
+   "detect_date": "2026-07-07",
+   "entry_price": 26.24,
+   "offer_price": 26.25,
+   "spread": 0.0004,
+   "llm_verdict": "drop",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 26.25,
+   "exit_date": "2026-07-09",
+   "outcome": "completed",
+   "net_return": 0.000381,
+   "spy_return": 0.004404,
+   "excess": -0.004023,
+   "note": "IKS all-cash $26.25 deal closed 2026-07-09 (8-K Item 2.01 + Form 25-NSE verified); graded at the contractual offer"
+  }
+ ]
 }
