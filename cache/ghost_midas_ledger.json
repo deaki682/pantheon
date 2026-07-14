@@ -241,9 +241,9 @@
       "short_squeeze": false,
       "mean_timing_weighted": 1.0
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-14",
+    "exit_price": 9.86,
+    "graded_return": -0.028571428571428692
   },
   {
     "symbol": "WOLF",
@@ -267,9 +267,9 @@
       "short_squeeze": true,
       "mean_timing_weighted": 1.0
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-14",
+    "exit_price": 33.9301,
+    "graded_return": -0.19233277791002135
   },
   {
     "symbol": "VOR",
@@ -293,9 +293,9 @@
       "short_squeeze": true,
       "mean_timing_weighted": 0.6561
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-14",
+    "exit_price": 18.5,
+    "graded_return": -0.05055170644085194
   },
   {
     "symbol": "HTZ",
@@ -319,9 +319,9 @@
       "short_squeeze": false,
       "mean_timing_weighted": 0.5
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-14",
+    "exit_price": 1.83,
+    "graded_return": -0.13064133016627077
   },
   {
     "symbol": "CNXC",
@@ -345,9 +345,9 @@
       "short_squeeze": false,
       "mean_timing_weighted": 0.5
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-14",
+    "exit_price": 23.145,
+    "graded_return": -0.03237943936955201
   },
   {
     "symbol": "PRGS",
@@ -371,9 +371,9 @@
       "short_squeeze": false,
       "mean_timing_weighted": 0.8500000000000001
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-14",
+    "exit_price": 38.035,
+    "graded_return": 0.004357010826511631
   },
   {
     "symbol": "AVBC",
@@ -397,9 +397,9 @@
       "short_squeeze": false,
       "mean_timing_weighted": 0.7
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-14",
+    "exit_price": 20.43,
+    "graded_return": -0.02342256214149152
   },
   {
     "symbol": "NWFL",
@@ -423,9 +423,9 @@
       "short_squeeze": false,
       "mean_timing_weighted": 0.7
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-14",
+    "exit_price": 31.67,
+    "graded_return": -0.021624961383997388
   },
   {
     "symbol": "AERO",
@@ -449,8 +449,36 @@
       "short_squeeze": false,
       "mean_timing_weighted": 0.5
     },
-    "exit_date": "",
-    "exit_price": 0.0,
-    "graded_return": null
+    "exit_date": "2026-07-14",
+    "exit_price": 15.56,
+    "graded_return": -0.10057803468208093
+  },
+  {
+    "symbol": "ZBIO",
+    "entry_date": "2026-07-06",
+    "entry_price": 27.29,
+    "horizon_days": 5,
+    "source": "convergence",
+    "features": {
+      "score": 0.1510854716262451,
+      "score_legacy": 0.3258580722786388,
+      "convergence_count": 2,
+      "disqualified": false,
+      "live_pick": false,
+      "legacy_pick": true,
+      "reconstructed": true,
+      "reconstructed_note": "legacy_pick leg for week 2026-07-06 opened retroactively on 2026-07-14: skip_open deduped ZBIO on 07-06 (its 06-30 entry was still open). entry_price = the 07-06 mark recorded when the 06-30 entry graded that session.",
+      "insider_cluster": false,
+      "earnings_beat": false,
+      "smart_money": false,
+      "activist_13d": false,
+      "guidance_raised": false,
+      "volume_anomaly": true,
+      "short_squeeze": true,
+      "mean_timing_weighted": 0.7635000000000001
+    },
+    "exit_date": "2026-07-14",
+    "exit_price": 27.53,
+    "graded_return": 0.008794430194210445
   }
 ]
