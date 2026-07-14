@@ -1,504 +1,511 @@
 [
-  {
-    "cash": 1000.0,
-    "equity": 1000.0,
-    "note": "dry-run cycle \u2014 no orders placed, GRNT flagged illiquid",
-    "positions": 0,
-    "timestamp": "2026-06-28T02:12:01.691327"
+ {
+  "cash": 1000.0,
+  "equity": 1000.0,
+  "note": "dry-run cycle \u2014 no orders placed, GRNT flagged illiquid",
+  "positions": 0,
+  "timestamp": "2026-06-28T02:12:01.691327"
+ },
+ {
+  "cash": 1000.0,
+  "equity": 1000.0,
+  "note": "dry_run_pre_live",
+  "positions": 0,
+  "timestamp": "2026-06-28T02:27:26.630283"
+ },
+ {
+  "date": "2026-06-28T00:00:00",
+  "equity": 1000.0
+ },
+ {
+  "cash": 1000.0,
+  "equity": 1000.0,
+  "mode": "paper",
+  "n_positions": 0,
+  "ts": "2026-06-28T11:43:15.409949"
+ },
+ {
+  "cash": 1000.0,
+  "equity": 1000.0,
+  "n_positions": 0,
+  "ts": "2026-06-28T12:47:15.809849"
+ },
+ {
+  "cash": 99.55,
+  "equity": 1040.2949,
+  "n_positions": 3,
+  "note": "paper cycle \u2014 ESNT/MTG/RRC reconciled; VRRM/RLI/FIS/KBR/OLED/THC/WW/RRC targeted but not placed (paper mode)",
+  "positions": {
+   "ESNT": {
+    "price": 63.94,
+    "shares": 5.023451
+   },
+   "MTG": {
+    "price": 27.845,
+    "shares": 11.273999
+   },
+   "RRC": {
+    "price": 37.37,
+    "shares": 8.178242
+   }
   },
-  {
-    "cash": 1000.0,
-    "equity": 1000.0,
-    "note": "dry_run_pre_live",
-    "positions": 0,
-    "timestamp": "2026-06-28T02:27:26.630283"
+  "ts": "2026-06-28T13:25:11.793928"
+ },
+ {
+  "cash": 99.55,
+  "equity": 1040.2949,
+  "n_positions": 3,
+  "note": "paper cycle \u2014 ADSK/AMT/EQPT/META/OLED/RLI/ZTS/GOOG targeted but not placed (paper mode, pre-trade check halt)",
+  "positions": {
+   "ESNT": {
+    "price": 63.94,
+    "shares": 5.023451
+   },
+   "MTG": {
+    "price": 27.845,
+    "shares": 11.273999
+   },
+   "RRC": {
+    "price": 37.37,
+    "shares": 8.178242
+   }
   },
-  {
-    "date": "2026-06-28T00:00:00",
-    "equity": 1000.0
+  "ts": "2026-06-28T23:03:41.463544"
+ },
+ {
+  "equity": 1040.2948626349998,
+  "ts": "2026-06-28T23:42:05.787277+00:00"
+ },
+ {
+  "cash": 99.55000000000013,
+  "equity": 999.5500000000002,
+  "n_positions": 8,
+  "note": "paper cycle \u2014 EQPT/OLED/RLI/NYT/MTDR/BFH/ALSN/IBP positions opened (paper mode)",
+  "positions": {
+   "ALSN": {
+    "price": 119.84,
+    "shares": 0.9387516688918558
+   },
+   "BFH": {
+    "price": 106.27,
+    "shares": 1.0586242589630188
+   },
+   "EQPT": {
+    "price": 20.47,
+    "shares": 5.495847581827064
+   },
+   "IBP": {
+    "price": 233.4,
+    "shares": 0.4820051413881748
+   },
+   "MTDR": {
+    "price": 49.905,
+    "shares": 2.254283137962128
+   },
+   "NYT": {
+    "price": 70.75,
+    "shares": 1.5901060070671378
+   },
+   "OLED": {
+    "price": 87.05,
+    "shares": 1.2923607122343481
+   },
+   "RLI": {
+    "price": 57.51,
+    "shares": 1.9561815336463224
+   }
   },
-  {
-    "cash": 1000.0,
-    "equity": 1000.0,
-    "mode": "paper",
-    "n_positions": 0,
-    "ts": "2026-06-28T11:43:15.409949"
+  "ts": "2026-06-28T23:53:33.393798+00:00"
+ },
+ {
+  "cash": 51.14776535714287,
+  "equity": 999.1884796428573,
+  "n_positions": 8,
+  "note": "paper cycle \u2014 MRP/KBR/JKHY bought; ALSN/BFH/IBP sold (paper mode, pre-trade check halt as expected)",
+  "positions": {
+   "EQPT": {
+    "price": 20.47,
+    "shares": 5.495847581827064
+   },
+   "JKHY": {
+    "price": 134.96,
+    "shares": 0.9522345245152004
+   },
+   "KBR": {
+    "price": 33.36,
+    "shares": 3.852325282631039
+   },
+   "MRP": {
+    "price": 30.906,
+    "shares": 4.158207837590482
+   },
+   "MTDR": {
+    "price": 49.905,
+    "shares": 2.254283137962128
+   },
+   "NYT": {
+    "price": 70.75,
+    "shares": 1.5901060070671378
+   },
+   "OLED": {
+    "price": 87.05,
+    "shares": 1.2923607122343481
+   },
+   "RLI": {
+    "price": 57.51,
+    "shares": 1.9561815336463224
+   }
   },
-  {
-    "cash": 1000.0,
-    "equity": 1000.0,
-    "n_positions": 0,
-    "ts": "2026-06-28T12:47:15.809849"
+  "ts": "2026-06-29T00:57:02.944603+00:00"
+ },
+ {
+  "cash": 51.14776535714287,
+  "equity": 999.8552588608416,
+  "n_positions": 8,
+  "note": "paper cycle \u2014 no orders, all positions within rebalance band",
+  "positions": {
+   "EQPT": {
+    "price": 20.48,
+    "shares": 5.495847581827064
+   },
+   "JKHY": {
+    "price": 135.0,
+    "shares": 0.9522345245152004
+   },
+   "KBR": {
+    "price": 33.37,
+    "shares": 3.852325282631039
+   },
+   "MRP": {
+    "price": 30.93,
+    "shares": 4.158207837590482
+   },
+   "MTDR": {
+    "price": 49.9,
+    "shares": 2.254283137962128
+   },
+   "NYT": {
+    "price": 70.88,
+    "shares": 1.5901060070671378
+   },
+   "OLED": {
+    "price": 87.16,
+    "shares": 1.2923607122343481
+   },
+   "RLI": {
+    "price": 57.56,
+    "shares": 1.9561815336463224
+   }
   },
-  {
-    "cash": 99.55,
-    "equity": 1040.2949,
-    "n_positions": 3,
-    "note": "paper cycle \u2014 ESNT/MTG/RRC reconciled; VRRM/RLI/FIS/KBR/OLED/THC/WW/RRC targeted but not placed (paper mode)",
-    "positions": {
-      "ESNT": {
-        "price": 63.94,
-        "shares": 5.023451
-      },
-      "MTG": {
-        "price": 27.845,
-        "shares": 11.273999
-      },
-      "RRC": {
-        "price": 37.37,
-        "shares": 8.178242
-      }
-    },
-    "ts": "2026-06-28T13:25:11.793928"
+  "ts": "2026-06-29T02:17:50.524000+00:00"
+ },
+ {
+  "cash": 1000.0,
+  "equity": 1000.0,
+  "n_positions": 0,
+  "note": "paper cycle \u2014 PAPER MODE, no orders placed",
+  "positions": {},
+  "ts": "2026-06-29T03:37:04.971396+00:00"
+ },
+ {
+  "cash": 99.55219779835002,
+  "equity": 999.52401718035,
+  "n_positions": 8,
+  "note": "oracle cycle: 8 buy orders queued (VITL/PSN/HDSN/CXT/J/MRP/ACM/EQPT)",
+  "positions": {
+   "ACM": {
+    "avg_price": 71.16,
+    "shares": 1.68634
+   },
+   "CXT": {
+    "avg_price": 48.64,
+    "shares": 2.4671
+   },
+   "EQPT": {
+    "avg_price": 20.75,
+    "shares": 2.89156
+   },
+   "HDSN": {
+    "avg_price": 5.56,
+    "shares": 21.58273
+   },
+   "J": {
+    "avg_price": 125.69,
+    "shares": 0.95472
+   },
+   "MRP": {
+    "avg_price": 30.93,
+    "shares": 3.87972
+   },
+   "PSN": {
+    "avg_price": 50.94,
+    "shares": 2.35571
+   },
+   "VITL": {
+    "avg_price": 11.03,
+    "shares": 10.87941
+   }
   },
-  {
-    "cash": 99.55,
-    "equity": 1040.2949,
-    "n_positions": 3,
-    "note": "paper cycle \u2014 ADSK/AMT/EQPT/META/OLED/RLI/ZTS/GOOG targeted but not placed (paper mode, pre-trade check halt)",
-    "positions": {
-      "ESNT": {
-        "price": 63.94,
-        "shares": 5.023451
-      },
-      "MTG": {
-        "price": 27.845,
-        "shares": 11.273999
-      },
-      "RRC": {
-        "price": 37.37,
-        "shares": 8.178242
-      }
-    },
-    "ts": "2026-06-28T23:03:41.463544"
+  "ts": "2026-06-29T04:11:59.038408+00:00"
+ },
+ {
+  "allocation": 1000.0,
+  "attribution": {
+   "reason": "0 common dates, need 7",
+   "skipped": true
   },
-  {
-    "equity": 1040.2948626349998,
-    "ts": "2026-06-28T23:42:05.787277+00:00"
+  "cash": 99.55219779835002,
+  "equity": 999.52401718035,
+  "n_positions": 8,
+  "note": "oracle cycle: no new orders (all positions within rebalance band; 8 buy orders still queued)",
+  "positions": {
+   "ACM": {
+    "price": 71.01,
+    "shares": 1.68634
+   },
+   "CXT": {
+    "price": 48.65,
+    "shares": 2.4671
+   },
+   "EQPT": {
+    "price": 20.47,
+    "shares": 2.89156
+   },
+   "HDSN": {
+    "price": 5.535,
+    "shares": 21.58273
+   },
+   "J": {
+    "price": 125.665,
+    "shares": 0.95472
+   },
+   "MRP": {
+    "price": 30.9056,
+    "shares": 3.87972
+   },
+   "PSN": {
+    "price": 50.91,
+    "shares": 2.35571
+   },
+   "VITL": {
+    "price": 11.19,
+    "shares": 10.87941
+   }
   },
-  {
-    "cash": 99.55000000000013,
-    "equity": 999.5500000000002,
-    "n_positions": 8,
-    "note": "paper cycle \u2014 EQPT/OLED/RLI/NYT/MTDR/BFH/ALSN/IBP positions opened (paper mode)",
-    "positions": {
-      "ALSN": {
-        "price": 119.84,
-        "shares": 0.9387516688918558
-      },
-      "BFH": {
-        "price": 106.27,
-        "shares": 1.0586242589630188
-      },
-      "EQPT": {
-        "price": 20.47,
-        "shares": 5.495847581827064
-      },
-      "IBP": {
-        "price": 233.4,
-        "shares": 0.4820051413881748
-      },
-      "MTDR": {
-        "price": 49.905,
-        "shares": 2.254283137962128
-      },
-      "NYT": {
-        "price": 70.75,
-        "shares": 1.5901060070671378
-      },
-      "OLED": {
-        "price": 87.05,
-        "shares": 1.2923607122343481
-      },
-      "RLI": {
-        "price": 57.51,
-        "shares": 1.9561815336463224
-      }
-    },
-    "ts": "2026-06-28T23:53:33.393798+00:00"
+  "ts": "2026-06-29T04:21:43.652394+00:00"
+ },
+ {
+  "allocation": 1000.0,
+  "attribution": {
+   "reason": "no historicals for MTUM \u2014 only 2 days equity curve",
+   "skipped": true
   },
-  {
-    "cash": 51.14776535714287,
-    "equity": 999.1884796428573,
-    "n_positions": 8,
-    "note": "paper cycle \u2014 MRP/KBR/JKHY bought; ALSN/BFH/IBP sold (paper mode, pre-trade check halt as expected)",
-    "positions": {
-      "EQPT": {
-        "price": 20.47,
-        "shares": 5.495847581827064
-      },
-      "JKHY": {
-        "price": 134.96,
-        "shares": 0.9522345245152004
-      },
-      "KBR": {
-        "price": 33.36,
-        "shares": 3.852325282631039
-      },
-      "MRP": {
-        "price": 30.906,
-        "shares": 4.158207837590482
-      },
-      "MTDR": {
-        "price": 49.905,
-        "shares": 2.254283137962128
-      },
-      "NYT": {
-        "price": 70.75,
-        "shares": 1.5901060070671378
-      },
-      "OLED": {
-        "price": 87.05,
-        "shares": 1.2923607122343481
-      },
-      "RLI": {
-        "price": 57.51,
-        "shares": 1.9561815336463224
-      }
-    },
-    "ts": "2026-06-29T00:57:02.944603+00:00"
+  "cash": 54.46955484190002,
+  "equity": 1001.2681766419,
+  "n_positions": 8,
+  "note": "oracle cycle: cancelled ACM+EQPT pending buys (scored out of top-8); opened INFU+VTSI (new top-8 entries). 8 positions total. attribution skipped: <7 common date bars",
+  "positions": {
+   "CXT": {
+    "price": 48.64,
+    "shares": 2.4671
+   },
+   "HDSN": {
+    "price": 5.56,
+    "shares": 21.58273
+   },
+   "INFU": {
+    "price": 10.05,
+    "shares": 11.19701
+   },
+   "J": {
+    "price": 125.69,
+    "shares": 0.95472
+   },
+   "MRP": {
+    "price": 30.93,
+    "shares": 3.87972
+   },
+   "PSN": {
+    "price": 50.94,
+    "shares": 2.35571
+   },
+   "VITL": {
+    "price": 11.19,
+    "shares": 10.87941
+   },
+   "VTSI": {
+    "price": 3.27,
+    "shares": 34.41284
+   }
   },
-  {
-    "cash": 51.14776535714287,
-    "equity": 999.8552588608416,
-    "n_positions": 8,
-    "note": "paper cycle \u2014 no orders, all positions within rebalance band",
-    "positions": {
-      "EQPT": {
-        "price": 20.48,
-        "shares": 5.495847581827064
-      },
-      "JKHY": {
-        "price": 135.0,
-        "shares": 0.9522345245152004
-      },
-      "KBR": {
-        "price": 33.37,
-        "shares": 3.852325282631039
-      },
-      "MRP": {
-        "price": 30.93,
-        "shares": 4.158207837590482
-      },
-      "MTDR": {
-        "price": 49.9,
-        "shares": 2.254283137962128
-      },
-      "NYT": {
-        "price": 70.88,
-        "shares": 1.5901060070671378
-      },
-      "OLED": {
-        "price": 87.16,
-        "shares": 1.2923607122343481
-      },
-      "RLI": {
-        "price": 57.56,
-        "shares": 1.9561815336463224
-      }
-    },
-    "ts": "2026-06-29T02:17:50.524000+00:00"
+  "ts": "2026-06-29T07:01:23.800686+00:00"
+ },
+ {
+  "allocation": 1000.0,
+  "attribution": {
+   "reason": "cohort day 0, no common dates yet",
+   "skipped": true
   },
-  {
-    "cash": 1000.0,
-    "equity": 1000.0,
-    "n_positions": 0,
-    "note": "paper cycle \u2014 PAPER MODE, no orders placed",
-    "positions": {},
-    "ts": "2026-06-29T03:37:04.971396+00:00"
+  "cash": 99.55000000000013,
+  "equity": 999.5500000000002,
+  "n_positions": 8,
+  "note": "oracle cycle: cohort-2026-06-29 opened. 8 buys queued (VITL/INFU/PSN/HDSN/VTSI/CXT/J/MRP). attribution skipped: cohort day 0.",
+  "positions": {
+   "CXT": {
+    "price": 48.65,
+    "shares": 2.31244
+   },
+   "HDSN": {
+    "price": 5.535,
+    "shares": 20.3252
+   },
+   "INFU": {
+    "price": 9.97,
+    "shares": 11.28385
+   },
+   "J": {
+    "price": 125.665,
+    "shares": 0.89524
+   },
+   "MRP": {
+    "price": 30.906,
+    "shares": 3.64007
+   },
+   "PSN": {
+    "price": 50.91,
+    "shares": 2.20978
+   },
+   "VITL": {
+    "price": 11.19,
+    "shares": 10.05362
+   },
+   "VTSI": {
+    "price": 3.24,
+    "shares": 34.72222
+   }
   },
-  {
-    "cash": 99.55219779835002,
-    "equity": 999.52401718035,
-    "n_positions": 8,
-    "note": "oracle cycle: 8 buy orders queued (VITL/PSN/HDSN/CXT/J/MRP/ACM/EQPT)",
-    "positions": {
-      "ACM": {
-        "avg_price": 71.16,
-        "shares": 1.68634
-      },
-      "CXT": {
-        "avg_price": 48.64,
-        "shares": 2.4671
-      },
-      "EQPT": {
-        "avg_price": 20.75,
-        "shares": 2.89156
-      },
-      "HDSN": {
-        "avg_price": 5.56,
-        "shares": 21.58273
-      },
-      "J": {
-        "avg_price": 125.69,
-        "shares": 0.95472
-      },
-      "MRP": {
-        "avg_price": 30.93,
-        "shares": 3.87972
-      },
-      "PSN": {
-        "avg_price": 50.94,
-        "shares": 2.35571
-      },
-      "VITL": {
-        "avg_price": 11.03,
-        "shares": 10.87941
-      }
-    },
-    "ts": "2026-06-29T04:11:59.038408+00:00"
+  "ts": "2026-06-29T08:40:02.015154Z"
+ },
+ {
+  "allocation": 1000.0,
+  "attribution": {
+   "reason": "1 common dates, need 7",
+   "skipped": true
   },
-  {
-    "allocation": 1000.0,
-    "attribution": {
-      "reason": "0 common dates, need 7",
-      "skipped": true
-    },
-    "cash": 99.55219779835002,
-    "equity": 999.52401718035,
-    "n_positions": 8,
-    "note": "oracle cycle: no new orders (all positions within rebalance band; 8 buy orders still queued)",
-    "positions": {
-      "ACM": {
-        "price": 71.01,
-        "shares": 1.68634
-      },
-      "CXT": {
-        "price": 48.65,
-        "shares": 2.4671
-      },
-      "EQPT": {
-        "price": 20.47,
-        "shares": 2.89156
-      },
-      "HDSN": {
-        "price": 5.535,
-        "shares": 21.58273
-      },
-      "J": {
-        "price": 125.665,
-        "shares": 0.95472
-      },
-      "MRP": {
-        "price": 30.9056,
-        "shares": 3.87972
-      },
-      "PSN": {
-        "price": 50.91,
-        "shares": 2.35571
-      },
-      "VITL": {
-        "price": 11.19,
-        "shares": 10.87941
-      }
-    },
-    "ts": "2026-06-29T04:21:43.652394+00:00"
+  "cash": 1099.55,
+  "date": "2026-06-30",
+  "equity": 1999.3665,
+  "n_positions": 5,
+  "note": "oracle cycle: cohort-2026-06-29 held. no thesis-breaks. no trades. attribution skipped (<7 common dates).",
+  "positions": {
+   "CXT": {
+    "price": 49.14,
+    "shares": 3.714865
+   },
+   "HDSN": {
+    "price": 5.48,
+    "shares": 32.200357
+   },
+   "J": {
+    "price": 123.81,
+    "shares": 1.42387
+   },
+   "PSN": {
+    "price": 51.32,
+    "shares": 3.557815
+   },
+   "VITL": {
+    "price": 11.3,
+    "shares": 16.100322
+   }
   },
-  {
-    "allocation": 1000.0,
-    "attribution": {
-      "reason": "no historicals for MTUM \u2014 only 2 days equity curve",
-      "skipped": true
-    },
-    "cash": 54.46955484190002,
-    "equity": 1001.2681766419,
-    "n_positions": 8,
-    "note": "oracle cycle: cancelled ACM+EQPT pending buys (scored out of top-8); opened INFU+VTSI (new top-8 entries). 8 positions total. attribution skipped: <7 common date bars",
-    "positions": {
-      "CXT": {
-        "price": 48.64,
-        "shares": 2.4671
-      },
-      "HDSN": {
-        "price": 5.56,
-        "shares": 21.58273
-      },
-      "INFU": {
-        "price": 10.05,
-        "shares": 11.19701
-      },
-      "J": {
-        "price": 125.69,
-        "shares": 0.95472
-      },
-      "MRP": {
-        "price": 30.93,
-        "shares": 3.87972
-      },
-      "PSN": {
-        "price": 50.94,
-        "shares": 2.35571
-      },
-      "VITL": {
-        "price": 11.19,
-        "shares": 10.87941
-      },
-      "VTSI": {
-        "price": 3.27,
-        "shares": 34.41284
-      }
-    },
-    "ts": "2026-06-29T07:01:23.800686+00:00"
+  "ts": "2026-06-30T06:18:11.961359Z"
+ },
+ {
+  "allocation": 1000.0,
+  "attribution": {
+   "reason": "cohort day 1, need 6+ common return dates",
+   "skipped": true
   },
-  {
-    "allocation": 1000.0,
-    "attribution": {
-      "reason": "cohort day 0, no common dates yet",
-      "skipped": true
-    },
-    "cash": 99.55000000000013,
-    "equity": 999.5500000000002,
-    "n_positions": 8,
-    "note": "oracle cycle: cohort-2026-06-29 opened. 8 buys queued (VITL/INFU/PSN/HDSN/VTSI/CXT/J/MRP). attribution skipped: cohort day 0.",
-    "positions": {
-      "CXT": {
-        "price": 48.65,
-        "shares": 2.31244
-      },
-      "HDSN": {
-        "price": 5.535,
-        "shares": 20.3252
-      },
-      "INFU": {
-        "price": 9.97,
-        "shares": 11.28385
-      },
-      "J": {
-        "price": 125.665,
-        "shares": 0.89524
-      },
-      "MRP": {
-        "price": 30.906,
-        "shares": 3.64007
-      },
-      "PSN": {
-        "price": 50.91,
-        "shares": 2.20978
-      },
-      "VITL": {
-        "price": 11.19,
-        "shares": 10.05362
-      },
-      "VTSI": {
-        "price": 3.24,
-        "shares": 34.72222
-      }
-    },
-    "ts": "2026-06-29T08:40:02.015154Z"
+  "cash": 199.4814,
+  "date": "2026-06-30",
+  "equity": 1999.3322,
+  "n_positions": 5,
+  "note": "oracle cycle: cohort-2026-06-29 held, no thesis-breaks. top-up buys queued for HDSN/CXT/VITL/J/PSN ($899.61 total). attribution skipped (<6 common dates with factor ETFs).",
+  "positions": {
+   "CXT": {
+    "price": 49.14,
+    "shares": 7.323735
+   },
+   "HDSN": {
+    "price": 5.48,
+    "shares": 65.672977
+   },
+   "J": {
+    "price": 123.81,
+    "shares": 2.90678
+   },
+   "PSN": {
+    "price": 51.32,
+    "shares": 7.0207049999999995
+   },
+   "VITL": {
+    "price": 11.3,
+    "shares": 31.848101999999997
+   }
   },
-  {
-    "allocation": 1000.0,
-    "attribution": {
-      "reason": "1 common dates, need 7",
-      "skipped": true
-    },
-    "cash": 1099.55,
-    "date": "2026-06-30",
-    "equity": 1999.3665,
-    "n_positions": 5,
-    "note": "oracle cycle: cohort-2026-06-29 held. no thesis-breaks. no trades. attribution skipped (<7 common dates).",
-    "positions": {
-      "CXT": {
-        "price": 49.14,
-        "shares": 3.714865
-      },
-      "HDSN": {
-        "price": 5.48,
-        "shares": 32.200357
-      },
-      "J": {
-        "price": 123.81,
-        "shares": 1.42387
-      },
-      "PSN": {
-        "price": 51.32,
-        "shares": 3.557815
-      },
-      "VITL": {
-        "price": 11.3,
-        "shares": 16.100322
-      }
-    },
-    "ts": "2026-06-30T06:18:11.961359Z"
-  },
-  {
-    "allocation": 1000.0,
-    "attribution": {
-      "reason": "cohort day 1, need 6+ common return dates",
-      "skipped": true
-    },
-    "cash": 199.4814,
-    "date": "2026-06-30",
-    "equity": 1999.3322,
-    "n_positions": 5,
-    "note": "oracle cycle: cohort-2026-06-29 held, no thesis-breaks. top-up buys queued for HDSN/CXT/VITL/J/PSN ($899.61 total). attribution skipped (<6 common dates with factor ETFs).",
-    "positions": {
-      "CXT": {
-        "price": 49.14,
-        "shares": 7.323735
-      },
-      "HDSN": {
-        "price": 5.48,
-        "shares": 65.672977
-      },
-      "J": {
-        "price": 123.81,
-        "shares": 2.90678
-      },
-      "PSN": {
-        "price": 51.32,
-        "shares": 7.0207049999999995
-      },
-      "VITL": {
-        "price": 11.3,
-        "shares": 31.848101999999997
-      }
-    },
-    "ts": "2026-06-30T06:42:14.401430Z"
-  },
-  {
-    "date": "2026-06-30",
-    "equity": 1997.026,
-    "intraday": true,
-    "ts": "2026-06-30T14:17:40Z"
-  },
-  {
-    "cash": 199.4813921007501,
-    "equity": 2045.1098950557503,
-    "mode": "live",
-    "n_positions": 5,
-    "note": "cohort_hold_no_trades",
-    "ts": "2026-07-01T03:15:31.198940+00:00"
-  },
-  {
-    "cash": 199.4813921007501,
-    "date": "2026-07-04",
-    "equity": 2139.36743584575,
-    "mode": "live",
-    "n_positions": 5,
-    "note": "oracle cycle: cohort-2026-06-29 held, no thesis-breaks (all 5 positions up from entry, largest drawdown 0%). no excess cash for top-up (cash $199.48 < 10% floor $213.94 + $50 ticket). research pass: dossier pool at 93 (target 60-100), no stale dossiers (0 flagged), added candidates from screen. attribution skipped: insufficient equity-curve history (2 daily dates, need 6+). capital gate: 3 graded calls (need 30) -- stays at base allocation.",
-    "ts": "2026-07-04T04:14:30.752608+00:00"
-  },
-  {
-    "date": "2026-07-07",
-    "timestamp": "2026-07-07T14:17:00Z",
-    "equity": 4089.75,
-    "spy": 746.95,
-    "cash": 2227.63,
-    "peak_equity": 4089.75,
-    "note": "tend-only: reconciled SEER/NNDM/FULC broker fills into sleeve; kill_conditions checked (no bid withdrawal, no value-destructive M&A, no dilutive reverse merger found) \u2014 none triggered"
-  },
-  {
-    "timestamp": "2026-07-07T15:12:00Z",
-    "equity": 4107.73,
-    "cash": 2227.626744999999,
-    "positions_value": 1880.1
-  },
-  {
-    "timestamp": "2026-07-07T21:15:00Z",
-    "equity": 4117.66,
-    "cash": 2227.626744999999,
-    "positions_value": 1890.035,
-    "note": "zeus tend-only pass"
-  }
+  "ts": "2026-06-30T06:42:14.401430Z"
+ },
+ {
+  "date": "2026-06-30",
+  "equity": 1997.026,
+  "intraday": true,
+  "ts": "2026-06-30T14:17:40Z"
+ },
+ {
+  "cash": 199.4813921007501,
+  "equity": 2045.1098950557503,
+  "mode": "live",
+  "n_positions": 5,
+  "note": "cohort_hold_no_trades",
+  "ts": "2026-07-01T03:15:31.198940+00:00"
+ },
+ {
+  "cash": 199.4813921007501,
+  "date": "2026-07-04",
+  "equity": 2139.36743584575,
+  "mode": "live",
+  "n_positions": 5,
+  "note": "oracle cycle: cohort-2026-06-29 held, no thesis-breaks (all 5 positions up from entry, largest drawdown 0%). no excess cash for top-up (cash $199.48 < 10% floor $213.94 + $50 ticket). research pass: dossier pool at 93 (target 60-100), no stale dossiers (0 flagged), added candidates from screen. attribution skipped: insufficient equity-curve history (2 daily dates, need 6+). capital gate: 3 graded calls (need 30) -- stays at base allocation.",
+  "ts": "2026-07-04T04:14:30.752608+00:00"
+ },
+ {
+  "date": "2026-07-07",
+  "timestamp": "2026-07-07T14:17:00Z",
+  "equity": 4089.75,
+  "spy": 746.95,
+  "cash": 2227.63,
+  "peak_equity": 4089.75,
+  "note": "tend-only: reconciled SEER/NNDM/FULC broker fills into sleeve; kill_conditions checked (no bid withdrawal, no value-destructive M&A, no dilutive reverse merger found) \u2014 none triggered"
+ },
+ {
+  "timestamp": "2026-07-07T15:12:00Z",
+  "equity": 4107.73,
+  "cash": 2227.626744999999,
+  "positions_value": 1880.1
+ },
+ {
+  "timestamp": "2026-07-07T21:15:00Z",
+  "equity": 4117.66,
+  "cash": 2227.626744999999,
+  "positions_value": 1890.035,
+  "note": "zeus tend-only pass"
+ },
+ {
+  "timestamp": "2026-07-14T13:12:00Z",
+  "equity": 4436.01,
+  "cash": 449.94,
+  "positions_value": 3986.07,
+  "note": "zeus tend pass \u2014 marked at 2026-07-13 closes (pre-market); book upside-2026-07-10-r1"
+ }
 ]
