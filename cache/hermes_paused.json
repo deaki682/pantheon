@@ -1,7 +1,10 @@
 {
- "paused": true,
- "until": null,
- "since": "2026-07-07",
- "reason": "FROZEN after an auto-run over-deployment: the ~15:00 UTC scheduled /hermes re-bought APGE/RAMP/GBTG on top of the morning positions (doubling them, breaching the 15% per-deal cap) and added FSEA, draining buying power to ~$3.06k. Root cause: the morning orders were logged to the ledger/A/B but NOT entered into the sleeve, so the auto-run saw an empty cash-rich sleeve and re-deployed. Trims (APGE -4.5 / RAMP -16 / GBTG -64 sh) are QUEUED for the 2026-07-08 open; sleeve reconciled to the intended 6-deal $4k book. Do NOT dispatch /hermes until the trims fill and the operator lifts this. FSEA's deal terms are UNVERIFIED (the auto-run's read was lost) \u2014 verify at the next tend.",
- "resume_when": "trims filled at the 2026-07-08 open, sleeve==broker confirmed, operator lifts explicitly"
+ "paused": false,
+ "lifted": "2026-07-14",
+ "lifted_by": "operator directive (relayed 2026-07-14)",
+ "history": "FROZEN 2026-07-07 after the auto-run over-deployment (morning orders ledgered but not entered into the sleeve; the 15:00 UTC run re-deployed on a phantom-cash sleeve). Trims (APGE/RAMP/GBTG) queued 07-08 and FILLED - the book now holds the intended six-deal ~$4,000 shape ($3,999.57 at the 07-13 close). Root cause addressed in the 2026-07-10 audit sweep (ledger fill-fidelity fields; reconcile-before-anything).",
+ "first_session_duties_MANDATORY": [
+  "1. BEFORE anything else: full broker reconcile - get_equity_orders + filter_orders_by_ledger, confirm sleeve==broker for all six deals (ALOT/APGE/RAMP/GBTG/TMHC/FSEA). Any mismatch: HALT, re-freeze this file, notify the operator.",
+  "2. BEFORE any new entry or top-up: verify FSEA's deal terms from the primary filing (the over-deploying run's read was lost) - offer price, cash vs stock, expected close, and the break-stop re-derived. Until verified, FSEA is tend-only."
+ ]
 }
