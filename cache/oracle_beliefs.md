@@ -30,13 +30,15 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
-Mark at the 2026-07-14 official closes (written 07-15 pre-market tend): equity
-$4,451.35 (-1.08% vs basis; SPY +0.07% from the same 07-10 entry, spy_entry
-751.31, SPY close 751.83). Cash $449.94 (~10%). No filings on any held name
-since entry (EDGAR re-checked 07-15) — no kill evaluable yet; all six kills are
-print-based, next checks at the ~Jul/Aug prints. Worst wobble ZVRA −7.4%; a
-drawdown is never an exit. Broker reconcile clean, no open oracle orders (the
-07-14 agentic VXUS sell is not oracle's — no ledger entry). A/B due_for_grade=0.
+Mark live 2026-07-15 ~13:09 ET (hourly tend): equity $4,409.63 (-2.01% vs
+basis; SPY +0.10% from the same 07-10 entry, spy_entry 751.31, SPY 752.10;
+excess -2.11pp). Cash $449.94 (~10%). No filings on any held name since entry
+(EDGAR re-checked every tend through 07-15 13:00 ET) — no kill evaluable yet;
+all six kills are print-based, next checks at the ~Jul/Aug prints. Worst wobble
+ZVRA −10.3% (no filing/news-filing event); KLIC −4.9% intraday on no filing —
+drawdowns, never exits. Broker reconcile clean, no open oracle orders (the
+07-14 agentic VXUS sell filled at the 07-15 open is the operator's — no ledger
+entry). A/B due_for_grade=0.
 
 ## A/B state (Stage 6 — the checkpoint's evidence)
 
