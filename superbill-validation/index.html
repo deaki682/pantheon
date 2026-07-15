@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offline Superbill — private superbills for cash-pay clinicians</title>
+<style>
+  :root{--bg:#f4f7f8;--card:#fff;--fg:#13233a;--muted:#5b6b80;--line:#e2e8ee;--accent:#0d9488;--accent2:#0f766e;--accent-fg:#fff;--gold:#b8860b;--good:#15803d;}
+  *{box-sizing:border-box}
+  body{margin:0;font:16px/1.6 system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--fg)}
+  a{color:var(--accent2)}
+  .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+  header{background:var(--card);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;gap:10px;padding:16px 0}
+  .logo{font-weight:800;font-size:18px;color:var(--accent2)}
+  .lock{font-size:12px;color:var(--muted);margin-left:auto;display:inline-flex;align-items:center;gap:5px}
+  .hero{padding:44px 0 30px;text-align:center}
+  h1{font-size:34px;line-height:1.15;margin:0 0 14px;letter-spacing:-.5px}
+  h1 .hl{color:var(--accent2)}
+  .sub{font-size:18px;color:var(--muted);max-width:60ch;margin:0 auto 22px}
+  .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-block;padding:13px 22px;border-radius:10px;background:var(--accent);color:var(--accent-fg);font-weight:700;text-decoration:none;border:0;cursor:pointer;font:inherit;font-weight:700}
+  .btn.ghost{background:transparent;color:var(--accent2);border:1px solid var(--accent)}
+  .price-tag{font-size:14px;color:var(--muted);margin-top:12px}
+  .price-tag b{color:var(--fg)}
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  h2{font-size:22px;margin:0 0 16px}
+  .prob{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:10px 0}
+  .prob b{color:var(--fg)}
+  .steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .step .n{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;margin-bottom:8px}
+  .compare{width:100%;border-collapse:collapse;font-size:15px;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .compare th,.compare td{padding:11px 13px;text-align:left;border-bottom:1px solid var(--line)}
+  .compare th{background:#eef4f5;font-size:13px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
+  .compare td.col{font-weight:700}
+  .yes{color:var(--good);font-weight:700}.no{color:#b91c1c}
+  .mine{background:color-mix(in srgb,var(--accent) 7%,transparent)}
+  .card-form{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-weight:600}
+  input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--fg);font:inherit}
+  .form-btn{margin-top:16px;width:100%;font-size:16px}
+  .faq h3{font-size:16px;margin:16px 0 4px}
+  .faq p{margin:0 0 6px;color:var(--muted)}
+  .disc{font-size:13px;color:var(--muted);text-align:center;padding:26px 0 40px}
+  .pill{display:inline-block;background:#eef4f5;color:var(--accent2);border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;margin-bottom:14px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap"><div class="nav">
+    <span class="logo">🔒 Offline Superbill</span>
+    <span class="lock">Your client data never leaves your computer</span>
+  </div></div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="pill">For out-of-network &amp; cash-pay clinicians</span>
+    <h1>Give clients a superbill that gets them reimbursed — <span class="hl">without putting their data in the cloud.</span></h1>
+    <p class="sub">Type the visit, get a clean, correct superbill PDF in ten seconds. It runs entirely in your
+      browser — nothing is uploaded, no account, no portal holding your clients' health info. One-time price, no subscription.</p>
+    <div class="cta-row">
+      <a href="#get" class="btn">Get early access</a>
+      <a href="#how" class="btn ghost">See how it works</a>
+    </div>
+    <div class="price-tag">Planned: <b>$29 once</b> — not a monthly bill.</div>
+  </div>
+</div>
+
+<div class="wrap"><section>
+  <h2>The problem</h2>
+  <div class="prob">Your out-of-network clients need a <b>superbill</b> — the coded receipt (your NPI/Tax ID, CPT + ICD‑10 codes, dates, fees) they submit to get 40–80% back from their insurer. Miss it and that money expires.</div>
+  <div class="prob">But your only real options today are <b>a clunky cloud tool or EHR that stores your clients' PHI</b> (and wants a monthly fee), or <b>hand-building a password‑protected Word doc every month.</b> If you're a privacy‑minded solo practice without a full EHR, there's nothing built for you.</div>
+</section></div>
+
+<div class="wrap"><section id="how">
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><b>Enter the visit.</b> Client, your provider details, CPT/ICD‑10 codes, dates, fees. Your info is remembered locally so you only type it once.</div>
+    <div class="step"><div class="n">2</div><b>Generate the PDF.</b> A clean, insurer‑ready superbill — formatted the way payers expect — built right in your browser.</div>
+    <div class="step"><div class="n">3</div><b>Hand it to your client.</b> They submit it for reimbursement. Nothing you typed ever touched a server.</div>
+  </div>
+</section></div>
+
+<div class="wrap"><section>
+  <h2>Why this instead of what you use now</h2>
+  <table class="compare">
+    <tr><th>&nbsp;</th><th>Cloud tool / EHR</th><th>Word doc</th><th class="mine">Offline Superbill</th></tr>
+    <tr><td class="col">Runs without uploading client PHI</td><td class="no">✗ stored in cloud</td><td class="yes">✓</td><td class="mine yes">✓</td></tr>
+    <tr><td class="col">No account / no login</td><td class="no">✗</td><td class="yes">✓</td><td class="mine yes">✓</td></tr>
+    <tr><td class="col">Correct, insurer‑ready format</td><td class="yes">✓</td><td class="no">manual</td><td class="mine yes">✓</td></tr>
+    <tr><td class="col">Ten‑second to make</td><td class="no">clunky</td><td class="no">slow</td><td class="mine yes">✓</td></tr>
+    <tr><td class="col">Price</td><td class="no">$15–99 / mo</td><td class="yes">free</td><td class="mine yes">$29 once</td></tr>
+  </table>
+  <p style="color:var(--muted);font-size:14px">Because the app never sees your data, there's no HIPAA business‑associate relationship to sign — the privacy isn't a promise, it's the architecture.</p>
+</section></div>
+
+<div class="wrap"><section id="get">
+  <h2>Want it? Tell me — I'll build it next.</h2>
+  <p style="color:var(--muted);margin-top:-6px">I'm a solo developer validating this before I build it. Leave your email and you'll get early access and a launch discount. Two quick questions help me build the right thing.</p>
+  <div class="card-form">
+    <!-- SETUP: replace the action URL with your Formspree/Tally/Basin endpoint (see OUTREACH.md). -->
+    <form action="https://formspree.io/f/REPLACE_ME" method="POST">
+      <label for="email">Email</label>
+      <input id="email" type="email" name="email" required placeholder="you@practice.com">
+
+      <label for="role">I'm a…</label>
+      <select id="role" name="role">
+        <option>Lactation consultant (IBCLC)</option>
+        <option>Therapist / counselor</option>
+        <option>Dietitian / nutritionist</option>
+        <option>Acupuncturist</option>
+        <option>Chiropractor</option>
+        <option>Other cash-pay / OON clinician</option>
+      </select>
+
+      <label for="pay">Would you pay a one-time $29 for this?</label>
+      <select id="pay" name="would_pay_29">
+        <option>Yes — I'd buy it</option>
+        <option>Maybe — depends</option>
+        <option>No — I'd only use a free tool</option>
+      </select>
+
+      <button class="btn form-btn" type="submit">Get early access</button>
+    </form>
+  </div>
+</section></div>
+
+<div class="wrap"><section class="faq">
+  <h2>Questions</h2>
+  <h3>Isn't Office Ally / Practice Mate free?</h3>
+  <p>It is — and it's a cloud service that stores your clients' health info and is widely called clunky. This is for
+     clinicians who'd rather their client data never leave their own computer, and who want the superbill in seconds, not a portal workflow.</p>
+  <h3>Do I need an account or internet?</h3>
+  <p>No account, ever. You need internet once to load the page and to buy; after that it runs offline.</p>
+  <h3>Is this HIPAA-safe?</h3>
+  <p>The app never transmits or stores your data anywhere — it stays in your browser — so there's no third party handling PHI. You stay in control of your own records.</p>
+  <h3>Does it submit claims for me?</h3>
+  <p>No — it makes the superbill document your client submits themselves. That's the whole job, done privately and fast.</p>
+</section></div>
+
+<div class="wrap"><div class="disc">
+  A superbill is a document you complete and are responsible for — this is a formatting tool, not billing, coding advice, or a guarantee of reimbursement.<br>
+  Built by a solo developer · validating demand before launch.
+</div></div>
+</body>
+</html>
