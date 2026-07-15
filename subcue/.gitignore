@@ -1,0 +1,4 @@
+# Private signing key — NEVER commit. Losing/leaking it voids or forges all license keys.
+tools/signing-key.json
+# The sellable key pool (upload to Payhip; not source).
+tools/license-keys.csv

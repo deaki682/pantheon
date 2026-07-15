@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Subcue — subtitle fixer &amp; converter</title>
+<style>
+  :root{--bg:#f6f7f9;--card:#fff;--fg:#161821;--muted:#697084;--line:#e0e3ea;--accent:#3b5bdb;--accent-fg:#fff;
+    --gold:#b8860b;--con:#c92a2a;--warn:#e8990c;--okc:#15803d;--chip:#eef1f8;}
+  @media(prefers-color-scheme:dark){:root{--bg:#0f1116;--card:#171a21;--fg:#e7e9ee;--muted:#98a0b3;--line:#272b36;
+    --accent:#5c7cfa;--gold:#e3b341;--chip:#1e2230;}}
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.5 system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--fg)}
+  header{padding:18px 24px;border-bottom:1px solid var(--line);background:var(--card)}
+  .htop{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  h1{font-size:20px;margin:0;letter-spacing:-.3px}
+  .logo{font-weight:800;color:var(--accent)}
+  #proBadge{font-size:12px;color:var(--gold);font-weight:600}
+  .tag{font-size:13px;color:var(--muted);margin:3px 0 0}
+  .tag b{color:var(--fg)}
+  main{max-width:1080px;margin:0 auto;padding:18px 24px 90px;display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  h2{font-size:14px;margin:0 0 12px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+  h2 .pro{font-size:10px;color:var(--gold);border:1px solid var(--gold);border-radius:9px;padding:1px 6px;letter-spacing:.3px;margin-left:6px}
+  /* drop zone */
+  .drop{border:2px dashed var(--line);border-radius:12px;padding:26px;text-align:center;color:var(--muted);cursor:pointer;transition:.12s}
+  .drop.hot{border-color:var(--accent);color:var(--fg);background:color-mix(in srgb,var(--accent) 8%,transparent)}
+  .drop b{color:var(--fg)}
+  .fileinfo{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:13px;margin-top:12px}
+  .pill{background:var(--chip);border-radius:20px;padding:3px 11px;font-weight:600}
+  .pill.fmt{color:var(--accent)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .row+.row{margin-top:12px}
+  label.l{font-size:12px;color:var(--muted);min-width:96px}
+  input[type=text],input[type=number],select{padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit}
+  input[type=text],input[type=number]{width:120px}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .seg button{font:inherit;padding:7px 14px;border:0;background:var(--card);color:var(--fg);cursor:pointer}
+  .seg button.on{background:var(--accent);color:var(--accent-fg)}
+  button.act{font:inherit;padding:8px 14px;border:0;border-radius:8px;background:var(--accent);color:var(--accent-fg);cursor:pointer}
+  button.sec{background:var(--chip);color:var(--fg)}
+  button.gold{background:var(--gold);color:#fff}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .sub{font-size:12px;color:var(--muted);margin:2px 0 10px}
+  /* issues */
+  .issues .none{color:var(--okc);font-weight:600}
+  .ilist{max-height:190px;overflow:auto;margin-top:8px;font-size:13px}
+  .ilist .it{padding:4px 0;border-bottom:1px dashed var(--line);display:flex;gap:8px;align-items:baseline}
+  .badge{font-size:10px;text-transform:uppercase;letter-spacing:.4px;border-radius:5px;padding:1px 6px;font-weight:700;flex:none}
+  .badge.overlap,.badge.order,.badge.nonpositive{background:#fdecec;color:#c92a2a}
+  .badge.fast,.badge.short,.badge.long,.badge.lines{background:#fff4e0;color:#a5670a}
+  .badge.empty{background:var(--chip);color:var(--muted)}
+  @media(prefers-color-scheme:dark){.badge.overlap,.badge.order,.badge.nonpositive{background:#3a1e1e;color:#ff9b9b}
+    .badge.fast,.badge.short,.badge.long,.badge.lines{background:#3a2f12;color:#f4c76a}}
+  /* preview */
+  .prev{max-height:340px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:6px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{position:sticky;top:0;background:var(--card);color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.4px;z-index:1}
+  td.t{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--muted);width:1%}
+  td.txt{white-space:pre-wrap}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:12px 24px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .bar .grow{margin-left:auto;font-size:12px;color:var(--muted)}
+  .disc{font-size:11px;color:var(--muted);text-align:center;margin-top:6px}
+  /* modal */
+  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:60;align-items:center;justify-content:center;padding:20px}
+  .modal .box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;max-width:460px;width:100%}
+  .modal h3{margin:0 0 8px;font-size:17px}.modal p{font-size:13px;color:var(--muted);margin:0 0 14px}
+  .modal input{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:13px/1.4 monospace}
+  .modal .actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .modal .actions a,.modal .actions button{font:inherit;padding:9px 16px;border:0;border-radius:8px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+  .modal .buy{background:var(--gold);color:#fff}.modal .go{background:var(--accent);color:#fff}.modal .cancel{background:var(--chip);color:var(--fg)}
+  .lic-msg{font-size:13px;margin-top:10px;min-height:18px}.lic-msg.ok{color:var(--okc)}.lic-msg.err{color:var(--con)}
+  .hint{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="htop"><h1><span class="logo">Subcue</span> · subtitle fixer &amp; converter</h1><span id="proBadge"></span></div>
+  <p class="tag"><b>100% in your browser.</b> Your subtitles never leave your machine — nothing uploaded, no account.
+     Fix, re-time and convert SRT · WebVTT · SBV.</p>
+</header>
+
+<main>
+  <div class="card">
+    <h2>1 · Load a subtitle file</h2>
+    <div id="drop" class="drop">
+      <b>Drop an .srt / .vtt / .sbv file here</b>, or <u>click to choose</u>.<br>
+      <span class="hint">Nothing is uploaded — it's read locally.</span>
+      <input id="file" type="file" accept=".srt,.vtt,.sbv,.txt,text/plain" style="display:none">
+    </div>
+    <div class="row" style="margin-top:12px">
+      <label class="l">Text encoding</label>
+      <select id="enc">
+        <option value="utf-8">UTF-8 (default)</option>
+        <option value="windows-1252">Windows-1252 / Latin-1</option>
+        <option value="utf-16">UTF-16</option>
+      </select>
+      <span class="hint">Seeing gibberish (é → Ã©)? Switch encoding and the file re-reads.</span>
+    </div>
+    <div id="fileinfo" class="fileinfo" style="display:none"></div>
+  </div>
+
+  <div class="card issues" id="issuesCard" style="display:none">
+    <h2>2 · What's wrong with it</h2>
+    <div id="issuesSummary"></div>
+    <div id="ilist" class="ilist"></div>
+  </div>
+
+  <div class="card" id="opsCard" style="display:none">
+    <h2>3 · Fix &amp; convert</h2>
+
+    <div class="row">
+      <label class="l">Convert to</label>
+      <div class="seg" id="fmtSeg">
+        <button data-f="srt">SRT</button><button data-f="vtt">WebVTT</button><button data-f="sbv">SBV</button>
+      </div>
+      <span class="hint">Export format for the download.</span>
+    </div>
+
+    <div class="row">
+      <label class="l">Shift timing</label>
+      <input id="shiftVal" type="number" step="0.1" value="0" >
+      <select id="shiftUnit"><option value="1000">seconds</option><option value="1">ms</option></select>
+      <button class="act" onclick="doShift()">Apply shift</button>
+      <span class="hint">Whole track earlier (negative) or later (positive).</span>
+    </div>
+
+    <div class="row">
+      <label class="l">Tidy</label>
+      <button class="sec" onclick="doSort()">Sort by time</button>
+      <button class="sec" onclick="doRemoveEmpty()">Remove empty cues</button>
+    </div>
+
+    <div style="border-top:1px solid var(--line);margin:14px 0 4px"></div>
+
+    <div class="row">
+      <label class="l">Sync to a re-cut <span style="color:var(--gold)">★</span></label>
+      <span class="hint">Two known points — Subcue fixes drift <i>and</i> offset. Times like <code>00:01:00,000</code> or seconds.</span>
+    </div>
+    <div class="row" style="margin-top:6px">
+      <span class="hint" style="min-width:96px">Point A</span>
+      <input id="a_old" type="text" placeholder="is at 00:00:58"><span class="hint">→ should be</span>
+      <input id="a_new" type="text" placeholder="00:01:00">
+    </div>
+    <div class="row" style="margin-top:6px">
+      <span class="hint" style="min-width:96px">Point B</span>
+      <input id="b_old" type="text" placeholder="is at 00:59:55"><span class="hint">→ should be</span>
+      <input id="b_new" type="text" placeholder="01:00:00">
+      <button class="gold" onclick="doSync()">Sync</button>
+    </div>
+
+    <div class="row" style="margin-top:12px">
+      <label class="l">Framerate <span style="color:var(--gold)">★</span></label>
+      <select id="fps"></select>
+      <button class="gold" onclick="doFps()">Convert fps</button>
+      <span class="hint">Fixes the classic PAL 23.976↔25 drift.</span>
+    </div>
+
+    <div class="row" style="margin-top:12px">
+      <label class="l">One-click <span style="color:var(--gold)">★</span></label>
+      <button class="gold" onclick="doAutofix()">Auto-fix overlaps &amp; timing</button>
+      <button class="gold" onclick="doStrip()">Strip formatting tags</button>
+      <span class="hint">Resolves overlaps, enforces min duration &amp; a 40 ms gap; removes &lt;i&gt;/{\an8} tags.</span>
+    </div>
+
+    <div class="row" style="margin-top:14px">
+      <button class="sec" onclick="resetFile()">↺ Reset to loaded file</button>
+    </div>
+  </div>
+
+  <div class="card" id="prevCard" style="display:none">
+    <h2>Preview</h2>
+    <div class="sub" id="prevNote"></div>
+    <div class="prev"><table><thead><tr><th>#</th><th>Start</th><th>End</th><th>Text</th></tr></thead><tbody id="prevBody"></tbody></table></div>
+  </div>
+</main>
+
+<div class="bar">
+  <button id="dlBtn" class="act" onclick="doDownload()" disabled>Download</button>
+  <button class="sec" onclick="rescan()" id="rescanBtn" disabled>Re-check issues</button>
+  <button id="unlockBtn" class="sec" style="border:1px solid var(--gold);color:var(--gold);background:transparent" onclick="openUnlock()">Unlock Pro</button>
+  <span class="grow" id="statusline">Load a file to begin.</span>
+</div>
+
+<div id="unlockModal" class="modal">
+  <div class="box">
+    <h3>Unlock Subcue Pro</h3>
+    <p>Pro adds <b>sync-to-a-recut</b>, <b>framerate conversion</b>, <b>one-click overlap &amp; timing repair</b>, and
+       <b>tag stripping</b>. One-time purchase — you get a license key by email. Paste it below; it's verified right in
+       your browser, so it keeps working offline.</p>
+    <input id="licInput" type="text" placeholder="SUBC-…" spellcheck="false" autocapitalize="off">
+    <div id="licMsg" class="lic-msg"></div>
+    <div class="actions">
+      <a class="buy" id="buyLink" href="#" target="_blank" rel="noopener">Get a key</a>
+      <button class="go" onclick="doUnlock()">Unlock</button>
+      <button class="cancel" onclick="closeUnlock()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="core.js"></script>
+<script src="license.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
