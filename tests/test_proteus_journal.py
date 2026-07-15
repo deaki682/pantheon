@@ -300,3 +300,15 @@ def test_drought_resets_after_a_trade():
     assert s["last_entry_date"] == "2026-07-20"
     assert s["sessions_all_cash"] == 2          # only sessions AFTER the entry
     assert s["drought_flag"] is False
+
+
+def test_journal_default_path_is_the_live_v2_journal():
+    """Regression: until 2026-07-15 journal.JOURNAL_PATH pointed at the v1
+    ghost path, so append_decision's DEFAULT silently routed live session
+    notes into an unpersisted stray file (two sessions lost narrative
+    entries — journal INTEGRITY EVENT, 2026-07-15). The writer default and
+    the sleeve's journal constant must name the same live file, forever."""
+    from proteus import journal, sleeve
+    assert journal.JOURNAL_PATH == "cache/proteus_journal.jsonl"
+    assert journal.JOURNAL_PATH == sleeve.JOURNAL_PATH
+    assert "ghost" not in journal.JOURNAL_PATH

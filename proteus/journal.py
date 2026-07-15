@@ -14,7 +14,13 @@ from dataclasses import dataclass, field, asdict
 from datetime import date as _date
 from typing import Optional
 
-JOURNAL_PATH = "cache/ghost_proteus_journal.jsonl"
+# v2 live journal. This constant pointed at the v1 ghost path
+# ("cache/ghost_proteus_journal.jsonl") until 2026-07-15; append_decision's
+# default silently routed live session notes into an unpersisted stray file
+# and two sessions lost narrative entries to it (journal INTEGRITY EVENT,
+# 2026-07-15). It must match proteus.sleeve.JOURNAL_PATH — a regression
+# test pins the two together.
+JOURNAL_PATH = "cache/proteus_journal.jsonl"
 BOOK_PATH = "cache/ghost_proteus_book.json"
 CURVE_PATH = "cache/ghost_proteus_curve.json"
 BELIEFS_PATH = "cache/ghost_proteus_beliefs.md"

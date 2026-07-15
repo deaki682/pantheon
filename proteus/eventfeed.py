@@ -185,6 +185,13 @@ DEADLINE_QUERIES = (
     '"maturity date has been extended"',
     '"extension of the maturity date"',
     '"forbearance agreement"',
+    # Added 2026-07-15 (measured, not guessed): surfaces the agreement
+    # EXHIBIT itself where the 8-K body never says "forbearance agreement"
+    # (EXYN 2026-06-22 ex10-1, missed by the three queries above; ~1 hit /
+    # 30 days incremental). The beliefs-planned phrases "forbear until" and
+    # "forbearance period expires" measured ZERO hits over the same window
+    # and were deliberately NOT added — dead queries are ornament.
+    '"agrees to forbear"',
 )
 
 _DEADLINE_TERM = re.compile(
