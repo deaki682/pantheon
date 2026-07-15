@@ -8,9 +8,45 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>UnTraceable — your photos know where you live. Fix that.</title>
-  <meta name="description" content="Your listing photos carry the GPS of your home to every stranger who opens them. UnTraceable strips it out on your own computer, before you post. $7, one time.">
+  <title>Remove GPS &amp; Hidden Metadata From Photos Before Posting — UnTraceable</title>
+  <meta name="description" content="Your photos carry the exact GPS spot they were taken, often your home. UnTraceable removes the location, timestamps and device IDs before you post. Runs in your browser, nothing uploaded. $7.">
+  <!-- SEO: replace REPLACE-WITH-YOUR-DOMAIN with your real domain (e.g. https://untraceable.app) in the 3 URLs below -->
+  <link rel="canonical" href="https://REPLACE-WITH-YOUR-DOMAIN/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Your photos know where you live. Remove it before you post.">
+  <meta property="og:description" content="Every photo carries the GPS spot it was taken. UnTraceable strips the location, timestamps and device IDs out on your own computer, before you post. $7, one time.">
+  <meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/demo-card.png">
+  <meta property="og:url" content="https://REPLACE-WITH-YOUR-DOMAIN/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Your photos know where you live. Remove it before you post.">
+  <meta name="twitter:description" content="UnTraceable strips the hidden GPS, timestamps and device IDs out of your photos, in your browser, nothing uploaded. $7.">
+  <meta name="twitter:image" content="https://REPLACE-WITH-YOUR-DOMAIN/assets/demo-card.png">
   <link rel="icon" href="assets/logo.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "UnTraceable",
+    "applicationCategory": "SecurityApplication",
+    "operatingSystem": "Any web browser",
+    "description": "Removes hidden metadata (GPS location, timestamps, device serial IDs, author name and embedded thumbnails) from JPEG, PNG and WebP photos, entirely in your browser. Nothing is uploaded.",
+    "offers": { "@type": "Offer", "price": "7.00", "priceCurrency": "USD" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "Does my photo get sent anywhere when I remove its metadata?", "acceptedAnswer": { "@type": "Answer", "text": "No. The photo is read and cleaned inside your browser on your own computer. Turn off your internet first and it still works, which is the proof there is nowhere for it to go." } },
+      { "@type": "Question", "name": "Does removing photo metadata make me anonymous online?", "acceptedAnswer": { "@type": "Answer", "text": "No. It removes hidden data from photo files only. It does not touch your IP, your accounts or your browsing, and it is not a VPN." } },
+      { "@type": "Question", "name": "Does it change how my photo looks?", "acceptedAnswer": { "@type": "Answer", "text": "No. The picture itself is left alone, same size and same quality. Only the invisible metadata is stripped out." } },
+      { "@type": "Question", "name": "Does not Facebook already strip photo metadata?", "acceptedAnswer": { "@type": "Answer", "text": "Some big platforms remove some of it. Plenty of places remove none, like Craigslist, email attachments, texting the original file, or forums. This cleans the file before it ever leaves your computer." } },
+      { "@type": "Question", "name": "Can I check that the metadata was actually removed?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Drop the cleaned copy back in and it will show you the hidden data is gone." } },
+      { "@type": "Question", "name": "Is there a free way to remove photo metadata?", "acceptedAnswer": { "@type": "Answer", "text": "You can trust an upload site with these exact photos, or learn a command-line tool. UnTraceable is one offline file that never uploads, for about seven dollars." } }
+    ]
+  }
+  </script>
   <style>
     :root{
       --bg:#eef1f6;--panel:#fff;--ink:#14203a;--muted:#5b6b86;--line:#dde3ec;
