@@ -556,5 +556,11 @@
   "cash": 449.94,
   "positions_value": 4001.41,
   "note": "zeus tend pass ~09:10 ET pre-market, marked at 2026-07-14 official closes; book upside-2026-07-10-r1 -1.08% vs basis, SPY +0.07% from spy_entry 751.31; EDGAR clean since entry on all six (checked 07-15), no kills evaluable (print-based, ~Jul/Aug); A/B due_for_grade=0; reconcile clean (no oracle orders; the 07-14 VXUS sell is not ledgered to oracle)"
+ },
+ {
+  "date": "2026-07-15",
+  "equity": 4475.95,
+  "spy": 754.94,
+  "note": "tend: 6/6 marked live 10:13ET; broker==sleeve exact; no fresh filings; no kills evaluable; ab due=0"
  }
 ]
