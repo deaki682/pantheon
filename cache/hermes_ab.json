@@ -195,7 +195,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "GNK",
@@ -909,6 +909,24 @@
    "spy_return": 0.004404,
    "excess": -0.004023,
    "note": "IKS all-cash $26.25 deal closed 2026-07-09 (8-K Item 2.01 + Form 25-NSE verified); graded at the contractual offer"
+  },
+  {
+   "symbol": "NUVL",
+   "detect_date": "2026-07-07",
+   "entry_price": 123.74,
+   "offer_price": 124.0,
+   "spread": 0.0021,
+   "llm_verdict": "drop",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 123.96,
+   "exit_date": "2026-07-15",
+   "outcome": "paper_swept_past_close",
+   "net_return": 0.001778,
+   "spy_return": 0.005098,
+   "excess": -0.00332
   }
  ]
 }
