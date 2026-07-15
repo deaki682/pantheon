@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <style>
+    :root { color-scheme: light dark; }
+    body { width: 340px; margin: 0; font: 13px/1.45 system-ui, sans-serif; padding: 12px; }
+    h1 { font-size: 14px; margin: 0 0 2px; }
+    .sub { color: #6b7280; font-size: 11px; margin: 0 0 10px; }
+    textarea { width: 100%; box-sizing: border-box; height: 84px; resize: vertical;
+      font: 13px/1.5 system-ui, sans-serif; padding: 8px; border: 1px solid #d1d5db;
+      border-radius: 8px; }
+    .out { background: #f9fafb; }
+    .row { display: flex; gap: 8px; align-items: center; margin: 8px 0; }
+    button { font: 13px system-ui, sans-serif; padding: 7px 12px; border: 0; border-radius: 8px;
+      background: #2563eb; color: #fff; cursor: pointer; }
+    button.secondary { background: #e5e7eb; color: #111827; }
+    button:disabled { opacity: .5; cursor: default; }
+    .spacer { flex: 1; }
+    .foot { display: flex; justify-content: space-between; align-items: center;
+      margin-top: 8px; color: #6b7280; font-size: 11px; }
+    a { color: #2563eb; text-decoration: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Insecable</h1>
+  <p class="sub">Collez du texte, ou utilisez le menu clic droit / le raccourci dans un champ.</p>
+  <textarea id="in" placeholder="Collez votre texte francais ici..."></textarea>
+  <div class="row">
+    <button id="fix">Corriger</button>
+    <div class="spacer"></div>
+    <button id="copy" class="secondary" disabled>Copier</button>
+  </div>
+  <textarea id="out" class="out" readonly placeholder="Resultat"></textarea>
+  <div class="foot">
+    <span id="mode">Mode : fine</span>
+    <a id="opts">Reglages</a>
+  </div>
+  <script src="engine.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

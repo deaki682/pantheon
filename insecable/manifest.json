@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Insecable — typographie francaise",
+  "version": "1.0.0",
+  "description": "Corrige les espaces insecables francais (avant ; ! ? : et dans « ») et les guillemets, dans votre champ de saisie. 100% local.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Insecable — corriger la typographie francaise",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": { "service_worker": "background.js" },
+  "options_page": "options.html",
+  "permissions": ["activeTab", "scripting", "contextMenus", "storage"],
+  "commands": {
+    "fix-typography": {
+      "suggested_key": { "default": "Ctrl+Shift+F", "mac": "Command+Shift+F" },
+      "description": "Corriger la typographie de la selection ou du champ"
+    }
+  }
+}

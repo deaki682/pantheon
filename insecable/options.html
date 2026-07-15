@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Insecable — reglages</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font: 14px/1.5 system-ui, sans-serif; max-width: 560px; margin: 32px auto; padding: 0 16px; }
+    h1 { font-size: 18px; }
+    fieldset { border: 1px solid #d1d5db; border-radius: 10px; margin: 16px 0; padding: 12px 16px; }
+    legend { font-weight: 600; padding: 0 6px; }
+    label { display: block; margin: 8px 0; }
+    .hint { color: #6b7280; font-size: 12px; margin: 2px 0 0 24px; }
+    code { background: #f3f4f6; padding: 1px 5px; border-radius: 4px; }
+    #status { color: #16a34a; height: 18px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <h1>Insecable — reglages</h1>
+
+  <fieldset>
+    <legend>Type d'espace insecable</legend>
+    <label><input type="radio" name="mode" value="narrow"> Fine (recommande) — <code>U+202F</code> avant <code>; ! ?</code></label>
+    <p class="hint">Ce qu'attend la QA professionnelle (Antidote). Peut s'afficher de facon invisible sur certains Safari/Apple.</p>
+    <label><input type="radio" name="mode" value="compat"> Compatibilite maximale — <code>U+00A0</code> partout</label>
+    <p class="hint">S'affiche sur toutes les plateformes, mais plus large que la fine typographique.</p>
+    <p class="hint">Le deux-points prend toujours <code>U+00A0</code> (Imprimerie nationale).</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Regles actives</legend>
+    <label><input type="checkbox" id="spacing"> Espaces avant <code>; ! ? :</code> et dans les guillemets <code>« »</code></label>
+    <label><input type="checkbox" id="quotes"> Guillemets francais et apostrophe <code>'</code> &rarr; <code>&rsquo;</code></label>
+    <label><input type="checkbox" id="symbols"> Symboles : <code>20 %</code>, <code>12,50 &euro;</code>, <code>14 h 30</code></label>
+    <label><input type="checkbox" id="dashes"> Points de suspension <code>...</code> &rarr; <code>&hellip;</code> et <code>--</code> &rarr; tiret cadratin</label>
+  </fieldset>
+
+  <div id="status"></div>
+
+  <script src="options.js"></script>
+</body>
+</html>
