@@ -52,7 +52,13 @@
    "built": "2026-07-14",
    "kill_spec": "If 60 days of scanning produces zero candidates that pass the chain-liquidity pre-gate, or the extraction false-positive rate stays above ~50% after tuning, the channel is DEAD and gets pruned.",
    "mark": "NOT-YET",
-   "marks": [],
+   "marks": [
+    {
+     "date": "2026-07-15",
+     "mark": "NOT-YET",
+     "note": "v2 iteration measured: +1 query ('agrees to forbear'), planned phrases 0-hit (not added). 3 more candidates read+killed (PLUR/QIND/EXYN + SAFX follow-up) - all died at the liquidity gate, none at extraction. Binding constraint = population tradability. Kill-spec clock unchanged (60d from 7/14)."
+    }
+   ],
    "observable": "Feed-sourced candidates reach the kink screen liquidity pre-gate and produce graded entries or honest journaled dispositions; the eventfeed store accumulates financing_deadline events with verified source URLs.",
    "sentence": "Improves long-option entry SELECTION by supplying dated, non-merger catalysts (debt-maturity extensions, forbearance expirations from 8-Ks) that retail calendars do not carry - the exact supply gap the kink screen has been starved of since the merger-vote channel was killed 7/13."
   },
