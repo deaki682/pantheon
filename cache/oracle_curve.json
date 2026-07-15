@@ -570,5 +570,13 @@
   "positions_value": 4008.52,
   "spy": 754.02,
   "note": "zeus tend ~11:09 ET live marks; book upside-2026-07-10-r1 -0.92% vs basis, SPY +0.36% from spy_entry 751.31; reconcile clean; EDGAR clean since entry, no kills evaluable; ab due=0"
+ },
+ {
+  "timestamp": "2026-07-15T16:14:00Z",
+  "equity": 4412.17,
+  "cash": 449.94,
+  "positions_value": 3962.23,
+  "spy": 751.52,
+  "note": "zeus tend ~12:14 ET live marks; book upside-2026-07-10-r1 -1.95% vs 4500 basis, SPY +0.03% from spy_entry 751.31 (excess -1.98pp); reconcile clean (broker==sleeve exact 6/6; only account order since 07-14 is operator VXUS sell, not oracle's); EDGAR clean since 07-10 entry -> no typed kill evaluable; KLIC -6.2% intraday on no filing/news event (valuation/vol, kill is print-based ~Aug); ZVRA worst wobble -9.25% vs entry; ab due=0"
  }
 ]
