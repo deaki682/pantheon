@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Funeral Rule Price List Generator</title>
+<style>
+  :root{--bg:#f7f7f8;--card:#fff;--fg:#1a1a1a;--muted:#666;--line:#dcdce0;--accent:#3b5bdb;--accent-fg:#fff;--warn:#b45309;--warnbg:#fef3c7;}
+  @media(prefers-color-scheme:dark){:root{--bg:#15171c;--card:#1e2128;--fg:#e8e8ea;--muted:#9aa0ab;--line:#333844;--warnbg:#3a2f12;--warn:#fbbf24;}}
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+  header{padding:20px 24px;border-bottom:1px solid var(--line);background:var(--card)}
+  h1{font-size:19px;margin:0 0 4px}
+  .disc{font-size:12px;color:var(--muted);max-width:70ch}
+  main{max-width:920px;margin:0 auto;padding:20px 24px 80px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0}
+  h2{font-size:15px;margin:0 0 12px}
+  label{display:block;font-size:12px;color:var(--muted);margin:8px 0 3px}
+  input[type=text],input[type=number],textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit}
+  textarea{min-height:52px;resize:vertical}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px}
+  .row{display:grid;grid-template-columns:1fr 130px;gap:10px;align-items:end;padding:6px 0;border-bottom:1px dashed var(--line)}
+  .row .note{grid-column:1/3}
+  .dyn-row{display:grid;grid-template-columns:1fr 1.4fr 120px 30px;gap:8px;align-items:center;margin:6px 0}
+  button{font:inherit;padding:9px 14px;border:0;border-radius:8px;background:var(--accent);color:var(--accent-fg);cursor:pointer}
+  button.sec{background:var(--line);color:var(--fg)}
+  button.x{background:transparent;color:var(--muted);padding:4px 8px}
+  .bar{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:12px 24px;display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+  .warn{background:var(--warnbg);color:var(--warn);border-radius:8px;padding:10px 12px;font-size:13px;margin-top:10px}
+  .warn ul{margin:6px 0 0;padding-left:18px}
+  .ok{color:#15803d;font-size:13px;margin-top:10px}
+  small{color:var(--muted)}
+  /* print document */
+  #print{display:none}
+  @media print{
+    body>*{display:none!important}
+    #print{display:block!important;color:#000;background:#fff;font:12px/1.45 Georgia,serif;padding:0}
+    #print h2{font-size:16px;text-align:center;margin:0 0 2px}
+    #print .sub{text-align:center;font-size:11px;margin:0 0 14px}
+    #print table{width:100%;border-collapse:collapse;margin:10px 0}
+    #print td{padding:4px 6px;border-bottom:1px solid #bbb;vertical-align:top}
+    #print td.p{text-align:right;white-space:nowrap;width:130px}
+    #print .d{font-size:10.5px;color:#111;margin:8px 0;padding:6px 8px;border-left:3px solid #888;background:#f4f4f4}
+    #print .foot{margin-top:16px;font-size:10px;color:#333;border-top:1px solid #999;padding-top:6px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Funeral Rule Price List Generator</h1>
+  <p class="disc">Assembles the four documents the FTC Funeral Rule (16 CFR Part 453) requires — the General Price List,
+  Casket &amp; Outer Burial Container lists, and the itemized Statement — from your own items and prices.
+  <strong>Draft generator, not legal advice.</strong> Review every output against the current Rule and your state's
+  requirements before use. Everything stays in your browser; nothing is uploaded.</p>
+</header>
+<main>
+  <div class="card">
+    <h2>Your funeral home</h2>
+    <div class="grid">
+      <div><label>Name</label><input id="h_name" type="text" placeholder="Smith Family Funeral Home"></div>
+      <div><label>Phone</label><input id="h_phone" type="text"></div>
+      <div><label>Address</label><input id="h_address" type="text"></div>
+      <div><label>License #</label><input id="h_license" type="text"></div>
+      <div><label>Effective date of this list</label><input id="h_date" type="text" placeholder="January 1, 2026"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>General Price List items</h2>
+    <small>Enter a price, or a note (e.g. “priced individually — see casket list”). Required items are marked •.</small>
+    <div id="gpl"></div>
+    <label style="margin-top:12px">Alternative containers you offer for direct cremation</label>
+    <input id="altc" type="text" placeholder="fiberboard, unfinished wood, pressed wood">
+    <div id="valid"></div>
+  </div>
+
+  <div class="card">
+    <h2>Casket Price List</h2>
+    <div id="caskets"></div>
+    <button class="sec" onclick="addRow('caskets')">+ Add casket</button>
+  </div>
+
+  <div class="card">
+    <h2>Outer Burial Container Price List</h2>
+    <div id="containers"></div>
+    <button class="sec" onclick="addRow('containers')">+ Add container</button>
+  </div>
+
+  <div class="bar">
+    <button onclick="printDoc('gpl')">Print General Price List</button>
+    <button onclick="printDoc('cpl')">Print Casket List</button>
+    <button onclick="printDoc('obcpl')">Print Outer Container List</button>
+    <button class="sec" onclick="save()">Save</button>
+    <button class="sec" onclick="reset()">Clear</button>
+    <small style="margin-left:auto">Saved locally in this browser.</small>
+  </div>
+</main>
+<div id="print"></div>
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

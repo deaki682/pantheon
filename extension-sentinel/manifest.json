@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Extension Sentinel — permission watchdog",
+  "version": "1.0.0",
+  "description": "See what every installed extension can access, ranked by risk, and get alerted when one quietly gains scary permissions after an update. 100% local.",
+  "icons": { "16": "icons/icon16.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Extension Sentinel",
+    "default_icon": { "16": "icons/icon16.png", "48": "icons/icon48.png", "128": "icons/icon128.png" }
+  },
+  "permissions": ["management", "storage"]
+}

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu Allergen Matrix Builder</title>
+<style>
+  :root{--bg:#f7f7f8;--card:#fff;--fg:#1a1a1a;--muted:#666;--line:#dcdce0;--accent:#e8590c;--accent-fg:#fff;--con:#c92a2a;--may:#e8990c;--warnbg:#fef3c7;--warn:#92400e;}
+  @media(prefers-color-scheme:dark){:root{--bg:#15171c;--card:#1e2128;--fg:#e8e8ea;--muted:#9aa0ab;--line:#333844;--warnbg:#3a2f12;--warn:#fbbf24;}}
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+  header{padding:20px 24px;border-bottom:1px solid var(--line);background:var(--card)}
+  h1{font-size:19px;margin:0 0 4px}.disc{font-size:12px;color:var(--muted);max-width:74ch}
+  main{max-width:1000px;margin:0 auto;padding:20px 24px 80px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:16px 0}
+  input[type=text]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit}
+  h2{font-size:15px;margin:0 0 12px}
+  .dish{border-bottom:1px dashed var(--line);padding:10px 0}
+  .dish .top{display:grid;grid-template-columns:1fr 30px;gap:8px;align-items:center}
+  .tog{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .tog button{font:12px/1 system-ui;padding:6px 8px;border:1px solid var(--line);border-radius:16px;background:var(--bg);color:var(--muted);cursor:pointer}
+  .tog button[data-s=contains]{background:var(--con);color:#fff;border-color:var(--con)}
+  .tog button[data-s=may]{background:var(--may);color:#fff;border-color:var(--may)}
+  .none{font-size:12px;color:var(--muted);margin-top:6px;display:inline-flex;gap:5px;align-items:center}
+  button.add{font:inherit;padding:9px 14px;border:0;border-radius:8px;background:var(--accent);color:var(--accent-fg);cursor:pointer;margin-top:8px}
+  button.x{background:transparent;border:0;color:var(--muted);cursor:pointer}
+  .bar{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:12px 24px;display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+  .bar button{font:inherit;padding:9px 14px;border:0;border-radius:8px;background:var(--accent);color:var(--accent-fg);cursor:pointer}
+  .bar button.sec{background:var(--line);color:var(--fg)}
+  .warn{background:var(--warnbg);color:var(--warn);border-radius:8px;padding:10px 12px;font-size:13px;margin-top:10px}
+  .warn ul{margin:6px 0 0;padding-left:18px}.ok{color:#15803d;font-size:13px;margin-top:10px}
+  small{color:var(--muted)}
+  #print{display:none}
+  @media print{
+    body>*{display:none!important}
+    #print{display:block!important;color:#000;background:#fff;font:11px/1.35 Arial,sans-serif}
+    #print h2{font-size:16px;margin:0 0 2px}#print .sub{font-size:11px;margin:0 0 10px}
+    #print table{width:100%;border-collapse:collapse}
+    #print th,#print td{border:1px solid #999;padding:3px 5px;text-align:center}
+    #print td.n{text-align:left;font-weight:bold}
+    #print th.rot{writing-mode:vertical-rl;transform:rotate(180deg);height:90px;white-space:nowrap;font-weight:normal}
+    #print .con{color:#c92a2a;font-weight:bold}#print .may{color:#b8860b}
+    #print .legend{margin:8px 0;font-size:10px}#print .note{font-size:9.5px;color:#333;margin-top:8px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Menu Allergen Matrix Builder</h1>
+  <p class="disc">Turn your menu into a printable per-item disclosure grid for the 9 U.S. FDA major allergens
+  (milk, eggs, fish, shellfish, tree nuts, peanuts, wheat, soybeans, sesame). <strong>A disclosure tool, not
+  allergen testing or a safety guarantee.</strong> Everything stays in your browser; nothing is uploaded.</p>
+</header>
+<main>
+  <div class="card">
+    <label style="font-size:12px;color:var(--muted)">Restaurant / establishment name</label>
+    <input id="rname" type="text" placeholder="Corner Bistro">
+  </div>
+  <div class="card">
+    <h2>Menu items</h2>
+    <small>Tap each allergen to cycle: blank → <b style="color:var(--con)">● contains</b> → <b style="color:var(--may)">○ may contain</b> → blank.</small>
+    <div id="dishes"></div>
+    <button class="add" onclick="addDish()">+ Add menu item</button>
+    <div id="valid"></div>
+  </div>
+  <div class="bar">
+    <button onclick="printMatrix()">Print allergen grid</button>
+    <button onclick="printCards()">Print per-item cards</button>
+    <button class="sec" onclick="save()">Save</button>
+    <button class="sec" onclick="reset()">Clear</button>
+    <small style="margin-left:auto">Saved locally in this browser.</small>
+  </div>
+</main>
+<div id="print"></div>
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
