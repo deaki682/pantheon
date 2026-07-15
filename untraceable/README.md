@@ -1,4 +1,4 @@
-# MetaStrip
+# UnTraceable
 
 A tiny, single-purpose browser tool that removes **all** identifying and
 location metadata from **JPEG, PNG and WebP** photos — GPS, EXIF, XMP, IPTC,
@@ -16,12 +16,12 @@ Photos carry hidden data. Post one to Marketplace and it can broadcast your home
 GPS coordinates, your phone's serial number, and a thumbnail that still shows
 the *original, un-cropped* image. Cheap "EXIF removers" leak — they delete the
 visible EXIF block but leave XMP GPS, the IPTC caption, or that embedded
-thumbnail behind. MetaStrip can't leak, because of how it works (below).
+thumbnail behind. UnTraceable can't leak, because of how it works (below).
 
 ## How it works — the one idea
 
 **Allow-list, never a deny-list.** An image file is a container of segments;
-some draw the picture, the rest are metadata. MetaStrip keeps **only** the
+some draw the picture, the rest are metadata. UnTraceable keeps **only** the
 segments needed to draw the picture faithfully (image data + colour profile) and
 drops **everything else** — known, unknown, compressed, or duplicated. A
 deny-list ("remove the blocks I know about") can never be proven complete
@@ -39,7 +39,7 @@ they carry no identity, and dropping them would visibly change your photo.)
 1. Open `chrome://extensions`.
 2. Turn on **Developer mode** (top-right).
 3. **Load unpacked** → select this folder.
-4. Click the MetaStrip toolbar icon → the tool opens in a tab → drag photos in.
+4. Click the UnTraceable toolbar icon → the tool opens in a tab → drag photos in.
 
 Works in Chrome/Chromium/Edge/Brave/Opera. It also runs as a plain web page:
 open `tool.html` directly, or the single-file build (below).
@@ -57,7 +57,7 @@ open `tool.html` directly, or the single-file build (below).
 | `src/app.js` | DOM layer — drag-drop, rendering, canvas fallback, downloads |
 | `icons/` | Generated PNG icons |
 | `tools/make-icons.mjs` | Regenerate the icons (pure Node, no deps) |
-| `tools/build-standalone.mjs` | Inline everything → `dist/metastrip.html` |
+| `tools/build-standalone.mjs` | Inline everything → `dist/untraceable.html` |
 | `tests/core.test.mjs` | Node test suite for the pure core |
 | `SPEC.md` | One-page spec (goals + the long non-goals list) |
 | `STORE_LISTING.md` | Chrome Web Store copy + review-form answers + monetization |
@@ -73,7 +73,7 @@ blocked by CORS on `file://`). No bundler, no transpiler, no `node_modules`.
 ```sh
 node tests/core.test.mjs        # run the core test suite (40 assertions)
 node tools/make-icons.mjs       # regenerate icons/
-node tools/build-standalone.mjs # produce dist/metastrip.html (single file)
+node tools/build-standalone.mjs # produce dist/untraceable.html (single file)
 ```
 
 The tests eval the three pure core files into Node and drive them with synthetic
@@ -94,7 +94,7 @@ the goals list on purpose.
 
 The Chrome Web Store can't charge for extensions (payments removed in 2020–2021,
 still gone in 2026). The zero-maintenance path: list this **free** on the store
-as discovery, and sell `dist/metastrip.html` as a one-time download on a
+as discovery, and sell `dist/untraceable.html` as a one-time download on a
 Merchant-of-Record store (Payhip / Lemon Squeezy) that handles checkout and tax.
 The buyer double-clicks one file that runs offline forever. See `STORE_LISTING.md`.
 

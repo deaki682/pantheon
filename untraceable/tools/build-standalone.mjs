@@ -33,6 +33,6 @@ if (html.includes('src/strip.js') || html.includes('href="tool.css"')) {
 }
 
 fs.mkdirSync(path.join(ROOT, 'dist'), { recursive: true });
-const out = path.join(ROOT, 'dist', 'metastrip.html');
+const out = path.join(ROOT, 'dist', 'untraceable.html');
 fs.writeFileSync(out, html);
 console.log(`Wrote ${path.relative(ROOT, out)} (${(html.length / 1024).toFixed(1)} KB, fully self-contained)`);

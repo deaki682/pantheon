@@ -45,12 +45,14 @@
       thumb: node.querySelector('.thumb'),
       badge: node.querySelector('.badge'),
       sizes: node.querySelector('.sizes'),
+      lead: node.querySelector('.lead'),
       findings: node.querySelector('.findings'),
       actions: node.querySelector('.cardactions'),
       download: node.querySelector('.download'),
     };
   }
   const setBadge = (card, text, kind) => { card.badge.textContent = text; card.badge.className = 'badge ' + kind; };
+  const setLead = (card, text, cls) => { card.lead.textContent = text; card.lead.className = 'lead' + (cls ? ' ' + cls : ''); };
   const noImage = (card) => { card.thumb.classList.add('noimg'); card.img.remove(); };
   function setThumb(card, bytes, fmt) {
     card.img.src = trackUrl(new Blob([bytes], { type: MIME[fmt] || 'application/octet-stream' }));
@@ -125,16 +127,19 @@
       card.sizes.textContent = `${fmt.toUpperCase()} · ${humanSize(bytes.length)} → ${humanSize(r.output.length)}`;
 
       if (!r.changed && !summary.hasAny && r.output.length === bytes.length) {
-        setBadge(card, 'Already clean', 'neutral');
-        renderMessage(card, 'No metadata found — this file was already clean. The download is identical to the original.', 'nometa');
+        setBadge(card, 'Already safe', 'neutral');
+        setLead(card, '', '');
+        renderMessage(card, 'Good news — this photo had no hidden data to begin with. It’s safe to share as-is.', 'nometa');
       } else if (v.clean) {
-        setBadge(card, '✓ Verified clean', 'ok');
+        setBadge(card, '✓ Untraceable', 'ok');
+        setLead(card, 'This photo was exposing — now erased:', 'danger');
         renderFindings(card, reportFrom(summary, r.removed));
       } else {
-        setBadge(card, 'Cleaned — verify warning', 'warn');
+        setBadge(card, 'Cleaned — needs a check', 'warn');
+        setLead(card, 'This photo was exposing — now erased:', 'danger');
         renderFindings(card, reportFrom(summary, r.removed));
         const p = document.createElement('p'); p.className = 'errline';
-        p.textContent = 'Note: a re-scan still detected ' + v.remaining.join(', ') + '. Please report this file.';
+        p.textContent = 'A double-check still detected ' + v.remaining.join(', ') + '. Please report this file.';
         card.findings.appendChild(p);
       }
       wireDownload(card, file.name, r.output, fmt);
@@ -152,10 +157,11 @@
           const v = verifyClean(out);
           setThumb(card, out, fmt);
           card.sizes.textContent = `${fmt.toUpperCase()} · ${humanSize(bytes.length)} → ${humanSize(out.length)} (re-encoded)`;
-          setBadge(card, v.clean ? 'Re-encoded (recompressed)' : 'Re-encoded — verify warning', 'warn');
-          renderFindings(card, summary.findings);
+          setBadge(card, v.clean ? '✓ Untraceable (rebuilt)' : 'Rebuilt — needs a check', 'warn');
+          setLead(card, 'This photo was exposing — now erased:', 'danger');
+          renderFindings(card, reportFrom(summary, []));
           const note = document.createElement('p'); note.className = 'errline';
-          note.textContent = 'This file was damaged, so it was safely re-rendered instead of edited. Pixels may be slightly recompressed.';
+          note.textContent = 'This file was damaged, so it was safely rebuilt from scratch instead of edited. The picture may be very slightly recompressed.';
           card.findings.appendChild(note);
           wireDownload(card, file.name, out, fmt);
           results.push({ name: file.name, data: out });
@@ -213,7 +219,7 @@
   function downloadZip() {
     const files = uniqueNames(results.filter((r) => r.data));
     if (!files.length) return;
-    downloadBlob(new Blob([makeZip(files)], { type: 'application/zip' }), 'metastrip-cleaned.zip');
+    downloadBlob(new Blob([makeZip(files)], { type: 'application/zip' }), 'untraceable-photos.zip');
   }
   function clearAll() {
     generation++;            // tell any in-flight processOne to abandon its file

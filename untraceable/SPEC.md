@@ -1,4 +1,4 @@
-# MetaStrip — one-page spec
+# UnTraceable — one-page spec
 
 **One job:** drag in photos, get back the *same* photos with every piece of
 identifying and location metadata removed, and *see* exactly what was removed.
@@ -6,7 +6,7 @@ identifying and location metadata removed, and *see* exactly what was removed.
 
 The value is **correctness**: cheap strippers leave things behind (the EXIF
 thumbnail that still holds the un-edited original, XMP GPS that survives an
-EXIF-only wipe, IPTC captions). MetaStrip keeps *only the bytes needed to draw
+EXIF-only wipe, IPTC captions). UnTraceable keeps *only the bytes needed to draw
 the picture* and drops the rest — then re-scans its own output and shows a
 "Verified clean" badge. If it can't verify, it says so.
 

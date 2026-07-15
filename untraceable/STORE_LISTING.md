@@ -1,4 +1,4 @@
-# MetaStrip — Chrome Web Store listing
+# UnTraceable — Chrome Web Store listing
 
 Everything you paste into the Developer Dashboard, plus the review-form answers
 that stop a small extension getting rejected. Written to the 2025–2026 program
@@ -9,13 +9,13 @@ policies (developer.chrome.com/docs/webstore/program-policies).
 ## Name (45 char max)
 
 ```
-MetaStrip — Photo Metadata & EXIF Remover
+UnTraceable — Erase Photo Location & EXIF
 ```
 
 ## Short description / summary (132 char max)
 
 ```
-Remove GPS, EXIF & hidden metadata from JPEG, PNG & WebP photos. 100% offline — nothing is uploaded. No permissions.
+Erase the hidden GPS location, device ID & metadata from your JPEG, PNG & WebP photos. 100% on your device — nothing is uploaded.
 ```
 
 ## Category
@@ -31,7 +31,7 @@ reveal the GPS coordinates where you took it (often your home), the exact date
 and time, your camera or phone's serial number, the editing software you used,
 and even a hidden thumbnail that can still show the ORIGINAL, un-cropped image.
 
-MetaStrip removes all of it — in your browser, on your computer, and nowhere
+UnTraceable removes all of it — in your browser, on your computer, and nowhere
 else.
 
 WHAT IT DOES
@@ -47,14 +47,14 @@ WHAT IT DOES
 
 TRULY PRIVATE — BY DESIGN
 • 100% offline. Your photos are never uploaded, because there is no server to
-  upload them to. Turn off your Wi-Fi and MetaStrip still works — the proof.
+  upload them to. Turn off your Wi-Fi and UnTraceable still works — the proof.
 • No account, no sign-up, no cloud, no tracking, no analytics.
 • Requests ZERO permissions. It cannot read your browsing, your other tabs, or
   anything on the web. It only ever sees the files you drag in.
 
 IT KEEPS YOUR PHOTO INTACT
 Most tools either miss things or quietly re-compress your image and shift its
-colours. MetaStrip does neither. It keeps only the parts of the file that draw
+colours. UnTraceable does neither. It keeps only the parts of the file that draw
 the picture — the image data and the colour profile — and drops the rest. The
 pixels are untouched: the cleaned photo looks identical, just without the
 hidden data.
@@ -72,21 +72,21 @@ SUPPORTED FORMATS
 JPEG (.jpg/.jpeg), PNG (.png) and WebP (.webp). Damaged files are safely
 re-rendered as a fallback (you're told when that happens).
 
-MetaStrip does one thing and does it correctly. No feeds, no upsells, no
+UnTraceable does one thing and does it correctly. No feeds, no upsells, no
 subscription.
 ```
 
 ## Single purpose (required dashboard field)
 
 ```
-MetaStrip removes identifying and location metadata (EXIF, GPS, XMP, IPTC,
+UnTraceable removes identifying and location metadata (EXIF, GPS, XMP, IPTC,
 thumbnails, timestamps) from JPEG, PNG and WebP image files that the user drags
 into the extension's page. All processing happens locally in the browser.
 ```
 
 ## Permissions & justifications
 
-**MetaStrip requests no permissions and no host permissions.** This is the
+**UnTraceable requests no permissions and no host permissions.** This is the
 strongest possible position for review — there is nothing to justify, and it
 removes the entire class of "unused/over-broad/unjustified permission"
 rejections. If a reviewer asks, the honest statements are:
@@ -96,22 +96,22 @@ rejections. If a reviewer asks, the honest statements are:
   anchor `download`). The toolbar click opens the extension's own bundled page
   via `chrome.tabs.create` on its own extension URL, which requires no
   permission (the `tabs` permission is only needed to read other tabs' URLs or
-  titles — MetaStrip never does).
-- **host permissions:** none. MetaStrip never touches any website, so it needs
+  titles — UnTraceable never does).
+- **host permissions:** none. UnTraceable never touches any website, so it needs
   no host access and declares no content scripts and no match patterns.
 
 ## Data use — dashboard Privacy tab (required for every item, even zero-data)
 
 - **Remote code:** "No, I am not using remote code." All logic is in the
   package; nothing is fetched or `eval`'d.
-- **Data collection disclosure:** MetaStrip collects **none** of the listed
+- **Data collection disclosure:** UnTraceable collects **none** of the listed
   categories. Leave every box unchecked and declare that no user data is
   collected, used, or transmitted. (The photos are read into memory to process
   them and are never stored or sent anywhere.)
-- **Limited Use certification:** affirm both boxes — MetaStrip does not sell or
+- **Limited Use certification:** affirm both boxes — UnTraceable does not sell or
   transfer user data, and does not use it for anything beyond the single
   purpose above (there is no data flow at all).
-- **Privacy policy URL:** not required, because MetaStrip stores and transmits
+- **Privacy policy URL:** not required, because UnTraceable stores and transmits
   no user data (it doesn't even persist a setting). A one-paragraph policy is
   included anyway (`PRIVACY.md`) — host it and paste the link if you prefer to
   over-disclose; it only helps trust.
@@ -145,7 +145,7 @@ way to earn the one-time $5–15 is:
 
 - **List this extension free on the Chrome Web Store (and Firefox AMO)** as a
   discovery funnel, and
-- **Sell the identical tool as a one-file download** (`dist/metastrip.html`,
+- **Sell the identical tool as a one-file download** (`dist/untraceable.html`,
   produced by `tools/build-standalone.mjs`) on a Merchant-of-Record store —
   **Payhip** (5%, no monthly fee) or **Lemon Squeezy** (5% + $0.50). They host
   checkout and remit global sales tax, so there is nothing to keep alive. The

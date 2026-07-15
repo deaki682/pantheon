@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UnTraceable — erase the hidden trail in your photos</title>
+  <link rel="stylesheet" href="tool.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="icons/icon48.png" alt="" width="34" height="34">
+      <div>
+        <h1>UnTraceable</h1>
+        <p class="tagline">Erase the hidden trail your photos leave behind</p>
+      </div>
+    </div>
+    <div class="trust" title="This page never sends your files anywhere.">
+      <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5l-8-4Zm0 10.9h6c-.5 3.6-2.7 6.8-6 7.9V12H6V6.3l6-3 6 3V12h-6Z"/></svg>
+      Stays on your device
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="kicker">Before you post that photo…</p>
+      <h2 class="fear">Your photos can be traced back to your front door.</h2>
+      <p class="lede">Every picture you take secretly stores the <strong>exact GPS spot</strong> it was shot — usually your home — along with the time and your device's unique ID. Post it to Marketplace, a forum, or a dating profile and anyone who saves the file can read all of it in seconds.</p>
+      <p class="solve"><strong>UnTraceable</strong> strips every trace out — right here on your device, before you share. Nothing is uploaded. There is nowhere for your photos to go.</p>
+    </section>
+
+    <section id="drop" class="dropzone" tabindex="0" aria-label="Drop images here or press Enter to choose files">
+      <div class="drop-inner">
+        <svg width="44" height="44" viewBox="0 0 24 24" aria-hidden="true" class="drop-icon">
+          <path fill="currentColor" d="M12 3a4 4 0 0 1 4 4c0 2.5-4 7-4 7S8 9.5 8 7a4 4 0 0 1 4-4Zm0 2.6A1.4 1.4 0 1 0 12 8.4 1.4 1.4 0 0 0 12 5.6Z"/>
+          <path fill="currentColor" d="M4.7 4.7 3.3 6.1 17.9 20.7l1.4-1.4L4.7 4.7Z"/>
+        </svg>
+        <p class="drop-title">Drop a photo to see what it's revealing about you</p>
+        <p class="drop-sub">JPEG, PNG &amp; WebP · one photo or a whole batch</p>
+        <button id="pick" type="button" class="btn btn-primary">Choose photos…</button>
+        <input id="file" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple hidden>
+        <p class="drop-proof">Don't take our word for it — turn off your Wi-Fi. It still works, because nothing is ever uploaded.</p>
+      </div>
+    </section>
+
+    <section id="bar" class="actionbar" hidden>
+      <span id="summary" class="summary"></span>
+      <span class="spacer"></span>
+      <button id="zip" type="button" class="btn btn-primary">Download all safe copies (ZIP)</button>
+      <button id="clear" type="button" class="btn">Clear</button>
+    </section>
+
+    <section id="results" class="results" aria-live="polite"></section>
+  </main>
+
+  <footer class="foot">
+    <p><strong>Nothing here touches the internet.</strong> No servers, no accounts, no tracking. Your photos are read, cleaned, and handed back inside this one page — they never leave your computer, because there is no "us" to send them to.</p>
+    <p class="ver">UnTraceable v1.0.0 · keeps only the pixels &amp; colour of your photo — erases location, device IDs, timestamps, author &amp; hidden thumbnails.</p>
+  </footer>
+
+  <template id="card-tpl">
+    <article class="card">
+      <div class="thumb"><img alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row1">
+          <span class="fname"></span>
+          <span class="badge"></span>
+        </div>
+        <div class="sizes"></div>
+        <p class="lead"></p>
+        <div class="findings"></div>
+        <div class="cardactions">
+          <button type="button" class="btn btn-small btn-primary download">Download safe copy</button>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="src/strip.js"></script>
+  <script src="src/exif.js"></script>
+  <script src="src/zip.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>

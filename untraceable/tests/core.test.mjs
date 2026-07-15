@@ -72,7 +72,7 @@ section('JPEG');
   ]);
 
   const before = MS.readMetadataSummary(jpeg);
-  assert(before.findings.some((f) => f.label === 'GPS location' && /37\.808333, 122\.416667/.test(f.value)), 'reads GPS 37.808333, 122.416667');
+  assert(before.findings.some((f) => f.label === 'Where it was taken' && /37\.808333, 122\.416667/.test(f.value)), 'reads GPS 37.808333, 122.416667');
   assert(before.findings.some((f) => f.value.includes('Canon')), 'reads camera Canon');
 
   const r = MS.stripBytes(jpeg);
@@ -114,7 +114,7 @@ section('PNG (genuinely valid, via zlib)');
   ]);
 
   const before = MS.readMetadataSummary(png);
-  assert(before.findings.some((f) => f.label === 'GPS location'), 'PNG: reads embedded eXIf GPS');
+  assert(before.findings.some((f) => f.label === 'Where it was taken'), 'PNG: reads embedded eXIf GPS');
   assert(before.findings.some((f) => /secret data/.test(f.value)), 'PNG: reads tEXt comment');
 
   const r = MS.stripBytes(png);
@@ -157,7 +157,7 @@ section('WebP (extended RIFF)');
   const webp = U8([[...Buffer.from('RIFF')], LE32(body.length + 4), [...Buffer.from('WEBP')], [...body]]);
 
   const before = MS.readMetadataSummary(webp);
-  assert(before.findings.some((f) => f.label === 'GPS location'), 'WebP: reads EXIF GPS');
+  assert(before.findings.some((f) => f.label === 'Where it was taken'), 'WebP: reads EXIF GPS');
   assert(before.findings.some((f) => /XMP/.test(f.label)), 'WebP: detects XMP');
 
   const r = MS.stripBytes(webp);
@@ -252,7 +252,7 @@ section('review fixes');
   const exifOnly = [0x45, 0x78, 0x69, 0x66, 0, 0, ...exifTiff()];
   const gj = U8([[0xff, 0xd8], [0xff, 0xe1, ...BE16(exifOnly.length + 2), ...exifOnly], [0xff, 0xd9]]);
   const gsum = MS.readMetadataSummary(gj);
-  assert(gsum.findings.some((f) => f.label === 'GPS location'), 'GPS-only: still reports GPS');
+  assert(gsum.findings.some((f) => f.label === 'Where it was taken'), 'GPS-only: still reports GPS');
   assert(!gsum.findings.some((f) => f.label === 'Other technical tags'), 'GPS-only: no bogus "Other technical tags"');
 
   // (4) PNG keyword search stays inside its own chunk

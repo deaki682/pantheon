@@ -157,22 +157,22 @@
     const push = (o) => findings.push(o);
     if (t.gps) {
       flags.gps = t.gps;
-      push({ label: 'GPS location', value: `${t.gps.latitude.toFixed(6)}, ${t.gps.longitude.toFixed(6)} — where the photo was taken`, severity: 'high' });
+      push({ label: 'Where it was taken', value: `${t.gps.latitude.toFixed(6)}, ${t.gps.longitude.toFixed(6)} — a precise spot, often your home`, severity: 'high' });
     }
     const when = t.fields.dateTimeOriginal || t.fields.dateTime;
-    if (when) push({ label: 'Date & time taken', value: when, severity: 'med' });
+    if (when) push({ label: 'When you were there', value: when, severity: 'med' });
     const cam = [t.fields.make, t.fields.model].filter(Boolean).join(' ');
-    if (cam) push({ label: 'Camera / device', value: cam, severity: 'med' });
-    if (t.fields.owner) push({ label: 'Camera owner', value: t.fields.owner, severity: 'high' });
-    if (t.fields.bodySerial) push({ label: 'Camera serial number', value: t.fields.bodySerial, severity: 'high' });
+    if (cam) push({ label: 'Your device', value: cam, severity: 'med' });
+    if (t.fields.owner) push({ label: 'Your name (camera owner)', value: t.fields.owner, severity: 'high' });
+    if (t.fields.bodySerial) push({ label: 'Your camera’s ID', value: `${t.fields.bodySerial} — links every photo you take to this one device`, severity: 'high' });
     if (t.fields.lensModel) push({ label: 'Lens', value: t.fields.lensModel, severity: 'low' });
-    if (t.fields.lensSerial) push({ label: 'Lens serial number', value: t.fields.lensSerial, severity: 'high' });
-    if (t.fields.software) push({ label: 'Software', value: t.fields.software, severity: 'low' });
-    if (t.fields.artist) push({ label: 'Author / artist', value: t.fields.artist, severity: 'high' });
-    if (t.fields.host) push({ label: 'Host computer', value: t.fields.host, severity: 'med' });
-    if (t.fields.description) push({ label: 'Image description', value: t.fields.description, severity: 'low' });
+    if (t.fields.lensSerial) push({ label: 'Your lens ID', value: t.fields.lensSerial, severity: 'high' });
+    if (t.fields.software) push({ label: 'Editing software', value: t.fields.software, severity: 'low' });
+    if (t.fields.artist) push({ label: 'Your name (author)', value: t.fields.artist, severity: 'high' });
+    if (t.fields.host) push({ label: 'Your computer', value: t.fields.host, severity: 'med' });
+    if (t.fields.description) push({ label: 'Description', value: t.fields.description, severity: 'low' });
     if (t.fields.copyright) push({ label: 'Copyright', value: t.fields.copyright, severity: 'low' });
-    if (t.hasThumbnail) { flags.thumbnail = true; push({ label: 'Embedded thumbnail', value: 'a small copy of the original — can retain the UN-edited image', severity: 'high' }); }
+    if (t.hasThumbnail) { flags.thumbnail = true; push({ label: 'A hidden older copy', value: 'a hidden thumbnail of the original — may reveal what you cropped or blurred out', severity: 'high' }); }
     if (t.otherTags > 0) push({ label: 'Other technical tags', value: `${t.otherTags} more camera settings (exposure, ISO, orientation…)`, severity: 'low' });
     flags.exif = true;
   }
@@ -188,9 +188,9 @@
       const glon = xml.match(/exif:GPSLongitude[>="]+([^<"]+)/);
       if (glat && glon) gps = `${glat[1]} , ${glon[1]}`;
     } catch { /* ignore */ }
-    if (gps) findings.push({ label: 'GPS location (XMP)', value: gps, severity: 'high' });
-    if (creator) findings.push({ label: 'Author / creator (XMP)', value: creator, severity: 'high' });
-    findings.push({ label: 'XMP metadata', value: 'edit history, ratings, may include creator & GPS', severity: 'med' });
+    if (gps) findings.push({ label: 'Where it was taken (edit data)', value: gps, severity: 'high' });
+    if (creator) findings.push({ label: 'Your name (edit data)', value: creator, severity: 'high' });
+    findings.push({ label: 'Hidden edit data (XMP)', value: 'edit history & tags that can include your name and location', severity: 'med' });
   }
 
   // ---- per-format readers ----
@@ -214,14 +214,14 @@
         } else if (startsWith(b, p, 'http://ns.adobe.com/xap/1.0/\0')) {
           collectXmp(b, p + 29, len - 2 - 29, findings, flags);
         } else if (startsWith(b, p, 'http://ns.adobe.com/xmp/extension/')) {
-          flags.xmp = true; findings.push({ label: 'Extended XMP', value: 'overflow metadata block', severity: 'med' });
+          flags.xmp = true; findings.push({ label: 'Hidden edit data (extended)', value: 'more embedded metadata', severity: 'med' });
         }
       } else if (marker === 0xed && startsWith(b, p, 'Photoshop 3.0\0')) {
-        flags.iptc = true; findings.push({ label: 'IPTC / Photoshop data', value: 'captions, byline, keywords', severity: 'med' });
+        flags.iptc = true; findings.push({ label: 'Hidden caption & keywords', value: 'byline, caption, location, keywords', severity: 'med' });
       } else if (marker === 0xfe) {
         flags.comment = true;
         const txt = td.decode(b.subarray(p, p + Math.min(len - 2, 120))).replace(/\0+$/, '').trim();
-        findings.push({ label: 'Comment', value: txt || 'present', severity: 'low' });
+        findings.push({ label: 'Hidden comment', value: txt || 'present', severity: 'low' });
       }
       i += 2 + len;
     }
