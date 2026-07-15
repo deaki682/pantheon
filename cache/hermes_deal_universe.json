@@ -1,13 +1,31 @@
 {
- "generated": "2026-07-14",
+ "generated": "2026-07-15",
  "window": {
-  "from": "2026-03-16",
-  "to": "2026-07-14",
+  "from": "2026-03-17",
+  "to": "2026-07-15",
   "lookback_days": 120
  },
- "n_candidates": 132,
+ "n_candidates": 130,
  "coverage_note": "COMPLETE population of announced-deal TARGETS from EDGAR daily form indexes (DEFM14A / PREM14A / DEFM14C / PREM14C / SC 14D9) \u2014 no keyword, keyed to the target CIK. KNOWN missing: (1) deals whose only public paper so far is an 8-K merger agreement that has not yet drawn a proxy/14D-9 \u2014 caught on the next sweep once the proxy files; (2) acquirer-side-only tenders (SC TO-T) by design \u2014 Hermes longs the target. Cash-vs-stock is NOT decided here; every candidate requires the per-deal read.",
  "candidates": [
+  {
+   "cik": "0001467760",
+   "company": "Apollo Commercial Real Estate Finance, Inc.",
+   "symbol": "ARI",
+   "channels": [
+    "definitive merger proxy (shareholder vote)",
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "DEFM14A",
+    "PREM14A"
+   ],
+   "first_filed": "2026-03-23",
+   "last_filed": "2026-07-14",
+   "n_filings": 2,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
   {
    "cik": "0001974640",
    "company": "Apogee Therapeutics, Inc.",
@@ -775,7 +793,7 @@
   {
    "cik": "0002034269",
    "company": "Cantor Equity Partners II, Inc.",
-   "symbol": null,
+   "symbol": "CEPT",
    "channels": [
     "definitive merger proxy (shareholder vote)"
    ],
@@ -2031,16 +2049,14 @@
    "company": "Warner Bros. Discovery, Inc.",
    "symbol": "WBD",
    "channels": [
-    "definitive merger proxy (shareholder vote)",
-    "preliminary merger proxy (earlier signal)"
+    "definitive merger proxy (shareholder vote)"
    ],
    "forms": [
-    "DEFM14A",
-    "PREM14A"
+    "DEFM14A"
    ],
-   "first_filed": "2026-03-16",
+   "first_filed": "2026-03-26",
    "last_filed": "2026-03-26",
-   "n_filings": 2,
+   "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -2079,23 +2095,7 @@
   {
    "cik": "0001900679",
    "company": "Technology & Telecommunication Acquisition Corp",
-   "symbol": "TETUF",
-   "channels": [
-    "definitive merger proxy (shareholder vote)"
-   ],
-   "forms": [
-    "DEFM14A"
-   ],
-   "first_filed": "2026-03-23",
-   "last_filed": "2026-03-23",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0001467760",
-   "company": "Apollo Commercial Real Estate Finance, Inc.",
-   "symbol": "ARI",
+   "symbol": "TETWF",
    "channels": [
     "definitive merger proxy (shareholder vote)"
    ],
@@ -2168,38 +2168,6 @@
    ],
    "first_filed": "2026-03-17",
    "last_filed": "2026-03-17",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0002025396",
-   "company": "Vine Hill Capital Investment Corp.",
-   "symbol": null,
-   "channels": [
-    "definitive merger proxy (shareholder vote)"
-   ],
-   "forms": [
-    "DEFM14A"
-   ],
-   "first_filed": "2026-03-16",
-   "last_filed": "2026-03-16",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0001600626",
-   "company": "Peakstone Realty Trust",
-   "symbol": null,
-   "channels": [
-    "definitive merger proxy (shareholder vote)"
-   ],
-   "forms": [
-    "DEFM14A"
-   ],
-   "first_filed": "2026-03-16",
-   "last_filed": "2026-03-16",
    "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"

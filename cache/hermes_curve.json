@@ -79,5 +79,13 @@
   "spy": 753.6901,
   "n_positions": 6,
   "note": "tend pass 11:05 ET: reconcile clean, no break-stops, none past close; 4 new detections (ARI/AVB/IPCXU/BCARU) all Opus-dropped, zero keeps; GBCS/GRTX still unquotable-unresolved"
+ },
+ {
+  "date": "2026-07-15",
+  "timestamp": "2026-07-15T16:10:00Z",
+  "equity": 4006.34,
+  "spy": 751.4776,
+  "n_positions": 6,
+  "note": "tend pass 12:05 ET: reconcile clean, no break-stops, none past close; sourcing re-swept (130 cands, nothing filed since 07-14, zero new reads); ARI/AVB not-a-deal rows swept in A/B; GBCS/GRTX still unquotable-unresolved"
  }
 ]

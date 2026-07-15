@@ -597,7 +597,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "AVB",
@@ -613,7 +613,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "IPCXU",
@@ -1027,6 +1027,42 @@
    "net_return": 0.0,
    "spy_return": 0.0,
    "excess": 0.0
+  },
+  {
+   "symbol": "ARI",
+   "detect_date": "2026-07-15",
+   "entry_price": 10.705,
+   "offer_price": 10.705,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 10.685,
+   "exit_date": "2026-07-15",
+   "outcome": "paper_swept_past_close",
+   "net_return": -0.001868,
+   "spy_return": -0.002936,
+   "excess": 0.001067
+  },
+  {
+   "symbol": "AVB",
+   "detect_date": "2026-07-15",
+   "entry_price": 191.49,
+   "offer_price": 191.49,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 192.115,
+   "exit_date": "2026-07-15",
+   "outcome": "paper_swept_past_close",
+   "net_return": 0.003264,
+   "spy_return": -0.002936,
+   "excess": 0.006199
   }
  ]
 }
