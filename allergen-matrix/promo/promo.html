@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Allergen Matrix — promo render</title>
+<style>
+  body{margin:0;background:#eef0f3;font:14px/1.5 system-ui,sans-serif;color:#111}
+  .sheet{width:760px;margin:26px auto;background:#fff;border:1px solid #d7dae0;border-radius:10px;
+    box-shadow:0 8px 30px rgba(20,30,50,.12);padding:34px 40px}
+  .blogo{display:inline-block;font:800 20px system-ui;color:#e8590c;letter-spacing:-.5px;margin-bottom:10px;
+    border:2px solid #e8590c;border-radius:8px;padding:5px 12px}
+  h2{font-size:20px;margin:0 0 2px}.sub{color:#555;margin:0 0 16px}
+  table{width:100%;border-collapse:collapse}
+  th,td{border:1px solid #b8bcc4;padding:5px 7px;text-align:center;font-size:13px}
+  td.n{text-align:left;font-weight:700}
+  th.rot{writing-mode:vertical-rl;transform:rotate(180deg);height:96px;white-space:nowrap;font-weight:600;font-size:12px}
+  th.item{text-align:left}
+  .con{color:#c92a2a;font-weight:800;font-size:15px}.may{color:#b8860b;font-size:14px}
+  .legend{margin:12px 0 4px;font-size:12px;color:#333}
+  .note{font-size:11px;color:#555;margin-top:6px}
+  .brandfoot{font-size:11px;color:#444;margin-top:14px;border-top:1px solid #ddd;padding-top:7px}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+  .card-item{border:1px solid #b8bcc4;border-radius:8px;padding:10px 12px}
+  .ci-name{font-weight:800;font-size:14px;margin-bottom:3px}.ci-sum{font-size:12.5px;color:#333}
+</style></head>
+<body>
+<div id="grid" class="sheet"></div>
+<div id="cards" class="sheet"></div>
+<script src="../core.js"></script>
+<script>
+var C = window.AllergenCore;
+var dishes = [
+  { name:'Classic Cheeseburger', allergens:{milk:'contains',wheat:'contains',sesame:'contains',soy:'may'} },
+  { name:'Pad Thai', allergens:{peanuts:'contains',eggs:'contains',fish:'contains',shellfish:'may',soy:'contains'} },
+  { name:'Garden Salad (no dressing)', allergens:{}, confirmedNone:true },
+  { name:'Grilled Salmon', allergens:{fish:'contains',treenuts:'may'} },
+  { name:'Margherita Flatbread', allergens:{milk:'contains',wheat:'contains'} },
+  { name:'Thai Coconut Soup', allergens:{shellfish:'contains',fish:'contains',treenuts:'may'} }
+];
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];});}
+
+// grid
+var m = C.buildMatrix(dishes);
+var head = '<tr><th class="item">Menu item</th>' + m.allergens.map(function(a){return '<th class="rot">'+esc(a.label)+'</th>';}).join('') + '</tr>';
+var body = m.rows.map(function(r){
+  return '<tr><td class="n">'+esc(r.name)+'</td>'+r.cells.map(function(c){
+    var cls=c.status==='contains'?'con':c.status==='may'?'may':'';
+    return '<td class="'+cls+'">'+c.symbol+'</td>';}).join('')+'</tr>';
+}).join('');
+document.getElementById('grid').innerHTML =
+  '<div class="blogo">Corner Bistro</div>'+
+  '<h2>Allergen Information</h2><p class="sub">Corner Bistro · 12 Main St</p>'+
+  '<table>'+head+body+'</table>'+
+  '<p class="legend">'+esc(C.LEGEND)+'</p>'+
+  '<p class="note">'+esc(C.STANDARD_NOTE)+'</p>'+
+  '<p class="brandfoot">Corner Bistro · 12 Main St · updated Jul 2026</p>';
+
+// cards
+var cards = dishes.map(function(d){
+  return '<div class="card-item"><div class="ci-name">'+esc(d.name)+'</div><div class="ci-sum">'+esc(C.dishSummary(d))+'</div></div>';
+}).join('');
+document.getElementById('cards').innerHTML =
+  '<div class="blogo">Corner Bistro</div>'+
+  '<h2>Allergen Information — by item</h2><p class="sub">Corner Bistro · 12 Main St</p>'+
+  '<div class="cards">'+cards+'</div>'+
+  '<p class="note">'+esc(C.STANDARD_NOTE)+'</p>'+
+  '<p class="brandfoot">Corner Bistro · 12 Main St · updated Jul 2026</p>';
+</script>
+</body></html>

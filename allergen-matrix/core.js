@@ -5,9 +5,11 @@
  *
  * Builds a per-item allergen matrix and disclosures from the restaurant's own menu,
  * against the 9 U.S. FDA "major food allergens" (sesame added by the FASTER Act,
- * effective Jan 1 2023). This is the mechanical disclosure grid a growing number of
- * state laws (e.g., California SB-68, effective 2026) require — it is not allergen
- * testing or a safety guarantee.
+ * declared like the others since Jan 1 2023). It is a mechanical disclosure aid —
+ * the kind of per-item allergen grid that California's ADDE Act (SB 68, in force
+ * July 1 2026) requires of restaurant chains with 20+ CA locations, and that similar
+ * bills in other states have proposed. It is NOT allergen testing or a safety
+ * guarantee, and the operator is responsible for the accuracy of what they mark.
  */
 (function (root) {
   'use strict';

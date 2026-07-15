@@ -5,16 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Menu Allergen Matrix Builder</title>
 <style>
-  :root{--bg:#f7f7f8;--card:#fff;--fg:#1a1a1a;--muted:#666;--line:#dcdce0;--accent:#e8590c;--accent-fg:#fff;--con:#c92a2a;--may:#e8990c;--warnbg:#fef3c7;--warn:#92400e;}
-  @media(prefers-color-scheme:dark){:root{--bg:#15171c;--card:#1e2128;--fg:#e8e8ea;--muted:#9aa0ab;--line:#333844;--warnbg:#3a2f12;--warn:#fbbf24;}}
+  :root{--bg:#f7f7f8;--card:#fff;--fg:#1a1a1a;--muted:#666;--line:#dcdce0;--accent:#e8590c;--accent-fg:#fff;--con:#c92a2a;--may:#e8990c;--warnbg:#fef3c7;--warn:#92400e;--gold:#b8860b;}
+  @media(prefers-color-scheme:dark){:root{--bg:#15171c;--card:#1e2128;--fg:#e8e8ea;--muted:#9aa0ab;--line:#333844;--warnbg:#3a2f12;--warn:#fbbf24;--gold:#e3b341;}}
   *{box-sizing:border-box}
   body{margin:0;font:15px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--fg)}
   header{padding:20px 24px;border-bottom:1px solid var(--line);background:var(--card)}
+  .htop{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
   h1{font-size:19px;margin:0 0 4px}.disc{font-size:12px;color:var(--muted);max-width:74ch}
+  #proBadge{font-size:12px;color:var(--gold);font-weight:600}
   main{max-width:1000px;margin:0 auto;padding:20px 24px 80px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:16px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:16px 0;position:relative}
   input[type=text]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit}
   h2{font-size:15px;margin:0 0 12px}
+  h2 .protag{font-size:11px;color:var(--gold);border:1px solid var(--gold);border-radius:10px;padding:1px 7px;margin-left:6px;vertical-align:middle}
   .dish{border-bottom:1px dashed var(--line);padding:10px 0}
   .dish .top{display:grid;grid-template-columns:1fr 30px;gap:8px;align-items:center}
   .tog{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
@@ -24,16 +27,40 @@
   .none{font-size:12px;color:var(--muted);margin-top:6px;display:inline-flex;gap:5px;align-items:center}
   button.add{font:inherit;padding:9px 14px;border:0;border-radius:8px;background:var(--accent);color:var(--accent-fg);cursor:pointer;margin-top:8px}
   button.x{background:transparent;border:0;color:var(--muted);cursor:pointer}
-  .bar{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:12px 24px;display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+  .bar{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:12px 24px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:20px}
   .bar button{font:inherit;padding:9px 14px;border:0;border-radius:8px;background:var(--accent);color:var(--accent-fg);cursor:pointer}
   .bar button.sec{background:var(--line);color:var(--fg)}
+  .bar button.pro-btn{background:transparent;color:var(--gold);border:1px solid var(--gold)}
   .warn{background:var(--warnbg);color:var(--warn);border-radius:8px;padding:10px 12px;font-size:13px;margin-top:10px}
   .warn ul{margin:6px 0 0;padding-left:18px}.ok{color:#15803d;font-size:13px;margin-top:10px}
   small{color:var(--muted)}
+  /* Pro cards: shown locked until unlocked */
+  .pro-card .locked{position:absolute;inset:0;background:color-mix(in srgb,var(--card) 78%,transparent);backdrop-filter:blur(1px);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:16px}
+  body.is-pro .pro-card .locked{display:none}
+  .locked .lk-note{font-size:13px;color:var(--muted);max-width:40ch}
+  .locked button{font:inherit;padding:8px 14px;border:0;border-radius:8px;background:var(--gold);color:#fff;cursor:pointer}
+  .brand-fields{display:grid;gap:10px}
+  .logo-row{display:flex;align-items:center;gap:12px}
+  #logoPrev{max-height:44px;max-width:120px;border:1px solid var(--line);border-radius:6px;background:#fff;padding:2px}
+  label.lbl{font-size:12px;color:var(--muted);display:block;margin-bottom:3px}
+  .menu-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line)}
+  .menu-row .mnm{font-weight:600}.menu-row .mdate{font-size:12px;color:var(--muted);margin-left:auto}
+  button.sm{font:13px/1 system-ui;padding:6px 10px;border-radius:7px;border:0;cursor:pointer}
+  /* modal */
+  .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50;align-items:center;justify-content:center;padding:20px}
+  .modal .box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;max-width:440px;width:100%}
+  .modal h3{margin:0 0 8px;font-size:17px}
+  .modal p{font-size:13px;color:var(--muted);margin:0 0 14px}
+  .modal input{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:13px/1.4 monospace}
+  .modal .actions{display:flex;gap:10px;margin-top:14px}
+  .modal .actions button{font:inherit;padding:9px 16px;border:0;border-radius:8px;cursor:pointer}
+  .modal .buy{background:var(--gold);color:#fff}.modal .go{background:var(--accent);color:#fff}.modal .cancel{background:var(--line);color:var(--fg)}
+  .lic-msg{font-size:13px;margin-top:10px;min-height:18px}.lic-msg.ok{color:#15803d}.lic-msg.err{color:var(--con)}
   #print{display:none}
   @media print{
     body>*{display:none!important}
     #print{display:block!important;color:#000;background:#fff;font:11px/1.35 Arial,sans-serif}
+    #print .blogo{max-height:56px;max-width:220px;display:block;margin:0 0 8px}
     #print h2{font-size:16px;margin:0 0 2px}#print .sub{font-size:11px;margin:0 0 10px}
     #print table{width:100%;border-collapse:collapse}
     #print th,#print td{border:1px solid #999;padding:3px 5px;text-align:center}
@@ -41,19 +68,23 @@
     #print th.rot{writing-mode:vertical-rl;transform:rotate(180deg);height:90px;white-space:nowrap;font-weight:normal}
     #print .con{color:#c92a2a;font-weight:bold}#print .may{color:#b8860b}
     #print .legend{margin:8px 0;font-size:10px}#print .note{font-size:9.5px;color:#333;margin-top:8px}
+    #print .cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+    #print .card-item{border:1px solid #999;border-radius:6px;padding:7px 9px;break-inside:avoid}
+    #print .ci-name{font-weight:bold;font-size:12px;margin-bottom:2px}#print .ci-sum{font-size:10.5px}
+    #print .brandfoot{font-size:10px;color:#333;margin-top:10px;border-top:1px solid #ccc;padding-top:5px}
   }
 </style>
 </head>
 <body>
 <header>
-  <h1>Menu Allergen Matrix Builder</h1>
+  <div class="htop"><h1>Menu Allergen Matrix Builder</h1><span id="proBadge"></span></div>
   <p class="disc">Turn your menu into a printable per-item disclosure grid for the 9 U.S. FDA major allergens
   (milk, eggs, fish, shellfish, tree nuts, peanuts, wheat, soybeans, sesame). <strong>A disclosure tool, not
   allergen testing or a safety guarantee.</strong> Everything stays in your browser; nothing is uploaded.</p>
 </header>
 <main>
   <div class="card">
-    <label style="font-size:12px;color:var(--muted)">Restaurant / establishment name</label>
+    <label class="lbl">Restaurant / establishment name</label>
     <input id="rname" type="text" placeholder="Corner Bistro">
   </div>
   <div class="card">
@@ -63,16 +94,64 @@
     <button class="add" onclick="addDish()">+ Add menu item</button>
     <div id="valid"></div>
   </div>
+
+  <div class="card pro-card">
+    <h2>Branding <span class="protag">Pro</span></h2>
+    <div class="brand-fields">
+      <div class="logo-row">
+        <div><label class="lbl">Logo (shown on printouts)</label>
+          <input type="file" accept="image/*" onchange="onLogo(this)"></div>
+        <img id="logoPrev" alt="" style="display:none">
+        <button class="x" title="Remove logo" onclick="clearLogo()">✕</button>
+      </div>
+      <div><label class="lbl">Footer line (address, license #, "Prices/recipes current as of…")</label>
+        <input id="brandFoot" type="text" placeholder="Corner Bistro · 12 Main St · updated Jul 2026" oninput="setFooter(this.value)"></div>
+    </div>
+    <div class="locked">
+      <div class="lk-note">Add your logo and a custom footer to every printout.</div>
+      <button onclick="openUnlock()">Unlock Pro</button>
+    </div>
+  </div>
+
+  <div class="card pro-card">
+    <h2>Saved menus <span class="protag">Pro</span></h2>
+    <button class="add" onclick="saveMenuAs()">Save current menu…</button>
+    <div id="menuList" style="margin-top:10px"></div>
+    <div class="locked">
+      <div class="lk-note">Keep separate menus — lunch, dinner, seasonal, second location — and switch between them.</div>
+      <button onclick="openUnlock()">Unlock Pro</button>
+    </div>
+  </div>
+
   <div class="bar">
     <button onclick="printMatrix()">Print allergen grid</button>
-    <button onclick="printCards()">Print per-item cards</button>
+    <button onclick="printCards()">Print per-item cards <span style="opacity:.85">★</span></button>
     <button class="sec" onclick="save()">Save</button>
     <button class="sec" onclick="reset()">Clear</button>
+    <button id="unlockBtn" class="pro-btn" onclick="openUnlock()">Unlock Pro</button>
     <small style="margin-left:auto">Saved locally in this browser.</small>
   </div>
 </main>
+
 <div id="print"></div>
+
+<div id="unlockModal" class="modal">
+  <div class="box">
+    <h3>Unlock Pro</h3>
+    <p>Pro adds per-item allergen cards, your logo &amp; footer on every printout, and unlimited saved menus.
+       One-time purchase — you get a license key by email. Paste it below.</p>
+    <input id="licInput" type="text" placeholder="ALGN-…" spellcheck="false" autocapitalize="off">
+    <div id="licMsg" class="lic-msg"></div>
+    <div class="actions">
+      <a class="buy" href="#" id="buyLink" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center;padding:9px 16px;border-radius:8px">Get a key</a>
+      <button class="go" onclick="doUnlock()">Unlock</button>
+      <button class="cancel" onclick="closeUnlock()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <script src="core.js"></script>
+<script src="license.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
