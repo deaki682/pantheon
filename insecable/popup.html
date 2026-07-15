@@ -3,23 +3,36 @@
 <head>
   <meta charset="utf-8">
   <style>
-    :root { color-scheme: light dark; }
-    body { width: 340px; margin: 0; font: 13px/1.45 system-ui, sans-serif; padding: 12px; }
+    :root {
+      color-scheme: light dark;
+      --bg: #ffffff; --fg: #111827; --muted: #6b7280; --panel: #f9fafb;
+      --border: #d1d5db; --accent: #2563eb; --accent-fg: #ffffff;
+      --btn2: #e5e7eb; --btn2-fg: #111827;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1f2430; --fg: #e5e7eb; --muted: #9ca3af; --panel: #151a24;
+        --border: #374151; --btn2: #374151; --btn2-fg: #e5e7eb;
+      }
+    }
+    body { width: 340px; margin: 0; padding: 12px; background: var(--bg); color: var(--fg);
+      font: 13px/1.45 system-ui, sans-serif; }
     h1 { font-size: 14px; margin: 0 0 2px; }
-    .sub { color: #6b7280; font-size: 11px; margin: 0 0 10px; }
+    .sub { color: var(--muted); font-size: 11px; margin: 0 0 10px; }
     textarea { width: 100%; box-sizing: border-box; height: 84px; resize: vertical;
-      font: 13px/1.5 system-ui, sans-serif; padding: 8px; border: 1px solid #d1d5db;
-      border-radius: 8px; }
-    .out { background: #f9fafb; }
+      font: 13px/1.5 system-ui, sans-serif; padding: 8px; border: 1px solid var(--border);
+      border-radius: 8px; background: var(--bg); color: var(--fg); }
+    textarea::placeholder { color: var(--muted); }
+    .out { background: var(--panel); }
     .row { display: flex; gap: 8px; align-items: center; margin: 8px 0; }
     button { font: 13px system-ui, sans-serif; padding: 7px 12px; border: 0; border-radius: 8px;
-      background: #2563eb; color: #fff; cursor: pointer; }
-    button.secondary { background: #e5e7eb; color: #111827; }
+      background: var(--accent); color: var(--accent-fg); cursor: pointer; }
+    button.secondary { background: var(--btn2); color: var(--btn2-fg); }
     button:disabled { opacity: .5; cursor: default; }
     .spacer { flex: 1; }
     .foot { display: flex; justify-content: space-between; align-items: center;
-      margin-top: 8px; color: #6b7280; font-size: 11px; }
-    a { color: #2563eb; text-decoration: none; cursor: pointer; }
+      margin-top: 8px; color: var(--muted); font-size: 11px; }
+    a { color: var(--accent); text-decoration: none; cursor: pointer; }
   </style>
 </head>
 <body>
