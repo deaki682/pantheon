@@ -154,7 +154,7 @@
     }
   },
   "ab_race": {
-    "as_of": "2026-07-14",
+    "as_of": "2026-07-15",
     "graded_head_to_heads": 1,
     "target": 20,
     "weeks": {
@@ -171,7 +171,7 @@
     },
     "notes": [
       "Week 2026-07-06 legacy leg (ZBIO) reconstructed 2026-07-14 \u2014 see the ledger entry's reconstructed_note.",
-      "No /midas-scan output for the weekend of 2026-07-11/12 (midas_scan.json still scanned_at 2026-07-03) \u2014 no new cohort opened this week; the race accrues nothing until the weekend scan resumes."
+      "No /midas-scan output for the weekend of 2026-07-11/12 (midas_scan.json still scanned_at 2026-07-03) \u2014 no new cohort opened 2026-07-15 either; the 07-03 finalists were already consumed as the 2026-07-06 cohort and re-opening them would double-count one scan week. The race accrues nothing until the weekend scan resumes."
     ]
   }
 }
