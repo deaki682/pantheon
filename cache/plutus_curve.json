@@ -91,25 +91,36 @@
   "timestamp": "2026-07-14T18:07:00Z"
  },
  {
-  "date": "2026-07-14",
-  "timestamp": "2026-07-14T19:08:00Z",
-  "equity": 4953.86,
-  "spy": 751.96,
   "cash": 0.0,
-  "peak_equity": 4971.786134525999,
+  "date": "2026-07-14",
   "drawdown": 0.003606,
+  "equity": 4953.86,
   "halted": false,
-  "note": "Monitoring-only pass (2026Q2 already traded; next rebalance 2026Q3). 47/47 positions marked live at ~15:08 ET."
+  "note": "Monitoring-only pass (2026Q2 already traded; next rebalance 2026Q3). 47/47 positions marked live at ~15:08 ET.",
+  "peak_equity": 4971.786134525999,
+  "spy": 751.96,
+  "timestamp": "2026-07-14T19:08:00Z"
  },
  {
-  "date": "2026-07-15",
-  "timestamp": "2026-07-15T14:06:30Z",
-  "equity": 4973.13,
-  "spy": 755.07,
   "cash": 0.0,
-  "peak_equity": 4973.13,
+  "date": "2026-07-15",
   "drawdown": 0.0,
+  "equity": 4973.13,
   "halted": false,
-  "note": "Monitoring-only pass (2026Q2 already traded; next rebalance 2026Q3). 47/47 positions marked live at ~10:06 ET. New peak equity."
+  "note": "Monitoring-only pass (2026Q2 already traded; next rebalance 2026Q3). 47/47 positions marked live at ~10:06 ET. New peak equity.",
+  "peak_equity": 4973.13,
+  "spy": 755.07,
+  "timestamp": "2026-07-15T14:06:30Z"
+ },
+ {
+  "cash": 0.0,
+  "date": "2026-07-15",
+  "drawdown": 0.005747,
+  "equity": 4944.55,
+  "halted": false,
+  "note": "Monitoring-only pass (2026Q2 already traded; next rebalance 2026Q3). 47/47 positions marked live at ~11:08 ET.",
+  "peak_equity": 4973.125599276,
+  "spy": 753.58,
+  "timestamp": "2026-07-15T15:08:00Z"
  }
 ]
