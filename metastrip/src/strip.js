@@ -112,7 +112,11 @@
       if (b[i] !== 0xff) throw new Error('Malformed JPEG: expected a marker at byte ' + i + '.');
       let marker = b[i + 1];
       while (marker === 0xff && i + 2 < b.length) { i++; marker = b[i + 1]; }        // skip fill bytes
-      if (marker === 0xd9) { kept.push(b.subarray(i, i + 2)); i += 2; break; }        // EOI (stop here)
+      if (marker === 0xd9) {                                                         // EOI — stop, drop any trailer
+        kept.push(b.subarray(i, i + 2)); i += 2;
+        if (i < b.length) removed.push({ label: 'Trailing data after image (e.g. appended video/file)', kind: 'trailer', bytes: b.length - i });
+        break;
+      }
       if ((marker >= 0xd0 && marker <= 0xd7) || marker === 0x01) { kept.push(b.subarray(i, i + 2)); i += 2; continue; }
       if (marker === 0xda) {                                                          // SOS + entropy scan
         const start = i;
@@ -214,7 +218,9 @@
       }
       i = end;
     }
+    const hadFlags = !!(vp8x && (vp8x[8] & 0x0c));   // was a stale EXIF/XMP flag actually set?
     if (vp8x) vp8x[8] &= ~0x0c;   // clear EXIF (0x08) + XMP (0x04) flag bits; keep ICC (0x20)
+    if (hadFlags) removed.push({ label: 'Stale WebP EXIF/XMP header flags', kind: 'flags', bytes: 0 });
     const head = b.subarray(0, 12);
     const out = concat([head, ...body]);
     let riffSize = 4;             // the "WEBP" fourcc counts toward the RIFF size

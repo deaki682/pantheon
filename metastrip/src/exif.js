@@ -29,6 +29,10 @@
   // larger ones are stored at an offset. GPS and the Exif sub-block hang off
   // pointer tags in IFD0; IFD1 (if present) is the embedded thumbnail.
   const TYPE_SIZE = { 1: 1, 2: 1, 3: 2, 4: 4, 5: 8, 6: 1, 7: 1, 8: 2, 9: 4, 10: 8, 11: 4, 12: 8 };
+  const MAX_ELEMS = 4096; // cap per-entry element count so a hostile file can't wedge the tab
+  const IFD0_NAMED = new Set([0x010e, 0x010f, 0x0110, 0x0131, 0x0132, 0x013b, 0x013c, 0x8298]);
+  const EXIF_NAMED = new Set([0x9003, 0xa430, 0xa431, 0xa434, 0xa435]);
+  const IFD_POINTERS = new Set([0x8769, 0x8825, 0xa005]);
 
   function parseExifTiff(b, start) {
     try {
@@ -61,12 +65,14 @@
       const str = (e) => {
         if (e.valAbs < 0 || e.valAbs + e.size > b.length) return '';
         let s = '';
-        for (let k = 0; k < e.size; k++) { const c = b[e.valAbs + k]; if (c === 0) break; s += String.fromCharCode(c); }
+        const n = Math.min(e.size, MAX_ELEMS);
+        for (let k = 0; k < n; k++) { const c = b[e.valAbs + k]; if (c === 0) break; s += String.fromCharCode(c); }
         return s.trim();
       };
       const nums = (e) => {
         const arr = []; const sz = TYPE_SIZE[e.type] || 1;
-        for (let k = 0; k < e.cnt; k++) {
+        const n = Math.min(e.cnt, MAX_ELEMS);          // hostile files can declare cnt up to 4G
+        for (let k = 0; k < n; k++) {
           const o = e.valAbs + k * sz;
           if (o + sz > b.length) break;
           if (e.type === 3) arr.push(u16(o));
@@ -80,11 +86,14 @@
       };
 
       const fields = {};
-      let gps = null, hasThumbnail = false, tagCount = 0, exifAbs = 0, gpsAbs = 0;
+      let gps = null, hasThumbnail = false, otherTags = 0, exifAbs = 0, gpsAbs = 0;
 
+      // "otherTags" counts only the non-pointer, non-surfaced technical tags in
+      // IFD0 and the Exif sub-IFD — NOT the pointer entries, and NOT the GPS or
+      // thumbnail sub-entries (those are each already represented by one finding).
       const ifd0 = readIFD(start + u32(start + 4));
-      tagCount += ifd0.entries.length;
       for (const e of ifd0.entries) {
+        if (!IFD0_NAMED.has(e.tag) && !IFD_POINTERS.has(e.tag)) otherTags++;
         switch (e.tag) {
           case 0x010e: fields.description = str(e); break;
           case 0x010f: fields.make = str(e); break;
@@ -98,12 +107,12 @@
           case 0x8825: gpsAbs = start + u32(e.valAbs); break;    // GPS IFD pointer
         }
       }
-      if (ifd0.nextOff) { hasThumbnail = true; tagCount += readIFD(start + ifd0.nextOff).entries.length; }
+      if (ifd0.nextOff) hasThumbnail = true;
 
       if (exifAbs) {
         const ex = readIFD(exifAbs);
-        tagCount += ex.entries.length;
         for (const e of ex.entries) {
+          if (!EXIF_NAMED.has(e.tag) && !IFD_POINTERS.has(e.tag)) otherTags++;
           switch (e.tag) {
             case 0x9003: fields.dateTimeOriginal = str(e); break;
             case 0xa430: fields.owner = str(e); break;           // CameraOwnerName
@@ -113,23 +122,20 @@
           }
         }
       }
-      if (gpsAbs) {
-        const g = readIFD(gpsAbs);
-        tagCount += g.entries.length;
-        gps = parseGps(g.entries, str, nums);
-      }
-      return { fields, gps, hasThumbnail, tagCount };
+      if (gpsAbs) gps = parseGps(readIFD(gpsAbs).entries, str, nums);
+      return { fields, gps, hasThumbnail, otherTags };
     } catch { return null; }
   }
 
   function parseGps(entries, str, nums) {
     let latRef, lat, lonRef, lon, alt;
     for (const e of entries) {
-      if (e.tag === 1) latRef = str(e);
-      else if (e.tag === 2) lat = nums(e);
-      else if (e.tag === 3) lonRef = str(e);
-      else if (e.tag === 4) lon = nums(e);
-      else if (e.tag === 6) alt = nums(e);
+      if (e.tag === 1) { if (latRef === undefined) latRef = str(e); }
+      else if (e.tag === 2) { if (!lat) lat = nums(e); }
+      else if (e.tag === 3) { if (lonRef === undefined) lonRef = str(e); }
+      else if (e.tag === 4) { if (!lon) lon = nums(e); }
+      else if (e.tag === 6) { if (!alt) alt = nums(e); }
+      if (latRef !== undefined && lat && lonRef !== undefined && lon && alt) break; // stop after first full set
     }
     if (!lat || !lon || lat.length < 3 || lon.length < 3) return null;
     const rat = (x) => (Array.isArray(x) ? (x[1] ? x[0] / x[1] : 0) : 0);
@@ -148,8 +154,7 @@
 
   // ---- turn a parsed TIFF into human findings ----
   function collectExif(t, findings, flags) {
-    let named = 0;
-    const push = (o) => { findings.push(o); named++; };
+    const push = (o) => findings.push(o);
     if (t.gps) {
       flags.gps = t.gps;
       push({ label: 'GPS location', value: `${t.gps.latitude.toFixed(6)}, ${t.gps.longitude.toFixed(6)} — where the photo was taken`, severity: 'high' });
@@ -168,8 +173,7 @@
     if (t.fields.description) push({ label: 'Image description', value: t.fields.description, severity: 'low' });
     if (t.fields.copyright) push({ label: 'Copyright', value: t.fields.copyright, severity: 'low' });
     if (t.hasThumbnail) { flags.thumbnail = true; push({ label: 'Embedded thumbnail', value: 'a small copy of the original — can retain the UN-edited image', severity: 'high' }); }
-    const leftover = t.tagCount - named;
-    if (leftover > 0) findings.push({ label: 'Other technical tags', value: `${leftover} more (exposure, ISO, orientation, white balance…)`, severity: 'low' });
+    if (t.otherTags > 0) push({ label: 'Other technical tags', value: `${t.otherTags} more camera settings (exposure, ISO, orientation…)`, severity: 'low' });
     flags.exif = true;
   }
 
@@ -233,19 +237,21 @@
       const data = i + 8;
       const end = i + 12 + len;
       if (end > b.length) break;
+      const limit = end - 4;                       // keyword/text NUL must be found inside the chunk, not the CRC or next chunk
+      const nul = (from) => { const z = b.indexOf(0, from); return z < 0 || z > limit ? limit : z; };
       if (type === 'tEXt') {
-        const z = b.indexOf(0, data);
-        const key = ascii(b, data, (z < 0 ? data : z) - data);
-        const val = td.decode(b.subarray(z < 0 ? data : z + 1, end - 4));
+        const z = nul(data);
+        const key = ascii(b, data, z - data);
+        const val = td.decode(b.subarray(Math.min(z + 1, limit), limit));
         flags.text = true;
         findings.push({ label: `Text: ${key || 'metadata'}`, value: val.slice(0, 120) || 'present', severity: /author|artist|copyright|comment|gps|location/i.test(key) ? 'med' : 'low' });
       } else if (type === 'zTXt') {
-        const z = b.indexOf(0, data);
-        const key = ascii(b, data, (z < 0 ? data : z) - data);
+        const z = nul(data);
+        const key = ascii(b, data, z - data);
         flags.text = true; findings.push({ label: `Compressed text: ${key || 'metadata'}`, value: 'present — will be removed', severity: 'low' });
       } else if (type === 'iTXt') {
-        const z = b.indexOf(0, data);
-        const key = ascii(b, data, (z < 0 ? data : z) - data);
+        const z = nul(data);
+        const key = ascii(b, data, z - data);
         const isXmp = /xmp/i.test(key);
         flags.text = true; if (isXmp) flags.xmp = true;
         findings.push({ label: isXmp ? 'XMP metadata' : `Text: ${key || 'metadata'}`, value: isXmp ? 'edit history, may include creator & GPS' : 'present', severity: isXmp ? 'med' : 'low' });

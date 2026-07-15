@@ -211,5 +211,56 @@ section('ZIP (validated by unzip -t)');
   fs.rmSync(dir, { recursive: true, force: true });
 }
 
+// =====================================================================
+section('review fixes');
+{
+  // (2) JPEG with data appended after EOI: recorded + dropped, changed=true
+  const dqt = [0xff, 0xdb, ...BE16(4), 0, 1], sof = [0xff, 0xc0, ...BE16(5), 8, 0, 1], dht = [0xff, 0xc4, ...BE16(4), 0, 2], sos = [0xff, 0xda, ...BE16(4), 1, 0, 0x11];
+  const jpeg = U8([[0xff, 0xd8], dqt, sof, dht, sos, [0xff, 0xd9], [...Buffer.from('APPENDED_MP4_DATA')]]);
+  const rj = MS.stripBytes(jpeg);
+  assert(rj.changed === true && rj.removed.some((x) => x.kind === 'trailer'), 'JPEG post-EOI trailer recorded (changed=true)');
+  assert(!contains(rj.output, 'APPENDED_MP4_DATA') && rj.output.length < jpeg.length, 'JPEG trailer dropped, output smaller');
+
+  // (3) WebP VP8X flag set but no EXIF/XMP chunk: reader sees nothing, but strip reports changed
+  const pad = (a) => (a.length & 1 ? [...a, 0] : a);
+  const rc = (cc, data) => [...Buffer.from(cc, 'latin1'), ...LE32(data.length), ...pad([...data])];
+  const wbody = U8([rc('VP8X', [0x08, 0, 0, 0, 0, 0, 0, 0, 0, 0]), rc('VP8 ', [1, 2, 3, 4])]);
+  const wfp = U8([[...Buffer.from('RIFF')], LE32(wbody.length + 4), [...Buffer.from('WEBP')], [...wbody]]);
+  assert(MS.readMetadataSummary(wfp).hasAny === false, 'WebP stale-flag: reader finds no metadata');
+  const rw = MS.stripBytes(wfp);
+  assert(rw.changed === true, 'WebP stale-flag: strip reports changed=true');
+  let flags = null, i = 12; while (i + 8 <= rw.output.length) { const cc = String.fromCharCode(rw.output[i], rw.output[i + 1], rw.output[i + 2], rw.output[i + 3]); const sz = (rw.output[i + 4] | rw.output[i + 5] << 8 | rw.output[i + 6] << 16 | rw.output[i + 7] << 24) >>> 0; if (cc === 'VP8X') flags = rw.output[i + 8]; i += 8 + sz + (sz & 1); }
+  assert(flags === 0, 'WebP stale-flag: VP8X flag byte cleared');
+
+  // (1) EXIF DoS cap: a GPS IFD with count=0xFFFFFFFF must not hang the reader
+  const ent = (tag, type, count, val) => [...LE16(tag), ...LE16(type), ...LE32(count), ...LE32(val)];
+  const gpsOff = 8 + 18; // header(8) + ifd0(2+12+4)
+  const header = [0x49, 0x49, 0x2a, 0x00, ...LE32(8)];
+  const ifd0 = [...LE16(1), ...ent(0x8825, 4, 1, gpsOff), ...LE32(0)];
+  const gpsEntries = []; for (let k = 0; k < 64; k++) gpsEntries.push(...ent(2, 1, 0xffffffff, 0));
+  const gpsIfd = [...LE16(64), ...gpsEntries, ...LE32(0)];
+  const tiff = U8([header, ifd0, gpsIfd]);
+  const filler = new Uint8Array(256 * 1024).fill(0x41);
+  const dbody = U8([rc('VP8 ', [...filler]), rc('EXIF', [...tiff])]);
+  const dwebp = U8([[...Buffer.from('RIFF')], LE32(dbody.length + 4), [...Buffer.from('WEBP')], [...dbody]]);
+  const t0 = process.hrtime.bigint();
+  MS.readMetadataSummary(dwebp);
+  const ms = Number(process.hrtime.bigint() - t0) / 1e6;
+  assert(ms < 1000, `EXIF DoS bounded: readMetadataSummary took ${ms.toFixed(0)}ms (<1000)`);
+
+  // (5) 'Other technical tags' no longer double-counts GPS/pointer entries
+  const exifOnly = [0x45, 0x78, 0x69, 0x66, 0, 0, ...exifTiff()];
+  const gj = U8([[0xff, 0xd8], [0xff, 0xe1, ...BE16(exifOnly.length + 2), ...exifOnly], [0xff, 0xd9]]);
+  const gsum = MS.readMetadataSummary(gj);
+  assert(gsum.findings.some((f) => f.label === 'GPS location'), 'GPS-only: still reports GPS');
+  assert(!gsum.findings.some((f) => f.label === 'Other technical tags'), 'GPS-only: no bogus "Other technical tags"');
+
+  // (4) PNG keyword search stays inside its own chunk
+  const pchunk = (type, data) => { const body = [...Buffer.from(type, 'latin1'), ...data]; return [...BE32(data.length), ...body, ...BE32(crc32(U8(body)))]; };
+  const pp = U8([[0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a], pchunk('tEXt', [...Buffer.from('AAAA')]), pchunk('IEND', [])]);
+  const pf = MS.readMetadataSummary(pp).findings.find((x) => /^Text:/.test(x.label));
+  assert(pf && pf.label === 'Text: AAAA', `PNG keyword bounded to chunk (got "${pf ? pf.label : 'none'}")`);
+}
+
 console.log(`\n${passed} passed, ${failed} failed`);
 process.exit(failed ? 1 : 0);

@@ -89,8 +89,18 @@
     return new Uint8Array(await out.arrayBuffer());
   }
 
+  // Prefer the reader's rich findings (GPS coords, camera…); if it surfaced
+  // nothing but the stripper still removed segments (e.g. an unknown APPn, a
+  // trailer, stale WebP flags), show those so the report is never falsely empty.
+  const REMOVED_SEV = { exif: 'high', xmp: 'high', iptc: 'med', thumbnail: 'high', trailer: 'med', comment: 'low', text: 'low', flags: 'low', other: 'low' };
+  function reportFrom(summary, removed) {
+    if (summary.findings.length) return summary.findings;
+    return (removed || []).map((x) => ({ label: x.label, value: x.bytes ? humanSize(x.bytes) + ' removed' : 'removed', severity: REMOVED_SEV[x.kind] || 'low' }));
+  }
+
   // ---- process one file end to end ----
   async function processOne(file) {
+    const myGen = generation;
     const card = makeCard(file.name);
     let bytes;
     try {
@@ -99,6 +109,7 @@
       setBadge(card, 'Error', 'danger'); noImage(card); noDownload(card);
       renderMessage(card, 'Could not read this file.', 'errline'); return;
     }
+    if (myGen !== generation) { card.root.remove(); return; }   // list was cleared while reading this file
     if (bytes.length === 0) {
       setBadge(card, 'Skipped', 'neutral'); noImage(card); noDownload(card);
       renderMessage(card, 'This file is empty (0 bytes).', 'errline'); return;
@@ -113,15 +124,15 @@
       setThumb(card, r.output, fmt);
       card.sizes.textContent = `${fmt.toUpperCase()} · ${humanSize(bytes.length)} → ${humanSize(r.output.length)}`;
 
-      if (!r.changed && !summary.hasAny) {
+      if (!r.changed && !summary.hasAny && r.output.length === bytes.length) {
         setBadge(card, 'Already clean', 'neutral');
         renderMessage(card, 'No metadata found — this file was already clean. The download is identical to the original.', 'nometa');
       } else if (v.clean) {
         setBadge(card, '✓ Verified clean', 'ok');
-        renderFindings(card, summary.findings);
+        renderFindings(card, reportFrom(summary, r.removed));
       } else {
         setBadge(card, 'Cleaned — verify warning', 'warn');
-        renderFindings(card, summary.findings);
+        renderFindings(card, reportFrom(summary, r.removed));
         const p = document.createElement('p'); p.className = 'errline';
         p.textContent = 'Note: a re-scan still detected ' + v.remaining.join(', ') + '. Please report this file.';
         card.findings.appendChild(p);
@@ -137,6 +148,7 @@
       if (SUPPORTED.includes(fmt)) {   // recognised format but malformed → safe fallback
         try {
           const out = await canvasReencode(bytes, fmt);
+          if (myGen !== generation) { card.root.remove(); return; }
           const v = verifyClean(out);
           setThumb(card, out, fmt);
           card.sizes.textContent = `${fmt.toUpperCase()} · ${humanSize(bytes.length)} → ${humanSize(out.length)} (re-encoded)`;
@@ -160,17 +172,19 @@
 
   // ---- batch orchestration ----
   // Files dropped while a batch is still running are queued, not dropped.
+  // `generation` bumps on Clear so an in-flight file abandons instead of
+  // repopulating a just-cleared list.
   let busy = false;
+  let generation = 0;
   const queue = [];
   async function handleFiles(fileList) {
     const files = Array.from(fileList || []);
     if (!files.length) return;
-    queue.push(...files);
+    for (const f of files) queue.push(f);   // not `push(...files)` — a 100k-file drop would overflow the call stack
     if (busy) return;
     busy = true;
-    while (queue.length) await processOne(queue.shift());
-    busy = false;
-    updateBar();
+    try { while (queue.length) await processOne(queue.shift()); }
+    finally { busy = false; updateBar(); }   // always reset, even if a file threw unexpectedly
   }
   function updateBar() {
     const ok = results.filter((r) => r.data).length;
@@ -202,6 +216,8 @@
     downloadBlob(new Blob([makeZip(files)], { type: 'application/zip' }), 'metastrip-cleaned.zip');
   }
   function clearAll() {
+    generation++;            // tell any in-flight processOne to abandon its file
+    queue.length = 0;        // and drop anything still queued
     for (const u of objectUrls) URL.revokeObjectURL(u);
     objectUrls.length = 0;
     results.length = 0;
