@@ -71,5 +71,13 @@
   "equity": 4005.51,
   "spy": 755.14,
   "note": "tend pass: 6 deals held, no break-stops, none past close; NUVL swept in A/B; ARI skipped (liquidation, not a cash merger); GBCS/GRTX past due but unquotable"
+ },
+ {
+  "date": "2026-07-15",
+  "timestamp": "2026-07-15T15:15:00Z",
+  "equity": 4007.03,
+  "spy": 753.6901,
+  "n_positions": 6,
+  "note": "tend pass 11:05 ET: reconcile clean, no break-stops, none past close; 4 new detections (ARI/AVB/IPCXU/BCARU) all Opus-dropped, zero keeps; GBCS/GRTX still unquotable-unresolved"
  }
 ]
