@@ -142,5 +142,13 @@
   "spy": 752.7655,
   "n_positions": 7,
   "note": "12:05 ET pass: tend clean (no stops/past-close, reconcile==[]); sweep 129 cands, only fresh filing NUVL 14D9/A (already graded); 8 backlog reads by pinned opus/high subagent: OGN KEEP -> LIVE $575.00 = 42.56138 sh @ 13.5099 (Sun Pharma $14 all-cash, +3.63% spread, est close 2027-01-26, order 6a59032e); ASRT/EEX/KALV/XOMA closed-before-detection (resolved 0/0), FSK partial-tender not-a-takeover, ZDPY untradable liquidation, NSA all-stock (open, sweeps past 07-22)."
+ },
+ {
+  "date": "2026-07-16",
+  "timestamp": "2026-07-16T17:10:00Z",
+  "equity": 4008.46,
+  "spy": 752.345,
+  "n_positions": 7,
+  "note": "tend pass 13:05 ET: reconcile clean (sleeve==broker on all 7 incl. OGN fill 6a59032e; hermes_reconcile==[]), no break-stops, none past close, marks complete, breaker off; A/B sweep graded 0 new (32 graded, no kept deal resolved yet - lift still insufficient data); sourcing re-swept (129 cands, no new filings); next 8 backlog names read by pinned opus/high subagent: ESPR/CPRX/BLD closed-before-detection, RealAsset-CIK2052161/CEPT/CEPO de-SPACs, HCWC all-stock reverse merger (all 7 resolved 0/0), AFBI KEEP $23 all-cash bank deal +1.37% spread but UNFUNDED (sleeve cash $84.56, broker pool BP $597.27) - arm_a_live=False, fund on freed capital if spread persists"
  }
 ]
