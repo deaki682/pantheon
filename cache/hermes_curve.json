@@ -111,5 +111,13 @@
   "spy": 753.695,
   "n_positions": 6,
   "note": "tend pass 15:05 ET: reconcile clean (sleeve==broker==ledger, hermes_reconcile==[]), no break-stops, none past close; sourcing re-swept (130 cands, latest filing still 07-14/ARI, zero new reads); GBCS/GRTX still unquotable-unresolved"
+ },
+ {
+  "date": "2026-07-16",
+  "timestamp": "2026-07-16T18:10:00Z",
+  "equity": 4007.9,
+  "spy": 753.0,
+  "n_positions": 6,
+  "note": "tend pass 14:05 ET: reconcile clean (sleeve==broker==ledger, hermes_reconcile==[]), no break-stops, none past close; sourcing re-swept (129 cands; only new filing since 07-14 is NUVL 14D9 amendment 07-15, already tracked/resolved \u2014 zero new reads); GBCS/GRTX still unquotable-unresolved"
  }
 ]
