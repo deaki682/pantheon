@@ -634,5 +634,13 @@
   "positions_value": 3989.42,
   "spy": 752.4,
   "note": "zeus tend ~12:20 ET live marks (quotes 16:18Z); book upside-2026-07-10-r1 -1.35% vs 4500 basis, SPY +0.15% from spy_entry 751.31 (excess -1.49pp); reconcile clean (broker==sleeve exact 6/6, only new account order since 07-15 is a non-oracle agentic OGN buy, no open oracle orders); EDGAR all six CIKs: zero filings since entry -> no typed kill evaluable; KLIC -9.25% and ZVRA -10.24% vs entry on no filing - drawdowns never exits; TPC +3.41% best; ab due=0"
+ },
+ {
+  "timestamp": "2026-07-16T17:10:00Z",
+  "equity": 4446.12,
+  "cash": 449.94,
+  "positions_value": 3996.18,
+  "spy": 752.25,
+  "note": "zeus tend 13:04 ET live marks (quotes 17:06Z); book upside-2026-07-10-r1 -1.20% vs 4500 basis, SPY +0.13% from spy_entry 751.31 (excess -1.32pp); reconcile clean (broker==sleeve exact 6/6; only account order since 07-15 is the agentic OGN buy, not oracle's; no open oracle orders); EDGAR all six CIKs: zero filings since entry -> no typed kill evaluable; ZVRA worst -10.24%, KLIC -9.80%, QTWO +4.23% best - drawdowns never exits; ab due=0"
  }
 ]
