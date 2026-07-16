@@ -1,5 +1,5 @@
 {
- "updated": "2026-07-16",
+ "updated": "2026-07-14",
  "events": [
   {
    "symbol": "LEG",
@@ -176,14 +176,12 @@
    "note": "extracted meeting_date 2026-07-09 FAILED plausibility (pre-dates filing), dropped; outside date kept"
   },
   {
-   "symbol": "QIND",
-   "name": "Quality Industrial Corp. (QIND) (CIK 0001393781)",
-   "event_type": "financing_deadline",
-   "event_date": "2028-01-15",
-   "filed": "2026-07-15",
-   "source": "8-K 0001493152-26-033297 Item 1.01 \u2014 RB Capital forbearance: $1.675M over 19 monthly installments 2026-07-30..2028-01-15 (first cliff 2026-07-30 $25k); matured 2022/2023 convertibles $1.587M o/s at 6/30/26; conversion $1.00/sh",
-   "source_url": "https://www.sec.gov/Archives/edgar/data/1393781/000149315226033297/form8-k.htm",
-   "notes": "doc read in full session 12; OTC sub-dollar, no chain \u2014 untradable; deposited for the record"
+   "symbol": "AGEN",
+   "event_type": "debt_maturity",
+   "event_date": "2026-11-26",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1098972/000095017024131263/agen-20241126.htm",
+   "source": "8-K 2024-11-27 (accession 0000950170-24-131263): Ocean 1181 LLC promissory note, 2-year term from 2024-11-26, $22M principal ($24.75M per 7/13/26 PIPE SPA sec. 5.14), 12-13% w/ half interest paid in stock, secured by Berkeley mfg facility + Vacaville land",
+   "note": "PIPE 7/13/26 obligates only 'commercially reasonable efforts' to extend. Chain exists but event-interval marks self-inconsistent (kink UNRELIABLE 7/16) + gate-5 fail; recheck chain readability as date nears"
   }
  ]
 }
