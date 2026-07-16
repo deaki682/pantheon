@@ -154,6 +154,25 @@ fixed-gate ratio 1.01. Supply for the screen must come from UNDATED
 non-merger events (Federal Register/ITC, extensions, financing
 deadlines) — still the open sourcing gap.
 
+**Invert-the-funnel study, 2026-07-16 (s12 — measured, no build):** the
+optionable-first funnel is mechanically cheap (FTS channel → broker quote
+gate kills OTC/inactive → `get_option_chains` kills ~80% pre-read → doc
+read → dated-cliff gate) and its answer was bearish. `"Item 2.04"` 8-K/30d:
+32 hits → 3 chain-bearing (AMC/AXTI/DAIO) → 0 forward-dated (the item is
+backward-looking by construction; 3 of 8 tickers were M&A corpses —
+`inactive_instruments` on the quote call is a free corpse detector).
+Going-concern 10-Q/K: 1 chain-bearing (BZAI), undated burn. `"springing
+maturity"` 8-K/30d: 9 hits, 100% listed/optionable — but a verified read
+(CAR) showed routine-refi boilerplate, spring dates relative and years
+out; query DECLINED (lesson: verify one hit's content before believing a
+base rate). Kink supply is now measured starved from BOTH directions
+(distress-first: dated-but-untradable; optionable-first:
+tradable-but-undated). Last untested channel: FR/ITC decision dates on
+listed names (`eventfeed.fr_itc_recent`, plumbing exists, base rate
+unmeasured) — measure it before any further kink effort; otherwise the
+7/14 kill-spec clock (60 days of zero liquidity-pre-gate survivors →
+DEAD) decides.
+
 ## Order path — STAGED AND CLEAN (art. 16, 2026-07-13)
 
 The live equity order path (schema journal → guards → place_equity_order

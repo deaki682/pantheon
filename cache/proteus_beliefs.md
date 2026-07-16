@@ -1,4 +1,4 @@
-# Proteus v2 — beliefs (rewritten 2026-07-15, session 11: journal-path trap found and fixed; feed3 v2 measured; parked)
+# Proteus v2 — beliefs (rewritten 2026-07-16, session 12: invert-the-funnel measured; kink-screen supply starved from BOTH directions; parked)
 
 I am Proteus v2. This file is my mind; whoever reads it next is me. The law
 is `docs/proteus_v2_charter.md` — **charter v2.1, RATIFIED IN FULL** — plus
@@ -6,24 +6,24 @@ the five invariants: bounded loss, kill switch first, integrity gate, honest
 grading, the Effort Law. Everything else here is belief — overwrite it the
 moment the evidence says to.
 
-## State (as of session 11 close, Wed 2026-07-15 ~14:45 UTC, market hours)
+## State (as of session 12 close, Thu 2026-07-16 ~15:45 UTC, market hours)
 
 - **Sleeve: PARKED. VOO 3.536615 sh @ 691.339 entry (PARK, art. 13b
-  benchmark-exempt) + $54.9989 cash, all settled. Equity $2,509.62 at the
-  VOO 694.06 mark (14:11:27Z tape) — NEW PEAK. SPY 755.04.**
-- Reconcile 7/15: CLEAN — broker VOO 3.536615 @ 691.34 == sleeve; no
-  proteus orders since 7/13; ledger 6 rows (3 placed + 3 filled, by
-  design). Operator PERSONAL VXUS sell (11 sh @ 85.00) filled at the 7/15
-  open — blind-spot position, matches the 7/14 situation note; account BP
-  should now be ~$1,167 but RE-READ IT LIVE at any order (art. 26a).
-- Journal: **46 rows, RECOUNTED FROM THE FILE** (37 found at open + 2
-  integrity/anomaly/session notes + 3 migrated + 2 dispositions + 4
-  afternoon notes/dispositions). Ledger unchanged.
-- Suite: **1924 green.** Commit `4cc587d` on session dev branch
-  (journal-path fix + feed3 query) — reaches main via the operator's PR
-  flow like `19b71f1`/`b2f954e` did.
-- Real-money grades: still 0. Probe caps bind everything. No open
-  primaries; no matured predictions due.
+  benchmark-exempt) + $54.9989 cash, all settled. Equity $2,503.47 at the
+  VOO 692.32 mark (15:07Z tape); SPY 753.18. Peak $2,509.62 stands
+  (drawdown −0.25%, no ladder event).**
+- Reconcile 7/16: CLEAN — broker VOO 3.536615 @ 691.34 == sleeve; zero
+  proteus orders since 7/13; ledger 6 rows unchanged.
+- Journal: **54 rows, RECOUNTED FROM THE FILE** (46 at open + 1 session
+  note + 6 dispositions + 1 study note). All writes went through
+  `proteus.schema.append_record` (the art. 15 gate) — it refused two
+  malformed drafts correctly before accepting (the gate works).
+- Real-money grades: still 0. No open primaries; no matured predictions
+  due. No orders placed s12; no code shipped s12 (suite run not required —
+  integrity gate binds self-modifications only).
+- Eventfeed store: 20 events (added QIND financing_deadline 2028-01-15,
+  installments from 2026-07-30, source_url cited; OTC untradable —
+  deposited for the record).
 
 ## STANDING DUTY — art. 16 staging armed (do not forget this)
 
@@ -33,45 +33,49 @@ runs STAGED: minimum executable size, dry-run-verified against
 review_equity_order in the same session, journaled as a PROCESS entry,
 BEFORE full Title I sizes.** This is charter law, not a preference.
 
-## What session 11 proved (act on this, don't re-derive it)
+## What session 12 measured (act on this, don't re-derive it)
 
-1. **The lost-entries mystery is SOLVED and FIXED.** journal.py's
-   JOURNAL_PATH defaulted to the v1 ghost path; `append_decision(record)`
-   with no explicit path silently wrote to an unpersisted stray file.
-   Session 10's 3 narrative entries died that way; session 11's 3
-   session-open notes did too (caught live, migrated same-session, stray
-   deleted). Fix + regression test shipped (`4cc587d`). **Session code
-   standard: write via `proteus.schema.append_record` (the art. 15 gate);
-   it validates dispositions/grades too — `journal.append_decision`
-   refuses action types the schema accepts.**
-2. **Feed3 v2 measured, not guessed:** planned phrases "forbear until" /
-   "forbearance period expires" = ZERO FTS hits/30d → NOT added. New query
-   `"agrees to forbear"` = +1 hit/30d, surfaces agreement EXHIBITS the v1
-   queries miss → ADDED. Systematic extraction gap identified: cliffs in
-   agreement docs are RELATIVE dates ("sixty (60) days following the
-   funding date") which absolute-date parsing cannot see. **Deliberately
-   NOT built**: on 3 live cases (QIND, SAFX, EXYN) every dated cliff died
-   at the LIQUIDITY gate, never at extraction — the feed3 population
-   skews nano-cap/OTC with no chains. Build relative-date extraction ONLY
-   if a chain-bearing candidate ever surfaces.
-3. **SAFX new fact:** 7/08 ex10-1 is a NEW $750k bridge note, 10%,
-   maturity ~60 days post-funding (~early-Sept 2026 cliff), Nasdaq
-   delisting = event of default, 5M penalty shares. Real distress, real
-   date, UNTRADABLE ($0.49, no chain). The Twain forbearance's own cliff
-   is still undated in any filed doc.
-4. **Repo anomaly flagged to operator (art. 22 push sent):** 7 commits
-   authored "Claude" 2026-07-15 06:54–08:35Z on the session dev branch
-   build "UnTraceable" (client-side photo EXIF stripper + $7 sales landing
-   page). Not trading machinery, not journaled anywhere, not proteus:-
-   prefixed, fails the build test. Content itself benign. NOT my work per
-   the record; possibly the operator's own side project on the shared
-   branch. Left untouched. If the operator says it's theirs, drop it; if
-   not, it needs investigating (who authored it?).
-5. Scans 7/14..15: tenders 0 (9 hits / 0 actionable since 5/27, kill-spec
-   ticking); deadlines 2 (PLUR: EIB negotiation, no date yet — REVISIT on
-   any dated amendment; QIND: real workout, dated 2028 terminus, OTC
-   untradable). EDGAR FTS 500s persist intermittently; retry-with-backoff
-   clears in 1–2 attempts (don't patch shared/edgar.py for a transient).
+1. **The inverted funnel WORKS as machinery, and its answer is bearish
+   for the kink screen.** Method proven cheap: FTS channel → broker quote
+   gate (kills OTC/inactive, 20 symbols/call) → chain gate
+   (`get_option_chains`, 1 call/name, kills ~80% pre-read) → document
+   read → dated-cliff gate. Measured this window:
+   - `"Item 2.04"` 8-K/30d: 32 hits (12 CMBS noise), 8 corporate tickers,
+     3 chain-bearing (AMC/AXTI/DAIO), **0 forward-dated cliffs** — Item
+     2.04 is BACKWARD-looking by construction (reports triggers already
+     fired), and partly a post-M&A artifact (ASRT/CWAN/SEM inactive =
+     completed deals' change-of-control accelerations).
+   - Going-concern 10-Q/K/14d: 23 hits, 1 chain-bearing (BZAI), 0 dated
+     (burn-rate cliffs have no date to straddle).
+   - `"springing maturity"` 8-K/30d measured per lesson 13 BEFORE adding:
+     9 hits, 7 tickers, 100% listed/optionable (BV/CAR/GLIBA/OII/PBH/
+     SITM/SMTC) — verified read (CAR 7/01) shows routine-refi protective
+     boilerplate, spring dates relative and years out. **Query DECLINED.**
+     Near-dated springs live in EXISTING cap structures (10-K
+     cross-sectional read = heavier build, doubtful edge vs credit desks).
+2. **Kink-screen supply is now measured starved from BOTH directions:**
+   distress-first (feed3) → dated but untradable; optionable-first →
+   tradable but undated-or-resolved. Kill-spec clock (from 7/14: 60 days
+   of zero liquidity-pre-gate survivors → DEAD) ticked another day with
+   zero survivors. Do not build for this ground without a NEW sourcing
+   idea that names where forward-dated + optionable events actually live
+   (candidates untested: Federal Register/ITC decision dates on listed
+   names — the fr_itc plumbing exists; Nasdaq compliance-deadline 8-Ks).
+3. **Broker gates surface M&A corpses:** `get_equity_quotes` 400s with
+   `inactive_instruments` on acquired/delisted names — a free
+   is-this-still-alive gate. And batch quotes silently DROP symbols they
+   can't serve (11 of 18 returned; the missing 3 were the inactive ones,
+   surfaced only when queried alone) — never assume a missing symbol is
+   an error in your list; query it alone before concluding.
+4. Daily scan 7/15..16: tenders 0 (kill-spec ticking, 0 actionable since
+   5/27); deadlines 1 = QIND second forbearance (RB Capital, $1.675M / 19
+   installments 7/30/26→1/15/28) — read, deposited, killed at the same
+   liquidity gate as every prior QIND hit.
+5. Side observations from the study tape (NOT theses, NOT worked):
+   NVVE −54% intraday on 7/16; AXTI −12% same day with an InP/AI story
+   and an undated $49M redemption overhang. Neither has a divergence
+   view; neither was leaned live. If either ever earns a read it starts
+   from zero at the full entry bar.
 
 ## Posture and standing duties
 
@@ -80,44 +84,48 @@ BEFORE full Title I sizes.** This is charter law, not a preference.
   ONLY to fund an entry clearing the full bar, or on the kill switch.
   >1 index-park round trip in a rolling month = thesis in disguise. July
   flat-month note owed if July ends parked (posture chosen 7/13,
-  reaffirmed 7/14 and 7/15).
+  reaffirmed 7/14, 7/15, 7/16).
 - **Wash-sale ledger fact:** $0.0012 SPY loss realized 2026-07-13. Any
   SPY re-entry before 2026-08-12 re-runs the art. 20b check.
 - Art. 26a fresh at every order: spendable = min(sleeve cash, account
   settled BP minus other gods' pending deployments). My cash: $54.9989.
 - First record brief due at 20 graded decisions or by 2026-10-11.
-- Art. 22 push SENT this session (batched: integrity event + fix, repo
-  anomaly, session status). No orders placed; no other typed events.
+- **Repo anomaly (from s11, still open):** 7 non-proteus "UnTraceable"
+  commits on the session dev branch, flagged to operator via art. 22 push
+  7/15. No operator response seen by s12. Left untouched; not mine.
+- No art. 22 typed events arose in s12 (no orders, no drawdown crossing,
+  no cadence change, no integrity events) — no push owed.
 
 ## Where MY edge might live (updated honestly)
 
-1. **Event convexity via the kink screen** — machinery complete; the
-   supply problem is now sharper: feed3 finds real dated distress cliffs
-   but in an untradable population. The next supply idea must source
-   OPTIONABLE names first (screen the chain, then the filings — invert
-   the funnel), or the kink screen starves. Think on this before
-   building anything.
+1. **Event convexity via the kink screen** — machinery complete, supply
+   MEASURED STARVED from both funnel directions (see above). On the
+   clock. The only paths left: (a) regulatory-date channels (FR/ITC on
+   listed names, plumbing exists, base rate unmeasured), (b) let the
+   kill-spec fire on schedule and fold the machinery. Measure (a) before
+   any further effort here.
 2. **Odd-lot tenders** — mechanics fully answered, waiting on supply.
-   Kill-spec (<12 actionable/yr) ticking.
+   Kill-spec (<12 actionable/yr) ticking; 0 actionable since 5/27.
 3. **Neglected-corner reads** — CRCT precedent; keep accumulating honest
    AVOIDs; the shadow book is where avoidance becomes evidence (art. 8).
-4. **Avoidance is still the only measured-real LLM skill** — sessions
-   10–11 killed 8 more candidates before a dollar moved. The record shows
-   avoidance working; it does not yet show a positive edge.
+4. **Avoidance is still the only measured-real LLM skill** — s12 killed
+   6 more at the gates before a dollar moved (QIND, AXTI, AMC, DAIO,
+   BZAI, CAR). The record shows the reading working; it does not yet
+   show a positive edge.
 
 ## Plan (next session)
 
 - (a) Reconcile VOO; mark curve vs SPY.
-- (b) Daily tender + deadline scan (now 4 queries; yesterday..today).
-- (c) **Invert-the-funnel study (no build yet):** take the optionable
-  universe (names with listed chains) and ask which of THEM carry dated
-  financing/deal cliffs inside 12 months — from the eventfeed store
-  (AVB/APGE votes, HUN outside date) and any new deposits. That is where
-  kink-screen supply must come from; feed3 keeps running as the
-  distress-side control.
-- (d) If ANY entry is contemplated: art. 16 staged order FIRST (see
-  standing duty above), art. 26a arithmetic, full entry schema.
-- (e) NO park round trips.
+- (b) Daily tender + deadline scan (4 queries; yesterday..today).
+- (c) **Measure the FR/ITC channel base rate** (the last untested kink
+  supply): `eventfeed.fr_itc_recent` — how many dated decisions/30d, how
+  many on listed+optionable names? One session, measurement only; the
+  result decides whether the kink ground lives to its kill-spec date or
+  dies early by evidence.
+- (d) If ANY entry is contemplated: art. 16 staged order FIRST (standing
+  duty above), art. 26a arithmetic, full entry schema.
+- (e) NO park round trips. July flat-month posture note comes due at
+  month end if still parked.
 
 ## Lessons (cumulative scar tissue — keep ALL of these)
 
@@ -129,11 +137,10 @@ BEFORE full Title I sizes.** This is charter law, not a preference.
    names (CRBD→CRBG 7/13; CIK-resolution 7/14).
 4. A session that skips reading this file, the charter, and the ledger is
    a dumber god.
-5. Honest kills compound: 7/13 five, 7/14 five, 7/15 three more (+SAFX
-   follow-up). The record shows the reading working before the wallet.
+5. Honest kills compound: 7/13 five, 7/14 five, 7/15 three, 7/16 six.
+   The record shows the reading working before the wallet.
 6. Verify the record before trusting any summary of it — including mine.
-   Counts are computations, never recollections. (Session 11 proved it:
-   the "41 rows" belief was wrong twice over.)
+   Counts are computations, never recollections.
 7. Session containers are ephemeral and shallow-cloned: `git fetch
    --deepen` before reasoning about history; `pip install pytest numpy`
    before the suite (~1 min, then 1924 tests in ~4s).
@@ -152,8 +159,12 @@ BEFORE full Title I sizes.** This is charter law, not a preference.
     twins of the same file.** Pass paths explicitly or pin them with a
     regression test. And: `journal.append_decision` validates only
     enter|exit|note — dispositions/grades go through
-    `schema.append_record`. A writer that RAISES on a valid record and a
-    writer that silently writes to the WRONG FILE are different bugs; I
-    had both in one module.
-13. Measure a query's base rate BEFORE adding it to a feed. Two planned
-    queries died in measurement today; one unplanned one earned its place.
+    `schema.append_record`.
+13. Measure a query's base rate BEFORE adding it to a feed — and verify
+    ONE hit by reading it before believing the base rate means what you
+    think (s12: springing-maturity's 9 listed hits were all routine-refi
+    boilerplate; the count lied about the content).
+14. Batch quote calls silently drop symbols they can't serve; a missing
+    symbol is a FINDING (often a delisted/acquired corpse), not a typo —
+    re-query it alone. `inactive_instruments` is a free M&A-corpse
+    detector.
