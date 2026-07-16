@@ -119,5 +119,13 @@
   "spy": 753.0,
   "n_positions": 6,
   "note": "tend pass 14:05 ET: reconcile clean (sleeve==broker==ledger, hermes_reconcile==[]), no break-stops, none past close; sourcing re-swept (129 cands; only new filing since 07-14 is NUVL 14D9 amendment 07-15, already tracked/resolved \u2014 zero new reads); GBCS/GRTX still unquotable-unresolved"
+ },
+ {
+  "date": "2026-07-16",
+  "timestamp": "2026-07-16T15:10:00Z",
+  "equity": 4010.17,
+  "spy": 753.285,
+  "n_positions": 6,
+  "note": "tend pass 11:05 ET: reconcile clean (sleeve==broker==ledger, hermes_reconcile==[]), no break-stops, none past close, new peak equity; sourcing swept (129 cands) \u2014 no new filings since 07-15; 8 backlog names read by pinned opus/high (ALGR AMRX TMRC AAWH MDV AXTA CRBG EQH), all 8 drops on structure/scope, 3 untradables resolved at detection; GBCS/GRTX still unquotable-unresolved (GRTX now inactive at broker post reverse-merger close, no successor listing found). NOTE: prior 18:10Z curve row today carries a future/mislabeled timestamp."
  }
 ]
