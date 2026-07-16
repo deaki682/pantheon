@@ -127,5 +127,20 @@
   "spy": 753.285,
   "n_positions": 6,
   "note": "tend pass 11:05 ET: reconcile clean (sleeve==broker==ledger, hermes_reconcile==[]), no break-stops, none past close, new peak equity; sourcing swept (129 cands) \u2014 no new filings since 07-15; 8 backlog names read by pinned opus/high (ALGR AMRX TMRC AAWH MDV AXTA CRBG EQH), all 8 drops on structure/scope, 3 untradables resolved at detection; GBCS/GRTX still unquotable-unresolved (GRTX now inactive at broker post reverse-merger close, no successor listing found). NOTE: prior 18:10Z curve row today carries a future/mislabeled timestamp."
+ },
+ {
+  "date": "2026-07-16",
+  "timestamp": "2026-07-16T16:07:00Z",
+  "equity": 4010.16,
+  "spy": 752.7655,
+  "n_positions": 6
+ },
+ {
+  "date": "2026-07-16",
+  "timestamp": "2026-07-16T16:20:00Z",
+  "equity": 4010.16,
+  "spy": 752.7655,
+  "n_positions": 7,
+  "note": "12:05 ET pass: tend clean (no stops/past-close, reconcile==[]); sweep 129 cands, only fresh filing NUVL 14D9/A (already graded); 8 backlog reads by pinned opus/high subagent: OGN KEEP -> LIVE $575.00 = 42.56138 sh @ 13.5099 (Sun Pharma $14 all-cash, +3.63% spread, est close 2027-01-26, order 6a59032e); ASRT/EEX/KALV/XOMA closed-before-detection (resolved 0/0), FSK partial-tender not-a-takeover, ZDPY untradable liquidation, NSA all-stock (open, sweeps past 07-22)."
  }
 ]

@@ -1,6 +1,6 @@
 {
  "name": "hermes",
- "cash": 659.56,
+ "cash": 84.56001233799998,
  "contributed_cash": 4000.0,
  "positions": {
   "ALOT": {
@@ -74,6 +74,18 @@
    "spy_entry": 751.31,
    "deal_type": "cash",
    "dollars": 593.25
+  },
+  "OGN": {
+   "symbol": "OGN",
+   "shares": 42.56138,
+   "entry_price": 13.5099,
+   "offer_price": 14.0,
+   "entry_date": "2026-07-16",
+   "expected_close": "2027-01-26",
+   "break_stop": 11.4834,
+   "spy_entry": 752.7655,
+   "deal_type": "cash",
+   "dollars": 574.999987662
   }
  },
  "closed": [],
