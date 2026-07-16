@@ -9,6 +9,6 @@
  "quality_terciles": {},
  "score_terciles": {},
  "sector_return": {},
- "as_of": "2026-07-15",
- "note": "No graded positions yet - earliest horizon matures 2027-06-29 (365d on the 2026-06-29 screen cohort). Marked 273 open paper positions; 0 new opens (parent /oracle ran tend-only; the only unopened screen name EWSB has no Robinhood instrument)."
+ "as_of": "2026-07-16",
+ "note": "marks = official 2026-07-15 closes (pre-market run 09:10 ET 07-16). 0 graded entries; horizons start maturing 2027-06-29 - lens lift/calibration sections are structural placeholders until grades land. EWSB (screen top-100) NOT opened: no broker quote (illiquid, 705k shares outstanding) - fails the liquidity gate; logged, not silently dropped. PFBX quoted but state=unlisted at broker - marked at 21.75, watch for delisting (survivorship guard grades unpriceable names as a loss at horizon)."
 }
