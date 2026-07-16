@@ -1,14 +1,14 @@
 {
- "n": 0,
- "mean_return": null,
- "hit_rate": null,
- "lens_lift": {},
- "conviction_tiers": {},
- "conviction_monotonic": false,
- "valuation_terciles": {},
- "quality_terciles": {},
- "score_terciles": {},
- "sector_return": {},
- "as_of": "2026-07-16",
- "note": "intraday marks ~14:20 ET 07-16 (replaces the pre-market 07-16 point). 0 graded entries; earliest horizons mature 2027-06-29 \u2014 lens lift/calibration sections stay empty until then. 179 open names marked; PFBX quoted state=unlisted (marked at last trade 21.75, watch for delisting). EWSB (screen) not opened: 404 missing_instrument at broker, unpriceable."
+  "n": 0,
+  "mean_return": null,
+  "hit_rate": null,
+  "lens_lift": {},
+  "conviction_tiers": {},
+  "conviction_monotonic": false,
+  "valuation_terciles": {},
+  "quality_terciles": {},
+  "score_terciles": {},
+  "sector_return": {},
+  "as_of": "2026-07-16",
+  "note": "intraday marks ~11:27 ET 07-16 (replaces the earlier 07-16 point). 0 graded entries; earliest horizons mature 2027-06-29 \u2014 lens lift/calibration sections empty until then. EWSB (screen) remains unpriceable at the broker and stays unopened. PFBX quoted state=unlisted (last trade 07-15) \u2014 marked at last trade; watch for delisting at grading time."
 }
