@@ -10,5 +10,5 @@
  "score_terciles": {},
  "sector_return": {},
  "as_of": "2026-07-16",
- "note": "marks = official 2026-07-15 closes (pre-market run 09:10 ET 07-16). 0 graded entries; horizons start maturing 2027-06-29 - lens lift/calibration sections are structural placeholders until grades land. EWSB (screen top-100) NOT opened: no broker quote (illiquid, 705k shares outstanding) - fails the liquidity gate; logged, not silently dropped. PFBX quoted but state=unlisted at broker - marked at 21.75, watch for delisting (survivorship guard grades unpriceable names as a loss at horizon)."
+ "note": "intraday marks ~14:20 ET 07-16 (replaces the pre-market 07-16 point). 0 graded entries; earliest horizons mature 2027-06-29 \u2014 lens lift/calibration sections stay empty until then. 179 open names marked; PFBX quoted state=unlisted (marked at last trade 21.75, watch for delisting). EWSB (screen) not opened: 404 missing_instrument at broker, unpriceable."
 }
