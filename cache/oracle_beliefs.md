@@ -30,18 +30,19 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
-Mark 2026-07-16 ~11:22 ET (intraday tend, live quotes): equity $4,447.16
-(-1.17% vs basis; SPY 753.22 vs spy_entry 751.31, +0.25%; excess -1.43pp).
+Mark 2026-07-16 ~12:18 ET (intraday tend, live quotes): equity $4,439.36
+(-1.35% vs basis; SPY 752.40 vs spy_entry 751.31, +0.15%; excess -1.49pp).
 Cash $449.94 (~10%). No filings on any held name since entry (EDGAR re-checked
-every tend through 07-16 ~11:30 ET; latest: KLIC 07-08 Form 4s, TPC 07-06 8-K,
+every tend through 07-16 ~12:20 ET; latest: KLIC 07-08 Form 4s, TPC 07-06 8-K,
 ZVRA 07-08 Form 144 — all pre-entry or already read) - no kill evaluable yet;
 all six kills are print-based, next checks at the ~Jul/Aug prints. Worst wobbles
-KLIC -8.31% (down -6.06% intraday 07-16 on NO filing event) and ZVRA -8.76%;
-TPC +3.62% the best - drawdowns, never exits. Broker reconcile clean: 6/6 share
-counts match exactly, no account orders created since 07-15, no open oracle
-orders. A/B due_for_grade=0. NOTE (housekeeping): earlier 07-16 tend entries in
-the journal/curve are stamped 18:15Z ("14:15 ET") but actually ran ~15:05Z
-(~11:05 ET) — UTC mislabeled as ET; do not treat those stamps as clock truth.
+KLIC -9.25% (sliding intraday 07-16 on NO filing event) and ZVRA -10.24%;
+TPC +3.41% the best - drawdowns, never exits. Broker reconcile clean: 6/6 share
+counts match exactly; the only account order since 07-15 is a non-oracle agentic
+OGN buy (another god's — invisible); no open oracle orders. A/B due_for_grade=0.
+NOTE (housekeeping): earlier 07-16 tend entries stamped 18:15Z ("14:15 ET")
+actually ran ~15:05Z (~11:05 ET) — UTC mislabeled as ET; entries from 15:30Z
+onward are stamped correctly in UTC.
 
 ## A/B state (Stage 6 — the checkpoint's evidence)
 
