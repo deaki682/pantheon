@@ -30,17 +30,19 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
-Mark 2026-07-16 ~13:06 ET (intraday tend, live quotes 17:06Z): equity $4,446.12
-(-1.20% vs basis; SPY 752.25 vs spy_entry 751.31, +0.13%; excess -1.32pp).
+Mark 2026-07-16 ~15:12 ET (intraday tend, live quotes 19:12Z): equity $4,440.20
+(-1.33% vs basis; SPY 749.67 vs spy_entry 751.31, -0.22%; excess -1.11pp).
 Cash $449.94 (~10%). No filings on any held name since entry (EDGAR re-checked
-every tend through 07-16 ~13:08 ET; latest: KLIC 07-08 Form 4s, TPC 07-06 8-K,
+every tend through 07-16 ~15:14 ET; latest: KLIC 07-08 Form 4s, TPC 07-06 8-K,
 ZVRA 07-08 Form 144 — all pre-entry or already read) - no kill evaluable yet;
 all six kills are print-based, next checks at the ~Jul/Aug prints. Worst wobbles
-KLIC -9.80% (still sliding intraday 07-16 on NO filing event) and ZVRA -10.24%;
-QTWO +4.23% the best - drawdowns, never exits. Broker reconcile clean: 6/6 share
+KLIC -10.12% (still sliding intraday 07-16 on NO filing event) and ZVRA -10.03%;
+QTWO +3.93% the best - drawdowns, never exits. Broker reconcile clean: 6/6 share
 counts match exactly; the only account order since 07-15 is a non-oracle agentic
 OGN buy (another god's — invisible, filled 16:13Z); no open oracle orders.
-A/B due_for_grade=0.
+A/B due_for_grade=0. Zeus's 15:12 dispatch claimed the 3-day research cadence
+was due; verified FALSE in-session (last stamp 07-14T16:16Z, 2.12d elapsed,
+due 07-17) — sourcing no-op stands regardless (standing duty 3), stamp untouched.
 NOTE (housekeeping): earlier 07-16 tend entries stamped 18:15Z ("14:15 ET")
 actually ran ~15:05Z (~11:05 ET) — UTC mislabeled as ET; entries from 15:30Z
 onward are stamped correctly in UTC.
