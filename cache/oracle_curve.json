@@ -658,5 +658,13 @@
   "positions_value": 4000.66,
   "spy": 750.83,
   "note": "zeus tend 17:05 ET, post-close marks at the 16:00 close (quotes 19:59:59Z); book upside-2026-07-10-r1 -1.10% vs 4500 basis, SPY 750.83 vs spy_entry 751.31 (-0.06%), excess -1.03pp; reconcile clean (broker==sleeve exact 6/6; only account order since 07-15 is the non-oracle agentic OGN buy; no open oracle orders); EDGAR: ONE new filing since last tend - KLIC SCHEDULE 13G 07-16 (JPMorgan Chase, passive 5.0% as of 06/30) - not kill-relevant; no typed kill evaluable (all print-based, Jul/Aug); KLIC -10.01%, ZVRA -9.57% - drawdowns never exits; QTWO +4.94% best; ab due=0"
+ },
+ {
+  "timestamp": "2026-07-17T14:09:00Z",
+  "equity": 4432.53,
+  "cash": 449.94,
+  "positions_value": 3982.59,
+  "spy": 746.12,
+  "note": "zeus tend ~10:07 ET live marks (quotes 14:07Z); book upside-2026-07-10-r1 -1.50% vs 4500 basis, SPY 746.12 vs spy_entry 751.31 (-0.69%), excess -0.81pp; reconcile clean (broker==sleeve exact 6/6; no oracle orders since 07-16 tend, no open orders; OGN position is another god's - invisible per filter_broker_to_gods); EDGAR all six CIKs: only filing since 07-10 entry remains the KLIC 13G 07-16 (JPMorgan passive 5.0%, already dispositioned, not kill-relevant) -> no typed kill evaluable (all print-based, Jul/Aug); KLIC -12.88% worst, ZVRA -9.25% - drawdowns never exits; QTWO +6.44% best; ab due=0"
  }
 ]

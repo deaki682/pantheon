@@ -30,22 +30,25 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
-Mark 2026-07-16 CLOSE (end-of-day tend 17:05 ET, official 16:00 close): equity
-$4,450.60 (-1.10% vs basis; SPY 750.83 vs spy_entry 751.31, -0.06%; excess
--1.03pp). Cash $449.94 (~10%). ONE new filing since entry: KLIC SCHEDULE 13G
-filed 07-16 — JPMorgan Chase passive 5.0% (2,628,921 sh, event 06/30, acc
-0000019617-26-000267), read in full, NOT kill-relevant (KLIC kill is the ~Aug
-revenue print). No other filings on any held name since the 07-10 entry — no
-kill evaluable yet; all six kills are print-based, next checks at the ~Jul/Aug
-prints. Worst wobbles KLIC -10.01% and ZVRA -9.57% (both on NO adverse filing);
-QTWO +4.94% the best - drawdowns, never exits. Broker reconcile clean: 6/6 share
-counts match exactly; the only account order since 07-15 is a non-oracle agentic
-OGN buy (another god's — invisible, filled 16:13Z); no open oracle orders.
-A/B due_for_grade=0. Research cadence not due (last stamp 07-14T16:16Z, due
-07-17) — sourcing no-op stands regardless (standing duty 3), stamp untouched.
+Mark 2026-07-17 ~10:07 ET (mid-morning tend, quotes 14:07Z): equity $4,432.53
+(-1.50% vs basis; SPY 746.12 vs spy_entry 751.31, -0.69%; excess -0.81pp). Cash
+$449.94 (~10%). EDGAR all six CIKs: the ONLY filing since the 07-10 entry
+remains the KLIC SCHEDULE 13G filed 07-16 (JPMorgan Chase passive 5.0%, acc
+0000019617-26-000267, read + dispositioned 07-16 — NOT kill-relevant; KLIC kill
+is the ~Aug revenue print). Zero fresh filings → no kill evaluable; all six
+kills print-based, next checks at the ~Jul/Aug prints. KLIC -12.88% is the
+deepest wobble yet and ZVRA -9.25%, both on NO adverse filing — drawdowns,
+never exits; QTWO +6.44% the best. Broker reconcile clean: 6/6 share counts
+exact; no oracle orders since the 07-16 close tend; the account's OGN position
+is another god's (invisible). Legacy CXT/HDSN/J/PSN/VITL absent from broker as
+EXPECTED — all five exited 2026-07-06 (operator_liquidation_for_launch per
+oracle_cohort.json). A/B due_for_grade=0. Research cadence verified in-session
+not due at run time (last 07-14T16:16Z, due 16:16Z today; run 14:07Z) — sourcing
+no-op stands regardless (standing duty 3), stamp untouched.
 NOTE (housekeeping): earlier 07-16 tend entries stamped 18:15Z ("14:15 ET")
 actually ran ~15:05Z (~11:05 ET) — UTC mislabeled as ET; entries from 15:30Z
-onward are stamped correctly in UTC.
+onward are stamped correctly in UTC. Zeus dispatch headers may still carry the
+mislabel (today's said "~14:05 ET" at a 14:07 UTC clock).
 
 ## A/B state (Stage 6 — the checkpoint's evidence)
 
