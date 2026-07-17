@@ -166,5 +166,13 @@
   "spy": 750.19,
   "n_positions": 7,
   "note": "tend pass 15:05 ET: reconcile clean (sleeve==broker==ledger on all 7; hermes_reconcile==[]; pre_trade_check True; no pending orders), no break-stops (closest FSEA 17.1% above stop), none past close, marks complete, breaker off (dd 0.05%); sourcing: universe (generated today) fresh window 8 targets all tracked -> no new reads; CIK-level backlog of never-read universe candidates = 75 (stale Mar-May filings/preferreds/warrants/no-symbol rows; noon-session batches work it down); AFBI keep-unfunded stands (sleeve cash $84.56 vs 2% reserve $80.17; pool BP $597.27 but sleeve cash binds); A/B sweep graded 0 new -- GRTX (drop, all-stock) now INACTIVE at broker and GBCS untradable: both due but unmarkable, left unresolved per no-guessing rule; lift: 39 graded all-dropped, Arm-B expectancy -3.17%, no Arm-A resolution yet, verdict insufficient data"
+ },
+ {
+  "date": "2026-07-17",
+  "timestamp": "2026-07-17T18:20:00Z",
+  "equity": 4008.26,
+  "spy": 746.1201,
+  "n_positions": 7,
+  "note": "tend pass 14:05 ET Fri: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; hermes_reconcile==[]; only order since 07-15 is the OGN fill 6a59032e, already ledgered; no pending orders), no break-stops (closest FSEA +17.1% above stop), none past close, marks complete, breaker off (dd 0.05%); full 120d sourcing re-sweep run (129 cands, generated 2026-07-17): only fresh filing is ALOT's own PREM14A 07-16 -> zero new untracked; 8 backlog reads by pinned opus/high subagent, ALL DROP: SILA/SEM/WSR were real all-cash deals but CLOSED 07-01/07-01/07-14 before detection (completion-heavy record consistent with the convex thesis; sweep latency cost us all three), TMSWW de-SPAC warrant, NATL mixed cash+stock (Brinks), CLBK acquirer-side demutualization, FREVS liquidation payout-range, RIG all-stock acquirer of VAL -> all recorded+resolved 0/0; AFBI keep-unfunded stands (sleeve cash $84.56 vs 2% reserve $80.17 - nothing fundable); A/B: 47 graded all-dropped (Arm B expectancy -2.63%), no Arm-A resolution yet, lift insufficient data; GBCS/GRTX still due-but-unmarkable (no broker quote), left unresolved per no-guessing rule"
  }
 ]

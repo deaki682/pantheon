@@ -1,13 +1,29 @@
 {
- "generated": "2026-07-16",
+ "generated": "2026-07-17",
  "window": {
-  "from": "2026-03-18",
-  "to": "2026-07-16",
+  "from": "2026-03-19",
+  "to": "2026-07-17",
   "lookback_days": 120
  },
  "n_candidates": 129,
  "coverage_note": "COMPLETE population of announced-deal TARGETS from EDGAR daily form indexes (DEFM14A / PREM14A / DEFM14C / PREM14C / SC 14D9) \u2014 no keyword, keyed to the target CIK. KNOWN missing: (1) deals whose only public paper so far is an 8-K merger agreement that has not yet drawn a proxy/14D-9 \u2014 caught on the next sweep once the proxy files; (2) acquirer-side-only tenders (SC TO-T) by design \u2014 Hermes longs the target. Cash-vs-stock is NOT decided here; every candidate requires the per-deal read.",
  "candidates": [
+  {
+   "cik": "0000008146",
+   "company": "AstroNova, Inc.",
+   "symbol": "ALOT",
+   "channels": [
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "PREM14A"
+   ],
+   "first_filed": "2026-07-16",
+   "last_filed": "2026-07-16",
+   "n_filings": 1,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
   {
    "cik": "0001861560",
    "company": "Nuvalent, Inc.",
@@ -1890,9 +1906,9 @@
    "forms": [
     "SC 14D9"
    ],
-   "first_filed": "2026-03-18",
+   "first_filed": "2026-03-23",
    "last_filed": "2026-04-01",
-   "n_filings": 4,
+   "n_filings": 3,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -1917,16 +1933,14 @@
    "company": "MASIMO CORP",
    "symbol": null,
    "channels": [
-    "definitive merger proxy (shareholder vote)",
-    "preliminary merger proxy (earlier signal)"
+    "definitive merger proxy (shareholder vote)"
    ],
    "forms": [
-    "DEFM14A",
-    "PREM14A"
+    "DEFM14A"
    ],
-   "first_filed": "2026-03-18",
+   "first_filed": "2026-04-01",
    "last_filed": "2026-04-01",
-   "n_filings": 2,
+   "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -1940,9 +1954,9 @@
    "forms": [
     "SC 14D9"
    ],
-   "first_filed": "2026-03-18",
+   "first_filed": "2026-03-19",
    "last_filed": "2026-04-01",
-   "n_filings": 3,
+   "n_filings": 2,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -2134,22 +2148,6 @@
    ],
    "first_filed": "2026-03-20",
    "last_filed": "2026-03-20",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0000351834",
-   "company": "SunOpta Inc.",
-   "symbol": null,
-   "channels": [
-    "definitive merger proxy (shareholder vote)"
-   ],
-   "forms": [
-    "DEFM14A"
-   ],
-   "first_filed": "2026-03-18",
-   "last_filed": "2026-03-18",
    "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
