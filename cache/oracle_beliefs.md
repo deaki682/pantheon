@@ -30,9 +30,9 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
-Mark 2026-07-17 ~13:07 ET (early-afternoon tend, quotes 17:05Z): equity
-$4,473.65 (-0.59% vs basis; SPY 746.52 vs spy_entry 751.31, -0.64%; excess
-+0.05pp — first positive excess since the 07-15 drawdown). Cash $449.94 (~10%).
+Mark 2026-07-17 ~14:15 ET (afternoon tend, quotes 18:13Z): equity
+$4,476.87 (-0.51% vs basis; SPY 744.25 vs spy_entry 751.31, -0.94%; excess
++0.43pp — widening through the day as SPY fades). Cash $449.94 (~10%).
 EDGAR all six CIKs: the ONLY filing since the 07-10 entry remains the KLIC
 SCHEDULE 13G filed 07-16 (JPMorgan Chase passive 5.0%, acc 0000019617-26-000267,
 read + dispositioned 07-16 — NOT kill-relevant). Zero fresh filings → no kill
@@ -40,9 +40,9 @@ evaluable; all six kills print-based. **PRINT CALENDAR (confirmed via earnings
 feed 07-17): LXU 2026-07-29 pm (VERIFIED), QTWO 2026-07-29 pm (VERIFIED), PAY
 2026-08-03 pm (tent.), KLIC 2026-08-05 pm (tent.), TPC 2026-08-05 pm (tent.),
 ZVRA 2026-08-11 pm (tent.). First kill checks with teeth: LXU + QTWO on 07-29 —
-the 07-30 tend must pull both prints and test the kills verbatim.** KLIC -9.15%
-and ZVRA -8.05% (recovering intraday), both on NO adverse filing — drawdowns,
-never exits; LXU +4.01% now best. Broker reconcile clean: 6/6 share counts
+the 07-30 tend must pull both prints and test the kills verbatim.** KLIC -10.30%
+and ZVRA -8.47%, both on NO adverse filing — drawdowns, never exits; QTWO
++4.72% now best, four of six green. Broker reconcile clean: 6/6 share counts
 exact; no oracle orders since the 07-16 close tend; the account's OGN position
 is another god's (invisible). Legacy CXT/HDSN/J/PSN/VITL absent from broker as
 EXPECTED — all five exited 2026-07-06 (operator_liquidation_for_launch per
