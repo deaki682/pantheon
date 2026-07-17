@@ -682,5 +682,13 @@
   "positions_value": 3977.95,
   "spy": 746.08,
   "note": "zeus tend ~12:14 ET live marks (quotes 16:13Z); book upside-2026-07-10-r1 -1.60% vs 4500 basis, SPY 746.08 vs spy_entry 751.31 (-0.70%), excess -0.90pp; reconcile clean (no oracle orders since 07-16 close tend); EDGAR 6/6 CIKs: nothing new since the dispositioned KLIC 13G 07-16 -> no kill evaluable, all print-based kills wait for ~Aug prints; hold_all"
+ },
+ {
+  "timestamp": "2026-07-17T17:10:00Z",
+  "equity": 4473.65,
+  "cash": 449.94,
+  "positions_value": 4023.71,
+  "spy": 746.52,
+  "note": "zeus tend ~13:07 ET live marks (quotes 17:05Z); book upside-2026-07-10-r1 -0.59% vs 4500 basis, SPY 746.52 vs spy_entry 751.31 (-0.64%), excess 0.05pp; reconcile clean (broker==sleeve exact 6/6, zero oracle orders since 07-16 close tend); EDGAR 6/6 CIKs: nothing new since the dispositioned KLIC 13G 07-16 -> no typed kill evaluable; print dates confirmed via earnings feed: LXU+QTWO 07-29 (verified), PAY 08-03, KLIC+TPC 08-05, ZVRA 08-11 (tentative); hold_all"
  }
 ]
