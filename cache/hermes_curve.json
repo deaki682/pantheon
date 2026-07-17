@@ -195,5 +195,13 @@
   "spy": 744.41,
   "n_positions": 7,
   "note": "tend pass 14:05 ET Fri: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; hermes_reconcile==[]; only order since 07-15 is the ledgered OGN fill 6a59032e; no pending orders; broker BP $597.27), no break-stops (all 7 sit 17-19% above stops), none past close, marks complete, breaker off (new peak 4010.32); sourcing re-swept (129 cands, only fresh filing ALOT's own PREM14A 07-16, zero new untracked); next 8 backlog reads by pinned opus/high subagent, ALL DROP: KZR/CNTA/TERN/KW/OLPX/ACLX real cash(+CVR) deals but CLOSED+DELISTED before detection (stale Apr-Jun filings; sweep-latency pattern continues, 6 more completions consistent with the convex thesis), UNF live but MIXED $155+0.772 CTAS (not cash-only), BOXABL de-SPAC (all 8 resolved 0/0); AFBI keep-unfunded stands (22.70 vs $23 offer +1.32% spread persists; sleeve cash $84.56 vs 2% reserve $80.21 - nothing fundable); A/B: 68 graded all-dropped (Arm B expectancy -1.82%), no Arm-A resolution yet, lift insufficient data; GBCS/GRTX still due-but-unmarkable (no broker quote), left unresolved per no-guessing rule"
+ },
+ {
+  "date": "2026-07-17",
+  "timestamp": "2026-07-17T19:12:00Z",
+  "equity": 4009.26,
+  "spy": 743.69,
+  "n_positions": 7,
+  "note": "tend pass 15:05 ET Fri: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; hermes_reconcile==[]; only order since 07-15 is the ledgered OGN fill 6a59032e; no pending orders; broker BP $597.27), no break-stops (closest FSEA +17.1% above stop), none past close, marks complete, breaker off (dd 0.03% vs peak 4010.32); sourcing re-swept (129 cands, newest filing still ALOT's own PREM14A 07-16 -> zero fresh untracked); next 8 backlog reads by pinned opus/high subagent, ALL DROP (housekeeping): ULY/MCW/DAWN real all-cash tenders ($5.50 Agero / $7.00 Leonard Green / $21.50 Servier) but CLOSED+DELISTED before detection (sweep-latency completion pattern continues), VAL all-stock Transocean (15.235 RIG/VAL, CFIUS cleared), THR CECO cash-or-stock election w/ proration cap (mixed), WBS Santander cash+ADS mixed on >$10B bank, Nuveen Churchill BDC V non-traded asset sale, XPRO redomiciliation (all 8 recorded+resolved 0/0); AFBI keep-unfunded stands (22.70 vs $23 offer +1.32% spread persists; sleeve cash $84.56 vs 2% reserve $80.19 - nothing fundable); A/B: 76 graded all-dropped (Arm B expectancy -1.63%), no Arm-A resolution yet, lift insufficient data; GBCS/GRTX still due-but-unmarkable (no broker quote), left unresolved per no-guessing rule"
  }
 ]
