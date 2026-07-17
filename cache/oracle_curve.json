@@ -706,5 +706,13 @@
   "positions_value": 4019.86,
   "spy": 743.81,
   "note": "zeus tend ~15:06 ET live marks (quotes 19:06Z); book upside-2026-07-10-r1 -0.67% vs 4500 basis, SPY 743.81 vs spy_entry 751.31 (-1.00%), excess +0.33pp; reconcile clean (broker==sleeve exact 6/6, zero oracle orders since 07-16 close tend); EDGAR 6/6 CIKs: NEW PAY SCHEDULE 13G/A 07-17 (Wasatch Advisors LP passive 9.8%, acc 0000814133-26-000093, dispositioned NOT kill-relevant); no typed kill evaluable, all six kills print-based (LXU+QTWO 07-29 first); hold_all"
+ },
+ {
+  "timestamp": "2026-07-17T21:10:00Z",
+  "equity": 4448.77,
+  "cash": 449.94,
+  "positions_value": 3998.83,
+  "spy": 743.18,
+  "note": "zeus tend ~17:05 ET AFTER CLOSE \u2014 official 07-17 closes (4pm prints): book upside-2026-07-10-r1 -1.14% vs 4500 basis, SPY 743.18 vs spy_entry 751.31 (-1.08%), excess -0.06pp; reconcile clean (broker==sleeve exact 6/6, no oracle orders, none open); EDGAR 6/6 CIKs: zero new filings since 19:06Z tend (only the dispositioned KLIC JPM 13G 07-16 + PAY Wasatch 13G/A 07-17); no typed kill evaluable, all six kills print-based (LXU+QTWO 07-29 first); hold_all, market closed, no orders"
  }
 ]
