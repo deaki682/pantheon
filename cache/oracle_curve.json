@@ -666,5 +666,13 @@
   "positions_value": 3982.59,
   "spy": 746.12,
   "note": "zeus tend ~10:07 ET live marks (quotes 14:07Z); book upside-2026-07-10-r1 -1.50% vs 4500 basis, SPY 746.12 vs spy_entry 751.31 (-0.69%), excess -0.81pp; reconcile clean (broker==sleeve exact 6/6; no oracle orders since 07-16 tend, no open orders; OGN position is another god's - invisible per filter_broker_to_gods); EDGAR all six CIKs: only filing since 07-10 entry remains the KLIC 13G 07-16 (JPMorgan passive 5.0%, already dispositioned, not kill-relevant) -> no typed kill evaluable (all print-based, Jul/Aug); KLIC -12.88% worst, ZVRA -9.25% - drawdowns never exits; QTWO +6.44% best; ab due=0"
+ },
+ {
+  "timestamp": "2026-07-17T15:12:00Z",
+  "equity": 4423.41,
+  "cash": 449.94,
+  "positions_value": 3973.47,
+  "spy": 744.85,
+  "note": "zeus tend ~11:09 ET live marks (quotes 15:09Z); book upside-2026-07-10-r1 -1.70% vs 4500 basis, SPY 744.85 vs spy_entry 751.31 (-0.86%), excess -0.84pp; reconcile clean (broker==sleeve exact 6/6; zero equity orders created since 14:00Z, no open oracle orders; OGN position is another god's - invisible per filter_broker_to_gods); EDGAR all six CIKs: only filing since 07-10 entry remains the KLIC 13G 07-16 (JPMorgan passive 5.0%, already dispositioned, not kill-relevant) -> no typed kill evaluable (all print-based, Jul/Aug); KLIC -11.90% worst, ZVRA -8.76% - drawdowns never exits; QTWO +4.53% best; ab due=0"
  }
 ]
