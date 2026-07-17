@@ -243,5 +243,16 @@
   "peak_equity": 4973.125599276,
   "spy": 746.3601,
   "timestamp": "2026-07-17T18:07:00Z"
+ },
+ {
+  "cash": 0.0,
+  "date": "2026-07-17",
+  "drawdown": 0.009821,
+  "equity": 4924.28,
+  "halted": false,
+  "note": "Monitoring-only pass (2026Q2 already traded; next rebalance 2026Q3). 47/47 positions marked live at ~11:07 ET; reconcile clean (sleeve <= broker on all 47). NOTE: prior 07-17 curve entry stamped 18:07Z (future); this pass at 15:0xZ is the corrective real-time mark.",
+  "peak_equity": 4973.125599276,
+  "spy": 744.56,
+  "timestamp": "2026-07-17T15:07:41Z"
  }
 ]
