@@ -153,26 +153,21 @@
       "lift": -0.03155635002677839
     }
   },
-  "ab_race": {
-    "as_of": "2026-07-16",
+  "death_clock": {
     "graded_head_to_heads": 1,
     "target": 20,
     "weeks": {
       "2026-07-06": {
-        "live": {
-          "symbol": "QMCO",
-          "return": -0.028571428571428692
-        },
-        "legacy": {
-          "symbol": "ZBIO",
-          "return": 0.008794430194210445
-        }
+        "live": [
+          "QMCO",
+          -0.028571428571428692
+        ],
+        "legacy": [
+          "ZBIO",
+          0.008794430194210445
+        ]
       }
     },
-    "notes": [
-      "Week 2026-07-06 legacy leg (ZBIO) reconstructed 2026-07-14 \u2014 see the ledger entry's reconstructed_note.",
-      "No /midas-scan output for the weekend of 2026-07-11/12 (midas_scan.json still scanned_at 2026-07-03) \u2014 no new cohort opened 2026-07-15 either; the 07-03 finalists were already consumed as the 2026-07-06 cohort and re-opening them would double-count one scan week. The race accrues nothing until the weekend scan resumes.",
-      "2026-07-16: same state \u2014 scan still stale at 2026-07-03, book fully closed (20/20 graded), no new entries, no new grades. Marked the closed book and refreshed the report only. Death clock at 1/20 graded head-to-heads."
-    ]
+    "note": "Week of 2026-06-30 batch predates the live/legacy pick flags and cannot count. No fresh /midas-scan since 2026-07-03; clock cannot advance until the weekend scan produces new finalists."
   }
 }
