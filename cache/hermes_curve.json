@@ -187,5 +187,13 @@
   "spy": 746.625,
   "n_positions": 7,
   "note": "tend pass 13:05 ET Fri: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; only order since 07-16 is the ledgered OGN fill 6a59032e; no pending orders; broker BP $597.27), no break-stops (closest FSEA +17.1% above stop), none past close, marks complete, breaker off (dd 0.01%); sourcing re-swept (129 cands, zero fresh untracked); next 8 backlog reads by pinned opus/high subagent, ALL DROP: SLNO/FORA/APLS real cash tenders but CLOSED+DELISTED before detection (15-12G May-26/28 filings; sweep latency again), Legato-III/MountainLake/M3-BrigadeV/FG-Merger-II de-SPAC votes (all 7 resolved 0/0), AES live $15 all-cash consortium deal but ~$10.7B mega-cap utility + CFIUS wall at 1.32% spread - out of scope, left unresolved for the sweep to grade; AFBI keep-unfunded stands (22.70 vs $23 offer +1.32% spread persists; sleeve cash $84.56 vs 2% reserve $80.19 - nothing fundable); A/B: 60 graded all-dropped (Arm B expectancy -2.06%), no Arm-A resolution yet, lift insufficient data. NOTE: prior curve row 18:20Z labeled '14:05 ET' was written before 13:05 ET - future-stamped label again; also a dangling no-timestamp row {equity 4008.6, spy 745.1824} precedes this one, left in place."
+ },
+ {
+  "date": "2026-07-17",
+  "timestamp": "2026-07-17T18:12:00Z",
+  "equity": 4010.32,
+  "spy": 744.41,
+  "n_positions": 7,
+  "note": "tend pass 14:05 ET Fri: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; hermes_reconcile==[]; only order since 07-15 is the ledgered OGN fill 6a59032e; no pending orders; broker BP $597.27), no break-stops (all 7 sit 17-19% above stops), none past close, marks complete, breaker off (new peak 4010.32); sourcing re-swept (129 cands, only fresh filing ALOT's own PREM14A 07-16, zero new untracked); next 8 backlog reads by pinned opus/high subagent, ALL DROP: KZR/CNTA/TERN/KW/OLPX/ACLX real cash(+CVR) deals but CLOSED+DELISTED before detection (stale Apr-Jun filings; sweep-latency pattern continues, 6 more completions consistent with the convex thesis), UNF live but MIXED $155+0.772 CTAS (not cash-only), BOXABL de-SPAC (all 8 resolved 0/0); AFBI keep-unfunded stands (22.70 vs $23 offer +1.32% spread persists; sleeve cash $84.56 vs 2% reserve $80.21 - nothing fundable); A/B: 68 graded all-dropped (Arm B expectancy -1.82%), no Arm-A resolution yet, lift insufficient data; GBCS/GRTX still due-but-unmarkable (no broker quote), left unresolved per no-guessing rule"
  }
 ]
