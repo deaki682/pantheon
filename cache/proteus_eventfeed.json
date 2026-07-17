@@ -182,6 +182,36 @@
    "source_url": "https://www.sec.gov/Archives/edgar/data/1098972/000095017024131263/agen-20241126.htm",
    "source": "8-K 2024-11-27 (accession 0000950170-24-131263): Ocean 1181 LLC promissory note, 2-year term from 2024-11-26, $22M principal ($24.75M per 7/13/26 PIPE SPA sec. 5.14), 12-13% w/ half interest paid in stock, secured by Berkeley mfg facility + Vacaville land",
    "note": "PIPE 7/13/26 obligates only 'commercially reasonable efforts' to extend. Chain exists but event-interval marks self-inconsistent (kink UNRELIABLE 7/16) + gate-5 fail; recheck chain readability as date nears"
+  },
+  {
+   "symbol": "CSTL",
+   "name": "Castle Biosciences, Inc. (CSTL)",
+   "event_type": "itc_337_institution_due",
+   "event_date": "2026-08-14",
+   "filed": "2026-07-15",
+   "source": "FR docket 3921 (complaint rcvd 7/9, notice pub 7/15)",
+   "source_url": "https://www.federalregister.gov/documents/2026/07/15",
+   "notes": "complainant vs SkylineDx/Qiagen; institution ~30d after complaint; FD target ~late 2027; track, do not trade yet"
+  },
+  {
+   "symbol": "SEER",
+   "name": "Seer, Inc. (SEER)",
+   "event_type": "itc_337_target_date_pending",
+   "event_date": "2026-08-31",
+   "filed": "2026-07-02",
+   "source": "FR 337-TA-1508 institution (complaint 5/28, instituted 7/2)",
+   "source_url": "https://www.federalregister.gov/documents/2026/07/02",
+   "notes": "complainant; target date gets set ~45d after institution - recheck for the scheduling order, then deposit the real FD date"
+  },
+  {
+   "symbol": "INMD",
+   "name": "InMode Ltd. (INMD) - RESPONDENT",
+   "event_type": "itc_337_institution_due",
+   "event_date": "2026-07-27",
+   "filed": "2026-06-25",
+   "source": "FR docket 3918 (Serendia complaint rcvd 6/22, notice pub 6/25)",
+   "source_url": "https://www.federalregister.gov/documents/2026/06/25",
+   "notes": "RF-microneedling exclusion would hit core product; optionable mid-cap; institution decision ~30d; the one pipeline name where the RESPONDENT side is the material tradable"
   }
  ]
 }
