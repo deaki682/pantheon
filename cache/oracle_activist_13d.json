@@ -1,6 +1,97 @@
 {
   "filings": [
     {
+      "accession_no": "0001398344-26-012268",
+      "cik": "0001017303",
+      "filing_date": "2026-07-17",
+      "form": "SC 13D",
+      "symbol": "TACT"
+    },
+    {
+      "accession_no": "0001185185-26-003007",
+      "cik": "0002123471",
+      "filing_date": "2026-07-17",
+      "form": "SC 13D",
+      "symbol": ""
+    },
+    {
+      "accession_no": "0002093315-26-000015",
+      "cik": "0002069785",
+      "filing_date": "2026-07-16",
+      "form": "SC 13D",
+      "symbol": "GLOO"
+    },
+    {
+      "accession_no": "0001493152-26-033502",
+      "cik": "0001695473",
+      "filing_date": "2026-07-16",
+      "form": "SC 13D",
+      "symbol": "GCAN"
+    },
+    {
+      "accession_no": "0001213900-26-078511",
+      "cik": "0001603993",
+      "filing_date": "2026-07-16",
+      "form": "SC 13D",
+      "symbol": "AIOS"
+    },
+    {
+      "accession_no": "0001170549-26-000002",
+      "cik": "0001649739",
+      "filing_date": "2026-07-16",
+      "form": "SC 13D",
+      "symbol": "BAFN"
+    },
+    {
+      "accession_no": "0001104659-26-084244",
+      "cik": "0001534248",
+      "filing_date": "2026-07-16",
+      "form": "SC 13D",
+      "symbol": "CMMB"
+    },
+    {
+      "accession_no": "0001072613-26-000587",
+      "cik": "0001162027",
+      "filing_date": "2026-07-16",
+      "form": "SC 13D",
+      "symbol": "AFB"
+    },
+    {
+      "accession_no": "0001104659-26-083931",
+      "cik": "0001716166",
+      "filing_date": "2026-07-15",
+      "form": "SC 13D",
+      "symbol": "VVOS"
+    },
+    {
+      "accession_no": "0001213900-26-078067",
+      "cik": "0002088281",
+      "filing_date": "2026-07-14",
+      "form": "SC 13D",
+      "symbol": ""
+    },
+    {
+      "accession_no": "0001193125-26-303495",
+      "cik": "0002097545",
+      "filing_date": "2026-07-14",
+      "form": "SC 13D",
+      "symbol": ""
+    },
+    {
+      "accession_no": "0000929638-26-002599",
+      "cik": "0002097545",
+      "filing_date": "2026-07-14",
+      "form": "SC 13D",
+      "symbol": ""
+    },
+    {
+      "accession_no": "0001493152-26-032907",
+      "cik": "0002041338",
+      "filing_date": "2026-07-13",
+      "form": "SC 13D",
+      "symbol": "TDIC"
+    },
+    {
       "accession_no": "0001213900-26-076953",
       "cik": "0001574565",
       "filing_date": "2026-07-10",
@@ -167,79 +258,33 @@
       "filing_date": "2026-06-30",
       "form": "SC 13D",
       "symbol": "NNDM"
-    },
-    {
-      "accession_no": "0001976454-26-000002",
-      "cik": "0001927719",
-      "filing_date": "2026-06-29",
-      "form": "SC 13D",
-      "symbol": ""
-    },
-    {
-      "accession_no": "0001193125-26-288406",
-      "cik": "0002123613",
-      "filing_date": "2026-06-29",
-      "form": "SC 13D",
-      "symbol": "KARD"
-    },
-    {
-      "accession_no": "0000950157-26-000772",
-      "cik": "0001549107",
-      "filing_date": "2026-06-29",
-      "form": "SC 13D",
-      "symbol": "MANU"
-    },
-    {
-      "accession_no": "0000902664-26-002944",
-      "cik": "0001529274",
-      "filing_date": "2026-06-29",
-      "form": "SC 13D",
-      "symbol": "ALKT"
-    },
-    {
-      "accession_no": "0001213900-26-072628",
-      "cik": "0002049662",
-      "filing_date": "2026-06-26",
-      "form": "SC 13D",
-      "symbol": ""
-    },
-    {
-      "accession_no": "0001185185-26-002683",
-      "cik": "0001419275",
-      "filing_date": "2026-06-26",
-      "form": "SC 13D",
-      "symbol": "RTB"
-    },
-    {
-      "accession_no": "0001104659-26-078371",
-      "cik": "0000746514",
-      "filing_date": "2026-06-26",
-      "form": "SC 13D",
-      "symbol": "NEN"
     }
   ],
   "lookback_days": 30,
   "symbols": [
-    "ALKT",
+    "AFB",
+    "AIOS",
+    "BAFN",
     "BRT",
     "CALC",
+    "CMMB",
     "CMRF",
     "EVGN",
     "EWSB",
+    "GCAN",
+    "GLOO",
     "GRDX",
-    "KARD",
-    "MANU",
     "MCHX",
     "MOVE",
-    "NEN",
     "NNDM",
     "OLP",
     "PASG",
-    "RTB",
     "SECZ",
     "SITM",
     "TACT",
+    "TDIC",
+    "VVOS",
     "YEXT"
   ],
-  "updated_at": "2026-07-12T09:46:58.510512+00:00"
+  "updated_at": "2026-07-19T09:47:19.718488+00:00"
 }
