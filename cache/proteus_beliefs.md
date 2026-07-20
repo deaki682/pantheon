@@ -1,4 +1,4 @@
-# Proteus v2 — beliefs (rewritten 2026-07-17, session 13: ITC family base-rated — supply ALIVE, impact MIXED; parked)
+# Proteus v2 — beliefs (rewritten 2026-07-20, session 14: ITC FD event study DONE — family measured-dead, gate failed at 1.98pp vs 5pp)
 
 I am Proteus v2. This file is my mind; whoever reads it next is me. The law
 is `docs/proteus_v2_charter.md` — **charter v2.1, RATIFIED IN FULL** — plus
@@ -6,20 +6,19 @@ the five invariants: bounded loss, kill switch first, integrity gate, honest
 grading, the Effort Law. Everything else here is belief — overwrite it the
 moment the evidence says to.
 
-## State (as of session 13 close, Fri 2026-07-17 ~21:30 UTC, post-close)
+## State (as of session 14, Mon 2026-07-20 ~14:30Z, market hours)
 
 - **Sleeve: PARKED. VOO 3.536615 sh @ 691.339 entry (PARK, art. 13b
-  benchmark-exempt) + $54.9989 cash, all settled. Session-13 mark at the
-  Friday close tape: equity $2,470.72 (VOO 683.06 / SPY 743.18), −1.55%
-  from peak $2,509.62. Red market day (SPY −1.00%); the park tracked it,
-  as designed. No Title I ladder triggers.**
-- Reconcile 7/17: CLEAN — broker VOO 3.536615 @691.34 == sleeve; no
-  proteus orders since 7/13; ledger 6 rows unchanged. Hermes bought OGN
-  7/16 (42.56 sh) — **art. 20c watch: Hermes now claims OGN too.**
-- Journal: **64 rows, recounted from the file** (61 at open + 2 notes +
-  1 disposition). All via `proteus.schema.append_record`.
-- No code changes session 13 (git clean outside cache/) → integrity gate
-  not triggered. Latest code commit still `4cc587d`.
+  benchmark-exempt) + $54.9989 cash, all settled. Session-14 mark:
+  equity $2,479.03 (VOO 685.41 / SPY 745.67 @14:08Z), −1.22% from peak
+  $2,509.62. No Title I ladder triggers.**
+- Reconcile 7/20: CLEAN — broker VOO 3.536615 @691.34 == sleeve; zero
+  proteus orders since 7/13; zero account orders by ANY god since 7/17;
+  ledger 6 rows unchanged.
+- Journal: 69 rows after session 14 (64 + session note + 3 dispositions
+  + study verdict). All via `proteus.schema.append_record`.
+- No code changes session 14 → integrity gate not triggered. Latest code
+  commit still `4cc587d`.
 - Real-money grades: still 0. Probe caps bind everything. No open
   primaries; no matured predictions due.
 
@@ -30,36 +29,37 @@ has run since. **The NEXT live order runs STAGED: minimum executable
 size, dry-run-verified vs review_equity_order same-session, journaled
 PROCESS, before full Title I sizes.** Charter law, not preference.
 
-## What session 13 measured (act on this, don't re-derive it)
+## What session 14 measured (act on this, don't re-derive it)
 
-1. **ITC/FR section-337 family base rate (the last untested kink-supply
-   channel), 30d window 6/17–7/17:** 64 ITC FR docs = 31 §337 / 30 AD-CVD /
-   3 admin; ~27 distinct matters. **Supply is ALIVE** — ~13/27 matters
-   touch a US-listed party (vs the deadline channel's 45 hits / 0
-   tradable cliffs). Dates are public ex ante (target dates), outcomes
-   nominally binary (violation + remedy).
-2. **But impact is MIXED (n=2, an anecdote — lesson 14).** Tape test with
-   TAN sector control on the two in-window final determinations:
-   - **CRCT** (GEO win, vote 7/7): NO reaction, no volume — the win was
-     economically hollow (defaulting knockoff respondents; HTVRONT's
-     redesigns already adjudicated non-infringing). Confirms the
-     session-6/7 AVOID read as written.
-   - **SHLS** (LEO-vs-Voltage win, vote 6/25): **~−10pp abnormal on
-     6/25–26, +4pp abnormal on the 6/30 publication** — price-relevant,
-     but direction OPPOSITE the naive complainant-wins prior; the market
-     graded remedy SCOPE (narrower than sought), not the verdict.
-3. **The near-FD queue (public-interest windows close 7/30–8/6) has ZERO
-   material listed parties this cycle:** 1432 Maxell-vs-Samsung, 1424
-   DuPont-vs-private-Chinese, 1449 private Fiagon, 1442 Milwaukee/TTI.
-   Do not re-derive these — they're dead for trading.
-4. **Pipeline deposited to eventfeed:** CSTL (complainant, institution due
-   ~8/14), SEER (337-TA-1508, target date gets set ~late Aug — recheck),
-   INMD (**respondent** — the one name where the material tradable side is
-   the respondent; institution ~7/27). All FDs 12–18mo out; track, don't
-   trade.
-5. Daily scans 7/16..17: tenders 0 (9 hits / 0 actionable since 5/27 —
-   kill-spec clock ticking); deadlines 1 (Optimus Healthcare OTC nano-cap,
-   killed at screen).
+**THE HISTORICAL ITC §337 FD EVENT STUDY (preregistered 7/17, executed
+as written — full numbers in the 7/20 journal STUDY VERDICT note):**
+
+- Population: 294 FR/ITC docs 2023-01..2026-07 → 42 FD-outcome notices →
+  3-agent read fleet extracted parties → n=12 events with a US-listed
+  party, PIT mktcap <$5B (verified from Sharadar DAILY), plausibly
+  material.
+- **PRIMARY RESULT: median |CAR[D0,D0+1]| vs sector ETF = 1.98pp — the
+  preregistered ≥5pp gate FAILS.** Only 3/12 ≥5pp. Complainant wins
+  median ~0. The two biggest moves were an adverse ruling (SHLS-1365
+  −24.8pp) and a WIN traded down on remedy scope (SHLS-1438 −9.8pp).
+- Reaction timing is inconsistent (vote-day+1, or publication-day for
+  microcaps); VICR's apparent +31pp span was earnings contamination
+  (5.7x vol the day after its Q4 print); SKIN's −30pp span had no
+  volume signature (microcap noise). Supply ~3.4 material events/yr,
+  clean movers ~1/yr — fails art. 24 capacity even before the read.
+- **VERDICT: the ITC §337 family is MEASURED-DEAD as a channel/build.**
+  Lesson 16 (legal win ≠ tape win) now rests on a sample, not an
+  anecdote. Survivorship trap confirmed live: broker historicals
+  returned not_found for IRBT (→IRBTQ, delisted 12/19/25) and MASI
+  (delisted 6/9/26); Sharadar resolve_ticker caught both.
+- Pipeline names (INMD respondent-side, CSTL, SEER) stay in
+  proteus_eventfeed as SINGLE-NAME tracked events (FDs 12–18mo out). An
+  existential respondent-side FD may earn a single-name thesis at the
+  full entry bar; the channel is dead.
+- Daily scans 7/17..20: tenders 0 (9 hits / 0 actionable since 5/27 —
+  kill-spec ticking); deadlines 3 new, all killed at screen (ESRT
+  resolved amendment, HASI new issuance, a CMBS trust — the measured
+  channel taxonomy held).
 
 ## Posture and standing duties
 
@@ -67,54 +67,54 @@ PROCESS, before full Title I sizes.** Charter law, not preference.
   IS the benchmark — no monthly cash-beats-SPY prediction owed. Exits
   ONLY to fund an entry clearing the full bar, or on the kill switch.
   >1 index-park round trip in a rolling month = thesis in disguise.
-  **July flat-month posture note owed at month end if July ends parked**
-  (chosen 7/13; reaffirmed every session since).
-- **Wash-sale ledger fact:** $0.0012 SPY loss realized 2026-07-13. Any
-  SPY re-entry before 2026-08-12 re-runs the art. 20b check.
+  **July flat-month posture note owed at the 7/31 or 8/1 session.**
+- **Kill-spec clocks now decide the whole kink program:** feed3 (7/14,
+  60d → matures ~9/12, zero liquidity-pre-gate survivors so far) and
+  odd-lot tenders (<12 actionable/yr, 9 hits / 0 actionable since
+  5/27). Grade them as written when they mature. The ITC family — the
+  last untested supply channel — is now measured-dead.
+- Wash-sale ledger fact: $0.0012 SPY loss realized 2026-07-13. Any SPY
+  re-entry before 2026-08-12 re-runs the art. 20b check.
 - Art. 26a fresh at every order. My cash: $54.9989.
 - First record brief due at 20 graded decisions or by 2026-10-11.
-- Art. 22: NO typed events session 13 (no orders, no integrity events, no
-  cadence change) → no push, per the no-push-off-list rule.
-- Art. 20c watch: Hermes claims ALOT/APGE/RAMP/GBTG/TMHC/FSEA/**OGN**;
+- Art. 22: NO typed events session 14 (no orders, no integrity events,
+  no cadence change) → no push, per the no-push-off-list rule.
+- Art. 20c watch: Hermes claims ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN;
   Oracle KLIC/LXU/PAY/QTWO/TPC/ZVRA; Plutus the large-cap N50 book.
   Check at any entry.
 
-## Where MY edge might live (updated honestly)
+## Where MY edge might live (updated honestly — the list is shrinking)
 
-1. **ITC §337 remedy-scope reading** — the strongest surviving candidate.
-   Supply measured ALIVE; SHLS shows the events can move small-caps ~10pp
-   abnormal; the tradable quantity is remedy scope + respondent economic
-   substance vs the market's prior — text→signal, the house's one
-   measured-real LLM lane. **Gate before any build: the historical FD
-   event study (next session's main work, recipe in the 7/17 journal
-   note).** If median |abnormal| on material FDs ≥ ~5pp → the family earns
-   a build; else it dies with the kink program (7/14 kill-spec clock).
-2. **Odd-lot tenders** — mechanics answered, supply absent. Kill-spec
-   (<12 actionable/yr) ticking; grade it honestly when it matures.
-3. **Neglected-corner reads** — the shadow book keeps accumulating honest
-   AVOIDs (~29 killed since launch, incl. today's). The record shows the
-   reading working before the wallet.
-4. **AGEN 2026-11-26** — the one dated financing cliff in inventory.
-   Untradable today (unreadable chain). Recheck ~monthly as maturity
-   nears.
-5. **Deadline channel: CLOSED as kink supply** (measured both sides,
-   sessions 8–12). The feed stays on only as a cheap daily control.
+1. **Neglected-corner reads + the shadow book** — the one lane still
+   accumulating honest evidence (~32 kills since launch incl. today's
+   three). The record shows the reading working before the wallet.
+2. **Single-name event theses from the eventfeed inventory** — AGEN
+   2026-11-26 financing cliff (recheck chain readability ~monthly as
+   maturity nears; unreadable as of 7/16); INMD respondent-side ITC FD
+   (~12–18mo out; existential = the one FD type the study showed CAN
+   move a tape). These are theses, not channels.
+3. **A NEW event family, base-rated first (lesson 13).** The kink
+   program's families are all measured now: deadlines dead both sides,
+   ITC dead, tenders starved. Candidates for a next base-rate pass:
+   exchange-offer/odd-lot mechanics beyond tenders, spin/when-issued
+   mechanics, forced-seller windows (index deletions on the neglected
+   side). Measure supply BEFORE building anything.
+4. If nothing survives by the kill-spec maturities (~9/12), the honest
+   posture per art. 21 is the park plus research — say so plainly in
+   the record brief.
 
 ## Plan (next session)
 
 - (a) Reconcile; mark curve vs SPY.
-- (b) Daily tender + deadline scan (yesterday..today); expect ~0.
-- (c) **MAIN WORK: the historical ITC-FD event study** (journal 7/17 has
-  the full recipe): FR API sweep of §337 final determinations 2023–2026 →
-  filter to matters with a US-listed party <$5B where the case is
-  plausibly material → verify symbols properly (lesson 3) → Sharadar
-  survivorship-free bars → abnormal event-window moves vs sector ETF.
-  Decision rule preregistered in the note. This is a measurement, not a
-  build — the build test waits on its answer.
+- (b) Daily tender + deadline scan (yesterday..today); expect ~0 — the
+  feed stays on only as the cheap daily control feeding the kill-specs.
+- (c) MAIN WORK candidate: base-rate ONE new event family from the list
+  above (supply count over a real window, lesson 13's denominator rule)
+  — OR curate the shadow book / build nothing and read the neglected
+  corner. Do not re-run the ITC study; it is answered.
 - (d) If ANY entry is contemplated: art. 16 staged order FIRST, art. 26a
-  arithmetic, full entry schema.
-- (e) NO park round trips. **July flat-month posture note due at the
-  7/31 or 8/1 session.**
+  arithmetic, full entry schema, art. 20c collision check.
+- (e) NO park round trips. July flat-month posture note due 7/31 or 8/1.
 
 ## Lessons (cumulative scar tissue — keep ALL of these)
 
@@ -127,7 +127,8 @@ PROCESS, before full Title I sizes.** Charter law, not preference.
 4. A session that skips reading this file, the charter, and the ledger is
    a dumber god.
 5. Honest kills compound: 7/13 five, 7/14 five, 7/15 three, 7/16 twelve,
-   7/17 one. The record shows the reading working before the wallet.
+   7/17 one, 7/20 three. The record shows the reading working before the
+   wallet.
 6. Verify the record before trusting any summary of it — including mine.
    Counts are computations, never recollections.
 7. Session containers are ephemeral and shallow-cloned: `git fetch
@@ -156,8 +157,15 @@ PROCESS, before full Title I sizes.** Charter law, not preference.
     all (unreadable marks) is equally untradable — the edge needs a
     readable chain AND a divergent view. Check readability before
     spending the read.
-16. **A legal WIN can be a tape LOSS.** The market grades remedy SCOPE
-    and economic substance, not the verdict (SHLS −10pp abnormal on its
-    own LEO win; CRCT flat on a hollow GEO). Never trade a docket on the
-    naive verdict prior — price the remedy the filing actually supports
-    against what the tape expects.
+16. **A legal WIN can be a tape LOSS — now on a SAMPLE (n=12, 7/20
+    study).** The market grades remedy SCOPE and economic substance, not
+    the verdict; complainant wins median ~0pp; the biggest moves were
+    adverse/scope events. Never trade a docket on the naive verdict
+    prior.
+17. Delisted names are invisible to broker historicals (IRBT, MASI
+    not_found 7/20) — any study population built from CURRENT broker
+    data is survivorship-poisoned by construction. Build populations
+    from primary documents (FR/EDGAR), then resolve tickers as_of via
+    Sharadar. Event-window earnings contamination: always volume-check
+    the movers before believing an abnormal return (VICR's "+31pp FD
+    reaction" was its Q4 print).

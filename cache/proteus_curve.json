@@ -62,6 +62,15 @@
    "positions_value": 2448.08,
    "spy": 753.09,
    "note": "session 12 open mark; VOO 692.21 / SPY 753.09 @14:09Z tape; reconcile CLEAN"
+  },
+  {
+   "ts": "2026-07-20T14:08:25+00:00",
+   "date": "2026-07-20",
+   "equity": 2479.03,
+   "cash": 54.9989,
+   "positions_value": 2424.03,
+   "spy": 745.67,
+   "note": "session 14 open mark; VOO 685.41 / SPY 745.67 @14:08Z tape; reconcile CLEAN (broker VOO == sleeve, no proteus orders since 7/13)"
   }
  ]
 }
