@@ -3194,5 +3194,452 @@
     "exit_date": "",
     "exit_price": 0.0,
     "graded_return": null
+  },
+  {
+    "symbol": "STT",
+    "entry_date": "2026-07-20",
+    "entry_price": 182.54,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 12.65,
+      "score": 0.0,
+      "reaction_confirmed": true,
+      "rewarded": false,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": -0.005,
+      "market_cap": 50521054435.0
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "UNH",
+    "entry_date": "2026-07-20",
+    "entry_price": 424.085,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 31.55,
+      "score": 0.0,
+      "reaction_confirmed": true,
+      "rewarded": true,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": 0.0116,
+      "market_cap": 385130400325.0,
+      "basket_selected": false
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "TSM",
+    "entry_date": "2026-07-20",
+    "entry_price": 402.605,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 14.32,
+      "score": 0.0,
+      "reaction_confirmed": true,
+      "rewarded": false,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": -0.0232,
+      "market_cap": 2088200804872.0
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CFG",
+    "entry_date": "2026-07-20",
+    "entry_price": 71.93,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 4.84,
+      "score": 0.19794158896874842,
+      "reaction_confirmed": true,
+      "rewarded": true,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": 0.0461,
+      "market_cap": 30417902260.0,
+      "basket_selected": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "GE",
+    "entry_date": "2026-07-20",
+    "entry_price": 349.0,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 9.19,
+      "score": 0.0,
+      "reaction_confirmed": true,
+      "rewarded": false,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": -0.0406,
+      "market_cap": 364115226600.0
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "USB",
+    "entry_date": "2026-07-20",
+    "entry_price": 63.4999,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 6.3,
+      "score": 0.0,
+      "reaction_confirmed": true,
+      "rewarded": true,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": 0.0159,
+      "market_cap": 98900388264.0,
+      "basket_selected": false
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "PLD",
+    "entry_date": "2026-07-20",
+    "entry_price": 148.19,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 6.54,
+      "score": 0.0,
+      "reaction_confirmed": true,
+      "rewarded": true,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": 0.0463,
+      "market_cap": 141081469448.0,
+      "basket_selected": false
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "MAN",
+    "entry_date": "2026-07-20",
+    "entry_price": 52.2899,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 4.21,
+      "score": 0.2737105131239509,
+      "reaction_confirmed": true,
+      "rewarded": true,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": 0.3237,
+      "market_cap": 2431864402.0,
+      "basket_selected": false
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "CBSH",
+    "entry_date": "2026-07-20",
+    "entry_price": 58.98,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 4.76,
+      "score": 0.2694568320226067,
+      "reaction_confirmed": true,
+      "rewarded": true,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": 0.0213,
+      "market_cap": 8597936847.0,
+      "basket_selected": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "WABC",
+    "entry_date": "2026-07-20",
+    "entry_price": 61.4,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 6.36,
+      "score": 0.41343231349397186,
+      "reaction_confirmed": true,
+      "rewarded": true,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": 0.0583,
+      "market_cap": 1442163200.0,
+      "basket_selected": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "IIIN",
+    "entry_date": "2026-07-20",
+    "entry_price": 31.215,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 12.2,
+      "score": 0.5319891866807421,
+      "reaction_confirmed": true,
+      "rewarded": true,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": 0.0128,
+      "market_cap": 606608802.0,
+      "basket_selected": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ISRG",
+    "entry_date": "2026-07-20",
+    "entry_price": 344.34,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 16.18,
+      "score": 0.0,
+      "reaction_confirmed": true,
+      "rewarded": false,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": -0.1415,
+      "market_cap": 122025090835.0
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "SPFI",
+    "entry_date": "2026-07-20",
+    "entry_price": 44.975,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 4.35,
+      "score": 0.318820584795372,
+      "reaction_confirmed": true,
+      "rewarded": true,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": 0.0386,
+      "market_cap": 861082355.0,
+      "basket_selected": true
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "RF",
+    "entry_date": "2026-07-20",
+    "entry_price": 31.295,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 7.94,
+      "score": 0.26125483725174387,
+      "reaction_confirmed": true,
+      "rewarded": false,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": -0.0231,
+      "market_cap": 26706527100.0
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "TRV",
+    "entry_date": "2026-07-20",
+    "entry_price": 368.215,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 103.24,
+      "score": 0.0,
+      "reaction_confirmed": true,
+      "rewarded": true,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": 0.0922,
+      "market_cap": 78310774150.0,
+      "basket_selected": false
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "FITB",
+    "entry_date": "2026-07-20",
+    "entry_price": 57.75,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 15.91,
+      "score": 0.0,
+      "reaction_confirmed": true,
+      "rewarded": false,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": -0.0229,
+      "market_cap": 52330454880.0
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "TFC",
+    "entry_date": "2026-07-20",
+    "entry_price": 51.5127,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 13.89,
+      "score": 0.0,
+      "reaction_confirmed": true,
+      "rewarded": false,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": -0.0141,
+      "market_cap": 64169049400.0
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "SKFRY",
+    "entry_date": "2026-07-20",
+    "entry_price": 25.5408,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 6.4,
+      "score": 0.2971485265904865,
+      "reaction_confirmed": true,
+      "rewarded": false,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": -0.0473,
+      "market_cap": 11632410914.0
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "SDVKY",
+    "entry_date": "2026-07-20",
+    "entry_price": 34.81,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 6.3,
+      "score": 0.20090025883157916,
+      "reaction_confirmed": true,
+      "rewarded": false,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "reaction_pct": -0.0892,
+      "market_cap": 43670477813.0
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ATLO",
+    "entry_date": "2026-07-20",
+    "entry_price": 29.62,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 3.08,
+      "score": 0.15884943880384808,
+      "reaction_confirmed": false,
+      "rewarded": false,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "market_cap": 262350856.0
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ISTR",
+    "entry_date": "2026-07-20",
+    "entry_price": 28.77,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 5.63,
+      "score": 0.3902408923828704,
+      "reaction_confirmed": false,
+      "rewarded": false,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "market_cap": 396841872.0
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "AMC",
+    "entry_date": "2026-07-20",
+    "entry_price": 2.1509,
+    "horizon_days": 7,
+    "source": "pead",
+    "features": {
+      "surprise_pct": 380.0,
+      "score": 0.3942962757012294,
+      "reaction_confirmed": false,
+      "rewarded": false,
+      "revenue_beat": false,
+      "guidance_raised": false,
+      "market_cap": 1926241590.0
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
   }
 ]
