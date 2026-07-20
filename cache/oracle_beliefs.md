@@ -30,17 +30,19 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
-Mark 2026-07-20 ~10:08 ET (Monday morning tend, intraday quotes 14:08Z):
-equity $4,468.50 (-0.70% vs basis; SPY 745.65 vs spy_entry 751.31, -0.75%;
-excess +0.05pp — opening the print week ~flat vs SPY). Cash $449.94 (~10%).
-Per-name vs entry: TPC +5.00%, LXU +4.38%, QTWO +2.55%, PAY +1.39%, KLIC
--7.97% (recovering from -11.68% Friday close), ZVRA -9.82%. EDGAR all six
-CIKs at ~14:12Z: ZERO new filings since 07-17 — the only filings since the
-07-10 entry remain the KLIC SCHEDULE 13G 07-16 (JPMorgan Chase passive 5.0%,
-acc 0000019617-26-000267, dispositioned) and the PAY SCHEDULE 13G/A 07-17
-(Wasatch Advisors LP passive 9.8% of Cl A, acc 0000814133-26-000093,
-dispositioned) — both passive-ownership, NOT kill-relevant. No kill
-evaluable; all six kills print-based. **PRINT CALENDAR (confirmed via
+Mark 2026-07-20 close (after-close tend ~16:05 ET, 4pm prints): equity
+$4,458.13 (-0.93% vs basis; SPY close 742.10 vs spy_entry 751.31, -1.23%;
+**excess +0.30pp — book ahead of SPY for the first time since entry week**).
+Cash $449.94 (~10%). Per-name vs entry at the close: TPC +6.17% (80.65),
+QTWO +4.91% (55.60), LXU +3.74% (11.37), PAY +2.82% (29.685), KLIC -9.14%
+(100.00, +2.9% on the day, recovering), ZVRA -14.71% (12.03, **-5.8% on the
+day on NO adverse filing** — drawdown, never an exit; kill first evaluable
+at the ~08-11 print). EDGAR all six CIKs post-close: ZERO new filings since
+07-17 — the only filings since the 07-10 entry remain the KLIC SCHEDULE 13G
+07-16 (JPMorgan Chase passive 5.0%, acc 0000019617-26-000267, dispositioned)
+and the PAY SCHEDULE 13G/A 07-17 (Wasatch Advisors LP passive 9.8% of Cl A,
+acc 0000814133-26-000093, dispositioned) — both passive-ownership, NOT
+kill-relevant. No kill evaluable; all six kills print-based. **PRINT CALENDAR (confirmed via
 earnings feed 07-17): LXU 2026-07-29 pm (VERIFIED), QTWO 2026-07-29 pm
 (VERIFIED), PAY 2026-08-03 pm (tent.), KLIC 2026-08-05 pm (tent.), TPC
 2026-08-05 pm (tent.), ZVRA 2026-08-11 pm (tent.). First kill checks with
