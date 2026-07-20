@@ -1,82 +1,92 @@
 [
-  {
-    "benchmark": {
-      "SPY": 0.0,
-      "SPY_price": 737.58
-    },
-    "date": "2026-06-29",
-    "equity": 17384.86,
-    "n": 174,
-    "total_return": -0.0008700533245576958
+ {
+  "benchmark": {
+   "SPY": 0.0,
+   "SPY_price": 737.58
   },
-  {
-    "benchmark": {
-      "SPY": 0.011863,
-      "SPY_price": 746.33
-    },
-    "date": "2026-07-01",
-    "equity": 18570.01,
-    "n": 186,
-    "total_return": -0.0016126094451363038
+  "date": "2026-06-29",
+  "equity": 17384.86,
+  "n": 174,
+  "total_return": -0.0008700533245576958
+ },
+ {
+  "benchmark": {
+   "SPY": 0.011863,
+   "SPY_price": 746.33
   },
-  {
-    "benchmark": {
-      "SPY": 0.009789,
-      "SPY_price": 744.8
-    },
-    "date": "2026-07-04",
-    "equity": 19455.11,
-    "n": 192,
-    "total_return": 0.013287105580413794
+  "date": "2026-07-01",
+  "equity": 18570.01,
+  "n": 186,
+  "total_return": -0.0016126094451363038
+ },
+ {
+  "benchmark": {
+   "SPY": 0.009789,
+   "SPY_price": 744.8
   },
-  {
-    "benchmark": {
-      "SPY": 0.012839,
-      "SPY_price": 747.05
-    },
-    "date": "2026-07-07",
-    "equity": 19418.07,
-    "n": 192,
-    "total_return": 0.011357834857850468
+  "date": "2026-07-04",
+  "equity": 19455.11,
+  "n": 192,
+  "total_return": 0.013287105580413794
+ },
+ {
+  "benchmark": {
+   "SPY": 0.012839,
+   "SPY_price": 747.05
   },
-  {
-    "benchmark": {
-      "SPY": 0.01939,
-      "SPY_price": 751.88
-    },
-    "date": "2026-07-14",
-    "equity": 27236.89,
-    "n": 273,
-    "total_return": -0.0023118
+  "date": "2026-07-07",
+  "equity": 19418.07,
+  "n": 192,
+  "total_return": 0.011357834857850468
+ },
+ {
+  "benchmark": {
+   "SPY": 0.01939,
+   "SPY_price": 751.88
   },
-  {
-    "benchmark": {
-      "SPY": 0.021896,
-      "SPY_price": 753.73
-    },
-    "date": "2026-07-15",
-    "equity": 27418.1,
-    "n": 273,
-    "total_return": 0.004325839423267475
+  "date": "2026-07-14",
+  "equity": 27236.89,
+  "n": 273,
+  "total_return": -0.0023118
+ },
+ {
+  "benchmark": {
+   "SPY": 0.021896,
+   "SPY_price": 753.73
   },
-  {
-    "date": "2026-07-16",
-    "equity": 27745.12,
-    "total_return": 0.016304593995014383,
-    "n": 273,
-    "benchmark": {
-      "SPY": 0.017964,
-      "SPY_price": 750.83
-    }
-  },
-  {
-    "date": "2026-07-17",
-    "equity": 27457.86,
-    "total_return": 0.005782590358389683,
-    "n": 273,
-    "benchmark": {
-      "SPY": 0.007592,
-      "SPY_price": 743.18
-    }
+  "date": "2026-07-15",
+  "equity": 27418.1,
+  "n": 273,
+  "total_return": 0.004325839423267475
+ },
+ {
+  "date": "2026-07-16",
+  "equity": 27745.12,
+  "total_return": 0.016304593995014383,
+  "n": 273,
+  "benchmark": {
+   "SPY": 0.017964,
+   "SPY_price": 750.83
   }
+ },
+ {
+  "date": "2026-07-17",
+  "equity": 27457.86,
+  "total_return": 0.005782590358389683,
+  "n": 273,
+  "benchmark": {
+   "SPY": 0.007592,
+   "SPY_price": 743.18
+  }
+ },
+ {
+  "date": "2026-07-20",
+  "equity": 28406.41,
+  "total_return": 0.00022568351137119969,
+  "n": 284,
+  "benchmark": {
+   "SPY": 0.009965,
+   "SPY_price": 744.9299
+  }
+ }
 ]
