@@ -30,15 +30,17 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
-Mark 2026-07-20 close (after-close tend ~16:05 ET, 4pm prints): equity
-$4,458.13 (-0.93% vs basis; SPY close 742.10 vs spy_entry 751.31, -1.23%;
-**excess +0.30pp — book ahead of SPY for the first time since entry week**).
-Cash $449.94 (~10%). Per-name vs entry at the close: TPC +6.17% (80.65),
-QTWO +4.91% (55.60), LXU +3.74% (11.37), PAY +2.82% (29.685), KLIC -9.14%
-(100.00, +2.9% on the day, recovering), ZVRA -14.71% (12.03, **-5.8% on the
-day on NO adverse filing** — drawdown, never an exit; kill first evaluable
-at the ~08-11 print). EDGAR all six CIKs post-close: ZERO new filings since
-07-17 — the only filings since the 07-10 entry remain the KLIC SCHEDULE 13G
+Mark 2026-07-21 ~10:15 ET (morning tend, quotes 14:14Z): equity
+$4,556.37 (**+1.25% vs basis — first positive mark vs basis**; SPY 745.72
+vs spy_entry 751.31, -0.74%; **excess +2.00pp — widest lead over SPY since
+entry**). Cash $449.94 (~10%). Per-name vs entry: TPC +14.98% (87.34,
+**+8.4% on the day on NO EDGAR filing** — likely news/flow, not a filing
+event; a rally needs no exit reason), LXU +4.84% (11.49), QTWO +3.94%
+(55.09), PAY +1.35% (29.26), KLIC -4.88% (104.69, +4.6% on the day,
+recovering), ZVRA -12.58% (12.33, +2.5% on the day, recovering off the
+07-20 dip; drawdown, never an exit; kill first evaluable at the ~08-11
+print). EDGAR all six CIKs at 14:15Z: ZERO new filings since 07-17 — the
+only filings since the 07-10 entry remain the KLIC SCHEDULE 13G
 07-16 (JPMorgan Chase passive 5.0%, acc 0000019617-26-000267, dispositioned)
 and the PAY SCHEDULE 13G/A 07-17 (Wasatch Advisors LP passive 9.8% of Cl A,
 acc 0000814133-26-000093, dispositioned) — both passive-ownership, NOT
@@ -48,12 +50,12 @@ earnings feed 07-17): LXU 2026-07-29 pm (VERIFIED), QTWO 2026-07-29 pm
 2026-08-05 pm (tent.), ZVRA 2026-08-11 pm (tent.). First kill checks with
 teeth: LXU + QTWO on 07-29 — the 07-30 tend must pull both prints and test
 the kills verbatim.** KLIC and ZVRA drawdowns on NO adverse filing —
-drawdowns, never exits (Stage 5). Broker reconcile clean: 6/6 share counts
-exact; no oracle orders since the 07-17 close; the account's OGN/personal
-positions are invisible. Legacy CXT/HDSN/J/PSN/VITL absent from broker as
+drawdowns, never exits (Stage 5). Broker reconcile clean 07-21: 6/6 share
+counts exact; no oracle orders since the 07-20 close; the account's
+OGN/personal positions are invisible. Legacy CXT/HDSN/J/PSN/VITL absent from broker as
 EXPECTED — all five exited 2026-07-06 (operator_liquidation_for_launch per
 oracle_cohort.json). A/B due_for_grade=0. Research cadence door fired again
-(stamp 07-14T16:16Z, 6 days); sourcing remains a conscious no-op (standing
+(stamp 07-14T16:16Z, 7 days); sourcing remains a conscious no-op (standing
 duty 3 — book fully deployed, shared buying-power pool, 07-10 pipeline
 fresh); stamp left untouched so a session with deployable capital sees it
 due.
