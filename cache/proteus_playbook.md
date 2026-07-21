@@ -194,7 +194,23 @@ the full bar, or on the kill switch. More than one index-park round trip
 in a rolling month = a thesis in disguise (art. 1). GFV note: park sized
 to settled funds only; staged-sell proceeds ($4.998) settle 2026-07-14.
 
-## Odd-lot tender — broker mechanics (kill-condition #2) — ANSWERED 2026-07-11
+## Odd-lot tender — GROUND KILLED 2026-07-21 (kill-spec tripped, graded as written)
+
+**The odd-lot priority hunting ground is DEAD (session-15 journal, 2026-07-21).**
+Full 12-month supply base rate (EDGAR FTS, 2025-07-21..2026-07-21): 32 unique
+tender filers with odd-lot language → 18 listed (the rest interval funds /
+non-traded REITs/BDCs) → live-judged actionability 0/9 on the 5/27..7/20
+sample; adjacent channels add ~3 listed reverse-split cash-outs/yr (TTSH/CYAN/
+ANEB class) + ~1 odd-lot-preference exchange offer/yr (Lennar/Millrose,
+6.38%). Most generous count < 12 actionable/yr; median $/event ≤ ~$150 at
+sleeve scale. Both spec legs TRUE → the ground and the scanner die per the
+spec's own words. The broker-mechanics leg (Q2 pass-through) was NEVER
+falsified — no deal cleared the economics bar to fund the 99-share test; the
+Q&A below is retained as reference for any future ground that needs RH
+corporate-action mechanics, NOT as a live checklist. Daily TENDER scans
+stopped; the daily DEADLINE scan (feed3) continues to its own ~9/12 maturity.
+
+### (dead reference) broker mechanics Q&A — ANSWERED 2026-07-11
 
 All five unknowns answered 2026-07-11 by the operator via RH support chat
 (plus RH's published fee schedule for Q3). Evidence grade: SUPPORT-CHAT

@@ -30,7 +30,10 @@
    "mark": "NOT-YET",
    "marks": [],
    "observable": "Actionable tender candidates surfaced per quarter, each with its read verdict logged in proteus_dealflow.json.",
-   "sentence": "Improves the odd-lot entry decision by scanning every SC TO-I filing so no listed odd-lot tender is missed while the sleeve waits in cash."
+   "sentence": "Improves the odd-lot entry decision by scanning every SC TO-I filing so no listed odd-lot tender is missed while the sleeve waits in cash.",
+   "status": "DEAD",
+   "died": "2026-07-21",
+   "death_note": "Kill-spec TRIPPED and graded as written (session-15 journal, 2026-07-21): full 12-month supply base rate measured ~0-4 actionable/yr vs the 12/yr bar; median $/event <= ~$150 at sleeve scale. Module retained as plumbing/history only; daily tender scans stopped. Broker-mechanics leg never falsified (no deal funded the live test)."
   },
   "entry_schema": {
    "built": "2026-07-13",
