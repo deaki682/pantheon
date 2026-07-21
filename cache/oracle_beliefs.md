@@ -30,35 +30,28 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
-Mark 2026-07-21 ~10:15 ET (morning tend, quotes 14:14Z): equity
-$4,556.37 (**+1.25% vs basis — first positive mark vs basis**; SPY 745.72
-vs spy_entry 751.31, -0.74%; **excess +2.00pp — widest lead over SPY since
-entry**). Cash $449.94 (~10%). Per-name vs entry: TPC +14.98% (87.34,
-**+8.4% on the day on NO EDGAR filing** — likely news/flow, not a filing
-event; a rally needs no exit reason), LXU +4.84% (11.49), QTWO +3.94%
-(55.09), PAY +1.35% (29.26), KLIC -4.88% (104.69, +4.6% on the day,
-recovering), ZVRA -12.58% (12.33, +2.5% on the day, recovering off the
-07-20 dip; drawdown, never an exit; kill first evaluable at the ~08-11
-print). EDGAR all six CIKs at 14:15Z: ZERO new filings since 07-17 — the
-only filings since the 07-10 entry remain the KLIC SCHEDULE 13G
-07-16 (JPMorgan Chase passive 5.0%, acc 0000019617-26-000267, dispositioned)
-and the PAY SCHEDULE 13G/A 07-17 (Wasatch Advisors LP passive 9.8% of Cl A,
-acc 0000814133-26-000093, dispositioned) — both passive-ownership, NOT
-kill-relevant. No kill evaluable; all six kills print-based. **PRINT CALENDAR (confirmed via
-earnings feed 07-17): LXU 2026-07-29 pm (VERIFIED), QTWO 2026-07-29 pm
-(VERIFIED), PAY 2026-08-03 pm (tent.), KLIC 2026-08-05 pm (tent.), TPC
-2026-08-05 pm (tent.), ZVRA 2026-08-11 pm (tent.). First kill checks with
-teeth: LXU + QTWO on 07-29 — the 07-30 tend must pull both prints and test
-the kills verbatim.** KLIC and ZVRA drawdowns on NO adverse filing —
-drawdowns, never exits (Stage 5). Broker reconcile clean 07-21: 6/6 share
-counts exact; no oracle orders since the 07-20 close; the account's
-OGN/personal positions are invisible. Legacy CXT/HDSN/J/PSN/VITL absent from broker as
-EXPECTED — all five exited 2026-07-06 (operator_liquidation_for_launch per
-oracle_cohort.json). A/B due_for_grade=0. Research cadence door fired again
-(stamp 07-14T16:16Z, 7 days); sourcing remains a conscious no-op (standing
-duty 3 — book fully deployed, shared buying-power pool, 07-10 pipeline
-fresh); stamp left untouched so a session with deployable capital sees it
-due.
+Mark 2026-07-21 CLOSE (after-close tend, 4pm prints, quotes 19:59-20:00Z):
+equity $4,593.91 (**+2.09% vs basis — first close-mark HIGH**; SPY 748.28
+vs spy_entry 751.31, -0.40%; **excess +2.49pp — widest lead since entry**).
+Cash $449.94 (~10%). Per-name vs entry: TPC +14.22% (86.76, +7.7% on the
+day — second straight no-filing rally day; a rally needs no exit reason),
+LXU +5.47% (11.56), QTWO +4.08% (55.16), PAY +2.62% (29.625), KLIC -1.38%
+(108.54, +8.5% on the day, nearly back to entry), ZVRA -11.80% (12.44,
++3.4% on the day, third straight recovery day off the 07-20 dip; drawdown,
+never an exit; kill first evaluable at the ~08-11 print). EDGAR all six
+CIKs at ~20:10Z: ZERO new filings since 07-17 — the only post-entry filings
+remain the KLIC JPM 13G (07-16) and PAY Wasatch 13G/A (07-17), both
+passive-ownership, dispositioned, NOT kill-relevant. No kill evaluable; all
+six kills print-based. **PRINT CALENDAR (confirmed 07-17): LXU 2026-07-29 pm
+(VERIFIED), QTWO 2026-07-29 pm (VERIFIED), PAY 2026-08-03 pm (tent.), KLIC
+2026-08-05 pm (tent.), TPC 2026-08-05 pm (tent.), ZVRA 2026-08-11 pm
+(tent.). First kill checks with teeth: LXU + QTWO on 07-29 — the 07-30 tend
+must pull both prints and test the kills verbatim.** Broker reconcile clean
+07-21 close: 6/6 share counts exact; no oracle orders today; personal/OGN
+positions invisible; legacy CXT/HDSN/J/PSN/VITL absent as expected (exited
+07-06). A/B due_for_grade=0. Sourcing remains a conscious no-op (standing
+duty 3 — fully deployed, shared buying-power pool, 07-10 pipeline fresh);
+research stamp untouched.
 NOTE (housekeeping): earlier 07-16 tend entries stamped 18:15Z ("14:15 ET")
 actually ran ~15:05Z (~11:05 ET) — UTC mislabeled as ET; entries from 15:30Z
 onward are stamped correctly in UTC. Zeus dispatch headers may still carry the

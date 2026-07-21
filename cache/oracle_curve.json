@@ -738,5 +738,13 @@
   "cash": 449.94,
   "spy": 745.72,
   "note": "zeus tend ~10:15 ET \u2014 intraday marks 14:14Z: book upside-2026-07-10-r1 +1.25% vs 4500 basis, SPY 745.72 vs spy_entry 751.31 (-0.74%), excess +2.00pp (best since entry); TPC +8.4% on the day (87.34, +14.98% vs entry) on NO new EDGAR filing; reconcile clean (broker==sleeve exact 6/6, no oracle orders since 07-20 close, none open); EDGAR 6/6 CIKs: zero new filings since 07-17 (only dispositioned PAY Wasatch 13G/A + KLIC JPM 13G); no typed kill evaluable, all six kills print-based (LXU+QTWO 07-29 first); hold_all, no orders"
+ },
+ {
+  "ts": "2026-07-21T20:12:00Z",
+  "equity": 4593.91,
+  "cash": 449.94,
+  "positions_value": 4143.97,
+  "spy": 748.28,
+  "note": "zeus tend ~16:05 ET AFTER CLOSE \u2014 07-21 4pm prints: book upside-2026-07-10-r1 +2.09% vs 4500 basis (NEW HIGH mark), SPY 748.28 vs spy_entry 751.31 (-0.40%), excess +2.49pp (widest lead since entry); reconcile clean (broker==sleeve exact 6/6, no oracle orders today); EDGAR 6/6 CIKs: zero new filings since 07-17; no typed kill evaluable, all six print-based (LXU+QTWO 07-29 first); hold_all, no orders"
  }
 ]
