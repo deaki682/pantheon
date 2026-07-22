@@ -1,5 +1,5 @@
 {
- "updated": "2026-07-14",
+ "updated": "2026-07-22T14:24:45.164873+00:00",
  "events": [
   {
    "symbol": "LEG",
@@ -212,6 +212,16 @@
    "source": "FR docket 3918 (Serendia complaint rcvd 6/22, notice pub 6/25)",
    "source_url": "https://www.federalregister.gov/documents/2026/06/25",
    "notes": "RF-microneedling exclusion would hit core product; optionable mid-cap; institution decision ~30d; the one pipeline name where the RESPONDENT side is the material tradable"
+  },
+  {
+   "symbol": "GLXZ",
+   "name": "Galaxy Gaming (OTC: GLXZ) / Evolution Malta - break-or-extend resolution watch",
+   "event_type": "merger_break_watch",
+   "event_date": "2026-08-03",
+   "filed": "2026-07-20",
+   "source": "8-K EX-99.1 acc 0001193125-26-308385 (PR 7/20): outside date 2026-07-17 PASSED, 2 gaming regulatory approvals missing, Evolution has not waived, neither party terminated; Galaxy evaluating extension vs termination. event_date = recheck date (resolution undated by the parties)",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/13156/000119312526308385/d101970dex991.htm",
+   "notes": "WATCH-ONLY education for the deal_break_reversion thesis lane (session-16 study): OTC, no RH quote (404) - untradable, killed at liquidity pre-gate. Observe resolution (extension vs break) and the break tape if it comes; zero standing cost"
   }
  ]
 }
