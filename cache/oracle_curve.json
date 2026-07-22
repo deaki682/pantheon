@@ -752,5 +752,13 @@
   "ts": "2026-07-22T14:22:00Z",
   "equity": 4551.62,
   "spy": 748.36
+ },
+ {
+  "ts": "2026-07-22T20:10:00Z",
+  "equity": 4536.42,
+  "cash": 449.94,
+  "positions_value": 4086.48,
+  "spy": 747.33,
+  "note": "zeus tend ~16:05 ET AFTER CLOSE \u2014 07-22 4pm prints: book upside-2026-07-10-r1 +0.81% vs 4500 basis (off the 07-21 high, giveback day), SPY 747.33 vs spy_entry 751.31 (-0.53%), excess +1.34pp; reconcile clean (broker==sleeve exact 6/6, no oracle orders today); EDGAR 6/6 CIKs: zero new filings (only the dispositioned PAY Wasatch 13G/A 07-17); no typed kill evaluable, all six print-based (LXU+QTWO 07-29 first); hold_all, no orders"
  }
 ]

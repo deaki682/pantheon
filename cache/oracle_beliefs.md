@@ -30,19 +30,20 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
-Mark 2026-07-21 CLOSE (after-close tend, 4pm prints, quotes 19:59-20:00Z):
-equity $4,593.91 (**+2.09% vs basis — first close-mark HIGH**; SPY 748.28
-vs spy_entry 751.31, -0.40%; **excess +2.49pp — widest lead since entry**).
-Cash $449.94 (~10%). Per-name vs entry: TPC +14.22% (86.76, +7.7% on the
-day — second straight no-filing rally day; a rally needs no exit reason),
-LXU +5.47% (11.56), QTWO +4.08% (55.16), PAY +2.62% (29.625), KLIC -1.38%
-(108.54, +8.5% on the day, nearly back to entry), ZVRA -11.80% (12.44,
-+3.4% on the day, third straight recovery day off the 07-20 dip; drawdown,
-never an exit; kill first evaluable at the ~08-11 print). EDGAR all six
-CIKs at ~20:10Z: ZERO new filings since 07-17 — the only post-entry filings
-remain the KLIC JPM 13G (07-16) and PAY Wasatch 13G/A (07-17), both
-passive-ownership, dispositioned, NOT kill-relevant. No kill evaluable; all
-six kills print-based. **PRINT CALENDAR (confirmed 07-17): LXU 2026-07-29 pm
+Mark 2026-07-22 CLOSE (after-close tend, 4pm prints, quotes 19:59-20:00Z):
+equity $4,536.42 (+0.81% vs basis — giveback day off the 07-21 high
+$4,593.91; SPY 747.33 vs spy_entry 751.31, -0.53%; excess +1.34pp,
+narrowed from +2.49pp). Cash $449.94 (~10%). Per-name vs entry: TPC
++14.55% (87.01, +0.3% on the day), LXU +8.12% (11.85, +2.6% on the day),
+PAY +0.61% (29.045, -1.9% on the day), QTWO -0.21% (52.89, -4.1% on the
+day — second straight no-filing slide into the 07-29 print; drawdown
+noise, never an exit), KLIC -4.10% (105.55, -2.8% on the day), ZVRA
+-14.00% (12.13, -2.6% on the day; drawdown, never an exit; kill first
+evaluable at the ~08-11 print). EDGAR all six CIKs at ~20:08Z: ZERO new
+filings since 07-17 — the only post-entry filings remain the KLIC JPM 13G
+(07-16) and PAY Wasatch 13G/A (07-17), both passive-ownership,
+dispositioned, NOT kill-relevant. No kill evaluable; all six kills
+print-based. **PRINT CALENDAR (confirmed 07-17): LXU 2026-07-29 pm
 (VERIFIED), QTWO 2026-07-29 pm (VERIFIED), PAY 2026-08-03 pm (tent.), KLIC
 2026-08-05 pm (tent.), TPC 2026-08-05 pm (tent.), ZVRA 2026-08-11 pm
 (tent.). First kill checks with teeth: LXU + QTWO on 07-29 — the 07-30 tend
