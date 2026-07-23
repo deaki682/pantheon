@@ -89,6 +89,15 @@
    "positions_value": 2434.22,
    "spy": 748.79,
    "note": "session 16 market-hours mark (VOO 688.29 / SPY 748.79 @14:08Z, broker tape)"
+  },
+  {
+   "ts": "2026-07-23T14:07:40+00:00",
+   "date": "2026-07-23",
+   "equity": 2462.5,
+   "cash": 54.9989,
+   "positions_value": 2407.5,
+   "spy": 740.52,
+   "note": "session 17 open mark; VOO 680.735 / SPY 740.52 @14:07Z tape; reconcile CLEAN (broker VOO == sleeve, zero orders since 7/22)"
   }
  ]
 }

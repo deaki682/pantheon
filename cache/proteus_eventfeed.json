@@ -1,5 +1,5 @@
 {
- "updated": "2026-07-22T14:24:45.164873+00:00",
+ "updated": "2026-07-23T14:13:24.503921+00:00",
  "events": [
   {
    "symbol": "LEG",
@@ -222,6 +222,26 @@
    "source": "8-K EX-99.1 acc 0001193125-26-308385 (PR 7/20): outside date 2026-07-17 PASSED, 2 gaming regulatory approvals missing, Evolution has not waived, neither party terminated; Galaxy evaluating extension vs termination. event_date = recheck date (resolution undated by the parties)",
    "source_url": "https://www.sec.gov/Archives/edgar/data/13156/000119312526308385/d101970dex991.htm",
    "notes": "WATCH-ONLY education for the deal_break_reversion thesis lane (session-16 study): OTC, no RH quote (404) - untradable, killed at liquidity pre-gate. Observe resolution (extension vs break) and the break tape if it comes; zero standing cost"
+  },
+  {
+   "symbol": "DOMO",
+   "name": "Domo, Inc. (DOMO) (CIK 0001505952)",
+   "event_type": "asset_sale_signed",
+   "event_date": "2026-07-22",
+   "filed": "2026-07-22",
+   "source": "8-K 0001104659-26-085819",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1505952/000110465926085819/tm2620768d3_8k.htm",
+   "notes": "Sells substantially all assets to PRGS for ~$400M cash; keeps NOLs; written consent delivered (no vote risk); no financing condition; NOL rights plan adopted same day; company under FORBEARANCE on credit facility (LTD $128.8M all-current at 4/30/26); deep-read session 17"
+  },
+  {
+   "symbol": "DOMO",
+   "name": "Domo, Inc. (DOMO) (CIK 0001505952)",
+   "event_type": "outside_date",
+   "event_date": "2026-11-30",
+   "filed": "2026-07-22",
+   "source": "8-K 0001104659-26-085819",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1505952/000110465926085819/tm2620768d3_8k.htm",
+   "notes": "APA outside date; seller termination fee $13.5M in specified circumstances; PRGS may terminate on forbearance lapse/acceleration"
   }
  ]
 }
