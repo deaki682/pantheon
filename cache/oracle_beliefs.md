@@ -30,17 +30,25 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
-Mark 2026-07-23 ~10:12 ET intraday (Zeus hourly tend): equity $4,563.00
-(+1.40% vs basis; SPY 740.49 vs spy_entry 751.31, -1.44%; excess +2.84pp,
-widened from +1.34pp — a red SPY day the book shrugged off). Cash $449.94.
-Per-name vs entry: TPC +15.22%, LXU +11.59% (12.23, +3.3% on the day),
-QTWO +0.94% (recovered the 07-22 slide), PAY -0.76%, KLIC -2.59%, ZVRA
--15.21% (drawdown, never an exit; kill first evaluable ~08-11 print).
-EDGAR sweep 07-17→07-23 on all six: ZERO new filings — no kill evaluable;
-all six kills print-based. Broker reconcile clean: 6/6 share counts exact.
-A/B due_for_grade=0. Sourcing remains a conscious no-op (standing duty 3 —
+Mark 2026-07-23 CLOSE (after-close tend, 4pm prints, quotes 19:59-20:00Z):
+equity $4,575.94 (+1.69% vs basis — NEW CLOSING HIGH; SPY 738.24 vs
+spy_entry 751.31, -1.74%, a -1.23% SPY day the book closed green through;
+excess +3.43pp, widened from +1.34pp at the 07-22 close). Cash $449.94.
+Per-name vs entry: TPC +15.25% (87.54), LXU +11.50% (12.22, +3.2% on the
+day), PAY -0.38%, QTWO -0.23% (stabilized after the 07-22 slide), KLIC
+-3.65%, ZVRA -11.31% (12.51, +3.1% on the day; drawdown, never an exit;
+kill first evaluable ~08-11 print). EDGAR sweep all six CIKs ~20:10Z
+(>= 07-17): ZERO new filings (only the dispositioned PAY Wasatch 13G/A
+07-17) — no kill evaluable; all six kills print-based. Broker reconcile
+clean: 6/6 share counts exact; zero orders account-wide today. A/B
+due_for_grade=0. Sourcing remains a conscious no-op (standing duty 3 —
 fully deployed, 07-10 pipeline fresh); research stamp untouched. First kill
-checks with teeth: LXU + QTWO prints 2026-07-29 pm.
+checks with teeth: LXU + QTWO prints 2026-07-29 pm — the 07-30 tend must
+pull both prints and test the kills verbatim.
+
+Mark 2026-07-23 ~10:12 ET intraday (Zeus hourly tend): equity $4,563.00
+(+1.40% vs basis; SPY 740.49, excess +2.84pp). Superseded by the close mark
+above; EDGAR and reconcile were clean at both checks.
 
 Mark 2026-07-22 CLOSE (after-close tend, 4pm prints, quotes 19:59-20:00Z):
 equity $4,536.42 (+0.81% vs basis — giveback day off the 07-21 high
