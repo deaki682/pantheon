@@ -326,5 +326,16 @@
   "date": "2026-07-22",
   "equity": 4930.71,
   "spy": 748.61
+ },
+ {
+  "timestamp": "2026-07-23T14:06:00Z",
+  "date": "2026-07-23",
+  "equity": 4866.43,
+  "spy": 740.58,
+  "cash": 0.0,
+  "peak_equity": 4973.125599,
+  "drawdown": 0.021454,
+  "halted": false,
+  "note": "Zeus hourly monitoring-only pass ~10:06 ET Thu 2026-07-23 (2026Q2 traded; next rebalance 2026Q3). 47/47 positions marked live. Broad red day: SPY -0.9%, book -1.3%."
  }
 ]
