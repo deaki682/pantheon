@@ -2103,6 +2103,22 @@
    "read_model": "opus",
    "read_effort": "high",
    "resolved": true
+  },
+  {
+   "symbol": "NCSM",
+   "detect_date": "2026-07-23",
+   "entry_price": 46.23,
+   "offer_price": 0.0,
+   "spy_entry": 740.49,
+   "expected_close": "2026-12-31",
+   "spread": -1.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "STOCK deal, not cash: 0.5537 WFRD/share default (mixed election cash capped ~19.99%), Weatherford strategic, written-consent-cleared (DEFM14C 2026-07-22) \u2014 fails cash-only rule; price floats with WFRD, no cash floor to arb.",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
   }
  ],
  "graded": [
