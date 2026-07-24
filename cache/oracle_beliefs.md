@@ -30,6 +30,26 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
+Mark 2026-07-24 ~10:30 ET intraday (Zeus hourly tend, quotes 14:18Z): equity
+$4,432.25 (-1.51% vs basis; SPY 738.25 vs spy_entry 751.31, -1.74%; excess
++0.23pp — narrowed HARD from +3.43pp at the 07-23 close). **THE EVENT: ZVRA
+-20.5% on the day (9.95, -29.5% vs entry) on a CHMP NEGATIVE OPINION on the
+arimoclomol EU MAA for NPC** (company PR 07-24; re-examination to be
+requested; global EAP continues; NO 8-K on EDGAR yet — next tends re-read
+the 8-K when it lands). Typed-kill test ran and did NOT trigger: the
+underwritten thesis is the US MIPLYFFA product_ramp, kill = 2 consecutive
+flat/declining product-rev quarters (first evaluable ~08-11 print); no
+dated EU catalyst was underwritten, so no catalyst_fail; not a
+fundamental_break/dilution/going-concern. HELD — a drawdown is never an
+exit. BUT the CHMP hit is a REAL haircut to upside_x (EU optionality gone
+or delayed); the 08-11 re-underwrite must consciously re-price ZVRA's
+upside, not just test the kill. KLIC -5.1% (100.71, -8.5% vs entry) on the
+sector-wide semi-equipment selloff (AMAT/LRCX/KLA -23–28% off 6/30 peaks,
+AI-capex fears; no filing) — drawdown noise, held. PAY 8-Ks 07-23
+dispositioned: director resignation (AKKR nominee, no disagreement) + 5.07
+votes — not kill-relevant. Reconcile clean 6/6; zero orders; A/B
+due_for_grade=0; sourcing conscious no-op continues (duty 3).
+
 Mark 2026-07-23 CLOSE (after-close tend, 4pm prints, quotes 19:59-20:00Z):
 equity $4,575.94 (+1.69% vs basis — NEW CLOSING HIGH; SPY 738.24 vs
 spy_entry 751.31, -1.74%, a -1.23% SPY day the book closed green through;
@@ -91,6 +111,14 @@ calibration writer runs after the first grades land.
 - The six above, held to their typed kills. The first real information arrives
   at the July/August prints — that is when tending has teeth: pull each print,
   test the kill verbatim, fire without mercy if it lands, journal + grade.
+- **ZVRA post-CHMP (opened 07-24):** the EU MAA got a negative CHMP opinion;
+  Zevra requests re-examination. The US-ramp thesis is intact until the ~08-11
+  print, but the upside_x underwritten on 07-10 included EU optionality that is
+  now impaired/delayed. At the 08-11 re-underwrite: (a) test the kill verbatim
+  on product revenue, (b) re-price upside_x without near-term EU, (c) if the
+  remaining upside no longer clears the ≥1.5x bar, that is a thesis-level
+  re-underwrite decision to journal explicitly — not a drawdown exit. Watch for
+  the CHMP 8-K (none on EDGAR as of 07-24 10:30 ET) and re-examination timeline.
 - The interim convex trio (SEER/NNDM/FULC, funded 07-07) was liquidated 07-10
   into the rotation by operator direction; their A/B rows stay open for grading
   at horizon — do NOT drop them (an ungraded Arm B is survivorship bias).
