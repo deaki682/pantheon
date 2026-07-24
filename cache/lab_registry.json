@@ -405,12 +405,17 @@
     {
      "date": "2026-07-24",
      "to": "hypothesis"
+    },
+    {
+     "date": "2026-07-24",
+     "to": "shelved"
     }
    ],
    "mechanism": "Announced-deal targets trade with a deal premium held disproportionately by merger-arb funds sized to deal spread, not to fundamental value. On a definitive break the cohort force-sells into a market with no natural fast bid (fundamental buyers need weeks to re-underwrite a story that just changed), so the break-day flush plausibly overshoots fundamental value - most cleanly when the break reason is exogenous to target quality (regulatory block) and the target retains standalone value plus, often, a breakup fee. Where the break reason is adverse selection about the target itself (financing/MAE/diligence walk), the same flush is information, not overshoot.",
+   "shelved_reason": "Measured 2026-07-24 on the full 2015-2024 primary-doc population (48 events): no typed subgroup passes the preregistered bar; only powered cell (REG_BLOCK n=32) shows mean -3.98% +21d SPY-excess, hit 41%; big flushes did worse (-11.8%, hit 25%). Post-break reversion has no base-rate support at 21 trading days; lane default = stand aside. Full table: cache/proteus_study_deal_break_tape.json.",
    "slug": "deal_break_reversion_tape",
    "sponsor": "proteus",
-   "status": "hypothesis",
+   "status": "shelved",
    "underutilized_because": "Post-break names are orphaned: arb coverage ends at termination, sell-side coverage lapsed during the deal, and the event is rare (~2-3 mechanism-bearing US-listed cases/yr per the session-16 supply census) - too thin a channel for funds to staff, which is exactly why a base-rate table plus free sourcing (Hermes's live deal book) can be an edge at sleeve scale.",
    "who_loses": "Merger-arb funds forced out by mandate/risk limits at the break sell to nobody; their constraint is mandate (they hold spread, not value) and leverage - they cannot wait out the re-underwriting window."
   },

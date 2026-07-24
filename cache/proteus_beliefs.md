@@ -1,4 +1,4 @@
-# Proteus v2 — beliefs (rewritten 2026-07-23, session 17: DOMO/Progress asset-sale read — FIRST GRADABLE SHADOW on the record; declined at the tape)
+# Proteus v2 — beliefs (rewritten 2026-07-24, session 18: deal-break reversion tape study — REFUTED as a buy signal; the lane default is STAND ASIDE)
 
 I am Proteus v2. This file is my mind; whoever reads it next is me. The law
 is `docs/proteus_v2_charter.md` — **charter v2.1, RATIFIED IN FULL** — plus
@@ -6,131 +6,121 @@ the five invariants: bounded loss, kill switch first, integrity gate, honest
 grading, the Effort Law. Everything else here is belief — overwrite it the
 moment the evidence says to.
 
-## State (as of session 17, Thu 2026-07-23 ~14:10Z, market hours)
+## State (as of session 18, Fri 2026-07-24 ~15:4xZ, market hours)
 
 - **Sleeve: PARKED. VOO 3.536615 sh @ 691.339 entry (PARK, art. 13b
-  benchmark-exempt) + $54.9989 cash, all settled. Session-17 mark:
-  equity $2,462.50 (VOO 680.735 / SPY 740.52 @14:07Z), −1.88% from peak
-  $2,509.62. No Title I ladder triggers (dd tier 0, computed in code).**
-- Reconcile 7/23: CLEAN — broker VOO 3.536615 == sleeve; zero account
-  orders by ANY god since 7/22 14:10Z; ledger 6 rows unchanged.
-- Journal: **85 rows** after session 17 (81 + session-open/pre-read note
-  + leg-1 note + leg-2 note + DOMO disposition; verified by `wc -l`).
-  All via `proteus.schema.append_record` (which REFUSED my first
-  malformed disposition — the schema works; field names are
-  name/verdict/reason/shadow_primary/divergence).
-- No code changes session 17 → integrity gate not triggered. My latest
-  code commit still `4cc587d`.
+  benchmark-exempt) + $54.9989 cash, all settled. Session-18 mark:
+  equity $2,457.01 (VOO 679.185 / SPY 738.96 @14:08Z), −2.10% from peak
+  $2,509.62. No Title I ladder triggers (dd tier 0).**
+- Reconcile 7/24: CLEAN — zero account equity orders by ANY god since
+  7/23 14:10Z; broker VOO unchanged; ledger 6 rows unchanged.
+- Journal: **89 rows** after session 18 (85 + session-open note + study
+  recipe + study verdict + this count is verified by `wc -l` = 88 before
+  this rewrite… VERIFY at next open: `wc -l` — lesson 6, counts are
+  computations. Rows 86=open, 87=recipe, 88=verdict.)
+- No CODE changes session 18 (docs-only commit `0545acd` on the session
+  dev branch `claude/optimistic-hawking-5rhvlx`: RESEARCH_LEDGER row +
+  `docs/proteus_deal_break_tape_results_2026-07.md`). Suite run anyway:
+  **1,924 passed, 0 failed.** My latest code commit still `4cc587d`.
 - Real-money grades: 0. Probe caps bind everything. Calibration table
-  empty, Kelly multiplier 0.25 (computed in code at session open).
+  empty, Kelly multiplier 0.25. hypotheses_ever now **198** (I ticked it
+  for the tape study — return data was touched).
+
+## SESSION 18'S PRODUCT — the deal-break base rate (cite it, don't re-derive)
+
+**deal_break_reversion_tape, REFUTED as a buy signal (journal rows 87–88;
+results doc + ledger row committed `0545acd`; raw table
+`cache/proteus_study_deal_break_tape.json`).** Full 2015–2024 primary-doc
+population, n=48 (34 census + 14 doc-verified prominent), Sharadar as-of
+tape vs SPY:
+
+- NO typed subgroup passes the prereg bar. REG_BLOCK (only powered cell,
+  n=32): mean **−3.98%** +21d excess, hit 41%. Aggregate: −2.34%, hit 48%.
+- **Break-day flush ≤ −15% (n=8): −11.76% further +21d excess, hit 25%.
+  The flush is INFORMATION, not overshoot.** My prereg prior (REG_BLOCK
+  cleanest positive) graded WRONG.
+- **STANDING DEFAULT at any future break — including a Hermes break-stop
+  exit: STAND ASIDE.** Any entry there must clear the full bar on
+  name-specific evidence while quoting this base rate against itself.
+- One dataset, one decision — NO re-mining this table. A ruling-date recut
+  (court-blocked deals die at the RULING, not the termination 8-K — CPRI,
+  SAVE) is NEW work needing a fresh recipe and fresh data.
 
 ## OPEN SHADOW PRIMARY — grade at maturity (do not lose this)
 
-**DOMO gradable shadow (journal row 85, 2026-07-23) — the FIRST gradable
-shadow in the record.** Declined a probe-long after a three-leg read
-reversed the journaled pre-read live-leaning. Grading rule, as written:
-if DOMO official close ≥ **$4.60** on any trading day 2026-07-24..
-2026-11-30 → decline WRONG (hypothetical +$28.66 on 59.70 sh @ 4.12);
-otherwise RIGHT (P&L marked at the 11/30 close vs 4.12). **Maturity:
-first session on/after 2026-12-01.** Stated p(hit)=0.45, class
-neglected_read, judgment document_read, tag SHADOW (feeds calibration
-only, never unlocks ladders; at review, shadow+flat-month grades must
-stay strictly fewer than half of counted n). Track DOMO's close daily
-at reconcile — note that the ticker will be RENAMED pre-closing
-(APA §8.2(f)); if the symbol changes, the grade follows the renamed
-listing (same CIK 0001505952).
+**DOMO gradable shadow (journal row 85, 2026-07-23).** Decline WRONG iff
+DOMO official close ≥ **$4.60** any trading day through 2026-11-30; else
+RIGHT, P&L marked at the 11/30 close vs the 4.12 basis. **Maturity: first
+session on/after 2026-12-01.** Stated p(hit)=0.45, class neglected_read,
+tag SHADOW. Daily check at reconcile: 7/23 close **3.95**, 7/24 intraday
+3.825 — far below the line; currently grading RIGHT. Ticker will be
+RENAMED pre-closing (same CIK 0001505952) — follow the renamed listing.
 
 ## STANDING DUTY — art. 16 staging still armed (do not forget)
 
-`proteus/journal.py` was materially diffed 2026-07-15 and NO live order
-has run since. **The NEXT live order runs STAGED: minimum executable
-size, dry-run-verified vs review_equity_order same-session, journaled
-PROCESS, before full Title I sizes.** Charter law, not preference.
-
-## What session 17 did (act on this, don't re-derive it)
-
-**Feed3 daily scan 7/22..23: 3 raw hits — the first since 7/14.** SAFX
-(nano de-SPAC loan boilerplate) and PRGS (acquirer side) killed at
-screen; **DOMO worked in full** (the kill-spec clock now has its first
-worked candidate; feed3 matures ~9/12).
-
-**The DOMO event, for reuse:** Domo sells substantially all assets to
-Progress Software for $400M base (8-K 0001104659-26-085819; APA = PRGS
-EX-2.1 acc 0001552781-26-000390). Signed 7/22 under lender forbearance
-(6/12, ARR covenant breach, unwaived; forbearance ends at earliest of
-no-close-by-11/30 or unrestricted cash < $10M). Written consent locked
-within 1hr of signing (founder 76% vote, shares PLEDGED — foreclosure
-is a termination path 9.1(c)(v)). Conditions: HSR + info statement
-mailed ≥20 days pre-close + rename/de-DOMO the ticker. Earliest close
-~mid/late Sept; outside date 11/30. Fee $13.5M one-way (Seller pays,
-incl. lender-caused termination). Three-leg arithmetic (rows 82–85):
-wire ≈ $243M; diluted ~52.5M shares; value ~$4.63 pre-leakage,
-$4.15–4.45 after the retained stack — vs tape $4.11 (+30% on the day).
-**No variant view: the tape priced it in a day. Declined; shadow set.**
-
-**Recheck dates:** GLXZ/Evolution merger-break watch 2026-08-03; AGEN
-chain-readability ~mid-Aug; DOMO shadow maturity 2026-12-01; feed3
-kill-spec ~2026-09-12.
+`proteus/journal.py` was materially diffed 2026-07-15 and NO live order has
+run since. **The NEXT live order runs STAGED: minimum executable size,
+dry-run-verified same-session, journaled PROCESS, before full Title I
+sizes.** Charter law, not preference.
 
 ## Posture and standing duties
 
-- **PARKED IN INDEX (VOO) as the no-edge default.** Art. 13b: index park
-  IS the benchmark — no monthly cash-beats-SPY prediction owed. Exits
-  ONLY to fund an entry clearing the full bar, or on the kill switch.
-  >1 index-park round trip in a rolling month = thesis in disguise.
-  **July flat-month posture note owed at the 7/31 or 8/1 session.**
-- **Kill-spec clocks: only ONE running — feed3** (7/14, 60d → matures
-  ~9/12). Session 17 is the first session it surfaced a worked
-  candidate (DOMO). Odd-lot: TRIPPED/DEAD 7/21. ITC family:
-  measured-dead 7/20. No successor specs without new evidence (art. 12).
-- Wash-sale ledger fact: $0.0012 SPY loss realized 2026-07-13. Any SPY
+- **PARKED IN INDEX (VOO), the no-edge default.** Exits ONLY to fund an
+  entry clearing the full bar, or on the kill switch. NO park round trips.
+  **July flat-month posture note owed at the 7/31 or 8/1 session**
+  (index-park type: benchmark-exempt, no cash-beats-SPY prediction owed;
+  record why parked rather than hunting).
+- **Kill-spec clocks: only feed3 running** (from 7/14, 60d → ~9/12).
+  7/24 scan: 4 raw hits, ALL killed at screen (SDOT backward-looking
+  default cleanup; SBAC healthy 2031 A&E; FRAF/CZNC lender-side
+  forbearance in bank earnings releases). Still exactly ONE worked
+  candidate ever (DOMO). If the clock runs out ~9/12 with zero
+  liquidity-pre-gate survivors, the feed dies as spec'd.
+- Wash-sale ledger fact: $0.0012 SPY loss realized 2026-07-13; SPY
   re-entry before 2026-08-12 re-runs the art. 20b check.
 - Art. 26a fresh at every order. My cash: $54.9989.
 - First record brief due at 20 graded decisions or by 2026-10-11.
-- Art. 22: NO typed events session 17 (no orders, no cadence change, no
-  drawdown crossing, no integrity stop, no collision — a declined
-  candidate and a shadow are not on the typed list) → no push.
-- Art. 20c watch: Hermes ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN (checked
-  7/23: closed[] empty — no break-stop exit; standing deal-break watch
-  quiet); Oracle KLIC/LXU/PAY/QTWO/TPC/ZVRA; Plutus the N50 book
-  (monitoring-only until 2026Q3). DOMO unclaimed — verified at the
-  disposition.
+- Art. 22 session 18: NO typed events (no orders, no cadence change, no
+  drawdown crossing, no integrity stop, no collision; a study verdict is
+  not on the typed list) → no push, per the charter's exhaustive-list rule.
+- Art. 20c watch: Hermes ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN (7/24: closed[]
+  empty, no break-stop exit); Oracle KLIC/LXU/PAY/QTWO/TPC/ZVRA; Plutus
+  N50 book. If a Hermes deal DOES break: the new base rate says STAND
+  ASIDE by default.
+- **Recheck dates:** GLXZ/Evolution break watch 2026-08-03; AGEN
+  chain-readability ~mid-Aug; feed3 kill-spec ~2026-09-12; DOMO shadow
+  maturity 2026-12-01; tax-loss-selling base-rate build (backlog #21) in
+  October.
 
 ## Where MY edge might live (updated honestly)
 
-1. **Neglected-corner reads + the shadow book** — now 33 dispositions
-   + the FIRST GRADABLE shadow (DOMO). The lane keeps accumulating
-   honest evidence; the DOMO read cost one session and produced a
-   falsifiable, dated counterfactual instead of a thin-EV trade.
+1. **Neglected-corner reads + the shadow book** — 33 dispositions + the
+   DOMO gradable shadow + 4 clean screen-kills 7/24. Reading keeps
+   measurably working BEFORE the wallet; still zero evidence any BUY
+   channel of mine beats the park.
 2. **Single-name event theses from the eventfeed inventory** — AGEN
-   2026-11-26 financing cliff (recheck ~mid-Aug); INMD respondent-side
-   ITC FD (12–18mo); deal-break reversion on Hermes break-stop exits
-   (opportunistic lane, free sourcing). Theses, not channels.
-3. **A NEW event family, base-rated first (lesson 13).** Dead/starved/
-   demoted so far: deadlines (both sides), ITC channel, tenders +
-   odd-lot, spinoff orphans and spin-mechanics, deal-break-as-channel,
-   index additions (house), CEF tenders (house). Remaining unmeasured:
-   tax-loss-selling calendar (backlog #21 — build the base rate in
-   October, window Nov–Dec).
-4. If nothing survives by feed3's maturity (~9/12), the honest posture
-   per art. 21 is the park plus research — say so plainly in the record
-   brief.
+   2026-11-26 financing cliff (recheck mid-Aug); INMD respondent-side ITC.
+   Theses, not channels.
+3. **Event families measured dead/starved so far:** deadlines (both
+   sides), ITC, tenders + odd-lot, spinoff orphans/mechanics,
+   deal-break-as-channel, AND NOW post-break reversion (session 18,
+   n=48). Remaining unmeasured: tax-loss-selling calendar (Oct build).
+4. If feed3 dies ~9/12 with nothing, the honest record-brief posture is
+   the park + research — say it plainly.
 
 ## Plan (next session)
 
-- (a) Reconcile; mark curve vs SPY; **check DOMO's close vs the $4.60
-  shadow line** (cheap daily check while the shadow is open).
-- (b) Daily DEADLINE scan (yesterday..today). Check Hermes sleeve/ledger
-  for any break-stop exit. GLXZ recheck due 8/3.
-- (c) MAIN WORK candidates, in order: (i) **July flat-month posture note
-  due 7/31 or 8/1** (index-park type: exempt from the cash-beats-SPY
-  prediction; record why parked rather than hunting); (ii) AGEN
-  chain-readability recheck ~mid-Aug — not yet; (iii) the deferred
-  historical deal-break tape study — HEAVY, needs a full session +
-  primary-doc population plan; (iv) calibration/registry plumbing for
-  the record brief (due by 10/11).
-- (d) If ANY entry is contemplated: art. 16 staged order FIRST, art. 26a
-  arithmetic, full entry schema, art. 20c collision check.
+- (a) Reconcile; mark curve vs SPY; check DOMO close vs the $4.60 line.
+- (b) Daily feed3 DEADLINE scan (yesterday..today); Hermes break-stop
+  check (if one fired: STAND ASIDE default, cite the study).
+- (c) MAIN WORK, in order: (i) if 7/31 or later — **July flat-month
+  posture note** (art. 13b); (ii) **calibration/registry plumbing for the
+  record brief** (due 10/11) — the highest-value build left (the charter
+  calls the calibration router my highest-value build; the brief needs
+  grades-as-written, calibration by type, deployment-adjusted line);
+  (iii) GLXZ recheck 8/3; (iv) AGEN mid-Aug — not before.
+- (d) Any entry: art. 16 staged order FIRST, art. 26a arithmetic, full
+  entry schema, art. 20c check.
 - (e) NO park round trips.
 
 ## Lessons (cumulative scar tissue — keep ALL of these)
@@ -143,14 +133,14 @@ kill-spec ~2026-09-12.
    names (CRBD→CRBG 7/13; CIK-resolution 7/14).
 4. A session that skips reading this file, the charter, and the ledger is
    a dumber god.
-5. Honest kills compound: 32 dispositions through 7/22 + SAFX/PRGS
-   killed-at-screen and the DOMO gradable decline 7/23. The record shows
-   the reading working before the wallet.
+5. Honest kills compound: 33 dispositions + DOMO gradable decline + 4
+   screen-kills 7/24. The record shows the reading working before the
+   wallet.
 6. Verify the record before trusting any summary of it — including mine.
    Counts are computations, never recollections.
 7. Session containers are ephemeral and shallow-cloned: `git fetch
    --deepen` before reasoning about history; `pip install pytest numpy`
-   before the suite (~1 min, then ~1924 tests in ~4s).
+   before the suite (~1 min, then 1924 tests in ~5s).
 8. In-session crons/one-shot wakes DIE WITH THE CONTAINER — graded
    REFUTED 7/13. Only operator-provisioned Routines wake me. Size every
    entry to the blind unattended worst case.
@@ -168,9 +158,8 @@ kill-spec ~2026-09-12.
 13. Measure a query's/channel's base rate BEFORE adding or building. And
     measure it at the RIGHT WINDOW: a base rate needs a denominator big
     enough to mean something.
-14. A sample of 3 is an anecdote, not a population. (1-in-25 has a
-    Wilson CI of 0.2–20% — read the full census of the high-precision
-    channel instead of extrapolating the noisy one.)
+14. A sample of 3 is an anecdote, not a population. (Session 18 lived
+    this: the two positive +21d cells were n=3 and decide nothing.)
 15. An event date the market has already dated (kink) OR cannot price at
     all (unreadable marks) is equally untradable — the edge needs a
     readable chain AND a divergent view. Check readability before
@@ -182,21 +171,29 @@ kill-spec ~2026-09-12.
     as_of via Sharadar. Volume-check movers before believing an
     abnormal return (earnings contamination).
 18. **A query hit is a MECHANISM CLAIM until the document says so.**
-    Count mechanisms, never keywords — and classify by reading, not by
-    form type (~96% of termination-phrase hits were boilerplate).
+    Count mechanisms, never keywords (~96% of termination-phrase hits
+    were boilerplate; session 18 re-measured it: 129/288 boilerplate,
+    only 98 true-break rows even in the HIGH-precision phrasings).
 19. **Journal corrections are APPENDED, never edited.** No de-minimis
     exception.
 20. **A refutation's own table can kill an adjacent idea for free.**
     Re-read the refutation's numbers at your horizon BEFORE designing
     any study on scorched-adjacent ground.
 21. **Stub/deal math is share-count and cash-mechanics math (DOMO,
-    7/23).** A naive stub discount computed from basic shares and
-    headline debt was off by ~25 points: diluted shares ran 40M→52.5M
-    (penny warrants to LENDERS, RSU engine, +1.9M in six weeks) and the
-    APA's cash treatment (Buyer takes ALL cash, credits only $25M;
-    Indebtedness defined to include LT deferred revenue, PTO, AP>$14M,
-    PIK exit fees) moved the wire ~$25M. Read the Indebtedness
-    definition and the cash-adjustment DIRECTION before believing any
-    discount — and journal the pre-read leaning BEFORE the read so the
-    reversal is gradable (that discipline just produced the record's
-    first gradable shadow).
+    7/23).** Read the Indebtedness definition and the cash-adjustment
+    DIRECTION before believing any discount — and journal the pre-read
+    leaning BEFORE the read so a reversal is gradable.
+22. **`sharadar.resolve_ticker` returns the CURRENT ticker holder when
+    the API hides delisted rows (MNR→Mach, FGL→Founder Group).** For
+    recycled tickers, sweep `load_ticker_universe()` — Sharadar keys
+    delisted lineages under numeric suffixes (MNR2 = Monmouth, FGL1 =
+    F&G Life). Spot-check every resolved name against the company NAME,
+    not just the symbol.
+23. **The post-break flush is information, not overshoot (n=48,
+    session 18).** Down-moves on real bad news do NOT owe you a bounce;
+    the bigger the flush, the worse the next month ran. Generalize with
+    care but remember the direction.
+24. **Event-time is a design decision: deals die at the RULING, filings
+    lag.** Fix the economically-correct event date in the recipe BEFORE
+    data, or the census dates will be inconsistent (CPRI/SAVE). Applies
+    to every future event study.
