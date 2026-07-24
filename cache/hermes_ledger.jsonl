@@ -13,3 +13,5 @@
 {"date": "2026-07-07", "dollars": 599.99, "order_id": "6a4d187e-1b73-42a6-aefd-ff53baa54442", "side": "buy", "status": "filled", "symbol": "GBTG"}
 {"date": "2026-07-16", "dollars": 575.0, "order_id": "intent:6a59032e-2bbd-495e-ad9c-f6dc5d736371", "price": null, "shares": null, "side": "buy", "status": "placed", "symbol": "OGN", "note": "intent row (atomic flow step 1); superseded by the filled row for broker order 6a59032e"}
 {"date": "2026-07-16", "dollars": 574.999987662, "order_id": "6a59032e-2bbd-495e-ad9c-f6dc5d736371", "price": 13.5099, "shares": 42.56138, "side": "buy", "status": "filled", "symbol": "OGN"}
+{"date": "2026-07-24", "dollars": 580.0, "order_id": "corp-action:tmhc-berkshire-merger-2026-07-24", "price": 72.5, "shares": 8.0, "side": "sell", "status": "filled", "symbol": "TMHC"}
+{"date": "2026-07-07", "dollars": 574.24, "note": "fill-fidelity documentation row appended 2026-07-24: actual fill of the 2026-07-07 buy (legacy placement-notional row above has no shares); nets the corp-action sell to zero", "order_id": "6a4ccd6d-52cd-4476-97ef-f2d26f15899a", "price": 71.78, "shares": 8.0, "side": "buy", "status": "filled", "symbol": "TMHC"}

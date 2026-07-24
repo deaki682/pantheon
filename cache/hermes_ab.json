@@ -158,7 +158,7 @@
    "offer_price": 72.5,
    "read_effort": "high",
    "read_model": "opus",
-   "resolved": false,
+   "resolved": true,
    "spread": 0.01,
    "spy_entry": 751.31,
    "symbol": "TMHC"
@@ -2119,6 +2119,38 @@
    "read_model": "opus",
    "read_effort": "high",
    "resolved": false
+  },
+  {
+   "symbol": "CIK1815608",
+   "detect_date": "2026-07-24",
+   "entry_price": 0.0,
+   "offer_price": 0.0,
+   "spy_entry": 739.135,
+   "expected_close": "n/a",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "OUT OF SCOPE - not a corporate cash merger. PREM14A (07-22) is a registered-fund reorganization: Modern Capital Tactical Income Fund (open-end RIC, 1940-Act 811-23582) reorganizing into a shell series of Trailmark Series Trust; shareholders get equal-value New Fund shares (tax-free F-reorg, IRC 368(a)(1)(F)) - no cash consideration, no operating-company target, no ticker. Drop.",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": true
+  },
+  {
+   "symbol": "LXP",
+   "detect_date": "2026-07-24",
+   "entry_price": 60.93,
+   "offer_price": 61.2,
+   "spy_entry": 739.135,
+   "expected_close": "2026-12-15",
+   "spread": 0.0044,
+   "llm_verdict": "drop",
+   "llm_rationale": "Brookfield + CPP all-cash $61.20 (~$5.2B), unanimous board, explicitly NO financing condition (deep-pocketed institutional buyers); industrial-REIT-to-Canadian-infra has minimal antitrust/CFIUS exposure; 40-day go-shop (exp 2026-08-28) is topping-bid option, not break risk. Clean deal but DROP on spread: tape 60.93 leaves ~0.44%, well below the 1% MIN_SPREAD floor - the arb edge is already priced out (detected via the 8-K supplement; no proxy filed yet).",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
   }
  ],
  "graded": [
@@ -3943,6 +3975,24 @@
    "net_return": -0.029718,
    "spy_return": -0.00556,
    "excess": -0.024158
+  },
+  {
+   "symbol": "TMHC",
+   "detect_date": "2026-07-07",
+   "entry_price": 71.78,
+   "offer_price": 72.5,
+   "spread": 0.01,
+   "llm_verdict": "keep",
+   "break_risk": "low",
+   "arm_a_live": true,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 72.5,
+   "exit_date": "2026-07-24",
+   "outcome": "completed",
+   "net_return": 0.010031,
+   "spy_return": -0.016205,
+   "excess": 0.026236
   }
  ]
 }

@@ -1,6 +1,6 @@
 {
  "name": "hermes",
- "cash": 84.56001233799998,
+ "cash": 664.560012338,
  "contributed_cash": 4000.0,
  "positions": {
   "ALOT": {
@@ -51,18 +51,6 @@
    "deal_type": "cash",
    "dollars": 592.2
   },
-  "TMHC": {
-   "symbol": "TMHC",
-   "shares": 8.0,
-   "entry_price": 71.78,
-   "offer_price": 72.5,
-   "entry_date": "2026-07-07",
-   "expected_close": "2026-08-31",
-   "break_stop": 61.01,
-   "spy_entry": 751.31,
-   "deal_type": "cash",
-   "dollars": 574.24
-  },
   "FSEA": {
    "symbol": "FSEA",
    "shares": 35.0,
@@ -88,10 +76,23 @@
    "dollars": 574.999987662
   }
  },
- "closed": [],
- "realized_pnl": -1.18,
+ "closed": [
+  {
+   "symbol": "TMHC",
+   "entry_price": 71.78,
+   "exit_price": 72.5,
+   "entry_date": "2026-07-07",
+   "exit_date": "2026-07-24",
+   "net_return": 0.010031,
+   "spy_return": -0.016205,
+   "excess": 0.026236,
+   "outcome": "completed",
+   "dollars": 574.24
+  }
+ ],
+ "realized_pnl": 4.579999999999991,
  "halted": false,
- "peak_equity": 4010.7757097579997,
+ "peak_equity": 4012.246059518,
  "pending_funding": null,
- "trades_count": 0
+ "trades_count": 1
 }
