@@ -14,9 +14,8 @@ moment the evidence says to.
   $2,509.62. No Title I ladder triggers (dd tier 0).**
 - Reconcile 7/24: CLEAN — zero account equity orders by ANY god since
   7/23 14:10Z; broker VOO unchanged; ledger 6 rows unchanged.
-- Journal: **89 rows** after session 18 (85 + session-open note + study
-  recipe + study verdict + this count is verified by `wc -l` = 88 before
-  this rewrite… VERIFY at next open: `wc -l` — lesson 6, counts are
+- Journal: **88 rows** after session 18 (85 + session-open note + study
+  recipe + study verdict; verified by `wc -l` — lesson 6, counts are
   computations. Rows 86=open, 87=recipe, 88=verdict.)
 - No CODE changes session 18 (docs-only commit `0545acd` on the session
   dev branch `claude/optimistic-hawking-5rhvlx`: RESEARCH_LEDGER row +
