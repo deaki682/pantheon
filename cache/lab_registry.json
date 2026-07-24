@@ -6,7 +6,7 @@
    "reason": "gauntlet_v1 factory prereg (docs/lab_prereg_gauntlet_v1.md section 8): 90 pre-committed grid cells = 90 hypotheses; new_strategy added +1, this adjustment adds the remaining +89. Survivor child slugs will each carry a -1 adjustment at registration so no cell is ever counted twice."
   }
  ],
- "hypotheses_ever": 197,
+ "hypotheses_ever": 198,
  "migrated_from": {
   "date": "2026-07-04",
   "file": "cache/proteus_lab.json",
@@ -397,6 +397,22 @@
    "status": "refuted",
    "underutilized_because": "Retail/self-directed capital concentrates almost entirely on single-stock picking (as every prior house study -- Oracle, Midas, Gauntlet -- also did); a 17-ETF absolute-trend overlay requires no stock-picking skill and is mechanically trivial, yet is rarely run by small accounts who default to buy-and-hold or single-name bets. Professional CTAs run this with leverage and dozens of futures contracts unavailable to a long-only, no-leverage retail account -- this tests the stripped-down, house-constrained version.",
    "who_loses": "Non-forecasting flow: fuel hedgers locking costs regardless of price view, pensions shifting to bonds on a fixed schedule regardless of rate outlook, central banks defending currency bands, sovereign wealth funds rebalancing commodity allocations on policy schedules rather than return forecasts."
+  },
+  "deal_break_reversion_tape": {
+   "created": "2026-07-24",
+   "falsifiable_claim": "If no typed break-reason subgroup (n>=8) shows mean +21-trading-day SPY-excess >= +3% with hit rate >= 60% surviving drop-max-name >= +1.5% on the 2015-2024 census, the reversion lane has no measured base-rate support and the standing default at any future break is STAND ASIDE.",
+   "history": [
+    {
+     "date": "2026-07-24",
+     "to": "hypothesis"
+    }
+   ],
+   "mechanism": "Announced-deal targets trade with a deal premium held disproportionately by merger-arb funds sized to deal spread, not to fundamental value. On a definitive break the cohort force-sells into a market with no natural fast bid (fundamental buyers need weeks to re-underwrite a story that just changed), so the break-day flush plausibly overshoots fundamental value - most cleanly when the break reason is exogenous to target quality (regulatory block) and the target retains standalone value plus, often, a breakup fee. Where the break reason is adverse selection about the target itself (financing/MAE/diligence walk), the same flush is information, not overshoot.",
+   "slug": "deal_break_reversion_tape",
+   "sponsor": "proteus",
+   "status": "hypothesis",
+   "underutilized_because": "Post-break names are orphaned: arb coverage ends at termination, sell-side coverage lapsed during the deal, and the event is rare (~2-3 mechanism-bearing US-listed cases/yr per the session-16 supply census) - too thin a channel for funds to staff, which is exactly why a base-rate table plus free sourcing (Hermes's live deal book) can be an edge at sleeve scale.",
+   "who_loses": "Merger-arb funds forced out by mandate/risk limits at the break sell to nobody; their constraint is mandate (they hold spread, not value) and leverage - they cannot wait out the re-underwriting window."
   },
   "delphi_ruleset_faithful": {
    "backtest": {
