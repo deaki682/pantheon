@@ -26,14 +26,14 @@
   },
   "dealflow_tender_scanner": {
    "built": "2026-06 (retro-registered 2026-07-13 per art. 14 effectivity)",
+   "death_note": "Kill-spec TRIPPED and graded as written (session-15 journal, 2026-07-21): full 12-month supply base rate measured ~0-4 actionable/yr vs the 12/yr bar; median $/event <= ~$150 at sleeve scale. Module retained as plumbing/history only; daily tender scans stopped. Broker-mechanics leg never falsified (no deal funded the live test).",
+   "died": "2026-07-21",
    "kill_spec": "Backlog #13: fewer than 12 actionable listed odd-lot tenders per year, or broker mechanics make the priority un-capturable - either kills the ground and the scanner with it.",
    "mark": "NOT-YET",
    "marks": [],
    "observable": "Actionable tender candidates surfaced per quarter, each with its read verdict logged in proteus_dealflow.json.",
    "sentence": "Improves the odd-lot entry decision by scanning every SC TO-I filing so no listed odd-lot tender is missed while the sleeve waits in cash.",
-   "status": "DEAD",
-   "died": "2026-07-21",
-   "death_note": "Kill-spec TRIPPED and graded as written (session-15 journal, 2026-07-21): full 12-month supply base rate measured ~0-4 actionable/yr vs the 12/yr bar; median $/event <= ~$150 at sleeve scale. Module retained as plumbing/history only; daily tender scans stopped. Broker-mechanics leg never falsified (no deal funded the live test)."
+   "status": "DEAD"
   },
   "entry_schema": {
    "built": "2026-07-13",
@@ -80,6 +80,14 @@
    "marks": [],
    "observable": "First staged long-option entry passes journal, sleeve accounting, and broker dry-run without manual arithmetic.",
    "sentence": "Improves event-convexity execution by making long-option accounting, chain reads, and order dry-runs mechanical so a dated-event thesis can be expressed with a bounded debit."
+  },
+  "record_brief_generator": {
+   "built": "2026-07-25",
+   "kill_spec": "DEAD if at the first review any brief number needs hand recomputation, disagrees with hand-derivation, or the review is written without calling this module.",
+   "mark": "NOT-YET",
+   "marks": [],
+   "observable": "The first review (due <= 2026-10-11 or the 20th counted grade) produces its RECORD BRIEF via brief.record_brief() with every number re-derivable (art. 28a).",
+   "sentence": "Improves the fund-vs-shrink decision at every art. 21 review by computing the record brief - grades-as-written, calibration, benchmark stack, funding/no-edge edges, shortcut and register summaries, due-triggers - in code, never recollection."
   }
  },
  "version": 1

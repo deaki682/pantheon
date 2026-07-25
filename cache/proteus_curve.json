@@ -4,19 +4,34 @@
    "date": "2026-07-11",
    "equity": 2500.0,
    "spy": 754.86,
-   "note": "v2 launch baseline; funding settles 2026-07-13 open"
+   "note": "v2 launch baseline; funding settles 2026-07-13 open",
+   "cash_park": 2500.0,
+   "index_park": 0.0,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "buckets_backfilled": "2026-07-25 s19"
   },
   {
    "date": "2026-07-12",
    "equity": 2500.0,
    "spy": 754.86,
-   "note": "weekend mark (markets closed; SPY = Fri 7/10 close, broker tape); funding settles 7/13 open"
+   "note": "weekend mark (markets closed; SPY = Fri 7/10 close, broker tape); funding settles 7/13 open",
+   "cash_park": 2500.0,
+   "index_park": 0.0,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "buckets_backfilled": "2026-07-25 s19"
   },
   {
    "date": "2026-07-13",
    "equity": 2500.0,
    "spy": 754.95,
-   "note": "pre-open mark (SPY = official 7/10 settled close per broker tape; overnight ~750.6); funding confirmed settled \u2014 BP $2,681.63 covers the $2,500 sleeve"
+   "note": "pre-open mark (SPY = official 7/10 settled close per broker tape; overnight ~750.6); funding confirmed settled \u2014 BP $2,681.63 covers the $2,500 sleeve",
+   "cash_park": 2500.0,
+   "index_park": 0.0,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "buckets_backfilled": "2026-07-25 s19"
   },
   {
    "ts": "2026-07-13T14:10:07.072291+00:00",
@@ -25,7 +40,12 @@
    "cash": 2500.0,
    "positions_value": 0.0,
    "spy": 752.745,
-   "note": "session 9 live market-hours mark (14:09 UTC)"
+   "note": "session 9 live market-hours mark (14:09 UTC)",
+   "cash_park": 2500.0,
+   "index_park": 0.0,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "buckets_backfilled": "2026-07-25 s19"
   },
   {
    "ts": "2026-07-13T14:40:27.596382+00:00",
@@ -34,7 +54,12 @@
    "cash": 55.0,
    "positions_value": 2445.14,
    "spy": 752.13,
-   "note": "post-deployment mark: staged SPY round trip done, VOO park filled 3.536615 @ 691.339"
+   "note": "post-deployment mark: staged SPY round trip done, VOO park filled 3.536615 @ 691.339",
+   "index_park": 2445.1411,
+   "cash_park": 54.9989,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "buckets_backfilled": "2026-07-25 s19"
   },
   {
    "ts": "2026-07-14T15:07:00+00:00",
@@ -43,7 +68,12 @@
    "cash": 55.0,
    "positions_value": 2446.14,
    "spy": 752.44,
-   "note": "session 10 market-hours mark; VOO 691.6609 last (15:06:52Z)"
+   "note": "session 10 market-hours mark; VOO 691.6609 last (15:06:52Z)",
+   "index_park": 2446.1411,
+   "cash_park": 54.9989,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "buckets_backfilled": "2026-07-25 s19"
   },
   {
    "ts": "2026-07-15T14:12:54+00:00",
@@ -52,7 +82,12 @@
    "cash": 54.9989,
    "positions_value": 2454.62,
    "spy": 755.04,
-   "note": "session 11 open mark; VOO 694.06 / SPY 755.04 @14:11Z tape"
+   "note": "session 11 open mark; VOO 694.06 / SPY 755.04 @14:11Z tape",
+   "index_park": 2454.6211,
+   "cash_park": 54.9989,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "buckets_backfilled": "2026-07-25 s19"
   },
   {
    "ts": "2026-07-16T14:09:11+00:00",
@@ -61,7 +96,12 @@
    "cash": 54.9989,
    "positions_value": 2448.08,
    "spy": 753.09,
-   "note": "session 12 open mark; VOO 692.21 / SPY 753.09 @14:09Z tape; reconcile CLEAN"
+   "note": "session 12 open mark; VOO 692.21 / SPY 753.09 @14:09Z tape; reconcile CLEAN",
+   "index_park": 2448.0811,
+   "cash_park": 54.9989,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "buckets_backfilled": "2026-07-25 s19"
   },
   {
    "ts": "2026-07-20T14:08:25+00:00",
@@ -70,7 +110,12 @@
    "cash": 54.9989,
    "positions_value": 2424.03,
    "spy": 745.67,
-   "note": "session 14 open mark; VOO 685.41 / SPY 745.67 @14:08Z tape; reconcile CLEAN (broker VOO == sleeve, no proteus orders since 7/13)"
+   "note": "session 14 open mark; VOO 685.41 / SPY 745.67 @14:08Z tape; reconcile CLEAN (broker VOO == sleeve, no proteus orders since 7/13)",
+   "index_park": 2424.0311,
+   "cash_park": 54.9989,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "buckets_backfilled": "2026-07-25 s19"
   },
   {
    "ts": "2026-07-21T14:08:00+00:00",
@@ -79,7 +124,12 @@
    "cash": 54.9989,
    "positions_value": 2422.76,
    "spy": 745.33,
-   "note": "session 15 open mark; VOO 685.05 / SPY 745.33 @14:08Z tape; reconcile CLEAN (zero account orders since 7/20, broker VOO == sleeve)"
+   "note": "session 15 open mark; VOO 685.05 / SPY 745.33 @14:08Z tape; reconcile CLEAN (zero account orders since 7/20, broker VOO == sleeve)",
+   "index_park": 2422.7611,
+   "cash_park": 54.9989,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "buckets_backfilled": "2026-07-25 s19"
   },
   {
    "ts": "2026-07-22T14:08:32.394403+00:00",
@@ -88,7 +138,12 @@
    "cash": 54.9989,
    "positions_value": 2434.22,
    "spy": 748.79,
-   "note": "session 16 market-hours mark (VOO 688.29 / SPY 748.79 @14:08Z, broker tape)"
+   "note": "session 16 market-hours mark (VOO 688.29 / SPY 748.79 @14:08Z, broker tape)",
+   "index_park": 2434.2211,
+   "cash_park": 54.9989,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "buckets_backfilled": "2026-07-25 s19"
   },
   {
    "ts": "2026-07-23T14:07:40+00:00",
@@ -97,13 +152,34 @@
    "cash": 54.9989,
    "positions_value": 2407.5,
    "spy": 740.52,
-   "note": "session 17 open mark; VOO 680.735 / SPY 740.52 @14:07Z tape; reconcile CLEAN (broker VOO == sleeve, zero orders since 7/22)"
+   "note": "session 17 open mark; VOO 680.735 / SPY 740.52 @14:07Z tape; reconcile CLEAN (broker VOO == sleeve, zero orders since 7/22)",
+   "index_park": 2407.5011,
+   "cash_park": 54.9989,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "buckets_backfilled": "2026-07-25 s19"
   },
   {
    "date": "2026-07-24",
    "equity": 2457.0148,
    "spy": 738.96,
-   "note": "session 18 mark @14:08Z; VOO 679.185; parked (art. 13b), dd -2.10% from peak"
+   "note": "session 18 mark @14:08Z; VOO 679.185; parked (art. 13b), dd -2.10% from peak",
+   "index_park": 2402.0159,
+   "cash_park": 54.9989,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "buckets_backfilled": "2026-07-25 s19"
+  },
+  {
+   "date": "2026-07-25",
+   "ts": "2026-07-25T14:10:19+00:00",
+   "equity": 2456.7142,
+   "spy": 738.85,
+   "index_park": 2401.7153,
+   "cash_park": 54.9989,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "note": "session 19 mark (Sat) on the 7/24 close tape: VOO 679.10 / SPY 738.85; parked (art. 13b), dd -2.11% from peak; buckets native from this mark on"
   }
  ]
 }
