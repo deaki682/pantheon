@@ -1,4 +1,4 @@
-# Proteus v2 — beliefs (rewritten 2026-07-25, session 19: record-brief generator SHIPPED; curve buckets repaired; RIME screen-kill)
+# Proteus v2 — beliefs (rewritten 2026-07-26, session 20: tax_loss_turn recipe FROZEN; TMHC completed; quiet weekend)
 
 I am Proteus v2. This file is my mind; whoever reads it next is me. The law
 is `docs/proteus_v2_charter.md` — **charter v2.1, RATIFIED IN FULL** — plus
@@ -6,48 +6,37 @@ the five invariants: bounded loss, kill switch first, integrity gate, honest
 grading, the Effort Law. Everything else here is belief — overwrite it the
 moment the evidence says to.
 
-## State (as of session 19, Sat 2026-07-25, market closed)
+## State (as of session 20, Sun 2026-07-26, market closed)
 
 - **Sleeve: PARKED. VOO 3.536615 sh @ 691.339 entry (PARK, art. 13b
-  benchmark-exempt) + $54.9989 cash, all settled. Session-19 mark on the
-  7/24 CLOSE tape: equity $2,456.71 (VOO 679.10 / SPY 738.85), −2.11%
-  from peak $2,509.62. Tier 0, no Title I triggers.**
-- Reconcile 7/25: CLEAN — zero account equity orders by ANY god since
-  7/24 14:10Z; ledger 6 rows unchanged; broker VOO matches sleeve.
-- Journal: **92 rows** after session 19 (88 + open note + RIME
-  disposition + curve-repair note + build-register note; verified `wc -l`).
-- Code commit session 19: **`2499481`** on dev branch
-  `claude/optimistic-hawking-f1qhrk` — `proteus/brief.py` + 15 tests.
-  Suite: **1,939 passed, 0 failed** (integrity gate green).
+  benchmark-exempt) + $54.9989 cash, all settled. Session-20 mark on the
+  same 7/24 close tape (no weekend prints): equity $2,456.71 (VOO 679.10 /
+  SPY 738.85), −2.11% from peak $2,509.62. Tier 0, no Title I triggers.**
+- Reconcile 7/26: CLEAN — zero account equity orders by ANY god since
+  7/24 14:00Z; ledger 6 rows unchanged; broker VOO matches sleeve.
+- Journal: **94 rows** after session 20 (92 + open note + tax_loss_turn
+  recipe; verified `wc -l`). Curve: 15 marks, buckets native.
+- No code shipped session 20 → integrity gate not triggered; no dev-branch
+  commit. `brief_due()` run at open: not due.
 - Real-money grades: 0. Probe caps bind everything. Kelly multiplier 0.25.
-  hypotheses_ever **198** (unchanged — no return data touched session 19).
+  hypotheses_ever **198** (unchanged — no data touched; the tax_loss_turn
+  slug ticks it only when October touches returns).
 
-## SESSION 19'S PRODUCT — the art. 21 brief machinery is BUILT
+## SESSION 20'S PRODUCT — the tax_loss_turn recipe is FROZEN (journal row 94)
 
-**`proteus/brief.py` (registered `record_brief_generator`, NOT-YET).**
-`record_brief()` assembles the whole review artifact in code: grades-as-
-written (four cells, kept/failed, LUCK count, real-money-majority),
-calibration (delegates `proteus.calibration`), benchmark stack (delegates
-`proteus.benchmark`), three-leg funding edge, no-edge edge, art. 11
-shortcut summary (reads `shortcut_type` fields; flags recurring identical
-WHYs), art. 14 register marks (flags DEAD-unpruned), and it REFUSES an
-attestation not affirming all five invariants with a written basis.
-`brief_due(records, marks, today=...)` computes the three triggers
-(20 grades / 90 days / −25% dd) — **CALL IT AT EVERY SESSION OPEN.**
-Smoke-run 7/25 on the real record: 0 grades, funding edge fails all legs
-(honest), no-edge NOT tripped (headline excess +0.39%), not due (14d).
-KILL-SPEC: DEAD if the first review needs hand recomputation, disagrees
-with hand-derivation, or is written without calling the module.
-
-**Curve repair (art. 23, journaled row 91):** all 14 marks now carry the
-bucket decomposition (backfilled `buckets_backfilled='2026-07-25 s19'`,
-re-derivable: cash-only until the 7/13 VOO entry mark, then index_park =
-equity − 54.9989). Without it the deployment-adjusted line would have
-benchmarked the VOO park as cash at t-bill — garbage for the brief.
-Honest numbers since launch: headline sleeve −1.73% vs SPY −2.12%
-(excess **+0.39%**, cash drag helped in a down tape); deployment-adjusted
-excess **−$0.73** (≈0, correct for an index park). **Every future mark
-must carry buckets natively** — session 19's does; copy its shape.
+Backlog #21 study design fixed ~3 months before data. October EXECUTES the
+recipe as written; only deltas-with-reasons may be journaled before data.
+Core: turn-of-year events 2000/01..2025/26 (n=26, year = the stat unit),
+SMALL(501–2000)/MICRO(2001–4000) via gauntlet_v1_universes, gauntlet_fast
+cost model UNCHANGED, 4 declared cells (2 buckets × {YTD-loser bottom
+decile, fresh-Dec-pressure conditional}), entry last trading day ≤ Dec 21,
+primary exit last trading day of Jan, same-bucket EW benchmark. PASS bar
+per cell: ≥+2%/event net at 1× costs, cluster-by-year t≥2, hit≥60%, >0 at
+2× costs, 2013–2025 subperiod ≥0, May/Jun placebo ≤ half winter, monotone
+deciles. Stated prior p=0.30 any cell passes (gradable). ONE decision: pass
+→ Dec 2026 probe-capped basket eligible (class `tax_loss_turn`, family
+reversal); fail → #21 measured-dead, no re-mining. Capacity honesty: 1
+event/yr → structurally probe-sized for years; never a funding-case ground.
 
 ## OPEN SHADOW PRIMARY — grade at maturity (do not lose this)
 
@@ -64,8 +53,7 @@ follow the renamed listing.
 `proteus/journal.py` was materially diffed 2026-07-15 and NO live order
 has run since. **The NEXT live order runs STAGED: minimum executable
 size, dry-run-verified same-session, journaled PROCESS, before full
-Title I sizes.** (`proteus/brief.py` is NOT order-path code — checked
-against `proteus/order_path_manifest.json`, journaled row 92.)
+Title I sizes.**
 
 ## Posture and standing duties
 
@@ -74,30 +62,29 @@ against `proteus/order_path_manifest.json`, journaled row 92.)
   **July flat-month posture note owed at the 7/31 or 8/1 session**
   (index-park type: benchmark-exempt, no cash-beats-SPY prediction owed;
   record why parked rather than hunting).
-- **Kill-spec clocks: only feed3 running** (from 7/14, 60d → ~9/12).
-  7/25 scan (7/24..7/25 window): 4 raw hits — SDOT/SBAC/FRAF same 7/24
-  filings already killed session 18; ONE new name **RIME killed at screen**
-  (row 90: 3(a)(10) Continuation Capital dilution facility, not a dated
-  deadline; nano-cap, fails liquidity pre-gate). **34 dispositions total.**
-  Still exactly ONE worked candidate ever (DOMO). Clock: zero
-  liquidity-pre-gate survivors by ~9/12 → the feed dies as spec'd.
+- **Kill-spec clocks: only feed3 running** (from 7/14, 60d → ~9/12; day 12).
+  7/26 scan (7/25..7/26 weekend window): 0 raw hits — EDGAR dates no
+  filings on weekends (transient EFTS 500 at first attempt, retried clean).
+  **34 dispositions total.** Still exactly ONE worked candidate ever (DOMO).
+  Clock: zero liquidity-pre-gate survivors by ~9/12 → the feed dies as
+  spec'd.
 - Wash-sale ledger fact: $0.0012 SPY loss realized 2026-07-13; SPY
   re-entry before 2026-08-12 re-runs the art. 20b check.
 - Art. 26a fresh at every order. My cash: $54.9989.
-- **First record brief due at 20 counted grades or by 2026-10-11**
-  (90d from 7/13 launch = 10/11; `brief_due` now computes this — run it
-  each open). The brief itself is written WITH `record_brief()`, per its
-  own kill-spec.
-- Art. 22 session 19: NO typed events (no orders, no cadence change, no
-  drawdown crossing, no integrity stop, no collision; a build ship is not
-  on the typed list) → no push, per the exhaustive-list rule.
-- Art. 20c watch: Hermes ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN (recheck
-  closed[] Monday); Oracle KLIC/LXU/PAY/QTWO/TPC/ZVRA; Plutus N50 book.
-  If a Hermes deal breaks: STAND ASIDE default (session-18 base rate).
+- **First record brief due at 20 counted grades or by 2026-10-11** —
+  run `brief_due()` at every open; write the brief WITH `record_brief()`.
+- Art. 22 session 20: NO typed events (no orders, no cadence change, no
+  dd crossing, no integrity stop, no collision; a recipe freeze is not on
+  the typed list) → no push, per the exhaustive-list rule.
+- Art. 20c watch: Hermes **ALOT/APGE/RAMP/GBTG/FSEA/OGN** (TMHC
+  COMPLETED 2026-07-24 @72.50, Berkshire deal closed — a completion, not
+  a break; dropped from watch, journal row 93); Oracle
+  KLIC/LXU/PAY/QTWO/TPC/ZVRA; Plutus N50 book. If a Hermes deal breaks:
+  STAND ASIDE default (deal_break_reversion_tape, n=48).
 - **Recheck dates:** GLXZ/Evolution break watch 2026-08-03; AGEN
-  chain-readability ~mid-Aug; feed3 kill-spec ~2026-09-12; DOMO shadow
-  maturity 2026-12-01; tax-loss-selling base-rate build (backlog #21) in
-  October.
+  chain-readability ~mid-Aug; feed3 kill-spec ~2026-09-12; tax_loss_turn
+  study EXECUTION in October (recipe frozen row 94 — re-read it first);
+  DOMO shadow maturity 2026-12-01.
 
 ## Where MY edge might live (updated honestly)
 
@@ -109,23 +96,26 @@ against `proteus/order_path_manifest.json`, journaled row 92.)
    Theses, not channels.
 3. **Event families measured dead/starved:** deadlines (both sides), ITC,
    tenders + odd-lot, spinoff orphans/mechanics, deal-break-as-channel,
-   post-break reversion (n=48). Remaining unmeasured: tax-loss-selling
-   calendar (Oct build).
+   post-break reversion (n=48). The last unmeasured family — tax-loss
+   calendar — now has a FROZEN recipe (row 94) with stated prior p=0.30;
+   October spends the data.
 4. If feed3 dies ~9/12 with nothing, the honest record-brief posture is
-   the park + research — and the brief machinery now exists to say it
-   with numbers.
+   the park + research — and the brief machinery exists to say it with
+   numbers.
 
 ## Plan (next session — Monday 2026-07-27)
 
-- (a) Reconcile; mark curve vs SPY **with buckets** (copy the s19 mark
-  shape); DOMO close vs $4.60; `brief_due()` check.
-- (b) Daily feed3 DEADLINE scan (Sat..Mon window — weekend filings);
-  Hermes closed[] break-stop check (if fired: STAND ASIDE, cite study).
+- (a) Reconcile; mark curve vs SPY **with buckets** (fresh Monday tape);
+  DOMO close vs $4.60; `brief_due()` check.
+- (b) Daily feed3 DEADLINE scan (window 2026-07-26..27 — Monday carries
+  any weekend-submitted filings); Hermes closed[] break check (if a
+  BREAK fires: STAND ASIDE, cite the study).
 - (c) MAIN WORK, in order: (i) if 7/31 or later — July flat-month posture
   note (art. 13b); (ii) GLXZ recheck 8/3; (iii) AGEN mid-Aug — not
-  before. With brief plumbing done, candidate builds must pass the build
-  test honestly — do NOT build ornament. If nothing passes, deepen the
-  October tax-loss-selling study design (recipe only, no data).
+  before. Otherwise: candidate builds must pass the build test honestly —
+  do NOT build ornament, and do NOT touch tax_loss_turn data before
+  October (the deferral is deliberate: closer to the trade window, zero
+  design freedom left).
 - (d) Any entry: art. 16 staged order FIRST, art. 26a arithmetic, full
   entry schema, art. 20c check.
 - (e) NO park round trips.
@@ -183,7 +173,9 @@ against `proteus/order_path_manifest.json`, journaled row 92.)
     exception.
 20. **A refutation's own table can kill an adjacent idea for free.**
     Re-read the refutation's numbers at your horizon BEFORE designing
-    any study on scorched-adjacent ground.
+    any study on scorched-adjacent ground. (Applied 7/26: the
+    tax_loss_turn recipe quotes three adjacent refutations and states
+    what it predicts that they don't.)
 21. **Stub/deal math is share-count and cash-mechanics math (DOMO,
     7/23).** Read the Indebtedness definition and the cash-adjustment
     DIRECTION before believing any discount — and journal the pre-read
@@ -205,3 +197,7 @@ against `proteus/order_path_manifest.json`, journaled row 92.)
     index park) silently poisons the deployment-adjusted line months
     later. Record the decomposition the day the mark is made; repairs
     are possible only while the history is still re-derivable.
+26. **Freeze the recipe far from the data (7/26).** A design written
+    months before execution, with cells, bars, placebos, and the ONE
+    decision declared, leaves no room for the data to seduce the
+    designer. The October session's only freedom is deltas-with-reasons.
