@@ -1,5 +1,5 @@
 {
-  "n_universe_hits": 328,
+  "n_universe_hits": 310,
   "top": [
     {
       "insider_backed": true,
@@ -43,23 +43,8 @@
         "valuation": 0.0
       },
       "score": 0.39,
-      "shares": 36640000,
+      "shares": 35710000,
       "symbol": "GSHD"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": true,
-        "insider_cluster": true,
-        "quality": 0.32397512184628274,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.3685962682769424,
-      "shares": 705457,
-      "symbol": "EWSB"
     },
     {
       "insider_backed": true,
@@ -157,36 +142,6 @@
       "lenses": {
         "activist_13d": false,
         "insider_cluster": false,
-        "quality": 0.9516876420930981,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.3327531463139647,
-      "shares": 12238000000,
-      "symbol": "GOOG"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.9516876420930981,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.3327531463139647,
-      "shares": 12238000000,
-      "symbol": "GOOGL"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
         "quality": 0.9500584935014026,
         "sector_breadth": 0.0,
         "smart_money": true,
@@ -217,13 +172,43 @@
       "lenses": {
         "activist_13d": false,
         "insider_cluster": false,
+        "quality": 0.9299551321464244,
+        "sector_breadth": 0.0,
+        "smart_money": true,
+        "valuation": 0.0
+      },
+      "score": 0.3294932698219637,
+      "shares": 12309000000,
+      "symbol": "GOOG"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.9299551321464244,
+        "sector_breadth": 0.0,
+        "smart_money": true,
+        "valuation": 0.0
+      },
+      "score": 0.3294932698219637,
+      "shares": 12309000000,
+      "symbol": "GOOGL"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": false,
         "quality": 0.9292287079404403,
         "sector_breadth": 0.0,
         "smart_money": true,
         "valuation": 0.0
       },
       "score": 0.32938430619106607,
-      "shares": 177300000,
+      "shares": 174500000,
       "symbol": "MCO"
     },
     {
@@ -380,21 +365,6 @@
       "insider_backed": true,
       "insider_tier": "half",
       "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.8,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.32,
-      "shares": 259764000,
-      "symbol": "CELH"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
         "activist_13d": true,
         "insider_cluster": true,
         "quality": 0.0,
@@ -405,6 +375,21 @@
       "score": 0.32,
       "shares": 80769952,
       "symbol": "GLOO"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": true,
+        "quality": 0.7951748362673566,
+        "sector_breadth": 0.0,
+        "smart_money": false,
+        "valuation": 0.0
+      },
+      "score": 0.3192762254401035,
+      "shares": 92160000,
+      "symbol": "RLI"
     },
     {
       "insider_backed": true,
@@ -472,21 +457,6 @@
       "lenses": {
         "activist_13d": false,
         "insider_cluster": true,
-        "quality": 0.762967244028646,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.31444508660429693,
-      "shares": 92187000,
-      "symbol": "RLI"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
         "quality": 0.75,
         "sector_breadth": 0.0,
         "smart_money": false,
@@ -502,13 +472,28 @@
       "lenses": {
         "activist_13d": false,
         "insider_cluster": false,
-        "quality": 0.8080621002347989,
+        "quality": 0.8067179067939352,
         "sector_breadth": 0.0,
         "smart_money": true,
         "valuation": 0.0
       },
-      "score": 0.3112093150352198,
-      "shares": 593600000,
+      "score": 0.3110076860190903,
+      "shares": 2440100000,
+      "symbol": "JNJ"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.8046905560675702,
+        "sector_breadth": 0.0,
+        "smart_money": true,
+        "valuation": 0.0
+      },
+      "score": 0.31070358341013554,
+      "shares": 594000000,
       "symbol": "UNP"
     },
     {
@@ -540,36 +525,6 @@
       "score": 0.31,
       "shares": 43200000,
       "symbol": "BFH"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
-        "quality": 0.7946101107004415,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.3091915166050662,
-      "shares": 2445200000,
-      "symbol": "JNJ"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.7273474487916166,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.3091021173187425,
-      "shares": 553200000,
-      "symbol": "AMRZ"
     },
     {
       "insider_backed": true,
@@ -727,51 +682,6 @@
       "lenses": {
         "activist_13d": false,
         "insider_cluster": false,
-        "quality": 0.7367417617828482,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.30051126426742725,
-      "shares": 3617000000,
-      "symbol": "CMCSA"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.6693641015951882,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.30040461523927825,
-      "shares": 1495000000,
-      "symbol": "BSX"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.6685551312989936,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.30028326969484903,
-      "shares": 44587704,
-      "symbol": "VITL"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
         "quality": 0.7342600216906106,
         "sector_breadth": 0.0,
         "smart_money": true,
@@ -795,6 +705,21 @@
       "score": 0.3,
       "shares": 7800935,
       "symbol": "BWFG"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.7332882633473246,
+        "sector_breadth": 0.0,
+        "smart_money": true,
+        "valuation": 0.0
+      },
+      "score": 0.29999323950209866,
+      "shares": 3570000000,
+      "symbol": "CMCSA"
     },
     {
       "insider_backed": true,
@@ -1016,7 +941,7 @@
         "valuation": 0.0
       },
       "score": 0.29205196156132357,
-      "shares": 139300000,
+      "shares": 139100000,
       "symbol": "LW"
     },
     {
@@ -1220,21 +1145,6 @@
       "lenses": {
         "activist_13d": false,
         "insider_cluster": false,
-        "quality": 0.6229307032596799,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.283439605488952,
-      "shares": 239000000,
-      "symbol": "FDX"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": false,
         "quality": 0.6198976518496606,
         "sector_breadth": 0.0,
         "smart_money": true,
@@ -1243,6 +1153,21 @@
       "score": 0.2829846477774491,
       "shares": 658000000,
       "symbol": "DAL"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.6144564274734161,
+        "sector_breadth": 0.0,
+        "smart_money": true,
+        "valuation": 0.0
+      },
+      "score": 0.28216846412101243,
+      "shares": 239000000,
+      "symbol": "FDX"
     },
     {
       "insider_backed": true,
@@ -1318,21 +1243,6 @@
       "score": 0.2792822876689471,
       "shares": 1006900000,
       "symbol": "OXY"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
-        "quality": 0.5269018049031112,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.2790352707354667,
-      "shares": 28758361,
-      "symbol": "GWRS"
     },
     {
       "insider_backed": true,
@@ -1489,15 +1399,105 @@
       "lenses": {
         "activist_13d": false,
         "insider_cluster": true,
-        "quality": 0.4880848586631017,
+        "quality": 0.4829181400047856,
         "sector_breadth": 0.0,
         "smart_money": false,
         "valuation": 0.0
       },
-      "score": 0.27321272879946523,
-      "shares": 29796000,
-      "symbol": "ROCK"
+      "score": 0.27243772100071784,
+      "shares": 10519,
+      "symbol": "CREX"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.539658616729994,
+        "sector_breadth": 0.0,
+        "smart_money": true,
+        "valuation": 0.0
+      },
+      "score": 0.2709487925094991,
+      "shares": 96000000,
+      "symbol": "WTW"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.5350273486777958,
+        "sector_breadth": 0.0,
+        "smart_money": true,
+        "valuation": 0.0
+      },
+      "score": 0.27025410230166935,
+      "shares": 137977000,
+      "symbol": "GPC"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.524890274890275,
+        "sector_breadth": 0.0,
+        "smart_money": true,
+        "valuation": 0.0
+      },
+      "score": 0.26873354123354126,
+      "shares": 311035000,
+      "symbol": "ALLY"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.5224538165804654,
+        "sector_breadth": 0.0,
+        "smart_money": true,
+        "valuation": 0.0
+      },
+      "score": 0.26836807248706984,
+      "shares": 180653000,
+      "symbol": "DINO"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": true,
+        "insider_cluster": false,
+        "quality": 0.982929778032638,
+        "sector_breadth": 0.0,
+        "smart_money": false,
+        "valuation": 0.0
+      },
+      "score": 0.2674394667048957,
+      "shares": 112957469,
+      "symbol": "YEXT"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.5130254336257857,
+        "sector_breadth": 0.0,
+        "smart_money": true,
+        "valuation": 0.0
+      },
+      "score": 0.26695381504386784,
+      "shares": 7417500000,
+      "symbol": "BAC"
     }
   ],
-  "updated_at": "2026-07-19T11:30:54.762712+00:00"
+  "updated_at": "2026-07-26T11:29:27.573446+00:00"
 }
