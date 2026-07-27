@@ -1,13 +1,63 @@
 {
- "generated": "2026-07-24",
+ "generated": "2026-07-27",
  "window": {
-  "from": "2026-03-26",
-  "to": "2026-07-24",
+  "from": "2026-03-29",
+  "to": "2026-07-27",
   "lookback_days": 120
  },
- "n_candidates": 130,
+ "n_candidates": 127,
  "coverage_note": "COMPLETE population of announced-deal TARGETS from EDGAR daily form indexes (DEFM14A / PREM14A / DEFM14C / PREM14C / SC 14D9) \u2014 no keyword, keyed to the target CIK. KNOWN missing: (1) deals whose only public paper so far is an 8-K merger agreement that has not yet drawn a proxy/14D-9 \u2014 caught on the next sweep once the proxy files; (2) acquirer-side-only tenders (SC TO-T) by design \u2014 Hermes longs the target. Cash-vs-stock is NOT decided here; every candidate requires the per-deal read.",
  "candidates": [
+  {
+   "cik": "0001970622",
+   "company": "USA Rare Earth, Inc.",
+   "symbol": "USAR",
+   "channels": [
+    "definitive merger proxy (shareholder vote)",
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "DEFM14A",
+    "PREM14A"
+   ],
+   "first_filed": "2026-05-13",
+   "last_filed": "2026-07-24",
+   "n_filings": 2,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
+  {
+   "cik": "0001806201",
+   "company": "Open Lending Corp",
+   "symbol": "LPRO",
+   "channels": [
+    "target recommendation on a tender offer (two-step)"
+   ],
+   "forms": [
+    "SC 14D9"
+   ],
+   "first_filed": "2026-06-29",
+   "last_filed": "2026-07-24",
+   "n_filings": 3,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
+  {
+   "cik": "0001739445",
+   "company": "Arcosa, Inc.",
+   "symbol": "ACA",
+   "channels": [
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "PREM14A"
+   ],
+   "first_filed": "2026-07-24",
+   "last_filed": "2026-07-24",
+   "n_filings": 1,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
   {
    "cik": "0001943802",
    "company": "First Seacoast Bancorp, Inc.",
@@ -137,22 +187,6 @@
    "first_filed": "2026-06-10",
    "last_filed": "2026-07-21",
    "n_filings": 5,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0001806201",
-   "company": "Open Lending Corp",
-   "symbol": "LPRO",
-   "channels": [
-    "target recommendation on a tender offer (two-step)"
-   ],
-   "forms": [
-    "SC 14D9"
-   ],
-   "first_filed": "2026-06-29",
-   "last_filed": "2026-07-20",
-   "n_filings": 2,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -843,7 +877,7 @@
   {
    "cik": "0001434868",
    "company": "Esperion Therapeutics, Inc.",
-   "symbol": "ESPR",
+   "symbol": null,
    "channels": [
     "definitive merger proxy (shareholder vote)",
     "preliminary merger proxy (earlier signal)"
@@ -1099,7 +1133,7 @@
   {
    "cik": "0001723596",
    "company": "Columbia Financial, Inc.",
-   "symbol": "CLBK",
+   "symbol": null,
    "channels": [
     "definitive merger proxy (shareholder vote)"
    ],
@@ -1313,28 +1347,12 @@
   {
    "cik": "0002016072",
    "company": "M3-Brigade Acquisition V Corp.",
-   "symbol": "MBAVW",
+   "symbol": "VLOSU",
    "channels": [
     "definitive merger proxy (shareholder vote)"
    ],
    "forms": [
     "DEFM14A"
-   ],
-   "first_filed": "2026-05-13",
-   "last_filed": "2026-05-13",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0001970622",
-   "company": "USA Rare Earth, Inc.",
-   "symbol": "USAR",
-   "channels": [
-    "preliminary merger proxy (earlier signal)"
-   ],
-   "forms": [
-    "PREM14A"
    ],
    "first_filed": "2026-05-13",
    "last_filed": "2026-05-13",
@@ -1634,9 +1652,9 @@
    "forms": [
     "SC 14D9"
    ],
-   "first_filed": "2026-03-26",
+   "first_filed": "2026-04-08",
    "last_filed": "2026-04-23",
-   "n_filings": 4,
+   "n_filings": 3,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -1915,16 +1933,14 @@
    "company": "DILLARD'S, INC.",
    "symbol": "DDT",
    "channels": [
-    "definitive merger proxy (shareholder vote)",
-    "preliminary merger proxy (earlier signal)"
+    "definitive merger proxy (shareholder vote)"
    ],
    "forms": [
-    "DEFM14A",
-    "PREM14A"
+    "DEFM14A"
    ],
-   "first_filed": "2026-03-27",
+   "first_filed": "2026-04-06",
    "last_filed": "2026-04-06",
-   "n_filings": 2,
+   "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -1986,9 +2002,9 @@
    "forms": [
     "SC 14D9"
    ],
-   "first_filed": "2026-03-27",
+   "first_filed": "2026-04-01",
    "last_filed": "2026-04-01",
-   "n_filings": 2,
+   "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -2100,70 +2116,6 @@
    ],
    "first_filed": "2026-03-30",
    "last_filed": "2026-03-30",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0001038074",
-   "company": "SILICON LABORATORIES INC.",
-   "symbol": "SLAB",
-   "channels": [
-    "definitive merger proxy (shareholder vote)"
-   ],
-   "forms": [
-    "DEFM14A"
-   ],
-   "first_filed": "2026-03-27",
-   "last_filed": "2026-03-27",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0000034563",
-   "company": "FARMER BROTHERS CO",
-   "symbol": null,
-   "channels": [
-    "definitive merger proxy (shareholder vote)"
-   ],
-   "forms": [
-    "DEFM14A"
-   ],
-   "first_filed": "2026-03-27",
-   "last_filed": "2026-03-27",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0001437107",
-   "company": "Warner Bros. Discovery, Inc.",
-   "symbol": "WBD",
-   "channels": [
-    "definitive merger proxy (shareholder vote)"
-   ],
-   "forms": [
-    "DEFM14A"
-   ],
-   "first_filed": "2026-03-26",
-   "last_filed": "2026-03-26",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0000095029",
-   "company": "STURM RUGER & CO INC",
-   "symbol": "RGR",
-   "channels": [
-    "target recommendation on a tender offer (two-step)"
-   ],
-   "forms": [
-    "SC 14D9"
-   ],
-   "first_filed": "2026-03-26",
-   "last_filed": "2026-03-26",
    "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"

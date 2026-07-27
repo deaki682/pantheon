@@ -2151,6 +2151,22 @@
    "read_model": "opus",
    "read_effort": "high",
    "resolved": false
+  },
+  {
+   "symbol": "ACA",
+   "detect_date": "2026-07-27",
+   "entry_price": 145.18,
+   "offer_price": 150.0,
+   "spy_entry": 740.72,
+   "expected_close": "2027-04-30",
+   "spread": 0.0332,
+   "llm_verdict": "drop",
+   "llm_rationale": "CRH Americas (CRH plc) / Arcosa, $150.00 all-cash, no CVR, signed 2026-06-21, PREM14A 2026-07-24. Terms are clean (no financing condition; strategic buyer). DROP on two grounds. (1) TIMELINE-ADJUSTED SPREAD: +3.32% gross, but the outside date is 2027-06-21 with an automatic +6mo antitrust extension \u2014 a realistic close is Q1-Q2 2027, ~9-11 months out, so ~4%/yr. That is the thinnest risk-adjusted spread available to the book (OGN pays ~7%/yr, FSEA ~12%/yr) while carrying the HIGHEST regulatory complexity in it. (2) REGULATORY: CRH is the #1 US aggregates producer and Arcosa's ~$1B aggregates arm overlaps horizontally in Texas/Southeast; aggregates competition is hyper-local (haul-radius markets), so a second request is likely. The parties priced it: the reverse termination fee CRH owes on a regulatory failure is $372.0M \u2014 LARGER than the company's own $260.4M break fee and ~5% of equity value, plus a 12-to-18-month outside date. That fee size is the counterparties' own disclosure that they expect a contested review. Completion is still probable (aggregates deals clear on local divestitures, CRH has done it before), which is exactly why the spread is only 3.3% \u2014 the market has priced the delay, not handed us a residual. (3) SCOPE: ~$7.3B deal, fully covered by every arb desk \u2014 outside the capacity-inverted small/mid niche where Hermes's edge is supposed to live. Tying 15% of a $4k book up for ~10 months at ~4%/yr is a bad use of the sleeve.",
+   "break_risk": "med",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
   }
  ],
  "graded": [
