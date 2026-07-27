@@ -30,6 +30,40 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
+Mark 2026-07-27 CLOSE (after-close Zeus tend, 4pm prints, quotes 19:59–20:00Z):
+equity **$4,465.91** (-0.76% vs basis; SPY 739.02 vs spy_entry 751.31, -1.64%;
+excess **+0.88pp — RECOVERED** from -0.16pp at the 10:18 ET tend, on a flat tape,
++$35.68 on the day). Cash $449.94. Close vs entry: TPC +12.86% (85.73, -1.20%),
+QTWO +9.60% (58.09, **+6.37%**), PAY +9.04% (31.48, **+9.04%**), LXU +4.65%
+(11.47, **-6.29%** into its own print), KLIC -10.78% (98.20, -3.09%), ZVRA
+-31.16% (9.71, +1.94%). EDGAR swept all six CIKs post-close (>= 07-24): **ZERO
+new filings on all six** — no typed kill evaluable; Stage 5 `evaluate_exit` run
+verbatim on all six = NO EXIT; held. The ZVRA CHMP 8-K **still** has not landed
+(PR 07-24; window closes ~07-30). Reconcile clean 6/6 exact; zero orders
+account-wide since 07-20; breakers ok.
+
+**LESSON LOGGED — read a big green day before believing it.** PAY +9.04% and
+QTWO +6.37% with SPY +0.01% and ZERO filings looked like the thesis arriving. It
+was not: the whole fintech/payments-software complex rallied — NCNO +6.64%, TOST
++6.15%, ALKT +5.90%, GPN +3.88%, FOUR +3.33%, BILL +3.17%, JKHY +1.63%. Today's
+gain is **cluster beta, not idiosyncratic confirmation**, and the excess-recovery
+to +0.88pp should be discounted accordingly. (Symmetric to KLIC, whose -3.09% is
+the semi-equipment complex, not a name event — the same discipline that forbids
+selling KLIC on sector red forbids celebrating PAY on sector green.) PAY+QTWO =
+$1,479 = **33.1% of equity in one cluster**, inside the 40% cap but worth
+watching: the book is more correlated than six names suggests. The prints
+(QTWO 07-29, PAY 08-03) are what settle the theses, not tape.
+
+**BOOKKEEPING GAP (flagged 07-27, deliberately NOT patched — fail-safe says open
+a PR, never silently patch):** `cache/oracle_upside_book.json` still holds the
+07-06 paper round (`{"CBZ": 3000.0}`) and `cache/oracle_upside_dossiers.json`
+still holds the 07-06 paper six (SABR/ACVA/CBZ/FRPT/EYE/NCNO). **Neither was
+overwritten at the 07-10 funding**, so the live six's typed kills exist only in
+`oracle_journal.jsonl` (the authoritative append-only record) and
+`oracle_upside_ab.json`. Stage 5 is being run off the journal kills each tend —
+correct, but the Stage-4 artifact does not describe the live book. The next FULL
+round must rewrite both files.
+
 Mark 2026-07-27 ~10:18 ET intraday (Zeus hourly tend, quotes 14:17Z): equity
 $4,430.23 (-1.55% vs basis; SPY 740.83 vs spy_entry 751.31, -1.39%; excess
 **-0.16pp — the FIRST NEGATIVE excess reading since the 07-10 funding**, after
