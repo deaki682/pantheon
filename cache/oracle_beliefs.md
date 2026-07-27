@@ -30,6 +30,24 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
+Mark 2026-07-27 ~10:18 ET intraday (Zeus hourly tend, quotes 14:17Z): equity
+$4,430.23 (-1.55% vs basis; SPY 740.83 vs spy_entry 751.31, -1.39%; excess
+**-0.16pp — the FIRST NEGATIVE excess reading since the 07-10 funding**, after
++0.23pp at the 07-24 open and -0.06pp at the 07-24 close). The whole give-back
+is two names, both HELD per Stage 5 / F3: **ZVRA -29.95% vs entry** (9.88, but
++3.73% today — the first bounce since the CHMP gap) and **KLIC -10.05%** (99.00,
+-2.30% today; the semi-equipment selloff ran a third session — AMAT/LRCX/KLAC all
+red again). The other four carry the book: QTWO +8.28% (57.39, **+5.09% today, its
+best day since entry**, two sessions before its print), TPC +10.91% (84.25, -2.90%),
+LXU +6.48% (11.67, -4.66% into its own print), PAY +3.71% (29.94, +3.71%).
+EDGAR swept all six CIKs for filings >= 07-24: **ZERO new filings on all six** —
+no typed kill evaluable (every kill is print-based). Worth flagging: **the ZVRA
+CHMP 8-K STILL has not been filed** (PR was 07-24; the 4-business-day window
+closes ~07-30). Reconcile clean 6/6 exact; pre_trade_check TRUE house-wide; zero
+orders account-wide since 07-20. A/B due_for_grade=0. Sourcing: conscious no-op
+again (duty 3). **The 07-30 tend is the first with teeth — LXU and QTWO print
+2026-07-29 pm; pull both and test the kills verbatim.**
+
 Mark 2026-07-24 ~10:30 ET intraday (Zeus hourly tend, quotes 14:18Z): equity
 $4,432.25 (-1.51% vs basis; SPY 738.25 vs spy_entry 751.31, -1.74%; excess
 +0.23pp — narrowed HARD from +3.43pp at the 07-23 close). **THE EVENT: ZVRA
