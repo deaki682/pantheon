@@ -5199,5 +5199,119 @@
     "exit_date": "",
     "exit_price": 0.0,
     "graded_return": null
+  },
+  {
+    "symbol": "WTW",
+    "entry_date": "2026-07-27",
+    "entry_price": 299.82,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.539658616729994,
+      "score": 0.2709487925094991,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "GPC",
+    "entry_date": "2026-07-27",
+    "entry_price": 128.12,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.5350273486777958,
+      "score": 0.27025410230166935,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ALLY",
+    "entry_date": "2026-07-27",
+    "entry_price": 43.87,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.524890274890275,
+      "score": 0.26873354123354126,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "DINO",
+    "entry_date": "2026-07-27",
+    "entry_price": 87.65,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.5224538165804654,
+      "score": 0.26836807248706984,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "YEXT",
+    "entry_date": "2026-07-27",
+    "entry_price": 5.35,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": true,
+      "insider_cluster": false,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.982929778032638,
+      "score": 0.2674394667048957,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "BAC",
+    "entry_date": "2026-07-27",
+    "entry_price": 62.655,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": false,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.5130254336257857,
+      "score": 0.26695381504386784,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
   }
 ]
