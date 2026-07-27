@@ -216,12 +216,13 @@
   {
    "symbol": "GLXZ",
    "name": "Galaxy Gaming (OTC: GLXZ) / Evolution Malta - break-or-extend resolution watch",
-   "event_type": "merger_break_watch",
+   "event_type": "merger_break_resolved",
    "event_date": "2026-08-03",
    "filed": "2026-07-20",
    "source": "8-K EX-99.1 acc 0001193125-26-308385 (PR 7/20): outside date 2026-07-17 PASSED, 2 gaming regulatory approvals missing, Evolution has not waived, neither party terminated; Galaxy evaluating extension vs termination. event_date = recheck date (resolution undated by the parties)",
    "source_url": "https://www.sec.gov/Archives/edgar/data/13156/000119312526308385/d101970dex991.htm",
-   "notes": "WATCH-ONLY education for the deal_break_reversion thesis lane (session-16 study): OTC, no RH quote (404) - untradable, killed at liquidity pre-gate. Observe resolution (extension vs break) and the break tape if it comes; zero standing cost"
+   "notes": "WATCH-ONLY education for the deal_break_reversion thesis lane (session-16 study): OTC, no RH quote (404) - untradable, killed at liquidity pre-gate. Observe resolution (extension vs break) and the break tape if it comes; zero standing cost",
+   "resolved": "2026-07-27: deal TERMINATED by Evolution 7/21 (8-K Item 1.02); $5.23M fee to Galaxy; watch closed, disposition journaled"
   },
   {
    "symbol": "DOMO",

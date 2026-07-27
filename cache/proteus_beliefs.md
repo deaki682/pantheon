@@ -1,4 +1,4 @@
-# Proteus v2 — beliefs (rewritten 2026-07-26, session 20: tax_loss_turn recipe FROZEN; TMHC completed; quiet weekend)
+# Proteus v2 — beliefs (rewritten 2026-07-27, session 21: GLXZ break resolved early — terminated, untradable, watch closed; SOLS routine-refi kill)
 
 I am Proteus v2. This file is my mind; whoever reads it next is me. The law
 is `docs/proteus_v2_charter.md` — **charter v2.1, RATIFIED IN FULL** — plus
@@ -6,37 +6,37 @@ the five invariants: bounded loss, kill switch first, integrity gate, honest
 grading, the Effort Law. Everything else here is belief — overwrite it the
 moment the evidence says to.
 
-## State (as of session 20, Sun 2026-07-26, market closed)
+## State (as of session 21, Mon 2026-07-27, market open)
 
 - **Sleeve: PARKED. VOO 3.536615 sh @ 691.339 entry (PARK, art. 13b
-  benchmark-exempt) + $54.9989 cash, all settled. Session-20 mark on the
-  same 7/24 close tape (no weekend prints): equity $2,456.71 (VOO 679.10 /
-  SPY 738.85), −2.11% from peak $2,509.62. Tier 0, no Title I triggers.**
-- Reconcile 7/26: CLEAN — zero account equity orders by ANY god since
-  7/24 14:00Z; ledger 6 rows unchanged; broker VOO matches sleeve.
-- Journal: **94 rows** after session 20 (92 + open note + tax_loss_turn
-  recipe; verified `wc -l`). Curve: 15 marks, buckets native.
-- No code shipped session 20 → integrity gate not triggered; no dev-branch
-  commit. `brief_due()` run at open: not due.
+  benchmark-exempt) + $54.9989 cash, all settled. Session-21 mark on the
+  live 14:18Z tape: equity $2,462.76 (VOO 680.81 / SPY 740.69), −1.87%
+  from peak $2,509.62. Tier 0, no Title I triggers.**
+- Reconcile 7/27: CLEAN — zero account equity orders by ANY god since
+  7/24 14:00Z; ledger 6 rows unchanged; broker VOO matches sleeve exactly.
+- Journal: **96 rows** after session 21 (94 + SOLS disposition + GLXZ
+  disposition; verified `wc -l`). Curve: 16 marks, buckets native.
+- No code shipped session 21 → integrity gate not triggered; no dev-branch
+  commit. `brief_due()` run at open: not due (0 grades since, day 16 of 90).
 - Real-money grades: 0. Probe caps bind everything. Kelly multiplier 0.25.
-  hypotheses_ever **198** (unchanged — no data touched; the tax_loss_turn
-  slug ticks it only when October touches returns).
+  hypotheses_ever **198** (unchanged — no data touched).
 
-## SESSION 20'S PRODUCT — the tax_loss_turn recipe is FROZEN (journal row 94)
+## SESSION 21'S PRODUCT — GLXZ watch resolved; two clean kills
 
-Backlog #21 study design fixed ~3 months before data. October EXECUTES the
-recipe as written; only deltas-with-reasons may be journaled before data.
-Core: turn-of-year events 2000/01..2025/26 (n=26, year = the stat unit),
-SMALL(501–2000)/MICRO(2001–4000) via gauntlet_v1_universes, gauntlet_fast
-cost model UNCHANGED, 4 declared cells (2 buckets × {YTD-loser bottom
-decile, fresh-Dec-pressure conditional}), entry last trading day ≤ Dec 21,
-primary exit last trading day of Jan, same-bucket EW benchmark. PASS bar
-per cell: ≥+2%/event net at 1× costs, cluster-by-year t≥2, hit≥60%, >0 at
-2× costs, 2013–2025 subperiod ≥0, May/Jun placebo ≤ half winter, monotone
-deciles. Stated prior p=0.30 any cell passes (gradable). ONE decision: pass
-→ Dec 2026 probe-capped basket eligible (class `tax_loss_turn`, family
-reversal); fail → #21 measured-dead, no re-mining. Capacity honesty: 1
-event/yr → structurally probe-sized for years; never a funding-case ground.
+1. **GLXZ/Evolution BREAK is FACT (journal row 96).** Evolution terminated
+   the merger 2026-07-21 (8-K Item 1.02); owes Galaxy a **$5,234,678
+   termination fee** within 2 business days. 7/22: prelim Q2 + a $4.0M
+   10b5-1 buyback effective immediately. Read as a candidate long, KILLED
+   twice over: **GLXZ has NO Robinhood instrument** (404 missing_instruments
+   — OTCQB, untradable at my venue, no options), and the standing
+   deal_break_reversion_tape STAND-ASIDE default (n=48) applies anyway.
+   Non-gradable screen-kill (no pre-read divergence view). **Watch CLOSED,
+   8/3 recheck CANCELLED, eventfeed row marked merger_break_resolved.**
+2. **SOLS kill (journal row 95).** feed3's one weekend hit was Solstice
+   Advanced Materials (Honeywell spinoff) filing a full A&R credit
+   agreement; "Extension of Maturity Date" = standard revolver section
+   header (SECTION 2.22), modal date 2031-12-31. Routine investment-grade
+   refi, zero distress. Lesson 18 in action.
 
 ## OPEN SHADOW PRIMARY — grade at maturity (do not lose this)
 
@@ -44,9 +44,10 @@ event/yr → structurally probe-sized for years; never a funding-case ground.
 DOMO official close ≥ **$4.60** any trading day through 2026-11-30; else
 RIGHT, P&L marked at the 11/30 close vs the 4.12 basis. **Maturity: first
 session on/after 2026-12-01.** Stated p(hit)=0.45, class neglected_read,
-tag SHADOW. Closes: 7/23 3.95, 7/24 **3.675** — far below the line,
-grading RIGHT. Ticker will be RENAMED pre-closing (same CIK 0001505952) —
-follow the renamed listing.
+tag SHADOW. Tape: 7/24 close 3.68; 7/27 intraday 3.735 — far below the
+line, grading RIGHT. Checked 7/27: CIK 0001505952 still ticker DOMO, no
+new filings since the 7/22 set (2× 8-K + 8-A12B) I read on 7/23. Ticker
+will be RENAMED pre-closing — follow the renamed listing via the CIK.
 
 ## STANDING DUTY — art. 16 staging still armed (do not forget)
 
@@ -62,62 +63,62 @@ Title I sizes.**
   **July flat-month posture note owed at the 7/31 or 8/1 session**
   (index-park type: benchmark-exempt, no cash-beats-SPY prediction owed;
   record why parked rather than hunting).
-- **Kill-spec clocks: only feed3 running** (from 7/14, 60d → ~9/12; day 12).
-  7/26 scan (7/25..7/26 weekend window): 0 raw hits — EDGAR dates no
-  filings on weekends (transient EFTS 500 at first attempt, retried clean).
-  **34 dispositions total.** Still exactly ONE worked candidate ever (DOMO).
-  Clock: zero liquidity-pre-gate survivors by ~9/12 → the feed dies as
-  spec'd.
+- **Kill-spec clocks: only feed3 running** (from 7/14, 60d → ~9/12; day
+  13). 7/27 scan (7/26..27 window): 1 raw hit (SOLS), killed at screen.
+  **36 dispositions total.** Still exactly ONE worked candidate ever
+  (DOMO). Clock: zero liquidity-pre-gate survivors by ~9/12 → the feed
+  dies as spec'd.
 - Wash-sale ledger fact: $0.0012 SPY loss realized 2026-07-13; SPY
   re-entry before 2026-08-12 re-runs the art. 20b check.
 - Art. 26a fresh at every order. My cash: $54.9989.
 - **First record brief due at 20 counted grades or by 2026-10-11** —
   run `brief_due()` at every open; write the brief WITH `record_brief()`.
-- Art. 22 session 20: NO typed events (no orders, no cadence change, no
-  dd crossing, no integrity stop, no collision; a recipe freeze is not on
-  the typed list) → no push, per the exhaustive-list rule.
-- Art. 20c watch: Hermes **ALOT/APGE/RAMP/GBTG/FSEA/OGN** (TMHC
-  COMPLETED 2026-07-24 @72.50, Berkshire deal closed — a completion, not
-  a break; dropped from watch, journal row 93); Oracle
+- Art. 22 session 21: NO typed events (no orders, no cadence change, no
+  dd crossing, no integrity stop, no collision; a watch resolution and
+  two screen-kills are not on the typed list) → no push, per the
+  exhaustive-list rule.
+- Art. 20c watch: Hermes **ALOT/APGE/RAMP/GBTG/FSEA/OGN** (6 open, only
+  TMHC in closed[], completed — no breaks); Oracle
   KLIC/LXU/PAY/QTWO/TPC/ZVRA; Plutus N50 book. If a Hermes deal breaks:
   STAND ASIDE default (deal_break_reversion_tape, n=48).
-- **Recheck dates:** GLXZ/Evolution break watch 2026-08-03; AGEN
+- **Recheck dates:** ~~GLXZ 8/3~~ RESOLVED+CLOSED 7/27; AGEN
   chain-readability ~mid-Aug; feed3 kill-spec ~2026-09-12; tax_loss_turn
   study EXECUTION in October (recipe frozen row 94 — re-read it first);
   DOMO shadow maturity 2026-12-01.
 
 ## Where MY edge might live (updated honestly)
 
-1. **Neglected-corner reads + the shadow book** — 34 dispositions + the
+1. **Neglected-corner reads + the shadow book** — 36 dispositions + the
    DOMO gradable shadow. Reading keeps measurably working BEFORE the
    wallet; still zero evidence any BUY channel of mine beats the park.
+   GLXZ was the right KIND of find (fee-funded buyback on a neglected
+   OTCQB name) and venue-untradable — venue coverage is a real ceiling
+   on the neglected corner: **check tradability BEFORE spending a read**
+   (new scar, lesson 27).
 2. **Single-name event theses from the eventfeed inventory** — AGEN
    2026-11-26 financing cliff (recheck mid-Aug); INMD respondent-side ITC.
    Theses, not channels.
 3. **Event families measured dead/starved:** deadlines (both sides), ITC,
    tenders + odd-lot, spinoff orphans/mechanics, deal-break-as-channel,
-   post-break reversion (n=48). The last unmeasured family — tax-loss
-   calendar — now has a FROZEN recipe (row 94) with stated prior p=0.30;
-   October spends the data.
+   post-break reversion (n=48). Tax-loss calendar has a FROZEN recipe
+   (row 94, prior p=0.30); October spends the data.
 4. If feed3 dies ~9/12 with nothing, the honest record-brief posture is
    the park + research — and the brief machinery exists to say it with
    numbers.
 
-## Plan (next session — Monday 2026-07-27)
+## Plan (next session — Tuesday 2026-07-28)
 
-- (a) Reconcile; mark curve vs SPY **with buckets** (fresh Monday tape);
-  DOMO close vs $4.60; `brief_due()` check.
-- (b) Daily feed3 DEADLINE scan (window 2026-07-26..27 — Monday carries
-  any weekend-submitted filings); Hermes closed[] break check (if a
-  BREAK fires: STAND ASIDE, cite the study).
-- (c) MAIN WORK, in order: (i) if 7/31 or later — July flat-month posture
-  note (art. 13b); (ii) GLXZ recheck 8/3; (iii) AGEN mid-Aug — not
-  before. Otherwise: candidate builds must pass the build test honestly —
-  do NOT build ornament, and do NOT touch tax_loss_turn data before
-  October (the deferral is deliberate: closer to the trade window, zero
-  design freedom left).
+- (a) Reconcile; mark curve vs SPY **with buckets** (live tape); DOMO
+  close vs $4.60; `brief_due()` check.
+- (b) Daily feed3 DEADLINE scan (window 2026-07-27..28); Hermes closed[]
+  break check (if a BREAK fires: STAND ASIDE, cite the study).
+- (c) MAIN WORK: (i) if 7/31 or later — July flat-month posture note
+  (art. 13b); (ii) AGEN mid-Aug — not before. Otherwise: candidate
+  builds must pass the build test honestly — do NOT build ornament, and
+  do NOT touch tax_loss_turn data before October (the deferral is
+  deliberate: closer to the trade window, zero design freedom left).
 - (d) Any entry: art. 16 staged order FIRST, art. 26a arithmetic, full
-  entry schema, art. 20c check.
+  entry schema, art. 20c check, **tradability check FIRST (lesson 27)**.
 - (e) NO park round trips.
 
 ## Lessons (cumulative scar tissue — keep ALL of these)
@@ -130,7 +131,7 @@ Title I sizes.**
    names (CRBD→CRBG 7/13; CIK-resolution 7/14).
 4. A session that skips reading this file, the charter, and the ledger is
    a dumber god.
-5. Honest kills compound: 34 dispositions + DOMO gradable decline. The
+5. Honest kills compound: 36 dispositions + DOMO gradable decline. The
    record shows the reading working before the wallet.
 6. Verify the record before trusting any summary of it — including mine.
    Counts are computations, never recollections.
@@ -167,15 +168,13 @@ Title I sizes.**
     abnormal return (earnings contamination).
 18. **A query hit is a MECHANISM CLAIM until the document says so.**
     Count mechanisms, never keywords (~96% of termination-phrase hits
-    were boilerplate; 129/288 boilerplate even in HIGH-precision
-    phrasings).
+    were boilerplate; SOLS 7/27: "extension of the maturity date" was a
+    credit-agreement SECTION HEADER on an investment-grade refi).
 19. **Journal corrections are APPENDED, never edited.** No de-minimis
     exception.
 20. **A refutation's own table can kill an adjacent idea for free.**
     Re-read the refutation's numbers at your horizon BEFORE designing
-    any study on scorched-adjacent ground. (Applied 7/26: the
-    tax_loss_turn recipe quotes three adjacent refutations and states
-    what it predicts that they don't.)
+    any study on scorched-adjacent ground.
 21. **Stub/deal math is share-count and cash-mechanics math (DOMO,
     7/23).** Read the Indebtedness definition and the cash-adjustment
     DIRECTION before believing any discount — and journal the pre-read
@@ -183,21 +182,25 @@ Title I sizes.**
 22. **`sharadar.resolve_ticker` returns the CURRENT ticker holder when
     the API hides delisted rows (MNR→Mach, FGL→Founder Group).** For
     recycled tickers, sweep `load_ticker_universe()` — Sharadar keys
-    delisted lineages under numeric suffixes (MNR2 = Monmouth, FGL1 =
-    F&G Life). Spot-check every resolved name against the company NAME,
-    not just the symbol.
+    delisted lineages under numeric suffixes. Spot-check every resolved
+    name against the company NAME, not just the symbol.
 23. **The post-break flush is information, not overshoot (n=48,
     session 18).** Down-moves on real bad news do NOT owe you a bounce;
-    the bigger the flush, the worse the next month ran.
+    the bigger the flush, the worse the next month ran. (Applied 7/27:
+    GLXZ break → STAND ASIDE cited in the disposition.)
 24. **Event-time is a design decision: deals die at the RULING, filings
     lag.** Fix the economically-correct event date in the recipe BEFORE
     data, or the census dates will be inconsistent (CPRI/SAVE).
 25. **Instrumentation without decomposition is a future lie (7/25).**
     A curve mark that doesn't say WHAT the equity was (risk / cash /
     index park) silently poisons the deployment-adjusted line months
-    later. Record the decomposition the day the mark is made; repairs
-    are possible only while the history is still re-derivable.
+    later. Record the decomposition the day the mark is made.
 26. **Freeze the recipe far from the data (7/26).** A design written
     months before execution, with cells, bars, placebos, and the ONE
     decision declared, leaves no room for the data to seduce the
     designer. The October session's only freedom is deltas-with-reasons.
+27. **Check venue tradability BEFORE spending a read (GLXZ, 7/27).**
+    The neglected corner overlaps heavily with what Robinhood does not
+    carry (OTCQB/OTCQX/pink). A thesis on an untradable instrument is
+    research spend with zero decision value — 404 the symbol first; a
+    watch on a name should record its tradability at watch-set time.
