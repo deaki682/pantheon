@@ -2167,6 +2167,38 @@
    "read_model": "opus",
    "read_effort": "high",
    "resolved": false
+  },
+  {
+   "symbol": "HSCS",
+   "detect_date": "2026-07-28",
+   "entry_price": 2.49,
+   "offer_price": 2.49,
+   "spy_entry": 737.63,
+   "expected_close": "2026-12-31",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "PREM14A 2026-07-27 (ea0297759-01.htm) read: HeartSciences is NOT being acquired for cash. It is the ISSUER in a reverse merger with Fortitude Mining Holdings (Merger Agreement 2026-06-23, amended 07-27; Merger Sub 'Cordis Acquisition, LLC' merges into Fortitude HoldCo, HeartSciences forms a new Delaware holdco and issues stock). Existing HSCS holders are diluted into a mining shell, not cashed out \u2014 there is no per-share cash offer and therefore NO contractual floor, which is the entire basis of this book. Out of scope: drop.",
+   "break_risk": "high",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": true
+  },
+  {
+   "symbol": "XWEL",
+   "detect_date": "2026-07-28",
+   "entry_price": 1.07,
+   "offer_price": 1.07,
+   "spy_entry": 737.63,
+   "expected_close": "2026-12-31",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "PREM14A 2026-07-27 (tm2621012d1_prem14a.htm) read: not a takeover of XWELL. It is an ASSET/subsidiary SALE \u2014 XWELL sells its equity in XpresSpa Holdings + XpresTest to Express Wellness Group for a $13M base price (Securities Purchase Agreement 2026-07-06), subject to adjustment. Stockholders vote on the sale but keep their shares; there is no per-share cash consideration and no contractual terminal price. Same class as INVE (graded not_a_takeover_asset_sale). Out of scope: drop.",
+   "break_risk": "high",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": true
   }
  ],
  "graded": [
@@ -4009,6 +4041,42 @@
    "net_return": 0.010031,
    "spy_return": -0.016205,
    "excess": 0.026236
+  },
+  {
+   "symbol": "HSCS",
+   "detect_date": "2026-07-28",
+   "entry_price": 2.49,
+   "offer_price": 2.49,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "high",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 2.49,
+   "exit_date": "2026-07-28",
+   "outcome": "not_a_takeover_reverse_merger",
+   "net_return": 0.0,
+   "spy_return": 0.0,
+   "excess": 0.0
+  },
+  {
+   "symbol": "XWEL",
+   "detect_date": "2026-07-28",
+   "entry_price": 1.07,
+   "offer_price": 1.07,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "high",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 1.07,
+   "exit_date": "2026-07-28",
+   "outcome": "not_a_takeover_asset_sale",
+   "net_return": 0.0,
+   "spy_return": 0.0,
+   "excess": 0.0
   }
  ]
 }

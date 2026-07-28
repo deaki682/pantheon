@@ -242,5 +242,12 @@
   "spy": 740.72,
   "cash": 664.56,
   "note": "Zeus hourly ~10:17 ET Mon 2026-07-27. 6 deals tended, all healthy (no break-stop, no completion, none past close). Sourcing sweep run: 127 targets/120d; 1 genuinely new deal (ACA) read and DROPPED. No entries \u2014 AFBI/LPRO keeps both compressed below the 1% MIN_SPREAD floor."
+ },
+ {
+  "date": "2026-07-28",
+  "equity": 4016.07,
+  "spy": 737.63,
+  "cash": 664.56,
+  "note": "Zeus hourly pass ~10:10 ET Tue 2026-07-28. Broker==sleeve on all six (hermes_reconcile []); no break-stops, no completions, none past close. EDGAR sweep: 129 announced-deal targets, 2 genuinely new (HSCS/XWEL) \u2014 both read and DROPPED as non-deals (reverse merger / asset sale), graded immediately. No entries."
  }
 ]
