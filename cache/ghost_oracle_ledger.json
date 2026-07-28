@@ -5313,5 +5313,24 @@
     "exit_date": "",
     "exit_price": 0.0,
     "graded_return": null
+  },
+  {
+    "symbol": "CREX",
+    "entry_date": "2026-07-28",
+    "entry_price": 3.08,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.4829181400047856,
+      "score": 0.27243772100071784,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
   }
 ]
