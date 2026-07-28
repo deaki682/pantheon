@@ -30,6 +30,52 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
+Mark 2026-07-28 CLOSE (after-close Zeus tend, 4pm prints, quotes 19:59–20:00Z):
+equity **$4,460.50** (-0.88% vs basis; SPY 740.76 vs spy_entry 751.31, -1.40%;
+excess **+0.53pp**, off the +0.88pp at the 07-27 close, up from +0.31pp at
+today's 10:13 ET tend; day P&L -$5.41 on a +0.23% SPY tape). Cash $449.94.
+Close vs entry: **PAY +18.34%** (34.165, +8.53% — new book leader), QTWO +11.74%
+(59.22, +1.84%), TPC +8.03% (82.06, -4.33%), LXU +4.29% (11.43, -0.26%),
+**KLIC -17.45%** (90.85, -7.50%), ZVRA -31.09% (9.72, +0.10%). EDGAR swept all
+six CIKs (>= 07-24): **ZERO new filings on all six** — no typed kill evaluable;
+Stage 5 `evaluate_exit` run verbatim on all six = NO EXIT; held. Reconcile clean
+6/6 exact; zero orders account-wide since 07-20; breakers ok. Live broker
+buying_power $1,179.35 vs sleeve cash claim $449.94 (sleeve binds; moot, no buy).
+The ZVRA CHMP 8-K **still** has not landed — one business day left in the window
+(~07-30).
+
+**THE 07-27 LESSON APPLIED IN BOTH DIRECTIONS — every big move today was its
+sector.** Four moves, four peer checks, zero name events:
+- **KLIC -7.50% vs semicap peer median -7.53%** (AMAT -7.82, ONTO -7.78,
+  LRCX -7.53, ACLS -6.35, KLAC -6.18) — dead-on the sector, session four of the
+  AI-capex-fear selloff. KLIC is now -17.45% vs entry, the book's second-worst
+  drawdown, and is held **with conviction under F3, not neglect**: the kill is
+  quarterly revenue < $180M, first evaluable ~08-05.
+- **TPC -4.33% vs E&C peer median -5.19%** (STRL -15.28 — looks like a print,
+  MTZ -7.29, PWR -5.19, GVA -3.33, ACM +4.90) — a sector derating TPC actually
+  *outperformed*.
+- **PAY +8.53% vs payments peer median +4.78%** (FOUR +9.83, NCNO +4.82,
+  TOST +4.78, BILL +3.22, ALKT +2.34) — second consecutive complex-wide rally
+  day. PAY sits above the median but inside FOUR's range, so the honest read is
+  **mostly cluster beta with at most a modest idiosyncratic sliver.** The 08-03
+  print settles the thesis; the tape does not. Do not bank the +18.34%.
+- **LXU -0.26% vs fertilizer peer median +3.04%** (MOS +3.27, NTR +3.04,
+  CF +2.65) — the one genuinely NEW signal: LXU **lagged its own complex by
+  ~3.3pp on the eve of its print**, the first negative divergence from ammonia
+  strength since entry. Peer strength is mild evidence *against* the LXU kill
+  ("quarterly net loss on ammonia price collapse"); the divergence is a
+  name-level question tomorrow's print answers.
+
+**CLUSTER WATCH: PAY+QTWO = $1,557.78 = 34.9% of equity** (up from 33.1%) —
+inside the 40% cap but the tightest yet. Two of the six move together.
+
+**PRINT CALENDAR RE-VERIFIED 07-28:** LXU **2026-07-29 pm (VERIFIED)**, Q2 est
+$0.46 EPS vs $0.04 actual a year ago — a large expected step-up, and LXU beat the
+last two (Q1'26 $0.27 vs $0.12; Q4'25 $0.22 vs $0.20). QTWO **2026-07-29 pm
+(VERIFIED)**, Q2 est $0.62. Then PAY ~08-03, KLIC ~08-05, TPC ~08-05, ZVRA ~08-11.
+**The 07-30 tend is the first with teeth — pull both prints and test both kills
+verbatim.**
+
 Mark 2026-07-27 CLOSE (after-close Zeus tend, 4pm prints, quotes 19:59–20:00Z):
 equity **$4,465.91** (-0.76% vs basis; SPY 739.02 vs spy_entry 751.31, -1.64%;
 excess **+0.88pp — RECOVERED** from -0.16pp at the 10:18 ET tend, on a flat tape,
@@ -163,6 +209,18 @@ calibration writer runs after the first grades land.
 - The six above, held to their typed kills. The first real information arrives
   at the July/August prints — that is when tending has teeth: pull each print,
   test the kill verbatim, fire without mercy if it lands, journal + grade.
+- **LXU + QTWO print 2026-07-29 pm (both VERIFIED) — the first kill tests with
+  teeth, opened 07-28.** LXU: kill = "quarterly net loss on ammonia price
+  collapse"; consensus $0.46 vs $0.04 a year ago, and the ammonia complex was
+  +3% on 07-28 — so a net loss would be a violent surprise, and the kill is
+  unlikely to land on the number. What IS live is the **07-28 divergence**: LXU
+  lagged CF/NTR/MOS by ~3.3pp into the print, the first negative break from its
+  complex since entry. Either the market knows something about LXU specifically
+  (guidance, an outage at El Dorado/Pryor, a contract) or it is noise — the
+  print discriminates. QTWO: kill = "GAAP net loss relapse or growth < 10%";
+  consensus $0.62. QTWO is +11.74% vs entry and the payments/fintech complex has
+  rallied two straight sessions, so the print lands into an expectations setup —
+  test the kill on the FILING, never on the after-hours reaction.
 - **ZVRA post-CHMP (opened 07-24):** the EU MAA got a negative CHMP opinion;
   Zevra requests re-examination. The US-ramp thesis is intact until the ~08-11
   print, but the upside_x underwritten on 07-10 included EU optionality that is
@@ -179,8 +237,15 @@ calibration writer runs after the first grades land.
 
 1. **Tend daily (cheap):** reconcile fills, mark at official closes, EDGAR-check
    held names for fresh filings; evaluate typed kills only on real filings.
+1b. **Peer-check every move > ~3% BEFORE interpreting it** (formalized 07-28 — it
+   has now caught four moves in two sessions). Quote 3–5 sector peers and compare
+   against the peer median: at the median it is cluster beta and means nothing;
+   a real divergence from the complex is the only tape signal worth writing down.
+   This cuts both ways — it forbids selling KLIC on sector red *and* forbids
+   believing PAY on sector green.
 2. **At each held name's print:** re-underwrite on the filing, run
-   `evaluate_exit`, journal hold/exit with the citation.
+   `evaluate_exit`, journal hold/exit with the citation. **Test the kill on the
+   FILING, never on the after-hours reaction.**
 3. **Sourcing (unfrozen 07-14):** the next FULL cascade round runs when there is
    capital to deploy (an exit or new funding) or at the August re-underwrite —
    not on a timer while the book is fully deployed and the 07-10 pipeline
@@ -202,6 +267,13 @@ calibration writer runs after the first grades land.
    improving" was compressing; WLY "accel" was flat). The read is the edge.
 5. **The blowup filter earns its keep** (KPTI going-concern, POET pre-revenue).
 6. **The queue is the engine:** the read is only as good as what it's aimed at.
+7. **A price move is not information until it is peer-checked** (07-27 → hardened
+   07-28). Twice now a move that looked like the thesis arriving or breaking was
+   the whole complex moving: PAY's +9.04%/+8.53% was the payments sector, KLIC's
+   -7.50% was the semicap sector to within 0.03pp, TPC's -4.33% was a sector it
+   beat. The discipline is symmetric and cheap — 3–5 peers, one quote call, take
+   the median. Only a divergence from the complex (LXU lagging fertilizer by
+   3.3pp on 07-28) is a name-level fact worth a line in the journal.
 
 ## Decayed / de-prioritized
 
