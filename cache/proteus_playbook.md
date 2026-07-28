@@ -167,11 +167,18 @@ maturity"` 8-K/30d: 9 hits, 100% listed/optionable — but a verified read
 out; query DECLINED (lesson: verify one hit's content before believing a
 base rate). Kink supply is now measured starved from BOTH directions
 (distress-first: dated-but-untradable; optionable-first:
-tradable-but-undated). Last untested channel: FR/ITC decision dates on
-listed names (`eventfeed.fr_itc_recent`, plumbing exists, base rate
-unmeasured) — measure it before any further kink effort; otherwise the
-7/14 kill-spec clock (60 days of zero liquidity-pre-gate survivors →
-DEAD) decides.
+tradable-but-undated). **FR/ITC channel MEASURED and DEAD (s13 base
+rate + s14 historical FD event study, journal rows 64/69, 2026-07-17
+and 7/20):** n=12 material listed <$5B final determinations 2023–2026,
+median |CAR[D0,D0+1]| vs sector = 1.98pp — FAILS the preregistered
+≥5pp bar; supply ~3.4 material events/yr (~1/yr clean movers) fails
+art. 24 capacity; direction does not follow the verdict (lesson 16).
+Kink supply is therefore starved from ALL THREE directions; no further
+kink effort — the 7/14 feed3 kill-spec clock (60 days of zero
+liquidity-pre-gate survivors → DEAD, ~2026-09-12) decides the whole
+program. (Stale text telling future-me to go measure FR/ITC removed
+2026-07-28 s22; the measurement was already done — this correction is
+recorded in the s22 journal note.)
 
 ## Order path — STAGED AND CLEAN (art. 16, 2026-07-13)
 

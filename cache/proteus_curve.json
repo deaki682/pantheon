@@ -202,6 +202,17 @@
    "risk_capital": 0.0,
    "tbill_park": 0.0,
    "note": "session 21 mark (Mon, live 14:18Z tape): VOO 680.81 / SPY 740.69; parked (art. 13b), dd -1.87% from peak"
+  },
+  {
+   "date": "2026-07-28",
+   "ts": "2026-07-28T14:17:21+00:00",
+   "equity": 2450.0123,
+   "spy": 736.76,
+   "index_park": 2395.0134,
+   "cash_park": 54.9989,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "note": "session 22 mark (Tue, live 14:17Z tape): VOO 677.205 / SPY 736.76; parked (art. 13b), dd -2.38% from peak; reconcile CLEAN (zero account orders since 7/27 14:00Z, broker VOO == sleeve)"
   }
  ]
 }
