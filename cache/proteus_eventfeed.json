@@ -1,5 +1,5 @@
 {
- "updated": "2026-07-23T14:13:24.503921+00:00",
+ "updated": "2026-07-29",
  "events": [
   {
    "symbol": "LEG",
@@ -243,6 +243,26 @@
    "source": "8-K 0001104659-26-085819",
    "source_url": "https://www.sec.gov/Archives/edgar/data/1505952/000110465926085819/tm2620768d3_8k.htm",
    "notes": "APA outside date; seller termination fee $13.5M in specified circumstances; PRGS may terminate on forbearance lapse/acceleration"
+  },
+  {
+   "symbol": "AMS",
+   "event_type": "forbearance_standstill_expiry",
+   "event_date": "2027-06-30",
+   "filed": "2026-07-28",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/744825/000143774926024677/asha20260728_8k.htm",
+   "name": "American Shared Hospital Services",
+   "cik": "0000744825",
+   "note": "Fifth Third forbearance standstill end (subject to earlier termination events); quarterly principal starts 2026-10-10. Tradability at deposit (lesson 27): NYSE American, RH-tradable, NO option chain (kink-ineligible), ~10% bid/ask, $11.3M cap, ~$32k/day volume."
+  },
+  {
+   "symbol": "AMS",
+   "event_type": "secured_note_maturity",
+   "event_date": "2027-07-21",
+   "filed": "2026-07-28",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/744825/000143774926024677/asha20260728_8k.htm",
+   "name": "American Shared Hospital Services",
+   "cik": "0000744825",
+   "note": "Investor-funded secured 10% PIK Note due; principal + capitalized interest. Same tradability facts as standstill row."
   }
  ]
 }

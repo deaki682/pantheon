@@ -1,4 +1,4 @@
-# Proteus v2 — beliefs (rewritten 2026-07-28, session 22: ZETA screen-kill; playbook kink-verdict correction; quiet clean day)
+# Proteus v2 — beliefs (rewritten 2026-07-29, session 23: AMS — the first REAL forbearance, killed untradable; APLE screen-kill)
 
 I am Proteus v2. This file is my mind; whoever reads it next is me. The law
 is `docs/proteus_v2_charter.md` — **charter v2.1, RATIFIED IN FULL** — plus
@@ -6,38 +6,49 @@ the five invariants: bounded loss, kill switch first, integrity gate, honest
 grading, the Effort Law. Everything else here is belief — overwrite it the
 moment the evidence says to.
 
-## State (as of session 22, Tue 2026-07-28, market hours)
+## State (as of session 23, Wed 2026-07-29, market hours)
 
 - **Sleeve: PARKED. VOO 3.536615 sh @ 691.339 entry (PARK, art. 13b
-  benchmark-exempt) + $54.9989 cash, all settled. Session-22 mark on the
-  live 14:17Z tape: equity $2,450.01 (VOO 677.205 / SPY 736.76), −2.38%
+  benchmark-exempt) + $54.9989 cash, all settled. Session-23 mark on the
+  live 14:13Z tape: equity $2,446.14 (VOO 676.11 / SPY 735.485), −2.53%
   from peak $2,509.62. Tier 0, no Title I triggers.**
-- Reconcile 7/28: CLEAN — zero account equity orders by ANY god since
-  7/27 14:00Z; ledger 6 rows unchanged; broker VOO matches sleeve exactly.
-- Journal: **98 rows** after session 22 (96 + ZETA disposition row 97 +
-  session note row 98; verified `wc -l`). Curve: 17 marks, buckets native.
-- No code shipped session 22 → integrity gate not triggered; no dev-branch
-  commit. `brief_due()` run at open: not due (0 grades since, day 17 of 90).
+- Reconcile 7/29: CLEAN — zero account equity orders by ANY god since
+  7/28 14:00Z; ledger 6 rows unchanged; broker VOO matches sleeve exactly.
+- Journal: **101 rows** after session 23 (98 + APLE row 99 + AMS row 100 +
+  session note row 101; verified count in-session). Curve: 18 marks,
+  buckets native.
+- No code shipped session 23 → integrity gate not triggered; no dev-branch
+  commit. `brief_due()` at open: not due (0 grades since, day 18 of 90).
 - Real-money grades: 0. Probe caps bind everything. Kelly multiplier 0.25.
   hypotheses_ever **198** (unchanged — no data touched).
 
-## SESSION 22'S PRODUCT — one clean kill, one mind-repair
+## SESSION 23'S PRODUCT — the feed's first REAL find, and its honest kill
 
-1. **ZETA kill (journal row 97).** feed3's one new hit (7/27..28 window)
-   was Zeta Global's brand-new syndicated credit agreement (BofA-led,
-   dated 7/24/2026, modal maturity 2031-07-24). "Extension of the maturity
-   date" = SECTION 2.16 revolver boilerplate — the IDENTICAL mechanism as
-   the SOLS kill (row 95). Zero forbear hits, covered ~$4B mid-cap, not
-   even the neglected corner. Lesson 18 twice in two days: the extended-
-   maturity queries keep surfacing healthy refis; the distress residue
-   stays absent.
-2. **Playbook stale-text repair (session note row 98).** The playbook's
-   invert-the-funnel section still instructed a future session to measure
-   the FR/ITC kink-supply base rate — ALREADY DONE (s13 row 64; s14 row
-   69: n=12, median |CAR[D0,D0+1]| 1.98pp FAILS the ≥5pp bar; supply
-   ~3.4/yr fails art. 24). Rewritten to record the verdict. **Kink supply
-   is starved from all three directions (distress-first, optionable-first,
-   FR/ITC); the feed3 kill-spec (~9/12) decides the whole kink program.**
+1. **AMS non-gradable AVOID (row 100) — the most informative disposition
+   of the program so far.** American Shared Hospital Services 8-K (filed
+   7/28): Third Amendment + FORBEARANCE agreement with Fifth Third —
+   lender-noticed Events of Default, standstill to 2027-06-30, covenants
+   suspended, blocked accounts, investor-funded secured 10% PIK note due
+   2027-07-21 + warrant. **The FIRST true distress mechanism in 15 days /
+   39 dispositions** — the extended-maturity/forbear queries CAN surface
+   real distress residue. Killed MECHANICALLY: no option chain at the
+   broker (kink pre-gate requires live two-sided ATM markets); $11.3M cap,
+   ~$32k/day dollar volume, ~10% spread. **Dated-but-untradable — exactly
+   the s12 distress-first failure mode, now confirmed on a live specimen.**
+   No equity-long attempted (distressed equity junior to a defaulted
+   secured lender = lesson-23 pattern; no class covers it; counterfactual
+   restates the base rate). Both AMS dated events deposited to the store
+   with lesson-27 tradability recorded (25 → 27 events).
+2. **APLE killed_at_screen (row 99).** Healthy completed refi on a covered
+   ~$3B lodging REIT ("no significant debt maturities until 2029").
+   Lesson-18 mechanism class, third specimen in three days (SOLS/ZETA/APLE).
+
+**What AMS changes:** the eventual feed3 kill verdict, if the clock runs
+out, should read "the feed finds real distress; the distress that exists
+at this size has no options market" — a supply/venue refutation, not a
+query-quality refutation. It does NOT stop the clock: still ZERO
+liquidity-pre-gate survivors, day 15 of 60, dies ~2026-09-12 as spec'd
+unless a CHAIN-BEARING distress name appears.
 
 ## OPEN SHADOW PRIMARY — grade at maturity (do not lose this)
 
@@ -45,11 +56,9 @@ moment the evidence says to.
 DOMO official close ≥ **$4.60** any trading day through 2026-11-30; else
 RIGHT, P&L marked at the 11/30 close vs the 4.12 basis. **Maturity: first
 session on/after 2026-12-01.** Stated p(hit)=0.45, class neglected_read,
-tag SHADOW. Tape: 7/27 close 3.57; 7/28 intraday 3.635 — far below the
-line, grading RIGHT. Checked 7/28: CIK 0001505952 still ticker DOMO; one
-new filing since the 7/23 read — a passive SCHEDULE 13G (7/27), thesis-
-irrelevant (the shadow grades on tape vs 4.60 only). Ticker will be
-RENAMED pre-closing — follow the renamed listing via the CIK.
+tag SHADOW. Tape: 7/28 close 3.76; 7/29 intraday 3.72 — far below the
+line, grading RIGHT. CIK 0001505952; ticker will be RENAMED pre-closing —
+follow the renamed listing via the CIK.
 
 ## STANDING DUTY — art. 16 staging still armed (do not forget)
 
@@ -66,63 +75,67 @@ Title I sizes.**
   (index-park type: benchmark-exempt, no cash-beats-SPY prediction owed;
   record why parked rather than hunting).
 - **Kill-spec clocks: only feed3 running** (from 7/14, 60d → ~9/12; day
-  14). 7/28 scan (7/27..28 window): 2 raw hits — SOLS (already killed row
-  95) + ZETA (killed row 97). **37 dispositions total.** Still exactly ONE
-  worked candidate ever (DOMO). Clock: zero liquidity-pre-gate survivors
-  by ~9/12 → the feed dies as spec'd.
+  15). 7/29 scan (7/28..29 window): 2 raw hits — APLE (row 99) + AMS
+  (row 100). **39 dispositions total.** Still exactly ONE worked candidate
+  ever (DOMO). Clock: zero liquidity-pre-gate survivors by ~9/12 → the
+  feed dies as spec'd — with the AMS-refined verdict wording above.
 - Wash-sale ledger fact: $0.0012 SPY loss realized 2026-07-13; SPY
   re-entry before 2026-08-12 re-runs the art. 20b check.
 - Art. 26a fresh at every order. My cash: $54.9989.
 - **First record brief due at 20 counted grades or by 2026-10-11** —
   run `brief_due()` at every open; write the brief WITH `record_brief()`.
-- Art. 22 session 22: NO typed events (no orders, no cadence change, no
-  dd crossing, no integrity stop, no collision; a screen-kill and a
-  playbook correction are not on the typed list) → no push, per the
-  exhaustive-list rule.
+- Art. 22 session 23: NO typed events (dispositions and store deposits
+  are not on the typed list) → no push, per the exhaustive-list rule.
 - Art. 20c watch: Hermes **ALOT/APGE/RAMP/GBTG/FSEA/OGN** (6 open, only
-  TMHC in closed[], completed — no breaks); Oracle
+  TMHC in closed[], completed — no breaks, checked 7/29); Oracle
   KLIC/LXU/PAY/QTWO/TPC/ZVRA; Plutus N50 book. If a Hermes deal breaks:
   STAND ASIDE default (deal_break_reversion_tape, n=48).
 - **Recheck dates:** AGEN chain-readability ~mid-Aug; feed3 kill-spec
   ~2026-09-12; tax_loss_turn study EXECUTION in October (recipe frozen
-  row 94 — re-read it first); DOMO shadow maturity 2026-12-01.
-- Eventfeed store verified healthy 7/28 (25 events, dates intact). The
-  90d upcoming inventory is ALL merger votes (kink category error;
-  APGE/RAMP are Hermes-claimed) + dead-family ITC pipeline — no read
-  earns its spend from this inventory as it stands.
+  row 94 — re-read it first); DOMO shadow maturity 2026-12-01. AMS dated
+  events now in the store (2027-06-30 / 2027-07-21) — kink-ineligible
+  (no chain); only worth a re-look if it ever grows a chain or the
+  program's venue constraint changes.
+- Eventfeed store: 27 events, verified healthy 7/29. The 90d upcoming
+  inventory remains merger votes (kink category error; APGE/RAMP
+  Hermes-claimed) + dead-family ITC pipeline — no read earns its spend
+  from this inventory as it stands.
 
 ## Where MY edge might live (updated honestly)
 
-1. **Neglected-corner reads + the shadow book** — 37 dispositions + the
+1. **Neglected-corner reads + the shadow book** — 39 dispositions + the
    DOMO gradable shadow. Reading keeps measurably working BEFORE the
    wallet; still zero evidence any BUY channel of mine beats the park.
-   Venue coverage is a real ceiling on the neglected corner: **check
-   tradability BEFORE spending a read** (lesson 27).
+   Venue coverage is a real ceiling on the neglected corner — AMS is the
+   sharpest specimen yet: the distress that exists at neglected size has
+   no options market, and its equity is the lesson-23 pattern. **Check
+   tradability BEFORE spending a read (lesson 27).**
 2. **Single-name event theses from the eventfeed inventory** — AGEN
    2026-11-26 financing cliff (recheck mid-Aug); INMD respondent-side ITC.
    Theses, not channels.
 3. **Event families measured dead/starved:** deadlines (both sides), ITC
    (n=12, 1.98pp median), tenders + odd-lot, spinoff orphans/mechanics,
    deal-break-as-channel, post-break reversion (n=48), kink program
-   (supply starved all three directions — feed3 clock decides ~9/12).
-   Tax-loss calendar has a FROZEN recipe (row 94, prior p=0.30); October
-   spends the data.
+   (supply starved all three directions — feed3 clock decides ~9/12,
+   AMS confirms the distress-first mode on a live specimen). Tax-loss
+   calendar has a FROZEN recipe (row 94, prior p=0.30); October spends
+   the data.
 4. If feed3 dies ~9/12 with nothing, the honest record-brief posture is
    the park + research — and the brief machinery exists to say it with
    numbers.
 
-## Plan (next session — Wednesday 2026-07-29)
+## Plan (next session — Thursday 2026-07-30)
 
 - (a) Reconcile; mark curve vs SPY **with buckets** (live tape); DOMO
   close vs $4.60; `brief_due()` check.
-- (b) Daily feed3 DEADLINE scan (window 2026-07-28..29); Hermes closed[]
+- (b) Daily feed3 DEADLINE scan (window 2026-07-29..30); Hermes closed[]
   break check (if a BREAK fires: STAND ASIDE, cite the study).
 - (c) MAIN WORK: (i) if 7/31 or later — July flat-month posture note
   (art. 13b); (ii) AGEN mid-Aug — not before. Otherwise: candidate
   builds must pass the build test honestly — do NOT build ornament, and
   do NOT touch tax_loss_turn data before October (the deferral is
   deliberate: closer to the trade window, zero design freedom left).
-  Two quiet clean days in a row is the park working as designed, not a
+  Three quiet clean days in a row is the park working as designed, not a
   failure to fix with machinery.
 - (d) Any entry: art. 16 staged order FIRST, art. 26a arithmetic, full
   entry schema, art. 20c check, **tradability check FIRST (lesson 27)**.
@@ -138,7 +151,7 @@ Title I sizes.**
    names (CRBD→CRBG 7/13; CIK-resolution 7/14).
 4. A session that skips reading this file, the charter, and the ledger is
    a dumber god.
-5. Honest kills compound: 37 dispositions + DOMO gradable decline. The
+5. Honest kills compound: 39 dispositions + DOMO gradable decline. The
    record shows the reading working before the wallet.
 6. Verify the record before trusting any summary of it — including mine.
    Counts are computations, never recollections.
@@ -175,11 +188,12 @@ Title I sizes.**
     abnormal return (earnings contamination).
 18. **A query hit is a MECHANISM CLAIM until the document says so.**
     Count mechanisms, never keywords (~96% of termination-phrase hits
-    were boilerplate; SOLS 7/27 and ZETA 7/28: "extension of the
-    maturity date" was a credit-agreement SECTION HEADER on a healthy
-    refi, twice in two days).
+    were boilerplate; SOLS 7/27, ZETA 7/28, APLE 7/29: healthy-refi
+    language three days running — and then AMS 7/29 proved the REAL
+    mechanism does appear, so keep reading the documents).
 19. **Journal corrections are APPENDED, never edited.** No de-minimis
-    exception.
+    exception. Schema verdicts are a closed set — a disposition after a
+    full read with no divergence is an `avoid`, not a new verdict string.
 20. **A refutation's own table can kill an adjacent idea for free.**
     Re-read the refutation's numbers at your horizon BEFORE designing
     any study on scorched-adjacent ground.
@@ -194,8 +208,9 @@ Title I sizes.**
     name against the company NAME, not just the symbol.
 23. **The post-break flush is information, not overshoot (n=48,
     session 18).** Down-moves on real bad news do NOT owe you a bounce;
-    the bigger the flush, the worse the next month ran. (Applied 7/27:
-    GLXZ break → STAND ASIDE cited in the disposition.)
+    the bigger the flush, the worse the next month ran. (Applied 7/27
+    GLXZ and 7/29 AMS: distressed equity junior to a defaulted secured
+    lender is not a dip.)
 24. **Event-time is a design decision: deals die at the RULING, filings
     lag.** Fix the economically-correct event date in the recipe BEFORE
     data, or the census dates will be inconsistent (CPRI/SAVE).
@@ -207,13 +222,12 @@ Title I sizes.**
     months before execution, with cells, bars, placebos, and the ONE
     decision declared, leaves no room for the data to seduce the
     designer. The October session's only freedom is deltas-with-reasons.
-27. **Check venue tradability BEFORE spending a read (GLXZ, 7/27).**
-    The neglected corner overlaps heavily with what Robinhood does not
-    carry (OTCQB/OTCQX/pink). A thesis on an untradable instrument is
-    research spend with zero decision value — 404 the symbol first; a
-    watch on a name should record its tradability at watch-set time.
-28. **A stale playbook instruction is a live hazard (7/28).** The
-    invert-the-funnel section kept ordering a measurement that s13/s14
-    had already completed; an obedient future session would have re-spent
-    it. When a study lands, same-session sweep the playbook/beliefs for
-    every pointer that motivated it and rewrite them to the verdict.
+27. **Check venue tradability BEFORE spending a read (GLXZ 7/27,
+    AMS 7/29).** The neglected corner overlaps heavily with what has no
+    options market and trades $32k/day at a 10% spread. A thesis on an
+    untradable instrument is research spend with zero decision value —
+    check the venue AND the chain first; a store deposit records its
+    tradability at deposit time.
+28. **A stale playbook instruction is a live hazard (7/28).** When a
+    study lands, same-session sweep the playbook/beliefs for every
+    pointer that motivated it and rewrite them to the verdict.
