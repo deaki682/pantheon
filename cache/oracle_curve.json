@@ -828,5 +828,15 @@
   "spy": 735.48,
   "cash": 449.94,
   "excess_pp": 0.6
+ },
+ {
+  "ts": "2026-07-29T21:35:00Z",
+  "date": "2026-07-29",
+  "equity": 4436.63,
+  "positions_value": 3986.69,
+  "spy": 729.54,
+  "cash": 449.94,
+  "round": "upside-2026-07-10-r1",
+  "note": "Zeus hourly tend, AFTER CLOSE Wed 2026-07-29 (~17:25 ET; quotes 19:59-20:00Z official closes). 0a gate: NOT paused, 6 live positions, ORACLE_LIVE=true, kill switch off -> full session; resolved as TEND + PRINT TESTS + conscious sourcing no-op (standing duty 3). THE FIRST KILL TESTS WITH TEETH: LXU and QTWO both printed tonight and BOTH KILLS FAILED on the filings. LXU 8-K 0001193125-26-323751: GAAP net loss $6.2M but Tampa ammonia +89pct YoY ($787 vs $416), UAN +44pct, gas -15pct -> the 'ammonia price collapse' clause is REFUTED by the issuer's own table; rev +11.1pct, adj EBITDA +38.6pct (H1 +56pct), loss = $28.8M planned turnaround (Pryor pulled forward from Q3) vs $2.6M. Thesis CONFIRMED, not broken. QTWO 8-K 0001410384-26-000051 + 10-Q 0001410384-26-000053: GAAP net income $29.9M vs $11.8M, revenue +13pct, GM 59.2pct vs 53.6pct, debt-free, FY guide RAISED, +$350M buyback -> both kill clauses fail. FORWARD FLAG: QTWO Q3 guide = 8-10pct growth, brushing the '<10pct growth' kill clause at the ~11-04 print. CLOSING MARK equity $4,436.63 (-1.41pct vs $4,500 basis) vs SPY 729.54 / spy_entry 751.31 (-2.90pct) -> EXCESS +1.49pp, WIDENED from +0.53pp at the 07-28 close on a -1.53pct SPY day; day P&L -$23.73. Peer checks (duty 1b): PAY +7.51pct vs payments median +1.67pct = +5.84pp = the FIRST clean idiosyncratic PAY divergence; KLIC -8.94pct vs semicap median -8.26pct = -0.68pp (sector, and it NARROWS the 07-28 -2.3pp question); TPC -6.50pct vs E&C median -4.68pct = -1.82pp. PAY filings dispositioned: 2nd Form 144 in two days (director entity, 40k sh = 0.06pct of o/s) + BlackRock 13G 6.9pct passive \u2014 neither kill-relevant. ZVRA CHMP 8-K STILL not filed; 07-30 is the last day of the window. Reconcile 6/6 exact, zero orders account-wide since 07-20. All six CIKs re-resolved from EDGAR company_tickers (all matched pins). Stage 5 evaluate_exit run verbatim on all six = NO EXIT. A/B due_for_grade=0 (242 rows in the 07-10 round, 0 graded, earliest horizon 15mo); calibration neutral. Breaker -1.41pct vs 40pct."
  }
 ]
