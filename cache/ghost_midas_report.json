@@ -152,10 +152,5 @@
    "mean_off": -0.01169947411866192,
    "lift": -0.03155635002677839
   }
- },
- "_race_status": {
-  "graded_weekly_head_to_heads": 1,
-  "target": 20,
-  "note": "A/B race is STALLED. Only the 2026-07-06 batch carries live_pick/legacy_pick flags (1 head-to-head: live QMCO -2.86% vs legacy ZBIO +0.88% -> legacy +3.74pp). The 2026-06-30 batch predates the flags. cache/midas_scan.json is stale at scanned_at 2026-07-03 \u2014 no weekend /midas-scan has produced fresh finalists in ~3.5 weeks (4 missed weekends: 07-04/05, 07-11/12, 07-18/19, 07-25/26), so no new weeks can accrue. At this rate the 20-week checkpoint is unreachable."
  }
 }
