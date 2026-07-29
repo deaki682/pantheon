@@ -3,14 +3,5 @@
  "mean_return": null,
  "hit_rate": null,
  "momentum_terciles": {},
- "signal_lift": {},
- "_status": {
-  "n_open": 180,
-  "n_graded": 0,
-  "first_grades_due": "2026-09-28 (90-day horizons from the 2026-06-30/07-01/07-02 opens)",
-  "opened_this_run": 0,
-  "open_note": "No new opens: the universe is static and skip_open=True; every name from delphi.signals.UNIVERSE already carries an ungraded entry. Delphi is retired so there is no live /delphi run supplying 126-day price history \u2014 parentless daily marking only until the September grades land.",
-  "data_flag_SQ": "SQ is unpriceable at the broker (Block renamed SQ -> XYZ; XYZ is a SEPARATE ledger entry). Its 90-day grade lands ~2026-09-28 and grade_entries would score it -1.0 as a delisting, which would be WRONG \u2014 this was a ticker rename, not a wipeout. A session before that date must either map SQ's exit price to XYZ or drop the duplicate entry.",
-  "data_flag_SPY_benchmark": "The SPY benchmark in ghost_delphi_curve.json is INCONSISTENT across sessions \u2014 each run appears to have anchored to a different baseline. Implied spy0 by point: 07-20 -> 743.29, 07-22 -> 747.21, 07-24 -> 738.18. This run anchored to the series' first SPY_price point (2026-07-01, spy0=747.21) giving SPY -0.91% since inception vs the paper book +0.79%. Until the series is recomputed on ONE baseline, the curve's book-vs-SPY comparison is not trustworthy. Same anchoring convention IS consistent in ghost_oracle (spy0=737.58) and ghost_midas (spy0=744.80) \u2014 only ghost_delphi is affected."
- }
+ "signal_lift": {}
 }
