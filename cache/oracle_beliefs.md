@@ -30,6 +30,54 @@ checks concentrate at earnings. A drawdown is never an exit.
 | QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | ~Aug print |
 | LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | ~Jul/Aug print |
 
+Mark 2026-07-29 ~10:15 ET intraday (Zeus hourly tend, quotes 14:13Z): equity
+**$4,432.14** (-1.51% vs basis; SPY 735.48 vs spy_entry 751.31, -2.11%; excess
+**+0.60pp**, up from +0.53pp at the 07-28 close on a -0.73% SPY tape; day P&L
+-$28.22). Cash $449.94. Vs entry: **PAY +20.06%** (34.66, +1.52%), **QTWO
++14.64%** (60.76, +2.57%), TPC +5.29% (79.98, -2.44%), LXU +5.06% (11.515,
++0.74%), **KLIC -23.16%** (84.57, -6.99%), ZVRA -31.73% (9.63, -1.03%).
+Stage 5 `evaluate_exit` run verbatim on all six = NO EXIT; held. Reconcile clean
+6/6 exact; zero orders account-wide since 07-20; breakers ok. A/B
+due_for_grade=0; calibration still neutral (0 graded).
+
+**CIK HYGIENE — pin these, never hand-type.** This session re-resolved all six
+CIKs from EDGAR `company_tickers` instead of memory: TPC 77543, KLIC 56978,
+PAY 1841156, QTWO 1410384, **ZVRA 1434647**, LXU 60714. A hand-typed CIK sweeps
+the *wrong company* silently and returns a clean-looking "zero new filings"
+(1053691 is CervoMed, not Zevra). Always resolve from the map.
+
+**EDGAR (>= 07-28): exactly ONE new filing across all six** — PAY **Form 144**
+(proposed insider sale, acc 0001950047-26-007360, 07-28). Not kill-relevant
+(PAY's kill is print-based, "YoY revenue growth < 15%"); dispositioned. Context
+only: it lands after PAY's ~+20% run, ahead of the 08-03 print. **ZVRA: the CHMP
+8-K STILL has not landed** — newest ZVRA filing remains the 07-08 Form 144, and
+**07-30 is the last day of the 4-business-day window.**
+
+**KLIC — the divergence turned negative today, and that is new.** KLIC -6.99% vs
+semicap peer median -4.71% (ONTO -7.83, KLAC -6.72, AMAT -4.71, LRCX -3.13,
+ACLS -2.21): it **underperformed its own complex by ~2.3pp**, where on 07-27 and
+07-28 it tracked the sector almost exactly. No filing sits behind it, so no typed
+kill is touched and F3 forbids selling a drawdown — but this is logged as a
+name-level question the ~08-05 print must answer *alongside* the kill test
+(quarterly revenue < $180M). KLIC is the book's worst name at -23.16%, held with
+conviction, not neglect.
+
+**PAY/QTWO — the cleanest idiosyncratic read yet, still not confirmation.** Both
+beat a payments complex that was *mixed*, not melting up: peer median ~+0.29%
+(BILL +1.62, NCNO +1.03, FOUR -0.46, TOST -0.65) vs PAY +1.52% and QTWO +2.57%.
+That is better evidence than 07-27/07-28's complex-wide rally days — but QTWO
+prints TONIGHT. Do not bank the +20%/+15%; the print settles it.
+**CLUSTER WATCH: PAY+QTWO = $1,588.89 = 35.8% of equity** (up from 34.9%) — the
+tightest yet, inside the 40% cap, and both report within five sessions.
+
+**SOURCING — conscious no-op, and now an explicitly reasoned one.** The research
+cadence reads DUE (15 days since the 07-14 stamp). It is still a no-op, logged
+rather than silent: the book holds 6 names = the top of the Stage-4 3-6 band,
+cash is ~10% and is a ceiling against a SHARED pool, and a fresh round would
+produce dossiers that **cannot be funded without selling** — which F3 forbids
+absent a typed kill. Revisit when a kill frees capital or the operator funds
+more. The stamp stays untouched deliberately.
+
 Mark 2026-07-28 CLOSE (after-close Zeus tend, 4pm prints, quotes 19:59–20:00Z):
 equity **$4,460.50** (-0.88% vs basis; SPY 740.76 vs spy_entry 751.31, -1.40%;
 excess **+0.53pp**, off the +0.88pp at the 07-27 close, up from +0.31pp at
