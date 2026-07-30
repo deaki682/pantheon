@@ -3,7 +3,7 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
-## Worldview (2026-07-29 — the first kill tests with teeth came back CLEAN)
+## Worldview (2026-07-30 — the peer check found a THIRD mode, and it cost me a belief)
 
 Oracle hunts the few under-covered names with the biggest REAL upside over a
 6–24mo hold. The edge is the breadth read — reading filings the desk doesn't, in
@@ -12,12 +12,26 @@ LIVE: the Stage-1 read-cascade was built and calibrated (2026-07-07→07-10), ra
 the full 3,154-name field on 2026-07-10, and funded the first real book the same
 day. Sourcing pause lifted 2026-07-14.
 
-**2026-07-29 is the session the book stopped being a paper claim.** For 19 days
-every tend logged "no filing, no kill evaluable." Tonight LXU and QTWO both
-printed and both typed kills were tested against the actual 8-Ks. **Both
-FAILED to trigger, and both theses were confirmed by the filings** — not by the
-tape, not by the reaction. This is the first real evidence that the 07-10 reads
-were reads and not narratives.
+**07-29 was the session the book stopped being a paper claim** — LXU and QTWO
+both printed, both typed kills were tested against the actual 8-Ks, both FAILED
+to trigger, and both theses were confirmed by the filings. That still stands.
+
+**07-30 is the session the peer check earned its keep in a new way — by
+overturning something I had just concluded.** For two sessions I checked KLIC
+against the semicap complex on the way DOWN, found it tracked to within 0.7–2.3pp,
+and explicitly walked back a name-level worry as "noise in a violent sector
+derating." Today the complex re-rated violently UPWARD (+14.7% median) and **KLIC
+captured under half of it (+6.53% vs +14.69% = −8.16pp)**. Full participation in
+the selloff, under half the rebound. That asymmetry is not sector beta — it is
+the market discounting KLIC specifically, and it means **my 07-29 conclusion was
+the weaker hypothesis.** The lesson generalizes: a peer check run only on
+down-days measures whether a name falls with its complex, which is the easy half.
+The information is in the **asymmetry between the two directions**, and you only
+get it by running the check on up-days too.
+
+Nothing was traded on it. The kill is print-based, F3 forbids selling a drawdown,
+and a price move is not information until the filings speak. But the ~08-05 KLIC
+print is now the single most consequential date in the book.
 
 ## The LIVE book — round `upside-2026-07-10-r1` ($4,500 basis, filled 07-10 open)
 
@@ -25,14 +39,106 @@ Funnel: 3,154 field → 251 filing-read → 73 fundable → 6 sized. All six car
 typed kill; every kill is PRINT-BASED, so kill checks concentrate at earnings.
 A drawdown is never an exit.
 
-| Name | infl_type | entry | typed kill | kill status |
-|------|-----------|-------|------------|-------------|
-| TPC (Tutor Perini) | turnaround | 75.96 | 2 consecutive GAAP loss quarters | not evaluable → ~08-05 print |
-| KLIC (Kulicke & Soffa) | earnings_accel | 110.06 | quarterly revenue < $180M | not evaluable → ~08-05 print |
-| PAY (Paymentus) | earnings_accel | 28.87 | YoY revenue growth < 15% | not evaluable → ~08-03 print |
-| ZVRA (Zevra) | product_ramp | 14.11 | 2 consecutive flat/declining product-rev quarters | not evaluable → ~08-11 print |
-| QTWO (Q2 Holdings) | earnings_accel | 53.00 | GAAP net loss relapse or growth < 10% | **TESTED 07-29 → FAILED (held)** |
-| LXU (LSB Industries) | earnings_accel | 10.96 | quarterly net loss on ammonia price collapse | **TESTED 07-29 → FAILED (held)** |
+| Name | infl_type | entry | close 07-30 | vs entry | typed kill | kill status |
+|------|-----------|-------|------|------|------------|-------------|
+| PAY (Paymentus) | earnings_accel | 28.87 | 34.855 | **+20.73%** | YoY revenue growth < 15% | not evaluable → **~08-03 print** |
+| QTWO (Q2 Holdings) | earnings_accel | 53.00 | 59.06 | +11.43% | GAAP net loss relapse or growth < 10% | **TESTED 07-29 → FAILED (held)**; live again ~11-04 |
+| TPC (Tutor Perini) | turnaround | 75.96 | 83.28 | +9.64% | 2 consecutive GAAP loss quarters | not evaluable → ~08-05 print |
+| LXU (LSB Industries) | earnings_accel | 10.96 | 11.06 | +0.91% | quarterly net loss on ammonia price collapse | **TESTED 07-29 → FAILED (held)**; next ~10-28 |
+| KLIC (Kulicke & Soffa) | earnings_accel | 110.06 | 88.27 | **−19.80%** | quarterly revenue < $180M | not evaluable → **~08-05 print** |
+| ZVRA (Zevra) | product_ramp | 14.105 | 9.64 | **−31.66%** | 2 consecutive flat/declining product-rev quarters | not evaluable → ~08-11 print |
+
+Mark 2026-07-30 CLOSE (after-close Zeus tend, official 4pm closes, quotes
+19:59–20:00Z; the second tend today — supersedes the 14:12Z intraday marks):
+equity **$4,446.16** (−1.20% vs basis; SPY 741.73 vs spy_entry 751.31, −1.28%;
+excess **+0.08pp — COLLAPSED from +1.49pp at the 07-29 close**, via +0.23pp
+intraday). Cash $449.94. **The book made $8.08 (+0.18%) on a +1.68% SPY day —
+the largest one-day excess give-back since the 07-10 funding**, and it is almost
+entirely KLIC and TPC under-participating in violent sector rallies. Reconcile
+clean 6/6 exact; zero orders account-wide since 07-20; breaker −1.20% vs 40%.
+A/B due_for_grade=0 (326 rows, 0 graded, earliest horizon 15mo → ~Oct 2027);
+`update_calibration` returns `{}` (neutral, n=0). Stage 5 `evaluate_exit` run
+verbatim on all six = NO EXIT.
+
+### The close peer checks — two readings changed vs the intraday tend
+
+Duty 1b, run on the official closes. Every name that moved >3% got 3–5 peers and
+a median. **Two of the four readings differ from the 10:12 ET tend**, which is
+itself the argument for marking at the close rather than intraday:
+
+- **KLIC +6.53% vs semicap median +14.69%** (LRCX +17.95, AMAT +15.01,
+  ONTO +14.69, ACLS +11.91, KLAC +5.90) = **−8.16pp**. The intraday reading was
+  −5.83pp; **the gap did not close into the bell, it widened by ~2.3pp.** See the
+  worldview above — this is the session's finding.
+- **TPC +8.61% vs E&C median +12.91%** (STRL +17.39, PWR +17.28, MTZ +12.91,
+  GVA −2.27, ACM −2.42) = **−4.30pp**, reversing the intraday "no divergence, the
+  complex was broadly bid." Caveat honestly: the peer set split hard (three at
+  +13–17%, two at −2%), so this median is less stable than usual and this
+  divergence carries materially less weight than KLIC's.
+- **LXU −3.49% vs fertilizer median +0.17%** (MOS +0.69, NTR +0.17, CF −1.24) =
+  −3.66pp — a second consecutive session lagging its complex, but LXU **recovered
+  ~3.4pp into the close** off the −6.89% intraday low.
+- **PAY −5.03% vs payments median −2.84%** (TOST +0.74, NCNO −2.44, ALKT −2.84,
+  FOUR −4.09, BILL −4.37) = −2.19pp. Hands back ~2.2pp of yesterday's clean
+  +5.84pp idiosyncratic gain. Net over two sessions PAY is still well ahead of its
+  complex — the 07-29 signal is **dented, not erased**. The 08-03 print settles it.
+
+### ZVRA — the CHMP 8-K window CLOSED WITHOUT A FILING (deferred item, resolved)
+
+The 07-24 CHMP negative-opinion press release fell on a Friday; the
+4-business-day 8-K window ran 07-27/28/29/30 and **today was the last day.
+Nothing was filed** — EDGAR CIK 1434647 re-checked ~20:15Z, newest filing is
+still the 07-08 Form 144.
+
+**This is not a disclosure failure.** A CHMP opinion on an EU marketing
+application triggers no enumerated 8-K item, and Item 8.01 is voluntary; Zevra
+was entitled to disclose by press release alone. But it has a real consequence
+for the engine: **there will never be a primary FILED document on the CHMP
+event.** The company PR is the primary source of record, and the ~08-11
+re-underwrite must lean on the 10-Q's product-revenue lines rather than waiting
+for an 8-K that is not coming.
+
+### LXU — I verified the intraday claim instead of inheriting it
+
+The 14:12Z tend asserted that today's Item 7.01 deck (acc 0001193125-26-325064)
+"discloses NO new financial fact beyond the 07-29 Item 2.02." I checked rather
+than assumed, because the deck's **El Dorado CCS project** looked like a new
+upside leg: $25–30M of annual earnings once fully operational, Q1'27 start,
+$85/MT 45Q credits, ~$95M remaining capital, 100% owned, no upfront cash.
+**The intraday read was correct** — CCS appears in the 07-29 earnings release
+EX-99.1 ("Low Carbon Ammonia Project Summary"), not first in today's deck.
+
+What the deck *does* add is corroboration the tape is ignoring, on a **TTM** basis
+where the turnaround-quarter noise disappears entirely (slides 8, 11, 12):
+TTM 6/30/26 Adjusted EBITDA **$199.4M vs $122.4M (+63%)**, net sales **$658.1M vs
+$538.9M (+22%)**, net income **+$36.7M vs −$33.1M**, Adj EBITDA margin **30% vs
+23%**, **net debt/TTM Adj EBITDA 1.1x vs 2.7x**, operating cash flow $59M vs $18M,
+FCF $32M vs $8M, cash $218M. The earnings_accel thesis is intact on the record
+while the tape marks it down — the filing wins under doctrine, and the ~10-28 Q3
+print settles it.
+
+**CLUSTER WATCH: PAY+QTWO = $1,572.27 = 35.4% of equity** (down from 36.8% as PAY
+gave back) — inside the 40% cap.
+
+**CIK HYGIENE — all six re-resolved from EDGAR `company_tickers` this session and
+all matched the pins:** TPC 77543, KLIC 56978, PAY 1841156, QTWO 1410384,
+ZVRA 1434647, LXU 60714.
+
+**SOURCING — conscious no-op, same reasoning, logged not silent.** The research
+cadence still reads DUE (last 07-14, 16 days). Still a no-op: the book holds 6
+names = the TOP of the Stage-4 3–6 band; no kill fired, so no capital was freed;
+cash $449.94 is ~10% of equity and is a CEILING against a shared pool. A fresh
+round would produce dossiers that **cannot be funded without selling**, which F3
+forbids absent a typed kill. The research stamp stays untouched deliberately so it
+remains visibly due to the operator. Revisit when a kill frees capital or the
+operator funds more.
+
+### Earlier marks (history)
+
+Mark 2026-07-30 ~10:12 ET intraday (Zeus hourly tend, quotes 14:10–14:11Z):
+equity $4,428.19 (−1.60% vs basis; SPY 737.585, excess +0.23pp). Superseded by
+the close mark above. Reconcile clean at both checks; the only new filing all day
+was the LXU Item 7.01 deck.
 
 Mark 2026-07-29 CLOSE (after-close Zeus tend, official 4pm closes, quotes
 19:59–20:00Z): equity **$4,436.63** (−1.41% vs basis; SPY 729.54 vs spy_entry
@@ -45,7 +151,7 @@ orders account-wide since 07-20; breaker −1.41% vs 40%. A/B due_for_grade=0
 (242 rows in the 07-10 round, 0 graded, earliest horizon 15mo → ~Oct 2027);
 calibration still neutral.
 
-### LXU Q2'26 — the kill landed on clause (a) and DIED on clause (b)
+#### [07-29] LXU Q2'26 — the kill landed on clause (a) and DIED on clause (b)
 
 **8-K acc 0001193125-26-323751, Item 2.02 + EX-99.1, filed 07-29.** This was the
 session's hard call, so the reasoning is written out in full.
@@ -76,7 +182,7 @@ verbatim → `fundamental_deteriorated=False` (growth and margins moved the righ
 way in the filing). A one-line reading of "net loss → fire" would have sold the
 strongest-improving name in the book on a planned-maintenance quarter.
 
-### QTWO Q2'26 — both clauses fail, and it's the best print in the book
+#### [07-29] QTWO Q2'26 — both clauses fail, and it's the best print in the book
 
 **8-K acc 0001410384-26-000051 (Items 2.02/8.01/9.01) + 10-Q acc
 0001410384-26-000053, filed 07-29.** Kill = *"GAAP net loss relapse or growth
@@ -100,7 +206,7 @@ triggers today because the kill tests actuals, but **the ~2026-11-04 Q3 print is
 now a live kill date, not a formality.** Guidance is not a kill; it is a warning
 that this kill can land on arithmetic alone.
 
-### Peer checks (standing duty 1b — three moves, and one is real)
+#### [07-29] Peer checks — three moves, and one is real
 
 On a −1.53% SPY day:
 - **PAY +7.51% vs payments peer median +1.67%** (BILL +2.29, FOUR +2.13,
@@ -121,7 +227,7 @@ On a −1.53% SPY day:
 - **TPC −6.50% vs E&C peer median −4.68%** (STRL −8.15, MTZ −8.02, PWR −4.68,
   GVA −2.82, ACM −1.16) = −1.82pp. Mild, no filing behind it. Logged, not acted on.
 
-### Other filings dispositioned
+#### [07-29] Other filings dispositioned
 
 - **PAY Form 144 (acc 0001950047-26-007401, 07-29)** — TF Investment Holdings
   LLC, a **director**-related holder, proposes to sell **40,000 sh / $1.37M**
@@ -156,7 +262,7 @@ is shared). A fresh round would produce dossiers that **cannot be funded without
 selling**, which F3 forbids absent a typed kill. Revisit when a kill frees
 capital or the operator funds more. The research stamp stays untouched deliberately.
 
-### Earlier marks (history)
+#### Marks before 2026-07-29
 
 Mark 2026-07-28 CLOSE (after-close Zeus tend, 4pm prints, quotes 19:59–20:00Z):
 equity **$4,460.50** (-0.88% vs basis; SPY 740.76 vs spy_entry 751.31, -1.40%;
@@ -340,13 +446,27 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
 - **The six, held to their typed kills.** Two are now tested and standing.
 - **LXU (kill tested 07-29, FAILED → held).** The earnings_accel thesis is
   confirmed by the filing, not the tape: ammonia +89% YoY, gas −15%, revenue
-  +11.1%, H1 adj EBITDA +56%. The open question is now **H2 delivery**: management
-  promised "stronger results in the second half" on higher production rates with
-  El Dorado done and Pryor finishing in Q3. The ~2026-10-28 Q3 print is the test —
-  and note Q3 still carries residual Pryor turnaround cost, so read Q3 on adjusted
-  EBITDA and production rates, not on headline EPS. **Resolved 07-28's puzzle:** the
-  3.3pp lag vs CF/NTR/MOS into the print was the market pricing the turnaround
-  miss, not a name problem.
+  +11.1%, H1 adj EBITDA +56%. The 07-30 deck adds the **TTM** view, which is the
+  cleanest form of the thesis because it washes out turnaround timing entirely:
+  TTM adj EBITDA $199.4M vs $122.4M (+63%), net sales +22%, net income +$36.7M vs
+  −$33.1M, net debt/TTM adj EBITDA 1.1x vs 2.7x. The open question is **H2
+  delivery**: management promised "stronger results in the second half" with El
+  Dorado done and Pryor finishing in Q3. The ~2026-10-28 Q3 print is the test —
+  and Q3 still carries residual Pryor cost, so read it on adjusted EBITDA and
+  production rates, not headline EPS. **Resolved 07-28's puzzle:** the 3.3pp lag
+  vs CF/NTR/MOS into the print was the market pricing the turnaround miss.
+  **Still open:** LXU lagged its complex again on 07-30 (−3.66pp), a second
+  session of the tape disagreeing with the filing. Doctrine says the filing wins;
+  two sessions is a pattern worth naming, not yet worth acting on.
+- **A dated upside leg nobody is paying for yet: El Dorado CCS** (disclosed in
+  the 07-29 earnings EX-99.1, restated in the 07-30 deck). ~$25–30M of annual
+  earnings once fully operational, ops beginning **Q1'27 — inside the hold
+  window**, $85/MT 45Q credits, ~$95M remaining capital, 100% owned, no upfront
+  cash. Against TTM adj EBITDA of $199.4M that is a ~13–15% increment. Whether the
+  07-10 underwrite priced this is unknown (the dossier state gap below), so treat
+  it as a candidate addition to `upside_x` at the next re-underwrite, not as an
+  established part of the thesis. Milestone to watch: **Class VI permit, expected
+  later in 2026**.
 - **QTWO (kill tested 07-29, FAILED → held) — and a dated kill risk.** Best print
   in the book (GAAP income $29.9M, +13% growth, debt-free, guide raised, +$350M
   buyback). **But Q3 guidance of 8–10% growth brushes the "<10% growth" kill
@@ -355,21 +475,34 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
   case the kill was well-written and should fire), or guidance is conservative as
   it has been (Q2 came in at 13% against a similar setup). **Do not pre-decide —
   test it on the November filing.** If it lands, fire it: a kill is a promise.
-- **PAY — the first clean idiosyncratic signal, unconfirmed.** +27.14% vs entry
-  and +5.84pp vs its complex on a red tape. The 08-03 print tests the kill (YoY
-  revenue growth < 15%). Two director-entity Form 144s in two days ahead of it are
-  a pattern to note, not to trade on.
-- **KLIC — held with conviction at −24.77%.** Today's −0.68pp vs the semicap
-  median walks back the 07-28 name-level worry; the drawdown is a sector derating
-  on AI-capex fear. The ~08-05 print tests the kill (quarterly revenue < $180M).
-- **TPC — the ~08-05 print tests 2 consecutive GAAP loss quarters.** −1.82pp vs
-  E&C peers today, no filing behind it.
+- **PAY — the first clean idiosyncratic signal, dented but not erased.** +20.73%
+  vs entry. It put on +5.84pp vs its complex on 07-29 and handed back −2.19pp on
+  07-30; net over two sessions it is still well ahead of the payments group. The
+  **08-03 print (2 business days out)** tests the kill (YoY revenue growth < 15%).
+  Two director-entity Form 144s in two days ahead of it are a pattern to note, not
+  to trade on.
+- **KLIC — held with conviction at −19.80%, and the read on it just REVERSED.**
+  On 07-29 I concluded the drawdown was a pure sector derating and walked back a
+  name-level worry. On 07-30 the semicap complex ripped +14.69% and KLIC captured
+  +6.53% — **−8.16pp, and the gap widened ~2.3pp from the intraday reading.**
+  Full participation down, under half up. My 07-29 conclusion is now the weaker
+  hypothesis, and I am carrying that explicitly rather than quietly. Still held —
+  the kill is print-based and F3 forbids drawdown exits — but **the ~08-05 print is
+  the most consequential date in the book.** Test revenue < $180M verbatim, and
+  read the result against this participation asymmetry: if the print is merely
+  fine, the asymmetry says the market knows something the 07-10 read did not.
+- **TPC — the ~08-05 print tests 2 consecutive GAAP loss quarters.** +9.64% vs
+  entry. −4.30pp vs E&C peers at the 07-30 close, but on a peer set that split
+  hard (three +13–17%, two −2%), so weight it lightly. No filing behind the move.
 - **ZVRA post-CHMP (opened 07-24).** The US-ramp thesis is intact until the ~08-11
-  print. At that print: (a) test the kill verbatim on product revenue, (b)
+  print. **The CHMP 8-K window CLOSED 07-30 WITHOUT A FILING** — resolved, and
+  legitimate (no enumerated 8-K item is triggered; Item 8.01 is voluntary). The
+  consequence: **no primary FILED document on the CHMP event will ever exist**, so
+  the re-underwrite runs off the 10-Q product-revenue lines, not off a pending 8-K.
+  At the 08-11 print: (a) test the kill verbatim on product revenue, (b)
   **re-price upside_x WITHOUT near-term EU optionality** (the 07-10 underwrite
   included it), (c) if remaining upside no longer clears ≥1.5x, journal that as a
-  thesis-level re-underwrite — explicitly NOT a drawdown exit. **07-30 is the last
-  day of the CHMP 8-K window**; log whichever way it resolves.
+  thesis-level re-underwrite — explicitly NOT a drawdown exit.
 - The interim convex trio (SEER/NNDM/FULC, liquidated 07-10 by operator direction)
   keeps its A/B rows open for grading at horizon — do NOT drop them (an ungraded
   Arm B is survivorship bias).
@@ -379,12 +512,17 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
 1. **Tend daily (cheap):** reconcile fills, mark at official closes, EDGAR-check
    all six held names (CIKs re-resolved from `company_tickers`, never hand-typed);
    evaluate typed kills only on real filings.
-1b. **Peer-check every move > ~3% BEFORE interpreting it.** It has now caught
-   seven moves in three sessions and been *right in both directions*: it stopped
-   me celebrating PAY's 07-27/07-28 sector rallies, it stopped me selling KLIC
-   into a sector derating twice, and tonight it isolated the one move that IS
-   real (PAY +5.84pp vs its complex on a red tape). 3–5 peers, one quote call,
-   take the median.
+1b. **Peer-check every move > ~3% BEFORE interpreting it — ON THE CLOSE, and in
+   BOTH tape directions.** It has now caught eleven moves in four sessions and been
+   right in every direction that matters: it stopped me celebrating PAY's
+   07-27/07-28 sector rallies, it stopped me selling KLIC into a sector derating
+   twice, it isolated the one real move (PAY +5.84pp on 07-29), and on 07-30 it
+   **overturned my own 07-29 conclusion** by catching KLIC's participation
+   asymmetry on an up-day. 3–5 peers, one quote call, take the median.
+   **Use official closes** — two of four readings on 07-30 differed materially
+   between the 10:12 ET tend and the bell (KLIC −5.83pp → −8.16pp; TPC "none" →
+   −4.30pp). **And check the peer set's dispersion:** TPC's E&C median came off a
+   set split three-up-13-to-17 / two-down-2, which makes that median weak evidence.
 2. **At each held name's print: test the kill VERBATIM on the FILING, never on the
    after-hours reaction.** Tonight proved why. LXU's −$0.55 EPS "miss" and its
    flat, wide-spread after-hours quote (bid 9.88 / ask 13.02) carried almost no
@@ -453,6 +591,20 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    beat. The discipline is symmetric and cheap — 3–5 peers, one quote call, take
    the median. Only a divergence from the complex (LXU lagging fertilizer by
    3.3pp on 07-28) is a name-level fact worth a line in the journal.
+
+8. **THE SIGNAL IS THE ASYMMETRY, NOT THE SINGLE-DAY GAP (learned 07-30, and it
+   cost me a conclusion I had just written).** A peer check on a down-day only
+   asks "does it fall with its complex?" — the easy half, and a name can pass it
+   for four straight sessions while still being discounted. KLIC tracked the
+   semicap selloff to within 0.7–2.3pp on 07-28/07-29, so I logged the drawdown as
+   sector beta and explicitly walked back a name-level worry. On 07-30 the complex
+   ripped +14.7% and KLIC took +6.5% — **full participation down, under half up.**
+   That is the market discounting the name, and no number of down-day checks would
+   have shown it. **Corollary: run the check in both tape directions before
+   concluding "it's just the sector," and treat a reversal in the divergence as
+   stronger evidence than any single day's gap.** Second corollary: the close is
+   the mark that counts — KLIC's lag measured −5.83pp at 10:12 ET and −8.16pp at
+   the bell, and TPC flipped from "no divergence" to −4.30pp over the same hours.
 
 ## Decayed / de-prioritized
 
