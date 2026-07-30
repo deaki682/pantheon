@@ -263,6 +263,16 @@
    "name": "American Shared Hospital Services",
    "cik": "0000744825",
    "note": "Investor-funded secured 10% PIK Note due; principal + capitalized interest. Same tradability facts as standstill row."
+  },
+  {
+   "symbol": "GYGY",
+   "event_type": "debt_maturity",
+   "event_date": "2027-07-31",
+   "filed": "2026-07-30",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/2111846/000121390026083100/ea029978501ex4-2.htm",
+   "name": "Game Your Game, Inc.",
+   "cik": "0002111846",
+   "note": "Grafiti LLC $3M unsecured note maturity (Third Amendment 7/29/26); AUTO-EXTENDS monthly while repayment-compliant, so the date is SOFT. Tradability at deposit (lesson 27): equity NEVER TRADED (pre-listing, has_traded=false, $8 ipo-source reference, no bid/ask), NO option chain \u2014 kink-ineligible; re-look only if it lists AND grows a chain."
   }
  ]
 }
