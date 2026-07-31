@@ -177,7 +177,7 @@
    "offer_price": 3.15,
    "read_effort": "high",
    "read_model": "opus",
-   "resolved": false,
+   "resolved": true,
    "spread": 0.0129,
    "spy_entry": 751.31,
    "symbol": "LPRO"
@@ -2215,6 +2215,38 @@
    "spread": -1.0,
    "spy_entry": 736.88,
    "symbol": "D"
+  },
+  {
+   "symbol": "ATAI",
+   "detect_date": "2026-07-31",
+   "entry_price": 7.19,
+   "offer_price": 6.75,
+   "spy_entry": 739.85,
+   "expected_close": "2026-12-31",
+   "spread": -0.0612,
+   "llm_verdict": "drop",
+   "llm_rationale": "PREM14A 2026-07-30 (ny20078129x1) read: Eli Lilly / Albali Acquisition Corp acquiring AtaiBeckley, merger agreement dated 2026-07-15. Consideration is CASH+CVR: $6.75/sh cash PLUS one CVR worth up to $2.50 on clinical/regulatory milestones (~40% premium to the 30-day VWAP). DEAL QUALITY IS EXCELLENT and break risk is LOW: Lilly is a strategic mega-cap, there is NO financing condition (cash on hand or new borrowings), a $104.3M termination fee, customary no-shop, a simple majority-of-outstanding vote, and the only regulatory gates are HSR plus Australia/Germany antitrust on a clinical-stage neuro/psychedelics asset where Lilly has no marketed overlap; outside date 2027-01-15, auto-extending to 2027-04-15. DROP ANYWAY, on the CVR rule + a spent spread. Hermes's contractual floor is the CASH leg only ($6.75) and the 2026-07-05 CVR autopsy forbids holding a CVR through settlement (a compound forecast with an adversarial payer). ATAI trades $7.19 \u2014 ABOVE the cash leg \u2014 so the cash-leg spread is -6.1%, far below MIN_SPREAD (+1%); book.enter would refuse it. The entire $0.44 premium over cash IS the market's CVR valuation, i.e. the exact right-tail speculation this book is built to avoid. No arb edge left in the tradable leg: drop.",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
+  },
+  {
+   "symbol": "FGMC",
+   "detect_date": "2026-07-31",
+   "entry_price": 4.795,
+   "offer_price": 4.795,
+   "spy_entry": 739.85,
+   "expected_close": "2026-12-31",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "Sweep row was FGMCR (the RIGHTS ticker) of FG Merger II Corp, DEFM14A 2026-05-13. Not a cash takeover: a SPAC de-SPAC business combination in which SPAC holders receive stock in the combined operating company (or redeem at trust), not a per-share cash offer for a target's common. The combination has already CLOSED - the surviving company now trades as BXBL ($4.795). No contractual per-share cash floor ever existed, which is the entire basis of this book. Same class as the HSCS reverse-merger drop. Out of scope: drop. Recorded entry=offer so Arm B books it neutral rather than as a phantom trade.",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
   }
  ],
  "graded": [
@@ -4093,6 +4125,24 @@
    "spread": 0.0,
    "spy_return": 0.0,
    "symbol": "XWEL"
+  },
+  {
+   "symbol": "LPRO",
+   "detect_date": "2026-07-07",
+   "entry_price": 3.11,
+   "offer_price": 3.15,
+   "spread": 0.0129,
+   "llm_verdict": "keep",
+   "break_risk": "med",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 3.15,
+   "exit_date": "2026-07-30",
+   "outcome": "completed",
+   "net_return": 0.012862,
+   "spy_return": -0.012804,
+   "excess": 0.025666
   }
  ]
 }
