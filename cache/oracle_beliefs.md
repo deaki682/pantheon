@@ -3,6 +3,64 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-07-31 — the quiet session before the week that decides the book)
+
+Nothing broke today and nothing was traded, but two things are worth writing down.
+
+**1. The 10-Q re-opened a kill I had already closed — and closing it a second time
+on the formal filing was worth the effort.** LXU's kill was adjudicated on the
+07-29 earnings release and again on the 07-30 deck. The 10-Q landed 07-30, and a
+10-Q is a NEW primary document, not a restatement of the release — so I re-ran the
+test against companyfacts rather than citing my own prior conclusion. It confirms
+Q2 NetIncomeLoss = **−$6,189,000**: clause (a) of the conjunction kill is now
+formally, auditably TRUE. Clause (b) ("on ammonia price collapse") is still
+contradicted by the company's own +89% ammonia table, so the kill does not fire.
+The generalisable lesson: **a conjunction kill whose first clause has gone true is
+a standing obligation to re-verify on every new primary document**, because from
+here the whole position rests on clause (b) continuing to fail. LXU is now the
+name in this book with the least margin between "held" and "killed," and the
+~10-28 Q3 print must be read on adjusted EBITDA and production rates — headline
+EPS will still carry residual Pryor cost and will mislead.
+
+**2. PAY fell 3.90% on nothing, three days before its print.** No 8-K, no 10-Q —
+EDGAR re-checked today. It is still +16.07% vs entry and the book's second-best
+name. Under F3/F5 this is a non-event and I did not act on it. But it is worth
+naming the pattern I keep seeing: the tape moves ahead of these prints, and every
+time I have been tempted to read the move as information, the filings have either
+contradicted it (LXU) or stayed silent (PAY, ZVRA's CHMP window). **The tape is
+not an early read of the print. It is noise until a document says otherwise.**
+
+**The week ahead is the one that matters.** Four of six kills go from
+not-evaluable to evaluable inside eight days: **PAY ~08-03, TPC ~08-05, KLIC
+~08-05, ZVRA ~08-11.** KLIC (−20.08%) and ZVRA (−33.57%) are the two names where
+the drawdown has been loudest and the evidence most absent; both settle on
+filings, not price. This is what the engine was built to do — hold through the
+wobble and let the document decide.
+
+**Standing debt, declared not hidden:** the research cadence has been due since
+07-14 and Stage 1–4 sourcing did NOT run today. The breadth read is a subagent
+fan-out over the hunting ground and this session was not authorised to spawn it.
+So $449.94 (~10% of equity) sits undeployed and the book stays at six names. I am
+recording this as an outstanding obligation rather than papering over it with a
+thin single-pass read — a shallow read that produced a 7th name would violate F2
+(funding on the aim rather than the reading) and would poison the A/B's Arm A.
+**A dedicated `/oracle-research` session is required.**
+
+Mark 2026-07-31 ~10:15 ET (intraday): equity **$4,385.08** (−2.55% vs the $4,500
+basis; SPY 738.13 vs spy_entry 751.31, −1.75%; excess **−0.80pp**, down from
++0.08pp at the 07-30 close). Cash $449.94. Reconcile clean 6/6 exact; zero orders
+account-wide since 07-20. Breaker −2.55% vs 40%. A/B `due_for_grade=0`, `n_graded=0`,
+`lift_trustworthy=false` (earliest horizon ~Oct 2027); `update_calibration()` → `{}`.
+
+| Name | infl_type | entry | px 07-31 | vs entry | day | typed kill | kill status |
+|------|-----------|-------|----------|----------|-----|------------|-------------|
+| PAY  | earnings_accel | 28.87 | 33.51 | **+16.07%** | −3.90% | YoY rev growth < 15% | not evaluable → **~08-03 print** |
+| QTWO | earnings_accel | 53.00 | 59.265 | +11.82% | +0.33% | GAAP net loss relapse or growth < 10% | TESTED 07-29 → FAILED (held); live ~11-04 |
+| TPC  | turnaround | 75.96 | 83.28 | +9.64% | 0.00% | 2 consecutive GAAP loss quarters | not evaluable → ~08-05 print |
+| LXU  | earnings_accel | 10.96 | 10.755 | −1.87% | −2.58% | quarterly net loss **on ammonia collapse** | clause (a) TRUE on the 10-Q, (b) FAILS → held; ~10-28 |
+| KLIC | earnings_accel | 110.06 | 87.955 | **−20.08%** | −0.41% | quarterly revenue < $180M | not evaluable → **~08-05 print** |
+| ZVRA | product_ramp | 14.105 | 9.37 | **−33.57%** | −2.80% | 2 consecutive flat/declining product-rev qtrs | not evaluable → ~08-11 print |
+
 ## Worldview (2026-07-30 — the peer check found a THIRD mode, and it cost me a belief)
 
 Oracle hunts the few under-covered names with the biggest REAL upside over a
