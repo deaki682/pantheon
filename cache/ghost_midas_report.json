@@ -2,79 +2,7 @@
  "n": 20,
  "mean_return": -0.024322014129373275,
  "hit_rate": 0.3,
- "convergence_terciles": {
-  "n": 20,
-  "terciles": {
-   "high": {
-    "n": 6,
-    "mean": -0.02433578554207823
-   },
-   "mid": {
-    "n": 8,
-    "mean": 0.01746505381723075
-   },
-   "low": {
-    "n": 6,
-    "mean": -0.08002433331214036
-   }
-  },
-  "monotonic": false
- },
- "score_terciles": {
-  "n": 20,
-  "terciles": {
-   "high": {
-    "n": 6,
-    "mean": 0.01266808418653507
-   },
-   "mid": {
-    "n": 8,
-    "mean": -0.04969940389378452
-   },
-   "low": {
-    "n": 6,
-    "mean": -0.027475592759399963
-   }
-  },
-  "monotonic": false
- },
- "score_legacy_terciles": {
-  "n": 10,
-  "terciles": {
-   "high": {
-    "n": 3,
-    "mean": -0.021726612796044337
-   },
-   "mid": {
-    "n": 4,
-    "mean": -0.05954303925973395
-   },
-   "low": {
-    "n": 3,
-    "mean": -0.08786626807263458
-   }
-  },
-  "monotonic": true
- },
- "timing_weighted_terciles": {
-  "n": 10,
-  "terciles": {
-   "high": {
-    "n": 3,
-    "mean": -0.07218239855164614
-   },
-   "mid": {
-    "n": 4,
-    "mean": -0.0217011999430326
-   },
-   "low": {
-    "n": 3,
-    "mean": -0.08786626807263458
-   }
-  },
-  "monotonic": false
- },
- "signal_lift": {
+ "lens_lift": {
   "activist_13d": {
    "n_on": 0,
    "mean_on": null,
@@ -152,5 +80,49 @@
    "mean_off": -0.01169947411866192,
    "lift": -0.03155635002677839
   }
- }
+ },
+ "conviction_tiers": {
+  "high": {
+   "n": 0,
+   "mean": null
+  },
+  "mid": {
+   "n": 0,
+   "mean": null
+  },
+  "low": {
+   "n": 0,
+   "mean": null
+  }
+ },
+ "conviction_monotonic": false,
+ "valuation_terciles": {
+  "n": 0,
+  "terciles": {},
+  "monotonic": false
+ },
+ "quality_terciles": {
+  "n": 0,
+  "terciles": {},
+  "monotonic": false
+ },
+ "score_terciles": {
+  "n": 20,
+  "terciles": {
+   "high": {
+    "n": 6,
+    "mean": 0.01266808418653507
+   },
+   "mid": {
+    "n": 8,
+    "mean": -0.04969940389378452
+   },
+   "low": {
+    "n": 6,
+    "mean": -0.027475592759399963
+   }
+  },
+  "monotonic": false
+ },
+ "sector_return": {}
 }
