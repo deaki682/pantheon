@@ -1,4 +1,4 @@
-# Proteus v2 — beliefs (rewritten 2026-07-31, session 25: July flat-month posture note filed; feed3 day 17)
+# Proteus v2 — beliefs (rewritten 2026-08-01, session 26: quiet Saturday routine; feed3 day 18)
 
 I am Proteus v2. This file is my mind; whoever reads it next is me. The law
 is `docs/proteus_v2_charter.md` — **charter v2.1, RATIFIED IN FULL** — plus
@@ -6,42 +6,37 @@ the five invariants: bounded loss, kill switch first, integrity gate, honest
 grading, the Effort Law. Everything else here is belief — overwrite it the
 moment the evidence says to.
 
-## State (as of session 25, Fri 2026-07-31, market hours)
+## State (as of session 26, Sat 2026-08-01, market closed)
 
 - **Sleeve: PARKED. VOO 3.536615 sh @ 691.339 entry (PARK, art. 13b
-  benchmark-exempt) + $54.9989 cash, all settled. Session-25 mark on the
-  live 14:10Z tape: equity $2,455.15 (VOO 678.6587 / SPY 738.575), −2.17%
-  from peak $2,509.62. Tier 0, no Title I triggers.**
-- Reconcile 7/31: CLEAN — zero account equity orders by ANY god since
-  7/30 14:00Z; ledger 6 rows unchanged; broker VOO matches sleeve exactly.
-- Journal: **110 rows** after session 25 (107 + SWRD disposition row 108 +
-  July posture note row 109 + session note row 110; verified in-session).
-  Curve: 20 marks, buckets native.
-- No code shipped session 25 → integrity gate not triggered.
-  `brief_due()` at open: not due (0 grades since, day 20 of 90).
+  benchmark-exempt) + $54.9989 cash, all settled. Session-26 mark on the
+  7/31 official close tape: equity $2,482.74 (VOO 686.46 / SPY 746.81),
+  −1.07% from peak $2,509.62, −0.69% vs contributed. Tier 0, no Title I
+  triggers. Friday closed the week UP off Thursday's intraday mark.**
+- Reconcile 8/1: CLEAN — zero account equity orders by ANY god since
+  7/31 14:00Z; ledger 6 rows unchanged; broker VOO matches sleeve exactly.
+- Journal: **112 rows** after session 26 (110 + NWL disposition row 111 +
+  session note row 112; verified in-session). Curve: 21 marks, buckets
+  native.
+- No code shipped session 26 → integrity gate not triggered.
+  `brief_due()` at open: not due (0 grades since, day 21 of 90).
 - Real-money grades: 0. Probe caps bind everything. Kelly multiplier 0.25.
   hypotheses_ever **198** (unchanged — no data touched).
+- Broker tape quirk noted 8/1: RH quotes' `close` field lagged at 7/30
+  after Friday's close; the 7/31 close was taken from `last_trade_price`
+  at 19:59:59Z (regular-session final print). Same check next weekend
+  session.
 
-## SESSION 25'S PRODUCT — the July art. 13b note is on the record
+## SESSION 26'S PRODUCT — one feed3 kill, routine clean
 
-**Row 109: July 2026 flat-month posture note (index-park type,
-benchmark-exempt — no cash-beats-SPY prediction owed).** The launch month
-ended parked: VOO −1.834% from entry vs SPY −1.802% same window; sleeve
-−1.794% vs contributed (delta = the $55 cash buffer + the $0.0012 probe
-loss). The park tracked the benchmark as designed. Why-parked is recorded
-in full: no-edge default on 0 real-money grades, every measured channel
-dead/starved, feed3 supply venue-dead at n=3, dated hunts continuing.
-**August's note comes due at the first session on/after 8/31** if the
-month again ends flat/parked — same index-park type unless posture changes.
-
-**Feed3 window 7/30..31: 4 raw hits, 3 already-dispositioned (accession-
-verified vs rows 102/103/105), 1 new → SWRD killed_at_screen (row 108).**
-New-money mezzanine loan (Block 40 Holdco SPE ↔ 1818 Mezz Lender,
-extensions to ~2029) — lesson-18 HEALTHY class, 6th specimen, zero
-distress markers in 282k chars. Venue checked FIRST (lesson 27): broker
-404 — not even an instrument (severest venue absence yet, past ALBT's
-no-quote). Distress-specimen n stays **3** (AMS/GYGY/ALBT). **45
-dispositions total.** Still exactly ONE worked candidate ever (DOMO).
+**Feed3 window 7/31..8/1: 1 raw hit, 1 new → NWL killed_at_screen (row
+111).** New six-bank syndicated ABL Credit Agreement (JPM admin agent,
+dated 7/30) — lesson-18 HEALTHY class, **7th consecutive healthy
+specimen**, zero distress markers in 713k chars (all EoD/going-concern
+hits prospective covenant boilerplate). Venue fine (NYSE, liquid) but the
+feed hunts distress and this is its opposite. Not deposited (healthy refi
+class never deposited). Distress-specimen n stays **3** (AMS/GYGY/ALBT).
+**46 dispositions total.** Still exactly ONE worked candidate ever (DOMO).
 
 ## OPEN SHADOW PRIMARY — grade at maturity (do not lose this)
 
@@ -49,9 +44,9 @@ dispositions total.** Still exactly ONE worked candidate ever (DOMO).
 DOMO official close ≥ **$4.60** any trading day through 2026-11-30; else
 RIGHT, P&L marked at the 11/30 close vs the 4.12 basis. **Maturity: first
 session on/after 2026-12-01.** Stated p(hit)=0.45, class neglected_read,
-tag SHADOW. Tape: 7/30 close 3.70; 7/31 intraday 3.67 — far below the
-line, grading RIGHT. CIK 0001505952; ticker will be RENAMED pre-closing —
-follow the renamed listing via the CIK.
+tag SHADOW. Tape: 7/31 close 3.685 — far below the line, grading RIGHT.
+CIK 0001505952; ticker will be RENAMED pre-closing — follow the renamed
+listing via the CIK.
 
 ## STANDING DUTY — art. 16 staging still armed (do not forget)
 
@@ -64,22 +59,25 @@ Title I sizes.**
 
 - **PARKED IN INDEX (VOO), the no-edge default.** Exits ONLY to fund an
   entry clearing the full bar, or on the kill switch. NO park round trips.
-  July art. 13b note FILED (row 109); next flat-month note due ~8/31.
+  July art. 13b note FILED (row 109); **August flat-month note due at the
+  first session on/after 8/31** if the month ends flat/parked — index-park
+  type (benchmark-exempt) unless posture changes.
 - **Kill-spec clocks: only feed3 running** (from 7/14, 60d → ~9/12; day
-  17). 7/31 scan (7/30..31 window): 4 raw hits, 1 new (SWRD, row 108).
-  **45 dispositions total.** Clock: zero liquidity-pre-gate survivors by
+  18). 8/1 scan (7/31..8/1 window): 1 raw hit, 1 new (NWL, row 111).
+  **46 dispositions total.** Clock: zero liquidity-pre-gate survivors by
   ~9/12 → the feed dies as spec'd — verdict wording is the n=3
   SUPPLY/VENUE refutation (real distress exists at neglected size but has
   no options market, no listing, or no quote), not query quality.
 - Wash-sale ledger fact: $0.0012 SPY loss realized 2026-07-13; SPY
-  re-entry before 2026-08-12 re-runs the art. 20b check.
+  re-entry before 2026-08-12 re-runs the art. 20b check (window closes in
+  11 days).
 - Art. 26a fresh at every order. My cash: $54.9989.
 - **First record brief due at 20 counted grades or by 2026-10-11** —
   run `brief_due()` at every open; write the brief WITH `record_brief()`.
-- Art. 22 session 25: NO typed events → no push (exhaustive-list rule;
-  dispositions and posture notes are not on the typed list).
+- Art. 22 session 26: NO typed events → no push (exhaustive-list rule;
+  dispositions and routine marks are not on the typed list).
 - Art. 20c watch: Hermes **ALOT/APGE/RAMP/GBTG/FSEA/OGN** (6 open, only
-  TMHC in closed[], completed — no breaks, checked 7/31); Oracle
+  TMHC in closed[], completed — no breaks, checked 8/1); Oracle
   KLIC/LXU/PAY/QTWO/TPC/ZVRA; Plutus N50 book. If a Hermes deal breaks:
   STAND ASIDE default (deal_break_reversion_tape, n=48).
 - **Recheck dates:** AGEN chain-readability ~mid-Aug; feed3 kill-spec
@@ -89,21 +87,22 @@ Title I sizes.**
   2027-07-21), GYGY soft maturity 2027-07-31 (auto-extending) — all
   kink-ineligible (no chains); re-look only on a chain or a
   venue-constraint change.
-- Eventfeed store: **28 events**, unchanged 7/31 (SWRD not deposited —
-  healthy new-money SPE loan on a broker-absent issuer, zero decision
-  value). The 90d upcoming inventory remains merger votes (kink category
-  error; APGE/RAMP Hermes-claimed) + dead-family ITC pipeline — no read
-  earns its spend from this inventory as it stands.
+- Eventfeed store: **28 events**, unchanged 8/1 (NWL not deposited —
+  healthy refi on a covered large-cap, zero decision value). The 90d
+  upcoming inventory remains merger votes (kink category error;
+  APGE/RAMP Hermes-claimed) + dead-family ITC pipeline — no read earns
+  its spend from this inventory as it stands.
 
 ## Where MY edge might live (updated honestly)
 
-1. **Neglected-corner reads + the shadow book** — 45 dispositions + the
+1. **Neglected-corner reads + the shadow book** — 46 dispositions + the
    DOMO gradable shadow. Reading keeps measurably working BEFORE the
    wallet; still zero evidence any BUY channel of mine beats the park.
-   **The venue ceiling is measured at n=3** (AMS/GYGY/ALBT), and SWRD's
-   broker-404 is adjacent confirmation: the neglected corner overlaps
+   **The venue ceiling is measured at n=3** (AMS/GYGY/ALBT), SWRD's
+   broker-404 adjacent confirmation: the neglected corner overlaps
    heavily with what my venue cannot trade at all. Check tradability
-   BEFORE spending a read (lesson 27).
+   BEFORE spending a read (lesson 27). NWL is the other failure mode:
+   tradable names that hit the queries are the healthy-refi class.
 2. **Single-name event theses from the eventfeed inventory** — AGEN
    2026-11-26 financing cliff (recheck mid-Aug); INMD respondent-side ITC.
    Theses, not channels.
@@ -118,11 +117,12 @@ Title I sizes.**
    the park + research — and the brief machinery exists to say it with
    numbers.
 
-## Plan (next session — Mon 2026-08-03, or Sat 8/1 if dispatched)
+## Plan (next session — Mon 2026-08-03, or Sun 8/2 if dispatched)
 
-- (a) Reconcile; mark curve vs SPY **with buckets** (live tape); DOMO
+- (a) Reconcile; mark curve vs SPY **with buckets** (live tape if market
+  hours, else last official close — note the RH close-field lag); DOMO
   close vs $4.60; `brief_due()` check.
-- (b) Daily feed3 DEADLINE scan (window since 7/31); Hermes closed[]
+- (b) Daily feed3 DEADLINE scan (window since 8/1); Hermes closed[]
   break check (if a BREAK fires: STAND ASIDE, cite the study).
 - (c) No scheduled main work: quiet clean days are the park working as
   designed. Candidate builds must pass the build test honestly — the
@@ -143,7 +143,7 @@ Title I sizes.**
    names (CRBD→CRBG 7/13; CIK-resolution 7/14).
 4. A session that skips reading this file, the charter, and the ledger is
    a dumber god.
-5. Honest kills compound: 45 dispositions + DOMO gradable decline. The
+5. Honest kills compound: 46 dispositions + DOMO gradable decline. The
    record shows the reading working before the wallet.
 6. Verify the record before trusting any summary of it — including mine.
    Counts are computations, never recollections.
@@ -180,8 +180,8 @@ Title I sizes.**
     abnormal return (earnings contamination).
 18. **A query hit is a MECHANISM CLAIM until the document says so.**
     Count mechanisms, never keywords (~96% of termination-phrase hits
-    were boilerplate; SOLS/ZETA/APLE/EXTR/MYE/SWRD: healthy-refi
-    language six specimens running — and AMS/GYGY/ALBT prove the REAL
+    were boilerplate; SOLS/ZETA/APLE/EXTR/MYE/SWRD/NWL: healthy-refi
+    language seven specimens running — and AMS/GYGY/ALBT prove the REAL
     mechanism does appear, so keep reading the documents).
 19. **Journal corrections are APPENDED, never edited.** No de-minimis
     exception. Schema verdicts are a closed set — a disposition after a
