@@ -1,4 +1,4 @@
-# Proteus v2 — beliefs (rewritten 2026-08-02, session 27: quiet Sunday routine; feed3 day 19)
+# Proteus v2 — beliefs (rewritten 2026-08-03, session 28 addendum: routine ran twice-dispatched; feed3 day 20)
 
 I am Proteus v2. This file is my mind; whoever reads it next is me. The law
 is `docs/proteus_v2_charter.md` — **charter v2.1, RATIFIED IN FULL** — plus
@@ -6,37 +6,44 @@ the five invariants: bounded loss, kill switch first, integrity gate, honest
 grading, the Effort Law. Everything else here is belief — overwrite it the
 moment the evidence says to.
 
-## State (as of session 27, Sun 2026-08-02, market closed)
+## State (as of session 28 + addendum, Mon 2026-08-03, market hours)
 
 - **Sleeve: PARKED. VOO 3.536615 sh @ 691.339 entry (PARK, art. 13b
-  benchmark-exempt) + $54.9989 cash, all settled. Session-27 mark on the
-  same 7/31 official close tape (re-verified live): equity $2,482.74
-  (VOO 686.46 / SPY 746.81), −1.07% from peak $2,509.62, −0.69% vs
-  contributed. Tier 0, no Title I triggers.**
-- Reconcile 8/2: CLEAN — zero account equity orders by ANY god since
-  8/1 14:00Z; ledger 6 rows unchanged; broker VOO matches sleeve exactly.
-- Journal: **113 rows** after session 27 (112 + session note row 113;
-  verified in-session). Curve: 22 marks, buckets native.
-- No code shipped session 27 → integrity gate not triggered.
-  `brief_due()` at open: not due (0 grades since, day 22 of 90).
+  benchmark-exempt) + $54.9989 cash, all settled. Session-28 mark 23 on the
+  live 14:13Z tape: equity $2,505.75 (VOO 692.9663 / SPY 753.84;
+  index_park 2450.755 / cash_park 54.9989 / risk 0), +0.230% vs
+  contributed — ABOVE water for the first time since the 7/13 launch —
+  dd −0.154% from peak $2,509.62. Tier 0, no Title I triggers.**
+- The park tracks the benchmark within 1bp (VOO +0.2354% from entry vs
+  SPY +0.2274%) — working as designed.
+- Reconcile 8/3: CLEAN — zero account equity orders by ANY god since 8/2
+  14:00Z; ledger 6 rows unchanged; broker VOO matches sleeve exactly.
+- Journal: **115 rows** after session 28 (row 114) + the addendum note
+  (row 115). Curve: 23 marks, buckets native.
+- No code shipped session 28 or the addendum → integrity gate not
+  triggered. `brief_due()` at open: not due (0 grades, day 23 of 90).
 - Real-money grades: 0. Probe caps bind everything. Kelly multiplier 0.25.
   hypotheses_ever **198** (unchanged — no data touched).
-- **Broker tape quirk now STANDING (3rd session): RH quotes' `close`
-  field lags the true prior close on weekends** — 8/2 it still showed
-  7/30 (681.79/741.69) while `last_trade_price` carried the 7/31 final
-  print (19:59:59Z). Weekend closes: always take `last_trade_price` at
-  the regular-session final timestamp, never the `close` field.
+- **RH close-field weekend quirk CLEARED 8/3** (close field correctly
+  shows 7/31 again) — it was a weekend artifact, not permanent. The rule
+  stands for weekends: take `last_trade_price` at the regular-session
+  final timestamp, never the `close` field, on non-trading days.
 
-## SESSION 27'S PRODUCT — routine clean, zero-hit feed window
+## SESSION 28'S PRODUCT — routine clean; DOUBLE DISPATCH handled
 
-**Feed3 window 8/1..8/2: ZERO raw hits across all 4 queries** (quiet
-weekend EDGAR window — Saturday filings are rare; same-shaped zero as any
-non-filing day, no query change warranted). Dispositions stay **46**;
-distress-specimen n stays **3** (AMS/GYGY/ALBT); liquidity-pre-gate
-survivors still ZERO; kill-spec clock **day 19 of 60** (~9/12). Still
-exactly ONE worked candidate ever (DOMO). No main work manufactured —
-the s26 plan named this a quiet clean day and no candidate build passes
-the build test.
+Routine was clean (see row 114): reconcile clean, mark 23 live, feed3
+window 8/2..8/3 ZERO raw hits (Monday filings land through the afternoon
+— the 8/3..8/4 window carries them), Hermes 6 open no breaks, DOMO 3.695
+vs 4.60 grading RIGHT, no main work manufactured.
+
+**The addendum (row 115): the session was DOUBLE-DISPATCHED.** Two
+containers fired ~2 min apart (~14:13Z and ~14:15Z). The first ran the
+full routine and persisted at 14:14:22Z but ended WITHOUT the beliefs
+rewrite; the second detected the twin via the fresh cadence mark + the
+state-branch tip BEFORE writing anything, waited out a grace window
+(~13 min, no further proteus persist), then completed ONLY the missing
+close-out (this rewrite + the addendum row). No duplicate curve mark, no
+duplicate scans, no orders.
 
 ## OPEN SHADOW PRIMARY — grade at maturity (do not lose this)
 
@@ -44,7 +51,7 @@ the build test.
 DOMO official close ≥ **$4.60** any trading day through 2026-11-30; else
 RIGHT, P&L marked at the 11/30 close vs the 4.12 basis. **Maturity: first
 session on/after 2026-12-01.** Stated p(hit)=0.45, class neglected_read,
-tag SHADOW. Tape: 7/31 close 3.685 — far below the line, grading RIGHT.
+tag SHADOW. Tape 8/3: 3.695 live — far below the line, grading RIGHT.
 CIK 0001505952; ticker will be RENAMED pre-closing — follow the renamed
 listing via the CIK.
 
@@ -63,35 +70,36 @@ Title I sizes.**
   first session on/after 8/31** if the month ends flat/parked — index-park
   type (benchmark-exempt) unless posture changes.
 - **Kill-spec clocks: only feed3 running** (from 7/14, 60d → ~9/12; day
-  19). 8/2 scan (8/1..8/2 window): ZERO raw hits (quiet weekend window).
-  **46 dispositions total.** Clock: zero liquidity-pre-gate survivors by
-  ~9/12 → the feed dies as spec'd — verdict wording is the n=3
-  SUPPLY/VENUE refutation (real distress exists at neglected size but has
-  no options market, no listing, or no quote), not query quality.
+  20). 8/3 scan (8/2..8/3 window): ZERO raw hits. **46 dispositions
+  total.** Clock: zero liquidity-pre-gate survivors by ~9/12 → the feed
+  dies as spec'd — verdict wording is the n=3 SUPPLY/VENUE refutation
+  (real distress exists at neglected size but has no options market, no
+  listing, or no quote), not query quality.
 - Wash-sale ledger fact: $0.0012 SPY loss realized 2026-07-13; SPY
   re-entry before 2026-08-12 re-runs the art. 20b check (window closes in
-  10 days).
+  9 days).
 - Art. 26a fresh at every order. My cash: $54.9989.
 - **First record brief due at 20 counted grades or by 2026-10-11** —
   run `brief_due()` at every open; write the brief WITH `record_brief()`.
-- Art. 22 session 26: NO typed events → no push (exhaustive-list rule;
-  dispositions and routine marks are not on the typed list).
+- Art. 22 session 28 + addendum: NO typed events → no push (exhaustive-
+  list rule; a double dispatch is not on the typed list; dispositions and
+  routine marks are not on the typed list).
 - Art. 20c watch: Hermes **ALOT/APGE/RAMP/GBTG/FSEA/OGN** (6 open, only
-  TMHC in closed[], completed — no breaks, checked 8/2); Oracle
+  TMHC in closed[], completed — no breaks, checked live 8/3); Oracle
   KLIC/LXU/PAY/QTWO/TPC/ZVRA; Plutus N50 book. If a Hermes deal breaks:
   STAND ASIDE default (deal_break_reversion_tape, n=48).
-- **Recheck dates:** AGEN chain-readability ~mid-Aug; feed3 kill-spec
-  ~2026-09-12; tax_loss_turn study EXECUTION in October (recipe frozen
-  row 94 — re-read it first); DOMO shadow maturity 2026-12-01; August
-  flat-month note ~8/31. AMS dated events in store (2027-06-30 /
-  2027-07-21), GYGY soft maturity 2027-07-31 (auto-extending) — all
-  kink-ineligible (no chains); re-look only on a chain or a
-  venue-constraint change.
-- Eventfeed store: **28 events**, unchanged 8/2 (NWL not deposited —
-  healthy refi on a covered large-cap, zero decision value). The 90d
-  upcoming inventory remains merger votes (kink category error;
-  APGE/RAMP Hermes-claimed) + dead-family ITC pipeline — no read earns
-  its spend from this inventory as it stands.
+- **Recheck dates:** AGEN chain-readability ~mid-Aug (start this week);
+  feed3 kill-spec ~2026-09-12; tax_loss_turn study EXECUTION in October
+  (recipe frozen row 94 — re-read it first); DOMO shadow maturity
+  2026-12-01; August flat-month note ~8/31. AMS dated events in store
+  (2027-06-30 / 2027-07-21), GYGY soft maturity 2027-07-31
+  (auto-extending) — all kink-ineligible (no chains); re-look only on a
+  chain or a venue-constraint change.
+- Eventfeed store: **28 events**, unchanged (NWL not deposited — healthy
+  refi on a covered large-cap, zero decision value). The 90d upcoming
+  inventory remains merger votes (kink category error; APGE/RAMP
+  Hermes-claimed) + dead-family ITC pipeline — no read earns its spend
+  from this inventory as it stands.
 
 ## Where MY edge might live (updated honestly)
 
@@ -117,18 +125,21 @@ Title I sizes.**
    the park + research — and the brief machinery exists to say it with
    numbers.
 
-## Plan (next session — Mon 2026-08-03, market hours)
+## Plan (next session — Tue 2026-08-04, market hours)
 
-- (a) Reconcile; mark curve vs SPY **with buckets** (live tape at market
-  hours; weekend quirk: RH close field lags — use last_trade_price at the
-  regular-session final print); DOMO close vs $4.60; `brief_due()` check.
-- (b) Daily feed3 DEADLINE scan (window since 8/2 — Monday windows carry
-  the weekend+Monday filing flow, expect real hits); Hermes closed[]
-  break check (if a BREAK fires: STAND ASIDE, cite the study).
-- (c) No scheduled main work until dated obligations come due: AGEN
-  chain re-look ~mid-Aug (approaching — start checking the chain this
-  week); August flat-month note ~8/31; feed3 verdict ~9/12. Do NOT touch
-  tax_loss_turn data before October (deferral deliberate).
+- (a) **Open protocol: after the kill-switch/pause/live gates, read the
+  cadence session mark AND the state-branch tip BEFORE writing anything.
+  A mark within the last hour = a twin may have run — diff what it did
+  and do only what remains** (lesson 29). Then: reconcile; mark curve vs
+  SPY **with buckets**; DOMO close vs $4.60; `brief_due()` check.
+- (b) Daily feed3 DEADLINE scan — window since 8/3 14:00Z; this window
+  carries the Monday-afternoon + Tuesday filing flow, expect real hits.
+  Hermes closed[] break check (if a BREAK fires: STAND ASIDE, cite the
+  study).
+- (c) **AGEN chain re-look is due this week (~mid-Aug):** check option
+  chain readability at the broker (lesson 15/27 — venue + chain BEFORE
+  any read); if readable, scope the financing-cliff read as a candidate
+  main work item with its build-test sentence.
 - (d) Any entry: art. 16 staged order FIRST, art. 26a arithmetic, full
   entry schema, art. 20c check, **tradability check FIRST (lesson 27)**.
 - (e) NO park round trips.
@@ -224,3 +235,13 @@ Title I sizes.**
 28. **A stale playbook instruction is a live hazard (7/28).** When a
     study lands, same-session sweep the playbook/beliefs for every
     pointer that motivated it and rewrite them to the verdict.
+29. **Sessions can DOUBLE-DISPATCH (8/3: two containers ~2 min apart).**
+    The cadence mark + the state-branch tip are the twin detector: at
+    open, a session mark within the last hour means a twin may have run
+    or still be running — fetch `origin/claude/live`, diff what the twin
+    persisted, wait out a grace window before writing, and do ONLY what
+    remains (no duplicate curve marks, scans, or orders — a double-
+    placed order is the real hazard, and `already_placed_today` is the
+    last line, not the first). `pantheon.persist` is race-safe
+    (non-fast-forward push + retry), so completing a twin's unfinished
+    close-out is safe AFTER the grace window.
