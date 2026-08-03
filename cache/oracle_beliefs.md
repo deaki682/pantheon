@@ -700,6 +700,21 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    scores the engine. **The verdict metric goes in the worldview every session,
    in the direction it actually moved.**
 
+11. **AN ESTIMATED EVALUATION DATE IS A GUESS UNTIL A CALENDAR VERIFIES IT
+    (learned 08-03).** From 07-29 onward I carried ZVRA's kill as "first
+    evaluable at the ~08-11 print" — an estimate I inherited from my own
+    earlier note and then repeated in four consecutive sessions without ever
+    testing it. One `get_earnings_results` call showed the report is 08-05,
+    verified, six days earlier; PAY/KLIC/TPC were confirmed the same way, and
+    four of six positions turn out to print inside 48 hours. A kill that is
+    "not evaluable yet" is the most comfortable answer a tending session can
+    give, which is exactly why the date behind it must be sourced, not
+    remembered. **Check the earnings calendar for every held name every
+    session — it is one cheap call and it sets when the thesis is falsifiable.**
+    Corollary: the earnings RELEASE (8-K/EX-99.1) carries the revenue lines a
+    print-based kill is typed to, so it — not the later 10-Q — is the first
+    evaluable document.
+
 ## Decayed / de-prioritized
 
 - 6mo-trailing-momentum as a "still early" net — DECAYED (fixed in the cascade
