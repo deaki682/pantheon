@@ -896,5 +896,17 @@
   "mark": "intraday",
   "excess_pp": 2.25,
   "note": "Zeus hourly tend, Mon 2026-08-03 ~10:20 ET. 0a gate: NOT paused (lifted 07-14), 6 live positions, ORACLE_LIVE=true, kill switch off -> full session; resolved as TEND + intraday marks + a CONSCIOUS sourcing no-op. Reconcile 6/6 EXACT vs broker (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); legacy cohort untouched. NO EXIT on all six \u2014 every typed kill checked against primary documents, none triggered, no new kill-relevant filing (only passive 13G/13G-A on KLIC/ZVRA/PAY). THE SESSION'S FINDING: FOUR of the six positions report THIS WEEK \u2014 PAY tonight 08-03 pm (consensus $0.18), and KLIC (FQ3, $0.98) + TPC ($1.28) + ZVRA ($0.14) all on 08-05 pm, all RH-calendar verified=true. This CORRECTS a standing note: ZVRA's kill was carried as first evaluable at the '~08-11 10-Q' since 07-29; the earnings release lands 08-05, six days earlier, and it carries the product-revenue lines the kill is typed to. Since the 07-24 CHMP window closed without an 8-K (07-30 finding), that 08-05 release carries the ENTIRE upside_x re-underwrite. VERDICT METRIC (beliefs lesson 10): excess vs SPY since funding flipped from -0.64pp at the 07-31 close to +2.25pp today \u2014 book +2.71% vs contributed $4,353.89, SPY +0.46% from 750.935. Driven by PAY +3.64% (+1.84pp vs payments) and TPC/QTWO/ZVRA participating; LXU is the drag, -5.79% vs fertilizer -2.45% = -3.34pp, the third lagging session of four since its print, with NO filing behind it (F5: logged, not acted on). SOURCING NO-OP, deliberate: cash is $449.94 (10.1% of equity), the book is at the spec's 3-6 concentration target, and four of six names print within 48 hours \u2014 running the cascade to add a 7th name into an event week would dilute the view and pre-empt re-underwrites that are about to become possible on real filings. Stage 6: due_for_grade EMPTY (horizons 15-24mo from 07-10, nothing matures before Oct 2027) -> Stage 7 calibration unchanged. NO ORDERS."
+ },
+ {
+  "ts": "2026-08-03T20:15:00Z",
+  "date": "2026-08-03",
+  "equity": 4465.97,
+  "positions_value": 4016.03,
+  "spy": 757.63,
+  "cash": 449.94,
+  "round": "upside-2026-07-10-r1",
+  "mark": "close",
+  "excess_pp": -1.6,
+  "note": "Zeus post-close pass 16:15 ET Mon 2026-08-03. Reconcile CLEAN 6/6 exact vs broker. Book +0.49% vs SPY +1.42%; excess -0.64pp -> -1.60pp, dragged entirely by LXU -9.83% on a nitrogen-complex selloff (CF -5.48/NTR -4.53/UAN -2.84, potash flat) that is document-free ahead of CF's 08-05 print. PAY reported after close: EPS $0.25 vs $0.18 (+38.9%, 7th straight beat), AH 38.00 vs 34.50 close = +10.1% NOT in this mark. No kill fired. A/B due_for_grade=0, n_graded=0, lift_trustworthy=false."
  }
 ]

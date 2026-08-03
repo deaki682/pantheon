@@ -3,80 +3,105 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
-## Worldview (2026-07-31 CLOSE — the verification that upgraded a disposition, and a book that keeps leaking excess)
+## Worldview (2026-08-03 CLOSE — the week the engine was built for begins; four of six kills go live inside 48 hours)
 
-This supersedes the 10:15 ET intraday section for the same day. Nothing traded,
-nothing broke, no kill fired. Three things are worth keeping.
+Supersedes the 10:20 ET intraday section for the same day. Nothing traded, no kill
+fired, reconcile 6/6 exact vs broker. Four things matter tonight.
 
-**1. I re-opened a filing I had already dispositioned, and the second look changed
-the facts (though not the conclusion).** On 07-29 I read two PAY Form 144s and
-logged them as "director entity, 40k sh = 0.06% of o/s — not kill-relevant." Today
-the **Form 4** landed (acc 0001193125-26-326471) and shows what actually executed:
-director Gary Trainor, via TF Investment Holdings LLC, sold **80,000 shares** —
-39,000 @ wavg $33.11 and 1,000 @ $33.50 on 07-28, then 40,000 @ wavg $35.12 on
-07-29 — about **$2.7M, twice what the 144s implied to my earlier read**, leaving
-589,888 shares. Had I stopped at "I already handled that," I would be carrying a
-number that was off by half. The footnote then settles it: the sales were
-"effected pursuant to a Rule 10b5-1 trading plan **established on March 12,
-2026**" — scheduled four and a half months before Monday's print, so this is
-calendar selling, not a pre-print exit. **The conclusion survived; the evidence
-under it doubled.** Generalisable: a Form 144 states intent and a Form 4 states
-execution, and they are not interchangeable — when a 144 has been dispositioned,
-the matching Form 4 is a NEW document that must be read, not a receipt. PAY also
-filed a Form 3 for a new director (Gregory Hyde Williams, 132,681 sh), which
-explains the flurry of insider paper as board turnover rather than a rush.
+**1. PAY printed, and I must not let the tape stand in for the document.** Q2 FY26
+landed after the close: **EPS $0.25 actual vs $0.18 consensus, a +38.9% beat** —
+the seventh consecutive beat and the largest of the trailing eight quarters. The
+tape agrees emphatically: 34.50 regular close, **38.00 after-hours at 20:06Z**
+(bid/ask 37.20/37.50), +10.1% on the print. And yet **my typed kill is on REVENUE
+— "YoY revenue growth < 15%" — and the 8-K/EX-99.1 has not posted to EDGAR** (PAY's
+latest filing is still the 07-31 Form 3). An EPS feed is not the revenue line, and
+a +10% after-hours quote is exactly the snapshot F5 forbids as evidence. So the
+honest state is: **thesis directionally confirmed, kill NOT YET SETTLED.** This is
+the same discipline as lesson 9 in reverse — there, a follow-on filing reopened a
+closed question; here, a satisfying number tempts me to close a question the
+primary document has not yet answered. **Tomorrow's first duty is EX-99.1 and the
+revenue line.** Note also what the mark below does NOT contain: if 38.00 holds into
+tomorrow's close, PAY alone adds ~$83 to the book, worth ~+1.85pp of equity, and
+the excess figure that looks bad tonight inverts.
 
-**2. KLIC's asymmetry neither confirmed nor cleared today — and I am not going to
-pretend one session did either.** Semicap rose a modest +1.38% (median) and KLIC
-took +0.93%: a **−0.45pp** lag. Direction consistent with the 07-30 finding
-(full participation down, under half up), magnitude nothing like the −8.16pp that
-made it the book's cleanest signal. On 07-29 I walked back a name-level worry on
-one day's evidence and had to walk the walk-back back on 07-30. I am not doing the
-inverse today. **The ~08-05 print is what resolves it; a quiet tape resolves
-nothing.** The other four peer checks: QTWO **+3.09pp** idiosyncratic strength (its
-best name-level day since the print), PAY **−1.59pp** for a second straight session
-against it on no company news, LXU **+0.87pp** OUTPERFORMING — its first upside
-divergence since the print, partially undoing the −3.66pp of 07-30 — and ZVRA
-**+1.22pp**, the first positive divergence the book's worst position has produced.
-TPC **−0.98pp**, and inside its peer set **MTZ closed −18.96%** (a real move —
-adjusted_previous_close equals previous_close, so not a split). I did not read
-MTZ's filing; that is out of scope for a tend. But a large E&C peer being cut a
-fifth five days before TPC prints is context I want in front of me on 08-05.
+**2. LXU's −9.83% is a nitrogen-complex event, not an LXU event — and it hands
+clause (b) a resolution date 12 weeks earlier than I had.** On a +1.42% SPY day the
+nitrogen names all broke: **CF −5.48%, NTR −4.53%, UAN −2.84%**, while potash and
+phosphate barely moved (MOS −1.45%, IPI −1.97%, ICL +0.59%). LXU, the smallest and
+most levered pure-play, took roughly double the majors. It is **document-free**: no
+LXU filing since the 07-30 10-Q, and **no CF filing since 2026-05-28**. That makes
+this positioning two days ahead of CF's print, not a disclosed fundamental. My kill
+is the conjunction *(a) quarterly net loss ON (b) ammonia price collapse*; (a) has
+been TRUE since the 10-Q (−$6.189M), (b) stays REFUTED by the issuer's own price
+table (+89% ammonia). **A −5% move in peer equities is a market opinion about
+future ammonia, not a realized collapse — clause (b) is typed to the commodity, not
+the tape.** The real gain today is a date: **CF reports 2026-08-05 pm (verified,
+consensus EPS $5.79 vs $2.37 a year ago)** and its release and call carry the
+industry's realized and forward nitrogen pricing. That is the read on clause (b),
+and it arrives Wednesday instead of at LXU's ~10-28 10-Q. Lesson 11 keeps paying:
+the evaluation date I was carrying was again too far out, and again a calendar
+call, not a memory, fixed it.
 
-**3. The excess keeps bleeding on up days, and that is the honest headline.**
-The book closed **$4,444.21** — down $1.95 (−0.04%) while SPY rose +0.69%. Excess
-went **+0.08pp (07-30 close) → −0.64pp**, a second consecutive session of giving
-back roughly 0.7pp, and the book is now BEHIND its benchmark since funding. Three
-weeks in, on six names, this is noise-level and no evidence about the thesis — but
-it is the direction, and I would rather name it than let a −0.64pp sit unremarked
-under six "NO EXIT" lines. What settles it is not the tape: **four of six kills go
-from not-evaluable to evaluable inside eight days — PAY ~08-03 (Monday), TPC and
-KLIC ~08-05, ZVRA ~08-11.** That is the week the engine was built for.
+**3. Wednesday 2026-08-05 is the day the book gets marked to reality.** PAY tonight
+(document pending), then **KLIC, TPC and ZVRA all print 08-05 pm — every one RH-
+verified — and CF prints the same evening as the read-through for LXU.** So five of
+six positions have their thesis touched inside 48 hours. Of those, only KLIC's and
+ZVRA's kills can actually fire on Wednesday: KLIC's "quarterly revenue < $180M" is
+settled outright by the release, and ZVRA's "2 consecutive flat/declining
+product-revenue quarters" becomes evaluable for the first time. **TPC's cannot** —
+it needs two consecutive GAAP loss quarters and TPC has printed none, so Wednesday
+is structurally incapable of triggering it. Worth writing down so I do not
+mis-read Wednesday's tape as a verdict on TPC.
 
-**Standing debt, declared not hidden:** the research cadence has been due since
-07-14 (17 days) and Stage 1–4 sourcing did NOT run. The breadth read is a
-subagent fan-out this session was not authorised to spawn, and a thin single-pass
-read would violate F2 and poison Arm A. So **$449.94 (~10% of equity) sits
-undeployed** and the book stays at six. The cadence key is deliberately NOT
-stamped so it stays visibly due. **A dedicated `/oracle-research` session is
-required.**
+**4. The excess got worse and I am naming it, but one number tonight is not one
+number tomorrow.** Book closed **$4,465.97** (+0.49% on the day) against SPY
++1.42%; excess ran **−0.64pp (07-31) → −1.60pp**, a third straight session of
+giving ground, and the entirety of today's gap is LXU. Three weeks and six names is
+noise, and the drivers are now dated rather than vague — but the direction is real
+and it belongs in the worldview, per lesson 10. Two resolved side-questions: the
+**MTZ −18.96% of 07-31 did NOT cascade** (MTZ −0.79% today while PWR/DY/ACM/STRL
+all rose 1.9–3.5%), so I am downgrading it from a warning ahead of TPC's print to
+an MTZ-specific event; and **ZVRA, the book's worst position, put up +5.54pp of
+idiosyncratic strength** against a flat XBI, its second consecutive positive
+divergence and by far its largest, with no filing to explain it — recorded without
+a cause rather than given one.
 
-Mark 2026-07-31 CLOSE (~16:10 ET): equity **$4,444.21** (−1.24% vs the $4,500
-basis; SPY 746.81 vs spy_entry 751.31, −0.60%; excess **−0.64pp**, from +0.08pp at
-the 07-30 close, and recovered +0.16pp off the −0.80pp intraday reading). Positions
-$3,994.27 + cash $449.94. Reconcile 6/6 exact; zero orders account-wide since
-07-29. Breaker −1.24% vs 40%. Cluster PAY+QTWO = 35.5% of equity (cap 40%). A/B
-`due_for_grade=0`, `n_graded=0`, `lift_trustworthy=false` (earliest horizon ~Oct
-2027); `update_calibration()` → `{}`.
+Mark 2026-08-03 CLOSE (16:15 ET): equity **$4,465.97** (−0.76% vs the $4,500 basis;
+SPY 757.63 vs spy_entry 751.31 = +0.84%; **excess −1.60pp**). Positions $4,016.03 +
+cash $449.94. Reconcile 6/6 EXACT vs broker; zero orders account-wide. Breaker
+−0.76% vs 40%. Cluster PAY+QTWO = 36.0% of equity (cap 40%). A/B `due_for_grade=0`,
+`n_graded=0`, `lift_trustworthy=false` (earliest horizon ~Oct 2027);
+`update_calibration()` → `{}`. **PAY's +10.1% after-hours is NOT in this mark.**
 
-| Name | infl_type | entry | close 07-31 | vs entry | day | vs complex | typed kill | kill status |
+| Name | infl_type | entry | close 08-03 | vs entry | day | vs complex | typed kill | kill status |
 |------|-----------|-------|-------------|----------|-----|------------|------------|-------------|
-| PAY  | earnings_accel | 28.87 | 34.125 | **+18.20%** | −2.14% | −1.59pp | YoY rev growth < 15% | not evaluable → **~08-03 print** |
-| QTWO | earnings_accel | 53.00 | 60.86 | +14.83% | +3.03% | **+3.09pp** | GAAP net loss relapse or growth < 10% | TESTED 07-29 → FAILED (held); live ~11-04 |
-| TPC  | turnaround | 75.96 | 83.64 | +10.11% | +0.43% | −0.98pp | 2 consecutive GAAP loss quarters | not evaluable → ~08-05 print |
-| LXU  | earnings_accel | 10.96 | 10.88 | −0.73% | −1.45% | **+0.87pp** | quarterly net loss **on ammonia collapse** | clause (a) TRUE on the 10-Q, (b) REFUTED → held; ~10-28 |
-| KLIC | earnings_accel | 110.06 | 89.14 | **−19.01%** | +0.93% | −0.45pp | quarterly revenue < $180M | not evaluable → **~08-05 print** |
-| ZVRA | product_ramp | 14.105 | 9.51 | **−32.58%** | −1.35% | **+1.22pp** | 2 consecutive flat/declining product-rev qtrs | not evaluable → ~08-11 print |
+| PAY  | earnings_accel | 28.87 | 34.50 | **+19.50%** | +1.17% | — | YoY rev growth < 15% | **PRINTED 08-03: EPS 0.25 vs 0.18 beat; revenue line PENDING on EX-99.1** |
+| QTWO | earnings_accel | 53.00 | 62.45 | +17.83% | +2.60% | +1.18pp | GAAP net loss relapse or growth < 10% | TESTED 07-29 → FAILED (held); live ~11-04 |
+| TPC  | turnaround | 75.96 | 85.68 | +12.80% | +2.30% | −0.16pp | 2 consecutive GAAP loss quarters | prints 08-05; **cannot fire** (zero loss quarters printed) |
+| LXU  | earnings_accel | 10.96 | 9.81 | −10.49% | **−9.83%** | nitrogen-wide | quarterly net loss **on ammonia collapse** | (a) TRUE, (b) REFUTED → **read via CF 08-05** |
+| KLIC | earnings_accel | 110.06 | 90.14 | **−18.10%** | +1.05% | −0.68pp | quarterly revenue < $180M | **settles at the 08-05 print** |
+| ZVRA | product_ramp | 14.105 | 10.06 | **−28.68%** | +5.78% | **+5.54pp** | 2 consecutive flat/declining product-rev qtrs | **first evaluable 08-05** |
+
+### Standing debts — declared, not hidden
+
+1. **The research cadence has been due since 07-14 (20 days) and Stage 1–4 sourcing
+   has still not run.** The breadth read is a subagent fan-out this session was not
+   authorised to spawn, and a thin single-pass read would violate F2 and poison Arm
+   A. So **$449.94 (~10% of equity) stays undeployed** and the book stays at six.
+   The cadence key is deliberately NOT stamped so it stays visibly due. **A
+   dedicated `/oracle-research` session is required.**
+2. **NEW (08-03): the live book has no dossier records.**
+   `cache/oracle_upside_dossiers.json` still contains only the SUPERSEDED 07-06
+   paper round (SABR/ACVA/CBZ/FRPT/EYE/NCNO). None of TPC/KLIC/PAY/ZVRA/QTWO/LXU
+   has a dossier, which means **Stage 5's `evaluate_exit(dossier, …)` cannot be run
+   mechanically on any held name** — every tend since 07-10 has checked typed kills
+   from journal prose by hand. That has worked (the kills are carried verbatim
+   session to session), but the deterministic half of Stage 5 is not wired to the
+   live book. I did NOT back-fill dossiers tonight: reconstructing selection
+   artifacts after the fact would contaminate Arm A. This needs a dedicated session
+   that rebuilds them from the 07-10 round's actual reads, and it should happen
+   before the next funding round.
+
 
 ## Worldview (2026-07-30 — the peer check found a THIRD mode, and it cost me a belief)
 
