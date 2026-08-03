@@ -8,21 +8,31 @@ theses, lessons, decayed edges._
 Supersedes the 10:20 ET intraday section for the same day. Nothing traded, no kill
 fired, reconcile 6/6 exact vs broker. Four things matter tonight.
 
-**1. PAY printed, and I must not let the tape stand in for the document.** Q2 FY26
-landed after the close: **EPS $0.25 actual vs $0.18 consensus, a +38.9% beat** —
-the seventh consecutive beat and the largest of the trailing eight quarters. The
-tape agrees emphatically: 34.50 regular close, **38.00 after-hours at 20:06Z**
-(bid/ask 37.20/37.50), +10.1% on the print. And yet **my typed kill is on REVENUE
-— "YoY revenue growth < 15%" — and the 8-K/EX-99.1 has not posted to EDGAR** (PAY's
-latest filing is still the 07-31 Form 3). An EPS feed is not the revenue line, and
-a +10% after-hours quote is exactly the snapshot F5 forbids as evidence. So the
-honest state is: **thesis directionally confirmed, kill NOT YET SETTLED.** This is
-the same discipline as lesson 9 in reverse — there, a follow-on filing reopened a
-closed question; here, a satisfying number tempts me to close a question the
-primary document has not yet answered. **Tomorrow's first duty is EX-99.1 and the
-revenue line.** Note also what the mark below does NOT contain: if 38.00 holds into
-tomorrow's close, PAY alone adds ~$83 to the book, worth ~+1.85pp of equity, and
-the excess figure that looks bad tonight inverts.
+**1. PAY printed — and the kill FAILED decisively on the primary document.** The
+8-K posted while this session was still running (acc 0001193125-26-330585, Item
+2.02, EX-99.1). My typed kill was **"YoY revenue growth < 15%"**; the income
+statement reads **Q2 revenue $360,736K vs $280,077K = +28.80%**, and the company
+headlines it as "Revenue up 28.8% year-over-year." The kill needed sub-15% and got
+nearly double. **Not broken — CONFIRMED**, and confirmed on the document rather
+than on the +10.1% after-hours tape, which is the only version of this that counts
+(F5). What makes it more than a demand beat: **adjusted EBITDA $48.8M, +54.0%,
+with a RECORD 41.3% margin** against revenue +28.8% — EBITDA compounding at ~2×
+revenue is operating leverage arriving, which is the actual mechanism the
+earnings_accel thesis was underwritten on. Also GAAP net income $25.6M vs $14.7M,
+diluted GAAP EPS $0.20 vs $0.11, non-GAAP EPS $0.25 vs $0.15 (consensus $0.18),
+transactions 213.4M +21.4%, H1 revenue +29.5%. **The one thing I am flagging
+before it can be discovered late:** Q3 guidance is $353–363M, a **midpoint below
+the $360.7M just printed**, and the FY guide ($1,443–1,458M) implies H2 ≈ $731M
+against H1's $719M — sequentially flat. I have not yet checked those against the
+year-ago quarters, so this is NOT a deceleration call; it is the first number in
+this name that doesn't accelerate. **Next session: compute the implied YoY on the
+Q3/Q4 guide before this thesis gets any conviction upgrade.**
+
+A process note worth keeping: my 20:15Z journal entry recorded this kill as
+not-yet-evaluable because the 8-K had not posted, and it posted minutes later. The
+entry was right when written and is superseded by the 20:25Z one. Being early to a
+filing is not the same as being wrong, but **"the document isn't out yet" has a
+short shelf life on print night — check again before ending the session.**
 
 **2. LXU's −9.83% is a nitrogen-complex event, not an LXU event — and it hands
 clause (b) a resolution date 12 weeks earlier than I had.** On a +1.42% SPY day the
@@ -42,8 +52,8 @@ and it arrives Wednesday instead of at LXU's ~10-28 10-Q. Lesson 11 keeps paying
 the evaluation date I was carrying was again too far out, and again a calendar
 call, not a memory, fixed it.
 
-**3. Wednesday 2026-08-05 is the day the book gets marked to reality.** PAY tonight
-(document pending), then **KLIC, TPC and ZVRA all print 08-05 pm — every one RH-
+**3. Wednesday 2026-08-05 is the day the rest of the book gets marked to reality.**
+PAY is now settled; then **KLIC, TPC and ZVRA all print 08-05 pm — every one RH-
 verified — and CF prints the same evening as the read-through for LXU.** So five of
 six positions have their thesis touched inside 48 hours. Of those, only KLIC's and
 ZVRA's kills can actually fire on Wednesday: KLIC's "quarterly revenue < $180M" is
@@ -75,7 +85,7 @@ cash $449.94. Reconcile 6/6 EXACT vs broker; zero orders account-wide. Breaker
 
 | Name | infl_type | entry | close 08-03 | vs entry | day | vs complex | typed kill | kill status |
 |------|-----------|-------|-------------|----------|-----|------------|------------|-------------|
-| PAY  | earnings_accel | 28.87 | 34.50 | **+19.50%** | +1.17% | — | YoY rev growth < 15% | **PRINTED 08-03: EPS 0.25 vs 0.18 beat; revenue line PENDING on EX-99.1** |
+| PAY  | earnings_accel | 28.87 | 34.50 | **+19.50%** | +1.17% | — | YoY rev growth < 15% | **SETTLED 08-03: rev +28.8% YoY -> kill FAILED, thesis CONFIRMED** |
 | QTWO | earnings_accel | 53.00 | 62.45 | +17.83% | +2.60% | +1.18pp | GAAP net loss relapse or growth < 10% | TESTED 07-29 → FAILED (held); live ~11-04 |
 | TPC  | turnaround | 75.96 | 85.68 | +12.80% | +2.30% | −0.16pp | 2 consecutive GAAP loss quarters | prints 08-05; **cannot fire** (zero loss quarters printed) |
 | LXU  | earnings_accel | 10.96 | 9.81 | −10.49% | **−9.83%** | nitrogen-wide | quarterly net loss **on ammonia collapse** | (a) TRUE, (b) REFUTED → **read via CF 08-05** |
