@@ -38,6 +38,11 @@ QUOTES_PATH   = "cache/ghost_oracle_quotes.json"
 
 SPY_SYMBOL = "SPY"
 
+# Minimum fraction of the OPEN book that must be priceable before a
+# mark-to-market point is allowed into the curve.  Below this the run aborts
+# rather than marking unpriced names at their entry price (see Step 3).
+MIN_MARK_COVERAGE = 0.90
+
 
 def _load_json(path, default=None):
     try:
@@ -121,15 +126,29 @@ need_symbols.discard("")
 log.info("Need quotes for %d symbols", len(need_symbols))
 
 # ── Fetch live quotes ─────────────────────────────────────────────────
-# Load any pre-fetched quotes as a baseline (written by MCP or prior runs)
+# Load any pre-fetched quotes as a baseline (written by MCP or prior runs).
+# Two shapes are in the wild: a flat {symbol: price} map, and a wrapped
+# {"asof": ..., "prices": {symbol: price}} envelope.  Accept both — the flat
+# reader used to raise on the envelope, and the bare `except` swallowed it,
+# which silently marked the whole book at ENTRY prices and persisted a
+# fabricated 0.00% curve point (2026-08-03).
 quotes: dict[str, float] = {}
 try:
     with open(QUOTES_PATH) as _f:
         _raw = json.load(_f)
-    quotes = {k.upper(): float(v) for k, v in _raw.items() if v}
+    if isinstance(_raw, dict) and isinstance(_raw.get("prices"), dict):
+        _raw = _raw["prices"]
+    for _k, _v in _raw.items():
+        try:
+            if _v is not None:
+                quotes[_k.upper()] = float(_v)
+        except (TypeError, ValueError):
+            log.warning("Quote cache: skipping unparseable entry %r=%r", _k, _v)
     log.info("Pre-fetched quotes loaded: %d", len(quotes))
-except (FileNotFoundError, ValueError):
+except FileNotFoundError:
     pass
+except (ValueError, AttributeError) as exc:
+    log.error("Quote cache at %s is unreadable (%s)", QUOTES_PATH, exc)
 
 broker_ok = broker.login()
 log.info("Broker: %s", "connected" if broker_ok else "unavailable")
@@ -169,6 +188,24 @@ all_entries = existing_entries + new_entries
 
 # ── Step 3: Mark to market ────────────────────────────────────────────
 log.info("Step 3: Marking ghost book to market...")
+
+# A mark is only meaningful if we can actually price the open book.  Without
+# quotes, mark_to_market falls back to each entry's ENTRY price and reports a
+# flawless 0.00% return, which is indistinguishable from a real flat day once
+# it lands in the curve.  Refuse to fabricate: bail before anything persists.
+_open_syms = {e.symbol.upper() for e in all_entries if not e.graded and e.symbol}
+_priced = {s for s in _open_syms if price_lookup(s)}
+_coverage = (len(_priced) / len(_open_syms)) if _open_syms else 1.0
+log.info("Quote coverage of open book: %d/%d (%.1f%%)",
+         len(_priced), len(_open_syms), _coverage * 100)
+if _open_syms and _coverage < MIN_MARK_COVERAGE:
+    log.error(
+        "ABORT before persist: only %.1f%% of the open book is priceable "
+        "(need >=%.0f%%). Marking now would write entry-price fiction into "
+        "%s. Refresh %s and re-run.",
+        _coverage * 100, MIN_MARK_COVERAGE * 100, GHOST_CURVE_PATH, QUOTES_PATH)
+    sys.exit(2)
+
 snapshot = mark_to_market(all_entries, price_lookup)
 log.info("Ghost book: n=%d  open=%d  closed=%d  equity=$%.2f  return=%.2f%%",
          snapshot["n"], snapshot["n_open"], snapshot["n_closed"],
