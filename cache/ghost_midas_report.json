@@ -124,5 +124,6 @@
   },
   "monotonic": false
  },
- "sector_return": {}
+ "sector_return": {},
+ "zeus_note_2026_08_03": "STARVED. /midas-scan last ran 2026-07-03 (cache/midas_cadence.json scan timestamp); its 10 finalists were opened 2026-07-06 and graded 2026-07-14. Since then the ghost has had ZERO feedstock: 20 ledger entries, all graded, none open, and only TWO weekly cohorts (06-30, 07-06) against a death clock that requires 20 graded weekly live_pick-vs-legacy_pick head-to-heads. should_run('cache/midas_cadence.json','scan',5) has returned True every weekend for a month and the scan has not fired, so the A/B race cannot reach its checkpoint on the current cadence. Deliberately did NOT re-open the stale 07-03 finalists at today's prices \u2014 the convergence signal was measured as of 07-03 and opening a month-late cohort would fabricate a head-to-head the scan never produced. Nothing to open, mark, or grade this session; report unchanged (n=20, mean -2.43%, hit rate 30%, live_pick n=1 vs legacy_pick n=1 \u2014 both single observations, no head-to-head signal exists yet)."
 }
