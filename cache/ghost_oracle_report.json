@@ -8,5 +8,6 @@
  "valuation_terciles": {},
  "quality_terciles": {},
  "score_terciles": {},
- "sector_return": {}
+ "sector_return": {},
+ "zeus_note_2026_08_03": "OPENED 6 of the 7 names from the FRESH 2026-08-02 screen (294 universe hits, top 100) that were not already held open: SCTX, CSGP, PSX, NVR, LKQ, LEN at live 14:26Z entry prices. EWSB was SKIPPED \u2014 Robinhood returns no quote for it, so under the runbook's liquidity rule it is not realistically tradable and a paper entry would be fantasy; recorded here, not silently dropped. The other 93 screen names were already open (skip_open=True), so the quarterly screen's survivors are not being double-counted. GRADING: zero due \u2014 the earliest open entry is 2026-06-29 on a 365-day horizon, so the first grades land ~2027-06-29 and the report is still n=0 by construction; every number below is structural, not measured. MARK DISCLOSURE: the open book was marked on Sharadar SEP official 2026-07-31 closes (one bulk call) rather than ~10 batches of live quotes \u2014 a one-session-stale mark, immaterial against 365-1095 day horizons, and the 6 new names mark at their live entry price. Benchmark leg uses SPY 747.03 (07-31 close) against the 750.935 book reference for the same reason."
 }
