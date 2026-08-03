@@ -403,5 +403,16 @@
   "drawdown": 0.012689,
   "halted": false,
   "note": "Zeus hourly monitoring-only pass ~10:06 ET Fri 2026-07-31 (2026Q2 traded; next rebalance 2026Q3). 47/47 positions marked live, none unpriced. Book -0.6% on the day vs SPY -0.2%; AAPL -9.4% (5.9% weight, ~-$30) is the whole gap. Drawdown 1.27% from peak, breaker (40%) untouched."
+ },
+ {
+  "timestamp": "2026-08-03T14:10:00Z",
+  "date": "2026-08-03",
+  "equity": 4959.44,
+  "spy": 753.519,
+  "cash": 0.0,
+  "peak_equity": 4973.125599,
+  "drawdown": 0.002752,
+  "halted": false,
+  "note": "Zeus hourly monitoring-only pass ~10:10 ET Mon 2026-08-03 (2026Q2 traded; next rebalance 2026Q3, signal date 2026-09-30). 47/47 positions marked live, none unpriced. Equity $4,959.44 vs contributed $4,902.36 = +1.16% since launch. Book +1.0% on the day vs SPY +0.87%. Drawdown 0.28% from peak, breaker (40%) untouched. No orders."
  }
 ]
