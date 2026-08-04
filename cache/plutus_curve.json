@@ -414,5 +414,16 @@
   "drawdown": 0.002752,
   "halted": false,
   "note": "Zeus hourly monitoring-only pass ~10:10 ET Mon 2026-08-03 (2026Q2 traded; next rebalance 2026Q3, signal date 2026-09-30). 47/47 positions marked live, none unpriced. Equity $4,959.44 vs contributed $4,902.36 = +1.16% since launch. Book +1.0% on the day vs SPY +0.87%. Drawdown 0.28% from peak, breaker (40%) untouched. No orders."
+ },
+ {
+  "timestamp": "2026-08-04T14:09:00Z",
+  "date": "2026-08-04",
+  "equity": 5013.78,
+  "spy": 764.49,
+  "cash": 0.0,
+  "peak_equity": 5013.77763,
+  "drawdown": 0.0,
+  "halted": false,
+  "note": "Zeus hourly monitoring-only pass ~10:09 ET Tue 2026-08-04 (2026Q2 traded 07-06/07-07; next rebalance 2026Q3, quarter guard holds). 47/47 positions marked live, none unpriced. Book +0.95% on the day vs SPY +0.90%; semis/hardware led (DELL +6.1%, AMAT +4.9%, LRCX +5.2%, KLAC +5.0%), GWW -5.8% the drag. New peak equity $5,013.78, drawdown 0.0%, breaker untripped. Since launch +2.27% on $4,902.36 contributed. No rebalance, no orders."
  }
 ]
