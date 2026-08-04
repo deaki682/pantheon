@@ -88,6 +88,14 @@
    "marks": [],
    "observable": "The first review (due <= 2026-10-11 or the 20th counted grade) produces its RECORD BRIEF via brief.record_brief() with every number re-derivable (art. 28a).",
    "sentence": "Improves the fund-vs-shrink decision at every art. 21 review by computing the record brief - grades-as-written, calibration, benchmark stack, funding/no-edge edges, shortcut and register summaries, due-triggers - in code, never recollection."
+  },
+  "partial_exit_livebook": {
+   "built": "2026-08-04",
+   "sentence": "Improves the funding of probe entries by letting the park be trimmed to exact size without full round trips (GFV-clean, no re-buy on unsettled funds) - the decision it serves is every entry sized under the directive's deployment cadence.",
+   "observable": "Staged first use verified exact (journal rows 119/121: fill, ledger, pro-rata basis, cash all matched to 1e-6); every future funding trim's ledger row matching its sleeve delta is the ongoing observable.",
+   "kill_spec": "If the book ever needs no partial exits for 2 consecutive review periods (all exits full), mark DEAD and fold the shares param out at the next sleeve.py touch; a partial exit whose sleeve delta mismatches its fill is an integrity event, not a prune.",
+   "mark": "EARNING",
+   "marks": []
   }
  },
  "version": 1
