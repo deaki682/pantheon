@@ -1,13 +1,13 @@
 {
  "name": "proteus",
- "cash": 54.99891693059999,
+ "cash": 758.9840771306,
  "contributed_cash": 2500.0,
  "positions": {
   "VOO": {
    "symbol": "VOO",
    "side": "long",
-   "dollars": 2444.999877485,
-   "shares": 3.536615,
+   "dollars": 1752.278199,
+   "shares": 2.534615,
    "entry_price": 691.339,
    "entry_date": "2026-07-13",
    "spy_entry": 752.13,
@@ -32,13 +32,45 @@
    "confidence": 0.9,
    "edge_class": "microstructure",
    "horizon_days": 1
+  },
+  {
+   "symbol": "VOO",
+   "side": "long",
+   "dollars": 1.382678,
+   "entry_price": 691.339,
+   "exit_price": 702.5301,
+   "entry_date": "2026-07-13",
+   "exit_date": "2026-08-04",
+   "exit_reason": "exit_plan",
+   "net_return": 0.016188,
+   "spy_return": 0.016659,
+   "excess": -0.000472,
+   "confidence": 0.5,
+   "edge_class": "macro_theme",
+   "horizon_days": 365
+  },
+  {
+   "symbol": "VOO",
+   "side": "long",
+   "dollars": 691.339,
+   "entry_price": 691.339,
+   "exit_price": 702.5801,
+   "entry_date": "2026-07-13",
+   "exit_date": "2026-08-04",
+   "exit_reason": "discretionary",
+   "net_return": 0.01626,
+   "spy_return": 0.016659,
+   "excess": -0.000399,
+   "confidence": 0.5,
+   "edge_class": "macro_theme",
+   "horizon_days": 365
   }
  ],
  "option_positions": {},
  "closed_options": [],
- "realized_pnl": -0.0012055843999991822,
+ "realized_pnl": 11.262276752814403,
  "halted": false,
- "peak_equity": 2509.6219238306,
- "trades_count": 1,
+ "peak_equity": 2540.8502,
+ "trades_count": 3,
  "pending_funding": null
 }

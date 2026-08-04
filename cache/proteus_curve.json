@@ -279,6 +279,17 @@
    "risk_capital": 0.0,
    "tbill_park": 0.0,
    "note": "session 28 mark (Mon, market hours, live 14:13Z tape: VOO 692.9663 / SPY 753.84; RH close-field lag CLEARED, close now correctly 7/31): parked (art. 13b), +0.230% vs contributed \u2014 first time above water since launch \u2014 dd -0.154% from peak 2509.62; reconcile CLEAN (zero account orders since 8/2 14:00Z; broker VOO 3.536615 == sleeve exactly)"
+  },
+  {
+   "date": "2026-08-04",
+   "ts": "2026-08-04T14:13:00+00:00",
+   "equity": 2540.8502,
+   "spy": 764.7,
+   "index_park": 2485.8513,
+   "cash_park": 54.9989,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "note": "session 29 mark (Tue, market hours, live 14:13Z tape: VOO 702.89 / SPY 764.70): parked (art. 13b), +1.634% vs contributed, NEW PEAK 2540.85 (prev 2509.62); reconcile CLEAN (zero account orders since 8/3 14:00Z; broker VOO matches sleeve). Operator directive 2026-08-04 (deploy graded risk capital) received this session."
   }
  ]
 }
