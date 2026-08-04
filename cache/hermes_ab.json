@@ -23,7 +23,7 @@
    "llm_rationale": "All-cash PE buyout (American Industrial Partners, $1.272B, 72% premium; definitive Apr 14, close H2-26 pending routine regulatory). Med-device, no plausible antitrust block; near-par price signals the market prices it near-certain. Spread +0.28% \u2014 essentially closed, far below the 1% floor. Drop: no residual spread.",
    "llm_verdict": "drop",
    "offer_price": 25.0,
-   "resolved": false,
+   "resolved": true,
    "spread": 0.0028,
    "spy_entry": 744.8,
    "symbol": "AVNS"
@@ -1027,7 +1027,7 @@
    "offer_price": 23.0,
    "read_effort": "high",
    "read_model": "opus",
-   "resolved": false,
+   "resolved": true,
    "spread": 0.0137,
    "spy_entry": 752.345,
    "symbol": "AFBI"
@@ -2246,7 +2246,7 @@
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
-   "resolved": false
+   "resolved": true
   },
   {
    "symbol": "PAYO",
@@ -2259,6 +2259,22 @@
    "llm_verdict": "drop",
    "llm_rationale": "$7.40 ALL-CASH from Nuvei (Neon Maple Parent, Advent-backed, Canada), merger agmt 2026-06-12; PREM14A 2026-07-31. STRUCTURALLY EXCELLENT: no financing condition, $2.7B committed senior secured facilities under a signed Debt Commitment Letter; HSR EARLY TERMINATION GRANTED 2026-07-28 (antitrust risk retired \u2014 early termination is rarely granted and is a clean-deal tell); $165M reverse termination fee vs an $89M company fee (1.9x asymmetry, strong buyer commitment); hell-or-high-water-flavored efforts covenant obliging Nuvei to sell/divest/license/hold-separate and 'take all other actions necessary' for approvals. DROP anyway, on DURATION-ADJUSTED COMPENSATION plus a discretionary licensing tail: the sole remaining condition is a multi-jurisdictional payments-licensing gauntlet \u2014 UK FCA, Central Bank of Ireland, Reserve Bank of India, PEOPLE'S BANK OF CHINA, MAS Singapore, HK Customs & Excise, Israeli Securities Authority, Bank of Canada/FINTRAC, plus specified US state money-transmitter regulators \u2014 AND a bespoke waiver of an 'ownership stability commitment' made when a specified payment services licence was obtained; the proxy itself flags the risk that approvals arrive 'subject to conditions that are not anticipated'. A leveraged buyer taking on $2.7B of debt to acquire a licensee holding large customer-fund balances is the exact profile prudential regulators slow-walk. The proxy is still PRELIMINARY \u2014 special-meeting date and record date are literal '[ ]' blanks, so the vote is not even scheduled \u2014 and the outside date is 2027-06-12, AUTO-EXTENDING to 2027-09-12 if approvals lag. 3.93% over a realistic 10-13 months is ~4%/yr, BELOW the shorter-dated deals already in the book (OGN 3.28% to 2027-01), and it would lock 15% of a $4,021 book past the ~20-graded-deal A/B checkpoint while contributing zero to that sample. The market is pricing this roughly fairly, not mispricing it \u2014 a wide spread I am not paid enough to take. REVISIT if the spread widens materially (>7%) or if the meeting date lands with PBoC/RBI/FCA/CBI cleared, either of which shortens the tail.",
    "break_risk": "medium",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
+  },
+  {
+   "symbol": "DEVSF",
+   "detect_date": "2026-08-04",
+   "entry_price": 0.18,
+   "offer_price": 0.18,
+   "spy_entry": 764.49,
+   "expected_close": "2026-12-31",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "DEFM14A 2026-08-03 is an ALL-STOCK three-way business combination, not a cash takeover: DevvStream domesticates to Delaware, then DevvStream Merger Sub merges into DevvStream, each DevvStream common share converting into XCF Global Class A common shares (the 'Merger Consideration Shares', delivered by Continental as exchange agent); Southern Energy holders take 35% of XCF Global in shares. No per-share cash consideration exists anywhere in the agreement -- confirmed by the Form 425 filings 06-04/06-08 (S-4-registered securities being issued). Out of scope: the contractual per-share CASH floor is the entire basis of this book, and a stock deal would need an acquirer short the broker cannot do. Independently unexecutable even if it were cash: DevvStream received two Nasdaq delisting notices (8-K Item 3.01 on 2026-06-23 and 2026-07-07), the broker now reports state='unlisted' at $0.18 with a 0.1800/0.2099 bid/ask -- a 16.6% quoted spread, wider than the entire -15% break-stop. Recorded entry=offer so Arm B books it neutral rather than as a phantom trade (FGMC/HSCS precedent).",
+   "break_risk": "n/a",
    "arm_a_live": false,
    "read_model": "opus",
    "read_effort": "high",
@@ -4159,6 +4175,60 @@
    "net_return": 0.012862,
    "spy_return": -0.012804,
    "excess": 0.025666
+  },
+  {
+   "symbol": "AVNS",
+   "detect_date": "2026-07-05",
+   "entry_price": 24.93,
+   "offer_price": 25.0,
+   "spread": 0.0028,
+   "llm_verdict": "drop",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "unpinned_legacy",
+   "read_effort": "unpinned_legacy",
+   "exit_price": 25.0,
+   "exit_date": "2026-07-30",
+   "outcome": "completed",
+   "net_return": 0.002808,
+   "spy_return": -0.004176,
+   "excess": 0.006983
+  },
+  {
+   "symbol": "AFBI",
+   "detect_date": "2026-07-16",
+   "entry_price": 22.69,
+   "offer_price": 23.0,
+   "spread": 0.0137,
+   "llm_verdict": "keep",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 23.0,
+   "exit_date": "2026-08-01",
+   "outcome": "completed",
+   "net_return": 0.013662,
+   "spy_return": -0.007065,
+   "excess": 0.020727
+  },
+  {
+   "symbol": "FGMC",
+   "detect_date": "2026-07-31",
+   "entry_price": 4.795,
+   "offer_price": 4.795,
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 4.795,
+   "exit_date": "2026-08-04",
+   "outcome": "out_of_scope_despac_closed",
+   "net_return": 0.0,
+   "spy_return": 0.033304,
+   "excess": -0.033304
   }
  ]
 }
