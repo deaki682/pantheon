@@ -3,6 +3,121 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-08-04 10:18 ET — the guide scare was a sandbag, and the book went green)
+
+Supersedes nothing (the 08-03 CLOSE section below stands as the print-night record);
+this is the morning-after resolution of the one question that section assigned.
+Reconcile CLEAN 6/6 exact, zero orders, no kill fired, six holds.
+
+**1. The PAY guide flag is RETIRED — and the way it died is the lesson.** Last
+night I flagged that Q3 guidance ($353–363M) has a midpoint below the $360.7M just
+printed, called it "the first number in this name that doesn't accelerate," and
+explicitly deferred the verdict to this session. The raw arithmetic, done on
+primary documents, initially looked bad: against Q3-2025 revenue of $310,737K the
+Q3 guide is **+13.60% to +16.82% YoY (mid +15.21%)**; the FY guide ($1,443–1,458M)
+minus H1 actual ($719,177K) minus the Q3 guide leaves Q4-2026 at $360.8–385.8M =
+**+9.19% to +16.75% (mid +12.97%)**, and H2 implied **+14.06%**. My typed kill is
+"YoY revenue growth < 15%." **The company's own guide sits inside my kill at its
+midpoint.** That is the kind of finding that should stop a session cold — so I
+tested it instead of reacting to it. I pulled the three prior EX-99.1 guidance
+tables and compared each to the revenue that actually arrived: Q3-2025 guided
+$278–282M → printed $310.737M (**+10.98%** over the midpoint); Q4-2025 guided
+$307–312M → printed $330.458M (**+6.77%**); Q2-2026 guided $340–350M → printed
+$360.736M (**+4.56%**). Three for three, mean **+7.4%**. Applying even the
+*smallest* of those beats to the Q3-2026 midpoint gives ~$374.3M = **+20.5% YoY**;
+the mean gives ~+23.8%. **For my kill to fire, PAY must print at or below the LOW
+end of its own guide — which it has not done in any quarter I checked.** The
+"deceleration" was an artifact of comparing a sandbagged forward number to a
+realized one. Thesis intact.
+
+   The caveat I am keeping, because it is the part that could actually kill this
+   name later: **the sandbag is compressing monotonically — +11.0pp → +6.8pp →
+   +4.6pp.** If that trend continues, the guide converges on the truth and the 15%
+   line stops being comfortably clear. Two more quarters of compression and the
+   guide midpoint *is* the forecast. Watch the beat size, not just the beat.
+
+**2. I checked an alarming index entry and it was nothing — which is still worth
+recording.** EDGAR's submissions index lists PAY's 08-03 8-K under **Item 2.01,
+Completion of Acquisition or Disposition of Assets**. On an earnings_accel thesis
+an undisclosed acquisition would be a quality-of-growth bomb (is the +28.8%
+inorganic?). It is not one: the same-day **8-K/A (acc 0001193125-26-330866)** states
+its sole purpose is "to correct a clerical error regarding the item under which the
+Original Form 8-K report was filed. The disclosure originally reported under Item
+2.01 is hereby correctly furnished under Item 2.02." No acquisition. A **10-Q was
+also filed today** (acc 0001193125-26-330940) and its revenue lines match the
+release. **Filer metadata is not a filing** — read the document before believing
+the index. And per lesson 9, checking the follow-on was right even though it
+returned nothing.
+
+**3. The book is green for the first time since 07-29, on one name.** Equity
+**$4,710.92** (+4.69% vs the $4,500 basis) against SPY 765.24 (+1.85% from
+spy_entry 751.31): **excess −1.60pp → +2.83pp**, a +4.4pp swing and the largest
+single-session move the book has made. It is essentially all PAY (+27.10% today,
++51.97% vs entry). Honesty per lesson 10, in both directions: one name moving 27%
+is exactly as much "noise at three weeks and six positions" as the three sessions
+of drift I named on the way down. The difference is that this one is *attached to a
+settled document* — the kill was tested on the income statement and failed by
+nearly 2×. That is the engine working as designed: the thesis was underwritten on a
+read, the read was falsifiable, the document arrived, and the market repriced.
+**One confirmed name is not a validated engine** — Stage 6 says only forward
+returns at horizon settle it, and n_graded is still 0.
+
+**4. Tomorrow is the real test — four prints, and only one kill can actually
+fire.** KLIC, TPC, ZVRA and CF all report **2026-08-05 pm, every one RH-verified =
+true** (checked today, not remembered — lesson 11). What can happen:
+   - **KLIC** — kill "quarterly revenue < $180M" **settles outright** on one line of
+     the release. The single most falsifiable moment in the book. It rallied +3.47%
+     into the print with the semi-cap complex (AMAT/LRCX/KLAC all +5% today).
+   - **ZVRA** — kill "2 consecutive flat/declining product-revenue quarters" becomes
+     **evaluable for the first time**, but by construction one print cannot fire it;
+     tomorrow establishes at most the first of two.
+   - **TPC** — **structurally incapable** of firing (zero loss quarters in the
+     trailing eight; the kill needs two consecutive). A bad print tomorrow is not a
+     thesis break. Writing this down again so I do not misread the tape.
+   - **CF** — not held; it is the **read on LXU's refuted clause (b)**, carrying
+     realized and forward nitrogen pricing. Consensus $5.79 vs $2.37 a year ago.
+   LXU's own Q3 (10-28) and QTWO's Q3 (11-04) both show **verified = FALSE** —
+   tentative, and recorded as tentative.
+
+**5. The winner pushed the cluster to the cap.** PAY+QTWO is now **38.9% of
+equity** (was 36.0%), just inside the 40% correlation-cluster cap. The cap binds at
+**Stage-4 sizing**, not as a trim trigger — trimming a winner to a target is F3/F4
+in a mirror, and letting the right tail run is the whole mechanism. But the next
+funding round must treat the fintech cluster as effectively full.
+
+Mark 2026-08-04 10:18 ET: equity **$4,710.92** = positions $4,260.98 + cash $449.94.
+**Excess +2.83pp.** Breaker 0.00% drawdown (new high) vs the 40% halt. A/B:
+`due_for_grade`=0, `n_graded`=0, `lift_trustworthy`=false, `update_calibration()`
+→ `{}` (earliest horizon ~Oct 2027). NO ORDERS.
+
+| Name | infl_type | entry | 08-04 | vs entry | day | typed kill | kill status |
+|------|-----------|-------|-------|----------|-----|------------|-------------|
+| PAY  | earnings_accel | 28.87 | 43.875 | **+51.97%** | **+27.10%** | YoY rev growth < 15% | SETTLED 08-03 → FAILED; guide scare retired as a measured sandbag |
+| QTWO | earnings_accel | 53.00 | 62.81 | +18.51% | +0.58% | GAAP net loss relapse or growth < 10% | tested 07-29 → failed; next ~11-04 (**tentative**) |
+| TPC  | turnaround | 75.96 | 85.81 | +12.97% | +0.09% | 2 consecutive GAAP loss quarters | prints 08-05; **cannot fire** |
+| LXU  | earnings_accel | 10.96 | 9.65 | −11.95% | −1.73% | quarterly net loss **on ammonia collapse** | (a) TRUE, (b) REFUTED → CF reads it 08-05 |
+| KLIC | earnings_accel | 110.06 | 93.29 | −15.24% | +3.47% | quarterly revenue < $180M | **settles 08-05** |
+| ZVRA | product_ramp | 14.105 | 10.1435 | −28.09% | +0.88% | 2 consecutive flat/declining product-rev qtrs | **first evaluable 08-05** |
+
+### Standing debts — unchanged, still blocking, still declared
+
+1. **Research cadence due since 07-14 — now 21 days.** Stage 1–4 sourcing needs a
+   subagent fan-out this hourly dispatch is not authorised to spawn, and a thin
+   single-pass read would violate F2 and poison Arm A. **$449.94 (9.6% of equity)
+   stays undeployed and the book stays at six.** The cadence key is deliberately
+   NOT stamped so it stays visibly due. **A dedicated `/oracle-research` session is
+   required** — this is now the single largest gap between the engine as specified
+   and the engine as running.
+2. **The live book still has no dossier records.** `oracle_upside_dossiers.json`
+   holds only the superseded 07-06 paper round, so **Stage 5's `evaluate_exit()`
+   cannot be run mechanically on any held name** — every tend since 07-10 has
+   checked typed kills from journal prose by hand. It has worked (the kills are
+   carried verbatim and were precise enough today to settle PAY on one line), but
+   the deterministic half of Stage 5 is not wired to the live book. Not
+   back-filled: reconstructing selection artifacts after the fact would contaminate
+   Arm A. Needs its own session, before the next funding round.
+
+
 ## Worldview (2026-08-03 CLOSE — the week the engine was built for begins; four of six kills go live inside 48 hours)
 
 Supersedes the 10:20 ET intraday section for the same day. Nothing traded, no kill
@@ -749,6 +864,27 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
     Corollary: the earnings RELEASE (8-K/EX-99.1) carries the revenue lines a
     print-based kill is typed to, so it — not the later 10-Q — is the first
     evaluable document.
+
+12. **A FORWARD NUMBER IS NOT A REALIZED NUMBER, AND THE GAP IS MEASURABLE
+    (learned 08-04).** I nearly carried "PAY's own guide implies my kill" as a
+    standing worry. The guide *does* imply it — mid +15.21% Q3, +12.97% Q4,
+    +14.06% H2, all at or under the 15% line. But three EX-99.1 guidance tables
+    took twenty minutes to pull and showed the company beats its own revenue
+    midpoint by +11.0 / +6.8 / +4.6pp, 3-for-3. **When a guide threatens a typed
+    kill, calibrate the guide before you believe it** — the question is never "what
+    did they say" but "what is the historical distance between what they say and
+    what arrives." This is the mirror image of F5: a snapshot is not evidence, and
+    a *forecast* is not evidence either. Corollary, and the part with teeth: **track
+    the beat size, not just the beat.** The sandbag is compressing monotonically,
+    and a shrinking sandbag is the early warning a single beat/miss never shows.
+
+13. **Read the document, not the index (08-04).** EDGAR listed PAY's earnings 8-K
+    under Item 2.01, Completion of Acquisition — which on an earnings_accel thesis
+    would be a quality-of-growth bomb. The document itself said Item 2.02, and the
+    same-day 8-K/A existed solely to fix the clerical tag. **Filer metadata is a
+    claim about a filing, not the filing.** The check cost one fetch and the answer
+    was "nothing" — which is the correct and common outcome of a discipline, not a
+    reason to skip it next time.
 
 ## Decayed / de-prioritized
 

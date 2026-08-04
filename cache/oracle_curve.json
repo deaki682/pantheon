@@ -908,5 +908,17 @@
   "mark": "close",
   "excess_pp": -1.6,
   "note": "Zeus post-close pass 16:15 ET Mon 2026-08-03. Reconcile CLEAN 6/6 exact vs broker. Book +0.49% vs SPY +1.42%; excess -0.64pp -> -1.60pp, dragged entirely by LXU -9.83% on a nitrogen-complex selloff (CF -5.48/NTR -4.53/UAN -2.84, potash flat) that is document-free ahead of CF's 08-05 print. PAY reported after close: EPS $0.25 vs $0.18 (+38.9%, 7th straight beat), AH 38.00 vs 34.50 close = +10.1% NOT in this mark. No kill fired. A/B due_for_grade=0, n_graded=0, lift_trustworthy=false."
+ },
+ {
+  "ts": "2026-08-04T14:20:00Z",
+  "date": "2026-08-04",
+  "equity": 4710.92,
+  "positions_value": 4260.98,
+  "spy": 765.24,
+  "cash": 449.94,
+  "round": "upside-2026-07-10-r1",
+  "mark": "intraday",
+  "excess_pp": 2.83,
+  "note": "Zeus hourly pass 10:18 ET Tue 2026-08-04. Reconcile CLEAN 6/6 EXACT vs broker (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); zero orders account-wide. NO KILL FIRED, six holds. Book +5.45% on the day vs SPY +1.00%; equity $4,710.92 = +4.69% vs the $4,500 basis against SPY +1.85% from spy_entry 751.31, so EXCESS SWUNG -1.60pp -> +2.83pp, the first positive reading since 07-29 and the largest one-session move the book has made. Effectively all of it is PAY +27.10% ($34.52 -> $43.875, +51.97% vs entry). THE 08-03 DEBT IS DISCHARGED AND IT REVERSES: PAY's Q3 guide ($353-363M, re-verified verbatim in EX-99.1) implies +13.60/+16.82% YoY vs Q3-2025 $310,737K, mid +15.21%; the FY guide implies Q4 +9.19/+16.75% (mid +12.97%) and H2 +14.06% -- i.e. the raw guide sits INSIDE the 'YoY < 15%' kill at its midpoint. But the guide is a MEASURED sandbag: prior EX-99.1 guidance vs the revenue actually printed was +10.98% (Q3-25), +6.77% (Q4-25), +4.56% (Q2-26) over the midpoint, 3/3, mean +7.4%. The smallest of those applied to the Q3-26 midpoint gives ~+20.5% YoY; the kill needs PAY to print at or below its own guide LOW end, which it has not done in three quarters. Flag retired -- with the caveat that the sandbag is compressing monotonically (11.0 -> 6.8 -> 4.6pp). Also cleared: the 08-03 8-K indexed under Item 2.01 is NOT an acquisition; the same-day 8-K/A states its sole purpose is correcting a clerical item tag to 2.02. 10-Q filed today, revenue lines match. TOMORROW (2026-08-05 pm, ALL RH-verified=true) KLIC, TPC, ZVRA and CF all print. Only KLIC's kill ('quarterly revenue < $180M') can settle outright; ZVRA's 2-consecutive-quarter kill becomes evaluable for the first time but cannot fire on one print; TPC's is structurally incapable of firing (zero loss quarters printed). CF is the read on LXU's refuted clause (b). LXU 10-28 and QTWO 11-04 both show verified=FALSE -- tentative. Cluster PAY+QTWO 36.0% -> 38.9% of equity, just inside the 40% cap; it binds at Stage-4 sizing, not as a trim trigger. Breaker 0.00% drawdown (new high) vs 40%. A/B: due_for_grade=0, n_graded=0, lift_trustworthy=false, update_calibration()->{} (earliest horizon ~Oct 2027). NO ORDERS. STANDING DEBTS UNCHANGED AND STILL BLOCKING: research cadence due since 07-14 (21 days) -- Stage 1-4 sourcing needs a subagent fan-out this dispatch is not authorised to spawn, so $449.94 (9.6% of equity) stays undeployed and the book stays at six; and the live book still has NO dossier records, so Stage 5's evaluate_exit() cannot run mechanically on any held name (kills are carried verbatim in prose instead). Both need a dedicated /oracle-research session. The cadence key is deliberately NOT stamped so it stays visibly due."
  }
 ]
