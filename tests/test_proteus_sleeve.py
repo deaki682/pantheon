@@ -220,3 +220,59 @@ def test_concentration_gate_requires_live_marks_with_positions():
                spy_price=745.0, horizon_days=5, confidence=0.5, edge_class="value",
                marks={"HELD": 4.0}, risk_ack=_ACK)
     assert "NEW" in book.positions
+
+
+# --- partial exits (2026-08-04: funding-leg trims without park round trips) ---
+
+def test_partial_exit_reduces_position_and_credits_cash():
+    book = _funded(1000.0)
+    book.enter(symbol="PX", shares=10, price=50.0, date="2026-07-06",
+               spy_price=700.0, horizon_days=10, confidence=0.6,
+               edge_class="momentum", risk_ack=_ACK)
+    trade = book.exit(symbol="PX", price=55.0, date="2026-07-10",
+                      spy_price=707.0, exit_reason="funding_trim", shares=4)
+    assert "PX" in book.positions                      # remainder stays open
+    p = book.positions["PX"]
+    assert p.shares == pytest.approx(6.0)
+    assert p.dollars == pytest.approx(300.0)           # basis reduced pro rata
+    assert p.entry_price == pytest.approx(50.0)        # entry unchanged
+    assert trade.dollars == pytest.approx(200.0)       # sold slice at its basis
+    assert trade.net_return == pytest.approx(0.10)
+    assert book.cash == pytest.approx(1000.0 - 500.0 + 4 * 55.0)
+    assert book.realized_pnl == pytest.approx(4 * 5.0)
+
+
+def test_partial_exit_full_shares_behaves_as_full_exit():
+    book = _funded(1000.0)
+    book.enter(symbol="FX", shares=10, price=50.0, date="2026-07-06",
+               spy_price=700.0, horizon_days=10, confidence=0.6,
+               edge_class="momentum", risk_ack=_ACK)
+    book.exit(symbol="FX", price=55.0, date="2026-07-10",
+              spy_price=707.0, exit_reason="exit_plan", shares=10)
+    assert "FX" not in book.positions
+    assert book.realized_pnl == pytest.approx(50.0)
+
+
+def test_partial_exit_rejects_nonpositive_shares():
+    book = _funded(1000.0)
+    book.enter(symbol="NP", shares=10, price=50.0, date="2026-07-06",
+               spy_price=700.0, horizon_days=10, confidence=0.6,
+               edge_class="momentum", risk_ack=_ACK)
+    with pytest.raises(JournalError):
+        book.exit(symbol="NP", price=55.0, date="2026-07-10",
+                  spy_price=707.0, exit_reason="x", shares=0)
+    with pytest.raises(JournalError):
+        book.exit(symbol="NP", price=55.0, date="2026-07-10",
+                  spy_price=707.0, exit_reason="x", shares=-1)
+
+
+def test_default_exit_unchanged_full_close():
+    book = _funded(1000.0)
+    book.enter(symbol="DF", shares=10, price=50.0, date="2026-07-06",
+               spy_price=700.0, horizon_days=10, confidence=0.6,
+               edge_class="momentum", risk_ack=_ACK)
+    trade = book.exit(symbol="DF", price=45.0, date="2026-07-10",
+                      spy_price=707.0, exit_reason="exit_plan")
+    assert "DF" not in book.positions
+    assert trade.dollars == pytest.approx(500.0)
+    assert book.realized_pnl == pytest.approx(-50.0)

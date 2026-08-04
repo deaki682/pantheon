@@ -223,17 +223,30 @@ class LiveBook:
         return pos
 
     def exit(self, *, symbol: str, price: float, date: str,
-             spy_price: float, exit_reason: str) -> ClosedTrade:
+             spy_price: float, exit_reason: str,
+             shares: Optional[float] = None) -> ClosedTrade:
+        """Close a position, fully (shares=None, unchanged behavior) or
+        partially (shares < position shares: the sold slice closes at its
+        proportional entry basis; the remainder stays open at the original
+        entry price/date)."""
         symbol = symbol.upper()
         if symbol not in self.positions:
             raise JournalError(f"{symbol}: no open position to exit")
-        p = self.positions.pop(symbol)
-        proceeds = p.shares * price
+        p = self.positions[symbol]
+        if shares is None or shares >= p.shares - 1e-9:
+            sold, partial = p.shares, False
+        else:
+            if not (isinstance(shares, (int, float)) and shares > 0):
+                raise JournalError(f"{symbol}: partial-exit shares must be "
+                                   f"positive, got {shares!r}")
+            sold, partial = float(shares), True
+        basis_out = p.dollars * (sold / p.shares)
+        proceeds = sold * price
         self.cash += proceeds
         net_return = price / p.entry_price - 1
         spy_ret = spy_price / p.spy_entry - 1
         trade = ClosedTrade(
-            symbol=symbol, side=p.side, dollars=p.dollars,
+            symbol=symbol, side=p.side, dollars=round(basis_out, 6),
             entry_price=p.entry_price, exit_price=price,
             entry_date=p.entry_date, exit_date=date, exit_reason=exit_reason,
             net_return=round(net_return, 6), spy_return=round(spy_ret, 6),
@@ -241,8 +254,13 @@ class LiveBook:
             confidence=p.confidence, edge_class=p.edge_class,
             horizon_days=p.horizon_days,
         )
+        if partial:
+            p.shares = round(p.shares - sold, 6)
+            p.dollars = round(p.dollars - basis_out, 6)
+        else:
+            self.positions.pop(symbol)
         self.closed.append(trade)
-        self.realized_pnl += proceeds - p.dollars
+        self.realized_pnl += proceeds - basis_out
         return trade
 
     # -- long options (v2, 2026-07-11; journal record comes first, always) --
