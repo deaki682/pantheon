@@ -290,6 +290,17 @@
    "risk_capital": 0.0,
    "tbill_park": 0.0,
    "note": "session 29 mark (Tue, market hours, live 14:13Z tape: VOO 702.89 / SPY 764.70): parked (art. 13b), +1.634% vs contributed, NEW PEAK 2540.85 (prev 2509.62); reconcile CLEAN (zero account orders since 8/3 14:00Z; broker VOO matches sleeve). Operator directive 2026-08-04 (deploy graded risk capital) received this session."
+  },
+  {
+   "date": "2026-08-05",
+   "ts": "2026-08-05T14:14:00+00:00",
+   "equity": 2567.3812,
+   "spy": 776.165,
+   "index_park": 1808.3971,
+   "cash_park": 758.9841,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "note": "session 30 mark (Wed, market hours, live 14:13Z tape: VOO 713.48 / SPY 776.165): funding cash settled ($702.58 T+1 confirmed in BP), deployment session under the 2026-08-04 directive. NEW PEAK if > 2540.85."
   }
  ]
 }
