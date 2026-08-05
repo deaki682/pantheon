@@ -3,6 +3,82 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-08-05 CLOSE — the first kill test the book actually won, and the first honest look at what a kill that can't fire is worth)
+
+Supersedes nothing below; this is the after-close record of the day the 08-03
+section said the engine was built for. Reconcile CLEAN 6/6 exact, zero orders,
+zero kills fired, six holds. Equity **$4,637.34**; excess vs SPY **+0.60pp** on the
+$4,500 basis, up from +0.08pp at the 07-30 close.
+
+**1. KLIC's kill was tested on a filing and failed by the widest margin this book
+has produced — and the way it failed matters more than that it failed.** The
+fiscal-Q3 8-K landed today (acc `0000056978-26-000030`, Items 2.02/9.01, quarter
+ended July 4 2026). The kill is *"quarterly revenue < $180M"*. **Printed revenue
+$330.409M** — 1.84× the line, **+122.6% YoY** ($148.413M) and **+36.2% sequential**
+($242.621M), gross margin 47.8%, GAAP diluted EPS $1.07 against $(0.06) a year ago,
+operating income $68.266M against $(6.094)M. Nine-month revenue $772.655M vs
+$476.523M (+62.1%); nine-month net income +$109.360M vs $(6.166)M. **Q4 guide
+~$375M ± $20M** — whose *low* end is still 1.97× the kill.
+
+I checked the quality of it rather than celebrating the headline, because a
+122% YoY jump is exactly the shape a one-timer makes. It is the opposite: the
+current quarter and nine months contain **zero** one-time items, while the
+prior-year nine months carried a **$75.987M cessation gain** and a **$39.817M
+impairment**. The comparative was flattered by ~$36M net; the FY26 numbers are
+clean. **The comparison understates the improvement rather than manufacturing it** —
+`one_time_driver`, the bear type that faked the 07-06 book, does not apply here.
+The earnings_accel thesis now has four consecutive primary datapoints:
+**$148M → $243M → $330M → ~$375M guided.**
+
+**2. The lesson I did not want: this kill test carried almost no information, and
+that is my failure, not the company's.** A kill at <$180M against a $330M print
+guiding to $375M cannot discriminate anything — it is structurally unreachable for
+at least two quarters. I typed it against the FY25 trough ($148M) and the trough
+never came back. **A kill that cannot fire is not a promise, it is decoration.**
+The temptation tonight was to quietly re-type it to something live (say, a
+sequential-revenue-decline clause). **I did not, on purpose:** moving a kill *after*
+the good news is precisely how a thesis becomes unfalsifiable, and this kill is the
+promise I made at entry. It goes to the next FULL round's dossier rebuild as an
+explicit re-typing candidate, where it gets reset **before** a print rather than
+after one. The general rule I am adding to Lessons: **type the kill against the
+level the thesis would have to fall *back* to, and re-check at each print whether
+it can still fire — a kill that has gone unreachable must be re-typed in the open,
+in a round, never in the session that discovers it.**
+
+**3. PAY gave back −9.36pp idiosyncratically and nothing filed explains it.** Close
+$40.00 vs the 08-04 close $44.60 = **−10.31%**, against a payments median of
+**−0.96%** (TOST +2.97, BILL −0.55, ALKT −0.58, NCNO −1.33, EEFT −3.45,
+FOUR −4.03). That −9.36pp is the largest name-specific move this book has made **in
+either direction** — and it is the mirror image of the +5.84pp that flattered the
+same name on 07-29. I am giving it the same weight going down that I gave it going
+up; that symmetry is the only thing that makes the measurement worth running.
+EDGAR shows **nothing filed 08-05**: the tape is re-pricing the 08-03 8-K/A, the
+08-03 Item 2.01 8-K and the 08-04 10-Q that this engine already read and already
+ruled on. The kill (*YoY revenue growth < 15%*) sits at **+28.80% actual**, roughly
+double, and does not fire even after the most conservative sandbag adjustment to
+the forward guide (smallest of three historical beats applied to the Q3 midpoint →
++20.45%). **Drawdown, not break — F3.** Still the book's best position, +38.55%.
+The only new coincident fact is the Form 144 overhang (145,000sh / ~$4.99M in a
+week); it stays a WATCH, untyped, and is now on the record as the leading
+non-thesis explanation *before* anyone knows the answer.
+
+**4. Two prints did not arrive, and I ruled without them rather than guessing from
+the tape.** TPC and ZVRA both carry RH-verified 08-05 pm dates; **neither had filed
+at 20:20Z** (TPC's newest is still the 07-06 8-K, ZVRA's the 07-31 13G). Nothing was
+lost: **both kills are two-consecutive-quarter conditions and were structurally
+incapable of firing on a single print tonight.** KLIC's after-hours $98.00 and
+TPC's 82.89/88.50 spread were recorded and explicitly not used — Standing Duty 2.
+Note TPC's prior-year Q2 landed 08-06 and ZVRA's landed **08-12**, while the table
+below says "~08-11" and Robinhood says tonight: **the ZVRA date is genuinely
+disputed and gets re-checked from EDGAR, not assumed.**
+
+**5. The cluster is drifting toward the cap without a decision being made.**
+PAY+QTWO = $1,751.99 = **37.78%** of equity, *up* from 35.4% on 07-30 **despite**
+PAY falling 10% today — because QTWO held flat while the denominator shrank. Inside
+the 40% cap, but a cap approached through arithmetic rather than intent is exactly
+what the next sizing round has to see, and it cannot see it while all six positions
+carry `sector: ''`.
+
 ## Worldview (2026-08-04 10:18 ET — the guide scare was a sandbag, and the book went green)
 
 Supersedes nothing (the 08-03 CLOSE section below stands as the print-night record);
@@ -263,6 +339,26 @@ print is now the single most consequential date in the book.
 Funnel: 3,154 field → 251 filing-read → 73 fundable → 6 sized. All six carry a
 typed kill; every kill is PRINT-BASED, so kill checks concentrate at earnings.
 A drawdown is never an exit.
+
+### CURRENT STATE — 2026-08-05 CLOSE (supersedes the 07-30 table below)
+
+| Name | infl_type | entry | close 08-05 | vs entry | wt | typed kill | kill status |
+|------|-----------|-------|-------------|----------|----|------------|-------------|
+| PAY | earnings_accel | 28.87 | 40.00 | **+38.55%** | 20.61% | YoY revenue growth < 15% | **TESTED 08-04/05 on 10-Q XBRL (+28.80%) → FAILED (held)**; next ~11-04 |
+| TPC | turnaround | 75.96 | 84.32 | +11.01% | 17.47% | 2 consecutive GAAP loss quarters | **PRINT PENDING — not filed at 20:20Z**; cannot fire on one print; test the 8-K next session |
+| QTWO | earnings_accel | 53.00 | 63.595 | +19.99% | 17.17% | GAAP net loss relapse or growth < 10% | TESTED 07-29 → FAILED (held); next ~11-04 (tentative) |
+| KLIC | earnings_accel | 110.06 | 93.84 | −14.74% | 12.87% | quarterly revenue < $180M | **TESTED 08-05 on the 8-K → FAILED DECISIVELY ($330.409M = 1.84×)**; now UNREACHABLE → re-type candidate |
+| LXU | earnings_accel | 10.96 | 9.675 | −11.72% | 11.49% | quarterly net loss on ammonia price collapse | clause (a) TRUE, clause (b) REFUTED → does not fire; next ~10-28 |
+| ZVRA | product_ramp | 14.105 | 10.54 | **−25.27%** | 10.69% | 2 consecutive flat/declining product-rev quarters | **PRINT PENDING — not filed at 20:20Z; DATE DISPUTED** (RH says 08-05 verified, prior-year analog 08-12); cannot fire on one print |
+
+Equity **$4,637.34** (cash $449.94 + marks $4,187.40). vs $4,500 basis **+3.05%**;
+SPY 751.31 → 769.74 **+2.45%**; **excess +0.60pp** (was +0.08pp at the 07-30 close).
+vs contributed $4,353.89 **+6.51%**. Peak $4,739.09 (this morning's intraday tend)
+→ drawdown −2.15% against a 40% breaker. Zero orders account-wide since 07-20.
+Stage-6 `due_for_grade` = 0; `llm_lift` untrustworthy (34 Arm-B / 31 Arm-A
+unresolved) and NOT reported; `update_calibration` = `{}` (neutral, n=0).
+**CLUSTER: PAY+QTWO = $1,751.99 = 37.78%** of equity, up from 35.4% on 07-30 —
+approached through the denominator, not a decision.
 
 | Name | infl_type | entry | close 07-30 | vs entry | typed kill | kill status |
 |------|-----------|-------|------|------|------------|-------------|
@@ -734,6 +830,26 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
 
 ## Standing duties for the next sessions
 
+0. **FIRST DUTY NEXT SESSION (2026-08-05 close):** pull and test **TPC's** Q2 8-K
+   and **ZVRA's** Q2 release the moment they exist — neither had filed at 20:20Z.
+   Test each kill's clauses VERBATIM on the filing (both are two-quarter
+   conditions, so the question is whether tonight *starts the clock*, not whether
+   it fires). **Re-check ZVRA's date from EDGAR rather than trusting either
+   source** — RH says 08-05 verified, the prior-year analog is 08-12. Also pull
+   **CF Industries'** print as the outside corroboration on LXU clause (b), and
+   score it as corroboration only — the clause is typed to LXU's own realized-price
+   table, which outranks any peer.
+0b. **RE-TYPE KLIC'S KILL — in the next FULL round, not in a tend.** `<$180M`
+   against a $330M print guiding to $375M is unreachable and can no longer
+   discriminate. It must be reset **before** a print, through
+   `make_upside_dossier`, never quietly in the session that discovers it.
+   Same audit for every other kill at the same time: *can this still fire?*
+0c. **KLIC WATCH items, neither typed and neither a kill:** (i) AR $329.498M vs
+   $183.538M at 10/04/25 (+79.5%) against nine-month revenue +62.1% — ~91 days
+   DSO; plausibly a quarter that ramped +36% sequentially loading the back end,
+   but if AR outruns revenue again next quarter it is a quality-of-earnings
+   question, and the prior is on the record BEFORE the answer. (ii) Lester Wong
+   signs as **Interim** CEO *and* CFO — no permanent CEO. Governance, not thesis.
 1. **Tend daily (cheap):** reconcile fills, mark at official closes, EDGAR-check
    all six held names (CIKs re-resolved from `company_tickers`, never hand-typed);
    evaluate typed kills only on real filings.
@@ -783,6 +899,23 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    (rare disease); LXU = nitrogen chemicals/fertilizer.
 
 ## Lessons (compounded — do not relearn these)
+
+-1. **A KILL THAT CANNOT FIRE IS DECORATION — and re-typing it in the session that
+   discovers that is cheating (learned 08-05, KLIC's first real test).** I typed
+   `revenue < $180M` against the FY25 trough ($148M); the trough never returned and
+   the name printed $330M guiding to $375M. The test was *won* and told me almost
+   nothing. **Type the kill against the level the thesis would have to fall BACK
+   to, and re-check at every print whether it can still fire.** When one goes
+   unreachable, re-type it **in the open, in a FULL round, before the next print** —
+   never in the tend that found the good news. Moving a kill after the result is
+   how a thesis quietly becomes unfalsifiable, which is the one thing this engine
+   cannot survive.
+-0.5. **Give an idiosyncratic move the same weight down as up (learned 08-05,
+   PAY).** The −9.36pp peer-adjusted decline was measured by exactly the machinery
+   that produced the flattering +5.84pp on 07-29. Reporting the first and
+   discounting the second would make the whole Duty-1b measurement worthless. Log
+   the leading non-thesis explanation (here: the 145,000sh / ~$4.99M Form 144 week)
+   **before** the answer is known, so the record cannot be reverse-engineered later.
 
 0. **READ THE KILL'S GRAMMAR, then test every clause (learned 07-29, the first
    real kill tests).** LXU's kill was *"quarterly net loss on ammonia price
