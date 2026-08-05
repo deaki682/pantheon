@@ -1,10 +1,28 @@
 {
   "date": "2026-08-05",
-  "status": "mark_only_grading_blocked",
+  "status": "marked_nothing_due",
   "n_entries": 20,
-  "n_ungraded": 0,
-  "horizon_dates_elapsed": [],
-  "blocker": "grade_entries() uses the live quote for an elapsed horizon; 5-day horizons that lapsed ~2026-07-13 would be graded on ~30-day returns. Needs horizon-date closes (shared.historicals / Sharadar SEP).",
-  "equity": 1951.36,
-  "total_return": -0.024322014129373182
+  "n_graded": 20,
+  "n_due": 0,
+  "book": {
+    "equity": 1951.36,
+    "cost_basis": 2000.0,
+    "total_return": -0.0243,
+    "hit_rate": 0.3
+  },
+  "ab_head_to_head": {
+    "n_weeks": 1,
+    "required_by_death_clock": 20,
+    "weeks": [
+      {
+        "week": "2026-07-06",
+        "live_pick": "QMCO",
+        "live_return": -0.0286,
+        "legacy_pick": "ZBIO",
+        "legacy_return": 0.0088,
+        "legacy_minus_live": 0.0374
+      }
+    ]
+  },
+  "stall_note": "No new /midas-scan finalists since 2026-06-30; 1 of 20 head-to-heads after ~5 weeks."
 }

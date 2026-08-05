@@ -144,6 +144,6 @@
       "SPY": -0.003384163194865897,
       "SPY_price": 739.18
     },
-    "note": "Zeus hourly pass ~10:24 ET 2026-08-05. MARK ONLY \u2014 grading BLOCKED and deliberately not performed. All 20 entries carry 5-day horizons that elapsed , but shared.ghost.grade_entries prices an elapsed horizon at the CURRENT quote, which would book a ~30-day return as the 5-day result and settle the convergence A/B (death clock: 20 graded weekly head-to-heads) on wrong numbers. Correct fix: grade at the horizon-date close via shared.historicals / Sharadar SEP, not a live quote. Escalated to the operator; no grades written."
+    "note": "Zeus hourly pass ~10:24 ET 2026-08-05. MARK ONLY \u2014 correctly, not for want of data: all 20 ledger entries are already graded and NOTHING is due (an earlier count in this session that suggested a backlog was wrong \u2014 `graded` is a computed property, absent from the raw JSON). Book marked at live quotes: equity $1,951.36 on $2,000 basis = -2.43%, hit rate 30%, best +29.5%, worst -19.2%. A/B STATE: the death clock needs 20 graded weekly HEAD-TO-HEADS; there is exactly 1 (week of 2026-07-06: live_pick QMCO -2.86% vs legacy_pick ZBIO +0.88%, legacy ahead by 3.74pp). The race is STALLED \u2014 /midas-scan has produced no new finalists since 2026-06-30 (cadence says a scan is due but the runbook is weekend-gated and today is a Wednesday), so no new weekly cohort has entered in ~5 weeks. At this rate the preregistered comparison is unreachable. Flagged for the operator."
   }
 ]
