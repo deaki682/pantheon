@@ -1,57 +1,57 @@
 {
-  "cash": 449.94,
-  "contributed_cash": 4353.89,
-  "cooldown_days": 31,
-  "cooldowns": {},
-  "gfv_count": 0,
-  "halted": false,
-  "name": "oracle",
-  "peak_equity": 4739.09224,
-  "pending_settlements": [],
-  "positions": {
-    "KLIC": {
-      "avg_price": 110.06,
-      "cohort_id": "",
-      "entry_date": "2026-07-10",
-      "sector": "",
-      "shares": 6.358622
-    },
-    "LXU": {
-      "avg_price": 10.96,
-      "cohort_id": "",
-      "entry_date": "2026-07-10",
-      "sector": "",
-      "shares": 55.078467
-    },
-    "PAY": {
-      "avg_price": 28.87,
-      "cohort_id": "",
-      "entry_date": "2026-07-10",
-      "sector": "",
-      "shares": 23.898856
-    },
-    "QTWO": {
-      "avg_price": 53.0,
-      "cohort_id": "",
-      "entry_date": "2026-07-10",
-      "sector": "",
-      "shares": 12.517358
-    },
-    "TPC": {
-      "avg_price": 75.9599,
-      "cohort_id": "",
-      "entry_date": "2026-07-10",
-      "sector": "",
-      "shares": 9.607305
-    },
-    "ZVRA": {
-      "avg_price": 14.105,
-      "cohort_id": "",
-      "entry_date": "2026-07-10",
-      "sector": "",
-      "shares": 47.034397
-    }
+ "cash": 449.94,
+ "contributed_cash": 4353.89,
+ "cooldown_days": 31,
+ "cooldowns": {},
+ "gfv_count": 0,
+ "halted": false,
+ "name": "oracle",
+ "peak_equity": 4798.1,
+ "pending_settlements": [],
+ "positions": {
+  "KLIC": {
+   "avg_price": 110.06,
+   "cohort_id": "",
+   "entry_date": "2026-07-10",
+   "sector": "",
+   "shares": 6.358622
   },
-  "realized_pnl": 147.95,
-  "trades_count": 29
+  "LXU": {
+   "avg_price": 10.96,
+   "cohort_id": "",
+   "entry_date": "2026-07-10",
+   "sector": "",
+   "shares": 55.078467
+  },
+  "PAY": {
+   "avg_price": 28.87,
+   "cohort_id": "",
+   "entry_date": "2026-07-10",
+   "sector": "",
+   "shares": 23.898856
+  },
+  "QTWO": {
+   "avg_price": 53.0,
+   "cohort_id": "",
+   "entry_date": "2026-07-10",
+   "sector": "",
+   "shares": 12.517358
+  },
+  "TPC": {
+   "avg_price": 75.9599,
+   "cohort_id": "",
+   "entry_date": "2026-07-10",
+   "sector": "",
+   "shares": 9.607305
+  },
+  "ZVRA": {
+   "avg_price": 14.105,
+   "cohort_id": "",
+   "entry_date": "2026-07-10",
+   "sector": "",
+   "shares": 47.034397
+  }
+ },
+ "realized_pnl": 147.95,
+ "trades_count": 29
 }
