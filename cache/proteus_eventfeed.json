@@ -1,5 +1,5 @@
 {
- "updated": "2026-07-29",
+ "updated": "2026-08-06T14:50:00Z",
  "events": [
   {
    "symbol": "LEG",
@@ -273,6 +273,38 @@
    "name": "Game Your Game, Inc.",
    "cik": "0002111846",
    "note": "Grafiti LLC $3M unsecured note maturity (Third Amendment 7/29/26); AUTO-EXTENDS monthly while repayment-compliant, so the date is SOFT. Tradability at deposit (lesson 27): equity NEVER TRADED (pre-listing, has_traded=false, $8 ipo-source reference, no bid/ask), NO option chain \u2014 kink-ineligible; re-look only if it lists AND grows a chain."
+  },
+  {
+   "symbol": "INMD",
+   "event_type": "proposal_expiry",
+   "event_date": "2026-09-15",
+   "filed": "2026-08-05",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1742692/000119312526335699/",
+   "note": "M.N. Business Strategy/Shamir $16.20 going-private proposal hard expiry (13D/A 8/5, auto-expires unless re-extended)"
+  },
+  {
+   "symbol": "GLRE",
+   "event_type": "block_repurchase",
+   "event_date": "2026-10-30",
+   "filed": "2026-08-05",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1385613/000092963826002882/",
+   "note": "Signed repurchase of Einhorn trust block ON 10/30/26 at formula weighted-avg price (13D/A 8/5)"
+  },
+  {
+   "symbol": "ONT",
+   "event_type": "pill_record_date",
+   "event_date": "2026-08-17",
+   "filed": "2026-08-05",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1643615/000119312526335121/",
+   "note": "Rights dividend payable/record 8/17/26 (reactive pill vs undisclosed swap accumulator)"
+  },
+  {
+   "symbol": "ONT",
+   "event_type": "pill_expiry",
+   "event_date": "2027-08-04",
+   "filed": "2026-08-05",
+   "source_url": "https://www.sec.gov/Archives/edgar/data/1643615/000119312526335121/",
+   "note": "1-yr rights plan expires close of business 8/4/27; board may terminate earlier"
   }
  ]
 }
