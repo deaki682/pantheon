@@ -4,5 +4,5 @@
  "hit_rate": null,
  "momentum_terciles": {},
  "signal_lift": {},
- "zeus_note_2026_08_03": "Marked 120/121 open universe names on the live 14:24Z tape; SQ is unpriceable (Block renamed to XYZ, which IS priced and open separately) \u2014 recorded, not silently dropped. 180 open entries from the 2026-06-30..07-03 opens, 90-day horizon, so the FIRST grades land ~2026-09-28; nothing was due today and the report stays n=0 by construction. Universe names only re-open after their prior entry grades out."
+ "zeus_note_2026_08_06": "Marked 119/120 open universe names on the live ~14:17Z tape; SQ remains unpriceable (Block renamed to XYZ, which IS priced and open separately) - recorded, not silently dropped. 180 open entries from the 2026-06-30..07-03 opens on a 90-day horizon, so the FIRST grades land ~2026-09-28; grade_entries returned zero due today and the report stays n=0 BY CONSTRUCTION, not by failure. Universe names only re-open after their prior entry grades out (skip_open=True), so no new entries this pass. Paper equity $18,338.38 on an $18,000 basis = +1.88%, up from +1.47% at the 07-29 mark. Parentless since Delphi's 2026-07-04 retirement - this shadow runs on its own daily cadence and is the only thing still testing the momentum premise, the 20-day-MA exit rule, and the top-10 selection against their control groups."
 }
