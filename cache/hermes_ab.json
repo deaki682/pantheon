@@ -2279,6 +2279,38 @@
    "read_model": "opus",
    "read_effort": "high",
    "resolved": false
+  },
+  {
+   "symbol": "FBRX",
+   "detect_date": "2026-08-07",
+   "entry_price": 76.84,
+   "offer_price": 77.0,
+   "spy_entry": 770.67,
+   "expected_close": "2026-08-26",
+   "spread": 0.0021,
+   "llm_verdict": "drop",
+   "llm_rationale": "Clean all-cash tender (argenx BV / Avena Merger Sub, $77.00/sh, SC 14D9 2026-08-06, DGCL 251(h), expires 08-26): NO CVR, NO financing condition (argenx cash-rich), only HSR waiting period, $65M break fee. Break risk LOW \u2014 but DROP on economics: spread is spent at +0.21% vs the 1% minimum; 20 days for 21bp gross is inside the noise. Same call as NUVL/AVNS/KORE.",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
+  },
+  {
+   "symbol": "BBCQ",
+   "detect_date": "2026-08-07",
+   "entry_price": 10.18,
+   "offer_price": 10.18,
+   "spy_entry": 770.67,
+   "expected_close": "2026-12-31",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "OUT OF SCOPE \u2014 de-SPAC, not a cash merger target. Bleichroeder Acquisition Corp. II DEFM14A 2026-08-06 accompanied by F-4/A + 425 + 424B3: the acquirer registers SHARES as consideration, so there is no contractual cash terminal and the only floor is the trust redemption right, a different instrument. Sweep resolved the warrant ticker (BBCQW); common BBCQ quoted. FGMC precedent.",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
   }
  ],
  "graded": [
