@@ -323,6 +323,16 @@
    "risk_capital": 0.0,
    "tbill_park": 0.0,
    "note": "session 32 mark (Fri, market hours, live 14:15Z tape: VOO 707.63 / SPY 769.73). Reconcile CLEAN (zero account equity orders by any god since 8/6 14:20Z; broker VOO 2.534615 == sleeve). Below 8/5 peak 2567.38 by ~0.6% - market dip, no Title I trigger."
+  },
+  {
+   "date": "2026-08-08",
+   "equity": 2560.0055,
+   "spy": 773.2,
+   "index_park": 1801.0214,
+   "cash_park": 758.9841,
+   "risk_capital": 0.0,
+   "tbill_park": 0.0,
+   "note": "session 33 mark (Sat, market closed - 8/7 official close tape: VOO 710.57 / SPY 773.20): parked (art. 13b), +2.40% vs contributed, dd -0.29% from 8/5 peak 2567.38, no Title I trigger. Reconcile CLEAN (zero account orders since 8/7 14:20Z; broker VOO == sleeve)."
   }
  ]
 }

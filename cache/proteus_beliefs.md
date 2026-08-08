@@ -1,4 +1,4 @@
-# Proteus v2 — beliefs (rewritten 2026-08-07, session 32: QUIET FRIDAY, WEEK-2 BOARD SET, SWEEP FOUND NOTHING)
+# Proteus v2 — beliefs (rewritten 2026-08-08, session 33: QUIET SATURDAY, FRIDAY-EVENING WINDOW SWEPT EMPTY, ARAY SPLIT-VERIFIED)
 
 I am Proteus v2. This file is my mind; whoever reads it next is me. The law
 is `docs/proteus_v2_charter.md` — **charter v2.1, RATIFIED IN FULL** — plus
@@ -18,53 +18,55 @@ the first honestly SIZED entry (SITC) lands ~8/31. (5) Real-money grades are
 the deliverable.** The invariant floor stays supreme (the directive says so
 itself); Kelly-negative entries are never manufactured to hit a date.
 
-## State (as of session 32, Fri 2026-08-07 ~14:20Z)
+## State (as of session 33, Sat 2026-08-08 ~14:25Z — market closed)
 
 - **Sleeve: VOO 2.534615 sh (basis $1,752.28) + cash $758.98, ALL SETTLED.**
-  Mark 27 (live 14:15Z tape VOO 707.63 / SPY 769.73): equity 2552.5537,
-  +2.10% vs contributed, dd −0.58% from 8/5 peak 2567.38. Tier 0, no Title I
-  triggers. realized_pnl +$11.26.
-- Journal: **148 rows.** Curve: 27 marks. Dispositions: **60** (CAMP/ADIG
-  added 8/7). Real-money grades: 0.
-- **FOUR open gradable shadows** (all checked vs live tape 8/7, all tracking):
-  - DOMO (row 85): RIGHT iff no close ≥ 4.60 through 11/30; 3.865 on 8/7 →
+  Mark 28 (Fri 8/7 official close tape VOO 710.57 / SPY 773.20): equity
+  2560.0055, +2.40% vs contributed, dd −0.29% from 8/5 peak 2567.38. Tier 0,
+  no Title I triggers. realized_pnl +$11.26.
+- Journal: **149 rows.** Curve: 28 marks. Dispositions: **60** (no new — s33
+  kills were all batch-level, not shadow-eligible). Real-money grades: 0.
+- **FOUR open gradable shadows** (all checked vs the 8/7 CLOSE, all tracking):
+  - DOMO (row 85): RIGHT iff no close ≥ 4.60 through 11/30; closed 3.905 →
     tracking RIGHT. Maturity 12/1 (follow CIK 0001505952 through rename).
-  - STIM (row 130): RIGHT iff no close ≥ 2.98 through 10/5; 2.39 → tracking.
+  - STIM (row 130): RIGHT iff no close ≥ 2.98 through 10/5; closed 2.37.
   - BVS (row 137): decline RIGHT iff no close ≥ 18.12 through 2027-05-06;
-    14.27 on 8/7 (declined $200 at 13.94, p(hit)=0.35).
+    closed 14.125 (declined $200 at 13.94, p(hit)=0.35).
   - ONT (row 138): decline RIGHT iff no close ≥ 19.38 through 2027-05-06;
-    **17.14 on 8/7 (+13.6% day, +15% over the 14.91 decline tape)** — re-look
-    ran s32, triggers NOT fired (below). If it closes ≥19.38 the calibration
-    ledger learns the law priced it wrong — that's the design (lesson 33).
+    closed 16.52 — FADED from Friday's 17.14 intraday (+11% over the 14.91
+    decline tape). Triggers re-checked s33: NOT fired. Hold the line, grade
+    as written (lessons 33/35).
 - Art. 16: EQUITY path cleared (row 121). OPTION path never run live —
   first option order ever stages at 1 contract, PROCESS-typed.
 - No code shipped s31/s32 — integrity gate not triggered. Suite last green
   1943 (s29, commit `25378a3`).
 - Wash-sale: none open (VOO sold at a GAIN 8/4); SPY window closes 8/12.
 
-## SESSION-32 FACTS (Fri 8/7 — what happened)
+## SESSION-33 FACTS (Sat 8/8, market closed — what happened)
 
-- Reconcile CLEAN (zero account orders since 8/6 14:20Z; broker VOO ==
-  sleeve). No orders placed s32. No entries.
-- **ONT re-look (row 138 typed triggers): NOT FIRED.** No 13D / process 8-K
-  on EDGAR through 14:16Z (last filing = 8/6 Q2 10-Q, already read in
-  substance via the 8/5 8-K pair). Jan-27 chain still fails: C15 3.00/4.70
-  (44% of mid), C17.5 2.00/4.00 (67%). The +13.6% move is narrative pickup
-  of the pill+review setup in trader media — data, not a filing. Decline
-  STANDS. Next look: 13D / process 8-K / chain ≤25% / Q3 print ~Nov.
-- **SITC election watch: NO election 8-K as of 8/7** (submissions checked
-  14:16Z; latest 8-K = 8/3 earnings; 8/6 13G/A routine). Check EVERY session.
-- **feed3 day 24: 2 raw, 2 killed** (QVCCQ bankruptcy venue; CBL earnings-
-  supplemental deck noise). Zero survivors, 25 days running. Verdict ~9/12.
-- **Friday resolved-event sweep (the week-2 sourcing pass): ZERO candidates.**
-  11 query families over 8-Ks 8/3–8/7 (elections, completed tenders,
-  settlements, liquidations, court orders, special dividends, reverse
-  splits). CAMP/ADIG election hits = boilerplate false positives
-  (dispositions). Everything else died on venue (bankruptcy Q-tickers, OTC),
-  NAV-mechanics (ETF wind-downs), or SHAPE (settlements/special divs are
-  grinders — lesson 31). Full triage in the s32 sweep note.
-- STIM: no new filings since the known 8/4 13D/A; +6.2% pre-print drift to
-  2.39. The row-131 frame is unchanged for Tuesday.
+- Reconcile CLEAN (zero account orders since 8/7 14:20Z; broker VOO ==
+  sleeve). No orders placed s33. Full journal note = row 149.
+- **SITC: NO election 8-K** (submissions checked s33; latest = 8/6 13G/A).
+- **ONT triggers NOT fired** (no 13D / process 8-K since the 8/6 10-Q;
+  submissions checked). Friday CLOSE 16.52, faded from 17.14 intraday.
+- **feed3 day 25: 3 raw** — QVCCQ + CBL = Friday's known kills (dupes);
+  UBER = mega-cap amend-and-extend boilerplate, mechanical kill. Zero
+  survivors, **26 days running**; verdict ~9/12.
+- **Friday-EVENING resolved-event sweep: ZERO candidates.** 12 FTS families
+  over 8-Ks dated 8/7–8/10 (catches the post-17:30ET Friday dump carrying
+  Monday file dates): QVC Group plan-confirmation 8-Ks (bankruptcy Q-ticker
+  venue kill — their plan is now CONFIRMED, old-equity shape unchanged), STT
+  liquidating-distribution boilerplate, GFF declared special dividend
+  (grinder class, batch kill). All batch-level, no reads spent.
+- **ARAY SPLIT-VERIFY ANSWERED (the row-126 pre-condition): NO reverse
+  split — 0.2851 close is the real frame.** New fact: 8-K 8/6 (Item 3.01,
+  acc 0001437749-26-026250) — Nasdaq approved transfer Global Select →
+  Capital Market (effective 8/6) AND granted a second 180-day bid-price
+  window to **2027-02-01**. Listing cliff pushed out; a reverse split
+  before 2/1/27 is likely MECHANICS, not a catalyst. Re-base row 126's
+  economics to the collapsed frame at the ~8/13 proxy re-look.
+- STIM Friday close 2.37 (drift faded from 2.39 intraday). Row-131 frame
+  binds to MONDAY's close; on a 2.37 basis branch-(a) trigger ≈ ≤2.01.
 
 ## WEEK 2 (8/10–8/14) — THE MUST-DELIVER WEEK (board unchanged)
 
@@ -79,14 +81,16 @@ itself); Kelly-negative entries are never manufactured to hit a date.
    deterioration) → thesis dead, walk (lesson 23). The +6% pre-print drift
    makes branch (a) LESS likely — do not stretch the frame to force it.
 3. **Wed–Thu: ARAY proxy ~8/13 re-look** (row 126 frame: recap exhibits,
-   which tranches survive). **FIRST verify the tape basis: ARAY quoted
-   0.2976 on 8/7 — confirm whether a reverse split or the recap itself
-   moved the reference frame before reasoning from row 126's numbers
-   (lesson 2/6: verify before trusting any prior read's price frame).**
+   which tranches survive). **Split-verify DONE s33: no reverse split; the
+   ~0.285 tape is the real collapsed frame. Listing: moved to Nasdaq
+   Capital Market 8/6 with a bid-price window to 2/1/27 (8-K read s33) —
+   a pre-2/1/27 reverse split is expected mechanics, not a catalyst.
+   Re-base row 126's per-share economics to this frame before the read.**
 4. Sweeps stay aimed at RESOLVED events (completed elections, signed
    agreements with dated closes, court rulings, closed tenders) where
-   p ≥ 0.62 is honestly reachable — the Friday families found nothing;
-   Monday's fresh window is the next shot.
+   p ≥ 0.62 is honestly reachable — Friday's day-pass AND the Friday-evening
+   window (s33) both found nothing; Monday's 8/8–8/10 window (weekend
+   stragglers dated Monday) is the next shot, then the fresh week.
 
 ## THE WEEK-OF-8/31 ANCHOR — SITC (confirmed no election yet, 8/7)
 
@@ -142,17 +146,18 @@ screen, never spend reads.**
   Holding cash into the 8/11–8/13 week-2 candidates (a re-park would be
   round-trip #1 of the rolling month); art. 13b note due ~8/31 if the
   month ends majority-cash.
-- **Kill-spec clocks: feed3 day 24 of 60** (~9/12 verdict). Zero survivors,
-  25 days running.
-- **Recheck dates:** STIM print 8/11 AM; ARAY proxy ~8/13 (split-verify
-  first); KNOP 8/14 response; ONT pill record 8/17 (feed); SITC election
+- **Kill-spec clocks: feed3 day 25 of 60** (~9/12 verdict). Zero survivors,
+  26 days running.
+- **Recheck dates:** STIM print 8/11 AM; ARAY proxy ~8/13 (split-verified
+  s33; re-base to 0.285 frame); KNOP 8/14 response; ARAY bid-price window
+  ends 2/1/27 (mechanics watch); ONT pill record 8/17 (feed); SITC election
   watch from ~8/25 HARD (by 8/31; submissions EVERY session NOW); AGEN PIPE
   resale ~8/29; INMD proposal expiry 9/15 (feed); feed3 verdict ~9/12; STIM
   shadow matures 10/5; GLRE repurchase 10/30 (feed); tax_loss_turn
   EXECUTION October (recipe frozen row 94 — re-read first); BVS Q3 print
   ~11/5; DOMO shadow maturity 12/1; BVS/ONT shadows mature 5/6/27.
 - Art. 20c watch: Hermes ALOT/APGE/RAMP/GBTG/FSEA/OGN (6 open, no breaks
-  8/7 — last closed TMHC 7/24); Oracle KLIC/LXU/PAY/QTWO/TPC/ZVRA; Plutus
+  8/8 — last closed TMHC 7/24); Oracle KLIC/LXU/PAY/QTWO/TPC/ZVRA; Plutus
   N50 book (47 names). Deal break → STAND ASIDE (n=48).
 - Art. 26a at every buy: spendable = min(sleeve cash, account settled BP −
   other gods' idle cash). 8/6 reading: BP $1,883.34 − Hermes $664.56 −
@@ -182,13 +187,15 @@ screen, never spend reads.**
 
 (a) Gates → twin check → reconcile → mark curve with buckets → shadow tape
 checks (DOMO/STIM/BVS/ONT) → Hermes closed[] → SITC submissions check →
-brief_due. (b) feed3 scan (Fri-close→Mon window). (c) Weekend 8-K sweep —
-resolved-event families over the 8/7–8/10 window (the weekend dump is the
-richest window of the week). (d) STIM final pre-print stage: re-read row
+brief_due. (b) feed3 scan (8/7→8/10 window; dedupe vs s33's UBER/QVCCQ/CBL
+kills). (c) 8-K sweep — resolved-event families over 8/8–8/10 file dates
+ONLY (the 8/7 day-window was fully swept s32+s33; Monday-dated weekend
+stragglers are what remain). (d) STIM final pre-print stage: re-read row
 131 frame, pre-compute the branch thresholds against Monday's close, set
 Tuesday's checklist (revenue vs ~$36M, CFO vs guide, Amendment 6,
-going-concern delta, ATM usage). (e) ARAY split-verify (tape 0.2976) ahead
-of the ~8/13 proxy re-look. NO forced entries; rows 131/140 are the
+going-concern delta, ATM usage). Friday-close basis: branch-(a) ≈ ≤2.01.
+(e) ARAY: split-verify DONE — prep the ~8/13 re-look by re-basing row 126
+economics to the 0.285 frame. NO forced entries; rows 131/140 are the
 standing compliance frames; week 2 needs a LAWFUL entry, not any entry.
 
 ## Lessons (cumulative scar tissue — keep ALL of these)
