@@ -1135,8 +1135,17 @@ function openPhoto(blob, gid){
     galLoading = null; GRID_READY = false;
     $('upStat').textContent = '';
     initFormat();
-    show('scrFormat');
-    speculate();                       // the dwell on this screen is free compute
+    let fmt = null;   // a photo formatted before goes straight to the drawing
+    if (gid != null){ try{ fmt = JSON.parse(localStorage.getItem('fmt|'+gid)); }catch(e){} }
+    if (fmt && fmt.w){
+      $('aspect').value = fmt.a || 'photo';
+      $('widthIn').value = fmt.w;
+      fmtPreview();
+      enterMain();
+    } else {
+      show('scrFormat');
+      speculate();                     // the dwell on this screen is free compute
+    }
   };
   img.onerror = () => { galLoading = null; galActive = null;
     $('upStat').textContent = 'could not read that file'; };
@@ -1224,12 +1233,20 @@ async function applyFormat(){
   poolInit(); pumpQueue();
 }
 function speculate(){ clearTimeout(FMT_TIMER); FMT_TIMER=setTimeout(()=>{ applyFormat(); }, 600); }
-$('fmtGo').onclick = async () => {
+async function enterMain(){
   clearTimeout(FMT_TIMER);
   show('scrMain');       // show first: fit-to-viewport needs a real rect
   await applyFormat();   // usually already done - Continue costs nothing
   initMain(); lightKnown(); pumpQueue();
   stat('preparing');
+}
+$('fmtGo').onclick = () => {
+  // remember this photo's format so the gallery can skip straight in next time
+  if (galActive != null){
+    try{ localStorage.setItem('fmt|'+galActive,
+      JSON.stringify({ a: $('aspect').value, w: $('widthIn').value })); }catch(e){}
+  }
+  enterMain();
 };
 
 
