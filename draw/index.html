@@ -45,6 +45,8 @@ button:disabled{opacity:.4}
 .gbar{height:4px;background:#333;margin-top:4px;visibility:hidden}
 .gitem.busy .gbar{visibility:visible}
 .gfill{height:100%;width:0;background:#e8e6e1}
+#calBox{width:96px;height:96px;border:1px dashed #888;flex:none}
+#calSlide{flex:1;min-width:80px;padding:0}
 #world{position:absolute;left:0;top:0;transform-origin:0 0}
 #refImg,#gridCv,#selCv,#paperCv,#dimCv,#flashCv,#doneCv{position:absolute;left:0;top:0}
 /* the tool panel floats bottom-left over the canvas and can be dismissed */
@@ -94,6 +96,11 @@ button:disabled{opacity:.4}
     <span id="fmtInfo"></span>
   </div>
   <div id="fmtPrev"><canvas id="fmtCanvas"></canvas></div>
+  <div class="row">
+    <span>true size &mdash; match this box to a real 1" with a ruler:</span>
+    <div id="calBox"></div>
+    <input type="range" id="calSlide" min="60" max="220" value="100">
+  </div>
   <div class="row">
     <button id="fmtBack">Back</button>
     <span class="grow"></span>
@@ -1229,6 +1236,20 @@ $('fmtGo').onclick = async () => {
 const CELL = 96;                                // css px per square at zoom 1
 let view = { x:0, y:0, s:1 };
 
+// true-size calibration: CSS says 96px = 1in but few screens agree.
+// The format screen's dashed box + slider let the artist set the truth once.
+let INCAL = 1;
+try{ const v=+localStorage.getItem('inchCal'); if (v>=0.6 && v<=2.2) INCAL=v; }catch(e){}
+{
+  const bx=$('calBox'), sl=$('calSlide');
+  const showCal=()=>{ bx.style.width=bx.style.height=(96*INCAL)+'px';
+    sl.value=Math.round(INCAL*100); };
+  showCal();
+  sl.oninput=()=>{ INCAL=sl.value/100;
+    try{ localStorage.setItem('inchCal', INCAL); }catch(e){}
+    showCal(); applyView(); };
+}
+
 const selSet = new Set();                        // 'c,r' strings
 let sel = null;                                  // legacy alias: first selected cell
 const selCells = () => [...selSet].map(k=>{ const [c,r]=k.split(',').map(Number); return {c,r}; });
@@ -1242,7 +1263,9 @@ function clampView(){
   const r = $('viewport').getBoundingClientRect();
   if (!w || !h || !r.width || !r.height) return;
   const fit = Math.min(r.width/w, r.height/h);
-  view.s = Math.max(fit, Math.min(8, view.s));
+  // max zoom is life size: one square = one real inch (INCAL calibrates
+  // the browser's 96px "inch" to the actual glass; fit wins on tiny grids)
+  view.s = Math.max(fit, Math.min(Math.max(fit, INCAL), view.s));
   const W = w*view.s, H = h*view.s;
   view.x = W <= r.width  ? (r.width  - W)/2 : Math.max(r.width  - W, Math.min(0, view.x));
   view.y = H <= r.height ? (r.height - H)/2 : Math.max(r.height - H, Math.min(0, view.y));
