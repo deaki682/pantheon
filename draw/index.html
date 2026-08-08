@@ -1287,6 +1287,15 @@ function clampView(){
   view.x = W <= r.width  ? (r.width  - W)/2 : Math.max(r.width  - W, Math.min(0, view.x));
   view.y = H <= r.height ? (r.height - H)/2 : Math.max(r.height - H, Math.min(0, view.y));
 }
+function zBounds(){
+  // the same limits clampView enforces, for use BEFORE computing a
+  // zoom-about-a-point translation (translating at an unclamped scale
+  // and clamping after flings the view to an edge)
+  const {w,h} = worldSize();
+  const r = $('viewport').getBoundingClientRect();
+  const fit = (w && r.width) ? Math.min(r.width/w, r.height/h) : 0.05;
+  return { min: fit, max: Math.max(fit, INCAL) };
+}
 function applyView(){
   clampView();
   $('world').style.transform = `translate(${view.x}px,${view.y}px) scale(${view.s})`;
@@ -1450,7 +1459,8 @@ vp.addEventListener('pointermove', e => {
   if (ptrs.size===2 && pinch0){
     const [a,b]=[...ptrs.values()];
     const d=Math.hypot(a.x-b.x,a.y-b.y);
-    const s=clamp(pinch0.s*d/pinch0.d, 0.05, 8);
+    const zb=zBounds();
+    const s=clamp(pinch0.s*d/pinch0.d, zb.min, zb.max);
     // zoom about the pinch centre
     const k=s/pinch0.s;
     view.s=s;
@@ -1492,7 +1502,9 @@ vp.addEventListener('wheel', e => {
   e.preventDefault();
   const rect=vp.getBoundingClientRect();
   const k = e.deltaY<0 ? 1.15 : 1/1.15;
-  const s = clamp(view.s*k, 0.05, 8);
+  const zb=zBounds();
+  const s = clamp(view.s*k, zb.min, zb.max);
+  if (s === view.s) return;                      // already at the limit: no drift
   const kk=s/view.s;
   view.x=e.clientX-rect.left-(e.clientX-rect.left-view.x)*kk;
   view.y=e.clientY-rect.top-(e.clientY-rect.top-view.y)*kk;
