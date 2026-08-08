@@ -1252,12 +1252,10 @@ function applyView(){
   $('world').style.transform = `translate(${view.x}px,${view.y}px) scale(${view.s})`;
 }
 addEventListener('resize', () => { if ($('scrMain').classList.contains('on')) applyView(); });
-function initMain(){
+function paintWorld(){
+  // the re-derivable layers: reference, grid, dimming - callable again after
+  // the browser evicts canvas memory in the background
   const {w,h} = worldSize();
-  for (const id of ['refImg','dimCv','flashCv','gridCv','paperCv','selCv','doneCv']){
-    const cv=$(id); cv.width=w; cv.height=h;
-  }
-  doneSet.clear();
   const g = $('refImg').getContext('2d');
   g.imageSmoothingQuality='high';
   g.drawImage(state.img, 0, 0, w, h);
@@ -1268,13 +1266,20 @@ function initMain(){
     gg.beginPath(); gg.moveTo(x,0); gg.lineTo(x,h); gg.stroke(); }
   for (let r=1;r<GRID_ROWS;r++){ const y=r*CELL+0.5;
     gg.beginPath(); gg.moveTo(0,y); gg.lineTo(w,y); gg.stroke(); }
-  $('paperCv').getContext('2d').clearRect(0,0,w,h);
-  
-  
   buildDimSrc(w,h);
   const dg=$('dimCv').getContext('2d');
   dg.clearRect(0,0,w,h);
   dg.drawImage(DIMSRC,0,0);
+}
+function initMain(){
+  const {w,h} = worldSize();
+  for (const id of ['refImg','dimCv','flashCv','gridCv','paperCv','selCv','doneCv']){
+    const cv=$(id); cv.width=w; cv.height=h;
+  }
+  doneSet.clear();
+  paintWorld();
+  $('paperCv').getContext('2d').clearRect(0,0,w,h);
+  PAPER_BAK=null; restorePaper();
   selSet.clear(); sel=null; drawSel();
   const vp = $('viewport').getBoundingClientRect();
   view.s = Math.max(0.05, Math.min(vp.width/w, vp.height/h) || 0.05);
@@ -1461,11 +1466,61 @@ function showPaper(b, cv){
   const g=$('paperCv').getContext('2d');
   g.imageSmoothingQuality='high';
   const w=(b.w||b.n||1)*CELL, h=(b.h||b.n||1)*CELL;
-  
+
   if (b.cells) for (const {c,r} of b.cells) g.clearRect(c*CELL, r*CELL, CELL, CELL);
   else g.clearRect(b.c*CELL, b.r*CELL, w, h);
   if (cv) g.drawImage(cv, b.c*CELL, b.r*CELL, w, h);
+  paperDirty();
 }
+
+// ---- the drawing survives background eviction and full tab discards ----
+let PAPER_BAK=null;     // ImageData in the JS heap: outlives evicted canvas memory
+let paperT=0;
+async function dbPutRaw(k,v){ try{ const d=await db(); await new Promise(res=>{
+  const t=d.transaction('plans','readwrite').objectStore('plans').put(v,k);
+  t.onsuccess=res; t.onerror=res; }); }catch(e){} }
+function paperDirty(){
+  const cv=$('paperCv'); if (!cv.width) return;
+  try{ PAPER_BAK=cv.getContext('2d').getImageData(0,0,cv.width,cv.height); }catch(e){}
+  clearTimeout(paperT);
+  paperT=setTimeout(()=>{
+    if (!CKEY) return;
+    cv.toBlob(bl=>{ if (bl) dbPutRaw('paper|'+CKEY, bl); }, 'image/png');
+    dbPutRaw('done|'+CKEY, [...doneSet]);
+  }, 800);
+}
+async function restorePaper(){
+  for (let i=0;i<50 && !CKEY;i++) await new Promise(r=>setTimeout(r,100));
+  if (!CKEY) return;
+  const bl=await dbGet('paper|'+CKEY);
+  if (bl instanceof Blob){
+    const img=await blobImage(bl).catch(()=>null);
+    if (img){
+      const cv=$('paperCv'), g=cv.getContext('2d');
+      g.clearRect(0,0,cv.width,cv.height);
+      g.drawImage(img,0,0,cv.width,cv.height);
+      URL.revokeObjectURL(img.src);
+      try{ PAPER_BAK=g.getImageData(0,0,cv.width,cv.height); }catch(e){}
+    }
+  }
+  const dn=await dbGet('done|'+CKEY);
+  if (Array.isArray(dn) && dn.length){ dn.forEach(k=>doneSet.add(k)); renderDone(); }
+}
+document.addEventListener('visibilitychange', ()=>{
+  // waking with blank layers means the browser purged canvas memory: repaint
+  if (document.hidden || !GRID_READY) return;
+  const cv=$('refImg'); if (!cv.width) return;
+  let blank=true;
+  try{ const d=cv.getContext('2d').getImageData(0,0,6,6).data;
+    for (let i=3;i<d.length;i+=4) if (d[i]){ blank=false; break; } }catch(e){ return; }
+  if (!blank) return;
+  paintWorld();
+  if (typeof lightKnown==='function') lightKnown();
+  const pc=$('paperCv'), pg=pc.getContext('2d');
+  pg.clearRect(0,0,pc.width,pc.height);
+  if (PAPER_BAK) pg.putImageData(PAPER_BAK,0,0); else restorePaper();
+  drawSel(); renderDone();
+});
 $('clearBtn').onclick = () => {
   const b=blockRC(); if (!b) return;
   showPaper(b, null);
