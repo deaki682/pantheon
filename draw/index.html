@@ -36,7 +36,13 @@ button:disabled{opacity:.4}
 #viewport{flex:1;min-height:0;position:relative;overflow:hidden;background:#ddd}
 #world{position:absolute;left:0;top:0;transform-origin:0 0}
 #refImg,#gridCv,#selCv,#paperCv,#dimCv,#flashCv{position:absolute;left:0;top:0}
-#hud{border-top:1px solid #000;padding-bottom:env(safe-area-inset-bottom)}
+/* the tool panel floats bottom-left over the canvas and can be dismissed */
+#hudWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
+  bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
+  display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+  max-width:calc(100% - 16px)}
+#hud{border:1px solid #000;background:#fff}
+#hudToggle{width:44px;height:44px;padding:0;font-size:18px;line-height:1}
 #stat{padding:4px 8px;font-size:12px;min-height:22px}
 .fsBtn{min-width:40px}
 </style>
@@ -98,21 +104,24 @@ button:disabled{opacity:.4}
       <canvas id="selCv"></canvas>
     </div>
   </div>
-  <div id="hud">
-    <div id="stat"></div>
-    <div class="row">
-      <select id="blockN">
-        <option value="1">1 square</option>
-        <option value="2">2 x 2</option>
-        <option value="3">3 x 3</option>
-      </select>
-      <button id="drawBtn" disabled>Draw</button>
-      <button id="stepBtn" disabled>Step</button>
-      <button id="clearBtn" disabled>Clear</button>
-      <span class="grow"></span>
-      <button id="reformat">Format</button>
-      <button class="fsBtn" title="Fullscreen">&#x26F6;</button>
+  <div id="hudWrap">
+    <div id="hud">
+      <div id="stat"></div>
+      <div class="row">
+        <select id="blockN">
+          <option value="1">1 square</option>
+          <option value="2">2 x 2</option>
+          <option value="3">3 x 3</option>
+        </select>
+        <button id="drawBtn" disabled>Draw</button>
+        <button id="stepBtn" disabled>Step</button>
+        <button id="clearBtn" disabled>Clear</button>
+        <span class="grow"></span>
+        <button id="reformat">Format</button>
+        <button class="fsBtn" title="Fullscreen">&#x26F6;</button>
+      </div>
     </div>
+    <button id="hudToggle" title="Tools">&#x2715;</button>
   </div>
 </div>
 
@@ -1842,6 +1851,20 @@ loadArsenal().then(u => {
   $('upStat').textContent = u ? 'build 0802-2249' : 'arsenal.json not reachable - drawing disabled';
   poolBoot();                          // compile the workers before the photo exists
 });
+
+// the tool panel collapses to a corner button for a clear view of the drawing
+{
+  const hud = $('hud'), tg = $('hudToggle');
+  const set = o => {
+    hud.style.display = o ? '' : 'none';
+    tg.textContent = o ? '✕' : '✎';   // open: dismiss X; closed: pencil
+    try { localStorage.setItem('hudOpen', o ? '1' : '0'); } catch(e){}
+  };
+  let open = true;
+  try { open = localStorage.getItem('hudOpen') !== '0'; } catch(e){}
+  set(open);
+  tg.onclick = () => set(hud.style.display === 'none');
+}
 
 // app shell: fullscreen toggle + installable offline PWA
 {
