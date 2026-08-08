@@ -49,6 +49,9 @@ button:disabled{opacity:.4}
 #calSlide{flex:1;min-width:80px;padding:0}
 #world{position:absolute;left:0;top:0;transform-origin:0 0}
 #refImg,#gridCv,#selCv,#paperCv,#dimCv,#flashCv,#doneCv{position:absolute;left:0;top:0}
+/* compare: the photographed drawing aligned over the reference */
+#cmpView{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
+#cmpCv{position:absolute;left:0;top:0;touch-action:none}
 /* the tool panel floats bottom-left over the canvas and can be dismissed */
 #hudWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
@@ -140,10 +143,23 @@ button:disabled{opacity:.4}
         <button id="doneBtn" disabled>Mark done</button>
         <span class="grow"></span>
         <button id="reformat">Format</button>
+        <button id="compareBtn">Compare</button>
         <button class="fsBtn" title="Fullscreen">&#x26F6;</button>
       </div>
     </div>
     <button id="hudToggle" title="Tools">&#x25BE;</button>
+  </div>
+</div>
+
+<!-- 4: compare - photograph the real drawing, align it, flip against the reference -->
+<div class="screen" id="scrCompare">
+  <div id="cmpView"><canvas id="cmpCv"></canvas></div>
+  <div class="row">
+    <input type="file" id="cmpFile" accept="image/*" hidden>
+    <button id="cmpShoot">Photo</button>
+    <button id="cmpFlip" disabled>Flip view</button>
+    <span id="cmpHint" class="grow"></span>
+    <button id="cmpBack">Back</button>
   </div>
 </div>
 
@@ -2108,6 +2124,133 @@ loadArsenal().then(u => {
   $('upStat').textContent = u ? 'build 0802-2249' : 'arsenal.json not reachable - drawing disabled';
   poolBoot();                          // compile the workers before the photo exists
 });
+
+// ---- compare: photograph the real drawing, align it over the reference, flip ----
+const CMP={img:null, blob:null, ckey:null, t:{x:0,y:0,s:1,r:0}, mode:'align', showing:'photo', fit:null};
+function cmpSize(){
+  const r=$('cmpView').getBoundingClientRect(), cv=$('cmpCv');
+  if (cv.width!==Math.round(r.width) || cv.height!==Math.round(r.height)){
+    cv.width=Math.round(r.width); cv.height=Math.round(r.height);
+  }
+  const {w,h}=worldSize();
+  const s=Math.min(cv.width/w, cv.height/h);
+  CMP.fit={s, x:(cv.width-w*s)/2, y:(cv.height-h*s)/2, w, h};
+}
+function cmpRender(){
+  const cv=$('cmpCv'), g=cv.getContext('2d');
+  g.clearRect(0,0,cv.width,cv.height);
+  const drawPhoto=()=>{ if (!CMP.img) return; const t=CMP.t;
+    g.save(); g.translate(t.x,t.y); g.rotate(t.r); g.scale(t.s,t.s);
+    g.drawImage(CMP.img, -CMP.img.width/2, -CMP.img.height/2); g.restore(); };
+  const drawRef=()=>{ const f=CMP.fit;
+    g.drawImage($('refImg'), f.x, f.y, f.w*f.s, f.h*f.s); };
+  if (CMP.mode==='align'){ drawPhoto(); g.globalAlpha=0.45; drawRef(); g.globalAlpha=1; }
+  else if (CMP.showing==='ref') drawRef();
+  else drawPhoto();
+  $('cmpHint').textContent = CMP.img
+    ? (CMP.mode==='align' ? 'drag / pinch / twist your photo onto the reference'
+                          : (CMP.showing==='ref' ? 'reference - tap to flip' : 'your drawing - tap to flip'))
+    : 'photograph your drawing';
+}
+async function cmpSetPhoto(blob){
+  const i=await blobImage(blob).catch(()=>null);
+  if (!i) return;
+  const c=document.createElement('canvas');
+  c.width=i.width; c.height=i.height;
+  const cg=c.getContext('2d');
+  cg.filter='grayscale(1)'; cg.drawImage(i,0,0); cg.filter='none';   // automatic b&w
+  URL.revokeObjectURL(i.src);
+  CMP.img=c; CMP.blob=blob;
+  const cv=$('cmpCv');
+  CMP.t={x:cv.width/2, y:cv.height/2, s:Math.min(cv.width/c.width, cv.height/c.height), r:0};
+  CMP.mode='align'; CMP.showing='photo';
+  $('cmpFlip').disabled=false; $('cmpFlip').textContent='Flip view';
+  cmpRender(); cmpSave();
+}
+let cmpT=0;
+function cmpSave(){ clearTimeout(cmpT); cmpT=setTimeout(()=>{
+  if (CKEY && CMP.blob) dbPutRaw('cmp|'+CKEY, {blob:CMP.blob, t:{...CMP.t}}); }, 700); }
+$('compareBtn').onclick = async () => {
+  show('scrCompare'); cmpSize();
+  if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
+    CMP.ckey=CKEY; CMP.img=null; CMP.blob=null;
+    $('cmpFlip').disabled=true; $('cmpFlip').textContent='Flip view';
+    const saved=CKEY ? await dbGet('cmp|'+CKEY) : null;
+    if (saved && saved.blob){
+      await cmpSetPhoto(saved.blob);
+      if (saved.t) CMP.t=saved.t;
+      CMP.mode='flip'; CMP.showing='photo'; $('cmpFlip').textContent='Adjust';
+    }
+  }
+  cmpRender();
+};
+$('cmpBack').onclick = () => show('scrMain');
+$('cmpShoot').onclick = () => $('cmpFile').click();
+$('cmpFile').addEventListener('change', e => {
+  const f=e.target.files[0]; if (f) cmpSetPhoto(f);
+  e.target.value='';
+});
+$('cmpFlip').onclick = () => {
+  if (!CMP.img) return;
+  CMP.mode = CMP.mode==='align' ? 'flip' : 'align';
+  $('cmpFlip').textContent = CMP.mode==='align' ? 'Flip view' : 'Adjust';
+  CMP.showing='photo';
+  cmpRender(); cmpSave();
+};
+{
+  const cv=$('cmpCv'), pts=new Map(); let g0=null, tap=null;
+  cv.addEventListener('pointerdown', e => {
+    cv.setPointerCapture(e.pointerId);
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if (pts.size===1) tap={moved:false,t:Date.now()};
+    if (pts.size===2){
+      const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
+      g0={d:Math.hypot(a.x-b.x,a.y-b.y), ang:Math.atan2(b.y-a.y,b.x-a.x),
+          mx:(a.x+b.x)/2-r.left, my:(a.y+b.y)/2-r.top, t:{...CMP.t}};
+      tap=null;
+    }
+  });
+  cv.addEventListener('pointermove', e => {
+    const p=pts.get(e.pointerId); if (!p) return;
+    const dx=e.clientX-p.x, dy=e.clientY-p.y;
+    p.x=e.clientX; p.y=e.clientY;
+    if (Math.hypot(dx,dy)>4 && tap) tap.moved=true;
+    if (CMP.mode!=='align' || !CMP.img) return;
+    if (pts.size===1){
+      CMP.t.x+=dx; CMP.t.y+=dy; cmpRender(); cmpSave();
+    } else if (pts.size===2 && g0){
+      const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
+      const d=Math.hypot(a.x-b.x,a.y-b.y), ang=Math.atan2(b.y-a.y,b.x-a.x);
+      const mx=(a.x+b.x)/2-r.left, my=(a.y+b.y)/2-r.top;
+      const k=d/g0.d, dr=ang-g0.ang;
+      const c=Math.cos(dr)*k, s2=Math.sin(dr)*k;
+      CMP.t.s=g0.t.s*k; CMP.t.r=g0.t.r+dr;
+      CMP.t.x=mx+(g0.t.x-g0.mx)*c-(g0.t.y-g0.my)*s2;
+      CMP.t.y=my+(g0.t.x-g0.mx)*s2+(g0.t.y-g0.my)*c;
+      cmpRender(); cmpSave();
+    }
+  });
+  const up=e=>{
+    pts.delete(e.pointerId);
+    if (pts.size<2) g0=null;
+    if (pts.size===0 && tap && !tap.moved && Date.now()-tap.t<400
+        && CMP.mode==='flip' && CMP.img){
+      CMP.showing = CMP.showing==='ref' ? 'photo' : 'ref'; cmpRender();
+    }
+    if (pts.size===0) tap=null;
+  };
+  cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+  cv.addEventListener('wheel', e => {
+    if (CMP.mode!=='align' || !CMP.img) return;
+    e.preventDefault();
+    const r=cv.getBoundingClientRect(), px=e.clientX-r.left, py=e.clientY-r.top;
+    const k=e.deltaY<0?1.06:1/1.06;
+    CMP.t.s*=k;
+    CMP.t.x=px+(CMP.t.x-px)*k; CMP.t.y=py+(CMP.t.y-py)*k;
+    cmpRender(); cmpSave();
+  }, {passive:false});
+  addEventListener('resize', ()=>{ if ($('scrCompare').classList.contains('on')){ cmpSize(); cmpRender(); } });
+}
 
 // the tool panel collapses to a corner button for a clear view of the drawing
 {
