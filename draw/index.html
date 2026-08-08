@@ -5,17 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Draw</title>
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#141414">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Draw">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <style>
 /* minimal by instruction: purely functional, no stylistic embellishment */
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden;background:#fff;color:#000;
+html{color-scheme:dark}
+html,body{width:100%;height:100%;overflow:hidden;background:#141414;color:#e8e6e1;
   font:14px system-ui,sans-serif;touch-action:none;
   overscroll-behavior:none;
   -webkit-user-select:none;user-select:none;
@@ -25,7 +26,8 @@ body{position:fixed;inset:0}
   padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
 .screen{position:absolute;inset:0;display:none;flex-direction:column}
 .screen.on{display:flex}
-button,select,input{font:inherit;padding:8px 12px;border:1px solid #000;background:#fff}
+button,select,input{font:inherit;padding:8px 12px;border:1px solid #555;
+  background:#1e1e1e;color:#e8e6e1}
 button:disabled{opacity:.4}
 .row{display:flex;gap:8px;align-items:center;padding:8px;flex-wrap:wrap}
 .grow{flex:1}
@@ -33,7 +35,16 @@ button:disabled{opacity:.4}
 #fmtPrev{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
 #fmtCanvas{max-width:100%;max-height:100%}
 /* screen 3: main view */
-#viewport{flex:1;min-height:0;position:relative;overflow:hidden;background:#ddd}
+#viewport{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
+/* gallery: every photo ever opened, newest first */
+#gallery{flex:1;min-height:0;overflow-y:auto;touch-action:pan-y;padding:8px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
+  gap:8px;align-content:start}
+.gitem{border:1px solid #555;background:#1e1e1e;padding:4px;cursor:pointer}
+.gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+.gbar{height:4px;background:#333;margin-top:4px;visibility:hidden}
+.gitem.busy .gbar{visibility:visible}
+.gfill{height:100%;width:0;background:#e8e6e1}
 #world{position:absolute;left:0;top:0;transform-origin:0 0}
 #refImg,#gridCv,#selCv,#paperCv,#dimCv,#flashCv{position:absolute;left:0;top:0}
 /* the tool panel floats bottom-left over the canvas and can be dismissed */
@@ -41,7 +52,7 @@ button:disabled{opacity:.4}
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
   display:flex;flex-direction:column;align-items:flex-start;gap:6px;
   max-width:calc(100% - 16px)}
-#hud{border:1px solid #000;background:#fff}
+#hud{border:1px solid #555;background:#161616}
 #hudToggle{width:44px;height:44px;padding:0;font-size:18px;line-height:1}
 #stat{padding:4px 8px;font-size:12px;min-height:22px}
 .fsBtn{min-width:40px}
@@ -62,6 +73,7 @@ button:disabled{opacity:.4}
     <button class="fsBtn" title="Fullscreen">&#x26F6;</button></div>
   <div class="row"><input type="file" id="file" accept="image/*"></div>
   <div class="row"><span id="upStat"></span></div>
+  <div id="gallery"></div>
 </div>
 
 <!-- 2: format -->
@@ -121,7 +133,7 @@ button:disabled{opacity:.4}
         <button class="fsBtn" title="Fullscreen">&#x26F6;</button>
       </div>
     </div>
-    <button id="hudToggle" title="Tools">&#x2715;</button>
+    <button id="hudToggle" title="Tools">&#x25BE;</button>
   </div>
 </div>
 
@@ -1024,8 +1036,81 @@ async function loadArsenal(){
 
 
 let photo = null;                               // grayscale canvas, full photo
-$('file').addEventListener('change', async e => {
-  const f = e.target.files[0]; if (!f) return;
+
+// ---- gallery: every photo ever opened, persisted on this device ----
+let _gdb = null;
+function gdb(){ return _gdb ||= new Promise((res,rej)=>{
+  const q = indexedDB.open('drawgallery',1);
+  q.onupgradeneeded = () => q.result.createObjectStore('photos',{keyPath:'id',autoIncrement:true});
+  q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); }); }
+async function galAll(){ try{ const d=await gdb(); return await new Promise(res=>{
+  const t=d.transaction('photos').objectStore('photos').getAll();
+  t.onsuccess=()=>res(t.result||[]); t.onerror=()=>res([]); }); }catch(e){ return []; } }
+async function galAdd(rec){ try{ const d=await gdb(); return await new Promise(res=>{
+  const t=d.transaction('photos','readwrite').objectStore('photos').add(rec);
+  t.onsuccess=()=>res(t.result); t.onerror=()=>res(null); }); }catch(e){ return null; } }
+
+let galActive = null;    // gallery id of the photo now open
+let galLoading = null;   // 0..1 creep while the photo itself decodes
+
+function blobImage(blob){ return new Promise((res,rej)=>{
+  const u = URL.createObjectURL(blob);
+  const i = new Image();
+  i.onload = () => res(i);
+  i.onerror = e => { URL.revokeObjectURL(u); rej(e); };
+  i.src = u; }); }
+
+async function thumbOf(blob){
+  const i = await blobImage(blob);
+  const T = 192, c = document.createElement('canvas'); c.width = T; c.height = T;
+  const g = c.getContext('2d');
+  const s = Math.min(i.width, i.height);
+  g.filter = 'grayscale(1)';
+  g.drawImage(i, (i.width-s)/2, (i.height-s)/2, s, s, 0, 0, T, T);
+  URL.revokeObjectURL(i.src);
+  return c.toDataURL('image/jpeg', 0.72);
+}
+
+async function renderGallery(){
+  const host = $('gallery'); if (!host) return;
+  const recs = (await galAll()).sort((a,b)=>b.ts-a.ts);
+  host.innerHTML = '';
+  for (const r of recs){
+    const d = document.createElement('div'); d.className='gitem'; d.dataset.gid = r.id;
+    const im = document.createElement('img'); im.src = r.thumb; im.alt = r.name||'';
+    const bar = document.createElement('div'); bar.className='gbar';
+    bar.appendChild(Object.assign(document.createElement('div'),{className:'gfill'}));
+    d.appendChild(im); d.appendChild(bar);
+    d.onclick = () => {
+      if (galActive === r.id && photo){       // already open: jump back in
+        show(GRID_READY ? 'scrMain' : 'scrFormat'); return;
+      }
+      if (r.blob) openPhoto(r.blob, r.id);
+    };
+    host.appendChild(d);
+  }
+}
+
+let GRID_READY = false;                        // true once initMain has run
+setInterval(()=>{
+  const host = $('gallery'); if (!host || !host.children.length) return;
+  if (galLoading != null) galLoading = Math.min(0.9, galLoading + 0.08);
+  for (const el of host.children){
+    const on = galActive != null && +el.dataset.gid === galActive;
+    let p = null;
+    if (on){
+      if (galLoading != null) p = galLoading;                 // decoding the photo
+      else if (GRID_READY && typeof KNOWN !== 'undefined'){   // analyzing squares
+        const tot = TOTAL_TILES(); if (tot) p = Math.min(1, KNOWN.size/tot);
+      }
+    }
+    el.classList.toggle('busy', !!(on && p != null && p < 1));
+    if (p != null) el.querySelector('.gfill').style.width = (100*p).toFixed(1)+'%';
+  }
+}, 400);
+
+function openPhoto(blob, gid){
+  galActive = gid ?? null; galLoading = 0.15;
   $('upStat').textContent = '...';
   const img = new Image();
   img.onload = () => {
@@ -1037,13 +1122,29 @@ $('file').addEventListener('change', async e => {
     g.filter = 'none';
     photo = c;
     URL.revokeObjectURL(img.src);
+    galLoading = null; GRID_READY = false;
+    $('upStat').textContent = '';
     initFormat();
     show('scrFormat');
     speculate();                       // the dwell on this screen is free compute
   };
-  img.onerror = () => { $('upStat').textContent = 'could not read that file'; };
-  img.src = URL.createObjectURL(f);
+  img.onerror = () => { galLoading = null; galActive = null;
+    $('upStat').textContent = 'could not read that file'; };
+  img.src = URL.createObjectURL(blob);
+}
+
+$('file').addEventListener('change', async e => {
+  const f = e.target.files[0]; if (!f) return;
+  $('upStat').textContent = '...';
+  let gid = null;
+  try {
+    const thumb = await thumbOf(f);
+    gid = await galAdd({ ts: Date.now(), name: f.name||'', thumb, blob: f });
+    renderGallery();
+  } catch(err){}
+  openPhoto(f, gid);
 });
+renderGallery();
 
 
 function ratioOf(){
@@ -1175,6 +1276,7 @@ function initMain(){
   view.s = Math.max(0.05, Math.min(vp.width/w, vp.height/h) || 0.05);
   view.x = (vp.width - w*view.s)/2; view.y = (vp.height - h*view.s)/2;
   applyView();
+  GRID_READY = true;
   stat('tap a square');
 }
 function stat(t){ $('stat').textContent = t; }
@@ -1857,7 +1959,7 @@ loadArsenal().then(u => {
   const hud = $('hud'), tg = $('hudToggle');
   const set = o => {
     hud.style.display = o ? '' : 'none';
-    tg.textContent = o ? '✕' : '✎';   // open: dismiss X; closed: pencil
+    tg.textContent = o ? '▾' : '✎';   // open: collapse arrow; closed: pencil
     try { localStorage.setItem('hudOpen', o ? '1' : '0'); } catch(e){}
   };
   let open = true;
