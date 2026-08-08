@@ -52,6 +52,8 @@ button:disabled{opacity:.4}
 /* compare: the photographed drawing aligned over the reference */
 #cmpView{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
 #cmpCv{position:absolute;left:0;top:0;touch-action:none}
+#camVid{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  display:none;background:#000}
 /* the tool panel floats bottom-left over the canvas and can be dismissed */
 #hudWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
@@ -153,7 +155,8 @@ button:disabled{opacity:.4}
 
 <!-- 4: compare - photograph the real drawing, align it, flip against the reference -->
 <div class="screen" id="scrCompare">
-  <div id="cmpView"><canvas id="cmpCv"></canvas></div>
+  <div id="cmpView"><canvas id="cmpCv"></canvas>
+    <video id="camVid" playsinline autoplay muted></video></div>
   <div class="row">
     <input type="file" id="cmpFile" accept="image/*" hidden>
     <button id="cmpShoot">Photo</button>
@@ -2274,8 +2277,49 @@ $('compareBtn').onclick = async () => {
   }
   cmpRender();
 };
-$('cmpBack').onclick = () => show('scrMain');
-$('cmpShoot').onclick = () => $('cmpFile').click();
+// live in-app camera; the file picker is the fallback
+const CAM={stream:null};
+async function camStart(){
+  try{
+    const st=await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode:{ideal:'environment'},
+              width:{ideal:4096}, height:{ideal:4096} },
+      audio:false });
+    CAM.stream=st;
+    const v=$('camVid'); v.srcObject=st; v.style.display='block';
+    $('cmpShoot').textContent='Capture';
+    $('cmpBack').textContent='Cancel';
+    $('cmpFlip').disabled=true;
+    $('cmpHint').textContent='fill the frame with your drawing, then capture';
+    return true;
+  }catch(e){ return false; }
+}
+function camStop(){
+  if (CAM.stream){ for (const t of CAM.stream.getTracks()) t.stop(); CAM.stream=null; }
+  const v=$('camVid'); v.srcObject=null; v.style.display='none';
+  $('cmpShoot').textContent='Photo';
+  $('cmpBack').textContent='Back';
+  $('cmpFlip').disabled=!CMP.img;
+}
+$('cmpBack').onclick = () => {
+  if (CAM.stream){ camStop(); cmpRender(); return; }
+  show('scrMain');
+};
+$('cmpShoot').onclick = async () => {
+  if (CAM.stream){
+    const v=$('camVid');
+    if (!v.videoWidth) return;              // stream not ready yet
+    const c=document.createElement('canvas');
+    c.width=v.videoWidth; c.height=v.videoHeight;
+    c.getContext('2d').drawImage(v,0,0);
+    camStop();
+    const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',0.92));
+    if (blob) cmpSetPhoto(blob);
+    return;
+  }
+  if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && await camStart()))
+    $('cmpFile').click();
+};
 $('cmpFile').addEventListener('change', e => {
   const f=e.target.files[0]; if (f) cmpSetPhoto(f);
   e.target.value='';
