@@ -1391,7 +1391,7 @@ function drawSel(){
   const {w,h} = worldSize();
   const g=$('selCv').getContext('2d'); g.clearRect(0,0,w,h);
   if (!selSet.size){ $('drawBtn').disabled=true; $('clearBtn').disabled=true;
-    $('doneBtn').disabled=true;
+    $('doneBtn').disabled=true; $('doneBtn').textContent='Mark done';
     $('stepBtn').disabled=!steps.length; return; }
   // marching ants: black+white alternating dashes read on any tone,
   // and the crawl makes the selection unmissable
@@ -1415,6 +1415,9 @@ function drawSel(){
   $('drawBtn').disabled = running;
   $('clearBtn').disabled = false;
   $('doneBtn').disabled = false;
+  // the button says what it will do: undone only when everything selected is done
+  $('doneBtn').textContent =
+    selCells().every(({c,r})=>doneSet.has(c+','+r)) ? 'Mark undone' : 'Mark done';
   $('stepBtn').disabled = !steps.length;
 }
 
@@ -1436,9 +1439,11 @@ function renderDone(){
 }
 $('doneBtn').onclick = () => {
   const cs=selCells(); if (!cs.length) return;
-  const all=cs.every(({c,r})=>doneSet.has(c+','+r));   // all marked already: unmark
-  for (const {c,r} of cs){ const k=c+','+r; if (all) doneSet.delete(k); else doneSet.add(k); }
+  const undo = $('doneBtn').textContent === 'Mark undone';
+  for (const {c,r} of cs){ const k=c+','+r; if (undo) doneSet.delete(k); else doneSet.add(k); }
   renderDone();
+  drawSel();       // refresh the button label for the same selection
+  paperDirty();    // marks persist immediately, not only on the next paper change
 };
 $('blockN').onchange = () => { drawSel(); };   // the dropdown is only the tap's brush size
 let ANTS=0;
