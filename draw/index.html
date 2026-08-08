@@ -1122,9 +1122,23 @@ const selCells = () => [...selSet].map(k=>{ const [c,r]=k.split(',').map(Number)
 const selSig = () => [...selSet].sort().join(';');
 
 function worldSize(){ return { w: GRID_COLS*CELL, h: GRID_ROWS*CELL }; }
+function clampView(){
+  // the reference stays locked to the viewport: no zooming out past fit,
+  // no panning a margin into view
+  const {w,h} = worldSize();
+  const r = $('viewport').getBoundingClientRect();
+  if (!w || !h || !r.width || !r.height) return;
+  const fit = Math.min(r.width/w, r.height/h);
+  view.s = Math.max(fit, Math.min(8, view.s));
+  const W = w*view.s, H = h*view.s;
+  view.x = W <= r.width  ? (r.width  - W)/2 : Math.max(r.width  - W, Math.min(0, view.x));
+  view.y = H <= r.height ? (r.height - H)/2 : Math.max(r.height - H, Math.min(0, view.y));
+}
 function applyView(){
+  clampView();
   $('world').style.transform = `translate(${view.x}px,${view.y}px) scale(${view.s})`;
 }
+addEventListener('resize', () => { if ($('scrMain').classList.contains('on')) applyView(); });
 function initMain(){
   const {w,h} = worldSize();
   for (const id of ['refImg','dimCv','flashCv','gridCv','paperCv','selCv']){
