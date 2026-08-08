@@ -1393,16 +1393,25 @@ function drawSel(){
   if (!selSet.size){ $('drawBtn').disabled=true; $('clearBtn').disabled=true;
     $('doneBtn').disabled=true;
     $('stepBtn').disabled=!steps.length; return; }
-  g.strokeStyle='#000'; g.lineWidth=1.5;
-  g.beginPath();
+  // marching ants: black+white alternating dashes read on any tone,
+  // and the crawl makes the selection unmissable
+  const z=view.s||1, lw=Math.max(3, 4/z), dash=Math.max(8, 10/z), i=lw/2;
+  const segs=[];
   for (const {c,r} of selCells()){
     const x=c*CELL, y=r*CELL;
-    if (!selSet.has(c+','+(r-1))){ g.moveTo(x, y+0.75);        g.lineTo(x+CELL, y+0.75); }
-    if (!selSet.has(c+','+(r+1))){ g.moveTo(x, y+CELL-0.75);   g.lineTo(x+CELL, y+CELL-0.75); }
-    if (!selSet.has((c-1)+','+r)){ g.moveTo(x+0.75, y);        g.lineTo(x+0.75, y+CELL); }
-    if (!selSet.has((c+1)+','+r)){ g.moveTo(x+CELL-0.75, y);   g.lineTo(x+CELL-0.75, y+CELL); }
+    if (!selSet.has(c+','+(r-1))) segs.push([x, y+i, x+CELL, y+i]);
+    if (!selSet.has(c+','+(r+1))) segs.push([x, y+CELL-i, x+CELL, y+CELL-i]);
+    if (!selSet.has((c-1)+','+r)) segs.push([x+i, y, x+i, y+CELL]);
+    if (!selSet.has((c+1)+','+r)) segs.push([x+CELL-i, y, x+CELL-i, y+CELL]);
   }
-  g.stroke();
+  g.lineWidth=lw;
+  for (const [col,off] of [['#000',ANTS],['#fff',ANTS+dash]]){
+    g.strokeStyle=col; g.setLineDash([dash,dash]); g.lineDashOffset=-off;
+    g.beginPath();
+    for (const [x1,y1,x2,y2] of segs){ g.moveTo(x1,y1); g.lineTo(x2,y2); }
+    g.stroke();
+  }
+  g.setLineDash([]);
   $('drawBtn').disabled = running;
   $('clearBtn').disabled = false;
   $('doneBtn').disabled = false;
@@ -1432,6 +1441,9 @@ $('doneBtn').onclick = () => {
   renderDone();
 };
 $('blockN').onchange = () => { drawSel(); };   // the dropdown is only the tap's brush size
+let ANTS=0;
+setInterval(()=>{ if (selSet.size && $('scrMain').classList.contains('on')){
+  ANTS=(ANTS+3)%1e6; drawSel(); } }, 110);       // the ants crawl
 
 
 const ptrs = new Map();
