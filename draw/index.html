@@ -2623,9 +2623,12 @@ function cmpGridAlign(){
   // swallowed by the paper/background step, so allow a shortfall)
   if (cbx.span<GRID_COLS-4 || cbx.span>GRID_COLS+2) return null;
   if (cby.span<GRID_ROWS-4 || cby.span>GRID_ROWS+2) return null;
-  // provisional origin: swallowed edge lines split evenly between the sides
-  const L0x=Math.max(0,Math.round((GRID_COLS-cbx.span)/2));
-  const L0y=Math.max(0,Math.round((GRID_ROWS-cby.span)/2));
+  // anchor from the MIDDLE of the frame: the grid line nearest the screen
+  // centre is taken as the drawing's centre line, and cells count outward
+  // from there (the outermost lines are the least reliable place to start)
+  const xc=cbx.first + Math.round((w/2-cbx.first)/px.sp)*px.sp;
+  const yc=cby.first + Math.round((h/2-cby.first)/py.sp)*py.sp;
+  const cCol=Math.round(GRID_COLS/2), cRow=Math.round(GRID_ROWS/2);
   // 4) render the world-registered photo at full resolution
   const rf=document.createElement('canvas'); rf.width=src.width; rf.height=src.height;
   const fg=rf.getContext('2d');
@@ -2633,8 +2636,8 @@ function cmpGridAlign(){
   fg.translate(-src.width/2,-src.height/2);
   fg.drawImage(src,0,0);
   const fsx=px.sp/K, fsy=py.sp/K;
-  let fx0=(cbx.first-L0x*px.sp-w/2)/K+src.width/2,
-      fy0=(cby.first-L0y*py.sp-h/2)/K+src.height/2;
+  let fx0=(xc-cCol*px.sp-w/2)/K+src.width/2,
+      fy0=(yc-cRow*py.sp-h/2)/K+src.height/2;
   const render=(ox,oy)=>{
     const out=document.createElement('canvas');
     out.width=GRID_COLS*CELL; out.height=GRID_ROWS*CELL;
