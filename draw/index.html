@@ -3010,16 +3010,20 @@ function cmpAutoRefine(){
   }
 }
 function cmpSetFramed(cv, blob, noRefine){
-  // a ghost-framed capture: already aligned by the artist's own eye at the
-  // shutter - no orientation, straight through the tone pipeline
+  // a ghost-framed capture: aligned by the artist's eye at the shutter.
+  // NO automatic tone editing - just grayscale; the artist's anchors are
+  // the only thing that touches the values
+  const k=Math.min(1, 2400/Math.max(cv.width,cv.height));
   const c=document.createElement('canvas');
-  c.width=cv.width; c.height=cv.height;
+  c.width=Math.max(2,Math.round(cv.width*k));
+  c.height=Math.max(2,Math.round(cv.height*k));
   const g=c.getContext('2d');
-  g.filter='grayscale(1)'; g.drawImage(cv,0,0); g.filter='none';
+  g.imageSmoothingQuality='high';
+  g.filter='grayscale(1)'; g.drawImage(cv,0,0,c.width,c.height); g.filter='none';
   CMP.raw=c; CMP.blob=blob||null; CMP.framed=true;
   CMP.corners=[{x:0,y:0},{x:c.width,y:0},{x:c.width,y:c.height},{x:0,y:c.height}];
   CMP.cGrab=null;
-  CMP.img=cmpTone(cmpCalibrate(c));
+  CMP.img=c;
   CMP.base=CMP.img;
   const memA=anchLoad();
   CMP.anchor = memA || {d:null, w:null, g:0.75};
@@ -3245,7 +3249,7 @@ function cmpApplyCorners(next){
   // content settles what remains: 180 normally, all turns if near-square
   const q=cmpBestRotation(img, nearSq?[1,2,3]:[2]);
   if (q) img=cmpRot(img,q);
-  CMP.img=cmpTone(cmpCalibrate(img));
+  CMP.img=img;
   CMP.base=CMP.img;
   const memA=anchLoad();
   CMP.anchor = memA || {d:null, w:null, g:0.75};
