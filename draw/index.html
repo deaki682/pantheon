@@ -2298,6 +2298,17 @@ function cmpCalibrate(c){
     if (!border && blocks[i2] >= env[i2]*0.8) valid[i2]=1;
     else blocks[i2]=env[i2];            // charcoal/border block: seed, then inpaint
   }
+  {  // a block clearly brighter than the sheet's own paper is a reflective
+     // object, not light - treat it like charcoal and inpaint over it
+    const vals=[];
+    for (let i2=0;i2<blocks.length;i2++) if (valid[i2]) vals.push(blocks[i2]);
+    if (vals.length){
+      vals.sort((a,b)=>a-b);
+      const med=vals[Math.floor(vals.length/2)];
+      for (let i2=0;i2<blocks.length;i2++)
+        if (valid[i2] && blocks[i2]>med*1.18){ valid[i2]=0; blocks[i2]=med; }
+    }
+  }
   // diffuse the light field from paper blocks across charcoal regions
   for (let it=0; it<8; it++){
     const src=blocks.slice();
@@ -2884,7 +2895,11 @@ function cmpTone(img){
     x0=Math.max(x0,inX); y0=Math.max(y0,inY);
     x1=Math.min(x1,iw-inX); y1=Math.min(y1,ih-inY);
     for (let y=y0;y<y1;y+=2) for (let x=x0;x<x1;x+=2){
-      ph[d[(y*iw+x)*4]]++; pn++; } };
+      const v=d[(y*iw+x)*4];
+      // true black/white cannot be drawing: even the deepest charcoal
+      // reflects light, and only glare outshines the paper - objects, both
+      if (v<16 || v>253) continue;
+      ph[v]++; pn++; } };
   if (wholeSheet) addP(0,0,iw,ih);
   else for (const [c,r] of cells)
     addP(Math.floor(c*iw/GRID_COLS), Math.floor(r*ih/GRID_ROWS),
