@@ -165,7 +165,6 @@ button:disabled{opacity:.4}
     <input type="file" id="cmpFile" accept="image/*" hidden>
     <button id="cmpShoot">Photo</button>
     <button id="cmpFlip" disabled>Flip view</button>
-    <button id="cmpOver" disabled>Overlay</button>
     <span id="cmpHint" class="grow"></span>
     <button id="cmpBack">Back</button>
   </div>
@@ -2145,13 +2144,10 @@ function cmpSize(){
   CMP.fit={s, x:(cv.width-w*s)/2, y:(cv.height-h*s)/2, w, h};
 }
 function cmpButtons(){
-  const fl=$('cmpFlip'), ov=$('cmpOver');
-  ov.style.display = CMP.mode==='corners' ? 'none' : '';
+  const fl=$('cmpFlip');
   if (CMP.mode==='corners'){ fl.disabled=!CMP.raw; fl.textContent='Straighten'; return; }
-  fl.disabled=!CMP.img; ov.disabled=!CMP.img;
-  if (CMP.mode==='align'){ fl.textContent='Flip view'; ov.textContent='Overlay'; }
-  else if (CMP.mode==='flip'){ fl.textContent='Adjust'; ov.textContent='Overlay'; }
-  else { fl.textContent='Adjust'; ov.textContent='A / B'; }
+  fl.disabled=!CMP.img;
+  fl.textContent = CMP.mode==='align' ? 'Flip view' : 'Adjust';
 }
 function cmpRender(){
   const cv=$('cmpCv'), g=cv.getContext('2d');
@@ -2183,10 +2179,9 @@ function cmpRender(){
       g.strokeStyle='#fff'; g.lineWidth=1.5; g.stroke();
     }
     hint='drag the handles onto the paper corners, then Straighten';
-  } else if (CMP.img && (CMP.mode==='align' || CMP.mode==='overlay')){
+  } else if (CMP.img && CMP.mode==='align'){
     drawPhoto(); g.globalAlpha=0.45; drawRef(); g.globalAlpha=1;
-    hint = CMP.mode==='align' ? 'drag / pinch / twist your photo onto the reference'
-                              : 'overlay - drawing and reference together';
+    hint = 'drag / pinch / twist your photo onto the reference';
   } else if (CMP.img && CMP.mode==='flip'){
     if (CMP.showing==='ref'){ drawRef(); hint='reference - tap to flip'; }
     else { drawPhoto(); hint='your drawing - tap to flip'; }
@@ -2404,8 +2399,38 @@ function cmpLevels(img){
     const v=a<8 ? 255 : Math.round(255-(255-sd[i*4])*(a/255));
     simHist[v]++; simN++;
   }
-  const dTarget=pct(simHist,simN,0.01);
-  if (dTarget>140) return img;                   // nothing truly dark drawn yet
+  // the darkest the drawing SHOULD hold, from the best knowledge available:
+  // in-app simulation -> reference within done-marked squares (drawn off-app)
+  // -> the reference overall (the photo-darkness guard below still gates it)
+  let dTarget=pct(simHist,simN,0.01);
+  if (dTarget>140){
+    dTarget=null;
+    const ref=$('refImg');
+    if (ref.width){
+      let rd=null;
+      try{ rd=ref.getContext('2d').getImageData(0,0,ref.width,ref.height).data; }catch(e){}
+      if (rd){
+        if (doneSet.size){
+          const hist=new Int32Array(256); let n=0;
+          for (const key of doneSet){
+            const [c2,r2]=key.split(',').map(Number);
+            for (let y=r2*CELL;y<(r2+1)*CELL;y+=3) for (let x=c2*CELL;x<(c2+1)*CELL;x+=3){
+              hist[rd[(y*ref.width+x)*4]]++; n++;
+            }
+          }
+          const v=pct(hist,n,0.01);
+          if (n && v<=140) dTarget=v;
+        }
+        if (dTarget==null){
+          const hist=new Int32Array(256); let n=0;
+          for (let i=0;i<ref.width*ref.height;i+=5){ hist[rd[i*4]]++; n++; }
+          const v=pct(hist,n,0.01);
+          if (v<=140) dTarget=v;
+        }
+      }
+    }
+  }
+  if (dTarget==null) return img;                 // no dark anchor anywhere: leave it
   const g=img.getContext('2d',{willReadFrequently:true});
   const im=g.getImageData(0,0,img.width,img.height), d=im.data;
   const ph=new Int32Array(256); let pn=0;
@@ -2464,7 +2489,7 @@ async function camStart(){
     const v=$('camVid'); v.srcObject=st; v.style.display='block';
     $('cmpShoot').textContent='Capture';
     $('cmpBack').textContent='Cancel';
-    $('cmpFlip').disabled=true; $('cmpOver').disabled=true;
+    $('cmpFlip').disabled=true;
     $('cmpHint').textContent='fill the frame with your drawing, then capture';
     return true;
   }catch(e){ return false; }
@@ -2504,12 +2529,6 @@ $('cmpFlip').onclick = () => {
   if (!CMP.img) return;
   if (CMP.mode==='align'){ CMP.mode='flip'; CMP.showing='photo'; }
   else CMP.mode='align';
-  cmpRender(); cmpSave();
-};
-$('cmpOver').onclick = () => {
-  if (!CMP.img) return;
-  CMP.mode = CMP.mode==='overlay' ? 'flip' : 'overlay';
-  CMP.showing='photo';
   cmpRender(); cmpSave();
 };
 {
