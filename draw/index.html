@@ -2384,9 +2384,47 @@ async function cmpSetPhoto(blob){
   $('cmpFlip').disabled=false; $('cmpFlip').textContent='Straighten';
   cmpRender();
 }
+function cmpLevels(img){
+  // black-point match (white is already pinned to the paper by the flat-field):
+  // the app's own simulation knows how dark the drawing's darkest passage
+  // should be. If darks exist in BOTH the simulation and the photo, pin the
+  // photo's darkest to the simulation's darkest and stretch linearly between
+  // the two anchors. If either side lacks true darks, change nothing.
+  const pc=$('paperCv');
+  if (!pc.width) return img;
+  let sd=null;
+  try{ sd=pc.getContext('2d').getImageData(0,0,pc.width,pc.height).data; }
+  catch(e){ return img; }
+  const N=pc.width*pc.height;
+  const pct=(hist,n,q)=>{ const want=n*q; let acc=0;
+    for (let b=0;b<256;b++){ acc+=hist[b]; if (acc>=want) return b; } return 255; };
+  const simHist=new Int32Array(256); let simN=0;
+  for (let i=0;i<N;i+=4){                        // composite the marks over white
+    const a=sd[i*4+3];
+    const v=a<8 ? 255 : Math.round(255-(255-sd[i*4])*(a/255));
+    simHist[v]++; simN++;
+  }
+  const dTarget=pct(simHist,simN,0.01);
+  if (dTarget>140) return img;                   // nothing truly dark drawn yet
+  const g=img.getContext('2d',{willReadFrequently:true});
+  const im=g.getImageData(0,0,img.width,img.height), d=im.data;
+  const ph=new Int32Array(256); let pn=0;
+  for (let i=0;i<img.width*img.height;i+=3){ ph[d[i*4]]++; pn++; }
+  const dPhoto=pct(ph,pn,0.01);
+  if (dPhoto>170) return img;                    // photo shows no dark deposit to pin
+  const W=252;
+  const k=(W-dTarget)/Math.max(1,W-dPhoto);
+  if (k<0.55 || k>1.9) return img;               // implausible stretch: don't force it
+  for (let i=0;i<d.length;i+=4){
+    const v=Math.max(0,Math.min(255,Math.round(W-(W-d[i])*k)));
+    d[i]=d[i+1]=d[i+2]=v;
+  }
+  g.putImageData(im,0,0);
+  return img;
+}
 function cmpApplyCorners(){
   if (!CMP.raw) return;
-  CMP.img=cmpCalibrate(cmpWarp(CMP.raw, CMP.corners));   // rectified, then calibrated
+  CMP.img=cmpLevels(cmpCalibrate(cmpWarp(CMP.raw, CMP.corners)));   // rectified, calibrated, levelled
   const cv=$('cmpCv');
   CMP.t={x:cv.width/2, y:cv.height/2,
          s:Math.min(cv.width/CMP.img.width, cv.height/CMP.img.height), r:0};
