@@ -2491,13 +2491,13 @@ function cmpWarp(src, corners){
   og.putImageData(om,0,0);
   return out;
 }
-function cmpGridAlign(){
-  // the drawn GRID is the drawing's own coordinate system. Measure it where
-  // it is most trustworthy - the centre of the photo, least bent by lens or
-  // perspective: dominant angle from the gradient field, spacing from the
-  // autocorrelation of line-darkness profiles, then snap every line onto
-  // exact 96px world cells. Returns a world-registered canvas, or null.
-  const src=CMP.raw; if (!src) return null;
+function cmpGridAlign(src){
+  // the drawn GRID is the drawing's own coordinate system. Fed the
+  // edge/corner-rectified sheet, it measures the residual angle from the
+  // centre squares, the spacing from the autocorrelation of line-darkness
+  // profiles, and snaps every line onto exact 96px world cells.
+  // Returns a world-registered canvas, or null when no grid is readable.
+  if (!src) return null;
   const K=Math.min(1, 1400/Math.max(src.width,src.height));
   const w=Math.round(src.width*K), h=Math.round(src.height*K);
   const c=document.createElement('canvas'); c.width=w; c.height=h;
@@ -2700,23 +2700,7 @@ async function cmpSetPhoto(blob){
   URL.revokeObjectURL(i.src);
   CMP.raw=c; CMP.blob=blob; CMP.img=null;
   CMP.corners=cmpGuessCorners(c).corners; CMP.cGrab=null;
-  // the drawn grid is the best anchor; try it upright, then sideways
-  let grid=cmpGridAlign();
-  if (!grid){ const keep=CMP.raw; CMP.raw=cmpRot(keep,1);
-    grid=cmpGridAlign(); CMP.raw=keep; }
-  if (grid){
-    const q=cmpBestRotation(grid,[2]);          // grid can't tell upside-down
-    if (q) grid=cmpRot(grid,q);
-    CMP.img=cmpLevels(cmpSoften(cmpCalibrate(grid)));
-    cmpSize();
-    const f=CMP.fit;                            // world-registered: sit 1:1 on the reference
-    CMP.t={x:f.x+f.w*f.s/2, y:f.y+f.h*f.s/2,
-           s:f.w*f.s/CMP.img.width, r:0};       // calibrate may have downscaled
-    CMP.mode='flip'; CMP.showing='photo';
-    cmpRender(); cmpSave();
-    return;
-  }
-  cmpApplyCorners('flip');       // no readable grid: fall back to the paper edges
+  cmpApplyCorners('flip');   // edges+corners coarse, centre grid fine - see below
 }
 function cmpSoften(img){
   // phone cameras bake in an S-curve; lift the midtones a touch so the
@@ -2798,6 +2782,12 @@ function cmpLevels(img){
   return img;
 }
 function cmpApplyCorners(next){
+  // orientation is a COMBINATION of the signals, coarse to fine:
+  // 1. paper edges + corners: perspective-rectify the sheet (works even
+  //    when the grid is too faint to read)
+  // 2. the centre grid squares: measure the flattened sheet's residual
+  //    angle, exact spacing and phase, and snap cells onto the world grid
+  // 3. content correlation: settles upside-down and off-by-a-cell
   if (!CMP.raw) return;
   let rect=cmpWarp(CMP.raw, CMP.corners);
   // the paper's format is a physical fact: if the drawing is portrait, the
@@ -2805,10 +2795,12 @@ function cmpApplyCorners(next){
   const refAsp=GRID_COLS/GRID_ROWS, imgAsp=rect.width/rect.height;
   const nearSq=Math.abs(Math.log(imgAsp))<0.05 || Math.abs(Math.log(refAsp))<0.05;
   if (!nearSq && (refAsp>=1)!==(imgAsp>=1)) rect=cmpRot(rect,1);
-  // content then settles what remains: 180 normally, all turns if near-square
-  const q=cmpBestRotation(rect, nearSq?[1,2,3]:[2]);
-  if (q) rect=cmpRot(rect,q);
-  CMP.img=cmpLevels(cmpSoften(cmpCalibrate(rect)));
+  const grid=cmpGridAlign(rect);                     // the fine snap
+  let img=grid||rect;
+  // content settles what remains: 180 normally, all turns if near-square
+  const q=cmpBestRotation(img, nearSq?[1,2,3]:[2]);
+  if (q) img=cmpRot(img,q);
+  CMP.img=cmpLevels(cmpSoften(cmpCalibrate(img)));
   cmpSize();
   const f=CMP.fit;                                   // sit exactly over the reference
   const sF=Math.min(f.w*f.s/CMP.img.width, f.h*f.s/CMP.img.height);
