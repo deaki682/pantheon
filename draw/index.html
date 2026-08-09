@@ -47,7 +47,7 @@ button:disabled{opacity:.4}
 .gfill{height:100%;width:0;background:#e8e6e1}
 #calBox{width:96px;height:96px;border:1px dashed #888;flex:none}
 #calSlide{flex:1;min-width:80px;padding:0}
-#lvB,#lvW{flex:1;min-width:60px;padding:0}
+#lvB,#lvW,#lvC{flex:1;min-width:52px;padding:0}
 #world{position:absolute;left:0;top:0;transform-origin:0 0}
 #refImg,#gridCv,#selCv,#paperCv,#dimCv,#flashCv,#doneCv{position:absolute;left:0;top:0}
 /* compare: the photographed drawing aligned over the reference */
@@ -174,6 +174,7 @@ button:disabled{opacity:.4}
   <div class="row" id="lvRow" style="display:none">
     <span>black</span><input type="range" id="lvB" min="0" max="140" value="0">
     <span>white</span><input type="range" id="lvW" min="150" max="255" value="255">
+    <span>contrast</span><input type="range" id="lvC" min="50" max="200" value="100">
     <button id="lvReset">Auto</button>
   </div>
   <div class="row">
@@ -2166,11 +2167,14 @@ function applyLevels(){
   // the artist's own black/white points, live, on top of everything the
   // automatics did - the dependable override for any lighting
   if (!CMP.base){ return; }
-  const {b,w}=CMP.lv;
-  if (b<=0 && w>=255){ CMP.img=CMP.base; return; }
+  const {b,w}=CMP.lv, k=(CMP.lv.c??100)/100;
+  if (b<=0 && w>=255 && k===1){ CMP.img=CMP.base; return; }
   const span=Math.max(8, w-b);
   const lut=new Uint8ClampedArray(256);
-  for (let v=0;v<256;v++) lut[v]=(v-b)*255/span;
+  for (let v=0;v<256;v++){
+    const lv1=(v-b)*255/span;              // levels first
+    lut[v]=(lv1-128)*k+128;                // then contrast about the middle
+  }
   const c=document.createElement('canvas');
   c.width=CMP.base.width; c.height=CMP.base.height;
   const g=c.getContext('2d');
@@ -2182,8 +2186,9 @@ function applyLevels(){
 }
 $('lvB').oninput = () => { CMP.lv.b=+$('lvB').value; applyLevels(); cmpRender(); cmpSave(); };
 $('lvW').oninput = () => { CMP.lv.w=+$('lvW').value; applyLevels(); cmpRender(); cmpSave(); };
+$('lvC').oninput = () => { CMP.lv.c=+$('lvC').value; applyLevels(); cmpRender(); cmpSave(); };
 $('lvReset').onclick = () => {
-  CMP.lv={b:0,w:255}; $('lvB').value=0; $('lvW').value=255;
+  CMP.lv={b:0,w:255,c:100}; $('lvB').value=0; $('lvW').value=255; $('lvC').value=100;
   applyLevels(); cmpRender(); cmpSave();
 };
 function cmpButtons(){
@@ -2875,8 +2880,8 @@ function cmpSetFramed(cv, blob, noRefine){
   CMP.corners=[{x:0,y:0},{x:c.width,y:0},{x:c.width,y:c.height},{x:0,y:c.height}];
   CMP.cGrab=null;
   CMP.img=cmpTone(cmpCalibrate(c));
-  CMP.base=CMP.img; CMP.lv={b:0,w:255};
-  $('lvB').value=0; $('lvW').value=255;
+  CMP.base=CMP.img; CMP.lv={b:0,w:255,c:100};
+  $('lvB').value=0; $('lvW').value=255; $('lvC').value=100;
   cmpSize();
   const f=CMP.fit;
   const sF=Math.min(f.w*f.s/CMP.img.width, f.h*f.s/CMP.img.height);
@@ -3096,8 +3101,8 @@ function cmpApplyCorners(next){
   const q=cmpBestRotation(img, nearSq?[1,2,3]:[2]);
   if (q) img=cmpRot(img,q);
   CMP.img=cmpTone(cmpCalibrate(img));
-  CMP.base=CMP.img; CMP.lv={b:0,w:255};
-  $('lvB').value=0; $('lvW').value=255;
+  CMP.base=CMP.img; CMP.lv={b:0,w:255,c:100};
+  $('lvB').value=0; $('lvW').value=255; $('lvC').value=100;
   cmpSize();
   const f=CMP.fit;                                   // sit exactly over the reference
   const sF=Math.min(f.w*f.s/CMP.img.width, f.h*f.s/CMP.img.height);
@@ -3132,9 +3137,9 @@ $('compareBtn').onclick = async () => {
         cmpApplyCorners();
       }
       if (saved.t) CMP.t=saved.t;
-      if (saved.lv && (saved.lv.b>0 || saved.lv.w<255)){
-        CMP.lv={b:saved.lv.b||0, w:saved.lv.w??255};
-        $('lvB').value=CMP.lv.b; $('lvW').value=CMP.lv.w;
+      if (saved.lv && (saved.lv.b>0 || saved.lv.w<255 || (saved.lv.c??100)!==100)){
+        CMP.lv={b:saved.lv.b||0, w:saved.lv.w??255, c:saved.lv.c??100};
+        $('lvB').value=CMP.lv.b; $('lvW').value=CMP.lv.w; $('lvC').value=CMP.lv.c;
         applyLevels();
       }
       CMP.mode='flip'; CMP.showing='photo';
