@@ -2156,15 +2156,18 @@ function cmpSize(){
   CMP.fit={s, x:(cv.width-w*s)/2, y:(cv.height-h*s)/2, w, h};
 }
 function cmpButtons(){
+  // after capture there are only two ways to look: Flip and Side by side.
+  // The transparent overlay lives solely in the camera ghost; Straighten
+  // appears only on the manual corner screen (picker photos).
   const fl=$('cmpFlip'), cn=$('cmpCorn'), sp=$('cmpSplit');
   cn.style.display = CMP.mode==='corners' ? 'none' : '';
   cn.disabled = !CMP.raw;
   sp.style.display = CMP.mode==='corners' ? 'none' : '';
   sp.disabled = !CMP.img;
   sp.textContent = CMP.mode==='split' ? 'Flip view' : 'Side by side';
-  if (CMP.mode==='corners'){ fl.disabled=!CMP.raw; fl.textContent='Straighten'; return; }
-  fl.disabled=!CMP.img;
-  fl.textContent = CMP.mode==='align' ? 'Flip view' : 'Adjust';
+  fl.style.display = CMP.mode==='corners' ? '' : 'none';
+  fl.disabled = !CMP.raw;
+  fl.textContent = 'Straighten';
 }
 function cmpRender(){
   const cv=$('cmpCv'), g=cv.getContext('2d');
@@ -2754,7 +2757,67 @@ async function cmpSetPhoto(blob){
   CMP.mode='corners'; CMP.showing='photo';    // picker photos: place corners by hand
   cmpRender();
 }
-function cmpSetFramed(cv, blob){
+function cmpAutoRefine(){
+  // the artist's framing is already close; polish the last few percent by
+  // searching a TINY neighbourhood (shift +-6%, scale +-8%, rotation +-4deg)
+  // for the best match against the reference - coarse to fine
+  if (!CMP.img) return;
+  const f=CMP.fit, {w,h}=worldSize();
+  const bw=140, bh=Math.max(20,Math.round(140*h/w));
+  const ref=(()=>{
+    const t=document.createElement('canvas'); t.width=bw; t.height=bh;
+    const g=t.getContext('2d'); g.drawImage($('refImg'),0,0,bw,bh);
+    const d=g.getImageData(0,0,bw,bh).data;
+    const a=new Float64Array(bw*bh);
+    let m=0; for (let i=0;i<bw*bh;i++){ a[i]=d[i*4]; m+=a[i]; }
+    m/=bw*bh; let vr=0;
+    for (let i=0;i<bw*bh;i++){ a[i]-=m; vr+=a[i]*a[i]; }
+    return {a, vr};
+  })();
+  if (ref.vr<1e-6) return;
+  const img=CMP.img, kb0=bw/img.width;
+  const buf=document.createElement('canvas'); buf.width=bw; buf.height=bh;
+  const bg=buf.getContext('2d',{willReadFrequently:true});
+  const score=p=>{
+    bg.setTransform(1,0,0,1,0,0);
+    bg.fillStyle='#fff'; bg.fillRect(0,0,bw,bh);
+    bg.translate(bw/2+p.dx, bh/2+p.dy);
+    bg.rotate(p.r); bg.scale(kb0*p.k, kb0*p.k);
+    bg.drawImage(img, -img.width/2, -img.height/2);
+    const d=bg.getImageData(0,0,bw,bh).data;
+    let m=0; for (let i=0;i<bw*bh;i++) m+=d[i*4];
+    m/=bw*bh;
+    let s=0, vr=0;
+    for (let i=0;i<bw*bh;i++){ const v=d[i*4]-m; s+=v*ref.a[i]; vr+=v*v; }
+    if (vr<40*bw*bh) return null;              // blank sheet: nothing to match
+    return s/Math.sqrt(vr*ref.vr);
+  };
+  let p={dx:0,dy:0,k:1,r:0};
+  let best=score(p);
+  if (best==null) return;
+  const lim={dx:bw*0.06, dy:bh*0.06, k:0.08, r:4*Math.PI/180};
+  let st={dx:bw*0.025, dy:bh*0.025, k:0.03, r:1.5*Math.PI/180};
+  for (let pass=0; pass<4; pass++){
+    for (const key of ['dx','dy','k','r']){
+      for (const dir of [1,-1]){
+        const q={...p};
+        q[key]=(key==='k'? p.k+dir*st.k : p[key]+dir*st[key]);
+        if (key==='k'){ if (Math.abs(q.k-1)>lim.k) continue; }
+        else if (Math.abs(q[key])>lim[key]) continue;
+        const v=score(q);
+        if (v!=null && v>best){ best=v; p=q; }
+      }
+    }
+    for (const key of ['dx','dy','k','r']) st[key]*=0.5;
+  }
+  if (p.dx||p.dy||p.k!==1||p.r){          // bake the polish into the transform
+    CMP.t={ x: f.x+(bw/2+p.dx)*(w/bw)*f.s,
+            y: f.y+(bh/2+p.dy)*(h/bh)*f.s,
+            s: CMP.t.s*p.k,
+            r: CMP.t.r+p.r };
+  }
+}
+function cmpSetFramed(cv, blob, noRefine){
   // a ghost-framed capture: already aligned by the artist's own eye at the
   // shutter - no orientation, straight through the tone pipeline
   const c=document.createElement('canvas');
@@ -2764,13 +2827,112 @@ function cmpSetFramed(cv, blob){
   CMP.raw=c; CMP.blob=blob||null; CMP.framed=true;
   CMP.corners=[{x:0,y:0},{x:c.width,y:0},{x:c.width,y:c.height},{x:0,y:c.height}];
   CMP.cGrab=null;
-  CMP.img=cmpLevels(cmpSoften(cmpCalibrate(c)));
+  CMP.img=cmpTone(cmpCalibrate(c));
   cmpSize();
   const f=CMP.fit;
   const sF=Math.min(f.w*f.s/CMP.img.width, f.h*f.s/CMP.img.height);
   CMP.t={x:f.x+f.w*f.s/2, y:f.y+f.h*f.s/2, s:sF, r:0};
+  if (!noRefine) cmpAutoRefine();          // polish the last few percent
   CMP.mode='flip'; CMP.showing='photo';
   cmpRender(); cmpSave();
+}
+function cmpTone(img){
+  // adaptive tone curve: match the photo's tone DISTRIBUTION to what the
+  // drawing should look like, quantile by quantile, over the same squares -
+  // done-marked squares first, else squares the in-app simulation has drawn,
+  // else the whole sheet vs the reference (only if the photo shows real
+  // darks). A monotone piecewise-linear curve with clamped local slope
+  // (0.6-1.7x) adapts to any camera curve or lighting while keeping genuine
+  // drawing errors visible; fitted top-down so paper white stays pinned.
+  const g=img.getContext('2d',{willReadFrequently:true});
+  const im=g.getImageData(0,0,img.width,img.height), d=im.data;
+  const ww=GRID_COLS*CELL, wh=GRID_ROWS*CELL;
+  // -- the comparison region and the target source
+  const cells=[];
+  let target='ref';
+  for (const k of doneSet){
+    const [c,r]=k.split(',').map(Number);
+    if (c<GRID_COLS&&r<GRID_ROWS) cells.push([c,r]);
+  }
+  if (!cells.length){
+    const pc=$('paperCv');
+    if (pc.width===ww){
+      try{
+        const pd=pc.getContext('2d').getImageData(0,0,ww,wh).data;
+        for (let r=0;r<GRID_ROWS;r++) for (let c=0;c<GRID_COLS;c++){
+          let n=0;
+          for (let y=r*CELL+8;y<(r+1)*CELL;y+=24)
+            for (let x=c*CELL+8;x<(c+1)*CELL;x+=24)
+              if (pd[(y*ww+x)*4+3]>8) n++;
+          if (n>=6) cells.push([c,r]);
+        }
+        if (cells.length) target='sim';
+      }catch(e){}
+    }
+  }
+  const wholeSheet=!cells.length;
+  // -- photo histogram over the region
+  const iw=img.width, ih=img.height;
+  const ph=new Int32Array(256); let pn=0;
+  const addP=(x0,y0,x1,y1)=>{ for (let y=y0;y<y1;y+=2) for (let x=x0;x<x1;x+=2){
+    ph[d[(y*iw+x)*4]]++; pn++; } };
+  if (wholeSheet) addP(0,0,iw,ih);
+  else for (const [c,r] of cells)
+    addP(Math.floor(c*iw/GRID_COLS), Math.floor(r*ih/GRID_ROWS),
+         Math.floor((c+1)*iw/GRID_COLS), Math.floor((r+1)*ih/GRID_ROWS));
+  if (pn<4000) return img;
+  const qof=(hist,n,q)=>{ const want=n*q; let acc=0;
+    for (let b=0;b<256;b++){ acc+=hist[b]; if (acc>=want) return b; } return 255; };
+  if (wholeSheet && qof(ph,pn,0.02)>170) return img;   // no real darks: leave it
+  // -- target histogram over the same region
+  const th=new Int32Array(256); let tn=0;
+  let src=null;
+  if (target==='sim'){
+    const pd=$('paperCv').getContext('2d').getImageData(0,0,ww,wh).data;
+    src=(x,y)=>{ const a=pd[(y*ww+x)*4+3];
+      return a<8?255:Math.round(255-(255-pd[(y*ww+x)*4])*(a/255)); };
+  } else {
+    const ref=$('refImg'); if (!ref.width) return img;
+    const rd=ref.getContext('2d').getImageData(0,0,ww,wh).data;
+    src=(x,y)=>rd[(y*ww+x)*4];
+  }
+  const addT=(x0,y0,x1,y1)=>{ for (let y=y0;y<y1;y+=3) for (let x=x0;x<x1;x+=3){
+    th[src(x,y)]++; tn++; } };
+  if (wholeSheet) addT(0,0,ww,wh);
+  else for (const [c,r] of cells) addT(c*CELL,r*CELL,(c+1)*CELL,(r+1)*CELL);
+  if (tn<2000) return img;
+  // -- quantile pairs -> monotone clamped curve, fitted top-down
+  const QS=[0.02,0.05,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.95,0.985];
+  const P0=QS.map(q=>qof(ph,pn,q)), T0=QS.map(q=>qof(th,tn,q));
+  const P=[], T=[];
+  for (let i=0;i<P0.length;i++){
+    if (P.length && P0[i]<=P[P.length-1]){       // merge equal photo quantiles
+      T[T.length-1]=Math.max(T[T.length-1], T0[i]);
+    } else { P.push(P0[i]); T.push(T0[i]); }
+  }
+  if (P.length<3) return img;
+  for (let i=1;i<T.length;i++) if (T[i]<T[i-1]) T[i]=T[i-1];   // monotone
+  for (let i=P.length-2;i>=0;i--){               // clamp slopes, white end fixed
+    const dp=P[i+1]-P[i];
+    let sl=(T[i+1]-T[i])/dp;
+    sl=Math.max(0.6, Math.min(1.7, sl));
+    T[i]=T[i+1]-sl*dp;
+  }
+  const lut=new Uint8ClampedArray(256);
+  for (let v=0;v<256;v++){
+    let t2;
+    if (v<=P[0]) t2=T[0]-(P[0]-v);
+    else if (v>=P[P.length-1]) t2=T[P.length-1]+(v-P[P.length-1]);
+    else {
+      let i=1; while (P[i]<v) i++;
+      const f2=(v-P[i-1])/(P[i]-P[i-1]);
+      t2=T[i-1]+f2*(T[i]-T[i-1]);
+    }
+    lut[v]=t2;
+  }
+  for (let i=0;i<d.length;i+=4){ const v=lut[d[i]]; d[i]=d[i+1]=d[i+2]=v; }
+  g.putImageData(im,0,0);
+  return img;
 }
 function cmpSoften(img){
   // phone cameras bake in an S-curve; lift the midtones a touch so the
@@ -2869,7 +3031,7 @@ function cmpApplyCorners(next){
   // content settles what remains: 180 normally, all turns if near-square
   const q=cmpBestRotation(img, nearSq?[1,2,3]:[2]);
   if (q) img=cmpRot(img,q);
-  CMP.img=cmpLevels(cmpSoften(cmpCalibrate(img)));
+  CMP.img=cmpTone(cmpCalibrate(img));
   cmpSize();
   const f=CMP.fit;                                   // sit exactly over the reference
   const sF=Math.min(f.w*f.s/CMP.img.width, f.h*f.s/CMP.img.height);
@@ -2895,7 +3057,7 @@ $('compareBtn').onclick = async () => {
           cv.width=i.width; cv.height=i.height;
           cv.getContext('2d').drawImage(i,0,0);
           URL.revokeObjectURL(i.src);
-          cmpSetFramed(cv, saved.blob);
+          cmpSetFramed(cv, saved.blob, true);   // saved t already carries the polish
         }
       } else {
         await cmpSetPhoto(saved.blob);
@@ -3001,11 +3163,7 @@ $('cmpFile').addEventListener('change', e => {
   e.target.value='';
 });
 $('cmpFlip').onclick = () => {
-  if (CMP.mode==='corners'){ cmpApplyCorners('flip'); return; }
-  if (!CMP.img) return;
-  if (CMP.mode==='align'){ CMP.mode='flip'; CMP.showing='photo'; }
-  else CMP.mode='align';
-  cmpRender(); cmpSave();
+  if (CMP.mode==='corners') cmpApplyCorners('flip');
 };
 $('cmpCorn').onclick = () => {
   if (!CMP.raw) return;
