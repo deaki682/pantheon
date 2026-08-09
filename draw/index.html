@@ -47,7 +47,7 @@ button:disabled{opacity:.4}
 .gfill{height:100%;width:0;background:#e8e6e1}
 #calBox{width:96px;height:96px;border:1px dashed #888;flex:none}
 #calSlide{flex:1;min-width:80px;padding:0}
-#lvB,#lvW,#lvC{flex:1;min-width:52px;padding:0}
+#mGamma{flex:1;min-width:70px;padding:0}
 #world{position:absolute;left:0;top:0;transform-origin:0 0}
 #refImg,#gridCv,#selCv,#paperCv,#dimCv,#flashCv,#doneCv{position:absolute;left:0;top:0}
 /* compare: the photographed drawing aligned over the reference */
@@ -172,17 +172,15 @@ button:disabled{opacity:.4}
     <canvas id="camGhost"></canvas>
     <button id="shutter" title="Capture"></button></div>
   <div class="row" id="lvRow" style="display:none">
-    <span>black</span><input type="range" id="lvB" min="0" max="140" value="0">
-    <span>white</span><input type="range" id="lvW" min="150" max="255" value="255">
-    <span>contrast</span><input type="range" id="lvC" min="15" max="200" value="100">
-    <button id="lvMatch">Match</button>
+    <button id="setB">Set black</button>
+    <button id="setW">Set white</button>
+    <span>midtone</span><input type="range" id="mGamma" min="40" max="130" value="75">
     <button id="lvReset">Auto</button>
   </div>
-  <div class="row" id="matchRow" style="display:none">
-    <button id="mUndo">Undo</button>
-    <button id="mClear">Clear</button>
-    <span id="mCount" class="grow"></span>
-    <button id="mDone">Done</button>
+  <div class="row" id="pickRow" style="display:none">
+    <span id="pickLabel" class="grow"></span>
+    <button id="pickSet">Set</button>
+    <button id="pickCancel">Cancel</button>
   </div>
   <div class="row">
     <input type="file" id="cmpFile" accept="image/*" hidden>
@@ -2161,8 +2159,8 @@ loadArsenal().then(u => {
 
 // ---- compare: photograph the real drawing, align it over the reference, flip ----
 const CMP={img:null, base:null, blob:null, ckey:null, t:{x:0,y:0,s:1,r:0},
-  mode:'align', showing:'photo', fit:null, lv:{b:0,w:255,c:100},
-  match:{pairs:[], lut:null}};
+  mode:'align', showing:'photo', fit:null,
+  anchor:{d:null, w:null, g:0.75}, pick:null};
 function cmpSize(){
   // render at device resolution: the canvas is dpr times the CSS size
   const r=$('cmpView').getBoundingClientRect(), cv=$('cmpCv');
@@ -2176,7 +2174,7 @@ function cmpSize(){
   const s=Math.min(cv.width/w, cv.height/h);
   CMP.fit={s, x:(cv.width-w*s)/2, y:(cv.height-h*s)/2, w, h};
 }
-function buildMatchLUT(pairsIn){
+function UNUSED_buildMatchLUT(pairsIn){
   // a smooth monotone tone curve through the tapped calibration pairs
   // (photo tone -> reference tone), Fritsch-Carlson, slope-1 tails
   if (!pairsIn.length) return null;
@@ -2221,33 +2219,19 @@ function buildMatchLUT(pairsIn){
   }
   return lut;
 }
-function rebuildMatch(){
-  CMP.match.lut=buildMatchLUT(CMP.match.pairs);
-  try{
-    if (CMP.match.lut) localStorage.setItem('cmpMatch', JSON.stringify([...CMP.match.lut]));
-    else localStorage.removeItem('cmpMatch');
-  }catch(e){}
-}
-function matchLoad(){
-  try{
-    const gm=JSON.parse(localStorage.getItem('cmpMatch'));
-    if (Array.isArray(gm) && gm.length===256) return Uint8ClampedArray.from(gm);
-  }catch(e){}
-  return null;
-}
 function applyLevels(){
-  // tap-match curve first (the calibration), then the artist's black/white/
-  // contrast nudge - live, on top of everything the automatics did
+  // the artist's two anchors define the range: the sampled charcoal black
+  // maps to 25, the sampled paper white to 252, and the midtone dial shapes
+  // the response between them - a real charcoal drawing photographs far
+  // less contrasty than a linear stretch assumes, so mids default lifted
   if (!CMP.base){ return; }
-  const {b,w}=CMP.lv, k=(CMP.lv.c??100)/100;
-  const ml=CMP.match && CMP.match.lut;
-  if (b<=0 && w>=255 && k===1 && !ml){ CMP.img=CMP.base; return; }
-  const span=Math.max(8, w-b);
+  const a=CMP.anchor||{};
+  if (a.d==null || a.w==null || a.w<=a.d+8){ CMP.img=CMP.base; return; }
+  const B=25, W=252, gm=a.g||0.75;
   const lut=new Uint8ClampedArray(256);
   for (let v=0;v<256;v++){
-    const vm=ml ? ml[v] : v;               // calibration curve
-    const lv1=(vm-b)*255/span;             // then levels
-    lut[v]=(lv1-128)*k+128;                // then contrast about the middle
+    const x=Math.max(0,Math.min(1,(v-a.d)/(a.w-a.d)));
+    lut[v]=B+(W-B)*Math.pow(x,gm);
   }
   const c=document.createElement('canvas');
   c.width=CMP.base.width; c.height=CMP.base.height;
@@ -2258,25 +2242,14 @@ function applyLevels(){
   g.putImageData(im,0,0);
   CMP.img=c;
 }
-// the adjustment is remembered: set once on the first photo, applied
-// silently to every later one; the Adjust button reopens the sliders
-const lvStore=()=>{ try{ localStorage.setItem('cmpLv', JSON.stringify(CMP.lv)); }catch(e){} };
-function lvLoad(){ try{
-  const v=JSON.parse(localStorage.getItem('cmpLv'));
-  if (v && typeof v.b==='number') return {b:v.b, w:v.w??255, c:v.c??100};
+// the anchors are remembered: set once on the first photo, applied silently
+// to every later one; Adjust reopens Set black / Set white / midtone
+const anchStore=()=>{ try{ localStorage.setItem('cmpAnchor', JSON.stringify(CMP.anchor)); }catch(e){} };
+function anchLoad(){ try{
+  const v=JSON.parse(localStorage.getItem('cmpAnchor'));
+  if (v && typeof v.d==='number' && typeof v.w==='number')
+    return {d:v.d, w:v.w, g:v.g||0.75};
 }catch(e){} return null; }
-$('lvB').oninput = () => { CMP.lv.b=+$('lvB').value; applyLevels(); lvStore(); cmpRender(); cmpSave(); };
-$('lvW').oninput = () => { CMP.lv.w=+$('lvW').value; applyLevels(); lvStore(); cmpRender(); cmpSave(); };
-$('lvC').oninput = () => { CMP.lv.c=+$('lvC').value; applyLevels(); lvStore(); cmpRender(); cmpSave(); };
-$('lvReset').onclick = () => {
-  CMP.lv={b:0,w:255,c:100}; $('lvB').value=0; $('lvW').value=255; $('lvC').value=100;
-  CMP.match={pairs:[], lut:null};
-  try{ localStorage.removeItem('cmpMatch'); }catch(e){}
-  applyLevels(); lvStore(); cmpRender(); cmpSave();
-};
-$('lvBtn').onclick = () => { CMP.lvOpen=!CMP.lvOpen; cmpRender(); };
-// ---- tap-to-match: each tap on a spot the artist vouches for samples the
-// photo AND the reference at that registered location, building the curve
 function medianAt(cv2, x, y){
   const x0=Math.max(0,Math.min(cv2.width-7,Math.round(x)-3)),
         y0=Math.max(0,Math.min(cv2.height-7,Math.round(y)-3));
@@ -2285,60 +2258,76 @@ function medianAt(cv2, x, y){
   a.sort((q,w2)=>q-w2);
   return a[24];
 }
-function matchTap(clientX, clientY){
-  const cv=$('cmpCv'), r=cv.getBoundingClientRect(), kd=cv.width/r.width;
-  const cx=(clientX-r.left)*kd, cy=(clientY-r.top)*kd;
+// ---- anchor picking: a ring the artist drags onto the darkest charcoal,
+// then onto clean paper - those two samples define the whole tone range
+function pickSample(){
+  // ring position (ref space) -> photo pixel on the UNADJUSTED base
+  const p2=CMP.pick; if (!p2 || !CMP.base) return null;
   const f=CMP.fit;
-  const rx=(cx-f.x)/f.s, ry=(cy-f.y)/f.s;
-  if (rx<4||ry<4||rx>=f.w-4||ry>=f.h-4) return;
+  const cx=f.x+p2.rx*f.s, cy=f.y+p2.ry*f.s;
   const cs=Math.cos(-CMP.t.r), sn=Math.sin(-CMP.t.r);
   const dxc=cx-CMP.t.x, dyc=cy-CMP.t.y;
   const px=(dxc*cs-dyc*sn)/CMP.t.s + CMP.base.width/2;
   const py=(dxc*sn+dyc*cs)/CMP.t.s + CMP.base.height/2;
-  if (px<4||py<4||px>=CMP.base.width-4||py>=CMP.base.height-4) return;
-  CMP.match.pairs.push({
-    p: medianAt(CMP.base, px, py),
-    t: medianAt($('refImg'), rx, ry),
-    rx, ry });
-  rebuildMatch(); applyLevels(); cmpRender(); cmpSave();
+  if (px<4||py<4||px>=CMP.base.width-4||py>=CMP.base.height-4) return null;
+  return medianAt(CMP.base, px, py);
 }
-$('lvMatch').onclick = () => {
-  if (!CMP.img) return;
-  CMP.mode='match'; CMP.lvOpen=false;
+function enterPick(kind, chain){
+  const {w,h}=worldSize();
+  CMP.mode='pick';
+  CMP.pick={kind, chain:!!chain, rx:w/2, ry:h/2};
   $('cmpShoot').style.display='none';
+  $('pickLabel').textContent = kind==='black'
+    ? 'drag the ring onto the DARKEST charcoal'
+    : 'drag the ring onto clean PAPER';
   cmpRender();
-};
-$('mDone').onclick = () => {
-  CMP.mode='flip'; CMP.showing='photo';
+}
+function exitPick(){
+  CMP.mode='flip'; CMP.showing='photo'; CMP.pick=null;
   $('cmpShoot').style.display='';
-  cmpRender();
+  applyLevels(); cmpRender(); cmpSave();
+}
+$('pickSet').onclick = () => {
+  const v=pickSample();
+  if (v==null) return;
+  if (CMP.pick.kind==='black'){
+    CMP.anchor.d=v;
+    anchStore();
+    if (CMP.pick.chain){ enterPick('white', false); return; }
+  } else {
+    CMP.anchor.w=v;
+    anchStore();
+  }
+  exitPick();
 };
-$('mUndo').onclick = () => {
-  CMP.match.pairs.pop();
-  rebuildMatch(); applyLevels(); cmpRender(); cmpSave();
+$('pickCancel').onclick = () => { exitPick(); };
+$('setB').onclick = () => { if (CMP.img) enterPick('black', false); };
+$('setW').onclick = () => { if (CMP.img) enterPick('white', false); };
+$('mGamma').oninput = () => {
+  CMP.anchor.g=+$('mGamma').value/100;
+  applyLevels(); anchStore(); cmpRender(); cmpSave();
 };
-$('mClear').onclick = () => {
-  CMP.match={pairs:[], lut:null};
-  try{ localStorage.removeItem('cmpMatch'); }catch(e){}
+$('lvReset').onclick = () => {
+  CMP.anchor={d:null, w:null, g:0.75}; $('mGamma').value=75;
+  try{ localStorage.removeItem('cmpAnchor'); }catch(e){}
   applyLevels(); cmpRender(); cmpSave();
 };
+$('lvBtn').onclick = () => { CMP.lvOpen=!CMP.lvOpen; cmpRender(); };
 function cmpButtons(){
   // after capture there are only two ways to look: Flip and Side by side.
   // The transparent overlay lives solely in the camera ghost; Straighten
   // appears only on the manual corner screen (picker photos).
   const fl=$('cmpFlip'), cn=$('cmpCorn'), sp=$('cmpSplit'), lb=$('lvBtn');
-  const inMatch = CMP.mode==='match';
-  $('matchRow').style.display = inMatch ? '' : 'none';
-  if (inMatch) $('mCount').textContent =
-    CMP.match.pairs.length + ' point' + (CMP.match.pairs.length===1?'':'s');
-  const showLv = CMP.img && CMP.mode!=='corners' && !inMatch && !CAM.stream;
+  const inPick = CMP.mode==='pick';
+  $('pickRow').style.display = inPick ? '' : 'none';
+  const showLv = CMP.img && CMP.mode!=='corners' && !inPick && !CAM.stream;
   $('lvRow').style.display = (showLv && CMP.lvOpen) ? '' : 'none';
-  lb.style.display = (CMP.mode==='corners'||inMatch) ? 'none' : '';
+  lb.style.display = (CMP.mode==='corners'||inPick) ? 'none' : '';
   lb.disabled = !CMP.img;
   lb.textContent = CMP.lvOpen ? 'Done' : 'Adjust';
-  cn.style.display = (CMP.mode==='corners'||inMatch) ? 'none' : '';
+  cn.style.display = (CMP.mode==='corners'||inPick) ? 'none' : '';
   cn.disabled = !CMP.raw;
-  sp.style.display = (CMP.mode==='corners'||inMatch) ? 'none' : '';
+  sp.style.display = (CMP.mode==='corners'||inPick) ? 'none' : '';
   sp.disabled = !CMP.img;
   sp.textContent = CMP.mode==='split' ? 'Flip view' : 'Side by side';
   fl.style.display = CMP.mode==='corners' ? '' : 'none';
@@ -2382,17 +2371,17 @@ function cmpRender(){
   } else if (CMP.img && CMP.mode==='flip'){
     if (CMP.showing==='ref'){ drawRef(); hint='reference - tap to flip'; }
     else { drawPhoto(); hint='your drawing - tap to flip'; }
-  } else if (CMP.img && CMP.mode==='match'){
+  } else if (CMP.img && CMP.mode==='pick' && CMP.pick){
     drawPhoto();
-    const f=CMP.fit;
-    for (const q of CMP.match.pairs){
-      const x=f.x+q.rx*f.s, y=f.y+q.ry*f.s;
-      g.beginPath(); g.arc(x,y,9,0,6.2832);
-      g.strokeStyle='#000'; g.lineWidth=3; g.stroke();
-      g.beginPath(); g.arc(x,y,9,0,6.2832);
-      g.strokeStyle='#fff'; g.lineWidth=1.5; g.stroke();
+    const f=CMP.fit, p2=CMP.pick;
+    const x=f.x+p2.rx*f.s, y=f.y+p2.ry*f.s;
+    for (const [col,lw2,rad] of [['#000',3,13],['#fff',1.5,13],['#000',3,2],['#fff',1.5,2]]){
+      g.beginPath(); g.arc(x,y,rad,0,6.2832);
+      g.strokeStyle=col; g.lineWidth=lw2; g.stroke();
     }
-    hint='tap FLAT spots you know are right - a dark mass, a midtone, paper';
+    const v=pickSample();
+    hint=(p2.kind==='black' ? 'darkest charcoal' : 'paper white')
+        + (v!=null ? ' - reads '+v : '') + ' - drag the ring, then Set';
   } else if (CMP.img && CMP.mode==='split'){
     // side by side, one shared view: gestures on either pane move both
     const pw=cv.width/2, ph=cv.height;
@@ -3032,11 +3021,10 @@ function cmpSetFramed(cv, blob, noRefine){
   CMP.cGrab=null;
   CMP.img=cmpTone(cmpCalibrate(c));
   CMP.base=CMP.img;
-  const mem=lvLoad(), memM=matchLoad();
-  CMP.match={pairs:[], lut:memM};                    // inherit the tap-match curve
-  if (mem||memM){ CMP.lv=mem||{b:0,w:255,c:100}; CMP.lvOpen=false; }
-  else { CMP.lv={b:0,w:255,c:100}; CMP.lvOpen=true; }  // first photo: prompt once
-  $('lvB').value=CMP.lv.b; $('lvW').value=CMP.lv.w; $('lvC').value=CMP.lv.c;
+  const memA=anchLoad();
+  CMP.anchor = memA || {d:null, w:null, g:0.75};
+  $('mGamma').value=Math.round((CMP.anchor.g||0.75)*100);
+  CMP.lvOpen=false;
   applyLevels();
   cmpSize();
   const f=CMP.fit;
@@ -3044,6 +3032,7 @@ function cmpSetFramed(cv, blob, noRefine){
   CMP.t={x:f.x+f.w*f.s/2, y:f.y+f.h*f.s/2, s:sF, r:0};
   CMP.mode='flip'; CMP.showing='photo';
   cmpRender(); cmpSave();
+  if (!memA) enterPick('black', true);   // first photo: place the two anchors
 }
 function cmpTone(img){
   // adaptive tone curve: match the photo's tone DISTRIBUTION to what the
@@ -3258,11 +3247,10 @@ function cmpApplyCorners(next){
   if (q) img=cmpRot(img,q);
   CMP.img=cmpTone(cmpCalibrate(img));
   CMP.base=CMP.img;
-  const mem=lvLoad(), memM=matchLoad();
-  CMP.match={pairs:[], lut:memM};
-  if (mem||memM){ CMP.lv=mem||{b:0,w:255,c:100}; CMP.lvOpen=false; }
-  else { CMP.lv={b:0,w:255,c:100}; CMP.lvOpen=true; }
-  $('lvB').value=CMP.lv.b; $('lvW').value=CMP.lv.w; $('lvC').value=CMP.lv.c;
+  const memA=anchLoad();
+  CMP.anchor = memA || {d:null, w:null, g:0.75};
+  $('mGamma').value=Math.round((CMP.anchor.g||0.75)*100);
+  CMP.lvOpen=false;
   applyLevels();
   cmpSize();
   const f=CMP.fit;                                   // sit exactly over the reference
@@ -3270,14 +3258,13 @@ function cmpApplyCorners(next){
   CMP.t={x:f.x+f.w*f.s/2, y:f.y+f.h*f.s/2, s:sF, r:0};
   CMP.mode=next||'align'; CMP.showing='photo';
   cmpRender(); cmpSave();
+  if (!memA) enterPick('black', true);   // first photo: place the two anchors
 }
 let cmpT=0;
 function cmpSave(){ clearTimeout(cmpT); cmpT=setTimeout(()=>{
   if (CKEY && CMP.blob) dbPutRaw('cmp|'+CKEY, {blob:CMP.blob, framed:!!CMP.framed,
     corners:CMP.corners?CMP.corners.map(q=>({x:q.x,y:q.y})):null,
-    lv:{...CMP.lv},
-    match:{pairs:CMP.match.pairs.map(q=>({...q})),
-           lut:CMP.match.lut?[...CMP.match.lut]:null},
+    anchor:{...CMP.anchor},
     t:{...CMP.t}}); }, 700); }
 $('compareBtn').onclick = async () => {
   show('scrCompare'); cmpSize();
@@ -3301,17 +3288,13 @@ $('compareBtn').onclick = async () => {
         cmpApplyCorners();
       }
       if (saved.t) CMP.t=saved.t;
-      if (saved.lv && (saved.lv.b>0 || saved.lv.w<255 || (saved.lv.c??100)!==100)){
-        CMP.lv={b:saved.lv.b||0, w:saved.lv.w??255, c:saved.lv.c??100};
-        $('lvB').value=CMP.lv.b; $('lvW').value=CMP.lv.w; $('lvC').value=CMP.lv.c;
-      }
-      if (saved.match){
-        CMP.match={ pairs:(saved.match.pairs||[]).map(q=>({...q})),
-          lut:(Array.isArray(saved.match.lut)&&saved.match.lut.length===256)
-              ? Uint8ClampedArray.from(saved.match.lut) : null };
+      if (saved.anchor && typeof saved.anchor.d==='number'){
+        CMP.anchor={d:saved.anchor.d, w:saved.anchor.w, g:saved.anchor.g||0.75};
+        $('mGamma').value=Math.round(CMP.anchor.g*100);
       }
       applyLevels();
-      CMP.lvOpen=false;
+      CMP.lvOpen=false; CMP.pick=null;
+      $('cmpShoot').style.display='';
       CMP.mode='flip'; CMP.showing='photo';
     }
   }
@@ -3482,6 +3465,15 @@ $('cmpSplit').onclick = () => {
       }
       return;
     }
+    if (CMP.mode==='pick' && CMP.pick && CMP.img){
+      if (pts.size===1){
+        const f=CMP.fit;
+        CMP.pick.rx=Math.max(0,Math.min(f.w, CMP.pick.rx+dx*kd/f.s));
+        CMP.pick.ry=Math.max(0,Math.min(f.h, CMP.pick.ry+dy*kd/f.s));
+        cmpRender();
+      }
+      return;
+    }
     if (CMP.mode==='split' && CMP.img){
       // one shared view: a gesture on either pane moves both together
       const pw=cv.width/2;
@@ -3520,8 +3512,13 @@ $('cmpSplit').onclick = () => {
     if (pts.size<2) g0=null;
     if (pts.size===0) CMP.cGrab=null;
     if (pts.size===0 && tap && !tap.moved && Date.now()-tap.t<400
-        && CMP.mode==='match' && CMP.base){
-      matchTap(tap.x, tap.y);
+        && CMP.mode==='pick' && CMP.pick){
+      // tap places the ring too
+      const r2=cv.getBoundingClientRect(), kd2=cv.width/r2.width;
+      const f=CMP.fit;
+      CMP.pick.rx=((tap.x-r2.left)*kd2-f.x)/f.s;
+      CMP.pick.ry=((tap.y-r2.top)*kd2-f.y)/f.s;
+      cmpRender();
     }
     else if (pts.size===0 && tap && !tap.moved && Date.now()-tap.t<400
         && CMP.mode==='flip' && CMP.img){
