@@ -2140,7 +2140,10 @@ setInterval(()=>{ if (!document.hidden) pumpQueue(); wakeHold(); }, 2500);
 
 let WLOCK=null;
 async function wakeHold(){
-  const pending = CKEY && state.img && SETTLED.size < GRID_COLS*GRID_ROWS;
+  // the artist's hands are on the paper, not the phone: never let the
+  // screen sleep while the drawing or the compare view is up
+  const pending = $('scrMain').classList.contains('on')
+               || $('scrCompare').classList.contains('on');
   try{
     if (pending && !WLOCK && navigator.wakeLock && document.visibilityState==='visible'){
       WLOCK=await navigator.wakeLock.request('screen');
