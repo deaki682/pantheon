@@ -2491,6 +2491,200 @@ function cmpWarp(src, corners){
   og.putImageData(om,0,0);
   return out;
 }
+function cmpGridAlign(){
+  // the drawn GRID is the drawing's own coordinate system. Measure it where
+  // it is most trustworthy - the centre of the photo, least bent by lens or
+  // perspective: dominant angle from the gradient field, spacing from the
+  // autocorrelation of line-darkness profiles, then snap every line onto
+  // exact 96px world cells. Returns a world-registered canvas, or null.
+  const src=CMP.raw; if (!src) return null;
+  const K=Math.min(1, 1400/Math.max(src.width,src.height));
+  const w=Math.round(src.width*K), h=Math.round(src.height*K);
+  const c=document.createElement('canvas'); c.width=w; c.height=h;
+  const g=c.getContext('2d',{willReadFrequently:true});
+  g.drawImage(src,0,0,w,h);
+  const d=g.getImageData(0,0,w,h).data;
+  const lum=i=>d[i*4];
+  // 1) grid angle from the central half by projection sharpness: the column
+  // profile shows crisp periodic spikes only when the projection runs exactly
+  // along the grid lines (classic document-skew estimation, very robust)
+  const cx0=Math.round(w*0.25), cx1=Math.round(w*0.75),
+        cy0=Math.round(h*0.25), cy1=Math.round(h*0.75);
+  const sharp=deg=>{
+    const rad2=deg*Math.PI/180, ct=Math.cos(rad2), st=Math.sin(rad2);
+    const nb=Math.ceil(Math.hypot(cx1-cx0,cy1-cy0))+2, off=nb/2;
+    const acc=new Float64Array(nb), cnt=new Float64Array(nb);
+    for (let y=cy0;y<cy1;y+=2) for (let x=cx0;x<cx1;x+=2){
+      const xr=(x-w/2)*ct+(y-h/2)*st;
+      const b3=Math.round(xr+off);
+      if (b3<0||b3>=nb) continue;
+      acc[b3]+=255-lum(y*w+x); cnt[b3]++;
+    }
+    let s=0, prev=null;
+    for (let i2=0;i2<nb;i2++){
+      if (cnt[i2]<3) { prev=null; continue; }
+      const m=acc[i2]/cnt[i2];
+      if (prev!=null) s+=(m-prev)*(m-prev);
+      prev=m;
+    }
+    return s;
+  };
+  let thDeg=0, bestS=-1;
+  for (let a=-20;a<=20;a+=1){ const s=sharp(a); if (s>bestS){ bestS=s; thDeg=a; } }
+  for (let a=thDeg-0.9;a<=thDeg+0.9;a+=0.1){ const s=sharp(a); if (s>bestS){ bestS=s; thDeg=a; } }
+  const th=thDeg*Math.PI/180;
+  // 2) rotate (downscale) and take line-darkness profiles in the centre
+  const rc=document.createElement('canvas'); rc.width=w; rc.height=h;
+  const rg=rc.getContext('2d',{willReadFrequently:true});
+  rg.translate(w/2,h/2); rg.rotate(-th); rg.translate(-w/2,-h/2);
+  rg.drawImage(c,0,0);
+  const rd=rg.getImageData(0,0,w,h).data;
+  const colP=new Float64Array(w), rowP=new Float64Array(h);
+  for (let x=0;x<w;x++){ let s=0,n=0;
+    for (let y=cy0;y<cy1;y++){ s+=255-rd[(y*w+x)*4]; n++; } colP[x]=s/n; }
+  for (let y=0;y<h;y++){ let s=0,n=0;
+    for (let x=cx0;x<cx1;x++){ s+=255-rd[(y*w+x)*4]; n++; } rowP[y]=s/n; }
+  const period=(P,a0,a1)=>{
+    // autocorrelate the profile's DERIVATIVE: grid lines give periodic edge
+    // spikes, while broad drawing passages (big slow bumps) contribute
+    // almost nothing and can no longer bury the comb
+    const n=a1-a0-1; if (n<40) return null;
+    const seg=new Float64Array(n);
+    let mean=0;
+    for (let i=0;i<n;i++){ seg[i]=Math.abs(P[a0+i+1]-P[a0+i]); mean+=seg[i]; }
+    mean/=n; for (let i=0;i<n;i++) seg[i]-=mean;
+    let z=0; for (let i=0;i<n;i++) z+=seg[i]*seg[i]; z/=n;
+    if (z<1e-9) return null;
+    const lo=Math.max(10,Math.round(n*0.04)), hi=Math.round(n*0.45);
+    const ac=new Float64Array(hi+1); let mx=0;
+    for (let L=lo;L<=hi;L++){
+      let s=0,cn=0;
+      for (let i=0;i+L<n;i++){ s+=seg[i]*seg[i+L]; cn++; }
+      ac[L]=s/cn/z;
+      if (ac[L]>mx) mx=ac[L];
+    }
+    if (mx<0.18) return null;
+    let sp=0;
+    for (let L=lo;L<=hi;L++) if (ac[L]>=0.75*mx){ sp=L; break; }   // fundamental
+    // refine to sub-pixel by quadratic around the pick
+    if (sp>lo && sp<hi){
+      const y0=ac[sp-1], y1=ac[sp], y2=ac[sp+1];
+      const den=y0-2*y1+y2;
+      if (Math.abs(den)>1e-12) sp+=0.5*(y0-y2)/den;
+    }
+    return {sp, strength:mx};
+  };
+  const px=period(colP,cx0,cx1), py=period(rowP,cy0,cy1);
+  if (!px || !py) return null;
+  if (Math.abs(Math.log(px.sp/py.sp))>0.25) return null;   // not a square grid
+  // 3) phase + extent: comb-match each profile over the full width
+  const comb=(P,len,sp)=>{
+    const hp=new Float64Array(len);                     // high-passed positives
+    const win=Math.max(4,Math.round(sp));
+    for (let i=0;i<len;i++){
+      let s=0,n=0;
+      for (let j=-win;j<=win;j++){ const q=i+j;
+        if (q>=0&&q<len){ s+=P[q]; n++; } }
+      hp[i]=Math.max(0, P[i]-s/n);
+    }
+    let bestPhi=0,bv=-1;
+    for (let phi=0; phi<sp; phi+=0.5){
+      let s=0,n=0;
+      for (let x=phi;x<len;x+=sp){ s+=hp[Math.round(x)]||0; n++; }
+      if (n && s/n>bv){ bv=s/n; bestPhi=phi; }
+    }
+    const marks=[];
+    for (let x=bestPhi;x<len;x+=sp) marks.push(hp[Math.round(x)]||0);
+    // threshold against TYPICAL line strength, not the loudest spike (the
+    // paper/background boundary can be 10x stronger than a pencil line)
+    const srt=marks.slice().sort((a,b)=>b-a);
+    const typ=srt[Math.min(srt.length-1, Math.max(3, Math.round(marks.length*0.3)))];
+    if (typ<=1e-6) return null;
+    const thr=0.3*typ;
+    // the grid is one CONSECUTIVE run of lines; ghosts at the frame edges
+    // are isolated - take the longest run (one-mark gaps forgiven)
+    const on=marks.map(v=>v>=thr);
+    let bi=-1,blen=0,i2=0;
+    while (i2<marks.length){
+      if (!on[i2]){ i2++; continue; }
+      let j=i2, last=i2;
+      while (j+1<marks.length && (on[j+1] || (j+2<marks.length && on[j+2]))){
+        j++; if (on[j]) last=j;
+      }
+      if (last-i2+1>blen){ blen=last-i2+1; bi=i2; }
+      i2=last+1;
+    }
+    if (bi<0) return null;
+    return {first:bestPhi+bi*sp, span:blen-1};
+  };
+  const cbx=comb(colP,w,px.sp), cby=comb(rowP,h,py.sp);
+  if (!cbx || !cby) return null;
+  // the run must resemble the drawing's grid (outermost lines are often
+  // swallowed by the paper/background step, so allow a shortfall)
+  if (cbx.span<GRID_COLS-4 || cbx.span>GRID_COLS+2) return null;
+  if (cby.span<GRID_ROWS-4 || cby.span>GRID_ROWS+2) return null;
+  // provisional origin: swallowed edge lines split evenly between the sides
+  const L0x=Math.max(0,Math.round((GRID_COLS-cbx.span)/2));
+  const L0y=Math.max(0,Math.round((GRID_ROWS-cby.span)/2));
+  // 4) render the world-registered photo at full resolution
+  const rf=document.createElement('canvas'); rf.width=src.width; rf.height=src.height;
+  const fg=rf.getContext('2d');
+  fg.translate(src.width/2,src.height/2); fg.rotate(-th);
+  fg.translate(-src.width/2,-src.height/2);
+  fg.drawImage(src,0,0);
+  const fsx=px.sp/K, fsy=py.sp/K;
+  let fx0=(cbx.first-L0x*px.sp-w/2)/K+src.width/2,
+      fy0=(cby.first-L0y*py.sp-h/2)/K+src.height/2;
+  const render=(ox,oy)=>{
+    const out=document.createElement('canvas');
+    out.width=GRID_COLS*CELL; out.height=GRID_ROWS*CELL;
+    const og=out.getContext('2d');
+    og.imageSmoothingQuality='high';
+    og.fillStyle='#fff'; og.fillRect(0,0,out.width,out.height);
+    og.setTransform(CELL/fsx,0,0,CELL/fsy, -ox*CELL/fsx, -oy*CELL/fsy);
+    og.drawImage(rf,0,0);
+    return out;
+  };
+  let out=render(fx0,fy0);
+  // integer-cell refinement: slide up to +-3 cells against the reference's
+  // content and keep the best correlated placement (skipped on blank sheets)
+  {
+    const PW=GRID_COLS*2, PH=GRID_ROWS*2;
+    const shrink=cv=>{
+      const t=document.createElement('canvas'); t.width=PW; t.height=PH;
+      const tg=t.getContext('2d',{willReadFrequently:true});
+      tg.drawImage(cv,0,0,PW,PH);
+      const dd=tg.getImageData(0,0,PW,PH).data;
+      const arr=new Float64Array(PW*PH);
+      for (let i3=0;i3<PW*PH;i3++) arr[i3]=dd[i3*4];
+      return arr;
+    };
+    const A=shrink(out), B=shrink($('refImg'));
+    let am=0; for (const v of A) am+=v; am/=A.length;
+    let avr=0; for (const v of A) avr+=(v-am)*(v-am); avr/=A.length;
+    if (avr>=40){
+      let best={dx:0,dy:0,v:-2}, v00=-2;
+      for (let dy=-3;dy<=3;dy++) for (let dx=-3;dx<=3;dx++){
+        let s=0,s1=0,s2=0,q1=0,q2=0,n=0;
+        for (let y=0;y<PH;y++){ const y2=y+dy*2; if (y2<0||y2>=PH) continue;
+          for (let x=0;x<PW;x++){ const x2=x+dx*2; if (x2<0||x2>=PW) continue;
+            const va=A[y2*PW+x2], vb=B[y*PW+x];
+            s+=va*vb; s1+=va; s2+=vb; q1+=va*va; q2+=vb*vb; n++;
+          } }
+        if (n<PW*PH*0.5) continue;
+        const cov=s/n-(s1/n)*(s2/n);
+        const va2=q1/n-(s1/n)*(s1/n), vb2=q2/n-(s2/n)*(s2/n);
+        if (va2<1e-6||vb2<1e-6) continue;
+        const v=cov/Math.sqrt(va2*vb2);
+        if (dx===0&&dy===0) v00=v;
+        if (v>best.v) best={dx,dy,v};
+      }
+      if ((best.dx||best.dy) && best.v>v00+0.05)
+        out=render(fx0+best.dx*fsx, fy0+best.dy*fsy);
+    }
+  }
+  return out;
+}
 async function cmpSetPhoto(blob){
   const i=await blobImage(blob).catch(()=>null);
   if (!i) return;
@@ -2503,7 +2697,23 @@ async function cmpSetPhoto(blob){
   URL.revokeObjectURL(i.src);
   CMP.raw=c; CMP.blob=blob; CMP.img=null;
   CMP.corners=cmpGuessCorners(c).corners; CMP.cGrab=null;
-  cmpApplyCorners('flip');       // always automatic; Corners is the manual override
+  // the drawn grid is the best anchor; try it upright, then sideways
+  let grid=cmpGridAlign();
+  if (!grid){ const keep=CMP.raw; CMP.raw=cmpRot(keep,1);
+    grid=cmpGridAlign(); CMP.raw=keep; }
+  if (grid){
+    const q=cmpBestRotation(grid,[2]);          // grid can't tell upside-down
+    if (q) grid=cmpRot(grid,q);
+    CMP.img=cmpLevels(cmpSoften(cmpCalibrate(grid)));
+    cmpSize();
+    const f=CMP.fit;                            // world-registered: sit 1:1 on the reference
+    CMP.t={x:f.x+f.w*f.s/2, y:f.y+f.h*f.s/2,
+           s:f.w*f.s/CMP.img.width, r:0};       // calibrate may have downscaled
+    CMP.mode='flip'; CMP.showing='photo';
+    cmpRender(); cmpSave();
+    return;
+  }
+  cmpApplyCorners('flip');       // no readable grid: fall back to the paper edges
 }
 function cmpSoften(img){
   // phone cameras bake in an S-curve; lift the midtones a touch so the
@@ -2622,6 +2832,7 @@ $('compareBtn').onclick = async () => {
     }
   }
   cmpRender();
+  camStart();          // the camera button means the camera: live view right away
 };
 // live in-app camera; the file picker is the fallback
 const CAM={stream:null};
