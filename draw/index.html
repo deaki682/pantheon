@@ -1514,7 +1514,8 @@ vp.addEventListener('pointermove', e => {
 function endPtr(e){
   ptrs.delete(e.pointerId);
   if (ptrs.size<2) pinch0=null;
-  if (ptrs.size===0 && tapStart && !tapStart.moved && Date.now()-tapStart.t<400){
+  if (ptrs.size===0 && tapStart && !tapStart.moved && Date.now()-tapStart.t<400
+      && $('hud').style.display!=='none'){   // no selecting with the tools put away
     const rect=vp.getBoundingClientRect();
     const wx=(tapStart.x-rect.left-view.x)/view.s, wy=(tapStart.y-rect.top-view.y)/view.s;
     const c=Math.floor(wx/CELL), r=Math.floor(wy/CELL);
