@@ -47,6 +47,7 @@ button:disabled{opacity:.4}
 .gfill{height:100%;width:0;background:#e8e6e1}
 #calBox{width:96px;height:96px;border:1px dashed #888;flex:none}
 #calSlide{flex:1;min-width:80px;padding:0}
+#lvB,#lvW{flex:1;min-width:60px;padding:0}
 #world{position:absolute;left:0;top:0;transform-origin:0 0}
 #refImg,#gridCv,#selCv,#paperCv,#dimCv,#flashCv,#doneCv{position:absolute;left:0;top:0}
 /* compare: the photographed drawing aligned over the reference */
@@ -170,6 +171,11 @@ button:disabled{opacity:.4}
     <video id="camVid" playsinline autoplay muted></video>
     <canvas id="camGhost"></canvas>
     <button id="shutter" title="Capture"></button></div>
+  <div class="row" id="lvRow" style="display:none">
+    <span>black</span><input type="range" id="lvB" min="0" max="140" value="0">
+    <span>white</span><input type="range" id="lvW" min="150" max="255" value="255">
+    <button id="lvReset">Auto</button>
+  </div>
   <div class="row">
     <input type="file" id="cmpFile" accept="image/*" hidden>
     <button id="cmpShoot">Photo</button>
@@ -2145,7 +2151,8 @@ loadArsenal().then(u => {
 });
 
 // ---- compare: photograph the real drawing, align it over the reference, flip ----
-const CMP={img:null, blob:null, ckey:null, t:{x:0,y:0,s:1,r:0}, mode:'align', showing:'photo', fit:null};
+const CMP={img:null, base:null, blob:null, ckey:null, t:{x:0,y:0,s:1,r:0},
+  mode:'align', showing:'photo', fit:null, lv:{b:0,w:255}};
 function cmpSize(){
   const r=$('cmpView').getBoundingClientRect(), cv=$('cmpCv');
   if (cv.width!==Math.round(r.width) || cv.height!==Math.round(r.height)){
@@ -2155,11 +2162,36 @@ function cmpSize(){
   const s=Math.min(cv.width/w, cv.height/h);
   CMP.fit={s, x:(cv.width-w*s)/2, y:(cv.height-h*s)/2, w, h};
 }
+function applyLevels(){
+  // the artist's own black/white points, live, on top of everything the
+  // automatics did - the dependable override for any lighting
+  if (!CMP.base){ return; }
+  const {b,w}=CMP.lv;
+  if (b<=0 && w>=255){ CMP.img=CMP.base; return; }
+  const span=Math.max(8, w-b);
+  const lut=new Uint8ClampedArray(256);
+  for (let v=0;v<256;v++) lut[v]=(v-b)*255/span;
+  const c=document.createElement('canvas');
+  c.width=CMP.base.width; c.height=CMP.base.height;
+  const g=c.getContext('2d');
+  g.drawImage(CMP.base,0,0);
+  const im=g.getImageData(0,0,c.width,c.height), d=im.data;
+  for (let i=0;i<d.length;i+=4){ const v=lut[d[i]]; d[i]=d[i+1]=d[i+2]=v; }
+  g.putImageData(im,0,0);
+  CMP.img=c;
+}
+$('lvB').oninput = () => { CMP.lv.b=+$('lvB').value; applyLevels(); cmpRender(); cmpSave(); };
+$('lvW').oninput = () => { CMP.lv.w=+$('lvW').value; applyLevels(); cmpRender(); cmpSave(); };
+$('lvReset').onclick = () => {
+  CMP.lv={b:0,w:255}; $('lvB').value=0; $('lvW').value=255;
+  applyLevels(); cmpRender(); cmpSave();
+};
 function cmpButtons(){
   // after capture there are only two ways to look: Flip and Side by side.
   // The transparent overlay lives solely in the camera ghost; Straighten
   // appears only on the manual corner screen (picker photos).
   const fl=$('cmpFlip'), cn=$('cmpCorn'), sp=$('cmpSplit');
+  $('lvRow').style.display = (CMP.img && CMP.mode!=='corners' && !CAM.stream) ? '' : 'none';
   cn.style.display = CMP.mode==='corners' ? 'none' : '';
   cn.disabled = !CMP.raw;
   sp.style.display = CMP.mode==='corners' ? 'none' : '';
@@ -2843,6 +2875,8 @@ function cmpSetFramed(cv, blob, noRefine){
   CMP.corners=[{x:0,y:0},{x:c.width,y:0},{x:c.width,y:c.height},{x:0,y:c.height}];
   CMP.cGrab=null;
   CMP.img=cmpTone(cmpCalibrate(c));
+  CMP.base=CMP.img; CMP.lv={b:0,w:255};
+  $('lvB').value=0; $('lvW').value=255;
   cmpSize();
   const f=CMP.fit;
   const sF=Math.min(f.w*f.s/CMP.img.width, f.h*f.s/CMP.img.height);
@@ -3062,6 +3096,8 @@ function cmpApplyCorners(next){
   const q=cmpBestRotation(img, nearSq?[1,2,3]:[2]);
   if (q) img=cmpRot(img,q);
   CMP.img=cmpTone(cmpCalibrate(img));
+  CMP.base=CMP.img; CMP.lv={b:0,w:255};
+  $('lvB').value=0; $('lvW').value=255;
   cmpSize();
   const f=CMP.fit;                                   // sit exactly over the reference
   const sF=Math.min(f.w*f.s/CMP.img.width, f.h*f.s/CMP.img.height);
@@ -3072,7 +3108,8 @@ function cmpApplyCorners(next){
 let cmpT=0;
 function cmpSave(){ clearTimeout(cmpT); cmpT=setTimeout(()=>{
   if (CKEY && CMP.blob) dbPutRaw('cmp|'+CKEY, {blob:CMP.blob, framed:!!CMP.framed,
-    corners:CMP.corners?CMP.corners.map(q=>({x:q.x,y:q.y})):null, t:{...CMP.t}}); }, 700); }
+    corners:CMP.corners?CMP.corners.map(q=>({x:q.x,y:q.y})):null,
+    lv:{...CMP.lv}, t:{...CMP.t}}); }, 700); }
 $('compareBtn').onclick = async () => {
   show('scrCompare'); cmpSize();
   if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
@@ -3095,6 +3132,11 @@ $('compareBtn').onclick = async () => {
         cmpApplyCorners();
       }
       if (saved.t) CMP.t=saved.t;
+      if (saved.lv && (saved.lv.b>0 || saved.lv.w<255)){
+        CMP.lv={b:saved.lv.b||0, w:saved.lv.w??255};
+        $('lvB').value=CMP.lv.b; $('lvW').value=CMP.lv.w;
+        applyLevels();
+      }
       CMP.mode='flip'; CMP.showing='photo';
     }
   }
