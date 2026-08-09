@@ -182,6 +182,7 @@ button:disabled{opacity:.4}
     <button id="cmpShoot">Photo</button>
     <button id="cmpFlip" disabled>Flip view</button>
     <button id="cmpSplit" disabled>Side by side</button>
+    <button id="lvBtn" disabled>Adjust</button>
     <button id="cmpCorn" disabled>Corners</button>
     <span id="cmpHint" class="grow"></span>
     <button id="cmpBack">Back</button>
@@ -2155,9 +2156,13 @@ loadArsenal().then(u => {
 const CMP={img:null, base:null, blob:null, ckey:null, t:{x:0,y:0,s:1,r:0},
   mode:'align', showing:'photo', fit:null, lv:{b:0,w:255}};
 function cmpSize(){
+  // render at device resolution: the canvas is dpr times the CSS size
   const r=$('cmpView').getBoundingClientRect(), cv=$('cmpCv');
-  if (cv.width!==Math.round(r.width) || cv.height!==Math.round(r.height)){
-    cv.width=Math.round(r.width); cv.height=Math.round(r.height);
+  const dpr=Math.min(3, window.devicePixelRatio||1);
+  const W=Math.round(r.width*dpr), H=Math.round(r.height*dpr);
+  if (cv.width!==W || cv.height!==H){
+    cv.width=W; cv.height=H;
+    cv.style.width=r.width+'px'; cv.style.height=r.height+'px';
   }
   const {w,h}=worldSize();
   const s=Math.min(cv.width/w, cv.height/h);
@@ -2184,19 +2189,31 @@ function applyLevels(){
   g.putImageData(im,0,0);
   CMP.img=c;
 }
-$('lvB').oninput = () => { CMP.lv.b=+$('lvB').value; applyLevels(); cmpRender(); cmpSave(); };
-$('lvW').oninput = () => { CMP.lv.w=+$('lvW').value; applyLevels(); cmpRender(); cmpSave(); };
-$('lvC').oninput = () => { CMP.lv.c=+$('lvC').value; applyLevels(); cmpRender(); cmpSave(); };
+// the adjustment is remembered: set once on the first photo, applied
+// silently to every later one; the Adjust button reopens the sliders
+const lvStore=()=>{ try{ localStorage.setItem('cmpLv', JSON.stringify(CMP.lv)); }catch(e){} };
+function lvLoad(){ try{
+  const v=JSON.parse(localStorage.getItem('cmpLv'));
+  if (v && typeof v.b==='number') return {b:v.b, w:v.w??255, c:v.c??100};
+}catch(e){} return null; }
+$('lvB').oninput = () => { CMP.lv.b=+$('lvB').value; applyLevels(); lvStore(); cmpRender(); cmpSave(); };
+$('lvW').oninput = () => { CMP.lv.w=+$('lvW').value; applyLevels(); lvStore(); cmpRender(); cmpSave(); };
+$('lvC').oninput = () => { CMP.lv.c=+$('lvC').value; applyLevels(); lvStore(); cmpRender(); cmpSave(); };
 $('lvReset').onclick = () => {
   CMP.lv={b:0,w:255,c:100}; $('lvB').value=0; $('lvW').value=255; $('lvC').value=100;
-  applyLevels(); cmpRender(); cmpSave();
+  applyLevels(); lvStore(); cmpRender(); cmpSave();
 };
+$('lvBtn').onclick = () => { CMP.lvOpen=!CMP.lvOpen; cmpRender(); };
 function cmpButtons(){
   // after capture there are only two ways to look: Flip and Side by side.
   // The transparent overlay lives solely in the camera ghost; Straighten
   // appears only on the manual corner screen (picker photos).
-  const fl=$('cmpFlip'), cn=$('cmpCorn'), sp=$('cmpSplit');
-  $('lvRow').style.display = (CMP.img && CMP.mode!=='corners' && !CAM.stream) ? '' : 'none';
+  const fl=$('cmpFlip'), cn=$('cmpCorn'), sp=$('cmpSplit'), lb=$('lvBtn');
+  const showLv = CMP.img && CMP.mode!=='corners' && !CAM.stream;
+  $('lvRow').style.display = (showLv && CMP.lvOpen) ? '' : 'none';
+  lb.style.display = CMP.mode==='corners' ? 'none' : '';
+  lb.disabled = !CMP.img;
+  lb.textContent = CMP.lvOpen ? 'Done' : 'Adjust';
   cn.style.display = CMP.mode==='corners' ? 'none' : '';
   cn.disabled = !CMP.raw;
   sp.style.display = CMP.mode==='corners' ? 'none' : '';
@@ -2208,6 +2225,7 @@ function cmpButtons(){
 }
 function cmpRender(){
   const cv=$('cmpCv'), g=cv.getContext('2d');
+  g.imageSmoothingQuality='high';
   g.clearRect(0,0,cv.width,cv.height);
   const drawPhoto=()=>{ if (!CMP.img) return; const t=CMP.t;
     g.save(); g.translate(t.x,t.y); g.rotate(t.r); g.scale(t.s,t.s);
@@ -2291,7 +2309,7 @@ function cmpCalibrate(c){
   // solid charcoal can't fake "dim light", then smoothed) and divide it out -
   // uneven lighting cancels and paper reads as white everywhere, so charcoal
   // lands at its true tone relative to paper regardless of the room's light.
-  const MAX=1600;
+  const MAX=2400;
   let w=c.width, h=c.height;
   const k=Math.min(1, MAX/Math.max(w,h));
   if (k<1){ const c2=document.createElement('canvas');
@@ -2880,8 +2898,12 @@ function cmpSetFramed(cv, blob, noRefine){
   CMP.corners=[{x:0,y:0},{x:c.width,y:0},{x:c.width,y:c.height},{x:0,y:c.height}];
   CMP.cGrab=null;
   CMP.img=cmpTone(cmpCalibrate(c));
-  CMP.base=CMP.img; CMP.lv={b:0,w:255,c:100};
-  $('lvB').value=0; $('lvW').value=255; $('lvC').value=100;
+  CMP.base=CMP.img;
+  const mem=lvLoad();
+  if (mem){ CMP.lv=mem; CMP.lvOpen=false; }          // remembered: apply silently
+  else { CMP.lv={b:0,w:255,c:100}; CMP.lvOpen=true; }  // first photo: prompt once
+  $('lvB').value=CMP.lv.b; $('lvW').value=CMP.lv.w; $('lvC').value=CMP.lv.c;
+  applyLevels();
   cmpSize();
   const f=CMP.fit;
   const sF=Math.min(f.w*f.s/CMP.img.width, f.h*f.s/CMP.img.height);
@@ -3101,8 +3123,12 @@ function cmpApplyCorners(next){
   const q=cmpBestRotation(img, nearSq?[1,2,3]:[2]);
   if (q) img=cmpRot(img,q);
   CMP.img=cmpTone(cmpCalibrate(img));
-  CMP.base=CMP.img; CMP.lv={b:0,w:255,c:100};
-  $('lvB').value=0; $('lvW').value=255; $('lvC').value=100;
+  CMP.base=CMP.img;
+  const mem=lvLoad();
+  if (mem){ CMP.lv=mem; CMP.lvOpen=false; }
+  else { CMP.lv={b:0,w:255,c:100}; CMP.lvOpen=true; }
+  $('lvB').value=CMP.lv.b; $('lvW').value=CMP.lv.w; $('lvC').value=CMP.lv.c;
+  applyLevels();
   cmpSize();
   const f=CMP.fit;                                   // sit exactly over the reference
   const sF=Math.min(f.w*f.s/CMP.img.width, f.h*f.s/CMP.img.height);
@@ -3142,6 +3168,7 @@ $('compareBtn').onclick = async () => {
         $('lvB').value=CMP.lv.b; $('lvW').value=CMP.lv.w; $('lvC').value=CMP.lv.c;
         applyLevels();
       }
+      CMP.lvOpen=false;
       CMP.mode='flip'; CMP.showing='photo';
     }
   }
@@ -3187,6 +3214,7 @@ async function camStart(){
     CAM.stream=st;
     const v=$('camVid'); v.srcObject=st; v.style.display='block';
     $('cmpShoot').style.display='none';
+    $('lvRow').style.display='none';
     $('shutter').style.display='block';
     $('cmpBack').textContent='Cancel';
     $('cmpFlip').disabled=true; $('cmpCorn').disabled=true;
@@ -3215,16 +3243,36 @@ async function camCapture(){
   if (!CAM.stream || !v.videoWidth) return;
   camGhost();                              // mapping current at the shutter
   const gh=CAM.ghost;
+  // full-resolution still where the platform offers one (the photo sensor
+  // usually far outresolves the video stream); video frame otherwise
+  let frame=v, fw=v.videoWidth, fh=v.videoHeight;
+  try{
+    if (window.ImageCapture){
+      const ic=new ImageCapture(CAM.stream.getVideoTracks()[0]);
+      const blob=await Promise.race([ ic.takePhoto(),
+        new Promise(r=>setTimeout(()=>r(null),900)) ]);
+      if (blob){
+        const bmp=await createImageBitmap(blob);
+        // trust the still only if it frames like the stream
+        if (Math.abs(Math.log((bmp.width/bmp.height)/(fw/fh)))<0.02
+            && bmp.width>=fw){ frame=bmp; fw=bmp.width; fh=bmp.height; }
+        else bmp.close && bmp.close();
+      }
+    }
+  }catch(e){}
   const c=document.createElement('canvas');
+  const cg=()=>{ const g=c.getContext('2d'); g.imageSmoothingQuality='high'; return g; };
   if (gh){                                 // crop to the ghost outline
-    const sx=(gh.gx-gh.vx)/gh.vs, sy=(gh.gy-gh.vy)/gh.vs,
-          sw=gh.gw/gh.vs, sh=gh.gh/gh.vs;
+    const kx=fw/v.videoWidth, ky=fh/v.videoHeight;
+    const sx=(gh.gx-gh.vx)/gh.vs*kx, sy=(gh.gy-gh.vy)/gh.vs*ky,
+          sw=gh.gw/gh.vs*kx, sh=gh.gh/gh.vs*ky;
     c.width=Math.max(2,Math.round(sw)); c.height=Math.max(2,Math.round(sh));
-    c.getContext('2d').drawImage(v, sx,sy,sw,sh, 0,0,c.width,c.height);
+    cg().drawImage(frame, sx,sy,sw,sh, 0,0,c.width,c.height);
   } else {
-    c.width=v.videoWidth; c.height=v.videoHeight;
-    c.getContext('2d').drawImage(v,0,0);
+    c.width=fw; c.height=fh;
+    cg().drawImage(frame,0,0);
   }
+  if (frame!==v && frame.close) frame.close();
   camStop();
   const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',0.92));
   cmpSetFramed(c, blob);
@@ -3260,17 +3308,18 @@ $('cmpSplit').onclick = () => {
     pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
     if (pts.size===1) tap={moved:false,t:Date.now()};
     if (CMP.mode==='corners' && CMP.raw && pts.size===1 && CMP.cfit){
-      const r=cv.getBoundingClientRect(), px=e.clientX-r.left, py=e.clientY-r.top;
-      let best=-1, bd=36;
+      const r=cv.getBoundingClientRect(), kd=cv.width/r.width,
+            px=(e.clientX-r.left)*kd, py=(e.clientY-r.top)*kd;
+      let best=-1, bd=36*kd;
       CMP.corners.forEach((q,i2)=>{
         const dd=Math.hypot(CMP.cfit.ox+q.x*CMP.cfit.s-px, CMP.cfit.oy+q.y*CMP.cfit.s-py);
         if (dd<bd){ bd=dd; best=i2; } });
       CMP.cGrab = best>=0 ? best : null;
     }
     if (pts.size===2){
-      const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
+      const [a,b]=[...pts.values()], r=cv.getBoundingClientRect(), kd=cv.width/r.width;
       g0={d:Math.hypot(a.x-b.x,a.y-b.y), ang:Math.atan2(b.y-a.y,b.x-a.x),
-          mx:(a.x+b.x)/2-r.left, my:(a.y+b.y)/2-r.top,
+          mx:((a.x+b.x)/2-r.left)*kd, my:((a.y+b.y)/2-r.top)*kd,
           t:{...CMP.t}, spl:{...SPL}};
       tap=null; CMP.cGrab=null;
     }
@@ -3280,11 +3329,12 @@ $('cmpSplit').onclick = () => {
     const dx=e.clientX-p.x, dy=e.clientY-p.y;
     p.x=e.clientX; p.y=e.clientY;
     if (Math.hypot(dx,dy)>4 && tap) tap.moved=true;
+    const kd=cv.width/cv.getBoundingClientRect().width;   // css px -> canvas px
     if (CMP.mode==='corners' && CMP.raw){
       if (pts.size===1 && CMP.cGrab!=null && CMP.cfit){
         const q=CMP.corners[CMP.cGrab];
-        q.x=Math.max(0,Math.min(CMP.raw.width,  q.x+dx/CMP.cfit.s));
-        q.y=Math.max(0,Math.min(CMP.raw.height, q.y+dy/CMP.cfit.s));
+        q.x=Math.max(0,Math.min(CMP.raw.width,  q.x+dx*kd/CMP.cfit.s));
+        q.y=Math.max(0,Math.min(CMP.raw.height, q.y+dy*kd/CMP.cfit.s));
         cmpRender();
       }
       return;
@@ -3293,11 +3343,11 @@ $('cmpSplit').onclick = () => {
       // one shared view: a gesture on either pane moves both together
       const pw=cv.width/2;
       if (pts.size===1){
-        SPL.x+=dx; SPL.y+=dy; clampSplit(); cmpRender();
+        SPL.x+=dx*kd; SPL.y+=dy*kd; clampSplit(); cmpRender();
       } else if (pts.size===2 && g0){
         const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
         const d=Math.hypot(a.x-b.x,a.y-b.y);
-        const mx=(a.x+b.x)/2-r.left, my=(a.y+b.y)/2-r.top;
+        const mx=((a.x+b.x)/2-r.left)*kd, my=((a.y+b.y)/2-r.top)*kd;
         const paneOff=g0.mx>=pw ? pw : 0;
         const k=Math.max(1,Math.min(16,g0.spl.s*d/g0.d))/g0.spl.s;
         SPL.s=g0.spl.s*k;
@@ -3337,8 +3387,8 @@ $('cmpSplit').onclick = () => {
     if (!CMP.img) return;
     if (CMP.mode==='split'){
       e.preventDefault();
-      const r=cv.getBoundingClientRect(), pw=cv.width/2;
-      let px=e.clientX-r.left; const py=e.clientY-r.top;
+      const r=cv.getBoundingClientRect(), pw=cv.width/2, kd=cv.width/r.width;
+      let px=(e.clientX-r.left)*kd; const py=(e.clientY-r.top)*kd;
       if (px>=pw) px-=pw;                 // pane-local zoom point
       const k=e.deltaY<0?1.08:1/1.08;
       const ns=Math.max(1,Math.min(16,SPL.s*k)), kk=ns/SPL.s;
