@@ -175,7 +175,14 @@ button:disabled{opacity:.4}
     <span>black</span><input type="range" id="lvB" min="0" max="140" value="0">
     <span>white</span><input type="range" id="lvW" min="150" max="255" value="255">
     <span>contrast</span><input type="range" id="lvC" min="15" max="200" value="100">
+    <button id="lvMatch">Match</button>
     <button id="lvReset">Auto</button>
+  </div>
+  <div class="row" id="matchRow" style="display:none">
+    <button id="mUndo">Undo</button>
+    <button id="mClear">Clear</button>
+    <span id="mCount" class="grow"></span>
+    <button id="mDone">Done</button>
   </div>
   <div class="row">
     <input type="file" id="cmpFile" accept="image/*" hidden>
@@ -2154,7 +2161,8 @@ loadArsenal().then(u => {
 
 // ---- compare: photograph the real drawing, align it over the reference, flip ----
 const CMP={img:null, base:null, blob:null, ckey:null, t:{x:0,y:0,s:1,r:0},
-  mode:'align', showing:'photo', fit:null, lv:{b:0,w:255}};
+  mode:'align', showing:'photo', fit:null, lv:{b:0,w:255,c:100},
+  match:{pairs:[], lut:null}};
 function cmpSize(){
   // render at device resolution: the canvas is dpr times the CSS size
   const r=$('cmpView').getBoundingClientRect(), cv=$('cmpCv');
@@ -2168,16 +2176,77 @@ function cmpSize(){
   const s=Math.min(cv.width/w, cv.height/h);
   CMP.fit={s, x:(cv.width-w*s)/2, y:(cv.height-h*s)/2, w, h};
 }
+function buildMatchLUT(pairsIn){
+  // a smooth monotone tone curve through the tapped calibration pairs
+  // (photo tone -> reference tone), Fritsch-Carlson, slope-1 tails
+  if (!pairsIn.length) return null;
+  const mp=new Map();
+  for (const q of pairsIn){ const key=q.p|0;
+    if (!mp.has(key)) mp.set(key,[]); mp.get(key).push(q.t); }
+  const pts=[...mp.entries()]
+    .map(([p2,ts])=>({p:+p2, t:ts.reduce((a,b)=>a+b,0)/ts.length}))
+    .sort((a,b)=>a.p-b.p);
+  for (let i=1;i<pts.length;i++){          // monotone: pool adjacent violators
+    if (pts[i].t<pts[i-1].t){
+      let j=i, sum=pts[i].t, n=1;
+      while (j>0 && pts[j-1].t>sum/n){ sum+=pts[j-1].t; n++; j--; }
+      const avg=sum/n;
+      for (let q2=j;q2<=i;q2++) pts[q2].t=avg;
+    }
+  }
+  const lut=new Uint8ClampedArray(256);
+  if (pts.length===1){
+    const off=pts[0].t-pts[0].p;
+    for (let v=0;v<256;v++) lut[v]=v+off;
+    return lut;
+  }
+  const n=pts.length, hh=[], dd=[];
+  for (let i=0;i<n-1;i++){ hh[i]=Math.max(1e-6,pts[i+1].p-pts[i].p);
+    dd[i]=(pts[i+1].t-pts[i].t)/hh[i]; }
+  const mm=[dd[0]];
+  for (let i=1;i<n-1;i++)
+    mm[i]=(dd[i-1]*dd[i]<=0) ? 0 : 2/(1/dd[i-1]+1/dd[i]);
+  mm[n-1]=dd[n-2];
+  for (let v=0;v<256;v++){
+    let t2;
+    if (v<=pts[0].p) t2=pts[0].t-(pts[0].p-v);
+    else if (v>=pts[n-1].p) t2=pts[n-1].t+(v-pts[n-1].p);
+    else {
+      let i=0; while (pts[i+1].p<v) i++;
+      const s=(v-pts[i].p)/hh[i];
+      t2=(1+2*s)*(1-s)*(1-s)*pts[i].t + s*(1-s)*(1-s)*hh[i]*mm[i]
+        + s*s*(3-2*s)*pts[i+1].t + s*s*(s-1)*hh[i]*mm[i+1];
+    }
+    lut[v]=t2;
+  }
+  return lut;
+}
+function rebuildMatch(){
+  CMP.match.lut=buildMatchLUT(CMP.match.pairs);
+  try{
+    if (CMP.match.lut) localStorage.setItem('cmpMatch', JSON.stringify([...CMP.match.lut]));
+    else localStorage.removeItem('cmpMatch');
+  }catch(e){}
+}
+function matchLoad(){
+  try{
+    const gm=JSON.parse(localStorage.getItem('cmpMatch'));
+    if (Array.isArray(gm) && gm.length===256) return Uint8ClampedArray.from(gm);
+  }catch(e){}
+  return null;
+}
 function applyLevels(){
-  // the artist's own black/white points, live, on top of everything the
-  // automatics did - the dependable override for any lighting
+  // tap-match curve first (the calibration), then the artist's black/white/
+  // contrast nudge - live, on top of everything the automatics did
   if (!CMP.base){ return; }
   const {b,w}=CMP.lv, k=(CMP.lv.c??100)/100;
-  if (b<=0 && w>=255 && k===1){ CMP.img=CMP.base; return; }
+  const ml=CMP.match && CMP.match.lut;
+  if (b<=0 && w>=255 && k===1 && !ml){ CMP.img=CMP.base; return; }
   const span=Math.max(8, w-b);
   const lut=new Uint8ClampedArray(256);
   for (let v=0;v<256;v++){
-    const lv1=(v-b)*255/span;              // levels first
+    const vm=ml ? ml[v] : v;               // calibration curve
+    const lv1=(vm-b)*255/span;             // then levels
     lut[v]=(lv1-128)*k+128;                // then contrast about the middle
   }
   const c=document.createElement('canvas');
@@ -2201,22 +2270,75 @@ $('lvW').oninput = () => { CMP.lv.w=+$('lvW').value; applyLevels(); lvStore(); c
 $('lvC').oninput = () => { CMP.lv.c=+$('lvC').value; applyLevels(); lvStore(); cmpRender(); cmpSave(); };
 $('lvReset').onclick = () => {
   CMP.lv={b:0,w:255,c:100}; $('lvB').value=0; $('lvW').value=255; $('lvC').value=100;
+  CMP.match={pairs:[], lut:null};
+  try{ localStorage.removeItem('cmpMatch'); }catch(e){}
   applyLevels(); lvStore(); cmpRender(); cmpSave();
 };
 $('lvBtn').onclick = () => { CMP.lvOpen=!CMP.lvOpen; cmpRender(); };
+// ---- tap-to-match: each tap on a spot the artist vouches for samples the
+// photo AND the reference at that registered location, building the curve
+function medianAt(cv2, x, y){
+  const x0=Math.max(0,Math.min(cv2.width-7,Math.round(x)-3)),
+        y0=Math.max(0,Math.min(cv2.height-7,Math.round(y)-3));
+  const dd=cv2.getContext('2d').getImageData(x0,y0,7,7).data;
+  const a=[]; for (let i=0;i<49;i++) a.push(dd[i*4]);
+  a.sort((q,w2)=>q-w2);
+  return a[24];
+}
+function matchTap(clientX, clientY){
+  const cv=$('cmpCv'), r=cv.getBoundingClientRect(), kd=cv.width/r.width;
+  const cx=(clientX-r.left)*kd, cy=(clientY-r.top)*kd;
+  const f=CMP.fit;
+  const rx=(cx-f.x)/f.s, ry=(cy-f.y)/f.s;
+  if (rx<4||ry<4||rx>=f.w-4||ry>=f.h-4) return;
+  const cs=Math.cos(-CMP.t.r), sn=Math.sin(-CMP.t.r);
+  const dxc=cx-CMP.t.x, dyc=cy-CMP.t.y;
+  const px=(dxc*cs-dyc*sn)/CMP.t.s + CMP.base.width/2;
+  const py=(dxc*sn+dyc*cs)/CMP.t.s + CMP.base.height/2;
+  if (px<4||py<4||px>=CMP.base.width-4||py>=CMP.base.height-4) return;
+  CMP.match.pairs.push({
+    p: medianAt(CMP.base, px, py),
+    t: medianAt($('refImg'), rx, ry),
+    rx, ry });
+  rebuildMatch(); applyLevels(); cmpRender(); cmpSave();
+}
+$('lvMatch').onclick = () => {
+  if (!CMP.img) return;
+  CMP.mode='match'; CMP.lvOpen=false;
+  $('cmpShoot').style.display='none';
+  cmpRender();
+};
+$('mDone').onclick = () => {
+  CMP.mode='flip'; CMP.showing='photo';
+  $('cmpShoot').style.display='';
+  cmpRender();
+};
+$('mUndo').onclick = () => {
+  CMP.match.pairs.pop();
+  rebuildMatch(); applyLevels(); cmpRender(); cmpSave();
+};
+$('mClear').onclick = () => {
+  CMP.match={pairs:[], lut:null};
+  try{ localStorage.removeItem('cmpMatch'); }catch(e){}
+  applyLevels(); cmpRender(); cmpSave();
+};
 function cmpButtons(){
   // after capture there are only two ways to look: Flip and Side by side.
   // The transparent overlay lives solely in the camera ghost; Straighten
   // appears only on the manual corner screen (picker photos).
   const fl=$('cmpFlip'), cn=$('cmpCorn'), sp=$('cmpSplit'), lb=$('lvBtn');
-  const showLv = CMP.img && CMP.mode!=='corners' && !CAM.stream;
+  const inMatch = CMP.mode==='match';
+  $('matchRow').style.display = inMatch ? '' : 'none';
+  if (inMatch) $('mCount').textContent =
+    CMP.match.pairs.length + ' point' + (CMP.match.pairs.length===1?'':'s');
+  const showLv = CMP.img && CMP.mode!=='corners' && !inMatch && !CAM.stream;
   $('lvRow').style.display = (showLv && CMP.lvOpen) ? '' : 'none';
-  lb.style.display = CMP.mode==='corners' ? 'none' : '';
+  lb.style.display = (CMP.mode==='corners'||inMatch) ? 'none' : '';
   lb.disabled = !CMP.img;
   lb.textContent = CMP.lvOpen ? 'Done' : 'Adjust';
-  cn.style.display = CMP.mode==='corners' ? 'none' : '';
+  cn.style.display = (CMP.mode==='corners'||inMatch) ? 'none' : '';
   cn.disabled = !CMP.raw;
-  sp.style.display = CMP.mode==='corners' ? 'none' : '';
+  sp.style.display = (CMP.mode==='corners'||inMatch) ? 'none' : '';
   sp.disabled = !CMP.img;
   sp.textContent = CMP.mode==='split' ? 'Flip view' : 'Side by side';
   fl.style.display = CMP.mode==='corners' ? '' : 'none';
@@ -2260,6 +2382,17 @@ function cmpRender(){
   } else if (CMP.img && CMP.mode==='flip'){
     if (CMP.showing==='ref'){ drawRef(); hint='reference - tap to flip'; }
     else { drawPhoto(); hint='your drawing - tap to flip'; }
+  } else if (CMP.img && CMP.mode==='match'){
+    drawPhoto();
+    const f=CMP.fit;
+    for (const q of CMP.match.pairs){
+      const x=f.x+q.rx*f.s, y=f.y+q.ry*f.s;
+      g.beginPath(); g.arc(x,y,9,0,6.2832);
+      g.strokeStyle='#000'; g.lineWidth=3; g.stroke();
+      g.beginPath(); g.arc(x,y,9,0,6.2832);
+      g.strokeStyle='#fff'; g.lineWidth=1.5; g.stroke();
+    }
+    hint='tap FLAT spots you know are right - a dark mass, a midtone, paper';
   } else if (CMP.img && CMP.mode==='split'){
     // side by side, one shared view: gestures on either pane move both
     const pw=cv.width/2, ph=cv.height;
@@ -2899,8 +3032,9 @@ function cmpSetFramed(cv, blob, noRefine){
   CMP.cGrab=null;
   CMP.img=cmpTone(cmpCalibrate(c));
   CMP.base=CMP.img;
-  const mem=lvLoad();
-  if (mem){ CMP.lv=mem; CMP.lvOpen=false; }          // remembered: apply silently
+  const mem=lvLoad(), memM=matchLoad();
+  CMP.match={pairs:[], lut:memM};                    // inherit the tap-match curve
+  if (mem||memM){ CMP.lv=mem||{b:0,w:255,c:100}; CMP.lvOpen=false; }
   else { CMP.lv={b:0,w:255,c:100}; CMP.lvOpen=true; }  // first photo: prompt once
   $('lvB').value=CMP.lv.b; $('lvW').value=CMP.lv.w; $('lvC').value=CMP.lv.c;
   applyLevels();
@@ -3124,8 +3258,9 @@ function cmpApplyCorners(next){
   if (q) img=cmpRot(img,q);
   CMP.img=cmpTone(cmpCalibrate(img));
   CMP.base=CMP.img;
-  const mem=lvLoad();
-  if (mem){ CMP.lv=mem; CMP.lvOpen=false; }
+  const mem=lvLoad(), memM=matchLoad();
+  CMP.match={pairs:[], lut:memM};
+  if (mem||memM){ CMP.lv=mem||{b:0,w:255,c:100}; CMP.lvOpen=false; }
   else { CMP.lv={b:0,w:255,c:100}; CMP.lvOpen=true; }
   $('lvB').value=CMP.lv.b; $('lvW').value=CMP.lv.w; $('lvC').value=CMP.lv.c;
   applyLevels();
@@ -3140,7 +3275,10 @@ let cmpT=0;
 function cmpSave(){ clearTimeout(cmpT); cmpT=setTimeout(()=>{
   if (CKEY && CMP.blob) dbPutRaw('cmp|'+CKEY, {blob:CMP.blob, framed:!!CMP.framed,
     corners:CMP.corners?CMP.corners.map(q=>({x:q.x,y:q.y})):null,
-    lv:{...CMP.lv}, t:{...CMP.t}}); }, 700); }
+    lv:{...CMP.lv},
+    match:{pairs:CMP.match.pairs.map(q=>({...q})),
+           lut:CMP.match.lut?[...CMP.match.lut]:null},
+    t:{...CMP.t}}); }, 700); }
 $('compareBtn').onclick = async () => {
   show('scrCompare'); cmpSize();
   if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
@@ -3166,8 +3304,13 @@ $('compareBtn').onclick = async () => {
       if (saved.lv && (saved.lv.b>0 || saved.lv.w<255 || (saved.lv.c??100)!==100)){
         CMP.lv={b:saved.lv.b||0, w:saved.lv.w??255, c:saved.lv.c??100};
         $('lvB').value=CMP.lv.b; $('lvW').value=CMP.lv.w; $('lvC').value=CMP.lv.c;
-        applyLevels();
       }
+      if (saved.match){
+        CMP.match={ pairs:(saved.match.pairs||[]).map(q=>({...q})),
+          lut:(Array.isArray(saved.match.lut)&&saved.match.lut.length===256)
+              ? Uint8ClampedArray.from(saved.match.lut) : null };
+      }
+      applyLevels();
       CMP.lvOpen=false;
       CMP.mode='flip'; CMP.showing='photo';
     }
@@ -3306,7 +3449,7 @@ $('cmpSplit').onclick = () => {
   cv.addEventListener('pointerdown', e => {
     cv.setPointerCapture(e.pointerId);
     pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
-    if (pts.size===1) tap={moved:false,t:Date.now()};
+    if (pts.size===1) tap={x:e.clientX, y:e.clientY, moved:false, t:Date.now()};
     if (CMP.mode==='corners' && CMP.raw && pts.size===1 && CMP.cfit){
       const r=cv.getBoundingClientRect(), kd=cv.width/r.width,
             px=(e.clientX-r.left)*kd, py=(e.clientY-r.top)*kd;
@@ -3377,6 +3520,10 @@ $('cmpSplit').onclick = () => {
     if (pts.size<2) g0=null;
     if (pts.size===0) CMP.cGrab=null;
     if (pts.size===0 && tap && !tap.moved && Date.now()-tap.t<400
+        && CMP.mode==='match' && CMP.base){
+      matchTap(tap.x, tap.y);
+    }
+    else if (pts.size===0 && tap && !tap.moved && Date.now()-tap.t<400
         && CMP.mode==='flip' && CMP.img){
       CMP.showing = CMP.showing==='ref' ? 'photo' : 'ref'; cmpRender();
     }
