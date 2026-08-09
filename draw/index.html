@@ -2294,7 +2294,7 @@ function cmpCalibrate(c){
     // the outer band of the crop can hold tape, table, or glare - never let
     // it vote on the light; its illumination is inpainted from the interior
     const bxm=((i2%bw)+0.5)*B, bym=(((i2/bw)|0)+0.5)*B;
-    const border = bxm<w*0.08 || bxm>w*0.92 || bym<h*0.08 || bym>h*0.92;
+    const border = bxm<w*0.10 || bxm>w*0.90 || bym<h*0.10 || bym>h*0.90;
     if (!border && blocks[i2] >= env[i2]*0.8) valid[i2]=1;
     else blocks[i2]=env[i2];            // charcoal/border block: seed, then inpaint
   }
@@ -2879,7 +2879,7 @@ function cmpTone(img){
   const ph=new Int32Array(256); let pn=0;
   // ignore the outer band of the crop: black tape or a shiny table edge
   // must never become the histogram's black or white
-  const inX=Math.round(iw*0.08), inY=Math.round(ih*0.08);
+  const inX=Math.round(iw*0.10), inY=Math.round(ih*0.10);
   const addP=(x0,y0,x1,y1)=>{
     x0=Math.max(x0,inX); y0=Math.max(y0,inY);
     x1=Math.min(x1,iw-inX); y1=Math.min(y1,ih-inY);
@@ -2905,8 +2905,14 @@ function cmpTone(img){
     const rd=ref.getContext('2d').getImageData(0,0,ww,wh).data;
     src=(x,y)=>rd[(y*ww+x)*4];
   }
-  const addT=(x0,y0,x1,y1)=>{ for (let y=y0;y<y1;y+=3) for (let x=x0;x<x1;x+=3){
-    th[src(x,y)]++; tn++; } };
+  // the target histogram is clipped to the SAME interior box, so the two
+  // distributions describe identical regions of the sheet
+  const tX=Math.round(ww*0.10), tY=Math.round(wh*0.10);
+  const addT=(x0,y0,x1,y1)=>{
+    x0=Math.max(x0,tX); y0=Math.max(y0,tY);
+    x1=Math.min(x1,ww-tX); y1=Math.min(y1,wh-tY);
+    for (let y=y0;y<y1;y+=3) for (let x=x0;x<x1;x+=3){
+      th[src(x,y)]++; tn++; } };
   if (wholeSheet) addT(0,0,ww,wh);
   else for (const [c,r] of cells) addT(c*CELL,r*CELL,(c+1)*CELL,(r+1)*CELL);
   if (tn<2000) return img;
