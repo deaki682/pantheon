@@ -2291,8 +2291,12 @@ function cmpCalibrate(c){
   }
   const valid=new Uint8Array(bw*bh);
   for (let i2=0;i2<blocks.length;i2++){
-    if (blocks[i2] >= env[i2]*0.8) valid[i2]=1;
-    else blocks[i2]=env[i2];            // charcoal block: seed with the envelope
+    // the outer band of the crop can hold tape, table, or glare - never let
+    // it vote on the light; its illumination is inpainted from the interior
+    const bxm=((i2%bw)+0.5)*B, bym=(((i2/bw)|0)+0.5)*B;
+    const border = bxm<w*0.08 || bxm>w*0.92 || bym<h*0.08 || bym>h*0.92;
+    if (!border && blocks[i2] >= env[i2]*0.8) valid[i2]=1;
+    else blocks[i2]=env[i2];            // charcoal/border block: seed, then inpaint
   }
   // diffuse the light field from paper blocks across charcoal regions
   for (let it=0; it<8; it++){
@@ -2832,7 +2836,6 @@ function cmpSetFramed(cv, blob, noRefine){
   const f=CMP.fit;
   const sF=Math.min(f.w*f.s/CMP.img.width, f.h*f.s/CMP.img.height);
   CMP.t={x:f.x+f.w*f.s/2, y:f.y+f.h*f.s/2, s:sF, r:0};
-  if (!noRefine) cmpAutoRefine();          // polish the last few percent
   CMP.mode='flip'; CMP.showing='photo';
   cmpRender(); cmpSave();
 }
@@ -2874,8 +2877,14 @@ function cmpTone(img){
   // -- photo histogram over the region
   const iw=img.width, ih=img.height;
   const ph=new Int32Array(256); let pn=0;
-  const addP=(x0,y0,x1,y1)=>{ for (let y=y0;y<y1;y+=2) for (let x=x0;x<x1;x+=2){
-    ph[d[(y*iw+x)*4]]++; pn++; } };
+  // ignore the outer band of the crop: black tape or a shiny table edge
+  // must never become the histogram's black or white
+  const inX=Math.round(iw*0.08), inY=Math.round(ih*0.08);
+  const addP=(x0,y0,x1,y1)=>{
+    x0=Math.max(x0,inX); y0=Math.max(y0,inY);
+    x1=Math.min(x1,iw-inX); y1=Math.min(y1,ih-inY);
+    for (let y=y0;y<y1;y+=2) for (let x=x0;x<x1;x+=2){
+      ph[d[(y*iw+x)*4]]++; pn++; } };
   if (wholeSheet) addP(0,0,iw,ih);
   else for (const [c,r] of cells)
     addP(Math.floor(c*iw/GRID_COLS), Math.floor(r*ih/GRID_ROWS),
