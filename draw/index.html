@@ -54,6 +54,7 @@ button:disabled{opacity:.4}
 #cmpCv{position:absolute;left:0;top:0;touch-action:none}
 #camVid{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
   display:none;background:#000}
+#camGhost{position:absolute;left:0;top:0;pointer-events:none}
 /* the tool panel floats bottom-left over the canvas and can be dismissed */
 #hudWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
@@ -161,7 +162,8 @@ button:disabled{opacity:.4}
 <!-- 4: compare - photograph the real drawing, align it, flip against the reference -->
 <div class="screen" id="scrCompare">
   <div id="cmpView"><canvas id="cmpCv"></canvas>
-    <video id="camVid" playsinline autoplay muted></video></div>
+    <video id="camVid" playsinline autoplay muted></video>
+    <canvas id="camGhost"></canvas></div>
   <div class="row">
     <input type="file" id="cmpFile" accept="image/*" hidden>
     <button id="cmpShoot">Photo</button>
@@ -2698,9 +2700,28 @@ async function cmpSetPhoto(blob){
   cg.imageSmoothingQuality='high';
   cg.filter='grayscale(1)'; cg.drawImage(i,0,0,c.width,c.height); cg.filter='none';
   URL.revokeObjectURL(i.src);
-  CMP.raw=c; CMP.blob=blob; CMP.img=null;
+  CMP.raw=c; CMP.blob=blob; CMP.img=null; CMP.framed=false;
   CMP.corners=cmpGuessCorners(c).corners; CMP.cGrab=null;
-  cmpApplyCorners('flip');   // edges+corners coarse, centre grid fine - see below
+  CMP.mode='corners'; CMP.showing='photo';    // picker photos: place corners by hand
+  cmpRender();
+}
+function cmpSetFramed(cv, blob){
+  // a ghost-framed capture: already aligned by the artist's own eye at the
+  // shutter - no orientation, straight through the tone pipeline
+  const c=document.createElement('canvas');
+  c.width=cv.width; c.height=cv.height;
+  const g=c.getContext('2d');
+  g.filter='grayscale(1)'; g.drawImage(cv,0,0); g.filter='none';
+  CMP.raw=c; CMP.blob=blob||null; CMP.framed=true;
+  CMP.corners=[{x:0,y:0},{x:c.width,y:0},{x:c.width,y:c.height},{x:0,y:c.height}];
+  CMP.cGrab=null;
+  CMP.img=cmpLevels(cmpSoften(cmpCalibrate(c)));
+  cmpSize();
+  const f=CMP.fit;
+  const sF=Math.min(f.w*f.s/CMP.img.width, f.h*f.s/CMP.img.height);
+  CMP.t={x:f.x+f.w*f.s/2, y:f.y+f.h*f.s/2, s:sF, r:0};
+  CMP.mode='flip'; CMP.showing='photo';
+  cmpRender(); cmpSave();
 }
 function cmpSoften(img){
   // phone cameras bake in an S-curve; lift the midtones a touch so the
@@ -2795,8 +2816,7 @@ function cmpApplyCorners(next){
   const refAsp=GRID_COLS/GRID_ROWS, imgAsp=rect.width/rect.height;
   const nearSq=Math.abs(Math.log(imgAsp))<0.05 || Math.abs(Math.log(refAsp))<0.05;
   if (!nearSq && (refAsp>=1)!==(imgAsp>=1)) rect=cmpRot(rect,1);
-  const grid=cmpGridAlign(rect);                     // the fine snap
-  let img=grid||rect;
+  let img=rect;
   // content settles what remains: 180 normally, all turns if near-square
   const q=cmpBestRotation(img, nearSq?[1,2,3]:[2]);
   if (q) img=cmpRot(img,q);
@@ -2810,7 +2830,7 @@ function cmpApplyCorners(next){
 }
 let cmpT=0;
 function cmpSave(){ clearTimeout(cmpT); cmpT=setTimeout(()=>{
-  if (CKEY && CMP.blob) dbPutRaw('cmp|'+CKEY, {blob:CMP.blob,
+  if (CKEY && CMP.blob) dbPutRaw('cmp|'+CKEY, {blob:CMP.blob, framed:!!CMP.framed,
     corners:CMP.corners?CMP.corners.map(q=>({x:q.x,y:q.y})):null, t:{...CMP.t}}); }, 700); }
 $('compareBtn').onclick = async () => {
   show('scrCompare'); cmpSize();
@@ -2819,9 +2839,20 @@ $('compareBtn').onclick = async () => {
     $('cmpFlip').disabled=true; $('cmpFlip').textContent='Flip view';
     const saved=CKEY ? await dbGet('cmp|'+CKEY) : null;
     if (saved && saved.blob){
-      await cmpSetPhoto(saved.blob);
-      if (saved.corners) CMP.corners=saved.corners;
-      cmpApplyCorners();
+      if (saved.framed){
+        const i=await blobImage(saved.blob).catch(()=>null);
+        if (i){
+          const cv=document.createElement('canvas');
+          cv.width=i.width; cv.height=i.height;
+          cv.getContext('2d').drawImage(i,0,0);
+          URL.revokeObjectURL(i.src);
+          cmpSetFramed(cv, saved.blob);
+        }
+      } else {
+        await cmpSetPhoto(saved.blob);
+        if (saved.corners) CMP.corners=saved.corners;
+        cmpApplyCorners();
+      }
       if (saved.t) CMP.t=saved.t;
       CMP.mode='flip'; CMP.showing='photo';
     }
@@ -2830,7 +2861,35 @@ $('compareBtn').onclick = async () => {
   camStart();          // the camera button means the camera: live view right away
 };
 // live in-app camera; the file picker is the fallback
-const CAM={stream:null};
+const CAM={stream:null, ghost:null, timer:0};
+function camGhost(){
+  // the transparent reference floats over the live view (with margin) so the
+  // artist frames the drawing onto it by eye - the capture is then cropped
+  // to this exact outline, aligned by construction
+  const v=$('camVid'), gc=$('camGhost');
+  const r=$('cmpView').getBoundingClientRect();
+  if (gc.width!==Math.round(r.width)||gc.height!==Math.round(r.height)){
+    gc.width=Math.round(r.width); gc.height=Math.round(r.height);
+  }
+  const g=gc.getContext('2d');
+  g.clearRect(0,0,gc.width,gc.height);
+  if (!CAM.stream || !v.videoWidth){ CAM.ghost=null; return; }
+  const vs=Math.min(gc.width/v.videoWidth, gc.height/v.videoHeight);
+  const vw=v.videoWidth*vs, vh=v.videoHeight*vs;
+  const vx=(gc.width-vw)/2, vy=(gc.height-vh)/2;
+  const {w,h}=worldSize();
+  const M=0.86;                                   // breathing room to frame it up
+  const gs=Math.min(vw*M/w, vh*M/h);
+  const gw=w*gs, gh=h*gs;
+  const gx=vx+(vw-gw)/2, gy=vy+(vh-gh)/2;
+  g.globalAlpha=0.45;
+  g.drawImage($('refImg'), gx, gy, gw, gh);
+  g.globalAlpha=1;
+  g.strokeStyle='rgba(255,255,255,0.9)'; g.lineWidth=2; g.setLineDash([8,8]);
+  g.strokeRect(gx,gy,gw,gh);
+  g.setLineDash([]);
+  CAM.ghost={vx,vy,vs,gx,gy,gw,gh};
+}
 async function camStart(){
   try{
     const st=await navigator.mediaDevices.getUserMedia({
@@ -2842,12 +2901,16 @@ async function camStart(){
     $('cmpShoot').textContent='Capture';
     $('cmpBack').textContent='Cancel';
     $('cmpFlip').disabled=true; $('cmpCorn').disabled=true;
-    $('cmpHint').textContent='fill the frame with your drawing, then capture';
+    $('cmpHint').textContent='line your drawing up with the ghost, then capture';
+    clearInterval(CAM.timer); CAM.timer=setInterval(camGhost,250);
+    camGhost();
     return true;
   }catch(e){ return false; }
 }
 function camStop(){
   if (CAM.stream){ for (const t of CAM.stream.getTracks()) t.stop(); CAM.stream=null; }
+  clearInterval(CAM.timer); CAM.timer=0; CAM.ghost=null;
+  const gg=$('camGhost'); gg.getContext('2d').clearRect(0,0,gg.width,gg.height);
   const v=$('camVid'); v.srcObject=null; v.style.display='none';
   $('cmpShoot').textContent='Photo';
   $('cmpBack').textContent='Back';
@@ -2861,12 +2924,21 @@ $('cmpShoot').onclick = async () => {
   if (CAM.stream){
     const v=$('camVid');
     if (!v.videoWidth) return;              // stream not ready yet
+    camGhost();                              // mapping current at the shutter
+    const gh=CAM.ghost;
     const c=document.createElement('canvas');
-    c.width=v.videoWidth; c.height=v.videoHeight;
-    c.getContext('2d').drawImage(v,0,0);
+    if (gh){                                 // crop to the ghost outline
+      const sx=(gh.gx-gh.vx)/gh.vs, sy=(gh.gy-gh.vy)/gh.vs,
+            sw=gh.gw/gh.vs, sh=gh.gh/gh.vs;
+      c.width=Math.max(2,Math.round(sw)); c.height=Math.max(2,Math.round(sh));
+      c.getContext('2d').drawImage(v, sx,sy,sw,sh, 0,0,c.width,c.height);
+    } else {
+      c.width=v.videoWidth; c.height=v.videoHeight;
+      c.getContext('2d').drawImage(v,0,0);
+    }
     camStop();
     const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',0.92));
-    if (blob) cmpSetPhoto(blob);
+    cmpSetFramed(c, blob);
     return;
   }
   if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && await camStart()))
