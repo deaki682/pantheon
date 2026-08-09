@@ -55,6 +55,11 @@ button:disabled{opacity:.4}
 #camVid{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
   display:none;background:#000}
 #camGhost{position:absolute;left:0;top:0;pointer-events:none}
+#shutter{position:absolute;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));
+  transform:translateX(-50%);width:74px;height:74px;border-radius:50%;
+  background:#fff;border:4px solid #141414;box-shadow:0 0 0 3px #fff;
+  display:none;padding:0;z-index:6}
+#shutter:active{background:#ccc}
 /* the tool panel floats bottom-left over the canvas and can be dismissed */
 #hudWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
@@ -163,11 +168,13 @@ button:disabled{opacity:.4}
 <div class="screen" id="scrCompare">
   <div id="cmpView"><canvas id="cmpCv"></canvas>
     <video id="camVid" playsinline autoplay muted></video>
-    <canvas id="camGhost"></canvas></div>
+    <canvas id="camGhost"></canvas>
+    <button id="shutter" title="Capture"></button></div>
   <div class="row">
     <input type="file" id="cmpFile" accept="image/*" hidden>
     <button id="cmpShoot">Photo</button>
     <button id="cmpFlip" disabled>Flip view</button>
+    <button id="cmpSplit" disabled>Side by side</button>
     <button id="cmpCorn" disabled>Corners</button>
     <span id="cmpHint" class="grow"></span>
     <button id="cmpBack">Back</button>
@@ -2149,9 +2156,12 @@ function cmpSize(){
   CMP.fit={s, x:(cv.width-w*s)/2, y:(cv.height-h*s)/2, w, h};
 }
 function cmpButtons(){
-  const fl=$('cmpFlip'), cn=$('cmpCorn');
+  const fl=$('cmpFlip'), cn=$('cmpCorn'), sp=$('cmpSplit');
   cn.style.display = CMP.mode==='corners' ? 'none' : '';
   cn.disabled = !CMP.raw;
+  sp.style.display = CMP.mode==='corners' ? 'none' : '';
+  sp.disabled = !CMP.img;
+  sp.textContent = CMP.mode==='split' ? 'Flip view' : 'Side by side';
   if (CMP.mode==='corners'){ fl.disabled=!CMP.raw; fl.textContent='Straighten'; return; }
   fl.disabled=!CMP.img;
   fl.textContent = CMP.mode==='align' ? 'Flip view' : 'Adjust';
@@ -2192,9 +2202,48 @@ function cmpRender(){
   } else if (CMP.img && CMP.mode==='flip'){
     if (CMP.showing==='ref'){ drawRef(); hint='reference - tap to flip'; }
     else { drawPhoto(); hint='your drawing - tap to flip'; }
+  } else if (CMP.img && CMP.mode==='split'){
+    // side by side, one shared view: gestures on either pane move both
+    const pw=cv.width/2, ph=cv.height;
+    const {w,h}=worldSize();
+    const bs=Math.min(pw/w, ph/h), bx=(pw-w*bs)/2, by=(ph-h*bs)/2;
+    const f=CMP.fit;
+    const panes=[
+      { ox:0, label:'drawing', draw:g2=>{        // the photo, in reference space
+          g2.translate((CMP.t.x-f.x)/f.s, (CMP.t.y-f.y)/f.s);
+          g2.rotate(CMP.t.r); g2.scale(CMP.t.s/f.s, CMP.t.s/f.s);
+          g2.drawImage(CMP.img, -CMP.img.width/2, -CMP.img.height/2); } },
+      { ox:pw, label:'reference', draw:g2=>{ g2.drawImage($('refImg'),0,0); } }
+    ];
+    for (const pn of panes){
+      g.save();
+      g.beginPath(); g.rect(pn.ox,0,pw,ph); g.clip();
+      g.translate(pn.ox,0);
+      g.translate(SPL.x,SPL.y); g.scale(SPL.s,SPL.s);
+      g.translate(bx,by); g.scale(bs,bs);
+      pn.draw(g);
+      g.restore();
+      g.fillStyle='rgba(232,230,225,0.8)'; g.font='11px system-ui';
+      g.fillText(pn.label, pn.ox+8, 16);
+    }
+    g.strokeStyle='#555'; g.lineWidth=2;
+    g.beginPath(); g.moveTo(pw,0); g.lineTo(pw,ph); g.stroke();
+    hint='side by side - both move together';
   }
   $('cmpHint').textContent=hint;
   cmpButtons();
+}
+const SPL={x:0,y:0,s:1};
+function clampSplit(){
+  const cv=$('cmpCv'), pw=cv.width/2, ph=cv.height;
+  const {w,h}=worldSize();
+  const bs=Math.min(pw/w, ph/h), bx=(pw-w*bs)/2, by=(ph-h*bs)/2;
+  SPL.s=Math.max(1, Math.min(16, SPL.s));
+  const W=w*bs*SPL.s, H=h*bs*SPL.s;
+  let X0=SPL.x+bx*SPL.s, Y0=SPL.y+by*SPL.s;
+  X0 = W<=pw ? (pw-W)/2 : Math.max(pw-W, Math.min(0,X0));
+  Y0 = H<=ph ? (ph-H)/2 : Math.max(ph-H, Math.min(0,Y0));
+  SPL.x=X0-bx*SPL.s; SPL.y=Y0-by*SPL.s;
 }
 function cmpCalibrate(c){
   // flat-field calibration: the paper is the light meter. Estimate the local
@@ -2898,7 +2947,8 @@ async function camStart(){
       audio:false });
     CAM.stream=st;
     const v=$('camVid'); v.srcObject=st; v.style.display='block';
-    $('cmpShoot').textContent='Capture';
+    $('cmpShoot').style.display='none';
+    $('shutter').style.display='block';
     $('cmpBack').textContent='Cancel';
     $('cmpFlip').disabled=true; $('cmpCorn').disabled=true;
     $('cmpHint').textContent='line your drawing up with the ghost, then capture';
@@ -2912,7 +2962,8 @@ function camStop(){
   clearInterval(CAM.timer); CAM.timer=0; CAM.ghost=null;
   const gg=$('camGhost'); gg.getContext('2d').clearRect(0,0,gg.width,gg.height);
   const v=$('camVid'); v.srcObject=null; v.style.display='none';
-  $('cmpShoot').textContent='Photo';
+  $('shutter').style.display='none';
+  $('cmpShoot').style.display='';
   $('cmpBack').textContent='Back';
   $('cmpFlip').disabled=!CMP.img;
 }
@@ -2920,27 +2971,28 @@ $('cmpBack').onclick = () => {
   if (CAM.stream){ camStop(); cmpRender(); return; }
   show('scrMain');
 };
-$('cmpShoot').onclick = async () => {
-  if (CAM.stream){
-    const v=$('camVid');
-    if (!v.videoWidth) return;              // stream not ready yet
-    camGhost();                              // mapping current at the shutter
-    const gh=CAM.ghost;
-    const c=document.createElement('canvas');
-    if (gh){                                 // crop to the ghost outline
-      const sx=(gh.gx-gh.vx)/gh.vs, sy=(gh.gy-gh.vy)/gh.vs,
-            sw=gh.gw/gh.vs, sh=gh.gh/gh.vs;
-      c.width=Math.max(2,Math.round(sw)); c.height=Math.max(2,Math.round(sh));
-      c.getContext('2d').drawImage(v, sx,sy,sw,sh, 0,0,c.width,c.height);
-    } else {
-      c.width=v.videoWidth; c.height=v.videoHeight;
-      c.getContext('2d').drawImage(v,0,0);
-    }
-    camStop();
-    const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',0.92));
-    cmpSetFramed(c, blob);
-    return;
+async function camCapture(){
+  const v=$('camVid');
+  if (!CAM.stream || !v.videoWidth) return;
+  camGhost();                              // mapping current at the shutter
+  const gh=CAM.ghost;
+  const c=document.createElement('canvas');
+  if (gh){                                 // crop to the ghost outline
+    const sx=(gh.gx-gh.vx)/gh.vs, sy=(gh.gy-gh.vy)/gh.vs,
+          sw=gh.gw/gh.vs, sh=gh.gh/gh.vs;
+    c.width=Math.max(2,Math.round(sw)); c.height=Math.max(2,Math.round(sh));
+    c.getContext('2d').drawImage(v, sx,sy,sw,sh, 0,0,c.width,c.height);
+  } else {
+    c.width=v.videoWidth; c.height=v.videoHeight;
+    c.getContext('2d').drawImage(v,0,0);
   }
+  camStop();
+  const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',0.92));
+  cmpSetFramed(c, blob);
+}
+$('shutter').onclick = camCapture;
+$('cmpShoot').onclick = async () => {
+  if (CAM.stream){ camCapture(); return; }
   if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && await camStart()))
     $('cmpFile').click();
 };
@@ -2960,6 +3012,12 @@ $('cmpCorn').onclick = () => {
   CMP.mode='corners'; CMP.cGrab=null;
   cmpRender();
 };
+$('cmpSplit').onclick = () => {
+  if (!CMP.img) return;
+  if (CMP.mode==='split'){ CMP.mode='flip'; CMP.showing='photo'; }
+  else { CMP.mode='split'; clampSplit(); }
+  cmpRender();
+};
 {
   const cv=$('cmpCv'), pts=new Map(); let g0=null, tap=null;
   cv.addEventListener('pointerdown', e => {
@@ -2977,7 +3035,8 @@ $('cmpCorn').onclick = () => {
     if (pts.size===2){
       const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
       g0={d:Math.hypot(a.x-b.x,a.y-b.y), ang:Math.atan2(b.y-a.y,b.x-a.x),
-          mx:(a.x+b.x)/2-r.left, my:(a.y+b.y)/2-r.top, t:{...CMP.t}};
+          mx:(a.x+b.x)/2-r.left, my:(a.y+b.y)/2-r.top,
+          t:{...CMP.t}, spl:{...SPL}};
       tap=null; CMP.cGrab=null;
     }
   });
@@ -2992,6 +3051,24 @@ $('cmpCorn').onclick = () => {
         q.x=Math.max(0,Math.min(CMP.raw.width,  q.x+dx/CMP.cfit.s));
         q.y=Math.max(0,Math.min(CMP.raw.height, q.y+dy/CMP.cfit.s));
         cmpRender();
+      }
+      return;
+    }
+    if (CMP.mode==='split' && CMP.img){
+      // one shared view: a gesture on either pane moves both together
+      const pw=cv.width/2;
+      if (pts.size===1){
+        SPL.x+=dx; SPL.y+=dy; clampSplit(); cmpRender();
+      } else if (pts.size===2 && g0){
+        const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
+        const d=Math.hypot(a.x-b.x,a.y-b.y);
+        const mx=(a.x+b.x)/2-r.left, my=(a.y+b.y)/2-r.top;
+        const paneOff=g0.mx>=pw ? pw : 0;
+        const k=Math.max(1,Math.min(16,g0.spl.s*d/g0.d))/g0.spl.s;
+        SPL.s=g0.spl.s*k;
+        SPL.x=(mx-paneOff)-((g0.mx-paneOff)-g0.spl.x)*k;
+        SPL.y=my-(g0.my-g0.spl.y)*k;
+        clampSplit(); cmpRender();
       }
       return;
     }
@@ -3022,7 +3099,20 @@ $('cmpCorn').onclick = () => {
   };
   cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
   cv.addEventListener('wheel', e => {
-    if (CMP.mode!=='align' || !CMP.img) return;
+    if (!CMP.img) return;
+    if (CMP.mode==='split'){
+      e.preventDefault();
+      const r=cv.getBoundingClientRect(), pw=cv.width/2;
+      let px=e.clientX-r.left; const py=e.clientY-r.top;
+      if (px>=pw) px-=pw;                 // pane-local zoom point
+      const k=e.deltaY<0?1.08:1/1.08;
+      const ns=Math.max(1,Math.min(16,SPL.s*k)), kk=ns/SPL.s;
+      SPL.s=ns;
+      SPL.x=px-(px-SPL.x)*kk; SPL.y=py-(py-SPL.y)*kk;
+      clampSplit(); cmpRender();
+      return;
+    }
+    if (CMP.mode!=='align') return;
     e.preventDefault();
     const r=cv.getBoundingClientRect(), px=e.clientX-r.left, py=e.clientY-r.top;
     const k=e.deltaY<0?1.06:1/1.06;
