@@ -157,7 +157,7 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
         <button id="vForm" class="vBtn">Shading</button>
         <button id="vDark" class="vBtn">Darks</button>
         <button id="vLight" class="vBtn">Lights</button>
-        <button id="vSpec" class="vBtn">Specular</button>
+        <button id="vSpec" class="vBtn">Highlights</button>
         <span class="grow"></span>
         <button id="gridBtn">Grid</button>
       </div>
@@ -711,22 +711,33 @@ const grayCanvas=(buf,w,h)=>{
   g.putImageData(id,0,0);
   return c;
 };
+function hlOf(sp){
+  // the highlight knee: faint bright deviations are subtle form turning,
+  // not shine - they belong to Lights. Nothing below 18 gray levels of
+  // deviation counts; full strength above ~30, smooth ramp between.
+  const out=new Float32Array(sp.length);
+  for (let i=0;i<sp.length;i++){
+    const t=Math.max(0, Math.min(1, (sp[i]-18)/12));
+    out[i]=sp[i]*t*t*(3-2*t);
+  }
+  return out;
+}
 function derived(kind){
   if (DERIV.key!==CKEY){ DERIV.key=CKEY; DERIV.dark=DERIV.light=DERIV.spec=null; }
   if (DERIV[kind]) return DERIV[kind];
   const {w,h}=worldSize();
   let buf;
   if (kind==='spec'){
-    const sp=grayData(FORM.specCv);
-    buf=new Uint8Array(sp.length);
-    for (let i=0;i<sp.length;i++) buf[i]=Math.min(255, sp[i]*3);  // faint shine must read
+    const hl=hlOf(grayData(FORM.specCv));
+    buf=new Uint8Array(hl.length);
+    for (let i=0;i<hl.length;i++) buf[i]=Math.min(255, hl[i]*3);   // amplified so faint shine reads
   } else {
     const ph=grayData(state.img), sh=grayData(FORM.cv);
     buf=new Uint8Array(ph.length);
     if (kind==='dark') for (let i=0;i<ph.length;i++) buf[i]=Math.min(ph[i],sh[i]);
     else {
-      const sp=grayData(FORM.specCv);      // shine stays out: it has its own view
-      for (let i=0;i<ph.length;i++) buf[i]=Math.max(ph[i]-sp[i],sh[i]);
+      const hl=hlOf(grayData(FORM.specCv));  // only true shine stays out of Lights
+      for (let i=0;i<ph.length;i++) buf[i]=Math.max(ph[i]-hl[i],sh[i]);
     }
   }
   DERIV[kind]=grayCanvas(buf,w,h);
