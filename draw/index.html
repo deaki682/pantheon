@@ -779,10 +779,10 @@ function compositeCv(){
 let DETAIL='ultra';
 const DET_STEPS=['ultra','hyper','fine'];
 const DET_LABEL={ultra:'Ultra', hyper:'Hyper', fine:'Fine'};
-// tools: a single point (1px, everything); the exact midpoint of the
-// 9px-square and 13px-diamond tools (their averaged marks - no symmetric
-// 11px tool exists on the pixel grid); the 13px diamond. 96px = 1in.
-const DET_SHAPE={hyper:'mid', fine:'diamond'};
+// tools: a single point (1px, everything); the midpoint of the 9px
+// square and 13px diamond (averaged marks); the 21px octagon eased back
+// a touch toward the diamond (75/25 blend). 96px = 1in.
+const DET_SHAPE={hyper:'mid', fine:'nearbroad'};
 const DET={key:null, busy:null, lv:{}};
 async function ensureDetail(lv){
   if (DET.key!==CKEY){ DET.key=CKEY; DET.lv={}; }
@@ -790,8 +790,8 @@ async function ensureDetail(lv){
   DET.busy=lv;
   const {w,h}=worldSize();
   const key=CKEY;
-  const a=await dbGet('dtd12'+lv+'|'+key), b=await dbGet('dtl12'+lv+'|'+key),
-        c=await dbGet('dth12'+lv+'|'+key);
+  const a=await dbGet('dtd13'+lv+'|'+key), b=await dbGet('dtl13'+lv+'|'+key),
+        c=await dbGet('dth13'+lv+'|'+key);
   if (a && b && c){
     try{
       const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
@@ -822,9 +822,9 @@ async function ensureDetail(lv){
     if (key!==CKEY) return;
     DET.lv[lv]={dD:ev.data.dD, lD:ev.data.lD, hl:ev.data.hl};
     try{
-      dbPutRaw('dtd12'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
-      dbPutRaw('dtl12'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
-      dbPutRaw('dth12'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
+      dbPutRaw('dtd13'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
+      dbPutRaw('dtl13'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
+      dbPutRaw('dth13'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
     }catch(e){}
     if (DETAIL===lv && $('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
   };
@@ -1103,23 +1103,34 @@ function crossPass(src, W, H, isMax){
 function toolOpen(delta, W, H, shape){
   // a mark exists only where the tool fits inside it; otherwise blank
   let a;
-  if (shape==='diamond'){
-    // cross composed twice = the full L1 diamond of radius 2
-    a=crossPass(delta,W,H,false);
-    a=crossPass(a,W,H,false);
-    a=crossPass(a,W,H,true);
-    a=crossPass(a,W,H,true);
-  } else {                               // mid: halfway between the 9px
-    let s=linePass(delta,W,H,1,true,false);   // square and 13px diamond
-    s=linePass(s,W,H,1,false,false);
-    s=linePass(s,W,H,1,false,true);
-    s=linePass(s,W,H,1,true,true);
+  const N2=W*H;
+  const diamond=()=>{                    // cross twice = the L1 diamond r2
     let d=crossPass(delta,W,H,false);
     d=crossPass(d,W,H,false);
     d=crossPass(d,W,H,true);
     d=crossPass(d,W,H,true);
-    const N2=W*H; a=new Float32Array(N2);
+    return d;
+  };
+  if (shape==='mid'){                    // halfway between 9px square and 13px diamond
+    let s=linePass(delta,W,H,1,true,false);
+    s=linePass(s,W,H,1,false,false);
+    s=linePass(s,W,H,1,false,true);
+    s=linePass(s,W,H,1,true,true);
+    const d=diamond();
+    a=new Float32Array(N2);
     for (let i=0;i<N2;i++) a[i]=(s[i]+d[i])*0.5;
+  } else {                               // nearbroad: 21px octagon eased a
+    let o=linePass(delta,W,H,1,true,false);   // touch toward the diamond
+    o=linePass(o,W,H,1,false,false);
+    o=diagPass(o,W,H,1,false,false);
+    o=diagPass(o,W,H,1,true,false);
+    o=diagPass(o,W,H,1,true,true);
+    o=diagPass(o,W,H,1,false,true);
+    o=linePass(o,W,H,1,false,true);
+    o=linePass(o,W,H,1,true,true);
+    const d=diamond();
+    a=new Float32Array(N2);
+    for (let i=0;i<N2;i++) a[i]=o[i]*0.75+d[i]*0.25;
   }
   const N=W*H, out=new Float32Array(N);
   for (let i=0;i<N;i++) out[i]=Math.min(a[i], delta[i]);
