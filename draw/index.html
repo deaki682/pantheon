@@ -45,12 +45,12 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 /* screen 3: main view */
 #viewport{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
 /* gallery: every photo ever opened, newest first */
-#gallery{flex:1;min-height:0;overflow-y:auto;touch-action:pan-y;padding:8px;
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
-  gap:8px;align-content:end}
+#gallery{flex:none;display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;
+  touch-action:pan-x;padding:8px;-webkit-overflow-scrolling:touch}
+.gitem{width:118px}
 #upRow{justify-content:space-between}
-.gitem{position:relative;border:1px solid #555;background:#1e1e1e;cursor:pointer;
-  border-radius:10px;overflow:hidden}
+.gitem{position:relative;flex:none;border:1px solid #555;background:#1e1e1e;
+  cursor:pointer;border-radius:10px;overflow:hidden}
 .gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
 .gbar{position:absolute;left:0;right:0;bottom:0;height:4px;
   background:rgba(20,20,20,0.55);visibility:hidden}
@@ -142,6 +142,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     <button class="fsBtn" title="Fullscreen">&#x26F6;</button>
   </div>
   <input type="file" id="file" accept="image/*" hidden>
+  <span class="grow"></span>
   <div id="gallery"></div>
   <div id="gridModal">
     <div id="gridPanel">
@@ -163,6 +164,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     <button id="newPhoto">+ New reference</button>
     <button id="calBtn" title="Grid square size and ruler match">1&Prime; Grid</button>
   </div>
+  <span class="grow"></span>
 </div>
 
 <!-- 2: format -->
