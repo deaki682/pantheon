@@ -30,7 +30,9 @@ button,select,input{font:inherit;padding:8px 12px;border:1px solid #555;
   background:#1e1e1e;color:#e8e6e1;border-radius:8px}
 button:disabled{opacity:.4}
 button.vOn{border-color:#e8e6e1;background:#3a3a3a}
-#viewRow{padding-bottom:0}
+#viewRow{padding-bottom:0;align-items:flex-end}
+#layerCol{display:flex;flex-direction:column;gap:8px}
+#layerCol .vBtn{width:100%}
 .row{display:flex;gap:8px;align-items:center;padding:8px;flex-wrap:wrap}
 .grow{flex:1}
 /* screen 2: format preview */
@@ -166,9 +168,11 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
       <div id="stat"></div>
       <!-- ways of seeing the reference; Grid rules them all -->
       <div class="row" id="viewRow">
-        <button id="vDark" class="vBtn">Darks</button>
-        <button id="vLight" class="vBtn">Lights</button>
-        <button id="vSpec" class="vBtn">Highlights</button>
+        <div id="layerCol">
+          <button id="vDark" class="vBtn">Darks</button>
+          <button id="vLight" class="vBtn">Lights</button>
+          <button id="vSpec" class="vBtn">Brights</button>
+        </div>
         <span class="grow"></span>
         <button class="fsBtn" title="Fullscreen">&#x26F6;</button>
       </div>
