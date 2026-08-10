@@ -1131,25 +1131,31 @@ function levelFilter(delta, W, H, thr, sg){
   }
   return out;
 }
-function shapeFilter(delta, W, H, thr, binT){
-  const N=W*H;
-  const mask=new Uint8Array(N);
-  for (let i=0;i<N;i++) if (delta[i]>=binT) mask[i]=1;
-  const cc=labelComps(mask, W, H);
-  const keep=new Uint8Array(cc.n);
-  for (let r=1;r<cc.n;r++) if (cc.ext[r]>=thr) keep[r]=1;
-  const out=new Uint8Array(N);
-  for (let i=0;i<N;i++) if (cc.lab[i] && keep[cc.lab[i]]) out[i]=delta[i];
-  return out;
-}
 onmessage=e=>{
   const {dD, lD, hl, W, H, thr, sg}=e.data;
+  const N=W*H;
   postMessage({p:0.1});
   const a=levelFilter(dD,W,H,thr,sg);
   postMessage({p:0.5});
-  const b=levelFilter(lD,W,H,thr,sg);
-  postMessage({p:0.85});
-  const c=shapeFilter(hl,W,H,thr,2);
+  // a light detail and its shine core are ONE thing: sized together on
+  // their combined energy. Kept -> both survive whole; dropped -> the
+  // shine melts into the soft wash as ordinary light, never a hollow ring
+  const cm=new Uint8Array(N);
+  for (let i=0;i<N;i++){ const v=lD[i]+hl[i]; cm[i]=v>255?255:v; }
+  const B=blur(cm, W, H, sg);
+  const mask=new Uint8Array(N);
+  for (let i=0;i<N;i++) if (cm[i]-B[i]>=6) mask[i]=1;
+  const cc=labelComps(mask, W, H);
+  const keep=new Uint8Array(cc.n);
+  for (let r=1;r<cc.n;r++) if (cc.ext[r]>=thr) keep[r]=1;
+  const b=new Uint8Array(N), c=new Uint8Array(N);
+  for (let i=0;i<N;i++){
+    if (cc.lab[i] && keep[cc.lab[i]]){ b[i]=lD[i]; c[i]=hl[i]; }
+    else {
+      const v=Math.min(cm[i], B[i]);
+      b[i]=v<0?0:(v>255?255:Math.round(v));
+    }
+  }
   postMessage({dD:a, lD:b, hl:c},[a.buffer, b.buffer, c.buffer]);
 };
 `;
