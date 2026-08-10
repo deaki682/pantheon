@@ -78,7 +78,8 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
 #camCorner{position:absolute;right:calc(8px + env(safe-area-inset-right));
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
 #gridCorner{position:absolute;left:50%;transform:translateX(-50%);
-  bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
+  bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:flex;gap:8px}
+#detBtn{height:44px;min-width:52px;padding:0 10px;border-radius:12px;font-size:13px}
 #gridBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #compareBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
@@ -166,7 +167,7 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
     </div>
     <button id="hudToggle" title="Tools">&#x25BE;</button>
   </div>
-  <div id="gridCorner"><button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
+  <div id="gridCorner"><button id="detBtn" title="Detail">100%</button><button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
   <!-- compare lives behind the camera in the opposite corner -->
   <div id="camCorner"><button id="compareBtn" title="Compare"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M3 19.5V7.5h4.2l1.8-2.2h6l1.8 2.2H21v12z"/><circle cx="12" cy="13.3" r="3.4"/></svg></button></div>
 </div>
@@ -556,6 +557,7 @@ function initMain(){
   applyView();
   GRID_READY = true;
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true; layerButtons();
+  DETAIL=100; $('detBtn').textContent='100%';
   stat('');
 }
 function stat(t){ $('stat').textContent = t; }
@@ -711,14 +713,14 @@ function compParts(){
   COMP.ph=grayData(state.img);
   COMP.sh=grayData(FORM.cv);
   const sp=grayData(FORM.specCv), N=sp.length;
-  // a highlight is only the very brightest sparkle: real removed shine
-  // (the 18/12 knee filters faint form-turning) that also sits within the
-  // brightest ~5 levels of the photo. Everything dimmer is Lights.
+  // a highlight is real removed shine (the 18/12 knee filters faint
+  // form-turning) that also sits within the brightest ~20 levels of the
+  // photo. Everything dimmer is Lights.
   const phist=new Uint32Array(256);
   for (let i=0;i<N;i++) phist[COMP.ph[i]]++;
   let pacc=0, phTop=255;
   for (let v=255;v>=0;v--){ pacc+=phist[v]; if (pacc>=N*0.0005){ phTop=v; break; } }
-  const B=phTop-5;
+  const B=phTop-20;
   COMP.hl=new Float32Array(N);
   for (let i=0;i<N;i++){
     const s=sp[i], t=Math.max(0, Math.min(1, (s-18)/12));
@@ -735,25 +737,96 @@ function compParts(){
   let acc=0, cap=255;
   for (let v=0;v<256;v++){ acc+=hist[v]; if (acc>=n*0.995){ cap=v; break; } }
   COMP.cap=Math.max(4, cap);
+  COMP.dp=new Uint8Array(N);
+  for (let i=0;i<N;i++){
+    const d=COMP.ph[i]-COMP.hl[i]; COMP.dp[i]=d<0?0:(d>255?255:d);
+  }
   COMP.sig=null; COMP.cv=null;
 }
 function compositeCv(){
   compParts();
-  const sig=(LAYERS.dk?'D':'')+(LAYERS.lt?'L':'')+(LAYERS.hl?'H':'');
+  let det=null;
+  if (DETAIL!==100){
+    if (DET.key===CKEY && DET.lv[DETAIL]) det=DET.lv[DETAIL];
+    else ensureDetail(DETAIL);          // async; full detail stands in
+  }
+  const eff=det?DETAIL:100;
+  const sig=(LAYERS.dk?'D':'')+(LAYERS.lt?'L':'')+(LAYERS.hl?'H':'')+'T'+eff;
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
   const {w,h}=worldSize();
   const N=COMP.ph.length, buf=new Uint8Array(N);
   for (let i=0;i<N;i++){
-    const ph=COMP.ph[i], sh=COMP.sh[i], hl=COMP.hl[i];
+    const sh=COMP.sh[i];
+    const dD=det?det.dD[i]:Math.max(0, sh-COMP.ph[i]);
+    const lD=det?det.lD[i]:Math.max(0, COMP.dp[i]-sh);
+    const hl=det?det.hl[i]:COMP.hl[i];
     let v=sh;
-    if (LAYERS.dk) v-=Math.max(0, sh-ph);
-    if (LAYERS.lt) v+=Math.max(0, (ph-hl)-sh);
+    if (LAYERS.dk) v-=dD;
+    if (LAYERS.lt) v+=lD;
     if (LAYERS.hl) v+=hl;
     else if (LAYERS.lt) v+=Math.min(hl, COMP.cap);   // shine toned to the brightest light
     buf[i]=v<0?0:(v>255?255:v);
   }
   COMP.sig=sig; COMP.cv=grayCanvas(buf,w,h);
   return COMP.cv;
+}
+
+// ---- detail scale: leave out details under a physical size --------------
+// Each texture layer is split into connected shapes; a shape whose extent
+// is under the cutoff is dropped WHOLE, and every survivor keeps its full
+// original crispness - nothing is blurred. Cutoffs are world px, i.e.
+// physical inches on the drawing: 75% drops < ~1/8in, 50% < ~1/3in,
+// 25% < ~3/4in. The shading ground never changes.
+let DETAIL=100;
+const DET_STEPS=[100,75,50,25];
+const DET_T={75:12, 50:30, 25:70};
+const DET={key:null, busy:null, lv:{}};
+async function ensureDetail(lv){
+  if (DET.key!==CKEY){ DET.key=CKEY; DET.lv={}; }
+  if (lv===100 || DET.lv[lv] || DET.busy) return;
+  DET.busy=lv;
+  const {w,h}=worldSize();
+  const key=CKEY;
+  const a=await dbGet('dtd'+lv+'|'+key), b=await dbGet('dtl'+lv+'|'+key),
+        c=await dbGet('dth'+lv+'|'+key);
+  if (a && b && c){
+    try{
+      const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
+      DET.lv[lv]={dD:grayData(ca), lD:grayData(cb), hl:grayData(cc)};
+      DET.busy=null;
+      if (key===CKEY && DETAIL===lv && $('scrMain').classList.contains('on')) viewRepaint();
+      return;
+    }catch(e){}
+  }
+  compParts();
+  const N=COMP.ph.length;
+  const dD=new Uint8Array(N), lD=new Uint8Array(N), hl=new Uint8Array(N);
+  for (let i=0;i<N;i++){
+    const d=COMP.sh[i]-COMP.ph[i];
+    if (d>0) dD[i]=d;
+    const l=COMP.dp[i]-COMP.sh[i];
+    if (l>0) lD[i]=l;
+    const v=Math.round(COMP.hl[i]); hl[i]=v>255?255:v;
+  }
+  const wk=new Worker(URL.createObjectURL(new Blob([DETAIL_SRC],{type:'text/javascript'})));
+  wk.onmessage=ev=>{
+    if (ev.data.p!==undefined){
+      if (DETAIL===lv && $('scrMain').classList.contains('on'))
+        stat('sifting the detail  '+Math.round(ev.data.p*100)+'%');
+      return;
+    }
+    wk.terminate(); DET.busy=null;
+    if (key!==CKEY) return;
+    DET.lv[lv]={dD:ev.data.dD, lD:ev.data.lD, hl:ev.data.hl};
+    try{
+      dbPutRaw('dtd'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
+      dbPutRaw('dtl'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
+      dbPutRaw('dth'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
+    }catch(e){}
+    if (DETAIL===lv && $('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
+  };
+  wk.onerror=()=>{ wk.terminate(); DET.busy=null; };
+  wk.postMessage({dD, lD, hl, W:w, H:h, thr:DET_T[lv]}, [dD.buffer, lD.buffer, hl.buffer]);
 }
 function viewSrc(){
   if (!state.img) return state.img;
@@ -821,12 +894,19 @@ $('gridBtn').onclick=()=>{
   try{ localStorage.setItem('gridOn', GRID_ON?'1':'0'); }catch(e){}
   applyGrid();
 };
+$('detBtn').onclick=()=>{
+  DETAIL=DET_STEPS[(DET_STEPS.indexOf(DETAIL)+1)%DET_STEPS.length];
+  $('detBtn').textContent=DETAIL+'%';
+  if (!state.img || !GRID_READY) return;
+  if (DETAIL!==100 && !(DET.key===CKEY && DET.lv[DETAIL])) stat('sifting the detail...');
+  viewRepaint();
+};
 applyGrid(); layerButtons();
 
 // the breakdown recipe, ported to run beside the page: bright-outlier
 // removal at three scales (specular), domain-transform edge-preserving
 // flattening (texture), and a touch of fuzz on the hardest edges
-const FORM_SRC = `
+const MEDIAN_SRC = `
 function medianBlur(src, W, H, k){
   const rr=k>>1, half=((k*k)-1)>>1;
   const out=new Uint8Array(W*H);
@@ -858,6 +938,8 @@ function medianBlur(src, W, H, k){
   }
   return out;
 }
+`;
+const FORM_SRC = MEDIAN_SRC + `
 function dtFilter(F, W, H, sigmaS, sigmaR){
   // 2.5: cv2 sums the domain-transform derivative over 3 replicated
   // channels; this factor was tuned to reproduce the reference recipe
@@ -936,6 +1018,81 @@ onmessage=e=>{
   const out=new Uint8ClampedArray(N);
   for (let i=0;i<N;i++){ const v=F[i]; out[i]=v<0?0:(v>255?255:v); }
   postMessage({done:out, spec},[out.buffer, spec.buffer]);
+};
+`;
+const DETAIL_SRC = `
+function keepBig(delta, W, H, thr, binT){
+  // connected shapes of the layer; a shape smaller than thr in both
+  // directions is dropped whole, survivors keep every original pixel
+  const N=W*H;
+  const lab=new Int32Array(N);
+  const parent=[0];
+  const find=x=>{ while (parent[x]!==x) x=parent[x]=parent[parent[x]]; return x; };
+  let next=1;
+  for (let y=0;y<H;y++){
+    const o=y*W;
+    for (let x=0;x<W;x++){
+      const i=o+x;
+      if (delta[i]<binT) continue;
+      const l=x>0?lab[i-1]:0;
+      const u=y>0?lab[i-W]:0;
+      const ul=(x>0&&y>0)?lab[i-W-1]:0;
+      const ur=(x<W-1&&y>0)?lab[i-W+1]:0;
+      let m=0;
+      if (l) m=l;
+      if (u && (!m||u<m)) m=u;
+      if (ul && (!m||ul<m)) m=ul;
+      if (ur && (!m||ur<m)) m=ur;
+      if (!m){ lab[i]=next; parent[next]=next; next++; }
+      else {
+        lab[i]=m;
+        const rm=find(m);
+        if (l && l!==m){ const r=find(l); if (r!==rm) parent[r]=rm; }
+        if (u && u!==m){ const r=find(u); if (r!==rm) parent[r]=rm; }
+        if (ul && ul!==m){ const r=find(ul); if (r!==rm) parent[r]=rm; }
+        if (ur && ur!==m){ const r=find(ur); if (r!==rm) parent[r]=rm; }
+      }
+    }
+  }
+  const minx=new Int32Array(next).fill(W), maxx=new Int32Array(next).fill(-1);
+  const miny=new Int32Array(next).fill(H), maxy=new Int32Array(next).fill(-1);
+  for (let y=0;y<H;y++){
+    const o=y*W;
+    for (let x=0;x<W;x++){
+      const i=o+x; if (!lab[i]) continue;
+      const r=find(lab[i]); lab[i]=r;
+      if (x<minx[r]) minx[r]=x;
+      if (x>maxx[r]) maxx[r]=x;
+      if (y<miny[r]) miny[r]=y;
+      if (y>maxy[r]) maxy[r]=y;
+    }
+  }
+  const keep=new Uint8Array(next);
+  for (let r=1;r<next;r++){
+    if (maxx[r]<0) continue;
+    const ext=Math.max(maxx[r]-minx[r]+1, maxy[r]-miny[r]+1);
+    if (ext>=thr) keep[r]=1;
+  }
+  const mask=new Uint8Array(N);
+  for (let i=0;i<N;i++) if (lab[i] && keep[lab[i]]) mask[i]=1;
+  return mask;
+}
+onmessage=e=>{
+  const {dD, lD, hl, W, H, thr}=e.data;
+  const N=W*H;
+  postMessage({p:0.1});
+  const km=keepBig(dD,W,H,thr,5);
+  const a=new Uint8Array(N);
+  for (let i=0;i<N;i++) if (km[i]) a[i]=dD[i];
+  postMessage({p:0.5});
+  // a sheen patch and its shine core are one detail: size them together so
+  // dropping the core never leaves a hollow traced outline
+  const cm=new Uint8Array(N);
+  for (let i=0;i<N;i++){ const v=lD[i]+hl[i]; cm[i]=v>255?255:v; }
+  const kl=keepBig(cm,W,H,thr,5);
+  const b=new Uint8Array(N), c=new Uint8Array(N);
+  for (let i=0;i<N;i++) if (kl[i]){ b[i]=lD[i]; c[i]=hl[i]; }
+  postMessage({dD:a, lD:b, hl:c},[a.buffer, b.buffer, c.buffer]);
 };
 `;
 
