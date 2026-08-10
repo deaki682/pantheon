@@ -131,8 +131,14 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
 <div class="screen on" id="scrUpload">
   <div class="row">
     <button id="newPhoto">+ New reference</button>
+    <button id="calBtn" title="Match the squares to a ruler">1&Prime; scale</button>
     <span id="upStat" class="grow" style="font-size:12px;opacity:0.7"></span>
     <button class="fsBtn" title="Fullscreen">&#x26F6;</button>
+  </div>
+  <div class="row" id="calRow" style="display:none">
+    <span>1&Prime; &mdash; match a ruler:</span>
+    <div id="calHold"><div id="calBox"></div></div>
+    <input type="range" id="calSlide" min="60" max="220" value="100">
   </div>
   <input type="file" id="file" accept="image/*" hidden>
   <div id="gallery"></div>
@@ -156,11 +162,6 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
     <span id="fmtInfo"></span>
   </div>
   <div id="fmtPrev"><canvas id="fmtCanvas"></canvas></div>
-  <div class="row">
-    <span>1" &mdash; match a ruler:</span>
-    <div id="calHold"><div id="calBox"></div></div>
-    <input type="range" id="calSlide" min="60" max="220" value="100">
-  </div>
   <div class="row">
     <span class="grow"></span>
     <button id="fmtGo">Continue</button>
@@ -403,12 +404,14 @@ function openPhoto(blob, gid){
     URL.revokeObjectURL(img.src);
     galLoading = null; GRID_READY = false;
     $('upStat').textContent = '';
+    FMT_OFF.x=FMT_OFF.y=0.5;
     initFormat();
     let fmt = null;   // a photo formatted before goes straight to the drawing
     if (gid != null){ try{ fmt = JSON.parse(localStorage.getItem('fmt|'+gid)); }catch(e){} }
     if (fmt && fmt.w){
       $('aspect').value = fmt.a || 'photo';
       $('widthIn').value = fmt.w;
+      if (typeof fmt.ox==='number'){ FMT_OFF.x=fmt.ox; FMT_OFF.y=fmt.oy??0.5; }
       fmtPreview();
       enterMain();
     } else {
@@ -434,6 +437,10 @@ $('file').addEventListener('change', async e => {
 });
 renderGallery();
 $('newPhoto').onclick = () => $('file').click();
+$('calBtn').onclick = () => {
+  const r=$('calRow');
+  r.style.display = r.style.display==='none' ? '' : 'none';
+};
 
 
 function ratioOf(){
@@ -458,12 +465,14 @@ function initFormat(){
   }
   fmtPreview();
 }
+const FMT_OFF={x:0.5, y:0.5};   // where the crop sits inside the slack
 function cropRect(){
-  // centred crop of the photo to the chosen ratio
+  // crop of the photo to the chosen ratio, placed by the artist
   const r = ratioOf();
   let w = photo.width, h = Math.round(w / r);
   if (h > photo.height){ h = photo.height; w = Math.round(h * r); }
-  return { x:(photo.width-w)/2, y:(photo.height-h)/2, w, h };
+  return { x:Math.round((photo.width-w)*FMT_OFF.x),
+           y:Math.round((photo.height-h)*FMT_OFF.y), w, h };
 }
 function fmtPreview(){
   const {cols, rows} = dims();
@@ -479,7 +488,32 @@ function fmtPreview(){
     g.beginPath(); g.moveTo(x,0); g.lineTo(x,cv.height); g.stroke(); }
   for (let r=1;r<rows;r++){ const y=Math.round(r*cv.height/rows)+0.5;
     g.beginPath(); g.moveTo(0,y); g.lineTo(cv.width,y); g.stroke(); }
-  $('fmtInfo').textContent = `${cols} x ${rows} in - ${cols*rows} squares`;
+  const slack = (photo.width-cr.w) + (photo.height-cr.h);
+  $('fmtInfo').textContent = `${cols} x ${rows} in - ${cols*rows} squares`
+    + (slack>2 ? ' - drag to place' : '');
+}
+// drag the preview to slide the crop window around the photo
+{
+  const cv=$('fmtCanvas');
+  let drag=null;
+  cv.addEventListener('pointerdown', e=>{
+    cv.setPointerCapture(e.pointerId);
+    drag={x:e.clientX, y:e.clientY};
+  });
+  cv.addEventListener('pointermove', e=>{
+    if (!drag || !photo) return;
+    const cr=cropRect();
+    const scale=cv.width/cr.w;
+    const sx=photo.width-cr.w, sy=photo.height-cr.h;
+    const dx=e.clientX-drag.x, dy=e.clientY-drag.y;
+    drag={x:e.clientX, y:e.clientY};
+    let moved=false;
+    if (sx>0){ FMT_OFF.x=Math.max(0,Math.min(1, FMT_OFF.x - dx/scale/sx)); moved=true; }
+    if (sy>0){ FMT_OFF.y=Math.max(0,Math.min(1, FMT_OFF.y - dy/scale/sy)); moved=true; }
+    if (moved){ fmtPreview(); speculate(); }
+  });
+  const end=e=>{ drag=null; };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
 }
 $('aspect').onchange = ()=>{ fmtPreview(); speculate(); };
 $('widthIn').onchange = ()=>{ fmtPreview(); speculate(); };
@@ -563,7 +597,8 @@ $('fmtGo').onclick = () => {
   // remember this photo's format so the gallery can skip straight in next time
   if (galActive != null){
     try{ localStorage.setItem('fmt|'+galActive,
-      JSON.stringify({ a: $('aspect').value, w: $('widthIn').value })); }catch(e){}
+      JSON.stringify({ a: $('aspect').value, w: $('widthIn').value,
+                       ox: FMT_OFF.x, oy: FMT_OFF.y })); }catch(e){}
   }
   enterMain();
 };
@@ -637,9 +672,10 @@ function initMain(){
   for (const id of ['refImg','gridCv']){
     const cv=$(id); cv.width=w; cv.height=h;
   }
-  // open panel = the layer workshop (bare shading, nothing selected);
-  // closed = the full image. Settled before the first paint.
-  LAYERS.dk=LAYERS.lt=LAYERS.hl=$('hud').style.display==='none';
+  // a photo always opens on the full image: panel closed, every layer in.
+  // The pencil button is the door to the shading workshop.
+  $('hud').style.display='none'; $('hudToggle').textContent='\u270e';
+  LAYERS.dk=LAYERS.lt=LAYERS.hl=true;
   layerButtons();
   paintWorld();
   const vp = $('viewport').getBoundingClientRect();
