@@ -2275,8 +2275,16 @@ document.addEventListener('click', e => {
     b.innerHTML = (document.fullscreenElement || document.webkitFullscreenElement) ? '&#x2716;' : '&#x26F6;');
   document.addEventListener('fullscreenchange', fsMark);
   document.addEventListener('webkitfullscreenchange', fsMark);
-  if ('serviceWorker' in navigator && location.protocol === 'https:')
+  if ('serviceWorker' in navigator && location.protocol === 'https:'){
     addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
+    // a fresh deploy activates mid-session: reload once so the first open
+    // after an update already runs the new version
+    let swReloaded=false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (swReloaded || !navigator.serviceWorker.controller) return;
+      swReloaded=true; location.reload();
+    });
+  }
 }
 
 </script>
