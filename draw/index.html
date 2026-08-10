@@ -56,7 +56,7 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
   bottom:calc(20px + env(safe-area-inset-bottom));z-index:6;display:none;
   border:2px solid #fff;border-radius:10px;background:#000}
 #world{position:absolute;left:0;top:0;transform-origin:0 0}
-#refImg,#gridCv,#selCv,#doneCv{position:absolute;left:0;top:0}
+#refImg,#gridCv{position:absolute;left:0;top:0}
 /* compare: the photographed drawing aligned over the reference */
 #cmpView{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
 #cmpCv{position:absolute;left:0;top:0;touch-action:none}
@@ -144,11 +144,8 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
   <div id="viewport">
     <div id="world">
       <canvas id="refImg"></canvas>
-      <!-- done-marks above the paper, inverse of what's beneath like the grid -->
-      <canvas id="doneCv" style="mix-blend-mode:difference"></canvas>
-      <!-- grid above the paper, inverse of whatever is beneath - the studio's rule -->
+      <!-- grid above the reference, inverse of whatever is beneath -->
       <canvas id="gridCv" style="mix-blend-mode:difference"></canvas>
-      <canvas id="selCv"></canvas>
     </div>
   </div>
   <div id="hudWrap">
@@ -165,12 +162,6 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
         <button id="gridBtn">Grid</button>
       </div>
       <div class="row">
-        <select id="blockN">
-          <option value="1">1 square</option>
-          <option value="2">2 x 2</option>
-          <option value="3">3 x 3</option>
-        </select>
-        <button id="doneBtn" disabled>Mark done</button>
         <span class="grow"></span>
         <button id="reformat">Format</button>
         <button class="fsBtn" title="Fullscreen">&#x26F6;</button>
@@ -510,10 +501,6 @@ try{ const v=+localStorage.getItem('inchCal'); if (v>=0.6 && v<=2.2) INCAL=v; }c
     showCal(); applyView(); };
 }
 
-const selSet = new Set();                        // 'c,r' strings
-let sel = null;                                  // legacy alias: first selected cell
-const selCells = () => [...selSet].map(k=>{ const [c,r]=k.split(',').map(Number); return {c,r}; });
-const selSig = () => [...selSet].sort().join(';');
 
 function worldSize(){ return { w: GRID_COLS*CELL, h: GRID_ROWS*CELL }; }
 function clampView(){
@@ -562,90 +549,28 @@ function paintWorld(){
 }
 function initMain(){
   const {w,h} = worldSize();
-  for (const id of ['refImg','gridCv','selCv','doneCv']){
+  for (const id of ['refImg','gridCv']){
     const cv=$(id); cv.width=w; cv.height=h;
   }
-  doneSet.clear();
   paintWorld();
-  restoreDone();
-  selSet.clear(); sel=null; drawSel();
   const vp = $('viewport').getBoundingClientRect();
   view.s = Math.max(0.05, Math.min(vp.width/w, vp.height/h) || 0.05);
   view.x = (vp.width - w*view.s)/2; view.y = (vp.height - h*view.s)/2;
   applyView();
   GRID_READY = true;
-  stat('tap a square');
+  stat('');
 }
 function stat(t){ $('stat').textContent = t; }
 
-function drawSel(){
-  const {w,h} = worldSize();
-  const g=$('selCv').getContext('2d'); g.clearRect(0,0,w,h);
-  if (!selSet.size){ $('doneBtn').disabled=true;
-    $('doneBtn').textContent='Mark done'; return; }
-  // marching ants: black+white alternating dashes read on any tone,
-  // and the crawl makes the selection unmissable
-  const z=view.s||1, lw=Math.max(3, 4/z), dash=Math.max(8, 10/z), i=lw/2;
-  const segs=[];
-  for (const {c,r} of selCells()){
-    const x=c*CELL, y=r*CELL;
-    if (!selSet.has(c+','+(r-1))) segs.push([x, y+i, x+CELL, y+i]);
-    if (!selSet.has(c+','+(r+1))) segs.push([x, y+CELL-i, x+CELL, y+CELL-i]);
-    if (!selSet.has((c-1)+','+r)) segs.push([x+i, y, x+i, y+CELL]);
-    if (!selSet.has((c+1)+','+r)) segs.push([x+CELL-i, y, x+CELL-i, y+CELL]);
-  }
-  g.lineWidth=lw;
-  for (const [col,off] of [['#000',ANTS],['#fff',ANTS+dash]]){
-    g.strokeStyle=col; g.setLineDash([dash,dash]); g.lineDashOffset=-off;
-    g.beginPath();
-    for (const [x1,y1,x2,y2] of segs){ g.moveTo(x1,y1); g.lineTo(x2,y2); }
-    g.stroke();
-  }
-  g.setLineDash([]);
-  $('doneBtn').disabled = false;
-  // the button says what it will do: undone only when everything selected is done
-  $('doneBtn').textContent =
-    selCells().every(({c,r})=>doneSet.has(c+','+r)) ? 'Mark undone' : 'Mark done';
-}
-
-// done-marks: a small x in the centre of squares the artist has finished
-const doneSet = new Set();
-function renderDone(){
-  const {w,h} = worldSize();
-  const g=$('doneCv').getContext('2d'); g.clearRect(0,0,w,h);
-  g.strokeStyle='#fff'; g.lineWidth=3; g.lineCap='round';   // difference-blended: inverts what's beneath
-  const a=CELL*0.09;
-  g.beginPath();
-  for (const k of doneSet){
-    const [c,r]=k.split(',').map(Number);
-    const cx=c*CELL+CELL/2, cy=r*CELL+CELL/2;
-    g.moveTo(cx-a,cy-a); g.lineTo(cx+a,cy+a);
-    g.moveTo(cx-a,cy+a); g.lineTo(cx+a,cy-a);
-  }
-  g.stroke();
-}
-$('doneBtn').onclick = () => {
-  const cs=selCells(); if (!cs.length) return;
-  const undo = $('doneBtn').textContent === 'Mark undone';
-  for (const {c,r} of cs){ const k=c+','+r; if (undo) doneSet.delete(k); else doneSet.add(k); }
-  renderDone();
-  drawSel();       // refresh the button label for the same selection
-  if (CKEY) dbPutRaw('done|'+CKEY, [...doneSet]);   // marks persist immediately
-};
-$('blockN').onchange = () => { drawSel(); };   // the dropdown is only the tap's brush size
-let ANTS=0;
-setInterval(()=>{ if (selSet.size && $('scrMain').classList.contains('on')){
-  ANTS=(ANTS+3)%1e6; drawSel(); } }, 110);       // the ants crawl
 
 
 const ptrs = new Map();
-let tapStart = null, pinch0 = null;
+let pinch0 = null;
 const vp = $('viewport');
 vp.addEventListener('pointermove', touchAct);
 vp.addEventListener('pointerdown', e => { touchAct();
   vp.setPointerCapture(e.pointerId);
   ptrs.set(e.pointerId, {x:e.clientX, y:e.clientY});
-  if (ptrs.size===1) tapStart = {x:e.clientX, y:e.clientY, t:Date.now(), moved:false};
   if (ptrs.size===2){
     const [a,b]=[...ptrs.values()];
     pinch0 = { d:Math.hypot(a.x-b.x,a.y-b.y), s:view.s,
@@ -655,10 +580,7 @@ vp.addEventListener('pointerdown', e => { touchAct();
 vp.addEventListener('pointermove', e => {
   const p = ptrs.get(e.pointerId); if (!p) return;
   const dx=e.clientX-p.x, dy=e.clientY-p.y;
-  if (ptrs.size===1){
-    if (Math.hypot(dx,dy)>6 && tapStart) tapStart.moved=true;
-    view.x+=dx; view.y+=dy; applyView();
-  }
+  if (ptrs.size===1){ view.x+=dx; view.y+=dy; applyView(); }
   p.x=e.clientX; p.y=e.clientY;
   if (ptrs.size===2 && pinch0){
     const [a,b]=[...ptrs.values()];
@@ -676,24 +598,6 @@ vp.addEventListener('pointermove', e => {
 function endPtr(e){
   ptrs.delete(e.pointerId);
   if (ptrs.size<2) pinch0=null;
-  if (ptrs.size===0 && tapStart && !tapStart.moved && Date.now()-tapStart.t<400
-      && $('hud').style.display!=='none'){   // no selecting with the tools put away
-    const rect=vp.getBoundingClientRect();
-    const wx=(tapStart.x-rect.left-view.x)/view.s, wy=(tapStart.y-rect.top-view.y)/view.s;
-    const c=Math.floor(wx/CELL), r=Math.floor(wy/CELL);
-    if (c>=0&&r>=0&&c<GRID_COLS&&r<GRID_ROWS){
-      const n=+$('blockN').value;
-      const kk=c+','+r;
-      if (n===1 && selSet.has(kk)) selSet.delete(kk);        // tap again to unselect
-      else for (let j=0;j<n;j++) for (let i=0;i<n;i++){
-        const cc=Math.min(c+i,GRID_COLS-1), rr=Math.min(r+j,GRID_ROWS-1);
-        selSet.add(cc+','+rr);
-      }
-      sel = selSet.size ? selCells()[0] : null;
-      drawSel(); stat(selSet.size ? `${selSet.size} square${selSet.size>1?'s':''}` : 'tap a square');
-    }
-  }
-  tapStart=null;
 }
 vp.addEventListener('pointerup', endPtr);
 vp.addEventListener('pointercancel', endPtr);
@@ -713,16 +617,10 @@ vp.addEventListener('wheel', e => {
 
 
 
-// ---- done-marks survive background eviction and full tab discards ----
+// ---- small binary persistence (the cooked views live here) ----
 async function dbPutRaw(k,v){ try{ const d=await db(); await new Promise(res=>{
   const t=d.transaction('plans','readwrite').objectStore('plans').put(v,k);
   t.onsuccess=res; t.onerror=res; }); }catch(e){} }
-async function restoreDone(){
-  for (let i=0;i<50 && !CKEY;i++) await new Promise(r=>setTimeout(r,100));
-  if (!CKEY) return;
-  const dn=await dbGet('done|'+CKEY);
-  if (Array.isArray(dn) && dn.length){ dn.forEach(k=>doneSet.add(k)); renderDone(); }
-}
 document.addEventListener('visibilitychange', ()=>{
   // waking with blank layers means the browser purged canvas memory: repaint
   if (document.hidden || !GRID_READY) return;
@@ -732,7 +630,6 @@ document.addEventListener('visibilitychange', ()=>{
     for (let i=3;i<d.length;i+=4) if (d[i]){ blank=false; break; } }catch(e){ return; }
   if (!blank) return;
   paintWorld();
-  drawSel(); renderDone();
 });
 
 
@@ -827,7 +724,10 @@ function derived(kind){
     const ph=grayData(state.img), sh=grayData(FORM.cv);
     buf=new Uint8Array(ph.length);
     if (kind==='dark') for (let i=0;i<ph.length;i++) buf[i]=Math.min(ph[i],sh[i]);
-    else               for (let i=0;i<ph.length;i++) buf[i]=Math.max(ph[i],sh[i]);
+    else {
+      const sp=grayData(FORM.specCv);      // shine stays out: it has its own view
+      for (let i=0;i<ph.length;i++) buf[i]=Math.max(ph[i]-sp[i],sh[i]);
+    }
   }
   DERIV[kind]=grayCanvas(buf,w,h);
   return DERIV[kind];
