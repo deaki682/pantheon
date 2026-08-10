@@ -15,7 +15,8 @@
 <style>
 /* minimal by instruction: purely functional, no stylistic embellishment */
 *{margin:0;padding:0;box-sizing:border-box}
-html{color-scheme:dark}
+:root{--acc:#e8833a;--accBg:#3b2a1b}
+html{color-scheme:dark;accent-color:var(--acc)}
 html,body{width:100%;height:100%;overflow:hidden;background:#141414;color:#e8e6e1;
   font:14px system-ui,sans-serif;touch-action:none;
   overscroll-behavior:none;
@@ -29,9 +30,9 @@ body{position:fixed;inset:0}
 button,select,input{font:inherit;padding:8px 12px;border:1px solid #555;
   background:#1e1e1e;color:#e8e6e1;border-radius:8px}
 button:disabled{opacity:.4}
-button.vOn{border-color:#e8833a;background:#3b2a1b}
+button.vOn{border-color:var(--acc);background:var(--accBg)}
 /* every press answers with a brief orange flash */
-@keyframes btnFlash{from{border-color:#e8833a;background:#3b2a1b}}
+@keyframes btnFlash{from{border-color:var(--acc);background:var(--accBg)}}
 button.btnFlash{animation:btnFlash 0.35s ease-out}
 #viewRow{flex-direction:column;align-items:stretch;gap:8px;padding:6px}
 #layerCol{display:flex;flex-direction:column;gap:8px}
@@ -46,7 +47,15 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 /* gallery: every photo ever opened, newest first */
 #gallery{flex:1;min-height:0;overflow-y:auto;touch-action:pan-y;padding:8px;
   display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
-  gap:8px;align-content:start}
+  gap:8px;align-content:end}
+#upRow{justify-content:space-between}
+#accWrap{position:relative}
+#accBtn{width:44px;height:44px;border-radius:12px;background:var(--acc);
+  border:1px solid #555}
+#accMenu{position:absolute;bottom:52px;right:0;display:none;
+  grid-template-columns:repeat(3,44px);gap:8px;background:#1e1e1e;
+  border:1px solid #555;border-radius:14px;padding:8px;z-index:6}
+#accMenu button{width:44px;height:44px;border-radius:10px;border:1px solid #555}
 .gitem{border:1px solid #555;background:#1e1e1e;padding:4px;cursor:pointer;
   border-radius:10px;overflow:hidden}
 .gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
@@ -98,14 +107,12 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   display:flex;align-items:center;justify-content:center}
 #expCorner{position:absolute;right:calc(8px + env(safe-area-inset-right));
   top:calc(8px + env(safe-area-inset-top));z-index:5}
-#fmtCorner{position:absolute;right:calc(60px + env(safe-area-inset-right));
-  top:calc(8px + env(safe-area-inset-top));z-index:5}
-#expBtn,#fmtBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
+#expBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #compareBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 .fsBtn{min-width:40px}
-#widthIn{width:64px;background:#1e1e1e;color:#e8e6e1;border:1px solid #555;
+#widthIn,#cellVal{width:64px;background:#1e1e1e;color:#e8e6e1;border:1px solid #555;
   border-radius:8px;padding:8px;font:inherit}
 #lvBtn{display:flex;align-items:center;justify-content:center;min-width:44px}
 #cmpRow{justify-content:space-evenly}
@@ -136,18 +143,31 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 <!-- 1: upload -->
 <div class="screen on" id="scrUpload">
   <div class="row">
-    <button id="newPhoto">+ New reference</button>
-    <button id="calBtn" title="Match the squares to a ruler">1&Prime; scale</button>
     <span id="upStat" class="grow" style="font-size:12px;opacity:0.7"></span>
     <button class="fsBtn" title="Fullscreen">&#x26F6;</button>
   </div>
+  <input type="file" id="file" accept="image/*" hidden>
+  <div id="gallery"></div>
   <div class="row" id="calRow" style="display:none">
+    <label>Square
+      <input type="number" id="cellVal" min="0.25" max="60" step="0.25">
+    </label>
+    <select id="cellUnit">
+      <option value="in">inches</option>
+      <option value="cm">cm</option>
+    </select>
     <span id="calLbl">1&Prime; &mdash; match a ruler:</span>
     <div id="calHold"><div id="calBox"></div></div>
     <input type="range" id="calSlide" min="60" max="220" value="100">
   </div>
-  <input type="file" id="file" accept="image/*" hidden>
-  <div id="gallery"></div>
+  <div class="row" id="upRow">
+    <button id="newPhoto">+ New reference</button>
+    <button id="calBtn" title="Grid square size and ruler match">1&Prime; Grid</button>
+    <div id="accWrap">
+      <div id="accMenu"></div>
+      <button id="accBtn" title="Accent color"></button>
+    </div>
+  </div>
 </div>
 
 <!-- 2: format -->
@@ -210,7 +230,6 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     </div>
     <button id="detBtn" title="Detail">Ultra</button>
   </div>
-  <div id="fmtCorner"><button id="fmtBtn" title="Grid size"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v14h14"/><path d="M3 7h14v14"/></svg></button></div>
   <div id="expCorner"><button id="expBtn" title="Download"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8.5 11.5L12 15l3.5-3.5"/><path d="M5 19h14"/></svg></button></div>
   <div id="gridCorner"><button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
   <!-- compare lives behind the camera in the opposite corner -->
@@ -376,7 +395,9 @@ async function renderGallery(){
     d.onclick = () => {
       if (PREP.active) return;                // still cooking: not yet usable
       if (galActive === r.id && photo){       // already open: jump back in
-        show(GRID_READY ? 'scrMain' : 'scrFormat'); return;
+        show(GRID_READY ? 'scrMain' : 'scrFormat');
+        if (GRID_READY) applyView();          // the square may have changed
+        return;
       }
       if (r.blob) openPhoto(r.blob, r.id);
     };
@@ -450,6 +471,32 @@ $('file').addEventListener('change', async e => {
 });
 renderGallery();
 $('newPhoto').onclick = () => $('file').click();
+// the site's accent is the artist's to choose
+{
+  const ACCENTS=['#e8833a','#e0524f','#e0b13a','#6aa84f','#3aa6a0',
+                 '#5a8fd8','#9b6bd8','#d86bb0','#e8e6e1'];
+  const mixBg=hex=>{
+    const n=parseInt(hex.slice(1),16);
+    const m=v=>Math.round(v*0.24+26*0.76);
+    return 'rgb('+m((n>>16)&255)+','+m((n>>8)&255)+','+m(n&255)+')';
+  };
+  const apply=c=>{
+    document.documentElement.style.setProperty('--acc', c);
+    document.documentElement.style.setProperty('--accBg', mixBg(c));
+    try{ localStorage.setItem('accent', c); }catch(e){}
+  };
+  let saved='#e8833a';
+  try{ const v=localStorage.getItem('accent'); if (v && /^#[0-9a-f]{6}$/i.test(v)) saved=v; }catch(e){}
+  apply(saved);
+  const menu=$('accMenu');
+  for (const c of ACCENTS){
+    const b=document.createElement('button');
+    b.style.background=c; b.title=c;
+    b.onclick=()=>{ apply(c); menu.style.display='none'; };
+    menu.appendChild(b);
+  }
+  $('accBtn').onclick=()=>{ menu.style.display = menu.style.display==='grid' ? 'none' : 'grid'; };
+}
 $('calBtn').onclick = () => {
   const r=$('calRow');
   r.style.display = r.style.display==='none' ? '' : 'none';
@@ -462,13 +509,15 @@ function ratioOf(){
   const [w,h] = a.split(':').map(Number);
   return w/h;
 }
-function unitPer(){ return $('unit').value==='cm' ? 2 : 1; }  // units per square
-function dims(){
-  const per = unitPer();
-  const wp = +$('widthIn').value || ($('unit').value==='cm' ? 50 : 20);
-  const cols = Math.max(4, Math.min(80, Math.round(wp/per)));
-  const rows = Math.max(2, Math.round(cols / ratioOf()));
-  return {cols, rows};
+function physWIn(){
+  const u = $('unit').value;
+  const v = +$('widthIn').value || (u==='cm' ? 50 : 20);
+  return u==='cm' ? v/2.54 : v;
+}
+function squaresOf(wIn, hIn){
+  const ci = cellIn();
+  return { cols: Math.max(1, Math.ceil(wIn/ci - 1e-6)),
+           rows: Math.max(1, Math.ceil(hIn/ci - 1e-6)) };
 }
 function initFormat(){
   $('unit').value = curUnit();
@@ -486,7 +535,6 @@ function cropRect(){
            y:Math.round((photo.height-h)*FMT_OFF.y), w, h };
 }
 function fmtPreview(){
-  const {cols, rows} = dims();
   const cr = cropRect();
   const cv = $('fmtCanvas');
   const scale = Math.min(320/cr.w, 420/cr.h);
@@ -494,14 +542,17 @@ function fmtPreview(){
   const g = cv.getContext('2d');
   g.imageSmoothingQuality='high';
   g.drawImage(photo, cr.x, cr.y, cr.w, cr.h, 0, 0, cv.width, cv.height);
+  const wIn = physWIn(), hIn = wIn*cr.h/cr.w;
+  const step = cv.width*cellIn()/wIn;
   g.strokeStyle='rgba(255,255,255,0.7)'; g.lineWidth=1;
-  for (let c=1;c<cols;c++){ const x=Math.round(c*cv.width/cols)+0.5;
-    g.beginPath(); g.moveTo(x,0); g.lineTo(x,cv.height); g.stroke(); }
-  for (let r=1;r<rows;r++){ const y=Math.round(r*cv.height/rows)+0.5;
-    g.beginPath(); g.moveTo(0,y); g.lineTo(cv.width,y); g.stroke(); }
+  for (let x=step; x<cv.width-1; x+=step){ const xx=Math.round(x)+0.5;
+    g.beginPath(); g.moveTo(xx,0); g.lineTo(xx,cv.height); g.stroke(); }
+  for (let y=step; y<cv.height-1; y+=step){ const yy=Math.round(y)+0.5;
+    g.beginPath(); g.moveTo(0,yy); g.lineTo(cv.width,yy); g.stroke(); }
   const slack = (photo.width-cr.w) + (photo.height-cr.h);
-  const per = unitPer(), u = $('unit').value;
-  $('fmtInfo').textContent = `${cols*per} x ${rows*per} ${u} - ${cols*rows} squares`
+  const u = $('unit').value, sq = squaresOf(wIn, hIn);
+  const disp = v => u==='cm' ? Math.round(v*2.54) : Math.round(v*10)/10;
+  $('fmtInfo').textContent = `${disp(wIn)} x ${disp(hIn)} ${u} - ${sq.cols} x ${sq.rows} squares`
     + (slack>2 ? ' - drag to place' : '');
 }
 // drag the preview to slide the crop window around the photo
@@ -533,7 +584,6 @@ $('unit').onchange = ()=>{
   const u=$('unit').value, w=+$('widthIn').value||0;
   $('widthIn').value = u==='cm' ? Math.round(w*2.54) : Math.max(4,Math.round(w/2.54));
   try{ localStorage.setItem('unit', u); }catch(e){}
-  calRefresh();
   fmtPreview(); speculate();
 };
 // the one back button: cancels a live camera, otherwise steps up a screen
@@ -548,12 +598,19 @@ $('backBtn').onclick = () => {
 
 let FMT_APPLIED=null, FMT_TIMER=null;
 async function applyFormat(){
-  const {cols, rows} = dims();
   const cr = cropRect();
-  const sig = cols+'x'+rows+'@'+cr.x+','+cr.y+','+cr.w+','+cr.h;
+  const wIn = physWIn(), hIn = wIn*cr.h/cr.w;
+  // resolution from the physical size (96 ppi), capped so vast drawings
+  // don't cook unmanageable images
+  let ppi = 96;
+  if (wIn*hIn*96*96 > 13e6) ppi = Math.sqrt(13e6/(wIn*hIn));
+  const w = Math.round(wIn*ppi), h = Math.round(w*cr.h/cr.w);
+  const sig = w+'x'+h+'@'+cr.x+','+cr.y+','+cr.w+','+cr.h;
   if (FMT_APPLIED===sig) return;
   FMT_APPLIED=sig;
-  GRID_COLS = cols; GRID_ROWS = rows;
+  WORLD={w,h}; PHYS_W_IN=wIn;
+  const sq = squaresOf(wIn, hIn);
+  GRID_COLS=sq.cols; GRID_ROWS=sq.rows;
   const c = document.createElement('canvas'); c.width=cr.w; c.height=cr.h;
   c.getContext('2d').drawImage(photo, cr.x, cr.y, cr.w, cr.h, 0, 0, cr.w, cr.h);
   state.img = c;
@@ -624,7 +681,23 @@ $('fmtGo').onclick = () => {
 };
 
 
-const CELL = 96;                                // css px per square at zoom 1
+const CELL = 96;                                // css px per inch at zoom 1
+let WORLD={w:0,h:0};        // cooked-image pixels (physical size x ppi)
+let PHYS_W_IN=20;           // the drawing's real width, in inches
+let CELLSZ={v:1,u:'in'};    // the grid square the artist chose
+try{
+  const j=JSON.parse(localStorage.getItem('cellSz')||'null');
+  if (j && j.v>0 && (j.u==='in'||j.u==='cm')) CELLSZ=j;
+  else if (localStorage.getItem('unit')==='cm') CELLSZ={v:2,u:'cm'};
+}catch(e){}
+function cellIn(){ return CELLSZ.u==='cm' ? CELLSZ.v/2.54 : CELLSZ.v; }
+function cellLabel(){
+  const n = CELLSZ.v%1 ? (''+CELLSZ.v).replace(/0+$/,'') : ''+CELLSZ.v;
+  return CELLSZ.u==='cm' ? n+' cm' : n+'\u2033';
+}
+function saveCell(){ try{ localStorage.setItem('cellSz', JSON.stringify(CELLSZ)); }catch(e){} }
+function lifeScale(){ return WORLD.w ? 96*PHYS_W_IN/WORLD.w : 1; }
+function gridStepPx(){ return WORLD.w ? WORLD.w*cellIn()/PHYS_W_IN : 96*cellIn(); }
 let view = { x:0, y:0, s:1 };
 
 // true-size calibration: CSS says 96px = 1in but few screens agree.
@@ -632,24 +705,48 @@ let view = { x:0, y:0, s:1 };
 let INCAL = 1;
 try{ const v=+localStorage.getItem('inchCal'); if (v>=0.6 && v<=2.2) INCAL=v; }catch(e){}
 function curUnit(){ try{ return localStorage.getItem('unit')==='cm' ? 'cm' : 'in'; }catch(e){ return 'in'; } }
-function sqInch(){ return curUnit()==='cm' ? 2/2.54 : 1; }   // one square, in inches
 let calRefresh=()=>{};
 {
   const bx=$('calBox'), sl=$('calSlide');
-  const showCal=()=>{ const cm=curUnit()==='cm';
-    bx.style.width=bx.style.height=(96*INCAL*sqInch())+'px';
+  const showCal=()=>{
+    // the dashed box IS one grid square at life size (a huge square falls
+    // back to a plain 1in / 5cm ruler target)
+    let ci=cellIn(), lbl=cellLabel();
+    if (ci>2.2){ ci = CELLSZ.u==='cm' ? 5/2.54 : 1;
+                 lbl = CELLSZ.u==='cm' ? '5 cm' : '1\u2033'; }
+    bx.style.width=bx.style.height=(96*INCAL*ci)+'px';
     sl.value=Math.round(INCAL*100);
-    $('calLbl').innerHTML=(cm?'2 cm':'1&Prime;')+' &mdash; match a ruler:';
-    $('calBtn').innerHTML=cm?'2 cm scale':'1&Prime; scale'; };
+    $('calLbl').textContent=lbl+' \u2014 match a ruler:';
+    $('calBtn').textContent=cellLabel()+' Grid';
+    $('cellVal').value=CELLSZ.v; $('cellUnit').value=CELLSZ.u;
+  };
   calRefresh=showCal;
   showCal();
   sl.oninput=()=>{ INCAL=sl.value/100;
     try{ localStorage.setItem('inchCal', INCAL); }catch(e){}
     showCal(); applyView(); };
+  const cellChanged=()=>{
+    saveCell(); showCal();
+    if (WORLD.w){
+      const hIn=PHYS_W_IN*WORLD.h/WORLD.w, ci=cellIn();
+      GRID_COLS=Math.max(1,Math.ceil(PHYS_W_IN/ci-1e-6));
+      GRID_ROWS=Math.max(1,Math.ceil(hIn/ci-1e-6));
+    }
+    if (GRID_READY) drawGrid();
+    if (photo && $('scrFormat').classList.contains('on')) fmtPreview();
+  };
+  $('cellVal').oninput=()=>{ const v=+$('cellVal').value;
+    if (v>=0.25 && v<=60){ CELLSZ.v=v; cellChanged(); } };
+  $('cellUnit').onchange=()=>{ const u=$('cellUnit').value;
+    if (u===CELLSZ.u) return;
+    CELLSZ.u=u;
+    CELLSZ.v = u==='cm' ? Math.max(0.5, Math.round(CELLSZ.v*2.54*2)/2)
+                        : Math.max(0.25, Math.round(CELLSZ.v/2.54*4)/4);
+    cellChanged(); };
 }
 
 
-function worldSize(){ return { w: GRID_COLS*CELL, h: GRID_ROWS*CELL }; }
+function worldSize(){ return WORLD.w ? { w:WORLD.w, h:WORLD.h } : { w:GRID_COLS*CELL, h:GRID_ROWS*CELL }; }
 function clampView(){
   // the reference stays locked to the viewport: no zooming out past fit,
   // no panning a margin into view
@@ -659,7 +756,7 @@ function clampView(){
   const fit = Math.min(r.width/w, r.height/h);
   // max zoom is life size: one square = one real inch (INCAL calibrates
   // the browser's 96px "inch" to the actual glass; fit wins on tiny grids)
-  view.s = Math.max(fit, Math.min(Math.max(fit, INCAL*sqInch()), view.s));
+  view.s = Math.max(fit, Math.min(Math.max(fit, INCAL*lifeScale()), view.s));
   const W = w*view.s, H = h*view.s;
   view.x = W <= r.width  ? (r.width  - W)/2 : Math.max(r.width  - W, Math.min(0, view.x));
   view.y = H <= r.height ? (r.height - H)/2 : Math.max(r.height - H, Math.min(0, view.y));
@@ -671,7 +768,7 @@ function zBounds(){
   const {w,h} = worldSize();
   const r = $('viewport').getBoundingClientRect();
   const fit = (w && r.width) ? Math.min(r.width/w, r.height/h) : 0.05;
-  return { min: fit, max: Math.max(fit, INCAL*sqInch()) };
+  return { min: fit, max: Math.max(fit, INCAL*lifeScale()) };
 }
 function applyView(){
   clampView();
@@ -694,13 +791,14 @@ function drawGrid(){
   const x0=Math.max(0,ox), x1=Math.min(W2, ox+w*sc);
   const y0=Math.max(0,oy), y1=Math.min(H2, oy+h*sc);
   g.strokeStyle='rgba(255,255,255,0.75)'; g.lineWidth=1;
-  for (let c=1;c<GRID_COLS;c++){
-    const x=Math.round(ox+c*CELL*sc)+0.5;
+  const step=gridStepPx();
+  for (let xw=step; xw<w-1; xw+=step){
+    const x=Math.round(ox+xw*sc)+0.5;
     if (x<x0-1||x>x1+1) continue;
     g.beginPath(); g.moveTo(x,y0); g.lineTo(x,y1); g.stroke();
   }
-  for (let rr=1;rr<GRID_ROWS;rr++){
-    const y=Math.round(oy+rr*CELL*sc)+0.5;
+  for (let yw=step; yw<h-1; yw+=step){
+    const y=Math.round(oy+yw*sc)+0.5;
     if (y<y0-1||y>y1+1) continue;
     g.beginPath(); g.moveTo(x0,y); g.lineTo(x1,y); g.stroke();
   }
@@ -858,7 +956,7 @@ async function computeCKEY(){
   const d=g.getImageData(0,0,32,32).data;
   let ph=''; for(let i=0;i<d.length;i+=64) ph+=String.fromCharCode(d[i]);
   CKEY = hashStr(ph)+state.img.width+'x'+state.img.height
-       + '|'+GRID_COLS+'x'+GRID_ROWS
+       + '|'+WORLD.w+'x'+WORLD.h
        + '|a'+hashStr(JSON.stringify(state.tools))
        + '|emjhcgv|n7';   // frozen v11-engine tag: keys minted before the
                           // engine was retired keep working
@@ -1098,10 +1196,11 @@ $('expBtn').onclick = () => {
   g.drawImage(viewSrc(),0,0,w,h);
   if (GRID_ON){
     g.globalCompositeOperation='difference';
-    g.strokeStyle='rgba(255,255,255,0.75)'; g.lineWidth=3;
-    for (let cc=1;cc<GRID_COLS;cc++){ const x=cc*CELL+0.5;
+    g.strokeStyle='rgba(255,255,255,0.75)'; g.lineWidth=1;
+    const step=gridStepPx();
+    for (let xw=step; xw<w-1; xw+=step){ const x=Math.round(xw)+0.5;
       g.beginPath(); g.moveTo(x,0); g.lineTo(x,h); g.stroke(); }
-    for (let rr=1;rr<GRID_ROWS;rr++){ const y=rr*CELL+0.5;
+    for (let yw=step; yw<h-1; yw+=step){ const y=Math.round(yw)+0.5;
       g.beginPath(); g.moveTo(0,y); g.lineTo(w,y); g.stroke(); }
     g.globalCompositeOperation='source-over';
   }
@@ -1118,12 +1217,6 @@ $('gridBtn').onclick=()=>{
   GRID_ON=!GRID_ON;
   try{ localStorage.setItem('gridOn', GRID_ON?'1':'0'); }catch(e){}
   applyGrid();
-};
-// back to the format screen any time: size, unit, aspect, crop placement
-$('fmtBtn').onclick=()=>{
-  if (!photo) return;
-  show('scrFormat');
-  fmtPreview();
 };
 $('detBtn').onclick=()=>{
   const m=$('detMenu');
@@ -1809,7 +1902,8 @@ function cmpApplyCorners(next){
   // corrected, for photos arriving from the file picker.
   if (!CMP.raw) return;
   let rect=cmpWarp(CMP.raw, CMP.corners);
-  const refAsp=GRID_COLS/GRID_ROWS, imgAsp=rect.width/rect.height;
+  const {w:rw,h:rh}=worldSize();
+  const refAsp=rw/rh, imgAsp=rect.width/rect.height;
   const nearSq=Math.abs(Math.log(imgAsp))<0.05 || Math.abs(Math.log(refAsp))<0.05;
   if (!nearSq && (refAsp>=1)!==(imgAsp>=1)) rect=cmpRot(rect,1);
   CMP.img=rect;
