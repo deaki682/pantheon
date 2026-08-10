@@ -216,6 +216,7 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
     <button id="cmpShoot">Photo</button>
     <button id="cmpFlip" disabled>Flip view</button>
     <button id="cmpSplit" disabled>Side by side</button>
+    <button id="cmpSeam" disabled>Split</button>
     <button id="lvBtn" disabled>Adjust</button>
     <button id="cmpCorn" disabled>Corners</button>
     <span class="grow"></span>
@@ -1353,6 +1354,10 @@ function cmpButtons(){
   sp.style.display = CMP.mode==='corners' ? 'none' : '';
   sp.disabled = !CMP.img;
   sp.textContent = CMP.mode==='split' ? 'Flip view' : 'Side by side';
+  const sm=$('cmpSeam');
+  sm.style.display = CMP.mode==='corners' ? 'none' : '';
+  sm.disabled = !CMP.img;
+  sm.textContent = CMP.mode==='seam' ? 'Flip view' : 'Split';
   fl.style.display = CMP.mode==='corners' ? '' : 'none';
   fl.disabled = !CMP.raw;
   fl.textContent = 'Crop';
@@ -1392,6 +1397,29 @@ function cmpRender(){
   } else if (CMP.img && CMP.mode==='flip'){
     if (CMP.showing==='ref'){ drawRef(); hint='reference - tap to flip'; }
     else { drawPhoto(); hint='your drawing - tap to flip'; }
+  } else if (CMP.img && CMP.mode==='seam'){
+    // ONE registered view: the drawing fills left of the seam, the
+    // reference right of it - the same spot on both, meeting mid-canvas
+    const {w,h}=worldSize();
+    const bs=Math.min(cv.width/w, cv.height/h), bx=(cv.width-w*bs)/2, by=(cv.height-h*bs)/2;
+    const halves=[
+      { x0:0, img:CMP.img, label:'drawing' },
+      { x0:cv.width/2, img:$('refImg'), label:'reference' }
+    ];
+    for (const hf of halves){
+      g.save();
+      g.beginPath(); g.rect(hf.x0,0,cv.width/2,cv.height); g.clip();
+      g.translate(SEAM.x,SEAM.y); g.scale(SEAM.s,SEAM.s);
+      g.translate(bx,by); g.scale(bs,bs);
+      g.drawImage(hf.img,0,0,w,h);
+      g.restore();
+    }
+    g.strokeStyle='rgba(232,230,225,0.45)'; g.lineWidth=1;
+    g.beginPath(); g.moveTo(cv.width/2,0); g.lineTo(cv.width/2,cv.height); g.stroke();
+    g.fillStyle='rgba(232,230,225,0.8)'; g.font='11px system-ui';
+    g.fillText('drawing', 8, 16);
+    g.fillText('reference', cv.width-8-g.measureText('reference').width, 16);
+    hint='one view, seam down the middle - drag and pinch';
   } else if (CMP.img && CMP.mode==='split'){
     // side by side, one shared view: gestures on either pane move both
     const pw=cv.width/2, ph=cv.height;
@@ -1422,6 +1450,18 @@ function cmpRender(){
   cmpButtons();
 }
 const SPL={x:0,y:0,s:1};
+const SEAM={x:0,y:0,s:1};
+function clampSeam(){
+  const cv=$('cmpCv');
+  const {w,h}=worldSize();
+  const bs=Math.min(cv.width/w, cv.height/h), bx=(cv.width-w*bs)/2, by=(cv.height-h*bs)/2;
+  SEAM.s=Math.max(1, Math.min(16, SEAM.s));
+  const W=w*bs*SEAM.s, H=h*bs*SEAM.s;
+  let X0=SEAM.x+bx*SEAM.s, Y0=SEAM.y+by*SEAM.s;
+  X0 = W<=cv.width ? (cv.width-W)/2 : Math.max(cv.width-W, Math.min(0,X0));
+  Y0 = H<=cv.height ? (cv.height-H)/2 : Math.max(cv.height-H, Math.min(0,Y0));
+  SEAM.x=X0-bx*SEAM.s; SEAM.y=Y0-by*SEAM.s;
+}
 function clampSplit(){
   const cv=$('cmpCv'), pw=cv.width/2, ph=cv.height;
   const {w,h}=worldSize();
@@ -1840,6 +1880,12 @@ $('cmpCorn').onclick = () => {
   CMP.mode='corners'; CMP.cGrab=null;
   cmpRender();
 };
+$('cmpSeam').onclick = () => {
+  if (!CMP.img) return;
+  if (CMP.mode==='seam'){ CMP.mode='flip'; CMP.showing='photo'; }
+  else { CMP.mode='seam'; SEAM.x=0; SEAM.y=0; SEAM.s=1; clampSeam(); }
+  cmpRender();
+};
 $('cmpSplit').onclick = () => {
   if (!CMP.img) return;
   if (CMP.mode==='split'){ CMP.mode='flip'; CMP.showing='photo'; }
@@ -1865,7 +1911,7 @@ $('cmpSplit').onclick = () => {
       const [a,b]=[...pts.values()], r=cv.getBoundingClientRect(), kd=cv.width/r.width;
       g0={d:Math.hypot(a.x-b.x,a.y-b.y), ang:Math.atan2(b.y-a.y,b.x-a.x),
           mx:((a.x+b.x)/2-r.left)*kd, my:((a.y+b.y)/2-r.top)*kd,
-          spl:{...SPL}};
+          spl:{...SPL}, sm:{...SEAM}};
       tap=null; CMP.cGrab=null;
     }
   });
@@ -1881,6 +1927,21 @@ $('cmpSplit').onclick = () => {
         q.x=Math.max(0,Math.min(CMP.raw.width,  q.x+dx*kd/CMP.cfit.s));
         q.y=Math.max(0,Math.min(CMP.raw.height, q.y+dy*kd/CMP.cfit.s));
         cmpRender();
+      }
+      return;
+    }
+    if (CMP.mode==='seam' && CMP.img){
+      if (pts.size===1){
+        SEAM.x+=dx*kd; SEAM.y+=dy*kd; clampSeam(); cmpRender();
+      } else if (pts.size===2 && g0){
+        const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
+        const d=Math.hypot(a.x-b.x,a.y-b.y);
+        const mx=((a.x+b.x)/2-r.left)*kd, my=((a.y+b.y)/2-r.top)*kd;
+        const k=Math.max(1,Math.min(16,g0.sm.s*d/g0.d))/g0.sm.s;
+        SEAM.s=g0.sm.s*k;
+        SEAM.x=mx-(g0.mx-g0.sm.x)*k;
+        SEAM.y=my-(g0.my-g0.sm.y)*k;
+        clampSeam(); cmpRender();
       }
       return;
     }
@@ -1916,6 +1977,17 @@ $('cmpSplit').onclick = () => {
   cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
   cv.addEventListener('wheel', e => {
     if (!CMP.img) return;
+    if (CMP.mode==='seam'){
+      e.preventDefault();
+      const r=cv.getBoundingClientRect(), kd=cv.width/r.width;
+      const px=(e.clientX-r.left)*kd, py=(e.clientY-r.top)*kd;
+      const k=e.deltaY<0?1.08:1/1.08;
+      const ns=Math.max(1,Math.min(16,SEAM.s*k)), kk=ns/SEAM.s;
+      SEAM.s=ns;
+      SEAM.x=px-(px-SEAM.x)*kk; SEAM.y=py-(py-SEAM.y)*kk;
+      clampSeam(); cmpRender();
+      return;
+    }
     if (CMP.mode==='split'){
       e.preventDefault();
       const r=cv.getBoundingClientRect(), pw=cv.width/2, kd=cv.width/r.width;
