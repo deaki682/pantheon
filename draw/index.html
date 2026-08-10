@@ -29,6 +29,8 @@ body{position:fixed;inset:0}
 button,select,input{font:inherit;padding:8px 12px;border:1px solid #555;
   background:#1e1e1e;color:#e8e6e1;border-radius:8px}
 button:disabled{opacity:.4}
+button.vOn{border-color:#e8e6e1;background:#3a3a3a}
+#viewRow{padding-bottom:0}
 .row{display:flex;gap:8px;align-items:center;padding:8px;flex-wrap:wrap}
 .grow{flex:1}
 /* screen 2: format preview */
@@ -157,6 +159,14 @@ button:disabled{opacity:.4}
   <div id="hudWrap">
     <div id="hud">
       <div id="stat"></div>
+      <!-- ways of seeing the reference; Grid rules them all -->
+      <div class="row" id="viewRow">
+        <button id="vPhoto" class="vBtn">Photo</button>
+        <button id="vForm" class="vBtn">Form</button>
+        <button id="vSquint" class="vBtn">Squint</button>
+        <span class="grow"></span>
+        <button id="gridBtn">Grid</button>
+      </div>
       <div class="row">
         <select id="blockN">
           <option value="1">1 square</option>
@@ -1374,7 +1384,8 @@ function paintWorld(){
   const {w,h} = worldSize();
   const g = $('refImg').getContext('2d');
   g.imageSmoothingQuality='high';
-  g.drawImage(state.img, 0, 0, w, h);
+  g.drawImage(viewSrc(), 0, 0, w, h);
+  applyGrid();
   const gg = $('gridCv').getContext('2d');
   gg.clearRect(0,0,w,h);
   gg.strokeStyle='rgba(255,255,255,0.75)'; gg.lineWidth=1;   // difference-blended: reads as the inverse of what's beneath
@@ -1724,14 +1735,16 @@ const setKey=(c,r)=>CKEY+'|set|'+c+','+r;
 const SETTLED=new Set();
 const FADING=[];                       // squares blooming to full contrast
 const shownKey=()=>CKEY+'|shown|'+selSig();              // composed display results
-let DIMSRC=null;
+let DIMSRC=null, DIMVIEW=null;
 function buildDimSrc(w,h){
-  if (DIMSRC && DIMSRC.width===w) return;
+  const src=viewSrc();
+  if (DIMSRC && DIMSRC.width===w && DIMVIEW===src) return;
+  DIMVIEW=src;
   DIMSRC=document.createElement('canvas'); DIMSRC.width=w; DIMSRC.height=h;
   const g=DIMSRC.getContext('2d');
   g.filter='contrast(0.22) brightness(1.12)';
   g.imageSmoothingQuality='high';
-  g.drawImage(state.img, 0, 0, w, h);
+  g.drawImage(src, 0, 0, w, h);
   g.filter='none';
 }
 function lightCell(c,r,n){
@@ -1753,6 +1766,237 @@ const blobToCanvas=async bl=>{
   const q=document.createElement('canvas'); q.width=bm.width; q.height=bm.height;
   q.getContext('2d').drawImage(bm,0,0); bm.close(); return q;
 };
+
+// ---- viewing options ----------------------------------------------------
+// Photo is the untouched reference. Form re-renders it with shine and
+// texture removed - only the shapes an artist must actually draw remain,
+// every edge left a touch soft. Squint melts detail into value masses.
+// Display only: the engine always plans against the untouched photo.
+let VIEW='photo';
+try{ const v=localStorage.getItem('refView'); if (v==='form'||v==='squint') VIEW=v; }catch(e){}
+let GRID_ON=true;
+try{ GRID_ON = localStorage.getItem('gridOn')!=='0'; }catch(e){}
+const FORM={cv:null, key:null, busy:null};
+const SQUINT={cv:null, key:null};
+
+function applyGrid(){
+  $('gridCv').style.display = GRID_ON ? '' : 'none';
+  $('gridBtn').classList.toggle('vOn', GRID_ON);
+}
+function viewButtons(){
+  for (const [id,v] of [['vPhoto','photo'],['vForm','form'],['vSquint','squint']])
+    $(id).classList.toggle('vOn', VIEW===v);
+}
+function viewSrc(){
+  if (VIEW==='squint' && state.img){
+    if (!(SQUINT.cv && SQUINT.key===CKEY)) buildSquint();
+    return SQUINT.cv;
+  }
+  if (VIEW==='form' && state.img){
+    if (FORM.cv && FORM.key===CKEY) return FORM.cv;
+    ensureForm();                     // async; the photo stands in meanwhile
+  }
+  return state.img;
+}
+function buildSquint(){
+  const {w,h}=worldSize();
+  const c=document.createElement('canvas'); c.width=w; c.height=h;
+  const g=c.getContext('2d');
+  g.imageSmoothingQuality='high';
+  g.filter='grayscale(1)';            // opaque base so the blur's soft rim has backing
+  g.drawImage(state.img,0,0,w,h);
+  g.filter='grayscale(1) blur('+Math.round(CELL*0.15)+'px)';
+  g.drawImage(state.img,0,0,w,h);
+  g.filter='none';
+  SQUINT.cv=c; SQUINT.key=CKEY;
+}
+function viewRepaint(){
+  DIMVIEW=null; paintWorld(); lightKnown();
+}
+async function ensureForm(){
+  if ((FORM.cv && FORM.key===CKEY) || FORM.busy) return;
+  const key=CKEY; FORM.busy=key;
+  const bl=await dbGet('form1|'+key);
+  if (bl){
+    try{
+      const c=await blobToCanvas(bl);
+      FORM.cv=c; FORM.key=key; FORM.busy=null;
+      if (key===CKEY && VIEW==='form' && $('scrMain').classList.contains('on')) viewRepaint();
+      return;
+    }catch(e){}
+  }
+  const {w,h}=worldSize();
+  const src=document.createElement('canvas'); src.width=w; src.height=h;
+  const sg=src.getContext('2d',{willReadFrequently:true});
+  sg.imageSmoothingQuality='high';
+  sg.drawImage(state.img,0,0,w,h);
+  const px=sg.getImageData(0,0,w,h).data;
+  const gray=new Uint8Array(w*h);
+  for (let i=0,j=0;i<gray.length;i++,j+=4)
+    gray[i]=(px[j]*77+px[j+1]*150+px[j+2]*29)>>8;
+  const wk=new Worker(URL.createObjectURL(new Blob([FORM_SRC],{type:'text/javascript'})));
+  wk.onmessage=ev=>{
+    if (ev.data.p!==undefined){
+      if (VIEW==='form' && $('scrMain').classList.contains('on'))
+        stat('distilling the form  '+Math.round(ev.data.p*100)+'%');
+      return;
+    }
+    wk.terminate();
+    FORM.busy=null;
+    const out=ev.data.done;
+    const c=document.createElement('canvas'); c.width=w; c.height=h;
+    const g2=c.getContext('2d');
+    const id=g2.createImageData(w,h);
+    for (let i=0,j=0;i<out.length;i++,j+=4){
+      id.data[j]=id.data[j+1]=id.data[j+2]=out[i]; id.data[j+3]=255;
+    }
+    g2.putImageData(id,0,0);
+    // synchronous encode: a toBlob callback starves for seconds behind the
+    // planning pool and a navigation before it fires loses the cache
+    try{
+      const du=c.toDataURL('image/jpeg',0.92);
+      const bin=atob(du.slice(du.indexOf(',')+1));
+      const u8=new Uint8Array(bin.length);
+      for (let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
+      dbPutRaw('form1|'+key, new Blob([u8],{type:'image/jpeg'}));
+    }catch(e){}
+    if (key!==CKEY) return;            // reformatted mid-cook; the next look recooks
+    FORM.cv=c; FORM.key=key;
+    if (VIEW==='form' && $('scrMain').classList.contains('on')){ viewRepaint(); stat('form view'); }
+  };
+  wk.onerror=()=>{ wk.terminate(); FORM.busy=null; };
+  wk.postMessage({gray, W:w, H:h}, [gray.buffer]);
+}
+function setView(v){
+  VIEW=v;
+  try{ localStorage.setItem('refView', v); }catch(e){}
+  viewButtons();
+  if (!state.img || !GRID_READY) return;
+  if (v==='form' && !(FORM.cv && FORM.key===CKEY)) stat('distilling the form...');
+  viewRepaint();
+}
+$('vPhoto').onclick=()=>setView('photo');
+$('vForm').onclick=()=>setView('form');
+$('vSquint').onclick=()=>setView('squint');
+$('gridBtn').onclick=()=>{
+  GRID_ON=!GRID_ON;
+  try{ localStorage.setItem('gridOn', GRID_ON?'1':'0'); }catch(e){}
+  applyGrid();
+};
+applyGrid(); viewButtons();
+
+// the breakdown recipe, ported to run beside the page: bright-outlier
+// removal at three scales (specular), domain-transform edge-preserving
+// flattening (texture), and a touch of fuzz on the hardest edges
+const FORM_SRC = `
+function medianBlur(src, W, H, k){
+  const rr=k>>1, half=((k*k)-1)>>1;
+  const out=new Uint8Array(W*H);
+  const coarse=new Int32Array(16), fine=new Int32Array(256);
+  const cxf=x=>x<0?0:(x>=W?W-1:x), cyf=y=>y<0?0:(y>=H?H-1:y);
+  for (let y=0;y<H;y++){
+    coarse.fill(0); fine.fill(0);
+    for (let dx=-rr;dx<=rr;dx++){
+      const c=cxf(dx);
+      for (let dy=-rr;dy<=rr;dy++){
+        const v=src[cyf(y+dy)*W+c]; fine[v]++; coarse[v>>4]++;
+      }
+    }
+    for (let x=0;x<W;x++){
+      if (x>0){
+        const ca=cxf(x+rr), cr=cxf(x-1-rr);
+        for (let dy=-rr;dy<=rr;dy++){
+          const row=cyf(y+dy)*W;
+          const va=src[row+ca]; fine[va]++; coarse[va>>4]++;
+          const vr=src[row+cr]; fine[vr]--; coarse[vr>>4]--;
+        }
+      }
+      let cnt=0, cb=0;
+      while (cnt+coarse[cb]<=half){ cnt+=coarse[cb]; cb++; }
+      let v=cb<<4;
+      while (cnt+fine[v]<=half){ cnt+=fine[v]; v++; }
+      out[y*W+x]=v;
+    }
+  }
+  return out;
+}
+function dtFilter(F, W, H, sigmaS, sigmaR){
+  // 2.5: cv2 sums the domain-transform derivative over 3 replicated
+  // channels; this factor was tuned to reproduce the reference recipe
+  const iters=3, ratio=2.5*sigmaS/sigmaR;
+  const dh=new Uint8Array(W*H), dv=new Uint8Array(W*H);
+  for (let y=0;y<H;y++){
+    const o=y*W;
+    for (let x=1;x<W;x++){ const d=Math.abs(F[o+x]-F[o+x-1]); dh[o+x]=d>255?255:d; }
+  }
+  for (let y=1;y<H;y++){
+    const o=y*W;
+    for (let x=0;x<W;x++){ const d=Math.abs(F[o+x]-F[o-W+x]); dv[o+x]=d>255?255:d; }
+  }
+  for (let it=0;it<iters;it++){
+    const sigmaH=sigmaS*Math.SQRT2*Math.pow(2,iters-it-1)/Math.sqrt(Math.pow(4,iters)-1);
+    const lna=-Math.SQRT2/sigmaH;
+    const tab=new Float32Array(256);
+    for (let t=0;t<256;t++) tab[t]=Math.exp(lna*(1+ratio*t));
+    for (let y=0;y<H;y++){
+      const o=y*W;
+      for (let x=1;x<W;x++){ const a=tab[dh[o+x]]; F[o+x]+=a*(F[o+x-1]-F[o+x]); }
+      for (let x=W-2;x>=0;x--){ const a=tab[dh[o+x+1]]; F[o+x]+=a*(F[o+x+1]-F[o+x]); }
+    }
+    for (let x=0;x<W;x++){
+      for (let y=1;y<H;y++){ const p=y*W+x, a=tab[dv[p]]; F[p]+=a*(F[p-W]-F[p]); }
+      for (let y=H-2;y>=0;y--){ const p=y*W+x, a=tab[dv[p+W]]; F[p]+=a*(F[p+W]-F[p]); }
+    }
+  }
+}
+function gauss(F, W, H, sigma){
+  if (sigma<0.3) return;
+  const r=Math.max(1,Math.ceil(sigma*3)), k=new Float32Array(2*r+1);
+  let s=0;
+  for (let i=-r;i<=r;i++){ const v=Math.exp(-i*i/(2*sigma*sigma)); k[i+r]=v; s+=v; }
+  for (let i=0;i<k.length;i++) k[i]/=s;
+  const T=new Float32Array(W*H);
+  for (let y=0;y<H;y++){
+    const o=y*W;
+    for (let x=0;x<W;x++){
+      let a=0;
+      for (let i=-r;i<=r;i++){ let xx=x+i; xx=xx<0?0:(xx>=W?W-1:xx); a+=F[o+xx]*k[i+r]; }
+      T[o+x]=a;
+    }
+  }
+  for (let x=0;x<W;x++){
+    for (let y=0;y<H;y++){
+      let a=0;
+      for (let i=-r;i<=r;i++){ let yy=y+i; yy=yy<0?0:(yy>=H?H-1:yy); a+=T[yy*W+x]*k[i+r]; }
+      F[y*W+x]=a;
+    }
+  }
+}
+onmessage=e=>{
+  const gray=e.data.gray, W=e.data.W, H=e.data.H, N=W*H;
+  const sc=Math.max(W,H)/2000;
+  const odd=k=>{ k=Math.max(3,Math.round(k)); return (k&1)?k:k+1; };
+  const img=gray;
+  const passes=[[15,9],[31,8],[51,8]];
+  for (let i2=0;i2<passes.length;i2++){
+    postMessage({p:i2*0.22});
+    const med=medianBlur(img,W,H,odd(passes[i2][0]*sc)), thr=passes[i2][1];
+    for (let i=0;i<N;i++) if (img[i]-med[i]>thr) img[i]=med[i];
+  }
+  postMessage({p:0.68});
+  const F=Float32Array.from(img);
+  dtFilter(F,W,H,60*sc,0.22*255);
+  postMessage({p:0.80});
+  dtFilter(F,W,H,40*sc,0.18*255);
+  postMessage({p:0.90});
+  dtFilter(F,W,H,13*sc,26);
+  postMessage({p:0.96});
+  gauss(F,W,H,1.0*sc);
+  const out=new Uint8ClampedArray(N);
+  for (let i=0;i<N;i++){ const v=F[i]; out[i]=v<0?0:(v>255?255:v); }
+  postMessage({done:out},[out.buffer]);
+};
+`;
 
 
 
