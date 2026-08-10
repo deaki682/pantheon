@@ -2210,12 +2210,27 @@ $('cmpSplit').onclick = () => {
   tg.onclick = () => set(hud.style.display === 'none');
 }
 
-// every button press answers with a brief orange flash
+// every button press answers with a brief orange flash and a haptic tick.
+// iOS has no vibration API; clicking a hidden switch-style checkbox inside
+// the tap gesture fires the system's own switch haptic instead.
+const hapticEl=(()=>{
+  const l=document.createElement('label');
+  l.style.cssText='position:fixed;left:-100px;top:-100px;width:1px;height:1px;overflow:hidden';
+  const i=document.createElement('input');
+  i.type='checkbox'; i.setAttribute('switch','');
+  l.appendChild(i); document.body.appendChild(l);
+  return i;
+})();
+function haptic(){
+  if (navigator.vibrate){ try{ navigator.vibrate(10); }catch(e){} return; }
+  try{ hapticEl.click(); }catch(e){}
+}
 document.addEventListener('click', e => {
   const b = e.target.closest('button');
   if (!b || b.disabled) return;
   b.classList.remove('btnFlash'); void b.offsetWidth;
   b.classList.add('btnFlash');
+  haptic();
 }, true);
 
 // app shell: fullscreen toggle + installable offline PWA
