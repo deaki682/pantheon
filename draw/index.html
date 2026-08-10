@@ -780,6 +780,7 @@ function compositeCv(){
 let DETAIL=100;
 const DET_STEPS=[100,75,50,25];
 const DET_T={75:12, 50:30, 25:70};
+const DET_S={75:6, 50:15, 25:35};   // wash scale per level
 const DET={key:null, busy:null, lv:{}};
 async function ensureDetail(lv){
   if (DET.key!==CKEY){ DET.key=CKEY; DET.lv={}; }
@@ -787,8 +788,8 @@ async function ensureDetail(lv){
   DET.busy=lv;
   const {w,h}=worldSize();
   const key=CKEY;
-  const a=await dbGet('dtd2'+lv+'|'+key), b=await dbGet('dtl2'+lv+'|'+key),
-        c=await dbGet('dth2'+lv+'|'+key);
+  const a=await dbGet('dtd3'+lv+'|'+key), b=await dbGet('dtl3'+lv+'|'+key),
+        c=await dbGet('dth3'+lv+'|'+key);
   if (a && b && c){
     try{
       const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
@@ -819,14 +820,14 @@ async function ensureDetail(lv){
     if (key!==CKEY) return;
     DET.lv[lv]={dD:ev.data.dD, lD:ev.data.lD, hl:ev.data.hl};
     try{
-      dbPutRaw('dtd2'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
-      dbPutRaw('dtl2'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
-      dbPutRaw('dth2'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
+      dbPutRaw('dtd3'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
+      dbPutRaw('dtl3'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
+      dbPutRaw('dth3'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
     }catch(e){}
     if (DETAIL===lv && $('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
   };
   wk.onerror=()=>{ wk.terminate(); DET.busy=null; };
-  wk.postMessage({dD, lD, hl, W:w, H:h, thr:DET_T[lv]}, [dD.buffer, lD.buffer, hl.buffer]);
+  wk.postMessage({dD, lD, hl, W:w, H:h, thr:DET_T[lv], sg:DET_S[lv]}, [dD.buffer, lD.buffer, hl.buffer]);
 }
 function viewSrc(){
   if (!state.img) return state.img;
@@ -1071,67 +1072,84 @@ function labelComps(mask, W, H){
     if (maxx[r]>=0) ext[r]=Math.max(maxx[r]-minx[r]+1, maxy[r]-miny[r]+1);
   return {lab, ext, n:next};
 }
-function detailFilter(delta, W, H, thr){
-  // a DETAIL is a strong core plus the soft skirt nearest to it - texture
-  // webs are carved into individual details, each dropped or kept whole by
-  // its own size, so nothing vanishes as a region
-  const N=W*H, CORET=12, LOT=4, REACH=36;
-  const maskLo=new Uint8Array(N), coreM=new Uint8Array(N);
-  for (let i=0;i<N;i++){
-    if (delta[i]>=LOT) maskLo[i]=1;
-    if (delta[i]>=CORET) coreM[i]=1;
-  }
-  const cores=labelComps(coreM, W, H);
-  // every soft pixel joins its nearest core: simultaneous flood from all
-  const claim=new Int32Array(N);
-  let q=new Int32Array(N), qn=0;
-  for (let i=0;i<N;i++) if (cores.lab[i]){ claim[i]=cores.lab[i]; q[qn++]=i; }
-  let q2=new Int32Array(N);
-  for (let d=0; d<REACH && qn; d++){
-    let q2n=0;
-    for (let k=0;k<qn;k++){
-      const i=q[k], x=i%W, y=(i/W)|0;
-      for (let dy=-1;dy<=1;dy++){
-        const yy=y+dy; if (yy<0||yy>=H) continue;
-        const oo=yy*W;
-        for (let dx=-1;dx<=1;dx++){
-          if (!dx&&!dy) continue;
-          const xx=x+dx; if (xx<0||xx>=W) continue;
-          const j=oo+xx;
-          if (!maskLo[j] || claim[j]) continue;
-          claim[j]=claim[i]; q2[q2n++]=j;
-        }
-      }
+function boxPass(src, dst, W, H, r){
+  // running-sum box blur, horizontal then the caller transposes roles
+  const iw=1/(2*r+1);
+  for (let y=0;y<H;y++){
+    const o=y*W;
+    let acc=0;
+    for (let x=-r;x<=r;x++) acc+=src[o+Math.max(0,Math.min(W-1,x))];
+    for (let x=0;x<W;x++){
+      dst[o+x]=acc*iw;
+      const xa=Math.min(W-1,x+r+1), xr=Math.max(0,x-r);
+      acc+=src[o+xa]-src[o+xr];
     }
-    const t=q; q=q2; q2=t; qn=q2n;
   }
-  const keep=new Uint8Array(cores.n);
-  for (let r=1;r<cores.n;r++) if (cores.ext[r]>=thr) keep[r]=1;
-  // soft texture that never forms a core: sized as its own patches
-  const orph=new Uint8Array(N);
-  for (let i=0;i<N;i++) if (maskLo[i] && !claim[i]) orph[i]=1;
-  const oc=labelComps(orph, W, H);
-  const keepO=new Uint8Array(oc.n);
-  for (let r=1;r<oc.n;r++) if (oc.ext[r]>=thr) keepO[r]=1;
+}
+function boxPassV(src, dst, W, H, r){
+  const iw=1/(2*r+1);
+  for (let x=0;x<W;x++){
+    let acc=0;
+    for (let y=-r;y<=r;y++) acc+=src[Math.max(0,Math.min(H-1,y))*W+x];
+    for (let y=0;y<H;y++){
+      dst[y*W+x]=acc*iw;
+      const ya=Math.min(H-1,y+r+1), yr=Math.max(0,y-r);
+      acc+=src[ya*W+x]-src[yr*W+x];
+    }
+  }
+}
+function blur(delta, W, H, sigma){
+  // three box passes approximate a gaussian
+  const N=W*H;
+  let a=new Float32Array(delta), b=new Float32Array(N);
+  const ideal=Math.sqrt(12*sigma*sigma/3+1);
+  let wl=Math.floor(ideal); if (wl%2===0) wl--;
+  const wu=wl+2;
+  const m=Math.round((12*sigma*sigma-3*wl*wl-12*wl-9)/(-4*wl-4));
+  for (let i=0;i<3;i++){
+    const r=((i<m?wl:wu)-1)/2;
+    boxPass(a,b,W,H,r); boxPassV(b,a,W,H,r);
+  }
+  return a;
+}
+function levelFilter(delta, W, H, thr, sg){
+  // the soft wash (broad tonal presence) always survives; only discrete
+  // details above the wash are sized, and small ones drop WHOLE - so
+  // tonality stays continuous and nothing clears as a region
+  const N=W*H;
+  const B=blur(delta, W, H, sg);
+  const mask=new Uint8Array(N);
+  for (let i=0;i<N;i++) if (delta[i]-B[i]>=6) mask[i]=1;
+  const cc=labelComps(mask, W, H);
+  const keep=new Uint8Array(cc.n);
+  for (let r=1;r<cc.n;r++) if (cc.ext[r]>=thr) keep[r]=1;
   const out=new Uint8Array(N);
   for (let i=0;i<N;i++){
-    if (claim[i]){ if (keep[claim[i]]) out[i]=delta[i]; }
-    else if (orph[i] && keepO[oc.lab[i]]) out[i]=delta[i];
+    let v=Math.min(delta[i], B[i]);
+    if (cc.lab[i] && keep[cc.lab[i]]) v=delta[i];
+    out[i]=v<0?0:(v>255?255:Math.round(v));
   }
   return out;
 }
-onmessage=e=>{
-  const {dD, lD, hl, W, H, thr}=e.data;
+function shapeFilter(delta, W, H, thr, binT){
   const N=W*H;
+  const mask=new Uint8Array(N);
+  for (let i=0;i<N;i++) if (delta[i]>=binT) mask[i]=1;
+  const cc=labelComps(mask, W, H);
+  const keep=new Uint8Array(cc.n);
+  for (let r=1;r<cc.n;r++) if (cc.ext[r]>=thr) keep[r]=1;
+  const out=new Uint8Array(N);
+  for (let i=0;i<N;i++) if (cc.lab[i] && keep[cc.lab[i]]) out[i]=delta[i];
+  return out;
+}
+onmessage=e=>{
+  const {dD, lD, hl, W, H, thr, sg}=e.data;
   postMessage({p:0.1});
-  const a=detailFilter(dD,W,H,thr);
-  postMessage({p:0.55});
-  // a sheen patch and its shine core are one detail
-  const cm=new Uint8Array(N);
-  for (let i=0;i<N;i++){ const v=lD[i]+hl[i]; cm[i]=v>255?255:v; }
-  const kmap=detailFilter(cm,W,H,thr);
-  const b=new Uint8Array(N), c=new Uint8Array(N);
-  for (let i=0;i<N;i++) if (kmap[i]){ b[i]=lD[i]; c[i]=hl[i]; }
+  const a=levelFilter(dD,W,H,thr,sg);
+  postMessage({p:0.5});
+  const b=levelFilter(lD,W,H,thr,sg);
+  postMessage({p:0.85});
+  const c=shapeFilter(hl,W,H,thr,2);
   postMessage({dD:a, lD:b, hl:c},[a.buffer, b.buffer, c.buffer]);
 };
 `;
