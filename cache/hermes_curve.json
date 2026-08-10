@@ -306,5 +306,12 @@
   "cash": 664.56,
   "n_deals": 6,
   "note": "Zeus hourly pass ~10:10-10:20 ET Fri 2026-08-07. TEND: 6/6 deals marked live, missing_marks==[], 0 break-stops, 0 past expected close. RECONCILE CLEAN \u2014 hermes_reconcile()==[] and broker==sleeve exact on all six (ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138); no pending Hermes orders. SOURCING: fresh 120d sweep (2026-04-09\u219208-07), 121 announced-deal targets (74 ticker-resolved). CIK-keyed diff vs the 08-06 universe (pulled from origin/claude/live, not the symbol diff \u2014 59 symbol-'unseen' rows were ticker artifacts) = exactly 2 NEW deals, both READ at Opus/high and both DROPPED: (1) FBRX Forte Biosciences \u2014 argenx BV/Avena Merger Sub all-cash tender $77.00/sh, SC 14D9 08-06, DGCL 251(h), expires 2026-08-26, NO CVR, NO financing condition, only HSR, $65M break fee. Break risk LOW but spread SPENT at +0.21% vs the 1% MIN_SPREAD (20 days for 21bp) \u2014 dropped on economics, the NUVL/AVNS/KORE precedent. (2) BBCQ Bleichroeder Acquisition Corp. II \u2014 OUT OF SCOPE de-SPAC (DEFM14A alongside F-4/A + 425 + 424B3: share consideration, no cash terminal); FGMC precedent. ZERO new entries, ZERO orders. sweep_unresolved: 0 due (all 33 unresolved have expected_close >= today). LLM-lift on 108 graded: Arm A +1.22% (n=3) vs Arm B -1.13% (n=108) = +2.35pp \u2014 Arm A still only 3 of the ~20-deal checkpoint. Sleeve cash $664.56; live broker buying power $1,883.72 (shared pool) \u2014 untouched."
+ },
+ {
+  "date": "2026-08-10",
+  "equity": 4030.6,
+  "spy": 773.95,
+  "cash": 664.56,
+  "note": "Zeus hourly pass ~10:12 ET Mon 2026-08-10. Reconcile CLEAN (hermes_reconcile==[] ; broker==sleeve exact on all six: ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138). No break-stops, no completions, no past-close deals. Sourcing sweep ran (118 announced-deal targets, 73 ticker-resolved, 120d window): ZERO genuinely new deals \u2014 the 56 rows absent from the A/B are alternate share classes (BBCQW/HSCSW/GRTXD/MDV-PA/EQH-PC/WBS-PG/VAL-WT/TWOD/CRBD) or unresolved-symbol duplicates of already-detected deals. No LLM read needed, no entries. sweep_unresolved: 0 swept (all past-close detections already graded; no unpriced stragglers). LLM-lift +2.35pp expectancy (Arm A n=3 +1.22% vs Arm B n=108 -1.13%) \u2014 directionally positive but Arm A is far too thin to read. Cash $664.56 idle, no qualifying candidate."
  }
 ]
