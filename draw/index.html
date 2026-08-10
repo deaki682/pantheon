@@ -27,7 +27,7 @@ body{position:fixed;inset:0}
 .screen{position:absolute;inset:0;display:none;flex-direction:column}
 .screen.on{display:flex}
 button,select,input{font:inherit;padding:8px 12px;border:1px solid #555;
-  background:#1e1e1e;color:#e8e6e1}
+  background:#1e1e1e;color:#e8e6e1;border-radius:8px}
 button:disabled{opacity:.4}
 .row{display:flex;gap:8px;align-items:center;padding:8px;flex-wrap:wrap}
 .grow{flex:1}
@@ -40,7 +40,8 @@ button:disabled{opacity:.4}
 #gallery{flex:1;min-height:0;overflow-y:auto;touch-action:pan-y;padding:8px;
   display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
   gap:8px;align-content:start}
-.gitem{border:1px solid #555;background:#1e1e1e;padding:4px;cursor:pointer}
+.gitem{border:1px solid #555;background:#1e1e1e;padding:4px;cursor:pointer;
+  border-radius:10px;overflow:hidden}
 .gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
 .gbar{height:4px;background:#333;margin-top:4px;visibility:hidden}
 .gitem.busy .gbar{visibility:visible}
@@ -66,12 +67,18 @@ button:disabled{opacity:.4}
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
   display:flex;flex-direction:column;align-items:flex-start;gap:6px;
   max-width:calc(100% - 16px)}
-#hud{border:1px solid #555;background:#161616}
-#hudToggle{width:44px;height:44px;padding:0;font-size:18px;line-height:1}
+#hud{border:1px solid #555;background:#161616;border-radius:12px}
+#hudToggle{width:44px;height:44px;padding:0;font-size:18px;line-height:1;border-radius:12px}
 #camCorner{position:absolute;right:calc(8px + env(safe-area-inset-right));
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
-#compareBtn{width:44px;height:44px;padding:0;line-height:1;
+#compareBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
+/* the hint floats as a pill over the image instead of crowding the buttons */
+#cmpHint{position:absolute;top:calc(10px + env(safe-area-inset-top));
+  left:50%;transform:translateX(-50%);z-index:7;pointer-events:none;
+  background:rgba(16,16,16,0.78);color:#e8e6e1;padding:6px 14px;
+  border-radius:999px;font-size:12px;max-width:88%;text-align:center}
+#cmpHint:empty{display:none}
 #stat{padding:4px 8px;font-size:12px;min-height:22px}
 .fsBtn{min-width:40px}
 </style>
@@ -87,10 +94,12 @@ button:disabled{opacity:.4}
 
 <!-- 1: upload -->
 <div class="screen on" id="scrUpload">
-  <div class="row"><span>Reference photo</span><span class="grow"></span>
-    <button class="fsBtn" title="Fullscreen">&#x26F6;</button></div>
-  <div class="row"><input type="file" id="file" accept="image/*"></div>
-  <div class="row"><span id="upStat"></span></div>
+  <div class="row">
+    <button id="newPhoto">+ New reference</button>
+    <span id="upStat" class="grow" style="font-size:12px;opacity:0.7"></span>
+    <button class="fsBtn" title="Fullscreen">&#x26F6;</button>
+  </div>
+  <input type="file" id="file" accept="image/*" hidden>
   <div id="gallery"></div>
 </div>
 
@@ -113,7 +122,7 @@ button:disabled{opacity:.4}
   </div>
   <div id="fmtPrev"><canvas id="fmtCanvas"></canvas></div>
   <div class="row">
-    <span>true size &mdash; match this box to a real 1" with a ruler:</span>
+    <span>1" &mdash; match a ruler:</span>
     <div id="calBox"></div>
     <input type="range" id="calSlide" min="60" max="220" value="100">
   </div>
@@ -170,6 +179,7 @@ button:disabled{opacity:.4}
   <div id="cmpView"><canvas id="cmpCv"></canvas>
     <video id="camVid" playsinline autoplay muted></video>
     <canvas id="camGhost"></canvas>
+    <span id="cmpHint"></span>
     <button id="shutter" title="Capture"></button></div>
   <div class="row" id="lvRow" style="display:none">
     <button id="setB">Set black</button>
@@ -189,7 +199,7 @@ button:disabled{opacity:.4}
     <button id="cmpSplit" disabled>Side by side</button>
     <button id="lvBtn" disabled>Adjust</button>
     <button id="cmpCorn" disabled>Corners</button>
-    <span id="cmpHint" class="grow"></span>
+    <span class="grow"></span>
     <button id="cmpBack">Back</button>
   </div>
 </div>
@@ -1211,6 +1221,7 @@ $('file').addEventListener('change', async e => {
   openPhoto(f, gid);
 });
 renderGallery();
+$('newPhoto').onclick = () => $('file').click();
 
 
 function ratioOf(){
@@ -2328,7 +2339,8 @@ function cmpButtons(){
   lb.style.display = (CMP.mode==='corners'||inPick) ? 'none' : '';
   lb.disabled = !CMP.img;
   lb.textContent = CMP.lvOpen ? 'Done' : 'Adjust';
-  cn.style.display = (CMP.mode==='corners'||inPick) ? 'none' : '';
+  // Corners only matters for imported photos; framed captures are the crop
+  cn.style.display = (CMP.mode==='corners'||inPick||CMP.framed) ? 'none' : '';
   cn.disabled = !CMP.raw;
   sp.style.display = (CMP.mode==='corners'||inPick) ? 'none' : '';
   sp.disabled = !CMP.img;
@@ -2384,7 +2396,7 @@ function cmpRender(){
     }
     const v=pickSample();
     hint=(p2.kind==='black' ? 'darkest charcoal' : 'paper white')
-        + (v!=null ? ' - reads '+v : '') + ' - drag the ring, then Set';
+        + (v!=null ? ' - reads '+v : '');
   } else if (CMP.img && CMP.mode==='split'){
     // side by side, one shared view: gestures on either pane move both
     const pw=cv.width/2, ph=cv.height;
@@ -3348,6 +3360,9 @@ async function camStart(){
     const v=$('camVid'); v.srcObject=st; v.style.display='block';
     $('cmpShoot').style.display='none';
     $('lvRow').style.display='none';
+    $('cmpSplit').style.display='none';
+    $('lvBtn').style.display='none';
+    $('cmpCorn').style.display='none';
     $('shutter').style.display='block';
     $('cmpBack').textContent='Cancel';
     $('cmpFlip').disabled=true; $('cmpCorn').disabled=true;
