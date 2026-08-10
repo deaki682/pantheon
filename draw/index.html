@@ -49,23 +49,18 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
   gap:8px;align-content:end}
 #upRow{justify-content:space-between}
-#accWrap{position:relative}
-#accBtn{width:44px;height:44px;border-radius:12px;background:var(--acc);
-  border:1px solid #555}
-#accMenu{position:absolute;bottom:52px;right:0;display:none;
-  grid-template-columns:repeat(3,44px);gap:8px;background:#1e1e1e;
-  border:1px solid #555;border-radius:14px;padding:8px;z-index:6}
-#accMenu button{width:44px;height:44px;border-radius:10px;border:1px solid #555}
-.gitem{border:1px solid #555;background:#1e1e1e;padding:4px;cursor:pointer;
+.gitem{position:relative;border:1px solid #555;background:#1e1e1e;cursor:pointer;
   border-radius:10px;overflow:hidden}
 .gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
-.gbar{height:4px;background:#333;margin-top:4px;visibility:hidden}
+.gbar{position:absolute;left:0;right:0;bottom:0;height:4px;
+  background:rgba(20,20,20,0.55);visibility:hidden}
 .gitem.busy .gbar{visibility:visible}
-.gfill{height:100%;width:0;background:#e8e6e1}
-#calHold{width:216px;height:216px;flex:none;display:flex;
-  align-items:center;justify-content:center}
-#calBox{width:96px;height:96px;border:1px dashed #888;flex:none}
-#calSlide{flex:1;min-width:80px;padding:0}
+.gfill{height:100%;width:0;background:var(--acc)}
+#gridModal{position:fixed;inset:0;z-index:20;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.6)}
+#gridPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
+  padding:16px;display:flex;flex-direction:column;gap:14px;max-width:92vw}
+#calSlide{width:100%;min-width:80px;padding:0}
 #lvRow input[type=range]{flex:1;min-width:56px;padding:0}
 .adjL{font-size:11px;opacity:0.75;min-width:56px}
 #lastShot{position:absolute;left:calc(10px + env(safe-area-inset-left));
@@ -148,25 +143,25 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   </div>
   <input type="file" id="file" accept="image/*" hidden>
   <div id="gallery"></div>
-  <div class="row" id="calRow" style="display:none">
-    <label>Square
-      <input type="number" id="cellVal" min="0.25" max="60" step="0.25">
-    </label>
-    <select id="cellUnit">
-      <option value="in">inches</option>
-      <option value="cm">cm</option>
-    </select>
-    <span id="calLbl">1&Prime; &mdash; match a ruler:</span>
-    <div id="calHold"><div id="calBox"></div></div>
-    <input type="range" id="calSlide" min="60" max="220" value="100">
+  <div id="gridModal">
+    <div id="gridPanel">
+      <div class="row" style="padding:0">
+        <label>Square
+          <input type="number" id="cellVal" min="0.25" max="60" step="0.25">
+        </label>
+        <select id="cellUnit">
+          <option value="in">inches</option>
+          <option value="cm">cm</option>
+        </select>
+      </div>
+      <span id="calLbl" style="font-size:12px;opacity:0.75"></span>
+      <canvas id="rulerCv"></canvas>
+      <input type="range" id="calSlide" min="60" max="220" value="100">
+    </div>
   </div>
   <div class="row" id="upRow">
     <button id="newPhoto">+ New reference</button>
     <button id="calBtn" title="Grid square size and ruler match">1&Prime; Grid</button>
-    <div id="accWrap">
-      <div id="accMenu"></div>
-      <button id="accBtn" title="Accent color"></button>
-    </div>
   </div>
 </div>
 
@@ -471,35 +466,12 @@ $('file').addEventListener('change', async e => {
 });
 renderGallery();
 $('newPhoto').onclick = () => $('file').click();
-// the site's accent is the artist's to choose
-{
-  const ACCENTS=['#e8833a','#e0524f','#e0b13a','#6aa84f','#3aa6a0',
-                 '#5a8fd8','#9b6bd8','#d86bb0','#e8e6e1'];
-  const mixBg=hex=>{
-    const n=parseInt(hex.slice(1),16);
-    const m=v=>Math.round(v*0.24+26*0.76);
-    return 'rgb('+m((n>>16)&255)+','+m((n>>8)&255)+','+m(n&255)+')';
-  };
-  const apply=c=>{
-    document.documentElement.style.setProperty('--acc', c);
-    document.documentElement.style.setProperty('--accBg', mixBg(c));
-    try{ localStorage.setItem('accent', c); }catch(e){}
-  };
-  let saved='#e8833a';
-  try{ const v=localStorage.getItem('accent'); if (v && /^#[0-9a-f]{6}$/i.test(v)) saved=v; }catch(e){}
-  apply(saved);
-  const menu=$('accMenu');
-  for (const c of ACCENTS){
-    const b=document.createElement('button');
-    b.style.background=c; b.title=c;
-    b.onclick=()=>{ apply(c); menu.style.display='none'; };
-    menu.appendChild(b);
-  }
-  $('accBtn').onclick=()=>{ menu.style.display = menu.style.display==='grid' ? 'none' : 'grid'; };
-}
 $('calBtn').onclick = () => {
-  const r=$('calRow');
-  r.style.display = r.style.display==='none' ? '' : 'none';
+  calRefresh();
+  $('gridModal').style.display='flex';
+};
+$('gridModal').onclick = e => {
+  if (e.target===$('gridModal')) $('gridModal').style.display='none';
 };
 
 
@@ -707,18 +679,43 @@ try{ const v=+localStorage.getItem('inchCal'); if (v>=0.6 && v<=2.2) INCAL=v; }c
 function curUnit(){ try{ return localStorage.getItem('unit')==='cm' ? 'cm' : 'in'; }catch(e){ return 'in'; } }
 let calRefresh=()=>{};
 {
-  const bx=$('calBox'), sl=$('calSlide');
+  const sl=$('calSlide');
+  const drawRuler=()=>{
+    // a straight ruler with real inch/cm marks; the slider stretches it
+    // until it lies exactly along a physical ruler
+    const cv=$('rulerCv');
+    const cssW=Math.min(innerWidth*0.78, 320), cssH=56;
+    const dpr=Math.min(3, devicePixelRatio||1);
+    cv.width=Math.round(cssW*dpr); cv.height=Math.round(cssH*dpr);
+    cv.style.width=cssW+'px'; cv.style.height=cssH+'px';
+    const g=cv.getContext('2d');
+    g.clearRect(0,0,cv.width,cv.height);
+    g.strokeStyle='#e8e6e1'; g.fillStyle='#e8e6e1'; g.lineWidth=dpr;
+    const cm=CELLSZ.u==='cm';
+    const unitPx=(cm ? 96/2.54 : 96)*INCAL*dpr;
+    const y=Math.round(8*dpr)+0.5;
+    g.beginPath(); g.moveTo(0,y); g.lineTo(cv.width,y); g.stroke();
+    g.font=(11*dpr)+'px system-ui'; g.textAlign='center';
+    for (let i=0; i*unitPx<=cv.width; i++){
+      const x=Math.round(i*unitPx)+0.5;
+      g.beginPath(); g.moveTo(x,y); g.lineTo(x,y+24*dpr); g.stroke();
+      if (i>0) g.fillText(''+i, x, y+38*dpr);
+    }
+    const subs=cm ? [[0.5,14]] : [[0.25,9],[0.5,16],[0.75,9]];
+    for (let i=0; i*unitPx<=cv.width; i++)
+      for (const [f,len] of subs){
+        const x=Math.round((i+f)*unitPx)+0.5;
+        if (x>cv.width) continue;
+        g.beginPath(); g.moveTo(x,y); g.lineTo(x,y+len*dpr); g.stroke();
+      }
+  };
   const showCal=()=>{
-    // the dashed box IS one grid square at life size (a huge square falls
-    // back to a plain 1in / 5cm ruler target)
-    let ci=cellIn(), lbl=cellLabel();
-    if (ci>2.2){ ci = CELLSZ.u==='cm' ? 5/2.54 : 1;
-                 lbl = CELLSZ.u==='cm' ? '5 cm' : '1\u2033'; }
-    bx.style.width=bx.style.height=(96*INCAL*ci)+'px';
     sl.value=Math.round(INCAL*100);
-    $('calLbl').textContent=lbl+' \u2014 match a ruler:';
+    $('calLbl').textContent='line the marks up with a real ruler ('
+      +(CELLSZ.u==='cm'?'cm':'inches')+')';
     $('calBtn').textContent=cellLabel()+' Grid';
     $('cellVal').value=CELLSZ.v; $('cellUnit').value=CELLSZ.u;
+    drawRuler();
   };
   calRefresh=showCal;
   showCal();
