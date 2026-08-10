@@ -48,17 +48,9 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
 .gbar{height:4px;background:#333;margin-top:4px;visibility:hidden}
 .gitem.busy .gbar{visibility:visible}
 .gfill{height:100%;width:0;background:#e8e6e1}
-#galEmpty{position:absolute;inset:60px 0 0 0;display:none;flex-direction:column;
-  align-items:center;justify-content:center;gap:10px;color:#8b8a86;cursor:pointer}
-#galEmptyPlus{font-size:44px;border:1px dashed #555;border-radius:16px;
-  width:84px;height:84px;display:flex;align-items:center;justify-content:center}
 #calBox{width:96px;height:96px;border:1px dashed #888;flex:none}
 #calSlide{flex:1;min-width:80px;padding:0}
 #lvRow input[type=range]{flex:1;min-width:56px;padding:0}
-@media (max-width:520px){
-  #lvRow .adjL{flex:1 0 100%;min-width:0;margin-bottom:-6px}
-  #lvRow input[type=range]{flex:1 0 100%}
-}
 .adjL{font-size:11px;opacity:0.75;min-width:56px}
 #lastShot{position:absolute;left:calc(10px + env(safe-area-inset-left));
   bottom:calc(20px + env(safe-area-inset-bottom));z-index:6;display:none;
@@ -93,9 +85,7 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
 #detMenu{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
   display:none;flex-direction:column;gap:6px;background:#1e1e1e;
   border:1px solid #555;border-radius:14px;padding:6px;z-index:6}
-#detMenu button{white-space:nowrap;font-size:13px;border-radius:9px;
-  display:flex;align-items:center;justify-content:flex-start;gap:8px}
-.tdot{display:inline-block;border-radius:50%;background:currentColor;flex:none}
+#detMenu button{white-space:nowrap;font-size:13px;border-radius:9px}
 #gridBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #compareBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
@@ -107,11 +97,6 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
   border-radius:999px;font-size:12px;max-width:88%;text-align:center}
 #cmpHint:empty{display:none}
 #stat{padding:4px 8px;font-size:12px;min-height:22px}
-#statPill{position:absolute;top:calc(10px + env(safe-area-inset-top));
-  left:50%;transform:translateX(-50%);z-index:7;pointer-events:none;
-  background:rgba(16,16,16,0.78);color:#e8e6e1;padding:6px 14px;
-  border-radius:999px;font-size:12px;max-width:88%;text-align:center}
-#statPill:empty{display:none}
 .fsBtn{min-width:40px}
 </style>
 </head>
@@ -133,8 +118,6 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
   </div>
   <input type="file" id="file" accept="image/*" hidden>
   <div id="gallery"></div>
-  <div id="galEmpty"><span id="galEmptyPlus">+</span><span>Add a reference photo to begin</span></div>
-  <script>document.currentScript.previousElementSibling.onclick=()=>document.getElementById('file').click();</script>
 </div>
 
 <!-- 2: format -->
@@ -142,7 +125,7 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
   <div class="row">
     <label>Aspect
       <select id="aspect">
-        <option value="photo">match photo</option>
+        <option value="photo">photo's own</option>
         <option value="2:3">2:3</option>
         <option value="3:4">3:4</option>
         <option value="4:5">4:5</option>
@@ -156,15 +139,13 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
   </div>
   <div id="fmtPrev"><canvas id="fmtCanvas"></canvas></div>
   <div class="row">
-    <span style="font-size:12px;opacity:.85;max-width:150px">Match this box to
-      1&quot; on a ruler &mdash; full zoom then shows the drawing at real size</span>
+    <span>1" &mdash; match a ruler:</span>
     <div id="calBox"></div>
     <input type="range" id="calSlide" min="60" max="220" value="100">
   </div>
   <div class="row">
     <button id="fmtBack">Back</button>
-    <span class="grow" style="font-size:11px;opacity:.55;text-align:right;
-      padding-right:10px">format is set once per photo</span>
+    <span class="grow"></span>
     <button id="fmtGo">Continue</button>
   </div>
 </div>
@@ -178,7 +159,6 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
       <canvas id="gridCv" style="mix-blend-mode:difference"></canvas>
     </div>
   </div>
-  <span id="statPill"></span>
   <div id="hudWrap">
     <div id="hud">
       <div id="stat"></div>
@@ -195,9 +175,9 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
   </div>
   <div id="detCorner">
     <div id="detMenu">
-      <button data-lv="ultra"><span class="tdot" style="width:3px;height:3px"></span>Ultra</button>
-      <button data-lv="hyper"><span class="tdot" style="width:7px;height:7px"></span>Hyper</button>
-      <button data-lv="fine"><span class="tdot" style="width:11px;height:11px"></span>Fine</button>
+      <button data-lv="ultra">Ultra</button>
+      <button data-lv="hyper">Hyper</button>
+      <button data-lv="fine">Fine</button>
     </div>
     <button id="detBtn" title="Detail">Ultra</button>
   </div>
@@ -226,12 +206,12 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
     <div class="row">
       <span class="adjL">blacks</span><input type="range" id="aBl" min="0" max="120" value="0">
       <span class="adjL">whites</span><input type="range" id="aWh" min="150" max="255" value="255">
-      <button id="lvReset">Reset</button>
+      <button id="lvReset">Auto</button>
     </div>
   </div>
   <div class="row">
     <input type="file" id="cmpFile" accept="image/*" hidden>
-    <button id="cmpShoot">Retake</button>
+    <button id="cmpShoot">Photo</button>
     <button id="cmpFlip" disabled>Flip view</button>
     <button id="cmpSplit" disabled>Side by side</button>
     <button id="lvBtn" disabled>Adjust</button>
@@ -329,14 +309,6 @@ function gdb(){ return _gdb ||= new Promise((res,rej)=>{
 async function galAll(){ try{ const d=await gdb(); return await new Promise(res=>{
   const t=d.transaction('photos').objectStore('photos').getAll();
   t.onsuccess=()=>res(t.result||[]); t.onerror=()=>res([]); }); }catch(e){ return []; } }
-async function galDel(id){ try{ const d=await gdb(); await new Promise(res=>{
-  const t=d.transaction('photos','readwrite').objectStore('photos').delete(id);
-  t.onsuccess=res; t.onerror=res; });
-  if (galActive===id) galActive=null; }catch(e){} }
-async function galTouch(id){ try{ const d=await gdb();
-  const st=d.transaction('photos','readwrite').objectStore('photos');
-  const q=st.get(id);
-  q.onsuccess=()=>{ const r=q.result; if (r){ r.last=Date.now(); st.put(r); } }; }catch(e){} }
 async function galAdd(rec){ try{ const d=await gdb(); return await new Promise(res=>{
   const t=d.transaction('photos','readwrite').objectStore('photos').add(rec);
   t.onsuccess=()=>res(t.result); t.onerror=()=>res(null); }); }catch(e){ return null; } }
@@ -364,8 +336,7 @@ async function thumbOf(blob){
 
 async function renderGallery(){
   const host = $('gallery'); if (!host) return;
-  const recs = (await galAll()).sort((a,b)=>(b.last||b.ts)-(a.last||a.ts));
-  $('galEmpty').style.display = recs.length ? 'none' : 'flex';
+  const recs = (await galAll()).sort((a,b)=>b.ts-a.ts);
   host.innerHTML = '';
   for (const r of recs){
     const d = document.createElement('div'); d.className='gitem'; d.dataset.gid = r.id;
@@ -373,18 +344,7 @@ async function renderGallery(){
     const bar = document.createElement('div'); bar.className='gbar';
     bar.appendChild(Object.assign(document.createElement('div'),{className:'gfill'}));
     d.appendChild(im); d.appendChild(bar);
-    let lpT=null, lpFired=false;
-    d.addEventListener('pointerdown', ()=>{
-      lpFired=false;
-      lpT=setTimeout(()=>{ lpFired=true;
-        if (confirm('Remove this photo from the gallery?'))
-          galDel(r.id).then(renderGallery);
-      }, 650);
-    });
-    for (const ev of ['pointerup','pointerleave','pointermove'])
-      d.addEventListener(ev, ()=>clearTimeout(lpT));
     d.onclick = () => {
-      if (lpFired) return;                    // the long press already acted
       if (galActive === r.id && photo){       // already open: jump back in
         show(GRID_READY ? 'scrMain' : 'scrFormat'); return;
       }
@@ -411,7 +371,6 @@ setInterval(()=>{
 
 function openPhoto(blob, gid){
   galActive = gid ?? null; galLoading = 0.15;
-  if (gid != null) galTouch(gid);
   $('upStat').textContent = '...';
   const img = new Image();
   img.onload = () => {
@@ -496,13 +455,11 @@ function fmtPreview(){
   const g = cv.getContext('2d');
   g.imageSmoothingQuality='high';
   g.drawImage(photo, cr.x, cr.y, cr.w, cr.h, 0, 0, cv.width, cv.height);
-  g.globalCompositeOperation='difference';   // grid reads on any tone
-  g.strokeStyle='rgba(255,255,255,0.55)'; g.lineWidth=1;
+  g.strokeStyle='rgba(255,255,255,0.7)'; g.lineWidth=1;
   for (let c=1;c<cols;c++){ const x=Math.round(c*cv.width/cols)+0.5;
     g.beginPath(); g.moveTo(x,0); g.lineTo(x,cv.height); g.stroke(); }
   for (let r=1;r<rows;r++){ const y=Math.round(r*cv.height/rows)+0.5;
     g.beginPath(); g.moveTo(0,y); g.lineTo(cv.width,y); g.stroke(); }
-  g.globalCompositeOperation='source-over';
   $('fmtInfo').textContent = `${cols} x ${rows} in - ${cols*rows} squares`;
 }
 $('aspect').onchange = ()=>{ fmtPreview(); speculate(); };
@@ -528,17 +485,6 @@ async function enterMain(){
   show('scrMain');       // show first: fit-to-viewport needs a real rect
   await applyFormat();   // usually already done - Continue costs nothing
   initMain();
-  try{
-    if (!localStorage.getItem('hinted')){
-      localStorage.setItem('hinted','1');
-      const h1='pinch to zoom - full zoom is life size';
-      const h2='the camera button compares your drawing to the reference';
-      setTimeout(()=>{ if (!$('stat').textContent) stat(h1); }, 800);
-      setTimeout(()=>{ if ($('stat').textContent===h1) stat(''); }, 4800);
-      setTimeout(()=>{ if (!$('stat').textContent) stat(h2); }, 5400);
-      setTimeout(()=>{ if ($('stat').textContent===h2) stat(''); }, 9400);
-    }
-  }catch(e){}
 }
 $('fmtGo').onclick = () => {
   // remember this photo's format so the gallery can skip straight in next time
@@ -618,38 +564,28 @@ function initMain(){
   for (const id of ['refImg','gridCv']){
     const cv=$(id); cv.width=w; cv.height=h;
   }
-  // open panel = the layer workshop (bare shading, nothing selected);
-  // closed = the full image. Applied before the first paint.
-  LAYERS.dk=LAYERS.lt=LAYERS.hl=$('hud').style.display==='none';
-  layerButtons();
   paintWorld();
   const vp = $('viewport').getBoundingClientRect();
   view.s = Math.max(0.05, Math.min(vp.width/w, vp.height/h) || 0.05);
   view.x = (vp.width - w*view.s)/2; view.y = (vp.height - h*view.s)/2;
   applyView();
   GRID_READY = true;
+  LAYERS.dk=LAYERS.lt=LAYERS.hl=true; layerButtons();
   DETAIL='ultra'; $('detBtn').textContent='Ultra';
   $('detMenu').style.display='none';
   stat('');
 }
-function stat(t){
-  // the panel can be collapsed, so progress also floats over the drawing
-  $('stat').textContent = t;
-  $('stat').style.display = t ? '' : 'none';
-  $('statPill').textContent = t;
-}
+function stat(t){ $('stat').textContent = t; }
 
 
 
 const ptrs = new Map();
-let pinch0 = null, mainTap = null, mainLastTap = 0;
+let pinch0 = null;
 const vp = $('viewport');
 vp.addEventListener('pointermove', touchAct);
 vp.addEventListener('pointerdown', e => { touchAct();
   vp.setPointerCapture(e.pointerId);
   ptrs.set(e.pointerId, {x:e.clientX, y:e.clientY});
-  if (ptrs.size===1) mainTap={t:Date.now(), moved:false};
-  else mainTap=null;
   if (ptrs.size===2){
     const [a,b]=[...ptrs.values()];
     pinch0 = { d:Math.hypot(a.x-b.x,a.y-b.y), s:view.s,
@@ -659,10 +595,7 @@ vp.addEventListener('pointerdown', e => { touchAct();
 vp.addEventListener('pointermove', e => {
   const p = ptrs.get(e.pointerId); if (!p) return;
   const dx=e.clientX-p.x, dy=e.clientY-p.y;
-  if (ptrs.size===1){
-    if (mainTap && Math.hypot(dx,dy)>6) mainTap.moved=true;
-    view.x+=dx; view.y+=dy; applyView();
-  }
+  if (ptrs.size===1){ view.x+=dx; view.y+=dy; applyView(); }
   p.x=e.clientX; p.y=e.clientY;
   if (ptrs.size===2 && pinch0){
     const [a,b]=[...ptrs.values()];
@@ -680,18 +613,6 @@ vp.addEventListener('pointermove', e => {
 function endPtr(e){
   ptrs.delete(e.pointerId);
   if (ptrs.size<2) pinch0=null;
-  if (ptrs.size===0 && mainTap && !mainTap.moved && Date.now()-mainTap.t<350){
-    if (Date.now()-mainLastTap<350){
-      // double tap: all the way back out
-      const {w,h}=worldSize();
-      const r=vp.getBoundingClientRect();
-      view.s=Math.max(0.05, Math.min(r.width/w, r.height/h) || 0.05);
-      view.x=(r.width-w*view.s)/2; view.y=(r.height-h*view.s)/2;
-      applyView();
-      mainLastTap=0;
-    } else mainLastTap=Date.now();
-  }
-  if (ptrs.size===0) mainTap=null;
 }
 vp.addEventListener('pointerup', endPtr);
 vp.addEventListener('pointercancel', endPtr);
@@ -995,10 +916,8 @@ $('detBtn').onclick=()=>{
   const m=$('detMenu');
   const show=m.style.display!=='flex';
   m.style.display=show?'flex':'none';
-  if (show){
-    if ($('hud').style.display!=='none' && window.setHud) setHud(false);
+  if (show)
     [...m.children].forEach(b=>b.classList.toggle('vOn', b.dataset.lv===DETAIL));
-  }
 };
 for (const b of $('detMenu').children){
   b.onclick=()=>{
@@ -1380,9 +1299,9 @@ function cmpButtons(){
   lb.style.display = CMP.mode==='corners' ? 'none' : '';
   lb.disabled = !CMP.img;
   lb.textContent = CMP.lvOpen ? 'Done' : 'Adjust';
-  cn.style.display = '';
+  cn.style.display = CMP.mode==='corners' ? 'none' : '';
   cn.disabled = !CMP.raw;
-  cn.textContent = CMP.mode==='corners' ? 'Cancel' : 'Crop';
+  cn.textContent = 'Crop';
   sp.style.display = CMP.mode==='corners' ? 'none' : '';
   sp.disabled = !CMP.img;
   sp.textContent = CMP.mode==='split' ? 'Flip view' : 'Side by side';
@@ -1427,32 +1346,28 @@ function cmpRender(){
     else { drawPhoto(); hint='your drawing - tap to flip'; }
   } else if (CMP.img && CMP.mode==='split'){
     // side by side, one shared view: gestures on either pane move both
-    const vert=false;              // side by side always, by request
-    const pw=vert?cv.width:cv.width/2, ph=vert?cv.height/2:cv.height;
+    const pw=cv.width/2, ph=cv.height;
     const {w,h}=worldSize();
     const bs=Math.min(pw/w, ph/h), bx=(pw-w*bs)/2, by=(ph-h*bs)/2;
+    const f=CMP.fit;
     const panes=[
-      { ox:0, oy:0, label:'drawing', draw:g2=>{  // the photo IS the sheet: 1:1
+      { ox:0, label:'drawing', draw:g2=>{        // the photo IS the sheet: 1:1
           g2.drawImage(CMP.img, 0, 0, w, h); } },
-      { ox:vert?0:pw, oy:vert?ph:0, label:'reference',
-        draw:g2=>{ g2.drawImage($('refImg'), 0, 0, w, h); } }
+      { ox:pw, label:'reference', draw:g2=>{ g2.drawImage($('refImg'), 0, 0, w, h); } }
     ];
     for (const pn of panes){
       g.save();
-      g.beginPath(); g.rect(pn.ox,pn.oy,pw,ph); g.clip();
-      g.translate(pn.ox,pn.oy);
+      g.beginPath(); g.rect(pn.ox,0,pw,ph); g.clip();
+      g.translate(pn.ox,0);
       g.translate(SPL.x,SPL.y); g.scale(SPL.s,SPL.s);
       g.translate(bx,by); g.scale(bs,bs);
       pn.draw(g);
       g.restore();
       g.fillStyle='rgba(232,230,225,0.8)'; g.font='11px system-ui';
-      g.fillText(pn.label, pn.ox+8, pn.oy+16);
+      g.fillText(pn.label, pn.ox+8, 16);
     }
     g.strokeStyle='#555'; g.lineWidth=2;
-    g.beginPath();
-    if (vert){ g.moveTo(0,ph); g.lineTo(cv.width,ph); }
-    else { g.moveTo(pw,0); g.lineTo(pw,ph); }
-    g.stroke();
+    g.beginPath(); g.moveTo(pw,0); g.lineTo(pw,ph); g.stroke();
     hint='side by side - both move together';
   }
   $('cmpHint').textContent=hint;
@@ -1460,9 +1375,7 @@ function cmpRender(){
 }
 const SPL={x:0,y:0,s:1};
 function clampSplit(){
-  const cv=$('cmpCv');
-  const vert=false;              // side by side always, by request
-  const pw=vert?cv.width:cv.width/2, ph=vert?cv.height/2:cv.height;
+  const cv=$('cmpCv'), pw=cv.width/2, ph=cv.height;
   const {w,h}=worldSize();
   const bs=Math.min(pw/w, ph/h), bx=(pw-w*bs)/2, by=(ph-h*bs)/2;
   SPL.s=Math.max(1, Math.min(16, SPL.s));
@@ -1876,13 +1789,6 @@ $('cmpFlip').onclick = () => {
 };
 $('cmpCorn').onclick = () => {
   if (!CMP.raw) return;
-  if (CMP.mode==='corners'){                 // cancel: leave without applying
-    if (CMP.cornersBak) CMP.corners=CMP.cornersBak.map(q=>({...q}));
-    CMP.mode='flip'; CMP.cGrab=null;
-    cmpRender();
-    return;
-  }
-  CMP.cornersBak=CMP.corners.map(q=>({...q}));
   CMP.mode='corners'; CMP.cGrab=null;
   cmpRender();
 };
@@ -1932,19 +1838,18 @@ $('cmpSplit').onclick = () => {
     }
     if (CMP.mode==='split' && CMP.img){
       // one shared view: a gesture on either pane moves both together
-      const vert=false;              // side by side always, by request
-      const pw=vert?cv.width:cv.width/2, ph2=vert?cv.height/2:cv.height;
+      const pw=cv.width/2;
       if (pts.size===1){
         SPL.x+=dx*kd; SPL.y+=dy*kd; clampSplit(); cmpRender();
       } else if (pts.size===2 && g0){
         const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
         const d=Math.hypot(a.x-b.x,a.y-b.y);
         const mx=((a.x+b.x)/2-r.left)*kd, my=((a.y+b.y)/2-r.top)*kd;
-        const pox=(!vert && g0.mx>=pw)?pw:0, poy=(vert && g0.my>=ph2)?ph2:0;
+        const paneOff=g0.mx>=pw ? pw : 0;
         const k=Math.max(1,Math.min(16,g0.spl.s*d/g0.d))/g0.spl.s;
         SPL.s=g0.spl.s*k;
-        SPL.x=(mx-pox)-((g0.mx-pox)-g0.spl.x)*k;
-        SPL.y=(my-poy)-((g0.my-poy)-g0.spl.y)*k;
+        SPL.x=(mx-paneOff)-((g0.mx-paneOff)-g0.spl.x)*k;
+        SPL.y=my-(g0.my-g0.spl.y)*k;
         clampSplit(); cmpRender();
       }
       return;
@@ -1965,12 +1870,9 @@ $('cmpSplit').onclick = () => {
     if (!CMP.img) return;
     if (CMP.mode==='split'){
       e.preventDefault();
-      const r=cv.getBoundingClientRect(), kd=cv.width/r.width;
-      const vert=false;              // side by side always, by request
-      const pw=vert?cv.width:cv.width/2, ph2=vert?cv.height/2:cv.height;
-      let px=(e.clientX-r.left)*kd, py=(e.clientY-r.top)*kd;
-      if (!vert && px>=pw) px-=pw;        // pane-local zoom point
-      if (vert && py>=ph2) py-=ph2;
+      const r=cv.getBoundingClientRect(), pw=cv.width/2, kd=cv.width/r.width;
+      let px=(e.clientX-r.left)*kd; const py=(e.clientY-r.top)*kd;
+      if (px>=pw) px-=pw;                 // pane-local zoom point
       const k=e.deltaY<0?1.08:1/1.08;
       const ns=Math.max(1,Math.min(16,SPL.s*k)), kk=ns/SPL.s;
       SPL.s=ns;
@@ -1989,17 +1891,11 @@ $('cmpSplit').onclick = () => {
     hud.style.display = o ? '' : 'none';
     tg.textContent = o ? '▾' : '✎';   // open: collapse arrow; closed: pencil
     try { localStorage.setItem('hudOpen', o ? '1' : '0'); } catch(e){}
-    // the open panel is the layer workshop: it starts from the bare
-    // shading with every layer unselected; closing returns the full view
-    LAYERS.dk=LAYERS.lt=LAYERS.hl=!o;
-    layerButtons();
-    if (GRID_READY && state.img) viewRepaint();
   };
   let open = true;
   try { open = localStorage.getItem('hudOpen') !== '0'; } catch(e){}
   set(open);
   tg.onclick = () => set(hud.style.display === 'none');
-  window.setHud = set;
 }
 
 // app shell: fullscreen toggle + installable offline PWA
