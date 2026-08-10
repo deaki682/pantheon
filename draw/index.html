@@ -163,7 +163,6 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
       <div class="row" id="viewRow">
         <button id="vPhoto" class="vBtn">Photo</button>
         <button id="vForm" class="vBtn">Form</button>
-        <button id="vSquint" class="vBtn">Squint</button>
         <span class="grow"></span>
         <button id="gridBtn">Grid</button>
       </div>
@@ -1770,45 +1769,28 @@ const blobToCanvas=async bl=>{
 // ---- viewing options ----------------------------------------------------
 // Photo is the untouched reference. Form re-renders it with shine and
 // texture removed - only the shapes an artist must actually draw remain,
-// every edge left a touch soft. Squint melts detail into value masses.
-// Display only: the engine always plans against the untouched photo.
+// every edge left a touch soft. Display only: the engine always plans
+// against the untouched photo.
 let VIEW='photo';
-try{ const v=localStorage.getItem('refView'); if (v==='form'||v==='squint') VIEW=v; }catch(e){}
+try{ const v=localStorage.getItem('refView'); if (v==='form') VIEW=v; }catch(e){}
 let GRID_ON=true;
 try{ GRID_ON = localStorage.getItem('gridOn')!=='0'; }catch(e){}
 const FORM={cv:null, key:null, busy:null};
-const SQUINT={cv:null, key:null};
 
 function applyGrid(){
   $('gridCv').style.display = GRID_ON ? '' : 'none';
   $('gridBtn').classList.toggle('vOn', GRID_ON);
 }
 function viewButtons(){
-  for (const [id,v] of [['vPhoto','photo'],['vForm','form'],['vSquint','squint']])
+  for (const [id,v] of [['vPhoto','photo'],['vForm','form']])
     $(id).classList.toggle('vOn', VIEW===v);
 }
 function viewSrc(){
-  if (VIEW==='squint' && state.img){
-    if (!(SQUINT.cv && SQUINT.key===CKEY)) buildSquint();
-    return SQUINT.cv;
-  }
   if (VIEW==='form' && state.img){
     if (FORM.cv && FORM.key===CKEY) return FORM.cv;
     ensureForm();                     // async; the photo stands in meanwhile
   }
   return state.img;
-}
-function buildSquint(){
-  const {w,h}=worldSize();
-  const c=document.createElement('canvas'); c.width=w; c.height=h;
-  const g=c.getContext('2d');
-  g.imageSmoothingQuality='high';
-  g.filter='grayscale(1)';            // opaque base so the blur's soft rim has backing
-  g.drawImage(state.img,0,0,w,h);
-  g.filter='grayscale(1) blur('+Math.round(CELL*0.15)+'px)';
-  g.drawImage(state.img,0,0,w,h);
-  g.filter='none';
-  SQUINT.cv=c; SQUINT.key=CKEY;
 }
 function viewRepaint(){
   DIMVIEW=null; paintWorld(); lightKnown();
@@ -1877,7 +1859,6 @@ function setView(v){
 }
 $('vPhoto').onclick=()=>setView('photo');
 $('vForm').onclick=()=>setView('form');
-$('vSquint').onclick=()=>setView('squint');
 $('gridBtn').onclick=()=>{
   GRID_ON=!GRID_ON;
   try{ localStorage.setItem('gridOn', GRID_ON?'1':'0'); }catch(e){}
