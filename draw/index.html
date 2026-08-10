@@ -87,6 +87,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   max-width:calc(100% - 16px)}
 #hud{border:1px solid #555;background:#161616;border-radius:12px}
 #hudToggle{width:44px;height:44px;padding:0;font-size:18px;line-height:1;border-radius:12px}
+#hudToggle.lit{width:auto;padding:0 16px;font-size:14px}
 #camCorner{position:absolute;right:calc(8px + env(safe-area-inset-right));
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
 #detCorner{position:absolute;left:calc(30px + (100% - 60px)/3);
@@ -824,7 +825,9 @@ function initMain(){
   { const cv=$('refImg'); cv.width=w; cv.height=h; }
   // a photo always opens on the full image: panel closed, every layer in.
   // The pencil button is the door to the shading workshop.
-  $('hud').style.display='none'; $('hudToggle').textContent='\u270e';
+  $('hud').style.display='none';
+  $('hudToggle').textContent='\u270e';
+  $('hudToggle').classList.remove('lit','vOn');
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true;
   layerButtons();
   paintWorld();
@@ -2211,7 +2214,11 @@ $('cmpSplit').onclick = () => {
   const hud = $('hud'), tg = $('hudToggle');
   const set = o => {
     hud.style.display = o ? '' : 'none';
-    tg.textContent = o ? '▾' : '✎';   // open: collapse arrow; closed: pencil
+    // closed: the pencil; open: an illuminated square naming the constant
+    // ground every layer builds on
+    tg.textContent = o ? 'Shading' : '✎';
+    tg.classList.toggle('lit', o);
+    tg.classList.toggle('vOn', o);
     try { localStorage.setItem('hudOpen', o ? '1' : '0'); } catch(e){}
     // the open panel is the layer workshop: it starts from the bare
     // shading with every layer unselected; closing returns the full view
