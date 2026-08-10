@@ -1,4 +1,4 @@
-# Proteus v2 — beliefs (rewritten 2026-08-09, session 34: QUIET SUNDAY, ARAY RE-BASE DONE + PROXY TESTS PRE-REGISTERED, ALL WATCHES UNCHANGED)
+# Proteus v2 — beliefs (rewritten 2026-08-10, session 35: WEEK 2 DAY 1 — NO ENTRY AVAILABLE, STIM PRINT TOMORROW IS THE LIVE SHOT)
 
 I am Proteus v2. This file is my mind; whoever reads it next is me. The law
 is `docs/proteus_v2_charter.md` — **charter v2.1, RATIFIED IN FULL** — plus
@@ -12,100 +12,111 @@ moment the evidence says to.
 readings of the first-position deadline PASSED UNMET (strict 8/5, row 131;
 generous 8/6, rows 140–141). The week-1 no-candidates exception is FULLY
 SPENT — it CANNOT fire in week 2 (8/10–8/14): week 2 must produce a lawful
-entry or the miss is a directive BREACH, journaled and pushed as such. (4)
-risk_capital ≥ 20% (~$513) by ~8/18 is AT RISK — flagged in the 8/6 push;
-the first honestly SIZED entry (SITC) lands ~8/31. (5) Real-money grades are
-the deliverable.** The invariant floor stays supreme (the directive says so
-itself); Kelly-negative entries are never manufactured to hit a date.
+entry or the miss is a directive BREACH, journaled and pushed as such.
+Day 1 (Mon 8/10) produced NO lawful entry — register in row 152 (MPAA
+screen-kill; sweep+feed3 empty; STIM/ARAY/SITC are the pre-registered
+shots). (4) risk_capital ≥ 20% (~$513) by ~8/18 is AT RISK — flagged in the
+8/6 push; the first honestly SIZED entry (SITC) lands ~8/31. (5) Real-money
+grades are the deliverable.** The invariant floor stays supreme (the
+directive says so itself); Kelly-negative entries are never manufactured to
+hit a date.
 
-## State (as of session 34, Sun 2026-08-09 ~14:20Z — market closed)
+## State (as of session 35, Mon 2026-08-10 ~14:25Z — MARKET OPEN)
 
 - **Sleeve: VOO 2.534615 sh (basis $1,752.28) + cash $758.98, ALL SETTLED.**
-  Mark 29 (still the Fri 8/7 close tape, re-verified at broker s34: VOO
-  710.57 / SPY 773.20): equity 2560.0055, +2.40% vs contributed, dd −0.29%
-  from 8/5 peak 2567.38. Tier 0, no Title I triggers. realized_pnl +$11.26.
-- Journal: **150 rows.** Curve: 29 marks. Dispositions: **60** (no new —
-  weekend windows empty). Real-money grades: 0.
-- **FOUR open gradable shadows** (all checked vs the 8/7 CLOSE, all tracking):
-  - DOMO (row 85): RIGHT iff no close ≥ 4.60 through 11/30; closed 3.905 →
-    tracking RIGHT. Maturity 12/1 (follow CIK 0001505952 through rename).
-  - STIM (row 130): RIGHT iff no close ≥ 2.98 through 10/5; closed 2.37.
-  - BVS (row 137): decline RIGHT iff no close ≥ 18.12 through 2027-05-06;
-    closed 14.125 (declined $200 at 13.94, p(hit)=0.35).
-  - ONT (row 138): decline RIGHT iff no close ≥ 19.38 through 2027-05-06;
-    closed 16.52 — FADED from Friday's 17.14 intraday (+11% over the 14.91
-    decline tape). Triggers re-checked s33: NOT fired. Hold the line, grade
-    as written (lessons 33/35).
+  Mark 30 (live 14:17Z tape: VOO 711.6299 / SPY 774.14): equity 2562.6919,
+  +2.51% vs contributed, dd −0.18% from 8/5 peak 2567.38. Tier 0, no Title I
+  triggers. realized_pnl +$11.26. brief_due False (day 30; first brief by
+  ~10/11 or 20 counted grades).
+- Journal: **152 rows.** Curve: 30 marks. Dispositions: **61** (+1 MPAA
+  screen-kill, row 151). Real-money grades: 0.
+- **FOUR open gradable shadows** (intraday 8/10 all tracking; grades bind on
+  CLOSES — tonight is the first new close since 8/7):
+  - DOMO (row 85): RIGHT iff no close ≥ 4.60 through 11/30; 3.915 intraday.
+    Maturity 12/1 (follow CIK 0001505952 through rename).
+  - STIM (row 130): RIGHT iff no close ≥ 2.98 through 10/5; 2.115 intraday.
+  - BVS (row 137): RIGHT iff no close ≥ 18.12 through 2027-05-06; 13.96.
+  - ONT (row 138): RIGHT iff no close ≥ 19.38 through 2027-05-06; 15.40 —
+    the Friday 17.14 pop keeps fading toward the 14.91 decline tape.
+    Triggers re-checked s35: NOT fired. Hold the line (lessons 33/35).
 - Art. 16: EQUITY path cleared (row 121). OPTION path never run live —
   first option order ever stages at 1 contract, PROCESS-typed.
-- No code shipped s31/s32 — integrity gate not triggered. Suite last green
-  1943 (s29, commit `25378a3`).
+- No code shipped s33/s34/s35 — integrity gate not triggered. Suite last
+  green 1943 (s29, commit `25378a3`).
 - Wash-sale: none open (VOO sold at a GAIN 8/4); SPY window closes 8/12.
 
-## SESSION-34 FACTS (Sun 8/9, market closed — what happened)
+## SESSION-35 FACTS (Mon 8/10, market open — what happened)
 
-- Reconcile CLEAN (zero account orders since 8/7 14:20Z; broker VOO ==
-  sleeve). No orders placed s34. Full journal note = row 150.
-- **SITC: NO election 8-K** (submissions checked s34; latest = 8/6 13G/A).
-- **ONT triggers NOT fired** (nothing filed since the 8/6 10-Q; submissions
-  checked s34). Shadow holds; no price-chasing (lesson 35).
-- **feed3 day 26/60: 0 raw** in the 8/8–8/9 weekend window. Zero survivors,
-  **27 days running**; verdict ~9/12.
-- **Weekend resolved-event sweep (12 FTS families, 8-Ks dated 8/8–8/9):
-  ZERO hits** — weekend window empty as expected. Monday's 8/8–8/10 window
-  (weekend stragglers dated Monday) is the next real shot.
-- **ARAY RE-BASE DONE (row 150).** Row 126's EV math was ALREADY on the
-  collapsed 0.2851 frame — re-base CONFIRMS it: common $34.0M, +penny
-  warrants $41.2M effective, FD-as-converted $72.4M, FD EV ~$170M. Honest
-  wrinkle: at 0.285 << the $0.50 conversion, preferred is a SENIOR claim
-  ($55M+ growing 8%/yr PIK) → EV ~$194M ≈ 0.48× sales; a double (0.57)
-  crosses conversion so 254M FD binds AT TARGET (EV ~$243M ≈ 0.60× sales).
-  p(double by mid-2027) stays 0.30–0.35 < the 0.40 the shape needs —
-  **Kelly-negative stands.** PRE-REGISTERED proxy tests: see WEEK 2 item 3.
+- Reconcile CLEAN (zero account orders since 8/9 14:12Z; broker VOO ==
+  sleeve). No orders s35. Full session note = row 152.
+- **SITC: NO election 8-K** (submissions 14:2xZ; latest = 8/6 13G/A; tape
+  3.056, drifting down from 3.15).
+- **STIM −11% pre-print to 2.115 on NO new filing** (latest = 8/4 13D/A,
+  already read s30) — tape drift, not news; no branch fired early. Print
+  Tue 8/11 AM; TOMORROW'S SESSION JUDGES IT vs row 131 AS WRITTEN (staged
+  thresholds in row 152 and below).
+- **ONT triggers NOT fired** (nothing since the 8/6 10-Q; checked s35).
+- **feed3 day 28/60: 1 raw hit (MPAA), killed at screen** — an earnings PR
+  referencing a HEALTHY PNC revolver renewal to Aug 2031 (lesson-18
+  boilerplate class: earnings-release credit-facility references). ZERO
+  SURVIVORS, 28 days running; verdict ~9/12.
+- **12-family resolved-event sweep 8/8–8/10: 0 unique hits across ALL
+  families.** Honest window note (lesson 13): a ~10:30 ET Monday sweep
+  structurally under-covers Monday — filings post through the day and FTS
+  indexing lags. **Tuesday's sweep MUST re-cover 8/10 (window 8/10–8/11)**
+  or the weekend-straggler shot was theater.
 - Hermes closed[] unchanged (TMHC 7/24; 6 open deals intact). No art. 20c
-  collisions. Shadow tape checks: no new tape possible (market closed;
-  typed no-new-data shortcut, row 150) — all four stand as of the 8/7 close.
+  collisions.
+- **REPO ANOMALY (row 152): origin/main was FORCE-PUSHED** from f178a0a
+  (132-commit pantheon lineage) to 6b86732, an unrelated-root 50-commit
+  lineage carrying the operator's draw/ app. Pantheon TREE content at the
+  tip is identical (diff = draw/ additions only) but main's history
+  (proteus: commits, the 8/4 directive commit) is unreachable from main.
+  Lineage preserved on origin/claude/literary-gift-shops-outreach-vtkgxs
+  and origin/claude/macrobiome-latest-edit-ptvxdo; **state vault
+  origin/claude/live INTACT** (verified). Operator notified s35. Not mine
+  to rewrite main; if shipping code while main is the draw lineage, commit
+  the pantheon files onto the current main tip (tree is complete there).
 
-## WEEK 2 (8/10–8/14) — THE MUST-DELIVER WEEK (board unchanged)
+## WEEK 2 (8/10–8/14) — THE MUST-DELIVER WEEK (day 1 spent, 4 left)
 
-1. **Mon 8/10:** SITC submissions check (early 8-K converts week 2
-   instantly). ONT typed-trigger glance (13D watch). Fresh feed3 + 8-K
-   sweep windows (Mon covers the weekend's filings — often the richest).
-2. **Tue 8/11: STIM post-print — judge against row 131, nothing else:**
-   enter ONLY on (a) gap DOWN ≥15% on a headline going-concern repeat with
-   revenue ~$36M-on-guide and CFO on-guide (negative overreaction → p ≥ 0.62
-   plausible → counted probe $100–250), or (b) Amendment 6 lands with
-   on-guide numbers at ≤ ~2.60. Genuinely bad print (revenue miss + CFO
-   deterioration) → thesis dead, walk (lesson 23). The +6% pre-print drift
-   makes branch (a) LESS likely — do not stretch the frame to force it.
+1. **Tue 8/11 — STIM post-print — judge against row 131, nothing else**
+   (staged in row 152): enter ONLY on (a) post-print tape ≤ 0.85 × MONDAY
+   8/10 CLOSE (read the official close tomorrow; at 2.115 intraday that is
+   ~≤1.80) AND headline going-concern repeat AND revenue ~$36M on-guide AND
+   CFO on-guide → negative overreaction, p ≥ 0.62 plausible → counted probe
+   $100–250; or (b) Amendment 6 lands with on-guide numbers at tape
+   ≤ ~2.60 — today's −11% means the PRICE gate is already inside 2.60; the
+   binding gates tomorrow are the DOCUMENT gates (Amendment 6 actually
+   filed, numbers on-guide). Genuinely bad print (revenue miss + CFO
+   deterioration) → thesis dead, walk (lesson 23). Monday's pre-print slide
+   does NOT count toward the post-print gap. If entering: art. 26a
+   spendable arithmetic FIRST (re-read live BP), full entry schema, probe
+   size, staged-path rules n/a (equity path cleared row 121).
+2. **Tue 8/11 sweep: window 8/10–8/11** (re-cover Monday per above) +
+   feed3 + SITC submissions + ONT typed-trigger glance.
 3. **Wed–Thu: ARAY proxy ~8/13 re-look — judge against row 150's
-   PRE-REGISTERED tests, nothing else** (decided before the document, so
-   the read cannot be argued into a stretch). Converts to an entry
-   candidate ONLY if: **(i)** the proxy improves common's claims stack
-   ≥ ~25% vs the 8-K exhibits (warrant cancellation/reduction, preferred
-   conversion repriced UP, surviving debt < ~$105M, or cash materially
-   above ~$42M), OR **(ii)** a dislocation prints ≤ ~0.20 with terms
-   unchanged (at 0.20 the 0.40 double-target sits below the 0.50
-   conversion → 144.4M count; p ~0.40–0.45 at b=2.0 clears quarter-Kelly
-   for a ~$130–220 counted probe; p < 0.42 → still walk). Terms-as-filed
-   at tape ≥ ~0.25 = confirm the decline, no entry, no new shadow (no
-   divergence view — the decline IS the view). Reverse split before
-   2/1/27 = mechanics, never a trigger. Split-verify + re-base both DONE
-   (s33/s34).
+   PRE-REGISTERED tests, nothing else** (decided before the document):
+   converts to an entry candidate ONLY if (i) the proxy improves common's
+   claims stack ≥ ~25% vs the 8-K exhibits (warrant cancellation/reduction,
+   preferred conversion repriced UP, surviving debt < ~$105M, or cash
+   materially above ~$42M), OR (ii) a dislocation prints ≤ ~0.20 with terms
+   unchanged (p ~0.40–0.45 at b=2.0 clears quarter-Kelly for a ~$130–220
+   counted probe; p < 0.42 → walk). Terms-as-filed at tape ≥ ~0.25 =
+   confirm the decline, no entry, no new shadow. Reverse split = mechanics,
+   never a trigger. Re-base + tests DONE (rows 126/150).
 4. Sweeps stay aimed at RESOLVED events (completed elections, signed
    agreements with dated closes, court rulings, closed tenders) where
-   p ≥ 0.62 is honestly reachable — Friday's day-pass (s32), the
-   Friday-evening window (s33), AND the weekend window (s34) all found
-   nothing; Monday's 8/8–8/10 window (weekend stragglers dated Monday) is
-   the next shot, then the fresh week.
+   p ≥ 0.62 is honestly reachable. Windows swept empty so far: 8/3–8/7
+   (s32), 8/7 evening (s33), 8/8–8/9 (s33/s34), 8/8–8/10 partial (s35).
 
-## THE WEEK-OF-8/31 ANCHOR — SITC (confirmed no election yet, 8/7)
+## THE WEEK-OF-8/31 ANCHOR — SITC (confirmed no election yet, 8/10)
 
 Buy-sell notice delivered 6/29; partner elects by **8/31** (buy our 20% for
-~$32.4M or sell us its 80%). Tape 3.14 flat. Post-election entry: p ~0.75
-shape if partner buys, quarter-Kelly ~$320 — **the first honestly SIZED
-entry on the board.** Watch HARD daily from ~8/25; check submissions EVERY
-session till then (early election converts the week it lands). Options DEAD
+~$32.4M or sell us its 80%). Tape 3.056. Post-election entry: p ~0.75 shape
+if partner buys, quarter-Kelly ~$320 — **the first honestly SIZED entry on
+the board.** Watch HARD daily from ~8/25; check submissions EVERY session
+till then (early election converts the week it lands). Options DEAD
 (gate 5) — equity only. Full workup row 125 (SITC section); lesson 30.
 
 ## THE MEASURED TIER-0 PATTERN (8 full reads — this is now evidence)
@@ -126,27 +137,24 @@ first (lesson 31); spend reads only on shapes that could clear.
 declarations are grinder shapes by construction — batch-kill them at the
 screen, never spend reads.**
 
-## Candidate register (s29–s32; don't re-chase)
+## Candidate register (s29–s35; don't re-chase)
 
 - **Declined/killed with full reads:** GPMT (117), AGEN (118 + 133: avoid
   post-print; re-looks = ~8/29 PIPE resale effectiveness, NEST/UNICORN
-  manuscript WITH a date, 9/10 webcast only if dated economics; tape 7.105
-  8/7, −5% day — the avoid is aging well vs the 8.40 pop), SITC (125; 8/31
-  re-entry), KNOP (125), ARAY (126; ~8/13 proxy re-look against row 150's
-  pre-registered tests — re-base done s34), STIM (130; 8/11 re-look),
-  HCKT (129), **BVS (137: p(sale)~0.55 but
-  Kelly-negative; undated, board dark; watch = any 13D, process 8-K, Q3
-  print ~11/5)**, **ONT (138: typed triggers re-checked 8/7 NOT fired —
-  accumulator 13D / process 8-K / chain ≤25% spread / Q3 on-guide at ≤15;
-  2nd guidance cut = dead)**.
-- **Screen kills 8/6:** INMD (134), ETD (135), GLRE (136). **Screen kills
-  8/7:** CAMP (146), ADIG (147) — FTS boilerplate false positives.
+  manuscript WITH a date, 9/10 webcast only if dated economics), SITC (125;
+  8/31 re-entry), KNOP (125), ARAY (126; ~8/13 proxy re-look vs row 150's
+  pre-registered tests), STIM (130; 8/11 re-look), HCKT (129), **BVS (137:
+  p(sale)~0.55 but Kelly-negative; undated, board dark; watch = any 13D,
+  process 8-K, Q3 print ~11/5)**, **ONT (138: typed triggers checked 8/10
+  NOT fired — accumulator 13D / process 8-K / chain ≤25% spread / Q3
+  on-guide at ≤15; 2nd guidance cut = dead)**.
+- **Screen kills:** INMD (134), ETD (135), GLRE (136) 8/6; CAMP (146),
+  ADIG (147) 8/7 — FTS boilerplate false positives; **MPAA (151) 8/10 —
+  earnings-PR healthy-refi boilerplate.**
 - **Open watches:** TRST (undated), SMHI (Chernett CIK 0002042077 free
   monitor), SEER (Hermes lane).
 - Sweep kill lists: s29 (row 127); s31 (row 139); s32 Friday sweep (row 148
-  — QVC/SNBRQ/VREOF/CURLF/DEFI/DBRG/UWMC/EOSE/BOF/OSTX/NNDM/ATKR/SIGA/
-  CPIX/UEIC/HG/STGW/ARHS/SUPN/INDV batch-killed, no individual effort —
-  not shadow-eligible).
+  — 20-name batch kill, not shadow-eligible).
 
 ## Posture and standing duties
 
@@ -154,59 +162,55 @@ screen, never spend reads.**
   Holding cash into the 8/11–8/13 week-2 candidates (a re-park would be
   round-trip #1 of the rolling month); art. 13b note due ~8/31 if the
   month ends majority-cash.
-- **Kill-spec clocks: feed3 day 26 of 60** (~9/12 verdict). Zero survivors,
-  27 days running.
-- **Recheck dates:** STIM print 8/11 AM; ARAY proxy ~8/13 (split-verified
-  s33; re-base to 0.285 frame); KNOP 8/14 response; ARAY bid-price window
-  ends 2/1/27 (mechanics watch); ONT pill record 8/17 (feed); SITC election
-  watch from ~8/25 HARD (by 8/31; submissions EVERY session NOW); AGEN PIPE
-  resale ~8/29; INMD proposal expiry 9/15 (feed); feed3 verdict ~9/12; STIM
+- **Kill-spec clocks: feed3 day 28 of 60** (~9/12 verdict). Zero survivors,
+  28 days running.
+- **Recheck dates:** STIM print 8/11 AM (TOMORROW — row 131/152 frame);
+  ARAY proxy ~8/13; KNOP 8/14 response; ARAY bid-price window ends 2/1/27
+  (mechanics watch); ONT pill record 8/17 (feed); SITC election watch from
+  ~8/25 HARD (by 8/31; submissions EVERY session NOW); AGEN PIPE resale
+  ~8/29; INMD proposal expiry 9/15 (feed); feed3 verdict ~9/12; STIM
   shadow matures 10/5; GLRE repurchase 10/30 (feed); tax_loss_turn
   EXECUTION October (recipe frozen row 94 — re-read first); BVS Q3 print
   ~11/5; DOMO shadow maturity 12/1; BVS/ONT shadows mature 5/6/27.
-- Art. 20c watch: Hermes ALOT/APGE/RAMP/GBTG/FSEA/OGN (6 open, no breaks
-  8/9 — last closed TMHC 7/24); Oracle KLIC/LXU/PAY/QTWO/TPC/ZVRA; Plutus
+- Art. 20c watch: Hermes ALOT/APGE/RAMP/GBTG/FSEA/OGN (6 open, intact
+  8/10 — last closed TMHC 7/24); Oracle KLIC/LXU/PAY/QTWO/TPC/ZVRA; Plutus
   N50 book (47 names). Deal break → STAND ASIDE (n=48).
 - Art. 26a at every buy: spendable = min(sleeve cash, account settled BP −
-  other gods' idle cash). 8/6 reading: BP $1,883.34 − Hermes $664.56 −
-  Oracle $449.94 ≈ mine $768.84 vs sleeve $758.98 ✓ (~$9.9 slack). Re-read
-  BP live before any week-2 order.
+  other gods' idle cash). Last full reading 8/6: mine ≈ $768.84 vs sleeve
+  $758.98 ✓. **Re-read BP live before any week-2 order.**
 - **First record brief due at 20 counted grades or by 2026-10-11.**
 - Eventfeed store: **32 events.**
 
-## Where MY edge might live (updated 8/7)
+## Where MY edge might live (updated 8/10)
 
-1. **Neglected-corner reads + the shadow book** — 60 dispositions, FOUR
-   live gradable shadows. The reading engine keeps finding real situations;
-   the sizing law channels it. ONT +15% over the decline tape in 24h is the
-   first stress test of lesson 33's design running live — hold the line,
-   grade as written.
+1. **Neglected-corner reads + the shadow book** — 61 dispositions, FOUR
+   live gradable shadows, all tracking RIGHT as of the last close. The
+   reading engine keeps finding real situations; the sizing law channels
+   it. ONT's fade from 17.14 toward the decline tape is lesson 33's design
+   working live.
 2. **Event-dated value with a public fork, entered POST-resolution** —
    SITC 8/31 is the archetype; STIM 8/11 negative-overreaction is the fast
-   variant. Read deep BEFORE the event, size AFTER it resolves. The Friday
-   sweep says these are RARE — a thin week is normal; don't lower the bar.
+   variant (judged TOMORROW). Read deep BEFORE the event, size AFTER it
+   resolves. These are RARE — a thin week is normal; don't lower the bar.
 3. **Structural convexity** supply-starved (feed3 dying ~9/12); chains on
    small-caps keep failing gate 5 at honest cost (ONT re-confirmed 8/7).
 4. Event families measured dead: unchanged (deadlines, ITC, tenders,
    spinoffs, deal-break reversion, PEAD) + settlements/special-divs as
    grinder shapes (8/7). Tax-loss recipe frozen (Oct).
 
-## Plan (next session — Mon 8/10, MARKET HOURS: the must-deliver week opens)
+## Plan (next session — Tue 8/11, MARKET HOURS: STIM print day)
 
-(a) Gates → twin check → reconcile → mark curve with buckets → shadow tape
-checks (DOMO/STIM/BVS/ONT — first NEW tape since 8/7) → Hermes closed[] →
-SITC submissions check → brief_due. (b) feed3 scan (8/8→8/10 window; s34
-swept 8/8–8/9 empty — Monday-dated filings are the new supply). (c) 8-K
-sweep — resolved-event families over 8/10 file dates (8/8–8/9 swept empty
-s34; the 8/7 day-window was fully swept s32+s33). Monday windows are
-historically the richest — this is the week's first real sourcing shot.
-(d) STIM final pre-print stage: re-read row 131 frame, pre-compute the
-branch thresholds against Monday's close, set Tuesday's checklist (revenue
-vs ~$36M, CFO vs guide, Amendment 6, going-concern delta, ATM usage).
-Friday-close basis: branch-(a) ≈ ≤2.01. (e) ARAY: NOTHING to do Monday —
-re-base + tests done (row 150); the ~8/13 proxy is judged against them as
-written. NO forced entries; rows 131/140 are the standing compliance
-frames; week 2 needs a LAWFUL entry, not any entry.
+(a) Gates → twin check → reconcile → mark curve with buckets → shadow CLOSE
+checks (DOMO/STIM/BVS/ONT vs the 8/10 official closes — first new tape
+since 8/7) → Hermes closed[] → SITC submissions → brief_due. (b) **STIM
+print judgment vs row 131/152 AS WRITTEN**: pull the 8-K/PR + any Amendment
+6, read revenue vs ~$36M, CFO vs guide, going-concern language, ATM usage;
+read the official 8/10 close; branch (a)/(b)/walk — if entering, art. 26a
+live BP first, full entry schema, counted probe $100–250. (c) Sweep window
+8/10–8/11 (re-covers Monday — mandatory, row 152) + feed3 + ONT glance.
+(d) ARAY: proxy watch (~8/13); judged only vs row 150's pre-registered
+tests. NO forced entries; rows 131/140 are the standing compliance frames;
+week 2 needs a LAWFUL entry, not any entry.
 
 ## Lessons (cumulative scar tissue — keep ALL of these)
 
@@ -219,7 +223,7 @@ frames; week 2 needs a LAWFUL entry, not any entry.
    always resolve via company_tickers.json, never guess a CIK).
 4. A session that skips reading this file, the charter, and the ledger is
    a dumber god.
-5. Honest kills compound: 60 dispositions + four gradable declines. The
+5. Honest kills compound: 61 dispositions + four gradable declines. The
    record shows the reading working before the wallet.
 6. Verify the record before trusting any summary of it — including mine.
    Counts are computations, never recollections. (s32: my own routine note
@@ -243,7 +247,8 @@ frames; week 2 needs a LAWFUL entry, not any entry.
     of the same file. Pass paths explicitly or pin them with a regression
     test. Dispositions/grades go through `schema.append_record`.
 13. Measure a query's/channel's base rate BEFORE adding or building — at
-    the RIGHT WINDOW.
+    the RIGHT WINDOW. (Corollary s35: a Monday-morning FTS sweep
+    under-covers Monday itself — re-cover the day in Tuesday's window.)
 14. A sample of 3 is an anecdote, not a population.
 15. An event date the market has already dated (kink) OR cannot price at
     all is equally untradable — readable chain AND divergent view, checked
@@ -252,8 +257,9 @@ frames; week 2 needs a LAWFUL entry, not any entry.
 17. Delisted names are invisible to broker historicals — build populations
     from primary documents, resolve as_of via Sharadar.
 18. A query hit is a MECHANISM CLAIM until the document says so (~96%
-    boilerplate; ARAY: READ THE EXHIBITS; CAMP/ADIG 8/7: 'elected to
-    purchase' matched PIPE-reallocation and preemptive-rights boilerplate).
+    boilerplate; ARAY: READ THE EXHIBITS; CAMP/ADIG 8/7: election
+    boilerplate; MPAA 8/10: earnings-PR healthy-refi reference matched a
+    distress query).
 19. Journal corrections are APPENDED, never edited.
 20. A refutation's own table can kill an adjacent idea for free.
 21. Stub/deal math is share-count and cash-mechanics math. Read the
@@ -302,3 +308,10 @@ frames; week 2 needs a LAWFUL entry, not any entry.
     liquidity, prints), never on price alone. Price-chasing a decline is
     how the sizing law dies; the shadow book is where the tape gets its
     vote.
+36. **The repo can move under you between sessions** (8/10: origin/main
+    force-pushed to an unrelated-root lineage carrying the operator's
+    draw/ app; the session container opened on a stale side branch missing
+    my newest code). Before reasoning or building: verify the working tree
+    carries the newest proteus code (`git log` for the latest `proteus:`
+    commit; `git merge-base` before trusting any branch relationship). The
+    record's home is `origin/claude/live`, never main — verify IT first.
