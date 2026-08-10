@@ -779,7 +779,7 @@ function compositeCv(){
 let DETAIL='fine';
 const DET_STEPS=['fine','med','broad'];
 const DET_LABEL={fine:'Fine', med:'Med', broad:'Broad'};
-const DET_SG={med:6, broad:14};     // tool radius in world px (96px = 1in)
+const DET_SG={med:2, broad:5};      // tool radius in world px (96px = 1in)
 const DET={key:null, busy:null, lv:{}};
 async function ensureDetail(lv){
   if (DET.key!==CKEY){ DET.key=CKEY; DET.lv={}; }
@@ -787,8 +787,8 @@ async function ensureDetail(lv){
   DET.busy=lv;
   const {w,h}=worldSize();
   const key=CKEY;
-  const a=await dbGet('dtd6'+lv+'|'+key), b=await dbGet('dtl6'+lv+'|'+key),
-        c=await dbGet('dth6'+lv+'|'+key);
+  const a=await dbGet('dtd7'+lv+'|'+key), b=await dbGet('dtl7'+lv+'|'+key),
+        c=await dbGet('dth7'+lv+'|'+key);
   if (a && b && c){
     try{
       const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
@@ -819,9 +819,9 @@ async function ensureDetail(lv){
     if (key!==CKEY) return;
     DET.lv[lv]={dD:ev.data.dD, lD:ev.data.lD, hl:ev.data.hl};
     try{
-      dbPutRaw('dtd6'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
-      dbPutRaw('dtl6'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
-      dbPutRaw('dth6'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
+      dbPutRaw('dtd7'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
+      dbPutRaw('dtl7'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
+      dbPutRaw('dth7'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
     }catch(e){}
     if (DETAIL===lv && $('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
   };
