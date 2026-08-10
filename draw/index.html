@@ -30,7 +30,10 @@ button,select,input{font:inherit;padding:8px 12px;border:1px solid #555;
   background:#1e1e1e;color:#e8e6e1;border-radius:8px}
 button:disabled{opacity:.4}
 button.vOn{border-color:#e8833a;background:#3b2a1b}
-#viewRow{align-items:flex-end}
+/* every press answers with a brief orange flash */
+@keyframes btnFlash{from{border-color:#e8833a;background:#3b2a1b}}
+button.btnFlash{animation:btnFlash 0.35s ease-out}
+#viewRow{flex-direction:column;align-items:stretch;gap:8px;padding:6px}
 #layerCol{display:flex;flex-direction:column;gap:8px}
 #layerCol .vBtn{width:100%}
 .row{display:flex;gap:8px;align-items:center;padding:8px;flex-wrap:wrap}
@@ -1753,6 +1756,7 @@ addEventListener('pagehide', cmpFlush);
 document.addEventListener('visibilitychange', ()=>{ if (document.hidden) cmpFlush(); });
 $('compareBtn').onclick = async () => {
   show('scrCompare'); cmpSize();
+  $('camVid').style.display='block';
   if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
     CMP.ckey=CKEY; CMP.img=null; CMP.blob=null;
     $('cmpFlip').disabled=true;
@@ -1782,10 +1786,8 @@ $('compareBtn').onclick = async () => {
       CMP.mode='flip'; CMP.showing='photo';
     }
   }
-  cmpRender();
-  // the camera surface goes up black IMMEDIATELY - the restored photo must
-  // never flash before the live view arrives
-  $('camVid').style.display='block';
+  // the camera surface is up black BEFORE anything draws - the restored
+  // photo and the coach veil must never pop in ahead of the live view
   camStart().then(ok => {
     if (!ok){ $('camVid').style.display='none'; cmpRender(); }
   });
@@ -2033,6 +2035,14 @@ $('cmpSplit').onclick = () => {
   set(open);
   tg.onclick = () => set(hud.style.display === 'none');
 }
+
+// every button press answers with a brief orange flash
+document.addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if (!b || b.disabled) return;
+  b.classList.remove('btnFlash'); void b.offsetWidth;
+  b.classList.add('btnFlash');
+}, true);
 
 // app shell: fullscreen toggle + installable offline PWA
 {
