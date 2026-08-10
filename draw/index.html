@@ -48,6 +48,8 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
 .gbar{height:4px;background:#333;margin-top:4px;visibility:hidden}
 .gitem.busy .gbar{visibility:visible}
 .gfill{height:100%;width:0;background:#e8e6e1}
+#calHold{width:216px;height:216px;flex:none;display:flex;
+  align-items:center;justify-content:center}
 #calBox{width:96px;height:96px;border:1px dashed #888;flex:none}
 #calSlide{flex:1;min-width:80px;padding:0}
 #lvRow input[type=range]{flex:1;min-width:56px;padding:0}
@@ -140,7 +142,7 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
   <div id="fmtPrev"><canvas id="fmtCanvas"></canvas></div>
   <div class="row">
     <span>1" &mdash; match a ruler:</span>
-    <div id="calBox"></div>
+    <div id="calHold"><div id="calBox"></div></div>
     <input type="range" id="calSlide" min="60" max="220" value="100">
   </div>
   <div class="row">
