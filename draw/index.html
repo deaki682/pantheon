@@ -779,10 +779,10 @@ function compositeCv(){
 let DETAIL='ultra';
 const DET_STEPS=['ultra','hyper','fine','broad'];
 const DET_LABEL={ultra:'Ultra', hyper:'Hyper', fine:'Fine', broad:'Broad'};
-// tool footprints, evenly stepped in width: a single point (1px),
-// a 5-point cross (5px, ~2.2 wide), a diamond r2 (13px, ~3.6 wide),
-// an ~r2 octagon (21px, ~4.6 wide). World px; 96px = 1in.
-const DET_SHAPE={hyper:'cross', fine:'diamond', broad:'oct'};
+// tool footprints by area: a single point (1px), a 3x3 square (9px),
+// a diamond r2 (13px), an ~r2 octagon (21px) - the closest symmetric
+// pixel tools to a 1/10/15/21 ladder. World px; 96px = 1in.
+const DET_SHAPE={hyper:'square', fine:'diamond', broad:'oct'};
 const DET={key:null, busy:null, lv:{}};
 async function ensureDetail(lv){
   if (DET.key!==CKEY){ DET.key=CKEY; DET.lv={}; }
@@ -790,8 +790,8 @@ async function ensureDetail(lv){
   DET.busy=lv;
   const {w,h}=worldSize();
   const key=CKEY;
-  const a=await dbGet('dtd10'+lv+'|'+key), b=await dbGet('dtl10'+lv+'|'+key),
-        c=await dbGet('dth10'+lv+'|'+key);
+  const a=await dbGet('dtd11'+lv+'|'+key), b=await dbGet('dtl11'+lv+'|'+key),
+        c=await dbGet('dth11'+lv+'|'+key);
   if (a && b && c){
     try{
       const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
@@ -822,9 +822,9 @@ async function ensureDetail(lv){
     if (key!==CKEY) return;
     DET.lv[lv]={dD:ev.data.dD, lD:ev.data.lD, hl:ev.data.hl};
     try{
-      dbPutRaw('dtd10'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
-      dbPutRaw('dtl10'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
-      dbPutRaw('dth10'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
+      dbPutRaw('dtd11'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
+      dbPutRaw('dtl11'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
+      dbPutRaw('dth11'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
     }catch(e){}
     if (DETAIL===lv && $('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
   };
@@ -1103,9 +1103,11 @@ function crossPass(src, W, H, isMax){
 function toolOpen(delta, W, H, shape){
   // a mark exists only where the tool fits inside it; otherwise blank
   let a;
-  if (shape==='cross'){
-    a=crossPass(delta,W,H,false);
-    a=crossPass(a,W,H,true);
+  if (shape==='square'){
+    a=linePass(delta,W,H,1,true,false);
+    a=linePass(a,W,H,1,false,false);
+    a=linePass(a,W,H,1,false,true);
+    a=linePass(a,W,H,1,true,true);
   } else if (shape==='diamond'){
     // cross composed twice = the full L1 diamond of radius 2
     a=crossPass(delta,W,H,false);
