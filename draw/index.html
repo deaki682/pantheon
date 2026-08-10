@@ -771,17 +771,15 @@ function compositeCv(){
   return COMP.cv;
 }
 
-// ---- detail scale: redraw the textures with a limited tool --------------
-// Three renditions of the same textures, as if drawn onto the shading
-// with three tool sizes. Fine is the tiniest tool - every texture exactly.
-// Medium and Broad rebuild ALL the textures with dab-sized strokes of a
-// bigger tool: large features come back at full strength with tool-edge
-// crispness, tiny details become the soft touch a fat tool actually makes.
-// Nothing is masked out, so nothing ever clears as a region.
+// ---- detail scale: only marks the tool can actually make ----------------
+// Three renditions of the textures, drawn onto the shading with three tool
+// sizes. Fine is the tiniest tool - every texture exactly. With a bigger
+// tool, a mark exists only where the tool physically fits inside it
+// (grayscale opening); a detail the tool cannot achieve is left blank.
 let DETAIL='fine';
 const DET_STEPS=['fine','med','broad'];
 const DET_LABEL={fine:'Fine', med:'Med', broad:'Broad'};
-const DET_SG={med:6, broad:16};     // tool radius in world px (96px = 1in)
+const DET_SG={med:6, broad:14};     // tool radius in world px (96px = 1in)
 const DET={key:null, busy:null, lv:{}};
 async function ensureDetail(lv){
   if (DET.key!==CKEY){ DET.key=CKEY; DET.lv={}; }
@@ -789,8 +787,8 @@ async function ensureDetail(lv){
   DET.busy=lv;
   const {w,h}=worldSize();
   const key=CKEY;
-  const a=await dbGet('dtd5'+lv+'|'+key), b=await dbGet('dtl5'+lv+'|'+key),
-        c=await dbGet('dth5'+lv+'|'+key);
+  const a=await dbGet('dtd6'+lv+'|'+key), b=await dbGet('dtl6'+lv+'|'+key),
+        c=await dbGet('dth6'+lv+'|'+key);
   if (a && b && c){
     try{
       const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
@@ -821,9 +819,9 @@ async function ensureDetail(lv){
     if (key!==CKEY) return;
     DET.lv[lv]={dD:ev.data.dD, lD:ev.data.lD, hl:ev.data.hl};
     try{
-      dbPutRaw('dtd5'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
-      dbPutRaw('dtl5'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
-      dbPutRaw('dth5'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
+      dbPutRaw('dtd6'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
+      dbPutRaw('dtl6'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
+      dbPutRaw('dth6'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
     }catch(e){}
     if (DETAIL===lv && $('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
   };
@@ -900,7 +898,7 @@ $('detBtn').onclick=()=>{
   DETAIL=DET_STEPS[(DET_STEPS.indexOf(DETAIL)+1)%DET_STEPS.length];
   $('detBtn').textContent=DET_LABEL[DETAIL];
   if (!state.img || !GRID_READY) return;
-  if (DETAIL!=='fine' && !(DET.key===CKEY && DET.lv[DETAIL])) stat('redrawing with the '+DET_LABEL[DETAIL].toLowerCase()+' tool...');
+  if (DETAIL!=='fine' && !(DET.key===CKEY && DET.lv[DETAIL])) stat('drawing with the '+DET_LABEL[DETAIL].toLowerCase()+' tool...');
   viewRepaint();
 };
 applyGrid(); layerButtons();
@@ -1023,69 +1021,100 @@ onmessage=e=>{
 };
 `;
 const DETAIL_SRC = `
-function boxPass(src, dst, W, H, r){
-  const iw=1/(2*r+1);
-  for (let y=0;y<H;y++){
-    const o=y*W;
-    let acc=0;
-    for (let x=-r;x<=r;x++) acc+=src[o+Math.max(0,Math.min(W-1,x))];
-    for (let x=0;x<W;x++){
-      dst[o+x]=acc*iw;
-      const xa=Math.min(W-1,x+r+1), xr=Math.max(0,x-r);
-      acc+=src[o+xa]-src[o+xr];
+function linePass(src, W, H, r, horiz, isMax){
+  // van Herk running min/max along rows or columns, window 2r+1
+  const N=W*H, out=new Float32Array(N);
+  const L=horiz?W:H, M=horiz?H:W;
+  const line=new Float32Array(L), F=new Float32Array(L), B=new Float32Array(L);
+  const pick=isMax?Math.max:Math.min;
+  const w=2*r+1;
+  for (let m=0;m<M;m++){
+    for (let k=0;k<L;k++) line[k]=horiz?src[m*W+k]:src[k*W+m];
+    for (let k=0;k<L;k++)
+      F[k]=(k%w===0)?line[k]:pick(F[k-1],line[k]);
+    for (let k=L-1;k>=0;k--)
+      B[k]=(k===L-1||(k+1)%w===0)?line[k]:pick(B[k+1],line[k]);
+    for (let k=0;k<L;k++){
+      const lo=k-r, hi=k+r;
+      let v;
+      if (lo<0) v=F[Math.min(hi,L-1)];
+      else if (hi>=L) v=B[lo];
+      else v=pick(B[lo],F[hi]);
+      out[horiz?m*W+k:k*W+m]=v;
     }
   }
+  return out;
 }
-function boxPassV(src, dst, W, H, r){
-  const iw=1/(2*r+1);
-  for (let x=0;x<W;x++){
-    let acc=0;
-    for (let y=-r;y<=r;y++) acc+=src[Math.max(0,Math.min(H-1,y))*W+x];
-    for (let y=0;y<H;y++){
-      dst[y*W+x]=acc*iw;
-      const ya=Math.min(H-1,y+r+1), yr=Math.max(0,y-r);
-      acc+=src[ya*W+x]-src[yr*W+x];
+function diagPass(src, W, H, r, up, isMax){
+  // van Herk along diagonals so the tool footprint rounds to an octagon
+  const N=W*H, out=new Float32Array(N);
+  const pick=isMax?Math.max:Math.min;
+  const w=2*r+1;
+  const L=Math.min(W,H)+Math.max(W,H);
+  const idx=new Int32Array(L), line=new Float32Array(L),
+        F=new Float32Array(L), B=new Float32Array(L);
+  const starts=[];
+  if (!up){                       // direction (1,1): starts on top row + left col
+    for (let x=0;x<W;x++) starts.push([x,0]);
+    for (let y=1;y<H;y++) starts.push([0,y]);
+  } else {                        // direction (1,-1): starts on bottom row + left col
+    for (let x=0;x<W;x++) starts.push([x,H-1]);
+    for (let y=0;y<H-1;y++) starts.push([0,y]);
+  }
+  const dy=up?-1:1;
+  for (const [sx,sy] of starts){
+    let n=0, x=sx, y=sy;
+    while (x<W && y>=0 && y<H){ idx[n]=y*W+x; line[n]=src[idx[n]]; n++; x++; y+=dy; }
+    if (!n) continue;
+    for (let k=0;k<n;k++) F[k]=(k%w===0)?line[k]:pick(F[k-1],line[k]);
+    for (let k=n-1;k>=0;k--) B[k]=(k===n-1||(k+1)%w===0)?line[k]:pick(B[k+1],line[k]);
+    for (let k=0;k<n;k++){
+      const lo=k-r, hi=k+r;
+      let v;
+      if (lo<0) v=F[Math.min(hi,n-1)];
+      else if (hi>=n) v=B[lo];
+      else v=pick(B[lo],F[hi]);
+      out[idx[k]]=v;
     }
   }
+  return out;
 }
-function blur(delta, W, H, sigma){
-  const N=W*H;
-  let a=new Float32Array(delta), b=new Float32Array(N);
-  const ideal=Math.sqrt(12*sigma*sigma/3+1);
-  let wl=Math.floor(ideal); if (wl%2===0) wl--;
-  const wu=wl+2;
-  const m=Math.round((12*sigma*sigma-3*wl*wl-12*wl-9)/(-4*wl-4));
-  for (let i=0;i<3;i++){
-    const r=((i<m?wl:wu)-1)/2;
-    boxPass(a,b,W,H,r); boxPassV(b,a,W,H,r);
-  }
-  return a;
-}
-function redraw(delta, W, H, sg){
-  // lay dab-sized strokes until the texture is rebuilt as well as this
-  // tool allows: each pass adds a stroke layer sized to the tool. Large
-  // features recover full strength with tool-edge crispness; tiny details
-  // end up as the soft touch a fat tool actually makes.
-  const N=W*H;
-  const fit=new Float32Array(N);
-  const resid=new Float32Array(N);
-  for (let it=0; it<5; it++){
-    for (let i=0;i<N;i++) resid[i]=delta[i]-fit[i];
-    const bl=blur(resid, W, H, sg);
-    for (let i=0;i<N;i++){ const v=fit[i]+bl[i]; fit[i]=v<0?0:v; }
-  }
-  const out=new Uint8Array(N);
-  for (let i=0;i<N;i++){ const v=Math.round(fit[i]); out[i]=v>255?255:v; }
+function toolOpen(delta, W, H, r){
+  // a mark exists only where the tool fits inside it; otherwise blank.
+  // Square + diamond passes compose to an octagonal tool footprint.
+  const rs=Math.max(1,Math.round(r*0.7)), rd=Math.max(1,r-rs);
+  let a=linePass(delta,W,H,rs,true,false);
+  a=linePass(a,W,H,rs,false,false);
+  a=diagPass(a,W,H,rd,false,false);
+  a=diagPass(a,W,H,rd,true,false);       // eroded
+  a=diagPass(a,W,H,rd,true,true);
+  a=diagPass(a,W,H,rd,false,true);
+  a=linePass(a,W,H,rs,false,true);
+  a=linePass(a,W,H,rs,true,true);        // reopened
+  const N=W*H, out=new Float32Array(N);
+  for (let i=0;i<N;i++) out[i]=Math.min(a[i], delta[i]);
   return out;
 }
 onmessage=e=>{
   const {dD, lD, hl, W, H, sg}=e.data;
+  const N=W*H, r=sg;
   postMessage({p:0.1});
-  const a=redraw(dD,W,H,sg);
-  postMessage({p:0.45});
-  const b=redraw(lD,W,H,sg);
-  postMessage({p:0.8});
-  const c=redraw(hl,W,H,sg);
+  const oD=toolOpen(dD,W,H,r);
+  const a=new Uint8Array(N);
+  for (let i=0;i<N;i++){ const v=Math.round(oD[i]); a[i]=v<0?0:(v>255?255:v); }
+  postMessage({p:0.55});
+  // lights and their shine are one mark: open the combined energy, then
+  // give the shine back only where the achieved mark covers it
+  const cm=new Float32Array(N);
+  for (let i=0;i<N;i++){ const v=lD[i]+hl[i]; cm[i]=v>255?255:v; }
+  const oL=toolOpen(cm,W,H,r);
+  const b=new Uint8Array(N), c=new Uint8Array(N);
+  for (let i=0;i<N;i++){
+    const t=oL[i];
+    const h=Math.min(hl[i], t);
+    const l=t-h;
+    c[i]=Math.round(h); b[i]=l<0?0:(l>255?255:Math.round(l));
+  }
   postMessage({dD:a, lD:b, hl:c},[a.buffer, b.buffer, c.buffer]);
 };
 `;
