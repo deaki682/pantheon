@@ -157,7 +157,6 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
       <div id="stat"></div>
       <!-- ways of seeing the reference; Grid rules them all -->
       <div class="row" id="viewRow">
-        <button id="vForm" class="vBtn">Shading</button>
         <button id="vDark" class="vBtn">Darks</button>
         <button id="vLight" class="vBtn">Lights</button>
         <button id="vSpec" class="vBtn">Highlights</button>
@@ -556,7 +555,7 @@ function initMain(){
   view.x = (vp.width - w*view.s)/2; view.y = (vp.height - h*view.s)/2;
   applyView();
   GRID_READY = true;
-  LAYERS.sh=LAYERS.dk=LAYERS.lt=LAYERS.hl=true; layerButtons();
+  LAYERS.dk=LAYERS.lt=LAYERS.hl=true; layerButtons();
   stat('');
 }
 function stat(t){ $('stat').textContent = t; }
@@ -666,13 +665,11 @@ const blobToCanvas=async bl=>{
 };
 
 // ---- the reference as composable layers -------------------------------
-// The breakdown splits the photo into four layers the artist can view in
-// any combination: Shading (the pure form - the ground everything else
-// sits on), Darks (texture darker than the form), Lights (texture lighter
-// than it, faint sheen included), Highlights (the strong shine). All four
-// together reassemble the photo exactly; with Shading off the remaining
-// layers sit on plain toned paper. Display only.
-const LAYERS={sh:true, dk:true, lt:true, hl:true};
+// The shading - the pure form - is the constant ground; Darks (texture
+// darker than the form), Lights (texture lighter than it, sheen included)
+// and Highlights (only the brightest sparkle pops) toggle on top of it in
+// any combination. All three on reassembles the photo exactly. Display only.
+const LAYERS={dk:true, lt:true, hl:true};
 let GRID_ON=true;
 try{ GRID_ON = localStorage.getItem('gridOn')!=='0'; }catch(e){}
 const FORM={cv:null, specCv:null, key:null, busy:null};
@@ -683,7 +680,7 @@ function applyGrid(){
   $('gridBtn').style.opacity = GRID_ON ? '1' : '0.35';
 }
 function layerButtons(){
-  for (const [id,k] of [['vForm','sh'],['vDark','dk'],['vLight','lt'],['vSpec','hl']])
+  for (const [id,k] of [['vDark','dk'],['vLight','lt'],['vSpec','hl']])
     $(id).classList.toggle('vOn', LAYERS[k]);
 }
 function grayData(src){
@@ -714,13 +711,19 @@ function compParts(){
   COMP.ph=grayData(state.img);
   COMP.sh=grayData(FORM.cv);
   const sp=grayData(FORM.specCv), N=sp.length;
-  // the highlight knee: faint bright deviations are subtle form turning,
-  // not shine - below 18 gray levels they stay in Lights; full strength
-  // above ~30, smooth ramp between
+  // a highlight is only the very brightest sparkle: real removed shine
+  // (the 18/12 knee filters faint form-turning) that also sits within the
+  // brightest ~5 levels of the photo. Everything dimmer is Lights.
+  const phist=new Uint32Array(256);
+  for (let i=0;i<N;i++) phist[COMP.ph[i]]++;
+  let pacc=0, phTop=255;
+  for (let v=255;v>=0;v--){ pacc+=phist[v]; if (pacc>=N*0.0005){ phTop=v; break; } }
+  const B=phTop-5;
   COMP.hl=new Float32Array(N);
   for (let i=0;i<N;i++){
     const s=sp[i], t=Math.max(0, Math.min(1, (s-18)/12));
-    COMP.hl[i]=s*t*t*(3-2*t);
+    const g=Math.max(0, Math.min(1, (COMP.ph[i]-(B-4))/4));
+    COMP.hl[i]=s*(t*t*(3-2*t))*(g*g*(3-2*g));
   }
   // the brightest light: robust ceiling of the light-texture delta, used to
   // tone the shine down when Lights shows without Highlights
@@ -736,14 +739,13 @@ function compParts(){
 }
 function compositeCv(){
   compParts();
-  const sig=(LAYERS.sh?'S':'')+(LAYERS.dk?'D':'')+(LAYERS.lt?'L':'')+(LAYERS.hl?'H':'');
+  const sig=(LAYERS.dk?'D':'')+(LAYERS.lt?'L':'')+(LAYERS.hl?'H':'');
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
   const {w,h}=worldSize();
   const N=COMP.ph.length, buf=new Uint8Array(N);
-  const GROUND=165;                          // toned paper when the form is off
   for (let i=0;i<N;i++){
     const ph=COMP.ph[i], sh=COMP.sh[i], hl=COMP.hl[i];
-    let v=LAYERS.sh ? sh : GROUND;
+    let v=sh;
     if (LAYERS.dk) v-=Math.max(0, sh-ph);
     if (LAYERS.lt) v+=Math.max(0, (ph-hl)-sh);
     if (LAYERS.hl) v+=hl;
@@ -762,15 +764,15 @@ function viewSrc(){
   return compositeCv();
 }
 function viewRepaint(){ paintWorld(); }
-const pngBlob=c=>{
-  // synchronous encode: a toBlob callback can starve behind heavy work and
-  // a navigation before it fires loses the cache; PNG because JPEG blocks
-  // band the smooth shading gradients
-  const du=c.toDataURL('image/png');
+const canvasBlob=(c,type,q)=>{
+  // synchronous encode everywhere: a toBlob callback can starve for seconds
+  // behind heavy work, return null in some engines, and a navigation before
+  // it fires loses the data
+  const du=c.toDataURL(type||'image/png',q);
   const bin=atob(du.slice(du.indexOf(',')+1));
   const u8=new Uint8Array(bin.length);
   for (let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i);
-  return new Blob([u8],{type:'image/png'});
+  return new Blob([u8],{type:type||'image/png'});
 };
 async function ensureForm(){
   if ((FORM.cv && FORM.key===CKEY) || FORM.busy) return;
@@ -796,7 +798,7 @@ async function ensureForm(){
     wk.terminate();
     FORM.busy=null;
     const c=grayCanvas(ev.data.done,w,h), sc=grayCanvas(ev.data.spec,w,h);
-    try{ dbPutRaw('form2|'+key, pngBlob(c)); dbPutRaw('spec2|'+key, pngBlob(sc)); }catch(e){}
+    try{ dbPutRaw('form2|'+key, canvasBlob(c)); dbPutRaw('spec2|'+key, canvasBlob(sc)); }catch(e){}
     if (key!==CKEY) return;            // reformatted mid-cook; the next look recooks
     FORM.cv=c; FORM.specCv=sc; FORM.key=key;
     if ($('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
@@ -811,7 +813,6 @@ function toggleLayer(k){
   if (!(FORM.cv && FORM.key===CKEY)) stat('preparing the layers...');
   viewRepaint();
 }
-$('vForm').onclick=()=>toggleLayer('sh');
 $('vDark').onclick=()=>toggleLayer('dk');
 $('vLight').onclick=()=>toggleLayer('lt');
 $('vSpec').onclick=()=>toggleLayer('hl');
@@ -966,8 +967,8 @@ document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) wakeHol
 loadArsenal().then(() => { $('upStat').textContent = 'build 0802-2249'; });
 
 // ---- compare: photograph the real drawing, align it over the reference, flip ----
-const CMP={img:null, base:null, blob:null, ckey:null, t:{x:0,y:0,s:1,r:0},
-  mode:'align', showing:'photo', fit:null,
+const CMP={img:null, base:null, blob:null, ckey:null,
+  mode:'flip', showing:'photo', fit:null,
   adj:{exp:0, con:100, hi:0, sh:0, bl:0, wh:255}};
 function cmpSize(){
   // render at device resolution: the canvas is dpr times the CSS size
@@ -981,51 +982,6 @@ function cmpSize(){
   const {w,h}=worldSize();
   const s=Math.min(cv.width/w, cv.height/h);
   CMP.fit={s, x:(cv.width-w*s)/2, y:(cv.height-h*s)/2, w, h};
-}
-function UNUSED_buildMatchLUT(pairsIn){
-  // a smooth monotone tone curve through the tapped calibration pairs
-  // (photo tone -> reference tone), Fritsch-Carlson, slope-1 tails
-  if (!pairsIn.length) return null;
-  const mp=new Map();
-  for (const q of pairsIn){ const key=q.p|0;
-    if (!mp.has(key)) mp.set(key,[]); mp.get(key).push(q.t); }
-  const pts=[...mp.entries()]
-    .map(([p2,ts])=>({p:+p2, t:ts.reduce((a,b)=>a+b,0)/ts.length}))
-    .sort((a,b)=>a.p-b.p);
-  for (let i=1;i<pts.length;i++){          // monotone: pool adjacent violators
-    if (pts[i].t<pts[i-1].t){
-      let j=i, sum=pts[i].t, n=1;
-      while (j>0 && pts[j-1].t>sum/n){ sum+=pts[j-1].t; n++; j--; }
-      const avg=sum/n;
-      for (let q2=j;q2<=i;q2++) pts[q2].t=avg;
-    }
-  }
-  const lut=new Uint8ClampedArray(256);
-  if (pts.length===1){
-    const off=pts[0].t-pts[0].p;
-    for (let v=0;v<256;v++) lut[v]=v+off;
-    return lut;
-  }
-  const n=pts.length, hh=[], dd=[];
-  for (let i=0;i<n-1;i++){ hh[i]=Math.max(1e-6,pts[i+1].p-pts[i].p);
-    dd[i]=(pts[i+1].t-pts[i].t)/hh[i]; }
-  const mm=[dd[0]];
-  for (let i=1;i<n-1;i++)
-    mm[i]=(dd[i-1]*dd[i]<=0) ? 0 : 2/(1/dd[i-1]+1/dd[i]);
-  mm[n-1]=dd[n-2];
-  for (let v=0;v<256;v++){
-    let t2;
-    if (v<=pts[0].p) t2=pts[0].t-(pts[0].p-v);
-    else if (v>=pts[n-1].p) t2=pts[n-1].t+(v-pts[n-1].p);
-    else {
-      let i=0; while (pts[i+1].p<v) i++;
-      const s=(v-pts[i].p)/hh[i];
-      t2=(1+2*s)*(1-s)*(1-s)*pts[i].t + s*(1-s)*(1-s)*hh[i]*mm[i]
-        + s*s*(3-2*s)*pts[i+1].t + s*s*(s-1)*hh[i]*mm[i+1];
-    }
-    lut[v]=t2;
-  }
-  return lut;
 }
 const ADJ_DEF={exp:0, con:100, hi:0, sh:0, bl:0, wh:255};
 function applyLevels(){
@@ -1138,9 +1094,6 @@ function cmpRender(){
       g.strokeStyle='#fff'; g.lineWidth=1.5; g.stroke();
     }
     hint='drag the handles onto the drawing corners, then Crop';
-  } else if (CMP.img && CMP.mode==='align'){
-    drawPhoto(); g.globalAlpha=0.45; drawRef(); g.globalAlpha=1;
-    hint = 'drag / pinch / twist your photo onto the reference';
   } else if (CMP.img && CMP.mode==='flip'){
     if (CMP.showing==='ref'){ drawRef(); hint='reference - tap to flip'; }
     else { drawPhoto(); hint='your drawing - tap to flip'; }
@@ -1321,38 +1274,6 @@ function cmpRot(c,q){                     // q quarter-turns clockwise
   g.drawImage(c,-c.width/2,-c.height/2);
   return out;
 }
-function cmpBestRotation(c, cand){
-  // which of the candidate quarter-turns best matches the reference content?
-  const ref=$('refImg'); if (!ref.width) return 0;
-  const S=48;
-  const grab=cv=>{
-    const t=document.createElement('canvas'); t.width=S; t.height=S;
-    const g=t.getContext('2d');
-    g.drawImage(cv,0,0,S,S);
-    const d=g.getImageData(0,0,S,S).data;
-    const a=new Float64Array(S*S);
-    let m=0; for (let i=0;i<S*S;i++){ a[i]=d[i*4]; m+=a[i]; }
-    m/=S*S; let vr=0;
-    for (let i=0;i<S*S;i++){ a[i]-=m; vr+=a[i]*a[i]; }
-    return {a, vr};
-  };
-  const R=grab(ref);
-  if (R.vr<1e-6) return 0;
-  const score=q=>{
-    const A=grab(cmpRot(c,q));
-    if (A.vr<50*S*S) return null;         // a nearly blank sheet: don't guess
-    let s=0; for (let i=0;i<S*S;i++) s+=A.a[i]*R.a[i];
-    return s/Math.sqrt(A.vr*R.vr);
-  };
-  const v0=score(0);
-  if (v0==null) return 0;
-  let bq=0, bv=v0;
-  for (const q of (cand||[1,2,3])){
-    const v=score(q);
-    if (v!=null && v>bv){ bv=v; bq=q; }
-  }
-  return bv>v0+0.08 ? bq : 0;
-}
 function cmpWarp(src, corners){
   // perspective-rectify the paper: exact at the four pinned corners, so a
   // sheet leaning toward the lens comes out square (mid-edge curl can bow
@@ -1393,203 +1314,6 @@ function cmpWarp(src, corners){
   og.putImageData(om,0,0);
   return out;
 }
-function cmpGridAlign(src){
-  // the drawn GRID is the drawing's own coordinate system. Fed the
-  // edge/corner-rectified sheet, it measures the residual angle from the
-  // centre squares, the spacing from the autocorrelation of line-darkness
-  // profiles, and snaps every line onto exact 96px world cells.
-  // Returns a world-registered canvas, or null when no grid is readable.
-  if (!src) return null;
-  const K=Math.min(1, 1400/Math.max(src.width,src.height));
-  const w=Math.round(src.width*K), h=Math.round(src.height*K);
-  const c=document.createElement('canvas'); c.width=w; c.height=h;
-  const g=c.getContext('2d',{willReadFrequently:true});
-  g.drawImage(src,0,0,w,h);
-  const d=g.getImageData(0,0,w,h).data;
-  const lum=i=>d[i*4];
-  // 1) grid angle from the central half by projection sharpness: the column
-  // profile shows crisp periodic spikes only when the projection runs exactly
-  // along the grid lines (classic document-skew estimation, very robust)
-  const cx0=Math.round(w*0.25), cx1=Math.round(w*0.75),
-        cy0=Math.round(h*0.25), cy1=Math.round(h*0.75);
-  const sharp=deg=>{
-    const rad2=deg*Math.PI/180, ct=Math.cos(rad2), st=Math.sin(rad2);
-    const nb=Math.ceil(Math.hypot(cx1-cx0,cy1-cy0))+2, off=nb/2;
-    const acc=new Float64Array(nb), cnt=new Float64Array(nb);
-    for (let y=cy0;y<cy1;y+=2) for (let x=cx0;x<cx1;x+=2){
-      const xr=(x-w/2)*ct+(y-h/2)*st;
-      const b3=Math.round(xr+off);
-      if (b3<0||b3>=nb) continue;
-      acc[b3]+=255-lum(y*w+x); cnt[b3]++;
-    }
-    let s=0, prev=null;
-    for (let i2=0;i2<nb;i2++){
-      if (cnt[i2]<3) { prev=null; continue; }
-      const m=acc[i2]/cnt[i2];
-      if (prev!=null) s+=(m-prev)*(m-prev);
-      prev=m;
-    }
-    return s;
-  };
-  let thDeg=0, bestS=-1;
-  for (let a=-20;a<=20;a+=1){ const s=sharp(a); if (s>bestS){ bestS=s; thDeg=a; } }
-  for (let a=thDeg-0.9;a<=thDeg+0.9;a+=0.1){ const s=sharp(a); if (s>bestS){ bestS=s; thDeg=a; } }
-  const th=thDeg*Math.PI/180;
-  // 2) rotate (downscale) and take line-darkness profiles in the centre
-  const rc=document.createElement('canvas'); rc.width=w; rc.height=h;
-  const rg=rc.getContext('2d',{willReadFrequently:true});
-  rg.translate(w/2,h/2); rg.rotate(-th); rg.translate(-w/2,-h/2);
-  rg.drawImage(c,0,0);
-  const rd=rg.getImageData(0,0,w,h).data;
-  const colP=new Float64Array(w), rowP=new Float64Array(h);
-  for (let x=0;x<w;x++){ let s=0,n=0;
-    for (let y=cy0;y<cy1;y++){ s+=255-rd[(y*w+x)*4]; n++; } colP[x]=s/n; }
-  for (let y=0;y<h;y++){ let s=0,n=0;
-    for (let x=cx0;x<cx1;x++){ s+=255-rd[(y*w+x)*4]; n++; } rowP[y]=s/n; }
-  const period=(P,a0,a1)=>{
-    // autocorrelate the profile's DERIVATIVE: grid lines give periodic edge
-    // spikes, while broad drawing passages (big slow bumps) contribute
-    // almost nothing and can no longer bury the comb
-    const n=a1-a0-1; if (n<40) return null;
-    const seg=new Float64Array(n);
-    let mean=0;
-    for (let i=0;i<n;i++){ seg[i]=Math.abs(P[a0+i+1]-P[a0+i]); mean+=seg[i]; }
-    mean/=n; for (let i=0;i<n;i++) seg[i]-=mean;
-    let z=0; for (let i=0;i<n;i++) z+=seg[i]*seg[i]; z/=n;
-    if (z<1e-9) return null;
-    const lo=Math.max(10,Math.round(n*0.04)), hi=Math.round(n*0.45);
-    const ac=new Float64Array(hi+1); let mx=0;
-    for (let L=lo;L<=hi;L++){
-      let s=0,cn=0;
-      for (let i=0;i+L<n;i++){ s+=seg[i]*seg[i+L]; cn++; }
-      ac[L]=s/cn/z;
-      if (ac[L]>mx) mx=ac[L];
-    }
-    if (mx<0.18) return null;
-    let sp=0;
-    for (let L=lo;L<=hi;L++) if (ac[L]>=0.75*mx){ sp=L; break; }   // fundamental
-    // refine to sub-pixel by quadratic around the pick
-    if (sp>lo && sp<hi){
-      const y0=ac[sp-1], y1=ac[sp], y2=ac[sp+1];
-      const den=y0-2*y1+y2;
-      if (Math.abs(den)>1e-12) sp+=0.5*(y0-y2)/den;
-    }
-    return {sp, strength:mx};
-  };
-  const px=period(colP,cx0,cx1), py=period(rowP,cy0,cy1);
-  if (!px || !py) return null;
-  if (Math.abs(Math.log(px.sp/py.sp))>0.25) return null;   // not a square grid
-  // 3) phase + extent: comb-match each profile over the full width
-  const comb=(P,len,sp)=>{
-    const hp=new Float64Array(len);                     // high-passed positives
-    const win=Math.max(4,Math.round(sp));
-    for (let i=0;i<len;i++){
-      let s=0,n=0;
-      for (let j=-win;j<=win;j++){ const q=i+j;
-        if (q>=0&&q<len){ s+=P[q]; n++; } }
-      hp[i]=Math.max(0, P[i]-s/n);
-    }
-    let bestPhi=0,bv=-1;
-    for (let phi=0; phi<sp; phi+=0.5){
-      let s=0,n=0;
-      for (let x=phi;x<len;x+=sp){ s+=hp[Math.round(x)]||0; n++; }
-      if (n && s/n>bv){ bv=s/n; bestPhi=phi; }
-    }
-    const marks=[];
-    for (let x=bestPhi;x<len;x+=sp) marks.push(hp[Math.round(x)]||0);
-    // threshold against TYPICAL line strength, not the loudest spike (the
-    // paper/background boundary can be 10x stronger than a pencil line)
-    const srt=marks.slice().sort((a,b)=>b-a);
-    const typ=srt[Math.min(srt.length-1, Math.max(3, Math.round(marks.length*0.3)))];
-    if (typ<=1e-6) return null;
-    const thr=0.3*typ;
-    // the grid is one CONSECUTIVE run of lines; ghosts at the frame edges
-    // are isolated - take the longest run (one-mark gaps forgiven)
-    const on=marks.map(v=>v>=thr);
-    let bi=-1,blen=0,i2=0;
-    while (i2<marks.length){
-      if (!on[i2]){ i2++; continue; }
-      let j=i2, last=i2;
-      while (j+1<marks.length && (on[j+1] || (j+2<marks.length && on[j+2]))){
-        j++; if (on[j]) last=j;
-      }
-      if (last-i2+1>blen){ blen=last-i2+1; bi=i2; }
-      i2=last+1;
-    }
-    if (bi<0) return null;
-    return {first:bestPhi+bi*sp, span:blen-1};
-  };
-  const cbx=comb(colP,w,px.sp), cby=comb(rowP,h,py.sp);
-  if (!cbx || !cby) return null;
-  // the run must resemble the drawing's grid (outermost lines are often
-  // swallowed by the paper/background step, so allow a shortfall)
-  if (cbx.span<GRID_COLS-4 || cbx.span>GRID_COLS+2) return null;
-  if (cby.span<GRID_ROWS-4 || cby.span>GRID_ROWS+2) return null;
-  // anchor from the MIDDLE of the frame: the grid line nearest the screen
-  // centre is taken as the drawing's centre line, and cells count outward
-  // from there (the outermost lines are the least reliable place to start)
-  const xc=cbx.first + Math.round((w/2-cbx.first)/px.sp)*px.sp;
-  const yc=cby.first + Math.round((h/2-cby.first)/py.sp)*py.sp;
-  const cCol=Math.round(GRID_COLS/2), cRow=Math.round(GRID_ROWS/2);
-  // 4) render the world-registered photo at full resolution
-  const rf=document.createElement('canvas'); rf.width=src.width; rf.height=src.height;
-  const fg=rf.getContext('2d');
-  fg.translate(src.width/2,src.height/2); fg.rotate(-th);
-  fg.translate(-src.width/2,-src.height/2);
-  fg.drawImage(src,0,0);
-  const fsx=px.sp/K, fsy=py.sp/K;
-  let fx0=(xc-cCol*px.sp-w/2)/K+src.width/2,
-      fy0=(yc-cRow*py.sp-h/2)/K+src.height/2;
-  const render=(ox,oy)=>{
-    const out=document.createElement('canvas');
-    out.width=GRID_COLS*CELL; out.height=GRID_ROWS*CELL;
-    const og=out.getContext('2d');
-    og.imageSmoothingQuality='high';
-    og.fillStyle='#fff'; og.fillRect(0,0,out.width,out.height);
-    og.setTransform(CELL/fsx,0,0,CELL/fsy, -ox*CELL/fsx, -oy*CELL/fsy);
-    og.drawImage(rf,0,0);
-    return out;
-  };
-  let out=render(fx0,fy0);
-  // integer-cell refinement: slide up to +-3 cells against the reference's
-  // content and keep the best correlated placement (skipped on blank sheets)
-  {
-    const PW=GRID_COLS*2, PH=GRID_ROWS*2;
-    const shrink=cv=>{
-      const t=document.createElement('canvas'); t.width=PW; t.height=PH;
-      const tg=t.getContext('2d',{willReadFrequently:true});
-      tg.drawImage(cv,0,0,PW,PH);
-      const dd=tg.getImageData(0,0,PW,PH).data;
-      const arr=new Float64Array(PW*PH);
-      for (let i3=0;i3<PW*PH;i3++) arr[i3]=dd[i3*4];
-      return arr;
-    };
-    const A=shrink(out), B=shrink($('refImg'));
-    let am=0; for (const v of A) am+=v; am/=A.length;
-    let avr=0; for (const v of A) avr+=(v-am)*(v-am); avr/=A.length;
-    if (avr>=40){
-      let best={dx:0,dy:0,v:-2}, v00=-2;
-      for (let dy=-3;dy<=3;dy++) for (let dx=-3;dx<=3;dx++){
-        let s=0,s1=0,s2=0,q1=0,q2=0,n=0;
-        for (let y=0;y<PH;y++){ const y2=y+dy*2; if (y2<0||y2>=PH) continue;
-          for (let x=0;x<PW;x++){ const x2=x+dx*2; if (x2<0||x2>=PW) continue;
-            const va=A[y2*PW+x2], vb=B[y*PW+x];
-            s+=va*vb; s1+=va; s2+=vb; q1+=va*va; q2+=vb*vb; n++;
-          } }
-        if (n<PW*PH*0.5) continue;
-        const cov=s/n-(s1/n)*(s2/n);
-        const va2=q1/n-(s1/n)*(s1/n), vb2=q2/n-(s2/n)*(s2/n);
-        if (va2<1e-6||vb2<1e-6) continue;
-        const v=cov/Math.sqrt(va2*vb2);
-        if (dx===0&&dy===0) v00=v;
-        if (v>best.v) best={dx,dy,v};
-      }
-      if ((best.dx||best.dy) && best.v>v00+0.05)
-        out=render(fx0+best.dx*fsx, fy0+best.dy*fsy);
-    }
-  }
-  return out;
-}
 async function cmpSetPhoto(blob){
   const i=await blobImage(blob).catch(()=>null);
   if (!i) return;
@@ -1605,130 +1329,42 @@ async function cmpSetPhoto(blob){
   CMP.mode='corners'; CMP.showing='photo';    // picker photos: place corners by hand
   cmpRender();
 }
-function cmpAutoRefine(){
-  // the artist's framing is already close; polish the last few percent by
-  // searching a TINY neighbourhood (shift +-6%, scale +-8%, rotation +-4deg)
-  // for the best match against the reference - coarse to fine
-  if (!CMP.img) return;
-  const f=CMP.fit, {w,h}=worldSize();
-  const bw=140, bh=Math.max(20,Math.round(140*h/w));
-  const ref=(()=>{
-    const t=document.createElement('canvas'); t.width=bw; t.height=bh;
-    const g=t.getContext('2d'); g.drawImage($('refImg'),0,0,bw,bh);
-    const d=g.getImageData(0,0,bw,bh).data;
-    const a=new Float64Array(bw*bh);
-    let m=0; for (let i=0;i<bw*bh;i++){ a[i]=d[i*4]; m+=a[i]; }
-    m/=bw*bh; let vr=0;
-    for (let i=0;i<bw*bh;i++){ a[i]-=m; vr+=a[i]*a[i]; }
-    return {a, vr};
-  })();
-  if (ref.vr<1e-6) return;
-  const img=CMP.img, kb0=bw/img.width;
-  const buf=document.createElement('canvas'); buf.width=bw; buf.height=bh;
-  const bg=buf.getContext('2d',{willReadFrequently:true});
-  const score=p=>{
-    bg.setTransform(1,0,0,1,0,0);
-    bg.fillStyle='#fff'; bg.fillRect(0,0,bw,bh);
-    bg.translate(bw/2+p.dx, bh/2+p.dy);
-    bg.rotate(p.r); bg.scale(kb0*p.k, kb0*p.k);
-    bg.drawImage(img, -img.width/2, -img.height/2);
-    const d=bg.getImageData(0,0,bw,bh).data;
-    let m=0; for (let i=0;i<bw*bh;i++) m+=d[i*4];
-    m/=bw*bh;
-    let s=0, vr=0;
-    for (let i=0;i<bw*bh;i++){ const v=d[i*4]-m; s+=v*ref.a[i]; vr+=v*v; }
-    if (vr<40*bw*bh) return null;              // blank sheet: nothing to match
-    return s/Math.sqrt(vr*ref.vr);
-  };
-  let p={dx:0,dy:0,k:1,r:0};
-  let best=score(p);
-  if (best==null) return;
-  const lim={dx:bw*0.06, dy:bh*0.06, k:0.08, r:4*Math.PI/180};
-  let st={dx:bw*0.025, dy:bh*0.025, k:0.03, r:1.5*Math.PI/180};
-  for (let pass=0; pass<4; pass++){
-    for (const key of ['dx','dy','k','r']){
-      for (const dir of [1,-1]){
-        const q={...p};
-        q[key]=(key==='k'? p.k+dir*st.k : p[key]+dir*st[key]);
-        if (key==='k'){ if (Math.abs(q.k-1)>lim.k) continue; }
-        else if (Math.abs(q[key])>lim[key]) continue;
-        const v=score(q);
-        if (v!=null && v>best){ best=v; p=q; }
-      }
-    }
-    for (const key of ['dx','dy','k','r']) st[key]*=0.5;
-  }
-  if (p.dx||p.dy||p.k!==1||p.r){          // bake the polish into the transform
-    CMP.t={ x: f.x+(bw/2+p.dx)*(w/bw)*f.s,
-            y: f.y+(bh/2+p.dy)*(h/bh)*f.s,
-            s: CMP.t.s*p.k,
-            r: CMP.t.r+p.r };
-  }
-}
-function cmpSetFramed(cv, blob, noRefine){
-  // a ghost-framed capture: aligned by the artist's eye at the shutter.
-  // NO automatic tone editing - just grayscale; the artist's anchors are
-  // the only thing that touches the values
-  const k=Math.min(1, 2400/Math.max(cv.width,cv.height));
-  const c=document.createElement('canvas');
-  c.width=Math.max(2,Math.round(cv.width*k));
-  c.height=Math.max(2,Math.round(cv.height*k));
-  const g=c.getContext('2d');
-  g.imageSmoothingQuality='high';
-  g.filter='grayscale(1)'; g.drawImage(cv,0,0,c.width,c.height); g.filter='none';
-  CMP.raw=c; CMP.blob=blob||null; CMP.framed=true;
-  CMP.corners=[{x:0,y:0},{x:c.width,y:0},{x:c.width,y:c.height},{x:0,y:c.height}];
-  CMP.cGrab=null;
-  CMP.img=c;
-  CMP.base=CMP.img;
-  CMP.adj = adjLoad() || {...ADJ_DEF};
-  adjSync();
-  CMP.lvOpen=false;
-  applyLevels();
-  cmpSize();
-  const f=CMP.fit;
-  const sF=Math.min(f.w*f.s/CMP.img.width, f.h*f.s/CMP.img.height);
-  CMP.t={x:f.x+f.w*f.s/2, y:f.y+f.h*f.s/2, s:sF, r:0};
-  CMP.mode='flip'; CMP.showing='photo';
-  cmpRender(); cmpSave();
-}
 function cmpApplyCorners(next){
-  // orientation is a COMBINATION of the signals, coarse to fine:
-  // 1. paper edges + corners: perspective-rectify the sheet (works even
-  //    when the grid is too faint to read)
-  // 2. the centre grid squares: measure the flattened sheet's residual
-  //    angle, exact spacing and phase, and snap cells onto the world grid
-  // 3. content correlation: settles upside-down and off-by-a-cell
+  // the ghost-framed capture is aligned by the artist's eye at the shutter:
+  // orientation is a physical fact, never guessed from content (a dark
+  // drawing on white paper anti-correlates with a light-on-dark reference,
+  // so a content guess flips it upside down). Only landscape/portrait is
+  // corrected, for photos arriving from the file picker.
   if (!CMP.raw) return;
   let rect=cmpWarp(CMP.raw, CMP.corners);
-  // the paper's format is a physical fact: if the drawing is portrait, the
-  // sheet must be too - fix landscape/portrait FIRST, independent of content
   const refAsp=GRID_COLS/GRID_ROWS, imgAsp=rect.width/rect.height;
   const nearSq=Math.abs(Math.log(imgAsp))<0.05 || Math.abs(Math.log(refAsp))<0.05;
   if (!nearSq && (refAsp>=1)!==(imgAsp>=1)) rect=cmpRot(rect,1);
-  let img=rect;
-  // content settles what remains: 180 normally, all turns if near-square
-  const q=cmpBestRotation(img, nearSq?[1,2,3]:[2]);
-  if (q) img=cmpRot(img,q);
-  CMP.img=img;
+  CMP.img=rect;
   CMP.base=CMP.img;
   CMP.adj = adjLoad() || {...ADJ_DEF};
   adjSync();
   CMP.lvOpen=false;
   applyLevels();
   cmpSize();
-  const f=CMP.fit;                                   // sit exactly over the reference
-  const sF=Math.min(f.w*f.s/CMP.img.width, f.h*f.s/CMP.img.height);
-  CMP.t={x:f.x+f.w*f.s/2, y:f.y+f.h*f.s/2, s:sF, r:0};
-  CMP.mode=next||'align'; CMP.showing='photo';
-  cmpRender(); cmpSave();
+  CMP.mode=next||'flip'; CMP.showing='photo';
+  cmpRender();
+  cmpSaveNow();       // a fresh capture/crop persists immediately - a debounce
+                      // dies silently if the app closes moments later
 }
-let cmpT=0;
-function cmpSave(){ clearTimeout(cmpT); cmpT=setTimeout(()=>{
+let cmpT=0, cmpDirty=false;
+function cmpSaveNow(){
+  cmpDirty=false;
   if (CKEY && CMP.blob) dbPutRaw('cmp|'+CKEY, {blob:CMP.blob, framed:!!CMP.framed,
     corners:CMP.corners?CMP.corners.map(q=>({x:q.x,y:q.y})):null,
-    adj:{...CMP.adj},
-    t:{...CMP.t}}); }, 700); }
+    adj:{...CMP.adj}});
+}
+function cmpSave(){ cmpDirty=true; clearTimeout(cmpT); cmpT=setTimeout(cmpSaveNow, 700); }
+// the debounce dies with the page: flush when the app is backgrounded or
+// navigated away, or a capture taken moments earlier is silently lost
+const cmpFlush=()=>{ if (cmpDirty){ clearTimeout(cmpT); cmpSaveNow(); } };
+addEventListener('pagehide', cmpFlush);
+document.addEventListener('visibilitychange', ()=>{ if (document.hidden) cmpFlush(); });
 $('compareBtn').onclick = async () => {
   show('scrCompare'); cmpSize();
   if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
@@ -1750,7 +1386,6 @@ $('compareBtn').onclick = async () => {
           : cmpGuessCorners(cv2).corners;
         cmpApplyCorners();
       }
-      if (saved.t) CMP.t=saved.t;
       if (saved.adj && typeof saved.adj.con==='number'){
         CMP.adj={exp:saved.adj.exp||0, con:saved.adj.con, hi:saved.adj.hi||0,
                  sh:saved.adj.sh||0, bl:saved.adj.bl||0, wh:saved.adj.wh??255};
@@ -1878,7 +1513,8 @@ async function camCapture(){
   fg.filter='grayscale(1)'; fg.drawImage(frame,0,0,full.width,full.height); fg.filter='none';
   if (frame!==v && frame.close) frame.close();
   camStop();
-  const blob=await new Promise(r=>full.toBlob(r,'image/jpeg',0.92));
+  let blob=null;
+  try{ blob=canvasBlob(full,'image/jpeg',0.92); }catch(e){}
   CMP.raw=full; CMP.blob=blob; CMP.framed=true; CMP.cGrab=null;
   if (gh){
     const kx=full.width/vw0, ky=full.height/vh0;
@@ -1934,7 +1570,7 @@ $('cmpSplit').onclick = () => {
       const [a,b]=[...pts.values()], r=cv.getBoundingClientRect(), kd=cv.width/r.width;
       g0={d:Math.hypot(a.x-b.x,a.y-b.y), ang:Math.atan2(b.y-a.y,b.x-a.x),
           mx:((a.x+b.x)/2-r.left)*kd, my:((a.y+b.y)/2-r.top)*kd,
-          t:{...CMP.t}, spl:{...SPL}};
+          spl:{...SPL}};
       tap=null; CMP.cGrab=null;
     }
   });
@@ -1971,20 +1607,6 @@ $('cmpSplit').onclick = () => {
       }
       return;
     }
-    if (CMP.mode!=='align' || !CMP.img) return;
-    if (pts.size===1){
-      CMP.t.x+=dx; CMP.t.y+=dy; cmpRender(); cmpSave();
-    } else if (pts.size===2 && g0){
-      const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
-      const d=Math.hypot(a.x-b.x,a.y-b.y), ang=Math.atan2(b.y-a.y,b.x-a.x);
-      const mx=(a.x+b.x)/2-r.left, my=(a.y+b.y)/2-r.top;
-      const k=d/g0.d, dr=ang-g0.ang;
-      const c=Math.cos(dr)*k, s2=Math.sin(dr)*k;
-      CMP.t.s=g0.t.s*k; CMP.t.r=g0.t.r+dr;
-      CMP.t.x=mx+(g0.t.x-g0.mx)*c-(g0.t.y-g0.my)*s2;
-      CMP.t.y=my+(g0.t.x-g0.mx)*s2+(g0.t.y-g0.my)*c;
-      cmpRender(); cmpSave();
-    }
   });
   const up=e=>{
     pts.delete(e.pointerId);
@@ -2011,13 +1633,6 @@ $('cmpSplit').onclick = () => {
       clampSplit(); cmpRender();
       return;
     }
-    if (CMP.mode!=='align') return;
-    e.preventDefault();
-    const r=cv.getBoundingClientRect(), px=e.clientX-r.left, py=e.clientY-r.top;
-    const k=e.deltaY<0?1.06:1/1.06;
-    CMP.t.s*=k;
-    CMP.t.x=px+(CMP.t.x-px)*k; CMP.t.y=py+(CMP.t.y-py)*k;
-    cmpRender(); cmpSave();
   }, {passive:false});
   addEventListener('resize', ()=>{ if ($('scrCompare').classList.contains('on')){ cmpSize(); cmpRender(); } });
 }
