@@ -63,7 +63,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   bottom:calc(20px + env(safe-area-inset-bottom));z-index:6;display:none;
   border:2px solid #fff;border-radius:10px;background:#000}
 #world{position:absolute;left:0;top:0;transform-origin:0 0}
-#refImg,#gridCv{position:absolute;left:0;top:0}
+#refImg{position:absolute;left:0;top:0}
+#gridCv{position:absolute;left:0;top:0;pointer-events:none}
 /* compare: the photographed drawing aligned over the reference */
 #cmpView{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
 #cmpCv{position:absolute;left:0;top:0;touch-action:none}
@@ -95,9 +96,15 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #detMenu button{white-space:nowrap;font-size:13px;border-radius:9px}
 #gridBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
+#expCorner{position:absolute;right:calc(8px + env(safe-area-inset-right));
+  top:calc(8px + env(safe-area-inset-top));z-index:5}
+#expBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
+  display:flex;align-items:center;justify-content:center}
 #compareBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 .fsBtn{min-width:40px}
+#widthIn{width:64px;background:#1e1e1e;color:#e8e6e1;border:1px solid #555;
+  border-radius:8px;padding:8px;font:inherit}
 #lvBtn{display:flex;align-items:center;justify-content:center;min-width:44px}
 #cmpRow{justify-content:space-evenly}
 /* first-visit coach marks: a darkened veil with one floating line */
@@ -133,7 +140,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     <button class="fsBtn" title="Fullscreen">&#x26F6;</button>
   </div>
   <div class="row" id="calRow" style="display:none">
-    <span>1&Prime; &mdash; match a ruler:</span>
+    <span id="calLbl">1&Prime; &mdash; match a ruler:</span>
     <div id="calHold"><div id="calBox"></div></div>
     <input type="range" id="calSlide" min="60" max="220" value="100">
   </div>
@@ -153,9 +160,13 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
         <option value="1:1">1:1</option>
       </select>
     </label>
-    <label>Width (in)
-      <select id="widthIn"></select>
+    <label>Size
+      <input type="number" id="widthIn" min="4" max="160" step="1" inputmode="numeric">
     </label>
+    <select id="unit">
+      <option value="in">inches</option>
+      <option value="cm">cm</option>
+    </select>
     <span id="fmtInfo"></span>
   </div>
   <div id="fmtPrev"><canvas id="fmtCanvas"></canvas></div>
@@ -170,9 +181,9 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   <div id="viewport">
     <div id="world">
       <canvas id="refImg"></canvas>
-      <!-- grid above the reference, inverse of whatever is beneath -->
-      <canvas id="gridCv" style="mix-blend-mode:difference"></canvas>
     </div>
+    <!-- grid above the reference in SCREEN space, inverse of what's beneath -->
+    <canvas id="gridCv" style="mix-blend-mode:difference"></canvas>
   </div>
   <div id="hudWrap">
     <div id="hud">
@@ -197,6 +208,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     </div>
     <button id="detBtn" title="Detail">Ultra</button>
   </div>
+  <div id="expCorner"><button id="expBtn" title="Download"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8.5 11.5L12 15l3.5-3.5"/><path d="M5 19h14"/></svg></button></div>
   <div id="gridCorner"><button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
   <!-- compare lives behind the camera in the opposite corner -->
   <div id="camCorner"><button id="compareBtn" title="Compare"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M3 19.5V7.5h4.2l1.8-2.2h6l1.8 2.2H21v12z"/><circle cx="12" cy="13.3" r="3.4"/></svg></button></div>
@@ -406,6 +418,8 @@ function openPhoto(blob, gid){
     if (gid != null){ try{ fmt = JSON.parse(localStorage.getItem('fmt|'+gid)); }catch(e){} }
     if (fmt && fmt.w){
       $('aspect').value = fmt.a || 'photo';
+      if (fmt.u){ try{ localStorage.setItem('unit', fmt.u); }catch(e){}
+        $('unit').value = fmt.u; calRefresh(); }
       $('widthIn').value = fmt.w;
       if (typeof fmt.ox==='number'){ FMT_OFF.x=fmt.ox; FMT_OFF.y=fmt.oy??0.5; }
       fmtPreview();
@@ -445,20 +459,18 @@ function ratioOf(){
   const [w,h] = a.split(':').map(Number);
   return w/h;
 }
+function unitPer(){ return $('unit').value==='cm' ? 2 : 1; }  // units per square
 function dims(){
-  const cols = +$('widthIn').value;
+  const per = unitPer();
+  const wp = +$('widthIn').value || ($('unit').value==='cm' ? 50 : 20);
+  const cols = Math.max(4, Math.min(80, Math.round(wp/per)));
   const rows = Math.max(2, Math.round(cols / ratioOf()));
   return {cols, rows};
 }
 function initFormat(){
-  const sel = $('widthIn');
-  if (!sel.options.length){
-    for (let w=8; w<=40; w+=2){
-      const o=document.createElement('option'); o.value=w; o.textContent=w;
-      if (w===20) o.selected=true;
-      sel.appendChild(o);
-    }
-  }
+  $('unit').value = curUnit();
+  if (!$('widthIn').value)
+    $('widthIn').value = $('unit').value==='cm' ? 50 : 20;
   fmtPreview();
 }
 const FMT_OFF={x:0.5, y:0.5};   // where the crop sits inside the slack
@@ -485,7 +497,8 @@ function fmtPreview(){
   for (let r=1;r<rows;r++){ const y=Math.round(r*cv.height/rows)+0.5;
     g.beginPath(); g.moveTo(0,y); g.lineTo(cv.width,y); g.stroke(); }
   const slack = (photo.width-cr.w) + (photo.height-cr.h);
-  $('fmtInfo').textContent = `${cols} x ${rows} in - ${cols*rows} squares`
+  const per = unitPer(), u = $('unit').value;
+  $('fmtInfo').textContent = `${cols*per} x ${rows*per} ${u} - ${cols*rows} squares`
     + (slack>2 ? ' - drag to place' : '');
 }
 // drag the preview to slide the crop window around the photo
@@ -512,7 +525,14 @@ function fmtPreview(){
   cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
 }
 $('aspect').onchange = ()=>{ fmtPreview(); speculate(); };
-$('widthIn').onchange = ()=>{ fmtPreview(); speculate(); };
+$('widthIn').oninput = ()=>{ fmtPreview(); speculate(); };
+$('unit').onchange = ()=>{
+  const u=$('unit').value, w=+$('widthIn').value||0;
+  $('widthIn').value = u==='cm' ? Math.round(w*2.54) : Math.max(4,Math.round(w/2.54));
+  try{ localStorage.setItem('unit', u); }catch(e){}
+  calRefresh();
+  fmtPreview(); speculate();
+};
 // the one back button: cancels a live camera, otherwise steps up a screen
 $('backBtn').onclick = () => {
   if ($('scrCompare').classList.contains('on')){
@@ -594,6 +614,7 @@ $('fmtGo').onclick = () => {
   if (galActive != null){
     try{ localStorage.setItem('fmt|'+galActive,
       JSON.stringify({ a: $('aspect').value, w: $('widthIn').value,
+                       u: $('unit').value,
                        ox: FMT_OFF.x, oy: FMT_OFF.y })); }catch(e){}
   }
   enterMain();
@@ -607,10 +628,17 @@ let view = { x:0, y:0, s:1 };
 // The format screen's dashed box + slider let the artist set the truth once.
 let INCAL = 1;
 try{ const v=+localStorage.getItem('inchCal'); if (v>=0.6 && v<=2.2) INCAL=v; }catch(e){}
+function curUnit(){ try{ return localStorage.getItem('unit')==='cm' ? 'cm' : 'in'; }catch(e){ return 'in'; } }
+function sqInch(){ return curUnit()==='cm' ? 2/2.54 : 1; }   // one square, in inches
+let calRefresh=()=>{};
 {
   const bx=$('calBox'), sl=$('calSlide');
-  const showCal=()=>{ bx.style.width=bx.style.height=(96*INCAL)+'px';
-    sl.value=Math.round(INCAL*100); };
+  const showCal=()=>{ const cm=curUnit()==='cm';
+    bx.style.width=bx.style.height=(96*INCAL*sqInch())+'px';
+    sl.value=Math.round(INCAL*100);
+    $('calLbl').innerHTML=(cm?'2 cm':'1&Prime;')+' &mdash; match a ruler:';
+    $('calBtn').innerHTML=cm?'2 cm scale':'1&Prime; scale'; };
+  calRefresh=showCal;
   showCal();
   sl.oninput=()=>{ INCAL=sl.value/100;
     try{ localStorage.setItem('inchCal', INCAL); }catch(e){}
@@ -628,7 +656,7 @@ function clampView(){
   const fit = Math.min(r.width/w, r.height/h);
   // max zoom is life size: one square = one real inch (INCAL calibrates
   // the browser's 96px "inch" to the actual glass; fit wins on tiny grids)
-  view.s = Math.max(fit, Math.min(Math.max(fit, INCAL), view.s));
+  view.s = Math.max(fit, Math.min(Math.max(fit, INCAL*sqInch()), view.s));
   const W = w*view.s, H = h*view.s;
   view.x = W <= r.width  ? (r.width  - W)/2 : Math.max(r.width  - W, Math.min(0, view.x));
   view.y = H <= r.height ? (r.height - H)/2 : Math.max(r.height - H, Math.min(0, view.y));
@@ -640,11 +668,39 @@ function zBounds(){
   const {w,h} = worldSize();
   const r = $('viewport').getBoundingClientRect();
   const fit = (w && r.width) ? Math.min(r.width/w, r.height/h) : 0.05;
-  return { min: fit, max: Math.max(fit, INCAL) };
+  return { min: fit, max: Math.max(fit, INCAL*sqInch()) };
 }
 function applyView(){
   clampView();
   $('world').style.transform = `translate(${view.x}px,${view.y}px) scale(${view.s})`;
+  drawGrid();
+}
+function drawGrid(){
+  const cvv=$('gridCv'), r=$('viewport').getBoundingClientRect();
+  if (!r.width || !GRID_READY) return;
+  const dpr=Math.min(3, devicePixelRatio||1);
+  const W2=Math.round(r.width*dpr), H2=Math.round(r.height*dpr);
+  if (cvv.width!==W2 || cvv.height!==H2){
+    cvv.width=W2; cvv.height=H2;
+    cvv.style.width=r.width+'px'; cvv.style.height=r.height+'px';
+  }
+  const g=cvv.getContext('2d');
+  g.clearRect(0,0,W2,H2);
+  const {w,h}=worldSize();
+  const sc=view.s*dpr, ox=view.x*dpr, oy=view.y*dpr;
+  const x0=Math.max(0,ox), x1=Math.min(W2, ox+w*sc);
+  const y0=Math.max(0,oy), y1=Math.min(H2, oy+h*sc);
+  g.strokeStyle='rgba(255,255,255,0.75)'; g.lineWidth=1;
+  for (let c=1;c<GRID_COLS;c++){
+    const x=Math.round(ox+c*CELL*sc)+0.5;
+    if (x<x0-1||x>x1+1) continue;
+    g.beginPath(); g.moveTo(x,y0); g.lineTo(x,y1); g.stroke();
+  }
+  for (let rr=1;rr<GRID_ROWS;rr++){
+    const y=Math.round(oy+rr*CELL*sc)+0.5;
+    if (y<y0-1||y>y1+1) continue;
+    g.beginPath(); g.moveTo(x0,y); g.lineTo(x1,y); g.stroke();
+  }
 }
 addEventListener('resize', () => { if ($('scrMain').classList.contains('on')) applyView(); });
 function paintWorld(){
@@ -655,19 +711,10 @@ function paintWorld(){
   g.imageSmoothingQuality='high';
   g.drawImage(viewSrc(), 0, 0, w, h);
   applyGrid();
-  const gg = $('gridCv').getContext('2d');
-  gg.clearRect(0,0,w,h);
-  gg.strokeStyle='rgba(255,255,255,0.75)'; gg.lineWidth=1;   // difference-blended: reads as the inverse of what's beneath
-  for (let c=1;c<GRID_COLS;c++){ const x=c*CELL+0.5;
-    gg.beginPath(); gg.moveTo(x,0); gg.lineTo(x,h); gg.stroke(); }
-  for (let r=1;r<GRID_ROWS;r++){ const y=r*CELL+0.5;
-    gg.beginPath(); gg.moveTo(0,y); gg.lineTo(w,y); gg.stroke(); }
 }
 function initMain(){
   const {w,h} = worldSize();
-  for (const id of ['refImg','gridCv']){
-    const cv=$(id); cv.width=w; cv.height=h;
-  }
+  { const cv=$('refImg'); cv.width=w; cv.height=h; }
   // a photo always opens on the full image: panel closed, every layer in.
   // The pencil button is the door to the shading workshop.
   $('hud').style.display='none'; $('hudToggle').textContent='\u270e';
@@ -679,6 +726,7 @@ function initMain(){
   view.x = (vp.width - w*view.s)/2; view.y = (vp.height - h*view.s)/2;
   applyView();
   GRID_READY = true;
+  drawGrid();
   DETAIL='ultra'; $('detBtn').textContent='Ultra';
   $('detMenu').style.display='none';
 }
@@ -1037,6 +1085,29 @@ function toggleLayer(k){
 $('vDark').onclick=()=>toggleLayer('dk');
 $('vLight').onclick=()=>toggleLayer('lt');
 $('vSpec').onclick=()=>toggleLayer('hl');
+$('expBtn').onclick = () => {
+  // the current visualization, exactly as composed: layers, detail, grid
+  if (!state.img || !GRID_READY) return;
+  const {w,h}=worldSize();
+  const c=document.createElement('canvas'); c.width=w; c.height=h;
+  const g=c.getContext('2d');
+  g.imageSmoothingQuality='high';
+  g.drawImage(viewSrc(),0,0,w,h);
+  if (GRID_ON){
+    g.globalCompositeOperation='difference';
+    g.strokeStyle='rgba(255,255,255,0.75)'; g.lineWidth=3;
+    for (let cc=1;cc<GRID_COLS;cc++){ const x=cc*CELL+0.5;
+      g.beginPath(); g.moveTo(x,0); g.lineTo(x,h); g.stroke(); }
+    for (let rr=1;rr<GRID_ROWS;rr++){ const y=rr*CELL+0.5;
+      g.beginPath(); g.moveTo(0,y); g.lineTo(w,y); g.stroke(); }
+    g.globalCompositeOperation='source-over';
+  }
+  const blob=canvasBlob(c);
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='realism.png';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
+};
 $('gridBtn').onclick=()=>{
   GRID_ON=!GRID_ON;
   try{ localStorage.setItem('gridOn', GRID_ON?'1':'0'); }catch(e){}
