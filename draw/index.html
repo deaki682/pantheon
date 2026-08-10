@@ -29,7 +29,7 @@ body{position:fixed;inset:0}
 button,select,input{font:inherit;padding:8px 12px;border:1px solid #555;
   background:#1e1e1e;color:#e8e6e1;border-radius:8px}
 button:disabled{opacity:.4}
-button.vOn{border-color:#e8e6e1;background:#3a3a3a}
+button.vOn{border-color:#e8833a;background:#3b2a1b}
 #viewRow{align-items:flex-end}
 #layerCol{display:flex;flex-direction:column;gap:8px}
 #layerCol .vBtn{width:100%}
@@ -94,12 +94,6 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
   display:flex;align-items:center;justify-content:center}
 #compareBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
-/* the hint floats as a pill over the image instead of crowding the buttons */
-#cmpHint{position:absolute;top:calc(10px + env(safe-area-inset-top));
-  left:50%;transform:translateX(-50%);z-index:7;pointer-events:none;
-  background:rgba(16,16,16,0.78);color:#e8e6e1;padding:6px 14px;
-  border-radius:999px;font-size:12px;max-width:88%;text-align:center}
-#cmpHint:empty{display:none}
 .fsBtn{min-width:40px}
 #lvBtn{display:flex;align-items:center;justify-content:center;min-width:44px}
 #cmpRow{justify-content:space-evenly}
@@ -210,7 +204,6 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
   <div id="cmpView"><canvas id="cmpCv"></canvas>
     <video id="camVid" playsinline autoplay muted></video>
     <canvas id="camGhost"></canvas>
-    <span id="cmpHint"></span>
     <canvas id="lastShot" title="Use the last photo"></canvas>
     <button id="shutter" title="Capture"></button>
     <div id="coach"><span id="coachTxt"></span></div></div>
@@ -1465,7 +1458,6 @@ function cmpRender(){
     g.drawImage(CMP.img, f.x, f.y, f.w*f.s, f.h*f.s); };
   const drawRef=()=>{ const f=CMP.fit;
     g.drawImage($('refImg'), f.x, f.y, f.w*f.s, f.h*f.s); };
-  let hint='photograph your drawing';
   if (CMP.mode==='corners' && CMP.raw){
     const s=Math.min(cv.width/CMP.raw.width, cv.height/CMP.raw.height);
     const ox=(cv.width-CMP.raw.width*s)/2, oy=(cv.height-CMP.raw.height*s)/2;
@@ -1486,10 +1478,9 @@ function cmpRender(){
       g.beginPath(); g.arc(q.x,q.y,13.5,0,6.2832);
       g.strokeStyle='#fff'; g.lineWidth=1.5; g.stroke();
     }
-    hint='drag the handles onto the drawing corners, then Crop';
   } else if (CMP.img && CMP.mode==='flip'){
-    if (CMP.showing==='ref'){ drawRef(); hint='reference - tap to flip'; }
-    else { drawPhoto(); hint='your drawing - tap to flip'; }
+    if (CMP.showing==='ref') drawRef();
+    else drawPhoto();
   } else if (CMP.img && CMP.mode==='split'){
     // side by side, one shared view: gestures on either pane move both
     const pw=cv.width/2, ph=cv.height;
@@ -1514,9 +1505,7 @@ function cmpRender(){
     }
     g.strokeStyle='#555'; g.lineWidth=2;
     g.beginPath(); g.moveTo(pw,0); g.lineTo(pw,ph); g.stroke();
-    hint='compare - both move together';
   }
-  $('cmpHint').textContent=hint;
   cmpButtons();
   if (!CAM.stream && CMP.img){
     if (CMP.mode==='flip') coach('Flip','tap to flip');
@@ -1797,7 +1786,6 @@ $('compareBtn').onclick = async () => {
   // the camera surface goes up black IMMEDIATELY - the restored photo must
   // never flash before the live view arrives
   $('camVid').style.display='block';
-  $('cmpHint').textContent='';
   camStart().then(ok => {
     if (!ok){ $('camVid').style.display='none'; cmpRender(); }
   });
@@ -1848,7 +1836,6 @@ async function camStart(){
     $('shutter').style.display='block';
     $('backBtn').textContent='✕';   // the back button reads as Cancel
     $('cmpFlip').disabled=true;
-    $('cmpHint').textContent='line your drawing up with the ghost, then capture';
     clearInterval(CAM.timer); CAM.timer=setInterval(camGhost,250);
     camGhost();
     // the last photo waits in the corner - tap it to skip reshooting
