@@ -960,5 +960,16 @@
   "peak_equity": 4798.1,
   "n_positions": 6,
   "note": "MID-MORNING TEND PASS (Zeus hourly, ~10:19-10:22 ET Fri 2026-08-07). GATES: kill switch clear; ORACLE_LIVE=true; oracle NOT paused (lifted 2026-07-14); breakers 'ok', absolute drawdown 0.20% from peak; halted=False. RECONCILE: broker == sleeve share-for-share on all six (TPC 9.607305 / KLIC 6.358622 / PAY 23.898856 / QTWO 12.517358 / ZVRA 47.034397 / LXU 55.078467); zero pending or unfilled Oracle orders. EDGAR SWEPT ON ALL SIX for documents since 08-05 \u2014 TPC 0, QTWO 0, LXU 0 new; KLIC's 10-Q (08-06) already read yesterday. TWO genuinely new documents, both read from the primary source and both NON-EVENTS for the typed kills: (1) PAY filed two Form 4s (08-06) \u2014 CFO Kalra sold 27,809sh and Director Trainor 80,000sh over 08-04/08-05, ~$4.4M total, BOTH under Rule 10b5-1 plans (affirmative-defense box checked), each retaining ~505-510k shares; this is the continuation of the distribution flagged on 08-06, logged as a trend line, and it does not touch a REVENUE kill that already failed at the Q2 print. (2) ZVRA 13G/A (08-06) \u2014 FMR LLC at 4,915,717sh / 8.3%, passive; not a thesis fact. PEER CHECK: only KLIC breached the 3% move trigger (+3.66%), and the back-end semi-cap group moved with it (ONTO +13.62%, ACMR +2.92%, UCTT +2.45%, KLAC +2.23%, FORM +1.89%, AMAT +1.80%) \u2014 sector, mid-pack, upward; no kill question. RESULT: 6 holds, 0 kills fired, 0 orders. Two names carry drawdowns (KLIC -14.61%, ZVRA -17.12%, LXU -12.79%) and Stage 5 is explicit that a drawdown is NEVER an exit. SIZING: largest name PAY at 19.85% (30% cap); cluster PAY+QTWO = $1,752.57 = 36.60% of equity vs the 40% cap \u2014 UP from 35.74% at the 08-06 pass, and the mechanism is the mirror of yesterday's: the pair did not grow, the denominator shrank (TPC -0.87%, ZVRA -1.60%, LXU -1.36%). Still under the cap; if it crosses 40% the fix is trimming the pair, not selling a thesis. A/B: 326 candidates across 3 rounds, 242 in the live round upside-2026-07-10-r1 (6 Arm A = the book, 236 Arm B); due_for_grade(2026-08-07) == [] \u2014 horizons are 15-18mo from 07-10, so the first grades land 2027-10 onward. Equity $4,788.50 vs $4,353.89 contributed = +9.98% (realized $147.95); peak $4,798.10."
+ },
+ {
+  "date": "2026-08-10",
+  "ts": "2026-08-10T14:18:00Z",
+  "equity": 4767.13,
+  "cash": 449.94,
+  "spy": 774.2478,
+  "peak_equity": 4798.1,
+  "drawdown": 0.0065,
+  "halted": false,
+  "note": "Zeus hourly tend, Mon 2026-08-10. 6 holds, 0 kills, 0 orders. Reconcile clean. Only new EDGAR doc: TPC Form 144 (director board-comp sale notice) \u2014 non-event. LXU +4.99% moved with the nitrogen complex."
  }
 ]
