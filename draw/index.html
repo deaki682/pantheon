@@ -122,11 +122,18 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   padding:0;font-size:24px;line-height:1;border-radius:12px;display:none;
   align-items:center;justify-content:center}
 #scrFormat > .row:first-of-type{margin-left:52px}
+/* a momentary confirmation pill */
+#toast{position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top));
+  transform:translateX(-50%);z-index:30;background:rgba(20,20,20,0.88);
+  border:1px solid #555;color:#e8e6e1;padding:10px 22px;border-radius:999px;
+  font-size:14px;opacity:0;pointer-events:none;transition:opacity 0.25s}
+#toast.on{opacity:1}
 </style>
 </head>
 <body>
 
 <button id="backBtn" title="Back">&#x2039;</button>
+<div id="toast"></div>
 
 <svg width="0" height="0" style="position:absolute"><defs>
   <filter id="tonePaint" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
@@ -1211,7 +1218,13 @@ $('expBtn').onclick = () => {
     +'-'+p2(t.getHours())+p2(t.getMinutes())+p2(t.getSeconds())+'.jpg';
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
+  toast('image downloaded');
 };
+function toast(t){
+  const el=$('toast'); el.textContent=t; el.classList.add('on');
+  clearTimeout(toast._t);
+  toast._t=setTimeout(()=>el.classList.remove('on'), 1500);
+}
 $('gridBtn').onclick=()=>{
   GRID_ON=!GRID_ON;
   try{ localStorage.setItem('gridOn', GRID_ON?'1':'0'); }catch(e){}
