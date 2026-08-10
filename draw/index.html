@@ -492,8 +492,8 @@ async function dbHas(k){ try{ const d=await db(); return await new Promise(res=>
   t.onsuccess=()=>res(t.result!==undefined); t.onerror=()=>res(false); }); }catch(e){ return false; } }
 async function prepReady(){
   if (FORM.key===CKEY && DET.key===CKEY && DET.lv.hyper && DET.lv.fine) return true;
-  for (const k of ['form2|','spec2|','dtd15hyper|','dtl15hyper|','dth15hyper|',
-                   'dtd15fine|','dtl15fine|','dth15fine|'])
+  for (const k of ['form2|','spec2|','dtd16hyper|','dtl16hyper|','dth16hyper|',
+                   'dtd16fine|','dtl16fine|','dth16fine|'])
     if (!(await dbHas(k+CKEY))) return false;
   return true;
 }
@@ -670,6 +670,40 @@ function endPtr(e){
 }
 vp.addEventListener('pointerup', endPtr);
 vp.addEventListener('pointercancel', endPtr);
+
+// double tap: zoomed in -> all the way out; already out -> all the way in
+// on the tapped spot
+let tapDown=null, tapLast=null;
+vp.addEventListener('pointerdown', e => {
+  $('world').style.transition='';
+  tapDown = ptrs.size===1 ? {t:Date.now(), x:e.clientX, y:e.clientY, id:e.pointerId} : null;
+  if (ptrs.size>1) tapLast=null;
+});
+vp.addEventListener('pointerup', e => {
+  const td=tapDown; tapDown=null;
+  if (!td || td.id!==e.pointerId) { tapLast=null; return; }
+  const now=Date.now();
+  if (now-td.t>350 || Math.hypot(e.clientX-td.x, e.clientY-td.y)>12){ tapLast=null; return; }
+  if (tapLast && now-tapLast.t<400 && Math.hypot(td.x-tapLast.x, td.y-tapLast.y)<48){
+    tapLast=null;
+    const rect=vp.getBoundingClientRect(), zb=zBounds();
+    if (view.s > zb.min*1.02){
+      view.s=zb.min;                     // clampView centres a fitted view
+    } else {
+      const k=zb.max/view.s;
+      view.x=e.clientX-rect.left-(e.clientX-rect.left-view.x)*k;
+      view.y=e.clientY-rect.top-(e.clientY-rect.top-view.y)*k;
+      view.s=zb.max;
+    }
+    const w=$('world');
+    w.style.transition='transform 0.22s ease';
+    applyView();
+    setTimeout(()=>{ w.style.transition=''; }, 240);
+  } else {
+    tapLast={t:now, x:td.x, y:td.y};
+  }
+});
+vp.addEventListener('pointercancel', ()=>{ tapDown=null; tapLast=null; });
 
 vp.addEventListener('wheel', e => {
   e.preventDefault();
@@ -852,8 +886,8 @@ async function ensureDetail(lv){
   DET.busy=lv;
   const {w,h}=worldSize();
   const key=CKEY;
-  const a=await dbGet('dtd15'+lv+'|'+key), b=await dbGet('dtl15'+lv+'|'+key),
-        c=await dbGet('dth15'+lv+'|'+key);
+  const a=await dbGet('dtd16'+lv+'|'+key), b=await dbGet('dtl16'+lv+'|'+key),
+        c=await dbGet('dth16'+lv+'|'+key);
   if (a && b && c){
     try{
       const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
@@ -885,9 +919,9 @@ async function ensureDetail(lv){
     if (key!==CKEY) return;
     DET.lv[lv]={dD:ev.data.dD, lD:ev.data.lD, hl:ev.data.hl};
     try{
-      dbPutRaw('dtd15'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
-      dbPutRaw('dtl15'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
-      dbPutRaw('dth15'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
+      dbPutRaw('dtd16'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
+      dbPutRaw('dtl16'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
+      dbPutRaw('dth16'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
     }catch(e){}
     if (DETAIL===lv && $('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
   };
@@ -1226,10 +1260,15 @@ onmessage=e=>{
   const oL=toolOpen(cm,W,H,shape);
   const b=new Uint8Array(N), c=new Uint8Array(N);
   for (let i=0;i<N;i++){
-    const t=oL[i];
-    const h=Math.min(hl[i], t);
+    const t=oL[i], tot=lD[i]+hl[i];
+    if (t<=0 || tot<=0) continue;
+    // split the achieved mark in the proportion the original energy held -
+    // giving the shine first claim zeroes the lights inside every softened
+    // highlight and leaves a halo ring around it when the shine is off
+    const h=t*hl[i]/tot;
     const l=t-h;
-    c[i]=Math.round(h); b[i]=l<0?0:(l>255?255:Math.round(l));
+    c[i]=h>255?255:Math.round(h);
+    b[i]=l>255?255:Math.round(l);
   }
   postMessage({dD:a, lD:b, hl:c},[a.buffer, b.buffer, c.buffer]);
 };
