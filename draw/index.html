@@ -491,8 +491,8 @@ async function dbHas(k){ try{ const d=await db(); return await new Promise(res=>
   t.onsuccess=()=>res(t.result!==undefined); t.onerror=()=>res(false); }); }catch(e){ return false; } }
 async function prepReady(){
   if (FORM.key===CKEY && DET.key===CKEY && DET.lv.hyper && DET.lv.fine) return true;
-  for (const k of ['form2|','spec2|','dtd14hyper|','dtl14hyper|','dth14hyper|',
-                   'dtd14fine|','dtl14fine|','dth14fine|'])
+  for (const k of ['form2|','spec2|','dtd15hyper|','dtl15hyper|','dth15hyper|',
+                   'dtd15fine|','dtl15fine|','dth15fine|'])
     if (!(await dbHas(k+CKEY))) return false;
   return true;
 }
@@ -740,7 +740,7 @@ const LAYERS={dk:true, lt:true, hl:true};
 let GRID_ON=true;
 try{ GRID_ON = localStorage.getItem('gridOn')!=='0'; }catch(e){}
 const FORM={cv:null, specCv:null, key:null, busy:null};
-const COMP={key:null, ph:null, sh:null, hl:null, cap:255, sig:null, cv:null};
+const COMP={key:null, ph:null, sh:null, hl:null, sig:null, cv:null};
 
 function applyGrid(){
   $('gridCv').style.display = GRID_ON ? '' : 'none';
@@ -777,32 +777,25 @@ function compParts(){
   COMP.key=CKEY;
   COMP.ph=grayData(state.img);
   COMP.sh=grayData(FORM.cv);
-  const sp=grayData(FORM.specCv), N=sp.length;
-  // a highlight is real removed shine (the knee filters faint form-
-  // turning) near the photo's brightest levels - with LONG soft ramps on
-  // both, so moderate shine enters at partial strength and the layer
-  // carries a full range of tones instead of flat white pops
+  const N=COMP.ph.length;
+  // a highlight is the accent an artist saves for last: the midpoint of
+  // two readings - the value lift into the photo's top ~70 levels, and
+  // any light texture stronger than 25 levels above the shading. Toggling
+  // Highlights off genuinely removes it; Lights keeps the remainder.
   const phist=new Uint32Array(256);
   for (let i=0;i<N;i++) phist[COMP.ph[i]]++;
   let pacc=0, phTop=255;
   for (let v=255;v>=0;v--){ pacc+=phist[v]; if (pacc>=N*0.0005){ phTop=v; break; } }
-  const B=phTop-20;
+  const T=phTop-70;
   COMP.hl=new Float32Array(N);
   for (let i=0;i<N;i++){
-    const s=sp[i], t=Math.max(0, Math.min(1, (s-12)/20));
-    const g=Math.max(0, Math.min(1, (COMP.ph[i]-(B-28))/28));
-    COMP.hl[i]=s*(t*t*(3-2*t))*(g*g*(3-2*g));
+    const ph=COMP.ph[i], sh=COMP.sh[i];
+    const L=ph-sh;
+    if (L<=0) continue;
+    const hd=Math.max(0, ph-Math.max(sh, T));
+    const he=Math.max(0, L-25);
+    COMP.hl[i]=Math.min(L, (hd+he)*0.5);
   }
-  // the brightest light: robust ceiling of the light-texture delta, used to
-  // tone the shine down when Lights shows without Highlights
-  const hist=new Uint32Array(256); let n=0;
-  for (let i=0;i<N;i++){
-    const d=(COMP.ph[i]-COMP.hl[i])-COMP.sh[i];
-    if (d>0){ hist[d>255?255:d|0]++; n++; }
-  }
-  let acc=0, cap=255;
-  for (let v=0;v<256;v++){ acc+=hist[v]; if (acc>=n*0.995){ cap=v; break; } }
-  COMP.cap=Math.max(4, cap);
   COMP.dp=new Uint8Array(N);
   for (let i=0;i<N;i++){
     const d=COMP.ph[i]-COMP.hl[i]; COMP.dp[i]=d<0?0:(d>255?255:d);
@@ -830,7 +823,6 @@ function compositeCv(){
     if (LAYERS.dk) v-=dD;
     if (LAYERS.lt) v+=lD;
     if (LAYERS.hl) v+=hl;
-    else if (LAYERS.lt) v+=Math.min(hl, COMP.cap);   // shine toned to the brightest light
     buf[i]=v<0?0:(v>255?255:v);
   }
   COMP.sig=sig; COMP.cv=grayCanvas(buf,w,h);
@@ -856,8 +848,8 @@ async function ensureDetail(lv){
   DET.busy=lv;
   const {w,h}=worldSize();
   const key=CKEY;
-  const a=await dbGet('dtd14'+lv+'|'+key), b=await dbGet('dtl14'+lv+'|'+key),
-        c=await dbGet('dth14'+lv+'|'+key);
+  const a=await dbGet('dtd15'+lv+'|'+key), b=await dbGet('dtl15'+lv+'|'+key),
+        c=await dbGet('dth15'+lv+'|'+key);
   if (a && b && c){
     try{
       const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
@@ -889,9 +881,9 @@ async function ensureDetail(lv){
     if (key!==CKEY) return;
     DET.lv[lv]={dD:ev.data.dD, lD:ev.data.lD, hl:ev.data.hl};
     try{
-      dbPutRaw('dtd14'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
-      dbPutRaw('dtl14'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
-      dbPutRaw('dth14'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
+      dbPutRaw('dtd15'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
+      dbPutRaw('dtl15'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
+      dbPutRaw('dth15'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
     }catch(e){}
     if (DETAIL===lv && $('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
   };
