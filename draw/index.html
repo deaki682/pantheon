@@ -614,13 +614,16 @@ function initMain(){
   for (const id of ['refImg','gridCv']){
     const cv=$(id); cv.width=w; cv.height=h;
   }
+  // open panel = the layer workshop (bare shading, nothing selected);
+  // closed = the full image. Settled before the first paint.
+  LAYERS.dk=LAYERS.lt=LAYERS.hl=$('hud').style.display==='none';
+  layerButtons();
   paintWorld();
   const vp = $('viewport').getBoundingClientRect();
   view.s = Math.max(0.05, Math.min(vp.width/w, vp.height/h) || 0.05);
   view.x = (vp.width - w*view.s)/2; view.y = (vp.height - h*view.s)/2;
   applyView();
   GRID_READY = true;
-  LAYERS.dk=LAYERS.lt=LAYERS.hl=true; layerButtons();
   DETAIL='ultra'; $('detBtn').textContent='Ultra';
   $('detMenu').style.display='none';
   stat('');
@@ -1936,6 +1939,11 @@ $('cmpSplit').onclick = () => {
     hud.style.display = o ? '' : 'none';
     tg.textContent = o ? '▾' : '✎';   // open: collapse arrow; closed: pencil
     try { localStorage.setItem('hudOpen', o ? '1' : '0'); } catch(e){}
+    // the open panel is the layer workshop: it starts from the bare
+    // shading with every layer unselected; closing returns the full view
+    LAYERS.dk=LAYERS.lt=LAYERS.hl=!o;
+    layerButtons();
+    if (GRID_READY && state.img) viewRepaint();
   };
   let open = true;
   try { open = localStorage.getItem('hudOpen') !== '0'; } catch(e){}
