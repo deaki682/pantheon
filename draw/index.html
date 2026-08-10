@@ -347,6 +347,7 @@ async function renderGallery(){
     bar.appendChild(Object.assign(document.createElement('div'),{className:'gfill'}));
     d.appendChild(im); d.appendChild(bar);
     d.onclick = () => {
+      if (PREP.active) return;                // still cooking: not yet usable
       if (galActive === r.id && photo){       // already open: jump back in
         show(GRID_READY ? 'scrMain' : 'scrFormat'); return;
       }
@@ -365,6 +366,7 @@ setInterval(()=>{
     let p = null;
     if (on){
       if (galLoading != null) p = galLoading;                 // decoding the photo
+      else if (PREP.active && PREP.gid === galActive) p = PREP.p;   // cooking
     }
     el.classList.toggle('busy', !!(on && p != null && p < 1));
     if (p != null) el.querySelector('.gfill').style.width = (100*p).toFixed(1)+'%';
@@ -482,10 +484,56 @@ async function applyFormat(){
   await computeCKEY();
 }
 function speculate(){ clearTimeout(FMT_TIMER); FMT_TIMER=setTimeout(()=>{ applyFormat(); }, 600); }
+let PREP={active:false, gid:null, p:0};
+window.prepProg=()=>{};
+async function dbHas(k){ try{ const d=await db(); return await new Promise(res=>{
+  const t=d.transaction('plans').objectStore('plans').getKey(k);
+  t.onsuccess=()=>res(t.result!==undefined); t.onerror=()=>res(false); }); }catch(e){ return false; } }
+async function prepReady(){
+  if (FORM.key===CKEY && DET.key===CKEY && DET.lv.hyper && DET.lv.fine) return true;
+  for (const k of ['form2|','spec2|','dtd14hyper|','dtl14hyper|','dth14hyper|',
+                   'dtd14fine|','dtl14fine|','dth14fine|'])
+    if (!(await dbHas(k+CKEY))) return false;
+  return true;
+}
+async function prepareAll(){
+  // cook every feature - the layers and both detail tools - while the
+  // gallery shows the bar; the drawing opens only when all of it is real
+  if (PREP.active) return;
+  PREP={active:true, gid:galActive, p:0.02};
+  show('scrUpload'); renderGallery();
+  const key=CKEY;
+  const stage=(base,span)=>{ window.prepProg=p=>{
+    PREP.p=base+span*Math.max(0,Math.min(1,p)); }; };
+  const wait=async cond=>{
+    for (let i=0;i<1500;i++){
+      if (cond()) return true;
+      if (CKEY!==key) return false;
+      await new Promise(r=>setTimeout(r,200));
+    }
+    return false;
+  };
+  stage(0.02,0.58); ensureForm();
+  const okF=await wait(()=>FORM.key===key);
+  if (okF){
+    stage(0.60,0.20); ensureDetail('hyper');
+    await wait(()=>DET.key===key && !!DET.lv.hyper);
+    stage(0.80,0.20); ensureDetail('fine');
+    await wait(()=>DET.key===key && !!DET.lv.fine);
+  }
+  PREP={active:false, gid:null, p:0};
+  window.prepProg=()=>{};
+  renderGallery();
+  if (okF && CKEY===key && $('scrUpload').classList.contains('on')){
+    show('scrMain');
+    initMain();
+  }
+}
 async function enterMain(){
   clearTimeout(FMT_TIMER);
-  show('scrMain');       // show first: fit-to-viewport needs a real rect
-  await applyFormat();   // usually already done - Continue costs nothing
+  await applyFormat();
+  if (!(await prepReady())){ prepareAll(); return; }
+  show('scrMain');       // fit-to-viewport needs a real rect
   initMain();
 }
 $('fmtGo').onclick = () => {
@@ -832,6 +880,7 @@ async function ensureDetail(lv){
   const wk=new Worker(URL.createObjectURL(new Blob([DETAIL_SRC],{type:'text/javascript'})));
   wk.onmessage=ev=>{
     if (ev.data.p!==undefined){
+      prepProg(ev.data.p);
       if (DETAIL===lv && $('scrMain').classList.contains('on'))
         stat('sifting the detail  '+Math.round(ev.data.p*100)+'%');
       return;
@@ -885,6 +934,7 @@ async function ensureForm(){
   const wk=new Worker(URL.createObjectURL(new Blob([FORM_SRC],{type:'text/javascript'})));
   wk.onmessage=ev=>{
     if (ev.data.p!==undefined){
+      prepProg(ev.data.p);
       if ($('scrMain').classList.contains('on'))
         stat('preparing the layers  '+Math.round(ev.data.p*100)+'%');
       return;
