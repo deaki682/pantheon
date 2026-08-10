@@ -77,9 +77,15 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
 #hudToggle{width:44px;height:44px;padding:0;font-size:18px;line-height:1;border-radius:12px}
 #camCorner{position:absolute;right:calc(8px + env(safe-area-inset-right));
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
-#gridCorner{position:absolute;left:50%;transform:translateX(-50%);
-  bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:flex;gap:8px}
+#detCorner{position:absolute;left:calc(30px + (100% - 60px)/3);
+  transform:translateX(-50%);bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
+#gridCorner{position:absolute;left:calc(30px + (100% - 60px)*2/3);
+  transform:translateX(-50%);bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
 #detBtn{height:44px;min-width:52px;padding:0 10px;border-radius:12px;font-size:13px}
+#detMenu{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
+  display:none;flex-direction:column;gap:6px;background:#1e1e1e;
+  border:1px solid #555;border-radius:14px;padding:6px;z-index:6}
+#detMenu button{white-space:nowrap;font-size:13px;border-radius:9px}
 #gridBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #compareBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
@@ -167,7 +173,15 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
     </div>
     <button id="hudToggle" title="Tools">&#x25BE;</button>
   </div>
-  <div id="gridCorner"><button id="detBtn" title="Detail">Ultra</button><button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
+  <div id="detCorner">
+    <div id="detMenu">
+      <button data-lv="ultra">Ultra</button>
+      <button data-lv="hyper">Hyper</button>
+      <button data-lv="fine">Fine</button>
+    </div>
+    <button id="detBtn" title="Detail">Ultra</button>
+  </div>
+  <div id="gridCorner"><button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
   <!-- compare lives behind the camera in the opposite corner -->
   <div id="camCorner"><button id="compareBtn" title="Compare"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M3 19.5V7.5h4.2l1.8-2.2h6l1.8 2.2H21v12z"/><circle cx="12" cy="13.3" r="3.4"/></svg></button></div>
 </div>
@@ -558,6 +572,7 @@ function initMain(){
   GRID_READY = true;
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true; layerButtons();
   DETAIL='ultra'; $('detBtn').textContent='Ultra';
+  $('detMenu').style.display='none';
   stat('');
 }
 function stat(t){ $('stat').textContent = t; }
@@ -898,12 +913,23 @@ $('gridBtn').onclick=()=>{
   applyGrid();
 };
 $('detBtn').onclick=()=>{
-  DETAIL=DET_STEPS[(DET_STEPS.indexOf(DETAIL)+1)%DET_STEPS.length];
-  $('detBtn').textContent=DET_LABEL[DETAIL];
-  if (!state.img || !GRID_READY) return;
-  if (DETAIL!=='ultra' && !(DET.key===CKEY && DET.lv[DETAIL])) stat('drawing with the '+DET_LABEL[DETAIL].toLowerCase()+' tool...');
-  viewRepaint();
+  const m=$('detMenu');
+  const show=m.style.display!=='flex';
+  m.style.display=show?'flex':'none';
+  if (show)
+    [...m.children].forEach(b=>b.classList.toggle('vOn', b.dataset.lv===DETAIL));
 };
+for (const b of $('detMenu').children){
+  b.onclick=()=>{
+    DETAIL=b.dataset.lv;
+    $('detBtn').textContent=DET_LABEL[DETAIL];
+    $('detMenu').style.display='none';
+    if (!state.img || !GRID_READY) return;
+    if (DETAIL!=='ultra' && !(DET.key===CKEY && DET.lv[DETAIL])) stat('drawing with the '+DET_LABEL[DETAIL].toLowerCase()+' tool...');
+    viewRepaint();
+  };
+}
+vp.addEventListener('pointerdown', ()=>{ $('detMenu').style.display='none'; });
 applyGrid(); layerButtons();
 
 // the breakdown recipe, ported to run beside the page: bright-outlier
