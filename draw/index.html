@@ -787,8 +787,8 @@ async function ensureDetail(lv){
   DET.busy=lv;
   const {w,h}=worldSize();
   const key=CKEY;
-  const a=await dbGet('dtd'+lv+'|'+key), b=await dbGet('dtl'+lv+'|'+key),
-        c=await dbGet('dth'+lv+'|'+key);
+  const a=await dbGet('dtd2'+lv+'|'+key), b=await dbGet('dtl2'+lv+'|'+key),
+        c=await dbGet('dth2'+lv+'|'+key);
   if (a && b && c){
     try{
       const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
@@ -819,9 +819,9 @@ async function ensureDetail(lv){
     if (key!==CKEY) return;
     DET.lv[lv]={dD:ev.data.dD, lD:ev.data.lD, hl:ev.data.hl};
     try{
-      dbPutRaw('dtd'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
-      dbPutRaw('dtl'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
-      dbPutRaw('dth'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
+      dbPutRaw('dtd2'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
+      dbPutRaw('dtl2'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
+      dbPutRaw('dth2'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
     }catch(e){}
     if (DETAIL===lv && $('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
   };
@@ -1021,9 +1021,8 @@ onmessage=e=>{
 };
 `;
 const DETAIL_SRC = `
-function keepBig(delta, W, H, thr, binT){
-  // connected shapes of the layer; a shape smaller than thr in both
-  // directions is dropped whole, survivors keep every original pixel
+function labelComps(mask, W, H){
+  // 8-connected components with per-shape extent (largest side of bbox)
   const N=W*H;
   const lab=new Int32Array(N);
   const parent=[0];
@@ -1033,7 +1032,7 @@ function keepBig(delta, W, H, thr, binT){
     const o=y*W;
     for (let x=0;x<W;x++){
       const i=o+x;
-      if (delta[i]<binT) continue;
+      if (!mask[i]) continue;
       const l=x>0?lab[i-1]:0;
       const u=y>0?lab[i-W]:0;
       const ul=(x>0&&y>0)?lab[i-W-1]:0;
@@ -1067,31 +1066,72 @@ function keepBig(delta, W, H, thr, binT){
       if (y>maxy[r]) maxy[r]=y;
     }
   }
-  const keep=new Uint8Array(next);
-  for (let r=1;r<next;r++){
-    if (maxx[r]<0) continue;
-    const ext=Math.max(maxx[r]-minx[r]+1, maxy[r]-miny[r]+1);
-    if (ext>=thr) keep[r]=1;
+  const ext=new Int32Array(next);
+  for (let r=1;r<next;r++)
+    if (maxx[r]>=0) ext[r]=Math.max(maxx[r]-minx[r]+1, maxy[r]-miny[r]+1);
+  return {lab, ext, n:next};
+}
+function detailFilter(delta, W, H, thr){
+  // a DETAIL is a strong core plus the soft skirt nearest to it - texture
+  // webs are carved into individual details, each dropped or kept whole by
+  // its own size, so nothing vanishes as a region
+  const N=W*H, CORET=12, LOT=4, REACH=36;
+  const maskLo=new Uint8Array(N), coreM=new Uint8Array(N);
+  for (let i=0;i<N;i++){
+    if (delta[i]>=LOT) maskLo[i]=1;
+    if (delta[i]>=CORET) coreM[i]=1;
   }
-  const mask=new Uint8Array(N);
-  for (let i=0;i<N;i++) if (lab[i] && keep[lab[i]]) mask[i]=1;
-  return mask;
+  const cores=labelComps(coreM, W, H);
+  // every soft pixel joins its nearest core: simultaneous flood from all
+  const claim=new Int32Array(N);
+  let q=new Int32Array(N), qn=0;
+  for (let i=0;i<N;i++) if (cores.lab[i]){ claim[i]=cores.lab[i]; q[qn++]=i; }
+  let q2=new Int32Array(N);
+  for (let d=0; d<REACH && qn; d++){
+    let q2n=0;
+    for (let k=0;k<qn;k++){
+      const i=q[k], x=i%W, y=(i/W)|0;
+      for (let dy=-1;dy<=1;dy++){
+        const yy=y+dy; if (yy<0||yy>=H) continue;
+        const oo=yy*W;
+        for (let dx=-1;dx<=1;dx++){
+          if (!dx&&!dy) continue;
+          const xx=x+dx; if (xx<0||xx>=W) continue;
+          const j=oo+xx;
+          if (!maskLo[j] || claim[j]) continue;
+          claim[j]=claim[i]; q2[q2n++]=j;
+        }
+      }
+    }
+    const t=q; q=q2; q2=t; qn=q2n;
+  }
+  const keep=new Uint8Array(cores.n);
+  for (let r=1;r<cores.n;r++) if (cores.ext[r]>=thr) keep[r]=1;
+  // soft texture that never forms a core: sized as its own patches
+  const orph=new Uint8Array(N);
+  for (let i=0;i<N;i++) if (maskLo[i] && !claim[i]) orph[i]=1;
+  const oc=labelComps(orph, W, H);
+  const keepO=new Uint8Array(oc.n);
+  for (let r=1;r<oc.n;r++) if (oc.ext[r]>=thr) keepO[r]=1;
+  const out=new Uint8Array(N);
+  for (let i=0;i<N;i++){
+    if (claim[i]){ if (keep[claim[i]]) out[i]=delta[i]; }
+    else if (orph[i] && keepO[oc.lab[i]]) out[i]=delta[i];
+  }
+  return out;
 }
 onmessage=e=>{
   const {dD, lD, hl, W, H, thr}=e.data;
   const N=W*H;
   postMessage({p:0.1});
-  const km=keepBig(dD,W,H,thr,5);
-  const a=new Uint8Array(N);
-  for (let i=0;i<N;i++) if (km[i]) a[i]=dD[i];
-  postMessage({p:0.5});
-  // a sheen patch and its shine core are one detail: size them together so
-  // dropping the core never leaves a hollow traced outline
+  const a=detailFilter(dD,W,H,thr);
+  postMessage({p:0.55});
+  // a sheen patch and its shine core are one detail
   const cm=new Uint8Array(N);
   for (let i=0;i<N;i++){ const v=lD[i]+hl[i]; cm[i]=v>255?255:v; }
-  const kl=keepBig(cm,W,H,thr,5);
+  const kmap=detailFilter(cm,W,H,thr);
   const b=new Uint8Array(N), c=new Uint8Array(N);
-  for (let i=0;i<N;i++) if (kl[i]){ b[i]=lD[i]; c[i]=hl[i]; }
+  for (let i=0;i<N;i++) if (kmap[i]){ b[i]=lD[i]; c[i]=hl[i]; }
   postMessage({dD:a, lD:b, hl:c},[a.buffer, b.buffer, c.buffer]);
 };
 `;
