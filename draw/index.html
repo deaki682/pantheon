@@ -1426,9 +1426,8 @@ function cmpRender(){
     if (CMP.showing==='ref'){ drawRef(); hint='reference - tap to flip'; }
     else { drawPhoto(); hint='your drawing - tap to flip'; }
   } else if (CMP.img && CMP.mode==='split'){
-    // side by side, one shared view: gestures on either pane move both;
-    // panes stack top/bottom when the screen is taller than wide
-    const vert=cv.height>cv.width;
+    // side by side, one shared view: gestures on either pane move both
+    const vert=false;              // side by side always, by request
     const pw=vert?cv.width:cv.width/2, ph=vert?cv.height/2:cv.height;
     const {w,h}=worldSize();
     const bs=Math.min(pw/w, ph/h), bx=(pw-w*bs)/2, by=(ph-h*bs)/2;
@@ -1462,7 +1461,7 @@ function cmpRender(){
 const SPL={x:0,y:0,s:1};
 function clampSplit(){
   const cv=$('cmpCv');
-  const vert=cv.height>cv.width;
+  const vert=false;              // side by side always, by request
   const pw=vert?cv.width:cv.width/2, ph=vert?cv.height/2:cv.height;
   const {w,h}=worldSize();
   const bs=Math.min(pw/w, ph/h), bx=(pw-w*bs)/2, by=(ph-h*bs)/2;
@@ -1933,7 +1932,7 @@ $('cmpSplit').onclick = () => {
     }
     if (CMP.mode==='split' && CMP.img){
       // one shared view: a gesture on either pane moves both together
-      const vert=cv.height>cv.width;
+      const vert=false;              // side by side always, by request
       const pw=vert?cv.width:cv.width/2, ph2=vert?cv.height/2:cv.height;
       if (pts.size===1){
         SPL.x+=dx*kd; SPL.y+=dy*kd; clampSplit(); cmpRender();
@@ -1967,7 +1966,7 @@ $('cmpSplit').onclick = () => {
     if (CMP.mode==='split'){
       e.preventDefault();
       const r=cv.getBoundingClientRect(), kd=cv.width/r.width;
-      const vert=cv.height>cv.width;
+      const vert=false;              // side by side always, by request
       const pw=vert?cv.width:cv.width/2, ph2=vert?cv.height/2:cv.height;
       let px=(e.clientX-r.left)*kd, py=(e.clientY-r.top)*kd;
       if (!vert && px>=pw) px-=pw;        // pane-local zoom point
