@@ -167,7 +167,7 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
     </div>
     <button id="hudToggle" title="Tools">&#x25BE;</button>
   </div>
-  <div id="gridCorner"><button id="detBtn" title="Detail">100%</button><button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
+  <div id="gridCorner"><button id="detBtn" title="Detail">Fine</button><button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
   <!-- compare lives behind the camera in the opposite corner -->
   <div id="camCorner"><button id="compareBtn" title="Compare"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M3 19.5V7.5h4.2l1.8-2.2h6l1.8 2.2H21v12z"/><circle cx="12" cy="13.3" r="3.4"/></svg></button></div>
 </div>
@@ -557,7 +557,7 @@ function initMain(){
   applyView();
   GRID_READY = true;
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true; layerButtons();
-  DETAIL=100; $('detBtn').textContent='100%';
+  DETAIL='fine'; $('detBtn').textContent='Fine';
   stat('');
 }
 function stat(t){ $('stat').textContent = t; }
@@ -746,11 +746,11 @@ function compParts(){
 function compositeCv(){
   compParts();
   let det=null;
-  if (DETAIL!==100){
+  if (DETAIL!=='fine'){
     if (DET.key===CKEY && DET.lv[DETAIL]) det=DET.lv[DETAIL];
-    else ensureDetail(DETAIL);          // async; full detail stands in
+    else ensureDetail(DETAIL);          // async; the fine tool stands in
   }
-  const eff=det?DETAIL:100;
+  const eff=det?DETAIL:'fine';
   const sig=(LAYERS.dk?'D':'')+(LAYERS.lt?'L':'')+(LAYERS.hl?'H':'')+'T'+eff;
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
   const {w,h}=worldSize();
@@ -771,25 +771,26 @@ function compositeCv(){
   return COMP.cv;
 }
 
-// ---- detail scale: leave out details under a physical size --------------
-// Each texture layer is split into connected shapes; a shape whose extent
-// is under the cutoff is dropped WHOLE, and every survivor keeps its full
-// original crispness - nothing is blurred. Cutoffs are world px, i.e.
-// physical inches on the drawing: 75% drops < ~1/8in, 50% < ~1/3in,
-// 25% < ~3/4in. The shading ground never changes.
-let DETAIL=100;
-const DET_STEPS=[100,75,50,25];
-const DET_T={75:12, 50:30, 25:70};
-const DET_S={75:6, 50:15, 25:35};   // wash scale per level
+// ---- detail scale: redraw the textures with a limited tool --------------
+// Three renditions of the same textures, as if drawn onto the shading
+// with three tool sizes. Fine is the tiniest tool - every texture exactly.
+// Medium and Broad rebuild ALL the textures with dab-sized strokes of a
+// bigger tool: large features come back at full strength with tool-edge
+// crispness, tiny details become the soft touch a fat tool actually makes.
+// Nothing is masked out, so nothing ever clears as a region.
+let DETAIL='fine';
+const DET_STEPS=['fine','med','broad'];
+const DET_LABEL={fine:'Fine', med:'Med', broad:'Broad'};
+const DET_SG={med:6, broad:16};     // tool radius in world px (96px = 1in)
 const DET={key:null, busy:null, lv:{}};
 async function ensureDetail(lv){
   if (DET.key!==CKEY){ DET.key=CKEY; DET.lv={}; }
-  if (lv===100 || DET.lv[lv] || DET.busy) return;
+  if (lv==='fine' || DET.lv[lv] || DET.busy) return;
   DET.busy=lv;
   const {w,h}=worldSize();
   const key=CKEY;
-  const a=await dbGet('dtd3'+lv+'|'+key), b=await dbGet('dtl3'+lv+'|'+key),
-        c=await dbGet('dth3'+lv+'|'+key);
+  const a=await dbGet('dtd5'+lv+'|'+key), b=await dbGet('dtl5'+lv+'|'+key),
+        c=await dbGet('dth5'+lv+'|'+key);
   if (a && b && c){
     try{
       const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
@@ -820,14 +821,14 @@ async function ensureDetail(lv){
     if (key!==CKEY) return;
     DET.lv[lv]={dD:ev.data.dD, lD:ev.data.lD, hl:ev.data.hl};
     try{
-      dbPutRaw('dtd3'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
-      dbPutRaw('dtl3'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
-      dbPutRaw('dth3'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
+      dbPutRaw('dtd5'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
+      dbPutRaw('dtl5'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
+      dbPutRaw('dth5'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
     }catch(e){}
     if (DETAIL===lv && $('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
   };
   wk.onerror=()=>{ wk.terminate(); DET.busy=null; };
-  wk.postMessage({dD, lD, hl, W:w, H:h, thr:DET_T[lv], sg:DET_S[lv]}, [dD.buffer, lD.buffer, hl.buffer]);
+  wk.postMessage({dD, lD, hl, W:w, H:h, sg:DET_SG[lv]}, [dD.buffer, lD.buffer, hl.buffer]);
 }
 function viewSrc(){
   if (!state.img) return state.img;
@@ -897,9 +898,9 @@ $('gridBtn').onclick=()=>{
 };
 $('detBtn').onclick=()=>{
   DETAIL=DET_STEPS[(DET_STEPS.indexOf(DETAIL)+1)%DET_STEPS.length];
-  $('detBtn').textContent=DETAIL+'%';
+  $('detBtn').textContent=DET_LABEL[DETAIL];
   if (!state.img || !GRID_READY) return;
-  if (DETAIL!==100 && !(DET.key===CKEY && DET.lv[DETAIL])) stat('sifting the detail...');
+  if (DETAIL!=='fine' && !(DET.key===CKEY && DET.lv[DETAIL])) stat('redrawing with the '+DET_LABEL[DETAIL].toLowerCase()+' tool...');
   viewRepaint();
 };
 applyGrid(); layerButtons();
@@ -1022,58 +1023,7 @@ onmessage=e=>{
 };
 `;
 const DETAIL_SRC = `
-function labelComps(mask, W, H){
-  // 8-connected components with per-shape extent (largest side of bbox)
-  const N=W*H;
-  const lab=new Int32Array(N);
-  const parent=[0];
-  const find=x=>{ while (parent[x]!==x) x=parent[x]=parent[parent[x]]; return x; };
-  let next=1;
-  for (let y=0;y<H;y++){
-    const o=y*W;
-    for (let x=0;x<W;x++){
-      const i=o+x;
-      if (!mask[i]) continue;
-      const l=x>0?lab[i-1]:0;
-      const u=y>0?lab[i-W]:0;
-      const ul=(x>0&&y>0)?lab[i-W-1]:0;
-      const ur=(x<W-1&&y>0)?lab[i-W+1]:0;
-      let m=0;
-      if (l) m=l;
-      if (u && (!m||u<m)) m=u;
-      if (ul && (!m||ul<m)) m=ul;
-      if (ur && (!m||ur<m)) m=ur;
-      if (!m){ lab[i]=next; parent[next]=next; next++; }
-      else {
-        lab[i]=m;
-        const rm=find(m);
-        if (l && l!==m){ const r=find(l); if (r!==rm) parent[r]=rm; }
-        if (u && u!==m){ const r=find(u); if (r!==rm) parent[r]=rm; }
-        if (ul && ul!==m){ const r=find(ul); if (r!==rm) parent[r]=rm; }
-        if (ur && ur!==m){ const r=find(ur); if (r!==rm) parent[r]=rm; }
-      }
-    }
-  }
-  const minx=new Int32Array(next).fill(W), maxx=new Int32Array(next).fill(-1);
-  const miny=new Int32Array(next).fill(H), maxy=new Int32Array(next).fill(-1);
-  for (let y=0;y<H;y++){
-    const o=y*W;
-    for (let x=0;x<W;x++){
-      const i=o+x; if (!lab[i]) continue;
-      const r=find(lab[i]); lab[i]=r;
-      if (x<minx[r]) minx[r]=x;
-      if (x>maxx[r]) maxx[r]=x;
-      if (y<miny[r]) miny[r]=y;
-      if (y>maxy[r]) maxy[r]=y;
-    }
-  }
-  const ext=new Int32Array(next);
-  for (let r=1;r<next;r++)
-    if (maxx[r]>=0) ext[r]=Math.max(maxx[r]-minx[r]+1, maxy[r]-miny[r]+1);
-  return {lab, ext, n:next};
-}
 function boxPass(src, dst, W, H, r){
-  // running-sum box blur, horizontal then the caller transposes roles
   const iw=1/(2*r+1);
   for (let y=0;y<H;y++){
     const o=y*W;
@@ -1099,7 +1049,6 @@ function boxPassV(src, dst, W, H, r){
   }
 }
 function blur(delta, W, H, sigma){
-  // three box passes approximate a gaussian
   const N=W*H;
   let a=new Float32Array(delta), b=new Float32Array(N);
   const ideal=Math.sqrt(12*sigma*sigma/3+1);
@@ -1112,50 +1061,31 @@ function blur(delta, W, H, sigma){
   }
   return a;
 }
-function levelFilter(delta, W, H, thr, sg){
-  // the soft wash (broad tonal presence) always survives; only discrete
-  // details above the wash are sized, and small ones drop WHOLE - so
-  // tonality stays continuous and nothing clears as a region
+function redraw(delta, W, H, sg){
+  // lay dab-sized strokes until the texture is rebuilt as well as this
+  // tool allows: each pass adds a stroke layer sized to the tool. Large
+  // features recover full strength with tool-edge crispness; tiny details
+  // end up as the soft touch a fat tool actually makes.
   const N=W*H;
-  const B=blur(delta, W, H, sg);
-  const mask=new Uint8Array(N);
-  for (let i=0;i<N;i++) if (delta[i]-B[i]>=6) mask[i]=1;
-  const cc=labelComps(mask, W, H);
-  const keep=new Uint8Array(cc.n);
-  for (let r=1;r<cc.n;r++) if (cc.ext[r]>=thr) keep[r]=1;
-  const out=new Uint8Array(N);
-  for (let i=0;i<N;i++){
-    let v=Math.min(delta[i], B[i]);
-    if (cc.lab[i] && keep[cc.lab[i]]) v=delta[i];
-    out[i]=v<0?0:(v>255?255:Math.round(v));
+  const fit=new Float32Array(N);
+  const resid=new Float32Array(N);
+  for (let it=0; it<5; it++){
+    for (let i=0;i<N;i++) resid[i]=delta[i]-fit[i];
+    const bl=blur(resid, W, H, sg);
+    for (let i=0;i<N;i++){ const v=fit[i]+bl[i]; fit[i]=v<0?0:v; }
   }
+  const out=new Uint8Array(N);
+  for (let i=0;i<N;i++){ const v=Math.round(fit[i]); out[i]=v>255?255:v; }
   return out;
 }
 onmessage=e=>{
-  const {dD, lD, hl, W, H, thr, sg}=e.data;
-  const N=W*H;
+  const {dD, lD, hl, W, H, sg}=e.data;
   postMessage({p:0.1});
-  const a=levelFilter(dD,W,H,thr,sg);
-  postMessage({p:0.5});
-  // a light detail and its shine core are ONE thing: sized together on
-  // their combined energy. Kept -> both survive whole; dropped -> the
-  // shine melts into the soft wash as ordinary light, never a hollow ring
-  const cm=new Uint8Array(N);
-  for (let i=0;i<N;i++){ const v=lD[i]+hl[i]; cm[i]=v>255?255:v; }
-  const B=blur(cm, W, H, sg);
-  const mask=new Uint8Array(N);
-  for (let i=0;i<N;i++) if (cm[i]-B[i]>=6) mask[i]=1;
-  const cc=labelComps(mask, W, H);
-  const keep=new Uint8Array(cc.n);
-  for (let r=1;r<cc.n;r++) if (cc.ext[r]>=thr) keep[r]=1;
-  const b=new Uint8Array(N), c=new Uint8Array(N);
-  for (let i=0;i<N;i++){
-    if (cc.lab[i] && keep[cc.lab[i]]){ b[i]=lD[i]; c[i]=hl[i]; }
-    else {
-      const v=Math.min(cm[i], B[i]);
-      b[i]=v<0?0:(v>255?255:Math.round(v));
-    }
-  }
+  const a=redraw(dD,W,H,sg);
+  postMessage({p:0.45});
+  const b=redraw(lD,W,H,sg);
+  postMessage({p:0.8});
+  const c=redraw(hl,W,H,sg);
   postMessage({dD:a, lD:b, hl:c},[a.buffer, b.buffer, c.buffer]);
 };
 `;
