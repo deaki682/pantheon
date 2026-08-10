@@ -30,7 +30,7 @@ button,select,input{font:inherit;padding:8px 12px;border:1px solid #555;
   background:#1e1e1e;color:#e8e6e1;border-radius:8px}
 button:disabled{opacity:.4}
 button.vOn{border-color:#e8e6e1;background:#3a3a3a}
-#viewRow{padding-bottom:0;align-items:flex-end}
+#viewRow{align-items:flex-end}
 #layerCol{display:flex;flex-direction:column;gap:8px}
 #layerCol .vBtn{width:100%}
 .row{display:flex;gap:8px;align-items:center;padding:8px;flex-wrap:wrap}
@@ -100,8 +100,8 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
   background:rgba(16,16,16,0.78);color:#e8e6e1;padding:6px 14px;
   border-radius:999px;font-size:12px;max-width:88%;text-align:center}
 #cmpHint:empty{display:none}
-#stat{padding:4px 8px;font-size:12px;min-height:22px}
 .fsBtn{min-width:40px}
+#lvBtn{display:flex;align-items:center;justify-content:center;min-width:44px}
 /* the one back button: fixed top-left, everywhere but the gallery */
 #backBtn{position:fixed;top:calc(8px + env(safe-area-inset-top));
   left:calc(8px + env(safe-area-inset-left));z-index:9;width:44px;height:44px;
@@ -172,13 +172,12 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
   </div>
   <div id="hudWrap">
     <div id="hud">
-      <div id="stat"></div>
       <!-- ways of seeing the reference; Grid rules them all -->
       <div class="row" id="viewRow">
         <div id="layerCol">
-          <button id="vDark" class="vBtn">Darks</button>
-          <button id="vLight" class="vBtn">Lights</button>
           <button id="vSpec" class="vBtn">Brights</button>
+          <button id="vLight" class="vBtn">Lights</button>
+          <button id="vDark" class="vBtn">Darks</button>
         </div>
         <span class="grow"></span>
         <button class="fsBtn" title="Fullscreen">&#x26F6;</button>
@@ -226,10 +225,8 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
     <input type="file" id="cmpFile" accept="image/*" hidden>
     <button id="cmpShoot">Photo</button>
     <button id="cmpFlip" disabled>Flip view</button>
-    <button id="cmpSplit" disabled>Side by side</button>
-    <button id="cmpSeam" disabled>Split</button>
-    <button id="lvBtn" disabled>Adjust</button>
-    <button id="cmpCorn" disabled>Corners</button>
+    <button id="cmpSplit" disabled>Compare</button>
+    <button id="lvBtn" disabled title="Adjust"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="15" cy="7" r="2.6" fill="#1e1e1e"/><circle cx="8" cy="12" r="2.6" fill="#1e1e1e"/><circle cx="12" cy="17" r="2.6" fill="#1e1e1e"/></svg></button>
   </div>
 </div>
 
@@ -645,9 +642,7 @@ function initMain(){
   GRID_READY = true;
   DETAIL='ultra'; $('detBtn').textContent='Ultra';
   $('detMenu').style.display='none';
-  stat('');
 }
-function stat(t){ $('stat').textContent = t; }
 
 
 
@@ -929,8 +924,6 @@ async function ensureDetail(lv){
   wk.onmessage=ev=>{
     if (ev.data.p!==undefined){
       prepProg(ev.data.p);
-      if (DETAIL===lv && $('scrMain').classList.contains('on'))
-        stat('sifting the detail  '+Math.round(ev.data.p*100)+'%');
       return;
     }
     wk.terminate(); DET.busy=null;
@@ -941,7 +934,7 @@ async function ensureDetail(lv){
       dbPutRaw('dtl16'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
       dbPutRaw('dth16'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
     }catch(e){}
-    if (DETAIL===lv && $('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
+    if (DETAIL===lv && $('scrMain').classList.contains('on')) viewRepaint();
   };
   wk.onerror=()=>{ wk.terminate(); DET.busy=null; };
   wk.postMessage({dD, lD, hl, W:w, H:h, shape:DET_SHAPE[lv]}, [dD.buffer, lD.buffer, hl.buffer]);
@@ -983,8 +976,6 @@ async function ensureForm(){
   wk.onmessage=ev=>{
     if (ev.data.p!==undefined){
       prepProg(ev.data.p);
-      if ($('scrMain').classList.contains('on'))
-        stat('preparing the layers  '+Math.round(ev.data.p*100)+'%');
       return;
     }
     wk.terminate();
@@ -993,7 +984,7 @@ async function ensureForm(){
     try{ dbPutRaw('form2|'+key, canvasBlob(c)); dbPutRaw('spec2|'+key, canvasBlob(sc)); }catch(e){}
     if (key!==CKEY) return;            // reformatted mid-cook; the next look recooks
     FORM.cv=c; FORM.specCv=sc; FORM.key=key;
-    if ($('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
+    if ($('scrMain').classList.contains('on')) viewRepaint();
   };
   wk.onerror=()=>{ wk.terminate(); FORM.busy=null; };
   wk.postMessage({gray, W:w, H:h}, [gray.buffer]);
@@ -1002,7 +993,6 @@ function toggleLayer(k){
   LAYERS[k]=!LAYERS[k];
   layerButtons();
   if (!state.img || !GRID_READY) return;
-  if (!(FORM.cv && FORM.key===CKEY)) stat('preparing the layers...');
   viewRepaint();
 }
 $('vDark').onclick=()=>toggleLayer('dk');
@@ -1026,7 +1016,6 @@ for (const b of $('detMenu').children){
     $('detBtn').textContent=DET_LABEL[DETAIL];
     $('detMenu').style.display='none';
     if (!state.img || !GRID_READY) return;
-    if (DETAIL!=='ultra' && !(DET.key===CKEY && DET.lv[DETAIL])) stat('drawing with the '+DET_LABEL[DETAIL].toLowerCase()+' tool...');
     viewRepaint();
   };
 }
@@ -1399,22 +1388,15 @@ function cmpButtons(){
   // after capture there are only two ways to look: Flip and Side by side.
   // The transparent overlay lives solely in the camera ghost; Straighten
   // appears only on the manual corner screen (picker photos).
-  const fl=$('cmpFlip'), cn=$('cmpCorn'), sp=$('cmpSplit'), lb=$('lvBtn');
+  const fl=$('cmpFlip'), sp=$('cmpSplit'), lb=$('lvBtn');
   const showLv = CMP.img && CMP.mode!=='corners' && !CAM.stream;
   $('lvRow').style.display = (showLv && CMP.lvOpen) ? '' : 'none';
   lb.style.display = CMP.mode==='corners' ? 'none' : '';
   lb.disabled = !CMP.img;
-  lb.textContent = CMP.lvOpen ? 'Done' : 'Adjust';
-  cn.style.display = CMP.mode==='corners' ? 'none' : '';
-  cn.disabled = !CMP.raw;
-  cn.textContent = 'Crop';
+  lb.classList.toggle('vOn', showLv && CMP.lvOpen);
   sp.style.display = CMP.mode==='corners' ? 'none' : '';
   sp.disabled = !CMP.img;
-  sp.textContent = CMP.mode==='split' ? 'Flip view' : 'Side by side';
-  const sm=$('cmpSeam');
-  sm.style.display = CMP.mode==='corners' ? 'none' : '';
-  sm.disabled = !CMP.img;
-  sm.textContent = CMP.mode==='seam' ? 'Flip view' : 'Split';
+  sp.textContent = CMP.mode==='split' ? 'Flip view' : 'Compare';
   fl.style.display = CMP.mode==='corners' ? '' : 'none';
   fl.disabled = !CMP.raw;
   fl.textContent = 'Crop';
@@ -1454,29 +1436,6 @@ function cmpRender(){
   } else if (CMP.img && CMP.mode==='flip'){
     if (CMP.showing==='ref'){ drawRef(); hint='reference - tap to flip'; }
     else { drawPhoto(); hint='your drawing - tap to flip'; }
-  } else if (CMP.img && CMP.mode==='seam'){
-    // ONE registered view: the drawing fills left of the seam, the
-    // reference right of it - the same spot on both, meeting mid-canvas
-    const {w,h}=worldSize();
-    const bs=Math.min(cv.width/w, cv.height/h), bx=(cv.width-w*bs)/2, by=(cv.height-h*bs)/2;
-    const halves=[
-      { x0:0, img:CMP.img, label:'drawing' },
-      { x0:cv.width/2, img:$('refImg'), label:'reference' }
-    ];
-    for (const hf of halves){
-      g.save();
-      g.beginPath(); g.rect(hf.x0,0,cv.width/2,cv.height); g.clip();
-      g.translate(SEAM.x,SEAM.y); g.scale(SEAM.s,SEAM.s);
-      g.translate(bx,by); g.scale(bs,bs);
-      g.drawImage(hf.img,0,0,w,h);
-      g.restore();
-    }
-    g.strokeStyle='rgba(232,230,225,0.45)'; g.lineWidth=1;
-    g.beginPath(); g.moveTo(cv.width/2,0); g.lineTo(cv.width/2,cv.height); g.stroke();
-    g.fillStyle='rgba(232,230,225,0.8)'; g.font='11px system-ui';
-    g.fillText('drawing', 8, 16);
-    g.fillText('reference', cv.width-8-g.measureText('reference').width, 16);
-    hint='one view, seam down the middle - drag and pinch';
   } else if (CMP.img && CMP.mode==='split'){
     // side by side, one shared view: gestures on either pane move both
     const pw=cv.width/2, ph=cv.height;
@@ -1501,24 +1460,12 @@ function cmpRender(){
     }
     g.strokeStyle='#555'; g.lineWidth=2;
     g.beginPath(); g.moveTo(pw,0); g.lineTo(pw,ph); g.stroke();
-    hint='side by side - both move together';
+    hint='compare - both move together';
   }
   $('cmpHint').textContent=hint;
   cmpButtons();
 }
 const SPL={x:0,y:0,s:1};
-const SEAM={x:0,y:0,s:1};
-function clampSeam(){
-  const cv=$('cmpCv');
-  const {w,h}=worldSize();
-  const bs=Math.min(cv.width/w, cv.height/h), bx=(cv.width-w*bs)/2, by=(cv.height-h*bs)/2;
-  SEAM.s=Math.max(1, Math.min(16, SEAM.s));
-  const W=w*bs*SEAM.s, H=h*bs*SEAM.s;
-  let X0=SEAM.x+bx*SEAM.s, Y0=SEAM.y+by*SEAM.s;
-  X0 = W<=cv.width ? (cv.width-W)/2 : Math.max(cv.width-W, Math.min(0,X0));
-  Y0 = H<=cv.height ? (cv.height-H)/2 : Math.max(cv.height-H, Math.min(0,Y0));
-  SEAM.x=X0-bx*SEAM.s; SEAM.y=Y0-by*SEAM.s;
-}
 function clampSplit(){
   const cv=$('cmpCv'), pw=cv.width/2, ph=cv.height;
   const {w,h}=worldSize();
@@ -1840,10 +1787,9 @@ async function camStart(){
     $('lvRow').style.display='none';
     $('cmpSplit').style.display='none';
     $('lvBtn').style.display='none';
-    $('cmpCorn').style.display='none';
     $('shutter').style.display='block';
     $('backBtn').textContent='✕';   // the back button reads as Cancel
-    $('cmpFlip').disabled=true; $('cmpCorn').disabled=true;
+    $('cmpFlip').disabled=true;
     $('cmpHint').textContent='line your drawing up with the ghost, then capture';
     clearInterval(CAM.timer); CAM.timer=setInterval(camGhost,250);
     camGhost();
@@ -1928,17 +1874,6 @@ $('cmpFile').addEventListener('change', e => {
 $('cmpFlip').onclick = () => {
   if (CMP.mode==='corners') cmpApplyCorners('flip');
 };
-$('cmpCorn').onclick = () => {
-  if (!CMP.raw) return;
-  CMP.mode='corners'; CMP.cGrab=null;
-  cmpRender();
-};
-$('cmpSeam').onclick = () => {
-  if (!CMP.img) return;
-  if (CMP.mode==='seam'){ CMP.mode='flip'; CMP.showing='photo'; }
-  else { CMP.mode='seam'; SEAM.x=0; SEAM.y=0; SEAM.s=1; clampSeam(); }
-  cmpRender();
-};
 $('cmpSplit').onclick = () => {
   if (!CMP.img) return;
   if (CMP.mode==='split'){ CMP.mode='flip'; CMP.showing='photo'; }
@@ -1964,7 +1899,7 @@ $('cmpSplit').onclick = () => {
       const [a,b]=[...pts.values()], r=cv.getBoundingClientRect(), kd=cv.width/r.width;
       g0={d:Math.hypot(a.x-b.x,a.y-b.y), ang:Math.atan2(b.y-a.y,b.x-a.x),
           mx:((a.x+b.x)/2-r.left)*kd, my:((a.y+b.y)/2-r.top)*kd,
-          spl:{...SPL}, sm:{...SEAM}};
+          spl:{...SPL}};
       tap=null; CMP.cGrab=null;
     }
   });
@@ -1980,21 +1915,6 @@ $('cmpSplit').onclick = () => {
         q.x=Math.max(0,Math.min(CMP.raw.width,  q.x+dx*kd/CMP.cfit.s));
         q.y=Math.max(0,Math.min(CMP.raw.height, q.y+dy*kd/CMP.cfit.s));
         cmpRender();
-      }
-      return;
-    }
-    if (CMP.mode==='seam' && CMP.img){
-      if (pts.size===1){
-        SEAM.x+=dx*kd; SEAM.y+=dy*kd; clampSeam(); cmpRender();
-      } else if (pts.size===2 && g0){
-        const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
-        const d=Math.hypot(a.x-b.x,a.y-b.y);
-        const mx=((a.x+b.x)/2-r.left)*kd, my=((a.y+b.y)/2-r.top)*kd;
-        const k=Math.max(1,Math.min(16,g0.sm.s*d/g0.d))/g0.sm.s;
-        SEAM.s=g0.sm.s*k;
-        SEAM.x=mx-(g0.mx-g0.sm.x)*k;
-        SEAM.y=my-(g0.my-g0.sm.y)*k;
-        clampSeam(); cmpRender();
       }
       return;
     }
@@ -2030,17 +1950,6 @@ $('cmpSplit').onclick = () => {
   cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
   cv.addEventListener('wheel', e => {
     if (!CMP.img) return;
-    if (CMP.mode==='seam'){
-      e.preventDefault();
-      const r=cv.getBoundingClientRect(), kd=cv.width/r.width;
-      const px=(e.clientX-r.left)*kd, py=(e.clientY-r.top)*kd;
-      const k=e.deltaY<0?1.08:1/1.08;
-      const ns=Math.max(1,Math.min(16,SEAM.s*k)), kk=ns/SEAM.s;
-      SEAM.s=ns;
-      SEAM.x=px-(px-SEAM.x)*kk; SEAM.y=py-(py-SEAM.y)*kk;
-      clampSeam(); cmpRender();
-      return;
-    }
     if (CMP.mode==='split'){
       e.preventDefault();
       const r=cv.getBoundingClientRect(), pw=cv.width/2, kd=cv.width/r.width;
