@@ -779,7 +779,7 @@ function compositeCv(){
 let DETAIL='fine';
 const DET_STEPS=['fine','med','broad'];
 const DET_LABEL={fine:'Fine', med:'Med', broad:'Broad'};
-const DET_SG={med:2, broad:5};      // tool radius in world px (96px = 1in)
+const DET_SG={med:1, broad:2};      // tool radius in world px (96px = 1in)
 const DET={key:null, busy:null, lv:{}};
 async function ensureDetail(lv){
   if (DET.key!==CKEY){ DET.key=CKEY; DET.lv={}; }
@@ -787,8 +787,8 @@ async function ensureDetail(lv){
   DET.busy=lv;
   const {w,h}=worldSize();
   const key=CKEY;
-  const a=await dbGet('dtd7'+lv+'|'+key), b=await dbGet('dtl7'+lv+'|'+key),
-        c=await dbGet('dth7'+lv+'|'+key);
+  const a=await dbGet('dtd8'+lv+'|'+key), b=await dbGet('dtl8'+lv+'|'+key),
+        c=await dbGet('dth8'+lv+'|'+key);
   if (a && b && c){
     try{
       const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
@@ -819,9 +819,9 @@ async function ensureDetail(lv){
     if (key!==CKEY) return;
     DET.lv[lv]={dD:ev.data.dD, lD:ev.data.lD, hl:ev.data.hl};
     try{
-      dbPutRaw('dtd7'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
-      dbPutRaw('dtl7'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
-      dbPutRaw('dth7'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
+      dbPutRaw('dtd8'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
+      dbPutRaw('dtl8'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
+      dbPutRaw('dth8'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
     }catch(e){}
     if (DETAIL===lv && $('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
   };
@@ -1082,13 +1082,11 @@ function diagPass(src, W, H, r, up, isMax){
 function toolOpen(delta, W, H, r){
   // a mark exists only where the tool fits inside it; otherwise blank.
   // Square + diamond passes compose to an octagonal tool footprint.
-  const rs=Math.max(1,Math.round(r*0.7)), rd=Math.max(1,r-rs);
+  const rs=Math.max(1,Math.round(r*0.7)), rd=r-rs;
   let a=linePass(delta,W,H,rs,true,false);
   a=linePass(a,W,H,rs,false,false);
-  a=diagPass(a,W,H,rd,false,false);
-  a=diagPass(a,W,H,rd,true,false);       // eroded
-  a=diagPass(a,W,H,rd,true,true);
-  a=diagPass(a,W,H,rd,false,true);
+  if (rd>0){ a=diagPass(a,W,H,rd,false,false); a=diagPass(a,W,H,rd,true,false); }   // eroded
+  if (rd>0){ a=diagPass(a,W,H,rd,true,true); a=diagPass(a,W,H,rd,false,true); }
   a=linePass(a,W,H,rs,false,true);
   a=linePass(a,W,H,rs,true,true);        // reopened
   const N=W*H, out=new Float32Array(N);
