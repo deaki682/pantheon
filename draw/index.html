@@ -2275,14 +2275,10 @@ function medianAt(cv2, x, y){
 // ---- anchor picking: a ring the artist drags onto the darkest charcoal,
 // then onto clean paper - those two samples define the whole tone range
 function pickSample(){
-  // ring position (ref space) -> photo pixel on the UNADJUSTED base
+  // ring position (ref space) -> photo pixel: the sheet maps 1:1
   const p2=CMP.pick; if (!p2 || !CMP.base) return null;
   const f=CMP.fit;
-  const cx=f.x+p2.rx*f.s, cy=f.y+p2.ry*f.s;
-  const cs=Math.cos(-CMP.t.r), sn=Math.sin(-CMP.t.r);
-  const dxc=cx-CMP.t.x, dyc=cy-CMP.t.y;
-  const px=(dxc*cs-dyc*sn)/CMP.t.s + CMP.base.width/2;
-  const py=(dxc*sn+dyc*cs)/CMP.t.s + CMP.base.height/2;
+  const px=p2.rx/f.w*CMP.base.width, py=p2.ry/f.h*CMP.base.height;
   if (px<4||py<4||px>=CMP.base.width-4||py>=CMP.base.height-4) return null;
   return medianAt(CMP.base, px, py);
 }
@@ -2353,9 +2349,10 @@ function cmpRender(){
   const cv=$('cmpCv'), g=cv.getContext('2d');
   g.imageSmoothingQuality='high';
   g.clearRect(0,0,cv.width,cv.height);
-  const drawPhoto=()=>{ if (!CMP.img) return; const t=CMP.t;
-    g.save(); g.translate(t.x,t.y); g.rotate(t.r); g.scale(t.s,t.s);
-    g.drawImage(CMP.img, -CMP.img.width/2, -CMP.img.height/2); g.restore(); };
+  // the capture IS the drawing area, so it renders onto the reference's
+  // exact rectangle - registration is structural, nothing computed to drift
+  const drawPhoto=()=>{ if (!CMP.img) return; const f=CMP.fit;
+    g.drawImage(CMP.img, f.x, f.y, f.w*f.s, f.h*f.s); };
   const drawRef=()=>{ const f=CMP.fit;
     g.drawImage($('refImg'), f.x, f.y, f.w*f.s, f.h*f.s); };
   let hint='photograph your drawing';
@@ -2404,11 +2401,9 @@ function cmpRender(){
     const bs=Math.min(pw/w, ph/h), bx=(pw-w*bs)/2, by=(ph-h*bs)/2;
     const f=CMP.fit;
     const panes=[
-      { ox:0, label:'drawing', draw:g2=>{        // the photo, in reference space
-          g2.translate((CMP.t.x-f.x)/f.s, (CMP.t.y-f.y)/f.s);
-          g2.rotate(CMP.t.r); g2.scale(CMP.t.s/f.s, CMP.t.s/f.s);
-          g2.drawImage(CMP.img, -CMP.img.width/2, -CMP.img.height/2); } },
-      { ox:pw, label:'reference', draw:g2=>{ g2.drawImage($('refImg'),0,0); } }
+      { ox:0, label:'drawing', draw:g2=>{        // the photo IS the sheet: 1:1
+          g2.drawImage(CMP.img, 0, 0, w, h); } },
+      { ox:pw, label:'reference', draw:g2=>{ g2.drawImage($('refImg'), 0, 0, w, h); } }
     ];
     for (const pn of panes){
       g.save();
