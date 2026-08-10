@@ -728,9 +728,10 @@ function compParts(){
   COMP.ph=grayData(state.img);
   COMP.sh=grayData(FORM.cv);
   const sp=grayData(FORM.specCv), N=sp.length;
-  // a highlight is real removed shine (the 18/12 knee filters faint
-  // form-turning) that also sits within the brightest ~20 levels of the
-  // photo. Everything dimmer is Lights.
+  // a highlight is real removed shine (the knee filters faint form-
+  // turning) near the photo's brightest levels - with LONG soft ramps on
+  // both, so moderate shine enters at partial strength and the layer
+  // carries a full range of tones instead of flat white pops
   const phist=new Uint32Array(256);
   for (let i=0;i<N;i++) phist[COMP.ph[i]]++;
   let pacc=0, phTop=255;
@@ -738,8 +739,8 @@ function compParts(){
   const B=phTop-20;
   COMP.hl=new Float32Array(N);
   for (let i=0;i<N;i++){
-    const s=sp[i], t=Math.max(0, Math.min(1, (s-18)/12));
-    const g=Math.max(0, Math.min(1, (COMP.ph[i]-(B-4))/4));
+    const s=sp[i], t=Math.max(0, Math.min(1, (s-12)/20));
+    const g=Math.max(0, Math.min(1, (COMP.ph[i]-(B-28))/28));
     COMP.hl[i]=s*(t*t*(3-2*t))*(g*g*(3-2*g));
   }
   // the brightest light: robust ceiling of the light-texture delta, used to
@@ -805,8 +806,8 @@ async function ensureDetail(lv){
   DET.busy=lv;
   const {w,h}=worldSize();
   const key=CKEY;
-  const a=await dbGet('dtd13'+lv+'|'+key), b=await dbGet('dtl13'+lv+'|'+key),
-        c=await dbGet('dth13'+lv+'|'+key);
+  const a=await dbGet('dtd14'+lv+'|'+key), b=await dbGet('dtl14'+lv+'|'+key),
+        c=await dbGet('dth14'+lv+'|'+key);
   if (a && b && c){
     try{
       const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
@@ -837,9 +838,9 @@ async function ensureDetail(lv){
     if (key!==CKEY) return;
     DET.lv[lv]={dD:ev.data.dD, lD:ev.data.lD, hl:ev.data.hl};
     try{
-      dbPutRaw('dtd13'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
-      dbPutRaw('dtl13'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
-      dbPutRaw('dth13'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
+      dbPutRaw('dtd14'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
+      dbPutRaw('dtl14'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
+      dbPutRaw('dth14'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
     }catch(e){}
     if (DETAIL===lv && $('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
   };
