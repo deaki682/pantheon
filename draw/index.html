@@ -167,7 +167,7 @@ button.vOn{border-color:#e8e6e1;background:#3a3a3a}
     </div>
     <button id="hudToggle" title="Tools">&#x25BE;</button>
   </div>
-  <div id="gridCorner"><button id="detBtn" title="Detail">Fine</button><button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
+  <div id="gridCorner"><button id="detBtn" title="Detail">Ultra</button><button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
   <!-- compare lives behind the camera in the opposite corner -->
   <div id="camCorner"><button id="compareBtn" title="Compare"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M3 19.5V7.5h4.2l1.8-2.2h6l1.8 2.2H21v12z"/><circle cx="12" cy="13.3" r="3.4"/></svg></button></div>
 </div>
@@ -557,7 +557,7 @@ function initMain(){
   applyView();
   GRID_READY = true;
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true; layerButtons();
-  DETAIL='fine'; $('detBtn').textContent='Fine';
+  DETAIL='ultra'; $('detBtn').textContent='Ultra';
   stat('');
 }
 function stat(t){ $('stat').textContent = t; }
@@ -746,11 +746,11 @@ function compParts(){
 function compositeCv(){
   compParts();
   let det=null;
-  if (DETAIL!=='fine'){
+  if (DETAIL!=='ultra'){
     if (DET.key===CKEY && DET.lv[DETAIL]) det=DET.lv[DETAIL];
-    else ensureDetail(DETAIL);          // async; the fine tool stands in
+    else ensureDetail(DETAIL);          // async; the ultra tool stands in
   }
-  const eff=det?DETAIL:'fine';
+  const eff=det?DETAIL:'ultra';
   const sig=(LAYERS.dk?'D':'')+(LAYERS.lt?'L':'')+(LAYERS.hl?'H':'')+'T'+eff;
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
   const {w,h}=worldSize();
@@ -776,19 +776,21 @@ function compositeCv(){
 // sizes. Fine is the tiniest tool - every texture exactly. With a bigger
 // tool, a mark exists only where the tool physically fits inside it
 // (grayscale opening); a detail the tool cannot achieve is left blank.
-let DETAIL='fine';
-const DET_STEPS=['fine','med','broad'];
-const DET_LABEL={fine:'Fine', med:'Med', broad:'Broad'};
-const DET_SG={med:1, broad:2};      // tool radius in world px (96px = 1in)
+let DETAIL='ultra';
+const DET_STEPS=['ultra','hyper','fine','broad'];
+const DET_LABEL={ultra:'Ultra', hyper:'Hyper', fine:'Fine', broad:'Broad'};
+// tool footprints, smallest to largest: a single point (everything),
+// a 5-point cross, a 3x3 square, an ~r2 octagon (world px; 96px = 1in)
+const DET_SHAPE={hyper:'cross', fine:'square', broad:'oct'};
 const DET={key:null, busy:null, lv:{}};
 async function ensureDetail(lv){
   if (DET.key!==CKEY){ DET.key=CKEY; DET.lv={}; }
-  if (lv==='fine' || DET.lv[lv] || DET.busy) return;
+  if (lv==='ultra' || DET.lv[lv] || DET.busy) return;
   DET.busy=lv;
   const {w,h}=worldSize();
   const key=CKEY;
-  const a=await dbGet('dtd8'+lv+'|'+key), b=await dbGet('dtl8'+lv+'|'+key),
-        c=await dbGet('dth8'+lv+'|'+key);
+  const a=await dbGet('dtd9'+lv+'|'+key), b=await dbGet('dtl9'+lv+'|'+key),
+        c=await dbGet('dth9'+lv+'|'+key);
   if (a && b && c){
     try{
       const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
@@ -819,14 +821,14 @@ async function ensureDetail(lv){
     if (key!==CKEY) return;
     DET.lv[lv]={dD:ev.data.dD, lD:ev.data.lD, hl:ev.data.hl};
     try{
-      dbPutRaw('dtd8'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
-      dbPutRaw('dtl8'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
-      dbPutRaw('dth8'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
+      dbPutRaw('dtd9'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
+      dbPutRaw('dtl9'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
+      dbPutRaw('dth9'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
     }catch(e){}
     if (DETAIL===lv && $('scrMain').classList.contains('on')){ viewRepaint(); stat(''); }
   };
   wk.onerror=()=>{ wk.terminate(); DET.busy=null; };
-  wk.postMessage({dD, lD, hl, W:w, H:h, sg:DET_SG[lv]}, [dD.buffer, lD.buffer, hl.buffer]);
+  wk.postMessage({dD, lD, hl, W:w, H:h, shape:DET_SHAPE[lv]}, [dD.buffer, lD.buffer, hl.buffer]);
 }
 function viewSrc(){
   if (!state.img) return state.img;
@@ -898,7 +900,7 @@ $('detBtn').onclick=()=>{
   DETAIL=DET_STEPS[(DET_STEPS.indexOf(DETAIL)+1)%DET_STEPS.length];
   $('detBtn').textContent=DET_LABEL[DETAIL];
   if (!state.img || !GRID_READY) return;
-  if (DETAIL!=='fine' && !(DET.key===CKEY && DET.lv[DETAIL])) stat('drawing with the '+DET_LABEL[DETAIL].toLowerCase()+' tool...');
+  if (DETAIL!=='ultra' && !(DET.key===CKEY && DET.lv[DETAIL])) stat('drawing with the '+DET_LABEL[DETAIL].toLowerCase()+' tool...');
   viewRepaint();
 };
 applyGrid(); layerButtons();
@@ -1079,25 +1081,54 @@ function diagPass(src, W, H, r, up, isMax){
   }
   return out;
 }
-function toolOpen(delta, W, H, r){
-  // a mark exists only where the tool fits inside it; otherwise blank.
-  // Square + diamond passes compose to an octagonal tool footprint.
-  const rs=Math.max(1,Math.round(r*0.7)), rd=r-rs;
-  let a=linePass(delta,W,H,rs,true,false);
-  a=linePass(a,W,H,rs,false,false);
-  if (rd>0){ a=diagPass(a,W,H,rd,false,false); a=diagPass(a,W,H,rd,true,false); }   // eroded
-  if (rd>0){ a=diagPass(a,W,H,rd,true,true); a=diagPass(a,W,H,rd,false,true); }
-  a=linePass(a,W,H,rs,false,true);
-  a=linePass(a,W,H,rs,true,true);        // reopened
+function crossPass(src, W, H, isMax){
+  // 5-point cross min/max: the smallest round-ish tool
+  const N=W*H, out=new Float32Array(N);
+  const pick=isMax?Math.max:Math.min;
+  for (let y=0;y<H;y++){
+    const o=y*W;
+    for (let x=0;x<W;x++){
+      const i=o+x;
+      let v=src[i];
+      if (x>0) v=pick(v,src[i-1]);
+      if (x<W-1) v=pick(v,src[i+1]);
+      if (y>0) v=pick(v,src[i-W]);
+      if (y<H-1) v=pick(v,src[i+W]);
+      out[i]=v;
+    }
+  }
+  return out;
+}
+function toolOpen(delta, W, H, shape){
+  // a mark exists only where the tool fits inside it; otherwise blank
+  let a;
+  if (shape==='cross'){
+    a=crossPass(delta,W,H,false);
+    a=crossPass(a,W,H,true);
+  } else if (shape==='square'){
+    a=linePass(delta,W,H,1,true,false);
+    a=linePass(a,W,H,1,false,false);
+    a=linePass(a,W,H,1,false,true);
+    a=linePass(a,W,H,1,true,true);
+  } else {                               // oct: ~r2, square + diamond passes
+    a=linePass(delta,W,H,1,true,false);
+    a=linePass(a,W,H,1,false,false);
+    a=diagPass(a,W,H,1,false,false);
+    a=diagPass(a,W,H,1,true,false);
+    a=diagPass(a,W,H,1,true,true);
+    a=diagPass(a,W,H,1,false,true);
+    a=linePass(a,W,H,1,false,true);
+    a=linePass(a,W,H,1,true,true);
+  }
   const N=W*H, out=new Float32Array(N);
   for (let i=0;i<N;i++) out[i]=Math.min(a[i], delta[i]);
   return out;
 }
 onmessage=e=>{
-  const {dD, lD, hl, W, H, sg}=e.data;
-  const N=W*H, r=sg;
+  const {dD, lD, hl, W, H, shape}=e.data;
+  const N=W*H;
   postMessage({p:0.1});
-  const oD=toolOpen(dD,W,H,r);
+  const oD=toolOpen(dD,W,H,shape);
   const a=new Uint8Array(N);
   for (let i=0;i<N;i++){ const v=Math.round(oD[i]); a[i]=v<0?0:(v>255?255:v); }
   postMessage({p:0.55});
@@ -1105,7 +1136,7 @@ onmessage=e=>{
   // give the shine back only where the achieved mark covers it
   const cm=new Float32Array(N);
   for (let i=0;i<N;i++){ const v=lD[i]+hl[i]; cm[i]=v>255?255:v; }
-  const oL=toolOpen(cm,W,H,r);
+  const oL=toolOpen(cm,W,H,shape);
   const b=new Uint8Array(N), c=new Uint8Array(N);
   for (let i=0;i<N;i++){
     const t=oL[i];
