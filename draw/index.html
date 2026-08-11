@@ -53,6 +53,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #upTitle{color:var(--acc);font-size:22px;letter-spacing:0.04em;margin-top:52px}
 #titleRule{display:block;width:100%;height:24px;flex:none;margin-top:2px}
 #pwaNote{color:var(--acc);font-size:11px;text-align:center;padding:4px 10px 0;flex:none}
+#pwaNote.big{font-size:15px;padding-top:10px}
+#pwaNote .tapLink{color:#fff;text-decoration:underline;text-underline-offset:2px}
 #invBtn{color:var(--acc)}
 #verTag{color:var(--acc);font-size:12px;text-align:center;letter-spacing:0.06em;margin-top:2px}
 #discBtn{color:var(--acc);display:flex;padding:4px}
@@ -2702,7 +2704,8 @@ document.addEventListener('click', e => {
   addEventListener('beforeinstallprompt', e=>{
     e.preventDefault(); bip=e;
     const n=$('pwaNote');
-    n.textContent='* Tap to install Realism';
+    n.innerHTML='* <span class="tapLink">Tap</span> to install Realism';
+    n.classList.add('big');
     n.style.cursor='pointer';
     n.onclick=async()=>{
       if (!bip) return;
@@ -2710,7 +2713,10 @@ document.addEventListener('click', e => {
       const r=await bip.userChoice.catch(()=>null);
       bip=null;
       if (r && r.outcome==='accepted') n.style.display='none';
-      else n.textContent='* iOS: Share \u2192 Add to Home Screen \u00b7 Android: \u22ee \u2192 Install';
+      else {
+        n.classList.remove('big');
+        n.textContent='* iOS: Share \u2192 Add to Home Screen \u00b7 Android: \u22ee \u2192 Install';
+      }
     };
   });
   addEventListener('appinstalled', ()=>{ $('pwaNote').style.display='none'; });
