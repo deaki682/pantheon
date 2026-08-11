@@ -8,5 +8,6 @@
   "valuation_terciles": {},
   "quality_terciles": {},
   "score_terciles": {},
-  "sector_return": {}
+  "sector_return": {},
+  "integrity_flag_2026_08_11": "RUN ABORTED BY OPERATOR-SIDE INTEGRITY CHECK (Zeus hourly, 2026-08-11 ~10:20 ET). run_ghost_oracle.py logged 'Broker: unavailable \u2014 robin_stocks not installed', fell back to the STALE cache/ghost_oracle_quotes.json, and wrote a 2026-08-11 curve point with equity $30,646.77 IDENTICAL to 2026-08-10 to 6 decimals and benchmark SPY_price 0.0 (the cache has no SPY row). That point was a fabrication, not a mark, and has been REMOVED from ghost_oracle_curve.json; no mark was recorded for 2026-08-11. ROOT CAUSE: the MIN_MARK_COVERAGE guard added after the 2026-08-03 incident checks quote COVERAGE (203/203 = 100%) but not quote FRESHNESS, so a fully-populated stale cache passes it cleanly. This is the same failure class the guard was written to stop. FIX REQUIRED (not silently patched, per the Oracle fail-safe \u2014 open a PR): (1) stamp an as-of timestamp on the quote cache and refuse to mark when it is older than the current session date; (2) treat a missing/zero SPY_price as a hard abort, since the benchmark leg is what makes the curve interpretable; (3) install robin_stocks in the runtime, or teach the runner to accept an MCP-populated quote file. IMPACT: paper-only, no money at risk, 0 graded entries, horizons 365-730d, so a single missing daily mark costs nothing. Prior points (08-05/08-07/08-10) carry distinct equity values and real SPY prices and appear genuine."
 }
