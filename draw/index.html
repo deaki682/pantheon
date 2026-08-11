@@ -51,6 +51,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #upRow{justify-content:space-between}
 .gitem{position:relative;flex:none;border:1px solid #555;background:#1e1e1e;
   cursor:pointer;border-radius:10px;overflow:hidden}
+.gitem.lastRef{border-color:var(--acc)}
 .gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
 .gbar{position:absolute;left:0;right:0;bottom:0;height:4px;
   background:rgba(20,20,20,0.55);visibility:hidden}
@@ -169,7 +170,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     </div>
   </div>
   <div class="row" id="upRow">
-    <button id="newPhoto">+ New reference</button>
+    <button id="newPhoto"><span style="color:var(--acc)">+</span> New Reference</button>
     <button id="calBtn" title="Grid square size and ruler match">1&Prime; Grid</button>
   </div>
   <span class="grow"></span>
@@ -391,8 +392,10 @@ async function renderGallery(){
   const host = $('gallery'); if (!host) return;
   const recs = (await galAll()).sort((a,b)=>b.ts-a.ts);
   host.innerHTML = '';
+  let last=null; try{ last=+localStorage.getItem('lastRef'); }catch(e){}
   for (const r of recs){
     const d = document.createElement('div'); d.className='gitem'; d.dataset.gid = r.id;
+    if (r.id===last) d.classList.add('lastRef');
     const im = document.createElement('img'); im.src = r.thumb; im.alt = r.name||'';
     const bar = document.createElement('div'); bar.className='gbar';
     bar.appendChild(Object.assign(document.createElement('div'),{className:'gfill'}));
@@ -428,6 +431,7 @@ setInterval(()=>{
 
 function openPhoto(blob, gid){
   galActive = gid ?? null; galLoading = 0.15;
+  if (gid != null){ try{ localStorage.setItem('lastRef', gid); }catch(e){} }
   $('upStat').textContent = '...';
   const img = new Image();
   img.onload = () => {
@@ -476,6 +480,15 @@ $('file').addEventListener('change', async e => {
 });
 renderGallery();
 $('newPhoto').onclick = () => $('file').click();
+// iOS can leave the page a few px offset after the photo-picker sheet or
+// the keyboard dismisses; the layout is fixed-size, so 0,0 is always right
+{
+  const unshift=()=>{ if (scrollX||scrollY) scrollTo(0,0); };
+  $('file').addEventListener('change', unshift);
+  if (window.visualViewport)
+    visualViewport.addEventListener('resize', ()=>setTimeout(unshift,60));
+  addEventListener('focusout', ()=>setTimeout(unshift,60));
+}
 $('calBtn').onclick = () => {
   calRefresh();
   $('gridModal').style.display='flex';
@@ -575,7 +588,7 @@ $('backBtn').onclick = () => {
     show('scrMain'); return;
   }
   if ($('scrMain').classList.contains('on')){ show('scrUpload'); renderGallery(); return; }
-  if ($('scrFormat').classList.contains('on')) show('scrUpload');
+  if ($('scrFormat').classList.contains('on')){ show('scrUpload'); renderGallery(); }
 };
 
 let FMT_APPLIED=null, FMT_TIMER=null;
