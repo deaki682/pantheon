@@ -1793,6 +1793,31 @@ function cmpSize(){
   CMP.fit={s, x:(cv.width-w*s)/2, y:(cv.height-h*s)/2, w, h};
 }
 const ADJ_DEF={exp:0, con:100, hi:0, sh:0, bl:0, wh:255};
+function paperMask(){
+  // per-pixel "is this blank paper?" alpha, keyed off the capture's own
+  // white point (85th-percentile luminance) with a soft shoulder
+  if (CMP.mask && CMP.maskFor===CMP.img) return CMP.mask;
+  const img=CMP.img; if (!img) return null;
+  const c=document.createElement('canvas');
+  c.width=img.width; c.height=img.height;
+  const g=c.getContext('2d',{willReadFrequently:true});
+  g.drawImage(img,0,0);
+  const im=g.getImageData(0,0,c.width,c.height), d=im.data;
+  const hist=new Uint32Array(256);
+  for (let i=0;i<d.length;i+=4) hist[d[i]]++;
+  const total=d.length/4;
+  let acc2=0, pw=250;
+  for (let v=0;v<256;v++){ acc2+=hist[v]; if (acc2>=total*0.85){ pw=v; break; } }
+  const lo=Math.max(1, pw-60), hi=Math.max(lo+8, pw-14);
+  for (let i=0;i<d.length;i+=4){
+    const v=d[i];
+    const a=(v-lo)/(hi-lo);
+    d[i+3]=Math.round(255*Math.max(0,Math.min(1,a)));
+  }
+  g.putImageData(im,0,0);
+  CMP.mask=c; CMP.maskFor=CMP.img;
+  return c;
+}
 function applyLevels(){
   // the artist's remembered adjustments: exposure -> contrast ->
   // highlights/darks -> black/white points. Default is the raw photo.
@@ -1963,8 +1988,23 @@ function cmpRender(){
       if (CMP.showing==='ref') drawRef();
       else {
         drawPhoto();
-        if (CMP.alpha>0){          // the reference ghosts through the drawing
-          g.globalAlpha=CMP.alpha; drawRef(); g.globalAlpha=1;
+        if (CMP.alpha>0){
+          // the reference shows through the BLANK PAPER only - the marks
+          // stay solid (per-pixel paper mask keyed to the capture)
+          const mk=paperMask(), f=CMP.fit;
+          if (mk){
+            const t=CMP.tmpCv || (CMP.tmpCv=document.createElement('canvas'));
+            if (t.width!==cv.width || t.height!==cv.height){ t.width=cv.width; t.height=cv.height; }
+            const tg=t.getContext('2d');
+            tg.globalCompositeOperation='source-over';
+            tg.clearRect(0,0,t.width,t.height);
+            tg.drawImage($('refImg'), f.x, f.y, f.w*f.s, f.h*f.s);
+            tg.globalCompositeOperation='destination-in';
+            tg.drawImage(mk, f.x, f.y, f.w*f.s, f.h*f.s);
+            g.globalAlpha=CMP.alpha; g.drawImage(t,0,0); g.globalAlpha=1;
+          } else {
+            g.globalAlpha=CMP.alpha; drawRef(); g.globalAlpha=1;
+          }
         }
       }
       cmpCircs(g, cv);
