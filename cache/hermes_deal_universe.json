@@ -1,13 +1,63 @@
 {
- "generated": "2026-08-10",
+ "generated": "2026-08-11",
  "window": {
-  "from": "2026-04-12",
-  "to": "2026-08-10",
+  "from": "2026-04-13",
+  "to": "2026-08-11",
   "lookback_days": 120
  },
- "n_candidates": 118,
+ "n_candidates": 120,
  "coverage_note": "COMPLETE population of announced-deal TARGETS from EDGAR daily form indexes (DEFM14A / PREM14A / DEFM14C / PREM14C / SC 14D9) \u2014 no keyword, keyed to the target CIK. KNOWN missing: (1) deals whose only public paper so far is an 8-K merger agreement that has not yet drawn a proxy/14D-9 \u2014 caught on the next sweep once the proxy files; (2) acquirer-side-only tenders (SC TO-T) by design \u2014 Hermes longs the target. Cash-vs-stock is NOT decided here; every candidate requires the per-deal read.",
  "candidates": [
+  {
+   "cik": "0002081043",
+   "company": "AtaiBeckley Inc.",
+   "symbol": "ATAI",
+   "channels": [
+    "definitive merger proxy (shareholder vote)",
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "DEFM14A",
+    "PREM14A"
+   ],
+   "first_filed": "2026-07-30",
+   "last_filed": "2026-08-10",
+   "n_filings": 2,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
+  {
+   "cik": "0002043699",
+   "company": "NewHold Investment Corp. III",
+   "symbol": "NHICW",
+   "channels": [
+    "definitive merger proxy (shareholder vote)"
+   ],
+   "forms": [
+    "DEFM14A"
+   ],
+   "first_filed": "2026-08-10",
+   "last_filed": "2026-08-10",
+   "n_filings": 1,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
+  {
+   "cik": "0000842023",
+   "company": "BIO-TECHNE Corp",
+   "symbol": "TECH",
+   "channels": [
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "PREM14A"
+   ],
+   "first_filed": "2026-08-10",
+   "last_filed": "2026-08-10",
+   "n_filings": 1,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
   {
    "cik": "0001036044",
    "company": "Identiv, Inc.",
@@ -177,22 +227,6 @@
    "first_filed": "2026-07-16",
    "last_filed": "2026-07-31",
    "n_filings": 2,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0002081043",
-   "company": "AtaiBeckley Inc.",
-   "symbol": "ATAI",
-   "channels": [
-    "preliminary merger proxy (earlier signal)"
-   ],
-   "forms": [
-    "PREM14A"
-   ],
-   "first_filed": "2026-07-30",
-   "last_filed": "2026-07-30",
-   "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -647,7 +681,7 @@
   {
    "cik": "0001563577",
    "company": "Galera Therapeutics, Inc.",
-   "symbol": "GRTXD",
+   "symbol": "GRTX",
    "channels": [
     "merger information statement (written consent, no vote)"
    ],
@@ -981,7 +1015,7 @@
   {
    "cik": "0001606498",
    "company": "AVANOS MEDICAL, INC.",
-   "symbol": "AVNS",
+   "symbol": null,
    "channels": [
     "definitive merger proxy (shareholder vote)",
     "preliminary merger proxy (earlier signal)"

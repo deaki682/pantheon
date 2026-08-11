@@ -313,5 +313,11 @@
   "spy": 773.95,
   "cash": 664.56,
   "note": "Zeus hourly pass ~10:12 ET Mon 2026-08-10. Reconcile CLEAN (hermes_reconcile==[] ; broker==sleeve exact on all six: ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138). No break-stops, no completions, no past-close deals. Sourcing sweep ran (118 announced-deal targets, 73 ticker-resolved, 120d window): ZERO genuinely new deals \u2014 the 56 rows absent from the A/B are alternate share classes (BBCQW/HSCSW/GRTXD/MDV-PA/EQH-PC/WBS-PG/VAL-WT/TWOD/CRBD) or unresolved-symbol duplicates of already-detected deals. No LLM read needed, no entries. sweep_unresolved: 0 swept (all past-close detections already graded; no unpriced stragglers). LLM-lift +2.35pp expectancy (Arm A n=3 +1.22% vs Arm B n=108 -1.13%) \u2014 directionally positive but Arm A is far too thin to read. Cash $664.56 idle, no qualifying candidate."
+ },
+ {
+  "date": "2026-08-11",
+  "equity": 4029.88,
+  "spy": 773.77,
+  "note": "Zeus hourly session ~10:15 ET Tue 2026-08-11. Tend: reconcile clean (hermes_reconcile()==[], broker==sleeve on all 6), no break-stops, no past-close deals (earliest 2026-09-30). Sourcing sweep: 120 announced-deal targets / 74 ticker-resolved over 2026-04-13..08-11; 2 genuinely new after dedupe (TECH, NHICW), both DROPPED. GBCS tender expired 08-10 but OTCQB has no Robinhood quote -> left unresolved, must be graded next session from the completion filing."
  }
 ]
