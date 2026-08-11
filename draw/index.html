@@ -934,7 +934,7 @@ vp.addEventListener('pointermove', e => {
     let sRaw=pinch0.s*d/pinch0.d;
     if (pinch0.lock && sRaw>L){
       // held at true size for this whole gesture; only a fresh pinch passes
-      if (view.s<L*0.999){ haptic(); toast('True to Life', true); }
+      if (view.s<L*0.999){ haptic(); toast('True to Life', true, 700); }
       sRaw=L;
     }
     const s=clamp(sRaw, zb.min, zb.max);
@@ -977,7 +977,7 @@ vp.addEventListener('pointerup', e => {
       view.x=e.clientX-rect.left-(e.clientX-rect.left-view.x)*k;
       view.y=e.clientY-rect.top-(e.clientY-rect.top-view.y)*k;
       view.s=tgt;
-      if (Math.abs(tgt-lifeS())<1e-9) toast('True to Life', true);
+      if (Math.abs(tgt-lifeS())<1e-9) toast('True to Life', true, 700);
     }
     const w=$('world');
     w.style.transition='transform 0.22s ease';
@@ -998,7 +998,7 @@ vp.addEventListener('wheel', e => {
   const cont = Date.now()-wheelT < 400;          // same continuous scroll
   wheelT = Date.now();
   let s = clamp(view.s*k, zb.min, zb.max);
-  if (k>1 && view.s<L*0.999 && s>L){ s=L; wheelStuck=true; haptic(); toast('True to Life', true); }
+  if (k>1 && view.s<L*0.999 && s>L){ s=L; wheelStuck=true; haptic(); toast('True to Life', true, 700); }
   else if (k>1 && wheelStuck){
     if (cont) return;                            // the stop holds this stream
     wheelStuck=false;                            // re-engaged: allowed past
@@ -1306,12 +1306,12 @@ $('expBtn').onclick = () => {
   setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
   toast('image downloaded');
 };
-function toast(t, acc){
+function toast(t, acc, ms){
   const el=$('toast'); el.textContent=t;
   el.classList.toggle('accToast', !!acc);
   el.classList.add('on');
   clearTimeout(toast._t);
-  toast._t=setTimeout(()=>el.classList.remove('on'), 1500);
+  toast._t=setTimeout(()=>el.classList.remove('on'), ms||1500);
 }
 $('gridBtn').onclick=()=>{
   GRID_ON=!GRID_ON;
