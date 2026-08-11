@@ -215,13 +215,6 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     </div>
   </div>
 
-<svg width="0" height="0" style="position:absolute"><defs>
-  <filter id="tonePaint" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
-    <feColorMatrix id="toneMatrix" type="matrix"
-      values="0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  1 0 0 0 0"/>
-  </filter>
-</defs></svg>
-
 <!-- 1: upload -->
 <div class="screen on" id="scrUpload">
   <div class="row" style="position:relative;justify-content:center">
@@ -376,42 +369,11 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 window.__INLINE_ARSENAL = [{"id": 30, "name": "Fingertip", "mode": "deposit", "tone": 15, "liftAmount": 20, "blendType": "directional", "spreadMm": 2, "strength": 60, "lighten": 0, "sizeMm": 15.6, "fuzz": 50, "spacing": 6, "pSize": false, "liftCeiling": 78}, {"id": 12, "name": "Q-tip", "mode": "deposit", "tone": 15, "liftAmount": 60, "lighten": 0, "blendType": "spread", "spreadMm": 2, "strength": 60, "sizeMm": 5, "fuzz": 50, "spacing": 6, "pSize": false, "noEngine": true}, {"id": 24, "name": "Very Light Big Brush", "mode": "deposit", "tone": 192, "liftAmount": 60, "lighten": 0, "blendType": "spread", "spreadMm": 2, "strength": 60, "sizeMm": 30, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 23, "name": "Light Big Brush", "mode": "deposit", "tone": 110, "liftAmount": 60, "lighten": 0, "blendType": "spread", "spreadMm": 2, "strength": 60, "sizeMm": 30, "fuzz": 70, "spacing": 6, "pSize": false}, {"id": 21, "name": "Big Brush", "mode": "deposit", "tone": 66, "liftAmount": 60, "lighten": 0, "blendType": "spread", "spreadMm": 2, "strength": 60, "sizeMm": 30, "fuzz": 74, "spacing": 6, "pSize": false}, {"id": 29, "name": "Dark Big", "mode": "deposit", "tone": 40, "liftAmount": 20, "blendType": "directional", "spreadMm": 2, "strength": 60, "lighten": 0, "sizeMm": 29.9, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 14, "name": "Big Blend", "mode": "blend", "tone": 128, "liftAmount": 60, "lighten": 0, "blendType": "spread", "spreadMm": 2, "strength": 60, "sizeMm": 30, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 26, "name": "Light Med", "mode": "deposit", "tone": 120, "liftAmount": 20, "blendType": "directional", "spreadMm": 10, "strength": 60, "lighten": 0, "sizeMm": 9.1, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 25, "name": "Med Brush", "mode": "deposit", "tone": 78, "liftAmount": 20, "blendType": "directional", "spreadMm": 2, "strength": 67, "lighten": 0, "sizeMm": 9.1, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 28, "name": "Dark Med", "mode": "deposit", "tone": 43, "liftAmount": 20, "blendType": "directional", "spreadMm": 2, "strength": 60, "lighten": 0, "sizeMm": 7, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 27, "name": "Med Blend", "mode": "blend", "tone": 128, "liftAmount": 20, "blendType": "spread", "spreadMm": 2, "strength": 60, "lighten": 0, "sizeMm": 7, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 16, "name": "Kneaded Eraser", "mode": "lift", "tone": 128, "liftAmount": 20, "lighten": 0, "blendType": "spread", "spreadMm": 2, "strength": 60, "sizeMm": 9.1, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 17, "name": "Tissue", "mode": "lift", "tone": 128, "liftAmount": 15, "lighten": 0, "blendType": "spread", "spreadMm": 2, "strength": 60, "sizeMm": 20.9, "fuzz": 50, "spacing": 6, "pSize": false}];
 </script>
 <script>
-/* GPU.JS - the WebGPU audition engine. SPEED.md phase: full port, gated.
-
-   The spike proved the shape: 256 auditions x 16K px in 3.2ms, bit-matching
-   JS (96x). This file carries the real thing: rehearsal (deposit AND lift
-   with the stain clamp) plus ALL FOUR cost terms, per candidate, in one
-   dispatch. It integrates NOWHERE until gpuSelfTest() passes parity against
-   the worker's own arithmetic - the engine's judgment must not move.
-
-   API (all no-ops if WebGPU is absent):
-     await gpuInit()                       -> true if a device is live
-     gpuLoadSquare({paper,tgt,tgx,tgy,stain,tdark})  Float32Array fields at RW
-     await gpuScoreBatch(cands)            -> Float32Array of costs
-       cand: {stamps:[[x,y,r,amp]..], mode:0|1, tone, lift}   (RW pixel space)
-     await gpuSelfTest()                   -> {ok, worst}  vs the JS mirror
-
-   Integration plan (next): engine gains ctx.tryMarkBatch; the decision loop
-   collects candidates, scores them here, rehearses ONLY the winner on CPU
-   for the paper update. Fallback: the existing per-candidate worker path.
-
-   NOT DONE YET (in order):
-   - histogram percentile terms (shortfall/blown) - kernel scaffold below
-     computes the two histograms with atomics; the percentile walk + combine
-     still happens on CPU from the binned readback (cheap: 2x256 u32 per cand).
-   - blends stay CPU (canvas-shaped physics).
-   - parity harness wiring into the worker (compare vs cost() on live squares).
-*/
-'use strict';
-
-
-</script>
-<script>
 
 'use strict';
 let GRID_COLS = 20, GRID_ROWS = 30;          // set by the format screen
 const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
-const state = { img:null, tools:[], refKey:'user' };
+const state = { img:null, tools:[] };
 </script>
 
 <script>
@@ -420,33 +382,14 @@ const state = { img:null, tools:[], refKey:'user' };
 const $ = id => document.getElementById(id);
 const show = id => { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on')); $(id).classList.add('on');
   $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex'; };
-let lastAct=0;                              // when the user's hands last moved
-const touchAct=()=>{ lastAct=performance.now(); };
 
 
 const CEILINGS = { 'Fingertip': 78 };          // same rule as the studio
-async function loadArsenal(){
-  
-  if (window.__INLINE_ARSENAL){
-    state.tools = window.__INLINE_ARSENAL.map(t => Object.assign({}, t, {
-      tone: t.tone ?? 128, liftAmount: t.liftAmount ?? 20,
-      liftCeiling: t.liftCeiling ?? CEILINGS[t.name] ?? null
-    }));
-    return 'inline';
-  }
-  for (const u of ['/stream/arsenal.json','/arsenal.json']){
-    try {
-      const r = await fetch(u,{cache:'no-store'}); if (!r.ok) continue;
-      const d = await r.json();
-      if (!d || !Array.isArray(d.tools) || !d.tools.length) continue;
-      state.tools = d.tools.map(t => Object.assign({}, t, {
-        tone: t.tone ?? 128, liftAmount: t.liftAmount ?? 20,
-        liftCeiling: t.liftCeiling ?? CEILINGS[t.name] ?? null
-      }));
-      return u;
-    } catch(e){}
-  }
-  return null;
+function loadArsenal(){
+  state.tools = window.__INLINE_ARSENAL.map(t => Object.assign({}, t, {
+    tone: t.tone ?? 128, liftAmount: t.liftAmount ?? 20,
+    liftCeiling: t.liftCeiling ?? CEILINGS[t.name] ?? null
+  }));
 }
 
 
@@ -564,6 +507,7 @@ function openPhoto(blob, gid){
     g.filter = 'none';
     photo = c;
     URL.revokeObjectURL(img.src);
+    FMT_APPLIED = null;               // a new photo always reformats
     galLoading = null; GRID_READY = false;
     $('upStat').textContent = '\u03b1 0.5';
     FMT_OFF.x=FMT_OFF.y=0.5;
@@ -831,7 +775,7 @@ async function applyFormat(){
   let ppi = 96;
   if (wIn*hIn*96*96 > 13e6) ppi = Math.sqrt(13e6/(wIn*hIn));
   const w = Math.round(wIn*ppi), h = Math.round(w*cr.h/cr.w);
-  const sig = w+'x'+h+'@'+cr.x+','+cr.y+','+cr.w+','+cr.h;
+  const sig = (galActive??'x')+'|'+w+'x'+h+'@'+cr.x+','+cr.y+','+cr.w+','+cr.h;
   if (FMT_APPLIED===sig) return;
   FMT_APPLIED=sig;
   WORLD={w,h}; PHYS_W_IN=wIn;
@@ -850,7 +794,7 @@ async function dbHas(k){ try{ const d=await db(); return await new Promise(res=>
   t.onsuccess=()=>res(t.result!==undefined); t.onerror=()=>res(false); }); }catch(e){ return false; } }
 async function prepReady(){
   if (FORM.key===CKEY && DET.key===CKEY && DET.lv.hyper && DET.lv.fine) return true;
-  for (const k of ['form2|','spec2|','dtd16hyper|','dtl16hyper|','dth16hyper|',
+  for (const k of ['form2|','dtd16hyper|','dtl16hyper|','dth16hyper|',
                    'dtd16fine|','dtl16fine|','dth16fine|'])
     if (!(await dbHas(k+CKEY))) return false;
   return true;
@@ -1172,6 +1116,14 @@ function initMain(){
   $('hudToggle').classList.remove('lit','vOn');
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true;
   layerButtons();
+  // the reference remembers its drawing tool across sessions - restored
+  // BEFORE the first paint, or the image composes at the old level while
+  // the button claims the saved one
+  DETAIL='ultra';
+  try{ const d=localStorage.getItem('det|'+galActive);
+    if (DET_STEPS.includes(d)) DETAIL=d; }catch(e){}
+  $('detBtn').textContent=DET_LABEL[DETAIL];
+  $('detMenu').style.display='none';
   paintWorld();
   const vp = $('viewport').getBoundingClientRect();
   view.s = Math.max(0.05, Math.min(vp.width/w, vp.height/h) || 0.05);
@@ -1181,12 +1133,6 @@ function initMain(){
   drawGrid();
   circsLoad();
   drawCircs();
-  // the reference remembers its drawing tool across sessions
-  DETAIL='ultra';
-  try{ const d=localStorage.getItem('det|'+galActive);
-    if (DET_STEPS.includes(d)) DETAIL=d; }catch(e){}
-  $('detBtn').textContent=DET_LABEL[DETAIL];
-  $('detMenu').style.display='none';
 }
 
 
@@ -1195,8 +1141,7 @@ const ptrs = new Map();
 let pinch0 = null;
 let CDRAG=null, cdPend=null, cdT=0;   // press-and-hold moves a red mark
 const vp = $('viewport');
-vp.addEventListener('pointermove', touchAct);
-vp.addEventListener('pointerdown', e => { touchAct();
+vp.addEventListener('pointerdown', e => {
   vp.setPointerCapture(e.pointerId);
   ptrs.set(e.pointerId, {x:e.clientX, y:e.clientY});
   if (ptrs.size===1 && GRID_READY && CIRCS.length){
@@ -1396,7 +1341,7 @@ const blobToCanvas=async bl=>{
 const LAYERS={dk:true, lt:true, hl:true};
 let GRID_ON=true;
 try{ GRID_ON = localStorage.getItem('gridOn')!=='0'; }catch(e){}
-const FORM={cv:null, specCv:null, key:null, busy:null};
+const FORM={cv:null, key:null, busy:null};
 const COMP={key:null, ph:null, sh:null, hl:null, sig:null, cv:null};
 
 function applyGrid(){
@@ -1567,11 +1512,11 @@ const canvasBlob=(c,type,q)=>{
 async function ensureForm(){
   if ((FORM.cv && FORM.key===CKEY) || FORM.busy) return;
   const key=CKEY; FORM.busy=key;
-  const bl=await dbGet('form2|'+key), sl=await dbGet('spec2|'+key);
-  if (bl && sl){
+  const bl=await dbGet('form2|'+key);
+  if (bl){
     try{
-      const c=await blobToCanvas(bl), sc=await blobToCanvas(sl);
-      FORM.cv=c; FORM.specCv=sc; FORM.key=key; FORM.busy=null;
+      const c=await blobToCanvas(bl);
+      FORM.cv=c; FORM.key=key; FORM.busy=null;
       if (key===CKEY && $('scrMain').classList.contains('on')) viewRepaint();
       return;
     }catch(e){}
@@ -1586,10 +1531,10 @@ async function ensureForm(){
     }
     wk.terminate();
     FORM.busy=null;
-    const c=grayCanvas(ev.data.done,w,h), sc=grayCanvas(ev.data.spec,w,h);
-    try{ dbPutRaw('form2|'+key, canvasBlob(c)); dbPutRaw('spec2|'+key, canvasBlob(sc)); }catch(e){}
+    const c=grayCanvas(ev.data.done,w,h);
+    try{ dbPutRaw('form2|'+key, canvasBlob(c)); }catch(e){}
     if (key!==CKEY) return;            // reformatted mid-cook; the next look recooks
-    FORM.cv=c; FORM.specCv=sc; FORM.key=key;
+    FORM.cv=c; FORM.key=key;
     if ($('scrMain').classList.contains('on')) viewRepaint();
   };
   wk.onerror=()=>{ wk.terminate(); FORM.busy=null; };
@@ -1758,15 +1703,12 @@ onmessage=e=>{
   const sc=Math.max(W,H)/2000;
   const odd=k=>{ k=Math.max(3,Math.round(k)); return (k&1)?k:k+1; };
   const img=gray;
-  const orig=new Uint8Array(gray);
   const passes=[[15,9],[31,8],[51,8]];
   for (let i2=0;i2<passes.length;i2++){
     postMessage({p:i2*0.22});
     const med=medianBlur(img,W,H,odd(passes[i2][0]*sc)), thr=passes[i2][1];
     for (let i=0;i<N;i++) if (img[i]-med[i]>thr) img[i]=med[i];
   }
-  const spec=new Uint8Array(N);
-  for (let i=0;i<N;i++){ const d=orig[i]-img[i]; spec[i]=d>0?d:0; }
   postMessage({p:0.68});
   const F=Float32Array.from(img);
   dtFilter(F,W,H,60*sc,0.22*255);
@@ -1778,7 +1720,7 @@ onmessage=e=>{
   gauss(F,W,H,1.0*sc);
   const out=new Uint8ClampedArray(N);
   for (let i=0;i<N;i++){ const v=F[i]; out[i]=v<0?0:(v>255?255:v); }
-  postMessage({done:out, spec},[out.buffer, spec.buffer]);
+  postMessage({done:out},[out.buffer]);
 };
 `;
 const DETAIL_SRC = `
@@ -1948,7 +1890,7 @@ document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) wakeHol
 
 
 
-loadArsenal().then(() => { $('upStat').textContent = '\u03b1 0.5'; });
+loadArsenal(); $('upStat').textContent = '\u03b1 0.5';
 
 // ---- compare: photograph the real drawing, align it over the reference, flip ----
 const CMP={img:null, base:null, blob:null, ckey:null,
