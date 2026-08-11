@@ -2821,6 +2821,17 @@ document.addEventListener('click', e => {
         localStorage.setItem(key,'1');
         added=true;
       }
+      // the two portrait-session starters come pre-set to 18x24 in
+      if (!localStorage.getItem('fmt18')){
+        const recs=await galAll();
+        for (const r of recs){
+          if ((r.name==='starter-guy.jpg'||r.name==='starter-soft.jpg')
+              && !localStorage.getItem('fmt|'+r.id))
+            localStorage.setItem('fmt|'+r.id,
+              JSON.stringify({w:18, h:24, u:'in', ox:0.5, oy:0.5}));
+        }
+        localStorage.setItem('fmt18','1');
+      }
       if (added) renderGallery();
     }catch(e){}
   })();
