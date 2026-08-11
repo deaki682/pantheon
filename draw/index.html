@@ -150,8 +150,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #compareBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 .fsBtn{min-width:40px}
-#widthIn,#cellVal{width:64px;background:#1e1e1e;color:#e8e6e1;border:1px solid #555;
-  border-radius:8px;padding:8px;font:inherit}
+#widthIn,#heightIn,#cellVal,#cellVal2{width:64px;background:#1e1e1e;color:#e8e6e1;
+  border:1px solid #555;border-radius:8px;padding:8px;font:inherit}
 #lvBtn{display:flex;align-items:center;justify-content:center;min-width:44px}
 #cmpRow{justify-content:space-evenly}
 /* first-visit coach marks: a darkened veil with one floating line */
@@ -237,19 +237,19 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 <!-- 2: format -->
 <div class="screen" id="scrFormat">
   <div class="row">
-    <label>Aspect
-      <select id="aspect">
-        <option value="photo">photo's own</option>
-        <option value="2:3">2:3</option>
-        <option value="3:4">3:4</option>
-        <option value="4:5">4:5</option>
-        <option value="1:1">1:1</option>
-      </select>
-    </label>
-    <label>Size
-      <input type="number" id="widthIn" min="4" max="160" step="1" inputmode="numeric">
-    </label>
+    <span>Drawing Size?</span>
+    <input type="number" id="widthIn" min="4" max="160" step="1" inputmode="numeric">
+    <span>x</span>
+    <input type="number" id="heightIn" min="4" max="240" step="1" inputmode="numeric">
     <select id="unit">
+      <option value="in">inches</option>
+      <option value="cm">cm</option>
+    </select>
+  </div>
+  <div class="row" style="padding-top:0">
+    <span>Grid Size:</span>
+    <input type="number" id="cellVal2" min="0.25" max="60" step="0.25" inputmode="decimal">
+    <select id="cellUnit2">
       <option value="in">inches</option>
       <option value="cm">cm</option>
     </select>
@@ -527,7 +527,7 @@ function openPhoto(blob, gid){
     let fmt = null;   // a photo formatted before goes straight to the drawing
     if (gid != null){ try{ fmt = JSON.parse(localStorage.getItem('fmt|'+gid)); }catch(e){} }
     if (fmt && fmt.w){
-      $('aspect').value = fmt.a || 'photo';
+      if (fmt.h) $('heightIn').value = fmt.h;
       if (fmt.u){ try{ localStorage.setItem('unit', fmt.u); }catch(e){}
         $('unit').value = fmt.u; calRefresh(); }
       $('widthIn').value = fmt.w;
@@ -634,10 +634,8 @@ $('gridModal').onclick = e => {
 
 
 function ratioOf(){
-  const a = $('aspect').value;
-  if (a === 'photo') return photo.width / photo.height;
-  const [w,h] = a.split(':').map(Number);
-  return w/h;
+  const w=+$('widthIn').value||1, h=+$('heightIn').value||1;
+  return Math.max(0.1, Math.min(10, w/h));
 }
 function physWIn(){
   const u = $('unit').value;
@@ -653,6 +651,13 @@ function initFormat(){
   $('unit').value = curUnit();
   if (!$('widthIn').value)
     $('widthIn').value = $('unit').value==='cm' ? 50 : 20;
+  if (photo){
+    // a fresh photo proposes its own proportions; either number is free
+    const w=+$('widthIn').value;
+    $('heightIn').value = Math.max(4, Math.round(w * photo.height/photo.width));
+  }
+  $('cellVal2').value = CELLSZ.v;
+  $('cellUnit2').value = CELLSZ.u;
   fmtPreview();
 }
 const FMT_OFF={x:0.5, y:0.5};   // where the crop sits inside the slack
@@ -672,7 +677,8 @@ function fmtPreview(){
   const g = cv.getContext('2d');
   g.imageSmoothingQuality='high';
   g.drawImage(photo, cr.x, cr.y, cr.w, cr.h, 0, 0, cv.width, cv.height);
-  const wIn = physWIn(), hIn = wIn*cr.h/cr.w;
+  const wIn = physWIn();
+  const hIn = wIn * ((+$('heightIn').value||1)/(+$('widthIn').value||1));
   const step = cv.width*cellIn()/wIn;
   g.strokeStyle='rgba(255,255,255,0.7)'; g.lineWidth=1;
   for (let x=step; x<cv.width-1; x+=step){ const xx=Math.round(x)+0.5;
@@ -680,9 +686,8 @@ function fmtPreview(){
   for (let y=step; y<cv.height-1; y+=step){ const yy=Math.round(y)+0.5;
     g.beginPath(); g.moveTo(0,yy); g.lineTo(cv.width,yy); g.stroke(); }
   const slack = (photo.width-cr.w) + (photo.height-cr.h);
-  const u = $('unit').value, sq = squaresOf(wIn, hIn);
-  const disp = v => u==='cm' ? Math.round(v*2.54) : Math.round(v*10)/10;
-  $('fmtInfo').textContent = `${disp(wIn)} x ${disp(hIn)} ${u} - ${sq.cols} x ${sq.rows} squares`
+  const sq = squaresOf(wIn, hIn);
+  $('fmtInfo').textContent = `${sq.cols} x ${sq.rows} squares`
     + (slack>2 ? ' - drag to place' : '');
 }
 // drag the preview to slide the crop window around the photo
@@ -708,13 +713,26 @@ function fmtPreview(){
   const end=e=>{ drag=null; };
   cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
 }
-$('aspect').onchange = ()=>{ fmtPreview(); speculate(); };
 $('widthIn').oninput = ()=>{ fmtPreview(); speculate(); };
+$('heightIn').oninput = ()=>{ fmtPreview(); speculate(); };
 $('unit').onchange = ()=>{
-  const u=$('unit').value, w=+$('widthIn').value||0;
+  const u=$('unit').value, w=+$('widthIn').value||0, h=+$('heightIn').value||0;
   $('widthIn').value = u==='cm' ? Math.round(w*2.54) : Math.max(4,Math.round(w/2.54));
+  $('heightIn').value = u==='cm' ? Math.round(h*2.54) : Math.max(4,Math.round(h/2.54));
   try{ localStorage.setItem('unit', u); }catch(e){}
   fmtPreview(); speculate();
+};
+$('cellVal2').oninput = ()=>{
+  const v=+$('cellVal2').value;
+  if (v>=0.25 && v<=60){ CELLSZ.v=v; saveCell(); calRefresh(); fmtPreview(); }
+};
+$('cellUnit2').onchange = ()=>{
+  const u=$('cellUnit2').value;
+  if (u===CELLSZ.u) return;
+  CELLSZ.u=u;
+  CELLSZ.v = u==='cm' ? Math.max(0.5, Math.round(CELLSZ.v*2.54*2)/2)
+                      : Math.max(0.25, Math.round(CELLSZ.v/2.54*4)/4);
+  saveCell(); calRefresh(); fmtPreview();
 };
 // the one back button: cancels a live camera, otherwise steps up a screen
 $('backBtn').onclick = () => {
@@ -809,7 +827,7 @@ $('fmtGo').onclick = () => {
   // remember this photo's format so the gallery can skip straight in next time
   if (galActive != null){
     try{ localStorage.setItem('fmt|'+galActive,
-      JSON.stringify({ a: $('aspect').value, w: $('widthIn').value,
+      JSON.stringify({ w: $('widthIn').value, h: $('heightIn').value,
                        u: $('unit').value,
                        ox: FMT_OFF.x, oy: FMT_OFF.y })); }catch(e){}
   }
@@ -910,6 +928,7 @@ let calRefresh=()=>{};
       +(CELLSZ.u==='cm'?'cm':'inches')+')';
     $('calBtn').textContent=cellLabel()+' Grid';
     $('cellVal').value=CELLSZ.v; $('cellUnit').value=CELLSZ.u;
+    if ($('cellVal2')){ $('cellVal2').value=CELLSZ.v; $('cellUnit2').value=CELLSZ.u; }
     drawRuler();
   };
   calRefresh=showCal;
