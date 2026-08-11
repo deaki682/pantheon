@@ -46,8 +46,9 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #viewport{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
 /* gallery: every photo ever opened, newest first */
 #gallery{flex:none;display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;
-  touch-action:pan-x;padding:8px;-webkit-overflow-scrolling:touch}
-.gitem{width:118px}
+  touch-action:pan-x;padding:8px calc(50% - 60px);
+  -webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
+.gitem{width:118px;scroll-snap-align:center}
 #upRow{justify-content:space-between}
 #upTitle{color:var(--acc);font-size:22px;letter-spacing:0.04em;margin-top:52px}
 #titleRule{display:block;width:100%;height:24px;flex:none;margin-top:2px}
@@ -470,6 +471,11 @@ async function renderGallery(){
     };
     host.appendChild(d);
   }
+  // the last-used reference rides front and centre
+  requestAnimationFrame(()=>{
+    const t = host.querySelector('.gitem.lastRef') || host.querySelector('.gitem');
+    if (t) host.scrollLeft = t.offsetLeft - (host.clientWidth - t.offsetWidth)/2;
+  });
 }
 
 let GRID_READY = false;                        // true once initMain has run
