@@ -109,11 +109,14 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #setCorner{position:absolute;left:50%;transform:translateX(-50%);
   top:calc(8px + env(safe-area-inset-top));z-index:5}
 #setBtn{height:44px;min-width:44px;padding:0;border-radius:12px;
-  display:flex;align-items:center;justify-content:center}
-#setBtn .ttlTxt{display:none;color:var(--acc);font-size:14px;
-  padding:0 14px;white-space:nowrap}
-#setBtn.ttl svg{display:none}
-#setBtn.ttl .ttlTxt{display:block}
+  display:flex;align-items:center;justify-content:center;overflow:hidden}
+#setBtn svg{flex:none;max-width:22px;opacity:1;transform:none;
+  transition:max-width 0.28s ease, opacity 0.16s ease, transform 0.28s ease}
+#setBtn .ttlTxt{display:block;color:var(--acc);font-size:14px;
+  white-space:nowrap;max-width:0;opacity:0;padding:0;
+  transition:max-width 0.28s ease, opacity 0.18s ease 0.08s, padding 0.28s ease}
+#setBtn.ttl svg{max-width:0;opacity:0;transform:rotate(120deg) scale(0.5)}
+#setBtn.ttl .ttlTxt{max-width:150px;opacity:1;padding:0 16px}
 /* the settings window */
 #setModal{position:fixed;inset:0;z-index:20;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.6)}
@@ -547,7 +550,7 @@ function ttlPop(){
   const b=$('setBtn');
   b.classList.add('ttl');
   clearTimeout(ttlT);
-  ttlT=setTimeout(()=>b.classList.remove('ttl'), 700);
+  ttlT=setTimeout(()=>b.classList.remove('ttl'), 950);
 }
 // iOS can leave the page a few px offset after the photo-picker sheet or
 // the keyboard dismisses; the layout is fixed-size, so 0,0 is always right
@@ -667,7 +670,11 @@ $('backBtn').onclick = () => {
     if (CAM.stream){ camStop(); show('scrMain'); return; }
     show('scrMain'); return;
   }
-  if ($('scrMain').classList.contains('on')){ show('scrUpload'); renderGallery(); return; }
+  if ($('scrMain').classList.contains('on')){
+    show('scrUpload'); renderGallery();
+    calRefresh();          // the title ruler redraws (accent may have changed)
+    return;
+  }
   if ($('scrFormat').classList.contains('on')){ show('scrUpload'); renderGallery(); }
 };
 
