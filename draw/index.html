@@ -243,7 +243,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   <div id="expCorner"><button id="expBtn" title="Download"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8.5 11.5L12 15l3.5-3.5"/><path d="M5 19h14"/></svg></button></div>
   <div id="gridCorner"><button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
   <!-- compare lives behind the camera in the opposite corner -->
-  <div id="camCorner"><button id="compareBtn" title="Compare"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16"/><circle cx="7.5" cy="10" r="1.8"/><path d="M4.6 16.6c0.5-2 1.5-3 2.9-3s2.4 1 2.9 3"/><circle cx="16.5" cy="10" r="1.8"/><path d="M13.6 16.6c0.5-2 1.5-3 2.9-3s2.4 1 2.9 3"/></svg></button></div>
+  <div id="camCorner"><button id="compareBtn" title="Compare"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16"/><circle cx="7.5" cy="10" r="1.8"/><path d="M4.6 16.6c0.5-2 1.5-3 2.9-3s2.4 1 2.9 3"/><circle cx="16.5" cy="10" r="1.8"/><path d="M13.6 16.6c0.5-2 1.5-3 2.9-3s2.4 1 2.9 3"/></svg></button></div>
 </div>
 
 <!-- 4: compare - photograph the real drawing, align it, flip against the reference -->
@@ -932,8 +932,9 @@ vp.addEventListener('pointermove', e => {
     const zb=zBounds(), L=lifeS();
     let sRaw=pinch0.s*d/pinch0.d;
     if (pinch0.lock && sRaw>L){
-      if (sRaw > L*1.3) pinch0.lock=false;      // pushed through the stop
-      else { if (view.s<L*0.999) haptic(); sRaw=L; }
+      // held at true size for this whole gesture; only a fresh pinch passes
+      if (view.s<L*0.999) haptic();
+      sRaw=L;
     }
     const s=clamp(sRaw, zb.min, zb.max);
     // zoom about the pinch centre
@@ -986,13 +987,21 @@ vp.addEventListener('pointerup', e => {
 });
 vp.addEventListener('pointercancel', ()=>{ tapDown=null; tapLast=null; });
 
+let wheelT=0, wheelStuck=false;
 vp.addEventListener('wheel', e => {
   e.preventDefault();
   const rect=vp.getBoundingClientRect();
   const k = e.deltaY<0 ? 1.15 : 1/1.15;
   const zb=zBounds(), L=lifeS();
+  const cont = Date.now()-wheelT < 400;          // same continuous scroll
+  wheelT = Date.now();
   let s = clamp(view.s*k, zb.min, zb.max);
-  if (k>1 && view.s<L*0.999 && s>L){ s=L; haptic(); }   // the true-size stop
+  if (k>1 && view.s<L*0.999 && s>L){ s=L; wheelStuck=true; haptic(); }
+  else if (k>1 && wheelStuck){
+    if (cont) return;                            // the stop holds this stream
+    wheelStuck=false;                            // re-engaged: allowed past
+  }
+  else if (k<1) wheelStuck=false;
   if (s === view.s) return;                      // already at the limit: no drift
   const kk=s/view.s;
   view.x=e.clientX-rect.left-(e.clientX-rect.left-view.x)*kk;
