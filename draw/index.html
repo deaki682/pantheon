@@ -199,7 +199,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 <div class="screen on" id="scrUpload">
   <div class="row" style="position:relative;justify-content:center">
     <span id="upTitle">Realism</span>
-    <span id="upStat" style="position:absolute;left:8px;font-size:12px;opacity:0.7"></span>
+    <span id="upStat" style="position:absolute;left:8px;font-size:12px;color:var(--acc)"></span>
     <button class="fsBtn" title="Fullscreen" style="position:absolute;right:8px">&#x26F6;</button>
   </div>
   <canvas id="titleRule"></canvas>
@@ -521,7 +521,7 @@ function openPhoto(blob, gid){
     photo = c;
     URL.revokeObjectURL(img.src);
     galLoading = null; GRID_READY = false;
-    $('upStat').textContent = '';
+    $('upStat').textContent = '\u03b1 0.5';
     FMT_OFF.x=FMT_OFF.y=0.5;
     initFormat();
     let fmt = null;   // a photo formatted before goes straight to the drawing
@@ -1831,7 +1831,7 @@ document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) wakeHol
 
 
 
-loadArsenal().then(() => { $('upStat').textContent = 'build 0802-2249'; });
+loadArsenal().then(() => { $('upStat').textContent = '\u03b1 0.5'; });
 
 // ---- compare: photograph the real drawing, align it over the reference, flip ----
 const CMP={img:null, base:null, blob:null, ckey:null,
