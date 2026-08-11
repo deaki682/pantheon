@@ -190,12 +190,26 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   padding:18px 24px;display:flex;flex-direction:column;gap:14px;
   align-items:center;font-size:15px}
 #delPanel button{min-width:76px}
+#introModal{position:fixed;inset:0;z-index:24;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.72)}
+#introPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
+  padding:22px 24px;display:flex;flex-direction:column;gap:16px;
+  max-width:min(86vw,360px);font-size:15px;line-height:1.55}
+#introHead{color:var(--acc);font-size:17px;letter-spacing:0.02em}
+#introBtn{align-self:center;min-width:96px;color:var(--acc)}
 </style>
 </head>
 <body>
 
 <button id="backBtn" title="Back">&#x2039;</button>
 <div id="toast"></div>
+<div id="introModal">
+  <div id="introPanel">
+    <span id="introHead">A note from Dylan:</span>
+    <span id="introTxt"></span>
+    <button id="introBtn">Enter</button>
+  </div>
+</div>
 <div id="delModal">
   <div id="delPanel">
     <span>Delete reference?</span>
@@ -553,6 +567,33 @@ $('file').addEventListener('change', async e => {
   openPhoto(f, gid);
 });
 renderGallery();
+// the founder's welcome, once per device
+{
+  const PAGES=[
+    ['This is Realism! A drawing tool to help traditional artists create '
+     +'realistic paintings and drawings. There are a bunch of features to '
+     +'help you see your reference objectively, break it down into layers, '
+     +'and compare it against your art. It started as a tool just for me, '
+     +'but I figured more people would find it just as useful!', 'Enter'],
+    ['This is still in early development, so if you\u2019re seeing this that '
+     +'means I\u2019d love your feedback and suggestions! There\u2019s a '
+     +'discord at the bottom for you!', 'Let\u2019s go'],
+  ];
+  let seen=false;
+  try{ seen=!!localStorage.getItem('intro1'); }catch(e){}
+  if (!seen){
+    let pg=0;
+    const paint=()=>{ $('introTxt').textContent=PAGES[pg][0];
+      $('introBtn').textContent=PAGES[pg][1]; };
+    paint();
+    $('introModal').style.display='flex';
+    $('introBtn').onclick=()=>{
+      if (pg<PAGES.length-1){ pg++; paint(); return; }
+      $('introModal').style.display='none';
+      try{ localStorage.setItem('intro1','1'); }catch(e){}
+    };
+  }
+}
 $('delYes').onclick = async () => {
   const id=DELREF; DELREF=null;
   $('delModal').style.display='none';
