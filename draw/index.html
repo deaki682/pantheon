@@ -2695,6 +2695,25 @@ document.addEventListener('click', e => {
   // installed already: the how-to-install note has done its job
   if (matchMedia('(display-mode: standalone)').matches || navigator.standalone)
     $('pwaNote').style.display='none';
+  // where the browser offers a real install prompt (Android/desktop
+  // Chrome), the note becomes the button that fires it; iOS has no such
+  // API, so there the instructions stand
+  let bip=null;
+  addEventListener('beforeinstallprompt', e=>{
+    e.preventDefault(); bip=e;
+    const n=$('pwaNote');
+    n.textContent='* Tap to install Realism';
+    n.style.cursor='pointer';
+    n.onclick=async()=>{
+      if (!bip) return;
+      bip.prompt();
+      const r=await bip.userChoice.catch(()=>null);
+      bip=null;
+      if (r && r.outcome==='accepted') n.style.display='none';
+      else n.textContent='* iOS: Share \u2192 Add to Home Screen \u00b7 Android: \u22ee \u2192 Install';
+    };
+  });
+  addEventListener('appinstalled', ()=>{ $('pwaNote').style.display='none'; });
   const el = document.documentElement;
   const canFs = el.requestFullscreen || el.webkitRequestFullscreen;
   const standalone = matchMedia('(display-mode: standalone), (display-mode: fullscreen)').matches
