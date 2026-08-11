@@ -182,12 +182,27 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   font-size:14px;opacity:0;pointer-events:none;transition:opacity 0.25s}
 #toast.on{opacity:1}
 #toast.accToast{color:var(--acc)}
+#delModal{position:fixed;inset:0;z-index:22;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.55)}
+#delPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
+  padding:18px 24px;display:flex;flex-direction:column;gap:14px;
+  align-items:center;font-size:15px}
+#delPanel button{min-width:76px}
 </style>
 </head>
 <body>
 
 <button id="backBtn" title="Back">&#x2039;</button>
 <div id="toast"></div>
+<div id="delModal">
+  <div id="delPanel">
+    <span>Delete reference?</span>
+    <div class="row" style="padding:0;justify-content:center">
+      <button id="delYes">Yes</button>
+      <button id="delNo">No</button>
+    </div>
+  </div>
+</div>
   <div id="setModal">
     <div id="setPanel">
       <span class="setLbl">Accent</span>
@@ -450,6 +465,7 @@ async function galAll(){ try{ const d=await gdb(); return await new Promise(res=
 async function galAdd(rec){ try{ const d=await gdb(); return await new Promise(res=>{
   const t=d.transaction('photos','readwrite').objectStore('photos').add(rec);
   t.onsuccess=()=>res(t.result); t.onerror=()=>res(null); }); }catch(e){ return null; } }
+let DELREF=null;
 async function galDel(id){ try{ const d=await gdb(); await new Promise(res=>{
   const t=d.transaction('photos','readwrite').objectStore('photos').delete(id);
   t.onsuccess=res; t.onerror=res; }); }catch(e){} }
@@ -487,17 +503,11 @@ async function renderGallery(){
     const bar = document.createElement('div'); bar.className='gbar';
     bar.appendChild(Object.assign(document.createElement('div'),{className:'gfill'}));
     const xb = document.createElement('button'); xb.className='gx'; xb.textContent='\u00d7';
-    xb.onclick = async ev => {
+    xb.onclick = ev => {
       ev.stopPropagation();
       if (PREP.active) return;
-      await galDel(r.id);
-      try{
-        for (const k of ['fmt|','det|','circ|']) localStorage.removeItem(k+r.id);
-        if (+localStorage.getItem('lastRef')===r.id) localStorage.removeItem('lastRef');
-      }catch(e){}
-      if (galActive===r.id){ galActive=null; photo=null; GRID_READY=false; }
-      toast('reference removed');
-      renderGallery();
+      DELREF=r.id;
+      $('delModal').style.display='flex';
     };
     d.appendChild(im); d.appendChild(bar); d.appendChild(xb);
     d.onclick = () => {
@@ -586,6 +596,23 @@ $('file').addEventListener('change', async e => {
   openPhoto(f, gid);
 });
 renderGallery();
+$('delYes').onclick = async () => {
+  const id=DELREF; DELREF=null;
+  $('delModal').style.display='none';
+  if (id==null) return;
+  await galDel(id);
+  try{
+    for (const k of ['fmt|','det|','circ|']) localStorage.removeItem(k+id);
+    if (+localStorage.getItem('lastRef')===id) localStorage.removeItem('lastRef');
+  }catch(e){}
+  if (galActive===id){ galActive=null; photo=null; GRID_READY=false; }
+  toast('reference removed');
+  renderGallery();
+};
+$('delNo').onclick = () => { DELREF=null; $('delModal').style.display='none'; };
+$('delModal').onclick = e => {
+  if (e.target===$('delModal')){ DELREF=null; $('delModal').style.display='none'; }
+};
 $('newPhoto').onclick = () => $('file').click();
 // settings: the accent is the artist's, and the true-size stop is optional
 const ACCENTS=['#e8833a','#e0524f','#e0b13a','#6aa84f','#3aa6a0',
@@ -2775,18 +2802,26 @@ document.addEventListener('click', e => {
   // other. STARTERS is display order - the middle one fronts the strip.
   (async ()=>{
     try{
-      if (localStorage.getItem('seeded1')) return;
+      // every starter must land - a failed fetch retries on the next
+      // launch, and the library counts as ready only when all are in
       const STARTERS=['starter-freckles.jpg'];
+      if (localStorage.getItem('seeded1')){          // legacy flag carries over
+        localStorage.removeItem('seeded1');
+        localStorage.setItem('seed|starter-freckles.jpg','1');
+      }
       const now=Date.now();
-      let added=0;
+      let added=false;
       for (let i=0;i<STARTERS.length;i++){
+        const key='seed|'+STARTERS[i];
+        if (localStorage.getItem(key)) continue;
         const r=await fetch(STARTERS[i]); if (!r.ok) continue;
         const b=await r.blob();
         const thumb=await thumbOf(b);
         await galAdd({ ts: now-i*1000, name: STARTERS[i], thumb, blob: b, seed: 1 });
-        added++;
+        localStorage.setItem(key,'1');
+        added=true;
       }
-      if (added){ localStorage.setItem('seeded1','1'); renderGallery(); }
+      if (added) renderGallery();
     }catch(e){}
   })();
   const el = document.documentElement;
