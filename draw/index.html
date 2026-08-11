@@ -150,7 +150,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #compareBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 .fsBtn{min-width:40px}
-#widthIn,#heightIn,#cellVal,#cellVal2{width:64px;background:#1e1e1e;color:#e8e6e1;
+#widthIn,#heightIn,#cellVal,#cellVal2{width:54px;background:#1e1e1e;color:#e8e6e1;
   border:1px solid #555;border-radius:8px;padding:8px;font:inherit}
 #lvBtn{display:flex;align-items:center;justify-content:center;min-width:44px}
 #cmpRow{justify-content:space-evenly}
@@ -164,7 +164,14 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   left:calc(8px + env(safe-area-inset-left));z-index:9;width:44px;height:44px;
   padding:0;font-size:24px;line-height:1;border-radius:12px;display:none;
   align-items:center;justify-content:center}
-#scrFormat > .row:first-of-type{margin-left:52px}
+#fmtForm{display:grid;grid-template-columns:auto 1fr;
+  gap:12px 10px;align-items:center;padding:12px 6px 4px;
+  margin-left:calc(52px + env(safe-area-inset-left));margin-right:4px}
+.fLbl{font-size:14px;white-space:nowrap}
+.fCtl{display:flex;align-items:center;gap:6px}
+.xSep{opacity:0.6}
+#fmtInfo{padding:6px 8px 4px;margin-left:calc(56px + env(safe-area-inset-left));
+  font-size:12px;opacity:0.75;min-height:20px}
 /* a momentary confirmation pill */
 #toast{position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top));
   transform:translateX(-50%);z-index:30;background:rgba(20,20,20,0.88);
@@ -236,25 +243,27 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 
 <!-- 2: format -->
 <div class="screen" id="scrFormat">
-  <div class="row">
-    <span>Drawing Size?</span>
-    <input type="number" id="widthIn" min="4" max="160" step="1" inputmode="numeric">
-    <span>x</span>
-    <input type="number" id="heightIn" min="4" max="240" step="1" inputmode="numeric">
-    <select id="unit">
-      <option value="in">inches</option>
-      <option value="cm">cm</option>
-    </select>
+  <div id="fmtForm">
+    <span class="fLbl">Drawing Size?</span>
+    <div class="fCtl">
+      <input type="number" id="widthIn" min="4" max="160" step="1" inputmode="numeric">
+      <span class="xSep">&times;</span>
+      <input type="number" id="heightIn" min="4" max="240" step="1" inputmode="numeric">
+      <select id="unit">
+        <option value="in">in</option>
+        <option value="cm">cm</option>
+      </select>
+    </div>
+    <span class="fLbl">Grid Size:</span>
+    <div class="fCtl">
+      <input type="number" id="cellVal2" min="0.25" max="60" step="0.25" inputmode="decimal">
+      <select id="cellUnit2">
+        <option value="in">in</option>
+        <option value="cm">cm</option>
+      </select>
+    </div>
   </div>
-  <div class="row" style="padding-top:0">
-    <span>Grid Size:</span>
-    <input type="number" id="cellVal2" min="0.25" max="60" step="0.25" inputmode="decimal">
-    <select id="cellUnit2">
-      <option value="in">inches</option>
-      <option value="cm">cm</option>
-    </select>
-    <span id="fmtInfo"></span>
-  </div>
+  <div id="fmtInfo"></div>
   <div id="fmtPrev"><canvas id="fmtCanvas"></canvas></div>
   <div class="row">
     <span class="grow"></span>
