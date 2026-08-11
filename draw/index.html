@@ -2469,6 +2469,17 @@ function cmpWarp(src, corners){
   // slightly - no flat map can undo a bent page completely)
   if (!corners) return src;
   const [p0,p1,p2,p3]=corners;   // TL TR BR BL
+  if (p0.y===p1.y && p2.y===p3.y && p0.x===p3.x && p1.x===p2.x
+      && p1.x-p0.x>2 && p3.y-p0.y>2){
+    // axis-aligned rectangle (every ghost-framed capture): a plain crop
+    let W=Math.round(p1.x-p0.x), H=Math.round(p3.y-p0.y);
+    const cap=2400/Math.max(W,H); if (cap<1){ W=Math.round(W*cap); H=Math.round(H*cap); }
+    const out=document.createElement('canvas'); out.width=W; out.height=H;
+    const g=out.getContext('2d');
+    g.imageSmoothingQuality='high';
+    g.drawImage(src, p0.x, p0.y, p1.x-p0.x, p3.y-p0.y, 0, 0, W, H);
+    return out;
+  }
   const topW=Math.hypot(p1.x-p0.x,p1.y-p0.y), botW=Math.hypot(p2.x-p3.x,p2.y-p3.y);
   const lH=Math.hypot(p3.x-p0.x,p3.y-p0.y), rH=Math.hypot(p2.x-p1.x,p2.y-p1.y);
   let W=Math.round((topW+botW)/2), H=Math.round((lH+rH)/2);
@@ -2692,11 +2703,15 @@ async function camCapture(){
       const blob=await Promise.race([ ic.takePhoto(),
         new Promise(r=>setTimeout(()=>r(null),900)) ]);
       if (blob){
-        const bmp=await createImageBitmap(blob);
-        // trust the still only if it frames like the stream
-        if (Math.abs(Math.log((bmp.width/bmp.height)/(fw/fh)))<0.02
-            && bmp.width>=fw){ frame=bmp; fw=bmp.width; fh=bmp.height; }
-        else bmp.close && bmp.close();
+        let bmp=null;
+        try{ bmp=await createImageBitmap(blob,{resizeWidth:2400,resizeQuality:'high'}); }
+        catch(e){ try{ bmp=await createImageBitmap(blob); }catch(e2){} }
+        if (bmp){
+          // trust the still only if it frames like the stream
+          if (Math.abs(Math.log((bmp.width/bmp.height)/(fw/fh)))<0.02){
+            frame=bmp; fw=bmp.width; fh=bmp.height;
+          } else if (bmp.close) bmp.close();
+        }
       }
     }
   }catch(e){}
