@@ -197,20 +197,21 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   max-width:min(86vw,360px);font-size:15px;line-height:1.55}
 #introHead{color:var(--acc);font-size:17px;letter-spacing:0.02em}
 #introBtn{min-width:96px;color:var(--acc)}
-/* the guided tour: a dim veil, a bubble whose caret points at the target */
-#tourVeil{position:fixed;inset:0;z-index:23;display:none;
-  background:rgba(8,8,8,0.55)}
-#tourBubble{position:absolute;background:#1e1e1e;border:1px solid #555;
-  border-radius:14px;padding:14px 16px;max-width:min(80vw,320px);
-  font-size:14px;line-height:1.5;display:flex;flex-direction:column;gap:4px}
-#tourBack{align-self:flex-start;background:none;border:none;padding:4px 0 0;
-  color:var(--acc);font-size:12px}
-#tourCaret{position:absolute;width:0;height:0;
+/* tutorial tips: a floating bubble, the app fully usable beneath it.
+   Info tips close on their x; button tips illuminate the target and stay
+   until it is pressed. */
+#tourBubble{position:fixed;display:none;z-index:23;background:#1e1e1e;
+  border:1px solid #555;border-radius:14px;padding:14px 36px 14px 16px;
+  max-width:min(80vw,320px);font-size:14px;line-height:1.5;
+  box-shadow:0 4px 24px rgba(0,0,0,0.55)}
+#tourX{position:absolute;top:3px;right:3px;width:28px;height:28px;padding:0;
+  background:none;border:none;color:#e8e6e1;font-size:17px;line-height:1}
+#tourCaret{position:fixed;display:none;z-index:23;width:0;height:0;
   border-left:10px solid transparent;border-right:10px solid transparent;
-  border-top:12px solid #1e1e1e}
-#tourCaret.up{border-top:none;border-bottom:12px solid #1e1e1e}
-#tourTap{position:absolute;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom));
-  text-align:center;font-size:11px;opacity:0.6}
+  border-top:12px solid #555}
+#tourCaret.up{border-top:none;border-bottom:12px solid #555}
+.tipLit{border-color:var(--acc) !important;
+  box-shadow:0 0 10px 1px var(--acc)}
 </style>
 </head>
 <body>
@@ -227,11 +228,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     </div>
   </div>
 </div>
-<div id="tourVeil">
-  <div id="tourBubble"><span id="tourTxt"></span><button id="tourBack">&#x2039; back</button></div>
-  <div id="tourCaret"></div>
-  <span id="tourTap">tap to continue</span>
-</div>
+<div id="tourBubble"><span id="tourTxt"></span><button id="tourX">&#215;</button></div>
+<div id="tourCaret"></div>
 <div id="delModal">
   <div id="delPanel">
     <span>Delete reference?</span>
@@ -416,10 +414,12 @@ const state = { img:null, tools:[] };
 
 'use strict';
 const $ = id => document.getElementById(id);
-const show = id => { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on')); $(id).classList.add('on');
+const show = id => { tipClose(false);
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on')); $(id).classList.add('on');
   $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex';
   if (id==='scrFormat') fmtTip();
-  if (id==='scrMain') mainTip(); };
+  if (id==='scrMain') mainTip();
+  if (id==='scrUpload' && TOUR.rule) ruleTip(); };
 
 
 const CEILINGS = { 'Fingertip': 78 };          // same rule as the studio
@@ -591,124 +591,122 @@ $('file').addEventListener('change', async e => {
   openPhoto(f, gid);
 });
 renderGallery();
-// the tour engine: a dim veil and a bubble whose caret points at each
-// target in turn - above it when there is room, below it otherwise
-function runTour(stops){
-  let i=0;
-  const veil=$('tourVeil'), bub=$('tourBubble'), car=$('tourCaret');
-  const end=()=>{ veil.style.display='none'; veil.onclick=null; };
-  const place=()=>{
-    const id=stops[i][0];
-    const t=id ? $(id) : null;
-    if (id && !t){ next(); return; }
-    $('tourTxt').textContent=stops[i][1];
-    $('tourBack').style.display = i>0 ? '' : 'none';
-    $('tourTap').style.display = stops[i][2] && stops[i][2].click ? 'none' : '';
-    veil.style.display='block';
-    bub.style.visibility='hidden'; bub.style.left='0'; bub.style.top='0';
-    requestAnimationFrame(()=>{
-      const bw=bub.offsetWidth, bh=bub.offsetHeight;
-      if (!t){                              // no target: centered statement
-        bub.style.left=((innerWidth-bw)/2)+'px';
-        bub.style.top=(Math.max(10,(innerHeight-bh)*0.4))+'px';
-        bub.style.visibility='';
-        car.style.display='none';
-        return;
-      }
-      const r=t.getBoundingClientRect();
-      const cx=Math.min(Math.max(r.left+r.width/2, 30), innerWidth-30);
-      const bx=Math.min(Math.max(cx-bw/2, 10), innerWidth-bw-10);
-      const above = r.top-bh-16 >= 10;
-      const by = above ? r.top-bh-16 : Math.min(innerHeight-bh-10, r.bottom+16);
-      bub.style.left=bx+'px'; bub.style.top=by+'px';
+// ---- tutorial tips: floating bubbles, the app stays usable beneath ------
+// A tip either carries an x (info) or illuminates its target button in the
+// accent and stays until that button is pressed. Closing one may chain the
+// next.
+const TOUR={};
+let TIPSTATE=null;
+function tipClose(chain){
+  if (!TIPSTATE) return;
+  const t=TIPSTATE; TIPSTATE=null;
+  $('tourBubble').style.display='none';
+  $('tourCaret').style.display='none';
+  if (t.lit) t.lit.classList.remove('tipLit');
+  if (t.onDoc) document.removeEventListener('click', t.onDoc, true);
+  if (chain && t.onClose) t.onClose();
+}
+function tip(targetId, txt, opts){
+  opts=opts||{};
+  tipClose(false);
+  const bub=$('tourBubble'), car=$('tourCaret');
+  const t=targetId ? $(targetId) : null;
+  $('tourTxt').textContent=txt;
+  $('tourX').style.display = opts.mustClick ? 'none' : '';
+  const st={onClose:opts.onClose||null, lit:null, onDoc:null};
+  if (t && opts.mustClick){
+    t.classList.add('tipLit'); st.lit=t;
+    st.onDoc=e=>{ if (e.target.closest && e.target.closest('#'+targetId)) tipClose(true); };
+    document.addEventListener('click', st.onDoc, true);
+  }
+  TIPSTATE=st;
+  bub.style.display='block'; bub.style.visibility='hidden';
+  bub.style.left='0'; bub.style.top='0';
+  requestAnimationFrame(()=>{
+    if (TIPSTATE!==st) return;
+    const bw=bub.offsetWidth, bh=bub.offsetHeight;
+    if (!t){                              // no target: centered statement
+      bub.style.left=((innerWidth-bw)/2)+'px';
+      bub.style.top=(Math.max(10,(innerHeight-bh)*0.4))+'px';
       bub.style.visibility='';
-      car.style.display='';
-      car.classList.toggle('up', !above);
-      car.style.left=(cx-10)+'px';
-      car.style.top=(above ? by+bh-1 : by-11)+'px';
-    });
-  };
-  const next=()=>{
-    i++;
-    if (i>=stops.length){ end(); return; }
-    place();
-  };
-  $('tourBack').onclick=e=>{
-    e.stopPropagation();
-    if (i>0){ i--; place(); }
-  };
-  veil.onclick=e=>{
-    const st=stops[i];
-    if (st[2] && st[2].click){
-      // "click here": a tap on the target passes through into it;
-      // a tap anywhere else skips the invitation
-      const t=$(st[0]);
-      if (t){
-        const r=t.getBoundingClientRect();
-        if (e.clientX>=r.left-16 && e.clientX<=r.right+16
-         && e.clientY>=r.top-16 && e.clientY<=r.bottom+16){
-          end(); t.click(); return;
-        }
-      }
-      end(); return;
+      return;
     }
-    next();
-  };
-  place();
+    const r=t.getBoundingClientRect();
+    const cx=Math.min(Math.max(r.left+r.width/2, 30), innerWidth-30);
+    const bx=Math.min(Math.max(cx-bw/2, 10), innerWidth-bw-10);
+    const above = !opts.below && r.top-bh-16 >= 10;
+    const by = above ? r.top-bh-16 : Math.min(innerHeight-bh-10, r.bottom+16);
+    bub.style.left=bx+'px'; bub.style.top=by+'px';
+    bub.style.visibility='';
+    car.style.display='';
+    car.classList.toggle('up', !above);
+    car.style.left=(cx-10)+'px';
+    car.style.top=(above ? by+bh-1 : by-11)+'px';
+  });
 }
-// after the note, two pointers: the references, then the ruler
+$('tourX').onclick=()=>tipClose(true);
+// after the note: the references, then (on closing that) the ruler
 function startTour(){
-  runTour([
-    ['gallery', 'This is the Project page, where you can upload and manage '
-      +'your references. I\u2019ve included a few of mine just for fun!'],
-    ['calBtn', 'I find it helpful to keep my reference true-to-life, and '
-      +'you can match this ruler to a real one to calibrate the program'],
-  ]);
+  TOUR.rule=true;
+  tip('gallery', 'This is the Project page, where you can upload and manage '
+    +'your references. I\u2019ve included a few of mine just for fun!',
+    {onClose:ruleTip});
 }
-// the first visit to the drawing screen: pencil, detail, then compare
+function ruleTip(){
+  if (!TOUR.rule) return; TOUR.rule=false;
+  tip('calBtn', 'I find it helpful to keep my reference true-to-life, and '
+    +'you can match this ruler to a real one to calibrate the program',
+    {below:true});
+}
+// drawing screen: the pencil glows until pressed; closing the layer
+// workshop hands the tour to the detail button
 function mainTip(){
   let seen=false; try{ seen=!!localStorage.getItem('tourMain'); }catch(e){}
   if (seen) return;
   try{ localStorage.setItem('tourMain','1'); }catch(e){}
-  requestAnimationFrame(()=>runTour([
-    ['hudToggle', 'Click here to reveal the layers! It starts with shading, '
-      +'and you can layer on the darks, lights, and brights as you render '
-      +'them in your drawing! My workflow consists of drawing these one at '
-      +'a time.'],
-    ['detBtn', 'You can set the level of detail you\u2019re trying to '
-      +'achieve. Sometimes seeing too much detail can be a bad thing if you '
-      +'want to stay simple!'],
-    ['compareBtn', 'Click here', {click:true}],
-  ]));
+  TOUR.det=true;
+  tip('hudToggle', 'Click here to reveal the layers! It starts with shading, '
+    +'and you can layer on the darks, lights, and brights as you render '
+    +'them in your drawing! My workflow consists of drawing these one at '
+    +'a time.', {mustClick:true});
 }
-// after the first capture: review, adjust, mark
+function detTip(){
+  tip('detBtn', 'You can set the level of detail you\u2019re trying to '
+    +'achieve. Sometimes seeing too much detail can be a bad thing if you '
+    +'want to stay simple!', {mustClick:true});
+}
+// after the first capture: review, then adjustments, then the red circle
 function cmpTip(){
   let seen=false; try{ seen=!!localStorage.getItem('tourCmp'); }catch(e){}
   if (seen) return;
   try{ localStorage.setItem('tourCmp','1');
        localStorage.setItem('coachFlip','1'); }catch(e){}   // the tour covers it
   $('coach').style.display='none';
-  requestAnimationFrame(()=>runTour([
-    [null, 'Here you can compare and review your drawing against the '
-      +'reference to check your progress.'],
-    ['lvBtn', 'Everyone has different lighting conditions. Edit your '
-      +'drawing here to make it as accurate as possible. It\u2019ll '
-      +'remember these settings!'],
-    ['circBtn', 'If you see any mistakes you want to keep track of, put a '
-      +'red circle on it! It\u2019ll carry over to the reference page.'],
-    [null, 'Thanks, and I hope you enjoy Realism! \u2014Dylan'],
-  ]));
+  tip(null, 'Here you can compare and review your drawing against the '
+    +'reference to check your progress.', {onClose:adjTip});
+}
+function adjTip(){
+  TOUR.circ=true;
+  tip('lvBtn', 'Everyone has different lighting conditions. Edit your '
+    +'drawing here to make it as accurate as possible. It\u2019ll '
+    +'remember these settings!', {mustClick:true});
+}
+function circleTip(){
+  tip('circBtn', 'If you see any mistakes you want to keep track of, put a '
+    +'red circle on it! It\u2019ll carry over to the reference page.',
+    {mustClick:true, onClose:byeTip});
+}
+function byeTip(){
+  tip(null, 'Thanks, and I hope you enjoy Realism! \u2014Dylan');
 }
 // the first visit to the prep page gets its own pointer
 function fmtTip(){
   let seen=false; try{ seen=!!localStorage.getItem('tourFmt'); }catch(e){}
   if (seen) return;
   try{ localStorage.setItem('tourFmt','1'); }catch(e){}
-  requestAnimationFrame(()=>runTour([
-    ['fmtForm', 'Here\u2019s where you can format your reference. The grid '
-      +'method is just one of the methods to achieve photorealism, but it '
-      +'can easily be turned off if you don\u2019t want to use it!'],
-  ]));
+  tip('fmtForm', 'Here\u2019s where you can format your reference. The grid '
+    +'method is just one of the methods to achieve photorealism, but it '
+    +'can easily be turned off if you don\u2019t want to use it!');
 }
 // the founder's welcome, once per device
 {
@@ -2149,7 +2147,8 @@ $('lvReset').onclick = () => {
   try{ localStorage.removeItem('cmpAdj'); }catch(e){}
   applyLevels(); cmpRender(); cmpSave();
 };
-$('lvBtn').onclick = () => { CMP.lvOpen=!CMP.lvOpen; cmpRender(); };
+$('lvBtn').onclick = () => { CMP.lvOpen=!CMP.lvOpen; cmpRender();
+  if (!CMP.lvOpen && TOUR.circ){ TOUR.circ=false; circleTip(); } };
 $('mirBtn').onclick = () => {
   CMP.mirror=!CMP.mirror;
   $('mirBtn').classList.toggle('vOn', CMP.mirror);
@@ -2907,6 +2906,7 @@ $('cmpSplit').onclick = () => {
     LAYERS.dk=LAYERS.lt=LAYERS.hl=!o;
     layerButtons();
     if (GRID_READY && state.img) viewRepaint();
+    if (!o && TOUR.det){ TOUR.det=false; detTip(); }
   };
   let open = true;
   try { open = localStorage.getItem('hudOpen') !== '0'; } catch(e){}
