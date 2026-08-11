@@ -513,7 +513,9 @@ async function renderGallery(){
   }
   // the last-used reference rides front and centre
   requestAnimationFrame(()=>{
-    const t = host.querySelector('.gitem.lastRef') || host.querySelector('.gitem');
+    const kids=host.children;
+    const t = host.querySelector('.gitem.lastRef')
+           || kids[Math.floor((kids.length-1)/2)];
     if (t) host.scrollLeft = t.offsetLeft - (host.clientWidth - t.offsetWidth)/2;
   });
 }
@@ -2769,6 +2771,24 @@ document.addEventListener('click', e => {
     };
   });
   addEventListener('appinstalled', ()=>{ $('pwaNote').style.display='none'; });
+  // starter references ship with the app: seeded once, deletable like any
+  // other. STARTERS is display order - the middle one fronts the strip.
+  (async ()=>{
+    try{
+      if (localStorage.getItem('seeded1')) return;
+      const STARTERS=['starter-freckles.jpg'];
+      const now=Date.now();
+      let added=0;
+      for (let i=0;i<STARTERS.length;i++){
+        const r=await fetch(STARTERS[i]); if (!r.ok) continue;
+        const b=await r.blob();
+        const thumb=await thumbOf(b);
+        await galAdd({ ts: now-i*1000, name: STARTERS[i], thumb, blob: b, seed: 1 });
+        added++;
+      }
+      if (added){ localStorage.setItem('seeded1','1'); renderGallery(); }
+    }catch(e){}
+  })();
   const el = document.documentElement;
   const canFs = el.requestFullscreen || el.webkitRequestFullscreen;
   const standalone = matchMedia('(display-mode: standalone), (display-mode: fullscreen)').matches
