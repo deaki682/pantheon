@@ -78,9 +78,9 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #camGhost{position:absolute;left:0;top:0;pointer-events:none}
 #shutter{position:absolute;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));
   transform:translateX(-50%);width:74px;height:74px;border-radius:50%;
-  background:#fff;border:4px solid #141414;box-shadow:0 0 0 3px #fff;
+  background:var(--acc);border:4px solid #141414;box-shadow:0 0 0 3px #fff;
   display:none;padding:0;z-index:6}
-#shutter:active{background:#ccc}
+#shutter:active{filter:brightness(0.8)}
 /* the tool panel floats bottom-left over the canvas and can be dismissed */
 #hudWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
@@ -483,11 +483,22 @@ $('newPhoto').onclick = () => $('file').click();
 // iOS can leave the page a few px offset after the photo-picker sheet or
 // the keyboard dismisses; the layout is fixed-size, so 0,0 is always right
 {
-  const unshift=()=>{ if (scrollX||scrollY) scrollTo(0,0); };
-  $('file').addEventListener('change', unshift);
-  if (window.visualViewport)
-    visualViewport.addEventListener('resize', ()=>setTimeout(unshift,60));
-  addEventListener('focusout', ()=>setTimeout(unshift,60));
+  // iOS pans the visual viewport (not window scroll) around pickers and
+  // keyboards and sometimes leaves the page sitting high - snap it back
+  // whenever the viewport settles
+  const unshift=()=>{
+    scrollTo(0,0);
+    document.documentElement.scrollTop=0; document.body.scrollTop=0;
+  };
+  const soon=()=>{ setTimeout(unshift,60); setTimeout(unshift,350); };
+  $('file').addEventListener('change', soon);
+  $('file').addEventListener('cancel', soon);
+  if (window.visualViewport){
+    visualViewport.addEventListener('resize', soon);
+    visualViewport.addEventListener('scroll', soon);
+  }
+  addEventListener('focusout', soon);
+  addEventListener('focus', soon);
 }
 $('calBtn').onclick = () => {
   calRefresh();
@@ -584,7 +595,7 @@ $('unit').onchange = ()=>{
 // the one back button: cancels a live camera, otherwise steps up a screen
 $('backBtn').onclick = () => {
   if ($('scrCompare').classList.contains('on')){
-    if (CAM.stream){ camStop(); cmpRender(); return; }
+    if (CAM.stream){ camStop(); show('scrMain'); return; }
     show('scrMain'); return;
   }
   if ($('scrMain').classList.contains('on')){ show('scrUpload'); renderGallery(); return; }
@@ -1961,12 +1972,22 @@ addEventListener('pagehide', cmpFlush);
 document.addEventListener('visibilitychange', ()=>{ if (document.hidden) cmpFlush(); });
 $('compareBtn').onclick = async () => {
   show('scrCompare'); cmpSize();
+  // camera-mode chrome up in the same frame - nothing of the previous
+  // visit may flash first
   $('camVid').style.display='block';
+  $('coach').style.display='none';
+  $('lvRow').style.display='none';
+  $('cmpFlip').style.display='none';
+  $('cmpSplit').style.display='none';
+  $('lvBtn').style.display='none';
+  $('shutter').style.display='block';
+  $('backBtn').textContent='✕';
+  const camP = camStart();                  // spins up while the save loads
   if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
     CMP.ckey=CKEY; CMP.img=null; CMP.blob=null;
     $('cmpFlip').disabled=true;
     const saved=CKEY ? await dbGet('cmp|'+CKEY) : null;
-    if (saved && saved.blob){
+    if (saved && saved.blob && !CMP.blob){  // a fresh capture always wins
       // one path for every save: raw + corners -> crop
       const i=await blobImage(saved.blob).catch(()=>null);
       if (i){
@@ -1991,11 +2012,7 @@ $('compareBtn').onclick = async () => {
       CMP.mode='flip'; CMP.showing='photo';
     }
   }
-  // the camera surface is up black BEFORE anything draws - the restored
-  // photo and the coach veil must never pop in ahead of the live view
-  camStart().then(ok => {
-    if (!ok){ $('camVid').style.display='none'; cmpRender(); }
-  });
+  if (!(await camP)){ camStop(); cmpRender(); }
 };
 // live in-app camera; the file picker is the fallback
 const CAM={stream:null, ghost:null, timer:0};
@@ -2249,10 +2266,13 @@ $('cmpSplit').onclick = () => {
 // iOS has no vibration API; clicking a hidden switch-style checkbox inside
 // the tap gesture fires the system's own switch haptic instead.
 const hapticEl=(()=>{
+  // lives INSIDE the viewport (invisible) - an offscreen control makes iOS
+  // pan the page toward it on every click
   const l=document.createElement('label');
-  l.style.cssText='position:fixed;left:-100px;top:-100px;width:1px;height:1px;overflow:hidden';
+  l.style.cssText='position:fixed;left:0;top:0;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none';
+  l.setAttribute('aria-hidden','true');
   const i=document.createElement('input');
-  i.type='checkbox'; i.setAttribute('switch','');
+  i.type='checkbox'; i.setAttribute('switch',''); i.tabIndex=-1;
   l.appendChild(i); document.body.appendChild(l);
   return i;
 })();
