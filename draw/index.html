@@ -511,7 +511,9 @@ async function renderGallery(){
     d.appendChild(im); d.appendChild(bar); d.appendChild(xb);
     d.onclick = () => {
       if (PREP.active) return;                // still cooking: not yet usable
-      if (galActive === r.id && photo){       // already open: jump back in
+      if (galLoading != null) {               // a decode is in flight
+        if (galActive === r.id) return;       // this one: let it finish
+      } else if (galActive === r.id && photo){  // already open: jump back in
         show(GRID_READY ? 'scrMain' : 'scrFormat');
         if (GRID_READY) applyView();          // the square may have changed
         return;
@@ -545,12 +547,15 @@ setInterval(()=>{
   }
 }, 400);
 
+let OPEN_SEQ = 0;
 function openPhoto(blob, gid){
+  const my = ++OPEN_SEQ;                  // stale decodes must not land
   galActive = gid ?? null; galLoading = 0.15;
   if (gid != null){ try{ localStorage.setItem('lastRef', gid); }catch(e){} }
   $('upStat').textContent = '...';
   const img = new Image();
   img.onload = () => {
+    if (my !== OPEN_SEQ){ URL.revokeObjectURL(img.src); return; }
     const c = document.createElement('canvas');
     c.width = img.width; c.height = img.height;
     const g = c.getContext('2d');
@@ -586,7 +591,8 @@ function openPhoto(blob, gid){
       speculate();                     // the dwell on this screen is free compute
     }
   };
-  img.onerror = () => { galLoading = null; galActive = null;
+  img.onerror = () => { if (my !== OPEN_SEQ) return;
+    galLoading = null; galActive = null;
     $('upStat').textContent = 'could not read that file'; };
   img.src = URL.createObjectURL(blob);
 }
