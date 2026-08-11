@@ -196,13 +196,15 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   padding:22px 24px;display:flex;flex-direction:column;gap:16px;
   max-width:min(86vw,360px);font-size:15px;line-height:1.55}
 #introHead{color:var(--acc);font-size:17px;letter-spacing:0.02em}
-#introBtn{align-self:center;min-width:96px;color:var(--acc)}
+#introBtn{min-width:96px;color:var(--acc)}
 /* the guided tour: a dim veil, a bubble whose caret points at the target */
 #tourVeil{position:fixed;inset:0;z-index:23;display:none;
   background:rgba(8,8,8,0.55)}
 #tourBubble{position:absolute;background:#1e1e1e;border:1px solid #555;
   border-radius:14px;padding:14px 16px;max-width:min(80vw,320px);
-  font-size:14px;line-height:1.5}
+  font-size:14px;line-height:1.5;display:flex;flex-direction:column;gap:4px}
+#tourBack{align-self:flex-start;background:none;border:none;padding:4px 0 0;
+  color:var(--acc);font-size:12px}
 #tourCaret{position:absolute;width:0;height:0;
   border-left:10px solid transparent;border-right:10px solid transparent;
   border-top:12px solid #1e1e1e}
@@ -219,11 +221,14 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   <div id="introPanel">
     <span id="introHead">A note from Dylan:</span>
     <span id="introTxt"></span>
-    <button id="introBtn">Enter</button>
+    <div class="row" style="padding:0;justify-content:center;gap:10px">
+      <button id="introBack" style="display:none">&#x2039; Back</button>
+      <button id="introBtn">Enter</button>
+    </div>
   </div>
 </div>
 <div id="tourVeil">
-  <div id="tourBubble"></div>
+  <div id="tourBubble"><span id="tourTxt"></span><button id="tourBack">&#x2039; back</button></div>
   <div id="tourCaret"></div>
   <span id="tourTap">tap to continue</span>
 </div>
@@ -413,7 +418,8 @@ const state = { img:null, tools:[] };
 const $ = id => document.getElementById(id);
 const show = id => { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on')); $(id).classList.add('on');
   $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex';
-  if (id==='scrFormat') fmtTip(); };
+  if (id==='scrFormat') fmtTip();
+  if (id==='scrMain') mainTip(); };
 
 
 const CEILINGS = { 'Fingertip': 78 };          // same rule as the studio
@@ -590,20 +596,33 @@ renderGallery();
 function runTour(stops){
   let i=0;
   const veil=$('tourVeil'), bub=$('tourBubble'), car=$('tourCaret');
+  const end=()=>{ veil.style.display='none'; veil.onclick=null; };
   const place=()=>{
-    const t=$(stops[i][0]); if (!t){ next(); return; }
-    bub.textContent=stops[i][1];
+    const id=stops[i][0];
+    const t=id ? $(id) : null;
+    if (id && !t){ next(); return; }
+    $('tourTxt').textContent=stops[i][1];
+    $('tourBack').style.display = i>0 ? '' : 'none';
+    $('tourTap').style.display = stops[i][2] && stops[i][2].click ? 'none' : '';
     veil.style.display='block';
-    const r=t.getBoundingClientRect();
     bub.style.visibility='hidden'; bub.style.left='0'; bub.style.top='0';
     requestAnimationFrame(()=>{
       const bw=bub.offsetWidth, bh=bub.offsetHeight;
+      if (!t){                              // no target: centered statement
+        bub.style.left=((innerWidth-bw)/2)+'px';
+        bub.style.top=(Math.max(10,(innerHeight-bh)*0.4))+'px';
+        bub.style.visibility='';
+        car.style.display='none';
+        return;
+      }
+      const r=t.getBoundingClientRect();
       const cx=Math.min(Math.max(r.left+r.width/2, 30), innerWidth-30);
       const bx=Math.min(Math.max(cx-bw/2, 10), innerWidth-bw-10);
       const above = r.top-bh-16 >= 10;
       const by = above ? r.top-bh-16 : Math.min(innerHeight-bh-10, r.bottom+16);
       bub.style.left=bx+'px'; bub.style.top=by+'px';
       bub.style.visibility='';
+      car.style.display='';
       car.classList.toggle('up', !above);
       car.style.left=(cx-10)+'px';
       car.style.top=(above ? by+bh-1 : by-11)+'px';
@@ -611,14 +630,30 @@ function runTour(stops){
   };
   const next=()=>{
     i++;
-    if (i>=stops.length){
-      veil.style.display='none';
-      veil.onclick=null;
-      return;
-    }
+    if (i>=stops.length){ end(); return; }
     place();
   };
-  veil.onclick=next;
+  $('tourBack').onclick=e=>{
+    e.stopPropagation();
+    if (i>0){ i--; place(); }
+  };
+  veil.onclick=e=>{
+    const st=stops[i];
+    if (st[2] && st[2].click){
+      // "click here": a tap on the target passes through into it;
+      // a tap anywhere else skips the invitation
+      const t=$(st[0]);
+      if (t){
+        const r=t.getBoundingClientRect();
+        if (e.clientX>=r.left-16 && e.clientX<=r.right+16
+         && e.clientY>=r.top-16 && e.clientY<=r.bottom+16){
+          end(); t.click(); return;
+        }
+      }
+      end(); return;
+    }
+    next();
+  };
   place();
 }
 // after the note, two pointers: the references, then the ruler
@@ -629,6 +664,40 @@ function startTour(){
     ['calBtn', 'I find it helpful to keep my reference true-to-life, and '
       +'you can match this ruler to a real one to calibrate the program'],
   ]);
+}
+// the first visit to the drawing screen: pencil, detail, then compare
+function mainTip(){
+  let seen=false; try{ seen=!!localStorage.getItem('tourMain'); }catch(e){}
+  if (seen) return;
+  try{ localStorage.setItem('tourMain','1'); }catch(e){}
+  requestAnimationFrame(()=>runTour([
+    ['hudToggle', 'Click here to reveal the layers! It starts with shading, '
+      +'and you can layer on the darks, lights, and brights as you render '
+      +'them in your drawing! My workflow consists of drawing these one at '
+      +'a time.'],
+    ['detBtn', 'You can set the level of detail you\u2019re trying to '
+      +'achieve. Sometimes seeing too much detail can be a bad thing if you '
+      +'want to stay simple!'],
+    ['compareBtn', 'Click here', {click:true}],
+  ]));
+}
+// after the first capture: review, adjust, mark
+function cmpTip(){
+  let seen=false; try{ seen=!!localStorage.getItem('tourCmp'); }catch(e){}
+  if (seen) return;
+  try{ localStorage.setItem('tourCmp','1');
+       localStorage.setItem('coachFlip','1'); }catch(e){}   // the tour covers it
+  $('coach').style.display='none';
+  requestAnimationFrame(()=>runTour([
+    [null, 'Here you can compare and review your drawing against the '
+      +'reference to check your progress.'],
+    ['lvBtn', 'Everyone has different lighting conditions. Edit your '
+      +'drawing here to make it as accurate as possible. It\u2019ll '
+      +'remember these settings!'],
+    ['circBtn', 'If you see any mistakes you want to keep track of, put a '
+      +'red circle on it! It\u2019ll carry over to the reference page.'],
+    [null, 'Thanks, and I hope you enjoy Realism! \u2014Dylan'],
+  ]));
 }
 // the first visit to the prep page gets its own pointer
 function fmtTip(){
@@ -658,9 +727,11 @@ function fmtTip(){
   if (!seen){
     let pg=0;
     const paint=()=>{ $('introTxt').textContent=PAGES[pg][0];
-      $('introBtn').textContent=PAGES[pg][1]; };
+      $('introBtn').textContent=PAGES[pg][1];
+      $('introBack').style.display = pg>0 ? '' : 'none'; };
     paint();
     $('introModal').style.display='flex';
+    $('introBack').onclick=()=>{ if (pg>0){ pg--; paint(); } };
     $('introBtn').onclick=()=>{
       if (pg<PAGES.length-1){ pg++; paint(); return; }
       $('introModal').style.display='none';
@@ -2528,6 +2599,7 @@ $('compareBtn').onclick = async () => {
   const camOk = await camP;
   CAM.starting=false;
   if (!camOk){ camStop(); cmpRender(); }
+  else coach('Ghost', 'Line up the ghost with your drawing, and take a pic!');
 };
 // live in-app camera; the file picker is the fallback
 const CAM={stream:null, ghost:null, timer:0, starting:false};
@@ -2646,6 +2718,7 @@ async function camCapture(){
                  {x:full.width,y:full.height},{x:0,y:full.height}];
   }
   cmpApplyCorners('flip');
+  cmpTip();
 }
 $('shutter').onclick = camCapture;
 $('cmpFile').addEventListener('change', e => {
