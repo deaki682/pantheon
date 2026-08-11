@@ -49,7 +49,9 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   touch-action:pan-x;padding:8px calc(50% - 60px);
   -webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
 .gitem{width:118px;scroll-snap-align:center}
-#upRow{justify-content:space-between}
+#upRow{flex-direction:column;align-items:center;gap:12px}
+#calBtn{background:none;border:none;padding:6px 4px;line-height:0}
+#calBtnCv{display:block}
 #upTitle{color:var(--acc);font-size:22px;letter-spacing:0.04em;margin-top:52px}
 #titleRule{display:block;width:100%;height:24px;flex:none;margin-top:2px}
 #pwaNote{color:var(--acc);font-size:11px;text-align:center;padding:4px 10px 0;flex:none}
@@ -250,7 +252,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   </div>
   <div class="row" id="upRow">
     <button id="newPhoto"><span style="color:var(--acc)">+</span> New Reference</button>
-    <button id="calBtn" title="Grid square size and ruler match">1&Prime; Grid</button>
+    <button id="calBtn" title="Grid square size and ruler match"><canvas id="calBtnCv"></canvas></button>
   </div>
   <span class="grow"></span>
   <div class="row" style="flex-direction:column;align-items:center;gap:10px;padding-bottom:18px">
@@ -979,13 +981,41 @@ let calRefresh=()=>{};
         g.beginPath(); g.moveTo(x,y); g.lineTo(x,y+len*dpr); g.stroke();
       }
   };
+  const drawCalBtn=()=>{
+    // the calibrate button: a short cut of the same minimal ruler
+    const cv=$('calBtnCv'); if (!cv) return;
+    const cssW=120, cssH=18;
+    const dpr=Math.min(3, devicePixelRatio||1);
+    cv.width=Math.round(cssW*dpr); cv.height=Math.round(cssH*dpr);
+    cv.style.width=cssW+'px'; cv.style.height=cssH+'px';
+    const g=cv.getContext('2d');
+    g.clearRect(0,0,cv.width,cv.height);
+    g.strokeStyle=getComputedStyle(document.documentElement)
+      .getPropertyValue('--acc').trim()||'#e8833a';
+    g.lineWidth=dpr;
+    const cm=CELLSZ.u==='cm';
+    const unitPx=(cm ? 96/2.54 : 96)*INCAL*dpr;
+    const y=Math.round(dpr)+0.5;
+    g.beginPath(); g.moveTo(0,y); g.lineTo(cv.width,y); g.stroke();
+    for (let i=0; i*unitPx<=cv.width; i++){
+      const x=Math.round(i*unitPx)+0.5;
+      g.beginPath(); g.moveTo(x,y); g.lineTo(x,y+11*dpr); g.stroke();
+    }
+    const subs=cm ? [[0.5,6]] : [[0.25,3],[0.5,7],[0.75,3]];
+    for (let i=0; i*unitPx<=cv.width; i++)
+      for (const [f,len] of subs){
+        const x=Math.round((i+f)*unitPx)+0.5;
+        if (x>cv.width) continue;
+        g.beginPath(); g.moveTo(x,y); g.lineTo(x,y+len*dpr); g.stroke();
+      }
+  };
   addEventListener('resize', drawTitleRule);
   const showCal=()=>{
     drawTitleRule();
     sl.value=Math.round(INCAL*100);
     $('calLbl').textContent='line the marks up with a real ruler ('
       +(CELLSZ.u==='cm'?'cm':'inches')+')';
-    $('calBtn').textContent=cellLabel()+' Grid';
+    drawCalBtn();
     $('cellVal').value=CELLSZ.v; $('cellUnit').value=CELLSZ.u;
     if ($('cellVal2')){ $('cellVal2').value=CELLSZ.v; $('cellUnit2').value=CELLSZ.u; }
     drawRuler();
