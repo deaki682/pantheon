@@ -132,6 +132,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   border:1px solid #555;color:#e8e6e1;padding:10px 22px;border-radius:999px;
   font-size:14px;opacity:0;pointer-events:none;transition:opacity 0.25s}
 #toast.on{opacity:1}
+#toast.accToast{color:var(--acc)}
 </style>
 </head>
 <body>
@@ -933,7 +934,7 @@ vp.addEventListener('pointermove', e => {
     let sRaw=pinch0.s*d/pinch0.d;
     if (pinch0.lock && sRaw>L){
       // held at true size for this whole gesture; only a fresh pinch passes
-      if (view.s<L*0.999) haptic();
+      if (view.s<L*0.999){ haptic(); toast('True to Life', true); }
       sRaw=L;
     }
     const s=clamp(sRaw, zb.min, zb.max);
@@ -976,6 +977,7 @@ vp.addEventListener('pointerup', e => {
       view.x=e.clientX-rect.left-(e.clientX-rect.left-view.x)*k;
       view.y=e.clientY-rect.top-(e.clientY-rect.top-view.y)*k;
       view.s=tgt;
+      if (Math.abs(tgt-lifeS())<1e-9) toast('True to Life', true);
     }
     const w=$('world');
     w.style.transition='transform 0.22s ease';
@@ -996,7 +998,7 @@ vp.addEventListener('wheel', e => {
   const cont = Date.now()-wheelT < 400;          // same continuous scroll
   wheelT = Date.now();
   let s = clamp(view.s*k, zb.min, zb.max);
-  if (k>1 && view.s<L*0.999 && s>L){ s=L; wheelStuck=true; haptic(); }
+  if (k>1 && view.s<L*0.999 && s>L){ s=L; wheelStuck=true; haptic(); toast('True to Life', true); }
   else if (k>1 && wheelStuck){
     if (cont) return;                            // the stop holds this stream
     wheelStuck=false;                            // re-engaged: allowed past
@@ -1304,8 +1306,10 @@ $('expBtn').onclick = () => {
   setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
   toast('image downloaded');
 };
-function toast(t){
-  const el=$('toast'); el.textContent=t; el.classList.add('on');
+function toast(t, acc){
+  const el=$('toast'); el.textContent=t;
+  el.classList.toggle('accToast', !!acc);
+  el.classList.add('on');
   clearTimeout(toast._t);
   toast._t=setTimeout(()=>el.classList.remove('on'), 1500);
 }
