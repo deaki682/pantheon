@@ -197,6 +197,17 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   max-width:min(86vw,360px);font-size:15px;line-height:1.55}
 #introHead{color:var(--acc);font-size:17px;letter-spacing:0.02em}
 #introBtn{align-self:center;min-width:96px;color:var(--acc)}
+/* the guided tour: a dim veil, a bubble whose caret points at the target */
+#tourVeil{position:fixed;inset:0;z-index:23;display:none;
+  background:rgba(8,8,8,0.55)}
+#tourBubble{position:absolute;background:#1e1e1e;border:1px solid #555;
+  border-radius:14px;padding:14px 16px;max-width:min(80vw,320px);
+  font-size:14px;line-height:1.5}
+#tourCaret{position:absolute;width:0;height:0;
+  border-left:10px solid transparent;border-right:10px solid transparent;
+  border-top:12px solid #1e1e1e}
+#tourTap{position:absolute;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom));
+  text-align:center;font-size:11px;opacity:0.6}
 </style>
 </head>
 <body>
@@ -209,6 +220,11 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     <span id="introTxt"></span>
     <button id="introBtn">Enter</button>
   </div>
+</div>
+<div id="tourVeil">
+  <div id="tourBubble"></div>
+  <div id="tourCaret"></div>
+  <span id="tourTap">tap to continue</span>
 </div>
 <div id="delModal">
   <div id="delPanel">
@@ -567,6 +583,45 @@ $('file').addEventListener('change', async e => {
   openPhoto(f, gid);
 });
 renderGallery();
+// after the note, two pointers: the references, then the ruler
+function startTour(){
+  const STOPS=[
+    ['gallery', 'This is the Project page, where you can upload and manage '
+      +'your references. I\u2019ve included a few of mine just for fun!'],
+    ['calBtn', 'I find it helpful to keep my reference true-to-life, and '
+      +'you can match this ruler to a real one to calibrate the program'],
+  ];
+  let i=0;
+  const veil=$('tourVeil'), bub=$('tourBubble'), car=$('tourCaret');
+  const place=()=>{
+    const t=$(STOPS[i][0]); if (!t){ next(); return; }
+    bub.textContent=STOPS[i][1];
+    veil.style.display='block';
+    const r=t.getBoundingClientRect();
+    // the bubble sits above its target, caret pointing down at it
+    bub.style.visibility='hidden'; bub.style.left='0'; bub.style.top='0';
+    requestAnimationFrame(()=>{
+      const bw=bub.offsetWidth, bh=bub.offsetHeight;
+      const cx=Math.min(Math.max(r.left+r.width/2, 30), innerWidth-30);
+      const bx=Math.min(Math.max(cx-bw/2, 10), innerWidth-bw-10);
+      const by=Math.max(10, r.top-bh-16);
+      bub.style.left=bx+'px'; bub.style.top=by+'px';
+      bub.style.visibility='';
+      car.style.left=(cx-10)+'px'; car.style.top=(by+bh-1)+'px';
+    });
+  };
+  const next=()=>{
+    i++;
+    if (i>=STOPS.length){
+      veil.style.display='none';
+      veil.onclick=null;
+      return;
+    }
+    place();
+  };
+  veil.onclick=next;
+  place();
+}
 // the founder's welcome, once per device
 {
   const PAGES=[
@@ -591,6 +646,7 @@ renderGallery();
       if (pg<PAGES.length-1){ pg++; paint(); return; }
       $('introModal').style.display='none';
       try{ localStorage.setItem('intro1','1'); }catch(e){}
+      startTour();
     };
   }
 }
