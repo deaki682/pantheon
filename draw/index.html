@@ -574,6 +574,14 @@ function openPhoto(blob, gid){
       fmtPreview();
       enterMain();
     } else {
+      let df=null;   // a bundled starter proposes its drawing size, editable
+      if (gid != null){ try{ df=JSON.parse(localStorage.getItem('def|'+gid)); }catch(e){} }
+      if (df && df.w){
+        try{ localStorage.setItem('unit', df.u); }catch(e){}
+        $('unit').value=df.u; calRefresh();
+        $('widthIn').value=df.w; $('heightIn').value=df.h;
+        fmtPreview();
+      }
       show('scrFormat');
       speculate();                     // the dwell on this screen is free compute
     }
@@ -601,7 +609,7 @@ $('delYes').onclick = async () => {
   if (id==null) return;
   await galDel(id);
   try{
-    for (const k of ['fmt|','det|','circ|']) localStorage.removeItem(k+id);
+    for (const k of ['fmt|','det|','circ|','def|']) localStorage.removeItem(k+id);
     if (+localStorage.getItem('lastRef')===id) localStorage.removeItem('lastRef');
   }catch(e){}
   if (galActive===id){ galActive=null; photo=null; GRID_READY=false; }
@@ -2846,16 +2854,18 @@ document.addEventListener('click', e => {
         localStorage.setItem(key,'1');
         added=true;
       }
-      // the two portrait-session starters come pre-set to 18x24 in
-      if (!localStorage.getItem('fmt18')){
+      // the two portrait-session starters propose 18x24 in the prep screen
+      if (!localStorage.getItem('fmt18b')){
+        const preset=JSON.stringify({w:18, h:24, u:'in', ox:0.5, oy:0.5});
         const recs=await galAll();
         for (const r of recs){
-          if ((r.name==='starter-guy.jpg'||r.name==='starter-soft.jpg')
-              && !localStorage.getItem('fmt|'+r.id))
-            localStorage.setItem('fmt|'+r.id,
-              JSON.stringify({w:18, h:24, u:'in', ox:0.5, oy:0.5}));
+          if (r.name!=='starter-guy.jpg' && r.name!=='starter-soft.jpg') continue;
+          if (localStorage.getItem('fmt|'+r.id)===preset)
+            localStorage.removeItem('fmt|'+r.id);   // untouched v126 preset
+          localStorage.setItem('def|'+r.id, JSON.stringify({w:18,h:24,u:'in'}));
         }
-        localStorage.setItem('fmt18','1');
+        localStorage.removeItem('fmt18');
+        localStorage.setItem('fmt18b','1');
       }
       if (added) renderGallery();
     }catch(e){}
