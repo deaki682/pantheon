@@ -178,6 +178,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
       <div id="accGrid"></div>
       <span class="setLbl" style="margin-top:4px">Zoom</span>
       <label><input type="checkbox" id="ttlChk" checked> Stop at True-to-Life scale</label>
+      <span class="setLbl" style="margin-top:4px">Share</span>
+      <button id="invBtn">Invite a friend</button>
     </div>
   </div>
 
@@ -573,6 +575,16 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
   $('ttlChk').checked=ttlOn();
   $('ttlChk').onchange=()=>{ try{ localStorage.setItem('ttlStop', $('ttlChk').checked?'1':'0'); }catch(e){} };
   $('setBtn').onclick=()=>{ $('setModal').style.display='flex'; };
+  $('invBtn').onclick=async()=>{
+    const url=location.origin+location.pathname;
+    const msg='Realism - a drawing studio for the grid method. It runs right in the browser:';
+    if (navigator.share){
+      try{ await navigator.share({title:'Realism', text:msg, url}); return; }
+      catch(e){ if (e && e.name==='AbortError') return; }
+    }
+    try{ await navigator.clipboard.writeText(url); toast('link copied'); }
+    catch(e){ toast(url, false, 4000); }
+  };
   $('setModal').onclick=e=>{ if (e.target===$('setModal')) $('setModal').style.display='none'; };
 }
 let ttlT=0;
