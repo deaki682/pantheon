@@ -237,9 +237,6 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   <div id="gridModal">
     <div id="gridPanel">
       <div class="row" style="padding:0">
-        <label>Square
-          <input type="number" id="cellVal" min="0.25" max="60" step="0.25">
-        </label>
         <select id="cellUnit">
           <option value="in">inches</option>
           <option value="cm">cm</option>
@@ -984,8 +981,11 @@ let calRefresh=()=>{};
   const drawCalBtn=()=>{
     // the calibrate button: a short cut of the same minimal ruler
     const cv=$('calBtnCv'); if (!cv) return;
-    const cssW=88, cssH=16;
     const dpr=Math.min(3, devicePixelRatio||1);
+    const cm=CELLSZ.u==='cm';
+    const unitCss=(cm ? 96/2.54 : 96)*INCAL;
+    const N=Math.max(1, Math.round(84/unitCss));   // whole units only
+    const cssW=N*unitCss+2, cssH=16;
     cv.width=Math.round(cssW*dpr); cv.height=Math.round(cssH*dpr);
     cv.style.width=cssW+'px'; cv.style.height=cssH+'px';
     const g=cv.getContext('2d');
@@ -993,20 +993,17 @@ let calRefresh=()=>{};
     g.strokeStyle=getComputedStyle(document.documentElement)
       .getPropertyValue('--acc').trim()||'#e8833a';
     g.lineWidth=dpr;
-    const cm=CELLSZ.u==='cm';
-    const unitPx=(cm ? 96/2.54 : 96)*INCAL*dpr;
+    const unitPx=unitCss*dpr, x0=dpr;
     const y=Math.round(dpr)+0.5;
-    g.beginPath(); g.moveTo(0,y); g.lineTo(cv.width,y); g.stroke();
-    for (let i=0; i*unitPx<=cv.width; i++){
-      const x=Math.round(i*unitPx)+0.5;
-      g.beginPath(); g.moveTo(x,y); g.lineTo(x,y+11*dpr); g.stroke();
+    const X=i2=>Math.min(cv.width-dpr, Math.round(x0+i2*unitPx))+0.5;
+    g.beginPath(); g.moveTo(X(0),y); g.lineTo(X(N),y); g.stroke();
+    for (let i=0; i<=N; i++){
+      g.beginPath(); g.moveTo(X(i),y); g.lineTo(X(i),y+11*dpr); g.stroke();
     }
     const subs=cm ? [[0.5,6]] : [[0.25,3],[0.5,7],[0.75,3]];
-    for (let i=0; i*unitPx<=cv.width; i++)
+    for (let i=0; i<N; i++)
       for (const [f,len] of subs){
-        const x=Math.round((i+f)*unitPx)+0.5;
-        if (x>cv.width) continue;
-        g.beginPath(); g.moveTo(x,y); g.lineTo(x,y+len*dpr); g.stroke();
+        g.beginPath(); g.moveTo(X(i+f),y); g.lineTo(X(i+f),y+len*dpr); g.stroke();
       }
   };
   addEventListener('resize', drawTitleRule);
@@ -1016,7 +1013,7 @@ let calRefresh=()=>{};
     $('calLbl').textContent='line the marks up with a real ruler ('
       +(CELLSZ.u==='cm'?'cm':'inches')+')';
     drawCalBtn();
-    $('cellVal').value=CELLSZ.v; $('cellUnit').value=CELLSZ.u;
+    $('cellUnit').value=CELLSZ.u;
     if ($('cellVal2')){ $('cellVal2').value=CELLSZ.v; $('cellUnit2').value=CELLSZ.u; }
     drawRuler();
   };
@@ -1035,8 +1032,6 @@ let calRefresh=()=>{};
     if (GRID_READY) drawGrid();
     if (photo && $('scrFormat').classList.contains('on')) fmtPreview();
   };
-  $('cellVal').oninput=()=>{ const v=+$('cellVal').value;
-    if (v>=0.25 && v<=60){ CELLSZ.v=v; cellChanged(); } };
   $('cellUnit').onchange=()=>{ const u=$('cellUnit').value;
     if (u===CELLSZ.u) return;
     CELLSZ.u=u;
