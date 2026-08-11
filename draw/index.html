@@ -948,11 +948,9 @@ function paintMark(g, x, y, R, rbMax, lw){
   const rb=Math.min(rbMax, Math.max(rbMax*0.55, R*0.4));
   g.strokeStyle='#e03c3c'; g.lineWidth=lw;
   g.beginPath(); g.arc(x,y,R,0,6.2832); g.stroke();
-  const bx=x+R*0.707, by=y-R*0.707;
-  g.fillStyle='rgba(22,22,22,0.92)';
-  g.beginPath(); g.arc(bx,by,rb,0,6.2832); g.fill();
-  g.beginPath(); g.arc(bx,by,rb,0,6.2832); g.stroke();
-  const k=rb*0.42;
+  // the remover: a plain white x, nothing more
+  const bx=x+R*0.707, by=y-R*0.707, k=rb*0.55;
+  g.strokeStyle='#fff';
   g.beginPath(); g.moveTo(bx-k,by-k); g.lineTo(bx+k,by+k);
   g.moveTo(bx+k,by-k); g.lineTo(bx-k,by+k); g.stroke();
 }
