@@ -82,12 +82,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #mirRow{padding-bottom:0}
 #mirBtn{min-width:52px}
 #alphaSl{flex:1;min-width:80px;padding:0}
-#circModal{position:fixed;inset:0;z-index:22;display:none;
-  align-items:center;justify-content:center;background:rgba(8,8,8,0.55)}
-#circPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
-  padding:18px 24px;display:flex;flex-direction:column;gap:14px;
-  align-items:center;font-size:15px}
-#circPanel button{min-width:76px}
+
 /* compare: the photographed drawing aligned over the reference */
 #cmpView{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
 #cmpCv{position:absolute;left:0;top:0;touch-action:none}
@@ -176,15 +171,6 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 
 <button id="backBtn" title="Back">&#x2039;</button>
 <div id="toast"></div>
-<div id="circModal">
-  <div id="circPanel">
-    <span>Remove?</span>
-    <div class="row" style="padding:0;justify-content:center">
-      <button id="circYes">Yes</button>
-      <button id="circNo">No</button>
-    </div>
-  </div>
-</div>
   <div id="setModal">
     <div id="setPanel">
       <span class="setLbl">Accent</span>
@@ -330,9 +316,13 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
       <button id="lvReset">Auto</button>
     </div>
   </div>
-  <div class="row" id="mirRow" style="display:none">
-    <button id="mirBtn" title="Mirror">&lt;|&gt;</button>
-    <input type="range" id="alphaSl" min="0" max="100" value="0" title="Reference see-through">
+  <div id="mirRow" style="display:none">
+    <div class="row" style="justify-content:center;padding-bottom:0">
+      <button id="mirBtn" title="Mirror">&lt;|&gt;</button>
+    </div>
+    <div class="row">
+      <input type="range" id="alphaSl" min="0" max="100" value="0" title="Reference see-through">
+    </div>
   </div>
   <div class="row" id="cmpRow">
     <input type="file" id="cmpFile" accept="image/*" hidden>
@@ -952,7 +942,20 @@ function applyView(){
   drawCircs();
 }
 // red error marks, in world coordinates, kept per reference
-let CIRCS=[], CIRCTOOL=false, CIRCHIT=-1;
+let CIRCS=[], CIRCTOOL=false;
+function badgePos(c){ const R=circR(); return { x:c.x+R*0.707, y:c.y-R*0.707 }; }
+function paintMark(g, x, y, R, rbMax, lw){
+  const rb=Math.min(rbMax, Math.max(rbMax*0.55, R*0.4));
+  g.strokeStyle='#e03c3c'; g.lineWidth=lw;
+  g.beginPath(); g.arc(x,y,R,0,6.2832); g.stroke();
+  const bx=x+R*0.707, by=y-R*0.707;
+  g.fillStyle='rgba(22,22,22,0.92)';
+  g.beginPath(); g.arc(bx,by,rb,0,6.2832); g.fill();
+  g.beginPath(); g.arc(bx,by,rb,0,6.2832); g.stroke();
+  const k=rb*0.42;
+  g.beginPath(); g.moveTo(bx-k,by-k); g.lineTo(bx+k,by+k);
+  g.moveTo(bx+k,by-k); g.lineTo(bx-k,by+k); g.stroke();
+}
 function circsLoad(){
   try{ CIRCS=JSON.parse(localStorage.getItem('circ|'+galActive)||'[]'); }
   catch(e){ CIRCS=[]; }
@@ -975,10 +978,8 @@ function drawCircs(){
   g.clearRect(0,0,W2,H2);
   if (!CIRCS.length) return;
   const sc=view.s*dpr, ox=view.x*dpr, oy=view.y*dpr;
-  g.strokeStyle='#e03c3c'; g.lineWidth=Math.max(2, 2.2*dpr);
-  for (const c of CIRCS){
-    g.beginPath(); g.arc(ox+c.x*sc, oy+c.y*sc, circR()*sc, 0, 6.2832); g.stroke();
-  }
+  for (const c of CIRCS)
+    paintMark(g, ox+c.x*sc, oy+c.y*sc, circR()*sc, 10*dpr, Math.max(2, 2.2*dpr));
 }
 function drawGrid(){
   const cvv=$('gridCv'), r=$('viewport').getBoundingClientRect();
@@ -1106,13 +1107,15 @@ vp.addEventListener('pointerup', e => {
   const now=Date.now();
   if (now-td.t>350 || Math.hypot(e.clientX-td.x, e.clientY-td.y)>12){ tapLast=null; return; }
   {
-    // a tap on a red mark asks to remove it
+    // the little x on a mark removes it
     const rect=vp.getBoundingClientRect();
     const wx=(td.x-rect.left-view.x)/view.s, wy=(td.y-rect.top-view.y)/view.s;
-    const hit=CIRCS.findIndex(c=>Math.hypot(c.x-wx, c.y-wy) < circR()*1.4);
+    const rb=16/view.s;
+    const hit=CIRCS.findIndex(c=>{ const b=badgePos(c);
+      return Math.hypot(b.x-wx, b.y-wy) < rb; });
     if (hit>=0){
-      tapLast=null; CIRCHIT=hit;
-      $('circModal').style.display='flex';
+      tapLast=null;
+      CIRCS.splice(hit,1); circsSave(); drawCircs(); haptic();
       return;
     }
   }
@@ -1851,13 +1854,20 @@ $('mirBtn').onclick = () => {
   cmpRender();
 };
 $('alphaSl').oninput = () => { CMP.alpha=$('alphaSl').value/100; cmpRender(); };
+function circTap(wx, wy, rb){
+  const hit=CIRCS.findIndex(c=>{ const b=badgePos(c);
+    return Math.hypot(b.x-wx, b.y-wy) < rb; });
+  if (hit>=0) CIRCS.splice(hit,1);
+  else {
+    const {w,h}=worldSize();
+    if (!(wx>=0 && wy>=0 && wx<=w && wy<=h)) return;
+    CIRCS.push({x:Math.round(wx), y:Math.round(wy)});
+  }
+  circsSave(); drawCircs(); cmpRender();
+}
 $('circBtn').onclick = () => { CIRCTOOL=!CIRCTOOL; cmpRender(); };
 $('circClr').onclick = () => { CIRCS=[]; circsSave(); drawCircs(); cmpRender(); };
-$('circYes').onclick = () => {
-  if (CIRCHIT>=0){ CIRCS.splice(CIRCHIT,1); CIRCHIT=-1; circsSave(); drawCircs(); }
-  $('circModal').style.display='none';
-};
-$('circNo').onclick = () => { CIRCHIT=-1; $('circModal').style.display='none'; };
+
 // last capture as a corner thumbnail in the camera: tap to reuse it
 $('lastShot').onclick = () => {
   camStop();
@@ -1867,13 +1877,12 @@ function cmpFitK(){
   const f=CMP.fit, {w}=worldSize();
   return (f.w*f.s)/w;             // screen px per world px in the flip fit
 }
-function cmpCircs(g){
+function cmpCircs(g, cv){
   if (!CIRCS.length) return;
   const f=CMP.fit, k=cmpFitK();
-  g.strokeStyle='#e03c3c'; g.lineWidth=3;
-  for (const c of CIRCS){
-    g.beginPath(); g.arc(f.x+c.x*k, f.y+c.y*k, circR()*k, 0, 6.2832); g.stroke();
-  }
+  const kd=cv ? (cv.width/(cv.getBoundingClientRect().width||cv.width)) : 1;
+  for (const c of CIRCS)
+    paintMark(g, f.x+c.x*k, f.y+c.y*k, circR()*k, 10*kd, 3);
 }
 function cmpButtons(){
   // after capture there are only two ways to look: Flip and Side by side.
@@ -1960,7 +1969,7 @@ function cmpRender(){
           g.globalAlpha=CMP.alpha; drawRef(); g.globalAlpha=1;
         }
       }
-      cmpCircs(g);
+      cmpCircs(g, cv);
     });
   } else if (CMP.img && CMP.mode==='split'){
     // side by side, one shared view: gestures on either pane move both
@@ -1980,6 +1989,12 @@ function cmpRender(){
       g.translate(SPL.x,SPL.y); g.scale(SPL.s,SPL.s);
       g.translate(bx,by); g.scale(bs,bs);
       pn.draw(g);
+      if (CIRCS.length){
+        const kd=cv.width/(cv.getBoundingClientRect().width||cv.width);
+        const tot=bs*SPL.s;
+        for (const c of CIRCS)
+          paintMark(g, c.x, c.y, circR(), 10*kd/tot, 3*kd/tot);
+      }
       g.restore();
       g.fillStyle='rgba(232,230,225,0.8)'; g.font='11px system-ui';
       g.fillText(pn.label, pn.ox+8, 16);
@@ -2485,17 +2500,24 @@ $('cmpSplit').onclick = () => {
       if (CIRCTOOL){
         const r2=cv.getBoundingClientRect(), kd=cv.width/r2.width;
         const px=(tap.x-r2.left)*kd, py=(tap.y-r2.top)*kd;
-        const f=CMP.fit, k=cmpFitK();
+        const k=cmpFitK(), f=CMP.fit;
         let wx=(px-f.x)/k; const wy=(py-f.y)/k;
         if (CMP.mirror) wx=worldSize().w-wx;
-        const {w,h}=worldSize();
-        if (wx>=0 && wy>=0 && wx<=w && wy<=h){
-          CIRCS.push({x:Math.round(wx), y:Math.round(wy)});
-          circsSave(); drawCircs(); cmpRender();
-        }
+        circTap(wx, wy, 16*kd/k);
       } else {
         CMP.showing = CMP.showing==='ref' ? 'photo' : 'ref'; cmpRender();
       }
+    }
+    if (pts.size===0 && tap && !tap.moved && Date.now()-tap.t<400
+        && CMP.mode==='split' && CMP.img && CIRCTOOL){
+      const r2=cv.getBoundingClientRect(), kd=cv.width/r2.width;
+      let px=(tap.x-r2.left)*kd; const py=(tap.y-r2.top)*kd;
+      const pw=cv.width/2;
+      if (px>=pw) px-=pw;                       // either pane, same drawing
+      const {w,h}=worldSize();
+      const bs=Math.min(pw/w, cv.height/h), bx=(pw-w*bs)/2, by=(cv.height-h*bs)/2;
+      const wx=((px-SPL.x)/SPL.s - bx)/bs, wy=((py-SPL.y)/SPL.s - by)/bs;
+      circTap(wx, wy, 16*kd/(bs*SPL.s));
     }
     if (pts.size===0 && tap && !tap.moved && !CMP.img && !CAM.stream)
       $('cmpFile').click();
