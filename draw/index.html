@@ -671,9 +671,17 @@ function mainTip(){
     +'a time.', {mustClick:true});
 }
 function detTip(){
+  TOUR.cmp=true;
   tip('detBtn', 'You can set the level of detail you\u2019re trying to '
     +'achieve. Sometimes seeing too much detail can be a bad thing if you '
     +'want to stay simple!', {mustClick:true});
+}
+function detClosed(){
+  if (TOUR.cmp){ TOUR.cmp=false; cmpBtnTip(); }
+}
+function cmpBtnTip(){
+  tip('compareBtn', 'Line up the ghost with your drawing, and take a '
+    +'pic!', {mustClick:true});
 }
 // after the first capture: review, then adjustments, then the red circle
 function cmpTip(){
@@ -1776,10 +1784,11 @@ $('gridBtn').onclick=()=>{
 };
 $('detBtn').onclick=()=>{
   const m=$('detMenu');
-  const show=m.style.display!=='flex';
-  m.style.display=show?'flex':'none';
-  if (show)
+  const open=m.style.display!=='flex';
+  m.style.display=open?'flex':'none';
+  if (open)
     [...m.children].forEach(b=>b.classList.toggle('vOn', b.dataset.lv===DETAIL));
+  else detClosed();
 };
 for (const b of $('detMenu').children){
   b.onclick=()=>{
@@ -1787,11 +1796,13 @@ for (const b of $('detMenu').children){
     if (galActive!=null){ try{ localStorage.setItem('det|'+galActive, DETAIL); }catch(e){} }
     $('detBtn').textContent=DET_LABEL[DETAIL];
     $('detMenu').style.display='none';
+    detClosed();
     if (!state.img || !GRID_READY) return;
     viewRepaint();
   };
 }
-vp.addEventListener('pointerdown', ()=>{ $('detMenu').style.display='none'; });
+vp.addEventListener('pointerdown', ()=>{ const m=$('detMenu');
+  if (m.style.display==='flex'){ m.style.display='none'; detClosed(); } });
 applyGrid(); layerButtons();
 
 // the breakdown recipe, ported to run beside the page: bright-outlier
@@ -2598,7 +2609,6 @@ $('compareBtn').onclick = async () => {
   const camOk = await camP;
   CAM.starting=false;
   if (!camOk){ camStop(); cmpRender(); }
-  else coach('Ghost', 'Line up the ghost with your drawing, and take a pic!');
 };
 // live in-app camera; the file picker is the fallback
 const CAM={stream:null, ghost:null, timer:0, starting:false};
