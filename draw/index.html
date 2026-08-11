@@ -52,6 +52,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #upRow{justify-content:space-between}
 #upTitle{color:var(--acc);font-size:22px;letter-spacing:0.04em;margin-top:52px}
 #titleRule{display:block;width:100%;height:24px;flex:none;margin-top:2px}
+#pwaNote{color:var(--acc);font-size:11px;text-align:center;padding:4px 10px 0;flex:none}
 .gitem{position:relative;flex:none;border:1px solid #555;background:#1e1e1e;
   cursor:pointer;border-radius:10px;overflow:hidden}
 .gitem.lastRef{border-color:var(--acc)}
@@ -196,6 +197,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     <button class="fsBtn" title="Fullscreen" style="position:absolute;right:8px">&#x26F6;</button>
   </div>
   <canvas id="titleRule"></canvas>
+  <div id="pwaNote">* iOS: Share &rarr; Add to Home Screen &middot; Android: &#8942; &rarr; Install</div>
   <input type="file" id="file" accept="image/*" hidden>
   <span class="grow"></span>
   <div id="gallery"></div>
@@ -2685,6 +2687,9 @@ document.addEventListener('click', e => {
 
 // app shell: fullscreen toggle + installable offline PWA
 {
+  // installed already: the how-to-install note has done its job
+  if (matchMedia('(display-mode: standalone)').matches || navigator.standalone)
+    $('pwaNote').style.display='none';
   const el = document.documentElement;
   const canFs = el.requestFullscreen || el.webkitRequestFullscreen;
   const standalone = matchMedia('(display-mode: standalone), (display-mode: fullscreen)').matches

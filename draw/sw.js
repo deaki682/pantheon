@@ -1,4 +1,4 @@
-const CACHE = 'draw-0802-2249-v114';
+const CACHE = 'draw-0802-2249-v115';
 const ASSETS = ['./', './index.html', './manifest.webmanifest',
                 './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
