@@ -2991,18 +2991,22 @@ document.addEventListener('click', e => {
         localStorage.setItem(key,'1');
         added=true;
       }
-      // the two portrait-session starters propose 18x24 in the prep screen
-      if (!localStorage.getItem('fmt18b')){
-        const preset=JSON.stringify({w:18, h:24, u:'in', ox:0.5, oy:0.5});
+      // the two session starters propose landscape 24x18 in the prep
+      // screen; an untouched older 18x24 default steps aside for it
+      if (!localStorage.getItem('fmt18c')){
         const recs=await galAll();
         for (const r of recs){
           if (r.name!=='starter-guy.jpg' && r.name!=='starter-soft.jpg') continue;
-          if (localStorage.getItem('fmt|'+r.id)===preset)
-            localStorage.removeItem('fmt|'+r.id);   // untouched v126 preset
-          localStorage.setItem('def|'+r.id, JSON.stringify({w:18,h:24,u:'in'}));
+          try{
+            const f=JSON.parse(localStorage.getItem('fmt|'+r.id)||'null');
+            if (f && +f.w===18 && +f.h===24 && f.ox===0.5 && f.oy===0.5)
+              localStorage.removeItem('fmt|'+r.id);
+          }catch(e){}
+          localStorage.setItem('def|'+r.id, JSON.stringify({w:24,h:18,u:'in'}));
         }
         localStorage.removeItem('fmt18');
-        localStorage.setItem('fmt18b','1');
+        localStorage.removeItem('fmt18b');
+        localStorage.setItem('fmt18c','1');
       }
       if (added) renderGallery();
     }catch(e){}
