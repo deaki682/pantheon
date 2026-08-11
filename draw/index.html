@@ -50,6 +50,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 .gitem{width:118px}
 #upRow{justify-content:space-between}
 #upTitle{color:var(--acc);font-size:22px;letter-spacing:0.04em;margin-top:26px}
+#titleRule{display:block;width:100%;height:24px;flex:none;margin-top:2px}
 .gitem{position:relative;flex:none;border:1px solid #555;background:#1e1e1e;
   cursor:pointer;border-radius:10px;overflow:hidden}
 .gitem.lastRef{border-color:var(--acc)}
@@ -152,6 +153,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     <span id="upStat" style="position:absolute;left:8px;font-size:12px;opacity:0.7"></span>
     <button class="fsBtn" title="Fullscreen" style="position:absolute;right:8px">&#x26F6;</button>
   </div>
+  <canvas id="titleRule"></canvas>
   <input type="file" id="file" accept="image/*" hidden>
   <span class="grow"></span>
   <div id="gallery"></div>
@@ -745,7 +747,38 @@ let calRefresh=()=>{};
         g.beginPath(); g.moveTo(x,y); g.lineTo(x,y+len*dpr); g.stroke();
       }
   };
+  // the aesthetic ruler under the title: the same real marks, accent-drawn,
+  // prongs down, spanning the page at the user's own unit and calibration
+  const drawTitleRule=()=>{
+    const cv=$('titleRule'); if (!cv) return;
+    const r=cv.getBoundingClientRect(); if (!r.width) return;
+    const dpr=Math.min(3, devicePixelRatio||1);
+    const W2=Math.round(r.width*dpr), H2=Math.round(24*dpr);
+    if (cv.width!==W2 || cv.height!==H2){ cv.width=W2; cv.height=H2; }
+    const g=cv.getContext('2d');
+    g.clearRect(0,0,W2,H2);
+    g.strokeStyle=getComputedStyle(document.documentElement)
+      .getPropertyValue('--acc').trim()||'#e8833a';
+    g.lineWidth=dpr;
+    const cm=CELLSZ.u==='cm';
+    const unitPx=(cm ? 96/2.54 : 96)*INCAL*dpr;
+    const y=Math.round(dpr)+0.5;
+    g.beginPath(); g.moveTo(0,y); g.lineTo(W2,y); g.stroke();
+    for (let i=0; i*unitPx<=W2; i++){
+      const x=Math.round(i*unitPx)+0.5;
+      g.beginPath(); g.moveTo(x,y); g.lineTo(x,y+13*dpr); g.stroke();
+    }
+    const subs=cm ? [[0.5,7]] : [[0.25,4],[0.5,8],[0.75,4]];
+    for (let i=0; i*unitPx<=W2; i++)
+      for (const [f,len] of subs){
+        const x=Math.round((i+f)*unitPx)+0.5;
+        if (x>W2) continue;
+        g.beginPath(); g.moveTo(x,y); g.lineTo(x,y+len*dpr); g.stroke();
+      }
+  };
+  addEventListener('resize', drawTitleRule);
   const showCal=()=>{
+    drawTitleRule();
     sl.value=Math.round(INCAL*100);
     $('calLbl').textContent='line the marks up with a real ruler ('
       +(CELLSZ.u==='cm'?'cm':'inches')+')';
