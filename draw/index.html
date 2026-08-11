@@ -72,6 +72,22 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #world{position:absolute;left:0;top:0;transform-origin:0 0}
 #refImg{position:absolute;left:0;top:0}
 #gridCv{position:absolute;left:0;top:0;pointer-events:none}
+#circCv{position:absolute;left:0;top:0;pointer-events:none}
+#circWrap{position:absolute;top:calc(8px + env(safe-area-inset-top));
+  right:calc(8px + env(safe-area-inset-right));z-index:7;display:none;gap:8px}
+#circBtn{width:44px;height:44px;padding:0;border-radius:12px;
+  display:flex;align-items:center;justify-content:center}
+.redDot{width:17px;height:17px;border-radius:50%;border:2.5px solid #e03c3c;display:block}
+#circClr{height:44px;border-radius:12px}
+#mirRow{padding-bottom:0}
+#mirBtn{min-width:52px}
+#alphaSl{flex:1;min-width:80px;padding:0}
+#circModal{position:fixed;inset:0;z-index:22;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.55)}
+#circPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
+  padding:18px 24px;display:flex;flex-direction:column;gap:14px;
+  align-items:center;font-size:15px}
+#circPanel button{min-width:76px}
 /* compare: the photographed drawing aligned over the reference */
 #cmpView{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
 #cmpCv{position:absolute;left:0;top:0;touch-action:none}
@@ -160,6 +176,15 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 
 <button id="backBtn" title="Back">&#x2039;</button>
 <div id="toast"></div>
+<div id="circModal">
+  <div id="circPanel">
+    <span>Remove?</span>
+    <div class="row" style="padding:0;justify-content:center">
+      <button id="circYes">Yes</button>
+      <button id="circNo">No</button>
+    </div>
+  </div>
+</div>
   <div id="setModal">
     <div id="setPanel">
       <span class="setLbl">Accent</span>
@@ -246,6 +271,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     </div>
     <!-- grid above the reference in SCREEN space, inverse of what's beneath -->
     <canvas id="gridCv" style="mix-blend-mode:difference"></canvas>
+    <canvas id="circCv"></canvas>
   </div>
   <div id="hudWrap">
     <div id="hud">
@@ -284,6 +310,10 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     <canvas id="camGhost"></canvas>
     <canvas id="lastShot" title="Use the last photo"></canvas>
     <button id="shutter" title="Capture"></button>
+    <div id="circWrap">
+      <button id="circClr">Clear</button>
+      <button id="circBtn" title="Mark an error"><span class="redDot"></span></button>
+    </div>
     <div id="coach"><span id="coachTxt"></span></div></div>
   <div id="lvRow" style="display:none">
     <div class="row">
@@ -299,6 +329,10 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
       <span class="adjL">whites</span><input type="range" id="aWh" min="150" max="255" value="255">
       <button id="lvReset">Auto</button>
     </div>
+  </div>
+  <div class="row" id="mirRow" style="display:none">
+    <button id="mirBtn" title="Mirror">&lt;|&gt;</button>
+    <input type="range" id="alphaSl" min="0" max="100" value="0" title="Reference see-through">
   </div>
   <div class="row" id="cmpRow">
     <input type="file" id="cmpFile" accept="image/*" hidden>
@@ -667,8 +701,10 @@ $('unit').onchange = ()=>{
 // the one back button: cancels a live camera, otherwise steps up a screen
 $('backBtn').onclick = () => {
   if ($('scrCompare').classList.contains('on')){
-    if (CAM.stream){ camStop(); show('scrMain'); return; }
-    show('scrMain'); return;
+    if (CAM.stream) camStop();
+    show('scrMain');
+    drawCircs();           // marks placed in the flip view appear at once
+    return;
   }
   if ($('scrMain').classList.contains('on')){
     show('scrUpload'); renderGallery();
@@ -913,6 +949,36 @@ function applyView(){
   clampView();
   $('world').style.transform = `translate(${view.x}px,${view.y}px) scale(${view.s})`;
   drawGrid();
+  drawCircs();
+}
+// red error marks, in world coordinates, kept per reference
+let CIRCS=[], CIRCTOOL=false, CIRCHIT=-1;
+function circsLoad(){
+  try{ CIRCS=JSON.parse(localStorage.getItem('circ|'+galActive)||'[]'); }
+  catch(e){ CIRCS=[]; }
+  if (!Array.isArray(CIRCS)) CIRCS=[];
+}
+function circsSave(){
+  try{ localStorage.setItem('circ|'+galActive, JSON.stringify(CIRCS)); }catch(e){}
+}
+function circR(){ return worldSize().w*0.035; }
+function drawCircs(){
+  const cv=$('circCv'), r=$('viewport').getBoundingClientRect();
+  if (!r.width || !GRID_READY) return;
+  const dpr=Math.min(3, devicePixelRatio||1);
+  const W2=Math.round(r.width*dpr), H2=Math.round(r.height*dpr);
+  if (cv.width!==W2 || cv.height!==H2){
+    cv.width=W2; cv.height=H2;
+    cv.style.width=r.width+'px'; cv.style.height=r.height+'px';
+  }
+  const g=cv.getContext('2d');
+  g.clearRect(0,0,W2,H2);
+  if (!CIRCS.length) return;
+  const sc=view.s*dpr, ox=view.x*dpr, oy=view.y*dpr;
+  g.strokeStyle='#e03c3c'; g.lineWidth=Math.max(2, 2.2*dpr);
+  for (const c of CIRCS){
+    g.beginPath(); g.arc(ox+c.x*sc, oy+c.y*sc, circR()*sc, 0, 6.2832); g.stroke();
+  }
 }
 function drawGrid(){
   const cvv=$('gridCv'), r=$('viewport').getBoundingClientRect();
@@ -969,6 +1035,8 @@ function initMain(){
   applyView();
   GRID_READY = true;
   drawGrid();
+  circsLoad();
+  drawCircs();
   // the reference remembers its drawing tool across sessions
   DETAIL='ultra';
   try{ const d=localStorage.getItem('det|'+galActive);
@@ -1037,6 +1105,17 @@ vp.addEventListener('pointerup', e => {
   if (!td || td.id!==e.pointerId) { tapLast=null; return; }
   const now=Date.now();
   if (now-td.t>350 || Math.hypot(e.clientX-td.x, e.clientY-td.y)>12){ tapLast=null; return; }
+  {
+    // a tap on a red mark asks to remove it
+    const rect=vp.getBoundingClientRect();
+    const wx=(td.x-rect.left-view.x)/view.s, wy=(td.y-rect.top-view.y)/view.s;
+    const hit=CIRCS.findIndex(c=>Math.hypot(c.x-wx, c.y-wy) < circR()*1.4);
+    if (hit>=0){
+      tapLast=null; CIRCHIT=hit;
+      $('circModal').style.display='flex';
+      return;
+    }
+  }
   if (tapLast && now-tapLast.t<400 && Math.hypot(td.x-tapLast.x, td.y-tapLast.y)<48){
     tapLast=null;
     const rect=vp.getBoundingClientRect(), zb=zBounds();
@@ -1766,11 +1845,36 @@ $('lvReset').onclick = () => {
   applyLevels(); cmpRender(); cmpSave();
 };
 $('lvBtn').onclick = () => { CMP.lvOpen=!CMP.lvOpen; cmpRender(); };
+$('mirBtn').onclick = () => {
+  CMP.mirror=!CMP.mirror;
+  $('mirBtn').classList.toggle('vOn', CMP.mirror);
+  cmpRender();
+};
+$('alphaSl').oninput = () => { CMP.alpha=$('alphaSl').value/100; cmpRender(); };
+$('circBtn').onclick = () => { CIRCTOOL=!CIRCTOOL; cmpRender(); };
+$('circClr').onclick = () => { CIRCS=[]; circsSave(); drawCircs(); cmpRender(); };
+$('circYes').onclick = () => {
+  if (CIRCHIT>=0){ CIRCS.splice(CIRCHIT,1); CIRCHIT=-1; circsSave(); drawCircs(); }
+  $('circModal').style.display='none';
+};
+$('circNo').onclick = () => { CIRCHIT=-1; $('circModal').style.display='none'; };
 // last capture as a corner thumbnail in the camera: tap to reuse it
 $('lastShot').onclick = () => {
   camStop();
   if (CMP.img){ CMP.mode='flip'; CMP.showing='photo'; cmpRender(); }
 };
+function cmpFitK(){
+  const f=CMP.fit, {w}=worldSize();
+  return (f.w*f.s)/w;             // screen px per world px in the flip fit
+}
+function cmpCircs(g){
+  if (!CIRCS.length) return;
+  const f=CMP.fit, k=cmpFitK();
+  g.strokeStyle='#e03c3c'; g.lineWidth=3;
+  for (const c of CIRCS){
+    g.beginPath(); g.arc(f.x+c.x*k, f.y+c.y*k, circR()*k, 0, 6.2832); g.stroke();
+  }
+}
 function cmpButtons(){
   // after capture there are only two ways to look: Flip and Side by side.
   // The transparent overlay lives solely in the camera ghost; Straighten
@@ -1782,6 +1886,8 @@ function cmpButtons(){
     $('lvRow').style.display='none';
     fl.style.display='none'; sp.style.display='none'; lb.style.display='none';
     $('cmpCrop').style.display='none';
+    $('mirRow').style.display='none';
+    $('circWrap').style.display='none';
     return;
   }
   const corners = CMP.mode==='corners';
@@ -1797,6 +1903,10 @@ function cmpButtons(){
   fl.disabled = !CMP.img;
   fl.classList.toggle('vOn', CMP.mode==='flip' && !!CMP.img);
   $('cmpCrop').style.display = corners ? '' : 'none';
+  $('mirRow').style.display = (CMP.mode==='flip' && CMP.img && !corners) ? '' : 'none';
+  $('circWrap').style.display = (CMP.img && !corners) ? 'flex' : 'none';
+  $('circClr').style.display = CIRCS.length ? '' : 'none';
+  $('circBtn').classList.toggle('vOn', CIRCTOOL);
 }
 // one-time floating hints, dismissed by a tap on the veil
 function coach(key, txt){
@@ -1838,8 +1948,20 @@ function cmpRender(){
       g.strokeStyle='#fff'; g.lineWidth=1.5; g.stroke();
     }
   } else if (CMP.img && CMP.mode==='flip'){
-    if (CMP.showing==='ref') drawRef();
-    else drawPhoto();
+    const mir = fn => {
+      if (CMP.mirror){ g.save(); g.translate(cv.width,0); g.scale(-1,1); fn(); g.restore(); }
+      else fn();
+    };
+    mir(()=>{
+      if (CMP.showing==='ref') drawRef();
+      else {
+        drawPhoto();
+        if (CMP.alpha>0){          // the reference ghosts through the drawing
+          g.globalAlpha=CMP.alpha; drawRef(); g.globalAlpha=1;
+        }
+      }
+      cmpCircs(g);
+    });
   } else if (CMP.img && CMP.mode==='split'){
     // side by side, one shared view: gestures on either pane move both
     const pw=cv.width/2, ph=cv.height;
@@ -2118,6 +2240,8 @@ $('compareBtn').onclick = async () => {
   $('camVid').style.display='block';
   $('coach').style.display='none';
   $('lvRow').style.display='none';
+  $('mirRow').style.display='none';
+  $('circWrap').style.display='none';
   $('cmpFlip').style.display='none';
   $('cmpSplit').style.display='none';
   $('lvBtn').style.display='none';
@@ -2358,7 +2482,20 @@ $('cmpSplit').onclick = () => {
     if (pts.size===0) CMP.cGrab=null;
     if (pts.size===0 && tap && !tap.moved && Date.now()-tap.t<400
         && CMP.mode==='flip' && CMP.img){
-      CMP.showing = CMP.showing==='ref' ? 'photo' : 'ref'; cmpRender();
+      if (CIRCTOOL){
+        const r2=cv.getBoundingClientRect(), kd=cv.width/r2.width;
+        const px=(tap.x-r2.left)*kd, py=(tap.y-r2.top)*kd;
+        const f=CMP.fit, k=cmpFitK();
+        let wx=(px-f.x)/k; const wy=(py-f.y)/k;
+        if (CMP.mirror) wx=worldSize().w-wx;
+        const {w,h}=worldSize();
+        if (wx>=0 && wy>=0 && wx<=w && wy<=h){
+          CIRCS.push({x:Math.round(wx), y:Math.round(wy)});
+          circsSave(); drawCircs(); cmpRender();
+        }
+      } else {
+        CMP.showing = CMP.showing==='ref' ? 'photo' : 'ref'; cmpRender();
+      }
     }
     if (pts.size===0 && tap && !tap.moved && !CMP.img && !CAM.stream)
       $('cmpFile').click();
