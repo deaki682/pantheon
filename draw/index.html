@@ -863,7 +863,11 @@ function initMain(){
   applyView();
   GRID_READY = true;
   drawGrid();
-  DETAIL='ultra'; $('detBtn').textContent='Ultra';
+  // the reference remembers its drawing tool across sessions
+  DETAIL='ultra';
+  try{ const d=localStorage.getItem('det|'+galActive);
+    if (DET_STEPS.includes(d)) DETAIL=d; }catch(e){}
+  $('detBtn').textContent=DET_LABEL[DETAIL];
   $('detMenu').style.display='none';
 }
 
@@ -1269,6 +1273,7 @@ $('detBtn').onclick=()=>{
 for (const b of $('detMenu').children){
   b.onclick=()=>{
     DETAIL=b.dataset.lv;
+    if (galActive!=null){ try{ localStorage.setItem('det|'+galActive, DETAIL); }catch(e){} }
     $('detBtn').textContent=DET_LABEL[DETAIL];
     $('detMenu').style.display='none';
     if (!state.img || !GRID_READY) return;
@@ -1645,6 +1650,14 @@ function cmpButtons(){
   // The transparent overlay lives solely in the camera ghost; Straighten
   // appears only on the manual corner screen (picker photos).
   const fl=$('cmpFlip'), sp=$('cmpSplit'), lb=$('lvBtn');
+  if (CAM.stream || CAM.starting){
+    // the camera owns the screen: a mid-entry render (the saved capture
+    // restoring) must not pop the row back for a beat
+    $('lvRow').style.display='none';
+    fl.style.display='none'; sp.style.display='none'; lb.style.display='none';
+    $('cmpCrop').style.display='none';
+    return;
+  }
   const corners = CMP.mode==='corners';
   const showLv = CMP.img && !corners && !CAM.stream;
   $('lvRow').style.display = (showLv && CMP.lvOpen) ? '' : 'none';
@@ -1727,7 +1740,7 @@ function cmpRender(){
     g.beginPath(); g.moveTo(pw,0); g.lineTo(pw,ph); g.stroke();
   }
   cmpButtons();
-  if (!CAM.stream && CMP.img){
+  if (!CAM.stream && !CAM.starting && CMP.img){
     if (CMP.mode==='flip') coach('Flip','tap to flip');
     else if (CMP.mode==='split') coach('Cmp','zoom to compare');
   }
@@ -1984,6 +1997,7 @@ $('compareBtn').onclick = async () => {
   $('lvBtn').style.display='none';
   $('shutter').style.display='block';
   $('backBtn').textContent='✕';
+  CAM.starting=true;
   const camP = camStart();                  // spins up while the save loads
   if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
     CMP.ckey=CKEY; CMP.img=null; CMP.blob=null;
@@ -2014,10 +2028,12 @@ $('compareBtn').onclick = async () => {
       CMP.mode='flip'; CMP.showing='photo';
     }
   }
-  if (!(await camP)){ camStop(); cmpRender(); }
+  const camOk = await camP;
+  CAM.starting=false;
+  if (!camOk){ camStop(); cmpRender(); }
 };
 // live in-app camera; the file picker is the fallback
-const CAM={stream:null, ghost:null, timer:0};
+const CAM={stream:null, ghost:null, timer:0, starting:false};
 function camGhost(){
   // the transparent reference floats over the live view (with margin) so the
   // artist frames the drawing onto it by eye - the capture is then cropped
