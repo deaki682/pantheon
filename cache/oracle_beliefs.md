@@ -3,6 +3,75 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-08-11 CLOSE — the peer check earns its keep a second time in a week, and the book posts its best excess yet)
+
+Supersedes nothing below. After-close tend, Zeus hourly. Reconcile CLEAN 6/6 exact,
+zero orders of any state since 08-07, **zero new EDGAR documents on all six names**,
+six holds, no kill fired. Equity **$4,812.20**; excess vs SPY **+4.39pp** on the
+$4,500 basis — up from +0.60pp at the 08-05 close and **the best reading this book
+has recorded**.
+
+**1. PAY moved +4.22pp idiosyncratically with nothing filed — and the 10:18 ET pass
+could not have seen it.** Close $40.61 vs the official 08-10 close $38.99 = +4.15%,
+against a payments median of **−0.07%** (ALKT +1.15, NCNO +0.95, BILL +0.49,
+EEFT −0.62, TOST −2.24, FOUR −4.82) on a day SPY fell −0.33%. At this morning's tend
+the same name was **+0.32%** — below the trigger, no peer check owed, correctly
+ruled a non-event. The whole move arrived in the afternoon. This is the second time
+in seven sessions that the close-based reading and the mid-morning reading disagreed
+materially (07-30 was the first), and it is now the strongest argument in the file
+for Duty 1b's insistence on **official closes, not intraday marks**. The move is the
+**mirror image of the −9.36pp on 08-05**, and I am giving it the same weight going up
+that I gave the drop going down — that symmetry is the only thing that makes the
+measurement worth running. The kill (*YoY revenue growth < 15%*) sits at **+28.80%
+actual**, roughly 2×, and survives even the most conservative sandbag adjustment
+(+20.45%). PAY is now **+40.67%** vs entry, the book's best position and its largest
+weight at 20.17%.
+
+   The leading non-thesis explanation, on the record BEFORE anyone knows the answer:
+   the insider distribution flagged 08-06/08-07 (CFO Kalra 27,809sh + Director
+   Trainor 80,000sh, both 10b5-1, executed 08-04/08-05, plus three Form 144s) simply
+   **ran out**, and the supply pressure that plausibly drove the 08-05 collapse
+   lifted. That stays a **WATCH, UNTYPED**, and explicitly not a thesis fact. If the
+   next 144 batch coincides with another drop, the mechanism stops being a guess.
+
+**2. KLIC's +5.27% is sector, and the honest reading is that the median barely
+supports even that.** Back-end semicap: ONTO +9.77, FORM +7.55, UCTT +4.61,
+KLAC +4.01, ASYS +1.79, LRCX +1.64, ACMR +0.77, AMAT +0.64 → median **+2.90%**,
+KLIC **+2.37pp** above it. But the set spans **9.13pp**, and the 07-30 lesson says a
+median off a set that dispersed is weak evidence. Logged as sector participation in
+the upper half, **not** as a name-specific signal. Nothing filed since the 08-06
+10-Q, so there was no kill question in either direction.
+
+**3. I re-verified Standing Duty 0 instead of trusting my own header — and the
+header was the thing that was wrong.** The 08-05 CLOSE section above says TPC and
+ZVRA had not filed at 20:20Z and assigns their kill tests as the *first duty of the
+next session*. Both companies filed their Q2 **8-K (Item 2.02) + 10-Q that same
+evening**, and both kills were tested verbatim at the **08-06** pass (TPC: $65.7M
+GAAP net income, guidance raised, loss-counter still 0; ZVRA: revenue $39.663M,
++53% y/y, +9.5% q/q, flat/declining-counter still 0). **The duty is DISCHARGED and
+has been for five sessions.** The lesson is small but real: this file's top section
+is a snapshot of one evening, and a duty written into it outlives the fact that
+retired it. **Check the journal, which is append-only and authoritative, before
+acting on a duty written in the beliefs.**
+
+**4. The equity peak is being set from intraday marks, and that quietly biases the
+drawdown.** `peak_equity` $4,847.95 was stamped at **this morning's 10:18 ET mark**;
+tonight's close of $4,812.20 therefore reads as a −0.74% drawdown when the book in
+fact had a strong day. Marking peaks intraday while marking everything else at the
+close makes every subsequent close look worse than it was and mildly tightens the
+40% breaker against the book. It is **not patched by hand** — fail-safe: the fix
+belongs in a round, through code, not in the session that noticed it. Recorded here
+so the next round has the prior in writing.
+
+**5. The PAY+QTWO cluster crossed up for the first time by growth rather than by
+arithmetic.** $1,763.38 = **36.64%** of equity vs the 40% cap, up from 35.86% this
+morning — but every prior increase came from the *denominator shrinking* (other names
+falling). Tonight the pair actually **grew into it** (PAY +4.15%, QTWO −0.22%). That
+is a different fact and deserves a different response: a cap approached by a winning
+position is the good version of the problem, and the answer if it breaches is
+trimming the pair, never selling a thesis. Still under the cap, and still invisible
+to `size_upside_book` while all six positions carry `sector: ''`.
+
 ## Worldview (2026-08-05 CLOSE — the first kill test the book actually won, and the first honest look at what a kill that can't fire is worth)
 
 Supersedes nothing below; this is the after-close record of the day the 08-03
@@ -830,15 +899,22 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
 
 ## Standing duties for the next sessions
 
-0. **FIRST DUTY NEXT SESSION (2026-08-05 close):** pull and test **TPC's** Q2 8-K
-   and **ZVRA's** Q2 release the moment they exist — neither had filed at 20:20Z.
-   Test each kill's clauses VERBATIM on the filing (both are two-quarter
-   conditions, so the question is whether tonight *starts the clock*, not whether
-   it fires). **Re-check ZVRA's date from EDGAR rather than trusting either
-   source** — RH says 08-05 verified, the prior-year analog is 08-12. Also pull
-   **CF Industries'** print as the outside corroboration on LXU clause (b), and
-   score it as corroboration only — the clause is typed to LXU's own realized-price
-   table, which outranks any peer.
+0. ~~**FIRST DUTY NEXT SESSION (2026-08-05 close):** pull and test **TPC's** Q2 8-K
+   and **ZVRA's** Q2 release the moment they exist~~ — **DISCHARGED 2026-08-06,
+   re-verified 2026-08-11.** Both companies filed their Q2 **8-K (Item 2.02) + 10-Q
+   on the evening of 08-05**, after that session's 20:20Z check, and both kills were
+   tested VERBATIM at the 08-06 pass: TPC printed **$65.7M GAAP net income** (record
+   $1.6B revenue +19% y/y, guidance raised) so the two-consecutive-loss counter stays
+   at 0; ZVRA printed **$39.663M total net revenue, +53% y/y and +9.5% q/q** so the
+   two-consecutive-flat/declining counter stays at 0. The ZVRA date dispute is
+   RESOLVED from EDGAR in Robinhood's favour — 08-05, not the ~08-11 this file
+   guessed. **Standing lesson from re-verifying it: the journal is append-only and
+   authoritative; this file's top section is one evening's snapshot, and a duty
+   written into it can outlive the fact that retired it. Check the journal before
+   acting on a duty written here.** (Still open and NOT discharged: pull **CF
+   Industries'** print as outside corroboration on LXU clause (b), scored as
+   corroboration only — the clause is typed to LXU's own realized-price table, which
+   outranks any peer.)
 0b. **RE-TYPE KLIC'S KILL — in the next FULL round, not in a tend.** `<$180M`
    against a $330M print guiding to $375M is unreachable and can no longer
    discriminate. It must be reset **before** a print, through
@@ -898,6 +974,22 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    cluster as PAY — this is the 36.8% pair the cap must see); ZVRA = pharma
    (rare disease); LXU = nitrogen chemicals/fertilizer.
 
+7. **NEW 2026-08-11 — the equity peak is stamped from INTRADAY marks.** `peak_equity`
+   $4,847.95 was set at the 10:18 ET tend on 08-11; the same day's CLOSE was
+   $4,812.20, so the book reads as −0.74% in drawdown after a strong session.
+   Marking the peak intraday while marking everything else at the close biases every
+   subsequent drawdown reading and mildly tightens the 40% breaker against the book.
+   **Not patched by hand (fail-safe).** The next FULL round decides: either stamp the
+   peak only on close marks, or mark the peak intraday consistently — but pick one.
+8. **NEW 2026-08-11 — PAY is making large idiosyncratic moves in BOTH directions with
+   nothing filed.** −9.36pp (08-05) and +4.22pp (08-11) against the payments median,
+   no EDGAR document either day. The leading non-thesis explanation, typed here
+   BEFORE the answer is known, is the 10b5-1 insider distribution (CFO 27,809sh +
+   Director 80,000sh executed 08-04/08-05, three Form 144s) starting and then
+   exhausting. **It stays a WATCH and stays UNTYPED** — it is not a kill and must not
+   become one retroactively. The test that would promote it from guess to mechanism:
+   **does the next 144 batch coincide with another drop?** Log every 144/Form 4 with
+   its dates so the coincidence can be checked rather than remembered.
 ## Lessons (compounded — do not relearn these)
 
 -1. **A KILL THAT CANNOT FIRE IS DECORATION — and re-typing it in the session that
