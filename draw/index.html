@@ -61,6 +61,9 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 .gitem{position:relative;flex:none;border:1px solid #555;background:#1e1e1e;
   cursor:pointer;border-radius:10px;overflow:hidden}
 .gitem.lastRef{border-color:var(--acc)}
+.gx{position:absolute;top:2px;right:2px;width:24px;height:24px;padding:0;
+  border:none;background:none;color:#fff;font-size:15px;line-height:1;
+  text-shadow:0 0 4px rgba(0,0,0,0.9)}
 .gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
 .gbar{position:absolute;left:0;right:0;bottom:0;height:4px;
   background:rgba(20,20,20,0.55);visibility:hidden}
@@ -447,6 +450,9 @@ async function galAll(){ try{ const d=await gdb(); return await new Promise(res=
 async function galAdd(rec){ try{ const d=await gdb(); return await new Promise(res=>{
   const t=d.transaction('photos','readwrite').objectStore('photos').add(rec);
   t.onsuccess=()=>res(t.result); t.onerror=()=>res(null); }); }catch(e){ return null; } }
+async function galDel(id){ try{ const d=await gdb(); await new Promise(res=>{
+  const t=d.transaction('photos','readwrite').objectStore('photos').delete(id);
+  t.onsuccess=res; t.onerror=res; }); }catch(e){} }
 
 let galActive = null;    // gallery id of the photo now open
 let galLoading = null;   // 0..1 creep while the photo itself decodes
@@ -480,7 +486,20 @@ async function renderGallery(){
     const im = document.createElement('img'); im.src = r.thumb; im.alt = r.name||'';
     const bar = document.createElement('div'); bar.className='gbar';
     bar.appendChild(Object.assign(document.createElement('div'),{className:'gfill'}));
-    d.appendChild(im); d.appendChild(bar);
+    const xb = document.createElement('button'); xb.className='gx'; xb.textContent='\u00d7';
+    xb.onclick = async ev => {
+      ev.stopPropagation();
+      if (PREP.active) return;
+      await galDel(r.id);
+      try{
+        for (const k of ['fmt|','det|','circ|']) localStorage.removeItem(k+r.id);
+        if (+localStorage.getItem('lastRef')===r.id) localStorage.removeItem('lastRef');
+      }catch(e){}
+      if (galActive===r.id){ galActive=null; photo=null; GRID_READY=false; }
+      toast('reference removed');
+      renderGallery();
+    };
+    d.appendChild(im); d.appendChild(bar); d.appendChild(xb);
     d.onclick = () => {
       if (PREP.active) return;                // still cooking: not yet usable
       if (galActive === r.id && photo){       // already open: jump back in
@@ -679,6 +698,7 @@ function cropRect(){
            y:Math.round((photo.height-h)*FMT_OFF.y), w, h };
 }
 function fmtPreview(){
+  if (!photo) return;
   const cr = cropRect();
   const cv = $('fmtCanvas');
   const scale = Math.min(320/cr.w, 420/cr.h);
@@ -761,6 +781,7 @@ $('backBtn').onclick = () => {
 
 let FMT_APPLIED=null, FMT_TIMER=null;
 async function applyFormat(){
+  if (!photo) return;               // deleted or not yet loaded
   const cr = cropRect();
   const wIn = physWIn(), hIn = wIn*cr.h/cr.w;
   // resolution from the physical size (96 ppi), capped so vast drawings
