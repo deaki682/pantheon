@@ -206,6 +206,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #tourCaret{position:absolute;width:0;height:0;
   border-left:10px solid transparent;border-right:10px solid transparent;
   border-top:12px solid #1e1e1e}
+#tourCaret.up{border-top:none;border-bottom:12px solid #1e1e1e}
 #tourTap{position:absolute;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom));
   text-align:center;font-size:11px;opacity:0.6}
 </style>
@@ -411,7 +412,8 @@ const state = { img:null, tools:[] };
 'use strict';
 const $ = id => document.getElementById(id);
 const show = id => { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on')); $(id).classList.add('on');
-  $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex'; };
+  $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex';
+  if (id==='scrFormat') fmtTip(); };
 
 
 const CEILINGS = { 'Fingertip': 78 };          // same rule as the studio
@@ -583,36 +585,33 @@ $('file').addEventListener('change', async e => {
   openPhoto(f, gid);
 });
 renderGallery();
-// after the note, two pointers: the references, then the ruler
-function startTour(){
-  const STOPS=[
-    ['gallery', 'This is the Project page, where you can upload and manage '
-      +'your references. I\u2019ve included a few of mine just for fun!'],
-    ['calBtn', 'I find it helpful to keep my reference true-to-life, and '
-      +'you can match this ruler to a real one to calibrate the program'],
-  ];
+// the tour engine: a dim veil and a bubble whose caret points at each
+// target in turn - above it when there is room, below it otherwise
+function runTour(stops){
   let i=0;
   const veil=$('tourVeil'), bub=$('tourBubble'), car=$('tourCaret');
   const place=()=>{
-    const t=$(STOPS[i][0]); if (!t){ next(); return; }
-    bub.textContent=STOPS[i][1];
+    const t=$(stops[i][0]); if (!t){ next(); return; }
+    bub.textContent=stops[i][1];
     veil.style.display='block';
     const r=t.getBoundingClientRect();
-    // the bubble sits above its target, caret pointing down at it
     bub.style.visibility='hidden'; bub.style.left='0'; bub.style.top='0';
     requestAnimationFrame(()=>{
       const bw=bub.offsetWidth, bh=bub.offsetHeight;
       const cx=Math.min(Math.max(r.left+r.width/2, 30), innerWidth-30);
       const bx=Math.min(Math.max(cx-bw/2, 10), innerWidth-bw-10);
-      const by=Math.max(10, r.top-bh-16);
+      const above = r.top-bh-16 >= 10;
+      const by = above ? r.top-bh-16 : Math.min(innerHeight-bh-10, r.bottom+16);
       bub.style.left=bx+'px'; bub.style.top=by+'px';
       bub.style.visibility='';
-      car.style.left=(cx-10)+'px'; car.style.top=(by+bh-1)+'px';
+      car.classList.toggle('up', !above);
+      car.style.left=(cx-10)+'px';
+      car.style.top=(above ? by+bh-1 : by-11)+'px';
     });
   };
   const next=()=>{
     i++;
-    if (i>=STOPS.length){
+    if (i>=stops.length){
       veil.style.display='none';
       veil.onclick=null;
       return;
@@ -621,6 +620,26 @@ function startTour(){
   };
   veil.onclick=next;
   place();
+}
+// after the note, two pointers: the references, then the ruler
+function startTour(){
+  runTour([
+    ['gallery', 'This is the Project page, where you can upload and manage '
+      +'your references. I\u2019ve included a few of mine just for fun!'],
+    ['calBtn', 'I find it helpful to keep my reference true-to-life, and '
+      +'you can match this ruler to a real one to calibrate the program'],
+  ]);
+}
+// the first visit to the prep page gets its own pointer
+function fmtTip(){
+  let seen=false; try{ seen=!!localStorage.getItem('tourFmt'); }catch(e){}
+  if (seen) return;
+  try{ localStorage.setItem('tourFmt','1'); }catch(e){}
+  requestAnimationFrame(()=>runTour([
+    ['fmtForm', 'Here\u2019s where you can format your reference. The grid '
+      +'method is just one of the methods to achieve photorealism, but it '
+      +'can easily be turned off if you don\u2019t want to use it!'],
+  ]));
 }
 // the founder's welcome, once per device
 {
