@@ -1048,12 +1048,27 @@ function initMain(){
 
 const ptrs = new Map();
 let pinch0 = null;
+let CDRAG=null, cdPend=null, cdT=0;   // press-and-hold moves a red mark
 const vp = $('viewport');
 vp.addEventListener('pointermove', touchAct);
 vp.addEventListener('pointerdown', e => { touchAct();
   vp.setPointerCapture(e.pointerId);
   ptrs.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  if (ptrs.size===1 && GRID_READY && CIRCS.length){
+    const r=vp.getBoundingClientRect();
+    const wx=(e.clientX-r.left-view.x)/view.s, wy=(e.clientY-r.top-view.y)/view.s;
+    const i=CIRCS.findIndex(c=>Math.hypot(c.x-wx, c.y-wy)<circR()*1.15);
+    if (i>=0){
+      cdPend={x0:e.clientX, y0:e.clientY};
+      clearTimeout(cdT);
+      cdT=setTimeout(()=>{ if (cdPend){
+        CDRAG={i}; cdPend=null; tapDown=null; tapLast=null; haptic();
+      } }, 330);
+    }
+  }
   if (ptrs.size===2){
+    clearTimeout(cdT); cdPend=null;
+    if (CDRAG){ circsSave(); CDRAG=null; }
     const [a,b]=[...ptrs.values()];
     pinch0 = { d:Math.hypot(a.x-b.x,a.y-b.y), s:view.s,
                cx:(a.x+b.x)/2, cy:(a.y+b.y)/2, vx:view.x, vy:view.y,
@@ -1063,7 +1078,20 @@ vp.addEventListener('pointerdown', e => { touchAct();
 vp.addEventListener('pointermove', e => {
   const p = ptrs.get(e.pointerId); if (!p) return;
   const dx=e.clientX-p.x, dy=e.clientY-p.y;
-  if (ptrs.size===1){ view.x+=dx; view.y+=dy; applyView(); }
+  if (ptrs.size===1){
+    if (CDRAG){
+      const r=vp.getBoundingClientRect();
+      const c=CIRCS[CDRAG.i];
+      c.x=Math.round((e.clientX-r.left-view.x)/view.s);
+      c.y=Math.round((e.clientY-r.top-view.y)/view.s);
+      drawCircs();
+    } else {
+      if (cdPend && Math.hypot(e.clientX-cdPend.x0, e.clientY-cdPend.y0)>8){
+        clearTimeout(cdT); cdPend=null;
+      }
+      view.x+=dx; view.y+=dy; applyView();
+    }
+  }
   p.x=e.clientX; p.y=e.clientY;
   if (ptrs.size===2 && pinch0){
     const [a,b]=[...ptrs.values()];
@@ -1087,6 +1115,8 @@ vp.addEventListener('pointermove', e => {
 function endPtr(e){
   ptrs.delete(e.pointerId);
   if (ptrs.size<2) pinch0=null;
+  clearTimeout(cdT); cdPend=null;
+  if (CDRAG && ptrs.size===0){ circsSave(); CDRAG=null; }
 }
 vp.addEventListener('pointerup', endPtr);
 vp.addEventListener('pointercancel', endPtr);
@@ -2287,6 +2317,7 @@ const cmpFlush=()=>{ if (cmpDirty){ clearTimeout(cmpT); cmpSaveNow(); } };
 addEventListener('pagehide', cmpFlush);
 document.addEventListener('visibilitychange', ()=>{ if (document.hidden) cmpFlush(); });
 $('compareBtn').onclick = async () => {
+  CIRCTOOL=false;
   show('scrCompare'); cmpSize();
   // camera-mode chrome up in the same frame - nothing of the previous
   // visit may flash first
@@ -2474,10 +2505,40 @@ $('cmpSplit').onclick = () => {
 };
 {
   const cv=$('cmpCv'), pts=new Map(); let g0=null, tap=null;
+  let cDrag=null, cPend=null, cT=0;
+  const worldPt=(cx2,cy2)=>{
+    const r2=cv.getBoundingClientRect(), kd=cv.width/(r2.width||1);
+    const px=(cx2-r2.left)*kd, py=(cy2-r2.top)*kd;
+    if (CMP.mode==='flip'){
+      const k=cmpFitK(), f=CMP.fit;
+      let wx=(px-f.x)/k; const wy=(py-f.y)/k;
+      if (CMP.mirror) wx=worldSize().w-wx;
+      return {wx, wy};
+    }
+    if (CMP.mode==='split'){
+      const pw=cv.width/2, {w,h}=worldSize();
+      const bs=Math.min(pw/w, cv.height/h), bx=(pw-w*bs)/2, by=(cv.height-h*bs)/2;
+      const px2=px>=pw ? px-pw : px;
+      return {wx:((px2-SPL.x)/SPL.s-bx)/bs, wy:((py-SPL.y)/SPL.s-by)/bs};
+    }
+    return null;
+  };
   cv.addEventListener('pointerdown', e => {
     cv.setPointerCapture(e.pointerId);
     pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
     if (pts.size===1) tap={x:e.clientX, y:e.clientY, moved:false, t:Date.now()};
+    if (pts.size===1 && CMP.img && !CAM.stream && CIRCS.length
+        && (CMP.mode==='flip' || CMP.mode==='split')){
+      const wp=worldPt(e.clientX, e.clientY);
+      if (wp){
+        const i=CIRCS.findIndex(c=>Math.hypot(c.x-wp.wx, c.y-wp.wy)<circR()*1.15);
+        if (i>=0){
+          cPend={x0:e.clientX, y0:e.clientY};
+          clearTimeout(cT);
+          cT=setTimeout(()=>{ if (cPend){ cDrag={i}; cPend=null; tap=null; haptic(); } }, 330);
+        }
+      }
+    }
     if (CMP.mode==='corners' && CMP.raw && pts.size===1 && CMP.cfit){
       const r=cv.getBoundingClientRect(), kd=cv.width/r.width,
             px=(e.clientX-r.left)*kd, py=(e.clientY-r.top)*kd;
@@ -2500,6 +2561,18 @@ $('cmpSplit').onclick = () => {
     const dx=e.clientX-p.x, dy=e.clientY-p.y;
     p.x=e.clientX; p.y=e.clientY;
     if (Math.hypot(dx,dy)>4 && tap) tap.moved=true;
+    if (cDrag && pts.size===1){
+      const wp=worldPt(e.clientX, e.clientY);
+      if (wp){
+        const c=CIRCS[cDrag.i];
+        c.x=Math.round(wp.wx); c.y=Math.round(wp.wy);
+        cmpRender();
+      }
+      return;
+    }
+    if (cPend && Math.hypot(e.clientX-cPend.x0, e.clientY-cPend.y0)>8){
+      clearTimeout(cT); cPend=null;
+    }
     const kd=cv.width/cv.getBoundingClientRect().width;   // css px -> canvas px
     if (CMP.mode==='corners' && CMP.raw){
       if (pts.size===1 && CMP.cGrab!=null && CMP.cfit){
@@ -2533,6 +2606,8 @@ $('cmpSplit').onclick = () => {
     pts.delete(e.pointerId);
     if (pts.size<2) g0=null;
     if (pts.size===0) CMP.cGrab=null;
+    clearTimeout(cT); cPend=null;
+    if (cDrag && pts.size===0){ circsSave(); drawCircs(); cDrag=null; }
     if (pts.size===0 && tap && !tap.moved && Date.now()-tap.t<400
         && CMP.mode==='flip' && CMP.img){
       if (CIRCTOOL){
