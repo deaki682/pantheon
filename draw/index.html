@@ -173,7 +173,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   display:flex;align-items:center;justify-content:center}
 #widthIn,#heightIn,#cellVal,#cellVal2{width:54px;background:#1e1e1e;color:#e8e6e1;
   border:1px solid #555;border-radius:8px;padding:8px;font:inherit}
-#lvBtn{display:flex;align-items:center;justify-content:center;min-width:44px}
+#lvBtn,#cmpGridBtn{display:flex;align-items:center;justify-content:center;min-width:44px}
 #cmpRow{justify-content:space-evenly}
 /* first-visit coach marks: a darkened veil with one floating line */
 #coach{position:absolute;inset:0;z-index:8;display:none;align-items:center;
@@ -346,7 +346,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
       <div class="row" id="viewRow">
         <div id="layerCol">
           <button id="vSpec" class="vBtn">Brights</button>
-          <button id="vLight" class="vBtn">Lights</button>
+          <button id="vL2" class="vBtn">Lights 2</button>
+          <button id="vL1" class="vBtn">Lights 1</button>
           <button id="vDark" class="vBtn">Darks</button>
         </div>
       </div>
@@ -420,6 +421,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     <button id="cmpFlip" disabled>Flip</button>
     <button id="cmpSplit" disabled>Compare</button>
     <button id="cmpCrop" style="display:none">Crop</button>
+    <button id="cmpGridBtn" disabled title="Grid"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button>
     <button id="lvBtn" disabled title="Adjust"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="15" cy="7" r="2.6" fill="#1e1e1e"/><circle cx="8" cy="12" r="2.6" fill="#1e1e1e"/><circle cx="12" cy="17" r="2.6" fill="#1e1e1e"/></svg></button>
   </div>
 </div>
@@ -1380,7 +1382,7 @@ function initMain(){
   $('hud').style.display='none';
   $('hudToggle').textContent='\u270e';
   $('hudToggle').classList.remove('lit','vOn');
-  LAYERS.dk=LAYERS.lt=LAYERS.hl=true;
+  LAYERS.dk=LAYERS.l1=LAYERS.l2=LAYERS.hl=true;
   layerButtons();
   // the reference remembers its drawing tool across sessions - restored
   // BEFORE the first paint, or the image composes at the old level while
@@ -1620,7 +1622,7 @@ const blobToCanvas=async bl=>{
 // darker than the form), Lights (texture lighter than it, sheen included)
 // and Highlights (only the brightest sparkle pops) toggle on top of it in
 // any combination. All three on reassembles the photo exactly. Display only.
-const LAYERS={dk:true, lt:true, hl:true};
+const LAYERS={dk:true, l1:true, l2:true, hl:true};
 let GRID_ON=true;
 let GRID_COL='auto', GRID_THK=1;   // 'auto' = the inverting difference grid
 let DONE=[], DONETOOL=null;        // per-square progress dots + armed mode
@@ -1639,7 +1641,7 @@ function applyGrid(){
   $('gridBtn').style.opacity = GRID_ON ? '1' : '0.35';
 }
 function layerButtons(){
-  for (const [id,k] of [['vDark','dk'],['vLight','lt'],['vSpec','hl']])
+  for (const [id,k] of [['vDark','dk'],['vL1','l1'],['vL2','l2'],['vSpec','hl']])
     $(id).classList.toggle('vOn', LAYERS[k]);
 }
 function grayData(src){
@@ -1692,6 +1694,17 @@ function compParts(){
   for (let i=0;i<N;i++){
     const d=COMP.ph[i]-COMP.hl[i]; COMP.dp[i]=d<0?0:(d>255?255:d);
   }
+  // where the two lights passes part ways: the count-median of the light
+  // texture, so the subtler half (Lights 1) and the stronger half
+  // (Lights 2) carry roughly equal ground
+  const lhist=new Uint32Array(256); let ln=0;
+  for (let i=0;i<N;i++){
+    const l=COMP.dp[i]-COMP.sh[i];
+    if (l>0){ lhist[l>255?255:l]++; ln++; }
+  }
+  let accL=0, TL=8;
+  for (let v=1;v<256;v++){ accL+=lhist[v]; if (accL>=ln/2){ TL=v; break; } }
+  COMP.lsplit=Math.max(2, TL);
   COMP.sig=null; COMP.cv=null;
 }
 function compositeCv(){
@@ -1702,10 +1715,12 @@ function compositeCv(){
     else ensureDetail(DETAIL);          // async; the ultra tool stands in
   }
   const eff=det?DETAIL:'ultra';
-  const sig=(LAYERS.dk?'D':'')+(LAYERS.lt?'L':'')+(LAYERS.hl?'H':'')+'T'+eff;
+  const sig=(LAYERS.dk?'D':'')+(LAYERS.l1?'1':'')+(LAYERS.l2?'2':'')
+           +(LAYERS.hl?'H':'')+'T'+eff;
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
   const {w,h}=worldSize();
   const N=COMP.ph.length, buf=new Uint8Array(N);
+  const TL=COMP.lsplit||8;
   for (let i=0;i<N;i++){
     const sh=COMP.sh[i];
     const dD=det?det.dD[i]:Math.max(0, sh-COMP.ph[i]);
@@ -1713,7 +1728,10 @@ function compositeCv(){
     const hl=det?det.hl[i]:COMP.hl[i];
     let v=sh;
     if (LAYERS.dk) v-=dD;
-    if (LAYERS.lt) v+=lD;
+    if (lD>0){
+      if (lD<=TL){ if (LAYERS.l1) v+=lD; }
+      else       { if (LAYERS.l2) v+=lD; }
+    }
     if (LAYERS.hl) v+=hl;
     buf[i]=v<0?0:(v>255?255:v);
   }
@@ -1837,7 +1855,8 @@ function toggleLayer(k){
   viewRepaint();
 }
 $('vDark').onclick=()=>toggleLayer('dk');
-$('vLight').onclick=()=>toggleLayer('lt');
+$('vL1').onclick=()=>toggleLayer('l1');
+$('vL2').onclick=()=>toggleLayer('l2');
 $('vSpec').onclick=()=>toggleLayer('hl');
 $('expBtn').onclick = () => {
   // the current visualization, exactly as composed: layers, detail, grid
@@ -2346,6 +2365,13 @@ function circTap(wx, wy, rb){
   circsSave(); drawCircs(); cmpRender();
 }
 $('circBtn').onclick = () => { CIRCTOOL=!CIRCTOOL; cmpRender(); };
+$('cmpGridBtn').onclick = () => {
+  GRID_ON=!GRID_ON;
+  try{ localStorage.setItem('gridOn', GRID_ON?'1':'0'); }catch(e){}
+  applyGrid();                 // the drawing screen follows
+  if (GRID_READY) drawCircs();
+  cmpRender();
+};
 $('circClr').onclick = () => { CIRCS=[]; circsSave(); drawCircs(); cmpRender(); };
 
 // last capture as a corner thumbnail in the camera: tap to reuse it
@@ -2374,6 +2400,7 @@ function cmpButtons(){
     // restoring) must not pop the row back for a beat
     $('lvRow').style.display='none';
     fl.style.display='none'; sp.style.display='none'; lb.style.display='none';
+    $('cmpGridBtn').style.display='none';
     $('cmpCrop').style.display='none';
     $('mirRow').style.display='none';
     $('circWrap').style.display='none';
@@ -2391,6 +2418,10 @@ function cmpButtons(){
   fl.style.display = corners ? 'none' : '';
   fl.disabled = !CMP.img;
   fl.classList.toggle('vOn', CMP.mode==='flip' && !!CMP.img);
+  const gb=$('cmpGridBtn');
+  gb.style.display = corners ? 'none' : '';
+  gb.disabled = !CMP.img;
+  gb.classList.toggle('vOn', GRID_ON && !!CMP.img);
   $('cmpCrop').style.display = corners ? '' : 'none';
   $('mirRow').style.display = (CMP.mode==='flip' && CMP.img && !corners) ? '' : 'none';
   $('circWrap').style.display = (CMP.img && !corners) ? 'flex' : 'none';
@@ -2451,6 +2482,20 @@ function cmpRender(){
           g.globalAlpha=CMP.alpha; drawRef(); g.globalAlpha=1;
         }
       }
+      if (GRID_ON){
+        const f=CMP.fit, k=cmpFitK(), {w,h}=worldSize();
+        const step=gridStepPx();
+        const kd2=cv.width/(cv.getBoundingClientRect().width||cv.width);
+        if (GRID_COL==='auto'){ g.globalCompositeOperation='difference';
+          g.strokeStyle='rgba(255,255,255,0.75)'; }
+        else g.strokeStyle=GRID_COL;
+        g.lineWidth=Math.max(0.75, GRID_THK*kd2*0.8)/FLP.s;
+        for (let xw=step; xw<w-1; xw+=step){ const x=f.x+xw*k;
+          g.beginPath(); g.moveTo(x,f.y); g.lineTo(x,f.y+h*k); g.stroke(); }
+        for (let yw=step; yw<h-1; yw+=step){ const y=f.y+yw*k;
+          g.beginPath(); g.moveTo(f.x,y); g.lineTo(f.x+w*k,y); g.stroke(); }
+        g.globalCompositeOperation='source-over';
+      }
       cmpCircs(g, cv);
     });
     g.restore();
@@ -2472,6 +2517,19 @@ function cmpRender(){
       g.translate(SPL.x,SPL.y); g.scale(SPL.s,SPL.s);
       g.translate(bx,by); g.scale(bs,bs);
       pn.draw(g);
+      if (GRID_ON){
+        const kd2=cv.width/(cv.getBoundingClientRect().width||cv.width);
+        const step=gridStepPx();
+        if (GRID_COL==='auto'){ g.globalCompositeOperation='difference';
+          g.strokeStyle='rgba(255,255,255,0.75)'; }
+        else g.strokeStyle=GRID_COL;
+        g.lineWidth=Math.max(0.75, GRID_THK*kd2*0.8)/(bs*SPL.s);
+        for (let xw=step; xw<w-1; xw+=step){
+          g.beginPath(); g.moveTo(xw,0); g.lineTo(xw,h); g.stroke(); }
+        for (let yw=step; yw<h-1; yw+=step){
+          g.beginPath(); g.moveTo(0,yw); g.lineTo(w,yw); g.stroke(); }
+        g.globalCompositeOperation='source-over';
+      }
       if (CIRCS.length){
         const kd=cv.width/(cv.getBoundingClientRect().width||cv.width);
         const tot=bs*SPL.s;
@@ -2765,6 +2823,7 @@ $('compareBtn').onclick = async () => {
   $('circWrap').style.display='none';
   $('cmpFlip').style.display='none';
   $('cmpSplit').style.display='none';
+  $('cmpGridBtn').style.display='none';
   $('lvBtn').style.display='none';
   $('shutter').style.display='block';
   $('backBtn').textContent='✕';
@@ -2846,6 +2905,7 @@ async function camStart(){
     $('lvRow').style.display='none';
     $('cmpFlip').style.display='none';
     $('cmpSplit').style.display='none';
+    $('cmpGridBtn').style.display='none';
     $('lvBtn').style.display='none';
     $('shutter').style.display='block';
     $('backBtn').textContent='✕';   // the back button reads as Cancel
@@ -2871,6 +2931,7 @@ function camStop(){
   $('lastShot').style.display='none';
   $('cmpFlip').style.display='';
   $('cmpSplit').style.display='';
+  $('cmpGridBtn').style.display='';
   $('lvBtn').style.display='';
   $('backBtn').textContent='‹';
   $('cmpFlip').disabled=!CMP.img;
@@ -3135,7 +3196,7 @@ $('cmpSplit').onclick = () => {
     try { localStorage.setItem('hudOpen', o ? '1' : '0'); } catch(e){}
     // the open panel is the layer workshop: it starts from the bare
     // shading with every layer unselected; closing returns the full view
-    LAYERS.dk=LAYERS.lt=LAYERS.hl=!o;
+    LAYERS.dk=LAYERS.l1=LAYERS.l2=LAYERS.hl=!o;
     layerButtons();
     if (GRID_READY && state.img) viewRepaint();
     if (!o && TOUR.det){ TOUR.det=false; detTip(); }
