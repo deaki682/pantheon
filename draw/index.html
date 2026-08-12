@@ -261,6 +261,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
       <div id="accGrid"></div>
       <span class="setLbl" style="margin-top:4px">Zoom</span>
       <label><input type="checkbox" id="ttlChk" checked> Stop at True-to-Life scale</label>
+      <span class="setLbl" style="margin-top:4px">Layers</span>
+      <label><input type="checkbox" id="progChk" checked> Progressive breakdown (Ultra)</label>
       <span id="verTag">&alpha; 0.5</span>
     </div>
   </div>
@@ -348,7 +350,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
           <button id="vSpec" class="vBtn">Brights</button>
           <button id="vL2" class="vBtn">Lights 2</button>
           <button id="vL1" class="vBtn">Lights 1</button>
-          <button id="vDark" class="vBtn">Darks</button>
+          <button id="vDark2" class="vBtn">Darks 2</button>
+          <button id="vDark" class="vBtn">Darks 1</button>
         </div>
       </div>
     </div>
@@ -837,6 +840,12 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
   applyAccent(saved);
   $('ttlChk').checked=ttlOn();
   $('ttlChk').onchange=()=>{ try{ localStorage.setItem('ttlStop', $('ttlChk').checked?'1':'0'); }catch(e){} };
+  $('progChk').checked=progOn();
+  $('progChk').onchange=()=>{
+    try{ localStorage.setItem('layerProg', $('progChk').checked?'1':'0'); }catch(e){}
+    layerButtons();
+    if (GRID_READY && state.img) viewRepaint();
+  };
   $('setBtn').onclick=()=>{ $('setModal').style.display='flex'; };
   $('invBtn').onclick=async()=>{
     gcPing('/share');
@@ -1033,9 +1042,11 @@ async function dbHas(k){ try{ const d=await db(); return await new Promise(res=>
   const t=d.transaction('plans').objectStore('plans').getKey(k);
   t.onsuccess=()=>res(t.result!==undefined); t.onerror=()=>res(false); }); }catch(e){ return false; } }
 async function prepReady(){
-  if (FORM.key===CKEY && DET.key===CKEY && DET.lv.hyper && DET.lv.fine) return true;
+  if (FORM.key===CKEY && DET.key===CKEY
+      && DET.lv.hyper && DET.lv.fine && DET.lv.prog) return true;
   for (const k of ['form2|','dtd16hyper|','dtl16hyper|','dth16hyper|',
-                   'dtd16fine|','dtl16fine|','dth16fine|'])
+                   'dtd16fine|','dtl16fine|','dth16fine|',
+                   'dtd16prog|','dtl16prog|','dth16prog|'])
     if (!(await dbHas(k+CKEY))) return false;
   return true;
 }
@@ -1056,13 +1067,15 @@ async function prepareAll(){
     }
     return false;
   };
-  stage(0.02,0.58); ensureForm();
+  stage(0.02,0.52); ensureForm();
   const okF=await wait(()=>FORM.key===key);
   if (okF){
-    stage(0.60,0.20); ensureDetail('hyper');
+    stage(0.54,0.15); ensureDetail('hyper');
     await wait(()=>DET.key===key && !!DET.lv.hyper);
-    stage(0.80,0.20); ensureDetail('fine');
+    stage(0.69,0.15); ensureDetail('fine');
     await wait(()=>DET.key===key && !!DET.lv.fine);
+    stage(0.84,0.16); ensureDetail('prog');
+    await wait(()=>DET.key===key && !!DET.lv.prog);
   }
   PREP={active:false, gid:null, p:0};
   window.prepProg=()=>{};
@@ -1382,8 +1395,7 @@ function initMain(){
   $('hud').style.display='none';
   $('hudToggle').textContent='\u270e';
   $('hudToggle').classList.remove('lit','vOn');
-  LAYERS.dk=LAYERS.l1=LAYERS.l2=LAYERS.hl=true;
-  layerButtons();
+  LAYERS.dk=LAYERS.d2=LAYERS.l1=LAYERS.l2=LAYERS.hl=true;
   // the reference remembers its drawing tool across sessions - restored
   // BEFORE the first paint, or the image composes at the old level while
   // the button claims the saved one
@@ -1392,6 +1404,7 @@ function initMain(){
     if (DET_STEPS.includes(d)) DETAIL=d; }catch(e){}
   $('detBtn').textContent=DET_LABEL[DETAIL];
   $('detMenu').style.display='none';
+  layerButtons();
   paintWorld();
   const vp = $('viewport').getBoundingClientRect();
   view.s = Math.max(0.05, Math.min(vp.width/w, vp.height/h) || 0.05);
@@ -1622,7 +1635,12 @@ const blobToCanvas=async bl=>{
 // darker than the form), Lights (texture lighter than it, sheen included)
 // and Highlights (only the brightest sparkle pops) toggle on top of it in
 // any combination. All three on reassembles the photo exactly. Display only.
-const LAYERS={dk:true, l1:true, l2:true, hl:true};
+const LAYERS={dk:true, d2:true, l1:true, l2:true, hl:true};
+// progressive breakdown: on Ultra the layers become the BUILD progression -
+// Darks 1 is what a bigger tool achieves (the hyper darks), Darks 2 the
+// refinement to exact; Lights 1 is a tool between fine and hyper, Lights 2
+// the remainder; Brights stays exact. Reversible in settings.
+function progOn(){ try{ return localStorage.getItem('layerProg')!=='0'; }catch(e){ return true; } }
 let GRID_ON=true;
 let GRID_COL='auto', GRID_THK=1;   // 'auto' = the inverting difference grid
 let DONE=[], DONETOOL=null;        // per-square progress dots + armed mode
@@ -1641,7 +1659,10 @@ function applyGrid(){
   $('gridBtn').style.opacity = GRID_ON ? '1' : '0.35';
 }
 function layerButtons(){
-  for (const [id,k] of [['vDark','dk'],['vL1','l1'],['vL2','l2'],['vSpec','hl']])
+  const prog = progOn() && DETAIL==='ultra';
+  $('vDark2').style.display = prog ? '' : 'none';
+  $('vDark').textContent = prog ? 'Darks 1' : 'Darks';
+  for (const [id,k] of [['vDark','dk'],['vDark2','d2'],['vL1','l1'],['vL2','l2'],['vSpec','hl']])
     $(id).classList.toggle('vOn', LAYERS[k]);
 }
 function grayData(src){
@@ -1709,13 +1730,20 @@ function compParts(){
 }
 function compositeCv(){
   compParts();
-  let det=null;
-  if (DETAIL!=='ultra'){
+  const prog = progOn() && DETAIL==='ultra';
+  let det=null, dH=null, dP=null;
+  if (prog){
+    if (DET.key===CKEY){ dH=DET.lv.hyper||null; dP=DET.lv.prog||null; }
+    if (!dH) ensureDetail('hyper');      // async; classic ultra stands in
+    else if (!dP) ensureDetail('prog');
+  } else if (DETAIL!=='ultra'){
     if (DET.key===CKEY && DET.lv[DETAIL]) det=DET.lv[DETAIL];
     else ensureDetail(DETAIL);          // async; the ultra tool stands in
   }
+  const ready = prog && dH && dP;
   const eff=det?DETAIL:'ultra';
-  const sig=(LAYERS.dk?'D':'')+(LAYERS.l1?'1':'')+(LAYERS.l2?'2':'')
+  const sig=(ready?'P':'C')+(LAYERS.dk?'D':'')+(LAYERS.d2?'E':'')
+           +(LAYERS.l1?'1':'')+(LAYERS.l2?'2':'')
            +(LAYERS.hl?'H':'')+'T'+eff;
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
   const {w,h}=worldSize();
@@ -1723,16 +1751,29 @@ function compositeCv(){
   const TL=COMP.lsplit||8;
   for (let i=0;i<N;i++){
     const sh=COMP.sh[i];
-    const dD=det?det.dD[i]:Math.max(0, sh-COMP.ph[i]);
-    const lD=det?det.lD[i]:Math.max(0, COMP.dp[i]-sh);
-    const hl=det?det.hl[i]:COMP.hl[i];
     let v=sh;
-    if (LAYERS.dk) v-=dD;
-    if (lD>0){
-      if (lD<=TL){ if (LAYERS.l1) v+=lD; }
-      else       { if (LAYERS.l2) v+=lD; }
+    if (ready){
+      // the build progression: bigger-tool pass first, refinement second
+      const dDu=Math.max(0, sh-COMP.ph[i]);
+      const dD1=Math.min(dDu, dH.dD[i]);
+      const lDu=Math.max(0, COMP.dp[i]-sh);
+      const lD1=Math.min(lDu, dP.lD[i]);
+      if (LAYERS.dk) v-=dD1;
+      if (LAYERS.d2) v-=(dDu-dD1);
+      if (LAYERS.l1) v+=lD1;
+      if (LAYERS.l2) v+=(lDu-lD1);
+      if (LAYERS.hl) v+=COMP.hl[i];
+    } else {
+      const dD=det?det.dD[i]:Math.max(0, sh-COMP.ph[i]);
+      const lD=det?det.lD[i]:Math.max(0, COMP.dp[i]-sh);
+      const hl=det?det.hl[i]:COMP.hl[i];
+      if (LAYERS.dk) v-=dD;
+      if (lD>0){
+        if (lD<=TL){ if (LAYERS.l1) v+=lD; }
+        else       { if (LAYERS.l2) v+=lD; }
+      }
+      if (LAYERS.hl) v+=hl;
     }
-    if (LAYERS.hl) v+=hl;
     buf[i]=v<0?0:(v>255?255:v);
   }
   COMP.sig=sig; COMP.cv=grayCanvas(buf,w,h);
@@ -1750,7 +1791,7 @@ const DET_LABEL={ultra:'Ultra', hyper:'Hyper', fine:'Fine'};
 // tools: a single point (1px, everything); the midpoint of the 9px
 // square and 13px diamond (averaged marks); the 21px octagon eased back
 // a touch toward the diamond (75/25 blend). 96px = 1in.
-const DET_SHAPE={hyper:'mid', fine:'nearbroad'};
+const DET_SHAPE={hyper:'mid', fine:'nearbroad', prog:'midbroad'};
 const DET={key:null, busy:null, lv:{}};
 async function ensureDetail(lv){
   if (DET.key!==CKEY){ DET.key=CKEY; DET.lv={}; }
@@ -1765,7 +1806,7 @@ async function ensureDetail(lv){
       const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
       DET.lv[lv]={dD:grayData(ca), lD:grayData(cb), hl:grayData(cc)};
       DET.busy=null;
-      if (key===CKEY && DETAIL===lv && $('scrMain').classList.contains('on')) viewRepaint();
+      if (key===CKEY && $('scrMain').classList.contains('on')) viewRepaint();
       return;
     }catch(e){}
   }
@@ -1793,7 +1834,7 @@ async function ensureDetail(lv){
       dbPutRaw('dtl16'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
       dbPutRaw('dth16'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
     }catch(e){}
-    if (DETAIL===lv && $('scrMain').classList.contains('on')) viewRepaint();
+    if ($('scrMain').classList.contains('on')) viewRepaint();
   };
   wk.onerror=()=>{ wk.terminate(); DET.busy=null; };
   wk.postMessage({dD, lD, hl, W:w, H:h, shape:DET_SHAPE[lv]}, [dD.buffer, lD.buffer, hl.buffer]);
@@ -1855,6 +1896,7 @@ function toggleLayer(k){
   viewRepaint();
 }
 $('vDark').onclick=()=>toggleLayer('dk');
+$('vDark2').onclick=()=>toggleLayer('d2');
 $('vL1').onclick=()=>toggleLayer('l1');
 $('vL2').onclick=()=>toggleLayer('l2');
 $('vSpec').onclick=()=>toggleLayer('hl');
@@ -1980,6 +2022,7 @@ for (const b of $('detMenu').children){
     if (galActive!=null){ try{ localStorage.setItem('det|'+galActive, DETAIL); }catch(e){} }
     $('detBtn').textContent=DET_LABEL[DETAIL];
     $('detMenu').style.display='none';
+    layerButtons();
     detClosed();
     if (!state.img || !GRID_READY) return;
     viewRepaint();
@@ -2194,7 +2237,23 @@ function toolOpen(delta, W, H, shape){
     d=crossPass(d,W,H,true);
     return d;
   };
-  if (shape==='mid'){                    // halfway between 9px square and 13px diamond
+  if (shape==='midbroad'){               // between the mid and nearbroad tools
+    let s=linePass(delta,W,H,1,true,false);
+    s=linePass(s,W,H,1,false,false);
+    s=linePass(s,W,H,1,false,true);
+    s=linePass(s,W,H,1,true,true);
+    let o=linePass(delta,W,H,1,true,false);
+    o=linePass(o,W,H,1,false,false);
+    o=diagPass(o,W,H,1,false,false);
+    o=diagPass(o,W,H,1,true,false);
+    o=diagPass(o,W,H,1,true,true);
+    o=diagPass(o,W,H,1,false,true);
+    o=linePass(o,W,H,1,false,true);
+    o=linePass(o,W,H,1,true,true);
+    const d=diamond();
+    a=new Float32Array(N2);
+    for (let i=0;i<N2;i++) a[i]=(s[i]+d[i])*0.25 + (o[i]*0.75+d[i]*0.25)*0.5;
+  } else if (shape==='mid'){             // halfway between 9px square and 13px diamond
     let s=linePass(delta,W,H,1,true,false);
     s=linePass(s,W,H,1,false,false);
     s=linePass(s,W,H,1,false,true);
@@ -3196,7 +3255,7 @@ $('cmpSplit').onclick = () => {
     try { localStorage.setItem('hudOpen', o ? '1' : '0'); } catch(e){}
     // the open panel is the layer workshop: it starts from the bare
     // shading with every layer unselected; closing returns the full view
-    LAYERS.dk=LAYERS.l1=LAYERS.l2=LAYERS.hl=!o;
+    LAYERS.dk=LAYERS.d2=LAYERS.l1=LAYERS.l2=LAYERS.hl=!o;
     layerButtons();
     if (GRID_READY && state.img) viewRepaint();
     if (!o && TOUR.det){ TOUR.det=false; detTip(); }
