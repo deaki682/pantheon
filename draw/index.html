@@ -439,9 +439,19 @@ const state = { img:null, tools:[] };
 
 'use strict';
 const $ = id => document.getElementById(id);
+// the system back gesture steps UP through screens instead of closing
+// the app; only the project page lets it exit. One spare history entry is
+// kept while any deeper screen is up.
+let BACK_ARMED=false;
+const backArm=()=>{ if (!BACK_ARMED){ try{ history.pushState({s:1},''); BACK_ARMED=true; }catch(e){} } };
+addEventListener('popstate', ()=>{
+  BACK_ARMED=false;
+  if (!$('scrUpload').classList.contains('on')) $('backBtn').onclick();
+});
 const show = id => { tipClose(false);
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on')); $(id).classList.add('on');
   $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex';
+  if (id!=='scrUpload') backArm();
   if (id==='scrFormat') fmtTip();
   if (id==='scrMain') mainTip();
   if (id==='scrUpload' && TOUR.rule) ruleTip(); };
