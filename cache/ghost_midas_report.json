@@ -1,156 +1,157 @@
 {
- "n": 20,
- "mean_return": -0.024322014129373275,
- "hit_rate": 0.3,
- "convergence_terciles": {
   "n": 20,
-  "terciles": {
-   "high": {
-    "n": 6,
-    "mean": -0.02433578554207823
-   },
-   "mid": {
-    "n": 8,
-    "mean": 0.01746505381723075
-   },
-   "low": {
-    "n": 6,
-    "mean": -0.08002433331214036
-   }
+  "mean_return": -0.024322014129373275,
+  "hit_rate": 0.3,
+  "convergence_terciles": {
+    "n": 20,
+    "terciles": {
+      "high": {
+        "n": 6,
+        "mean": -0.02433578554207823
+      },
+      "mid": {
+        "n": 8,
+        "mean": 0.01746505381723075
+      },
+      "low": {
+        "n": 6,
+        "mean": -0.08002433331214036
+      }
+    },
+    "monotonic": false
   },
-  "monotonic": false
- },
- "score_terciles": {
-  "n": 20,
-  "terciles": {
-   "high": {
-    "n": 6,
-    "mean": 0.01266808418653507
-   },
-   "mid": {
-    "n": 8,
-    "mean": -0.04969940389378452
-   },
-   "low": {
-    "n": 6,
-    "mean": -0.027475592759399963
-   }
+  "score_terciles": {
+    "n": 20,
+    "terciles": {
+      "high": {
+        "n": 6,
+        "mean": 0.01266808418653507
+      },
+      "mid": {
+        "n": 8,
+        "mean": -0.04969940389378452
+      },
+      "low": {
+        "n": 6,
+        "mean": -0.027475592759399963
+      }
+    },
+    "monotonic": false
   },
-  "monotonic": false
- },
- "score_legacy_terciles": {
-  "n": 10,
-  "terciles": {
-   "high": {
-    "n": 3,
-    "mean": -0.021726612796044337
-   },
-   "mid": {
-    "n": 4,
-    "mean": -0.05954303925973395
-   },
-   "low": {
-    "n": 3,
-    "mean": -0.08786626807263458
-   }
+  "score_legacy_terciles": {
+    "n": 10,
+    "terciles": {
+      "high": {
+        "n": 3,
+        "mean": -0.021726612796044337
+      },
+      "mid": {
+        "n": 4,
+        "mean": -0.05954303925973395
+      },
+      "low": {
+        "n": 3,
+        "mean": -0.08786626807263458
+      }
+    },
+    "monotonic": true
   },
-  "monotonic": true
- },
- "timing_weighted_terciles": {
-  "n": 10,
-  "terciles": {
-   "high": {
-    "n": 3,
-    "mean": -0.07218239855164614
-   },
-   "mid": {
-    "n": 4,
-    "mean": -0.0217011999430326
-   },
-   "low": {
-    "n": 3,
-    "mean": -0.08786626807263458
-   }
+  "timing_weighted_terciles": {
+    "n": 10,
+    "terciles": {
+      "high": {
+        "n": 3,
+        "mean": -0.07218239855164614
+      },
+      "mid": {
+        "n": 4,
+        "mean": -0.0217011999430326
+      },
+      "low": {
+        "n": 3,
+        "mean": -0.08786626807263458
+      }
+    },
+    "monotonic": false
   },
-  "monotonic": false
- },
- "signal_lift": {
-  "activist_13d": {
-   "n_on": 0,
-   "mean_on": null,
-   "n_off": 20,
-   "mean_off": -0.024322014129373275,
-   "lift": null
+  "signal_lift": {
+    "activist_13d": {
+      "n_on": 0,
+      "mean_on": null,
+      "n_off": 20,
+      "mean_off": -0.024322014129373275,
+      "lift": null
+    },
+    "disqualified": {
+      "n_on": 4,
+      "mean_on": 0.044220664727358194,
+      "n_off": 16,
+      "mean_off": -0.041457683843556144,
+      "lift": 0.08567834857091433
+    },
+    "earnings_beat": {
+      "n_on": 1,
+      "mean_on": -0.028571428571428692,
+      "n_off": 19,
+      "mean_off": -0.024098360737686148,
+      "lift": -0.0044730678337425445
+    },
+    "guidance_raised": {
+      "n_on": 1,
+      "mean_on": 0.004357010826511631,
+      "n_off": 19,
+      "mean_off": -0.025831436495472482,
+      "lift": 0.030188447321984113
+    },
+    "insider_cluster": {
+      "n_on": 2,
+      "mean_on": -0.022523761762744454,
+      "n_off": 18,
+      "mean_off": -0.024521819947887588,
+      "lift": 0.001998058185143134
+    },
+    "legacy_pick": {
+      "n_on": 1,
+      "mean_on": 0.008794430194210445,
+      "n_off": 9,
+      "mean_off": -0.06397169220435367,
+      "lift": 0.07276612239856411
+    },
+    "live_pick": {
+      "n_on": 1,
+      "mean_on": -0.028571428571428692,
+      "n_off": 9,
+      "mean_off": -0.05981993011928265,
+      "lift": 0.031248501547853955
+    },
+    "reconstructed": {
+      "n_on": 1,
+      "mean_on": 0.008794430194210445,
+      "n_off": 0,
+      "mean_off": null,
+      "lift": null
+    },
+    "short_squeeze": {
+      "n_on": 3,
+      "mean_on": -0.07803001805222094,
+      "n_off": 17,
+      "mean_off": -0.014844131084164864,
+      "lift": -0.06318588696805608
+    },
+    "smart_money": {
+      "n_on": 3,
+      "mean_on": -0.08786626807263458,
+      "n_off": 17,
+      "mean_off": -0.013108322257033048,
+      "lift": -0.07475794581560152
+    },
+    "volume_anomaly": {
+      "n_on": 8,
+      "mean_on": -0.04325582414544031,
+      "n_off": 12,
+      "mean_off": -0.01169947411866192,
+      "lift": -0.03155635002677839
+    }
   },
-  "disqualified": {
-   "n_on": 4,
-   "mean_on": 0.044220664727358194,
-   "n_off": 16,
-   "mean_off": -0.041457683843556144,
-   "lift": 0.08567834857091433
-  },
-  "earnings_beat": {
-   "n_on": 1,
-   "mean_on": -0.028571428571428692,
-   "n_off": 19,
-   "mean_off": -0.024098360737686148,
-   "lift": -0.0044730678337425445
-  },
-  "guidance_raised": {
-   "n_on": 1,
-   "mean_on": 0.004357010826511631,
-   "n_off": 19,
-   "mean_off": -0.025831436495472482,
-   "lift": 0.030188447321984113
-  },
-  "insider_cluster": {
-   "n_on": 2,
-   "mean_on": -0.022523761762744454,
-   "n_off": 18,
-   "mean_off": -0.024521819947887588,
-   "lift": 0.001998058185143134
-  },
-  "legacy_pick": {
-   "n_on": 1,
-   "mean_on": 0.008794430194210445,
-   "n_off": 9,
-   "mean_off": -0.06397169220435367,
-   "lift": 0.07276612239856411
-  },
-  "live_pick": {
-   "n_on": 1,
-   "mean_on": -0.028571428571428692,
-   "n_off": 9,
-   "mean_off": -0.05981993011928265,
-   "lift": 0.031248501547853955
-  },
-  "reconstructed": {
-   "n_on": 1,
-   "mean_on": 0.008794430194210445,
-   "n_off": 0,
-   "mean_off": null,
-   "lift": null
-  },
-  "short_squeeze": {
-   "n_on": 3,
-   "mean_on": -0.07803001805222094,
-   "n_off": 17,
-   "mean_off": -0.014844131084164864,
-   "lift": -0.06318588696805608
-  },
-  "smart_money": {
-   "n_on": 3,
-   "mean_on": -0.08786626807263458,
-   "n_off": 17,
-   "mean_off": -0.013108322257033048,
-   "lift": -0.07475794581560152
-  },
-  "volume_anomaly": {
-   "n_on": 8,
-   "mean_on": -0.04325582414544031,
-   "n_off": 12,
-   "mean_off": -0.01169947411866192,
-   "lift": -0.03155635002677839
-  }
- }
+  "zeus_note_2026_08_12": "Ghost book is FULLY CLOSED: 20/20 entries graded (entry cohorts 2026-06-30 and 2026-07-06), zero open, nothing due. No new paper entries were opened this pass because cache/midas_scan.json is STALE \u2014 scanned_at 2026-07-03T21:45Z, and its 10 finalists (QMCO/WOLF/VOR/HTZ/CNXC/PRGS/AVBC/ZBIO/NWFL/AERO) were already opened into this ledger on 2026-07-06; skip_open would dedupe them anyway. Fresh finalists require the weekend /midas-scan (midas_scan_due is TRUE but the run is weekend-gated and today is Wednesday). DEATH CLOCK STATUS \u2014 NOT reached, and the raw count is misleading: the checkpoint is 20 graded WEEKLY live_pick-vs-legacy_pick head-to-heads, not 20 graded names. These 20 rows are 20 finalist NAMES across only TWO weekly cohorts, and every finalist in midas_scan.json carries live_pick=None / legacy_pick=None, so the head-to-head count usable by signal_lift is effectively ZERO. The A/B race cannot conclude until the weekend scan resumes emitting finalists tagged with both picks."
 }
