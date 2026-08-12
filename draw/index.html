@@ -2750,7 +2750,7 @@ function cmpWarp(src, corners){
       && p1.x-p0.x>2 && p3.y-p0.y>2){
     // axis-aligned rectangle (every ghost-framed capture): a plain crop
     let W=Math.round(p1.x-p0.x), H=Math.round(p3.y-p0.y);
-    const cap=2400/Math.max(W,H); if (cap<1){ W=Math.round(W*cap); H=Math.round(H*cap); }
+    const cap=3000/Math.max(W,H); if (cap<1){ W=Math.round(W*cap); H=Math.round(H*cap); }
     const out=document.createElement('canvas'); out.width=W; out.height=H;
     const g=out.getContext('2d');
     g.imageSmoothingQuality='high';
@@ -2945,6 +2945,11 @@ async function camStart(){
     $('cmpFlip').disabled=true;
     clearInterval(CAM.timer); CAM.timer=setInterval(camGhost,250);
     camGhost();
+    try{
+      st.getVideoTracks()[0]
+        .applyConstraints({ width:{ideal:4032}, height:{ideal:3024} })
+        .catch(()=>{});
+    }catch(e){}
     // the last photo waits in the corner - tap it to skip reshooting
     const ls=$('lastShot');
     if (CMP.img && CMP.ckey===CKEY){
@@ -2978,7 +2983,7 @@ async function camCapture(){
   const frame=v, fw=vw0, fh=vh0;
   // keep the WHOLE frame: the ghost rectangle is only the default crop, and
   // the Crop screen can refine it afterwards with the surroundings intact
-  const k=Math.min(1, 2400/Math.max(fw,fh));
+  const k=Math.min(1, 3000/Math.max(fw,fh));
   const full=document.createElement('canvas');
   full.width=Math.max(2,Math.round(fw*k)); full.height=Math.max(2,Math.round(fh*k));
   const fg=full.getContext('2d');
