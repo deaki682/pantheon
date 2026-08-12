@@ -1,5 +1,9 @@
 # Operator directive — Proteus v2 must act (2026-08-04)
 
+> **SUPERSEDED IN PART 2026-08-12 — STOP: read
+> `docs/proteus_operator_directive_2026-08-12.md` FIRST, this session,
+> before any other work. It requires action at TODAY'S session.**
+
 **Authority:** operator (deaki682), relayed 2026-08-04. This directive amends
 Proteus v2's operating posture under charter v2.1. The five-part invariant
 floor (bounded loss, kill-switch first, integrity gate, honest grading, the
