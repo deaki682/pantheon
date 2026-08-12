@@ -348,10 +348,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
       <div class="row" id="viewRow">
         <div id="layerCol">
           <button id="vSpec" class="vBtn">Brights</button>
-          <button id="vL2" class="vBtn">Lights 2</button>
-          <button id="vL1" class="vBtn">Lights 1</button>
-          <button id="vDark2" class="vBtn">Darks 2</button>
-          <button id="vDark" class="vBtn">Darks 1</button>
+          <button id="vLight" class="vBtn">Lights</button>
+          <button id="vDark" class="vBtn">Darks</button>
         </div>
       </div>
     </div>
@@ -1395,7 +1393,7 @@ function initMain(){
   $('hud').style.display='none';
   $('hudToggle').textContent='\u270e';
   $('hudToggle').classList.remove('lit','vOn');
-  LAYERS.dk=LAYERS.d2=LAYERS.l1=LAYERS.l2=LAYERS.hl=true;
+  LAYERS.dk=LAYERS.lt=LAYERS.hl=true;
   // the reference remembers its drawing tool across sessions - restored
   // BEFORE the first paint, or the image composes at the old level while
   // the button claims the saved one
@@ -1635,11 +1633,11 @@ const blobToCanvas=async bl=>{
 // darker than the form), Lights (texture lighter than it, sheen included)
 // and Highlights (only the brightest sparkle pops) toggle on top of it in
 // any combination. All three on reassembles the photo exactly. Display only.
-const LAYERS={dk:true, d2:true, l1:true, l2:true, hl:true};
-// progressive breakdown: on Ultra the layers become the BUILD progression -
-// Darks 1 is what a bigger tool achieves (the hyper darks), Darks 2 the
-// refinement to exact; Lights 1 is a tool between fine and hyper, Lights 2
-// the remainder; Brights stays exact. Reversible in settings.
+const LAYERS={dk:true, lt:true, hl:true};
+// progressive breakdown: on Ultra, Lights is what a tool between fine and
+// hyper achieves - the broad statements - and Brights is everything finer:
+// the light refinement plus the sparkle. Darks stays complete. Reversible
+// in settings.
 function progOn(){ try{ return localStorage.getItem('layerProg')!=='0'; }catch(e){ return true; } }
 let GRID_ON=true;
 let GRID_COL='auto', GRID_THK=1;   // 'auto' = the inverting difference grid
@@ -1659,10 +1657,7 @@ function applyGrid(){
   $('gridBtn').style.opacity = GRID_ON ? '1' : '0.35';
 }
 function layerButtons(){
-  const prog = progOn() && DETAIL==='ultra';
-  $('vDark2').style.display = prog ? '' : 'none';
-  $('vDark').textContent = prog ? 'Darks 1' : 'Darks';
-  for (const [id,k] of [['vDark','dk'],['vDark2','d2'],['vL1','l1'],['vL2','l2'],['vSpec','hl']])
+  for (const [id,k] of [['vDark','dk'],['vLight','lt'],['vSpec','hl']])
     $(id).classList.toggle('vOn', LAYERS[k]);
 }
 function grayData(src){
@@ -1715,63 +1710,44 @@ function compParts(){
   for (let i=0;i<N;i++){
     const d=COMP.ph[i]-COMP.hl[i]; COMP.dp[i]=d<0?0:(d>255?255:d);
   }
-  // where the two lights passes part ways: the count-median of the light
-  // texture, so the subtler half (Lights 1) and the stronger half
-  // (Lights 2) carry roughly equal ground
-  const lhist=new Uint32Array(256); let ln=0;
-  for (let i=0;i<N;i++){
-    const l=COMP.dp[i]-COMP.sh[i];
-    if (l>0){ lhist[l>255?255:l]++; ln++; }
-  }
-  let accL=0, TL=8;
-  for (let v=1;v<256;v++){ accL+=lhist[v]; if (accL>=ln/2){ TL=v; break; } }
-  COMP.lsplit=Math.max(2, TL);
   COMP.sig=null; COMP.cv=null;
 }
 function compositeCv(){
   compParts();
   const prog = progOn() && DETAIL==='ultra';
-  let det=null, dH=null, dP=null;
+  let det=null, dP=null;
   if (prog){
-    if (DET.key===CKEY){ dH=DET.lv.hyper||null; dP=DET.lv.prog||null; }
-    if (!dH) ensureDetail('hyper');      // async; classic ultra stands in
-    else if (!dP) ensureDetail('prog');
+    if (DET.key===CKEY) dP=DET.lv.prog||null;
+    if (!dP) ensureDetail('prog');       // async; classic ultra stands in
   } else if (DETAIL!=='ultra'){
     if (DET.key===CKEY && DET.lv[DETAIL]) det=DET.lv[DETAIL];
     else ensureDetail(DETAIL);          // async; the ultra tool stands in
   }
-  const ready = prog && dH && dP;
+  const ready = prog && dP;
   const eff=det?DETAIL:'ultra';
-  const sig=(ready?'P':'C')+(LAYERS.dk?'D':'')+(LAYERS.d2?'E':'')
-           +(LAYERS.l1?'1':'')+(LAYERS.l2?'2':'')
+  const sig=(ready?'P':'C')+(LAYERS.dk?'D':'')+(LAYERS.lt?'L':'')
            +(LAYERS.hl?'H':'')+'T'+eff;
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
   const {w,h}=worldSize();
   const N=COMP.ph.length, buf=new Uint8Array(N);
-  const TL=COMP.lsplit||8;
   for (let i=0;i<N;i++){
     const sh=COMP.sh[i];
     let v=sh;
     if (ready){
-      // the build progression: bigger-tool pass first, refinement second
+      // Lights carries the broad statements; Brights everything finer,
+      // sparkle included. Darks stays complete.
       const dDu=Math.max(0, sh-COMP.ph[i]);
-      const dD1=Math.min(dDu, dH.dD[i]);
       const lDu=Math.max(0, COMP.dp[i]-sh);
       const lD1=Math.min(lDu, dP.lD[i]);
-      if (LAYERS.dk) v-=dD1;
-      if (LAYERS.d2) v-=(dDu-dD1);
-      if (LAYERS.l1) v+=lD1;
-      if (LAYERS.l2) v+=(lDu-lD1);
-      if (LAYERS.hl) v+=COMP.hl[i];
+      if (LAYERS.dk) v-=dDu;
+      if (LAYERS.lt) v+=lD1;
+      if (LAYERS.hl) v+=(lDu-lD1)+COMP.hl[i];
     } else {
       const dD=det?det.dD[i]:Math.max(0, sh-COMP.ph[i]);
       const lD=det?det.lD[i]:Math.max(0, COMP.dp[i]-sh);
       const hl=det?det.hl[i]:COMP.hl[i];
       if (LAYERS.dk) v-=dD;
-      if (lD>0){
-        if (lD<=TL){ if (LAYERS.l1) v+=lD; }
-        else       { if (LAYERS.l2) v+=lD; }
-      }
+      if (LAYERS.lt) v+=lD;
       if (LAYERS.hl) v+=hl;
     }
     buf[i]=v<0?0:(v>255?255:v);
@@ -1896,9 +1872,7 @@ function toggleLayer(k){
   viewRepaint();
 }
 $('vDark').onclick=()=>toggleLayer('dk');
-$('vDark2').onclick=()=>toggleLayer('d2');
-$('vL1').onclick=()=>toggleLayer('l1');
-$('vL2').onclick=()=>toggleLayer('l2');
+$('vLight').onclick=()=>toggleLayer('lt');
 $('vSpec').onclick=()=>toggleLayer('hl');
 $('expBtn').onclick = () => {
   // the current visualization, exactly as composed: layers, detail, grid
@@ -3255,7 +3229,7 @@ $('cmpSplit').onclick = () => {
     try { localStorage.setItem('hudOpen', o ? '1' : '0'); } catch(e){}
     // the open panel is the layer workshop: it starts from the bare
     // shading with every layer unselected; closing returns the full view
-    LAYERS.dk=LAYERS.d2=LAYERS.l1=LAYERS.l2=LAYERS.hl=!o;
+    LAYERS.dk=LAYERS.lt=LAYERS.hl=!o;
     layerButtons();
     if (GRID_READY && state.img) viewRepaint();
     if (!o && TOUR.det){ TOUR.det=false; detTip(); }
