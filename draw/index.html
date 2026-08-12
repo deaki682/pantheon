@@ -131,7 +131,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   display:none;flex-direction:column;gap:6px;background:#1e1e1e;
   border:1px solid #555;border-radius:14px;padding:8px;z-index:6;
   align-items:center}
-#gridMenu>button{border-radius:9px;font-size:13px;white-space:nowrap}
+#gridMenu button{border-radius:9px;font-size:13px;white-space:nowrap}
+#gmDoneOpts{display:none;flex-direction:column;gap:6px}
 #gmColor{width:44px;height:36px;padding:0;display:flex;
   align-items:center;justify-content:center}
 #gmSw{width:18px;height:18px;border-radius:50%;border:1px solid #777;display:block}
@@ -366,6 +367,11 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     <button id="gmOn">Grid On</button>
     <button id="gmColor" title="Grid color"><span id="gmSw"></span></button>
     <div id="gmPal"></div>
+    <button id="gmDone">Mark Done</button>
+    <div id="gmDoneOpts">
+      <button id="gmDoneAdd">Mark Done</button>
+      <button id="gmDoneDel">Remove Mark</button>
+    </div>
     <div id="gmDots">
       <button class="gmDot" data-t="1" title="thin"><i style="width:4px;height:4px"></i></button>
       <button class="gmDot" data-t="2" title="medium"><i style="width:8px;height:8px"></i></button>
@@ -773,7 +779,7 @@ $('delYes').onclick = async () => {
   if (id==null) return;
   await galDel(id);
   try{
-    for (const k of ['fmt|','det|','circ|','def|']) localStorage.removeItem(k+id);
+    for (const k of ['fmt|','det|','circ|','def|','done|']) localStorage.removeItem(k+id);
     if (+localStorage.getItem('lastRef')===id) localStorage.removeItem('lastRef');
   }catch(e){}
   if (galActive===id){ galActive=null; photo=null; GRID_READY=false; }
@@ -1266,6 +1272,19 @@ function circsSave(){
   try{ localStorage.setItem('circ|'+galActive, JSON.stringify(CIRCS)); }catch(e){}
 }
 function circR(){ return worldSize().w*0.035; }
+function doneLoad(){
+  try{ DONE=JSON.parse(localStorage.getItem('done|'+galActive)||'[]'); }
+  catch(e){ DONE=[]; }
+  if (!Array.isArray(DONE)) DONE=[];
+}
+function doneSave(){
+  try{ localStorage.setItem('done|'+galActive, JSON.stringify(DONE)); }catch(e){}
+}
+function doneCenter(q, step, w, h){
+  // centre of the square; edge squares can be partial, so centre the REAL bit
+  return { x: Math.min((q.c+0.5)*step, (q.c*step+w)/2),
+           y: Math.min((q.r+0.5)*step, (q.r*step+h)/2) };
+}
 function drawCircs(){
   const cv=$('circCv'), r=$('viewport').getBoundingClientRect();
   if (!r.width || !GRID_READY) return;
@@ -1311,6 +1330,16 @@ function drawGrid(){
     if (y<y0-1||y>y1+1) continue;
     g.beginPath(); g.moveTo(x0,y); g.lineTo(x1,y); g.stroke();
   }
+  if (DONE.length){
+    g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+    const r0=Math.max(2*dpr, step*sc*0.08);
+    for (const q of DONE){
+      const p=doneCenter(q, step, w, h);
+      const x=ox+p.x*sc, y=oy+p.y*sc;
+      if (x<-r0||y<-r0||x>W2+r0||y>H2+r0) continue;
+      g.beginPath(); g.arc(x,y,r0,0,6.2832); g.fill();
+    }
+  }
 }
 addEventListener('resize', () => { if ($('scrMain').classList.contains('on')) applyView(); });
 function paintWorld(){
@@ -1349,6 +1378,7 @@ function initMain(){
   drawGrid();
   circsLoad();
   drawCircs();
+  doneLoad(); DONETOOL=null;
 }
 
 
@@ -1452,6 +1482,21 @@ vp.addEventListener('pointerup', e => {
       CIRCS.splice(hit,1); circsSave(); drawCircs(); haptic();
       return;
     }
+  }
+  if (DONETOOL && GRID_READY){
+    tapLast=null;
+    const rect=vp.getBoundingClientRect();
+    const wx=(td.x-rect.left-view.x)/view.s, wy=(td.y-rect.top-view.y)/view.s;
+    const {w,h}=worldSize();
+    if (wx>=0 && wy>=0 && wx<w && wy<h){
+      const step=gridStepPx();
+      const c=Math.floor(wx/step), r2=Math.floor(wy/step);
+      const i=DONE.findIndex(q=>q.c===c && q.r===r2);
+      if (DONETOOL==='add'){ if (i<0){ DONE.push({c, r:r2}); haptic(); } }
+      else if (i>=0){ DONE.splice(i,1); haptic(); }
+      doneSave(); drawGrid();
+    }
+    return;
   }
   if (tapLast && now-tapLast.t<400 && Math.hypot(td.x-tapLast.x, td.y-tapLast.y)<48){
     tapLast=null;
@@ -1557,6 +1602,7 @@ const blobToCanvas=async bl=>{
 const LAYERS={dk:true, lt:true, hl:true};
 let GRID_ON=true;
 let GRID_COL='auto', GRID_THK=1;   // 'auto' = the inverting difference grid
+let DONE=[], DONETOOL=null;        // per-square progress dots + armed mode
 try{
   GRID_ON = localStorage.getItem('gridOn')!=='0';
   const c=localStorage.getItem('gridCol');
@@ -1791,6 +1837,14 @@ $('expBtn').onclick = () => {
       g.beginPath(); g.moveTo(x,0); g.lineTo(x,h); g.stroke(); }
     for (let yw=step; yw<h-1; yw+=step){ const y=Math.round(yw)+0.5;
       g.beginPath(); g.moveTo(0,y); g.lineTo(w,y); g.stroke(); }
+    if (DONE.length){
+      g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+      const r0=Math.max(2, step*0.08);
+      for (const q of DONE){
+        const p=doneCenter(q, step, w, h);
+        g.beginPath(); g.arc(p.x,p.y,r0,0,6.2832); g.fill();
+      }
+    }
     g.globalCompositeOperation='source-over';
   }
   const blob=canvasBlob(c,'image/jpeg',0.9);
@@ -1812,13 +1866,21 @@ function toast(t, acc, ms){
 }
 const GRID_PAL=['auto','#ffffff','#000000','#e03c3c','#e8833a',
                 '#e8d13a','#5fb85f','#3ab5e8','#7a6be8','#e86bd0'];
+let GM_DOTS_OPEN=false, GM_DONE_OPEN=false;
 function gridMenuSync(){
   $('gmOn').classList.toggle('vOn', GRID_ON);
   $('gmOn').textContent = GRID_ON ? 'Grid On' : 'Grid Off';
   $('gmSw').style.background = GRID_COL==='auto'
     ? 'linear-gradient(135deg,#fff 50%,#000 50%)' : GRID_COL;
   [...$('gmPal').children].forEach(b=>b.classList.toggle('vOn', b.dataset.c===GRID_COL));
-  [...$('gmDots').children].forEach(b=>b.classList.toggle('vOn', +b.dataset.t===GRID_THK));
+  [...$('gmDots').children].forEach(b=>{
+    b.classList.toggle('vOn', +b.dataset.t===GRID_THK);
+    b.style.display = (GM_DOTS_OPEN || +b.dataset.t===GRID_THK) ? '' : 'none';
+  });
+  $('gmDone').style.display = GM_DONE_OPEN ? 'none' : '';
+  $('gmDoneOpts').style.display = GM_DONE_OPEN ? 'flex' : 'none';
+  $('gmDoneAdd').classList.toggle('vOn', DONETOOL==='add');
+  $('gmDoneDel').classList.toggle('vOn', DONETOOL==='del');
 }
 {
   const pal=$('gmPal');
@@ -1842,8 +1904,20 @@ $('gridBtn').onclick=()=>{
   const open=m.style.display!=='flex';
   m.style.display=open?'flex':'none';
   $('gmPal').style.display='none';
-  if (open) gridMenuSync();
+  DONETOOL=null;                       // the grid button always disengages
+  if (open){ GM_DOTS_OPEN=false; GM_DONE_OPEN=false; gridMenuSync(); }
 };
+$('gmDone').onclick=()=>{ GM_DONE_OPEN=true; gridMenuSync(); };
+{
+  // arming keeps the menu open - squares are tapped with it up; the mode
+  // disengages by tapping it again or via the grid button
+  const armDone=m=>{
+    DONETOOL = DONETOOL===m ? null : m;
+    gridMenuSync();
+  };
+  $('gmDoneAdd').onclick=()=>armDone('add');
+  $('gmDoneDel').onclick=()=>armDone('del');
+}
 $('gmOn').onclick=()=>{
   GRID_ON=!GRID_ON;
   try{ localStorage.setItem('gridOn', GRID_ON?'1':'0'); }catch(e){}
@@ -1855,8 +1929,10 @@ $('gmColor').onclick=()=>{
 };
 for (const b of $('gmDots').children)
   b.onclick=()=>{
+    if (!GM_DOTS_OPEN){ GM_DOTS_OPEN=true; gridMenuSync(); return; }
     GRID_THK=+b.dataset.t;
     try{ localStorage.setItem('gridThk', GRID_THK); }catch(e){}
+    GM_DOTS_OPEN=false;
     gridMenuSync();
     if (GRID_READY) drawGrid();
   };
@@ -1882,7 +1958,8 @@ for (const b of $('detMenu').children){
 vp.addEventListener('pointerdown', ()=>{ const m=$('detMenu');
   if (m.style.display==='flex'){ m.style.display='none'; detClosed(); }
   const gm=$('gridMenu');
-  if (gm.style.display==='flex'){ gm.style.display='none'; $('gmPal').style.display='none'; } });
+  if (gm.style.display==='flex' && !DONETOOL){
+    gm.style.display='none'; $('gmPal').style.display='none'; } });
 applyGrid(); layerButtons();
 
 // the breakdown recipe, ported to run beside the page: bright-outlier
