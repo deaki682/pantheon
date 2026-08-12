@@ -2437,6 +2437,8 @@ function cmpRender(){
       g.strokeStyle='#fff'; g.lineWidth=1.5; g.stroke();
     }
   } else if (CMP.img && CMP.mode==='flip'){
+    g.save();
+    g.translate(FLP.x,FLP.y); g.scale(FLP.s,FLP.s);
     const mir = fn => {
       if (CMP.mirror){ g.save(); g.translate(cv.width,0); g.scale(-1,1); fn(); g.restore(); }
       else fn();
@@ -2451,6 +2453,7 @@ function cmpRender(){
       }
       cmpCircs(g, cv);
     });
+    g.restore();
   } else if (CMP.img && CMP.mode==='split'){
     // side by side, one shared view: gestures on either pane move both
     const pw=cv.width/2, ph=cv.height;
@@ -2489,6 +2492,16 @@ function cmpRender(){
   }
 }
 const SPL={x:0,y:0,s:1};
+const FLP={x:0,y:0,s:1};          // flip-view zoom/pan
+function clampFlip(){
+  const cv=$('cmpCv'), f=CMP.fit; if (!f) return;
+  FLP.s=Math.max(1, Math.min(16, FLP.s));
+  const X0=FLP.x+f.x*FLP.s, Y0=FLP.y+f.y*FLP.s;
+  const Wd=f.w*f.s*FLP.s, Hd=f.h*f.s*FLP.s;
+  const nx = Wd<=cv.width  ? (cv.width -Wd)/2 : Math.max(cv.width -Wd, Math.min(0, X0));
+  const ny = Hd<=cv.height ? (cv.height-Hd)/2 : Math.max(cv.height-Hd, Math.min(0, Y0));
+  FLP.x = nx - f.x*FLP.s; FLP.y = ny - f.y*FLP.s;
+}
 function clampSplit(){
   const cv=$('cmpCv'), pw=cv.width/2, ph=cv.height;
   const {w,h}=worldSize();
@@ -2721,6 +2734,7 @@ function cmpApplyCorners(next){
   CMP.lvOpen=false;
   applyLevels();
   cmpSize();
+  FLP.x=FLP.y=0; FLP.s=1;
   CMP.mode=next||'flip'; CMP.showing='photo';
   cmpRender();
   cmpSaveNow();       // a fresh capture/crop persists immediately - a debounce
@@ -2900,7 +2914,7 @@ $('cmpFile').addEventListener('change', e => {
 $('cmpFlip').onclick = () => {
   if (!CMP.img) return;
   if (CMP.mode==='flip') CMP.showing = CMP.showing==='ref' ? 'photo' : 'ref';
-  else { CMP.mode='flip'; CMP.showing='photo'; }
+  else { CMP.mode='flip'; CMP.showing='photo'; FLP.x=FLP.y=0; FLP.s=1; }
   cmpRender();
 };
 $('cmpCrop').onclick = () => {
@@ -2919,7 +2933,8 @@ $('cmpSplit').onclick = () => {
     const px=(cx2-r2.left)*kd, py=(cy2-r2.top)*kd;
     if (CMP.mode==='flip'){
       const k=cmpFitK(), f=CMP.fit;
-      let wx=(px-f.x)/k; const wy=(py-f.y)/k;
+      const px2=(px-FLP.x)/FLP.s, py2=(py-FLP.y)/FLP.s;
+      let wx=(px2-f.x)/k; const wy=(py2-f.y)/k;
       if (CMP.mirror) wx=worldSize().w-wx;
       return {wx, wy};
     }
@@ -2960,7 +2975,7 @@ $('cmpSplit').onclick = () => {
       const [a,b]=[...pts.values()], r=cv.getBoundingClientRect(), kd=cv.width/r.width;
       g0={d:Math.hypot(a.x-b.x,a.y-b.y), ang:Math.atan2(b.y-a.y,b.x-a.x),
           mx:((a.x+b.x)/2-r.left)*kd, my:((a.y+b.y)/2-r.top)*kd,
-          spl:{...SPL}};
+          spl:{...SPL}, flp:{...FLP}};
       tap=null; CMP.cGrab=null;
     }
   });
@@ -2991,6 +3006,21 @@ $('cmpSplit').onclick = () => {
       }
       return;
     }
+    if (CMP.mode==='flip' && CMP.img && !CAM.stream){
+      if (pts.size===1){
+        if (FLP.s>1.001){ FLP.x+=dx*kd; FLP.y+=dy*kd; clampFlip(); cmpRender(); }
+      } else if (pts.size===2 && g0){
+        const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
+        const dd=Math.hypot(a.x-b.x,a.y-b.y);
+        const mx=((a.x+b.x)/2-r.left)*kd, my=((a.y+b.y)/2-r.top)*kd;
+        const k=Math.max(1,Math.min(16,g0.flp.s*dd/g0.d))/g0.flp.s;
+        FLP.s=g0.flp.s*k;
+        FLP.x=mx-(g0.mx-g0.flp.x)*k;
+        FLP.y=my-(g0.my-g0.flp.y)*k;
+        clampFlip(); cmpRender();
+      }
+      return;
+    }
     if (CMP.mode==='split' && CMP.img){
       // one shared view: a gesture on either pane moves both together
       const pw=cv.width/2;
@@ -3017,14 +3047,32 @@ $('cmpSplit').onclick = () => {
     clearTimeout(cT); cPend=null;
     if (cDrag && pts.size===0){ circsSave(); drawCircs(); cDrag=null; }
     if (pts.size===0 && tap && !tap.moved && Date.now()-tap.t<400
+        && CMP.img && !CAM.stream && CIRCS.length && !CIRCTOOL
+        && (CMP.mode==='flip' || CMP.mode==='split')){
+      // the little x on a mark closes it here too, no tool needed
+      const wp=worldPt(tap.x, tap.y);
+      if (wp){
+        const r2=cv.getBoundingClientRect(), kd=cv.width/(r2.width||1);
+        let rb;
+        if (CMP.mode==='flip') rb=16*kd/(cmpFitK()*FLP.s);
+        else {
+          const pw=cv.width/2, {w,h}=worldSize();
+          rb=16*kd/(Math.min(pw/w, cv.height/h)*SPL.s);
+        }
+        const hit=CIRCS.findIndex(c=>{ const b=badgePos(c);
+          return Math.hypot(b.x-wp.wx, b.y-wp.wy) < rb; });
+        if (hit>=0){
+          CIRCS.splice(hit,1); circsSave(); drawCircs(); cmpRender(); haptic();
+          tap=null;
+        }
+      }
+    }
+    if (pts.size===0 && tap && !tap.moved && Date.now()-tap.t<400
         && CMP.mode==='flip' && CMP.img){
       if (CIRCTOOL){
-        const r2=cv.getBoundingClientRect(), kd=cv.width/r2.width;
-        const px=(tap.x-r2.left)*kd, py=(tap.y-r2.top)*kd;
-        const k=cmpFitK(), f=CMP.fit;
-        let wx=(px-f.x)/k; const wy=(py-f.y)/k;
-        if (CMP.mirror) wx=worldSize().w-wx;
-        circTap(wx, wy, 16*kd/k);
+        const wp=worldPt(tap.x, tap.y);
+        const kd=cv.width/(cv.getBoundingClientRect().width||1);
+        if (wp) circTap(wp.wx, wp.wy, 16*kd/(cmpFitK()*FLP.s));
       } else {
         CMP.showing = CMP.showing==='ref' ? 'photo' : 'ref'; cmpRender();
       }
@@ -3047,6 +3095,17 @@ $('cmpSplit').onclick = () => {
   cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
   cv.addEventListener('wheel', e => {
     if (!CMP.img) return;
+    if (CMP.mode==='flip'){
+      e.preventDefault();
+      const r=cv.getBoundingClientRect(), kd=cv.width/r.width;
+      const px=(e.clientX-r.left)*kd, py=(e.clientY-r.top)*kd;
+      const k=e.deltaY<0?1.08:1/1.08;
+      const ns=Math.max(1,Math.min(16,FLP.s*k)), kk=ns/FLP.s;
+      FLP.s=ns;
+      FLP.x=px-(px-FLP.x)*kk; FLP.y=py-(py-FLP.y)*kk;
+      clampFlip(); cmpRender();
+      return;
+    }
     if (CMP.mode==='split'){
       e.preventDefault();
       const r=cv.getBoundingClientRect(), pw=cv.width/2, kd=cv.width/r.width;
