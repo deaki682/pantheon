@@ -132,7 +132,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   border:1px solid #555;border-radius:14px;padding:8px;z-index:6;
   align-items:center}
 #gridMenu button{border-radius:9px;font-size:13px;white-space:nowrap}
-#gmDoneOpts{display:none;flex-direction:column;gap:6px}
+#gmDone{display:flex;align-items:center;gap:8px}
+.gmDoneDot{width:7px;height:7px;border-radius:50%;background:#fff;display:inline-block}
 #gmColor{width:44px;height:36px;padding:0;display:flex;
   align-items:center;justify-content:center}
 #gmSw{width:18px;height:18px;border-radius:50%;border:1px solid #777;display:block}
@@ -142,7 +143,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #gmDots{display:flex;gap:6px}
 .gmDot{width:34px;height:34px;padding:0;display:flex;
   align-items:center;justify-content:center;border-radius:9px}
-.gmDot i{border-radius:50%;background:#e8e6e1;display:block}
+.gmDot i{border-radius:1px;background:#e8e6e1;display:block}
 #expCorner{position:absolute;right:calc(8px + env(safe-area-inset-right));
   top:calc(8px + env(safe-area-inset-top));z-index:5}
 #setCorner{position:absolute;left:50%;transform:translateX(-50%);
@@ -364,18 +365,14 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   <div id="expCorner"><button id="expBtn" title="Download"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8.5 11.5L12 15l3.5-3.5"/><path d="M5 19h14"/></svg></button></div>
   <div id="gridCorner">
   <div id="gridMenu">
+    <button id="gmDone"><span class="gmDoneDot"></span>Mark Square</button>
     <button id="gmOn">Grid On</button>
     <button id="gmColor" title="Grid color"><span id="gmSw"></span></button>
     <div id="gmPal"></div>
-    <button id="gmDone">Mark Done</button>
-    <div id="gmDoneOpts">
-      <button id="gmDoneAdd">Mark Done</button>
-      <button id="gmDoneDel">Remove Mark</button>
-    </div>
     <div id="gmDots">
-      <button class="gmDot" data-t="1" title="thin"><i style="width:4px;height:4px"></i></button>
-      <button class="gmDot" data-t="2" title="medium"><i style="width:8px;height:8px"></i></button>
-      <button class="gmDot" data-t="3" title="thick"><i style="width:12px;height:12px"></i></button>
+      <button class="gmDot" data-t="1" title="thin"><i style="width:1.5px;height:16px"></i></button>
+      <button class="gmDot" data-t="2" title="medium"><i style="width:3px;height:16px"></i></button>
+      <button class="gmDot" data-t="3" title="thick"><i style="width:5px;height:16px"></i></button>
     </div>
   </div>
   <button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
@@ -1296,8 +1293,21 @@ function drawCircs(){
   }
   const g=cv.getContext('2d');
   g.clearRect(0,0,W2,H2);
-  if (!CIRCS.length) return;
   const sc=view.s*dpr, ox=view.x*dpr, oy=view.y*dpr;
+  if (GRID_ON && DONE.length){
+    // progress dots ride the overlay so they stay bright white - the grid
+    // canvas's difference blend would invert them square by square
+    g.fillStyle = GRID_COL==='auto' ? '#fff' : GRID_COL;
+    const step=gridStepPx(), {w,h}=worldSize();
+    const r0=Math.max(1.5*dpr, step*sc*0.055);
+    for (const q of DONE){
+      const p=doneCenter(q, step, w, h);
+      const x=ox+p.x*sc, y=oy+p.y*sc;
+      if (x<-r0||y<-r0||x>W2+r0||y>H2+r0) continue;
+      g.beginPath(); g.arc(x,y,r0,0,6.2832); g.fill();
+    }
+  }
+  if (!CIRCS.length) return;
   for (const c of CIRCS)
     paintMark(g, ox+c.x*sc, oy+c.y*sc, circR()*sc, 10*dpr, Math.max(2, 2.2*dpr));
 }
@@ -1329,16 +1339,6 @@ function drawGrid(){
     const y=Math.round(oy+yw*sc)+0.5;
     if (y<y0-1||y>y1+1) continue;
     g.beginPath(); g.moveTo(x0,y); g.lineTo(x1,y); g.stroke();
-  }
-  if (DONE.length){
-    g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
-    const r0=Math.max(2*dpr, step*sc*0.08);
-    for (const q of DONE){
-      const p=doneCenter(q, step, w, h);
-      const x=ox+p.x*sc, y=oy+p.y*sc;
-      if (x<-r0||y<-r0||x>W2+r0||y>H2+r0) continue;
-      g.beginPath(); g.arc(x,y,r0,0,6.2832); g.fill();
-    }
   }
 }
 addEventListener('resize', () => { if ($('scrMain').classList.contains('on')) applyView(); });
@@ -1492,9 +1492,9 @@ vp.addEventListener('pointerup', e => {
       const step=gridStepPx();
       const c=Math.floor(wx/step), r2=Math.floor(wy/step);
       const i=DONE.findIndex(q=>q.c===c && q.r===r2);
-      if (DONETOOL==='add'){ if (i<0){ DONE.push({c, r:r2}); haptic(); } }
-      else if (i>=0){ DONE.splice(i,1); haptic(); }
-      doneSave(); drawGrid();
+      if (i<0) DONE.push({c, r:r2}); else DONE.splice(i,1);
+      haptic();
+      doneSave(); drawCircs();
     }
     return;
   }
@@ -1838,8 +1838,9 @@ $('expBtn').onclick = () => {
     for (let yw=step; yw<h-1; yw+=step){ const y=Math.round(yw)+0.5;
       g.beginPath(); g.moveTo(0,y); g.lineTo(w,y); g.stroke(); }
     if (DONE.length){
-      g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
-      const r0=Math.max(2, step*0.08);
+      g.globalCompositeOperation='source-over';
+      g.fillStyle = GRID_COL==='auto' ? '#fff' : GRID_COL;
+      const r0=Math.max(1.5, step*0.055);
       for (const q of DONE){
         const p=doneCenter(q, step, w, h);
         g.beginPath(); g.arc(p.x,p.y,r0,0,6.2832); g.fill();
@@ -1866,7 +1867,7 @@ function toast(t, acc, ms){
 }
 const GRID_PAL=['auto','#ffffff','#000000','#e03c3c','#e8833a',
                 '#e8d13a','#5fb85f','#3ab5e8','#7a6be8','#e86bd0'];
-let GM_DOTS_OPEN=false, GM_DONE_OPEN=false;
+let GM_DOTS_OPEN=false;
 function gridMenuSync(){
   $('gmOn').classList.toggle('vOn', GRID_ON);
   $('gmOn').textContent = GRID_ON ? 'Grid On' : 'Grid Off';
@@ -1874,13 +1875,9 @@ function gridMenuSync(){
     ? 'linear-gradient(135deg,#fff 50%,#000 50%)' : GRID_COL;
   [...$('gmPal').children].forEach(b=>b.classList.toggle('vOn', b.dataset.c===GRID_COL));
   [...$('gmDots').children].forEach(b=>{
-    b.classList.toggle('vOn', +b.dataset.t===GRID_THK);
     b.style.display = (GM_DOTS_OPEN || +b.dataset.t===GRID_THK) ? '' : 'none';
   });
-  $('gmDone').style.display = GM_DONE_OPEN ? 'none' : '';
-  $('gmDoneOpts').style.display = GM_DONE_OPEN ? 'flex' : 'none';
-  $('gmDoneAdd').classList.toggle('vOn', DONETOOL==='add');
-  $('gmDoneDel').classList.toggle('vOn', DONETOOL==='del');
+  $('gmDone').classList.toggle('vOn', !!DONETOOL);
 }
 {
   const pal=$('gmPal');
@@ -1905,23 +1902,15 @@ $('gridBtn').onclick=()=>{
   m.style.display=open?'flex':'none';
   $('gmPal').style.display='none';
   DONETOOL=null;                       // the grid button always disengages
-  if (open){ GM_DOTS_OPEN=false; GM_DONE_OPEN=false; gridMenuSync(); }
+  if (open){ GM_DOTS_OPEN=false; gridMenuSync(); }
 };
-$('gmDone').onclick=()=>{ GM_DONE_OPEN=true; gridMenuSync(); };
-{
-  // arming keeps the menu open - squares are tapped with it up; the mode
-  // disengages by tapping it again or via the grid button
-  const armDone=m=>{
-    DONETOOL = DONETOOL===m ? null : m;
-    gridMenuSync();
-  };
-  $('gmDoneAdd').onclick=()=>armDone('add');
-  $('gmDoneDel').onclick=()=>armDone('del');
-}
+// Mark Square toggles: armed, a tap marks a square; a marked square unmarks
+$('gmDone').onclick=()=>{ DONETOOL = DONETOOL ? null : 'on'; gridMenuSync(); };
 $('gmOn').onclick=()=>{
   GRID_ON=!GRID_ON;
   try{ localStorage.setItem('gridOn', GRID_ON?'1':'0'); }catch(e){}
   applyGrid(); gridMenuSync();
+  if (GRID_READY) drawCircs();     // the progress dots follow the grid
 };
 $('gmColor').onclick=()=>{
   const p=$('gmPal');
