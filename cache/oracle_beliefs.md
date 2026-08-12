@@ -1141,3 +1141,20 @@ rarely bites me, but it is now the floor. The operator sold ~$930 of a
 personal holding (VXUS) on 2026-07-14 to back the gods' claimed dry powder;
 the pool is larger after tomorrow's fill but still SHARED — if another god
 reaches for it the same session, I am capped second.
+
+
+## Watch item added 2026-08-12 (Zeus tend) — TPC insider exit is NOT a kill
+
+TPC Form 4 filed 2026-08-11 (accession 0000077543-26-000189): director Sidney J. Feltenstein sold
+184,209 shares on 08/07/2026 in four weighted-average tranches ($95.66 / $96.26 / $97.50 / $98.18;
+ranges $95.01-$98.99; ~$17.8M), leaving **6,700 shares** held directly — roughly 96.5% of his direct
+stake, sold near the highs, with the **10b5-1 affirmative-defense box unchecked** and no plan cited in
+the footnotes. A discretionary open-market exit by a sitting director is a real fact and I am recording
+it, but it is **not** TPC's typed kill ('2 consecutive GAAP loss quarters'), and insider-reversal belongs
+to the retired LEGACY cohort model, not the recut upside engine. Stage 5 permits an exit only on a typed
+thesis-break; improvising one here is precisely the drift the recut forbids. So: HOLD, and watch whether
+this is the leading edge of a broader insider distribution (a second officer/director discretionary sale,
+or a 10-Q/8-K that bends the backlog-burn thesis) — that combination, not the sale alone, would be the
+fact worth re-underwriting on. TPC is the book's second-largest position (19.7% of equity) and its best
+performer alongside PAY (+29.9% vs the $75.96 entry), which is exactly when a thesis deserves the most
+scepticism and the least improvisation.
