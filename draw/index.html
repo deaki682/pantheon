@@ -787,6 +787,16 @@ $('delNo').onclick = () => { DELREF=null; $('delModal').style.display='none'; };
 $('delModal').onclick = e => {
   if (e.target===$('delModal')){ DELREF=null; $('delModal').style.display='none'; }
 };
+function gcPing(path){
+  try{
+    if (navigator.onLine===false) return;
+    const i=new Image();
+    i.src='https://deaki682.goatcounter.com/count?p='+encodeURIComponent(path)
+      +'&rnd='+Math.random().toString(36).slice(2);
+  }catch(e){}
+}
+gcPing('/open');
+addEventListener('appinstalled', ()=>gcPing('/install'));
 $('newPhoto').onclick = () => $('file').click();
 // settings: the accent is the artist's, and the true-size stop is optional
 const ACCENTS=['#e8833a','#e0524f','#e0b13a','#6aa84f','#3aa6a0',
@@ -817,6 +827,7 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
   $('ttlChk').onchange=()=>{ try{ localStorage.setItem('ttlStop', $('ttlChk').checked?'1':'0'); }catch(e){} };
   $('setBtn').onclick=()=>{ $('setModal').style.display='flex'; };
   $('invBtn').onclick=async()=>{
+    gcPing('/share');
     const url=location.origin+location.pathname;
     const msg='Realism - a drawing studio for the grid method. It runs right in the browser:';
     if (navigator.share){
