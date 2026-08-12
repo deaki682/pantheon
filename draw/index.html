@@ -2813,7 +2813,7 @@ async function camStart(){
   try{
     const st=await navigator.mediaDevices.getUserMedia({
       video:{ facingMode:{ideal:'environment'},
-              width:{ideal:2560}, height:{ideal:2560} },
+              width:{ideal:2560}, height:{ideal:1920} },
       audio:false });
     CAM.stream=st;
     const v=$('camVid'); v.srcObject=st; v.style.display='block';
