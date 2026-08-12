@@ -1,5 +1,9 @@
 # Operator directive — act at TODAY'S session (2026-08-12)
 
+> **MOOT — never delivered. Superseded the same day by the v3 launch
+> (`docs/proteus_v3_charter.md`), which voids all v2 directives including
+> this one. Kept as the record of the decision path only.**
+
 **Authority:** operator (deaki682), relayed 2026-08-12. Amends Proteus v2's
 operating posture under charter v2.1 and supersedes the 2026-08-04
 directive's deliverables (its authority clause and risk acceptance stand).
