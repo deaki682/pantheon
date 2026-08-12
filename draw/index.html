@@ -1868,6 +1868,7 @@ $('expBtn').onclick = () => {
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
   toast('image downloaded');
+  gcPing('/download');
 };
 function toast(t, acc, ms){
   const el=$('toast'); el.textContent=t;
@@ -2856,27 +2857,7 @@ async function camCapture(){
   camGhost();                              // mapping current at the shutter
   const gh=CAM.ghost;
   const vw0=v.videoWidth, vh0=v.videoHeight;
-  // full-resolution still where the platform offers one (the photo sensor
-  // usually far outresolves the video stream); video frame otherwise
-  let frame=v, fw=vw0, fh=vh0;
-  try{
-    if (window.ImageCapture){
-      const ic=new ImageCapture(CAM.stream.getVideoTracks()[0]);
-      const blob=await Promise.race([ ic.takePhoto(),
-        new Promise(r=>setTimeout(()=>r(null),900)) ]);
-      if (blob){
-        let bmp=null;
-        try{ bmp=await createImageBitmap(blob,{resizeWidth:2400,resizeQuality:'high'}); }
-        catch(e){ try{ bmp=await createImageBitmap(blob); }catch(e2){} }
-        if (bmp){
-          // trust the still only if it frames like the stream
-          if (Math.abs(Math.log((bmp.width/bmp.height)/(fw/fh)))<0.02){
-            frame=bmp; fw=bmp.width; fh=bmp.height;
-          } else if (bmp.close) bmp.close();
-        }
-      }
-    }
-  }catch(e){}
+  const frame=v, fw=vw0, fh=vh0;
   // keep the WHOLE frame: the ghost rectangle is only the default crop, and
   // the Crop screen can refine it afterwards with the surroundings intact
   const k=Math.min(1, 2400/Math.max(fw,fh));
@@ -2885,7 +2866,6 @@ async function camCapture(){
   const fg=full.getContext('2d');
   fg.imageSmoothingQuality='high';
   fg.filter='grayscale(1)'; fg.drawImage(frame,0,0,full.width,full.height); fg.filter='none';
-  if (frame!==v && frame.close) frame.close();
   camStop();
   let blob=null;
   try{ blob=canvasBlob(full,'image/jpeg',0.92); }catch(e){}
