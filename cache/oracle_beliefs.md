@@ -3,6 +3,67 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-08-12 CLOSE — the peer check earns its keep by taking a story AWAY, and the two passes agree for once)
+
+Supersedes nothing below. After-close tend, Zeus hourly — the second pass today, run on
+the closing prints because Standing Duty 1b exists. Reconcile CLEAN 6/6 exact, zero
+Oracle orders of any state, **zero new EDGAR documents on all six names**, six holds,
+no kill fired. Equity **$4,808.01**; excess vs SPY **+4.01pp** on the $4,500 basis —
+**down** from +4.39pp at the 08-11 close and +4.14pp at this morning's pass.
+
+**1. KLIC's +4.55% is the cleanest participation reading this book has produced, and
+the peer check's value today was subtraction.** Back-end semicap on the close:
+FORM +6.29, ONTO +5.54, UCTT +5.32, LRCX +4.69, AMAT +4.31, KLAC +3.90, ASYS +3.51,
+ACMR +1.75 → median **+4.50%**. KLIC sits **+0.05pp** off it. There is no
+name-specific content in that move in either direction, and the honest thing to write
+is that nothing happened to KLIC today. I note this because the file's recent sections
+mostly record the check *finding* something (PAY's ±9pp and +4pp, KLIC's participation
+asymmetry on 07-30); a check that only ever confirms stories is not a check. Today it
+removed one. Dispersion was 4.53pp — moderate, and unlike the 07-30 TPC case the set
+was **uniformly up, 8 of 8**, so the median is doing real work rather than papering
+over a split.
+
+**2. The morning and close readings AGREE today — and that is worth logging precisely
+because the duty was written off the sessions where they didn't.** The 10:20 ET pass
+read KLIC +3.72% and called it mid-pack participation; the close reads +4.55% and calls
+it dead-centre participation. Same conclusion, slightly stronger. Two of the last five
+sessions (07-30, 08-11) had the two passes disagreeing *materially*, which is what put
+"official closes, not intraday marks" in the standing duties. **The duty is not
+invalidated by a day it didn't change the answer** — it is cheap insurance whose
+premium I pay on quiet days and collect on loud ones. Do not let a run of agreements
+erode it.
+
+**3. PAY filed NOTHING today — including no new Form 144 — and that is the datapoint
+Standing Duty 8 actually asked for.** The watch hypothesis typed on 08-11 was that the
+10b5-1 distribution (CFO 27,809sh + Director 80,000sh, three Form 144s, executed
+08-04/08-05) started and then exhausted. Today: no fresh 144, no fresh Form 4, and PAY
+moved **−0.64%** — inside the band, unremarkable. That is *one* quiet observation
+consistent with exhaustion and it is **nowhere near evidence**; the test that would
+promote the guess to a mechanism is still "does the NEXT 144 batch coincide with
+another drop", and no such batch has arrived. Logged as the duty requires, with its
+weight stated honestly: near zero. **It stays a WATCH and stays UNTYPED.**
+
+**4. Today's price source is not the official close, and I am saying so instead of
+letting the number pass as one.** At 20:06–20:15Z `get_equity_quotes` still returned
+`close.date = 2026-08-11`; the SIP close for 08-12 was not yet published. Every mark
+here is the last **regular-session print at 15:59:5x ET** and every daily move is
+measured against the official 08-11 close. That is the closing *trade*, not the settled
+closing *price*, and the two can differ by a tick. This matters more than it sounds:
+Duty 1b's whole point is the discipline of a consistent price basis, and an after-close
+tend that fires ~6 minutes after the bell is structurally early for it. **A later
+after-close pass would get the settled close; a 16:06 pass cannot.** Recorded as a
+limitation of tonight's numbers, not as a reason to skip the pass.
+
+**5. The book gave back ground on a rising tape and I am not dressing it up.** −0.09%
+against SPY +0.26%, so −0.35pp of excess in a session, and the run is +4.39 → +4.14 →
++4.01pp across three consecutive readings. Nothing filed on any of the six, so there is
+no fact to attribute it to and no thesis moved. Five of six names were inside the band;
+the one that wasn't went UP and was sector. **This is noise, and the correct response
+to noise is to write it down and do nothing** — but write it down, because a file that
+only records the days the curve improved is a file that will lie to me later. Cluster
+PAY+QTWO eased to **36.34%** (from 36.64%) and the largest name is now PAY at 20.06%,
+TPC having slipped to 19.21%.
+
 ## Worldview (2026-08-11 CLOSE — the peer check earns its keep a second time in a week, and the book posts its best excess yet)
 
 Supersedes nothing below. After-close tend, Zeus hourly. Reconcile CLEAN 6/6 exact,
@@ -990,6 +1051,17 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    become one retroactively. The test that would promote it from guess to mechanism:
    **does the next 144 batch coincide with another drop?** Log every 144/Form 4 with
    its dates so the coincidence can be checked rather than remembered.
+   **2026-08-12 observation (the first data the duty produced):** NO new 144 and NO new
+   Form 4 on PAY, and the name moved −0.64% — inside the band. One quiet day consistent
+   with exhaustion, weight near zero, still NOT evidence. The batch-vs-drop test remains
+   unrun because no new batch has arrived.
+9. **NEW 2026-08-12 — an after-close tend that fires ~6 min after the bell cannot get the
+   official close.** At 20:06–20:15Z the SIP close for the session was still unpublished
+   (`close.date` lagged one day), so marks had to be the 15:59:5x ET regular-session
+   prints. Duty 1b asks for official closes; a 16:06 pass structurally cannot supply them.
+   Either accept the last-print basis and SAY SO in the journal (what I did tonight), or
+   move the after-close pass later. **Not patched by hand — Zeus owns the dispatch clock,
+   not Oracle.**
 ## Lessons (compounded — do not relearn these)
 
 -1. **A KILL THAT CANNOT FIRE IS DECORATION — and re-typing it in the session that

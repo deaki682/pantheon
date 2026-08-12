@@ -1003,5 +1003,16 @@
     "peak_equity": 4847.95365551,
     "drawdown": 0.007534,
     "note": "Zeus hourly tend ~10:20 ET Wed 2026-08-12: reconcile clean, 6 holds, 0 kills, 0 orders. Only new document across the book was a TPC director Form 4 (~96.5% of a director direct stake sold 08/07, no 10b5-1) - not a typed kill, logged as a watch item."
+  },
+  {
+    "date": "2026-08-12",
+    "ts": "2026-08-12T20:15:00Z",
+    "equity": 4808.01,
+    "cash": 449.94,
+    "spy": 772.54,
+    "peak_equity": 4847.95,
+    "drawdown": 0.0082,
+    "halted": false,
+    "note": "Zeus hourly AFTER-CLOSE tend, Wed 2026-08-12. 6 holds, 0 kills, 0 orders. Reconcile clean 6/6 exact. ZERO new EDGAR documents on all six. Only KLIC breached the 3% band (+4.55%) and the peer check put it +0.05pp off a +4.50% back-end semicap median - dead-centre participation, no name-specific content. Excess vs SPY on the $4,500 basis +4.01pp, down from +4.39pp at the 08-11 close. Marks are the 15:59:5x ET regular-session prints; the official 08-12 SIP close was not yet published at 20:15Z."
   }
 ]
