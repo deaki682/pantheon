@@ -1014,5 +1014,16 @@
     "drawdown": 0.0082,
     "halted": false,
     "note": "Zeus hourly AFTER-CLOSE tend, Wed 2026-08-12. 6 holds, 0 kills, 0 orders. Reconcile clean 6/6 exact. ZERO new EDGAR documents on all six. Only KLIC breached the 3% band (+4.55%) and the peer check put it +0.05pp off a +4.50% back-end semicap median - dead-centre participation, no name-specific content. Excess vs SPY on the $4,500 basis +4.01pp, down from +4.39pp at the 08-11 close. Marks are the 15:59:5x ET regular-session prints; the official 08-12 SIP close was not yet published at 20:15Z."
+  },
+  {
+    "date": "2026-08-13",
+    "ts": "2026-08-13T14:16:00Z",
+    "equity": 4838.65,
+    "cash": 449.94,
+    "spy": 778.315,
+    "peak_equity": 4847.95,
+    "drawdown": 0.0019,
+    "halted": false,
+    "note": "Zeus hourly tend ~10:14-10:16 ET Thu 2026-08-13. 6 holds, 0 kills, 0 orders. Reconcile clean 6/6 exact. EDGAR fresh-fact check on all six CIKs: 2 new documents, both Form 4s and neither a typed-kill fact \u2014 QTWO CPO 10,000sh sale under a CHECKED 10b5-1 plan (113,913sh retained, routine), ZVRA director 12,300 option exercise-and-same-day-sell at $11.25 (1,800sh + 46,500 options retained; monetization, not distribution \u2014 unlike the 08-11 TPC outright 96.5% stake sale). Caught and corrected a wrong-CIK read: 0001591890 is FG Nexus, not PAY; PAY is 0001841156 and has filed nothing since 08-06. Peer check: zero names breached the 3% trigger (PAY +2.48, QTWO +2.08, TPC -0.84, ZVRA -0.79, KLIC +0.58, LXU -0.15; SPY +0.75). Book +7.53% on the $4,500 round basis vs SPY +3.59% = +3.93pp excess, down from +4.01pp at the 08-12 close on a day the book (+0.64%) lagged the tape. ZVRA -19.5% / KLIC -13.1% drawdowns HELD per Stage 5. PAY+QTWO cluster 36.95% of equity (40% cap), third straight session drifting toward the cap while sector:'' leaves size_upside_book unable to enforce it \u2014 a code gap for the next round. A/B: 0 of 326 graded, due_for_grade == [] until 2027-10. No sourcing (funding decision, not a cadence reflex)."
   }
 ]
