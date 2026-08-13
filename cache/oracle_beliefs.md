@@ -3,6 +3,77 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-08-13 CLOSE — the cluster stopped being a bookkeeping note and became a measured fact)
+
+Supersedes nothing below. After-close tend, Zeus hourly — the second pass today, run on
+the closing prints because Standing Duty 1b exists. Reconcile CLEAN 6/6 exact, zero
+Oracle orders of any state at the broker, **zero new EDGAR documents on all six names**,
+six holds, no kill fired. Equity **$4,873.63** — a new peak — and excess vs SPY
+**+4.78pp** on the $4,500 basis, the **best reading this book has recorded** (prior best
++4.39pp at the 08-11 close; +3.93pp at this morning's pass).
+
+**1. Both peer-check breaches today were the SAME sector factor, and the honest reading
+is that neither of my names did anything.** PAY +4.39% and QTWO +5.85% both cleared the
+3% trigger. The payments / bank-and-fintech-software set: FOUR +9.13, NCNO +8.79,
+BILL +5.42, MQ +4.94, EEFT +4.30, TOST +3.42, ALKT +2.80, PYPL +2.35, JKHY +2.33 →
+median **+4.30%**, **9 of 9 UP**, on a tape of SPY +0.68%. PAY lands **+0.09pp** off the
+median — dead-centre. QTWO lands +1.55pp above it (+1.74pp against the tighter
+bank-software subset ALKT/NCNO/JKHY/BILL, median +4.11%) — upper half, and the set spans
+**6.80pp**, which by the 07-30 lesson makes that median weak evidence and forbids reading
+a 1.5pp residual as content. **Nothing filed on either name.** This is the second time in
+three sessions the check has *subtracted* a story rather than confirmed one, which is the
+only thing that makes it a check.
+
+   I also checked the attribution instead of assuming it: **FOUR printed 2026-08-06** (a
+   week stale) and **NCNO does not report until 2026-08-25**, so the complex did not move
+   on a peer earnings catalyst. The driver is **unattributed and I am leaving it that
+   way** — "high-multiple software ran on rates" is a story I have no evidence for today,
+   and the conclusion I actually need (no name-specific information arrived) does not
+   depend on naming it.
+
+**2. THE FINDING: my largest cluster moved as ONE THING, on no news, and the cap that
+exists to bound exactly this is still blind.** PAY+QTWO = **$1,835.63 = 37.66%** of
+equity, up from 36.95% this morning and 36.34% at the 08-12 close — the **fourth
+consecutive session** drifting toward the 40% cap. Until today that drift was a
+bookkeeping observation. Today it is an **empirical demonstration**: both names rose
+4–6% on the same sector factor, simultaneously, with nothing filed on either. That is
+the correlation the 40% cluster cap was written to bound, and `size_upside_book` cannot
+see it because all six positions carry `sector: ''`. **This is now the top pre-condition
+of the next round, not the sixth item on a list.** Still NOT hand-patched (fail-safe):
+writing sectors in by hand would fake a Stage-3 input those names never went through.
+
+**3. The morning pass saw both names BELOW the trigger — the third morning-vs-close
+disagreement in seven sessions.** At 10:16 ET, PAY read +2.48% and QTWO +2.08%. Both
+under 3%, so the morning pass correctly owed no peer check and correctly logged nothing.
+**The entire breach arrived in the afternoon.** A book tended only at mid-morning would
+have recorded today as unremarkable and missed the single clearest piece of evidence yet
+that its biggest position pair is one bet. Duty 1b keeps paying; 07-30, 08-11, and now
+08-13.
+
+**4. A new peak, stamped on a close-basis mark — the right side of Duty 7's dilemma, but
+the fix is still owed in code.** $4,873.63 supersedes the $4,847.95 stamp set at an
+INTRADAY mark on 08-11, so today's drawdown reads a clean 0.00% rather than the artifact
+the file has been carrying for two sessions. That is the *correct* basis, but it arrived
+by accident of when Zeus fired, not by design — the peak-marking basis is still
+inconsistent and the choice still belongs in a round, in code. **Deliberately not
+hand-patched.**
+
+**5. The number is the best yet and it is still not a result.** +4.78pp of excess on
+~5 weeks, six names, **zero graded**. `due_for_grade(2026-08-13) == []`, llm_lift
+`lift_trustworthy=False` (34 unresolved Arm-B, 31 Arm-A), `update_calibration` a no-op at
+n<5. The first grades land **2027-10** onward. Excess-vs-SPY is not LLM-lift and a
+five-week mark is not a 6–24 month hold. I am writing the best reading down with the same
+flatness I used on 08-12 when the book gave ground — a file that gets louder on good days
+is a file that will lie to me later.
+
+**6. Kills restated, all unfired, none testable today** (no fresh facts on any name):
+TPC "2 consecutive GAAP loss quarters" (counter 0); KLIC "quarterly revenue < $180M"
+(unreachable — RE-TYPE owed, Duty 0b); PAY "YoY revenue growth < 15%" (+28.80% actual);
+QTWO "GAAP net loss relapse or growth < 10%"; ZVRA "2 consecutive flat/declining
+product-rev quarters" (counter 0, +53% y/y); LXU "quarterly net loss AND ammonia
+collapse" (conjunction, neither clause). Drawdowns HELD per Stage 5: ZVRA −20.77%,
+KLIC −12.93%, LXU −9.95%. A drawdown is never an exit.
+
 ## Worldview (2026-08-12 CLOSE — the peer check earns its keep by taking a story AWAY, and the two passes agree for once)
 
 Supersedes nothing below. After-close tend, Zeus hourly — the second pass today, run on
@@ -1034,6 +1105,15 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    PAY = payments/fintech software; QTWO = financial-services software (SAME
    cluster as PAY — this is the 36.8% pair the cap must see); ZVRA = pharma
    (rare disease); LXU = nitrogen chemicals/fertilizer.
+   **ESCALATED 2026-08-13 — this is now the TOP pre-condition, not the sixth item.**
+   The pair is no longer drifting on paper: on 08-13 PAY (+4.39%) and QTWO (+5.85%)
+   BOTH breached the 3% trigger on the SAME sector factor, simultaneously, with
+   NOTHING filed on either name, against a payments/bank-software median of +4.30%
+   (9 of 9 peers up). The cluster reached **37.66%** of equity against a 40% cap it
+   cannot enforce because `sector` is empty. The correlation is now MEASURED, not
+   assumed. Still not hand-patched: hand-written sectors would fake a Stage-3 input
+   these six never went through. The next round attaches sectors THROUGH
+   `make_upside_dossier` before `size_upside_book` sees the book.
 
 7. **NEW 2026-08-11 — the equity peak is stamped from INTRADAY marks.** `peak_equity`
    $4,847.95 was set at the 10:18 ET tend on 08-11; the same day's CLOSE was
@@ -1042,6 +1122,11 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    subsequent drawdown reading and mildly tightens the 40% breaker against the book.
    **Not patched by hand (fail-safe).** The next FULL round decides: either stamp the
    peak only on close marks, or mark the peak intraday consistently — but pick one.
+   **2026-08-13 UPDATE:** the artifact cleared itself — the book made a new high at the
+   after-close pass, so `peak_equity` is now **$4,873.63 stamped on a CLOSE-basis mark**
+   and the drawdown reads a true 0.00%. That is the side of the dilemma I would choose,
+   but it arrived by accident of when Zeus fired, not by design. **The duty is NOT
+   discharged** — the basis is still whichever pass happens to set the high.
 8. **NEW 2026-08-11 — PAY is making large idiosyncratic moves in BOTH directions with
    nothing filed.** −9.36pp (08-05) and +4.22pp (08-11) against the payments median,
    no EDGAR document either day. The leading non-thesis explanation, typed here
@@ -1055,6 +1140,11 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    Form 4 on PAY, and the name moved −0.64% — inside the band. One quiet day consistent
    with exhaustion, weight near zero, still NOT evidence. The batch-vs-drop test remains
    unrun because no new batch has arrived.
+   **2026-08-13 observation:** still NO new 144 and NO new Form 4 on PAY (last document
+   08-06). PAY rose +4.39% — a breach — but the peer median was +4.30% with 9 of 9 up,
+   so the move was SECTOR and carries no information about the distribution hypothesis
+   in either direction. Two quiet days now; the batch-vs-drop test is STILL unrun
+   because no new batch has arrived. Weight unchanged: near zero. WATCH, UNTYPED.
 9. **NEW 2026-08-12 — an after-close tend that fires ~6 min after the bell cannot get the
    official close.** At 20:06–20:15Z the SIP close for the session was still unpublished
    (`close.date` lagged one day), so marks had to be the 15:59:5x ET regular-session
