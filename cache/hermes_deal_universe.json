@@ -1,13 +1,61 @@
 {
- "generated": "2026-08-12",
+ "generated": "2026-08-13",
  "window": {
-  "from": "2026-04-14",
-  "to": "2026-08-12",
+  "from": "2026-04-15",
+  "to": "2026-08-13",
   "lookback_days": 120
  },
- "n_candidates": 123,
+ "n_candidates": 125,
  "coverage_note": "COMPLETE population of announced-deal TARGETS from EDGAR daily form indexes (DEFM14A / PREM14A / DEFM14C / PREM14C / SC 14D9) \u2014 no keyword, keyed to the target CIK. KNOWN missing: (1) deals whose only public paper so far is an 8-K merger agreement that has not yet drawn a proxy/14D-9 \u2014 caught on the next sweep once the proxy files; (2) acquirer-side-only tenders (SC TO-T) by design \u2014 Hermes longs the target. Cash-vs-stock is NOT decided here; every candidate requires the per-deal read.",
  "candidates": [
+  {
+   "cik": "0002028355",
+   "company": "Inflection Point Acquisition Corp. V",
+   "symbol": "IPEXR",
+   "channels": [
+    "definitive merger proxy (shareholder vote)"
+   ],
+   "forms": [
+    "DEFM14A"
+   ],
+   "first_filed": "2026-08-12",
+   "last_filed": "2026-08-12",
+   "n_filings": 1,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
+  {
+   "cik": "0001590895",
+   "company": "Caesars Entertainment, Inc.",
+   "symbol": "CZR",
+   "channels": [
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "PREM14A"
+   ],
+   "first_filed": "2026-08-12",
+   "last_filed": "2026-08-12",
+   "n_filings": 1,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
+  {
+   "cik": "0001505952",
+   "company": "DOMO, INC.",
+   "symbol": "DOMO",
+   "channels": [
+    "preliminary merger information statement"
+   ],
+   "forms": [
+    "PREM14C"
+   ],
+   "first_filed": "2026-08-12",
+   "last_filed": "2026-08-12",
+   "n_filings": 1,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
   {
    "cik": "0002131882",
    "company": "McCarthy Finney, Inc.",
@@ -317,7 +365,7 @@
   {
    "cik": "0001806201",
    "company": "Open Lending Corp",
-   "symbol": "LPRO",
+   "symbol": null,
    "channels": [
     "target recommendation on a tender offer (two-step)"
    ],
@@ -747,7 +795,7 @@
   {
    "cik": "0001563577",
    "company": "Galera Therapeutics, Inc.",
-   "symbol": "GRTX",
+   "symbol": null,
    "channels": [
     "merger information statement (written consent, no vote)"
    ],
@@ -1033,16 +1081,14 @@
    "company": "KORE Group Holdings, Inc.",
    "symbol": null,
    "channels": [
-    "definitive merger proxy (shareholder vote)",
-    "preliminary merger proxy (earlier signal)"
+    "definitive merger proxy (shareholder vote)"
    ],
    "forms": [
-    "DEFM14A",
-    "PREM14A"
+    "DEFM14A"
    ],
-   "first_filed": "2026-04-14",
+   "first_filed": "2026-06-12",
    "last_filed": "2026-06-12",
-   "n_filings": 2,
+   "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -1578,16 +1624,16 @@
    "forms": [
     "SC 14D9"
    ],
-   "first_filed": "2026-04-14",
+   "first_filed": "2026-05-06",
    "last_filed": "2026-05-14",
-   "n_filings": 4,
+   "n_filings": 3,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
   {
    "cik": "0002016072",
    "company": "M3-Brigade Acquisition V Corp.",
-   "symbol": "VLOSW",
+   "symbol": "VLOSU",
    "channels": [
     "definitive merger proxy (shareholder vote)"
    ],
@@ -1642,9 +1688,9 @@
    "forms": [
     "SC 14D9"
    ],
-   "first_filed": "2026-04-14",
+   "first_filed": "2026-05-11",
    "last_filed": "2026-05-11",
-   "n_filings": 2,
+   "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -1888,9 +1934,9 @@
    "forms": [
     "SC 14D9"
    ],
-   "first_filed": "2026-04-14",
+   "first_filed": "2026-04-23",
    "last_filed": "2026-04-23",
-   "n_filings": 2,
+   "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -2034,22 +2080,6 @@
    ],
    "first_filed": "2026-04-16",
    "last_filed": "2026-04-16",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0001803737",
-   "company": "Enhabit, Inc.",
-   "symbol": null,
-   "channels": [
-    "definitive merger proxy (shareholder vote)"
-   ],
-   "forms": [
-    "DEFM14A"
-   ],
-   "first_filed": "2026-04-14",
-   "last_filed": "2026-04-14",
    "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"

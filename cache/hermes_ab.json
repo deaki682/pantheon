@@ -2407,6 +2407,38 @@
    "read_model": "opus",
    "read_effort": "high",
    "resolved": false
+  },
+  {
+   "symbol": "CZR",
+   "detect_date": "2026-08-13",
+   "entry_price": 29.885,
+   "offer_price": 31.0,
+   "spy_entry": 778.145,
+   "expected_close": "2027-06-26",
+   "spread": 0.0373,
+   "llm_verdict": "drop",
+   "llm_rationale": "Caesars/Fertitta $31.00 all-cash (PREM14A 2026-08-12; definitive 2026-05-28, go-shop lapsed 07-11 with no topper). DROP on two counts. (1) OUT OF SCOPE: ~$6B equity / $17.6B EV is core inventory for every merger-arb desk - the capacity-inverted small/mid subset is where Hermes has an edge; here we are the marginal, worst-informed holder. (2) The +3.73% spread is NOT uncaptured arb, it is priced risk over a long fuse: a jumbo LBO of an already-levered casino operator ($11.9B debt assumed) by a family-controlled private buyer, gated on gaming-license approvals in ~18 states plus tribal compacts. The parties themselves wrote a ticking fee starting 2027-06-26 - they expect ~10+ months. 3.7% over 10 months = ~4.5%/yr for financing + multi-state licensing risk, with capital locked the whole way. Fat spread on a long, shaky deal is the trap, not the prize.",
+   "break_risk": "med",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
+  },
+  {
+   "symbol": "DOMO",
+   "detect_date": "2026-08-13",
+   "entry_price": 3.925,
+   "offer_price": 4.84,
+   "spy_entry": 778.145,
+   "expected_close": "2026-11-30",
+   "spread": 0.2331,
+   "llm_verdict": "drop",
+   "llm_rationale": "NOT A MERGER - structural drop. Progress Software buys substantially all ASSETS for $400M cash (definitive 2026-07-22); Domo Inc. STAYS PUBLIC as a renamed shell to preserve ~$900M of NOLs. There is no per-share offer and no contractual terminal: the $4.84 is the company estimate of net cash AT CLOSING (~$246M), before expenses/true-ups, and the shell is not obligated to distribute it - an NOL shell exists precisely to redeploy the cash. The 23% discount is the market pricing shell risk correctly, not a spread. Same failure mode as the CVR rule: a compound forecast with no contractual floor, the exact opposite of what this book harvests.",
+   "break_risk": "high",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
   }
  ],
  "graded": [
