@@ -1,7 +1,9 @@
 {
- "n": 0,
- "mean_return": null,
- "hit_rate": null,
- "momentum_terciles": {},
- "signal_lift": {}
+  "n": 0,
+  "mean_return": null,
+  "hit_rate": null,
+  "momentum_terciles": {},
+  "signal_lift": {},
+  "as_of": "2026-08-13",
+  "note": "Zeus hourly parentless mark ~10:21-10:22 ET Thu 2026-08-13 (first run since 08-10; the 08-11/08-12 curve points were never taken, so this step spans three sessions, not one). 180 entries / 120 unique symbols, ALL priced. 0 matured at the 90-day horizon, so 0 graded and every table - momentum_terciles, signal_lift.above_ma, .selected, .vetoed - is still empty; the strategy questions remain unanswerable on n=0. NO new opens: Delphi is retired, so there is no live run to source a fresh selected/vetoed/reviewed tagging from, and skip_open=True holds the static universe. TICKER NOTE: the ledger still carries SQ, which no longer quotes - Block renamed to XYZ; the same security is priced at the XYZ mark ($80.615) rather than being force-graded a loss, and XYZ is separately in the universe, so SQ/XYZ double-count one name across two entries until SQ grades out. Paper only, no orders."
 }
