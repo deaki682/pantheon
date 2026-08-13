@@ -101,6 +101,12 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #camVid{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
   display:none;background:#000}
 #camGhost{position:absolute;left:0;top:0;pointer-events:none}
+#focusRing{position:absolute;width:56px;height:56px;border:2px solid var(--acc);
+  border-radius:50%;pointer-events:none;display:none;z-index:6;
+  transform:translate(-50%,-50%)}
+#focusRing.on{display:block;animation:focusPop 0.7s ease-out forwards}
+@keyframes focusPop{from{transform:translate(-50%,-50%) scale(1.35);opacity:1}
+  to{transform:translate(-50%,-50%) scale(1);opacity:0}}
 #shutter{position:absolute;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));
   transform:translateX(-50%);width:74px;height:74px;border-radius:50%;
   background:var(--acc);border:4px solid #141414;box-shadow:0 0 0 3px #fff;
@@ -387,6 +393,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   <div id="cmpView"><canvas id="cmpCv"></canvas>
     <video id="camVid" playsinline autoplay muted></video>
     <canvas id="camGhost"></canvas>
+    <div id="focusRing"></div>
     <canvas id="lastShot" title="Use the last photo"></canvas>
     <button id="shutter" title="Capture"></button>
     <div id="circWrap">
@@ -2946,9 +2953,12 @@ async function camStart(){
     $('cmpFlip').disabled=true;
     clearInterval(CAM.timer); CAM.timer=setInterval(camGhost,250);
     camGhost();
+    $('camGhost').style.pointerEvents='auto';   // tap-to-focus while live
     try{
-      st.getVideoTracks()[0]
-        .applyConstraints({ width:{ideal:4032}, height:{ideal:3024} })
+      const tr=st.getVideoTracks()[0];
+      tr.applyConstraints({ width:{ideal:4032}, height:{ideal:3024} })
+        .catch(()=>{});
+      tr.applyConstraints({ advanced:[{ focusMode:'continuous' }] })
         .catch(()=>{});
     }catch(e){}
     // the last photo waits in the corner - tap it to skip reshooting
@@ -2961,8 +2971,40 @@ async function camStart(){
     return true;
   }catch(e){ return false; }
 }
+function camFocus(nx, ny){
+  // a single-shot focus at the tapped point, then back to continuous -
+  // flat paper gives autofocus little to bite on, so the artist points it
+  if (!CAM.stream) return;
+  const tr=CAM.stream.getVideoTracks()[0];
+  if (!tr || !tr.applyConstraints) return;
+  tr.applyConstraints({ advanced:[{ pointsOfInterest:[{x:nx, y:ny}],
+                                    focusMode:'single-shot' }] })
+    .catch(()=> tr.applyConstraints({ advanced:[{ focusMode:'single-shot' }] })
+    .catch(()=>{}));
+  clearTimeout(CAM.refocusT);
+  CAM.refocusT=setTimeout(()=>{
+    try{ tr.applyConstraints({ advanced:[{ focusMode:'continuous' }] })
+          .catch(()=>{}); }catch(e){}
+  }, 1600);
+}
+$('camGhost').addEventListener('pointerdown', e=>{
+  if (!CAM.stream) return;
+  const v=$('camVid'), r=$('cmpView').getBoundingClientRect();
+  if (!v.videoWidth) return;
+  const vs=Math.min(r.width/v.videoWidth, r.height/v.videoHeight);
+  const vw=v.videoWidth*vs, vh=v.videoHeight*vs;
+  const vx=(r.width-vw)/2, vy=(r.height-vh)/2;
+  const nx=(e.clientX-r.left-vx)/vw, ny=(e.clientY-r.top-vy)/vh;
+  if (nx<0||ny<0||nx>1||ny>1) return;
+  camFocus(nx, ny);
+  const fr=$('focusRing');
+  fr.style.left=(e.clientX-r.left)+'px'; fr.style.top=(e.clientY-r.top)+'px';
+  fr.classList.remove('on'); void fr.offsetWidth; fr.classList.add('on');
+});
 function camStop(){
   if (CAM.stream){ for (const t of CAM.stream.getTracks()) t.stop(); CAM.stream=null; }
+  $('camGhost').style.pointerEvents='none';
+  clearTimeout(CAM.refocusT);
   clearInterval(CAM.timer); CAM.timer=0; CAM.ghost=null;
   const gg=$('camGhost'); gg.getContext('2d').clearRect(0,0,gg.width,gg.height);
   const v=$('camVid'); v.srcObject=null; v.style.display='none';
