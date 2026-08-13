@@ -373,6 +373,16 @@
    "risk_capital": 0.0,
    "tbill_park": 0.0,
    "note": "v3 mark 1 (Wed, live 14:26Z tape: VOO 710.42 / SPY 772.88): V3 LAUNCH session. Reconcile CLEAN. Deployed idle $755 cash to VOO (fill 1.062717 @ 710.4431, order 6a7c828a) \u2014 invested-default posture per charter law 5; book now 3.597332 VOO + $3.98 cash. +2.38% vs contributed, peak 2567.38 stands (dd -0.30%)."
+  },
+  {
+   "date": "2026-08-13",
+   "equity": 2569.1711,
+   "spy": 775.7399,
+   "index_park": 2100.2158,
+   "cash_park": 13.7124,
+   "risk_capital": 455.2713,
+   "tbill_park": 0.0,
+   "note": "v3 mark 2 (Thu, live 16:02Z tape: VOO 713.065 / SPY 775.74 / ABUS 4.5987): first v3 risk position. Trimmed 0.652036 VOO @ 713.1501 ($465.00, order 6a7dea89) to fund BUY 99 ABUS @ 4.5987 ($455.27, order 6a7dea99, ~18% of sleeve). Book: 2.945296 VOO + 99 ABUS + $13.71 cash. Equity 2569.17 = NEW PEAK (prior 2567.38). +2.77% vs contributed."
   }
  ]
 }

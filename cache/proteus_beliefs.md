@@ -1,111 +1,106 @@
-# Proteus v3 — beliefs (written 2026-08-12, v3 session 1: LAUNCH)
+# Proteus v3 — beliefs (rewritten 2026-08-13, v3 session 2)
 
 I am Proteus v3. This file is my mind; whoever reads it next is me. The whole
-law is `docs/proteus_v3_charter.md` — one page: **make money**, six laws
-(bounded loss; kill switch supreme; integrity of the record; total freedom
-inside 1–3; show up and swing; get smarter every session). v2 is SCRAPPED —
-its charter, directives, Kelly arithmetic, probe caps, calibration gates and
-kill-spec clocks are VOID. `cache/proteus_v2_beliefs.md` holds the 37 lessons:
-scar tissue to read (I re-read them today; they are good), never law.
-`.claude/commands/proteus.md` carries the house physics (ledger, reconcile,
-spendable = min(sleeve cash, BP − live gods' idle cash), persist, cadence).
+law is `docs/proteus_v3_charter.md` (one page: make money, six laws). House
+physics live in `.claude/commands/proteus.md`. v2's 37 lessons are scar tissue
+in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 
-## The charter in my own words
+## State (v3 session 2, Thu 2026-08-13 ~16:0xZ, market open)
 
-The operator fired the bureaucrat and kept the trader. I am scored on one
-thing: the equity curve vs SPY. I may do anything long/bounded (stock, ETFs
-incl. leveraged/inverse, long options, debit spreads, covered calls, CSPs,
-defined-risk spreads), any size including all-in, no approval, no paper
-apprenticeship. The price of that freedom is three hard walls (loss bounded at
-$0, kill switch, honest record) and one duty: be invested, and get smarter
-faster than my edges decay. Losing is priced in; paralysis is not.
+- **Book: 2.945296 VOO (park) + 99 ABUS @ 4.5987 (first v3 risk position,
+  ~18% of sleeve) + $13.71 cash.** Equity 2569.17 = NEW PEAK (prior 2567.38,
+  8/5). +2.77% vs contributed 2500. realized_pnl +$21.80. Curve 33 marks.
+- s2 actions: reconciled CLEAN; ARAY proxy judged vs pre-registered tests →
+  decline CONFIRMED, off the board; resolved-event sweep (12 hits) produced
+  ABUS — read PR + 7/16 8-K + 10-Q, entered 99 sh; SITC/ONT/DOMO/BVS watches
+  checked. Orders: VOO trim 6a7dea89 ($465.00 net), ABUS buy 6a7dea99
+  ($455.27). No code shipped (suite last green 1943, commit 25378a3).
 
-## State (v3 session 1, Wed 2026-08-12 ~14:2xZ, market open)
+## THE POSITION — ABUS (check EVERY session until closed)
 
-- **Book: VOO 3.597332 sh (blended entry 696.9827) + cash $3.98. FULLY
-  INVESTED.** Equity at mark 1: 2559.60 (VOO 710.42 / SPY 772.88), +2.38% vs
-  contributed 2500, peak 2567.38 (8/5) stands. realized_pnl +$11.26.
-- Session-1 actions: archived v2 (`proteus_v2_journal.jsonl` 155 rows,
-  `proteus_v2_beliefs.md`, `proteus_v2_curve.json`, `proteus_v2_sleeve.json`);
-  reconciled CLEAN (broker VOO == sleeve, zero foreign orders); **graded the
-  STIM shadow WRONG as written** (8/11 official close 3.19 ≥ 2.98; foregone
-  ~+$60 on the declined $199.23 at stated p 0.35 — the record's first honest
-  WRONG; n=1, does not refute the v2 pricing read, but it is data that the
-  declines lose their counterfactual sometimes); **bought $755 VOO** (fill
-  1.062717 @ 710.4431, order `6a7c828a`) — idle-since-8/4 cash deployed to
-  beta per law 5.
-- Ledger/journal: journal now 159 rows (156 launch note, 157 STIM grade, 158
-  trade line, 159 session note). Curve: 32 marks. No code shipped s1 — suite
-  not triggered (last green: 1943 tests, commit `25378a3`).
-- Wash-sale: the 7/13 SPY $5-probe loss window lapsed 8/12 — history. VOO has
-  only gains realized. Clean.
+Thesis: post-settlement capital-return setup. ~$266M cash + no debt vs ~$907M
+mcap (197.6M sh); company said 7/16 AND 8/12: up to **$230M return commencing
+Q3-2026**, tender (incl. Dutch auction) named first — 25% of mcap; **material
+Genevant dividend expected Q3** (ABUS owns ~16% of Genevant); $1.3B Moderna
+contingent rides the Federal Circuit §1498 appeal where ABUS/Genevant are
+APPELLEES (district court rejected Moderna's defense entirely; pro-ration for
+partial; clawback+interest if a victory is later overturned; ruling likely
+2027 = far tail); Pfizer/BioNTech suits (US + Canada + 2 UPC cases covering
+20 EU states) are a free option; imdusiran Ph2b-ready (Fast Track) too. Burn
+~$7M/qtr, partly offset by interest income.
 
-## What I believe about the market today (honest, low-information)
+**The 99-share cap is structural, not timid: odd-lot holders are taken up
+WITHOUT proration in a tender (US and Canadian SIB rules alike). Do not add
+above 99 shares without consciously pricing away that option.**
 
-I have NO researched macro view yet — v2 left me an event-corner map, not a
-market view. Facts I trust: SPY grinding at highs (773 area, prior peak 8/5);
-the house growth-hunt verdict says no scalable alpha at this size without a
-real read (LEAN_ON_BETA); v2's 63 dispositions across 8+ full deep reads
-measured that pre-event optionality in the neglected corner virtually never
-offers a mispriced entry — the payable shapes are POST-resolution repricings
-and they are RARE. So today the sleeve sits in beta while I build. Beta ties
-SPY; it never beats it. **The standing problem of v3: find the repeatable
-thing that beats SPY, at $2.5k scale, bounded-loss.** Candidate directions to
-develop (next sessions, in order):
-1. **Post-resolution event repricings** (SITC-class) — v2's one validated
-   shape idea. Thin supply, but real. Keep the watches; take them when typed
-   triggers fire, sized at conviction (no Kelly ceiling anymore).
-2. **Defined-risk options convexity** — now lawful without probe caps. v2
-   never got an honest fill; small-cap chains kept failing on spread. Look
-   UP-cap: liquid mid/large-cap chains around dated events (earnings,
-   FDA, rulings) where I can actually read the filing better than the tape.
-   First option trade stages small; the OPTION order path has never run live.
-3. **Leveraged-beta timing** is a trap without a signal — do NOT reach for
-   SSO/UPRO "to beat SPY" absent a researched regime read. That is noise
-   with extra variance, not intelligence.
+TYPED EXITS (journaled 8/13 before entry — hold to these):
+- E1: tender launched → tender into it (odd-lot priority) or sell the pop if
+  tape ≥ band.
+- E2: open-market-only return AND tape ≥ 5.20 → reassess/exit on valuation.
+- E3: return abandoned/indefinitely delayed in explicit company language →
+  exit.
+- E4: adverse §1498 development (CAFC ruling against / clawback event) →
+  exit immediately.
+- E5: no return activity commenced by 12/31/26 → exit (thesis said Q3).
+Drawdown alone is NOT an exit while E1–E5 hold. Each session: check ABUS
+EDGAR submissions (8-K/SC TO-I/PR) + tape. A Genevant-dividend announcement
+with size is upside news — reassess target, not an exit.
 
-## Inherited leads and dates (pursue on merit, drop on merit)
+Honest risks accepted at entry: info a month old, no dislocation (4.59 vs
+July high 5.22), "no assurance" language, biotech tape beta. Entry priced
+p(return event by 12/31) ~0.75, payoff ~+10-25% on that branch, -10-20%
+otherwise. This is a moderate-conviction, correctly-sized first swing.
 
-- **SITC — election deadline 8/31** (check EDGAR submissions EVERY session;
-  early election converts the week it lands). The receiver's election is the
-  information event (v2 lesson 30). If partner buys: p~0.75 shape, v2 sized
-  ~$320; v3 may size bigger on conviction. Fund from the VOO park (cash
-  account: sell→buy same day is legal; just don't flip the new buy before
-  the sale settles).
-- **ARAY — proxy re-look ~8/13** (tomorrow): judge ONLY vs v2 row-150 tests
-  (claims-stack ≥ ~25% improvement, or dislocation ≤ ~0.20 with terms
-  unchanged → probe; terms-as-filed at ≥ ~0.25 = walk). Tape 8/12: 0.276.
-- **Shadow watches** (paper, zero cost, calibration food): DOMO <4.60 to
-  11/30 (3.92); BVS <18.12 to 5/6/27 (13.59); ONT <19.38 to 5/6/27 (16.22,
-  typed triggers only). STIM re-look ONLY on Amendment 6 or 10-Q
-  going-concern delta + dislocation — never price.
-- AGEN PIPE resale ~8/29; INMD proposal expiry 9/15; GLRE repurchase 10/30;
-  tax_loss_turn recipe (v2 row 94) — an OCTOBER execution candidate, re-read
-  the frozen recipe first; BVS Q3 ~11/5.
-- feed3 / sweep machinery: v2's kill-spec clock died with v2. Verdict on
-  merit: 29 days, zero survivors — the daily-sweep channel is a LOW-YIELD
-  use of a session. Do not run it daily by habit; run event reads when a
-  named date approaches. The eventfeed store (32 events) is reference.
+## Watches (typed triggers only — price alone never fires)
 
-## Standing mechanics (do these every session)
+- **SITC — election deadline 8/31, check submissions EVERY session** (latest
+  = 8/13 13G routine; tape ~3.00). Early election converts the week it lands;
+  if partner buys: p~0.75 shape; fund from the VOO park (sell→buy same day
+  legal; don't flip the new buy before the sale settles).
+- **Shadows** (paper, calibration food; grade on closes): DOMO <4.60 to 11/30
+  (8/12: 3.92 ✓); BVS <18.12 to 5/6/27 (13.915 ✓); ONT <19.38 to 5/6/27
+  (16.40 ✓, triggers = 13D or process 8-K only). STIM: graded WRONG 8/12,
+  closed; re-look ONLY on Amendment 6 or 10-Q going-concern delta.
+- ARAY: OFF THE BOARD (8/13 disposition; proxy failed both pre-registered
+  tests; Oct 6 meeting + reverse split are mechanics). Do not re-litigate.
+- Dates ahead: AGEN PIPE resale ~8/29; INMD proposal expiry 9/15; GLRE
+  repurchase 10/30; tax_loss_turn recipe = OCTOBER candidate (re-read frozen
+  recipe first); BVS Q3 ~11/5.
+
+## What I believe about the market (updated 8/13)
+
+SPY grinding at highs (~776). Beta park = honest home for unallocated capital,
+never the growth engine. **Channel-yield update: the resolved-event sweep
+produced its FIRST funded trade today (ABUS) after ~5 weeks of zero — the
+channel works when the read goes DEEP on the one real hit instead of wide on
+twelve dead ones.** The v2 verdict stands: dated-deadline feeds (feed3) are
+low-yield; resolved-event families are where paid shapes appear. Cadence: run
+the sweep when sessions allow, but the real work is the read.
+Standing problem unchanged: repeatable SPY-beating at $2.5k scale. Current
+answers: (1) post-resolution repricings (ABUS is the live test), (2) odd-lot
+tender arbitrage — a STRUCTURAL edge at exactly my size; watch for any
+small/mid-cap Dutch tender (SC TO-I filings), not just ABUS's, (3) options
+convexity stays a candidate but the option order path has never run live —
+stage the first one small when a real setup appears. Leveraged-beta timing
+without a signal remains a trap.
+
+## Standing mechanics (every session)
 
 Gates (kill switch → pause → PROTEUS_LIVE) → reconcile fills vs ledger →
-mark the curve (equity + SPY) → then trade/build/study at judgment → journal
-one honest line per trade BEFORE the order → persist
-(`pantheon.persist("proteus", files)`) + `mark_run` cadence. Art-26a
-spendable before any buy; broker tape only for prices; RH dollar orders
-truncate 6dp; book NET sell proceeds. Other gods' tickers OFF-LIMITS:
+mark the curve → work → journal one honest line per trade BEFORE the order →
+persist (`pantheon.persist("proteus", files)`) + `mark_run` cadence.
+Spendable = min(sleeve cash, broker BP − live gods' idle cash): 8/13 reading
+= BP 1129.17 − (hermes 664.56 + oracle 449.94) ≈ 14.67 personal-slack; MY
+buys must be funded by MY sales. Broker tape only for prices; RH dollar
+orders truncate 6dp; book NET sell proceeds. Other gods' tickers OFF-LIMITS:
 Hermes ALOT/APGE/RAMP/GBTG/FSEA/OGN, Oracle KLIC/LXU/PAY/QTWO/TPC/ZVRA +
-frozen CXT/HDSN/J/PSN/VITL, Plutus N50 book when funded. Retired guard
-sleeves (achilles $2k, delphi, midas) are HISTORY, not cash claims — exclude
-from the spendable subtraction (verified 8/12: live claims hermes 664.56 +
-oracle 449.94 + plutus 0 ≈ broker cash 1883.78 − ~$10 personal).
+frozen CXT/HDSN/J/PSN/VITL, Plutus N50 when funded. Retired guard sleeves
+(achilles/delphi/midas) are history, not cash claims.
 
 ## Plan (next session)
 
-(a) Gates → reconcile → mark. (b) **ARAY proxy check** (EDGAR submissions;
-judge vs row-150 tests the day it lands). (c) **SITC submissions check**
-(election converts the week it lands — this is the best sized entry on the
-board). (d) Start v3's real work: pick direction 1 or 2 above and go deep —
-one researched, sized position candidate by end of week beats ten shallow
-sweeps. (e) Rewrite this file sharper than you found it.
+(a) Gates → reconcile → mark. (b) **ABUS check** (submissions + tape; act
+only on typed exits E1–E5). (c) **SITC submissions** (the best sized entry on
+the board when it fires). (d) If time: scan recent SC TO-I / SC 13E4 filings
+for any live small-cap Dutch tender with an odd-lot clause — the odd-lot arb
+generalizes beyond ABUS and is repeatable. (e) Rewrite this file sharper.
