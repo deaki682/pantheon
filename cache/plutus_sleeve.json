@@ -1,345 +1,345 @@
 {
-  "cash": 0.0,
-  "contributed_cash": 4902.36,
-  "cooldown_days": 0,
-  "cooldowns": {},
-  "gfv_count": 0,
-  "halted": false,
   "name": "plutus",
-  "peak_equity": 5155.1156373947015,
-  "pending_funding": null,
-  "pending_settlements": [],
+  "cash": 0.0,
   "positions": {
     "AAPL": {
+      "shares": 0.95238,
       "avg_price": 315.0,
-      "cohort_id": "",
       "entry_date": "2026-07-06",
       "sector": "",
-      "shares": 0.95238
+      "cohort_id": ""
     },
     "ABNB": {
+      "shares": 0.607667,
       "avg_price": 150.0,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.607667
+      "cohort_id": ""
     },
     "ADBE": {
+      "shares": 0.653226,
       "avg_price": 221.96,
-      "cohort_id": "",
       "entry_date": "2026-07-06",
       "sector": "",
-      "shares": 0.653226
+      "cohort_id": ""
     },
     "ADSK": {
+      "shares": 0.319392,
       "avg_price": 214.72,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.319392
+      "cohort_id": ""
     },
     "AMAT": {
+      "shares": 0.350678,
       "avg_price": 548.65,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.350678
+      "cohort_id": ""
     },
     "AZO": {
+      "shares": 0.03427,
       "avg_price": 3009.05,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.03427
+      "cohort_id": ""
     },
     "BKNG": {
+      "shares": 0.792539,
       "avg_price": 185.24,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.792539
+      "cohort_id": ""
     },
     "CL": {
+      "shares": 0.804421,
       "avg_price": 95.0,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.804421
+      "cohort_id": ""
     },
     "CMCSA": {
+      "shares": 5.960973,
       "avg_price": 23.83,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 5.960973
+      "cohort_id": ""
     },
     "CMG": {
+      "shares": 2.201788,
       "avg_price": 34.79,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 2.201788
+      "cohort_id": ""
     },
     "CRM": {
+      "shares": 0.836189,
       "avg_price": 169.22,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.836189
+      "cohort_id": ""
     },
     "DELL": {
+      "shares": 0.373164,
       "avg_price": 399.85,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.373164
+      "cohort_id": ""
     },
     "EBAY": {
+      "shares": 0.60745,
       "avg_price": 113.82,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.60745
+      "cohort_id": ""
     },
     "EOG": {
+      "shares": 0.683668,
       "avg_price": 130.18,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.683668
+      "cohort_id": ""
     },
     "EXPE": {
+      "shares": 0.200301,
       "avg_price": 271.54,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.200301
+      "cohort_id": ""
     },
     "FDX": {
+      "shares": 0.272106,
       "avg_price": 311.79,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.272106
+      "cohort_id": ""
     },
     "FERG": {
+      "shares": 0.328138,
       "avg_price": 221.37,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.328138
+      "cohort_id": ""
     },
     "FICO": {
+      "shares": 0.050772,
       "avg_price": 1295.01,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.050772
+      "cohort_id": ""
     },
     "FTNT": {
+      "shares": 0.524375,
       "avg_price": 162.46,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.524375
+      "cohort_id": ""
     },
     "GWW": {
+      "shares": 0.052151,
       "avg_price": 1371.21,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.052151
+      "cohort_id": ""
     },
     "HCA": {
+      "shares": 0.274462,
       "avg_price": 423.3,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.274462
+      "cohort_id": ""
     },
     "IDXX": {
+      "shares": 0.100529,
       "avg_price": 571.97,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.100529
+      "cohort_id": ""
     },
     "ITW": {
+      "shares": 0.372153,
       "avg_price": 274.94,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.372153
+      "cohort_id": ""
     },
     "JBHT": {
+      "shares": 0.134276,
       "avg_price": 277.71,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.134276
+      "cohort_id": ""
     },
     "KGC": {
+      "shares": 1.931927,
       "avg_price": 24.53,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 1.931927
+      "cohort_id": ""
     },
     "KLAC": {
+      "shares": 0.732965,
       "avg_price": 217.5,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.732965
+      "cohort_id": ""
     },
     "KR": {
+      "shares": 1.05967,
       "avg_price": 58.93,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 1.05967
+      "cohort_id": ""
     },
     "LRCX": {
+      "shares": 0.515303,
       "avg_price": 322.47,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.515303
+      "cohort_id": ""
     },
     "LVS": {
+      "shares": 1.264293,
       "avg_price": 46.86,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 1.264293
+      "cohort_id": ""
     },
     "MA": {
+      "shares": 0.56264,
       "avg_price": 533.2,
-      "cohort_id": "",
       "entry_date": "2026-07-06",
       "sector": "",
-      "shares": 0.56264
+      "cohort_id": ""
     },
     "MSCI": {
+      "shares": 0.120068,
       "avg_price": 616.9,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.120068
+      "cohort_id": ""
     },
     "NEM": {
+      "shares": 0.93118,
       "avg_price": 95.69,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.93118
+      "cohort_id": ""
     },
     "NTAP": {
+      "shares": 0.330479,
       "avg_price": 163.55,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.330479
+      "cohort_id": ""
     },
     "NVDA": {
+      "shares": 1.562825,
       "avg_price": 191.96,
-      "cohort_id": "",
       "entry_date": "2026-07-06",
       "sector": "",
-      "shares": 1.562825
+      "cohort_id": ""
     },
     "NVS": {
+      "shares": 0.981115,
       "avg_price": 157.27,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.981115
+      "cohort_id": ""
     },
     "ODFL": {
+      "shares": 0.245077,
       "avg_price": 219.93,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.245077
+      "cohort_id": ""
     },
     "ORLY": {
+      "shares": 1.367245,
       "avg_price": 85.52,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 1.367245
+      "cohort_id": ""
     },
     "OTIS": {
+      "shares": 0.823736,
       "avg_price": 73.81,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.823736
+      "cohort_id": ""
     },
     "QCOM": {
+      "shares": 0.901788,
       "avg_price": 179.51,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.901788
+      "cohort_id": ""
     },
     "ROST": {
+      "shares": 0.411775,
       "avg_price": 214.85,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.411775
+      "cohort_id": ""
     },
     "SU": {
+      "shares": 1.40864,
       "avg_price": 55.55,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 1.40864
+      "cohort_id": ""
     },
     "SYY": {
+      "shares": 0.80766,
       "avg_price": 83.81,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.80766
+      "cohort_id": ""
     },
     "TPR": {
+      "shares": 0.333058,
       "avg_price": 145.68,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.333058
+      "cohort_id": ""
     },
     "TWLO": {
+      "shares": 0.18704,
       "avg_price": 213.59,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.18704
+      "cohort_id": ""
     },
     "WDAY": {
+      "shares": 0.34231,
       "avg_price": 143.32,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.34231
+      "cohort_id": ""
     },
     "WSM": {
+      "shares": 0.227875,
       "avg_price": 225.65,
-      "cohort_id": "",
       "entry_date": "2026-07-07",
       "sector": "",
-      "shares": 0.227875
+      "cohort_id": ""
     },
     "ZTS": {
+      "shares": 1.023243,
       "avg_price": 76.58,
-      "cohort_id": "",
       "entry_date": "2026-07-06",
       "sector": "",
-      "shares": 1.023243
+      "cohort_id": ""
     }
   },
+  "pending_settlements": [],
   "realized_pnl": 0.0,
-  "trades_count": 47
+  "gfv_count": 0,
+  "trades_count": 47,
+  "cooldowns": {},
+  "halted": false,
+  "contributed_cash": 4902.36,
+  "cooldown_days": 0,
+  "peak_equity": 5188.134726339998,
+  "pending_funding": null
 }
