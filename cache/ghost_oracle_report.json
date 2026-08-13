@@ -1,14 +1,14 @@
 {
-  "n": 0,
-  "mean_return": null,
-  "hit_rate": null,
-  "lens_lift": {},
-  "conviction_tiers": {},
-  "conviction_monotonic": false,
-  "valuation_terciles": {},
-  "quality_terciles": {},
-  "score_terciles": {},
-  "sector_return": {},
-  "as_of": "2026-08-13",
-  "note": "Zeus hourly ghost mark ~10:19-10:20 ET Thu 2026-08-13. ALL 216 unique open symbols priced live this pass, so all 310 entries marked (n=310, up from n=297 on 08-12 - the 13 previously unpriceable names quoted cleanly today, so the equity step from $30,537 to $32,236 is PART book move and PART coverage change and must NOT be read as a one-day return). Quote-quality flags: PFBX state=unlisted with a last print of 2026-08-11 ($22.75), CZWI last print 2026-08-12 close, UBCP last print 2026-08-12 16:27Z - three stale marks carried at their last trade. 0 entries matured (the 730-day horizons from the 2026-06-29 dossier round mature 2028-06), so 0 graded and every calibration table remains empty: no lens lift, no conviction monotonicity, no valuation/quality/score terciles. Paper only, no orders, real sleeves untouched."
+ "n": 0,
+ "mean_return": null,
+ "hit_rate": null,
+ "lens_lift": {},
+ "conviction_tiers": {},
+ "conviction_monotonic": false,
+ "valuation_terciles": {},
+ "quality_terciles": {},
+ "score_terciles": {},
+ "sector_return": {},
+ "_note": "0 graded of 310 open paper entries \u2014 earliest horizon (2026-06-29 + 365d) matures 2027-06-29, so every calibration surface (lens lift, conviction tiers, valuation/quality/score terciles, sector return) is necessarily empty. Not a failure; the clock has not run.",
+ "_open_gap_2026_08_13": "2 of the 100 rows in the 2026-08-09 screen have never been opened as paper entries: EWSB (does not resolve at the broker at all) and UHAL-B (resolves ONLY as 'UHAL.B', $64.93). NOT opened this run, deliberately: the screen writes dash notation and the broker uses dot notation, so storing 'UHAL.B' would fail skip_open's dedupe against the screen's 'UHAL-B' and re-open the name on EVERY subsequent run - exactly the ledger bloat skip_open exists to stop. The fix is a symbol-normalization layer between screen rows and the price lookup, which belongs in code, not in a hand-edited ledger. 98 of 100 screen rows are open; the 2 missing names are statistically immaterial to a 310-entry paper book."
 }
