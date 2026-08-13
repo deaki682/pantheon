@@ -1995,9 +1995,10 @@ for (const b of $('detMenu').children){
     DETAIL=b.dataset.lv;
     if (galActive!=null){ try{ localStorage.setItem('det|'+galActive, DETAIL); }catch(e){} }
     $('detBtn').textContent=DET_LABEL[DETAIL];
-    $('detMenu').style.display='none';
+    // the menu stays up so levels can be flipped between; it closes on a
+    // tap away or the menu button
+    [...$('detMenu').children].forEach(x=>x.classList.toggle('vOn', x.dataset.lv===DETAIL));
     layerButtons();
-    detClosed();
     if (!state.img || !GRID_READY) return;
     viewRepaint();
   };
