@@ -1,115 +1,116 @@
 {
- "n": 391,
- "mean_return": 0.00876973568800974,
- "hit_rate": 0.5728900255754475,
- "signal_lift": {
-  "basket_selected": {
-   "n_on": 47,
-   "mean_on": 0.015018495911509375,
-   "n_off": 113,
-   "mean_off": 0.000958910339189057,
-   "lift": 0.014059585572320317
-  },
-  "guidance_raised": {
-   "n_on": 0,
-   "mean_on": null,
-   "n_off": 391,
-   "mean_off": 0.00876973568800974,
-   "lift": null
-  },
-  "reaction_confirmed": {
-   "n_on": 278,
-   "mean_on": 0.008529450429107226,
-   "n_off": 113,
-   "mean_off": 0.009360879953274346,
-   "lift": -0.0008314295241671193
-  },
-  "revenue_beat": {
-   "n_on": 0,
-   "mean_on": null,
-   "n_off": 391,
-   "mean_off": 0.00876973568800974,
-   "lift": null
-  },
-  "rewarded": {
-   "n_on": 160,
-   "mean_on": 0.005088913601058149,
-   "n_off": 231,
-   "mean_off": 0.011319222847803047,
-   "lift": -0.006230309246744898
-  }
- },
- "reaction_terciles": {
-  "n": 278,
-  "terciles": {
-   "high": {
-    "n": 92,
-    "mean": -0.00010781511655352673
-   },
-   "mid": {
-    "n": 94,
-    "mean": 0.013153552972162337
-   },
-   "low": {
-    "n": 92,
-    "mean": 0.012442089463385564
-   }
-  },
-  "monotonic": false
- },
- "surprise_terciles": {
   "n": 391,
-  "terciles": {
-   "high": {
-    "n": 130,
-    "mean": 0.006562531409150648
-   },
-   "mid": {
-    "n": 131,
-    "mean": 0.007279899935538675
-   },
-   "low": {
-    "n": 130,
-    "mean": 0.012478235994358908
-   }
+  "mean_return": 0.00876973568800974,
+  "hit_rate": 0.5728900255754475,
+  "signal_lift": {
+    "basket_selected": {
+      "n_on": 47,
+      "mean_on": 0.015018495911509375,
+      "n_off": 113,
+      "mean_off": 0.000958910339189057,
+      "lift": 0.014059585572320317
+    },
+    "guidance_raised": {
+      "n_on": 0,
+      "mean_on": null,
+      "n_off": 391,
+      "mean_off": 0.00876973568800974,
+      "lift": null
+    },
+    "reaction_confirmed": {
+      "n_on": 278,
+      "mean_on": 0.008529450429107226,
+      "n_off": 113,
+      "mean_off": 0.009360879953274346,
+      "lift": -0.0008314295241671193
+    },
+    "revenue_beat": {
+      "n_on": 0,
+      "mean_on": null,
+      "n_off": 391,
+      "mean_off": 0.00876973568800974,
+      "lift": null
+    },
+    "rewarded": {
+      "n_on": 160,
+      "mean_on": 0.005088913601058149,
+      "n_off": 231,
+      "mean_off": 0.011319222847803047,
+      "lift": -0.006230309246744898
+    }
   },
-  "monotonic": false
- },
- "score_terciles": {
-  "n": 391,
-  "terciles": {
-   "high": {
-    "n": 130,
-    "mean": 0.016118179527629214
-   },
-   "mid": {
-    "n": 131,
-    "mean": 0.011687997064566568
-   },
-   "low": {
-    "n": 130,
-    "mean": -0.0015194176926016162
-   }
+  "reaction_terciles": {
+    "n": 278,
+    "terciles": {
+      "high": {
+        "n": 92,
+        "mean": -0.00010781511655352673
+      },
+      "mid": {
+        "n": 94,
+        "mean": 0.013153552972162337
+      },
+      "low": {
+        "n": 92,
+        "mean": 0.012442089463385564
+      }
+    },
+    "monotonic": false
   },
-  "monotonic": true
- },
- "cap_terciles": {
-  "n": 381,
-  "terciles": {
-   "high": {
-    "n": 127,
-    "mean": 0.0007963448642517904
-   },
-   "mid": {
-    "n": 127,
-    "mean": 0.011830378057975715
-   },
-   "low": {
-    "n": 127,
-    "mean": 0.014615188855073728
-   }
+  "surprise_terciles": {
+    "n": 391,
+    "terciles": {
+      "high": {
+        "n": 130,
+        "mean": 0.006562531409150648
+      },
+      "mid": {
+        "n": 131,
+        "mean": 0.007279899935538675
+      },
+      "low": {
+        "n": 130,
+        "mean": 0.012478235994358908
+      }
+    },
+    "monotonic": false
   },
-  "monotonic": false
- },
- "_session_note_2026_08_10": "Zeus pass 2026-08-10 (in season, window 2026-07-13\u219208-21). Book FLAT: 437 entries, 437 graded, 0 open, 0 due to grade \u2014 nothing to mark, so no curve point (last point 07-29 when the book last held positions). DISCOVERY RAN: get_earnings_calendar(2026-08-10, -5d) returned 914 report events, 690 with an actual EPS, of which 350 clear is_actionable_beat (3\u2013500% surprise). NOTHING OPENED, and this is a logged decision, not a skip: the ghost exists to measure ONE thing \u2014 signal_lift.rewarded, the reaction-direction gate \u2014 and that requires a reaction_return per name (pre- vs post-report close), i.e. ~39 batched historicals calls over 350 symbols. Opening them price-only with reaction_confirmed=False (as the 07-24 batch of 220 did) adds sample bulk without the discriminating variable and dilutes the exact statistic the ghost is for. Flagged for a dedicated session, the same discipline /oracle sourcing gets. CONTEXT: PEAD was REFUTED and SHELVED 2026-07-05 (docs/lab_results_achilles_pead_gauntlet.md), so this ghost is grading a shelved thesis; the standing read on 391 graded pead rows is that the reaction-direction gate measures NEGATIVE (rewarded lift -0.62pp: rewarded +0.51% n=160 vs sold/unconfirmed +1.13% n=231) \u2014 the gate costs money, consistent with the refutation. basket_selected lift is +1.41pp (n=47) \u2014 the only positive signal here."
+  "score_terciles": {
+    "n": 391,
+    "terciles": {
+      "high": {
+        "n": 130,
+        "mean": 0.016118179527629214
+      },
+      "mid": {
+        "n": 131,
+        "mean": 0.011687997064566568
+      },
+      "low": {
+        "n": 130,
+        "mean": -0.0015194176926016162
+      }
+    },
+    "monotonic": true
+  },
+  "cap_terciles": {
+    "n": 381,
+    "terciles": {
+      "high": {
+        "n": 127,
+        "mean": 0.0007963448642517904
+      },
+      "mid": {
+        "n": 127,
+        "mean": 0.011830378057975715
+      },
+      "low": {
+        "n": 127,
+        "mean": 0.014615188855073728
+      }
+    },
+    "monotonic": false
+  },
+  "as_of": "2026-08-13",
+  "note": "Zeus hourly parentless pass ~10:23 ET Thu 2026-08-13. Book FLAT: 0 open, 0 due, all 437 entries already graded, so nothing to mark and no curve point (an identical point on a closed book is noise, not a mark - same call as the 08-10 pass, whose last real point is 2026-07-29). NO new opens: the 08-10 discovery of ~350 actionable beats still needs the reaction-return pass (350 symbols of historicals, ~39 batched calls) before any of them can be tagged rewarded/sold/unconfirmed, and doing that inside an hourly Zeus slot would either blow the slot or - worse - open entries with reaction_pct=None and destroy the very control-group split the ghost exists to measure. It stays a dedicated-session job. Standing context: PEAD was REFUTED and SHELVED 2026-07-05 (18/18 cells negative excess; docs/lab_results_achilles_pead_gauntlet.md), Achilles is retired, and the reaction-direction gate measures NEGATIVE lift on the graded sample - so the marginal value of growing this sample is low and no result here may be cited as evidence FOR the strategy. Paper only, no orders, real sleeves untouched."
 }
