@@ -2319,6 +2319,83 @@ document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) wakeHol
 
 loadArsenal(); $('upStat').textContent = '\u03b1 0.5';
 
+// Denoise the honest way: the domain-transform edge-preserving filter -
+// the same machinery that builds the shading layer. Differences smaller
+// than the range sigma (grain) get smoothed away; real edges - the marks
+// of the drawing - stop the filter cold. Cooked ONCE per capture in a
+// worker, then the slider just blends raw->clean, so it stays instant.
+const DENOISE_SRC = MEDIAN_SRC + `
+onmessage=e=>{
+  const gray=e.data.gray, W=e.data.W, H=e.data.H, N=W*H;
+  // a 3x3 median first: speckle dies, edges do not move at all
+  const med=medianBlur(gray, W, H, 3);
+  postMessage({p:0.15});
+  const F=Float32Array.from(med);
+  // the edge test reads the CLEANED copy - judging edges on the noisy
+  // original makes the filter mistake grain for detail and refuse to
+  // smooth it (the whole reason a naive pass leaves the grain behind)
+  const sigmaS=6, sigmaR=48, iters=3;
+  const ratio=sigmaS/sigmaR;
+  const dh=new Uint8Array(N), dv=new Uint8Array(N);
+  for (let y=0;y<H;y++){
+    const o=y*W;
+    for (let x=1;x<W;x++){ const d=Math.abs(med[o+x]-med[o+x-1]); dh[o+x]=d>255?255:d; }
+  }
+  for (let y=1;y<H;y++){
+    const o=y*W;
+    for (let x=0;x<W;x++){ const d=Math.abs(med[o+x]-med[o-W+x]); dv[o+x]=d>255?255:d; }
+  }
+  for (let it=0;it<iters;it++){
+    const sigmaH=sigmaS*Math.SQRT2*Math.pow(2,iters-it-1)/Math.sqrt(Math.pow(4,iters)-1);
+    const lna=-Math.SQRT2/sigmaH;
+    const tab=new Float32Array(256);
+    for (let t=0;t<256;t++) tab[t]=Math.exp(lna*(1+ratio*t));
+    for (let y=0;y<H;y++){
+      const o=y*W;
+      for (let x=1;x<W;x++){ const a=tab[dh[o+x]]; F[o+x]+=a*(F[o+x-1]-F[o+x]); }
+      for (let x=W-2;x>=0;x--){ const a=tab[dh[o+x+1]]; F[o+x]+=a*(F[o+x+1]-F[o+x]); }
+    }
+    for (let x=0;x<W;x++){
+      for (let y=1;y<H;y++){ const p=y*W+x, a=tab[dv[p]]; F[p]+=a*(F[p-W]-F[p]); }
+      for (let y=H-2;y>=0;y--){ const p=y*W+x, a=tab[dv[p+W]]; F[p]+=a*(F[p+W]-F[p]); }
+    }
+    postMessage({p:0.15+0.85*(it+1)/iters});
+  }
+  const out=new Uint8Array(N);
+  for (let i=0;i<N;i++){ const v=F[i]; out[i]=v<0?0:(v>255?255:v); }
+  postMessage({out}, [out.buffer]);
+};
+`;
+function denoiseCv(){
+  if (CMP.dnCv && CMP.dnFor===CMP.base) return CMP.dnCv;
+  ensureDenoise();
+  return null;                     // still cooking: the raw capture stands in
+}
+function ensureDenoise(){
+  const src=CMP.base;
+  if (!src || CMP.dnBusy===src) return;
+  CMP.dnBusy=src;
+  const w=src.width, h=src.height;
+  let gray;
+  try{
+    const d=src.getContext('2d').getImageData(0,0,w,h).data;
+    gray=new Uint8Array(w*h);
+    for (let i=0,j=0;i<gray.length;i++,j+=4) gray[i]=d[j];
+  }catch(e){ CMP.dnBusy=null; return; }
+  const wk=new Worker(URL.createObjectURL(new Blob([DENOISE_SRC],{type:'text/javascript'})));
+  wk.onmessage=ev=>{
+    if (ev.data.p!==undefined) return;
+    wk.terminate(); CMP.dnBusy=null;
+    if (CMP.base!==src) return;         // a newer capture landed meanwhile
+    CMP.dnCv=grayCanvas(ev.data.out, w, h);
+    CMP.dnFor=src;
+    applyLevels();
+    if (CMP.fit) cmpRender();
+  };
+  wk.onerror=()=>{ wk.terminate(); CMP.dnBusy=null; };
+  wk.postMessage({gray, W:w, H:h}, [gray.buffer]);
+}
+
 // ---- compare: photograph the real drawing, align it over the reference, flip ----
 const CMP={img:null, base:null, blob:null, ckey:null,
   mode:'flip', showing:'photo', fit:null,
@@ -2342,10 +2419,10 @@ function applyLevels(){
   // highlights/darks -> black/white points. Default is the raw photo.
   if (!CMP.base){ return; }
   const a=CMP.adj||ADJ_DEF;
-  if (a.exp===0 && a.con===100 && a.hi===0 && a.sh===0 && a.bl<=0
-      && a.wh>=255 && !(a.dn>0)){
-    CMP.img=CMP.base; return;
-  }
+  const dn = a.dn>0 ? denoiseCv() : null;
+  const toneOn = !(a.exp===0 && a.con===100 && a.hi===0 && a.sh===0
+                   && a.bl<=0 && a.wh>=255);
+  if (!toneOn && !dn){ CMP.img=CMP.base; return; }
   const span=Math.max(0.04,(a.wh-a.bl)/255);
   const lut=new Uint8ClampedArray(256);
   for (let v=0;v<256;v++){
@@ -2360,16 +2437,19 @@ function applyLevels(){
   const c=document.createElement('canvas');
   c.width=CMP.base.width; c.height=CMP.base.height;
   const g=c.getContext('2d');
-  if (a.dn>0){
-    // denoise first: a gentle GPU smoothing that eats sensor grain before
-    // the tone curve can amplify it
-    g.filter='blur('+(Math.pow(a.dn/100,1.4)*3).toFixed(2)+'px)';
-  }
   g.drawImage(CMP.base,0,0);
-  g.filter='none';
-  const im=g.getImageData(0,0,c.width,c.height), d=im.data;
-  for (let i=0;i<d.length;i+=4){ const v=lut[d[i]]; d[i]=d[i+1]=d[i+2]=v; }
-  g.putImageData(im,0,0);
+  if (dn){
+    // the clean copy fades in over the raw one - edges intact at every
+    // strength, because the cleaning itself never crossed them
+    g.globalAlpha=Math.min(1, a.dn/100);
+    g.drawImage(dn,0,0);
+    g.globalAlpha=1;
+  }
+  if (toneOn){
+    const im=g.getImageData(0,0,c.width,c.height), d=im.data;
+    for (let i=0;i<d.length;i+=4){ const v=lut[d[i]]; d[i]=d[i+1]=d[i+2]=v; }
+    g.putImageData(im,0,0);
+  }
   CMP.img=c;
 }
 // the adjustments are remembered until changed again; default is the raw
