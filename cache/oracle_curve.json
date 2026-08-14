@@ -1036,5 +1036,16 @@
   "drawdown": 0.0,
   "halted": false,
   "note": "Zeus hourly AFTER-CLOSE tend, Thu 2026-08-13 (2nd pass today). 6 holds, 0 kills, 0 orders. Reconcile clean 6/6; ZERO new EDGAR documents on all six. Excess vs SPY +4.78pp on the $4,500 basis - best reading yet; new equity peak $4,873.63 (stamped on a close-basis mark). SECTOR-FACTOR day: PAY +4.39% and QTWO +5.85% BOTH breached the 3% trigger, but the payments/bank-software peer median was +4.30% with 9 of 9 peers UP on a +0.68% tape - PAY +0.09pp off the median, QTWO +1.55pp above a 6.80pp-dispersed set. Neither is name-specific. No peer earnings catalyst (FOUR printed 08-06, NCNO not until 08-25); driver left unattributed. The morning pass saw both BELOW the trigger (+2.48/+2.08) - third morning-vs-close disagreement in seven sessions. Cluster PAY+QTWO 37.66% and moving as ONE thing, still invisible to the sizer (sector:'')."
+ },
+ {
+  "date": "2026-08-14",
+  "ts": "2026-08-14T14:16:00Z",
+  "equity": 4884.05,
+  "cash": 449.94,
+  "spy": 778.14,
+  "peak_equity": 4884.0534195049995,
+  "drawdown": 0.0,
+  "halted": false,
+  "note": "Zeus hourly TEND, Fri 2026-08-14 ~10:16 ET. 6 holds, 0 typed kills fired, 0 orders. TWO new EDGAR documents since the 08-13 after-close pass, both dispositioned as NON-kills: LXU Form 4 08-13 = director Ackerman BUYING 1,000 sh @ $9.89 (10b5-1; 10,252 held after) - confirming, not breaking; QTWO Form 144 08-13 = officer Price noticing 77,180 sh (~$4.83M) from a 03/02 RSU/PSU vest with nothing sold in the prior 3 months - routine vest monetization at 0.12 pct of shares out. TPC filed NOTHING, so the 08-11 Feltenstein discretionary exit stays a single point, not distribution. New equity peak $4884.05 (prior $4884.05). Book -1.46 pct on the $4,500 deployed basis vs SPY +3.77 pct from the 07-10 entry (SPY 749.86) = -5.24pp excess. Weights: PAY 20.4, TPC 19.1, QTWO 16.6, KLIC 12.7, LXU 11.4, ZVRA 10.6, cash 9.2 (pct). A/B: due_for_grade == [] (all 34 rows carry 6-24mo horizons from 07-10; nothing matures yet), so no grading and no calibration update this pass. RESEARCH CADENCE NOTE: the 3-day sourcing clock has been due since 2026-07-14 and is deliberately NOT run here - the book sits at the spec ceiling of 6 concentrated names (Stage 4 concentrates 3-6) and $449.94 cash is 9.2 pct of equity, so a fresh Stage 0-4 cascade has nowhere to put a 7th name without violating the concentration mandate. Sourcing earns its credits again when a typed kill frees capital or the operator adds funding."
  }
 ]
