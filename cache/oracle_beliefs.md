@@ -1320,3 +1320,35 @@ or a 10-Q/8-K that bends the backlog-burn thesis) — that combination, not the 
 fact worth re-underwriting on. TPC is the book's second-largest position (19.7% of equity) and its best
 performer alongside PAY (+29.9% vs the $75.96 entry), which is exactly when a thesis deserves the most
 scepticism and the least improvisation.
+
+## Lesson 14 added 2026-08-14 (Zeus after-close tend) — a filing CLUSTER can be a deadline artifact
+
+Three ZVRA Schedule 13Gs landed inside three weeks (07-31 Vanguard Capital Management, NEW at
+5.11%; 08-06 FMR LLC at 8.3%; 08-14 Woodline Partners at 8.1%). Read as a cluster that is a loud
+"institutions are accumulating my worst name during its drawdown" story — and it would have been a
+fabricated one. **All three carry the same 06/30/2026 event date, and 06/30 + 45 days = 08/14:** the
+amended-13G quarterly amendment deadline. The clustering is the SEC's calendar, not anyone's
+conviction. This is the ownership-data sibling of lesson 13 (read the document, not the index):
+**before reading a group of filings as a signal, check whether their event dates are the same
+regulatory deadline.** Arrival dates cluster on deadlines; only event dates carry information.
+
+Two corollaries with teeth, both of which survived this pass:
+- **Direction requires the prior filing.** "8.1%" alone is not a fact about behaviour. Woodline's own
+  Amendment No. 1 (event 09/30/2025) said 6.2% / 3,476,143 shares vs 8.1% / 4,785,771 now — a real
+  +37.7% accumulation. One extra fetch converted a number into a direction.
+- **A 13G position is stale on arrival and may pre-date the position.** Woodline's is stated as of
+  06/30/2026, six weeks old and BEFORE my 07-10 entry. It cannot tell me what any holder owns today.
+  And a multi-manager platform's long stake is routinely hedged or paired, so it is weaker evidence
+  of directional conviction than a long-only holder's. Mildly confirming; never sizeable.
+
+## Watch item 2026-08-14 — KLIC and the front-end/back-end semicap split
+
+KLIC +3.49% on a day the front-end WFE names were all red (AMAT -5.12% on what looks like an
+earnings/guide reaction, KLAC -2.69%, ACLS -2.15%, ONTO -1.78%, LRCX -1.36%) while back-end/test/
+packaging went green (TER +2.01%, COHU +1.68%). Against the whole semicap tape KLIC looks +5pp
+name-specific; against its OWN back-end cohort it is ~+1.6pp off the TER/COHU median — participation,
+not content. **The peer set you choose decides whether a move looks idiosyncratic.** Pick the cohort
+that matches the business (KLIC is back-end packaging/bonding, not front-end deposition/etch) before
+concluding a name moved on its own news. Worth watching whether a genuine front-end/back-end capex
+divergence is forming — that would be thesis-relevant for KLIC, which is currently the book's second-
+worst name at -9.92%.

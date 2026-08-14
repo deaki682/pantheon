@@ -1047,5 +1047,16 @@
   "drawdown": 0.0,
   "halted": false,
   "note": "Zeus hourly TEND, Fri 2026-08-14 ~10:16 ET. 6 holds, 0 typed kills fired, 0 orders. TWO new EDGAR documents since the 08-13 after-close pass, both dispositioned as NON-kills: LXU Form 4 08-13 = director Ackerman BUYING 1,000 sh @ $9.89 (10b5-1; 10,252 held after) - confirming, not breaking; QTWO Form 144 08-13 = officer Price noticing 77,180 sh (~$4.83M) from a 03/02 RSU/PSU vest with nothing sold in the prior 3 months - routine vest monetization at 0.12 pct of shares out. TPC filed NOTHING, so the 08-11 Feltenstein discretionary exit stays a single point, not distribution. New equity peak $4884.05 (prior $4884.05). Book +9.48 pct on the ACTUAL $4,050.06 cost basis (positions now $4,434.11) vs SPY +3.62 pct from the 07-10 entry (SPY 750.935) = +5.86pp excess. Weights: PAY 20.4, TPC 19.1, QTWO 16.6, KLIC 12.7, LXU 11.4, ZVRA 10.6, cash 9.2 (pct). A/B: due_for_grade == [] (all 34 rows carry 6-24mo horizons from 07-10; nothing matures yet), so no grading and no calibration update this pass. RESEARCH CADENCE NOTE: the 3-day sourcing clock has been due since 2026-07-14 and is deliberately NOT run here - the book sits at the spec ceiling of 6 concentrated names (Stage 4 concentrates 3-6) and $449.94 cash is 9.2 pct of equity, so a fresh Stage 0-4 cascade has nowhere to put a 7th name without violating the concentration mandate. Sourcing earns its credits again when a typed kill frees capital or the operator adds funding."
+ },
+ {
+  "date": "2026-08-14",
+  "ts": "2026-08-14T20:15:00Z",
+  "equity": 4918.71,
+  "cash": 449.94,
+  "spy": 776.31,
+  "peak_equity": 4918.71,
+  "drawdown": 0.0,
+  "halted": false,
+  "note": "Zeus hourly AFTER-CLOSE tend, Fri 2026-08-14. 6 holds, 0 kills, 0 orders. Reconcile clean 6/6 exact vs broker. NEW PEAK equity $4,918.71 (prior $4,884.05). Book +0.71% on the session vs SPY -0.20%. One genuinely new document across all six CIKs: ZVRA 13G/A (Woodline 6.2%->8.1%, accumulation, but 06/30 event date, pre-dates our entry, and the 3-filing 'cluster' is the 45-day deadline calendar). Both >3% movers peer-checked and explained as sector participation: KLIC on a front-end/back-end semicap split (back-end green on an AMAT -5.12% front-end day), LXU on an ammonia-complex rally (+0.30pp off UAN). Marks are the 15:59:5x ET regular-session prints; the official 08-14 SIP close was not yet published at 20:15Z."
  }
 ]
