@@ -383,6 +383,16 @@
    "risk_capital": 455.2713,
    "tbill_park": 0.0,
    "note": "v3 mark 2 (Thu, live 16:02Z tape: VOO 713.065 / SPY 775.74 / ABUS 4.5987): first v3 risk position. Trimmed 0.652036 VOO @ 713.1501 ($465.00, order 6a7dea89) to fund BUY 99 ABUS @ 4.5987 ($455.27, order 6a7dea99, ~18% of sleeve). Book: 2.945296 VOO + 99 ABUS + $13.71 cash. Equity 2569.17 = NEW PEAK (prior 2567.38). +2.77% vs contributed."
+  },
+  {
+   "date": "2026-08-14",
+   "equity": 2570.0794,
+   "spy": 776.92,
+   "index_park": 2103.442,
+   "cash_park": 13.7124,
+   "risk_capital": 452.925,
+   "tbill_park": 0.0,
+   "note": "v3 mark 3 (Fri, live 14:34Z tape: VOO 714.17 / ABUS 4.575 / SPY 776.92): NEW PEAK 2570.08 (+2.80% vs contributed). Reconcile CLEAN (zero orders since 8/13 16:10Z; broker VOO 2.945296 + ABUS 99 == sleeve). No orders - watches clean (no ABUS exit, no SITC election), sweep 36 hits/0 survivors, odd-lot tender scan negative."
   }
  ]
 }
