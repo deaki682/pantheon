@@ -1,8 +1,8 @@
 {
- "generated": "2026-08-13",
+ "generated": "2026-08-14",
  "window": {
-  "from": "2026-04-15",
-  "to": "2026-08-13",
+  "from": "2026-04-16",
+  "to": "2026-08-14",
   "lookback_days": 120
  },
  "n_candidates": 125,
@@ -1469,16 +1469,14 @@
    "company": "SELECT MEDICAL HOLDINGS CORP",
    "symbol": null,
    "channels": [
-    "definitive merger proxy (shareholder vote)",
-    "preliminary merger proxy (earlier signal)"
+    "definitive merger proxy (shareholder vote)"
    ],
    "forms": [
-    "DEFM14A",
-    "PREM14A"
+    "DEFM14A"
    ],
-   "first_filed": "2026-04-15",
+   "first_filed": "2026-05-20",
    "last_filed": "2026-05-20",
-   "n_filings": 2,
+   "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -1715,16 +1713,14 @@
    "company": "Allbirds, Inc.",
    "symbol": "BIRD",
    "channels": [
-    "definitive merger proxy (shareholder vote)",
-    "preliminary merger proxy (earlier signal)"
+    "definitive merger proxy (shareholder vote)"
    ],
    "forms": [
-    "DEFM14A",
-    "PREM14A"
+    "DEFM14A"
    ],
-   "first_filed": "2026-04-15",
+   "first_filed": "2026-05-08",
    "last_filed": "2026-05-08",
-   "n_filings": 2,
+   "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
