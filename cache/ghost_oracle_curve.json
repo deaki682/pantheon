@@ -259,6 +259,6 @@
    "SPY": 0.054991,
    "SPY_price": 778.14
   },
-  "note": "Zeus hourly ghost mark, Fri 2026-08-14 ~10:20 ET (intraday live quotes). All 216 open symbols priced, ZERO missing marks - no survivorship gap this pass. 0 entries matured for grading (earliest horizon lands 2027-06), so the calibration report stays empty by construction, not by omission. n held at 310, comparable with the 08-13 point."
+  "note": "Zeus hourly ghost mark, Fri 2026-08-14 ~10:20 ET (intraday live quotes). All 216 open symbols priced, ZERO missing marks - no survivorship gap this pass. 0 entries matured for grading (earliest horizon lands 2027-06), so the calibration report stays empty by construction, not by omission. n held at 310, comparable with the 08-13 point. OPEN-ENTRIES GAP (disclosed, not silent): 2 screen names (EWSB, UHAL-B) are in cache/oracle_screen.json top-100 but absent from the ghost ledger - the Robinhood quote batch returned no rows for either, so they could not be priced and were NOT opened. Retry next pass; if they stay unquotable they are untradable and should be recorded as such rather than opened at a stale price."
  }
 ]
