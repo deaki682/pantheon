@@ -413,6 +413,9 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     <div class="row">
       <span class="adjL">blacks</span><input type="range" id="aBl" min="0" max="120" value="0">
       <span class="adjL">whites</span><input type="range" id="aWh" min="150" max="255" value="255">
+    </div>
+    <div class="row">
+      <span class="adjL">denoise</span><input type="range" id="aDn" min="0" max="100" value="0">
       <button id="lvReset">Auto</button>
     </div>
   </div>
@@ -2319,7 +2322,7 @@ loadArsenal(); $('upStat').textContent = '\u03b1 0.5';
 // ---- compare: photograph the real drawing, align it over the reference, flip ----
 const CMP={img:null, base:null, blob:null, ckey:null,
   mode:'flip', showing:'photo', fit:null,
-  adj:{exp:0, con:100, hi:0, sh:0, bl:0, wh:255}};
+  adj:{exp:0, con:100, hi:0, sh:0, bl:0, wh:255, dn:0}};
 function cmpSize(){
   // render at device resolution: the canvas is dpr times the CSS size
   const r=$('cmpView').getBoundingClientRect(), cv=$('cmpCv');
@@ -2333,13 +2336,14 @@ function cmpSize(){
   const s=Math.min(cv.width/w, cv.height/h);
   CMP.fit={s, x:(cv.width-w*s)/2, y:(cv.height-h*s)/2, w, h};
 }
-const ADJ_DEF={exp:0, con:100, hi:0, sh:0, bl:0, wh:255};
+const ADJ_DEF={exp:0, con:100, hi:0, sh:0, bl:0, wh:255, dn:0};
 function applyLevels(){
   // the artist's remembered adjustments: exposure -> contrast ->
   // highlights/darks -> black/white points. Default is the raw photo.
   if (!CMP.base){ return; }
   const a=CMP.adj||ADJ_DEF;
-  if (a.exp===0 && a.con===100 && a.hi===0 && a.sh===0 && a.bl<=0 && a.wh>=255){
+  if (a.exp===0 && a.con===100 && a.hi===0 && a.sh===0 && a.bl<=0
+      && a.wh>=255 && !(a.dn>0)){
     CMP.img=CMP.base; return;
   }
   const span=Math.max(0.04,(a.wh-a.bl)/255);
@@ -2356,7 +2360,13 @@ function applyLevels(){
   const c=document.createElement('canvas');
   c.width=CMP.base.width; c.height=CMP.base.height;
   const g=c.getContext('2d');
+  if (a.dn>0){
+    // denoise first: a gentle GPU smoothing that eats sensor grain before
+    // the tone curve can amplify it
+    g.filter='blur('+(Math.pow(a.dn/100,1.4)*3).toFixed(2)+'px)';
+  }
   g.drawImage(CMP.base,0,0);
+  g.filter='none';
   const im=g.getImageData(0,0,c.width,c.height), d=im.data;
   for (let i=0;i<d.length;i+=4){ const v=lut[d[i]]; d[i]=d[i+1]=d[i+2]=v; }
   g.putImageData(im,0,0);
@@ -2368,15 +2378,17 @@ const adjStore=()=>{ try{ localStorage.setItem('cmpAdj', JSON.stringify(CMP.adj)
 function adjLoad(){ try{
   const v=JSON.parse(localStorage.getItem('cmpAdj'));
   if (v && typeof v.con==='number')
-    return {exp:v.exp||0, con:v.con, hi:v.hi||0, sh:v.sh||0, bl:v.bl||0, wh:v.wh??255};
+    return {exp:v.exp||0, con:v.con, hi:v.hi||0, sh:v.sh||0, bl:v.bl||0,
+            wh:v.wh??255, dn:v.dn||0};
 }catch(e){} return null; }
 function adjSync(){
   const a=CMP.adj||ADJ_DEF;
   $('aExp').value=a.exp; $('aCon').value=a.con; $('aHi').value=a.hi;
   $('aSh').value=a.sh; $('aBl').value=a.bl; $('aWh').value=a.wh;
+  $('aDn').value=a.dn||0;
 }
 for (const [id,key] of [['aExp','exp'],['aCon','con'],['aHi','hi'],
-                        ['aSh','sh'],['aBl','bl'],['aWh','wh']])
+                        ['aSh','sh'],['aBl','bl'],['aWh','wh'],['aDn','dn']])
   $(id).oninput = () => {
     CMP.adj[key]=+$(id).value;
     applyLevels(); adjStore(); cmpRender(); cmpSave();
@@ -2891,7 +2903,8 @@ $('compareBtn').onclick = async () => {
       }
       if (saved.adj && typeof saved.adj.con==='number'){
         CMP.adj={exp:saved.adj.exp||0, con:saved.adj.con, hi:saved.adj.hi||0,
-                 sh:saved.adj.sh||0, bl:saved.adj.bl||0, wh:saved.adj.wh??255};
+                 sh:saved.adj.sh||0, bl:saved.adj.bl||0, wh:saved.adj.wh??255,
+                 dn:saved.adj.dn||0};
         adjSync();
       }
       applyLevels();
