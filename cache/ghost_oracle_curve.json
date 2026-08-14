@@ -249,5 +249,16 @@
    "SPY_price": 777.77
   },
   "note": "COMPARABILITY WARNING: n jumped 297 -> 310 because this run priced 13 names prior runs left unpriced; only PFBX remains unpriceable (state 'unlisted', last trade 08-11, so it marks at cost). Cost basis moved 29,700 -> 31,000, so total_return 2.82% -> 4.22% is PARTLY composition, NOT all performance - do not read the jump as a one-day gain. Marks are last regular-session prints ~15:59:5x ET; the 08-13 SIP close was still unpublished at 20:12Z. 0 graded (earliest horizon matures 2027-06-29)."
+ },
+ {
+  "date": "2026-08-14",
+  "equity": 32277.47,
+  "total_return": 0.04120868213770579,
+  "n": 310,
+  "benchmark": {
+   "SPY": 0.054991,
+   "SPY_price": 778.14
+  },
+  "note": "Zeus hourly ghost mark, Fri 2026-08-14 ~10:20 ET (intraday live quotes). All 216 open symbols priced, ZERO missing marks - no survivorship gap this pass. 0 entries matured for grading (earliest horizon lands 2027-06), so the calibration report stays empty by construction, not by omission. n held at 310, comparable with the 08-13 point."
  }
 ]
