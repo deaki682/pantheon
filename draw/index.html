@@ -158,11 +158,12 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   display:flex;align-items:center;justify-content:center;overflow:hidden}
 #setBtn svg{flex:none;max-width:22px;opacity:1;transform:none;
   transition:max-width 0.28s ease, opacity 0.16s ease, transform 0.28s ease}
-#setBtn .ttlTxt{display:block;color:var(--acc);font-size:14px;
+#setBtn .ttlTxt,#setBtn .markTxt{display:block;color:var(--acc);font-size:14px;
   white-space:nowrap;max-width:0;opacity:0;padding:0;
   transition:max-width 0.28s ease, opacity 0.18s ease 0.08s, padding 0.28s ease}
-#setBtn.ttl svg{max-width:0;opacity:0;transform:rotate(120deg) scale(0.5)}
-#setBtn.ttl .ttlTxt{max-width:150px;opacity:1;padding:0 16px}
+#setBtn .markTxt{font-variant-numeric:tabular-nums}
+#setBtn.ttl svg,#setBtn.mark svg{max-width:0;opacity:0;transform:rotate(120deg) scale(0.5)}
+#setBtn.ttl .ttlTxt,#setBtn.mark .markTxt{max-width:190px;opacity:1;padding:0 16px}
 /* the settings window */
 #setModal{position:fixed;inset:0;z-index:20;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.6)}
@@ -369,7 +370,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
     </div>
     <button id="detBtn" title="Detail">Ultra</button>
   </div>
-  <div id="setCorner"><button id="setBtn" title="Settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span class="ttlTxt">True to Life</span></button></div>
+  <div id="setCorner"><button id="setBtn" title="Settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span class="ttlTxt">True to Life</span><span class="markTxt" id="markTxt"></span></button></div>
   <div id="expCorner"><button id="expBtn" title="Download"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8.5 11.5L12 15l3.5-3.5"/><path d="M5 19h14"/></svg></button></div>
   <div id="gridCorner">
   <div id="gridMenu">
@@ -868,8 +869,19 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
   };
   $('setModal').onclick=e=>{ if (e.target===$('setModal')) $('setModal').style.display='none'; };
 }
+// while squares are being marked the gear becomes the tally, and morphs
+// back when the mode ends
+function markBadge(on){
+  const b=$('setBtn');
+  if (on){
+    const total=Math.max(1, GRID_COLS*GRID_ROWS), n=DONE.length;
+    $('markTxt').textContent=n+'/'+total+' \u2013 '+Math.round(100*n/total)+'%';
+    b.classList.add('mark');
+  } else b.classList.remove('mark');
+}
 let ttlT=0;
 function ttlPop(){
+  if (DONETOOL) return;          // the tally owns the button while marking
   const b=$('setBtn');
   b.classList.add('ttl');
   clearTimeout(ttlT);
@@ -1422,6 +1434,7 @@ function initMain(){
   drawGrid();
   circsLoad();
   doneLoad(); DONETOOL=null;
+  markBadge(false);
   drawCircs();
 }
 
@@ -1538,7 +1551,7 @@ vp.addEventListener('pointerup', e => {
       const i=DONE.findIndex(q=>q.c===c && q.r===r2);
       if (i<0) DONE.push({c, r:r2}); else DONE.splice(i,1);
       haptic();
-      doneSave(); drawCircs();
+      doneSave(); drawCircs(); markBadge(true);
     }
     return;
   }
@@ -1945,6 +1958,7 @@ function gridMenuSync(){
     b.style.display = (GM_DOTS_OPEN || +b.dataset.t===GRID_THK) ? '' : 'none';
   });
   $('gmDone').classList.toggle('vOn', !!DONETOOL);
+  markBadge(!!DONETOOL);
 }
 {
   const pal=$('gmPal');
@@ -1969,6 +1983,7 @@ $('gridBtn').onclick=()=>{
   m.style.display=open?'flex':'none';
   $('gmPal').style.display='none';
   DONETOOL=null;                       // the grid button always disengages
+  markBadge(false);
   if (open){ GM_DOTS_OPEN=false; gridMenuSync(); }
 };
 // Mark Square toggles: armed, a tap marks a square; a marked square unmarks
