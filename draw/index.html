@@ -2119,67 +2119,68 @@ function medianBlur(src, W, H, k){
 `;
 const FORM_SRC = MEDIAN_SRC + `
 let SOFT=false;
+function boxBlur(src, W, H, r){
+  const d=2*r+1, tmp=new Float32Array(W*H), out=new Float32Array(W*H);
+  const cx=i=>i<0?0:(i>W-1?W-1:i), cy=i=>i<0?0:(i>H-1?H-1:i);
+  for (let y=0;y<H;y++){
+    const o=y*W; let acc=0;
+    for (let k=-r;k<=r;k++) acc+=src[o+cx(k)];
+    for (let x=0;x<W;x++){
+      tmp[o+x]=acc/d;
+      acc+=src[o+cx(x+r+1)]-src[o+cx(x-r)];
+    }
+  }
+  for (let x=0;x<W;x++){
+    let acc=0;
+    for (let k=-r;k<=r;k++) acc+=tmp[cy(k)*W+x];
+    for (let y=0;y<H;y++){
+      out[y*W+x]=acc/d;
+      acc+=tmp[cy(y+r+1)*W+x]-tmp[cy(y-r)*W+x];
+    }
+  }
+  return out;
+}
 function dtFilter(F, W, H, sigmaS, sigmaR){
   // 2.5: cv2 sums the domain-transform derivative over 3 replicated
   // channels; this factor was tuned to reproduce the reference recipe
   const iters=3, ratio=2.5*sigmaS/sigmaR;
   const dh=new Uint8Array(W*H), dv=new Uint8Array(W*H);
   if (SOFT){
-    // an out-of-focus edge steps only a level or two per pixel, so the
-    // per-pixel test reads it as smooth and flattens it - and the flattened
-    // ramp then splits across the darks and lights passes. Look at 8x8
-    // blocks too: when a block-to-block step is large but no single pixel
-    // inside accounts for it, the transition is SPREAD OUT, and the filter
-    // should stop there. Sharp edges and grain score zero here.
-    const NB=8, CW=Math.max(2,Math.ceil(W/NB)), CH=Math.max(2,Math.ceil(H/NB));
-    const CA=new Float32Array(CW*CH), CN=new Float32Array(CW*CH);
-    const MH=new Float32Array(CW*CH), MV=new Float32Array(CW*CH);
-    for (let y=0;y<H;y++){ const cy=(y/NB)|0;
-      for (let x=0;x<W;x++){ const ci=cy*CW+((x/NB)|0);
-        CA[ci]+=F[y*W+x]; CN[ci]++;
-        if (x>0){ const d=Math.abs(F[y*W+x]-F[y*W+x-1]); if (d>MH[ci]) MH[ci]=d; }
-        if (y>0){ const d=Math.abs(F[y*W+x]-F[(y-1)*W+x]); if (d>MV[ci]) MV[ci]=d; }
-      } }
-    for (let i=0;i<CA.length;i++) CA[i]/=(CN[i]||1);
-    const G1=new Float32Array(CW*CH), G2=new Float32Array(CW*CH);
-    for (let y=0;y<CH;y++) for (let x=1;x<CW;x++) G1[y*CW+x]=Math.abs(CA[y*CW+x]-CA[y*CW+x-1]);
-    for (let y=1;y<CH;y++) for (let x=0;x<CW;x++) G2[y*CW+x]=Math.abs(CA[y*CW+x]-CA[(y-1)*CW+x]);
-    const spread=(g,m)=> g>2 ? Math.max(0, Math.min(1, (g-m)/g)) : 0;
-    // the boost is per block, so it must be read back BILINEARLY - sampling
-    // it block-by-block prints the 8px grid straight into the shading
-    const BH=new Float32Array(CW*CH), BV=new Float32Array(CW*CH);
-    for (let i=0;i<CW*CH;i++){
-      BH[i]=spread(G1[i],MH[i])*G1[i];
-      BV[i]=spread(G2[i],MV[i])*G2[i];
-    }
-    const cl=(v,hi)=> v<0?0:(v>hi?hi:v);
+    // Is this transition SPREAD OUT? Two smooth readings, no grid anywhere:
+    //   coarse = the net step across r pixels of a blurred copy - large at
+    //            any real transition, sharp or soft
+    //   sharp  = how much blurring CHANGES the picture here - large at hard
+    //            edges and grain, near zero on an already-soft ramp
+    // A soft edge is all coarse and no sharp, and only that gets a boost.
+    const r=6;
+    const Bl=boxBlur(boxBlur(F,W,H,r),W,H,r);
+    const sr=new Float32Array(W*H);
+    for (let i=0;i<W*H;i++) sr[i]=Math.abs(F[i]-Bl[i]);
+    const SS=boxBlur(sr,W,H,r);
     for (let y=0;y<H;y++){
-      const o=y*W, ty=(y-NB*0.5)/NB;
-      let yi=Math.floor(ty); const fy=ty-yi;
-      const r0=cl(yi,CH-1)*CW, r1=cl(yi+1,CH-1)*CW;
+      const o=y*W;
       for (let x=1;x<W;x++){
-        const tx=(x-NB*0.5)/NB;
-        const xi=Math.floor(tx), fx=tx-xi;
-        const x0=cl(xi,CW-1), x1=cl(xi+1,CW-1);
-        const t0=BH[r0+x0]+(BH[r0+x1]-BH[r0+x0])*fx;
-        const t1=BH[r1+x0]+(BH[r1+x1]-BH[r1+x0])*fx;
-        const boost=t0+(t1-t0)*fy;
+        const xm=x>0?x-1:0, xp=x<W-1?x+1:W-1;
+        const cg=Math.abs(Bl[o+xp]-Bl[o+xm])*0.5*r;
+        let boost=0;
+        if (cg>2){
+          const sp=1-2*SS[o+x]/cg;
+          if (sp>0) boost=sp*cg;
+        }
         const f=Math.abs(F[o+x]-F[o+x-1]);
         const v=f>boost?f:boost;
         dh[o+x]=v>255?255:v;
       }
     }
     for (let y=1;y<H;y++){
-      const o=y*W, ty=(y-NB*0.5)/NB;
-      let yi=Math.floor(ty); const fy=ty-yi;
-      const r0=cl(yi,CH-1)*CW, r1=cl(yi+1,CH-1)*CW;
+      const o=y*W, om=(y>0?y-1:0)*W, op=(y<H-1?y+1:H-1)*W;
       for (let x=0;x<W;x++){
-        const tx=(x-NB*0.5)/NB;
-        const xi=Math.floor(tx), fx=tx-xi;
-        const x0=cl(xi,CW-1), x1=cl(xi+1,CW-1);
-        const t0=BV[r0+x0]+(BV[r0+x1]-BV[r0+x0])*fx;
-        const t1=BV[r1+x0]+(BV[r1+x1]-BV[r1+x0])*fx;
-        const boost=t0+(t1-t0)*fy;
+        const cg=Math.abs(Bl[op+x]-Bl[om+x])*0.5*r;
+        let boost=0;
+        if (cg>2){
+          const sp=1-2*SS[o+x]/cg;
+          if (sp>0) boost=sp*cg;
+        }
         const f=Math.abs(F[o+x]-F[o-W+x]);
         const v=f>boost?f:boost;
         dv[o+x]=v>255?255:v;
