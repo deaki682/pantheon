@@ -278,7 +278,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <span class="setLbl" style="margin-top:4px">Zoom</span>
       <label><input type="checkbox" id="ttlChk" checked> Stop at True-to-Life scale</label>
       <span class="setLbl" style="margin-top:4px">Shading</span>
-      <label><input type="checkbox" id="softChk" checked> Follow soft edges</label>
+      <label><input type="checkbox" id="softChk"> Follow soft edges</label>
       <span class="setLbl" style="margin-top:4px">Layers</span>
       <label><input type="checkbox" id="progChk" checked> Progressive breakdown (Ultra)</label>
       <span id="verTag">&alpha; 0.5</span>
@@ -1706,7 +1706,7 @@ const LAYERS={dk:true, lt:true, hl:true};
 function progOn(){ try{ return localStorage.getItem('layerProg')!=='0'; }catch(e){ return true; } }
 // the shading engine follows soft edges instead of flattening them. Both
 // engines cache under their own key, so switching back is instant.
-function softOn(){ try{ return localStorage.getItem('softForm')!=='0'; }catch(e){ return true; } }
+function softOn(){ try{ return localStorage.getItem('softForm')==='1'; }catch(e){ return false; } }
 function fkey(){ return CKEY + (softOn() ? '|s' : ''); }
 let GRID_ON=true;
 let GRID_COL='auto', GRID_THK=1;   // 'auto' = the inverting difference grid
