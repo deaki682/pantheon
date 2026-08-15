@@ -2164,7 +2164,8 @@ function dtFilter(F, W, H, sigmaS, sigmaR){
         const cg=Math.abs(Bl[o+xp]-Bl[o+xm])*0.5*r;
         let boost=0;
         if (cg>2){
-          const sp=1-2*SS[o+x]/cg;
+          const sp=1-0.7*SS[o+x]/cg;   // how strictly "soft" is judged:
+          // at 2 the test almost never fired and the ground stayed flat
           if (sp>0) boost=sp*cg;
         }
         const f=Math.abs(F[o+x]-F[o+x-1]);
@@ -2178,7 +2179,8 @@ function dtFilter(F, W, H, sigmaS, sigmaR){
         const cg=Math.abs(Bl[op+x]-Bl[om+x])*0.5*r;
         let boost=0;
         if (cg>2){
-          const sp=1-2*SS[o+x]/cg;
+          const sp=1-0.7*SS[o+x]/cg;   // how strictly "soft" is judged:
+          // at 2 the test almost never fired and the ground stayed flat
           if (sp>0) boost=sp*cg;
         }
         const f=Math.abs(F[o+x]-F[o-W+x]);
