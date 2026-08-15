@@ -182,6 +182,15 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   border:1px solid #555;border-radius:8px;padding:8px;font:inherit}
 #lvBtn,#cmpGridBtn{display:flex;align-items:center;justify-content:center;min-width:44px}
 #cmpRow{justify-content:space-evenly}
+/* a tap on the drawing sends every panel off its nearest edge; tap again
+   and they slide back */
+#hudWrap,#detCorner,#gridCorner,#camCorner,#expCorner,#setCorner,#backBtn{
+  transition:transform 0.3s cubic-bezier(.4,0,.2,1)}
+body.uiHid #hudWrap,body.uiHid #camCorner{transform:translateY(160%)}
+body.uiHid #detCorner,body.uiHid #gridCorner{transform:translate(-50%,160%)}
+body.uiHid #expCorner{transform:translateY(-190%)}
+body.uiHid #setCorner{transform:translate(-50%,-190%)}
+body.uiHid #backBtn{transform:translateY(-190%)}
 /* first-visit coach marks: a darkened veil with one floating line */
 #coach{position:absolute;inset:0;z-index:8;display:none;align-items:center;
   justify-content:center;background:rgba(10,10,10,0.6)}
@@ -462,7 +471,7 @@ addEventListener('popstate', ()=>{
   BACK_ARMED=false;
   if (!$('scrUpload').classList.contains('on')) $('backBtn').onclick();
 });
-const show = id => { tipClose(false);
+const show = id => { tipClose(false); uiShow();
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on')); $(id).classList.add('on');
   $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex';
   if (id!=='scrUpload') backArm();
@@ -1514,19 +1523,36 @@ function endPtr(e){
 vp.addEventListener('pointerup', endPtr);
 vp.addEventListener('pointercancel', endPtr);
 
+// a single tap clears the panels away for an unobstructed look; the wait
+// is the double-tap window, so zooming never flashes the chrome
+let uiTapT=0, UIHID=false;
+function uiToggle(){
+  UIHID=!UIHID;
+  document.body.classList.toggle('uiHid', UIHID);
+  if (UIHID){
+    $('detMenu').style.display='none';
+    $('gridMenu').style.display='none';
+    $('gmPal').style.display='none';
+  }
+}
+function uiShow(){                     // leaving the screen always restores
+  clearTimeout(uiTapT);
+  if (UIHID){ UIHID=false; document.body.classList.remove('uiHid'); }
+}
 // double tap: zoomed in -> all the way out; already out -> all the way in
 // on the tapped spot
 let tapDown=null, tapLast=null;
 vp.addEventListener('pointerdown', e => {
   $('world').style.transition='';
   tapDown = ptrs.size===1 ? {t:Date.now(), x:e.clientX, y:e.clientY, id:e.pointerId} : null;
-  if (ptrs.size>1) tapLast=null;
+  if (ptrs.size>1){ tapLast=null; clearTimeout(uiTapT); }
 });
 vp.addEventListener('pointerup', e => {
   const td=tapDown; tapDown=null;
-  if (!td || td.id!==e.pointerId) { tapLast=null; return; }
+  if (!td || td.id!==e.pointerId) { tapLast=null; clearTimeout(uiTapT); return; }
   const now=Date.now();
-  if (now-td.t>350 || Math.hypot(e.clientX-td.x, e.clientY-td.y)>12){ tapLast=null; return; }
+  if (now-td.t>350 || Math.hypot(e.clientX-td.x, e.clientY-td.y)>12){
+    tapLast=null; clearTimeout(uiTapT); return; }
   {
     // the little x on a mark removes it
     const rect=vp.getBoundingClientRect();
@@ -1535,13 +1561,13 @@ vp.addEventListener('pointerup', e => {
     const hit=CIRCS.findIndex(c=>{ const b=badgePos(c);
       return Math.hypot(b.x-wx, b.y-wy) < rb; });
     if (hit>=0){
-      tapLast=null;
+      tapLast=null; clearTimeout(uiTapT);
       CIRCS.splice(hit,1); circsSave(); drawCircs(); haptic();
       return;
     }
   }
   if (DONETOOL && GRID_READY){
-    tapLast=null;
+    tapLast=null; clearTimeout(uiTapT);
     const rect=vp.getBoundingClientRect();
     const wx=(td.x-rect.left-view.x)/view.s, wy=(td.y-rect.top-view.y)/view.s;
     const {w,h}=worldSize();
@@ -1557,6 +1583,7 @@ vp.addEventListener('pointerup', e => {
   }
   if (tapLast && now-tapLast.t<400 && Math.hypot(td.x-tapLast.x, td.y-tapLast.y)<48){
     tapLast=null;
+    clearTimeout(uiTapT);              // the second tap owns this gesture
     const rect=vp.getBoundingClientRect(), zb=zBounds();
     if (view.s > zb.min*1.02){
       view.s=zb.min;                     // clampView centres a fitted view
@@ -1574,9 +1601,11 @@ vp.addEventListener('pointerup', e => {
     setTimeout(()=>{ w.style.transition=''; }, 240);
   } else {
     tapLast={t:now, x:td.x, y:td.y};
+    clearTimeout(uiTapT);
+    uiTapT=setTimeout(uiToggle, 380);
   }
 });
-vp.addEventListener('pointercancel', ()=>{ tapDown=null; tapLast=null; });
+vp.addEventListener('pointercancel', ()=>{ tapDown=null; tapLast=null; clearTimeout(uiTapT); });
 
 let wheelT=0, wheelStuck=false;
 vp.addEventListener('wheel', e => {
