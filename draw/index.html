@@ -2630,7 +2630,7 @@ function cmpRender(){
           g.globalAlpha=CMP.alpha; drawRef(); g.globalAlpha=1;
         }
       }
-      if (GRID_ON){
+      if (GRID_ON && CMP.showing==='ref'){
         const f=CMP.fit, k=cmpFitK(), {w,h}=worldSize();
         const step=gridStepPx();
         const kd2=cv.width/(cv.getBoundingClientRect().width||cv.width);
@@ -2656,7 +2656,8 @@ function cmpRender(){
     const panes=[
       { ox:0, label:'drawing', draw:g2=>{        // the photo IS the sheet: 1:1
           g2.drawImage(CMP.img, 0, 0, w, h); } },
-      { ox:pw, label:'reference', draw:g2=>{ g2.drawImage($('refImg'), 0, 0, w, h); } }
+      { ox:pw, label:'reference', grid:true,
+        draw:g2=>{ g2.drawImage($('refImg'), 0, 0, w, h); } }
     ];
     for (const pn of panes){
       g.save();
@@ -2665,7 +2666,7 @@ function cmpRender(){
       g.translate(SPL.x,SPL.y); g.scale(SPL.s,SPL.s);
       g.translate(bx,by); g.scale(bs,bs);
       pn.draw(g);
-      if (GRID_ON){
+      if (GRID_ON && pn.grid){
         const kd2=cv.width/(cv.getBoundingClientRect().width||cv.width);
         const step=gridStepPx();
         if (GRID_COL==='auto'){ g.globalCompositeOperation='difference';
