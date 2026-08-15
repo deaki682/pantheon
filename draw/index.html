@@ -109,7 +109,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   to{transform:translate(-50%,-50%) scale(1);opacity:0}}
 #shutter{position:absolute;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));
   transform:translateX(-50%);width:74px;height:74px;border-radius:50%;
-  background:var(--acc);border:4px solid #141414;box-shadow:0 0 0 3px #fff;
+  background:#e03c3c;border:4px solid #141414;box-shadow:0 0 0 3px #fff;
   display:none;padding:0;z-index:6}
 #shutter:active{filter:brightness(0.8)}
 /* the tool panel floats bottom-left over the canvas and can be dismissed */
@@ -185,7 +185,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 /* a tap on the drawing sends every panel off its nearest edge; tap again
    and they slide back */
 #hudWrap,#detCorner,#gridCorner,#camCorner,#expCorner,#setCorner,#backBtn{
-  transition:transform 0.3s cubic-bezier(.4,0,.2,1)}
+  transition:transform 0.2s cubic-bezier(.3,0,.2,1)}
 body.uiHid #hudWrap,body.uiHid #camCorner{transform:translateY(160%)}
 body.uiHid #detCorner,body.uiHid #gridCorner{transform:translate(-50%,160%)}
 body.uiHid #expCorner{transform:translateY(-190%)}
@@ -1527,6 +1527,7 @@ vp.addEventListener('pointercancel', endPtr);
 // is the double-tap window, so zooming never flashes the chrome
 let uiTapT=0, UIHID=false;
 function uiToggle(){
+  tapLast=null;
   UIHID=!UIHID;
   document.body.classList.toggle('uiHid', UIHID);
   if (UIHID){
@@ -1546,6 +1547,9 @@ vp.addEventListener('pointerdown', e => {
   $('world').style.transition='';
   tapDown = ptrs.size===1 ? {t:Date.now(), x:e.clientX, y:e.clientY, id:e.pointerId} : null;
   if (ptrs.size>1){ tapLast=null; clearTimeout(uiTapT); }
+  else if (tapLast && Date.now()-tapLast.t<400
+           && Math.hypot(e.clientX-tapLast.x, e.clientY-tapLast.y)<48)
+    clearTimeout(uiTapT);            // a double tap is starting: stand down
 });
 vp.addEventListener('pointerup', e => {
   const td=tapDown; tapDown=null;
@@ -1602,7 +1606,7 @@ vp.addEventListener('pointerup', e => {
   } else {
     tapLast={t:now, x:td.x, y:td.y};
     clearTimeout(uiTapT);
-    uiTapT=setTimeout(uiToggle, 380);
+    uiTapT=setTimeout(uiToggle, 210);
   }
 });
 vp.addEventListener('pointercancel', ()=>{ tapDown=null; tapLast=null; clearTimeout(uiTapT); });
