@@ -2145,16 +2145,46 @@ function dtFilter(F, W, H, sigmaS, sigmaR){
     for (let y=0;y<CH;y++) for (let x=1;x<CW;x++) G1[y*CW+x]=Math.abs(CA[y*CW+x]-CA[y*CW+x-1]);
     for (let y=1;y<CH;y++) for (let x=0;x<CW;x++) G2[y*CW+x]=Math.abs(CA[y*CW+x]-CA[(y-1)*CW+x]);
     const spread=(g,m)=> g>2 ? Math.max(0, Math.min(1, (g-m)/g)) : 0;
-    for (let y=0;y<H;y++){ const o=y*W, cy=(y/NB)|0;
-      for (let x=1;x<W;x++){ const ci=cy*CW+((x/NB)|0);
+    // the boost is per block, so it must be read back BILINEARLY - sampling
+    // it block-by-block prints the 8px grid straight into the shading
+    const BH=new Float32Array(CW*CH), BV=new Float32Array(CW*CH);
+    for (let i=0;i<CW*CH;i++){
+      BH[i]=spread(G1[i],MH[i])*G1[i];
+      BV[i]=spread(G2[i],MV[i])*G2[i];
+    }
+    const cl=(v,hi)=> v<0?0:(v>hi?hi:v);
+    for (let y=0;y<H;y++){
+      const o=y*W, ty=(y-NB*0.5)/NB;
+      let yi=Math.floor(ty); const fy=ty-yi;
+      const r0=cl(yi,CH-1)*CW, r1=cl(yi+1,CH-1)*CW;
+      for (let x=1;x<W;x++){
+        const tx=(x-NB*0.5)/NB;
+        const xi=Math.floor(tx), fx=tx-xi;
+        const x0=cl(xi,CW-1), x1=cl(xi+1,CW-1);
+        const t0=BH[r0+x0]+(BH[r0+x1]-BH[r0+x0])*fx;
+        const t1=BH[r1+x0]+(BH[r1+x1]-BH[r1+x0])*fx;
+        const boost=t0+(t1-t0)*fy;
         const f=Math.abs(F[o+x]-F[o+x-1]);
-        const v=Math.max(f, spread(G1[ci],MH[ci])*G1[ci]);
-        dh[o+x]=v>255?255:v; } }
-    for (let y=1;y<H;y++){ const o=y*W, cy=(y/NB)|0;
-      for (let x=0;x<W;x++){ const ci=cy*CW+((x/NB)|0);
+        const v=f>boost?f:boost;
+        dh[o+x]=v>255?255:v;
+      }
+    }
+    for (let y=1;y<H;y++){
+      const o=y*W, ty=(y-NB*0.5)/NB;
+      let yi=Math.floor(ty); const fy=ty-yi;
+      const r0=cl(yi,CH-1)*CW, r1=cl(yi+1,CH-1)*CW;
+      for (let x=0;x<W;x++){
+        const tx=(x-NB*0.5)/NB;
+        const xi=Math.floor(tx), fx=tx-xi;
+        const x0=cl(xi,CW-1), x1=cl(xi+1,CW-1);
+        const t0=BV[r0+x0]+(BV[r0+x1]-BV[r0+x0])*fx;
+        const t1=BV[r1+x0]+(BV[r1+x1]-BV[r1+x0])*fx;
+        const boost=t0+(t1-t0)*fy;
         const f=Math.abs(F[o+x]-F[o-W+x]);
-        const v=Math.max(f, spread(G2[ci],MV[ci])*G2[ci]);
-        dv[o+x]=v>255?255:v; } }
+        const v=f>boost?f:boost;
+        dv[o+x]=v>255?255:v;
+      }
+    }
   } else {
   for (let y=0;y<H;y++){
     const o=y*W;
