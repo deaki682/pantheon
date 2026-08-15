@@ -277,6 +277,8 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <div id="accGrid"></div>
       <span class="setLbl" style="margin-top:4px">Zoom</span>
       <label><input type="checkbox" id="ttlChk" checked> Stop at True-to-Life scale</label>
+      <span class="setLbl" style="margin-top:4px">Shading</span>
+      <label><input type="checkbox" id="softChk" checked> Follow soft edges</label>
       <span class="setLbl" style="margin-top:4px">Layers</span>
       <label><input type="checkbox" id="progChk" checked> Progressive breakdown (Ultra)</label>
       <span id="verTag">&alpha; 0.5</span>
@@ -858,6 +860,13 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
   applyAccent(saved);
   $('ttlChk').checked=ttlOn();
   $('ttlChk').onchange=()=>{ try{ localStorage.setItem('ttlStop', $('ttlChk').checked?'1':'0'); }catch(e){} };
+  $('softChk').checked=softOn();
+  $('softChk').onchange=()=>{
+    try{ localStorage.setItem('softForm', $('softChk').checked?'1':'0'); }catch(e){}
+    FORM.cv=null; COMP.cv=null; COMP.sig=null;
+    toast($('softChk').checked ? 'following soft edges' : 'classic shading');
+    if (GRID_READY && state.img) viewRepaint();
+  };
   $('progChk').checked=progOn();
   $('progChk').onchange=()=>{
     try{ localStorage.setItem('layerProg', $('progChk').checked?'1':'0'); }catch(e){}
@@ -1071,12 +1080,12 @@ async function dbHas(k){ try{ const d=await db(); return await new Promise(res=>
   const t=d.transaction('plans').objectStore('plans').getKey(k);
   t.onsuccess=()=>res(t.result!==undefined); t.onerror=()=>res(false); }); }catch(e){ return false; } }
 async function prepReady(){
-  if (FORM.key===CKEY && DET.key===CKEY
+  if (FORM.key===fkey() && DET.key===fkey()
       && DET.lv.hyper && DET.lv.fine && DET.lv.prog) return true;
   for (const k of ['form2|','dtd16hyper|','dtl16hyper|','dth16hyper|',
                    'dtd16fine|','dtl16fine|','dth16fine|',
                    'dtd16prog|','dtl16prog|','dth16prog|'])
-    if (!(await dbHas(k+CKEY))) return false;
+    if (!(await dbHas(k+fkey()))) return false;
   return true;
 }
 async function prepareAll(){
@@ -1085,13 +1094,13 @@ async function prepareAll(){
   if (PREP.active) return;
   PREP={active:true, gid:galActive, p:0.02};
   show('scrUpload'); renderGallery();
-  const key=CKEY;
+  const key=fkey();
   const stage=(base,span)=>{ window.prepProg=p=>{
     PREP.p=base+span*Math.max(0,Math.min(1,p)); }; };
   const wait=async cond=>{
     for (let i=0;i<1500;i++){
       if (cond()) return true;
-      if (CKEY!==key) return false;
+      if (fkey()!==key) return false;
       await new Promise(r=>setTimeout(r,200));
     }
     return false;
@@ -1109,7 +1118,7 @@ async function prepareAll(){
   PREP={active:false, gid:null, p:0};
   window.prepProg=()=>{};
   renderGallery();
-  if (okF && CKEY===key && $('scrUpload').classList.contains('on')){
+  if (okF && fkey()===key && $('scrUpload').classList.contains('on')){
     show('scrMain');
     initMain();
   }
@@ -1695,6 +1704,10 @@ const LAYERS={dk:true, lt:true, hl:true};
 // the light refinement plus the sparkle. Darks stays complete. Reversible
 // in settings.
 function progOn(){ try{ return localStorage.getItem('layerProg')!=='0'; }catch(e){ return true; } }
+// the shading engine follows soft edges instead of flattening them. Both
+// engines cache under their own key, so switching back is instant.
+function softOn(){ try{ return localStorage.getItem('softForm')!=='0'; }catch(e){ return true; } }
+function fkey(){ return CKEY + (softOn() ? '|s' : ''); }
 let GRID_ON=true;
 let GRID_COL='auto', GRID_THK=1;   // 'auto' = the inverting difference grid
 let DONE=[], DONETOOL=null;        // per-square progress dots + armed mode
@@ -1739,8 +1752,8 @@ const grayCanvas=(buf,w,h)=>{
   return c;
 };
 function compParts(){
-  if (COMP.key===CKEY && COMP.ph) return;
-  COMP.key=CKEY;
+  if (COMP.key===fkey() && COMP.ph) return;
+  COMP.key=fkey();
   COMP.ph=grayData(state.img);
   COMP.sh=grayData(FORM.cv);
   const N=COMP.ph.length;
@@ -1773,10 +1786,10 @@ function compositeCv(){
   const prog = progOn() && DETAIL==='ultra';
   let det=null, dP=null;
   if (prog){
-    if (DET.key===CKEY) dP=DET.lv.prog||null;
+    if (DET.key===fkey()) dP=DET.lv.prog||null;
     if (!dP) ensureDetail('prog');       // async; classic ultra stands in
   } else if (DETAIL!=='ultra'){
-    if (DET.key===CKEY && DET.lv[DETAIL]) det=DET.lv[DETAIL];
+    if (DET.key===fkey() && DET.lv[DETAIL]) det=DET.lv[DETAIL];
     else ensureDetail(DETAIL);          // async; the ultra tool stands in
   }
   const ready = prog && dP;
@@ -1826,11 +1839,11 @@ const DET_LABEL={ultra:'Ultra', hyper:'Hyper', fine:'Fine'};
 const DET_SHAPE={hyper:'mid', fine:'nearbroad', prog:'midbroad'};
 const DET={key:null, busy:null, lv:{}};
 async function ensureDetail(lv){
-  if (DET.key!==CKEY){ DET.key=CKEY; DET.lv={}; }
+  if (DET.key!==fkey()){ DET.key=fkey(); DET.lv={}; }
   if (lv==='ultra' || DET.lv[lv] || DET.busy) return;
   DET.busy=lv;
   const {w,h}=worldSize();
-  const key=CKEY;
+  const key=fkey();
   const a=await dbGet('dtd16'+lv+'|'+key), b=await dbGet('dtl16'+lv+'|'+key),
         c=await dbGet('dth16'+lv+'|'+key);
   if (a && b && c){
@@ -1838,7 +1851,7 @@ async function ensureDetail(lv){
       const ca=await blobToCanvas(a), cb=await blobToCanvas(b), cc=await blobToCanvas(c);
       DET.lv[lv]={dD:grayData(ca), lD:grayData(cb), hl:grayData(cc)};
       DET.busy=null;
-      if (key===CKEY && $('scrMain').classList.contains('on')) viewRepaint();
+      if (key===fkey() && $('scrMain').classList.contains('on')) viewRepaint();
       return;
     }catch(e){}
   }
@@ -1859,7 +1872,7 @@ async function ensureDetail(lv){
       return;
     }
     wk.terminate(); DET.busy=null;
-    if (key!==CKEY) return;
+    if (key!==fkey()) return;
     DET.lv[lv]={dD:ev.data.dD, lD:ev.data.lD, hl:ev.data.hl};
     try{
       dbPutRaw('dtd16'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
@@ -1873,7 +1886,7 @@ async function ensureDetail(lv){
 }
 function viewSrc(){
   if (!state.img) return state.img;
-  if (!(FORM.cv && FORM.key===CKEY)){
+  if (!(FORM.cv && FORM.key===fkey())){
     ensureForm();                     // async; the photo stands in meanwhile
     return state.img;
   }
@@ -1891,14 +1904,14 @@ const canvasBlob=(c,type,q)=>{
   return new Blob([u8],{type:type||'image/png'});
 };
 async function ensureForm(){
-  if ((FORM.cv && FORM.key===CKEY) || FORM.busy) return;
-  const key=CKEY; FORM.busy=key;
+  if ((FORM.cv && FORM.key===fkey()) || FORM.busy) return;
+  const key=fkey(); FORM.busy=key;
   const bl=await dbGet('form2|'+key);
   if (bl){
     try{
       const c=await blobToCanvas(bl);
       FORM.cv=c; FORM.key=key; FORM.busy=null;
-      if (key===CKEY && $('scrMain').classList.contains('on')) viewRepaint();
+      if (key===fkey() && $('scrMain').classList.contains('on')) viewRepaint();
       return;
     }catch(e){}
   }
@@ -1914,12 +1927,12 @@ async function ensureForm(){
     FORM.busy=null;
     const c=grayCanvas(ev.data.done,w,h);
     try{ dbPutRaw('form2|'+key, canvasBlob(c)); }catch(e){}
-    if (key!==CKEY) return;            // reformatted mid-cook; the next look recooks
+    if (key!==fkey()) return;          // reformatted mid-cook; the next look recooks
     FORM.cv=c; FORM.key=key;
     if ($('scrMain').classList.contains('on')) viewRepaint();
   };
   wk.onerror=()=>{ wk.terminate(); FORM.busy=null; };
-  wk.postMessage({gray, W:w, H:h}, [gray.buffer]);
+  wk.postMessage({gray, W:w, H:h, soft:softOn()}, [gray.buffer]);
 }
 function toggleLayer(k){
   LAYERS[k]=!LAYERS[k];
@@ -2105,11 +2118,44 @@ function medianBlur(src, W, H, k){
 }
 `;
 const FORM_SRC = MEDIAN_SRC + `
+let SOFT=false;
 function dtFilter(F, W, H, sigmaS, sigmaR){
   // 2.5: cv2 sums the domain-transform derivative over 3 replicated
   // channels; this factor was tuned to reproduce the reference recipe
   const iters=3, ratio=2.5*sigmaS/sigmaR;
   const dh=new Uint8Array(W*H), dv=new Uint8Array(W*H);
+  if (SOFT){
+    // an out-of-focus edge steps only a level or two per pixel, so the
+    // per-pixel test reads it as smooth and flattens it - and the flattened
+    // ramp then splits across the darks and lights passes. Look at 8x8
+    // blocks too: when a block-to-block step is large but no single pixel
+    // inside accounts for it, the transition is SPREAD OUT, and the filter
+    // should stop there. Sharp edges and grain score zero here.
+    const NB=8, CW=Math.max(2,Math.ceil(W/NB)), CH=Math.max(2,Math.ceil(H/NB));
+    const CA=new Float32Array(CW*CH), CN=new Float32Array(CW*CH);
+    const MH=new Float32Array(CW*CH), MV=new Float32Array(CW*CH);
+    for (let y=0;y<H;y++){ const cy=(y/NB)|0;
+      for (let x=0;x<W;x++){ const ci=cy*CW+((x/NB)|0);
+        CA[ci]+=F[y*W+x]; CN[ci]++;
+        if (x>0){ const d=Math.abs(F[y*W+x]-F[y*W+x-1]); if (d>MH[ci]) MH[ci]=d; }
+        if (y>0){ const d=Math.abs(F[y*W+x]-F[(y-1)*W+x]); if (d>MV[ci]) MV[ci]=d; }
+      } }
+    for (let i=0;i<CA.length;i++) CA[i]/=(CN[i]||1);
+    const G1=new Float32Array(CW*CH), G2=new Float32Array(CW*CH);
+    for (let y=0;y<CH;y++) for (let x=1;x<CW;x++) G1[y*CW+x]=Math.abs(CA[y*CW+x]-CA[y*CW+x-1]);
+    for (let y=1;y<CH;y++) for (let x=0;x<CW;x++) G2[y*CW+x]=Math.abs(CA[y*CW+x]-CA[(y-1)*CW+x]);
+    const spread=(g,m)=> g>2 ? Math.max(0, Math.min(1, (g-m)/g)) : 0;
+    for (let y=0;y<H;y++){ const o=y*W, cy=(y/NB)|0;
+      for (let x=1;x<W;x++){ const ci=cy*CW+((x/NB)|0);
+        const f=Math.abs(F[o+x]-F[o+x-1]);
+        const v=Math.max(f, spread(G1[ci],MH[ci])*G1[ci]);
+        dh[o+x]=v>255?255:v; } }
+    for (let y=1;y<H;y++){ const o=y*W, cy=(y/NB)|0;
+      for (let x=0;x<W;x++){ const ci=cy*CW+((x/NB)|0);
+        const f=Math.abs(F[o+x]-F[o-W+x]);
+        const v=Math.max(f, spread(G2[ci],MV[ci])*G2[ci]);
+        dv[o+x]=v>255?255:v; } }
+  } else {
   for (let y=0;y<H;y++){
     const o=y*W;
     for (let x=1;x<W;x++){ const d=Math.abs(F[o+x]-F[o+x-1]); dh[o+x]=d>255?255:d; }
@@ -2117,6 +2163,7 @@ function dtFilter(F, W, H, sigmaS, sigmaR){
   for (let y=1;y<H;y++){
     const o=y*W;
     for (let x=0;x<W;x++){ const d=Math.abs(F[o+x]-F[o-W+x]); dv[o+x]=d>255?255:d; }
+  }
   }
   for (let it=0;it<iters;it++){
     const sigmaH=sigmaS*Math.SQRT2*Math.pow(2,iters-it-1)/Math.sqrt(Math.pow(4,iters)-1);
@@ -2159,6 +2206,7 @@ function gauss(F, W, H, sigma){
 }
 onmessage=e=>{
   const gray=e.data.gray, W=e.data.W, H=e.data.H, N=W*H;
+  SOFT=!!e.data.soft;
   const sc=Math.max(W,H)/2000;
   const odd=k=>{ k=Math.max(3,Math.round(k)); return (k&1)?k:k+1; };
   const img=gray;
