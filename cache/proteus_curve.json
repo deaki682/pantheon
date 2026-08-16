@@ -403,6 +403,16 @@
    "risk_capital": 462.33,
    "tbill_park": 0.0,
    "note": "v3 mark 4 (Sat session, Fri 8/14 close tape: VOO 713.595 / ABUS 4.67 / SPY 776.31): NEW PEAK 2577.79 (+3.11% vs contributed). Reconcile CLEAN (zero orders since 8/13 pair; broker VOO 2.945296 + ABUS 99 == sleeve). Market closed - no orders possible. Watches clean, sweep 26 hits/0 survivors, odd-lot scan negative (16 TO-I all interval-fund/BDC)."
+  },
+  {
+   "date": "2026-08-16",
+   "equity": 2577.7909,
+   "spy": 776.31,
+   "index_park": 2101.7485,
+   "cash_park": 13.7124,
+   "risk_capital": 462.33,
+   "tbill_park": 0.0,
+   "note": "v3 mark 5 (Sun session, Fri 8/14 close tape: VOO 713.595 / ABUS 4.67 / SPY 776.31): equity flat at peak 2577.79 (+3.11% vs contributed) - weekend, no tape. Reconcile CLEAN (zero orders since 8/13 pair; broker VOO 2.945296 + ABUS 99 == sleeve). Watches clean (ABUS/SITC EDGAR verified-entity, nothing new), sweep 26 hits/0 survivors (scripted this session)."
   }
  ]
 }
