@@ -112,6 +112,14 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   background:#e03c3c;border:4px solid #141414;box-shadow:0 0 0 3px #fff;
   display:none;padding:0;z-index:6}
 #shutter:active{filter:brightness(0.8)}
+/* one-tap A/B between the last two single layers */
+#layerFlip{position:absolute;width:74px;height:74px;border-radius:50%;padding:0;
+  background:var(--acc);color:#141414;border:4px solid #141414;
+  box-shadow:0 0 0 3px #fff;font-size:16px;font-weight:700;letter-spacing:.02em;
+  z-index:6;display:none;align-items:center;justify-content:center;
+  touch-action:none;transition:opacity .18s ease, transform .18s ease}
+#layerFlip:active{filter:brightness(0.85)}
+#layerFlip.drag{transform:scale(1.08);box-shadow:0 0 0 3px #fff,0 10px 26px rgba(0,0,0,.55)}
 /* the tool panel floats bottom-left over the canvas and can be dismissed */
 #hudWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
@@ -186,6 +194,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
    and they slide back */
 #hudWrap,#detCorner,#gridCorner,#camCorner,#expCorner,#setCorner,#backBtn{
   transition:transform 0.2s cubic-bezier(.3,0,.2,1)}
+body.uiHid #layerFlip{opacity:0;transform:scale(.75);pointer-events:none}
 body.uiHid #hudWrap,body.uiHid #camCorner{transform:translateY(160%)}
 body.uiHid #detCorner,body.uiHid #gridCorner{transform:translate(-50%,160%)}
 body.uiHid #expCorner{transform:translateY(-190%)}
@@ -397,6 +406,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   </div>
   <button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
   <!-- compare lives behind the camera in the opposite corner -->
+  <button id="layerFlip" title="Flip between the last two layers">Flip</button>
   <div id="camCorner"><button id="compareBtn" title="Compare"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16"/><circle cx="7.5" cy="10" r="1.8"/><path d="M4.6 16.6c0.5-2 1.5-3 2.9-3s2.4 1 2.9 3"/><circle cx="16.5" cy="10" r="1.8"/><path d="M13.6 16.6c0.5-2 1.5-3 2.9-3s2.4 1 2.9 3"/></svg></button></div>
 </div>
 
@@ -1434,6 +1444,7 @@ function initMain(){
   $('hudToggle').textContent='\u270e';
   $('hudToggle').classList.remove('lit','vOn');
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true;
+  LNOW=LWAS=null;
   // the reference remembers its drawing tool across sessions - restored
   // BEFORE the first paint, or the image composes at the old level while
   // the button claims the saved one
@@ -1725,9 +1736,66 @@ function applyGrid(){
   $('gridCv').style.display = GRID_ON ? '' : 'none';
   $('gridBtn').style.opacity = GRID_ON ? '1' : '0.35';
 }
+let LNOW=null, LWAS=null;         // the current and previous single layer
+function flipPlace(){
+  const b=$('layerFlip'); if (!b) return;
+  let p=null;
+  try{ p=JSON.parse(localStorage.getItem('flipPos')||'null'); }catch(e){}
+  if (!p || typeof p.x!=='number') p={x:10, y:Math.round(innerHeight/2-37)};
+  b.style.left=Math.max(4, Math.min(innerWidth-82, p.x))+'px';
+  b.style.top =Math.max(4, Math.min(innerHeight-82, p.y))+'px';
+}
+{
+  // press and hold to pick it up; it remembers where it was put down
+  const b=$('layerFlip');
+  let hold=0, drag=null, moved=false;
+  b.addEventListener('pointerdown', e=>{
+    b.setPointerCapture(e.pointerId);
+    moved=false;
+    const r=b.getBoundingClientRect();
+    const ox=e.clientX-r.left, oy=e.clientY-r.top;
+    clearTimeout(hold);
+    hold=setTimeout(()=>{ drag={ox,oy}; b.classList.add('drag'); haptic(); }, 330);
+  });
+  b.addEventListener('pointermove', e=>{
+    if (!drag) return;
+    moved=true;
+    b.style.left=Math.max(4, Math.min(innerWidth-82, e.clientX-drag.ox))+'px';
+    b.style.top =Math.max(4, Math.min(innerHeight-82, e.clientY-drag.oy))+'px';
+  });
+  const end=()=>{
+    clearTimeout(hold);
+    if (drag){
+      drag=null; b.classList.remove('drag');
+      try{ localStorage.setItem('flipPos', JSON.stringify(
+        {x:parseInt(b.style.left,10), y:parseInt(b.style.top,10)})); }catch(e){}
+    }
+  };
+  b.addEventListener('pointerup', end);
+  b.addEventListener('pointercancel', end);
+  b.onclick=()=>{
+    if (moved){ moved=false; return; }      // that was a move, not a press
+    const on=['dk','lt','hl'].filter(k=>LAYERS[k]);
+    if (on.length!==1 || !LWAS) return;
+    const cur=on[0], nxt=LWAS;
+    LAYERS[cur]=false; LAYERS[nxt]=true;
+    LNOW=nxt; LWAS=cur;                     // so the next press comes straight back
+    layerButtons();
+    if (state.img && GRID_READY) viewRepaint();
+  };
+  addEventListener('resize', flipPlace);
+}
 function layerButtons(){
   for (const [id,k] of [['vDark','dk'],['vLight','lt'],['vSpec','hl']])
     $(id).classList.toggle('vOn', LAYERS[k]);
+  const on=['dk','lt','hl'].filter(k=>LAYERS[k]);
+  const cur = on.length===1 ? on[0] : null;
+  if (cur && cur!==LNOW){ if (LNOW) LWAS=LNOW; LNOW=cur; }
+  // it only earns its place once there are two single layers to compare
+  const open = $('hud').style.display!=='none';
+  const showFlip = open && cur && LWAS && LWAS!==cur;
+  if (showFlip && $('layerFlip').style.display!=='flex') flipPlace();
+  $('layerFlip').style.display = showFlip ? 'flex' : 'none';
 }
 function grayData(src){
   const {w,h}=worldSize();
