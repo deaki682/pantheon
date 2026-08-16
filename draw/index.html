@@ -115,7 +115,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 /* one-tap A/B between the last two single layers */
 #layerFlip{position:absolute;width:74px;height:74px;border-radius:50%;padding:0;
   background:var(--acc);color:#141414;border:4px solid #141414;
-  box-shadow:0 0 0 3px #fff;font-size:16px;font-weight:700;letter-spacing:.02em;
+  box-shadow:0 0 0 3px #fff;
   z-index:6;display:none;align-items:center;justify-content:center;
   touch-action:none;transition:opacity .18s ease, transform .18s ease}
 #layerFlip:active{filter:brightness(0.85)}
@@ -292,7 +292,6 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <span class="setLbl" style="margin-top:4px">Shading</span>
       <label><input type="checkbox" id="softChk"> Follow soft edges</label>
       <span class="setLbl" style="margin-top:4px">Layers</span>
-      <label><input type="checkbox" id="progChk" checked> Progressive breakdown (Ultra)</label>
       <label><input type="checkbox" id="flipChk" checked> Flip button</label>
       <span id="verTag">&alpha; 0.5</span>
     </div>
@@ -410,7 +409,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   </div>
   <button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
   <!-- compare lives behind the camera in the opposite corner -->
-  <button id="layerFlip" title="Flip between the last two layers">Flip</button>
+  <button id="layerFlip" title="Back one layer"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8v6h6"/><path d="M21 16a9 9 0 0 0-9-9 9 9 0 0 0-6.7 3L3 13"/></svg></button>
   <div id="camCorner"><button id="compareBtn" title="Compare"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16"/><circle cx="7.5" cy="10" r="1.8"/><path d="M4.6 16.6c0.5-2 1.5-3 2.9-3s2.4 1 2.9 3"/><circle cx="16.5" cy="10" r="1.8"/><path d="M13.6 16.6c0.5-2 1.5-3 2.9-3s2.4 1 2.9 3"/></svg></button></div>
 </div>
 
@@ -885,12 +884,6 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
   $('flipChk').onchange=()=>{
     try{ localStorage.setItem('flipOff', $('flipChk').checked?'0':'1'); }catch(e){}
     layerButtons();
-  };
-  $('progChk').checked=progOn();
-  $('progChk').onchange=()=>{
-    try{ localStorage.setItem('layerProg', $('progChk').checked?'1':'0'); }catch(e){}
-    layerButtons();
-    if (GRID_READY && state.img) viewRepaint();
   };
   $('setBtn').onclick=()=>{ $('setModal').style.display='flex'; };
   $('invBtn').onclick=async()=>{
@@ -1453,7 +1446,7 @@ function initMain(){
   $('hudToggle').textContent='\u270e';
   $('hudToggle').classList.remove('lit','vOn');
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true;
-  LNOW=LWAS=null;
+  LPREV=null;
   // the reference remembers its drawing tool across sessions - restored
   // BEFORE the first paint, or the image composes at the old level while
   // the button claims the saved one
@@ -1723,7 +1716,7 @@ const LAYERS={dk:true, lt:true, hl:true};
 // hyper achieves - the broad statements - and Brights is everything finer:
 // the light refinement plus the sparkle. Darks stays complete. Reversible
 // in settings.
-function progOn(){ try{ return localStorage.getItem('layerProg')!=='0'; }catch(e){ return true; } }
+function progOn(){ return true; }
 // the shading engine follows soft edges instead of flattening them. Both
 // engines cache under their own key, so switching back is instant.
 function softOn(){ try{ return localStorage.getItem('softForm')==='1'; }catch(e){ return false; } }
@@ -1745,7 +1738,9 @@ function applyGrid(){
   $('gridCv').style.display = GRID_ON ? '' : 'none';
   $('gridBtn').style.opacity = GRID_ON ? '1' : '0.35';
 }
-let LNOW=null, LWAS=null;         // the current and previous single layer
+let LPREV=null;                   // the layer state before the last change
+const lsnap=()=>({dk:LAYERS.dk, lt:LAYERS.lt, hl:LAYERS.hl});
+const lsame=(a,b)=>!!a&&!!b&&a.dk===b.dk&&a.lt===b.lt&&a.hl===b.hl;
 function flipOn(){ try{ return localStorage.getItem('flipOff')!=='1'; }catch(e){ return true; } }
 function flipPlace(){
   const b=$('layerFlip'); if (!b) return;
@@ -1804,11 +1799,10 @@ function flipPlace(){
   b.addEventListener('pointercancel', end);
   b.onclick=()=>{
     if (moved){ moved=false; return; }      // that was a move, not a press
-    const on=['dk','lt','hl'].filter(k=>LAYERS[k]);
-    if (on.length!==1 || !LWAS) return;
-    const cur=on[0], nxt=LWAS;
-    LAYERS[cur]=false; LAYERS[nxt]=true;
-    LNOW=nxt; LWAS=cur;                     // so the next press comes straight back
+    if (!LPREV) return;
+    const cur=lsnap();
+    LAYERS.dk=LPREV.dk; LAYERS.lt=LPREV.lt; LAYERS.hl=LPREV.hl;
+    LPREV=cur;                              // so the next press comes straight back
     layerButtons();
     if (state.img && GRID_READY) viewRepaint();
   };
@@ -1817,12 +1811,9 @@ function flipPlace(){
 function layerButtons(){
   for (const [id,k] of [['vDark','dk'],['vLight','lt'],['vSpec','hl']])
     $(id).classList.toggle('vOn', LAYERS[k]);
-  const on=['dk','lt','hl'].filter(k=>LAYERS[k]);
-  const cur = on.length===1 ? on[0] : null;
-  if (cur && cur!==LNOW){ if (LNOW) LWAS=LNOW; LNOW=cur; }
-  // it only earns its place once there are two single layers to compare
+  // it appears as soon as there is a step to go back to
   const open = $('hud').style.display!=='none';
-  const showFlip = flipOn() && open && cur && LWAS && LWAS!==cur;
+  const showFlip = flipOn() && open && LPREV && !lsame(LPREV, lsnap());
   if (showFlip && $('layerFlip').style.display!=='flex') flipPlace();
   $('layerFlip').style.display = showFlip ? 'flex' : 'none';
 }
@@ -2032,6 +2023,7 @@ async function ensureForm(){
   wk.postMessage({gray, W:w, H:h, soft:softOn()}, [gray.buffer]);
 }
 function toggleLayer(k){
+  LPREV=lsnap();                  // one step back is always this state
   LAYERS[k]=!LAYERS[k];
   layerButtons();
   if (!state.img || !GRID_READY) return;
@@ -3598,6 +3590,7 @@ $('cmpSplit').onclick = () => {
     // the open panel is the layer workshop: it starts from the bare
     // shading with every layer unselected; closing returns the full view
     LAYERS.dk=LAYERS.lt=LAYERS.hl=!o;
+    LPREV=null;                     // opening the workshop starts a fresh build
     layerButtons();
     if (GRID_READY && state.img) viewRepaint();
     if (!o && TOUR.det){ TOUR.det=false; detTip(); }
