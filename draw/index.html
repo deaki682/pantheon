@@ -114,13 +114,13 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #shutter:active{filter:brightness(0.8)}
 /* one-tap A/B between the last two single layers */
 #layerFlip{position:absolute;width:74px;height:74px;border-radius:50%;padding:0;
-  background:var(--acc);color:#141414;border:4px solid #141414;
-  box-shadow:0 0 0 3px #fff;
+  background:rgba(30,30,30,0.82);border:2px solid var(--acc);
+  box-shadow:0 3px 14px rgba(0,0,0,0.42);
   z-index:6;display:none;align-items:center;justify-content:center;
   touch-action:none;transition:opacity .18s ease, transform .18s ease}
-#layerFlip:active{filter:brightness(0.85)}
-#layerFlip.drag{transform:scale(1.08);opacity:.82;
-  box-shadow:0 0 0 3px #fff,0 10px 26px rgba(0,0,0,.55)}
+#layerFlip:active{background:rgba(30,30,30,0.95)}
+#layerFlip.drag{transform:scale(1.08);opacity:.85;
+  box-shadow:0 0 0 2px var(--acc),0 10px 26px rgba(0,0,0,.55)}
 /* the tool panel floats bottom-left over the canvas and can be dismissed */
 #hudWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
