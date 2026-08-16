@@ -119,7 +119,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   z-index:6;display:none;align-items:center;justify-content:center;
   touch-action:none;transition:opacity .18s ease, transform .18s ease}
 #layerFlip:active{filter:brightness(0.85)}
-#layerFlip.drag{transform:scale(1.08);box-shadow:0 0 0 3px #fff,0 10px 26px rgba(0,0,0,.55)}
+#layerFlip.drag{transform:scale(1.08);opacity:.82;
+  box-shadow:0 0 0 3px #fff,0 10px 26px rgba(0,0,0,.55)}
 /* the tool panel floats bottom-left over the canvas and can be dismissed */
 #hudWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
@@ -166,12 +167,14 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   display:flex;align-items:center;justify-content:center;overflow:hidden}
 #setBtn svg{flex:none;max-width:22px;opacity:1;transform:none;
   transition:max-width 0.28s ease, opacity 0.16s ease, transform 0.28s ease}
-#setBtn .ttlTxt,#setBtn .markTxt{display:block;color:var(--acc);font-size:14px;
+#setBtn .ttlTxt,#setBtn .markTxt,#setBtn .hideTxt{display:block;color:var(--acc);font-size:14px;
   white-space:nowrap;max-width:0;opacity:0;padding:0;
   transition:max-width 0.28s ease, opacity 0.18s ease 0.08s, padding 0.28s ease}
 #setBtn .markTxt{font-variant-numeric:tabular-nums}
-#setBtn.ttl svg,#setBtn.mark svg{max-width:0;opacity:0;transform:rotate(120deg) scale(0.5)}
-#setBtn.ttl .ttlTxt,#setBtn.mark .markTxt{max-width:190px;opacity:1;padding:0 16px}
+#setBtn.ttl svg,#setBtn.mark svg,#setBtn.drop svg{max-width:0;opacity:0;transform:rotate(120deg) scale(0.5)}
+#setBtn.ttl .ttlTxt,#setBtn.mark .markTxt,#setBtn.drop .hideTxt{max-width:190px;opacity:1;padding:0 16px}
+#setBtn.drop{border-color:var(--acc);background:var(--accBg)}
+#setBtn.drop.armed{box-shadow:0 0 0 3px var(--acc);transform:scale(1.06)}
 /* the settings window */
 #setModal{position:fixed;inset:0;z-index:20;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.6)}
@@ -290,6 +293,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <label><input type="checkbox" id="softChk"> Follow soft edges</label>
       <span class="setLbl" style="margin-top:4px">Layers</span>
       <label><input type="checkbox" id="progChk" checked> Progressive breakdown (Ultra)</label>
+      <label><input type="checkbox" id="flipChk" checked> Flip button</label>
       <span id="verTag">&alpha; 0.5</span>
     </div>
   </div>
@@ -390,7 +394,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     </div>
     <button id="detBtn" title="Detail">Ultra</button>
   </div>
-  <div id="setCorner"><button id="setBtn" title="Settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span class="ttlTxt">True to Life</span><span class="markTxt" id="markTxt"></span></button></div>
+  <div id="setCorner"><button id="setBtn" title="Settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span class="ttlTxt">True to Life</span><span class="markTxt" id="markTxt"></span><span class="hideTxt">Hide</span></button></div>
   <div id="expCorner"><button id="expBtn" title="Download"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8.5 11.5L12 15l3.5-3.5"/><path d="M5 19h14"/></svg></button></div>
   <div id="gridCorner">
   <div id="gridMenu">
@@ -876,6 +880,11 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
     FORM.cv=null; COMP.cv=null; COMP.sig=null;
     toast($('softChk').checked ? 'following soft edges' : 'classic shading');
     if (GRID_READY && state.img) viewRepaint();
+  };
+  $('flipChk').checked=flipOn();
+  $('flipChk').onchange=()=>{
+    try{ localStorage.setItem('flipOff', $('flipChk').checked?'0':'1'); }catch(e){}
+    layerButtons();
   };
   $('progChk').checked=progOn();
   $('progChk').onchange=()=>{
@@ -1737,6 +1746,7 @@ function applyGrid(){
   $('gridBtn').style.opacity = GRID_ON ? '1' : '0.35';
 }
 let LNOW=null, LWAS=null;         // the current and previous single layer
+function flipOn(){ try{ return localStorage.getItem('flipOff')!=='1'; }catch(e){ return true; } }
 function flipPlace(){
   const b=$('layerFlip'); if (!b) return;
   let p=null;
@@ -1755,18 +1765,37 @@ function flipPlace(){
     const r=b.getBoundingClientRect();
     const ox=e.clientX-r.left, oy=e.clientY-r.top;
     clearTimeout(hold);
-    hold=setTimeout(()=>{ drag={ox,oy}; b.classList.add('drag'); haptic(); }, 330);
+    hold=setTimeout(()=>{
+      drag={ox,oy}; b.classList.add('drag'); haptic();
+      $('setBtn').classList.add('drop');      // the gear offers somewhere to put it
+    }, 330);
   });
+  const overDrop=()=>{
+    const r=b.getBoundingClientRect(), t=$('setBtn').getBoundingClientRect();
+    const cx=r.left+r.width/2, cy=r.top+r.height/2;
+    return cx>t.left-30 && cx<t.right+30 && cy>t.top-30 && cy<t.bottom+30;
+  };
   b.addEventListener('pointermove', e=>{
     if (!drag) return;
     moved=true;
     b.style.left=Math.max(4, Math.min(innerWidth-82, e.clientX-drag.ox))+'px';
     b.style.top =Math.max(4, Math.min(innerHeight-82, e.clientY-drag.oy))+'px';
+    $('setBtn').classList.toggle('armed', overDrop());
   });
   const end=()=>{
     clearTimeout(hold);
     if (drag){
+      const drop=overDrop();
       drag=null; b.classList.remove('drag');
+      $('setBtn').classList.remove('drop','armed');
+      if (drop){
+        try{ localStorage.setItem('flipOff','1'); }catch(e){}
+        if ($('flipChk')) $('flipChk').checked=false;
+        layerButtons();
+        toast('flip hidden - settings brings it back');
+        flipPlace();                       // back to its spot if it returns
+        return;
+      }
       try{ localStorage.setItem('flipPos', JSON.stringify(
         {x:parseInt(b.style.left,10), y:parseInt(b.style.top,10)})); }catch(e){}
     }
@@ -1793,7 +1822,7 @@ function layerButtons(){
   if (cur && cur!==LNOW){ if (LNOW) LWAS=LNOW; LNOW=cur; }
   // it only earns its place once there are two single layers to compare
   const open = $('hud').style.display!=='none';
-  const showFlip = open && cur && LWAS && LWAS!==cur;
+  const showFlip = flipOn() && open && cur && LWAS && LWAS!==cur;
   if (showFlip && $('layerFlip').style.display!=='flex') flipPlace();
   $('layerFlip').style.display = showFlip ? 'flex' : 'none';
 }
