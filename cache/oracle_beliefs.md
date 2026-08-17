@@ -3,6 +3,108 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-08-17 CLOSE — three documents arrived, none of them a kill, and the day's real work was reading them)
+
+Supersedes nothing below. After-close tend, Zeus hourly (Mon), the second pass today —
+run on the closing prints because Standing Duty 1b exists, and this time that mattered:
+the morning pass at 14:18Z saw **zero** new EDGAR documents and the after-close sweep
+found **three**. Reconcile CLEAN 6/6 exact vs broker, zero Oracle orders of any state
+(the account-wide order list since 08-14 is empty). **New peak equity $4,930.51**
+(prior $4,918.71), drawdown 0.00%, breaker `ok`. Book **+10.63%** on the $4,050.06 cost
+basis vs SPY **+2.90%** from the 07-10 entry = **+7.73pp excess, the best reading this
+book has recorded** (prior best +6.96pp at the 08-14 close).
+
+**1. The morning-vs-close disagreement is now a filing-INDEX disagreement, not just a
+price one.** Six sessions of notes have logged that intraday marks and closing marks
+disagree. Today added a second axis: three documents all *dated* 08-14 (TPC 8-K, QTWO
+Form 4, ZVRA 144) were absent from EDGAR's recent-submissions index at 14:18Z and present
+at 20:15Z. So "ZERO new documents" written at a mid-morning pass is a statement about the
+index at that hour, not about the world — and a tend that only ran in the morning would
+have carried a stale all-clear for three days. **Lesson, general: the EDGAR check has a
+publication lag measured in days, and a daily cadence must re-sweep a window (>= 3 days),
+never just "since the last pass".** Today's sweep used `filing_date >= 08-14` and that is
+the only reason the TPC 8-K was seen at all.
+
+**2. TPC now has TWO personnel items in one week, and I read the Form 4 in full rather
+than trusting my own one-line summary of it.** The 08-14 8-K is Item 5.02 ONLY: EVP Civil
+West **William E. Jensen** retiring effective 09-04. Separately the 08-11 Form 4 —
+previously logged here as "the Feltenstein discretionary exit" and never actually opened —
+turns out to be **DIRECTOR Sidney J. Feltenstein selling 184,209 shares on 08-07** across
+four blocks at $95.66–$98.18, taking him from **190,909 to 6,700 shares (~96.5% of the
+stake)** with **no 10b5-1 box checked**, i.e. discretionary. Two different people, so this
+is not one event double-counted. Neither is the typed kill (2 consecutive GAAP loss
+quarters; counter 0 after a record Q2 — $1.6B revenue +19% y/y, $65.7M GAAP net income,
+guidance raised), and both are the ordinary shape of a name that has run +28% into record
+numbers. **It stays a WATCH and stays UNTYPED.** The pre-registered test, written before
+the answer: **a THIRD insider disposition, or any 8-K touching Civil West's results,
+promotes it; a quiet month buries it.** I am recording the discomfort honestly — TPC is
+18.94% of the book and a board member just sold ~96.5% of his position — while refusing
+to convert discomfort into a retroactive kill, which is exactly what Stage 5 forbids.
+
+**3. The peer check earned its keep again, and this time on a move I was not required to
+check.** PAY fell -2.84% (top weight, 19.71%) — under the ~3% trigger, so nothing obliged
+me to pull a set. I pulled one anyway *because* it is the largest position and the second
+odd-looking PAY move in two weeks. Payments/bank-software: **9 of 9 DOWN** (MQ -4.99,
+EEFT -3.66, NCNO -2.81, BILL -2.59, JKHY -2.24, FOUR -2.23, ALKT -2.18, PYPL -1.91,
+TOST -1.22), **median -2.24%**, dispersion **3.77pp** — tighter than 08-13's 6.80pp, so
+the median is *better* evidence today. PAY lands **-0.60pp off it** on a -0.47% tape:
+**sector, not name-specific.** Third time in six sessions the check has subtracted a story
+rather than confirmed one. **Amendment to Duty 1b: the 3% trigger is a floor, not a
+ceiling — a top-three weight making its second unexplained-looking move deserves the set
+regardless of magnitude. One quote call.**
+
+**4. The PAY+QTWO cluster DIVERGED today — the first counter-observation to the 08-13
+finding, and it does not retire that finding.** QTWO -0.46% against the same -2.24%
+median is **+1.78pp of outperformance**; PAY and QTWO moved **2.4pp apart** four sessions
+after moving as one thing. Honest reading: one divergent session is not a refutation of a
+correlation, and — more to the point — **the 08-13 finding was never about a single day.**
+It was that the 37%+ pair is invisible to `size_upside_book` because `sector` is `''`, and
+that blind spot is a *sizing* defect that today's divergence does not touch. Cluster today
+36.07%. Still the top pre-condition of the next round; still deliberately NOT hand-patched.
+
+**5. A standing debt discharged, and it argues the right way.** Duty 0's last open item —
+CF Industries as outside corroboration on LXU kill clause (b) — is DONE. CF's Q2 8-K
+(2026-08-05, acc 0001324404-26-000017): ammonia segment net sales **$586M vs $491M**,
+gross margin **$229M vs $136M**, the release stating ammonia **average selling prices
+INCREASED** on a tight global balance further tightened by Iran-conflict supply losses
+(~1Mt of traded ammonia), with management guiding constructive **into 2027**. Ammonia is
+rising, not collapsing; clause (b) of a CONJUNCTION kill moves further from firing.
+**Scored as corroboration ONLY** — the clause is typed to LXU's own realized-price table,
+which outranks any peer, and I am not letting a peer's good quarter stand in for LXU's.
+
+**6. Two insider sales dispositioned, and the useful distinction is the plan-adoption
+date, not the size.** QTWO's Form 4 is CFO Jonathan Price *executing* the 77,180sh sale
+already dispositioned on 08-14 — the counts match exactly, so it is one event reported
+twice, not a second sale — under a plan **adopted 2025-09-02**, ~11 months before
+execution, retaining 207,633sh (2.7x what he sold). ZVRA's 144 is Secretary Rahsaan
+Thompson noticing 42,666sh (0.072% of shares out) off a 06/21/2025 vest under a plan
+adopted 05/15/2026. **A 10b5-1 sale is uninformative about current knowledge by
+construction** — that is what the plan is for — so the only thing worth logging is the
+adoption date and whether a *pattern* of un-planned selling forms. Feltenstein's TPC sale
+is the one in this session with **no plan behind it**, which is precisely why it is the
+one on watch.
+
+**7. Still zero graded, and a new peak is still not a result.** `due_for_grade
+(2026-08-17)==[]`, `llm_lift` `lift_trustworthy=False` (34 Arm-B / 31 Arm-A unresolved),
+`update_calibration` a no-op at n<5. First grades land 2027-10 onward. **+7.73pp of excess
+over five weeks on six names is a mark, not the 6–24mo forward return the engine is scored
+on**, and it is exactly the kind of number that tempts a narrative. Written flat.
+
+**8. Kills restated, all unfired, and which ones were TESTABLE today.** Testable (a real
+filing arrived): TPC — 8-K carried no financials, counter stays 0; QTWO — Form 4, not a
+financials event; ZVRA — 144, not a product-revenue event. Untestable (no filing): KLIC
+(RE-TYPE still owed, Duty 0b — `<$180M` against a $330M print guiding to $375M cannot
+discriminate), PAY (`YoY growth < 15%`), LXU (conjunction; clause (b) corroborated as
+moving away). Drawdowns HELD per Stage 5: ZVRA -18.22%, KLIC -7.50%, LXU -4.20%.
+A drawdown is never an exit.
+
+**9. Sourcing: still a conscious no-op, and the reason is unchanged.** The 3-day research
+clock has read due since 07-14. The book sits at the spec ceiling of 6 concentrated names
+with $449.94 (9.13%) cash; a fresh Stage 0–4 cascade has nowhere to put a 7th name without
+violating the concentration mandate, and the 07-10 pipeline (73 fundables) is the fallback
+if one frees up. Sourcing earns its credits again when a typed kill frees capital or the
+operator funds. Journaled as a deliberate no-op, not an oversight — 07-14 through 08-17.
+
 ## Worldview (2026-08-17 MID-MORNING — a quiet near-peak hold, nothing new, written flat)
 
 Supersedes nothing below. Mid-morning tend, Zeus hourly (Mon). Reconcile CLEAN 6/6 exact
@@ -1069,10 +1171,15 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    guessed. **Standing lesson from re-verifying it: the journal is append-only and
    authoritative; this file's top section is one evening's snapshot, and a duty
    written into it can outlive the fact that retired it. Check the journal before
-   acting on a duty written here.** (Still open and NOT discharged: pull **CF
-   Industries'** print as outside corroboration on LXU clause (b), scored as
-   corroboration only — the clause is typed to LXU's own realized-price table, which
-   outranks any peer.)
+   acting on a duty written here.** (~~Still open: pull **CF Industries'** print as
+   outside corroboration on LXU clause (b)~~ — **DISCHARGED 2026-08-17.** CF's Q2
+   8-K (2026-08-05, acc 0001324404-26-000017) reports ammonia segment net sales
+   $586M vs $491M and gross margin $229M vs $136M y/y, states ammonia **average
+   selling prices INCREASED** on a tight global nitrogen balance further tightened
+   by Iran-conflict supply losses (~1Mt of traded ammonia), and guides the balance
+   constructive into 2027. Clause (b) moves AWAY from firing. Scored as
+   corroboration ONLY — the clause is typed to LXU's own realized-price table, which
+   outranks any peer, and a peer's good quarter never substitutes for it.)
 0b. **RE-TYPE KLIC'S KILL — in the next FULL round, not in a tend.** `<$180M`
    against a $330M print guiding to $375M is unreachable and can no longer
    discriminate. It must be reset **before** a print, through
@@ -1087,6 +1194,13 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
 1. **Tend daily (cheap):** reconcile fills, mark at official closes, EDGAR-check
    all six held names (CIKs re-resolved from `company_tickers`, never hand-typed);
    evaluate typed kills only on real filings.
+1a. **NEW 2026-08-17 — EDGAR's recent-submissions index LAGS, so sweep a WINDOW,
+   never "since the last pass".** Today's mid-morning tend (14:18Z) recorded ZERO
+   new documents; the after-close sweep at 20:15Z found THREE, all *dated* 08-14
+   (TPC 8-K, QTWO Form 4, ZVRA 144). A "since last pass" filter would have carried a
+   stale all-clear on a TPC 8-K for three days. **Always query `filing_date >=
+   today − 3 days` and re-disposition anything not already in the journal.** A
+   duplicate disposition costs one line; a missed 8-K costs the kill check.
 1b. **Peer-check every move > ~3% BEFORE interpreting it — ON THE CLOSE, and in
    BOTH tape directions.** It has now caught eleven moves in four sessions and been
    right in every direction that matters: it stopped me celebrating PAY's
@@ -1098,6 +1212,12 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    between the 10:12 ET tend and the bell (KLIC −5.83pp → −8.16pp; TPC "none" →
    −4.30pp). **And check the peer set's dispersion:** TPC's E&C median came off a
    set split three-up-13-to-17 / two-down-2, which makes that median weak evidence.
+   **AMENDED 2026-08-17 — the 3% trigger is a FLOOR, not a ceiling.** PAY fell only
+   -2.84% today, under the trigger, but it is the top weight (19.71%) making its
+   second odd-looking move in two weeks, so I pulled the set anyway: 9 of 9 peers
+   DOWN, median -2.24%, dispersion 3.77pp, PAY -0.60pp off it → sector, not the
+   name. **A top-three weight moving oddly earns the set regardless of magnitude.**
+   One quote call is cheaper than one wrong story.
 2. **At each held name's print: test the kill VERBATIM on the FILING, never on the
    after-hours reaction.** Tonight proved why. LXU's −$0.55 EPS "miss" and its
    flat, wide-spread after-hours quote (bid 9.88 / ask 13.02) carried almost no
@@ -1177,7 +1297,35 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    prints. Duty 1b asks for official closes; a 16:06 pass structurally cannot supply them.
    Either accept the last-print basis and SAY SO in the journal (what I did tonight), or
    move the after-close pass later. **Not patched by hand — Zeus owns the dispatch clock,
-   not Oracle.**
+   not Oracle.** **2026-08-17: recurred exactly as described** (`close.date` still lagged
+   to 08-14 at 20:15Z); marks are the 15:59:5x ET prints and the journal says so.
+10. **NEW 2026-08-17 — TPC insider/personnel WATCH, typed BEFORE the answer, NOT a kill.**
+   Two items in one week on the book's #2 weight (18.94%): (i) **DIRECTOR Sidney J.
+   Feltenstein** sold **184,209 sh on 08-07** across four blocks at $95.66–$98.18, going
+   **190,909 → 6,700 shares (~96.5% of the stake)**, with **NO 10b5-1 box checked** =
+   discretionary (Form 4 acc 0000077543-26-000189, read in full 08-17 — the prior
+   sessions' one-line summary had never been opened); (ii) **8-K Item 5.02** (acc
+   0000077543-26-000193): **EVP Civil West William E. Jensen** retiring effective
+   **09-04**. Different people, so not one event double-counted. Neither touches the
+   typed kill (2 consecutive GAAP loss quarters; counter 0 after a record Q2 — $1.6B
+   revenue +19% y/y, $65.7M GAAP net income, guidance raised), and both are the ordinary
+   shape of a name +28% off entry into record numbers. **The promotion test, written
+   before the answer: a THIRD insider disposition, or any 8-K touching Civil West's
+   results. A quiet month buries it.** The discomfort is recorded; it does not become a
+   retroactive kill — Stage 5 forbids exactly that.
+   **Corollary lesson: with 10b5-1 sales, the PLAN-ADOPTION DATE is the information, not
+   the size.** QTWO's CFO sold 77,180sh under a plan adopted 2025-09-02 (~11 months
+   earlier, retains 2.7× what he sold) and ZVRA's Secretary noticed 42,666sh (0.072% of
+   shares out) under a plan adopted 05/15/2026 — both uninformative about current
+   knowledge *by construction*. Feltenstein's is the one with no plan behind it, which is
+   the whole reason it is the one on watch.
+11. **NEW 2026-08-17 — the PAY+QTWO cluster diverged, and that does NOT retire the 08-13
+   finding.** QTWO -0.46% vs PAY -2.84% against a common -2.24% median: 2.4pp apart, four
+   sessions after moving as one thing. One divergent day is not a refutation of a
+   correlation — and more importantly the 08-13 finding was never about a single day. It
+   was that the 36–38% pair is **invisible to `size_upside_book` because `sector` is
+   `''`**, which is a SIZING defect no price day can cure. Duty 6 stands unchanged as the
+   top pre-condition of the next round. Cluster 36.07% today.
 ## Lessons (compounded — do not relearn these)
 
 -1. **A KILL THAT CANNOT FIRE IS DECORATION — and re-typing it in the session that

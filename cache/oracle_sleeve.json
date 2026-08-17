@@ -1,57 +1,57 @@
 {
- "name": "oracle",
- "cash": 449.94,
- "positions": {
-  "KLIC": {
-   "shares": 6.358622,
-   "avg_price": 110.06,
-   "entry_date": "2026-07-10",
-   "sector": "",
-   "cohort_id": ""
+  "name": "oracle",
+  "cash": 449.94,
+  "positions": {
+    "KLIC": {
+      "shares": 6.358622,
+      "avg_price": 110.06,
+      "entry_date": "2026-07-10",
+      "sector": "",
+      "cohort_id": ""
+    },
+    "LXU": {
+      "shares": 55.078467,
+      "avg_price": 10.96,
+      "entry_date": "2026-07-10",
+      "sector": "",
+      "cohort_id": ""
+    },
+    "PAY": {
+      "shares": 23.898856,
+      "avg_price": 28.87,
+      "entry_date": "2026-07-10",
+      "sector": "",
+      "cohort_id": ""
+    },
+    "QTWO": {
+      "shares": 12.517358,
+      "avg_price": 53.0,
+      "entry_date": "2026-07-10",
+      "sector": "",
+      "cohort_id": ""
+    },
+    "TPC": {
+      "shares": 9.607305,
+      "avg_price": 75.9599,
+      "entry_date": "2026-07-10",
+      "sector": "",
+      "cohort_id": ""
+    },
+    "ZVRA": {
+      "shares": 47.034397,
+      "avg_price": 14.105,
+      "entry_date": "2026-07-10",
+      "sector": "",
+      "cohort_id": ""
+    }
   },
-  "LXU": {
-   "shares": 55.078467,
-   "avg_price": 10.96,
-   "entry_date": "2026-07-10",
-   "sector": "",
-   "cohort_id": ""
-  },
-  "PAY": {
-   "shares": 23.898856,
-   "avg_price": 28.87,
-   "entry_date": "2026-07-10",
-   "sector": "",
-   "cohort_id": ""
-  },
-  "QTWO": {
-   "shares": 12.517358,
-   "avg_price": 53.0,
-   "entry_date": "2026-07-10",
-   "sector": "",
-   "cohort_id": ""
-  },
-  "TPC": {
-   "shares": 9.607305,
-   "avg_price": 75.9599,
-   "entry_date": "2026-07-10",
-   "sector": "",
-   "cohort_id": ""
-  },
-  "ZVRA": {
-   "shares": 47.034397,
-   "avg_price": 14.105,
-   "entry_date": "2026-07-10",
-   "sector": "",
-   "cohort_id": ""
-  }
- },
- "pending_settlements": [],
- "realized_pnl": 147.95,
- "gfv_count": 0,
- "trades_count": 29,
- "cooldowns": {},
- "halted": false,
- "contributed_cash": 4353.89,
- "cooldown_days": 31,
- "peak_equity": 4918.71
+  "pending_settlements": [],
+  "realized_pnl": 147.95,
+  "gfv_count": 0,
+  "trades_count": 29,
+  "cooldowns": {},
+  "halted": false,
+  "contributed_cash": 4353.89,
+  "cooldown_days": 31,
+  "peak_equity": 4930.514910700001
 }
