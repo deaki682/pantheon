@@ -3250,7 +3250,8 @@ async function camStart(){
   try{
     const st=await navigator.mediaDevices.getUserMedia({
       video:{ facingMode:{ideal:'environment'},
-              width:{ideal:2560}, height:{ideal:1920} },
+              width:{ideal:3840}, height:{ideal:2880},
+              advanced:[{ focusMode:'continuous', exposureMode:'continuous' }] },
       audio:false });
     CAM.stream=st;
     const v=$('camVid'); v.srcObject=st; v.style.display='block';
@@ -3266,13 +3267,6 @@ async function camStart(){
     clearInterval(CAM.timer); CAM.timer=setInterval(camGhost,250);
     camGhost();
     $('camGhost').style.pointerEvents='auto';   // tap-to-focus while live
-    try{
-      const tr=st.getVideoTracks()[0];
-      tr.applyConstraints({ width:{ideal:4032}, height:{ideal:3024} })
-        .catch(()=>{});
-      tr.applyConstraints({ advanced:[{ focusMode:'continuous' }] })
-        .catch(()=>{});
-    }catch(e){}
     // the last photo waits in the corner - tap it to skip reshooting
     const ls=$('lastShot');
     if (CMP.img && CMP.ckey===CKEY){
@@ -3284,20 +3278,13 @@ async function camStart(){
   }catch(e){ return false; }
 }
 function camFocus(nx, ny){
-  // a single-shot focus at the tapped point, then back to continuous -
-  // flat paper gives autofocus little to bite on, so the artist points it
+  // point the focus without touching the mode - flat paper gives autofocus
+  // little to bite on, so the artist aims it, but the exposure stays put
   if (!CAM.stream) return;
   const tr=CAM.stream.getVideoTracks()[0];
   if (!tr || !tr.applyConstraints) return;
   tr.applyConstraints({ advanced:[{ pointsOfInterest:[{x:nx, y:ny}],
-                                    focusMode:'single-shot' }] })
-    .catch(()=> tr.applyConstraints({ advanced:[{ focusMode:'single-shot' }] })
-    .catch(()=>{}));
-  clearTimeout(CAM.refocusT);
-  CAM.refocusT=setTimeout(()=>{
-    try{ tr.applyConstraints({ advanced:[{ focusMode:'continuous' }] })
-          .catch(()=>{}); }catch(e){}
-  }, 1600);
+                                    focusMode:'continuous' }] }).catch(()=>{});
 }
 $('camGhost').addEventListener('pointerdown', e=>{
   if (!CAM.stream) return;
@@ -3316,7 +3303,6 @@ $('camGhost').addEventListener('pointerdown', e=>{
 function camStop(){
   if (CAM.stream){ for (const t of CAM.stream.getTracks()) t.stop(); CAM.stream=null; }
   $('camGhost').style.pointerEvents='none';
-  clearTimeout(CAM.refocusT);
   clearInterval(CAM.timer); CAM.timer=0; CAM.ghost=null;
   const gg=$('camGhost'); gg.getContext('2d').clearRect(0,0,gg.width,gg.height);
   const v=$('camVid'); v.srcObject=null; v.style.display='none';
