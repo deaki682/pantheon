@@ -1,1062 +1,1073 @@
 [
- {
-  "cash": 1000.0,
-  "equity": 1000.0,
-  "note": "dry-run cycle \u2014 no orders placed, GRNT flagged illiquid",
-  "positions": 0,
-  "timestamp": "2026-06-28T02:12:01.691327"
- },
- {
-  "cash": 1000.0,
-  "equity": 1000.0,
-  "note": "dry_run_pre_live",
-  "positions": 0,
-  "timestamp": "2026-06-28T02:27:26.630283"
- },
- {
-  "date": "2026-06-28T00:00:00",
-  "equity": 1000.0
- },
- {
-  "cash": 1000.0,
-  "equity": 1000.0,
-  "mode": "paper",
-  "n_positions": 0,
-  "ts": "2026-06-28T11:43:15.409949"
- },
- {
-  "cash": 1000.0,
-  "equity": 1000.0,
-  "n_positions": 0,
-  "ts": "2026-06-28T12:47:15.809849"
- },
- {
-  "cash": 99.55,
-  "equity": 1040.2949,
-  "n_positions": 3,
-  "note": "paper cycle \u2014 ESNT/MTG/RRC reconciled; VRRM/RLI/FIS/KBR/OLED/THC/WW/RRC targeted but not placed (paper mode)",
-  "positions": {
-   "ESNT": {
-    "price": 63.94,
-    "shares": 5.023451
-   },
-   "MTG": {
-    "price": 27.845,
-    "shares": 11.273999
-   },
-   "RRC": {
-    "price": 37.37,
-    "shares": 8.178242
-   }
+  {
+    "cash": 1000.0,
+    "equity": 1000.0,
+    "note": "dry-run cycle \u2014 no orders placed, GRNT flagged illiquid",
+    "positions": 0,
+    "timestamp": "2026-06-28T02:12:01.691327"
   },
-  "ts": "2026-06-28T13:25:11.793928"
- },
- {
-  "cash": 99.55,
-  "equity": 1040.2949,
-  "n_positions": 3,
-  "note": "paper cycle \u2014 ADSK/AMT/EQPT/META/OLED/RLI/ZTS/GOOG targeted but not placed (paper mode, pre-trade check halt)",
-  "positions": {
-   "ESNT": {
-    "price": 63.94,
-    "shares": 5.023451
-   },
-   "MTG": {
-    "price": 27.845,
-    "shares": 11.273999
-   },
-   "RRC": {
-    "price": 37.37,
-    "shares": 8.178242
-   }
+  {
+    "cash": 1000.0,
+    "equity": 1000.0,
+    "note": "dry_run_pre_live",
+    "positions": 0,
+    "timestamp": "2026-06-28T02:27:26.630283"
   },
-  "ts": "2026-06-28T23:03:41.463544"
- },
- {
-  "equity": 1040.2948626349998,
-  "ts": "2026-06-28T23:42:05.787277+00:00"
- },
- {
-  "cash": 99.55000000000013,
-  "equity": 999.5500000000002,
-  "n_positions": 8,
-  "note": "paper cycle \u2014 EQPT/OLED/RLI/NYT/MTDR/BFH/ALSN/IBP positions opened (paper mode)",
-  "positions": {
-   "ALSN": {
-    "price": 119.84,
-    "shares": 0.9387516688918558
-   },
-   "BFH": {
-    "price": 106.27,
-    "shares": 1.0586242589630188
-   },
-   "EQPT": {
-    "price": 20.47,
-    "shares": 5.495847581827064
-   },
-   "IBP": {
-    "price": 233.4,
-    "shares": 0.4820051413881748
-   },
-   "MTDR": {
-    "price": 49.905,
-    "shares": 2.254283137962128
-   },
-   "NYT": {
-    "price": 70.75,
-    "shares": 1.5901060070671378
-   },
-   "OLED": {
-    "price": 87.05,
-    "shares": 1.2923607122343481
-   },
-   "RLI": {
-    "price": 57.51,
-    "shares": 1.9561815336463224
-   }
+  {
+    "date": "2026-06-28T00:00:00",
+    "equity": 1000.0
   },
-  "ts": "2026-06-28T23:53:33.393798+00:00"
- },
- {
-  "cash": 51.14776535714287,
-  "equity": 999.1884796428573,
-  "n_positions": 8,
-  "note": "paper cycle \u2014 MRP/KBR/JKHY bought; ALSN/BFH/IBP sold (paper mode, pre-trade check halt as expected)",
-  "positions": {
-   "EQPT": {
-    "price": 20.47,
-    "shares": 5.495847581827064
-   },
-   "JKHY": {
-    "price": 134.96,
-    "shares": 0.9522345245152004
-   },
-   "KBR": {
-    "price": 33.36,
-    "shares": 3.852325282631039
-   },
-   "MRP": {
-    "price": 30.906,
-    "shares": 4.158207837590482
-   },
-   "MTDR": {
-    "price": 49.905,
-    "shares": 2.254283137962128
-   },
-   "NYT": {
-    "price": 70.75,
-    "shares": 1.5901060070671378
-   },
-   "OLED": {
-    "price": 87.05,
-    "shares": 1.2923607122343481
-   },
-   "RLI": {
-    "price": 57.51,
-    "shares": 1.9561815336463224
-   }
+  {
+    "cash": 1000.0,
+    "equity": 1000.0,
+    "mode": "paper",
+    "n_positions": 0,
+    "ts": "2026-06-28T11:43:15.409949"
   },
-  "ts": "2026-06-29T00:57:02.944603+00:00"
- },
- {
-  "cash": 51.14776535714287,
-  "equity": 999.8552588608416,
-  "n_positions": 8,
-  "note": "paper cycle \u2014 no orders, all positions within rebalance band",
-  "positions": {
-   "EQPT": {
-    "price": 20.48,
-    "shares": 5.495847581827064
-   },
-   "JKHY": {
-    "price": 135.0,
-    "shares": 0.9522345245152004
-   },
-   "KBR": {
-    "price": 33.37,
-    "shares": 3.852325282631039
-   },
-   "MRP": {
-    "price": 30.93,
-    "shares": 4.158207837590482
-   },
-   "MTDR": {
-    "price": 49.9,
-    "shares": 2.254283137962128
-   },
-   "NYT": {
-    "price": 70.88,
-    "shares": 1.5901060070671378
-   },
-   "OLED": {
-    "price": 87.16,
-    "shares": 1.2923607122343481
-   },
-   "RLI": {
-    "price": 57.56,
-    "shares": 1.9561815336463224
-   }
+  {
+    "cash": 1000.0,
+    "equity": 1000.0,
+    "n_positions": 0,
+    "ts": "2026-06-28T12:47:15.809849"
   },
-  "ts": "2026-06-29T02:17:50.524000+00:00"
- },
- {
-  "cash": 1000.0,
-  "equity": 1000.0,
-  "n_positions": 0,
-  "note": "paper cycle \u2014 PAPER MODE, no orders placed",
-  "positions": {},
-  "ts": "2026-06-29T03:37:04.971396+00:00"
- },
- {
-  "cash": 99.55219779835002,
-  "equity": 999.52401718035,
-  "n_positions": 8,
-  "note": "oracle cycle: 8 buy orders queued (VITL/PSN/HDSN/CXT/J/MRP/ACM/EQPT)",
-  "positions": {
-   "ACM": {
-    "avg_price": 71.16,
-    "shares": 1.68634
-   },
-   "CXT": {
-    "avg_price": 48.64,
-    "shares": 2.4671
-   },
-   "EQPT": {
-    "avg_price": 20.75,
-    "shares": 2.89156
-   },
-   "HDSN": {
-    "avg_price": 5.56,
-    "shares": 21.58273
-   },
-   "J": {
-    "avg_price": 125.69,
-    "shares": 0.95472
-   },
-   "MRP": {
-    "avg_price": 30.93,
-    "shares": 3.87972
-   },
-   "PSN": {
-    "avg_price": 50.94,
-    "shares": 2.35571
-   },
-   "VITL": {
-    "avg_price": 11.03,
-    "shares": 10.87941
-   }
+  {
+    "cash": 99.55,
+    "equity": 1040.2949,
+    "n_positions": 3,
+    "note": "paper cycle \u2014 ESNT/MTG/RRC reconciled; VRRM/RLI/FIS/KBR/OLED/THC/WW/RRC targeted but not placed (paper mode)",
+    "positions": {
+      "ESNT": {
+        "price": 63.94,
+        "shares": 5.023451
+      },
+      "MTG": {
+        "price": 27.845,
+        "shares": 11.273999
+      },
+      "RRC": {
+        "price": 37.37,
+        "shares": 8.178242
+      }
+    },
+    "ts": "2026-06-28T13:25:11.793928"
   },
-  "ts": "2026-06-29T04:11:59.038408+00:00"
- },
- {
-  "allocation": 1000.0,
-  "attribution": {
-   "reason": "0 common dates, need 7",
-   "skipped": true
+  {
+    "cash": 99.55,
+    "equity": 1040.2949,
+    "n_positions": 3,
+    "note": "paper cycle \u2014 ADSK/AMT/EQPT/META/OLED/RLI/ZTS/GOOG targeted but not placed (paper mode, pre-trade check halt)",
+    "positions": {
+      "ESNT": {
+        "price": 63.94,
+        "shares": 5.023451
+      },
+      "MTG": {
+        "price": 27.845,
+        "shares": 11.273999
+      },
+      "RRC": {
+        "price": 37.37,
+        "shares": 8.178242
+      }
+    },
+    "ts": "2026-06-28T23:03:41.463544"
   },
-  "cash": 99.55219779835002,
-  "equity": 999.52401718035,
-  "n_positions": 8,
-  "note": "oracle cycle: no new orders (all positions within rebalance band; 8 buy orders still queued)",
-  "positions": {
-   "ACM": {
-    "price": 71.01,
-    "shares": 1.68634
-   },
-   "CXT": {
-    "price": 48.65,
-    "shares": 2.4671
-   },
-   "EQPT": {
-    "price": 20.47,
-    "shares": 2.89156
-   },
-   "HDSN": {
-    "price": 5.535,
-    "shares": 21.58273
-   },
-   "J": {
-    "price": 125.665,
-    "shares": 0.95472
-   },
-   "MRP": {
-    "price": 30.9056,
-    "shares": 3.87972
-   },
-   "PSN": {
-    "price": 50.91,
-    "shares": 2.35571
-   },
-   "VITL": {
-    "price": 11.19,
-    "shares": 10.87941
-   }
+  {
+    "equity": 1040.2948626349998,
+    "ts": "2026-06-28T23:42:05.787277+00:00"
   },
-  "ts": "2026-06-29T04:21:43.652394+00:00"
- },
- {
-  "allocation": 1000.0,
-  "attribution": {
-   "reason": "no historicals for MTUM \u2014 only 2 days equity curve",
-   "skipped": true
+  {
+    "cash": 99.55000000000013,
+    "equity": 999.5500000000002,
+    "n_positions": 8,
+    "note": "paper cycle \u2014 EQPT/OLED/RLI/NYT/MTDR/BFH/ALSN/IBP positions opened (paper mode)",
+    "positions": {
+      "ALSN": {
+        "price": 119.84,
+        "shares": 0.9387516688918558
+      },
+      "BFH": {
+        "price": 106.27,
+        "shares": 1.0586242589630188
+      },
+      "EQPT": {
+        "price": 20.47,
+        "shares": 5.495847581827064
+      },
+      "IBP": {
+        "price": 233.4,
+        "shares": 0.4820051413881748
+      },
+      "MTDR": {
+        "price": 49.905,
+        "shares": 2.254283137962128
+      },
+      "NYT": {
+        "price": 70.75,
+        "shares": 1.5901060070671378
+      },
+      "OLED": {
+        "price": 87.05,
+        "shares": 1.2923607122343481
+      },
+      "RLI": {
+        "price": 57.51,
+        "shares": 1.9561815336463224
+      }
+    },
+    "ts": "2026-06-28T23:53:33.393798+00:00"
   },
-  "cash": 54.46955484190002,
-  "equity": 1001.2681766419,
-  "n_positions": 8,
-  "note": "oracle cycle: cancelled ACM+EQPT pending buys (scored out of top-8); opened INFU+VTSI (new top-8 entries). 8 positions total. attribution skipped: <7 common date bars",
-  "positions": {
-   "CXT": {
-    "price": 48.64,
-    "shares": 2.4671
-   },
-   "HDSN": {
-    "price": 5.56,
-    "shares": 21.58273
-   },
-   "INFU": {
-    "price": 10.05,
-    "shares": 11.19701
-   },
-   "J": {
-    "price": 125.69,
-    "shares": 0.95472
-   },
-   "MRP": {
-    "price": 30.93,
-    "shares": 3.87972
-   },
-   "PSN": {
-    "price": 50.94,
-    "shares": 2.35571
-   },
-   "VITL": {
-    "price": 11.19,
-    "shares": 10.87941
-   },
-   "VTSI": {
-    "price": 3.27,
-    "shares": 34.41284
-   }
+  {
+    "cash": 51.14776535714287,
+    "equity": 999.1884796428573,
+    "n_positions": 8,
+    "note": "paper cycle \u2014 MRP/KBR/JKHY bought; ALSN/BFH/IBP sold (paper mode, pre-trade check halt as expected)",
+    "positions": {
+      "EQPT": {
+        "price": 20.47,
+        "shares": 5.495847581827064
+      },
+      "JKHY": {
+        "price": 134.96,
+        "shares": 0.9522345245152004
+      },
+      "KBR": {
+        "price": 33.36,
+        "shares": 3.852325282631039
+      },
+      "MRP": {
+        "price": 30.906,
+        "shares": 4.158207837590482
+      },
+      "MTDR": {
+        "price": 49.905,
+        "shares": 2.254283137962128
+      },
+      "NYT": {
+        "price": 70.75,
+        "shares": 1.5901060070671378
+      },
+      "OLED": {
+        "price": 87.05,
+        "shares": 1.2923607122343481
+      },
+      "RLI": {
+        "price": 57.51,
+        "shares": 1.9561815336463224
+      }
+    },
+    "ts": "2026-06-29T00:57:02.944603+00:00"
   },
-  "ts": "2026-06-29T07:01:23.800686+00:00"
- },
- {
-  "allocation": 1000.0,
-  "attribution": {
-   "reason": "cohort day 0, no common dates yet",
-   "skipped": true
+  {
+    "cash": 51.14776535714287,
+    "equity": 999.8552588608416,
+    "n_positions": 8,
+    "note": "paper cycle \u2014 no orders, all positions within rebalance band",
+    "positions": {
+      "EQPT": {
+        "price": 20.48,
+        "shares": 5.495847581827064
+      },
+      "JKHY": {
+        "price": 135.0,
+        "shares": 0.9522345245152004
+      },
+      "KBR": {
+        "price": 33.37,
+        "shares": 3.852325282631039
+      },
+      "MRP": {
+        "price": 30.93,
+        "shares": 4.158207837590482
+      },
+      "MTDR": {
+        "price": 49.9,
+        "shares": 2.254283137962128
+      },
+      "NYT": {
+        "price": 70.88,
+        "shares": 1.5901060070671378
+      },
+      "OLED": {
+        "price": 87.16,
+        "shares": 1.2923607122343481
+      },
+      "RLI": {
+        "price": 57.56,
+        "shares": 1.9561815336463224
+      }
+    },
+    "ts": "2026-06-29T02:17:50.524000+00:00"
   },
-  "cash": 99.55000000000013,
-  "equity": 999.5500000000002,
-  "n_positions": 8,
-  "note": "oracle cycle: cohort-2026-06-29 opened. 8 buys queued (VITL/INFU/PSN/HDSN/VTSI/CXT/J/MRP). attribution skipped: cohort day 0.",
-  "positions": {
-   "CXT": {
-    "price": 48.65,
-    "shares": 2.31244
-   },
-   "HDSN": {
-    "price": 5.535,
-    "shares": 20.3252
-   },
-   "INFU": {
-    "price": 9.97,
-    "shares": 11.28385
-   },
-   "J": {
-    "price": 125.665,
-    "shares": 0.89524
-   },
-   "MRP": {
-    "price": 30.906,
-    "shares": 3.64007
-   },
-   "PSN": {
-    "price": 50.91,
-    "shares": 2.20978
-   },
-   "VITL": {
-    "price": 11.19,
-    "shares": 10.05362
-   },
-   "VTSI": {
-    "price": 3.24,
-    "shares": 34.72222
-   }
+  {
+    "cash": 1000.0,
+    "equity": 1000.0,
+    "n_positions": 0,
+    "note": "paper cycle \u2014 PAPER MODE, no orders placed",
+    "positions": {},
+    "ts": "2026-06-29T03:37:04.971396+00:00"
   },
-  "ts": "2026-06-29T08:40:02.015154Z"
- },
- {
-  "allocation": 1000.0,
-  "attribution": {
-   "reason": "1 common dates, need 7",
-   "skipped": true
+  {
+    "cash": 99.55219779835002,
+    "equity": 999.52401718035,
+    "n_positions": 8,
+    "note": "oracle cycle: 8 buy orders queued (VITL/PSN/HDSN/CXT/J/MRP/ACM/EQPT)",
+    "positions": {
+      "ACM": {
+        "avg_price": 71.16,
+        "shares": 1.68634
+      },
+      "CXT": {
+        "avg_price": 48.64,
+        "shares": 2.4671
+      },
+      "EQPT": {
+        "avg_price": 20.75,
+        "shares": 2.89156
+      },
+      "HDSN": {
+        "avg_price": 5.56,
+        "shares": 21.58273
+      },
+      "J": {
+        "avg_price": 125.69,
+        "shares": 0.95472
+      },
+      "MRP": {
+        "avg_price": 30.93,
+        "shares": 3.87972
+      },
+      "PSN": {
+        "avg_price": 50.94,
+        "shares": 2.35571
+      },
+      "VITL": {
+        "avg_price": 11.03,
+        "shares": 10.87941
+      }
+    },
+    "ts": "2026-06-29T04:11:59.038408+00:00"
   },
-  "cash": 1099.55,
-  "date": "2026-06-30",
-  "equity": 1999.3665,
-  "n_positions": 5,
-  "note": "oracle cycle: cohort-2026-06-29 held. no thesis-breaks. no trades. attribution skipped (<7 common dates).",
-  "positions": {
-   "CXT": {
-    "price": 49.14,
-    "shares": 3.714865
-   },
-   "HDSN": {
-    "price": 5.48,
-    "shares": 32.200357
-   },
-   "J": {
-    "price": 123.81,
-    "shares": 1.42387
-   },
-   "PSN": {
-    "price": 51.32,
-    "shares": 3.557815
-   },
-   "VITL": {
-    "price": 11.3,
-    "shares": 16.100322
-   }
+  {
+    "allocation": 1000.0,
+    "attribution": {
+      "reason": "0 common dates, need 7",
+      "skipped": true
+    },
+    "cash": 99.55219779835002,
+    "equity": 999.52401718035,
+    "n_positions": 8,
+    "note": "oracle cycle: no new orders (all positions within rebalance band; 8 buy orders still queued)",
+    "positions": {
+      "ACM": {
+        "price": 71.01,
+        "shares": 1.68634
+      },
+      "CXT": {
+        "price": 48.65,
+        "shares": 2.4671
+      },
+      "EQPT": {
+        "price": 20.47,
+        "shares": 2.89156
+      },
+      "HDSN": {
+        "price": 5.535,
+        "shares": 21.58273
+      },
+      "J": {
+        "price": 125.665,
+        "shares": 0.95472
+      },
+      "MRP": {
+        "price": 30.9056,
+        "shares": 3.87972
+      },
+      "PSN": {
+        "price": 50.91,
+        "shares": 2.35571
+      },
+      "VITL": {
+        "price": 11.19,
+        "shares": 10.87941
+      }
+    },
+    "ts": "2026-06-29T04:21:43.652394+00:00"
   },
-  "ts": "2026-06-30T06:18:11.961359Z"
- },
- {
-  "allocation": 1000.0,
-  "attribution": {
-   "reason": "cohort day 1, need 6+ common return dates",
-   "skipped": true
+  {
+    "allocation": 1000.0,
+    "attribution": {
+      "reason": "no historicals for MTUM \u2014 only 2 days equity curve",
+      "skipped": true
+    },
+    "cash": 54.46955484190002,
+    "equity": 1001.2681766419,
+    "n_positions": 8,
+    "note": "oracle cycle: cancelled ACM+EQPT pending buys (scored out of top-8); opened INFU+VTSI (new top-8 entries). 8 positions total. attribution skipped: <7 common date bars",
+    "positions": {
+      "CXT": {
+        "price": 48.64,
+        "shares": 2.4671
+      },
+      "HDSN": {
+        "price": 5.56,
+        "shares": 21.58273
+      },
+      "INFU": {
+        "price": 10.05,
+        "shares": 11.19701
+      },
+      "J": {
+        "price": 125.69,
+        "shares": 0.95472
+      },
+      "MRP": {
+        "price": 30.93,
+        "shares": 3.87972
+      },
+      "PSN": {
+        "price": 50.94,
+        "shares": 2.35571
+      },
+      "VITL": {
+        "price": 11.19,
+        "shares": 10.87941
+      },
+      "VTSI": {
+        "price": 3.27,
+        "shares": 34.41284
+      }
+    },
+    "ts": "2026-06-29T07:01:23.800686+00:00"
   },
-  "cash": 199.4814,
-  "date": "2026-06-30",
-  "equity": 1999.3322,
-  "n_positions": 5,
-  "note": "oracle cycle: cohort-2026-06-29 held, no thesis-breaks. top-up buys queued for HDSN/CXT/VITL/J/PSN ($899.61 total). attribution skipped (<6 common dates with factor ETFs).",
-  "positions": {
-   "CXT": {
-    "price": 49.14,
-    "shares": 7.323735
-   },
-   "HDSN": {
-    "price": 5.48,
-    "shares": 65.672977
-   },
-   "J": {
-    "price": 123.81,
-    "shares": 2.90678
-   },
-   "PSN": {
-    "price": 51.32,
-    "shares": 7.0207049999999995
-   },
-   "VITL": {
-    "price": 11.3,
-    "shares": 31.848101999999997
-   }
+  {
+    "allocation": 1000.0,
+    "attribution": {
+      "reason": "cohort day 0, no common dates yet",
+      "skipped": true
+    },
+    "cash": 99.55000000000013,
+    "equity": 999.5500000000002,
+    "n_positions": 8,
+    "note": "oracle cycle: cohort-2026-06-29 opened. 8 buys queued (VITL/INFU/PSN/HDSN/VTSI/CXT/J/MRP). attribution skipped: cohort day 0.",
+    "positions": {
+      "CXT": {
+        "price": 48.65,
+        "shares": 2.31244
+      },
+      "HDSN": {
+        "price": 5.535,
+        "shares": 20.3252
+      },
+      "INFU": {
+        "price": 9.97,
+        "shares": 11.28385
+      },
+      "J": {
+        "price": 125.665,
+        "shares": 0.89524
+      },
+      "MRP": {
+        "price": 30.906,
+        "shares": 3.64007
+      },
+      "PSN": {
+        "price": 50.91,
+        "shares": 2.20978
+      },
+      "VITL": {
+        "price": 11.19,
+        "shares": 10.05362
+      },
+      "VTSI": {
+        "price": 3.24,
+        "shares": 34.72222
+      }
+    },
+    "ts": "2026-06-29T08:40:02.015154Z"
   },
-  "ts": "2026-06-30T06:42:14.401430Z"
- },
- {
-  "date": "2026-06-30",
-  "equity": 1997.026,
-  "intraday": true,
-  "ts": "2026-06-30T14:17:40Z"
- },
- {
-  "cash": 199.4813921007501,
-  "equity": 2045.1098950557503,
-  "mode": "live",
-  "n_positions": 5,
-  "note": "cohort_hold_no_trades",
-  "ts": "2026-07-01T03:15:31.198940+00:00"
- },
- {
-  "cash": 199.4813921007501,
-  "date": "2026-07-04",
-  "equity": 2139.36743584575,
-  "mode": "live",
-  "n_positions": 5,
-  "note": "oracle cycle: cohort-2026-06-29 held, no thesis-breaks (all 5 positions up from entry, largest drawdown 0%). no excess cash for top-up (cash $199.48 < 10% floor $213.94 + $50 ticket). research pass: dossier pool at 93 (target 60-100), no stale dossiers (0 flagged), added candidates from screen. attribution skipped: insufficient equity-curve history (2 daily dates, need 6+). capital gate: 3 graded calls (need 30) -- stays at base allocation.",
-  "ts": "2026-07-04T04:14:30.752608+00:00"
- },
- {
-  "date": "2026-07-07",
-  "timestamp": "2026-07-07T14:17:00Z",
-  "equity": 4089.75,
-  "spy": 746.95,
-  "cash": 2227.63,
-  "peak_equity": 4089.75,
-  "note": "tend-only: reconciled SEER/NNDM/FULC broker fills into sleeve; kill_conditions checked (no bid withdrawal, no value-destructive M&A, no dilutive reverse merger found) \u2014 none triggered"
- },
- {
-  "timestamp": "2026-07-07T15:12:00Z",
-  "equity": 4107.73,
-  "cash": 2227.626744999999,
-  "positions_value": 1880.1
- },
- {
-  "timestamp": "2026-07-07T21:15:00Z",
-  "equity": 4117.66,
-  "cash": 2227.626744999999,
-  "positions_value": 1890.035,
-  "note": "zeus tend-only pass"
- },
- {
-  "timestamp": "2026-07-14T13:12:00Z",
-  "equity": 4436.01,
-  "cash": 449.94,
-  "positions_value": 3986.07,
-  "note": "zeus tend pass \u2014 marked at 2026-07-13 closes (pre-market); book upside-2026-07-10-r1"
- },
- {
-  "timestamp": "2026-07-14T14:11:00Z",
-  "equity": 4458.35,
-  "cash": 449.94,
-  "positions_value": 4008.41,
-  "note": "zeus tend pass ~10:11 ET live quotes; book upside-2026-07-10-r1; SPY 749.86 (spy_entry 751.31)"
- },
- {
-  "timestamp": "2026-07-14T15:20:00Z",
-  "equity": 4470.52,
-  "cash": 449.94,
-  "positions_value": 4020.58,
-  "note": "zeus tend pass ~11:20 ET live quotes; book upside-2026-07-10-r1; SPY 751.85 (spy_entry 751.31)"
- },
- {
-  "timestamp": "2026-07-14T16:15:00Z",
-  "equity": 4463.42,
-  "cash": 449.94,
-  "positions_value": 4013.48,
-  "note": "zeus tend pass ~12:15 ET live quotes; book upside-2026-07-10-r1; SPY 750.53 (spy_entry 751.31)"
- },
- {
-  "timestamp": "2026-07-14T17:11:00Z",
-  "equity": 4467.55,
-  "cash": 449.94,
-  "positions_value": 4017.61,
-  "note": "zeus tend pass ~13:11 ET live quotes; book upside-2026-07-10-r1 healthy, no kills evaluable (print-based, ~Aug); SPY 752.15"
- },
- {
-  "timestamp": "2026-07-14T18:15:00Z",
-  "equity": 4459.16,
-  "cash": 449.94,
-  "positions_value": 4009.22,
-  "note": "zeus tend pass ~14:15 ET live quotes; book upside-2026-07-10-r1; no filings since entry, no kills evaluable; SPY 752.555 (spy_entry 751.31)"
- },
- {
-  "timestamp": "2026-07-14T20:05:00Z",
-  "equity": 4450.12,
-  "cash": 449.94,
-  "positions_value": 4000.18,
-  "note": "zeus tend pass 16:04 ET close marks; book upside-2026-07-10-r1 -1.11% vs basis, SPY +0.08% from spy_entry 751.31 (SPY 751.88); EDGAR clean since 07-10, no kills evaluable (print-based, ~Aug); reconcile clean, no open orders; A/B nothing due"
- },
- {
-  "timestamp": "2026-07-15T13:10:00Z",
-  "equity": 4451.35,
-  "cash": 449.94,
-  "positions_value": 4001.41,
-  "note": "zeus tend pass ~09:10 ET pre-market, marked at 2026-07-14 official closes; book upside-2026-07-10-r1 -1.08% vs basis, SPY +0.07% from spy_entry 751.31; EDGAR clean since entry on all six (checked 07-15), no kills evaluable (print-based, ~Jul/Aug); A/B due_for_grade=0; reconcile clean (no oracle orders; the 07-14 VXUS sell is not ledgered to oracle)"
- },
- {
-  "date": "2026-07-15",
-  "equity": 4475.95,
-  "spy": 754.94,
-  "note": "tend: 6/6 marked live 10:13ET; broker==sleeve exact; no fresh filings; no kills evaluable; ab due=0"
- },
- {
-  "timestamp": "2026-07-15T15:10:00Z",
-  "equity": 4458.46,
-  "cash": 449.94,
-  "positions_value": 4008.52,
-  "spy": 754.02,
-  "note": "zeus tend ~11:09 ET live marks; book upside-2026-07-10-r1 -0.92% vs basis, SPY +0.36% from spy_entry 751.31; reconcile clean; EDGAR clean since entry, no kills evaluable; ab due=0"
- },
- {
-  "timestamp": "2026-07-15T16:14:00Z",
-  "equity": 4412.17,
-  "cash": 449.94,
-  "positions_value": 3962.23,
-  "spy": 751.52,
-  "note": "zeus tend ~12:14 ET live marks; book upside-2026-07-10-r1 -1.95% vs 4500 basis, SPY +0.03% from spy_entry 751.31 (excess -1.98pp); reconcile clean (broker==sleeve exact 6/6; only account order since 07-14 is operator VXUS sell, not oracle's); EDGAR clean since 07-10 entry -> no typed kill evaluable; KLIC -6.2% intraday on no filing/news event (valuation/vol, kill is print-based ~Aug); ZVRA worst wobble -9.25% vs entry; ab due=0"
- },
- {
-  "timestamp": "2026-07-15T17:09:00Z",
-  "equity": 4409.63,
-  "cash": 449.94,
-  "positions_value": 3959.69,
-  "spy": 752.095,
-  "note": "zeus tend ~13:09 ET live marks; book upside-2026-07-10-r1 -2.01% vs 4500 basis, SPY +0.10% from spy_entry 751.31 (excess -2.11%); reconcile clean (broker==sleeve exact 6/6; only account order since 07-14 is operator VXUS agentic sell, filled 07-15 13:30Z, not oracle's); EDGAR re-checked all six CIKs: zero filings since 07-10 entry -> no typed kill evaluable (all print-based, ~Jul/Aug prints); ZVRA worst wobble -10.3% vs entry - a drawdown is never an exit; KLIC -4.9% intraday, no filing; ab due=0; sourcing conscious no-op (book fully deployed, 07-10 pipeline fresh)"
- },
- {
-  "timestamp": "2026-07-15T18:20:00Z",
-  "equity": 4431.64,
-  "cash": 449.94,
-  "positions_value": 3981.7,
-  "spy": 754.68,
-  "note": "zeus tend ~14:13 ET live marks; book upside-2026-07-10-r1 -1.52% vs 4500 basis, SPY +0.45% from spy_entry 751.31 (excess -1.97pp); reconcile clean (broker==sleeve exact 6/6, no open oracle orders); EDGAR all six CIKs: zero filings since 07-10 entry -> no typed kill evaluable; ZVRA worst wobble -10.07%, TPC +4.02% best - drawdowns never exits; ab due=0"
- },
- {
-  "timestamp": "2026-07-15T19:16:00Z",
-  "equity": 4441.03,
-  "cash": 449.94,
-  "positions_value": 3991.09,
-  "spy": 753.79,
-  "note": "zeus tend ~15:14 ET live marks; book upside-2026-07-10-r1 -1.31% vs 4500 basis, SPY +0.33% from spy_entry 751.31 (excess -1.64pp); reconcile clean (broker==sleeve exact 6/6, no open oracle orders; only account order since 07-14 is the operator's agentic VXUS sell, filled 07-15 13:30Z); EDGAR all six CIKs: zero filings since 07-10 entry -> no typed kill evaluable; ZVRA worst wobble -9.54%, TPC +4.16% best - drawdowns never exits; ab due=0"
- },
- {
-  "timestamp": "2026-07-16T13:10:00Z",
-  "equity": 4460.8,
-  "cash": 449.94,
-  "positions_value": 4010.86,
-  "spy": 754.81,
-  "note": "zeus tend 09:10 ET pre-market, marks = official 07-15 closes; book upside-2026-07-10-r1 -0.87% vs 4500 basis, SPY +0.47% from spy_entry 751.31 (excess -1.34pp); reconcile clean (no agentic orders since 07-15, no open oracle orders); EDGAR all six: zero filings since 07-15 (latest KLIC 07-08 Form 4, TPC 07-06 8-K already read) -> no typed kill evaluable, all print-based ~Jul/Aug; ZVRA worst -8.12%, TPC +4.38% best - drawdowns never exits; ab due=0"
- },
- {
-  "timestamp": "2026-07-16T18:15:00Z",
-  "equity": 4462.77,
-  "cash": 449.94,
-  "positions_value": 4012.83,
-  "spy": 753.32,
-  "note": "zeus tend ~14:15 ET live marks; book upside-2026-07-10-r1 -0.83% vs 4500 basis, SPY +0.27% from spy_entry 751.31 (excess -1.09pp); reconcile clean (broker==sleeve exact 6/6, no account orders created since 07-15, no open oracle orders); EDGAR all six CIKs: zero filings since entry (latest KLIC 07-08 Form 4s, ZVRA 07-08 Form 144, TPC 07-06 8-K - all pre-entry/read) -> no typed kill evaluable; ZVRA worst -7.48%, TPC +3.71% best - drawdowns never exits; ab due=0"
- },
- {
-  "timestamp": "2026-07-16T15:30:00Z",
-  "equity": 4447.16,
-  "cash": 449.94,
-  "positions_value": 3997.22,
-  "spy": 753.2218,
-  "note": "zeus tend ~11:30 ET live marks (quotes 15:22Z); book upside-2026-07-10-r1 -1.17% vs 4500 basis, SPY +0.25% from spy_entry 751.31 (excess -1.43pp); reconcile clean (broker==sleeve exact 6/6, zero account orders since 07-15, no open oracle orders); EDGAR all six CIKs: zero filings since entry -> no typed kill evaluable; KLIC -8.31% and ZVRA -8.76% vs entry on no filing - drawdowns never exits; ab due=0. NOTE: prior 07-16 curve/journal entry stamped 18:15Z was actually ~15:05Z (UTC mislabeled as ET); this entry stamped correctly"
- },
- {
-  "timestamp": "2026-07-16T16:20:00Z",
-  "equity": 4439.36,
-  "cash": 449.94,
-  "positions_value": 3989.42,
-  "spy": 752.4,
-  "note": "zeus tend ~12:20 ET live marks (quotes 16:18Z); book upside-2026-07-10-r1 -1.35% vs 4500 basis, SPY +0.15% from spy_entry 751.31 (excess -1.49pp); reconcile clean (broker==sleeve exact 6/6, only new account order since 07-15 is a non-oracle agentic OGN buy, no open oracle orders); EDGAR all six CIKs: zero filings since entry -> no typed kill evaluable; KLIC -9.25% and ZVRA -10.24% vs entry on no filing - drawdowns never exits; TPC +3.41% best; ab due=0"
- },
- {
-  "timestamp": "2026-07-16T17:10:00Z",
-  "equity": 4446.12,
-  "cash": 449.94,
-  "positions_value": 3996.18,
-  "spy": 752.25,
-  "note": "zeus tend 13:04 ET live marks (quotes 17:06Z); book upside-2026-07-10-r1 -1.20% vs 4500 basis, SPY +0.13% from spy_entry 751.31 (excess -1.32pp); reconcile clean (broker==sleeve exact 6/6; only account order since 07-15 is the agentic OGN buy, not oracle's; no open oracle orders); EDGAR all six CIKs: zero filings since entry -> no typed kill evaluable; ZVRA worst -10.24%, KLIC -9.80%, QTWO +4.23% best - drawdowns never exits; ab due=0"
- },
- {
-  "timestamp": "2026-07-16T19:16:00Z",
-  "equity": 4440.2,
-  "cash": 449.94,
-  "positions_value": 3990.26,
-  "spy": 749.67,
-  "note": "zeus tend ~15:14 ET live marks (quotes 19:12Z); book upside-2026-07-10-r1 -1.33% vs 4500 basis, SPY -0.22% from spy_entry 751.31 (excess -1.11pp); reconcile clean (broker==sleeve exact 6/6; only account order since 07-15 is the non-oracle agentic OGN buy; no open oracle orders); EDGAR all six CIKs: zero filings since entry -> no typed kill evaluable; KLIC -10.12% and ZVRA -10.03% vs entry on no filing - drawdowns never exits; QTWO +3.93% best; ab due=0"
- },
- {
-  "timestamp": "2026-07-16T21:10:00Z",
-  "equity": 4450.6,
-  "cash": 449.94,
-  "positions_value": 4000.66,
-  "spy": 750.83,
-  "note": "zeus tend 17:05 ET, post-close marks at the 16:00 close (quotes 19:59:59Z); book upside-2026-07-10-r1 -1.10% vs 4500 basis, SPY 750.83 vs spy_entry 751.31 (-0.06%), excess -1.03pp; reconcile clean (broker==sleeve exact 6/6; only account order since 07-15 is the non-oracle agentic OGN buy; no open oracle orders); EDGAR: ONE new filing since last tend - KLIC SCHEDULE 13G 07-16 (JPMorgan Chase, passive 5.0% as of 06/30) - not kill-relevant; no typed kill evaluable (all print-based, Jul/Aug); KLIC -10.01%, ZVRA -9.57% - drawdowns never exits; QTWO +4.94% best; ab due=0"
- },
- {
-  "timestamp": "2026-07-17T14:09:00Z",
-  "equity": 4432.53,
-  "cash": 449.94,
-  "positions_value": 3982.59,
-  "spy": 746.12,
-  "note": "zeus tend ~10:07 ET live marks (quotes 14:07Z); book upside-2026-07-10-r1 -1.50% vs 4500 basis, SPY 746.12 vs spy_entry 751.31 (-0.69%), excess -0.81pp; reconcile clean (broker==sleeve exact 6/6; no oracle orders since 07-16 tend, no open orders; OGN position is another god's - invisible per filter_broker_to_gods); EDGAR all six CIKs: only filing since 07-10 entry remains the KLIC 13G 07-16 (JPMorgan passive 5.0%, already dispositioned, not kill-relevant) -> no typed kill evaluable (all print-based, Jul/Aug); KLIC -12.88% worst, ZVRA -9.25% - drawdowns never exits; QTWO +6.44% best; ab due=0"
- },
- {
-  "timestamp": "2026-07-17T15:12:00Z",
-  "equity": 4423.41,
-  "cash": 449.94,
-  "positions_value": 3973.47,
-  "spy": 744.85,
-  "note": "zeus tend ~11:09 ET live marks (quotes 15:09Z); book upside-2026-07-10-r1 -1.70% vs 4500 basis, SPY 744.85 vs spy_entry 751.31 (-0.86%), excess -0.84pp; reconcile clean (broker==sleeve exact 6/6; zero equity orders created since 14:00Z, no open oracle orders; OGN position is another god's - invisible per filter_broker_to_gods); EDGAR all six CIKs: only filing since 07-10 entry remains the KLIC 13G 07-16 (JPMorgan passive 5.0%, already dispositioned, not kill-relevant) -> no typed kill evaluable (all print-based, Jul/Aug); KLIC -11.90% worst, ZVRA -8.76% - drawdowns never exits; QTWO +4.53% best; ab due=0"
- },
- {
-  "timestamp": "2026-07-17T16:14:00Z",
-  "equity": 4427.89,
-  "cash": 449.94,
-  "positions_value": 3977.95,
-  "spy": 746.08,
-  "note": "zeus tend ~12:14 ET live marks (quotes 16:13Z); book upside-2026-07-10-r1 -1.60% vs 4500 basis, SPY 746.08 vs spy_entry 751.31 (-0.70%), excess -0.90pp; reconcile clean (no oracle orders since 07-16 close tend); EDGAR 6/6 CIKs: nothing new since the dispositioned KLIC 13G 07-16 -> no kill evaluable, all print-based kills wait for ~Aug prints; hold_all"
- },
- {
-  "timestamp": "2026-07-17T17:10:00Z",
-  "equity": 4473.65,
-  "cash": 449.94,
-  "positions_value": 4023.71,
-  "spy": 746.52,
-  "note": "zeus tend ~13:07 ET live marks (quotes 17:05Z); book upside-2026-07-10-r1 -0.59% vs 4500 basis, SPY 746.52 vs spy_entry 751.31 (-0.64%), excess 0.05pp; reconcile clean (broker==sleeve exact 6/6, zero oracle orders since 07-16 close tend); EDGAR 6/6 CIKs: nothing new since the dispositioned KLIC 13G 07-16 -> no typed kill evaluable; print dates confirmed via earnings feed: LXU+QTWO 07-29 (verified), PAY 08-03, KLIC+TPC 08-05, ZVRA 08-11 (tentative); hold_all"
- },
- {
-  "timestamp": "2026-07-17T18:20:00Z",
-  "equity": 4476.87,
-  "cash": 449.94,
-  "positions_value": 4026.93,
-  "spy": 744.25,
-  "note": "zeus tend ~14:15 ET live marks (quotes 18:13Z); book upside-2026-07-10-r1 -0.51% vs 4500 basis, SPY 744.25 vs spy_entry 751.31 (-0.94%), excess +0.43pp (widening as SPY fades); reconcile clean (broker==sleeve exact 6/6, zero oracle orders since 07-16 close tend); EDGAR 6/6 CIKs: nothing new since the dispositioned KLIC 13G 07-16 -> no typed kill evaluable; all six kills print-based (LXU+QTWO 07-29 first); hold_all"
- },
- {
-  "timestamp": "2026-07-17T19:10:00Z",
-  "equity": 4469.8,
-  "cash": 449.94,
-  "positions_value": 4019.86,
-  "spy": 743.81,
-  "note": "zeus tend ~15:06 ET live marks (quotes 19:06Z); book upside-2026-07-10-r1 -0.67% vs 4500 basis, SPY 743.81 vs spy_entry 751.31 (-1.00%), excess +0.33pp; reconcile clean (broker==sleeve exact 6/6, zero oracle orders since 07-16 close tend); EDGAR 6/6 CIKs: NEW PAY SCHEDULE 13G/A 07-17 (Wasatch Advisors LP passive 9.8%, acc 0000814133-26-000093, dispositioned NOT kill-relevant); no typed kill evaluable, all six kills print-based (LXU+QTWO 07-29 first); hold_all"
- },
- {
-  "timestamp": "2026-07-17T21:10:00Z",
-  "equity": 4448.77,
-  "cash": 449.94,
-  "positions_value": 3998.83,
-  "spy": 743.18,
-  "note": "zeus tend ~17:05 ET AFTER CLOSE \u2014 official 07-17 closes (4pm prints): book upside-2026-07-10-r1 -1.14% vs 4500 basis, SPY 743.18 vs spy_entry 751.31 (-1.08%), excess -0.06pp; reconcile clean (broker==sleeve exact 6/6, no oracle orders, none open); EDGAR 6/6 CIKs: zero new filings since 19:06Z tend (only the dispositioned KLIC JPM 13G 07-16 + PAY Wasatch 13G/A 07-17); no typed kill evaluable, all six kills print-based (LXU+QTWO 07-29 first); hold_all, market closed, no orders"
- },
- {
-  "ts": "2026-07-20T14:08:00Z",
-  "equity": 4468.5,
-  "cash": 449.94,
-  "positions_value": 4018.56,
-  "spy": 745.65,
-  "note": "zeus tend ~10:06 ET \u2014 intraday marks 14:08Z: book upside-2026-07-10-r1 -0.70% vs 4500 basis, SPY 745.65 vs spy_entry 751.31 (-0.75%), excess +0.05pp; reconcile clean (broker==sleeve exact 6/6, no oracle orders, none open); EDGAR 6/6 CIKs: zero new filings since 07-17 (only dispositioned PAY Wasatch 13G/A + KLIC JPM 13G); no typed kill evaluable, all six kills print-based (LXU+QTWO 07-29 first); hold_all, no orders"
- },
- {
-  "ts": "2026-07-20T20:10:00Z",
-  "equity": 4458.13,
-  "cash": 449.94,
-  "positions_value": 4008.19,
-  "spy": 742.1,
-  "note": "zeus tend ~16:05 ET AFTER CLOSE \u2014 07-20 4pm prints: book upside-2026-07-10-r1 -0.93% vs 4500 basis, SPY 742.10 vs spy_entry 751.31 (-1.23%), excess +0.30pp; reconcile clean (broker==sleeve exact 6/6, no oracle orders, none open); EDGAR 6/6 CIKs: zero new filings since 07-17 (only dispositioned PAY Wasatch 13G/A + KLIC JPM 13G); ZVRA closed -5.8% on the day (-14.7% vs entry) on NO adverse filing \u2014 drawdown, never an exit; no typed kill evaluable, all six kills print-based (LXU+QTWO 07-29 first); hold_all, market closed, no orders"
- },
- {
-  "ts": "2026-07-21T14:14:00Z",
-  "equity": 4556.37,
-  "positions_value": 4106.43,
-  "cash": 449.94,
-  "spy": 745.72,
-  "note": "zeus tend ~10:15 ET \u2014 intraday marks 14:14Z: book upside-2026-07-10-r1 +1.25% vs 4500 basis, SPY 745.72 vs spy_entry 751.31 (-0.74%), excess +2.00pp (best since entry); TPC +8.4% on the day (87.34, +14.98% vs entry) on NO new EDGAR filing; reconcile clean (broker==sleeve exact 6/6, no oracle orders since 07-20 close, none open); EDGAR 6/6 CIKs: zero new filings since 07-17 (only dispositioned PAY Wasatch 13G/A + KLIC JPM 13G); no typed kill evaluable, all six kills print-based (LXU+QTWO 07-29 first); hold_all, no orders"
- },
- {
-  "ts": "2026-07-21T20:12:00Z",
-  "equity": 4593.91,
-  "cash": 449.94,
-  "positions_value": 4143.97,
-  "spy": 748.28,
-  "note": "zeus tend ~16:05 ET AFTER CLOSE \u2014 07-21 4pm prints: book upside-2026-07-10-r1 +2.09% vs 4500 basis (NEW HIGH mark), SPY 748.28 vs spy_entry 751.31 (-0.40%), excess +2.49pp (widest lead since entry); reconcile clean (broker==sleeve exact 6/6, no oracle orders today); EDGAR 6/6 CIKs: zero new filings since 07-17; no typed kill evaluable, all six print-based (LXU+QTWO 07-29 first); hold_all, no orders"
- },
- {
-  "date": "2026-07-22",
-  "ts": "2026-07-22T14:22:00Z",
-  "equity": 4551.62,
-  "spy": 748.36
- },
- {
-  "ts": "2026-07-22T20:10:00Z",
-  "equity": 4536.42,
-  "cash": 449.94,
-  "positions_value": 4086.48,
-  "spy": 747.33,
-  "note": "zeus tend ~16:05 ET AFTER CLOSE \u2014 07-22 4pm prints: book upside-2026-07-10-r1 +0.81% vs 4500 basis (off the 07-21 high, giveback day), SPY 747.33 vs spy_entry 751.31 (-0.53%), excess +1.34pp; reconcile clean (broker==sleeve exact 6/6, no oracle orders today); EDGAR 6/6 CIKs: zero new filings (only the dispositioned PAY Wasatch 13G/A 07-17); no typed kill evaluable, all six print-based (LXU+QTWO 07-29 first); hold_all, no orders"
- },
- {
-  "date": "2026-07-23",
-  "equity": 4563.0,
-  "spy": 740.49,
-  "note": "intraday tend mark ~10:12 ET (Zeus hourly)"
- },
- {
-  "date": "2026-07-23",
-  "equity": 4575.94,
-  "positions_value": 4126.0,
-  "spy": 738.24,
-  "note": "zeus tend ~16:05 ET AFTER CLOSE \u2014 07-23 4pm prints: book upside-2026-07-10-r1 +1.69% vs 4500 basis (new closing high, green book on a -1.23% SPY day), SPY 738.24 vs spy_entry 751.31 (-1.74%), excess +3.43pp (widened from +1.34pp at the 07-22 close); reconcile clean (broker==sleeve exact 6/6, zero orders today); EDGAR 6/6 CIKs: zero new filings since 07-17 (only the dispositioned PAY Wasatch 13G/A); no typed kill evaluable, all six print-based (LXU+QTWO 07-29 first); hold_all, no orders"
- },
- {
-  "date": "2026-07-24",
-  "equity": 4422.8,
-  "positions_value": 3972.86,
-  "spy": 738.85,
-  "note": "zeus tend ~16:10 ET AFTER CLOSE \u2014 07-24 4pm prints: book upside-2026-07-10-r1 -1.72% vs 4500 basis, SPY 738.85 vs spy_entry 751.31 (-1.66%), excess -0.06pp (collapsed from +3.43pp at the 07-23 close \u2014 the entire give-back is ZVRA). EVENT: ZVRA -23.9% (12.52 -> 9.525) on an overnight gap-down, ~3.5M shares vs ~900k normal \u2014 EMA CHMP adopted a NEGATIVE opinion on the arimoclomol MAA for Niemann-Pick type C in the EU (company PR 2026-07-24, GlobeNewswire); company will request re-examination; US MIPLYFFA approval and marketing UNAFFECTED; no 8-K on EDGAR yet (4-business-day window open). Stage-5 evaluate_exit on all 6 = NO EXIT: no fundamental_break (no filing, US revenue leg untouched), no dilution/going-concern, no dated catalyst_fail, no price_level kill; ZVRA's typed kill ('2 consecutive flat/declining product-revenue quarters') is print-based and NOT evaluable until the Q2 print (~early Aug). A drawdown is never an exit \u2014 held. Reconcile clean (broker==sleeve exact 6/6, zero oracle orders). EDGAR 6/6: only PAY 8-K 5.02/9.01 + 8-K/A 5.07 (07-23, officer/board + vote results) and a KLIC 13G \u2014 no typed kill evaluable. A/B: due_for_grade=0, 0 graded, lift not computable. hold_all, no orders."
- },
- {
-  "ts": "2026-07-27T14:18:00Z",
-  "date": "2026-07-27",
-  "equity": 4430.23,
-  "spy": 740.83,
-  "cash": 449.94,
-  "round": "upside-2026-07-10-r1",
-  "detail": "Zeus hourly tend ~10:18 ET Mon 2026-07-27. Reconcile clean 6/6; EDGAR zero new filings on all six CIKs since 07-24 (ZVRA CHMP 8-K still not filed); no typed kill evaluable; hold_all, no orders. Excess -0.16pp vs SPY \u2014 first negative reading since funding (ZVRA -29.95% post-CHMP + KLIC -10.05% sector beta). LXU/QTWO print 07-29 pm: first kill checks with teeth."
- },
- {
-  "ts": "2026-07-27T20:10:00Z",
-  "date": "2026-07-27",
-  "equity": 4465.91,
-  "positions_value": 4015.97,
-  "spy": 739.02,
-  "cash": 449.94,
-  "round": "upside-2026-07-10-r1",
-  "note": "Zeus hourly tend, AFTER CLOSE Mon 2026-07-27 (~16:10 ET; quotes 19:59-20:00Z, 4pm prints). CLOSING MARK equity $4,465.91 (-0.76% vs $4,500 basis) vs SPY 739.02 / spy_entry 751.31 (-1.64%) -> EXCESS +0.88pp, RECOVERED from -0.16pp at the 10:18 ET tend (the first negative reading since funding); day P&L +$35.68. Cash $449.94. Per-name close vs entry: TPC +12.86% (85.73, -1.20% day), QTWO +9.60% (58.09, +6.37% day), PAY +9.04% (31.48, +9.04% day), LXU +4.65% (11.47, -6.29% day), KLIC -10.78% (98.20, -3.09% day), ZVRA -31.16% (9.71, +1.94% day). RECONCILE CLEAN: broker==sleeve exact 6/6 (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); ZERO equity orders account-wide since 2026-07-20; legacy CXT/HDSN/J/PSN/VITL absent as expected; only VXUS/OGN etc. personal and invisible. EDGAR SWEEP all six CIKs (TPC 77543 / KLIC 56978 / PAY 1841156 / ZVRA 1434647 / QTWO 1410384 / LXU 60714), filings >= 2026-07-24: ZERO new filings on ALL SIX (second sweep today, post-close). The ZVRA CHMP 8-K STILL has not landed (PR 2026-07-24; 4-business-day window closes ~2026-07-30). STAGE 5 evaluate_exit run verbatim on all six = NO EXIT (all six kills are fundamental_break/print-based and no filing exists to break on; no dilution/going-concern; no catalyst_date or prediction_date underwritten; no price_level kill). HELD. PAY's +9.04% and QTWO's +6.37% on a FLAT tape (SPY +0.01%) carry NO filing -> tested the cluster hypothesis and it holds: the whole fintech/payments-software complex rallied today - NCNO +6.64%, TOST +6.15%, ALKT +5.90%, GPN +3.88%, FOUR +3.33%, BILL +3.17%, JKHY +1.63%. So today's gain is CLUSTER BETA, not idiosyncratic thesis confirmation - do not read it as the inflection arriving. PAY+QTWO combined = $1,479 / 33.1% of equity, inside the 40% cluster cap. Symmetrically, KLIC's -3.09% is the semi-equipment complex again, not a name event. Circuit breakers: ok, not halted, peak_equity 4500, absolute_drawdown 0.76%. A/B: due_for_grade(2026-07-27)=0 (horizons 15-24mo), 0 graded, llm_lift not computable (lift_trustworthy False, 34 unresolved Arm-B / 31 Arm-A rows); no calibration write. SOURCING: conscious no-op (standing duty 3 - book fully deployed, sleeve cash $449.94 is a ceiling against a SHARED buying-power pool, 07-10 pipeline of 73 fundables still fresh); research cadence stamp left untouched on purpose. BOOKKEEPING GAP (flagged, NOT patched per the fail-safe): cache/oracle_upside_book.json still holds the 07-06 paper round ({'CBZ': 3000.0}) and cache/oracle_upside_dossiers.json still holds the 07-06 paper six (SABR/ACVA/CBZ/FRPT/EYE/NCNO) - neither was overwritten at the 07-10 funding, so the live six's typed kills live only in oracle_journal.jsonl (the authoritative append-only record) and oracle_upside_ab.json. Stage 5 was run off the journal kills. The next FULL round must rewrite both artifacts. NEXT: the 07-30 tend is the first with TEETH - LXU and QTWO print 2026-07-29 pm; pull both prints and test the kills verbatim ('quarterly net loss on ammonia price collapse' / 'GAAP net loss relapse or growth < 10%'). No orders placed (market closed)."
- },
- {
-  "ts": "2026-07-28T14:13:00Z",
-  "date": "2026-07-28",
-  "equity": 4427.29,
-  "positions_value": 3977.35,
-  "spy": 736.82,
-  "cash": 449.94,
-  "round": "upside-2026-07-10-r1",
-  "detail": "Zeus hourly tend ~10:13 ET Tue 2026-07-28. Reconcile clean 6/6; EDGAR zero new filings on all six since the 07-27 sweep (ZVRA CHMP 8-K still not filed, window closes ~07-30); no typed kill evaluable; hold_all, no orders. Excess +0.31pp vs SPY. KLIC -9.31% on the day is a sector-wide semicap selloff (AMAT -7.5%, LRCX -9.2%, KLAC -6.2%), not a name event - held per F3. LXU/QTWO print 07-29 pm: first kill checks with teeth."
- },
- {
-  "ts": "2026-07-28T20:12:00Z",
-  "date": "2026-07-28",
-  "equity": 4460.5,
-  "positions_value": 4010.56,
-  "spy": 740.76,
-  "cash": 449.94,
-  "round": "upside-2026-07-10-r1",
-  "note": "Zeus hourly tend, AFTER CLOSE Tue 2026-07-28 (~16:10 ET; quotes 19:59-20:00Z, 4pm prints). 0a gate: NOT paused (sourcing freeze lifted 2026-07-14), fresh sleeve holds 6 live positions, ORACLE_LIVE=true, kill switch off -> full-session door open, resolved as TEND + conscious sourcing no-op (standing duty 3). CLOSING MARK equity $4,460.50 (-0.88% vs $4,500 basis) vs SPY 740.76 / spy_entry 751.31 (-1.40%) -> EXCESS +0.53pp (down from +0.88pp at the 07-27 close, up from +0.31pp at today's 10:13 ET tend); day P&L -$5.41 vs the 07-27 close. Cash $449.94. Per-name close vs entry: PAY +18.34% (34.165, +8.53% day - NEW BOOK LEADER), QTWO +11.74% (59.22, +1.84% day), TPC +8.03% (82.06, -4.33% day), LXU +4.29% (11.43, -0.26% day), KLIC -17.45% (90.85, -7.50% day), ZVRA -31.09% (9.72, +0.10% day). RECONCILE CLEAN: broker==sleeve exact 6/6 (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); ZERO equity orders account-wide since 2026-07-20 (get_equity_orders created_at_gte 2026-07-20 -> empty); legacy CXT/HDSN/J/PSN/VITL absent as expected; VXUS/OGN/NVDA etc. personal and invisible. Live broker buying_power $1,179.35 (get_portfolio) vs sleeve cash claim $449.94 -> sleeve cash binds, no shared-pool conflict; moot, no buy planned. EDGAR SWEEP all six CIKs (TPC 77543 / KLIC 56978 / PAY 1841156 / ZVRA 1434647 / QTWO 1410384 / LXU 60714), filings >= 2026-07-24: ZERO new filings on ALL SIX. Newest on file unchanged: PAY 8-K/A 07-23, KLIC 13G 07-16, ZVRA 144 07-08, TPC 8-K 07-06, QTWO Form 4 06-12, LXU Form 4 06-11. The ZVRA CHMP 8-K STILL has not landed (PR 2026-07-24; the 4-business-day window closes ~2026-07-30 - one business day left). STAGE 5 evaluate_exit run VERBATIM on all six = NO EXIT: every kill is fundamental_break/print-based and no filing exists to break on; no dilution_event/going_concern; no catalyst_date or prediction_date underwritten; no price_level kill. HELD all six. MOVE ATTRIBUTION (07-27 lesson applied in BOTH directions - read a move before believing it): (a) KLIC -7.50% vs semi-equipment peer median -7.53% (AMAT -7.82, LRCX -7.53, ONTO -7.78, ACLS -6.35, KLAC -6.18) -> EXACTLY the sector, fourth session of the AI-capex-fear semicap selloff, NOT a name event. KLIC is now the book's worst drawdown vs entry after ZVRA (-17.45%) and is held with conviction under F3, not neglect: its kill is quarterly revenue < $180M, first evaluable at the ~08-05 print. (b) TPC -4.33% vs E&C peer median -5.19% (STRL -15.28, MTZ -7.29, PWR -5.19, GVA -3.33, ACM +4.90) -> sector-wide E&C derating (STRL's -15% looks like a print), and TPC OUTPERFORMED the group. Not a name event. (c) PAY +8.53% vs payments/fintech-software peer median +4.78% (FOUR +9.83, NCNO +4.82, TOST +4.78, BILL +3.22, ALKT +2.34) -> second consecutive complex-wide rally day; PAY is above the median but inside FOUR's range, so the honest read is MOSTLY CLUSTER BETA with a possible modest idiosyncratic sliver - the 08-03 print settles the thesis, not the tape. (d) LXU -0.26% vs fertilizer/ammonia peer median +3.04% (MOS +3.27, NTR +3.04, CF +2.65) -> LXU LAGGED its own complex by ~3.3pp on the eve of its print, the first time it has diverged NEGATIVELY from ammonia strength. Peer strength is mildly evidence AGAINST the LXU kill ('quarterly net loss on ammonia price collapse'); the divergence is a name-level question the print answers tomorrow. CLUSTER: PAY+QTWO = $1,557.78 = 34.9% of equity, up from 33.1% - still inside the 40% cluster cap but the tightest it has been; the book is more correlated than six names suggests. PRINT CALENDAR RE-VERIFIED TODAY: LXU 2026-07-29 pm VERIFIED (Q2 est $0.46 EPS vs $0.04 actual a year ago - a large expected step-up; LXU beat the last two: Q1'26 $0.27 vs $0.12, Q4'25 $0.22 vs $0.20), QTWO 2026-07-29 pm VERIFIED (Q2 est $0.62). PAY ~08-03, KLIC ~08-05, TPC ~08-05, ZVRA ~08-11. A/B: due_for_grade(2026-07-28)=0 (horizons 15-24mo), 0 graded, llm_lift not computable (lift_trustworthy False; 34 unresolved Arm-B / 31 Arm-A rows); no calibration write. SOURCING: conscious no-op (standing duty 3 - book fully deployed, 07-10 pipeline of 73 fundables still fresh); research cadence stamp left untouched on purpose. BOOKKEEPING GAP still open and deliberately NOT patched (fail-safe: open a PR, never silently patch): cache/oracle_upside_book.json still holds the 07-06 paper round ({'CBZ': 3000.0}) and cache/oracle_upside_dossiers.json still holds the 07-06 paper six; the live six's typed kills live only in oracle_journal.jsonl (authoritative) and oracle_upside_ab.json. Stage 5 was run off the journal kills. No orders placed (market closed). NEXT: the 07-30 tend is THE FIRST WITH TEETH - pull the LXU and QTWO prints and test both kills verbatim."
- },
- {
-  "date": "2026-07-29",
-  "mark": "intraday",
-  "ts": "2026-07-29T14:14:00Z",
-  "equity": 4432.14,
-  "spy": 735.48,
-  "cash": 449.94,
-  "excess_pp": 0.6
- },
- {
-  "ts": "2026-07-29T21:35:00Z",
-  "date": "2026-07-29",
-  "equity": 4436.63,
-  "positions_value": 3986.69,
-  "spy": 729.54,
-  "cash": 449.94,
-  "round": "upside-2026-07-10-r1",
-  "note": "Zeus hourly tend, AFTER CLOSE Wed 2026-07-29 (~17:25 ET; quotes 19:59-20:00Z official closes). 0a gate: NOT paused, 6 live positions, ORACLE_LIVE=true, kill switch off -> full session; resolved as TEND + PRINT TESTS + conscious sourcing no-op (standing duty 3). THE FIRST KILL TESTS WITH TEETH: LXU and QTWO both printed tonight and BOTH KILLS FAILED on the filings. LXU 8-K 0001193125-26-323751: GAAP net loss $6.2M but Tampa ammonia +89pct YoY ($787 vs $416), UAN +44pct, gas -15pct -> the 'ammonia price collapse' clause is REFUTED by the issuer's own table; rev +11.1pct, adj EBITDA +38.6pct (H1 +56pct), loss = $28.8M planned turnaround (Pryor pulled forward from Q3) vs $2.6M. Thesis CONFIRMED, not broken. QTWO 8-K 0001410384-26-000051 + 10-Q 0001410384-26-000053: GAAP net income $29.9M vs $11.8M, revenue +13pct, GM 59.2pct vs 53.6pct, debt-free, FY guide RAISED, +$350M buyback -> both kill clauses fail. FORWARD FLAG: QTWO Q3 guide = 8-10pct growth, brushing the '<10pct growth' kill clause at the ~11-04 print. CLOSING MARK equity $4,436.63 (-1.41pct vs $4,500 basis) vs SPY 729.54 / spy_entry 751.31 (-2.90pct) -> EXCESS +1.49pp, WIDENED from +0.53pp at the 07-28 close on a -1.53pct SPY day; day P&L -$23.73. Peer checks (duty 1b): PAY +7.51pct vs payments median +1.67pct = +5.84pp = the FIRST clean idiosyncratic PAY divergence; KLIC -8.94pct vs semicap median -8.26pct = -0.68pp (sector, and it NARROWS the 07-28 -2.3pp question); TPC -6.50pct vs E&C median -4.68pct = -1.82pp. PAY filings dispositioned: 2nd Form 144 in two days (director entity, 40k sh = 0.06pct of o/s) + BlackRock 13G 6.9pct passive \u2014 neither kill-relevant. ZVRA CHMP 8-K STILL not filed; 07-30 is the last day of the window. Reconcile 6/6 exact, zero orders account-wide since 07-20. All six CIKs re-resolved from EDGAR company_tickers (all matched pins). Stage 5 evaluate_exit run verbatim on all six = NO EXIT. A/B due_for_grade=0 (242 rows in the 07-10 round, 0 graded, earliest horizon 15mo); calibration neutral. Breaker -1.41pct vs 40pct."
- },
- {
-  "ts": "2026-07-30T14:12:00Z",
-  "date": "2026-07-30",
-  "equity": 4428.19,
-  "positions_value": 3978.25,
-  "spy": 737.585,
-  "cash": 449.94,
-  "round": "upside-2026-07-10-r1",
-  "note": "Zeus hourly tend ~10:12 ET Thu 2026-07-30 (intraday quotes 14:10-14:11Z). 0a gate: NOT paused, 6 live positions, ORACLE_LIVE=true, kill switch off -> full session; resolved as TEND + conscious sourcing no-op. Reconcile 6/6 EXACT vs broker (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); zero orders placed. EDGAR swept all six CIKs: ONE new filing - LXU 8-K acc 0001193125-26-325064 Item 7.01, the Q2 slide deck, carrying NO new financial fact beyond the 07-29 Item 2.02 already adjudicated -> LXU kill conjunction re-tested, still fails clause (b). All six Stage-5 verdicts = HOLD, zero kills fired. PEER CHECKS (duty 1b) - two real name-level divergences on a +1.11% SPY day: (1) LXU -6.89% vs fertilizer median -1.14% (UAN +2.5, MOS -0.6, NTR -1.1, CF -1.4, IPI -2.2) = -5.75pp, the market pricing the GAAP loss / -$0.55-vs-+$0.46 EPS miss that the engine read to $28.8M of PLANNED turnaround expense - a genuine disagreement, now dated to the ~11-04 Q3 print where the pulled-forward Pryor turnaround should not recur; (2) KLIC +7.28% vs semicap median +13.11% (LRCX +20.4, AMAT +15.0, ONTO +13.1, ACLS +9.3, KLAC +8.2) = -5.83pp LAGGING, which FLIPS the prior two sessions' finding - KLIC tracked the complex to within 0.7pp on the way DOWN but captures barely half the rebound. Asymmetric participation (full downside, half upside) is a name-level question for the ~08-05 print; a price move is not information until the filings speak, so it is logged, not acted on. PAY -5.54% vs payments median -3.77% (NCNO -3.3, ALKT -3.4, TOST -3.8, BILL -5.2, FOUR -6.0) = -1.77pp, giving back yesterday's clean +5.84pp into the ~08-03 print. ZVRA: EDGAR confirms NOTHING filed since the 07-08 Form 144 - today is the LAST day of the 4-business-day 8-K window for the 07-24 CHMP negative opinion; the next tend must record the window CLOSED WITHOUT A FILING if nothing lands tonight. MARK equity $4,428.19 (-1.60% vs $4,500 basis) vs SPY 737.585 / spy_entry 751.31 (-1.83%) -> EXCESS +0.23pp, NARROWED from +1.49pp at the 07-29 close (SPY +1.11% today, book roughly flat: KLIC/TPC up, LXU/PAY down). Breaker 1.60% vs 40%. A/B due_for_grade=0 (earliest horizon 15mo from 07-10); calibration untouched (n=0 graded). STAGE 0-4 SOURCING NOT RUN - deliberate, not an omission: the research cadence has been due since 07-14 (16d), but the book is already AT the Stage-4 concentration target (6 of the allowed 3-6 names) with only $449.94 dry powder, so a sourcing round would produce candidates with no capital to size them. Deferred until a typed kill frees capital or the operator funds the sleeve; the research cadence key is deliberately NOT stamped so it stays visibly due to the operator. KNOWN STATE GAP (flagged again): cache/oracle_upside_dossiers.json still holds the SUPERSEDED 07-06 paper round (SABR/ACVA/CBZ/FRPT/EYE/NCNO), and cache/oracle_upside_book.json still says pending_funding paper - the live 07-10 round's typed kill conditions exist ONLY in oracle_journal.jsonl, so evaluate_exit cannot be run verbatim against a dossier object for any held name; Stage 5 is being executed as a reasoned read of the journal-recorded kill strings."
- },
- {
-  "ts": "2026-07-30T20:25:00Z",
-  "date": "2026-07-30",
-  "equity": 4446.16,
-  "positions_value": 3996.22,
-  "spy": 741.73,
-  "cash": 449.94,
-  "round": "upside-2026-07-10-r1",
-  "mark": "close",
-  "excess_pp": 0.08,
-  "note": "Zeus hourly tend, AFTER CLOSE Thu 2026-07-30 (~16:25 ET; quotes 19:59-20:00Z official closes). 0a gate: NOT paused (lifted 07-14), 6 live positions, ORACLE_LIVE=true, kill switch off -> full session; resolved as TEND + close marks + conscious sourcing no-op (standing duty 3). SECOND tend today - supersedes the 14:12Z intraday marks. Reconcile 6/6 EXACT vs broker (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); ZERO orders account-wide since 07-20. All six CIKs re-resolved from EDGAR company_tickers - all matched pins. RESOLVED THE DEFERRED ITEM: the ZVRA CHMP 8-K window (07-24 PR + 4 business days) CLOSED TODAY WITHOUT A FILING - newest ZVRA filing is still the 07-08 Form 144. Not a disclosure failure (a CHMP opinion triggers no enumerated 8-K item; Item 8.01 is voluntary), but it means no primary FILED document on the CHMP event will ever exist, so the ~08-11 re-underwrite must lean on the 10-Q product-revenue lines. VERIFIED rather than assumed the intraday claim that the LXU Item 7.01 deck adds no new fact: the El Dorado CCS leg ($25-30M annual earnings from Q1'27) is in the 07-29 earnings EX-99.1, not first in today's deck - the intraday read was CORRECT. The deck does corroborate the thesis on a TTM basis (adj EBITDA $199.4M vs $122.4M +63%, net sales $658.1M vs $538.9M, net debt/TTM adj EBITDA 1.1x vs 2.7x, FCF $32M vs $8M). CLOSE PEER CHECKS (duty 1b) - two readings changed vs the intraday tend: (1) KLIC +6.53% vs semicap median +14.69% (LRCX +17.95, AMAT +15.01, ONTO +14.69, ACLS +11.91, KLAC +5.90) = -8.16pp, WIDER than the -5.83pp measured intraday. Full participation in the selloff, under half the rebound - this CONTRADICTS my 07-29 conclusion that the 07-28 gap was noise, and is now the book's cleanest name-level signal. Logged, NOT acted on (kill is print-based, ~08-05). (2) TPC +8.61% vs E&C median +12.91% = -4.30pp, reversing the intraday 'no divergence' call - though the peer set split hard (STRL/PWR/MTZ +13-17% vs GVA/ACM -2%) so the median is less stable. LXU closed -3.49% vs fertilizer +0.17% = -3.66pp, recovering ~3.4pp off the intraday low. PAY -5.03% vs payments -2.84% = -2.19pp, handing back ~2.2pp of yesterday's clean +5.84pp. CLOSING MARK equity $4,446.16 (-1.20% vs $4,500 basis) vs SPY 741.73 / spy_entry 751.31 (-1.28%) -> EXCESS +0.08pp, COLLAPSED from +1.49pp at the 07-29 close and +0.23pp intraday. The book gained $8.08 (+0.18%) on a +1.68% SPY day - the largest one-day excess give-back since the 07-10 funding, driven by KLIC and TPC under-participating in violent sector rallies. Stage 5 evaluate_exit run VERBATIM on all six = NO EXIT, zero kills fired. Breaker -1.20% vs 40%. A/B due_for_grade=0 (326 rows, 0 graded, earliest horizon 15mo -> ~Oct 2027); update_calibration returns {} (neutral, n=0). CLUSTER PAY+QTWO = $1,572.27 = 35.4% of equity, inside the 40% cap. STAGE 0-4 SOURCING NOT RUN - deliberate, unchanged reasoning: book at 6 names = top of the Stage-4 3-6 band, only $449.94 dry powder (a ceiling against a shared pool), no kill fired to free capital, so a round would produce dossiers that cannot be funded without selling, which F3 forbids. Research cadence key deliberately NOT stamped so it stays visibly due to the operator. KNOWN STATE GAP (flagged, still deliberately unpatched per fail-safe): cache/oracle_upside_dossiers.json holds the superseded 07-06 paper six and cache/oracle_upside_book.json still says pending_funding paper; the live six's typed kills live only in oracle_journal.jsonl, so Stage 5 is executed as a reasoned read of the journal kill strings against a synthetic dossier. The next FULL round must rewrite both through make_upside_dossier/size_upside_book."
- },
- {
-  "ts": "2026-07-31T14:15:00Z",
-  "date": "2026-07-31",
-  "equity": 4385.08,
-  "positions_value": 3935.14,
-  "spy": 738.13,
-  "cash": 449.94,
-  "round": "upside-2026-07-10-r1",
-  "mark": "intraday",
-  "excess_pp": -0.8,
-  "note": "Zeus hourly tend ~10:15 ET Fri 2026-07-31. 0a gate: NOT paused (lifted 07-14), 6 live positions, ORACLE_LIVE=true, kill switch off -> full session available; resolved as TEND + A/B + memory, with Stage 1-4 sourcing a CONSCIOUS no-op (see below). Reconcile clean: get_equity_orders since 07-29 returns ZERO orders account-wide, broker==sleeve exact on all 6 (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397). Equity $4,385.08 (-2.55% vs the $4,500 basis) vs SPY 738.13/751.31 (-1.75%) = excess -0.80pp, down from +0.08pp at the 07-30 close. Breaker -2.55% vs 40%. STAGE 5 - all six typed kills checked against PRIMARY filings, not the tape. Five names have filed nothing since 07-29 (EDGAR re-checked per CIK today), so their print-based kills are not evaluable. LXU was RE-VERIFIED because the 10-Q landed 07-30 (a new primary document): companyfacts confirms Q2 NetIncomeLoss -$6,189,000, so clause (a) of its conjunction kill is now formally TRUE - but clause (b) ('on ammonia price collapse') stays contradicted by the company's own +89% ammonia price table, and the 07-30 8-K is Item 7.01 Reg FD (investor deck) adding no new financial fact. NO EXIT; the 07-29/07-30 adjudication holds on the formal filing too. Zero exits, zero orders. Notable tape: PAY -3.90% (34.87 -> 33.51) on NO filing - the book's largest decliner today, still +16.07% vs entry; its ~08-03 (Mon) print is now the nearest consequential date, with KLIC/TPC ~08-05 behind it. STAGE 6 A/B: due_for_grade=0, n_graded=0, unresolved Arm-B 34 / Arm-A 31, lift_trustworthy=false, earliest horizon ~Oct 2027 - no lift claimable. STAGE 7: update_calibration() returns {} (n=0, neutral 0.5). STAGE 1-4 NOT RUN: research cadence IS due (last 2026-07-14), but the breadth read requires the deep-read subagent fan-out over the hunting ground, which this session is not authorised to spawn. Declared outstanding rather than faked with a thin single-pass read - F2/F7 discipline. Cash $449.94 (~10% of equity) stays undeployed as a result; a dedicated /oracle-research session is needed to run the cascade and size a 7th name."
- },
- {
-  "ts": "2026-07-31T20:10:00Z",
-  "date": "2026-07-31",
-  "equity": 4444.21,
-  "positions_value": 3994.27,
-  "spy": 746.81,
-  "cash": 449.94,
-  "round": "upside-2026-07-10-r1",
-  "mark": "close",
-  "excess_pp": -0.64,
-  "note": "Zeus hourly tend, AFTER CLOSE Fri 2026-07-31 (~16:10 ET; quotes 19:59-20:00Z official closes). 0a gate: NOT paused (lifted 07-14), 6 live positions, ORACLE_LIVE=true, kill switch off -> full session; resolved as TEND + close marks + conscious sourcing no-op. SECOND tend today - supersedes the 14:15Z intraday marks. Reconcile 6/6 EXACT vs broker (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); get_equity_orders since 07-29 returns ZERO orders account-wide. All six CIKs re-resolved from EDGAR company_tickers - all matched pins. THREE NEW FILINGS since the intraday pass, all dispositioned, none kill-relevant: (1) KLIC SCHEDULE 13G acc 0002100121-26-000957 (sole voting power 52,139 sh, passive, immaterial vs ~52M o/s); (2) ZVRA SCHEDULE 13G acc 0002100119-26-001518 (386,070 sh, passive); (3) PAY Form 4 acc 0001193125-26-326471 + Form 3 acc 0001193125-26-328464. THE PAY FORM 4 WAS VERIFIED, NOT ASSUMED, AND IT UPGRADES THE 07-29 DISPOSITION: director Gary Trainor (via TF Investment Holdings LLC) actually SOLD 80,000 sh - 39,000 @ wavg 33.1096 and 1,000 @ 33.50 on 07-28, then 40,000 @ wavg 35.1213 on 07-29 (~$2.7M, ~12% of his stake; 589,888 sh retained) - i.e. TWICE the 40k the two Form 144s implied to the 07-29 read. But the filing's own footnote states the sales were 'effected pursuant to a Rule 10b5-1 trading plan established by the reporting person on March 12, 2026' - pre-scheduled ~4.5 months before the ~08-03 print, so it is NOT a pre-print insider dump. Prior conclusion (not kill-relevant) STANDS and is now better grounded. PAY Form 3: Gregory Hyde Williams, NEW DIRECTOR (period 07-23), 132,681 sh initial - explains the flurry of PAY insider paper. CLOSE PEER CHECKS (duty 1b, run in BOTH tape directions per the 07-30 lesson): (1) KLIC +0.93% vs semicap median +1.38% (ACLS +4.28, ONTO +3.23, KLAC +1.38, AMAT +1.17, LRCX -1.58) = -0.45pp. The under-participation persists in DIRECTION but collapsed in MAGNITUDE from -8.16pp at the 07-30 close; a modest up day does not resolve the asymmetry question - the ~08-05 print does. (2) QTWO +3.03% vs bank/fintech-software median -0.06% (ALKT +1.91, NCNO +0.44, BILL -0.55, TOST -1.78) = +3.09pp, the book's cleanest idiosyncratic STRENGTH today and its best name-level day since the 07-29 print. (3) PAY -2.14% vs payments median -0.55% (ALKT +1.91, NCNO +0.44, BILL -0.55, FOUR -1.25, TOST -1.78) = -1.59pp, a second straight day of the tape leaning against PAY on NO company news beyond a 10b5-1 sale. (4) LXU -1.45% vs fertilizer median -2.32% (UAN +0.74, CF -0.49, NTR -2.32, MOS -2.88, IPI -3.82) = +0.87pp OUTPERFORMING - partially reversing the -3.66pp lag of 07-30, and the first LXU divergence to the upside since the print. (5) ZVRA -1.35% vs biotech median -2.57% (HRMY -1.78, SUPN -2.21, XBI -2.92, AXSM -7.11) = +1.22pp, the FIRST positive divergence for the book's worst position (CPRX returned no quote in the batch - 4 peers, not 5). (6) TPC +0.43% vs E&C median +1.41% (GVA +5.12, STRL +2.85, PWR +1.41, ACM +0.91, MTZ -18.96) = -0.98pp. FLAGGED: peer MTZ closed -18.96% (324.44 -> 262.94; adjusted_previous_close equals previous_close, so this is a real move, not a split). I did NOT read MTZ's filing - out of scope for a tend - so the CAUSE is unverified, but a large E&C peer being cut a fifth five days before TPC's ~08-05 print is a fact worth carrying into that read. The median is robust to it. CLOSING MARK equity $4,444.21 (-1.24% vs the $4,500 basis) vs SPY 746.81 / spy_entry 751.31 (-0.60%) -> EXCESS -0.64pp. The book fell $1.95 (-0.04%) on a +0.69% SPY day, giving back another 0.72pp of excess vs the +0.08pp at the 07-30 close; it did recover +0.16pp off the -0.80pp intraday reading. Positions $3,994.27 + cash $449.94. Breaker -1.24% vs 40%. Cluster PAY+QTWO = $1,577.35 = 35.5% of equity, inside the 40% cap. STAGE 5 evaluate_exit run VERBATIM on all six = NO EXIT, zero kills fired, zero orders. fundamental_deteriorated was set from PRIMARY FILINGS only; no financial filing landed for any name today (13Gs/Forms 3-4 are ownership documents, not financial ones). LXU's conjunction kill re-tested per the standing obligation: clause (a) stays formally TRUE on the 07-30 10-Q (Q2 NetIncomeLoss -$6,189,000), clause (b) stays REFUTED by the company's own +89% ammonia price table -> held. STAGE 6 A/B: due_for_grade=0, n_graded=0, unresolved Arm-B 34 / Arm-A 31, lift_trustworthy=false, earliest horizon ~Oct 2027 - no lift claimable. STAGE 7: update_calibration() returns {} (n=0, neutral 0.5). STAGE 1-4 SOURCING NOT RUN - deliberate and unchanged: the research cadence has been due since 07-14 (17d), but the breadth read is a deep-read subagent fan-out this session is not authorised to spawn, and a thin single-pass read would violate F2 and poison Arm A. $449.94 (~10% of equity) stays undeployed and the book stays at six names. The research cadence key is deliberately NOT stamped so it stays visibly due to the operator. A dedicated /oracle-research session remains required. KNOWN STATE GAP (flagged, still deliberately unpatched per the fail-safe): cache/oracle_upside_dossiers.json holds the superseded 07-06 paper six and cache/oracle_upside_book.json still says pending_funding paper; the live six's typed kills exist only in oracle_journal.jsonl, so Stage 5 is run against synthetic dossiers built from those journalled kill strings. The next FULL round must rewrite both through make_upside_dossier/size_upside_book."
- },
- {
-  "ts": "2026-08-03T14:20:00Z",
-  "date": "2026-08-03",
-  "equity": 4471.94,
-  "positions_value": 4022.0,
-  "spy": 754.42,
-  "cash": 449.94,
-  "round": "upside-2026-07-10-r1",
-  "mark": "intraday",
-  "excess_pp": 2.25,
-  "note": "Zeus hourly tend, Mon 2026-08-03 ~10:20 ET. 0a gate: NOT paused (lifted 07-14), 6 live positions, ORACLE_LIVE=true, kill switch off -> full session; resolved as TEND + intraday marks + a CONSCIOUS sourcing no-op. Reconcile 6/6 EXACT vs broker (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); legacy cohort untouched. NO EXIT on all six \u2014 every typed kill checked against primary documents, none triggered, no new kill-relevant filing (only passive 13G/13G-A on KLIC/ZVRA/PAY). THE SESSION'S FINDING: FOUR of the six positions report THIS WEEK \u2014 PAY tonight 08-03 pm (consensus $0.18), and KLIC (FQ3, $0.98) + TPC ($1.28) + ZVRA ($0.14) all on 08-05 pm, all RH-calendar verified=true. This CORRECTS a standing note: ZVRA's kill was carried as first evaluable at the '~08-11 10-Q' since 07-29; the earnings release lands 08-05, six days earlier, and it carries the product-revenue lines the kill is typed to. Since the 07-24 CHMP window closed without an 8-K (07-30 finding), that 08-05 release carries the ENTIRE upside_x re-underwrite. VERDICT METRIC (beliefs lesson 10): excess vs SPY since funding flipped from -0.64pp at the 07-31 close to +2.25pp today \u2014 book +2.71% vs contributed $4,353.89, SPY +0.46% from 750.935. Driven by PAY +3.64% (+1.84pp vs payments) and TPC/QTWO/ZVRA participating; LXU is the drag, -5.79% vs fertilizer -2.45% = -3.34pp, the third lagging session of four since its print, with NO filing behind it (F5: logged, not acted on). SOURCING NO-OP, deliberate: cash is $449.94 (10.1% of equity), the book is at the spec's 3-6 concentration target, and four of six names print within 48 hours \u2014 running the cascade to add a 7th name into an event week would dilute the view and pre-empt re-underwrites that are about to become possible on real filings. Stage 6: due_for_grade EMPTY (horizons 15-24mo from 07-10, nothing matures before Oct 2027) -> Stage 7 calibration unchanged. NO ORDERS."
- },
- {
-  "ts": "2026-08-03T20:15:00Z",
-  "date": "2026-08-03",
-  "equity": 4465.97,
-  "positions_value": 4016.03,
-  "spy": 757.63,
-  "cash": 449.94,
-  "round": "upside-2026-07-10-r1",
-  "mark": "close",
-  "excess_pp": -1.6,
-  "note": "Zeus post-close pass 16:15 ET Mon 2026-08-03. Reconcile CLEAN 6/6 exact vs broker. Book +0.49% vs SPY +1.42%; excess -0.64pp -> -1.60pp, dragged entirely by LXU -9.83% on a nitrogen-complex selloff (CF -5.48/NTR -4.53/UAN -2.84, potash flat) that is document-free ahead of CF's 08-05 print. PAY reported after close: EPS $0.25 vs $0.18 (+38.9%, 7th straight beat), AH 38.00 vs 34.50 close = +10.1% NOT in this mark. No kill fired. A/B due_for_grade=0, n_graded=0, lift_trustworthy=false."
- },
- {
-  "ts": "2026-08-04T14:20:00Z",
-  "date": "2026-08-04",
-  "equity": 4710.92,
-  "positions_value": 4260.98,
-  "spy": 765.24,
-  "cash": 449.94,
-  "round": "upside-2026-07-10-r1",
-  "mark": "intraday",
-  "excess_pp": 2.83,
-  "note": "Zeus hourly pass 10:18 ET Tue 2026-08-04. Reconcile CLEAN 6/6 EXACT vs broker (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); zero orders account-wide. NO KILL FIRED, six holds. Book +5.45% on the day vs SPY +1.00%; equity $4,710.92 = +4.69% vs the $4,500 basis against SPY +1.85% from spy_entry 751.31, so EXCESS SWUNG -1.60pp -> +2.83pp, the first positive reading since 07-29 and the largest one-session move the book has made. Effectively all of it is PAY +27.10% ($34.52 -> $43.875, +51.97% vs entry). THE 08-03 DEBT IS DISCHARGED AND IT REVERSES: PAY's Q3 guide ($353-363M, re-verified verbatim in EX-99.1) implies +13.60/+16.82% YoY vs Q3-2025 $310,737K, mid +15.21%; the FY guide implies Q4 +9.19/+16.75% (mid +12.97%) and H2 +14.06% -- i.e. the raw guide sits INSIDE the 'YoY < 15%' kill at its midpoint. But the guide is a MEASURED sandbag: prior EX-99.1 guidance vs the revenue actually printed was +10.98% (Q3-25), +6.77% (Q4-25), +4.56% (Q2-26) over the midpoint, 3/3, mean +7.4%. The smallest of those applied to the Q3-26 midpoint gives ~+20.5% YoY; the kill needs PAY to print at or below its own guide LOW end, which it has not done in three quarters. Flag retired -- with the caveat that the sandbag is compressing monotonically (11.0 -> 6.8 -> 4.6pp). Also cleared: the 08-03 8-K indexed under Item 2.01 is NOT an acquisition; the same-day 8-K/A states its sole purpose is correcting a clerical item tag to 2.02. 10-Q filed today, revenue lines match. TOMORROW (2026-08-05 pm, ALL RH-verified=true) KLIC, TPC, ZVRA and CF all print. Only KLIC's kill ('quarterly revenue < $180M') can settle outright; ZVRA's 2-consecutive-quarter kill becomes evaluable for the first time but cannot fire on one print; TPC's is structurally incapable of firing (zero loss quarters printed). CF is the read on LXU's refuted clause (b). LXU 10-28 and QTWO 11-04 both show verified=FALSE -- tentative. Cluster PAY+QTWO 36.0% -> 38.9% of equity, just inside the 40% cap; it binds at Stage-4 sizing, not as a trim trigger. Breaker 0.00% drawdown (new high) vs 40%. A/B: due_for_grade=0, n_graded=0, lift_trustworthy=false, update_calibration()->{} (earliest horizon ~Oct 2027). NO ORDERS. STANDING DEBTS UNCHANGED AND STILL BLOCKING: research cadence due since 07-14 (21 days) -- Stage 1-4 sourcing needs a subagent fan-out this dispatch is not authorised to spawn, so $449.94 (9.6% of equity) stays undeployed and the book stays at six; and the live book still has NO dossier records, so Stage 5's evaluate_exit() cannot run mechanically on any held name (kills are carried verbatim in prose instead). Both need a dedicated /oracle-research session. The cadence key is deliberately NOT stamped so it stays visibly due."
- },
- {
-  "date": "2026-08-05",
-  "timestamp": "2026-08-05T14:16:00Z",
-  "equity": 4739.09,
-  "spy": 776.2601,
-  "cash": 449.94,
-  "peak_equity": 4739.09224,
-  "n_positions": 6,
-  "note": "Zeus tend-only pass. 6 holds, 0 typed kills fired, 0 orders. New peak equity. PAY -6.64% on the 08-04 10-Q + Form 144s; kill tested on XBRL actuals (+28.8% YoY) and does not fire. Four readings land tonight: KLIC fiscal Q3, TPC Q2, ZVRA Q2, CF Industries (LXU clause b)."
- },
- {
-  "date": "2026-08-05",
-  "timestamp": "2026-08-05T20:20:00Z",
-  "equity": 4637.34,
-  "spy": 769.74,
-  "cash": 449.94,
-  "peak_equity": 4739.09224,
-  "n_positions": 6,
-  "note": "After-close Zeus tend (supersedes the 14:16Z intraday mark). 6 holds, 0 kills fired, 0 orders. KLIC fiscal-Q3 8-K FILED: revenue $330.409M vs a <$180M kill (+122.6% YoY, Q4 guide ~$375M) -> kill TESTED and FAILED decisively. PAY closed -10.31% = -9.36pp vs the payments median, no filing explains it, kill at +28.8% actual does not fire -> drawdown, F3 hold. TPC and ZVRA prints had NOT filed by 20:20Z; both kills are two-quarter conditions and could not have fired tonight. Excess vs SPY +0.60pp on the $4,500 basis (up from +0.08pp on 07-30)."
- },
- {
-  "date": "2026-08-06",
-  "timestamp": "2026-08-06T14:12:00Z",
-  "equity": 4798.1,
-  "spy": 771.715,
-  "cash": 449.94,
-  "peak_equity": 4798.1,
-  "n_positions": 6,
-  "note": "Mid-morning Zeus tend. 6 holds, 0 kills fired, 0 orders. THREE prints read from primary filings overnight: TPC 8-K 2.02 + 10-Q (08-05) \u2014 record revenue $1.6B +19%, GAAP net income $65.7M, EPS $1.23 vs $0.38, 2026 adj-EPS guide raised to $5.15-5.45, dividend +50%; kill ('2 consecutive GAAP loss quarters') cannot start. ZVRA 8-K 2.02 + 10-Q (08-05) \u2014 Q2 revenue $39.663M (+53% y/y) and +9.5% q/q vs a derived Q1 $36.220M, GAAP net income $8.8M, cash $260.2M; kill ('2 consecutive flat/declining product-rev quarters') cannot start. KLIC 8-K 2.02 (08-05) + 10-Q (08-06) \u2014 FQ3 revenue $330.409M vs a $180M kill line, GAAP EPS $1.07, FQ4 guide $375M+/-$20M. Tape moved opposite the filings on KLIC (\u22123.36%) and with them on TPC (+17.78%) / ZVRA (+13.63%); F3 governs both directions. Equity $4,798.10 = NEW PEAK (prior $4,739.09), +6.62% vs the $4,500 basis against SPY +2.72% since funding. PAY+QTWO cluster 35.74% vs the 40% cap. Stage 0-4 sourcing not run \u2014 research cadence due, needs a dedicated session."
- },
- {
-  "date": "2026-08-07",
-  "timestamp": "2026-08-07T14:22:00Z",
-  "equity": 4788.5,
-  "spy": 771.48,
-  "cash": 449.94,
-  "peak_equity": 4798.1,
-  "n_positions": 6,
-  "note": "MID-MORNING TEND PASS (Zeus hourly, ~10:19-10:22 ET Fri 2026-08-07). GATES: kill switch clear; ORACLE_LIVE=true; oracle NOT paused (lifted 2026-07-14); breakers 'ok', absolute drawdown 0.20% from peak; halted=False. RECONCILE: broker == sleeve share-for-share on all six (TPC 9.607305 / KLIC 6.358622 / PAY 23.898856 / QTWO 12.517358 / ZVRA 47.034397 / LXU 55.078467); zero pending or unfilled Oracle orders. EDGAR SWEPT ON ALL SIX for documents since 08-05 \u2014 TPC 0, QTWO 0, LXU 0 new; KLIC's 10-Q (08-06) already read yesterday. TWO genuinely new documents, both read from the primary source and both NON-EVENTS for the typed kills: (1) PAY filed two Form 4s (08-06) \u2014 CFO Kalra sold 27,809sh and Director Trainor 80,000sh over 08-04/08-05, ~$4.4M total, BOTH under Rule 10b5-1 plans (affirmative-defense box checked), each retaining ~505-510k shares; this is the continuation of the distribution flagged on 08-06, logged as a trend line, and it does not touch a REVENUE kill that already failed at the Q2 print. (2) ZVRA 13G/A (08-06) \u2014 FMR LLC at 4,915,717sh / 8.3%, passive; not a thesis fact. PEER CHECK: only KLIC breached the 3% move trigger (+3.66%), and the back-end semi-cap group moved with it (ONTO +13.62%, ACMR +2.92%, UCTT +2.45%, KLAC +2.23%, FORM +1.89%, AMAT +1.80%) \u2014 sector, mid-pack, upward; no kill question. RESULT: 6 holds, 0 kills fired, 0 orders. Two names carry drawdowns (KLIC -14.61%, ZVRA -17.12%, LXU -12.79%) and Stage 5 is explicit that a drawdown is NEVER an exit. SIZING: largest name PAY at 19.85% (30% cap); cluster PAY+QTWO = $1,752.57 = 36.60% of equity vs the 40% cap \u2014 UP from 35.74% at the 08-06 pass, and the mechanism is the mirror of yesterday's: the pair did not grow, the denominator shrank (TPC -0.87%, ZVRA -1.60%, LXU -1.36%). Still under the cap; if it crosses 40% the fix is trimming the pair, not selling a thesis. A/B: 326 candidates across 3 rounds, 242 in the live round upside-2026-07-10-r1 (6 Arm A = the book, 236 Arm B); due_for_grade(2026-08-07) == [] \u2014 horizons are 15-18mo from 07-10, so the first grades land 2027-10 onward. Equity $4,788.50 vs $4,353.89 contributed = +9.98% (realized $147.95); peak $4,798.10."
- },
- {
-  "date": "2026-08-10",
-  "ts": "2026-08-10T14:18:00Z",
-  "equity": 4767.13,
-  "cash": 449.94,
-  "spy": 774.2478,
-  "peak_equity": 4798.1,
-  "drawdown": 0.0065,
-  "halted": false,
-  "note": "Zeus hourly tend, Mon 2026-08-10. 6 holds, 0 kills, 0 orders. Reconcile clean. Only new EDGAR doc: TPC Form 144 (director board-comp sale notice) \u2014 non-event. LXU +4.99% moved with the nitrogen complex."
- },
- {
-  "date": "2026-08-11",
-  "ts": "2026-08-11T14:18:00Z",
-  "equity": 4847.95,
-  "cash": 449.94,
-  "spy": 773.91,
-  "peak_equity": 4847.95,
-  "drawdown": 0.0,
-  "halted": false,
-  "note": "Zeus hourly tend, Tue 2026-08-11. 6 holds, 0 kills, 0 orders. Reconcile clean. Only new EDGAR doc: QTWO Form 144 (officer RSU/PSU 10b5-1 sale notice, 0.016% of shares out) \u2014 non-event. KLIC +5.46% and TPC +3.52% both moved WITH their sectors (semicap / E&C). NEW EQUITY PEAK $4,847.95."
- },
- {
-  "date": "2026-08-11",
-  "ts": "2026-08-11T20:15:00Z",
-  "equity": 4812.2,
-  "cash": 449.94,
-  "spy": 770.45,
-  "peak_equity": 4847.95,
-  "drawdown": 0.0074,
-  "halted": false,
-  "note": "Zeus hourly AFTER-CLOSE tend, Tue 2026-08-11. 6 holds, 0 kills, 0 orders. Reconcile clean; ZERO new EDGAR documents on all six. Excess vs SPY +4.39pp on the $4,500 basis (best reading yet). PAY +4.15% = +4.22pp IDIOSYNCRATIC vs a flat payments complex with nothing filed - the mirror of the 08-05 -9.36pp, and missed by the 10:18 ET pass. KLIC +5.27% was the semicap complex (median +2.90%, wide 9.13pp dispersion = weak median)."
- },
- {
-  "date": "2026-08-12",
-  "timestamp": "2026-08-12T14:20:00Z",
-  "equity": 4811.43,
-  "spy": 772.215,
-  "cash": 449.94,
-  "peak_equity": 4847.95365551,
-  "drawdown": 0.007534,
-  "note": "Zeus hourly tend ~10:20 ET Wed 2026-08-12: reconcile clean, 6 holds, 0 kills, 0 orders. Only new document across the book was a TPC director Form 4 (~96.5% of a director direct stake sold 08/07, no 10b5-1) - not a typed kill, logged as a watch item."
- },
- {
-  "date": "2026-08-12",
-  "ts": "2026-08-12T20:15:00Z",
-  "equity": 4808.01,
-  "cash": 449.94,
-  "spy": 772.54,
-  "peak_equity": 4847.95,
-  "drawdown": 0.0082,
-  "halted": false,
-  "note": "Zeus hourly AFTER-CLOSE tend, Wed 2026-08-12. 6 holds, 0 kills, 0 orders. Reconcile clean 6/6 exact. ZERO new EDGAR documents on all six. Only KLIC breached the 3% band (+4.55%) and the peer check put it +0.05pp off a +4.50% back-end semicap median - dead-centre participation, no name-specific content. Excess vs SPY on the $4,500 basis +4.01pp, down from +4.39pp at the 08-11 close. Marks are the 15:59:5x ET regular-session prints; the official 08-12 SIP close was not yet published at 20:15Z."
- },
- {
-  "date": "2026-08-13",
-  "ts": "2026-08-13T14:16:00Z",
-  "equity": 4838.65,
-  "cash": 449.94,
-  "spy": 778.315,
-  "peak_equity": 4847.95,
-  "drawdown": 0.0019,
-  "halted": false,
-  "note": "Zeus hourly tend ~10:14-10:16 ET Thu 2026-08-13. 6 holds, 0 kills, 0 orders. Reconcile clean 6/6 exact. EDGAR fresh-fact check on all six CIKs: 2 new documents, both Form 4s and neither a typed-kill fact \u2014 QTWO CPO 10,000sh sale under a CHECKED 10b5-1 plan (113,913sh retained, routine), ZVRA director 12,300 option exercise-and-same-day-sell at $11.25 (1,800sh + 46,500 options retained; monetization, not distribution \u2014 unlike the 08-11 TPC outright 96.5% stake sale). Caught and corrected a wrong-CIK read: 0001591890 is FG Nexus, not PAY; PAY is 0001841156 and has filed nothing since 08-06. Peer check: zero names breached the 3% trigger (PAY +2.48, QTWO +2.08, TPC -0.84, ZVRA -0.79, KLIC +0.58, LXU -0.15; SPY +0.75). Book +7.53% on the $4,500 round basis vs SPY +3.59% = +3.93pp excess, down from +4.01pp at the 08-12 close on a day the book (+0.64%) lagged the tape. ZVRA -19.5% / KLIC -13.1% drawdowns HELD per Stage 5. PAY+QTWO cluster 36.95% of equity (40% cap), third straight session drifting toward the cap while sector:'' leaves size_upside_book unable to enforce it \u2014 a code gap for the next round. A/B: 0 of 326 graded, due_for_grade == [] until 2027-10. No sourcing (funding decision, not a cadence reflex)."
- },
- {
-  "date": "2026-08-13",
-  "ts": "2026-08-13T20:15:00Z",
-  "equity": 4873.63,
-  "cash": 449.94,
-  "spy": 777.77,
-  "peak_equity": 4873.62920631,
-  "drawdown": 0.0,
-  "halted": false,
-  "note": "Zeus hourly AFTER-CLOSE tend, Thu 2026-08-13 (2nd pass today). 6 holds, 0 kills, 0 orders. Reconcile clean 6/6; ZERO new EDGAR documents on all six. Excess vs SPY +4.78pp on the $4,500 basis - best reading yet; new equity peak $4,873.63 (stamped on a close-basis mark). SECTOR-FACTOR day: PAY +4.39% and QTWO +5.85% BOTH breached the 3% trigger, but the payments/bank-software peer median was +4.30% with 9 of 9 peers UP on a +0.68% tape - PAY +0.09pp off the median, QTWO +1.55pp above a 6.80pp-dispersed set. Neither is name-specific. No peer earnings catalyst (FOUR printed 08-06, NCNO not until 08-25); driver left unattributed. The morning pass saw both BELOW the trigger (+2.48/+2.08) - third morning-vs-close disagreement in seven sessions. Cluster PAY+QTWO 37.66% and moving as ONE thing, still invisible to the sizer (sector:'')."
- },
- {
-  "date": "2026-08-14",
-  "ts": "2026-08-14T14:16:00Z",
-  "equity": 4884.05,
-  "cash": 449.94,
-  "spy": 778.14,
-  "peak_equity": 4884.0534195049995,
-  "drawdown": 0.0,
-  "halted": false,
-  "note": "Zeus hourly TEND, Fri 2026-08-14 ~10:16 ET. 6 holds, 0 typed kills fired, 0 orders. TWO new EDGAR documents since the 08-13 after-close pass, both dispositioned as NON-kills: LXU Form 4 08-13 = director Ackerman BUYING 1,000 sh @ $9.89 (10b5-1; 10,252 held after) - confirming, not breaking; QTWO Form 144 08-13 = officer Price noticing 77,180 sh (~$4.83M) from a 03/02 RSU/PSU vest with nothing sold in the prior 3 months - routine vest monetization at 0.12 pct of shares out. TPC filed NOTHING, so the 08-11 Feltenstein discretionary exit stays a single point, not distribution. New equity peak $4884.05 (prior $4884.05). Book +9.48 pct on the ACTUAL $4,050.06 cost basis (positions now $4,434.11) vs SPY +3.62 pct from the 07-10 entry (SPY 750.935) = +5.86pp excess. Weights: PAY 20.4, TPC 19.1, QTWO 16.6, KLIC 12.7, LXU 11.4, ZVRA 10.6, cash 9.2 (pct). A/B: due_for_grade == [] (all 34 rows carry 6-24mo horizons from 07-10; nothing matures yet), so no grading and no calibration update this pass. RESEARCH CADENCE NOTE: the 3-day sourcing clock has been due since 2026-07-14 and is deliberately NOT run here - the book sits at the spec ceiling of 6 concentrated names (Stage 4 concentrates 3-6) and $449.94 cash is 9.2 pct of equity, so a fresh Stage 0-4 cascade has nowhere to put a 7th name without violating the concentration mandate. Sourcing earns its credits again when a typed kill frees capital or the operator adds funding."
- },
- {
-  "date": "2026-08-14",
-  "ts": "2026-08-14T20:15:00Z",
-  "equity": 4918.71,
-  "cash": 449.94,
-  "spy": 776.31,
-  "peak_equity": 4918.71,
-  "drawdown": 0.0,
-  "halted": false,
-  "note": "Zeus hourly AFTER-CLOSE tend, Fri 2026-08-14. 6 holds, 0 kills, 0 orders. Reconcile clean 6/6 exact vs broker. NEW PEAK equity $4,918.71 (prior $4,884.05). Book +0.71% on the session vs SPY -0.20%. One genuinely new document across all six CIKs: ZVRA 13G/A (Woodline 6.2%->8.1%, accumulation, but 06/30 event date, pre-dates our entry, and the 3-filing 'cluster' is the 45-day deadline calendar). Both >3% movers peer-checked and explained as sector participation: KLIC on a front-end/back-end semicap split (back-end green on an AMAT -5.12% front-end day), LXU on an ammonia-complex rally (+0.30pp off UAN). Marks are the 15:59:5x ET regular-session prints; the official 08-14 SIP close was not yet published at 20:15Z."
- }
+  {
+    "allocation": 1000.0,
+    "attribution": {
+      "reason": "1 common dates, need 7",
+      "skipped": true
+    },
+    "cash": 1099.55,
+    "date": "2026-06-30",
+    "equity": 1999.3665,
+    "n_positions": 5,
+    "note": "oracle cycle: cohort-2026-06-29 held. no thesis-breaks. no trades. attribution skipped (<7 common dates).",
+    "positions": {
+      "CXT": {
+        "price": 49.14,
+        "shares": 3.714865
+      },
+      "HDSN": {
+        "price": 5.48,
+        "shares": 32.200357
+      },
+      "J": {
+        "price": 123.81,
+        "shares": 1.42387
+      },
+      "PSN": {
+        "price": 51.32,
+        "shares": 3.557815
+      },
+      "VITL": {
+        "price": 11.3,
+        "shares": 16.100322
+      }
+    },
+    "ts": "2026-06-30T06:18:11.961359Z"
+  },
+  {
+    "allocation": 1000.0,
+    "attribution": {
+      "reason": "cohort day 1, need 6+ common return dates",
+      "skipped": true
+    },
+    "cash": 199.4814,
+    "date": "2026-06-30",
+    "equity": 1999.3322,
+    "n_positions": 5,
+    "note": "oracle cycle: cohort-2026-06-29 held, no thesis-breaks. top-up buys queued for HDSN/CXT/VITL/J/PSN ($899.61 total). attribution skipped (<6 common dates with factor ETFs).",
+    "positions": {
+      "CXT": {
+        "price": 49.14,
+        "shares": 7.323735
+      },
+      "HDSN": {
+        "price": 5.48,
+        "shares": 65.672977
+      },
+      "J": {
+        "price": 123.81,
+        "shares": 2.90678
+      },
+      "PSN": {
+        "price": 51.32,
+        "shares": 7.0207049999999995
+      },
+      "VITL": {
+        "price": 11.3,
+        "shares": 31.848101999999997
+      }
+    },
+    "ts": "2026-06-30T06:42:14.401430Z"
+  },
+  {
+    "date": "2026-06-30",
+    "equity": 1997.026,
+    "intraday": true,
+    "ts": "2026-06-30T14:17:40Z"
+  },
+  {
+    "cash": 199.4813921007501,
+    "equity": 2045.1098950557503,
+    "mode": "live",
+    "n_positions": 5,
+    "note": "cohort_hold_no_trades",
+    "ts": "2026-07-01T03:15:31.198940+00:00"
+  },
+  {
+    "cash": 199.4813921007501,
+    "date": "2026-07-04",
+    "equity": 2139.36743584575,
+    "mode": "live",
+    "n_positions": 5,
+    "note": "oracle cycle: cohort-2026-06-29 held, no thesis-breaks (all 5 positions up from entry, largest drawdown 0%). no excess cash for top-up (cash $199.48 < 10% floor $213.94 + $50 ticket). research pass: dossier pool at 93 (target 60-100), no stale dossiers (0 flagged), added candidates from screen. attribution skipped: insufficient equity-curve history (2 daily dates, need 6+). capital gate: 3 graded calls (need 30) -- stays at base allocation.",
+    "ts": "2026-07-04T04:14:30.752608+00:00"
+  },
+  {
+    "date": "2026-07-07",
+    "timestamp": "2026-07-07T14:17:00Z",
+    "equity": 4089.75,
+    "spy": 746.95,
+    "cash": 2227.63,
+    "peak_equity": 4089.75,
+    "note": "tend-only: reconciled SEER/NNDM/FULC broker fills into sleeve; kill_conditions checked (no bid withdrawal, no value-destructive M&A, no dilutive reverse merger found) \u2014 none triggered"
+  },
+  {
+    "timestamp": "2026-07-07T15:12:00Z",
+    "equity": 4107.73,
+    "cash": 2227.626744999999,
+    "positions_value": 1880.1
+  },
+  {
+    "timestamp": "2026-07-07T21:15:00Z",
+    "equity": 4117.66,
+    "cash": 2227.626744999999,
+    "positions_value": 1890.035,
+    "note": "zeus tend-only pass"
+  },
+  {
+    "timestamp": "2026-07-14T13:12:00Z",
+    "equity": 4436.01,
+    "cash": 449.94,
+    "positions_value": 3986.07,
+    "note": "zeus tend pass \u2014 marked at 2026-07-13 closes (pre-market); book upside-2026-07-10-r1"
+  },
+  {
+    "timestamp": "2026-07-14T14:11:00Z",
+    "equity": 4458.35,
+    "cash": 449.94,
+    "positions_value": 4008.41,
+    "note": "zeus tend pass ~10:11 ET live quotes; book upside-2026-07-10-r1; SPY 749.86 (spy_entry 751.31)"
+  },
+  {
+    "timestamp": "2026-07-14T15:20:00Z",
+    "equity": 4470.52,
+    "cash": 449.94,
+    "positions_value": 4020.58,
+    "note": "zeus tend pass ~11:20 ET live quotes; book upside-2026-07-10-r1; SPY 751.85 (spy_entry 751.31)"
+  },
+  {
+    "timestamp": "2026-07-14T16:15:00Z",
+    "equity": 4463.42,
+    "cash": 449.94,
+    "positions_value": 4013.48,
+    "note": "zeus tend pass ~12:15 ET live quotes; book upside-2026-07-10-r1; SPY 750.53 (spy_entry 751.31)"
+  },
+  {
+    "timestamp": "2026-07-14T17:11:00Z",
+    "equity": 4467.55,
+    "cash": 449.94,
+    "positions_value": 4017.61,
+    "note": "zeus tend pass ~13:11 ET live quotes; book upside-2026-07-10-r1 healthy, no kills evaluable (print-based, ~Aug); SPY 752.15"
+  },
+  {
+    "timestamp": "2026-07-14T18:15:00Z",
+    "equity": 4459.16,
+    "cash": 449.94,
+    "positions_value": 4009.22,
+    "note": "zeus tend pass ~14:15 ET live quotes; book upside-2026-07-10-r1; no filings since entry, no kills evaluable; SPY 752.555 (spy_entry 751.31)"
+  },
+  {
+    "timestamp": "2026-07-14T20:05:00Z",
+    "equity": 4450.12,
+    "cash": 449.94,
+    "positions_value": 4000.18,
+    "note": "zeus tend pass 16:04 ET close marks; book upside-2026-07-10-r1 -1.11% vs basis, SPY +0.08% from spy_entry 751.31 (SPY 751.88); EDGAR clean since 07-10, no kills evaluable (print-based, ~Aug); reconcile clean, no open orders; A/B nothing due"
+  },
+  {
+    "timestamp": "2026-07-15T13:10:00Z",
+    "equity": 4451.35,
+    "cash": 449.94,
+    "positions_value": 4001.41,
+    "note": "zeus tend pass ~09:10 ET pre-market, marked at 2026-07-14 official closes; book upside-2026-07-10-r1 -1.08% vs basis, SPY +0.07% from spy_entry 751.31; EDGAR clean since entry on all six (checked 07-15), no kills evaluable (print-based, ~Jul/Aug); A/B due_for_grade=0; reconcile clean (no oracle orders; the 07-14 VXUS sell is not ledgered to oracle)"
+  },
+  {
+    "date": "2026-07-15",
+    "equity": 4475.95,
+    "spy": 754.94,
+    "note": "tend: 6/6 marked live 10:13ET; broker==sleeve exact; no fresh filings; no kills evaluable; ab due=0"
+  },
+  {
+    "timestamp": "2026-07-15T15:10:00Z",
+    "equity": 4458.46,
+    "cash": 449.94,
+    "positions_value": 4008.52,
+    "spy": 754.02,
+    "note": "zeus tend ~11:09 ET live marks; book upside-2026-07-10-r1 -0.92% vs basis, SPY +0.36% from spy_entry 751.31; reconcile clean; EDGAR clean since entry, no kills evaluable; ab due=0"
+  },
+  {
+    "timestamp": "2026-07-15T16:14:00Z",
+    "equity": 4412.17,
+    "cash": 449.94,
+    "positions_value": 3962.23,
+    "spy": 751.52,
+    "note": "zeus tend ~12:14 ET live marks; book upside-2026-07-10-r1 -1.95% vs 4500 basis, SPY +0.03% from spy_entry 751.31 (excess -1.98pp); reconcile clean (broker==sleeve exact 6/6; only account order since 07-14 is operator VXUS sell, not oracle's); EDGAR clean since 07-10 entry -> no typed kill evaluable; KLIC -6.2% intraday on no filing/news event (valuation/vol, kill is print-based ~Aug); ZVRA worst wobble -9.25% vs entry; ab due=0"
+  },
+  {
+    "timestamp": "2026-07-15T17:09:00Z",
+    "equity": 4409.63,
+    "cash": 449.94,
+    "positions_value": 3959.69,
+    "spy": 752.095,
+    "note": "zeus tend ~13:09 ET live marks; book upside-2026-07-10-r1 -2.01% vs 4500 basis, SPY +0.10% from spy_entry 751.31 (excess -2.11%); reconcile clean (broker==sleeve exact 6/6; only account order since 07-14 is operator VXUS agentic sell, filled 07-15 13:30Z, not oracle's); EDGAR re-checked all six CIKs: zero filings since 07-10 entry -> no typed kill evaluable (all print-based, ~Jul/Aug prints); ZVRA worst wobble -10.3% vs entry - a drawdown is never an exit; KLIC -4.9% intraday, no filing; ab due=0; sourcing conscious no-op (book fully deployed, 07-10 pipeline fresh)"
+  },
+  {
+    "timestamp": "2026-07-15T18:20:00Z",
+    "equity": 4431.64,
+    "cash": 449.94,
+    "positions_value": 3981.7,
+    "spy": 754.68,
+    "note": "zeus tend ~14:13 ET live marks; book upside-2026-07-10-r1 -1.52% vs 4500 basis, SPY +0.45% from spy_entry 751.31 (excess -1.97pp); reconcile clean (broker==sleeve exact 6/6, no open oracle orders); EDGAR all six CIKs: zero filings since 07-10 entry -> no typed kill evaluable; ZVRA worst wobble -10.07%, TPC +4.02% best - drawdowns never exits; ab due=0"
+  },
+  {
+    "timestamp": "2026-07-15T19:16:00Z",
+    "equity": 4441.03,
+    "cash": 449.94,
+    "positions_value": 3991.09,
+    "spy": 753.79,
+    "note": "zeus tend ~15:14 ET live marks; book upside-2026-07-10-r1 -1.31% vs 4500 basis, SPY +0.33% from spy_entry 751.31 (excess -1.64pp); reconcile clean (broker==sleeve exact 6/6, no open oracle orders; only account order since 07-14 is the operator's agentic VXUS sell, filled 07-15 13:30Z); EDGAR all six CIKs: zero filings since 07-10 entry -> no typed kill evaluable; ZVRA worst wobble -9.54%, TPC +4.16% best - drawdowns never exits; ab due=0"
+  },
+  {
+    "timestamp": "2026-07-16T13:10:00Z",
+    "equity": 4460.8,
+    "cash": 449.94,
+    "positions_value": 4010.86,
+    "spy": 754.81,
+    "note": "zeus tend 09:10 ET pre-market, marks = official 07-15 closes; book upside-2026-07-10-r1 -0.87% vs 4500 basis, SPY +0.47% from spy_entry 751.31 (excess -1.34pp); reconcile clean (no agentic orders since 07-15, no open oracle orders); EDGAR all six: zero filings since 07-15 (latest KLIC 07-08 Form 4, TPC 07-06 8-K already read) -> no typed kill evaluable, all print-based ~Jul/Aug; ZVRA worst -8.12%, TPC +4.38% best - drawdowns never exits; ab due=0"
+  },
+  {
+    "timestamp": "2026-07-16T18:15:00Z",
+    "equity": 4462.77,
+    "cash": 449.94,
+    "positions_value": 4012.83,
+    "spy": 753.32,
+    "note": "zeus tend ~14:15 ET live marks; book upside-2026-07-10-r1 -0.83% vs 4500 basis, SPY +0.27% from spy_entry 751.31 (excess -1.09pp); reconcile clean (broker==sleeve exact 6/6, no account orders created since 07-15, no open oracle orders); EDGAR all six CIKs: zero filings since entry (latest KLIC 07-08 Form 4s, ZVRA 07-08 Form 144, TPC 07-06 8-K - all pre-entry/read) -> no typed kill evaluable; ZVRA worst -7.48%, TPC +3.71% best - drawdowns never exits; ab due=0"
+  },
+  {
+    "timestamp": "2026-07-16T15:30:00Z",
+    "equity": 4447.16,
+    "cash": 449.94,
+    "positions_value": 3997.22,
+    "spy": 753.2218,
+    "note": "zeus tend ~11:30 ET live marks (quotes 15:22Z); book upside-2026-07-10-r1 -1.17% vs 4500 basis, SPY +0.25% from spy_entry 751.31 (excess -1.43pp); reconcile clean (broker==sleeve exact 6/6, zero account orders since 07-15, no open oracle orders); EDGAR all six CIKs: zero filings since entry -> no typed kill evaluable; KLIC -8.31% and ZVRA -8.76% vs entry on no filing - drawdowns never exits; ab due=0. NOTE: prior 07-16 curve/journal entry stamped 18:15Z was actually ~15:05Z (UTC mislabeled as ET); this entry stamped correctly"
+  },
+  {
+    "timestamp": "2026-07-16T16:20:00Z",
+    "equity": 4439.36,
+    "cash": 449.94,
+    "positions_value": 3989.42,
+    "spy": 752.4,
+    "note": "zeus tend ~12:20 ET live marks (quotes 16:18Z); book upside-2026-07-10-r1 -1.35% vs 4500 basis, SPY +0.15% from spy_entry 751.31 (excess -1.49pp); reconcile clean (broker==sleeve exact 6/6, only new account order since 07-15 is a non-oracle agentic OGN buy, no open oracle orders); EDGAR all six CIKs: zero filings since entry -> no typed kill evaluable; KLIC -9.25% and ZVRA -10.24% vs entry on no filing - drawdowns never exits; TPC +3.41% best; ab due=0"
+  },
+  {
+    "timestamp": "2026-07-16T17:10:00Z",
+    "equity": 4446.12,
+    "cash": 449.94,
+    "positions_value": 3996.18,
+    "spy": 752.25,
+    "note": "zeus tend 13:04 ET live marks (quotes 17:06Z); book upside-2026-07-10-r1 -1.20% vs 4500 basis, SPY +0.13% from spy_entry 751.31 (excess -1.32pp); reconcile clean (broker==sleeve exact 6/6; only account order since 07-15 is the agentic OGN buy, not oracle's; no open oracle orders); EDGAR all six CIKs: zero filings since entry -> no typed kill evaluable; ZVRA worst -10.24%, KLIC -9.80%, QTWO +4.23% best - drawdowns never exits; ab due=0"
+  },
+  {
+    "timestamp": "2026-07-16T19:16:00Z",
+    "equity": 4440.2,
+    "cash": 449.94,
+    "positions_value": 3990.26,
+    "spy": 749.67,
+    "note": "zeus tend ~15:14 ET live marks (quotes 19:12Z); book upside-2026-07-10-r1 -1.33% vs 4500 basis, SPY -0.22% from spy_entry 751.31 (excess -1.11pp); reconcile clean (broker==sleeve exact 6/6; only account order since 07-15 is the non-oracle agentic OGN buy; no open oracle orders); EDGAR all six CIKs: zero filings since entry -> no typed kill evaluable; KLIC -10.12% and ZVRA -10.03% vs entry on no filing - drawdowns never exits; QTWO +3.93% best; ab due=0"
+  },
+  {
+    "timestamp": "2026-07-16T21:10:00Z",
+    "equity": 4450.6,
+    "cash": 449.94,
+    "positions_value": 4000.66,
+    "spy": 750.83,
+    "note": "zeus tend 17:05 ET, post-close marks at the 16:00 close (quotes 19:59:59Z); book upside-2026-07-10-r1 -1.10% vs 4500 basis, SPY 750.83 vs spy_entry 751.31 (-0.06%), excess -1.03pp; reconcile clean (broker==sleeve exact 6/6; only account order since 07-15 is the non-oracle agentic OGN buy; no open oracle orders); EDGAR: ONE new filing since last tend - KLIC SCHEDULE 13G 07-16 (JPMorgan Chase, passive 5.0% as of 06/30) - not kill-relevant; no typed kill evaluable (all print-based, Jul/Aug); KLIC -10.01%, ZVRA -9.57% - drawdowns never exits; QTWO +4.94% best; ab due=0"
+  },
+  {
+    "timestamp": "2026-07-17T14:09:00Z",
+    "equity": 4432.53,
+    "cash": 449.94,
+    "positions_value": 3982.59,
+    "spy": 746.12,
+    "note": "zeus tend ~10:07 ET live marks (quotes 14:07Z); book upside-2026-07-10-r1 -1.50% vs 4500 basis, SPY 746.12 vs spy_entry 751.31 (-0.69%), excess -0.81pp; reconcile clean (broker==sleeve exact 6/6; no oracle orders since 07-16 tend, no open orders; OGN position is another god's - invisible per filter_broker_to_gods); EDGAR all six CIKs: only filing since 07-10 entry remains the KLIC 13G 07-16 (JPMorgan passive 5.0%, already dispositioned, not kill-relevant) -> no typed kill evaluable (all print-based, Jul/Aug); KLIC -12.88% worst, ZVRA -9.25% - drawdowns never exits; QTWO +6.44% best; ab due=0"
+  },
+  {
+    "timestamp": "2026-07-17T15:12:00Z",
+    "equity": 4423.41,
+    "cash": 449.94,
+    "positions_value": 3973.47,
+    "spy": 744.85,
+    "note": "zeus tend ~11:09 ET live marks (quotes 15:09Z); book upside-2026-07-10-r1 -1.70% vs 4500 basis, SPY 744.85 vs spy_entry 751.31 (-0.86%), excess -0.84pp; reconcile clean (broker==sleeve exact 6/6; zero equity orders created since 14:00Z, no open oracle orders; OGN position is another god's - invisible per filter_broker_to_gods); EDGAR all six CIKs: only filing since 07-10 entry remains the KLIC 13G 07-16 (JPMorgan passive 5.0%, already dispositioned, not kill-relevant) -> no typed kill evaluable (all print-based, Jul/Aug); KLIC -11.90% worst, ZVRA -8.76% - drawdowns never exits; QTWO +4.53% best; ab due=0"
+  },
+  {
+    "timestamp": "2026-07-17T16:14:00Z",
+    "equity": 4427.89,
+    "cash": 449.94,
+    "positions_value": 3977.95,
+    "spy": 746.08,
+    "note": "zeus tend ~12:14 ET live marks (quotes 16:13Z); book upside-2026-07-10-r1 -1.60% vs 4500 basis, SPY 746.08 vs spy_entry 751.31 (-0.70%), excess -0.90pp; reconcile clean (no oracle orders since 07-16 close tend); EDGAR 6/6 CIKs: nothing new since the dispositioned KLIC 13G 07-16 -> no kill evaluable, all print-based kills wait for ~Aug prints; hold_all"
+  },
+  {
+    "timestamp": "2026-07-17T17:10:00Z",
+    "equity": 4473.65,
+    "cash": 449.94,
+    "positions_value": 4023.71,
+    "spy": 746.52,
+    "note": "zeus tend ~13:07 ET live marks (quotes 17:05Z); book upside-2026-07-10-r1 -0.59% vs 4500 basis, SPY 746.52 vs spy_entry 751.31 (-0.64%), excess 0.05pp; reconcile clean (broker==sleeve exact 6/6, zero oracle orders since 07-16 close tend); EDGAR 6/6 CIKs: nothing new since the dispositioned KLIC 13G 07-16 -> no typed kill evaluable; print dates confirmed via earnings feed: LXU+QTWO 07-29 (verified), PAY 08-03, KLIC+TPC 08-05, ZVRA 08-11 (tentative); hold_all"
+  },
+  {
+    "timestamp": "2026-07-17T18:20:00Z",
+    "equity": 4476.87,
+    "cash": 449.94,
+    "positions_value": 4026.93,
+    "spy": 744.25,
+    "note": "zeus tend ~14:15 ET live marks (quotes 18:13Z); book upside-2026-07-10-r1 -0.51% vs 4500 basis, SPY 744.25 vs spy_entry 751.31 (-0.94%), excess +0.43pp (widening as SPY fades); reconcile clean (broker==sleeve exact 6/6, zero oracle orders since 07-16 close tend); EDGAR 6/6 CIKs: nothing new since the dispositioned KLIC 13G 07-16 -> no typed kill evaluable; all six kills print-based (LXU+QTWO 07-29 first); hold_all"
+  },
+  {
+    "timestamp": "2026-07-17T19:10:00Z",
+    "equity": 4469.8,
+    "cash": 449.94,
+    "positions_value": 4019.86,
+    "spy": 743.81,
+    "note": "zeus tend ~15:06 ET live marks (quotes 19:06Z); book upside-2026-07-10-r1 -0.67% vs 4500 basis, SPY 743.81 vs spy_entry 751.31 (-1.00%), excess +0.33pp; reconcile clean (broker==sleeve exact 6/6, zero oracle orders since 07-16 close tend); EDGAR 6/6 CIKs: NEW PAY SCHEDULE 13G/A 07-17 (Wasatch Advisors LP passive 9.8%, acc 0000814133-26-000093, dispositioned NOT kill-relevant); no typed kill evaluable, all six kills print-based (LXU+QTWO 07-29 first); hold_all"
+  },
+  {
+    "timestamp": "2026-07-17T21:10:00Z",
+    "equity": 4448.77,
+    "cash": 449.94,
+    "positions_value": 3998.83,
+    "spy": 743.18,
+    "note": "zeus tend ~17:05 ET AFTER CLOSE \u2014 official 07-17 closes (4pm prints): book upside-2026-07-10-r1 -1.14% vs 4500 basis, SPY 743.18 vs spy_entry 751.31 (-1.08%), excess -0.06pp; reconcile clean (broker==sleeve exact 6/6, no oracle orders, none open); EDGAR 6/6 CIKs: zero new filings since 19:06Z tend (only the dispositioned KLIC JPM 13G 07-16 + PAY Wasatch 13G/A 07-17); no typed kill evaluable, all six kills print-based (LXU+QTWO 07-29 first); hold_all, market closed, no orders"
+  },
+  {
+    "ts": "2026-07-20T14:08:00Z",
+    "equity": 4468.5,
+    "cash": 449.94,
+    "positions_value": 4018.56,
+    "spy": 745.65,
+    "note": "zeus tend ~10:06 ET \u2014 intraday marks 14:08Z: book upside-2026-07-10-r1 -0.70% vs 4500 basis, SPY 745.65 vs spy_entry 751.31 (-0.75%), excess +0.05pp; reconcile clean (broker==sleeve exact 6/6, no oracle orders, none open); EDGAR 6/6 CIKs: zero new filings since 07-17 (only dispositioned PAY Wasatch 13G/A + KLIC JPM 13G); no typed kill evaluable, all six kills print-based (LXU+QTWO 07-29 first); hold_all, no orders"
+  },
+  {
+    "ts": "2026-07-20T20:10:00Z",
+    "equity": 4458.13,
+    "cash": 449.94,
+    "positions_value": 4008.19,
+    "spy": 742.1,
+    "note": "zeus tend ~16:05 ET AFTER CLOSE \u2014 07-20 4pm prints: book upside-2026-07-10-r1 -0.93% vs 4500 basis, SPY 742.10 vs spy_entry 751.31 (-1.23%), excess +0.30pp; reconcile clean (broker==sleeve exact 6/6, no oracle orders, none open); EDGAR 6/6 CIKs: zero new filings since 07-17 (only dispositioned PAY Wasatch 13G/A + KLIC JPM 13G); ZVRA closed -5.8% on the day (-14.7% vs entry) on NO adverse filing \u2014 drawdown, never an exit; no typed kill evaluable, all six kills print-based (LXU+QTWO 07-29 first); hold_all, market closed, no orders"
+  },
+  {
+    "ts": "2026-07-21T14:14:00Z",
+    "equity": 4556.37,
+    "positions_value": 4106.43,
+    "cash": 449.94,
+    "spy": 745.72,
+    "note": "zeus tend ~10:15 ET \u2014 intraday marks 14:14Z: book upside-2026-07-10-r1 +1.25% vs 4500 basis, SPY 745.72 vs spy_entry 751.31 (-0.74%), excess +2.00pp (best since entry); TPC +8.4% on the day (87.34, +14.98% vs entry) on NO new EDGAR filing; reconcile clean (broker==sleeve exact 6/6, no oracle orders since 07-20 close, none open); EDGAR 6/6 CIKs: zero new filings since 07-17 (only dispositioned PAY Wasatch 13G/A + KLIC JPM 13G); no typed kill evaluable, all six kills print-based (LXU+QTWO 07-29 first); hold_all, no orders"
+  },
+  {
+    "ts": "2026-07-21T20:12:00Z",
+    "equity": 4593.91,
+    "cash": 449.94,
+    "positions_value": 4143.97,
+    "spy": 748.28,
+    "note": "zeus tend ~16:05 ET AFTER CLOSE \u2014 07-21 4pm prints: book upside-2026-07-10-r1 +2.09% vs 4500 basis (NEW HIGH mark), SPY 748.28 vs spy_entry 751.31 (-0.40%), excess +2.49pp (widest lead since entry); reconcile clean (broker==sleeve exact 6/6, no oracle orders today); EDGAR 6/6 CIKs: zero new filings since 07-17; no typed kill evaluable, all six print-based (LXU+QTWO 07-29 first); hold_all, no orders"
+  },
+  {
+    "date": "2026-07-22",
+    "ts": "2026-07-22T14:22:00Z",
+    "equity": 4551.62,
+    "spy": 748.36
+  },
+  {
+    "ts": "2026-07-22T20:10:00Z",
+    "equity": 4536.42,
+    "cash": 449.94,
+    "positions_value": 4086.48,
+    "spy": 747.33,
+    "note": "zeus tend ~16:05 ET AFTER CLOSE \u2014 07-22 4pm prints: book upside-2026-07-10-r1 +0.81% vs 4500 basis (off the 07-21 high, giveback day), SPY 747.33 vs spy_entry 751.31 (-0.53%), excess +1.34pp; reconcile clean (broker==sleeve exact 6/6, no oracle orders today); EDGAR 6/6 CIKs: zero new filings (only the dispositioned PAY Wasatch 13G/A 07-17); no typed kill evaluable, all six print-based (LXU+QTWO 07-29 first); hold_all, no orders"
+  },
+  {
+    "date": "2026-07-23",
+    "equity": 4563.0,
+    "spy": 740.49,
+    "note": "intraday tend mark ~10:12 ET (Zeus hourly)"
+  },
+  {
+    "date": "2026-07-23",
+    "equity": 4575.94,
+    "positions_value": 4126.0,
+    "spy": 738.24,
+    "note": "zeus tend ~16:05 ET AFTER CLOSE \u2014 07-23 4pm prints: book upside-2026-07-10-r1 +1.69% vs 4500 basis (new closing high, green book on a -1.23% SPY day), SPY 738.24 vs spy_entry 751.31 (-1.74%), excess +3.43pp (widened from +1.34pp at the 07-22 close); reconcile clean (broker==sleeve exact 6/6, zero orders today); EDGAR 6/6 CIKs: zero new filings since 07-17 (only the dispositioned PAY Wasatch 13G/A); no typed kill evaluable, all six print-based (LXU+QTWO 07-29 first); hold_all, no orders"
+  },
+  {
+    "date": "2026-07-24",
+    "equity": 4422.8,
+    "positions_value": 3972.86,
+    "spy": 738.85,
+    "note": "zeus tend ~16:10 ET AFTER CLOSE \u2014 07-24 4pm prints: book upside-2026-07-10-r1 -1.72% vs 4500 basis, SPY 738.85 vs spy_entry 751.31 (-1.66%), excess -0.06pp (collapsed from +3.43pp at the 07-23 close \u2014 the entire give-back is ZVRA). EVENT: ZVRA -23.9% (12.52 -> 9.525) on an overnight gap-down, ~3.5M shares vs ~900k normal \u2014 EMA CHMP adopted a NEGATIVE opinion on the arimoclomol MAA for Niemann-Pick type C in the EU (company PR 2026-07-24, GlobeNewswire); company will request re-examination; US MIPLYFFA approval and marketing UNAFFECTED; no 8-K on EDGAR yet (4-business-day window open). Stage-5 evaluate_exit on all 6 = NO EXIT: no fundamental_break (no filing, US revenue leg untouched), no dilution/going-concern, no dated catalyst_fail, no price_level kill; ZVRA's typed kill ('2 consecutive flat/declining product-revenue quarters') is print-based and NOT evaluable until the Q2 print (~early Aug). A drawdown is never an exit \u2014 held. Reconcile clean (broker==sleeve exact 6/6, zero oracle orders). EDGAR 6/6: only PAY 8-K 5.02/9.01 + 8-K/A 5.07 (07-23, officer/board + vote results) and a KLIC 13G \u2014 no typed kill evaluable. A/B: due_for_grade=0, 0 graded, lift not computable. hold_all, no orders."
+  },
+  {
+    "ts": "2026-07-27T14:18:00Z",
+    "date": "2026-07-27",
+    "equity": 4430.23,
+    "spy": 740.83,
+    "cash": 449.94,
+    "round": "upside-2026-07-10-r1",
+    "detail": "Zeus hourly tend ~10:18 ET Mon 2026-07-27. Reconcile clean 6/6; EDGAR zero new filings on all six CIKs since 07-24 (ZVRA CHMP 8-K still not filed); no typed kill evaluable; hold_all, no orders. Excess -0.16pp vs SPY \u2014 first negative reading since funding (ZVRA -29.95% post-CHMP + KLIC -10.05% sector beta). LXU/QTWO print 07-29 pm: first kill checks with teeth."
+  },
+  {
+    "ts": "2026-07-27T20:10:00Z",
+    "date": "2026-07-27",
+    "equity": 4465.91,
+    "positions_value": 4015.97,
+    "spy": 739.02,
+    "cash": 449.94,
+    "round": "upside-2026-07-10-r1",
+    "note": "Zeus hourly tend, AFTER CLOSE Mon 2026-07-27 (~16:10 ET; quotes 19:59-20:00Z, 4pm prints). CLOSING MARK equity $4,465.91 (-0.76% vs $4,500 basis) vs SPY 739.02 / spy_entry 751.31 (-1.64%) -> EXCESS +0.88pp, RECOVERED from -0.16pp at the 10:18 ET tend (the first negative reading since funding); day P&L +$35.68. Cash $449.94. Per-name close vs entry: TPC +12.86% (85.73, -1.20% day), QTWO +9.60% (58.09, +6.37% day), PAY +9.04% (31.48, +9.04% day), LXU +4.65% (11.47, -6.29% day), KLIC -10.78% (98.20, -3.09% day), ZVRA -31.16% (9.71, +1.94% day). RECONCILE CLEAN: broker==sleeve exact 6/6 (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); ZERO equity orders account-wide since 2026-07-20; legacy CXT/HDSN/J/PSN/VITL absent as expected; only VXUS/OGN etc. personal and invisible. EDGAR SWEEP all six CIKs (TPC 77543 / KLIC 56978 / PAY 1841156 / ZVRA 1434647 / QTWO 1410384 / LXU 60714), filings >= 2026-07-24: ZERO new filings on ALL SIX (second sweep today, post-close). The ZVRA CHMP 8-K STILL has not landed (PR 2026-07-24; 4-business-day window closes ~2026-07-30). STAGE 5 evaluate_exit run verbatim on all six = NO EXIT (all six kills are fundamental_break/print-based and no filing exists to break on; no dilution/going-concern; no catalyst_date or prediction_date underwritten; no price_level kill). HELD. PAY's +9.04% and QTWO's +6.37% on a FLAT tape (SPY +0.01%) carry NO filing -> tested the cluster hypothesis and it holds: the whole fintech/payments-software complex rallied today - NCNO +6.64%, TOST +6.15%, ALKT +5.90%, GPN +3.88%, FOUR +3.33%, BILL +3.17%, JKHY +1.63%. So today's gain is CLUSTER BETA, not idiosyncratic thesis confirmation - do not read it as the inflection arriving. PAY+QTWO combined = $1,479 / 33.1% of equity, inside the 40% cluster cap. Symmetrically, KLIC's -3.09% is the semi-equipment complex again, not a name event. Circuit breakers: ok, not halted, peak_equity 4500, absolute_drawdown 0.76%. A/B: due_for_grade(2026-07-27)=0 (horizons 15-24mo), 0 graded, llm_lift not computable (lift_trustworthy False, 34 unresolved Arm-B / 31 Arm-A rows); no calibration write. SOURCING: conscious no-op (standing duty 3 - book fully deployed, sleeve cash $449.94 is a ceiling against a SHARED buying-power pool, 07-10 pipeline of 73 fundables still fresh); research cadence stamp left untouched on purpose. BOOKKEEPING GAP (flagged, NOT patched per the fail-safe): cache/oracle_upside_book.json still holds the 07-06 paper round ({'CBZ': 3000.0}) and cache/oracle_upside_dossiers.json still holds the 07-06 paper six (SABR/ACVA/CBZ/FRPT/EYE/NCNO) - neither was overwritten at the 07-10 funding, so the live six's typed kills live only in oracle_journal.jsonl (the authoritative append-only record) and oracle_upside_ab.json. Stage 5 was run off the journal kills. The next FULL round must rewrite both artifacts. NEXT: the 07-30 tend is the first with TEETH - LXU and QTWO print 2026-07-29 pm; pull both prints and test the kills verbatim ('quarterly net loss on ammonia price collapse' / 'GAAP net loss relapse or growth < 10%'). No orders placed (market closed)."
+  },
+  {
+    "ts": "2026-07-28T14:13:00Z",
+    "date": "2026-07-28",
+    "equity": 4427.29,
+    "positions_value": 3977.35,
+    "spy": 736.82,
+    "cash": 449.94,
+    "round": "upside-2026-07-10-r1",
+    "detail": "Zeus hourly tend ~10:13 ET Tue 2026-07-28. Reconcile clean 6/6; EDGAR zero new filings on all six since the 07-27 sweep (ZVRA CHMP 8-K still not filed, window closes ~07-30); no typed kill evaluable; hold_all, no orders. Excess +0.31pp vs SPY. KLIC -9.31% on the day is a sector-wide semicap selloff (AMAT -7.5%, LRCX -9.2%, KLAC -6.2%), not a name event - held per F3. LXU/QTWO print 07-29 pm: first kill checks with teeth."
+  },
+  {
+    "ts": "2026-07-28T20:12:00Z",
+    "date": "2026-07-28",
+    "equity": 4460.5,
+    "positions_value": 4010.56,
+    "spy": 740.76,
+    "cash": 449.94,
+    "round": "upside-2026-07-10-r1",
+    "note": "Zeus hourly tend, AFTER CLOSE Tue 2026-07-28 (~16:10 ET; quotes 19:59-20:00Z, 4pm prints). 0a gate: NOT paused (sourcing freeze lifted 2026-07-14), fresh sleeve holds 6 live positions, ORACLE_LIVE=true, kill switch off -> full-session door open, resolved as TEND + conscious sourcing no-op (standing duty 3). CLOSING MARK equity $4,460.50 (-0.88% vs $4,500 basis) vs SPY 740.76 / spy_entry 751.31 (-1.40%) -> EXCESS +0.53pp (down from +0.88pp at the 07-27 close, up from +0.31pp at today's 10:13 ET tend); day P&L -$5.41 vs the 07-27 close. Cash $449.94. Per-name close vs entry: PAY +18.34% (34.165, +8.53% day - NEW BOOK LEADER), QTWO +11.74% (59.22, +1.84% day), TPC +8.03% (82.06, -4.33% day), LXU +4.29% (11.43, -0.26% day), KLIC -17.45% (90.85, -7.50% day), ZVRA -31.09% (9.72, +0.10% day). RECONCILE CLEAN: broker==sleeve exact 6/6 (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); ZERO equity orders account-wide since 2026-07-20 (get_equity_orders created_at_gte 2026-07-20 -> empty); legacy CXT/HDSN/J/PSN/VITL absent as expected; VXUS/OGN/NVDA etc. personal and invisible. Live broker buying_power $1,179.35 (get_portfolio) vs sleeve cash claim $449.94 -> sleeve cash binds, no shared-pool conflict; moot, no buy planned. EDGAR SWEEP all six CIKs (TPC 77543 / KLIC 56978 / PAY 1841156 / ZVRA 1434647 / QTWO 1410384 / LXU 60714), filings >= 2026-07-24: ZERO new filings on ALL SIX. Newest on file unchanged: PAY 8-K/A 07-23, KLIC 13G 07-16, ZVRA 144 07-08, TPC 8-K 07-06, QTWO Form 4 06-12, LXU Form 4 06-11. The ZVRA CHMP 8-K STILL has not landed (PR 2026-07-24; the 4-business-day window closes ~2026-07-30 - one business day left). STAGE 5 evaluate_exit run VERBATIM on all six = NO EXIT: every kill is fundamental_break/print-based and no filing exists to break on; no dilution_event/going_concern; no catalyst_date or prediction_date underwritten; no price_level kill. HELD all six. MOVE ATTRIBUTION (07-27 lesson applied in BOTH directions - read a move before believing it): (a) KLIC -7.50% vs semi-equipment peer median -7.53% (AMAT -7.82, LRCX -7.53, ONTO -7.78, ACLS -6.35, KLAC -6.18) -> EXACTLY the sector, fourth session of the AI-capex-fear semicap selloff, NOT a name event. KLIC is now the book's worst drawdown vs entry after ZVRA (-17.45%) and is held with conviction under F3, not neglect: its kill is quarterly revenue < $180M, first evaluable at the ~08-05 print. (b) TPC -4.33% vs E&C peer median -5.19% (STRL -15.28, MTZ -7.29, PWR -5.19, GVA -3.33, ACM +4.90) -> sector-wide E&C derating (STRL's -15% looks like a print), and TPC OUTPERFORMED the group. Not a name event. (c) PAY +8.53% vs payments/fintech-software peer median +4.78% (FOUR +9.83, NCNO +4.82, TOST +4.78, BILL +3.22, ALKT +2.34) -> second consecutive complex-wide rally day; PAY is above the median but inside FOUR's range, so the honest read is MOSTLY CLUSTER BETA with a possible modest idiosyncratic sliver - the 08-03 print settles the thesis, not the tape. (d) LXU -0.26% vs fertilizer/ammonia peer median +3.04% (MOS +3.27, NTR +3.04, CF +2.65) -> LXU LAGGED its own complex by ~3.3pp on the eve of its print, the first time it has diverged NEGATIVELY from ammonia strength. Peer strength is mildly evidence AGAINST the LXU kill ('quarterly net loss on ammonia price collapse'); the divergence is a name-level question the print answers tomorrow. CLUSTER: PAY+QTWO = $1,557.78 = 34.9% of equity, up from 33.1% - still inside the 40% cluster cap but the tightest it has been; the book is more correlated than six names suggests. PRINT CALENDAR RE-VERIFIED TODAY: LXU 2026-07-29 pm VERIFIED (Q2 est $0.46 EPS vs $0.04 actual a year ago - a large expected step-up; LXU beat the last two: Q1'26 $0.27 vs $0.12, Q4'25 $0.22 vs $0.20), QTWO 2026-07-29 pm VERIFIED (Q2 est $0.62). PAY ~08-03, KLIC ~08-05, TPC ~08-05, ZVRA ~08-11. A/B: due_for_grade(2026-07-28)=0 (horizons 15-24mo), 0 graded, llm_lift not computable (lift_trustworthy False; 34 unresolved Arm-B / 31 Arm-A rows); no calibration write. SOURCING: conscious no-op (standing duty 3 - book fully deployed, 07-10 pipeline of 73 fundables still fresh); research cadence stamp left untouched on purpose. BOOKKEEPING GAP still open and deliberately NOT patched (fail-safe: open a PR, never silently patch): cache/oracle_upside_book.json still holds the 07-06 paper round ({'CBZ': 3000.0}) and cache/oracle_upside_dossiers.json still holds the 07-06 paper six; the live six's typed kills live only in oracle_journal.jsonl (authoritative) and oracle_upside_ab.json. Stage 5 was run off the journal kills. No orders placed (market closed). NEXT: the 07-30 tend is THE FIRST WITH TEETH - pull the LXU and QTWO prints and test both kills verbatim."
+  },
+  {
+    "date": "2026-07-29",
+    "mark": "intraday",
+    "ts": "2026-07-29T14:14:00Z",
+    "equity": 4432.14,
+    "spy": 735.48,
+    "cash": 449.94,
+    "excess_pp": 0.6
+  },
+  {
+    "ts": "2026-07-29T21:35:00Z",
+    "date": "2026-07-29",
+    "equity": 4436.63,
+    "positions_value": 3986.69,
+    "spy": 729.54,
+    "cash": 449.94,
+    "round": "upside-2026-07-10-r1",
+    "note": "Zeus hourly tend, AFTER CLOSE Wed 2026-07-29 (~17:25 ET; quotes 19:59-20:00Z official closes). 0a gate: NOT paused, 6 live positions, ORACLE_LIVE=true, kill switch off -> full session; resolved as TEND + PRINT TESTS + conscious sourcing no-op (standing duty 3). THE FIRST KILL TESTS WITH TEETH: LXU and QTWO both printed tonight and BOTH KILLS FAILED on the filings. LXU 8-K 0001193125-26-323751: GAAP net loss $6.2M but Tampa ammonia +89pct YoY ($787 vs $416), UAN +44pct, gas -15pct -> the 'ammonia price collapse' clause is REFUTED by the issuer's own table; rev +11.1pct, adj EBITDA +38.6pct (H1 +56pct), loss = $28.8M planned turnaround (Pryor pulled forward from Q3) vs $2.6M. Thesis CONFIRMED, not broken. QTWO 8-K 0001410384-26-000051 + 10-Q 0001410384-26-000053: GAAP net income $29.9M vs $11.8M, revenue +13pct, GM 59.2pct vs 53.6pct, debt-free, FY guide RAISED, +$350M buyback -> both kill clauses fail. FORWARD FLAG: QTWO Q3 guide = 8-10pct growth, brushing the '<10pct growth' kill clause at the ~11-04 print. CLOSING MARK equity $4,436.63 (-1.41pct vs $4,500 basis) vs SPY 729.54 / spy_entry 751.31 (-2.90pct) -> EXCESS +1.49pp, WIDENED from +0.53pp at the 07-28 close on a -1.53pct SPY day; day P&L -$23.73. Peer checks (duty 1b): PAY +7.51pct vs payments median +1.67pct = +5.84pp = the FIRST clean idiosyncratic PAY divergence; KLIC -8.94pct vs semicap median -8.26pct = -0.68pp (sector, and it NARROWS the 07-28 -2.3pp question); TPC -6.50pct vs E&C median -4.68pct = -1.82pp. PAY filings dispositioned: 2nd Form 144 in two days (director entity, 40k sh = 0.06pct of o/s) + BlackRock 13G 6.9pct passive \u2014 neither kill-relevant. ZVRA CHMP 8-K STILL not filed; 07-30 is the last day of the window. Reconcile 6/6 exact, zero orders account-wide since 07-20. All six CIKs re-resolved from EDGAR company_tickers (all matched pins). Stage 5 evaluate_exit run verbatim on all six = NO EXIT. A/B due_for_grade=0 (242 rows in the 07-10 round, 0 graded, earliest horizon 15mo); calibration neutral. Breaker -1.41pct vs 40pct."
+  },
+  {
+    "ts": "2026-07-30T14:12:00Z",
+    "date": "2026-07-30",
+    "equity": 4428.19,
+    "positions_value": 3978.25,
+    "spy": 737.585,
+    "cash": 449.94,
+    "round": "upside-2026-07-10-r1",
+    "note": "Zeus hourly tend ~10:12 ET Thu 2026-07-30 (intraday quotes 14:10-14:11Z). 0a gate: NOT paused, 6 live positions, ORACLE_LIVE=true, kill switch off -> full session; resolved as TEND + conscious sourcing no-op. Reconcile 6/6 EXACT vs broker (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); zero orders placed. EDGAR swept all six CIKs: ONE new filing - LXU 8-K acc 0001193125-26-325064 Item 7.01, the Q2 slide deck, carrying NO new financial fact beyond the 07-29 Item 2.02 already adjudicated -> LXU kill conjunction re-tested, still fails clause (b). All six Stage-5 verdicts = HOLD, zero kills fired. PEER CHECKS (duty 1b) - two real name-level divergences on a +1.11% SPY day: (1) LXU -6.89% vs fertilizer median -1.14% (UAN +2.5, MOS -0.6, NTR -1.1, CF -1.4, IPI -2.2) = -5.75pp, the market pricing the GAAP loss / -$0.55-vs-+$0.46 EPS miss that the engine read to $28.8M of PLANNED turnaround expense - a genuine disagreement, now dated to the ~11-04 Q3 print where the pulled-forward Pryor turnaround should not recur; (2) KLIC +7.28% vs semicap median +13.11% (LRCX +20.4, AMAT +15.0, ONTO +13.1, ACLS +9.3, KLAC +8.2) = -5.83pp LAGGING, which FLIPS the prior two sessions' finding - KLIC tracked the complex to within 0.7pp on the way DOWN but captures barely half the rebound. Asymmetric participation (full downside, half upside) is a name-level question for the ~08-05 print; a price move is not information until the filings speak, so it is logged, not acted on. PAY -5.54% vs payments median -3.77% (NCNO -3.3, ALKT -3.4, TOST -3.8, BILL -5.2, FOUR -6.0) = -1.77pp, giving back yesterday's clean +5.84pp into the ~08-03 print. ZVRA: EDGAR confirms NOTHING filed since the 07-08 Form 144 - today is the LAST day of the 4-business-day 8-K window for the 07-24 CHMP negative opinion; the next tend must record the window CLOSED WITHOUT A FILING if nothing lands tonight. MARK equity $4,428.19 (-1.60% vs $4,500 basis) vs SPY 737.585 / spy_entry 751.31 (-1.83%) -> EXCESS +0.23pp, NARROWED from +1.49pp at the 07-29 close (SPY +1.11% today, book roughly flat: KLIC/TPC up, LXU/PAY down). Breaker 1.60% vs 40%. A/B due_for_grade=0 (earliest horizon 15mo from 07-10); calibration untouched (n=0 graded). STAGE 0-4 SOURCING NOT RUN - deliberate, not an omission: the research cadence has been due since 07-14 (16d), but the book is already AT the Stage-4 concentration target (6 of the allowed 3-6 names) with only $449.94 dry powder, so a sourcing round would produce candidates with no capital to size them. Deferred until a typed kill frees capital or the operator funds the sleeve; the research cadence key is deliberately NOT stamped so it stays visibly due to the operator. KNOWN STATE GAP (flagged again): cache/oracle_upside_dossiers.json still holds the SUPERSEDED 07-06 paper round (SABR/ACVA/CBZ/FRPT/EYE/NCNO), and cache/oracle_upside_book.json still says pending_funding paper - the live 07-10 round's typed kill conditions exist ONLY in oracle_journal.jsonl, so evaluate_exit cannot be run verbatim against a dossier object for any held name; Stage 5 is being executed as a reasoned read of the journal-recorded kill strings."
+  },
+  {
+    "ts": "2026-07-30T20:25:00Z",
+    "date": "2026-07-30",
+    "equity": 4446.16,
+    "positions_value": 3996.22,
+    "spy": 741.73,
+    "cash": 449.94,
+    "round": "upside-2026-07-10-r1",
+    "mark": "close",
+    "excess_pp": 0.08,
+    "note": "Zeus hourly tend, AFTER CLOSE Thu 2026-07-30 (~16:25 ET; quotes 19:59-20:00Z official closes). 0a gate: NOT paused (lifted 07-14), 6 live positions, ORACLE_LIVE=true, kill switch off -> full session; resolved as TEND + close marks + conscious sourcing no-op (standing duty 3). SECOND tend today - supersedes the 14:12Z intraday marks. Reconcile 6/6 EXACT vs broker (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); ZERO orders account-wide since 07-20. All six CIKs re-resolved from EDGAR company_tickers - all matched pins. RESOLVED THE DEFERRED ITEM: the ZVRA CHMP 8-K window (07-24 PR + 4 business days) CLOSED TODAY WITHOUT A FILING - newest ZVRA filing is still the 07-08 Form 144. Not a disclosure failure (a CHMP opinion triggers no enumerated 8-K item; Item 8.01 is voluntary), but it means no primary FILED document on the CHMP event will ever exist, so the ~08-11 re-underwrite must lean on the 10-Q product-revenue lines. VERIFIED rather than assumed the intraday claim that the LXU Item 7.01 deck adds no new fact: the El Dorado CCS leg ($25-30M annual earnings from Q1'27) is in the 07-29 earnings EX-99.1, not first in today's deck - the intraday read was CORRECT. The deck does corroborate the thesis on a TTM basis (adj EBITDA $199.4M vs $122.4M +63%, net sales $658.1M vs $538.9M, net debt/TTM adj EBITDA 1.1x vs 2.7x, FCF $32M vs $8M). CLOSE PEER CHECKS (duty 1b) - two readings changed vs the intraday tend: (1) KLIC +6.53% vs semicap median +14.69% (LRCX +17.95, AMAT +15.01, ONTO +14.69, ACLS +11.91, KLAC +5.90) = -8.16pp, WIDER than the -5.83pp measured intraday. Full participation in the selloff, under half the rebound - this CONTRADICTS my 07-29 conclusion that the 07-28 gap was noise, and is now the book's cleanest name-level signal. Logged, NOT acted on (kill is print-based, ~08-05). (2) TPC +8.61% vs E&C median +12.91% = -4.30pp, reversing the intraday 'no divergence' call - though the peer set split hard (STRL/PWR/MTZ +13-17% vs GVA/ACM -2%) so the median is less stable. LXU closed -3.49% vs fertilizer +0.17% = -3.66pp, recovering ~3.4pp off the intraday low. PAY -5.03% vs payments -2.84% = -2.19pp, handing back ~2.2pp of yesterday's clean +5.84pp. CLOSING MARK equity $4,446.16 (-1.20% vs $4,500 basis) vs SPY 741.73 / spy_entry 751.31 (-1.28%) -> EXCESS +0.08pp, COLLAPSED from +1.49pp at the 07-29 close and +0.23pp intraday. The book gained $8.08 (+0.18%) on a +1.68% SPY day - the largest one-day excess give-back since the 07-10 funding, driven by KLIC and TPC under-participating in violent sector rallies. Stage 5 evaluate_exit run VERBATIM on all six = NO EXIT, zero kills fired. Breaker -1.20% vs 40%. A/B due_for_grade=0 (326 rows, 0 graded, earliest horizon 15mo -> ~Oct 2027); update_calibration returns {} (neutral, n=0). CLUSTER PAY+QTWO = $1,572.27 = 35.4% of equity, inside the 40% cap. STAGE 0-4 SOURCING NOT RUN - deliberate, unchanged reasoning: book at 6 names = top of the Stage-4 3-6 band, only $449.94 dry powder (a ceiling against a shared pool), no kill fired to free capital, so a round would produce dossiers that cannot be funded without selling, which F3 forbids. Research cadence key deliberately NOT stamped so it stays visibly due to the operator. KNOWN STATE GAP (flagged, still deliberately unpatched per fail-safe): cache/oracle_upside_dossiers.json holds the superseded 07-06 paper six and cache/oracle_upside_book.json still says pending_funding paper; the live six's typed kills live only in oracle_journal.jsonl, so Stage 5 is executed as a reasoned read of the journal kill strings against a synthetic dossier. The next FULL round must rewrite both through make_upside_dossier/size_upside_book."
+  },
+  {
+    "ts": "2026-07-31T14:15:00Z",
+    "date": "2026-07-31",
+    "equity": 4385.08,
+    "positions_value": 3935.14,
+    "spy": 738.13,
+    "cash": 449.94,
+    "round": "upside-2026-07-10-r1",
+    "mark": "intraday",
+    "excess_pp": -0.8,
+    "note": "Zeus hourly tend ~10:15 ET Fri 2026-07-31. 0a gate: NOT paused (lifted 07-14), 6 live positions, ORACLE_LIVE=true, kill switch off -> full session available; resolved as TEND + A/B + memory, with Stage 1-4 sourcing a CONSCIOUS no-op (see below). Reconcile clean: get_equity_orders since 07-29 returns ZERO orders account-wide, broker==sleeve exact on all 6 (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397). Equity $4,385.08 (-2.55% vs the $4,500 basis) vs SPY 738.13/751.31 (-1.75%) = excess -0.80pp, down from +0.08pp at the 07-30 close. Breaker -2.55% vs 40%. STAGE 5 - all six typed kills checked against PRIMARY filings, not the tape. Five names have filed nothing since 07-29 (EDGAR re-checked per CIK today), so their print-based kills are not evaluable. LXU was RE-VERIFIED because the 10-Q landed 07-30 (a new primary document): companyfacts confirms Q2 NetIncomeLoss -$6,189,000, so clause (a) of its conjunction kill is now formally TRUE - but clause (b) ('on ammonia price collapse') stays contradicted by the company's own +89% ammonia price table, and the 07-30 8-K is Item 7.01 Reg FD (investor deck) adding no new financial fact. NO EXIT; the 07-29/07-30 adjudication holds on the formal filing too. Zero exits, zero orders. Notable tape: PAY -3.90% (34.87 -> 33.51) on NO filing - the book's largest decliner today, still +16.07% vs entry; its ~08-03 (Mon) print is now the nearest consequential date, with KLIC/TPC ~08-05 behind it. STAGE 6 A/B: due_for_grade=0, n_graded=0, unresolved Arm-B 34 / Arm-A 31, lift_trustworthy=false, earliest horizon ~Oct 2027 - no lift claimable. STAGE 7: update_calibration() returns {} (n=0, neutral 0.5). STAGE 1-4 NOT RUN: research cadence IS due (last 2026-07-14), but the breadth read requires the deep-read subagent fan-out over the hunting ground, which this session is not authorised to spawn. Declared outstanding rather than faked with a thin single-pass read - F2/F7 discipline. Cash $449.94 (~10% of equity) stays undeployed as a result; a dedicated /oracle-research session is needed to run the cascade and size a 7th name."
+  },
+  {
+    "ts": "2026-07-31T20:10:00Z",
+    "date": "2026-07-31",
+    "equity": 4444.21,
+    "positions_value": 3994.27,
+    "spy": 746.81,
+    "cash": 449.94,
+    "round": "upside-2026-07-10-r1",
+    "mark": "close",
+    "excess_pp": -0.64,
+    "note": "Zeus hourly tend, AFTER CLOSE Fri 2026-07-31 (~16:10 ET; quotes 19:59-20:00Z official closes). 0a gate: NOT paused (lifted 07-14), 6 live positions, ORACLE_LIVE=true, kill switch off -> full session; resolved as TEND + close marks + conscious sourcing no-op. SECOND tend today - supersedes the 14:15Z intraday marks. Reconcile 6/6 EXACT vs broker (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); get_equity_orders since 07-29 returns ZERO orders account-wide. All six CIKs re-resolved from EDGAR company_tickers - all matched pins. THREE NEW FILINGS since the intraday pass, all dispositioned, none kill-relevant: (1) KLIC SCHEDULE 13G acc 0002100121-26-000957 (sole voting power 52,139 sh, passive, immaterial vs ~52M o/s); (2) ZVRA SCHEDULE 13G acc 0002100119-26-001518 (386,070 sh, passive); (3) PAY Form 4 acc 0001193125-26-326471 + Form 3 acc 0001193125-26-328464. THE PAY FORM 4 WAS VERIFIED, NOT ASSUMED, AND IT UPGRADES THE 07-29 DISPOSITION: director Gary Trainor (via TF Investment Holdings LLC) actually SOLD 80,000 sh - 39,000 @ wavg 33.1096 and 1,000 @ 33.50 on 07-28, then 40,000 @ wavg 35.1213 on 07-29 (~$2.7M, ~12% of his stake; 589,888 sh retained) - i.e. TWICE the 40k the two Form 144s implied to the 07-29 read. But the filing's own footnote states the sales were 'effected pursuant to a Rule 10b5-1 trading plan established by the reporting person on March 12, 2026' - pre-scheduled ~4.5 months before the ~08-03 print, so it is NOT a pre-print insider dump. Prior conclusion (not kill-relevant) STANDS and is now better grounded. PAY Form 3: Gregory Hyde Williams, NEW DIRECTOR (period 07-23), 132,681 sh initial - explains the flurry of PAY insider paper. CLOSE PEER CHECKS (duty 1b, run in BOTH tape directions per the 07-30 lesson): (1) KLIC +0.93% vs semicap median +1.38% (ACLS +4.28, ONTO +3.23, KLAC +1.38, AMAT +1.17, LRCX -1.58) = -0.45pp. The under-participation persists in DIRECTION but collapsed in MAGNITUDE from -8.16pp at the 07-30 close; a modest up day does not resolve the asymmetry question - the ~08-05 print does. (2) QTWO +3.03% vs bank/fintech-software median -0.06% (ALKT +1.91, NCNO +0.44, BILL -0.55, TOST -1.78) = +3.09pp, the book's cleanest idiosyncratic STRENGTH today and its best name-level day since the 07-29 print. (3) PAY -2.14% vs payments median -0.55% (ALKT +1.91, NCNO +0.44, BILL -0.55, FOUR -1.25, TOST -1.78) = -1.59pp, a second straight day of the tape leaning against PAY on NO company news beyond a 10b5-1 sale. (4) LXU -1.45% vs fertilizer median -2.32% (UAN +0.74, CF -0.49, NTR -2.32, MOS -2.88, IPI -3.82) = +0.87pp OUTPERFORMING - partially reversing the -3.66pp lag of 07-30, and the first LXU divergence to the upside since the print. (5) ZVRA -1.35% vs biotech median -2.57% (HRMY -1.78, SUPN -2.21, XBI -2.92, AXSM -7.11) = +1.22pp, the FIRST positive divergence for the book's worst position (CPRX returned no quote in the batch - 4 peers, not 5). (6) TPC +0.43% vs E&C median +1.41% (GVA +5.12, STRL +2.85, PWR +1.41, ACM +0.91, MTZ -18.96) = -0.98pp. FLAGGED: peer MTZ closed -18.96% (324.44 -> 262.94; adjusted_previous_close equals previous_close, so this is a real move, not a split). I did NOT read MTZ's filing - out of scope for a tend - so the CAUSE is unverified, but a large E&C peer being cut a fifth five days before TPC's ~08-05 print is a fact worth carrying into that read. The median is robust to it. CLOSING MARK equity $4,444.21 (-1.24% vs the $4,500 basis) vs SPY 746.81 / spy_entry 751.31 (-0.60%) -> EXCESS -0.64pp. The book fell $1.95 (-0.04%) on a +0.69% SPY day, giving back another 0.72pp of excess vs the +0.08pp at the 07-30 close; it did recover +0.16pp off the -0.80pp intraday reading. Positions $3,994.27 + cash $449.94. Breaker -1.24% vs 40%. Cluster PAY+QTWO = $1,577.35 = 35.5% of equity, inside the 40% cap. STAGE 5 evaluate_exit run VERBATIM on all six = NO EXIT, zero kills fired, zero orders. fundamental_deteriorated was set from PRIMARY FILINGS only; no financial filing landed for any name today (13Gs/Forms 3-4 are ownership documents, not financial ones). LXU's conjunction kill re-tested per the standing obligation: clause (a) stays formally TRUE on the 07-30 10-Q (Q2 NetIncomeLoss -$6,189,000), clause (b) stays REFUTED by the company's own +89% ammonia price table -> held. STAGE 6 A/B: due_for_grade=0, n_graded=0, unresolved Arm-B 34 / Arm-A 31, lift_trustworthy=false, earliest horizon ~Oct 2027 - no lift claimable. STAGE 7: update_calibration() returns {} (n=0, neutral 0.5). STAGE 1-4 SOURCING NOT RUN - deliberate and unchanged: the research cadence has been due since 07-14 (17d), but the breadth read is a deep-read subagent fan-out this session is not authorised to spawn, and a thin single-pass read would violate F2 and poison Arm A. $449.94 (~10% of equity) stays undeployed and the book stays at six names. The research cadence key is deliberately NOT stamped so it stays visibly due to the operator. A dedicated /oracle-research session remains required. KNOWN STATE GAP (flagged, still deliberately unpatched per the fail-safe): cache/oracle_upside_dossiers.json holds the superseded 07-06 paper six and cache/oracle_upside_book.json still says pending_funding paper; the live six's typed kills exist only in oracle_journal.jsonl, so Stage 5 is run against synthetic dossiers built from those journalled kill strings. The next FULL round must rewrite both through make_upside_dossier/size_upside_book."
+  },
+  {
+    "ts": "2026-08-03T14:20:00Z",
+    "date": "2026-08-03",
+    "equity": 4471.94,
+    "positions_value": 4022.0,
+    "spy": 754.42,
+    "cash": 449.94,
+    "round": "upside-2026-07-10-r1",
+    "mark": "intraday",
+    "excess_pp": 2.25,
+    "note": "Zeus hourly tend, Mon 2026-08-03 ~10:20 ET. 0a gate: NOT paused (lifted 07-14), 6 live positions, ORACLE_LIVE=true, kill switch off -> full session; resolved as TEND + intraday marks + a CONSCIOUS sourcing no-op. Reconcile 6/6 EXACT vs broker (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); legacy cohort untouched. NO EXIT on all six \u2014 every typed kill checked against primary documents, none triggered, no new kill-relevant filing (only passive 13G/13G-A on KLIC/ZVRA/PAY). THE SESSION'S FINDING: FOUR of the six positions report THIS WEEK \u2014 PAY tonight 08-03 pm (consensus $0.18), and KLIC (FQ3, $0.98) + TPC ($1.28) + ZVRA ($0.14) all on 08-05 pm, all RH-calendar verified=true. This CORRECTS a standing note: ZVRA's kill was carried as first evaluable at the '~08-11 10-Q' since 07-29; the earnings release lands 08-05, six days earlier, and it carries the product-revenue lines the kill is typed to. Since the 07-24 CHMP window closed without an 8-K (07-30 finding), that 08-05 release carries the ENTIRE upside_x re-underwrite. VERDICT METRIC (beliefs lesson 10): excess vs SPY since funding flipped from -0.64pp at the 07-31 close to +2.25pp today \u2014 book +2.71% vs contributed $4,353.89, SPY +0.46% from 750.935. Driven by PAY +3.64% (+1.84pp vs payments) and TPC/QTWO/ZVRA participating; LXU is the drag, -5.79% vs fertilizer -2.45% = -3.34pp, the third lagging session of four since its print, with NO filing behind it (F5: logged, not acted on). SOURCING NO-OP, deliberate: cash is $449.94 (10.1% of equity), the book is at the spec's 3-6 concentration target, and four of six names print within 48 hours \u2014 running the cascade to add a 7th name into an event week would dilute the view and pre-empt re-underwrites that are about to become possible on real filings. Stage 6: due_for_grade EMPTY (horizons 15-24mo from 07-10, nothing matures before Oct 2027) -> Stage 7 calibration unchanged. NO ORDERS."
+  },
+  {
+    "ts": "2026-08-03T20:15:00Z",
+    "date": "2026-08-03",
+    "equity": 4465.97,
+    "positions_value": 4016.03,
+    "spy": 757.63,
+    "cash": 449.94,
+    "round": "upside-2026-07-10-r1",
+    "mark": "close",
+    "excess_pp": -1.6,
+    "note": "Zeus post-close pass 16:15 ET Mon 2026-08-03. Reconcile CLEAN 6/6 exact vs broker. Book +0.49% vs SPY +1.42%; excess -0.64pp -> -1.60pp, dragged entirely by LXU -9.83% on a nitrogen-complex selloff (CF -5.48/NTR -4.53/UAN -2.84, potash flat) that is document-free ahead of CF's 08-05 print. PAY reported after close: EPS $0.25 vs $0.18 (+38.9%, 7th straight beat), AH 38.00 vs 34.50 close = +10.1% NOT in this mark. No kill fired. A/B due_for_grade=0, n_graded=0, lift_trustworthy=false."
+  },
+  {
+    "ts": "2026-08-04T14:20:00Z",
+    "date": "2026-08-04",
+    "equity": 4710.92,
+    "positions_value": 4260.98,
+    "spy": 765.24,
+    "cash": 449.94,
+    "round": "upside-2026-07-10-r1",
+    "mark": "intraday",
+    "excess_pp": 2.83,
+    "note": "Zeus hourly pass 10:18 ET Tue 2026-08-04. Reconcile CLEAN 6/6 EXACT vs broker (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); zero orders account-wide. NO KILL FIRED, six holds. Book +5.45% on the day vs SPY +1.00%; equity $4,710.92 = +4.69% vs the $4,500 basis against SPY +1.85% from spy_entry 751.31, so EXCESS SWUNG -1.60pp -> +2.83pp, the first positive reading since 07-29 and the largest one-session move the book has made. Effectively all of it is PAY +27.10% ($34.52 -> $43.875, +51.97% vs entry). THE 08-03 DEBT IS DISCHARGED AND IT REVERSES: PAY's Q3 guide ($353-363M, re-verified verbatim in EX-99.1) implies +13.60/+16.82% YoY vs Q3-2025 $310,737K, mid +15.21%; the FY guide implies Q4 +9.19/+16.75% (mid +12.97%) and H2 +14.06% -- i.e. the raw guide sits INSIDE the 'YoY < 15%' kill at its midpoint. But the guide is a MEASURED sandbag: prior EX-99.1 guidance vs the revenue actually printed was +10.98% (Q3-25), +6.77% (Q4-25), +4.56% (Q2-26) over the midpoint, 3/3, mean +7.4%. The smallest of those applied to the Q3-26 midpoint gives ~+20.5% YoY; the kill needs PAY to print at or below its own guide LOW end, which it has not done in three quarters. Flag retired -- with the caveat that the sandbag is compressing monotonically (11.0 -> 6.8 -> 4.6pp). Also cleared: the 08-03 8-K indexed under Item 2.01 is NOT an acquisition; the same-day 8-K/A states its sole purpose is correcting a clerical item tag to 2.02. 10-Q filed today, revenue lines match. TOMORROW (2026-08-05 pm, ALL RH-verified=true) KLIC, TPC, ZVRA and CF all print. Only KLIC's kill ('quarterly revenue < $180M') can settle outright; ZVRA's 2-consecutive-quarter kill becomes evaluable for the first time but cannot fire on one print; TPC's is structurally incapable of firing (zero loss quarters printed). CF is the read on LXU's refuted clause (b). LXU 10-28 and QTWO 11-04 both show verified=FALSE -- tentative. Cluster PAY+QTWO 36.0% -> 38.9% of equity, just inside the 40% cap; it binds at Stage-4 sizing, not as a trim trigger. Breaker 0.00% drawdown (new high) vs 40%. A/B: due_for_grade=0, n_graded=0, lift_trustworthy=false, update_calibration()->{} (earliest horizon ~Oct 2027). NO ORDERS. STANDING DEBTS UNCHANGED AND STILL BLOCKING: research cadence due since 07-14 (21 days) -- Stage 1-4 sourcing needs a subagent fan-out this dispatch is not authorised to spawn, so $449.94 (9.6% of equity) stays undeployed and the book stays at six; and the live book still has NO dossier records, so Stage 5's evaluate_exit() cannot run mechanically on any held name (kills are carried verbatim in prose instead). Both need a dedicated /oracle-research session. The cadence key is deliberately NOT stamped so it stays visibly due."
+  },
+  {
+    "date": "2026-08-05",
+    "timestamp": "2026-08-05T14:16:00Z",
+    "equity": 4739.09,
+    "spy": 776.2601,
+    "cash": 449.94,
+    "peak_equity": 4739.09224,
+    "n_positions": 6,
+    "note": "Zeus tend-only pass. 6 holds, 0 typed kills fired, 0 orders. New peak equity. PAY -6.64% on the 08-04 10-Q + Form 144s; kill tested on XBRL actuals (+28.8% YoY) and does not fire. Four readings land tonight: KLIC fiscal Q3, TPC Q2, ZVRA Q2, CF Industries (LXU clause b)."
+  },
+  {
+    "date": "2026-08-05",
+    "timestamp": "2026-08-05T20:20:00Z",
+    "equity": 4637.34,
+    "spy": 769.74,
+    "cash": 449.94,
+    "peak_equity": 4739.09224,
+    "n_positions": 6,
+    "note": "After-close Zeus tend (supersedes the 14:16Z intraday mark). 6 holds, 0 kills fired, 0 orders. KLIC fiscal-Q3 8-K FILED: revenue $330.409M vs a <$180M kill (+122.6% YoY, Q4 guide ~$375M) -> kill TESTED and FAILED decisively. PAY closed -10.31% = -9.36pp vs the payments median, no filing explains it, kill at +28.8% actual does not fire -> drawdown, F3 hold. TPC and ZVRA prints had NOT filed by 20:20Z; both kills are two-quarter conditions and could not have fired tonight. Excess vs SPY +0.60pp on the $4,500 basis (up from +0.08pp on 07-30)."
+  },
+  {
+    "date": "2026-08-06",
+    "timestamp": "2026-08-06T14:12:00Z",
+    "equity": 4798.1,
+    "spy": 771.715,
+    "cash": 449.94,
+    "peak_equity": 4798.1,
+    "n_positions": 6,
+    "note": "Mid-morning Zeus tend. 6 holds, 0 kills fired, 0 orders. THREE prints read from primary filings overnight: TPC 8-K 2.02 + 10-Q (08-05) \u2014 record revenue $1.6B +19%, GAAP net income $65.7M, EPS $1.23 vs $0.38, 2026 adj-EPS guide raised to $5.15-5.45, dividend +50%; kill ('2 consecutive GAAP loss quarters') cannot start. ZVRA 8-K 2.02 + 10-Q (08-05) \u2014 Q2 revenue $39.663M (+53% y/y) and +9.5% q/q vs a derived Q1 $36.220M, GAAP net income $8.8M, cash $260.2M; kill ('2 consecutive flat/declining product-rev quarters') cannot start. KLIC 8-K 2.02 (08-05) + 10-Q (08-06) \u2014 FQ3 revenue $330.409M vs a $180M kill line, GAAP EPS $1.07, FQ4 guide $375M+/-$20M. Tape moved opposite the filings on KLIC (\u22123.36%) and with them on TPC (+17.78%) / ZVRA (+13.63%); F3 governs both directions. Equity $4,798.10 = NEW PEAK (prior $4,739.09), +6.62% vs the $4,500 basis against SPY +2.72% since funding. PAY+QTWO cluster 35.74% vs the 40% cap. Stage 0-4 sourcing not run \u2014 research cadence due, needs a dedicated session."
+  },
+  {
+    "date": "2026-08-07",
+    "timestamp": "2026-08-07T14:22:00Z",
+    "equity": 4788.5,
+    "spy": 771.48,
+    "cash": 449.94,
+    "peak_equity": 4798.1,
+    "n_positions": 6,
+    "note": "MID-MORNING TEND PASS (Zeus hourly, ~10:19-10:22 ET Fri 2026-08-07). GATES: kill switch clear; ORACLE_LIVE=true; oracle NOT paused (lifted 2026-07-14); breakers 'ok', absolute drawdown 0.20% from peak; halted=False. RECONCILE: broker == sleeve share-for-share on all six (TPC 9.607305 / KLIC 6.358622 / PAY 23.898856 / QTWO 12.517358 / ZVRA 47.034397 / LXU 55.078467); zero pending or unfilled Oracle orders. EDGAR SWEPT ON ALL SIX for documents since 08-05 \u2014 TPC 0, QTWO 0, LXU 0 new; KLIC's 10-Q (08-06) already read yesterday. TWO genuinely new documents, both read from the primary source and both NON-EVENTS for the typed kills: (1) PAY filed two Form 4s (08-06) \u2014 CFO Kalra sold 27,809sh and Director Trainor 80,000sh over 08-04/08-05, ~$4.4M total, BOTH under Rule 10b5-1 plans (affirmative-defense box checked), each retaining ~505-510k shares; this is the continuation of the distribution flagged on 08-06, logged as a trend line, and it does not touch a REVENUE kill that already failed at the Q2 print. (2) ZVRA 13G/A (08-06) \u2014 FMR LLC at 4,915,717sh / 8.3%, passive; not a thesis fact. PEER CHECK: only KLIC breached the 3% move trigger (+3.66%), and the back-end semi-cap group moved with it (ONTO +13.62%, ACMR +2.92%, UCTT +2.45%, KLAC +2.23%, FORM +1.89%, AMAT +1.80%) \u2014 sector, mid-pack, upward; no kill question. RESULT: 6 holds, 0 kills fired, 0 orders. Two names carry drawdowns (KLIC -14.61%, ZVRA -17.12%, LXU -12.79%) and Stage 5 is explicit that a drawdown is NEVER an exit. SIZING: largest name PAY at 19.85% (30% cap); cluster PAY+QTWO = $1,752.57 = 36.60% of equity vs the 40% cap \u2014 UP from 35.74% at the 08-06 pass, and the mechanism is the mirror of yesterday's: the pair did not grow, the denominator shrank (TPC -0.87%, ZVRA -1.60%, LXU -1.36%). Still under the cap; if it crosses 40% the fix is trimming the pair, not selling a thesis. A/B: 326 candidates across 3 rounds, 242 in the live round upside-2026-07-10-r1 (6 Arm A = the book, 236 Arm B); due_for_grade(2026-08-07) == [] \u2014 horizons are 15-18mo from 07-10, so the first grades land 2027-10 onward. Equity $4,788.50 vs $4,353.89 contributed = +9.98% (realized $147.95); peak $4,798.10."
+  },
+  {
+    "date": "2026-08-10",
+    "ts": "2026-08-10T14:18:00Z",
+    "equity": 4767.13,
+    "cash": 449.94,
+    "spy": 774.2478,
+    "peak_equity": 4798.1,
+    "drawdown": 0.0065,
+    "halted": false,
+    "note": "Zeus hourly tend, Mon 2026-08-10. 6 holds, 0 kills, 0 orders. Reconcile clean. Only new EDGAR doc: TPC Form 144 (director board-comp sale notice) \u2014 non-event. LXU +4.99% moved with the nitrogen complex."
+  },
+  {
+    "date": "2026-08-11",
+    "ts": "2026-08-11T14:18:00Z",
+    "equity": 4847.95,
+    "cash": 449.94,
+    "spy": 773.91,
+    "peak_equity": 4847.95,
+    "drawdown": 0.0,
+    "halted": false,
+    "note": "Zeus hourly tend, Tue 2026-08-11. 6 holds, 0 kills, 0 orders. Reconcile clean. Only new EDGAR doc: QTWO Form 144 (officer RSU/PSU 10b5-1 sale notice, 0.016% of shares out) \u2014 non-event. KLIC +5.46% and TPC +3.52% both moved WITH their sectors (semicap / E&C). NEW EQUITY PEAK $4,847.95."
+  },
+  {
+    "date": "2026-08-11",
+    "ts": "2026-08-11T20:15:00Z",
+    "equity": 4812.2,
+    "cash": 449.94,
+    "spy": 770.45,
+    "peak_equity": 4847.95,
+    "drawdown": 0.0074,
+    "halted": false,
+    "note": "Zeus hourly AFTER-CLOSE tend, Tue 2026-08-11. 6 holds, 0 kills, 0 orders. Reconcile clean; ZERO new EDGAR documents on all six. Excess vs SPY +4.39pp on the $4,500 basis (best reading yet). PAY +4.15% = +4.22pp IDIOSYNCRATIC vs a flat payments complex with nothing filed - the mirror of the 08-05 -9.36pp, and missed by the 10:18 ET pass. KLIC +5.27% was the semicap complex (median +2.90%, wide 9.13pp dispersion = weak median)."
+  },
+  {
+    "date": "2026-08-12",
+    "timestamp": "2026-08-12T14:20:00Z",
+    "equity": 4811.43,
+    "spy": 772.215,
+    "cash": 449.94,
+    "peak_equity": 4847.95365551,
+    "drawdown": 0.007534,
+    "note": "Zeus hourly tend ~10:20 ET Wed 2026-08-12: reconcile clean, 6 holds, 0 kills, 0 orders. Only new document across the book was a TPC director Form 4 (~96.5% of a director direct stake sold 08/07, no 10b5-1) - not a typed kill, logged as a watch item."
+  },
+  {
+    "date": "2026-08-12",
+    "ts": "2026-08-12T20:15:00Z",
+    "equity": 4808.01,
+    "cash": 449.94,
+    "spy": 772.54,
+    "peak_equity": 4847.95,
+    "drawdown": 0.0082,
+    "halted": false,
+    "note": "Zeus hourly AFTER-CLOSE tend, Wed 2026-08-12. 6 holds, 0 kills, 0 orders. Reconcile clean 6/6 exact. ZERO new EDGAR documents on all six. Only KLIC breached the 3% band (+4.55%) and the peer check put it +0.05pp off a +4.50% back-end semicap median - dead-centre participation, no name-specific content. Excess vs SPY on the $4,500 basis +4.01pp, down from +4.39pp at the 08-11 close. Marks are the 15:59:5x ET regular-session prints; the official 08-12 SIP close was not yet published at 20:15Z."
+  },
+  {
+    "date": "2026-08-13",
+    "ts": "2026-08-13T14:16:00Z",
+    "equity": 4838.65,
+    "cash": 449.94,
+    "spy": 778.315,
+    "peak_equity": 4847.95,
+    "drawdown": 0.0019,
+    "halted": false,
+    "note": "Zeus hourly tend ~10:14-10:16 ET Thu 2026-08-13. 6 holds, 0 kills, 0 orders. Reconcile clean 6/6 exact. EDGAR fresh-fact check on all six CIKs: 2 new documents, both Form 4s and neither a typed-kill fact \u2014 QTWO CPO 10,000sh sale under a CHECKED 10b5-1 plan (113,913sh retained, routine), ZVRA director 12,300 option exercise-and-same-day-sell at $11.25 (1,800sh + 46,500 options retained; monetization, not distribution \u2014 unlike the 08-11 TPC outright 96.5% stake sale). Caught and corrected a wrong-CIK read: 0001591890 is FG Nexus, not PAY; PAY is 0001841156 and has filed nothing since 08-06. Peer check: zero names breached the 3% trigger (PAY +2.48, QTWO +2.08, TPC -0.84, ZVRA -0.79, KLIC +0.58, LXU -0.15; SPY +0.75). Book +7.53% on the $4,500 round basis vs SPY +3.59% = +3.93pp excess, down from +4.01pp at the 08-12 close on a day the book (+0.64%) lagged the tape. ZVRA -19.5% / KLIC -13.1% drawdowns HELD per Stage 5. PAY+QTWO cluster 36.95% of equity (40% cap), third straight session drifting toward the cap while sector:'' leaves size_upside_book unable to enforce it \u2014 a code gap for the next round. A/B: 0 of 326 graded, due_for_grade == [] until 2027-10. No sourcing (funding decision, not a cadence reflex)."
+  },
+  {
+    "date": "2026-08-13",
+    "ts": "2026-08-13T20:15:00Z",
+    "equity": 4873.63,
+    "cash": 449.94,
+    "spy": 777.77,
+    "peak_equity": 4873.62920631,
+    "drawdown": 0.0,
+    "halted": false,
+    "note": "Zeus hourly AFTER-CLOSE tend, Thu 2026-08-13 (2nd pass today). 6 holds, 0 kills, 0 orders. Reconcile clean 6/6; ZERO new EDGAR documents on all six. Excess vs SPY +4.78pp on the $4,500 basis - best reading yet; new equity peak $4,873.63 (stamped on a close-basis mark). SECTOR-FACTOR day: PAY +4.39% and QTWO +5.85% BOTH breached the 3% trigger, but the payments/bank-software peer median was +4.30% with 9 of 9 peers UP on a +0.68% tape - PAY +0.09pp off the median, QTWO +1.55pp above a 6.80pp-dispersed set. Neither is name-specific. No peer earnings catalyst (FOUR printed 08-06, NCNO not until 08-25); driver left unattributed. The morning pass saw both BELOW the trigger (+2.48/+2.08) - third morning-vs-close disagreement in seven sessions. Cluster PAY+QTWO 37.66% and moving as ONE thing, still invisible to the sizer (sector:'')."
+  },
+  {
+    "date": "2026-08-14",
+    "ts": "2026-08-14T14:16:00Z",
+    "equity": 4884.05,
+    "cash": 449.94,
+    "spy": 778.14,
+    "peak_equity": 4884.0534195049995,
+    "drawdown": 0.0,
+    "halted": false,
+    "note": "Zeus hourly TEND, Fri 2026-08-14 ~10:16 ET. 6 holds, 0 typed kills fired, 0 orders. TWO new EDGAR documents since the 08-13 after-close pass, both dispositioned as NON-kills: LXU Form 4 08-13 = director Ackerman BUYING 1,000 sh @ $9.89 (10b5-1; 10,252 held after) - confirming, not breaking; QTWO Form 144 08-13 = officer Price noticing 77,180 sh (~$4.83M) from a 03/02 RSU/PSU vest with nothing sold in the prior 3 months - routine vest monetization at 0.12 pct of shares out. TPC filed NOTHING, so the 08-11 Feltenstein discretionary exit stays a single point, not distribution. New equity peak $4884.05 (prior $4884.05). Book +9.48 pct on the ACTUAL $4,050.06 cost basis (positions now $4,434.11) vs SPY +3.62 pct from the 07-10 entry (SPY 750.935) = +5.86pp excess. Weights: PAY 20.4, TPC 19.1, QTWO 16.6, KLIC 12.7, LXU 11.4, ZVRA 10.6, cash 9.2 (pct). A/B: due_for_grade == [] (all 34 rows carry 6-24mo horizons from 07-10; nothing matures yet), so no grading and no calibration update this pass. RESEARCH CADENCE NOTE: the 3-day sourcing clock has been due since 2026-07-14 and is deliberately NOT run here - the book sits at the spec ceiling of 6 concentrated names (Stage 4 concentrates 3-6) and $449.94 cash is 9.2 pct of equity, so a fresh Stage 0-4 cascade has nowhere to put a 7th name without violating the concentration mandate. Sourcing earns its credits again when a typed kill frees capital or the operator adds funding."
+  },
+  {
+    "date": "2026-08-14",
+    "ts": "2026-08-14T20:15:00Z",
+    "equity": 4918.71,
+    "cash": 449.94,
+    "spy": 776.31,
+    "peak_equity": 4918.71,
+    "drawdown": 0.0,
+    "halted": false,
+    "note": "Zeus hourly AFTER-CLOSE tend, Fri 2026-08-14. 6 holds, 0 kills, 0 orders. Reconcile clean 6/6 exact vs broker. NEW PEAK equity $4,918.71 (prior $4,884.05). Book +0.71% on the session vs SPY -0.20%. One genuinely new document across all six CIKs: ZVRA 13G/A (Woodline 6.2%->8.1%, accumulation, but 06/30 event date, pre-dates our entry, and the 3-filing 'cluster' is the 45-day deadline calendar). Both >3% movers peer-checked and explained as sector participation: KLIC on a front-end/back-end semicap split (back-end green on an AMAT -5.12% front-end day), LXU on an ammonia-complex rally (+0.30pp off UAN). Marks are the 15:59:5x ET regular-session prints; the official 08-14 SIP close was not yet published at 20:15Z."
+  },
+  {
+    "date": "2026-08-17",
+    "ts": "2026-08-17T14:18:00Z",
+    "equity": 4917.99,
+    "cash": 449.94,
+    "spy": 775.32,
+    "peak_equity": 4918.71,
+    "drawdown": 0.00015,
+    "halted": false,
+    "note": "Zeus hourly MID-MORNING tend, Mon 2026-08-17 ~10:18 ET. 6 holds, 0 kills, 0 orders. Reconcile CLEAN 6/6 exact vs broker (KLIC/LXU/PAY/QTWO/TPC/ZVRA). Equity $4917.99 vs peak $4918.71 (dd 0.01%); intraday marks, book +12.96% on $4,353.89 contributed. ZERO new EDGAR documents across all six CIKs since 08-14 -> no typed kill testable, none fired. No name moved >3% intraday (KLIC +1.84, LXU +1.76, ZVRA +1.33, TPC -0.32, QTWO -1.11, PAY -1.53) -> no peer-check owed. A/B: due_for_grade=[], llm_lift lift_trustworthy=False (34 Arm-B/31 Arm-A unresolved, first grades 2027-10), calibration n<5 no-op. Drawdowns HELD per Stage 5: ZVRA -18.68%, KLIC -8.31%, LXU -5.02%. No new peak."
+  }
 ]

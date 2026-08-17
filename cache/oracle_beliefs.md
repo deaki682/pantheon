@@ -3,6 +3,32 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-08-17 MID-MORNING — a quiet near-peak hold, nothing new, written flat)
+
+Supersedes nothing below. Mid-morning tend, Zeus hourly (Mon). Reconcile CLEAN 6/6 exact
+vs broker, zero Oracle orders of any state, **zero new EDGAR documents on all six names**
+since the 08-14 close (a weekend gap — expected, not evidence). Six holds, no kill fired,
+no kill testable (no fresh facts). Equity **$4,917.99** on intraday marks — $0.72 under the
+08-14 close peak $4,918.71, drawdown 0.01%. Book +12.96% on $4,353.89 contributed.
+
+**1. No >3% mover, so no peer-check owed — and that is the correct non-event.** KLIC +1.84,
+LXU +1.76, ZVRA +1.33, TPC -0.32, QTWO -1.11, PAY -1.53 on SPY -0.13%. The PAY+QTWO cluster
+that breached 3% together on 08-13 sat quiet today; the 40%-cap blind-spot finding from
+08-13 stands unchanged and is still the top pre-condition of the next round (sectors still
+`''`, deliberately NOT hand-patched — fail-safe). Nothing today adds to or subtracts from it.
+
+**2. Still zero graded, and this near-peak mark is still not a result.** `due_for_grade
+(2026-08-17)==[]`, llm_lift `lift_trustworthy=False` (34 Arm-B / 31 Arm-A unresolved),
+`update_calibration` a no-op at n<5. First grades land 2027-10 onward. A five-week +13%
+mark on six names is a mark, not the 6–24mo hold the engine is scored on. Writing it down
+with the same flatness as a down day.
+
+**3. Kills restated, all unfired, none testable today** (no fresh facts): TPC "2 consec GAAP
+loss quarters" (0); KLIC "quarterly revenue < $180M" (RE-TYPE still owed, Duty 0b); PAY "YoY
+rev growth < 15%"; QTWO "GAAP net loss relapse or growth < 10%"; ZVRA "2 consec flat/declining
+product-rev quarters" (0); LXU "quarterly net loss AND ammonia collapse" (conjunction).
+Drawdowns HELD per Stage 5: ZVRA -18.68%, KLIC -8.31%, LXU -5.02%. A drawdown is never an exit.
+
 ## Worldview (2026-08-13 CLOSE — the cluster stopped being a bookkeeping note and became a measured fact)
 
 Supersedes nothing below. After-close tend, Zeus hourly — the second pass today, run on
