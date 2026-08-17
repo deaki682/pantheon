@@ -460,7 +460,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     </div>
   </div>
   <div class="row" id="cmpRow">
-    <input type="file" id="cmpFile" accept="image/*" capture="environment" hidden>
+    <input type="file" id="cmpFile" accept="image/*" hidden>
     <button id="cmpShoot" title="Take a photo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.2l1.1-1.8A1 1 0 0 1 8.7 4.7h6.6a1 1 0 0 1 .9.5L17.3 7h2.2A1.5 1.5 0 0 1 21 8.5v9A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="3.4"/></svg></button>
     <button id="cmpFlip" disabled>Flip</button>
     <button id="cmpSplit" disabled>Compare</button>
@@ -3136,7 +3136,6 @@ async function cmpSetPhoto(blob){
   CMP.corners=cmpGuessCorners(c).corners; CMP.cGrab=null;
   CMP.mode='corners'; CMP.showing='photo';    // place the corners by hand
   cmpRender();
-  coach('Corners', 'drag the corners onto your drawing');
 }
 function cmpApplyCorners(next){
   // the ghost-framed capture is aligned by the artist's eye at the shutter:
@@ -3176,10 +3175,27 @@ function cmpSave(){ cmpDirty=true; clearTimeout(cmpT); cmpT=setTimeout(cmpSaveNo
 const cmpFlush=()=>{ if (cmpDirty){ clearTimeout(cmpT); cmpSaveNow(); } };
 addEventListener('pagehide', cmpFlush);
 document.addEventListener('visibilitychange', ()=>{ if (document.hidden) cmpFlush(); });
+function camChrome(){
+  $('camVid').style.display='block';
+  $('coach').style.display='none';
+  $('lvRow').style.display='none';
+  $('mirRow').style.display='none';
+  $('circWrap').style.display='none';
+  $('cmpFlip').style.display='none';
+  $('cmpSplit').style.display='none';
+  $('cmpGridBtn').style.display='none';
+  $('cmpShoot').style.display='none';
+  $('lvBtn').style.display='none';
+  $('shutter').style.display='block';
+  $('lensBtn').style.display='none';
+  $('backBtn').textContent='\u2715';
+}
 $('compareBtn').onclick = async () => {
   CIRCTOOL=false;
   show('scrCompare'); cmpSize();
-  $('coach').style.display='none';
+  camChrome();                              // nothing of the last visit flashes
+  CAM.starting=true;
+  const camP = camStart();                  // spins up while the save loads
   if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
     CMP.ckey=CKEY; CMP.img=null; CMP.blob=null;
     $('cmpFlip').disabled=true;
@@ -3210,11 +3226,17 @@ $('compareBtn').onclick = async () => {
       CMP.mode='flip'; CMP.showing='photo';
     }
   }
-  cmpRender();
-  // no saved shot for this drawing: go straight to the camera
-  if (!CMP.img) $('cmpFile').click();
+  const camOk = await camP;
+  CAM.starting=false;
+  if (!camOk){ camStop(); cmpRender(); }
+  else coach('Ghost', 'Line up the ghost with your drawing, and take a pic!');
 };
-$('cmpShoot').onclick = () => $('cmpFile').click();
+$('cmpShoot').onclick = async () => {       // shoot again
+  camChrome(); CAM.starting=true;
+  const ok=await camStart();
+  CAM.starting=false;
+  if (!ok){ camStop(); cmpRender(); }
+};
 // live in-app camera; the file picker is the fallback
 const CAM={stream:null, ghost:null, timer:0, starting:false, info:'', devs:[], lens:''};
 function camGhost(){
@@ -3391,41 +3413,56 @@ async function camCapture(){
   camGhost();                              // mapping current at the shutter
   const gh=CAM.ghost;
   const vw0=v.videoWidth, vh0=v.videoHeight;
-  const frame=v, fw=vw0, fh=vh0;
-  // keep the WHOLE frame: the ghost rectangle is only the default crop, and
-  // the Crop screen can refine it afterwards with the surroundings intact
-  const k=Math.min(1, 3000/Math.max(fw,fh));
+  // The preview is not the camera. Ask the sensor for an actual photo -
+  // full area, full processing - and map the ghost onto it. A preview is
+  // usually a CROP of the still, so fit the preview inside the still and
+  // centre it rather than assuming the two match pixel for pixel (that
+  // assumption is what put the crop in the wrong place before).
+  let frame=v, fw=vw0, fh=vh0, k=1, ox=0, oy=0;
+  try{
+    if (window.ImageCapture){
+      const ic=new ImageCapture(CAM.stream.getVideoTracks()[0]);
+      const blob=await Promise.race([ ic.takePhoto(),
+        new Promise(r=>setTimeout(()=>r(null),1500)) ]);
+      if (blob){
+        // decode at natural size so the still's REAL resolution is known -
+        // a pre-resized decode would fail the "is this bigger than the
+        // preview" test on 4K previews and silently throw the photo away
+        let bmp=null;
+        try{ bmp=await createImageBitmap(blob); }
+        catch(e){ try{ bmp=await createImageBitmap(blob,{resizeWidth:2400,resizeQuality:'high'}); }catch(e2){} }
+        if (bmp && bmp.width>=640 && bmp.width*bmp.height >= vw0*vh0*0.8){
+          frame=bmp; fw=bmp.width; fh=bmp.height;
+          k=Math.min(fw/vw0, fh/vh0);
+          ox=(fw-vw0*k)/2; oy=(fh-vh0*k)/2;
+        } else if (bmp && bmp.close) bmp.close();
+      }
+    }
+  }catch(e){}
+  const cap=Math.min(1, 3200/Math.max(fw,fh));
   const full=document.createElement('canvas');
-  full.width=Math.max(2,Math.round(fw*k)); full.height=Math.max(2,Math.round(fh*k));
+  full.width=Math.max(2,Math.round(fw*cap)); full.height=Math.max(2,Math.round(fh*cap));
   const fg=full.getContext('2d');
   fg.imageSmoothingQuality='high';
   fg.filter='grayscale(1)'; fg.drawImage(frame,0,0,full.width,full.height); fg.filter='none';
+  if (frame!==v && frame.close) frame.close();
   camStop();
   let blob=null;
   try{ blob=canvasBlob(full,'image/jpeg',0.92); }catch(e){}
   CMP.raw=full; CMP.blob=blob; CMP.framed=true; CMP.cGrab=null;
   if (gh){
-    const kx=full.width/vw0, ky=full.height/vh0;
-    const x0=(gh.gx-gh.vx)/gh.vs*kx, y0=(gh.gy-gh.vy)/gh.vs*ky;
-    const x1=x0+gh.gw/gh.vs*kx, y1=y0+gh.gh/gh.vs*ky;
-    CMP.corners=[{x:x0,y:y0},{x:x1,y:y0},{x:x1,y:y1},{x:x0,y:y1}];
+    const px0=(gh.gx-gh.vx)/gh.vs, py0=(gh.gy-gh.vy)/gh.vs;
+    const px1=px0+gh.gw/gh.vs, py1=py0+gh.gh/gh.vs;
+    const X=x=>(ox+x*k)*cap, Y=y=>(oy+y*k)*cap;
+    CMP.corners=[{x:X(px0),y:Y(py0)},{x:X(px1),y:Y(py0)},
+                 {x:X(px1),y:Y(py1)},{x:X(px0),y:Y(py1)}];
   } else {
     CMP.corners=[{x:0,y:0},{x:full.width,y:0},
                  {x:full.width,y:full.height},{x:0,y:full.height}];
   }
-  cmpApplyCorners('flip');
+  cmpApplyCorners('flip');                 // straight to the flip, no corners
   cmpTip();
 }
-$('lensBtn').onclick = async () => {
-  if (!CAM.stream || CAM.devs.length<2) return;
-  const cur=(CAM.stream.getVideoTracks()[0].getSettings()||{}).deviceId;
-  let i=CAM.devs.findIndex(d=>d.deviceId===cur);
-  if (i<0) i=0;
-  lensSet(CAM.devs[(i+1)%CAM.devs.length].deviceId);
-  camStop();
-  const ok=await camStart();
-  if (ok) toast(CAM.info, false, 2600); else toast('that lens would not open');
-};
 $('shutter').onclick = camCapture;
 $('cmpFile').addEventListener('change', e => {
   const f=e.target.files[0]; if (f) cmpSetPhoto(f);
