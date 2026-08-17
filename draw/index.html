@@ -3459,6 +3459,30 @@ async function camStart(){
         .catch(()=>{});
       tr.applyConstraints({ advanced:[{ focusMode:'continuous' }] })
         .catch(()=>{});
+      // a raw-file posture, set ONCE at open and never touched again:
+      // bias exposure down so the paper cannot clip (clipped highlights
+      // are gone forever - no slider recovers them), and ask the ISP for
+      // a flat, lightly-sharpened rendering. Each knob only where the
+      // device admits it exists; phones without them are untouched.
+      try{
+        const cp=tr.getCapabilities ? tr.getCapabilities() : {};
+        const adv={};
+        if (cp.exposureCompensation
+            && typeof cp.exposureCompensation.min==='number'
+            && cp.exposureCompensation.min<0){
+          const st=cp.exposureCompensation.step||0.1;
+          adv.exposureCompensation=Math.max(cp.exposureCompensation.min,
+                                            Math.round(-0.7/st)*st);
+        }
+        if (cp.contrast && typeof cp.contrast.min==='number'
+            && cp.contrast.max>cp.contrast.min)
+          adv.contrast=cp.contrast.min+(cp.contrast.max-cp.contrast.min)/3;
+        if (cp.sharpness && typeof cp.sharpness.min==='number'
+            && cp.sharpness.max>cp.sharpness.min)
+          adv.sharpness=cp.sharpness.min+(cp.sharpness.max-cp.sharpness.min)/3;
+        if (Object.keys(adv).length)
+          tr.applyConstraints({advanced:[adv]}).catch(()=>{});
+      }catch(e){}
     }catch(e){}
     // the last photo waits in the corner - tap it to skip reshooting
     const ls=$('lastShot');
