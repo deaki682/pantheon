@@ -442,6 +442,10 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <span class="adjL">shadows</span><input type="range" id="aSh" min="-100" max="100" value="0">
     </div>
     <div class="row">
+      <span class="adjL">whites</span><input type="range" id="aWh" min="-100" max="100" value="0">
+      <span class="adjL">blacks</span><input type="range" id="aBl" min="-100" max="100" value="0">
+    </div>
+    <div class="row">
       <span class="adjL">denoise</span><input type="range" id="aDn" min="0" max="100" value="0">
       <button id="lvReset">Auto</button>
     </div>
@@ -2710,19 +2714,27 @@ function cmpSize(){
   const s=Math.min(cv.width/w, cv.height/h);
   CMP.fit={s, x:(cv.width-w*s)/2, y:(cv.height-h*s)/2, w, h};
 }
-const ADJ_DEF={exp:0, con:100, hi:0, sh:0, bl:0, wh:255, dn:0};
+const ADJ_DEF={v:2, exp:0, con:100, hi:0, sh:0, wh:0, bl:0, dn:0};
 function adjLut(a,N){
-  const span=Math.max(0.04,(a.wh-a.bl)/255);
+  // exposure -> contrast -> broad tones (highlights/shadows) -> narrow ends
+  // (whites/blacks). Each term is a soft knee weighted toward its register,
+  // so pushing one register never drags the whole curve with it.
   const lut=new Float32Array(N+1);
+  const c01=t=>t<0?0:(t>1?1:t);
   for (let q=0;q<=N;q++){
     let x=q/N;
-    x*=Math.pow(2, a.exp/100);                        // exposure, +-1 stop
+    x*=Math.pow(2, a.exp/50);                         // exposure, +-2 stops
     x=(x-0.5)*(a.con/100)+0.5;                        // contrast about mid
-    x+=(a.sh/100)*1.0*Math.pow(Math.max(0,1-x),2);    // shadows - full reach to ink
-    x+=(a.hi/100)*0.6*Math.pow(Math.max(0,Math.min(1,x)),2); // highlights
-    x=(x-a.bl/255)/span;                              // black/white points
-    lut[q]=255*Math.max(0,Math.min(1,x));
+    // crush directions ride the ink/paper clamp and can be strong; lift and
+    // recover directions need gentler slopes or the curve folds over
+    x+=(a.sh/100)*(a.sh<0?1.0:0.5)*Math.pow(Math.max(0,1-x),2);    // shadows
+    x+=(a.hi/100)*(a.hi<0?0.45:0.8)*Math.pow(c01(x),2);            // highlights
+    x+=((a.bl||0)/100)*((a.bl||0)<0?0.6:0.2)*Math.pow(Math.max(0,1-x),5); // blacks
+    x+=((a.wh||0)/100)*((a.wh||0)<0?0.2:0.6)*Math.pow(c01(x),5);   // whites
+    lut[q]=255*c01(x);
   }
+  // a monotone curve, whatever the slider combination - never solarize
+  for (let q=1;q<=N;q++) if (lut[q]<lut[q-1]) lut[q]=lut[q-1];
   return lut;
 }
 function applyLevels(){
@@ -2732,7 +2744,7 @@ function applyLevels(){
   const a=CMP.adj||ADJ_DEF;
   const dn = a.dn>0 ? denoiseCv() : null;
   const toneOn = !(a.exp===0 && a.con===100 && a.hi===0 && a.sh===0
-                   && a.bl<=0 && a.wh>=255);
+                   && (a.bl||0)===0 && (a.wh||0)===0);
   if (!toneOn && !dn){ CMP.img=CMP.base; return; }
   const bf=CMP.baseF;
   if (bf && !dn){
@@ -2790,17 +2802,20 @@ function applyLevels(){
 const adjStore=()=>{ try{ localStorage.setItem('cmpAdj', JSON.stringify(CMP.adj)); }catch(e){} };
 function adjLoad(){ try{
   const v=JSON.parse(localStorage.getItem('cmpAdj'));
-  if (v && typeof v.con==='number')
-    return {exp:v.exp||0, con:v.con, hi:v.hi||0, sh:v.sh||0, bl:0,
-            wh:255, dn:v.dn||0};
+  if (v && typeof v.con==='number'){
+    const ok=v.v===2;                    // pre-v2 bl/wh were point clips
+    return {v:2, exp:v.exp||0, con:v.con, hi:v.hi||0, sh:v.sh||0,
+            wh:ok?(v.wh||0):0, bl:ok?(v.bl||0):0, dn:v.dn||0};
+  }
 }catch(e){} return null; }
 function adjSync(){
   const a=CMP.adj||ADJ_DEF;
   $('aExp').value=a.exp; $('aCon').value=a.con; $('aHi').value=a.hi;
-  $('aSh').value=a.sh; $('aDn').value=a.dn||0;
+  $('aSh').value=a.sh; $('aWh').value=a.wh||0; $('aBl').value=a.bl||0;
+  $('aDn').value=a.dn||0;
 }
 for (const [id,key] of [['aExp','exp'],['aCon','con'],['aHi','hi'],
-                        ['aSh','sh'],['aDn','dn']])
+                        ['aSh','sh'],['aWh','wh'],['aBl','bl'],['aDn','dn']])
   $(id).oninput = () => {
     CMP.adj[key]=+$(id).value;
     applyLevels(); adjStore(); cmpRender(); cmpSave();
@@ -2812,7 +2827,7 @@ $('lvReset').onclick = () => {
   // From any non-neutral state it clears back to the raw photo.
   const cur=CMP.adj||ADJ_DEF;
   const neutral = cur.exp===0 && cur.con===100 && cur.hi===0 && cur.sh===0
-                  && (cur.dn||0)===0;
+                  && (cur.wh||0)===0 && (cur.bl||0)===0 && (cur.dn||0)===0;
   if (neutral && CMP.base){
     const b=CMP.base, g=b.getContext('2d');
     let pl=0.02, ph=0.98;
@@ -2830,7 +2845,7 @@ $('lvReset').onclick = () => {
       const S=(0.96-0.05)/(ph-pl);
       let c=2*(ph*S-0.96+0.5);
       c=Math.max(0.15,Math.min(2,c));
-      let ex=100*Math.log2(Math.max(0.001,S/c));
+      let ex=50*Math.log2(Math.max(0.001,S/c));
       ex=Math.max(-100,Math.min(100,ex));
       CMP.adj={...ADJ_DEF, exp:Math.round(ex), con:Math.round(c*100)};
       adjSync(); applyLevels(); adjStore(); cmpRender(); cmpSave();
@@ -3371,8 +3386,10 @@ $('compareBtn').onclick = async () => {
         cmpApplyCorners();
       }
       if (saved.adj && typeof saved.adj.con==='number'){
-        CMP.adj={exp:saved.adj.exp||0, con:saved.adj.con, hi:saved.adj.hi||0,
-                 sh:saved.adj.sh||0, bl:0, wh:255,
+        CMP.adj={v:2, exp:saved.adj.exp||0, con:saved.adj.con,
+                 hi:saved.adj.hi||0, sh:saved.adj.sh||0,
+                 wh:saved.adj.v===2?(saved.adj.wh||0):0,
+                 bl:saved.adj.v===2?(saved.adj.bl||0):0,
                  dn:saved.adj.dn||0};
         adjSync();
       }
