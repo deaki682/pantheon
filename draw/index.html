@@ -196,7 +196,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   display:flex;align-items:center;justify-content:center}
 #widthIn,#heightIn,#cellVal,#cellVal2{width:54px;background:#1e1e1e;color:#e8e6e1;
   border:1px solid #555;border-radius:8px;padding:8px;font:inherit}
-#lvBtn,#cmpGridBtn{display:flex;align-items:center;justify-content:center;min-width:44px}
+#lvBtn,#cmpGridBtn,#cmpShoot{display:flex;align-items:center;justify-content:center;min-width:44px}
 #cmpRow{justify-content:space-evenly}
 /* a tap on the drawing sends every panel off its nearest edge; tap again
    and they slide back */
@@ -460,7 +460,8 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     </div>
   </div>
   <div class="row" id="cmpRow">
-    <input type="file" id="cmpFile" accept="image/*" hidden>
+    <input type="file" id="cmpFile" accept="image/*" capture="environment" hidden>
+    <button id="cmpShoot" title="Take a photo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.2l1.1-1.8A1 1 0 0 1 8.7 4.7h6.6a1 1 0 0 1 .9.5L17.3 7h2.2A1.5 1.5 0 0 1 21 8.5v9A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="3.4"/></svg></button>
     <button id="cmpFlip" disabled>Flip</button>
     <button id="cmpSplit" disabled>Compare</button>
     <button id="cmpCrop" style="display:none">Crop</button>
@@ -2779,6 +2780,7 @@ function cmpButtons(){
   fl.style.display = corners ? 'none' : '';
   fl.disabled = !CMP.img;
   fl.classList.toggle('vOn', CMP.mode==='flip' && !!CMP.img);
+  $('cmpShoot').style.display = corners ? 'none' : '';
   const gb=$('cmpGridBtn');
   gb.style.display = corners ? 'none' : '';
   gb.disabled = !CMP.img;
@@ -3124,7 +3126,7 @@ async function cmpSetPhoto(blob){
   const i=await blobImage(blob).catch(()=>null);
   if (!i) return;
   const c=document.createElement('canvas');
-  const k=Math.min(1, 2400/Math.max(i.width,i.height));
+  const k=Math.min(1, 3200/Math.max(i.width,i.height));
   c.width=Math.max(2,Math.round(i.width*k)); c.height=Math.max(2,Math.round(i.height*k));
   const cg=c.getContext('2d');
   cg.imageSmoothingQuality='high';
@@ -3132,8 +3134,9 @@ async function cmpSetPhoto(blob){
   URL.revokeObjectURL(i.src);
   CMP.raw=c; CMP.blob=blob; CMP.img=null; CMP.framed=false;
   CMP.corners=cmpGuessCorners(c).corners; CMP.cGrab=null;
-  CMP.mode='corners'; CMP.showing='photo';    // picker photos: place corners by hand
+  CMP.mode='corners'; CMP.showing='photo';    // place the corners by hand
   cmpRender();
+  coach('Corners', 'drag the corners onto your drawing');
 }
 function cmpApplyCorners(next){
   // the ghost-framed capture is aligned by the artist's eye at the shutter:
@@ -3176,22 +3179,7 @@ document.addEventListener('visibilitychange', ()=>{ if (document.hidden) cmpFlus
 $('compareBtn').onclick = async () => {
   CIRCTOOL=false;
   show('scrCompare'); cmpSize();
-  // camera-mode chrome up in the same frame - nothing of the previous
-  // visit may flash first
-  $('camVid').style.display='block';
   $('coach').style.display='none';
-  $('lvRow').style.display='none';
-  $('mirRow').style.display='none';
-  $('circWrap').style.display='none';
-  $('cmpFlip').style.display='none';
-  $('cmpSplit').style.display='none';
-  $('cmpGridBtn').style.display='none';
-  $('lvBtn').style.display='none';
-  $('shutter').style.display='block';
-  $('lensBtn').style.display='none';
-  $('backBtn').textContent='✕';
-  CAM.starting=true;
-  const camP = camStart();                  // spins up while the save loads
   if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
     CMP.ckey=CKEY; CMP.img=null; CMP.blob=null;
     $('cmpFlip').disabled=true;
@@ -3222,11 +3210,11 @@ $('compareBtn').onclick = async () => {
       CMP.mode='flip'; CMP.showing='photo';
     }
   }
-  const camOk = await camP;
-  CAM.starting=false;
-  if (!camOk){ camStop(); cmpRender(); }
-  else coach('Ghost', 'Line up the ghost with your drawing, and take a pic!');
+  cmpRender();
+  // no saved shot for this drawing: go straight to the camera
+  if (!CMP.img) $('cmpFile').click();
 };
+$('cmpShoot').onclick = () => $('cmpFile').click();
 // live in-app camera; the file picker is the fallback
 const CAM={stream:null, ghost:null, timer:0, starting:false, info:'', devs:[], lens:''};
 function camGhost(){
