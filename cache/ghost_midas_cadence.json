@@ -1,4 +1,4 @@
 {
-  "note": "2026-08-10 Zeus pass: marked; 0 opened, 0 marked (book flat), 0 due to grade. Declined the stale 07-03 finalists again \u2014 re-opening them would fabricate a head-to-head at prices five weeks past the signal. ESCALATION: cache/midas_cadence.json still stamps scan=2026-07-03; the weekend /midas-scan has not produced fresh finalists in 5+ weeks, so the death-clock A/B has 1 of the required 20 weekly live_pick-vs-legacy_pick head-to-heads (the 07-06 week: live QMCO -2.86% vs legacy ZBIO +0.88%). At this rate the race cannot reach its checkpoint. Either the weekend scan needs to actually run or the operator should call the program early.",
-  "session": "2026-08-14T14:22:32.145225+00:00"
+  "note": "2026-08-17 Zeus pass: marked; 0 opened (book flat), 0 due to grade. DECLINED the stale midas_scan.json finalists again (scan stamped 2026-07-03, 5+ weeks old, live_pick/legacy_pick all None) \u2014 re-opening at prices 6 weeks past the signal would fabricate a head-to-head. STANDING ESCALATION (unchanged since 08-10): the weekend /midas-scan has not produced fresh finalists in 6+ weeks, so the death-clock A/B still has 1 of the required 20 weekly head-to-heads. At this cadence the race cannot reach its checkpoint; operator must either run the weekend scan or call the program early.",
+  "session": "2026-08-17T14:31:40.405802+00:00"
 }
