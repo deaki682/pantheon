@@ -3250,7 +3250,7 @@ async function camStart(){
   try{
     const st=await navigator.mediaDevices.getUserMedia({
       video:{ facingMode:{ideal:'environment'},
-              width:{ideal:3840}, height:{ideal:2880},
+              width:{ideal:2560}, height:{ideal:1920},
               advanced:[{ focusMode:'continuous', exposureMode:'continuous' }] },
       audio:false });
     CAM.stream=st;
