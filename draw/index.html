@@ -2621,79 +2621,6 @@ onmessage = e => {
   }
 };
 `;
-// The other half of a camera app's look is processing, not pixels: expose
-// the paper to white, keep structure inside the shadows, sharpen the fine
-// grain. Every capture passes through here - photo-pipeline stills and
-// merged bursts alike.
-const ENH_SRC = `
-function boxBlur(src,w,h,r){
-  const tmp=new Float32Array(w*h), out=new Float32Array(w*h);
-  const n=2*r+1;
-  for (let y=0;y<h;y++){
-    const o=y*w; let s=src[o]*(r+1);
-    for (let x=1;x<=r;x++) s+=src[o+Math.min(x,w-1)];
-    for (let x=0;x<w;x++){
-      tmp[o+x]=s/n;
-      s+=src[o+Math.min(x+r+1,w-1)]-src[o+Math.max(x-r,0)];
-    }
-  }
-  for (let x=0;x<w;x++){
-    let s=tmp[x]*(r+1);
-    for (let y=1;y<=r;y++) s+=tmp[Math.min(y,h-1)*w+x];
-    for (let y=0;y<h;y++){
-      out[y*w+x]=s/n;
-      s+=tmp[Math.min(y+r+1,h-1)*w+x]-tmp[Math.max(y-r,0)*w+x];
-    }
-  }
-  return out;
-}
-onmessage = e => {
-  const {w,h}=e.data, src=new Float32Array(e.data.buf.length);
-  for (let i=0;i<src.length;i++) src[i]=e.data.buf[i];
-  const r1=Math.max(1,Math.round(Math.min(w,h)*0.004));
-  const r2=Math.max(10,Math.round(Math.min(w,h)*0.09));
-  const b1=boxBlur(src,w,h,r1);
-  const b2=boxBlur(src,w,h,r2);
-  const out=new Float32Array(w*h);
-  for (let i=0;i<w*h;i++)
-    out[i]=src[i]+0.5*(src[i]-b1[i])+0.3*(src[i]-b2[i]);
-  // histogram stretch: the paper goes to paper-white, the charcoal stays ink
-  const hist=new Float64Array(256);
-  for (let i=0;i<w*h;i++) hist[Math.max(0,Math.min(255,out[i]|0))]++;
-  const tot=w*h; let acc=0, lo=0, hi=255;
-  for (let i=0;i<256;i++){ acc+=hist[i]; if (acc>=tot*0.003){ lo=i; break; } }
-  acc=0;
-  for (let i=255;i>=0;i--){ acc+=hist[i]; if (acc>=tot*0.005){ hi=i; break; } }
-  const buf=new Uint8ClampedArray(w*h);
-  if (hi-lo>24){
-    const sc=240/(hi-lo);
-    for (let i=0;i<w*h;i++) buf[i]=Math.max(0,Math.min(255,(out[i]-lo)*sc+8));
-  } else {
-    for (let i=0;i<w*h;i++) buf[i]=Math.max(0,Math.min(255,out[i]));
-  }
-  postMessage({w,h,buf},[buf.buffer]);
-};
-`;
-function enhanceCanvas(cv){
-  return new Promise(res=>{
-    const w=cv.width, h=cv.height, g=cv.getContext('2d');
-    let id;
-    try{ id=g.getImageData(0,0,w,h); }catch(e){ res(false); return; }
-    const luma=new Uint8ClampedArray(w*h);
-    for (let i=0;i<w*h;i++) luma[i]=id.data[i*4];   // captures are grayscale already
-    const wk=new Worker(URL.createObjectURL(new Blob([ENH_SRC],{type:'text/javascript'})));
-    const bail=setTimeout(()=>{ try{ wk.terminate(); }catch(e){} res(false); }, 15000);
-    wk.onmessage=ev=>{
-      clearTimeout(bail);
-      const b=ev.data.buf;
-      for (let i=0;i<w*h;i++){ const q=b[i];
-        id.data[i*4]=q; id.data[i*4+1]=q; id.data[i*4+2]=q; }
-      g.putImageData(id,0,0);
-      wk.terminate(); res(true);
-    };
-    wk.postMessage({w,h,buf:luma},[luma.buffer]);
-  });
-}
 const DENOISE_SRC = MEDIAN_SRC + `
 onmessage=e=>{
   const gray=e.data.gray, W=e.data.W, H=e.data.H, N=W*H;
@@ -2843,6 +2770,37 @@ for (const [id,key] of [['aExp','exp'],['aCon','con'],['aHi','hi'],
     applyLevels(); adjStore(); cmpRender(); cmpSave();
   };
 $('lvReset').onclick = () => {
+  // From neutral, Auto computes real levels for THIS capture - paper toward
+  // white, charcoal toward black - and writes them into the visible sliders,
+  // so nothing is baked in and every move is inspectable and reversible.
+  // From any non-neutral state it clears back to the raw photo.
+  const cur=CMP.adj||ADJ_DEF;
+  const neutral = cur.exp===0 && cur.con===100 && cur.hi===0 && cur.sh===0
+                  && (cur.dn||0)===0;
+  if (neutral && CMP.base){
+    const b=CMP.base, g=b.getContext('2d');
+    let pl=0.02, ph=0.98;
+    try{
+      const d=g.getImageData(0,0,b.width,b.height).data;
+      const hist=new Float64Array(256);
+      let tot=0;
+      for (let i=0;i<d.length;i+=16){ hist[d[i]]++; tot++; }
+      let acc=0;
+      for (let v=0;v<256;v++){ acc+=hist[v]; if (acc>=tot*0.004){ pl=v/255; break; } }
+      acc=0;
+      for (let v=255;v>=0;v--){ acc+=hist[v]; if (acc>=tot*0.006){ ph=v/255; break; } }
+    }catch(e){}
+    if (ph-pl>0.08){
+      const S=(0.96-0.05)/(ph-pl);
+      let c=2*(ph*S-0.96+0.5);
+      c=Math.max(0.15,Math.min(2,c));
+      let ex=100*Math.log2(Math.max(0.001,S/c));
+      ex=Math.max(-100,Math.min(100,ex));
+      CMP.adj={...ADJ_DEF, exp:Math.round(ex), con:Math.round(c*100)};
+      adjSync(); applyLevels(); adjStore(); cmpRender(); cmpSave();
+      return;
+    }
+  }
   CMP.adj={...ADJ_DEF}; adjSync();
   try{ localStorage.removeItem('cmpAdj'); }catch(e){}
   applyLevels(); cmpRender(); cmpSave();
@@ -3638,7 +3596,6 @@ async function camCapture(){
   fg.setTransform(1,0,0,1,0,0); fg.filter='none';
   if (frame!==pv && frame.close) frame.close();
   camStop();
-  try{ await enhanceCanvas(full); }catch(e){}
   let blob=null;
   try{ blob=canvasBlob(full,'image/jpeg',0.92); }catch(e){}
   CMP.raw=full; CMP.blob=blob; CMP.framed=true; CMP.cGrab=null;
