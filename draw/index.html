@@ -101,6 +101,11 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #camVid{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
   display:none;background:#000}
 #camGhost{position:absolute;left:0;top:0;pointer-events:none}
+#capNote{position:absolute;left:50%;transform:translateX(-50%);
+  bottom:calc(110px + env(safe-area-inset-bottom));z-index:9;display:none;
+  background:rgba(12,12,12,0.78);color:#fff;border-radius:999px;
+  padding:7px 16px;font-size:12px;letter-spacing:.03em;white-space:nowrap;
+  pointer-events:none}
 #focusRing{position:absolute;width:56px;height:56px;border:2px solid var(--acc);
   border-radius:50%;pointer-events:none;display:none;z-index:6;
   transform:translate(-50%,-50%)}
@@ -419,6 +424,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <video id="camVid" playsinline autoplay muted></video>
     <canvas id="camGhost"></canvas>
     <div id="focusRing"></div>
+    <div id="capNote"></div>
     <canvas id="lastShot" title="Use the last photo"></canvas>
     <button id="shutter" title="Capture"></button>
     <div id="circWrap">
@@ -2538,6 +2544,156 @@ loadArsenal(); $('upStat').textContent = '\u03b1 0.5';
 // than the range sigma (grain) get smoothed away; real edges - the marks
 // of the drawing - stop the filter cold. Cooked ONCE per capture in a
 // worker, then the slider just blends raw->clean, so it stays instant.
+// Our own HDR magic, the honest half of it: a camera app's quality is mostly
+// burst MERGING, not one clean sensor read. Frames stream in one at a time;
+// each is aligned to the first by a coarse-to-fine translation search on
+// image pyramids and averaged in - so memory holds three planes, never the
+// whole burst. A frame that will not align (the hand travelled, the scene
+// changed) is simply dropped: a static drawing forgives a short stack far
+// more than it forgives ghosting.
+const STACK_SRC = `
+function down2(a,w,h){
+  const w2=w>>1,h2=h>>1,o=new Float32Array(w2*h2);
+  for (let y=0;y<h2;y++) for (let x=0;x<w2;x++){
+    const i=(y*2)*w+x*2;
+    o[y*w2+x]=(a[i]+a[i+1]+a[i+w]+a[i+w+1])*0.25;
+  }
+  return o;
+}
+function pyr(a,w,h){
+  const P=[{a,w,h}];
+  while (P[P.length-1].w>96 && P[P.length-1].h>96 && P.length<5){
+    const t=P[P.length-1];
+    P.push({a:down2(t.a,t.w,t.h), w:t.w>>1, h:t.h>>1});
+  }
+  return P;
+}
+function shiftScore(a,b,w,h,dx,dy,st){
+  const x0=Math.max(0,dx), x1=Math.min(w,w+dx);
+  const y0=Math.max(0,dy), y1=Math.min(h,h+dy);
+  let n=0,s=0;
+  for (let y=y0;y<y1;y+=st) for (let x=x0;x<x1;x+=st){
+    const d=a[y*w+x]-b[(y-dy)*w+(x-dx)];
+    s+=d*d; n++;
+  }
+  return n? s/n : 1e9;
+}
+let W=0,H=0,acc=null,pyrRef=null,n=0;
+onmessage = e => {
+  const m=e.data;
+  if (m.op==='frame'){
+    const b=m.buf;
+    if (!acc){
+      W=m.w; H=m.h; n=1;
+      acc=new Float32Array(W*H);
+      for (let i=0;i<W*H;i++) acc[i]=b[i];
+      pyrRef=pyr(b,W,H);                    // built once, reused every frame
+      postMessage({op:'ack'}); return;
+    }
+    const pc=pyr(b,W,H);
+    let dx=0,dy=0;
+    for (let L=pyrRef.length-1;L>=0;L--){
+      const R=pyrRef[L], C=pc[L];
+      dx*=2; dy*=2;
+      const r=(L===pyrRef.length-1)?6:1, st=(L<=1)?4:2;
+      let best=1e18,bx=dx,by=dy;
+      for (let yy=-r;yy<=r;yy++) for (let xx=-r;xx<=r;xx++){
+        const sc=shiftScore(R.a,C.a,R.w,R.h,dx+xx,dy+yy,st);
+        if (sc<best){ best=sc; bx=dx+xx; by=dy+yy; }
+      }
+      dx=bx; dy=by;
+    }
+    if (Math.abs(dx)<=W*0.06 && Math.abs(dy)<=H*0.06){
+      const x0=Math.max(0,dx), x1=Math.min(W,W+dx);
+      const y0=Math.max(0,dy), y1=Math.min(H,H+dy);
+      for (let y=y0;y<y1;y++){
+        const ro=y*W, co=(y-dy)*W-dx;
+        for (let x=x0;x<x1;x++) acc[ro+x]+=b[co+x];
+      }
+      n++;
+    }
+    postMessage({op:'ack'});
+  } else if (m.op==='done'){
+    const out=new Uint8ClampedArray(W*H);
+    for (let i=0;i<W*H;i++) out[i]=Math.max(0,Math.min(255,acc[i]/n+0.5));
+    postMessage({op:'merged', w:W, h:H, n, buf:out}, [out.buffer]);
+    acc=pyrRef=null; n=0;
+  }
+};
+`;
+// The other half of a camera app's look is processing, not pixels: expose
+// the paper to white, keep structure inside the shadows, sharpen the fine
+// grain. Every capture passes through here - photo-pipeline stills and
+// merged bursts alike.
+const ENH_SRC = `
+function boxBlur(src,w,h,r){
+  const tmp=new Float32Array(w*h), out=new Float32Array(w*h);
+  const n=2*r+1;
+  for (let y=0;y<h;y++){
+    const o=y*w; let s=src[o]*(r+1);
+    for (let x=1;x<=r;x++) s+=src[o+Math.min(x,w-1)];
+    for (let x=0;x<w;x++){
+      tmp[o+x]=s/n;
+      s+=src[o+Math.min(x+r+1,w-1)]-src[o+Math.max(x-r,0)];
+    }
+  }
+  for (let x=0;x<w;x++){
+    let s=tmp[x]*(r+1);
+    for (let y=1;y<=r;y++) s+=tmp[Math.min(y,h-1)*w+x];
+    for (let y=0;y<h;y++){
+      out[y*w+x]=s/n;
+      s+=tmp[Math.min(y+r+1,h-1)*w+x]-tmp[Math.max(y-r,0)*w+x];
+    }
+  }
+  return out;
+}
+onmessage = e => {
+  const {w,h}=e.data, src=new Float32Array(e.data.buf.length);
+  for (let i=0;i<src.length;i++) src[i]=e.data.buf[i];
+  const r1=Math.max(1,Math.round(Math.min(w,h)*0.004));
+  const r2=Math.max(10,Math.round(Math.min(w,h)*0.09));
+  const b1=boxBlur(src,w,h,r1);
+  const b2=boxBlur(src,w,h,r2);
+  const out=new Float32Array(w*h);
+  for (let i=0;i<w*h;i++)
+    out[i]=src[i]+0.5*(src[i]-b1[i])+0.3*(src[i]-b2[i]);
+  // histogram stretch: the paper goes to paper-white, the charcoal stays ink
+  const hist=new Float64Array(256);
+  for (let i=0;i<w*h;i++) hist[Math.max(0,Math.min(255,out[i]|0))]++;
+  const tot=w*h; let acc=0, lo=0, hi=255;
+  for (let i=0;i<256;i++){ acc+=hist[i]; if (acc>=tot*0.003){ lo=i; break; } }
+  acc=0;
+  for (let i=255;i>=0;i--){ acc+=hist[i]; if (acc>=tot*0.005){ hi=i; break; } }
+  const buf=new Uint8ClampedArray(w*h);
+  if (hi-lo>24){
+    const sc=240/(hi-lo);
+    for (let i=0;i<w*h;i++) buf[i]=Math.max(0,Math.min(255,(out[i]-lo)*sc+8));
+  } else {
+    for (let i=0;i<w*h;i++) buf[i]=Math.max(0,Math.min(255,out[i]));
+  }
+  postMessage({w,h,buf},[buf.buffer]);
+};
+`;
+function enhanceCanvas(cv){
+  return new Promise(res=>{
+    const w=cv.width, h=cv.height, g=cv.getContext('2d');
+    let id;
+    try{ id=g.getImageData(0,0,w,h); }catch(e){ res(false); return; }
+    const luma=new Uint8ClampedArray(w*h);
+    for (let i=0;i<w*h;i++) luma[i]=id.data[i*4];   // captures are grayscale already
+    const wk=new Worker(URL.createObjectURL(new Blob([ENH_SRC],{type:'text/javascript'})));
+    const bail=setTimeout(()=>{ try{ wk.terminate(); }catch(e){} res(false); }, 15000);
+    wk.onmessage=ev=>{
+      clearTimeout(bail);
+      const b=ev.data.buf;
+      for (let i=0;i<w*h;i++){ const q=b[i];
+        id.data[i*4]=q; id.data[i*4+1]=q; id.data[i*4+2]=q; }
+      g.putImageData(id,0,0);
+      wk.terminate(); res(true);
+    };
+    wk.postMessage({w,h,buf:luma},[luma.buffer]);
+  });
+}
 const DENOISE_SRC = MEDIAN_SRC + `
 onmessage=e=>{
   const gray=e.data.gray, W=e.data.W, H=e.data.H, N=W*H;
@@ -3308,6 +3464,13 @@ $('camGhost').addEventListener('pointerdown', e=>{
   fr.style.left=(e.clientX-r.left)+'px'; fr.style.top=(e.clientY-r.top)+'px';
   fr.classList.remove('on'); void fr.offsetWidth; fr.classList.add('on');
 });
+let CAPNOTE_T=0;
+function capNote(txt){
+  const el=$('capNote');
+  el.textContent=txt; el.style.display='block';
+  clearTimeout(CAPNOTE_T);
+  CAPNOTE_T=setTimeout(()=>{ el.style.display='none'; }, 2600);
+}
 function camStop(){
   if (CAM.stream){ for (const t of CAM.stream.getTracks()) t.stop(); CAM.stream=null; }
   $('camGhost').style.pointerEvents='none';
@@ -3334,6 +3497,43 @@ async function camCapture(){
   // must match before it is trusted
   const pv=document.createElement('canvas'); pv.width=vw0; pv.height=vh0;
   pv.getContext('2d').drawImage(v,0,0);
+  // start the burst immediately: ~12 frames over ~0.6s feed the merge worker
+  // while takePhoto does its slow work in parallel
+  const stack=(()=>{
+    try{
+      const wk=new Worker(URL.createObjectURL(new Blob([STACK_SRC],{type:'text/javascript'})));
+      const gc=document.createElement('canvas'); gc.width=vw0; gc.height=vh0;
+      const gg=gc.getContext('2d',{willReadFrequently:true});
+      let sent=0, acked=0, stop=false, res;
+      const done=new Promise(r=>res=r);
+      wk.onmessage=ev=>{
+        const m=ev.data;
+        if (m.op==='ack'){ acked++; if (stop && acked>=sent) wk.postMessage({op:'done'}); }
+        else if (m.op==='merged'){ res(m); wk.terminate(); }
+      };
+      const luma=src=>{
+        gg.drawImage(src,0,0);
+        const d=gg.getImageData(0,0,vw0,vh0).data;
+        const o=new Uint8ClampedArray(vw0*vh0);
+        for (let i=0;i<o.length;i++) o[i]=d[i*4]*0.3+d[i*4+1]*0.6+d[i*4+2]*0.1;
+        return o;
+      };
+      // the burst always runs to its full length: the merge is requested by
+      // the COLLECTOR at the last frame, never by the shutter logic - cutting
+      // it short is how a two-frame "stack" happens
+      const finish=()=>{ if (!stop){ stop=true; if (acked>=sent) wk.postMessage({op:'done'}); } };
+      const tick=()=>{
+        if (stop) return;
+        if (!CAM.stream || !v.videoWidth){ finish(); return; }
+        try{ const b=luma(v); sent++; wk.postMessage({op:'frame', w:vw0, h:vh0, buf:b}, [b.buffer]); }catch(e){}
+        if (sent>=10) finish(); else setTimeout(tick, 45);
+      };
+      const b0=luma(pv); sent++; wk.postMessage({op:'frame', w:vw0, h:vh0, buf:b0}, [b0.buffer]);
+      setTimeout(tick, 45);
+      return {done,
+        kill:()=>{ stop=true; try{ wk.terminate(); }catch(e){} res(null); }};
+    }catch(e){ return {done:Promise.resolve(null), finish:()=>{}, kill:()=>{}}; }
+  })();
   // native-camera resolution needs the photo pipeline, not the video stream:
   // try takePhoto, but accept the still ONLY in the orientation whose
   // thumbnail correlates with the live preview (phones hand stills back
@@ -3400,6 +3600,26 @@ async function camCapture(){
       }
     }
   }catch(e){}
+  let note;
+  if (frame!==pv){
+    stack.kill();                          // the real still wins outright
+    note='photo '+(fw*fh/1e6).toFixed(1)+'MP';
+  } else {
+    const m=await Promise.race([stack.done, new Promise(r=>setTimeout(()=>r(null),6500))]);
+    if (m && m.n>=3){
+      const sc=document.createElement('canvas'); sc.width=vw0; sc.height=vh0;
+      const sg=sc.getContext('2d');
+      const id=sg.createImageData(vw0,vh0);
+      for (let i=0;i<vw0*vh0;i++){ const q=m.buf[i];
+        id.data[i*4]=q; id.data[i*4+1]=q; id.data[i*4+2]=q; id.data[i*4+3]=255; }
+      sg.putImageData(id,0,0);
+      frame=sc;
+      note=m.n+' frames merged \u00b7 '+(vw0*vh0/1e6).toFixed(1)+'MP';
+    } else {
+      stack.kill();
+      note='preview '+(vw0*vh0/1e6).toFixed(1)+'MP';
+    }
+  }
   // keep the WHOLE frame: the ghost rectangle is only the default crop, and
   // the Crop screen can refine it afterwards with the surroundings intact
   const k=Math.min(1, 3600/Math.max(fw,fh));
@@ -3418,6 +3638,7 @@ async function camCapture(){
   fg.setTransform(1,0,0,1,0,0); fg.filter='none';
   if (frame!==pv && frame.close) frame.close();
   camStop();
+  try{ await enhanceCanvas(full); }catch(e){}
   let blob=null;
   try{ blob=canvasBlob(full,'image/jpeg',0.92); }catch(e){}
   CMP.raw=full; CMP.blob=blob; CMP.framed=true; CMP.cGrab=null;
@@ -3431,6 +3652,7 @@ async function camCapture(){
                  {x:full.width,y:full.height},{x:0,y:full.height}];
   }
   cmpApplyCorners('flip');
+  if (note) capNote(note);
   cmpTip();
 }
 $('shutter').onclick = camCapture;
