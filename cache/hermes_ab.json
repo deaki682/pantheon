@@ -2439,6 +2439,22 @@
    "read_model": "opus",
    "read_effort": "high",
    "resolved": false
+  },
+  {
+   "symbol": "LGMK",
+   "detect_date": "2026-08-17",
+   "entry_price": 0.83,
+   "offer_price": 1.31,
+   "spy_entry": 775.32,
+   "expected_close": "2026-12-31",
+   "spread": 0.5783,
+   "llm_verdict": "drop",
+   "llm_rationale": "Cash going-private at $1.31/sh (256% premium to $0.5119 unaffected; PREM14A 2026-08-14, $1.5M deposit posted). DROP: Robinhood state='unlisted', OTC nano-cap (1-for-750 reverse split Oct-2025, serial diluter), bid/ask 0.70/1.03 (~40%) \u2014 fails the tradability+liquidity gate. The +58% spread is the market pricing severe break/financing risk on a distressed sale, not harvestable arb. Arm B holds it (paper).",
+   "break_risk": "high",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
   }
  ],
  "graded": [
