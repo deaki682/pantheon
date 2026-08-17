@@ -294,6 +294,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <span class="setLbl" style="margin-top:4px">Layers</span>
       <label><input type="checkbox" id="flipChk" checked> Flip button</label>
       <span id="verTag">&alpha; 0.5</span>
+      <span id="camTag" style="font-size:11px;opacity:.6;text-align:center"></span>
     </div>
   </div>
 
@@ -885,7 +886,10 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
     try{ localStorage.setItem('flipOff', $('flipChk').checked?'0':'1'); }catch(e){}
     layerButtons();
   };
-  $('setBtn').onclick=()=>{ $('setModal').style.display='flex'; };
+  $('setBtn').onclick=()=>{
+    $('camTag').textContent = CAM.info ? 'camera '+CAM.info : '';
+    $('setModal').style.display='flex';
+  };
   $('invBtn').onclick=async()=>{
     gcPing('/share');
     const url=location.origin+location.pathname;
@@ -3217,7 +3221,7 @@ $('compareBtn').onclick = async () => {
   else coach('Ghost', 'Line up the ghost with your drawing, and take a pic!');
 };
 // live in-app camera; the file picker is the fallback
-const CAM={stream:null, ghost:null, timer:0, starting:false};
+const CAM={stream:null, ghost:null, timer:0, starting:false, info:''};
 function camGhost(){
   // the transparent reference floats over the live view (with margin) so the
   // artist frames the drawing onto it by eye - the capture is then cropped
@@ -3246,12 +3250,57 @@ function camGhost(){
   g.setLineDash([]);
   CAM.ghost={vx,vy,vs,gx,gy,gw,gh};
 }
+const gUM=v=>navigator.mediaDevices.getUserMedia({video:v, audio:false});
+// Pin the lens BY DEVICE, then ask that lens for everything it has. Asking
+// by resolution alone lets the browser go shopping and hand back the
+// ultra-wide; pinning first means a big request can only ever mean "more
+// pixels from this lens", never "a different lens".
+async function camBest(){
+  let st;
+  try{ st=await gUM({facingMode:{ideal:'environment'},
+                     width:{ideal:2560}, height:{ideal:1920}}); }
+  catch(e){ return null; }
+  const settings=t=>((t.getSettings&&t.getSettings())||{});
+  const caps=t=>((t.getCapabilities&&t.getCapabilities())||{});
+  const stop=s2=>{ for (const t of s2.getTracks()) t.stop(); };
+  let devs=[];
+  try{ devs=await navigator.mediaDevices.enumerateDevices(); }catch(e){}
+  const BACK=/back|rear|environment/i;
+  const OTHER=/ultra|tele|macro|depth|infrared|mono|front|face|zoom/i;
+  const backs=devs.filter(d=>d.kind==='videoinput' && d.label
+                          && BACK.test(d.label) && !OTHER.test(d.label));
+  // the plainest name is the ordinary lens: "Back Camera" over "Back Dual Wide"
+  backs.sort((a,b)=>a.label.length-b.label.length);
+  const curId=settings(st.getVideoTracks()[0]).deviceId||null;
+  const wantId=(backs[0] && backs[0].deviceId) || curId;
+  if (wantId && wantId!==curId){
+    try{ const nx=await gUM({deviceId:{exact:wantId}}); stop(st); st=nx; }catch(e){}
+  }
+  // now that the lens is fixed, take its full resolution
+  let tr=st.getVideoTracks()[0];
+  const c=caps(tr), now=settings(tr);
+  const mw=Math.min(4096,(c.width&&c.width.max)||0), mh=Math.min(4096,(c.height&&c.height.max)||0);
+  if (mw && mh && mw>(now.width||0)){
+    const id=settings(tr).deviceId;
+    try{
+      const nx=await gUM(id ? {deviceId:{exact:id}, width:{ideal:mw}, height:{ideal:mh}}
+                            : {facingMode:{ideal:'environment'}, width:{ideal:mw}, height:{ideal:mh}});
+      stop(st); st=nx; tr=st.getVideoTracks()[0];
+    }catch(e){}
+  }
+  // and sit at the widest the lens goes - a true 1x
+  try{
+    const c2=caps(tr), s2=settings(tr);
+    if (c2.zoom && typeof c2.zoom.min==='number' && (s2.zoom||1)>c2.zoom.min)
+      await tr.applyConstraints({advanced:[{zoom:c2.zoom.min}]}).catch(()=>{});
+  }catch(e){}
+  CAM.info=(settings(tr).width||0)+'x'+(settings(tr).height||0);
+  return st;
+}
 async function camStart(){
   try{
-    const st=await navigator.mediaDevices.getUserMedia({
-      video:{ facingMode:{ideal:'environment'},
-              width:{ideal:2560}, height:{ideal:1920} },
-      audio:false });
+    const st=await camBest();
+    if (!st) return false;
     CAM.stream=st;
     const v=$('camVid'); v.srcObject=st; v.style.display='block';
     $('coach').style.display='none';
