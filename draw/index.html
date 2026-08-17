@@ -112,6 +112,11 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   background:#e03c3c;border:4px solid #141414;box-shadow:0 0 0 3px #fff;
   display:none;padding:0;z-index:6}
 #shutter:active{filter:brightness(0.8)}
+#lensBtn{position:absolute;left:50%;transform:translateX(-50%);
+  bottom:calc(104px + env(safe-area-inset-bottom));z-index:7;display:none;
+  background:rgba(12,12,12,0.72);border:1px solid rgba(255,255,255,0.35);
+  color:#fff;border-radius:999px;padding:7px 15px;font-size:12px;
+  letter-spacing:.03em;white-space:nowrap}
 /* one-tap A/B between the last two single layers */
 #layerFlip{position:absolute;width:74px;height:74px;border-radius:50%;padding:0;
   background:rgba(30,30,30,0.82);border:2px solid var(--acc);
@@ -422,6 +427,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <div id="focusRing"></div>
     <canvas id="lastShot" title="Use the last photo"></canvas>
     <button id="shutter" title="Capture"></button>
+    <button id="lensBtn" title="Switch lens"></button>
     <div id="circWrap">
       <button id="circClr">Clear</button>
       <button id="circBtn" title="Mark an error"><span class="redDot"></span></button>
@@ -3182,6 +3188,7 @@ $('compareBtn').onclick = async () => {
   $('cmpGridBtn').style.display='none';
   $('lvBtn').style.display='none';
   $('shutter').style.display='block';
+  $('lensBtn').style.display='none';
   $('backBtn').textContent='✕';
   CAM.starting=true;
   const camP = camStart();                  // spins up while the save loads
@@ -3221,7 +3228,7 @@ $('compareBtn').onclick = async () => {
   else coach('Ghost', 'Line up the ghost with your drawing, and take a pic!');
 };
 // live in-app camera; the file picker is the fallback
-const CAM={stream:null, ghost:null, timer:0, starting:false, info:''};
+const CAM={stream:null, ghost:null, timer:0, starting:false, info:'', devs:[], lens:''};
 function camGhost(){
   // the transparent reference floats over the live view (with margin) so the
   // artist frames the drawing onto it by eye - the capture is then cropped
@@ -3251,6 +3258,9 @@ function camGhost(){
   CAM.ghost={vx,vy,vs,gx,gy,gw,gh};
 }
 const gUM=v=>navigator.mediaDevices.getUserMedia({video:v, audio:false});
+const lensGet=()=>{ try{ return localStorage.getItem('camDev')||''; }catch(e){ return ''; } };
+const lensSet=id=>{ try{ localStorage.setItem('camDev', id||''); }catch(e){} };
+const lensName=l=>(l||'lens').replace(/camera/ig,'').replace(/\s+/g,' ').trim() || 'lens';
 // Pin the lens BY DEVICE, then ask that lens for everything it has. Asking
 // by resolution alone lets the browser go shopping and hand back the
 // ultra-wide; pinning first means a big request can only ever mean "more
@@ -3258,7 +3268,8 @@ const gUM=v=>navigator.mediaDevices.getUserMedia({video:v, audio:false});
 async function camBest(){
   let st;
   try{ st=await gUM({facingMode:{ideal:'environment'},
-                     width:{ideal:2560}, height:{ideal:1920}}); }
+                     width:{ideal:2560}, height:{ideal:1920},
+                     aspectRatio:{ideal:4/3}}); }
   catch(e){ return null; }
   const settings=t=>((t.getSettings&&t.getSettings())||{});
   const caps=t=>((t.getCapabilities&&t.getCapabilities())||{});
@@ -3271,22 +3282,30 @@ async function camBest(){
                           && BACK.test(d.label) && !OTHER.test(d.label));
   // the plainest name is the ordinary lens: "Back Camera" over "Back Dual Wide"
   backs.sort((a,b)=>a.label.length-b.label.length);
+  CAM.devs=backs.length?backs:devs.filter(d=>d.kind==='videoinput');
   const curId=settings(st.getVideoTracks()[0]).deviceId||null;
-  const wantId=(backs[0] && backs[0].deviceId) || curId;
+  const saved=lensGet();
+  const wantId=(saved && CAM.devs.some(d=>d.deviceId===saved) ? saved
+                : (backs[0] && backs[0].deviceId)) || curId;
   if (wantId && wantId!==curId){
     try{ const nx=await gUM({deviceId:{exact:wantId}}); stop(st); st=nx; }catch(e){}
   }
-  // now that the lens is fixed, take its full resolution
+  // now that the lens is fixed, take its full frame. A phone sensor is 4:3;
+  // a 16:9 stream is that sensor with the top and bottom thrown away, which
+  // is what "not the whole sensor" looks like - so ask for 4:3 explicitly
+  // and derive the height rather than taking a 16:9 maximum.
   let tr=st.getVideoTracks()[0];
   const c=caps(tr), now=settings(tr);
   const mw=Math.min(4096,(c.width&&c.width.max)||0), mh=Math.min(4096,(c.height&&c.height.max)||0);
-  if (mw && mh && mw>(now.width||0)){
-    const id=settings(tr).deviceId;
-    try{
-      const nx=await gUM(id ? {deviceId:{exact:id}, width:{ideal:mw}, height:{ideal:mh}}
-                            : {facingMode:{ideal:'environment'}, width:{ideal:mw}, height:{ideal:mh}});
-      stop(st); st=nx; tr=st.getVideoTracks()[0];
-    }catch(e){}
+  if (mw && mh){
+    const h43=Math.min(mh, Math.round(mw*3/4));
+    const wide=(now.width||0)/(now.height||1) > 1.42;      // 16:9-ish = cropped
+    if (mw>(now.width||0) || wide){
+      const id=settings(tr).deviceId;
+      const want={ width:{ideal:mw}, height:{ideal:h43}, aspectRatio:{ideal:4/3} };
+      if (id) want.deviceId={exact:id}; else want.facingMode={ideal:'environment'};
+      try{ const nx=await gUM(want); stop(st); st=nx; tr=st.getVideoTracks()[0]; }catch(e){}
+    }
   }
   // and sit at the widest the lens goes - a true 1x
   try{
@@ -3294,7 +3313,15 @@ async function camBest(){
     if (c2.zoom && typeof c2.zoom.min==='number' && (s2.zoom||1)>c2.zoom.min)
       await tr.applyConstraints({advanced:[{zoom:c2.zoom.min}]}).catch(()=>{});
   }catch(e){}
-  CAM.info=(settings(tr).width||0)+'x'+(settings(tr).height||0);
+  {
+    const f=settings(tr), w=f.width||0, h=f.height||0;
+    const r=h?(w/h):0;
+    const shape = r>1.7 ? '16:9 (cropped)' : (r>1.42 ? '3:2' : '4:3 full');
+    const dv=CAM.devs.find(d=>d.deviceId===f.deviceId);
+    CAM.lens=dv?lensName(dv.label):'';
+    CAM.info=w+'x'+h+'  '+shape+(f.zoom?('  zoom '+f.zoom):'')
+            +(CAM.lens?('  \u00b7 '+CAM.lens):'');
+  }
   return st;
 }
 async function camStart(){
@@ -3310,8 +3337,14 @@ async function camStart(){
     $('cmpGridBtn').style.display='none';
     $('lvBtn').style.display='none';
     $('shutter').style.display='block';
+    $('lensBtn').style.display='none';
     $('backBtn').textContent='✕';   // the back button reads as Cancel
     $('cmpFlip').disabled=true;
+    { const lb=$('lensBtn');
+      if (CAM.devs.length>1){
+        lb.textContent=(CAM.lens||'lens')+'  \u21bb';
+        lb.style.display='block';
+      } else lb.style.display='none'; }
     clearInterval(CAM.timer); CAM.timer=setInterval(camGhost,250);
     camGhost();
     $('camGhost').style.pointerEvents='auto';   // tap-to-focus while live
@@ -3355,6 +3388,7 @@ function camStop(){
   const gg=$('camGhost'); gg.getContext('2d').clearRect(0,0,gg.width,gg.height);
   const v=$('camVid'); v.srcObject=null; v.style.display='none';
   $('shutter').style.display='none';
+  $('lensBtn').style.display='none';
   $('lastShot').style.display='none';
   $('cmpFlip').style.display='';
   $('cmpSplit').style.display='';
@@ -3394,6 +3428,16 @@ async function camCapture(){
   cmpApplyCorners('flip');
   cmpTip();
 }
+$('lensBtn').onclick = async () => {
+  if (!CAM.stream || CAM.devs.length<2) return;
+  const cur=(CAM.stream.getVideoTracks()[0].getSettings()||{}).deviceId;
+  let i=CAM.devs.findIndex(d=>d.deviceId===cur);
+  if (i<0) i=0;
+  lensSet(CAM.devs[(i+1)%CAM.devs.length].deviceId);
+  camStop();
+  const ok=await camStart();
+  if (ok) toast(CAM.info, false, 2600); else toast('that lens would not open');
+};
 $('shutter').onclick = camCapture;
 $('cmpFile').addEventListener('change', e => {
   const f=e.target.files[0]; if (f) cmpSetPhoto(f);
