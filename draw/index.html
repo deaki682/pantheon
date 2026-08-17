@@ -2615,8 +2615,8 @@ onmessage = e => {
     postMessage({op:'ack'});
   } else if (m.op==='done'){
     const out=new Uint8ClampedArray(W*H);
-    for (let i=0;i<W*H;i++) out[i]=Math.max(0,Math.min(255,acc[i]/n+0.5));
-    postMessage({op:'merged', w:W, h:H, n, buf:out}, [out.buffer]);
+    for (let i=0;i<W*H;i++){ acc[i]/=n; out[i]=Math.max(0,Math.min(255,acc[i]+0.5)); }
+    postMessage({op:'merged', w:W, h:H, n, buf:out, fbuf:acc}, [out.buffer, acc.buffer]);
     acc=pyrRef=null; n=0;
   }
 };
@@ -2711,6 +2711,20 @@ function cmpSize(){
   CMP.fit={s, x:(cv.width-w*s)/2, y:(cv.height-h*s)/2, w, h};
 }
 const ADJ_DEF={exp:0, con:100, hi:0, sh:0, bl:0, wh:255, dn:0};
+function adjLut(a,N){
+  const span=Math.max(0.04,(a.wh-a.bl)/255);
+  const lut=new Float32Array(N+1);
+  for (let q=0;q<=N;q++){
+    let x=q/N;
+    x*=Math.pow(2, a.exp/100);                        // exposure, +-1 stop
+    x=(x-0.5)*(a.con/100)+0.5;                        // contrast about mid
+    x+=(a.sh/100)*1.0*Math.pow(Math.max(0,1-x),2);    // shadows - full reach to ink
+    x+=(a.hi/100)*0.6*Math.pow(Math.max(0,Math.min(1,x)),2); // highlights
+    x=(x-a.bl/255)/span;                              // black/white points
+    lut[q]=255*Math.max(0,Math.min(1,x));
+  }
+  return lut;
+}
 function applyLevels(){
   // the artist's remembered adjustments: exposure -> contrast ->
   // highlights/darks -> black/white points. Default is the raw photo.
@@ -2720,17 +2734,32 @@ function applyLevels(){
   const toneOn = !(a.exp===0 && a.con===100 && a.hi===0 && a.sh===0
                    && a.bl<=0 && a.wh>=255);
   if (!toneOn && !dn){ CMP.img=CMP.base; return; }
-  const span=Math.max(0.04,(a.wh-a.bl)/255);
-  const lut=new Float32Array(256);                    // float curve, no rounding yet
-  for (let v=0;v<256;v++){
-    let x=v/255;
-    x*=Math.pow(2, a.exp/100);                        // exposure, +-1 stop
-    x=(x-0.5)*(a.con/100)+0.5;                        // contrast about mid
-    x+=(a.sh/100)*0.6*Math.pow(Math.max(0,1-x),2);    // darks lift/deepen
-    x+=(a.hi/100)*0.6*Math.pow(Math.max(0,Math.min(1,x)),2); // highlights
-    x=(x-a.bl/255)/span;                              // black/white points
-    lut[v]=255*Math.max(0,Math.min(1,x));
+  const bf=CMP.baseF;
+  if (bf && !dn){
+    // merged captures carry ~11 bits: run the curve on the float plane and
+    // round exactly once, at display, where the dither sits
+    const N=4096, l4=adjLut(a,N), k4=N/255;
+    const c=document.createElement('canvas'); c.width=bf.w; c.height=bf.h;
+    const g=c.getContext('2d');
+    const im=g.createImageData(bf.w,bf.h), d=im.data;
+    let rnd=0x9e3779b9|0;
+    for (let i=0;i<bf.w*bf.h;i++){
+      let t=bf.buf[i]*k4;
+      t=t<0?0:(t>N?N:t);
+      const j=t|0, fr=t-j;
+      let v=l4[j]+(j<N?(l4[j+1]-l4[j])*fr:0);
+      rnd=(rnd*1664525+1013904223)|0; const r1=((rnd>>>16)&255)/255;
+      rnd=(rnd*1664525+1013904223)|0; const r2=((rnd>>>16)&255)/255;
+      v+=(r1+r2-1);
+      v=v<0?0:(v>255?255:v);
+      const q=i*4;
+      d[q]=d[q+1]=d[q+2]=v|0; d[q+3]=255;
+    }
+    g.putImageData(im,0,0);
+    CMP.img=c;
+    return;
   }
+  const lut=adjLut(a,255);
   const c=document.createElement('canvas');
   c.width=CMP.base.width; c.height=CMP.base.height;
   const g=c.getContext('2d');
@@ -3236,7 +3265,7 @@ async function cmpSetPhoto(blob){
   cg.imageSmoothingQuality='high';
   cg.filter='grayscale(1)'; cg.drawImage(i,0,0,c.width,c.height); cg.filter='none';
   URL.revokeObjectURL(i.src);
-  CMP.raw=c; CMP.blob=blob; CMP.img=null; CMP.framed=false;
+  CMP.raw=c; CMP.rawF=null; CMP.blob=blob; CMP.img=null; CMP.framed=false;
   CMP.corners=cmpGuessCorners(c).corners; CMP.cGrab=null;
   CMP.mode='corners'; CMP.showing='photo';    // picker photos: place corners by hand
   cmpRender();
@@ -3249,12 +3278,37 @@ function cmpApplyCorners(next){
   // corrected, for photos arriving from the file picker.
   if (!CMP.raw) return;
   let rect=cmpWarp(CMP.raw, CMP.corners);
+  const lastWarp=rect;                     // rotation below voids the float plane
   const {w:rw,h:rh}=worldSize();
   const refAsp=rw/rh, imgAsp=rect.width/rect.height;
   const nearSq=Math.abs(Math.log(imgAsp))<0.05 || Math.abs(Math.log(refAsp))<0.05;
   if (!nearSq && (refAsp>=1)!==(imgAsp>=1)) rect=cmpRot(rect,1);
   CMP.img=rect;
   CMP.base=CMP.img;
+  CMP.baseF=null;
+  if (CMP.rawF && rect===lastWarp){
+    const [p0,p1,p2,p3]=CMP.corners;
+    if (p0.y===p1.y && p2.y===p3.y && p0.x===p3.x && p1.x===p2.x){
+      const rf=CMP.rawF, W=rect.width, H=rect.height;
+      const kx=rf.w/CMP.raw.width, ky=rf.h/CMP.raw.height;
+      const sx=(p1.x-p0.x)*kx/W, sy=(p3.y-p0.y)*ky/H;
+      const ox=p0.x*kx, oy=p0.y*ky;
+      const out=new Float32Array(W*H);
+      for (let y=0;y<H;y++){
+        let ys=oy+(y+0.5)*sy-0.5;
+        ys=ys<0?0:(ys>rf.h-1.001?rf.h-1.001:ys);
+        const y0=ys|0, fy=ys-y0, r0=y0*rf.w, r1=r0+rf.w;
+        for (let x=0;x<W;x++){
+          let xs=ox+(x+0.5)*sx-0.5;
+          xs=xs<0?0:(xs>rf.w-1.001?rf.w-1.001:xs);
+          const x0=xs|0, fx=xs-x0;
+          out[y*W+x]=rf.buf[r0+x0]*(1-fx)*(1-fy)+rf.buf[r0+x0+1]*fx*(1-fy)
+                    +rf.buf[r1+x0]*(1-fx)*fy+rf.buf[r1+x0+1]*fx*fy;
+        }
+      }
+      CMP.baseF={w:W, h:H, buf:out};
+    }
+  }
   CMP.adj = adjLoad() || {...ADJ_DEF};
   adjSync();
   CMP.lvOpen=false;
@@ -3298,7 +3352,7 @@ $('compareBtn').onclick = async () => {
   CAM.starting=true;
   const camP = camStart();                  // spins up while the save loads
   if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
-    CMP.ckey=CKEY; CMP.img=null; CMP.blob=null;
+    CMP.ckey=CKEY; CMP.img=null; CMP.blob=null; CMP.rawF=null; CMP.baseF=null;
     $('cmpFlip').disabled=true;
     const saved=CKEY ? await dbGet('cmp|'+CKEY) : null;
     if (saved && saved.blob && !CMP.blob){  // a fresh capture always wins
@@ -3505,7 +3559,7 @@ async function camCapture(){
   // sensor-oriented), and only at the preview's aspect - same lens + same
   // aspect = same field of view, so the ghost mapping is a pure scale.
   // Anything unconvincing keeps the preview frame, aligned by construction.
-  let frame=pv, fw=vw0, fh=vh0, rot=0;
+  let frame=pv, fw=vw0, fh=vh0, rot=0, rawF=null;
   try{
     if (window.ImageCapture){
       const ic=new ImageCapture(CAM.stream.getVideoTracks()[0]);
@@ -3579,6 +3633,7 @@ async function camCapture(){
         id.data[i*4]=q; id.data[i*4+1]=q; id.data[i*4+2]=q; id.data[i*4+3]=255; }
       sg.putImageData(id,0,0);
       frame=sc;
+      rawF={w:vw0, h:vh0, buf:m.fbuf};
       note=m.n+' frames merged \u00b7 '+(vw0*vh0/1e6).toFixed(1)+'MP';
     } else {
       stack.kill();
@@ -3605,7 +3660,7 @@ async function camCapture(){
   camStop();
   let blob=null;
   try{ blob=canvasBlob(full,'image/jpeg',0.97); }catch(e){}
-  CMP.raw=full; CMP.blob=blob; CMP.framed=true; CMP.cGrab=null;
+  CMP.raw=full; CMP.rawF=rawF; CMP.blob=blob; CMP.framed=true; CMP.cGrab=null;
   if (gh){
     const kx=full.width/vw0, ky=full.height/vh0;
     const x0=(gh.gx-gh.vx)/gh.vs*kx, y0=(gh.gy-gh.vy)/gh.vs*ky;
