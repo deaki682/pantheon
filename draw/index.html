@@ -98,9 +98,15 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 /* compare: the photographed drawing aligned over the reference */
 #cmpView{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
 #cmpCv{position:absolute;left:0;top:0;touch-action:none}
-#camVid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+#camVid{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
   display:none;background:#000}
 #camGhost{position:absolute;left:0;top:0;pointer-events:none}
+#focusRing{position:absolute;width:56px;height:56px;border:2px solid var(--acc);
+  border-radius:50%;pointer-events:none;display:none;z-index:6;
+  transform:translate(-50%,-50%)}
+#focusRing.on{display:block;animation:focusPop 0.7s ease-out forwards}
+@keyframes focusPop{from{transform:translate(-50%,-50%) scale(1.35);opacity:1}
+  to{transform:translate(-50%,-50%) scale(1);opacity:0}}
 #shutter{position:absolute;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));
   transform:translateX(-50%);width:74px;height:74px;border-radius:50%;
   background:#e03c3c;border:4px solid #141414;box-shadow:0 0 0 3px #fff;
@@ -185,7 +191,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   display:flex;align-items:center;justify-content:center}
 #widthIn,#heightIn,#cellVal,#cellVal2{width:54px;background:#1e1e1e;color:#e8e6e1;
   border:1px solid #555;border-radius:8px;padding:8px;font:inherit}
-#lvBtn,#cmpGridBtn,#cmpShoot{display:flex;align-items:center;justify-content:center;min-width:44px}
+#lvBtn,#cmpGridBtn{display:flex;align-items:center;justify-content:center;min-width:44px}
 #cmpRow{justify-content:space-evenly}
 /* a tap on the drawing sends every panel off its nearest edge; tap again
    and they slide back */
@@ -288,7 +294,6 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <span class="setLbl" style="margin-top:4px">Layers</span>
       <label><input type="checkbox" id="flipChk" checked> Flip button</label>
       <span id="verTag">&alpha; 0.5</span>
-      <span id="camTag" style="font-size:11px;opacity:.6;text-align:center"></span>
     </div>
   </div>
 
@@ -413,6 +418,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   <div id="cmpView"><canvas id="cmpCv"></canvas>
     <video id="camVid" playsinline autoplay muted></video>
     <canvas id="camGhost"></canvas>
+    <div id="focusRing"></div>
     <canvas id="lastShot" title="Use the last photo"></canvas>
     <button id="shutter" title="Capture"></button>
     <div id="circWrap">
@@ -422,16 +428,16 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <div id="coach"><span id="coachTxt"></span></div></div>
   <div id="lvRow" style="display:none">
     <div class="row">
-      <span class="adjL">paper</span><input type="range" id="aWh" min="0" max="105" value="0" title="Right until the paper reads white">
-      <span class="adjL">charcoal</span><input type="range" id="aBl" min="0" max="120" value="0" title="Right until your darkest mark reads black">
+      <span class="adjL">exposure</span><input type="range" id="aExp" min="-100" max="100" value="0">
+      <span class="adjL">contrast</span><input type="range" id="aCon" min="15" max="200" value="100">
     </div>
     <div class="row">
-      <span class="adjL">brightness</span><input type="range" id="aExp" min="-100" max="100" value="0">
-      <span class="adjL">denoise</span><input type="range" id="aDn" min="0" max="100" value="0">
+      <span class="adjL">highlights</span><input type="range" id="aHi" min="-100" max="100" value="0">
+      <span class="adjL">shadows</span><input type="range" id="aSh" min="-100" max="100" value="0">
     </div>
-    <div class="row" style="justify-content:center;gap:14px">
-      <button id="lvAuto">Auto</button>
-      <button id="lvReset">Reset</button>
+    <div class="row">
+      <span class="adjL">denoise</span><input type="range" id="aDn" min="0" max="100" value="0">
+      <button id="lvReset">Auto</button>
     </div>
   </div>
   <div id="mirRow" style="display:none">
@@ -444,7 +450,6 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   </div>
   <div class="row" id="cmpRow">
     <input type="file" id="cmpFile" accept="image/*" hidden>
-    <button id="cmpShoot" title="Take a photo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.2l1.1-1.8A1 1 0 0 1 8.7 4.7h6.6a1 1 0 0 1 .9.5L17.3 7h2.2A1.5 1.5 0 0 1 21 8.5v9A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="3.4"/></svg></button>
     <button id="cmpFlip" disabled>Flip</button>
     <button id="cmpSplit" disabled>Compare</button>
     <button id="cmpCrop" style="display:none">Crop</button>
@@ -876,10 +881,7 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
     try{ localStorage.setItem('flipOff', $('flipChk').checked?'0':'1'); }catch(e){}
     layerButtons();
   };
-  $('setBtn').onclick=()=>{
-    $('camTag').textContent = CAM.info ? 'camera '+CAM.info : '';
-    $('setModal').style.display='flex';
-  };
+  $('setBtn').onclick=()=>{ $('setModal').style.display='flex'; };
   $('invBtn').onclick=async()=>{
     gcPing('/share');
     const url=location.origin+location.pathname;
@@ -2670,47 +2672,20 @@ const adjStore=()=>{ try{ localStorage.setItem('cmpAdj', JSON.stringify(CMP.adj)
 function adjLoad(){ try{
   const v=JSON.parse(localStorage.getItem('cmpAdj'));
   if (v && typeof v.con==='number')
-    return {exp:v.exp||0, con:100, hi:0, sh:0, bl:v.bl||0,
-            wh:v.wh??255, dn:v.dn||0};
+    return {exp:v.exp||0, con:v.con, hi:v.hi||0, sh:v.sh||0, bl:0,
+            wh:255, dn:v.dn||0};
 }catch(e){} return null; }
 function adjSync(){
   const a=CMP.adj||ADJ_DEF;
-  // the paper slider runs 0..105 rightward = whiter paper; internally it is
-  // the white point walking DOWN from 255 (contrast/highlights/darks were
-  // retired from the panel - paper + charcoal IS the contrast, anchored to
-  // two things the artist can actually see)
-  $('aWh').value=255-a.wh; $('aBl').value=a.bl;
-  $('aExp').value=a.exp; $('aDn').value=a.dn||0;
+  $('aExp').value=a.exp; $('aCon').value=a.con; $('aHi').value=a.hi;
+  $('aSh').value=a.sh; $('aDn').value=a.dn||0;
 }
-$('aWh').oninput = () => { CMP.adj.wh=255-+$('aWh').value;
-  applyLevels(); adjStore(); cmpRender(); cmpSave(); };
-for (const [id,key] of [['aExp','exp'],['aBl','bl'],['aDn','dn']])
+for (const [id,key] of [['aExp','exp'],['aCon','con'],['aHi','hi'],
+                        ['aSh','sh'],['aDn','dn']])
   $(id).oninput = () => {
     CMP.adj[key]=+$(id).value;
     applyLevels(); adjStore(); cmpRender(); cmpSave();
   };
-$('lvAuto').onclick = () => {
-  // read the photo's own histogram: the bright shoulder is the paper, the
-  // dark toe is the deepest charcoal - snap the points to them
-  if (!CMP.base) return;
-  const w=Math.min(400, CMP.base.width),
-        h=Math.max(1,Math.round(CMP.base.height*w/CMP.base.width));
-  const c=document.createElement('canvas'); c.width=w; c.height=h;
-  const g=c.getContext('2d'); g.drawImage(CMP.base,0,0,w,h);
-  const d=g.getImageData(0,0,w,h).data;
-  const hist=new Array(256).fill(0);
-  for (let i=0;i<d.length;i+=4) hist[d[i]]++;
-  const tot=w*h;
-  let lo=0, hi=255, acc=0;
-  for (let v=0;v<256;v++){ acc+=hist[v]; if (acc>=tot*0.005){ lo=v; break; } }
-  acc=0;
-  // the paper is a big share of the frame, so the 10th percentile from the
-  // top sits inside the paper tone, not on a glint
-  for (let v=255;v>=0;v--){ acc+=hist[v]; if (acc>=tot*0.10){ hi=v; break; } }
-  CMP.adj={...ADJ_DEF, dn:(CMP.adj&&CMP.adj.dn)||0,
-           bl:Math.min(120,lo), wh:Math.max(150,Math.min(255,hi))};
-  adjSync(); applyLevels(); adjStore(); cmpRender(); cmpSave();
-};
 $('lvReset').onclick = () => {
   CMP.adj={...ADJ_DEF}; adjSync();
   try{ localStorage.removeItem('cmpAdj'); }catch(e){}
@@ -2789,7 +2764,6 @@ function cmpButtons(){
   fl.style.display = corners ? 'none' : '';
   fl.disabled = !CMP.img;
   fl.classList.toggle('vOn', CMP.mode==='flip' && !!CMP.img);
-  $('cmpShoot').style.display = corners ? 'none' : '';
   const gb=$('cmpGridBtn');
   gb.style.display = corners ? 'none' : '';
   gb.disabled = !CMP.img;
@@ -3135,7 +3109,7 @@ async function cmpSetPhoto(blob){
   const i=await blobImage(blob).catch(()=>null);
   if (!i) return;
   const c=document.createElement('canvas');
-  const k=Math.min(1, 3200/Math.max(i.width,i.height));
+  const k=Math.min(1, 2400/Math.max(i.width,i.height));
   c.width=Math.max(2,Math.round(i.width*k)); c.height=Math.max(2,Math.round(i.height*k));
   const cg=c.getContext('2d');
   cg.imageSmoothingQuality='high';
@@ -3143,7 +3117,7 @@ async function cmpSetPhoto(blob){
   URL.revokeObjectURL(i.src);
   CMP.raw=c; CMP.blob=blob; CMP.img=null; CMP.framed=false;
   CMP.corners=cmpGuessCorners(c).corners; CMP.cGrab=null;
-  CMP.mode='corners'; CMP.showing='photo';    // place the corners by hand
+  CMP.mode='corners'; CMP.showing='photo';    // picker photos: place corners by hand
   cmpRender();
 }
 function cmpApplyCorners(next){
@@ -3184,7 +3158,11 @@ function cmpSave(){ cmpDirty=true; clearTimeout(cmpT); cmpT=setTimeout(cmpSaveNo
 const cmpFlush=()=>{ if (cmpDirty){ clearTimeout(cmpT); cmpSaveNow(); } };
 addEventListener('pagehide', cmpFlush);
 document.addEventListener('visibilitychange', ()=>{ if (document.hidden) cmpFlush(); });
-function camChrome(){
+$('compareBtn').onclick = async () => {
+  CIRCTOOL=false;
+  show('scrCompare'); cmpSize();
+  // camera-mode chrome up in the same frame - nothing of the previous
+  // visit may flash first
   $('camVid').style.display='block';
   $('coach').style.display='none';
   $('lvRow').style.display='none';
@@ -3193,16 +3171,9 @@ function camChrome(){
   $('cmpFlip').style.display='none';
   $('cmpSplit').style.display='none';
   $('cmpGridBtn').style.display='none';
-  $('cmpShoot').style.display='none';
   $('lvBtn').style.display='none';
   $('shutter').style.display='block';
-  $('cmpRow').style.display='none';
-  $('backBtn').textContent='\u2715';
-}
-$('compareBtn').onclick = async () => {
-  CIRCTOOL=false;
-  show('scrCompare'); cmpSize();
-  camChrome();                              // nothing of the last visit flashes
+  $('backBtn').textContent='✕';
   CAM.starting=true;
   const camP = camStart();                  // spins up while the save loads
   if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
@@ -3225,8 +3196,8 @@ $('compareBtn').onclick = async () => {
         cmpApplyCorners();
       }
       if (saved.adj && typeof saved.adj.con==='number'){
-        CMP.adj={exp:saved.adj.exp||0, con:100, hi:0, sh:0,
-                 bl:saved.adj.bl||0, wh:saved.adj.wh??255,
+        CMP.adj={exp:saved.adj.exp||0, con:saved.adj.con, hi:saved.adj.hi||0,
+                 sh:saved.adj.sh||0, bl:0, wh:255,
                  dn:saved.adj.dn||0};
         adjSync();
       }
@@ -3240,14 +3211,8 @@ $('compareBtn').onclick = async () => {
   if (!camOk){ camStop(); cmpRender(); }
   else coach('Ghost', 'Line up the ghost with your drawing, and take a pic!');
 };
-$('cmpShoot').onclick = async () => {       // shoot again
-  camChrome(); CAM.starting=true;
-  const ok=await camStart();
-  CAM.starting=false;
-  if (!ok){ camStop(); cmpRender(); }
-};
 // live in-app camera; the file picker is the fallback
-const CAM={stream:null, ghost:null, timer:0, starting:false, info:''};
+const CAM={stream:null, ghost:null, timer:0, starting:false};
 function camGhost(){
   // the transparent reference floats over the live view (with margin) so the
   // artist frames the drawing onto it by eye - the capture is then cropped
@@ -3260,17 +3225,14 @@ function camGhost(){
   const g=gc.getContext('2d');
   g.clearRect(0,0,gc.width,gc.height);
   if (!CAM.stream || !v.videoWidth){ CAM.ghost=null; return; }
-  // the video COVERS the screen (a real viewfinder), so parts of the frame
-  // hang off the edges; vx/vy/vs still describe exactly where frame pixels
-  // land on screen, which is all the capture mapping needs
-  const vs=Math.max(gc.width/v.videoWidth, gc.height/v.videoHeight);
+  const vs=Math.min(gc.width/v.videoWidth, gc.height/v.videoHeight);
   const vw=v.videoWidth*vs, vh=v.videoHeight*vs;
   const vx=(gc.width-vw)/2, vy=(gc.height-vh)/2;
   const {w,h}=worldSize();
   const M=0.86;                                   // breathing room to frame it up
-  const gs=Math.min(gc.width*M/w, gc.height*M/h);
+  const gs=Math.min(vw*M/w, vh*M/h);
   const gw=w*gs, gh=h*gs;
-  const gx=(gc.width-gw)/2, gy=(gc.height-gh)/2;
+  const gx=vx+(vw-gw)/2, gy=vy+(vh-gh)/2;
   g.globalAlpha=0.45;
   g.drawImage($('refImg'), gx, gy, gw, gh);
   g.globalAlpha=1;
@@ -3279,40 +3241,13 @@ function camGhost(){
   g.setLineDash([]);
   CAM.ghost={vx,vy,vs,gx,gy,gw,gh};
 }
-const gUM=v=>navigator.mediaDevices.getUserMedia({video:v, audio:false});
-// ONE getUserMedia call, and the track is never touched again. The default
-// environment camera IS the phone's main lens at 1x - it was the re-requests
-// (huge sizes, device pinning, zoom nudges) that made the browser wander to
-// other lenses and re-meter the exposure, so none of that survives. The
-// preview only has to be good enough to aim with; the pixels come from the
-// still the shutter asks the photo pipeline for.
-async function camOpen(){
-  // ask for the DEFAULT environment camera modestly, so the browser cannot
-  // go shopping for another lens - the default IS the main lens at 1x. Only
-  // then raise the resolution: applyConstraints on a live track can change
-  // the size but never the device, so the preview (and with it the fallback
-  // capture) carries the sensor's full frame. After this the track is never
-  // touched again - no focus pokes, no zoom, no metering hints. Auto
-  // everything, exactly like the native camera before you touch it.
-  let st=null;
-  const asks=[
-    {facingMode:{ideal:'environment'}, width:{ideal:1280}, height:{ideal:960}},
-    {facingMode:{ideal:'environment'}},
-    true,
-  ];
-  for (const a of asks){ try{ st=await gUM(a); break; }catch(e){} }
-  if (!st) return null;
-  try{ await st.getVideoTracks()[0].applyConstraints(
-    {width:{ideal:4096}, height:{ideal:3072}, aspectRatio:{ideal:4/3}}); }catch(e){}
-  return st;
-}
 async function camStart(){
   try{
-    const st=await camOpen();
-    if (!st) return false;
+    const st=await navigator.mediaDevices.getUserMedia({
+      video:{ facingMode:{ideal:'environment'},
+              width:{ideal:2560}, height:{ideal:1920} },
+      audio:false });
     CAM.stream=st;
-    try{ const f=(st.getVideoTracks()[0].getSettings&&st.getVideoTracks()[0].getSettings())||{};
-      CAM.info=(f.width||'?')+'x'+(f.height||'?'); }catch(e){ CAM.info=''; }
     const v=$('camVid'); v.srcObject=st; v.style.display='block';
     $('coach').style.display='none';
     $('lvRow').style.display='none';
@@ -3321,11 +3256,18 @@ async function camStart(){
     $('cmpGridBtn').style.display='none';
     $('lvBtn').style.display='none';
     $('shutter').style.display='block';
-    $('cmpRow').style.display='none';
     $('backBtn').textContent='✕';   // the back button reads as Cancel
     $('cmpFlip').disabled=true;
     clearInterval(CAM.timer); CAM.timer=setInterval(camGhost,250);
     camGhost();
+    $('camGhost').style.pointerEvents='auto';   // tap-to-focus while live
+    try{
+      const tr=st.getVideoTracks()[0];
+      tr.applyConstraints({ width:{ideal:4032}, height:{ideal:3024} })
+        .catch(()=>{});
+      tr.applyConstraints({ advanced:[{ focusMode:'continuous' }] })
+        .catch(()=>{});
+    }catch(e){}
     // the last photo waits in the corner - tap it to skip reshooting
     const ls=$('lastShot');
     if (CMP.img && CMP.ckey===CKEY){
@@ -3336,13 +3278,44 @@ async function camStart(){
     return true;
   }catch(e){ return false; }
 }
+function camFocus(nx, ny){
+  // a single-shot focus at the tapped point, then back to continuous -
+  // flat paper gives autofocus little to bite on, so the artist points it
+  if (!CAM.stream) return;
+  const tr=CAM.stream.getVideoTracks()[0];
+  if (!tr || !tr.applyConstraints) return;
+  tr.applyConstraints({ advanced:[{ pointsOfInterest:[{x:nx, y:ny}],
+                                    focusMode:'single-shot' }] })
+    .catch(()=> tr.applyConstraints({ advanced:[{ focusMode:'single-shot' }] })
+    .catch(()=>{}));
+  clearTimeout(CAM.refocusT);
+  CAM.refocusT=setTimeout(()=>{
+    try{ tr.applyConstraints({ advanced:[{ focusMode:'continuous' }] })
+          .catch(()=>{}); }catch(e){}
+  }, 1600);
+}
+$('camGhost').addEventListener('pointerdown', e=>{
+  if (!CAM.stream) return;
+  const v=$('camVid'), r=$('cmpView').getBoundingClientRect();
+  if (!v.videoWidth) return;
+  const vs=Math.min(r.width/v.videoWidth, r.height/v.videoHeight);
+  const vw=v.videoWidth*vs, vh=v.videoHeight*vs;
+  const vx=(r.width-vw)/2, vy=(r.height-vh)/2;
+  const nx=(e.clientX-r.left-vx)/vw, ny=(e.clientY-r.top-vy)/vh;
+  if (nx<0||ny<0||nx>1||ny>1) return;
+  camFocus(nx, ny);
+  const fr=$('focusRing');
+  fr.style.left=(e.clientX-r.left)+'px'; fr.style.top=(e.clientY-r.top)+'px';
+  fr.classList.remove('on'); void fr.offsetWidth; fr.classList.add('on');
+});
 function camStop(){
   if (CAM.stream){ for (const t of CAM.stream.getTracks()) t.stop(); CAM.stream=null; }
+  $('camGhost').style.pointerEvents='none';
+  clearTimeout(CAM.refocusT);
   clearInterval(CAM.timer); CAM.timer=0; CAM.ghost=null;
   const gg=$('camGhost'); gg.getContext('2d').clearRect(0,0,gg.width,gg.height);
   const v=$('camVid'); v.srcObject=null; v.style.display='none';
   $('shutter').style.display='none';
-  $('cmpRow').style.display='';
   $('lastShot').style.display='none';
   $('cmpFlip').style.display='';
   $('cmpSplit').style.display='';
@@ -3357,18 +3330,17 @@ async function camCapture(){
   camGhost();                              // mapping current at the shutter
   const gh=CAM.ghost;
   const vw0=v.videoWidth, vh0=v.videoHeight;
-  // freeze the shutter-moment preview frame: it is both the fallback capture
-  // and the ground truth the real still is verified against
+  // the preview is the fallback capture AND the ground truth a real photo
+  // must match before it is trusted
   const pv=document.createElement('canvas'); pv.width=vw0; pv.height=vh0;
   pv.getContext('2d').drawImage(v,0,0);
-  // The preview is not the camera: ask the photo pipeline for a real still.
-  // But the API never says how still pixels sit relative to preview pixels,
-  // so nothing is assumed - the still is accepted only in the orientation
-  // whose thumbnail actually MATCHES the frozen preview (phones commonly
-  // hand stills back sensor-oriented, rotated 90deg from a portrait
-  // preview). No convincing match - keep the preview frame, aligned by
-  // construction and now full sensor resolution itself.
-  let frame=pv, fw=vw0, fh=vh0, k=1, rot=0, note='preview frame';
+  // native-camera resolution needs the photo pipeline, not the video stream:
+  // try takePhoto, but accept the still ONLY in the orientation whose
+  // thumbnail correlates with the live preview (phones hand stills back
+  // sensor-oriented), and only at the preview's aspect - same lens + same
+  // aspect = same field of view, so the ghost mapping is a pure scale.
+  // Anything unconvincing keeps the preview frame, aligned by construction.
+  let frame=pv, fw=vw0, fh=vh0, rot=0;
   try{
     if (window.ImageCapture){
       const ic=new ImageCapture(CAM.stream.getVideoTracks()[0]);
@@ -3376,7 +3348,6 @@ async function camCapture(){
       try{
         const pc=await ic.getPhotoCapabilities();
         if (pc && pc.imageWidth && pc.imageWidth.max){
-          // the biggest still offered, at the sensor's own landscape aspect
           const arL=Math.max(vw0,vh0)/Math.min(vw0,vh0);
           let iw=Math.min(pc.imageWidth.max, 4608), ih=Math.round(iw/arL);
           const mh=(pc.imageHeight&&pc.imageHeight.max)?Math.min(pc.imageHeight.max,4608):ih;
@@ -3389,9 +3360,6 @@ async function camCapture(){
       let bmp=null;
       if (blob){ try{ bmp=await createImageBitmap(blob); }catch(e){} }
       if (bmp){
-        // a second reference, grabbed as close to the still's moment as the
-        // preview allows - the shutter-moment frame can be a second stale by
-        // the time the photo pipeline hands the blob back
         const pv2=document.createElement('canvas'); pv2.width=vw0; pv2.height=vh0;
         try{ pv2.getContext('2d').drawImage(v,0,0); }catch(e){}
         const thumb=(src,rt)=>{ const c=document.createElement('canvas');
@@ -3419,9 +3387,8 @@ async function camCapture(){
         }
         cand.sort((a,b)=>b.r-a.r);
         let pick=(cand.length && cand[0].r>0.5) ? cand[0] : null;
-        // near-ties are dangerous - on a weakly-structured scene a 180 flip
-        // can shade past the truth. Inside the tie band the un-rotated
-        // reading wins; if IT isn't in the band, nobody is trusted.
+        // a near-tie can shade a 180 flip past the truth on a weak scene:
+        // inside the tie band the un-rotated reading wins, or nobody does
         if (pick && cand.length>1 && cand[0].r-cand[1].r<0.05){
           const id=cand.find(c=>c.rt===0);
           pick=(id && cand[0].r-id.r<0.05) ? id : null;
@@ -3429,16 +3396,15 @@ async function camCapture(){
         if (pick){
           frame=bmp; rot=pick.rt;
           fw=(rot%180)?bmp.height:bmp.width; fh=(rot%180)?bmp.width:bmp.height;
-          k=fw/vw0;
-          note='still '+bmp.width+'x'+bmp.height+(rot?(' rot'+rot):'')+' r'+pick.r.toFixed(2);
         } else if (bmp.close) bmp.close();
       }
     }
   }catch(e){}
-  CAM.info=vw0+'x'+vh0+' \u2192 '+note;
-  const cap=Math.min(1, 3200/Math.max(fw,fh));
+  // keep the WHOLE frame: the ghost rectangle is only the default crop, and
+  // the Crop screen can refine it afterwards with the surroundings intact
+  const k=Math.min(1, 3600/Math.max(fw,fh));
   const full=document.createElement('canvas');
-  full.width=Math.max(2,Math.round(fw*cap)); full.height=Math.max(2,Math.round(fh*cap));
+  full.width=Math.max(2,Math.round(fw*k)); full.height=Math.max(2,Math.round(fh*k));
   const fg=full.getContext('2d');
   fg.imageSmoothingQuality='high';
   fg.filter='grayscale(1)';
@@ -3456,16 +3422,15 @@ async function camCapture(){
   try{ blob=canvasBlob(full,'image/jpeg',0.92); }catch(e){}
   CMP.raw=full; CMP.blob=blob; CMP.framed=true; CMP.cGrab=null;
   if (gh){
-    const px0=(gh.gx-gh.vx)/gh.vs, py0=(gh.gy-gh.vy)/gh.vs;
-    const px1=px0+gh.gw/gh.vs, py1=py0+gh.gh/gh.vs;
-    const X=x=>x*k*cap, Y=y=>y*k*cap;
-    CMP.corners=[{x:X(px0),y:Y(py0)},{x:X(px1),y:Y(py0)},
-                 {x:X(px1),y:Y(py1)},{x:X(px0),y:Y(py1)}];
+    const kx=full.width/vw0, ky=full.height/vh0;
+    const x0=(gh.gx-gh.vx)/gh.vs*kx, y0=(gh.gy-gh.vy)/gh.vs*ky;
+    const x1=x0+gh.gw/gh.vs*kx, y1=y0+gh.gh/gh.vs*ky;
+    CMP.corners=[{x:x0,y:y0},{x:x1,y:y0},{x:x1,y:y1},{x:x0,y:y1}];
   } else {
     CMP.corners=[{x:0,y:0},{x:full.width,y:0},
                  {x:full.width,y:full.height},{x:0,y:full.height}];
   }
-  cmpApplyCorners('flip');                 // straight to the flip, no corners
+  cmpApplyCorners('flip');
   cmpTip();
 }
 $('shutter').onclick = camCapture;
