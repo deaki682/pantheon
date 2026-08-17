@@ -98,7 +98,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 /* compare: the photographed drawing aligned over the reference */
 #cmpView{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
 #cmpCv{position:absolute;left:0;top:0;touch-action:none}
-#camVid{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+#camVid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   display:none;background:#000}
 #camGhost{position:absolute;left:0;top:0;pointer-events:none}
 #focusRing{position:absolute;width:56px;height:56px;border:2px solid var(--acc);
@@ -112,11 +112,6 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   background:#e03c3c;border:4px solid #141414;box-shadow:0 0 0 3px #fff;
   display:none;padding:0;z-index:6}
 #shutter:active{filter:brightness(0.8)}
-#lensBtn{position:absolute;left:50%;transform:translateX(-50%);
-  bottom:calc(104px + env(safe-area-inset-bottom));z-index:7;display:none;
-  background:rgba(12,12,12,0.72);border:1px solid rgba(255,255,255,0.35);
-  color:#fff;border-radius:999px;padding:7px 15px;font-size:12px;
-  letter-spacing:.03em;white-space:nowrap}
 /* one-tap A/B between the last two single layers */
 #layerFlip{position:absolute;width:74px;height:74px;border-radius:50%;padding:0;
   background:rgba(30,30,30,0.82);border:2px solid var(--acc);
@@ -427,7 +422,6 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <div id="focusRing"></div>
     <canvas id="lastShot" title="Use the last photo"></canvas>
     <button id="shutter" title="Capture"></button>
-    <button id="lensBtn" title="Switch lens"></button>
     <div id="circWrap">
       <button id="circClr">Clear</button>
       <button id="circBtn" title="Mark an error"><span class="redDot"></span></button>
@@ -3187,7 +3181,7 @@ function camChrome(){
   $('cmpShoot').style.display='none';
   $('lvBtn').style.display='none';
   $('shutter').style.display='block';
-  $('lensBtn').style.display='none';
+  $('cmpRow').style.display='none';
   $('backBtn').textContent='\u2715';
 }
 $('compareBtn').onclick = async () => {
@@ -3238,7 +3232,7 @@ $('cmpShoot').onclick = async () => {       // shoot again
   if (!ok){ camStop(); cmpRender(); }
 };
 // live in-app camera; the file picker is the fallback
-const CAM={stream:null, ghost:null, timer:0, starting:false, info:'', devs:[], lens:''};
+const CAM={stream:null, ghost:null, timer:0, starting:false, info:''};
 function camGhost(){
   // the transparent reference floats over the live view (with margin) so the
   // artist frames the drawing onto it by eye - the capture is then cropped
@@ -3251,14 +3245,17 @@ function camGhost(){
   const g=gc.getContext('2d');
   g.clearRect(0,0,gc.width,gc.height);
   if (!CAM.stream || !v.videoWidth){ CAM.ghost=null; return; }
-  const vs=Math.min(gc.width/v.videoWidth, gc.height/v.videoHeight);
+  // the video COVERS the screen (a real viewfinder), so parts of the frame
+  // hang off the edges; vx/vy/vs still describe exactly where frame pixels
+  // land on screen, which is all the capture mapping needs
+  const vs=Math.max(gc.width/v.videoWidth, gc.height/v.videoHeight);
   const vw=v.videoWidth*vs, vh=v.videoHeight*vs;
   const vx=(gc.width-vw)/2, vy=(gc.height-vh)/2;
   const {w,h}=worldSize();
   const M=0.86;                                   // breathing room to frame it up
-  const gs=Math.min(vw*M/w, vh*M/h);
+  const gs=Math.min(gc.width*M/w, gc.height*M/h);
   const gw=w*gs, gh=h*gs;
-  const gx=vx+(vw-gw)/2, gy=vy+(vh-gh)/2;
+  const gx=(gc.width-gw)/2, gy=(gc.height-gh)/2;
   g.globalAlpha=0.45;
   g.drawImage($('refImg'), gx, gy, gw, gh);
   g.globalAlpha=1;
@@ -3268,77 +3265,29 @@ function camGhost(){
   CAM.ghost={vx,vy,vs,gx,gy,gw,gh};
 }
 const gUM=v=>navigator.mediaDevices.getUserMedia({video:v, audio:false});
-const lensGet=()=>{ try{ return localStorage.getItem('camDev')||''; }catch(e){ return ''; } };
-const lensSet=id=>{ try{ localStorage.setItem('camDev', id||''); }catch(e){} };
-const lensName=l=>(l||'lens').replace(/camera/ig,'').replace(/\s+/g,' ').trim() || 'lens';
-// Pin the lens BY DEVICE, then ask that lens for everything it has. Asking
-// by resolution alone lets the browser go shopping and hand back the
-// ultra-wide; pinning first means a big request can only ever mean "more
-// pixels from this lens", never "a different lens".
-async function camBest(){
-  let st;
-  try{ st=await gUM({facingMode:{ideal:'environment'},
-                     width:{ideal:2560}, height:{ideal:1920},
-                     aspectRatio:{ideal:4/3}}); }
-  catch(e){ return null; }
-  const settings=t=>((t.getSettings&&t.getSettings())||{});
-  const caps=t=>((t.getCapabilities&&t.getCapabilities())||{});
-  const stop=s2=>{ for (const t of s2.getTracks()) t.stop(); };
-  let devs=[];
-  try{ devs=await navigator.mediaDevices.enumerateDevices(); }catch(e){}
-  const BACK=/back|rear|environment/i;
-  const OTHER=/ultra|tele|macro|depth|infrared|mono|front|face|zoom/i;
-  const backs=devs.filter(d=>d.kind==='videoinput' && d.label
-                          && BACK.test(d.label) && !OTHER.test(d.label));
-  // the plainest name is the ordinary lens: "Back Camera" over "Back Dual Wide"
-  backs.sort((a,b)=>a.label.length-b.label.length);
-  CAM.devs=backs.length?backs:devs.filter(d=>d.kind==='videoinput');
-  const curId=settings(st.getVideoTracks()[0]).deviceId||null;
-  const saved=lensGet();
-  const wantId=(saved && CAM.devs.some(d=>d.deviceId===saved) ? saved
-                : (backs[0] && backs[0].deviceId)) || curId;
-  if (wantId && wantId!==curId){
-    try{ const nx=await gUM({deviceId:{exact:wantId}}); stop(st); st=nx; }catch(e){}
-  }
-  // now that the lens is fixed, take its full frame. A phone sensor is 4:3;
-  // a 16:9 stream is that sensor with the top and bottom thrown away, which
-  // is what "not the whole sensor" looks like - so ask for 4:3 explicitly
-  // and derive the height rather than taking a 16:9 maximum.
-  let tr=st.getVideoTracks()[0];
-  const c=caps(tr), now=settings(tr);
-  const mw=Math.min(4096,(c.width&&c.width.max)||0), mh=Math.min(4096,(c.height&&c.height.max)||0);
-  if (mw && mh){
-    const h43=Math.min(mh, Math.round(mw*3/4));
-    const wide=(now.width||0)/(now.height||1) > 1.42;      // 16:9-ish = cropped
-    if (mw>(now.width||0) || wide){
-      const id=settings(tr).deviceId;
-      const want={ width:{ideal:mw}, height:{ideal:h43}, aspectRatio:{ideal:4/3} };
-      if (id) want.deviceId={exact:id}; else want.facingMode={ideal:'environment'};
-      try{ const nx=await gUM(want); stop(st); st=nx; tr=st.getVideoTracks()[0]; }catch(e){}
-    }
-  }
-  // and sit at the widest the lens goes - a true 1x
-  try{
-    const c2=caps(tr), s2=settings(tr);
-    if (c2.zoom && typeof c2.zoom.min==='number' && (s2.zoom||1)>c2.zoom.min)
-      await tr.applyConstraints({advanced:[{zoom:c2.zoom.min}]}).catch(()=>{});
-  }catch(e){}
-  {
-    const f=settings(tr), w=f.width||0, h=f.height||0;
-    const r=h?(w/h):0;
-    const shape = r>1.7 ? '16:9 (cropped)' : (r>1.42 ? '3:2' : '4:3 full');
-    const dv=CAM.devs.find(d=>d.deviceId===f.deviceId);
-    CAM.lens=dv?lensName(dv.label):'';
-    CAM.info=w+'x'+h+'  '+shape+(f.zoom?('  zoom '+f.zoom):'')
-            +(CAM.lens?('  \u00b7 '+CAM.lens):'');
-  }
-  return st;
+// ONE getUserMedia call, and the track is never touched again. The default
+// environment camera IS the phone's main lens at 1x - it was the re-requests
+// (huge sizes, device pinning, zoom nudges) that made the browser wander to
+// other lenses and re-meter the exposure, so none of that survives. The
+// preview only has to be good enough to aim with; the pixels come from the
+// still the shutter asks the photo pipeline for.
+async function camOpen(){
+  const asks=[
+    {facingMode:{ideal:'environment'}, width:{ideal:1920}, height:{ideal:1440},
+     aspectRatio:{ideal:4/3}},
+    {facingMode:{ideal:'environment'}},
+    true,
+  ];
+  for (const a of asks){ try{ return await gUM(a); }catch(e){} }
+  return null;
 }
 async function camStart(){
   try{
-    const st=await camBest();
+    const st=await camOpen();
     if (!st) return false;
     CAM.stream=st;
+    try{ const f=(st.getVideoTracks()[0].getSettings&&st.getVideoTracks()[0].getSettings())||{};
+      CAM.info=(f.width||'?')+'x'+(f.height||'?'); }catch(e){ CAM.info=''; }
     const v=$('camVid'); v.srcObject=st; v.style.display='block';
     $('coach').style.display='none';
     $('lvRow').style.display='none';
@@ -3347,14 +3296,9 @@ async function camStart(){
     $('cmpGridBtn').style.display='none';
     $('lvBtn').style.display='none';
     $('shutter').style.display='block';
-    $('lensBtn').style.display='none';
+    $('cmpRow').style.display='none';
     $('backBtn').textContent='✕';   // the back button reads as Cancel
     $('cmpFlip').disabled=true;
-    { const lb=$('lensBtn');
-      if (CAM.devs.length>1){
-        lb.textContent=(CAM.lens||'lens')+'  \u21bb';
-        lb.style.display='block';
-      } else lb.style.display='none'; }
     clearInterval(CAM.timer); CAM.timer=setInterval(camGhost,250);
     camGhost();
     $('camGhost').style.pointerEvents='auto';   // tap-to-focus while live
@@ -3381,7 +3325,7 @@ $('camGhost').addEventListener('pointerdown', e=>{
   if (!CAM.stream) return;
   const v=$('camVid'), r=$('cmpView').getBoundingClientRect();
   if (!v.videoWidth) return;
-  const vs=Math.min(r.width/v.videoWidth, r.height/v.videoHeight);
+  const vs=Math.max(r.width/v.videoWidth, r.height/v.videoHeight);
   const vw=v.videoWidth*vs, vh=v.videoHeight*vs;
   const vx=(r.width-vw)/2, vy=(r.height-vh)/2;
   const nx=(e.clientX-r.left-vx)/vw, ny=(e.clientY-r.top-vy)/vh;
@@ -3398,7 +3342,7 @@ function camStop(){
   const gg=$('camGhost'); gg.getContext('2d').clearRect(0,0,gg.width,gg.height);
   const v=$('camVid'); v.srcObject=null; v.style.display='none';
   $('shutter').style.display='none';
-  $('lensBtn').style.display='none';
+  $('cmpRow').style.display='';
   $('lastShot').style.display='none';
   $('cmpFlip').style.display='';
   $('cmpSplit').style.display='';
@@ -3413,28 +3357,38 @@ async function camCapture(){
   camGhost();                              // mapping current at the shutter
   const gh=CAM.ghost;
   const vw0=v.videoWidth, vh0=v.videoHeight;
-  // The preview is not the camera. Ask the sensor for an actual photo -
-  // full area, full processing - and map the ghost onto it. A preview is
-  // usually a CROP of the still, so fit the preview inside the still and
-  // centre it rather than assuming the two match pixel for pixel (that
-  // assumption is what put the crop in the wrong place before).
-  let frame=v, fw=vw0, fh=vh0, k=1, ox=0, oy=0;
+  // The preview is not the camera: ask the photo pipeline for a real still.
+  // But the API says nothing about how still pixels map onto preview pixels,
+  // so the still is requested AT THE PREVIEW'S ASPECT and accepted only if it
+  // comes back that shape - same lens + same aspect = same field of view, and
+  // the ghost's rectangle carries over as a pure scale, no guessing. Anything
+  // else (other aspect, rotated, tiny) is an unknowable crop of the sensor:
+  // fall back to the preview frame, whose alignment is exact by construction.
+  let frame=v, fw=vw0, fh=vh0, k=1;
   try{
     if (window.ImageCapture){
       const ic=new ImageCapture(CAM.stream.getVideoTracks()[0]);
-      const blob=await Promise.race([ ic.takePhoto(),
-        new Promise(r=>setTimeout(()=>r(null),1500)) ]);
+      let opt=null;
+      try{
+        const pc=await ic.getPhotoCapabilities();
+        if (pc && pc.imageWidth && pc.imageWidth.max){
+          const ar=vw0/vh0;
+          let iw=Math.min(pc.imageWidth.max, 4096), ih=Math.round(iw/ar);
+          if (pc.imageHeight && pc.imageHeight.max && ih>Math.min(pc.imageHeight.max,4096)){
+            ih=Math.min(pc.imageHeight.max, 4096); iw=Math.round(ih*ar);
+          }
+          if (iw>=vw0 && ih>=vh0) opt={imageWidth:iw, imageHeight:ih};
+        }
+      }catch(e){}
+      const blob=await Promise.race([ opt?ic.takePhoto(opt):ic.takePhoto(),
+        new Promise(r=>setTimeout(()=>r(null),2000)) ]);
       if (blob){
-        // decode at natural size so the still's REAL resolution is known -
-        // a pre-resized decode would fail the "is this bigger than the
-        // preview" test on 4K previews and silently throw the photo away
         let bmp=null;
-        try{ bmp=await createImageBitmap(blob); }
-        catch(e){ try{ bmp=await createImageBitmap(blob,{resizeWidth:2400,resizeQuality:'high'}); }catch(e2){} }
-        if (bmp && bmp.width>=640 && bmp.width*bmp.height >= vw0*vh0*0.8){
+        try{ bmp=await createImageBitmap(blob); }catch(e){}
+        if (bmp && bmp.width>=vw0 &&
+            Math.abs(bmp.width/bmp.height - vw0/vh0) < 0.02){
           frame=bmp; fw=bmp.width; fh=bmp.height;
-          k=Math.min(fw/vw0, fh/vh0);
-          ox=(fw-vw0*k)/2; oy=(fh-vh0*k)/2;
+          k=fw/vw0;
         } else if (bmp && bmp.close) bmp.close();
       }
     }
@@ -3453,7 +3407,7 @@ async function camCapture(){
   if (gh){
     const px0=(gh.gx-gh.vx)/gh.vs, py0=(gh.gy-gh.vy)/gh.vs;
     const px1=px0+gh.gw/gh.vs, py1=py0+gh.gh/gh.vs;
-    const X=x=>(ox+x*k)*cap, Y=y=>(oy+y*k)*cap;
+    const X=x=>x*k*cap, Y=y=>y*k*cap;
     CMP.corners=[{x:X(px0),y:Y(py0)},{x:X(px1),y:Y(py0)},
                  {x:X(px1),y:Y(py1)},{x:X(px0),y:Y(py1)}];
   } else {
