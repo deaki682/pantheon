@@ -1080,5 +1080,16 @@
   "drawdown": 0.0,
   "halted": false,
   "note": "Zeus hourly AFTER-CLOSE tend, Mon 2026-08-17 (2nd pass today). 6 holds, 0 kills fired, 0 orders. Reconcile CLEAN 6/6 exact vs broker; zero Oracle orders of any state since 08-14 (account-wide order list empty). NEW PEAK equity $4,930.51 (prior $4,918.71), drawdown 0.00%, breaker ok. Book +10.63% on the $4,050.06 cost basis vs SPY +2.90% from the 07-10 entry (750.935 -> 772.68) = +7.73pp excess, the best reading this book has recorded (prior best +6.96pp at the 08-14 close). THREE new documents, all dispositioned as NON-kills: TPC 8-K Item 5.02 (EVP Civil West Jensen retiring 09-04 - second personnel item in a week alongside the 08-11 Feltenstein Form 4, read in full today: a DIRECTOR's discretionary sale of 184,209sh on 08-07, 190,909 -> 6,700, ~96.5% of the stake); QTWO Form 4 (CFO Price executing the already-dispositioned 77,180sh 10b5-1 sale, plan adopted 2025-09-02, retains 207,633sh); ZVRA Form 144 (Secretary Thompson, 42,666sh = 0.072% of shares out, 10b5-1 plan adopted 05/15/2026). PAY -2.84% peer-checked BELOW the trigger because it is the top weight: payments/bank-software 9 of 9 DOWN, median -2.24%, dispersion 3.77pp - PAY only -0.60pp off it, so SECTOR, not name-specific. QTWO -0.46% is +1.78pp ABOVE that same median: the PAY+QTWO cluster DIVERGED 2.4pp today after moving as one thing on 08-13 - first counter-observation, recorded, not yet a revision. STANDING DEBT DISCHARGED: CF Industries' Q2 (8-K 2026-08-05) shows ammonia ASPs UP y/y (segment GM $229M vs $136M) and the nitrogen balance constructive into 2027 - LXU kill clause (b) moving away from firing; corroboration only, subordinate to LXU's own realized-price table. A/B: due_for_grade==[], lift_trustworthy False (34 Arm-B / 31 Arm-A unresolved), calibration n<5 no-op. Marks are the 15:59:5x ET regular-session prints - the official 08-17 SIP close was still unpublished at 20:15Z (close.date lagged to 08-14), Duty 9 again."
+ },
+ {
+  "date": "2026-08-18",
+  "ts": "2026-08-18T14:27:00Z",
+  "equity": 4863.27,
+  "cash": 449.94,
+  "spy": 768.875,
+  "peak_equity": 4930.514910700001,
+  "drawdown": 0.01364,
+  "halted": false,
+  "note": "Zeus hourly tend ~10:27 ET Tue 2026-08-18. 6 holds, 0 kills fired, 0 orders. Reconcile CLEAN 6/6 exact vs broker. Equity $4863.27 (-1.35% on the day) vs SPY -0.49%; drawdown 1.36% from yesterday's peak $4,930.51, breaker ok. THREE new documents, all NON-kills: KLIC 8-K Item 5.02 (Dr. Raj Talluri appointed permanent CEO effective 09-01, ending the interim period; $14M new-hire equity) + the matching Form 3, and ZVRA Form 4 (CLO Thompson's 42,666-sh 10b5-1 execution of the already-noted 144, leaving 37,569 - a 53% cut of his direct stake). The day's entire underperformance is KLIC -7.71%, which the peer check places AT the back-end semicap median (-7.58%) with front-end down in step - a complex-wide repricing, and it retires the 08-14 front-end/back-end divergence watch item as a one-session artifact. TPC -2.02% is +0.34pp BETTER than its E&C peer median. No sourcing (Stage 0-1 is a full-field cascade, not an hourly task); 'research' cadence 35 days stale and flagged to the operator."
  }
 ]
