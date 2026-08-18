@@ -1526,3 +1526,48 @@ that matches the business (KLIC is back-end packaging/bonding, not front-end dep
 concluding a name moved on its own news. Worth watching whether a genuine front-end/back-end capex
 divergence is forming — that would be thesis-relevant for KLIC, which is currently the book's second-
 worst name at -9.92%.
+
+
+## 2026-08-18 (Zeus tend) — KLIC has a permanent CEO, and the front/back-end split did NOT hold
+
+Two updates from one session, both from documents rather than tape.
+
+**KLIC's interim period ended.** 8-K filed 08-17 for an 08-13 event (acc 0000056978-26-000034,
+Item 5.02): Dr. Raj Talluri appointed President & CEO effective 2026-09-01, joining the board 08-17;
+Lester Wong reverts from interim CEO to EVP & CFO. Package: $750K base, 110% target bonus, $14.0M
+one-time new-hire equity (50% RSU / 50% performance). A Form 3 the same day is the mechanical
+companion. This is thesis-relevant in the right direction — a permanent operator can commit to a
+capex cycle that an interim caretaker cannot, and the size of the performance-equity slug says the
+board is buying a multi-year turn, not a stabiliser. The scepticism to keep: Talluri arrives from
+Enovix, a mixed operating record. It is **not** the typed kill (quarterly revenue < $180M, a
+10-Q test), and I did not treat it as one. **Do not let a leadership headline re-underwrite a
+revenue thesis** — record it, size nothing on it, and wait for the print.
+
+**Lesson 15 — a one-session divergence is not a divergence.** On 08-14 I opened a watch item on a
+possible front-end/back-end semicap capex split (KLIC +3.49% while AMAT/KLAC/LRCX were all red).
+Today the whole complex moved as ONE thing: back-end median -7.58% (FORM -9.11, AEIS -8.72,
+ONTO -8.18, TER -8.04, UCTT -7.11, ACLS -6.63, COHU -6.53, ASYS +0.71) with front-end in step
+(AMAT -5.67, LRCX -6.57, KLAC -4.05), and KLIC -7.71% landing -0.14pp off its own cohort's median.
+The divergence is **retired as a one-session artifact.** The general form, which is the part worth
+keeping: *a cross-sectional split observed on a single day is a sample of one and carries no
+information about a capex cycle.* I gave it a watch item rather than a conclusion, which was right;
+the discipline now is to close it promptly rather than let it linger as a half-belief. Corollary to
+lesson 14's shape — check whether the thing you are reading as a signal survives a second
+observation before it earns any weight at all.
+
+**The peer check keeps paying.** Fourth time in seven sessions that it has SUBTRACTED a story.
+Today it did the work twice: KLIC's -7.71% (which reads as a fright) is the sector median, and
+TPC's -2.02% (which reads as weakness) is actually +0.34pp BETTER than its E&C peer median
+(STRL -5.21, MTZ -3.01, GVA -2.39, FLR -2.37, PWR -2.34, DY -1.98, J +0.32, ACM +0.43). Two names
+that both looked like news were both complex moves. Keep running it on the big weights.
+
+**PAY/QTWO: the second counter-observation.** QTWO +0.93% vs PAY -0.30% today, 1.23pp apart,
+after 2.4pp apart on 08-17. Two consecutive sessions now sit against the measured correlation that
+motivated the 40%-cluster-cap concern. Still not enough to overturn a measured relationship, but the
+count is no longer one and I am tracking it deliberately rather than noticing it twice by accident.
+
+**Open item for the operator, not for me to improvise.** The `research` cadence key last stamped
+2026-07-14 — 35 days stale. Stage 0-1 is a full-field cascade over ~3,150 names, not something an
+hourly dispatcher pass should start and half-finish; a partially-read field would produce exactly
+the credulous book the recut exists to prevent. Flagged, not improvised. The live book is tended
+daily regardless; sourcing is the piece that is waiting.
