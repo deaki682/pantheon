@@ -3375,7 +3375,7 @@ async function camStart(){
             && cp.exposureCompensation.min<0){
           const st=cp.exposureCompensation.step||0.1;
           adv.exposureCompensation=Math.max(cp.exposureCompensation.min,
-                                            Math.round(-0.7/st)*st);
+                                            Math.round(-1.0/st)*st);
         }
         if (cp.contrast && typeof cp.contrast.min==='number'
             && cp.contrast.max>cp.contrast.min)
@@ -3431,7 +3431,7 @@ function camMeter(tr, quiet){
     try{
       const st=tr.getSettings ? tr.getSettings() : {};
       if (st.exposureTime && st.iso)
-        camExpLock(tr, st.exposureTime, st.iso).then(ok=>{
+        camExpLock(tr, st.exposureTime*0.75, st.iso).then(ok=>{
           if (ok && !quiet) toast('exposure locked \u00b7 tap to re-meter');
         });
     }catch(e){}
@@ -3648,6 +3648,26 @@ async function camCapture(){
   fg.setTransform(1,0,0,1,0,0); fg.filter='none';
   if (frame!==pv && frame.close) frame.close();
   camStop();
+  // blown-white audit: under the flat underexposed profile real paper sits
+  // well below the ceiling, so any meaningful count of 254+ pixels means
+  // the exposure is too hot. The remembered lock backs off 30% for every
+  // FUTURE shot; without a lock the note at least says what happened.
+  try{
+    const ad=fg.getImageData(0,0,full.width,full.height).data;
+    let clip=0, tot=0;
+    for (let i=0;i<ad.length;i+=4*499){ tot++; if (ad[i]>=254) clip++; }
+    if (tot && clip/tot>0.01){
+      let lk=null;
+      try{ lk=JSON.parse(localStorage.getItem('camExpLock')||'null'); }catch(e){}
+      if (lk && lk.et>0){
+        lk.et=Math.max(1, lk.et*0.7);
+        try{ localStorage.setItem('camExpLock', JSON.stringify(lk)); }catch(e){}
+        note=(note?note+' \u00b7 ':'')+'whites clipped - next shot darker';
+      } else {
+        note=(note?note+' \u00b7 ':'')+'whites clipped';
+      }
+    }
+  }catch(e){}
   let blob=null;
   try{ blob=canvasBlob(full,'image/jpeg',0.97); }catch(e){}
   CMP.raw=full; CMP.rawF=rawF; CMP.blob=blob; CMP.framed=true; CMP.cGrab=null;
