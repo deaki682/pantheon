@@ -3375,7 +3375,7 @@ async function camStart(){
             && cp.exposureCompensation.min<0){
           const st=cp.exposureCompensation.step||0.1;
           adv.exposureCompensation=Math.max(cp.exposureCompensation.min,
-                                            Math.round(-1.0/st)*st);
+                                            Math.round(-0.7/st)*st);
         }
         if (cp.contrast && typeof cp.contrast.min==='number'
             && cp.contrast.max>cp.contrast.min)
@@ -3431,7 +3431,7 @@ function camMeter(tr, quiet){
     try{
       const st=tr.getSettings ? tr.getSettings() : {};
       if (st.exposureTime && st.iso)
-        camExpLock(tr, st.exposureTime*0.75, st.iso).then(ok=>{
+        camExpLock(tr, st.exposureTime*0.85, st.iso).then(ok=>{
           if (ok && !quiet) toast('exposure locked \u00b7 tap to re-meter');
         });
     }catch(e){}
@@ -3648,17 +3648,25 @@ async function camCapture(){
   fg.setTransform(1,0,0,1,0,0); fg.filter='none';
   if (frame!==pv && frame.close) frame.close();
   camStop();
-  // blown-white audit: under the flat underexposed profile real paper sits
-  // well below the ceiling, so any meaningful count of 254+ pixels means
-  // the exposure is too hot. The remembered lock backs off 30% for every
-  // FUTURE shot; without a lock the note at least says what happened.
+  // exposure servo, two-sided: the PAPER (99th-percentile luma) belongs
+  // just under the ceiling (~238) - whites safe by construction, darks
+  // given all remaining headroom. Each capture measures where the paper
+  // landed and corrects the remembered lock for every FUTURE shot:
+  // clipped -> darker; paper sagging below 200 (crushing the charcoal) ->
+  // brighter, proportionally. Between those bands the lock stands still.
   try{
     const ad=fg.getImageData(0,0,full.width,full.height).data;
+    const hist=new Float64Array(256);
     let clip=0, tot=0;
-    for (let i=0;i<ad.length;i+=4*499){ tot++; if (ad[i]>=254) clip++; }
+    for (let i=0;i<ad.length;i+=4*199){
+      tot++; hist[ad[i]]++;
+      if (ad[i]>=254) clip++;
+    }
+    let p99=255, acc=0;
+    for (let v=0;v<256;v++){ acc+=hist[v]; if (acc>=tot*0.99){ p99=v; break; } }
+    let lk=null;
+    try{ lk=JSON.parse(localStorage.getItem('camExpLock')||'null'); }catch(e){}
     if (tot && clip/tot>0.01){
-      let lk=null;
-      try{ lk=JSON.parse(localStorage.getItem('camExpLock')||'null'); }catch(e){}
       if (lk && lk.et>0){
         lk.et=Math.max(1, lk.et*0.7);
         try{ localStorage.setItem('camExpLock', JSON.stringify(lk)); }catch(e){}
@@ -3666,6 +3674,10 @@ async function camCapture(){
       } else {
         note=(note?note+' \u00b7 ':'')+'whites clipped';
       }
+    } else if (tot && p99<200 && lk && lk.et>0){
+      lk.et=lk.et*Math.min(1.4, 238/Math.max(p99,40));
+      try{ localStorage.setItem('camExpLock', JSON.stringify(lk)); }catch(e){}
+      note=(note?note+' \u00b7 ':'')+'dark shot - next shot brighter';
     }
   }catch(e){}
   let blob=null;
