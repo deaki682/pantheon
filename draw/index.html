@@ -3308,11 +3308,8 @@ $('compareBtn').onclick = async () => {
 };
 // live in-app camera; the file picker is the fallback
 const CAM={stream:null, ghost:null, timer:0, starting:false};
-// the v190/v191 exposure experiments may have left a darkened lock behind:
-// drop it once so the camera meters fresh, then remember normally again
-try{ if (!localStorage.getItem('expReset1')){
-  localStorage.removeItem('camExpLock'); localStorage.setItem('expReset1','1');
-} }catch(e){}
+// the exposure experiments (v187-v191) are fully retired - scrub their state
+try{ localStorage.removeItem('camExpLock'); localStorage.removeItem('expReset1'); }catch(e){}
 function camGhost(){
   // the transparent reference floats over the live view (with margin) so the
   // artist frames the drawing onto it by eye - the capture is then cropped
@@ -3367,38 +3364,6 @@ async function camStart(){
         .catch(()=>{});
       tr.applyConstraints({ advanced:[{ focusMode:'continuous' }] })
         .catch(()=>{});
-      // a raw-file posture, set ONCE at open and never touched again:
-      // bias exposure down so the paper cannot clip (clipped highlights
-      // are gone forever - no slider recovers them), and ask the ISP for
-      // a flat, lightly-sharpened rendering. Each knob only where the
-      // device admits it exists; phones without them are untouched.
-      try{
-        const cp=tr.getCapabilities ? tr.getCapabilities() : {};
-        const adv={};
-        if (cp.exposureCompensation
-            && typeof cp.exposureCompensation.min==='number'
-            && cp.exposureCompensation.min<0){
-          const st=cp.exposureCompensation.step||0.1;
-          adv.exposureCompensation=Math.max(cp.exposureCompensation.min,
-                                            Math.round(-0.7/st)*st);
-        }
-        if (cp.contrast && typeof cp.contrast.min==='number'
-            && cp.contrast.max>cp.contrast.min)
-          adv.contrast=cp.contrast.min+(cp.contrast.max-cp.contrast.min)/3;
-        if (cp.sharpness && typeof cp.sharpness.min==='number'
-            && cp.sharpness.max>cp.sharpness.min)
-          adv.sharpness=cp.sharpness.min+(cp.sharpness.max-cp.sharpness.min)/3;
-        if (Object.keys(adv).length)
-          tr.applyConstraints({advanced:[adv]}).catch(()=>{});
-        if (cp.exposureMode && cp.exposureMode.indexOf
-            && cp.exposureMode.indexOf('manual')>=0
-            && cp.exposureTime && cp.iso){
-          let saved=null;
-          try{ saved=JSON.parse(localStorage.getItem('camExpLock')||'null'); }catch(e){}
-          if (saved && saved.et>0 && saved.iso>0) camExpLock(tr, saved.et, saved.iso);
-          else camMeter(tr, false);
-        }
-      }catch(e){}
     }catch(e){}
     // the last photo waits in the corner - tap it to skip reshooting
     const ls=$('lastShot');
@@ -3409,38 +3374,6 @@ async function camStart(){
     } else ls.style.display='none';
     return true;
   }catch(e){ return false; }
-}
-// Exposure is a MEASUREMENT setting, not a per-shot opinion: metered once,
-// locked to manual, remembered, and reapplied identically every session -
-// the same drawing in the same light photographs the same way every time.
-// A tap on the view re-meters deliberately (for when the light DID change).
-function camExpLock(tr, et, iso){
-  try{
-    const cp=tr.getCapabilities ? tr.getCapabilities() : {};
-    if (!cp.exposureTime || !cp.iso) return Promise.resolve(false);
-    et=Math.max(cp.exposureTime.min, Math.min(cp.exposureTime.max, et));
-    iso=Math.max(cp.iso.min, Math.min(cp.iso.max, iso));
-    return tr.applyConstraints({advanced:[{exposureMode:'manual',
-                                           exposureTime:et, iso:iso}]})
-      .then(()=>{
-        try{ localStorage.setItem('camExpLock', JSON.stringify({et,iso})); }catch(e){}
-        CAM.locked=true;
-        return true;
-      }).catch(()=>false);
-  }catch(e){ return Promise.resolve(false); }
-}
-function camMeter(tr, quiet){
-  // let continuous AE settle on the scene, then freeze what it chose
-  clearTimeout(CAM.meterT);
-  CAM.meterT=setTimeout(()=>{
-    try{
-      const st=tr.getSettings ? tr.getSettings() : {};
-      if (st.exposureTime && st.iso)
-        camExpLock(tr, st.exposureTime, st.iso).then(ok=>{
-          if (ok && !quiet) toast('exposure locked \u00b7 tap to re-meter');
-        });
-    }catch(e){}
-  }, 1400);
 }
 function camFocus(nx, ny){
   // a single-shot focus at the tapped point, then back to continuous -
@@ -3457,11 +3390,6 @@ function camFocus(nx, ny){
     try{ tr.applyConstraints({ advanced:[{ focusMode:'continuous' }] })
           .catch(()=>{}); }catch(e){}
   }, 1600);
-  if (CAM.locked){
-    CAM.locked=false;
-    tr.applyConstraints({advanced:[{exposureMode:'continuous'}]}).catch(()=>{});
-    camMeter(tr, false);
-  }
 }
 $('camGhost').addEventListener('pointerdown', e=>{
   if (!CAM.stream) return;
@@ -3488,7 +3416,6 @@ function camStop(){
   if (CAM.stream){ for (const t of CAM.stream.getTracks()) t.stop(); CAM.stream=null; }
   $('camGhost').style.pointerEvents='none';
   clearTimeout(CAM.refocusT);
-  clearTimeout(CAM.meterT); CAM.locked=false;
   clearInterval(CAM.timer); CAM.timer=0; CAM.ghost=null;
   const gg=$('camGhost'); gg.getContext('2d').clearRect(0,0,gg.width,gg.height);
   const v=$('camVid'); v.srcObject=null; v.style.display='none';
