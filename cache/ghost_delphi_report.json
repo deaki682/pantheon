@@ -1,7 +1,9 @@
 {
-  "n": 0,
-  "mean_return": null,
-  "hit_rate": null,
-  "momentum_terciles": {},
-  "signal_lift": {}
+ "n": 0,
+ "mean_return": null,
+ "hit_rate": null,
+ "momentum_terciles": {},
+ "signal_lift": {},
+ "generated": "2026-08-18",
+ "note": "0 graded (0 due; earliest maturity 2026-09-28). Every tercile and lift figure is empty BY CONSTRUCTION. Known defect: SQ and XYZ are the same company (Block, ticker renamed) held as two entries - Block is double-weighted and SQ will trip the unpriceable-grades-as-a-loss guard at its 2026-09-28 maturity unless the universe is fixed first."
 }
