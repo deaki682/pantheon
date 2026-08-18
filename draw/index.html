@@ -3308,6 +3308,11 @@ $('compareBtn').onclick = async () => {
 };
 // live in-app camera; the file picker is the fallback
 const CAM={stream:null, ghost:null, timer:0, starting:false};
+// the v190/v191 exposure experiments may have left a darkened lock behind:
+// drop it once so the camera meters fresh, then remember normally again
+try{ if (!localStorage.getItem('expReset1')){
+  localStorage.removeItem('camExpLock'); localStorage.setItem('expReset1','1');
+} }catch(e){}
 function camGhost(){
   // the transparent reference floats over the live view (with margin) so the
   // artist frames the drawing onto it by eye - the capture is then cropped
@@ -3431,7 +3436,7 @@ function camMeter(tr, quiet){
     try{
       const st=tr.getSettings ? tr.getSettings() : {};
       if (st.exposureTime && st.iso)
-        camExpLock(tr, st.exposureTime*0.85, st.iso).then(ok=>{
+        camExpLock(tr, st.exposureTime, st.iso).then(ok=>{
           if (ok && !quiet) toast('exposure locked \u00b7 tap to re-meter');
         });
     }catch(e){}
@@ -3648,38 +3653,6 @@ async function camCapture(){
   fg.setTransform(1,0,0,1,0,0); fg.filter='none';
   if (frame!==pv && frame.close) frame.close();
   camStop();
-  // exposure servo, two-sided: the PAPER (99th-percentile luma) belongs
-  // just under the ceiling (~238) - whites safe by construction, darks
-  // given all remaining headroom. Each capture measures where the paper
-  // landed and corrects the remembered lock for every FUTURE shot:
-  // clipped -> darker; paper sagging below 200 (crushing the charcoal) ->
-  // brighter, proportionally. Between those bands the lock stands still.
-  try{
-    const ad=fg.getImageData(0,0,full.width,full.height).data;
-    const hist=new Float64Array(256);
-    let clip=0, tot=0;
-    for (let i=0;i<ad.length;i+=4*199){
-      tot++; hist[ad[i]]++;
-      if (ad[i]>=254) clip++;
-    }
-    let p99=255, acc=0;
-    for (let v=0;v<256;v++){ acc+=hist[v]; if (acc>=tot*0.99){ p99=v; break; } }
-    let lk=null;
-    try{ lk=JSON.parse(localStorage.getItem('camExpLock')||'null'); }catch(e){}
-    if (tot && clip/tot>0.01){
-      if (lk && lk.et>0){
-        lk.et=Math.max(1, lk.et*0.7);
-        try{ localStorage.setItem('camExpLock', JSON.stringify(lk)); }catch(e){}
-        note=(note?note+' \u00b7 ':'')+'whites clipped - next shot darker';
-      } else {
-        note=(note?note+' \u00b7 ':'')+'whites clipped';
-      }
-    } else if (tot && p99<200 && lk && lk.et>0){
-      lk.et=lk.et*Math.min(1.4, 238/Math.max(p99,40));
-      try{ localStorage.setItem('camExpLock', JSON.stringify(lk)); }catch(e){}
-      note=(note?note+' \u00b7 ':'')+'dark shot - next shot brighter';
-    }
-  }catch(e){}
   let blob=null;
   try{ blob=canvasBlob(full,'image/jpeg',0.97); }catch(e){}
   CMP.raw=full; CMP.rawF=rawF; CMP.blob=blob; CMP.framed=true; CMP.cGrab=null;
