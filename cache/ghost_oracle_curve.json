@@ -274,13 +274,13 @@
  },
  {
   "date": "2026-08-18",
-  "equity": 33369.19,
-  "total_return": 0.03310195037671537,
+  "equity": 33233.16,
+  "total_return": 0.02889026517704152,
   "n": 323,
   "benchmark": {
-   "SPY": 0.042429,
-   "SPY_price": 768.875
+   "SPY": 0.040456,
+   "SPY_price": 767.42
   },
-  "note": "Zeus ~10:30 ET Tue 2026-08-18. Marked 229/229 open symbols live from the broker tape (missing_marks == 0; the whole open book priced, no stale-cache fallback needed). PFBX quoted state='unlisted' with a last trade of 2026-08-11 at $22.75 - carried at that price and DISCLOSED rather than silently marked; it is 1 of 323 positions (~0.3 pct of the book) so it cannot move the curve, but it is a delisting-risk watch, not a live mark. Book $33369.19 on a $32,300 cost basis = +3.31 pct since inception, vs SPY +4.24 pct (inception 737.58 -> 768.875) = -0.93pp BEHIND. 0 positions graded (0 due): the earliest horizon in the ledger matures 2027-06-29, so the calibration report stays empty BY CONSTRUCTION and nothing about lens lift, conviction monotonicity, or the 40/20/15/10/10/5 weighting can be claimed yet - this shadow is still ~10 months from its first evidence. OPENS: the 08-16 screen refresh carries exactly ONE name not already in the ledger (EWSB), and the broker returned NO quote for it, so it could not be priced and was NOT opened; recorded here so the omission is visible rather than an invisible gap in the sample. CAVEAT on today's point: SPY 768.875 is an INTRADAY 10:30 ET quote while every prior point on this curve is a close, so an intraday drift is embedded in today's comparison - do not read it as a clean day-over-day delta."
+  "note": "Zeus AFTER-CLOSE re-mark, Tue 2026-08-18 16:10 ET. This point REPLACES the 10:30 ET intraday point for the same date (equity $33,369.19 / +3.310%): the real Oracle's lesson 16 this session is that an intraday mark is not the day, and the ghost curve should carry the honest closing value. The correction is material at book scale - $136.03 of equity and 0.42pp of total return evaporated between the morning mark and the close, on a 229-symbol book that opened nothing today. Marked 229/229 open symbols live from the broker tape (missing_marks == 0). TWO stale-tape disclosures, both carried rather than silently marked: PFBX quotes state='unlisted' with a last trade of 2026-08-11 at $22.75 (delisting-risk watch, ~0.3% of the book), and MBBC did not print at all today (last trade 2026-08-17T20:00Z), so its $15.00 is yesterday's close, not a mark. 0 graded (no horizon has matured; the earliest 365-day entries from 2026-06-29 mature 2027-06-29), 0 opened (no fresh screen since 08-17). SPY benchmark re-derived on the UNCHANGED weighted entry basket implied by the morning point (basket 737.58), so only today's SPY price moved: 768.875 -> 767.42."
  }
 ]
