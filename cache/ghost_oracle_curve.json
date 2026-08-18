@@ -271,5 +271,16 @@
    "SPY_price": 775.32
   },
   "note": "BENCHMARK CORRECTED at the 08-17 after-close pass, and the correction is disclosed rather than silent. The morning run wrote benchmark.SPY = -0.001314, which is SPY's ONE-DAY change (775.32 vs the 776.34 prior close), not the since-inception return every one of the 26 prior points carries, and it omitted SPY_price. Left as written it would have made this point non-comparable with the whole series. Recomputed on the series' own inception baseline (recovered as 737.58 from the 08-10/08-12/08-13/08-14 points, all four agreeing): 775.32 / 737.58 - 1 = 0.051167. SPY_price restored. Equity/n are UNCHANGED - the morning mark priced all 323 entries with zero missing, so it stands as the day's mark; only the benchmark field was wrong. NOTE the basis: equity here is an intraday ~10:20 ET mark, so the corrected SPY is deliberately the intraday 775.32 rather than the 772.68 close, keeping both sides of the row on ONE basis. AFTER-CLOSE RE-MARK ABORTED, disclosed not silent: re-pricing all 229 open symbols on the closing prints was started (80 of 229 fetched) and stopped as a duplicate of a complete same-day mark - the marginal value was the closing basis, not new information, and a PARTIAL re-mark would have been worse than none. No second point appended for 08-17. Grading: 0 entries matured (earliest horizon 2027-06), so the calibration report stays empty by construction, not omission."
+ },
+ {
+  "date": "2026-08-18",
+  "equity": 33369.19,
+  "total_return": 0.03310195037671537,
+  "n": 323,
+  "benchmark": {
+   "SPY": 0.042429,
+   "SPY_price": 768.875
+  },
+  "note": "Zeus ~10:30 ET Tue 2026-08-18. Marked 229/229 open symbols live from the broker tape (missing_marks == 0; the whole open book priced, no stale-cache fallback needed). PFBX quoted state='unlisted' with a last trade of 2026-08-11 at $22.75 - carried at that price and DISCLOSED rather than silently marked; it is 1 of 323 positions (~0.3 pct of the book) so it cannot move the curve, but it is a delisting-risk watch, not a live mark. Book $33369.19 on a $32,300 cost basis = +3.31 pct since inception, vs SPY +4.24 pct (inception 737.58 -> 768.875) = -0.93pp BEHIND. 0 positions graded (0 due): the earliest horizon in the ledger matures 2027-06-29, so the calibration report stays empty BY CONSTRUCTION and nothing about lens lift, conviction monotonicity, or the 40/20/15/10/10/5 weighting can be claimed yet - this shadow is still ~10 months from its first evidence. OPENS: the 08-16 screen refresh carries exactly ONE name not already in the ledger (EWSB), and the broker returned NO quote for it, so it could not be priced and was NOT opened; recorded here so the omission is visible rather than an invisible gap in the sample. CAVEAT on today's point: SPY 768.875 is an INTRADAY 10:30 ET quote while every prior point on this curve is a close, so an intraday drift is embedded in today's comparison - do not read it as a clean day-over-day delta."
  }
 ]

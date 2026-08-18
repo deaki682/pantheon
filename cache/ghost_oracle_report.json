@@ -9,7 +9,6 @@
  "quality_terciles": {},
  "score_terciles": {},
  "sector_return": {},
- "as_of": "2026-08-17",
- "n_open": 323,
- "note": "0 graded: the earliest horizon in the ledger matures 2027-06, so every field below is empty BY CONSTRUCTION. Ledger holds 323 entries / 229 unique open symbols. This pass corrected the 08-17 curve point's benchmark (one-day change written where the since-inception return belongs) and appended no new point."
+ "generated": "2026-08-18",
+ "note": "0 graded positions (0 due; earliest maturity 2027-06-29). Every lift/tercile/monotonicity figure here is empty BY CONSTRUCTION, not by omission - do not read an absent number as a null result."
 }
