@@ -1,115 +1,115 @@
 {
+ "n": 391,
+ "mean_return": 0.00876973568800974,
+ "hit_rate": 0.5728900255754475,
+ "signal_lift": {
+  "basket_selected": {
+   "n_on": 47,
+   "mean_on": 0.015018495911509375,
+   "n_off": 113,
+   "mean_off": 0.000958910339189057,
+   "lift": 0.014059585572320317
+  },
+  "guidance_raised": {
+   "n_on": 0,
+   "mean_on": null,
+   "n_off": 391,
+   "mean_off": 0.00876973568800974,
+   "lift": null
+  },
+  "reaction_confirmed": {
+   "n_on": 278,
+   "mean_on": 0.008529450429107226,
+   "n_off": 113,
+   "mean_off": 0.009360879953274346,
+   "lift": -0.0008314295241671193
+  },
+  "revenue_beat": {
+   "n_on": 0,
+   "mean_on": null,
+   "n_off": 391,
+   "mean_off": 0.00876973568800974,
+   "lift": null
+  },
+  "rewarded": {
+   "n_on": 160,
+   "mean_on": 0.005088913601058149,
+   "n_off": 231,
+   "mean_off": 0.011319222847803047,
+   "lift": -0.006230309246744898
+  }
+ },
+ "reaction_terciles": {
+  "n": 278,
+  "terciles": {
+   "high": {
+    "n": 92,
+    "mean": -0.00010781511655352673
+   },
+   "mid": {
+    "n": 94,
+    "mean": 0.013153552972162337
+   },
+   "low": {
+    "n": 92,
+    "mean": 0.012442089463385564
+   }
+  },
+  "monotonic": false
+ },
+ "surprise_terciles": {
   "n": 391,
-  "mean_return": 0.00876973568800974,
-  "hit_rate": 0.5728900255754475,
-  "signal_lift": {
-    "basket_selected": {
-      "n_on": 47,
-      "mean_on": 0.015018495911509375,
-      "n_off": 113,
-      "mean_off": 0.000958910339189057,
-      "lift": 0.014059585572320317
-    },
-    "guidance_raised": {
-      "n_on": 0,
-      "mean_on": null,
-      "n_off": 391,
-      "mean_off": 0.00876973568800974,
-      "lift": null
-    },
-    "reaction_confirmed": {
-      "n_on": 278,
-      "mean_on": 0.008529450429107226,
-      "n_off": 113,
-      "mean_off": 0.009360879953274346,
-      "lift": -0.0008314295241671193
-    },
-    "revenue_beat": {
-      "n_on": 0,
-      "mean_on": null,
-      "n_off": 391,
-      "mean_off": 0.00876973568800974,
-      "lift": null
-    },
-    "rewarded": {
-      "n_on": 160,
-      "mean_on": 0.005088913601058149,
-      "n_off": 231,
-      "mean_off": 0.011319222847803047,
-      "lift": -0.006230309246744898
-    }
+  "terciles": {
+   "high": {
+    "n": 130,
+    "mean": 0.006562531409150648
+   },
+   "mid": {
+    "n": 131,
+    "mean": 0.007279899935538675
+   },
+   "low": {
+    "n": 130,
+    "mean": 0.012478235994358908
+   }
   },
-  "reaction_terciles": {
-    "n": 278,
-    "terciles": {
-      "high": {
-        "n": 92,
-        "mean": -0.00010781511655352673
-      },
-      "mid": {
-        "n": 94,
-        "mean": 0.013153552972162337
-      },
-      "low": {
-        "n": 92,
-        "mean": 0.012442089463385564
-      }
-    },
-    "monotonic": false
+  "monotonic": false
+ },
+ "score_terciles": {
+  "n": 391,
+  "terciles": {
+   "high": {
+    "n": 130,
+    "mean": 0.016118179527629214
+   },
+   "mid": {
+    "n": 131,
+    "mean": 0.011687997064566568
+   },
+   "low": {
+    "n": 130,
+    "mean": -0.0015194176926016162
+   }
   },
-  "surprise_terciles": {
-    "n": 391,
-    "terciles": {
-      "high": {
-        "n": 130,
-        "mean": 0.006562531409150648
-      },
-      "mid": {
-        "n": 131,
-        "mean": 0.007279899935538675
-      },
-      "low": {
-        "n": 130,
-        "mean": 0.012478235994358908
-      }
-    },
-    "monotonic": false
+  "monotonic": true
+ },
+ "cap_terciles": {
+  "n": 381,
+  "terciles": {
+   "high": {
+    "n": 127,
+    "mean": 0.0007963448642517904
+   },
+   "mid": {
+    "n": 127,
+    "mean": 0.011830378057975715
+   },
+   "low": {
+    "n": 127,
+    "mean": 0.014615188855073728
+   }
   },
-  "score_terciles": {
-    "n": 391,
-    "terciles": {
-      "high": {
-        "n": 130,
-        "mean": 0.016118179527629214
-      },
-      "mid": {
-        "n": 131,
-        "mean": 0.011687997064566568
-      },
-      "low": {
-        "n": 130,
-        "mean": -0.0015194176926016162
-      }
-    },
-    "monotonic": true
-  },
-  "cap_terciles": {
-    "n": 381,
-    "terciles": {
-      "high": {
-        "n": 127,
-        "mean": 0.0007963448642517904
-      },
-      "mid": {
-        "n": 127,
-        "mean": 0.011830378057975715
-      },
-      "low": {
-        "n": 127,
-        "mean": 0.014615188855073728
-      }
-    },
-    "monotonic": false
-  },
-  "_zeus_note": "2026-08-17 Zeus tick: in-window (2026-07-13..08-21). Book flat (437 entries all graded, 0 open, 0 due). 363 fresh actionable beats detected in the 08-10..08-13 reporter cohort (from get_earnings_calendar), but opening them faithfully requires per-name reaction historicals (the reaction-direction gate is this ghost's core signal); deferred to a dedicated /achilles-ghost pass rather than open with reaction_pct=None and pollute signal_lift.rewarded. Report below is over the 437 already-graded names."
+  "monotonic": false
+ },
+ "_zeus_note": "2026-08-18 Zeus tick: in-window (2026-07-13..08-21). Book FLAT again - 437 entries, all graded, 0 open, 0 due - so there is nothing to mark and nothing to grade; no curve point written (a point on a flat book would just restate yesterday's number as if it were a fresh observation). No opens: the ~363 fresh actionable beats from the 08-10..08-13 reporter cohort still need the per-name reaction-historicals pass, and opening them with reaction_pct=None would pollute signal_lift.rewarded - the one column this ghost exists to measure. That deferral is now in its 6th consecutive session.\n\nSTANDING ESCALATION for the operator (raised, not acted on unilaterally). This shadow's question is ANSWERED, and answered negatively. On n=391 graded names, signal_lift.rewarded = -0.62pp: rewarded beats returned +0.51 pct (n=160) against sold/unconfirmed beats' +1.13 pct (n=231). The reaction-direction gate does not separate winners from losers - if anything it selects the WORSE half. reaction_confirmed is likewise flat at -0.08pp (n=278 vs 113). Both readings agree with the 2026-07-05 achilles_pead_gauntlet verdict (18/18 cells negative excess) that SHELVED the PEAD mode, and with CLAUDE.md's rule that no PEAD backtest may be cited as evidence FOR the strategy. The only positive column, basket_selected (+1.41pp, n=47 vs 113), is a ranking effect INSIDE a population whose governing gate is negative - it is not a reason to keep the program.\n\nSo the honest read is: three more weeks of daily dispatch will not change this answer, and the work that would grow the sample (the reaction-historicals pass over ~363 names) is a dedicated session's worth of effort spent on a strategy the house has already shelved. RECOMMENDATION: retire /achilles-ghost from the Zeus dispatch table, or fund the reaction pass once and close the book on it deliberately. Zeus does not override a god's logic or edit its own dispatch table, so this stays a recommendation."
 }
