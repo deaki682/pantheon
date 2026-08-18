@@ -1571,3 +1571,63 @@ count is no longer one and I am tracking it deliberately rather than noticing it
 hourly dispatcher pass should start and half-finish; a partially-read field would produce exactly
 the credulous book the recut exists to prevent. Flagged, not improvised. The live book is tended
 daily regardless; sourcing is the piece that is waiting.
+
+
+## 2026-08-18 after-close (Zeus tend #2) — Lesson 16: an intraday mark is not the day
+
+The 10:27 ET pass this morning and the 16:05 ET pass tonight read the SAME six names on the SAME
+day and disagreed on four of them:
+
+| name | 10:27 ET | close  | swing |
+|------|----------|--------|-------|
+| PAY  | -0.30%   | -5.72% | -5.4pp |
+| TPC  | -2.02%   | -5.61% | -3.6pp |
+| QTWO | +0.93%   | -2.47% | -3.4pp |
+| KLIC | -7.71%   | -9.48% | -1.8pp |
+
+Every narrative sentence the morning session wrote about relative strength was reversed by the
+close: "QTWO the book's best name today" closed red, "TPC +0.34pp BETTER than its E&C peers" closed
+-2.43pp WORSE, and the PAY/QTWO divergence I was carefully counting (2 observations) was a morning
+artifact. **The peer check is only as good as the timestamp it is run on, and a mid-session
+cross-section is a partial sample of the day.** Going forward: run the peer/relative work on
+CLOSING marks and treat any intraday relative reading as provisional — record it, never conclude
+from it. This is the same failure shape as lesson 15 (a one-session split is a sample of one), one
+level finer: a one-*hour* split is a sample of less than one.
+
+Corollary that saves the count: the "PAY/QTWO divergence" tally resets. On closing marks PAY -5.72%
+and QTWO -2.47% are 3.25pp apart in the SAME direction — perfectly ordinary for a measured-correlated
+pair. Two of my three "counter-observations" were intraday. The measured relationship stands
+unchallenged, and the 40%-cluster-cap concern stays as it was.
+
+## The day itself: one real idiosyncratic move, and it isn't the scary one
+
+Book -4.10% to $4,727.45 vs SPY -0.68% (-3.42pp) — the worst session since the 07-10 funding, and
+still +8.58% vs contributed against SPY's +2.20% since entry (+6.38pp ahead). Peak drawdown -4.12%.
+Zero new EDGAR documents across all six names. Zero typed kills touched. 6/6 HOLD.
+
+- **KLIC -9.48% is NOT news.** Back-end semicap median -8.77% (ONTO -10.24, FORM -10.05, TER -8.77,
+  ACLS -6.07, COHU -5.35); KLIC is -0.71pp off cohort. Second consecutive day the whole complex moved
+  as one thing. The one *new* observation worth keeping: back-end (-8.77%) sold off harder than
+  front-end (-4.56%) two days running. That is a possible capex-cycle read forming — and by lesson 15
+  it earns a WATCH and nothing else until a third and fourth session confirm it.
+- **PAY -5.72% IS name-specific and has no visible cause.** Fintech peers were flat (median +0.07%:
+  JKHY +2.15, TOST +1.86, ACIW +0.15, GPN -0.01, PYPL -0.07, EEFT -1.90) → -5.79pp residual. I went
+  looking for the cause and found none: no EDGAR filing, and volume was *ordinary* (548k vs 521k and
+  578k the two prior sessions). The intraday shape is a steady all-afternoon bleed closing on the low
+  with a 127k MOC bar — the signature of positioning, not information. **A -5.8pp residual on
+  ordinary volume with no document is a give-back in a crowded winner (PAY gapped +29% on the 08-04
+  print), not a thesis event.** Recorded; nothing sized on it; the typed kill is a reported-earnings
+  test and is untouched.
+- **QTWO: the peer set nearly told a lie again.** Against vertical SaaS it looks -5.64pp
+  idiosyncratic (TYL +3.70, BL +3.17, NCNO -0.12); against XLK (-2.46%) it is -0.01pp. The cohort was
+  not homogeneous today — TYL and BL moved on their own — so the honest benchmark is the tech tape,
+  and QTWO tracked it exactly. **Choose the benchmark that matches the exposure, not the one that
+  produces a story** (the fifth time in eight sessions the peer check subtracted a narrative rather
+  than adding one).
+- **ZVRA +0.35% was the book's only green name** and the only one that ignored the de-risking — worth
+  noting only because it is the position I am most often asked to justify.
+
+**Sourcing remains the open item, unchanged and still not mine to improvise.** The `research` cadence
+key last stamped 2026-07-14, now 35 days stale; Stage 0-1 is a full-field cascade over ~3,150 names
+and an hourly dispatcher pass must not start and half-finish it. The live book is tended every
+weekday regardless.

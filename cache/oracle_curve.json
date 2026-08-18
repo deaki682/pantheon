@@ -1091,5 +1091,41 @@
   "drawdown": 0.01364,
   "halted": false,
   "note": "Zeus hourly tend ~10:27 ET Tue 2026-08-18. 6 holds, 0 kills fired, 0 orders. Reconcile CLEAN 6/6 exact vs broker. Equity $4863.27 (-1.35% on the day) vs SPY -0.49%; drawdown 1.36% from yesterday's peak $4,930.51, breaker ok. THREE new documents, all NON-kills: KLIC 8-K Item 5.02 (Dr. Raj Talluri appointed permanent CEO effective 09-01, ending the interim period; $14M new-hire equity) + the matching Form 3, and ZVRA Form 4 (CLO Thompson's 42,666-sh 10b5-1 execution of the already-noted 144, leaving 37,569 - a 53% cut of his direct stake). The day's entire underperformance is KLIC -7.71%, which the peer check places AT the back-end semicap median (-7.58%) with front-end down in step - a complex-wide repricing, and it retires the 08-14 front-end/back-end divergence watch item as a one-session artifact. TPC -2.02% is +0.34pp BETTER than its E&C peer median. No sourcing (Stage 0-1 is a full-field cascade, not an hourly task); 'research' cadence 35 days stale and flagged to the operator."
+ },
+ {
+  "ts": "2026-08-18T20:10:00+00:00",
+  "date": "2026-08-18",
+  "equity": 4727.45,
+  "cash": 449.94,
+  "n_positions": 6,
+  "positions": {
+   "PAY": {
+    "price": 38.335,
+    "shares": 23.898856
+   },
+   "TPC": {
+    "price": 91.765,
+    "shares": 9.607305
+   },
+   "QTWO": {
+    "price": 62.82,
+    "shares": 12.517358
+   },
+   "KLIC": {
+    "price": 92.12,
+    "shares": 6.358622
+   },
+   "LXU": {
+    "price": 10.23,
+    "shares": 55.078467
+   },
+   "ZVRA": {
+    "price": 11.57,
+    "shares": 47.034397
+   }
+  },
+  "spy": 767.42,
+  "mark": "close",
+  "note": "Zeus after-close tend. Book -4.10% on the day vs SPY -0.68% (-3.42pp), the worst session since the 07-10 funding. Since entry: book +8.58% vs contributed $4,353.89, SPY +2.20% from 750.935 -> +6.38pp ahead. Drawdown from peak $4,930.51 is -4.12% (breaker 40%). 6/6 HOLD, zero typed kills fired, zero new filings today."
  }
 ]
