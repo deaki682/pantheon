@@ -1342,7 +1342,11 @@ function worldSize(){ return WORLD.w ? { w:WORLD.w, h:WORLD.h } : { w:GRID_COLS*
 // comes back inside the true bounds.
 function ovClamp(S, v, min, max, span, live){
   const M=span*0.6;
-  if (v>=min && v<=max){ S.lo=S.hi=0; S.al=S.ah=0; S.pl=S.ph=0; S.acc=0; return v; }
+  // parked EXACTLY on the border still counts as pressed against it - the
+  // armed state must survive idle repaints, or the next swipe loses its
+  // break-through; only a real return INSIDE clears the slate
+  if (v>min+2 && v<max-2){ S.lo=S.hi=0; S.al=S.ah=0; S.pl=S.ph=0; S.acc=0; return v; }
+  if (v>=min && v<=max) return v;
   const eMin=min-(S.lo?M:0), eMax=max+(S.hi?M:0);
   if (v>=eMin && v<=eMax) return v;
   if (live){
