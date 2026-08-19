@@ -285,15 +285,21 @@
  },
  {
   "date": "2026-08-19",
-  "equity": 33752.98,
-  "total_return": 0.044983993658782806,
+  "equity": 33616.03,
+  "total_return": 0.040744,
   "n": 323,
   "benchmark": {
+   "SPY": 0.04268,
+   "SPY_price": 769.06
+  },
+  "note": "Zeus after-close pass ~16:15 ET Wed 2026-08-19 \u2014 the CLOSE mark, replacing the 10:25 ET INTRADAY reading for this date (append_equity_point keys one point per date, so the intraday numbers are preserved inline under `intraday_reading_1025ET` rather than as a second row). Re-marked on closes because the parent /oracle session established today that intraday marks carry a story the close revokes (TPC -5.53% -> -1.47%, LXU +5.13% -> +1.56%, opposite directions). 229/229 open symbols priced from the broker tape, ZERO missing \u2014 no survivorship substitution needed. ONE DATA CAVEAT worth carrying: PFBX quotes state='unlisted' with its last trade dated 2026-08-11, so its $22.75 is a stale previous_close, not a 08-19 print; it is one of 323 entries (~0.3% of the book) and does not move the curve, but if it stays unlisted it is the first name that will need the delisted-graded-as-a-loss survivorship rule at its horizon. 0 entries matured (grade_entries returned 0), 0 new opens (the screen has not refreshed since 2026-08-16 and skip_open=True). BOOK +4.074% vs SPY +4.268% on closes = -0.19pp. The morning's intraday reading was +4.498% vs +4.364% = +0.13pp \u2014 so the mark-time choice FLIPPED THE SIGN of the paper book's excess on a 323-name sample. Same lesson the live book learned today, at 50x the breadth: an equity curve marked at inconsistent times of day is not measuring what it claims to. The 08-18 point remains MISSING from this curve (noted in the 08-19 morning entry, unfixed).",
+  "mark": "close",
+  "ts": "2026-08-19T20:20:00+00:00",
+  "intraday_reading_1025ET": {
+   "equity": 33752.98,
+   "total_return": 0.044984,
    "SPY": 0.043641,
    "SPY_price": 769.769
-  },
-  "note": "Zeus after-close pass ~16:15 ET Wed 2026-08-19 \u2014 the CLOSE re-mark of the same day the 10:25 ET pass marked INTRADAY, run because the parent /oracle session established today that intraday marks carry a story the close revokes (TPC -5.53% -> -1.47%, LXU +5.13% -> +1.56%, opposite directions). Both points are kept: the intraday one is the record of what was known at 10:25, this one is the mark. 229/229 open symbols priced from the broker tape, ZERO missing \u2014 no survivorship substitution needed. ONE DATA CAVEAT worth carrying: PFBX quotes state='unlisted' with its last trade dated 2026-08-11, so its $22.75 is a stale previous_close, not a 08-19 print; it is one of 323 entries (~0.3% of the book) and does not move the curve, but if it stays unlisted it is the first name that will need the delisted-as-a-loss survivorship rule at its horizon. 0 entries matured (nothing due to grade \u2014 grade_entries returned 0), 0 new opens (the screen has not refreshed since 2026-08-16 and skip_open=True). Book +4.074% vs SPY +4.268% on closes = -0.19pp; the morning's intraday print read +4.498% vs +4.364% = +0.13pp, so the day's intraday-vs-close gap flipped the SIGN of the paper book's excess. That is the same lesson the live book learned today, on a 323-name sample: an equity curve marked at inconsistent times of day is not measuring what it claims to.",
-  "mark": "close",
-  "ts": "2026-08-19T20:20:00+00:00"
+  }
  }
 ]
