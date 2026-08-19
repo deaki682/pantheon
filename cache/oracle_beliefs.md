@@ -3,6 +3,121 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-08-19 CLOSE — the morning's story half-unwound by the bell, and a peer set was caught being the wrong one)
+
+Supersedes nothing below. After-close tend, Zeus hourly (Wed) — the second pass today,
+run on the closing prints because Standing Duty 1b exists, and for the second time in
+three sessions that decision changed a conclusion rather than sharpening a number.
+Reconcile CLEAN 6/6 exact vs broker, zero Oracle orders of any state (empty list since
+08-14). Equity **$4,756.52**, drawdown **3.53%** from the 08-17 peak $4,930.51, breaker
+`ok`. Book **+6.33%** on the $4,050.06 cost basis vs SPY **+2.41%** from the 07-10 entry
+= **+3.92pp excess**. Book +0.70% on the day vs SPY +0.21%, IWM +0.50%.
+
+**1. The intraday-vs-close gap is SYMMETRIC NOISE, and today proved it in both directions
+at once.** Six sessions of notes have observed the gap; today measured its sign. This
+morning's 14:20Z tend marked **TPC -5.53%** and **LXU +5.13%** and wrote a tidy story —
+"one factor, not six names: a sharp AI-capex de-rate hit exactly the two names exposed to
+it." By the bell **TPC was -1.47%** (+4.06pp recovered) and **LXU was +1.56%** (-3.57pp
+given back). One name moved toward the story, the other away, by comparable magnitudes.
+That is the cleanest available evidence that the morning mark is not *biased* in a
+direction I could correct for — it is simply noisy, and the only remedy is to refuse to
+interpret it. **The morning's story survives for KLIC and does not survive for TPC**, and
+a session that had only run at 10:20 would have carried the whole thing forward as fact.
+Duty 1b is now load-bearing on two independent axes: the EDGAR index lags (08-17), and
+intraday prices carry a narrative that the close revokes (today).
+
+**2. THE SESSION'S REAL FINDING — a peer set chosen by BUSINESS MODEL can be the wrong
+comparator, and ZVRA caught me at it.** ZVRA closed **+4.84%**. Against the
+commercial-stage small-cap pharma set I have been using (HRMY +2.88, VNDA +2.57, AMPH
++1.83, ANIP +1.55, COLL +0.95, CORT +0.82, SUPN -1.00, ETON -3.11; **median +1.25%**) it
+is **+3.59pp** and reads as a real name move. Against **XBI +5.91%** it is **-1.07pp** and
+reads as pure sector beta on a big risk-on day for biotech. **The two comparators disagree
+by 4.66pp on the same tape**, and I think XBI is the right one: my pharma set is dominated
+by profitable, low-beta specialty names, while ZVRA — down 14% from entry and moving 3–5%
+on ordinary days — trades with clinical/commercial-transition biotech beta. **The general
+rule, written against my own two prior ZVRA readings: when a name's price is driven by a
+FACTOR, a business-model peer set measures the wrong thing. Pull the factor ETF alongside
+the business peers, and where they disagree, prefer the comparator whose realized
+volatility matches the name's.** This is the first time the peer check has been shown to
+be wrong about a *set* rather than right about a *move*, and it is worth more than the
+eleven times it was right, because it bounds what the tool can do.
+
+**3. KLIC has fallen 14pp in two sessions and not one tick of it was name-specific.**
+-6.33% today into a back-end semicap/OSAT median of **-7.03%** with **10 of 10 peers DOWN**
+(AEHR -12.46, UCTT -8.40, FORM -7.60, ICHR -7.40, AMKR -7.22, COHU -6.84, ACLS -6.69, TER
+-6.09, ONTO -5.03, NVMI -1.36) — KLIC **+0.70pp better** than its own median, after being
+*at* the median on 08-18 and +0.38pp better this morning. The set's dispersion is wide
+(11.10pp), which normally weakens a median; but **10-for-10 one-directional makes it strong
+evidence about DIRECTION even where it is weak about MAGNITUDE** — a distinction worth
+keeping, and a refinement of the 08-17 dispersion caveat. KLIC is now **-21.65% from
+entry**, the book's worst position, and Stage 5 is explicit: a drawdown is never an exit,
+and a drawdown the peer check attributes entirely to the complex is not even evidence.
+The kill (`quarterly revenue < $180M`) stayed untestable again; the RE-TYPE is still owed
+to the next FULL round.
+
+**4. TPC's two-population split held a second session, in BOTH directions.** Against
+AI-capex builders (STRL -3.67, DY -2.98, MTZ -2.89, PWR -2.71, EME -2.36, PRIM +0.18;
+median **-2.80%**) TPC is **+1.33pp better**; against non-AI E&C services (J +3.16, ACM
++5.38) it is **-5.74pp worse**. Yesterday that split was a methodological correction found
+mid-session; today it reproduced, and — more usefully — it reproduced on a day when the
+two sub-cohorts moved in OPPOSITE directions, which is exactly the test that distinguishes
+a real partition from a lucky one. **TPC trades as an AI-capex builder. The combined E&C
+median is not one number, it is two populations, and using it would have been wrong by
+~5pp today.** (Same shape as finding 2, arrived at from the other side: the comparator, not
+the move, is where the error lives.)
+
+**5. PAY is the day's one genuinely idiosyncratic move, and I am recording it flat.**
++3.24% against a payments/bank-software median of **+0.92%** (only 3 of 9 down, dispersion
+9.34pp) = **+2.32pp** unexplained by sector. No filing explains it either — the only PAY
+documents in the window are the three 08-18 Form 4s already dispositioned as **code F**
+(issuer tax withholding on RSU vesting at $0, not sales). This is the third real PAY move
+the check has isolated against three it correctly subtracted. **It is logged as
+unexplained-and-favourable, NOT as thesis confirmation**: an unexplained up-move on the top
+weight is the same evidence class as an unexplained down-move, and the discipline is to
+give it the same flat treatment I would give a bad one. PAY is +37.03% from entry and
+19.88% of equity.
+
+**6. The PAY+QTWO co-movement finding survives its own counter-observation.** They moved
+1.31pp apart today (+3.24 / +1.93) after moving 2.4pp apart on 08-17 — so the 08-17
+divergence, which I flagged at the time as "one session is not a refutation," reads as the
+artifact and the 08-13 co-movement stands. Cluster **36.73%** of equity against a 40% cap
+that **cannot bind** because both dossiers carry `sector=''`. Still the top pre-condition
+of the next FULL round; still deliberately NOT hand-patched.
+
+**7. Filings: six documents in the window, zero new, zero testable.** Per Duty 1a the sweep
+used `filing_date >= 2026-08-16` and re-dispositioned everything: KLIC 8-K (items
+5.02/7.01/9.01) + the Talluri Form 3, PAY ×3 Form 4 (code F), ZVRA Form 4 (CLO Thompson's
+10b5-1 execution). Nothing arrived after the morning pass — the lag that bit on 08-17 did
+not bite today, which is what a *window* sweep is for. **The Form 3 was read in full for
+the first time** rather than trusted from its one-line 08-18 summary: **Director box only**
+(Officer unchecked, consistent with the 09-01 CEO effective date), **Tables I and II
+EMPTY** — Talluri beneficially owned **zero** KLIC securities on the day he joined the
+board. That is neither bullish nor bearish. **Pre-registered before the answer: the
+informative document is his FIRST FORM 4 — the new-hire equity grant — and its size and
+structure are the board's own read on how much turnaround work they think they bought.**
+
+**8. Kills restated, all unfired, NONE testable today** (no financials filing on any of the
+six): TPC "2 consec GAAP loss quarters" (counter 0); KLIC "quarterly revenue < $180M"
+(RE-TYPE owed, Duty 0b); PAY "YoY rev growth < 15%"; QTWO "GAAP net loss relapse or growth
+< 10%"; ZVRA "2 consec flat/declining product-rev quarters" (counter 0); LXU conjunction
+(clause (b) corroborated as moving away, 08-17). Drawdowns **HELD** per Stage 5: KLIC
+-21.65%, ZVRA -14.00%, LXU -5.20%. The TPC Feltenstein watch is **UNPROMOTED** — no third
+insider disposition, no Civil West 8-K, exactly the "quiet month buries it" branch of the
+08-17 pre-registration.
+
+**9. Still zero graded, and +3.92pp is still not a result.** `due_for_grade(2026-08-19)
+== []`, `llm_lift` `lift_trustworthy=False` (34 Arm-B / 31 Arm-A unresolved),
+`update_calibration` a no-op at n<5. First grades land ~2027-10. **Excess-vs-SPY is a mark;
+LLM-lift is the score.** Written flat on a good day, as it was on the bad ones.
+
+**10. Sourcing: still a conscious no-op, unchanged reasoning.** The 3-day research clock has
+read due since 07-14 (36 days). The book sits at the spec ceiling of 6 concentrated names
+with $449.94 (9.46%) cash; a Stage 0–4 cascade has nowhere to put a 7th name without
+breaking the concentration mandate, and the 07-10 pipeline (73 fundables) is the fallback if
+a kill frees capital. Journaled as a deliberate no-op, not an oversight, and flagged to the
+operator.
+
+
 ## Worldview (2026-08-17 CLOSE — three documents arrived, none of them a kill, and the day's real work was reading them)
 
 Supersedes nothing below. After-close tend, Zeus hourly (Mon), the second pass today —
@@ -1218,6 +1333,24 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    DOWN, median -2.24%, dispersion 3.77pp, PAY -0.60pp off it → sector, not the
    name. **A top-three weight moving oddly earns the set regardless of magnitude.**
    One quote call is cheaper than one wrong story.
+   **AMENDED 2026-08-19 — check the FACTOR ETF alongside the business peers, and
+   when they disagree prefer the comparator whose realized volatility matches the
+   name's.** ZVRA closed +4.84%: **+3.59pp** vs a commercial-pharma peer median of
+   +1.25% (a real name move) but **-1.07pp** vs XBI +5.91% (pure sector beta). The
+   two disagree by 4.66pp on the same tape, and XBI is right — the pharma set is
+   profitable low-beta specialty names, while ZVRA trades with clinical/commercial-
+   transition biotech beta. **A peer set chosen by BUSINESS MODEL measures the wrong
+   thing when the name's price is driven by a FACTOR.** First time the check was
+   wrong about a *set* rather than right about a *move*; it bounds what the tool can
+   do. Corollary from TPC the same day, arrived at from the other side: a set that
+   splits into two populations moving in OPPOSITE directions (AI-capex builders
+   -2.80% median vs non-AI E&C J/ACM +3.16/+5.38) makes the combined median wrong by
+   ~5pp. **The comparator, not the move, is where the error lives.**
+   **AMENDED 2026-08-19 (dispersion) — a WIDE set can still be strong evidence about
+   DIRECTION.** KLIC's semicap set had 11.10pp dispersion (normally weak) but was
+   **10 of 10 DOWN**; one-directional unanimity licenses the directional conclusion
+   even where the magnitude is unreliable. Refines the 08-17 dispersion caveat rather
+   than replacing it.
 2. **At each held name's print: test the kill VERBATIM on the FILING, never on the
    after-hours reaction.** Tonight proved why. LXU's −$0.55 EPS "miss" and its
    flat, wide-spread after-hours quote (bid 9.88 / ask 13.02) carried almost no
