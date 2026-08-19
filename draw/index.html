@@ -67,6 +67,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   border:none;background:none;color:#fff;font-size:15px;line-height:1;
   text-shadow:0 0 4px rgba(0,0,0,0.9)}
 .gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+.gstat{font-size:10px;opacity:.7;text-align:center;padding:3px 2px 4px;
+  color:#e8e6e1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gbar{position:absolute;left:0;right:0;bottom:0;height:4px;
   background:rgba(20,20,20,0.55);visibility:hidden}
 .gitem.busy .gbar{visibility:visible}
@@ -560,6 +562,24 @@ async function renderGallery(){
       $('delModal').style.display='flex';
     };
     d.appendChild(im); d.appendChild(bar); d.appendChild(xb);
+    {
+      let line='';
+      try{ line=fmtTime(+localStorage.getItem('time|'+r.id)||0); }catch(e){}
+      try{
+        const dn=JSON.parse(localStorage.getItem('done|'+r.id)||'[]');
+        const tot=+(localStorage.getItem('gtot|'+r.id)||0);
+        if (Array.isArray(dn) && dn.length && tot>0){
+          const pct=100*dn.length/tot;
+          line+=(line?' \u00b7 ':'')
+               +(pct<1?'<1':Math.min(100,Math.round(pct)))+'%';
+        }
+      }catch(e){}
+      if (line){
+        const st=document.createElement('div');
+        st.className='gstat'; st.textContent=line;
+        d.appendChild(st);
+      }
+    }
     d.onclick = () => {
       if (PREP.active) return;                // still cooking: not yet usable
       if (galLoading != null) {               // a decode is in flight
@@ -580,6 +600,26 @@ async function renderGallery(){
            || kids[Math.floor((kids.length-1)/2)];
     if (t) host.scrollLeft = t.offsetLeft - (host.clientWidth - t.offsetWidth)/2;
   });
+}
+
+// time on the drawing and comparison screens accrues to the open
+// reference; gaps (background, sleep) never count because a tick longer
+// than the interval is discarded
+let TT_LAST=Date.now();
+setInterval(()=>{
+  const now=Date.now(), dt=now-TT_LAST; TT_LAST=now;
+  if (dt>11000 || document.hidden || galActive==null) return;
+  if (!$('scrMain').classList.contains('on')
+      && !$('scrCompare').classList.contains('on')) return;
+  try{ localStorage.setItem('time|'+galActive,
+    ''+((+localStorage.getItem('time|'+galActive)||0)+dt/1000)); }catch(e){}
+}, 5000);
+document.addEventListener('visibilitychange', ()=>{ TT_LAST=Date.now(); });
+function fmtTime(sec){
+  const m=Math.floor(sec/60);
+  if (m<1) return '';
+  if (m<60) return m+'m';
+  return Math.floor(m/60)+'h '+(m%60)+'m';
 }
 
 let GRID_READY = false;                        // true once initMain has run
@@ -1295,9 +1335,32 @@ let calRefresh=()=>{};
 
 
 function worldSize(){ return WORLD.w ? { w:WORLD.w, h:WORLD.h } : { w:GRID_COLS*CELL, h:GRID_ROWS*CELL }; }
+// Over-drag: the view halts at the border exactly like it halts at max
+// zoom - and a deliberate continued pull (about 12% of the screen) breaks
+// through, letting the paper ride off the edge so a border square can sit
+// mid-screen. Slack is per axis-side and clears itself the moment the view
+// comes back inside the true bounds.
+function ovClamp(S, v, min, max, span, live){
+  const M=span*0.6;
+  const eMin=min-(S.lo?M:0), eMax=max+(S.hi?M:0);
+  if (v>=min && v<=max){ S.lo=S.hi=0; S.acc=0; return v; }
+  if (v>=eMin && v<=eMax) return v;
+  if (live){
+    S.acc+=(v<eMin ? eMin-v : v-eMax);
+    if (S.acc>span*0.12){
+      if (v<eMin) S.lo=1; else S.hi=1;
+      S.acc=0;
+      try{ haptic(); }catch(e){}
+      return Math.max(min-(S.lo?M:0), Math.min(max+(S.hi?M:0), v));
+    }
+  }
+  return Math.max(eMin, Math.min(eMax, v));
+}
+const PANS={x:{lo:0,hi:0,acc:0}, y:{lo:0,hi:0,acc:0}};
+let PAN_LIVE=false;
 function clampView(){
   // the reference stays locked to the viewport: no zooming out past fit,
-  // no panning a margin into view
+  // no panning a margin into view (short of a deliberate break-through)
   const {w,h} = worldSize();
   const r = $('viewport').getBoundingClientRect();
   if (!w || !h || !r.width || !r.height) return;
@@ -1306,8 +1369,12 @@ function clampView(){
   // the browser's 96px "inch" to the actual glass; fit wins on tiny grids)
   view.s = Math.max(fit, Math.min(Math.max(fit, INCAL*lifeScale()*8), view.s));
   const W = w*view.s, H = h*view.s;
-  view.x = W <= r.width  ? (r.width  - W)/2 : Math.max(r.width  - W, Math.min(0, view.x));
-  view.y = H <= r.height ? (r.height - H)/2 : Math.max(r.height - H, Math.min(0, view.y));
+  const minX = W<=r.width  ? (r.width -W)/2 : r.width -W;
+  const maxX = W<=r.width  ? (r.width -W)/2 : 0;
+  const minY = H<=r.height ? (r.height-H)/2 : r.height-H;
+  const maxY = H<=r.height ? (r.height-H)/2 : 0;
+  view.x = ovClamp(PANS.x, view.x, minX, maxX, r.width,  PAN_LIVE);
+  view.y = ovClamp(PANS.y, view.y, minY, maxY, r.height, PAN_LIVE);
 }
 function zBounds(){
   // the same limits clampView enforces, for use BEFORE computing a
@@ -1351,9 +1418,11 @@ function doneLoad(){
   try{ DONE=JSON.parse(localStorage.getItem('done|'+galActive)||'[]'); }
   catch(e){ DONE=[]; }
   if (!Array.isArray(DONE)) DONE=[];
+  try{ localStorage.setItem('gtot|'+galActive, ''+(GRID_COLS*GRID_ROWS)); }catch(e){}
 }
 function doneSave(){
   try{ localStorage.setItem('done|'+galActive, JSON.stringify(DONE)); }catch(e){}
+  try{ localStorage.setItem('gtot|'+galActive, ''+(GRID_COLS*GRID_ROWS)); }catch(e){}
 }
 function doneCenter(q, step, w, h){
   // centre of the square; edge squares can be partial, so centre the REAL bit
@@ -1504,7 +1573,7 @@ vp.addEventListener('pointermove', e => {
       if (cdPend && Math.hypot(e.clientX-cdPend.x0, e.clientY-cdPend.y0)>8){
         clearTimeout(cdT); cdPend=null;
       }
-      view.x+=dx; view.y+=dy; applyView();
+      PAN_LIVE=true; view.x+=dx; view.y+=dy; applyView(); PAN_LIVE=false;
     }
   }
   p.x=e.clientX; p.y=e.clientY;
@@ -2972,13 +3041,20 @@ function cmpRender(){
 }
 const SPL={x:0,y:0,s:1};
 const FLP={x:0,y:0,s:1};          // flip-view zoom/pan
+const FPANS={x:{lo:0,hi:0,acc:0}, y:{lo:0,hi:0,acc:0}};
+const SPANS={x:{lo:0,hi:0,acc:0}, y:{lo:0,hi:0,acc:0}};
+let CPAN_LIVE=false;
 function clampFlip(){
   const cv=$('cmpCv'), f=CMP.fit; if (!f) return;
   FLP.s=Math.max(1, Math.min(16, FLP.s));
   const X0=FLP.x+f.x*FLP.s, Y0=FLP.y+f.y*FLP.s;
   const Wd=f.w*f.s*FLP.s, Hd=f.h*f.s*FLP.s;
-  const nx = Wd<=cv.width  ? (cv.width -Wd)/2 : Math.max(cv.width -Wd, Math.min(0, X0));
-  const ny = Hd<=cv.height ? (cv.height-Hd)/2 : Math.max(cv.height-Hd, Math.min(0, Y0));
+  const minX = Wd<=cv.width  ? (cv.width -Wd)/2 : cv.width -Wd;
+  const maxX = Wd<=cv.width  ? (cv.width -Wd)/2 : 0;
+  const minY = Hd<=cv.height ? (cv.height-Hd)/2 : cv.height-Hd;
+  const maxY = Hd<=cv.height ? (cv.height-Hd)/2 : 0;
+  const nx = ovClamp(FPANS.x, X0, minX, maxX, cv.width,  CPAN_LIVE);
+  const ny = ovClamp(FPANS.y, Y0, minY, maxY, cv.height, CPAN_LIVE);
   FLP.x = nx - f.x*FLP.s; FLP.y = ny - f.y*FLP.s;
 }
 function clampSplit(){
@@ -2988,8 +3064,10 @@ function clampSplit(){
   SPL.s=Math.max(1, Math.min(16, SPL.s));
   const W=w*bs*SPL.s, H=h*bs*SPL.s;
   let X0=SPL.x+bx*SPL.s, Y0=SPL.y+by*SPL.s;
-  X0 = W<=pw ? (pw-W)/2 : Math.max(pw-W, Math.min(0,X0));
-  Y0 = H<=ph ? (ph-H)/2 : Math.max(ph-H, Math.min(0,Y0));
+  const minX = W<=pw ? (pw-W)/2 : pw-W, maxX = W<=pw ? (pw-W)/2 : 0;
+  const minY = H<=ph ? (ph-H)/2 : ph-H, maxY = H<=ph ? (ph-H)/2 : 0;
+  X0 = ovClamp(SPANS.x, X0, minX, maxX, pw, CPAN_LIVE);
+  Y0 = ovClamp(SPANS.y, Y0, minY, maxY, ph, CPAN_LIVE);
   SPL.x=X0-bx*SPL.s; SPL.y=Y0-by*SPL.s;
 }
 function cmpGuessCorners(src){
@@ -3832,7 +3910,8 @@ $('cmpSplit').onclick = () => {
     }
     if (CMP.mode==='flip' && CMP.img && !CAM.stream){
       if (pts.size===1){
-        if (FLP.s>1.001){ FLP.x+=dx*kd; FLP.y+=dy*kd; clampFlip(); cmpRender(); }
+        if (FLP.s>1.001){ CPAN_LIVE=true; FLP.x+=dx*kd; FLP.y+=dy*kd;
+          clampFlip(); CPAN_LIVE=false; cmpRender(); }
       } else if (pts.size===2 && g0){
         const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
         const dd=Math.hypot(a.x-b.x,a.y-b.y);
@@ -3849,7 +3928,8 @@ $('cmpSplit').onclick = () => {
       // one shared view: a gesture on either pane moves both together
       const pw=cv.width/2;
       if (pts.size===1){
-        SPL.x+=dx*kd; SPL.y+=dy*kd; clampSplit(); cmpRender();
+        CPAN_LIVE=true; SPL.x+=dx*kd; SPL.y+=dy*kd;
+        clampSplit(); CPAN_LIVE=false; cmpRender();
       } else if (pts.size===2 && g0){
         const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
         const d=Math.hypot(a.x-b.x,a.y-b.y);
