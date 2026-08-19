@@ -103,9 +103,10 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #camGhost{position:absolute;left:0;top:0;pointer-events:none}
 /* inside the Android app the live preview renders BEHIND the page; while the
    camera is up the page clears its own paint so the preview shows through */
-body.natCam, body.natCam .screen, body.natCam #cmpView{background:transparent !important}
-body.natCam #cmpCv{visibility:hidden}
-body.natCam #camVid{display:none !important}
+html.natCam, html.natCam body, html.natCam .screen, html.natCam #cmpView{
+  background:transparent !important}
+html.natCam #cmpCv{visibility:hidden}
+html.natCam #camVid{display:none !important}
 #capNote{position:absolute;left:50%;transform:translateX(-50%);
   bottom:calc(110px + env(safe-area-inset-bottom));z-index:9;display:none;
   background:rgba(12,12,12,0.78);color:#fff;border-radius:999px;
@@ -3427,6 +3428,9 @@ function capNote(txt){
 // full photo-pipeline JPEG back. Every entry point is guarded by
 // window.RealismCam, so the web build never changes behaviour.
 function natChrome(on){
+  // the ROOT element paints the page's #141414 - it must clear too, or the
+  // native preview behind the WebView can never show through
+  document.documentElement.classList.toggle('natCam', on);
   document.body.classList.toggle('natCam', on);
 }
 function natStart(){

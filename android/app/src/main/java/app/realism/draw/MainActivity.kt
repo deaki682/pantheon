@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.util.Base64
 import android.view.Surface
 import android.webkit.JavascriptInterface
+import android.net.Uri
 import android.webkit.PermissionRequest
+import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
@@ -58,8 +60,23 @@ class MainActivity : AppCompatActivity() {
     private val askCamera = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        if (granted) pendingStart?.run() else js("window.__natFail && __natFail('denied')")
+        if (granted) pendingStart?.run() else {
+            report("camera permission denied")
+            js("window.__natFail && __natFail('denied')")
+        }
         pendingStart = null
+    }
+
+    // <input type=file> does NOTHING in a WebView unless the host runs the
+    // chooser itself - the classic gotcha, and the reference picker's whole
+    // upload path depends on it
+    private var fileCb: ValueCallback<Array<Uri>>? = null
+    private val pickFile = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { res ->
+        fileCb?.onReceiveValue(
+            WebChromeClient.FileChooserParams.parseResult(res.resultCode, res.data))
+        fileCb = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,6 +130,14 @@ class MainActivity : AppCompatActivity() {
                 if (m.messageLevel() == android.webkit.ConsoleMessage.MessageLevel.ERROR)
                     report("js: ${'$'}{m.message()} (${'$'}{m.sourceId()}:${'$'}{m.lineNumber()})")
                 return true
+            }
+            override fun onShowFileChooser(view: WebView,
+                cb: ValueCallback<Array<Uri>>,
+                params: WebChromeClient.FileChooserParams): Boolean {
+                fileCb?.onReceiveValue(null)
+                fileCb = cb
+                return try { pickFile.launch(params.createIntent()); true }
+                catch (e: Exception) { fileCb = null; report("file chooser: ${'$'}{e.message}"); false }
             }
             // the page's own getUserMedia fallback still works inside the app
             override fun onPermissionRequest(request: PermissionRequest) {
@@ -202,6 +227,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 report()
             } catch (e: Exception) {
+                report("camera open failed: ${'$'}{e.message}")
                 js("window.__natFail && __natFail('open')")
             }
         }, ContextCompat.getMainExecutor(this))
