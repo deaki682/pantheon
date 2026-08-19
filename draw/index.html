@@ -67,8 +67,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   border:none;background:none;color:#fff;font-size:15px;line-height:1;
   text-shadow:0 0 4px rgba(0,0,0,0.9)}
 .gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
-.gstat{font-size:10px;opacity:.7;text-align:center;padding:3px 2px 4px;
-  color:#e8e6e1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gstat{font-size:12px;color:var(--acc);text-align:center;
+  padding:3px 2px 4px;line-height:1.3}
 .gbar{position:absolute;left:0;right:0;bottom:0;height:4px;
   background:rgba(20,20,20,0.55);visibility:hidden}
 .gitem.busy .gbar{visibility:visible}
@@ -570,7 +570,7 @@ async function renderGallery(){
         const tot=+(localStorage.getItem('gtot|'+r.id)||0);
         if (Array.isArray(dn) && dn.length && tot>0){
           const pct=100*dn.length/tot;
-          line+=(line?' \u00b7 ':'')
+          line+=(line?' \u00b7 ':'')+dn.length+'/'+tot+' \u00b7 '
                +(pct<1?'<1':Math.min(100,Math.round(pct)))+'%';
         }
       }catch(e){}
@@ -1342,21 +1342,34 @@ function worldSize(){ return WORLD.w ? { w:WORLD.w, h:WORLD.h } : { w:GRID_COLS*
 // comes back inside the true bounds.
 function ovClamp(S, v, min, max, span, live){
   const M=span*0.6;
+  if (v>=min && v<=max){ S.lo=S.hi=0; S.al=S.ah=0; S.pl=S.ph=0; S.acc=0; return v; }
   const eMin=min-(S.lo?M:0), eMax=max+(S.hi?M:0);
-  if (v>=min && v<=max){ S.lo=S.hi=0; S.acc=0; return v; }
   if (v>=eMin && v<=eMax) return v;
   if (live){
+    // a border armed by the PREVIOUS stroke opens to a fresh pull; the
+    // stroke that armed it only ever halts - passing through takes a
+    // deliberate lift-and-swipe-again
+    if (v<eMin && S.al){ S.al=0; S.lo=1; try{ haptic(); }catch(e){}
+      return Math.max(min-M, v); }
+    if (v>eMax && S.ah){ S.ah=0; S.hi=1; try{ haptic(); }catch(e){}
+      return Math.min(max+M, v); }
     S.acc+=(v<eMin ? eMin-v : v-eMax);
-    if (S.acc>span*0.12){
-      if (v<eMin) S.lo=1; else S.hi=1;
-      S.acc=0;
+    if (S.acc>span*0.12 && !(v<eMin?S.pl:S.ph)){
+      if (v<eMin) S.pl=1; else S.ph=1;       // armed for the next stroke
       try{ haptic(); }catch(e){}
-      return Math.max(min-(S.lo?M:0), Math.min(max+(S.hi?M:0), v));
     }
   }
   return Math.max(eMin, Math.min(eMax, v));
 }
-const PANS={x:{lo:0,hi:0,acc:0}, y:{lo:0,hi:0,acc:0}};
+const ovState=()=>({lo:0,hi:0,acc:0,pl:0,ph:0,al:0,ah:0});
+function ovRelease(P){
+  for (const k of ['x','y']){ const t=P[k];
+    if (t.pl) t.al=1;
+    if (t.ph) t.ah=1;
+    t.pl=t.ph=0; t.acc=0;
+  }
+}
+const PANS={x:ovState(), y:ovState()};
 let PAN_LIVE=false;
 function clampView(){
   // the reference stays locked to the viewport: no zooming out past fit,
@@ -1598,6 +1611,7 @@ vp.addEventListener('pointermove', e => {
 });
 function endPtr(e){
   ptrs.delete(e.pointerId);
+  if (ptrs.size===0) ovRelease(PANS);
   if (ptrs.size<2) pinch0=null;
   clearTimeout(cdT); cdPend=null;
   if (CDRAG && ptrs.size===0){ circsSave(); CDRAG=null; }
@@ -3041,8 +3055,8 @@ function cmpRender(){
 }
 const SPL={x:0,y:0,s:1};
 const FLP={x:0,y:0,s:1};          // flip-view zoom/pan
-const FPANS={x:{lo:0,hi:0,acc:0}, y:{lo:0,hi:0,acc:0}};
-const SPANS={x:{lo:0,hi:0,acc:0}, y:{lo:0,hi:0,acc:0}};
+const FPANS={x:ovState(), y:ovState()};
+const SPANS={x:ovState(), y:ovState()};
 let CPAN_LIVE=false;
 function clampFlip(){
   const cv=$('cmpCv'), f=CMP.fit; if (!f) return;
@@ -3916,7 +3930,9 @@ $('cmpSplit').onclick = () => {
         const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
         const dd=Math.hypot(a.x-b.x,a.y-b.y);
         const mx=((a.x+b.x)/2-r.left)*kd, my=((a.y+b.y)/2-r.top)*kd;
-        const k=Math.max(1,Math.min(16,g0.flp.s*dd/g0.d))/g0.flp.s;
+        const sRaw=g0.flp.s*dd/g0.d, sCl=Math.max(1,Math.min(16,sRaw));
+        if (sCl!==sRaw && !g0.zh){ g0.zh=1; try{ haptic(); }catch(e){} }
+        const k=sCl/g0.flp.s;
         FLP.s=g0.flp.s*k;
         FLP.x=mx-(g0.mx-g0.flp.x)*k;
         FLP.y=my-(g0.my-g0.flp.y)*k;
@@ -3935,7 +3951,9 @@ $('cmpSplit').onclick = () => {
         const d=Math.hypot(a.x-b.x,a.y-b.y);
         const mx=((a.x+b.x)/2-r.left)*kd, my=((a.y+b.y)/2-r.top)*kd;
         const paneOff=g0.mx>=pw ? pw : 0;
-        const k=Math.max(1,Math.min(16,g0.spl.s*d/g0.d))/g0.spl.s;
+        const sRaw=g0.spl.s*d/g0.d, sCl=Math.max(1,Math.min(16,sRaw));
+        if (sCl!==sRaw && !g0.zh){ g0.zh=1; try{ haptic(); }catch(e){} }
+        const k=sCl/g0.spl.s;
         SPL.s=g0.spl.s*k;
         SPL.x=(mx-paneOff)-((g0.mx-paneOff)-g0.spl.x)*k;
         SPL.y=my-(g0.my-g0.spl.y)*k;
@@ -3946,6 +3964,7 @@ $('cmpSplit').onclick = () => {
   });
   const up=e=>{
     pts.delete(e.pointerId);
+    if (pts.size===0){ ovRelease(FPANS); ovRelease(SPANS); }
     if (pts.size<2) g0=null;
     if (pts.size===0) CMP.cGrab=null;
     clearTimeout(cT); cPend=null;
