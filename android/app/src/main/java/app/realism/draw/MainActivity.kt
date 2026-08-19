@@ -188,6 +188,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // capture-quality ladder, per device, self-healing: a rung is marked
+    // 'attempting' in prefs before it binds and cleared once the preview
+    // reports ready - if the process died mid-attempt (vendor HAL crash),
+    // the next launch demotes past that rung instead of crashing forever.
+    private val RUNG_RAW = 2; private val RUNG_EXT = 1; private val RUNG_PLAIN = 0
+
     private fun openCamera(x: Int, y: Int, w: Int, h: Int) {
         web.setBackgroundColor(Color.TRANSPARENT)
         val lp = FrameLayout.LayoutParams(w, h)
@@ -196,71 +202,105 @@ class MainActivity : AppCompatActivity() {
         previewView.visibility = android.view.View.VISIBLE
         val fut = ProcessCameraProvider.getInstance(this)
         fut.addListener({
-            try {
-                val prov = fut.get(); provider = prov
-                // capture-quality ladder, decided per device, no settings:
-                // 1. RAW alongside JPEG - true sensor bits for the edit sliders
-                // 2. the vendor's own HDR/AUTO extension - the camera app's magic
-                // 3. plain maximize-quality JPEG
+            val prov = try { fut.get() } catch (e: Exception) {
+                report("camera provider: ${e.message}")
+                js("window.__natFail && __natFail('open')"); return@addListener
+            }
+            provider = prov
+            // decide the rung OFF the main thread: extensions init blocks,
+            // and blocking main here was an ANR-crash at camera open
+            Thread {
+                val prefs = getSharedPreferences("cam", 0)
+                val crashed = prefs.getInt("attempting", -1)
+                if (crashed >= 0) {
+                    prefs.edit().putInt("ceiling", crashed - 1).remove("attempting").apply()
+                    report("previous ${'"'}${rungName(crashed)}${'"'} attempt died - demoting")
+                }
+                val ceiling = prefs.getInt("ceiling", RUNG_RAW)
+                var rung = RUNG_PLAIN
                 var selector = CameraSelector.DEFAULT_BACK_CAMERA
-                capLabel = ""; rawMode = false
-                val stillB = ImageCapture.Builder()
-                    .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
-                    .setResolutionSelector(ResolutionSelector.Builder()
-                        .setAspectRatioStrategy(AspectRatioStrategy.RATIO_4_3_FALLBACK_AUTO_STRATEGY)
-                        .setResolutionStrategy(ResolutionStrategy.HIGHEST_AVAILABLE_STRATEGY)
-                        .build())
-                    .setTargetRotation(Surface.ROTATION_0)
-                try {
-                    val info = prov.getCameraInfo(selector)
-                    val caps = ImageCapture.getImageCaptureCapabilities(info)
-                    if (caps.supportedOutputFormats.contains(ImageCapture.OUTPUT_FORMAT_RAW_JPEG)) {
-                        stillB.setOutputFormat(ImageCapture.OUTPUT_FORMAT_RAW_JPEG)
-                        rawMode = true; capLabel = "raw"
-                    }
-                } catch (e: Throwable) { rawMode = false; capLabel = "" }
-                if (!rawMode) try {
+                if (ceiling >= RUNG_RAW) try {
+                    val caps = ImageCapture.getImageCaptureCapabilities(
+                        prov.getCameraInfo(CameraSelector.DEFAULT_BACK_CAMERA))
+                    if (caps.supportedOutputFormats.contains(ImageCapture.OUTPUT_FORMAT_RAW_JPEG))
+                        rung = RUNG_RAW
+                } catch (e: Throwable) {}
+                if (rung == RUNG_PLAIN && ceiling >= RUNG_EXT) try {
                     val em = ExtensionsManager.getInstanceAsync(this, prov).get()
-                    for ((mode, name) in listOf(ExtensionMode.AUTO to "auto",
-                                                ExtensionMode.HDR to "hdr")) {
+                    for (mode in intArrayOf(ExtensionMode.AUTO, ExtensionMode.HDR)) {
                         if (em.isExtensionAvailable(CameraSelector.DEFAULT_BACK_CAMERA, mode)) {
                             selector = em.getExtensionEnabledCameraSelector(
                                 CameraSelector.DEFAULT_BACK_CAMERA, mode)
-                            capLabel = name
+                            rung = RUNG_EXT
                             break
                         }
                     }
                 } catch (e: Throwable) {}
-                val fourThree = ResolutionSelector.Builder()
+                runOnUiThread { bindRung(rung, selector, prefs) }
+            }.apply { isDaemon = true }.start()
+        }, ContextCompat.getMainExecutor(this))
+    }
+
+    private fun rungName(r: Int) = when (r) { 2 -> "raw"; 1 -> "hdr"; else -> "" }
+
+    private fun bindRung(rung: Int, selector: CameraSelector,
+                         prefs: android.content.SharedPreferences) {
+        val prov = provider ?: return
+        prefs.edit().putInt("attempting", rung).apply()
+        rawMode = rung == RUNG_RAW
+        capLabel = rungName(rung)
+        try {
+            val stillB = ImageCapture.Builder()
+                .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
+                .setResolutionSelector(ResolutionSelector.Builder()
                     .setAspectRatioStrategy(AspectRatioStrategy.RATIO_4_3_FALLBACK_AUTO_STRATEGY)
-                    .build()
-                val preview = Preview.Builder()
-                    .setResolutionSelector(fourThree)
-                    .setTargetRotation(Surface.ROTATION_0)
-                    .build()
-                val still = stillB.build()
-                imageCapture = still
-                prov.unbindAll()
-                camera = prov.bindToLifecycle(this, selector, preview, still)
-                preview.setSurfaceProvider(previewView.surfaceProvider)
-                // report the display-oriented frame size once it is known
-                var tries = 0
-                fun report() {
-                    val ri = preview.resolutionInfo
-                    if (ri != null) {
-                        val rot = ri.rotationDegrees
-                        val fw = if (rot % 180 == 0) ri.resolution.width else ri.resolution.height
-                        val fh = if (rot % 180 == 0) ri.resolution.height else ri.resolution.width
-                        js("window.__natReady && __natReady($fw,$fh)")
-                    } else if (tries++ < 40) previewView.postDelayed({ report() }, 50)
-                    else js("window.__natFail && __natFail('nores')")
+                    .setResolutionStrategy(ResolutionStrategy.HIGHEST_AVAILABLE_STRATEGY)
+                    .build())
+                .setTargetRotation(Surface.ROTATION_0)
+            if (rawMode) stillB.setOutputFormat(ImageCapture.OUTPUT_FORMAT_RAW_JPEG)
+            val preview = Preview.Builder()
+                .setResolutionSelector(ResolutionSelector.Builder()
+                    .setAspectRatioStrategy(AspectRatioStrategy.RATIO_4_3_FALLBACK_AUTO_STRATEGY)
+                    .build())
+                .setTargetRotation(Surface.ROTATION_0)
+                .build()
+            val still = stillB.build()
+            imageCapture = still
+            prov.unbindAll()
+            camera = prov.bindToLifecycle(this,
+                if (rung == RUNG_EXT) selector else CameraSelector.DEFAULT_BACK_CAMERA,
+                preview, still)
+            preview.setSurfaceProvider(previewView.surfaceProvider)
+            var tries = 0
+            fun reportSize() {
+                val ri = preview.resolutionInfo
+                if (ri != null) {
+                    // the app is portrait-locked: the display-oriented frame is
+                    // ALWAYS taller than wide, whatever the rotation metadata
+                    // claims - this is what kept the ghost inside the viewfinder
+                    val fw = minOf(ri.resolution.width, ri.resolution.height)
+                    val fh = maxOf(ri.resolution.width, ri.resolution.height)
+                    prefs.edit().remove("attempting").apply()
+                    js("window.__natReady && __natReady($fw,$fh)")
+                } else if (tries++ < 40) previewView.postDelayed({ reportSize() }, 50)
+                else {
+                    prefs.edit().remove("attempting").apply()
+                    js("window.__natFail && __natFail('nores')")
                 }
-                report()
-            } catch (e: Exception) {
+            }
+            reportSize()
+        } catch (e: Throwable) {
+            prefs.edit().remove("attempting").apply()
+            if (rung > RUNG_PLAIN) {
+                // the extension selector only exists on the decision thread,
+                // so any in-process failure demotes straight to plain
+                report("${rungName(rung)} bind failed (${e.message}) - plain capture")
+                bindRung(RUNG_PLAIN, CameraSelector.DEFAULT_BACK_CAMERA, prefs)
+            } else {
                 report("camera open failed: ${e.message}")
                 js("window.__natFail && __natFail('open')")
             }
-        }, ContextCompat.getMainExecutor(this))
+        }
     }
 
     private fun takeStill() {
