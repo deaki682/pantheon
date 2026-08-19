@@ -101,6 +101,11 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #camVid{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
   display:none;background:#000}
 #camGhost{position:absolute;left:0;top:0;pointer-events:none}
+/* inside the Android app the live preview renders BEHIND the page; while the
+   camera is up the page clears its own paint so the preview shows through */
+body.natCam, body.natCam .screen, body.natCam #cmpView{background:transparent !important}
+body.natCam #cmpCv{visibility:hidden}
+body.natCam #camVid{display:none !important}
 #capNote{position:absolute;left:50%;transform:translateX(-50%);
   bottom:calc(110px + env(safe-area-inset-bottom));z-index:9;display:none;
   background:rgba(12,12,12,0.78);color:#fff;border-radius:999px;
@@ -3321,9 +3326,10 @@ function camGhost(){
   }
   const g=gc.getContext('2d');
   g.clearRect(0,0,gc.width,gc.height);
-  if (!CAM.stream || !v.videoWidth){ CAM.ghost=null; return; }
-  const vs=Math.min(gc.width/v.videoWidth, gc.height/v.videoHeight);
-  const vw=v.videoWidth*vs, vh=v.videoHeight*vs;
+  const fw0=CAM.nat?CAM.nat.w:v.videoWidth, fh0=CAM.nat?CAM.nat.h:v.videoHeight;
+  if ((!CAM.stream && !CAM.nat) || !fw0){ CAM.ghost=null; return; }
+  const vs=Math.min(gc.width/fw0, gc.height/fh0);
+  const vw=fw0*vs, vh=fh0*vs;
   const vx=(gc.width-vw)/2, vy=(gc.height-vh)/2;
   const {w,h}=worldSize();
   const M=0.86;                                   // breathing room to frame it up
@@ -3339,6 +3345,7 @@ function camGhost(){
   CAM.ghost={vx,vy,vs,gx,gy,gw,gh};
 }
 async function camStart(){
+  if (window.RealismCam) return natStart();
   try{
     const st=await navigator.mediaDevices.getUserMedia({
       video:{ facingMode:{ideal:'environment'},
@@ -3392,15 +3399,17 @@ function camFocus(nx, ny){
   }, 1600);
 }
 $('camGhost').addEventListener('pointerdown', e=>{
-  if (!CAM.stream) return;
+  if (!CAM.stream && !CAM.nat) return;
   const v=$('camVid'), r=$('cmpView').getBoundingClientRect();
-  if (!v.videoWidth) return;
-  const vs=Math.min(r.width/v.videoWidth, r.height/v.videoHeight);
-  const vw=v.videoWidth*vs, vh=v.videoHeight*vs;
+  const fw0=CAM.nat?CAM.nat.w:v.videoWidth, fh0=CAM.nat?CAM.nat.h:v.videoHeight;
+  if (!fw0) return;
+  const vs=Math.min(r.width/fw0, r.height/fh0);
+  const vw=fw0*vs, vh=fh0*vs;
   const vx=(r.width-vw)/2, vy=(r.height-vh)/2;
   const nx=(e.clientX-r.left-vx)/vw, ny=(e.clientY-r.top-vy)/vh;
   if (nx<0||ny<0||nx>1||ny>1) return;
-  camFocus(nx, ny);
+  if (CAM.nat){ try{ RealismCam.focus(nx, ny); }catch(e){} }
+  else camFocus(nx, ny);
   const fr=$('focusRing');
   fr.style.left=(e.clientX-r.left)+'px'; fr.style.top=(e.clientY-r.top)+'px';
   fr.classList.remove('on'); void fr.offsetWidth; fr.classList.add('on');
@@ -3412,7 +3421,87 @@ function capNote(txt){
   clearTimeout(CAPNOTE_T);
   CAPNOTE_T=setTimeout(()=>{ el.style.display='none'; }, 2600);
 }
+// ---- Android bridge: same ghost, same shutter, the platform's own camera.
+// The page positions a native preview under its (now transparent) camera
+// screen, draws the ghost exactly as on the web, and the shutter gets a
+// full photo-pipeline JPEG back. Every entry point is guarded by
+// window.RealismCam, so the web build never changes behaviour.
+function natChrome(on){
+  document.body.classList.toggle('natCam', on);
+}
+function natStart(){
+  return new Promise(res=>{
+    const r=$('cmpView').getBoundingClientRect(), k=devicePixelRatio||1;
+    CAM.nat=null; CAM.natWait=true;
+    window.__natReady=(w,h)=>{
+      if (!CAM.natWait){ try{ RealismCam.stop(); }catch(e){} return; }
+      CAM.natWait=false; CAM.nat={w,h};
+      natChrome(true);
+      $('coach').style.display='none';
+      $('lvRow').style.display='none';
+      $('cmpFlip').style.display='none';
+      $('cmpSplit').style.display='none';
+      $('cmpGridBtn').style.display='none';
+      $('lvBtn').style.display='none';
+      $('shutter').style.display='block';
+      $('backBtn').textContent='\u2715';
+      $('cmpFlip').disabled=true;
+      clearInterval(CAM.timer); CAM.timer=setInterval(camGhost,250);
+      camGhost();
+      $('camGhost').style.pointerEvents='auto';
+      const ls=$('lastShot');
+      if (CMP.img && CMP.ckey===CKEY){
+        ls.width=72; ls.height=Math.round(72*CMP.img.height/CMP.img.width);
+        ls.getContext('2d').drawImage(CMP.img,0,0,ls.width,ls.height);
+        ls.style.display='block';
+      } else ls.style.display='none';
+      res(true);
+    };
+    window.__natFail=()=>{ if (!CAM.natWait) return;
+      CAM.natWait=false; CAM.nat=null; natChrome(false); res(false); };
+    try{
+      RealismCam.start(Math.round(r.left*k), Math.round(r.top*k),
+                       Math.round(r.width*k), Math.round(r.height*k));
+    }catch(e){ CAM.natWait=false; res(false); }
+  });
+}
+async function natCapture(){
+  if (!CAM.nat || !CAM.ghost) return;
+  camGhost();
+  const gh=CAM.ghost, nw=CAM.nat.w, nh=CAM.nat.h;
+  window.__natShot=async b64=>{
+    window.__natShot=null;
+    let img=null;
+    try{ img=await new Promise((r,j)=>{ const i=new Image();
+      i.onload=()=>r(i); i.onerror=j; i.src=b64; }); }catch(e){}
+    if (!img){ capNote('capture failed'); return; }
+    const k=Math.min(1, 3600/Math.max(img.width,img.height));
+    const full=document.createElement('canvas');
+    full.width=Math.max(2,Math.round(img.width*k));
+    full.height=Math.max(2,Math.round(img.height*k));
+    const fg=full.getContext('2d');
+    fg.imageSmoothingQuality='high';
+    fg.filter='grayscale(1)'; fg.drawImage(img,0,0,full.width,full.height); fg.filter='none';
+    camStop();
+    let blob=null;
+    try{ blob=canvasBlob(full,'image/jpeg',0.97); }catch(e){}
+    CMP.raw=full; CMP.rawF=null; CMP.blob=blob; CMP.framed=true; CMP.cGrab=null;
+    const kx=full.width/nw, ky=full.height/nh;
+    const x0=(gh.gx-gh.vx)/gh.vs*kx, y0=(gh.gy-gh.vy)/gh.vs*ky;
+    const x1=x0+gh.gw/gh.vs*kx, y1=y0+gh.gh/gh.vs*ky;
+    CMP.corners=[{x:x0,y:y0},{x:x1,y:y0},{x:x1,y:y1},{x:x0,y:y1}];
+    cmpApplyCorners('flip');
+    capNote('photo '+(img.width*img.height/1e6).toFixed(1)+'MP');
+    cmpTip();
+  };
+  try{ RealismCam.capture(); }catch(e){ window.__natShot=null; }
+}
 function camStop(){
+  if (CAM.nat || CAM.natWait){
+    CAM.nat=null; CAM.natWait=false;
+    try{ RealismCam.stop(); }catch(e){}
+    natChrome(false);
+  }
   if (CAM.stream){ for (const t of CAM.stream.getTracks()) t.stop(); CAM.stream=null; }
   $('camGhost').style.pointerEvents='none';
   clearTimeout(CAM.refocusT);
@@ -3429,6 +3518,7 @@ function camStop(){
   $('cmpFlip').disabled=!CMP.img;
 }
 async function camCapture(){
+  if (CAM.nat) return natCapture();
   const v=$('camVid');
   if (!CAM.stream || !v.videoWidth) return;
   camGhost();                              // mapping current at the shutter
@@ -3933,7 +4023,7 @@ document.addEventListener('click', e => {
       if (added) renderGallery();
     }catch(e){}
   })();
-  if ('serviceWorker' in navigator && location.protocol === 'https:'){
+  if ('serviceWorker' in navigator && location.protocol === 'https:' && !window.RealismCam){
     addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
     // a fresh deploy activates mid-session: reload once so the first open
     // after an update already runs the new version
