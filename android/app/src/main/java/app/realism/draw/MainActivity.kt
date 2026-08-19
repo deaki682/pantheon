@@ -13,7 +13,9 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.util.Log
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
@@ -43,6 +45,16 @@ class MainActivity : AppCompatActivity() {
     private var camera: androidx.camera.core.Camera? = null
     private val captureExec = Executors.newSingleThreadExecutor()
     private var pendingStart: Runnable? = null
+    private lateinit var diag: TextView
+    private var booted = false
+
+    private fun report(msg: String) {
+        Log.e("Realism", msg)
+        runOnUiThread {
+            diag.visibility = android.view.View.VISIBLE
+            diag.append(msg + "\n")
+        }
+    }
 
     private val askCamera = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -59,10 +71,23 @@ class MainActivity : AppCompatActivity() {
             scaleType = PreviewView.ScaleType.FIT_CENTER
             implementationMode = PreviewView.ImplementationMode.COMPATIBLE
         }
-        web = WebView(this).apply { setBackgroundColor(Color.TRANSPARENT) }
+        // opaque by default: a permanently transparent WebView fails to
+        // composite on some devices (a black screen); transparency is only
+        // needed while the native preview runs behind the page
+        web = WebView(this).apply { setBackgroundColor(Color.BLACK) }
+        WebView.setWebContentsDebuggingEnabled(true)
         root.addView(previewView, FrameLayout.LayoutParams(0, 0))
         root.addView(web, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
+        diag = TextView(this).apply {
+            visibility = android.view.View.GONE
+            setBackgroundColor(0xCC000000.toInt())
+            setTextColor(Color.WHITE)
+            textSize = 12f
+            setPadding(24, 48, 24, 24)
+        }
+        root.addView(diag, FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
         setContentView(root)
 
         val assets = WebViewAssetLoader.Builder()
@@ -78,8 +103,24 @@ class MainActivity : AppCompatActivity() {
             override fun shouldInterceptRequest(
                 view: WebView, request: WebResourceRequest
             ): WebResourceResponse? = assets.shouldInterceptRequest(request.url)
+            override fun onPageFinished(view: WebView, url: String) { booted = true }
+            override fun onReceivedError(view: WebView, request: WebResourceRequest,
+                                         error: android.webkit.WebResourceError) {
+                if (request.isForMainFrame)
+                    report("load error ${'$'}{error.errorCode}: ${'$'}{error.description} @ ${'$'}{request.url}")
+            }
+            override fun onReceivedHttpError(view: WebView, request: WebResourceRequest,
+                                             response: WebResourceResponse) {
+                if (request.isForMainFrame)
+                    report("http ${'$'}{response.statusCode} @ ${'$'}{request.url}")
+            }
         }
         web.webChromeClient = object : WebChromeClient() {
+            override fun onConsoleMessage(m: android.webkit.ConsoleMessage): Boolean {
+                if (m.messageLevel() == android.webkit.ConsoleMessage.MessageLevel.ERROR)
+                    report("js: ${'$'}{m.message()} (${'$'}{m.sourceId()}:${'$'}{m.lineNumber()})")
+                return true
+            }
             // the page's own getUserMedia fallback still works inside the app
             override fun onPermissionRequest(request: PermissionRequest) {
                 runOnUiThread {
@@ -91,6 +132,9 @@ class MainActivity : AppCompatActivity() {
         }
         web.addJavascriptInterface(Bridge(), "RealismCam")
         web.loadUrl("https://appassets.androidx.dev/assets/index.html")
+        web.postDelayed({
+            if (!booted) report("page did not finish loading in 8s (progress ${'$'}{web.progress}%)")
+        }, 8000)
     }
 
     private fun js(code: String) = runOnUiThread { web.evaluateJavascript(code, null) }
@@ -121,6 +165,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openCamera(x: Int, y: Int, w: Int, h: Int) {
+        web.setBackgroundColor(Color.TRANSPARENT)
         val lp = FrameLayout.LayoutParams(w, h)
         lp.leftMargin = x; lp.topMargin = y
         previewView.layoutParams = lp
@@ -184,6 +229,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun closeCamera() {
+        web.setBackgroundColor(Color.BLACK)
         try { provider?.unbindAll() } catch (e: Exception) {}
         camera = null; imageCapture = null
         previewView.visibility = android.view.View.GONE
