@@ -177,6 +177,16 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        // the system back gesture walks the page's screens (the page arms one
+        // history entry whenever it is deeper than the project page) and only
+        // closes the app from the project page itself
+        onBackPressedDispatcher.addCallback(this,
+            object : androidx.activity.OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (web.canGoBack()) web.goBack()
+                    else { isEnabled = false; onBackPressedDispatcher.onBackPressed() }
+                }
+            })
         web.addJavascriptInterface(Bridge(), "RealismCam")
         val port = LocalServer.start(this)
         if (port == 0) report("local server failed to bind")
