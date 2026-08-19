@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
     private var pendingStart: Runnable? = null
     private var capLabel = ""
     private var rawMode = false
+    private var modeAnnounced = false
     private lateinit var diag: TextView
     private var booted = false
 
@@ -129,6 +130,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(root)
         run {
             val prefs = getSharedPreferences("cam", 0)
+            if (prefs.getInt("amnesty", 0) < 1) {
+                prefs.edit().remove("ceiling").remove("attempting")
+                    .putInt("amnesty", 1).apply()
+            }
             prefs.getString("crash", null)?.let {
                 prefs.edit().remove("crash").commit()
                 report("last run crashed:\n" + it)
@@ -325,6 +330,10 @@ class MainActivity : AppCompatActivity() {
                     val fw = minOf(ri.resolution.width, ri.resolution.height)
                     val fh = maxOf(ri.resolution.width, ri.resolution.height)
                     prefs.edit().remove("attempting").apply()
+                    if (!modeAnnounced) {
+                        modeAnnounced = true
+                        report("capture mode: " + (if (capLabel == "") "standard" else capLabel))
+                    }
                     js("window.__natReady && __natReady($fw,$fh)")
                 } else if (tries++ < 40) previewView.postDelayed({ reportSize() }, 50)
                 else {
