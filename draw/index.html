@@ -3329,6 +3329,14 @@ function camGhost(){
   g.clearRect(0,0,gc.width,gc.height);
   const fw0=CAM.nat?CAM.nat.w:v.videoWidth, fh0=CAM.nat?CAM.nat.h:v.videoHeight;
   if ((!CAM.stream && !CAM.nat) || !fw0){ CAM.ghost=null; return; }
+  if (CAM.nat && CAM.natRect){
+    const nr=natRect(), o=CAM.natRect;
+    if (Math.abs(nr.x-o.x)>1 || Math.abs(nr.y-o.y)>1
+        || Math.abs(nr.w-o.w)>1 || Math.abs(nr.h-o.h)>1){
+      CAM.natRect=nr;
+      try{ RealismCam.layout(nr.x, nr.y, nr.w, nr.h); }catch(e){}
+    }
+  }
   const vs=Math.min(gc.width/fw0, gc.height/fh0);
   const vw=fw0*vs, vh=fh0*vs;
   const vx=(gc.width-vw)/2, vy=(gc.height-vh)/2;
@@ -3433,9 +3441,13 @@ function natChrome(on){
   document.documentElement.classList.toggle('natCam', on);
   document.body.classList.toggle('natCam', on);
 }
+function natRect(){
+  const r=$('cmpView').getBoundingClientRect(), k=devicePixelRatio||1;
+  return { x:Math.round(r.left*k), y:Math.round(r.top*k),
+           w:Math.round(r.width*k), h:Math.round(r.height*k) };
+}
 function natStart(){
   return new Promise(res=>{
-    const r=$('cmpView').getBoundingClientRect(), k=devicePixelRatio||1;
     CAM.nat=null; CAM.natWait=true;
     window.__natReady=(w,h)=>{
       if (!CAM.natWait){ try{ RealismCam.stop(); }catch(e){} return; }
@@ -3463,10 +3475,14 @@ function natStart(){
     };
     window.__natFail=()=>{ if (!CAM.natWait) return;
       CAM.natWait=false; CAM.nat=null; natChrome(false); res(false); };
-    try{
-      RealismCam.start(Math.round(r.left*k), Math.round(r.top*k),
-                       Math.round(r.width*k), Math.round(r.height*k));
-    }catch(e){ CAM.natWait=false; res(false); }
+    // measure AFTER the screen change settles - a stale rect parks the
+    // native preview where the layout used to be
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      try{
+        const r=natRect(); CAM.natRect=r;
+        RealismCam.start(r.x, r.y, r.w, r.h);
+      }catch(e){ CAM.natWait=false; res(false); }
+    }));
   });
 }
 async function natCapture(){

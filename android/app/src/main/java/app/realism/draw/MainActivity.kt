@@ -59,7 +59,12 @@ class MainActivity : AppCompatActivity() {
             if (!::diag.isInitialized) return@runOnUiThread
             diag.visibility = android.view.View.VISIBLE
             diag.append(msg + "\n")
+            diag.setOnClickListener { diag.visibility = android.view.View.GONE }
+            diag.removeCallbacks(diagHide); diag.postDelayed(diagHide, 12000)
         }
+    }
+    private val diagHide = Runnable {
+        diag.visibility = android.view.View.GONE; diag.text = ""
     }
 
     private val askCamera = registerForActivityResult(
@@ -195,6 +200,15 @@ class MainActivity : AppCompatActivity() {
         }
         @JavascriptInterface
         fun stop() { runOnUiThread { closeCamera() } }
+        @JavascriptInterface
+        fun layout(x: Int, y: Int, w: Int, h: Int) {
+            runOnUiThread {
+                if (previewView.visibility != android.view.View.VISIBLE) return@runOnUiThread
+                val lp = FrameLayout.LayoutParams(w, h)
+                lp.leftMargin = x; lp.topMargin = y
+                previewView.layoutParams = lp
+            }
+        }
         @JavascriptInterface
         fun capture() { runOnUiThread { takeStill() } }
         @JavascriptInterface
