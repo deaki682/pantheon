@@ -3473,29 +3473,49 @@ async function natCapture(){
   if (!CAM.nat || !CAM.ghost) return;
   camGhost();
   const gh=CAM.ghost, nw=CAM.nat.w, nh=CAM.nat.h;
-  window.__natShot=async b64=>{
+  window.__natShot=async (jurl, rurl, label)=>{
     window.__natShot=null;
-    let img=null;
-    try{ img=await new Promise((r,j)=>{ const i=new Image();
-      i.onload=()=>r(i); i.onerror=j; i.src=b64; }); }catch(e){}
+    // the phone's own JPEG bytes are the stored file - no second compression
+    // generation, no resolution cap
+    let blob=null, img=null;
+    try{
+      blob=await (await fetch(jurl)).blob();
+      const u=URL.createObjectURL(blob);
+      img=await new Promise((r,j)=>{ const i=new Image();
+        i.onload=()=>r(i); i.onerror=j; i.src=u; });
+      URL.revokeObjectURL(img.src);
+    }catch(e){}
     if (!img){ capNote('capture failed'); return; }
-    const k=Math.min(1, 3600/Math.max(img.width,img.height));
     const full=document.createElement('canvas');
-    full.width=Math.max(2,Math.round(img.width*k));
-    full.height=Math.max(2,Math.round(img.height*k));
+    full.width=img.width; full.height=img.height;
     const fg=full.getContext('2d');
     fg.imageSmoothingQuality='high';
-    fg.filter='grayscale(1)'; fg.drawImage(img,0,0,full.width,full.height); fg.filter='none';
+    fg.filter='grayscale(1)'; fg.drawImage(img,0,0); fg.filter='none';
+    // the RAW plane feeds the float pipeline: 12-14 real sensor bits under
+    // every slider instead of the JPEG's 8
+    let rawF=null;
+    if (rurl){
+      try{
+        const ab=await (await fetch(rurl)).arrayBuffer();
+        const dv=new DataView(ab);
+        const rw=dv.getInt32(0,true), rh=dv.getInt32(4,true);
+        if (rw>1 && rh>1 && ab.byteLength>=8+rw*rh*2){
+          const u16=new Uint16Array(ab, 8, rw*rh);
+          const buf=new Float32Array(rw*rh);
+          for (let i=0;i<buf.length;i++) buf[i]=u16[i]/256;
+          rawF={w:rw, h:rh, buf};
+        }
+      }catch(e){}
+    }
     camStop();
-    let blob=null;
-    try{ blob=canvasBlob(full,'image/jpeg',0.97); }catch(e){}
-    CMP.raw=full; CMP.rawF=null; CMP.blob=blob; CMP.framed=true; CMP.cGrab=null;
+    CMP.raw=full; CMP.rawF=rawF; CMP.blob=blob; CMP.framed=true; CMP.cGrab=null;
     const kx=full.width/nw, ky=full.height/nh;
     const x0=(gh.gx-gh.vx)/gh.vs*kx, y0=(gh.gy-gh.vy)/gh.vs*ky;
     const x1=x0+gh.gw/gh.vs*kx, y1=y0+gh.gh/gh.vs*ky;
     CMP.corners=[{x:x0,y:y0},{x:x1,y:y0},{x:x1,y:y1},{x:x0,y:y1}];
     cmpApplyCorners('flip');
-    capNote('photo '+(img.width*img.height/1e6).toFixed(1)+'MP');
+    capNote('photo '+(img.width*img.height/1e6).toFixed(1)+'MP'
+      +(rawF?' \u00b7 raw':(label?' \u00b7 '+label:'')));
     cmpTip();
   };
   try{ RealismCam.capture(); }catch(e){ window.__natShot=null; }

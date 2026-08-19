@@ -16,6 +16,16 @@ object LocalServer {
     var port = 0; private set
     private var server: ServerSocket? = null
 
+    // captures are far too large for evaluateJavascript: the native side
+    // parks them here and the page fetches /__cap/<id> exactly once
+    private val store = java.util.concurrent.ConcurrentHashMap<String, Pair<String, ByteArray>>()
+    private val ids = java.util.concurrent.atomic.AtomicInteger(1)
+    fun park(mime: String, bytes: ByteArray): String {
+        val id = "c" + ids.getAndIncrement()
+        store[id] = Pair(mime, bytes)
+        return "/__cap/" + id
+    }
+
     fun start(ctx: Context): Int {
         server?.let { if (!it.isClosed) return port }
         val prefs = ctx.getSharedPreferences("srv", 0)
@@ -61,6 +71,20 @@ object LocalServer {
                 if (path == "/") path = "/index.html"
                 path = path.removePrefix("/")
                 if (path.contains("..")) path = "index.html"
+                if (path.startsWith("__cap/")) {
+                    val hit = store.remove(path.removePrefix("__cap/"))
+                    if (hit == null) {
+                        sock.getOutputStream().write(
+                            "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\nConnection: close\r\n\r\n".toByteArray())
+                    } else {
+                        out.write(("HTTP/1.1 200 OK\r\nContent-Type: ${hit.first}\r\n" +
+                            "Content-Length: ${hit.second.size}\r\nCache-Control: no-store\r\n" +
+                            "Connection: close\r\n\r\n").toByteArray())
+                        out.write(hit.second)
+                    }
+                    out.flush()
+                    return
+                }
                 val bytes = try { ctx.assets.open(path).use { it.readBytes() } } catch (e: Exception) { null }
                 if (bytes == null) {
                     out.write("HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\nConnection: close\r\n\r\n".toByteArray())
