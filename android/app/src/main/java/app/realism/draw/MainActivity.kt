@@ -226,6 +226,32 @@ class MainActivity : AppCompatActivity() {
         }
         @JavascriptInterface
         fun capture() { runOnUiThread { takeStill() } }
+        // backups land in Downloads where a file manager can find them
+        @JavascriptInterface
+        fun saveFile(name: String, mime: String, text: String) {
+            runOnUiThread {
+                try {
+                    val bytes = text.toByteArray(Charsets.UTF_8)
+                    if (android.os.Build.VERSION.SDK_INT >= 29) {
+                        val cv = android.content.ContentValues().apply {
+                            put(android.provider.MediaStore.Downloads.DISPLAY_NAME, name)
+                            put(android.provider.MediaStore.Downloads.MIME_TYPE, mime)
+                        }
+                        val uri = contentResolver.insert(
+                            android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI, cv)
+                            ?: throw Exception("no uri")
+                        contentResolver.openOutputStream(uri)?.use { it.write(bytes) }
+                        js("toast && toast('backup saved to Downloads')")
+                    } else {
+                        val f = java.io.File(getExternalFilesDir(null), name)
+                        f.writeBytes(bytes)
+                        js("toast && toast('backup saved: Android/data/app.realism.draw/files')")
+                    }
+                } catch (e: Exception) {
+                    js("toast && toast('backup failed', false)")
+                }
+            }
+        }
         @JavascriptInterface
         fun focus(nx: Float, ny: Float) {
             runOnUiThread {

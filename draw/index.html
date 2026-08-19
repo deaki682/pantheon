@@ -292,6 +292,14 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <label><input type="checkbox" id="ttlChk" checked> Stop at True-to-Life scale</label>
       <span class="setLbl" style="margin-top:4px">Shading</span>
       <label><input type="checkbox" id="softChk"> Follow soft edges</label>
+      <span class="setLbl" style="margin-top:4px">Data</span>
+      <div class="row" style="padding:0;gap:8px">
+        <button id="bakBtn" class="grow">Back up</button>
+        <button id="resBtn" class="grow">Restore</button>
+      </div>
+      <input type="file" id="bakFile" accept="application/json,.json" hidden>
+      <a id="privLink" href="privacy.html"
+         style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">&alpha; 0.5</span>
     </div>
   </div>
@@ -917,6 +925,12 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
     toast($('softChk').checked ? 'following soft edges' : 'classic shading');
     if (GRID_READY && state.img) viewRepaint();
   };
+  $('bakBtn').onclick=()=>bakExport();
+  $('resBtn').onclick=()=>$('bakFile').click();
+  $('bakFile').addEventListener('change', e=>{
+    const f=e.target.files[0]; if (f) bakImport(f);
+    e.target.value='';
+  });
   $('setBtn').onclick=()=>{ $('setModal').style.display='flex'; };
   $('invBtn').onclick=async()=>{
     gcPing('/share');
@@ -1759,6 +1773,98 @@ function db(){ return _db ||= new Promise((res,rej)=>{
 async function dbGet(k){ try{ const d=await db(); return await new Promise(res=>{
   const t=d.transaction('plans').objectStore('plans').get(k);
   t.onsuccess=()=>res(t.result); t.onerror=()=>res(null); }); }catch(e){ return null; } }
+
+// ---- backup & restore: everything the artist owns in one JSON file ----
+// references (with their per-id settings), saved captures, and global
+// settings; the cooked caches are recomputable and stay home
+const blob2b64 = b => new Promise(r=>{ const f=new FileReader();
+  f.onload=()=>r(String(f.result).split(',')[1]||''); f.readAsDataURL(b); });
+const b64blob = (b64, mime) => {
+  const bin=atob(b64), u=new Uint8Array(bin.length);
+  for (let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
+  return new Blob([u], {type:mime||'image/jpeg'});
+};
+async function dbCmpKeys(){ try{ const d=await db(); return await new Promise(res=>{
+  const t=d.transaction('plans').objectStore('plans').getAllKeys();
+  t.onsuccess=()=>res((t.result||[]).filter(k=>typeof k==='string'&&k.indexOf('cmp|')===0));
+  t.onerror=()=>res([]); }); }catch(e){ return []; } }
+const BAK_PERID=['fmt|','def|','time|','done|','gtot|','det|'];
+async function bakBuild(){
+  const refs=[];
+  for (const r of await galAll()){
+    const per={};
+    for (const pfx of BAK_PERID){
+      const v=localStorage.getItem(pfx+r.id); if (v!=null) per[pfx]=v;
+    }
+    refs.push({ name:r.name||'', ts:r.ts||0, seed:r.seed?1:0, thumb:r.thumb||'',
+                per, mime:(r.blob&&r.blob.type)||'image/jpeg',
+                blob:await blob2b64(r.blob) });
+  }
+  const cmps=[];
+  for (const k of await dbCmpKeys()){
+    const v=await dbGet(k); if (!v || !v.blob) continue;
+    cmps.push({ k, framed:!!v.framed, corners:v.corners||null, adj:v.adj||null,
+                blob:await blob2b64(v.blob) });
+  }
+  const ls={};
+  for (let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if (BAK_PERID.some(pfx=>k.indexOf(pfx)===0)) continue;
+    if (k.indexOf('seed|')===0) continue;
+    ls[k]=localStorage.getItem(k);
+  }
+  return JSON.stringify({ app:'realism', v:1, at:Date.now(), ls, refs, cmps });
+}
+async function bakExport(){
+  toast('packing backup\u2026');
+  let out;
+  try{ out=await bakBuild(); }catch(e){ toast('backup failed', false); return; }
+  const name='realism-backup-'+new Date().toISOString().slice(0,10)+'.json';
+  let handed=false;
+  if (window.RealismCam && RealismCam.saveFile){
+    try{ RealismCam.saveFile(name, 'application/json', out); handed=true; }catch(e){}
+  }
+  if (!handed){
+    const b=new Blob([out],{type:'application/json'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(b); a.download=name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+    toast('backup downloaded');
+  }
+}
+async function bakApply(j){
+  for (const r of await galAll()){
+    for (const pfx of BAK_PERID) try{ localStorage.removeItem(pfx+r.id); }catch(e){}
+    await galDel(r.id);
+  }
+  for (const k in j.ls){ try{ localStorage.setItem(k, j.ls[k]); }catch(e){} }
+  for (const r of j.refs){
+    const rec={ ts:r.ts||Date.now(), name:r.name||'', thumb:r.thumb||'',
+                blob:b64blob(r.blob, r.mime) };
+    if (r.seed) rec.seed=1;
+    const id=await galAdd(rec);
+    if (id!=null && r.per)
+      for (const pfx in r.per) try{ localStorage.setItem(pfx+id, r.per[pfx]); }catch(e){}
+  }
+  for (const c of (j.cmps||[])){
+    try{ await dbPutRaw(c.k, { blob:b64blob(c.blob), framed:!!c.framed,
+                               corners:c.corners, adj:c.adj }); }catch(e){}
+  }
+}
+async function bakImport(file){
+  let j=null;
+  try{ j=JSON.parse(await file.text()); }catch(e){}
+  if (!j || j.app!=='realism' || !Array.isArray(j.refs)){
+    toast('not a Realism backup', false); return;
+  }
+  if (!confirm('Replace everything in this app with the backup ('
+      +j.refs.length+' references)?')) return;
+  toast('restoring\u2026');
+  try{ await bakApply(j); }catch(e){ toast('restore failed', false); return; }
+  toast('restored - reloading');
+  if (!window.__noReload) setTimeout(()=>location.reload(), 900);
+}
 
 const hashStr=s2=>{ let h=5381; for(let i=0;i<s2.length;i++) h=(h*33+s2.charCodeAt(i))|0;
   return (h>>>0).toString(36); };

@@ -11,13 +11,32 @@ android {
     applicationId "app.realism.draw"
     minSdk 26
     targetSdk 34
-    versionCode 14
-    versionName "0.6.9"
+    versionCode 15
+    versionName "0.7"
   }
   // the web app IS the app: the android module serves ../draw verbatim
   sourceSets.main.assets.srcDirs += rootProject.file('../draw')
+  // release signing identity: android/release.keystore + keystore.properties.
+  // NEVER lose or regenerate that keystore - every future update must be
+  // signed with it. Back both files up somewhere safe.
+  def ksProps = new Properties()
+  def ksFile = rootProject.file('keystore.properties')
+  if (ksFile.exists()) ksFile.withInputStream { ksProps.load(it) }
+  signingConfigs {
+    if (ksFile.exists()) {
+      release {
+        storeFile rootProject.file(ksProps['storeFile'])
+        storePassword ksProps['storePassword']
+        keyAlias ksProps['keyAlias']
+        keyPassword ksProps['keyPassword']
+      }
+    }
+  }
   buildTypes {
-    release { minifyEnabled false }
+    release {
+      minifyEnabled false
+      if (ksFile.exists()) signingConfig signingConfigs.release
+    }
   }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_17
