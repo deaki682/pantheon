@@ -3486,11 +3486,15 @@ async function natCapture(){
       URL.revokeObjectURL(img.src);
     }catch(e){}
     if (!img){ capNote('capture failed'); return; }
+    // the ORIGINAL bytes are what's stored; the working canvas caps at 3456
+    // so a 12MP decode can't OOM the renderer (which reads as an app crash)
+    const kf=Math.min(1, 3456/Math.max(img.width,img.height));
     const full=document.createElement('canvas');
-    full.width=img.width; full.height=img.height;
+    full.width=Math.max(2,Math.round(img.width*kf));
+    full.height=Math.max(2,Math.round(img.height*kf));
     const fg=full.getContext('2d');
     fg.imageSmoothingQuality='high';
-    fg.filter='grayscale(1)'; fg.drawImage(img,0,0); fg.filter='none';
+    fg.filter='grayscale(1)'; fg.drawImage(img,0,0,full.width,full.height); fg.filter='none';
     // the RAW plane feeds the float pipeline: 12-14 real sensor bits under
     // every slider instead of the JPEG's 8
     let rawF=null;

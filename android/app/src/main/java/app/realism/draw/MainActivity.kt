@@ -85,6 +85,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        run {
+            val prefs = getSharedPreferences("cam", 0)
+            val prior = Thread.getDefaultUncaughtExceptionHandler()
+            Thread.setDefaultUncaughtExceptionHandler { t, e ->
+                try {
+                    prefs.edit().putString("crash",
+                        (e.toString() + "\n" + e.stackTrace.take(6).joinToString("\n"))
+                            .take(600)).commit()
+                } catch (x: Throwable) {}
+                prior?.uncaughtException(t, e)
+            }
+            prefs.getString("crash", null)?.let {
+                prefs.edit().remove("crash").apply()
+                report("last run crashed:\n" + it)
+            }
+        }
         val root = FrameLayout(this)
         previewView = PreviewView(this).apply {
             visibility = android.view.View.GONE
@@ -305,11 +321,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun takeStill() {
         val still = imageCapture ?: run { js("window.__natFail && __natFail('nocap')"); return }
+        // a crash between here and delivery demotes the rung on next launch
+        val prefs = getSharedPreferences("cam", 0)
+        prefs.edit().putInt("attempting",
+            if (rawMode) RUNG_RAW else if (capLabel != "") RUNG_EXT else RUNG_PLAIN).apply()
         val expectRaw = rawMode
         val got = java.util.concurrent.ConcurrentHashMap<String, String>()
         var timer: Runnable? = null
         fun deliver() {
             val j = got["jpeg"] ?: return
+            prefs.edit().remove("attempting").apply()
             val r = got["raw"]
             val rArg = if (r != null) "'" + r + "'" else "null"
             js("window.__natShot && __natShot('" + j + "', " + rArg + ", '" + capLabel + "')")
@@ -344,6 +365,7 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onError(e: ImageCaptureException) {
                 timer?.let { web.removeCallbacks(it) }
+                prefs.edit().remove("attempting").apply()
                 report("capture: ${e.message}")
                 js("window.__natFail && __natFail('shot')")
             }
