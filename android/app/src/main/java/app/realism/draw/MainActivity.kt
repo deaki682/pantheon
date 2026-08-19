@@ -30,7 +30,6 @@ import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
-import androidx.webkit.WebViewAssetLoader
 import java.util.concurrent.Executors
 
 // The web app is the whole product; this activity only lends it two things a
@@ -90,9 +89,6 @@ class MainActivity : AppCompatActivity() {
             FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
         setContentView(root)
 
-        val assets = WebViewAssetLoader.Builder()
-            .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(this))
-            .build()
         web.settings.apply {
             javaScriptEnabled = true
             domStorageEnabled = true
@@ -100,9 +96,6 @@ class MainActivity : AppCompatActivity() {
             allowFileAccess = false
         }
         web.webViewClient = object : WebViewClient() {
-            override fun shouldInterceptRequest(
-                view: WebView, request: WebResourceRequest
-            ): WebResourceResponse? = assets.shouldInterceptRequest(request.url)
             override fun onPageFinished(view: WebView, url: String) { booted = true }
             override fun onReceivedError(view: WebView, request: WebResourceRequest,
                                          error: android.webkit.WebResourceError) {
@@ -131,7 +124,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
         web.addJavascriptInterface(Bridge(), "RealismCam")
-        web.loadUrl("https://appassets.androidx.dev/assets/index.html")
+        val port = LocalServer.start(this)
+        if (port == 0) report("local server failed to bind")
+        else web.loadUrl("http://127.0.0.1:$port/index.html")
         web.postDelayed({
             if (!booted) report("page did not finish loading in 8s (progress ${'$'}{web.progress}%)")
         }, 8000)

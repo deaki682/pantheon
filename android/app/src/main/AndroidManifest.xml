@@ -7,6 +7,7 @@
       android:label="Realism"
       android:icon="@mipmap/ic_launcher"
       android:theme="@style/Theme.Realism"
+      android:networkSecurityConfig="@xml/network_security_config"
       android:hardwareAccelerated="true">
     <activity
         android:name=".MainActivity"
