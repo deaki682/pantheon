@@ -61,10 +61,10 @@
    "break_risk": "low",
    "detect_date": "2026-07-06",
    "entry_price": 3.3,
-   "expected_close": "2026-08-17",
+   "expected_close": "2026-08-24",
    "llm_rationale": "Selectis Health (Black Pearl Equities, all-cash, no financing contingency per the 8-K) is otherwise a clean small-cap definitive agreement, but the target trades OTCQB and is NOT tradable at our broker (get_equity_quotes returns missing_instrument). Secondary sources disagree sharply on the live price ($2.97 vs $3.66 same-day) -- exactly the secondary-price-suspect case the house guards against; there is no broker tape to size against or execute on. Drop for lack of an executable venue, not for deal quality.",
    "llm_verdict": "drop",
-   "note": "Tender LIVE: commenced 07-13, expires 2026-08-10 17:00 ET, ~70% min condition, no financing contingency (pinned read 2026-07-21). OTCQB, no broker tape \u2014 grade at tender outcome when it resolves. | 2026-08-12: SC TO-T/A Amd.3 (filed 08-11) EXTENDED the tender from 08-10 to 2026-08-17 5:00pm ET (withdrawal rights + guaranteed-delivery deadlines extended correspondingly); 2,807,869 shares validly tendered as of 08-10 \u2014 below the ~70% minimum, hence the extension. NOT a completion and NOT a break: expected_close rolled to 08-17, remains unresolved/ungraded.",
+   "note": "Tender LIVE: commenced 07-13, expires 2026-08-10 17:00 ET, ~70% min condition, no financing contingency (pinned read 2026-07-21). OTCQB, no broker tape \u2014 grade at tender outcome when it resolves. | 2026-08-12: SC TO-T/A Amd.3 (filed 08-11) EXTENDED the tender from 08-10 to 2026-08-17 5:00pm ET (withdrawal rights + guaranteed-delivery deadlines extended correspondingly); 2,807,869 shares validly tendered as of 08-10 \u2014 below the ~70% minimum, hence the extension. NOT a completion and NOT a break: expected_close rolled to 08-17, remains unresolved/ungraded. | 2026-08-19: SC TO-T/A Amd.4 (filed 08-18) EXTENDED the tender a SECOND time, from 08-17 to 2026-08-24 5:00pm ET (withdrawal + guaranteed-delivery deadlines and the Utah appraisal-demand deadline extended correspondingly). As of 08-17 only 2,769,282 shares were validly tendered -- DOWN from 2,807,869 at the 08-10 deadline, i.e. tenders are being withdrawn, not accumulating, and the ~70%% minimum condition is still unmet. Still NOT a completion and NOT a break: expected_close rolled to 08-24, remains unresolved/ungraded. No broker tape (OTCQB, missing_instrument) so no mark-to-market grade is possible; it grades at the tender outcome. Arm B only -- no Hermes capital at risk.",
    "offer_price": 5.75,
    "resolved": false,
    "spread": 0.7424,
@@ -2503,6 +2503,22 @@
    "spread": 0.0,
    "spy_entry": 768.38,
    "symbol": "VLOSW"
+  },
+  {
+   "symbol": "GSAT",
+   "detect_date": "2026-08-19",
+   "entry_price": 82.815,
+   "offer_price": 90.0,
+   "spy_entry": 769.78,
+   "expected_close": "2027-04-13",
+   "spread": 0.0868,
+   "llm_verdict": "drop",
+   "llm_rationale": "Amazon/Globalstar (merger agmt 2026-04-13, DEFM14C 2026-08-18) is OUT OF SCOPE, not a bad deal. It is a cash/stock ELECTION with proration: cash is capped at 40% of outstanding shares (maximum cash share number), non-electing shares default to STOCK, and the stock leg is uncapped -- so >=60% of the consideration is Amazon shares, which needs an acquirer short Hermes cannot do. The cash leg is also NOT a fixed contractual terminal: it is $90.00 MINUS an undetermined per-share adjustment amount (the Apple/Customer payment that accrues while C-3 milestones go unmet), and the stock exchange ratio carries the same haircut. Approval risk is nil (written consent already obtained -- 14C, not 14A) and the buyer is Amazon (no financing risk), but the payoff shape is a floating blended value, not the bounded cash floor this book exists to harvest. Termination date 2027-04-13 (extendable twice to 2028-04-13). At $82.82 vs $90 headline the 8.7%% gap is mostly the stock/adjustment discount, not an arb spread.",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
   }
  ],
  "graded": [
