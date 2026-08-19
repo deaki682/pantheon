@@ -183,5 +183,15 @@
     "benchmark": {
       "SPY": -0.0013138573305510048
     }
+  },
+  {
+    "date": "2026-08-19",
+    "equity": 1951.36,
+    "total_return": -0.024322014129373182,
+    "n": 20,
+    "benchmark": {
+      "SPY": -0.0013117
+    },
+    "note": "Zeus hourly pass ~10:27 ET Wed 2026-08-19. MARK ONLY. All 20 ledger entries are graded, 0 due, ZERO open positions - so equity is frozen at the closed-book $1,951.36 (-2.43% on the $2,000 basis) by construction; a flat curve here is correctness, not a stale mark. NO new entries: cache/midas_scan.json still holds the same 10 finalists (QMCO/WOLF/VOR/HTZ/CNXC/PRGS/AVBC/ZBIO/NWFL/AERO) from the 2026-07-03 scan, already opened as the 07-06 cohort and since graded. Re-opening them at today's prices would fabricate a head-to-head the scan never produced, so it was deliberately NOT done (third session running that this refusal is recorded). RACE STALL - SEVENTH WEEK, ESCALATING: the death clock requires 20 graded weekly live_pick-vs-legacy_pick head-to-heads and still stands at 2 (cohorts 2026-06-30 and 2026-07-06). cache/midas_cadence.json still reads last_scan=2026-06-30 / scanned_at=2026-07-03T21:45Z, and should_run('scan',5) has returned True every day since - i.e. /midas-scan has been DUE on seven consecutive weekends and has deposited no finalists on any of them. This is not slow progress, it is a parked program: at zero cohorts per week the preregistered comparison is unreachable by construction, and the standing A/B reading (week 07-06: live_pick QMCO -2.86% vs legacy_pick ZBIO +0.88%, legacy ahead 3.74pp) is frozen at n=1 usable head-to-head. Flagged in this file on 08-05 and 08-14; a note in a cache file is not a channel, so it is being escalated to the operator directly this session. The decision is the operator's: either the weekend /midas-scan dispatch gets fixed so the race can actually run, or the program is retired now on the two cohorts it has rather than left parked indefinitely."
   }
 ]
