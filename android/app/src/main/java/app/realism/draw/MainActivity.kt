@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
     private fun report(msg: String) {
         Log.e("Realism", msg)
         runOnUiThread {
+            if (!::diag.isInitialized) return@runOnUiThread
             diag.visibility = android.view.View.VISIBLE
             diag.append(msg + "\n")
         }
@@ -96,10 +97,6 @@ class MainActivity : AppCompatActivity() {
                 } catch (x: Throwable) {}
                 prior?.uncaughtException(t, e)
             }
-            prefs.getString("crash", null)?.let {
-                prefs.edit().remove("crash").apply()
-                report("last run crashed:\n" + it)
-            }
         }
         val root = FrameLayout(this)
         previewView = PreviewView(this).apply {
@@ -125,6 +122,13 @@ class MainActivity : AppCompatActivity() {
         root.addView(diag, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
         setContentView(root)
+        run {
+            val prefs = getSharedPreferences("cam", 0)
+            prefs.getString("crash", null)?.let {
+                prefs.edit().remove("crash").commit()
+                report("last run crashed:\n" + it)
+            }
+        }
 
         web.settings.apply {
             javaScriptEnabled = true
