@@ -130,9 +130,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(root)
         run {
             val prefs = getSharedPreferences("cam", 0)
-            if (prefs.getInt("amnesty", 0) < 1) {
+            if (prefs.getInt("amnesty", 0) < 2) {
                 prefs.edit().remove("ceiling").remove("attempting")
-                    .putInt("amnesty", 1).apply()
+                    .putInt("amnesty", 2).apply()
             }
             prefs.getString("crash", null)?.let {
                 prefs.edit().remove("crash").commit()
@@ -297,7 +297,7 @@ class MainActivity : AppCompatActivity() {
                 if (ceiling >= RUNG_RAW) try {
                     val caps = ImageCapture.getImageCaptureCapabilities(
                         prov.getCameraInfo(CameraSelector.DEFAULT_BACK_CAMERA))
-                    if (caps.supportedOutputFormats.contains(ImageCapture.OUTPUT_FORMAT_RAW_JPEG))
+                    if (caps.supportedOutputFormats.contains(ImageCapture.OUTPUT_FORMAT_RAW))
                         rung = RUNG_RAW
                 } catch (e: Throwable) {}
                 if (rung == RUNG_PLAIN && ceiling >= RUNG_EXT) try {
@@ -332,7 +332,9 @@ class MainActivity : AppCompatActivity() {
                     .setResolutionStrategy(ResolutionStrategy.HIGHEST_AVAILABLE_STRATEGY)
                     .build())
                 .setTargetRotation(Surface.ROTATION_0)
-            if (rawMode) stillB.setOutputFormat(ImageCapture.OUTPUT_FORMAT_RAW_JPEG)
+            // RAW alone is legal on the in-memory path; the display JPEG is
+            // rendered from the RAW plane itself - one capture, aligned planes
+            if (rawMode) stillB.setOutputFormat(ImageCapture.OUTPUT_FORMAT_RAW)
             val preview = Preview.Builder()
                 .setResolutionSelector(ResolutionSelector.Builder()
                     .setAspectRatioStrategy(AspectRatioStrategy.RATIO_4_3_FALLBACK_AUTO_STRATEGY)
@@ -407,12 +409,17 @@ class MainActivity : AppCompatActivity() {
             web.postDelayed(t, 4000)
         }
         armTimeout()
-        still.takePicture(captureExec, object : ImageCapture.OnImageCapturedCallback() {
+        val cb = object : ImageCapture.OnImageCapturedCallback() {
             override fun onCaptureSuccess(image: ImageProxy) {
                 try {
                     if (image.format == android.graphics.ImageFormat.RAW_SENSOR) {
-                        val payload = demosaicLuma(image)
-                        if (payload != null) got["raw"] = LocalServer.park("application/octet-stream", payload)
+                        val t = rawLuma(image)
+                        if (t != null) {
+                            got["raw"] = LocalServer.park("application/octet-stream",
+                                packLuma(t.first, t.second, t.third))
+                            got["jpeg"] = LocalServer.park("image/jpeg",
+                                lumaJpeg(t.first, t.second, t.third))
+                        }
                     } else {
                         val buf = image.planes[0].buffer
                         val bytes = ByteArray(buf.remaining()); buf.get(bytes)
@@ -421,7 +428,7 @@ class MainActivity : AppCompatActivity() {
                 } catch (e: Throwable) {
                     report("capture decode: ${e.message}")
                 } finally { image.close() }
-                if (got.containsKey("jpeg") && (!expectRaw || got.containsKey("raw"))) {
+                if (got.containsKey("jpeg")) {
                     timer?.let { web.removeCallbacks(it) }
                     deliver()
                 }
@@ -432,7 +439,17 @@ class MainActivity : AppCompatActivity() {
                 report("capture: ${e.message}")
                 js("window.__natFail && __natFail('shot')")
             }
-        })
+        }
+        try {
+            still.takePicture(captureExec, cb)
+        } catch (e: Throwable) {
+            // a synchronous reject (the RAW+JPEG crash, once) demotes instead
+            timer?.let { web.removeCallbacks(it) }
+            val r0 = if (rawMode) RUNG_RAW else if (capLabel != "") RUNG_EXT else RUNG_PLAIN
+            prefs.edit().remove("attempting").putInt("ceiling", r0 - 1).apply()
+            report("capture rejected (${e.message}) - demoted for next open")
+            js("window.__natFail && __natFail('shot')")
+        }
     }
 
     // RAW -> full-resolution 16-bit LUMA, no CFA-pattern logic needed: every
@@ -441,8 +458,30 @@ class MainActivity : AppCompatActivity() {
     // camera characteristics, gamma 1/2.2 into a 0..255*256 fixed-point plane
     // the page divides back into floats - the real 'shoot raw' the sliders
     // have been waiting for.
+    private fun packLuma(l: ShortArray, w: Int, h: Int): ByteArray {
+        val bb = java.nio.ByteBuffer.allocate(8 + l.size * 2)
+            .order(java.nio.ByteOrder.LITTLE_ENDIAN)
+        bb.putInt(w); bb.putInt(h)
+        bb.asShortBuffer().put(l)
+        return bb.array()
+    }
+
+    private fun lumaJpeg(l: ShortArray, w: Int, h: Int): ByteArray {
+        val px = IntArray(w * h)
+        for (i in px.indices) {
+            val v = (l[i].toInt() and 0xFFFF) ushr 8
+            px[i] = -0x1000000 or (v shl 16) or (v shl 8) or v
+        }
+        val bm = android.graphics.Bitmap.createBitmap(px, w, h,
+            android.graphics.Bitmap.Config.ARGB_8888)
+        val bos = java.io.ByteArrayOutputStream()
+        bm.compress(android.graphics.Bitmap.CompressFormat.JPEG, 95, bos)
+        bm.recycle()
+        return bos.toByteArray()
+    }
+
     @androidx.annotation.OptIn(androidx.camera.camera2.interop.ExperimentalCamera2Interop::class)
-    private fun demosaicLuma(image: ImageProxy): ByteArray? {
+    private fun rawLuma(image: ImageProxy): Triple<ShortArray, Int, Int>? {
         val w = image.width; val h = image.height
         if (w < 4 || h < 4) return null
         val plane = image.planes[0]
@@ -493,11 +532,7 @@ class MainActivity : AppCompatActivity() {
                 out[oi] = v
             }
         }
-        val bb = java.nio.ByteBuffer.allocate(8 + out.size * 2)
-            .order(java.nio.ByteOrder.LITTLE_ENDIAN)
-        bb.putInt(ow); bb.putInt(oh)
-        bb.asShortBuffer().put(out)
-        return bb.array()
+        return Triple(out, ow, oh)
     }
 
     private fun closeCamera() {
