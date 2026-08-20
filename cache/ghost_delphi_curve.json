@@ -185,5 +185,19 @@
    "convention_note": "spy_1d and spy_since_inception both recorded; prior points are inconsistent"
   },
   "note": "Zeus ~10:33 ET Tue 2026-08-18 (PARENTLESS shadow - Delphi live retired 2026-07-04). Marked 120/120 open symbols live; missing_marks == 0. 0 graded, 0 due (earliest 90-day maturity 2026-09-28), so momentum_terciles / signal_lift.above_ma / .selected / .vetoed are ALL still empty BY CONSTRUCTION - no claim about the momentum premise, the 20-day-MA stop, or the LLM vetoes is available yet. 0 opens (universe static, skip_open, and there is no live /delphi run to supply a fresh selection or veto list). Book $18680.34 on a $18,000 cost basis = +3.78 pct. TWO disclosures. (1) TICKER-RENAME DEFECT, new this session: SQ returned NO quote because Block Inc. renamed SQ -> XYZ, and the ledger holds BOTH as separate open entries. SQ is marked at XYZ's $80.98 because the security continued 1:1 - grading or marking it to zero would fabricate a loss out of a corporate action. The real cost is that Block is now DOUBLE-WEIGHTED in this book (2 of 180 entries, ~1.1 pct instead of ~0.6 pct). Flagged for the operator: the universe list needs SQ removed, and the survivorship guard 'unpriceable grades as a loss' needs a rename carve-out before 2026-09-28, when these entries mature and the guard would otherwise book a false -100 pct on SQ. (2) BENCHMARK CONVENTION is INCONSISTENT on this curve and I am not silently picking one: most prior points carry a ONE-DAY SPY change, but 06-30 (+0.0796) and 08-10 (+0.0363) carry something else. Today records BOTH explicitly - spy_1d and spy_since_inception - so the ambiguity is visible in the data rather than buried. Since inception (06-30 close ~747.21 -> 768.875) SPY is +2.90 pct vs the book's +3.78 pct = +0.88pp. Today's SPY is an INTRADAY quote against prior closes."
+ },
+ {
+  "date": "2026-08-20",
+  "equity": 18739.39,
+  "total_return": 0.04107713650518807,
+  "n": 180,
+  "benchmark": {
+   "SPY": -0.003458767846461819,
+   "SPY_price": 766.4,
+   "spy_1d": -0.003458767846461819,
+   "spy_since_inception": 0.025682204467284864,
+   "convention_note": "spy_1d and spy_since_inception both recorded; prior points are inconsistent"
+  },
+  "note": "Zeus hourly ghost-delphi mark ~10:26 ET Thu 2026-08-20 (PARENTLESS - /delphi retired). Marked 120/120 open symbols live (SQ carried over at XYZ=79.73 per corporate rename), missing_marks=0. 0 opens (universe static, skip_open, and no /delphi run to supply selected/vetoed lists). 0 graded (earliest maturity 2026-10-01). Book $18739.39 on $18,000 cost basis = +4.108%. SPY today intraday 766.4 = spy_1d -0.346%, spy_since_inception (06-30 ~747.21) +2.568%. Book vs SPY since inception: +1.539pp."
  }
 ]
