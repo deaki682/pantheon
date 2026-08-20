@@ -301,5 +301,16 @@
    "SPY": 0.043641,
    "SPY_price": 769.769
   }
+ },
+ {
+  "date": "2026-08-20",
+  "equity": 33369.19,
+  "total_return": 0.03310195037671537,
+  "n": 323,
+  "benchmark": {
+   "SPY": 0.03811100460302197,
+   "SPY_price": 765.69
+  },
+  "note": "Zeus hourly ghost mark ~10:20 ET Thu 2026-08-20 (intraday live quotes). All 229 open symbols priced, missing_marks=[]. Equity $33369.19 vs prior $33616.03 (yesterday after-close). SPY compound since ghost start: +3.811% (yesterday close 769.06 -> intraday 765.69, -0.438%). Book total_return +3.310%. This intraday point may be replaced by an after-close mark at ~16:15 ET keying the same date."
  }
 ]
