@@ -2519,6 +2519,22 @@
    "read_model": "opus",
    "read_effort": "high",
    "resolved": false
+  },
+  {
+   "symbol": "NSTS",
+   "detect_date": "2026-08-20",
+   "entry_price": 13.9116,
+   "offer_price": 14.28,
+   "spy_entry": 766.5,
+   "expected_close": "2026-12-31",
+   "spread": 0.026481,
+   "llm_verdict": "keep",
+   "llm_rationale": "Clean all-cash bank M&A (Brookfield Bancshares -> NSTS Bancorp, $14.28/share, $73.66M). Definitive 2026-05-12 with strategic buyer, no financing condition, escrow required, no CVR, no go-shop. Regulatory: OCC-Parent APPROVED 2026-08-10; FRB (filed 07-08) and OCC-Bank (filed 08-13) pending \u2014 standard community-bank M&A path. Outside date 2027-02-12. Spread ~2.73% for a ~4-mo hold on a strategic cash bank deal is fair compensation for low residual regulatory/vote risk. Same shape as FSEA (both community banks). KEEP.",
+   "break_risk": "low",
+   "arm_a_live": true,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
   }
  ],
  "graded": [

@@ -1,6 +1,6 @@
 {
  "name": "hermes",
- "cash": 664.560012338,
+ "cash": 99.56002151719997,
  "contributed_cash": 4000.0,
  "positions": {
   "ALOT": {
@@ -74,6 +74,18 @@
    "spy_entry": 752.7655,
    "deal_type": "cash",
    "dollars": 574.999987662
+  },
+  "NSTS": {
+   "symbol": "NSTS",
+   "shares": 40.613588,
+   "entry_price": 13.9116,
+   "offer_price": 14.28,
+   "entry_date": "2026-08-20",
+   "expected_close": "2026-12-31",
+   "break_stop": 11.8249,
+   "spy_entry": 766.5,
+   "deal_type": "cash",
+   "dollars": 564.9999908208
   }
  },
  "closed": [
