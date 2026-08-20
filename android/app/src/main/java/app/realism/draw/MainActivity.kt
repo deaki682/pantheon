@@ -50,6 +50,9 @@ class MainActivity : AppCompatActivity() {
     private var pendingStart: Runnable? = null
     private var capLabel = ""
     private var rawMode = false
+    // freshest lens-shading gain map from the preview's repeating request;
+    // rawLuma divides the lens's real corner falloff out of the RAW plane
+    @Volatile private var shadeMap: android.hardware.camera2.params.LensShadingMap? = null
     private var modeAnnounced = false
     private lateinit var diag: TextView
     private var booted = false
@@ -252,6 +255,34 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        // comparison/photo downloads land in Pictures where the gallery sees them
+        @JavascriptInterface
+        fun saveImage(name: String, mime: String, b64: String) {
+            runOnUiThread {
+                try {
+                    val bytes = Base64.decode(b64, Base64.DEFAULT)
+                    if (android.os.Build.VERSION.SDK_INT >= 29) {
+                        val cv = android.content.ContentValues().apply {
+                            put(android.provider.MediaStore.Images.Media.DISPLAY_NAME, name)
+                            put(android.provider.MediaStore.Images.Media.MIME_TYPE, mime)
+                            put(android.provider.MediaStore.Images.Media.RELATIVE_PATH,
+                                "Pictures/Realism")
+                        }
+                        val uri = contentResolver.insert(
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv)
+                            ?: throw Exception("no uri")
+                        contentResolver.openOutputStream(uri)?.use { it.write(bytes) }
+                        js("toast && toast('saved to Pictures')")
+                    } else {
+                        val f = java.io.File(getExternalFilesDir(null), name)
+                        f.writeBytes(bytes)
+                        js("toast && toast('saved: Android/data/app.realism.draw/files')")
+                    }
+                } catch (e: Exception) {
+                    js("toast && toast('save failed', false)")
+                }
+            }
+        }
         @JavascriptInterface
         fun focus(nx: Float, ny: Float) {
             runOnUiThread {
@@ -318,6 +349,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun rungName(r: Int) = when (r) { 2 -> "raw"; 1 -> "hdr"; else -> "" }
 
+    @androidx.annotation.OptIn(androidx.camera.camera2.interop.ExperimentalCamera2Interop::class)
     private fun bindRung(rung: Int, selector: CameraSelector,
                          prefs: android.content.SharedPreferences) {
         val prov = provider ?: return
@@ -335,12 +367,32 @@ class MainActivity : AppCompatActivity() {
             // RAW alone is legal on the in-memory path; the display JPEG is
             // rendered from the RAW plane itself - one capture, aligned planes
             if (rawMode) stillB.setOutputFormat(ImageCapture.OUTPUT_FORMAT_RAW)
-            val preview = Preview.Builder()
+            val previewB = Preview.Builder()
                 .setResolutionSelector(ResolutionSelector.Builder()
                     .setAspectRatioStrategy(AspectRatioStrategy.RATIO_4_3_FALLBACK_AUTO_STRATEGY)
                     .build())
                 .setTargetRotation(Surface.ROTATION_0)
-                .build()
+            if (rawMode) {
+                // RAW skips the ISP's lens-shading correction, so ask the HAL
+                // to report the gain map it WOULD have applied; the preview's
+                // repeating request keeps a fresh map warm for every still
+                shadeMap = null
+                val ext = androidx.camera.camera2.interop.Camera2Interop.Extender(previewB)
+                ext.setCaptureRequestOption(
+                    android.hardware.camera2.CaptureRequest.STATISTICS_LENS_SHADING_MAP_MODE,
+                    android.hardware.camera2.CameraMetadata.STATISTICS_LENS_SHADING_MAP_MODE_ON)
+                ext.setSessionCaptureCallback(object :
+                        android.hardware.camera2.CameraCaptureSession.CaptureCallback() {
+                    override fun onCaptureCompleted(
+                        s: android.hardware.camera2.CameraCaptureSession,
+                        rq: android.hardware.camera2.CaptureRequest,
+                        res: android.hardware.camera2.TotalCaptureResult) {
+                        res.get(android.hardware.camera2.CaptureResult
+                            .STATISTICS_LENS_SHADING_CORRECTION_MAP)?.let { shadeMap = it }
+                    }
+                })
+            }
+            val preview = previewB.build()
             val still = stillB.build()
             imageCapture = still
             prov.unbindAll()
@@ -507,6 +559,31 @@ class MainActivity : AppCompatActivity() {
             lut[i] = (Math.pow(v.toDouble(), 1.0 / 2.2) * 255.0 * 256.0)
                 .toInt().coerceAtMost(65535).toShort()
         }
+        // lens-shading correction: raw sensor data is pre-correction by
+        // definition, so it carries the lens's real corner falloff that the
+        // ISP removes from every JPEG. Collapse the HAL's per-channel gain
+        // map to the window mean's flat R+G+G+B weighting and scale each
+        // window's signal-above-black by the bilinearly interpolated gain.
+        // No map reported (older HALs) = no correction, same as before.
+        val map = shadeMap
+        var grid: FloatArray? = null; var gRows = 0; var gCols = 0
+        if (map != null && map.rowCount >= 2 && map.columnCount >= 2) {
+            gRows = map.rowCount; gCols = map.columnCount
+            val g = FloatArray(gRows * gCols)
+            for (r in 0 until gRows) for (c in 0 until gCols)
+                g[r * gCols + c] = (map.getGainFactor(0, c, r) +
+                    map.getGainFactor(1, c, r) + map.getGainFactor(2, c, r) +
+                    map.getGainFactor(3, c, r)) / 4f
+            grid = g
+        }
+        val xC = IntArray(w); val xT = FloatArray(w)
+        if (grid != null) for (x in 0 until w) {
+            val fx = x.toFloat() / (w - 1) * (gCols - 1)
+            val c = fx.toInt().coerceIn(0, gCols - 2)
+            xC[x] = c; xT[x] = (fx - c).coerceIn(0f, 1f)
+        }
+        val rowG = FloatArray(if (gCols > 0) gCols else 1)
+        val black4 = 4f * black
         val rot = image.imageInfo.rotationDegrees
         val ow = if (rot % 180 == 0) w else h
         val oh = if (rot % 180 == 0) h else w
@@ -515,12 +592,26 @@ class MainActivity : AppCompatActivity() {
         val row2 = ShortArray(rowShorts)
         for (y in 0 until h) {
             val yn = if (y + 1 < h) y + 1 else y
+            if (grid != null) {
+                val fy = y.toFloat() / (h - 1) * (gRows - 1)
+                val r0 = fy.toInt().coerceIn(0, gRows - 2)
+                val t = (fy - r0).coerceIn(0f, 1f)
+                for (c in 0 until gCols)
+                    rowG[c] = grid[r0 * gCols + c] * (1f - t) +
+                              grid[(r0 + 1) * gCols + c] * t
+            }
             sb.position(y * rowShorts); sb.get(row, 0, minOf(rowShorts, sb.remaining()))
             sb.position(yn * rowShorts); sb.get(row2, 0, minOf(rowShorts, sb.remaining()))
             for (x in 0 until w) {
                 val xn = if (x + 1 < w) x + 1 else x
                 var sum = (row[x].toInt() and 0xFFFF) + (row[xn].toInt() and 0xFFFF) +
                           (row2[x].toInt() and 0xFFFF) + (row2[xn].toInt() and 0xFFFF)
+                if (grid != null) {
+                    val c = xC[x]
+                    val gn = rowG[c] * (1f - xT[x]) + rowG[c + 1] * xT[x]
+                    sum = (black4 + (sum - black4) * gn).toInt()
+                    if (sum < 0) sum = 0
+                }
                 if (sum > lutMax) sum = lutMax
                 val v = lut[sum]
                 val oi = when (rot) {

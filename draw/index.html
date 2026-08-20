@@ -88,8 +88,12 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #gridCv{position:absolute;left:0;top:0;pointer-events:none}
 #circCv{position:absolute;left:0;top:0;pointer-events:none}
 #circWrap{position:absolute;top:calc(8px + env(safe-area-inset-top));
-  right:calc(8px + env(safe-area-inset-right));z-index:7;display:none;gap:8px}
+  left:50%;transform:translateX(-50%);z-index:7;display:none;gap:8px}
 #circBtn{width:44px;height:44px;padding:0;border-radius:12px;
+  display:flex;align-items:center;justify-content:center}
+#dlWrap{position:absolute;top:calc(8px + env(safe-area-inset-top));
+  right:calc(8px + env(safe-area-inset-right));z-index:7;display:none}
+#dlBtn{width:44px;height:44px;padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 .redDot{width:17px;height:17px;border-radius:50%;border:2.5px solid #e03c3c;display:block}
 #circClr{height:44px;border-radius:12px}
@@ -431,6 +435,9 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <div id="circWrap">
       <button id="circClr">Clear</button>
       <button id="circBtn" title="Mark an error"><span class="redDot"></span></button>
+    </div>
+    <div id="dlWrap">
+      <button id="dlBtn" title="Download"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg></button>
     </div>
     <div id="coach"><span id="coachTxt"></span></div></div>
   <div id="lvRow" style="display:none">
@@ -2978,6 +2985,44 @@ function circTap(wx, wy, rb){
   circsSave(); drawCircs(); cmpRender();
 }
 $('circBtn').onclick = () => { CIRCTOOL=!CIRCTOOL; cmpRender(); };
+// download what the screen shows: a comparison view exports the exact
+// on-screen composition (their crop and all); a plain look at the drawing
+// photo exports the photo itself at full resolution
+async function cmpDownload(){
+  if (!CMP.img || CMP.mode==='corners' || CAM.stream) return;
+  const photoOnly = CMP.mode==='flip' && CMP.showing==='photo' && !(CMP.alpha>0);
+  const src=document.createElement('canvas');
+  let name;
+  if (photoOnly){
+    src.width=CMP.img.width; src.height=CMP.img.height;
+    src.getContext('2d').drawImage(CMP.img,0,0);
+    name='realism-drawing';
+  } else {
+    const cv=$('cmpCv');
+    src.width=cv.width; src.height=cv.height;
+    const g=src.getContext('2d');
+    g.fillStyle='#2a2a2a'; g.fillRect(0,0,src.width,src.height);
+    g.drawImage(cv,0,0);
+    name='realism-comparison';
+  }
+  const blob=await new Promise(r=>src.toBlob(r,'image/jpeg',0.95));
+  if (!blob){ toast('download failed', false); return; }
+  const fname=name+'-'+new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')+'.jpg';
+  if (window.RealismCam && RealismCam.saveImage){
+    try{
+      const b64=await new Promise(r=>{ const fr=new FileReader();
+        fr.onload=()=>r(fr.result.split(',')[1]); fr.readAsDataURL(blob); });
+      RealismCam.saveImage(fname, 'image/jpeg', b64);
+      return;                                  // the bridge toasts the result
+    }catch(e){}
+  }
+  const u=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=u; a.download=fname;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(u), 4000);
+  toast('downloaded');
+}
+$('dlBtn').onclick = cmpDownload;
 $('cmpGridBtn').onclick = () => {
   GRID_ON=!GRID_ON;
   try{ localStorage.setItem('gridOn', GRID_ON?'1':'0'); }catch(e){}
@@ -3017,6 +3062,7 @@ function cmpButtons(){
     $('cmpCrop').style.display='none';
     $('mirRow').style.display='none';
     $('circWrap').style.display='none';
+    $('dlWrap').style.display='none';
     return;
   }
   const corners = CMP.mode==='corners';
@@ -3038,6 +3084,7 @@ function cmpButtons(){
   $('cmpCrop').style.display = corners ? '' : 'none';
   $('mirRow').style.display = (CMP.mode==='flip' && CMP.img && !corners) ? '' : 'none';
   $('circWrap').style.display = (CMP.img && !corners) ? 'flex' : 'none';
+  $('dlWrap').style.display = (CMP.img && !corners) ? 'flex' : 'none';
   $('circClr').style.display = CIRCS.length ? '' : 'none';
   $('circBtn').classList.toggle('vOn', CIRCTOOL);
 }
@@ -3469,6 +3516,7 @@ $('compareBtn').onclick = async () => {
   $('lvRow').style.display='none';
   $('mirRow').style.display='none';
   $('circWrap').style.display='none';
+  $('dlWrap').style.display='none';
   $('cmpFlip').style.display='none';
   $('cmpSplit').style.display='none';
   $('cmpGridBtn').style.display='none';
