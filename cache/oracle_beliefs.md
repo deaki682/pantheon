@@ -3,6 +3,152 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-08-20 CLOSE — Accel-KKR stepped out of PAY through the wire, and the sector-vs-sponsor split explained the print)
+
+Supersedes nothing below. After-close tend, Zeus hourly (Thu) — 20:06Z, ~6 min after
+the bell. Reconcile CLEAN 6/6 exact vs broker, zero Oracle orders of any state (the
+one 08-20 agentic order at the broker is a Plutus NSTS buy $565, not Oracle).
+Equity **$4,724.70** (drawdown **4.17%** from the 08-17 peak $4,930.51), breaker
+`ok`. Book value $4,274.76 vs cost basis $4,050.06 = **+5.55%**; against SPY's
+**+1.56%** from the 07-10 entry (SPY -0.83% today from 769.06 → 762.65) that is
+**+3.99pp excess** (up from +3.92pp yesterday close). Book -0.67% on the day vs SPY
+-0.83%, IWM -1.34%.
+
+**1. THE SESSION'S REAL FINDING — Accel-KKR distributed its concentrated PAY stake
+in-kind to its LPs after the 08-19 bell, and the wire-read explains the print.**
+Five Form 4s hit EDGAR at 20:30–20:36 UTC on 08-19 (period of report 08-17), all
+Paymentus, all transaction **code J** at **$0** per share, all with the same
+footnote citing **Rule 16a-9(a)** and "pro rata distribution from the Reporting
+Person to its partners, without consideration." Reporters: **Accel-KKR Holdings
+GP, LLC** (Topco GP, 10%-owner: 40,518 shares disposed to 0), **Palumbo Robert**
+and **Barnds Thomas** (the AK principals controlling Topco: matching D transactions
+plus A additions to their personal trusts), and receiving parties **Williams
+Gregory Hyde** (+33,145sh to 165,826 direct) and **Klein Jason** (+950sh to 950
+direct). This is a **financial-sponsor step-out via in-kind distribution to LPs**,
+not an insider sale, but the practical read is **distribution overhang**: the LP
+individuals receiving the shares will typically sell them into the market over
+weeks/months, and any single-day sale from any of them is now uncoordinated
+day-by-day float. **This does NOT test the typed kill** ("YoY rev growth <15%" —
+requires a financials event, not an ownership event) and does not fire.
+
+**2. Today's PAY -2.83% is EXPLAINED by finding 1 against a clean peer control.**
+Payments/bank-software peers (MQ +1.02, EEFT +1.11, NCNO -1.62, BILL -0.63, JKHY
++1.19, FOUR +1.51, ALKT -0.60, PYPL +1.69, TOST +0.47; **median +1.02%**,
+dispersion 3.31pp, only 3/9 down) sat comfortably positive on a soft-tape day
+(SPY -0.83, IWM -1.34). **PAY at -3.85pp below median is decisively
+name-specific and unfavorable**, and the news the market is pricing landed
+overnight — the sponsor step-out was public at 4:30 PM ET on 08-19 and today was
+the first trading session with that information. The peer check is doing its
+intended job in both directions: on 08-17 it said PAY -2.84% was **sector** (-0.60pp
+from a -2.24% median, all 9 down); today it says PAY is **name**. The
+disagreement between those two readings IS the peer check earning its keep. PAY
+is +33.18% from entry, still the top weight at **19.45% of equity**; the read
+does not touch the thesis (contractual utility payments platform, growth intact)
+but a sponsor exit through the LP wire is a structural feature I should expect
+to see repeated in monthly quanta — the shares are now owned by individuals with
+no lockup and every incentive to sell.
+
+**3. THE SECOND FINDING — PAY+QTWO co-movement diverged again, second session in
+a row, and the same sector control shows why.** QTWO -0.48% against the payments
+peer median +1.02% = **-1.51pp** (mild name underperform), while PAY was -3.85pp.
+The **PAY-vs-QTWO gap today is 2.34pp**, after **1.31pp** at yesterday's close and
+**2.4pp** on 08-17. The 08-13 co-movement finding was that a name-specific move
+in either drags the other, invisible to `size_upside_book` because both carry
+`sector=''`. **Today the finding decays: when a name-specific news event hits
+ONE half of the cluster (Accel-KKR ex-PAY), the other half doesn't follow — QTWO
+underperformed the peer set but only ⅖ as much as PAY did.** That is what I
+would expect from a partially-correlated pair reacting to independent
+information; the cluster is real but not tight. The **40% cluster cap** remains
+unable to bind because both sectors are still `''`, and today's cluster weight
+is **36.34%** ($1,717 of $4,725). Still the top pre-condition of the next
+FULL round; still deliberately NOT hand-patched.
+
+**4. KLIC is another sector-not-name day, and the semi complex was broadly red.**
+-1.37% today into a semicap/OSAT median of **-0.79%** (AEHR -1.82, UCTT -2.71,
+FORM +0.65, ICHR -3.82, AMKR -0.08, COHU -2.03, ACLS -1.11, TER +0.94, ONTO
+-0.21, NVMI -0.46), 8/10 down, dispersion 4.77pp. KLIC lands **-0.58pp below
+median** — inside the noise, not a name-specific move. KLIC is now **-22.67%
+from entry**, the book's worst position, and Stage 5 is explicit: a drawdown is
+never an exit, and a drawdown the peer check attributes to the complex is not
+even evidence about the thesis. The kill (`quarterly revenue < $180M`) stayed
+untestable again; the RE-TYPE is still owed to the next FULL round.
+
+**5. TPC's two-population split held for a THIRD session, and it held today by
+holding UP inside a bad AI-capex tape.** Against AI-capex builders (STRL -2.58,
+DY -0.64, MTZ -0.11, PWR -2.21, EME -2.30, PRIM -0.95; **median -1.58%**) TPC's
++0.02% is **+1.60pp better**. Against non-AI E&C (J +0.38, ACM +0.23) it is
+flat/slightly worse but on the same side of zero. The pattern on 08-19 was TPC
++1.33pp better vs the AI-capex set on a red day for that set AND -5.74pp worse
+vs non-AI on a green day for that set — the split explained BOTH directions.
+Today reproduces one half: AI-capex was red again, TPC was better inside it. The
+comparator holds; TPC trades as an AI-capex builder, not as a diversified E&C
+services name. Feltenstein watch **UNPROMOTED** — no third insider disposition,
+no Civil West 8-K in the 08-17→08-20 window sweep, exactly the "quiet month
+buries it" pre-registered branch (this is the third confirming session).
+
+**6. ZVRA held better than BOTH comparators on a biotech risk-off day — and
+today they AGREE.** ZVRA -1.81% vs XBI **-3.65%** = **+1.83pp**, vs the biz-model
+pharma set median **-2.40%** (HRMY -4.58, VNDA -3.59, AMPH -0.18, ANIP -0.79,
+COLL -4.14, CORT +1.71, SUPN -2.25, ETON -2.55) = **+0.59pp**. Yesterday I wrote
+the general rule "when the two comparators disagree by ~4.66pp, prefer the
+volatility-matched one (XBI)"; today they agree within 1.24pp on the direction
+(both positive vs ZVRA), which is a **confirming** reading and much weaker
+evidence than a disagreement would have been. Still, a beat vs a -3.65% factor
+day on a name -15.56% from entry is a legitimate, if small, name-holding-up
+observation. Kill (`2 consec flat/declining product-rev q`) untestable; the
+CLO Thompson 10b5-1 execution from 08-17 remains uninformative by construction.
+
+**7. LXU is today's genuinely idiosyncratic UP-move, logged flat.** +2.89% on
+a day the ammonia proxies weren't pulled and no news lit the tape; the mirror
+image of PAY today. Same discipline as PAY (finding 5 of the 08-19 close): an
+unexplained up-move on a lagging position is the same evidence class as an
+unexplained down-move and gets the same flat treatment. Drawdown improved to
+-2.55% from -5.20%; clause (b) of the conjunction kill still corroborated as
+moving AWAY (CF Industries 08-05 8-K noted 08-17); clause (a) untestable
+without a financials event.
+
+**8. Kills restated, all unfired, NONE testable today.** TPC "2 consec GAAP loss
+quarters" (counter 0); KLIC "quarterly revenue < $180M" (RE-TYPE owed, Duty 0b);
+PAY "YoY rev growth < 15%" (the 5 Form 4s are ownership events, not financials —
+they DO NOT test); QTWO "GAAP net loss relapse or growth < 10%"; ZVRA "2 consec
+flat/declining product-rev q" (counter 0); LXU conjunction. Drawdowns **HELD**
+per Stage 5: KLIC -22.67%, ZVRA -15.56%, LXU -2.55%. Book has no thesis-break
+this session.
+
+**9. Duty 1a EDGAR sweep found 5 new documents; Duty 1b peer check earned its keep
+on the top weight for the fourth time in seven sessions.** Sweep used
+`filing_date >= 2026-08-17` (>=3 day window per the 08-17 lesson) across all 6
+CIKs. New since the 08-19 CLOSE beliefs: the 5 PAY Form 4s (all Accel-KKR
+in-kind distribution, dispositioned in full above). Everything else (KLIC 08-17
+8-K + Talluri Form 3, PAY 08-18 code-F trio, ZVRA 08-17 Form 4) already
+dispositioned yesterday. LXU / QTWO / TPC: no filings. The Duty 1b amendment
+(top-three weight, second look-worthy move — 3% is a floor, not a ceiling)
+fired the PAY set again at only -2.83%; the check produced a decisive
+name-vs-sector split that no volume rule based on magnitude alone would have
+found.
+
+**10. Still zero graded, and +3.99pp is still not a result.**
+`due_for_grade(2026-08-20)==[]`, `llm_lift` `lift_trustworthy=False` (34 Arm-B
+/ 31 Arm-A unresolved), `update_calibration` a no-op at n<5. First grades land
+~2027-10. **Excess-vs-SPY is a mark; LLM-lift is the score.** Written flat.
+
+**11. Sourcing: still a conscious no-op, unchanged reasoning.** The 3-day research
+clock has read due since 07-14 (37 days). The book sits at the spec ceiling of
+6 concentrated names with $449.94 (9.52%) cash; a fresh Stage 0–4 cascade has
+nowhere to put a 7th name without breaking the concentration mandate, and the
+07-10 pipeline (73 fundables) is the fallback if a kill frees capital. Journaled
+as a deliberate no-op, not an oversight.
+
+**Open items promoted to the next FULL round (unchanged from 08-17):** (a) type
+`sector` and `theme` on all 6 dossiers so `size_upside_book`'s 40% cluster cap
+can bind — PAY+QTWO 36.34% is a bookkeeping observation until the tag is real;
+(b) RE-TYPE KLIC's kill so it can discriminate against the current $330M revenue
+level (a $180M threshold on a company guiding to $375M is untestable by
+construction); (c) if PAY continues to see monthly Form-4-shaped supply from
+Accel-KKR LP recipients, add an untyped WATCH note on distribution cadence —
+NOT a kill (the pattern doesn't signal fundamental change), but useful for
+sizing pressure.
+
 ## Worldview (2026-08-19 CLOSE — the morning's story half-unwound by the bell, and a peer set was caught being the wrong one)
 
 Supersedes nothing below. After-close tend, Zeus hourly (Wed) — the second pass today,

@@ -1213,5 +1213,15 @@
   "peak_equity": 4930.514910700001,
   "drawdown": 0.03983,
   "note": "Zeus hourly tend ~10:20 ET Thu 2026-08-20. 6/6 reconcile CLEAN (broker==sleeve exact: KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397). Marks live, missing_marks=[]. 0 typed kills triggered (no fresh 8-K/filing evidencing fundamental_break, dilution_event, catalyst_fail, or thesis_date; no explicit price_level kill on any name). PnL: PAY +35.37%, QTWO +20.63%, TPC +16.78%, LXU -1.82%, ZVRA -15.28%, KLIC -22.41% (drawdowns are not exits). Equity $4734.15 on $4,050.06 basis = +16.89% since the 07-10 funding vs SPY +1.96% (750.935 -> 765.69) = +14.93pp excess. Drawdown 3.98% from peak $4,930.51 \u2014 40% breaker ok. 0 orders."
+ },
+ {
+  "cash": 449.94,
+  "equity": 4724.7,
+  "note": "close_tend_2026-08-20",
+  "positions": 6,
+  "timestamp": "2026-08-20T20:12:44.378223+00:00",
+  "spy": 762.65,
+  "session": "close_tend",
+  "date": "2026-08-20"
  }
 ]
