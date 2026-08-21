@@ -3809,8 +3809,16 @@ function natStart(){
       } else ls.style.display='none';
       res(true);
     };
-    window.__natFail=()=>{ if (!CAM.natWait) return;
-      CAM.natWait=false; CAM.nat=null; natChrome(false); res(false); };
+    window.__natFail=()=>{
+      if (CAM.natWait){
+        CAM.natWait=false; CAM.nat=null; natChrome(false); res(false); return;
+      }
+      if (CAM.nat){                          // shot failed mid-session
+        window.__natShot=null;
+        clearTimeout(CAM.shotT); CAM.shotBusy=false;
+        capNote('capture failed \u2014 try again');
+      }
+    };
     // measure AFTER the screen change settles - a stale rect parks the
     // native preview where the layout used to be
     requestAnimationFrame(()=>requestAnimationFrame(()=>{
@@ -3823,10 +3831,15 @@ function natStart(){
 }
 async function natCapture(){
   if (!CAM.nat || !CAM.ghost) return;
+  if (CAM.shotBusy) return;                 // one shot in flight, ever
+  CAM.shotBusy=true;
+  clearTimeout(CAM.shotT);
+  CAM.shotT=setTimeout(()=>{ CAM.shotBusy=false; }, 6000);
   camGhost();
   const gh=CAM.ghost, nw=CAM.nat.w, nh=CAM.nat.h;
   window.__natShot=async (jurl, rurl, label)=>{
     window.__natShot=null;
+    clearTimeout(CAM.shotT); CAM.shotBusy=false;
     // the phone's own JPEG bytes are the stored file - no second compression
     // generation, no resolution cap
     let blob=null, img=null;
@@ -3877,6 +3890,7 @@ async function natCapture(){
   try{ RealismCam.capture(); }catch(e){ window.__natShot=null; }
 }
 function camStop(){
+  clearTimeout(CAM.shotT); CAM.shotBusy=false;
   if (CAM.nat || CAM.natWait){
     CAM.nat=null; CAM.natWait=false;
     try{ RealismCam.stop(); }catch(e){}
@@ -3901,6 +3915,10 @@ async function camCapture(){
   if (CAM.nat) return natCapture();
   const v=$('camVid');
   if (!CAM.stream || !v.videoWidth) return;
+  if (CAM.shotBusy) return;
+  CAM.shotBusy=true;
+  clearTimeout(CAM.shotT);
+  CAM.shotT=setTimeout(()=>{ CAM.shotBusy=false; }, 6000);
   camGhost();                              // mapping current at the shutter
   const gh=CAM.ghost;
   const vw0=v.videoWidth, vh0=v.videoHeight;

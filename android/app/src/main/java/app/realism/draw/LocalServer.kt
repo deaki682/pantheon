@@ -23,6 +23,10 @@ object LocalServer {
     fun park(mime: String, bytes: ByteArray): String {
         val id = "c" + ids.getAndIncrement()
         store[id] = Pair(mime, bytes)
+        // a dropped delivery must not pool megabytes: keep only the newest few
+        if (store.size > 6)
+            store.keys.sortedBy { it.substring(1).toIntOrNull() ?: 0 }
+                .take(store.size - 6).forEach { store.remove(it) }
         return "/__cap/" + id
     }
 
