@@ -246,6 +246,16 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   max-width:min(86vw,360px);font-size:15px;line-height:1.55}
 #introHead{color:var(--acc);font-size:17px;letter-spacing:0.02em}
 #introBtn{min-width:96px;color:var(--acc)}
+#dylModal{position:fixed;inset:0;z-index:25;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.72)}
+#dylPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
+  padding:22px 24px;display:flex;flex-direction:column;gap:16px;
+  max-width:min(86vw,380px);font-size:15px;line-height:1.55}
+#dylHead{color:var(--acc);font-size:17px;letter-spacing:0.02em}
+#dylRow{display:flex;gap:12px;justify-content:space-between}
+#dylRow button{flex:1;min-height:44px}
+#dylYes{color:var(--acc);border-color:var(--acc)}
+#dylMail a{color:var(--acc);word-break:break-all}
 /* tutorial tips: a floating bubble, the app fully usable beneath it.
    Info tips close on their x; button tips illuminate the target and stay
    until it is pressed. */
@@ -285,6 +295,25 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <div class="row" style="padding:0;justify-content:center">
       <button id="delYes">Yes</button>
       <button id="delNo">No</button>
+    </div>
+  </div>
+</div>
+<div id="dylModal">
+  <div id="dylPanel">
+    <div id="dylHead">Message from Dylan</div>
+    <div id="dylBody">I hope you&rsquo;ve been enjoying Photorealism! I&rsquo;ve been
+      working towards getting this available in the app store, and I need ten
+      volunteers to &ldquo;test&rdquo; the app before Google releases it to the
+      public. If you have an Android device, let me know if you&rsquo;re
+      interested and I&rsquo;ll send you a link!</div>
+    <div id="dylRow">
+      <button id="dylNo">Not interested</button>
+      <button id="dylYes">I&rsquo;ll be a tester</button>
+    </div>
+    <div id="dylMail" style="display:none">Awesome! Send me your email at
+      <a id="dylMailLink" href="mailto:eakinphotorealism@gmail.com?subject=Photorealism%20tester&amp;body=Hi%20Dylan!%20I%27d%20like%20to%20test%20Photorealism%20on%20Android.%20My%20Google%20Play%20email%20is%3A%20">eakinphotorealism@gmail.com</a>
+      (tap to open your mail app) and I&rsquo;ll send you the testing link.
+      <div style="display:flex;margin-top:12px"><button id="dylDone" style="flex:1;min-height:44px;color:var(--acc)">Done</button></div>
     </div>
   </div>
 </div>
@@ -897,6 +926,24 @@ function gcPing(path){
 }
 gcPing('/open');
 addEventListener('appinstalled', ()=>gcPing('/install'));
+// tester recruitment (web only - the native app never shows it): returning
+// users get one forced choice; both answers are counted, so the click
+// totals double as a head-count of the active user base
+(function(){
+  if (window.RealismCam) return;
+  try{
+    if (!localStorage.getItem('intro1')) return;   // brand-new visitor, skip
+    if (localStorage.getItem('dyl1')) return;      // already answered
+  }catch(e){ return; }
+  const put=v=>{ try{ localStorage.setItem('dyl1', v); }catch(e){} };
+  setTimeout(()=>{ $('dylModal').style.display='flex'; gcPing('/tester-seen'); }, 900);
+  $('dylNo').onclick=()=>{ gcPing('/tester-no'); put('no');
+    $('dylModal').style.display='none'; };
+  $('dylYes').onclick=()=>{ gcPing('/tester-yes'); put('yes');
+    $('dylBody').style.display='none'; $('dylRow').style.display='none';
+    $('dylMail').style.display='block'; };
+  $('dylDone').onclick=()=>{ $('dylModal').style.display='none'; };
+})();
 $('newPhoto').onclick = () => $('file').click();
 // settings: the accent is the artist's, and the true-size stop is optional
 const ACCENTS=['#e8833a','#e0524f','#e0b13a','#6aa84f','#3aa6a0',
