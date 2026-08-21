@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<title>Realism</title>
+<title>Photorealism</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#141414">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="Realism">
+<meta name="apple-mobile-web-app-title" content="Photorealism">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <style>
@@ -311,7 +311,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 <!-- 1: upload -->
 <div class="screen on" id="scrUpload">
   <div class="row" style="position:relative;justify-content:center">
-    <span id="upTitle">Realism</span>
+    <span id="upTitle">Photorealism</span>
     <span id="upStat" style="position:absolute;left:8px;font-size:12px;color:var(--acc)"></span>
   </div>
   <canvas id="titleRule"></canvas>
@@ -338,7 +338,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   </div>
   <span class="grow"></span>
   <div class="row" style="flex-direction:column;align-items:center;gap:10px;padding-bottom:18px">
-    <button id="invBtn">Share Realism</button>
+    <button id="invBtn">Share Photorealism</button>
     <a id="discBtn" href="https://discord.gg/Ff78KH7gQ" target="_blank" rel="noopener" title="Join the Discord"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg></a>
   </div>
 </div>
@@ -829,7 +829,7 @@ function circleTip(){
     {mustClick:true, onClose:byeTip});
 }
 function byeTip(){
-  tip(null, 'Thanks, and I hope you enjoy Realism! \u2014Dylan');
+  tip(null, 'Thanks, and I hope you enjoy Photorealism! \u2014Dylan');
 }
 // the first visit to the prep page gets its own pointer
 function fmtTip(){
@@ -843,7 +843,7 @@ function fmtTip(){
 // the founder's welcome, once per device
 {
   const PAGES=[
-    ['This is Realism! A drawing tool to help traditional artists create '
+    ['This is Photorealism! A drawing tool to help traditional artists create '
      +'realistic paintings and drawings. There are a bunch of features to '
      +'help you see your reference objectively, break it down into layers, '
      +'and compare it against your art. It started as a tool just for me, '
@@ -942,9 +942,9 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
   $('invBtn').onclick=async()=>{
     gcPing('/share');
     const url=location.origin+location.pathname;
-    const msg='Realism - a drawing studio for the grid method. It runs right in the browser:';
+    const msg='Photorealism - a drawing studio for the grid method. It runs right in the browser:';
     if (navigator.share){
-      try{ await navigator.share({title:'Realism', text:msg, url}); return; }
+      try{ await navigator.share({title:'Photorealism', text:msg, url}); return; }
       catch(e){ if (e && e.name==='AbortError') return; }
     }
     try{ await navigator.clipboard.writeText(url); toast('link copied'); }
@@ -1826,7 +1826,7 @@ async function bakExport(){
   toast('packing backup\u2026');
   let out;
   try{ out=await bakBuild(); }catch(e){ toast('backup failed', false); return; }
-  const name='realism-backup-'+new Date().toISOString().slice(0,10)+'.json';
+  const name='photorealism-backup-'+new Date().toISOString().slice(0,10)+'.json';
   let handed=false;
   if (window.RealismCam && RealismCam.saveFile){
     try{ RealismCam.saveFile(name, 'application/json', out); handed=true; }catch(e){}
@@ -1863,7 +1863,7 @@ async function bakImport(file){
   let j=null;
   try{ j=JSON.parse(await file.text()); }catch(e){}
   if (!j || j.app!=='realism' || !Array.isArray(j.refs)){
-    toast('not a Realism backup', false); return;
+    toast('not a Photorealism backup', false); return;
   }
   if (!confirm('Replace everything in this app with the backup ('
       +j.refs.length+' references)?')) return;
@@ -2181,7 +2181,7 @@ $('expBtn').onclick = () => {
   const a=document.createElement('a');
   const t=new Date(), p2=n=>String(n).padStart(2,'0');
   a.href=URL.createObjectURL(blob);
-  a.download='realism-'+t.getFullYear()+p2(t.getMonth()+1)+p2(t.getDate())
+  a.download='photorealism-'+t.getFullYear()+p2(t.getMonth()+1)+p2(t.getDate())
     +'-'+p2(t.getHours())+p2(t.getMinutes())+p2(t.getSeconds())+'.jpg';
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
@@ -2996,14 +2996,14 @@ async function cmpDownload(){
   if (photoOnly){
     src.width=CMP.img.width; src.height=CMP.img.height;
     src.getContext('2d').drawImage(CMP.img,0,0);
-    name='realism-drawing';
+    name='photorealism-drawing';
   } else {
     const cv=$('cmpCv');
     src.width=cv.width; src.height=cv.height;
     const g=src.getContext('2d');
     g.fillStyle='#2a2a2a'; g.fillRect(0,0,src.width,src.height);
     g.drawImage(cv,0,0);
-    name='realism-comparison';
+    name='photorealism-comparison';
   }
   const blob=await new Promise(r=>src.toBlob(r,'image/jpeg',0.95));
   if (!blob){ toast('download failed', false); return; }
@@ -4265,7 +4265,7 @@ document.addEventListener('click', e => {
   addEventListener('beforeinstallprompt', e=>{
     e.preventDefault(); bip=e;
     const n=$('pwaNote');
-    n.innerHTML='* <span class="tapLink">Tap</span> to install Realism';
+    n.innerHTML='* <span class="tapLink">Tap</span> to install Photorealism';
     n.classList.add('big');
     n.style.cursor='pointer';
     n.onclick=async()=>{
