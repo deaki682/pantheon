@@ -2,5 +2,10 @@
   <style name="Theme.Realism" parent="Theme.AppCompat.NoActionBar">
     <item name="android:windowBackground">@android:color/black</item>
     <item name="android:statusBarColor">@android:color/black</item>
+    <item name="android:navigationBarColor">@android:color/black</item>
+    <!-- targetSdk 35 forces edge-to-edge; this window attribute is the
+         sanctioned opt-out and it only works HERE, in the theme - the
+         manifest silently ignores it (0.7.6's mistake) -->
+    <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
   </style>
 </resources>
