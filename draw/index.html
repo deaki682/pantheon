@@ -3123,8 +3123,10 @@ function cmpButtons(){
     $('mirRow').style.display='none';
     $('circWrap').style.display='none';
     $('dlWrap').style.display='none';
+    $('cmpRow').style.display='none';
     return;
   }
+  $('cmpRow').style.display='';
   const corners = CMP.mode==='corners';
   const showLv = CMP.img && !corners && !CAM.stream;
   $('lvRow').style.display = (showLv && CMP.lvOpen) ? '' : 'none';
@@ -3594,6 +3596,7 @@ $('compareBtn').onclick = async () => {
   $('cmpSplit').style.display='none';
   $('cmpGridBtn').style.display='none';
   $('lvBtn').style.display='none';
+  $('cmpRow').style.display='none';
   $('shutter').style.display='block';
   $('backBtn').textContent='✕';
   CAM.starting=true;
