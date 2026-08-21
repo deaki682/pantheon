@@ -529,6 +529,15 @@ addEventListener('popstate', ()=>{
   BACK_ARMED=false;
   if (!$('scrUpload').classList.contains('on')) $('backBtn').onclick();
 });
+// the native app asks the page directly instead of guessing from the
+// history stack (whose one spare entry a fast double-back could drain,
+// closing the whole app): step up one screen, or report 'exit' only
+// from the project page
+window.__backStep=()=>{
+  if ($('scrUpload').classList.contains('on')) return 'exit';
+  try{ $('backBtn').onclick(); }catch(e){}
+  return 'ok';
+};
 const show = id => { tipClose(false); uiShow();
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on')); $(id).classList.add('on');
   $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex';
@@ -3108,12 +3117,13 @@ function cmpCircs(g, cv){
   for (const c of CIRCS)
     paintMark(g, f.x+c.x*k, f.y+c.y*k, circR()*k, 10*kd, 3);
 }
+const camUp=()=>!!(CAM.stream || CAM.starting || CAM.nat || CAM.natWait);
 function cmpButtons(){
   // after capture there are only two ways to look: Flip and Side by side.
   // The transparent overlay lives solely in the camera ghost; Straighten
   // appears only on the manual corner screen (picker photos).
   const fl=$('cmpFlip'), sp=$('cmpSplit'), lb=$('lvBtn');
-  if (CAM.stream || CAM.starting){
+  if (camUp()){
     // the camera owns the screen: a mid-entry render (the saved capture
     // restoring) must not pop the row back for a beat
     $('lvRow').style.display='none';
@@ -3270,7 +3280,7 @@ function cmpRender(){
   // the rows above may have just appeared or vanished, changing the view
   // box: re-measure and repaint once so the photo always fills what is
   // actually there (adjustment panel closing, capture chrome leaving)
-  if (!CAM.stream && !CAM.starting && !CMP.__rs){
+  if (!camUp() && !CMP.__rs){
     const vr=$('cmpView').getBoundingClientRect();
     if (Math.round(vr.height)!==Math.round(parseFloat(cv.style.height)||0)
         || Math.round(vr.width)!==Math.round(parseFloat(cv.style.width)||0)){
@@ -3279,7 +3289,7 @@ function cmpRender(){
       return;
     }
   }
-  if (!CAM.stream && !CAM.starting && CMP.img){
+  if (!camUp() && CMP.img){
     if (CMP.mode==='flip') coach('Flip','tap to flip');
     else if (CMP.mode==='split') coach('Cmp','zoom to compare');
   }

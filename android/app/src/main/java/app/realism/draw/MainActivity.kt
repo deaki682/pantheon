@@ -185,14 +185,23 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        // the system back gesture walks the page's screens (the page arms one
-        // history entry whenever it is deeper than the project page) and only
-        // closes the app from the project page itself
+        // the system back gesture asks the PAGE what to do - guessing from
+        // the WebView history stack let a fast double-back drain the page's
+        // one spare entry and close the whole app. The page steps up one
+        // screen and answers 'ok', or answers 'exit' only when it is already
+        // on the project page; a dead page (no answer) also exits so back
+        // can never trap the user.
         onBackPressedDispatcher.addCallback(this,
             object : androidx.activity.OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    if (web.canGoBack()) web.goBack()
-                    else { isEnabled = false; onBackPressedDispatcher.onBackPressed() }
+                    val cb = this
+                    web.evaluateJavascript(
+                        "window.__backStep ? __backStep() : 'exit'") { r ->
+                        if (r == null || r.contains("exit") || r == "null") {
+                            cb.isEnabled = false
+                            onBackPressedDispatcher.onBackPressed()
+                        }
+                    }
                 }
             })
         web.addJavascriptInterface(Bridge(), "RealismCam")
