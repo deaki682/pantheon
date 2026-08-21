@@ -58,7 +58,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #pwaNote.big{font-size:15px;padding-top:10px}
 #pwaNote .tapLink{color:#fff;text-decoration:underline;text-underline-offset:2px}
 #invBtn{color:var(--acc)}
-#verTag{color:#9a9895;font-size:12px;text-align:center;letter-spacing:0.06em;margin-top:2px}
+#verTag{color:var(--acc);font-size:12px;text-align:center;letter-spacing:0.06em;margin-top:2px}
 #discBtn{color:var(--acc);display:flex;padding:4px}
 .gitem{position:relative;flex:none;border:1px solid #555;background:#1e1e1e;
   cursor:pointer;border-radius:10px;overflow:hidden}
@@ -333,7 +333,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <input type="file" id="bakFile" accept="application/json,.json" hidden>
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
-      <span id="verTag">(by Dylan)</span>
+      <span id="verTag">by Dylan</span>
     </div>
   </div>
 
@@ -341,7 +341,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 <div class="screen on" id="scrUpload">
   <div class="row" style="position:relative;justify-content:center">
     <span id="upTitle">Photorealism</span>
-    <span id="upStat" style="position:absolute;left:8px;font-size:12px;color:#9a9895"></span>
+    <span id="upStat" style="position:absolute;left:8px;font-size:12px;color:var(--acc)"></span>
   </div>
   <canvas id="titleRule"></canvas>
   <div id="pwaNote" style="display:none"></div>
@@ -701,7 +701,7 @@ function openPhoto(blob, gid){
     URL.revokeObjectURL(img.src);
     FMT_APPLIED = null;               // a new photo always reformats
     galLoading = null; GRID_READY = false;
-    $('upStat').textContent = '(by Dylan)';
+    $('upStat').textContent = 'by Dylan';
     FMT_OFF.x=FMT_OFF.y=0.5;
     initFormat();
     let fmt = null;   // a photo formatted before goes straight to the drawing
@@ -993,6 +993,10 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
                   : location.origin+location.pathname;
     const msg=nat ? 'Photorealism - a drawing studio for the grid method. Get it on Google Play:'
                   : 'Photorealism - a drawing studio for the grid method. It runs right in the browser:';
+    if (nat){
+      toast('This is still in the testing phase but you can share when the app launches!', true, 5000);
+      return;
+    }
     if (nat && RealismCam.share){
       try{ RealismCam.share(msg+' '+url); return; }catch(e){}
     }
@@ -2703,7 +2707,7 @@ document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) wakeHol
 
 
 
-loadArsenal(); $('upStat').textContent = '(by Dylan)';
+loadArsenal(); $('upStat').textContent = 'by Dylan';
 
 // Denoise the honest way: the domain-transform edge-preserving filter -
 // the same machinery that builds the shading layer. Differences smaller

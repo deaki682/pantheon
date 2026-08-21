@@ -11,8 +11,8 @@ android {
     applicationId "app.realism.draw"
     minSdk 26
     targetSdk 35
-    versionCode 23
-    versionName "0.7.8"
+    versionCode 24
+    versionName "0.7.9"
   }
   // the web app IS the app: the android module serves ../draw verbatim
   sourceSets.main.assets.srcDirs += rootProject.file('../draw')
