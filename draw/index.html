@@ -1868,6 +1868,7 @@ async function bakBuild(){
   for (const k of await dbCmpKeys()){
     const v=await dbGet(k); if (!v || !v.blob) continue;
     cmps.push({ k, framed:!!v.framed, corners:v.corners||null, adj:v.adj||null,
+                rawW:v.rawW||0, rawH:v.rawH||0,
                 blob:await blob2b64(v.blob) });
   }
   const ls={};
@@ -1913,7 +1914,8 @@ async function bakApply(j){
   }
   for (const c of (j.cmps||[])){
     try{ await dbPutRaw(c.k, { blob:b64blob(c.blob), framed:!!c.framed,
-                               corners:c.corners, adj:c.adj }); }catch(e){}
+                               corners:c.corners, adj:c.adj,
+                               rawW:c.rawW||0, rawH:c.rawH||0 }); }catch(e){}
   }
 }
 async function bakImport(file){
@@ -3568,6 +3570,7 @@ function cmpSaveNow(){
   cmpDirty=false;
   if (CKEY && CMP.blob) dbPutRaw('cmp|'+CKEY, {blob:CMP.blob, framed:!!CMP.framed,
     corners:CMP.corners?CMP.corners.map(q=>({x:q.x,y:q.y})):null,
+    rawW:CMP.raw?CMP.raw.width:0, rawH:CMP.raw?CMP.raw.height:0,
     adj:{...CMP.adj}});
 }
 function cmpSave(){ cmpDirty=true; clearTimeout(cmpT); cmpT=setTimeout(cmpSaveNow, 700); }
@@ -3603,10 +3606,23 @@ $('compareBtn').onclick = async () => {
       // one path for every save: raw + corners -> crop
       const i=await blobImage(saved.blob).catch(()=>null);
       if (i){
+        // corners were measured in the capture's working canvas, so the
+        // decode must land in that exact space; legacy saves without the
+        // dims get the per-path cap (native 3456 / picker 2400; web blobs
+        // are already the working canvas)
+        let W=i.width, H=i.height;
+        if (saved.rawW>1 && saved.rawH>1){ W=saved.rawW; H=saved.rawH; }
+        else {
+          const mx=Math.max(i.width,i.height);
+          const cap=saved.framed ? (mx>3600?3456:mx) : 2400;
+          const k=Math.min(1, cap/mx);
+          W=Math.max(2,Math.round(i.width*k)); H=Math.max(2,Math.round(i.height*k));
+        }
         const cv2=document.createElement('canvas');
-        cv2.width=i.width; cv2.height=i.height;
+        cv2.width=W; cv2.height=H;
         const g2=cv2.getContext('2d');
-        g2.filter='grayscale(1)'; g2.drawImage(i,0,0); g2.filter='none';
+        g2.imageSmoothingQuality='high';
+        g2.filter='grayscale(1)'; g2.drawImage(i,0,0,W,H); g2.filter='none';
         URL.revokeObjectURL(i.src);
         CMP.raw=cv2; CMP.blob=saved.blob; CMP.framed=!!saved.framed;
         CMP.corners=(saved.corners && saved.corners.length===4)
