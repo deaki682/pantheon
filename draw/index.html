@@ -58,7 +58,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #pwaNote.big{font-size:15px;padding-top:10px}
 #pwaNote .tapLink{color:#fff;text-decoration:underline;text-underline-offset:2px}
 #invBtn{color:var(--acc)}
-#verTag{color:var(--acc);font-size:12px;text-align:center;letter-spacing:0.06em;margin-top:2px}
+#verTag{color:#9a9895;font-size:12px;text-align:center;letter-spacing:0.06em;margin-top:2px}
 #discBtn{color:var(--acc);display:flex;padding:4px}
 .gitem{position:relative;flex:none;border:1px solid #555;background:#1e1e1e;
   cursor:pointer;border-radius:10px;overflow:hidden}
@@ -333,7 +333,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <input type="file" id="bakFile" accept="application/json,.json" hidden>
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
-      <span id="verTag">&alpha; 0.5</span>
+      <span id="verTag">(by Dylan)</span>
     </div>
   </div>
 
@@ -341,10 +341,10 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 <div class="screen on" id="scrUpload">
   <div class="row" style="position:relative;justify-content:center">
     <span id="upTitle">Photorealism</span>
-    <span id="upStat" style="position:absolute;left:8px;font-size:12px;color:var(--acc)"></span>
+    <span id="upStat" style="position:absolute;left:8px;font-size:12px;color:#9a9895"></span>
   </div>
   <canvas id="titleRule"></canvas>
-  <div id="pwaNote">* iOS: Share &rarr; Add to Home Screen &middot; Android: &#8942; &rarr; Install</div>
+  <div id="pwaNote" style="display:none"></div>
   <input type="file" id="file" accept="image/*" hidden>
   <span class="grow"></span>
   <div id="gallery"></div>
@@ -701,7 +701,7 @@ function openPhoto(blob, gid){
     URL.revokeObjectURL(img.src);
     FMT_APPLIED = null;               // a new photo always reformats
     galLoading = null; GRID_READY = false;
-    $('upStat').textContent = '\u03b1 0.5';
+    $('upStat').textContent = '(by Dylan)';
     FMT_OFF.x=FMT_OFF.y=0.5;
     initFormat();
     let fmt = null;   // a photo formatted before goes straight to the drawing
@@ -988,8 +988,14 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
   $('setBtn').onclick=()=>{ $('setModal').style.display='flex'; };
   $('invBtn').onclick=async()=>{
     gcPing('/share');
-    const url=location.origin+location.pathname;
-    const msg='Photorealism - a drawing studio for the grid method. It runs right in the browser:';
+    const nat=!!window.RealismCam;
+    const url=nat ? 'https://play.google.com/store/apps/details?id=app.realism.draw'
+                  : location.origin+location.pathname;
+    const msg=nat ? 'Photorealism - a drawing studio for the grid method. Get it on Google Play:'
+                  : 'Photorealism - a drawing studio for the grid method. It runs right in the browser:';
+    if (nat && RealismCam.share){
+      try{ RealismCam.share(msg+' '+url); return; }catch(e){}
+    }
     if (navigator.share){
       try{ await navigator.share({title:'Photorealism', text:msg, url}); return; }
       catch(e){ if (e && e.name==='AbortError') return; }
@@ -2697,7 +2703,7 @@ document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) wakeHol
 
 
 
-loadArsenal(); $('upStat').textContent = '\u03b1 0.5';
+loadArsenal(); $('upStat').textContent = '(by Dylan)';
 
 // Denoise the honest way: the domain-transform edge-preserving filter -
 // the same machinery that builds the shading layer. Differences smaller
@@ -3012,7 +3018,8 @@ $('lvReset').onclick = () => {
   try{ localStorage.removeItem('cmpAdj'); }catch(e){}
   applyLevels(); cmpRender(); cmpSave();
 };
-$('lvBtn').onclick = () => { CMP.lvOpen=!CMP.lvOpen; cmpRender();
+$('lvBtn').onclick = () => { CMP.lvOpen=!CMP.lvOpen;
+  cmpButtons(); cmpSize(); cmpRender();
   if (!CMP.lvOpen && TOUR.circ){ TOUR.circ=false; circleTip(); } };
 $('mirBtn').onclick = () => {
   CMP.mirror=!CMP.mirror;
@@ -3252,6 +3259,18 @@ function cmpRender(){
     g.beginPath(); g.moveTo(pw,0); g.lineTo(pw,ph); g.stroke();
   }
   cmpButtons();
+  // the rows above may have just appeared or vanished, changing the view
+  // box: re-measure and repaint once so the photo always fills what is
+  // actually there (adjustment panel closing, capture chrome leaving)
+  if (!CAM.stream && !CAM.starting && !CMP.__rs){
+    const vr=$('cmpView').getBoundingClientRect();
+    if (Math.round(vr.height)!==Math.round(parseFloat(cv.style.height)||0)
+        || Math.round(vr.width)!==Math.round(parseFloat(cv.style.width)||0)){
+      CMP.__rs=true;
+      try{ cmpSize(); cmpRender(); }finally{ CMP.__rs=false; }
+      return;
+    }
+  }
   if (!CAM.stream && !CAM.starting && CMP.img){
     if (CMP.mode==='flip') coach('Flip','tap to flip');
     else if (CMP.mode==='split') coach('Cmp','zoom to compare');
@@ -4036,14 +4055,14 @@ $('cmpFlip').onclick = () => {
   if (!CMP.img) return;
   if (CMP.mode==='flip') CMP.showing = CMP.showing==='ref' ? 'photo' : 'ref';
   else { CMP.mode='flip'; CMP.showing='photo'; FLP.x=FLP.y=0; FLP.s=1; }
-  cmpRender();
+  cmpButtons(); cmpSize(); cmpRender();
 };
 $('cmpCrop').onclick = () => {
   if (CMP.mode==='corners') cmpApplyCorners('flip');
 };
 $('cmpSplit').onclick = () => {
   if (!CMP.img || CMP.mode==='split') return;
-  CMP.mode='split'; clampSplit();
+  CMP.mode='split'; cmpButtons(); cmpSize(); clampSplit();
   cmpRender();
 };
 {
@@ -4312,6 +4331,7 @@ document.addEventListener('click', e => {
   addEventListener('beforeinstallprompt', e=>{
     e.preventDefault(); bip=e;
     const n=$('pwaNote');
+    n.style.display='';
     n.innerHTML='* <span class="tapLink">Tap</span> to install Photorealism';
     n.classList.add('big');
     n.style.cursor='pointer';
@@ -4321,10 +4341,7 @@ document.addEventListener('click', e => {
       const r=await bip.userChoice.catch(()=>null);
       bip=null;
       if (r && r.outcome==='accepted') n.style.display='none';
-      else {
-        n.classList.remove('big');
-        n.textContent='* iOS: Share \u2192 Add to Home Screen \u00b7 Android: \u22ee \u2192 Install';
-      }
+      else n.style.display='none';
     };
   });
   addEventListener('appinstalled', ()=>{ $('pwaNote').style.display='none'; });

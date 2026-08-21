@@ -255,6 +255,20 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        // the page's share button routes here so the system share sheet
+        // carries the Play listing instead of the loopback URL
+        @JavascriptInterface
+        fun share(text: String) {
+            runOnUiThread {
+                try {
+                    val i = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        putExtra(android.content.Intent.EXTRA_TEXT, text)
+                    }
+                    startActivity(android.content.Intent.createChooser(i, "Share Photorealism"))
+                } catch (e: Exception) {}
+            }
+        }
         // comparison/photo downloads land in Pictures where the gallery sees them
         @JavascriptInterface
         fun saveImage(name: String, mime: String, b64: String) {
