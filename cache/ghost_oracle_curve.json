@@ -313,11 +313,20 @@
  },
  {
   "date": "2026-08-21",
-  "equity": 33645.59,
-  "total_return": 0.04165900729481509,
+  "equity": 33711.77,
+  "total_return": 0.04370795927803783,
   "n": 323,
   "benchmark": {
-   "SPY": 765.19
+   "SPY": 0.04268,
+   "SPY_price": 765.69
+  },
+  "note": "Zeus after-close pass ~16:20 ET Fri 2026-08-21 \u2014 the CLOSE mark, replacing the 14:12Z INTRADAY reading for this date (one point per date; the intraday numbers are preserved inline under `intraday_reading_1012ET`). 229/229 open symbols priced from the broker tape, ZERO missing \u2014 no survivorship substitution needed. 0 entries matured (grade_entries returned 0), 0 new opens (screen unchanged since 2026-08-16, skip_open=True). BOOK +4.371% vs SPY +4.268% = +0.10pp, flipping from -0.39pp at the 08-20 close (book +3.461% vs SPY +3.854%). DATA DEFECT FLAGGED, NOT PATCHED (fail-safe: note it, never silently fix another session's row): the 08-19 close row carries SPY_price 765.69, but SPY's actual 08-19 close was 769.06 \u2014 that row understates SPY by ~0.46pp and its '-0.19pp' excess reading is therefore wrong (true ~-0.65pp). Today's 765.69 is a genuine coincidence: it is SPY's real 08-21 close. The 08-18 point also remains MISSING from this curve. CAVEAT carried forward: PFBX quotes state='unlisted', last trade 2026-08-11 (8 sessions stale), marked at its $22.75 previous_close; 1 of 323 entries (~0.3%), immaterial to the curve, but it is the first name that will need the delisted-graded-as-a-loss survivorship rule at its horizon.",
+  "mark": "close",
+  "ts": "2026-08-21T20:25:00+00:00",
+  "intraday_reading_1012ET": {
+   "equity": 33645.59,
+   "total_return": 0.041659,
+   "SPY_price": 765.19
   }
  }
 ]
