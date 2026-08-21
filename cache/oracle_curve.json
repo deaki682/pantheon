@@ -1233,5 +1233,18 @@
   "spy": 765.19,
   "date": "2026-08-21",
   "session": "intraday_tend"
+ },
+ {
+  "cash": 449.94,
+  "equity": 4797.45,
+  "note": "close_tend_2026-08-21",
+  "positions": 6,
+  "timestamp": "2026-08-21T20:20:00+00:00",
+  "spy": 765.69,
+  "iwm": 299.93,
+  "date": "2026-08-21",
+  "session": "close_tend",
+  "peak_equity": 4930.514910700001,
+  "drawdown": 0.02698
  }
 ]
