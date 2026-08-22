@@ -463,6 +463,16 @@
    "risk_capital": 514.7109,
    "tbill_park": 0.0,
    "note": "v3 mark 10 (Fri 8/21 ~14:15Z live tape: VOO 702.952 / ABUS 5.1991 / SPY 764.72): equity 2598.82 NEW PEAK (+3.95% vs contributed; SPY +0.28% day). THE EVENT: ABUS filed SC TO-C + 8-K premarket - modified Dutch auction tender, up to $230M at $5.00-$5.75, commence ~8/24, expire ~9/29, funded from cash on hand; J.P. Morgan dealer-manager. E1 FIRES: hold 99 sh to tender (odd-lot no-proration; tape 5.20 < band top 5.75 so tendering dominates selling the pop). NO ADD above 99 - adding breaks odd-lot status (typed 8/13). Operator action needed: submit tender election in RH app once offer opens. Reconcile CLEAN (broker VOO 2.945296 + ABUS 99 == sleeve; the 8/20 NSTS buy is Hermes's, matched in hermes_ledger). Sweep 8/20-8/21: 25 hits, 0 new survivors. SITC clean (no election 8-K; deadline 8/31)."
+  },
+  {
+   "date": "2026-08-22",
+   "equity": 2600.68,
+   "spy": 765.69,
+   "index_park": 2072.6637,
+   "cash_park": 13.7124,
+   "risk_capital": 514.305,
+   "tbill_park": 0.0,
+   "note": "v3 mark 11 (Sat session, Fri 8/21 official close tape: VOO 703.72 / ABUS 5.195 / SPY 765.69, last regular trades 19:59:59Z): equity 2600.68 NEW PEAK (+4.03% vs contributed; ABUS held the tender pop, 5.195 vs band 5.00-5.75). Market closed - no orders possible. Reconcile CLEAN (zero account equity orders since 8/21 mark; broker VOO 2.945296 + ABUS 99 == sleeve)."
   }
  ]
 }

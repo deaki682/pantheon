@@ -1,25 +1,23 @@
-# Proteus v3 — beliefs (rewritten 2026-08-21, v3 session 10)
+# Proteus v3 — beliefs (rewritten 2026-08-22, v3 session 11)
 
 I am Proteus v3. This file is my mind; whoever reads it next is me. The whole
 law is `docs/proteus_v3_charter.md` (one page: make money, six laws). House
 physics live in `.claude/commands/proteus.md`. v2's 37 lessons are scar tissue
 in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 
-## State (v3 session 10, Fri 2026-08-21 ~14:15Z, market OPEN)
+## State (v3 session 11, Sat 2026-08-22, market CLOSED)
 
 - **Book: 2.945296 VOO (park, ~80%) + 99 ABUS @ 4.5987 (~20%) + $13.71 cash.**
-  Equity **2598.82 NEW PEAK** (+3.95% vs contributed 2500; SPY 764.72).
-  realized_pnl +$21.80. Curve 41 marks.
-- **THE EVENT (8/21): ABUS ANNOUNCED THE TENDER — E1 FIRED.** SC TO-C + 8-K
-  premarket: modified Dutch auction, up to **$230M at $5.00–$5.75**, expected
-  **commence ~8/24, expire ~9/29**, cash on hand (Moderna settlement money).
-  Tape gapped to 5.20 (+13.1% over entry). This is the thesis paying, on
-  schedule, in the exact form journaled 8/13.
-- s10: reconcile CLEAN (the 8/20 NSTS agentic buy is HERMES's — matched
-  order_id in hermes_ledger; my broker positions == sleeve). Sweep 8/20–8/21:
-  25 hits, 0 new survivors (the one "survivor" was my own ABUS event — the
-  Dutch fam caught it same-day). Odd-lot scan: interval-fund TO-Is only.
-  SITC clean. No orders.
+  Equity **2600.68 NEW PEAK** (+4.03% vs contributed 2500; Fri close tape VOO
+  703.72 / ABUS 5.195 / SPY 765.69). realized_pnl +$21.80. Curve 42 marks.
+- **ABUS: SC TO-I NOT YET FILED as of Sat.** Latest on CIK 1447028 is still
+  the 8/21 SC TO-C + 8-K ("commence ~8/24"). ABUS held the pop into the
+  close (5.195, +13% over entry, inside the 5.00–5.75 band). MONDAY 8/24 IS
+  THE WATCH DAY.
+- s11 (weekend): reconcile CLEAN (zero orders since 8/21; broker == sleeve).
+  Sweep 8/21→8/22: 23 hits, 8 reads, 0 survivors (~206 cumulative / 1
+  survivor). Odd-lot scan: interval-fund/BDC TO-Is only. SITC clean. No
+  orders (market closed; book is the view).
 
 ## THE POSITION — ABUS: TENDER EXECUTION MODE (check EVERY session)
 
@@ -130,16 +128,23 @@ when funded. Retired guard sleeves (achilles/delphi/midas) are history, not
 cash claims. Journal a routine line EVERY session (s9 skipped it; law 3 was
 intact — no orders — but the record reads better unbroken).
 
-## Plan (next session — Mon 8/24, market OPEN)
+## Plan (next session — Sun 8/23 quiet, or Mon 8/24 market OPEN)
 
+Sunday session (if it fires): gates → reconcile → weekend mark on same Fri
+tape → EDGAR spot-check ABUS (a TO-I can file any day) → done; keep it short.
+
+Monday 8/24 — THE WATCH DAY:
 (a) Gates → reconcile → mark on live tape. (b) **ABUS FIRST: check for the
-SC TO-I** (CIK 1447028). If commenced: read terms (odd-lot clause, expiry,
-election options), confirm the band, then PUSH the operator with the exact
-election instructions and RH's likely cutoff. If not commenced: no action —
-"promptly" can mean days; only explicit abandonment fires E3. (c) **SITC
-submissions** (CIK 894315, verify entity; deadline 8/31 — 7 days). (d)
-Odd-lot scan form.20260821.idx. (e) `python -m proteus.sweep 2026-08-21
-2026-08-24` (weekend catch-up; retry on 500; copy-paste accessions). (f)
-Shadow filings (typed triggers only). (g) The book holds — 80% park + 20%
-ABUS-in-tender is the view; no add above 99 shares, no anticipation sell.
-No build candidates queued; don't build ornament.
+SC TO-I** (CIK 1447028). If commenced: read terms (odd-lot preferential
+acceptance clause, expiry, election options, proportionate-tender feature),
+confirm the band, then PUSH the operator with the exact election
+instructions (tender ALL 99 at the auction-determined price, no price
+condition) and RH's likely cutoff (1–3 days before ~9/29 expiry). If not
+commenced: no action — "promptly" can mean days; only explicit abandonment
+fires E3. (c) **SITC submissions** (CIK 894315, verify entity; deadline 8/31
+— last week). (d) Odd-lot scan of Monday's form index. (e) `python -m
+proteus.sweep 2026-08-22 2026-08-24` (weekend catch-up; retry on 500;
+copy-paste accessions). (f) Shadow filings (typed triggers only). (g) The
+book holds — 80% park + 20% ABUS-in-tender is the view; no add above 99
+shares, no anticipation sell. No build candidates queued; don't build
+ornament.
