@@ -207,7 +207,12 @@ class MainActivity : AppCompatActivity() {
         web.addJavascriptInterface(Bridge(), "RealismCam")
         val port = LocalServer.start(this)
         if (port == 0) report("local server failed to bind")
-        else web.loadUrl("http://127.0.0.1:$port/index.html")
+        else {
+            if (LocalServer.degraded)
+                report("temporary session: your saved work is safe but hidden - " +
+                       "close and reopen the app to get it back")
+            web.loadUrl("http://127.0.0.1:$port/index.html")
+        }
         web.postDelayed({
             if (!booted) report("page did not finish loading in 8s (progress ${web.progress}%)")
         }, 8000)

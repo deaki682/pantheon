@@ -30,18 +30,39 @@ object LocalServer {
         return "/__cap/" + id
     }
 
+    @Volatile var degraded = false; private set
     fun start(ctx: Context): Int {
         server?.let { if (!it.isClosed) return port }
+        // the page's whole world (references, drawings, settings) is keyed
+        // to the 127.0.0.1:<port> ORIGIN, so the port must never drift. The
+        // old logic fell through to a fallback port on any bind failure -
+        // including the transient one when Android kills the app and it
+        // relaunches before the OS releases the socket - and then PERSISTED
+        // the fallback: a different origin, which looks like a factory
+        // reset. The home port is now pinned for the life of the install
+        // (8399, what every install started on), bound with reuseAddress
+        // and real patience; a last-resort ephemeral port serves only the
+        // current session and is never remembered, so the next launch
+        // finds the real data again.
         val prefs = ctx.getSharedPreferences("srv", 0)
-        val remembered = prefs.getInt("port", 8399)
+        val home = prefs.getInt("home", 8399)
+        prefs.edit().putInt("home", home).remove("port").apply()
+        fun bindAt(p: Int): ServerSocket? = try {
+            val t = ServerSocket()
+            t.reuseAddress = true
+            t.bind(java.net.InetSocketAddress(InetAddress.getByName("127.0.0.1"), p), 16)
+            t
+        } catch (e: Exception) { null }
         var ss: ServerSocket? = null
-        for (p in intArrayOf(remembered, 8399, 8517, 8641, 0)) {
-            try { ss = ServerSocket(p, 16, InetAddress.getByName("127.0.0.1")); break }
-            catch (e: Exception) {}
+        for (i in 0 until 12) {
+            ss = bindAt(home)
+            if (ss != null) break
+            try { Thread.sleep(250) } catch (e: InterruptedException) {}
         }
+        degraded = ss == null
+        if (ss == null) ss = bindAt(0)
         val s = ss ?: return 0
         server = s; port = s.localPort
-        prefs.edit().putInt("port", port).apply()
         val app = ctx.applicationContext
         Thread {
             while (!s.isClosed) {
