@@ -252,6 +252,18 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   max-width:min(86vw,360px);font-size:15px;line-height:1.55}
 #introHead{color:var(--acc);font-size:17px;letter-spacing:0.02em}
 #introBtn{min-width:96px;color:var(--acc)}
+#shModal{position:fixed;inset:0;z-index:27;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.72)}
+#shPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
+  padding:20px 24px;display:flex;flex-direction:column;gap:14px;max-width:86vw;
+  font-size:15px;line-height:1.5}
+#shPanel button{min-height:44px;border-radius:10px;min-width:96px}
+#dgModal{position:fixed;inset:0;z-index:27;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.72)}
+#dgPanel{background:#161616;border:1px solid #555;border-radius:14px;
+  padding:14px;display:flex;flex-direction:column;gap:10px;max-width:92vw;max-height:80vh}
+#dgPre{overflow:auto;font-size:10px;line-height:1.45;color:#c4bdb4;
+  white-space:pre-wrap;word-break:break-all}
 #dlModal{position:fixed;inset:0;z-index:26;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.72)}
 #dlPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
@@ -314,6 +326,21 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     </div>
   </div>
 </div>
+<div id="shModal">
+  <div id="shPanel">
+    <span id="shTxt"></span>
+    <div class="row" style="padding:0;justify-content:center;gap:12px">
+      <button id="shNo">Not now</button>
+      <button id="shYes" style="color:var(--acc)">Restore</button>
+    </div>
+  </div>
+</div>
+<div id="dgModal">
+  <div id="dgPanel">
+    <pre id="dgPre"></pre>
+    <button id="dgX">Close</button>
+  </div>
+</div>
 <div id="dlModal">
   <div id="dlPanel">
     <span>Where should downloads go?</span>
@@ -367,7 +394,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v222</span>
+      <span id="verNum">v223</span>
     </div>
   </div>
 
@@ -644,9 +671,92 @@ function gdb(){ return _gdb ||= new Promise((res,rej)=>{
 async function galAll(){ try{ const d=await gdb(); return await new Promise(res=>{
   const t=d.transaction('photos').objectStore('photos').getAll();
   t.onsuccess=()=>res(t.result||[]); t.onerror=()=>res([]); }); }catch(e){ return []; } }
-async function galAdd(rec){ try{ const d=await gdb(); return await new Promise(res=>{
+async function galAdd(rec){ try{ const d=await gdb(); const id=await new Promise(res=>{
   const t=d.transaction('photos','readwrite').objectStore('photos').add(rec);
-  t.onsuccess=()=>res(t.result); t.onerror=()=>res(null); }); }catch(e){ return null; } }
+  t.onsuccess=()=>res(t.result); t.onerror=()=>res(null); });
+  if (id!=null && rec.blob && !rec.seed) shadowMirrorRef(id, rec.blob);
+  shadowMeta();
+  return id; }catch(e){ return null; } }
+// ---- the native shadow: a second, independent copy of the user's work.
+// WebView storage has been wiped in the field; the shadow lives in the
+// app's private files (a different storage system) and offers itself
+// back whenever references go missing.
+const SHADOW=()=> (window.RealismCam && RealismCam.shadowSaveRef) ? RealismCam : null;
+async function shadowMirrorRef(id, blob){
+  const N=SHADOW(); if (!N) return;
+  try{
+    const b64=await new Promise(r=>{ const fr=new FileReader();
+      fr.onload=()=>r(fr.result.split(',')[1]); fr.readAsDataURL(blob); });
+    N.shadowSaveRef('r'+id, b64);
+  }catch(e){}
+}
+let shadowMetaT=0;
+function shadowMeta(now){
+  const N=SHADOW(); if (!N) return;
+  clearTimeout(shadowMetaT);
+  const write=async ()=>{
+    try{
+      const refs=[];
+      for (const r of await galAll())
+        refs.push({id:r.id, ts:r.ts||0, name:r.name||'', seed:r.seed?1:0,
+                   thumb:(r.thumb||'').slice(0,40000)});
+      const per={};
+      for (let i=0;i<localStorage.length;i++){
+        const k=localStorage.key(i);
+        if (k && BAK_PERID.some(p2=>k.indexOf(p2)===0)) per[k]=localStorage.getItem(k);
+      }
+      N.shadowSaveMeta(JSON.stringify({v:1, at:Date.now(), refs, per}));
+    }catch(e){}
+  };
+  if (now) write(); else shadowMetaT=setTimeout(write, 4000);
+}
+document.addEventListener('visibilitychange', ()=>{ if (document.hidden) shadowMeta(true); });
+// on boot: anything in the shadow that the gallery no longer has is
+// offered back, merged in with its grid, marks and time intact
+setTimeout(async ()=>{
+  const N=SHADOW(); if (!N) return;
+  try{
+    let meta=null; try{ meta=JSON.parse(N.shadowLoadMeta()||'null'); }catch(e){}
+    try{ N.dlog && N.dlog('boot refs='+(await galAll()).length
+      +' shadow='+(meta&&meta.refs?meta.refs.filter(m=>!m.seed).length:0)
+      +' persisted='+await (navigator.storage&&navigator.storage.persisted
+        ? navigator.storage.persisted().catch(()=>'?') : '?')); }catch(e){}
+    if (!meta || !meta.refs) { shadowMeta(); return; }
+    const have=await galAll();
+    const files=(N.shadowList()||'').split(',').filter(Boolean);
+    const missing=meta.refs.filter(m=>!m.seed
+      && files.includes('r'+m.id)
+      && !have.some(g=>(g.ts===m.ts) && (g.name||'')===(m.name||'')));
+    if (!missing.length){ shadowMeta(); return; }
+    $('shTxt').textContent='Found a safety backup of '+missing.length
+      +' missing reference'+(missing.length>1?'s':'')+'. Restore '
+      +(missing.length>1?'them':'it')+'?';
+    $('shModal').style.display='flex';
+    $('shYes').onclick=async ()=>{
+      $('shModal').style.display='none';
+      let n=0;
+      for (const m of missing){
+        try{
+          const b64=N.shadowReadRef('r'+m.id); if (!b64) continue;
+          const blob=b64blob(b64);
+          const thumb=m.thumb || await thumbOf(blob);
+          const nid=await galAdd({ ts:m.ts||Date.now(), name:m.name||'', thumb, blob });
+          if (nid==null) continue;
+          for (const pfx of BAK_PERID){
+            const v=meta.per && meta.per[pfx+m.id];
+            if (v!=null) try{ localStorage.setItem(pfx+nid, v); }catch(e){}
+          }
+          N.shadowDeleteRef('r'+m.id);      // re-mirrored under its new id
+          n++;
+        }catch(e){}
+      }
+      renderGallery(); shadowMeta(true);
+      toast(n ? 'restored '+n+' reference'+(n>1?'s':'') : 'restore failed', n>0);
+      try{ N.dlog && N.dlog('shadow restore n='+n); }catch(e){}
+    };
+    $('shNo').onclick=()=>{ $('shModal').style.display='none'; };
+  }catch(e){}
+}, 2500);
 let DELREF=null;
 async function galDel(id){ try{ const d=await gdb(); await new Promise(res=>{
   const t=d.transaction('photos','readwrite').objectStore('photos').delete(id);
@@ -1010,6 +1120,8 @@ $('delYes').onclick = async () => {
   $('delModal').style.display='none';
   if (id==null) return;
   await galDel(id);
+  try{ const N=SHADOW(); if (N){ N.shadowDeleteRef('r'+id); } }catch(e){}
+  shadowMeta();
   try{
     const ck=localStorage.getItem('ck|'+id);
     if (ck) cachePurge(ck);
@@ -1141,6 +1253,13 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
     $('dlModeBtn').textContent = m2==='ask' ? 'Ask me where, each time' : 'Photos gallery';
   };
   dlModeSync();
+  $('verNum').onclick=()=>{
+    if (!window.RealismCam || !RealismCam.dlogs) return;
+    try{ $('dgPre').textContent=RealismCam.dlogs()||'(empty)'; }catch(e){ return; }
+    $('dgModal').style.display='flex';
+  };
+  $('dgX').onclick=()=>{ $('dgModal').style.display='none'; };
+  $('dgModal').onclick=e=>{ if (e.target===$('dgModal')) $('dgModal').style.display='none'; };
   $('dlModeBtn').onclick=()=>{
     let m2=null; try{ m2=localStorage.getItem('dlmode'); }catch(e){}
     const next = m2==='ask' ? 'gallery' : 'ask';

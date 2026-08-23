@@ -234,6 +234,7 @@ class MainActivity : AppCompatActivity() {
         web.addJavascriptInterface(Bridge(), "RealismCam")
         healHome()
         val port = LocalServer.start(this)
+        logLine("launch port=$port degraded=${LocalServer.degraded}")
         if (port == 0) report("local server failed to bind")
         else {
             if (LocalServer.degraded)
@@ -267,15 +268,30 @@ class MainActivity : AppCompatActivity() {
                     found.add(Pair(m.groupValues[1].toInt(), size))
                 }
             }
-            if (found.isEmpty()) { report("storage scan: no saved data on this install"); return }
+            if (found.isEmpty()) {
+                report("storage scan: no saved data on this install")
+                logLine("scan: no idb dirs"); return
+            }
             val best = found.maxByOrNull { it.second }!!
             val home = prefs.getInt("home", 8399)
             val list = found.joinToString(" ") { "${it.first}=${it.second / 1024}KB" }
+            logLine("scan: $list home=$home")
             if (best.first != home && best.second > 256 * 1024) {
                 prefs.edit().putInt("home", best.first).apply()
                 report("storage scan: $list - re-homed to ${best.first}")
+                logLine("re-homed to ${best.first}")
             } else if (found.size > 1) report("storage scan: $list - home $home")
         } catch (e: Throwable) {}
+    }
+
+    private fun logLine(s: String) {
+        try {
+            val p = getSharedPreferences("dlog", 0)
+            val ts = java.text.SimpleDateFormat("MMdd HH:mm", java.util.Locale.US)
+                .format(java.util.Date())
+            val j = ((p.getString("j", "") ?: "") + ts + " " + s + "\n").takeLast(6000)
+            p.edit().putString("j", j).apply()
+        } catch (e: Exception) {}
     }
 
     private fun js(code: String) = runOnUiThread { web.evaluateJavascript(code, null) }
@@ -329,6 +345,53 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        // ---- the shadow: a native mirror of every user reference ----
+        // WebView storage has been wiped in the field more than once; this
+        // lives in the app's private files dir - a different storage system
+        // entirely, untouched by the browser engine's quota manager, gone
+        // only on uninstall. The page mirrors on write and restores from
+        // here whenever references go missing.
+        private fun shadowDir(): java.io.File =
+            java.io.File(filesDir, "shadow/refs").apply { mkdirs() }
+        private fun safeName(id: String) = id.filter { it.isLetterOrDigit() } + ".bin"
+        @JavascriptInterface
+        fun shadowSaveRef(id: String, b64: String) {
+            Thread {
+                try { java.io.File(shadowDir(), safeName(id))
+                        .writeBytes(Base64.decode(b64, Base64.DEFAULT)) }
+                catch (e: Exception) {}
+            }.apply { isDaemon = true }.start()
+        }
+        @JavascriptInterface
+        fun shadowDeleteRef(id: String) {
+            try { java.io.File(shadowDir(), safeName(id)).delete() } catch (e: Exception) {}
+        }
+        @JavascriptInterface
+        fun shadowList(): String =
+            try { shadowDir().listFiles()?.joinToString(",") { it.name.removeSuffix(".bin") } ?: "" }
+            catch (e: Exception) { "" }
+        @JavascriptInterface
+        fun shadowReadRef(id: String): String =
+            try { Base64.encodeToString(
+                java.io.File(shadowDir(), safeName(id)).readBytes(), Base64.NO_WRAP) }
+            catch (e: Exception) { "" }
+        @JavascriptInterface
+        fun shadowSaveMeta(text: String) {
+            Thread {
+                try { java.io.File(filesDir, "shadow/meta.json").writeText(text) }
+                catch (e: Exception) {}
+            }.apply { isDaemon = true }.start()
+        }
+        @JavascriptInterface
+        fun shadowLoadMeta(): String =
+            try { java.io.File(filesDir, "shadow/meta.json").readText() } catch (e: Exception) { "" }
+        // rolling diagnostics journal: every launch and storage event lands
+        // here so the NEXT incident carries evidence instead of anecdote
+        @JavascriptInterface
+        fun dlog(line: String) = logLine("page: " + line.take(300))
+        @JavascriptInterface
+        fun dlogs(): String =
+            try { getSharedPreferences("dlog", 0).getString("j", "") ?: "" } catch (e: Exception) { "" }
         // the page's share button routes here so the system share sheet
         // carries the Play listing instead of the loopback URL
         @JavascriptInterface
