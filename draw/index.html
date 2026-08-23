@@ -20,11 +20,13 @@ html{color-scheme:dark;accent-color:var(--acc)}
 input[type=range]{-webkit-appearance:none;appearance:none;height:28px;
   background:transparent}
 input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:2px;
-  background:#4a4a4a}
+  background:linear-gradient(to right,var(--acc) 0,var(--acc) var(--p,50%),
+    #4a4a4a var(--p,50%))}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
   width:14px;height:14px;border-radius:50%;background:var(--acc);
   margin-top:-5.5px}
 input[type=range]::-moz-range-track{height:3px;border-radius:2px;background:#4a4a4a}
+input[type=range]::-moz-range-progress{height:3px;border-radius:2px;background:var(--acc)}
 input[type=range]::-moz-range-thumb{width:14px;height:14px;border:none;
   border-radius:50%;background:var(--acc)}
 html,body{width:100%;height:100%;overflow:hidden;background:#141414;color:#e8e6e1;
@@ -169,7 +171,11 @@ html.natCam #camVid{display:none !important}
   gap:4px 8px;align-items:center}
 #edTone .adjL{min-width:0;text-align:right;white-space:nowrap}
 #edTone input[type=range]{width:100%;min-width:0;margin:0}
-#edRow button{min-height:44px}
+#edRow{justify-content:space-evenly;gap:10px;padding:8px 12px}
+#edRow button{flex:1;min-height:46px;font-size:15px}
+#edEye{position:absolute;right:10px;top:10px;z-index:5;width:42px;height:42px;
+  padding:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(24,24,24,.72);border-radius:12px}
 #gridMenu{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
   display:none;flex-direction:column;gap:6px;background:#1e1e1e;
   border:1px solid #555;border-radius:14px;padding:8px;z-index:6;
@@ -438,7 +444,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v226</span>
+      <span id="verNum">v229</span>
     </div>
   </div>
 
@@ -479,7 +485,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 
 <!-- 2: format -->
 <div class="screen" id="scrEdit">
-  <div id="edView"><canvas id="edCv"></canvas></div>
+  <div id="edView"><canvas id="edCv"></canvas><button id="edEye" title="Hold to see the original"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
   <div id="edTone" class="edPanel">
     <div class="row">
       <span class="adjL">exposure</span><input type="range" id="eExp" min="-100" max="100" value="0">
@@ -503,14 +509,12 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <button id="eRot" title="Rotate"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
       <button id="eFlipH" title="Flip horizontally"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18" stroke-dasharray="2 3"/><path d="M8 8 4 12l4 4"/><path d="M16 8l4 4-4 4"/></svg></button>
       <button id="eFlipV" title="Flip vertically"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18" stroke-dasharray="2 3"/><path d="M8 8l4-4 4 4"/><path d="M8 16l4 4 4-4"/></svg></button>
-      <button id="eAspect" title="Aspect ratio"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="10" rx="2"/><rect x="7" y="2.5" width="10" height="19" rx="2"/></svg></button>
+      <button id="eAspect" title="Aspect ratio" style="min-width:64px">Free</button>
     </div>
   </div>
   <div class="row" id="edRow">
     <button id="edCancel">Cancel</button>
-    <button id="edToneBtn" class="vOn">Light</button>
-    <button id="edCropBtn">Crop</button>
-    <span class="grow"></span>
+    <button id="edModeBtn">Crop</button>
     <button id="edReset">Reset</button>
     <button id="edDone" style="color:var(--acc)">Done</button>
   </div>
@@ -694,7 +698,7 @@ const show = id => { tipClose(false); uiShow();
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on')); $(id).classList.add('on');
   $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex';
   if (id!=='scrUpload') backArm();
-  if (id==='scrFormat') fmtTip();
+  if (id==='scrFormat'){ fmtTip(); requestAnimationFrame(()=>{ try{ fmtPreview(); }catch(e){} }); }
   if (id==='scrMain') mainTip();
   if (id==='scrUpload' && TOUR.rule) ruleTip(); };
 
@@ -1424,20 +1428,29 @@ function fmtPreview(){
   if (!photo) return;
   const cr = cropRect();
   const cv = $('fmtCanvas');
-  const scale = Math.min(320/cr.w, 420/cr.h);
-  cv.width = Math.round(cr.w*scale); cv.height = Math.round(cr.h*scale);
+  // render at device resolution: a small fixed canvas stretched by the
+  // screen density is what made the preview grid look chunky
+  const box=$('fmtPrev').getBoundingClientRect();
+  const availW=box.width>50 ? box.width-12 : 348;
+  const availH=box.height>50 ? box.height-8 : 440;
+  const dpr=Math.min(3, devicePixelRatio||1);
+  const css=Math.min(availW/cr.w, availH/cr.h);
+  cv.width = Math.round(cr.w*css*dpr); cv.height = Math.round(cr.h*css*dpr);
+  cv.style.width = Math.round(cr.w*css)+'px';
+  cv.style.height = Math.round(cr.h*css)+'px';
   const g = cv.getContext('2d');
   g.imageSmoothingQuality='high';
   g.drawImage(photo, cr.x, cr.y, cr.w, cr.h, 0, 0, cv.width, cv.height);
   const wIn = physWIn();
   const hIn = wIn * ((+$('heightIn').value||1)/(+$('widthIn').value||1));
   const step = cv.width*cellIn()/wIn;
-  g.strokeStyle='rgba(255,255,255,0.7)'; g.lineWidth=1;
+  g.strokeStyle='rgba(255,255,255,0.55)';
+  g.lineWidth=Math.max(0.75, dpr*0.55);
   if (GRID_STYLE!=='dots'){
-    for (let x=step; x<cv.width-1; x+=step){ const xx=Math.round(x)+0.5;
-      g.beginPath(); g.moveTo(xx,0); g.lineTo(xx,cv.height); g.stroke(); }
-    for (let y=step; y<cv.height-1; y+=step){ const yy=Math.round(y)+0.5;
-      g.beginPath(); g.moveTo(0,yy); g.lineTo(cv.width,yy); g.stroke(); }
+    for (let x=step; x<cv.width-1; x+=step){
+      g.beginPath(); g.moveTo(x,0); g.lineTo(x,cv.height); g.stroke(); }
+    for (let y=step; y<cv.height-1; y+=step){
+      g.beginPath(); g.moveTo(0,y); g.lineTo(cv.width,y); g.stroke(); }
   }
   if (GRID_STYLE==='diag'){
     for (let y=0; y<cv.height-1; y+=step) for (let x=0; x<cv.width-1; x+=step){
@@ -1446,9 +1459,9 @@ function fmtPreview(){
       g.moveTo(x2,y); g.lineTo(x,y2); g.stroke();
     }
   } else if (GRID_STYLE==='dots'){
-    g.fillStyle='rgba(255,255,255,0.85)';
+    g.fillStyle='rgba(255,255,255,0.8)';
     for (let y=step; y<cv.height-1; y+=step) for (let x=step; x<cv.width-1; x+=step){
-      g.beginPath(); g.arc(x,y,1.8,0,6.2832); g.fill(); }
+      g.beginPath(); g.arc(x,y,dpr*1.1,0,6.2832); g.fill(); }
   }
 }
 // drag the preview to slide the crop window around the photo
@@ -1462,7 +1475,7 @@ function fmtPreview(){
   cv.addEventListener('pointermove', e=>{
     if (!drag || !photo) return;
     const cr=cropRect();
-    const scale=cv.width/cr.w;
+    const scale=(cv.getBoundingClientRect().width||cv.width)/cr.w;
     const sx=photo.width-cr.w, sy=photo.height-cr.h;
     const dx=e.clientX-drag.x, dy=e.clientY-drag.y;
     drag={x:e.clientX, y:e.clientY};
@@ -1628,16 +1641,40 @@ function editApply(src, R){
   }
   return c;
 }
-const ED={on:false, orig:null, pre:null, gray:null, gid:null, mode:'tone', fit:null};
+function slFill(el){
+  const min=+el.min||0, max=el.max===''?100:+el.max;
+  const p=max>min ? (+el.value-min)/(max-min)*100 : 0;
+  el.style.setProperty('--p', p+'%');
+}
+function slFillAll(){
+  for (const el of document.querySelectorAll('input[type=range]')) slFill(el);
+}
+document.addEventListener('input', e=>{
+  if (e.target && e.target.type==='range') slFill(e.target);
+}, true);
+function edArText(ar){
+  if (!ar) return 'Free';
+  const map={1:'1:1',0.8:'4:5',0.75:'3:4',0.6667:'2:3',0.5625:'9:16',
+             1.3333:'4:3',1.7778:'16:9'};
+  for (const k in map) if (Math.abs(ar-k)<0.002) return map[k];
+  for (let h=1;h<=32;h++){ const w=ar*h;
+    if (Math.abs(w-Math.round(w))<0.02 && Math.round(w)>0 && Math.round(w)<=99)
+      return Math.round(w)+':'+h; }
+  return ar.toFixed(2)+':1';
+}
+const ED={on:false, orig:null, pre:null, gray:null, gid:null, mode:'tone', fit:null,
+          z:{s:1,x:0,y:0}, showOrig:false};
 function edSync(){
   const R=ED.R;
   $('eExp').value=R.exp; $('eCon').value=R.con; $('eHi').value=R.hi;
   $('eSh').value=R.sh; $('eWh').value=R.wh; $('eBl').value=R.bl;
   $('eShp').value=R.shp; $('eDn').value=R.dn;
-  $('edToneBtn').classList.toggle('vOn', ED.mode==='tone');
-  $('edCropBtn').classList.toggle('vOn', ED.mode==='crop');
+  $('edModeBtn').textContent = ED.mode==='tone' ? 'Crop' : 'Light';
+  $('edEye').style.display = ED.mode==='tone' ? '' : 'none';
+  $('eAspect').textContent = edArText(R.ar||0);
   $('edTone').style.display = ED.mode==='tone' ? '' : 'none';
   $('edCropP').style.display = ED.mode==='crop' ? '' : 'none';
+  slFillAll();
 }
 function edBuildPre(){
   // orientation + straighten at preview resolution: cheap to rebuild on
@@ -1715,19 +1752,27 @@ function edRender(){
                            [rx+rw/2,ry],[rx+rw/2,ry+rh],[rx,ry+rh/2],[rx+rw,ry+rh/2]])
       g.fillRect(hx-hs,hy-hs,hs*2,hs*2);
   } else {
-    // just the final look: the cropped region, filling the room
+    // the final look: the cropped region, zoomable for close inspection
     const cx=R.cx*pre.width, cy=R.cy*pre.height;
     const cw=Math.max(2,R.cw*pre.width), ch=Math.max(2,R.ch*pre.height);
     const s=Math.min(W/cw, H/ch)*0.97;
     const ox=(W-cw*s)/2, oy=(H-ch*s)/2;
     ED.fit=null;
-    g.drawImage(toned, cx, cy, cw, ch, ox, oy, cw*s, ch*s);
+    const z=ED.z;
+    const lim=(v,m)=>v<-m?-m:(v>m?m:v);
+    z.s=Math.max(1, Math.min(8, z.s));
+    z.x=lim(z.x, W*(z.s-1)/(2*z.s)); z.y=lim(z.y, H*(z.s-1)/(2*z.s));
+    g.save();
+    g.translate(W/2, H/2); g.scale(z.s, z.s); g.translate(-W/2+z.x, -H/2+z.y);
+    g.drawImage(ED.showOrig ? pre : toned, cx, cy, cw, ch, ox, oy, cw*s, ch*s);
+    g.restore();
   }
 }
 let edRAF=0;
 function edPaint(){ cancelAnimationFrame(edRAF); edRAF=requestAnimationFrame(edRender); }
 function edOpen(orig, gid, mode){
   ED.on=true; ED.orig=orig; ED.gid=gid; ED.mode=mode||'tone';
+  ED.z={s:1,x:0,y:0}; ED.showOrig=false;
   ED.R = editLoad(gid) || {...EDIT_DEF};
   show('scrEdit');
   edSync(); edBuildPre(); edPaint();
@@ -1767,8 +1812,11 @@ $('fmtEdit').onclick=()=>edOpenFor('tone');
 $('fmtCrop').onclick=()=>edOpenFor('crop');
 $('edCancel').onclick=()=>edClose(false);
 $('edDone').onclick=()=>edClose(true);
-$('edToneBtn').onclick=()=>{ ED.mode='tone'; edSync(); edPaint(); };
-$('edCropBtn').onclick=()=>{ ED.mode='crop'; edSync(); edPaint(); };
+$('edModeBtn').onclick=()=>{
+  if (ED.mode==='tone'){ ED.mode='crop'; ED.z={s:1,x:0,y:0}; }
+  else ED.mode='tone';
+  edSync(); edPaint();
+};
 $('edReset').onclick=()=>{ ED.R={...EDIT_DEF}; edSync(); edBuildPre(); edPaint(); };
 for (const [id2,k2] of [['eExp','exp'],['eCon','con'],['eHi','hi'],['eSh','sh'],
                         ['eWh','wh'],['eBl','bl'],['eShp','shp'],['eDn','dn']])
@@ -1784,7 +1832,7 @@ function edSetAspect(ar){
     if (ch>1){ ch=1; cw=ar*H/W; }
     Object.assign(ED.R,{cw, ch, cx:(1-cw)/2, cy:(1-ch)/2});
   }
-  edPaint();
+  edSync(); edPaint();
 }
 for (const b of document.querySelectorAll('#arGrid button'))
   b.onclick=()=>edSetAspect(+b.dataset.ar);
@@ -1796,6 +1844,60 @@ $('eRot').onclick=()=>{ ED.R.rot=(ED.R.rot+1)%4;
   Object.assign(ED.R,{cx:0,cy:0,cw:1,ch:1}); edBuildPre(); edPaint(); };
 $('eFlipH').onclick=()=>{ ED.R.fh=ED.R.fh?0:1; edBuildPre(); edPaint(); };
 $('eFlipV').onclick=()=>{ ED.R.fv=ED.R.fv?0:1; edBuildPre(); edPaint(); };
+{
+  // hold the eye for the untouched original
+  const eye=$('edEye');
+  const eyeOn=e=>{ ED.showOrig=true; edPaint(); e.preventDefault(); };
+  const eyeOff=()=>{ if (ED.showOrig){ ED.showOrig=false; edPaint(); } };
+  eye.addEventListener('pointerdown', eyeOn);
+  eye.addEventListener('pointerup', eyeOff);
+  eye.addEventListener('pointercancel', eyeOff);
+  eye.addEventListener('pointerleave', eyeOff);
+}
+{
+  // tone view: pinch to zoom, drag to pan, double-tap to jump in and out
+  const cv=$('edCv'); const pts=new Map(); let p0=null, lastTap=0;
+  cv.addEventListener('pointerdown', e=>{
+    if (!ED.on || ED.mode!=='tone') return;
+    pts.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    cv.setPointerCapture(e.pointerId);
+    if (pts.size===1){
+      const now=Date.now();
+      if (now-lastTap<300){
+        ED.z = ED.z.s>1.1 ? {s:1,x:0,y:0} : {s:2.5,x:0,y:0};
+        edPaint();
+      }
+      lastTap=now;
+    }
+    p0=null;
+    e.preventDefault();
+  });
+  cv.addEventListener('pointermove', e=>{
+    if (!ED.on || ED.mode!=='tone' || !pts.has(e.pointerId)) return;
+    pts.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    const P=[...pts.values()];
+    if (P.length>=2){
+      const d=Math.hypot(P[0].x-P[1].x, P[0].y-P[1].y);
+      const mx=(P[0].x+P[1].x)/2, my=(P[0].y+P[1].y)/2;
+      if (p0 && p0.d){
+        ED.z.s*=d/p0.d;
+        ED.z.x+=(mx-p0.x)/ED.z.s; ED.z.y+=(my-p0.y)/ED.z.s;
+        edPaint();
+      }
+      p0={d, x:mx, y:my};
+    } else if (P.length===1 && ED.z.s>1){
+      if (p0 && !p0.d){
+        ED.z.x+=(P[0].x-p0.x)/ED.z.s; ED.z.y+=(P[0].y-p0.y)/ED.z.s;
+        edPaint();
+      }
+      p0={x:P[0].x, y:P[0].y};
+    }
+    e.preventDefault();
+  });
+  const lift=e=>{ pts.delete(e.pointerId); p0=null; };
+  cv.addEventListener('pointerup', lift);
+  cv.addEventListener('pointercancel', lift);
+}
 {
   // crop drag: corners and edges resize, the middle moves
   const cv=$('edCv'); let drag=null;
@@ -3763,6 +3865,7 @@ function adjSync(){
   $('aExp').value=a.exp; $('aCon').value=a.con; $('aHi').value=a.hi;
   $('aSh').value=a.sh; $('aWh').value=a.wh||0; $('aBl').value=a.bl||0;
   $('aDn').value=a.dn||0;
+  slFillAll();
 }
 for (const [id,key] of [['aExp','exp'],['aCon','con'],['aHi','hi'],
                         ['aSh','sh'],['aWh','wh'],['aBl','bl'],['aDn','dn']])
