@@ -5,14 +5,14 @@ plugins {
 
 android {
   namespace 'app.realism.draw'
-  compileSdk 35
+  compileSdk 36
 
   defaultConfig {
     applicationId "app.realism.draw"
     minSdk 26
-    targetSdk 35
-    versionCode 31
-    versionName "0.8.6"
+    targetSdk 36
+    versionCode 32
+    versionName "0.8.7"
   }
   // the web app IS the app: the android module serves ../draw verbatim
   sourceSets.main.assets.srcDirs += rootProject.file('../draw')

@@ -108,6 +108,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
         val root = FrameLayout(this)
+        // targetSdk 36 enforces edge-to-edge with no opt-out, so the layout
+        // makes its own room: the root pads itself by the system-bar and
+        // cutout insets, and everything inside (WebView + camera preview,
+        // which share this coordinate space) sits between the bars exactly
+        // as it did before enforcement. The padding band shows root black.
+        root.setBackgroundColor(Color.BLACK)
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
+            val b = insets.getInsets(
+                androidx.core.view.WindowInsetsCompat.Type.systemBars() or
+                androidx.core.view.WindowInsetsCompat.Type.displayCutout())
+            v.setPadding(b.left, b.top, b.right, b.bottom)
+            androidx.core.view.WindowInsetsCompat.CONSUMED
+        }
         previewView = PreviewView(this).apply {
             visibility = android.view.View.GONE
             scaleType = PreviewView.ScaleType.FIT_CENTER
