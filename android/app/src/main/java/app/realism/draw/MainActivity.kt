@@ -218,6 +218,7 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         web.addJavascriptInterface(Bridge(), "RealismCam")
+        healHome()
         val port = LocalServer.start(this)
         if (port == 0) report("local server failed to bind")
         else {
@@ -229,6 +230,38 @@ class MainActivity : AppCompatActivity() {
         web.postDelayed({
             if (!booted) report("page did not finish loading in 8s (progress ${web.progress}%)")
         }, 8000)
+    }
+
+    // the browser engine keeps IndexedDB in per-origin folders on disk,
+    // named by port. If the biggest trove of user data lives under a
+    // different port than the one we are about to serve on, re-home to it -
+    // this recovers references orphaned by the pre-0.8.6 port drift no
+    // matter which port they actually landed on, and reports what it found
+    // so a wiped install is distinguishable from a mis-homed one.
+    private fun healHome() {
+        try {
+            val prefs = getSharedPreferences("srv", 0)
+            val rx = Regex("^http_127\\.0\\.0\\.1_(\\d+)\\.indexeddb\\.leveldb$")
+            val found = ArrayList<Pair<Int, Long>>()
+            for (base in arrayOf("app_webview/Default/IndexedDB", "app_webview/IndexedDB")) {
+                val dir = java.io.File(dataDir, base)
+                if (!dir.isDirectory) continue
+                dir.listFiles()?.forEach { d ->
+                    val m = rx.find(d.name) ?: return@forEach
+                    var size = 0L
+                    d.walkTopDown().forEach { f -> if (f.isFile) size += f.length() }
+                    found.add(Pair(m.groupValues[1].toInt(), size))
+                }
+            }
+            if (found.isEmpty()) { report("storage scan: no saved data on this install"); return }
+            val best = found.maxByOrNull { it.second }!!
+            val home = prefs.getInt("home", 8399)
+            val list = found.joinToString(" ") { "${it.first}=${it.second / 1024}KB" }
+            if (best.first != home && best.second > 256 * 1024) {
+                prefs.edit().putInt("home", best.first).apply()
+                report("storage scan: $list - re-homed to ${best.first}")
+            } else if (found.size > 1) report("storage scan: $list - home $home")
+        } catch (e: Throwable) {}
     }
 
     private fun js(code: String) = runOnUiThread { web.evaluateJavascript(code, null) }
