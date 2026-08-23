@@ -335,7 +335,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v218</span>
+      <span id="verNum">v219</span>
     </div>
   </div>
 
@@ -936,6 +936,25 @@ function gcPing(path){
   }catch(e){}
 }
 gcPing('/open');
+// storage durability: without a persistence grant the browser engine may
+// EVICT this origin's whole storage under disk pressure - weeks of
+// references gone in one low-space moment. Ask for the grant, and show
+// usage next to the version so a filling quota is visible before it bites.
+try{
+  if (navigator.storage && navigator.storage.persist)
+    navigator.storage.persist().then(g=>{
+      if (!g) console.warn('persistence not granted');
+    }).catch(()=>{});
+  if (navigator.storage && navigator.storage.estimate)
+    navigator.storage.estimate().then(e=>{
+      const el=$('verNum'); if (!el || !e || !e.quota) return;
+      const u=(e.usage||0)/1048576, q=e.quota/1048576;
+      el.textContent=el.textContent+' \u00b7 '
+        +(u<100?u.toFixed(1):Math.round(u))+' of '+Math.round(q)+' MB used';
+      if (e.usage > e.quota*0.8)
+        toast('storage almost full - back up and free some space', false, 6000);
+    }).catch(()=>{});
+}catch(e){}
 addEventListener('appinstalled', ()=>gcPing('/install'));
 // tester recruitment (web only - the native app never shows it): returning
 // users get one forced choice; both answers are counted, so the click
