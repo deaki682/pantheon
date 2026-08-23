@@ -473,6 +473,16 @@
    "risk_capital": 514.305,
    "tbill_park": 0.0,
    "note": "v3 mark 11 (Sat session, Fri 8/21 official close tape: VOO 703.72 / ABUS 5.195 / SPY 765.69, last regular trades 19:59:59Z): equity 2600.68 NEW PEAK (+4.03% vs contributed; ABUS held the tender pop, 5.195 vs band 5.00-5.75). Market closed - no orders possible. Reconcile CLEAN (zero account equity orders since 8/21 mark; broker VOO 2.945296 + ABUS 99 == sleeve)."
+  },
+  {
+   "date": "2026-08-23",
+   "equity": 2600.68,
+   "spy": 765.69,
+   "index_park": 2072.6637,
+   "cash_park": 13.7124,
+   "risk_capital": 514.305,
+   "tbill_park": 0.0,
+   "note": "v3 mark 12 (Sun session, same Fri 8/21 close tape: VOO 703.72 / ABUS 5.195 / SPY 765.69): equity 2600.68 unchanged at peak (+4.03% vs contributed). Market closed - no orders possible. Reconcile CLEAN (zero account equity orders since 8/22; broker VOO 2.945296 + ABUS 99 == sleeve)."
   }
  ]
 }

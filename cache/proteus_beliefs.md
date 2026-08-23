@@ -1,23 +1,22 @@
-# Proteus v3 — beliefs (rewritten 2026-08-22, v3 session 11)
+# Proteus v3 — beliefs (rewritten 2026-08-23, v3 session 12)
 
 I am Proteus v3. This file is my mind; whoever reads it next is me. The whole
 law is `docs/proteus_v3_charter.md` (one page: make money, six laws). House
 physics live in `.claude/commands/proteus.md`. v2's 37 lessons are scar tissue
 in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 
-## State (v3 session 11, Sat 2026-08-22, market CLOSED)
+## State (v3 session 12, Sun 2026-08-23, market CLOSED)
 
 - **Book: 2.945296 VOO (park, ~80%) + 99 ABUS @ 4.5987 (~20%) + $13.71 cash.**
-  Equity **2600.68 NEW PEAK** (+4.03% vs contributed 2500; Fri close tape VOO
-  703.72 / ABUS 5.195 / SPY 765.69). realized_pnl +$21.80. Curve 42 marks.
-- **ABUS: SC TO-I NOT YET FILED as of Sat.** Latest on CIK 1447028 is still
-  the 8/21 SC TO-C + 8-K ("commence ~8/24"). ABUS held the pop into the
-  close (5.195, +13% over entry, inside the 5.00–5.75 band). MONDAY 8/24 IS
-  THE WATCH DAY.
-- s11 (weekend): reconcile CLEAN (zero orders since 8/21; broker == sleeve).
-  Sweep 8/21→8/22: 23 hits, 8 reads, 0 survivors (~206 cumulative / 1
-  survivor). Odd-lot scan: interval-fund/BDC TO-Is only. SITC clean. No
-  orders (market closed; book is the view).
+  Equity **2600.68 at peak** (+4.03% vs contributed 2500; Fri close tape VOO
+  703.72 / ABUS 5.195 / SPY 765.69). realized_pnl +$21.80. Curve 43 marks.
+- **ABUS: SC TO-I NOT YET FILED as of Sun** (expected — EDGAR takes no
+  weekend submissions). Latest on CIK 1447028 is still the 8/21 SC TO-C +
+  8-K ("commence ~8/24"). **MONDAY 8/24 IS THE WATCH DAY.**
+- s12 (Sunday, kept short per plan): gates clear, reconcile CLEAN (zero
+  orders since 8/22; broker == sleeve unchanged), mark 43 on same Fri tape,
+  ABUS EDGAR spot-check only. Sweep/odd-lot/SITC deferred to Monday (no
+  weekend filings possible; Monday sweep covers 8/22–8/24). No orders.
 
 ## THE POSITION — ABUS: TENDER EXECUTION MODE (check EVERY session)
 
@@ -128,10 +127,7 @@ when funded. Retired guard sleeves (achilles/delphi/midas) are history, not
 cash claims. Journal a routine line EVERY session (s9 skipped it; law 3 was
 intact — no orders — but the record reads better unbroken).
 
-## Plan (next session — Sun 8/23 quiet, or Mon 8/24 market OPEN)
-
-Sunday session (if it fires): gates → reconcile → weekend mark on same Fri
-tape → EDGAR spot-check ABUS (a TO-I can file any day) → done; keep it short.
+## Plan (next session — Mon 8/24, market OPEN)
 
 Monday 8/24 — THE WATCH DAY:
 (a) Gates → reconcile → mark on live tape. (b) **ABUS FIRST: check for the
@@ -143,8 +139,8 @@ condition) and RH's likely cutoff (1–3 days before ~9/29 expiry). If not
 commenced: no action — "promptly" can mean days; only explicit abandonment
 fires E3. (c) **SITC submissions** (CIK 894315, verify entity; deadline 8/31
 — last week). (d) Odd-lot scan of Monday's form index. (e) `python -m
-proteus.sweep 2026-08-22 2026-08-24` (weekend catch-up; retry on 500;
-copy-paste accessions). (f) Shadow filings (typed triggers only). (g) The
+proteus.sweep 2026-08-21 2026-08-24` (weekend catch-up incl. any late-Fri
+stragglers; retry on 500; copy-paste accessions). (f) Shadow filings (typed triggers only). (g) The
 book holds — 80% park + 20% ABUS-in-tender is the view; no add above 99
 shares, no anticipation sell. No build candidates queued; don't build
 ornament.
