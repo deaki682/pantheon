@@ -426,7 +426,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v224</span>
+      <span id="verNum">v225</span>
     </div>
   </div>
 
@@ -1424,10 +1424,23 @@ function fmtPreview(){
   const hIn = wIn * ((+$('heightIn').value||1)/(+$('widthIn').value||1));
   const step = cv.width*cellIn()/wIn;
   g.strokeStyle='rgba(255,255,255,0.7)'; g.lineWidth=1;
-  for (let x=step; x<cv.width-1; x+=step){ const xx=Math.round(x)+0.5;
-    g.beginPath(); g.moveTo(xx,0); g.lineTo(xx,cv.height); g.stroke(); }
-  for (let y=step; y<cv.height-1; y+=step){ const yy=Math.round(y)+0.5;
-    g.beginPath(); g.moveTo(0,yy); g.lineTo(cv.width,yy); g.stroke(); }
+  if (GRID_STYLE!=='dots'){
+    for (let x=step; x<cv.width-1; x+=step){ const xx=Math.round(x)+0.5;
+      g.beginPath(); g.moveTo(xx,0); g.lineTo(xx,cv.height); g.stroke(); }
+    for (let y=step; y<cv.height-1; y+=step){ const yy=Math.round(y)+0.5;
+      g.beginPath(); g.moveTo(0,yy); g.lineTo(cv.width,yy); g.stroke(); }
+  }
+  if (GRID_STYLE==='diag'){
+    for (let y=0; y<cv.height-1; y+=step) for (let x=0; x<cv.width-1; x+=step){
+      const x2=Math.min(x+step,cv.width), y2=Math.min(y+step,cv.height);
+      g.beginPath(); g.moveTo(x,y); g.lineTo(x2,y2);
+      g.moveTo(x2,y); g.lineTo(x,y2); g.stroke();
+    }
+  } else if (GRID_STYLE==='dots'){
+    g.fillStyle='rgba(255,255,255,0.85)';
+    for (let y=step; y<cv.height-1; y+=step) for (let x=step; x<cv.width-1; x+=step){
+      g.beginPath(); g.arc(x,y,1.8,0,6.2832); g.fill(); }
+  }
   const slack = (photo.width-cr.w) + (photo.height-cr.h);
   const sq = squaresOf(wIn, hIn);
   $('fmtInfo').textContent = `${sq.cols} x ${sq.rows} squares`
@@ -3066,6 +3079,7 @@ $('gridStyleSel').onchange=()=>{
   GRID_STYLE=$('gridStyleSel').value;
   try{ localStorage.setItem('gridStyle', GRID_STYLE); }catch(e){}
   if ($('scrMain').classList.contains('on')) applyView();
+  if ($('scrFormat').classList.contains('on')) fmtPreview();
 };
 $('gmColor').onclick=()=>{
   const p=$('gmPal');
