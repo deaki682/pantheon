@@ -535,7 +535,6 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       </select>
     </div>
   </div>
-  <div id="fmtInfo"></div>
   <div class="row">
     <button id="fmtCrop">Crop</button>
     <button id="fmtEdit">Edit</button>
@@ -1441,10 +1440,6 @@ function fmtPreview(){
     for (let y=step; y<cv.height-1; y+=step) for (let x=step; x<cv.width-1; x+=step){
       g.beginPath(); g.arc(x,y,1.8,0,6.2832); g.fill(); }
   }
-  const slack = (photo.width-cr.w) + (photo.height-cr.h);
-  const sq = squaresOf(wIn, hIn);
-  $('fmtInfo').textContent = `${sq.cols} x ${sq.rows} squares`
-    + (slack>2 ? ' - drag to place' : '');
 }
 // drag the preview to slide the crop window around the photo
 {
