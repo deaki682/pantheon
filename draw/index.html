@@ -154,7 +154,11 @@ html.natCam #camVid{display:none !important}
 #edView{flex:1;min-height:0;position:relative;overflow:hidden;background:#0e0e0e;
   touch-action:none}
 #edCv{position:absolute;left:0;top:0}
-.edPanel .row{padding:4px 8px}
+.edPanel .row{padding:5px 10px}
+#edTone .row{display:grid;grid-template-columns:62px 1fr 62px 1fr;
+  gap:4px 8px;align-items:center}
+#edTone .adjL{min-width:0;text-align:right;white-space:nowrap}
+#edTone input[type=range]{width:100%;min-width:0;margin:0}
 #edRow button{min-height:44px}
 #gridMenu{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
   display:none;flex-direction:column;gap:6px;background:#1e1e1e;
@@ -252,6 +256,13 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   max-width:min(86vw,360px);font-size:15px;line-height:1.55}
 #introHead{color:var(--acc);font-size:17px;letter-spacing:0.02em}
 #introBtn{min-width:96px;color:var(--acc)}
+#arModal{position:fixed;inset:0;z-index:27;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.6)}
+#arPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
+  padding:18px 20px;display:flex;flex-direction:column;gap:12px}
+#arGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+#arGrid button{min-height:44px;border-radius:10px}
+#arW,#arH{width:64px}
 #shModal{position:fixed;inset:0;z-index:27;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.72)}
 #shPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
@@ -326,6 +337,27 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     </div>
   </div>
 </div>
+<div id="arModal">
+  <div id="arPanel">
+    <span class="setLbl">Aspect ratio</span>
+    <div id="arGrid">
+      <button data-ar="0">Free</button>
+      <button data-ar="1">1:1</button>
+      <button data-ar="0.8">4:5</button>
+      <button data-ar="0.75">3:4</button>
+      <button data-ar="0.6667">2:3</button>
+      <button data-ar="0.5625">9:16</button>
+      <button data-ar="1.3333">4:3</button>
+      <button data-ar="1.7778">16:9</button>
+    </div>
+    <div class="row" style="padding:0;gap:6px;align-items:center;justify-content:center">
+      <input type="number" id="arW" min="0.1" max="99" step="0.1" placeholder="W">
+      <span class="xSep">:</span>
+      <input type="number" id="arH" min="0.1" max="99" step="0.1" placeholder="H">
+      <button id="arApply">Set</button>
+    </div>
+  </div>
+</div>
 <div id="shModal">
   <div id="shPanel">
     <span id="shTxt"></span>
@@ -394,7 +426,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v223</span>
+      <span id="verNum">v224</span>
     </div>
   </div>
 
@@ -455,14 +487,12 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     </div>
   </div>
   <div id="edCropP" class="edPanel" style="display:none">
-    <div class="row" style="justify-content:center">
-      <button id="eRot">Rotate 90&deg;</button>
-      <button id="eFlipH">Flip &harr;</button>
-      <button id="eFlipV">Flip &varr;</button>
-      <button id="eCropReset">Reset crop</button>
-    </div>
-    <div class="row">
-      <span class="adjL">straighten</span><input type="range" id="eAng" min="-150" max="150" value="0">
+    <div class="row" style="justify-content:center;gap:14px">
+      <button id="eRot" title="Rotate"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.9-6.2"/><path d="M17.5 2.5v3.6h3.6"/></svg></button>
+      <button id="eFlipH" title="Flip horizontally"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18" stroke-dasharray="2 3"/><path d="M8 8 4 12l4 4"/><path d="M16 8l4 4-4 4"/></svg></button>
+      <button id="eFlipV" title="Flip vertically"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18" stroke-dasharray="2 3"/><path d="M8 8l4-4 4 4"/><path d="M8 16l4 4 4-4"/></svg></button>
+      <button id="eAspect" title="Aspect ratio"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="M8.5 6v12M3.5 12h5"/></svg></button>
+      <button id="eCropReset">Reset</button>
     </div>
   </div>
   <div class="row" id="edRow">
@@ -476,8 +506,9 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 </div>
 
 <div class="screen" id="scrFormat">
+  <div id="fmtPrev"><canvas id="fmtCanvas"></canvas></div>
   <div id="fmtForm">
-    <span class="fLbl">Drawing Size?</span>
+    <span class="fLbl">Drawing Size:</span>
     <div class="fCtl">
       <input type="number" id="widthIn" min="4" max="160" step="1" inputmode="numeric">
       <span class="xSep">&times;</span>
@@ -495,11 +526,19 @@ body.uiHid #backBtn{transform:translateY(-190%)}
         <option value="cm">cm</option>
       </select>
     </div>
+    <span class="fLbl">Grid Style:</span>
+    <div class="fCtl">
+      <select id="gridStyleSel">
+        <option value="sq">Squares</option>
+        <option value="diag">Diagonals</option>
+        <option value="dots">Corner dots</option>
+      </select>
+    </div>
   </div>
   <div id="fmtInfo"></div>
-  <div id="fmtPrev"><canvas id="fmtCanvas"></canvas></div>
   <div class="row">
-    <button id="fmtEdit">Edit photo</button>
+    <button id="fmtCrop">Crop</button>
+    <button id="fmtEdit">Edit</button>
     <span class="grow"></span>
     <button id="fmtGo">Continue</button>
   </div>
@@ -1461,7 +1500,7 @@ $('backBtn').onclick = () => {
 // edit|<id> and is re-applied on every open. The tone curve is the same
 // engine the camera adjustments use.
 const EDIT_DEF={exp:0,con:100,hi:0,sh:0,wh:0,bl:0,shp:0,dn:0,
-                rot:0,fh:0,fv:0,ang:0,cx:0,cy:0,cw:1,ch:1};
+                rot:0,fh:0,fv:0,ang:0,cx:0,cy:0,cw:1,ch:1,ar:0};
 function editLoad(gid){
   try{ const j=JSON.parse(localStorage.getItem('edit|'+gid));
     if (j && typeof j.con==='number'){
@@ -1493,6 +1532,21 @@ function boxBlurGray(src,w,h,r){
       out[y*w+x]=acc/win;
       acc+=tmp[Math.min(h-1,y+r+1)*w+x]-tmp[Math.max(0,y-r)*w+x];
     }
+  }
+  return out;
+}
+function denoiseGray(gray,w,h,amt){
+  // edge-preserving: smooth only where the neighbourhood is already flat;
+  // anything that reads as an edge keeps its own pixels
+  const r=Math.max(1,Math.round(amt/30));
+  const bl=boxBlurGray(gray,w,h,r);
+  const k0=Math.min(1,amt/100);
+  const out=new Float32Array(gray.length);
+  for (let i=0;i<gray.length;i++){
+    const d=Math.abs(gray[i]-bl[i]);
+    const e=d>=26?0:(1-d/26);
+    const k=k0*e;
+    out[i]=gray[i]*(1-k)+bl[i]*k;
   }
   return out;
 }
@@ -1536,11 +1590,7 @@ function editApply(src, R){
     const N=c.width*c.height;
     let gray=new Float32Array(N);
     for (let i=0;i<N;i++) gray[i]=d[i*4];
-    if (R.dn>0){
-      const bl=boxBlurGray(gray,c.width,c.height,Math.max(1,Math.round(R.dn/25)));
-      const kk=Math.min(1,R.dn/100);
-      for (let i=0;i<N;i++) gray[i]=gray[i]*(1-kk)+bl[i]*kk;
-    }
+    if (R.dn>0) gray=denoiseGray(gray,c.width,c.height,R.dn);
     if (R.shp>0){
       const bl=boxBlurGray(gray,c.width,c.height,2);
       const kk=R.shp/55;
@@ -1565,7 +1615,7 @@ function edSync(){
   const R=ED.R;
   $('eExp').value=R.exp; $('eCon').value=R.con; $('eHi').value=R.hi;
   $('eSh').value=R.sh; $('eWh').value=R.wh; $('eBl').value=R.bl;
-  $('eShp').value=R.shp; $('eDn').value=R.dn; $('eAng').value=R.ang;
+  $('eShp').value=R.shp; $('eDn').value=R.dn;
   $('edToneBtn').classList.toggle('vOn', ED.mode==='tone');
   $('edCropBtn').classList.toggle('vOn', ED.mode==='crop');
   $('edTone').style.display = ED.mode==='tone' ? '' : 'none';
@@ -1604,13 +1654,7 @@ function edRender(){
   // live tone on the preview buffer
   let N=pre.width*pre.height;
   let gray=ED.gray;
-  if (R.dn>0){
-    const bl=boxBlurGray(gray,pre.width,pre.height,Math.max(1,Math.round(R.dn/25)));
-    const kk=Math.min(1,R.dn/100);
-    const g2=new Float32Array(N);
-    for (let i=0;i<N;i++) g2[i]=gray[i]*(1-kk)+bl[i]*kk;
-    gray=g2;
-  }
+  if (R.dn>0) gray=denoiseGray(gray,pre.width,pre.height,R.dn);
   if (R.shp>0){
     const bl=boxBlurGray(gray,pre.width,pre.height,2);
     const kk=R.shp/55;
@@ -1664,8 +1708,8 @@ function edRender(){
 }
 let edRAF=0;
 function edPaint(){ cancelAnimationFrame(edRAF); edRAF=requestAnimationFrame(edRender); }
-function edOpen(orig, gid){
-  ED.on=true; ED.orig=orig; ED.gid=gid; ED.mode='tone';
+function edOpen(orig, gid, mode){
+  ED.on=true; ED.orig=orig; ED.gid=gid; ED.mode=mode||'tone';
   ED.R = editLoad(gid) || {...EDIT_DEF};
   show('scrEdit');
   edSync(); edBuildPre(); edPaint();
@@ -1689,7 +1733,7 @@ function edClose(apply){
   } else show('scrFormat');
   ED.on=false; ED.orig=null; ED.pre=null; ED.gray=null;
 }
-$('fmtEdit').onclick=async()=>{
+async function edOpenFor(mode){
   if (galActive==null){ toast('open a reference first', false); return; }
   const r=await galGet(galActive);
   if (!r || !r.blob){ toast('could not read the original', false); return; }
@@ -1699,8 +1743,10 @@ $('fmtEdit').onclick=async()=>{
   const g=c.getContext('2d');
   g.filter='grayscale(1)'; g.drawImage(i,0,0); g.filter='none';
   URL.revokeObjectURL(i.src);
-  edOpen(c, galActive);
-};
+  edOpen(c, galActive, mode);
+}
+$('fmtEdit').onclick=()=>edOpenFor('tone');
+$('fmtCrop').onclick=()=>edOpenFor('crop');
 $('edCancel').onclick=()=>edClose(false);
 $('edDone').onclick=()=>edClose(true);
 $('edToneBtn').onclick=()=>{ ED.mode='tone'; edSync(); edPaint(); };
@@ -1709,7 +1755,25 @@ $('edReset').onclick=()=>{ ED.R={...EDIT_DEF}; edSync(); edBuildPre(); edPaint()
 for (const [id2,k2] of [['eExp','exp'],['eCon','con'],['eHi','hi'],['eSh','sh'],
                         ['eWh','wh'],['eBl','bl'],['eShp','shp'],['eDn','dn']])
   $(id2).oninput=()=>{ ED.R[k2]=+$(id2).value; edPaint(); };
-$('eAng').oninput=()=>{ ED.R.ang=+$('eAng').value; edBuildPre(); edPaint(); };
+$('eAspect').onclick=()=>{ $('arModal').style.display='flex'; };
+$('arModal').onclick=e=>{ if (e.target===$('arModal')) $('arModal').style.display='none'; };
+function edSetAspect(ar){
+  ED.R.ar=ar||0;
+  $('arModal').style.display='none';
+  if (ar && ED.pre){
+    const W=ED.pre.width, H=ED.pre.height;
+    let cw=1, ch=W/(ar*H);
+    if (ch>1){ ch=1; cw=ar*H/W; }
+    Object.assign(ED.R,{cw, ch, cx:(1-cw)/2, cy:(1-ch)/2});
+  }
+  edPaint();
+}
+for (const b of document.querySelectorAll('#arGrid button'))
+  b.onclick=()=>edSetAspect(+b.dataset.ar);
+$('arApply').onclick=()=>{
+  const w2=+$('arW').value, h2=+$('arH').value;
+  if (w2>0 && h2>0) edSetAspect(w2/h2);
+};
 $('eRot').onclick=()=>{ ED.R.rot=(ED.R.rot+1)%4;
   Object.assign(ED.R,{cx:0,cy:0,cw:1,ch:1}); edBuildPre(); edPaint(); };
 $('eFlipH').onclick=()=>{ ED.R.fh=ED.R.fh?0:1; edBuildPre(); edPaint(); };
@@ -1747,6 +1811,23 @@ $('eCropReset').onclick=()=>{ Object.assign(ED.R,{cx:0,cy:0,cw:1,ch:1}); edPaint
     if (m.move){
       R.cx=Math.min(1-R0.cw, Math.max(0, R0.cx+dx));
       R.cy=Math.min(1-R0.ch, Math.max(0, R0.cy+dy));
+    } else if (R.ar){
+      // locked ratio: resize from the anchored opposite corner
+      const W=pre.width, H=pre.height, ar=R.ar;
+      const ax = m.l ? R0.cx+R0.cw : R0.cx;
+      const ay = m.t ? R0.cy+R0.ch : R0.cy;
+      let cw=R0.cw;
+      if (m.l) cw=Math.max(MIN, R0.cw-dx);
+      else if (m.r) cw=Math.max(MIN, R0.cw+dx);
+      else if (m.t) cw=Math.max(MIN, (R0.ch-dy))*ar*H/W;
+      else if (m.b) cw=Math.max(MIN, (R0.ch+dy))*ar*H/W;
+      cw=Math.min(cw, m.l ? ax : 1-ax);
+      let ch=cw*W/(ar*H);
+      const chMax = m.t ? ay : 1-ay;
+      if (ch>chMax){ ch=chMax; cw=ch*ar*H/W; }
+      R.cw=cw; R.ch=ch;
+      R.cx = m.l ? ax-cw : ax;
+      R.cy = m.t ? ay-ch : ay;
     } else {
       if (m.l){ const nx=Math.min(R0.cx+R0.cw-MIN, Math.max(0, R0.cx+dx));
         R.cw=R0.cx+R0.cw-nx; R.cx=nx; }
@@ -2165,15 +2246,34 @@ function drawGrid(){
   g.strokeStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
   g.lineWidth = Math.max(1, GRID_THK*dpr*0.55);
   const step=gridStepPx();
-  for (let xw=step; xw<w-1; xw+=step){
-    const x=Math.round(ox+xw*sc)+0.5;
-    if (x<x0-1||x>x1+1) continue;
-    g.beginPath(); g.moveTo(x,y0); g.lineTo(x,y1); g.stroke();
+  if (GRID_STYLE!=='dots'){
+    for (let xw=step; xw<w-1; xw+=step){
+      const x=Math.round(ox+xw*sc)+0.5;
+      if (x<x0-1||x>x1+1) continue;
+      g.beginPath(); g.moveTo(x,y0); g.lineTo(x,y1); g.stroke();
+    }
+    for (let yw=step; yw<h-1; yw+=step){
+      const y=Math.round(oy+yw*sc)+0.5;
+      if (y<y0-1||y>y1+1) continue;
+      g.beginPath(); g.moveTo(x0,y); g.lineTo(x1,y); g.stroke();
+    }
   }
-  for (let yw=step; yw<h-1; yw+=step){
-    const y=Math.round(oy+yw*sc)+0.5;
-    if (y<y0-1||y>y1+1) continue;
-    g.beginPath(); g.moveTo(x0,y); g.lineTo(x1,y); g.stroke();
+  if (GRID_STYLE==='diag'){
+    for (let yw=0; yw<h-1; yw+=step) for (let xw=0; xw<w-1; xw+=step){
+      const ax=ox+xw*sc, ay=oy+yw*sc;
+      const bx=ox+Math.min(xw+step,w)*sc, by=oy+Math.min(yw+step,h)*sc;
+      if (bx<x0-1||ax>x1+1||by<y0-1||ay>y1+1) continue;
+      g.beginPath(); g.moveTo(ax,ay); g.lineTo(bx,by);
+      g.moveTo(bx,ay); g.lineTo(ax,by); g.stroke();
+    }
+  } else if (GRID_STYLE==='dots'){
+    g.fillStyle=g.strokeStyle;
+    const dr=Math.max(1.5, g.lineWidth*1.7);
+    for (let yw=step; yw<h-1; yw+=step) for (let xw=step; xw<w-1; xw+=step){
+      const x=ox+xw*sc, y=oy+yw*sc;
+      if (x<x0-4||x>x1+4||y<y0-4||y>y1+4) continue;
+      g.beginPath(); g.arc(x,y,dr,0,6.2832); g.fill();
+    }
   }
   // A1 tags in each visible square's corner, sized to the square and
   // skipped entirely when the squares are too small to read them
@@ -2620,6 +2720,7 @@ function fkey(){ return CKEY + (softOn() ? '|s' : ''); }
 let GRID_ON=true;
 let GRID_COL='auto', GRID_THK=1;   // 'auto' = the inverting difference grid
 let GRID_LAB=false;                // A1-style cell tags in each square's corner
+let GRID_STYLE='sq';               // sq | diag (squares + X) | dots (corners)
 let DONE=[], DONETOOL=null;        // per-square progress dots + armed mode
 try{
   GRID_ON = localStorage.getItem('gridOn')!=='0';
@@ -2628,6 +2729,8 @@ try{
   const t=+localStorage.getItem('gridThk');
   if (t>=1 && t<=3) GRID_THK=t;
   GRID_LAB = localStorage.getItem('gridLab')==='1';
+  const gsv=localStorage.getItem('gridStyle');
+  if (gsv==='diag'||gsv==='dots') GRID_STYLE=gsv;
 }catch(e){}
 const FORM={cv:null, key:null, busy:null};
 const COMP={key:null, ph:null, sh:null, hl:null, sig:null, cv:null};
@@ -2958,6 +3061,12 @@ $('gmLab').onclick=()=>{
   applyView();                       // the grid painter lives in applyView
 };
 $('gmLab').classList.toggle('vOn', GRID_LAB);
+$('gridStyleSel').value=GRID_STYLE;
+$('gridStyleSel').onchange=()=>{
+  GRID_STYLE=$('gridStyleSel').value;
+  try{ localStorage.setItem('gridStyle', GRID_STYLE); }catch(e){}
+  if ($('scrMain').classList.contains('on')) applyView();
+};
 $('gmColor').onclick=()=>{
   const p=$('gmPal');
   p.style.display = p.style.display==='grid' ? 'none' : 'grid';
@@ -3744,8 +3853,21 @@ function cmpExport(){
           g.strokeStyle='rgba(255,255,255,0.75)'; }
         else g.strokeStyle=GRID_COL;
         g.lineWidth=Math.max(0.75, GRID_THK*k*0.8)/tot;
-        for (let xw=step; xw<w-1; xw+=step){ g.beginPath(); g.moveTo(xw,0); g.lineTo(xw,h); g.stroke(); }
-        for (let yw=step; yw<h-1; yw+=step){ g.beginPath(); g.moveTo(0,yw); g.lineTo(w,yw); g.stroke(); }
+        if (GRID_STYLE!=='dots'){
+          for (let xw=step; xw<w-1; xw+=step){ g.beginPath(); g.moveTo(xw,0); g.lineTo(xw,h); g.stroke(); }
+          for (let yw=step; yw<h-1; yw+=step){ g.beginPath(); g.moveTo(0,yw); g.lineTo(w,yw); g.stroke(); }
+        }
+        if (GRID_STYLE==='diag'){
+          for (let yw=0; yw<h-1; yw+=step) for (let xw=0; xw<w-1; xw+=step){
+            const x2=Math.min(xw+step,w), y2=Math.min(yw+step,h);
+            g.beginPath(); g.moveTo(xw,yw); g.lineTo(x2,y2);
+            g.moveTo(x2,yw); g.lineTo(xw,y2); g.stroke(); }
+        } else if (GRID_STYLE==='dots'){
+          g.fillStyle=g.strokeStyle;
+          const dr=Math.max(0.8, g.lineWidth*1.7);
+          for (let yw=step; yw<h-1; yw+=step) for (let xw=step; xw<w-1; xw+=step){
+            g.beginPath(); g.arc(xw,yw,dr,0,6.2832); g.fill(); }
+        }
         if (GRID_LAB) labels(step*0.18);
         g.globalCompositeOperation='source-over';
       }
@@ -3775,10 +3897,25 @@ function cmpExport(){
           g.strokeStyle='rgba(255,255,255,0.75)'; }
         else g.strokeStyle=GRID_COL;
         g.lineWidth=Math.max(0.75, GRID_THK*k*0.8)/FLP.s;
-        for (let xw=step; xw<w-1; xw+=step){ const x=f.x+xw*kf;
-          g.beginPath(); g.moveTo(x,f.y); g.lineTo(x,f.y+h*kf); g.stroke(); }
-        for (let yw=step; yw<h-1; yw+=step){ const y=f.y+yw*kf;
-          g.beginPath(); g.moveTo(f.x,y); g.lineTo(f.x+w*kf,y); g.stroke(); }
+        if (GRID_STYLE!=='dots'){
+          for (let xw=step; xw<w-1; xw+=step){ const x=f.x+xw*kf;
+            g.beginPath(); g.moveTo(x,f.y); g.lineTo(x,f.y+h*kf); g.stroke(); }
+          for (let yw=step; yw<h-1; yw+=step){ const y=f.y+yw*kf;
+            g.beginPath(); g.moveTo(f.x,y); g.lineTo(f.x+w*kf,y); g.stroke(); }
+        }
+        if (GRID_STYLE==='diag'){
+          for (let yw=0; yw<h-1; yw+=step) for (let xw=0; xw<w-1; xw+=step){
+            const x2=Math.min(xw+step,w), y2=Math.min(yw+step,h);
+            g.beginPath();
+            g.moveTo(f.x+xw*kf, f.y+yw*kf); g.lineTo(f.x+x2*kf, f.y+y2*kf);
+            g.moveTo(f.x+x2*kf, f.y+yw*kf); g.lineTo(f.x+xw*kf, f.y+y2*kf);
+            g.stroke(); }
+        } else if (GRID_STYLE==='dots'){
+          g.fillStyle=g.strokeStyle;
+          const dr=Math.max(1, g.lineWidth*1.7);
+          for (let yw=step; yw<h-1; yw+=step) for (let xw=step; xw<w-1; xw+=step){
+            g.beginPath(); g.arc(f.x+xw*kf, f.y+yw*kf, dr, 0, 6.2832); g.fill(); }
+        }
         g.globalCompositeOperation='source-over';
       }
       for (const c of CIRCS) paintMark(g, f.x+c.x*kf, f.y+c.y*kf, circR()*kf, 10*k, 3);
@@ -3959,10 +4096,27 @@ function cmpRender(){
           g.strokeStyle='rgba(255,255,255,0.75)'; }
         else g.strokeStyle=GRID_COL;
         g.lineWidth=Math.max(0.75, GRID_THK*kd2*0.8)/FLP.s;
-        for (let xw=step; xw<w-1; xw+=step){ const x=f.x+xw*k;
-          g.beginPath(); g.moveTo(x,f.y); g.lineTo(x,f.y+h*k); g.stroke(); }
-        for (let yw=step; yw<h-1; yw+=step){ const y=f.y+yw*k;
-          g.beginPath(); g.moveTo(f.x,y); g.lineTo(f.x+w*k,y); g.stroke(); }
+        if (GRID_STYLE!=='dots'){
+          for (let xw=step; xw<w-1; xw+=step){ const x=f.x+xw*k;
+            g.beginPath(); g.moveTo(x,f.y); g.lineTo(x,f.y+h*k); g.stroke(); }
+          for (let yw=step; yw<h-1; yw+=step){ const y=f.y+yw*k;
+            g.beginPath(); g.moveTo(f.x,y); g.lineTo(f.x+w*k,y); g.stroke(); }
+        }
+        if (GRID_STYLE==='diag'){
+          for (let yw=0; yw<h-1; yw+=step) for (let xw=0; xw<w-1; xw+=step){
+            const x2=Math.min(xw+step,w), y2=Math.min(yw+step,h);
+            g.beginPath();
+            g.moveTo(f.x+xw*k, f.y+yw*k); g.lineTo(f.x+x2*k, f.y+y2*k);
+            g.moveTo(f.x+x2*k, f.y+yw*k); g.lineTo(f.x+xw*k, f.y+y2*k);
+            g.stroke();
+          }
+        } else if (GRID_STYLE==='dots'){
+          g.fillStyle=g.strokeStyle;
+          const dr=Math.max(1, g.lineWidth*1.7);
+          for (let yw=step; yw<h-1; yw+=step) for (let xw=step; xw<w-1; xw+=step){
+            g.beginPath(); g.arc(f.x+xw*k, f.y+yw*k, dr, 0, 6.2832); g.fill();
+          }
+        }
         if (GRID_LAB && step*k*FLP.s>=24){
           const fs=Math.max(8/FLP.s, step*k*0.18);
           g.font=fs+'px system-ui'; g.textBaseline='top';
@@ -4002,10 +4156,25 @@ function cmpRender(){
           g.strokeStyle='rgba(255,255,255,0.75)'; }
         else g.strokeStyle=GRID_COL;
         g.lineWidth=Math.max(0.75, GRID_THK*kd2*0.8)/(bs*SPL.s);
-        for (let xw=step; xw<w-1; xw+=step){
-          g.beginPath(); g.moveTo(xw,0); g.lineTo(xw,h); g.stroke(); }
-        for (let yw=step; yw<h-1; yw+=step){
-          g.beginPath(); g.moveTo(0,yw); g.lineTo(w,yw); g.stroke(); }
+        if (GRID_STYLE!=='dots'){
+          for (let xw=step; xw<w-1; xw+=step){
+            g.beginPath(); g.moveTo(xw,0); g.lineTo(xw,h); g.stroke(); }
+          for (let yw=step; yw<h-1; yw+=step){
+            g.beginPath(); g.moveTo(0,yw); g.lineTo(w,yw); g.stroke(); }
+        }
+        if (GRID_STYLE==='diag'){
+          for (let yw=0; yw<h-1; yw+=step) for (let xw=0; xw<w-1; xw+=step){
+            const x2=Math.min(xw+step,w), y2=Math.min(yw+step,h);
+            g.beginPath();
+            g.moveTo(xw,yw); g.lineTo(x2,y2);
+            g.moveTo(x2,yw); g.lineTo(xw,y2); g.stroke();
+          }
+        } else if (GRID_STYLE==='dots'){
+          g.fillStyle=g.strokeStyle;
+          const dr=Math.max(0.8, g.lineWidth*1.7);
+          for (let yw=step; yw<h-1; yw+=step) for (let xw=step; xw<w-1; xw+=step){
+            g.beginPath(); g.arc(xw,yw,dr,0,6.2832); g.fill(); }
+        }
         if (GRID_LAB){
           const fs=step*0.18;
           g.font=fs+'px system-ui'; g.textBaseline='top';
