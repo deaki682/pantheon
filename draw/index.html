@@ -247,6 +247,16 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   max-width:min(86vw,360px);font-size:15px;line-height:1.55}
 #introHead{color:var(--acc);font-size:17px;letter-spacing:0.02em}
 #introBtn{min-width:96px;color:var(--acc)}
+#dlModal{position:fixed;inset:0;z-index:26;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.72)}
+#dlPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
+  padding:20px 24px;display:flex;flex-direction:column;gap:12px;max-width:86vw}
+#dlPanel button{min-height:44px;border-radius:10px}
+#refModal{position:fixed;inset:0;z-index:22;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.55)}
+#refPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
+  padding:18px 24px;display:flex;flex-direction:column;gap:10px;min-width:200px}
+#refPanel button{min-height:44px;border-radius:10px}
 #dylModal{position:fixed;inset:0;z-index:25;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.72)}
 #dylPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
@@ -299,6 +309,22 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     </div>
   </div>
 </div>
+<div id="dlModal">
+  <div id="dlPanel">
+    <span>Where should downloads go?</span>
+    <button id="dlGal">Photos gallery</button>
+    <button id="dlAsk">Ask me where, each time</button>
+    <span style="font-size:12px;color:#9a9895">You can change this later in Settings.</span>
+  </div>
+</div>
+<div id="refModal">
+  <div id="refPanel">
+    <button id="rmDup">Duplicate</button>
+    <button id="rmGrid">Re-grid / levels</button>
+    <button id="rmDel" style="color:#e05252">Delete</button>
+    <button id="rmX">Cancel</button>
+  </div>
+</div>
 <div id="dylModal">
   <div id="dylPanel">
     <div id="dylHead">Message from Dylan</div>
@@ -332,10 +358,12 @@ body.uiHid #backBtn{transform:translateY(-190%)}
         <button id="resBtn" class="grow">Restore</button>
       </div>
       <input type="file" id="bakFile" accept="application/json,.json" hidden>
+      <span class="setLbl" id="dlModeLbl" style="margin-top:4px;display:none">Downloads</span>
+      <button id="dlModeBtn" style="display:none">Photos gallery</button>
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v219</span>
+      <span id="verNum">v220</span>
     </div>
   </div>
 
@@ -441,6 +469,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   <div id="gridMenu">
     <button id="gmDone"><span class="gmDoneDot"></span>Mark Square</button>
     <button id="gmOn">Grid On</button>
+    <button id="gmLab">A1 Labels</button>
     <button id="gmColor" title="Grid color"><span id="gmSw"></span></button>
     <div id="gmPal"></div>
     <div id="gmDots">
@@ -609,12 +638,12 @@ async function renderGallery(){
     const im = document.createElement('img'); im.src = r.thumb; im.alt = r.name||'';
     const bar = document.createElement('div'); bar.className='gbar';
     bar.appendChild(Object.assign(document.createElement('div'),{className:'gfill'}));
-    const xb = document.createElement('button'); xb.className='gx'; xb.textContent='\u00d7';
+    const xb = document.createElement('button'); xb.className='gx'; xb.textContent='\u270e';
     xb.onclick = ev => {
       ev.stopPropagation();
       if (PREP.active) return;
-      DELREF=r.id;
-      $('delModal').style.display='flex';
+      REFM=r.id;
+      $('refModal').style.display='flex';
     };
     d.appendChild(im); d.appendChild(bar); d.appendChild(xb);
     {
@@ -694,9 +723,18 @@ setInterval(()=>{
 }, 400);
 
 let OPEN_SEQ = 0;
-function openPhoto(blob, gid){
+function openPhoto(blob, gid, retry){
   const my = ++OPEN_SEQ;                  // stale decodes must not land
   galActive = gid ?? null; galLoading = 0.15;
+  // a decode that never answers must not brick the tile: the click guard
+  // treats an in-flight load as "wait", so a hung one made the reference
+  // permanently unopenable
+  setTimeout(()=>{
+    if (my===OPEN_SEQ && galLoading!=null){
+      galLoading=null; galActive=null; renderGallery();
+      toast('could not open that reference \u2014 tap it to try again', false, 4500);
+    }
+  }, 25000);
   if (gid != null){ try{ localStorage.setItem('lastRef', gid); }catch(e){} }
   $('upStat').textContent = '...';
   const img = new Image();
@@ -738,8 +776,16 @@ function openPhoto(blob, gid){
       speculate();                     // the dwell on this screen is free compute
     }
   };
-  img.onerror = () => { if (my !== OPEN_SEQ) return;
-    galLoading = null; galActive = null;
+  img.onerror = async () => { if (my !== OPEN_SEQ) return;
+    galLoading = null;
+    // a stored blob handle can go stale across process restarts; a fresh
+    // read from the database usually revives it - retry once, silently
+    if (!retry && gid != null){
+      const fresh = await galGet(gid).catch(()=>null);
+      if (my === OPEN_SEQ && fresh && fresh.blob){ openPhoto(fresh.blob, gid, true); return; }
+    }
+    galActive = null;
+    toast('could not read that reference\u2019s stored image', false, 5000);
     $('upStat').textContent = 'could not read that file'; };
   img.src = URL.createObjectURL(blob);
 }
@@ -924,6 +970,27 @@ $('delYes').onclick = async () => {
   renderGallery();
 };
 $('delNo').onclick = () => { DELREF=null; $('delModal').style.display='none'; };
+let REFM=null;
+async function galGet(id){ try{ const d=await gdb(); return await new Promise(res=>{
+  const t=d.transaction('photos').objectStore('photos').get(id);
+  t.onsuccess=()=>res(t.result||null); t.onerror=()=>res(null); }); }catch(e){ return null; } }
+$('rmX').onclick=()=>{ REFM=null; $('refModal').style.display='none'; };
+$('refModal').onclick=e=>{ if (e.target===$('refModal')){ REFM=null; $('refModal').style.display='none'; } };
+$('rmDel').onclick=()=>{ DELREF=REFM; REFM=null;
+  $('refModal').style.display='none'; $('delModal').style.display='flex'; };
+$('rmDup').onclick=async()=>{
+  const id=REFM; REFM=null; $('refModal').style.display='none';
+  const r=await galGet(id); if (!r || !r.blob){ toast('could not read that reference', false); return; }
+  await galAdd({ ts:Date.now(), name:(r.name?r.name+' ':'')+'copy', thumb:r.thumb, blob:r.blob });
+  renderGallery(); toast('duplicated');
+};
+$('rmGrid').onclick=async()=>{
+  const id=REFM; REFM=null; $('refModal').style.display='none';
+  const r=await galGet(id); if (!r || !r.blob){ toast('could not read that reference', false); return; }
+  try{ localStorage.removeItem('fmt|'+id); }catch(e){}   // reopen lands on the format screen
+  galActive=null; photo=null; GRID_READY=false;
+  openPhoto(r.blob, r.id);
+};
 $('delModal').onclick = e => {
   if (e.target===$('delModal')){ DELREF=null; $('delModal').style.display='none'; }
 };
@@ -1016,6 +1083,20 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
     e.target.value='';
   });
   $('setBtn').onclick=()=>{ $('setModal').style.display='flex'; };
+  // the destination choice only exists in the native app
+  window.dlModeSync=()=>{
+    if (!window.RealismCam) return;
+    $('dlModeLbl').style.display=''; $('dlModeBtn').style.display='';
+    let m2=null; try{ m2=localStorage.getItem('dlmode'); }catch(e){}
+    $('dlModeBtn').textContent = m2==='ask' ? 'Ask me where, each time' : 'Photos gallery';
+  };
+  dlModeSync();
+  $('dlModeBtn').onclick=()=>{
+    let m2=null; try{ m2=localStorage.getItem('dlmode'); }catch(e){}
+    const next = m2==='ask' ? 'gallery' : 'ask';
+    try{ localStorage.setItem('dlmode', next); }catch(e){}
+    dlModeSync();
+  };
   $('invBtn').onclick=async()=>{
     gcPing('/share');
     const nat=!!window.RealismCam;
@@ -1612,7 +1693,26 @@ function drawGrid(){
     if (y<y0-1||y>y1+1) continue;
     g.beginPath(); g.moveTo(x0,y); g.lineTo(x1,y); g.stroke();
   }
+  // A1 tags in each visible square's corner, sized to the square and
+  // skipped entirely when the squares are too small to read them
+  if (GRID_LAB && step*sc>=30){
+    const fs=Math.max(9, Math.min(step*sc*0.2, 22*dpr));
+    g.font=fs+'px system-ui';
+    g.textBaseline='top';
+    g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+    const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
+    for (let ry=0;ry<rows;ry++){
+      const y=oy+ry*step*sc+fs*0.3;
+      if (y<y0-fs||y>y1) continue;
+      for (let cx=0;cx<cols;cx++){
+        const x=ox+cx*step*sc+fs*0.35;
+        if (x<x0-fs*3||x>x1) continue;
+        g.fillText(colName(cx)+(ry+1), x, y);
+      }
+    }
+  }
 }
+function colName(i){ let s2=''; i++; while(i>0){ i--; s2=String.fromCharCode(65+i%26)+s2; i=(i/26)|0; } return s2; }
 addEventListener('resize', () => { if ($('scrMain').classList.contains('on')) applyView(); });
 function paintWorld(){
   // the re-derivable layers: reference, grid, dimming - callable again after
@@ -2003,6 +2103,7 @@ function softOn(){ try{ return localStorage.getItem('softForm')==='1'; }catch(e)
 function fkey(){ return CKEY + (softOn() ? '|s' : ''); }
 let GRID_ON=true;
 let GRID_COL='auto', GRID_THK=1;   // 'auto' = the inverting difference grid
+let GRID_LAB=false;                // A1-style cell tags in each square's corner
 let DONE=[], DONETOOL=null;        // per-square progress dots + armed mode
 try{
   GRID_ON = localStorage.getItem('gridOn')!=='0';
@@ -2010,6 +2111,7 @@ try{
   if (c==='auto' || /^#[0-9a-f]{6}$/i.test(c||'')) GRID_COL=c;
   const t=+localStorage.getItem('gridThk');
   if (t>=1 && t<=3) GRID_THK=t;
+  GRID_LAB = localStorage.getItem('gridLab')==='1';
 }catch(e){}
 const FORM={cv:null, key:null, busy:null};
 const COMP={key:null, ph:null, sh:null, hl:null, sig:null, cv:null};
@@ -2333,6 +2435,13 @@ $('gmOn').onclick=()=>{
   applyGrid(); gridMenuSync();
   if (GRID_READY) drawCircs();     // the progress dots follow the grid
 };
+$('gmLab').onclick=()=>{
+  GRID_LAB=!GRID_LAB;
+  try{ localStorage.setItem('gridLab', GRID_LAB?'1':'0'); }catch(e){}
+  $('gmLab').classList.toggle('vOn', GRID_LAB);
+  applyView();                       // the grid painter lives in applyView
+};
+$('gmLab').classList.toggle('vOn', GRID_LAB);
 $('gmColor').onclick=()=>{
   const p=$('gmPal');
   p.style.display = p.style.display==='grid' ? 'none' : 'grid';
@@ -3078,21 +3187,101 @@ $('circBtn').onclick = () => { CIRCTOOL=!CIRCTOOL; cmpRender(); };
 // download what the screen shows: a comparison view exports the exact
 // on-screen composition (their crop and all); a plain look at the drawing
 // photo exports the photo itself at full resolution
+// comparison downloads re-render the CURRENT view (crop, zoom, grid,
+// circles, labels and all) at up to ~2600px wide, so the file carries the
+// working canvas's real detail instead of screen pixels
+function cmpExport(){
+  const cv=$('cmpCv');
+  // target ~2600px wide, capped by total pixel area so a huge export can
+  // never OOM the renderer
+  const k=Math.max(1, Math.min(2600/cv.width,
+    Math.sqrt(16e6/(cv.width*cv.height))));
+  const W=Math.round(cv.width*k), H=Math.round(cv.height*k);
+  const out=document.createElement('canvas'); out.width=W; out.height=H;
+  const g=out.getContext('2d');
+  g.imageSmoothingQuality='high';
+  g.fillStyle='#2a2a2a'; g.fillRect(0,0,W,H);
+  const {w,h}=worldSize();
+  const step=gridStepPx();
+  const labels=(fs)=>{
+    g.font=fs+'px system-ui'; g.textBaseline='top';
+    g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+    const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
+    for (let ry=0;ry<rows;ry++) for (let cx=0;cx<cols;cx++)
+      g.fillText(colName(cx)+(ry+1), cx*step+fs*0.35, ry*step+fs*0.3);
+  };
+  if (CMP.mode==='split'){
+    const pw=W/2, ph=H;
+    const bs=Math.min(pw/w, ph/h), bx=(pw-w*bs)/2, by=(ph-h*bs)/2;
+    const panes=[{ox:0, label:'drawing', img:CMP.img},
+                 {ox:pw, label:'reference', img:$('refImg'), grid:true}];
+    for (const pn of panes){
+      g.save();
+      g.beginPath(); g.rect(pn.ox,0,pw,ph); g.clip();
+      g.translate(pn.ox,0);
+      g.translate(SPL.x*k,SPL.y*k); g.scale(SPL.s,SPL.s);
+      g.translate(bx,by); g.scale(bs,bs);
+      g.drawImage(pn.img,0,0,w,h);
+      const tot=bs*SPL.s;
+      if (GRID_ON && pn.grid){
+        if (GRID_COL==='auto'){ g.globalCompositeOperation='difference';
+          g.strokeStyle='rgba(255,255,255,0.75)'; }
+        else g.strokeStyle=GRID_COL;
+        g.lineWidth=Math.max(0.75, GRID_THK*k*0.8)/tot;
+        for (let xw=step; xw<w-1; xw+=step){ g.beginPath(); g.moveTo(xw,0); g.lineTo(xw,h); g.stroke(); }
+        for (let yw=step; yw<h-1; yw+=step){ g.beginPath(); g.moveTo(0,yw); g.lineTo(w,yw); g.stroke(); }
+        if (GRID_LAB) labels(step*0.18);
+        g.globalCompositeOperation='source-over';
+      }
+      for (const c of CIRCS) paintMark(g, c.x, c.y, circR(), 10*k/tot, 3*k/tot);
+      g.restore();
+      g.fillStyle='rgba(232,230,225,0.8)'; g.font=(11*k)+'px system-ui';
+      g.textBaseline='alphabetic';
+      g.fillText(pn.label, pn.ox+8*k, 16*k);
+    }
+    g.strokeStyle='#555'; g.lineWidth=2*k;
+    g.beginPath(); g.moveTo(pw,0); g.lineTo(pw,H); g.stroke();
+  } else {
+    const f={s:CMP.fit.s*k, x:CMP.fit.x*k, y:CMP.fit.y*k};
+    const kf=cmpFitK()*k;
+    g.save();
+    g.translate(FLP.x*k,FLP.y*k); g.scale(FLP.s,FLP.s);
+    const mir=fn=>{ if (CMP.mirror){ g.save(); g.translate(W,0); g.scale(-1,1); fn(); g.restore(); } else fn(); };
+    mir(()=>{
+      const dr=img=>g.drawImage(img, f.x, f.y, CMP.fit.w*f.s, CMP.fit.h*f.s);
+      if (CMP.showing==='ref') dr($('refImg'));
+      else {
+        dr(CMP.img);
+        if (CMP.alpha>0){ g.globalAlpha=CMP.alpha; dr($('refImg')); g.globalAlpha=1; }
+      }
+      if (GRID_ON && CMP.showing==='ref'){
+        if (GRID_COL==='auto'){ g.globalCompositeOperation='difference';
+          g.strokeStyle='rgba(255,255,255,0.75)'; }
+        else g.strokeStyle=GRID_COL;
+        g.lineWidth=Math.max(0.75, GRID_THK*k*0.8)/FLP.s;
+        for (let xw=step; xw<w-1; xw+=step){ const x=f.x+xw*kf;
+          g.beginPath(); g.moveTo(x,f.y); g.lineTo(x,f.y+h*kf); g.stroke(); }
+        for (let yw=step; yw<h-1; yw+=step){ const y=f.y+yw*kf;
+          g.beginPath(); g.moveTo(f.x,y); g.lineTo(f.x+w*kf,y); g.stroke(); }
+        g.globalCompositeOperation='source-over';
+      }
+      for (const c of CIRCS) paintMark(g, f.x+c.x*kf, f.y+c.y*kf, circR()*kf, 10*k, 3);
+    });
+    g.restore();
+  }
+  return out;
+}
 async function cmpDownload(){
   if (!CMP.img || CMP.mode==='corners' || CAM.stream) return;
   const photoOnly = CMP.mode==='flip' && CMP.showing==='photo' && !(CMP.alpha>0);
-  const src=document.createElement('canvas');
+  let src=document.createElement('canvas');
   let name;
   if (photoOnly){
     src.width=CMP.img.width; src.height=CMP.img.height;
     src.getContext('2d').drawImage(CMP.img,0,0);
     name='photorealism-drawing';
   } else {
-    const cv=$('cmpCv');
-    src.width=cv.width; src.height=cv.height;
-    const g=src.getContext('2d');
-    g.fillStyle='#2a2a2a'; g.fillRect(0,0,src.width,src.height);
-    g.drawImage(cv,0,0);
+    src=cmpExport();                          // the same view, re-rendered big
     name='photorealism-comparison';
   }
   const blob=await new Promise(r=>src.toBlob(r,'image/jpeg',0.95));
@@ -3100,9 +3289,20 @@ async function cmpDownload(){
   const fname=name+'-'+new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')+'.jpg';
   if (window.RealismCam && RealismCam.saveImage){
     try{
+      const mode=await new Promise(res=>{
+        let m2=null; try{ m2=localStorage.getItem('dlmode'); }catch(e){}
+        if (m2==='gallery'||m2==='ask') return res(m2);
+        $('dlModal').style.display='flex';
+        const pick=v=>{ try{ localStorage.setItem('dlmode',v); }catch(e){}
+          $('dlModal').style.display='none'; dlModeSync(); res(v); };
+        $('dlGal').onclick=()=>pick('gallery');
+        $('dlAsk').onclick=()=>pick('ask');
+      });
       const b64=await new Promise(r=>{ const fr=new FileReader();
         fr.onload=()=>r(fr.result.split(',')[1]); fr.readAsDataURL(blob); });
-      RealismCam.saveImage(fname, 'image/jpeg', b64);
+      if (mode==='ask' && RealismCam.saveImageAsk)
+        RealismCam.saveImageAsk(fname, 'image/jpeg', b64);
+      else RealismCam.saveImage(fname, 'image/jpeg', b64);
       return;                                  // the bridge toasts the result
     }catch(e){}
   }
@@ -3247,6 +3447,14 @@ function cmpRender(){
           g.beginPath(); g.moveTo(x,f.y); g.lineTo(x,f.y+h*k); g.stroke(); }
         for (let yw=step; yw<h-1; yw+=step){ const y=f.y+yw*k;
           g.beginPath(); g.moveTo(f.x,y); g.lineTo(f.x+w*k,y); g.stroke(); }
+        if (GRID_LAB && step*k*FLP.s>=24){
+          const fs=Math.max(8/FLP.s, step*k*0.18);
+          g.font=fs+'px system-ui'; g.textBaseline='top';
+          g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+          const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
+          for (let ry=0;ry<rows;ry++) for (let cx=0;cx<cols;cx++)
+            g.fillText(colName(cx)+(ry+1), f.x+cx*step*k+fs*0.35, f.y+ry*step*k+fs*0.3);
+        }
         g.globalCompositeOperation='source-over';
       }
       cmpCircs(g, cv);
@@ -3282,6 +3490,14 @@ function cmpRender(){
           g.beginPath(); g.moveTo(xw,0); g.lineTo(xw,h); g.stroke(); }
         for (let yw=step; yw<h-1; yw+=step){
           g.beginPath(); g.moveTo(0,yw); g.lineTo(w,yw); g.stroke(); }
+        if (GRID_LAB){
+          const fs=step*0.18;
+          g.font=fs+'px system-ui'; g.textBaseline='top';
+          g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+          const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
+          for (let ry=0;ry<rows;ry++) for (let cx=0;cx<cols;cx++)
+            g.fillText(colName(cx)+(ry+1), cx*step+fs*0.35, ry*step+fs*0.3);
+        }
         g.globalCompositeOperation='source-over';
       }
       if (CIRCS.length){

@@ -71,6 +71,20 @@ class MainActivity : AppCompatActivity() {
         diag.visibility = android.view.View.GONE; diag.text = ""
     }
 
+    // "ask me where" downloads: the system file picker chooses the exact
+    // destination; the bytes wait here between launch and result
+    private var pendingSave: ByteArray? = null
+    private val createDoc = registerForActivityResult(
+        ActivityResultContracts.CreateDocument("image/jpeg")) { uri ->
+        val bytes = pendingSave; pendingSave = null
+        if (uri == null || bytes == null) {
+            js("toast && toast('save cancelled', false)")
+        } else try {
+            contentResolver.openOutputStream(uri)?.use { it.write(bytes) }
+            js("toast && toast('saved')")
+        } catch (e: Exception) { js("toast && toast('save failed', false)") }
+    }
+
     private val askCamera = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
@@ -327,6 +341,18 @@ class MainActivity : AppCompatActivity() {
                     }
                     startActivity(android.content.Intent.createChooser(i, "Share Photorealism"))
                 } catch (e: Exception) {}
+            }
+        }
+        @JavascriptInterface
+        fun saveImageAsk(name: String, mime: String, b64: String) {
+            runOnUiThread {
+                try {
+                    pendingSave = Base64.decode(b64, Base64.DEFAULT)
+                    createDoc.launch(name)
+                } catch (e: Exception) {
+                    pendingSave = null
+                    js("toast && toast('save failed', false)")
+                }
             }
         }
         // comparison/photo downloads land in Pictures where the gallery sees them
