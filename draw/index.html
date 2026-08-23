@@ -363,7 +363,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v220</span>
+      <span id="verNum">v221</span>
     </div>
   </div>
 
@@ -962,6 +962,9 @@ $('delYes').onclick = async () => {
   if (id==null) return;
   await galDel(id);
   try{
+    const ck=localStorage.getItem('ck|'+id);
+    if (ck) cachePurge(ck);
+    localStorage.removeItem('ck|'+id);
     for (const k of ['fmt|','det|','circ|','def|','done|']) localStorage.removeItem(k+id);
     if (+localStorage.getItem('lastRef')===id) localStorage.removeItem('lastRef');
   }catch(e){}
@@ -1359,6 +1362,11 @@ async function prepareAll(){
 async function enterMain(){
   clearTimeout(FMT_TIMER);
   await applyFormat();
+  if (galActive!=null && CKEY){
+    let old=null; try{ old=localStorage.getItem('ck|'+galActive); }catch(e){}
+    if (old && old!==CKEY) cachePurge(old);
+    try{ localStorage.setItem('ck|'+galActive, CKEY); }catch(e){}
+  }
   if (!(await prepReady())){ prepareAll(); return; }
   show('scrMain');       // fit-to-viewport needs a real rect
   initMain();
@@ -1978,6 +1986,40 @@ const b64blob = (b64, mime) => {
   for (let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
   return new Blob([u], {type:mime||'image/jpeg'});
 };
+const CACHE_PFX=['form2|','dtd16hyper|','dtl16hyper|','dth16hyper|',
+                 'dtd16fine|','dtl16fine|','dth16fine|',
+                 'dtd16prog|','dtl16prog|','dth16prog|'];
+async function dbDel(k){ try{ const d=await db(); await new Promise(res=>{
+  const t=d.transaction('plans','readwrite').objectStore('plans').delete(k);
+  t.onsuccess=res; t.onerror=res; }); }catch(e){} }
+async function cachePurge(ck){
+  if (!ck) return;
+  for (const pfx of CACHE_PFX){ await dbDel(pfx+ck); await dbDel(pfx+ck+'|s'); }
+}
+async function dbPlanKeys(){ try{ const d=await db(); return await new Promise(res=>{
+  const t=d.transaction('plans').objectStore('plans').getAllKeys();
+  t.onsuccess=()=>res((t.result||[]).filter(k=>typeof k==='string'));
+  t.onerror=()=>res([]); }); }catch(e){ return []; } }
+// orphan sweep: once the store is carrying real weight, drop every cooked
+// set whose fingerprint no longer belongs to any reference. ck| records
+// accrue as references are opened post-update; unrecorded sets recook
+// once on their next open - a one-time cost that reclaims the disk.
+setTimeout(async ()=>{
+  try{
+    const keys=(await dbPlanKeys()).filter(k=>CACHE_PFX.some(p2=>k.indexOf(p2)===0));
+    if (keys.length<=40) return;
+    const live=[];
+    for (let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if (k && k.indexOf('ck|')===0) live.push(localStorage.getItem(k));
+    }
+    if (!live.length) return;
+    for (const k of keys){
+      const rest=k.slice(k.indexOf('|')+1);
+      if (!live.some(c=>rest===c || rest===c+'|s')) await dbDel(k);
+    }
+  }catch(e){}
+}, 8000);
 async function dbCmpKeys(){ try{ const d=await db(); return await new Promise(res=>{
   const t=d.transaction('plans').objectStore('plans').getAllKeys();
   t.onsuccess=()=>res((t.result||[]).filter(k=>typeof k==='string'&&k.indexOf('cmp|')===0));
@@ -2005,7 +2047,7 @@ async function bakBuild(){
   for (let i=0;i<localStorage.length;i++){
     const k=localStorage.key(i);
     if (BAK_PERID.some(pfx=>k.indexOf(pfx)===0)) continue;
-    if (k.indexOf('seed|')===0) continue;
+    if (k.indexOf('seed|')===0 || k.indexOf('ck|')===0) continue;
     ls[k]=localStorage.getItem(k);
   }
   return JSON.stringify({ app:'realism', v:1, at:Date.now(), ls, refs, cmps });
