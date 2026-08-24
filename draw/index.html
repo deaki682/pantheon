@@ -68,7 +68,7 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:13px}
 #gallery,#galleryC{flex:none;display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;
   touch-action:pan-x;padding:8px calc(50% - 60px);
   -webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
-.galLbl{flex:none;font-size:17px;color:var(--acc);letter-spacing:.06em;
+.galLbl{flex:none;font-size:17px;color:#fff;letter-spacing:.06em;
   text-align:center;padding:0 16px;opacity:.95}
 .gadd{position:relative;flex:none;width:118px;aspect-ratio:1;
   border:1px dashed #777;border-radius:10px;background:#191919;
@@ -474,7 +474,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v239</span>
+      <span id="verNum">v240</span>
     </div>
   </div>
 
@@ -651,10 +651,8 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   <button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
   <div id="underCorner">
     <div id="underMenu">
-      <button id="uBr">Brights</button>
-      <button id="uLt">Lights</button>
-      <button id="uDk">Darks</button>
       <button id="uSh">Shading</button>
+      <button id="uMid">Midtone</button>
     </div>
     <button id="underBtn" title="Sepia underpainting"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 12 L12.00 3.40 A8.6 8.6 0 0 1 18.08 5.92 Z" fill="#2e2013"/><path d="M12 12 L18.08 5.92 A8.6 8.6 0 0 1 20.60 12.00 Z" fill="#4a3420"/><path d="M12 12 L20.60 12.00 A8.6 8.6 0 0 1 18.08 18.08 Z" fill="#66482c"/><path d="M12 12 L18.08 18.08 A8.6 8.6 0 0 1 12.00 20.60 Z" fill="#836039"/><path d="M12 12 L12.00 20.60 A8.6 8.6 0 0 1 5.92 18.08 Z" fill="#a07a48"/><path d="M12 12 L5.92 18.08 A8.6 8.6 0 0 1 3.40 12.00 Z" fill="#bd965c"/><path d="M12 12 L3.40 12.00 A8.6 8.6 0 0 1 5.92 5.92 Z" fill="#d9b578"/><path d="M12 12 L5.92 5.92 A8.6 8.6 0 0 1 12.00 3.40 Z" fill="#f0d5a0"/></svg></button>
   </div>
@@ -2779,10 +2777,10 @@ function initMain(){
   $('hudToggle').classList.remove('lit','vOn');
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true;
   LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=true;
-  UNDER=false; SLAY.dk=SLAY.lt=SLAY.hl=SLAY.sh=false;
+  UNDER=false; UGROUND='off';
   $('underBtn').classList.remove('vOn');
   $('underMenu').style.display='none';
-  for (const id4 of ['uBr','uLt','uDk','uSh']) $(id4).classList.remove('vOn');
+  for (const id4 of ['uSh','uMid']) $(id4).classList.remove('vOn');
   document.body.classList.toggle('colorRef', REFMODE==='c');
   if (REFMODE==='c'){
     // the reference remembers its layer setup: workshop open, which bands,
@@ -2793,16 +2791,16 @@ function initMain(){
       LAYERS_C.dk=!!(LV.c&&LV.c.dk); LAYERS_C.mid=!!(LV.c&&LV.c.mid);
       LAYERS_C.lt=!!(LV.c&&LV.c.lt); LAYERS_C.br=!!(LV.c&&LV.c.br);
       UNDER=!!LV.u;
-      SLAY.dk=!!(LV.s&&LV.s.dk); SLAY.lt=!!(LV.s&&LV.s.lt);
-      SLAY.hl=!!(LV.s&&LV.s.hl); SLAY.sh=!!(LV.s&&LV.s.sh);
+      UGROUND = LV.g==='shade'||LV.g==='mid' ? LV.g
+              : (LV.s&&LV.s.sh ? 'shade' : 'off');   // pre-v240 records
       if (LV.o){
         $('hud').style.display='';
         $('hudToggle').classList.add('lit','vOn');
       }
-      $('underBtn').classList.toggle('vOn', UNDER);
+      $('underBtn').classList.toggle('vOn', UNDER || UGROUND!=='off');
       $('underMenu').style.display = UNDER ? 'flex' : 'none';
-      for (const [id5,k5] of [['uBr','hl'],['uLt','lt'],['uDk','dk'],['uSh','sh']])
-        $(id5).classList.toggle('vOn', SLAY[k5]);
+      $('uSh').classList.toggle('vOn', UGROUND==='shade');
+      $('uMid').classList.toggle('vOn', UGROUND==='mid');
     }
   }
   // the reference remembers its drawing tool across sessions - restored
@@ -3273,7 +3271,8 @@ const LAYERS_C={dk:true, mid:true, lt:true, br:true};
 // it is the only thing shown; the colour bands wait, remembered.
 let UNDER=false;
 const COLOR_WHEEL='<svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 12 L12.00 3.40 A8.6 8.6 0 0 1 18.08 5.92 Z" fill="#e04438"/><path d="M12 12 L18.08 5.92 A8.6 8.6 0 0 1 20.60 12.00 Z" fill="#f08a24"/><path d="M12 12 L20.60 12.00 A8.6 8.6 0 0 1 18.08 18.08 Z" fill="#ecc94b"/><path d="M12 12 L18.08 18.08 A8.6 8.6 0 0 1 12.00 20.60 Z" fill="#4caf50"/><path d="M12 12 L12.00 20.60 A8.6 8.6 0 0 1 5.92 18.08 Z" fill="#26b0a8"/><path d="M12 12 L5.92 18.08 A8.6 8.6 0 0 1 3.40 12.00 Z" fill="#4285e8"/><path d="M12 12 L3.40 12.00 A8.6 8.6 0 0 1 5.92 5.92 Z" fill="#8e5cf0"/><path d="M12 12 L5.92 5.92 A8.6 8.6 0 0 1 12.00 3.40 Z" fill="#ec5fa8"/></svg>';
-const SLAY={dk:false, lt:false, hl:false, sh:false};
+let UGROUND='off';               // 'off' | 'shade' | 'mid'
+const UMID=140;                   // the flat toned-paper value
 const SEP_R=new Uint8Array(256), SEP_G=new Uint8Array(256), SEP_B=new Uint8Array(256);
 for (let v=0;v<256;v++){
   const t=Math.pow(v/255, 0.95);
@@ -3312,41 +3311,34 @@ function compositeColorCv(){
   const L=LAYERS_C;
   const sig='K'+(ready?'P':'C')+(L.dk?'D':'')+(L.mid?'M':'')
            +(L.lt?'L':'')+(L.br?'B':'')+'T'+eff
-           +'U'+(UNDER?1:0)+(SLAY.dk?'d':'')+(SLAY.lt?'l':'')
-           +(SLAY.hl?'h':'')+(SLAY.sh?'s':'');
+           +'U'+(UNDER?1:0)+'G'+UGROUND;
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
   const N=COMP.ph.length, [t1,t2,t3]=COMP.bands, rgb=COMP.rgb;
-  const underOn = SLAY.sh||SLAY.dk||SLAY.lt||SLAY.hl;
+  const underOn = UGROUND!=='off';
+  const gShade = UGROUND==='shade';
   const c=document.createElement('canvas'); c.width=w; c.height=h;
   const g=c.getContext('2d');
   const om=g.createImageData(w,h), od=om.data;
   for (let i=0;i<N;i++){
     const ph=COMP.ph[i], sh=COMP.sh[i], q=i*4;
-    let v, u = SLAY.sh ? sh : 255;
+    let v;
     if (ready){
       const dDu=Math.max(0,sh-ph), lDu=Math.max(0,COMP.dp[i]-sh);
       const lD1=Math.min(lDu, dP.lD[i]);
       v = sh - dDu + lD1 + (lDu-lD1) + COMP.hl[i];
-      if (SLAY.dk) u-=dDu;
-      if (SLAY.lt) u+=lD1;
-      if (SLAY.hl) u+=(lDu-lD1)+COMP.hl[i];
     } else {
       const dD=det?det.dD[i]:Math.max(0,sh-ph);
       const lD=det?det.lD[i]:Math.max(0,COMP.dp[i]-sh);
       const hl=det?det.hl[i]:COMP.hl[i];
       v = sh - dD + lD + hl;
-      if (SLAY.dk) u-=dD;
-      if (SLAY.lt) u+=lD;
-      if (SLAY.hl) u+=hl;
     }
     v=v<0?0:(v>255?255:v);
+    const u = gShade ? sh : (underOn ? UMID : 255);
     if (UNDER){
-      // the sepia is an exclusive view: only the underpainting shows,
-      // whatever the colour bands say - they wait, remembered. Untouched
-      // values stay paper white; only worked values take the sepia
-      const ui=(u<0?0:(u>255?255:u))|0;
-      if (ui>=254){ od[q]=od[q+1]=od[q+2]=255; }
-      else { od[q]=SEP_R[ui]; od[q+1]=SEP_G[ui]; od[q+2]=SEP_B[ui]; }
+      // choosing a ground shows only the ground: paper, the sepia
+      // shading, or the flat midtone - the colour bands wait, remembered
+      if (u>=254){ od[q]=od[q+1]=od[q+2]=255; }
+      else { od[q]=SEP_R[u]; od[q+1]=SEP_G[u]; od[q+2]=SEP_B[u]; }
       od[q+3]=255; continue;
     }
     // the band borders follow the tool: values group by the COOKED luma at
@@ -3355,10 +3347,8 @@ function compositeColorCv(){
     if (!L[band]){
       // the colours always build on top of the underpainting: wherever a
       // band is not yet painted, the configured sepia ground shows through
-      if (underOn){
-        const ui=(u<0?0:(u>255?255:u))|0;
-        if (ui>=254){ od[q]=od[q+1]=od[q+2]=255; }
-        else { od[q]=SEP_R[ui]; od[q+1]=SEP_G[ui]; od[q+2]=SEP_B[ui]; }
+      if (underOn && u<254){
+        od[q]=SEP_R[u]; od[q+1]=SEP_G[u]; od[q+2]=SEP_B[u];
       } else { od[q]=od[q+1]=od[q+2]=255; }
       od[q+3]=255; continue;
     }
@@ -3569,26 +3559,26 @@ function laySave(){
   try{ localStorage.setItem('lay|'+galActive, JSON.stringify({
     o: $('hud').style.display!=='none' ? 1 : 0,
     u: UNDER?1:0,
-    s: {dk:SLAY.dk?1:0, lt:SLAY.lt?1:0, hl:SLAY.hl?1:0, sh:SLAY.sh?1:0},
+    g: UGROUND,
     c: {dk:LAYERS_C.dk?1:0, mid:LAYERS_C.mid?1:0,
         lt:LAYERS_C.lt?1:0, br:LAYERS_C.br?1:0}
   })); }catch(e){}
 }
 function underSync(){
-  for (const [id,k] of [['uBr','hl'],['uLt','lt'],['uDk','dk'],['uSh','sh']])
-    $(id).classList.toggle('vOn', SLAY[k]);
-  $('underBtn').classList.toggle('vOn', UNDER);
+  $('uSh').classList.toggle('vOn', UGROUND==='shade');
+  $('uMid').classList.toggle('vOn', UGROUND==='mid');
+  $('underBtn').classList.toggle('vOn', UNDER || UGROUND!=='off');
   $('underMenu').style.display = UNDER ? 'flex' : 'none';
 }
 $('underBtn').onclick=()=>{
-  UNDER=!UNDER;                    // its layers persist across open and close
+  UNDER=!UNDER;                    // the chosen ground persists regardless
   $('detMenu').style.display='none';
   underSync(); laySave();
   if (state.img && GRID_READY) viewRepaint();
 };
-for (const [id3,k3] of [['uBr','hl'],['uLt','lt'],['uDk','dk'],['uSh','sh']])
+for (const [id3,g3] of [['uSh','shade'],['uMid','mid']])
   $(id3).onclick=()=>{
-    SLAY[k3]=!SLAY[k3];
+    UGROUND = UGROUND===g3 ? 'off' : g3;
     underSync(); laySave();
     if (state.img && GRID_READY) viewRepaint();
   };
