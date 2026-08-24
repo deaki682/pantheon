@@ -157,21 +157,23 @@ html.natCam #camVid{display:none !important}
   display:none;padding:0;z-index:6}
 #shutter:active{filter:brightness(0.8)}
 /* the tool panel floats bottom-left over the canvas and can be dismissed */
-#hudWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
+#hudWrap{position:absolute;left:calc(30px + (100% - 60px)/3);
+  transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
-  display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
   max-width:calc(100% - 16px)}
+body.colorRef #hudWrap{left:calc(30px + (100% - 60px)*0.5)}
 #hud{border:1px solid #555;background:#161616;border-radius:12px}
 #hudToggle{width:44px;height:44px;padding:0;font-size:18px;line-height:1;border-radius:12px}
 #hudToggle.lit{width:auto;padding:0 16px;font-size:14px}
-#camCorner{position:absolute;right:calc(8px + env(safe-area-inset-right));
+#camCorner{position:absolute;left:calc(100% - 30px);transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
-#detCorner{position:absolute;left:calc(30px + (100% - 60px)/3);
-  transform:translateX(-50%);bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
+#detCorner{position:absolute;left:30px;transform:translateX(-50%);
+  bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
 #gridCorner{position:absolute;left:calc(30px + (100% - 60px)*2/3);
   transform:translateX(-50%);bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
 #detBtn{height:44px;min-width:52px;padding:0 10px;border-radius:12px;font-size:13px}
-#detMenu{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
+#detMenu{position:absolute;bottom:52px;left:0;
   display:none;flex-direction:column;gap:6px;background:#1e1e1e;
   border:1px solid #555;border-radius:14px;padding:6px;z-index:6}
 #detMenu button{white-space:nowrap;font-size:13px;border-radius:9px}
@@ -179,7 +181,8 @@ html.natCam #camVid{display:none !important}
   display:flex;align-items:center;justify-content:center}
 #underCorner{position:absolute;left:50%;transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:none}
-body.colorRef #underCorner{display:block}
+body.colorRef #underCorner{display:block;left:calc(30px + (100% - 60px)*0.25)}
+body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.75)}
 #underBtn{width:44px;height:44px;padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #underMenu{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
@@ -253,8 +256,8 @@ body.colorRef #underCorner{display:block}
    and they slide back */
 #hudWrap,#detCorner,#gridCorner,#underCorner,#camCorner,#expCorner,#setCorner,#backBtn{
   transition:transform 0.2s cubic-bezier(.3,0,.2,1)}
-body.uiHid #hudWrap,body.uiHid #camCorner{transform:translateY(160%)}
-body.uiHid #detCorner,body.uiHid #gridCorner,body.uiHid #underCorner{transform:translate(-50%,160%)}
+body.uiHid #hudWrap,body.uiHid #detCorner,body.uiHid #gridCorner,
+body.uiHid #underCorner,body.uiHid #camCorner{transform:translate(-50%,160%)}
 body.uiHid #expCorner{transform:translateY(-190%)}
 body.uiHid #setCorner{transform:translate(-50%,-190%)}
 body.uiHid #backBtn{transform:translateY(-190%)}
@@ -468,7 +471,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v235</span>
+      <span id="verNum">v236</span>
     </div>
   </div>
 
@@ -3235,7 +3238,6 @@ const LAYERS_C={dk:true, mid:true, lt:true, br:true};
 // colour bands then layer over whatever it shows.
 let UNDER=false;
 const SLAY={dk:false, lt:false, hl:false};
-let hudSet=()=>{};
 const SEP_R=new Uint8Array(256), SEP_G=new Uint8Array(256), SEP_B=new Uint8Array(256);
 for (let v=0;v<256;v++){
   const t=Math.pow(v/255, 0.95);
@@ -3521,9 +3523,6 @@ function underSync(){
 $('underBtn').onclick=()=>{
   UNDER=!UNDER;
   SLAY.dk=SLAY.lt=SLAY.hl=false;   // the underpainting opens at bare shading
-  // seeing the underpainting needs the colour bands out of the way: the
-  // wheel also opens the colour workshop at blank paper, ready to layer
-  if (UNDER && $('hud').style.display==='none') hudSet(true);
   underSync();
   if (state.img && GRID_READY) viewRepaint();
 };
@@ -5894,7 +5893,6 @@ $('cmpSplit').onclick = () => {
     if (GRID_READY && state.img) viewRepaint();
     if (!o && TOUR.det){ TOUR.det=false; detTip(); }
   };
-  hudSet=set;
   let open = true;
   try { open = localStorage.getItem('hudOpen') !== '0'; } catch(e){}
   set(open);
