@@ -468,7 +468,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v256</span>
+      <span id="verNum">v257</span>
     </div>
   </div>
 
@@ -2622,19 +2622,34 @@ let calRefresh=()=>{};
       .getPropertyValue('--acc').trim()||'#e8833a';
     // a touch more presence than a bare device pixel, but always lighter
     // than the ruler's own dpr-wide stroke
-    g.globalAlpha=0.11; g.lineWidth=Math.max(1, dpr*0.6);
+    g.globalAlpha=0.16; g.lineWidth=Math.max(1, dpr*0.6);
     const cm=CELLSZ.u==='cm';
     const unitPx=(cm ? 96/2.54 : 96)*INCAL*dpr;
     const tr=$('titleRule').getBoundingClientRect();
     const cx=(tr.left+tr.width/2-r.left)*dpr;
     const y0=(tr.top+1-r.top)*dpr;
+    const xs=[], ys=[];
+    for (let x=cx%unitPx; x<=W2; x+=unitPx) xs.push(Math.round(x)+0.5);
+    for (let y=((y0%unitPx)+unitPx)%unitPx; y<=H2; y+=unitPx) ys.push(Math.round(y)+0.5);
     g.beginPath();
-    for (let x=cx%unitPx; x<=W2; x+=unitPx){
-      const px=Math.round(x)+0.5; g.moveTo(px,0); g.lineTo(px,H2);
-    }
-    for (let y=((y0%unitPx)+unitPx)%unitPx; y<=H2; y+=unitPx){
-      const py=Math.round(y)+0.5; g.moveTo(0,py); g.lineTo(W2,py);
-    }
+    for (const px of xs){ g.moveTo(px,0); g.lineTo(px,H2); }
+    for (const py of ys){ g.moveTo(0,py); g.lineTo(W2,py); }
+    // half- and quarter-unit nicks ride every line, like drafting paper
+    // (cm mode nicks the half only, matching the ruler's own marks)
+    const nsubs = cm ? [[0.5,2.5]] : [[0.25,1.5],[0.5,2.5],[0.75,1.5]];
+    const yBase = (ys[0]??0.5)-unitPx, xBase = (xs[0]??0.5)-unitPx;
+    for (const px of xs)
+      for (let y=yBase; y<=H2; y+=unitPx)
+        for (const [f,l] of nsubs){
+          const ny=Math.round(y+f*unitPx)+0.5; if (ny<0||ny>H2) continue;
+          g.moveTo(px-l*dpr,ny); g.lineTo(px+l*dpr,ny);
+        }
+    for (const py of ys)
+      for (let x=xBase; x<=W2; x+=unitPx)
+        for (const [f,l] of nsubs){
+          const nx=Math.round(x+f*unitPx)+0.5; if (nx<0||nx>W2) continue;
+          g.moveTo(nx,py-l*dpr); g.lineTo(nx,py+l*dpr);
+        }
     g.stroke();
     g.globalAlpha=1;
   };
