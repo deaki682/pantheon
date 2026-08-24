@@ -64,9 +64,16 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 /* screen 3: main view */
 #viewport{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
 /* gallery: every photo ever opened, newest first */
-#gallery{flex:none;display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;
+#gallery,#galleryC{flex:none;display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;
   touch-action:pan-x;padding:8px calc(50% - 60px);
   -webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
+.galLbl{flex:none;font-size:12px;color:var(--acc);letter-spacing:.06em;
+  padding:0 16px;opacity:.9}
+.gadd{position:relative;flex:none;width:118px;aspect-ratio:1;
+  border:1px dashed #777;border-radius:10px;background:#191919;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  scroll-snap-align:center}
+.gadd span{color:var(--acc);font-size:30px;line-height:1}
 .gitem{width:118px;scroll-snap-align:center}
 #upRow{flex-direction:column;align-items:center;gap:12px}
 #calBtn{padding:10px 14px;line-height:0}
@@ -451,7 +458,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v230</span>
+      <span id="verNum">v231</span>
     </div>
   </div>
 
@@ -464,8 +471,12 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   <canvas id="titleRule"></canvas>
   <div id="pwaNote" style="display:none"></div>
   <input type="file" id="file" accept="image/*" hidden>
+  <input type="file" id="fileC" accept="image/*" hidden>
   <span class="grow"></span>
+  <span class="galLbl">Black and White</span>
   <div id="gallery"></div>
+  <span class="galLbl" style="margin-top:8px">Color</span>
+  <div id="galleryC"></div>
   <div id="gridModal">
     <div id="gridPanel">
       <div class="row" style="padding:0">
@@ -480,7 +491,6 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     </div>
   </div>
   <div class="row" id="upRow">
-    <button id="newPhoto"><span style="color:var(--acc)">+</span> New Reference</button>
     <button id="calBtn" title="Grid square size and ruler match"><canvas id="calBtnCv"></canvas></button>
   </div>
   <span class="grow"></span>
@@ -505,6 +515,14 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <div class="row">
       <span class="adjL">whites</span><input type="range" id="eWh" min="-100" max="100" value="0">
       <span class="adjL">blacks</span><input type="range" id="eBl" min="-100" max="100" value="0">
+    </div>
+    <div class="row edColorRow" style="display:none">
+      <span class="adjL">warmth</span><input type="range" id="eTmp" min="-100" max="100" value="0">
+      <span class="adjL">tint</span><input type="range" id="eTnt" min="-100" max="100" value="0">
+    </div>
+    <div class="row edColorRow" style="display:none">
+      <span class="adjL">saturation</span><input type="range" id="eSat" min="-100" max="100" value="0">
+      <span class="adjL">vibrance</span><input type="range" id="eVib" min="-100" max="100" value="0">
     </div>
     <div class="row">
       <span class="adjL">sharpen</span><input type="range" id="eShp" min="0" max="100" value="0">
@@ -582,6 +600,10 @@ body.uiHid #backBtn{transform:translateY(-190%)}
           <button id="vSpec" class="vBtn">Brights</button>
           <button id="vLight" class="vBtn">Lights</button>
           <button id="vDark" class="vBtn">Darks</button>
+          <button id="cBr" class="vBtn" style="display:none">Brights</button>
+          <button id="cLt" class="vBtn" style="display:none">Lights</button>
+          <button id="cMid" class="vBtn" style="display:none">Midtones</button>
+          <button id="cDk" class="vBtn" style="display:none">Darks</button>
         </div>
       </div>
     </div>
@@ -644,6 +666,14 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <div class="row">
       <span class="adjL">whites</span><input type="range" id="aWh" min="-100" max="100" value="0">
       <span class="adjL">blacks</span><input type="range" id="aBl" min="-100" max="100" value="0">
+    </div>
+    <div class="row cmpColorRow" style="display:none">
+      <span class="adjL">warmth</span><input type="range" id="aTmp" min="-100" max="100" value="0">
+      <span class="adjL">tint</span><input type="range" id="aTnt" min="-100" max="100" value="0">
+    </div>
+    <div class="row cmpColorRow" style="display:none">
+      <span class="adjL">saturation</span><input type="range" id="aSat" min="-100" max="100" value="0">
+      <span class="adjL">vibrance</span><input type="range" id="aVib" min="-100" max="100" value="0">
     </div>
     <div class="row">
       <span class="adjL">denoise</span><input type="range" id="aDn" min="0" max="100" value="0">
@@ -810,7 +840,8 @@ setTimeout(async ()=>{
         try{
           const b64=N.shadowReadRef('r'+m.id); if (!b64) continue;
           const blob=b64blob(b64);
-          const thumb=m.thumb || await thumbOf(blob);
+          const thumb=m.thumb
+            || await thumbOf(blob, (meta.per && meta.per['mode|'+m.id])==='c');
           const nid=await galAdd({ ts:m.ts||Date.now(), name:m.name||'', thumb, blob });
           if (nid==null) continue;
           for (const pfx of BAK_PERID){
@@ -843,23 +874,23 @@ function blobImage(blob){ return new Promise((res,rej)=>{
   i.onerror = e => { URL.revokeObjectURL(u); rej(e); };
   i.src = u; }); }
 
-async function thumbOf(blob){
+async function thumbOf(blob, colr){
   const i = await blobImage(blob);
   const T = 192, c = document.createElement('canvas'); c.width = T; c.height = T;
   const g = c.getContext('2d');
   const s = Math.min(i.width, i.height);
-  g.filter = 'grayscale(1)';
+  if (!colr) g.filter = 'grayscale(1)';
   g.drawImage(i, (i.width-s)/2, (i.height-s)/2, s, s, 0, 0, T, T);
   URL.revokeObjectURL(i.src);
   return c.toDataURL('image/jpeg', 0.72);
 }
 
+let REFMODE='bw';                 // the open reference's world: 'bw' | 'c'
+function isColor(gid){ try{ return localStorage.getItem('mode|'+gid)==='c'; }catch(e){ return false; } }
 async function renderGallery(){
-  const host = $('gallery'); if (!host) return;
   const recs = (await galAll()).sort((a,b)=>b.ts-a.ts);
-  host.innerHTML = '';
   let last=null; try{ last=+localStorage.getItem('lastRef'); }catch(e){}
-  for (const r of recs){
+  const makeTile = r => {
     const d = document.createElement('div'); d.className='gitem'; d.dataset.gid = r.id;
     if (r.id===last) d.classList.add('lastRef');
     const im = document.createElement('img'); im.src = r.thumb; im.alt = r.name||'';
@@ -904,14 +935,31 @@ async function renderGallery(){
       if (r.blob && warmOpen(r)) return;      // cooked before: straight in
       if (r.blob) openPhoto(r.blob, r.id);
     };
-    host.appendChild(d);
+    return d;
+  };
+  for (const [hostId, colr] of [['gallery',false],['galleryC',true]]){
+    const host=$(hostId); if (!host) continue;
+    host.innerHTML='';
+    for (const r of recs){
+      if (isColor(r.id)!==colr) continue;
+      host.appendChild(makeTile(r));
+    }
+    const add=document.createElement('div'); add.className='gadd';
+    add.title=colr ? 'Add a color reference' : 'Add a black and white reference';
+    const sp=document.createElement('span'); sp.textContent='+';
+    add.appendChild(sp);
+    add.onclick=()=>{ haptic(); $(colr?'fileC':'file').click(); };
+    host.appendChild(add);
   }
-  // the last-used reference rides front and centre
+  // the last-used reference rides front and centre in its own strip
   requestAnimationFrame(()=>{
-    const kids=host.children;
-    const t = host.querySelector('.gitem.lastRef')
-           || kids[Math.floor((kids.length-1)/2)];
-    if (t) host.scrollLeft = t.offsetLeft - (host.clientWidth - t.offsetWidth)/2;
+    for (const hostId of ['gallery','galleryC']){
+      const host=$(hostId); if (!host || !host.children.length) continue;
+      const kids=host.children;
+      const t = host.querySelector('.gitem.lastRef')
+             || kids[Math.floor((kids.length-1)/2)];
+      if (t) host.scrollLeft = t.offsetLeft - (host.clientWidth - t.offsetWidth)/2;
+    }
   });
 }
 
@@ -937,17 +985,21 @@ function fmtTime(sec){
 
 let GRID_READY = false;                        // true once initMain has run
 setInterval(()=>{
-  const host = $('gallery'); if (!host || !host.children.length) return;
   if (galLoading != null) galLoading = Math.min(0.9, galLoading + 0.08);
-  for (const el of host.children){
-    const on = galActive != null && +el.dataset.gid === galActive;
-    let p = null;
-    if (on){
-      if (galLoading != null) p = galLoading;                 // decoding the photo
-      else if (PREP.active && PREP.gid === galActive) p = PREP.p;   // cooking
+  for (const hostId of ['gallery','galleryC']){
+    const host = $(hostId); if (!host || !host.children.length) continue;
+    for (const el of host.children){
+      if (!el.dataset.gid) continue;               // the add tile
+      const on = galActive != null && +el.dataset.gid === galActive;
+      let p = null;
+      if (on){
+        if (galLoading != null) p = galLoading;               // decoding the photo
+        else if (PREP.active && PREP.gid === galActive) p = PREP.p;   // cooking
+      }
+      el.classList.toggle('busy', !!(on && p != null && p < 1));
+      const gf=el.querySelector('.gfill');
+      if (p != null && gf) gf.style.width = (100*p).toFixed(1)+'%';
     }
-    el.classList.toggle('busy', !!(on && p != null && p < 1));
-    if (p != null) el.querySelector('.gfill').style.width = (100*p).toFixed(1)+'%';
   }
 }, 400);
 
@@ -955,6 +1007,7 @@ let OPEN_SEQ = 0;
 function openPhoto(blob, gid, retry){
   const my = ++OPEN_SEQ;                  // stale decodes must not land
   galActive = gid ?? null; galLoading = 0.15;
+  REFMODE = isColor(gid) ? 'c' : 'bw';
   // a decode that never answers must not brick the tile: the click guard
   // treats an in-flight load as "wait", so a hung one made the reference
   // permanently unopenable
@@ -972,12 +1025,12 @@ function openPhoto(blob, gid, retry){
     const c = document.createElement('canvas');
     c.width = img.width; c.height = img.height;
     const g = c.getContext('2d');
-    g.filter = 'grayscale(1)';                  // automatic black and white
+    if (REFMODE!=='c') g.filter = 'grayscale(1)';   // automatic black and white
     g.drawImage(img, 0, 0);
     g.filter = 'none';
     {
       const _er = gid!=null ? editLoad(gid) : null;
-      photo = _er ? editApply(c, _er) : c;
+      photo = _er ? editApply(c, _er, REFMODE==='c') : c;
     }
     URL.revokeObjectURL(img.src);
     FMT_APPLIED = null;               // a new photo always reformats
@@ -1039,6 +1092,7 @@ function warmOpen(r){
   const my=++OPEN_SEQ;
   WARM_PEND=r.id; WARM_STANDIN=null;
   galActive=r.id; galLoading=null;
+  REFMODE = isColor(r.id) ? 'c' : 'bw';
   try{ localStorage.setItem('lastRef', r.id); }catch(e){}
   photo=null; state.img=null; FMT_APPLIED=null; GRID_READY=false;
   { const fc=$('fmtCanvas');
@@ -1058,7 +1112,8 @@ function warmOpen(r){
     const c=document.createElement('canvas');
     c.width=th.width; c.height=th.height;
     const g=c.getContext('2d');
-    g.filter='grayscale(1)'; g.drawImage(th,0,0); g.filter='none';
+    if (REFMODE!=='c') g.filter='grayscale(1)';
+    g.drawImage(th,0,0); g.filter='none';
     WARM_STANDIN=c;
     if ($('scrMain').classList.contains('on')) viewRepaint();
   };
@@ -1086,9 +1141,10 @@ function decodeWarm(blob, gid, my, retry){
     const c=document.createElement('canvas');
     c.width=img.width; c.height=img.height;
     const g=c.getContext('2d');
-    g.filter='grayscale(1)'; g.drawImage(img,0,0); g.filter='none';
+    if (REFMODE!=='c') g.filter='grayscale(1)';
+    g.drawImage(img,0,0); g.filter='none';
     const _er=editLoad(gid);
-    photo=_er ? editApply(c,_er) : c;
+    photo=_er ? editApply(c,_er,REFMODE==='c') : c;
     WARM_PEND=null;
     warmVerify();
   };
@@ -1118,16 +1174,22 @@ async function warmVerify(){
   if ($('scrFormat').classList.contains('on')) fmtPreview();
 }
 
-$('file').addEventListener('change', async e => {
-  const f = e.target.files[0]; if (!f) return;
+async function addRef(f, colr){
   $('upStat').textContent = '...';
   let gid = null;
   try {
-    const thumb = await thumbOf(f);
+    const thumb = await thumbOf(f, colr);
     gid = await galAdd({ ts: Date.now(), name: f.name||'', thumb, blob: f });
+    if (gid!=null && colr) try{ localStorage.setItem('mode|'+gid,'c'); }catch(e){}
     renderGallery();
   } catch(err){}
   openPhoto(f, gid);
+}
+$('file').addEventListener('change', e => {
+  const f = e.target.files[0]; if (f) addRef(f, false);
+});
+$('fileC').addEventListener('change', e => {
+  const f = e.target.files[0]; if (f) addRef(f, true);
 });
 renderGallery();
 // ---- tutorial tips: floating bubbles, the app stays usable beneath ------
@@ -1314,7 +1376,8 @@ $('rmDel').onclick=()=>{ DELREF=REFM; REFM=null;
 $('rmDup').onclick=async()=>{
   const id=REFM; REFM=null; $('refModal').style.display='none';
   const r=await galGet(id); if (!r || !r.blob){ toast('could not read that reference', false); return; }
-  await galAdd({ ts:Date.now(), name:(r.name?r.name+' ':'')+'copy', thumb:r.thumb, blob:r.blob });
+  const nid=await galAdd({ ts:Date.now(), name:(r.name?r.name+' ':'')+'copy', thumb:r.thumb, blob:r.blob });
+  if (nid!=null && isColor(id)) try{ localStorage.setItem('mode|'+nid,'c'); }catch(e){}
   renderGallery(); toast('duplicated');
 };
 $('rmGrid').onclick=async()=>{
@@ -1374,7 +1437,6 @@ addEventListener('appinstalled', ()=>gcPing('/install'));
     $('dylMail').style.display='block'; };
   $('dylDone').onclick=()=>{ $('dylModal').style.display='none'; };
 })();
-$('newPhoto').onclick = () => $('file').click();
 // settings: the accent is the artist's, and the true-size stop is optional
 const ACCENTS=['#e8833a','#e0524f','#e0b13a','#6aa84f','#3aa6a0',
                '#5a8fd8','#9b6bd8','#d86bb0','#e8e6e1'];
@@ -1489,6 +1551,8 @@ function ttlPop(){
   const soon=()=>{ setTimeout(unshift,60); setTimeout(unshift,350); };
   $('file').addEventListener('change', soon);
   $('file').addEventListener('cancel', soon);
+  $('fileC').addEventListener('change', soon);
+  $('fileC').addEventListener('cancel', soon);
   if (window.visualViewport){
     visualViewport.addEventListener('resize', soon);
     visualViewport.addEventListener('scroll', soon);
@@ -1648,6 +1712,7 @@ $('backBtn').onclick = () => {
 // edit|<id> and is re-applied on every open. The tone curve is the same
 // engine the camera adjustments use.
 const EDIT_DEF={exp:0,con:100,hi:0,sh:0,wh:0,bl:0,shp:0,dn:0,
+                tmp:0,tnt:0,sat:0,vib:0,
                 rot:0,fh:0,fv:0,ang:0,cx:0,cy:0,cw:1,ch:1,ar:0};
 function editLoad(gid){
   try{ const j=JSON.parse(localStorage.getItem('edit|'+gid));
@@ -1660,6 +1725,7 @@ function editLoad(gid){
 function editNeutral(R){
   return !R.exp && R.con===100 && !R.hi && !R.sh && !R.wh && !R.bl
       && !R.shp && !R.dn && !R.rot && !R.fh && !R.fv && !R.ang
+      && !R.tmp && !R.tnt && !R.sat && !R.vib
       && !R.cx && !R.cy && R.cw===1 && R.ch===1;
 }
 function boxBlurGray(src,w,h,r){
@@ -1698,7 +1764,48 @@ function denoiseGray(gray,w,h,amt){
   }
   return out;
 }
-function editApply(src, R){
+function colorApplyPlane(d, w, h, R){
+  // one pass over a colour image: denoise/sharpen/tone run on the luma and
+  // ride back onto RGB as a ratio (hue and saturation untouched), then
+  // white balance and saturation/vibrance about the new luma
+  const N=w*h;
+  const base=new Float32Array(N);
+  for (let i=0;i<N;i++){ const q=i*4; base[i]=(d[q]*77+d[q+1]*150+d[q+2]*29)/256; }
+  let proc=base;
+  if (R.dn>0) proc=denoiseGray(proc,w,h,R.dn);
+  if (R.shp>0){
+    const bl=boxBlurGray(proc,w,h,2);
+    const kk=R.shp/55;
+    const g2=new Float32Array(N);
+    for (let i=0;i<N;i++){ const v=proc[i]+(proc[i]-bl[i])*kk; g2[i]=v<0?0:(v>255?255:v); }
+    proc=g2;
+  }
+  const LN=4096;
+  const lut=adjLut({exp:R.exp,con:R.con,hi:R.hi,sh:R.sh,wh:R.wh,bl:R.bl,dn:0}, LN);
+  const doCol=!!((R.tmp||0)||(R.tnt||0)||(R.sat||0)||(R.vib||0));
+  const kr=1+(R.tmp||0)/220, kb=1-(R.tmp||0)/220;
+  const kg=1-(R.tnt||0)/300, km=1+(R.tnt||0)/600;
+  for (let i=0;i<N;i++){
+    const q=i*4;
+    const t=Math.min(LN, Math.max(0, proc[i]/255*LN))|0;
+    const k=lut[t]/Math.max(1,base[i]);
+    let r=d[q]*k, g3=d[q+1]*k, b=d[q+2]*k;
+    if (doCol){
+      r*=kr*km; g3*=kg; b*=kb*km;
+      const l=(r*77+g3*150+b*29)/256;
+      const mx=r>g3?(r>b?r:b):(g3>b?g3:b), mn=r<g3?(r<b?r:b):(g3<b?g3:b);
+      const st=mx>1?(mx-mn)/mx:0;
+      let f=1+(R.sat||0)/100;
+      if (R.vib) f*=1+((R.vib||0)/100)*(1-st);
+      r=l+(r-l)*f; g3=l+(g3-l)*f; b=l+(b-l)*f;
+    }
+    d[q]=r<0?0:(r>255?255:r);
+    d[q+1]=g3<0?0:(g3>255?255:g3);
+    d[q+2]=b<0?0:(b>255?255:b);
+    d[q+3]=255;
+  }
+}
+function editApply(src, R, colr){
   // 1. orientation: quarter-turns and mirrors about the centre
   const rot=((R.rot%4)+4)%4;
   let c=document.createElement('canvas');
@@ -1732,9 +1839,15 @@ function editApply(src, R){
     c=c3;
   }
   // 4. denoise -> sharpen -> the shared tone curve
-  if (R.exp||R.con!==100||R.hi||R.sh||R.wh||R.bl||R.shp||R.dn){
+  if (R.exp||R.con!==100||R.hi||R.sh||R.wh||R.bl||R.shp||R.dn
+      ||(colr&&((R.tmp||0)||(R.tnt||0)||(R.sat||0)||(R.vib||0)))){
     const g=c.getContext('2d',{willReadFrequently:true});
     const id=g.getImageData(0,0,c.width,c.height), d=id.data;
+    if (colr){
+      colorApplyPlane(d, c.width, c.height, R);
+      g.putImageData(id,0,0);
+      return c;
+    }
     const N=c.width*c.height;
     let gray=new Float32Array(N);
     for (let i=0;i<N;i++) gray[i]=d[i*4];
@@ -1794,12 +1907,16 @@ document.addEventListener('input', e=>{
   };
   const tipHide=()=>{ clearTimeout(tipT);
     tipT=setTimeout(()=>{ tip.style.display='none'; }, 350); };
+  let tipHeld=false;
   document.addEventListener('input', e=>{
-    if (e.target && e.target.type==='range') tipShow(e.target); }, true);
+    if (e.target && e.target.type==='range'){
+      tipShow(e.target);
+      if (!tipHeld) tipHide();    // keyboard/programmatic moves self-dismiss
+    } }, true);
   document.addEventListener('pointerdown', e=>{
-    if (e.target && e.target.type==='range') tipShow(e.target); }, true);
-  document.addEventListener('pointerup', tipHide, true);
-  document.addEventListener('pointercancel', tipHide, true);
+    if (e.target && e.target.type==='range'){ tipHeld=true; tipShow(e.target); } }, true);
+  document.addEventListener('pointerup', ()=>{ tipHeld=false; tipHide(); }, true);
+  document.addEventListener('pointercancel', ()=>{ tipHeld=false; tipHide(); }, true);
 }
 // tapping an adjustment's label resets just that slider
 document.addEventListener('click', e=>{
@@ -1808,8 +1925,10 @@ document.addEventListener('click', e=>{
   const inp=l.nextElementSibling;
   if (!inp || inp.type!=='range') return;
   const M={eExp:['exp',0],eCon:['con',100],eHi:['hi',0],eSh:['sh',0],
-           eWh:['wh',0],eBl:['bl',0],eShp:['shp',0],eDn:['dn',0]};
-  const A={aExp:'exp',aCon:'con',aHi:'hi',aSh:'sh',aWh:'wh',aBl:'bl',aDn:'dn'};
+           eWh:['wh',0],eBl:['bl',0],eShp:['shp',0],eDn:['dn',0],
+           eTmp:['tmp',0],eTnt:['tnt',0],eSat:['sat',0],eVib:['vib',0]};
+  const A={aExp:'exp',aCon:'con',aHi:'hi',aSh:'sh',aWh:'wh',aBl:'bl',aDn:'dn',
+           aTmp:'tmp',aTnt:'tnt',aSat:'sat',aVib:'vib'};
   if (M[inp.id] && ED.on){
     const k=M[inp.id][0], d=M[inp.id][1];
     if (ED.R[k]===d) return;
@@ -1832,12 +1951,16 @@ function edArText(ar){
   return ar.toFixed(2)+':1';
 }
 const ED={on:false, orig:null, pre:null, gray:null, gid:null, mode:'tone', fit:null,
-          z:{s:1,x:0,y:0}, showOrig:false};
+          z:{s:1,x:0,y:0}, showOrig:false, colr:false, preData:null};
 function edSync(){
   const R=ED.R;
   $('eExp').value=R.exp; $('eCon').value=R.con; $('eHi').value=R.hi;
   $('eSh').value=R.sh; $('eWh').value=R.wh; $('eBl').value=R.bl;
   $('eShp').value=R.shp; $('eDn').value=R.dn;
+  $('eTmp').value=R.tmp||0; $('eTnt').value=R.tnt||0;
+  $('eSat').value=R.sat||0; $('eVib').value=R.vib||0;
+  for (const row of document.querySelectorAll('.edColorRow'))
+    row.style.display = ED.colr ? '' : 'none';
   $('edModeBtn').textContent = ED.mode==='tone' ? 'Crop' : 'Light';
   $('edEye').style.display = ED.mode==='tone' ? '' : 'none';
   $('eAspect').textContent = edArText(R.ar||0);
@@ -1862,6 +1985,7 @@ function edBuildPre(){
   const N=ED.pre.width*ED.pre.height;
   ED.gray=new Float32Array(N);
   for (let i=0;i<N;i++) ED.gray[i]=d[i*4];
+  ED.preData = ED.colr ? new Uint8ClampedArray(d) : null;
 }
 function edRender(){
   if (!ED.on) return;
@@ -1876,30 +2000,37 @@ function edRender(){
   g.imageSmoothingQuality='high';
   g.clearRect(0,0,W,H);
   // live tone on the preview buffer
-  let N=pre.width*pre.height;
-  let gray=ED.gray;
-  if (R.dn>0) gray=denoiseGray(gray,pre.width,pre.height,R.dn);
-  if (R.shp>0){
-    const bl=boxBlurGray(gray,pre.width,pre.height,2);
-    const kk=R.shp/55;
-    const g2=new Float32Array(N);
-    for (let i=0;i<N;i++){
-      const v=gray[i]+(gray[i]-bl[i])*kk; g2[i]=v<0?0:(v>255?255:v);
-    }
-    gray=g2;
-  }
-  const LN=4096;
-  const lut=adjLut({exp:R.exp,con:R.con,hi:R.hi,sh:R.sh,wh:R.wh,bl:R.bl,dn:0}, LN);
   const toned=document.createElement('canvas');
   toned.width=pre.width; toned.height=pre.height;
   const tg=toned.getContext('2d');
-  const id=tg.createImageData(pre.width,pre.height), d=id.data;
-  for (let i=0;i<N;i++){
-    const q=Math.min(LN, Math.max(0, gray[i]/255*LN))|0;
-    const v=Math.min(255, Math.max(0, lut[q]));
-    d[i*4]=d[i*4+1]=d[i*4+2]=v; d[i*4+3]=255;
+  if (ED.colr && ED.preData){
+    const id=tg.createImageData(pre.width,pre.height);
+    id.data.set(ED.preData);
+    colorApplyPlane(id.data, pre.width, pre.height, R);
+    tg.putImageData(id,0,0);
+  } else {
+    let N=pre.width*pre.height;
+    let gray=ED.gray;
+    if (R.dn>0) gray=denoiseGray(gray,pre.width,pre.height,R.dn);
+    if (R.shp>0){
+      const bl=boxBlurGray(gray,pre.width,pre.height,2);
+      const kk=R.shp/55;
+      const g2=new Float32Array(N);
+      for (let i=0;i<N;i++){
+        const v=gray[i]+(gray[i]-bl[i])*kk; g2[i]=v<0?0:(v>255?255:v);
+      }
+      gray=g2;
+    }
+    const LN=4096;
+    const lut=adjLut({exp:R.exp,con:R.con,hi:R.hi,sh:R.sh,wh:R.wh,bl:R.bl,dn:0}, LN);
+    const id=tg.createImageData(pre.width,pre.height), d=id.data;
+    for (let i=0;i<N;i++){
+      const q=Math.min(LN, Math.max(0, gray[i]/255*LN))|0;
+      const v=Math.min(255, Math.max(0, lut[q]));
+      d[i*4]=d[i*4+1]=d[i*4+2]=v; d[i*4+3]=255;
+    }
+    tg.putImageData(id,0,0);
   }
-  tg.putImageData(id,0,0);
   if (ED.mode==='crop'){
     // the whole frame, crop rect and handles over it
     const s=Math.min(W/pre.width, H/pre.height)*0.94;
@@ -1941,6 +2072,7 @@ let edRAF=0;
 function edPaint(){ cancelAnimationFrame(edRAF); edRAF=requestAnimationFrame(edRender); }
 function edOpen(orig, gid, mode){
   ED.on=true; ED.orig=orig; ED.gid=gid; ED.mode=mode||'tone';
+  ED.colr=isColor(gid);
   ED.z={s:1,x:0,y:0}; ED.showOrig=false;
   ED.R = editLoad(gid) || {...EDIT_DEF};
   show('scrEdit');
@@ -1957,13 +2089,13 @@ function edClose(apply){
     toast('applying\u2026', true, 2500);
     const orig=ED.orig, gid=ED.gid;
     setTimeout(()=>{
-      photo = editNeutral(R) ? orig : editApply(orig, R);
+      photo = editNeutral(R) ? orig : editApply(orig, R, ED.colr);
       FMT_APPLIED=null;
       show('scrFormat');
       fmtPreview(); speculate();
     }, 30);
   } else show('scrFormat');
-  ED.on=false; ED.orig=null; ED.pre=null; ED.gray=null;
+  ED.on=false; ED.orig=null; ED.pre=null; ED.gray=null; ED.preData=null;
 }
 async function edOpenFor(mode){
   if (galActive==null){ toast('open a reference first', false); return; }
@@ -1973,7 +2105,8 @@ async function edOpenFor(mode){
   if (!i){ toast('could not read the original', false); return; }
   const c=document.createElement('canvas'); c.width=i.width; c.height=i.height;
   const g=c.getContext('2d');
-  g.filter='grayscale(1)'; g.drawImage(i,0,0); g.filter='none';
+  if (!isColor(galActive)) g.filter='grayscale(1)';
+  g.drawImage(i,0,0); g.filter='none';
   URL.revokeObjectURL(i.src);
   edOpen(c, galActive, mode);
 }
@@ -1988,7 +2121,8 @@ $('edModeBtn').onclick=()=>{
 };
 $('edReset').onclick=()=>{ ED.R={...EDIT_DEF}; edSync(); edBuildPre(); edPaint(); };
 for (const [id2,k2] of [['eExp','exp'],['eCon','con'],['eHi','hi'],['eSh','sh'],
-                        ['eWh','wh'],['eBl','bl'],['eShp','shp'],['eDn','dn']])
+                        ['eWh','wh'],['eBl','bl'],['eShp','shp'],['eDn','dn'],
+                        ['eTmp','tmp'],['eTnt','tnt'],['eSat','sat'],['eVib','vib']])
   $(id2).oninput=()=>{ ED.R[k2]=+$(id2).value; edPaint(); };
 $('eAspect').onclick=()=>{ $('arModal').style.display='flex'; };
 $('arModal').onclick=e=>{ if (e.target===$('arModal')) $('arModal').style.display='none'; };
@@ -2604,6 +2738,7 @@ function initMain(){
   $('hudToggle').textContent='\u270e';
   $('hudToggle').classList.remove('lit','vOn');
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true;
+  LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=true;
   // the reference remembers its drawing tool across sessions - restored
   // BEFORE the first paint, or the image composes at the old level while
   // the button claims the saved one
@@ -2888,7 +3023,7 @@ async function dbCmpKeys(){ try{ const d=await db(); return await new Promise(re
   const t=d.transaction('plans').objectStore('plans').getAllKeys();
   t.onsuccess=()=>res((t.result||[]).filter(k=>typeof k==='string'&&k.indexOf('cmp|')===0));
   t.onerror=()=>res([]); }); }catch(e){ return []; } }
-const BAK_PERID=['fmt|','def|','time|','done|','gtot|','det|','edit|'];
+const BAK_PERID=['fmt|','def|','time|','done|','gtot|','det|','edit|','mode|'];
 async function bakBuild(){
   const refs=[];
   for (const r of await galAll()){
@@ -2982,6 +3117,7 @@ async function computeCKEY(){
        + '|a'+hashStr(JSON.stringify(state.tools))
        + '|emjhcgv|n7';   // frozen v11-engine tag: keys minted before the
                           // engine was retired keep working
+  if (REFMODE==='c') CKEY += '|c';
 }
 
 
@@ -3030,8 +3166,15 @@ function applyGrid(){
   $('gridBtn').style.opacity = GRID_ON ? '1' : '0.35';
 }
 function layerButtons(){
-  for (const [id,k] of [['vDark','dk'],['vLight','lt'],['vSpec','hl']])
+  const colr = REFMODE==='c';
+  for (const [id,k] of [['vDark','dk'],['vLight','lt'],['vSpec','hl']]){
+    $(id).style.display = colr ? 'none' : '';
     $(id).classList.toggle('vOn', LAYERS[k]);
+  }
+  for (const [id,k] of [['cBr','br'],['cLt','lt'],['cMid','mid'],['cDk','dk']]){
+    $(id).style.display = colr ? '' : 'none';
+    $(id).classList.toggle('vOn', LAYERS_C[k]);
+  }
 }
 function grayData(src){
   const {w,h}=worldSize();
@@ -3055,9 +3198,76 @@ const grayCanvas=(buf,w,h)=>{
   g.putImageData(id,0,0);
   return c;
 };
+// colour mode's layers: the photo's own values, grouped the way a painter
+// blocks them in. Thresholds are percentiles of this reference's luma, so
+// every photo splits into meaningful quarters rather than fixed bins.
+const LAYERS_C={dk:true, mid:true, lt:true, br:true};
+function bandThresholds(){
+  const N=COMP.ph.length, hist=new Uint32Array(256);
+  for (let i=0;i<N;i++) hist[COMP.ph[i]]++;
+  const pick=f=>{ let acc=0; const t=N*f;
+    for (let v=0;v<256;v++){ acc+=hist[v]; if (acc>=t) return v; } return 255; };
+  return [pick(0.35), pick(0.65), pick(0.88)];
+}
+function compositeColorCv(){
+  compParts();
+  const {w,h}=worldSize();
+  if (!COMP.rgb){
+    const c0=document.createElement('canvas'); c0.width=w; c0.height=h;
+    const g0=c0.getContext('2d',{willReadFrequently:true});
+    g0.imageSmoothingQuality='high';
+    g0.drawImage(state.img,0,0,w,h);
+    COMP.rgb=g0.getImageData(0,0,w,h).data;
+    COMP.bands=bandThresholds();
+  }
+  // the same cooked luma the B&W composite shows with every layer on, at
+  // the current detail level - the photo's colour rides its ratio
+  const prog = progOn() && DETAIL==='ultra';
+  let det=null, dP=null;
+  if (prog){
+    if (DET.key===fkey()) dP=DET.lv.prog||null;
+    if (!dP) ensureDetail('prog');
+  } else if (DETAIL!=='ultra'){
+    if (DET.key===fkey() && DET.lv[DETAIL]) det=DET.lv[DETAIL];
+    else ensureDetail(DETAIL);
+  }
+  const ready=prog&&dP, eff=det?DETAIL:'ultra';
+  const L=LAYERS_C;
+  const sig='K'+(ready?'P':'C')+(L.dk?'D':'')+(L.mid?'M':'')
+           +(L.lt?'L':'')+(L.br?'B':'')+'T'+eff;
+  if (COMP.sig===sig && COMP.cv) return COMP.cv;
+  const N=COMP.ph.length, [t1,t2,t3]=COMP.bands, rgb=COMP.rgb;
+  const c=document.createElement('canvas'); c.width=w; c.height=h;
+  const g=c.getContext('2d');
+  const om=g.createImageData(w,h), od=om.data;
+  for (let i=0;i<N;i++){
+    const ph=COMP.ph[i], sh=COMP.sh[i], q=i*4;
+    const band = ph<=t1 ? 'dk' : ph<=t2 ? 'mid' : ph<=t3 ? 'lt' : 'br';
+    if (!L[band]){ od[q]=od[q+1]=od[q+2]=255; od[q+3]=255; continue; }
+    let v;
+    if (ready){
+      const dDu=Math.max(0,sh-ph), lDu=Math.max(0,COMP.dp[i]-sh);
+      const lD1=Math.min(lDu, dP.lD[i]);
+      v = sh - dDu + lD1 + (lDu-lD1) + COMP.hl[i];
+    } else {
+      const dD=det?det.dD[i]:Math.max(0,sh-ph);
+      const lD=det?det.lD[i]:Math.max(0,COMP.dp[i]-sh);
+      const hl=det?det.hl[i]:COMP.hl[i];
+      v = sh - dD + lD + hl;
+    }
+    v=v<0?0:(v>255?255:v);
+    const k=v/Math.max(1,ph);
+    const r=rgb[q]*k, g2=rgb[q+1]*k, b=rgb[q+2]*k;
+    od[q]=r>255?255:r; od[q+1]=g2>255?255:g2; od[q+2]=b>255?255:b; od[q+3]=255;
+  }
+  g.putImageData(om,0,0);
+  COMP.sig=sig; COMP.cv=c;
+  return c;
+}
 function compParts(){
   if (COMP.key===fkey() && COMP.ph) return;
   COMP.key=fkey();
+  COMP.rgb=null; COMP.bands=null;
   COMP.ph=grayData(state.img);
   COMP.sh=grayData(FORM.cv);
   const N=COMP.ph.length;
@@ -3086,6 +3296,7 @@ function compParts(){
   COMP.sig=null; COMP.cv=null;
 }
 function compositeCv(){
+  if (REFMODE==='c') return compositeColorCv();
   compParts();
   const prog = progOn() && DETAIL==='ultra';
   let det=null, dP=null;
@@ -3247,6 +3458,16 @@ function toggleLayer(k){
   if (!state.img || !GRID_READY) return;
   viewRepaint();
 }
+function toggleLayerC(k){
+  LAYERS_C[k]=!LAYERS_C[k];
+  layerButtons();
+  if (!state.img || !GRID_READY) return;
+  viewRepaint();
+}
+$('cDk').onclick=()=>toggleLayerC('dk');
+$('cMid').onclick=()=>toggleLayerC('mid');
+$('cLt').onclick=()=>toggleLayerC('lt');
+$('cBr').onclick=()=>toggleLayerC('br');
 $('vDark').onclick=()=>toggleLayer('dk');
 $('vLight').onclick=()=>toggleLayer('lt');
 $('vSpec').onclick=()=>toggleLayer('hl');
@@ -3907,14 +4128,28 @@ function ensureDenoise(){
   try{
     const d=src.getContext('2d').getImageData(0,0,w,h).data;
     gray=new Uint8Array(w*h);
-    for (let i=0,j=0;i<gray.length;i++,j+=4) gray[i]=d[j];
+    for (let i=0,j=0;i<gray.length;i++,j+=4)
+      gray[i]=(d[j]*77+d[j+1]*150+d[j+2]*29)>>8;
   }catch(e){ CMP.dnBusy=null; return; }
   const wk=new Worker(URL.createObjectURL(new Blob([DENOISE_SRC],{type:'text/javascript'})));
   wk.onmessage=ev=>{
     if (ev.data.p!==undefined) return;
     wk.terminate(); CMP.dnBusy=null;
     if (CMP.base!==src) return;         // a newer capture landed meanwhile
-    CMP.dnCv=grayCanvas(ev.data.out, w, h);
+    if (REFMODE==='c'){
+      // the cleaned luma re-lights the colour capture instead of greying it
+      const im=src.getContext('2d').getImageData(0,0,w,h), d2=im.data, o2=ev.data.out;
+      for (let i=0;i<w*h;i++){
+        const q=i*4;
+        const l=(d2[q]*77+d2[q+1]*150+d2[q+2]*29)>>8;
+        const k=o2[i]/Math.max(1,l);
+        const r=d2[q]*k, g3=d2[q+1]*k, b=d2[q+2]*k;
+        d2[q]=r>255?255:r; d2[q+1]=g3>255?255:g3; d2[q+2]=b>255?255:b;
+      }
+      const cc=document.createElement('canvas'); cc.width=w; cc.height=h;
+      cc.getContext('2d').putImageData(im,0,0);
+      CMP.dnCv=cc;
+    } else CMP.dnCv=grayCanvas(ev.data.out, w, h);
     CMP.dnFor=src;
     applyLevels();
     if (CMP.fit) cmpRender();
@@ -3940,7 +4175,8 @@ function cmpSize(){
   const s=Math.min(cv.width/w, cv.height/h);
   CMP.fit={s, x:(cv.width-w*s)/2, y:(cv.height-h*s)/2, w, h};
 }
-const ADJ_DEF={v:2, exp:0, con:100, hi:0, sh:0, wh:0, bl:0, dn:0};
+const ADJ_DEF={v:2, exp:0, con:100, hi:0, sh:0, wh:0, bl:0, dn:0,
+               tmp:0, tnt:0, sat:0, vib:0};
 function adjLut(a,N){
   // exposure -> contrast -> broad tones (highlights/shadows) -> narrow ends
   // (whites/blacks). Each term is a soft knee weighted toward its register,
@@ -3969,10 +4205,12 @@ function applyLevels(){
   if (!CMP.base){ return; }
   const a=CMP.adj||ADJ_DEF;
   const dn = a.dn>0 ? denoiseCv() : null;
+  const colr = REFMODE==='c';
+  const colOn = colr && !!((a.tmp||0)||(a.tnt||0)||(a.sat||0)||(a.vib||0));
   const toneOn = !(a.exp===0 && a.con===100 && a.hi===0 && a.sh===0
                    && (a.bl||0)===0 && (a.wh||0)===0);
-  if (!toneOn && !dn){ CMP.img=CMP.base; return; }
-  const bf=CMP.baseF;
+  if (!toneOn && !dn && !colOn){ CMP.img=CMP.base; return; }
+  const bf = colr ? null : CMP.baseF;
   if (bf && !dn){
     // merged captures carry ~11 bits: run the curve on the float plane and
     // round exactly once, at display, where the dither sits
@@ -4009,6 +4247,17 @@ function applyLevels(){
     g.drawImage(dn,0,0);
     g.globalAlpha=1;
   }
+  if (colr){
+    if (toneOn || colOn){
+      const im=g.getImageData(0,0,c.width,c.height);
+      colorApplyPlane(im.data, c.width, c.height,
+        {exp:a.exp,con:a.con,hi:a.hi,sh:a.sh,wh:a.wh||0,bl:a.bl||0,shp:0,dn:0,
+         tmp:a.tmp||0,tnt:a.tnt||0,sat:a.sat||0,vib:a.vib||0});
+      g.putImageData(im,0,0);
+    }
+    CMP.img=c;
+    return;
+  }
   if (toneOn){
     const im=g.getImageData(0,0,c.width,c.height), d=im.data;
     let rnd=0x9e3779b9|0;                             // cheap LCG, two rolls/px
@@ -4031,7 +4280,8 @@ function adjLoad(){ try{
   if (v && typeof v.con==='number'){
     const ok=v.v===2;                    // pre-v2 bl/wh were point clips
     return {v:2, exp:v.exp||0, con:v.con, hi:v.hi||0, sh:v.sh||0,
-            wh:ok?(v.wh||0):0, bl:ok?(v.bl||0):0, dn:v.dn||0};
+            wh:ok?(v.wh||0):0, bl:ok?(v.bl||0):0, dn:v.dn||0,
+            tmp:v.tmp||0, tnt:v.tnt||0, sat:v.sat||0, vib:v.vib||0};
   }
 }catch(e){} return null; }
 function adjSync(){
@@ -4039,10 +4289,13 @@ function adjSync(){
   $('aExp').value=a.exp; $('aCon').value=a.con; $('aHi').value=a.hi;
   $('aSh').value=a.sh; $('aWh').value=a.wh||0; $('aBl').value=a.bl||0;
   $('aDn').value=a.dn||0;
+  $('aTmp').value=a.tmp||0; $('aTnt').value=a.tnt||0;
+  $('aSat').value=a.sat||0; $('aVib').value=a.vib||0;
   slFillAll();
 }
 for (const [id,key] of [['aExp','exp'],['aCon','con'],['aHi','hi'],
-                        ['aSh','sh'],['aWh','wh'],['aBl','bl'],['aDn','dn']])
+                        ['aSh','sh'],['aWh','wh'],['aBl','bl'],['aDn','dn'],
+                        ['aTmp','tmp'],['aTnt','tnt'],['aSat','sat'],['aVib','vib']])
   $(id).oninput = () => {
     CMP.adj[key]=+$(id).value;
     applyLevels(); adjStore(); cmpRender(); cmpSave();
@@ -4309,6 +4562,8 @@ function cmpButtons(){
   const corners = CMP.mode==='corners';
   const showLv = CMP.img && !corners && !CAM.stream;
   $('lvRow').style.display = (showLv && CMP.lvOpen) ? '' : 'none';
+  for (const row of document.querySelectorAll('.cmpColorRow'))
+    row.style.display = REFMODE==='c' ? '' : 'none';
   lb.style.display = corners ? 'none' : '';
   lb.disabled = !CMP.img;
   lb.classList.toggle('vOn', showLv && CMP.lvOpen);
@@ -4716,14 +4971,16 @@ function cmpWarp(src, corners){
       const w3=gg*u+hh*v+1;
       const xs=(a*u+b2*v+c2)/w3, ys=(d2*u+e2*v+f2)/w3;
       const x0=Math.floor(xs), y0=Math.floor(ys);
-      let val=255;
+      let vr=255, vg=255, vb=255;
       if (x0>=0&&y0>=0&&x0<sw-1&&y0<sh-1){
         const fx=xs-x0, fy=ys-y0, p=(y0*sw+x0)*4;
-        val=sd[p]*(1-fx)*(1-fy)+sd[p+4]*fx*(1-fy)
-           +sd[p+sw*4]*(1-fx)*fy+sd[p+sw*4+4]*fx*fy;
+        const w00=(1-fx)*(1-fy), w10=fx*(1-fy), w01=(1-fx)*fy, w11=fx*fy;
+        vr=sd[p]*w00+sd[p+4]*w10+sd[p+sw*4]*w01+sd[p+sw*4+4]*w11;
+        vg=sd[p+1]*w00+sd[p+5]*w10+sd[p+sw*4+1]*w01+sd[p+sw*4+5]*w11;
+        vb=sd[p+2]*w00+sd[p+6]*w10+sd[p+sw*4+2]*w01+sd[p+sw*4+6]*w11;
       }
       const q=(y*W+x)*4;
-      od[q]=od[q+1]=od[q+2]=val; od[q+3]=255;
+      od[q]=vr; od[q+1]=vg; od[q+2]=vb; od[q+3]=255;
     }
   }
   og.putImageData(om,0,0);
@@ -4737,7 +4994,8 @@ async function cmpSetPhoto(blob){
   c.width=Math.max(2,Math.round(i.width*k)); c.height=Math.max(2,Math.round(i.height*k));
   const cg=c.getContext('2d');
   cg.imageSmoothingQuality='high';
-  cg.filter='grayscale(1)'; cg.drawImage(i,0,0,c.width,c.height); cg.filter='none';
+  if (REFMODE!=='c') cg.filter='grayscale(1)';
+  cg.drawImage(i,0,0,c.width,c.height); cg.filter='none';
   URL.revokeObjectURL(i.src);
   CMP.raw=c; CMP.rawF=null; CMP.blob=blob; CMP.img=null; CMP.framed=false;
   CMP.corners=cmpGuessCorners(c).corners; CMP.cGrab=null;
@@ -4852,7 +5110,8 @@ $('compareBtn').onclick = async () => {
         cv2.width=W; cv2.height=H;
         const g2=cv2.getContext('2d');
         g2.imageSmoothingQuality='high';
-        g2.filter='grayscale(1)'; g2.drawImage(i,0,0,W,H); g2.filter='none';
+        if (REFMODE!=='c') g2.filter='grayscale(1)';
+        g2.drawImage(i,0,0,W,H); g2.filter='none';
         URL.revokeObjectURL(i.src);
         CMP.raw=cv2; CMP.blob=saved.blob; CMP.framed=!!saved.framed;
         CMP.corners=(saved.corners && saved.corners.length===4)
@@ -4865,7 +5124,9 @@ $('compareBtn').onclick = async () => {
                  hi:saved.adj.hi||0, sh:saved.adj.sh||0,
                  wh:saved.adj.v===2?(saved.adj.wh||0):0,
                  bl:saved.adj.v===2?(saved.adj.bl||0):0,
-                 dn:saved.adj.dn||0};
+                 dn:saved.adj.dn||0,
+                 tmp:saved.adj.tmp||0, tnt:saved.adj.tnt||0,
+                 sat:saved.adj.sat||0, vib:saved.adj.vib||0};
         adjSync();
       }
       applyLevels();
@@ -5089,11 +5350,12 @@ async function natCapture(){
     full.height=Math.max(2,Math.round(img.height*kf));
     const fg=full.getContext('2d');
     fg.imageSmoothingQuality='high';
-    fg.filter='grayscale(1)'; fg.drawImage(img,0,0,full.width,full.height); fg.filter='none';
+    if (REFMODE!=='c') fg.filter='grayscale(1)';
+    fg.drawImage(img,0,0,full.width,full.height); fg.filter='none';
     // the RAW plane feeds the float pipeline: 12-14 real sensor bits under
     // every slider instead of the JPEG's 8
     let rawF=null;
-    if (rurl){
+    if (rurl && REFMODE!=='c'){
       try{
         const ab=await (await fetch(rurl)).arrayBuffer();
         const dv=new DataView(ab);
@@ -5287,7 +5549,7 @@ async function camCapture(){
   full.width=Math.max(2,Math.round(fw*k)); full.height=Math.max(2,Math.round(fh*k));
   const fg=full.getContext('2d');
   fg.imageSmoothingQuality='high';
-  fg.filter='grayscale(1)';
+  if (REFMODE!=='c') fg.filter='grayscale(1)';
   if (rot===90){ fg.translate(full.width,0); fg.rotate(Math.PI/2);
     fg.drawImage(frame,0,0,full.height,full.width); }
   else if (rot===180){ fg.translate(full.width,full.height); fg.rotate(Math.PI);
@@ -5544,13 +5806,15 @@ $('cmpSplit').onclick = () => {
     hud.style.display = o ? '' : 'none';
     // closed: the pencil; open: an illuminated square naming the constant
     // ground every layer builds on
-    tg.textContent = o ? 'Shading' : '✎';
+    tg.textContent = o ? (REFMODE==='c' ? 'Full' : 'Shading') : '✎';
     tg.classList.toggle('lit', o);
     tg.classList.toggle('vOn', o);
     try { localStorage.setItem('hudOpen', o ? '1' : '0'); } catch(e){}
-    // the open panel is the layer workshop: it starts from the bare
-    // shading with every layer unselected; closing returns the full view
-    LAYERS.dk=LAYERS.lt=LAYERS.hl=!o;
+    // the open panel is the layer workshop. B&W starts from the bare
+    // shading with every layer unselected; colour starts from the full
+    // image (the door names it) and bands switch off to isolate values
+    if (REFMODE==='c') LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=true;
+    else LAYERS.dk=LAYERS.lt=LAYERS.hl=!o;
     layerButtons();
     if (GRID_READY && state.img) viewRepaint();
     if (!o && TOUR.det){ TOUR.det=false; detTip(); }
@@ -5633,6 +5897,21 @@ document.addEventListener('click', e => {
         const b=await r.blob();
         const thumb=await thumbOf(b);
         await galAdd({ ts: now-i*1000, name: STARTERS[i], thumb, blob: b, seed: 1 });
+        localStorage.setItem(key,'1');
+        added=true;
+      }
+      const STARTERS_C=['starter-soft-c.jpg','starter-guy-c.jpg','starter-freckles-c.jpg'];
+      for (let i=0;i<STARTERS_C.length;i++){
+        const key='seed|'+STARTERS_C[i];
+        if (localStorage.getItem(key)) continue;
+        const r=await fetch(STARTERS_C[i]); if (!r.ok) continue;
+        const b=await r.blob();
+        const thumb=await thumbOf(b, true);
+        const id=await galAdd({ ts: now-i*1000-500, name: STARTERS_C[i], thumb, blob: b, seed: 1 });
+        if (id==null) continue;
+        localStorage.setItem('mode|'+id, 'c');
+        if (STARTERS_C[i]!=='starter-freckles-c.jpg')
+          localStorage.setItem('def|'+id, JSON.stringify({w:24,h:18,u:'in'}));
         localStorage.setItem(key,'1');
         added=true;
       }

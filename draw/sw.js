@@ -1,7 +1,8 @@
-const CACHE = 'draw-0802-2249-v230';
+const CACHE = 'draw-0802-2249-v231';
 const ASSETS = ['./', './index.html', './manifest.webmanifest',
                 './icon-192.png', './icon-512.png', './apple-touch-icon.png',
-                './starter-freckles.jpg', './starter-guy.jpg', './starter-soft.jpg'];
+                './starter-freckles.jpg', './starter-guy.jpg', './starter-soft.jpg',
+                './starter-freckles-c.jpg', './starter-guy-c.jpg', './starter-soft-c.jpg'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
