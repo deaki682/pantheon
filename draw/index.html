@@ -177,14 +177,9 @@ html.natCam #camVid{display:none !important}
 #detMenu button{white-space:nowrap;font-size:13px;border-radius:9px}
 #gridBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
-#hueCorner{position:absolute;left:50%;transform:translateX(-50%);
-  bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:none}
-body.colorRef #hueCorner{display:block;left:calc(30px + (100% - 60px)*0.4)}
-body.colorRef #detCorner{left:calc(30px + (100% - 60px)*0.2)}
-body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.8)}
 #underCorner{position:absolute;left:50%;transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:none}
-body.colorRef #underCorner{display:block;left:calc(30px + (100% - 60px)*0.6)}
+body.colorRef #underCorner{display:block}
 #underBtn{width:44px;height:44px;padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #underMenu{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
@@ -192,16 +187,6 @@ body.colorRef #underCorner{display:block;left:calc(30px + (100% - 60px)*0.6)}
   border:1px solid #555;border-radius:14px;padding:8px;z-index:6;
   align-items:stretch}
 #underMenu button{border-radius:9px;font-size:13px;white-space:nowrap}
-#hueBtn{width:44px;height:44px;padding:0;border-radius:12px;
-  display:flex;align-items:center;justify-content:center}
-#hueMenu{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
-  display:none;flex-direction:column;gap:7px;background:#1e1e1e;
-  border:1px solid #555;border-radius:14px;padding:8px;z-index:6;
-  align-items:center}
-.hueSw{width:30px;height:30px;border-radius:50%;padding:0;border:2px solid #444}
-.hueSw.vOn{border-color:#fff;box-shadow:0 0 0 2px var(--acc)}
-#hueDrop{width:30px;height:30px;border-radius:50%;padding:0;display:flex;
-  align-items:center;justify-content:center}
 #edView{flex:1;min-height:0;position:relative;overflow:hidden;background:#0e0e0e;
   touch-action:none}
 #edCv{position:absolute;left:0;top:0}
@@ -266,10 +251,10 @@ body.colorRef #underCorner{display:block;left:calc(30px + (100% - 60px)*0.6)}
 #cmpRow{justify-content:space-evenly}
 /* a tap on the drawing sends every panel off its nearest edge; tap again
    and they slide back */
-#hudWrap,#detCorner,#gridCorner,#hueCorner,#underCorner,#camCorner,#expCorner,#setCorner,#backBtn{
+#hudWrap,#detCorner,#gridCorner,#underCorner,#camCorner,#expCorner,#setCorner,#backBtn{
   transition:transform 0.2s cubic-bezier(.3,0,.2,1)}
 body.uiHid #hudWrap,body.uiHid #camCorner{transform:translateY(160%)}
-body.uiHid #detCorner,body.uiHid #gridCorner,body.uiHid #hueCorner,body.uiHid #underCorner{transform:translate(-50%,160%)}
+body.uiHid #detCorner,body.uiHid #gridCorner,body.uiHid #underCorner{transform:translate(-50%,160%)}
 body.uiHid #expCorner{transform:translateY(-190%)}
 body.uiHid #setCorner{transform:translate(-50%,-190%)}
 body.uiHid #backBtn{transform:translateY(-190%)}
@@ -483,7 +468,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v233</span>
+      <span id="verNum">v234</span>
     </div>
   </div>
 
@@ -658,21 +643,6 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     </div>
   </div>
   <button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
-  <div id="hueCorner">
-    <div id="hueMenu">
-      <button class="hueSw" data-h="0" title="Reds" style="background:#e04438"></button>
-      <button class="hueSw" data-h="1" title="Oranges" style="background:#f08a24"></button>
-      <button class="hueSw" data-h="2" title="Yellows" style="background:#ecc94b"></button>
-      <button class="hueSw" data-h="3" title="Greens" style="background:#4caf50"></button>
-      <button class="hueSw" data-h="4" title="Teals" style="background:#26b0a8"></button>
-      <button class="hueSw" data-h="5" title="Blues" style="background:#4285e8"></button>
-      <button class="hueSw" data-h="6" title="Purples" style="background:#8e5cf0"></button>
-      <button class="hueSw" data-h="7" title="Pinks" style="background:#ec5fa8"></button>
-      <button id="hueCustom" class="hueSw" style="display:none" title="Your picked color"></button>
-      <button id="hueDrop" title="Pick a color from the reference"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 22 1-1h3l9-9"/><path d="M3 21v-3l9-9"/><path d="m15 6 3.4-3.4a2.1 2.1 0 1 1 3 3L18 9l.4.4a2.1 2.1 0 1 1-3 3l-3.8-3.8a2.1 2.1 0 1 1 3-3l.4.4Z"/></svg></button>
-    </div>
-    <button id="hueBtn" title="Isolate colors"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 12 L12.00 3.40 A8.6 8.6 0 0 1 18.08 5.92 Z" fill="#e04438"/><path d="M12 12 L18.08 5.92 A8.6 8.6 0 0 1 20.60 12.00 Z" fill="#f08a24"/><path d="M12 12 L20.60 12.00 A8.6 8.6 0 0 1 18.08 18.08 Z" fill="#ecc94b"/><path d="M12 12 L18.08 18.08 A8.6 8.6 0 0 1 12.00 20.60 Z" fill="#4caf50"/><path d="M12 12 L12.00 20.60 A8.6 8.6 0 0 1 5.92 18.08 Z" fill="#26b0a8"/><path d="M12 12 L5.92 18.08 A8.6 8.6 0 0 1 3.40 12.00 Z" fill="#4285e8"/><path d="M12 12 L3.40 12.00 A8.6 8.6 0 0 1 5.92 5.92 Z" fill="#8e5cf0"/><path d="M12 12 L5.92 5.92 A8.6 8.6 0 0 1 12.00 3.40 Z" fill="#ec5fa8"/></svg></button>
-  </div>
   <div id="underCorner">
     <div id="underMenu">
       <button id="uBr">Brights</button>
@@ -2788,12 +2758,10 @@ function initMain(){
   $('hudToggle').classList.remove('lit','vOn');
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true;
   LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=true;
-  HUES.clear(); HUEC.on=false; HUEC.col=''; HUEPICK=false; hueSync();
   UNDER=false; SLAY.dk=SLAY.lt=SLAY.hl=false;
   $('underBtn').classList.remove('vOn');
   $('underMenu').style.display='none';
   for (const id4 of ['uBr','uLt','uDk']) $(id4).classList.remove('vOn');
-  $('hueMenu').style.display='none';
   document.body.classList.toggle('colorRef', REFMODE==='c');
   // the reference remembers its drawing tool across sessions - restored
   // BEFORE the first paint, or the image composes at the old level while
@@ -3258,11 +3226,6 @@ const grayCanvas=(buf,w,h)=>{
 // blocks them in. Thresholds are percentiles of this reference's luma, so
 // every photo splits into meaningful quarters rather than fixed bins.
 const LAYERS_C={dk:true, mid:true, lt:true, br:true};
-// hue isolation: eight rainbow buckets; an empty set means every hue shows.
-// The dropper adds a ninth: any colour tapped on the reference (+-20 deg).
-const HUES=new Set();
-const HUEC={on:false, h:0, col:''};
-let HUEPICK=false;
 // the underglaze: a sepia mirror of the B&W workshop. Its base is the
 // bare shading; Brights/Lights/Darks build the underpainting up, and the
 // colour bands then layer over whatever it shows.
@@ -3274,19 +3237,6 @@ for (let v=0;v<256;v++){
   const t=Math.pow(v/255, 0.95);
   SEP_R[v]=30+t*213; SEP_G[v]=20+t*209; SEP_B[v]=12+t*193;
 }
-const HUE_LUT=(()=>{
-  const centers=[0,30,60,120,180,220,275,320];
-  const t=new Uint8Array(360);
-  for (let d=0;d<360;d++){
-    let bi=0, bd=361;
-    for (let k=0;k<8;k++){
-      let dd=Math.abs(d-centers[k]); if (dd>180) dd=360-dd;
-      if (dd<bd){ bd=dd; bi=k; }
-    }
-    t[d]=bi;
-  }
-  return t;
-})();
 function bandThresholds(){
   const N=COMP.ph.length, hist=new Uint32Array(256);
   for (let i=0;i<N;i++) hist[COMP.ph[i]]++;
@@ -3304,21 +3254,6 @@ function compositeColorCv(){
     g0.drawImage(state.img,0,0,w,h);
     COMP.rgb=g0.getImageData(0,0,w,h).data;
     COMP.bands=bandThresholds();
-    const rgbD=COMP.rgb, hb=new Uint8Array(w*h), hdArr=new Uint16Array(w*h);
-    for (let i=0;i<w*h;i++){
-      const q=i*4, r=rgbD[q], gg=rgbD[q+1], b=rgbD[q+2];
-      const mx=r>gg?(r>b?r:b):(gg>b?gg:b), mn=r<gg?(r<b?r:b):(gg<b?gg:b), ch=mx-mn;
-      let hd=0;
-      if (ch>0){
-        if (mx===r) hd=60*(((gg-b)/ch)%6);
-        else if (mx===gg) hd=60*((b-r)/ch+2);
-        else hd=60*((r-gg)/ch+4);
-        if (hd<0) hd+=360;
-      }
-      hb[i]=HUE_LUT[hd|0];
-      hdArr[i]=hd|0;
-    }
-    COMP.hueB=hb; COMP.hueD=hdArr;
   }
   // the same cooked luma the B&W composite shows with every layer on, at
   // the current detail level - the photo's colour rides its ratio
@@ -3333,15 +3268,11 @@ function compositeColorCv(){
   }
   const ready=prog&&dP, eff=det?DETAIL:'ultra';
   const L=LAYERS_C;
-  let hm=0; HUES.forEach(k=>{ hm|=1<<k; });
-  const custH = HUEC.on ? Math.round(HUEC.h) : -1;
   const sig='K'+(ready?'P':'C')+(L.dk?'D':'')+(L.mid?'M':'')
-           +(L.lt?'L':'')+(L.br?'B':'')+'T'+eff+'H'+hm+'C'+custH
+           +(L.lt?'L':'')+(L.br?'B':'')+'T'+eff
            +'U'+(UNDER?1:0)+(SLAY.dk?'d':'')+(SLAY.lt?'l':'')+(SLAY.hl?'h':'');
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
   const N=COMP.ph.length, [t1,t2,t3]=COMP.bands, rgb=COMP.rgb;
-  const hueB=COMP.hueB, hueD=COMP.hueD;
-  const hueOn=HUES.size>0 || custH>=0;
   const c=document.createElement('canvas'); c.width=w; c.height=h;
   const g=c.getContext('2d');
   const om=g.createImageData(w,h), od=om.data;
@@ -3368,13 +3299,7 @@ function compositeColorCv(){
     // the band borders follow the tool: values group by the COOKED luma at
     // the current detail level, so a coarser tool draws coarser boundaries
     const band = v<=t1 ? 'dk' : v<=t2 ? 'mid' : v<=t3 ? 'lt' : 'br';
-    let pass=!hueOn;
-    if (!pass && HUES.has(hueB[i])) pass=true;
-    if (!pass && custH>=0){
-      let dd=Math.abs(hueD[i]-custH); if (dd>180) dd=360-dd;
-      pass=dd<=20;
-    }
-    if (!L[band] || !pass){
+    if (!L[band]){
       if (UNDER){
         const ui=(u<0?0:(u>255?255:u))|0;
         od[q]=SEP_R[ui]; od[q+1]=SEP_G[ui]; od[q+2]=SEP_B[ui];
@@ -3392,7 +3317,7 @@ function compositeColorCv(){
 function compParts(){
   if (COMP.key===fkey() && COMP.ph) return;
   COMP.key=fkey();
-  COMP.rgb=null; COMP.bands=null; COMP.hueB=null; COMP.hueD=null;
+  COMP.rgb=null; COMP.bands=null;
   COMP.ph=grayData(state.img);
   COMP.sh=grayData(FORM.cv);
   const N=COMP.ph.length;
@@ -3582,81 +3507,6 @@ function toggleLayer(k){
   layerButtons();
   if (!state.img || !GRID_READY) return;
   viewRepaint();
-}
-function hueSync(){
-  for (const b of document.querySelectorAll('.hueSw')){
-    if (b.id==='hueCustom') continue;
-    b.classList.toggle('vOn', HUES.has(+b.dataset.h));
-  }
-  const hc=$('hueCustom');
-  hc.style.display = HUEC.col ? '' : 'none';
-  hc.style.background = HUEC.col || '';
-  hc.classList.toggle('vOn', HUEC.on);
-  $('hueBtn').classList.toggle('vOn', HUES.size>0 || HUEC.on);
-}
-$('hueCustom').onclick=()=>{
-  HUEC.on=!HUEC.on; hueSync();
-  if (state.img && GRID_READY) viewRepaint();
-};
-$('hueDrop').onclick=()=>{
-  HUEPICK=true;
-  $('hueMenu').style.display='none';
-  toast('tap the reference to pick a color', true, 3500);
-};
-{
-  // the pick: a plain tap on the reference reads the photo's true colour
-  // there (3x3 average); document-capture listeners run ahead of the
-  // pan/zoom handlers, so the tap moves nothing
-  let pd=null;
-  document.addEventListener('pointerdown', e=>{
-    if (!HUEPICK) return;
-    if (!e.target.closest || !e.target.closest('#viewport')){ HUEPICK=false; return; }
-    pd={x:e.clientX, y:e.clientY};
-    e.stopPropagation(); e.preventDefault();
-  }, true);
-  document.addEventListener('pointerup', e=>{
-    if (!HUEPICK || !pd) return;
-    e.stopPropagation(); e.preventDefault();
-    const d0=Math.hypot(e.clientX-pd.x, e.clientY-pd.y); pd=null;
-    if (d0>14) return;
-    HUEPICK=false;
-    if (!state.img || !GRID_READY) return;
-    const vpEl=$('viewport'), r=vpEl.getBoundingClientRect();
-    const {w,h}=worldSize();
-    const wx=(e.clientX-r.left-view.x)/view.s, wy=(e.clientY-r.top-view.y)/view.s;
-    if (wx<0||wy<0||wx>=w||wy>=h){ toast('tap inside the reference', false); return; }
-    const sx=Math.min(state.img.width-2, Math.max(1, Math.round(wx/w*state.img.width)));
-    const sy=Math.min(state.img.height-2, Math.max(1, Math.round(wy/h*state.img.height)));
-    const dd=state.img.getContext('2d').getImageData(sx-1,sy-1,3,3).data;
-    let r2=0,g2=0,b2=0;
-    for (let i=0;i<9;i++){ r2+=dd[i*4]; g2+=dd[i*4+1]; b2+=dd[i*4+2]; }
-    r2/=9; g2/=9; b2/=9;
-    const mx=Math.max(r2,g2,b2), mn=Math.min(r2,g2,b2), ch=mx-mn;
-    let hd=0;
-    if (ch>0){
-      if (mx===r2) hd=60*(((g2-b2)/ch)%6);
-      else if (mx===g2) hd=60*((b2-r2)/ch+2);
-      else hd=60*((r2-g2)/ch+4);
-      if (hd<0) hd+=360;
-    }
-    HUEC.on=true; HUEC.h=hd;
-    HUEC.col='rgb('+Math.round(r2)+','+Math.round(g2)+','+Math.round(b2)+')';
-    haptic(); hueSync(); viewRepaint();
-    $('hueMenu').style.display='flex';
-  }, true);
-}
-$('hueBtn').onclick=()=>{
-  const m=$('hueMenu');
-  m.style.display = m.style.display==='flex' ? 'none' : 'flex';
-};
-for (const b of document.querySelectorAll('.hueSw')){
-  if (b.id==='hueCustom') continue;      // the dropper swatch has its own toggle
-  b.onclick=()=>{
-    const k=+b.dataset.h;
-    if (HUES.has(k)) HUES.delete(k); else HUES.add(k);
-    hueSync();
-    if (state.img && GRID_READY) viewRepaint();
-  };
 }
 function underSync(){
   for (const [id,k] of [['uBr','hl'],['uLt','lt'],['uDk','dk']])
