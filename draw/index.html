@@ -193,6 +193,11 @@ body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.75)}
   border:1px solid #555;border-radius:14px;padding:6px;z-index:6;
   align-items:stretch}
 #underMenu button{border-radius:9px;font-size:13px;padding:8px 11px;white-space:nowrap}
+#uCol{display:flex;align-items:center;justify-content:center}
+#uColSw{width:18px;height:18px;border-radius:50%;border:1px solid #777;display:block}
+#uPal{display:none;grid-template-columns:repeat(3,30px);gap:6px;justify-content:center}
+#uPal button{width:30px;height:30px;border-radius:50%;padding:0;border:2px solid #444}
+#uPal button.vOn{border-color:#fff;box-shadow:0 0 0 2px var(--acc)}
 #edView{flex:1;min-height:0;position:relative;overflow:hidden;background:#0e0e0e;
   touch-action:none}
 #edCv{position:absolute;left:0;top:0}
@@ -474,7 +479,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v241</span>
+      <span id="verNum">v242</span>
     </div>
   </div>
 
@@ -653,6 +658,15 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <div id="underMenu">
       <button id="uSh">Shading</button>
       <button id="uMid">Midtone</button>
+      <button id="uCol" title="Underpainting color"><span id="uColSw"></span></button>
+      <div id="uPal">
+        <button data-uc="umber" title="Umber"></button>
+        <button data-uc="sienna" title="Burnt sienna"></button>
+        <button data-uc="ochre" title="Ochre"></button>
+        <button data-uc="verte" title="Terre verte"></button>
+        <button data-uc="blue" title="Blue grey"></button>
+        <button data-uc="grey" title="Grey"></button>
+      </div>
     </div>
     <button id="underBtn" title="Sepia underpainting"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 12 L12.00 3.40 A8.6 8.6 0 0 1 18.08 5.92 Z" fill="#2e2013"/><path d="M12 12 L18.08 5.92 A8.6 8.6 0 0 1 20.60 12.00 Z" fill="#4a3420"/><path d="M12 12 L20.60 12.00 A8.6 8.6 0 0 1 18.08 18.08 Z" fill="#66482c"/><path d="M12 12 L18.08 18.08 A8.6 8.6 0 0 1 12.00 20.60 Z" fill="#836039"/><path d="M12 12 L12.00 20.60 A8.6 8.6 0 0 1 5.92 18.08 Z" fill="#a07a48"/><path d="M12 12 L5.92 18.08 A8.6 8.6 0 0 1 3.40 12.00 Z" fill="#bd965c"/><path d="M12 12 L3.40 12.00 A8.6 8.6 0 0 1 5.92 5.92 Z" fill="#d9b578"/><path d="M12 12 L5.92 5.92 A8.6 8.6 0 0 1 12.00 3.40 Z" fill="#f0d5a0"/></svg></button>
   </div>
@@ -2808,6 +2822,7 @@ function initMain(){
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true;
   LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=true;
   UNDER=false; UGROUND='off';
+  if (UCOL!=='umber'){ UCOL='umber'; upBuild(); }
   $('underBtn').classList.remove('vOn');
   $('underMenu').style.display='none';
   for (const id4 of ['uSh','uMid']) $(id4).classList.remove('vOn');
@@ -2823,7 +2838,8 @@ function initMain(){
       UNDER=!!LV.u;
       UGROUND = LV.g==='shade'||LV.g==='mid' ? LV.g
               : (LV.s&&LV.s.sh ? 'shade' : 'off');   // pre-v240 records
-      if (LV.o){
+      if (UPAL[LV.col] && LV.col!==UCOL){ UCOL=LV.col; upBuild(); }
+      if (LV.o && !UNDER){       // the two panels never restore together
         $('hud').style.display='';
         $('hudToggle').classList.add('lit','vOn');
       }
@@ -2831,7 +2847,15 @@ function initMain(){
       $('underMenu').style.display = UNDER ? 'flex' : 'none';
       $('uSh').classList.toggle('vOn', UGROUND==='shade');
       $('uMid').classList.toggle('vOn', UGROUND==='mid');
+    } else {
+      // first visit: blank paper with the workshop open - the colorized
+      // reference is built layer by layer
+      LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=false;
+      $('hud').style.display='';
+      $('hudToggle').classList.add('lit','vOn');
     }
+    underSync();
+    $('underMenu').style.display = UNDER ? 'flex' : 'none';
   }
   // the reference remembers its drawing tool across sessions - restored
   // BEFORE the first paint, or the image composes at the old level while
@@ -2937,6 +2961,12 @@ vp.addEventListener('pointercancel', endPtr);
 let uiTapT=0, UIHID=false;
 function uiToggle(){
   tapLast=null;
+  if (REFMODE==='c' && (UNDER || $('hud').style.display!=='none')){
+    // tapping off an open panel dismisses it; the layer state stays put
+    if (UNDER){ UNDER=false; underSync(); laySave(); }
+    if ($('hud').style.display!=='none') hudSet(false);
+    return;
+  }
   UIHID=!UIHID;
   document.body.classList.toggle('uiHid', UIHID);
   if (UIHID){
@@ -3302,11 +3332,36 @@ const LAYERS_C={dk:true, mid:true, lt:true, br:true};
 let UNDER=false;
 const COLOR_WHEEL='<svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 12 L12.00 3.40 A8.6 8.6 0 0 1 18.08 5.92 Z" fill="#e04438"/><path d="M12 12 L18.08 5.92 A8.6 8.6 0 0 1 20.60 12.00 Z" fill="#f08a24"/><path d="M12 12 L20.60 12.00 A8.6 8.6 0 0 1 18.08 18.08 Z" fill="#ecc94b"/><path d="M12 12 L18.08 18.08 A8.6 8.6 0 0 1 12.00 20.60 Z" fill="#4caf50"/><path d="M12 12 L12.00 20.60 A8.6 8.6 0 0 1 5.92 18.08 Z" fill="#26b0a8"/><path d="M12 12 L5.92 18.08 A8.6 8.6 0 0 1 3.40 12.00 Z" fill="#4285e8"/><path d="M12 12 L3.40 12.00 A8.6 8.6 0 0 1 5.92 5.92 Z" fill="#8e5cf0"/><path d="M12 12 L5.92 5.92 A8.6 8.6 0 0 1 12.00 3.40 Z" fill="#ec5fa8"/></svg>';
 let UGROUND='off';               // 'off' | 'shade' | 'mid'
+let hudSet=()=>{};               // the workshop door, callable from the wheel
 const UMID=140;                   // the flat toned-paper value
 const SEP_R=new Uint8Array(256), SEP_G=new Uint8Array(256), SEP_B=new Uint8Array(256);
-for (let v=0;v<256;v++){
-  const t=Math.pow(v/255, 0.95);
-  SEP_R[v]=30+t*213; SEP_G[v]=20+t*209; SEP_B[v]=12+t*193;
+// the classic underpainting colours: each a duotone ramp from its shadow
+// tone to a near-paper tint
+const UPAL={
+  umber:  [[30,20,12],[243,229,205]],
+  sienna: [[62,24,10],[246,226,208]],
+  ochre:  [[64,46,10],[247,238,208]],
+  verte:  [[22,38,22],[226,238,220]],
+  blue:   [[18,26,48],[220,229,243]],
+  grey:   [[24,24,24],[238,238,238]]};
+let UCOL='umber';
+function upBuild(){
+  const P2=UPAL[UCOL]||UPAL.umber, d0=P2[0], l0=P2[1];
+  for (let v=0;v<256;v++){
+    const t=Math.pow(v/255, 0.95);
+    SEP_R[v]=d0[0]+t*(l0[0]-d0[0]);
+    SEP_G[v]=d0[1]+t*(l0[1]-d0[1]);
+    SEP_B[v]=d0[2]+t*(l0[2]-d0[2]);
+  }
+}
+upBuild();
+function upSwatch(v){ return 'rgb('+SEP_R[v]+','+SEP_G[v]+','+SEP_B[v]+')'; }
+function underWheelPaint(){
+  const vs=[16,48,80,112,144,176,208,240];
+  const paths=$('underBtn').querySelectorAll('path');
+  for (let k=0;k<paths.length && k<8;k++)
+    paths[k].setAttribute('fill', upSwatch(vs[k]));
+  const sw=$('uColSw'); if (sw) sw.style.background=upSwatch(120);
 }
 function bandThresholds(){
   const N=COMP.ph.length, hist=new Uint32Array(256);
@@ -3341,7 +3396,7 @@ function compositeColorCv(){
   const L=LAYERS_C;
   const sig='K'+(ready?'P':'C')+(L.dk?'D':'')+(L.mid?'M':'')
            +(L.lt?'L':'')+(L.br?'B':'')+'T'+eff
-           +'U'+(UNDER?1:0)+'G'+UGROUND;
+           +'G'+UGROUND+UCOL;
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
   const N=COMP.ph.length, [t1,t2,t3]=COMP.bands, rgb=COMP.rgb;
   const underOn = UGROUND!=='off';
@@ -3364,13 +3419,6 @@ function compositeColorCv(){
     }
     v=v<0?0:(v>255?255:v);
     const u = gShade ? sh : (underOn ? UMID : 255);
-    if (UNDER){
-      // choosing a ground shows only the ground: paper, the sepia
-      // shading, or the flat midtone - the colour bands wait, remembered
-      if (u>=254){ od[q]=od[q+1]=od[q+2]=255; }
-      else { od[q]=SEP_R[u]; od[q+1]=SEP_G[u]; od[q+2]=SEP_B[u]; }
-      od[q+3]=255; continue;
-    }
     // the band borders follow the tool: values group by the COOKED luma at
     // the current detail level, so a coarser tool draws coarser boundaries
     const band = v<=t1 ? 'dk' : v<=t2 ? 'mid' : v<=t3 ? 'lt' : 'br';
@@ -3589,7 +3637,7 @@ function laySave(){
   try{ localStorage.setItem('lay|'+galActive, JSON.stringify({
     o: $('hud').style.display!=='none' ? 1 : 0,
     u: UNDER?1:0,
-    g: UGROUND,
+    g: UGROUND, col: UCOL,
     c: {dk:LAYERS_C.dk?1:0, mid:LAYERS_C.mid?1:0,
         lt:LAYERS_C.lt?1:0, br:LAYERS_C.br?1:0}
   })); }catch(e){}
@@ -3599,10 +3647,30 @@ function underSync(){
   $('uMid').classList.toggle('vOn', UGROUND==='mid');
   $('underBtn').classList.toggle('vOn', UNDER || UGROUND!=='off');
   $('underMenu').style.display = UNDER ? 'flex' : 'none';
+  if (!UNDER) $('uPal').style.display='none';
+  for (const b of $('uPal').querySelectorAll('button')){
+    const P2=UPAL[b.dataset.uc], mid=Math.pow(120/255,0.95);
+    b.style.background='rgb('+Math.round(P2[0][0]+mid*(P2[1][0]-P2[0][0]))
+      +','+Math.round(P2[0][1]+mid*(P2[1][1]-P2[0][1]))
+      +','+Math.round(P2[0][2]+mid*(P2[1][2]-P2[0][2]))+')';
+    b.classList.toggle('vOn', UCOL===b.dataset.uc);
+  }
+  underWheelPaint();
 }
+$('uCol').onclick=()=>{
+  const p=$('uPal');
+  p.style.display = p.style.display==='grid' ? 'none' : 'grid';
+};
+for (const b of $('uPal').querySelectorAll('button'))
+  b.onclick=()=>{
+    UCOL=b.dataset.uc; upBuild();
+    underSync(); laySave();
+    if (state.img && GRID_READY) viewRepaint();
+  };
 $('underBtn').onclick=()=>{
   UNDER=!UNDER;                    // the chosen ground persists regardless
   $('detMenu').style.display='none';
+  if (UNDER && $('hud').style.display!=='none') hudSet(false);
   underSync(); laySave();
   if (state.img && GRID_READY) viewRepaint();
 };
@@ -5957,7 +6025,9 @@ $('cmpSplit').onclick = () => {
 {
   const hud = $('hud'), tg = $('hudToggle');
   const set = o => {
-    if (REFMODE==='c' && UNDER){ UNDER=false; underSync(); }
+    // opening one panel closes the other: the underpainting menu and the
+    // colour layer workshop are never on screen together
+    if (o && REFMODE==='c' && UNDER){ UNDER=false; underSync(); }
     hud.style.display = o ? '' : 'none';
     // B&W: the pencil, naming Shading when open. Colour: the wheel always
     if (REFMODE==='c') tg.innerHTML=COLOR_WHEEL;
@@ -5965,15 +6035,14 @@ $('cmpSplit').onclick = () => {
     tg.classList.toggle('lit', o);
     tg.classList.toggle('vOn', o);
     try { localStorage.setItem('hudOpen', o ? '1' : '0'); } catch(e){}
-    // the open panel is the layer workshop: it starts from blank ground
-    // (bare shading in B&W, paper white in colour) with every layer
-    // unselected; closing returns the full view either way
-    if (REFMODE==='c') LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=!o;
-    else LAYERS.dk=LAYERS.lt=LAYERS.hl=!o;
+    // colour mode: the door only shows and hides the panel - the selected
+    // bands stay exactly as they are. B&W keeps its blank-slate workshop.
+    if (REFMODE!=='c') LAYERS.dk=LAYERS.lt=LAYERS.hl=!o;
     layerButtons(); laySave();
     if (GRID_READY && state.img) viewRepaint();
     if (!o && TOUR.det){ TOUR.det=false; detTip(); }
   };
+  hudSet=set;
   let open = true;
   try { open = localStorage.getItem('hudOpen') !== '0'; } catch(e){}
   set(open);
