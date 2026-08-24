@@ -1,30 +1,31 @@
 {
- "name": "resolved_event_sweep",
- "purpose": "Post-resolution repricing hunt: EDGAR FTS over fresh 8-Ks for resolution language. Window = prior session day through today (FTS indexing lags; always re-cover).",
- "endpoint": "https://efts.sec.gov/LATEST/search-index?q=<family>&forms=8-K&startdt=<d0>&enddt=<d1>",
- "families": [
-  "\"settlement agreement\"",
-  "\"settles all claims\" OR \"settled all claims\"",
-  "\"concluded its review of strategic alternatives\"",
-  "\"plan of liquidation\" OR \"plan of dissolution\"",
-  "\"special dividend\"",
-  "\"Dutch auction\"",
-  "\"self-tender\" OR \"issuer tender offer\"",
-  "\"return of capital\"",
-  "\"favorable ruling\" OR \"ruled in favor\"",
-  "\"arbitration award\"",
-  "\"sale of substantially all\"",
-  "\"termination of the merger agreement\""
- ],
- "kill_classes": [
-  "indenture/credit/underwriting/charter exhibit boilerplate (EX-4.x/EX-10.x/EX-1.1/EX-3.x)",
-  "plain buyback authorizations (grinder class)",
-  "special dividends without a mispriced stub (grinder class)",
-  "distressed-microcap dilution complexes (lesson-31 class)",
-  "SPAC trust/extension mechanics",
-  "NEW merger agreements (that is merger-arb / Hermes craft, not post-resolution repricing)",
-  "proxy/vote boilerplate phrase matches (check the Item number)"
- ],
- "survivor_bar": "resolved uncertainty + balance-sheet-backed capital return or forced repricing, tape not yet moved; ABUS 8/13 is the archetype",
- "written": "2026-08-15"
+  "endpoint": "https://efts.sec.gov/LATEST/search-index?q=<family>&forms=<forms>&startdt=<d0>&enddt=<d1>",
+  "families": [
+    "\"settlement agreement\"",
+    "\"settles all claims\" OR \"settled all claims\"",
+    "\"concluded its review of strategic alternatives\"",
+    "\"plan of liquidation\" OR \"plan of dissolution\"",
+    "\"special dividend\"",
+    "\"Dutch auction\"",
+    "\"self-tender\" OR \"issuer tender offer\"",
+    "\"return of capital\"",
+    "\"favorable ruling\" OR \"ruled in favor\"",
+    "\"arbitration award\"",
+    "\"sale of substantially all\"",
+    "\"termination of the merger agreement\""
+  ],
+  "forms_note": "Forms default to proteus.sweep.DEFAULT_FORMS = '8-K,SC TO-I,SC TO-C' (set a 'forms' key here to override). 8-K alone was blind to the schedule a capital return COMMENCES on: ABUS announced its Dutch auction in an 8-K (caught 2026-08-21) but commenced on an SC TO-I (2026-08-24) the sweep never saw. Widened 2026-08-24; the same run surfaced SQFT's SC TO-I/A, a hit 8-K-only could not produce.",
+  "kill_classes": [
+    "indenture/credit/underwriting/charter exhibit boilerplate (EX-4.x/EX-10.x/EX-1.1/EX-3.x)",
+    "plain buyback authorizations (grinder class)",
+    "special dividends without a mispriced stub (grinder class)",
+    "distressed-microcap dilution complexes (lesson-31 class)",
+    "SPAC trust/extension mechanics",
+    "NEW merger agreements (that is merger-arb / Hermes craft, not post-resolution repricing)",
+    "proxy/vote boilerplate phrase matches (check the Item number)"
+  ],
+  "name": "resolved_event_sweep",
+  "purpose": "Post-resolution repricing hunt: EDGAR FTS over fresh 8-Ks AND tender schedules (SC TO-I/SC TO-C, amendments included) for resolution + capital-return language. Window = prior session day through today (FTS indexing lags; always re-cover).",
+  "survivor_bar": "resolved uncertainty + balance-sheet-backed capital return or forced repricing, tape not yet moved; ABUS 8/13 is the archetype",
+  "written": "2026-08-15"
 }
