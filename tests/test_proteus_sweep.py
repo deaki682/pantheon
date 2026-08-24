@@ -71,9 +71,26 @@ def test_run_sweep_passes_forms_and_window():
     sweep.run_sweep("2026-08-14", "2026-08-16", spec=SPEC, fetch=fetch)
     assert len(seen) == len(SPEC["families"])
     for p in seen:
-        assert p["forms"] == "8-K"
+        # A spec with no forms key falls back to the default list, which must
+        # keep 8-K and also carry the tender schedules a capital return
+        # commences on (the ABUS SC TO-I the 8-K-only sweep missed).
+        assert p["forms"] == sweep.DEFAULT_FORMS
+        assert "8-K" in p["forms"]
+        assert "SC TO-I" in p["forms"]
         assert p["startdt"] == "2026-08-14"
         assert p["enddt"] == "2026-08-16"
+
+
+def test_run_sweep_forms_overridable_by_spec():
+    seen = []
+
+    def fetch(params):
+        seen.append(params)
+        return {"hits": {"hits": []}}
+
+    spec = dict(SPEC, forms="8-K")
+    sweep.run_sweep("2026-08-14", "2026-08-16", spec=spec, fetch=fetch)
+    assert seen and all(p["forms"] == "8-K" for p in seen)
 
 
 def test_load_spec_from_disk(tmp_path):

@@ -26,6 +26,14 @@ SPEC_PATH = "cache/proteus_sweep_spec.json"
 # underwriting/charter boilerplate (the standing batch-kill class).
 EXHIBIT_BOILERPLATE_PREFIXES = ("EX-1.", "EX-3.", "EX-4.", "EX-10.")
 
+# Forms the sweep queries. 8-K alone was the original list and it is blind to
+# the schedules a capital return actually COMMENCES on: ABUS announced its
+# Dutch auction in an 8-K (caught 8/21) but commenced it on an SC TO-I
+# (2026-08-24, missed — found only because ABUS was already a held position).
+# The tender schedules carry the terms that decide entry and sizing (band,
+# odd-lot preferential acceptance, expiry), so they belong in the sweep.
+DEFAULT_FORMS = "8-K,SC TO-I,SC TO-C"
+
 
 def load_spec(path: str = SPEC_PATH) -> dict:
     """Load the sweep spec; refuse to run without its families list."""
@@ -66,9 +74,10 @@ def run_sweep(
     """
     spec = spec or load_spec()
     fetch = fetch or _default_fetch
+    forms = spec.get("forms") or DEFAULT_FORMS
     hits: dict = {}
     for family in spec["families"]:
-        params = {"q": family, "forms": "8-K", "startdt": startdt, "enddt": enddt}
+        params = {"q": family, "forms": forms, "startdt": startdt, "enddt": enddt}
         data = fetch(params)
         for h in data.get("hits", {}).get("hits", []):
             src = h.get("_source", {})
