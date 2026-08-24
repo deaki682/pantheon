@@ -187,6 +187,11 @@ body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.8)}
 body.colorRef #underCorner{display:block;left:calc(30px + (100% - 60px)*0.6)}
 #underBtn{width:44px;height:44px;padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
+#underMenu{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
+  display:none;flex-direction:column;gap:6px;background:#1e1e1e;
+  border:1px solid #555;border-radius:14px;padding:8px;z-index:6;
+  align-items:stretch}
+#underMenu button{border-radius:9px;font-size:13px;white-space:nowrap}
 #hueBtn{width:44px;height:44px;padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #hueMenu{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
@@ -478,7 +483,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v232</span>
+      <span id="verNum">v233</span>
     </div>
   </div>
 
@@ -669,7 +674,12 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <button id="hueBtn" title="Isolate colors"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 12 L12.00 3.40 A8.6 8.6 0 0 1 18.08 5.92 Z" fill="#e04438"/><path d="M12 12 L18.08 5.92 A8.6 8.6 0 0 1 20.60 12.00 Z" fill="#f08a24"/><path d="M12 12 L20.60 12.00 A8.6 8.6 0 0 1 18.08 18.08 Z" fill="#ecc94b"/><path d="M12 12 L18.08 18.08 A8.6 8.6 0 0 1 12.00 20.60 Z" fill="#4caf50"/><path d="M12 12 L12.00 20.60 A8.6 8.6 0 0 1 5.92 18.08 Z" fill="#26b0a8"/><path d="M12 12 L5.92 18.08 A8.6 8.6 0 0 1 3.40 12.00 Z" fill="#4285e8"/><path d="M12 12 L3.40 12.00 A8.6 8.6 0 0 1 5.92 5.92 Z" fill="#8e5cf0"/><path d="M12 12 L5.92 5.92 A8.6 8.6 0 0 1 12.00 3.40 Z" fill="#ec5fa8"/></svg></button>
   </div>
   <div id="underCorner">
-    <button id="underBtn" title="Sepia underpainting ground"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 12 L12.00 3.40 A8.6 8.6 0 0 1 18.08 5.92 Z" fill="#2e2013"/><path d="M12 12 L18.08 5.92 A8.6 8.6 0 0 1 20.60 12.00 Z" fill="#4a3420"/><path d="M12 12 L20.60 12.00 A8.6 8.6 0 0 1 18.08 18.08 Z" fill="#66482c"/><path d="M12 12 L18.08 18.08 A8.6 8.6 0 0 1 12.00 20.60 Z" fill="#836039"/><path d="M12 12 L12.00 20.60 A8.6 8.6 0 0 1 5.92 18.08 Z" fill="#a07a48"/><path d="M12 12 L5.92 18.08 A8.6 8.6 0 0 1 3.40 12.00 Z" fill="#bd965c"/><path d="M12 12 L3.40 12.00 A8.6 8.6 0 0 1 5.92 5.92 Z" fill="#d9b578"/><path d="M12 12 L5.92 5.92 A8.6 8.6 0 0 1 12.00 3.40 Z" fill="#f0d5a0"/></svg></button>
+    <div id="underMenu">
+      <button id="uBr">Brights</button>
+      <button id="uLt">Lights</button>
+      <button id="uDk">Darks</button>
+    </div>
+    <button id="underBtn" title="Sepia underpainting"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 12 L12.00 3.40 A8.6 8.6 0 0 1 18.08 5.92 Z" fill="#2e2013"/><path d="M12 12 L18.08 5.92 A8.6 8.6 0 0 1 20.60 12.00 Z" fill="#4a3420"/><path d="M12 12 L20.60 12.00 A8.6 8.6 0 0 1 18.08 18.08 Z" fill="#66482c"/><path d="M12 12 L18.08 18.08 A8.6 8.6 0 0 1 12.00 20.60 Z" fill="#836039"/><path d="M12 12 L12.00 20.60 A8.6 8.6 0 0 1 5.92 18.08 Z" fill="#a07a48"/><path d="M12 12 L5.92 18.08 A8.6 8.6 0 0 1 3.40 12.00 Z" fill="#bd965c"/><path d="M12 12 L3.40 12.00 A8.6 8.6 0 0 1 5.92 5.92 Z" fill="#d9b578"/><path d="M12 12 L5.92 5.92 A8.6 8.6 0 0 1 12.00 3.40 Z" fill="#f0d5a0"/></svg></button>
   </div>
   <!-- compare lives behind the camera in the opposite corner -->
   <div id="camCorner"><button id="compareBtn" title="Compare"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16"/><circle cx="7.5" cy="10" r="1.8"/><path d="M4.6 16.6c0.5-2 1.5-3 2.9-3s2.4 1 2.9 3"/><circle cx="16.5" cy="10" r="1.8"/><path d="M13.6 16.6c0.5-2 1.5-3 2.9-3s2.4 1 2.9 3"/></svg></button></div>
@@ -2779,7 +2789,10 @@ function initMain(){
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true;
   LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=true;
   HUES.clear(); HUEC.on=false; HUEC.col=''; HUEPICK=false; hueSync();
-  UNDER=false; $('underBtn').classList.remove('vOn');
+  UNDER=false; SLAY.dk=SLAY.lt=SLAY.hl=false;
+  $('underBtn').classList.remove('vOn');
+  $('underMenu').style.display='none';
+  for (const id4 of ['uBr','uLt','uDk']) $(id4).classList.remove('vOn');
   $('hueMenu').style.display='none';
   document.body.classList.toggle('colorRef', REFMODE==='c');
   // the reference remembers its drawing tool across sessions - restored
@@ -3250,9 +3263,12 @@ const LAYERS_C={dk:true, mid:true, lt:true, br:true};
 const HUES=new Set();
 const HUEC={on:false, h:0, col:''};
 let HUEPICK=false;
-// the underglaze ground: unpainted values show the shading as a sepia
-// underpainting instead of paper white; painted bands layer over it
+// the underglaze: a sepia mirror of the B&W workshop. Its base is the
+// bare shading; Brights/Lights/Darks build the underpainting up, and the
+// colour bands then layer over whatever it shows.
 let UNDER=false;
+const SLAY={dk:false, lt:false, hl:false};
+let hudSet=()=>{};
 const SEP_R=new Uint8Array(256), SEP_G=new Uint8Array(256), SEP_B=new Uint8Array(256);
 for (let v=0;v<256;v++){
   const t=Math.pow(v/255, 0.95);
@@ -3321,7 +3337,7 @@ function compositeColorCv(){
   const custH = HUEC.on ? Math.round(HUEC.h) : -1;
   const sig='K'+(ready?'P':'C')+(L.dk?'D':'')+(L.mid?'M':'')
            +(L.lt?'L':'')+(L.br?'B':'')+'T'+eff+'H'+hm+'C'+custH
-           +'U'+(UNDER?1:0);
+           +'U'+(UNDER?1:0)+(SLAY.dk?'d':'')+(SLAY.lt?'l':'')+(SLAY.hl?'h':'');
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
   const N=COMP.ph.length, [t1,t2,t3]=COMP.bands, rgb=COMP.rgb;
   const hueB=COMP.hueB, hueD=COMP.hueD;
@@ -3331,16 +3347,22 @@ function compositeColorCv(){
   const om=g.createImageData(w,h), od=om.data;
   for (let i=0;i<N;i++){
     const ph=COMP.ph[i], sh=COMP.sh[i], q=i*4;
-    let v;
+    let v, u=sh;
     if (ready){
       const dDu=Math.max(0,sh-ph), lDu=Math.max(0,COMP.dp[i]-sh);
       const lD1=Math.min(lDu, dP.lD[i]);
       v = sh - dDu + lD1 + (lDu-lD1) + COMP.hl[i];
+      if (SLAY.dk) u-=dDu;
+      if (SLAY.lt) u+=lD1;
+      if (SLAY.hl) u+=(lDu-lD1)+COMP.hl[i];
     } else {
       const dD=det?det.dD[i]:Math.max(0,sh-ph);
       const lD=det?det.lD[i]:Math.max(0,COMP.dp[i]-sh);
       const hl=det?det.hl[i]:COMP.hl[i];
       v = sh - dD + lD + hl;
+      if (SLAY.dk) u-=dD;
+      if (SLAY.lt) u+=lD;
+      if (SLAY.hl) u+=hl;
     }
     v=v<0?0:(v>255?255:v);
     // the band borders follow the tool: values group by the COOKED luma at
@@ -3354,7 +3376,8 @@ function compositeColorCv(){
     }
     if (!L[band] || !pass){
       if (UNDER){
-        od[q]=SEP_R[sh]; od[q+1]=SEP_G[sh]; od[q+2]=SEP_B[sh];
+        const ui=(u<0?0:(u>255?255:u))|0;
+        od[q]=SEP_R[ui]; od[q+1]=SEP_G[ui]; od[q+2]=SEP_B[ui];
       } else { od[q]=od[q+1]=od[q+2]=255; }
       od[q+3]=255; continue;
     }
@@ -3635,11 +3658,27 @@ for (const b of document.querySelectorAll('.hueSw')){
     if (state.img && GRID_READY) viewRepaint();
   };
 }
+function underSync(){
+  for (const [id,k] of [['uBr','hl'],['uLt','lt'],['uDk','dk']])
+    $(id).classList.toggle('vOn', SLAY[k]);
+  $('underBtn').classList.toggle('vOn', UNDER);
+  $('underMenu').style.display = UNDER ? 'flex' : 'none';
+}
 $('underBtn').onclick=()=>{
   UNDER=!UNDER;
-  $('underBtn').classList.toggle('vOn', UNDER);
+  SLAY.dk=SLAY.lt=SLAY.hl=false;   // the underpainting opens at bare shading
+  // seeing the underpainting needs the colour bands out of the way: the
+  // wheel also opens the colour workshop at blank paper, ready to layer
+  if (UNDER && $('hud').style.display==='none') hudSet(true);
+  underSync();
   if (state.img && GRID_READY) viewRepaint();
 };
+for (const [id3,k3] of [['uBr','hl'],['uLt','lt'],['uDk','dk']])
+  $(id3).onclick=()=>{
+    SLAY[k3]=!SLAY[k3];
+    underSync();
+    if (state.img && GRID_READY) viewRepaint();
+  };
 function toggleLayerC(k){
   LAYERS_C[k]=!LAYERS_C[k];
   layerButtons();
@@ -6001,6 +6040,7 @@ $('cmpSplit').onclick = () => {
     if (GRID_READY && state.img) viewRepaint();
     if (!o && TOUR.det){ TOUR.det=false; detTip(); }
   };
+  hudSet=set;
   let open = true;
   try { open = localStorage.getItem('hudOpen') !== '0'; } catch(e){}
   set(open);
