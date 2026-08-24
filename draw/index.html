@@ -66,7 +66,7 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:13px}
 #viewport{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
 /* gallery: every photo ever opened, newest first */
 #gallery,#galleryC{flex:none;display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;
-  touch-action:pan-x;padding:8px calc(50% - 60px);
+  touch-action:pan-x;padding:8px calc(50% - 60px) 18px;
   -webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
 .galLbl{display:none;flex:none;font-size:17px;color:#fff;letter-spacing:.06em;
   text-align:center;padding:0 16px;opacity:.95}
@@ -90,7 +90,8 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:13px}
 #verNum{color:#6a6a6a;font-size:10px;text-align:center;margin-top:1px}
 #discBtn{color:var(--acc);display:flex;padding:4px}
 .gitem{position:relative;flex:none;border:1px solid #555;background:#1e1e1e;
-  cursor:pointer;border-radius:10px;overflow:hidden}
+  cursor:pointer;border-radius:10px;overflow:hidden;
+  box-shadow:0 7px 16px rgba(0,0,0,0.55), 0 2px 5px rgba(0,0,0,0.45)}
 .gitem.lastRef{border-color:var(--acc)}
 .gx{position:absolute;top:4px;right:4px;width:26px;height:26px;padding:0;
   border:none;background:rgba(14,14,14,0.72);border-radius:50%;
@@ -468,7 +469,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v259</span>
+      <span id="verNum">v260</span>
     </div>
   </div>
 
