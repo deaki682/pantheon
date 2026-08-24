@@ -39,6 +39,13 @@ body{position:fixed;inset:0}
   padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
 .screen{position:absolute;inset:0;display:none;flex-direction:column}
 .screen.on{display:flex}
+.screen.in{animation:scrIn .18s ease}
+.screen.off{display:flex;pointer-events:none;opacity:0;animation:scrOut .18s ease}
+@keyframes scrIn{from{opacity:0}to{opacity:1}}
+@keyframes scrOut{from{opacity:1}to{opacity:0}}
+#slTip{position:fixed;display:none;z-index:44;transform:translate(-50%,0);
+  background:#262626;border:1px solid #555;border-radius:8px;
+  padding:3px 9px;font-size:12px;color:var(--acc);pointer-events:none}
 button,select,input{font:inherit;padding:8px 12px;border:1px solid #555;
   background:#1e1e1e;color:#e8e6e1;border-radius:8px}
 button:disabled{opacity:.4}
@@ -444,7 +451,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v229</span>
+      <span id="verNum">v230</span>
     </div>
   </div>
 
@@ -695,12 +702,24 @@ window.__backStep=()=>{
   return 'ok';
 };
 const show = id => { tipClose(false); uiShow();
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on')); $(id).classList.add('on');
+  const cur=document.querySelector('.screen.on');
+  if (!cur || cur.id!==id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on','off','in'));
+    if (cur && !document.hidden){
+      cur.classList.add('off');
+      $(id).classList.add('in');
+      clearTimeout(show._t);
+      show._t=setTimeout(()=>{ cur.classList.remove('off'); $(id).classList.remove('in'); }, 260);
+    }
+    $(id).classList.add('on');
+  }
   $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex';
   if (id!=='scrUpload') backArm();
   if (id==='scrFormat'){ fmtTip(); requestAnimationFrame(()=>{ try{ fmtPreview(); }catch(e){} }); }
   if (id==='scrMain') mainTip();
   if (id==='scrUpload' && TOUR.rule) ruleTip(); };
+for (const sc of document.querySelectorAll('.screen'))
+  sc.addEventListener('animationend', e=>{ if (e.target===sc) sc.classList.remove('in','off'); });
 
 
 const CEILINGS = { 'Fingertip': 78 };          // same rule as the studio
@@ -881,6 +900,8 @@ async function renderGallery(){
         if (GRID_READY) applyView();          // the square may have changed
         return;
       }
+      haptic();
+      if (r.blob && warmOpen(r)) return;      // cooked before: straight in
       if (r.blob) openPhoto(r.blob, r.id);
     };
     host.appendChild(d);
@@ -999,6 +1020,102 @@ function openPhoto(blob, gid, retry){
     toast('could not read that reference\u2019s stored image', false, 5000);
     $('upStat').textContent = 'could not read that file'; };
   img.src = URL.createObjectURL(blob);
+}
+
+// ---- instant reopen: a reference that was formatted and fully cooked
+// before opens the drawing screen at once. The saved fingerprint stands in
+// for the photo (the gallery thumbnail paints the world until the real
+// decode lands), then the true fingerprint is recomputed and any mismatch
+// recooks through the ordinary gate.
+let WARM_PEND=null, WARM_STANDIN=null;
+function warmOpen(r){
+  if (WARM_PEND===r.id && galActive===r.id){ show('scrMain'); return true; }
+  let fmt=null, ck=null;
+  try{ fmt=JSON.parse(localStorage.getItem('fmt|'+r.id)); }catch(e){}
+  try{ ck=localStorage.getItem('ck|'+r.id); }catch(e){}
+  if (!fmt || !fmt.w || !ck) return false;
+  const m=/\|(\d+)x(\d+)\|a/.exec(ck);       // the cooked world size
+  if (!m) return false;
+  const my=++OPEN_SEQ;
+  WARM_PEND=r.id; WARM_STANDIN=null;
+  galActive=r.id; galLoading=null;
+  try{ localStorage.setItem('lastRef', r.id); }catch(e){}
+  photo=null; state.img=null; FMT_APPLIED=null; GRID_READY=false;
+  { const fc=$('fmtCanvas');
+    fc.getContext('2d').clearRect(0,0,fc.width,fc.height); }
+  if (fmt.h) $('heightIn').value=fmt.h;
+  if (fmt.u){ try{ localStorage.setItem('unit', fmt.u); }catch(e){}
+    $('unit').value=fmt.u; calRefresh(); }
+  $('widthIn').value=fmt.w;
+  FMT_OFF.x=(typeof fmt.ox==='number')?fmt.ox:0.5;
+  FMT_OFF.y=(typeof fmt.oy==='number')?fmt.oy:0.5;
+  CKEY=ck; WORLD={w:+m[1], h:+m[2]};
+  PHYS_W_IN=physWIn();
+  const sq=squaresOf(PHYS_W_IN, PHYS_W_IN*WORLD.h/WORLD.w);
+  GRID_COLS=sq.cols; GRID_ROWS=sq.rows;
+  const th=new Image();
+  th.onload=()=>{ if (my!==OPEN_SEQ || WARM_PEND!==r.id) return;
+    const c=document.createElement('canvas');
+    c.width=th.width; c.height=th.height;
+    const g=c.getContext('2d');
+    g.filter='grayscale(1)'; g.drawImage(th,0,0); g.filter='none';
+    WARM_STANDIN=c;
+    if ($('scrMain').classList.contains('on')) viewRepaint();
+  };
+  th.src=r.thumb;
+  (async()=>{
+    if (!(await prepReady())){
+      // the cook cache is gone: fall back to the ordinary open
+      if (my!==OPEN_SEQ) return;
+      WARM_PEND=null; WARM_STANDIN=null;
+      if (r.blob) openPhoto(r.blob, r.id);
+      return;
+    }
+    if (my!==OPEN_SEQ) return;
+    show('scrMain');
+    initMain();
+    decodeWarm(r.blob, r.id, my);
+  })();
+  return true;
+}
+function decodeWarm(blob, gid, my, retry){
+  const img=new Image();
+  img.onload=()=>{
+    URL.revokeObjectURL(img.src);
+    if (my!==OPEN_SEQ || galActive!==gid) return;
+    const c=document.createElement('canvas');
+    c.width=img.width; c.height=img.height;
+    const g=c.getContext('2d');
+    g.filter='grayscale(1)'; g.drawImage(img,0,0); g.filter='none';
+    const _er=editLoad(gid);
+    photo=_er ? editApply(c,_er) : c;
+    WARM_PEND=null;
+    warmVerify();
+  };
+  img.onerror=async()=>{
+    URL.revokeObjectURL(img.src);
+    if (my!==OPEN_SEQ) return;
+    if (!retry){
+      const fresh=await galGet(gid).catch(()=>null);
+      if (my===OPEN_SEQ && fresh && fresh.blob){ decodeWarm(fresh.blob, gid, my, true); return; }
+    }
+    WARM_PEND=null;
+  };
+  img.src=URL.createObjectURL(blob);
+}
+async function warmVerify(){
+  await applyFormat();
+  if (galActive!=null && CKEY){
+    let old=null; try{ old=localStorage.getItem('ck|'+galActive); }catch(e){}
+    if (old && old!==CKEY) cachePurge(old);
+    try{ localStorage.setItem('ck|'+galActive, CKEY); }catch(e){}
+  }
+  WARM_STANDIN=null;
+  if (!(await prepReady())){ prepareAll(); return; }
+  if ($('scrMain').classList.contains('on') && GRID_READY){
+    paintWorld(); drawCircs();
+  }
+  if ($('scrFormat').classList.contains('on')) fmtPreview();
 }
 
 $('file').addEventListener('change', async e => {
@@ -1650,8 +1767,60 @@ function slFillAll(){
   for (const el of document.querySelectorAll('input[type=range]')) slFill(el);
 }
 document.addEventListener('input', e=>{
-  if (e.target && e.target.type==='range') slFill(e.target);
+  const el=e.target;
+  if (!el || el.type!=='range') return;
+  slFill(el);
+  if (+el.min<0){
+    const v=+el.value, p=el._pz;
+    if (p!==undefined && ((p<0&&v>=0)||(p>0&&v<=0))) haptic();
+    el._pz=v;
+  }
 }, true);
+{
+  // a small readout floats above the thumb while an adjustment slider moves
+  const tip=document.createElement('div'); tip.id='slTip';
+  document.body.appendChild(tip);
+  let tipT=0;
+  const tipShow=el=>{
+    if (!el.closest('#edTone') && !el.closest('#lvRow')) return;
+    const min=+el.min||0, max=el.max===''?100:+el.max, v=+el.value;
+    tip.textContent = min<0 && v>0 ? '+'+v : ''+v;
+    const r=el.getBoundingClientRect();
+    const f=max>min ? (v-min)/(max-min) : 0;
+    tip.style.left=(r.left+7+f*(r.width-14))+'px';
+    tip.style.top=(r.top-34)+'px';
+    tip.style.display='block';
+    clearTimeout(tipT);
+  };
+  const tipHide=()=>{ clearTimeout(tipT);
+    tipT=setTimeout(()=>{ tip.style.display='none'; }, 350); };
+  document.addEventListener('input', e=>{
+    if (e.target && e.target.type==='range') tipShow(e.target); }, true);
+  document.addEventListener('pointerdown', e=>{
+    if (e.target && e.target.type==='range') tipShow(e.target); }, true);
+  document.addEventListener('pointerup', tipHide, true);
+  document.addEventListener('pointercancel', tipHide, true);
+}
+// tapping an adjustment's label resets just that slider
+document.addEventListener('click', e=>{
+  const l=e.target.closest && e.target.closest('.adjL');
+  if (!l) return;
+  const inp=l.nextElementSibling;
+  if (!inp || inp.type!=='range') return;
+  const M={eExp:['exp',0],eCon:['con',100],eHi:['hi',0],eSh:['sh',0],
+           eWh:['wh',0],eBl:['bl',0],eShp:['shp',0],eDn:['dn',0]};
+  const A={aExp:'exp',aCon:'con',aHi:'hi',aSh:'sh',aWh:'wh',aBl:'bl',aDn:'dn'};
+  if (M[inp.id] && ED.on){
+    const k=M[inp.id][0], d=M[inp.id][1];
+    if (ED.R[k]===d) return;
+    ED.R[k]=d; inp.value=d; slFill(inp); haptic(); edPaint();
+  } else if (A[inp.id] && CMP.adj){
+    const k=A[inp.id], d=ADJ_DEF[k]!==undefined?ADJ_DEF[k]:0;
+    if (CMP.adj[k]===d) return;
+    CMP.adj[k]=d; inp.value=d; slFill(inp); haptic();
+    applyLevels(); adjStore(); cmpRender(); cmpSave();
+  }
+});
 function edArText(ar){
   if (!ar) return 'Free';
   const map={1:'1:1',0.8:'4:5',0.75:'3:4',0.6667:'2:3',0.5625:'9:16',
@@ -1847,7 +2016,7 @@ $('eFlipV').onclick=()=>{ ED.R.fv=ED.R.fv?0:1; edBuildPre(); edPaint(); };
 {
   // hold the eye for the untouched original
   const eye=$('edEye');
-  const eyeOn=e=>{ ED.showOrig=true; edPaint(); e.preventDefault(); };
+  const eyeOn=e=>{ ED.showOrig=true; edPaint(); haptic(); e.preventDefault(); };
   const eyeOff=()=>{ if (ED.showOrig){ ED.showOrig=false; edPaint(); } };
   eye.addEventListener('pointerdown', eyeOn);
   eye.addEventListener('pointerup', eyeOff);
@@ -1865,7 +2034,7 @@ $('eFlipV').onclick=()=>{ ED.R.fv=ED.R.fv?0:1; edBuildPre(); edPaint(); };
       const now=Date.now();
       if (now-lastTap<300){
         ED.z = ED.z.s>1.1 ? {s:1,x:0,y:0} : {s:2.5,x:0,y:0};
-        edPaint();
+        edPaint(); haptic();
       }
       lastTap=now;
     }
@@ -1917,6 +2086,7 @@ $('eFlipV').onclick=()=>{ ED.R.fv=ED.R.fv?0:1; edBuildPre(); edPaint(); };
     drag={ mode:{l:nearL,r:nearR,t:nearT,b:nearB,move:!(nearL||nearR||nearT||nearB)&&inside},
            px,py, R0:{...R} };
     cv.setPointerCapture(e.pointerId);
+    haptic();
     e.preventDefault();
   });
   cv.addEventListener('pointermove', e=>{
@@ -2421,7 +2591,8 @@ function paintWorld(){
   const {w,h} = worldSize();
   const g = $('refImg').getContext('2d');
   g.imageSmoothingQuality='high';
-  g.drawImage(viewSrc(), 0, 0, w, h);
+  const src = viewSrc();
+  if (src) g.drawImage(src, 0, 0, w, h);
   applyGrid();
 }
 function initMain(){
@@ -2988,6 +3159,7 @@ async function ensureDetail(lv){
       return;
     }catch(e){}
   }
+  if (!state.img){ DET.busy=null; return; }    // warm open: decode pending
   compParts();
   const N=COMP.ph.length;
   const dD=new Uint8Array(N), lD=new Uint8Array(N), hl=new Uint8Array(N);
@@ -3018,12 +3190,13 @@ async function ensureDetail(lv){
   wk.postMessage({dD, lD, hl, W:w, H:h, shape:DET_SHAPE[lv]}, [dD.buffer, lD.buffer, hl.buffer]);
 }
 function viewSrc(){
-  if (!state.img) return state.img;
+  const base = state.img || WARM_STANDIN;
+  if (!base) return null;
   if (!(FORM.cv && FORM.key===fkey())){
     ensureForm();                     // async; the photo stands in meanwhile
-    return state.img;
+    return base;
   }
-  return compositeCv();
+  return state.img ? compositeCv() : base;
 }
 function viewRepaint(){ paintWorld(); }
 const canvasBlob=(c,type,q)=>{
@@ -3048,6 +3221,7 @@ async function ensureForm(){
       return;
     }catch(e){}
   }
+  if (!state.img){ FORM.busy=null; return; }   // warm open: decode pending
   const {w,h}=worldSize();
   const gray=grayData(state.img);
   const wk=new Worker(URL.createObjectURL(new Blob([FORM_SRC],{type:'text/javascript'})));
