@@ -142,6 +142,8 @@ html.natCam, html.natCam body, html.natCam .screen, html.natCam #cmpView{
   background:transparent !important}
 html.natCam #cmpCv{visibility:hidden}
 html.natCam #camVid{display:none !important}
+#camVeil{position:absolute;inset:0;background:#000;display:none;z-index:2}
+html.natCam #camVeil{display:none !important}
 #capNote{position:absolute;left:50%;transform:translateX(-50%);
   bottom:calc(110px + env(safe-area-inset-bottom));z-index:9;display:none;
   background:rgba(12,12,12,0.78);color:#fff;border-radius:999px;
@@ -479,7 +481,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v250</span>
+      <span id="verNum">v251</span>
     </div>
   </div>
 
@@ -679,6 +681,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 <div class="screen" id="scrCompare">
   <div id="cmpView"><canvas id="cmpCv"></canvas>
     <video id="camVid" playsinline autoplay muted></video>
+    <div id="camVeil"></div>
     <canvas id="camGhost"></canvas>
     <div id="focusRing"></div>
     <div id="capNote"></div>
@@ -1154,11 +1157,19 @@ function warmOpen(r){
   GRID_COLS=sq.cols; GRID_ROWS=sq.rows;
   const th=new Image();
   th.onload=()=>{ if (my!==OPEN_SEQ || WARM_PEND!==r.id) return;
+    // the thumbnail is a centre SQUARE - cut it to the world's own aspect
+    // before it stands in, or the reference flashes stretched while the
+    // real photo decodes
+    const ar=WORLD.w/Math.max(1,WORLD.h);
+    let sw=th.width, sh2=th.width/ar;
+    if (sh2>th.height){ sh2=th.height; sw=th.height*ar; }
     const c=document.createElement('canvas');
-    c.width=th.width; c.height=th.height;
+    c.width=Math.max(2,Math.round(sw)); c.height=Math.max(2,Math.round(sh2));
     const g=c.getContext('2d');
     if (REFMODE!=='c') g.filter='grayscale(1)';
-    g.drawImage(th,0,0); g.filter='none';
+    g.drawImage(th, (th.width-sw)/2, (th.height-sh2)/2, sw, sh2,
+                0, 0, c.width, c.height);
+    g.filter='none';
     WARM_STANDIN=c;
     if ($('scrMain').classList.contains('on')) viewRepaint();
   };
@@ -5335,7 +5346,9 @@ $('compareBtn').onclick = async () => {
   show('scrCompare'); cmpSize();
   // camera-mode chrome up in the same frame - nothing of the previous
   // visit may flash first
-  $('camVid').style.display='block';
+  // a clean black veil while the camera starts: the bare video element
+  // draws a play-button overlay on Android, which reads cheap
+  $('camVeil').style.display='block';
   $('coach').style.display='none';
   $('lvRow').style.display='none';
   $('mirRow').style.display='none';
@@ -5453,6 +5466,12 @@ async function camStart(){
       audio:false });
     CAM.stream=st;
     const v=$('camVid'); v.srcObject=st; v.style.display='block';
+    // the veil sits above the video until real frames exist, so the bare
+    // element's play-button overlay never shows
+    const camLit=()=>{ $('camVeil').style.display='none'; };
+    if (v.readyState>=2) camLit();
+    else v.addEventListener('loadeddata', camLit, {once:true});
+    try{ v.play().catch(()=>{}); }catch(e2){}
     $('coach').style.display='none';
     $('lvRow').style.display='none';
     $('cmpFlip').style.display='none';
@@ -5531,6 +5550,7 @@ function natChrome(on){
   // native preview behind the WebView can never show through
   document.documentElement.classList.toggle('natCam', on);
   document.body.classList.toggle('natCam', on);
+  if (on) $('camVeil').style.display='none';
 }
 function natRect(){
   const r=$('cmpView').getBoundingClientRect(), k=devicePixelRatio||1;
@@ -5658,6 +5678,7 @@ function camStop(){
   clearInterval(CAM.timer); CAM.timer=0; CAM.ghost=null;
   const gg=$('camGhost'); gg.getContext('2d').clearRect(0,0,gg.width,gg.height);
   const v=$('camVid'); v.srcObject=null; v.style.display='none';
+  $('camVeil').style.display='none';
   $('shutter').style.display='none';
   $('lastShot').style.display='none';
   $('cmpFlip').style.display='';
