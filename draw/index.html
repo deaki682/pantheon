@@ -68,7 +68,7 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:13px}
 #gallery,#galleryC{flex:none;display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;
   touch-action:pan-x;padding:8px calc(50% - 60px);
   -webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
-.galLbl{flex:none;font-size:17px;color:#fff;letter-spacing:.06em;
+.galLbl{display:none;flex:none;font-size:17px;color:#fff;letter-spacing:.06em;
   text-align:center;padding:0 16px;opacity:.95}
 .gadd{position:relative;flex:none;width:118px;aspect-ratio:1;
   border:1px dashed #777;border-radius:10px;background:#191919;
@@ -300,6 +300,12 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 #toast.accToast{color:var(--acc)}
 #delModal{position:fixed;inset:0;z-index:22;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.55)}
+#modeModal{position:fixed;inset:0;z-index:22;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.55)}
+#modePanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
+  padding:20px 24px;display:flex;flex-direction:column;gap:14px;
+  align-items:stretch;font-size:15px;min-width:230px}
+#modePanel button{padding:12px 16px;border-radius:12px;font-size:15px}
 #delPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:18px 24px;display:flex;flex-direction:column;gap:14px;
   align-items:center;font-size:15px}
@@ -383,6 +389,13 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 </div>
 <div id="tourBubble"><span id="tourTxt"></span><button id="tourX">&#215;</button></div>
 <div id="tourCaret"></div>
+<div id="modeModal">
+  <div id="modePanel">
+    <span style="font-size:16px;letter-spacing:.04em">Select Your Mode</span>
+    <button id="modeBW">Black and White Method</button>
+    <button id="modeC">Color Method</button>
+  </div>
+</div>
 <div id="delModal">
   <div id="delPanel">
     <span>Delete reference?</span>
@@ -481,7 +494,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v251</span>
+      <span id="verNum">v252</span>
     </div>
   </div>
 
@@ -496,10 +509,8 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   <input type="file" id="file" accept="image/*" hidden>
   <input type="file" id="fileC" accept="image/*" hidden>
   <span class="grow"></span>
-  <span class="galLbl">Black and White</span>
   <div id="gallery"></div>
-  <span class="galLbl" style="margin-top:8px">Color</span>
-  <div id="galleryC"></div>
+  <div id="galleryC" style="margin-top:14px"></div>
   <div id="gridModal">
     <div id="gridPanel">
       <div class="row" style="padding:0">
@@ -661,6 +672,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <button id="uFull">Detailed</button>
       <button id="uSh">Shading</button>
       <button id="uMid">Midtone</button>
+      <button id="uNone">None</button>
       <button id="uCol" title="Underpainting color"><span id="uColSw"></span></button>
       <div id="uPal">
         <button data-uc="umber" title="Umber"></button>
@@ -821,6 +833,13 @@ async function galAll(){ try{ const d=await gdb(); return await new Promise(res=
 async function galAdd(rec){ try{ const d=await gdb(); const id=await new Promise(res=>{
   const t=d.transaction('photos','readwrite').objectStore('photos').add(rec);
   t.onsuccess=()=>res(t.result); t.onerror=()=>res(null); });
+  if (id!=null) try{
+    // a rebuilt database restarts the key generator while localStorage
+    // keeps old per-reference records - a stale fmt| squatting on a
+    // reused id silently skipped the format screen
+    for (const k of ['fmt|','def|','time|','done|','gtot|','det|','edit|','mode|','lay|','ck|','circ|'])
+      localStorage.removeItem(k+id);
+  }catch(e){}
   if (id!=null && rec.blob && !rec.seed) shadowMirrorRef(id, rec.blob);
   shadowMeta();
   return id; }catch(e){ return null; } }
@@ -994,7 +1013,7 @@ async function renderGallery(){
     add.title=colr ? 'Add a color reference' : 'Add a black and white reference';
     const sp=document.createElement('span'); sp.textContent='+';
     add.appendChild(sp);
-    add.onclick=()=>{ haptic(); $(colr?'fileC':'file').click(); };
+    add.onclick=()=>{ haptic(); $('modeModal').style.display='flex'; };
     host.appendChild(add);
   }
   // the last-used reference rides front and centre in its own strip
@@ -1244,6 +1263,9 @@ async function addRef(f, colr){
 $('file').addEventListener('change', e => {
   const f = e.target.files[0]; if (f) addRef(f, false);
 });
+$('modeBW').onclick=()=>{ $('modeModal').style.display='none'; $('file').click(); };
+$('modeC').onclick=()=>{ $('modeModal').style.display='none'; $('fileC').click(); };
+$('modeModal').onclick=e=>{ if (e.target===$('modeModal')) $('modeModal').style.display='none'; };
 $('fileC').addEventListener('change', e => {
   const f = e.target.files[0]; if (f) addRef(f, true);
 });
@@ -1422,7 +1444,8 @@ $('delYes').onclick = async () => {
     const ck=localStorage.getItem('ck|'+id);
     if (ck) cachePurge(ck);
     localStorage.removeItem('ck|'+id);
-    for (const k of ['fmt|','det|','circ|','def|','done|','edit|']) localStorage.removeItem(k+id);
+    for (const k of ['fmt|','det|','circ|','def|','done|','edit|','time|','gtot|','mode|','lay|'])
+      localStorage.removeItem(k+id);
     if (+localStorage.getItem('lastRef')===id) localStorage.removeItem('lastRef');
   }catch(e){}
   if (galActive===id){ galActive=null; photo=null; GRID_READY=false; }
@@ -2866,7 +2889,7 @@ function initMain(){
   if (UCOL!=='umber'){ UCOL='umber'; upBuild(); }
   $('underBtn').classList.remove('vOn');
   $('underMenu').style.display='none';
-  for (const id4 of ['uFull','uSh','uMid']) $(id4).classList.remove('vOn');
+  for (const id4 of ['uFull','uSh','uMid','uNone']) $(id4).classList.remove('vOn');
   document.body.classList.toggle('colorRef', REFMODE==='c');
   if (REFMODE==='c'){
     // the reference remembers its layer setup: workshop open, which bands,
@@ -2890,9 +2913,11 @@ function initMain(){
       $('uSh').classList.toggle('vOn', UGROUND==='shade');
       $('uMid').classList.toggle('vOn', UGROUND==='mid');
     } else {
-      // first visit: blank paper with the workshop open - the colorized
-      // reference is built layer by layer
+      // first visit: the Detailed underpainting stands as the ground and
+      // the workshop is open - the colorized reference is built layer by
+      // layer on top of it
       LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=false;
+      UGROUND='full';
       $('hud').style.display='';
       $('hudToggle').classList.add('lit','vOn');
     }
@@ -3692,6 +3717,7 @@ function underSync(){
   $('uFull').classList.toggle('vOn', UGROUND==='full');
   $('uSh').classList.toggle('vOn', UGROUND==='shade');
   $('uMid').classList.toggle('vOn', UGROUND==='mid');
+  $('uNone').classList.toggle('vOn', UGROUND==='off');
   $('underBtn').classList.toggle('vOn', UNDER || UGROUND!=='off');
   $('underMenu').style.display = UNDER ? 'flex' : 'none';
   if (!UNDER) $('uPal').style.display='none';
@@ -3727,7 +3753,7 @@ $('underBtn').onclick=()=>{
   underSync(); laySave();
   if (state.img && GRID_READY) viewRepaint();
 };
-for (const [id3,g3] of [['uFull','full'],['uSh','shade'],['uMid','mid']])
+for (const [id3,g3] of [['uFull','full'],['uSh','shade'],['uMid','mid'],['uNone','off']])
   $(id3).onclick=()=>{
     UGROUND = UGROUND===g3 ? 'off' : g3;
     underSync(); laySave();
@@ -6126,7 +6152,14 @@ const hapticEl=(()=>{
   l.appendChild(i); document.body.appendChild(l);
   return i;
 })();
+// Chrome blocks vibrate until the page has been tapped once, logging an
+// ERROR-level intervention per attempt - and the gallery strips' scroll
+// ticks fire during initial layout, before any tap. Hold every haptic
+// until the first real gesture.
+let HAPT_GO=false;
+addEventListener('pointerdown', ()=>{ HAPT_GO=true; }, {capture:true, once:true});
 function haptic(){
+  if (!HAPT_GO) return;
   if (navigator.vibrate){ try{ navigator.vibrate(10); }catch(e){} return; }
   try{ hapticEl.click(); }catch(e){}
 }
@@ -6218,6 +6251,21 @@ document.addEventListener('click', e => {
         localStorage.removeItem('fmt18');
         localStorage.removeItem('fmt18b');
         localStorage.setItem('fmt18c','1');
+      }
+      // one-time: orphaned fmt| records (a wiped database reusing ids)
+      // made color references skip the format screen - drop them once so
+      // every color reference passes through the prep page again
+      if (!localStorage.getItem('clrfmt1')){
+        for (const r of await galAll()){
+          if (!isColor(r.id)) continue;
+          try{
+            const old=localStorage.getItem('ck|'+r.id);
+            if (old) cachePurge(old);
+            localStorage.removeItem('fmt|'+r.id);
+            localStorage.removeItem('ck|'+r.id);
+          }catch(e){}
+        }
+        localStorage.setItem('clrfmt1','1');
       }
       if (added) renderGallery();
     }catch(e){}

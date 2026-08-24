@@ -191,7 +191,12 @@ class MainActivity : AppCompatActivity() {
         }
         web.webChromeClient = object : WebChromeClient() {
             override fun onConsoleMessage(m: android.webkit.ConsoleMessage): Boolean {
-                if (m.messageLevel() == android.webkit.ConsoleMessage.MessageLevel.ERROR)
+                // browser interventions (e.g. a pre-gesture vibrate refusal) log
+                // at ERROR level but are engine chatter, not app failures - the
+                // diag overlay is for problems a tester should actually see
+                if (m.messageLevel() == android.webkit.ConsoleMessage.MessageLevel.ERROR
+                    && !m.message().contains("Blocked call to navigator.vibrate")
+                    && !m.message().contains("chromestatus.com"))
                     report("js: ${m.message()} (${m.sourceId()}:${m.lineNumber()})")
                 return true
             }
