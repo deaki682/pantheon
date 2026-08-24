@@ -468,7 +468,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v258</span>
+      <span id="verNum">v259</span>
     </div>
   </div>
 
@@ -2636,8 +2636,9 @@ let calRefresh=()=>{};
     for (const py of ys){ g.moveTo(0,py); g.lineTo(W2,py); }
     // half- and quarter-unit nicks ride every line like ruler marks:
     // off the RIGHT of the verticals, DOWN from the horizontals - never
-    // crossing the line. (cm mode nicks the half only, like the ruler.)
-    const nsubs = cm ? [[0.5,5]] : [[0.25,3],[0.5,5],[0.75,3]];
+    // crossing the line, and exactly as long as the title ruler's own
+    // sub-marks. (cm mode nicks the half only, like the ruler.)
+    const nsubs = cm ? [[0.5,7]] : [[0.25,4],[0.5,8],[0.75,4]];
     const yBase = (ys[0]??0.5)-unitPx, xBase = (xs[0]??0.5)-unitPx;
     for (const px of xs)
       for (let y=yBase; y<=H2; y+=unitPx)
