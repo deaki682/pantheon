@@ -50,6 +50,11 @@ UNIVERSE_PRICES_PREFETCH_PATH = "cache_prefetch/ghost_delphi_universe_prices.jso
 MIN_PRICE = 2.0
 SPY_SYMBOL = "SPY"
 
+# Minimum share of the OPEN ghost book that must be priceable before a mark may
+# be persisted.  Matches run_ghost_oracle.py — below this, mark_to_market's
+# entry-price fallback writes fiction into the curve.
+MIN_MARK_COVERAGE = 0.90
+
 
 def _load_json(path, default=None):
     try:
@@ -151,6 +156,43 @@ def main() -> None:
 
     # ── Step 3: Mark to market ────────────────────────────────────────────
     log.info("Step 3: Marking ghost book to market...")
+
+    # A mark is only meaningful if we can actually price the open book.  Without
+    # a populated price prefetch, price_lookup returns None for every name,
+    # mark_to_market falls back to each entry's ENTRY price, and the run reports
+    # equity == cost basis with a flawless 0.00% return — indistinguishable from
+    # a real flat day once it lands in the curve.  That is exactly what happened
+    # on 2026-08-24: the prefetch was absent, and the run overwrote a book that
+    # had marked $18,739.39 on 08-20 with a fabricated $18,000.00 / 0.00% point
+    # carrying SPY_price 0.0.  Ghost Oracle has carried this guard since the
+    # 2026-08-11 incident; Ghost Delphi did not, so it fabricated silently.
+    # Refuse to fabricate: bail before anything persists.
+    _open_syms = {e.symbol.upper() for e in all_entries if not e.graded and e.symbol}
+    _priced = {s for s in _open_syms if price_lookup(s)}
+    _coverage = (len(_priced) / len(_open_syms)) if _open_syms else 1.0
+    log.info("Price coverage of open book: %d/%d (%.1f%%)",
+             len(_priced), len(_open_syms), _coverage * 100)
+    if _open_syms and _coverage < MIN_MARK_COVERAGE:
+        log.error(
+            "ABORT before persist: only %.1f%% of the open book is priceable "
+            "(need >=%.0f%%). Marking now would write entry-price fiction into "
+            "%s. Repopulate %s and re-run.",
+            _coverage * 100, MIN_MARK_COVERAGE * 100,
+            GHOST_CURVE_PATH, UNIVERSE_PRICES_PREFETCH_PATH)
+        sys.exit(2)
+
+    # The benchmark leg is what makes the curve interpretable — a point carrying
+    # SPY_price 0.0 cannot be compared to any other point, and the 2026-08-24
+    # fabrication carried exactly that.  Refuse to write an uninterpretable point.
+    _spy_check = price_lookup(SPY_SYMBOL)
+    if not _spy_check or float(_spy_check) <= 0:
+        log.error(
+            "ABORT before persist: no usable %s price (%r). The benchmark leg is "
+            "required — a curve point with SPY_price 0.0 is uninterpretable and "
+            "silently breaks every excess-return reading after it.",
+            SPY_SYMBOL, _spy_check)
+        sys.exit(4)
+
     snapshot = mark_to_market(all_entries, price_lookup)
     log.info("Ghost book: n=%d  open=%d  closed=%d  equity=$%.2f  return=%.2f%%",
              snapshot["n"], snapshot["n_open"], snapshot["n_closed"],
