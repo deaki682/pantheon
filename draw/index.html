@@ -494,7 +494,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v252</span>
+      <span id="verNum">v253</span>
     </div>
   </div>
 
@@ -1349,14 +1349,36 @@ function ruleTip(){
 // drawing screen: the pencil glows until pressed; closing the layer
 // workshop hands the tour to the detail button
 function mainTip(){
-  let seen=false; try{ seen=!!localStorage.getItem('tourMain'); }catch(e){}
-  if (seen) return;
-  try{ localStorage.setItem('tourMain','1'); }catch(e){}
-  TOUR.det=true;
-  tip('hudToggle', 'Click here to reveal the layers! It starts with shading, '
-    +'and you can layer on the darks, lights, and brights as you render '
-    +'them in your drawing! My workflow consists of drawing these one at '
-    +'a time.', {mustClick:true});
+  // each mode tours its own buttons once; the shared tool tips (detail,
+  // compare) ride along with whichever mode is toured FIRST - the second
+  // mode gets only the parts it hasn't seen
+  let seenBW=false, seenC=false, tools=false;
+  try{
+    seenBW=!!localStorage.getItem('tourMain');
+    seenC=!!localStorage.getItem('tourMainC');
+    tools=!!localStorage.getItem('tourTools') || seenBW || seenC;
+  }catch(e){}
+  if (REFMODE==='c'){
+    if (seenC) return;
+    try{ localStorage.setItem('tourMainC','1');
+         localStorage.setItem('tourTools','1'); }catch(e){}
+    tip('underBtn', 'If you use an underpainting, you can customize it here.',
+      {mustClick:true, onClose:()=>colorDoorTip(tools)});
+  } else {
+    if (seenBW) return;
+    try{ localStorage.setItem('tourMain','1');
+         localStorage.setItem('tourTools','1'); }catch(e){}
+    TOUR.det=!tools;
+    tip('hudToggle', 'Click here to reveal the layers! It starts with shading, '
+      +'and you can layer on the darks, lights, and brights as you render '
+      +'them in your drawing! My workflow consists of drawing these one at '
+      +'a time.', {mustClick:true});
+  }
+}
+function colorDoorTip(toolsSeen){
+  tip('hudToggle', 'This will help visualize the different tonal layers '
+    +'in your reference.',
+    {mustClick:true, onClose: toolsSeen ? null : ()=>{ TOUR.det=true; }});
 }
 function detTip(){
   TOUR.cmp=true;
