@@ -479,7 +479,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v242</span>
+      <span id="verNum">v243</span>
     </div>
   </div>
 
@@ -3670,7 +3670,13 @@ for (const b of $('uPal').querySelectorAll('button'))
 $('underBtn').onclick=()=>{
   UNDER=!UNDER;                    // the chosen ground persists regardless
   $('detMenu').style.display='none';
-  if (UNDER && $('hud').style.display!=='none') hudSet(false);
+  if (UNDER){
+    // opening the underpainting menu starts the build over: the colour
+    // layers deselect, ready to be laid back on top of the ground
+    LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=false;
+    layerButtons();
+    if ($('hud').style.display!=='none') hudSet(false);
+  }
   underSync(); laySave();
   if (state.img && GRID_READY) viewRepaint();
 };
