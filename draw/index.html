@@ -164,7 +164,7 @@ html.natCam #camVid{display:none !important}
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
   display:flex;flex-direction:column;align-items:center;gap:6px;
   max-width:calc(100% - 16px)}
-body.colorRef #hudWrap{left:calc(30px + (100% - 60px)*0.5)}
+body.colorRef #hudWrap{left:calc(30px + (100% - 60px)*0.6)}
 #hud{border:1px solid #555;background:#161616;border-radius:12px}
 #hudToggle{width:44px;height:44px;padding:0;font-size:18px;line-height:1;border-radius:12px}
 #hudToggle.lit{width:auto;padding:0 16px;font-size:14px}
@@ -184,8 +184,16 @@ body.colorRef #hudToggle.lit{width:44px;padding:0;font-size:18px}
   display:flex;align-items:center;justify-content:center}
 #underCorner{position:absolute;left:50%;transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:none}
-body.colorRef #underCorner{display:block;left:calc(30px + (100% - 60px)*0.25)}
-body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.75)}
+body.colorRef #underCorner{display:block;left:calc(30px + (100% - 60px)*0.4)}
+body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.8)}
+#cqCorner{position:absolute;left:50%;transform:translateX(-50%);
+  bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:none}
+body.colorRef #cqCorner{display:block;left:calc(30px + (100% - 60px)*0.2)}
+#cqBtn{height:44px;min-width:52px;padding:0 10px;border-radius:12px;font-size:13px}
+#cqMenu{position:absolute;bottom:52px;left:0;
+  display:none;flex-direction:column;gap:6px;background:#1e1e1e;
+  border:1px solid #555;border-radius:14px;padding:6px;z-index:6}
+#cqMenu button{white-space:nowrap;font-size:13px;padding:8px 11px;border-radius:9px}
 #underBtn{width:44px;height:44px;padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #underMenu{position:absolute;bottom:52px;left:0;
@@ -262,10 +270,11 @@ body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.75)}
 #cmpRow{justify-content:space-evenly}
 /* a tap on the drawing sends every panel off its nearest edge; tap again
    and they slide back */
-#hudWrap,#detCorner,#gridCorner,#underCorner,#camCorner,#expCorner,#setCorner,#backBtn{
+#hudWrap,#detCorner,#gridCorner,#underCorner,#cqCorner,#camCorner,#expCorner,#setCorner,#backBtn{
   transition:transform 0.2s cubic-bezier(.3,0,.2,1)}
 body.uiHid #hudWrap,body.uiHid #detCorner,body.uiHid #gridCorner,
-body.uiHid #underCorner,body.uiHid #camCorner{transform:translate(-50%,160%)}
+body.uiHid #underCorner,body.uiHid #cqCorner,
+body.uiHid #camCorner{transform:translate(-50%,160%)}
 body.uiHid #expCorner{transform:translateY(-190%)}
 body.uiHid #setCorner{transform:translate(-50%,-190%)}
 body.uiHid #backBtn{transform:translateY(-190%)}
@@ -479,7 +488,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v244</span>
+      <span id="verNum">v245</span>
     </div>
   </div>
 
@@ -654,9 +663,17 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     </div>
   </div>
   <button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
+  <div id="cqCorner">
+    <div id="cqMenu">
+      <button data-cq="full">Full</button>
+      <button data-cq="ltd">Limited</button>
+      <button data-cq="smp">Simple</button>
+    </div>
+    <button id="cqBtn" title="How many colors">Full</button>
+  </div>
   <div id="underCorner">
     <div id="underMenu">
-      <button id="uFull">Full</button>
+      <button id="uFull">Detailed</button>
       <button id="uSh">Shading</button>
       <button id="uMid">Midtone</button>
       <button id="uCol" title="Underpainting color"><span id="uColSw"></span></button>
@@ -2851,7 +2868,8 @@ function initMain(){
   $('hudToggle').classList.remove('lit','vOn');
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true;
   LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=true;
-  UNDER=false; UGROUND='off';
+  UNDER=false; UGROUND='off'; CQMODE='full';
+  $('cqMenu').style.display='none';
   if (UCOL!=='umber'){ UCOL='umber'; upBuild(); }
   $('underBtn').classList.remove('vOn');
   $('underMenu').style.display='none';
@@ -2869,6 +2887,7 @@ function initMain(){
       UGROUND = LV.g==='shade'||LV.g==='mid'||LV.g==='full' ? LV.g
               : (LV.s&&LV.s.sh ? 'shade' : 'off');   // pre-v240 records
       if (UPAL[LV.col] && LV.col!==UCOL){ UCOL=LV.col; upBuild(); }
+      CQMODE = LV.q==='ltd'||LV.q==='smp' ? LV.q : 'full';
       if (LV.o && !UNDER){       // the two panels never restore together
         $('hud').style.display='';
         $('hudToggle').classList.add('lit','vOn');
@@ -2885,7 +2904,7 @@ function initMain(){
       $('hud').style.display='';
       $('hudToggle').classList.add('lit','vOn');
     }
-    underSync();
+    underSync(); cqSync();
     $('underMenu').style.display = UNDER ? 'flex' : 'none';
   }
   // the reference remembers its drawing tool across sessions - restored
@@ -2992,6 +3011,7 @@ vp.addEventListener('pointercancel', endPtr);
 let uiTapT=0, UIHID=false;
 function uiToggle(){
   tapLast=null;
+  $('cqMenu').style.display='none';
   if (REFMODE==='c' && (UNDER || $('hud').style.display!=='none')){
     // tapping off an open panel dismisses it; the layer state stays put
     if (UNDER){ UNDER=false; underSync(); laySave(); }
@@ -3362,7 +3382,60 @@ const LAYERS_C={dk:true, mid:true, lt:true, br:true};
 // it is the only thing shown; the colour bands wait, remembered.
 let UNDER=false;
 const COLOR_WHEEL='<svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 12 L12.00 3.40 A8.6 8.6 0 0 1 18.08 5.92 Z" fill="#e04438"/><path d="M12 12 L18.08 5.92 A8.6 8.6 0 0 1 20.60 12.00 Z" fill="#f08a24"/><path d="M12 12 L20.60 12.00 A8.6 8.6 0 0 1 18.08 18.08 Z" fill="#ecc94b"/><path d="M12 12 L18.08 18.08 A8.6 8.6 0 0 1 12.00 20.60 Z" fill="#4caf50"/><path d="M12 12 L12.00 20.60 A8.6 8.6 0 0 1 5.92 18.08 Z" fill="#26b0a8"/><path d="M12 12 L5.92 18.08 A8.6 8.6 0 0 1 3.40 12.00 Z" fill="#4285e8"/><path d="M12 12 L3.40 12.00 A8.6 8.6 0 0 1 5.92 5.92 Z" fill="#8e5cf0"/><path d="M12 12 L5.92 5.92 A8.6 8.6 0 0 1 12.00 3.40 Z" fill="#ec5fa8"/></svg>';
-let UGROUND='off';               // 'off' | 'shade' | 'mid'
+let UGROUND='off';               // 'off' | 'shade' | 'mid' | 'full'
+let CQMODE='full';               // colour count: 'full' | 'ltd' | 'smp'
+function cqPlane(){
+  // a painter's palette: median-cut clusters over the photo's colours;
+  // each pixel snaps to its cluster's chroma but keeps its OWN luma, so
+  // the value structure never changes - only the mixing simplifies
+  const K = CQMODE==='smp' ? 4 : 8;
+  if (COMP.rgbQ && COMP.rgbQK===K) return COMP.rgbQ;
+  const rgb=COMP.rgb, N=COMP.ph.length;
+  const samp=[];
+  const stride=Math.max(1, Math.floor(N/20000));
+  for (let i=0;i<N;i+=stride){
+    const q=i*4; samp.push([rgb[q],rgb[q+1],rgb[q+2]]);
+  }
+  let boxes=[samp];
+  while (boxes.length<K){
+    let bi=-1, br=0, bc=0;
+    for (let b2=0;b2<boxes.length;b2++){
+      const box=boxes[b2]; if (box.length<2) continue;
+      for (let c2=0;c2<3;c2++){
+        let mn=255, mx=0;
+        for (const p of box){ if (p[c2]<mn) mn=p[c2]; if (p[c2]>mx) mx=p[c2]; }
+        if (mx-mn>br){ br=mx-mn; bi=b2; bc=c2; }
+      }
+    }
+    if (bi<0) break;
+    const box=boxes[bi];
+    box.sort((a,b3)=>a[bc]-b3[bc]);
+    const half=box.length>>1;
+    boxes.splice(bi, 1, box.slice(0,half), box.slice(half));
+  }
+  const pal=boxes.filter(b2=>b2.length).map(box=>{
+    let r=0, g2=0, b3=0;
+    for (const p of box){ r+=p[0]; g2+=p[1]; b3+=p[2]; }
+    const n2=box.length;
+    r/=n2; g2/=n2; b3/=n2;
+    return [r, g2, b3, Math.max(1,(r*77+g2*150+b3*29)/256)];
+  });
+  const out=new Uint8ClampedArray(N*4);
+  for (let i=0;i<N;i++){
+    const q=i*4, r=rgb[q], g2=rgb[q+1], b3=rgb[q+2];
+    let best=0, bd=1e9;
+    for (let k2=0;k2<pal.length;k2++){
+      const p=pal[k2];
+      const dd=(r-p[0])*(r-p[0])+(g2-p[1])*(g2-p[1])+(b3-p[2])*(b3-p[2]);
+      if (dd<bd){ bd=dd; best=k2; }
+    }
+    const p=pal[best];
+    const sc=((r*77+g2*150+b3*29)/256)/p[3];
+    out[q]=p[0]*sc; out[q+1]=p[1]*sc; out[q+2]=p[2]*sc; out[q+3]=255;
+  }
+  COMP.rgbQ=out; COMP.rgbQK=K;
+  return out;
+}
 let hudSet=()=>{};               // the workshop door, callable from the wheel
 const UMID=140;                   // the flat toned-paper value
 const SEP_R=new Uint8Array(256), SEP_G=new Uint8Array(256), SEP_B=new Uint8Array(256);
@@ -3427,9 +3500,10 @@ function compositeColorCv(){
   const L=LAYERS_C;
   const sig='K'+(ready?'P':'C')+(L.dk?'D':'')+(L.mid?'M':'')
            +(L.lt?'L':'')+(L.br?'B':'')+'T'+eff
-           +'G'+UGROUND+UCOL;
+           +'G'+UGROUND+UCOL+'Q'+CQMODE;
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
-  const N=COMP.ph.length, [t1,t2,t3]=COMP.bands, rgb=COMP.rgb;
+  const N=COMP.ph.length, [t1,t2,t3]=COMP.bands;
+  const rgb = CQMODE==='full' ? COMP.rgb : cqPlane();
   const underOn = UGROUND!=='off';
   const gShade = UGROUND==='shade', gFull = UGROUND==='full';
   const c=document.createElement('canvas'); c.width=w; c.height=h;
@@ -3456,8 +3530,12 @@ function compositeColorCv(){
     if (!L[band]){
       // the colours always build on top of the underpainting: wherever a
       // band is not yet painted, the configured sepia ground shows through
-      if (underOn && u<254){
-        od[q]=SEP_R[u]; od[q+1]=SEP_G[u]; od[q+2]=SEP_B[u];
+      // the ramp index must be a whole number (a fractional index reads
+      // nothing and speckled the highlights); the Detailed ground keeps
+      // its smooth ramp all the way up instead of cutting to paper white
+      const ui=(u>255?255:(u<0?0:u))|0;
+      if (underOn && (gFull || ui<254)){
+        od[q]=SEP_R[ui]; od[q+1]=SEP_G[ui]; od[q+2]=SEP_B[ui];
       } else { od[q]=od[q+1]=od[q+2]=255; }
       od[q+3]=255; continue;
     }
@@ -3472,7 +3550,7 @@ function compositeColorCv(){
 function compParts(){
   if (COMP.key===fkey() && COMP.ph) return;
   COMP.key=fkey();
-  COMP.rgb=null; COMP.bands=null;
+  COMP.rgb=null; COMP.bands=null; COMP.rgbQ=null;
   COMP.ph=grayData(state.img);
   COMP.sh=grayData(FORM.cv);
   const N=COMP.ph.length;
@@ -3668,11 +3746,35 @@ function laySave(){
   try{ localStorage.setItem('lay|'+galActive, JSON.stringify({
     o: $('hud').style.display!=='none' ? 1 : 0,
     u: UNDER?1:0,
-    g: UGROUND, col: UCOL,
+    g: UGROUND, col: UCOL, q: CQMODE,
     c: {dk:LAYERS_C.dk?1:0, mid:LAYERS_C.mid?1:0,
         lt:LAYERS_C.lt?1:0, br:LAYERS_C.br?1:0}
   })); }catch(e){}
 }
+function cqSync(){
+  $('cqBtn').textContent = CQMODE==='ltd' ? 'Limited'
+                        : CQMODE==='smp' ? 'Simple' : 'Full';
+  $('cqBtn').classList.toggle('vOn', CQMODE!=='full');
+  for (const b of $('cqMenu').querySelectorAll('button'))
+    b.classList.toggle('vOn', b.dataset.cq===CQMODE);
+}
+$('cqBtn').onclick=()=>{
+  const m=$('cqMenu');
+  const open=m.style.display!=='flex';
+  m.style.display=open?'flex':'none';
+  if (open){
+    $('detMenu').style.display='none';
+    if (UNDER){ UNDER=false; underSync(); laySave(); }
+    cqSync();
+  }
+};
+for (const b of $('cqMenu').querySelectorAll('button'))
+  b.onclick=()=>{
+    CQMODE=b.dataset.cq;
+    $('cqMenu').style.display='none';
+    cqSync(); laySave();
+    if (state.img && GRID_READY) viewRepaint();
+  };
 function underSync(){
   $('uFull').classList.toggle('vOn', UGROUND==='full');
   $('uSh').classList.toggle('vOn', UGROUND==='shade');
@@ -3702,6 +3804,7 @@ for (const b of $('uPal').querySelectorAll('button'))
 $('underBtn').onclick=()=>{
   UNDER=!UNDER;                    // the chosen ground persists regardless
   $('detMenu').style.display='none';
+  $('cqMenu').style.display='none';
   if (UNDER){
     // opening the underpainting menu starts the build over: the colour
     // layers deselect, ready to be laid back on top of the ground
@@ -3859,6 +3962,7 @@ $('detBtn').onclick=()=>{
   const m=$('detMenu');
   const open=m.style.display!=='flex';
   m.style.display=open?'flex':'none';
+  if (open) $('cqMenu').style.display='none';
   if (open)
     [...m.children].forEach(b=>b.classList.toggle('vOn', b.dataset.lv===DETAIL));
   else detClosed();
