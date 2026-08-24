@@ -468,7 +468,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v255</span>
+      <span id="verNum">v256</span>
     </div>
   </div>
 
@@ -2620,7 +2620,9 @@ let calRefresh=()=>{};
     g.clearRect(0,0,W2,H2);
     g.strokeStyle=getComputedStyle(document.documentElement)
       .getPropertyValue('--acc').trim()||'#e8833a';
-    g.globalAlpha=0.09; g.lineWidth=1;
+    // a touch more presence than a bare device pixel, but always lighter
+    // than the ruler's own dpr-wide stroke
+    g.globalAlpha=0.11; g.lineWidth=Math.max(1, dpr*0.6);
     const cm=CELLSZ.u==='cm';
     const unitPx=(cm ? 96/2.54 : 96)*INCAL*dpr;
     const tr=$('titleRule').getBoundingClientRect();
