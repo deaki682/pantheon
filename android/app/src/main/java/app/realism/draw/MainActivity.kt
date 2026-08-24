@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() {
             }
             prefs.getString("crash", null)?.let {
                 prefs.edit().remove("crash").commit()
-                report("last run crashed:\n" + it)
+                logLine("last run crashed: " + it.take(200))
             }
         }
 
@@ -273,19 +273,15 @@ class MainActivity : AppCompatActivity() {
                     found.add(Pair(m.groupValues[1].toInt(), size))
                 }
             }
-            if (found.isEmpty()) {
-                report("storage scan: no saved data on this install")
-                logLine("scan: no idb dirs"); return
-            }
+            if (found.isEmpty()) { logLine("scan: no idb dirs"); return }
             val best = found.maxByOrNull { it.second }!!
             val home = prefs.getInt("home", 8399)
             val list = found.joinToString(" ") { "${it.first}=${it.second / 1024}KB" }
             logLine("scan: $list home=$home")
             if (best.first != home && best.second > 256 * 1024) {
                 prefs.edit().putInt("home", best.first).apply()
-                report("storage scan: $list - re-homed to ${best.first}")
                 logLine("re-homed to ${best.first}")
-            } else if (found.size > 1) report("storage scan: $list - home $home")
+            }
         } catch (e: Throwable) {}
     }
 
@@ -580,7 +576,7 @@ class MainActivity : AppCompatActivity() {
                     prefs.edit().remove("attempting").apply()
                     if (!modeAnnounced) {
                         modeAnnounced = true
-                        report("capture mode: " + (if (capLabel == "") "standard" else capLabel))
+                        logLine("capture mode: " + (if (capLabel == "") "standard" else capLabel))
                     }
                     js("window.__natReady && __natReady($fw,$fh)")
                 } else if (tries++ < 40) previewView.postDelayed({ reportSize() }, 50)

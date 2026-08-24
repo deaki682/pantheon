@@ -475,7 +475,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v262</span>
+      <span id="verNum">v263</span>
     </div>
   </div>
 
@@ -729,6 +729,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <button id="cmpSplit" disabled>Compare</button>
     <button id="cmpCrop" style="display:none">Crop</button>
     <button id="cmpGridBtn" disabled title="Grid"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button>
+    <button id="cmpReCrop" disabled title="Re-crop"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg></button>
     <button id="lvBtn" disabled title="Adjust"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="15" cy="7" r="2.6" fill="#1e1e1e"/><circle cx="8" cy="12" r="2.6" fill="#1e1e1e"/><circle cx="12" cy="17" r="2.6" fill="#1e1e1e"/></svg></button>
   </div>
 </div>
@@ -4927,6 +4928,7 @@ function cmpButtons(){
     $('lvRow').style.display='none';
     fl.style.display='none'; sp.style.display='none'; lb.style.display='none';
     $('cmpGridBtn').style.display='none';
+    $('cmpReCrop').style.display='none';
     $('cmpCrop').style.display='none';
     $('mirRow').style.display='none';
     $('circWrap').style.display='none';
@@ -4953,6 +4955,9 @@ function cmpButtons(){
   gb.style.display = corners ? 'none' : '';
   gb.disabled = !CMP.img;
   gb.classList.toggle('vOn', GRID_ON && !!CMP.img);
+  const rc=$('cmpReCrop');
+  rc.style.display = corners ? 'none' : '';
+  rc.disabled = !(CMP.img && CMP.raw);
   $('cmpCrop').style.display = corners ? '' : 'none';
   $('mirRow').style.display = (CMP.mode==='flip' && CMP.img && !corners) ? '' : 'none';
   $('circWrap').style.display = (CMP.img && !corners) ? 'flex' : 'none';
@@ -4985,6 +4990,16 @@ function cmpRender(){
     CMP.cfit={s,ox,oy};
     g.drawImage(CMP.raw, ox, oy, CMP.raw.width*s, CMP.raw.height*s);
     const P=CMP.corners.map(q=>({x:ox+q.x*s, y:oy+q.y*s}));
+    // the field outside the crop dims; the frame is a clear window
+    g.save();
+    g.beginPath();
+    g.rect(0,0,cv.width,cv.height);
+    g.moveTo(P[0].x,P[0].y);
+    for (let i2=3;i2>=1;i2--) g.lineTo(P[i2].x,P[i2].y);
+    g.closePath();
+    g.fillStyle='rgba(8,8,8,0.55)';
+    g.fill('evenodd');
+    g.restore();
     for (const [col,off] of [['#000',0],['#fff',6]]){
       g.strokeStyle=col; g.lineWidth=2; g.setLineDash([6,6]); g.lineDashOffset=off;
       g.beginPath(); g.moveTo(P[0].x,P[0].y);
@@ -5760,8 +5775,6 @@ async function natCapture(){
     const x1=x0+gh.gw/gh.vs*kx, y1=y0+gh.gh/gh.vs*ky;
     CMP.corners=[{x:x0,y:y0},{x:x1,y:y0},{x:x1,y:y1},{x:x0,y:y1}];
     cmpApplyCorners('flip');
-    capNote('photo '+(img.width*img.height/1e6).toFixed(1)+'MP'
-      +(rawF?' \u00b7 raw':(label?' \u00b7 '+label:'')));
     cmpTip();
   };
   try{ RealismCam.capture(); }catch(e){ window.__natShot=null; }
@@ -5959,7 +5972,6 @@ async function camCapture(){
                  {x:full.width,y:full.height},{x:0,y:full.height}];
   }
   cmpApplyCorners('flip');
-  if (note) capNote(note);
   cmpTip();
 }
 $('shutter').onclick = camCapture;
@@ -5975,6 +5987,13 @@ $('cmpFlip').onclick = () => {
 };
 $('cmpCrop').onclick = () => {
   if (CMP.mode==='corners') cmpApplyCorners('flip');
+};
+$('cmpReCrop').onclick = () => {
+  // back to the FULL uncropped capture: the crop frame becomes a movable
+  // window - an off-centred shot can simply be slid under it
+  if (!CMP.raw || !CMP.img || CMP.mode==='corners' || camUp()) return;
+  CMP.mode='corners'; CMP.showing='photo'; CMP.cGrab=null;
+  cmpButtons(); cmpSize(); cmpRender();
 };
 $('cmpSplit').onclick = () => {
   if (!CMP.img || CMP.mode==='split') return;
@@ -6003,7 +6022,7 @@ $('cmpSplit').onclick = () => {
     return null;
   };
   cv.addEventListener('pointerdown', e => {
-    cv.setPointerCapture(e.pointerId);
+    try{ cv.setPointerCapture(e.pointerId); }catch(e2){}
     pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
     if (pts.size===1) tap={x:e.clientX, y:e.clientY, moved:false, t:Date.now()};
     if (pts.size===1 && CMP.img && !CAM.stream && CIRCS.length
@@ -6026,6 +6045,13 @@ $('cmpSplit').onclick = () => {
         const dd=Math.hypot(CMP.cfit.ox+q.x*CMP.cfit.s-px, CMP.cfit.oy+q.y*CMP.cfit.s-py);
         if (dd<bd){ bd=dd; best=i2; } });
       CMP.cGrab = best>=0 ? best : null;
+      if (CMP.cGrab==null){
+        // inside the frame: take the whole crop and slide it
+        const rx=(px-CMP.cfit.ox)/CMP.cfit.s, ry=(py-CMP.cfit.oy)/CMP.cfit.s;
+        const qx=CMP.corners.map(q=>q.x), qy=CMP.corners.map(q=>q.y);
+        if (rx>Math.min(...qx) && rx<Math.max(...qx)
+         && ry>Math.min(...qy) && ry<Math.max(...qy)) CMP.cGrab='all';
+      }
     }
     if (pts.size===2){
       const [a,b]=[...pts.values()], r=cv.getBoundingClientRect(), kd=cv.width/r.width;
@@ -6055,9 +6081,18 @@ $('cmpSplit').onclick = () => {
     const kd=cv.width/cv.getBoundingClientRect().width;   // css px -> canvas px
     if (CMP.mode==='corners' && CMP.raw){
       if (pts.size===1 && CMP.cGrab!=null && CMP.cfit){
-        const q=CMP.corners[CMP.cGrab];
-        q.x=Math.max(0,Math.min(CMP.raw.width,  q.x+dx*kd/CMP.cfit.s));
-        q.y=Math.max(0,Math.min(CMP.raw.height, q.y+dy*kd/CMP.cfit.s));
+        if (CMP.cGrab==='all'){
+          // the whole frame slides, halted at the photo's edges
+          let mx2=dx*kd/CMP.cfit.s, my2=dy*kd/CMP.cfit.s;
+          const qx=CMP.corners.map(q=>q.x), qy=CMP.corners.map(q=>q.y);
+          mx2=Math.max(-Math.min(...qx), Math.min(CMP.raw.width-Math.max(...qx), mx2));
+          my2=Math.max(-Math.min(...qy), Math.min(CMP.raw.height-Math.max(...qy), my2));
+          for (const q of CMP.corners){ q.x+=mx2; q.y+=my2; }
+        } else {
+          const q=CMP.corners[CMP.cGrab];
+          q.x=Math.max(0,Math.min(CMP.raw.width,  q.x+dx*kd/CMP.cfit.s));
+          q.y=Math.max(0,Math.min(CMP.raw.height, q.y+dy*kd/CMP.cfit.s));
+        }
         cmpRender();
       }
       return;
