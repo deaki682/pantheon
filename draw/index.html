@@ -488,7 +488,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v245</span>
+      <span id="verNum">v246</span>
     </div>
   </div>
 
@@ -3388,13 +3388,22 @@ function cqPlane(){
   // a painter's palette: median-cut clusters over the photo's colours;
   // each pixel snaps to its cluster's chroma but keeps its OWN luma, so
   // the value structure never changes - only the mixing simplifies
-  const K = CQMODE==='smp' ? 4 : 8;
+  const K = CQMODE==='smp' ? 6 : 12;
   if (COMP.rgbQ && COMP.rgbQK===K) return COMP.rgbQ;
   const rgb=COMP.rgb, N=COMP.ph.length;
+  // cluster by CHROMA, not raw colour: every sample is normalised to one
+  // reference luma first, so the palette slots divide the photo's colour
+  // directions instead of wasting themselves on light-vs-dark (the pixels
+  // keep their own values regardless)
+  const norm=(r,g2,b3)=>{
+    const l=Math.max(24, (r*77+g2*150+b3*29)/256);
+    const k2=160/l;
+    return [r*k2, g2*k2, b3*k2];
+  };
   const samp=[];
   const stride=Math.max(1, Math.floor(N/20000));
   for (let i=0;i<N;i+=stride){
-    const q=i*4; samp.push([rgb[q],rgb[q+1],rgb[q+2]]);
+    const q=i*4; samp.push(norm(rgb[q], rgb[q+1], rgb[q+2]));
   }
   let boxes=[samp];
   while (boxes.length<K){
@@ -3402,7 +3411,7 @@ function cqPlane(){
     for (let b2=0;b2<boxes.length;b2++){
       const box=boxes[b2]; if (box.length<2) continue;
       for (let c2=0;c2<3;c2++){
-        let mn=255, mx=0;
+        let mn=1e9, mx=-1e9;
         for (const p of box){ if (p[c2]<mn) mn=p[c2]; if (p[c2]>mx) mx=p[c2]; }
         if (mx-mn>br){ br=mx-mn; bi=b2; bc=c2; }
       }
@@ -3423,10 +3432,12 @@ function cqPlane(){
   const out=new Uint8ClampedArray(N*4);
   for (let i=0;i<N;i++){
     const q=i*4, r=rgb[q], g2=rgb[q+1], b3=rgb[q+2];
+    const nc=norm(r, g2, b3);
     let best=0, bd=1e9;
     for (let k2=0;k2<pal.length;k2++){
       const p=pal[k2];
-      const dd=(r-p[0])*(r-p[0])+(g2-p[1])*(g2-p[1])+(b3-p[2])*(b3-p[2]);
+      const dd=(nc[0]-p[0])*(nc[0]-p[0])+(nc[1]-p[1])*(nc[1]-p[1])
+              +(nc[2]-p[2])*(nc[2]-p[2]);
       if (dd<bd){ bd=dd; best=k2; }
     }
     const p=pal[best];
