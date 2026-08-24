@@ -100,7 +100,9 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:13px}
 .gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
 .gstat{font-size:12px;color:var(--acc);text-align:center;
   padding:3px 2px 4px;line-height:1.3}
-.gtop{padding:4px 2px 3px}
+.gtop{padding:4px 2px 3px;white-space:nowrap}
+.gsq{display:inline-block;width:7px;height:7px;border:1px solid var(--acc);
+  border-radius:1px;margin-right:3px}
 .gitem.hasTop .gx{top:29px}
 .gbar{position:absolute;left:0;right:0;bottom:0;height:4px;
   background:rgba(20,20,20,0.55);visibility:hidden}
@@ -469,7 +471,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v260</span>
+      <span id="verNum">v261</span>
     </div>
   </div>
 
@@ -948,20 +950,25 @@ async function renderGallery(){
       $('refModal').style.display='flex';
     };
     {
-      // a formatted reference wears its page and grid sizes up top
-      let top='';
+      // a formatted reference wears its page and grid sizes up top; a
+      // little accent square marks which figure is the grid
+      let top='', gtxt='';
       try{
         const f=JSON.parse(localStorage.getItem('fmt|'+r.id)||'null');
         if (f && f.w && f.h){
           const u=f.u==='cm'?'cm':'in';
           const wIn=u==='cm'?f.w/2.54:f.w, hIn=u==='cm'?f.h/2.54:f.h;
           const sq=squaresOf(wIn, hIn);
-          top=f.w+'\u00d7'+f.h+' '+u+' \u00b7 '+sq.cols+'\u00d7'+sq.rows;
+          top=f.w+'\u00d7'+f.h+' '+u;
+          gtxt=sq.cols+'\u00d7'+sq.rows;
         }
       }catch(e){}
       if (top){
         const st=document.createElement('div');
-        st.className='gstat gtop'; st.textContent=top;
+        st.className='gstat gtop';
+        st.append(top+' ');
+        st.appendChild(Object.assign(document.createElement('span'),{className:'gsq'}));
+        st.append(gtxt);
         d.appendChild(st); d.classList.add('hasTop');
       }
     }
