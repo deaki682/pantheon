@@ -156,5 +156,16 @@
    "SPY_price": 766.4
   },
   "note": "Zeus hourly ghost-achilles ~10:27 ET Thu 2026-08-20 (PARENTLESS shadow - Achilles retired 2026-07-05). 0 open PEAD entries in the ledger; latest captured entry_date=2026-07-27 (429 pead entries closed/graded, 46 legacy event entries excluded from report). THE PEAD DISCOVERY PIPELINE HAS NOT RUN SINCE 07-27 \u2014 the current earnings season (2026-07-13 to 2026-08-21) is essentially unsampled from 07-28 onward (~24 days of beat opportunities missing). This is an honest gap, not a false claim: at Zeus hourly cadence, gathering all actionable beats via get_earnings_calendar/get_earnings_results/compute_surprise/reaction_return across 3+ weeks is a full session workload, not a slice. Snapshot equity $43832.93 on $43,700 basis carries realized returns from prior graded entries. Report unchanged (n=391 pead), signal_lift.rewarded still the headline. Season ends TOMORROW (2026-08-21); the next full sampling window opens 2026-10-13."
+ },
+ {
+  "date": "2026-08-24",
+  "equity": 43832.93,
+  "total_return": 0.0030419748630108323,
+  "n": 437,
+  "benchmark": {
+   "SPY": 0.029479,
+   "SPY_price": 762.7201
+  },
+  "note": "Zeus hourly ghost-achilles ~10:22 ET Mon 2026-08-24 (PARENTLESS shadow - Achilles retired 2026-07-05). Book fully CLOSED: 437/437 graded, 0 open, 0 due to grade, so equity is static at $43,832.93 (+0.30%) - this point re-states the closed book and carries a real SPY leg (prior points logged benchmark.SPY as 0.0 despite a valid SPY_price; recomputed here off the curve's first SPY_price). No opens, no marks to make. STANDING ESCALATION (7th consecutive deferral): the ~363 discovered beats still need the reaction-return pass, and the gate question is already answered NEGATIVE (signal_lift.rewarded -0.62pp on n=391), matching the 2026-07-05 shelved-PEAD verdict. Recommend retiring this ghost from Zeus dispatch or funding one dedicated reaction pass to close it deliberately - it is currently a no-op burning a dispatch slot daily."
  }
 ]
