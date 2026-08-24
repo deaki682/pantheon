@@ -1,55 +1,12 @@
 {
- "n": 0,
- "mean_return": null,
- "hit_rate": null,
- "lens_lift": {},
- "conviction_tiers": {},
- "conviction_monotonic": false,
- "valuation_terciles": {},
- "quality_terciles": {},
- "score_terciles": {},
- "sector_return": {},
- "as_of": "2026-08-21",
- "session": "close_tend",
- "mark_basis": "official closes",
- "snapshot": {
-  "equity": 33711.76708468062,
-  "cost_basis": 32300.0,
-  "total_return": 0.04370795927803783,
-  "n_open": 323,
-  "n_closed": 0,
-  "n": 323
- },
- "benchmark": {
-  "SPY_price": 765.69,
-  "SPY_return_vs_book_baseline": 0.04268,
-  "book_excess_pp": 0.103
- },
- "grading": {
-  "graded_this_pass": 0,
-  "n_ungraded": 323,
-  "note": "no horizon has matured; earliest entries are 2026-06-29 + 730d, so the first grades land 2028-06 for dossier rows"
- },
- "data_flags": [
-  {
-   "kind": "stale_quote",
-   "symbol": "PFBX",
-   "detail": "quote state='unlisted', last trade 2026-08-11; marked at previous_close 22.75",
-   "materiality": "1/323 entries (~0.3%); immaterial to the curve",
-   "action": "watch \u2014 first candidate for the delisted-graded-as-loss survivorship rule"
-  },
-  {
-   "kind": "wrong_benchmark_price",
-   "date": "2026-08-19",
-   "detail": "curve row carries SPY_price 765.69; SPY's actual 08-19 close was 769.06",
-   "materiality": "that row's excess reading (-0.19pp) is understated by ~0.46pp; true ~-0.65pp",
-   "action": "FLAGGED, deliberately NOT patched (fail-safe: never silently edit another session's row)"
-  },
-  {
-   "kind": "missing_point",
-   "date": "2026-08-18",
-   "detail": "no curve point exists for this date",
-   "action": "still unfixed, carried from the 08-19 entry"
-  }
- ]
+  "n": 0,
+  "mean_return": null,
+  "hit_rate": null,
+  "lens_lift": {},
+  "conviction_tiers": {},
+  "conviction_monotonic": false,
+  "valuation_terciles": {},
+  "quality_terciles": {},
+  "score_terciles": {},
+  "sector_return": {}
 }

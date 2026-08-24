@@ -1,332 +1,342 @@
 [
- {
-  "benchmark": {
-   "SPY": 0.0,
-   "SPY_price": 737.58
+  {
+    "benchmark": {
+      "SPY": 0.0,
+      "SPY_price": 737.58
+    },
+    "date": "2026-06-29",
+    "equity": 17384.86,
+    "n": 174,
+    "total_return": -0.0008700533245576958
   },
-  "date": "2026-06-29",
-  "equity": 17384.86,
-  "n": 174,
-  "total_return": -0.0008700533245576958
- },
- {
-  "benchmark": {
-   "SPY": 0.011863,
-   "SPY_price": 746.33
+  {
+    "benchmark": {
+      "SPY": 0.011863,
+      "SPY_price": 746.33
+    },
+    "date": "2026-07-01",
+    "equity": 18570.01,
+    "n": 186,
+    "total_return": -0.0016126094451363038
   },
-  "date": "2026-07-01",
-  "equity": 18570.01,
-  "n": 186,
-  "total_return": -0.0016126094451363038
- },
- {
-  "benchmark": {
-   "SPY": 0.009789,
-   "SPY_price": 744.8
+  {
+    "benchmark": {
+      "SPY": 0.009789,
+      "SPY_price": 744.8
+    },
+    "date": "2026-07-04",
+    "equity": 19455.11,
+    "n": 192,
+    "total_return": 0.013287105580413794
   },
-  "date": "2026-07-04",
-  "equity": 19455.11,
-  "n": 192,
-  "total_return": 0.013287105580413794
- },
- {
-  "benchmark": {
-   "SPY": 0.012839,
-   "SPY_price": 747.05
+  {
+    "benchmark": {
+      "SPY": 0.012839,
+      "SPY_price": 747.05
+    },
+    "date": "2026-07-07",
+    "equity": 19418.07,
+    "n": 192,
+    "total_return": 0.011357834857850468
   },
-  "date": "2026-07-07",
-  "equity": 19418.07,
-  "n": 192,
-  "total_return": 0.011357834857850468
- },
- {
-  "benchmark": {
-   "SPY": 0.01939,
-   "SPY_price": 751.88
+  {
+    "benchmark": {
+      "SPY": 0.01939,
+      "SPY_price": 751.88
+    },
+    "date": "2026-07-14",
+    "equity": 27236.89,
+    "n": 273,
+    "total_return": -0.0023118
   },
-  "date": "2026-07-14",
-  "equity": 27236.89,
-  "n": 273,
-  "total_return": -0.0023118
- },
- {
-  "benchmark": {
-   "SPY": 0.021896,
-   "SPY_price": 753.73
+  {
+    "benchmark": {
+      "SPY": 0.021896,
+      "SPY_price": 753.73
+    },
+    "date": "2026-07-15",
+    "equity": 27418.1,
+    "n": 273,
+    "total_return": 0.004325839423267475
   },
-  "date": "2026-07-15",
-  "equity": 27418.1,
-  "n": 273,
-  "total_return": 0.004325839423267475
- },
- {
-  "date": "2026-07-16",
-  "equity": 27745.12,
-  "total_return": 0.016304593995014383,
-  "n": 273,
-  "benchmark": {
-   "SPY": 0.017964,
-   "SPY_price": 750.83
-  }
- },
- {
-  "date": "2026-07-17",
-  "equity": 27457.86,
-  "total_return": 0.005782590358389683,
-  "n": 273,
-  "benchmark": {
-   "SPY": 0.007592,
-   "SPY_price": 743.18
-  }
- },
- {
-  "date": "2026-07-20",
-  "equity": 28395.23,
-  "total_return": -0.0001681152129754393,
-  "n": 284,
-  "benchmark": {
-   "SPY": 0.006128,
-   "SPY_price": 742.1
-  }
- },
- {
-  "date": "2026-07-21",
-  "equity": 28444.84,
-  "total_return": 0.0015790313508228238,
-  "n": 284,
-  "benchmark": {
-   "SPY": 0.014507,
-   "SPY_price": 748.28
-  }
- },
- {
-  "date": "2026-07-22",
-  "equity": 28377.93,
-  "total_return": -0.0007771600943139445,
-  "n": 284,
-  "benchmark": {
-   "SPY": 0.013124,
-   "SPY_price": 747.26
-  }
- },
- {
-  "date": "2026-07-23",
-  "equity": 28102.13,
-  "total_return": -0.010488235915882105,
-  "n": 284,
-  "benchmark": {
-   "SPY": 0.000895,
-   "SPY_price": 738.24
-  }
- },
- {
-  "date": "2026-07-24",
-  "equity": 28346.65,
-  "total_return": -0.00187862301315056,
-  "n": 284,
-  "benchmark": {
-   "SPY": 0.002508,
-   "SPY_price": 739.43
-  }
- },
- {
-  "date": "2026-07-27",
-  "equity": 29321.04,
-  "total_return": 0.01107038790504844,
-  "n": 290,
-  "benchmark": {
-   "SPY": 0.003864,
-   "SPY_price": 740.43
-  }
- },
- {
-  "date": "2026-07-28",
-  "equity": 29916.02,
-  "total_return": 0.028042000294724367,
-  "n": 291,
-  "benchmark": {
-   "SPY": 0.004311,
-   "SPY_price": 740.76
-  }
- },
- {
-  "date": "2026-07-29",
-  "equity": 29805.83,
-  "total_return": 0.02425540023761452,
-  "n": 291,
-  "benchmark": {
-   "SPY": -0.002617,
-   "SPY_price": 735.65
-  }
- },
- {
-  "date": "2026-07-30",
-  "equity": 29351.63,
-  "total_return": 0.008647096002434074,
-  "n": 291,
-  "benchmark": {
-   "SPY": 6e-06,
-   "SPY_price": 737.585
-  }
- },
- {
-  "date": "2026-07-31",
-  "equity": 29167.82,
-  "total_return": 0.002330588494946051,
-  "n": 291,
-  "benchmark": {
-   "SPY": 0.000738897889734691,
-   "SPY_price": 738.13
-  }
- },
- {
-  "date": "2026-08-03",
-  "equity": 30559.71,
-  "total_return": 0.02894639696913237,
-  "n": 297,
-  "benchmark": {
-   "SPY": 0.027183,
-   "SPY_price": 757.63
-  }
- },
- {
-  "date": "2026-08-04",
-  "equity": 30645.9,
-  "total_return": 0.03184853963029366,
-  "n": 297,
-  "benchmark": {
-   "SPY": 0.037501,
-   "SPY_price": 765.24
-  }
- },
- {
-  "date": "2026-08-05",
-  "equity": 30848.54,
-  "total_return": 0.03867131268205615,
-  "n": 297,
-  "benchmark": {
-   "SPY": 0.052442,
-   "SPY_price": 776.2601
-  }
- },
- {
-  "date": "2026-08-07",
-  "equity": 30762.39,
-  "total_return": 0.035770556848092605,
-  "n": 297,
-  "benchmark": {
-   "SPY": 0.046409,
-   "SPY_price": 771.81
-  }
- },
- {
-  "date": "2026-08-10",
-  "equity": 30646.77,
-  "total_return": 0.03187773480580258,
-  "n": 297,
-  "benchmark": {
-   "SPY": 0.049812,
-   "SPY_price": 774.32
-  }
- },
- {
-  "date": "2026-08-12",
-  "equity": 30537.23,
-  "total_return": 0.028189674280088006,
-  "n": 297,
-  "benchmark": {
-   "SPY": 0.046958,
-   "SPY_price": 772.215
-  }
- },
- {
-  "date": "2026-08-13",
-  "equity": 32308.78,
-  "total_return": 0.04221885709736206,
-  "n": 310,
-  "benchmark": {
-   "SPY": 0.054489,
-   "SPY_price": 777.77
+  {
+    "date": "2026-07-16",
+    "equity": 27745.12,
+    "total_return": 0.016304593995014383,
+    "n": 273,
+    "benchmark": {
+      "SPY": 0.017964,
+      "SPY_price": 750.83
+    }
   },
-  "note": "COMPARABILITY WARNING: n jumped 297 -> 310 because this run priced 13 names prior runs left unpriced; only PFBX remains unpriceable (state 'unlisted', last trade 08-11, so it marks at cost). Cost basis moved 29,700 -> 31,000, so total_return 2.82% -> 4.22% is PARTLY composition, NOT all performance - do not read the jump as a one-day gain. Marks are last regular-session prints ~15:59:5x ET; the 08-13 SIP close was still unpublished at 20:12Z. 0 graded (earliest horizon matures 2027-06-29)."
- },
- {
-  "date": "2026-08-14",
-  "equity": 32277.47,
-  "total_return": 0.04120868213770579,
-  "n": 310,
-  "benchmark": {
-   "SPY": 0.054991,
-   "SPY_price": 778.14
+  {
+    "date": "2026-07-17",
+    "equity": 27457.86,
+    "total_return": 0.005782590358389683,
+    "n": 273,
+    "benchmark": {
+      "SPY": 0.007592,
+      "SPY_price": 743.18
+    }
   },
-  "note": "Zeus hourly ghost mark, Fri 2026-08-14 ~10:20 ET (intraday live quotes). All 216 open symbols priced, ZERO missing marks - no survivorship gap this pass. 0 entries matured for grading (earliest horizon lands 2027-06), so the calibration report stays empty by construction, not by omission. n held at 310, comparable with the 08-13 point. OPEN-ENTRIES GAP (disclosed, not silent): 2 screen names (EWSB, UHAL-B) are in cache/oracle_screen.json top-100 but absent from the ghost ledger - the Robinhood quote batch returned no rows for either, so they could not be priced and were NOT opened. Retry next pass; if they stay unquotable they are untradable and should be recorded as such rather than opened at a stale price."
- },
- {
-  "date": "2026-08-17",
-  "equity": 33389.96,
-  "total_return": 0.033744928935725005,
-  "n": 323,
-  "benchmark": {
-   "SPY": 0.051167,
-   "SPY_price": 775.32
+  {
+    "date": "2026-07-20",
+    "equity": 28395.23,
+    "total_return": -0.0001681152129754393,
+    "n": 284,
+    "benchmark": {
+      "SPY": 0.006128,
+      "SPY_price": 742.1
+    }
   },
-  "note": "BENCHMARK CORRECTED at the 08-17 after-close pass, and the correction is disclosed rather than silent. The morning run wrote benchmark.SPY = -0.001314, which is SPY's ONE-DAY change (775.32 vs the 776.34 prior close), not the since-inception return every one of the 26 prior points carries, and it omitted SPY_price. Left as written it would have made this point non-comparable with the whole series. Recomputed on the series' own inception baseline (recovered as 737.58 from the 08-10/08-12/08-13/08-14 points, all four agreeing): 775.32 / 737.58 - 1 = 0.051167. SPY_price restored. Equity/n are UNCHANGED - the morning mark priced all 323 entries with zero missing, so it stands as the day's mark; only the benchmark field was wrong. NOTE the basis: equity here is an intraday ~10:20 ET mark, so the corrected SPY is deliberately the intraday 775.32 rather than the 772.68 close, keeping both sides of the row on ONE basis. AFTER-CLOSE RE-MARK ABORTED, disclosed not silent: re-pricing all 229 open symbols on the closing prints was started (80 of 229 fetched) and stopped as a duplicate of a complete same-day mark - the marginal value was the closing basis, not new information, and a PARTIAL re-mark would have been worse than none. No second point appended for 08-17. Grading: 0 entries matured (earliest horizon 2027-06), so the calibration report stays empty by construction, not omission."
- },
- {
-  "date": "2026-08-18",
-  "equity": 33233.16,
-  "total_return": 0.02889026517704152,
-  "n": 323,
-  "benchmark": {
-   "SPY": 0.040456,
-   "SPY_price": 767.42
+  {
+    "date": "2026-07-21",
+    "equity": 28444.84,
+    "total_return": 0.0015790313508228238,
+    "n": 284,
+    "benchmark": {
+      "SPY": 0.014507,
+      "SPY_price": 748.28
+    }
   },
-  "note": "Zeus AFTER-CLOSE re-mark, Tue 2026-08-18 16:10 ET. This point REPLACES the 10:30 ET intraday point for the same date (equity $33,369.19 / +3.310%): the real Oracle's lesson 16 this session is that an intraday mark is not the day, and the ghost curve should carry the honest closing value. The correction is material at book scale - $136.03 of equity and 0.42pp of total return evaporated between the morning mark and the close, on a 229-symbol book that opened nothing today. Marked 229/229 open symbols live from the broker tape (missing_marks == 0). TWO stale-tape disclosures, both carried rather than silently marked: PFBX quotes state='unlisted' with a last trade of 2026-08-11 at $22.75 (delisting-risk watch, ~0.3% of the book), and MBBC did not print at all today (last trade 2026-08-17T20:00Z), so its $15.00 is yesterday's close, not a mark. 0 graded (no horizon has matured; the earliest 365-day entries from 2026-06-29 mature 2027-06-29), 0 opened (no fresh screen since 08-17). SPY benchmark re-derived on the UNCHANGED weighted entry basket implied by the morning point (basket 737.58), so only today's SPY price moved: 768.875 -> 767.42."
- },
- {
-  "date": "2026-08-19",
-  "equity": 33616.03,
-  "total_return": 0.040744,
-  "n": 323,
-  "benchmark": {
-   "SPY": 0.04268,
-   "SPY_price": 765.69
+  {
+    "date": "2026-07-22",
+    "equity": 28377.93,
+    "total_return": -0.0007771600943139445,
+    "n": 284,
+    "benchmark": {
+      "SPY": 0.013124,
+      "SPY_price": 747.26
+    }
   },
-  "note": "Zeus after-close pass ~16:15 ET Wed 2026-08-19 \u2014 the CLOSE mark, replacing the 10:25 ET INTRADAY reading for this date (append_equity_point keys one point per date, so the intraday numbers are preserved inline under `intraday_reading_1025ET` rather than as a second row). Re-marked on closes because the parent /oracle session established today that intraday marks carry a story the close revokes (TPC -5.53% -> -1.47%, LXU +5.13% -> +1.56%, opposite directions). 229/229 open symbols priced from the broker tape, ZERO missing \u2014 no survivorship substitution needed. ONE DATA CAVEAT worth carrying: PFBX quotes state='unlisted' with its last trade dated 2026-08-11, so its $22.75 is a stale previous_close, not a 08-19 print; it is one of 323 entries (~0.3% of the book) and does not move the curve, but if it stays unlisted it is the first name that will need the delisted-graded-as-a-loss survivorship rule at its horizon. 0 entries matured (grade_entries returned 0), 0 new opens (the screen has not refreshed since 2026-08-16 and skip_open=True). BOOK +4.074% vs SPY +4.268% on closes = -0.19pp. The morning's intraday reading was +4.498% vs +4.364% = +0.13pp \u2014 so the mark-time choice FLIPPED THE SIGN of the paper book's excess on a 323-name sample. Same lesson the live book learned today, at 50x the breadth: an equity curve marked at inconsistent times of day is not measuring what it claims to. The 08-18 point remains MISSING from this curve (noted in the 08-19 morning entry, unfixed).",
-  "mark": "close",
-  "ts": "2026-08-19T20:20:00+00:00",
-  "intraday_reading_1025ET": {
-   "equity": 33752.98,
-   "total_return": 0.044984,
-   "SPY": 0.043641,
-   "SPY_price": 769.769
+  {
+    "date": "2026-07-23",
+    "equity": 28102.13,
+    "total_return": -0.010488235915882105,
+    "n": 284,
+    "benchmark": {
+      "SPY": 0.000895,
+      "SPY_price": 738.24
+    }
+  },
+  {
+    "date": "2026-07-24",
+    "equity": 28346.65,
+    "total_return": -0.00187862301315056,
+    "n": 284,
+    "benchmark": {
+      "SPY": 0.002508,
+      "SPY_price": 739.43
+    }
+  },
+  {
+    "date": "2026-07-27",
+    "equity": 29321.04,
+    "total_return": 0.01107038790504844,
+    "n": 290,
+    "benchmark": {
+      "SPY": 0.003864,
+      "SPY_price": 740.43
+    }
+  },
+  {
+    "date": "2026-07-28",
+    "equity": 29916.02,
+    "total_return": 0.028042000294724367,
+    "n": 291,
+    "benchmark": {
+      "SPY": 0.004311,
+      "SPY_price": 740.76
+    }
+  },
+  {
+    "date": "2026-07-29",
+    "equity": 29805.83,
+    "total_return": 0.02425540023761452,
+    "n": 291,
+    "benchmark": {
+      "SPY": -0.002617,
+      "SPY_price": 735.65
+    }
+  },
+  {
+    "date": "2026-07-30",
+    "equity": 29351.63,
+    "total_return": 0.008647096002434074,
+    "n": 291,
+    "benchmark": {
+      "SPY": 6e-06,
+      "SPY_price": 737.585
+    }
+  },
+  {
+    "date": "2026-07-31",
+    "equity": 29167.82,
+    "total_return": 0.002330588494946051,
+    "n": 291,
+    "benchmark": {
+      "SPY": 0.000738897889734691,
+      "SPY_price": 738.13
+    }
+  },
+  {
+    "date": "2026-08-03",
+    "equity": 30559.71,
+    "total_return": 0.02894639696913237,
+    "n": 297,
+    "benchmark": {
+      "SPY": 0.027183,
+      "SPY_price": 757.63
+    }
+  },
+  {
+    "date": "2026-08-04",
+    "equity": 30645.9,
+    "total_return": 0.03184853963029366,
+    "n": 297,
+    "benchmark": {
+      "SPY": 0.037501,
+      "SPY_price": 765.24
+    }
+  },
+  {
+    "date": "2026-08-05",
+    "equity": 30848.54,
+    "total_return": 0.03867131268205615,
+    "n": 297,
+    "benchmark": {
+      "SPY": 0.052442,
+      "SPY_price": 776.2601
+    }
+  },
+  {
+    "date": "2026-08-07",
+    "equity": 30762.39,
+    "total_return": 0.035770556848092605,
+    "n": 297,
+    "benchmark": {
+      "SPY": 0.046409,
+      "SPY_price": 771.81
+    }
+  },
+  {
+    "date": "2026-08-10",
+    "equity": 30646.77,
+    "total_return": 0.03187773480580258,
+    "n": 297,
+    "benchmark": {
+      "SPY": 0.049812,
+      "SPY_price": 774.32
+    }
+  },
+  {
+    "date": "2026-08-12",
+    "equity": 30537.23,
+    "total_return": 0.028189674280088006,
+    "n": 297,
+    "benchmark": {
+      "SPY": 0.046958,
+      "SPY_price": 772.215
+    }
+  },
+  {
+    "date": "2026-08-13",
+    "equity": 32308.78,
+    "total_return": 0.04221885709736206,
+    "n": 310,
+    "benchmark": {
+      "SPY": 0.054489,
+      "SPY_price": 777.77
+    },
+    "note": "COMPARABILITY WARNING: n jumped 297 -> 310 because this run priced 13 names prior runs left unpriced; only PFBX remains unpriceable (state 'unlisted', last trade 08-11, so it marks at cost). Cost basis moved 29,700 -> 31,000, so total_return 2.82% -> 4.22% is PARTLY composition, NOT all performance - do not read the jump as a one-day gain. Marks are last regular-session prints ~15:59:5x ET; the 08-13 SIP close was still unpublished at 20:12Z. 0 graded (earliest horizon matures 2027-06-29)."
+  },
+  {
+    "date": "2026-08-14",
+    "equity": 32277.47,
+    "total_return": 0.04120868213770579,
+    "n": 310,
+    "benchmark": {
+      "SPY": 0.054991,
+      "SPY_price": 778.14
+    },
+    "note": "Zeus hourly ghost mark, Fri 2026-08-14 ~10:20 ET (intraday live quotes). All 216 open symbols priced, ZERO missing marks - no survivorship gap this pass. 0 entries matured for grading (earliest horizon lands 2027-06), so the calibration report stays empty by construction, not by omission. n held at 310, comparable with the 08-13 point. OPEN-ENTRIES GAP (disclosed, not silent): 2 screen names (EWSB, UHAL-B) are in cache/oracle_screen.json top-100 but absent from the ghost ledger - the Robinhood quote batch returned no rows for either, so they could not be priced and were NOT opened. Retry next pass; if they stay unquotable they are untradable and should be recorded as such rather than opened at a stale price."
+  },
+  {
+    "date": "2026-08-17",
+    "equity": 33389.96,
+    "total_return": 0.033744928935725005,
+    "n": 323,
+    "benchmark": {
+      "SPY": 0.051167,
+      "SPY_price": 775.32
+    },
+    "note": "BENCHMARK CORRECTED at the 08-17 after-close pass, and the correction is disclosed rather than silent. The morning run wrote benchmark.SPY = -0.001314, which is SPY's ONE-DAY change (775.32 vs the 776.34 prior close), not the since-inception return every one of the 26 prior points carries, and it omitted SPY_price. Left as written it would have made this point non-comparable with the whole series. Recomputed on the series' own inception baseline (recovered as 737.58 from the 08-10/08-12/08-13/08-14 points, all four agreeing): 775.32 / 737.58 - 1 = 0.051167. SPY_price restored. Equity/n are UNCHANGED - the morning mark priced all 323 entries with zero missing, so it stands as the day's mark; only the benchmark field was wrong. NOTE the basis: equity here is an intraday ~10:20 ET mark, so the corrected SPY is deliberately the intraday 775.32 rather than the 772.68 close, keeping both sides of the row on ONE basis. AFTER-CLOSE RE-MARK ABORTED, disclosed not silent: re-pricing all 229 open symbols on the closing prints was started (80 of 229 fetched) and stopped as a duplicate of a complete same-day mark - the marginal value was the closing basis, not new information, and a PARTIAL re-mark would have been worse than none. No second point appended for 08-17. Grading: 0 entries matured (earliest horizon 2027-06), so the calibration report stays empty by construction, not omission."
+  },
+  {
+    "date": "2026-08-18",
+    "equity": 33233.16,
+    "total_return": 0.02889026517704152,
+    "n": 323,
+    "benchmark": {
+      "SPY": 0.040456,
+      "SPY_price": 767.42
+    },
+    "note": "Zeus AFTER-CLOSE re-mark, Tue 2026-08-18 16:10 ET. This point REPLACES the 10:30 ET intraday point for the same date (equity $33,369.19 / +3.310%): the real Oracle's lesson 16 this session is that an intraday mark is not the day, and the ghost curve should carry the honest closing value. The correction is material at book scale - $136.03 of equity and 0.42pp of total return evaporated between the morning mark and the close, on a 229-symbol book that opened nothing today. Marked 229/229 open symbols live from the broker tape (missing_marks == 0). TWO stale-tape disclosures, both carried rather than silently marked: PFBX quotes state='unlisted' with a last trade of 2026-08-11 at $22.75 (delisting-risk watch, ~0.3% of the book), and MBBC did not print at all today (last trade 2026-08-17T20:00Z), so its $15.00 is yesterday's close, not a mark. 0 graded (no horizon has matured; the earliest 365-day entries from 2026-06-29 mature 2027-06-29), 0 opened (no fresh screen since 08-17). SPY benchmark re-derived on the UNCHANGED weighted entry basket implied by the morning point (basket 737.58), so only today's SPY price moved: 768.875 -> 767.42."
+  },
+  {
+    "date": "2026-08-19",
+    "equity": 33616.03,
+    "total_return": 0.040744,
+    "n": 323,
+    "benchmark": {
+      "SPY": 0.04268,
+      "SPY_price": 765.69
+    },
+    "note": "Zeus after-close pass ~16:15 ET Wed 2026-08-19 \u2014 the CLOSE mark, replacing the 10:25 ET INTRADAY reading for this date (append_equity_point keys one point per date, so the intraday numbers are preserved inline under `intraday_reading_1025ET` rather than as a second row). Re-marked on closes because the parent /oracle session established today that intraday marks carry a story the close revokes (TPC -5.53% -> -1.47%, LXU +5.13% -> +1.56%, opposite directions). 229/229 open symbols priced from the broker tape, ZERO missing \u2014 no survivorship substitution needed. ONE DATA CAVEAT worth carrying: PFBX quotes state='unlisted' with its last trade dated 2026-08-11, so its $22.75 is a stale previous_close, not a 08-19 print; it is one of 323 entries (~0.3% of the book) and does not move the curve, but if it stays unlisted it is the first name that will need the delisted-graded-as-a-loss survivorship rule at its horizon. 0 entries matured (grade_entries returned 0), 0 new opens (the screen has not refreshed since 2026-08-16 and skip_open=True). BOOK +4.074% vs SPY +4.268% on closes = -0.19pp. The morning's intraday reading was +4.498% vs +4.364% = +0.13pp \u2014 so the mark-time choice FLIPPED THE SIGN of the paper book's excess on a 323-name sample. Same lesson the live book learned today, at 50x the breadth: an equity curve marked at inconsistent times of day is not measuring what it claims to. The 08-18 point remains MISSING from this curve (noted in the 08-19 morning entry, unfixed).",
+    "mark": "close",
+    "ts": "2026-08-19T20:20:00+00:00",
+    "intraday_reading_1025ET": {
+      "equity": 33752.98,
+      "total_return": 0.044984,
+      "SPY": 0.043641,
+      "SPY_price": 769.769
+    }
+  },
+  {
+    "date": "2026-08-20",
+    "equity": 33418.04,
+    "total_return": 0.03461436465703671,
+    "n": 323,
+    "benchmark": {
+      "SPY": 762.65
+    }
+  },
+  {
+    "date": "2026-08-21",
+    "equity": 33711.77,
+    "total_return": 0.04370795927803783,
+    "n": 323,
+    "benchmark": {
+      "SPY": 0.04268,
+      "SPY_price": 765.69
+    },
+    "note": "Zeus after-close pass ~16:20 ET Fri 2026-08-21 \u2014 the CLOSE mark, replacing the 14:12Z INTRADAY reading for this date (one point per date; the intraday numbers are preserved inline under `intraday_reading_1012ET`). 229/229 open symbols priced from the broker tape, ZERO missing \u2014 no survivorship substitution needed. 0 entries matured (grade_entries returned 0), 0 new opens (screen unchanged since 2026-08-16, skip_open=True). BOOK +4.371% vs SPY +4.268% = +0.10pp, flipping from -0.39pp at the 08-20 close (book +3.461% vs SPY +3.854%). DATA DEFECT FLAGGED, NOT PATCHED (fail-safe: note it, never silently fix another session's row): the 08-19 close row carries SPY_price 765.69, but SPY's actual 08-19 close was 769.06 \u2014 that row understates SPY by ~0.46pp and its '-0.19pp' excess reading is therefore wrong (true ~-0.65pp). Today's 765.69 is a genuine coincidence: it is SPY's real 08-21 close. The 08-18 point also remains MISSING from this curve. CAVEAT carried forward: PFBX quotes state='unlisted', last trade 2026-08-11 (8 sessions stale), marked at its $22.75 previous_close; 1 of 323 entries (~0.3%), immaterial to the curve, but it is the first name that will need the delisted-graded-as-a-loss survivorship rule at its horizon.",
+    "mark": "close",
+    "ts": "2026-08-21T20:25:00+00:00",
+    "intraday_reading_1012ET": {
+      "equity": 33645.59,
+      "total_return": 0.041659,
+      "SPY_price": 765.19
+    }
+  },
+  {
+    "date": "2026-08-24",
+    "equity": 33921.13,
+    "total_return": 0.05018967261028817,
+    "n": 323,
+    "benchmark": {
+      "SPY": 0.034085,
+      "SPY_price": 762.7201
+    }
   }
- },
- {
-  "date": "2026-08-20",
-  "equity": 33418.04,
-  "total_return": 0.03461436465703671,
-  "n": 323,
-  "benchmark": {
-   "SPY": 762.65
-  }
- },
- {
-  "date": "2026-08-21",
-  "equity": 33711.77,
-  "total_return": 0.04370795927803783,
-  "n": 323,
-  "benchmark": {
-   "SPY": 0.04268,
-   "SPY_price": 765.69
-  },
-  "note": "Zeus after-close pass ~16:20 ET Fri 2026-08-21 \u2014 the CLOSE mark, replacing the 14:12Z INTRADAY reading for this date (one point per date; the intraday numbers are preserved inline under `intraday_reading_1012ET`). 229/229 open symbols priced from the broker tape, ZERO missing \u2014 no survivorship substitution needed. 0 entries matured (grade_entries returned 0), 0 new opens (screen unchanged since 2026-08-16, skip_open=True). BOOK +4.371% vs SPY +4.268% = +0.10pp, flipping from -0.39pp at the 08-20 close (book +3.461% vs SPY +3.854%). DATA DEFECT FLAGGED, NOT PATCHED (fail-safe: note it, never silently fix another session's row): the 08-19 close row carries SPY_price 765.69, but SPY's actual 08-19 close was 769.06 \u2014 that row understates SPY by ~0.46pp and its '-0.19pp' excess reading is therefore wrong (true ~-0.65pp). Today's 765.69 is a genuine coincidence: it is SPY's real 08-21 close. The 08-18 point also remains MISSING from this curve. CAVEAT carried forward: PFBX quotes state='unlisted', last trade 2026-08-11 (8 sessions stale), marked at its $22.75 previous_close; 1 of 323 entries (~0.3%), immaterial to the curve, but it is the first name that will need the delisted-graded-as-a-loss survivorship rule at its horizon.",
-  "mark": "close",
-  "ts": "2026-08-21T20:25:00+00:00",
-  "intraday_reading_1012ET": {
-   "equity": 33645.59,
-   "total_return": 0.041659,
-   "SPY_price": 765.19
-  }
- }
 ]
