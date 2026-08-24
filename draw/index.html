@@ -67,8 +67,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #gallery,#galleryC{flex:none;display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;
   touch-action:pan-x;padding:8px calc(50% - 60px);
   -webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory}
-.galLbl{flex:none;font-size:12px;color:var(--acc);letter-spacing:.06em;
-  padding:0 16px;opacity:.9}
+.galLbl{flex:none;font-size:17px;color:var(--acc);letter-spacing:.06em;
+  text-align:center;padding:0 16px;opacity:.95}
 .gadd{position:relative;flex:none;width:118px;aspect-ratio:1;
   border:1px dashed #777;border-radius:10px;background:#191919;
   display:flex;align-items:center;justify-content:center;cursor:pointer;
@@ -90,9 +90,10 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 .gitem{position:relative;flex:none;border:1px solid #555;background:#1e1e1e;
   cursor:pointer;border-radius:10px;overflow:hidden}
 .gitem.lastRef{border-color:var(--acc)}
-.gx{position:absolute;top:2px;right:2px;width:24px;height:24px;padding:0;
-  border:none;background:none;color:#fff;font-size:15px;line-height:1;
-  text-shadow:0 0 4px rgba(0,0,0,0.9)}
+.gx{position:absolute;top:4px;right:4px;width:26px;height:26px;padding:0;
+  border:none;background:rgba(14,14,14,0.72);border-radius:50%;
+  color:#fff;font-size:14px;line-height:1;
+  display:flex;align-items:center;justify-content:center}
 .gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
 .gstat{font-size:12px;color:var(--acc);text-align:center;
   padding:3px 2px 4px;line-height:1.3}
@@ -166,6 +167,7 @@ body.colorRef #hudWrap{left:calc(30px + (100% - 60px)*0.5)}
 #hud{border:1px solid #555;background:#161616;border-radius:12px}
 #hudToggle{width:44px;height:44px;padding:0;font-size:18px;line-height:1;border-radius:12px}
 #hudToggle.lit{width:auto;padding:0 16px;font-size:14px}
+body.colorRef #hudToggle.lit{width:44px;padding:0;font-size:18px}
 #camCorner{position:absolute;left:calc(100% - 30px);transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
 #detCorner{position:absolute;left:30px;transform:translateX(-50%);
@@ -471,7 +473,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v236</span>
+      <span id="verNum">v237</span>
     </div>
   </div>
 
@@ -1217,6 +1219,15 @@ $('file').addEventListener('change', e => {
 $('fileC').addEventListener('change', e => {
   const f = e.target.files[0]; if (f) addRef(f, true);
 });
+// the reference strips tick like a scroll wheel: one detent per tile
+for (const hostId of ['gallery','galleryC']){
+  const host=$(hostId); if (!host) continue;
+  host.addEventListener('scroll', ()=>{
+    const idx=Math.round(host.scrollLeft/128);   // tile width + gap
+    if (host._tick!==undefined && host._tick!==idx) haptic();
+    host._tick=idx;
+  }, {passive:true});
+}
 renderGallery();
 // ---- tutorial tips: floating bubbles, the app stays usable beneath ------
 // A tip either carries an x (info) or illuminates its target button in the
@@ -2770,6 +2781,27 @@ function initMain(){
   $('underMenu').style.display='none';
   for (const id4 of ['uBr','uLt','uDk']) $(id4).classList.remove('vOn');
   document.body.classList.toggle('colorRef', REFMODE==='c');
+  if (REFMODE==='c'){
+    // the reference remembers its layer setup: workshop open, which bands,
+    // the underpainting and its sepia layers
+    let LV=null;
+    try{ LV=JSON.parse(localStorage.getItem('lay|'+galActive)||'null'); }catch(e){}
+    if (LV){
+      LAYERS_C.dk=!!(LV.c&&LV.c.dk); LAYERS_C.mid=!!(LV.c&&LV.c.mid);
+      LAYERS_C.lt=!!(LV.c&&LV.c.lt); LAYERS_C.br=!!(LV.c&&LV.c.br);
+      UNDER=!!LV.u;
+      SLAY.dk=!!(LV.s&&LV.s.dk); SLAY.lt=!!(LV.s&&LV.s.lt);
+      SLAY.hl=!!(LV.s&&LV.s.hl);
+      if (LV.o){
+        $('hud').style.display='';
+        $('hudToggle').classList.add('lit','vOn');
+      }
+      $('underBtn').classList.toggle('vOn', UNDER);
+      $('underMenu').style.display = UNDER ? 'flex' : 'none';
+      for (const [id5,k5] of [['uBr','hl'],['uLt','lt'],['uDk','dk']])
+        $(id5).classList.toggle('vOn', SLAY[k5]);
+    }
+  }
   // the reference remembers its drawing tool across sessions - restored
   // BEFORE the first paint, or the image composes at the old level while
   // the button claims the saved one
@@ -3054,7 +3086,7 @@ async function dbCmpKeys(){ try{ const d=await db(); return await new Promise(re
   const t=d.transaction('plans').objectStore('plans').getAllKeys();
   t.onsuccess=()=>res((t.result||[]).filter(k=>typeof k==='string'&&k.indexOf('cmp|')===0));
   t.onerror=()=>res([]); }); }catch(e){ return []; } }
-const BAK_PERID=['fmt|','def|','time|','done|','gtot|','det|','edit|','mode|'];
+const BAK_PERID=['fmt|','def|','time|','done|','gtot|','det|','edit|','mode|','lay|'];
 async function bakBuild(){
   const refs=[];
   for (const r of await galAll()){
@@ -3514,6 +3546,16 @@ function toggleLayer(k){
   if (!state.img || !GRID_READY) return;
   viewRepaint();
 }
+function laySave(){
+  if (REFMODE!=='c' || galActive==null) return;
+  try{ localStorage.setItem('lay|'+galActive, JSON.stringify({
+    o: $('hud').style.display!=='none' ? 1 : 0,
+    u: UNDER?1:0,
+    s: {dk:SLAY.dk?1:0, lt:SLAY.lt?1:0, hl:SLAY.hl?1:0},
+    c: {dk:LAYERS_C.dk?1:0, mid:LAYERS_C.mid?1:0,
+        lt:LAYERS_C.lt?1:0, br:LAYERS_C.br?1:0}
+  })); }catch(e){}
+}
 function underSync(){
   for (const [id,k] of [['uBr','hl'],['uLt','lt'],['uDk','dk']])
     $(id).classList.toggle('vOn', SLAY[k]);
@@ -3523,18 +3565,18 @@ function underSync(){
 $('underBtn').onclick=()=>{
   UNDER=!UNDER;
   SLAY.dk=SLAY.lt=SLAY.hl=false;   // the underpainting opens at bare shading
-  underSync();
+  underSync(); laySave();
   if (state.img && GRID_READY) viewRepaint();
 };
 for (const [id3,k3] of [['uBr','hl'],['uLt','lt'],['uDk','dk']])
   $(id3).onclick=()=>{
     SLAY[k3]=!SLAY[k3];
-    underSync();
+    underSync(); laySave();
     if (state.img && GRID_READY) viewRepaint();
   };
 function toggleLayerC(k){
   LAYERS_C[k]=!LAYERS_C[k];
-  layerButtons();
+  layerButtons(); laySave();
   if (!state.img || !GRID_READY) return;
   viewRepaint();
 }
@@ -5880,7 +5922,7 @@ $('cmpSplit').onclick = () => {
     hud.style.display = o ? '' : 'none';
     // closed: the pencil; open: an illuminated square naming the constant
     // ground every layer builds on
-    tg.textContent = o ? (REFMODE==='c' ? 'Full' : 'Shading') : '✎';
+    tg.textContent = o ? (REFMODE==='c' ? '\u270e' : 'Shading') : '\u270e';
     tg.classList.toggle('lit', o);
     tg.classList.toggle('vOn', o);
     try { localStorage.setItem('hudOpen', o ? '1' : '0'); } catch(e){}
@@ -5889,7 +5931,7 @@ $('cmpSplit').onclick = () => {
     // unselected; closing returns the full view either way
     if (REFMODE==='c') LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=!o;
     else LAYERS.dk=LAYERS.lt=LAYERS.hl=!o;
-    layerButtons();
+    layerButtons(); laySave();
     if (GRID_READY && state.img) viewRepaint();
     if (!o && TOUR.det){ TOUR.det=false; detTip(); }
   };
