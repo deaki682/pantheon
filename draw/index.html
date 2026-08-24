@@ -468,7 +468,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v257</span>
+      <span id="verNum">v258</span>
     </div>
   </div>
 
@@ -2634,21 +2634,22 @@ let calRefresh=()=>{};
     g.beginPath();
     for (const px of xs){ g.moveTo(px,0); g.lineTo(px,H2); }
     for (const py of ys){ g.moveTo(0,py); g.lineTo(W2,py); }
-    // half- and quarter-unit nicks ride every line, like drafting paper
-    // (cm mode nicks the half only, matching the ruler's own marks)
-    const nsubs = cm ? [[0.5,2.5]] : [[0.25,1.5],[0.5,2.5],[0.75,1.5]];
+    // half- and quarter-unit nicks ride every line like ruler marks:
+    // off the RIGHT of the verticals, DOWN from the horizontals - never
+    // crossing the line. (cm mode nicks the half only, like the ruler.)
+    const nsubs = cm ? [[0.5,5]] : [[0.25,3],[0.5,5],[0.75,3]];
     const yBase = (ys[0]??0.5)-unitPx, xBase = (xs[0]??0.5)-unitPx;
     for (const px of xs)
       for (let y=yBase; y<=H2; y+=unitPx)
         for (const [f,l] of nsubs){
           const ny=Math.round(y+f*unitPx)+0.5; if (ny<0||ny>H2) continue;
-          g.moveTo(px-l*dpr,ny); g.lineTo(px+l*dpr,ny);
+          g.moveTo(px,ny); g.lineTo(px+l*dpr,ny);
         }
     for (const py of ys)
       for (let x=xBase; x<=W2; x+=unitPx)
         for (const [f,l] of nsubs){
           const nx=Math.round(x+f*unitPx)+0.5; if (nx<0||nx>W2) continue;
-          g.moveTo(nx,py-l*dpr); g.lineTo(nx,py+l*dpr);
+          g.moveTo(nx,py); g.lineTo(nx,py+l*dpr);
         }
     g.stroke();
     g.globalAlpha=1;
