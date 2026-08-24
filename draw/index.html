@@ -81,6 +81,7 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:13px}
 #calBtnCv{display:block}
 #upTitle{color:var(--acc);font-size:22px;letter-spacing:0.04em;margin-top:52px}
 #titleRule{display:block;width:100%;height:24px;flex:none;margin-top:2px}
+#upGridBg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 #pwaNote{color:var(--acc);font-size:11px;text-align:center;padding:4px 10px 0;flex:none}
 #pwaNote.big{font-size:15px;padding-top:10px}
 #pwaNote .tapLink{color:#fff;text-decoration:underline;text-underline-offset:2px}
@@ -348,16 +349,6 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 #refPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:18px 24px;display:flex;flex-direction:column;gap:10px;min-width:200px}
 #refPanel button{min-height:44px;border-radius:10px}
-#dylModal{position:fixed;inset:0;z-index:25;display:none;
-  align-items:center;justify-content:center;background:rgba(8,8,8,0.72)}
-#dylPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
-  padding:22px 24px;display:flex;flex-direction:column;gap:16px;
-  max-width:min(86vw,380px);font-size:15px;line-height:1.55}
-#dylHead{color:var(--acc);font-size:17px;letter-spacing:0.02em}
-#dylRow{display:flex;gap:12px;justify-content:space-between}
-#dylRow button{flex:1;min-height:44px}
-#dylYes{color:var(--acc);border-color:var(--acc)}
-#dylMail a{color:var(--acc);word-break:break-all}
 /* tutorial tips: a floating bubble, the app fully usable beneath it.
    Info tips close on their x; button tips illuminate the target and stay
    until it is pressed. */
@@ -459,25 +450,6 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <button id="rmX">Cancel</button>
   </div>
 </div>
-<div id="dylModal">
-  <div id="dylPanel">
-    <div id="dylHead">Message from Dylan</div>
-    <div id="dylBody">I hope you&rsquo;ve been enjoying Photorealism! I&rsquo;ve been
-      working towards getting this available in the app store, and I need ten
-      volunteers to &ldquo;test&rdquo; the app before Google releases it to the
-      public. If you have an Android device, let me know if you&rsquo;re
-      interested and I&rsquo;ll send you a link!</div>
-    <div id="dylRow">
-      <button id="dylNo">Not interested</button>
-      <button id="dylYes">I&rsquo;ll be a tester</button>
-    </div>
-    <div id="dylMail" style="display:none">Awesome! Send me your email at
-      <a id="dylMailLink" href="mailto:eakinphotorealism@gmail.com?subject=Photorealism%20tester&amp;body=Hi%20Dylan!%20I%27d%20like%20to%20test%20Photorealism%20on%20Android.%20My%20Google%20Play%20email%20is%3A%20">eakinphotorealism@gmail.com</a>
-      (tap to open your mail app) and I&rsquo;ll send you the testing link.
-      <div style="display:flex;margin-top:12px"><button id="dylDone" style="flex:1;min-height:44px;color:var(--acc)">Done</button></div>
-    </div>
-  </div>
-</div>
   <div id="setModal">
     <div id="setPanel">
       <span class="setLbl">Accent</span>
@@ -496,12 +468,13 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v254</span>
+      <span id="verNum">v255</span>
     </div>
   </div>
 
 <!-- 1: upload -->
 <div class="screen on" id="scrUpload">
+  <canvas id="upGridBg"></canvas>
   <div class="row" style="position:relative;justify-content:center">
     <span id="upTitle">Photorealism</span>
     <span id="upStat" style="position:absolute;left:8px;font-size:12px;color:var(--acc)"></span>
@@ -807,7 +780,10 @@ const show = id => { tipClose(false); uiShow();
     document.body.classList.toggle('colorRef', REFMODE==='c');
     mainTip();
   }
-  if (id==='scrUpload' && TOUR.rule) ruleTip(); };
+  if (id==='scrUpload'){
+    try{ calRefresh(); }catch(e){}
+    if (TOUR.rule) ruleTip();
+  } };
 for (const sc of document.querySelectorAll('.screen'))
   sc.addEventListener('animationend', e=>{ if (e.target===sc) sc.classList.remove('in','off'); });
 
@@ -1405,13 +1381,13 @@ function underClosed(viaDoor){
   // but keep the rest of the chain.
   if (!TOUR.cdoor) return;
   const m=TOUR.cdoor; TOUR.cdoor=null;
-  if (viaDoor){ if (m!=='end') cmpBtnTip(); return; }
+  if (viaDoor){ if (m!=='end') TOUR.cCmp=true; return; }
   colorDoorTip(m==='end');
 }
 function colorDoorTip(condensed){
   tip('hudToggle', 'This will help visualize the different tonal layers '
     +'in your reference.',
-    {mustClick:true, onClose: condensed ? null : ()=>cmpBtnTip()});
+    {mustClick:true, onClose: condensed ? null : ()=>{ TOUR.cCmp=true; }});
 }
 function detTip(next){
   TOUR[next==='under' ? 'cUnder' : 'cmp']=true;
@@ -1563,24 +1539,6 @@ try{
     }).catch(()=>{});
 }catch(e){}
 addEventListener('appinstalled', ()=>gcPing('/install'));
-// tester recruitment (web only - the native app never shows it): returning
-// users get one forced choice; both answers are counted, so the click
-// totals double as a head-count of the active user base
-(function(){
-  if (window.RealismCam) return;
-  try{
-    if (!localStorage.getItem('intro1')) return;   // brand-new visitor, skip
-    if (localStorage.getItem('dyl1')) return;      // already answered
-  }catch(e){ return; }
-  const put=v=>{ try{ localStorage.setItem('dyl1', v); }catch(e){} };
-  setTimeout(()=>{ $('dylModal').style.display='flex'; gcPing('/tester-seen'); }, 900);
-  $('dylNo').onclick=()=>{ gcPing('/tester-no'); put('no');
-    $('dylModal').style.display='none'; };
-  $('dylYes').onclick=()=>{ gcPing('/tester-yes'); put('yes');
-    $('dylBody').style.display='none'; $('dylRow').style.display='none';
-    $('dylMail').style.display='block'; };
-  $('dylDone').onclick=()=>{ $('dylModal').style.display='none'; };
-})();
 // settings: the accent is the artist's, and the true-size stop is optional
 const ACCENTS=['#e8833a','#e0524f','#e0b13a','#6aa84f','#3aa6a0',
                '#5a8fd8','#9b6bd8','#d86bb0','#e8e6e1'];
@@ -2635,17 +2593,48 @@ let calRefresh=()=>{};
     const unitPx=(cm ? 96/2.54 : 96)*INCAL*dpr;
     const y=Math.round(dpr)+0.5;
     g.beginPath(); g.moveTo(0,y); g.lineTo(W2,y); g.stroke();
-    for (let i=0; i*unitPx<=W2; i++){
-      const x=Math.round(i*unitPx)+0.5;
-      g.beginPath(); g.moveTo(x,y); g.lineTo(x,y+13*dpr); g.stroke();
-    }
+    // centre-anchored: the middle mark sits beneath the middle of the
+    // title, and a calibration change breathes outward from that point
+    const cx2=W2/2;
+    const tick=(x,len)=>{ const px=Math.round(x)+0.5; if (px<-1||px>W2+1) return;
+      g.beginPath(); g.moveTo(px,y); g.lineTo(px,y+len*dpr); g.stroke(); };
     const subs=cm ? [[0.5,7]] : [[0.25,4],[0.5,8],[0.75,4]];
-    for (let i=0; i*unitPx<=W2; i++)
-      for (const [f,len] of subs){
-        const x=Math.round((i+f)*unitPx)+0.5;
-        if (x>W2) continue;
-        g.beginPath(); g.moveTo(x,y); g.lineTo(x,y+len*dpr); g.stroke();
-      }
+    const half=Math.ceil(cx2/unitPx)+1;
+    for (let i=-half; i<=half; i++){
+      tick(cx2+i*unitPx, 13);
+      for (const [f,len] of subs) tick(cx2+(i+f)*unitPx, len);
+    }
+    drawUpGrid();
+  };
+  // the project page's quiet backdrop: a whisper-fine square grid, cell =
+  // the calibrated unit, verticals landing exactly on the title ruler's
+  // marks and rows hanging from its baseline. One device pixel wide - the
+  // ruler keeps its weight, the grid stays a whisper.
+  const drawUpGrid=()=>{
+    const cv=$('upGridBg'); if (!cv) return;
+    const r=cv.getBoundingClientRect(); if (!r.width || !r.height) return;
+    const dpr=Math.min(3, devicePixelRatio||1);
+    const W2=Math.round(r.width*dpr), H2=Math.round(r.height*dpr);
+    if (cv.width!==W2 || cv.height!==H2){ cv.width=W2; cv.height=H2; }
+    const g=cv.getContext('2d');
+    g.clearRect(0,0,W2,H2);
+    g.strokeStyle=getComputedStyle(document.documentElement)
+      .getPropertyValue('--acc').trim()||'#e8833a';
+    g.globalAlpha=0.09; g.lineWidth=1;
+    const cm=CELLSZ.u==='cm';
+    const unitPx=(cm ? 96/2.54 : 96)*INCAL*dpr;
+    const tr=$('titleRule').getBoundingClientRect();
+    const cx=(tr.left+tr.width/2-r.left)*dpr;
+    const y0=(tr.top+1-r.top)*dpr;
+    g.beginPath();
+    for (let x=cx%unitPx; x<=W2; x+=unitPx){
+      const px=Math.round(x)+0.5; g.moveTo(px,0); g.lineTo(px,H2);
+    }
+    for (let y=((y0%unitPx)+unitPx)%unitPx; y<=H2; y+=unitPx){
+      const py=Math.round(y)+0.5; g.moveTo(0,py); g.lineTo(W2,py);
+    }
+    g.stroke();
+    g.globalAlpha=1;
   };
   const drawCalBtn=()=>{
     // the calibrate button: a short cut of the same minimal ruler
@@ -2969,13 +2958,11 @@ function initMain(){
       $('uSh').classList.toggle('vOn', UGROUND==='shade');
       $('uMid').classList.toggle('vOn', UGROUND==='mid');
     } else {
-      // first visit: the Detailed underpainting stands as the ground and
-      // the workshop is open - the colorized reference is built layer by
-      // layer on top of it
+      // first visit: the Detailed underpainting stands as the ground, the
+      // workshop closed until they open it - the colorized reference is
+      // built layer by layer on top
       LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=false;
       UGROUND='full';
-      $('hud').style.display='';
-      $('hudToggle').classList.add('lit','vOn');
     }
     underSync();
     $('underMenu').style.display = UNDER ? 'flex' : 'none';
@@ -6187,6 +6174,7 @@ $('cmpSplit').onclick = () => {
     layerButtons(); laySave();
     if (GRID_READY && state.img) viewRepaint();
     if (!o && TOUR.det){ TOUR.det=false; detTip(); }
+    if (!o && TOUR.cCmp){ TOUR.cCmp=false; cmpBtnTip(); }
   };
   hudSet=set;
   let open = true;
