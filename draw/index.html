@@ -468,7 +468,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v234</span>
+      <span id="verNum">v235</span>
     </div>
   </div>
 
@@ -764,7 +764,12 @@ const show = id => { tipClose(false); uiShow();
   $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex';
   if (id!=='scrUpload') backArm();
   if (id==='scrFormat'){ fmtTip(); requestAnimationFrame(()=>{ try{ fmtPreview(); }catch(e){} }); }
-  if (id==='scrMain') mainTip();
+  if (id==='scrMain'){
+    // every road into the drawing screen re-asserts the mode layout - a
+    // jump back in skips initMain, and the colour buttons must not vanish
+    document.body.classList.toggle('colorRef', REFMODE==='c');
+    mainTip();
+  }
   if (id==='scrUpload' && TOUR.rule) ruleTip(); };
 for (const sc of document.querySelectorAll('.screen'))
   sc.addEventListener('animationend', e=>{ if (e.target===sc) sc.classList.remove('in','off'); });
@@ -1717,7 +1722,6 @@ $('backBtn').onclick = () => {
     return;
   }
   if ($('scrMain').classList.contains('on')){
-    document.body.classList.remove('colorRef');
     show('scrUpload'); renderGallery();
     calRefresh();          // the title ruler redraws (accent may have changed)
     return;
