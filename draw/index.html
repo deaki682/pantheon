@@ -102,7 +102,7 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:13px}
   padding:3px 2px 4px;line-height:1.3}
 .gtop{padding:4px 2px 3px;white-space:nowrap}
 .gsq{display:inline-block;width:7px;height:7px;border:1px solid var(--acc);
-  border-radius:1px;margin-right:3px}
+  border-radius:1px;margin-left:3px}
 .gitem.hasTop .gx{top:29px}
 .gbar{position:absolute;left:0;right:0;bottom:0;height:4px;
   background:rgba(20,20,20,0.55);visibility:hidden}
@@ -174,6 +174,10 @@ html.natCam #camVeil{display:none !important}
   max-width:calc(100% - 16px)}
 body.colorRef #hudWrap{left:calc(30px + (100% - 60px)*0.5)}
 #hud{border:1px solid #555;background:#161616;border-radius:12px}
+/* the drawing page's chrome floats a little off the paper */
+#backBtn,#hudToggle,#detBtn,#underBtn,#gridBtn,#compareBtn,#expBtn,#setBtn{
+  box-shadow:0 3px 8px rgba(0,0,0,0.5)}
+#hud,#detMenu,#underMenu,#gridMenu{box-shadow:0 6px 16px rgba(0,0,0,0.55)}
 #hudToggle{width:44px;height:44px;padding:0;font-size:18px;line-height:1;border-radius:12px}
 #hudToggle.lit{width:auto;padding:0 16px;font-size:14px}
 body.colorRef #hudToggle.lit{width:44px;padding:0;font-size:18px}
@@ -471,7 +475,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v261</span>
+      <span id="verNum">v262</span>
     </div>
   </div>
 
@@ -966,9 +970,8 @@ async function renderGallery(){
       if (top){
         const st=document.createElement('div');
         st.className='gstat gtop';
-        st.append(top+' ');
+        st.append(top+' '+gtxt);
         st.appendChild(Object.assign(document.createElement('span'),{className:'gsq'}));
-        st.append(gtxt);
         d.appendChild(st); d.classList.add('hasTop');
       }
     }
@@ -2695,6 +2698,7 @@ let calRefresh=()=>{};
   const showCal=()=>{
     drawTitleRule();
     sl.value=Math.round(INCAL*100);
+    slFill(sl);
     $('calLbl').textContent='line the marks up with a real ruler ('
       +(CELLSZ.u==='cm'?'cm':'inches')+')';
     drawCalBtn();
