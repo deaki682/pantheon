@@ -389,5 +389,11 @@
   "llm_lift_expectancy": 0.0296,
   "n_graded": 109,
   "note": "Zeus hourly pass ~10:07 ET Fri 2026-08-21. TEND: reconcile CLEAN (hermes_reconcile==[]; broker==sleeve exact on all 7 - ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.561380 / NSTS 40.613588); missing_marks=[]; break_triggered=[] (every name 14-24% above its stop); past_close=[] (earliest expected_close 2026-09-30). SOURCING: run_hermes_sourcing.py swept 2026-04-23->2026-08-21, 122 announced-deal targets (77 ticker-resolved). 9 tickers unseen by the A/B - ALL non-common instruments (SPAC units/warrants COLAU/BBCQW/VLOSU/HSCSW, preferreds MDV-PA/EQH-PC/WBS-PG/CRBD, warrant VAL-WT) whose underlying commons (MDV/EQH/WBS/CRBG/VAL) are already detected => ZERO genuinely new deals to read; no new detections, no new LLM reads, no entries. CASH: 9.56 (2%% floor) - no room for a new deal ticket regardless. A/B: sweep_unresolved=[] (0 of 48 unresolved detections past expected_close). LLM-lift +2.96pp on 109 graded (Arm A kept n=3 expectancy +1.22%%, win 100%%; Arm B all n=109 expectancy -1.74%%, win 11%%). Verdict string reads \"LLM adds value\" but Arm A n=3 is far short of the ~20-deal checkpoint - avoidance is doing the work, not selection."
+ },
+ {
+  "date": "2026-08-24",
+  "equity": 4037.42,
+  "spy": 762.77,
+  "note": "Zeus hourly pass ~10:15 ET Mon 2026-08-24. Reconcile clean (hermes_reconcile==[]; broker==sleeve on all 7: ALOT/APGE/RAMP/GBTG/FSEA/OGN/NSTS). No break-stops triggered, none past expected close. EDGAR sourcing sweep ran: 117 announced-deal targets in the trailing 120d window, 74 ticker-resolved; the 52-row diff vs the A/B is entirely symbol-resolution artifacts (unresolved tickers for already-tracked deals: LPRO/ORGN/NUVL/GRTX/TMRC/ELSE/CRBG/TMHC/ASRT/EEX/CCRN/KORE/NSA/KALV/AVNS/XOMA/ESPR/CPRX/TBRG/AFBI/BLD/GORO/SILA/CLBK/NFBK/SEM/WSR/SLNO...) plus warrant/preferred/rights share classes (BBCQW/HSCSW/IPCXR/MDV-PA/EQH-PC/CRBD/VAL-WT) and SPAC de-SPACs (COLAU) - ZERO genuinely new tradable cash-deal targets, so no new detections recorded. No new entries: sleeve cash $99.56 vs live account buying power $575.09 -> spendable_buying_power binds at ~$99, and the 2% cash reserve ($81) leaves ~$19 - below any meaningful ticket. No orders placed."
  }
 ]
