@@ -479,7 +479,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v243</span>
+      <span id="verNum">v244</span>
     </div>
   </div>
 
@@ -656,6 +656,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   <button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
   <div id="underCorner">
     <div id="underMenu">
+      <button id="uFull">Full</button>
       <button id="uSh">Shading</button>
       <button id="uMid">Midtone</button>
       <button id="uCol" title="Underpainting color"><span id="uColSw"></span></button>
@@ -1078,7 +1079,7 @@ function openPhoto(blob, gid, retry){
     FMT_APPLIED = null;               // a new photo always reformats
     galLoading = null; GRID_READY = false;
     $('upStat').textContent = 'by Dylan';
-    FMT_OFF.x=FMT_OFF.y=0.5;
+    FMT_OFF.x=FMT_OFF.y=0.5; FMT_ZOOM=1;
     initFormat();
     let fmt = null;   // a photo formatted before goes straight to the drawing
     if (gid != null){ try{ fmt = JSON.parse(localStorage.getItem('fmt|'+gid)); }catch(e){} }
@@ -1088,6 +1089,7 @@ function openPhoto(blob, gid, retry){
         $('unit').value = fmt.u; calRefresh(); }
       $('widthIn').value = fmt.w;
       if (typeof fmt.ox==='number'){ FMT_OFF.x=fmt.ox; FMT_OFF.y=fmt.oy??0.5; }
+      FMT_ZOOM = (fmt.z>=1 && fmt.z<=6) ? fmt.z : 1;
       fmtPreview();
       enterMain();
     } else {
@@ -1145,6 +1147,7 @@ function warmOpen(r){
   $('widthIn').value=fmt.w;
   FMT_OFF.x=(typeof fmt.ox==='number')?fmt.ox:0.5;
   FMT_OFF.y=(typeof fmt.oy==='number')?fmt.oy:0.5;
+  FMT_ZOOM=(fmt.z>=1 && fmt.z<=6)?fmt.z:1;
   CKEY=ck; WORLD={w:+m[1], h:+m[2]};
   PHYS_W_IN=physWIn();
   const sq=squaresOf(PHYS_W_IN, PHYS_W_IN*WORLD.h/WORLD.w);
@@ -1678,11 +1681,16 @@ function initFormat(){
   fmtPreview();
 }
 const FMT_OFF={x:0.5, y:0.5};   // where the crop sits inside the slack
+let FMT_ZOOM=1;                 // 1 = the widest crop; pinch tightens it
 function cropRect(){
-  // crop of the photo to the chosen ratio, placed by the artist
+  // crop of the photo to the chosen ratio, placed and zoomed by the artist
   const r = ratioOf();
   let w = photo.width, h = Math.round(w / r);
   if (h > photo.height){ h = photo.height; w = Math.round(h * r); }
+  if (FMT_ZOOM>1){
+    w=Math.max(2,Math.round(w/FMT_ZOOM));
+    h=Math.max(2,Math.round(h/FMT_ZOOM));
+  }
   return { x:Math.round((photo.width-w)*FMT_OFF.x),
            y:Math.round((photo.height-h)*FMT_OFF.y), w, h };
 }
@@ -1726,28 +1734,50 @@ function fmtPreview(){
       g.beginPath(); g.arc(x,y,dpr*1.1,0,6.2832); g.fill(); }
   }
 }
-// drag the preview to slide the crop window around the photo
+// drag the preview to slide the crop window around the photo; pinch (or a
+// mouse wheel) to zoom the crop tighter - no need to open the editor
 {
   const cv=$('fmtCanvas');
-  let drag=null;
+  const pts=new Map(); let last=null;
   cv.addEventListener('pointerdown', e=>{
-    cv.setPointerCapture(e.pointerId);
-    drag={x:e.clientX, y:e.clientY};
+    try{ cv.setPointerCapture(e.pointerId); }catch(e2){}
+    pts.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    last=null;
   });
   cv.addEventListener('pointermove', e=>{
-    if (!drag || !photo) return;
-    const cr=cropRect();
-    const scale=(cv.getBoundingClientRect().width||cv.width)/cr.w;
-    const sx=photo.width-cr.w, sy=photo.height-cr.h;
-    const dx=e.clientX-drag.x, dy=e.clientY-drag.y;
-    drag={x:e.clientX, y:e.clientY};
-    let moved=false;
-    if (sx>0){ FMT_OFF.x=Math.max(0,Math.min(1, FMT_OFF.x - dx/scale/sx)); moved=true; }
-    if (sy>0){ FMT_OFF.y=Math.max(0,Math.min(1, FMT_OFF.y - dy/scale/sy)); moved=true; }
-    if (moved){ fmtPreview(); speculate(); }
+    if (!pts.has(e.pointerId) || !photo) return;
+    pts.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    const P=[...pts.values()];
+    if (P.length>=2){
+      const d=Math.hypot(P[0].x-P[1].x, P[0].y-P[1].y);
+      if (last && last.d){
+        FMT_ZOOM=Math.max(1, Math.min(6, FMT_ZOOM*d/last.d));
+        fmtPreview(); speculate();
+      }
+      last={d};
+      return;
+    }
+    const p=P[0];
+    if (last && last.x!==undefined){
+      const cr=cropRect();
+      const scale=(cv.getBoundingClientRect().width||cv.width)/cr.w;
+      const sx=photo.width-cr.w, sy=photo.height-cr.h;
+      const dx=p.x-last.x, dy=p.y-last.y;
+      let moved=false;
+      if (sx>0){ FMT_OFF.x=Math.max(0,Math.min(1, FMT_OFF.x - dx/scale/sx)); moved=true; }
+      if (sy>0){ FMT_OFF.y=Math.max(0,Math.min(1, FMT_OFF.y - dy/scale/sy)); moved=true; }
+      if (moved){ fmtPreview(); speculate(); }
+    }
+    last={x:p.x, y:p.y};
   });
-  const end=e=>{ drag=null; };
+  const end=e=>{ pts.delete(e.pointerId); last=null; };
   cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  cv.addEventListener('wheel', e=>{
+    if (!photo) return;
+    e.preventDefault();
+    FMT_ZOOM=Math.max(1, Math.min(6, FMT_ZOOM*Math.exp(-e.deltaY*0.002)));
+    fmtPreview(); speculate();
+  }, {passive:false});
 }
 $('widthIn').oninput = ()=>{ fmtPreview(); speculate(); };
 $('heightIn').oninput = ()=>{ fmtPreview(); speculate(); };
@@ -2436,7 +2466,7 @@ $('fmtGo').onclick = () => {
     try{ localStorage.setItem('fmt|'+galActive,
       JSON.stringify({ w: $('widthIn').value, h: $('heightIn').value,
                        u: $('unit').value,
-                       ox: FMT_OFF.x, oy: FMT_OFF.y })); }catch(e){}
+                       ox: FMT_OFF.x, oy: FMT_OFF.y, z: FMT_ZOOM })); }catch(e){}
   }
   enterMain();
 };
@@ -2825,7 +2855,7 @@ function initMain(){
   if (UCOL!=='umber'){ UCOL='umber'; upBuild(); }
   $('underBtn').classList.remove('vOn');
   $('underMenu').style.display='none';
-  for (const id4 of ['uSh','uMid']) $(id4).classList.remove('vOn');
+  for (const id4 of ['uFull','uSh','uMid']) $(id4).classList.remove('vOn');
   document.body.classList.toggle('colorRef', REFMODE==='c');
   if (REFMODE==='c'){
     // the reference remembers its layer setup: workshop open, which bands,
@@ -2836,7 +2866,7 @@ function initMain(){
       LAYERS_C.dk=!!(LV.c&&LV.c.dk); LAYERS_C.mid=!!(LV.c&&LV.c.mid);
       LAYERS_C.lt=!!(LV.c&&LV.c.lt); LAYERS_C.br=!!(LV.c&&LV.c.br);
       UNDER=!!LV.u;
-      UGROUND = LV.g==='shade'||LV.g==='mid' ? LV.g
+      UGROUND = LV.g==='shade'||LV.g==='mid'||LV.g==='full' ? LV.g
               : (LV.s&&LV.s.sh ? 'shade' : 'off');   // pre-v240 records
       if (UPAL[LV.col] && LV.col!==UCOL){ UCOL=LV.col; upBuild(); }
       if (LV.o && !UNDER){       // the two panels never restore together
@@ -2845,6 +2875,7 @@ function initMain(){
       }
       $('underBtn').classList.toggle('vOn', UNDER || UGROUND!=='off');
       $('underMenu').style.display = UNDER ? 'flex' : 'none';
+      $('uFull').classList.toggle('vOn', UGROUND==='full');
       $('uSh').classList.toggle('vOn', UGROUND==='shade');
       $('uMid').classList.toggle('vOn', UGROUND==='mid');
     } else {
@@ -3400,7 +3431,7 @@ function compositeColorCv(){
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
   const N=COMP.ph.length, [t1,t2,t3]=COMP.bands, rgb=COMP.rgb;
   const underOn = UGROUND!=='off';
-  const gShade = UGROUND==='shade';
+  const gShade = UGROUND==='shade', gFull = UGROUND==='full';
   const c=document.createElement('canvas'); c.width=w; c.height=h;
   const g=c.getContext('2d');
   const om=g.createImageData(w,h), od=om.data;
@@ -3418,7 +3449,7 @@ function compositeColorCv(){
       v = sh - dD + lD + hl;
     }
     v=v<0?0:(v>255?255:v);
-    const u = gShade ? sh : (underOn ? UMID : 255);
+    const u = gFull ? v : (gShade ? sh : (underOn ? UMID : 255));
     // the band borders follow the tool: values group by the COOKED luma at
     // the current detail level, so a coarser tool draws coarser boundaries
     const band = v<=t1 ? 'dk' : v<=t2 ? 'mid' : v<=t3 ? 'lt' : 'br';
@@ -3643,6 +3674,7 @@ function laySave(){
   })); }catch(e){}
 }
 function underSync(){
+  $('uFull').classList.toggle('vOn', UGROUND==='full');
   $('uSh').classList.toggle('vOn', UGROUND==='shade');
   $('uMid').classList.toggle('vOn', UGROUND==='mid');
   $('underBtn').classList.toggle('vOn', UNDER || UGROUND!=='off');
@@ -3680,7 +3712,7 @@ $('underBtn').onclick=()=>{
   underSync(); laySave();
   if (state.img && GRID_READY) viewRepaint();
 };
-for (const [id3,g3] of [['uSh','shade'],['uMid','mid']])
+for (const [id3,g3] of [['uFull','full'],['uSh','shade'],['uMid','mid']])
   $(id3).onclick=()=>{
     UGROUND = UGROUND===g3 ? 'off' : g3;
     underSync(); laySave();
