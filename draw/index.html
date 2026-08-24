@@ -98,6 +98,8 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:13px}
 .gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
 .gstat{font-size:12px;color:var(--acc);text-align:center;
   padding:3px 2px 4px;line-height:1.3}
+.gtop{padding:4px 2px 3px}
+.gitem.hasTop .gx{top:29px}
 .gbar{position:absolute;left:0;right:0;bottom:0;height:4px;
   background:rgba(20,20,20,0.55);visibility:hidden}
 .gitem.busy .gbar{visibility:visible}
@@ -391,9 +393,9 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 <div id="tourCaret"></div>
 <div id="modeModal">
   <div id="modePanel">
-    <span style="font-size:16px;letter-spacing:.04em">Select Your Mode</span>
-    <button id="modeBW">Black and White Method</button>
-    <button id="modeC">Color Method</button>
+    <span style="font-size:16px;letter-spacing:.04em;color:var(--acc);text-align:center">Choose Your Method</span>
+    <button id="modeBW">Black and White</button>
+    <button id="modeC">Color</button>
   </div>
 </div>
 <div id="delModal">
@@ -494,7 +496,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v253</span>
+      <span id="verNum">v254</span>
     </div>
   </div>
 
@@ -968,6 +970,24 @@ async function renderGallery(){
       REFM=r.id;
       $('refModal').style.display='flex';
     };
+    {
+      // a formatted reference wears its page and grid sizes up top
+      let top='';
+      try{
+        const f=JSON.parse(localStorage.getItem('fmt|'+r.id)||'null');
+        if (f && f.w && f.h){
+          const u=f.u==='cm'?'cm':'in';
+          const wIn=u==='cm'?f.w/2.54:f.w, hIn=u==='cm'?f.h/2.54:f.h;
+          const sq=squaresOf(wIn, hIn);
+          top=f.w+'\u00d7'+f.h+' '+u+' \u00b7 '+sq.cols+'\u00d7'+sq.rows;
+        }
+      }catch(e){}
+      if (top){
+        const st=document.createElement('div');
+        st.className='gstat gtop'; st.textContent=top;
+        d.appendChild(st); d.classList.add('hasTop');
+      }
+    }
     d.appendChild(im); d.appendChild(bar); d.appendChild(xb);
     {
       let line='';
@@ -1362,8 +1382,8 @@ function mainTip(){
     if (seenC) return;
     try{ localStorage.setItem('tourMainC','1');
          localStorage.setItem('tourTools','1'); }catch(e){}
-    tip('underBtn', 'If you use an underpainting, you can customize it here.',
-      {mustClick:true, onClose:()=>colorDoorTip(tools)});
+    if (tools) underTip(true);        // condensed: the colour-only pair
+    else detTip('under');             // full: the detail explanation first
   } else {
     if (seenBW) return;
     try{ localStorage.setItem('tourMain','1');
@@ -1375,19 +1395,33 @@ function mainTip(){
       +'a time.', {mustClick:true});
   }
 }
-function colorDoorTip(toolsSeen){
+function underTip(condensed){
+  tip('underBtn', 'If you use an underpainting, you can customize it here.',
+    {mustClick:true, onClose:()=>{ TOUR.cdoor = condensed ? 'end' : 'full'; }});
+}
+function underClosed(viaDoor){
+  // the sepia menu just closed: only now may the colour-door tip speak.
+  // A user who opened the door themselves has found it - skip its tip
+  // but keep the rest of the chain.
+  if (!TOUR.cdoor) return;
+  const m=TOUR.cdoor; TOUR.cdoor=null;
+  if (viaDoor){ if (m!=='end') cmpBtnTip(); return; }
+  colorDoorTip(m==='end');
+}
+function colorDoorTip(condensed){
   tip('hudToggle', 'This will help visualize the different tonal layers '
     +'in your reference.',
-    {mustClick:true, onClose: toolsSeen ? null : ()=>{ TOUR.det=true; }});
+    {mustClick:true, onClose: condensed ? null : ()=>cmpBtnTip()});
 }
-function detTip(){
-  TOUR.cmp=true;
+function detTip(next){
+  TOUR[next==='under' ? 'cUnder' : 'cmp']=true;
   tip('detBtn', 'You can set the level of detail you\u2019re trying to '
     +'achieve. Sometimes seeing too much detail can be a bad thing if you '
     +'want to stay simple!', {mustClick:true});
 }
 function detClosed(){
   if (TOUR.cmp){ TOUR.cmp=false; cmpBtnTip(); }
+  else if (TOUR.cUnder){ TOUR.cUnder=false; underTip(false); }
 }
 function cmpBtnTip(){
   tip('compareBtn', 'Here you can compare and review your drawing against '
@@ -2929,7 +2963,7 @@ function initMain(){
         $('hud').style.display='';
         $('hudToggle').classList.add('lit','vOn');
       }
-      $('underBtn').classList.toggle('vOn', UNDER || UGROUND!=='off');
+      $('underBtn').classList.toggle('vOn', UNDER);
       $('underMenu').style.display = UNDER ? 'flex' : 'none';
       $('uFull').classList.toggle('vOn', UGROUND==='full');
       $('uSh').classList.toggle('vOn', UGROUND==='shade');
@@ -3052,7 +3086,7 @@ function uiToggle(){
   tapLast=null;
   if (REFMODE==='c' && (UNDER || $('hud').style.display!=='none')){
     // tapping off an open panel dismisses it; the layer state stays put
-    if (UNDER){ UNDER=false; underSync(); laySave(); }
+    if (UNDER){ UNDER=false; underSync(); laySave(); underClosed(); }
     if ($('hud').style.display!=='none') hudSet(false);
     return;
   }
@@ -3740,7 +3774,7 @@ function underSync(){
   $('uSh').classList.toggle('vOn', UGROUND==='shade');
   $('uMid').classList.toggle('vOn', UGROUND==='mid');
   $('uNone').classList.toggle('vOn', UGROUND==='off');
-  $('underBtn').classList.toggle('vOn', UNDER || UGROUND!=='off');
+  $('underBtn').classList.toggle('vOn', UNDER);
   $('underMenu').style.display = UNDER ? 'flex' : 'none';
   if (!UNDER) $('uPal').style.display='none';
   for (const b of $('uPal').querySelectorAll('button')){
@@ -3773,6 +3807,7 @@ $('underBtn').onclick=()=>{
     if ($('hud').style.display!=='none') hudSet(false);
   }
   underSync(); laySave();
+  if (!UNDER) underClosed();
   if (state.img && GRID_READY) viewRepaint();
 };
 for (const [id3,g3] of [['uFull','full'],['uSh','shade'],['uMid','mid'],['uNone','off']])
@@ -6138,7 +6173,7 @@ $('cmpSplit').onclick = () => {
   const set = o => {
     // opening one panel closes the other: the underpainting menu and the
     // colour layer workshop are never on screen together
-    if (o && REFMODE==='c' && UNDER){ UNDER=false; underSync(); }
+    if (o && REFMODE==='c' && UNDER){ UNDER=false; underSync(); underClosed(true); }
     hud.style.display = o ? '' : 'none';
     // B&W: the pencil, naming Shading when open. Colour: the wheel always
     if (REFMODE==='c') tg.innerHTML=COLOR_WHEEL;
@@ -6225,7 +6260,7 @@ document.addEventListener('click', e => {
     try{
       // every starter must land - a failed fetch retries on the next
       // launch, and the library counts as ready only when all are in
-      const STARTERS=['starter-soft.jpg','starter-guy.jpg','starter-freckles.jpg'];
+      const STARTERS=['starter-guy.jpg','starter-soft.jpg'];
       if (localStorage.getItem('seeded1')){          // legacy flag carries over
         localStorage.removeItem('seeded1');
         localStorage.setItem('seed|starter-freckles.jpg','1');
@@ -6242,7 +6277,7 @@ document.addEventListener('click', e => {
         localStorage.setItem(key,'1');
         added=true;
       }
-      const STARTERS_C=['starter-soft-c.jpg','starter-guy-c.jpg','starter-freckles-c.jpg'];
+      const STARTERS_C=['starter-wet-c.jpg','starter-freckles-c.jpg'];
       for (let i=0;i<STARTERS_C.length;i++){
         const key='seed|'+STARTERS_C[i];
         if (localStorage.getItem(key)) continue;
@@ -6252,8 +6287,8 @@ document.addEventListener('click', e => {
         const id=await galAdd({ ts: now-i*1000-500, name: STARTERS_C[i], thumb, blob: b, seed: 1 });
         if (id==null) continue;
         localStorage.setItem('mode|'+id, 'c');
-        if (STARTERS_C[i]!=='starter-freckles-c.jpg')
-          localStorage.setItem('def|'+id, JSON.stringify({w:24,h:18,u:'in'}));
+        if (STARTERS_C[i]==='starter-wet-c.jpg')
+          localStorage.setItem('def|'+id, JSON.stringify({w:18,h:24,u:'in'}));
         localStorage.setItem(key,'1');
         added=true;
       }
