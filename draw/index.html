@@ -488,7 +488,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v247</span>
+      <span id="verNum">v248</span>
     </div>
   </div>
 
@@ -3388,7 +3388,7 @@ function cqPlane(){
   // a painter's palette: median-cut clusters over the photo's colours;
   // each pixel snaps to its cluster's chroma but keeps its OWN luma, so
   // the value structure never changes - only the mixing simplifies
-  const K = CQMODE==='smp' ? 6 : 12;
+  const K = CQMODE==='smp' ? 8 : 16;
   if (COMP.rgbQ && COMP.rgbQK===K) return COMP.rgbQ;
   const rgb=COMP.rgb, N=COMP.ph.length;
   // cluster by CHROMA, not raw colour: every sample is normalised to one
@@ -3403,7 +3403,12 @@ function cqPlane(){
   const samp=[];
   const stride=Math.max(1, Math.floor(N/20000));
   for (let i=0;i<N;i+=stride){
-    const q=i*4; samp.push(norm(rgb[q], rgb[q+1], rgb[q+2]));
+    const q=i*4, p=norm(rgb[q], rgb[q+1], rgb[q+2]);
+    const mx=Math.max(p[0],p[1],p[2]), mn=Math.min(p[0],p[1],p[2]);
+    // saturated accents weigh more, so vivid notes (eyes, lips) earn
+    // their own palette slots even when they cover little area
+    const w=1+Math.min(15, Math.round((mx-mn)/Math.max(1,mx)*24));
+    for (let k2=0;k2<w;k2++) samp.push(p);
   }
   let boxes=[samp];
   while (boxes.length<K){
@@ -3429,6 +3434,31 @@ function cqPlane(){
     r/=n2; g2/=n2; b3/=n2;
     return [r, g2, b3, Math.max(1,(r*77+g2*150+b3*29)/256)];
   });
+  // vivid outliers earn dedicated slots: a strongly-present colour that no
+  // palette entry represents (blue eyes in a warm portrait) takes over the
+  // most redundant slot - median splits alone never isolate a small accent
+  for (let pass=0; pass<Math.max(2, K>>2); pass++){
+    let worst=null, wd=900;
+    for (const p of samp){
+      let bd=1e9;
+      for (const q2 of pal){
+        const dd=(p[0]-q2[0])*(p[0]-q2[0])+(p[1]-q2[1])*(p[1]-q2[1])
+                +(p[2]-q2[2])*(p[2]-q2[2]);
+        if (dd<bd) bd=dd;
+      }
+      if (bd>wd){ wd=bd; worst=p; }
+    }
+    if (!worst) break;
+    let bi2=1, cd=1e9;
+    for (let a2=0;a2<pal.length;a2++) for (let b3=a2+1;b3<pal.length;b3++){
+      const dd=(pal[a2][0]-pal[b3][0])*(pal[a2][0]-pal[b3][0])
+              +(pal[a2][1]-pal[b3][1])*(pal[a2][1]-pal[b3][1])
+              +(pal[a2][2]-pal[b3][2])*(pal[a2][2]-pal[b3][2]);
+      if (dd<cd){ cd=dd; bi2=b3; }
+    }
+    pal[bi2]=[worst[0], worst[1], worst[2],
+              Math.max(1,(worst[0]*77+worst[1]*150+worst[2]*29)/256)];
+  }
   const out=new Uint8ClampedArray(N*4);
   for (let i=0;i<N;i++){
     const q=i*4, r=rgb[q], g2=rgb[q+1], b3=rgb[q+2];
