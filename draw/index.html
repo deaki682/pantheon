@@ -474,7 +474,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v240</span>
+      <span id="verNum">v241</span>
     </div>
   </div>
 
@@ -1596,6 +1596,36 @@ function ttlPop(){
   }
   addEventListener('focusout', soon);
   addEventListener('focus', soon);
+}
+{
+  // iOS: the fixed layout never scrolls, so the keyboard can bury the very
+  // field being typed in. While a text field is focused, the screen (or
+  // the modal panel it lives in) shifts up by exactly the overlap.
+  let kbEl=null, kbBox=null, kbShift=0;
+  const apply=()=>{
+    if (kbBox) kbBox.style.transform = kbShift ? 'translateY(-'+kbShift+'px)' : '';
+  };
+  const recalc=()=>{
+    if (!kbEl || !kbBox){ return; }
+    const vv=window.visualViewport;
+    const vh=vv ? vv.height : innerHeight;
+    const r=kbEl.getBoundingClientRect();
+    const want=Math.max(0, Math.round(r.bottom + kbShift + 16 - vh));
+    if (want!==kbShift){ kbShift=want; apply(); }
+  };
+  document.addEventListener('focusin', e=>{
+    const t=e.target;
+    if (!t || t.tagName!=='INPUT' || (t.type!=='number' && t.type!=='text'
+        && t.type!=='email')) return;
+    kbEl=t;
+    kbBox=t.closest('#gridPanel, #arPanel, .screen');
+    setTimeout(recalc, 80);
+    setTimeout(recalc, 400);      // the keyboard animates in
+  });
+  document.addEventListener('focusout', ()=>{
+    kbEl=null; kbShift=0; apply(); kbBox=null;
+  });
+  if (window.visualViewport) visualViewport.addEventListener('resize', recalc);
 }
 $('calBtn').onclick = () => {
   calRefresh();
