@@ -488,7 +488,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v246</span>
+      <span id="verNum">v247</span>
     </div>
   </div>
 
@@ -3783,6 +3783,9 @@ for (const b of $('cqMenu').querySelectorAll('button'))
   b.onclick=()=>{
     CQMODE=b.dataset.cq;
     $('cqMenu').style.display='none';
+    // picking a colour range shows it on the fully layered reference
+    LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=true;
+    layerButtons();
     cqSync(); laySave();
     if (state.img && GRID_READY) viewRepaint();
   };
