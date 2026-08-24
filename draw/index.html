@@ -158,40 +158,40 @@ html.natCam #camVid{display:none !important}
   display:none;padding:0;z-index:6}
 #shutter:active{filter:brightness(0.8)}
 /* the tool panel floats bottom-left over the canvas and can be dismissed */
-#hudWrap{position:absolute;left:calc(30px + (100% - 60px)/3);
-  transform:translateX(-50%);
+#hudWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
-  display:flex;flex-direction:column;align-items:center;gap:6px;
+  display:flex;flex-direction:column;align-items:flex-start;gap:6px;
   max-width:calc(100% - 16px)}
-body.colorRef #hudWrap{left:calc(30px + (100% - 60px)*0.5)}
 #hud{border:1px solid #555;background:#161616;border-radius:12px}
 #hudToggle{width:44px;height:44px;padding:0;font-size:18px;line-height:1;border-radius:12px}
 #hudToggle.lit{width:auto;padding:0 16px;font-size:14px}
 body.colorRef #hudToggle.lit{width:44px;padding:0;font-size:18px}
 #camCorner{position:absolute;left:calc(100% - 30px);transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
-#detCorner{position:absolute;left:30px;transform:translateX(-50%);
+#detCorner{position:absolute;left:calc(30px + (100% - 60px)/3);
+  transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
+body.colorRef #detCorner{left:calc(30px + (100% - 60px)*0.25)}
 #gridCorner{position:absolute;left:calc(30px + (100% - 60px)*2/3);
   transform:translateX(-50%);bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
 #detBtn{height:44px;min-width:52px;padding:0 10px;border-radius:12px;font-size:13px}
-#detMenu{position:absolute;bottom:52px;left:0;
-  display:none;flex-direction:column;gap:6px;background:#1e1e1e;
-  border:1px solid #555;border-radius:14px;padding:6px;z-index:6}
-#detMenu button{white-space:nowrap;font-size:13px;border-radius:9px}
+#detMenu{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
+  display:none;flex-direction:column;gap:5px;background:#1e1e1e;
+  border:1px solid #555;border-radius:14px;padding:5px;z-index:6}
+#detMenu button{white-space:nowrap;font-size:12px;padding:6px 9px;border-radius:9px}
 #gridBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #underCorner{position:absolute;left:50%;transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:none}
-body.colorRef #underCorner{display:block;left:calc(30px + (100% - 60px)*0.25)}
+body.colorRef #underCorner{display:block}
 body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.75)}
 #underBtn{width:44px;height:44px;padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #underMenu{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
-  display:none;flex-direction:column;gap:6px;background:#1e1e1e;
-  border:1px solid #555;border-radius:14px;padding:8px;z-index:6;
+  display:none;flex-direction:column;gap:5px;background:#1e1e1e;
+  border:1px solid #555;border-radius:14px;padding:5px;z-index:6;
   align-items:stretch}
-#underMenu button{border-radius:9px;font-size:13px;white-space:nowrap}
+#underMenu button{border-radius:9px;font-size:12px;padding:6px 9px;white-space:nowrap}
 #edView{flex:1;min-height:0;position:relative;overflow:hidden;background:#0e0e0e;
   touch-action:none}
 #edCv{position:absolute;left:0;top:0}
@@ -258,7 +258,8 @@ body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.75)}
    and they slide back */
 #hudWrap,#detCorner,#gridCorner,#underCorner,#camCorner,#expCorner,#setCorner,#backBtn{
   transition:transform 0.2s cubic-bezier(.3,0,.2,1)}
-body.uiHid #hudWrap,body.uiHid #detCorner,body.uiHid #gridCorner,
+body.uiHid #hudWrap{transform:translateY(160%)}
+body.uiHid #detCorner,body.uiHid #gridCorner,
 body.uiHid #underCorner,body.uiHid #camCorner{transform:translate(-50%,160%)}
 body.uiHid #expCorner{transform:translateY(-190%)}
 body.uiHid #setCorner{transform:translate(-50%,-190%)}
@@ -473,7 +474,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v237</span>
+      <span id="verNum">v238</span>
     </div>
   </div>
 
@@ -3334,15 +3335,18 @@ function compositeColorCv(){
       if (SLAY.hl) u+=hl;
     }
     v=v<0?0:(v>255?255:v);
+    if (UNDER){
+      // the sepia is an exclusive view: only the underpainting shows,
+      // whatever the colour bands say - they wait, remembered
+      const ui=(u<0?0:(u>255?255:u))|0;
+      od[q]=SEP_R[ui]; od[q+1]=SEP_G[ui]; od[q+2]=SEP_B[ui];
+      od[q+3]=255; continue;
+    }
     // the band borders follow the tool: values group by the COOKED luma at
     // the current detail level, so a coarser tool draws coarser boundaries
     const band = v<=t1 ? 'dk' : v<=t2 ? 'mid' : v<=t3 ? 'lt' : 'br';
     if (!L[band]){
-      if (UNDER){
-        const ui=(u<0?0:(u>255?255:u))|0;
-        od[q]=SEP_R[ui]; od[q+1]=SEP_G[ui]; od[q+2]=SEP_B[ui];
-      } else { od[q]=od[q+1]=od[q+2]=255; }
-      od[q+3]=255; continue;
+      od[q]=od[q+1]=od[q+2]=255; od[q+3]=255; continue;
     }
     const k=v/Math.max(1,ph);
     const r=rgb[q]*k, g2=rgb[q+1]*k, b=rgb[q+2]*k;
@@ -3563,8 +3567,8 @@ function underSync(){
   $('underMenu').style.display = UNDER ? 'flex' : 'none';
 }
 $('underBtn').onclick=()=>{
-  UNDER=!UNDER;
-  SLAY.dk=SLAY.lt=SLAY.hl=false;   // the underpainting opens at bare shading
+  UNDER=!UNDER;                    // its layers persist across open and close
+  $('detMenu').style.display='none';
   underSync(); laySave();
   if (state.img && GRID_READY) viewRepaint();
 };
@@ -5919,6 +5923,7 @@ $('cmpSplit').onclick = () => {
 {
   const hud = $('hud'), tg = $('hudToggle');
   const set = o => {
+    if (REFMODE==='c' && UNDER){ UNDER=false; underSync(); }
     hud.style.display = o ? '' : 'none';
     // closed: the pencil; open: an illuminated square naming the constant
     // ground every layer builds on
