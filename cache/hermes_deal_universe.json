@@ -1,13 +1,135 @@
 {
- "generated": "2026-08-20",
+ "generated": "2026-08-25",
  "window": {
-  "from": "2026-04-22",
-  "to": "2026-08-20",
+  "from": "2026-04-27",
+  "to": "2026-08-25",
   "lookback_days": 120
  },
- "n_candidates": 123,
+ "n_candidates": 118,
  "coverage_note": "COMPLETE population of announced-deal TARGETS from EDGAR daily form indexes (DEFM14A / PREM14A / DEFM14C / PREM14C / SC 14D9) \u2014 no keyword, keyed to the target CIK. KNOWN missing: (1) deals whose only public paper so far is an 8-K merger agreement that has not yet drawn a proxy/14D-9 \u2014 caught on the next sweep once the proxy files; (2) acquirer-side-only tenders (SC TO-T) by design \u2014 Hermes longs the target. Cash-vs-stock is NOT decided here; every candidate requires the per-deal read.",
  "candidates": [
+  {
+   "cik": "0001739566",
+   "company": "Utz Brands, Inc.",
+   "symbol": "UTZ",
+   "channels": [
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "PREM14A"
+   ],
+   "first_filed": "2026-08-24",
+   "last_filed": "2026-08-24",
+   "n_filings": 1,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
+  {
+   "cik": "0001566826",
+   "company": "LogicMark, Inc.",
+   "symbol": "LGMK",
+   "channels": [
+    "definitive merger proxy (shareholder vote)",
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "DEFM14A",
+    "PREM14A"
+   ],
+   "first_filed": "2026-08-14",
+   "last_filed": "2026-08-24",
+   "n_filings": 2,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
+  {
+   "cik": "0001505952",
+   "company": "DOMO, INC.",
+   "symbol": "DOMO",
+   "channels": [
+    "merger information statement (written consent, no vote)",
+    "preliminary merger information statement"
+   ],
+   "forms": [
+    "DEFM14C",
+    "PREM14C"
+   ],
+   "first_filed": "2026-08-12",
+   "last_filed": "2026-08-24",
+   "n_filings": 2,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
+  {
+   "cik": "0001467760",
+   "company": "Apollo Commercial Real Estate Finance, Inc.",
+   "symbol": "ARI",
+   "channels": [
+    "definitive merger proxy (shareholder vote)",
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "DEFM14A",
+    "PREM14A"
+   ],
+   "first_filed": "2026-07-14",
+   "last_filed": "2026-08-24",
+   "n_filings": 2,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
+  {
+   "cik": "0001583107",
+   "company": "Theravance Biopharma, Inc.",
+   "symbol": "TBPH",
+   "channels": [
+    "definitive merger proxy (shareholder vote)",
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "DEFM14A",
+    "PREM14A"
+   ],
+   "first_filed": "2026-08-11",
+   "last_filed": "2026-08-21",
+   "n_filings": 2,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
+  {
+   "cik": "0001419041",
+   "company": "Forte Biosciences, Inc.",
+   "symbol": "FBRX",
+   "channels": [
+    "target recommendation on a tender offer (two-step)"
+   ],
+   "forms": [
+    "SC 14D9"
+   ],
+   "first_filed": "2026-08-06",
+   "last_filed": "2026-08-21",
+   "n_filings": 3,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
+  {
+   "cik": "0000842023",
+   "company": "BIO-TECHNE Corp",
+   "symbol": "TECH",
+   "channels": [
+    "definitive merger proxy (shareholder vote)",
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "DEFM14A",
+    "PREM14A"
+   ],
+   "first_filed": "2026-08-10",
+   "last_filed": "2026-08-20",
+   "n_filings": 2,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
   {
    "cik": "0002028201",
    "company": "Columbus Acquisition Corp/Cayman Islands",
@@ -41,22 +163,6 @@
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
   {
-   "cik": "0001419041",
-   "company": "Forte Biosciences, Inc.",
-   "symbol": "FBRX",
-   "channels": [
-    "target recommendation on a tender offer (two-step)"
-   ],
-   "forms": [
-    "SC 14D9"
-   ],
-   "first_filed": "2026-08-06",
-   "last_filed": "2026-08-19",
-   "n_filings": 2,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
    "cik": "0001366868",
    "company": "Globalstar, Inc.",
    "symbol": "GSAT",
@@ -68,22 +174,6 @@
    ],
    "first_filed": "2026-08-18",
    "last_filed": "2026-08-18",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0001566826",
-   "company": "LogicMark, Inc.",
-   "symbol": "LGMK",
-   "channels": [
-    "preliminary merger proxy (earlier signal)"
-   ],
-   "forms": [
-    "PREM14A"
-   ],
-   "first_filed": "2026-08-14",
-   "last_filed": "2026-08-14",
    "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
@@ -113,22 +203,6 @@
    ],
    "forms": [
     "PREM14A"
-   ],
-   "first_filed": "2026-08-12",
-   "last_filed": "2026-08-12",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0001505952",
-   "company": "DOMO, INC.",
-   "symbol": "DOMO",
-   "channels": [
-    "preliminary merger information statement"
-   ],
-   "forms": [
-    "PREM14C"
    ],
    "first_filed": "2026-08-12",
    "last_filed": "2026-08-12",
@@ -187,22 +261,6 @@
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
   {
-   "cik": "0001583107",
-   "company": "Theravance Biopharma, Inc.",
-   "symbol": "TBPH",
-   "channels": [
-    "preliminary merger proxy (earlier signal)"
-   ],
-   "forms": [
-    "PREM14A"
-   ],
-   "first_filed": "2026-08-11",
-   "last_filed": "2026-08-11",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
    "cik": "0001554818",
    "company": "AUDDIA INC.",
    "symbol": "AUUD",
@@ -245,22 +303,6 @@
    ],
    "forms": [
     "DEFM14A"
-   ],
-   "first_filed": "2026-08-10",
-   "last_filed": "2026-08-10",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0000842023",
-   "company": "BIO-TECHNE Corp",
-   "symbol": "TECH",
-   "channels": [
-    "preliminary merger proxy (earlier signal)"
-   ],
-   "forms": [
-    "PREM14A"
    ],
    "first_filed": "2026-08-10",
    "last_filed": "2026-08-10",
@@ -659,22 +701,6 @@
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
   {
-   "cik": "0001467760",
-   "company": "Apollo Commercial Real Estate Finance, Inc.",
-   "symbol": "ARI",
-   "channels": [
-    "preliminary merger proxy (earlier signal)"
-   ],
-   "forms": [
-    "PREM14A"
-   ],
-   "first_filed": "2026-07-14",
-   "last_filed": "2026-07-14",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
    "cik": "0001974640",
    "company": "Apogee Therapeutics, Inc.",
    "symbol": "APGE",
@@ -791,7 +817,7 @@
   {
    "cik": "0002012318",
    "company": "Inflection Point Acquisition Corp. III",
-   "symbol": "IPCXU",
+   "symbol": "IPCXR",
    "channels": [
     "definitive merger proxy (shareholder vote)"
    ],
@@ -909,7 +935,7 @@
   {
    "cik": "0001445942",
    "company": "Texas Mineral Resources Corp.",
-   "symbol": "TMRC",
+   "symbol": null,
    "channels": [
     "definitive merger proxy (shareholder vote)"
    ],
@@ -1830,9 +1856,9 @@
    "forms": [
     "SC 14D9"
    ],
-   "first_filed": "2026-04-24",
+   "first_filed": "2026-05-05",
    "last_filed": "2026-05-05",
-   "n_filings": 2,
+   "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -1873,16 +1899,14 @@
    "company": "OLAPLEX HOLDINGS, INC.",
    "symbol": null,
    "channels": [
-    "merger information statement (written consent, no vote)",
-    "preliminary merger information statement"
+    "merger information statement (written consent, no vote)"
    ],
    "forms": [
-    "DEFM14C",
-    "PREM14C"
+    "DEFM14C"
    ],
-   "first_filed": "2026-04-24",
+   "first_filed": "2026-05-04",
    "last_filed": "2026-05-04",
-   "n_filings": 2,
+   "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -1946,102 +1970,6 @@
    ],
    "first_filed": "2026-04-27",
    "last_filed": "2026-04-27",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0001853513",
-   "company": "Mister Car Wash, Inc.",
-   "symbol": null,
-   "channels": [
-    "merger information statement (written consent, no vote)"
-   ],
-   "forms": [
-    "DEFM14C"
-   ],
-   "first_filed": "2026-04-24",
-   "last_filed": "2026-04-24",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0000885508",
-   "company": "STRATUS PROPERTIES INC",
-   "symbol": "STRS",
-   "channels": [
-    "definitive merger proxy (shareholder vote)"
-   ],
-   "forms": [
-    "DEFM14A"
-   ],
-   "first_filed": "2026-04-24",
-   "last_filed": "2026-04-24",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0001845337",
-   "company": "Day One Biopharmaceuticals, Inc.",
-   "symbol": null,
-   "channels": [
-    "target recommendation on a tender offer (two-step)"
-   ],
-   "forms": [
-    "SC 14D9"
-   ],
-   "first_filed": "2026-04-23",
-   "last_filed": "2026-04-23",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0001489096",
-   "company": "Thermon Group Holdings, Inc.",
-   "symbol": null,
-   "channels": [
-    "definitive merger proxy (shareholder vote)"
-   ],
-   "forms": [
-    "DEFM14A"
-   ],
-   "first_filed": "2026-04-23",
-   "last_filed": "2026-04-23",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0000801337",
-   "company": "WEBSTER FINANCIAL CORP",
-   "symbol": "WBS-PG",
-   "channels": [
-    "definitive merger proxy (shareholder vote)"
-   ],
-   "forms": [
-    "DEFM14A"
-   ],
-   "first_filed": "2026-04-23",
-   "last_filed": "2026-04-23",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0002071136",
-   "company": "Nuveen Churchill BDC V",
-   "symbol": null,
-   "channels": [
-    "definitive merger proxy (shareholder vote)"
-   ],
-   "forms": [
-    "DEFM14A"
-   ],
-   "first_filed": "2026-04-22",
-   "last_filed": "2026-04-22",
    "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
