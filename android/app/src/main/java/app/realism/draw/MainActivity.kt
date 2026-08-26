@@ -56,6 +56,13 @@ class MainActivity : AppCompatActivity() {
     private var modeAnnounced = false
     private lateinit var diag: TextView
     private var booted = false
+    // ---- ads: one adaptive banner, visible only while the page reports
+    // the project screen up. Real unit id; register the dev phone as a
+    // test device in the AdMob console before poking at it.
+    private var adView: com.google.android.gms.ads.AdView? = null
+    private lateinit var adWrap: FrameLayout
+    private var adWanted = false
+    private var adsUp = false
 
     private fun report(msg: String) {
         Log.e("Realism", msg)
@@ -157,6 +164,11 @@ class MainActivity : AppCompatActivity() {
         }
         root.addView(diag, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
+        adWrap = FrameLayout(this)
+        adWrap.visibility = android.view.View.GONE
+        root.addView(adWrap, FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT,
+            android.view.Gravity.BOTTOM))
         setContentView(root)
         run {
             val prefs = getSharedPreferences("cam", 0)
@@ -250,6 +262,64 @@ class MainActivity : AppCompatActivity() {
         web.postDelayed({
             if (!booted) report("page did not finish loading in 8s (progress ${web.progress}%)")
         }, 8000)
+        startAds()
+    }
+
+    // ---- the ad stack: consent first (Google's UMP form, configured in
+    // AdMob's Privacy & messaging), then one adaptive banner. The page
+    // drives visibility through Bridge.adScreen, so the drawing, format,
+    // and compare screens never carry an ad.
+    private val AD_UNIT = "ca-app-pub-4573680538268043/3352942674"
+
+    private fun startAds() {
+        val ci = com.google.android.ump.UserMessagingPlatform.getConsentInformation(this)
+        val params = com.google.android.ump.ConsentRequestParameters.Builder().build()
+        ci.requestConsentInfoUpdate(this, params, {
+            com.google.android.ump.UserMessagingPlatform
+                .loadAndShowConsentFormIfRequired(this) { _ ->
+                    if (ci.canRequestAds()) initAdBanner()
+                }
+        }, {
+            // offline or the consent service hiccuped: the SDK still knows
+            // whether ads are permitted from the last stored state
+            if (ci.canRequestAds()) initAdBanner()
+        })
+    }
+
+    private fun initAdBanner() {
+        if (adsUp) return
+        adsUp = true
+        Thread {
+            com.google.android.gms.ads.MobileAds.initialize(this) {}
+            runOnUiThread {
+                try {
+                    val dm = resources.displayMetrics
+                    val adW = (dm.widthPixels / dm.density).toInt()
+                    val size = com.google.android.gms.ads.AdSize
+                        .getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adW)
+                    val v = com.google.android.gms.ads.AdView(this)
+                    v.adUnitId = AD_UNIT
+                    v.setAdSize(size)
+                    adView = v
+                    adWrap.addView(v, FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.WRAP_CONTENT))
+                    v.loadAd(com.google.android.gms.ads.AdRequest.Builder().build())
+                    applyAd()
+                } catch (e: Throwable) { logLine("ad init: " + e.message) }
+            }
+        }.apply { isDaemon = true }.start()
+    }
+
+    // the banner claims a strip below the WebView while visible, so the
+    // page's own layout (and the camera ghost geometry) never sits under it
+    private fun applyAd() {
+        val v = adView
+        val on = adWanted && v != null
+        adWrap.visibility = if (on) android.view.View.VISIBLE else android.view.View.GONE
+        val lp = web.layoutParams as FrameLayout.LayoutParams
+        val h = if (on && v != null) (v.adSize?.getHeightInPixels(this) ?: 0) else 0
+        if (lp.bottomMargin != h) { lp.bottomMargin = h; web.layoutParams = lp }
     }
 
     // the browser engine keeps IndexedDB in per-origin folders on disk,
@@ -388,6 +458,10 @@ class MainActivity : AppCompatActivity() {
             try { java.io.File(filesDir, "shadow/meta.json").readText() } catch (e: Exception) { "" }
         // rolling diagnostics journal: every launch and storage event lands
         // here so the NEXT incident carries evidence instead of anecdote
+        @JavascriptInterface
+        fun adScreen(onProject: Boolean) {
+            runOnUiThread { adWanted = onProject; applyAd() }
+        }
         @JavascriptInterface
         fun dlog(line: String) = logLine("page: " + line.take(300))
         @JavascriptInterface

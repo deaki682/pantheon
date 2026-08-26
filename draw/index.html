@@ -476,7 +476,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v265</span>
+      <span id="verNum">v266</span>
     </div>
   </div>
 
@@ -792,7 +792,10 @@ const show = id => { tipClose(false); uiShow();
   if (id==='scrUpload'){
     try{ calRefresh(); }catch(e){}
     if (TOUR.rule) ruleTip();
-  } };
+  }
+  // the native shell shows its banner only on the project screen
+  if (window.RealismCam && RealismCam.adScreen)
+    try{ RealismCam.adScreen(id==='scrUpload'); }catch(e){} };
 for (const sc of document.querySelectorAll('.screen'))
   sc.addEventListener('animationend', e=>{ if (e.target===sc) sc.classList.remove('in','off'); });
 
@@ -1532,6 +1535,7 @@ function gcPing(path){
   }catch(e){}
 }
 gcPing('/open');
+try{ if (window.RealismCam && RealismCam.adScreen) RealismCam.adScreen(true); }catch(e){}
 // storage durability: without a persistence grant the browser engine may
 // EVICT this origin's whole storage under disk pressure - weeks of
 // references gone in one low-space moment. Ask for the grant, and show

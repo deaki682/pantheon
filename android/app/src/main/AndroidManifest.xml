@@ -10,6 +10,9 @@
       android:theme="@style/Theme.Realism"
       android:networkSecurityConfig="@xml/network_security_config"
       android:hardwareAccelerated="true">
+    <meta-data
+        android:name="com.google.android.gms.ads.APPLICATION_ID"
+        android:value="ca-app-pub-4573680538268043~2423004381"/>
     <activity
         android:name=".MainActivity"
         android:exported="true"

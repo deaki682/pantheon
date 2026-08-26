@@ -11,8 +11,8 @@ android {
     applicationId "app.realism.draw"
     minSdk 26
     targetSdk 36
-    versionCode 78
-    versionName "0.9.43"
+    versionCode 79
+    versionName "0.9.44"
   }
   // the web app IS the app: the android module serves ../draw verbatim
   sourceSets.main.assets.srcDirs += rootProject.file('../draw')
@@ -55,4 +55,9 @@ dependencies {
   implementation "androidx.camera:camera-lifecycle:$camerax"
   implementation "androidx.camera:camera-view:$camerax"
   implementation "androidx.camera:camera-extensions:$camerax"
+  implementation 'com.google.android.gms:play-services-ads:23.2.0'
+  implementation 'com.google.android.ump:user-messaging-platform:2.2.0'
+  // the ads SDK drags in guava's empty listenablefuture stub, which would
+  // shadow the real class CameraX compiles against - pin real guava
+  implementation 'com.google.guava:guava:32.0.1-android'
 }
