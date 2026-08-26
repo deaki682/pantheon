@@ -1278,5 +1278,19 @@
   "peak_equity": 4930.514910700001,
   "drawdown": 0.05156,
   "note": "Zeus hourly intraday tend ~10:15 ET Wed 2026-08-26. 6/6 held names marked live, broker==sleeve exact (0 mismatches). EDGAR swept for all six CIKs: ZERO new filings since 2026-08-25 (the only doc since 08-21 remains the LXU 25-NSE assessed yesterday as a rights-plan removal, not a delisting) -> all six typed kills UNTESTABLE, no exits. KLIC -23.68 pct from entry is the book's worst mark; per Stage 5 a drawdown is NEVER an exit and its kill (quarterly revenue < $180M) stays untested until the next print. Book marks: PAY +34.64, QTWO +19.19, TPC +15.39, LXU -4.74, ZVRA -16.27, KLIC -23.68. Sourcing cascade a conscious no-op (book at the 3-6 concentration ceiling, $449.94 = 9.62 pct cash). 0 A/B grades due (326 candidates recorded, earliest 6mo horizon lands 2027-01). Drawdown 5.16 pct from peak $4930.51, 40 pct breaker ok. 0 orders."
+ },
+ {
+  "timestamp": "2026-08-26T20:10:00+00:00",
+  "date": "2026-08-26",
+  "session": "close_tend",
+  "equity": 4720.21,
+  "cash": 449.94,
+  "positions": 6,
+  "spy": 765.95,
+  "iwm": 298.94,
+  "xbi": 168.39,
+  "peak_equity": 4930.514910700001,
+  "drawdown": 0.04265,
+  "note": "Zeus after-close tend ~16:05 ET Wed 2026-08-26 (second pass of the day; the 10:15 ET intraday mark was 4676.31 -> +0.94% into the close, and per lesson 16 the relative work below is run on OFFICIAL CLOSES). Broker==sleeve exact on all six (0 mismatches). EDGAR: ZERO new docs across all six CIKs -> 6/6 typed kills UNTESTABLE, 6/6 HOLD, 0 orders. Closing marks vs entry: PAY +36.58, QTWO +22.62, TPC +16.43, LXU -5.11, ZVRA -16.73, KLIC -22.91. Book +8.41 pct vs contributed $4353.89 against SPY +2.00 pct since the 07-10 entry (750.935 -> 765.95) = +6.41pp ahead. Peer check on closes: KLIC +0.27pp vs back-end semicap, PAY +0.95pp vs a red fintech set, TPC -0.62pp vs E&C, QTWO +1.72pp vs SPY, LXU +1.26pp vs IWM; ZVRA -2.03pp vs XBI is the day's only idiosyncratic negative and carries no document. WATCH ITEM RETIRED: the back-end-minus-front-end semicap spread read +0.10pp today vs -4.21pp on 08-18 - the third consecutive failure of a semicap cross-sectional split to replicate. Sourcing cascade a conscious no-op (book at the 3-6 concentration ceiling, $449.94 = 9.53 pct cash); the research cadence key is 43 days stale and is an operator decision, not an hourly-pass improvisation. 0 A/B grades due (326 candidates, earliest horizon 2027). Drawdown 4.27 pct from peak $4930.51, 40 pct breaker OK."
  }
 ]

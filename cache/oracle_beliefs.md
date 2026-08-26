@@ -2040,3 +2040,62 @@ Zero new EDGAR documents across all six names. Zero typed kills touched. 6/6 HOL
 key last stamped 2026-07-14, now 35 days stale; Stage 0-1 is a full-field cascade over ~3,150 names
 and an hourly dispatcher pass must not start and half-finish it. The live book is tended every
 weekday regardless.
+
+## 2026-08-26 after-close (Zeus tend #2) — Lesson 17: the semicap complex has no cross-section
+
+Third strike, and this one closes a file. Since 08-14 I have twice read a cross-sectional split into
+the semicap complex and twice been wrong:
+
+| read | when | what I saw | what happened next |
+|------|------|-----------|--------------------|
+| front-end weak / back-end strong | 08-14 | KLIC +3.49% while AMAT/KLAC/LRCX all red | 08-18: whole complex moved as ONE thing (back-end -7.58%, front-end in step) |
+| back-end selling harder than front-end | 08-18 | BE -8.77% vs FE -4.56%, two days running | **today: BE +0.10% vs FE +0.00% = +0.10pp.** Gone. |
+
+**The watch item is RETIRED, not carried.** A -4.21pp spread that reads as a capex-cycle rotation
+collapsed to +0.10pp on the next observation, exactly as the 08-14 version did. Three attempts, three
+failures to replicate. The generalization I am willing to bank: **the back-end/front-end distinction
+is a real business fact and a useless daily-price fact** — the complex is traded as one exposure, so
+any split I observe in it on a given day is noise dressed as structure. I will stop generating this
+particular hypothesis. Lesson 15 said check whether a split survives a second observation; the
+refinement is that when a *family* of splits has failed three times, stop paying the cost of the
+second observation and drop the whole family.
+
+Discipline note that made this legible: today's reading is on OFFICIAL CLOSES, per lesson 16. Had I
+graded the watch item at 10:15 ET I would have had another provisional number to carry.
+
+## The day itself: quiet, green, and no news anywhere in the book
+
+Closed $4,720.21 (+0.94% off the 10:15 ET mark of $4,676.31) on a flat tape — SPY +0.01%, IWM -0.10%,
+XBI -0.42%. Since the 07-10 funding the book is **+8.41% vs contributed against SPY's +2.00%
+(750.935 -> 765.95) = +6.41pp ahead.** Drawdown 4.27% off the $4,930.51 peak; 40% breaker untouched.
+
+**Zero EDGAR documents across all six CIKs.** Every typed kill in this book is an earnings-print test
+(KLIC revenue < $180M, PAY YoY growth < 15%, QTWO GAAP loss relapse or growth < 10%, TPC two
+consecutive GAAP loss quarters, LXU quarterly net loss, ZVRA two flat product-revenue quarters) and
+no print landed, so all six are UNTESTABLE. 6/6 HOLD. 0 orders. Broker == sleeve exact.
+
+The peer check on closes, sixth and seventh time it has subtracted rather than added a story:
+- **KLIC +0.38% is nothing** — back-end median +0.10%, so +0.27pp. The name that has cost the book
+  the most (-22.91% vs entry) had a completely ordinary session.
+- **PAY +0.23% is quietly the best relative print** — the fintech set was RED (median -0.72%: ACIW
+  +1.20, TOST +0.42, PYPL -0.72, JKHY -0.74, GPN -0.88), so +0.95pp. Two sessions ago I recorded PAY's
+  -5.79pp residual as "a give-back in a crowded winner, not a thesis event"; a positive residual
+  against a red cohort is the first evidence for that reading rather than against it. One
+  observation — noted, not concluded.
+- **TPC +1.27% looks weak (-0.62pp vs an E&C median of +1.89%) and the median is the thing to
+  distrust here**: DY printed -11.55% on its own news, and the rest of the set ran +0.78 to +3.68.
+  Against a cohort where one member is having an event, the median is doing real work — this is the
+  benchmark-choice discipline from 08-18 pointing the other way. A -0.62pp lag on a strong sector day
+  is participation, not weakness.
+- **ZVRA -2.45% (-2.03pp vs XBI) is the day's only genuine idiosyncratic negative**, and like PAY's
+  on 08-18 it carries no document. Recorded, nothing sized on it, kill untouched.
+- **QTWO +1.72pp vs SPY** — the book's best name today, and per lesson 16 I am recording that as a
+  closing fact rather than a narrative about the position.
+
+**Sourcing: 43 days stale and still not mine to improvise.** The `research` cadence key last stamped
+2026-07-14. Stage 0-1 is a full-field cascade over ~3,150 names; an hourly dispatcher pass must not
+start and half-finish it, and a partially-read field produces exactly the credulous book the recut
+exists to prevent. The book is also at the 3-6 concentration ceiling with $449.94 (9.53%) cash, so
+there is no idle capital waiting on it. This is now an operator decision that has sat unmade for six
+weeks — I have escalated it out of this file rather than flagging it here a fifth time. The live book
+is tended every weekday regardless.
