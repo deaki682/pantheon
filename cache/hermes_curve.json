@@ -401,5 +401,11 @@
   "equity": 4038.02,
   "spy": 765.4,
   "note": "Zeus hourly pass ~10:15 ET Tue 2026-08-25. Reconcile clean (hermes_reconcile()==[], broker==sleeve on all 7: ALOT/APGE/RAMP/GBTG/FSEA/OGN/NSTS; missing_marks=[]). No break-stop triggered, no completion, no past-close deal in the live book. Sourcing sweep re-run (120d window to 2026-08-25, 118 announced-deal targets): 3 new detections recorded, all DROP - UTZ ($14.25 all-cash Intersnack, clean deal but spread spent at +0.07%, below the 1% floor), COLAU and IPCXR (de-SPAC, out of scope, no cash terminal). Remaining sweep diffs were alternate share classes of already-tracked deals (MDV-PA/CRBD/EQH-PC/VAL-WT/HSCSW/BBCQW/VLOSU) - skipped so the Arm-B denominator is not double-counted. NO ENTRY: sleeve cash $99.56 against a 2% reserve on $4,038 equity leaves ~$18 spendable, and the shared-pool broker buying power is $575.28 - no honest ticket at the 15% per-deal cap. GBCS tender expired 08-24 5pm ET with no outcome amendment on EDGAR yet and no broker tape, so it stays unresolved rather than guessed. LLM-lift at 109 graded: Arm A +1.22% expectancy (n=3) vs Arm B -1.74% (n=109), lift +2.96pp. Equity $4,038.02 vs contributed $4,000.00; SPY 765.40."
+ },
+ {
+  "date": "2026-08-26",
+  "equity": 4041.56,
+  "spy": 766.58,
+  "note": "Zeus hourly pass ~10:15 ET Wed 2026-08-26. Freeze lifted (07-14). Reconcile CLEAN: hermes_reconcile()==[], broker==sleeve exact on all 7 deals (ALOT/APGE/RAMP/GBTG/FSEA/OGN/NSTS); no pending orders since the 08-20 NSTS fill. missing_marks=[]. break_triggered=[] (every name 17.6-19.7% above its stop); past_close=[]. Equity $4041.56 vs contributed $4000.00 (+1.04%), cash $99.56; SPY 766.58. No entries this pass. GBCS (Arm-B only) tender extended a 5th time to 08-27, left unresolved (no broker tape)."
  }
 ]
