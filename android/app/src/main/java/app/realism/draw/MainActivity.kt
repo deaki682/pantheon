@@ -56,16 +56,14 @@ class MainActivity : AppCompatActivity() {
     private var modeAnnounced = false
     private lateinit var diag: TextView
     private var booted = false
-    // ---- ads: one NATIVE card styled as part of the app (banner as the
-    // fill fallback), visible only while the page reports the project
-    // screen up. Register the dev phone as a test device in the AdMob
-    // console before poking at it.
+    // ---- ads: one NATIVE card styled as part of the app, visible only
+    // while the page reports the project screen up. Register the dev
+    // phone as a test device in the AdMob console before poking at it.
     private lateinit var adWrap: FrameLayout
     private var adWanted = false
     private var adsUp = false
     private var adShownH = 0
     private var nativeAd: com.google.android.gms.ads.nativead.NativeAd? = null
-    private var fallbackBanner: com.google.android.gms.ads.AdView? = null
 
     private fun report(msg: String) {
         Log.e("Realism", msg)
@@ -272,7 +270,6 @@ class MainActivity : AppCompatActivity() {
     // AdMob's Privacy & messaging), then one native card. The page drives
     // visibility through Bridge.adScreen, so the drawing, format, and
     // compare screens never carry an ad.
-    private val AD_UNIT = "ca-app-pub-4573680538268043/3352942674"   // banner (fallback fill)
     private val NATIVE_UNIT = "ca-app-pub-4573680538268043/6075308934"
 
     private fun startAds() {
@@ -297,11 +294,11 @@ class MainActivity : AppCompatActivity() {
             com.google.android.gms.ads.MobileAds.initialize(this) {}
             runOnUiThread {
                 loadNative()
-                // gentle refresh: a fresh native ad every 75s, but only
-                // while the project screen is actually showing one
+                // gentle cycle: while the project screen is up, refresh a
+                // showing card every 75s - and retry an empty slot too
                 val tick = object : Runnable {
                     override fun run() {
-                        if (adWanted && nativeAd != null) loadNative()
+                        if (adWanted) loadNative()
                         adWrap.postDelayed(this, 75000)
                     }
                 }
@@ -314,11 +311,6 @@ class MainActivity : AppCompatActivity() {
         try {
             val loader = com.google.android.gms.ads.AdLoader.Builder(this, NATIVE_UNIT)
                 .forNativeAd { ad -> runOnUiThread { showNative(ad) } }
-                .withAdListener(object : com.google.android.gms.ads.AdListener() {
-                    override fun onAdFailedToLoad(e: com.google.android.gms.ads.LoadAdError) {
-                        runOnUiThread { if (nativeAd == null && fallbackBanner == null) loadFallbackBanner() }
-                    }
-                })
                 .withNativeAdOptions(com.google.android.gms.ads.nativead.NativeAdOptions.Builder()
                     .setAdChoicesPlacement(
                         com.google.android.gms.ads.nativead.NativeAdOptions.ADCHOICES_TOP_RIGHT)
@@ -334,7 +326,6 @@ class MainActivity : AppCompatActivity() {
         try {
             nativeAd?.destroy()
             nativeAd = ad
-            fallbackBanner?.destroy(); fallbackBanner = null
             val d = resources.displayMetrics.density
             fun dp(v: Int) = (v * d).toInt()
             val ACC = 0xFFE8833A.toInt()
@@ -395,30 +386,10 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Throwable) { logLine("native show: " + e.message) }
     }
 
-    // when native inventory is dry the plain banner keeps the slot earning
-    private fun loadFallbackBanner() {
-        try {
-            val dm = resources.displayMetrics
-            val adW = (dm.widthPixels / dm.density).toInt()
-            val size = com.google.android.gms.ads.AdSize
-                .getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adW)
-            val v = com.google.android.gms.ads.AdView(this)
-            v.adUnitId = AD_UNIT
-            v.setAdSize(size)
-            fallbackBanner = v
-            adWrap.removeAllViews()
-            adWrap.addView(v, FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
-            v.loadAd(com.google.android.gms.ads.AdRequest.Builder().build())
-            adShownH = size.getHeightInPixels(this)
-            applyAd()
-        } catch (e: Throwable) { logLine("banner fallback: " + e.message) }
-    }
-
     // the ad claims a strip below the WebView while visible, so the page's
     // own layout (and the camera ghost geometry) never sits under it
     private fun applyAd() {
-        val have = nativeAd != null || fallbackBanner != null
+        val have = nativeAd != null
         val on = adWanted && have
         adWrap.visibility = if (on) android.view.View.VISIBLE else android.view.View.GONE
         val lp = web.layoutParams as FrameLayout.LayoutParams
