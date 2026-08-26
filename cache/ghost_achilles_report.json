@@ -110,5 +110,7 @@
    }
   },
   "monotonic": false
- }
+ },
+ "as_of": "2026-08-26",
+ "escalation": "2026-08-26 Zeus pass: OFF-SEASON (achilles.season.is_earnings_season(2026-08-26)=False; next window 2026-10-13 to 2026-11-21) and the ghost book is FLAT (437 graded, 0 open, 0 due) -> mark/grade were no-ops and no new entries were opened, per the skill's season gate. STANDING ESCALATION, 8th consecutive deferral and unchanged: the one question this ghost exists to answer is ALREADY ANSWERED NEGATIVE - signal_lift.rewarded reads -0.006230309246744898 on n=160 rewarded vs n=231 sold, i.e. the reaction-direction gate does not pay, matching the achilles_pead_gauntlet verdict that SHELVED the seasonal PEAD mode (docs/lab_results_achilles_pead_gauntlet.md, 18/18 cells negative). The ~363 discovered beats still awaiting a reaction-return pass will not change that sign. RECOMMENDATION TO OPERATOR (unchanged): retire this ghost from Zeus dispatch and close it deliberately with a ledger row, or fund one dedicated reaction-return pass to close it on the full sample. Nothing accrues between now and 2026-10-13 either way."
 }
