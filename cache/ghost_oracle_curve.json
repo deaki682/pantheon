@@ -349,7 +349,20 @@
    "SPY_price": 765.6
   },
   "mark": "intraday",
-  "ts": "2026-08-26T14:19:04Z",
-  "note": "Zeus hourly ghost mark ~10:18 ET Wed 2026-08-26 (INTRADAY reading; a later close pass may replace this date's point). 229/229 open symbols priced from the broker tape, ZERO missing - no survivorship substitution needed. 0 entries matured (grade_entries returned 0; earliest horizon 365d from 2026-06-29 lands 2027-06-29), 0 new opens (screen unchanged since 2026-08-16, skip_open=True). PFBX quoted state='unlisted' (xignite close, last trade 08-24) - marked at $23.10 and flagged, not substituted. DATA DEFECTS CARRIED FORWARD, NOT PATCHED (fail-safe): the SPY benchmark basis convention and the ledger's stale-symbol rows remain as previously logged."
+  "ts": "2026-08-25T14:22:00+00:00",
+  "note": "Zeus hourly ghost mark ~10:22 ET Tue 2026-08-25 (INTRADAY reading; a later close pass may replace this date's point). 229/229 open symbols priced from the broker tape, ZERO missing - no survivorship substitution needed. 0 entries matured (grade_entries returned 0), 0 new opens (screen unchanged since 2026-08-16, skip_open=True). BOOK +4.448% vs SPY +3.799% = +0.65pp. SPY return is computed off the curve's consistent 737.58 inception basis. DATA DEFECTS CARRIED FORWARD, NOT PATCHED (fail-safe: flag another session's row, never silently fix it): (1) the 08-19 AND 08-21 rows both carry SPY_price 765.69 with SPY 0.04268, which implies a 734.35 basis rather than 737.58 - the 08-19 row is the wrong one (SPY's real 08-19 close was 769.06), so its excess reading is overstated; (2) the 08-20 row stores a raw PRICE (762.65) in the benchmark's SPY return slot, so its excess is not comparable; (3) the 08-18 point is still MISSING from this curve. CAVEAT UPDATED: PFBX still quotes state='unlisted' but it DID trade 2026-08-24 18:48 ET at $23.10 (vs the 8-session-stale $22.75 used through 08-21), so it is marked at $23.10 here; 1 of 323 entries (~0.3%), immaterial to the curve, and still the first name that will need the delisted-graded-as-a-loss survivorship rule at its horizon."
+ },
+ {
+  "date": "2026-08-26",
+  "equity": 33849.5,
+  "total_return": 0.047972074131847675,
+  "n": 323,
+  "benchmark": {
+   "SPY": 0.038789,
+   "SPY_price": 766.19
+  },
+  "mark": "intraday",
+  "ts": "2026-08-26T14:19:44Z",
+  "note": "Zeus hourly ghost mark ~10:19 ET Wed 2026-08-26 (INTRADAY reading; a later close pass may replace this date's point). 229/229 open symbols priced from the broker tape, ZERO missing - no survivorship substitution needed. 0 entries matured (grade_entries returned 0; the earliest 365d horizon from 2026-06-29 lands 2027-06-29), 0 new opens (screen unchanged since 2026-08-16, skip_open=True). BOOK +4.797% vs SPY +3.879% = +0.92pp. SPY return is computed off the curve's consistent 737.58 inception basis. WRITE DEFECT FOUND AND REPAIRED THIS PASS (disclosed, not hidden): an earlier attempt in this same session stamped this pass's note/ts onto the 2026-08-25 row because append_equity_point RETURNS a new list rather than mutating in place, so the new point was silently dropped and curve[-1] was still 08-25. The 08-25 row has been restored byte-exact from origin/claude/live~1 and today's point appended properly. DATA DEFECTS CARRIED FORWARD, NOT PATCHED (fail-safe: flag another session's row, never silently fix it): (1) the 08-19 and 08-21 rows both carry SPY_price 765.69 with SPY 0.04268, implying a 734.35 basis rather than 737.58 - the 08-19 row is the wrong one (SPY's real 08-19 close was 769.06); (2) the 08-20 row stores a raw PRICE (762.65) in the benchmark's SPY return slot, so its excess is not comparable; (3) the 08-18 point is still MISSING. CAVEAT: PFBX still quotes state='unlisted' (xignite close, last trade 2026-08-24 18:48 ET at $23.10) and is marked there - 1 of 323 entries (~0.3%), immaterial, and still the first name that will need the delisted-graded-as-a-loss survivorship rule at its horizon."
  }
 ]
