@@ -503,6 +503,16 @@
    "risk_capital": 509.85,
    "tbill_park": 0.0,
    "note": "v3 mark 14 (Tue 8/25 ~14:17Z live tape: VOO 703.515 / ABUS 5.15 / SPY 765.34): equity 2595.62 (+3.82% vs contributed), -$5.06 off the 8/21-22 peak 2600.68; SPY +0.24% day, ABUS -0.96% day (mid-band drift, normal Dutch-window tape). Reconcile CLEAN (zero account equity orders since 8/24 20:00Z; broker VOO 2.945296 + ABUS 99 == sleeve exactly). ABUS: no SC TO-I/A amendments (CIK 1447028 checked; latest = 8/24 SC TO-I). SITC: clean, no election 8-K, deadline 8/31 (6 days). Sweep 8/24-8/25 (first full widened-forms run): 26 hits, 9 EX batch-kills, all reads killed - RXST SC TO-I/A was an EMPLOYEE OPTION EXCHANGE (new named kill class), JBSS special fam fired on a historical dividend chart, NVTS/VLY acquirers, NCSM merger election (deal-space), BHLL arrangement, NEE/D/AEE/CHTR boilerplate, 4x BDC NAV, UTZ 13E-3 going-private (deal-space). No orders - the book is the view."
+  },
+  {
+   "date": "2026-08-26",
+   "equity": 2602.56,
+   "spy": 766.155,
+   "index_park": 2074.3425,
+   "cash_park": 13.7124,
+   "risk_capital": 514.5,
+   "tbill_park": 0.0,
+   "note": "v3 mark 15 (Wed 8/26 ~14:15Z live tape: VOO 704.29 / ABUS 5.197 / SPY 766.155): equity 2602.56 NEW PEAK (+4.10% vs contributed), prior peak 2600.68 (8/21-22); SPY +0.03% day, ABUS flat at 5.197 (mid-band, normal Dutch-window tape). Reconcile CLEAN (zero account equity orders since 8/25 14:00Z; broker VOO 2.945296 + ABUS 99 == sleeve exactly). ABUS: no amendments (CIK 1447028; latest = 8/24 SC TO-I). SITC: clean, no election 8-K (CIK 894315; latest = 8/13 13G), deadline 8/31 (5 days). Sweep 8/25-8/26: 29 hits, 9 EX batch-kills, 20 reads, ZERO survivors (~261 cumulative / 1 survivor) - ZYME 'return' fam fired on an INBOUND $250M Jazz milestone (FDA approval; cash TO the company, not holders - new kill flavor noted), GRUSF dilutive JV acquisition, DLHC exec separation, rest were repeat kill classes (BDC/interval NAV x6, SPAC trust x2, RXST option-exchange /A, CHTR debt boilerplate, known deal-space NVTS/HUN/OLN/VLY/NEE/D, JBSS deck overlap, ALOT is Hermes's). No orders - the book is the view."
   }
  ]
 }
