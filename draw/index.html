@@ -6,6 +6,7 @@
 <title>Photorealism</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#141414">
+<meta name="google-adsense-account" content="ca-pub-4573680538268043">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -475,7 +476,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v263</span>
+      <span id="verNum">v264</span>
     </div>
   </div>
 
@@ -6381,6 +6382,16 @@ document.addEventListener('click', e => {
       if (added) renderGallery();
     }catch(e){}
   })();
+  if (!window.RealismCam && location.protocol === 'https:'){
+    // AdSense connector (browser only): verifies the site and, once the
+    // account is approved and a manual ad unit is placed, serves it. No
+    // Auto ads - nothing displays until a unit exists in the page.
+    const ad=document.createElement('script');
+    ad.async=true;
+    ad.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4573680538268043';
+    ad.crossOrigin='anonymous';
+    document.head.appendChild(ad);
+  }
   if ('serviceWorker' in navigator && location.protocol === 'https:' && !window.RealismCam){
     addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
     // a fresh deploy activates mid-session: reload once so the first open
