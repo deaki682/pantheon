@@ -273,15 +273,21 @@ class MainActivity : AppCompatActivity() {
     // compare screens never carry an ad.
     private val NATIVE_UNIT = "ca-app-pub-4573680538268043/6075308934"
 
+    // TEMP DIAGNOSTIC build: the ad stack narrates itself through toasts
+    private fun adSay(m: String) { js("toast && toast(" + org.json.JSONObject.quote("ads: " + m) + ")") }
+
     private fun startAds() {
         val ci = com.google.android.ump.UserMessagingPlatform.getConsentInformation(this)
         val params = com.google.android.ump.ConsentRequestParameters.Builder().build()
         ci.requestConsentInfoUpdate(this, params, {
             com.google.android.ump.UserMessagingPlatform
-                .loadAndShowConsentFormIfRequired(this) { _ ->
+                .loadAndShowConsentFormIfRequired(this) { fe ->
+                    adSay("consent ok" + (if (fe != null) " (form: " + fe.message + ")" else "")
+                        + ", canRequest=" + ci.canRequestAds())
                     if (ci.canRequestAds()) initAdBanner()
                 }
-        }, {
+        }, { err ->
+            adSay("consent update failed: " + err.message + ", canRequest=" + ci.canRequestAds())
             // offline or the consent service hiccuped: the SDK still knows
             // whether ads are permitted from the last stored state
             if (ci.canRequestAds()) initAdBanner()
@@ -292,7 +298,7 @@ class MainActivity : AppCompatActivity() {
         if (adsUp) return
         adsUp = true
         Thread {
-            com.google.android.gms.ads.MobileAds.initialize(this) {}
+            com.google.android.gms.ads.MobileAds.initialize(this) { adSay("sdk initialized") }
             runOnUiThread {
                 loadNative()
                 // gentle cycle: while the project screen is up, refresh a
@@ -311,7 +317,12 @@ class MainActivity : AppCompatActivity() {
     private fun loadNative() {
         try {
             val loader = com.google.android.gms.ads.AdLoader.Builder(this, NATIVE_UNIT)
-                .forNativeAd { ad -> runOnUiThread { showNative(ad) } }
+                .forNativeAd { ad -> runOnUiThread { adSay("native loaded"); showNative(ad) } }
+                .withAdListener(object : com.google.android.gms.ads.AdListener() {
+                    override fun onAdFailedToLoad(e: com.google.android.gms.ads.LoadAdError) {
+                        adSay("load failed code " + e.code + " (" + e.message + ")")
+                    }
+                })
                 .withNativeAdOptions(com.google.android.gms.ads.nativead.NativeAdOptions.Builder()
                     .setAdChoicesPlacement(
                         com.google.android.gms.ads.nativead.NativeAdOptions.ADCHOICES_TOP_RIGHT)
