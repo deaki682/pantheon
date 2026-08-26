@@ -55,9 +55,16 @@ dependencies {
   implementation "androidx.camera:camera-lifecycle:$camerax"
   implementation "androidx.camera:camera-view:$camerax"
   implementation "androidx.camera:camera-extensions:$camerax"
-  implementation 'com.google.android.gms:play-services-ads:23.2.0'
+  // -lite: the ads code ships inside Google Play services on the device,
+  // so the app bundles only the thin API layer instead of ~3MB of SDK
+  implementation 'com.google.android.gms:play-services-ads-lite:23.2.0'
   implementation 'com.google.android.ump:user-messaging-platform:2.2.0'
-  // the ads SDK drags in guava's empty listenablefuture stub, which would
-  // shadow the real class CameraX compiles against - pin real guava
-  implementation 'com.google.guava:guava:32.0.1-android'
+  // the ads SDK drags in guava's EMPTY listenablefuture stub, which would
+  // shadow the one real class CameraX compiles against - force the real
+  // single-class artifact instead of bundling all of guava
+  implementation 'com.google.guava:listenablefuture:1.0'
+}
+
+configurations.all {
+  resolutionStrategy.force 'com.google.guava:listenablefuture:1.0'
 }
