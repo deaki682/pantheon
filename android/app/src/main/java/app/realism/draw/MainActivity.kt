@@ -56,13 +56,16 @@ class MainActivity : AppCompatActivity() {
     private var modeAnnounced = false
     private lateinit var diag: TextView
     private var booted = false
-    // ---- ads: one adaptive banner, visible only while the page reports
-    // the project screen up. Real unit id; register the dev phone as a
-    // test device in the AdMob console before poking at it.
-    private var adView: com.google.android.gms.ads.AdView? = null
+    // ---- ads: one NATIVE card styled as part of the app (banner as the
+    // fill fallback), visible only while the page reports the project
+    // screen up. Register the dev phone as a test device in the AdMob
+    // console before poking at it.
     private lateinit var adWrap: FrameLayout
     private var adWanted = false
     private var adsUp = false
+    private var adShownH = 0
+    private var nativeAd: com.google.android.gms.ads.nativead.NativeAd? = null
+    private var fallbackBanner: com.google.android.gms.ads.AdView? = null
 
     private fun report(msg: String) {
         Log.e("Realism", msg)
@@ -266,10 +269,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     // ---- the ad stack: consent first (Google's UMP form, configured in
-    // AdMob's Privacy & messaging), then one adaptive banner. The page
-    // drives visibility through Bridge.adScreen, so the drawing, format,
-    // and compare screens never carry an ad.
-    private val AD_UNIT = "ca-app-pub-4573680538268043/3352942674"
+    // AdMob's Privacy & messaging), then one native card. The page drives
+    // visibility through Bridge.adScreen, so the drawing, format, and
+    // compare screens never carry an ad.
+    private val AD_UNIT = "ca-app-pub-4573680538268043/3352942674"   // banner (fallback fill)
+    private val NATIVE_UNIT = "ca-app-pub-4573680538268043/6075308934"
 
     private fun startAds() {
         val ci = com.google.android.ump.UserMessagingPlatform.getConsentInformation(this)
@@ -292,33 +296,133 @@ class MainActivity : AppCompatActivity() {
         Thread {
             com.google.android.gms.ads.MobileAds.initialize(this) {}
             runOnUiThread {
-                try {
-                    val dm = resources.displayMetrics
-                    val adW = (dm.widthPixels / dm.density).toInt()
-                    val size = com.google.android.gms.ads.AdSize
-                        .getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adW)
-                    val v = com.google.android.gms.ads.AdView(this)
-                    v.adUnitId = AD_UNIT
-                    v.setAdSize(size)
-                    adView = v
-                    adWrap.addView(v, FrameLayout.LayoutParams(
-                        FrameLayout.LayoutParams.MATCH_PARENT,
-                        FrameLayout.LayoutParams.WRAP_CONTENT))
-                    v.loadAd(com.google.android.gms.ads.AdRequest.Builder().build())
-                    applyAd()
-                } catch (e: Throwable) { logLine("ad init: " + e.message) }
+                loadNative()
+                // gentle refresh: a fresh native ad every 75s, but only
+                // while the project screen is actually showing one
+                val tick = object : Runnable {
+                    override fun run() {
+                        if (adWanted && nativeAd != null) loadNative()
+                        adWrap.postDelayed(this, 75000)
+                    }
+                }
+                adWrap.postDelayed(tick, 75000)
             }
         }.apply { isDaemon = true }.start()
     }
 
-    // the banner claims a strip below the WebView while visible, so the
-    // page's own layout (and the camera ghost geometry) never sits under it
+    private fun loadNative() {
+        try {
+            val loader = com.google.android.gms.ads.AdLoader.Builder(this, NATIVE_UNIT)
+                .forNativeAd { ad -> runOnUiThread { showNative(ad) } }
+                .withAdListener(object : com.google.android.gms.ads.AdListener() {
+                    override fun onAdFailedToLoad(e: com.google.android.gms.ads.LoadAdError) {
+                        runOnUiThread { if (nativeAd == null && fallbackBanner == null) loadFallbackBanner() }
+                    }
+                })
+                .withNativeAdOptions(com.google.android.gms.ads.nativead.NativeAdOptions.Builder()
+                    .setAdChoicesPlacement(
+                        com.google.android.gms.ads.nativead.NativeAdOptions.ADCHOICES_TOP_RIGHT)
+                    .build())
+                .build()
+            loader.loadAd(com.google.android.gms.ads.AdRequest.Builder().build())
+        } catch (e: Throwable) { logLine("native load: " + e.message) }
+    }
+
+    // the native card, drawn in the app's own dark language: media left,
+    // headline + body in the middle, accent CTA right, Ad badge as required
+    private fun showNative(ad: com.google.android.gms.ads.nativead.NativeAd) {
+        try {
+            nativeAd?.destroy()
+            nativeAd = ad
+            fallbackBanner?.destroy(); fallbackBanner = null
+            val d = resources.displayMetrics.density
+            fun dp(v: Int) = (v * d).toInt()
+            val ACC = 0xFFE8833A.toInt()
+            val adv = com.google.android.gms.ads.nativead.NativeAdView(this)
+            adv.setBackgroundColor(0xFF141414.toInt())
+            val row = android.widget.LinearLayout(this)
+            row.orientation = android.widget.LinearLayout.HORIZONTAL
+            row.gravity = android.view.Gravity.CENTER_VERTICAL
+            row.setPadding(dp(10), dp(8), dp(10), dp(8))
+            val media = com.google.android.gms.ads.nativead.MediaView(this)
+            row.addView(media, android.widget.LinearLayout.LayoutParams(dp(96), dp(64)))
+            val col = android.widget.LinearLayout(this)
+            col.orientation = android.widget.LinearLayout.VERTICAL
+            col.setPadding(dp(10), 0, dp(10), 0)
+            val badge = TextView(this)
+            badge.text = "Ad"
+            badge.setTextColor(ACC); badge.textSize = 9f
+            val bd = android.graphics.drawable.GradientDrawable()
+            bd.setStroke(dp(1), ACC); bd.cornerRadius = dp(3).toFloat()
+            badge.background = bd
+            badge.setPadding(dp(4), 0, dp(4), 0)
+            val badgeWrap = android.widget.LinearLayout(this)
+            badgeWrap.addView(badge)
+            col.addView(badgeWrap)
+            val head = TextView(this)
+            head.setTextColor(0xFFE8E6E1.toInt()); head.textSize = 13f
+            head.maxLines = 1; head.ellipsize = android.text.TextUtils.TruncateAt.END
+            head.text = ad.headline ?: ""
+            col.addView(head)
+            val body = TextView(this)
+            body.setTextColor(0xFF9A9A9A.toInt()); body.textSize = 11f
+            body.maxLines = 1; body.ellipsize = android.text.TextUtils.TruncateAt.END
+            body.text = ad.body ?: ""
+            col.addView(body)
+            row.addView(col, android.widget.LinearLayout.LayoutParams(
+                0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+            val cta = TextView(this)
+            cta.setTextColor(0xFF141414.toInt()); cta.textSize = 12f
+            cta.gravity = android.view.Gravity.CENTER
+            val cd = android.graphics.drawable.GradientDrawable()
+            cd.setColor(ACC); cd.cornerRadius = dp(14).toFloat()
+            cta.background = cd
+            cta.setPadding(dp(14), dp(7), dp(14), dp(7))
+            cta.text = ad.callToAction ?: "Open"
+            row.addView(cta)
+            adv.addView(row, FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
+            adv.mediaView = media
+            adv.headlineView = head
+            adv.bodyView = body
+            adv.callToActionView = cta
+            adv.setNativeAd(ad)
+            adWrap.removeAllViews()
+            adWrap.addView(adv, FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
+            adShownH = dp(80)
+            applyAd()
+        } catch (e: Throwable) { logLine("native show: " + e.message) }
+    }
+
+    // when native inventory is dry the plain banner keeps the slot earning
+    private fun loadFallbackBanner() {
+        try {
+            val dm = resources.displayMetrics
+            val adW = (dm.widthPixels / dm.density).toInt()
+            val size = com.google.android.gms.ads.AdSize
+                .getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adW)
+            val v = com.google.android.gms.ads.AdView(this)
+            v.adUnitId = AD_UNIT
+            v.setAdSize(size)
+            fallbackBanner = v
+            adWrap.removeAllViews()
+            adWrap.addView(v, FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
+            v.loadAd(com.google.android.gms.ads.AdRequest.Builder().build())
+            adShownH = size.getHeightInPixels(this)
+            applyAd()
+        } catch (e: Throwable) { logLine("banner fallback: " + e.message) }
+    }
+
+    // the ad claims a strip below the WebView while visible, so the page's
+    // own layout (and the camera ghost geometry) never sits under it
     private fun applyAd() {
-        val v = adView
-        val on = adWanted && v != null
+        val have = nativeAd != null || fallbackBanner != null
+        val on = adWanted && have
         adWrap.visibility = if (on) android.view.View.VISIBLE else android.view.View.GONE
         val lp = web.layoutParams as FrameLayout.LayoutParams
-        val h = if (on && v != null) (v.adSize?.getHeightInPixels(this) ?: 0) else 0
+        val h = if (on) adShownH else 0
         if (lp.bottomMargin != h) { lp.bottomMargin = h; web.layoutParams = lp }
     }
 
