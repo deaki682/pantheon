@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
     private var adsUp = false
     private var adShownH = 0
     private var nativeAd: com.google.android.gms.ads.nativead.NativeAd? = null
+    @Volatile private var adAccentCol = 0xFFE8833A.toInt()   // follows the app accent
 
     private fun report(msg: String) {
         Log.e("Realism", msg)
@@ -328,7 +329,7 @@ class MainActivity : AppCompatActivity() {
             nativeAd = ad
             val d = resources.displayMetrics.density
             fun dp(v: Int) = (v * d).toInt()
-            val ACC = 0xFFE8833A.toInt()
+            val ACC = adAccentCol
             val adv = com.google.android.gms.ads.nativead.NativeAdView(this)
             adv.setBackgroundColor(0xFF141414.toInt())
             val row = android.widget.LinearLayout(this)
@@ -536,6 +537,10 @@ class MainActivity : AppCompatActivity() {
         @JavascriptInterface
         fun adScreen(onProject: Boolean) {
             runOnUiThread { adWanted = onProject; applyAd() }
+        }
+        @JavascriptInterface
+        fun adAccent(hex: String) {
+            try { adAccentCol = android.graphics.Color.parseColor(hex) } catch (e: Exception) {}
         }
         @JavascriptInterface
         fun dlog(line: String) = logLine("page: " + line.take(300))

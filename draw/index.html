@@ -476,7 +476,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v266</span>
+      <span id="verNum">v267</span>
     </div>
   </div>
 
@@ -1560,6 +1560,8 @@ addEventListener('appinstalled', ()=>gcPing('/install'));
 const ACCENTS=['#e8833a','#e0524f','#e0b13a','#6aa84f','#3aa6a0',
                '#5a8fd8','#9b6bd8','#d86bb0','#e8e6e1'];
 function applyAccent(c){
+  // the native shell paints its ad card in the artist's own accent
+  try{ if (window.RealismCam && RealismCam.adAccent) RealismCam.adAccent(c); }catch(e){}
   const n=parseInt(c.slice(1),16);
   const m=v=>Math.round(v*0.24+26*0.76);
   document.documentElement.style.setProperty('--acc', c);
