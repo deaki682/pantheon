@@ -2583,6 +2583,38 @@
    "read_model": "opus",
    "read_effort": "high",
    "resolved": false
+  },
+  {
+   "symbol": "LNTH",
+   "detect_date": "2026-08-27",
+   "entry_price": 100.79,
+   "offer_price": 102.5,
+   "spy_entry": 768.895,
+   "expected_close": "2027-06-30",
+   "spread": 0.017,
+   "llm_verdict": "drop",
+   "llm_rationale": "Curium (CapVest-backed) / Lantheus, PREM14A 2026-08-26: $102.50 cash + 1 CVR worth up to $12.00 on commercial milestones. Per the house CVR rule the bet is the CASH leg only ($102.50), so the spread is +1.70% at $100.79. DROP on two counts. (1) REGULATORY: this is a genuine horizontal radiopharmaceutical overlap - Curium and Lantheus are the two principal US Tc-99m generator/diagnostic-radiopharma suppliers - and the parties priced that themselves with a $228M termination fee and an outside date that can run to 2027-11-30. HSR clearance is the whole deal. (2) TIME: 1.70% over a 12-18 month regulatory path is a poor annualized return even if it closes, and it is precisely the 'fat-ish spread on a shaky deal' the spec warns is a trap rather than a prize. Also at ~$7B this is the arbitraged end of the size range, not the capacity-inverted small-cap corner where the residual lives.",
+   "break_risk": "med",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
+  },
+  {
+   "symbol": "LXFR",
+   "detect_date": "2026-08-27",
+   "entry_price": 17.155,
+   "offer_price": 17.37,
+   "spy_entry": 768.895,
+   "expected_close": "2026-12-31",
+   "spread": 0.0125,
+   "llm_verdict": "keep",
+   "llm_rationale": "Wynnchurch Capital / Luxfer Holdings PLC, PREM14A 2026-08-26: $17.37 ALL CASH per ordinary share via a UK Scheme of Arrangement, a 31% premium to the undisturbed close. KEEP. Financing: equity commitment from Wynnchurch funds PLUS a debt commitment letter for a $290M secured term loan and a $50M revolver, and the agreement carries NO financing condition - the buyer bears financing risk, not the holder. Regulatory: HSR only, waiting period scheduled to expire 2026-09-08 with no second request disclosed; Wynnchurch is a financial buyer with no disclosed overlap, so antitrust risk is low. Board recommendation unanimous; $18M company termination fee. Residual risk is the scheme mechanics, not the deal: majority in number AND 75% in value at the Scheme Meeting plus court sanction - a higher bar than a US majority vote, but a recommended 31%-premium cash offer rarely fails it. Spread +1.25% at $17.155 into an expected Q4 2026 close (~4 months), above the 1% floor; a permitted $0.13 interim dividend does NOT reduce the consideration, which is upside not banked here.",
+   "break_risk": "low",
+   "arm_a_live": true,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
   }
  ],
  "graded": [
