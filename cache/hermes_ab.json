@@ -2291,7 +2291,7 @@
    "offer_price": 77.0,
    "read_effort": "high",
    "read_model": "opus",
-   "resolved": false,
+   "resolved": true,
    "spread": 0.0021,
    "spy_entry": 770.67,
    "symbol": "FBRX"
@@ -4551,6 +4551,24 @@
    "spread": 0.227,
    "spy_return": 0.028552,
    "symbol": "LSTA"
+  },
+  {
+   "symbol": "FBRX",
+   "detect_date": "2026-08-07",
+   "entry_price": 76.84,
+   "offer_price": 77.0,
+   "spread": 0.0021,
+   "llm_verdict": "drop",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 76.99,
+   "exit_date": "2026-08-27",
+   "outcome": "paper_swept_past_close",
+   "net_return": 0.001952,
+   "spy_return": -0.002303,
+   "excess": 0.004255
   }
  ]
 }
