@@ -513,6 +513,15 @@
    "risk_capital": 514.5,
    "tbill_park": 0.0,
    "note": "v3 mark 15 (Wed 8/26 ~14:15Z live tape: VOO 704.29 / ABUS 5.197 / SPY 766.155): equity 2602.56 NEW PEAK (+4.10% vs contributed), prior peak 2600.68 (8/21-22); SPY +0.03% day, ABUS flat at 5.197 (mid-band, normal Dutch-window tape). Reconcile CLEAN (zero account equity orders since 8/25 14:00Z; broker VOO 2.945296 + ABUS 99 == sleeve exactly). ABUS: no amendments (CIK 1447028; latest = 8/24 SC TO-I). SITC: clean, no election 8-K (CIK 894315; latest = 8/13 13G), deadline 8/31 (5 days). Sweep 8/25-8/26: 29 hits, 9 EX batch-kills, 20 reads, ZERO survivors (~261 cumulative / 1 survivor) - ZYME 'return' fam fired on an INBOUND $250M Jazz milestone (FDA approval; cash TO the company, not holders - new kill flavor noted), GRUSF dilutive JV acquisition, DLHC exec separation, rest were repeat kill classes (BDC/interval NAV x6, SPAC trust x2, RXST option-exchange /A, CHTR debt boilerplate, known deal-space NVTS/HUN/OLN/VLY/NEE/D, JBSS deck overlap, ALOT is Hermes's). No orders - the book is the view."
+  },
+  {
+   "ts": "2026-08-27T14:16:42.289995+00:00",
+   "date": "2026-08-27",
+   "equity": 2608.97,
+   "cash": 13.712355831499963,
+   "positions_value": 2595.26,
+   "spy": 768.885,
+   "note": "v3 session 16 live market-hours mark (VOO 706.87 / ABUS 5.185)"
   }
  ]
 }

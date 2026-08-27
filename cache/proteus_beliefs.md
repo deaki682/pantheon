@@ -1,18 +1,18 @@
-# Proteus v3 — beliefs (rewritten 2026-08-26, v3 session 15)
+# Proteus v3 — beliefs (rewritten 2026-08-27, v3 session 16)
 
 I am Proteus v3. This file is my mind; whoever reads it next is me. The whole
 law is `docs/proteus_v3_charter.md` (one page: make money, six laws). House
 physics live in `.claude/commands/proteus.md`. v2's 37 lessons are scar tissue
 in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 
-## State (v3 session 15, Wed 2026-08-26, ~14:15Z, market OPEN)
+## State (v3 session 16, Thu 2026-08-27, ~14:16Z, market OPEN)
 
 - **Book: 2.945296 VOO (park, ~80%) + 99 ABUS @ 4.5987 (~20%) + $13.71 cash.**
-  Equity **2602.56 NEW PEAK** (+4.10% vs contributed 2500; live tape VOO
-  704.29 / ABUS 5.197 / SPY 766.155). realized_pnl +$21.80. Curve 46 marks.
-- s15: gates clear, reconcile CLEAN (zero orders since 8/25), mark 46 new
-  peak, ABUS no amendments, SITC clean (5 days), sweep 29 hits / 0 survivors.
-  No orders, no build. Post-ABUS deployment sketch written (below).
+  Equity **2608.97 NEW PEAK** (+4.36% vs contributed 2500; live tape VOO
+  706.87 / ABUS 5.185 / SPY 768.885). realized_pnl +$21.80. Curve 47 marks.
+- s16: gates clear, reconcile CLEAN (zero orders since 8/26), mark 47 new
+  peak, ABUS no amendments, SITC clean (4 days to 8/31), sweep 37 hits /
+  0 survivors (~298 cumulative / 1). No orders, no build.
 
 ## THE POSITION — ABUS: IN THE TENDER WINDOW, AWAITING OPERATOR ELECTION
 
@@ -37,7 +37,7 @@ position is ~$7–55 either way.
    **Re-push if no election confirmed by ~9/15.**
 2. RH's internal cutoff runs ~1–3 business days before 9/29 → **~9/24–9/26**.
 3. Each session: CIK 1447028 for SC TO-I/A (band change, extension) + tape.
-   s15: clean (latest still the 8/24 SC TO-I).
+   s16: clean (latest still the 8/24 SC TO-I).
 4. Fallback: if RH can't process by ~9/22, SELL ON TAPE (late-window tape ≈
    clearing price).
 5. Withdrawn offer → tape reverts ~4.6–4.8; E3 governs (delay+reaffirmed
@@ -64,9 +64,9 @@ The park is the floor of this decision tree, not a member of it.
 
 ## Watches (typed triggers only — price alone never fires)
 
-- **SITC — election deadline Mon 8/31, FIVE days. Check every session.** CIK
-  894315 (verified SITE Centers). s15: latest still the 8/13 13G, no election
-  8-K; tape 3.035. Early election converts the week it lands; fund from the
+- **SITC — election deadline Mon 8/31, FOUR days. Check every session.** CIK
+  894315 (verified SITE Centers). s16: latest still the 8/13 13G, no election
+  8-K; tape 2.985. Early election converts the week it lands; fund from the
   VOO park (sell→buy same day legal; don't flip the new buy before the sale
   settles). **If Monday 8/31 passes with no 8-K, the watch comes OFF the
   board** — journal the removal.
@@ -95,11 +95,11 @@ The park is the floor of this decision tree, not a member of it.
   9/29 5pm NY**; CHRS record 9/30; GLRE repurchase 10/30; **JBSS special
   ~late Oct**; BVS Q3 ~11/5.
 
-## What I believe about the market (updated 8/26)
+## What I believe about the market (updated 8/27)
 
-SPY 766.155, flat Wednesday at all-time-high territory; the book sits at its
-own new peak with zero action required — the correct shape for an
-event-driven sleeve mid-window. Standing problem unchanged: repeatable
+SPY 768.885, grinding higher at all-time highs; the book sits at its own
+new peak with zero action required — the correct shape for an event-driven
+sleeve mid-window. Standing problem unchanged: repeatable
 SPY-beating at $2.5k scale. Current answers:
 1. **Post-resolution repricings — the live class.** ABUS has passed both live
    tests (announcement 8/21, primary-doc confirmation 8/24); resolution is
@@ -123,7 +123,11 @@ repurchases; "sale" fam on discontinued-ops math; "special" fam on recurring
 annuals AND historical dividend charts in decks (JBSS); "arbitration" fam on
 exec separation agreements (DLHC 8/26); **"return" fam fires on INBOUND
 milestone/royalty payments (ZYME 8/26: $250M FROM Jazz TO the company) — the
-direction of the cash is the read: capital return means cash TO HOLDERS.**
+direction of the cash is the read: capital return means cash TO HOLDERS** —
+and on LITIGATION OVER a capital-return vehicle (CPPTL 8/27: the JCP
+liquidating trust suing its failed buyer; the fam reads the trust's purpose,
+not the event's direction). Also benign: 21Shares crypto-ETF EX-3 amendment
+batches.
 Widened SC TO-I family's dominant benign population = employee option
 exchanges (13e-4 repricings; kill on the cover's Title of Class). Never
 screen off the full submission `.txt`; `-index.html` beats truncated
@@ -155,13 +159,18 @@ screen. Also mine: `shared/historicals.py`, `shared/sharadar.py`
 (survivorship-free bars), `shared/event_calendar.py`, the lab graveyard in
 `docs/RESEARCH_LEDGER.md`.
 
-## Plan (next session — Thu 8/27)
+## Plan (next session — Fri 8/28)
 
 (a) Gates → reconcile → mark on live tape. (b) **ABUS: CIK 1447028 for
 SC TO-I/A** + tape; election is the operator's move, re-push only ~9/15.
-(c) **SITC — 4 days to 8/31**, CIK 894315. (d) `python -m proteus.sweep
-2026-08-26 2026-08-27`. (e) Shadows (typed triggers only). (f) The book
-holds: no add above 99 ABUS, no anticipation sell, park stays. (g) Quiet-
-session law-6 option: the tax_loss_turn recipe re-read is scheduled ~late
-Sep — if a session before then is dead quiet, pull it forward; otherwise
-nothing is owed. The post-ABUS deployment tree is already decided (above).
+(c) **SITC — Friday is the LAST session before the Mon 8/31 deadline**
+(weekend sessions can check EDGAR but nothing files); if Monday's session
+finds no election 8-K, the watch comes OFF the board — journal the removal.
+(d) `python -m proteus.sweep 2026-08-27 2026-08-28`. (e) Shadows (typed
+triggers only). (f) The book holds: no add above 99 ABUS, no anticipation
+sell, park stays. (g) Quiet-session law-6 option: the tax_loss_turn recipe
+re-read is scheduled ~late Sep — if a session before then is dead quiet,
+pull it forward; otherwise nothing is owed. The post-ABUS deployment tree
+is already decided (above). Dates ahead: AGEN PIPE resale ~8/29; SITC 8/31;
+INMD 9/15; ABUS re-push ~9/15; ABUS RH cutoff ~9/24–9/26; ABUS expiry 9/29;
+CHRS record 9/30; GLRE 10/30; JBSS special ~late Oct.
