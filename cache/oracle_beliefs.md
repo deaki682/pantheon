@@ -3,6 +3,62 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-08-27 INTRADAY — the top weight broke away from its set, and the honest answer is "provisional")
+
+Zeus hourly intraday tend, 14:16Z (~10:16 ET Thu). Reconcile CLEAN 6/6 exact vs broker
+(KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 /
+ZVRA 47.034397); zero Oracle orders of any state. Equity **$4,704.37** (drawdown **4.59%**
+from the 08-17 peak $4,930.51), breaker `ok`, settled cash $449.94 = 9.56%. Book $4,254.43
+on the $4,050.06 basis = **+5.05%**; SPY from the 07-10 entry (750.935 → 768.735) =
+**+2.37%**, so **+2.68pp excess** — down sharply from the +5.38pp stamped at the 08-21
+close, and essentially all of that give-back is PAY.
+
+**1. PAY is the day's event and it is name-specific by every comparator I pulled — but the
+reading is INTRADAY and therefore provisional.** PAY marks **-4.45%** against a
+payments/bank-software median of **+0.18%** (NCNO +3.16, BILL +2.14, ALKT +1.62, MQ +1.18,
+PYPL +0.18, JKHY -0.22, EEFT -1.13, FOUR -1.37, TOST -2.87; 5 of 9 up, dispersion 6.03pp)
+= **-4.63pp**, and **-6.33pp** against the narrow financial-services-software subset
+(ALKT/NCNO/JKHY/BILL, median +1.88%). PAY sits *below the entire set's range* — the worst
+peer is TOST at -2.87%. The dispersion is wide enough (6.03pp) that the median is weak
+evidence about magnitude, but the direction is not in doubt: this is not the sector. **And
+there is no filing behind it** — the Duty 1a window sweep (filing_date >= 08-24) returned
+ZERO PAY documents.
+**2. Why this entry says "provisional" and not "finding".** Duty 1b runs on official
+closes, and 08-21 is the counter-example that earned that rule: PAY marked +0.70% at 14:12Z
+(no set owed) and closed +4.16% (+3.15pp above its median). A 10:16 ET reading can invert by
+the bell in either direction. The set is pulled, the median is reported, the honest label is
+**"name-specific on the intraday tape, re-run required on the closing prints."** The
+after-close pass owes this set again.
+**3. Context that argues for patience, not action.** The 08-20 Accel-KKR in-kind
+distribution to LPs is on the record as a supply overhang that plays out over weeks-to-months,
+and the 08-21 note logged the first data point (a one-session full retrace) explicitly as
+*not* a refutation of the overhang read. Today is the second data point and it cuts the other
+way. Neither is a kill: PAY's typed kill is **"YoY revenue growth < 15%"**, an earnings-print
+test, and no print landed. **A drawdown is NEVER an exit (Stage 5).** PAY remains the top
+weight at 19.14% and is still +30.50% from entry.
+**4. QTWO +3.05% cleared the 3% trigger and the set says mostly sector.** +2.87pp against
+the broad payments median but only **+1.17pp** against the tight fin-services-software
+comparator — and per the 08-19 amendment, the comparator whose business/factor profile
+matches the name outranks the broad set. Logged as sector-dominated, no story attached.
+**5. The rest of the book: quiet.** KLIC +0.52%, TPC +1.27%, ZVRA -0.77%, LXU -1.59% — all
+under the trigger, no sets owed, none pulled, and per the 08-21 rule **no comparator pulled =
+no interpretation written.**
+**6. Filings: one document in the window, zero new.** The Duty 1a sweep (>= 08-24, never
+"since last pass") across all six CIKs returned only the **LXU 25-NSE (08-25)**, already
+dispositioned on 08-26 as a rights-plan removal rather than a delisting — LXU common trades
+normally at $10.245. 6/6 typed kills UNTESTABLE, 6/6 HOLD. Kill counters unchanged: TPC
+"2 consecutive GAAP loss quarters" (0); KLIC "quarterly revenue < $180M" (**RE-TYPE still
+owed, Duty 0b** — unreachable against a $330M print guiding to $375M); PAY "YoY revenue
+growth < 15%"; QTWO "GAAP net loss relapse or growth < 10%"; ZVRA "2 consecutive
+flat/declining product-revenue quarters" (0); LXU "quarterly net loss on ammonia price
+collapse" (a CONJUNCTION — read the full grammar).
+**7. Stage 6:** `due_for_grade` == [] (earliest ~Oct 2027); 34 Arm-B and 31 Arm-A rows
+unresolved, `lift_trustworthy` false — as designed at this stage.
+**8. Stage 0–1 sourcing: a conscious NO-OP, per Standing Duty 3.** The book is fully
+deployed at 6 names (top of the 3–6 band), no kill fired, no capital was freed, and the
+07-10 pipeline (73 fundables) still stands. Zeus's 3-day research cadence reads "due"
+mechanically; the duty overrides it. Journaled as a no-op, not skipped silently.
+
 ## Worldview (2026-08-21 CLOSE — the peer check caught ME, twice, and retired two sessions' worth of my own "idiosyncratic" labels)
 
 Supersedes nothing below. After-close tend, Zeus hourly (Fri) — 20:20Z, ~20 min after the
