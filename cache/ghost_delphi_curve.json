@@ -213,5 +213,19 @@
    "convention_note": "spy_1d and spy_since_inception both recorded; prior points are inconsistent"
   },
   "note": "Zeus ~10:25 ET Tue 2026-08-25 (PARENTLESS shadow - Delphi live retired 2026-07-04). Marked 120/120 open symbols live; missing_marks == 0. 0 graded, 0 due (earliest 90-day maturity 2026-09-28), so momentum_terciles / signal_lift.above_ma / .selected / .vetoed are ALL still empty BY CONSTRUCTION - no claim about the momentum premise, the 20-day-MA stop, or the LLM vetoes is available yet. 0 opens (universe static, skip_open, and there is no live /delphi run to supply a fresh selection or veto list). Book $18,718.64 on an $18,000 cost basis = +3.99 pct. TWO DISCLOSURES CARRIED FORWARD, still unfixed. (1) TICKER-RENAME DEFECT: SQ again returned NO quote (Block Inc. renamed SQ -> XYZ) and the ledger still holds BOTH as separate open entries. SQ is marked at XYZ's $82.27 because the security continued 1:1 - marking or grading it to zero would fabricate a loss out of a corporate action. Block therefore remains DOUBLE-WEIGHTED (2 of 180 entries, ~1.1 pct instead of ~0.6 pct). The deadline is real: these entries mature 2026-09-28, and unless the universe drops SQ and the survivorship guard gets a rename carve-out before then, grade_entries will book a false -100 pct on SQ. Raised for the operator for a 4th session. (2) BENCHMARK CONVENTION remains INCONSISTENT on this curve and is still not being silently normalised: most points carry a ONE-DAY SPY change while 06-30 (+0.0796) and 08-10 (+0.0363) carry something else. Today again records BOTH explicitly. Since inception (06-30 close ~747.21 -> 765.6) SPY is +2.46 pct vs the book's +3.99 pct = +1.53pp."
+ },
+ {
+  "date": "2026-08-27",
+  "equity": 18650.44,
+  "total_return": 0.036135563138842475,
+  "n": 180,
+  "benchmark": {
+   "SPY": 0.028808,
+   "SPY_price": 768.735,
+   "spy_1d": 0.004095,
+   "spy_since_inception": 0.028808,
+   "convention_note": "SPY key now carries since-inception (matches the book's total_return); spy_1d is the move off the prior point. Prior points before 2026-08-26 are inconsistent."
+  },
+  "note": "Zeus ~10:26 ET Thu 2026-08-27 (PARENTLESS shadow - Delphi live retired 2026-07-04; no live /delphi run exists to supply a fresh selection or veto list). Marked 120/120 open symbols; missing_marks == 0, with ONE disclosed substitution: SQ was renamed XYZ (Block Inc) and no longer quotes, so the SQ entry (2026-07-01 @ 77.52) is marked at XYZ's price - a ticker change, not a corporate action, so this is the same security and NOT a survivorship substitution. 0 graded, 0 due (earliest 90-day maturity 2026-09-28), so momentum_terciles / signal_lift.above_ma / .selected / .vetoed remain empty BY CONSTRUCTION - no claim about the momentum premise, the 20-day-MA stop, or the LLM vetoes is available yet. 0 opens (universe static, skip_open=True). Book $18650.44 on an $18,000 cost basis = +3.61% vs SPY since inception +2.88% = +0.73pp. NOTE: no ghost mark was written for 2026-08-26 - the daily cadence did not fire that hour; this point follows 08-25."
  }
 ]
