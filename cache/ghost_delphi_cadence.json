@@ -1,4 +1,4 @@
 {
- "session": "2026-08-25T14:25:00+00:00",
- "note": "Zeus tend: marked 120/120, 0 graded (0 due), 0 opens. SQ->XYZ rename defect + benchmark-convention defect re-raised."
+ "session": "2026-08-27T14:26:00+00:00",
+ "note": "Zeus tend: marked 120/120 (missing_marks 0), 0 graded (0 due, earliest 2026-09-28), 0 opens. SQ->XYZ rename handled by pricing the SQ entry from XYZ (ticker change, same security - disclosed in the curve note, not a survivorship substitution). Benchmark convention: SPY key now carries since-inception to match total_return; spy_1d recorded alongside. No 08-26 point exists - the daily cadence did not fire that hour."
 }
