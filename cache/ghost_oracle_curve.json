@@ -377,5 +377,18 @@
   "mark": "intraday",
   "ts": "2026-08-27T14:24:49Z",
   "note": "Zeus hourly ghost mark ~10:24 ET Thu 2026-08-27 (INTRADAY reading; a later close pass may replace this date's point). 229/229 open symbols priced from the broker tape, ZERO missing - no survivorship substitution needed. 0 entries matured this pass (the earliest 365d horizon from 2026-06-29 lands 2027-06-29). 0 new opens: the screen is unchanged since 2026-08-16 and skip_open=True, so re-opening would only bloat the ledger. Equity $33653.68 on 323 paper entries, total return +4.19% vs SPY +4.22% over the same window = -0.03pp. Grading remains 0/323 - no calibration signal is available yet and none is claimed."
+ },
+ {
+  "date": "2026-08-28",
+  "equity": 33720.25,
+  "total_return": 0.04397073209144908,
+  "n": 323,
+  "benchmark": {
+   "SPY": 0.045798,
+   "SPY_price": 771.36
+  },
+  "mark": "intraday",
+  "ts": "2026-08-28T14:25:43Z",
+  "note": "Zeus hourly ghost mark ~10:25 ET Fri 2026-08-28 (INTRADAY reading; a later close pass may replace this date's point). 229/229 open symbols priced from the broker tape, ZERO missing - no survivorship substitution needed. 0 entries matured this pass (grade_entries returned 0; the earliest 365d horizon from 2026-06-29 lands 2027-06-29). 0 new opens: the screen is unchanged since 2026-08-23 and skip_open=True, so re-opening would only bloat the ledger. Equity $33,720.25 on 323 paper entries, total return +4.397% vs SPY +4.580% (off the curve's consistent 737.58 inception basis) = -0.18pp. Grading remains 0/323 - no calibration signal is available yet and none is claimed. TWO PRICE-QUALITY DISCLOSURES this pass: PFBX quoted with state='unlisted' (marked at its 08-27 18:39Z last print, $23.30), and five names last traded before today's open (ACCS, CREX, NWFL, UBCP, PFBX) so their marks are stale-but-real prints, not interpolations. Both are recorded rather than silently smoothed."
  }
 ]
