@@ -211,5 +211,17 @@
   "benchmark": {
    "SPY": 762.7201
   }
+ },
+ {
+  "date": "2026-08-28",
+  "equity": 1951.36,
+  "total_return": -0.024322014129373182,
+  "n": 20,
+  "benchmark": {
+   "SPY": null,
+   "SPY_price": 771.36
+  },
+  "ts": "2026-08-28T14:26:27Z",
+  "note": "2026-08-28 Zeus pass (~10:26 ET Fri): book FLAT (20/20 graded, 0 open, 0 due). DECLINED cache/midas_scan.json for the 6th CONSECUTIVE WEEK - finalists stamped scanned_at 2026-07-03T21:45:00Z (8.1 weeks stale) with live_pick/legacy_pick ALL None and pick=None. Opening them at today's prices would FABRICATE a head-to-head, not measure one: the A/B grades live_pick vs legacy_pick, and neither flag was ever set on this scan. Note the scan itself is not empty of signal (VOR/AVBC/ZBIO/NWFL carry convergence_count=2 with legacy scores ~2x their live scores, i.e. exactly the disagreement the race exists to grade) - it is unusable only because the picks were never flagged AND the prices are two months gone. Today is a WEEKDAY, so /midas-scan is not dispatchable this hour regardless (weekend-only condition); the 08-26 diagnostic stands unchanged - the heavy ~7,000-name scan does not complete inside an hourly Zeus slot and needs a DEDICATED run. DEATH CLOCK: 1 of the required 20 graded weekly live-vs-legacy head-to-heads (only week 2026-07-06: live=QMCO vs legacy=ZBIO). At this cadence the 20-week checkpoint is UNREACHABLE - 19 weeks short after 8 weeks of no new scans. OPERATOR DECISION NEEDED (now 6 weeks running, escalating): either schedule /midas-scan as its own weekend routine, or invoke the death clock and call the program early. This ghost cannot resolve it on its own and will keep reporting FLAT."
  }
 ]
