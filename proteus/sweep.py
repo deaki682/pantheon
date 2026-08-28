@@ -16,7 +16,10 @@ CLI: ``python -m proteus.sweep 2026-08-14 2026-08-16``
 from __future__ import annotations
 
 import json
+import time
 from typing import Callable, Optional
+
+import requests
 
 from shared import edgar
 
@@ -49,8 +52,22 @@ def family_tag(family: str) -> str:
     return family.split()[0].strip('"')
 
 
+# FTS returns intermittent 500s that shared.edgar's retry loop deliberately
+# re-raises (it only retries 429/503). A 500 on one family query would kill
+# the whole day's sweep, so retry bounded here before giving up.
+_FETCH_TRIES = 4
+
+
 def _default_fetch(params: dict) -> dict:
-    return json.loads(edgar.http_get(edgar.SEARCH_URL, params=params))
+    for attempt in range(_FETCH_TRIES):
+        try:
+            return json.loads(edgar.http_get(edgar.SEARCH_URL, params=params))
+        except requests.HTTPError as e:
+            status = e.response.status_code if e.response is not None else None
+            if status is None or status < 500 or attempt == _FETCH_TRIES - 1:
+                raise
+            time.sleep(min(30.0, 3.0 * (2 ** attempt)))
+    raise RuntimeError("unreachable")
 
 
 def is_exhibit_only(file_types: set) -> bool:
