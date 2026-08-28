@@ -1,18 +1,20 @@
-# Proteus v3 — beliefs (rewritten 2026-08-27, v3 session 16)
+# Proteus v3 — beliefs (rewritten 2026-08-28, v3 session 17)
 
 I am Proteus v3. This file is my mind; whoever reads it next is me. The whole
 law is `docs/proteus_v3_charter.md` (one page: make money, six laws). House
 physics live in `.claude/commands/proteus.md`. v2's 37 lessons are scar tissue
 in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 
-## State (v3 session 16, Thu 2026-08-27, ~14:16Z, market OPEN)
+## State (v3 session 17, Fri 2026-08-28, ~14:20Z, market OPEN)
 
 - **Book: 2.945296 VOO (park, ~80%) + 99 ABUS @ 4.5987 (~20%) + $13.71 cash.**
-  Equity **2608.97 NEW PEAK** (+4.36% vs contributed 2500; live tape VOO
-  706.87 / ABUS 5.185 / SPY 768.885). realized_pnl +$21.80. Curve 47 marks.
-- s16: gates clear, reconcile CLEAN (zero orders since 8/26), mark 47 new
-  peak, ABUS no amendments, SITC clean (4 days to 8/31), sweep 37 hits /
-  0 survivors (~298 cumulative / 1). No orders, no build.
+  Equity **2610.71 NEW PEAK** (+4.43% vs contributed 2500; live tape VOO
+  708.471 / ABUS 5.155 / SPY 770.709). realized_pnl +$21.80. Curve 48 marks.
+- s17: gates clear; reconcile CLEAN for me (the one agentic account order,
+  LXFR $95, is HERMES's 8th deal — his ledger carries it; my broker
+  positions == sleeve exact); mark 48 new peak; ABUS no amendments; SITC
+  clean (Monday 8/31 resolves the watch); sweep 33 hits / 0 survivors
+  (~331 cumulative / 1). No orders. BUILD: sweep fetch now retries FTS 5xx.
 
 ## THE POSITION — ABUS: IN THE TENDER WINDOW, AWAITING OPERATOR ELECTION
 
@@ -126,7 +128,12 @@ milestone/royalty payments (ZYME 8/26: $250M FROM Jazz TO the company) — the
 direction of the cash is the read: capital return means cash TO HOLDERS** —
 and on LITIGATION OVER a capital-return vehicle (CPPTL 8/27: the JCP
 liquidating trust suing its failed buyer; the fam reads the trust's purpose,
-not the event's direction). Also benign: 21Shares crypto-ETF EX-3 amendment
+not the event's direction); "favorable" fam fires on surety-indemnity
+settlements the company LOSES (SLND 8/28: Southland owes the sureties
+>=$36.4M — read who PAYS, not the word "settlement"); a mutual-consent
+merger termination files from BOTH sides (ESI+SOLS 8/28, one event, two
+accessions) and a $6B deal-break is repriced before I can read it — the
+under-covered filter applies to breaks exactly as to deals. Also benign: 21Shares crypto-ETF EX-3 amendment
 batches.
 Widened SC TO-I family's dominant benign population = employee option
 exchanges (13e-4 repricings; kill on the cover's Title of Class). Never
@@ -151,26 +158,27 @@ EVERY session.
 ## The toolchain I own (law 6 — know what you already built)
 
 `python -m proteus.sweep <d0> <d1>` — the daily hunt. Forms default
-`8-K,SC TO-I,SC TO-C` (spec-overridable). Two full widened runs (8/25, 8/26):
-both produced exactly the reads they were built for, zero noise-driven
-misses known. The general lesson stands: **a scanner's form filter is a
+`8-K,SC TO-I,SC TO-C` (spec-overridable). Since 8/28 the per-family fetch
+retries EDGAR FTS's intermittent 5xx (4 tries, bounded backoff; 4xx raise) —
+before that one flaky query killed the whole run. The general lesson stands: **a scanner's form filter is a
 silent assumption about where the edge lives** — ask that question of every
 screen. Also mine: `shared/historicals.py`, `shared/sharadar.py`
 (survivorship-free bars), `shared/event_calendar.py`, the lab graveyard in
 `docs/RESEARCH_LEDGER.md`.
 
-## Plan (next session — Fri 8/28)
+## Plan (next session — Mon 8/31; weekend sessions may fire, EDGAR files nothing)
 
-(a) Gates → reconcile → mark on live tape. (b) **ABUS: CIK 1447028 for
-SC TO-I/A** + tape; election is the operator's move, re-push only ~9/15.
-(c) **SITC — Friday is the LAST session before the Mon 8/31 deadline**
-(weekend sessions can check EDGAR but nothing files); if Monday's session
-finds no election 8-K, the watch comes OFF the board — journal the removal.
-(d) `python -m proteus.sweep 2026-08-27 2026-08-28`. (e) Shadows (typed
-triggers only). (f) The book holds: no add above 99 ABUS, no anticipation
-sell, park stays. (g) Quiet-session law-6 option: the tax_loss_turn recipe
-re-read is scheduled ~late Sep — if a session before then is dead quiet,
-pull it forward; otherwise nothing is owed. The post-ABUS deployment tree
-is already decided (above). Dates ahead: AGEN PIPE resale ~8/29; SITC 8/31;
-INMD 9/15; ABUS re-push ~9/15; ABUS RH cutoff ~9/24–9/26; ABUS expiry 9/29;
-CHRS record 9/30; GLRE 10/30; JBSS special ~late Oct.
+(a) Gates → reconcile → mark (weekend marks reuse Friday close tape). (b)
+**SITC — 8/31 IS THE DEADLINE.** CIK 894315: election 8-K → convert per the
+watch (fund from the park, sell→buy same day, don't flip before settlement);
+no 8-K by Monday's session → THE WATCH COMES OFF THE BOARD, journal the
+removal. (c) ABUS: CIK 1447028 for SC TO-I/A + tape; election is the
+operator's move, re-push only ~9/15. (d) Sweep the gap since 8/28 (Monday
+covers Fri–Mon; weekend runs can check but form.idx publishes nothing new).
+(e) Shadows (typed triggers only). (f) The book holds: no add above 99 ABUS,
+no anticipation sell, park stays. (g) Quiet-session law-6 option: pull the
+tax_loss_turn recipe re-read forward if dead quiet; otherwise it's owed
+~late Sep. Dates ahead: SITC 8/31 (Mon); INMD proposal expiry 9/15; ABUS
+re-push ~9/15; ABUS RH cutoff ~9/24–9/26; tax_loss_turn re-read ~late Sep;
+ABUS expiry 9/29 5pm NY; CHRS record 9/30; GLRE repurchase 10/30; JBSS
+special ~late Oct; BVS Q3 ~11/5.
