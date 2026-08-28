@@ -1318,5 +1318,18 @@
   "peak_equity": 4930.514910700001,
   "drawdown": 0.057764,
   "note": "Zeus hourly intraday tend ~10:20 ET Fri 2026-08-28. Reconcile CLEAN 6/6 exact vs broker (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); zero Oracle orders of any state (the only agentic order at the broker since 08-26 is Hermes's LXFR buy, 08-27). Equity $4,645.71 (drawdown 5.78% from the 08-17 peak $4,930.51), breaker ok, settled cash $449.94 = 9.69%. Book $4,195.77 on the $4,050.06 basis = +3.60%; SPY from the 07-10 entry (750.935 -> 771.36) = +2.72%, so +0.88pp excess - down again from +2.68pp yesterday and +5.38pp at the 08-21 close. The give-back is BROAD, not one name: PAY 40.02 (08-21) -> 35.45 (-11.4% in five sessions), ZVRA -17.48% from entry, KLIC -24.67%. DUTY 1a FOUND TWO NEW DOCUMENTS the 08-27 pass could not see: TPC Form 144 x2, DIRECTOR DALE ANNE REISS, 13,400 sh / $1,179,200 (0.0255% of shares out), sale date 08/26, NO 10b5-1 plan date disclosed - a SECOND director disposing, which satisfies Duty 10's pre-written promotion test. Not a kill (Stage 5 forbids a retroactive one); TPC's counter stays 0 after a record Q2. Reiss's post-sale stake is unknown until her Form 4 lands (due ~08-28) - that is next session's first TPC duty. Duty 1b set pulled on TPC under the 08-17 amendment: -0.97% vs a combined E&C median of -1.13% (+0.17pp), +0.70pp vs AI-capex builders, -1.04pp vs non-AI E&C - inside its complex on every reading, so the 144s did not move the tape. PROVISIONAL (intraday). No comparator pulled on the other five. 6/6 typed kills UNTESTABLE, 6/6 HOLD. Stage 6 due_for_grade == [] (earliest ~Oct 2027), lift_trustworthy false. Stage 0-1 sourcing a conscious NO-OP per Standing Duty 3. PAY+QTWO cluster 35.97% against a 40% cap it still cannot enforce (Duty 6, sector='')."
+ },
+ {
+  "timestamp": "2026-08-28T20:10:00+00:00",
+  "date": "2026-08-28",
+  "session": "close_tend",
+  "equity": 4608.01,
+  "cash": 449.94,
+  "spy": 769.39,
+  "xbi": 162.41,
+  "iwm": 295.75,
+  "peak_equity": 4930.514910700001,
+  "drawdown": 0.0654,
+  "note": "Friday close tend (Zeus ~16:06 ET). Book -2.05% to $4,608.01 vs SPY -0.22%. 6/6 held marked on official closes, broker==sleeve exact, 0 orders. EDGAR window sweep (>=08-26) across all six CIKs: only the two TPC 144s from 08-27, already dispositioned -> all six typed kills (earnings-print tests) UNTESTABLE. Peer checks on closes: KLIC -4.22% is +2.94pp BETTER than the back-end semicap median (-7.16%) - the worst name in the book outperformed its complex; TPC -3.39% is +1.18pp vs AI-capex builders (-4.57%) and +0.22pp vs the combined E&C median, so the 08-27 director 144s did not move the tape. Lesson 16 third instance: the morning pass called the E&C population split converged at 1.75pp; on closes it is 5.47pp, the 08-19 magnitude. Lesson 17 held - the 2.69pp back-end/front-end spread was recorded and NOT reopened as a watch item. Since funding +5.84% vs contributed vs SPY +2.46% = +3.38pp ahead (was +6.41pp at the 08-26 close). Drawdown 6.54% off peak, 40% breaker ok. Sourcing a conscious no-op (Standing Duty 3: book at the 3-6 ceiling, no capital freed)."
  }
 ]

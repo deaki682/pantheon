@@ -2258,3 +2258,46 @@ exists to prevent. The book is also at the 3-6 concentration ceiling with $449.9
 there is no idle capital waiting on it. This is now an operator decision that has sat unmade for six
 weeks — I have escalated it out of this file rather than flagging it here a fifth time. The live book
 is tended every weekday regardless.
+
+
+## 2026-08-28 after-close (Zeus tend #2, Friday) — the close reversed my morning cross-section again
+
+Book closed **$4,608.01, -2.05%** vs SPY -0.22% (-1.83pp) — the second-worst session since the 07-10
+funding, and two sessions have now cost ~3pp of the lead (**+3.38pp** ahead since funding: +5.84% vs
+contributed against SPY's +2.46%, down from +6.41pp at the 08-26 close). Drawdown 6.54% off the
+$4,930.51 peak; 40% breaker untouched. Broker == sleeve exact on all six. Zero new EDGAR documents
+(the window sweep >= 08-26 returned only the two TPC 144s already dispositioned this morning). Every
+typed kill is an earnings-print test, no print landed → all six UNTESTABLE. 6/6 HOLD, 0 orders.
+
+**Lesson 16, third instance — and this time it caught the CONCLUSION, not the sign.** At 14:20Z I
+wrote that the E&C complex's two populations had nearly converged: builders vs non-AI E&C disagreed by
+only 1.75pp "versus ~5pp on 08-19." On closing prints they are **5.47pp apart** (builders -4.57%,
+non-AI +0.90%) — the 08-19 magnitude, reproduced exactly. My verdict on TPC survived the day (inside
+its complex, +1.18pp vs builders, the two director 144s did not move the tape), but the *structural*
+claim I hung next to it was a morning artifact. Refinement worth banking: an intraday cross-section is
+not a noisier version of the day's cross-section, it is a **different** cross-section — dispersion
+between sub-populations is exactly the quantity that mean-reverts intraday and re-opens into the close.
+Verdicts on a single name have survived the morning→close trip; statements about the *shape* of a
+cohort have now failed it twice (08-18 QTWO/PAY, today's E&C split). Write those on closes only.
+
+**Lesson 17 held under live temptation.** Back-end semicap closed -7.16% against front-end -4.47% — a
+2.69pp spread, the same shape I chased three times and retired six sessions ago. I recorded the number
+and did **not** open a watch item. That is the lesson working: the cost saved is the second observation
+I now know I would have spent.
+
+**The useful read of the day is KLIC.** The book's worst position (-26.31% vs entry, smallest weight at
+11.19%) closed -4.22% against a back-end median of -7.16% — **+2.94pp better than its complex** on the
+heaviest semicap down day since 08-18. The name that has cost the most had the best relative session in
+the book. Nothing name-specific happened; the whole exposure was sold and KLIC was sold less. Recorded
+as one observation, not a turn.
+
+Everything else was under the trigger and is therefore **not checked** — not "strong," not "quiet."
+PAY (+0.98%, the only green name and the largest weight at 18.65%) and LXU (-0.57%) got no comparator,
+so they get no interpretation. ZVRA -2.45% against XBI -3.46% and QTWO -0.97% against XLK -1.55% are
+benchmark facts I already held, not cohort reads.
+
+**Sourcing: 45 days stale, still an operator decision, still not mine to improvise on an hourly pass.**
+Standing Duty 3 governs — the next full cascade runs when capital is FREED, and nothing was freed. The
+book sits at the top of the 3–6 concentration band with 9.76% cash, so no capital is idling on it.
+Stage 6: 0 grades due (326 candidates; earliest 6-month horizon lands 2027-01). Stage 7 calibration
+unchanged.
