@@ -82,7 +82,7 @@
    "llm_rationale": "Arcline (PE sponsor) definitive all-cash buyout, $272M EV, unanimous board approval, 209% premium to unaffected price -- strong signal no higher bid exists. NO financing condition (explicit in the merger agreement) removes the #2 break cause. Antitrust: Arcline is a financial sponsor, not a strategic competitor in aerospace/defense instrumentation or labeling/packaging -- low horizontal-overlap risk, though the reverse termination fee carve-out for antitrust-specific failure shows the parties contemplated *some* HSR risk (not zero, not high). Shareholder vote is the main open condition on a deal already this rich. Spread +1.74% over ~Q3 close (~3 months) is a real, uncaptured arb edge. Keep.",
    "llm_verdict": "keep",
    "offer_price": 29.0,
-   "resolved": false,
+   "resolved": true,
    "spread": 0.0174,
    "spy_entry": 750.99,
    "symbol": "ALOT"
@@ -2615,6 +2615,38 @@
    "read_model": "opus",
    "read_effort": "high",
    "resolved": false
+  },
+  {
+   "symbol": "CBZ",
+   "detect_date": "2026-08-28",
+   "entry_price": 54.49,
+   "offer_price": 55.0,
+   "spy_entry": 770.713,
+   "expected_close": "2026-12-31",
+   "spread": 0.0094,
+   "llm_verdict": "drop",
+   "llm_rationale": "Grant Thornton Advisors (New Mountain Capital-backed) / CBIZ, announced 2026-07-29, PREM14A filed 2026-08-27: $55.00 ALL CASH per share, ~$5B enterprise value, ~54% premium to the 30-day average. The DEAL reads clean-to-low break risk: strategic-plus-sponsor buyer with New Mountain committing incremental equity; unanimous board support; the go-shop window for alternative proposals ran to 2026-08-27 and expired with no topping bid disclosed; expected close Q4 2026. Residual risks are real but second-order: horizontal overlap in mid-market accounting/tax/advisory draws an HSR look (the combined firm would be only #5 behind the Big 4 in a fragmented market, so overlap is unlikely to be blocking), auditor-independence questions around PE ownership of an audit practice, and the planned carve-out of CBIZ's Benefits & Insurance segment into a separate New Mountain vehicle adds closing mechanics. DROP is NOT a break-risk call - it is a SPENT SPREAD: at $54.49 the spread to the $55.00 cash terminal is +0.94%, BELOW the 1% MIN_SPREAD floor, so there is no arb edge left to harvest and book.enter would refuse it. Entering here would be topping-bid speculation, not arbitrage. Same disposition as FBRX (2026-08-07). Re-read if the spread widens back through 1% on a regulatory scare.",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
+  },
+  {
+   "symbol": "IRDM",
+   "detect_date": "2026-08-28",
+   "entry_price": 47.13,
+   "offer_price": 47.13,
+   "spy_entry": 770.713,
+   "expected_close": "2027-03-31",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "Rocket Lab (RKLB) / Iridium Communications, ~$8B, DEFM14A filed 2026-08-26. DROP - OUT OF SCOPE, not a break-risk call: this is a CASH-AND-STOCK deal, not the cash-only structure Hermes trades. Rocket Lab filed an S-4 REGISTRATION STATEMENT on 2026-08-13 (a registration statement is only needed to issue acquirer shares as consideration) and separately entered a $1.94B equity distribution agreement to fund the CASH portion alongside a $3.6B bridge loan. A stock leg has no contractual cash terminal and would need an acquirer short the broker cannot do, so offer_price is recorded equal to the market price rather than fabricating a cash terminal, and the spread field is meaningless here. Noting for the record what WOULD have mattered had it been all-cash: the HSR waiting period expired 2026-08-12 (clean), FCC license-transfer applications are filed (the real gating item, plus likely Team Telecom review on an L-band national-security-relevant constellation), and the acquirer is financing an $8B purchase with equity issuance into its own volatile share price - which is exactly the risk a stock leg would hand the holder. Skip.",
+   "break_risk": "med",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
   }
  ],
  "graded": [
@@ -4601,6 +4633,24 @@
    "net_return": 0.001952,
    "spy_return": -0.002303,
    "excess": 0.004255
+  },
+  {
+   "symbol": "ALOT",
+   "detect_date": "2026-07-06",
+   "entry_price": 28.505,
+   "offer_price": 29.0,
+   "spread": 0.0174,
+   "llm_verdict": "keep",
+   "break_risk": "low",
+   "arm_a_live": true,
+   "read_model": "unpinned_legacy",
+   "read_effort": "unpinned_legacy",
+   "exit_price": 28.9999,
+   "exit_date": "2026-08-28",
+   "outcome": "completed",
+   "net_return": 0.017362,
+   "spy_return": 0.026263,
+   "excess": -0.0089
   }
  ]
 }
