@@ -3,6 +3,91 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-08-28 INTRADAY — Duty 1a caught two filings yesterday's pass could not see, and they are a second director selling)
+
+Zeus hourly intraday tend, 14:20Z (~10:20 ET Fri). Reconcile CLEAN 6/6 exact vs broker
+(KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 /
+ZVRA 47.034397); zero Oracle orders of any state — the only agentic order at the broker
+since 08-26 is Hermes's LXFR buy (08-27). Equity **$4,645.71** (drawdown **5.78%** from the
+08-17 peak $4,930.51), breaker `ok`, settled cash $449.94 = 9.69%. Book $4,195.77 on the
+$4,050.06 basis = **+3.60%**; SPY from the 07-10 entry (750.935 → 771.36) = **+2.72%**, so
+**+0.88pp excess** — a third consecutive give-back (+5.38pp at the 08-21 close → +2.68pp
+on 08-27 → +0.88pp now).
+
+**1. THE SESSION'S FINDING — Duty 1a paid for itself again, and this time on the #1 weight.**
+The sweep (`filing_date >= 2026-08-25`, never "since the last pass") returned **two NEW TPC
+Form 144s, both filed 08-27** — documents the 08-27 14:16Z pass explicitly recorded as
+"zero new docs for TPC" because EDGAR's index had not yet surfaced them. This is the third
+time the window rule has caught a same-day/next-day lag, and the first time on the book's
+largest position. **DIRECTOR DALE ANNE REISS**, sale date **08/26/2026**: 7,400 sh /
+$651,200 out of the DALE ANNE REISS TRUST U/A 08/08/1990 (acc 0001959173-26-006494) and
+6,000 sh / $528,000 out of the IRREV TRUST FOR DALE ANNE REISS (acc 0001959173-26-006489)
+= **13,400 sh / $1,179,200, 0.0255% of 52,569,117 shares out.** Both notices carry
+`nothingToReportFlagOnSecuritiesSoldInPast3Months=Y`, and **neither discloses a 10b5-1
+plan-adoption date** — which per Duty 10's corollary is the field that carries the
+information. That makes it discretionary in the same sense Feltenstein's 08-07 sale was,
+and unlike the QTWO/ZVRA planned sales that were uninformative by construction.
+
+**2. This SATISFIES Duty 10's pre-written promotion test — and the test's answer is
+"watch harder", not "sell".** The test typed on 08-17, before the answer was known, was
+"a THIRD insider disposition, or any 8-K touching Civil West's results." A **second
+director** now disposing is that. But the promotion is of the WATCH, not of the position:
+an insider sale is **not a typed kill**, TPC's kill is "2 consecutive GAAP loss quarters"
+with the counter at **0** after a record Q2 ($1.6B revenue +19% y/y, $65.7M GAAP net
+income, guidance raised), and **Stage 5 explicitly forbids making a discomfort into a
+retroactive kill.** HOLD.
+
+**3. The honest gap, declared before it can be papered over.** The 144s are *notices of
+intent*; Reiss's **total post-sale stake is not in them**, and her Form 4 (sale 08/26 →
+due ~08/28) had not landed at 14:20Z. So the comparison that actually matters — is this
+Feltenstein's 96.5%-of-stake exit, or a rounding error off a large holding? — **cannot be
+made yet.** What the notices do show is four *specific* director stock-award tranches sold
+in full, granted 06/08/2015, 05/31/2018, 05/28/2024 and 05/23/2025, out of two personal
+trusts. Tranches spanning eleven years liquidated out of trusts reads as
+diversification/estate housekeeping rather than a view on the business — **but that is a
+prior, not a finding, and it is written here before the Form 4 can confirm or embarrass
+it.** NEXT SESSION'S FIRST TPC DUTY: pull Reiss's Form 4, record the post-sale holding.
+
+**4. Duty 1b: a set pulled on TPC under the 08-17 amendment, and the 08-19 two-population
+corollary reproduced almost exactly.** No name breached the 3% trigger today (largest move
+KLIC −2.08%, and KLIC is the *smallest* weight at 11.35%, so no set was owed on magnitude).
+The #1 weight moving down on the same day two director 144s hit the tape earns the
+comparator anyway. TPC **−0.97%**. The E&C set splits as it did on 08-19: AI-capex/
+datacenter builders **STRL −2.02, FIX −1.67, EME −1.67, PWR −1.31, MTZ −0.96 (median
+−1.67%)** versus non-AI E&C **J +0.86, ACM +0.08, GVA −0.40 (median +0.08%)**. TPC reads
+**+0.70pp** vs the builders, **−1.04pp** vs non-AI E&C, **+0.17pp** vs the combined 8-name
+median (−1.13%, dispersion 2.88pp, 6 of 8 down). **TPC is inside its complex on every
+reading — the 144s did not move the tape.** Worth noting against 08-19: the two
+sub-populations disagree by only **1.75pp** today versus ~5pp then, so the split is real
+but not currently load-bearing. **PROVISIONAL — 14:20Z, not the close.**
+
+**5. For the other five names NO COMPARATOR WAS PULLED.** Per the 08-21 amendment that is
+all this entry may say about them. Not "quiet", not "idiosyncratic": **not checked.**
+
+**6. The give-back is broad, and naming it matters more than explaining it.** Excess has
+gone +5.38pp → +2.68pp → +0.88pp in five sessions. It is not one name: PAY 40.02 (08-21) →
+35.45 = **−11.4%**, ZVRA −17.48% from entry, KLIC −24.67%. Three of six positions are now
+underwater from entry. **No comparator was pulled on any of them today, so this paragraph
+is arithmetic, not interpretation** — and none of it is an exit condition. A drawdown is
+NEVER an exit (Stage 5); that patience IS the edge, and this is precisely the stretch where
+it costs something.
+
+**7. Filings elsewhere: zero.** No documents for KLIC/PAY/QTWO/ZVRA in the window; the LXU
+25-NSE (08-25) was already dispositioned on 08-26 as a rights-plan removal, not a
+delisting. **6/6 typed kills UNTESTABLE, 6/6 HOLD.** Kill counters unchanged: TPC "2
+consecutive GAAP loss quarters" (0); KLIC "quarterly revenue < $180M" (**RE-TYPE still
+owed, Duty 0b**); PAY "YoY revenue growth < 15%"; QTWO "GAAP net loss relapse or growth
+< 10%"; ZVRA "2 consecutive flat/declining product-revenue quarters" (0); LXU "quarterly
+net loss ON ammonia price collapse" (a CONJUNCTION).
+
+**8. Stage 6:** `due_for_grade` == [] (earliest ~Oct 2027); 34 Arm-B and 31 Arm-A rows
+unresolved, `lift_trustworthy` false — as designed at this stage.
+**9. Stage 0–1 sourcing: a conscious NO-OP, per Standing Duty 3.** Book fully deployed at 6,
+no kill fired, no capital freed. Zeus's 3-day research cadence reads "due" mechanically
+(research marker 2026-07-14); the duty overrides it. Journaled as a no-op.
+**10. Duty 6 unchanged and still top:** PAY+QTWO cluster **35.97%** against a 40% cap that
+cannot enforce because `sector` is `''` on all six. Not hand-patched, on purpose.
+
 ## Worldview (2026-08-27 INTRADAY — the top weight broke away from its set, and the honest answer is "provisional")
 
 Zeus hourly intraday tend, 14:16Z (~10:16 ET Thu). Reconcile CLEAN 6/6 exact vs broker
@@ -1778,6 +1863,24 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    before the answer: a THIRD insider disposition, or any 8-K touching Civil West's
    results. A quiet month buries it.** The discomfort is recorded; it does not become a
    retroactive kill — Stage 5 forbids exactly that.
+   **FIRED 2026-08-28 — the test is SATISFIED and the WATCH is PROMOTED.** **DIRECTOR Dale
+   Anne Reiss** filed two Form 144s on **08-27** (sale date 08/26): **13,400 sh /
+   $1,179,200** across two personal trusts (acc 0001959173-26-006494, 7,400 sh / $651,200
+   from the DALE ANNE REISS TRUST U/A 08/08/1990; acc 0001959173-26-006489, 6,000 sh /
+   $528,000 from the IRREV TRUST FOR DALE ANNE REISS) = **0.0255% of 52,569,117 shares
+   out**, selling four director stock-award tranches in full (granted 06/08/2015,
+   05/31/2018, 05/28/2024, 05/23/2025), **no 10b5-1 plan-adoption date on either notice**
+   = discretionary, like Feltenstein's. **Two different directors disposing within three
+   weeks on the book's #1 weight (18.83%).** Caught only because Duty 1a sweeps a WINDOW —
+   the 08-27 pass recorded "zero new docs for TPC" on the same documents.
+   **Still NOT a kill:** TPC's typed kill is 2 consecutive GAAP loss quarters, counter 0
+   after a record Q2, and the tape agrees the notices carried no information (TPC +0.17pp
+   vs its combined E&C median the day after). **THE NEXT TEST, typed before the answer
+   again: (a) pull Reiss's Form 4 (sale 08/26 → due ~08-28) and record her POST-SALE
+   STAKE — a Feltenstein-style ~96% exit is a materially different fact from a trim off a
+   large holding, and the 144s do not disclose it; (b) a THIRD distinct insider, or any
+   8-K touching operations, promotes this to a full re-underwrite at the next FULL round.
+   Two directors is a pattern worth watching; it is not yet evidence about the business.**
    **Corollary lesson: with 10b5-1 sales, the PLAN-ADOPTION DATE is the information, not
    the size.** QTWO's CFO sold 77,180sh under a plan adopted 2025-09-02 (~11 months
    earlier, retains 2.7× what he sold) and ZVRA's Secretary noticed 42,666sh (0.072% of
