@@ -18,17 +18,17 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--acc:#e8833a;--accBg:#3b2a1b}
 html{color-scheme:dark;accent-color:var(--acc)}
-input[type=range]{-webkit-appearance:none;appearance:none;height:40px;
+input[type=range]{-webkit-appearance:none;appearance:none;height:28px;
   background:transparent;touch-action:none}
 input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:2px;
   background:linear-gradient(to right,var(--acc) 0,var(--acc) var(--p,50%),
     #4a4a4a var(--p,50%))}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
-  width:20px;height:20px;border-radius:50%;background:var(--acc);
-  margin-top:-8.5px}
+  width:14px;height:14px;border-radius:50%;background:var(--acc);
+  margin-top:-5.5px}
 input[type=range]::-moz-range-track{height:3px;border-radius:2px;background:#4a4a4a}
 input[type=range]::-moz-range-progress{height:3px;border-radius:2px;background:var(--acc)}
-input[type=range]::-moz-range-thumb{width:20px;height:20px;border:none;
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border:none;
   border-radius:50%;background:var(--acc)}
 html,body{width:100%;height:100%;overflow:hidden;background:#141414;color:#e8e6e1;
   font:14px system-ui,sans-serif;touch-action:none;
@@ -501,7 +501,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v280</span>
+      <span id="verNum">v281</span>
     </div>
   </div>
 
@@ -6402,6 +6402,34 @@ const hapticEl=(()=>{
 // ERROR-level intervention per attempt - and the gallery strips' scroll
 // ticks fire during initial layout, before any tap. Hold every haptic
 // until the first real gesture.
+document.addEventListener('pointerdown', e=>{
+  const el=e.target;
+  if (!(el instanceof HTMLInputElement) || el.type!=='range' || el.disabled) return;
+  e.preventDefault();
+  const drive=ev=>{
+    const r=el.getBoundingClientRect();
+    const min=el.min!==''?+el.min:0, max=el.max!==''?+el.max:100;
+    const st=(+el.step>0)?+el.step:1;
+    let f=(ev.clientX-r.left)/(r.width||1); f=Math.max(0,Math.min(1,f));
+    let v=min+f*(max-min); v=Math.round((v-min)/st)*st+min;
+    v=Math.max(min,Math.min(max,v));
+    const vs=String(+v.toFixed(5));
+    if (el.value!==vs){ el.value=vs; el.dispatchEvent(new Event('input',{bubbles:true})); }
+  };
+  drive(e);
+  try{ el.setPointerCapture(e.pointerId); }catch(e2){}
+  const mv=ev=>{ if (ev.pointerId===e.pointerId) drive(ev); };
+  const up=ev=>{
+    if (ev.pointerId!==e.pointerId) return;
+    el.removeEventListener('pointermove',mv);
+    el.removeEventListener('pointerup',up);
+    el.removeEventListener('pointercancel',up);
+    el.dispatchEvent(new Event('change',{bubbles:true}));
+  };
+  el.addEventListener('pointermove',mv);
+  el.addEventListener('pointerup',up);
+  el.addEventListener('pointercancel',up);
+}, {capture:true});
 let HAPT_GO=false;
 addEventListener('pointerdown', ()=>{ HAPT_GO=true; }, {capture:true, once:true});
 function haptic(){
