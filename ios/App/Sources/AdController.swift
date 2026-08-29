@@ -11,7 +11,7 @@ import AppTrackingTransparency
 // then the SDK. Mirrors the Android shell's card exactly.
 final class AdController: NSObject {
     // set by the AdMob console; the ~ id lives in Info.plist
-    static let NATIVE_UNIT = "ca-app-pub-4573680538268043/0000000000"
+    static let NATIVE_UNIT = "ca-app-pub-4573680538268043/8895033063"
 
     private weak var host: UIViewController?
     private weak var web: WKWebView?
