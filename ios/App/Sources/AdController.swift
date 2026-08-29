@@ -23,6 +23,7 @@ final class AdController: NSObject {
     private var ctaV: UILabel?
     private var wanted = false
     private var started = false
+    private var removed = false
     private var bgCol = UIColor(red: 0x14/255.0, green: 0x14/255.0, blue: 0x14/255.0, alpha: 1)
     private var accCol = UIColor(red: 0xE8/255.0, green: 0x83/255.0, blue: 0x3A/255.0, alpha: 1)
 
@@ -41,9 +42,19 @@ final class AdController: NSObject {
         ])
     }
 
+    // the remove-ads purchase: the slot collapses and the stack never
+    // starts again (the entitlement re-checks on every launch)
+    func disable() {
+        removed = true
+        wanted = false
+        nativeAd = nil
+        wrap.isHidden = true
+        web?.evaluateJavaScript("window.__adOn && __adOn(false)", completionHandler: nil)
+    }
+
     // consent -> tracking prompt -> SDK -> first load + gentle refresh
     func start() {
-        guard let host else { return }
+        guard let host, !removed, !StoreController.removed else { return }
         let params = RequestParameters()
         ConsentInformation.shared.requestConsentInfoUpdate(with: params) { [weak self] err in
             DispatchQueue.main.async {
@@ -111,7 +122,7 @@ final class AdController: NSObject {
     }
 
     private func applyAd() {
-        wrap.isHidden = !(wanted && nativeAd != nil)
+        wrap.isHidden = !(wanted && nativeAd != nil && !removed)
         let js = "window.__adOn && __adOn(\(wanted ? "true" : "false"))"
         web?.evaluateJavaScript(js, completionHandler: nil)
     }

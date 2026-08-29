@@ -10,6 +10,7 @@ final class ViewController: UIViewController {
     private var web: WKWebView!
     private var dlDest: URL?
     private var ads: AdController?
+    private var store: StoreController?
 
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
 
@@ -27,6 +28,10 @@ final class ViewController: UIViewController {
         let ucc = cfg.userContentController
         ucc.add(self, name: "adPlace")
         ucc.add(self, name: "adAccent")
+        ucc.add(self, name: "buyRemoveAds")
+        // the entitlement is baked in synchronously - the page's Remove Ads
+        // text keys on adsRemoved() at boot, and message handlers are async
+        let noAds = StoreController.removed ? "true" : "false"
         let shim = """
         window.RealismCam = window.RealismCam || {};
         RealismCam.adPlace = function(on, bg){
@@ -34,6 +39,10 @@ final class ViewController: UIViewController {
         };
         RealismCam.adAccent = function(h){
           try{ webkit.messageHandlers.adAccent.postMessage(String(h||'')); }catch(e){}
+        };
+        RealismCam.adsRemoved = function(){ return \(noAds); };
+        RealismCam.buyRemoveAds = function(){
+          try{ webkit.messageHandlers.buyRemoveAds.postMessage(1); }catch(e){}
         };
         """
         ucc.addUserScript(WKUserScript(source: shim, injectionTime: .atDocumentStart,
@@ -62,6 +71,7 @@ final class ViewController: UIViewController {
         ])
 
         ads = AdController(host: self, web: web)
+        store = StoreController(web: web, ads: ads)
         ads?.start()
         let port = LocalServer.shared.start()
         if port == 0 {
@@ -97,6 +107,8 @@ extension ViewController: WKScriptMessageHandler {
                        bg: d["bg"] as? String ?? "#141414")
         } else if message.name == "adAccent", let h = message.body as? String {
             ads?.accent(h)
+        } else if message.name == "buyRemoveAds" {
+            store?.buy()
         }
     }
 }
