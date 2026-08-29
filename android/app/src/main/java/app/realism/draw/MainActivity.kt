@@ -772,7 +772,7 @@ class MainActivity : AppCompatActivity() {
                 val qp = com.android.billingclient.api.QueryProductDetailsParams.newBuilder()
                     .setProductList(listOf(prod)).build()
                 c.queryProductDetailsAsync(qp) { br, details ->
-                    val d = details.firstOrNull()
+                    val d = details.productDetailsList.firstOrNull()
                     if (br.responseCode !=
                         com.android.billingclient.api.BillingClient.BillingResponseCode.OK
                         || d == null) {
