@@ -428,6 +428,8 @@ class MainActivity : AppCompatActivity() {
         val lp = web.layoutParams as FrameLayout.LayoutParams
         val h = if (on) adShownH else 0
         if (lp.bottomMargin != h) { lp.bottomMargin = h; web.layoutParams = lp }
+        // the page lifts its bottom chrome clear of the strip (click safety)
+        js("window.__adOn && __adOn(" + on + ")")
     }
 
     // the browser engine keeps IndexedDB in per-origin folders on disk,

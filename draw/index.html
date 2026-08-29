@@ -202,6 +202,12 @@ body.colorRef #hudToggle.lit{width:44px;padding:0;font-size:18px}
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:none}
 body.colorRef #underCorner{display:block;left:calc(30px + (100% - 60px)*0.25)}
 body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.75)}
+/* while the ad strip is up, every screen's bottom chrome lifts clear of
+   it - a missed tap lands on dead paper, never on the advertiser */
+html.adOn .screen{padding-bottom:16px}
+html.adOn #hudWrap,html.adOn #detCorner,html.adOn #gridCorner,
+html.adOn #underCorner,html.adOn #camCorner{
+  bottom:calc(24px + env(safe-area-inset-bottom))}
 /* B&W swaps the layers and detail buttons: layers takes the left corner,
    detail sits at the one-third mark (colour keeps its own arrangement) */
 body:not(.colorRef) #hudWrap{left:8px;transform:none}
@@ -485,7 +491,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v272</span>
+      <span id="verNum">v273</span>
     </div>
   </div>
 
@@ -789,6 +795,14 @@ function adSync(){
     RealismCam.adPlace(!cam, bg);
   }catch(e){}
 }
+window.__adOn = on => {
+  try{ document.documentElement.classList.toggle('adOn', !!on); }catch(e){}
+  requestAnimationFrame(()=>{ try{
+    if ($('scrMain').classList.contains('on')) applyView();
+    if ($('scrCompare').classList.contains('on')){ cmpSize(); cmpRender(); }
+    if ($('scrUpload').classList.contains('on')) drawTitleRule();
+  }catch(e){} });
+};
 const show = id => { tipClose(false); uiShow();
   const cur=document.querySelector('.screen.on');
   if (!cur || cur.id!==id){
