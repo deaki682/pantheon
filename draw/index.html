@@ -477,7 +477,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v269</span>
+      <span id="verNum">v270</span>
     </div>
   </div>
 
@@ -3357,6 +3357,16 @@ async function bakExport(){
     toast('backup downloaded');
   }
 }
+// the automatic layer: the native shell asks for this once a day; the
+// same full backup lands quietly in Downloads, where no cleaner reaches
+window.__autoBak=async ()=>{
+  try{
+    const N=window.RealismCam; if (!N || !N.saveFileAuto) return;
+    if (!(await galAll()).some(r=>!r.seed)) return;
+    const out=await bakBuild();
+    N.saveFileAuto('photorealism-auto-backup.json','application/json',out);
+  }catch(e){}
+};
 async function bakApply(j){
   for (const r of await galAll()){
     for (const pfx of BAK_PERID) try{ localStorage.removeItem(pfx+r.id); }catch(e){}

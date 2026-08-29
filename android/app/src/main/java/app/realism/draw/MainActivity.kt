@@ -275,6 +275,13 @@ class MainActivity : AppCompatActivity() {
             if (!booted) report("page did not finish loading in 8s (progress ${web.progress}%)")
         }, 8000)
         startAds()
+        // the daily automatic backup: a full export lands in Downloads -
+        // the one location no cleaner, quota manager, or wipe reaches
+        web.postDelayed({
+            val bp = getSharedPreferences("bak", 0)
+            if (System.currentTimeMillis() - bp.getLong("at", 0) > 22 * 3600 * 1000L)
+                js("window.__autoBak && __autoBak()")
+        }, 15000)
     }
 
     // ---- the ad stack: consent first (Google's UMP form, configured in
@@ -544,6 +551,42 @@ class MainActivity : AppCompatActivity() {
                     js("toast && toast('backup failed', false)")
                 }
             }
+        }
+        // the automatic daily backup: prune this app's previous auto file
+        // from Downloads, write the fresh one, stamp the clock
+        @JavascriptInterface
+        fun saveFileAuto(name: String, mime: String, text: String) {
+            Thread {
+                try {
+                    val bytes = text.toByteArray(Charsets.UTF_8)
+                    if (android.os.Build.VERSION.SDK_INT >= 29) {
+                        val col = android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI
+                        try {
+                            contentResolver.query(col,
+                                arrayOf(android.provider.MediaStore.Downloads._ID),
+                                "_display_name LIKE ?", arrayOf("photorealism-auto%"), null)?.use { c ->
+                                while (c.moveToNext()) {
+                                    try { contentResolver.delete(
+                                        android.content.ContentUris.withAppendedId(col, c.getLong(0)),
+                                        null, null) } catch (e: Exception) {}
+                                }
+                            }
+                        } catch (e: Exception) {}
+                        val cv = android.content.ContentValues().apply {
+                            put(android.provider.MediaStore.Downloads.DISPLAY_NAME, name)
+                            put(android.provider.MediaStore.Downloads.MIME_TYPE, mime)
+                        }
+                        val uri = contentResolver.insert(col, cv) ?: throw Exception("no uri")
+                        contentResolver.openOutputStream(uri)?.use { it.write(bytes) }
+                    } else {
+                        java.io.File(getExternalFilesDir(null), name).writeBytes(bytes)
+                    }
+                    getSharedPreferences("bak", 0).edit()
+                        .putLong("at", System.currentTimeMillis()).apply()
+                    logLine("auto-backup saved ${bytes.size / 1024}KB")
+                    js("toast && toast('auto-backup saved to Downloads')")
+                } catch (e: Exception) { logLine("auto-backup failed: ${e.message}") }
+            }.apply { isDaemon = true }.start()
         }
         // ---- the shadow: a native mirror of every user reference ----
         // WebView storage has been wiped in the field more than once. After
