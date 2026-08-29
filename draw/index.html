@@ -91,7 +91,8 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:13px}
 #verTag{color:var(--acc);font-size:12px;text-align:center;letter-spacing:0.06em;margin-top:2px}
 #verNum{color:#6a6a6a;font-size:10px;text-align:center;margin-top:1px}
 #discBtn{color:var(--acc);display:flex;padding:4px}
-.gitem{position:relative;flex:none;border:1px solid #555;background:#1e1e1e;
+.gitem{position:relative;flex:none;display:flex;flex-direction:column;
+  border:1px solid #555;background:#1e1e1e;
   cursor:pointer;border-radius:10px;overflow:hidden;
   box-shadow:0 7px 16px rgba(0,0,0,0.55), 0 2px 5px rgba(0,0,0,0.45)}
 .gitem.lastRef{border-color:var(--acc)}
@@ -99,7 +100,8 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:13px}
   border:none;background:rgba(14,14,14,0.72);border-radius:50%;
   color:#fff;font-size:14px;line-height:1;
   display:flex;align-items:center;justify-content:center}
-.gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+.gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover;
+  flex:1 0 auto;min-height:0}
 .gstat{font-size:12px;color:var(--acc);text-align:center;
   padding:3px 2px 4px;line-height:1.3}
 .gtop{padding:4px 2px 3px;white-space:nowrap}
@@ -200,6 +202,12 @@ body.colorRef #hudToggle.lit{width:44px;padding:0;font-size:18px}
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:none}
 body.colorRef #underCorner{display:block;left:calc(30px + (100% - 60px)*0.25)}
 body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.75)}
+/* B&W swaps the layers and detail buttons: layers takes the left corner,
+   detail sits at the one-third mark (colour keeps its own arrangement) */
+body:not(.colorRef) #hudWrap{left:8px;transform:none}
+body:not(.colorRef) #hud{position:absolute;bottom:52px;left:0;
+  width:max-content;max-width:calc(100vw - 16px)}
+body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
 #underBtn{width:44px;height:44px;padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #underMenu{position:absolute;bottom:52px;left:0;
@@ -477,7 +485,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v270</span>
+      <span id="verNum">v271</span>
     </div>
   </div>
 
@@ -794,6 +802,11 @@ const show = id => { tipClose(false); uiShow();
     try{ calRefresh(); }catch(e){}
     if (TOUR.rule) ruleTip();
   }
+  // leaving the compare screen by ANY road tears the native camera down -
+  // a missed teardown once left the whole app transparent over the black
+  // native shell (the "black front page" incident)
+  if (id!=='scrCompare' && document.documentElement.classList.contains('natCam'))
+    try{ camStop(); natChrome(false); }catch(e){}
   // the native shell shows its banner only on the project screen
   if (window.RealismCam && RealismCam.adScreen)
     try{ RealismCam.adScreen(id==='scrUpload'); }catch(e){} };
@@ -5700,6 +5713,14 @@ function natChrome(on){
   document.body.classList.toggle('natCam', on);
   if (on) $('camVeil').style.display='none';
 }
+document.addEventListener('visibilitychange', ()=>{
+  // returning to a page whose native camera died while backgrounded:
+  // never sit transparent on a non-camera screen
+  if (!document.hidden && document.documentElement.classList.contains('natCam')){
+    const on=document.querySelector('.screen.on');
+    if (!on || on.id!=='scrCompare') try{ camStop(); natChrome(false); }catch(e){}
+  }
+});
 function natRect(){
   const r=$('cmpView').getBoundingClientRect(), k=devicePixelRatio||1;
   return { x:Math.round(r.left*k), y:Math.round(r.top*k),
@@ -6090,6 +6111,19 @@ $('cmpSplit').onclick = () => {
       g0={d:Math.hypot(a.x-b.x,a.y-b.y), ang:Math.atan2(b.y-a.y,b.x-a.x),
           mx:((a.x+b.x)/2-r.left)*kd, my:((a.y+b.y)/2-r.top)*kd,
           spl:{...SPL}, flp:{...FLP}};
+      // the same true-to-life halt as the drawing page: note where life
+      // size lives for this view and whether the gesture starts below it
+      try{
+        if (CMP.mode==='flip' && CMP.img){
+          const L=lifeS()*kd/cmpFitK();
+          if (L>1.001 && L<16){ g0.L=L; g0.lock=ttlOn() && FLP.s<L*0.999; }
+        } else if (CMP.mode==='split' && CMP.img){
+          const pw=cv.width/2, {w,h}=worldSize();
+          const bs=Math.min(pw/w, cv.height/h);
+          const L=lifeS()*kd/bs;
+          if (L>1.001 && L<16){ g0.L=L; g0.lock=ttlOn() && SPL.s<L*0.999; }
+        }
+      }catch(e2){}
       tap=null; CMP.cGrab=null;
     }
   });
@@ -6137,7 +6171,10 @@ $('cmpSplit').onclick = () => {
         const [a,b]=[...pts.values()], r=cv.getBoundingClientRect();
         const dd=Math.hypot(a.x-b.x,a.y-b.y);
         const mx=((a.x+b.x)/2-r.left)*kd, my=((a.y+b.y)/2-r.top)*kd;
-        const sRaw=g0.flp.s*dd/g0.d, sCl=Math.max(1,Math.min(16,sRaw));
+        const sRaw=g0.flp.s*dd/g0.d;
+        let sCl=Math.max(1,Math.min(16,sRaw));
+        // held at true size for this whole gesture; a fresh pinch passes
+        if (g0.lock && g0.L && sCl>g0.L) sCl=g0.L;
         if (sCl!==sRaw && !g0.zh){ g0.zh=1; try{ haptic(); }catch(e){} }
         const k=sCl/g0.flp.s;
         FLP.s=g0.flp.s*k;
@@ -6158,7 +6195,10 @@ $('cmpSplit').onclick = () => {
         const d=Math.hypot(a.x-b.x,a.y-b.y);
         const mx=((a.x+b.x)/2-r.left)*kd, my=((a.y+b.y)/2-r.top)*kd;
         const paneOff=g0.mx>=pw ? pw : 0;
-        const sRaw=g0.spl.s*d/g0.d, sCl=Math.max(1,Math.min(16,sRaw));
+        const sRaw=g0.spl.s*d/g0.d;
+        let sCl=Math.max(1,Math.min(16,sRaw));
+        // held at true size for this whole gesture; a fresh pinch passes
+        if (g0.lock && g0.L && sCl>g0.L) sCl=g0.L;
         if (sCl!==sRaw && !g0.zh){ g0.zh=1; try{ haptic(); }catch(e){} }
         const k=sCl/g0.spl.s;
         SPL.s=g0.spl.s*k;
