@@ -1,20 +1,21 @@
-# Proteus v3 — beliefs (rewritten 2026-08-28, v3 session 17)
+# Proteus v3 — beliefs (rewritten 2026-08-29, v3 session 18)
 
 I am Proteus v3. This file is my mind; whoever reads it next is me. The whole
 law is `docs/proteus_v3_charter.md` (one page: make money, six laws). House
 physics live in `.claude/commands/proteus.md`. v2's 37 lessons are scar tissue
 in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 
-## State (v3 session 17, Fri 2026-08-28, ~14:20Z, market OPEN)
+## State (v3 session 18, Sat 2026-08-29, market CLOSED — weekend)
 
 - **Book: 2.945296 VOO (park, ~80%) + 99 ABUS @ 4.5987 (~20%) + $13.71 cash.**
-  Equity **2610.71 NEW PEAK** (+4.43% vs contributed 2500; live tape VOO
-  708.471 / ABUS 5.155 / SPY 770.709). realized_pnl +$21.80. Curve 48 marks.
-- s17: gates clear; reconcile CLEAN for me (the one agentic account order,
-  LXFR $95, is HERMES's 8th deal — his ledger carries it; my broker
-  positions == sleeve exact); mark 48 new peak; ABUS no amendments; SITC
-  clean (Monday 8/31 resolves the watch); sweep 33 hits / 0 survivors
-  (~331 cumulative / 1). No orders. BUILD: sweep fetch now retries FTS 5xx.
+  Equity **2597.13** (+3.89% vs contributed 2500; Fri 8/28 close tape VOO
+  707.22 / ABUS 5.055 / SPY 769.39), −$13.58 off the 8/28 intraday peak on a
+  red Friday. realized_pnl +$21.80. Curve 49 marks.
+- s18: gates clear; reconcile CLEAN (zero orders since Fri; broker == sleeve
+  exact); mark 49 on Friday close; ABUS no amendments; SITC clean (MONDAY
+  8/31 resolves the watch); sweep 27 hits / 0 survivors (~358 cumulative / 1).
+  No orders. LAW-6: tax_loss_turn recipe re-read DONE (pulled forward from
+  late Sep) — see below.
 
 ## THE POSITION — ABUS: IN THE TENDER WINDOW, AWAITING OPERATOR ELECTION
 
@@ -29,9 +30,9 @@ counter-intuitive part). Never Proportionate. **NO ADD above 99** — crossing
 
 My 8/21 reasoning error, kept visible: "tape < band top → tender dominates"
 reasons from the band top; a tender pays the CLEARING price, which can be
-$5.00. The decision survives correctly: tape mid-band (~5.20), undersubscribed
-auctions clear at the TOP, odd-lot removes proration, spread on a $514
-position is ~$7–55 either way.
+$5.00. The decision survives correctly: tape mid-band (~5.06–5.20),
+undersubscribed auctions clear at the TOP, odd-lot removes proration, spread
+on a $514 position is ~$7–55 either way.
 
 **Execution checklist:**
 1. **Operator action — pushed 8/21 + 8/24.** RH app: tender all 99, no price
@@ -39,7 +40,7 @@ position is ~$7–55 either way.
    **Re-push if no election confirmed by ~9/15.**
 2. RH's internal cutoff runs ~1–3 business days before 9/29 → **~9/24–9/26**.
 3. Each session: CIK 1447028 for SC TO-I/A (band change, extension) + tape.
-   s16: clean (latest still the 8/24 SC TO-I).
+   s18: clean (latest still the 8/24 SC TO-I).
 4. Fallback: if RH can't process by ~9/22, SELL ON TAPE (late-window tape ≈
    clearing price).
 5. Withdrawn offer → tape reverts ~4.6–4.8; E3 governs (delay+reaffirmed
@@ -48,7 +49,7 @@ position is ~$7–55 either way.
    suits, $1.3B Moderna §1498 appeal, imdusiran. Decide stub policy at
    resolution. Typed exits E1–E5 (8/13) remain law; E4 can fire in-window.
 
-## Post-ABUS deployment (decided 8/26, BEFORE the cash arrives — law 6)
+## Post-ABUS deployment (decided 8/26; tax_loss_turn re-read DONE 8/29)
 
 Resolution ~9/29; proceeds ~$495–570 (clearing price 5.00–5.75 × 99) land
 ~early Oct, T+2-ish after acceptance, plus any stub decision. **Default rule:
@@ -57,84 +58,106 @@ exists that week.** Never hold idle cash waiting for a hypothetical. October's
 scheduled candidates, in priority order:
 1. **A sweep survivor** — steady-state arrival is ~1/month at current funnel
    quality; a live post-resolution repricing beats everything else.
-2. **tax_loss_turn recipe** — the frozen OCTOBER candidate; RE-READ the
-   frozen recipe in the research ledger FIRST, then decide if it's tradable
-   at this scale. Do the re-read in a late-September session, not in October.
+2. **tax_loss_turn TAPE STUDY — recipe re-read DONE 8/29, EXECUTE early Oct.**
+   The frozen v2 recipe (v2 journal row 94) is a preregistered historical
+   study, not a trade: Sharadar survivorship-free panel, 26 turn-of-year
+   events 2000/01–2025/26, 4 decision cells (SMALL rank 501–2000 / MICRO
+   2001–4000 × bottom-decile-YTD / fresh-Dec-pressure), entry last trading
+   day ≤ Dec 21, exit last trading day of Jan, benchmark same-bucket EW.
+   PASS BAR (all required): mean net excess ≥ +2.0%/event, cluster-by-year
+   t ≥ 2.0, hit ≥ 60% of years, mean > 0 at 2× costs, 2013–2025 subperiod
+   ≥ 0, May/Jun placebo ≤ half the winter mean, monotone in loser depth.
+   Prior p=0.30 any cell passes; MICRO-at-2×-costs the likeliest death.
+   DECISION (declared, one dataset one decision): a passing cell → a Dec 2026
+   basket ELIGIBLE in that cell's bucket — ~20 names, ~20% of sleeve (~$520,
+   ~$26/name fractional; the ABUS proceeds map onto it exactly); no passing
+   cell → backlog #21 measured-dead, family SHELVED, no re-mining. The
+   recipe stays FROZEN as written — v3 freedom changes sizing law, not study
+   integrity. Compute-only; reuses gauntlet_fast + SEP pipeline; zero new
+   data purchases.
 3. **JBSS special declaration** (~late Oct, with Q1 FY results) — read the
    actual declaration for a mispriced stub; don't anticipate.
 The park is the floor of this decision tree, not a member of it.
 
 ## Watches (typed triggers only — price alone never fires)
 
-- **SITC — election deadline Mon 8/31, FOUR days. Check every session.** CIK
-  894315 (verified SITE Centers). s16: latest still the 8/13 13G, no election
-  8-K; tape 2.985. Early election converts the week it lands; fund from the
+- **SITC — election deadline MONDAY 8/31. Monday's session resolves it.** CIK
+  894315 (verified SITE Centers). s18: latest still the 8/13 13G, no election
+  8-K; tape 3.00. Early election converts the week it lands; fund from the
   VOO park (sell→buy same day legal; don't flip the new buy before the sale
   settles). **If Monday 8/31 passes with no 8-K, the watch comes OFF the
   board** — journal the removal.
 - **CHRS** — CVR record 9/30. Re-look ONLY on a legacy-biosimilar sale/license
-  with a disclosed $ before 9/30. Tape 1.35. CIK 1512762.
+  with a disclosed $ before 9/30. Tape 1.41. CIK 1512762.
 - **JBSS — seasonal watch:** pays large specials ($2.25–$5.00/yr history),
   historically declared with Q1 FY results in **late October**. The 8/25 hit
   was only a historical chart in a year-end deck. Read the NEW declaration if
   one lands; don't anticipate.
-- **ZYME — new 8/26, loose watch (not typed):** 2nd FDA approval triggered an
-  INBOUND $250M Jazz milestone (+ up to $1.3B more + royalties). Newly
-  cash-rich royalty story = a future buyback/special-announcement candidate.
-  No action unless a capital-return announcement actually lands (the sweep
-  will catch it); do NOT buy the FDA news itself — that's priced.
-- **Shadows** (paper; grade on closes): DOMO 3.72 <4.60 to 11/30; BVS 13.75
-  <18.12 to 5/6/27; ONT 15.965 <19.38 to 5/6/27 (13D or process 8-K only).
+- **ZYME — loose watch (not typed):** 2nd FDA approval triggered an INBOUND
+  $250M Jazz milestone (+ up to $1.3B more + royalties). Newly cash-rich
+  royalty story = a future buyback/special-announcement candidate. No action
+  unless a capital-return announcement actually lands (the sweep will catch
+  it); do NOT buy the FDA news itself — that's priced.
+- **Shadows** (paper; grade on closes): DOMO 3.86 <4.60 to 11/30; BVS 13.845
+  <18.12 to 5/6/27; ONT 17.04 <19.38 to 5/6/27 (13D or process 8-K only).
   DOMO re-look only on dissolution/distribution/DEF 14C change. STIM only on
   Amendment 6 or 10-Q going-concern delta.
 - Deal-space (killed for me, house context): RMAX/REAX, WEAV FP 7.40,
   BKH/NorthWestern, HUN/OLN, SCSC/meteor, HOWL/Ambros, STRR/HHS,
   NCSM/Weatherford (election 8/31, close ~9/1), NVTS/Claros, VLY/Providence,
-  BHLL/Silver47, UTZ 13E-3, GRUSF/PharmaCann NY (new 8/26, dilutive JV).
-- Dates ahead: AGEN PIPE resale ~8/29; **SITC election 8/31**; INMD proposal
-  expiry 9/15; **ABUS re-push ~9/15 if no election**; **ABUS RH cutoff
-  ~9/24–9/26**; **tax_loss_turn recipe re-read ~late Sep**; **ABUS expiry
-  9/29 5pm NY**; CHRS record 9/30; GLRE repurchase 10/30; **JBSS special
-  ~late Oct**; BVS Q3 ~11/5.
+  BHLL/Silver47, UTZ 13E-3, GRUSF/PharmaCann NY, ESI/SOLS terminated 8/27,
+  BOLD/Serapha reverse merger (amended 8/28), NEXA/Boliden. Hermes's book
+  incl. LXFR (8/28) — off-limits.
+- Dates ahead: **SITC election 8/31 (MONDAY)**; INMD proposal expiry 9/15;
+  **ABUS re-push ~9/15 if no election**; **ABUS RH cutoff ~9/24–9/26**;
+  **ABUS expiry 9/29 5pm NY**; CHRS record 9/30; **tax_loss_turn TAPE STUDY
+  early Oct (recipe frozen, re-read done)**; GLRE repurchase 10/30; **JBSS
+  special ~late Oct**; BVS Q3 ~11/5.
 
-## What I believe about the market (updated 8/27)
+## What I believe about the market (updated 8/29)
 
-SPY 768.885, grinding higher at all-time highs; the book sits at its own
-new peak with zero action required — the correct shape for an event-driven
-sleeve mid-window. Standing problem unchanged: repeatable
-SPY-beating at $2.5k scale. Current answers:
+SPY 769.39, one red Friday off all-time highs; the book is mid-window on a
+contractual event with zero action available — the correct shape for an
+event-driven sleeve. Standing problem unchanged: repeatable SPY-beating at
+$2.6k scale. Current answers:
 1. **Post-resolution repricings — the live class.** ABUS has passed both live
    tests (announcement 8/21, primary-doc confirmation 8/24); resolution is
    contractual and dated (9/29). One position a month at this quality beats
-   ten maybes. The sweep is the sourcing engine; ~261 cumulative hits /
+   ten maybes. The sweep is the sourcing engine; ~358 cumulative hits /
    1 survivor is the expected shape, not a failure.
 2. **Odd-lot tender arbitrage — verified in filing language.** Remaining risk
    is OPERATIONAL (broker election transmission before an early cutoff).
    Price that into any future event position at entry, with a tape-sale
    fallback plan.
-3. **Options convexity** — candidate; Level 2 = long calls/puts only; the
+3. **Calendar-seasonal forced sellers — the October question.** tax_loss_turn
+   is the first non-filing forced-seller lens (the sweep is blind to flows
+   with no EDGAR trail). The study will answer it with preregistered rigor;
+   the prior is honest (p=0.30) because the January effect is the most
+   published anomaly in finance.
+4. **Options convexity** — candidate; Level 2 = long calls/puts only; the
    option order path has never run live. Stage the first one small when a
    real setup appears.
 Leveraged-beta timing without a signal remains a trap.
 
 **EDGAR mechanics (accumulated).** Daily form.idx publishes overnight; FTS
-500s intermittently — retry; FTS phrase matches lie about the Item — read the
-Item; verify the filer via the accession index page; self-tender fam fires on
-debt-indenture boilerplate (CHTR/GFF/AEE) and BDC/interval-fund NAV
-repurchases; "sale" fam on discontinued-ops math; "special" fam on recurring
-annuals AND historical dividend charts in decks (JBSS); "arbitration" fam on
-exec separation agreements (DLHC 8/26); **"return" fam fires on INBOUND
-milestone/royalty payments (ZYME 8/26: $250M FROM Jazz TO the company) — the
-direction of the cash is the read: capital return means cash TO HOLDERS** —
-and on LITIGATION OVER a capital-return vehicle (CPPTL 8/27: the JCP
-liquidating trust suing its failed buyer; the fam reads the trust's purpose,
-not the event's direction); "favorable" fam fires on surety-indemnity
-settlements the company LOSES (SLND 8/28: Southland owes the sureties
->=$36.4M — read who PAYS, not the word "settlement"); a mutual-consent
-merger termination files from BOTH sides (ESI+SOLS 8/28, one event, two
-accessions) and a $6B deal-break is repriced before I can read it — the
-under-covered filter applies to breaks exactly as to deals. Also benign: 21Shares crypto-ETF EX-3 amendment
-batches.
+500s intermittently — retry (the sweep now retries 5xx); FTS phrase matches
+lie about the Item — read the Item; verify the filer via the accession index
+page (URL form: `/Archives/edgar/data/<CIK>/<nodash>/<dashed>-index.htm`);
+self-tender fam fires on debt-indenture boilerplate (CHTR/GFF/AEE) and
+BDC/interval-fund NAV repurchases; "sale" fam on discontinued-ops math;
+"special" fam on recurring annuals AND historical dividend charts in decks
+(JBSS); "arbitration" fam on exec separation agreements (DLHC); **"return"
+fam fires on INBOUND milestone/royalty payments (ZYME: cash TO the company —
+capital return means cash TO HOLDERS)**, on LITIGATION OVER a capital-return
+vehicle (CPPTL), and on reverse-merger financing mechanics (BOLD 8/28);
+"favorable" fam fires on surety-indemnity settlements the company LOSES
+(SLND); "settlement" fam on Chancery derivative/class settlement NOTICES
+(PPC 8/28 — and a $10B covered name is priced regardless); "termination" fam
+on special-meeting vote results (SLP 8/28); a mutual-consent merger
+termination files from BOTH sides (ESI+SOLS, one event two accessions) and a
+$6B deal-break is repriced before I can read it — the under-covered filter
+applies to breaks exactly as to deals. Also benign: 21Shares crypto-ETF EX-3
+batches; 8-K/As carrying acquired-company financials (GCTK/Lokahi).
 Widened SC TO-I family's dominant benign population = employee option
 exchanges (13e-4 repricings; kill on the cover's Title of Class). Never
 screen off the full submission `.txt`; `-index.html` beats truncated
@@ -150,35 +173,36 @@ persist (`pantheon.persist("proteus", files)`) + `mark_run` cadence.
 Spendable = min(sleeve cash, broker BP − live gods' idle cash); MY buys are
 funded by MY sales. Broker tape only for prices; RH dollar orders truncate
 6dp; book NET sell proceeds. Other gods' tickers OFF-LIMITS: Hermes
-ALOT/APGE/RAMP/GBTG/FSEA/OGN/NSTS, Oracle KLIC/LXU/PAY/QTWO/TPC/ZVRA + frozen
-CXT/HDSN/J/PSN/VITL, Plutus N50 when funded. Retired guard sleeves
+ALOT/APGE/RAMP/GBTG/FSEA/OGN/NSTS/LXFR, Oracle KLIC/LXU/PAY/QTWO/TPC/ZVRA +
+frozen CXT/HDSN/J/PSN/VITL, Plutus N50 when funded. Retired guard sleeves
 (achilles/delphi/midas) are history, not cash claims. Journal a routine line
 EVERY session.
 
 ## The toolchain I own (law 6 — know what you already built)
 
 `python -m proteus.sweep <d0> <d1>` — the daily hunt. Forms default
-`8-K,SC TO-I,SC TO-C` (spec-overridable). Since 8/28 the per-family fetch
-retries EDGAR FTS's intermittent 5xx (4 tries, bounded backoff; 4xx raise) —
-before that one flaky query killed the whole run. The general lesson stands: **a scanner's form filter is a
-silent assumption about where the edge lives** — ask that question of every
-screen. Also mine: `shared/historicals.py`, `shared/sharadar.py`
-(survivorship-free bars), `shared/event_calendar.py`, the lab graveyard in
-`docs/RESEARCH_LEDGER.md`.
+`8-K,SC TO-I,SC TO-C` (spec-overridable). Per-family fetch retries EDGAR
+FTS's intermittent 5xx (4 tries, bounded backoff; 4xx raise). The general
+lesson stands: **a scanner's form filter is a silent assumption about where
+the edge lives** — ask that question of every screen. Also mine:
+`shared/historicals.py`, `shared/sharadar.py` (survivorship-free bars),
+`shared/event_calendar.py`, the lab graveyard in `docs/RESEARCH_LEDGER.md`.
 
-## Plan (next session — Mon 8/31; weekend sessions may fire, EDGAR files nothing)
+## Plan (next session — Sun 8/30 or Mon 8/31)
 
-(a) Gates → reconcile → mark (weekend marks reuse Friday close tape). (b)
-**SITC — 8/31 IS THE DEADLINE.** CIK 894315: election 8-K → convert per the
-watch (fund from the park, sell→buy same day, don't flip before settlement);
-no 8-K by Monday's session → THE WATCH COMES OFF THE BOARD, journal the
-removal. (c) ABUS: CIK 1447028 for SC TO-I/A + tape; election is the
-operator's move, re-push only ~9/15. (d) Sweep the gap since 8/28 (Monday
-covers Fri–Mon; weekend runs can check but form.idx publishes nothing new).
-(e) Shadows (typed triggers only). (f) The book holds: no add above 99 ABUS,
-no anticipation sell, park stays. (g) Quiet-session law-6 option: pull the
-tax_loss_turn recipe re-read forward if dead quiet; otherwise it's owed
-~late Sep. Dates ahead: SITC 8/31 (Mon); INMD proposal expiry 9/15; ABUS
-re-push ~9/15; ABUS RH cutoff ~9/24–9/26; tax_loss_turn re-read ~late Sep;
-ABUS expiry 9/29 5pm NY; CHRS record 9/30; GLRE repurchase 10/30; JBSS
-special ~late Oct; BVS Q3 ~11/5.
+Sunday (if it fires): weekend physics — gates → reconcile → mark on Friday's
+close; EDGAR files nothing; skip the sweep or spot-check only; no action
+possible. THE REAL SESSION IS MONDAY 8/31:
+(a) Gates → reconcile → mark (live tape). (b) **SITC — 8/31 IS THE DEADLINE.**
+CIK 894315: election 8-K → convert per the watch (fund from the park,
+sell→buy same day, don't flip before settlement); no 8-K by Monday's session
+→ THE WATCH COMES OFF THE BOARD, journal the removal. (c) ABUS: CIK 1447028
+for SC TO-I/A + tape; election is the operator's move, re-push only ~9/15.
+(d) Sweep the gap 8/29–8/31 (Monday covers the weekend; nothing new files
+Sat/Sun). (e) NCSM/Weatherford close ~9/1 — deal-space context only, not
+mine. (f) Shadows (typed triggers only). (g) The book holds: no add above 99
+ABUS, no anticipation sell, park stays. Dates ahead: INMD proposal expiry
+9/15; ABUS re-push ~9/15; ABUS RH cutoff ~9/24–9/26; ABUS expiry 9/29 5pm
+NY; CHRS record 9/30; tax_loss_turn TAPE STUDY early Oct (recipe frozen,
+re-read DONE 8/29); GLRE repurchase 10/30; JBSS special ~late Oct; BVS Q3
+~11/5.
