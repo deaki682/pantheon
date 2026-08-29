@@ -3,6 +3,7 @@ import WebKit
 import GoogleMobileAds
 import UserMessagingPlatform
 import AppTrackingTransparency
+import AdSupport
 
 // The iOS half of the ad contract the page already speaks: one native
 // card riding the TOP 80px, skinned to the backdrop the page reports
@@ -68,6 +69,11 @@ final class AdController: NSObject {
     private func boot() {
         guard !started, ConsentInformation.shared.canRequestAds else { return }
         started = true
+        // surface the advertising identifier in the page's version-tap log
+        // so a test device can be registered without Xcode (all zeros =
+        // tracking declined; Allow tracking to get the real one)
+        let idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+        web?.evaluateJavaScript("window.plog && plog('idfa: \(idfa)')", completionHandler: nil)
         MobileAds.shared.start(completionHandler: nil)
         loadNative()
         Timer.scheduledTimer(withTimeInterval: 75, repeats: true) { [weak self] _ in
