@@ -324,6 +324,8 @@ class MainActivity : AppCompatActivity() {
         Thread {
             com.google.android.gms.ads.MobileAds.initialize(this) { adSay("sdk initialized") }
             runOnUiThread {
+                adShownH = (80 * resources.displayMetrics.density).toInt()
+                applyAd()
                 loadNative()
                 // gentle cycle: while the project screen is up, refresh a
                 // showing card every 75s - and retry an empty slot too
@@ -429,8 +431,7 @@ class MainActivity : AppCompatActivity() {
     // the ad claims a strip below the WebView while visible, so the page's
     // own layout (and the camera ghost geometry) never sits under it
     private fun applyAd() {
-        val have = nativeAd != null
-        val on = adWanted && have && !adsRemovedFlag()
+        val on = adWanted && adsUp && !adsRemovedFlag()
         adWrap.visibility = if (on) android.view.View.VISIBLE else android.view.View.GONE
         val lp = web.layoutParams as FrameLayout.LayoutParams
         val h = if (on) adShownH else 0
