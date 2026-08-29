@@ -33,10 +33,10 @@ final class AdController: NSObject {
         wrap.translatesAutoresizingMaskIntoConstraints = false
         host.view.addSubview(wrap)
         NSLayoutConstraint.activate([
-            wrap.topAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.topAnchor),
+            wrap.bottomAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.bottomAnchor),
             wrap.leadingAnchor.constraint(equalTo: host.view.leadingAnchor),
             wrap.trailingAnchor.constraint(equalTo: host.view.trailingAnchor),
-            wrap.heightAnchor.constraint(equalToConstant: 80),
+            wrap.heightAnchor.constraint(equalToConstant: 56),
         ])
     }
 
@@ -140,12 +140,6 @@ final class AdController: NSObject {
         head.text = ad.headline ?? ""
         head.translatesAutoresizingMaskIntoConstraints = false
 
-        let body = UILabel()
-        body.font = .systemFont(ofSize: 11)
-        body.textColor = UIColor(white: 0x9A/255.0, alpha: 1)
-        body.text = ad.body ?? ""
-        body.translatesAutoresizingMaskIntoConstraints = false
-
         let cta = UILabel()
         cta.font = .systemFont(ofSize: 12)
         cta.textColor = UIColor(red: 0x14/255.0, green: 0x14/255.0, blue: 0x14/255.0, alpha: 1)
@@ -157,12 +151,12 @@ final class AdController: NSObject {
         cta.translatesAutoresizingMaskIntoConstraints = false
 
         adv.addSubview(media); adv.addSubview(badge); adv.addSubview(head)
-        adv.addSubview(body); adv.addSubview(cta)
+        adv.addSubview(cta)
         NSLayoutConstraint.activate([
             media.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 10),
             media.centerYAnchor.constraint(equalTo: adv.centerYAnchor),
-            media.widthAnchor.constraint(equalToConstant: 96),
-            media.heightAnchor.constraint(equalToConstant: 64),
+            media.widthAnchor.constraint(equalToConstant: 40),
+            media.heightAnchor.constraint(equalToConstant: 40),
             badge.leadingAnchor.constraint(equalTo: media.trailingAnchor, constant: 10),
             badge.topAnchor.constraint(equalTo: adv.topAnchor, constant: 8),
             badge.widthAnchor.constraint(equalToConstant: 22),
@@ -170,9 +164,6 @@ final class AdController: NSObject {
             head.leadingAnchor.constraint(equalTo: media.trailingAnchor, constant: 10),
             head.trailingAnchor.constraint(lessThanOrEqualTo: cta.leadingAnchor, constant: -10),
             head.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 2),
-            body.leadingAnchor.constraint(equalTo: head.leadingAnchor),
-            body.trailingAnchor.constraint(lessThanOrEqualTo: cta.leadingAnchor, constant: -10),
-            body.topAnchor.constraint(equalTo: head.bottomAnchor, constant: 1),
             cta.trailingAnchor.constraint(equalTo: adv.trailingAnchor, constant: -10),
             cta.centerYAnchor.constraint(equalTo: adv.centerYAnchor),
             cta.heightAnchor.constraint(equalToConstant: 28),
@@ -181,7 +172,6 @@ final class AdController: NSObject {
 
         adv.mediaView = media
         adv.headlineView = head
-        adv.bodyView = body
         adv.callToActionView = cta
         adv.nativeAd = ad
         badgeV = badge

@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity() {
         adWrap.visibility = android.view.View.GONE
         root.addView(adWrap, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT,
-            android.view.Gravity.TOP))
+            android.view.Gravity.BOTTOM))
         setContentView(root)
         run {
             val prefs = getSharedPreferences("cam", 0)
@@ -374,7 +374,7 @@ class MainActivity : AppCompatActivity() {
             row.gravity = android.view.Gravity.CENTER_VERTICAL
             row.setPadding(dp(10), dp(8), dp(10), dp(8))
             val media = com.google.android.gms.ads.nativead.MediaView(this)
-            row.addView(media, android.widget.LinearLayout.LayoutParams(dp(96), dp(64)))
+            row.addView(media, android.widget.LinearLayout.LayoutParams(dp(40), dp(40)))
             val col = android.widget.LinearLayout(this)
             col.orientation = android.widget.LinearLayout.VERTICAL
             col.setPadding(dp(10), 0, dp(10), 0)
@@ -393,11 +393,6 @@ class MainActivity : AppCompatActivity() {
             head.maxLines = 1; head.ellipsize = android.text.TextUtils.TruncateAt.END
             head.text = ad.headline ?: ""
             col.addView(head)
-            val body = TextView(this)
-            body.setTextColor(0xFF9A9A9A.toInt()); body.textSize = 11f
-            body.maxLines = 1; body.ellipsize = android.text.TextUtils.TruncateAt.END
-            body.text = ad.body ?: ""
-            col.addView(body)
             row.addView(col, android.widget.LinearLayout.LayoutParams(
                 0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
             val cta = TextView(this)
@@ -406,14 +401,13 @@ class MainActivity : AppCompatActivity() {
             val cd = android.graphics.drawable.GradientDrawable()
             cd.setColor(ACC); cd.cornerRadius = dp(14).toFloat()
             cta.background = cd
-            cta.setPadding(dp(14), dp(7), dp(14), dp(7))
+            cta.setPadding(dp(12), dp(6), dp(12), dp(6))
             cta.text = ad.callToAction ?: "Open"
             row.addView(cta)
             adv.addView(row, FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
             adv.mediaView = media
             adv.headlineView = head
-            adv.bodyView = body
             adv.callToActionView = cta
             adv.setNativeAd(ad)
             adWrap.removeAllViews()
@@ -423,7 +417,7 @@ class MainActivity : AppCompatActivity() {
             adCard = adv
             adBadgeV = badge
             adCtaV = cta
-            adShownH = dp(80)
+            adShownH = dp(56)
             applyAd()
         } catch (e: Throwable) { logLine("native show: " + e.message) }
     }

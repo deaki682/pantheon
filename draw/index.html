@@ -203,18 +203,18 @@ body.colorRef #hudToggle.lit{width:44px;padding:0;font-size:18px}
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:none}
 body.colorRef #underCorner{display:block;left:calc(30px + (100% - 60px)*0.25)}
 body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.75)}
-/* the ad card floats over the page's TOP 80px; the page reserves the
-   room itself and keeps painting its backdrop underneath - an empty
-   slot shows the screen as it would have been, and a filling ad never
-   reframes the layout */
-html.adOn .screen{padding-top:calc(80px + env(safe-area-inset-top))}
-html.adOn #backBtn,html.adOn #setCorner,html.adOn #expCorner{
-  top:calc(84px + env(safe-area-inset-top))}
-html.adOn #circWrap,html.adOn #dlWrap{top:4px}
-html.adOn #upTitle{margin-top:8px}
-html.adOn body.uiHid #expCorner{transform:translateY(-290%)}
-html.adOn body.uiHid #setCorner{transform:translate(-50%,-290%)}
-html.adOn body.uiHid #backBtn{transform:translateY(-290%)}
+/* the ad card floats over the page's BOTTOM 80px. Flex screens clear
+   it with padding; the drawing page reserves NOTHING - the paper runs
+   under the card and only the corner buttons float up, no band */
+html.adOn .screen{padding-bottom:calc(56px + env(safe-area-inset-bottom))}
+html.adOn #scrMain{padding-bottom:0}
+html.adOn #hudWrap,html.adOn #detCorner,html.adOn #gridCorner,
+html.adOn #underCorner,html.adOn #camCorner{
+  bottom:calc(64px + env(safe-area-inset-bottom))}
+html.adOn body.uiHid #hudWrap,html.adOn body.uiHid #detCorner,
+html.adOn body.uiHid #gridCorner,html.adOn body.uiHid #underCorner,
+html.adOn body.uiHid #camCorner{transform:translate(-50%,290%)}
+html.adOn #noAdsTxt{bottom:calc(66px + env(safe-area-inset-bottom)) !important}
 /* the buffer band (and any exposed screen edge) matches the working
    screens' ground, so the lift never reads as a black bar */
 #scrMain,#scrCompare{background:#2a2a2a}
@@ -501,7 +501,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v282</span>
+      <span id="verNum">v283</span>
     </div>
   </div>
 
@@ -769,6 +769,30 @@ window.__INLINE_ARSENAL = [{"id": 30, "name": "Fingertip", "mode": "deposit", "t
 'use strict';
 let GRID_COLS = 20, GRID_ROWS = 30;          // set by the format screen
 const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+// WebKit silently ignores canvas ctx.filter='grayscale(1)' (other engines
+// honour it): detect once, and convert pixels by hand when the engine
+// won't - the same Rec.709 luma the CSS filter uses
+const CTX_GRAY_OK=(()=>{ try{
+  const t=document.createElement('canvas'); t.width=t.height=1;
+  const g=t.getContext('2d'); g.filter='grayscale(1)';
+  if (g.filter!=='grayscale(1)') return false;
+  g.fillStyle='#f00'; g.fillRect(0,0,1,1);
+  const d=g.getImageData(0,0,1,1).data;
+  return Math.abs(d[0]-d[1])<8;
+}catch(e){ return false; } })();
+function forceGray(c){
+  if (CTX_GRAY_OK) return c;
+  try{
+    const g=c.getContext('2d');
+    const im=g.getImageData(0,0,c.width,c.height), d=im.data;
+    for (let i=0;i<d.length;i+=4){
+      const v=(d[i]*0.2126+d[i+1]*0.7152+d[i+2]*0.0722+0.5)|0;
+      d[i]=d[i+1]=d[i+2]=v;
+    }
+    g.putImageData(im,0,0);
+  }catch(e){}
+  return c;
+}
 const state = { img:null, tools:[] };
 </script>
 
@@ -1006,6 +1030,7 @@ async function thumbOf(blob, colr){
   const s = Math.min(i.width, i.height);
   if (!colr) g.filter = 'grayscale(1)';
   g.drawImage(i, (i.width-s)/2, (i.height-s)/2, s, s, 0, 0, T, T);
+  if (!colr) forceGray(c);
   URL.revokeObjectURL(i.src);
   return c.toDataURL('image/jpeg', 0.72);
 }
@@ -1175,6 +1200,7 @@ function openPhoto(blob, gid, retry){
     if (REFMODE!=='c') g.filter = 'grayscale(1)';   // automatic black and white
     g.drawImage(img, 0, 0);
     g.filter = 'none';
+    if (REFMODE!=='c') forceGray(c);
     {
       const _er = gid!=null ? editLoad(gid) : null;
       photo = _er ? editApply(c, _er, REFMODE==='c') : c;
@@ -1271,6 +1297,7 @@ function warmOpen(r){
     g.drawImage(th, (th.width-sw)/2, (th.height-sh2)/2, sw, sh2,
                 0, 0, c.width, c.height);
     g.filter='none';
+    if (REFMODE!=='c') forceGray(c);
     WARM_STANDIN=c;
     if ($('scrMain').classList.contains('on')) viewRepaint();
   };
@@ -1300,6 +1327,7 @@ function decodeWarm(blob, gid, my, retry){
     const g=c.getContext('2d');
     if (REFMODE!=='c') g.filter='grayscale(1)';
     g.drawImage(img,0,0); g.filter='none';
+    if (REFMODE!=='c') forceGray(c);
     const _er=editLoad(gid);
     photo=_er ? editApply(c,_er,REFMODE==='c') : c;
     WARM_PEND=null;
@@ -2372,6 +2400,7 @@ async function edOpenFor(mode){
   const g=c.getContext('2d');
   if (!isColor(galActive)) g.filter='grayscale(1)';
   g.drawImage(i,0,0); g.filter='none';
+  if (!isColor(galActive)) forceGray(c);
   URL.revokeObjectURL(i.src);
   edOpen(c, galActive, mode);
 }
@@ -5486,6 +5515,7 @@ async function cmpSetPhoto(blob){
   cg.imageSmoothingQuality='high';
   if (REFMODE!=='c') cg.filter='grayscale(1)';
   cg.drawImage(i,0,0,c.width,c.height); cg.filter='none';
+  if (REFMODE!=='c') forceGray(c);
   URL.revokeObjectURL(i.src);
   CMP.raw=c; CMP.rawF=null; CMP.blob=blob; CMP.img=null; CMP.framed=false;
   CMP.corners=cmpGuessCorners(c).corners; CMP.cGrab=null;
@@ -5604,6 +5634,7 @@ $('compareBtn').onclick = async () => {
         g2.imageSmoothingQuality='high';
         if (REFMODE!=='c') g2.filter='grayscale(1)';
         g2.drawImage(i,0,0,W,H); g2.filter='none';
+        if (REFMODE!=='c') forceGray(cv2);
         URL.revokeObjectURL(i.src);
         CMP.raw=cv2; CMP.blob=saved.blob; CMP.framed=!!saved.framed;
         CMP.corners=(saved.corners && saved.corners.length===4)
@@ -5868,6 +5899,7 @@ async function natCapture(){
     fg.imageSmoothingQuality='high';
     if (REFMODE!=='c') fg.filter='grayscale(1)';
     fg.drawImage(img,0,0,full.width,full.height); fg.filter='none';
+    if (REFMODE!=='c') forceGray(full);
     // the RAW plane feeds the float pipeline: 12-14 real sensor bits under
     // every slider instead of the JPEG's 8
     let rawF=null;
@@ -6073,6 +6105,7 @@ async function camCapture(){
     fg.drawImage(frame,0,0,full.height,full.width); }
   else fg.drawImage(frame,0,0,full.width,full.height);
   fg.setTransform(1,0,0,1,0,0); fg.filter='none';
+  if (REFMODE!=='c') forceGray(full);
   if (frame!==pv && frame.close) frame.close();
   camStop();
   let blob=null;
