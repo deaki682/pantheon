@@ -77,13 +77,20 @@ jobs:
       - name: Archive (cloud-managed signing)
         run: |
           set -o pipefail
-          # unsigned archive: development signing would demand a registered
-          # device; the export step below does the (distribution) signing
+          # sign at ARCHIVE time with the DISTRIBUTION identity (cloud
+          # signing creates the App Store profile - no device needed).
+          # Unsigned archives leave embedded frameworks (the ads SDK)
+          # unsigned, which App Store Connect validation rejects.
           xcodebuild archive \
             -project ios/Photorealism.xcodeproj -scheme Photorealism \
             -configuration Release -sdk iphoneos \
             -archivePath ios/build/Photorealism.xcarchive \
-            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath ~/private_keys/AuthKey_${ASC_KEY_ID}.p8 \
+            -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            CODE_SIGN_STYLE=Automatic \
+            CODE_SIGN_IDENTITY="Apple Distribution" \
             DEVELOPMENT_TEAM="$ASC_TEAM_ID" \
             CURRENT_PROJECT_VERSION="$GITHUB_RUN_NUMBER"
       - name: Upload to TestFlight

@@ -205,10 +205,19 @@ final class AdController: NSObject {
 
 extension AdController: NativeAdLoaderDelegate {
     func adLoader(_ adLoader: AdLoader, didReceive nativeAd: NativeAd) {
-        DispatchQueue.main.async { self.showCard(nativeAd) }
+        DispatchQueue.main.async {
+            self.web?.evaluateJavaScript("window.plog && plog('ad: loaded')",
+                                         completionHandler: nil)
+            self.showCard(nativeAd)
+        }
     }
     func adLoader(_ adLoader: AdLoader, didFailToReceiveAdWithError error: Error) {
-        // no fill: the reserved slot shows the page's own backdrop; the
-        // 75s tick retries while the slot is wanted
+        // no fill: the slot stays empty (the page shows through); the 75s
+        // tick retries while wanted. The code lands in the version-tap log.
+        let code = (error as NSError).code
+        DispatchQueue.main.async {
+            self.web?.evaluateJavaScript("window.plog && plog('ad: failed code \(code)')",
+                                         completionHandler: nil)
+        }
     }
 }

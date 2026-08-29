@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- the launcher ring's top-lit gradient, in the icon's viewport space -->
+<gradient xmlns:android="http://schemas.android.com/apk/res/android"
+    android:type="linear"
+    android:startX="0" android:startY="0"
+    android:endX="0" android:endY="108"
+    android:startColor="#FFB450"
+    android:endColor="#905124"/>
