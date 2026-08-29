@@ -77,22 +77,27 @@ jobs:
       - name: Archive (cloud-managed signing)
         run: |
           set -o pipefail
-          # sign at ARCHIVE time with the DISTRIBUTION identity (cloud
-          # signing creates the App Store profile - no device needed).
-          # Unsigned archives leave embedded frameworks (the ads SDK)
-          # unsigned, which App Store Connect validation rejects.
+          # unsigned archive (dev signing would demand a registered
+          # device); the export step cloud-signs with distribution
           xcodebuild archive \
             -project ios/Photorealism.xcodeproj -scheme Photorealism \
             -configuration Release -sdk iphoneos \
             -archivePath ios/build/Photorealism.xcarchive \
-            -allowProvisioningUpdates \
-            -authenticationKeyPath ~/private_keys/AuthKey_${ASC_KEY_ID}.p8 \
-            -authenticationKeyID "$ASC_KEY_ID" \
-            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
-            CODE_SIGN_STYLE=Automatic \
-            CODE_SIGN_IDENTITY="Apple Distribution" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= \
             DEVELOPMENT_TEAM="$ASC_TEAM_ID" \
             CURRENT_PROJECT_VERSION="$GITHUB_RUN_NUMBER"
+      - name: Ad-hoc sign embedded frameworks
+        run: |
+          # a fully unsigned nested framework is skipped by the export's
+          # re-signing pass and App Store validation rejects it; an ad-hoc
+          # placeholder signature makes it re-signable code
+          APP=ios/build/Photorealism.xcarchive/Products/Applications/Photorealism.app
+          if [ -d "$APP/Frameworks" ]; then
+            for f in "$APP"/Frameworks/*.framework; do
+              codesign --force --sign - --timestamp=none "$f"
+              codesign -dv "$f" 2>&1 | head -2
+            done
+          fi
       - name: Upload to TestFlight
         run: |
           set -o pipefail
