@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity() {
         adWrap.visibility = android.view.View.GONE
         root.addView(adWrap, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT,
-            android.view.Gravity.BOTTOM))
+            android.view.Gravity.TOP))
         setContentView(root)
         run {
             val prefs = getSharedPreferences("cam", 0)
