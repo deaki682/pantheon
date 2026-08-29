@@ -1,0 +1,38 @@
+# XcodeGen spec - the .xcodeproj is generated on the CI runner, never
+# committed. The web app IS the app: ../draw ships verbatim as a bundled
+# folder reference, served from the loopback socket (see LocalServer.swift).
+name: Photorealism
+options:
+  createIntermediateGroups: true
+  deploymentTarget:
+    iOS: "15.0"
+targets:
+  Photorealism:
+    type: application
+    platform: iOS
+    sources:
+      - path: App/Sources
+      - path: App/Assets.xcassets
+      - path: ../draw
+        type: folder
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.realism.draw
+        PRODUCT_NAME: Photorealism
+        INFOPLIST_FILE: App/Info.plist
+        GENERATE_INFOPLIST_FILE: false
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        TARGETED_DEVICE_FAMILY: "1"
+        SWIFT_VERSION: "5.9"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+schemes:
+  Photorealism:
+    build:
+      targets:
+        Photorealism: all
+    run:
+      config: Release
+    archive:
+      config: Release

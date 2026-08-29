@@ -1,0 +1,37 @@
+# Proves the iOS shell compiles on every ios/ change. Unsigned for now -
+# once the Apple Developer account exists, a signing + TestFlight upload
+# job is added behind repo secrets. macOS minutes burn at 10x, so this
+# only runs when ios/ (or this file) actually changes.
+name: iOS build
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'ios/**'
+      - '.github/workflows/ios.yml'
+jobs:
+  build:
+    runs-on: macos-14
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate the Xcode project
+        run: xcodegen generate --spec ios/project.yml --project ios
+      - name: Build (unsigned device binary)
+        run: |
+          set -o pipefail
+          xcodebuild -project ios/Photorealism.xcodeproj -scheme Photorealism \
+            -configuration Release -sdk iphoneos -derivedDataPath ios/build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= \
+            build
+      - name: Package the .app
+        run: |
+          cd ios/build/Build/Products/Release-iphoneos
+          zip -qry "$GITHUB_WORKSPACE/Photorealism-unsigned-app.zip" Photorealism.app
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Photorealism-unsigned
+          path: Photorealism-unsigned-app.zip
