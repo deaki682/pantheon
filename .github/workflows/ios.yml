@@ -62,6 +62,14 @@ jobs:
         run: brew install xcodegen
       - name: Generate the Xcode project
         run: xcodegen generate --spec ios/project.yml --project ios
+      - name: Select Xcode 26 (App Store uploads need the iOS 26 SDK)
+        run: |
+          ls -d /Applications/Xcode*.app
+          X=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          if [ -z "$X" ]; then echo "::error::no Xcode 26 on this runner"; exit 1; fi
+          echo "using $X"
+          sudo xcode-select -s "$X"
+          xcodebuild -version
       - name: Write the App Store Connect key
         run: |
           mkdir -p ~/private_keys
