@@ -489,14 +489,12 @@ body.uiHid #backBtn{transform:translateY(-190%)}
         <button id="resBtn" class="grow">Restore</button>
       </div>
       <input type="file" id="bakFile" accept="application/json,.json" hidden>
-      <span class="setLbl" id="noAdsLbl" style="margin-top:4px;display:none">Ads</span>
-      <button id="noAdsBtn" style="display:none">Remove Ads</button>
       <span class="setLbl" id="dlModeLbl" style="margin-top:4px;display:none">Downloads</span>
       <button id="dlModeBtn" style="display:none">Photos gallery</button>
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v274</span>
+      <span id="verNum">v275</span>
     </div>
   </div>
 
@@ -532,7 +530,10 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   </div>
   <span class="grow"></span>
   <div class="row" style="flex-direction:column;align-items:center;gap:10px;padding-bottom:18px">
-    <button id="invBtn">Share Photorealism</button>
+    <div style="position:relative">
+      <button id="invBtn">Share Photorealism</button>
+      <span id="noAdsTxt" style="display:none;position:absolute;left:calc(100% + 14px);top:50%;transform:translateY(-50%);color:var(--acc);font-size:13px;white-space:nowrap;cursor:pointer">Remove Ads</span>
+    </div>
     <a id="discBtn" href="https://discord.gg/Ff78KH7gQ" target="_blank" rel="noopener" title="Join the Discord"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg></a>
   </div>
 </div>
@@ -1670,16 +1671,15 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
   // the remove-ads purchase lives in the native shell only; the button
   // appears once the shell offers it and vanishes once bought
   window.__adsRemovedUI=()=>{
-    $('noAdsLbl').style.display='none'; $('noAdsBtn').style.display='none';
+    $('noAdsTxt').style.display='none';
     toast('ads removed - thank you!');
   };
   try{
     const N=window.RealismCam;
-    if (N && N.buyRemoveAds && !(N.adsRemoved && N.adsRemoved())){
-      $('noAdsLbl').style.display=''; $('noAdsBtn').style.display='';
-    }
+    if (N && N.buyRemoveAds && !(N.adsRemoved && N.adsRemoved()))
+      $('noAdsTxt').style.display='';
   }catch(e){}
-  $('noAdsBtn').onclick=()=>{ try{ RealismCam.buyRemoveAds(); }catch(e){} };
+  $('noAdsTxt').onclick=()=>{ try{ RealismCam.buyRemoveAds(); }catch(e){} };
   $('verNum').onclick=()=>{
     if (!window.RealismCam || !RealismCam.dlogs) return;
     try{ $('dgPre').textContent=RealismCam.dlogs()||'(empty)'; }catch(e){ return; }
