@@ -485,7 +485,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v271</span>
+      <span id="verNum">v272</span>
     </div>
   </div>
 
@@ -777,6 +777,18 @@ window.__backStep=()=>{
   try{ $('backBtn').onclick(); }catch(e){}
   return 'ok';
 };
+// every screen carries the bottom ad strip in the native shell, skinned
+// to that screen's own backdrop; the native camera clears it away
+function adSync(){
+  try{
+    if (!(window.RealismCam && RealismCam.adPlace)) return;
+    const on=document.querySelector('.screen.on');
+    const cam=document.documentElement.classList.contains('natCam');
+    const bg={scrUpload:'#141414',scrFormat:'#141414',
+              scrMain:'#2a2a2a',scrCompare:'#2a2a2a'}[on && on.id]||'#141414';
+    RealismCam.adPlace(!cam, bg);
+  }catch(e){}
+}
 const show = id => { tipClose(false); uiShow();
   const cur=document.querySelector('.screen.on');
   if (!cur || cur.id!==id){
@@ -807,9 +819,11 @@ const show = id => { tipClose(false); uiShow();
   // native shell (the "black front page" incident)
   if (id!=='scrCompare' && document.documentElement.classList.contains('natCam'))
     try{ camStop(); natChrome(false); }catch(e){}
-  // the native shell shows its banner only on the project screen
-  if (window.RealismCam && RealismCam.adScreen)
-    try{ RealismCam.adScreen(id==='scrUpload'); }catch(e){} };
+  // older shells: banner only on the project screen; newer shells place
+  // the skinned card on every screen through adSync
+  if (window.RealismCam && RealismCam.adScreen && !RealismCam.adPlace)
+    try{ RealismCam.adScreen(id==='scrUpload'); }catch(e){}
+  adSync(); };
 for (const sc of document.querySelectorAll('.screen'))
   sc.addEventListener('animationend', e=>{ if (e.target===sc) sc.classList.remove('in','off'); });
 
@@ -1563,7 +1577,8 @@ function gcPing(path){
   }catch(e){}
 }
 gcPing('/open');
-try{ if (window.RealismCam && RealismCam.adScreen) RealismCam.adScreen(true); }catch(e){}
+try{ if (window.RealismCam && RealismCam.adScreen && !RealismCam.adPlace) RealismCam.adScreen(true); }catch(e){}
+adSync();
 // storage durability: without a persistence grant the browser engine may
 // EVICT this origin's whole storage under disk pressure - weeks of
 // references gone in one low-space moment. Ask for the grant, and show
@@ -5711,6 +5726,7 @@ function natChrome(on){
   // native preview behind the WebView can never show through
   document.documentElement.classList.toggle('natCam', on);
   document.body.classList.toggle('natCam', on);
+  adSync();
   if (on) $('camVeil').style.display='none';
 }
 document.addEventListener('visibilitychange', ()=>{

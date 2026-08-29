@@ -65,6 +65,8 @@ class MainActivity : AppCompatActivity() {
     private var adShownH = 0
     private var nativeAd: com.google.android.gms.ads.nativead.NativeAd? = null
     @Volatile private var adAccentCol = 0xFFE8833A.toInt()   // follows the app accent
+    @Volatile private var adBgCol = 0xFF141414.toInt()        // follows the screen backdrop
+    private var adCard: com.google.android.gms.ads.nativead.NativeAdView? = null
 
     private fun report(msg: String) {
         Log.e("Realism", msg)
@@ -359,7 +361,7 @@ class MainActivity : AppCompatActivity() {
             fun dp(v: Int) = (v * d).toInt()
             val ACC = adAccentCol
             val adv = com.google.android.gms.ads.nativead.NativeAdView(this)
-            adv.setBackgroundColor(0xFF141414.toInt())
+            adv.setBackgroundColor(adBgCol)
             val row = android.widget.LinearLayout(this)
             row.orientation = android.widget.LinearLayout.HORIZONTAL
             row.gravity = android.view.Gravity.CENTER_VERTICAL
@@ -410,6 +412,8 @@ class MainActivity : AppCompatActivity() {
             adWrap.removeAllViews()
             adWrap.addView(adv, FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
+            adWrap.setBackgroundColor(adBgCol)
+            adCard = adv
             adShownH = dp(80)
             applyAd()
         } catch (e: Throwable) { logLine("native show: " + e.message) }
@@ -667,6 +671,20 @@ class MainActivity : AppCompatActivity() {
         @JavascriptInterface
         fun adAccent(hex: String) {
             try { adAccentCol = android.graphics.Color.parseColor(hex) } catch (e: Exception) {}
+        }
+        // every screen carries the strip; the page names the backdrop it
+        // should melt into (and clears it while the native camera is up)
+        @JavascriptInterface
+        fun adPlace(on: Boolean, bg: String) {
+            val c = try { android.graphics.Color.parseColor(bg) }
+                    catch (e: Exception) { 0xFF141414.toInt() }
+            runOnUiThread {
+                adBgCol = c
+                adWanted = on
+                adWrap.setBackgroundColor(c)
+                adCard?.setBackgroundColor(c)
+                applyAd()
+            }
         }
         @JavascriptInterface
         fun dlog(line: String) = logLine("page: " + line.take(300))
