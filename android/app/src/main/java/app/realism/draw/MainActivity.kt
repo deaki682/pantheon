@@ -252,6 +252,16 @@ class MainActivity : AppCompatActivity() {
             })
         web.addJavascriptInterface(Bridge(), "RealismCam")
         healHome()
+        try {
+            val inv = shadowRefDirs().mapIndexed { i, d ->
+                val fs = d.listFiles() ?: emptyArray()
+                (if (i == 0) "int" else "ext") + "=" + fs.size + "/" +
+                    (fs.sumOf { it.length() } / 1024) + "KB"
+            }.joinToString(" ")
+            val st = android.os.StatFs(filesDir.absolutePath)
+            logLine("shadow: $inv meta=" + metaRefCount(shadowBestMeta())
+                + " free=" + (st.availableBytes / (1024 * 1024)) + "MB")
+        } catch (e: Throwable) {}
         val port = LocalServer.start(this)
         logLine("launch port=$port degraded=${LocalServer.degraded}")
         if (port == 0) report("local server failed to bind")
@@ -442,6 +452,38 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Throwable) {}
     }
 
+    // ---- shadow storage plumbing (activity level so the boot line can
+    // inventory it): internal + external mirrors, tolerant meta selection
+    fun shadowRoots(): List<java.io.File> {
+        val roots = ArrayList<java.io.File>()
+        roots.add(java.io.File(filesDir, "shadow"))
+        try { getExternalFilesDir(null)?.let { roots.add(java.io.File(it, "shadow")) } }
+        catch (e: Exception) {}
+        return roots
+    }
+    fun shadowRefDirs(): List<java.io.File> =
+        shadowRoots().map { java.io.File(it, "refs").apply { mkdirs() } }
+    fun metaRefCount(text: String): Int {
+        try {
+            val a = org.json.JSONObject(text).optJSONArray("refs") ?: return 0
+            var n = 0
+            for (i in 0 until a.length())
+                if (a.getJSONObject(i).optInt("seed", 0) == 0) n++
+            return n
+        } catch (e: Exception) { return -1 }
+    }
+    fun shadowBestMeta(): String {
+        var best = ""; var bestN = -1; var bestAt = -1L
+        for (root in shadowRoots()) for (name in arrayOf("meta.json", "meta.bak")) {
+            val t = try { java.io.File(root, name).readText() } catch (e: Exception) { continue }
+            val n = metaRefCount(t)
+            if (n < 0) continue
+            val at = try { org.json.JSONObject(t).optLong("at", 0) } catch (e: Exception) { 0L }
+            if (n > bestN || (n == bestN && at > bestAt)) { best = t; bestN = n; bestAt = at }
+        }
+        return best
+    }
+
     private fun logLine(s: String) {
         try {
             val p = getSharedPreferences("dlog", 0)
@@ -504,45 +546,75 @@ class MainActivity : AppCompatActivity() {
             }
         }
         // ---- the shadow: a native mirror of every user reference ----
-        // WebView storage has been wiped in the field more than once; this
-        // lives in the app's private files dir - a different storage system
-        // entirely, untouched by the browser engine's quota manager, gone
-        // only on uninstall. The page mirrors on write and restores from
-        // here whenever references go missing.
-        private fun shadowDir(): java.io.File =
-            java.io.File(filesDir, "shadow/refs").apply { mkdirs() }
+        // WebView storage has been wiped in the field more than once. After
+        // the 2026-08-29 incident took app_webview AND the internal shadow
+        // in one stroke (shared_prefs survived), the mirror now writes to
+        // TWO filesystems - the internal files dir and the external app
+        // files dir - the index is written atomically with a .bak
+        // generation, and an empty index may never clobber a good one.
         private fun safeName(id: String) = id.filter { it.isLetterOrDigit() } + ".bin"
         @JavascriptInterface
         fun shadowSaveRef(id: String, b64: String) {
             Thread {
-                try { java.io.File(shadowDir(), safeName(id))
-                        .writeBytes(Base64.decode(b64, Base64.DEFAULT)) }
-                catch (e: Exception) {}
+                try {
+                    val bytes = Base64.decode(b64, Base64.DEFAULT)
+                    for (d in shadowRefDirs())
+                        try { java.io.File(d, safeName(id)).writeBytes(bytes) }
+                        catch (e: Exception) {}
+                } catch (e: Exception) {}
             }.apply { isDaemon = true }.start()
         }
         @JavascriptInterface
         fun shadowDeleteRef(id: String) {
-            try { java.io.File(shadowDir(), safeName(id)).delete() } catch (e: Exception) {}
+            for (d in shadowRefDirs())
+                try { java.io.File(d, safeName(id)).delete() } catch (e: Exception) {}
         }
         @JavascriptInterface
         fun shadowList(): String =
-            try { shadowDir().listFiles()?.joinToString(",") { it.name.removeSuffix(".bin") } ?: "" }
-            catch (e: Exception) { "" }
+            try {
+                val names = LinkedHashSet<String>()
+                for (d in shadowRefDirs())
+                    d.listFiles()?.forEach { names.add(it.name.removeSuffix(".bin")) }
+                names.joinToString(",")
+            } catch (e: Exception) { "" }
         @JavascriptInterface
-        fun shadowReadRef(id: String): String =
-            try { Base64.encodeToString(
-                java.io.File(shadowDir(), safeName(id)).readBytes(), Base64.NO_WRAP) }
-            catch (e: Exception) { "" }
+        fun shadowReadRef(id: String): String {
+            for (d in shadowRefDirs())
+                try {
+                    val b = java.io.File(d, safeName(id)).readBytes()
+                    if (b.isNotEmpty()) return Base64.encodeToString(b, Base64.NO_WRAP)
+                } catch (e: Exception) {}
+            return ""
+        }
         @JavascriptInterface
         fun shadowSaveMeta(text: String) {
             Thread {
-                try { java.io.File(filesDir, "shadow/meta.json").writeText(text) }
-                catch (e: Exception) {}
+                try {
+                    // never-shrink: a boot that sees a wiped gallery must
+                    // not clobber a good index while mirrored files exist
+                    if (metaRefCount(text) == 0
+                        && metaRefCount(shadowBestMeta()) > 0
+                        && shadowRefDirs().any { !(it.listFiles().isNullOrEmpty()) }) {
+                        logLine("shadow: refused meta shrink to 0")
+                        return@Thread
+                    }
+                    for (root in shadowRoots()) {
+                        try {
+                            root.mkdirs()
+                            val meta = java.io.File(root, "meta.json")
+                            if (meta.exists())
+                                try { meta.copyTo(java.io.File(root, "meta.bak"), overwrite = true) }
+                                catch (e: Exception) {}
+                            val tmp = java.io.File(root, "meta.tmp")
+                            tmp.writeText(text)
+                            if (!tmp.renameTo(meta)) { meta.writeText(text); tmp.delete() }
+                        } catch (e: Exception) {}
+                    }
+                } catch (e: Exception) {}
             }.apply { isDaemon = true }.start()
         }
         @JavascriptInterface
-        fun shadowLoadMeta(): String =
-            try { java.io.File(filesDir, "shadow/meta.json").readText() } catch (e: Exception) { "" }
+        fun shadowLoadMeta(): String = shadowBestMeta()
         // rolling diagnostics journal: every launch and storage event lands
         // here so the NEXT incident carries evidence instead of anecdote
         @JavascriptInterface

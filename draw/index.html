@@ -477,7 +477,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v268</span>
+      <span id="verNum">v269</span>
     </div>
   </div>
 
@@ -878,13 +878,25 @@ setTimeout(async ()=>{
       +' shadow='+(meta&&meta.refs?meta.refs.filter(m=>!m.seed).length:0)
       +' persisted='+await (navigator.storage&&navigator.storage.persisted
         ? navigator.storage.persisted().catch(()=>'?') : '?')); }catch(e){}
-    if (!meta || !meta.refs) { shadowMeta(); return; }
     const have=await galAll();
     const files=(N.shadowList()||'').split(',').filter(Boolean);
-    const missing=meta.refs.filter(m=>!m.seed
+    const mrefs=(meta && meta.refs) ? meta.refs : [];
+    const missing=mrefs.filter(m=>!m.seed
       && files.includes('r'+m.id)
       && !have.some(g=>(g.ts===m.ts) && (g.name||'')===(m.name||'')));
+    // a wipe can take the index and leave the mirrored files: when no
+    // user reference survives anywhere, offer every orphaned file too
+    if (!have.some(g=>!g.seed)){
+      for (const f of files){
+        if (!/^r\d+$/.test(f)) continue;
+        const id=+f.slice(1);
+        if (!mrefs.some(m=>m.id===id)) missing.push({id, ts:0, name:'', thumb:''});
+      }
+    }
     if (!missing.length){ shadowMeta(); return; }
+    const sig=missing.map(m=>m.id).sort((a,b)=>a-b).join(',');
+    let skip=null; try{ skip=localStorage.getItem('shSkip'); }catch(e){}
+    if (skip===sig){ shadowMeta(); return; }
     $('shTxt').textContent='Found a safety backup of '+missing.length
       +' missing reference'+(missing.length>1?'s':'')+'. Restore '
       +(missing.length>1?'them':'it')+'?';
@@ -897,22 +909,24 @@ setTimeout(async ()=>{
           const b64=N.shadowReadRef('r'+m.id); if (!b64) continue;
           const blob=b64blob(b64);
           const thumb=m.thumb
-            || await thumbOf(blob, (meta.per && meta.per['mode|'+m.id])==='c');
+            || await thumbOf(blob, !!(meta && meta.per && meta.per['mode|'+m.id]==='c'));
           const nid=await galAdd({ ts:m.ts||Date.now(), name:m.name||'', thumb, blob });
           if (nid==null) continue;
           for (const pfx of BAK_PERID){
-            const v=meta.per && meta.per[pfx+m.id];
+            const v=(meta && meta.per) ? meta.per[pfx+m.id] : null;
             if (v!=null) try{ localStorage.setItem(pfx+nid, v); }catch(e){}
           }
           N.shadowDeleteRef('r'+m.id);      // re-mirrored under its new id
           n++;
         }catch(e){}
       }
+      if (n) try{ localStorage.removeItem('shSkip'); }catch(e){}
       renderGallery(); shadowMeta(true);
       toast(n ? 'restored '+n+' reference'+(n>1?'s':'') : 'restore failed', n>0);
       try{ N.dlog && N.dlog('shadow restore n='+n); }catch(e){}
     };
-    $('shNo').onclick=()=>{ $('shModal').style.display='none'; };
+    $('shNo').onclick=()=>{ try{ localStorage.setItem('shSkip',sig); }catch(e){}
+      $('shModal').style.display='none'; };
   }catch(e){}
 }, 2500);
 let DELREF=null;
