@@ -1,16 +1,26 @@
-# Proves the iOS shell compiles on every ios/ change. Unsigned for now -
-# once the Apple Developer account exists, a signing + TestFlight upload
-# job is added behind repo secrets. macOS minutes burn at 10x, so this
-# only runs when ios/ (or this file) actually changes.
+# iOS builds. Two lanes:
+#  - every ios/ push: unsigned compile proof (cheap, no secrets needed)
+#  - manual dispatch with testflight=true: cloud-signed archive uploaded
+#    straight to TestFlight. Needs repo secrets ASC_KEY_ID, ASC_ISSUER_ID,
+#    ASC_KEY_P8 (the .p8 contents), ASC_TEAM_ID. Apple's cloud-managed
+#    signing creates/rotates the certs itself - nothing else to store.
+# macOS minutes burn at 10x, so nothing here runs unless ios/ changes or
+# a human asks for a release.
 name: iOS build
 on:
   workflow_dispatch:
+    inputs:
+      testflight:
+        description: 'Upload to TestFlight (needs the ASC_* secrets)'
+        type: boolean
+        default: false
   push:
     paths:
       - 'ios/**'
       - '.github/workflows/ios.yml'
 jobs:
   build:
+    if: ${{ github.event_name == 'push' || !inputs.testflight }}
     # macos-15 carries Xcode 16.x - current XcodeGen writes a project
     # format Xcode 15 cannot read, and the App Store requires 16 anyway
     runs-on: macos-15
@@ -37,3 +47,59 @@ jobs:
         with:
           name: Photorealism-unsigned
           path: Photorealism-unsigned-app.zip
+
+  testflight:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.testflight }}
+    runs-on: macos-15
+    timeout-minutes: 45
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_TEAM_ID: ${{ secrets.ASC_TEAM_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate the Xcode project
+        run: xcodegen generate --spec ios/project.yml --project ios
+      - name: Write the App Store Connect key
+        run: |
+          mkdir -p ~/private_keys
+          printf '%s' "${{ secrets.ASC_KEY_P8 }}" > ~/private_keys/AuthKey_${ASC_KEY_ID}.p8
+      - name: Archive (cloud-managed signing)
+        run: |
+          set -o pipefail
+          xcodebuild archive \
+            -project ios/Photorealism.xcodeproj -scheme Photorealism \
+            -configuration Release -sdk iphoneos \
+            -archivePath ios/build/Photorealism.xcarchive \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath ~/private_keys/AuthKey_${ASC_KEY_ID}.p8 \
+            -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            CODE_SIGN_STYLE=Automatic \
+            DEVELOPMENT_TEAM="$ASC_TEAM_ID" \
+            CURRENT_PROJECT_VERSION="$GITHUB_RUN_NUMBER"
+      - name: Upload to TestFlight
+        run: |
+          set -o pipefail
+          cat > ios/export.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>teamID</key><string>${ASC_TEAM_ID}</string>
+          </dict>
+          </plist>
+          EOF
+          xcodebuild -exportArchive \
+            -archivePath ios/build/Photorealism.xcarchive \
+            -exportOptionsPlist ios/export.plist \
+            -exportPath ios/build/export \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath ~/private_keys/AuthKey_${ASC_KEY_ID}.p8 \
+            -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID"
