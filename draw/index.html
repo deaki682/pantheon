@@ -202,12 +202,14 @@ body.colorRef #hudToggle.lit{width:44px;padding:0;font-size:18px}
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:none}
 body.colorRef #underCorner{display:block;left:calc(30px + (100% - 60px)*0.25)}
 body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.75)}
-/* while the ad strip is up, every screen's bottom chrome lifts clear of
-   it - a missed tap lands on dead paper, never on the advertiser */
-html.adOn .screen{padding-bottom:16px}
+/* the ad card floats over the page's bottom 80px; the page reserves
+   that room plus a click-safety buffer, and keeps painting its own
+   backdrop underneath - an empty slot shows the screen as it would
+   have been, and a filling ad never reframes the layout */
+html.adOn .screen{padding-bottom:96px}
 html.adOn #hudWrap,html.adOn #detCorner,html.adOn #gridCorner,
 html.adOn #underCorner,html.adOn #camCorner{
-  bottom:calc(24px + env(safe-area-inset-bottom))}
+  bottom:calc(104px + env(safe-area-inset-bottom))}
 /* the buffer band (and any exposed screen edge) matches the working
    screens' ground, so the lift never reads as a black bar */
 #scrMain,#scrCompare{background:#2a2a2a}
@@ -494,7 +496,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v275</span>
+      <span id="verNum">v276</span>
     </div>
   </div>
 

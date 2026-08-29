@@ -428,16 +428,18 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Throwable) { logLine("native show: " + e.message) }
     }
 
-    // the ad claims a strip below the WebView while visible, so the page's
-    // own layout (and the camera ghost geometry) never sits under it
+    // the card floats OVER the page's bottom 80px - the WebView never
+    // resizes. The page reserves the room (and lifts its chrome) through
+    // __adOn; the card is only visible while a real ad is in hand, and
+    // the page's own backdrop shows through any empty slot.
     private fun applyAd() {
-        val on = adWanted && adsUp && !adsRemovedFlag()
-        adWrap.visibility = if (on) android.view.View.VISIBLE else android.view.View.GONE
+        val slot = adWanted && adsUp && !adsRemovedFlag()
+        adWrap.visibility =
+            if (slot && nativeAd != null) android.view.View.VISIBLE
+            else android.view.View.GONE
         val lp = web.layoutParams as FrameLayout.LayoutParams
-        val h = if (on) adShownH else 0
-        if (lp.bottomMargin != h) { lp.bottomMargin = h; web.layoutParams = lp }
-        // the page lifts its bottom chrome clear of the strip (click safety)
-        js("window.__adOn && __adOn(" + on + ")")
+        if (lp.bottomMargin != 0) { lp.bottomMargin = 0; web.layoutParams = lp }
+        js("window.__adOn && __adOn(" + slot + ")")
     }
 
     // the browser engine keeps IndexedDB in per-origin folders on disk,
