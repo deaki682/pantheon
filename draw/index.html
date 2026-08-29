@@ -208,6 +208,9 @@ html.adOn .screen{padding-bottom:16px}
 html.adOn #hudWrap,html.adOn #detCorner,html.adOn #gridCorner,
 html.adOn #underCorner,html.adOn #camCorner{
   bottom:calc(24px + env(safe-area-inset-bottom))}
+/* the buffer band (and any exposed screen edge) matches the working
+   screens' ground, so the lift never reads as a black bar */
+#scrMain,#scrCompare{background:#2a2a2a}
 /* B&W swaps the layers and detail buttons: layers takes the left corner,
    detail sits at the one-third mark (colour keeps its own arrangement) */
 body:not(.colorRef) #hudWrap{left:8px;transform:none}
@@ -486,12 +489,14 @@ body.uiHid #backBtn{transform:translateY(-190%)}
         <button id="resBtn" class="grow">Restore</button>
       </div>
       <input type="file" id="bakFile" accept="application/json,.json" hidden>
+      <span class="setLbl" id="noAdsLbl" style="margin-top:4px;display:none">Ads</span>
+      <button id="noAdsBtn" style="display:none">Remove Ads</button>
       <span class="setLbl" id="dlModeLbl" style="margin-top:4px;display:none">Downloads</span>
       <button id="dlModeBtn" style="display:none">Photos gallery</button>
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v273</span>
+      <span id="verNum">v274</span>
     </div>
   </div>
 
@@ -1662,6 +1667,19 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
     $('dlModeBtn').textContent = m2==='ask' ? 'Ask me where, each time' : 'Photos gallery';
   };
   dlModeSync();
+  // the remove-ads purchase lives in the native shell only; the button
+  // appears once the shell offers it and vanishes once bought
+  window.__adsRemovedUI=()=>{
+    $('noAdsLbl').style.display='none'; $('noAdsBtn').style.display='none';
+    toast('ads removed - thank you!');
+  };
+  try{
+    const N=window.RealismCam;
+    if (N && N.buyRemoveAds && !(N.adsRemoved && N.adsRemoved())){
+      $('noAdsLbl').style.display=''; $('noAdsBtn').style.display='';
+    }
+  }catch(e){}
+  $('noAdsBtn').onclick=()=>{ try{ RealismCam.buyRemoveAds(); }catch(e){} };
   $('verNum').onclick=()=>{
     if (!window.RealismCam || !RealismCam.dlogs) return;
     try{ $('dgPre').textContent=RealismCam.dlogs()||'(empty)'; }catch(e){ return; }

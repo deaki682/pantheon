@@ -67,6 +67,9 @@ class MainActivity : AppCompatActivity() {
     @Volatile private var adAccentCol = 0xFFE8833A.toInt()   // follows the app accent
     @Volatile private var adBgCol = 0xFF141414.toInt()        // follows the screen backdrop
     private var adCard: com.google.android.gms.ads.nativead.NativeAdView? = null
+    private var adBadgeV: TextView? = null
+    private var adCtaV: TextView? = null
+    private var billing: com.android.billingclient.api.BillingClient? = null
 
     private fun report(msg: String) {
         Log.e("Realism", msg)
@@ -277,6 +280,7 @@ class MainActivity : AppCompatActivity() {
             if (!booted) report("page did not finish loading in 8s (progress ${web.progress}%)")
         }, 8000)
         startAds()
+        initBilling()
         // the daily automatic backup: a full export lands in Downloads -
         // the one location no cleaner, quota manager, or wipe reaches
         web.postDelayed({
@@ -296,6 +300,7 @@ class MainActivity : AppCompatActivity() {
     private fun adSay(m: String) { js("toast && toast(" + org.json.JSONObject.quote("ads: " + m) + ")") }
 
     private fun startAds() {
+        if (adsRemovedFlag()) return
         val ci = com.google.android.ump.UserMessagingPlatform.getConsentInformation(this)
         val params = com.google.android.ump.ConsentRequestParameters.Builder().build()
         ci.requestConsentInfoUpdate(this, params, {
@@ -414,6 +419,8 @@ class MainActivity : AppCompatActivity() {
                 FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
             adWrap.setBackgroundColor(adBgCol)
             adCard = adv
+            adBadgeV = badge
+            adCtaV = cta
             adShownH = dp(80)
             applyAd()
         } catch (e: Throwable) { logLine("native show: " + e.message) }
@@ -423,7 +430,7 @@ class MainActivity : AppCompatActivity() {
     // own layout (and the camera ghost geometry) never sits under it
     private fun applyAd() {
         val have = nativeAd != null
-        val on = adWanted && have
+        val on = adWanted && have && !adsRemovedFlag()
         adWrap.visibility = if (on) android.view.View.VISIBLE else android.view.View.GONE
         val lp = web.layoutParams as FrameLayout.LayoutParams
         val h = if (on) adShownH else 0
@@ -495,6 +502,64 @@ class MainActivity : AppCompatActivity() {
             if (n > bestN || (n == bestN && at > bestAt)) { best = t; bestN = n; bestAt = at }
         }
         return best
+    }
+
+    // ---- remove-ads purchase (Play Billing): the one-time product
+    // "remove_ads" flips a local flag and the ad stack never starts
+    // again; the entitlement restores from Play's record every launch
+    private fun adsRemovedFlag() = getSharedPreferences("iap", 0).getBoolean("noads", false)
+    private fun grantNoAds() {
+        getSharedPreferences("iap", 0).edit().putBoolean("noads", true).apply()
+        logLine("remove_ads granted")
+        runOnUiThread {
+            adWanted = false
+            nativeAd?.destroy(); nativeAd = null; adCard = null
+            adBadgeV = null; adCtaV = null
+            try { adWrap.removeAllViews() } catch (e: Exception) {}
+            applyAd()
+            js("window.__adsRemovedUI && __adsRemovedUI()")
+        }
+    }
+    private fun handlePurchase(p: com.android.billingclient.api.Purchase) {
+        if (!p.products.contains("remove_ads")) return
+        if (p.purchaseState != com.android.billingclient.api.Purchase.PurchaseState.PURCHASED) return
+        if (!p.isAcknowledged) {
+            val ack = com.android.billingclient.api.AcknowledgePurchaseParams.newBuilder()
+                .setPurchaseToken(p.purchaseToken).build()
+            billing?.acknowledgePurchase(ack) {}
+        }
+        if (!adsRemovedFlag()) grantNoAds()
+    }
+    private fun initBilling() {
+        try {
+            val c = com.android.billingclient.api.BillingClient.newBuilder(this)
+                .setListener { br, purchases ->
+                    if (br.responseCode ==
+                        com.android.billingclient.api.BillingClient.BillingResponseCode.OK
+                        && purchases != null) for (p in purchases) handlePurchase(p)
+                }
+                .enablePendingPurchases(
+                    com.android.billingclient.api.PendingPurchasesParams.newBuilder()
+                        .enableOneTimeProducts().build())
+                .build()
+            billing = c
+            c.startConnection(object : com.android.billingclient.api.BillingClientStateListener {
+                override fun onBillingSetupFinished(br: com.android.billingclient.api.BillingResult) {
+                    if (br.responseCode !=
+                        com.android.billingclient.api.BillingClient.BillingResponseCode.OK) return
+                    val qp = com.android.billingclient.api.QueryPurchasesParams.newBuilder()
+                        .setProductType(
+                            com.android.billingclient.api.BillingClient.ProductType.INAPP)
+                        .build()
+                    c.queryPurchasesAsync(qp) { br2, list ->
+                        if (br2.responseCode ==
+                            com.android.billingclient.api.BillingClient.BillingResponseCode.OK)
+                            for (p in list) handlePurchase(p)
+                    }
+                }
+                override fun onBillingServiceDisconnected() {}
+            })
+        } catch (e: Throwable) { logLine("billing init: " + e.message) }
     }
 
     private fun logLine(s: String) {
@@ -672,7 +737,53 @@ class MainActivity : AppCompatActivity() {
         }
         @JavascriptInterface
         fun adAccent(hex: String) {
-            try { adAccentCol = android.graphics.Color.parseColor(hex) } catch (e: Exception) {}
+            val c = try { android.graphics.Color.parseColor(hex) } catch (e: Exception) { return }
+            adAccentCol = c
+            // re-tint the card already on screen - the accent follows
+            // immediately, not at the next 75s refresh
+            runOnUiThread {
+                val w = Math.max(1, resources.displayMetrics.density.toInt())
+                adBadgeV?.let { v ->
+                    v.setTextColor(c)
+                    (v.background as? android.graphics.drawable.GradientDrawable)?.setStroke(w, c)
+                }
+                adCtaV?.let { v ->
+                    (v.background as? android.graphics.drawable.GradientDrawable)?.setColor(c)
+                }
+            }
+        }
+        @JavascriptInterface
+        fun adsRemoved(): Boolean = adsRemovedFlag()
+        @JavascriptInterface
+        fun buyRemoveAds() {
+            runOnUiThread {
+                val c = billing
+                if (c == null || !c.isReady) {
+                    js("toast && toast('purchase unavailable - try again shortly', false)")
+                    return@runOnUiThread
+                }
+                val prod = com.android.billingclient.api.QueryProductDetailsParams.Product.newBuilder()
+                    .setProductId("remove_ads")
+                    .setProductType(com.android.billingclient.api.BillingClient.ProductType.INAPP)
+                    .build()
+                val qp = com.android.billingclient.api.QueryProductDetailsParams.newBuilder()
+                    .setProductList(listOf(prod)).build()
+                c.queryProductDetailsAsync(qp) { br, details ->
+                    val d = details.firstOrNull()
+                    if (br.responseCode !=
+                        com.android.billingclient.api.BillingClient.BillingResponseCode.OK
+                        || d == null) {
+                        js("toast && toast('purchase not available yet', false)")
+                        return@queryProductDetailsAsync
+                    }
+                    val flow = com.android.billingclient.api.BillingFlowParams.newBuilder()
+                        .setProductDetailsParamsList(listOf(
+                            com.android.billingclient.api.BillingFlowParams.ProductDetailsParams
+                                .newBuilder().setProductDetails(d).build()))
+                        .build()
+                    runOnUiThread { c.launchBillingFlow(this@MainActivity, flow) }
+                }
+            }
         }
         // every screen carries the strip; the page names the backdrop it
         // should melt into (and clears it while the native camera is up)

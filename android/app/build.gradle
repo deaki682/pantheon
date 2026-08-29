@@ -11,8 +11,8 @@ android {
     applicationId "app.realism.draw"
     minSdk 26
     targetSdk 36
-    versionCode 87
-    versionName "0.9.52"
+    versionCode 88
+    versionName "0.9.53"
   }
   // the web app IS the app: the android module serves ../draw verbatim
   sourceSets.main.assets.srcDirs += rootProject.file('../draw')
@@ -59,6 +59,8 @@ dependencies {
   // so the app bundles only the thin API layer instead of ~3MB of SDK
   implementation 'com.google.android.gms:play-services-ads-lite:23.2.0'
   implementation 'com.google.android.ump:user-messaging-platform:2.2.0'
+  // remove-ads one-time purchase
+  implementation 'com.android.billingclient:billing:7.0.0'
   // the ads SDK drags in guava's EMPTY listenablefuture stub, which would
   // shadow the one real class CameraX compiles against - force the real
   // single-class artifact instead of bundling all of guava
