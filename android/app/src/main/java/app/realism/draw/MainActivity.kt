@@ -296,8 +296,8 @@ class MainActivity : AppCompatActivity() {
     // compare screens never carry an ad.
     private val NATIVE_UNIT = "ca-app-pub-4573680538268043/6075308934"
 
-    // TEMP DIAGNOSTIC build: the ad stack narrates itself through toasts
-    private fun adSay(m: String) { js("toast && toast(" + org.json.JSONObject.quote("ads: " + m) + ")") }
+    // the ad stack narrates itself into the version-tap log only
+    private fun adSay(m: String) { js("window.plog && plog(" + org.json.JSONObject.quote("ads: " + m) + ")") }
 
     private fun startAds() {
         if (adsRemovedFlag()) return
