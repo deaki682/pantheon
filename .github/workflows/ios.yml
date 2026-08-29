@@ -11,7 +11,9 @@ on:
       - '.github/workflows/ios.yml'
 jobs:
   build:
-    runs-on: macos-14
+    # macos-15 carries Xcode 16.x - current XcodeGen writes a project
+    # format Xcode 15 cannot read, and the App Store requires 16 anyway
+    runs-on: macos-15
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
