@@ -9,6 +9,7 @@ import WebKit
 final class ViewController: UIViewController {
     private var web: WKWebView!
     private var dlDest: URL?
+    private var ads: AdController?
 
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
 
@@ -20,6 +21,23 @@ final class ViewController: UIViewController {
         cfg.allowsInlineMediaPlayback = true
         cfg.mediaTypesRequiringUserActionForPlayback = []
         cfg.websiteDataStore = .default()
+        // the page's ad contract: a thin RealismCam shim carrying ONLY the
+        // ad methods - every other native branch in the page gates on the
+        // specific capability it uses, so nothing else changes behaviour
+        let ucc = cfg.userContentController
+        ucc.add(self, name: "adPlace")
+        ucc.add(self, name: "adAccent")
+        let shim = """
+        window.RealismCam = window.RealismCam || {};
+        RealismCam.adPlace = function(on, bg){
+          try{ webkit.messageHandlers.adPlace.postMessage({on:!!on, bg:String(bg||'#141414')}); }catch(e){}
+        };
+        RealismCam.adAccent = function(h){
+          try{ webkit.messageHandlers.adAccent.postMessage(String(h||'')); }catch(e){}
+        };
+        """
+        ucc.addUserScript(WKUserScript(source: shim, injectionTime: .atDocumentStart,
+                                       forMainFrameOnly: true))
 
         web = WKWebView(frame: .zero, configuration: cfg)
         web.uiDelegate = self
@@ -43,6 +61,8 @@ final class ViewController: UIViewController {
             web.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
 
+        ads = AdController(host: self, web: web)
+        ads?.start()
         let port = LocalServer.shared.start()
         if port == 0 {
             let l = UILabel()
@@ -65,6 +85,18 @@ final class ViewController: UIViewController {
             av.popoverPresentationController?.sourceRect =
                 CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 1, height: 1)
             self.present(av, animated: true)
+        }
+    }
+}
+
+extension ViewController: WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController,
+                               didReceive message: WKScriptMessage) {
+        if message.name == "adPlace", let d = message.body as? [String: Any] {
+            ads?.place(on: d["on"] as? Bool ?? false,
+                       bg: d["bg"] as? String ?? "#141414")
+        } else if message.name == "adAccent", let h = message.body as? String {
+            ads?.accent(h)
         }
     }
 }

@@ -2,6 +2,10 @@
 # committed. The web app IS the app: ../draw ships verbatim as a bundled
 # folder reference, served from the loopback socket (see LocalServer.swift).
 name: Photorealism
+packages:
+  GoogleMobileAds:
+    url: https://github.com/googleads/swift-package-manager-google-mobile-ads
+    from: 12.0.0
 options:
   createIntermediateGroups: true
   deploymentTarget:
@@ -10,6 +14,9 @@ targets:
   Photorealism:
     type: application
     platform: iOS
+    dependencies:
+      - package: GoogleMobileAds
+        product: GoogleMobileAds
     sources:
       - path: App/Sources
       - path: App/Assets.xcassets

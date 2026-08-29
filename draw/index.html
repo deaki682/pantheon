@@ -501,7 +501,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v281</span>
+      <span id="verNum">v282</span>
     </div>
   </div>
 
@@ -1670,7 +1670,7 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
   $('setBtn').onclick=()=>{ $('setModal').style.display='flex'; };
   // the destination choice only exists in the native app
   window.dlModeSync=()=>{
-    if (!window.RealismCam) return;
+    if (!(window.RealismCam && RealismCam.saveImage)) return;
     $('dlModeLbl').style.display=''; $('dlModeBtn').style.display='';
     let m2=null; try{ m2=localStorage.getItem('dlmode'); }catch(e){}
     $('dlModeBtn').textContent = m2==='ask' ? 'Ask me where, each time' : 'Photos gallery';
@@ -1707,7 +1707,7 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
   };
   $('invBtn').onclick=async()=>{
     gcPing('/share');
-    const nat=!!window.RealismCam;
+    const nat=!!(window.RealismCam && RealismCam.share);
     const url=nat ? 'https://play.google.com/store/apps/details?id=app.realism.draw'
                   : location.origin+location.pathname;
     const msg=nat ? 'Photorealism - a drawing studio for the grid method. Get it on Google Play:'
@@ -5673,7 +5673,7 @@ function camGhost(){
   CAM.ghost={vx,vy,vs,gx,gy,gw,gh};
 }
 async function camStart(){
-  if (window.RealismCam) return natStart();
+  if (window.RealismCam && RealismCam.start) return natStart();
   try{
     const st=await navigator.mediaDevices.getUserMedia({
       video:{ facingMode:{ideal:'environment'},
