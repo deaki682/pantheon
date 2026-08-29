@@ -18,17 +18,17 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--acc:#e8833a;--accBg:#3b2a1b}
 html{color-scheme:dark;accent-color:var(--acc)}
-input[type=range]{-webkit-appearance:none;appearance:none;height:28px;
-  background:transparent}
+input[type=range]{-webkit-appearance:none;appearance:none;height:40px;
+  background:transparent;touch-action:none}
 input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:2px;
   background:linear-gradient(to right,var(--acc) 0,var(--acc) var(--p,50%),
     #4a4a4a var(--p,50%))}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
-  width:14px;height:14px;border-radius:50%;background:var(--acc);
-  margin-top:-5.5px}
+  width:20px;height:20px;border-radius:50%;background:var(--acc);
+  margin-top:-8.5px}
 input[type=range]::-moz-range-track{height:3px;border-radius:2px;background:#4a4a4a}
 input[type=range]::-moz-range-progress{height:3px;border-radius:2px;background:var(--acc)}
-input[type=range]::-moz-range-thumb{width:14px;height:14px;border:none;
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border:none;
   border-radius:50%;background:var(--acc)}
 html,body{width:100%;height:100%;overflow:hidden;background:#141414;color:#e8e6e1;
   font:14px system-ui,sans-serif;touch-action:none;
@@ -145,6 +145,7 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:13px}
 #cmpCv{position:absolute;left:0;top:0;touch-action:none}
 #camVid{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
   display:none;background:#000}
+body:not(.colorRef) #camVid{filter:grayscale(1)}
 #camGhost{position:absolute;left:0;top:0;pointer-events:none}
 /* inside the Android app the live preview renders BEHIND the page; while the
    camera is up the page clears its own paint so the preview shows through */
@@ -500,7 +501,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v279</span>
+      <span id="verNum">v280</span>
     </div>
   </div>
 
@@ -889,6 +890,9 @@ async function galAdd(rec){ try{ const d=await gdb(); const id=await new Promise
 // WebView storage has been wiped in the field; the shadow lives in the
 // app's private files (a different storage system) and offers itself
 // back whenever references go missing.
+window.PLOG=[];
+function plog(m){ try{ PLOG.push(new Date().toISOString().slice(5,16).replace('T',' ')+' '+m);
+  if (PLOG.length>80) PLOG.shift(); }catch(e){} }
 const SHADOW=()=> (window.RealismCam && RealismCam.shadowSaveRef) ? RealismCam : null;
 async function shadowMirrorRef(id, blob){
   const N=SHADOW(); if (!N) return;
@@ -1685,8 +1689,12 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
   }catch(e){}
   $('noAdsTxt').onclick=()=>{ try{ RealismCam.buyRemoveAds(); }catch(e){} };
   $('verNum').onclick=()=>{
-    if (!window.RealismCam || !RealismCam.dlogs) return;
-    try{ $('dgPre').textContent=RealismCam.dlogs()||'(empty)'; }catch(e){ return; }
+    let txt='';
+    if (window.RealismCam && RealismCam.dlogs)
+      try{ txt=RealismCam.dlogs()||''; }catch(e){}
+    if (window.PLOG && PLOG.length) txt+=(txt?'\n':'')+PLOG.join('\n');
+    if (!txt) return;
+    $('dgPre').textContent=txt;
     $('dgModal').style.display='flex';
   };
   $('dgX').onclick=()=>{ $('dgModal').style.display='none'; };
@@ -4894,9 +4902,6 @@ function cmpExport(){
       }
       for (const c of CIRCS) paintMark(g, c.x, c.y, circR(), 10*k/tot, 3*k/tot);
       g.restore();
-      g.fillStyle='rgba(232,230,225,0.8)'; g.font=(11*k)+'px system-ui';
-      g.textBaseline='alphabetic';
-      g.fillText(pn.label, pn.ox+8*k, 16*k);
     }
     g.strokeStyle='#555'; g.lineWidth=2*k;
     g.beginPath(); g.moveTo(pw,0); g.lineTo(pw,H); g.stroke();
@@ -5229,8 +5234,6 @@ function cmpRender(){
           paintMark(g, c.x, c.y, circR(), 10*kd/tot, 3*kd/tot);
       }
       g.restore();
-      g.fillStyle='rgba(232,230,225,0.8)'; g.font='11px system-ui';
-      g.fillText(pn.label, pn.ox+8, 16);
     }
     g.strokeStyle='#555'; g.lineWidth=2;
     g.beginPath(); g.moveTo(pw,0); g.lineTo(pw,ph); g.stroke();
@@ -5677,6 +5680,8 @@ async function camStart(){
               width:{ideal:2560}, height:{ideal:1920} },
       audio:false });
     CAM.stream=st;
+    try{ const t0=st.getVideoTracks()[0], s0=t0.getSettings();
+      plog('cam: '+(t0.label||'?')+' '+(s0.width||'?')+'x'+(s0.height||'?')); }catch(e2){}
     const v=$('camVid'); v.srcObject=st; v.style.display='block';
     // the veil sits above the video until real frames exist, so the bare
     // element's play-button overlay never shows
