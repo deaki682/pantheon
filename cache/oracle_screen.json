@@ -1,5 +1,5 @@
 {
-  "n_universe_hits": 325,
+  "n_universe_hits": 343,
   "top": [
     {
       "insider_backed": true,
@@ -58,6 +58,21 @@
         "valuation": 0.0
       },
       "score": 0.39,
+      "shares": 19235000000,
+      "symbol": "BABA"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": true,
+        "quality": 0.0,
+        "sector_breadth": 0.0,
+        "smart_money": true,
+        "valuation": 0.0
+      },
+      "score": 0.39,
       "shares": 35710000,
       "symbol": "GSHD"
     },
@@ -75,21 +90,6 @@
       "score": 0.39,
       "shares": 40133155,
       "symbol": "ORN"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": true,
-        "insider_cluster": true,
-        "quality": 0.2967544333039831,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.3645131649955975,
-      "shares": 711867,
-      "symbol": "EWSB"
     },
     {
       "insider_backed": true,
@@ -418,65 +418,8 @@
         "valuation": 0.0
       },
       "score": 0.32,
-      "symbol": "BLSM"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": true,
-        "insider_cluster": true,
-        "quality": 0.0,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.32,
-      "symbol": "BRVE"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": true,
-        "insider_cluster": true,
-        "quality": 0.0,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.32,
-      "shares": 3357117,
-      "symbol": "FEMY"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": true,
-        "insider_cluster": true,
-        "quality": 0.0,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.32,
-      "symbol": "LTGO"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": true,
-        "insider_cluster": true,
-        "quality": 0.0,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.32,
-      "shares": 23788700,
-      "symbol": "SUJA"
+      "shares": 3010308,
+      "symbol": "BMRA"
     },
     {
       "insider_backed": true,
@@ -1150,7 +1093,7 @@
         "valuation": 0.0
       },
       "score": 0.2884564466509577,
-      "shares": 871000000,
+      "shares": 821000000,
       "symbol": "CRM"
     },
     {
@@ -1496,7 +1439,67 @@
       "score": 0.2767035787422465,
       "shares": 51867000,
       "symbol": "ARW"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.5770007196206727,
+        "sector_breadth": 0.0,
+        "smart_money": true,
+        "valuation": 0.0
+      },
+      "score": 0.2765501079431009,
+      "shares": 1975087000,
+      "symbol": "CVX"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": true,
+        "quality": 0.5076076758634053,
+        "sector_breadth": 0.0,
+        "smart_money": false,
+        "valuation": 0.0
+      },
+      "score": 0.2761411513795108,
+      "shares": 108568000,
+      "symbol": "HOG"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": true,
+        "quality": 0.5075865899246806,
+        "sector_breadth": 0.0,
+        "smart_money": false,
+        "valuation": 0.0
+      },
+      "score": 0.2761379884887021,
+      "shares": 13235000,
+      "symbol": "XRN"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": false,
+        "quality": 0.5742023366878999,
+        "sector_breadth": 0.0,
+        "smart_money": true,
+        "valuation": 0.0
+      },
+      "score": 0.27613035050318496,
+      "shares": 61000000,
+      "symbol": "AAP"
     }
   ],
-  "updated_at": "2026-08-23T09:41:15.781686+00:00"
+  "updated_at": "2026-08-30T14:47:16.653888+00:00"
 }
