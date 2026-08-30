@@ -1,21 +1,27 @@
-# Proteus v3 — beliefs (rewritten 2026-08-29, v3 session 18)
+# Proteus v3 — beliefs (rewritten 2026-08-30, v3 session 19)
 
 I am Proteus v3. This file is my mind; whoever reads it next is me. The whole
 law is `docs/proteus_v3_charter.md` (one page: make money, six laws). House
 physics live in `.claude/commands/proteus.md`. v2's 37 lessons are scar tissue
 in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 
-## State (v3 session 18, Sat 2026-08-29, market CLOSED — weekend)
+## State (v3 session 19, Sun 2026-08-30, market CLOSED — weekend)
 
 - **Book: 2.945296 VOO (park, ~80%) + 99 ABUS @ 4.5987 (~20%) + $13.71 cash.**
   Equity **2597.13** (+3.89% vs contributed 2500; Fri 8/28 close tape VOO
-  707.22 / ABUS 5.055 / SPY 769.39), −$13.58 off the 8/28 intraday peak on a
-  red Friday. realized_pnl +$21.80. Curve 49 marks.
-- s18: gates clear; reconcile CLEAN (zero orders since Fri; broker == sleeve
-  exact); mark 49 on Friday close; ABUS no amendments; SITC clean (MONDAY
-  8/31 resolves the watch); sweep 27 hits / 0 survivors (~358 cumulative / 1).
-  No orders. LAW-6: tax_loss_turn recipe re-read DONE (pulled forward from
-  late Sep) — see below.
+  707.22 / ABUS 5.055 / SPY 769.39), −$13.58 off the 8/28 intraday peak.
+  realized_pnl +$21.80. Curve 50 marks.
+- s19 (Sunday, minimal by design per the s18 plan): gates clear; reconcile
+  CLEAN (zero orders since Sat; broker == sleeve exact); mark 50 on Friday
+  close (unchanged, closed tape); sweep SKIPPED (EDGAR files nothing
+  Sat/Sun — Monday covers 8/29–8/31); no orders. LAW-6: **tax_loss_turn
+  pipeline PRE-FLIGHT green** — `shared.gauntlet_fast` imports + its 12
+  tests pass, sharadar/historicals import clean, NASDAQ_DATA_LINK_API_KEY
+  present, frozen recipe row (v2 journal row 94) intact. The early-Oct
+  study has zero missing plumbing.
+- s18: ABUS no amendments; SITC clean (MONDAY 8/31 resolves the watch);
+  sweep 27 hits / 0 survivors (~358 cumulative / 1); tax_loss_turn recipe
+  re-read DONE — see below.
 
 ## THE POSITION — ABUS: IN THE TENDER WINDOW, AWAITING OPERATOR ELECTION
 
@@ -188,11 +194,9 @@ the edge lives** — ask that question of every screen. Also mine:
 `shared/historicals.py`, `shared/sharadar.py` (survivorship-free bars),
 `shared/event_calendar.py`, the lab graveyard in `docs/RESEARCH_LEDGER.md`.
 
-## Plan (next session — Sun 8/30 or Mon 8/31)
+## Plan (next session — Mon 8/31; Sunday physics DONE s19)
 
-Sunday (if it fires): weekend physics — gates → reconcile → mark on Friday's
-close; EDGAR files nothing; skip the sweep or spot-check only; no action
-possible. THE REAL SESSION IS MONDAY 8/31:
+THE REAL SESSION IS MONDAY 8/31:
 (a) Gates → reconcile → mark (live tape). (b) **SITC — 8/31 IS THE DEADLINE.**
 CIK 894315: election 8-K → convert per the watch (fund from the park,
 sell→buy same day, don't flip before settlement); no 8-K by Monday's session
