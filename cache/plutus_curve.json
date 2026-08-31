@@ -623,5 +623,16 @@
   "drawdown": 0.0,
   "halted": false,
   "note": "Zeus hourly monitoring-only pass ~10:10 ET Fri 2026-08-28. Quarter guard: SEP data date 2026-08-27 -> quarter_end 2026-06-30 -> 2026Q2, already traded (cadence last_quarter=2026Q2) => NO rebalance; next pipeline run is 2026Q3 (signal 2026-09-30). 47/47 positions marked live, missing_marks=[]. Equity $5,220.94 vs contributed $4,902.36 (+6.50%); SPY 771.3. Drawdown 0.00% from peak $5,220.94 - 40% breaker not tripped. No orders placed."
+ },
+ {
+  "timestamp": "2026-08-31T14:06:52Z",
+  "date": "2026-08-31",
+  "equity": 5177.59,
+  "spy": 765.9691,
+  "cash": 0.0,
+  "peak_equity": 5220.938669078,
+  "drawdown": 0.008302,
+  "halted": false,
+  "note": "Zeus hourly monitoring-only pass ~10:06 ET Mon 2026-08-31. Quarter guard: SEP data date 2026-08-28 -> quarter_end 2026-06-30 -> 2026Q2, already traded (cadence last_quarter=2026Q2) => NO rebalance; next pipeline run is 2026Q3 (signal 2026-09-30). 47/47 positions marked live, missing_marks=[]. Equity $5177.59 vs contributed $4902.36 (+5.61%); SPY 765.97. Drawdown 0.83% from peak $5220.94 - 40% breaker not tripped. No orders placed."
  }
 ]
