@@ -1,12 +1,62 @@
 {
-  "n": 0,
-  "mean_return": null,
-  "hit_rate": null,
-  "lens_lift": {},
-  "conviction_tiers": {},
-  "conviction_monotonic": false,
-  "valuation_terciles": {},
-  "quality_terciles": {},
-  "score_terciles": {},
-  "sector_return": {}
+ "n": 0,
+ "mean_return": null,
+ "hit_rate": null,
+ "lens_lift": {},
+ "conviction_tiers": {},
+ "conviction_monotonic": false,
+ "valuation_terciles": {},
+ "quality_terciles": {},
+ "score_terciles": {},
+ "sector_return": {},
+ "_session": {
+  "date": "2026-08-31",
+  "session": "after_close_tend",
+  "note": "Zeus after-close pass. GRADING: 0 matured (all 327 entries ungraded; earliest maturity 2027-06-29), so calibration_report carries no graded statistics yet and every lens/tercile/conviction panel is empty BY CONSTRUCTION, not by failure. OPENED 4 new names from the 2026-08-30 screen refresh (BABA, RICK, DKL, EVLV) at 15:59:5x ET last prints. SKIPPED 3 screen names on the liquidity floor (price >= $3.00 AND mkt cap >= $200M), per the skill's hard rule that microcap paper returns are fantasy and distort the stats: BMRA ($2.07, $6.2M), KPLT ($5.44, $29.9M), HGBL ($1.295, $44.8M). Recording the skips explicitly so the sample's exclusions are auditable rather than silent. MARK: the book was already marked TODAY by the ~10:10 ET pass (curve point 2026-08-31, equity $33,506.60, SPY 765.475) and that point is INTRADAY-BASIS; it was not re-marked at the close this pass, and the curve point is labelled accordingly rather than silently overwritten or duplicated. No broker order was placed and no real oracle_* sleeve/ledger was touched.",
+  "opened": [
+   {
+    "symbol": "BABA",
+    "entry_price": 113.9983,
+    "horizon_days": 365
+   },
+   {
+    "symbol": "RICK",
+    "entry_price": 29.23,
+    "horizon_days": 365
+   },
+   {
+    "symbol": "DKL",
+    "entry_price": 55.51,
+    "horizon_days": 365
+   },
+   {
+    "symbol": "EVLV",
+    "entry_price": 5.205,
+    "horizon_days": 365
+   }
+  ],
+  "skipped_illiquid": [
+   {
+    "symbol": "BMRA",
+    "price": 2.07,
+    "mkt_cap": 6231338,
+    "reason": "price<$3.00 and mcap<$200M"
+   },
+   {
+    "symbol": "KPLT",
+    "price": 5.44,
+    "mkt_cap": 29871040,
+    "reason": "mcap<$200M"
+   },
+   {
+    "symbol": "HGBL",
+    "price": 1.295,
+    "mkt_cap": 44842614,
+    "reason": "price<$3.00 and mcap<$200M"
+   }
+  ],
+  "n_open": 327,
+  "n_graded": 0,
+  "next_maturity": "2027-06-29"
+ }
 }

@@ -5940,5 +5940,81 @@
     "exit_date": "",
     "exit_price": 0.0,
     "graded_return": null
+  },
+  {
+    "symbol": "BABA",
+    "entry_date": "2026-08-31",
+    "entry_price": 113.9983,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": true,
+      "valuation": 0.0,
+      "quality": 0.0,
+      "score": 0.39,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "RICK",
+    "entry_date": "2026-08-31",
+    "entry_price": 29.23,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.8947145553527174,
+      "score": 0.3342071833029076,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "DKL",
+    "entry_date": "2026-08-31",
+    "entry_price": 55.51,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.6722679504233617,
+      "score": 0.30084019256350425,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "EVLV",
+    "entry_date": "2026-08-31",
+    "entry_price": 5.205,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.6441900883695315,
+      "score": 0.2966285132554297,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
   }
 ]
