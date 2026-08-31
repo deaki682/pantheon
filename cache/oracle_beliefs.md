@@ -3,6 +3,125 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-08-31 CLOSE — a pre-registered test finally RAN, and it went against the hypothesis that typed it)
+
+Zeus hourly after-close tend #2, 20:05Z (~16:05 ET Mon); the ~10:10 ET pass preceded it.
+**Duty 9 caveat, unchanged and still structural:** `close.date` lags to 08-28, so the official
+08-31 close is unpublished at 20:05Z and **every mark below — the book's and every peer set's —
+is the 15:59:5x ET regular-session last print.** Same basis on both sides of every comparison,
+said out loud rather than glossed. Reconcile CLEAN 6/6 exact vs broker (KLIC 6.358622 /
+LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); zero Oracle
+orders of any state since 08-28. Equity **$4,612.91** (drawdown **6.44%** off the 08-17 peak
+$4,930.51), breaker `ok`, settled cash $449.94 = 9.75%. Book $4,162.97 on the $4,050.06 basis =
+**+2.79%**; SPY from the 07-10 entry (750.935 → 766.95) = **+2.13%**, so **+0.66pp excess**.
+Book **+0.06%** on the day vs SPY −0.31%, IWM −0.62% — a flat book on a soft tape.
+
+**This pass's entire contribution is the comparators the morning pass did not pull, and they
+overturned two of that pass's sentences.** That is now the settled division of labour between the
+two daily tends, and it is worth naming as such: the morning pass does the reconcile, the sweep
+and the disposition; the after-close pass does the *cross-section*, and the cross-section is where
+the morning's stories go to be checked.
+
+**1. THE DUTY 8 BATCH-VS-DROP TEST RAN FOR THE FIRST TIME — AND CAME BACK NEGATIVE.** The five
+PAY Form 4s filed 08-28 (acc …374895/374899/374900/374906/374909, transaction date **08-26**) are a
+**SECOND Accel-KKR in-kind distribution**, identical in shape to the 08-17 one: all code **J** at
+**$0.00**, Rule 16a-9(a), *"in-kind pro rata distribution from the Reporting Person to its partners,
+without consideration"*; Accel-KKR Holdings GP / Palumbo / Barnds each report **94,546 sh** disposed
+out of Accel-KKR Growth Capital Partners III LP **to zero**; recipients **Gregory Hyde Williams**
++22,558 (→ 188,384 direct) and **Jason Klein** +546 (→ 1,496). `aff10b5One=false` on all five.
+The test typed on **08-11** and re-typed **08-20**, before any answer was available, was: *does the
+next batch coincide with another drop?* **It does not.** On the first full session with batch #2
+public, **PAY −1.07% against a payments/bank-software median of −1.70%** (ALKT +0.79, MQ −0.30,
+EEFT −0.70, JKHY −1.10, NCNO −1.70, PYPL −1.85, BILL −2.19, TOST −3.00, FOUR −3.87; **8 of 9 DOWN**,
+dispersion 4.66pp) = **+0.63pp BETTER than its complex**; **+0.33pp** better against the narrow
+fin-services-software subset (median −1.40%). Batch #1's first session (08-20) was **PAY −3.85pp
+BELOW** a +1.02% median — decisively name-specific down. **Two batches, opposite signs.** And the
+asymmetry cuts harder than a null: **batch #2 is 2.33× the size of batch #1** (94,546 vs 40,518 sh),
+so the *"more supply → bigger drop"* form of the overhang hypothesis is **contradicted on this
+observation, not merely unsupported.** n=2 with no consistent sign → the distribution-overhang
+mechanism is **DOWN-WEIGHTED as a price predictor**, and it stays **UNTYPED and not a kill** either
+way. What the test *did* establish is **recurrence and cadence** — and the cadence is faster than the
+prior: transaction dates **08-17 and 08-26 are NINE DAYS apart**, not the "monthly quanta" typed on
+08-20. Open item (c) is **discharged as to recurrence, re-typed as to cadence: ~9-day sponsor
+distribution quanta — a SIZING fact, not a thesis fact.** No shares were issued (not a
+`dilution_event`); PAY's typed kill is an earnings-print test and no print landed.
+
+**2. The morning pass's PAY sentence is retired by its own day, and this is the 08-21 defect
+recurring inside a single trading session.** The 10:10 ET row reads: *"LP-level selling of
+distributed stock is a plausible contributor to PAY's −11.4% five-session give-back."* **No
+comparator was pulled when that was written**, and the set pulled six hours later says PAY
+*outperformed* its complex. This is exactly the failure the 08-21 amendment was written to stop —
+a positive-sounding causal sentence attached to a name compared to nothing — and the useful, slightly
+uncomfortable lesson is that **writing the amendment did not prevent the next instance of it.** The
+rule catches the error at the *close*; it does not catch it at the keyboard.
+
+**3. The morning pass read ONE TRUST LINE of the Reiss Form 4, not the document, and understated her
+retained stake.** Form 4 acc 0000077543-26-000197 reports Director **DALE ANNE REISS** across **TWO**
+indirect trusts: (i) *By Irrevocable Trust for Dale Anne Reiss* — sold 6,000 sh @ $92.07 wtd avg
+(range $92.00–$92.38, F1) on 08-27, **post 31,203**; (ii) *By Dale Anne Reiss Trust U/A 08/08/1990* —
+sold 7,400 sh @ $92.02 wtd avg (range $92.00–$92.15, F2) on 08-27, post 57,778, then a 600-sh **code-G**
+disposition on 08-28 which **footnote F3 states verbatim is "the gift of common stock to a charitable
+donor-advised fund"**, **post 57,178**. **TOTAL POST = 31,203 + 57,178 = 88,381 sh** against a
+pre-transaction **102,381**: she **RETAINED 86.3%** and sold **13.09%** on the market. The morning row
+took the single 57,178 line and wrote "~81% retained". *(Scope stated honestly: 88,381 is the stake
+reported on THIS Form 4 — both lines indirect/trust; any direct holding not on the form is outside it.)*
+
+**4. The 08-28 pre-registered prior is CONFIRMED, and the filing supplied its own mechanism.** That
+prior, typed before the answer was knowable, read: *"tranches spanning eleven years liquidated out of
+trusts reads as diversification/estate housekeeping rather than a view on the business — but that is a
+prior, not a finding, and it is written here before the Form 4 can confirm or embarrass it."* A
+**charitable donor-advised-fund gift** executed in the same two-day window is estate/charitable
+planning on its face. **The comparison the 144s could not support is now decisive: Reiss retained
+86.3%; Feltenstein went 190,909 → 6,700 = retained 3.5%.** These are not the same fact and must never
+again be summed into "two directors selling" — **the 08-17 WATCH is DE-ESCALATED, not promoted.**
+`aff10b5One=0` makes it discretionary, consistent with the 144s, but per the 08-28 corollary the
+plan-adoption field carries information only where the SIZE is informative, and 0.0255% of 52,569,117
+shares out is not. **Note what this costs: the 08-28 entry promoted this watch on a test I had typed
+myself, and the document that arrived retired the promotion. The pre-registration worked in the
+direction that is easy to miss — it let the evidence take a conclusion AWAY.**
+
+**5. LXU: sector, not name — and the set was pulled BEFORE anything was written.** LXU **+2.65%** was
+the book's largest move, at 12.73% weight (4th), so it is under the 3% trigger *and* outside the
+"top-three weight" clause. **The set was pulled anyway, deliberately, because LXU is the exact name
+the 08-21 lesson was learned on.** Nitrogen/fertilizer: **CF +3.35, IPI +2.93, NTR +2.75, ICL +2.23,
+MOS +2.20, UAN +1.41 — median +2.49%, 6 of 6 UP**, dispersion only **1.94pp**. LXU lands **+0.16pp**
+off it: **SECTOR.** Tight dispersion *plus* unanimity is the strong-evidence case under both 08-19
+amendments. Third straight time the ammonia complex has explained an LXU move. Secondary: a 6/6-up
+nitrogen complex further corroborates **clause (b)** of LXU's CONJUNCTION kill moving *away* from
+firing — corroboration only, since the clause is typed to LXU's own realized-price table, which
+outranks any peer.
+
+**6. TPC −0.38%, QTWO −0.21%, KLIC −1.23% — NOT CHECKED.** Under the trigger, not top-three weights
+moving oddly, no comparator pulled. Per the 08-21 amendment that is all this entry may say about them:
+not "quiet", not "sector" — **not checked.** ZVRA +1.47% vs XBI +0.03% = +1.44pp is a benchmark fact
+already held, not a cohort read; the business-model pharma set was not pulled.
+
+**7. Kills: 6/6 UNTESTABLE, 6/6 HOLD, 0 orders.** Every typed kill is an earnings-print test and no
+print landed. TPC "2 consecutive GAAP loss quarters" (counter **0** after a record Q2); KLIC
+"quarterly revenue < $180M" (**RE-TYPE still owed, Duty 0b**); PAY "YoY revenue growth < 15%"; QTWO
+"GAAP net loss relapse or growth < 10%"; ZVRA "2 consecutive flat/declining product-revenue quarters"
+(counter 0); LXU the conjunction. **KLIC −27.29% and ZVRA −16.80% vs entry are DRAWDOWNS and are
+HELD** — Stage 5/F3 are explicit that a drawdown is never an exit, and this is the stretch where that
+patience costs something.
+
+**8. Stage 6:** `due_for_grade(2026-08-31) == []` (earliest 2027-10-09 for LXU/TPC, 2028-01-08 for the
+other four); 326 candidates, n_graded 0, `lift_trustworthy` false. **Stage 7:** `update_calibration`
+→ `{}`, a no-op at n<5. **+0.66pp excess is a mark, not a result.**
+
+**9. Sourcing: a conscious NO-OP for the 48th day, per Standing Duty 3.** Book at 6 = top of the 3–6
+band, no kill fired, no capital freed, $449.94 (9.75%) does not fund a 7th without breaking the
+mandate. Zeus's 3-day research clock reads "due" (last 2026-07-14) and is mechanically correct; Duty 3
+governs. Journaled as a no-op, not an oversight.
+
+**10. Duty 6 unchanged and still top:** PAY+QTWO cluster **36.08%** against a 40% cap that cannot
+enforce because `sector` is `''` on all six. Not hand-patched, on purpose.
+
+**Open items promoted to the next FULL round:** (a) type `sector`/`theme` on all six dossiers so the
+40% cluster cap can bind; (b) RE-TYPE KLIC's kill; (c) **re-typed** — PAY sponsor-distribution
+cadence is ~9 days, tracked for SIZING pressure only, with the price-impact hypothesis down-weighted
+per finding 1; (d) the 08-21 audit of past entries for comparator-free conclusions, now with a third
+confirmed instance (this morning's PAY sentence).
+
 ## Worldview (2026-08-28 INTRADAY — Duty 1a caught two filings yesterday's pass could not see, and they are a second director selling)
 
 Zeus hourly intraday tend, 14:20Z (~10:20 ET Fri). Reconcile CLEAN 6/6 exact vs broker
@@ -1840,7 +1959,24 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    08-06). PAY rose +4.39% — a breach — but the peer median was +4.30% with 9 of 9 up,
    so the move was SECTOR and carries no information about the distribution hypothesis
    in either direction. Two quiet days now; the batch-vs-drop test is STILL unrun
-   because no new batch has arrived. Weight unchanged: near zero. WATCH, UNTYPED.
+   because no new batch has arrived.
+   **RUN AND ANSWERED 2026-08-31 (after-close) — THE TEST WENT AGAINST THE HYPOTHESIS.**
+   A SECOND Accel-KKR in-kind distribution (five Form 4s filed 08-28, transaction date
+   **08-26**; 94,546 sh disposed to zero from Accel-KKR Growth Capital Partners III LP;
+   recipients Williams +22,558 → 188,384 and Klein +546 → 1,496; all code J at $0.00,
+   Rule 16a-9(a), `aff10b5One=false`) is the batch this duty has been waiting for since
+   08-11. **Did it coincide with a drop? NO.** First full session with it public:
+   **PAY −1.07% vs a payments/bank-software median of −1.70%** (8 of 9 DOWN, dispersion
+   4.66pp) = **+0.63pp BETTER than its complex**; +0.33pp vs the narrow fin-svcs-software
+   subset. Batch #1's first session (08-20) was **−3.85pp BELOW** median. **Two batches,
+   opposite signs — and batch #2 is 2.33× the size of batch #1, so the "more supply →
+   bigger drop" form of the hypothesis is CONTRADICTED on this observation, not merely
+   unsupported.** The mechanism is **DOWN-WEIGHTED as a price predictor** and stays
+   **UNTYPED / not a kill**. What survives is **recurrence + cadence: ~9 days between
+   distributions (08-17, 08-26), NOT the "monthly quanta" typed on 08-20** — a SIZING
+   fact, tracked for sizing pressure only. **Third instance of the 08-21 defect logged
+   the same day:** the 10:10 ET pass wrote "LP-level selling … is a plausible contributor
+   to PAY's −11.4% give-back" with no comparator pulled; the close retired it. Weight unchanged: near zero. WATCH, UNTYPED.
 9. **NEW 2026-08-12 — an after-close tend that fires ~6 min after the bell cannot get the
    official close.** At 20:06–20:15Z the SIP close for the session was still unpublished
    (`close.date` lagged one day), so marks had to be the 15:59:5x ET regular-session
@@ -1881,6 +2017,23 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    large holding, and the 144s do not disclose it; (b) a THIRD distinct insider, or any
    8-K touching operations, promotes this to a full re-underwrite at the next FULL round.
    Two directors is a pattern worth watching; it is not yet evidence about the business.**
+   **DE-ESCALATED 2026-08-31 (after-close) — the Form 4 arrived and RETIRED the promotion.**
+   Duty: *"pull Reiss's Form 4 and record her POST-SALE STAKE"* — **DISCHARGED.** Acc
+   0000077543-26-000197 reports her across **TWO** indirect trusts, and the 08-31 morning
+   pass read only one of them: (i) *Irrevocable Trust for Dale Anne Reiss* — 6,000 sh @
+   $92.07 wtd avg (F1, range $92.00–$92.38) on 08-27, **post 31,203**; (ii) *Dale Anne Reiss
+   Trust U/A 08/08/1990* — 7,400 sh @ $92.02 wtd avg (F2, range $92.00–$92.15) on 08-27,
+   post 57,778, then a 600-sh **code-G** disposition on 08-28 that **footnote F3 states is
+   "the gift of common stock to a charitable donor-advised fund"**, **post 57,178**.
+   **TOTAL POST = 88,381 sh of a pre-transaction 102,381 → she RETAINED 86.3%**, sold 13.09%
+   on the market. (The morning row's "~81%" came from the single 57,178 line.) **Feltenstein
+   retained 3.5%; Reiss retained 86.3% — these are NOT the same fact and must never again be
+   summed into "two directors selling."** The 08-28 prior ("diversification/estate
+   housekeeping, not a view on the business"), typed before the answer was knowable, is
+   **CONFIRMED**, and the charitable-DAF gift supplies its mechanism. **The WATCH is
+   DE-ESCALATED, not promoted; branch (b) — a THIRD distinct insider, or an 8-K touching
+   operations — remains the only path to a re-underwrite.** *Value of the pre-registration:
+   it let the evidence take a conclusion AWAY, which is the direction that is easy to miss.*
    **Corollary lesson: with 10b5-1 sales, the PLAN-ADOPTION DATE is the information, not
    the size.** QTWO's CFO sold 77,180sh under a plan adopted 2025-09-02 (~11 months
    earlier, retains 2.7× what he sold) and ZVRA's Secretary noticed 42,666sh (0.072% of
