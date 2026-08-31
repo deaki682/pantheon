@@ -1,0 +1,48 @@
+{
+ "name": "operator_book",
+ "created": "2026-08-31",
+ "mandate": "Operator's buy-and-hold sleeve from the 2026-08-30 September Gauntlet hunt (quality/insider/value holds). Tracked by the main session alongside the gods. Personal positions - invisible to god sleeves via filter_broker_to_gods.",
+ "funding": {
+  "deposit": 5000.0,
+  "note": "pending ACH at queue time; orders may reject Monday open if unsettled"
+ },
+ "positions_pending": {
+  "MU": {
+   "order_id": "6a94d6a0-6a36-4fc3-88e5-f92efb59085e",
+   "dollars": 2000.0,
+   "ref_price": 919.0,
+   "thesis": "HBM/DRAM supercycle, targets 39-88% above spot",
+   "checkpoint": "2026-09-29: HOLD-THROUGH-PRINT DECISION - watchlist rule was exit before 9/30 print; holding through is a conscious operator choice to reconfirm",
+   "risk": "AI-hardware beats get sold; +/-15% weeks normal"
+  },
+  "BABA": {
+   "order_id": "6a94d7c9-f960-457d-9ade-3ac490bebe92",
+   "dollars": 1000.0,
+   "ref_price": 117.49,
+   "thesis": "Tsai+Wu $25.7M insider buys at ~$114-116; $10.2B AI placement done",
+   "checkpoint": "2026-09-22/24 Apsara conference",
+   "risk": "China-ADR policy tail; retest $105-110 on hike"
+  },
+  "BSX": {
+   "order_id": "6a94d708-9a60-47ba-b2f5-5213d718c25b",
+   "dollars": 1000.0,
+   "ref_price": 46.99,
+   "thesis": "~$13M insider cluster incl CEO at $48.33; entry below every insider fill",
+   "checkpoint": "earnings ~late Oct",
+   "risk": "undated; quality ballast"
+  },
+  "UFI": {
+   "order_id": "6a94d738-4c46-4d2c-8e73-d12c345d2045",
+   "dollars": 1000.0,
+   "ref_price": 7.46,
+   "thesis": "$60M data-center land sale vs $138M cap; EV halves post-close",
+   "checkpoint": "2026-09-15 inspection lapse; close ~10/30",
+   "risk": "buyer walks in inspection: -12-18%"
+  }
+ },
+ "watch_also": {
+  "ABUS_election": "Operator must submit tender election in-app on Proteus's 99 sh before RH cutoff (~9/26); expiry 9/29 5pm ET",
+  "SITC": "JV election due 8/31 - Proteus's watch; operator deferred to Proteus"
+ },
+ "marks": []
+}
