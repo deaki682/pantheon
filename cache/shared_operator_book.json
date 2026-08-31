@@ -4,45 +4,87 @@
  "mandate": "Operator's buy-and-hold sleeve from the 2026-08-30 September Gauntlet hunt (quality/insider/value holds). Tracked by the main session alongside the gods. Personal positions - invisible to god sleeves via filter_broker_to_gods.",
  "funding": {
   "deposit": 5000.0,
-  "note": "pending ACH at queue time; orders may reject Monday open if unsettled"
+  "note": "deposit cleared before the 8/31 open; all four orders filled 13:30Z"
  },
- "positions_pending": {
+ "watch_also": {
+  "ABUS_election": "Operator must submit tender election in-app on Proteus's 99 sh before RH cutoff (~9/26); expiry 9/29 5pm ET",
+  "SITC": "RESOLVED 8/31: no election 8-K filed by the deadline; Proteus removed the watch. No position taken by anyone."
+ },
+ "marks": [
+  {
+   "date": "2026-08-31",
+   "spy": 766.95,
+   "positions": {
+    "MU": {
+     "close": 956.68,
+     "value": 2050.17,
+     "pnl_pct": 2.51
+    },
+    "BABA": {
+     "close": 113.9983,
+     "value": 976.59,
+     "pnl_pct": -2.34
+    },
+    "BSX": {
+     "close": 48.295,
+     "value": 1035.04,
+     "pnl_pct": 3.5
+    },
+    "UFI": {
+     "close": 7.37,
+     "value": 974.39,
+     "pnl_pct": -2.56
+    }
+   },
+   "total_value": 5036.18,
+   "total_pnl_pct": 0.72,
+   "note": "Day 1: all fills at the open (deposit cleared). SPY -0.31%; book +0.72% (+1.03pp). BABA -4.1% day, now trading AT the Tsai/Wu insider cost (~114-116). UFI open-auction slippage: avg 7.5637 vs 7.46 Fri close (+1.4% paid)."
+  }
+ ],
+ "positions": {
   "MU": {
-   "order_id": "6a94d6a0-6a36-4fc3-88e5-f92efb59085e",
    "dollars": 2000.0,
    "ref_price": 919.0,
    "thesis": "HBM/DRAM supercycle, targets 39-88% above spot",
    "checkpoint": "2026-09-29: HOLD-THROUGH-PRINT DECISION - watchlist rule was exit before 9/30 print; holding through is a conscious operator choice to reconfirm",
-   "risk": "AI-hardware beats get sold; +/-15% weeks normal"
+   "risk": "AI-hardware beats get sold; +/-15% weeks normal",
+   "shares": 2.143002,
+   "avg_price": 933.27,
+   "cost": 2000.0,
+   "filled": "2026-08-31T13:30Z"
   },
   "BABA": {
-   "order_id": "6a94d7c9-f960-457d-9ade-3ac490bebe92",
    "dollars": 1000.0,
    "ref_price": 117.49,
    "thesis": "Tsai+Wu $25.7M insider buys at ~$114-116; $10.2B AI placement done",
    "checkpoint": "2026-09-22/24 Apsara conference",
-   "risk": "China-ADR policy tail; retest $105-110 on hike"
+   "risk": "China-ADR policy tail; retest $105-110 on hike",
+   "shares": 8.566697,
+   "avg_price": 116.7311,
+   "cost": 1000.0,
+   "filled": "2026-08-31T13:30Z"
   },
   "BSX": {
-   "order_id": "6a94d708-9a60-47ba-b2f5-5213d718c25b",
    "dollars": 1000.0,
    "ref_price": 46.99,
    "thesis": "~$13M insider cluster incl CEO at $48.33; entry below every insider fill",
    "checkpoint": "earnings ~late Oct",
-   "risk": "undated; quality ballast"
+   "risk": "undated; quality ballast",
+   "shares": 21.431633,
+   "avg_price": 46.66,
+   "cost": 1000.0,
+   "filled": "2026-08-31T13:30Z"
   },
   "UFI": {
-   "order_id": "6a94d738-4c46-4d2c-8e73-d12c345d2045",
    "dollars": 1000.0,
    "ref_price": 7.46,
    "thesis": "$60M data-center land sale vs $138M cap; EV halves post-close",
    "checkpoint": "2026-09-15 inspection lapse; close ~10/30",
-   "risk": "buyer walks in inspection: -12-18%"
+   "risk": "buyer walks in inspection: -12-18%",
+   "shares": 132.209896,
+   "avg_price": 7.5637,
+   "cost": 1000.0,
+   "filled": "2026-08-31T13:30Z"
   }
- },
- "watch_also": {
-  "ABUS_election": "Operator must submit tender election in-app on Proteus's 99 sh before RH cutoff (~9/26); expiry 9/29 5pm ET",
-  "SITC": "JV election due 8/31 - Proteus's watch; operator deferred to Proteus"
- },
- "marks": []
+ }
 }
