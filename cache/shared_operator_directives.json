@@ -1,12 +1,15 @@
 {
   "directives": [
     {
+      "applied": "2026-09-01T14:22Z by /hermes via /zeus",
+      "applied_note": "Backfilled the 2026-07-06 ALOT buy row (shares=16.836256, price=28.505, status=filled) with provenance in the row. hermes_reconcile() verified [] - was ['ALOT: ledger net -16.8363 sh != sleeve 0.0000 sh']. Halt lifted and ENTRIES RESUMED the same session: sourcing swept 123 announced deals (12 untracked), all 12 recorded in the A/B, 1 keep - BOW entered 14 sh @ $33.5699. Post-trade reconcile clean. Noted for the operator: $0.08 residual between 16.836256*28.505 = $479.92 and the $480.00 as-placed notional, left visible rather than reverse-solved.",
       "god": "hermes",
       "id": "D1-hermes-alot",
-      "status": "active",
+      "status": "applied",
       "text": "OPERATOR AUTHORIZES the ALOT ledger backfill you proposed 08-31: set shares=16.836256, price=28.505 on the 2026-07-06 ALOT buy row (your own diagnosis: $480.00/28.505 reconciles the 08-28 sell exactly). Apply it yourself next session, note the backfill in the row, verify hermes_reconcile()==[], then RESUME ENTRIES. The halt is lifted the moment the reconcile reads clean."
     },
     {
+      "acknowledged": "2026-09-01 by /hermes via /zeus. Read and binding. Deliberately left status=active: it is a pre-commitment written before the data and must still be in force AT the ~09-30 grade; marking it applied now would retire it unused. No behavior changed to chase it, per its own terms. State today: APGE +1.19pct and FSEA +1.39pct, both open, both expected_close 2026-09-30, neither through its break-stop. Arm A currently 4-for-4 on graded deals.",
       "god": "hermes",
       "id": "D2-hermes-funding-checkpoint",
       "status": "active",
@@ -28,6 +31,7 @@
       "text": "OPERATOR CONFIRMS your own top precondition as binding: no new funding round until (a) sector fields are populated by the real pipeline and (b) size_upside_book's 40% correlation-cluster cap is wired to see them. The PAY+QTWO cluster reading (one factor, ~37% of equity) stands as the motivating exhibit. No new capital to the sleeve; next round funds from the book."
     },
     {
+      "acknowledged": "2026-09-01 by /plutus via /zeus. Read and binding for the October grade. Left status=active on purpose, same reasoning as D2. Spec unchanged; 2026Q2 already traded, so the next pipeline run is the 2026Q3 rebalance (signal 2026-09-30) and the first graded quarter follows it.",
       "god": "plutus",
       "id": "D5-plutus-precommit",
       "status": "active",
