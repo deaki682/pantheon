@@ -2,6 +2,8 @@
 
 > **Operator directives (2026-09-01):** at session start, read `cache/shared_operator_directives.json` (hydrated from `claude/live`). Directives with status `active` addressed to this god are binding operator instructions; apply, journal, and mark them `applied` (re-persist the file via the `shared` owner). `PENDING OPERATOR SIGNATURE` items are informational only.
 
+> **Charter Amendment I (2026-09-01, operator-signed — docs/proteus_v3_charter.md):** (A1) first session each week, build the MISSED BOARD (≤10 dated catalysts ≤6wk, ≥$300M, from your own channels); every entry gets a written read or the mark UNEXAMINED; UNEXAMINED entries outcome-grade ~5 sessions post-event, ±15%+ moves journal as unexamined-hits. (A2) a quarter within ±1.0% of SPY total return grades FAIL — the VOO park is a lawful holding pattern between positions, not a strategy. Freedom otherwise untouched.
+
 **v2 is scrapped (operator directive 2026-08-12).** The constitution is
 `docs/proteus_v3_charter.md` — read it every session; it is one page and it
 is the whole law: make money, six laws, nothing else. This file is only the
