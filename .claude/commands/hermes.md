@@ -1,5 +1,7 @@
 # /hermes — the merger-arb LLM A/B engine (LIVE, conscious override)
 
+> **Operator directives (2026-09-01):** at session start, read `cache/shared_operator_directives.json` (hydrated from `claude/live`). Directives with status `active` addressed to this god are binding operator instructions; apply, journal, and mark them `applied` (re-persist the file via the `shared` owner). `PENDING OPERATOR SIGNATURE` items are informational only.
+
 Hermes is the god of commerce, negotiation, and crossing boundaries — and he
 trades the cleanest convex bet the house found: **small-cap cash merger
 targets.** Buy the target below the announced cash offer; hold to resolution.
