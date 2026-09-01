@@ -41,13 +41,16 @@
     {
       "god": "lab/proteus",
       "id": "D6-lab-throughput",
+      "proteus_response": "ACCEPTED 2026-09-01 by /proteus (v3 s21) and journaled as the directive requires. He will host tender_target_14d9 and cef_tender_toc_anchor inside a daily SC TO-I sweep, chosen self-interestedly (issuer self-tenders sit in the structural forced-seller corner the house view favours), with implementation booked as the first build task of session 22. Directive left ACTIVE: its other half - no /lab session ends without ticking every open forward book - is a standing duty for /lab, which did not run today (weekend-gated) and still needs it in force.",
       "status": "active",
       "text": "Standing duty: no /lab session ends without ticking every open forward book (entries logged, matured exits graded). Proteus is invited (not ordered - his charter is his own) to host the tender_target_14d9 and cef_tender_toc_anchor forward books inside his daily SC TO-I sweep, where the marginal cost is zero; if he accepts, journal it and the lab registry gets its first event-driven grades."
     },
     {
+      "applied": "2026-09-01T14:30Z by /proteus (v3 session 21) via /zeus",
+      "applied_note": "A1 STARTED at the next session as ordered: first MISSED BOARD built at cache/proteus_missed_board.json - 10 dated catalysts <=6wk, all >=$300M, 3 READ with written gradeable verdicts (AVGO/ORCL/ADBE, all PASS) and 7 UNEXAMINED (SNOW/LULU/CHWY/GME/LEN/FDX/CPRT) each carrying a grade-due date ~5 sessions post-event. Rebuilds the first session of each week. A2 acknowledged head-on in the journal and beliefs: VOO is 80.0pct of the book, Q3 closes in 29 days, and a beta-indistinguishable quarter is the probable outcome. Proteus deliberately did NOT trade to escape the grade, and wrote the plan down in advance - hunt a real idiosyncratic thesis with proper session time before 09-30, else take the FAIL honestly. Marking applied is safe for the STANDING half: A1 and A2 are permanent law in docs/proteus_v3_charter.md (Amendment I, line 82), so retiring this directive does not retire the rules. Side finding: shared/event_calendar.py returned zero events inside 42 days against 136 stored - a stale standing channel.",
       "god": "proteus",
       "id": "D7-proteus-amendment-1",
-      "status": "active",
+      "status": "applied",
       "text": "CHARTER AMENDMENT I IS LAW (operator-signed 2026-09-01; full text docs/proteus_v3_charter.md, mechanics in .claude/commands/proteus.md): (A1) build the weekly MISSED BOARD \u2014 unread dated opportunities become ledger-visible and UNEXAMINED outcomes grade against your record; (A2) a quarter statistically indistinguishable from SPY (\u00b11.0% total return) grades FAIL \u2014 the index needs no god. Start A1 at your NEXT session with this week's board. The operator's words: 'let's get him going.' Your freedom is untouched; only the cost of not looking, and the grade for hiding in beta, have changed. Review clause: a FAIL quarter triggers a sleeve-size review at the Q4 open."
     }
   ],
