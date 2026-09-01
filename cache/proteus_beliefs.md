@@ -1,24 +1,58 @@
-# Proteus v3 — beliefs (rewritten 2026-08-31, v3 session 20)
+# Proteus v3 — beliefs (rewritten 2026-09-01, v3 session 21)
 
 I am Proteus v3. This file is my mind; whoever reads it next is me. The whole
 law is `docs/proteus_v3_charter.md` (one page: make money, six laws). House
 physics live in `.claude/commands/proteus.md`. v2's 37 lessons are scar tissue
 in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 
-## State (v3 session 20, Mon 2026-08-31, market OPEN)
+## State (v3 session 21, Tue 2026-09-01, market OPEN)
 
 - **Book: 2.945296 VOO (park, ~80%) + 99 ABUS @ 4.5987 (~19%) + $13.71 cash.**
-  Equity **2582.53** (+3.30% vs contributed 2500; live tape VOO 703.945 /
-  ABUS 5.005 / SPY 765.81, SPY −0.46% day), −1.08% off the 8/28 peak
-  (2610.71). realized_pnl +$21.80. Curve 51 marks.
-- s20: reconcile CLEAN (4 personal orders MU/BSX/UFI/BABA at the open, all
-  placed_agent=user — not mine); **SITC watch RESOLVED — removed** (deadline
-  8/31 passed, no election 8-K; latest still the 8/13 13G; no cost, no
-  position); ABUS no amendments; sweep 8/29–8/31: 7 hits / 4 reads / ZERO
-  survivors (~365 cumulative / 1); no orders.
-- s19 (Sun): tax_loss_turn pipeline PRE-FLIGHT green (gauntlet_fast + 12
-  tests, sharadar clean, API key present, frozen recipe row intact). The
-  early-Oct study has zero missing plumbing.
+  Equity **2585.09** (+3.40% vs contributed 2500; tape VOO 701.62 /
+  ABUS 5.10 / SPY 763.26, SPY −0.49% day), −0.98% off the 8/28 peak
+  (2610.71). realized_pnl +$21.80. Curve 52 marks.
+- s21: reconcile CLEAN (zero orders); ABUS clean (latest still 8/24 SC TO-I;
+  tape 5.10 — OFF the band floor, inside the band); sweep 8/31–9/1: 35 hits /
+  4 reads / ZERO survivors (~400 cumulative / 1). New kill notes: "self-tender"
+  fam fires on COMPLETED-tender risk-factor boilerplate in earnings PRs
+  (YEXT); warrant-tender final amendments (ZCAR); corrected earnings PRs
+  (MBUU); Highlands REIT = non-traded, untradable.
+- **AMENDMENT I IS LAW (D7 applied s21).** A1: weekly MISSED BOARD, first one
+  built this session — see section below. A2: a quarter within ±1.0% of SPY
+  grades FAIL; Q3-to-date is ~beta by construction (80% park), so the quarter
+  likely grades FAIL at the Q4 open unless ABUS + October deployments move the
+  curve. That is priced and honest — don't manufacture trades to dodge it;
+  DO deploy the October tree with conviction.
+- s19 (Sun): tax_loss_turn pipeline PRE-FLIGHT green. The early-Oct study has
+  zero missing plumbing.
+
+## The missed board (Amendment A1 — weekly duty, first board 2026-09-01)
+
+`cache/proteus_missed_board.json`. Build FIRST SESSION each week: ≤10 dated
+catalysts ≤6wk out, ≥$300M mcap, largest/liquid first, channels = earnings
+calendar + PDUFA calendar (biopharmawatch fetch worked 9/1) + own
+corporate-action watch. Every entry: written read (enter, or decline WITH a
+probability → graded shadow) or UNEXAMINED (±15% move at event+5 sessions =
+unexamined-hit against the record). Week-1 board: AVGO 9/2, LULU 9/3,
+ORCL+ADBE 9/10, INMD 9/15, FDX 9/17, IONS 9/22, MU 9/30, SRRK 9/30, NKE 10/1
+— ALL declined with probabilities (zero UNEXAMINED). Grade the shadows as
+they mature (first: AVGO by 9/10, LULU by 9/11). NUVL untradable at RH
+(instrument inactive). If the declines grade systematically wrong, that's the
+A1 signal working — update the lane, don't defend it.
+
+## Lab hosting (D6 accepted s21 — a rider on the daily pass)
+
+`proteus/labhost.py` + `cache/proteus_labhost_forward.json`: log the
+form-level daily-index populations for **tender_target_14d9** (initial
+SC 14D9) and **cef_tender_toc_anchor** (SC TO-C; classify CEF-or-not
+manually per row, only CEF rows belong). Form-level, NOT the sweep's phrase
+filter — a phrase subset would bias the book. Daily: `labhost.log_days`
+yesterday+today (SEC serves 403 for an unpublished daily idx — handled;
+the idx publishes overnight, so today's date retries tomorrow). New TO-C
+rows: classify + set entry (first close after filing). Maturity +25 trading
+days → grade CAR vs SPY. The lab lifts grades from my file; I NEVER write
+`cache/lab_registry.json`. 8/31: zero qualifying filings (verified vs raw
+idx). 9/1 pending.
 
 ## THE POSITION — ABUS: IN THE TENDER WINDOW, AWAITING OPERATOR ELECTION
 
@@ -199,15 +233,18 @@ the edge lives** — ask that question of every screen. Also mine:
 `shared/historicals.py`, `shared/sharadar.py` (survivorship-free bars),
 `shared/event_calendar.py`, the lab graveyard in `docs/RESEARCH_LEDGER.md`.
 
-## Plan (next session — Tue 9/1)
+## Plan (next session — Wed 9/2)
 
 (a) Gates → reconcile → mark (live tape). (b) ABUS: CIK 1447028 for SC TO-I/A
 + tape; election is the operator's move, re-push only ~9/15. (c) Sweep
-8/31–9/1. (d) Shadows (typed triggers only). (e) NCSM/Weatherford closes
-~9/1 — context only. (f) The book holds: no add above 99 ABUS, no
+9/1–9/2. (d) `labhost.log_days(["2026-09-01","2026-09-02"])` — classify any
+new TO-C rows, set entries. (e) Shadows + missed-board shadows (first grades
+due 9/10–9/11: AVGO, LULU). (f) The book holds: no add above 99 ABUS, no
 anticipation sell, park stays. September is a QUIET month by design — the
-ABUS window runs to 9/29 and nothing else is dated before 9/15 (INMD, ABUS
-re-push). Use quiet sessions for law-6 study, not manufactured trades.
-Dates ahead: INMD 9/15; ABUS re-push ~9/15; ABUS RH cutoff ~9/24–9/26; GDEV
-expiry 9/28 (context); ABUS expiry 9/29; CHRS record 9/30; tax_loss_turn
-study early Oct; GLRE 10/30; JBSS ~late Oct; BVS Q3 ~11/5.
+ABUS window runs to 9/29; use quiet sessions for law-6 study, not
+manufactured trades. NEXT WEEKLY BOARD due first session on/after Mon 9/8.
+Dates ahead: AVGO shadow grade 9/10; INMD 9/15; ABUS re-push ~9/15; FDX 9/17;
+IONS PDUFA 9/22; ABUS RH cutoff ~9/24–9/26; GDEV expiry 9/28 (context); ABUS
+expiry 9/29 5pm NY; CHRS record 9/30; MU + SRRK 9/30; NKE 10/1; tax_loss_turn
+study early Oct; A2 quarter grade at Q4 open; GLRE 10/30; JBSS ~late Oct;
+BVS Q3 ~11/5.
