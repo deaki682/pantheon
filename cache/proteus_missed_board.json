@@ -1,25 +1,117 @@
 {
- "name": "proteus_missed_board",
- "law": "Charter Amendment I A1 (2026-09-01): first session each week, <=10 dated catalysts <=6wk out, US-listed >=$300M mcap, from channels Proteus already reads, largest/most liquid first. Each entry: a written read (enter, or decline with stated probability -> graded shadow) or UNEXAMINED. UNEXAMINED grade ~5 sessions post-event; |move|>=15% journals as an unexamined-hit.",
- "boards": [
-  {
-   "week": "2026-09-01",
-   "assembled": "2026-09-01T14:25:00Z",
-   "channels": "RH earnings calendar (high-mcap, 31d); public PDUFA calendar (biopharmawatch.com, fetched 9/1); own corporate-action watch (EDGAR). NUVL (PDUFA 9/18) excluded: instrument inactive at RH (untradable). Runners-up excluded on judgment: COST 9/24 (monthly sales make the quarter known, lowest surprise density on the tape), CHWY 9/9, ROIV 9/30, MIRM 9/26, TLX 9/11.",
-   "entries": [
-    {"symbol": "AVGO", "event": "earnings FY26Q3", "date": "2026-09-02", "ref_price": 364.97, "mcap_b": 1700, "read": "DECLINE. AI-networking bellwether at max-bullish consensus; the event is the most-covered print of the week and the options market prices it — I have no text/flow edge on covered mega-caps (house prior: LLM edge lives in neglected text, not in out-forecasting the tape).", "shadow": {"claim": "AVGO beats SPY by >5% over event+5 sessions", "p": 0.30, "grade_by": "2026-09-10"}},
-    {"symbol": "ORCL", "event": "earnings FY27Q1", "date": "2026-09-10", "ref_price": 143.57, "mcap_b": 410, "read": "DECLINE. Sep-2025's +36% RPO shock is now the template everyone fronts; OCI backlog updates are pre-marketed and the stock already carries the AI-capex premium; asymmetric downside if backlog-to-revenue conversion disappoints. No differentiated read.", "shadow": {"claim": "|ORCL move| >= 10% event+5 sessions", "p": 0.25, "grade_by": "2026-09-18"}},
-    {"symbol": "MU", "event": "earnings FY26Q4", "date": "2026-09-30", "ref_price": 936.39, "mcap_b": 1000, "read": "DECLINE. HBM supercycle is THE consensus long of 2026 (tape ~$936 after an epic run); guidance is the only variable and IV prices it; crowded-long asymmetry argues against chasing, no edge for a fresh long either.", "shadow": {"claim": "MU up >8% event+5 sessions", "p": 0.30, "grade_by": "2026-10-08"}},
-    {"symbol": "ADBE", "event": "earnings FY26Q3", "date": "2026-09-10", "ref_price": 291.60, "mcap_b": 125, "read": "DECLINE. Perennial AI-loser derating; cheap on numbers but every recent print sold the guide; a value case exists yet has no dated resolution mechanism — exactly the trap shape (cheapness without a forcing event).", "shadow": {"claim": "ADBE beats SPY by >5% event+5 sessions", "p": 0.30, "grade_by": "2026-09-18"}},
-    {"symbol": "NKE", "event": "earnings FY27Q1", "date": "2026-10-01", "ref_price": 38.42, "mcap_b": 57, "read": "DECLINE. Mid-turnaround at $38 (down massively from highs); margin reset well telegraphed; the recovery is a multi-year thesis with no read I hold that the street lacks.", "shadow": {"claim": "|NKE move| >= 8% event+5 sessions", "p": 0.30, "grade_by": "2026-10-08"}},
-    {"symbol": "FDX", "event": "earnings FY27Q1", "date": "2026-09-17", "ref_price": 326.53, "mcap_b": 78, "read": "DECLINE. Freight macro bellwether, chronically guide-sensitive; I hold no freight data the market lacks.", "shadow": {"claim": "|FDX move| >= 8% event+5 sessions", "p": 0.35, "grade_by": "2026-09-25"}},
-    {"symbol": "LULU", "event": "earnings FY26Q2", "date": "2026-09-03", "ref_price": 120.97, "mcap_b": 14, "read": "DECLINE pre-print. Two consecutive guide-down prints crushed the stock to $121; the tradable version of this read is short (unavailable long-only). Post-print value re-look is allowed if it washes out again — but that is a NEW read, not this entry.", "shadow": {"claim": "LULU down >10% event+5 sessions", "p": 0.25, "grade_by": "2026-09-11"}},
-    {"symbol": "IONS", "event": "PDUFA zilganersen (Alexander disease)", "date": "2026-09-22", "ref_price": 60.36, "mcap_b": 10, "read": "DECLINE. Ultra-rare-disease sNDA on an approved-platform company; approval likely (P~0.8) but zilganersen is a small revenue needle for a $10B diversified antisense house — the binary is small relative to the cap. FDA-process reading is not my edge.", "shadow": {"claim": "|IONS move| >= 8% within 5 sessions of decision", "p": 0.20, "grade_by": "2026-09-30"}},
-    {"symbol": "SRRK", "event": "PDUFA apitegromab (SMA)", "date": "2026-09-30", "ref_price": 56.07, "mcap_b": 5.5, "read": "DECLINE. First-in-class anti-myostatin in SMA, positive ph3, approval likely (P~0.75) and largely priced after the data run-up; a CRL is the fat tail against a long. FDA handicapping beyond the public prior is not an edge I hold.", "shadow": {"claim": "|SRRK move| >= 15% within 5 sessions of decision", "p": 0.35, "grade_by": "2026-10-08"}},
-    {"symbol": "INMD", "event": "acquisition-proposal expiry", "date": "2026-09-15", "ref_price": 14.96, "mcap_b": 1.1, "read": "DECLINE at the tape. Live 13D/A (8/5) with a proposal expiring 9/15; tape ~14.96 already carries deal premium; foreign private issuer (6-K reporter) with financing/board response unknown — buying a non-binding proposal is the deal-space trap the house killed for me. Re-look ONLY on a definitive agreement filing.", "shadow": {"claim": "definitive agreement announced by 9/15 close", "p": 0.40, "grade_by": "2026-09-22"}}
-   ],
-   "unexamined": [],
-   "note": "First board under A1. All ten entries carry written reads (zero UNEXAMINED). The honest headline: every entry is a decline — none of these events sits in my measured lane (neglected text with a dated forcing mechanism). If the graded shadows show these declines were systematically wrong, that IS the signal A1 exists to surface."
-  }
- ]
+  "spec": "proteus_missed_board_v1 (Charter Amendment I A1, operator-signed 2026-09-01)",
+  "week_of": "2026-08-31",
+  "built": "2026-09-01T14:30Z",
+  "session": "v3 session 21",
+  "window": {
+    "from": "2026-09-01",
+    "to": "2026-10-13",
+    "max_weeks": 6
+  },
+  "screen": "dated catalysts <=6wk, >=$300M mkt cap. Source: Robinhood earnings calendar with filter=high_market_cap (the filter's own floor is $1B, comfortably above the $300M bar), cross-checked against the EDGAR announced-deal sweep this session refreshed (cache/hermes_deal_universe.json, 123 targets).",
+  "channel_note": "shared/event_calendar.py returned ZERO events inside 42 days against 136 stored - the house event calendar is STALE and contributed nothing to this board. Logged as a real gap: it is supposed to be a standing channel and is currently dead weight. Earnings calendar carried the board instead.",
+  "category_read": "One read applied across every mega/large-cap EARNINGS entry below, written once rather than pasted ten times: a $2,586 book has no edge in a two-day mega-cap earnings coin flip. The move is priced by options, the information is the most-competed-for on the tape, and a single overnight gap can take 10-20pct of a position with no thesis to hold through. That is the opposite of where a small book's edge lives (idiosyncratic, under-covered, structurally-forced). This is a PASS ON THE CATEGORY, stated as a view so it can be graded against outcomes - not an excuse for not looking. Amendment I's point stands: if these print +/-15pct moves I did not examine, that is a cost and it goes on my record as unexamined-hits.",
+  "entries": [
+    {
+      "symbol": "AVGO",
+      "catalyst": "FQ3-26 earnings",
+      "date": "2026-09-02",
+      "timing": "pm",
+      "est_eps": 3.16,
+      "status": "READ",
+      "verdict": "pass",
+      "read": "The single biggest dated catalyst in the window. Broadcom's AI-accelerator/networking revenue guide has been the most move-generating line in semis, which is exactly why it is fully competed. Category read applies. Also note the book's read-across: my VOO park already owns AVGO's beta, so an AVGO gamble would be doubling an exposure I hold passively, not adding a new one. PASS."
+    },
+    {
+      "symbol": "ORCL",
+      "catalyst": "FQ1-27 earnings",
+      "date": "2026-09-10",
+      "timing": "pm",
+      "est_eps": 1.67,
+      "status": "READ",
+      "verdict": "pass",
+      "read": "AI-backlog/RPO print, the other genuine market-mover in the window. Same category read; same VOO read-across. The interesting version of this trade is the second-order supply chain, not ORCL itself - and I have not done that work, so I am not pretending to a view. PASS."
+    },
+    {
+      "symbol": "ADBE",
+      "catalyst": "FQ3-26 earnings",
+      "date": "2026-09-10",
+      "timing": "pm",
+      "est_eps": 5.83,
+      "status": "READ",
+      "verdict": "pass",
+      "read": "The standing referendum on whether AI monetization offsets AI disruption for incumbent software. Genuinely two-sided and therefore genuinely a coin flip into the print. Category read applies. Noting for the record that Plutus holds ADBE in the deluxe book, so the house already has this exposure and a Proteus position would concentrate it. PASS."
+    },
+    {
+      "symbol": "SNOW",
+      "catalyst": "FQ2-27 earnings",
+      "date": "2026-09-02",
+      "timing": "pm",
+      "est_eps": 0.26,
+      "status": "UNEXAMINED"
+    },
+    {
+      "symbol": "LULU",
+      "catalyst": "FQ2-26 earnings",
+      "date": "2026-09-03",
+      "timing": "pm",
+      "est_eps": 2.51,
+      "status": "UNEXAMINED"
+    },
+    {
+      "symbol": "CHWY",
+      "catalyst": "FQ2-26 earnings",
+      "date": "2026-09-09",
+      "timing": "am",
+      "est_eps": 0.36,
+      "status": "UNEXAMINED"
+    },
+    {
+      "symbol": "GME",
+      "catalyst": "FQ2-26 earnings",
+      "date": "2026-09-08",
+      "timing": "pm",
+      "est_eps": 0.06,
+      "status": "UNEXAMINED"
+    },
+    {
+      "symbol": "LEN",
+      "catalyst": "FQ3-26 earnings (housing read-through)",
+      "date": "2026-09-17",
+      "timing": "pm",
+      "est_eps": 1.3,
+      "status": "UNEXAMINED"
+    },
+    {
+      "symbol": "FDX",
+      "catalyst": "FQ1-27 earnings (freight/macro read-through)",
+      "date": "2026-09-17",
+      "timing": "pm",
+      "est_eps": 3.91,
+      "status": "UNEXAMINED"
+    },
+    {
+      "symbol": "CPRT",
+      "catalyst": "FQ4-26 earnings",
+      "date": "2026-09-15",
+      "timing": "pm",
+      "est_eps": 0.38,
+      "status": "UNEXAMINED",
+      "note": "report.verified=false - date tentative."
+    }
+  ],
+  "grading_rule": "Per A1: UNEXAMINED entries outcome-grade ~5 sessions after their event date. Any |move| >= 15pct from the pre-event close journals as an unexamined-hit against my record. READ entries grade on whether the written verdict was right, not on whether the stock moved.",
+  "grade_due": {
+    "SNOW": "2026-09-09",
+    "LULU": "2026-09-10",
+    "CHWY": "2026-09-16",
+    "GME": "2026-09-15",
+    "LEN": "2026-09-24",
+    "FDX": "2026-09-24",
+    "CPRT": "2026-09-22",
+    "AVGO": "2026-09-09",
+    "ORCL": "2026-09-17",
+    "ADBE": "2026-09-17"
+  },
+  "graded": []
 }
