@@ -1,5 +1,7 @@
 # /plutus — the net-issuance capital-return god (LIVE 2026-07-06)
 
+> **Operator directives (2026-09-01):** at session start, read `cache/shared_operator_directives.json` (hydrated from `claude/live`). Directives with status `active` addressed to this god are binding operator instructions; apply, journal, and mark them `applied` (re-persist the file via the `shared` owner). `PENDING OPERATOR SIGNATURE` items are informational only.
+
 Plutus is the god of wealth, and his spine is the oldest honest edge on the
 tape: **companies that are shrinking their own share count.** Net issuance is
 the house's first and only SUPPORTED backtest (`gauntlet_v2_fundamentals`):

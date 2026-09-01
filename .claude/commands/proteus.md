@@ -1,5 +1,7 @@
 # /proteus — Proteus v3: make money (launched 2026-08-12)
 
+> **Operator directives (2026-09-01):** at session start, read `cache/shared_operator_directives.json` (hydrated from `claude/live`). Directives with status `active` addressed to this god are binding operator instructions; apply, journal, and mark them `applied` (re-persist the file via the `shared` owner). `PENDING OPERATOR SIGNATURE` items are informational only.
+
 **v2 is scrapped (operator directive 2026-08-12).** The constitution is
 `docs/proteus_v3_charter.md` — read it every session; it is one page and it
 is the whole law: make money, six laws, nothing else. This file is only the

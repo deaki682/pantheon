@@ -1,5 +1,9 @@
 # /zeus — hourly dispatcher
 
+> **2026-09-01: midas program CLOSED (directive D3, operator-signed). Never dispatch `/midas-scan` or `/midas-ghost`.**
+
+> **Operator directives (2026-09-01):** at session start, read `cache/shared_operator_directives.json` (hydrated from `claude/live`). Directives with status `active` addressed to this god are binding operator instructions; apply, journal, and mark them `applied` (re-persist the file via the `shared` owner). `PENDING OPERATOR SIGNATURE` items are informational only.
+
 Zeus is a coordinator, not a strategist. It wakes once per hour, checks
 what's due, and dispatches the relevant gods and ghosts. It does not
 think, trade, or override any god's logic.
