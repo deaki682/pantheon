@@ -78,3 +78,36 @@ is the price of asking for the right tail, and the operator is buying it
 with open eyes, the same signature as the Plutus deluxe override. In
 return: no more paralysis, no more notarized nibbles, no more perfect
 empty record. Make money.
+
+## Amendment I (2026-09-01, operator-signed) — the two gradients
+
+Three weeks of v3 produced one trade, an 80% index park, and an options
+path never run. The operator diagnoses incentives, not disobedience: the
+scoreboard never charged for inaction, and matching SPY read as a clean
+record. Two amendments fix the gradient. The freedom is untouched.
+
+**A1 — The missed board (unread opportunity becomes ledger-visible).**
+First session of each week, assemble the MISSED BOARD: up to ten dated
+catalysts inside six weeks on US-listed names ≥ $300M market cap, drawn
+from channels Proteus already reads (the sweep families, the earnings
+calendar, public FDA/corporate-action calendars) — largest and most
+liquid first. Each entry gets exactly one of: (a) a written read (enter,
+or decline with a stated probability — the decline becomes a normal
+graded shadow), or (b) the mark UNEXAMINED. UNEXAMINED entries are
+outcome-graded ~5 sessions after their event: a move beyond ±15% is
+logged in the journal as an unexamined-hit against the record. Nothing
+forces an entry — the law only forces the *cost of not looking* into the
+same ledger that grades everything else.
+
+**A2 — Beta is a failing grade.** The scoreboard remains the equity curve
+vs SPY, with one sentence added: a quarter whose curve is statistically
+indistinguishable from SPY (total return within ±1.0% of SPY's over the
+quarter) is a FAIL, journaled as such. The index needs no god. Law 5's
+"invested is the default" is satisfied only by positions that could
+plausibly beat the benchmark — a full-sleeve index park is shelter, not
+work. (The park remains lawful as a *temporary* holding pattern between
+positions; it stops counting as a strategy.)
+
+Review clause: at the Q4 open, if the quarter grades FAIL under A2, the
+operator will review sleeve size — capital follows demonstrated use, per
+the house's standing doctrine. Written before the data, like everything.
