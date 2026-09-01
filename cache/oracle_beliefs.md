@@ -3,6 +3,103 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-09-01 CLOSE — the founder filed, and the pre-registered branch I wrote three weeks ago fired on its own terms)
+
+Zeus hourly after-close tend #2, ~20:08Z (~16:08 ET Tue); the ~10:22 ET pass preceded it and did the six
+kill checks. **Duty 9 caveat, recurring and still structural:** `close.date` lags to **08-31** at 20:0xZ, so
+the official 09-01 close is unpublished and **every mark below — the book's and every peer set's — is the
+15:59:5x ET regular-session last print**, same basis on both sides of every comparison. Reconcile CLEAN:
+zero Oracle orders of any state since 08-28 (today's only agentic order at the broker is Hermes's BOW buy).
+Equity **$4,599.14** (drawdown **6.72%** off the 08-17 peak $4,930.51), breaker `ok`, settled cash $449.94 =
+9.78%. Book $4,149.20 on the $4,050.06 basis = **+2.45%**; SPY from the 07-10 entry (750.935 → 761.65) =
+**+1.43%**, so **+1.02pp excess**. Book **−0.36%** on the day vs SPY −0.70%, IWM −1.13%.
+
+**1. THE FINDING: RONALD N. TUTOR — FOUNDER AND EXECUTIVE CHAIRMAN — NOTICED 2,310,000 SHARES, 4.394% OF THE
+COMPANY, AND STANDING DUTY 10 BRANCH (b) IS SATISFIED.** The Duty 1a window sweep (`filing_date >= 08-29`)
+returned three Form 144s on TPC filed **08-31**, every one read in full from the primary XML rather than the
+index line: acc **0001628280-26-059644** (1,500,000 sh / **$128,000,000**, *Tutor Marital Property Trust*),
+**…059645** (800,000 sh / **$68,000,000**, *Ronald N Tutor 2018 Dynasty Trust*), **…059646** (10,000 sh /
+**$896,000**, *Ronald N. Tutor Separate Property Trust*). All for the account of **Ronald N. Tutor**
+(relationship *Affiliate*), all notice-dated and approx-sale-dated **08/31/2026**, all through Merrill Lynch
+on NYSE, all signed by Ifigenia Protopappas as Attorney-in-Fact. **TOTAL 2,310,000 sh / $196,896,000 =
+4.394% of 52,569,117 shares out.** All three carry `nothingToReportFlagOnSecuritiesSoldInPast3Months=Y`
+and **no 10b5-1 plan-adoption date appears anywhere in any of the three** → **discretionary**, like
+Feltenstein's and like Reiss's. Per the standing corollary, with insider sales the plan-adoption date is the
+information and its **absence** is the informative case.
+
+**2. I sized it against the actual stake before saying a word about it — which is the whole Reiss lesson,
+applied on the first occasion it could be.** A Form 144 does not disclose the post-sale holding, so the
+denominator has to be fetched: his last Form 4 (acc **0000077543-26-000051**, period 2026-03-11), parsed
+**row-wise** rather than by reading parallel lists, reports *Tutor Marital Property Trust* **4,134,967** /
+*Separate Property Trust* **711,477** / *2018 Dynasty Trust* **1,533,255**, direct **0** = **6,379,699 sh,
+12.13% of the company.** Trust by trust the notices are **36.3% / 1.4% / 52.2%** of each, and **36.2% of the
+total**: executed in full he goes **6,379,699 → 4,069,699 and RETAINS ~63.8%.** *(Baseline stated honestly:
+6,379,699 is the latest ownership he has reported — no Form 4 since 03-13 — and the notices' own
+no-sales-in-3-months flag is consistent with it.)*
+
+**3. The calibration that matters, and it cuts two ways at once.** Feltenstein retained **3.5%** (184,209 sh,
+0.350% of shares out); Reiss retained **86.3%** (13,400 sh, 0.0255%); Tutor retains **~63.8%** — but at
+**2,310,000 sh = 4.394% of the company**, which is **12.5× Feltenstein and 172× Reiss** in share count.
+**Intermediate in proportion, overwhelming in absolute size.** The 08-31 lesson was that Feltenstein's 3.5%
+and Reiss's 86.3% "are NOT the same fact and must never again be summed into 'two directors selling'". The
+same discipline forbids the opposite error today: **$196.9M and 4.4% of the company is not made small by a
+63.8% retention, and a 63.8% retention is not made into an exit by $196.9M.** Both numbers go in the record.
+
+**4. It is STILL NOT A KILL, and that is the rule working, not the rule being dodged.** TPC's typed kill is
+*2 consecutive GAAP loss quarters*; the counter is **0** after a record Q2 ($1.637B revenue +19.2% y/y,
+$65.7M GAAP net income, guidance raised). No shares were issued — this is existing stock leaving family
+trusts — so it is **not a `dilution_event`**. It is not a `fundamental_break`, `catalyst_fail`, `thesis_date`
+or `price_level` kill. Stage 5 forbids inventing a kill retroactively, and a 144 is a **notice of intent, not
+an execution**. **HELD.** What it *does* do is fire branch (b) — **three distinct insiders in 25 days**
+(Feltenstein 08-07, Reiss 08-26/27, Tutor 08-31), none under a plan — which promotes the TPC watch to a
+**full re-underwrite at the next FULL round.** That is the disposition I pre-committed to on 08-17 and
+re-typed on 08-28, and it is being honoured as written rather than renegotiated now that it has fired on the
+book's #1-weight-class position (18.07% of equity).
+
+**5. The tape, reported as a comparator and explicitly NOT as a finding.** TPC **−2.26%** on the first full
+session with the notices public, vs an AI-capex E&C median of **−1.06%** (STRL −2.97, DY −1.33, MTZ −0.79,
+PWR +0.74) = **−1.20pp**. That is *below* the 3% trigger, from a **4-name set with 3.72pp dispersion that
+splits in sign** — weak evidence by the 08-17 dispersion caveat. It is directionally consistent with supply
+and it is **not** being written as proof of supply. The 08-21 amendment exists precisely because the
+tempting sentence here ("the founder's $197M notice pressured the stock") is the kind that gets written
+before the comparator is pulled; the comparator was pulled, and it says *weak*.
+
+**6. Duty 1b elsewhere — and the check earned its keep again on KLIC.** **LXU +4.69%** cleared the trigger
+and owed a set: nitrogen/fertilizer **CF +4.28, IPI +5.28, NTR +2.89, ICL +0.79, MOS +2.80, UAN +2.92,
+median +2.90%, 6 of 6 UP**, dispersion 4.49pp → LXU **+1.79pp**. One-directional unanimity licenses the
+directional call: **mostly sector, with a modest real name component** — and the comparator is reported, not
+skipped and then called idiosyncratic. **KLIC −2.48% vs a semicap median of −4.08%** (ONTO −3.97, FORM −5.12,
+UCTT −4.07, ICHR −3.30, AMKR −3.32, COHU −4.16, ACLS −4.60, TER −4.08), **8 of 8 DOWN, dispersion only
+1.81pp** → KLIC **+1.60pp BETTER than its complex.** A tight unanimous set is the strongest form this check
+takes, and it says today's red KLIC print is a **sector derating it outperformed** — the exact shape that has
+twice stopped me selling this name. **ZVRA +2.64% vs XBI +0.57% = +2.07pp** (volatility-matched comparator,
+08-19 amendment); under the trigger, recorded not interpreted. **PAY −1.29% and QTWO −1.77% are inside the
+band on a −0.70% tape: no set was owed and none was pulled — said out loud rather than dressed up as "quiet."**
+
+**7. Stage 0–1 sourcing: a conscious NO-OP, per Standing Duty 3 and now also per D4.** Book fully deployed at
+6 names, no capital freed (no kill fired), nothing to deploy. **Operator directive D4 re-verified this pass
+and STILL BLOCKED:** all six sleeve positions still carry `sector=""`, so `size_upside_book`'s 40%
+correlation-cluster cap still degrades to a per-symbol cap. **The PAY+QTWO one-factor cluster is 35.65% of
+equity against a cap that cannot bind.** Not hand-patched, on purpose — hand-written sectors would fake a
+Stage-3 input these six never went through. Clearing D4 needs a build session, not an hourly tend.
+
+**8. Stages 6–7.** `due_for_grade` → **0** (earliest maturity ~Oct 2027). `llm_lift` reports
+`lift_trustworthy: false` with **0 graded / 34 unresolved Arm B** — empty **by construction**, not by
+failure. `update_calibration` is a no-op with nothing graded. Kills as they stand: TPC "2 consecutive GAAP
+loss quarters" (counter 0); KLIC "quarterly revenue < $180M" (**RE-TYPE still owed, Duty 0b** — unreachable);
+PAY "YoY revenue growth < 15%"; QTWO "GAAP net loss relapse or growth < 10%" (**+12.6%, still the narrowest
+margin in the book at 2.6pp of headroom — the name to watch at the next print**); ZVRA "2 consecutive
+flat/declining product-revenue quarters" (0); LXU loss AND ammonia collapse (conjunction, clause (b) moving
+away).
+
+**9. What this session is worth, said plainly.** No trade, no kill, one document set. The value is that a
+test typed on **08-17** — *"a THIRD distinct insider promotes this to a re-underwrite"* — fired on evidence
+nobody chose after the fact, and the response was the pre-committed one rather than a fresh opinion about a
+founder selling $197M. **The pre-registration did its job in the awkward direction: it obliges a
+re-underwrite on a name that is +13.9% and one of my two largest weights.** The corresponding risk to name
+honestly is that a re-underwrite deferred to "the next FULL round" is a promise against a round that D4 is
+currently blocking — so the duty below is written to keep it from quietly expiring.
+
 ## Worldview (2026-08-31 CLOSE — a pre-registered test finally RAN, and it went against the hypothesis that typed it)
 
 Zeus hourly after-close tend #2, 20:05Z (~16:05 ET Mon); the ~10:10 ET pass preceded it.
@@ -2034,6 +2131,31 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    DE-ESCALATED, not promoted; branch (b) — a THIRD distinct insider, or an 8-K touching
    operations — remains the only path to a re-underwrite.** *Value of the pre-registration:
    it let the evidence take a conclusion AWAY, which is the direction that is easy to miss.*
+   **PROMOTED 2026-09-01 (after-close) — BRANCH (b) IS SATISFIED BY THE FOUNDER HIMSELF.**
+   Three Form 144s filed **08-31** for the account of **RONALD N. TUTOR** (founder/Executive
+   Chairman, relationship *Affiliate*): **2,310,000 sh / $196,896,000 = 4.394% of 52,569,117
+   shares out**, across the Tutor Marital Property Trust (1,500,000 / $128.0M, acc
+   0001628280-26-059644), the Ronald N Tutor 2018 Dynasty Trust (800,000 / $68.0M, …059645) and
+   the Ronald N. Tutor Separate Property Trust (10,000 / $0.896M, …059646). All notice-dated and
+   approx-sale-dated 08/31/2026, all Merrill Lynch/NYSE, all
+   `nothingToReportFlagOnSecuritiesSoldInPast3Months=Y`, and **NO 10b5-1 plan-adoption date on any
+   of the three → discretionary**, like Feltenstein's and Reiss's. Sized against his own reported
+   stake (Form 4 acc 0000077543-26-000051, period 2026-03-11, parsed row-wise: Marital 4,134,967 /
+   Separate 711,477 / Dynasty 1,533,255, direct 0 = **6,379,699 sh = 12.13% of the company**), the
+   notices are **36.2% of his holding** — executed in full he goes **6,379,699 → 4,069,699,
+   retaining ~63.8%**. **Three distinct insiders in 25 days** (Feltenstein 08-07, Reiss 08-26/27,
+   Tutor 08-31), none under a plan. **THE WATCH IS PROMOTED: a full re-underwrite of TPC is now
+   OWED at the next FULL round.** Still **NOT a kill** — typed kill is 2 consecutive GAAP loss
+   quarters, counter 0 after a record Q2; no shares issued so not a `dilution_event`; and a 144 is
+   intent, not execution. **NEXT TESTS, TYPED BEFORE THE ANSWER: (a) pull Tutor's Form 4 (sale date
+   08/31 → due ~09-02) and record the shares that ACTUALLY executed and the post-sale stake PER
+   TRUST — the Reiss episode proved a 144 and its Form 4 can tell materially different stories, and
+   the confirming total is ~4,069,699; (b) does a SCHEDULE 13D/A follow? He is a 13D filer (last
+   amendment 2026-03-03) and a 4.39%-of-company disposition should force one — its stated PURPOSE
+   language is the highest-information document obtainable on whether this is estate/diversification
+   or a view on the business. (c) The re-underwrite owed above must NOT be allowed to expire with
+   the FULL round that D4 is blocking: if no FULL round has run by the time Tutor's Form 4 and any
+   13D/A are both in hand, the re-underwrite runs as a standalone read on TPC alone.**
    **Corollary lesson: with 10b5-1 sales, the PLAN-ADOPTION DATE is the information, not
    the size.** QTWO's CFO sold 77,180sh under a plan adopted 2025-09-02 (~11 months
    earlier, retains 2.7× what he sold) and ZVRA's Secretary noticed 42,666sh (0.072% of
