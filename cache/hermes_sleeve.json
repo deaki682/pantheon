@@ -1,6 +1,6 @@
 {
  "name": "hermes",
- "cash": 492.81003521339994,
+ "cash": 22.83143521339997,
  "contributed_cash": 4000.0,
  "positions": {
   "APGE": {
@@ -86,6 +86,18 @@
    "spy_entry": 768.895,
    "deal_type": "cash",
    "dollars": 94.9999863038
+  },
+  "BOW": {
+   "symbol": "BOW",
+   "shares": 14.0,
+   "entry_price": 33.5699,
+   "offer_price": 34.0,
+   "entry_date": "2026-09-01",
+   "expected_close": "2026-12-31",
+   "break_stop": 28.5344,
+   "spy_entry": 762.64,
+   "deal_type": "cash",
+   "dollars": 469.9786
   }
  },
  "closed": [
