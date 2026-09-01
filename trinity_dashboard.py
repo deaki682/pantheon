@@ -43,8 +43,15 @@ def _load_json(path: str, default=None):
 
 def _load_curve(path: str) -> list[dict]:
     data = _load_json(path, [])
-    if isinstance(data, dict) and "points" in data:
-        return data["points"]
+    if isinstance(data, dict):
+        # "points" is the original wrapper; "marks" is the shape Proteus v3
+        # writes. Without the second key a LIVE god's curve read as empty and
+        # he vanished from the dashboard entirely (found 2026-09-01: proteus
+        # had 52 marks and rendered 0 points).
+        for key in ("points", "marks"):
+            series = data.get(key)
+            if isinstance(series, list):
+                return series
     if isinstance(data, list):
         return data
     return []
