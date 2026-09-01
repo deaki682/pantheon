@@ -1,0 +1,43 @@
+{
+ "name": "shared_operator_directives",
+ "issued": "2026-09-01",
+ "issued_via": "main operator session (post-restructure review); operator asked for the plan to be enacted",
+ "directives": [
+  {
+   "id": "D1-hermes-alot",
+   "god": "hermes",
+   "status": "active",
+   "text": "OPERATOR AUTHORIZES the ALOT ledger backfill you proposed 08-31: set shares=16.836256, price=28.505 on the 2026-07-06 ALOT buy row (your own diagnosis: $480.00/28.505 reconciles the 08-28 sell exactly). Apply it yourself next session, note the backfill in the row, verify hermes_reconcile()==[], then RESUME ENTRIES. The halt is lifted the moment the reconcile reads clean."
+  },
+  {
+   "id": "D2-hermes-funding-checkpoint",
+   "god": "hermes",
+   "status": "active",
+   "text": "Conditional funding pre-commitment (written 09-01, before the data): IF APGE and FSEA both close clean by ~09-30 (Arm A 5-for-5), the operator intends to fund the sleeve to ~$7,000. IF either breaks, funding holds at $4,000 and the break-stop's live performance becomes the study. Do not change behavior to chase this \u2014 it grades itself."
+  },
+  {
+   "id": "D3-midas-closure",
+   "god": "midas/ghosts/zeus",
+   "status": "PENDING OPERATOR SIGNATURE",
+   "text": "RECOMMENDED: close the Midas research program permanently (scan + ghost + A/B). Grounds: convergence thesis 0-for-3 (two refutations + non-monotonic ghost terciles at n=20), finalist pool mean -2.4%/wk, and 7 consecutive weeks with no valid head-to-head - the preregistered 20-week comparison cannot complete. Until signed, ghost sessions continue their current correct behavior (decline stale scans, no fabricated head-to-heads)."
+  },
+  {
+   "id": "D4-oracle-preconditions",
+   "god": "oracle",
+   "status": "active",
+   "text": "OPERATOR CONFIRMS your own top precondition as binding: no new funding round until (a) sector fields are populated by the real pipeline and (b) size_upside_book's 40% correlation-cluster cap is wired to see them. The PAY+QTWO cluster reading (one factor, ~37% of equity) stands as the motivating exhibit. No new capital to the sleeve; next round funds from the book."
+  },
+  {
+   "id": "D5-plutus-precommit",
+   "god": "plutus",
+   "status": "active",
+   "text": "Pre-commitment for the October grade (written 09-01, before the data): IF the first graded quarter shows live deluxe LAGGING the pure N50 EW control, the deluxe additions get cut per the launch override's own terms - no relitigating. IF deluxe holds AND gauntlet_v6's intersection keeps winning its forward test, intersection-N25 becomes a documented spec-change candidate for the January rebalance. Spec unchanged until then."
+  },
+  {
+   "id": "D6-lab-throughput",
+   "god": "lab/proteus",
+   "status": "active",
+   "text": "Standing duty: no /lab session ends without ticking every open forward book (entries logged, matured exits graded). Proteus is invited (not ordered - his charter is his own) to host the tender_target_14d9 and cef_tender_toc_anchor forward books inside his daily SC TO-I sweep, where the marginal cost is zero; if he accepts, journal it and the lab registry gets its first event-driven grades."
+  }
+ ]
+}
