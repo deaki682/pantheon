@@ -68,6 +68,35 @@
    "total_value": 4975.49,
    "total_pnl_pct": -0.49,
    "note": "Day 2: risk-off tape (SPY -0.70%). MU round-tripped to entry (-2.66% day); BABA -3.3% vs entry, still above the 105-110 bear zone. Book -0.49% vs SPY -1.00% since entry: +0.51pp excess."
+  },
+  {
+   "date": "2026-09-02",
+   "spy": 765.14,
+   "positions": {
+    "MU": {
+     "close": 954.75,
+     "value": 2046.03,
+     "pnl_pct": 2.3
+    },
+    "BABA": {
+     "close": 111.79,
+     "value": 957.67,
+     "pnl_pct": -4.23
+    },
+    "BSX": {
+     "close": 48.38,
+     "value": 1036.86,
+     "pnl_pct": 3.69
+    },
+    "UFI": {
+     "close": 7.305,
+     "value": 965.79,
+     "pnl_pct": -3.42
+    }
+   },
+   "total_value": 5006.36,
+   "total_pnl_pct": 0.13,
+   "note": "Day 3: green tape (SPY +0.44%). MU +2.3% vs entry on AVGO-eve semis bid; BABA -4.2% vs entry (watch 105-110 zone); BSX +3.7%; UFI -3.4%. Book +0.13% vs SPY -0.55% since entry: +0.68pp."
   }
  ],
  "positions": {
