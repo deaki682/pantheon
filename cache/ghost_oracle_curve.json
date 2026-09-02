@@ -415,5 +415,15 @@
     "mark_basis": "last_print_1559ET_after_close (official 09-01 close unpublished at 20:0xZ)",
     "ts": "2026-09-01T20:22:00Z",
     "note": "Zeus after-close ghost pass ~16:22 ET Tue 2026-09-01. MARK BASIS (Duty 9, recurring): the official 09-01 close is unpublished at 20:0xZ (close.date lags to 08-31), so every price here is the 15:59:5x ET regular-session last print, NOT an official close - the same basis on both sides of the SPY comparison. 233/233 open symbols priced from the broker tape, ZERO missing, so no survivorship substitution was needed. GRADING: 0 matured (grade_entries returned 0; the earliest 365d horizon lands 2027-06-29), so calibration_report's lens/tercile/conviction panels remain empty BY CONSTRUCTION, not by failure - 0 of 327 graded. NEW OPENS: 0. The 2026-08-30 screen still has 3 top-100 names unopened (BMRA, KPLT, HGBL); all three were RE-VERIFIED against the liquidity floor on TODAY's fundamentals rather than inherited from the 08-31 skip - market caps $6.35M / $27.45M / $43.82M, all far below the $200M floor (BMRA $2.055 and HGBL $1.265 also fail the $3.00 price floor; KPLT $5.52 clears price and fails on cap alone). The skip stands on re-derived evidence. DATA-QUALITY FLAG: PFBX quotes state='unlisted' with its last trade at 15:04Z and an xignite-sourced close; marked at $23.30 and flagged rather than silently trusted. PROCESS NOTE for the next session: append_equity_point RETURNS a new list and does not mutate the one passed in. This pass initially ignored the return value and stamped session metadata onto the 08-31 point by writing the unmutated list; caught on read-back, the curve was restored from claude/live and re-derived. Bind the return value."
+  },
+  {
+    "date": "2026-09-02",
+    "equity": 33889.16,
+    "total_return": 0.036365703142873684,
+    "n": 327,
+    "benchmark": {
+      "SPY": 0.037718,
+      "SPY_price": 765.4
+    }
   }
 ]
