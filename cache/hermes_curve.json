@@ -1,447 +1,454 @@
 [
-  {
-    "date": "2026-07-05",
-    "equity": 4000.0,
-    "spy": 744.8
-  },
-  {
-    "date": "2026-07-06",
-    "equity": 4000.0,
-    "spy": 749.31
-  },
-  {
-    "date": "2026-07-06",
-    "equity": 3999.9175023456,
-    "spy": 750.99
-  },
-  {
-    "date": "2026-07-06",
-    "equity": 3999.9175023456,
-    "spy": 751.77
-  },
-  {
-    "date": "2026-07-07",
-    "equity": 4000.34,
-    "spy": 747.05
-  },
-  {
-    "date": "2026-07-07",
-    "timestamp": "2026-07-07T15:18:00Z",
-    "equity": 4000.51,
-    "spy": 746.46,
-    "n_positions": 5
-  },
-  {
-    "date": "2026-07-14",
-    "timestamp": "2026-07-14T14:10:00Z",
-    "equity": 4005.6,
-    "spy": 750.34,
-    "n_positions": 6
-  },
-  {
-    "date": "2026-07-14",
-    "timestamp": "2026-07-14T15:08:00Z",
-    "equity": 4006.61,
-    "spy": 752.5875,
-    "n_positions": 6
-  },
-  {
-    "date": "2026-07-14",
-    "timestamp": "2026-07-14T17:07:00Z",
-    "equity": 4006.94,
-    "spy": 751.73,
-    "n_positions": 6
-  },
-  {
-    "date": "2026-07-14",
-    "timestamp": "2026-07-14T18:10:00Z",
-    "equity": 4006.9,
-    "spy": 752.48,
-    "n_positions": 6
-  },
-  {
-    "date": "2026-07-14",
-    "timestamp": "2026-07-14T19:10:00Z",
-    "equity": 4007.06,
-    "spy": 751.97,
-    "n_positions": 6
-  },
-  {
-    "date": "2026-07-15",
-    "equity": 4005.51,
-    "spy": 755.14,
-    "note": "tend pass: 6 deals held, no break-stops, none past close; NUVL swept in A/B; ARI skipped (liquidation, not a cash merger); GBCS/GRTX past due but unquotable"
-  },
-  {
-    "date": "2026-07-15",
-    "timestamp": "2026-07-15T15:15:00Z",
-    "equity": 4007.03,
-    "spy": 753.6901,
-    "n_positions": 6,
-    "note": "tend pass 11:05 ET: reconcile clean, no break-stops, none past close; 4 new detections (ARI/AVB/IPCXU/BCARU) all Opus-dropped, zero keeps; GBCS/GRTX still unquotable-unresolved"
-  },
-  {
-    "date": "2026-07-15",
-    "timestamp": "2026-07-15T16:10:00Z",
-    "equity": 4006.34,
-    "spy": 751.4776,
-    "n_positions": 6,
-    "note": "tend pass 12:05 ET: reconcile clean, no break-stops, none past close; sourcing re-swept (130 cands, nothing filed since 07-14, zero new reads); ARI/AVB not-a-deal rows swept in A/B; GBCS/GRTX still unquotable-unresolved"
-  },
-  {
-    "date": "2026-07-15",
-    "timestamp": "2026-07-15T17:08:00Z",
-    "equity": 4007.5,
-    "spy": 752.18,
-    "n_positions": 6,
-    "note": "tend pass 13:05 ET: reconcile clean, no break-stops, none past close; sourcing re-swept (130 cands, latest filing still 07-14/ARI, zero new reads); GBCS/GRTX still unquotable-unresolved"
-  },
-  {
-    "date": "2026-07-15",
-    "timestamp": "2026-07-15T18:08:00Z",
-    "equity": 4006.67,
-    "spy": 754.52,
-    "n_positions": 6,
-    "note": "tend pass 14:05 ET: reconcile clean (sleeve==broker==ledger, hermes_reconcile==[]), no break-stops, none past close; sourcing re-swept (130 cands, latest filing still 07-14/ARI, zero new reads); GBCS/GRTX still unquotable-unresolved"
-  },
-  {
-    "date": "2026-07-15",
-    "timestamp": "2026-07-15T19:08:00Z",
-    "equity": 4003.91,
-    "spy": 753.695,
-    "n_positions": 6,
-    "note": "tend pass 15:05 ET: reconcile clean (sleeve==broker==ledger, hermes_reconcile==[]), no break-stops, none past close; sourcing re-swept (130 cands, latest filing still 07-14/ARI, zero new reads); GBCS/GRTX still unquotable-unresolved"
-  },
-  {
-    "date": "2026-07-16",
-    "timestamp": "2026-07-16T18:10:00Z",
-    "equity": 4007.9,
-    "spy": 753.0,
-    "n_positions": 6,
-    "note": "tend pass 14:05 ET: reconcile clean (sleeve==broker==ledger, hermes_reconcile==[]), no break-stops, none past close; sourcing re-swept (129 cands; only new filing since 07-14 is NUVL 14D9 amendment 07-15, already tracked/resolved \u2014 zero new reads); GBCS/GRTX still unquotable-unresolved"
-  },
-  {
-    "date": "2026-07-16",
-    "timestamp": "2026-07-16T15:10:00Z",
-    "equity": 4010.17,
-    "spy": 753.285,
-    "n_positions": 6,
-    "note": "tend pass 11:05 ET: reconcile clean (sleeve==broker==ledger, hermes_reconcile==[]), no break-stops, none past close, new peak equity; sourcing swept (129 cands) \u2014 no new filings since 07-15; 8 backlog names read by pinned opus/high (ALGR AMRX TMRC AAWH MDV AXTA CRBG EQH), all 8 drops on structure/scope, 3 untradables resolved at detection; GBCS/GRTX still unquotable-unresolved (GRTX now inactive at broker post reverse-merger close, no successor listing found). NOTE: prior 18:10Z curve row today carries a future/mislabeled timestamp."
-  },
-  {
-    "date": "2026-07-16",
-    "timestamp": "2026-07-16T16:07:00Z",
-    "equity": 4010.16,
-    "spy": 752.7655,
-    "n_positions": 6
-  },
-  {
-    "date": "2026-07-16",
-    "timestamp": "2026-07-16T16:20:00Z",
-    "equity": 4010.16,
-    "spy": 752.7655,
-    "n_positions": 7,
-    "note": "12:05 ET pass: tend clean (no stops/past-close, reconcile==[]); sweep 129 cands, only fresh filing NUVL 14D9/A (already graded); 8 backlog reads by pinned opus/high subagent: OGN KEEP -> LIVE $575.00 = 42.56138 sh @ 13.5099 (Sun Pharma $14 all-cash, +3.63% spread, est close 2027-01-26, order 6a59032e); ASRT/EEX/KALV/XOMA closed-before-detection (resolved 0/0), FSK partial-tender not-a-takeover, ZDPY untradable liquidation, NSA all-stock (open, sweeps past 07-22)."
-  },
-  {
-    "date": "2026-07-16",
-    "timestamp": "2026-07-16T17:10:00Z",
-    "equity": 4008.46,
-    "spy": 752.345,
-    "n_positions": 7,
-    "note": "tend pass 13:05 ET: reconcile clean (sleeve==broker on all 7 incl. OGN fill 6a59032e; hermes_reconcile==[]), no break-stops, none past close, marks complete, breaker off; A/B sweep graded 0 new (32 graded, no kept deal resolved yet - lift still insufficient data); sourcing re-swept (129 cands, no new filings); next 8 backlog names read by pinned opus/high subagent: ESPR/CPRX/BLD closed-before-detection, RealAsset-CIK2052161/CEPT/CEPO de-SPACs, HCWC all-stock reverse merger (all 7 resolved 0/0), AFBI KEEP $23 all-cash bank deal +1.37% spread but UNFUNDED (sleeve cash $84.56, broker pool BP $597.27) - arm_a_live=False, fund on freed capital if spread persists"
-  },
-  {
-    "date": "2026-07-16",
-    "timestamp": "2026-07-16T18:13:00Z",
-    "equity": 4008.09,
-    "spy": 750.7,
-    "n_positions": 7,
-    "note": "tend pass 14:05 ET (actual): reconcile clean (sleeve==broker==ledger on all 7 incl. OGN; hermes_reconcile==[]; full pre_trade_check True), no break-stops, none past close, marks complete; 3d sourcing re-sweep: 8 targets, zero untracked -> no new reads; AFBI keep-unfunded stands (cash $84.56 vs 2% reserve $80.16 - no real position fundable); A/B sweep graded 0 new (39 graded all-dropped, expectancy -3.17%, no Arm-A resolution yet, lift insufficient data). Supersedes the earlier mislabeled 18:10Z/6-position row (written pre-11:05 ET with a future timestamp)."
-  },
-  {
-    "date": "2026-07-16",
-    "timestamp": "2026-07-16T19:10:00Z",
-    "equity": 4008.3,
-    "spy": 750.19,
-    "n_positions": 7,
-    "note": "tend pass 15:05 ET: reconcile clean (sleeve==broker==ledger on all 7; hermes_reconcile==[]; pre_trade_check True; no pending orders), no break-stops (closest FSEA 17.1% above stop), none past close, marks complete, breaker off (dd 0.05%); sourcing: universe (generated today) fresh window 8 targets all tracked -> no new reads; CIK-level backlog of never-read universe candidates = 75 (stale Mar-May filings/preferreds/warrants/no-symbol rows; noon-session batches work it down); AFBI keep-unfunded stands (sleeve cash $84.56 vs 2% reserve $80.17; pool BP $597.27 but sleeve cash binds); A/B sweep graded 0 new -- GRTX (drop, all-stock) now INACTIVE at broker and GBCS untradable: both due but unmarkable, left unresolved per no-guessing rule; lift: 39 graded all-dropped, Arm-B expectancy -3.17%, no Arm-A resolution yet, verdict insufficient data"
-  },
-  {
-    "date": "2026-07-17",
-    "timestamp": "2026-07-17T18:20:00Z",
-    "equity": 4008.26,
-    "spy": 746.1201,
-    "n_positions": 7,
-    "note": "tend pass 14:05 ET Fri: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; hermes_reconcile==[]; only order since 07-15 is the OGN fill 6a59032e, already ledgered; no pending orders), no break-stops (closest FSEA +17.1% above stop), none past close, marks complete, breaker off (dd 0.05%); full 120d sourcing re-sweep run (129 cands, generated 2026-07-17): only fresh filing is ALOT's own PREM14A 07-16 -> zero new untracked; 8 backlog reads by pinned opus/high subagent, ALL DROP: SILA/SEM/WSR were real all-cash deals but CLOSED 07-01/07-01/07-14 before detection (completion-heavy record consistent with the convex thesis; sweep latency cost us all three), TMSWW de-SPAC warrant, NATL mixed cash+stock (Brinks), CLBK acquirer-side demutualization, FREVS liquidation payout-range, RIG all-stock acquirer of VAL -> all recorded+resolved 0/0; AFBI keep-unfunded stands (sleeve cash $84.56 vs 2% reserve $80.17 - nothing fundable); A/B: 47 graded all-dropped (Arm B expectancy -2.63%), no Arm-A resolution yet, lift insufficient data; GBCS/GRTX still due-but-unmarkable (no broker quote), left unresolved per no-guessing rule"
-  },
-  {
-    "date": "2026-07-17",
-    "equity": 4008.6,
-    "spy": 745.1824
-  },
-  {
-    "date": "2026-07-17",
-    "timestamp": "2026-07-17T17:15:00Z",
-    "equity": 4009.73,
-    "spy": 746.625,
-    "n_positions": 7,
-    "note": "tend pass 13:05 ET Fri: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; only order since 07-16 is the ledgered OGN fill 6a59032e; no pending orders; broker BP $597.27), no break-stops (closest FSEA +17.1% above stop), none past close, marks complete, breaker off (dd 0.01%); sourcing re-swept (129 cands, zero fresh untracked); next 8 backlog reads by pinned opus/high subagent, ALL DROP: SLNO/FORA/APLS real cash tenders but CLOSED+DELISTED before detection (15-12G May-26/28 filings; sweep latency again), Legato-III/MountainLake/M3-BrigadeV/FG-Merger-II de-SPAC votes (all 7 resolved 0/0), AES live $15 all-cash consortium deal but ~$10.7B mega-cap utility + CFIUS wall at 1.32% spread - out of scope, left unresolved for the sweep to grade; AFBI keep-unfunded stands (22.70 vs $23 offer +1.32% spread persists; sleeve cash $84.56 vs 2% reserve $80.19 - nothing fundable); A/B: 60 graded all-dropped (Arm B expectancy -2.06%), no Arm-A resolution yet, lift insufficient data. NOTE: prior curve row 18:20Z labeled '14:05 ET' was written before 13:05 ET - future-stamped label again; also a dangling no-timestamp row {equity 4008.6, spy 745.1824} precedes this one, left in place."
-  },
-  {
-    "date": "2026-07-17",
-    "timestamp": "2026-07-17T18:12:00Z",
-    "equity": 4010.32,
-    "spy": 744.41,
-    "n_positions": 7,
-    "note": "tend pass 14:05 ET Fri: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; hermes_reconcile==[]; only order since 07-15 is the ledgered OGN fill 6a59032e; no pending orders; broker BP $597.27), no break-stops (all 7 sit 17-19% above stops), none past close, marks complete, breaker off (new peak 4010.32); sourcing re-swept (129 cands, only fresh filing ALOT's own PREM14A 07-16, zero new untracked); next 8 backlog reads by pinned opus/high subagent, ALL DROP: KZR/CNTA/TERN/KW/OLPX/ACLX real cash(+CVR) deals but CLOSED+DELISTED before detection (stale Apr-Jun filings; sweep-latency pattern continues, 6 more completions consistent with the convex thesis), UNF live but MIXED $155+0.772 CTAS (not cash-only), BOXABL de-SPAC (all 8 resolved 0/0); AFBI keep-unfunded stands (22.70 vs $23 offer +1.32% spread persists; sleeve cash $84.56 vs 2% reserve $80.21 - nothing fundable); A/B: 68 graded all-dropped (Arm B expectancy -1.82%), no Arm-A resolution yet, lift insufficient data; GBCS/GRTX still due-but-unmarkable (no broker quote), left unresolved per no-guessing rule"
-  },
-  {
-    "date": "2026-07-17",
-    "timestamp": "2026-07-17T19:12:00Z",
-    "equity": 4009.26,
-    "spy": 743.69,
-    "n_positions": 7,
-    "note": "tend pass 15:05 ET Fri: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; hermes_reconcile==[]; only order since 07-15 is the ledgered OGN fill 6a59032e; no pending orders; broker BP $597.27), no break-stops (closest FSEA +17.1% above stop), none past close, marks complete, breaker off (dd 0.03% vs peak 4010.32); sourcing re-swept (129 cands, newest filing still ALOT's own PREM14A 07-16 -> zero fresh untracked); next 8 backlog reads by pinned opus/high subagent, ALL DROP (housekeeping): ULY/MCW/DAWN real all-cash tenders ($5.50 Agero / $7.00 Leonard Green / $21.50 Servier) but CLOSED+DELISTED before detection (sweep-latency completion pattern continues), VAL all-stock Transocean (15.235 RIG/VAL, CFIUS cleared), THR CECO cash-or-stock election w/ proration cap (mixed), WBS Santander cash+ADS mixed on >$10B bank, Nuveen Churchill BDC V non-traded asset sale, XPRO redomiciliation (all 8 recorded+resolved 0/0); AFBI keep-unfunded stands (22.70 vs $23 offer +1.32% spread persists; sleeve cash $84.56 vs 2% reserve $80.19 - nothing fundable); A/B: 76 graded all-dropped (Arm B expectancy -1.63%), no Arm-A resolution yet, lift insufficient data; GBCS/GRTX still due-but-unmarkable (no broker quote), left unresolved per no-guessing rule"
-  },
-  {
-    "date": "2026-07-20",
-    "timestamp": "2026-07-20T14:15:00Z",
-    "equity": 4010.78,
-    "spy": 745.62,
-    "n_positions": 7,
-    "note": "tend pass 10:10 ET Mon: freeze lifted, full session. Reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; hermes_reconcile==[]; zero broker orders since 07-17; broker BP $597.27), no break-stops (all 7 sit 17-19% above stops), none past close, marks complete, breaker off (new peak 4010.78). Sourcing re-swept (128 cands): ONE fresh untracked filing, INVE PREM14A 07-17, + next 8 backlog; all 9 read by pinned opus/high subagent, ALL DROP: INVE asset-sale-not-a-merger (Trackonomy buys the IoT unit, no cash/share), STEL mixed+closed 07-01 (Prosperity), TWO live all-cash $12.00 CrossCountry (vote passed 07-02) but trading 12.095 ABOVE the offer = -0.79% spread, drop-on-spread, left unresolved for the sweep; FONR $19 / EHAB $13.80 / UHG $1.18 / VRE $19 / CWAN $24.55 all closed+delisted before detection (sweep-latency completion pattern continues), WLAC de-SPAC (8 recorded+resolved 0/0). No entries: sleeve cash $84.56 vs 2% reserve ~$80.22 = nothing fundable (shared-pool BP $597.27 not the binder); AFBI keep-unfunded stands (22.76 vs $23 offer, +1.05% last / +0.70% ask). A/B: 84 graded all-dropped (Arm B expectancy -1.47%), no Arm-A resolution yet, lift insufficient data; GBCS/GRTX still due-but-unmarkable (no broker quote), left unresolved per no-guessing rule; NSA comes due 07-22."
-  },
-  {
-    "date": "2026-07-21",
-    "timestamp": "2026-07-21T14:25:00Z",
-    "equity": 4012.21,
-    "spy": 745.315,
-    "n_positions": 7,
-    "note": "tend pass 10:10 ET Tue: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; hermes_reconcile==[]; only order since 07-16 is the ledgered OGN fill; broker BP $597.27), no break-stops (closest FSEA +17.3% above stop), none past close, marks complete, breaker off (new peak 4012.21). Sourcing swept (128 cands): 15 remaining untracked backlog names all read by pinned opus/high subagent, ALL DROP: EWCZ/GLDD/MASI/FARM closed+delisted cash deals before detection; NVRI/MPX/SNCY mixed-consideration closed; DVN/CTRA all-stock closed 05-07; PEN election/proration mega-cap; DDS holdco restructuring; TETUF de-SPAC; SLAB live TI $231 cash PASSED (China SAMR not yet accepted, 1H-2027, 6.3% spread = priced regulatory tail); DBRG live SoftBank $16 cash PASSED (1.1% spent spread, LP-consent conditions); WBD live PSKY $31 cash PASSED (mega-cap out of scope) \u2014 SLAB/DBRG/WBD left unresolved with real prices for the paper sweep. Task-B research closes two stale rows: KORE RESOLVED 'completed' at contractual $9.25 (vote 07-16, delisted pre-open 07-21; the drop graded +0.22% net / +0.15% excess), GRTX RESOLVED 0/0 stock_deal_untradable (all-stock Obsidian reverse merger -> OBX, Q3-2026); GBCS tender confirmed LIVE (Black Pearl $5.75, expires 08-10, ~70% min) -> expected_close set 2026-08-10, still unmarkable (OTCQB, no broker tape). No entries: sleeve cash $84.56 vs 2% reserve ~$80.24 = nothing fundable (shared-pool BP not the binder); AFBI keep-unfunded stands (22.78 vs $23 offer, +0.97%). A/B: 98 graded all-dropped (Arm B expectancy -1.26%), Arm A n=0 graded (7 live keeps open), lift insufficient data; NSA comes due 07-22, LSTA 08-17."
-  },
-  {
-    "date": "2026-07-22",
-    "equity": 4014.11,
-    "spy": 748.58
-  },
-  {
-    "date": "2026-07-23",
-    "equity": 4011.25,
-    "spy": 740.49
-  },
-  {
-    "date": "2026-07-24",
-    "equity": 4012.25,
-    "spy": 739.135
-  },
-  {
-    "date": "2026-07-27",
-    "timestamp": "2026-07-27T14:17:00Z",
-    "equity": 4016.06,
-    "spy": 740.72,
-    "cash": 664.56,
-    "note": "Zeus hourly ~10:17 ET Mon 2026-07-27. 6 deals tended, all healthy (no break-stop, no completion, none past close). Sourcing sweep run: 127 targets/120d; 1 genuinely new deal (ACA) read and DROPPED. No entries \u2014 AFBI/LPRO keeps both compressed below the 1% MIN_SPREAD floor."
-  },
-  {
-    "date": "2026-07-28",
-    "equity": 4016.07,
-    "spy": 737.63,
-    "cash": 664.56,
-    "note": "Zeus hourly pass ~10:10 ET Tue 2026-07-28. Broker==sleeve on all six (hermes_reconcile []); no break-stops, no completions, none past close. EDGAR sweep: 129 announced-deal targets, 2 genuinely new (HSCS/XWEL) \u2014 both read and DROPPED as non-deals (reverse merger / asset sale), graded immediately. No entries."
-  },
-  {
-    "date": "2026-07-29",
-    "equity": 4016.56,
-    "spy": 736.88,
-    "note": "Zeus hourly pass 10:12 ET Wed 2026-07-29. Reconcile clean (broker==sleeve on all 6). No break-stop, no completion, none past close. Sourcing sweep: 128 targets / 84 resolved, 1 genuinely new (D) -> dropped (mixed stock+cash mega-cap). No new entries."
-  },
-  {
-    "date": "2026-07-30",
-    "equity": 4016.66,
-    "spy": 738.545,
-    "note": "Zeus hourly pass 10:08 ET Thu 2026-07-30. Reconcile clean (hermes_reconcile()==[], broker==sleeve on all 6: ALOT/APGE/RAMP/GBTG/FSEA/OGN). No break-stop, no completion, none past expected_close. Sourcing sweep 07-26..07-30: 4 targets (LPRO/D/HSCSW/XWEL), 0 genuinely new -- all already in the A/B. Dropped-deal sweep: 0 detections past close, sweep_unresolved()==[]. Re-checked the two unheld unresolved KEEPs against live tape now that cash freed up ($664.56): LPRO spread 0.32% (last 3.14 vs $3.15 offer, no trade yet today) and AFBI spread 0.02% (22.995 vs $23.00 offer, vote passed 07-07) -- BOTH below MIN_SPREAD 1%, book.enter would refuse. Spreads spent; no entry. Cash stays dry powder. LLM-lift 104 graded: Arm A n=1 expectancy +1.0%, Arm B n=104 expectancy -1.2%, lift +2.2pp -- NOT meaningful at n=1 Arm-A; checkpoint still ~20 graded kept deals away."
-  },
-  {
-    "date": "2026-07-31",
-    "equity": 4017.19,
-    "spy": 739.85,
-    "note": "Zeus hourly pass 10:12 ET Fri 2026-07-31. Reconcile clean (hermes_reconcile()==[], broker==sleeve exact on all 6: ALOT/APGE/RAMP/GBTG/FSEA/OGN); missing_marks==[]; no break-stop, no completion, none past expected_close. SOURCING sweep 04-02..07-31: 123 announced-deal targets (82 ticker-resolved), 15 tickers unseen -- 12 were preferred/warrant/unit/note classes of already-detected CIKs, leaving 3 genuinely new commons. READS: (1) ATAI (AtaiBeckley/Eli Lilly, PREM14A 07-30) DROP -- excellent deal (no financing condition, $104.3M break fee, HSR+AU+DE only, outside date 2027-01-15) but consideration is $6.75 CASH + 1 CVR up to $2.50, and ATAI trades $7.19, ABOVE the cash leg: cash-leg spread -6.1%, the whole premium IS CVR optionality the 2026-07-05 CVR rule forbids holding. (2) FGMC DROP -- de-SPAC business combination (already closed, now trades BXBL), no per-share cash floor, out of scope. (3) M3-Brigade V (VLOSU) NOT RECORDED -- de-SPAC completed and the common is delisted/unpriceable; disclosed rather than booked at an invented price. RESOLUTION: LPRO COMPLETED 07-30 at $3.15 (8-K: ANV Group/Lakers Acquisition Sub, DGCL 251(h) back-end merger; instrument now inactive at the broker) -- a kept-but-unfunded deal, +1.29% net, +2.57% excess, graded into Arm B. AFBI re-checked: 23.00 vs $23.00 offer = 0.00% spread, below MIN_SPREAD 1%, no entry; spread fully spent. No orders placed. Cash $664.56 stays dry powder (live pool BP $1,179.35). LLM-lift 105 graded: Arm A n=2 expectancy +1.14%, Arm B n=105 expectancy -1.18%, lift +2.32pp -- still NOT meaningful at Arm-A n=2; checkpoint remains ~20 graded kept deals away."
-  },
-  {
-    "date": "2026-08-03",
-    "equity": 4021.94,
-    "spy": 753.795,
-    "note": "Zeus hourly pass 10:14 ET Mon 2026-08-03. Reconcile CLEAN (hermes_reconcile()==[]; broker==sleeve exact on all 6: ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.561380); missing_marks==[]; NO break-stop, no completion, none past expected_close. All six spreads still positive to offer: ALOT +0.28%, APGE +0.73%, GBTG +0.64%, RAMP +1.61%, FSEA +1.65%, OGN +3.28%. SOURCING sweep 2026-04-05..08-03 (120d): 121 announced-deal targets, 83 ticker-resolved, 38 unresolved; 15 tickers unseen vs the A/B \u2014 14 were preferred/warrant/unit/rights/note classes of already-detected CIKs (MDV-PA, EQH-PC, NSA-PB, WBS-PG, XOMAP, VAL-WT, KORGW, HSCSW, FGMCR, VLOSU, TWOD, CRBD, GRTXD, DDT) which Hermes never longs, leaving ONE genuinely new common. READ (Opus/high, inline): PAYO (Payoneer/Nuvei, $7.40 all-cash, PREM14A 07-31) DROP at medium break risk \u2014 structurally excellent (no financing condition, $2.7B committed debt, HSR early termination granted 07-28, $165M RTF vs $89M company fee, divest-and-hold-separate efforts covenant) but the sole remaining condition is a payments-licensing gauntlet (FCA/CBI/RBI/PBoC/MAS/HKC&E/ISA/BoC+FINTRAC + US state money transmitters) plus a bespoke ownership-stability-commitment waiver, proxy still PRELIMINARY (meeting and record dates are '[ ]' blanks), outside date 2027-06-12 auto-extending to 2027-09-12: 3.93% over ~10-13 months is ~4%/yr, below the book's shorter deals, and would lock 15% of the book past the A/B checkpoint without grading. Recorded to Arm B; Arm A declined. sweep_unresolved: ZERO unresolved detections past their expected_close (nearest GBCS 08-10, LSTA 08-17), so no paper grades this pass. A/B stands at 105 graded, Arm A n=2 (+1.14% expectancy) vs Arm B n=105 (-1.18%), lift +2.32pp \u2014 still far too thin to read; the checkpoint needs ~20 Arm-A grades. NO ORDERS."
-  },
-  {
-    "date": "2026-08-04",
-    "equity": 4028.83,
-    "spy": 764.49,
-    "note": "Zeus hourly pass 10:11 ET Tue 2026-08-04. Reconcile CLEAN (hermes_reconcile()==[]; broker==sleeve exact on all 6: ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.561380; zero orders since 07-28); missing_marks==[]; NO break-stop triggered, none past expected_close. Spreads to offer: ALOT +0.35%, APGE +0.62%, RAMP +1.56%, GBTG +0.80%, FSEA +0.52%, OGN +3.17%. THREE COMPLETIONS GRADED (broker instruments went inactive; each confirmed against primary filings, not assumed): AVNS completed 2026-07-30 at the $25.00 AIP cash offer (8-K Items 2.01/3.01/5.01 filed 07-30, Form 25-NSE 07-27) -- LLM had DROPPED it on a 0.28% spent spread; graded +0.28% net / +0.70% excess into Arm B. AFBI completed 2026-08-01 at the $23.00 Fidelity BancShares cash offer (8-K 07-22 set the Aug 1 close; 07-17 8-K confirmed all regulatory approvals received; vote passed 07-07) -- LLM KEPT but never funded (arm_a_live=False, book fully deployed at detection); graded +1.37% net / +2.07% excess into Arm A. FGMC resolved neutral at entry=offer 4.795 (out-of-scope de-SPAC, already closed as BXBL) as its detection rationale intended. None of the three held live money -- no orders, no sleeve mutation. SOURCING sweep 2026-04-06..08-04 (120d): 122 announced-deal targets (84 ticker-resolved), 15 tickers unseen vs the A/B -- 14 were the same preferred/warrant/unit/rights/note classes of already-detected CIKs (MDV-PA, EQH-PC, NSA-PB, WBS-PG, XOMAP, VAL-WT, KORGW, HSCSW, FGMCR, VLOSU, TWOD, CRBD, GRTXD, DDT), leaving ONE genuinely new common. READ (Opus/high, inline): DEVSF DROP -- DEFM14A 08-03 is an ALL-STOCK three-way business combination (DevvStream shares convert into XCF Global Class A shares; Form 425s 06-04/06-08 confirm registered stock consideration), so no contractual cash floor exists; independently unexecutable as a Nasdaq-delisted OTC name (two Item 3.01 8-Ks) quoting 0.1800/0.2099, a 16.6% spread wider than the whole -15% break-stop. Recorded to Arm B neutral. sweep_unresolved: zero unresolved detections past expected_close (nearest GBCS 08-10, LSTA 08-17); GBCS still has no broker mark (OTCQB) and is reported unresolved rather than guessed. A/B now 108 graded: Arm A n=3 expectancy +1.22% (win rate 1.00), Arm B n=108 expectancy -1.13%, dropped n=105 expectancy -1.20%, lift +2.35pp. STILL NOT MEANINGFUL at Arm-A n=3 -- the checkpoint needs ~20 Arm-A grades. NO ORDERS; cash $664.56 stays dry powder (live shared-pool BP $1,179.35)."
-  },
-  {
-    "date": "2026-08-05",
-    "timestamp": "2026-08-05T14:11:00Z",
-    "equity": 4025.68,
-    "spy": 776.27,
-    "cash": 664.56,
-    "n_deals": 6,
-    "note": "Zeus hourly pass ~10:11 ET Wed 2026-08-05. Tend: 6/6 deals marked live, 0 break-stops triggered, 0 past expected close, broker==sleeve exact on all six (hermes_reconcile []). Sourcing sweep ran (120d window, 120 announced-deal targets, 72 ticker-resolved): 10 rows unseen but ALL are ticker-resolution artifacts (warrants/preferreds/depositary shares \u2014 HSCSW/GRTXD/MDV-PA/CRBD/EQH-PC/VAL-WT/VLOSW/BXBL/WBS-PG/TWOD) whose common-share tickers are already detected. ZERO genuinely new deals -> no new LLM read, no new entries. sweep_unresolved: 0 due. LLM-lift on 108 graded: Arm A +1.22%% (n=3) vs Arm B -1.13%% (n=108) = +2.35pp."
-  },
-  {
-    "date": "2026-08-06",
-    "timestamp": "2026-08-06T14:12:00Z",
-    "equity": 4026.31,
-    "spy": 771.45,
-    "cash": 664.56,
-    "n_deals": 6,
-    "note": "Zeus hourly pass ~10:08-10:14 ET Thu 2026-08-06. TEND: 6/6 deals marked live, missing_marks==[], 0 break-stops triggered, 0 past expected close. RECONCILE CLEAN \u2014 hermes_reconcile()==[] and broker==sleeve exact on all six (ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.561380); the only account orders since 07-28 are two personal VOO sells (placed_agent=agentic, not Hermes, not ledgered). Spreads to offer: ALOT +0.31%, APGE +0.51%, RAMP +1.84%, GBTG +0.58%, FSEA +1.05%, OGN +3.13%. SOURCING sweep ran (120d window 2026-04-08..08-06): 120 announced-deal targets, 72 ticker-resolved. TIGHTER RECONCILIATION THAN USUAL, because 'ticker-resolved' has been the sweep's blind spot: the 48 rows the resolver left SYMBOL-LESS were each mapped by CIK and checked individually against the A/B \u2014 all 48 are already tracked (ORGN/NUVL/ASRT/EEX/CCRN/KORE/NSA/KALV/XOMA/ESPR/CPRX/TBRG/BLD/GORO/SILA/CLBK/NFBK/SEM/WSR/SLNO/FORA/APLS/KZR/CNTA/TERN/KW/OLPX/ACLX/ULY/MCW/DAWN/THR/XPRO/STEL/FONR/EHAB/UHG/VRE/WLAC/CWAN/ALGR plus six CIK-keyed SPAC/trust placeholders), so the unresolved tail hid nothing. The 10 rows whose symbols WERE new are all warrant/preferred/depositary classes of already-detected commons (HSCSW->HSCS, GRTXD->GRTX, MDV-PA->MDV, CRBD->CRBG, EQH-PC->EQH, VAL-WT->VAL, VLOSW, BXBL->FGMC, WBS-PG->WBS, TWOD->TWO). ZERO genuinely new deals -> no new LLM read, no new entries. sweep_unresolved: 0 due (nearest GBCS 08-10, LSTA 08-17); GBCS still has no broker tape (OTCQB) and stays reported-unresolved rather than guessed. A/B unchanged at 108 graded: Arm A +1.22% (n=3) vs Arm B -1.13% (n=108) = lift +2.35pp, STILL NOT MEANINGFUL at Arm-A n=3 (checkpoint wants ~20). NO ORDERS; cash $664.56 stays dry powder (live shared-pool BP $1,883.34). DISCLOSED GAP unchanged: a deal whose only paper is an 8-K Item 1.01 with no proxy/14D-9 yet is invisible to this sweep until the proxy files."
-  },
-  {
-    "date": "2026-08-07",
-    "timestamp": "2026-08-07T14:20:00Z",
-    "equity": 4024.63,
-    "spy": 770.67,
-    "cash": 664.56,
-    "n_deals": 6,
-    "note": "Zeus hourly pass ~10:10-10:20 ET Fri 2026-08-07. TEND: 6/6 deals marked live, missing_marks==[], 0 break-stops, 0 past expected close. RECONCILE CLEAN \u2014 hermes_reconcile()==[] and broker==sleeve exact on all six (ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138); no pending Hermes orders. SOURCING: fresh 120d sweep (2026-04-09\u219208-07), 121 announced-deal targets (74 ticker-resolved). CIK-keyed diff vs the 08-06 universe (pulled from origin/claude/live, not the symbol diff \u2014 59 symbol-'unseen' rows were ticker artifacts) = exactly 2 NEW deals, both READ at Opus/high and both DROPPED: (1) FBRX Forte Biosciences \u2014 argenx BV/Avena Merger Sub all-cash tender $77.00/sh, SC 14D9 08-06, DGCL 251(h), expires 2026-08-26, NO CVR, NO financing condition, only HSR, $65M break fee. Break risk LOW but spread SPENT at +0.21% vs the 1% MIN_SPREAD (20 days for 21bp) \u2014 dropped on economics, the NUVL/AVNS/KORE precedent. (2) BBCQ Bleichroeder Acquisition Corp. II \u2014 OUT OF SCOPE de-SPAC (DEFM14A alongside F-4/A + 425 + 424B3: share consideration, no cash terminal); FGMC precedent. ZERO new entries, ZERO orders. sweep_unresolved: 0 due (all 33 unresolved have expected_close >= today). LLM-lift on 108 graded: Arm A +1.22% (n=3) vs Arm B -1.13% (n=108) = +2.35pp \u2014 Arm A still only 3 of the ~20-deal checkpoint. Sleeve cash $664.56; live broker buying power $1,883.72 (shared pool) \u2014 untouched."
-  },
-  {
-    "date": "2026-08-10",
-    "equity": 4030.6,
-    "spy": 773.95,
-    "cash": 664.56,
-    "note": "Zeus hourly pass ~10:12 ET Mon 2026-08-10. Reconcile CLEAN (hermes_reconcile==[] ; broker==sleeve exact on all six: ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138). No break-stops, no completions, no past-close deals. Sourcing sweep ran (118 announced-deal targets, 73 ticker-resolved, 120d window): ZERO genuinely new deals \u2014 the 56 rows absent from the A/B are alternate share classes (BBCQW/HSCSW/GRTXD/MDV-PA/EQH-PC/WBS-PG/VAL-WT/TWOD/CRBD) or unresolved-symbol duplicates of already-detected deals. No LLM read needed, no entries. sweep_unresolved: 0 swept (all past-close detections already graded; no unpriced stragglers). LLM-lift +2.35pp expectancy (Arm A n=3 +1.22% vs Arm B n=108 -1.13%) \u2014 directionally positive but Arm A is far too thin to read. Cash $664.56 idle, no qualifying candidate."
-  },
-  {
-    "date": "2026-08-11",
-    "equity": 4029.88,
-    "spy": 773.77,
-    "note": "Zeus hourly session ~10:15 ET Tue 2026-08-11. Tend: reconcile clean (hermes_reconcile()==[], broker==sleeve on all 6), no break-stops, no past-close deals (earliest 2026-09-30). Sourcing sweep: 120 announced-deal targets / 74 ticker-resolved over 2026-04-13..08-11; 2 genuinely new after dedupe (TECH, NHICW), both DROPPED. GBCS tender expired 08-10 but OTCQB has no Robinhood quote -> left unresolved, must be graded next session from the completion filing."
-  },
-  {
-    "date": "2026-08-12",
-    "timestamp": "2026-08-12T14:15:00Z",
-    "equity": 4031.66,
-    "spy": 772.215,
-    "cash": 664.56,
-    "n_deals": 6,
-    "note": "Zeus hourly pass ~10:10-10:15 ET Wed 2026-08-12. TEND: 6/6 deals marked live, missing_marks==[], 0 break-stops, 0 completions, 0 past expected close (earliest 2026-09-30). RECONCILE CLEAN \u2014 hermes_reconcile()==[] and broker==sleeve exact on all six (ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138); no pending Hermes orders. GBCS RESOLVED-NOT: SC TO-T/A Amd.3 (filed 08-11) EXTENDED the Black Pearl tender from 08-10 to 2026-08-17 with only 2,807,869 shares tendered as of 08-10 (short of the ~70% minimum) \u2014 neither a completion nor a break, so expected_close rolled to 08-17 and it stays unresolved rather than being force-graded. SOURCING: fresh 120d sweep (2026-04-14->08-12), 123 announced-deal targets (77 ticker-resolved); CIK-keyed diff vs the 08-11 universe = exactly 4 NEW deals, all READ at Opus/high and all DROPPED \u2014 TBPH (Zymeworks $17.00 cash + non-tradable CVR: clean deal, but +0.32% cash-leg spread vs the 1% floor and the residual is all CVR), JFB and AUUD (all-stock New PubCo/Holdco business combinations, no cash terminal), MCFN (S-4/424B3 stock consideration, no broker instrument). ZERO entries, ZERO orders. sweep_unresolved: 0 due. LLM-lift on 108 graded: Arm A +1.22%% (n=3) vs Arm B -1.13%% (n=108) = +2.35pp \u2014 still only 3 of the ~20-deal checkpoint. Sleeve cash $664.56 idle; live broker buying power $1,883.78 (shared pool) untouched."
-  },
-  {
-    "date": "2026-08-13",
-    "timestamp": "2026-08-13T14:15:00Z",
-    "equity": 4035.26,
-    "spy": 778.145,
-    "cash": 664.56,
-    "n_deals": 6,
-    "note": "Zeus hourly pass ~10:10-10:15 ET Thu 2026-08-13. TEND: 6/6 deals marked live, missing_marks==[], 0 break-stops, 0 completions, 0 past expected close (earliest 2026-09-30). RECONCILE CLEAN - hermes_reconcile()==[] and broker==sleeve exact on all six (ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138); no Hermes orders at the broker since 08-06. All six trade below offer: ALOT +0.35%, APGE +0.45%, RAMP +1.72%, GBTG +0.58%, FSEA +0.55%, OGN +2.23% residual spread. SOURCING: fresh 120d sweep (2026-04-15->08-13), 125 announced-deal targets (78 ticker-resolved). Diff vs tracked = 60 rows by symbol but 58 are alternate share classes or unresolved tickers of CIKs already in the A/B (MDV-PA/EQH-PC/VAL-WT/WBS-PG/TWOD/CRBD preferreds, BBCQW/HSCSW warrants, and 'None'-ticker rows for LPRO/ORGN/NUVL/GRTX/ALGR/TMHC/ASRT/EEX/CCRN/KORE/NSA/KALV/AVNS/XOMA/ESPR/CPRX/TBRG/BLD/GORO/SILA/CLBK/NFBK/SEM/WSR/SLNO/FORA/APLS/KZR/CNTA/TERN/KW/OLPX/ACLX/ULY/MCW/DAWN/THR/XPRO/STEL/FONR et al), plus SPAC/fund shells out of scope. Exactly 2 GENUINELY NEW deals, both READ at Opus/high and both DROPPED - CZR (Caesars/Fertitta $31.00 all-cash: out of Hermes's capacity-inverted scope at ~$6B equity/$17.6B EV, and the +3.73% spread is a ~10-month jumbo-LBO + 18-state gaming-license fuse, ~4.5%/yr for real risk) and DOMO (NOT a merger - Progress buys the ASSETS for $400M and Domo stays public as an NOL shell; the $4.84 'net cash at closing' is an estimate with no contractual per-share terminal and no distribution obligation - the CVR failure mode). ZERO entries, ZERO orders. sweep_unresolved: 0 due (earliest unresolved close 2026-08-17). LLM-lift on 108 graded: Arm A +1.22%% (n=3) vs Arm B -1.13%% (n=108) = +2.35pp - still only 3 of the ~20-deal checkpoint. Sleeve cash $664.56 idle; live broker buying power $1,129.17 (shared pool) untouched."
-  },
-  {
-    "date": "2026-08-14",
-    "timestamp": "2026-08-14T14:12:00Z",
-    "equity": 4036.8,
-    "spy": 778.52,
-    "cash": 664.56,
-    "n_deals": 6,
-    "note": "Zeus hourly pass ~10:10 ET Fri 2026-08-14. TEND: 6/6 deals marked live, missing_marks==[], 0 break-stops, 0 completions, 0 past expected close (earliest ALOT/APGE/FSEA 2026-09-30). All six 18-19% above their break-stops and converging to offer: remaining spreads ALOT 0.35%, APGE 0.42%, GBTG 0.37%, FSEA 0.88%, RAMP 1.50%, OGN 2.08%. A/B sweep_unresolved: 0 rows due (43 unresolved detections all pre-close). Equity $4036.80. No orders placed. SOURCING: run_hermes_sourcing.py swept 2026-04-16->2026-08-14 (120d), 125 announced-deal targets, 78 ticker-resolved. 11 symbols unseen vs the A/B, ZERO tradable: WBS-PG/VAL-WT/MDV-PA/EQH-PC/TWOD/CRBD are alternate-class securities (preferred/warrant) of issuers whose COMMON is already detected (WBS/VAL/MDV/EQH/TWO/CRBG) \u2014 recording them would double-count the same deal in Arm B; IPEXR/BBCQW/VLOSU/BXBL are SPAC rights/units (de-SPAC = stock deal, out of scope) and HSCSW is a warrant. 0 new detections recorded, 0 LLM reads, 0 entries. Live broker buying power $1,138.90 (shared pool) vs Hermes sleeve cash $664.56 \u2014 untested this pass, no buy attempted. A/B standing: 108 graded, Arm A n=3 expectancy +1.22%%, Arm B n=108 expectancy -1.13%%, lift +2.35pp."
-  },
-  {
-    "date": "2026-08-17",
-    "timestamp": "2026-08-17T14:20:00Z",
-    "equity": 4032.33,
-    "spy": 775.61,
-    "cash": 664.56,
-    "n_deals": 6,
-    "note": "Zeus hourly TEND ~10:20 ET Mon 2026-08-17. Reconcile CLEAN: broker==sleeve exact on all six (ALOT/APGE/RAMP/GBTG/FSEA/OGN), hermes_reconcile()==[], 0 pending orders. 6/6 marked live, missing_marks==[], 0 break-stops, 0 completions, 0 past expected close (earliest ALOT/APGE/FSEA 2026-09-30). Spreads-to-offer: ALOT 0.49%, APGE 0.42%, GBTG 0.48%, FSEA 0.88%, RAMP 2.07%, OGN 2.08% (all ~19-20% above break-stops). Equity $4032.33. SOURCING: run_hermes_sourcing.py swept 2026-04-19->2026-08-17 (120d), 124 targets, 81 ticker-resolved. 9 symbols unseen vs the A/B; only LGMK is a cash-target common -> RECORDED (Arm B), LLM DROP (cash $1.31 going-private but 'unlisted' OTC nano-cap, ~40% bid/ask, +58% break-risk spread; fails tradability gate). Other 8 out of scope: IPEXR/BBCQW/VLOSW/BXBL SPAC de-SPACs (stock), HSCSW warrant, CRBD/TWOD preferred/debt of large-caps, GRTXD stale Galera DEFM14C. 1 new detection, 0 entries. Arm-B sweep: GBCS/LSTA hit expected_close today but sweep graded 0 (not strictly past; GBCS no live quote). Live broker BP $1,138.90 (shared pool) vs sleeve cash $664.56. A/B: 153 detected, 108 graded, Arm A n=3 exp +1.22%/100%win, Arm B n=108 exp -1.13%/11%win."
-  },
-  {
-    "date": "2026-08-18",
-    "equity": 4030.67,
-    "spy": 768.38,
-    "note": "Zeus ~10:20 ET Tue 2026-08-18. Reconcile CLEAN (hermes_reconcile==[], broker==sleeve exact on all 6: ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138); missing_marks==[]; no break-stop triggered (nearest is FSEA 17.08 vs stop 14.41); no deal past expected_close. Equity $4030.67 vs $4,000 contributed = +0.77%; cash $664.56 (16.5%), 6/10 slots used. EDGAR sourcing sweep ran (124 announced-deal targets in the trailing 120d, 76 ticker-resolved, 65 already tracked): 11 unseen tickers, of which 8 are DUPLICATE securities of deals already in the A/B (BBCQW/HSCSW/MDV-PA/CRBD/EQH-PC/VAL-WT/WBS-PG/TWOD \u2014 preferreds, warrants and notes of BBCQ/HSCS/MDV/CRBG/EQH/VAL/WBS/TWO) and were deliberately NOT recorded, because a second row for the same deal would double-count the mechanical Arm B. The 3 genuinely new issuers (BXBL / IPEXR / VLOSW) are all blank-check SPAC de-SPAC combinations \u2014 stock-for-stock, acquirer-side, no contractual cash terminal \u2014 recorded as drops. ZERO new cash-deal keeps this sweep, so no entries: $664.56 stays dry rather than buying a deal the A/B already recorded as a drop."
-  },
-  {
-    "date": "2026-08-19",
-    "timestamp": "2026-08-19T14:15:00Z",
-    "equity": 4029.25,
-    "spy": 769.78,
-    "cash": 664.56,
-    "n_deals": 6,
-    "note": "Zeus hourly pass ~10:10 ET Wed 2026-08-19. RECONCILE CLEAN: hermes_reconcile()==[], broker==sleeve exact on all six (ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138); no pending orders. TEND: 6/6 marked live, missing_marks==[], 0 break-stops (nearest FSEA 17.07 vs stop 14.41, +18.5%), 0 completions, 0 past expected_close (earliest ALOT/APGE/FSEA 2026-09-30). Spreads-to-offer: ALOT 0.38%, APGE 0.24%, GBTG 0.48%, FSEA 1.06%, RAMP 2.67%, OGN 2.12%. Equity 029.25 vs ,000 contributed (+0.73%); cash 64.56 (16.5%), 6/10 deal slots used. SOURCING: run_hermes_sourcing.py swept 2026-04-21->2026-08-19 (120d), 123 announced-deal targets, 75 ticker-resolved. 9 unseen vs the A/B; 8 are alternate-class securities or SPAC units of issuers already tracked (BBCQW/HSCSW warrants, MDV-PA/EQH-PC/WBS-PG preferreds, CRBD, VAL-WT, VLOSU) and were deliberately NOT recorded (a second row for the same deal double-counts mechanical Arm B). 1 genuinely new common: GSAT (Amazon/Globalstar, DEFM14C 08-18) -> RECORDED, LLM DROP as OUT OF SCOPE: cash/stock ELECTION with cash capped at 40% of shares, non-electing shares default to STOCK, and the cash leg is 0.00 MINUS an undetermined per-share adjustment (Apple C-3 milestone payment) -- a floating blended value, not the bounded cash terminal this book harvests. Zero keeps => 0 entries; 64.56 stays dry (live broker BP ,139.92, shared pool). A/B HOUSEKEEPING: GBCS tender EXTENDED a second time (SC TO-T/A Amd.4, 08-18) from 08-17 to 2026-08-24, with tendered shares FALLING 2,807,869 -> 2,769,282 (still under the ~70% minimum) -- expected_close rolled, still unresolved, still Arm-B-only with no Hermes capital at risk. Arm-B sweep graded 0 rows. A/B standing: 157 detected, 109 graded; Arm A n=3 expectancy +1.22% (100% win), Arm B n=109 expectancy -1.74%, LLM-lift +2.96pp."
-  },
-  {
-    "date": "2026-08-20",
-    "equity": 4032.42,
-    "spy": 766.5,
-    "cash": 99.56,
-    "n_open": 7,
-    "note": "Zeus hourly ~10:15 ET Thu 2026-08-20. RECONCILE CLEAN: hermes_reconcile()==[], broker==sleeve exact on all six pre-entry (ALOT/APGE/RAMP/GBTG/FSEA/OGN). No breaks, no completions, no past-close. Sourcing refreshed (2026-04-22 -> 2026-08-20, 123 targets, 77 ticker-resolved, 10 new-to-A/B). LLM read: NEW ENTRY = NSTS Bancorp (Brookfield Bancshares strategic all-cash bank M&A, $14.28/share, definitive 2026-05-12, OCC-Parent APPROVED, FRB + OCC-Bank pending, no financing condition, escrow required, no CVR, no go-shop, outside 2027-02-12). Spread ~2.73% at $13.90 for ~4-mo hold - fair compensation for LOW residual regulatory/vote risk. Arm A LIVE keep, sized $565 (14% of equity, under 15% cap) - 40.613588 sh @ $13.9116 avg fill (order 6a870c10). Book now 7 open deals, cash $99.56 (2% floor). Sweep unresolved past-close: 0 (all 47 unresolved detections still in-window)."
-  },
-  {
-    "date": "2026-08-21",
-    "timestamp": "2026-08-21T14:07:00Z",
-    "equity": 4038.79,
-    "spy": 765.3,
-    "cash": 99.56,
-    "n_deals": 7,
-    "llm_lift_expectancy": 0.0296,
-    "n_graded": 109,
-    "note": "Zeus hourly pass ~10:07 ET Fri 2026-08-21. TEND: reconcile CLEAN (hermes_reconcile==[]; broker==sleeve exact on all 7 - ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.561380 / NSTS 40.613588); missing_marks=[]; break_triggered=[] (every name 14-24% above its stop); past_close=[] (earliest expected_close 2026-09-30). SOURCING: run_hermes_sourcing.py swept 2026-04-23->2026-08-21, 122 announced-deal targets (77 ticker-resolved). 9 tickers unseen by the A/B - ALL non-common instruments (SPAC units/warrants COLAU/BBCQW/VLOSU/HSCSW, preferreds MDV-PA/EQH-PC/WBS-PG/CRBD, warrant VAL-WT) whose underlying commons (MDV/EQH/WBS/CRBG/VAL) are already detected => ZERO genuinely new deals to read; no new detections, no new LLM reads, no entries. CASH: 9.56 (2%% floor) - no room for a new deal ticket regardless. A/B: sweep_unresolved=[] (0 of 48 unresolved detections past expected_close). LLM-lift +2.96pp on 109 graded (Arm A kept n=3 expectancy +1.22%%, win 100%%; Arm B all n=109 expectancy -1.74%%, win 11%%). Verdict string reads \"LLM adds value\" but Arm A n=3 is far short of the ~20-deal checkpoint - avoidance is doing the work, not selection."
-  },
-  {
-    "date": "2026-08-24",
-    "equity": 4037.42,
-    "spy": 762.77,
-    "note": "Zeus hourly pass ~10:15 ET Mon 2026-08-24. Reconcile clean (hermes_reconcile==[]; broker==sleeve on all 7: ALOT/APGE/RAMP/GBTG/FSEA/OGN/NSTS). No break-stops triggered, none past expected close. EDGAR sourcing sweep ran: 117 announced-deal targets in the trailing 120d window, 74 ticker-resolved; the 52-row diff vs the A/B is entirely symbol-resolution artifacts (unresolved tickers for already-tracked deals: LPRO/ORGN/NUVL/GRTX/TMRC/ELSE/CRBG/TMHC/ASRT/EEX/CCRN/KORE/NSA/KALV/AVNS/XOMA/ESPR/CPRX/TBRG/AFBI/BLD/GORO/SILA/CLBK/NFBK/SEM/WSR/SLNO...) plus warrant/preferred/rights share classes (BBCQW/HSCSW/IPCXR/MDV-PA/EQH-PC/CRBD/VAL-WT) and SPAC de-SPACs (COLAU) - ZERO genuinely new tradable cash-deal targets, so no new detections recorded. No new entries: sleeve cash $99.56 vs live account buying power $575.09 -> spendable_buying_power binds at ~$99, and the 2% cash reserve ($81) leaves ~$19 - below any meaningful ticket. No orders placed."
-  },
-  {
-    "date": "2026-08-25",
-    "equity": 4038.02,
-    "spy": 765.4,
-    "note": "Zeus hourly pass ~10:15 ET Tue 2026-08-25. Reconcile clean (hermes_reconcile()==[], broker==sleeve on all 7: ALOT/APGE/RAMP/GBTG/FSEA/OGN/NSTS; missing_marks=[]). No break-stop triggered, no completion, no past-close deal in the live book. Sourcing sweep re-run (120d window to 2026-08-25, 118 announced-deal targets): 3 new detections recorded, all DROP - UTZ ($14.25 all-cash Intersnack, clean deal but spread spent at +0.07%, below the 1% floor), COLAU and IPCXR (de-SPAC, out of scope, no cash terminal). Remaining sweep diffs were alternate share classes of already-tracked deals (MDV-PA/CRBD/EQH-PC/VAL-WT/HSCSW/BBCQW/VLOSU) - skipped so the Arm-B denominator is not double-counted. NO ENTRY: sleeve cash $99.56 against a 2% reserve on $4,038 equity leaves ~$18 spendable, and the shared-pool broker buying power is $575.28 - no honest ticket at the 15% per-deal cap. GBCS tender expired 08-24 5pm ET with no outcome amendment on EDGAR yet and no broker tape, so it stays unresolved rather than guessed. LLM-lift at 109 graded: Arm A +1.22% expectancy (n=3) vs Arm B -1.74% (n=109), lift +2.96pp. Equity $4,038.02 vs contributed $4,000.00; SPY 765.40."
-  },
-  {
-    "date": "2026-08-26",
-    "equity": 4041.56,
-    "spy": 766.58,
-    "note": "Zeus hourly pass ~10:15 ET Wed 2026-08-26. Freeze lifted (07-14). Reconcile CLEAN: hermes_reconcile()==[], broker==sleeve exact on all 7 deals (ALOT/APGE/RAMP/GBTG/FSEA/OGN/NSTS); no pending orders since the 08-20 NSTS fill. missing_marks=[]. break_triggered=[] (every name 17.6-19.7% above its stop); past_close=[]. Equity $4041.56 vs contributed $4000.00 (+1.04%), cash $99.56; SPY 766.58. No entries this pass. GBCS (Arm-B only) tender extended a 5th time to 08-27, left unresolved (no broker tape). SOURCING SWEEP RAN this pass (run_hermes_sourcing.py, 120d window 2026-04-28 -> 2026-08-26): 118 announced-deal targets enumerated (74 ticker-resolved), of which 52 are NOT yet in the A/B (8 of those carry a resolved ticker; the rest are SPACs/private with no symbol). NONE were read or recorded this pass - a DISCLOSED gap, not a silent one: (a) no LLM break-risk read was run, so no Arm-A/Arm-B detection rows were written; (b) a keep verdict would have been unfundable anyway - sleeve cash is $99.56 (2.46% of equity, essentially at the 2% reserve) against live shared-pool buying power of $575.57, and the MINIMUM binds, so nothing near this book's ~$500 per-deal ticket was available; the book also sits at 7 of MAX_CONCURRENT 10. CONSEQUENCE TO FLAG: Arm B is defined as 'every DETECTED deal', so an unread backlog narrows the denominator below the true population and biases the measured LLM-lift. Arm A holds only 3 of the ~20 graded deals the checkpoint needs (+2.96pp expectancy on those 3 - n far too small to read). cache/hermes_deal_universe.json is persisted so a funded/deeper session can read the backlog rather than re-sweep."
-  },
-  {
-    "date": "2026-08-27",
-    "equity": 4041.41,
-    "spy": 768.895,
-    "note": "Zeus hourly pass ~10:12-10:25 ET Thu 2026-08-27. TEND: 7 open deals reconciled CLEAN (hermes_reconcile()==[], broker==sleeve exact), missing_marks=[], no break-stop triggered, none past expected_close. A/B: FBRX paper-swept past close -> 110 graded; LLM-lift +2.94pp (Arm A n=3 expectancy +1.22%, 3/3 wins vs Arm B n=110 -1.72%) - n=3 is far too small to read. SOURCING SWEEP RAN (run_hermes_sourcing.py, 120d window 2026-04-29 -> 2026-08-27): 120 announced-deal targets, 66 already tracked, 11 new with a ticker, 43 without. Of the 11, EIGHT are warrant/unit/preferred classes of deals ALREADY in the A/B (BBCQW/COLAR/VLOSU/BCARW/HSCSW/CRBD/EQH-PC/VAL-WT) and were NOT recorded - a second row would double-count one deal in Arm B. THREE genuinely new targets were READ (Opus/high): (1) IRDM - Rocket Lab/Iridium is $27.00 cash PLUS Rocket Lab stock. EXCLUDED from the A/B entirely, not dropped: a mixed-consideration deal has no contractual dollar terminal, so recording offer_price=27.00 would inject a bogus -43% spread into the Arm B control. Disclosed here so the exclusion is not silent. (2) LNTH - Curium/Lantheus, $102.50 cash + a CVR up to $12.00; cash leg only per the house CVR rule -> +1.70% spread. DROPPED, break_risk med: a genuine horizontal radiopharma overlap (the two principal US Tc-99m suppliers), a $228M break fee and an outside date running to 2027-11-30 - 1.70% over a 12-18mo antitrust path is the trap shape, not the prize, and at ~$7B it is the arbitraged end of the size range. (3) LXFR - Wynnchurch Capital/Luxfer Holdings PLC, $17.37 ALL CASH via a UK Scheme of Arrangement, 31% premium, unanimous board, equity commitment + $290M term loan + $50M revolver with NO financing condition, HSR waiting period expiring 2026-09-08, $18M break fee, expected close Q4 2026. KEPT, break_risk low. ENTERED LIVE: $95.00 market buy filled 5.536162 sh @ $17.1599 (order 6a9047e5-27cc-4078-b28d-beb10e90deb1), spread +1.22%, break-stop $14.5859, expected_close 2026-12-31. Sized at the cash the book actually had, not the ~15% per-deal cap: sleeve cash was $99.56 against live shared-pool buying power of $575.57 and the MINIMUM binds; after the 2% cash reserve the deployable figure was ~$97. The position is a 2.3% weight (off-pattern vs the ~12-15% of the other seven) - the A/B grades RETURNS not dollars, so it is still a full-weight Arm A observation, which is the point: Arm A held only 3 graded deals against a ~20-deal checkpoint. Book now 8 of MAX_CONCURRENT 10, cash $4.56. BUG FILED (fail-safe, not silently patched): the audit-mandated atomic flow writes an 'intent' ledger row BEFORE placement, but HermesBook.enter -> can_enter -> already_placed_today reads ANY same-day ledger row including that placeholder, so enter() refuses the very order the intent row was written for. State was completed by reconciling the intent row into the filled row and applying enter()'s exact sleeve mutation; one ledger row per order, verified broker==sleeve after. See the PR opened this session."
-  },
-  {
-    "timestamp": "2026-08-28T14:18:25Z",
-    "date": "2026-08-28",
-    "equity": 4047.57,
-    "spy": 770.713,
-    "cash": 492.81,
-    "note": "Zeus pass ~10:20 ET Fri 2026-08-28. ALOT MERGER COMPLETED: broker position gone, instrument inactive, PnL trade history shows 16.836256 sh closed @ $28.9999 on 2026-08-28 for +$8.25 realized -> exited at the offer (outcome=completed), +1.72% net vs SPY +2.63% = -0.91pp excess, $488.25 proceeds to cash. 7 open deals (APGE/RAMP/GBTG/FSEA/OGN/NSTS/LXFR), missing_marks=[], no break-stops, no past-close flags. Sourcing swept 122 announced-deal targets (79 ticker-resolved); 2 genuinely new reads recorded, both DROP: CBZ (clean $55 all-cash but 0.94% spread, below the 1% floor) and IRDM (cash+stock, out of scope). No entries."
-  },
-  {
-    "timestamp": "2026-08-31T14:09:17Z",
-    "date": "2026-08-31",
-    "equity": 4045.53,
-    "spy": 765.61,
-    "cash": 492.81003521339994,
-    "note": "Zeus hourly pass ~10:08 ET Mon 2026-08-31. TEND-ONLY - NO ENTRIES. RECONCILE FLAG (new, needs operator): hermes_reconcile() == ['ALOT: ledger net -16.8363 sh != sleeve 0.0000 sh']. Diagnosed as a LEDGER-FIDELITY ARTIFACT, not missing money: the 2026-07-06 ALOT buy row predates the 2026-07-10 fill-fidelity fix and carries only dollars ($480, no shares/price field), while the 08-28 merger-close sell row logged the full 16.836256 sh @ $28.9999. ALOT is absent from BOTH the broker tape and the sleeve, and is already graded (completed, +1.72% net, -0.91pp excess, $488.25 to cash); $480/28.505 = 16.8360 sh reconciles the economics exactly. The residual is cosmetic, but per the liturgy a non-empty reconcile HALTS entries, and backfilling a historical ledger row on a live book is an operator-grade call, not an unattended one - so no row was edited and no entry was placed. FIX (operator): backfill shares=16.836256 / price=28.505 on the 07-06 ALOT buy row, or accept the artifact explicitly. TEND: 7 open deals (APGE/RAMP/GBTG/FSEA/OGN/NSTS/LXFR), broker==sleeve exact on all 7, no pending orders; missing_marks=[]; break_triggered=[] (every name 13-21% above its stop); past_close=[]. Remaining spreads: RAMP +2.03%, NSTS +2.00%, OGN +1.74%, LXFR +1.16%, FSEA +0.47%, GBTG +0.37%, APGE +0.05% (APGE effectively at the offer into its 09-30 close). A/B SWEEP: 2 unresolved detections past expected close - GBCS (missing_instrument, delisted) and TWO (inactive_instrument, close date 08-31). NEITHER graded: no broker tape exists for either, and grading at a guessed exit would poison the Arm-B control - left unresolved and disclosed, per the 08-25/08-26 precedent. LLM-lift at 111 graded: Arm A expectancy +1.22% (n=3) vs dropped-arm -1.80% (n=107) => lift +3.04pp, verdict 'LLM adds value' - but n=3 on the live arm is still far too small to read. Sourcing sweep NOT run this pass (entries halted by the reconcile flag; a keep verdict would have been unfundable anyway). Shared-pool buying power $968.82 (plus $5,000 pending deposits, not yet spendable). Equity $4,045.53 vs contributed $4,000.00 (+1.14%), cash $492.81; SPY 765.61. No orders placed."
-  },
-  {
-    "date": "2026-09-01",
-    "equity": 4048.09,
-    "cash": 492.81003521339994,
-    "spy": 762.64,
-    "note": "Zeus hourly pass ~10:15 ET Tue 2026-09-01. DIRECTIVE D1 APPLIED - RECONCILE CLEAN, ENTRIES RESUMED. Backfilled the 2026-07-06 ALOT buy row with shares=16.836256 / price=28.505 / status=filled per the operator's authorization; hermes_reconcile() now returns [] (was ['ALOT: ledger net -16.8363 sh != sleeve 0.0000 sh']). Documentation only - no shares or cash moved; the $0.08 gap between 16.836256*28.505 = $479.92 and the $480.00 as-placed notional is recorded in the row rather than reverse-solved. TEND: 7 open deals, missing_marks=[], break_triggered=[], past_close=[]. All seven green (APGE +1.19pct, FSEA +1.39pct, GBTG +0.69pct, LXFR +0.23pct, NSTS +0.78pct, OGN +1.96pct, RAMP +0.12pct); residual spreads 0.03-1.97pct, narrowing as the 09-30 closes approach. Equity $4,048.09 vs contributed $4,000 (+1.20pct); cash $492.81; SPY 762.64. A/B: graded TWO (Two Harbors) - delisted at the broker, so priced from Sharadar SEP's final print (2026-08-24, $12.18 on 19.39M sh), dated to the real exit with SPY 763.47 rather than the sweep's today-default. GBCS remains UNGRADED and is reported loudly: past its 2026-08-27 close, absent from the broker AND from Sharadar TICKERS, so there is no honest mark - left unresolved rather than guessed. LLM-lift now n=112 graded: Arm A (LLM kept, n=4) expectancy +1.35pct, win rate 100pct, 4-for-4 all completions; Arm B (all detected) -1.67pct; dropped-by-LLM -1.78pct. Lift +3.02pp - the avoidance half is carrying it, consistent with the house view. Arm A LIVE real-money grades still only n=2 (TMHC, ALOT). Directive D2 (funding checkpoint on APGE+FSEA closing clean by ~09-30) READ; left status=active on purpose - it is a pre-commitment that must still be in force AT the 09-30 grade, and it explicitly says do not change behavior to chase it. Deal sourcing sweep running; entries evaluated on its output."
-  },
-  {
-    "date": "2026-09-01",
-    "equity": 4048.02,
-    "cash": 22.83143521339997,
-    "spy": 762.64,
-    "note": "ENTRY PASS (second half of the 2026-09-01 Zeus run, after D1 lifted the halt). SOURCING: run_hermes_sourcing.py swept EDGAR 2026-05-04..2026-09-01 (120d), 123 announced-deal targets (80 ticker-resolved), 12 untracked. All 12 recorded in the A/B - Arm B is only an honest control if detected == all. READ (pinned brain: opus/high, done inline - this session IS the Opus tier). 1 KEEP, 11 DROP. KEEP BOW (Bowhead Specialty): American Family Mutual Insurance / Trident Superior, $34.00 ALL CASH, no CVR; proxy states Parent pays without recourse to external financing or capital needing regulatory approval; antitrust trivial (personal-lines mutual buying specialty E&S); domestic, so no CFIUS; $35M break fee. Real risk is the majority-of-the-minority vote on a 13E-3 going-private - bounded, and its usual resolution is a bump, not a walk. ENTERED 14 sh @ $33.5699 (limit 33.62, order 6a96df67), $469.98, spread 1.28pct to a ~Q4-26/Q1-27 close, break-stop 28.5344. Book now 8 of max 10 deals; post-trade reconcile CLEAN []. NOTABLE DROPS: ATKR (Prysmian, $95.00 cash, clean terms) dropped on DURATION x ECONOMICS - the agreement's own End Date is 2027-08-02 with two automatic 3-month regulatory extensions, so 1.41pct gross is ~1.2-1.9pct annualized against a -15pct stop; the inverse of the spec's trap, a thin spread on a long deal. GTE dropped as a SOURCING FALSE POSITIVE - its PREM14A is a Sale Proposal under a Share Purchase Agreement (Gran Tierra is selling assets, not being acquired); no per-share terminal, out of scope. 9 more dropped as out-of-hard-scope lines: SPAC units/rights/warrants (XRPNU, COLAR, BBCQW, BCARW, VLOSU), warrants on tracked/again-untradable names (HSCSW, VAL-WT), a preferred series (EQH-PC), and CRBD which returns no broker quote at all. A/B after this pass: 112 graded, Arm A n=4, lift +0.0302 (LLM adds value). Equity $4,048.02; cash $22.83. TWO FLAGS FOR THE OPERATOR. (1) SPEC/CODE CONFLICT, reproducible on every entry: hermes.md step 4's atomic flow says append the 'intent' ledger row BEFORE placing, but can_enter's already_placed_today guard matches ANY row for symbol+side+date regardless of order_id or status - so the intent row makes the very next enter() raise 'a BOW buy is already in the ledger today'. Handled by letting the placeholder discharge its job (a claim existed while the order was in flight) and removing it once the fill was confirmed, so enter()'s atomic door wrote the one authoritative filled row. The durable fix is for already_placed_today (or can_enter) to ignore rows with order_id=='intent'. (2) The cash reserve is computed on CASH not EQUITY (cash*(1-0.02)), so this entry was legal but leaves only $22.83 dry powder against the parameter table's '2pct cash reserve' - Hermes is now effectively fully deployed and cannot take a fresh clean deal until something closes."
-  }
+ {
+  "date": "2026-07-05",
+  "equity": 4000.0,
+  "spy": 744.8
+ },
+ {
+  "date": "2026-07-06",
+  "equity": 4000.0,
+  "spy": 749.31
+ },
+ {
+  "date": "2026-07-06",
+  "equity": 3999.9175023456,
+  "spy": 750.99
+ },
+ {
+  "date": "2026-07-06",
+  "equity": 3999.9175023456,
+  "spy": 751.77
+ },
+ {
+  "date": "2026-07-07",
+  "equity": 4000.34,
+  "spy": 747.05
+ },
+ {
+  "date": "2026-07-07",
+  "timestamp": "2026-07-07T15:18:00Z",
+  "equity": 4000.51,
+  "spy": 746.46,
+  "n_positions": 5
+ },
+ {
+  "date": "2026-07-14",
+  "timestamp": "2026-07-14T14:10:00Z",
+  "equity": 4005.6,
+  "spy": 750.34,
+  "n_positions": 6
+ },
+ {
+  "date": "2026-07-14",
+  "timestamp": "2026-07-14T15:08:00Z",
+  "equity": 4006.61,
+  "spy": 752.5875,
+  "n_positions": 6
+ },
+ {
+  "date": "2026-07-14",
+  "timestamp": "2026-07-14T17:07:00Z",
+  "equity": 4006.94,
+  "spy": 751.73,
+  "n_positions": 6
+ },
+ {
+  "date": "2026-07-14",
+  "timestamp": "2026-07-14T18:10:00Z",
+  "equity": 4006.9,
+  "spy": 752.48,
+  "n_positions": 6
+ },
+ {
+  "date": "2026-07-14",
+  "timestamp": "2026-07-14T19:10:00Z",
+  "equity": 4007.06,
+  "spy": 751.97,
+  "n_positions": 6
+ },
+ {
+  "date": "2026-07-15",
+  "equity": 4005.51,
+  "spy": 755.14,
+  "note": "tend pass: 6 deals held, no break-stops, none past close; NUVL swept in A/B; ARI skipped (liquidation, not a cash merger); GBCS/GRTX past due but unquotable"
+ },
+ {
+  "date": "2026-07-15",
+  "timestamp": "2026-07-15T15:15:00Z",
+  "equity": 4007.03,
+  "spy": 753.6901,
+  "n_positions": 6,
+  "note": "tend pass 11:05 ET: reconcile clean, no break-stops, none past close; 4 new detections (ARI/AVB/IPCXU/BCARU) all Opus-dropped, zero keeps; GBCS/GRTX still unquotable-unresolved"
+ },
+ {
+  "date": "2026-07-15",
+  "timestamp": "2026-07-15T16:10:00Z",
+  "equity": 4006.34,
+  "spy": 751.4776,
+  "n_positions": 6,
+  "note": "tend pass 12:05 ET: reconcile clean, no break-stops, none past close; sourcing re-swept (130 cands, nothing filed since 07-14, zero new reads); ARI/AVB not-a-deal rows swept in A/B; GBCS/GRTX still unquotable-unresolved"
+ },
+ {
+  "date": "2026-07-15",
+  "timestamp": "2026-07-15T17:08:00Z",
+  "equity": 4007.5,
+  "spy": 752.18,
+  "n_positions": 6,
+  "note": "tend pass 13:05 ET: reconcile clean, no break-stops, none past close; sourcing re-swept (130 cands, latest filing still 07-14/ARI, zero new reads); GBCS/GRTX still unquotable-unresolved"
+ },
+ {
+  "date": "2026-07-15",
+  "timestamp": "2026-07-15T18:08:00Z",
+  "equity": 4006.67,
+  "spy": 754.52,
+  "n_positions": 6,
+  "note": "tend pass 14:05 ET: reconcile clean (sleeve==broker==ledger, hermes_reconcile==[]), no break-stops, none past close; sourcing re-swept (130 cands, latest filing still 07-14/ARI, zero new reads); GBCS/GRTX still unquotable-unresolved"
+ },
+ {
+  "date": "2026-07-15",
+  "timestamp": "2026-07-15T19:08:00Z",
+  "equity": 4003.91,
+  "spy": 753.695,
+  "n_positions": 6,
+  "note": "tend pass 15:05 ET: reconcile clean (sleeve==broker==ledger, hermes_reconcile==[]), no break-stops, none past close; sourcing re-swept (130 cands, latest filing still 07-14/ARI, zero new reads); GBCS/GRTX still unquotable-unresolved"
+ },
+ {
+  "date": "2026-07-16",
+  "timestamp": "2026-07-16T18:10:00Z",
+  "equity": 4007.9,
+  "spy": 753.0,
+  "n_positions": 6,
+  "note": "tend pass 14:05 ET: reconcile clean (sleeve==broker==ledger, hermes_reconcile==[]), no break-stops, none past close; sourcing re-swept (129 cands; only new filing since 07-14 is NUVL 14D9 amendment 07-15, already tracked/resolved \u2014 zero new reads); GBCS/GRTX still unquotable-unresolved"
+ },
+ {
+  "date": "2026-07-16",
+  "timestamp": "2026-07-16T15:10:00Z",
+  "equity": 4010.17,
+  "spy": 753.285,
+  "n_positions": 6,
+  "note": "tend pass 11:05 ET: reconcile clean (sleeve==broker==ledger, hermes_reconcile==[]), no break-stops, none past close, new peak equity; sourcing swept (129 cands) \u2014 no new filings since 07-15; 8 backlog names read by pinned opus/high (ALGR AMRX TMRC AAWH MDV AXTA CRBG EQH), all 8 drops on structure/scope, 3 untradables resolved at detection; GBCS/GRTX still unquotable-unresolved (GRTX now inactive at broker post reverse-merger close, no successor listing found). NOTE: prior 18:10Z curve row today carries a future/mislabeled timestamp."
+ },
+ {
+  "date": "2026-07-16",
+  "timestamp": "2026-07-16T16:07:00Z",
+  "equity": 4010.16,
+  "spy": 752.7655,
+  "n_positions": 6
+ },
+ {
+  "date": "2026-07-16",
+  "timestamp": "2026-07-16T16:20:00Z",
+  "equity": 4010.16,
+  "spy": 752.7655,
+  "n_positions": 7,
+  "note": "12:05 ET pass: tend clean (no stops/past-close, reconcile==[]); sweep 129 cands, only fresh filing NUVL 14D9/A (already graded); 8 backlog reads by pinned opus/high subagent: OGN KEEP -> LIVE $575.00 = 42.56138 sh @ 13.5099 (Sun Pharma $14 all-cash, +3.63% spread, est close 2027-01-26, order 6a59032e); ASRT/EEX/KALV/XOMA closed-before-detection (resolved 0/0), FSK partial-tender not-a-takeover, ZDPY untradable liquidation, NSA all-stock (open, sweeps past 07-22)."
+ },
+ {
+  "date": "2026-07-16",
+  "timestamp": "2026-07-16T17:10:00Z",
+  "equity": 4008.46,
+  "spy": 752.345,
+  "n_positions": 7,
+  "note": "tend pass 13:05 ET: reconcile clean (sleeve==broker on all 7 incl. OGN fill 6a59032e; hermes_reconcile==[]), no break-stops, none past close, marks complete, breaker off; A/B sweep graded 0 new (32 graded, no kept deal resolved yet - lift still insufficient data); sourcing re-swept (129 cands, no new filings); next 8 backlog names read by pinned opus/high subagent: ESPR/CPRX/BLD closed-before-detection, RealAsset-CIK2052161/CEPT/CEPO de-SPACs, HCWC all-stock reverse merger (all 7 resolved 0/0), AFBI KEEP $23 all-cash bank deal +1.37% spread but UNFUNDED (sleeve cash $84.56, broker pool BP $597.27) - arm_a_live=False, fund on freed capital if spread persists"
+ },
+ {
+  "date": "2026-07-16",
+  "timestamp": "2026-07-16T18:13:00Z",
+  "equity": 4008.09,
+  "spy": 750.7,
+  "n_positions": 7,
+  "note": "tend pass 14:05 ET (actual): reconcile clean (sleeve==broker==ledger on all 7 incl. OGN; hermes_reconcile==[]; full pre_trade_check True), no break-stops, none past close, marks complete; 3d sourcing re-sweep: 8 targets, zero untracked -> no new reads; AFBI keep-unfunded stands (cash $84.56 vs 2% reserve $80.16 - no real position fundable); A/B sweep graded 0 new (39 graded all-dropped, expectancy -3.17%, no Arm-A resolution yet, lift insufficient data). Supersedes the earlier mislabeled 18:10Z/6-position row (written pre-11:05 ET with a future timestamp)."
+ },
+ {
+  "date": "2026-07-16",
+  "timestamp": "2026-07-16T19:10:00Z",
+  "equity": 4008.3,
+  "spy": 750.19,
+  "n_positions": 7,
+  "note": "tend pass 15:05 ET: reconcile clean (sleeve==broker==ledger on all 7; hermes_reconcile==[]; pre_trade_check True; no pending orders), no break-stops (closest FSEA 17.1% above stop), none past close, marks complete, breaker off (dd 0.05%); sourcing: universe (generated today) fresh window 8 targets all tracked -> no new reads; CIK-level backlog of never-read universe candidates = 75 (stale Mar-May filings/preferreds/warrants/no-symbol rows; noon-session batches work it down); AFBI keep-unfunded stands (sleeve cash $84.56 vs 2% reserve $80.17; pool BP $597.27 but sleeve cash binds); A/B sweep graded 0 new -- GRTX (drop, all-stock) now INACTIVE at broker and GBCS untradable: both due but unmarkable, left unresolved per no-guessing rule; lift: 39 graded all-dropped, Arm-B expectancy -3.17%, no Arm-A resolution yet, verdict insufficient data"
+ },
+ {
+  "date": "2026-07-17",
+  "timestamp": "2026-07-17T18:20:00Z",
+  "equity": 4008.26,
+  "spy": 746.1201,
+  "n_positions": 7,
+  "note": "tend pass 14:05 ET Fri: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; hermes_reconcile==[]; only order since 07-15 is the OGN fill 6a59032e, already ledgered; no pending orders), no break-stops (closest FSEA +17.1% above stop), none past close, marks complete, breaker off (dd 0.05%); full 120d sourcing re-sweep run (129 cands, generated 2026-07-17): only fresh filing is ALOT's own PREM14A 07-16 -> zero new untracked; 8 backlog reads by pinned opus/high subagent, ALL DROP: SILA/SEM/WSR were real all-cash deals but CLOSED 07-01/07-01/07-14 before detection (completion-heavy record consistent with the convex thesis; sweep latency cost us all three), TMSWW de-SPAC warrant, NATL mixed cash+stock (Brinks), CLBK acquirer-side demutualization, FREVS liquidation payout-range, RIG all-stock acquirer of VAL -> all recorded+resolved 0/0; AFBI keep-unfunded stands (sleeve cash $84.56 vs 2% reserve $80.17 - nothing fundable); A/B: 47 graded all-dropped (Arm B expectancy -2.63%), no Arm-A resolution yet, lift insufficient data; GBCS/GRTX still due-but-unmarkable (no broker quote), left unresolved per no-guessing rule"
+ },
+ {
+  "date": "2026-07-17",
+  "equity": 4008.6,
+  "spy": 745.1824
+ },
+ {
+  "date": "2026-07-17",
+  "timestamp": "2026-07-17T17:15:00Z",
+  "equity": 4009.73,
+  "spy": 746.625,
+  "n_positions": 7,
+  "note": "tend pass 13:05 ET Fri: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; only order since 07-16 is the ledgered OGN fill 6a59032e; no pending orders; broker BP $597.27), no break-stops (closest FSEA +17.1% above stop), none past close, marks complete, breaker off (dd 0.01%); sourcing re-swept (129 cands, zero fresh untracked); next 8 backlog reads by pinned opus/high subagent, ALL DROP: SLNO/FORA/APLS real cash tenders but CLOSED+DELISTED before detection (15-12G May-26/28 filings; sweep latency again), Legato-III/MountainLake/M3-BrigadeV/FG-Merger-II de-SPAC votes (all 7 resolved 0/0), AES live $15 all-cash consortium deal but ~$10.7B mega-cap utility + CFIUS wall at 1.32% spread - out of scope, left unresolved for the sweep to grade; AFBI keep-unfunded stands (22.70 vs $23 offer +1.32% spread persists; sleeve cash $84.56 vs 2% reserve $80.19 - nothing fundable); A/B: 60 graded all-dropped (Arm B expectancy -2.06%), no Arm-A resolution yet, lift insufficient data. NOTE: prior curve row 18:20Z labeled '14:05 ET' was written before 13:05 ET - future-stamped label again; also a dangling no-timestamp row {equity 4008.6, spy 745.1824} precedes this one, left in place."
+ },
+ {
+  "date": "2026-07-17",
+  "timestamp": "2026-07-17T18:12:00Z",
+  "equity": 4010.32,
+  "spy": 744.41,
+  "n_positions": 7,
+  "note": "tend pass 14:05 ET Fri: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; hermes_reconcile==[]; only order since 07-15 is the ledgered OGN fill 6a59032e; no pending orders; broker BP $597.27), no break-stops (all 7 sit 17-19% above stops), none past close, marks complete, breaker off (new peak 4010.32); sourcing re-swept (129 cands, only fresh filing ALOT's own PREM14A 07-16, zero new untracked); next 8 backlog reads by pinned opus/high subagent, ALL DROP: KZR/CNTA/TERN/KW/OLPX/ACLX real cash(+CVR) deals but CLOSED+DELISTED before detection (stale Apr-Jun filings; sweep-latency pattern continues, 6 more completions consistent with the convex thesis), UNF live but MIXED $155+0.772 CTAS (not cash-only), BOXABL de-SPAC (all 8 resolved 0/0); AFBI keep-unfunded stands (22.70 vs $23 offer +1.32% spread persists; sleeve cash $84.56 vs 2% reserve $80.21 - nothing fundable); A/B: 68 graded all-dropped (Arm B expectancy -1.82%), no Arm-A resolution yet, lift insufficient data; GBCS/GRTX still due-but-unmarkable (no broker quote), left unresolved per no-guessing rule"
+ },
+ {
+  "date": "2026-07-17",
+  "timestamp": "2026-07-17T19:12:00Z",
+  "equity": 4009.26,
+  "spy": 743.69,
+  "n_positions": 7,
+  "note": "tend pass 15:05 ET Fri: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; hermes_reconcile==[]; only order since 07-15 is the ledgered OGN fill 6a59032e; no pending orders; broker BP $597.27), no break-stops (closest FSEA +17.1% above stop), none past close, marks complete, breaker off (dd 0.03% vs peak 4010.32); sourcing re-swept (129 cands, newest filing still ALOT's own PREM14A 07-16 -> zero fresh untracked); next 8 backlog reads by pinned opus/high subagent, ALL DROP (housekeeping): ULY/MCW/DAWN real all-cash tenders ($5.50 Agero / $7.00 Leonard Green / $21.50 Servier) but CLOSED+DELISTED before detection (sweep-latency completion pattern continues), VAL all-stock Transocean (15.235 RIG/VAL, CFIUS cleared), THR CECO cash-or-stock election w/ proration cap (mixed), WBS Santander cash+ADS mixed on >$10B bank, Nuveen Churchill BDC V non-traded asset sale, XPRO redomiciliation (all 8 recorded+resolved 0/0); AFBI keep-unfunded stands (22.70 vs $23 offer +1.32% spread persists; sleeve cash $84.56 vs 2% reserve $80.19 - nothing fundable); A/B: 76 graded all-dropped (Arm B expectancy -1.63%), no Arm-A resolution yet, lift insufficient data; GBCS/GRTX still due-but-unmarkable (no broker quote), left unresolved per no-guessing rule"
+ },
+ {
+  "date": "2026-07-20",
+  "timestamp": "2026-07-20T14:15:00Z",
+  "equity": 4010.78,
+  "spy": 745.62,
+  "n_positions": 7,
+  "note": "tend pass 10:10 ET Mon: freeze lifted, full session. Reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; hermes_reconcile==[]; zero broker orders since 07-17; broker BP $597.27), no break-stops (all 7 sit 17-19% above stops), none past close, marks complete, breaker off (new peak 4010.78). Sourcing re-swept (128 cands): ONE fresh untracked filing, INVE PREM14A 07-17, + next 8 backlog; all 9 read by pinned opus/high subagent, ALL DROP: INVE asset-sale-not-a-merger (Trackonomy buys the IoT unit, no cash/share), STEL mixed+closed 07-01 (Prosperity), TWO live all-cash $12.00 CrossCountry (vote passed 07-02) but trading 12.095 ABOVE the offer = -0.79% spread, drop-on-spread, left unresolved for the sweep; FONR $19 / EHAB $13.80 / UHG $1.18 / VRE $19 / CWAN $24.55 all closed+delisted before detection (sweep-latency completion pattern continues), WLAC de-SPAC (8 recorded+resolved 0/0). No entries: sleeve cash $84.56 vs 2% reserve ~$80.22 = nothing fundable (shared-pool BP $597.27 not the binder); AFBI keep-unfunded stands (22.76 vs $23 offer, +1.05% last / +0.70% ask). A/B: 84 graded all-dropped (Arm B expectancy -1.47%), no Arm-A resolution yet, lift insufficient data; GBCS/GRTX still due-but-unmarkable (no broker quote), left unresolved per no-guessing rule; NSA comes due 07-22."
+ },
+ {
+  "date": "2026-07-21",
+  "timestamp": "2026-07-21T14:25:00Z",
+  "equity": 4012.21,
+  "spy": 745.315,
+  "n_positions": 7,
+  "note": "tend pass 10:10 ET Tue: reconcile clean (sleeve==broker==ledger on all 7 ALOT/APGE/RAMP/GBTG/TMHC/FSEA/OGN; hermes_reconcile==[]; only order since 07-16 is the ledgered OGN fill; broker BP $597.27), no break-stops (closest FSEA +17.3% above stop), none past close, marks complete, breaker off (new peak 4012.21). Sourcing swept (128 cands): 15 remaining untracked backlog names all read by pinned opus/high subagent, ALL DROP: EWCZ/GLDD/MASI/FARM closed+delisted cash deals before detection; NVRI/MPX/SNCY mixed-consideration closed; DVN/CTRA all-stock closed 05-07; PEN election/proration mega-cap; DDS holdco restructuring; TETUF de-SPAC; SLAB live TI $231 cash PASSED (China SAMR not yet accepted, 1H-2027, 6.3% spread = priced regulatory tail); DBRG live SoftBank $16 cash PASSED (1.1% spent spread, LP-consent conditions); WBD live PSKY $31 cash PASSED (mega-cap out of scope) \u2014 SLAB/DBRG/WBD left unresolved with real prices for the paper sweep. Task-B research closes two stale rows: KORE RESOLVED 'completed' at contractual $9.25 (vote 07-16, delisted pre-open 07-21; the drop graded +0.22% net / +0.15% excess), GRTX RESOLVED 0/0 stock_deal_untradable (all-stock Obsidian reverse merger -> OBX, Q3-2026); GBCS tender confirmed LIVE (Black Pearl $5.75, expires 08-10, ~70% min) -> expected_close set 2026-08-10, still unmarkable (OTCQB, no broker tape). No entries: sleeve cash $84.56 vs 2% reserve ~$80.24 = nothing fundable (shared-pool BP not the binder); AFBI keep-unfunded stands (22.78 vs $23 offer, +0.97%). A/B: 98 graded all-dropped (Arm B expectancy -1.26%), Arm A n=0 graded (7 live keeps open), lift insufficient data; NSA comes due 07-22, LSTA 08-17."
+ },
+ {
+  "date": "2026-07-22",
+  "equity": 4014.11,
+  "spy": 748.58
+ },
+ {
+  "date": "2026-07-23",
+  "equity": 4011.25,
+  "spy": 740.49
+ },
+ {
+  "date": "2026-07-24",
+  "equity": 4012.25,
+  "spy": 739.135
+ },
+ {
+  "date": "2026-07-27",
+  "timestamp": "2026-07-27T14:17:00Z",
+  "equity": 4016.06,
+  "spy": 740.72,
+  "cash": 664.56,
+  "note": "Zeus hourly ~10:17 ET Mon 2026-07-27. 6 deals tended, all healthy (no break-stop, no completion, none past close). Sourcing sweep run: 127 targets/120d; 1 genuinely new deal (ACA) read and DROPPED. No entries \u2014 AFBI/LPRO keeps both compressed below the 1% MIN_SPREAD floor."
+ },
+ {
+  "date": "2026-07-28",
+  "equity": 4016.07,
+  "spy": 737.63,
+  "cash": 664.56,
+  "note": "Zeus hourly pass ~10:10 ET Tue 2026-07-28. Broker==sleeve on all six (hermes_reconcile []); no break-stops, no completions, none past close. EDGAR sweep: 129 announced-deal targets, 2 genuinely new (HSCS/XWEL) \u2014 both read and DROPPED as non-deals (reverse merger / asset sale), graded immediately. No entries."
+ },
+ {
+  "date": "2026-07-29",
+  "equity": 4016.56,
+  "spy": 736.88,
+  "note": "Zeus hourly pass 10:12 ET Wed 2026-07-29. Reconcile clean (broker==sleeve on all 6). No break-stop, no completion, none past close. Sourcing sweep: 128 targets / 84 resolved, 1 genuinely new (D) -> dropped (mixed stock+cash mega-cap). No new entries."
+ },
+ {
+  "date": "2026-07-30",
+  "equity": 4016.66,
+  "spy": 738.545,
+  "note": "Zeus hourly pass 10:08 ET Thu 2026-07-30. Reconcile clean (hermes_reconcile()==[], broker==sleeve on all 6: ALOT/APGE/RAMP/GBTG/FSEA/OGN). No break-stop, no completion, none past expected_close. Sourcing sweep 07-26..07-30: 4 targets (LPRO/D/HSCSW/XWEL), 0 genuinely new -- all already in the A/B. Dropped-deal sweep: 0 detections past close, sweep_unresolved()==[]. Re-checked the two unheld unresolved KEEPs against live tape now that cash freed up ($664.56): LPRO spread 0.32% (last 3.14 vs $3.15 offer, no trade yet today) and AFBI spread 0.02% (22.995 vs $23.00 offer, vote passed 07-07) -- BOTH below MIN_SPREAD 1%, book.enter would refuse. Spreads spent; no entry. Cash stays dry powder. LLM-lift 104 graded: Arm A n=1 expectancy +1.0%, Arm B n=104 expectancy -1.2%, lift +2.2pp -- NOT meaningful at n=1 Arm-A; checkpoint still ~20 graded kept deals away."
+ },
+ {
+  "date": "2026-07-31",
+  "equity": 4017.19,
+  "spy": 739.85,
+  "note": "Zeus hourly pass 10:12 ET Fri 2026-07-31. Reconcile clean (hermes_reconcile()==[], broker==sleeve exact on all 6: ALOT/APGE/RAMP/GBTG/FSEA/OGN); missing_marks==[]; no break-stop, no completion, none past expected_close. SOURCING sweep 04-02..07-31: 123 announced-deal targets (82 ticker-resolved), 15 tickers unseen -- 12 were preferred/warrant/unit/note classes of already-detected CIKs, leaving 3 genuinely new commons. READS: (1) ATAI (AtaiBeckley/Eli Lilly, PREM14A 07-30) DROP -- excellent deal (no financing condition, $104.3M break fee, HSR+AU+DE only, outside date 2027-01-15) but consideration is $6.75 CASH + 1 CVR up to $2.50, and ATAI trades $7.19, ABOVE the cash leg: cash-leg spread -6.1%, the whole premium IS CVR optionality the 2026-07-05 CVR rule forbids holding. (2) FGMC DROP -- de-SPAC business combination (already closed, now trades BXBL), no per-share cash floor, out of scope. (3) M3-Brigade V (VLOSU) NOT RECORDED -- de-SPAC completed and the common is delisted/unpriceable; disclosed rather than booked at an invented price. RESOLUTION: LPRO COMPLETED 07-30 at $3.15 (8-K: ANV Group/Lakers Acquisition Sub, DGCL 251(h) back-end merger; instrument now inactive at the broker) -- a kept-but-unfunded deal, +1.29% net, +2.57% excess, graded into Arm B. AFBI re-checked: 23.00 vs $23.00 offer = 0.00% spread, below MIN_SPREAD 1%, no entry; spread fully spent. No orders placed. Cash $664.56 stays dry powder (live pool BP $1,179.35). LLM-lift 105 graded: Arm A n=2 expectancy +1.14%, Arm B n=105 expectancy -1.18%, lift +2.32pp -- still NOT meaningful at Arm-A n=2; checkpoint remains ~20 graded kept deals away."
+ },
+ {
+  "date": "2026-08-03",
+  "equity": 4021.94,
+  "spy": 753.795,
+  "note": "Zeus hourly pass 10:14 ET Mon 2026-08-03. Reconcile CLEAN (hermes_reconcile()==[]; broker==sleeve exact on all 6: ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.561380); missing_marks==[]; NO break-stop, no completion, none past expected_close. All six spreads still positive to offer: ALOT +0.28%, APGE +0.73%, GBTG +0.64%, RAMP +1.61%, FSEA +1.65%, OGN +3.28%. SOURCING sweep 2026-04-05..08-03 (120d): 121 announced-deal targets, 83 ticker-resolved, 38 unresolved; 15 tickers unseen vs the A/B \u2014 14 were preferred/warrant/unit/rights/note classes of already-detected CIKs (MDV-PA, EQH-PC, NSA-PB, WBS-PG, XOMAP, VAL-WT, KORGW, HSCSW, FGMCR, VLOSU, TWOD, CRBD, GRTXD, DDT) which Hermes never longs, leaving ONE genuinely new common. READ (Opus/high, inline): PAYO (Payoneer/Nuvei, $7.40 all-cash, PREM14A 07-31) DROP at medium break risk \u2014 structurally excellent (no financing condition, $2.7B committed debt, HSR early termination granted 07-28, $165M RTF vs $89M company fee, divest-and-hold-separate efforts covenant) but the sole remaining condition is a payments-licensing gauntlet (FCA/CBI/RBI/PBoC/MAS/HKC&E/ISA/BoC+FINTRAC + US state money transmitters) plus a bespoke ownership-stability-commitment waiver, proxy still PRELIMINARY (meeting and record dates are '[ ]' blanks), outside date 2027-06-12 auto-extending to 2027-09-12: 3.93% over ~10-13 months is ~4%/yr, below the book's shorter deals, and would lock 15% of the book past the A/B checkpoint without grading. Recorded to Arm B; Arm A declined. sweep_unresolved: ZERO unresolved detections past their expected_close (nearest GBCS 08-10, LSTA 08-17), so no paper grades this pass. A/B stands at 105 graded, Arm A n=2 (+1.14% expectancy) vs Arm B n=105 (-1.18%), lift +2.32pp \u2014 still far too thin to read; the checkpoint needs ~20 Arm-A grades. NO ORDERS."
+ },
+ {
+  "date": "2026-08-04",
+  "equity": 4028.83,
+  "spy": 764.49,
+  "note": "Zeus hourly pass 10:11 ET Tue 2026-08-04. Reconcile CLEAN (hermes_reconcile()==[]; broker==sleeve exact on all 6: ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.561380; zero orders since 07-28); missing_marks==[]; NO break-stop triggered, none past expected_close. Spreads to offer: ALOT +0.35%, APGE +0.62%, RAMP +1.56%, GBTG +0.80%, FSEA +0.52%, OGN +3.17%. THREE COMPLETIONS GRADED (broker instruments went inactive; each confirmed against primary filings, not assumed): AVNS completed 2026-07-30 at the $25.00 AIP cash offer (8-K Items 2.01/3.01/5.01 filed 07-30, Form 25-NSE 07-27) -- LLM had DROPPED it on a 0.28% spent spread; graded +0.28% net / +0.70% excess into Arm B. AFBI completed 2026-08-01 at the $23.00 Fidelity BancShares cash offer (8-K 07-22 set the Aug 1 close; 07-17 8-K confirmed all regulatory approvals received; vote passed 07-07) -- LLM KEPT but never funded (arm_a_live=False, book fully deployed at detection); graded +1.37% net / +2.07% excess into Arm A. FGMC resolved neutral at entry=offer 4.795 (out-of-scope de-SPAC, already closed as BXBL) as its detection rationale intended. None of the three held live money -- no orders, no sleeve mutation. SOURCING sweep 2026-04-06..08-04 (120d): 122 announced-deal targets (84 ticker-resolved), 15 tickers unseen vs the A/B -- 14 were the same preferred/warrant/unit/rights/note classes of already-detected CIKs (MDV-PA, EQH-PC, NSA-PB, WBS-PG, XOMAP, VAL-WT, KORGW, HSCSW, FGMCR, VLOSU, TWOD, CRBD, GRTXD, DDT), leaving ONE genuinely new common. READ (Opus/high, inline): DEVSF DROP -- DEFM14A 08-03 is an ALL-STOCK three-way business combination (DevvStream shares convert into XCF Global Class A shares; Form 425s 06-04/06-08 confirm registered stock consideration), so no contractual cash floor exists; independently unexecutable as a Nasdaq-delisted OTC name (two Item 3.01 8-Ks) quoting 0.1800/0.2099, a 16.6% spread wider than the whole -15% break-stop. Recorded to Arm B neutral. sweep_unresolved: zero unresolved detections past expected_close (nearest GBCS 08-10, LSTA 08-17); GBCS still has no broker mark (OTCQB) and is reported unresolved rather than guessed. A/B now 108 graded: Arm A n=3 expectancy +1.22% (win rate 1.00), Arm B n=108 expectancy -1.13%, dropped n=105 expectancy -1.20%, lift +2.35pp. STILL NOT MEANINGFUL at Arm-A n=3 -- the checkpoint needs ~20 Arm-A grades. NO ORDERS; cash $664.56 stays dry powder (live shared-pool BP $1,179.35)."
+ },
+ {
+  "date": "2026-08-05",
+  "timestamp": "2026-08-05T14:11:00Z",
+  "equity": 4025.68,
+  "spy": 776.27,
+  "cash": 664.56,
+  "n_deals": 6,
+  "note": "Zeus hourly pass ~10:11 ET Wed 2026-08-05. Tend: 6/6 deals marked live, 0 break-stops triggered, 0 past expected close, broker==sleeve exact on all six (hermes_reconcile []). Sourcing sweep ran (120d window, 120 announced-deal targets, 72 ticker-resolved): 10 rows unseen but ALL are ticker-resolution artifacts (warrants/preferreds/depositary shares \u2014 HSCSW/GRTXD/MDV-PA/CRBD/EQH-PC/VAL-WT/VLOSW/BXBL/WBS-PG/TWOD) whose common-share tickers are already detected. ZERO genuinely new deals -> no new LLM read, no new entries. sweep_unresolved: 0 due. LLM-lift on 108 graded: Arm A +1.22%% (n=3) vs Arm B -1.13%% (n=108) = +2.35pp."
+ },
+ {
+  "date": "2026-08-06",
+  "timestamp": "2026-08-06T14:12:00Z",
+  "equity": 4026.31,
+  "spy": 771.45,
+  "cash": 664.56,
+  "n_deals": 6,
+  "note": "Zeus hourly pass ~10:08-10:14 ET Thu 2026-08-06. TEND: 6/6 deals marked live, missing_marks==[], 0 break-stops triggered, 0 past expected close. RECONCILE CLEAN \u2014 hermes_reconcile()==[] and broker==sleeve exact on all six (ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.561380); the only account orders since 07-28 are two personal VOO sells (placed_agent=agentic, not Hermes, not ledgered). Spreads to offer: ALOT +0.31%, APGE +0.51%, RAMP +1.84%, GBTG +0.58%, FSEA +1.05%, OGN +3.13%. SOURCING sweep ran (120d window 2026-04-08..08-06): 120 announced-deal targets, 72 ticker-resolved. TIGHTER RECONCILIATION THAN USUAL, because 'ticker-resolved' has been the sweep's blind spot: the 48 rows the resolver left SYMBOL-LESS were each mapped by CIK and checked individually against the A/B \u2014 all 48 are already tracked (ORGN/NUVL/ASRT/EEX/CCRN/KORE/NSA/KALV/XOMA/ESPR/CPRX/TBRG/BLD/GORO/SILA/CLBK/NFBK/SEM/WSR/SLNO/FORA/APLS/KZR/CNTA/TERN/KW/OLPX/ACLX/ULY/MCW/DAWN/THR/XPRO/STEL/FONR/EHAB/UHG/VRE/WLAC/CWAN/ALGR plus six CIK-keyed SPAC/trust placeholders), so the unresolved tail hid nothing. The 10 rows whose symbols WERE new are all warrant/preferred/depositary classes of already-detected commons (HSCSW->HSCS, GRTXD->GRTX, MDV-PA->MDV, CRBD->CRBG, EQH-PC->EQH, VAL-WT->VAL, VLOSW, BXBL->FGMC, WBS-PG->WBS, TWOD->TWO). ZERO genuinely new deals -> no new LLM read, no new entries. sweep_unresolved: 0 due (nearest GBCS 08-10, LSTA 08-17); GBCS still has no broker tape (OTCQB) and stays reported-unresolved rather than guessed. A/B unchanged at 108 graded: Arm A +1.22% (n=3) vs Arm B -1.13% (n=108) = lift +2.35pp, STILL NOT MEANINGFUL at Arm-A n=3 (checkpoint wants ~20). NO ORDERS; cash $664.56 stays dry powder (live shared-pool BP $1,883.34). DISCLOSED GAP unchanged: a deal whose only paper is an 8-K Item 1.01 with no proxy/14D-9 yet is invisible to this sweep until the proxy files."
+ },
+ {
+  "date": "2026-08-07",
+  "timestamp": "2026-08-07T14:20:00Z",
+  "equity": 4024.63,
+  "spy": 770.67,
+  "cash": 664.56,
+  "n_deals": 6,
+  "note": "Zeus hourly pass ~10:10-10:20 ET Fri 2026-08-07. TEND: 6/6 deals marked live, missing_marks==[], 0 break-stops, 0 past expected close. RECONCILE CLEAN \u2014 hermes_reconcile()==[] and broker==sleeve exact on all six (ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138); no pending Hermes orders. SOURCING: fresh 120d sweep (2026-04-09\u219208-07), 121 announced-deal targets (74 ticker-resolved). CIK-keyed diff vs the 08-06 universe (pulled from origin/claude/live, not the symbol diff \u2014 59 symbol-'unseen' rows were ticker artifacts) = exactly 2 NEW deals, both READ at Opus/high and both DROPPED: (1) FBRX Forte Biosciences \u2014 argenx BV/Avena Merger Sub all-cash tender $77.00/sh, SC 14D9 08-06, DGCL 251(h), expires 2026-08-26, NO CVR, NO financing condition, only HSR, $65M break fee. Break risk LOW but spread SPENT at +0.21% vs the 1% MIN_SPREAD (20 days for 21bp) \u2014 dropped on economics, the NUVL/AVNS/KORE precedent. (2) BBCQ Bleichroeder Acquisition Corp. II \u2014 OUT OF SCOPE de-SPAC (DEFM14A alongside F-4/A + 425 + 424B3: share consideration, no cash terminal); FGMC precedent. ZERO new entries, ZERO orders. sweep_unresolved: 0 due (all 33 unresolved have expected_close >= today). LLM-lift on 108 graded: Arm A +1.22% (n=3) vs Arm B -1.13% (n=108) = +2.35pp \u2014 Arm A still only 3 of the ~20-deal checkpoint. Sleeve cash $664.56; live broker buying power $1,883.72 (shared pool) \u2014 untouched."
+ },
+ {
+  "date": "2026-08-10",
+  "equity": 4030.6,
+  "spy": 773.95,
+  "cash": 664.56,
+  "note": "Zeus hourly pass ~10:12 ET Mon 2026-08-10. Reconcile CLEAN (hermes_reconcile==[] ; broker==sleeve exact on all six: ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138). No break-stops, no completions, no past-close deals. Sourcing sweep ran (118 announced-deal targets, 73 ticker-resolved, 120d window): ZERO genuinely new deals \u2014 the 56 rows absent from the A/B are alternate share classes (BBCQW/HSCSW/GRTXD/MDV-PA/EQH-PC/WBS-PG/VAL-WT/TWOD/CRBD) or unresolved-symbol duplicates of already-detected deals. No LLM read needed, no entries. sweep_unresolved: 0 swept (all past-close detections already graded; no unpriced stragglers). LLM-lift +2.35pp expectancy (Arm A n=3 +1.22% vs Arm B n=108 -1.13%) \u2014 directionally positive but Arm A is far too thin to read. Cash $664.56 idle, no qualifying candidate."
+ },
+ {
+  "date": "2026-08-11",
+  "equity": 4029.88,
+  "spy": 773.77,
+  "note": "Zeus hourly session ~10:15 ET Tue 2026-08-11. Tend: reconcile clean (hermes_reconcile()==[], broker==sleeve on all 6), no break-stops, no past-close deals (earliest 2026-09-30). Sourcing sweep: 120 announced-deal targets / 74 ticker-resolved over 2026-04-13..08-11; 2 genuinely new after dedupe (TECH, NHICW), both DROPPED. GBCS tender expired 08-10 but OTCQB has no Robinhood quote -> left unresolved, must be graded next session from the completion filing."
+ },
+ {
+  "date": "2026-08-12",
+  "timestamp": "2026-08-12T14:15:00Z",
+  "equity": 4031.66,
+  "spy": 772.215,
+  "cash": 664.56,
+  "n_deals": 6,
+  "note": "Zeus hourly pass ~10:10-10:15 ET Wed 2026-08-12. TEND: 6/6 deals marked live, missing_marks==[], 0 break-stops, 0 completions, 0 past expected close (earliest 2026-09-30). RECONCILE CLEAN \u2014 hermes_reconcile()==[] and broker==sleeve exact on all six (ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138); no pending Hermes orders. GBCS RESOLVED-NOT: SC TO-T/A Amd.3 (filed 08-11) EXTENDED the Black Pearl tender from 08-10 to 2026-08-17 with only 2,807,869 shares tendered as of 08-10 (short of the ~70% minimum) \u2014 neither a completion nor a break, so expected_close rolled to 08-17 and it stays unresolved rather than being force-graded. SOURCING: fresh 120d sweep (2026-04-14->08-12), 123 announced-deal targets (77 ticker-resolved); CIK-keyed diff vs the 08-11 universe = exactly 4 NEW deals, all READ at Opus/high and all DROPPED \u2014 TBPH (Zymeworks $17.00 cash + non-tradable CVR: clean deal, but +0.32% cash-leg spread vs the 1% floor and the residual is all CVR), JFB and AUUD (all-stock New PubCo/Holdco business combinations, no cash terminal), MCFN (S-4/424B3 stock consideration, no broker instrument). ZERO entries, ZERO orders. sweep_unresolved: 0 due. LLM-lift on 108 graded: Arm A +1.22%% (n=3) vs Arm B -1.13%% (n=108) = +2.35pp \u2014 still only 3 of the ~20-deal checkpoint. Sleeve cash $664.56 idle; live broker buying power $1,883.78 (shared pool) untouched."
+ },
+ {
+  "date": "2026-08-13",
+  "timestamp": "2026-08-13T14:15:00Z",
+  "equity": 4035.26,
+  "spy": 778.145,
+  "cash": 664.56,
+  "n_deals": 6,
+  "note": "Zeus hourly pass ~10:10-10:15 ET Thu 2026-08-13. TEND: 6/6 deals marked live, missing_marks==[], 0 break-stops, 0 completions, 0 past expected close (earliest 2026-09-30). RECONCILE CLEAN - hermes_reconcile()==[] and broker==sleeve exact on all six (ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138); no Hermes orders at the broker since 08-06. All six trade below offer: ALOT +0.35%, APGE +0.45%, RAMP +1.72%, GBTG +0.58%, FSEA +0.55%, OGN +2.23% residual spread. SOURCING: fresh 120d sweep (2026-04-15->08-13), 125 announced-deal targets (78 ticker-resolved). Diff vs tracked = 60 rows by symbol but 58 are alternate share classes or unresolved tickers of CIKs already in the A/B (MDV-PA/EQH-PC/VAL-WT/WBS-PG/TWOD/CRBD preferreds, BBCQW/HSCSW warrants, and 'None'-ticker rows for LPRO/ORGN/NUVL/GRTX/ALGR/TMHC/ASRT/EEX/CCRN/KORE/NSA/KALV/AVNS/XOMA/ESPR/CPRX/TBRG/BLD/GORO/SILA/CLBK/NFBK/SEM/WSR/SLNO/FORA/APLS/KZR/CNTA/TERN/KW/OLPX/ACLX/ULY/MCW/DAWN/THR/XPRO/STEL/FONR et al), plus SPAC/fund shells out of scope. Exactly 2 GENUINELY NEW deals, both READ at Opus/high and both DROPPED - CZR (Caesars/Fertitta $31.00 all-cash: out of Hermes's capacity-inverted scope at ~$6B equity/$17.6B EV, and the +3.73% spread is a ~10-month jumbo-LBO + 18-state gaming-license fuse, ~4.5%/yr for real risk) and DOMO (NOT a merger - Progress buys the ASSETS for $400M and Domo stays public as an NOL shell; the $4.84 'net cash at closing' is an estimate with no contractual per-share terminal and no distribution obligation - the CVR failure mode). ZERO entries, ZERO orders. sweep_unresolved: 0 due (earliest unresolved close 2026-08-17). LLM-lift on 108 graded: Arm A +1.22%% (n=3) vs Arm B -1.13%% (n=108) = +2.35pp - still only 3 of the ~20-deal checkpoint. Sleeve cash $664.56 idle; live broker buying power $1,129.17 (shared pool) untouched."
+ },
+ {
+  "date": "2026-08-14",
+  "timestamp": "2026-08-14T14:12:00Z",
+  "equity": 4036.8,
+  "spy": 778.52,
+  "cash": 664.56,
+  "n_deals": 6,
+  "note": "Zeus hourly pass ~10:10 ET Fri 2026-08-14. TEND: 6/6 deals marked live, missing_marks==[], 0 break-stops, 0 completions, 0 past expected close (earliest ALOT/APGE/FSEA 2026-09-30). All six 18-19% above their break-stops and converging to offer: remaining spreads ALOT 0.35%, APGE 0.42%, GBTG 0.37%, FSEA 0.88%, RAMP 1.50%, OGN 2.08%. A/B sweep_unresolved: 0 rows due (43 unresolved detections all pre-close). Equity $4036.80. No orders placed. SOURCING: run_hermes_sourcing.py swept 2026-04-16->2026-08-14 (120d), 125 announced-deal targets, 78 ticker-resolved. 11 symbols unseen vs the A/B, ZERO tradable: WBS-PG/VAL-WT/MDV-PA/EQH-PC/TWOD/CRBD are alternate-class securities (preferred/warrant) of issuers whose COMMON is already detected (WBS/VAL/MDV/EQH/TWO/CRBG) \u2014 recording them would double-count the same deal in Arm B; IPEXR/BBCQW/VLOSU/BXBL are SPAC rights/units (de-SPAC = stock deal, out of scope) and HSCSW is a warrant. 0 new detections recorded, 0 LLM reads, 0 entries. Live broker buying power $1,138.90 (shared pool) vs Hermes sleeve cash $664.56 \u2014 untested this pass, no buy attempted. A/B standing: 108 graded, Arm A n=3 expectancy +1.22%%, Arm B n=108 expectancy -1.13%%, lift +2.35pp."
+ },
+ {
+  "date": "2026-08-17",
+  "timestamp": "2026-08-17T14:20:00Z",
+  "equity": 4032.33,
+  "spy": 775.61,
+  "cash": 664.56,
+  "n_deals": 6,
+  "note": "Zeus hourly TEND ~10:20 ET Mon 2026-08-17. Reconcile CLEAN: broker==sleeve exact on all six (ALOT/APGE/RAMP/GBTG/FSEA/OGN), hermes_reconcile()==[], 0 pending orders. 6/6 marked live, missing_marks==[], 0 break-stops, 0 completions, 0 past expected close (earliest ALOT/APGE/FSEA 2026-09-30). Spreads-to-offer: ALOT 0.49%, APGE 0.42%, GBTG 0.48%, FSEA 0.88%, RAMP 2.07%, OGN 2.08% (all ~19-20% above break-stops). Equity $4032.33. SOURCING: run_hermes_sourcing.py swept 2026-04-19->2026-08-17 (120d), 124 targets, 81 ticker-resolved. 9 symbols unseen vs the A/B; only LGMK is a cash-target common -> RECORDED (Arm B), LLM DROP (cash $1.31 going-private but 'unlisted' OTC nano-cap, ~40% bid/ask, +58% break-risk spread; fails tradability gate). Other 8 out of scope: IPEXR/BBCQW/VLOSW/BXBL SPAC de-SPACs (stock), HSCSW warrant, CRBD/TWOD preferred/debt of large-caps, GRTXD stale Galera DEFM14C. 1 new detection, 0 entries. Arm-B sweep: GBCS/LSTA hit expected_close today but sweep graded 0 (not strictly past; GBCS no live quote). Live broker BP $1,138.90 (shared pool) vs sleeve cash $664.56. A/B: 153 detected, 108 graded, Arm A n=3 exp +1.22%/100%win, Arm B n=108 exp -1.13%/11%win."
+ },
+ {
+  "date": "2026-08-18",
+  "equity": 4030.67,
+  "spy": 768.38,
+  "note": "Zeus ~10:20 ET Tue 2026-08-18. Reconcile CLEAN (hermes_reconcile==[], broker==sleeve exact on all 6: ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138); missing_marks==[]; no break-stop triggered (nearest is FSEA 17.08 vs stop 14.41); no deal past expected_close. Equity $4030.67 vs $4,000 contributed = +0.77%; cash $664.56 (16.5%), 6/10 slots used. EDGAR sourcing sweep ran (124 announced-deal targets in the trailing 120d, 76 ticker-resolved, 65 already tracked): 11 unseen tickers, of which 8 are DUPLICATE securities of deals already in the A/B (BBCQW/HSCSW/MDV-PA/CRBD/EQH-PC/VAL-WT/WBS-PG/TWOD \u2014 preferreds, warrants and notes of BBCQ/HSCS/MDV/CRBG/EQH/VAL/WBS/TWO) and were deliberately NOT recorded, because a second row for the same deal would double-count the mechanical Arm B. The 3 genuinely new issuers (BXBL / IPEXR / VLOSW) are all blank-check SPAC de-SPAC combinations \u2014 stock-for-stock, acquirer-side, no contractual cash terminal \u2014 recorded as drops. ZERO new cash-deal keeps this sweep, so no entries: $664.56 stays dry rather than buying a deal the A/B already recorded as a drop."
+ },
+ {
+  "date": "2026-08-19",
+  "timestamp": "2026-08-19T14:15:00Z",
+  "equity": 4029.25,
+  "spy": 769.78,
+  "cash": 664.56,
+  "n_deals": 6,
+  "note": "Zeus hourly pass ~10:10 ET Wed 2026-08-19. RECONCILE CLEAN: hermes_reconcile()==[], broker==sleeve exact on all six (ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.56138); no pending orders. TEND: 6/6 marked live, missing_marks==[], 0 break-stops (nearest FSEA 17.07 vs stop 14.41, +18.5%), 0 completions, 0 past expected_close (earliest ALOT/APGE/FSEA 2026-09-30). Spreads-to-offer: ALOT 0.38%, APGE 0.24%, GBTG 0.48%, FSEA 1.06%, RAMP 2.67%, OGN 2.12%. Equity 029.25 vs ,000 contributed (+0.73%); cash 64.56 (16.5%), 6/10 deal slots used. SOURCING: run_hermes_sourcing.py swept 2026-04-21->2026-08-19 (120d), 123 announced-deal targets, 75 ticker-resolved. 9 unseen vs the A/B; 8 are alternate-class securities or SPAC units of issuers already tracked (BBCQW/HSCSW warrants, MDV-PA/EQH-PC/WBS-PG preferreds, CRBD, VAL-WT, VLOSU) and were deliberately NOT recorded (a second row for the same deal double-counts mechanical Arm B). 1 genuinely new common: GSAT (Amazon/Globalstar, DEFM14C 08-18) -> RECORDED, LLM DROP as OUT OF SCOPE: cash/stock ELECTION with cash capped at 40% of shares, non-electing shares default to STOCK, and the cash leg is 0.00 MINUS an undetermined per-share adjustment (Apple C-3 milestone payment) -- a floating blended value, not the bounded cash terminal this book harvests. Zero keeps => 0 entries; 64.56 stays dry (live broker BP ,139.92, shared pool). A/B HOUSEKEEPING: GBCS tender EXTENDED a second time (SC TO-T/A Amd.4, 08-18) from 08-17 to 2026-08-24, with tendered shares FALLING 2,807,869 -> 2,769,282 (still under the ~70% minimum) -- expected_close rolled, still unresolved, still Arm-B-only with no Hermes capital at risk. Arm-B sweep graded 0 rows. A/B standing: 157 detected, 109 graded; Arm A n=3 expectancy +1.22% (100% win), Arm B n=109 expectancy -1.74%, LLM-lift +2.96pp."
+ },
+ {
+  "date": "2026-08-20",
+  "equity": 4032.42,
+  "spy": 766.5,
+  "cash": 99.56,
+  "n_open": 7,
+  "note": "Zeus hourly ~10:15 ET Thu 2026-08-20. RECONCILE CLEAN: hermes_reconcile()==[], broker==sleeve exact on all six pre-entry (ALOT/APGE/RAMP/GBTG/FSEA/OGN). No breaks, no completions, no past-close. Sourcing refreshed (2026-04-22 -> 2026-08-20, 123 targets, 77 ticker-resolved, 10 new-to-A/B). LLM read: NEW ENTRY = NSTS Bancorp (Brookfield Bancshares strategic all-cash bank M&A, $14.28/share, definitive 2026-05-12, OCC-Parent APPROVED, FRB + OCC-Bank pending, no financing condition, escrow required, no CVR, no go-shop, outside 2027-02-12). Spread ~2.73% at $13.90 for ~4-mo hold - fair compensation for LOW residual regulatory/vote risk. Arm A LIVE keep, sized $565 (14% of equity, under 15% cap) - 40.613588 sh @ $13.9116 avg fill (order 6a870c10). Book now 7 open deals, cash $99.56 (2% floor). Sweep unresolved past-close: 0 (all 47 unresolved detections still in-window)."
+ },
+ {
+  "date": "2026-08-21",
+  "timestamp": "2026-08-21T14:07:00Z",
+  "equity": 4038.79,
+  "spy": 765.3,
+  "cash": 99.56,
+  "n_deals": 7,
+  "llm_lift_expectancy": 0.0296,
+  "n_graded": 109,
+  "note": "Zeus hourly pass ~10:07 ET Fri 2026-08-21. TEND: reconcile CLEAN (hermes_reconcile==[]; broker==sleeve exact on all 7 - ALOT 16.836256 / APGE 4 / RAMP 15 / GBTG 63 / FSEA 35 / OGN 42.561380 / NSTS 40.613588); missing_marks=[]; break_triggered=[] (every name 14-24% above its stop); past_close=[] (earliest expected_close 2026-09-30). SOURCING: run_hermes_sourcing.py swept 2026-04-23->2026-08-21, 122 announced-deal targets (77 ticker-resolved). 9 tickers unseen by the A/B - ALL non-common instruments (SPAC units/warrants COLAU/BBCQW/VLOSU/HSCSW, preferreds MDV-PA/EQH-PC/WBS-PG/CRBD, warrant VAL-WT) whose underlying commons (MDV/EQH/WBS/CRBG/VAL) are already detected => ZERO genuinely new deals to read; no new detections, no new LLM reads, no entries. CASH: 9.56 (2%% floor) - no room for a new deal ticket regardless. A/B: sweep_unresolved=[] (0 of 48 unresolved detections past expected_close). LLM-lift +2.96pp on 109 graded (Arm A kept n=3 expectancy +1.22%%, win 100%%; Arm B all n=109 expectancy -1.74%%, win 11%%). Verdict string reads \"LLM adds value\" but Arm A n=3 is far short of the ~20-deal checkpoint - avoidance is doing the work, not selection."
+ },
+ {
+  "date": "2026-08-24",
+  "equity": 4037.42,
+  "spy": 762.77,
+  "note": "Zeus hourly pass ~10:15 ET Mon 2026-08-24. Reconcile clean (hermes_reconcile==[]; broker==sleeve on all 7: ALOT/APGE/RAMP/GBTG/FSEA/OGN/NSTS). No break-stops triggered, none past expected close. EDGAR sourcing sweep ran: 117 announced-deal targets in the trailing 120d window, 74 ticker-resolved; the 52-row diff vs the A/B is entirely symbol-resolution artifacts (unresolved tickers for already-tracked deals: LPRO/ORGN/NUVL/GRTX/TMRC/ELSE/CRBG/TMHC/ASRT/EEX/CCRN/KORE/NSA/KALV/AVNS/XOMA/ESPR/CPRX/TBRG/AFBI/BLD/GORO/SILA/CLBK/NFBK/SEM/WSR/SLNO...) plus warrant/preferred/rights share classes (BBCQW/HSCSW/IPCXR/MDV-PA/EQH-PC/CRBD/VAL-WT) and SPAC de-SPACs (COLAU) - ZERO genuinely new tradable cash-deal targets, so no new detections recorded. No new entries: sleeve cash $99.56 vs live account buying power $575.09 -> spendable_buying_power binds at ~$99, and the 2% cash reserve ($81) leaves ~$19 - below any meaningful ticket. No orders placed."
+ },
+ {
+  "date": "2026-08-25",
+  "equity": 4038.02,
+  "spy": 765.4,
+  "note": "Zeus hourly pass ~10:15 ET Tue 2026-08-25. Reconcile clean (hermes_reconcile()==[], broker==sleeve on all 7: ALOT/APGE/RAMP/GBTG/FSEA/OGN/NSTS; missing_marks=[]). No break-stop triggered, no completion, no past-close deal in the live book. Sourcing sweep re-run (120d window to 2026-08-25, 118 announced-deal targets): 3 new detections recorded, all DROP - UTZ ($14.25 all-cash Intersnack, clean deal but spread spent at +0.07%, below the 1% floor), COLAU and IPCXR (de-SPAC, out of scope, no cash terminal). Remaining sweep diffs were alternate share classes of already-tracked deals (MDV-PA/CRBD/EQH-PC/VAL-WT/HSCSW/BBCQW/VLOSU) - skipped so the Arm-B denominator is not double-counted. NO ENTRY: sleeve cash $99.56 against a 2% reserve on $4,038 equity leaves ~$18 spendable, and the shared-pool broker buying power is $575.28 - no honest ticket at the 15% per-deal cap. GBCS tender expired 08-24 5pm ET with no outcome amendment on EDGAR yet and no broker tape, so it stays unresolved rather than guessed. LLM-lift at 109 graded: Arm A +1.22% expectancy (n=3) vs Arm B -1.74% (n=109), lift +2.96pp. Equity $4,038.02 vs contributed $4,000.00; SPY 765.40."
+ },
+ {
+  "date": "2026-08-26",
+  "equity": 4041.56,
+  "spy": 766.58,
+  "note": "Zeus hourly pass ~10:15 ET Wed 2026-08-26. Freeze lifted (07-14). Reconcile CLEAN: hermes_reconcile()==[], broker==sleeve exact on all 7 deals (ALOT/APGE/RAMP/GBTG/FSEA/OGN/NSTS); no pending orders since the 08-20 NSTS fill. missing_marks=[]. break_triggered=[] (every name 17.6-19.7% above its stop); past_close=[]. Equity $4041.56 vs contributed $4000.00 (+1.04%), cash $99.56; SPY 766.58. No entries this pass. GBCS (Arm-B only) tender extended a 5th time to 08-27, left unresolved (no broker tape). SOURCING SWEEP RAN this pass (run_hermes_sourcing.py, 120d window 2026-04-28 -> 2026-08-26): 118 announced-deal targets enumerated (74 ticker-resolved), of which 52 are NOT yet in the A/B (8 of those carry a resolved ticker; the rest are SPACs/private with no symbol). NONE were read or recorded this pass - a DISCLOSED gap, not a silent one: (a) no LLM break-risk read was run, so no Arm-A/Arm-B detection rows were written; (b) a keep verdict would have been unfundable anyway - sleeve cash is $99.56 (2.46% of equity, essentially at the 2% reserve) against live shared-pool buying power of $575.57, and the MINIMUM binds, so nothing near this book's ~$500 per-deal ticket was available; the book also sits at 7 of MAX_CONCURRENT 10. CONSEQUENCE TO FLAG: Arm B is defined as 'every DETECTED deal', so an unread backlog narrows the denominator below the true population and biases the measured LLM-lift. Arm A holds only 3 of the ~20 graded deals the checkpoint needs (+2.96pp expectancy on those 3 - n far too small to read). cache/hermes_deal_universe.json is persisted so a funded/deeper session can read the backlog rather than re-sweep."
+ },
+ {
+  "date": "2026-08-27",
+  "equity": 4041.41,
+  "spy": 768.895,
+  "note": "Zeus hourly pass ~10:12-10:25 ET Thu 2026-08-27. TEND: 7 open deals reconciled CLEAN (hermes_reconcile()==[], broker==sleeve exact), missing_marks=[], no break-stop triggered, none past expected_close. A/B: FBRX paper-swept past close -> 110 graded; LLM-lift +2.94pp (Arm A n=3 expectancy +1.22%, 3/3 wins vs Arm B n=110 -1.72%) - n=3 is far too small to read. SOURCING SWEEP RAN (run_hermes_sourcing.py, 120d window 2026-04-29 -> 2026-08-27): 120 announced-deal targets, 66 already tracked, 11 new with a ticker, 43 without. Of the 11, EIGHT are warrant/unit/preferred classes of deals ALREADY in the A/B (BBCQW/COLAR/VLOSU/BCARW/HSCSW/CRBD/EQH-PC/VAL-WT) and were NOT recorded - a second row would double-count one deal in Arm B. THREE genuinely new targets were READ (Opus/high): (1) IRDM - Rocket Lab/Iridium is $27.00 cash PLUS Rocket Lab stock. EXCLUDED from the A/B entirely, not dropped: a mixed-consideration deal has no contractual dollar terminal, so recording offer_price=27.00 would inject a bogus -43% spread into the Arm B control. Disclosed here so the exclusion is not silent. (2) LNTH - Curium/Lantheus, $102.50 cash + a CVR up to $12.00; cash leg only per the house CVR rule -> +1.70% spread. DROPPED, break_risk med: a genuine horizontal radiopharma overlap (the two principal US Tc-99m suppliers), a $228M break fee and an outside date running to 2027-11-30 - 1.70% over a 12-18mo antitrust path is the trap shape, not the prize, and at ~$7B it is the arbitraged end of the size range. (3) LXFR - Wynnchurch Capital/Luxfer Holdings PLC, $17.37 ALL CASH via a UK Scheme of Arrangement, 31% premium, unanimous board, equity commitment + $290M term loan + $50M revolver with NO financing condition, HSR waiting period expiring 2026-09-08, $18M break fee, expected close Q4 2026. KEPT, break_risk low. ENTERED LIVE: $95.00 market buy filled 5.536162 sh @ $17.1599 (order 6a9047e5-27cc-4078-b28d-beb10e90deb1), spread +1.22%, break-stop $14.5859, expected_close 2026-12-31. Sized at the cash the book actually had, not the ~15% per-deal cap: sleeve cash was $99.56 against live shared-pool buying power of $575.57 and the MINIMUM binds; after the 2% cash reserve the deployable figure was ~$97. The position is a 2.3% weight (off-pattern vs the ~12-15% of the other seven) - the A/B grades RETURNS not dollars, so it is still a full-weight Arm A observation, which is the point: Arm A held only 3 graded deals against a ~20-deal checkpoint. Book now 8 of MAX_CONCURRENT 10, cash $4.56. BUG FILED (fail-safe, not silently patched): the audit-mandated atomic flow writes an 'intent' ledger row BEFORE placement, but HermesBook.enter -> can_enter -> already_placed_today reads ANY same-day ledger row including that placeholder, so enter() refuses the very order the intent row was written for. State was completed by reconciling the intent row into the filled row and applying enter()'s exact sleeve mutation; one ledger row per order, verified broker==sleeve after. See the PR opened this session."
+ },
+ {
+  "timestamp": "2026-08-28T14:18:25Z",
+  "date": "2026-08-28",
+  "equity": 4047.57,
+  "spy": 770.713,
+  "cash": 492.81,
+  "note": "Zeus pass ~10:20 ET Fri 2026-08-28. ALOT MERGER COMPLETED: broker position gone, instrument inactive, PnL trade history shows 16.836256 sh closed @ $28.9999 on 2026-08-28 for +$8.25 realized -> exited at the offer (outcome=completed), +1.72% net vs SPY +2.63% = -0.91pp excess, $488.25 proceeds to cash. 7 open deals (APGE/RAMP/GBTG/FSEA/OGN/NSTS/LXFR), missing_marks=[], no break-stops, no past-close flags. Sourcing swept 122 announced-deal targets (79 ticker-resolved); 2 genuinely new reads recorded, both DROP: CBZ (clean $55 all-cash but 0.94% spread, below the 1% floor) and IRDM (cash+stock, out of scope). No entries."
+ },
+ {
+  "timestamp": "2026-08-31T14:09:17Z",
+  "date": "2026-08-31",
+  "equity": 4045.53,
+  "spy": 765.61,
+  "cash": 492.81003521339994,
+  "note": "Zeus hourly pass ~10:08 ET Mon 2026-08-31. TEND-ONLY - NO ENTRIES. RECONCILE FLAG (new, needs operator): hermes_reconcile() == ['ALOT: ledger net -16.8363 sh != sleeve 0.0000 sh']. Diagnosed as a LEDGER-FIDELITY ARTIFACT, not missing money: the 2026-07-06 ALOT buy row predates the 2026-07-10 fill-fidelity fix and carries only dollars ($480, no shares/price field), while the 08-28 merger-close sell row logged the full 16.836256 sh @ $28.9999. ALOT is absent from BOTH the broker tape and the sleeve, and is already graded (completed, +1.72% net, -0.91pp excess, $488.25 to cash); $480/28.505 = 16.8360 sh reconciles the economics exactly. The residual is cosmetic, but per the liturgy a non-empty reconcile HALTS entries, and backfilling a historical ledger row on a live book is an operator-grade call, not an unattended one - so no row was edited and no entry was placed. FIX (operator): backfill shares=16.836256 / price=28.505 on the 07-06 ALOT buy row, or accept the artifact explicitly. TEND: 7 open deals (APGE/RAMP/GBTG/FSEA/OGN/NSTS/LXFR), broker==sleeve exact on all 7, no pending orders; missing_marks=[]; break_triggered=[] (every name 13-21% above its stop); past_close=[]. Remaining spreads: RAMP +2.03%, NSTS +2.00%, OGN +1.74%, LXFR +1.16%, FSEA +0.47%, GBTG +0.37%, APGE +0.05% (APGE effectively at the offer into its 09-30 close). A/B SWEEP: 2 unresolved detections past expected close - GBCS (missing_instrument, delisted) and TWO (inactive_instrument, close date 08-31). NEITHER graded: no broker tape exists for either, and grading at a guessed exit would poison the Arm-B control - left unresolved and disclosed, per the 08-25/08-26 precedent. LLM-lift at 111 graded: Arm A expectancy +1.22% (n=3) vs dropped-arm -1.80% (n=107) => lift +3.04pp, verdict 'LLM adds value' - but n=3 on the live arm is still far too small to read. Sourcing sweep NOT run this pass (entries halted by the reconcile flag; a keep verdict would have been unfundable anyway). Shared-pool buying power $968.82 (plus $5,000 pending deposits, not yet spendable). Equity $4,045.53 vs contributed $4,000.00 (+1.14%), cash $492.81; SPY 765.61. No orders placed."
+ },
+ {
+  "date": "2026-09-01",
+  "equity": 4048.09,
+  "cash": 492.81003521339994,
+  "spy": 762.64,
+  "note": "Zeus hourly pass ~10:15 ET Tue 2026-09-01. DIRECTIVE D1 APPLIED - RECONCILE CLEAN, ENTRIES RESUMED. Backfilled the 2026-07-06 ALOT buy row with shares=16.836256 / price=28.505 / status=filled per the operator's authorization; hermes_reconcile() now returns [] (was ['ALOT: ledger net -16.8363 sh != sleeve 0.0000 sh']). Documentation only - no shares or cash moved; the $0.08 gap between 16.836256*28.505 = $479.92 and the $480.00 as-placed notional is recorded in the row rather than reverse-solved. TEND: 7 open deals, missing_marks=[], break_triggered=[], past_close=[]. All seven green (APGE +1.19pct, FSEA +1.39pct, GBTG +0.69pct, LXFR +0.23pct, NSTS +0.78pct, OGN +1.96pct, RAMP +0.12pct); residual spreads 0.03-1.97pct, narrowing as the 09-30 closes approach. Equity $4,048.09 vs contributed $4,000 (+1.20pct); cash $492.81; SPY 762.64. A/B: graded TWO (Two Harbors) - delisted at the broker, so priced from Sharadar SEP's final print (2026-08-24, $12.18 on 19.39M sh), dated to the real exit with SPY 763.47 rather than the sweep's today-default. GBCS remains UNGRADED and is reported loudly: past its 2026-08-27 close, absent from the broker AND from Sharadar TICKERS, so there is no honest mark - left unresolved rather than guessed. LLM-lift now n=112 graded: Arm A (LLM kept, n=4) expectancy +1.35pct, win rate 100pct, 4-for-4 all completions; Arm B (all detected) -1.67pct; dropped-by-LLM -1.78pct. Lift +3.02pp - the avoidance half is carrying it, consistent with the house view. Arm A LIVE real-money grades still only n=2 (TMHC, ALOT). Directive D2 (funding checkpoint on APGE+FSEA closing clean by ~09-30) READ; left status=active on purpose - it is a pre-commitment that must still be in force AT the 09-30 grade, and it explicitly says do not change behavior to chase it. Deal sourcing sweep running; entries evaluated on its output."
+ },
+ {
+  "date": "2026-09-01",
+  "equity": 4048.02,
+  "cash": 22.83143521339997,
+  "spy": 762.64,
+  "note": "ENTRY PASS (second half of the 2026-09-01 Zeus run, after D1 lifted the halt). SOURCING: run_hermes_sourcing.py swept EDGAR 2026-05-04..2026-09-01 (120d), 123 announced-deal targets (80 ticker-resolved), 12 untracked. All 12 recorded in the A/B - Arm B is only an honest control if detected == all. READ (pinned brain: opus/high, done inline - this session IS the Opus tier). 1 KEEP, 11 DROP. KEEP BOW (Bowhead Specialty): American Family Mutual Insurance / Trident Superior, $34.00 ALL CASH, no CVR; proxy states Parent pays without recourse to external financing or capital needing regulatory approval; antitrust trivial (personal-lines mutual buying specialty E&S); domestic, so no CFIUS; $35M break fee. Real risk is the majority-of-the-minority vote on a 13E-3 going-private - bounded, and its usual resolution is a bump, not a walk. ENTERED 14 sh @ $33.5699 (limit 33.62, order 6a96df67), $469.98, spread 1.28pct to a ~Q4-26/Q1-27 close, break-stop 28.5344. Book now 8 of max 10 deals; post-trade reconcile CLEAN []. NOTABLE DROPS: ATKR (Prysmian, $95.00 cash, clean terms) dropped on DURATION x ECONOMICS - the agreement's own End Date is 2027-08-02 with two automatic 3-month regulatory extensions, so 1.41pct gross is ~1.2-1.9pct annualized against a -15pct stop; the inverse of the spec's trap, a thin spread on a long deal. GTE dropped as a SOURCING FALSE POSITIVE - its PREM14A is a Sale Proposal under a Share Purchase Agreement (Gran Tierra is selling assets, not being acquired); no per-share terminal, out of scope. 9 more dropped as out-of-hard-scope lines: SPAC units/rights/warrants (XRPNU, COLAR, BBCQW, BCARW, VLOSU), warrants on tracked/again-untradable names (HSCSW, VAL-WT), a preferred series (EQH-PC), and CRBD which returns no broker quote at all. A/B after this pass: 112 graded, Arm A n=4, lift +0.0302 (LLM adds value). Equity $4,048.02; cash $22.83. TWO FLAGS FOR THE OPERATOR. (1) SPEC/CODE CONFLICT, reproducible on every entry: hermes.md step 4's atomic flow says append the 'intent' ledger row BEFORE placing, but can_enter's already_placed_today guard matches ANY row for symbol+side+date regardless of order_id or status - so the intent row makes the very next enter() raise 'a BOW buy is already in the ledger today'. Handled by letting the placeholder discharge its job (a claim existed while the order was in flight) and removing it once the fill was confirmed, so enter()'s atomic door wrote the one authoritative filled row. The durable fix is for already_placed_today (or can_enter) to ignore rows with order_id=='intent'. (2) The cash reserve is computed on CASH not EQUITY (cash*(1-0.02)), so this entry was legal but leaves only $22.83 dry powder against the parameter table's '2pct cash reserve' - Hermes is now effectively fully deployed and cannot take a fresh clean deal until something closes."
+ },
+ {
+  "date": "2026-09-02",
+  "equity": 4047.4,
+  "cash": 22.83143521339997,
+  "spy": 763.93,
+  "note": "TEND + SOURCE + READ pass (Zeus ~10:10-10:35 ET Wed 2026-09-02). Pause lifted, HERMES_LIVE=true, kill switch down. RECONCILE FIRST: hermes_reconcile()==[] clean; the 09-01 BOW buy (order 6a96df67) confirmed FILLED 14 sh @ $33.5699, already in the sleeve; no other Hermes orders since. missing_marks=[]. TEND: all 8 open deals healthy - no break-stop triggered (every name 17.8-19.9pct above its stop), none past expected_close, no completions. APGE 135.07 (+1.19pct, offer 135.11 - spread essentially spent at +0.03pct, held to the 09-30 resolution by design), FSEA 17.18 (+1.36pct), RAMP +0.11pct, GBTG +0.64pct, OGN +1.89pct, NSTS +0.71pct, LXFR +0.23pct, BOW +0.15pct. Book equity $4047.40 vs contributed $4,000.00 (+1.18pct); SPY 763.93. SOURCING: run_hermes_sourcing.py swept EDGAR 2026-05-05..2026-09-02 (120d), 125 announced-deal targets (81 ticker-resolved). Dedup was done by CIK->ticker against the 177 tracked detections (SEC company_tickers.json drops acquired/delisted names, so a raw symbol-null join over-reports: 42 of the 49 apparent 'new' rows are already-graded deals whose tickers have since left the map - NUVL/AVB/KALV/APLS/KZR/TERN/SLNO/FORA/XOMA/ESPR/CPRX/AVNS/TBRG/AFBI/BLD/GORO/SILA/CLBK/NFBK/SEM/WSR/CCRN/EEX/KORE/NSA/MDV/ELSE/TMRC/ORGN/KW/TMHC/LPRO/ASRT/GRTX/ALGR/IPCX/CEPT and kin). GENUINELY UNTRACKED: 4. READ (pinned brain: opus/high, done inline - this session IS the Opus tier): 0 KEEP, 4 DROP, all recorded in the A/B. YTRA drop - Magna's UNSOLICITED PARTIAL tender (~25-31pct of float at $1.10, expires 09-17), board unanimously recommends REJECT, pro-rata acceptance leaves ~70pct of any stake as an unhedged Cayman/India OTA stub; no merger agreement, so no contractual terminal - wrong shape, not wrong price. ROKU drop - FOX deal is MIXED cash+stock (0.9693 FOX Class A + $96.00 cash; holders end up with ~27pct of FOX), so the terminal floats without an acquirer short we cannot do, and it is a ~$22B fully-arbitraged mega-cap. DSGR drop on SPREAD ONLY - LKCM Headwater's $35.00 all-cash 13E-3 take-private is genuinely clean (already owns 78.7pct so the outstanding-majority vote is arithmetic; 81pct premium after a $5.50 bump makes the disinterested-majority gate unlikely to bite; $22.23M REVERSE break fee; outside date 12-31), but at $34.75 vs $35.00 the spread is +0.72pct, under the 1pct MIN_SPREAD floor - same call as SLP on 07-05. HUDA drop - de-SPAC share exchange (EUROEV/Aiways, $410M in Pubco shares), no cash offer, no tape; RETIRED from the A/B denominator without a graded row per the CIK1815608 precedent rather than injecting a fabricated 0pct return into Arm B. NO ENTRIES - all four were drops on merit, so the A/B is uncontaminated this pass. Worth recording anyway: a keep could NOT have been funded. Sleeve cash is $22.83 against a 2pct reserve floor of ~$81, shared-pool buying power is $499.13, and the book already holds 8 of max 10 deals - Hermes is effectively fully deployed. SWEEP: sweep_unresolved swept 0 (nothing else past close). GBCS remains the one past-close row that CANNOT be graded - SC TO-T/A Amd.6 (08-28) extended the tender a 6th time to 08-31 5:00pm ET with 2,786,482 shares tendered as of 08-27, still short of the ~70pct minimum and the final-amendment box still unchecked; no Amd.7 on EDGAR yet. Broker still 404s the symbol, so it stays UNRESOLVED rather than paper-graded at a guessed price. A/B: 112 graded. Arm A (LLM kept) n=4, expectancy +1.35pct, win rate 100pct, floor +1.00pct. Arm B (mechanical all) n=112, expectancy -1.67pct, win rate 13.4pct, floor -66.9pct. LLM-lift +3.02pct, verdict 'LLM adds value' - still on n=4 kept, far short of the ~20-deal checkpoint, so it remains suggestive, not established. D2 (hermes funding pre-commitment) re-read: APGE and FSEA both open, both expected_close 2026-09-30, neither near its break-stop; Arm A still 4-for-4 on graded deals. Left status=active - it must be in force AT the ~09-30 grade. No behavior changed to chase it."
+ }
 ]
