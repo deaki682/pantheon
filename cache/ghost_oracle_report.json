@@ -1,12 +1,17 @@
 {
-  "n": 0,
-  "mean_return": null,
-  "hit_rate": null,
-  "lens_lift": {},
-  "conviction_tiers": {},
-  "conviction_monotonic": false,
-  "valuation_terciles": {},
-  "quality_terciles": {},
-  "score_terciles": {},
-  "sector_return": {}
+ "n": 0,
+ "mean_return": null,
+ "hit_rate": null,
+ "lens_lift": {},
+ "conviction_tiers": {},
+ "conviction_monotonic": false,
+ "valuation_terciles": {},
+ "quality_terciles": {},
+ "score_terciles": {},
+ "sector_return": {},
+ "_session": {
+  "date": "2026-09-02",
+  "session": "zeus_intraday",
+  "note": "Zeus intraday ghost pass ~10:34 ET Wed 2026-09-02, after /oracle. MARK BASIS: unlike the after-close passes, close.date IS published at 09-01, but this is an INTRADAY run so every price is the ~10:33 ET regular-session last print - the same basis on both sides of the SPY comparison, stated rather than assumed. COVERAGE 233/233 open symbols priced = 100.0%, ZERO missing, so no survivorship substitution was needed. That is an improvement on the 229/233 (98.3%) the run first reported, and the difference is the process finding below: BABA, DKL, EVLV and RICK are open positions the 08-31 quote file simply did not carry. Screen candidates priced also rose 93/100 -> 97/100 on the same fix. PROCESS FINDING (new, and it aborted the first attempt): run_ghost_oracle.py HYDRATES AT STEP 0, which restores cache/ from claude/live and therefore OVERWRITES any freshly-written cache/ghost_oracle_quotes.json before step 2 reads it. The first run this pass aborted correctly - 'quote cache is not stamped for today (asof=2026-08-31)' - because the file written seconds earlier had been clobbered by the script's own hydrate. The abort is the guard working exactly as intended (it refused to mark 233 names off a stale file). THE FIX, for every future session: PERSIST the fresh quotes to claude/live FIRST (pantheon.persist('ghost_oracle', {'cache/ghost_oracle_quotes.json': ...})), THEN run the script, so its hydrate restores the new file rather than the old one. Writing the quotes locally and running immediately does not work and never did. GRADING: 0 matured (earliest 365d horizon lands 2027-06-29), so the lens/tercile/conviction panels stay empty BY CONSTRUCTION, not by failure - 0 of 327 graded. NEW OPENS: 0 (skip_open=True; the 190 liquidity-cleared candidates are all already held open). BOOK: equity $33,889.16, return +3.64%. DATA-QUALITY FLAGS, marked and flagged rather than silently trusted: PFBX still quotes state='unlisted' with its last trade at 2026-09-01T15:04Z (marked $23.30, unchanged); NCEL last traded 09-01T16:37Z, GROW 09-01T20:00Z and UBCP 09-01T19:00Z - all three are stale-by-a-session prints carried at their last trade, not today's tape. MTEX and MBBC last traded at 13:30Z/13:33Z today (thin, but same-session)."
+ }
 }
