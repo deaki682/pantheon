@@ -3,6 +3,102 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-09-02 INTRADAY — a test typed on 08-19 got its document, and the document answers the half that doesn't matter)
+
+Zeus hourly intraday tend, 14:31Z (~10:31 ET Wed). **Duty 9 does NOT bite this pass:** `close.date` is
+published at **09-01** for every symbol pulled, so all marks below are live ~10:29 ET last prints on the
+same basis on both sides of every comparison — stated rather than assumed. Reconcile **CLEAN 6/6 exact**
+vs broker (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397);
+zero Oracle orders of any state since 08-28 (the only agentic order at the broker since is Hermes's 09-01
+BOW buy). Equity **$4,647.21** (drawdown **5.75%** off the 08-17 peak $4,930.51), breaker `ok`, settled
+cash $449.94 = 9.68%. Book $4,197.27 on the $4,050.06 basis = **+3.63%**; SPY from the 07-10 entry
+(750.935 → 765.40) = **+1.93%**, so **+1.71pp excess** — a recovery from the +1.02pp low printed on 09-01.
+Book **+1.13%** on the day vs SPY +0.48%, IWM +1.00%.
+
+**1. THE FINDING: RAJ TALLURI'S FIRST FORM 4 ARRIVED — THE EXACT DOCUMENT I PRE-REGISTERED ON 08-19 — AND
+IT IS THE HALF THAT CARRIES NO INFORMATION.** The Duty 1a window sweep (`filing_date >= 2026-08-30`,
+deliberately *before* the last pass's 08-31 window, never "since the last pass") returned **one** new
+document across all six names: **KLIC Form 4, acc 0001961877-26-000046, filed 09-01** — which the 09-01
+20:12Z pass could not see. **Fourth time the window rule has caught an index lag**, and this time on the
+book's *smallest* weight rather than its largest, which is worth noting: the rule pays out where attention
+isn't. Read from the primary XML **row-wise**, not from the index line: `isDirector=1` **and**
+`isOfficer=1`, `officerTitle` **CEO**; `periodOfReport` **2026-09-01** — his effective start date; code
+**A**, **89,697 sh** at **$0.00**; post-transaction **89,697 DIRECT**, which independently confirms the
+Form 3's empty Tables I/II (he began from **zero**). Footnote F1 verbatim: *"Grant under the 2021 Omnibus
+Incentive Plan. One-third of the shares granted vest on each anniversary of the date of grant."*
+`aff10b5One=0`.
+
+**2. The arithmetic is what makes it legible, and it lands to the dollar.** **89,697 × $78.04** — KLIC's
+official 09-01 close, i.e. his effective date — **= $6,999,754.** The 08-17 8-K announced a **$14.0M**
+one-time new-hire package, **50% RSU / 50% performance**. This document is **exactly the RSU half, struck
+at the start-date close.** The identification is arithmetic, not inference.
+
+**3. The honest grade of my own pre-registration: it was right about the document and wrong about the
+payoff.** What I typed on 08-19, before the answer was knowable, was that his first Form 4 would be *"the
+board's own read on how much turnaround work they think they bought."* The Form 4 came, and **time-vesting
+RSUs pay for showing up.** A board states how much turn it thinks it bought in the **performance** half —
+its metrics, its hurdles, its horizon — and that is **not in this filing.** So the pre-registration
+identified the right *filing* and the wrong *half*, and the lesson generalises: when a package is
+disclosed as a 50/50 split, "the first Form 4" is not one event but two, and only one of them is
+evidence. Two facts recorded and explicitly **not sized on**: (i) the vest is **one-third per anniversary
+= 3 years**, shorter than a standard 4-year tie-in; (ii) it is under the **existing 2021 Omnibus plan**,
+not an off-plan inducement award.
+
+**4. NEW PRE-REGISTRATION, typed now, before the answer exists.** The informative document is the
+**PERFORMANCE half** — a second Form 4, or the grant table in the next proxy. Until it files, the 08-18
+reading (*"the size of the performance-equity slug says the board is buying a multi-year turn, not a
+stabiliser"*) is **HALF-EVIDENCED and must carry that label every time it is repeated.** I wrote that
+sentence on the strength of an 8-K's dollar total; the document that would actually support it has still
+not arrived.
+
+**5. It is NOT a kill, and the grant is not a dilution event.** KLIC's typed kill is *quarterly revenue
+< $180M* — a 10-Q test — and no financials have filed since the 08-06 10-Q, so it is **UNTESTABLE and
+unfired**. A compensation grant of **0.17%** of shares out, under a plan shareholders already approved, is
+not a `dilution_event` in the Stage-5 sense, and Stage 5 forbids inventing a kill retroactively. **HELD**,
+at −28.43% from entry. **KLIC −28.43% and ZVRA −12.80% are DRAWDOWNS and are HELD** — F3 is explicit, and
+this is still the stretch where that patience costs something.
+
+**6. Duty 1b — the set was pulled on KLIC deliberately, under the trigger, because KLIC is today's document
+name.** No position breached 3% (largest move **ZVRA +1.99%**), so nothing was owed on magnitude; the
+08-28 LXU precedent says pull it anyway when the name carries the day's filing. Semicap: **AMKR +2.46,
+UCTT +2.00, ICHR +1.41, COHU +1.32, TER +0.70, FORM +0.42, ACLS +0.27, ONTO −0.35 — median +1.01%, 7 of 8
+UP, dispersion 2.81pp.** **KLIC +0.94% = −0.08pp off its complex: inside its cohort to within noise.** The
+tape priced the CEO grant at **nothing**, which is exactly what a compensation filing ought to do — and
+having pulled the set, I can say that rather than guess it. **TPC/PAY/QTWO/ZVRA/LXU: NO COMPARATOR WAS
+PULLED.** Per the 08-21 amendment that is all this entry may say — not "quiet", not "sector": **not
+checked.**
+
+**7. Kills: 6/6 UNTESTABLE, 6/6 HOLD, 0 orders.** TPC "2 consecutive GAAP loss quarters" (counter **0**);
+KLIC "quarterly revenue < $180M" (**RE-TYPE still owed, Duty 0b**); PAY "YoY revenue growth < 15%"; QTWO
+"GAAP net loss relapse or growth < 10%" (**+12.6%, 2.6pp of headroom — still the book's narrowest margin
+and the name to watch at the next print**); ZVRA "2 consecutive flat/declining product-revenue quarters"
+(**0**); LXU the conjunction (clause (b) still moving away). Zero filings in the window for PAY, QTWO,
+ZVRA and LXU; TPC's only window documents are the three 08-31 Tutor 144s already dispositioned on 09-01.
+
+**8. Stage 0–1 sourcing: a conscious NO-OP for the 50th day, per Standing Duty 3 and D4.** Book fully
+deployed at 6 = top of the 3–6 band; **no kill fired, so no capital was freed**; $449.94 (9.68%) does not
+fund a 7th without breaking the mandate. Zeus's 3-day research clock reads "due" (last 2026-07-14) and is
+mechanically correct; **Duty 3 governs.** Journaled as a no-op, not an oversight.
+
+**9. D4 re-verified, STILL BLOCKED — and the cluster ticked down, which changes nothing.** All six
+positions still carry `sector=''`, so `size_upside_book`'s 40% correlation-cluster cap still degrades to a
+per-symbol cap. **PAY+QTWO is 35.51% of equity** (from 35.65% on 09-01) against a cap that cannot bind —
+a drift, not a fix. **Not hand-patched, on purpose**: hand-written sectors would fake a Stage-3 input
+these six never went through, papering over the exact gap D4 guards. Left `status=active` because it is a
+standing precondition, not a one-shot action. Clearing it needs a **build session**, not an hourly tend —
+and Standing Duty 10's promised TPC re-underwrite is still queued behind it.
+
+**10. Stages 6–7.** `due_for_grade(2026-09-02)` → **[]** (earliest maturity 2027-10-09 for LXU/TPC,
+2028-01-08 for the other four); 326 candidates, **0 graded**, `lift_trustworthy: false` with 34 unresolved
+Arm B / 31 Arm A — empty **by construction**, not by failure. `update_calibration` → `{}`, a no-op at
+n<5. **+1.71pp excess is a mark, not a result.**
+
+**Open items promoted to the next FULL round (unchanged plus one):** (a) type `sector`/`theme` on all six
+dossiers so the 40% cluster cap can bind [D4]; (b) RE-TYPE KLIC's kill [Duty 0b]; (c) PAY sponsor-
+distribution cadence ~9 days, tracked for SIZING only, price-impact hypothesis down-weighted; (d) the
+08-21 audit of past entries for comparator-free conclusions; (e) **NEW — the TPC full re-underwrite owed
+under Standing Duty 10 branch (b), fired 08-31, now two sessions old and still blocked by D4.**
+
 ## Worldview (2026-09-01 CLOSE — the founder filed, and the pre-registered branch I wrote three weeks ago fired on its own terms)
 
 Zeus hourly after-close tend #2, ~20:08Z (~16:08 ET Tue); the ~10:22 ET pass preceded it and did the six
