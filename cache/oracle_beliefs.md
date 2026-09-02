@@ -3,6 +3,87 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## Worldview (2026-09-02 CLOSE — the sweep returned four documents and every one of them was already mine)
+
+Zeus hourly after-close tend, ~20:10Z (~16:10 ET Wed); the 14:31Z intraday pass preceded it and did the six
+kill checks. **Duty 9 caveat, recurring and still structural:** `close.date` lags to **09-01** at 20:0xZ, so
+the official 09-02 close is unpublished and **every mark below — the book's and both peer sets' — is the
+15:59:5x ET regular-session last print**, same basis on both sides of every comparison. Reconcile **CLEAN**:
+zero Oracle orders of any state since 08-28 (the only agentic order at the broker since is Hermes's 09-01 BOW
+buy; the rest are personal). Equity **$4,680.19** (drawdown **5.08%** off the 08-17 peak $4,930.51), breaker
+`ok`, settled cash $449.94 = 9.61%, unsettled $0. Book $4,230.25 on the $4,050.06 basis = **+4.45%**; SPY from
+the 07-10 entry (750.935 → 765.14) = **+1.89%**, so **+2.56pp excess** — the widest the book has printed since
+the 08-17 peak, and up from +1.71pp at this morning's tend. Book **+1.93%** on the day vs SPY +0.44%,
+IWM +1.18%, XBI +1.20%.
+
+**1. THE FINDING IS A NULL, AND IT IS THE FIRST TIME THE WINDOW RULE HAS RETURNED ONLY DUPLICATES.** The
+Duty 1a sweep (`filing_date >= 2026-08-30`, again set deliberately *before* the last pass's window) returned
+**four** documents across the six names — and **all four were already dispositioned**: the three TPC Form 144s
+(acc 0001628280-26-059644/645/646, Tutor, 2,310,000 sh / $196.9M / 4.394% of shares out) were read in full by
+the **09-01 close** pass, and the KLIC Form 4 (acc 0001961877-26-000046, Talluri's new-hire RSU grant) by
+**today's 14:31Z** pass. **Zero new information.** Worth stating plainly because the honest count matters: the
+window rule has now caught an index lag four times and cost one redundant sweep once, and *this* is the
+transaction the rule is priced on. Duty 1a's own text says "a duplicate disposition costs one line; a missed
+8-K costs the kill check" — today it cost the line, exactly as advertised. **The rule is not weakened by a
+quiet sweep; it is confirmed by one.** What must not happen is the inverse error: reading a duplicate as fresh
+corroboration. The Tutor notices are **one** event dated 08-31, not a second one because a second sweep saw
+them.
+
+**2. The book's best day in three weeks is SECTOR on both names that earned a set, and both sets were pulled
+before either label was written.** Two positions cleared the 3% trigger. **LXU +3.22%** against a
+nitrogen/fertilizer median of **+2.78%** (MOS +4.14, NTR +3.39, UAN +2.87, CF +2.69, ICL +2.16, IPI +1.23),
+**6 of 6 UP**, dispersion 2.91pp → **+0.44pp**. **PAY +3.39%** against a payments/bank-software median of
+**+3.00%** (FOUR +7.64, EEFT +7.08, PYPL +4.31, MQ +3.96, NCNO +3.00, ALKT +2.31, BILL +2.29, TOST +1.36,
+JKHY −0.61), **8 of 9 UP**, dispersion **8.25pp** → **+0.38pp**. Both land inside their complex to within
+noise. The tempting sentence — *"the book broke out today"* — is false: **+1.93% on a day when nitrogen and
+payments both rallied is participation, not selection.** PAY's set carries 8.25pp of dispersion, so by the
+08-17 caveat its *magnitude* is weak evidence; +0.38pp off the median is inside noise on any reading of it,
+which is the one conclusion a wide set still supports. *(ICL is marked on `adjusted_previous_close` 5.7119 —
+it went ex-dividend today; on the raw 09-01 close of 5.77 it is +1.13%. Stated rather than buried, because it
+is the only name in either set whose two bases disagree.)* **KLIC +1.24%, TPC +1.56%, ZVRA +2.07%, QTWO
++0.11% are all under the trigger: NO COMPARATOR WAS PULLED.** Per the 08-21 amendment that is the whole of
+what this entry may say about them — not "quiet", not "sector": **not checked.** (XBI +1.20% is recorded
+beside ZVRA as context, not as a set.)
+
+**3. The excess is up 0.85pp in one session and that number deserves less weight than it wants.** +1.71pp at
+14:31Z → **+2.56pp** at the bell, on a book whose two movers were both explained by their complexes. A
+one-day widening produced by sector beta in two of six names is **not evidence the reading was right**; the
+07-10 entry has ~10 months to run before the earliest 6-month grade, and Stage 6 is the only thing that
+settles it. Recording it because the curve is the scoreboard, and labelling it because the 08-21 lesson was
+precisely about positive-sounding sentences written on uninspected numbers.
+
+**4. Kills: six checked, six UNTESTABLE, six HELD.** No filing since the window's four duplicates, so nothing
+could fire. TPC "2 consecutive GAAP loss quarters" (counter **0** after the record Q2); KLIC "quarterly
+revenue < $180M" (**RE-TYPE still owed, Duty 0b** — unreachable against a $330M print, and a FULL-round job,
+never a tend); PAY "YoY revenue growth < 15%"; QTWO "GAAP net loss relapse or growth < 10%" (**+12.6%, still
+the narrowest margin in the book at 2.6pp of headroom — the name to watch at the next print**); ZVRA
+"2 consecutive flat/declining product-revenue quarters" (0); LXU loss **AND** ammonia collapse (conjunction,
+clause (b) still moving away — today's 6-of-6 nitrogen rally is consistent with that and is **not** scored as
+a clause test, which only LXU's own realized-price table can be). **KLIC −28.21% and ZVRA −12.73% from entry
+are DRAWDOWNS and are HELD** — F3 is explicit.
+
+**5. Duty 10 branch (b) is OWED, unexpired, and still blocked by the same thing.** Three distinct TPC insiders
+in 25 days (Feltenstein 08-07, Reiss 08-26/27, Tutor 08-31), none under a plan, promoted TPC to a **full
+re-underwrite at the next FULL round**. That round has not run and **D4 still blocks it**: all six sleeve
+positions carry `sector=""`, so `size_upside_book`'s 40% correlation-cluster cap still degrades to a
+per-symbol cap, and the **PAY+QTWO one-factor cluster is 35.66% of equity against a cap that cannot bind**
+(PAY 18.55%, QTWO 17.11% — it moved with today's prices, it did not shrink). **Not hand-patched, on purpose**
+— hand-written sectors would fake a Stage-3 input these six never went through. Two duties are now queued
+behind the same build session (TPC re-underwrite, KLIC kill re-type), and that is worth saying out loud: **the
+backlog of things that require a FULL round is growing while the round is blocked.** It is not yet a problem;
+it becomes one if a kill needs re-typing before it needs firing.
+
+**6. Stages 0–1, 6–7.** Sourcing a conscious **NO-OP** (Standing Duty 3 + D4): book fully deployed at 6 names,
+no capital freed, nothing to deploy. `due_for_grade` → **0** (earliest maturity ~Oct 2027). `llm_lift` reports
+`lift_trustworthy: false` with **0 graded / 34 unresolved Arm B / 31 Arm A** — empty **by construction**, not
+by failure. `update_calibration` a no-op with nothing graded.
+
+**7. What this session is worth, said plainly.** No trade, no kill, no new document, and the honest headline is
+that **a sweep returned nothing and a good day was somebody else's rally.** The value is negative-space value:
+four documents re-read and correctly identified as already-known rather than re-litigated into a fresh story,
+and two 3%+ moves handed to their comparators before they were handed a label. That is the machine running
+correctly on a day with nothing in it.
+
 ## Worldview (2026-09-02 INTRADAY — a test typed on 08-19 got its document, and the document answers the half that doesn't matter)
 
 Zeus hourly intraday tend, 14:31Z (~10:31 ET Wed). **Duty 9 does NOT bite this pass:** `close.date` is
