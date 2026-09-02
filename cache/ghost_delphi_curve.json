@@ -1,231 +1,241 @@
 [
- {
-  "date": "2026-06-30",
-  "equity": 6500.0,
-  "total_return": 0.0,
-  "n": 65,
-  "benchmark": {
-   "SPY": 0.07957691074914774
-  }
- },
- {
-  "date": "2026-07-01",
-  "equity": 12793.42,
-  "total_return": -0.0005139222886191286,
-  "n": 128,
-  "benchmark": {
-   "SPY": -0.000589,
-   "SPY_price": 746.77
-  }
- },
- {
-  "date": "2026-07-02",
-  "equity": 17873.0,
-  "total_return": -0.0015083541039814241,
-  "n": 179
- },
- {
-  "date": "2026-07-03",
-  "equity": 18084.9,
-  "total_return": 0.004716438253484334,
-  "n": 180,
-  "benchmark": {
-   "SPY": -0.002665,
-   "SPY_price": 744.78
-  }
- },
- {
-  "date": "2026-07-06",
-  "equity": 18086.59,
-  "total_return": 0.004810320835757054,
-  "n": 180,
-  "benchmark": {
-   "SPY": -0.001314,
-   "SPY_price": 744.78
-  }
- },
- {
-  "date": "2026-07-07",
-  "equity": 18070.22,
-  "total_return": 0.0039009100607272362,
-  "n": 180,
-  "benchmark": {
-   "SPY": 0.0044,
-   "SPY_price": 748.0701
-  }
- },
- {
-  "date": "2026-07-14",
-  "equity": 18042.17,
-  "total_return": 0.0023428378051091325,
-  "n": 180,
-  "benchmark": {
-   "SPY": 0.002633,
-   "SPY_price": 750.04
-  }
- },
- {
-  "date": "2026-07-15",
-  "equity": 18011.78,
-  "total_return": 0.000654296974913704,
-  "n": 180,
-  "benchmark": {
-   "SPY": 0.004992,
-   "SPY_price": 753.7842
-  }
- },
- {
-  "date": "2026-07-16",
-  "equity": 18068.38,
-  "total_return": 0.003798907260820883,
-  "n": 180,
-  "benchmark": {
-   "SPY": -0.00177,
-   "SPY_price": 752.45
-  }
- },
- {
-  "date": "2026-07-17",
-  "equity": 17956.66,
-  "total_return": -0.002407744687693114,
-  "n": 180,
-  "benchmark": {
-   "SPY": -0.004299,
-   "SPY_price": 743.56
-  }
- },
- {
-  "date": "2026-07-20",
-  "equity": 17925.11,
-  "total_return": -0.00416079086580412,
-  "n": 180,
-  "benchmark": {
-   "SPY": 0.002422,
-   "SPY_price": 745.09
-  }
- },
- {
-  "date": "2026-07-22",
-  "equity": 18071.72,
-  "total_return": 0.003984274036907598,
-  "n": 180,
-  "benchmark": {
-   "SPY": 0.000542,
-   "SPY_price": 747.615
-  }
- },
- {
-  "date": "2026-07-24",
-  "equity": 18048.93,
-  "total_return": 0.002718259798242917,
-  "n": 180,
-  "benchmark": {
-   "SPY": 0.000325,
-   "SPY_price": 738.42
-  }
- },
- {
-  "date": "2026-07-27",
-  "equity": 18142.11,
-  "total_return": 0.007895022774356386,
-  "n": 180,
-  "benchmark": {
-   "SPY": -0.009074,
-   "SPY_price": 740.43
-  }
- },
- {
-  "date": "2026-07-29",
-  "equity": 18264.57,
-  "total_return": 0.014698201211869044,
-  "n": 180,
-  "benchmark": {
-   "SPY": -0.002617
-  }
- },
- {
-  "date": "2026-08-06",
-  "equity": 18338.38,
-  "total_return": 0.018798652276091676,
-  "n": 180,
-  "benchmark": {
-   "SPY": 0.002501,
-   "SPY_price": 771.715
-  }
- },
- {
-  "date": "2026-08-10",
-  "equity": 18469.71,
-  "total_return": 0.02609479709630569,
-  "n": 180,
-  "benchmark": {
-   "SPY": 0.036281,
-   "SPY_price": 774.32
-  }
- },
- {
-  "date": "2026-08-17",
-  "equity": 18697.88,
-  "total_return": 0.03877123066469057,
-  "n": 180,
-  "benchmark": {
-   "SPY": -0.0013138573305510048
-  }
- },
- {
-  "date": "2026-08-18",
-  "equity": 18680.34,
-  "total_return": 0.037796627348259504,
-  "n": 180,
-  "benchmark": {
-   "SPY": -0.004912,
-   "SPY_price": 768.875,
-   "spy_1d": -0.004912,
-   "spy_since_inception": 0.028994,
-   "convention_note": "spy_1d and spy_since_inception both recorded; prior points are inconsistent"
+  {
+    "date": "2026-06-30",
+    "equity": 6500.0,
+    "total_return": 0.0,
+    "n": 65,
+    "benchmark": {
+      "SPY": 0.07957691074914774
+    }
   },
-  "note": "Zeus ~10:33 ET Tue 2026-08-18 (PARENTLESS shadow - Delphi live retired 2026-07-04). Marked 120/120 open symbols live; missing_marks == 0. 0 graded, 0 due (earliest 90-day maturity 2026-09-28), so momentum_terciles / signal_lift.above_ma / .selected / .vetoed are ALL still empty BY CONSTRUCTION - no claim about the momentum premise, the 20-day-MA stop, or the LLM vetoes is available yet. 0 opens (universe static, skip_open, and there is no live /delphi run to supply a fresh selection or veto list). Book $18680.34 on a $18,000 cost basis = +3.78 pct. TWO disclosures. (1) TICKER-RENAME DEFECT, new this session: SQ returned NO quote because Block Inc. renamed SQ -> XYZ, and the ledger holds BOTH as separate open entries. SQ is marked at XYZ's $80.98 because the security continued 1:1 - grading or marking it to zero would fabricate a loss out of a corporate action. The real cost is that Block is now DOUBLE-WEIGHTED in this book (2 of 180 entries, ~1.1 pct instead of ~0.6 pct). Flagged for the operator: the universe list needs SQ removed, and the survivorship guard 'unpriceable grades as a loss' needs a rename carve-out before 2026-09-28, when these entries mature and the guard would otherwise book a false -100 pct on SQ. (2) BENCHMARK CONVENTION is INCONSISTENT on this curve and I am not silently picking one: most prior points carry a ONE-DAY SPY change, but 06-30 (+0.0796) and 08-10 (+0.0363) carry something else. Today records BOTH explicitly - spy_1d and spy_since_inception - so the ambiguity is visible in the data rather than buried. Since inception (06-30 close ~747.21 -> 768.875) SPY is +2.90 pct vs the book's +3.78 pct = +0.88pp. Today's SPY is an INTRADAY quote against prior closes."
- },
- {
-  "date": "2026-08-20",
-  "equity": 18739.39,
-  "total_return": 0.04107713650518807,
-  "n": 180,
-  "benchmark": {
-   "SPY": -0.003458767846461819,
-   "SPY_price": 766.4,
-   "spy_1d": -0.003458767846461819,
-   "spy_since_inception": 0.025682204467284864,
-   "convention_note": "spy_1d and spy_since_inception both recorded; prior points are inconsistent"
+  {
+    "date": "2026-07-01",
+    "equity": 12793.42,
+    "total_return": -0.0005139222886191286,
+    "n": 128,
+    "benchmark": {
+      "SPY": -0.000589,
+      "SPY_price": 746.77
+    }
   },
-  "note": "Zeus hourly ghost-delphi mark ~10:26 ET Thu 2026-08-20 (PARENTLESS - /delphi retired). Marked 120/120 open symbols live (SQ carried over at XYZ=79.73 per corporate rename), missing_marks=0. 0 opens (universe static, skip_open, and no /delphi run to supply selected/vetoed lists). 0 graded (earliest maturity 2026-10-01). Book $18739.39 on $18,000 cost basis = +4.108%. SPY today intraday 766.4 = spy_1d -0.346%, spy_since_inception (06-30 ~747.21) +2.568%. Book vs SPY since inception: +1.539pp."
- },
- {
-  "date": "2026-08-25",
-  "equity": 18718.64,
-  "total_return": 0.039924237188452505,
-  "n": 180,
-  "benchmark": {
-   "SPY": 0.00279,
-   "SPY_price": 765.6,
-   "spy_1d": 0.00279,
-   "spy_since_inception": 0.024612,
-   "convention_note": "spy_1d and spy_since_inception both recorded; prior points are inconsistent"
+  {
+    "date": "2026-07-02",
+    "equity": 17873.0,
+    "total_return": -0.0015083541039814241,
+    "n": 179
   },
-  "note": "Zeus ~10:25 ET Tue 2026-08-25 (PARENTLESS shadow - Delphi live retired 2026-07-04). Marked 120/120 open symbols live; missing_marks == 0. 0 graded, 0 due (earliest 90-day maturity 2026-09-28), so momentum_terciles / signal_lift.above_ma / .selected / .vetoed are ALL still empty BY CONSTRUCTION - no claim about the momentum premise, the 20-day-MA stop, or the LLM vetoes is available yet. 0 opens (universe static, skip_open, and there is no live /delphi run to supply a fresh selection or veto list). Book $18,718.64 on an $18,000 cost basis = +3.99 pct. TWO DISCLOSURES CARRIED FORWARD, still unfixed. (1) TICKER-RENAME DEFECT: SQ again returned NO quote (Block Inc. renamed SQ -> XYZ) and the ledger still holds BOTH as separate open entries. SQ is marked at XYZ's $82.27 because the security continued 1:1 - marking or grading it to zero would fabricate a loss out of a corporate action. Block therefore remains DOUBLE-WEIGHTED (2 of 180 entries, ~1.1 pct instead of ~0.6 pct). The deadline is real: these entries mature 2026-09-28, and unless the universe drops SQ and the survivorship guard gets a rename carve-out before then, grade_entries will book a false -100 pct on SQ. Raised for the operator for a 4th session. (2) BENCHMARK CONVENTION remains INCONSISTENT on this curve and is still not being silently normalised: most points carry a ONE-DAY SPY change while 06-30 (+0.0796) and 08-10 (+0.0363) carry something else. Today again records BOTH explicitly. Since inception (06-30 close ~747.21 -> 765.6) SPY is +2.46 pct vs the book's +3.99 pct = +1.53pp."
- },
- {
-  "date": "2026-08-27",
-  "equity": 18650.44,
-  "total_return": 0.036135563138842475,
-  "n": 180,
-  "benchmark": {
-   "SPY": 0.028808,
-   "SPY_price": 768.735,
-   "spy_1d": 0.004095,
-   "spy_since_inception": 0.028808,
-   "convention_note": "SPY key now carries since-inception (matches the book's total_return); spy_1d is the move off the prior point. Prior points before 2026-08-26 are inconsistent."
+  {
+    "date": "2026-07-03",
+    "equity": 18084.9,
+    "total_return": 0.004716438253484334,
+    "n": 180,
+    "benchmark": {
+      "SPY": -0.002665,
+      "SPY_price": 744.78
+    }
   },
-  "note": "Zeus ~10:26 ET Thu 2026-08-27 (PARENTLESS shadow - Delphi live retired 2026-07-04; no live /delphi run exists to supply a fresh selection or veto list). Marked 120/120 open symbols; missing_marks == 0, with ONE disclosed substitution: SQ was renamed XYZ (Block Inc) and no longer quotes, so the SQ entry (2026-07-01 @ 77.52) is marked at XYZ's price - a ticker change, not a corporate action, so this is the same security and NOT a survivorship substitution. 0 graded, 0 due (earliest 90-day maturity 2026-09-28), so momentum_terciles / signal_lift.above_ma / .selected / .vetoed remain empty BY CONSTRUCTION - no claim about the momentum premise, the 20-day-MA stop, or the LLM vetoes is available yet. 0 opens (universe static, skip_open=True). Book $18650.44 on an $18,000 cost basis = +3.61% vs SPY since inception +2.88% = +0.73pp. NOTE: no ghost mark was written for 2026-08-26 - the daily cadence did not fire that hour; this point follows 08-25."
- }
+  {
+    "date": "2026-07-06",
+    "equity": 18086.59,
+    "total_return": 0.004810320835757054,
+    "n": 180,
+    "benchmark": {
+      "SPY": -0.001314,
+      "SPY_price": 744.78
+    }
+  },
+  {
+    "date": "2026-07-07",
+    "equity": 18070.22,
+    "total_return": 0.0039009100607272362,
+    "n": 180,
+    "benchmark": {
+      "SPY": 0.0044,
+      "SPY_price": 748.0701
+    }
+  },
+  {
+    "date": "2026-07-14",
+    "equity": 18042.17,
+    "total_return": 0.0023428378051091325,
+    "n": 180,
+    "benchmark": {
+      "SPY": 0.002633,
+      "SPY_price": 750.04
+    }
+  },
+  {
+    "date": "2026-07-15",
+    "equity": 18011.78,
+    "total_return": 0.000654296974913704,
+    "n": 180,
+    "benchmark": {
+      "SPY": 0.004992,
+      "SPY_price": 753.7842
+    }
+  },
+  {
+    "date": "2026-07-16",
+    "equity": 18068.38,
+    "total_return": 0.003798907260820883,
+    "n": 180,
+    "benchmark": {
+      "SPY": -0.00177,
+      "SPY_price": 752.45
+    }
+  },
+  {
+    "date": "2026-07-17",
+    "equity": 17956.66,
+    "total_return": -0.002407744687693114,
+    "n": 180,
+    "benchmark": {
+      "SPY": -0.004299,
+      "SPY_price": 743.56
+    }
+  },
+  {
+    "date": "2026-07-20",
+    "equity": 17925.11,
+    "total_return": -0.00416079086580412,
+    "n": 180,
+    "benchmark": {
+      "SPY": 0.002422,
+      "SPY_price": 745.09
+    }
+  },
+  {
+    "date": "2026-07-22",
+    "equity": 18071.72,
+    "total_return": 0.003984274036907598,
+    "n": 180,
+    "benchmark": {
+      "SPY": 0.000542,
+      "SPY_price": 747.615
+    }
+  },
+  {
+    "date": "2026-07-24",
+    "equity": 18048.93,
+    "total_return": 0.002718259798242917,
+    "n": 180,
+    "benchmark": {
+      "SPY": 0.000325,
+      "SPY_price": 738.42
+    }
+  },
+  {
+    "date": "2026-07-27",
+    "equity": 18142.11,
+    "total_return": 0.007895022774356386,
+    "n": 180,
+    "benchmark": {
+      "SPY": -0.009074,
+      "SPY_price": 740.43
+    }
+  },
+  {
+    "date": "2026-07-29",
+    "equity": 18264.57,
+    "total_return": 0.014698201211869044,
+    "n": 180,
+    "benchmark": {
+      "SPY": -0.002617
+    }
+  },
+  {
+    "date": "2026-08-06",
+    "equity": 18338.38,
+    "total_return": 0.018798652276091676,
+    "n": 180,
+    "benchmark": {
+      "SPY": 0.002501,
+      "SPY_price": 771.715
+    }
+  },
+  {
+    "date": "2026-08-10",
+    "equity": 18469.71,
+    "total_return": 0.02609479709630569,
+    "n": 180,
+    "benchmark": {
+      "SPY": 0.036281,
+      "SPY_price": 774.32
+    }
+  },
+  {
+    "date": "2026-08-17",
+    "equity": 18697.88,
+    "total_return": 0.03877123066469057,
+    "n": 180,
+    "benchmark": {
+      "SPY": -0.0013138573305510048
+    }
+  },
+  {
+    "date": "2026-08-18",
+    "equity": 18680.34,
+    "total_return": 0.037796627348259504,
+    "n": 180,
+    "benchmark": {
+      "SPY": -0.004912,
+      "SPY_price": 768.875,
+      "spy_1d": -0.004912,
+      "spy_since_inception": 0.028994,
+      "convention_note": "spy_1d and spy_since_inception both recorded; prior points are inconsistent"
+    },
+    "note": "Zeus ~10:33 ET Tue 2026-08-18 (PARENTLESS shadow - Delphi live retired 2026-07-04). Marked 120/120 open symbols live; missing_marks == 0. 0 graded, 0 due (earliest 90-day maturity 2026-09-28), so momentum_terciles / signal_lift.above_ma / .selected / .vetoed are ALL still empty BY CONSTRUCTION - no claim about the momentum premise, the 20-day-MA stop, or the LLM vetoes is available yet. 0 opens (universe static, skip_open, and there is no live /delphi run to supply a fresh selection or veto list). Book $18680.34 on a $18,000 cost basis = +3.78 pct. TWO disclosures. (1) TICKER-RENAME DEFECT, new this session: SQ returned NO quote because Block Inc. renamed SQ -> XYZ, and the ledger holds BOTH as separate open entries. SQ is marked at XYZ's $80.98 because the security continued 1:1 - grading or marking it to zero would fabricate a loss out of a corporate action. The real cost is that Block is now DOUBLE-WEIGHTED in this book (2 of 180 entries, ~1.1 pct instead of ~0.6 pct). Flagged for the operator: the universe list needs SQ removed, and the survivorship guard 'unpriceable grades as a loss' needs a rename carve-out before 2026-09-28, when these entries mature and the guard would otherwise book a false -100 pct on SQ. (2) BENCHMARK CONVENTION is INCONSISTENT on this curve and I am not silently picking one: most prior points carry a ONE-DAY SPY change, but 06-30 (+0.0796) and 08-10 (+0.0363) carry something else. Today records BOTH explicitly - spy_1d and spy_since_inception - so the ambiguity is visible in the data rather than buried. Since inception (06-30 close ~747.21 -> 768.875) SPY is +2.90 pct vs the book's +3.78 pct = +0.88pp. Today's SPY is an INTRADAY quote against prior closes."
+  },
+  {
+    "date": "2026-08-20",
+    "equity": 18739.39,
+    "total_return": 0.04107713650518807,
+    "n": 180,
+    "benchmark": {
+      "SPY": -0.003458767846461819,
+      "SPY_price": 766.4,
+      "spy_1d": -0.003458767846461819,
+      "spy_since_inception": 0.025682204467284864,
+      "convention_note": "spy_1d and spy_since_inception both recorded; prior points are inconsistent"
+    },
+    "note": "Zeus hourly ghost-delphi mark ~10:26 ET Thu 2026-08-20 (PARENTLESS - /delphi retired). Marked 120/120 open symbols live (SQ carried over at XYZ=79.73 per corporate rename), missing_marks=0. 0 opens (universe static, skip_open, and no /delphi run to supply selected/vetoed lists). 0 graded (earliest maturity 2026-10-01). Book $18739.39 on $18,000 cost basis = +4.108%. SPY today intraday 766.4 = spy_1d -0.346%, spy_since_inception (06-30 ~747.21) +2.568%. Book vs SPY since inception: +1.539pp."
+  },
+  {
+    "date": "2026-08-25",
+    "equity": 18718.64,
+    "total_return": 0.039924237188452505,
+    "n": 180,
+    "benchmark": {
+      "SPY": 0.00279,
+      "SPY_price": 765.6,
+      "spy_1d": 0.00279,
+      "spy_since_inception": 0.024612,
+      "convention_note": "spy_1d and spy_since_inception both recorded; prior points are inconsistent"
+    },
+    "note": "Zeus ~10:25 ET Tue 2026-08-25 (PARENTLESS shadow - Delphi live retired 2026-07-04). Marked 120/120 open symbols live; missing_marks == 0. 0 graded, 0 due (earliest 90-day maturity 2026-09-28), so momentum_terciles / signal_lift.above_ma / .selected / .vetoed are ALL still empty BY CONSTRUCTION - no claim about the momentum premise, the 20-day-MA stop, or the LLM vetoes is available yet. 0 opens (universe static, skip_open, and there is no live /delphi run to supply a fresh selection or veto list). Book $18,718.64 on an $18,000 cost basis = +3.99 pct. TWO DISCLOSURES CARRIED FORWARD, still unfixed. (1) TICKER-RENAME DEFECT: SQ again returned NO quote (Block Inc. renamed SQ -> XYZ) and the ledger still holds BOTH as separate open entries. SQ is marked at XYZ's $82.27 because the security continued 1:1 - marking or grading it to zero would fabricate a loss out of a corporate action. Block therefore remains DOUBLE-WEIGHTED (2 of 180 entries, ~1.1 pct instead of ~0.6 pct). The deadline is real: these entries mature 2026-09-28, and unless the universe drops SQ and the survivorship guard gets a rename carve-out before then, grade_entries will book a false -100 pct on SQ. Raised for the operator for a 4th session. (2) BENCHMARK CONVENTION remains INCONSISTENT on this curve and is still not being silently normalised: most points carry a ONE-DAY SPY change while 06-30 (+0.0796) and 08-10 (+0.0363) carry something else. Today again records BOTH explicitly. Since inception (06-30 close ~747.21 -> 765.6) SPY is +2.46 pct vs the book's +3.99 pct = +1.53pp."
+  },
+  {
+    "date": "2026-08-27",
+    "equity": 18650.44,
+    "total_return": 0.036135563138842475,
+    "n": 180,
+    "benchmark": {
+      "SPY": 0.028808,
+      "SPY_price": 768.735,
+      "spy_1d": 0.004095,
+      "spy_since_inception": 0.028808,
+      "convention_note": "SPY key now carries since-inception (matches the book's total_return); spy_1d is the move off the prior point. Prior points before 2026-08-26 are inconsistent."
+    },
+    "note": "Zeus ~10:26 ET Thu 2026-08-27 (PARENTLESS shadow - Delphi live retired 2026-07-04; no live /delphi run exists to supply a fresh selection or veto list). Marked 120/120 open symbols; missing_marks == 0, with ONE disclosed substitution: SQ was renamed XYZ (Block Inc) and no longer quotes, so the SQ entry (2026-07-01 @ 77.52) is marked at XYZ's price - a ticker change, not a corporate action, so this is the same security and NOT a survivorship substitution. 0 graded, 0 due (earliest 90-day maturity 2026-09-28), so momentum_terciles / signal_lift.above_ma / .selected / .vetoed remain empty BY CONSTRUCTION - no claim about the momentum premise, the 20-day-MA stop, or the LLM vetoes is available yet. 0 opens (universe static, skip_open=True). Book $18650.44 on an $18,000 cost basis = +3.61% vs SPY since inception +2.88% = +0.73pp. NOTE: no ghost mark was written for 2026-08-26 - the daily cadence did not fire that hour; this point follows 08-25."
+  },
+  {
+    "date": "2026-09-02",
+    "equity": 18547.07,
+    "total_return": 0.030392915454448,
+    "n": 180,
+    "benchmark": {
+      "SPY": 0.024947,
+      "SPY_price": 765.4
+    }
+  }
 ]
