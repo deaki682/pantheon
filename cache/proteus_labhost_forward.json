@@ -1,5 +1,20 @@
 {
  "name": "proteus_labhost_forward",
  "hosting": "D6 accepted 2026-09-01: forward populations for tender_target_14d9 (all initial SC 14D9) and cef_tender_toc_anchor (SC TO-C, CEF rows only after manual classification). Entry = first close after the filing date; maturity = +25 trading days; grade = CAR vs SPY. Lab lifts grades from here; Proteus never writes the lab registry.",
- "rows": []
+ "rows": [
+  {
+   "slug": "tender_target_14d9",
+   "form": "SC 14D9",
+   "company": "Yatra Online, Inc.",
+   "cik": "1516899",
+   "date": "20260901",
+   "accession": "0001213900-26-096205",
+   "status": "logged",
+   "classification": "third_party_partial_tender: Offeror seeks 20,000,000 sh (~31% as-converted) at $1.10 cash, expires 9/17/2026 midnight NY; proration, no odd-lot preference found; 14D9 read 9/2",
+   "symbol": "YTRA",
+   "entry_close": null,
+   "entry_date": "2026-09-02",
+   "grade": null
+  }
+ ]
 }
