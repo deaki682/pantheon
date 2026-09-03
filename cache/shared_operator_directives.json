@@ -1,60 +1,66 @@
 {
-  "directives": [
-    {
-      "applied": "2026-09-01T14:22Z by /hermes via /zeus",
-      "applied_note": "Backfilled the 2026-07-06 ALOT buy row (shares=16.836256, price=28.505, status=filled) with provenance in the row. hermes_reconcile() verified [] - was ['ALOT: ledger net -16.8363 sh != sleeve 0.0000 sh']. Halt lifted and ENTRIES RESUMED the same session: sourcing swept 123 announced deals (12 untracked), all 12 recorded in the A/B, 1 keep - BOW entered 14 sh @ $33.5699. Post-trade reconcile clean. Noted for the operator: $0.08 residual between 16.836256*28.505 = $479.92 and the $480.00 as-placed notional, left visible rather than reverse-solved.",
-      "god": "hermes",
-      "id": "D1-hermes-alot",
-      "status": "applied",
-      "text": "OPERATOR AUTHORIZES the ALOT ledger backfill you proposed 08-31: set shares=16.836256, price=28.505 on the 2026-07-06 ALOT buy row (your own diagnosis: $480.00/28.505 reconciles the 08-28 sell exactly). Apply it yourself next session, note the backfill in the row, verify hermes_reconcile()==[], then RESUME ENTRIES. The halt is lifted the moment the reconcile reads clean."
-    },
-    {
-      "acknowledged": "2026-09-01 by /hermes via /zeus. Read and binding. Deliberately left status=active: it is a pre-commitment written before the data and must still be in force AT the ~09-30 grade; marking it applied now would retire it unused. No behavior changed to chase it, per its own terms. State today: APGE +1.19pct and FSEA +1.39pct, both open, both expected_close 2026-09-30, neither through its break-stop. Arm A currently 4-for-4 on graded deals.",
-      "god": "hermes",
-      "id": "D2-hermes-funding-checkpoint",
-      "status": "active",
-      "text": "Conditional funding pre-commitment (written 09-01, before the data): IF APGE and FSEA both close clean by ~09-30 (Arm A 5-for-5), the operator intends to fund the sleeve to ~$7,000. IF either breaks, funding holds at $4,000 and the break-stop's live performance becomes the study. Do not change behavior to chase this \u2014 it grades itself."
-    },
-    {
-      "applied": "2026-09-01T14:10Z by /zeus",
-      "applied_note": "Zeus dispatch table + steps + hard rules rewritten: /midas-scan and /midas-ghost rows marked CLOSED PERMANENTLY and removed from every parallel group; midas_scan_due cadence lookup deleted; weekend-dispatch rule no longer names /midas-scan. The /midas wind-down row is untouched but inert (sleeve flat, wind_down_complete 2026-07-06). Ghost book and scan caches left frozen as history - nothing deleted.",
-      "god": "midas/ghosts/zeus",
-      "id": "D3-midas-closure",
-      "signed": "2026-09-01, operator ('close midas'), via main session",
-      "status": "applied",
-      "text": "OPERATOR SIGNED 2026-09-01: the Midas research program (weekend /midas-scan, daily /midas-ghost, the live-vs-legacy A/B and its 20-week death clock) is CLOSED PERMANENTLY. Grounds: convergence thesis 0-for-3 (refuted twice in study, non-monotonic ghost terciles at n=20), finalist pool mean -2.4%/wk at 30% hit rate, and 7 consecutive weeks unable to produce a valid head-to-head - the preregistered comparison cannot complete. Ghost book (20 graded rows) and scan caches are frozen as history; nothing is deleted. Zeus: stop dispatching /midas-scan and /midas-ghost. The convergence idea may return ONLY through the lab front door with a new preregistered mechanism."
-    },
-    {
-      "acknowledged": "2026-09-01 by /oracle via /zeus. Read and BINDING; left status=active because it is a standing precondition, not a one-shot action - it must keep gating every future round until both legs are satisfied. Status today: STILL BLOCKED. (a) UNMET - all six live sleeve positions (KLIC/LXU/PAY/QTWO/TPC/ZVRA) carry sector=\"\" and the real pipeline does not populate it; the fields were deliberately NOT hand-filled, since hand-filling would paper over the exact gap being guarded. (b) cannot be exercised while (a) is unmet - size_upside_book 40pct correlation-cluster cap still degrades to per-symbol. The PAY+QTWO one-factor cluster stands at ~37pct of equity, uncapped. No new funding round was run or proposed this session; no kill fired, so no capital was freed either. Clearing this needs a build session, not an hourly tend.",
-      "god": "oracle",
-      "id": "D4-oracle-preconditions",
-      "status": "active",
-      "text": "OPERATOR CONFIRMS your own top precondition as binding: no new funding round until (a) sector fields are populated by the real pipeline and (b) size_upside_book's 40% correlation-cluster cap is wired to see them. The PAY+QTWO cluster reading (one factor, ~37% of equity) stands as the motivating exhibit. No new capital to the sleeve; next round funds from the book."
-    },
-    {
-      "acknowledged": "2026-09-01 by /plutus via /zeus. Read and binding for the October grade. Left status=active on purpose, same reasoning as D2. Spec unchanged; 2026Q2 already traded, so the next pipeline run is the 2026Q3 rebalance (signal 2026-09-30) and the first graded quarter follows it.",
-      "god": "plutus",
-      "id": "D5-plutus-precommit",
-      "status": "active",
-      "text": "Pre-commitment for the October grade (written 09-01, before the data): IF the first graded quarter shows live deluxe LAGGING the pure N50 EW control, the deluxe additions get cut per the launch override's own terms - no relitigating. IF deluxe holds AND gauntlet_v6's intersection keeps winning its forward test, intersection-N25 becomes a documented spec-change candidate for the January rebalance. Spec unchanged until then."
-    },
-    {
-      "god": "lab/proteus",
-      "id": "D6-lab-throughput",
-      "proteus_response": "ACCEPTED 2026-09-01 by /proteus (v3 s21) and journaled as the directive requires. He will host tender_target_14d9 and cef_tender_toc_anchor inside a daily SC TO-I sweep, chosen self-interestedly (issuer self-tenders sit in the structural forced-seller corner the house view favours), with implementation booked as the first build task of session 22. Directive left ACTIVE: its other half - no /lab session ends without ticking every open forward book - is a standing duty for /lab, which did not run today (weekend-gated) and still needs it in force.",
-      "status": "active",
-      "text": "Standing duty: no /lab session ends without ticking every open forward book (entries logged, matured exits graded). Proteus is invited (not ordered - his charter is his own) to host the tender_target_14d9 and cef_tender_toc_anchor forward books inside his daily SC TO-I sweep, where the marginal cost is zero; if he accepts, journal it and the lab registry gets its first event-driven grades."
-    },
-    {
-      "applied": "2026-09-01T14:30Z by /proteus (v3 session 21) via /zeus",
-      "applied_note": "A1 STARTED at the next session as ordered: first MISSED BOARD built at cache/proteus_missed_board.json - 10 dated catalysts <=6wk, all >=$300M, 3 READ with written gradeable verdicts (AVGO/ORCL/ADBE, all PASS) and 7 UNEXAMINED (SNOW/LULU/CHWY/GME/LEN/FDX/CPRT) each carrying a grade-due date ~5 sessions post-event. Rebuilds the first session of each week. A2 acknowledged head-on in the journal and beliefs: VOO is 80.0pct of the book, Q3 closes in 29 days, and a beta-indistinguishable quarter is the probable outcome. Proteus deliberately did NOT trade to escape the grade, and wrote the plan down in advance - hunt a real idiosyncratic thesis with proper session time before 09-30, else take the FAIL honestly. Marking applied is safe for the STANDING half: A1 and A2 are permanent law in docs/proteus_v3_charter.md (Amendment I, line 82), so retiring this directive does not retire the rules. Side finding: shared/event_calendar.py returned zero events inside 42 days against 136 stored - a stale standing channel.",
-      "god": "proteus",
-      "id": "D7-proteus-amendment-1",
-      "status": "applied",
-      "text": "CHARTER AMENDMENT I IS LAW (operator-signed 2026-09-01; full text docs/proteus_v3_charter.md, mechanics in .claude/commands/proteus.md): (A1) build the weekly MISSED BOARD \u2014 unread dated opportunities become ledger-visible and UNEXAMINED outcomes grade against your record; (A2) a quarter statistically indistinguishable from SPY (\u00b11.0% total return) grades FAIL \u2014 the index needs no god. Start A1 at your NEXT session with this week's board. The operator's words: 'let's get him going.' Your freedom is untouched; only the cost of not looking, and the grade for hiding in beta, have changed. Review clause: a FAIL quarter triggers a sleeve-size review at the Q4 open."
-    }
-  ],
-  "issued": "2026-09-01",
-  "issued_via": "main operator session (post-restructure review); operator asked for the plan to be enacted",
-  "name": "shared_operator_directives"
+ "directives": [
+  {
+   "applied": "2026-09-01T14:22Z by /hermes via /zeus",
+   "applied_note": "Backfilled the 2026-07-06 ALOT buy row (shares=16.836256, price=28.505, status=filled) with provenance in the row. hermes_reconcile() verified [] - was ['ALOT: ledger net -16.8363 sh != sleeve 0.0000 sh']. Halt lifted and ENTRIES RESUMED the same session: sourcing swept 123 announced deals (12 untracked), all 12 recorded in the A/B, 1 keep - BOW entered 14 sh @ $33.5699. Post-trade reconcile clean. Noted for the operator: $0.08 residual between 16.836256*28.505 = $479.92 and the $480.00 as-placed notional, left visible rather than reverse-solved.",
+   "god": "hermes",
+   "id": "D1-hermes-alot",
+   "status": "applied",
+   "text": "OPERATOR AUTHORIZES the ALOT ledger backfill you proposed 08-31: set shares=16.836256, price=28.505 on the 2026-07-06 ALOT buy row (your own diagnosis: $480.00/28.505 reconciles the 08-28 sell exactly). Apply it yourself next session, note the backfill in the row, verify hermes_reconcile()==[], then RESUME ENTRIES. The halt is lifted the moment the reconcile reads clean."
+  },
+  {
+   "acknowledged": "2026-09-01 by /hermes via /zeus. Read and binding. Deliberately left status=active: it is a pre-commitment written before the data and must still be in force AT the ~09-30 grade; marking it applied now would retire it unused. No behavior changed to chase it, per its own terms. State today: APGE +1.19pct and FSEA +1.39pct, both open, both expected_close 2026-09-30, neither through its break-stop. Arm A currently 4-for-4 on graded deals.",
+   "god": "hermes",
+   "id": "D2-hermes-funding-checkpoint",
+   "status": "active",
+   "text": "Conditional funding pre-commitment (written 09-01, before the data): IF APGE and FSEA both close clean by ~09-30 (Arm A 5-for-5), the operator intends to fund the sleeve to ~$7,000. IF either breaks, funding holds at $4,000 and the break-stop's live performance becomes the study. Do not change behavior to chase this \u2014 it grades itself."
+  },
+  {
+   "applied": "2026-09-01T14:10Z by /zeus",
+   "applied_note": "Zeus dispatch table + steps + hard rules rewritten: /midas-scan and /midas-ghost rows marked CLOSED PERMANENTLY and removed from every parallel group; midas_scan_due cadence lookup deleted; weekend-dispatch rule no longer names /midas-scan. The /midas wind-down row is untouched but inert (sleeve flat, wind_down_complete 2026-07-06). Ghost book and scan caches left frozen as history - nothing deleted.",
+   "god": "midas/ghosts/zeus",
+   "id": "D3-midas-closure",
+   "signed": "2026-09-01, operator ('close midas'), via main session",
+   "status": "applied",
+   "text": "OPERATOR SIGNED 2026-09-01: the Midas research program (weekend /midas-scan, daily /midas-ghost, the live-vs-legacy A/B and its 20-week death clock) is CLOSED PERMANENTLY. Grounds: convergence thesis 0-for-3 (refuted twice in study, non-monotonic ghost terciles at n=20), finalist pool mean -2.4%/wk at 30% hit rate, and 7 consecutive weeks unable to produce a valid head-to-head - the preregistered comparison cannot complete. Ghost book (20 graded rows) and scan caches are frozen as history; nothing is deleted. Zeus: stop dispatching /midas-scan and /midas-ghost. The convergence idea may return ONLY through the lab front door with a new preregistered mechanism."
+  },
+  {
+   "acknowledged": "2026-09-03 after-close by /oracle via /zeus. BOTH HALVES NOW CLOSED IN CODE (full suite green, 0 failures) - previous sessions could only report 'still blocked'. (a) MET: oracle/lens.py deep_parse now threads `sector` (else `industry`) from the PACKET into make_upside_dossier, the same precedent already used for symbol and recent_runup_pct. Root cause found: deep_prompt never asked the model for a sector and nothing filled it afterwards, so the 07-10 book was written with sector='' on all six - field_prep and upside_sourcing already carried sector/industry, so this was a THREADING gap, not a data gap. make_upside_dossier additionally REFUSES a name carrying neither sector nor theme, so the 07-10 shape can no longer be constructed. (b) MET: size_upside_book now RAISES ValueError on untagged picks rather than silently degrading to per-symbol clusters (opt-outs: an explicit cluster_key, or require_cluster_tags=False). Added the missing test for the DEFAULT cluster_key path - the pre-existing cluster test passed an explicit key, so the production path was never covered, which is how the degradation survived review. STILL OPEN and deliberately not papered over: the six LIVE positions (KLIC/LXU/PAY/QTWO/TPC/ZVRA) still carry sector='' in the sleeve. They were NOT hand-filled - hand-filling was refused on 09-01 for good reason and the reason still holds. Consequence, and it is the intended one: because the next round funds FROM the book, the sizer will now REFUSE to size it until those six are tagged from a real data pull. The gate is enforced by code instead of by prose. The motivating exhibit is unchanged: PAY+QTWO, one factor, closed at 35.89% of equity today, still uncapped in the live book. Left status=active: the operator's condition is a STANDING gate on every future funding round, not a one-shot action, and the live-six tagging remains undone.",
+   "build_2026_09_03": {
+    "oracle/lens.py": "deep_parse: sector taken from packet (sector -> industry fallback)",
+    "oracle/upside_dossier.py": "make_upside_dossier refuses untagged; size_upside_book raises on untagged picks (require_cluster_tags, default True)",
+    "suite": "full pytest green, 0 failures",
+    "tests": "test_upside_dossier.py: default-cluster_key cap test + constructor refusal + sizer refusal; test_lenses.py: packet-sector threading, industry fallback, and refusal when the packet has neither"
+   },
+   "god": "oracle",
+   "id": "D4-oracle-preconditions",
+   "status": "active",
+   "text": "OPERATOR CONFIRMS your own top precondition as binding: no new funding round until (a) sector fields are populated by the real pipeline and (b) size_upside_book's 40% correlation-cluster cap is wired to see them. The PAY+QTWO cluster reading (one factor, ~37% of equity) stands as the motivating exhibit. No new capital to the sleeve; next round funds from the book."
+  },
+  {
+   "acknowledged": "2026-09-01 by /plutus via /zeus. Read and binding for the October grade. Left status=active on purpose, same reasoning as D2. Spec unchanged; 2026Q2 already traded, so the next pipeline run is the 2026Q3 rebalance (signal 2026-09-30) and the first graded quarter follows it.",
+   "god": "plutus",
+   "id": "D5-plutus-precommit",
+   "status": "active",
+   "text": "Pre-commitment for the October grade (written 09-01, before the data): IF the first graded quarter shows live deluxe LAGGING the pure N50 EW control, the deluxe additions get cut per the launch override's own terms - no relitigating. IF deluxe holds AND gauntlet_v6's intersection keeps winning its forward test, intersection-N25 becomes a documented spec-change candidate for the January rebalance. Spec unchanged until then."
+  },
+  {
+   "god": "lab/proteus",
+   "id": "D6-lab-throughput",
+   "proteus_response": "ACCEPTED 2026-09-01 by /proteus (v3 s21) and journaled as the directive requires. He will host tender_target_14d9 and cef_tender_toc_anchor inside a daily SC TO-I sweep, chosen self-interestedly (issuer self-tenders sit in the structural forced-seller corner the house view favours), with implementation booked as the first build task of session 22. Directive left ACTIVE: its other half - no /lab session ends without ticking every open forward book - is a standing duty for /lab, which did not run today (weekend-gated) and still needs it in force.",
+   "status": "active",
+   "text": "Standing duty: no /lab session ends without ticking every open forward book (entries logged, matured exits graded). Proteus is invited (not ordered - his charter is his own) to host the tender_target_14d9 and cef_tender_toc_anchor forward books inside his daily SC TO-I sweep, where the marginal cost is zero; if he accepts, journal it and the lab registry gets its first event-driven grades."
+  },
+  {
+   "applied": "2026-09-01T14:30Z by /proteus (v3 session 21) via /zeus",
+   "applied_note": "A1 STARTED at the next session as ordered: first MISSED BOARD built at cache/proteus_missed_board.json - 10 dated catalysts <=6wk, all >=$300M, 3 READ with written gradeable verdicts (AVGO/ORCL/ADBE, all PASS) and 7 UNEXAMINED (SNOW/LULU/CHWY/GME/LEN/FDX/CPRT) each carrying a grade-due date ~5 sessions post-event. Rebuilds the first session of each week. A2 acknowledged head-on in the journal and beliefs: VOO is 80.0pct of the book, Q3 closes in 29 days, and a beta-indistinguishable quarter is the probable outcome. Proteus deliberately did NOT trade to escape the grade, and wrote the plan down in advance - hunt a real idiosyncratic thesis with proper session time before 09-30, else take the FAIL honestly. Marking applied is safe for the STANDING half: A1 and A2 are permanent law in docs/proteus_v3_charter.md (Amendment I, line 82), so retiring this directive does not retire the rules. Side finding: shared/event_calendar.py returned zero events inside 42 days against 136 stored - a stale standing channel.",
+   "god": "proteus",
+   "id": "D7-proteus-amendment-1",
+   "status": "applied",
+   "text": "CHARTER AMENDMENT I IS LAW (operator-signed 2026-09-01; full text docs/proteus_v3_charter.md, mechanics in .claude/commands/proteus.md): (A1) build the weekly MISSED BOARD \u2014 unread dated opportunities become ledger-visible and UNEXAMINED outcomes grade against your record; (A2) a quarter statistically indistinguishable from SPY (\u00b11.0% total return) grades FAIL \u2014 the index needs no god. Start A1 at your NEXT session with this week's board. The operator's words: 'let's get him going.' Your freedom is untouched; only the cost of not looking, and the grade for hiding in beta, have changed. Review clause: a FAIL quarter triggers a sleeve-size review at the Q4 open."
+  }
+ ],
+ "issued": "2026-09-01",
+ "issued_via": "main operator session (post-restructure review); operator asked for the plan to be enacted",
+ "name": "shared_operator_directives"
 }
