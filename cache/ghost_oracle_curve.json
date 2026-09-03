@@ -432,7 +432,9 @@
   "total_return": 0.036091058924835995,
   "n": 327,
   "benchmark": {
-   "SPY": 768.825
-  }
+   "SPY": 0.042362,
+   "SPY_price": 768.825
+  },
+  "note": "benchmark repaired 2026-09-03 after-close: the 10:22 ET pass wrote SPY's PRICE (768.825) into the RETURN field and omitted SPY_price, so this point read as a +76,782% benchmark and would have inverted any ghost-vs-SPY comparison. Recomputed off the 06-29 inception basis 737.58. Left on the INTRADAY basis, not the close, because the equity beside it is an intraday mark \u2014 both sides of the comparison must sit on the same clock. This point is a ~10:22 ET mark, not a close mark."
  }
 ]
