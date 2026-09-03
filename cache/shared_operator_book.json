@@ -97,6 +97,35 @@
    "total_value": 5006.36,
    "total_pnl_pct": 0.13,
    "note": "Day 3: green tape (SPY +0.44%). MU +2.3% vs entry on AVGO-eve semis bid; BABA -4.2% vs entry (watch 105-110 zone); BSX +3.7%; UFI -3.4%. Book +0.13% vs SPY -0.55% since entry: +0.68pp."
+  },
+  {
+   "date": "2026-09-03",
+   "spy": 773.16,
+   "positions": {
+    "MU": {
+     "close": 958.49,
+     "value": 2054.05,
+     "pnl_pct": 2.7
+    },
+    "BABA": {
+     "close": 111.79,
+     "value": 957.67,
+     "pnl_pct": -4.23
+    },
+    "BSX": {
+     "close": 46.95,
+     "value": 1006.22,
+     "pnl_pct": 0.62
+    },
+    "UFI": {
+     "close": 7.02,
+     "value": 928.11,
+     "pnl_pct": -7.19
+    }
+   },
+   "total_value": 4946.05,
+   "total_pnl_pct": -1.08,
+   "note": "Day 4: SPY +1.05% (post-AVGO risk-on) but the book lagged: -1.08% vs entry, SPY +0.50% since entry -> excess flips to -1.58pp. UFI -3.7% day (-7.2% cum) sliding into the 9/15 inspection date; BSX gave back -2.9% day; MU +2.7% cum; BABA flat. Jobs report tomorrow 8:30 ET is the branch-picker."
   }
  ],
  "positions": {
