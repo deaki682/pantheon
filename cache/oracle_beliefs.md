@@ -2757,3 +2757,66 @@ unchanged.
 
 ## Intraday tend 2026-09-03 (~10:22 ET, Zeus)
 Book $4202.02/$3997.22 basis = +5.12%, excess +2.75pp vs SPY. Equity $4651.96, dd 5.65%. D4 still blocks new funding (sector-field pipeline unfixed) -> tend+grade only. Filing sweep since 09-02: KLIC Form 4 (insider), TPC 13D/A+Form 4 (Tutor sell-down follow-through - insider distribution, NOT a typed kill), other 4 nil. No earnings prints -> all 6 kills untestable, all HOLD. A/B nothing due. KLIC now -30% from entry and QTWO's +12.6% print (2.6pp kill headroom) remain the two to watch for the next print. No orders. Legacy cohort frozen/untouched.
+
+
+## 2026-09-03 after-close (Zeus tend #2, Thursday) — D4 stopped being a paragraph and became a gate
+
+Book closed **$4,226.21 on the $4,050.06 ledgered basis = +4.35%**; SPY 750.935 -> 773.16 = +2.96%;
+**excess +1.39pp**, down from +1.71pp at the 09-02 close. Equity $4,676.15, cash 9.62%, drawdown
+5.16% off the $4,930.51 peak, breaker untouched. Broker == sleeve exact 6/6. Zero orders.
+
+**The day's shape is worth naming precisely: the book did not fall, it failed to participate.**
+-0.04% against SPY +1.05% — -1.08pp — and the whole gap is absence, not damage. Five of six names
+moved less than 1.3% in absolute terms; only LXU (-2.60%) and ZVRA (+1.95%) did anything. A
+concentrated six-name book will do this often against a broad up day and it is not information. I am
+recording it as a fact and building nothing on it (lesson 16).
+
+**RECORD CORRECTION, and it is mine.** This morning's 10:22 ET pass reported the basis as $3,997.22
+and the book as +5.12% / +2.75pp excess. The ledger fills — all six, 07-10, in
+`oracle_ledger.jsonl` — sum to **$4,050.06** exactly, the same figure the 08-28 and 09-02 passes
+used. The true reading at that moment was +3.75%. **The morning overstated the book's gain by
+~1.37pp.** No trade was taken on it and no thesis moved, but a $52.84 basis error that survived one
+pass would have compounded into the quarter's grade if the next pass had copied it forward, which is
+exactly how these things propagate. Lesson 18: **the basis is a LEDGER quantity, never retyped.**
+Recompute it from `shares × fill_price` every pass and let it disagree with the previous note out
+loud if it wants to.
+
+**D4 is closed in code — both halves — after three sessions of reporting it blocked.** The prior
+passes could only write "STILL BLOCKED" because the fix looked like a build session and an hourly
+tend kept declining to start one. It was a 12-line change, and the market being shut is precisely
+when it was safe to make.
+
+- **(a) The pipeline populates sector now.** `oracle/lens.py::deep_parse` threads `sector` (falling
+  back to `industry`) from the PACKET into `make_upside_dossier` — the identical precedent the
+  function already applied to `symbol` and `recent_runup_pct`. **The root cause was not a missing
+  data source: `deep_prompt` never asks the model for a sector, and nothing filled it afterwards.**
+  `field_prep` builds every packet with `sector`/`industry` and `upside_sourcing` passes them
+  straight through. The field was sitting one dictionary away the entire time. A threading gap, not
+  a data gap — and I asserted the opposite on 09-01 ("the real pipeline does not populate it"),
+  which was true of the outcome and wrong about the cause.
+- **(b) The cap refuses instead of degrading.** `size_upside_book` now raises on picks carrying
+  neither `sector` nor `theme`, and `make_upside_dossier` refuses to construct one at all. **The
+  reason this survived review is worth keeping:** `test_sizing_cluster_cap` passed an *explicit*
+  `cluster_key`, so the default key — the one production actually uses — had no test. The cap was
+  green in CI and inert in the book. A test that hands the code its own escape hatch is not a test
+  of the code.
+
+**What I deliberately did NOT do: hand-fill the six live positions.** They still carry `sector=''`.
+The 09-01 reasoning holds — hand-filling papers over the exact gap being guarded. The consequence is
+now structural rather than rhetorical: since the next round funds *from* the book, **the sizer will
+refuse to size it until those six are tagged from a real pull.** The gate enforces itself. That is a
+better state than a fixed pipeline plus six grandfathered names, because the grandfathered book is
+where the risk actually is. PAY+QTWO — one factor — closed at **35.89% of equity**, still uncapped.
+
+**Lesson 19: a risk cap that cannot bind is worse than no cap**, because the book reads as capped and
+nobody looks again. The 40% cluster cap has been in the spec, in the docstring, in CI, and in my own
+notes since July, and has never once constrained anything. I flagged it four sessions running and
+treated flagging as discharge. Escalating a fixable thing is not the same as fixing it.
+
+Everything else: all six typed kills are quarterly-print tests, no print landed (filing sweep >=
+09-02 returned only the three documents the morning already dispositioned; nothing carries a 09-03
+date yet, and a Form 4 for today can still arrive tomorrow — the window is open, not empty), so all
+six are **UNTESTABLE, not passed**. 6/6 HOLD. KLIC at -28.40% from entry is a drawdown and a drawdown
+is never an exit (F3). Stage 6: 0 of 326 due, earliest horizon 2027-01, `llm_lift` untrustworthy at
+n_graded=0. Stage 7 unchanged. **Sourcing is 51 days stale and remains an operator decision** — but
+the honest note tonight is that the thing I had been calling a blocker for it was, in part, this.
