@@ -2753,3 +2753,7 @@ Standing Duty 3 governs — the next full cascade runs when capital is FREED, an
 book sits at the top of the 3–6 concentration band with 9.76% cash, so no capital is idling on it.
 Stage 6: 0 grades due (326 candidates; earliest 6-month horizon lands 2027-01). Stage 7 calibration
 unchanged.
+
+
+## Intraday tend 2026-09-03 (~10:22 ET, Zeus)
+Book $4202.02/$3997.22 basis = +5.12%, excess +2.75pp vs SPY. Equity $4651.96, dd 5.65%. D4 still blocks new funding (sector-field pipeline unfixed) -> tend+grade only. Filing sweep since 09-02: KLIC Form 4 (insider), TPC 13D/A+Form 4 (Tutor sell-down follow-through - insider distribution, NOT a typed kill), other 4 nil. No earnings prints -> all 6 kills untestable, all HOLD. A/B nothing due. KLIC now -30% from entry and QTWO's +12.6% print (2.6pp kill headroom) remain the two to watch for the next print. No orders. Legacy cohort frozen/untouched.

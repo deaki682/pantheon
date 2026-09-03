@@ -1406,5 +1406,18 @@
   "drawdown": 0.0508,
   "mark_basis": "last_print_1559ET (official 09-02 close unpublished at 20:10Z - Duty 9)",
   "note": "Zeus hourly AFTER-CLOSE tend, ~16:10 ET Wed 2026-09-02 (20:10Z). DUTY 9 CAVEAT: close.date still lags to 09-01 for every symbol pulled, so the official 09-02 close is unpublished and every mark here - the book's and both peer sets' - is the 15:59:5x ET regular-session last print, the same basis on both sides of every comparison. Reconcile CLEAN: zero Oracle orders of any state since 08-28 (the only agentic order at the broker since is Hermes's 09-01 BOW buy; the rest are personal). Breaker ok, drawdown 5.08%, settled cash $449.94 = 9.61%, unsettled $0. Book $4,230.25 on the $4,050.06 basis = +4.45%; SPY from the 07-10 entry (750.935 -> 765.14) = +1.89%, so +2.56pp EXCESS - the widest since 08-17 and up from +1.71pp at today's 14:31Z intraday tend. Book +1.93% on the day vs SPY +0.44%, IWM +1.18%, XBI +1.20%. ZERO new documents: the Duty 1a window sweep (filing_date >= 08-30) returned 4 filings, all four ALREADY dispositioned - the three TPC Form 144s by the 09-01 close pass, the KLIC Form 4 by today's 14:31Z pass. No kill testable, none fired, six HELD."
+ },
+ {
+  "timestamp": "2026-09-03T14:26:31.214613+00:00",
+  "date": "2026-09-03",
+  "session": "intraday_tend",
+  "equity": 4651.96,
+  "cash": 449.94,
+  "positions": 6,
+  "spy": 768.77,
+  "peak_equity": 4930.514910700001,
+  "drawdown": 0.0565,
+  "mark_basis": "last_trade_1422Z_regular_session (live intraday)",
+  "note": "Zeus hourly INTRADAY tend ~10:22 ET Thu 2026-09-03. Pause LIFTED (07-14), ORACLE_LIVE=true, kill switch down. Directive D4 (active) blocks any NEW funding round (sector fields still unpopulated by the real pipeline; size cluster-cap still degrades) - so this is TEND + A/B-grade only, no sourcing/selection/funding. Reconcile CLEAN (oracle sleeve<=broker on all 6; no Oracle orders since 08-28). Duty 1a EDGAR sweep filing_date>=2026-09-02: KLIC 1 Form 4 (insider, not a print), TPC 13D/A+Form 4 (Tutor sell-down follow-through, insider distribution not a typed kill), other four ZERO filings. NO earnings prints anywhere -> all six typed kills UNTESTABLE, all six HOLD. A/B due_for_grade=[] (held book grades late-2027/early-2028 at 15-18mo horizons). Equity $4651.96, drawdown 5.65% off peak $much, breaker ok. Book $4202.02 on $3997.22 basis = +5.12%; SPY 750.935->768.77 = +2.38%, excess +2.75pp. 1b comparator owed on LXU (-3.16% day): SPY +0.47%, idiosyncratic underperformance but no kill-clause proximity. Legacy cohort untouched."
  }
 ]
