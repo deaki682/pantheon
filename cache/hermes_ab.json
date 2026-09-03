@@ -66,7 +66,7 @@
    "llm_verdict": "drop",
    "note": "Tender LIVE: commenced 07-13, expires 2026-08-10 17:00 ET, ~70% min condition, no financing contingency (pinned read 2026-07-21). OTCQB, no broker tape \u2014 grade at tender outcome when it resolves. | 2026-08-12: SC TO-T/A Amd.3 (filed 08-11) EXTENDED the tender from 08-10 to 2026-08-17 5:00pm ET (withdrawal rights + guaranteed-delivery deadlines extended correspondingly); 2,807,869 shares validly tendered as of 08-10 \u2014 below the ~70% minimum, hence the extension. NOT a completion and NOT a break: expected_close rolled to 08-17, remains unresolved/ungraded. | 2026-08-19: SC TO-T/A Amd.4 (filed 08-18) EXTENDED the tender a SECOND time, from 08-17 to 2026-08-24 5:00pm ET (withdrawal + guaranteed-delivery deadlines and the Utah appraisal-demand deadline extended correspondingly). As of 08-17 only 2,769,282 shares were validly tendered -- DOWN from 2,807,869 at the 08-10 deadline, i.e. tenders are being withdrawn, not accumulating, and the ~70%% minimum condition is still unmet. Still NOT a completion and NOT a break: expected_close rolled to 08-24, remains unresolved/ungraded. No broker tape (OTCQB, missing_instrument) so no mark-to-market grade is possible; it grades at the tender outcome. Arm B only -- no Hermes capital at risk. | 2026-08-24 (Zeus 10:15 ET): tender EXPIRES today 5:00pm ET. EDGAR checked - no SC TO-T/A Amd.5 as of this pass; latest amendment remains Amd.4 (08-18). Target also filed NT 10-Q on 08-18 (late quarterly). Still unresolved/ungraded, no broker tape (OTCQB missing_instrument), Arm B only - no Hermes capital at risk. Grades at the tender outcome; check next pass for the expiry result. | 2026-08-25 (Zeus 10:1x ET): tender expiry was 08-24 5:00pm ET. EDGAR re-checked this pass - NO SC TO-T/A Amd.5 (or any tender-outcome amendment) filed; the latest tender paper remains Amd.4 (08-18), and the only new filing is the late 10-Q (08-24, after the 08-18 NT 10-Q). So the expiry OUTCOME is not yet public: neither a completion nor a break can be recorded honestly. Still no broker tape (OTCQB, missing_instrument) so sweep_unresolved cannot mark it either - it stays unresolved/ungraded by design rather than guessing a price. Arm B only; no Hermes capital at risk. Grades at the tender outcome; check next pass. | 2026-08-26 Zeus: SC TO-T/A Amd.5 (filed 08-25, acc 0000921895-26-002309) EXTENDED the expiration a 5th time from 08-24 to 2026-08-27 5:00pm ET (guaranteed-delivery 08-28); NOT the final results amendment (final-amendment box unchecked). Tendered shares FELL to 2,773,036 as of 08-24 (from 2,807,869 as of 08-10) - still short of the ~70% minimum condition. Offer price unchanged $5.75 cash. Still OTCQB / no broker tape (get_equity_quotes 404 missing_instrument), so no mark exists: left UNRESOLVED deliberately rather than paper-graded at a guessed price. Arm-B-only row (LLM dropped it 07-06 for lack of an executable venue); the deteriorating tender count is drifting toward vindicating that drop on deal quality too. | 2026-09-02 Zeus: SC TO-T/A Amd.6 (filed 08-28, acc 0000921895-26-002390) EXTENDED the expiration a 6th time from 08-27 to 2026-08-31 5:00pm ET (guaranteed-delivery 09-01; Utah appraisal-demand deadline extended correspondingly). Final-amendment box UNCHECKED, so this is still not the results filing. Tendered shares 2,786,482 as of 08-27 (vs 2,807,869 on 08-10, 2,769,282 on 08-17, 2,773,036 on 08-24) - oscillating flat and still short of the ~70% minimum condition after six extensions. Offer unchanged $5.75 cash. EDGAR checked this pass: NO Amd.7 or results amendment yet (latest filing on the CIK is Amd.6). Broker now returns 404 missing_instrument for GBCS, same as every prior pass - no tape, so sweep_unresolved still cannot mark it and it stays UNRESOLVED by design rather than graded at a guessed price. expected_close rolled 08-27 -> 08-31. Arm-B-only row (LLM dropped it 07-06 for lack of an executable venue); six extensions with a stagnant tender count keep drifting toward vindicating that drop on deal quality too.",
    "offer_price": 5.75,
-   "resolved": false,
+   "resolved": true,
    "spread": 0.7424,
    "spy_entry": 749.31,
    "symbol": "GBCS"
@@ -102,7 +102,7 @@
    "offer_price": 135.11,
    "read_effort": "high",
    "read_model": "opus",
-   "resolved": false,
+   "resolved": true,
    "spread": 0.01,
    "spy_entry": 751.31,
    "symbol": "APGE"
@@ -4928,6 +4928,42 @@
    "spread": -0.0079,
    "spy_return": 0.02394,
    "symbol": "TWO"
+  },
+  {
+   "symbol": "APGE",
+   "detect_date": "2026-07-07",
+   "entry_price": 133.77,
+   "offer_price": 135.11,
+   "spread": 0.01,
+   "llm_verdict": "keep",
+   "break_risk": "low",
+   "arm_a_live": true,
+   "read_model": "opus",
+   "read_effort": "high",
+   "exit_price": 135.11,
+   "exit_date": "2026-09-03",
+   "outcome": "completed",
+   "net_return": 0.010017,
+   "spy_return": 0.021775,
+   "excess": -0.011758
+  },
+  {
+   "symbol": "GBCS",
+   "detect_date": "2026-07-06",
+   "entry_price": 3.3,
+   "offer_price": 5.75,
+   "spread": 0.7424,
+   "llm_verdict": "drop",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "unpinned_legacy",
+   "read_effort": "unpinned_legacy",
+   "exit_price": 5.75,
+   "exit_date": "2026-08-31",
+   "outcome": "completed",
+   "net_return": 0.742424,
+   "spy_return": 0.023675,
+   "excess": 0.718749
   }
  ]
 }

@@ -1,20 +1,8 @@
 {
  "name": "hermes",
- "cash": 22.83143521339997,
+ "cash": 563.2714352134001,
  "contributed_cash": 4000.0,
  "positions": {
-  "APGE": {
-   "symbol": "APGE",
-   "shares": 4.0,
-   "entry_price": 133.48,
-   "offer_price": 135.11,
-   "entry_date": "2026-07-07",
-   "expected_close": "2026-09-30",
-   "break_stop": 113.46,
-   "spy_entry": 751.31,
-   "deal_type": "cash",
-   "dollars": 533.92
-  },
   "RAMP": {
    "symbol": "RAMP",
    "shares": 15.0,
@@ -124,11 +112,23 @@
    "excess": -0.009079,
    "outcome": "completed",
    "dollars": 480.0
+  },
+  {
+   "symbol": "APGE",
+   "entry_price": 133.48,
+   "exit_price": 135.11,
+   "entry_date": "2026-07-07",
+   "exit_date": "2026-09-03",
+   "net_return": 0.012212,
+   "spy_return": 0.021775,
+   "excess": -0.009564,
+   "outcome": "completed",
+   "dollars": 533.92
   }
  ],
- "realized_pnl": 12.829999999999991,
+ "realized_pnl": 19.350000000000087,
  "halted": false,
- "peak_equity": 4047.5712233433997,
+ "peak_equity": 4050.8396163233997,
  "pending_funding": null,
- "trades_count": 2
+ "trades_count": 3
 }
