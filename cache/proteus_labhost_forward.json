@@ -12,9 +12,11 @@
    "status": "logged",
    "classification": "third_party_partial_tender: Offeror seeks 20,000,000 sh (~31% as-converted) at $1.10 cash, expires 9/17/2026 midnight NY; proration, no odd-lot preference found; 14D9 read 9/2",
    "symbol": "YTRA",
-   "entry_close": null,
+   "entry_close": 0.9701,
    "entry_date": "2026-09-02",
-   "grade": null
+   "grade": null,
+   "entry_spy_close": 765.16,
+   "entry_note": "official 9/2 settled closes per broker tape (YTRA 0.9701, SPY 765.16); filled s23 9/3"
   }
  ]
 }
