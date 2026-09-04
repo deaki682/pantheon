@@ -1,3 +1,4 @@
 {
-  "session": "2026-09-01T20:22:00+00:00"
+  "mark_basis_note": "2026-09-04 after-close run: shared.broker is unavailable in this environment (robin_stocks not installed), so the mark used cache/ghost_oracle_quotes.json stamped asof=2026-09-04 with 100% coverage of the 233 open names. Those are TODAY's prices but a late-session snapshot, NOT the 15:59:5x ET closing prints the real book was marked on (spot check: SPY 770.88 in the cache vs 770.23 at the bell; JKHY 165.63 vs 165.62). A partial refresh was deliberately NOT merged: one uniform basis across all 233 names beats a book split between two bases. Stated rather than buried.",
+  "session": "2026-09-04T20:13:17+00:00"
 }
