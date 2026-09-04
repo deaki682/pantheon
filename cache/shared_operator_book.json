@@ -126,6 +126,35 @@
    "total_value": 4946.05,
    "total_pnl_pct": -1.08,
    "note": "Day 4: SPY +1.05% (post-AVGO risk-on) but the book lagged: -1.08% vs entry, SPY +0.50% since entry -> excess flips to -1.58pp. UFI -3.7% day (-7.2% cum) sliding into the 9/15 inspection date; BSX gave back -2.9% day; MU +2.7% cum; BABA flat. Jobs report tomorrow 8:30 ET is the branch-picker."
+  },
+  {
+   "date": "2026-09-04",
+   "spy": 770.23,
+   "positions": {
+    "MU": {
+     "close": 1014.95,
+     "value": 2175.04,
+     "pnl_pct": 8.75
+    },
+    "BABA": {
+     "close": 113.22,
+     "value": 969.92,
+     "pnl_pct": -3.01
+    },
+    "BSX": {
+     "close": 47.805,
+     "value": 1024.54,
+     "pnl_pct": 2.45
+    },
+    "UFI": {
+     "close": 7.065,
+     "value": 934.06,
+     "pnl_pct": -6.59
+    }
+   },
+   "total_value": 5103.56,
+   "total_pnl_pct": 2.07,
+   "note": "Day 5 - JOBS DAY: payrolls +162k vs +56k expected, July revised POSITIVE; hike bets surged (2y 4.42%, gold -2.2%) yet MU ripped +5.9% through $1,000 on DRAM strength (+8.75% vs entry). Book +2.07% vs SPY +0.11% since entry = +1.96pp. Hike branch now dominant into 9/11 CPI / 9/16 FOMC."
   }
  ],
  "positions": {
