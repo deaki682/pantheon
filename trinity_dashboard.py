@@ -43,8 +43,16 @@ def _load_json(path: str, default=None):
 
 def _load_curve(path: str) -> list[dict]:
     data = _load_json(path, [])
-    if isinstance(data, dict) and "points" in data:
-        return data["points"]
+    if isinstance(data, dict):
+        # Curve files carry their rows under different keys: most gods write a
+        # bare list, some an envelope keyed "points", and Proteus keys his
+        # "marks".  Without the "marks" branch Proteus — the one god whose
+        # equity curve IS his scoreboard — rendered as an empty series.
+        for key in ("points", "marks"):
+            rows = data.get(key)
+            if isinstance(rows, list):
+                return rows
+        return []
     if isinstance(data, list):
         return data
     return []

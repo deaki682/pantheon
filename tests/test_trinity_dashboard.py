@@ -56,5 +56,22 @@ def test_load_curve_handles_dict_payload(tmp_path):
     assert len(pts) == 1
 
 
+def test_load_curve_handles_marks_payload(tmp_path):
+    # Proteus keys his curve rows "marks", not "points".  Before this branch
+    # existed the loader returned [] and his equity curve — the scoreboard the
+    # v3 charter is graded on — rendered empty on the dashboard.
+    with open(tmp_path / "proteus_curve.json", "w") as f:
+        json.dump({"marks": [{"date": "2026-09-04", "equity": 2610.83}]}, f)
+    pts = td._load_curve(str(tmp_path / "proteus_curve.json"))
+    assert len(pts) == 1
+    assert pts[0]["equity"] == 2610.83
+
+
+def test_load_curve_dict_without_known_rows(tmp_path):
+    with open(tmp_path / "oracle_curve.json", "w") as f:
+        json.dump({"note": "no rows here"}, f)
+    assert td._load_curve(str(tmp_path / "oracle_curve.json")) == []
+
+
 def test_load_curve_missing(tmp_path):
     assert td._load_curve(str(tmp_path / "missing.json")) == []
