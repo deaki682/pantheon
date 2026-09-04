@@ -2101,6 +2101,12 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    but if AR outruns revenue again next quarter it is a quality-of-earnings
    question, and the prior is on the record BEFORE the answer. (ii) Lester Wong
    signs as **Interim** CEO *and* CFO — no permanent CEO. Governance, not thesis.
+   **(ii) CLOSED 2026-09-04 at the FILING level:** Form 4 acc 0001529306-26-000005
+   (period 09-01) reports Wong with `isOfficer=1`, `officerTitle=`**CFO**, with **no
+   "Interim CEO"** — the transition to Talluri is complete in the filings, not just in an
+   8-K. The grant itself is nothing: code A, 6,038 sh @ $0.00, post 56,781 direct, F1
+   cliff-vesting 2027-09-01, `aff10b5One=0` — a ~$471k retention RSU. **(i) stays OPEN:**
+   the AR/DSO quality-of-earnings prior is tested at the next print, not before.
 1. **Tend daily (cheap):** reconcile fills, mark at official closes, EDGAR-check
    all six held names (CIKs re-resolved from `company_tickers`, never hand-typed);
    evaluate typed kills only on real filings.
@@ -2333,6 +2339,27 @@ SPY is the book's P&L; LLM-lift is Arm A minus Arm B, and it is not yet measurab
    or a view on the business. (c) The re-underwrite owed above must NOT be allowed to expire with
    the FULL round that D4 is blocking: if no FULL round has run by the time Tutor's Form 4 and any
    13D/A are both in hand, the re-underwrite runs as a standalone read on TPC alone.**
+   **DISCHARGED 2026-09-04 (after-close) — BOTH branches answered, and the promotion is DOWNGRADED, not retired.**
+   (a) Tutor's **Form 4** (acc 0000077543-26-000200, period 08-31) executed the notices **IN FULL, 2,310,000 sh**,
+   all code S, all indirect, `aff10b5One=0`: SPT 10,000 @ $89.86 wtd avg (F2 range $89.67–$90.01) → post 701,477;
+   TMPT 1,500,000 @ $85.57 → post 2,634,967; DT 800,000 @ $85.57 → post 733,255 (F3: **broker-arranged block
+   trade**, hence $85.57 into an $88–92 tape). **Total post 4,069,699 — EXACTLY the confirming total typed on
+   09-01**; he retains **63.79%**, holding **7.74%** of the company. (b) The **13D/A DID follow** — Amendment
+   **No. 25** (acc 0000906134-26-000014). Item 5 reads 4,344,131 = 8.2% and does NOT contradict the Form 4:
+   TMPT's 2,909,399 **includes 274,432 currently-exercisable options** (2,634,967 + 274,432), so 4,069,699 shares
+   + 274,432 options = 4,344,131 beneficial. **State the basis or the number is wrong.** **Item 4 is the payload:**
+   the sales were **already disclosed in 13D/A No. 24 on 2026-03-03** — "some or all of his shares over the next
+   18 months as part of his overall estate and tax planning as he approaches retirement," "solely for personal
+   reasons," with "a high degree of confidence in the business and future of the Company." **So the "three
+   insiders, NONE under a plan" framing fails on its own corollary below: a publicly pre-announced 18-month
+   programme disclosed six months ahead has the same "committed before the information" property as a plan
+   adoption date.** Reiss already de-escalated; **Feltenstein is the only leg left with no documented benign
+   mechanism.** **The re-underwrite is DOWNGRADED and RE-TYPED — from "are insiders signalling a problem"
+   (answered: no) to "what does a disclosed, dated overhang of up to 4,069,699 sh (7.74%) running to ~2027-09 do
+   to a 6–24 month thesis on an 18.18% position" — a SIZING question for the next FULL round.** Still NOT a kill
+   (counter 0; no shares issued → no `dilution_event`). **NEXT TEST, TYPED BEFORE THE ANSWER: ~12 months and up to
+   4.07M sh remain. New PURPOSE language in a future 13D/A — not another sale — is the only thing that
+   re-promotes this.**
    **Corollary lesson: with 10b5-1 sales, the PLAN-ADOPTION DATE is the information, not
    the size.** QTWO's CFO sold 77,180sh under a plan adopted 2025-09-02 (~11 months
    earlier, retains 2.7× what he sold) and ZVRA's Secretary noticed 42,666sh (0.072% of
@@ -2820,3 +2847,90 @@ six are **UNTESTABLE, not passed**. 6/6 HOLD. KLIC at -28.40% from entry is a dr
 is never an exit (F3). Stage 6: 0 of 326 due, earliest horizon 2027-01, `llm_lift` untrustworthy at
 n_graded=0. Stage 7 unchanged. **Sourcing is 51 days stale and remains an operator decision** — but
 the honest note tonight is that the thing I had been calling a blocker for it was, in part, this.
+
+
+## 2026-09-04 after-close (Zeus tend #2, Friday) — the pre-registration paid out twice, and both payouts were subtractions
+
+Book closed **$4,216.00 on the ledger basis $4,050.06 = +4.10%** (basis recomputed from `shares × fill_price`
+every pass, lesson 18 — it agrees with 09-03 to the cent). SPY 750.935 → 770.23 = **+2.57%**, so **excess
++1.53pp**, up from +1.39pp at the 09-03 close. Equity **$4,665.94**, cash 9.64%, drawdown **5.37%** off the
+$4,930.51 peak, breaker untouched. Broker == sleeve exact 6/6; zero Oracle orders of any state since 08-28.
+**Duty 9 bites again:** `close.date` still lags to 09-03 at 20:0xZ, so every mark here is the 15:59:5x ET
+regular-session last print — same basis on both sides of every comparison.
+
+**1. DUTY 10 IS DISCHARGED ON BOTH PRE-REGISTERED BRANCHES, AND THE EVIDENCE TAKES THE PROMOTION AWAY.**
+The window sweep (`filing_date >= 2026-09-01`, deliberately before this morning's 09-03 window) returned the
+two TPC documents typed on 09-01 — and this morning's pass had **one-lined them**: neither accession appears
+anywhere in the journal or in this file. That is the fifth payout of the window rule and the first time it
+caught *my own* under-reading rather than EDGAR's index lag.
+
+- **(a) Tutor's Form 4** (acc `0000077543-26-000200`, period 08-31), parsed row-wise: SPT **10,000 @ $89.86**
+  wtd avg (F2 range $89.67–$90.01) → post **701,477**; TMPT **1,500,000 @ $85.57** → post **2,634,967**; DT
+  **800,000 @ $85.57** → post **733,255**. F3: the two large lots were a **broker-arranged block trade**, which
+  is why they printed $85.57 into an $88–92 tape. **The notices executed IN FULL: 2,310,000 sh.** Total post =
+  **4,069,699 — exactly the confirming total typed on 09-01 before the answer was knowable.** He retains
+  **63.79%**; 7.74% of the company.
+- **(b) The 13D/A did follow** — Amendment **No. 25** (acc `0000906134-26-000014`), in a chain running back to
+  2008. Item 5 reads **4,344,131 = 8.2%**, which is *not* a contradiction: TMPT's 2,909,399 **includes 274,432
+  currently-exercisable options** (2,634,967 + 274,432). Shares 4,069,699 + options 274,432 = 4,344,131. The two
+  documents reconcile to the share. **Say the basis or the number is wrong: 7.74% actual vs 8.2% beneficial.**
+- **Item 4 is the payload.** The sales were **already disclosed in 13D/A No. 24 on 2026-03-03**: he "intends to
+  make sales of some or all of his shares over the next 18 months as part of his overall estate and tax planning
+  as he approaches retirement," "solely for personal reasons," with "a high degree of confidence in the business
+  and future of the Company" (leadership, backlog, bidding opportunities, cash position, 2026+ revenue/earnings
+  outlook, operating cash generation). Footnote F1 of the Form 4 repeats it.
+
+**The 09-01 framing — "three distinct insiders in 25 days, NONE under a plan" — is materially weaker, and it is
+weaker in precisely the way this file already knew mattered.** The standing corollary is *"with 10b5-1 sales the
+PLAN-ADOPTION DATE is the information, not the size."* Tutor's leg is not a 10b5-1 plan, but a **publicly
+pre-announced 18-month programme disclosed six months before the sale has the same 'committed before the
+information' property.** Reiss was already de-escalated (retained 86.3%, charitable DAF). **Feltenstein is now
+the only leg of the three with no documented benign mechanism** (~96.5% exit, discretionary, unannounced).
+
+**The full re-underwrite is DOWNGRADED, not retired, and its question is RE-TYPED.** Not *"are insiders
+signalling a problem"* — answered, no, and documented — but ***"what does a disclosed, dated overhang of up to
+4,069,699 sh (7.74%) running to ~2027-09 do to a 6–24 month upside thesis on an 18.18% position?"*** That is a
+**sizing** question for the next FULL round, not a thesis break. Still **NOT a kill**: two consecutive GAAP loss
+quarters, counter 0 after the record Q2; no shares issued, so no `dilution_event`.
+**NEXT TEST, TYPED BEFORE THE ANSWER: ~12 months and up to 4.07M sh remain. Does the next tranche arrive as
+another pre-announced block (benign, supply-only), or does a 13D/A arrive with NEW purpose language? New purpose
+language — not another sale — is the only thing that re-promotes this.**
+
+**2. Duty 0c(ii) is CLOSED by a filing, not by an announcement.** The second new document was **KLIC Form 4 acc
+`0001529306-26-000005`** (period 09-01): **Lester A. Wong**, and the relationship line now reads `isOfficer=1`,
+`officerTitle=**CFO**` with **no "Interim CEO"**. The 08-18 watch ("Wong signs as Interim CEO *and* CFO — no
+permanent CEO") is retired at the filing level. The grant itself is nothing: code A, **6,038 sh @ $0.00**, post
+56,781 direct, F1 cliff-vesting 2027-09-01 — a ~$471k retention RSU, `aff10b5One=0`. LXU/PAY/QTWO/ZVRA: **zero
+documents** in the window.
+
+**3. The peer check subtracted a story again, and this time it was the flattering one.** **KLIC +3.57%** cleared
+the trigger and looks like the drawdown name waking up. It isn't: the semicap complex closed **median +5.82%,
+10 of 10 UP** (COHU +10.37, UCTT +8.82, FORM +7.38, KLAC +7.30, ONTO +6.10, TER +5.55, LRCX +5.12, ACLS +4.37,
+AMAT +4.31, AMKR +1.79) — **KLIC lagged by −2.26pp.** Dispersion 8.58pp makes the *magnitude* weak evidence, but
+10-of-10 unanimity licenses the *direction* (08-19 amendment): **under-participation in a rally, not a rebound.**
+Set taken as one complex per Lesson 17. **QTWO −3.09%** cleared it downward: −1.81pp on the broad
+payments/bank-software median (−1.28%, 5 of 11 up, dispersion 7.30pp — wide, so weak) and **−1.38pp** on the
+narrow, vol-matched bank-software subset (ACIW +0.04, JKHY −1.28, ALKT −2.14, NCNO −2.20; median −1.71%,
+dispersion 2.24pp). A small real negative residual with nothing filed — recorded, not concluded. **PAY −1.55%**
+was under the trigger but earned its set as the top weight (18.54%): −0.27pp broad / **+0.16pp narrow = sector.**
+**LXU +0.76%, TPC +1.09%, ZVRA −1.12%: NO COMPARATOR PULLED** — which is the whole of what this entry may say
+about them (08-21 amendment).
+
+**4. Kills: six checked, six UNTESTABLE, six HELD.** No earnings print landed, so nothing could fire. KLIC
+−25.83% and ZVRA −12.09% from entry are **drawdowns and are HELD** (F3). QTWO remains the narrowest kill in the
+book at 2.6pp of headroom on the last print. KLIC's `<$180M` **RE-TYPE is still owed (Duty 0b)** and is still a
+FULL-round job.
+
+**5. Stages 0–1, 6–7 and the standing block.** Sourcing a conscious **NO-OP** (Standing Duty 3): book fully
+deployed at 6, no capital freed. `due_for_grade` → **0**; `llm_lift` `lift_trustworthy: false` at 0 graded /
+34 unresolved Arm B / 31 Arm A — empty **by construction**. `update_calibration` a no-op. **D4 still blocks any
+new funding round**, now by code rather than prose: the six carry `sector=''` and `size_upside_book` **refuses**
+instead of degrading. PAY+QTWO closed at **35.20% of equity**, still uncapped in the live book. Three duties are
+now queued behind the blocked FULL round (TPC sizing re-underwrite, KLIC kill re-type, the sector tagging that
+unblocks both) — the backlog is real and it is the operator's decision, not a tend's.
+
+**6. What this session is worth, said plainly.** No trade, no kill. Its value is entirely in two documents that
+had been logged as a phrase and were read as evidence: a pre-registered confirming total that landed to the
+share, and a purpose paragraph that dismantled a promotion I wrote myself three days ago. **Both pre-registered
+tests paid out as subtractions.** That is now the second time in five sessions the mechanism has taken a
+conclusion away rather than added one, and it remains the direction that is easy to miss.
