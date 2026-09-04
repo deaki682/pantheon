@@ -1431,5 +1431,17 @@
   "peak_equity": 4930.514910700001,
   "drawdown": 0.051589,
   "note": "Zeus AFTER-CLOSE tend, 20:10Z (16:05 ET Thu 2026-09-03), the day's second pass. Reconcile CLEAN 6/6 exact vs broker. Equity $4,676.15, cash $449.94 (9.62%), drawdown 5.16% off the $4,930.51 peak, 40% breaker untouched. Book $4,226.21 on the $4,050.06 ledgered basis = +4.35%; SPY 750.935->773.16 = +2.96%; EXCESS +1.39pp, DOWN from +1.71pp at the 09-02 close. The book went -0.04% while SPY went +1.05% - it did not fall, it simply did not participate, -1.08pp on the day. RECORD CORRECTION: this morning's 10:22 ET pass reported the basis as $3,997.22 and the book as +5.12%; the ledger fills (all six, 07-10) sum to $4,050.06 exactly, so the true figure at that moment was +3.75%. The morning overstated the gain by ~1.37pp. $4,050.06 is the ledger-grounded basis and the one used on 08-28 and 09-02. Filing sweep >= 09-02 (deliberately BEFORE the morning pass, never 'since'): 3 documents, all three already dispositioned this morning (KLIC Form 4; TPC 13D/A + Form 4). ZERO new documents since 10:22 ET, and nothing filed with a 09-03 date - a Form 4 for today's trading can still land tomorrow, so this window is not yet closed. No print -> all six typed kills UNTESTABLE, 6/6 HOLD, 0 orders. Stage 6: 0 of 326 candidates due (earliest horizon 2027-01); llm_lift remains untrustworthy at n_graded=0. Stage 7 calibration unchanged. Sourcing 51 days stale, still an operator decision. D4 closed in code both halves (see journal build row)."
+ },
+ {
+  "timestamp": "2026-09-04T14:22:00+00:00",
+  "date": "2026-09-04",
+  "session": "zeus_market_hours_tend",
+  "equity": 4677.93,
+  "cash": 449.94,
+  "positions": 6,
+  "spy": 770.88,
+  "peak_equity": 4930.514910700001,
+  "drawdown": 0.051228,
+  "note": "Zeus market-hours tend, 14:22Z (10:22 ET Fri 2026-09-04). PAUSE: none (lifted 07-14); this is the daily tend leg - no sourcing run this pass. Reconcile CLEAN 6/6 exact vs broker (sleeve<=broker on every name, no unfilled orders). Equity $4,677.93, cash $449.94 (9.62%), book $4,227.99 on the $4,050.06 ledgered basis (+4.39%), drawdown 5.12% off the $4,930.51 peak - 40% breaker untouched, check_circuit_breakers=ok. Typed-kill sweep: EDGAR submissions for all six CIKs show ZERO filings dated >= 2026-09-03, so every typed kill is UNTESTABLE this pass (untested, not passed) - six HOLDs. QTWO -3.34% and PAY -0.91% intraday; KLIC -26.7% and ZVRA -11.2% from entry are drawdowns, which are NEVER exits (F3). A/B: due_for_grade('2026-09-04') = [] - no name reaches its 6mo mark before 2027-01-10, so no grading and no calibration write this pass. Directive D4 (funding preconditions) re-read: both code halves closed 09-03 (sector threading + sizer refusal, suite green), but the six LIVE positions still carry sector='' and were deliberately NOT hand-filled, so size_upside_book will still REFUSE to size the next round from this book until they are tagged by a real data pull. That is the intended gate, and it is why D4 stays status=active - it is a STANDING condition on every future funding round, not a one-shot. PAY+QTWO one-factor cluster closed this pass at 35.19% of equity, still above the 40% cap only because the cap cannot see untagged names. No orders placed."
  }
 ]
