@@ -1,16 +1,17 @@
-# Proteus v3 — beliefs (rewritten 2026-09-04, v3 session 24)
+# Proteus v3 — beliefs (rewritten 2026-09-05, v3 session 25)
 
 I am Proteus v3. This file is my mind; whoever reads it next is me. The whole
 law is `docs/proteus_v3_charter.md` (one page: make money, six laws). House
 physics live in `.claude/commands/proteus.md`. v2's 37 lessons are scar tissue
 in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 
-## State (v3 session 24, Fri 2026-09-04, market OPEN)
+## State (v3 session 25, Sat 2026-09-05, market CLOSED — weekend)
 
-- **Book: 2.945296 VOO (park, 80.0%) + 99 ABUS @ 4.5987 (19.4%) + $13.71 cash.**
-  Equity **2610.83 — NEW PEAK** (+4.43% vs contributed 2500; tape VOO 709.52 /
-  ABUS 5.125 / SPY 771.76). Curve 55 marks. Reconcile CLEAN, zero new orders.
-- **A2 STANDING: excess +2.19pp** (Proteus +4.43% vs SPY +2.24% from the 7/11
+- **Book: 2.945296 VOO (park, 80.0%) + 99 ABUS @ 4.5987 (19.5%) + $13.71 cash.**
+  Equity **2607.99** on the Fri 9/4 close tape (VOO 708.05 / ABUS 5.14 /
+  SPY 770.23); Fri intraday peak 2610.83 stands as peak_equity. Curve 56
+  marks. Reconcile CLEAN, zero new orders.
+- **A2 STANDING: excess +2.28pp** (Proteus +4.32% vs SPY +2.04% from the 7/11
   base 2500/754.86) — outside the ±1.0% FAIL band. ABUS is the differentiator.
   Recompute each session.
 - **A1:** SNOW pending unexamined-hit (final grade ~9/9; +23.4% day-after —
@@ -18,17 +19,22 @@ in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
   reads (PASS) grade after the 9/10 pm prints. **Board rebuilds Mon 9/8** —
   pull `ec.upcoming(ec.load_calendar(), today=..., within_days=42)` as a
   channel alongside the earnings calendar (the tender deposits are in it).
-- **D6 LABHOST:** 9/3 index → zero new 14D9/TO-C rows; 9/4 index 503
-  (publishes overnight — retry). **YTRA row LIVE: entry_close 0.9701 /
-  SPY 765.16**, +25-trading-day clock running, tender expires 9/17; tape 0.99.
-- Sweep cumulative ~445 accessions / 1 survivor (ABUS). New specimen count
-  for the listing-check kill class: 2 (Highlands, VineBrook — both
-  non-traded, no tape; kill on LISTING before reading terms).
+- **D6 LABHOST:** 9/4 index retried + logged 9/5 → zero new 14D9/TO-C rows.
+  **YTRA row LIVE: entry_close 0.9701 / SPY 765.16**, +25-trading-day clock
+  running, tender expires 9/17; tape 0.9901.
+- Sweep cumulative ~466 accessions / 1 survivor (ABUS). 9/4 index: 21
+  accessions, 10 reads, all killed on existing classes — 4 self-tenders ALL
+  non-traded (First Eagle / New Mountain / Monroe TO-I/A interval-fund NAV
+  repurchases + VineBrook TO-I), confirming the listing-check kill as the
+  highest-frequency filter in the family. **New kill-class refinement
+  (GPUS):** a "special dividend" that is only an Item 7.01 Reg-FD press
+  release — no Item 8.01 board declaration, no record/payable terms — is
+  promotion, not an event; doubly dead from a known serial-diluter filer.
 
 ## THE POSITION — ABUS: IN THE TENDER WINDOW, AWAITING OPERATOR ELECTION
 
 SC TO-I filed 8/24 (accession `0001104659-26-100002`, CIK 1447028), read in
-full 8/24; **9/3 check: still no amendments.** Confirmed terms: odd-lot
+full 8/24; **9/5 check: still no amendments.** Confirmed terms: odd-lot
 preferential acceptance (own <100 sh, tender ALL, no proration), beneficial
 holders qualify, band **$5.00–$5.75** single clearing price, **expires 5:00pm
 NY 9/29/2026** (25 days out). **ELECTION = Purchase Price Tender, all 99 shares** (deemed
@@ -140,17 +146,15 @@ my tender deposits; deposit every classified dated event same session. Also
 mine: `shared/historicals.py`, `shared/sharadar.py`, the graveyard in
 `docs/RESEARCH_LEDGER.md`.
 
-## Plan (next session — Sat 9/5 or next dispatch)
+## Plan (next session — Sun 9/6 or next dispatch)
 
-Weekend sessions are light: (a) gates → reconcile → mark (Fri close tape).
-(b) ABUS: CIK 1447028 check. (c) Sweep covers Friday post-session filings
-(9/4–9/5); EDGAR files nothing Sat/Sun. (d) Labhost: retry 9/4 index
-(published overnight Fri). (e) Shadows: typed triggers only. THE REAL
-SESSION IS MONDAY 9/8: weekly MISSED BOARD rebuild (earnings calendar +
-`ec.upcoming` channel), sweep the weekend gap, SNOW unexamined-hit final
-grade falls ~9/9. Then the September date ladder: ORCL/ADBE 9/10 pm, INMD
-9/15, ABUS re-push ~9/15, YTRA expiry 9/17, ABUS RH cutoff ~9/24–9/26,
-GDEV 9/28, ABUS expiry 9/29, CHRS record 9/30, Q3 A2 grade 9/30. Book
-holds: no add above 99 ABUS, park stays. Quiet by design; use quiet
-sessions for law-6 study. No urgent build candidates — the calendar is fed;
-keep deposits flowing.
+Sunday is the lightest session of the week: gates → reconcile (expect zero
+orders) → mark (Fri close tape carries) → ABUS CIK check → journal →
+persist. EDGAR files nothing Sat/Sun, so no sweep gap exists until Monday.
+THE REAL SESSION IS MONDAY 9/8: weekly MISSED BOARD rebuild (earnings
+calendar + `ec.upcoming` channel — the tender deposits are in it), sweep
+the weekend + Monday-morning gap, SNOW unexamined-hit final grade falls
+~9/9. Then the September date ladder: ORCL/ADBE 9/10 pm, INMD 9/15, ABUS
+re-push ~9/15, YTRA expiry 9/17, ABUS RH cutoff ~9/24–9/26, GDEV 9/28,
+ABUS expiry 9/29 5pm NY, CHRS record 9/30, Q3 A2 grade 9/30. Book holds:
+no add above 99 ABUS, park stays. Quiet by design; keep deposits flowing.
