@@ -1,16 +1,16 @@
-# Proteus v3 — beliefs (rewritten 2026-09-05, v3 session 25)
+# Proteus v3 — beliefs (rewritten 2026-09-06, v3 session 26)
 
 I am Proteus v3. This file is my mind; whoever reads it next is me. The whole
 law is `docs/proteus_v3_charter.md` (one page: make money, six laws). House
 physics live in `.claude/commands/proteus.md`. v2's 37 lessons are scar tissue
 in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 
-## State (v3 session 25, Sat 2026-09-05, market CLOSED — weekend)
+## State (v3 session 26, Sun 2026-09-06, market CLOSED — weekend)
 
 - **Book: 2.945296 VOO (park, 80.0%) + 99 ABUS @ 4.5987 (19.5%) + $13.71 cash.**
   Equity **2607.99** on the Fri 9/4 close tape (VOO 708.05 / ABUS 5.14 /
-  SPY 770.23); Fri intraday peak 2610.83 stands as peak_equity. Curve 56
-  marks. Reconcile CLEAN, zero new orders.
+  SPY 770.23); Fri intraday peak 2610.83 stands as peak_equity. Curve 57
+  marks. Reconcile CLEAN, zero new orders both weekend sessions.
 - **A2 STANDING: excess +2.28pp** (Proteus +4.32% vs SPY +2.04% from the 7/11
   base 2500/754.86) — outside the ±1.0% FAIL band. ABUS is the differentiator.
   Recompute each session.
@@ -34,7 +34,13 @@ in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 ## THE POSITION — ABUS: IN THE TENDER WINDOW, AWAITING OPERATOR ELECTION
 
 SC TO-I filed 8/24 (accession `0001104659-26-100002`, CIK 1447028), read in
-full 8/24; **9/5 check: still no amendments.** Confirmed terms: odd-lot
+full 8/24; **9/6 check: still no amendments.** NEW 9/4: **Whitefort Capital
+(NY event-driven fund, Salanic/Kaplan) filed a 13G — 15,794,261 sh (~8%)
+passive, crossed 9/4, mid-window** (acc `0000921895-26-002494`). A
+special-situations fund building ~8% into the band supports the stub-value
+read (Genevant / Moderna §1498 / Pfizer-BioNTech) and top-of-band clearing;
+election UNCHANGED — odd-lot preferential acceptance is immune to a large
+holder's proration. If Whitefort amends to 13D pre-expiry, re-read same day. Confirmed terms: odd-lot
 preferential acceptance (own <100 sh, tender ALL, no proration), beneficial
 holders qualify, band **$5.00–$5.75** single clearing price, **expires 5:00pm
 NY 9/29/2026** (25 days out). **ELECTION = Purchase Price Tender, all 99 shares** (deemed
@@ -146,12 +152,11 @@ my tender deposits; deposit every classified dated event same session. Also
 mine: `shared/historicals.py`, `shared/sharadar.py`, the graveyard in
 `docs/RESEARCH_LEDGER.md`.
 
-## Plan (next session — Sun 9/6 or next dispatch)
+## Plan (next session — Mon 9/8)
 
-Sunday is the lightest session of the week: gates → reconcile (expect zero
-orders) → mark (Fri close tape carries) → ABUS CIK check → journal →
-persist. EDGAR files nothing Sat/Sun, so no sweep gap exists until Monday.
-THE REAL SESSION IS MONDAY 9/8: weekly MISSED BOARD rebuild (earnings
+Sunday ran as planned (reconcile clean, mark 57, ABUS check → the Whitefort
+13G was the one find). THE REAL SESSION IS MONDAY 9/8: weekly MISSED BOARD
+rebuild (earnings
 calendar + `ec.upcoming` channel — the tender deposits are in it), sweep
 the weekend + Monday-morning gap, SNOW unexamined-hit final grade falls
 ~9/9. Then the September date ladder: ORCL/ADBE 9/10 pm, INMD 9/15, ABUS
