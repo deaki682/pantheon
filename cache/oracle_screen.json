@@ -1,5 +1,5 @@
 {
-  "n_universe_hits": 343,
+  "n_universe_hits": 357,
   "top": [
     {
       "insider_backed": true,
@@ -217,21 +217,6 @@
       "lenses": {
         "activist_13d": false,
         "insider_cluster": true,
-        "quality": 0.9045617947755301,
-        "sector_breadth": 0.0,
-        "smart_money": false,
-        "valuation": 0.0
-      },
-      "score": 0.33568426921632954,
-      "shares": 324018022,
-      "symbol": "SPG"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": false,
-        "insider_cluster": true,
         "quality": 0.8947145553527174,
         "sector_breadth": 0.0,
         "smart_money": false,
@@ -418,7 +403,7 @@
         "valuation": 0.0
       },
       "score": 0.32,
-      "shares": 3010308,
+      "shares": 2914923,
       "symbol": "BMRA"
     },
     {
@@ -478,7 +463,7 @@
         "valuation": 0.0
       },
       "score": 0.317294047594175,
-      "shares": 3982000000,
+      "shares": 3987000000,
       "symbol": "CSCO"
     },
     {
@@ -555,21 +540,6 @@
       "score": 0.31,
       "shares": 84000000,
       "symbol": "ALSN"
-    },
-    {
-      "insider_backed": true,
-      "insider_tier": "half",
-      "lenses": {
-        "activist_13d": true,
-        "insider_cluster": false,
-        "quality": 0.0,
-        "sector_breadth": 0.0,
-        "smart_money": true,
-        "valuation": 0.0
-      },
-      "score": 0.31,
-      "shares": 5491000,
-      "symbol": "KPLT"
     },
     {
       "insider_backed": true,
@@ -720,6 +690,21 @@
       "score": 0.30283365165221965,
       "shares": 36775741,
       "symbol": "ARLP"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
+        "insider_cluster": true,
+        "quality": 0.678750093240098,
+        "sector_breadth": 0.0,
+        "smart_money": false,
+        "valuation": 0.0
+      },
+      "score": 0.3018125139860147,
+      "shares": 20853991,
+      "symbol": "HWKN"
     },
     {
       "insider_backed": true,
@@ -1131,6 +1116,21 @@
       "insider_tier": "half",
       "lenses": {
         "activist_13d": false,
+        "insider_cluster": true,
+        "quality": 0.5833665125335565,
+        "sector_breadth": 0.0,
+        "smart_money": false,
+        "valuation": 0.0
+      },
+      "score": 0.2875049768800335,
+      "shares": 57600973,
+      "symbol": "ENOV"
+    },
+    {
+      "insider_backed": true,
+      "insider_tier": "half",
+      "lenses": {
+        "activist_13d": false,
         "insider_cluster": false,
         "quality": 0.6492851136316861,
         "sector_breadth": 0.0,
@@ -1501,5 +1501,5 @@
       "symbol": "AAP"
     }
   ],
-  "updated_at": "2026-08-30T14:47:16.653888+00:00"
+  "updated_at": "2026-09-06T13:06:06.641263+00:00"
 }
