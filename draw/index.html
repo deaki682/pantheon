@@ -501,7 +501,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v285</span>
+      <span id="verNum">v286</span>
     </div>
   </div>
 
@@ -1746,10 +1746,6 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
                   : location.origin+location.pathname;
     const msg=nat ? 'Photorealism - a drawing studio for the grid method. Get it on Google Play:'
                   : 'Photorealism - a drawing studio for the grid method. It runs right in the browser:';
-    if (nat){
-      toast('This is still in the testing phase but you can share when the app launches!', true, 5000);
-      return;
-    }
     if (nat && RealismCam.share){
       try{ RealismCam.share(msg+' '+url); return; }catch(e){}
     }
