@@ -501,7 +501,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v286</span>
+      <span id="verNum">v287</span>
     </div>
   </div>
 
@@ -1639,6 +1639,27 @@ function gcPing(path){
   }catch(e){}
 }
 gcPing('/open');
+// live install + daily-active telemetry, still zero-identifier: the
+// RATE LIMIT is the uniqueness (one /new-* per device ever, one /dau-*
+// per device per day) - nothing about the device is sent. Devices that
+// clearly used the app before this shipped don't count as new.
+try{
+  let plat='web';
+  try{
+    if (window.RealismCam && RealismCam.saveImage) plat='android';
+    else if (window.webkit && webkit.messageHandlers && webkit.messageHandlers.adPlace) plat='ios';
+  }catch(e){}
+  if (!localStorage.getItem('gcNew')){
+    localStorage.setItem('gcNew','1');
+    if (!localStorage.getItem('tourMain') && !localStorage.getItem('lastRef'))
+      gcPing('/new-'+plat);
+  }
+  const day=new Date().toISOString().slice(0,10);
+  if (localStorage.getItem('gcDay')!==day){
+    localStorage.setItem('gcDay',day);
+    gcPing('/dau-'+plat);
+  }
+}catch(e){}
 try{ if (window.RealismCam && RealismCam.adScreen && !RealismCam.adPlace) RealismCam.adScreen(true); }catch(e){}
 adSync();
 // storage durability: without a persistence grant the browser engine may
