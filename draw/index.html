@@ -501,7 +501,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v284</span>
+      <span id="verNum">v285</span>
     </div>
   </div>
 
@@ -1420,7 +1420,10 @@ function tip(targetId, txt, opts){
   TIPSTATE=st;
   bub.style.display='block'; bub.style.visibility='hidden';
   bub.style.left='0'; bub.style.top='0';
-  requestAnimationFrame(()=>{
+  // placement re-runs after layout settles (the ad slot's padding lands a
+  // beat after screens show, sliding bottom rows up under a bubble placed
+  // too early) and on any resize while the tip is up
+  st.re=()=>{
     if (TIPSTATE!==st) return;
     const bw=bub.offsetWidth, bh=bub.offsetHeight;
     if (!t){                              // no target: centered statement
@@ -1440,8 +1443,11 @@ function tip(targetId, txt, opts){
     car.classList.toggle('up', !above);
     car.style.left=(cx-10)+'px';
     car.style.top=(above ? by+bh-1 : by-11)+'px';
-  });
+  };
+  requestAnimationFrame(st.re);
+  setTimeout(st.re, 250); setTimeout(st.re, 700);
 }
+addEventListener('resize', ()=>{ if (TIPSTATE && TIPSTATE.re) TIPSTATE.re(); });
 $('tourX').onclick=()=>tipClose(true);
 // after the note: the references, then (on closing that) the ruler
 function startTour(){
