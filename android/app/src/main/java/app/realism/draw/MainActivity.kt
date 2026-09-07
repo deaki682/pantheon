@@ -594,6 +594,28 @@ class MainActivity : AppCompatActivity() {
         }
         @JavascriptInterface
         fun capture() { runOnUiThread { takeStill() } }
+        // the page's decode-of-last-resort: WebView can't read HEIC/HEIF,
+        // the OS codec can (API 28+). Downsampled to <=4096px, returned as
+        // JPEG base64; empty string = the OS couldn't read it either.
+        // Called synchronously off the UI thread by the WebView JS bridge.
+        @JavascriptInterface
+        fun decodeImage(b64: String): String {
+            return try {
+                val bytes = android.util.Base64.decode(b64, android.util.Base64.DEFAULT)
+                val probe = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, probe)
+                if (probe.outWidth <= 0 || probe.outHeight <= 0) return ""
+                var sample = 1
+                while (probe.outWidth / sample > 4096 || probe.outHeight / sample > 4096) sample *= 2
+                val opts = android.graphics.BitmapFactory.Options().apply { inSampleSize = sample }
+                val bm = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, opts)
+                    ?: return ""
+                val out = java.io.ByteArrayOutputStream()
+                bm.compress(android.graphics.Bitmap.CompressFormat.JPEG, 92, out)
+                bm.recycle()
+                android.util.Base64.encodeToString(out.toByteArray(), android.util.Base64.NO_WRAP)
+            } catch (e: Exception) { "" } catch (e: OutOfMemoryError) { "" }
+        }
         // backups land in Downloads where a file manager can find them
         @JavascriptInterface
         fun saveFile(name: String, mime: String, text: String) {

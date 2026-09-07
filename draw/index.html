@@ -501,7 +501,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v287</span>
+      <span id="verNum">v288</span>
     </div>
   </div>
 
@@ -1035,6 +1035,30 @@ async function thumbOf(blob, colr){
   return c.toDataURL('image/jpeg', 0.72);
 }
 
+// HEIC and friends: the engine can't decode Apple/Samsung high-efficiency
+// photos, but the Android OS can - the shell decodes the bytes with the
+// platform codec and hands back a JPEG. Without the bridge (web, iOS
+// shells that don't need it): no rescue, null.
+async function convertForeign(blob){
+  if (!(window.RealismCam && RealismCam.decodeImage)) return null;
+  try{
+    const b64 = await new Promise((res,rej)=>{
+      const r=new FileReader();
+      r.onload=()=>res(String(r.result).split(',')[1]||'');
+      r.onerror=rej; r.readAsDataURL(blob);
+    });
+    if (!b64) return null;
+    const out = RealismCam.decodeImage(b64);
+    if (!out) return null;
+    const bin=atob(out), u=new Uint8Array(bin.length);
+    for (let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
+    return new Blob([u], {type:'image/jpeg'});
+  }catch(e){ return null; }
+}
+async function galPut(rec){ try{ const d=await gdb(); await new Promise(res=>{
+  const t=d.transaction('photos','readwrite').objectStore('photos').put(rec);
+  t.onsuccess=()=>res(); t.onerror=()=>res(); }); }catch(e){} }
+
 let REFMODE='bw';                 // the open reference's world: 'bw' | 'c'
 function isColor(gid){ try{ return localStorage.getItem('mode|'+gid)==='c'; }catch(e){ return false; } }
 async function renderGallery(){
@@ -1243,6 +1267,23 @@ function openPhoto(blob, gid, retry){
       const fresh = await galGet(gid).catch(()=>null);
       if (my === OPEN_SEQ && fresh && fresh.blob){ openPhoto(fresh.blob, gid, true); return; }
     }
+    // bytes present but undecodable (a HEIC stored by an older version):
+    // one shot at the OS codec, and the converted JPEG replaces the
+    // stored original so this reference never fails again
+    if (retry !== 'conv'){
+      const conv = await convertForeign(blob);
+      if (my === OPEN_SEQ && conv){
+        if (gid != null){
+          const rec = await galGet(gid).catch(()=>null);
+          if (rec){
+            rec.blob = conv;
+            try{ rec.thumb = await thumbOf(conv, isColor(gid)); }catch(e){}
+            await galPut(rec); renderGallery();
+          }
+        }
+        if (my === OPEN_SEQ){ openPhoto(conv, gid, 'conv'); return; }
+      }
+    }
     galActive = null;
     toast('could not read that reference\u2019s stored image', false, 5000);
     $('upStat').textContent = 'could not read that file'; };
@@ -1361,14 +1402,27 @@ async function warmVerify(){
 
 async function addRef(f, colr){
   $('upStat').textContent = '...';
-  let gid = null;
+  let gid = null, use = f;
   try {
-    const thumb = await thumbOf(f, colr);
-    gid = await galAdd({ ts: Date.now(), name: f.name||'', thumb, blob: f });
+    let thumb;
+    try{ thumb = await thumbOf(f, colr); }
+    catch(e){
+      // undecodable at the door: convert via the OS codec or refuse
+      // honestly NOW, instead of storing a reference that can never open
+      const conv = await convertForeign(f);
+      if (!conv){
+        $('upStat').textContent = 'could not read that file';
+        toast('couldn’t read that photo — high-efficiency formats '
+          +'(HEIC) need converting to JPEG first', false, 6000);
+        return;
+      }
+      use = conv; thumb = await thumbOf(conv, colr);
+    }
+    gid = await galAdd({ ts: Date.now(), name: f.name||'', thumb, blob: use });
     if (gid!=null && colr) try{ localStorage.setItem('mode|'+gid,'c'); }catch(e){}
     renderGallery();
   } catch(err){}
-  openPhoto(f, gid);
+  openPhoto(use, gid);
 }
 $('file').addEventListener('change', e => {
   const f = e.target.files[0]; if (f) addRef(f, false);
