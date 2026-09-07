@@ -290,9 +290,22 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
 #setPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:18px;display:flex;flex-direction:column;gap:14px;max-width:92vw}
 .setLbl{font-size:12px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.7}
-#accGrid{display:grid;grid-template-columns:repeat(5,40px);gap:8px}
-#accGrid button{width:40px;height:40px;border-radius:10px;border:1px solid #555;padding:0}
-#accGrid button.vOn{border-width:2px}
+#accGrid,#accGrid2{display:grid;grid-template-columns:repeat(5,40px);gap:8px}
+#accGrid button,#accGrid2 button{width:40px;height:40px;border-radius:10px;border:1px solid #555;padding:0}
+#accGrid button.vOn,#accGrid2 button.vOn{border-width:2px}
+/* preferences gear: the upload title row's right corner, mirroring the
+   status text on the left */
+#gearBtn{position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  width:36px;height:36px;padding:0;border:none;background:transparent;
+  box-shadow:none;color:var(--acc);display:flex;align-items:center;
+  justify-content:center}
+#gearModal{position:fixed;inset:0;z-index:22;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.55)}
+#gearPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
+  padding:20px 24px;display:flex;flex-direction:column;gap:10px;
+  align-items:stretch;font-size:15px;min-width:240px}
+#langSel{background:#242424;color:#e8e6e1;border:1px solid #555;
+  border-radius:10px;padding:8px 10px;font-size:14px}
 #setPanel label{display:flex;gap:10px;align-items:center;font-size:14px}
 #expBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
@@ -431,6 +444,15 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <button id="modeC">Color</button>
   </div>
 </div>
+<div id="gearModal">
+  <div id="gearPanel">
+    <span class="setLbl">Language</span>
+    <select id="langSel"><option value="en">English</option></select>
+    <span style="font-size:11px;opacity:0.6;text-align:center">more languages coming soon</span>
+    <span class="setLbl" style="margin-top:8px">App Color</span>
+    <div id="accGrid2"></div>
+  </div>
+</div>
 <div id="delModal">
   <div id="delPanel">
     <span>Delete reference?</span>
@@ -510,7 +532,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v296</span>
+      <span id="verNum">v297</span>
     </div>
   </div>
 
@@ -520,6 +542,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   <div class="row" style="position:relative;justify-content:center">
     <span id="upTitle">Photorealism</span>
     <span id="upStat" style="position:absolute;left:8px;font-size:12px;color:var(--acc)"></span>
+    <button id="gearBtn" title="Preferences"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33 1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82 1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
   </div>
   <canvas id="titleRule"></canvas>
   <div id="pwaNote"></div>
@@ -1797,18 +1820,27 @@ function applyAccent(c){
   document.documentElement.style.setProperty('--accBg',
     'rgb('+m((n>>16)&255)+','+m((n>>8)&255)+','+m(n&255)+')');
   try{ localStorage.setItem('accent', c); }catch(e){}
-  [...$('accGrid').children].forEach(b=>b.classList.toggle('vOn', b.dataset.c===c));
+  for (const gid of ['accGrid','accGrid2']){
+    const g=$(gid); if (!g) continue;
+    [...g.children].forEach(b=>b.classList.toggle('vOn', b.dataset.c===c));
+  }
   try{ calRefresh(); }catch(e){}      // the title ruler redraws in the new accent
                                       // (not yet defined on the very first call)
 }
 function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ return true; } }
 {
-  for (const c of ACCENTS){
-    const b=document.createElement('button');
-    b.style.background=c; b.dataset.c=c; b.title=c;
-    b.onclick=()=>applyAccent(c);
-    $('accGrid').appendChild(b);
-  }
+  for (const gid of ['accGrid','accGrid2'])
+    for (const c of ACCENTS){
+      const b=document.createElement('button');
+      b.style.background=c; b.dataset.c=c; b.title=c;
+      b.onclick=()=>applyAccent(c);
+      $(gid).appendChild(b);
+    }
+  // the preferences gear: language (groundwork for localisation) + accent
+  $('gearBtn').onclick=()=>{ $('gearModal').style.display='flex'; };
+  $('gearModal').onclick=e=>{ if (e.target===$('gearModal')) $('gearModal').style.display='none'; };
+  try{ $('langSel').value = localStorage.getItem('lang')||'en'; }catch(e){}
+  $('langSel').onchange=()=>{ try{ localStorage.setItem('lang', $('langSel').value); }catch(e){} };
   let saved='#e8833a';
   try{ const v=localStorage.getItem('accent'); if (v && /^#[0-9a-f]{6}$/i.test(v)) saved=v; }catch(e){}
   applyAccent(saved);
