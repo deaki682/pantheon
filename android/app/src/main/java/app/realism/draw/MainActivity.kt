@@ -543,6 +543,12 @@ class MainActivity : AppCompatActivity() {
     }
     private fun handlePurchase(p: com.android.billingclient.api.Purchase) {
         if (!p.products.contains("remove_ads")) return
+        logLine("billing: remove_ads state=" + p.purchaseState + " acked=" + p.isAcknowledged)
+        if (p.purchaseState == com.android.billingclient.api.Purchase.PurchaseState.PENDING) {
+            js("toast && toast(" + org.json.JSONObject.quote(
+                "purchase pending - ads clear once payment completes") + ", true, 5000)")
+            return
+        }
         if (p.purchaseState != com.android.billingclient.api.Purchase.PurchaseState.PURCHASED) return
         if (!p.isAcknowledged) {
             val ack = com.android.billingclient.api.AcknowledgePurchaseParams.newBuilder()
@@ -573,6 +579,8 @@ class MainActivity : AppCompatActivity() {
                             com.android.billingclient.api.BillingClient.ProductType.INAPP)
                         .build()
                     c.queryPurchasesAsync(qp) { br2, list ->
+                        logLine("billing: query rc=" + br2.responseCode
+                            + " purchases=" + list.size + " noads=" + adsRemovedFlag())
                         if (br2.responseCode ==
                             com.android.billingclient.api.BillingClient.BillingResponseCode.OK)
                             for (p in list) handlePurchase(p)
