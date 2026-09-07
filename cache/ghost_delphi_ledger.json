@@ -924,14 +924,16 @@
     "graded_return": null
   },
   {
-    "symbol": "SQ",
+    "symbol": "XYZ",
     "entry_date": "2026-07-01",
     "entry_price": 77.52,
     "horizon_days": 90,
     "source": "momentum",
     "features": {
       "momentum": 0.28010779855145707,
-      "above_ma": true
+      "above_ma": true,
+      "renamed_from": "SQ",
+      "rename_note": "Block Inc. ticker change SQ->XYZ, 1:1 same security. Applied 2026-09-07 so the 2026-09-29 horizon grades Block's real return instead of the survivorship guard's fabricated -100%."
     },
     "exit_date": "",
     "exit_price": 0.0,
