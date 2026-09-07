@@ -2934,3 +2934,78 @@ had been logged as a phrase and were read as evidence: a pre-registered confirmi
 share, and a purpose paragraph that dismantled a promotion I wrote myself three days ago. **Both pre-registered
 tests paid out as subtractions.** That is now the second time in five sessions the mechanism has taken a
 conclusion away rather than added one, and it remains the direction that is easy to miss.
+
+## 2026-09-07 (Zeus holiday tend, Labor Day) — D4's last open item closes, and the real tag makes the exhibit BIGGER
+
+**The market and EDGAR were both closed.** `is_trading_day('2026-09-07')` = False; every broker quote
+timestamp for the six is frozen at `2026-09-04T19:59:5xZ` and `labhost.fetch_form_idx('2026-09-07')`
+returns **0 bytes** against 776,662 for 09-04. So this session's mark CARRIES Friday's prints unchanged
+(equity **$4,665.94**, drawdown 5.37%, excess **+1.53pp**) and the Duty 1a sweep (`filing_date >= 09-04`)
+returned **ZERO documents** across all six. Six kills checked, six UNTESTABLE, six HELD.
+**Duty 1b: no session, therefore no move, therefore NO COMPARATOR PULLED AND NONE OWED** — written that way
+on purpose, per the 08-21 amendment, instead of the word "quiet."
+
+**D4(a) IS DISCHARGED — from a real data pull, not by hand.** The six have carried `sector=''` since 07-10.
+Hand-filling was refused on 09-01 and that refusal was right. Today they were tagged from the pipeline's
+**own** metadata source: **Sharadar TICKERS (SEP)**, the same table `shared/field_prep.py` reads `meta` from
+at `field_prep.py:248` (`m.get('sector')` / `m.get('industry')`).
+
+| | sector | industry |
+|---|---|---|
+| KLIC | Technology | Semiconductor Equipment & Materials |
+| LXU | Basic Materials | Chemicals |
+| PAY | Technology | Software - Infrastructure |
+| QTWO | Technology | Software - Application |
+| TPC | Industrials | Engineering & Construction |
+| ZVRA | Healthcare | Biotechnology |
+
+Written into the sleeve with the source string and tag date on every position; shares, avg_price and cash
+asserted identical against a pre-write backup. **Verified in BOTH directions:** `size_upside_book` now
+ACCEPTS the tagged six (the funding-round refusal is cleared) **and still REFUSES them with sector blanked**
+— the gate is intact, not disabled. A gate you only test in the passing direction is not a gate.
+
+### The finding the directive did not anticipate — and it enlarges the operator's own exhibit
+
+`cluster_key` is `theme or sector or symbol`, and Sharadar puts **KLIC in Technology too**. So:
+
+- PAY+QTWO alone = **35.20%** of equity — the operator's ~35.89% exhibit, re-measured on the 09-04 marks.
+- The cluster the 40% cap will **actually see** is KLIC+PAY+QTWO = **46.33%**, i.e. **6.33pp OVER the cap**.
+- It would bind on **three** names, not two.
+
+### And the counter-reading, recorded rather than acted on
+
+**The book's own tape says that cluster is too coarse.** KLIC is **−25.83%** from the 07-10 entry while PAY
+is **+25.39%** from the same date — a **51pp spread inside one "cluster"** — and two standing lessons say it
+independently: **08-18** (the front-end/back-end semicap split did NOT hold) and **08-26 Lesson 17** (the
+semicap complex has no cross-section). Sharadar "Technology" lumps back-end semicap with payments and bank
+software.
+
+So: **the tag is real data and the gate works; the CLUSTER KEY derived from it is blunt.** The designed fix
+is the **`theme` field**, which `cluster_key` prefers over `sector` — and theme tagging is a **FULL-round
+job through `make_upside_dossier`, never a tend**, exactly like the Duty 0b KLIC re-type. **NOT silently
+patched (F-rules):** no `cluster_key` override, no `require_cluster_tags=False`, no edit to the sizer.
+Flagged in the directive file for the operator and booked for the next full round.
+
+**D4 stays `status=active`** — it is a STANDING gate on every future funding round, not a one-shot action;
+marking it applied would retire a rule the operator wrote to be permanent. Its last open sub-item is done.
+
+**Lesson 19 (new).** *A tag pulled from the real pipeline can be simultaneously correct and the wrong
+granularity.* The 09-03 session was right that hand-filling was unacceptable, and right that code should
+enforce the gate. What neither that session nor the directive saw is that clearing the gate does not
+validate the CLUSTER — it only makes the cluster computable. The number the gate now produces (46.33%
+Technology) disagrees with 51pp of realized price dispersion inside that same bucket. **Getting the input
+honest is a precondition for the cap, not evidence the cap is measuring the right thing.**
+
+### Standing duties updated
+
+- **0b (KLIC kill re-type) — still owed, still a FULL-round job.** Unchanged.
+- **NEW 0d — THEME TAGS for the live six, next FULL round.** Sector alone over-groups; the cluster the cap
+  sees (46.33% Technology) is contradicted by the book's own dispersion. Assign `theme` through
+  `make_upside_dossier` so the cap keys off the factor that actually co-moves. Until then the 40% cap is
+  binding on a bucket I do not fully believe in — which is the conservative direction, and is stated so the
+  next session does not mistake conservatism for accuracy.
+- **Stage 6/7:** `due_for_grade('2026-09-07')` = 0 (326 candidates, earliest horizon 15mo from 07-10 =
+  ~2027-10). `llm_lift` untrustworthy at n_graded=0; calibration stays `{}` at n=0 — correct, not a bug.
+
+**Next session: Tuesday 2026-09-08, the week's first trading day.** Expect a real tape and a real Duty 1a
+window (`>= 09-05`); the 09-08 EDGAR index itself is not readable until 09-09.
