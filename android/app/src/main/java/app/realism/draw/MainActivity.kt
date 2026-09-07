@@ -146,7 +146,12 @@ class MainActivity : AppCompatActivity() {
             val b = insets.getInsets(
                 androidx.core.view.WindowInsetsCompat.Type.systemBars() or
                 androidx.core.view.WindowInsetsCompat.Type.displayCutout())
-            v.setPadding(b.left, b.top, b.right, b.bottom)
+            // the keyboard too: without the ime inset the soft keyboard
+            // OVERLAYS the page and focused inputs vanish beneath it -
+            // padding by it shrinks the WebView so the engine scrolls the
+            // field into view like any browser
+            val ime = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.ime())
+            v.setPadding(b.left, b.top, b.right, maxOf(b.bottom, ime.bottom))
             androidx.core.view.WindowInsetsCompat.CONSUMED
         }
         previewView = PreviewView(this).apply {
