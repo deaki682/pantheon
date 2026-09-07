@@ -505,7 +505,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v292</span>
+      <span id="verNum">v293</span>
     </div>
   </div>
 
@@ -6581,32 +6581,23 @@ document.addEventListener('click', e => {
   haptic();
 }, true);
 
-// app shell: fullscreen toggle + installable offline PWA
+// app shell: the top note sends browser visitors to the Play Store
+// (the PWA install prompt it replaces retired 2026-09) - hidden inside
+// the native apps and for already-installed PWA users
 {
-  // installed already: the how-to-install note has done its job
-  if (matchMedia('(display-mode: standalone)').matches || navigator.standalone)
-    $('pwaNote').style.display='none';
-  // where the browser offers a real install prompt (Android/desktop
-  // Chrome), the note becomes the button that fires it; iOS has no such
-  // API, so there the instructions stand
-  let bip=null;
-  addEventListener('beforeinstallprompt', e=>{
-    e.preventDefault(); bip=e;
-    const n=$('pwaNote');
-    n.style.display='';
-    n.innerHTML='* <span class="tapLink">Tap</span> to install Photorealism';
+  const n=$('pwaNote');
+  let nat=false;
+  try{
+    nat = !!(window.RealismCam && (RealismCam.saveImage || RealismCam.adPlace))
+       || !!(window.webkit && webkit.messageHandlers && webkit.messageHandlers.adPlace);
+  }catch(e){}
+  if (nat) n.style.display='none';   // the store's own app never links itself
+  else {
     n.classList.add('big');
-    n.style.cursor='pointer';
-    n.onclick=async()=>{
-      if (!bip) return;
-      bip.prompt();
-      const r=await bip.userChoice.catch(()=>null);
-      bip=null;
-      if (r && r.outcome==='accepted') n.style.display='none';
-      else n.style.display='none';
-    };
-  });
-  addEventListener('appinstalled', ()=>{ $('pwaNote').style.display='none'; });
+    n.innerHTML='<a class="tapLink" '
+      +'href="https://play.google.com/store/apps/details?id=app.realism.draw" '
+      +'target="_blank" rel="noopener">Get Photorealism on Google Play</a>';
+  }
   // starter references ship with the app: seeded once, deletable like any
   // other. STARTERS is display order - the middle one fronts the strip.
   // Seeding decodes and thumbnails six photos - real main-thread work -
