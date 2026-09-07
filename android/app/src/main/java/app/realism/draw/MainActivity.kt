@@ -202,6 +202,25 @@ class MainActivity : AppCompatActivity() {
         }
         web.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) { booted = true }
+            // anything off the loopback origin leaves for the system: web
+            // links open the real browser, market:// the Play Store,
+            // discord:// the Discord app. Without this the WebView swallows
+            // them and dead-ends on ERR_UNKNOWN_URL_SCHEME.
+            override fun shouldOverrideUrlLoading(view: WebView,
+                                                  request: WebResourceRequest): Boolean {
+                val url = request.url ?: return false
+                val scheme = url.scheme ?: ""
+                if (url.host == "127.0.0.1" || scheme == "blob" || scheme == "data"
+                    || scheme == "about") return false
+                return try {
+                    val i = if (scheme == "intent")
+                        android.content.Intent.parseUri(url.toString(),
+                            android.content.Intent.URI_INTENT_SCHEME)
+                    else android.content.Intent(android.content.Intent.ACTION_VIEW, url)
+                    startActivity(i)
+                    true
+                } catch (e: Exception) { true }   // no handler: drop it, never error-page
+            }
             override fun onReceivedError(view: WebView, request: WebResourceRequest,
                                          error: android.webkit.WebResourceError) {
                 if (request.isForMainFrame)
