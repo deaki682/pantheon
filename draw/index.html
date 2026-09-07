@@ -510,7 +510,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v295</span>
+      <span id="verNum">v296</span>
     </div>
   </div>
 
@@ -1049,19 +1049,37 @@ async function thumbOf(blob, colr){
 // platform codec and hands back a JPEG. Without the bridge (web, iOS
 // shells that don't need it): no rescue, null.
 async function convertForeign(blob){
-  if (!(window.RealismCam && RealismCam.decodeImage)) return null;
-  try{
-    const b64 = await new Promise((res,rej)=>{
-      const r=new FileReader();
-      r.onload=()=>res(String(r.result).split(',')[1]||'');
-      r.onerror=rej; r.readAsDataURL(blob);
-    });
-    if (!b64) return null;
-    const out = RealismCam.decodeImage(b64);
-    if (!out) return null;
+  const rc = window.RealismCam;
+  if (!rc || !(rc.decodeImage || rc.decodeBegin)) return null;
+  if (blob.size > 120*1024*1024) return null;   // not an image anyone drew from
+  const sliceB64 = part => new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(String(r.result).split(',')[1]||'');
+    r.onerror=rej; r.readAsDataURL(part);
+  });
+  const toBlob = out => {
     const bin=atob(out), u=new Uint8Array(bin.length);
     for (let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
     return new Blob([u], {type:'image/jpeg'});
+  };
+  try{
+    // chunked bridge (Android 118+): a 40MP photo as ONE base64 string
+    // kills low-RAM (Go) WebViews - stream ~3MB slices instead, each
+    // decoded natively into the accumulating buffer
+    if (rc.decodeBegin && rc.decodeChunk && rc.decodeEnd){
+      rc.decodeBegin();
+      const CH = 3*1024*1024;
+      for (let off=0; off<blob.size; off+=CH){
+        const b64 = await sliceB64(blob.slice(off, off+CH));
+        if (!b64 || !rc.decodeChunk(b64)) return null;
+      }
+      const out = rc.decodeEnd();
+      return out ? toBlob(out) : null;
+    }
+    const b64 = await sliceB64(blob);
+    if (!b64) return null;
+    const out = rc.decodeImage(b64);
+    return out ? toBlob(out) : null;
   }catch(e){ return null; }
 }
 async function galPut(rec){ try{ const d=await gdb(); await new Promise(res=>{

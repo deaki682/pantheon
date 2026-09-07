@@ -596,6 +596,21 @@ class MainActivity : AppCompatActivity() {
     private fun js(code: String) = runOnUiThread { web.evaluateJavascript(code, null) }
 
     inner class Bridge {
+        private var decBuf: java.io.ByteArrayOutputStream? = null
+        private fun decodeBytes(bytes: ByteArray): String {
+            val probe = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
+            android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, probe)
+            if (probe.outWidth <= 0 || probe.outHeight <= 0) return ""
+            var sample = 1
+            while (probe.outWidth / sample > 4096 || probe.outHeight / sample > 4096) sample *= 2
+            val opts = android.graphics.BitmapFactory.Options().apply { inSampleSize = sample }
+            val bm = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, opts)
+                ?: return ""
+            val out = java.io.ByteArrayOutputStream()
+            bm.compress(android.graphics.Bitmap.CompressFormat.JPEG, 92, out)
+            bm.recycle()
+            return android.util.Base64.encodeToString(out.toByteArray(), android.util.Base64.NO_WRAP)
+        }
         @JavascriptInterface
         fun start(x: Int, y: Int, w: Int, h: Int) {
             runOnUiThread {
@@ -625,20 +640,31 @@ class MainActivity : AppCompatActivity() {
         @JavascriptInterface
         fun decodeImage(b64: String): String {
             return try {
-                val bytes = android.util.Base64.decode(b64, android.util.Base64.DEFAULT)
-                val probe = android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }
-                android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, probe)
-                if (probe.outWidth <= 0 || probe.outHeight <= 0) return ""
-                var sample = 1
-                while (probe.outWidth / sample > 4096 || probe.outHeight / sample > 4096) sample *= 2
-                val opts = android.graphics.BitmapFactory.Options().apply { inSampleSize = sample }
-                val bm = android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size, opts)
-                    ?: return ""
-                val out = java.io.ByteArrayOutputStream()
-                bm.compress(android.graphics.Bitmap.CompressFormat.JPEG, 92, out)
-                bm.recycle()
-                android.util.Base64.encodeToString(out.toByteArray(), android.util.Base64.NO_WRAP)
+                decodeBytes(android.util.Base64.decode(b64, android.util.Base64.DEFAULT))
             } catch (e: Exception) { "" } catch (e: OutOfMemoryError) { "" }
+        }
+        // chunked variant: low-RAM (Android Go) WebViews can't build one
+        // giant base64 string for a 40MP photo without killing the
+        // renderer - the page streams ~3MB slices instead. The JS bridge
+        // serialises calls on one thread, so the buffer needs no locking.
+        @JavascriptInterface
+        fun decodeBegin() { decBuf = java.io.ByteArrayOutputStream() }
+        @JavascriptInterface
+        fun decodeChunk(b64: String): Boolean {
+            return try {
+                val buf = decBuf ?: return false
+                buf.write(android.util.Base64.decode(b64, android.util.Base64.DEFAULT))
+                true
+            } catch (e: Exception) { decBuf = null; false }
+              catch (e: OutOfMemoryError) { decBuf = null; false }
+        }
+        @JavascriptInterface
+        fun decodeEnd(): String {
+            val bytes = try { decBuf?.toByteArray() } catch (e: OutOfMemoryError) { null }
+            decBuf = null
+            if (bytes == null) return ""
+            return try { decodeBytes(bytes) }
+            catch (e: Exception) { "" } catch (e: OutOfMemoryError) { "" }
         }
         // backups land in Downloads where a file manager can find them
         @JavascriptInterface
