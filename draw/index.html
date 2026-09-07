@@ -501,7 +501,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v288</span>
+      <span id="verNum">v289</span>
     </div>
   </div>
 
@@ -1218,13 +1218,35 @@ function openPhoto(blob, gid, retry){
   const img = new Image();
   img.onload = () => {
     if (my !== OPEN_SEQ){ URL.revokeObjectURL(img.src); return; }
+    // oversized originals (24MP DSLR shots, 200MP phone modes) get capped
+    // at 4096px on the long side - full-resolution canvases of such images
+    // cost hundreds of MB and blank out weak devices, and a reference
+    // gains nothing beyond screen resolution. Normal photos (<=12MP-ish)
+    // pass through untouched.
+    const CAP = 4096;
+    const sc = Math.min(1, CAP/Math.max(img.width, img.height));
+    const cw = Math.round(img.width*sc), ch = Math.round(img.height*sc);
     const c = document.createElement('canvas');
-    c.width = img.width; c.height = img.height;
+    c.width = cw; c.height = ch;
     const g = c.getContext('2d');
     if (REFMODE!=='c') g.filter = 'grayscale(1)';   // automatic black and white
-    g.drawImage(img, 0, 0);
+    g.drawImage(img, 0, 0, cw, ch);
     g.filter = 'none';
     if (REFMODE!=='c') forceGray(c);
+    if (sc < 1 && gid != null){
+      // shrink the stored copy once (always the colour original - B&W is
+      // applied at open) so future opens skip the giant decode entirely
+      try{
+        const cc = document.createElement('canvas');
+        cc.width = cw; cc.height = ch;
+        cc.getContext('2d').drawImage(img, 0, 0, cw, ch);
+        const nb = canvasBlob(cc, 'image/jpeg', 0.92);
+        if (nb) (async()=>{ try{
+          const rec = await galGet(gid);
+          if (rec && rec.blob){ rec.blob = nb; await galPut(rec); }
+        }catch(e){} })();
+      }catch(e){}
+    }
     {
       const _er = gid!=null ? editLoad(gid) : null;
       photo = _er ? editApply(c, _er, REFMODE==='c') : c;
