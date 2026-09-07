@@ -308,6 +308,11 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
   transition:transform 0.2s cubic-bezier(.3,0,.2,1)}
 body.uiHid #hudWrap,body.uiHid #detCorner,body.uiHid #gridCorner,
 body.uiHid #underCorner,body.uiHid #camCorner{transform:translate(-50%,160%)}
+/* open menus keep their state but vanish with the chrome - the corner
+   slide alone can't clear panels taller than itself */
+#hud,#detMenu,#underMenu,#gridMenu,#gmPal{transition:opacity .28s, visibility .28s}
+body.uiHid #hud,body.uiHid #detMenu,body.uiHid #underMenu,
+body.uiHid #gridMenu,body.uiHid #gmPal{opacity:0;visibility:hidden}
 body.uiHid #expCorner{transform:translateY(-190%)}
 body.uiHid #setCorner{transform:translate(-50%,-190%)}
 body.uiHid #backBtn{transform:translateY(-190%)}
@@ -505,7 +510,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v294</span>
+      <span id="verNum">v295</span>
     </div>
   </div>
 
@@ -3329,21 +3334,11 @@ vp.addEventListener('pointercancel', endPtr);
 let uiTapT=0, UIHID=false;
 function uiToggle(){
   tapLast=null;
-  // tapping off an open panel dismisses it first (both modes) - the tall
-  // panels are taller than the hide-slide distance, so hiding with one
-  // open left it peeking over the screen edge
-  if (UNDER || $('hud').style.display!=='none'){
-    if (UNDER){ UNDER=false; underSync(); laySave(); underClosed(); }
-    if ($('hud').style.display!=='none') hudSet(false);
-    return;
-  }
+  // everything goes and comes back together: open menus keep their state
+  // and fade with the chrome (the uiHid CSS makes them invisible - the
+  // corner slide alone left tall panels peeking over the screen edge)
   UIHID=!UIHID;
   document.body.classList.toggle('uiHid', UIHID);
-  if (UIHID){
-    $('detMenu').style.display='none';
-    $('gridMenu').style.display='none';
-    $('gmPal').style.display='none';
-  }
 }
 function uiShow(){                     // leaving the screen always restores
   clearTimeout(uiTapT);
