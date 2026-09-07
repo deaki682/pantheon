@@ -505,7 +505,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
       <a id="privLink" href="privacy.html"
          style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
       <span id="verTag">by Dylan</span>
-      <span id="verNum">v293</span>
+      <span id="verNum">v294</span>
     </div>
   </div>
 
@@ -3329,8 +3329,10 @@ vp.addEventListener('pointercancel', endPtr);
 let uiTapT=0, UIHID=false;
 function uiToggle(){
   tapLast=null;
-  if (REFMODE==='c' && (UNDER || $('hud').style.display!=='none')){
-    // tapping off an open panel dismisses it; the layer state stays put
+  // tapping off an open panel dismisses it first (both modes) - the tall
+  // panels are taller than the hide-slide distance, so hiding with one
+  // open left it peeking over the screen edge
+  if (UNDER || $('hud').style.display!=='none'){
     if (UNDER){ UNDER=false; underSync(); laySave(); underClosed(); }
     if ($('hud').style.display!=='none') hudSet(false);
     return;
