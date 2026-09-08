@@ -445,7 +445,17 @@
   "benchmark": {
    "SPY": 0.045148,
    "SPY_price": 770.88
+  }
+ },
+ {
+  "date": "2026-09-08",
+  "equity": 33759.37,
+  "total_return": 0.03239671397430266,
+  "n": 327,
+  "benchmark": {
+   "SPY": 0.039115,
+   "SPY_price": 766.43
   },
-  "note": "Ghost mark 2026-09-08 ~10:21 ET (intraday last prints, not official closes; SPY 766.43 from the same pass). 233/233 open symbols priced, missing=[] - the whole book is marked, none carried. 0 positions matured for grading (earliest horizons still forward), so the calibration report is unchanged and NOT re-derived from a zero-delta sample. STALE/THIN PRINTS DISCLOSED rather than hidden: PFBX state='unlisted' (last trade 09-03) and MBBC/NCEL last traded 09-04 - four of 327 rows carry a mark older than today, worth ~0.3% of the book, and they are marked at last print rather than dropped (dropping them is the survivorship error this ledger exists to avoid). Paper book +3.24% vs SPY +3.91% since inception: the ghost is BEHIND its benchmark by 0.67pp, and gave back 0.45pp today alone (+3.69% vs +4.51% on 09-04 -> the gap narrowed only because SPY fell further). No orders, no real sleeve touched."
+  "note": "Ghost mark 2026-09-08 ~10:21 ET (intraday last prints, not official closes; SPY 766.43 from the same pass). 233/233 open symbols priced, missing=[] - the whole book is marked, none carried. 0 positions matured for grading, so the calibration report is unchanged and was NOT re-derived from a zero-delta sample. STALE/THIN PRINTS DISCLOSED rather than hidden: PFBX state='unlisted' (last trade 09-03), MBBC and NCEL last traded 09-04 - a handful of the 327 rows carry a mark older than today, and they are marked at last print rather than dropped (dropping them is exactly the survivorship error this ledger exists to avoid). Paper book +3.24% vs SPY +3.91% since inception: the ghost is BEHIND its benchmark by 0.67pp. It was -0.82pp behind on 09-04, so the gap narrowed only because SPY fell more than the book did today - not because the book gained. No orders, no real sleeve touched. PROCESS NOTE: the first write of this point was lost because ghost.append_equity_point RETURNS a new list rather than mutating in place; the note landed on the 09-04 row instead. Caught on read-back, the stray note removed from 09-04, and the point re-appended correctly. Nothing was double-counted (the same date is filtered before append)."
  }
 ]
