@@ -248,8 +248,25 @@ class MainActivity : AppCompatActivity() {
                 params: WebChromeClient.FileChooserParams): Boolean {
                 fileCb?.onReceiveValue(null)
                 fileCb = cb
-                return try { pickFile.launch(params.createIntent()); true }
-                catch (e: Exception) { fileCb = null; report("file chooser: ${e.message}"); false }
+                // budget OEM ROMs can lack a handler for any given picker
+                // intent - walk a fallback chain instead of dying silently:
+                // the page's own intent, the Android 13+ photo picker, the
+                // classic gallery ACTION_PICK, then a bare GET_CONTENT
+                val tries = mutableListOf<android.content.Intent>()
+                try { tries.add(params.createIntent()) } catch (e: Exception) {}
+                if (android.os.Build.VERSION.SDK_INT >= 33)
+                    tries.add(android.content.Intent(android.provider.MediaStore.ACTION_PICK_IMAGES))
+                tries.add(android.content.Intent(android.content.Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
+                tries.add(android.content.Intent(android.content.Intent.ACTION_GET_CONTENT)
+                    .setType("image/*").addCategory(android.content.Intent.CATEGORY_OPENABLE))
+                for (i in tries) {
+                    try { pickFile.launch(i); return true }
+                    catch (e: Exception) { logLine("file chooser: " + e.message) }
+                }
+                fileCb = null
+                js("toast && toast('no photo picker app found on this device', false, 5000)")
+                return false
             }
             // the page's own getUserMedia fallback still works inside the app
             override fun onPermissionRequest(request: PermissionRequest) {
