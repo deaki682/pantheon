@@ -83,6 +83,15 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   background:var(--acc);border:4px solid #141414;box-shadow:0 0 0 3px #fff;
   display:none;padding:0;z-index:6}
 #shutter:active{filter:brightness(0.8)}
+/* the flip disc: the shutter's size and shape, in the accent, floating over
+   the reference at the left edge until the artist carries it elsewhere */
+#flipBtn{position:fixed;left:calc(12px + env(safe-area-inset-left));top:50%;
+  transform:translateY(-50%);width:74px;height:74px;border-radius:50%;
+  background:var(--acc);color:#141414;border:4px solid #141414;
+  box-shadow:0 0 0 3px #fff;display:none;padding:0;z-index:7;
+  font-size:15px;letter-spacing:0.03em;touch-action:none}
+#flipBtn:active{filter:brightness(0.8)}
+#flipBtn.carry{filter:brightness(1.1);box-shadow:0 0 0 3px #fff,0 6px 18px rgba(0,0,0,0.5)}
 /* the tool panel floats bottom-left over the canvas and can be dismissed */
 #hudWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
@@ -243,6 +252,8 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
   <div id="expCorner"><button id="expBtn" title="Download"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8.5 11.5L12 15l3.5-3.5"/><path d="M5 19h14"/></svg></button></div>
   <div id="gridCorner"><button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
   <!-- compare lives behind the camera in the opposite corner -->
+  <!-- appears only with a single layer up: swaps it with the one before -->
+  <button id="flipBtn" title="Flip to the previous layer">flip</button>
   <div id="camCorner"><button id="compareBtn" title="Compare"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M3 19.5V7.5h4.2l1.8-2.2h6l1.8 2.2H21v12z"/><circle cx="12" cy="13.3" r="3.4"/></svg></button></div>
 </div>
 
@@ -1069,6 +1080,76 @@ function applyGrid(){
 function layerButtons(){
   for (const [id,k] of [['vDark','dk'],['vLight','lt'],['vSpec','hl']])
     $(id).classList.toggle('vOn', LAYERS[k]);
+  flipSync();
+}
+// ---- flip: the two-state comparison at one tap -------------------------
+// With exactly one layer up the artist is comparing renditions, so the flip
+// disc appears; it swaps to the single layer looked at just before this one,
+// and pressing again returns - back and forth for as long as it's useful.
+// Any other layer combination puts it away. Press and hold to carry it
+// anywhere on the screen; that spot is remembered.
+const FLIP_ORDER=['dk','lt','hl'];
+let flipCur=null, flipPrev=null;
+function singleLayer(){
+  const on=FLIP_ORDER.filter(k=>LAYERS[k]);
+  return on.length===1 ? on[0] : null;
+}
+function flipSync(){
+  const k=singleLayer();
+  // the previous look is remembered across two- and three-layer detours
+  if (k && k!==flipCur){ if (flipCur) flipPrev=flipCur; flipCur=k; }
+  $('flipBtn').style.display = k ? 'block' : 'none';
+}
+function doFlip(){
+  const k=singleLayer();
+  if (!k) return;
+  // no previous single look yet: step to the next layer, which makes this
+  // one the previous - from there every press is a true back-and-forth
+  const t = (flipPrev && flipPrev!==k) ? flipPrev
+          : FLIP_ORDER[(FLIP_ORDER.indexOf(k)+1)%FLIP_ORDER.length];
+  LAYERS.dk=LAYERS.lt=LAYERS.hl=false; LAYERS[t]=true;
+  layerButtons();
+  if (!state.img || !GRID_READY) return;
+  viewRepaint();
+}
+{
+  const b=$('flipBtn'), KEY='flipPos', S=74, M=6;
+  let pos=null;
+  try{ pos=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
+  const place=()=>{
+    if (!pos) return;                       // untouched: the CSS left edge
+    b.style.left=Math.max(M, Math.min(innerWidth-S-M, pos.x))+'px';
+    b.style.top =Math.max(M, Math.min(innerHeight-S-M, pos.y))+'px';
+    b.style.transform='none';
+  };
+  place();
+  addEventListener('resize', place);
+  let hold=null, carry=false, moved=false, ox=0, oy=0, sx=0, sy=0;
+  const clear=()=>{ clearTimeout(hold); hold=null; };
+  b.addEventListener('pointerdown', e=>{
+    const r=b.getBoundingClientRect();
+    ox=e.clientX-r.left; oy=e.clientY-r.top; sx=e.clientX; sy=e.clientY;
+    carry=false; moved=false;
+    try{ b.setPointerCapture(e.pointerId); }catch(err){}
+    hold=setTimeout(()=>{ hold=null; carry=true; b.classList.add('carry'); haptic(); }, 350);
+  });
+  b.addEventListener('pointermove', e=>{
+    if (carry){ pos={x:e.clientX-ox, y:e.clientY-oy}; place(); return; }
+    // a slide before the hold lands is neither a carry nor a tap
+    if (hold && Math.hypot(e.clientX-sx, e.clientY-sy)>12){ clear(); moved=true; }
+  });
+  b.addEventListener('pointerup', ()=>{
+    clear();
+    if (carry){
+      carry=false; b.classList.remove('carry');
+      try{ localStorage.setItem(KEY, JSON.stringify(pos)); }catch(e){}
+      return;
+    }
+    if (!moved) doFlip();
+  });
+  b.addEventListener('pointercancel', ()=>{
+    clear(); carry=false; b.classList.remove('carry');
+  });
 }
 function grayData(src){
   const {w,h}=worldSize();

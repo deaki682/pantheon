@@ -343,6 +343,45 @@ def test_sizing_cluster_cap():
     assert ai <= 0.40 * 100_000.0 + 1.0           # ≤40% of equity (absolute cluster cap)
 
 
+def test_sizing_cluster_cap_binds_on_the_DEFAULT_key():
+    # The 07-10 book's failure shape: no explicit cluster_key, correlation carried
+    # by `sector`. The default key must SEE the sector and cap the pair — this path
+    # was untested, which is how PAY+QTWO reached ~36% of equity uncapped.
+    ranked = rank_fundable([
+        _fundable("A", upside_x=3.0, prob_upside=0.7, sector="Fintech"),
+        _fundable("B", upside_x=3.0, prob_upside=0.7, sector="Fintech"),
+        _fundable("C", upside_x=3.0, prob_upside=0.7, sector="Fintech"),
+        _fundable("D", upside_x=2.0, prob_upside=0.6, sector="Energy"),
+    ])
+    book = size_upside_book(ranked, equity=100_000.0)
+    fintech = sum(v for k, v in book.items() if k in {"A", "B", "C"})
+    assert fintech <= 0.40 * 100_000.0 + 1.0
+
+
+def test_dossier_refuses_untagged_name():
+    # Directive D4 (2026-09-03), first line of defence: an untagged dossier cannot
+    # be constructed at all, so the 07-10 shape (sector="" on all six) is unwritable.
+    with pytest.raises(UpsideDossierError, match="sector"):
+        _dossier(symbol="A", sector="", theme="")
+
+
+def test_sizing_refuses_untagged_picks():
+    # Second line of defence: the sizer guards itself, for dossiers that reached it
+    # from an older cache or a hand-built dict rather than make_upside_dossier.
+    # Neither theme nor sector -> the default key falls through to the SYMBOL, each
+    # name becomes a cluster of one, and the 40% cap cannot bind. Refuse, don't degrade.
+    ranked = [dict(d, sector="", theme="") for d in rank_fundable([
+        _fundable("A", upside_x=3.0, prob_upside=0.7, sector="Fintech"),
+        _fundable("B", upside_x=3.0, prob_upside=0.7, sector="Fintech"),
+        _fundable("C", upside_x=2.0, prob_upside=0.6, sector="Fintech"),
+    ])]
+    with pytest.raises(ValueError, match="cluster"):
+        size_upside_book(ranked, equity=100_000.0)
+    # escape hatches still work: an explicit cluster_key, or the opt-out flag
+    assert size_upside_book(ranked, equity=100_000.0, require_cluster_tags=False)
+    assert size_upside_book(ranked, equity=100_000.0, cluster_key=lambda d: "one")
+
+
 def test_sizing_empty():
     assert size_upside_book([], equity=100_000.0) == {}
 

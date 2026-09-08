@@ -214,6 +214,18 @@ def make_upside_dossier(
     _req(float(current_price) > 0, "current_price must be > 0")
     _req(any(is_primary_citation(c) for c in citations),
          "at least one PRIMARY citation (SEC filing/accession/form) — a snapshot is not evidence")
+    # Cluster tag (2026-09-03, operator directive D4-oracle-preconditions). The
+    # correlation-cluster cap is only a cap if the tag exists; the 07-10 book was
+    # written with sector="" on all six names, so size_upside_book's 40% cap
+    # degraded to per-symbol and never bound — PAY+QTWO, one factor, has stood at
+    # ~36% of equity ever since. The data is already in the pipeline: field_prep
+    # carries `sector`/`industry` per packet and upside_sourcing passes them
+    # through, so an untagged dossier means the author dropped it, not that it was
+    # unavailable. Refuse at construction, the same way we refuse a missing
+    # citation — a risk cap the book cannot enforce is worse than no cap.
+    _req(bool(str(sector).strip() or str(theme).strip()),
+         "sector (or theme) required — the correlation-cluster cap cannot bind on an "
+         "untagged name; thread it from the field packet (field_prep sector/industry)")
 
     er = expected_return(float(upside_x), float(prob_upside), float(downside_pct))
     aer = annualized_er(er, float(horizon_months))
@@ -453,6 +465,7 @@ def size_upside_book(
     fragility_lambda: float = 1.0,
     cluster_key: Optional[Callable[[dict], str]] = None,
     calibration: Optional[dict] = None,
+    require_cluster_tags: bool = True,
 ) -> dict[str, float]:
     """Concentrate the book into the best 3–6 names, conviction-weighted, DOWNSIDE-
     aware, and hold the risk caps. weight_raw ∝ conviction · (upside_x − 1) ·
@@ -474,13 +487,42 @@ def size_upside_book(
     cap, or a cluster past its cap, is trimmed and the freed room becomes CASH, not
     force-fed into lower-conviction names. So a book dominated by one capped
     high-conviction name is deliberately UNDER-invested rather than diluted.
+
+    Raises ValueError (2026-09-03, operator directive D4-oracle-preconditions) when
+    a pick carries neither `theme` nor `sector` and no explicit cluster_key was
+    given: without a tag the default key falls through to the symbol, each name
+    becomes a cluster of one, and max_cluster_weight silently stops binding. A risk
+    cap that cannot bind is worse than no cap, because the book reads as capped.
     """
     if equity <= 0 or not ranked:
         return {}
+    caller_supplied_cluster_key = cluster_key is not None
     if cluster_key is None:
         cluster_key = lambda d: (d.get("theme") or d.get("sector") or d.get("symbol") or "")
 
     picks = ranked[:max_positions]
+    # The correlation cap is only a cap if the tags exist. With theme AND sector
+    # both empty the default cluster_key falls through to the SYMBOL, every name
+    # becomes its own cluster of one, and max_cluster_weight can never bind — the
+    # cap looks enforced and enforces nothing (audit 2026-07-10: two same-theme
+    # names sized to 60% combined; the live 07-10 book's PAY+QTWO one-factor pair
+    # has stood at ~36% of equity untagged and therefore unseen). Fail LOUDLY at
+    # sizing time rather than shipping a book whose stated risk limit is fiction.
+    # Callers that genuinely size a single uncorrelated name, or that supply their
+    # own cluster_key, can pass require_cluster_tags=False.
+    if require_cluster_tags and not caller_supplied_cluster_key:
+        untagged = [
+            d.get("symbol", "?") for d in picks
+            if not (str(d.get("theme") or "").strip() or str(d.get("sector") or "").strip())
+        ]
+        if untagged:
+            raise ValueError(
+                "size_upside_book: correlation-cluster cap cannot bind — these picks "
+                f"carry neither `theme` nor `sector`: {sorted(untagged)}. Enrich the "
+                "dossiers from the field packet before sizing, or pass an explicit "
+                "cluster_key / require_cluster_tags=False if that is truly intended."
+            )
+
     by_sym = {d["symbol"]: d for d in picks}
     raw = {}
     for d in picks:

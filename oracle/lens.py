@@ -100,6 +100,15 @@ def deep_parse(raw: dict, p: dict) -> dict:
         # recent_trend_pct is a percentage; ALREADY_RUN_CAP compares a fraction.
         if "recent_runup_pct" not in body and p.get("recent_trend_pct") is not None:
             body["recent_runup_pct"] = max(0.0, float(p["recent_trend_pct"]) / 100.0)
+        # sector is authoritative from PACKET DATA, never the model (directive
+        # D4-oracle-preconditions, 2026-09-03 — same precedent as symbol and
+        # recent_runup_pct above). deep_prompt never asks for a sector, so the
+        # 07-10 book was written with sector="" on all six names and
+        # size_upside_book's 40% correlation-cluster cap degraded to per-symbol
+        # and never bound. field_prep already carries sector/industry on every
+        # packet, so this was a threading gap, not a data gap.
+        if not str(body.get("sector") or "").strip():
+            body["sector"] = str(p.get("sector") or p.get("industry") or "").strip()
         d = make_upside_dossier(p["symbol"], **body)
         b = raw.get("blowup") or {}
         blowup_check(d, going_concern=bool(b.get("going_concern")),

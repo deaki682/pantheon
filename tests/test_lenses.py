@@ -40,8 +40,23 @@ _GOOD_BEARS = [
 def test_oracle_deep_parse_funds_a_survivor():
     raw = {"dossier": _GOOD_DOSSIER, "blowup": {"going_concern": False, "fraud": False, "delisting": False},
            "bears": _GOOD_BEARS}
-    v = oracle_deep_parse(raw, build_packet(symbol="ABCD"))
+    v = oracle_deep_parse(raw, build_packet(symbol="ABCD", sector="Industrials"))
     assert v["fundable"] is True and v["bear_verdict"] == "survived"
+    # directive D4: the sector reaches the dossier from the PACKET, not the model —
+    # _GOOD_DOSSIER never mentions one, and the cluster cap needs it to bind
+    assert v["dossier"]["sector"] == "Industrials"
+
+
+def test_oracle_deep_parse_falls_back_to_industry_then_refuses():
+    # industry is an acceptable cluster tag when sector is absent...
+    raw = {"dossier": _GOOD_DOSSIER, "blowup": {"going_concern": False, "fraud": False, "delisting": False},
+           "bears": _GOOD_BEARS}
+    v = oracle_deep_parse(raw, build_packet(symbol="ABCD", industry="Machinery"))
+    assert v["fundable"] is True and v["dossier"]["sector"] == "Machinery"
+    # ...but a packet with NEITHER cannot produce a fundable dossier: an untagged
+    # name would make size_upside_book's 40% correlation-cluster cap unenforceable.
+    v2 = oracle_deep_parse(raw, build_packet(symbol="ABCD"))
+    assert v2["fundable"] is False and "sector" in v2["reason"]
 
 
 def test_oracle_deep_parse_refuses_fatal_conceded():
@@ -59,7 +74,8 @@ def test_oracle_deep_parse_malformed_read_not_fundable():
 
 
 def test_oracle_cascade_end_to_end():
-    packets = [build_packet(symbol="GOOD"), build_packet(symbol="MEH")]
+    packets = [build_packet(symbol="GOOD", sector="Industrials"),
+               build_packet(symbol="MEH", sector="Industrials")]
     triage = {"GOOD": {"advance": True}, "MEH": {"advance": False}}
     deep = {"GOOD": {"dossier": _GOOD_DOSSIER, "blowup": {}, "bears": _GOOD_BEARS}}
 
