@@ -449,13 +449,15 @@
  },
  {
   "date": "2026-09-08",
-  "equity": 33759.37,
-  "total_return": 0.03239671397430266,
-  "n": 327,
+  "equity": 33811.78,
+  "total_return": 0.02771367208406872,
+  "n": 329,
   "benchmark": {
-   "SPY": 0.039115,
-   "SPY_price": 766.43
+   "SPY": 0.038477,
+   "SPY_price": 765.96
   },
-  "note": "Ghost mark 2026-09-08 ~10:21 ET (intraday last prints, not official closes; SPY 766.43 from the same pass). 233/233 open symbols priced, missing=[] - the whole book is marked, none carried. 0 positions matured for grading, so the calibration report is unchanged and was NOT re-derived from a zero-delta sample. STALE/THIN PRINTS DISCLOSED rather than hidden: PFBX state='unlisted' (last trade 09-03), MBBC and NCEL last traded 09-04 - a handful of the 327 rows carry a mark older than today, and they are marked at last print rather than dropped (dropping them is exactly the survivorship error this ledger exists to avoid). Paper book +3.24% vs SPY +3.91% since inception: the ghost is BEHIND its benchmark by 0.67pp. It was -0.82pp behind on 09-04, so the gap narrowed only because SPY fell more than the book did today - not because the book gained. No orders, no real sleeve touched. PROCESS NOTE: the first write of this point was lost because ghost.append_equity_point RETURNS a new list rather than mutating in place; the note landed on the 09-04 row instead. Caught on read-back, the stray note removed from 09-04, and the point re-appended correctly. Nothing was double-counted (the same date is filtered before append)."
+  "note": "Ghost mark 2026-09-08 ~16:20 ET (AFTER-CLOSE re-mark; REPLACES this date's ~10:21 ET intraday point - append_equity_point filters the same date before appending, so nothing is double-counted, and the closing basis supersedes the intraday one for the same reason Oracle's Duty 1b runs at the bell). BASIS: 19:59:5xZ regular-session last prints for every open symbol, refreshed this pass; close.date still lags to 09-04 so official closes were unavailable and the same basis is used on both sides (SPY 765.96). 235/235 priced, missing=[] - the whole book is marked, none carried from a stale cache. DEFERRED DUTY DISCHARGED: the four names held back on 2026-09-07 (an entry stamped on a full-closure holiday would carry Friday's print under a date on which no print existed) were decided at today's real session. OPENED: HWKN @127.02 and ENOV @20.01, 365d horizon, source=screen. NOT OPENED: BMRA (~$10M mkt cap) and HGBL (~$70M cap, $1.34 print) - excluded under the skill's explicit liquidity rule that microcap paper returns are fantasy and distort the stats. STATED, NOT HIDDEN: this floor is applied PROSPECTIVELY and the existing ledger already carries legacy microcaps opened before any floor was written down (EU $1.24, CLNE $1.64, ACCS $5.04, VTSI $2.96), so the book is not internally consistent on this axis; the exclusion is NOT applied retroactively, because deleting open rows is the survivorship error this ledger exists to avoid. THE HONEST HEADLINE: paper book +2.77% vs SPY +3.85% since the 06-29 inception = 1.08pp BEHIND, and the gap WIDENED today. This morning's pass recorded -0.67pp and correctly noted the narrowing was only SPY falling faster; by the bell the book gave back more than SPY did, and the deficit is now wider than the -0.82pp printed on 09-04. Ex the two opens (which enter at cost and mechanically dilute the return), the book is +2.79%. STALE/THIN PRINTS DISCLOSED: PFBX state='unlisted', last trade 2026-09-03, marked at 24.30; MBBC and UBCP have intraday-stale regular prints and are marked at their 20:00Z non-regular prints (15.12 / 15.76). They are marked at last print rather than dropped. GRADING: 0 entries matured (earliest horizon 2027-06-29), so calibration_report was NOT re-derived from a zero-delta sample. No orders; no real sleeve touched.",
+  "equity_ex_new_opens": 33611.78,
+  "total_return_ex_new_opens": 0.027883
  }
 ]

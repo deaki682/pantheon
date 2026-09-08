@@ -6016,5 +6016,43 @@
     "exit_date": "",
     "exit_price": 0.0,
     "graded_return": null
+  },
+  {
+    "symbol": "HWKN",
+    "entry_date": "2026-09-08",
+    "entry_price": 127.02,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.678750093240098,
+      "score": 0.3018125139860147,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
+  },
+  {
+    "symbol": "ENOV",
+    "entry_date": "2026-09-08",
+    "entry_price": 20.01,
+    "horizon_days": 365,
+    "source": "screen",
+    "features": {
+      "activist_13d": false,
+      "insider_cluster": true,
+      "smart_money": false,
+      "valuation": 0.0,
+      "quality": 0.5833665125335565,
+      "score": 0.2875049768800335,
+      "sector": null
+    },
+    "exit_date": "",
+    "exit_price": 0.0,
+    "graded_return": null
   }
 ]
