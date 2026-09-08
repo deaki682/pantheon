@@ -2953,6 +2953,54 @@
    "read_model": "opus",
    "read_effort": "high",
    "resolved": false
+  },
+  {
+   "symbol": "MKTX",
+   "detect_date": "2026-09-08",
+   "entry_price": 163.365,
+   "offer_price": 167.0,
+   "spy_entry": 766.67,
+   "expected_close": "2027-06-30",
+   "spread": 0.0223,
+   "llm_verdict": "drop",
+   "llm_rationale": "ICE/MarketAxess, $167.00 ALL CASH (PREM14A 2026-09-04, d171374dprem14a.htm), no financing condition, $148.8M company break fee. Spread +2.23% at $163.365. DROP on TWO independent grounds. (1) OUT OF THE HUNTING GROUND: a ~$6.1B target bought by ICE sits inside every merger-arb fund's mandate - this is the fully-arbitraged end of the tape, not the capacity-inverted small/mid corner where Hermes's residual lives. (2) The 2.23% is not a neglected spread, it is PRICED REGULATORY TIME: closing is conditioned on HSR *plus* 'Requisite Regulatory Approvals', and this is exchange/fixed-income-infrastructure consolidation - ICE already owns ICE Bonds while MKTX is the dominant electronic corporate-bond RFQ venue, so a second request and multi-jurisdiction review (SEC/FINRA on the ATS + broker-dealer, plus non-US) is the base case, not the tail. 2.23% over a plausible 9-12 month review is thin pay for genuine overlap risk. Not a break call - the deal is probably fine - a CAPACITY and PRICE call.",
+   "break_risk": "med",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
+  },
+  {
+   "symbol": "BLFS",
+   "detect_date": "2026-09-08",
+   "entry_price": 35.79,
+   "offer_price": 11.25,
+   "spy_entry": 766.67,
+   "expected_close": "2026-12-31",
+   "spread": -0.6857,
+   "llm_verdict": "drop",
+   "llm_rationale": "Repligen/BioLife Solutions (DEFM14A 2026-09-04, d112843ddefm14a.htm). HARD-SCOPE DROP: this is a CASH+STOCK deal - consideration is $11.25 cash PLUS 0.1442 Repligen shares per BLFS share. Hermes trades CASH deals only; the stock leg has no contractual terminal and hedging it needs an acquirer short the broker cannot do, so the whole convex shape the book exists to harvest is absent. Recorded with offer_price = the $11.25 cash leg so the row is honest about what is actually contractual - the $35.79 price is mostly Repligen equity, NOT a spread. Deal quality is beside the point (special meeting 2026-10-05, $59M break fee, HSR only): the instrument is out of scope. No read of break risk was needed to reject it.",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
+  },
+  {
+   "symbol": "SMTI",
+   "detect_date": "2026-09-08",
+   "entry_price": 34.95,
+   "offer_price": 33.0,
+   "spy_entry": 766.67,
+   "expected_close": "2026-12-31",
+   "spread": -0.0558,
+   "llm_verdict": "drop",
+   "llm_rationale": "Sanara MedTech (DEFM14A 2026-09-04, ea0304447-01.htm): $33.00/sh cash at closing PLUS a NON-TRADABLE CVR worth up to $5.00 on three milestones - FDA clearance of OsStic, its US commercial launch, and a CY2027 revenue target. Stock is $34.95, i.e. $1.95 ABOVE the contractual cash floor. On the CASH leg the spread is NEGATIVE, -5.58%, so book.enter's MIN_SPREAD would refuse it anyway. Every dollar of the premium is payment for the CVR, and the 2026-07-05 CVR autopsy is explicit: a CVR is a compound forecast with an adversarial payer (Celgene's $9 CVR went to $0 on a 36-day slip), the exact inverse of the contractual floor this book harvests - and this one is non-tradable, so there is not even an exit. Buying here is paying a premium to own the one leg Hermes is forbidden to hold. DROP.",
+   "break_risk": "med",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
   }
  ],
  "graded": [
@@ -5013,5 +5061,59 @@
    "spy_return": 0.023675,
    "excess": 0.718749
   }
- ]
+ ],
+ "sourcing_rejects": [
+  {
+   "symbol": "LXP-PC",
+   "detect_date": "2026-09-08",
+   "entry_price": 0.0,
+   "offer_price": 0.0,
+   "spy_entry": 766.67,
+   "expected_close": "2026-12-31",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "LXP Industrial Trust Series C PREFERRED, surfaced by the sweep off the same PREM14A (2026-09-04) as the LXP common already tracked. Not a separate deal and not Hermes's instrument: the preferred's merger treatment is its own liquidation/conversion mechanic, not the common's cash offer. Robinhood returns no quotable instrument for it - a hard tradability fail. DROP; recorded so the Arm-B denominator shows what the sweep surfaced rather than quietly dropping a row.",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false,
+   "reject_reason": "INSTRUMENT/LIQUIDITY FAIL - not a Hermes-tradable cash merger target, so it is not an Arm-B deal. Held OUT of `detected` deliberately: with no quotable instrument these rows could never be graded, and sweep_unresolved would leave them unresolved forever, pinning lift_trustworthy to False on the headline the whole experiment turns on. Recorded here in full - nothing hidden, nothing silently dropped - so the sweep's output remains fully accounted for."
+  },
+  {
+   "symbol": "XRPNW",
+   "detect_date": "2026-09-08",
+   "entry_price": 0.0,
+   "offer_price": 0.0,
+   "spy_entry": 766.67,
+   "expected_close": "2026-12-31",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "Armada Acquisition Corp. II WARRANTS (DEFM14A 2026-08-27). Two disqualifiers, either fatal: it is a WARRANT not a common share, and it is a SPAC de-SPAC combination, which pays shares of a newco rather than a contractual cash offer - there is no offer price to converge to and no bounded floor. No quotable instrument at the broker either. DROP.",
+   "break_risk": "high",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false,
+   "reject_reason": "INSTRUMENT/LIQUIDITY FAIL - not a Hermes-tradable cash merger target, so it is not an Arm-B deal. Held OUT of `detected` deliberately: with no quotable instrument these rows could never be graded, and sweep_unresolved would leave them unresolved forever, pinning lift_trustworthy to False on the headline the whole experiment turns on. Recorded here in full - nothing hidden, nothing silently dropped - so the sweep's output remains fully accounted for."
+  },
+  {
+   "symbol": "IDXGD",
+   "detect_date": "2026-09-08",
+   "entry_price": 6.85,
+   "offer_price": 0.0,
+   "spy_entry": 766.67,
+   "expected_close": "2026-12-31",
+   "spread": -1.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "Interpace Biosciences (PREM14A 2026-06-25, now 2.5 months stale with no definitive proxy behind it). Robinhood reports state='unlisted' - an expert-market/OTC nano-cap that cannot be reliably bought or, more to the point, SOLD, which is where a merger-arb book actually gets hurt. Liquidity gate fails before the deal read matters; no offer price recorded because no definitive terms are on file. DROP.",
+   "break_risk": "high",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false,
+   "reject_reason": "INSTRUMENT/LIQUIDITY FAIL - not a Hermes-tradable cash merger target, so it is not an Arm-B deal. Held OUT of `detected` deliberately: with no quotable instrument these rows could never be graded, and sweep_unresolved would leave them unresolved forever, pinning lift_trustworthy to False on the headline the whole experiment turns on. Recorded here in full - nothing hidden, nothing silently dropped - so the sweep's output remains fully accounted for."
+  }
+ ],
+ "sourcing_rejects_note": "Rows the EDGAR sweep surfaced that are NOT Hermes-universe deals (wrong share class, SPAC warrants, expert-market/unlisted shells). Kept for audit of what sourcing saw; excluded from the A/B denominator because they are ungradeable by construction, not because they were inconvenient."
 }
