@@ -3009,3 +3009,95 @@ honest is a precondition for the cap, not evidence the cap is measuring the righ
 
 **Next session: Tuesday 2026-09-08, the week's first trading day.** Expect a real tape and a real Duty 1a
 window (`>= 09-05`); the 09-08 EDGAR index itself is not readable until 09-09.
+
+## 2026-09-08 (Zeus after-close tend) — a set pulled under the trigger found the finding, and another one took back a negative I wrote this morning
+
+Zeus hourly after-close tend, ~20:12Z (~16:10 ET Tue). Second Oracle pass today; the ~10:15 ET intraday pass
+ran the same six kill checks and repaired the sleeve-schema blocker that 09-07's tagging pass created.
+**Duty 9 bites:** `close.date` lags to **09-04** at 20:1xZ, so every mark below — the book's and all four peer
+sets' — is the 19:59:5xZ regular-session last print, the same basis on both sides of every comparison.
+Reconcile **CLEAN 6/6 exact**; zero Oracle orders of any state since 08-28. Equity **$4,668.59**, drawdown
+**5.31%** off the 08-17 peak $4,930.51, breaker `ok`, settled cash $449.94 = 9.64%. Book $4,218.65 on the
+$4,050.06 ledger basis = **+4.16%**; SPY from the 07-10 entry (750.935 → 765.96) = **+2.00%** → **+2.16pp
+excess**, up from the +1.53pp carried since 09-04. Day: book **+0.10%** vs SPY −0.55%, IWM −0.44%, XBI −1.13%.
+
+**1. THE FINDING: KLIC UNDER-PARTICIPATED IN A UNANIMOUS SEMICAP RALLY FOR THE SECOND SESSION RUNNING — AND
+THIS TIME THE SET WAS TIGHT.** KLIC closed **+1.78%**, comfortably under the 3% trigger; the set was pulled
+anyway under the 08-17 amendment (*the trigger is a floor, not a ceiling*) because KLIC is the book's deepest
+drawdown and this set has been the payoff three times. Semicap vs the 09-04 official closes: AMKR +6.22,
+FORM +5.81, ONTO +4.97, COHU +4.91, UCTT +4.46, TER +4.24, LRCX +4.24, AMAT +3.96, ACLS +3.56, KLAC +1.85 →
+**median +4.35%, 10 of 10 UP, dispersion 4.36pp. KLIC −2.57pp off the median.** On 09-04 the same complex was
+also 10-of-10 up and KLIC lagged **−2.26pp** — but at **8.58pp** of dispersion, which under the 08-17 caveat
+licensed only the direction. **Today's 4.36pp makes the magnitude evidence too.** Two consecutive unanimous
+semicap up-days with KLIC lagging both is the first repeated negative residual this book has produced.
+**It is explicitly NOT an exit.** −24.52% from entry is a drawdown and F3 forbids selling on one; the typed
+kill (`revenue < $180M`) is untestable *and* unreachable. **NEXT TEST, TYPED BEFORE THE ANSWER: a third
+unanimous semicap up-day that KLIC lags makes this a pattern rather than two draws, and it becomes a
+first-class input to the Duty 0b re-type — which must then ask not only "can this kill fire" but "is the
+thesis still the one I underwrote." A single further lag fires nothing by itself.**
+
+**2. Duty 1b took back a negative I wrote myself six hours earlier.** This morning's pass measured **QTWO
+−3.44%** at **−1.13pp** off a −2.31% intraday median and recorded a "mild negative tilt". On the closing
+prints: broad payments/bank-software median **−2.90%, 0 of 10 UP**, dispersion 6.47pp → **QTWO +0.17pp**;
+narrow bank-software subset (ACIW −1.83, JKHY −3.47, ALKT −1.47, NCNO −4.20) median −2.65%, dispersion 2.72pp →
+**QTWO −0.08pp**. **Both readings put QTWO inside noise — the residual is gone.** The 09-04 session's
+"−1.38pp small real negative residual" did not repeat either. This is the standing case for running Duty 1b
+**at the bell, not intraday**, and it is the second time in a week the check has *subtracted* a conclusion.
+
+**3. PAY inverted the same way, in the other direction.** Marked **−2.85%** intraday with no set pulled;
+closed **−1.38%** = **+1.52pp** broad / **+1.27pp** narrow, on a complex that finished **0-for-10 down**.
+Unanimity licenses the direction; the narrow set's 2.72pp dispersion carries the magnitude. Modest, real,
+and the opposite of what the morning mark implied. **Three of the morning's six readings changed materially
+by the close. That is the lesson, restated with fresh evidence.**
+
+**4. TPC = sector; ZVRA = a real positive residual with no document behind it; LXU NOT CHECKED.** **TPC
++1.48%** against an E&C median of **+1.86%** (MTZ +3.82, STRL +3.28, EME +2.54, FIX +2.44, PWR +2.35,
+PRIM +1.36, DY +0.86, GVA −0.23, ACM −0.80, J −1.32), 7 of 10 up, dispersion 5.14pp → **−0.38pp**. Weak
+evidence in both axes; what it supports is that the #1 weight tracked its complex — and that the disclosed
+4,069,699-share (7.74%) Tutor overhang did **not** visibly weigh today. One day is not a test of a 12-month
+supply schedule; the pre-registered test is unchanged (**new purpose language in a 13D/A, not another sale**).
+**ZVRA +2.18%** against commercial specialty/rare-disease pharma (CORT +2.04, HRMY −0.45, AMPH −0.95,
+VNDA −1.47, SUPN −2.58) median **−0.95%, 1 of 5 up** → **+3.13pp**, and +3.31pp vs XBI. Per the Duty 1b
+amendment the word "idiosyncratic" is earned only after a filing check: **the 09-05+ window is empty for ZVRA
+and the index was verified live**, so the check was made. Direction licensed, magnitude weak at n=5 / 4.63pp.
+**Recorded, not concluded.** **LXU +0.44%: NO COMPARATOR PULLED AND NONE OWED — not checked.**
+
+**5. Kills: six checked, six UNTESTABLE, six HELD.** The Duty 1a sweep (`filing_date >= 2026-09-05`) returned
+**ZERO documents** across all six, and the null is **real, not an index outage** — the submissions API is live
+and the newest row per name is KLIC 09-02, TPC 09-02, PAY 08-28, LXU 08-25, ZVRA 08-17, QTWO 08-14, every one
+already dispositioned here. TPC counter 0; KLIC `<$180M` **re-type still owed**; PAY `<15%`; QTWO `<10%` at
+**2.6pp of headroom, still the narrowest in the book**; ZVRA counter 0; LXU conjunction, neither clause near.
+**KLIC −24.52% and ZVRA −10.17% are drawdowns and are HELD** (F3).
+
+**6. THE STATE CHANGE: D4 IS NO LONGER THE BINDING CONSTRAINT ON A FULL ROUND, AND THE BACKLOG BEHIND IT HAS
+NO REMAINING EXCUSE.** For seven sessions the queued duties were deferred with the words "D4 blocks the FULL
+round." **D4(a) was discharged 09-07** from the real Sharadar TICKERS pull; **D4(b) was verified in both
+directions the same day** (`size_upside_book` accepts the tagged six, still refuses them with sector blanked).
+What still blocks **deploying** capital is real and unchanged: the book is at the 6-name ceiling of the 3–6
+band, no typed kill fired, nothing was freed, and the $2,040.57 of live shared-pool buying power includes a
+$1,000 pending deposit earmarked for the **Argus** launch (D8) that is not Oracle's to reach for. **But the
+three queued duties need no capital at all** — they are dossier and sizing work on names already owned:
+**0b** (re-type KLIC's unreachable kill through `make_upside_dossier`, plus the "can this still fire?" audit
+on all six), **0d** (theme tags, so `cluster_key` keys off the factor that actually co-moves instead of
+Sharadar "Technology", which today groups KLIC+PAY+QTWO into **45.79%** of equity while those same three carry
+a **48pp** spread from one common 07-10 entry), and **Duty 10** (TPC's overhang sizing re-underwrite).
+**Conflating "cannot deploy" with "cannot re-underwrite" is what let this sit for three weeks.** Not silently
+patched, and deliberately **not half-done inside a tend** — a thin dossier is the exact credulity that
+collapsed the 07-06 book 6→1. Escalated to the operator as the one thing Oracle needs a full session for.
+
+**7. Stages 0–1, 6–7.** Sourcing a conscious **NO-OP** (Standing Duty 3). `due_for_grade('2026-09-08')` →
+**0** of 326 candidates (earliest horizon 15mo from 07-10 ≈ 2027-10). `llm_lift` `lift_trustworthy: false` at
+0 graded / 34 unresolved Arm B / 31 Arm A — empty **by construction**. `update_calibration` a no-op.
+
+**Lesson 20 (new).** *A blocker can outlive the thing it blocked.* D4 was a gate on **funding**, and it was
+correctly cited seven times. When its sub-items closed, the sentence "blocked by D4" survived in this file as
+a habit rather than a fact, and it was still covering three duties that never needed funding in the first
+place. **When a constraint is discharged, re-derive what each deferred item was actually waiting on — the
+stale reason is the one nobody re-reads.**
+
+**Standing duties:** 0b (KLIC kill re-type + six-kill "can this fire?" audit) and 0d (theme tags) are
+**unchanged and now unblocked by directive** — both still FULL-round jobs, never tends. Duty 10's TPC branch is
+a **sizing** question, not a thesis break. **NEW: the KLIC under-participation test in §1 is live and expires
+at the third unanimous semicap up-day.**
+
+**Next session: Wednesday 2026-09-09.** Duty 1a window `>= 2026-09-06`.

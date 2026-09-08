@@ -1480,5 +1480,20 @@
   "drawdown": 0.05731,
   "excess_pp": 1.5894,
   "note": "Zeus tend 2026-09-08 ~10:15 ET. Sleeve schema blocker repaired (see journal). 6 held, 0 filings since 09-04, 0 orders."
+ },
+ {
+  "timestamp": "2026-09-08T20:12:00+00:00",
+  "date": "2026-09-08",
+  "session": "after_close_tend",
+  "equity": 4668.59,
+  "cash": 449.94,
+  "book": 4218.65,
+  "positions": 6,
+  "spy": 765.96,
+  "peak_equity": 4930.514910700001,
+  "drawdown": 0.05312,
+  "excess_pp": 2.1618,
+  "mark_basis": "last_trade_1959Z_regular_session (close.date lags to 09-04 - Duty 9)",
+  "note": "Zeus hourly AFTER-CLOSE tend ~16:10 ET Tue 2026-09-08. Reconcile CLEAN 6/6 exact; zero Oracle orders since 08-28. Book $4218.65 on the $4050.06 ledger basis = +4.16%; SPY 750.935 -> 765.96 = +2.00%; EXCESS +2.16pp (up from +1.53pp carried at 09-07). Day: book +0.10%, SPY -0.55%, IWM -0.44%, XBI -1.13%. Duty 1a sweep (>= 09-05) ZERO documents, index verified live -> six kills UNTESTABLE, six HELD. Duty 1b: FOUR sets pulled, three of them deliberately under the 3% trigger. KLIC +1.78% = -2.57pp under a 10-of-10 semicap rally with TIGHT 4.36pp dispersion - second consecutive under-participation, the session's finding. QTWO -2.74% = +0.17pp broad / -0.08pp narrow, which OVERTURNS this morning's own -1.13pp intraday negative. PAY -1.38% = +1.52pp on a 0-of-10 down complex. TPC +1.48% = -0.38pp E&C = sector. ZVRA +2.18% = +3.13pp vs specialty pharma with an EMPTY filing window. LXU NOT CHECKED. Stage 6: 0 due, llm_lift untrustworthy at n=0. Stage 7 no-op. D4 IS NO LONGER THE BINDING CONSTRAINT ON A FULL ROUND (both sub-items discharged 09-07); the three queued duties - 0b KLIC kill re-type, 0d theme tags, Duty 10 TPC sizing - need no capital and are escalated to the operator. No orders."
  }
 ]
