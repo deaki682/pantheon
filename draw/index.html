@@ -486,7 +486,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <span id="verTag">by Dylan</span>
-    <span id="verNum">v302</span>
+    <span id="verNum">v303</span>
   </div>
 </div>
 <div id="delModal">
@@ -5274,18 +5274,12 @@ async function cmpDownload(){
   const fname=name+'-'+new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')+'.jpg';
   if (window.RealismCam && RealismCam.saveImage){
     try{
-      const mode=await new Promise(res=>{
-        let m2=null; try{ m2=localStorage.getItem('dlmode'); }catch(e){}
-        if (m2==='gallery'||m2==='ask') return res(m2);
-        $('dlModal').style.display='flex';
-        const pick=v=>{ try{ localStorage.setItem('dlmode',v); }catch(e){}
-          $('dlModal').style.display='none'; dlModeSync(); res(v); };
-        $('dlGal').onclick=()=>pick('gallery');
-        $('dlAsk').onclick=()=>pick('ask');
-      });
       const b64=await new Promise(r=>{ const fr=new FileReader();
         fr.onload=()=>r(fr.result.split(',')[1]); fr.readAsDataURL(blob); });
-      if (mode==='ask' && RealismCam.saveImageAsk)
+      // downloads always ask where (operator direction 2026-09) - the
+      // system picker names the destination every time, so nobody
+      // wonders where their image went
+      if (RealismCam.saveImageAsk)
         RealismCam.saveImageAsk(fname, 'image/jpeg', b64);
       else RealismCam.saveImage(fname, 'image/jpeg', b64);
       return;                                  // the bridge toasts the result
