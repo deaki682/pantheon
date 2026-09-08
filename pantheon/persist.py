@@ -87,6 +87,9 @@ OWNERSHIP_PREFIXES: dict[str, list[str]] = {
     "hermes": [
         "cache/hermes_",
     ],
+    "argus": [
+        "cache/argus_",
+    ],
     # The house research lab (shared.lab). Any operator/house lab session
     # persists as "lab"; /proteus-lab persists the same files as "proteus".
     "lab": [

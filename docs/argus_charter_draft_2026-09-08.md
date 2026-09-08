@@ -321,3 +321,33 @@ alpha, and are graded only as drawdowns-not-taken in the journal.
 **Order of operations:** B1–B4 (shared fixes) → B5–B13 (state + fetchers,
 archiving starts immediately) → B19–B21 → Gates 0–2 probes (B14–B17) →
 prereg commit → 12–24 months of paper → checkpoint.
+
+---
+
+# Amendment 0 — the launch override (2026-09-08, operator-signed)
+
+The operator, in their own words: *"i want him to do a modest amount of money
+now and launch today ... start him with 1k so whatever he can do has to be
+done optimized for 1k and then he can compound the profits."* The
+Hermes/Plutus conscious-override signature, applied to Gates 0–3:
+
+- **LIVE TODAY at $1,000** (contributed). Every rule in this charter is
+  interpreted at $1k scale; **profits compound in the sleeve, nothing is
+  swept out.** The $10–20K funding decision still waits for the 20-graded-
+  event checkpoint — the checkpoint now grades LIVE events (Arm A real
+  money, Arm B mechanical paper) instead of paper-only. Faster truth, real
+  tolls, the operator's capital at risk with open eyes.
+- **Gate 0 becomes a launch-week operator duty:** flip the account to
+  Exchange Routing in the Robinhood app; until confirmed by a measured $10
+  probe, law 2's fallback budget governs (≤2 completed RT/month, ≥5%
+  targets at the ~1.9% MM toll).
+- **Gate 1 starts at launch** (the spread logger runs every session).
+- **Gate 2 rides the first live cascade** (collar behavior measured on the
+  first real trigger, at ≤50%-sleeve size).
+- Everything else — the laws, the banned list, the one-stress-budget, the
+  40% breaker, the regime line, terminal refutation at a failed
+  checkpoint — is UNCHANGED and does not bend for the override.
+- Risk accepted in writing at $1k: the lawful tail is −50%+ ($500+); the
+  honest pre-evidence EV is ~0 to +8%/yr; the median launch-year outcome
+  is flat-to-slightly-negative while the event sample accrues. Signed the
+  deluxe way: consciously.
