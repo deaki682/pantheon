@@ -1,24 +1,24 @@
-# Proteus v3 — beliefs (rewritten 2026-09-07, v3 session 27)
+# Proteus v3 — beliefs (rewritten 2026-09-08, v3 session 28)
 
 I am Proteus v3. This file is my mind; whoever reads it next is me. The whole
 law is `docs/proteus_v3_charter.md` (one page: make money, six laws). House
 physics live in `.claude/commands/proteus.md`. v2's 37 lessons are scar tissue
 in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 
-## State (v3 session 27, Mon 2026-09-07, market CLOSED — LABOR DAY)
+## State (v3 session 28, Tue 2026-09-08, market OPEN — week's first trading day)
 
-**Today was a NYSE full-closure holiday** (`is_trading_day('2026-09-07')` =
-False) — every broker quote timestamp frozen at 2026-09-04T19:59:59Z. Zero
-orders was not a decision; there was no session to place into. Tuesday 9/8 is
-the week's first trading day.
-
-- **Book: 2.945296 VOO (park, 80.0%) + 99 ABUS @ 4.5987 (19.5%) + $13.71 cash.**
-  Equity **2607.99** on the Fri 9/4 close tape (VOO 708.05 / ABUS 5.14 /
-  SPY 770.23); Fri intraday peak 2610.83 stands as peak_equity. Curve 58
-  marks. Reconcile CLEAN three sessions running.
-- **A2 STANDING: excess +2.28pp** (Proteus +4.32% vs SPY +2.04% from the 7/11
-  base 2500/754.86) — outside the ±1.0% FAIL band. ABUS is the differentiator.
+- **Book: 2.945296 VOO (park, 79.7%) + 99 ABUS @ 4.5987 (19.7%) + $13.71 cash.**
+  Equity **2602.60** on the live 9/8 ~14:09Z tape (VOO 704.71 / ABUS 5.185 /
+  SPY 766.72); peak_equity 2610.83 (Fri 9/4 intraday) stands. Curve 59
+  marks. Reconcile CLEAN four sessions running — zero orders since 9/6.
+- **A2 STANDING: excess +2.53pp — the widest of the quarter** (Proteus +4.10%
+  vs SPY +1.57% from the 7/11 base 2500/754.86), outside the ±1.0% FAIL band.
+  SPY gapped −0.45% off the holiday while ABUS ticked UP to 5.185 mid-band —
+  the contractual floor doing exactly what the thesis said in a soft tape.
   Q3 grade lands 9/30. Recompute each session.
+- **Directives housekeeping done (s28):** D7 (Amendment I) and D6 (labhost
+  hosting) both marked `applied` in `shared_operator_directives.json` with
+  notes — overdue paperwork, no behavior change.
 - **A1 BOARD REBUILT TODAY** (`cache/proteus_missed_board.json`,
   week_of 2026-09-07, window 9/07–10/19, 10 entries, 8 READ / 2 UNEXAMINED).
   Two channels this time, not one: `ec.upcoming(cal, today=…, within_days=45)`
@@ -77,7 +77,8 @@ deposited the same session, or the channel is empty next time I need it.
 ## THE POSITION — ABUS: IN THE TENDER WINDOW, AWAITING OPERATOR ELECTION
 
 SC TO-I filed 8/24 (accession `0001104659-26-100002`, CIK 1447028), read in
-full 8/24; **9/6 check: still no amendments.** NEW 9/4: **Whitefort Capital
+full 8/24; **9/8 check: still no amendments, Whitefort 13G NOT converted to
+13D — latest filing on the CIK remains the 9/4 13G.** NEW 9/4: **Whitefort Capital
 (NY event-driven fund, Salanic/Kaplan) filed a 13G — 15,794,261 sh (~8%)
 passive, crossed 9/4, mid-window** (acc `0000921895-26-002494`). A
 special-situations fund building ~8% into the band supports the stub-value
@@ -141,10 +142,13 @@ NEW declaration only). The park is the floor of the tree, not a member.
   **Q3 A2 grade 9/30**; NFJ shadow expiry 10/5, grade ~10/13; tax_loss_turn
   study early Oct; GLRE 10/30; JBSS ~late Oct; BVS Q3 ~11/5.
 
-## What I believe about the market (updated 9/7)
+## What I believe about the market (updated 9/8)
 
-SPY 770.23 on the Fri 9/4 close, near highs. The book is mid-window on a contractual event;
-correct shape. The AVGO/SNOW split is the cleanest evidence yet for the
+SPY 766.72 intraday 9/8, −0.45% off the holiday, still near highs. The soft
+open moved my excess the RIGHT way (+2.53pp) because 19.7% of the book sits
+on a contractual floor — the clearest single-day illustration yet of why the
+tender position is worth holding to resolution rather than clipping the tape
+gain. The book is mid-window on a contractual event; correct shape. The AVGO/SNOW split is the cleanest evidence yet for the
 category read: mega-cap earnings are a coin flip I have no edge in (AVGO
 −6.6% / SNOW +23.4%, same night, same category) — the answer is not to start
 flipping coins but to widen the funnel so fewer real catalysts go UNEXAMINED.
@@ -195,19 +199,23 @@ my tender deposits; deposit every classified dated event same session. Also
 mine: `shared/historicals.py`, `shared/sharadar.py`, the graveyard in
 `docs/RESEARCH_LEDGER.md`.
 
-## Plan (next session — Tue 9/8, the week's FIRST TRADING DAY)
+## Plan (next session — Wed 9/9, the week's first SWEEP day)
 
-Monday's holiday session did the week's structural work early, which was the
-right use of a closed tape: board rebuilt on two channels, LULU/SNOW grades
-put on the record before they went stale, the event-calendar slander
-retracted, labhost ticked, sweep verified empty rather than assumed empty.
+Tuesday was the quiet mid-window session it was supposed to be: reconcile
+clean on the first live tape since 9/4, mark 59 booked, ABUS verified clean
+(no TO-I/A, no 13D), 9/8 index probed at 0 bytes (verified, not assumed),
+directives paperwork closed out. Zero orders — law 5 sentence: 21 days from
+a contractual clearing price, nothing on the tape improves the book.
 
-**Tuesday 9/8, in order:** gates → reconcile (first live tape since 9/4;
-expect the holiday gap to move VOO/ABUS both) → mark → **sweep 9/8's index is
-NOT yet available** (it publishes overnight; read it 9/9 — do not retry 9/7,
-it is a confirmed 0-byte holiday) → ABUS CIK 1447028 check for a TO-I/A and
-for a Whitefort 13G→13D conversion → GME prints 9/8 pm (UNEXAMINED, grade
-9/15).
+**Wednesday 9/9, in order:** gates → reconcile → mark → **SWEEP 9/8's index**
+(first real index since 9/4 — one full trading day of filings, readable
+today; dedup on accession; also the D6 labhost 14D9/TO-C tick for the same
+day) → **GRADE SNOW** (unexamined-hit grade due ~9/9, on the 9/9 tape, NOT
+the stale +23.4% — 9/4 close was +10.28%, below the bar; grade whatever the
+9/9 tape says) → **GRADE AVGO** (READ=pass; 9/4 |move| −6.6%, under the bar
+— expect a clean save) → note GME's overnight reaction (printed 9/8 pm;
+formal grade ~9/15) and CHWY's 9/9 am print (board category read stands) →
+ABUS CIK 1447028 daily check.
 
 **Then the September ladder, unchanged:** SNOW + AVGO grades 9/9 (SNOW on
 that day's tape, NOT the stale +23.4%), CHWY 9/9 am, ORCL/ADBE/CPRT all
