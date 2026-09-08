@@ -8,8 +8,8 @@
  "realized_pnl": 0.0,
  "paused": false,
  "routing": {
-  "mode": "market_maker_assumed",
-  "gate0": "PENDING operator flip to Exchange Routing + $10 probe; fallback toll budget in force (<=2 RT/month, >=5% targets)"
+  "mode": "market_maker_CONFIRMED_agentic",
+  "gate0": "2026-09-08 probe-preview: agentic order path returns initiator_type=agentic, routing='Market Maker Routing', fee $0 (cost lives in the ~1.9% spread). No order placed - preview answered the routing question free. Law 2 fallback budget GOVERNS: <=2 completed RT/month, >=5% targets. Re-preview after any operator routing change (app: Settings -> Crypto -> Fee Tiers); if Exchange appears, run the $10 live probe to confirm fills + tier accrual, then budget rises to <=8 RT/month at >=3x measured toll."
  },
  "funding_note": "operator deposited $1,000 on 2026-09-08 ('he should have 1k just for him now'); RH instant buying power granted, ACH settling"
 }
