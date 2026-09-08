@@ -1,12 +1,14 @@
 {
-  "n": 0,
-  "mean_return": null,
-  "hit_rate": null,
-  "lens_lift": {},
-  "conviction_tiers": {},
-  "conviction_monotonic": false,
-  "valuation_terciles": {},
-  "quality_terciles": {},
-  "score_terciles": {},
-  "sector_return": {}
+ "n": 0,
+ "mean_return": null,
+ "hit_rate": null,
+ "lens_lift": {},
+ "conviction_tiers": {},
+ "conviction_monotonic": false,
+ "valuation_terciles": {},
+ "quality_terciles": {},
+ "score_terciles": {},
+ "sector_return": {},
+ "as_of": "2026-09-08",
+ "note": "Unchanged from the prior pass: 0 entries matured this session, so no new labeled outcomes entered the sample. n_open=327 across 233 symbols."
 }
