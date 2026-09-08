@@ -1,1 +1,13 @@
-[]
+[
+ {
+  "ts": "2026-09-08T01:21:02+00:00",
+  "date": "2026-09-08",
+  "equity": 1000.0,
+  "cash": 1000.0,
+  "btc": 79324.65,
+  "eth": 2498.56,
+  "sol": 104.09,
+  "btc_shadow_start": 79324.65,
+  "note": "LAUNCH MARK. Watch-only: BTC -37% off Oct-25 cycle high, no trigger live (24h moves small, no cascade). MM routing confirmed on live quotes; measured RT spreads: BTC 189bp / ETH 189bp / SOL 190bp / XRP 192bp / DOGE 191bp -> fallback toll budget in force."
+ }
+]

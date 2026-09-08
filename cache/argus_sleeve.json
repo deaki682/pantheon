@@ -1,17 +1,15 @@
 {
  "name": "argus",
- "cash": 0.0,
- "contributed_cash": 0.0,
- "pending_funding": {
-  "amount": 1000.0,
-  "note": "operator to deposit $1,000 (account cash is claimed by other gods); entries blocked until settled \u2014 watch mode fully live meanwhile"
- },
+ "cash": 1000.0,
+ "contributed_cash": 1000.0,
+ "pending_funding": null,
  "positions": {},
- "peak_equity": 0.0,
+ "peak_equity": 1000.0,
  "realized_pnl": 0.0,
  "paused": false,
  "routing": {
   "mode": "market_maker_assumed",
   "gate0": "PENDING operator flip to Exchange Routing + $10 probe; fallback toll budget in force (<=2 RT/month, >=5% targets)"
- }
+ },
+ "funding_note": "operator deposited $1,000 on 2026-09-08 ('he should have 1k just for him now'); RH instant buying power granted, ACH settling"
 }
