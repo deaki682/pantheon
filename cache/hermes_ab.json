@@ -3001,6 +3001,22 @@
    "read_model": "opus",
    "read_effort": "high",
    "resolved": false
+  },
+  {
+   "symbol": "VREX",
+   "detect_date": "2026-09-09",
+   "entry_price": 18.495,
+   "offer_price": 18.9,
+   "spy_entry": 764.1,
+   "expected_close": "2027-02-28",
+   "spread": 0.0219,
+   "llm_verdict": "drop",
+   "llm_rationale": "Teledyne Technologies / Varex Imaging, $18.90 ALL CASH (PREM14A 2026-09-08, tm2622593-4_prem14a.htm; merger agreement 2026-08-10). Spread +2.19% at $18.495. The deal QUALITY is good and that is not why it is dropped: strategic investment-grade acquirer, Parent rep on availability of funds so NO financing condition, express rep that Parent is 'no foreign person' under CFIUS regs so no CFIUS angle, simple-majority vote of outstanding, unanimous board, Evercore fairness opinion, $25.26M (3.0%) company break fee. DROPPED on RISK/REWARD, on three linked facts the proxy states plainly. (1) THE TAIL IS ~-33%, NOT -15%: unaffected close was $12.41 on 2026-08-07 before the 08-10 announcement gapped it to $18.39 (a 52% premium), and the market check is on the record as having found NO other bidder (Company A, Sponsor A and Sponsor B all passed), so a break has no rival-bid floor. The -15% break-stop cannot protect a one-print gap of that size; it would fill far below. (2) THE REGULATORY CONDITION IS REAL AND CHINA-SHAPED: closing is expressly conditioned on HSR plus antitrust clearance in Austria, CHINA, Germany, Japan, Saudi Arabia and Ukraine, plus UK NSIA national-security clearance. A US defense/aerospace-electronics prime buying a China-exposed X-ray component supplier is precisely the fact pattern where SAMR has been the dominant break/delay mechanism in the current era. The parties' own outside date says they expect a slog: 2027-05-10, extendable to 2027-08-10, i.e. up to 12 months from signing. (3) TELEDYNE BOUGHT A CHEAP OPTION AND VAREX'S HOLDERS SOLD IT: Teledyne refused a reverse termination fee outright and capped its hell-or-high-water divestiture obligation at $25M (~3% of equity value). If a regulator asks for more than $25M of remedies, or SAMR simply runs the clock past the outside date, Teledyne walks at ZERO cost and Varex holders eat the whole gap. The board minutes record it discussing 'the limited scope of exceptions with respect to Teledyne's obligations to obtain regulatory approval' and accepting no reverse fee anyway. ARITHMETIC: +2.19% against a ~-33% break needs ~94% completion confidence just to break even, over a 5-11 month hold (2.19% is ~5%/yr at the anticipated 'early 2027' close and ~2.4%/yr if it runs to the extended outside date - at or below cash). An express China SAMR condition with no reverse fee does not support 94%. This is the runbook's trap in its less obvious form: not a fat spread on a shaky deal, but a THIN spread on a deal whose tail is fat. RE-READ TRIGGER: if SAMR and HSR clear without a second request, or the spread widens past ~5% on regulatory noise while the deal remains intact, this becomes a keep candidate.",
+   "break_risk": "med",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
   }
  ],
  "graded": [
@@ -5113,6 +5129,23 @@
    "read_effort": "high",
    "resolved": false,
    "reject_reason": "INSTRUMENT/LIQUIDITY FAIL - not a Hermes-tradable cash merger target, so it is not an Arm-B deal. Held OUT of `detected` deliberately: with no quotable instrument these rows could never be graded, and sweep_unresolved would leave them unresolved forever, pinning lift_trustworthy to False on the headline the whole experiment turns on. Recorded here in full - nothing hidden, nothing silently dropped - so the sweep's output remains fully accounted for."
+  },
+  {
+   "symbol": "SUNS",
+   "detect_date": "2026-09-09",
+   "entry_price": 7.4663,
+   "offer_price": 0.0,
+   "spy_entry": 764.1,
+   "expected_close": "2026-12-31",
+   "spread": 0.0,
+   "llm_verdict": "drop",
+   "llm_rationale": "Sunrise Realty Trust (PREM14A 2026-09-08, ny20081383x1_prem14a.htm). SUNS is the ACQUIRER, not a target: SRT (Southern Realty Trust) merges INTO a SUNS subsidiary, and SUNS filed the proxy only because Nasdaq rules make it seek its own stockholders' approval of the share ISSUANCE. Two independent disqualifiers. (1) Wrong side of the deal - Hermes longs the target below a cash offer; there is no offer on SUNS and no terminal price to converge to, so no arb position exists here at any price. (2) Even on the target side the consideration is STOCK, not cash: SRT holders get 1.45 newly-issued SUNS shares plus $0.05 cash paid by the external manager - a share-exchange requiring an acquirer short Hermes cannot do, and SRT is not exchange-listed. Merger agreement 2026-08-05, close expected Q4 2026, SUNS holders end up ~61% of the combined REIT.",
+   "break_risk": "n/a",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false,
+   "reject_reason": "SOURCING ARTIFACT - ACQUIRER-SIDE PROXY, NOT A DEAL TARGET. The EDGAR sweep keys to whoever files the merger proxy, and here that is the buyer. Held OUT of `detected` deliberately: Arm B is defined as 'buy every detected cash-merger TARGET below its offer', so putting an acquirer in the denominator would be a category error that pollutes the control with a position no mechanical rule would ever take. Distinct from the cash+stock TARGET rows (BLFS, SMTI), which ARE recorded in `detected` because a mechanical target screen would have hit them. Recorded here in full so the sweep's output stays fully accounted for."
   }
  ],
  "sourcing_rejects_note": "Rows the EDGAR sweep surfaced that are NOT Hermes-universe deals (wrong share class, SPAC warrants, expert-market/unlisted shells). Kept for audit of what sourcing saw; excluded from the A/B denominator because they are ungradeable by construction, not because they were inconvenient."

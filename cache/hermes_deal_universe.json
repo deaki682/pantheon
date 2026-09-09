@@ -1,13 +1,63 @@
 {
- "generated": "2026-09-08",
+ "generated": "2026-09-09",
  "window": {
-  "from": "2026-05-11",
-  "to": "2026-09-08",
+  "from": "2026-05-12",
+  "to": "2026-09-09",
   "lookback_days": 120
  },
  "n_candidates": 126,
  "coverage_note": "COMPLETE population of announced-deal TARGETS from EDGAR daily form indexes (DEFM14A / PREM14A / DEFM14C / PREM14C / SC 14D9) \u2014 no keyword, keyed to the target CIK. KNOWN missing: (1) deals whose only public paper so far is an 8-K merger agreement that has not yet drawn a proxy/14D-9 \u2014 caught on the next sweep once the proxy files; (2) acquirer-side-only tenders (SC TO-T) by design \u2014 Hermes longs the target. Cash-vs-stock is NOT decided here; every candidate requires the per-deal read.",
  "candidates": [
+  {
+   "cik": "0002012706",
+   "company": "Sunrise Realty Trust, Inc.",
+   "symbol": "SUNS",
+   "channels": [
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "PREM14A"
+   ],
+   "first_filed": "2026-09-08",
+   "last_filed": "2026-09-08",
+   "n_filings": 1,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
+  {
+   "cik": "0001681622",
+   "company": "Varex Imaging Corp",
+   "symbol": "VREX",
+   "channels": [
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "PREM14A"
+   ],
+   "first_filed": "2026-09-08",
+   "last_filed": "2026-09-08",
+   "n_filings": 1,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
+  {
+   "cik": "0001521036",
+   "company": "Lantheus Holdings, Inc.",
+   "symbol": "LNTH",
+   "channels": [
+    "definitive merger proxy (shareholder vote)",
+    "preliminary merger proxy (earlier signal)"
+   ],
+   "forms": [
+    "DEFM14A",
+    "PREM14A"
+   ],
+   "first_filed": "2026-08-26",
+   "last_filed": "2026-09-08",
+   "n_filings": 2,
+   "requires_read": true,
+   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
+  },
   {
    "cik": "0001278021",
    "company": "MARKETAXESS HOLDINGS INC",
@@ -237,7 +287,7 @@
   {
    "cik": "0002044009",
    "company": "Armada Acquisition Corp. II",
-   "symbol": "XRPNW",
+   "symbol": "XRPNU",
    "channels": [
     "definitive merger proxy (shareholder vote)"
    ],
@@ -253,7 +303,7 @@
   {
    "cik": "0001419041",
    "company": "Forte Biosciences, Inc.",
-   "symbol": "FBRX",
+   "symbol": null,
    "channels": [
     "target recommendation on a tender offer (two-step)"
    ],
@@ -297,22 +347,6 @@
    "first_filed": "2026-08-12",
    "last_filed": "2026-08-26",
    "n_filings": 2,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0001521036",
-   "company": "Lantheus Holdings, Inc.",
-   "symbol": "LNTH",
-   "channels": [
-    "preliminary merger proxy (earlier signal)"
-   ],
-   "forms": [
-    "PREM14A"
-   ],
-   "first_filed": "2026-08-26",
-   "last_filed": "2026-08-26",
-   "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
   },
@@ -639,7 +673,7 @@
   {
    "cik": "0002088295",
    "company": "Bleichroeder Acquisition Corp. II",
-   "symbol": "BBCQW",
+   "symbol": null,
    "channels": [
     "definitive merger proxy (shareholder vote)"
    ],
@@ -743,7 +777,7 @@
   {
    "cik": "0000008146",
    "company": "AstroNova, Inc.",
-   "symbol": "ALOT",
+   "symbol": null,
    "channels": [
     "definitive merger proxy (shareholder vote)",
     "preliminary merger proxy (earlier signal)"
@@ -1077,7 +1111,7 @@
   {
    "cik": "0001581091",
    "company": "RE/MAX Holdings, Inc.",
-   "symbol": "RMAX",
+   "symbol": null,
    "channels": [
     "definitive merger proxy (shareholder vote)"
    ],
@@ -1109,7 +1143,7 @@
   {
    "cik": "0000058492",
    "company": "LEGGETT & PLATT INC",
-   "symbol": "LEG",
+   "symbol": null,
    "channels": [
     "definitive merger proxy (shareholder vote)"
    ],
@@ -1141,7 +1175,7 @@
   {
    "cik": "0002065779",
    "company": "D. Boral ARC Acquisition I Corp.",
-   "symbol": "BCARW",
+   "symbol": null,
    "channels": [
     "definitive merger proxy (shareholder vote)"
    ],
@@ -2062,38 +2096,6 @@
    ],
    "first_filed": "2026-05-13",
    "last_filed": "2026-05-13",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0001645666",
-   "company": "Kezar Life Sciences, Inc.",
-   "symbol": null,
-   "channels": [
-    "target recommendation on a tender offer (two-step)"
-   ],
-   "forms": [
-    "SC 14D9"
-   ],
-   "first_filed": "2026-05-11",
-   "last_filed": "2026-05-11",
-   "n_filings": 1,
-   "requires_read": true,
-   "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
-  },
-  {
-   "cik": "0000717954",
-   "company": "UNIFIRST CORP",
-   "symbol": "UNF",
-   "channels": [
-    "definitive merger proxy (shareholder vote)"
-   ],
-   "forms": [
-    "DEFM14A"
-   ],
-   "first_filed": "2026-05-11",
-   "last_filed": "2026-05-11",
    "n_filings": 1,
    "requires_read": true,
    "why": "announced deal from primary filings \u2014 the read must confirm cash-vs-stock, the offer price, and a live below-offer spread"
