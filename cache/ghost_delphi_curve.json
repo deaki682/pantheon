@@ -247,5 +247,18 @@
       "SPY": 0.035352,
       "SPY_price": 773.17
     }
+  },
+  {
+    "date": "2026-09-09",
+    "equity": 18408.44,
+    "total_return": 0.022690870315511313,
+    "n": 180,
+    "benchmark": {
+      "SPY": 0.022798,
+      "SPY_price": 763.795,
+      "spy_1d": -0.012125,
+      "spy_since_inception": 0.022798
+    },
+    "note": "Zeus ~10:07 ET Wed 2026-09-09 (PARENTLESS shadow - Delphi live retired 2026-07-04; no live /delphi run exists to supply a fresh selection or veto list). Marked 119/119 open symbols from live get_equity_quotes (all state=active, venue timestamps ~14:11Z); missing_marks == 0. The cache_prefetch daily-close series does not exist this session, so the mark is quote-driven rather than last-close-driven - legitimate today because there was nothing to open (skip_open=True, every ledger symbol already carries an ungraded entry) and nothing to grade, so no momentum / 20-day-MA feature had to be computed. 0 graded, 0 due (earliest 90-day maturity 2026-09-28), so momentum_terciles / signal_lift.above_ma / .selected / .vetoed remain empty BY CONSTRUCTION. Book $18408.44 on an $18,000 cost basis = +2.27% vs SPY since inception +2.28% = -0.01pp. n=180 entries over 119 unique symbols (60 names double-entered across the 06-30/07-01/07-02 ramp): effective n ~119, not 180."
   }
 ]
