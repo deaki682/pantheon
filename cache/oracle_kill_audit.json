@@ -1,0 +1,119 @@
+{
+ "audit": "oracle_kill_reachability",
+ "date": "2026-09-09",
+ "author": "oracle",
+ "duty": "Standing Duty 0b \u2014 'can this kill still fire?' across all six held names",
+ "method": "Every threshold tested against the ACTUAL last reported figure pulled from SEC XBRL company-facts (us-gaap quarterly durations 80-100d, deduped to the latest-filed row per period end). No snapshots, no estimates. Accession cited per name.",
+ "names": {
+  "KLIC": {
+   "kill": "quarterly revenue < $180M",
+   "kill_type": "fundamental_break",
+   "last_print": {
+    "period_end": "2026-07-04",
+    "value_musd": 330.409,
+    "accn": "0000056978-26-000032"
+   },
+   "trajectory_musd": [
+    199.625,
+    242.621,
+    330.409
+   ],
+   "distance": "revenue must fall -45.5% in ONE quarter",
+   "last_time_true": "q ended 2025-06-28 ($148.413M)",
+   "verdict": "UNREACHABLE / DECORATION",
+   "action": "RE-TYPE OWED (Duty 0b) at the dossier rebuild"
+  },
+  "TPC": {
+   "kill": "2 consecutive GAAP loss quarters",
+   "kill_type": "fundamental_break",
+   "last_print": {
+    "period_end": "2026-06-30",
+    "net_income_musd": 65.742,
+    "accn": "0000077543-26-000186"
+   },
+   "counter": 0,
+   "reachability_evidence": "real loss quarters in history: -100.862 (2024-09-30), -36.896 (2023-09-30)",
+   "verdict": "REACHABLE, distant \u2014 a live discriminator",
+   "action": "KEEP AS TYPED"
+  },
+  "PAY": {
+   "kill": "YoY revenue growth < 15%",
+   "kill_type": "fundamental_break",
+   "last_print": {
+    "period_end": "2026-06-30",
+    "revenue_musd": 360.736,
+    "yoy_pct": 28.8,
+    "accn": "0001193125-26-330940"
+   },
+   "next_test": "Q3'26 vs Q3'25 $310.737M -> kill fires if Q3'26 revenue < $357.35M",
+   "note": "threshold sits 0.94% BELOW last quarter's actual revenue, BUT prior-year Q2->Q3 seasonality was +10.95% sequential; a repeat prints ~$400M (~+29% YoY). Firing requires a ~-11pp break in the seasonal pattern.",
+   "verdict": "REACHABLE and NEAR \u2014 arguably the best-typed kill in the book",
+   "action": "KEEP AS TYPED"
+  },
+  "QTWO": {
+   "kill": "GAAP net loss relapse or YoY growth < 10%",
+   "kill_type": "fundamental_break",
+   "last_print": {
+    "period_end": "2026-06-30",
+    "revenue_musd": 219.765,
+    "yoy_pct": 12.61,
+    "net_income_musd": 29.858,
+    "accn": "0001410384-26-000053"
+   },
+   "headroom_pp": 2.61,
+   "next_test": "Q3'26 vs Q3'25 $201.704M -> kill fires if Q3'26 revenue < $221.87M",
+   "note": "QTWO must grow +0.96% SEQUENTIALLY just to avoid the kill; it printed +1.51% seq last quarter (prior-year Q2->Q3 was +3.36%).",
+   "verdict": "REACHABLE, KNIFE-EDGE \u2014 the NARROWEST kill in the book, now quantified in dollars",
+   "action": "KEEP AS TYPED; the name to watch at the next print"
+  },
+  "ZVRA": {
+   "kill": "2 consecutive flat/declining product-revenue quarters",
+   "kill_type": "fundamental_break",
+   "last_print": {
+    "period_end": "2026-06-30",
+    "total_revenue_musd": 39.663,
+    "seq_pct": 9.51,
+    "accn": "0001434647-26-000068"
+   },
+   "counter": 0,
+   "verdict": "REACHABLE",
+   "defect": "TYPING DEFECT: the kill is typed to PRODUCT revenue but the XBRL tag available is TOTAL revenue (includes non-product items). Every past session has tested the total. The kill must be read off the 10-Q product-revenue line. A kill tested on the wrong number is decoration by a different route than KLIC's.",
+   "action": "RE-TYPE / RE-SOURCE OWED at the dossier rebuild"
+  },
+  "LXU": {
+   "kill": "quarterly net loss ON ammonia price collapse (CONJUNCTION)",
+   "kill_type": "fundamental_break",
+   "clause_a": {
+    "text": "quarterly net loss",
+    "status": "SATISFIED \u2014 LIVE",
+    "evidence": "Q2'26 (period end 2026-06-30) GAAP net loss -$6.189M; accn 0001193125-26-326147, restated in today's deck appendix accn 0001193125-26-385906",
+    "mechanism": "$28.801M of turnaround costs in the quarter; adjusted EBITDA +$53.112M vs +$38.276M y/y"
+   },
+   "clause_b": {
+    "text": "ammonia price collapse",
+    "status": "REFUTED 2026-09-09",
+    "evidence": "8-K Item 7.01 accn 0001193125-26-385906"
+   },
+   "verdict": "REACHABLE \u2014 the book's SHARPEST state: ONE clause away from a fired kill",
+   "record_correction": "The 2026-09-08 belief entry states 'LXU conjunction, neither clause near'. That is WRONG and is corrected here: clause (a) is not near, it is SATISFIED, and has been since the Q2 print. The 2026-07-29 entry had it right ('landed on clause (a) and died on clause (b)'); the error crept in later. Only clause (b) is holding this position, and clause (b) is a judgement on ammonia prices re-tested every session.",
+   "action": "KEEP AS TYPED \u2014 the conjunction is doing real work; but the LIVE state of clause (a) must be restated every session, never re-summarised as 'not near'"
+  }
+ },
+ "summary": {
+  "unreachable_decoration": [
+   "KLIC"
+  ],
+  "typing_defect": [
+   "ZVRA"
+  ],
+  "reachable_and_near": [
+   "QTWO (knife-edge)",
+   "PAY (one broken seasonal quarter)",
+   "LXU (one clause)"
+  ],
+  "reachable_distant": [
+   "TPC"
+  ]
+ },
+ "note": "This is the DIAGNOSTIC half of Duty 0b and it is complete. The RE-TYPE half (KLIC, ZVRA) is deliberately NOT done here: a kill may only be re-typed through make_upside_dossier at a full dossier rebuild, BEFORE a print, never quietly in the session that discovers the problem (Lesson -1). Re-typing is also the point of maximum hindsight hazard on names already held for two months \u2014 the rebuild must underwrite the thesis, not retrofit it to the price path."
+}

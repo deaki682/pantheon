@@ -1,0 +1,213 @@
+{
+ "study": "oracle_upside_cluster_study",
+ "date": "2026-09-09",
+ "author": "oracle",
+ "session": "zeus intraday FULL round",
+ "purpose": "Settle Lesson 19 / Standing Duty 0d empirically: is the Sharadar-sector cluster key (which groups KLIC+PAY+QTWO into 45.78% of equity) the factor that actually co-moves? Directive D4's 40% correlation-cluster cap is only as good as the key it is given.",
+ "data": {
+  "source": "Sharadar SEP daily closeadj via shared.sharadar.fetch_sep_bars; SPY daily from Robinhood get_equity_historicals (SPY is not in SEP)",
+  "window": "2026-07-09 .. 2026-09-08",
+  "n_returns": 42,
+  "returns": "daily log returns",
+  "market_adjustment": "OLS residual vs SPY per name"
+ },
+ "spy_betas": {
+  "KLIC": 2.818,
+  "PAY": 1.659,
+  "QTWO": 0.535,
+  "TPC": 1.994,
+  "LXU": -1.81,
+  "ZVRA": 0.39
+ },
+ "raw_correlations": {
+  "KLIC~PAY": {
+   "r": -0.079,
+   "t": -0.49,
+   "significant": false
+  },
+  "KLIC~QTWO": {
+   "r": -0.308,
+   "t": -2.02,
+   "significant": true
+  },
+  "KLIC~TPC": {
+   "r": 0.553,
+   "t": 4.14,
+   "significant": true
+  },
+  "KLIC~LXU": {
+   "r": -0.069,
+   "t": -0.43,
+   "significant": false
+  },
+  "KLIC~ZVRA": {
+   "r": 0.105,
+   "t": 0.66,
+   "significant": false
+  },
+  "PAY~QTWO": {
+   "r": 0.46,
+   "t": 3.23,
+   "significant": true
+  },
+  "PAY~TPC": {
+   "r": -0.216,
+   "t": -1.38,
+   "significant": false
+  },
+  "PAY~LXU": {
+   "r": -0.027,
+   "t": -0.17,
+   "significant": false
+  },
+  "PAY~ZVRA": {
+   "r": 0.117,
+   "t": 0.74,
+   "significant": false
+  },
+  "QTWO~TPC": {
+   "r": -0.2,
+   "t": -1.27,
+   "significant": false
+  },
+  "QTWO~LXU": {
+   "r": -0.266,
+   "t": -1.73,
+   "significant": false
+  },
+  "QTWO~ZVRA": {
+   "r": -0.154,
+   "t": -0.97,
+   "significant": false
+  },
+  "TPC~LXU": {
+   "r": -0.008,
+   "t": -0.05,
+   "significant": false
+  },
+  "TPC~ZVRA": {
+   "r": 0.24,
+   "t": 1.54,
+   "significant": false
+  },
+  "LXU~ZVRA": {
+   "r": -0.075,
+   "t": -0.47,
+   "significant": false
+  }
+ },
+ "residual_correlations": {
+  "KLIC~PAY": {
+   "r": -0.211,
+   "t": -1.35,
+   "significant": false
+  },
+  "KLIC~QTWO": {
+   "r": -0.448,
+   "t": -3.13,
+   "significant": true
+  },
+  "KLIC~TPC": {
+   "r": 0.443,
+   "t": 3.08,
+   "significant": true
+  },
+  "KLIC~LXU": {
+   "r": 0.177,
+   "t": 1.12,
+   "significant": false
+  },
+  "KLIC~ZVRA": {
+   "r": 0.091,
+   "t": 0.57,
+   "significant": false
+  },
+  "PAY~QTWO": {
+   "r": 0.44,
+   "t": 3.06,
+   "significant": true
+  },
+  "PAY~TPC": {
+   "r": -0.343,
+   "t": -2.28,
+   "significant": true
+  },
+  "PAY~LXU": {
+   "r": 0.074,
+   "t": 0.47,
+   "significant": false
+  },
+  "PAY~ZVRA": {
+   "r": 0.109,
+   "t": 0.68,
+   "significant": false
+  },
+  "QTWO~TPC": {
+   "r": -0.3,
+   "t": -1.96,
+   "significant": false
+  },
+  "QTWO~LXU": {
+   "r": -0.218,
+   "t": -1.4,
+   "significant": false
+  },
+  "QTWO~ZVRA": {
+   "r": -0.166,
+   "t": -1.05,
+   "significant": false
+  },
+  "TPC~LXU": {
+   "r": 0.21,
+   "t": 1.34,
+   "significant": false
+  },
+  "TPC~ZVRA": {
+   "r": 0.24,
+   "t": 1.54,
+   "significant": false
+  },
+  "LXU~ZVRA": {
+   "r": -0.057,
+   "t": -0.36,
+   "significant": false
+  }
+ },
+ "weights_pct_of_equity_2026_09_09": {
+  "TPC": 18.27,
+  "PAY": 18.23,
+  "QTWO": 16.17,
+  "LXU": 13.64,
+  "ZVRA": 12.66,
+  "KLIC": 11.39
+ },
+ "findings": [
+  "PAY~QTWO residual r=+0.44, t=+3.06 SIGNIFICANT. The operator's D4 motivating exhibit is CONFIRMED by measurement, not merely by two coincident 3% days. Combined weight 34.39% of equity.",
+  "KLIC~TPC residual r=+0.44, t=+3.08 SIGNIFICANT \u2014 a SECOND real cluster, and it SPANS two Sharadar sectors (Technology / Industrials), so a sector-keyed cap is structurally blind to it. Combined weight 29.66%.",
+  "KLIC~QTWO residual r=-0.45, t=-3.13 SIGNIFICANTLY NEGATIVE \u2014 yet Sharadar puts both in 'Technology'. The sector key does not merely over-group; on this pair it is INVERTED.",
+  "PAY~TPC residual r=-0.34, t=-2.28 significantly negative.",
+  "Net: the 45.78% 'Technology' bucket the 40% cap would bind on is composed of two significantly ANTI-correlated sub-groups, while the genuine second cluster (KLIC+TPC) is invisible to it. Capping Technology would be a risk control applied to the wrong basket."
+ ],
+ "proposed_theme_tags": {
+  "PAY": "fintech_payments_bank_software",
+  "QTWO": "fintech_payments_bank_software",
+  "KLIC": "ai_datacenter_capex",
+  "TPC": "ai_datacenter_capex",
+  "LXU": "nitrogen_fertilizer",
+  "ZVRA": "rare_disease_pharma"
+ },
+ "theme_mechanism": "KLIC+TPC share AI/datacenter CAPITAL EXPENDITURE, not a GICS sector: KLIC sells back-end advanced-packaging equipment into the AI buildout, TPC builds the data-center/power infrastructure. This is NOT read off the correlation \u2014 the 2026-08-19 belief entry independently split TPC's E&C peer set into 'AI-capex builders' vs 'non-AI E&C' BEFORE this study was run, and the measurement corroborates that earlier, independent reading.",
+ "resulting_clusters_pct_equity": {
+  "fintech_payments_bank_software": 34.39,
+  "ai_datacenter_capex": 29.66,
+  "nitrogen_fertilizer": 13.64,
+  "rare_disease_pharma": 12.66
+ },
+ "caveats": [
+  "n=42 daily returns over ONE regime (07-09..09-08). SE(r)~0.154; these are 2-3 SE effects, not settled facts.",
+  "Reading a THEME label off a correlation is a mild form of fitting. The economic mechanism and the independent 08-19 peer-set split are what make it more than curve-fit; the tags remain a HYPOTHESIS the next window can refute.",
+  "No cluster exceeds the 40% cap under the proposed tags. That is an OUTPUT of the study, not its goal, and it must not be used as evidence the tags are right.",
+  "This study licenses NO trade. It is a Stage-4 SIZING input for the next funding round only."
+ ],
+ "disposition": "NOT hand-patched into any dossier, cluster_key override, or sizer edit (F-rules / the standing refusal to fake a Stage-3 input). The tags are to be threaded through make_upside_dossier(theme=...) at the dossier rebuild, where the 40% cap will then key off the measured factor. Duty 0d is now EVIDENCED rather than asserted; it is not yet APPLIED."
+}

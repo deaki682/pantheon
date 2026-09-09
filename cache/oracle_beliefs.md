@@ -3,6 +3,187 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## 2026-09-09 (Zeus intraday tend — a FULL round at last: the only document in the window landed on the one clause holding a position, and the cluster key turned out to be inverted)
+
+Zeus hourly intraday tend, ~14:15Z (~10:15 ET Wed), and the first session since 07-14 that did **full-round
+work** rather than deferring it. **Duty 9 does NOT bite:** `close.date` is published at **09-08** for every
+symbol pulled, so every mark below is a live ~10:11–10:13 ET print on the same basis on both sides of every
+comparison — stated, not assumed. Reconcile **CLEAN 6/6 exact** (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856
+/ QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); **zero Oracle orders of any state since 08-28** (the only
+agentic orders at the broker in the window are Hermes's BOW 09-01 and LXFR 08-27). Equity **$4,662.85**,
+drawdown **5.43%** off the 08-17 peak $4,930.51, breaker `ok`, settled cash $449.94 = 9.65%. Book $4,212.91
+on the $4,050.06 basis = **+4.02%**; SPY from the 07-10 entry (750.935 → 763.7612) = **+1.71%** → **+2.31pp
+excess**. Day: book −0.11% vs SPY −0.29%, IWM −0.63%, XBI +0.09%.
+
+**1. THE DAY'S DOCUMENT: LXU FURNISHED AN INVESTOR DECK, AND IT SPEAKS TO THE EXACT CLAUSE THAT IS HOLDING
+THE POSITION.** The Duty 1a sweep (`filing_date >= 2026-09-06`, again set deliberately *before* the last
+pass's window) returned **exactly one** new document across all six names: **LXU 8-K acc
+0001193125-26-385906, filed TODAY, Items 7.01 + 9.01** — a September 2026 investor presentation **furnished**
+under Reg FD. Read from the primary exhibit, not the index line. LXU's kill is a **conjunction** — quarterly
+net loss **AND** ammonia price collapse — and the deck speaks to clause (b) with dated management language:
+*"UAN and ammonia prices have **strengthened**, supported by tight inventories and resilient demand"*, and
+*"Ammonia prices currently reflect reduced ammonia supply from the Middle East and Trinidad due to production
+outages and natural gas supply constraints, higher costs of production in Europe."* **Clause (b) moves
+further away from firing.** Supporting primary figures from the deck's own appendix: Q2'26 TTM net sales
+**$658.1M** (+22% y/y), TTM adj EBITDA **$199.4M** (+63%), margin **30%** (+760bps), net leverage **1.1x**
+(from 2.8x), liquidity $218M, Q2 operating cash flow $59M / FCF $33M. **KILL NOT FIRED. HELD.**
+
+**2. The negative I am not burying, and the tier I am not overstating.** The same deck says *"UAN prices have
+**reset** in line with weaker urea values."* **UAN is 36.5% of 2025 sales VOLUME — the largest single
+product.** That is a genuinely adverse datum sitting inside a promotional document, which is exactly where a
+bull deck hides one, and it is recorded here rather than left out of the good-news summary. It does **not**
+test the typed kill (typed to *ammonia*, not UAN) but it is thesis-relevant. And the evidentiary tier is
+stated rather than assumed: **this is a FURNISHED Item 7.01 marketing document, not audited financials** — a
+primary SEC filing and citable, but a lower tier than a 10-Q, and management is describing its own prices.
+It **corroborates** clause (b); it does not settle it.
+
+**3. Duty 1b: the set was pulled UNDER the trigger because LXU carries the day's filing — and it is
+PROVISIONAL because it is intraday.** LXU +1.37% at 10:13 ET against nitrogen/fertilizer on the official
+09-08 closes: CF +1.26, NTR +0.79, ICL +0.51, UAN +0.28, IPI −0.64, MOS −0.74 → **median +0.40%, 4 of 6 UP,
+dispersion 1.99pp. LXU = +0.97pp.** The tight set makes the *magnitude* usable; 4-of-6 means the *direction*
+is not unanimous. A ~+1pp residual to a furnished non-financial disclosure is about what such a document
+ought to be worth — the only conclusion this reading supports. **But 09-08 is three sessions old and its
+lesson is that three of six intraday readings changed materially by the bell and two conclusions had to be
+retired.** So this is labelled provisional, not concluded. **No other position moved >3% (KLIC +0.53%, PAY
+−0.25%, QTWO −0.26%, TPC −0.97%, ZVRA −0.95%): NO COMPARATOR PULLED AND NONE OWED — not "quiet", not
+"sector": NOT CHECKED.**
+
+**4. Kills: six checked, five UNTESTABLE, one tested and not fired, six HELD.** The window returned zero
+documents for KLIC/PAY/QTWO/TPC/ZVRA, and the null is **real, not an index outage** — the submissions API
+answered live with the newest row per name (KLIC 09-02, TPC 09-02, PAY 08-28, QTWO 08-14, ZVRA 08-17), each
+already dispositioned here. **KLIC −24.12% and ZVRA −10.99% are DRAWDOWNS and are HELD** — F3 is explicit,
+and this is still the stretch where that patience costs something.
+
+## *** THE TWO QUEUED FULL-ROUND DUTIES, PARTLY DISCHARGED — AND BOTH FOUND SOMETHING ***
+
+**5. DUTY 0b — THE "CAN THIS KILL STILL FIRE?" AUDIT HAS NOW ACTUALLY BEEN RUN, FOR THE FIRST TIME.** Every
+threshold tested against the **actual last reported figure from SEC XBRL company-facts** (quarterly 80–100d
+durations, latest-filed row per period end), accession cited per name. Artifact:
+`cache/oracle_kill_audit.json`. It found more than the one broken kill everyone knew about.
+
+| | kill | last print | verdict |
+|---|---|---|---|
+| **KLIC** | revenue < $180M | **$330.409M** (q 2026-07-04, acc 0000056978-26-000032); path 199.6→242.6→330.4 | **UNREACHABLE / DECORATION** — needs −45.5% in ONE quarter |
+| **LXU** | net loss **AND** ammonia collapse | Q2'26 **−$6.189M** | **clause (a) SATISFIED** — see §6 |
+| **QTWO** | loss relapse or growth < 10% | +12.61% y/y, +$29.858M | **KNIFE-EDGE** — see §7 |
+| **PAY** | YoY growth < 15% | +28.80% y/y | **REACHABLE and NEAR** — see §7 |
+| **ZVRA** | 2 flat/declining **product**-revenue quarters | total rev +9.51% seq | **TYPING DEFECT** — see §8 |
+| **TPC** | 2 consecutive GAAP loss quarters | +$65.742M, counter 0 | **REACHABLE, distant — KEEP** (history proves it fires: −$100.862M q 2024-09-30, −$36.896M q 2023-09-30) |
+
+**6. THE CORRECTION THIS FILE OWES ITSELF: LXU's clause (a) is not "near" — IT IS SATISFIED.** The 09-08
+entry says *"LXU conjunction, neither clause near."* **That is wrong.** Q2'26 (period end 2026-06-30) printed
+a **GAAP net loss of −$6.189M** (acc 0001193125-26-326147, restated in today's deck appendix), and it has
+been true since the Q2 print. The **07-29 entry had it right** — *"the kill landed on clause (a) and DIED on
+clause (b)"* — and the error crept in later, through exactly the mechanism Duty 0's own lesson warns about:
+a summary line in this file outliving the fact that produced it. **The consequence is not cosmetic. Only
+clause (b) is holding this position**, which is what makes today's 8-K read load-bearing rather than colour,
+and it means clause (b) must be re-tested on evidence *every session* rather than inherited as "not near."
+The loss's mechanism is benign and stated: **$28.801M of turnaround costs** in the quarter against adjusted
+EBITDA of **+$53.112M vs +$38.276M y/y**. Benign is not the same as absent.
+
+**7. The two nearest kills, quantified in DOLLARS instead of percentage points — which is the form that
+actually discriminates.** **QTWO** must print Q3'26 revenue above **$221.87M** (= Q3'25 $201.704M × 1.10) to
+avoid its own kill. Q2'26 was **$219.765M**. So **QTWO needs +0.96% SEQUENTIAL growth merely not to die**,
+having printed +1.51% sequential last quarter (prior-year Q2→Q3 was +3.36%). The "2.6pp of headroom" this
+file has repeated for weeks understated how tight that is. **PAY** is nearer than anything written here has
+said: the Q3 threshold is **$357.35M**, which sits **0.94% BELOW last quarter's actual $360.736M** — *but*
+prior-year Q2→Q3 seasonality was **+10.95%**, so firing requires a **~−11pp break in the seasonal pattern**,
+not a flat quarter. Both readings are needed; either alone misleads. PAY's is arguably the **best-typed kill
+in the book** — near enough to discriminate, far enough not to fire on noise.
+
+**8. NEW DEFECT, and it was invisible until the thresholds met the actual tags: ZVRA's kill is tested on the
+wrong number.** The kill is typed to **PRODUCT revenue**; the XBRL tag that exists is
+`RevenueFromContractWithCustomerIncludingAssessedTax` — **TOTAL** revenue, including non-product items — and
+that total is what every past session has been checking. **A kill tested on the wrong number is decoration by
+a different route than KLIC's**, and it is the more dangerous route because it *looks* like it is working.
+It must be read off the 10-Q product-revenue line. **Lesson 21: auditing whether a kill can fire is not the
+same as auditing whether it is being MEASURED on the quantity it names.** KLIC's failure was visible from the
+number; ZVRA's was only visible from the tag.
+
+**9. THE RE-TYPE HALF IS DELIBERATELY NOT DONE, AND THE REASON IS STRONGER THAN THE OLD ONE.** Lesson −1
+already forbids re-typing a kill in the session that discovers it is broken. But there is a second reason
+that has never been written down: **these six names have been held for two months and their price paths are
+known. Re-typing a kill on a name whose chart I have watched is the point of maximum hindsight hazard** — the
+rebuild must underwrite the thesis, not retrofit it to the outcome. Whatever the re-type does to KLIC's and
+ZVRA's kills must be defensible *before* a print, through `make_upside_dossier`, at a real dossier rebuild.
+Diagnostic half **COMPLETE**; re-type half **OWED**.
+
+**10. DUTY 0d / LESSON 19 IS SETTLED BY MEASUREMENT — AND THE SECTOR KEY IS NOT MERELY BLUNT, IT IS
+INVERTED.** 42 daily log returns (07-09 → 09-08, Sharadar SEP `closeadj`; SPY from Robinhood because SPY is
+not in SEP), **each name residualised against SPY by OLS** so the answer is not common market beta.
+Artifact: `cache/oracle_upside_cluster_study.json`.
+
+| pair | residual r | t | |
+|---|---|---|---|
+| **PAY ~ QTWO** | **+0.44** | +3.06 | **SIGNIFICANT** — the operator's D4 exhibit, CONFIRMED |
+| **KLIC ~ TPC** | **+0.44** | +3.08 | **SIGNIFICANT** — a second real cluster |
+| **KLIC ~ QTWO** | **−0.45** | −3.13 | **SIGNIFICANTLY NEGATIVE — inside the same Sharadar "Technology" bucket** |
+| PAY ~ TPC | −0.34 | −2.28 | significantly negative |
+
+**What this does to the operator's directive is worth stating precisely, because it cuts both ways.** D4's
+motivating exhibit — PAY+QTWO, one factor, ~35% of equity — was written from two coincident 3% days, and it
+**survives a proper market-adjusted measurement**. The operator was right. But **the mechanism now satisfying
+D4(b) would cap the wrong basket**: the Sharadar sector key groups **KLIC+PAY+QTWO at 45.78% of equity**,
+and KLIC is *significantly anti-correlated* with QTWO and uncorrelated with PAY, while the genuine second
+cluster — **KLIC+TPC, 29.66%** — is structurally invisible to a sector key because it **spans two sectors**
+(Technology / Industrials). **D4's letter is satisfied; its intent needs the theme tags.**
+
+**Proposed tags:** PAY+QTWO = `fintech_payments_bank_software`; **KLIC+TPC = `ai_datacenter_capex`**;
+LXU = `nitrogen_fertilizer`; ZVRA = `rare_disease_pharma`. The KLIC+TPC **mechanism** is AI/datacenter
+*capital expenditure* — KLIC sells back-end advanced-packaging equipment into the buildout, TPC builds the
+datacenter and power infrastructure — and this is **not** read off the correlation: the **08-19 entry
+independently split TPC's E&C peer set into "AI-capex builders" vs "non-AI E&C" before this study existed**,
+and the measurement corroborates that earlier, independent reading. That is the difference between a
+mechanism and a curve fit.
+
+**Caveats, stated rather than buried:** n=42 over **one regime**, SE(r) ≈ 0.154, so these are 2–3 SE effects
+and **not settled facts**. Reading a *theme* off a *correlation* is a mild form of fitting; the mechanism and
+the independent 08-19 split are what make it more than that, and the tags stay a **hypothesis the next
+window can refute**. Under the proposed tags no cluster exceeds 40% — that is an **output**, not the goal,
+and is **not** evidence the tags are right. **Nothing was hand-patched:** no `cluster_key` override, no
+`require_cluster_tags=False`, no sizer edit, no dossier written by hand. The tags go through
+`make_upside_dossier(theme=…)` at the rebuild. **Duty 0d is now EVIDENCED rather than asserted; it is not yet
+APPLIED. And this study licenses no trade.**
+
+**11. Stages 0–1, 6–7, and the directive.** Sourcing a conscious **NO-OP** (Duty 3): book at 6 = top of the
+3–6 band, no kill fired so nothing freed, $449.94 (9.65%) does not fund a 7th, and **D4 forbids new capital —
+the next round funds FROM THE BOOK**. Live shared-pool buying power $2,041.64 across all gods, of which
+$1,000 is earmarked for Argus under D8 and is not Oracle's to reach for (/hermes and /argus ran concurrently
+this hour). But the *research* half of the clock was discharged for real this time, as §5–§10.
+`due_for_grade('2026-09-09')` → **0** of 326 candidates (earliest horizon ~2027-10); `llm_lift`
+`lift_trustworthy: false` at 0 graded / 34 unresolved Arm B / 31 Arm A — empty **by construction**;
+`update_calibration` a no-op at n=0. **D4 left `status=active` deliberately** — it is a standing gate on
+every future funding round, not a one-shot, and `make_upside_dossier` has refused untagged names in code
+since 09-03, so the gate is permanent. **No orders placed and none contemplated.**
+
+**Lesson 21 (new).** *"Can this kill fire?" and "is this kill being measured on the quantity it names?" are
+two different audits, and only the first one was ever on the duty list.* KLIC's dead kill was visible from
+the number and took seven sessions to get audited anyway. ZVRA's was invisible from the number and only
+appeared when the threshold was put next to the actual XBRL tag. **Every future kill audit must check the
+TAG, not just the distance.**
+
+**Lesson 22 (new).** *A summary line in this file can silently reverse a fact it once recorded correctly.*
+07-29 wrote that LXU's kill "landed on clause (a) and died on clause (b)". 09-08 wrote "neither clause near."
+Nothing happened in between to justify the change — the second sentence was written from memory of the
+*conclusion* (not fired) rather than from the *state* (one clause live). Duty 0's existing lesson said to
+check the journal before acting on a duty written here; **this extends it: check the journal before
+restating a FACT written here, especially a comfortable one.**
+
+**Standing duties.** **0b:** diagnostic **DONE** (`cache/oracle_kill_audit.json`); **re-type still owed** for
+**KLIC** (unreachable) **and now ZVRA** (measured on the wrong line) — full-round jobs, before a print,
+through `make_upside_dossier`. **0d:** **EVIDENCED** (`cache/oracle_upside_cluster_study.json`), tags to be
+threaded at the rebuild; not applied. **Duty 10:** TPC's disclosed 4,069,699-sh (7.74%) overhang running to
+~2027-09 is still a **sizing** question for the rebuild, unchanged; the re-promotion test remains *new
+purpose language in a future 13D/A, not another sale*. **KLIC under-participation test (from 09-08): still
+live** — a third unanimous semicap up-day that KLIC lags makes it a pattern; **not tested today** (no set
+pulled, KLIC +0.53% and intraday). **LXU: clause (a) is LIVE and must be restated as such every session.**
+
+**Next session.** Duty 1a window `>= 2026-09-07`. The single highest-value thing Oracle can still do without
+capital is the **dossier rebuild** — it is now the only remaining home for the KLIC + ZVRA re-types, the
+theme tags, and the TPC overhang sizing, and all three inputs are finally sitting in cache as evidence rather
+than as assertions.
+
+
 ## Worldview (2026-09-02 CLOSE — the sweep returned four documents and every one of them was already mine)
 
 Zeus hourly after-close tend, ~20:10Z (~16:10 ET Wed); the 14:31Z intraday pass preceded it and did the six
