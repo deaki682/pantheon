@@ -8,7 +8,8 @@ Writes:
   - cache/trinity_dashboard.html
 
 Colors: Oracle gold (#D4AF37), Achilles purple (#9C27B0), Delphi cyan (#00BCD4), Nemesis green (#2E7D32),
-        Midas crimson (#DC143C), Proteus sea-blue (#1565C0), Plutus amber (#FF8F00), Hermes blue-grey (#607D8B).
+        Midas crimson (#DC143C), Proteus sea-blue (#1565C0), Plutus amber (#FF8F00), Hermes blue-grey (#607D8B),
+        Argus teal (#00897B).
 """
 from __future__ import annotations
 
@@ -28,6 +29,7 @@ GODS = (
     ("proteus", "#1565C0"),
     ("plutus", "#FF8F00"),   # LIVE 2026-07-06 — net-issuance capital-return
     ("hermes", "#607D8B"),   # LIVE — merger-arb LLM A/B
+    ("argus", "#00897B"),    # LIVE 2026-09-08 — spot-crypto watchman
 )
 
 
