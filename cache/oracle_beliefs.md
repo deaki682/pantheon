@@ -3282,3 +3282,97 @@ a **sizing** question, not a thesis break. **NEW: the KLIC under-participation t
 at the third unanimous semicap up-day.**
 
 **Next session: Wednesday 2026-09-09.** Duty 1a window `>= 2026-09-06`.
+
+
+## 2026-09-09 after-close (Zeus tend #2, Wednesday) — the day's biggest residual came with no document behind it, and yesterday's biggest residual pointed the other way
+
+Zeus hourly after-close tend, ~20:12Z (~16:10 ET Wed). Second Oracle pass today; the ~10:15 ET pass ran a
+**full round** (LXU's 8-K, the first real kill-reachability audit, the residual-correlation study). **Duty 9
+BITES:** `close.date` still publishes at **09-08** at 20:0xZ, so every mark below — the book's and all three
+peer sets' — is the **19:59:5xZ regular-session last print**, the same basis on both sides of every
+comparison. Stated, not assumed.
+
+Reconcile **CLEAN 6/6 exact** (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305
+/ ZVRA 47.034397); `get_equity_orders(agentic, >= 09-05)` returned **zero orders of any state**. Equity
+**$4,629.63**, drawdown **6.10%** off the 08-17 peak $4,930.51, breaker `ok`, settled cash $449.94 = 9.72%.
+Book $4,179.69 on the $4,050.06 ledger basis = **+3.20%**; SPY (750.935 → 762.38) = **+1.52%** → **+1.68pp
+excess, DOWN from the +2.31pp this morning carried**. Day: book **−0.89%** vs SPY −0.47%, IWM −1.35%,
+XBI −1.56% — the book underperformed the index and beat both small-cap and biotech.
+
+**1. THE DAY'S FINDING, AND THE REASON IT IS NOT A CONCLUSION: ZVRA −5.09% ON AN EMPTY FILING WINDOW —
+AFTER PRINTING +3.13pp THE OTHER WAY YESTERDAY ON AN EQUALLY EMPTY ONE.** Against a widened commercial
+rare-disease/specialty pharma set (CORT +1.47, ARDX +0.93, AMPH +0.61, SUPN −0.87, HRMY −1.05, VNDA −1.78,
+PTCT −1.83, RARE −3.97): **median −0.96%, 3 of 8 UP, dispersion 5.43pp → RESIDUAL −4.13pp**; −3.53pp vs XBI,
+−3.74pp vs IWM. Per the Duty 1b amendment the word *idiosyncratic* is earned only after a filing check, and
+the check was **made**: the `>= 09-06` window is empty for ZVRA and the submissions index answered live
+(newest row 08-17 Form 4). So the residual is real and it is the largest single-name move in the book today.
+**But the honest reading is the two-day one.** On 09-08 this same name printed **+3.13pp POSITIVE** against
+its complex, also with an empty window, and this file recorded it as "direction licensed, magnitude weak."
+**Two consecutive large opposite-signed residuals with no document between them are thin-name noise, not
+information** — and a −4.13pp residual against a set whose own dispersion is 5.43pp is inside the set's
+noise scale anyway. Reading either day alone as signal would be the error; naming that is the point of
+running the check at all. **NOT AN EXIT:** −14.71% from entry is a **DRAWDOWN**, F3 is explicit, and the
+typed kill is untestable — and still carries the **typing defect** this morning found (written to *product*
+revenue, historically tested on *total*). **HELD.**
+
+**2. KLIC's under-participation test DID NOT ADVANCE — AND IT INVERTED.** The test typed on 09-08 required
+*a third **unanimous** semicap up-day that KLIC lags*. Today's complex: COHU +6.60, FORM +4.16, TER +3.22,
+AMKR +1.24, AMAT −0.81, UCTT −0.83, ONTO −0.93, LRCX −1.39, ACLS −3.12, KLAC −3.21 → **median −0.82%, only
+4 of 10 UP, dispersion 9.81pp**. **The unanimity precondition is simply absent**, so the test neither
+advances nor expires; it stays live at 2. And KLIC's **+0.87% is a +1.69pp POSITIVE residual — its first of
+the sequence.** Both axes are weak (direction unlicensed at 4/10, magnitude unusable at 9.81pp of
+dispersion), so this is **recorded, not concluded**. What it does earn is a caution: two lags looked like a
+pattern forming, and the third draw went the other way on the first day the complex stopped moving as one.
+**−23.87% from entry remains a drawdown. HELD.**
+
+**3. LXU: the after-close check AMPLIFIED the morning's number instead of subtracting it.** Nitrogen/
+fertilizer at the bell (CF +2.80, UAN +0.74, ICL +0.34, NTR +0.07, IPI −0.65, MOS −1.23): **median +0.21%,
+4 of 6 UP, dispersion 4.02pp → LXU +3.00% = +2.79pp**, against the **+0.97pp PROVISIONAL** the 10:15 ET pass
+recorded on intraday prints. **The closing residual is nearly triple the morning's.** The tight 4.02pp set
+carries the magnitude; 4-of-6 leaves the direction unlicensed. The market spent the full session pricing a
+**furnished Item 7.01 marketing document** — which is a lower evidentiary tier than a 10-Q and does not
+settle clause (b), only corroborates it. **This is the fourth time in a week that running Duty 1b at the bell
+materially changed the morning's reading. The three previous times it SUBTRACTED a conclusion; this is the
+first time it enlarged one. The standing case for the bell over the tape is now symmetric — it is not a
+pessimism filter, it is a measurement.**
+
+**4. Duty 1a: one document in the window, and it is the SAME one.** The sweep (`filing_date >= 2026-09-06`)
+returned exactly **LXU 8-K acc 0001193125-26-385906**, read in full at 10:15 ET. **Nothing new landed
+between the two passes.** The null across the other five is **real, not an index outage** — the API answered
+live with the newest row per name (KLIC 09-02, TPC 09-02, PAY 08-28, QTWO 08-14, ZVRA 08-17), each already
+dispositioned here. **Six kills checked, six HELD:** LXU clause (a) SATISFIED / clause (b) not fired and
+now the only thing holding the position; KLIC unreachable decoration ($330.409M vs a $180M trigger),
+re-type still owed; QTWO knife-edge (needs +0.96% sequential merely not to fire); PAY needs a ~−11pp break
+in +10.95% seasonality; TPC counter 0; ZVRA untestable with its typing defect outstanding.
+
+**5. Stages 0–1, 6–7.** Sourcing a conscious **NO-OP** (Standing Duty 3) — this is a tend.
+`due_for_grade('2026-09-09')` = **0** of 326 (earliest horizon ~2027-10). `llm_lift`
+`lift_trustworthy: false` at 0 graded / 34 unresolved Arm B / 31 Arm A — empty **by construction**.
+`update_calibration` a no-op; calibration `{}` at n=0. **No orders. D4 binding: no new capital.**
+
+**Lesson 21 (new).** *A residual with no document behind it is a measurement of liquidity before it is a
+measurement of information — and the way to tell them apart is to look at the sign of the last one.* ZVRA
+gave this file a +3.13pp "positive residual, direction licensed" on Tuesday and a −4.13pp negative on
+Wednesday, both on genuinely empty filing windows, both against properly-pulled sets. Neither reading was
+wrong on its own terms. **Taken as a pair they cancel, and the pair is the honest unit of observation in a
+thin name.** The failure mode this guards against is the one this book is most exposed to: writing down a
+single-session residual on a small-cap, calling it idiosyncratic because the filing check came back empty,
+and letting that sentence harden into a thesis input by repetition — which is exactly the mechanism Lessons
+19 and 20 caught in two other forms. **A one-day residual in a thin name earns a row in the journal and
+nothing more until a second one points the same way.**
+
+**Structural note (not a finding).** This file's own header says *"Read at the top of every session; update
+at the bottom"*, and every entry from 09-03 through 09-08 sits in chronological order at the bottom. **The
+10:15 ET pass today prepended its entry at line 6 instead**, so the file now has 09-09 (morning) above
+2026-08 history and 09-09 (this entry) below it. **Not silently repaired** — reordering a beliefs file by
+hand is exactly the kind of quiet edit that loses provenance. Flagged so the next session knows both 09-09
+entries exist and where each lives.
+
+**Standing duties, unchanged:** 0b (KLIC kill re-type + the ZVRA product-vs-total typing defect the audit
+surfaced), 0d (theme tags through `make_upside_dossier`), Duty 10 (TPC overhang sizing). All three are
+**FULL-round jobs, never tends**, all three need **no capital**, and all three remain escalated to the
+operator. **The KLIC under-participation test is live and unadvanced at 2.** **NEW: the ZVRA two-day
+cancellation is recorded as noise; a THIRD same-signed residual on an empty window would be the first thing
+worth calling a pattern.**
+
+**Next session: Thursday 2026-09-10.** Duty 1a window `>= 2026-09-07`.

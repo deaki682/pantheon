@@ -1514,5 +1514,25 @@
   "n_positions": 6,
   "orders": 0,
   "note": "Intraday FULL round, ~10:15 ET Wed. Duty 9 does NOT bite (close.date published at 09-08); marks are live ~10:11-10:13 ET prints, same basis on both sides. Reconcile CLEAN 6/6 exact, zero Oracle orders since 08-28. Six kills checked: five UNTESTABLE (zero in-window documents), LXU tested and NOT FIRED. THE DAY'S DOCUMENT: LXU 8-K acc 0001193125-26-385906 filed TODAY, Item 7.01 Reg FD investor deck \u2014 'UAN and ammonia prices have strengthened'; clause (b) of LXU's conjunction moves further from firing. Buried negative recorded: 'UAN prices have reset in line with weaker urea values' and UAN is 36.5% of volume. Duty 1b: LXU +1.37% = +0.97pp vs a +0.40% nitrogen median (4/6 up, 1.99pp dispersion), PROVISIONAL because intraday; no other name moved >3% so NO COMPARATOR PULLED. *** TWO QUEUED FULL-ROUND DUTIES DISCHARGED IN PART: Duty 0b's kill-reachability audit RUN for the first time (KLIC unreachable/decoration confirmed in numbers; a NEW typing defect found on ZVRA \u2014 kill typed to product revenue, tested on total; LXU clause (a) is SATISFIED not 'near', correcting the 09-08 entry; QTWO knife-edge quantified: needs +0.96% sequential to avoid its own kill), and Duty 0d's theme question SETTLED BY MEASUREMENT (residual-correlation study, n=42: PAY~QTWO r=+0.44 CONFIRMS the operator's D4 exhibit; KLIC~QTWO r=-0.45 SIGNIFICANTLY NEGATIVE inside the same Sharadar 'Technology' bucket; KLIC~TPC r=+0.44 is a real second cluster spanning two sectors). Nothing hand-patched. No orders."
+ },
+ {
+  "timestamp": "2026-09-09T20:12:00+00:00",
+  "date": "2026-09-09",
+  "session": "after_close_tend",
+  "equity": 4629.63,
+  "cash": 449.94,
+  "book": 4179.69,
+  "positions": 6,
+  "spy": 762.38,
+  "spy_entry": 750.935,
+  "peak_equity": 4930.514910700001,
+  "drawdown": 0.06102,
+  "basis": 4050.06,
+  "book_return_pct": 3.2,
+  "spy_return_pct": 1.52,
+  "excess_pp": 1.6766,
+  "orders": 0,
+  "mark_basis": "last_trade_1959Z_regular_session (Duty 9 BITES - close.date lags to 09-08); same basis on BOTH sides of every comparison",
+  "note": "Zeus hourly AFTER-CLOSE tend ~16:10 ET Wed 2026-09-09, the day's second Oracle pass. Reconcile CLEAN 6/6 exact; zero agentic orders since 09-05. Book $4179.69 on the $4050.06 basis = +3.20%; SPY 750.935 -> 762.38 = +1.52%; EXCESS +1.68pp, DOWN from the +2.31pp the morning pass carried. Day: book -0.89%, SPY -0.47%, IWM -1.35%, XBI -1.56%. Duty 1a (>=09-06) returned the SAME single LXU 8-K the morning read in full - NOTHING NEW; index verified live, six kills checked, six HELD. THE DAY'S FINDING: ZVRA -5.09% = -4.13pp vs rare-disease/specialty pharma (3/8 up, 5.43pp dispersion) on an EMPTY filing window - but yesterday the same name printed +3.13pp POSITIVE on an equally empty window, so two large opposite-signed residuals with no document between them read as thin-name NOISE, not information. Not an exit (drawdown, F3). KLIC's under-participation test DID NOT ADVANCE and inverted: the semicap complex was only 4/10 up (median -0.82%, dispersion 9.81pp) so its unanimity precondition was absent, and KLIC's +0.87% is a +1.69pp POSITIVE residual, its first of the sequence. Test stays live at 2. LXU +3.00% = +2.79pp vs nitrogen (4/6 up, 4.02pp dispersion), nearly TRIPLING the morning's +0.97pp provisional read on the furnished Reg FD deck. Stage 6: 0 due of 326, llm_lift untrustworthy at n=0. Stage 7 no-op. D4 binding, no capital deployed. NO ORDERS."
  }
 ]
