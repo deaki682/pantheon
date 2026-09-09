@@ -1,4 +1,15 @@
 {
- "detected": [],
- "graded": []
+  "detected": [
+    {
+      "id": "2026-09-07-liquid-network-hack",
+      "date": "2026-09-09",
+      "kind": "hack_headline_screened",
+      "graded": false,
+      "counts_toward_checkpoint": false,
+      "text": "Liquid Network (BTC sidechain) federation wallet drained ~4,000 BTC (~$320M) 2026-09-07; ~3,400 BTC returned Monday, claimed white-hat; some exchanges paused L-BTC deposits/withdrawals. SCREENED OUT as a tradable event: the secondary engine needs an 8-20% solvent-survivor dislocation and BTC never dislocated (-1.76% on the day, spot back to $79.0k by 09-09, +0.5% on the session). L-BTC / the drained venue's own asset is untouchable by prereg rule anyway, and is not a Robinhood pair. Arm A: no action. Arm B (mechanical): no entry - dislocation filter fails, so no paper row either. Logged for the record so the checkpoint sample stays honest about what was seen and passed on.",
+      "arm_a": "pass",
+      "arm_b": "pass"
+    }
+  ],
+  "graded": []
 }

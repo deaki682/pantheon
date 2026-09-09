@@ -11,5 +11,32 @@
   "mode": "market_maker_CONFIRMED_agentic",
   "gate0": "2026-09-08 probe-preview: agentic order path returns initiator_type=agentic, routing='Market Maker Routing', fee $0 (cost lives in the ~1.9% spread). No order placed - preview answered the routing question free. Law 2 fallback budget GOVERNS: <=2 completed RT/month, >=5% targets. Re-preview after any operator routing change (app: Settings -> Crypto -> Fee Tiers); if Exchange appears, run the $10 live probe to confirm fills + tier accrual, then budget rises to <=8 RT/month at >=3x measured toll."
  },
- "funding_note": "operator deposited $1,000 on 2026-09-08 ('he should have 1k just for him now'); RH instant buying power granted, ACH settling"
+ "funding_note": "operator deposited $1,000 on 2026-09-08 ('he should have 1k just for him now'); RH instant buying power granted, ACH settling",
+ "ladder_reference": {
+  "as_of": "2026-09-09",
+  "source": "Coinbase Exchange daily candles, rolling 30d high",
+  "armed": false,
+  "armed_reason": "NOT ARMED. (a) Law-1 pairing is mechanically unsatisfiable: RH spot cannot rest a stop_limit SELL for coins not yet owned, so any resting rung is unpaired until a session wakes after the fill - flagged to operator for an amendment. (b) Arming inputs say no: macro driver UNRESOLVED (US CPI imminent, 9/16 FOMC hike risk) - a crash into an ongoing macro driver reads FIRST-LEG, not terminal. (c) No capitulation conditioning: F&G 66 Greed, funding mildly positive, short-side liquidations dominate.",
+  "levels": {
+   "BTC-USD": {
+    "high_30d": 82283.0,
+    "r12": 72409.04,
+    "r18": 67472.06,
+    "r25": 61712.25
+   },
+   "ETH-USD": {
+    "high_30d": 2567.0,
+    "r12": 2258.96,
+    "r18": 2104.94,
+    "r25": 1925.25
+   },
+   "SOL-USD": {
+    "high_30d": 110.65,
+    "r12": 97.37,
+    "r18": 90.73,
+    "r25": 82.99
+   }
+  },
+  "regime_line_note": "Charter regime line = BTC June-2026 low $59-61k. Spot $79,048 is ABOVE it -> regime allows gross. Note the -25% BTC rung ($61,712) sits AT the regime line; a fill there is simultaneously a scale-down signal."
+ }
 }
