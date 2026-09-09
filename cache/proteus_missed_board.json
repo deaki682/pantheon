@@ -23,7 +23,9 @@
    "carried_from": "week_of 2026-08-31",
    "status": "READ",
    "verdict": "pass",
-   "pre_event_ref": {"close_2026_09_04": 158.765},
+   "pre_event_ref": {
+    "close_2026_09_04": 158.765
+   },
    "read": "AI-backlog/RPO print, the biggest genuine market-mover in the window. Category read applies; VOO read-across applies. The interesting version of this trade is the second-order supply chain, not ORCL itself - and I have not done that work, so I am not pretending to a view. PASS. Verdict unchanged from 09-01."
   },
   {
@@ -36,7 +38,10 @@
    "carried_from": "week_of 2026-08-31",
    "status": "READ",
    "verdict": "pass",
-   "pre_event_ref": {"close_2026_09_04": 266.5, "note": "already -6.7% on 9/4 vs the 9/3 close of 285.75, into the print"},
+   "pre_event_ref": {
+    "close_2026_09_04": 266.5,
+    "note": "already -6.7% on 9/4 vs the 9/3 close of 285.75, into the print"
+   },
    "read": "The standing referendum on whether AI monetization offsets AI disruption for incumbent software. Genuinely two-sided and therefore genuinely a coin flip into the print. Plutus holds ADBE in the deluxe book, so the house already carries this exposure and a Proteus position would concentrate it. PASS. Verdict unchanged from 09-01. Noting the -6.7% pre-print slide: it moves the bar, it does not give me an edge on the direction."
   },
   {
@@ -154,14 +159,6 @@
  },
  "carried_pending": [
   {
-   "symbol": "SNOW",
-   "catalyst": "FQ2-27 earnings",
-   "date": "2026-09-02",
-   "status": "UNEXAMINED",
-   "grade_due": "2026-09-09",
-   "interim_2026_09_07": "RETRACED. Pre-event close 305.84; 9/3 intraday 377.55 = +23.45% (the figure the 09-03 journal and the beliefs file carry); Fri 9/4 CLOSE 337.27 = +10.28%. That is BELOW the +/-15% bar. The beliefs line 'only a retrace below +15% saves it' has in fact happened as of the 9/4 close. NOT yet graded - the grade lands 9/9 on that day's tape and could go either way; recorded here so the 9/9 grade is not made from the stale +23.4% number."
-  },
-  {
    "symbol": "LULU",
    "catalyst": "FQ2-26 earnings",
    "date": "2026-09-03",
@@ -171,22 +168,14 @@
    "interim_2026_09_07": "UNEXAMINED-HIT, provisionally. Pre-event close (9/3) 121.77; Fri 9/4 close 100.61 = -17.38%, THROUGH the 15% bar on day one. This is the second unexamined-hit off the 09-01 board and the first nobody had looked at. Honest directional note, stated so the record is not flattered: the board is long-only opportunity, and a -17.4% print is a loss AVOIDED, not a gain missed. A1 counts |move| >= 15% direction-agnostically - the cost it prices is not looking, and the rule is right to be direction-blind, because 'I would only have been long' is exactly the hindsight an unexamined name cannot claim. It goes on the record as a hit."
   },
   {
-   "symbol": "AVGO",
-   "catalyst": "FQ3-26 earnings",
-   "date": "2026-09-02",
-   "status": "READ",
-   "verdict": "pass",
-   "grade_due": "2026-09-09",
-   "interim_2026_09_07": "9/3 intraday 343.03 vs 9/2 close 367.24 = -6.6%. READ=pass looks correct so far; |move| under 15%."
-  },
-  {
    "symbol": "GME",
    "catalyst": "FQ2-26 earnings",
    "date": "2026-09-08",
    "timing": "pm",
    "status": "UNEXAMINED",
    "grade_due": "2026-09-15",
-   "note": "date confirmed verified=true in this week's pull"
+   "note": "date confirmed verified=true in this week's pull",
+   "interim_2026_09_09": "9/8 pm print: 9/8 close 18.89 -> 9/9 tape 19.72 = +4.4%. Under bar. Grade 9/15."
   },
   {
    "symbol": "CHWY",
@@ -195,7 +184,8 @@
    "timing": "am",
    "status": "UNEXAMINED",
    "grade_due": "2026-09-16",
-   "note": "date confirmed verified=true in this week's pull"
+   "note": "date confirmed verified=true in this week's pull",
+   "interim_2026_09_09": "9/9 am print: 9/8 close 23.27 -> 9/9 tape 21.57 = -7.3% day one. Under bar so far. Grade 9/16."
   },
   {
    "symbol": "CPRT",
@@ -207,5 +197,29 @@
    "date_correction": "carried as 2026-09-15 with report.verified=false; this week's pull firms it to 2026-09-10 pm, verified=true - five days EARLIER than the stale date. Grade date moved forward accordingly. This is the concrete payoff of rebuilding the board weekly instead of trusting a three-week-old tentative date."
   }
  ],
- "graded": []
+ "graded": [
+  {
+   "symbol": "SNOW",
+   "catalyst": "FQ2-27 earnings",
+   "date": "2026-09-02",
+   "status": "UNEXAMINED",
+   "grade_due": "2026-09-09",
+   "interim_2026_09_07": "RETRACED. Pre-event close 305.84; 9/3 intraday 377.55 = +23.45% (the figure the 09-03 journal and the beliefs file carry); Fri 9/4 CLOSE 337.27 = +10.28%. That is BELOW the +/-15% bar. The beliefs line 'only a retrace below +15% saves it' has in fact happened as of the 9/4 close. NOT yet graded - the grade lands 9/9 on that day's tape and could go either way; recorded here so the 9/9 grade is not made from the stale +23.4% number.",
+   "grade": "NO-HIT",
+   "graded_on": "2026-09-09",
+   "grade_note": "Graded on the 9/9 tape per rule: pre-event close 305.84 -> 9/9 tape 335.00 = +9.53% (9/8 close 335.50 = +9.70%). Below the +/-15% bar; the 9/3 intraday +23.45% retraced and stayed retraced. NOT an unexamined-hit. Recorded honestly: the bar was crossed intraday 9/3 but A1 grades ~5 sessions post-event on that day's tape, and the rule was written before the data."
+  },
+  {
+   "symbol": "AVGO",
+   "catalyst": "FQ3-26 earnings",
+   "date": "2026-09-02",
+   "status": "READ",
+   "verdict": "pass",
+   "grade_due": "2026-09-09",
+   "interim_2026_09_07": "9/3 intraday 343.03 vs 9/2 close 367.24 = -6.6%. READ=pass looks correct so far; |move| under 15%.",
+   "grade": "READ-CORRECT",
+   "graded_on": "2026-09-09",
+   "grade_note": "READ=pass graded CORRECT: 9/2 pre-event close 367.24 -> 9/9 tape 363.04 = -1.1%; worst post-event print -6.6% (9/3). |move| never approached 15%; a pass on a mega-cap coin flip that went nowhere is the category read working."
+  }
+ ]
 }
