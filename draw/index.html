@@ -541,7 +541,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <span id="verTag">by Dylan</span>
-    <span id="verNum">v315</span>
+    <span id="verNum">v316</span>
   </div>
 </div>
 <div id="delModal">
@@ -3170,6 +3170,18 @@ let calRefresh=()=>{};
     g.beginPath();
     for (const px of xs){ g.moveTo(px,0); g.lineTo(px,H2); }
     for (const py of ys){ g.moveTo(0,py); g.lineTo(W2,py); }
+    // the artist's X style carries into the backdrop: a diagonal cross in
+    // every cell - clean strokes, no nicks on the diagonals (storage is
+    // read directly: GRID_STYLE's let lives further down the script)
+    let gsty='sq'; try{ gsty=localStorage.getItem('gridStyle')||'sq'; }catch(e){}
+    if (gsty==='diag'){
+      const yB=(ys[0]??0.5)-unitPx, xB=(xs[0]??0.5)-unitPx;
+      for (let x=xB; x<=W2+unitPx; x+=unitPx)
+        for (let y=yB; y<=H2+unitPx; y+=unitPx){
+          g.moveTo(x,y); g.lineTo(x+unitPx,y+unitPx);
+          g.moveTo(x+unitPx,y); g.lineTo(x,y+unitPx);
+        }
+    }
     // half- and quarter-unit nicks ride every line like ruler marks:
     // off the RIGHT of the verticals, DOWN from the horizontals - never
     // crossing the line, and exactly as long as the title ruler's own
@@ -3191,6 +3203,7 @@ let calRefresh=()=>{};
     g.stroke();
     g.globalAlpha=1;
   };
+  window.drawUpGrid=drawUpGrid;   // style changes repaint from outside
   const drawCalBtn=()=>{
     // the calibrate button: a short cut of the same minimal ruler
     const cv=$('calBtnCv'); if (!cv) return;
@@ -4535,6 +4548,7 @@ function gsSet(v){
   gsSync();
   if ($('scrMain').classList.contains('on')) applyView();
   if ($('scrFormat').classList.contains('on')) fmtPreview();
+  try{ window.drawUpGrid && drawUpGrid(); }catch(e){}
 }
 $('gsSq').onclick=()=>gsSet('sq');
 $('gsDiag').onclick=()=>gsSet('diag');
