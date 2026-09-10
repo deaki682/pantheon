@@ -2,3 +2,7 @@
 # a site redeploy, never an app-store update
 /discord  https://discord.gg/cp5C4t23ej  302
 /privacy   /privacy.html   301
+# the iOS app's share button points here. Today: TestFlight; at App Store
+# launch swap the target to https://apps.apple.com/app/idXXXXXXXX and redeploy
+/ios   /   302
+
