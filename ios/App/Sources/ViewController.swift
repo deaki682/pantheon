@@ -30,6 +30,7 @@ final class ViewController: UIViewController {
         ucc.add(self, name: "adProj")
         ucc.add(self, name: "adAccent")
         ucc.add(self, name: "buyRemoveAds")
+        ucc.add(self, name: "haptic")
         // the entitlement is baked in synchronously - the page's Remove Ads
         // text keys on adsRemoved() at boot, and message handlers are async
         let noAds = StoreController.removed ? "true" : "false"
@@ -115,6 +116,16 @@ extension ViewController: WKScriptMessageHandler {
             ads?.accent(h)
         } else if message.name == "buyRemoveAds" {
             store?.buy()
+        } else if message.name == "haptic" {
+            // WKWebView has no Vibration API; the page routes its two
+            // haptic gestures here - light tick, and the success thud
+            if (message.body as? String) == "ok" {
+                let g = UINotificationFeedbackGenerator()
+                g.notificationOccurred(.success)
+            } else {
+                let g = UIImpactFeedbackGenerator(style: .light)
+                g.impactOccurred()
+            }
         }
     }
 }
