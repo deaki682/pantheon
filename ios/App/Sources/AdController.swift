@@ -430,17 +430,19 @@ final class AdController: NSObject {
         close.translatesAutoresizingMaskIntoConstraints = false
         close.addTarget(self, action: #selector(closeTap), for: .touchUpInside)
 
+        // the collapse pill sits LEFT of the card, tucked beneath the spot
+        // the gear glides to - still outside the ad view, never an ad click
         cornerWrap.addSubview(adv)
         cornerWrap.addSubview(close)
         NSLayoutConstraint.activate([
             adv.topAnchor.constraint(equalTo: cornerWrap.topAnchor),
-            adv.leadingAnchor.constraint(equalTo: cornerWrap.leadingAnchor),
             adv.trailingAnchor.constraint(equalTo: cornerWrap.trailingAnchor),
-            close.topAnchor.constraint(equalTo: adv.bottomAnchor, constant: 6),
-            close.centerXAnchor.constraint(equalTo: cornerWrap.centerXAnchor),
+            adv.bottomAnchor.constraint(equalTo: cornerWrap.bottomAnchor),
+            close.leadingAnchor.constraint(equalTo: cornerWrap.leadingAnchor),
+            close.trailingAnchor.constraint(equalTo: adv.leadingAnchor, constant: -17),
+            close.topAnchor.constraint(equalTo: cornerWrap.topAnchor, constant: 50),
             close.widthAnchor.constraint(equalToConstant: 26),
             close.heightAnchor.constraint(equalToConstant: 26),
-            close.bottomAnchor.constraint(equalTo: cornerWrap.bottomAnchor),
         ])
         badgeV = badge
         ctaV = cta

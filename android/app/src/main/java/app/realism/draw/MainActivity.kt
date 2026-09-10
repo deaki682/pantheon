@@ -553,11 +553,10 @@ class MainActivity : AppCompatActivity() {
         adv.headlineView = head
         adv.callToActionView = cta
         adv.setNativeAd(ad)
-        val colWrap = android.widget.LinearLayout(this)
-        colWrap.orientation = android.widget.LinearLayout.VERTICAL
-        colWrap.addView(adv, android.widget.LinearLayout.LayoutParams(
-            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT,
-            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
+        // the collapse pill sits LEFT of the card, tucked beneath the spot
+        // the gear glides to - still outside the ad view, never an ad click
+        val rowWrap = android.widget.LinearLayout(this)
+        rowWrap.orientation = android.widget.LinearLayout.HORIZONTAL
         val close = TextView(this)
         close.text = "✕"
         close.setTextColor(0xFFB9B5AE.toInt()); close.textSize = 12f
@@ -566,12 +565,15 @@ class MainActivity : AppCompatActivity() {
         cbg.setColor(0xE6191919.toInt()); cbg.cornerRadius = dp(13).toFloat()
         close.background = cbg
         val clp = android.widget.LinearLayout.LayoutParams(dp(26), dp(26))
-        clp.topMargin = dp(6)
-        clp.gravity = android.view.Gravity.CENTER_HORIZONTAL
+        clp.topMargin = dp(50)
+        clp.rightMargin = dp(17)
         close.setOnClickListener { adCollapse() }
-        colWrap.addView(close, clp)
+        rowWrap.addView(close, clp)
+        rowWrap.addView(adv, android.widget.LinearLayout.LayoutParams(
+            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT,
+            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
         adCornerWrap.removeAllViews()
-        adCornerWrap.addView(colWrap, FrameLayout.LayoutParams(
+        adCornerWrap.addView(rowWrap, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT))
         adCard = adv
         adBadgeV = badge
