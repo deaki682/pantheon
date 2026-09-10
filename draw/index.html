@@ -549,7 +549,7 @@ html.introUp #galleryC{transform:translateX(100vw);transition:none}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://realismdrawing.com/instagram" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v323</span>
+    <span id="verNum">v324</span>
   </div>
 </div>
 <div id="delModal">
@@ -5001,6 +5001,16 @@ document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) wakeHol
 
 
 loadArsenal(); $('upStat').textContent = TR('by Dylan');
+// the top-left credit is a live door to the Instagram profile - but only
+// while it IS the credit (the same span carries upload status texts)
+$('upStat').style.cursor='pointer';
+$('upStat').onclick=()=>{
+  if ($('upStat').textContent!==TR('by Dylan')) return;
+  const a=document.createElement('a');
+  a.href='https://realismdrawing.com/instagram';
+  a.target='_blank'; a.rel='noopener';
+  document.body.appendChild(a); a.click(); a.remove();
+};
 
 // Denoise the honest way: the domain-transform edge-preserving filter -
 // the same machinery that builds the shading layer. Differences smaller
