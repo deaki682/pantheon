@@ -50,6 +50,7 @@ body{position:fixed;inset:0}
   #gearPanel,#modePanel,#delPanel,#refPanel,#shPanel,#dgPanel,#introPanel,
   #gridPanel,#dlPanel,#dlwPanel{animation:popIn var(--motD) var(--motE)}
   #hud,#detMenu,#gridMenu,#underMenu,#gmPal,#gridPal2,#accPal2{animation:menuIn 160ms var(--motE)}
+  .screen{transition:padding-bottom .3s var(--motE)}
   button{transition:transform 90ms var(--motE)}
   button:active{transform:scale(.955)}
 }
@@ -555,7 +556,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v329</span>
+    <span id="verNum">v330</span>
   </div>
 </div>
 <div id="delModal">
@@ -1011,6 +1012,7 @@ window.__backStep=()=>{
     sp.classList.remove('on','go');
     document.documentElement.classList.remove('introUp','introLift');
     try{ $('gallery').style.willChange=''; $('galleryC').style.willChange=''; }catch(e){}
+    try{ adSync(); }catch(e){}
     t.style.visibility='';
     word.style.transition=word.style.transform='';
     $('introBy').style.opacity='';
@@ -1048,9 +1050,12 @@ function adSync(){
     if (!(window.RealismCam && RealismCam.adPlace)) return;
     const on=document.querySelector('.screen.on');
     const cam=document.documentElement.classList.contains('natCam');
+    // the boot splash owns the stage: the strip (and its layout reserve)
+    // waits until the choreography lands, then arrives in one motion
+    const splash=(()=>{ try{ return $('introSplash').classList.contains('on'); }catch(e){ return false; } })();
     const bg={scrUpload:'#141414',scrFormat:'#141414',
               scrMain:'#2a2a2a',scrCompare:'#2a2a2a'}[on && on.id]||'#141414';
-    RealismCam.adPlace(!cam, bg);
+    RealismCam.adPlace(!cam && !splash, bg);
     // corner-card mode PARKED (operator revert 2026-09-10): the persistent
     // strip rides every screen. Flip this back to
     //   !cam && !!(on && on.id==='scrMain')

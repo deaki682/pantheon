@@ -135,6 +135,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (android.os.Build.VERSION.SDK_INT >= 31) {
+            // the system splash CROSSFADES into the app instead of vanishing
+            // in one frame - the launcher icon swells and dissolves as the
+            // wordmark splash appears beneath it
+            splashScreen.setOnExitAnimationListener { sv ->
+                try {
+                    sv.iconView?.animate()?.scaleX(1.25f)?.scaleY(1.25f)
+                        ?.alpha(0f)?.setDuration(200)?.start()
+                    sv.view.animate().alpha(0f).setDuration(260)
+                        .withEndAction { sv.remove() }.start()
+                } catch (e: Throwable) { sv.remove() }
+            }
+        }
         run {
             val prefs = getSharedPreferences("cam", 0)
             val prior = Thread.getDefaultUncaughtExceptionHandler()
