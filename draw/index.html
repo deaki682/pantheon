@@ -550,7 +550,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v327</span>
+    <span id="verNum">v328</span>
   </div>
 </div>
 <div id="delModal">
@@ -3475,7 +3475,16 @@ function drawGrid(){
   const y0=Math.max(0,oy), y1=Math.min(H2, oy+h*sc);
   cvv.style.mixBlendMode = GRID_COL==='auto' ? 'difference' : 'normal';
   g.strokeStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
-  g.lineWidth = Math.max(1, GRID_THK*dpr*0.55);
+  // thickness lives in PAPER space: a hairline at full fit, swelling
+  // linearly with the zoom (today's weight lands at ~2.5x fit) and capped
+  // so deep zoom never draws ropes - the grid reads as inked on the
+  // drawing, not painted on the glass
+  {
+    const fitS=Math.min(r.width/w, r.height/h);
+    const zf=view.s/Math.max(1e-6, fitS);
+    const base=Math.max(1, GRID_THK*dpr*0.55);
+    g.lineWidth=Math.min(base*3, Math.max(0.6, base*zf/2.5));
+  }
   const step=gridStepPx();
   if (GRID_STYLE!=='dots'){
     for (let xw=step; xw<w-1; xw+=step){
