@@ -44,6 +44,18 @@ body{position:fixed;inset:0}
 .screen.off{display:flex;pointer-events:none;opacity:0;animation:scrOut .18s ease}
 @keyframes scrIn{from{opacity:0}to{opacity:1}}
 @keyframes scrOut{from{opacity:1}to{opacity:0}}
+:root{--motD:200ms;--motE:cubic-bezier(.2,0,0,1)}
+@media (prefers-reduced-motion: no-preference){
+  .screen.in{animation:scrIn2 var(--motD) var(--motE)}
+  #gearPanel,#modePanel,#delPanel,#refPanel,#shPanel,#dgPanel,#introPanel,
+  #gridPanel,#dlPanel{animation:popIn var(--motD) var(--motE)}
+  #hud,#detMenu,#gridMenu,#underMenu,#gmPal,#gridPal2{animation:menuIn 160ms var(--motE)}
+  button{transition:transform 90ms var(--motE)}
+  button:active{transform:scale(.955)}
+}
+@keyframes scrIn2{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+@keyframes menuIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 #slTip{position:fixed;display:none;z-index:44;transform:translate(-50%,0);
   background:#262626;border:1px solid #555;border-radius:8px;
   padding:3px 9px;font-size:12px;color:var(--acc);pointer-events:none}
@@ -486,7 +498,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <span id="verTag">by Dylan</span>
-    <span id="verNum">v304</span>
+    <span id="verNum">v305</span>
   </div>
 </div>
 <div id="delModal">
@@ -1995,6 +2007,7 @@ function ttlOn(){ try{ return localStorage.getItem('ttlStop')!=='0'; }catch(e){ 
   // the remove-ads purchase lives in the native shell only; the button
   // appears once the shell offers it and vanishes once bought
   window.__adsRemovedUI=()=>{
+    hapticOK();
     $('noAdsTxt').style.display='none';
     toast('ads removed - thank you!');
   };
@@ -3732,6 +3745,7 @@ async function bakExport(){
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
     toast('backup downloaded');
+    hapticOK();
   }
 }
 // the automatic layer: the native shell asks for this once a day; the
@@ -4322,6 +4336,7 @@ $('expBtn').onclick = () => {
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
   toast('image downloaded');
+  hapticOK();
   gcPing('/download');
 };
 function toast(t, acc, ms){
@@ -5308,6 +5323,7 @@ async function cmpDownload(){
       if (RealismCam.saveImageAsk)
         RealismCam.saveImageAsk(fname, 'image/jpeg', b64);
       else RealismCam.saveImage(fname, 'image/jpeg', b64);
+      hapticOK();
       return;                                  // the bridge toasts the result
     }catch(e){}
   }
@@ -6765,6 +6781,11 @@ addEventListener('pointerdown', ()=>{ HAPT_GO=true; }, {capture:true, once:true}
 function haptic(){
   if (!HAPT_GO) return;
   if (navigator.vibrate){ try{ navigator.vibrate(10); }catch(e){} return; }
+  try{ hapticEl.click(); }catch(e){}
+}
+function hapticOK(){                 // the achievement thud: tick-pause-tick
+  if (!HAPT_GO) return;
+  if (navigator.vibrate){ try{ navigator.vibrate([14,60,22]); }catch(e){} return; }
   try{ hapticEl.click(); }catch(e){}
 }
 document.addEventListener('click', e => {

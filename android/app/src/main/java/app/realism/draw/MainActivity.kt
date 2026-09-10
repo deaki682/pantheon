@@ -467,11 +467,30 @@ class MainActivity : AppCompatActivity() {
     // resizes. The page reserves the room (and lifts its chrome) through
     // __adOn; the card is only visible while a real ad is in hand, and
     // the page's own backdrop shows through any empty slot.
+    private var adCardShown = false
     private fun applyAd() {
         val slot = adWanted && adsUp && !adsRemovedFlag()
-        adWrap.visibility =
-            if (slot && nativeAd != null) android.view.View.VISIBLE
-            else android.view.View.GONE
+        val want = slot && nativeAd != null
+        if (want != adCardShown) {
+            adCardShown = want
+            val h = (if (adShownH > 0) adShownH
+                     else (56 * resources.displayMetrics.density).toInt()).toFloat()
+            adWrap.animate().cancel()
+            if (want) {
+                adWrap.translationY = h; adWrap.alpha = 0f
+                adWrap.visibility = android.view.View.VISIBLE
+                adWrap.animate().translationY(0f).alpha(1f).setDuration(220)
+                    .setInterpolator(android.view.animation.DecelerateInterpolator())
+                    .withEndAction(null).start()
+            } else {
+                adWrap.animate().translationY(h).alpha(0f).setDuration(160)
+                    .setInterpolator(android.view.animation.AccelerateInterpolator())
+                    .withEndAction {
+                        adWrap.visibility = android.view.View.GONE
+                        adWrap.translationY = 0f; adWrap.alpha = 1f
+                    }.start()
+            }
+        }
         val lp = web.layoutParams as FrameLayout.LayoutParams
         if (lp.bottomMargin != 0) { lp.bottomMargin = 0; web.layoutParams = lp }
         js("window.__adOn && __adOn(" + slot + ")")

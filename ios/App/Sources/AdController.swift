@@ -48,6 +48,7 @@ final class AdController: NSObject {
         removed = true
         wanted = false
         nativeAd = nil
+        cardShown = false
         wrap.isHidden = true
         web?.evaluateJavaScript("window.__adOn && __adOn(false)", completionHandler: nil)
     }
@@ -121,8 +122,34 @@ final class AdController: NSObject {
         ctaV?.backgroundColor = c
     }
 
+    private var cardShown = false
     private func applyAd() {
-        wrap.isHidden = !(wanted && nativeAd != nil && !removed)
+        let want = wanted && nativeAd != nil && !removed
+        if want != cardShown {
+            cardShown = want
+            wrap.layer.removeAllAnimations()
+            if want {
+                wrap.transform = CGAffineTransform(translationX: 0, y: 56)
+                wrap.alpha = 0
+                wrap.isHidden = false
+                UIView.animate(withDuration: 0.22, delay: 0,
+                               options: [.curveEaseOut, .allowUserInteraction]) {
+                    self.wrap.transform = .identity
+                    self.wrap.alpha = 1
+                }
+            } else {
+                UIView.animate(withDuration: 0.16, delay: 0,
+                               options: [.curveEaseIn]) {
+                    self.wrap.transform = CGAffineTransform(translationX: 0, y: 56)
+                    self.wrap.alpha = 0
+                } completion: { _ in
+                    guard !self.cardShown else { return }
+                    self.wrap.isHidden = true
+                    self.wrap.transform = .identity
+                    self.wrap.alpha = 1
+                }
+            }
+        }
         let js = "window.__adOn && __adOn(\(wanted ? "true" : "false"))"
         web?.evaluateJavaScript(js, completionHandler: nil)
     }
