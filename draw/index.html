@@ -49,7 +49,7 @@ body{position:fixed;inset:0}
   .screen.in{animation:scrIn2 var(--motD) var(--motE)}
   #gearPanel,#modePanel,#delPanel,#refPanel,#shPanel,#dgPanel,#introPanel,
   #gridPanel,#dlPanel{animation:popIn var(--motD) var(--motE)}
-  #hud,#detMenu,#gridMenu,#underMenu,#gmPal,#gridPal2{animation:menuIn 160ms var(--motE)}
+  #hud,#detMenu,#gridMenu,#underMenu,#gmPal,#gridPal2,#accPal2{animation:menuIn 160ms var(--motE)}
   button{transition:transform 90ms var(--motE)}
   button:active{transform:scale(.955)}
 }
@@ -352,12 +352,12 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
 #langSel,#unitSel2{background:#242424;color:#e8e6e1;border:1px solid #555;
   border-radius:10px;padding:8px 10px;font-size:14px}
 #gearPanel label{display:flex;gap:10px;align-items:center;font-size:14px}
-#gridColBox{width:40px;height:40px;border-radius:10px;border:1px solid #555;
+#gridColBox,#accColBox{width:40px;height:40px;border-radius:10px;border:1px solid #555;
   padding:3px;background:#242424}
-#gridColBox span{display:block;width:100%;height:100%;border-radius:7px}
-#gridPal2{display:none;grid-template-columns:repeat(5,32px);gap:8px}
-#gridPal2 button{width:32px;height:32px;border-radius:50%;padding:0;border:1px solid #555}
-#gridPal2 button.vOn{border-color:var(--acc);border-width:2px}
+#gridColBox span,#accColBox span{display:block;width:100%;height:100%;border-radius:7px}
+#gridPal2,#accPal2{display:none;grid-template-columns:repeat(5,32px);gap:8px}
+#gridPal2 button,#accPal2 button{width:32px;height:32px;border-radius:50%;padding:0;border:1px solid #555}
+#gridPal2 button.vOn,#accPal2 button.vOn{border-color:var(--acc);border-width:2px}
 #setPanel label{display:flex;gap:10px;align-items:center;font-size:14px}
 #expBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
@@ -530,19 +530,20 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <span class="setLbl" style="margin-top:8px">Units</span>
     <select id="unitSel2"><option value="in">inches</option><option value="cm">cm</option></select>
     <span class="setLbl" style="margin-top:8px">App Color</span>
-    <div id="accGrid2"></div>
+    <button id="accColBox"><span id="accSw"></span></button>
+    <div id="accPal2"></div>
     <span class="setLbl" style="margin-top:8px">Grid Color</span>
     <button id="gridColBox"><span id="gridSw"></span></button>
     <div id="gridPal2"></div>
     <span class="setLbl" style="margin-top:8px">Grid Style</span>
-    <div class="row" style="padding:0;gap:8px;justify-content:center">
+    <div class="row" style="padding:0;gap:8px">
       <button id="gsSq2" class="gsBtn" title="Squares"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="1.5"/></svg></button>
       <button id="gsDiag2" class="gsBtn" title="Diagonals"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M4 4l16 16M20 4L4 20"/></svg></button>
     </div>
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://realismdrawing.com/instagram" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v320</span>
+    <span id="verNum">v321</span>
   </div>
 </div>
 <div id="delModal">
@@ -2009,22 +2010,25 @@ function applyAccent(c){
   document.documentElement.style.setProperty('--accBg',
     'rgb('+m((n>>16)&255)+','+m((n>>8)&255)+','+m(n&255)+')');
   try{ localStorage.setItem('accent', c); }catch(e){}
-  for (const gid of ['accGrid','accGrid2']){
+  for (const gid of ['accGrid','accGrid2','accPal2']){
     const g=$(gid); if (!g) continue;
     [...g.children].forEach(b=>b.classList.toggle('vOn', b.dataset.c===c));
   }
+  { const sw=$('accSw'); if (sw) sw.style.background=c; }
   try{ calRefresh(); }catch(e){}      // the title ruler redraws in the new accent
                                       // (not yet defined on the very first call)
 }
 function ttlOn(){ return true; }   // operator direction 2026-09: always stop at life size
 {
-  for (const gid of ['accGrid','accGrid2'])
+  for (const gid of ['accGrid','accGrid2']){
+    const g=$(gid); if (!g) continue;
     for (const c of ACCENTS){
       const b=document.createElement('button');
       b.style.background=c; b.dataset.c=c; b.title=c;
       b.onclick=()=>applyAccent(c);
-      $(gid).appendChild(b);
+      g.appendChild(b);
     }
+  }
   // the unified preferences gear - both gear icons open this one panel
   let GEAR_PAL_BUILT=false;
   function gearGridSync(){
@@ -2037,6 +2041,13 @@ function ttlOn(){ return true; }   // operator direction 2026-09: always stop at
     try{ $('unitSel2').value = localStorage.getItem('unit')||'in'; }catch(e){}
     if (!GEAR_PAL_BUILT){
       GEAR_PAL_BUILT=true;
+      const ap=$('accPal2');
+      for (const c of ACCENTS){
+        const b=document.createElement('button');
+        b.style.background=c; b.dataset.c=c; b.title=c;
+        b.onclick=()=>{ applyAccent(c); ap.style.display='none'; };
+        ap.appendChild(b);
+      }
       const pal=$('gridPal2');
       for (const c of GRID_PAL){
         const b=document.createElement('button');
@@ -2056,11 +2067,20 @@ function ttlOn(){ return true; }   // operator direction 2026-09: always stop at
       }
     }
     gearGridSync();
+    try{ const cur=localStorage.getItem('accent')||'#e8833a';
+      $('accSw').style.background=cur;
+      [...$('accPal2').children].forEach(b=>b.classList.toggle('vOn', b.dataset.c===cur));
+    }catch(e){}
     $('gridPal2').style.display='none';
+    $('accPal2').style.display='none';
     $('gearModal').style.display='flex';
   }
   $('gearBtn').onclick=gearOpen;
   $('gridColBox').onclick=()=>{ const p=$('gridPal2');
+    $('accPal2').style.display='none';
+    p.style.display = p.style.display==='grid' ? 'none' : 'grid'; };
+  $('accColBox').onclick=()=>{ const p=$('accPal2');
+    $('gridPal2').style.display='none';
     p.style.display = p.style.display==='grid' ? 'none' : 'grid'; };
   $('gearModal').onclick=e=>{ if (e.target===$('gearModal')) $('gearModal').style.display='none'; };
   $('langSel').onchange=()=>{ try{ localStorage.setItem('lang', $('langSel').value); }catch(e){} location.reload(); };
