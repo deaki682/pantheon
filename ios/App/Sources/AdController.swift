@@ -357,7 +357,12 @@ final class AdController: NSObject {
         adv.layer.cornerRadius = 14
         adv.layer.borderWidth = 1
         adv.layer.borderColor = UIColor(white: 1, alpha: 0.12).cgColor
-        adv.clipsToBounds = true
+        // the card floats: shadow on the layer, so no clipping (children
+        // are inset from the rounded corners and clip themselves)
+        adv.layer.shadowColor = UIColor.black.cgColor
+        adv.layer.shadowOpacity = 0.5
+        adv.layer.shadowRadius = 12
+        adv.layer.shadowOffset = CGSize(width: 0, height: 4)
 
         let media = MediaView()
         media.translatesAutoresizingMaskIntoConstraints = false

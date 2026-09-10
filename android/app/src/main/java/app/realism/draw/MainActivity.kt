@@ -518,6 +518,7 @@ class MainActivity : AppCompatActivity() {
         bg.setStroke(Math.max(1, dp(1)), 0x1FFFFFFF)
         adv.background = bg
         adv.clipToOutline = true
+        adv.elevation = dp(10).toFloat()   // the card floats above the page
         val card = android.widget.LinearLayout(this)
         card.orientation = android.widget.LinearLayout.HORIZONTAL
         card.setPadding(dp(6), dp(6), dp(6), dp(6))
@@ -557,6 +558,9 @@ class MainActivity : AppCompatActivity() {
         // the gear glides to - still outside the ad view, never an ad click
         val rowWrap = android.widget.LinearLayout(this)
         rowWrap.orientation = android.widget.LinearLayout.HORIZONTAL
+        // let the card's elevation shadow paint past the wrapper bounds
+        rowWrap.clipChildren = false; rowWrap.clipToPadding = false
+        adCornerWrap.clipChildren = false; adCornerWrap.clipToPadding = false
         val close = TextView(this)
         close.text = "✕"
         close.setTextColor(0xFFB9B5AE.toInt()); close.textSize = 12f
