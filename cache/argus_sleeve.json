@@ -13,10 +13,10 @@
  },
  "funding_note": "operator deposited $1,000 on 2026-09-08 ('he should have 1k just for him now'); RH instant buying power granted, ACH settling",
  "ladder_reference": {
-  "as_of": "2026-09-09",
+  "as_of": "2026-09-10",
   "source": "Coinbase Exchange daily candles, rolling 30d high",
   "armed": false,
-  "armed_reason": "NOT ARMED. (a) Law-1 pairing is mechanically unsatisfiable: RH spot cannot rest a stop_limit SELL for coins not yet owned, so any resting rung is unpaired until a session wakes after the fill - flagged to operator for an amendment. (b) Arming inputs say no: macro driver UNRESOLVED (US CPI imminent, 9/16 FOMC hike risk) - a crash into an ongoing macro driver reads FIRST-LEG, not terminal. (c) No capitulation conditioning: F&G 66 Greed, funding mildly positive, short-side liquidations dominate.",
+  "armed_reason": "NOT ARMED (re-affirmed 2026-09-10, all three reasons intact). (a) Law-1 pairing is mechanically unsatisfiable on RH spot: a stop_limit SELL requires quantity already held, so a resting buy rung is unpaired until a session wakes after the fill - awaiting an operator amendment. (b) Macro driver UNRESOLVED and now DATED: August CPI 2026-09-11 08:30 ET, FOMC 2026-09-15/16 with the dot plot. A flush into either reads FIRST-LEG, not terminal - exactly the knife the ledger says not to catch, and the rungs would fill into it unattended. (c) No capitulation conditioning: F&G 69 Greed, funding near-neutral (BinPerp BTC +0.0078%/8h), BTC only -6.2% off its 30d high.",
   "levels": {
    "BTC-USD": {
     "high_30d": 82283.0,
@@ -37,6 +37,16 @@
     "r25": 82.99
    }
   },
-  "regime_line_note": "Charter regime line = BTC June-2026 low $59-61k. Spot $79,048 is ABOVE it -> regime allows gross. Note the -25% BTC rung ($61,712) sits AT the regime line; a fill there is simultaneously a scale-down signal."
+  "regime_line_note": "Charter regime line = BTC June-2026 low $59-61k. Spot $79,048 is ABOVE it -> regime allows gross. Note the -25% BTC rung ($61,712) sits AT the regime line; a fill there is simultaneously a scale-down signal.",
+  "high_dates": {
+   "BTC-USD": "2026-09-03",
+   "ETH-USD": "2026-08-27",
+   "SOL-USD": "2026-08-27"
+  },
+  "distance_to_rungs_2026_09_10": {
+   "BTC-USD": "spot 77,157 = -6.2% off 30d high; nearest rung (-12%) 72,409 is 6.2% below spot",
+   "ETH-USD": "spot 2,462.90 = -4.1% off 30d high; nearest rung 2,258.96 is 8.3% below spot",
+   "SOL-USD": "spot 99.74 = -9.9% off 30d high; nearest rung 97.37 is 2.4% below spot"
+  }
  }
 }
