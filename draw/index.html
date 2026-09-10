@@ -541,7 +541,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <span id="verTag">by Dylan</span>
-    <span id="verNum">v317</span>
+    <span id="verNum">v318</span>
   </div>
 </div>
 <div id="delModal">
@@ -2049,6 +2049,7 @@ function ttlOn(){ return true; }   // operator direction 2026-09: always stop at
           gearGridSync();
           try{ gridMenuSync(); }catch(e){}
           try{ if (GRID_READY) drawGrid(); }catch(e){}
+          try{ window.drawUpGrid && drawUpGrid(); }catch(e){}
         };
         pal.appendChild(b);
       }
@@ -3157,8 +3158,12 @@ let calRefresh=()=>{};
     if (cv.width!==W2 || cv.height!==H2){ cv.width=W2; cv.height=H2; }
     const g=cv.getContext('2d');
     g.clearRect(0,0,W2,H2);
-    g.strokeStyle=getComputedStyle(document.documentElement)
-      .getPropertyValue('--acc').trim()||'#e8833a';
+    // the backdrop wears the GRID's color - accent for chrome, grid color
+    // for grid things ('auto' keeps the accent whisper)
+    let gcol='auto'; try{ gcol=localStorage.getItem('gridCol')||'auto'; }catch(e){}
+    g.strokeStyle = (gcol!=='auto' && /^#[0-9a-f]{6}$/i.test(gcol)) ? gcol
+      : (getComputedStyle(document.documentElement)
+          .getPropertyValue('--acc').trim()||'#e8833a');
     // a touch more presence than a bare device pixel, but always lighter
     // than the ruler's own dpr-wide stroke
     g.globalAlpha=0.16; g.lineWidth=Math.max(1, dpr*0.6);
@@ -4511,6 +4516,7 @@ function gridMenuSync(){
       pal.style.display='none';
       gridMenuSync();
       if (GRID_READY) drawGrid();
+      try{ window.drawUpGrid && drawUpGrid(); }catch(e){}
     };
     pal.appendChild(b);
   }
