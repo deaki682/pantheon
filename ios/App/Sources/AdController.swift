@@ -392,23 +392,25 @@ final class AdController: NSObject {
         cta.text = ad.callToAction ?? "Open"
         cta.translatesAutoresizingMaskIntoConstraints = false
 
+        head.numberOfLines = 3
         adv.addSubview(media); adv.addSubview(badge)
         adv.addSubview(head); adv.addSubview(cta)
         NSLayoutConstraint.activate([
-            adv.widthAnchor.constraint(equalToConstant: 132),
+            adv.widthAnchor.constraint(equalToConstant: 244),
             media.topAnchor.constraint(equalTo: adv.topAnchor, constant: 6),
-            media.centerXAnchor.constraint(equalTo: adv.centerXAnchor),
+            media.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 6),
+            media.bottomAnchor.constraint(equalTo: adv.bottomAnchor, constant: -6),
             media.widthAnchor.constraint(equalToConstant: 120),
             media.heightAnchor.constraint(equalToConstant: 120),
             badge.leadingAnchor.constraint(equalTo: media.leadingAnchor, constant: 4),
             badge.bottomAnchor.constraint(equalTo: media.bottomAnchor, constant: -4),
             badge.widthAnchor.constraint(equalToConstant: 22),
             badge.heightAnchor.constraint(equalToConstant: 13),
-            head.topAnchor.constraint(equalTo: media.bottomAnchor, constant: 5),
-            head.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 8),
+            head.topAnchor.constraint(equalTo: adv.topAnchor, constant: 8),
+            head.leadingAnchor.constraint(equalTo: media.trailingAnchor, constant: 8),
             head.trailingAnchor.constraint(equalTo: adv.trailingAnchor, constant: -8),
-            cta.topAnchor.constraint(equalTo: head.bottomAnchor, constant: 4),
-            cta.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 6),
+            head.bottomAnchor.constraint(lessThanOrEqualTo: cta.topAnchor, constant: -4),
+            cta.leadingAnchor.constraint(equalTo: media.trailingAnchor, constant: 8),
             cta.trailingAnchor.constraint(equalTo: adv.trailingAnchor, constant: -6),
             cta.heightAnchor.constraint(equalToConstant: 26),
             cta.bottomAnchor.constraint(equalTo: adv.bottomAnchor, constant: -8),

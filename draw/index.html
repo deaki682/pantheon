@@ -380,6 +380,12 @@ body.uiHid #gridMenu,body.uiHid #gmPal{opacity:0;visibility:hidden}
 body.uiHid #expCorner{transform:translateY(-190%)}
 #expCorner{transition:opacity .25s}
 html.adCorner #expCorner{opacity:0;pointer-events:none}
+/* while the wide corner card is up, the gear glides left just far enough
+   to sit beside it (244px card + 8px margins), and glides home after */
+#setCorner{transition:transform .35s cubic-bezier(.2,0,0,1)}
+html.adCorner #setCorner{
+  transform:translateX(-50%) translateX(min(0px, calc(50vw - 282px)))}
+html.adCorner body.uiHid #setCorner{transform:translate(-50%,-190%)}
 body.uiHid #setCorner{transform:translate(-50%,-190%)}
 body.uiHid #backBtn{transform:translateY(-190%)}
 /* first-visit coach marks: a darkened veil with one floating line */
@@ -526,7 +532,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <span id="verTag">by Dylan</span>
-    <span id="verNum">v311</span>
+    <span id="verNum">v312</span>
   </div>
 </div>
 <div id="delModal">

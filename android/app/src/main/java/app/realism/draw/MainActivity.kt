@@ -519,8 +519,8 @@ class MainActivity : AppCompatActivity() {
         adv.background = bg
         adv.clipToOutline = true
         val card = android.widget.LinearLayout(this)
-        card.orientation = android.widget.LinearLayout.VERTICAL
-        card.setPadding(dp(6), dp(6), dp(6), dp(8))
+        card.orientation = android.widget.LinearLayout.HORIZONTAL
+        card.setPadding(dp(6), dp(6), dp(6), dp(6))
         val mediaWrap = FrameLayout(this)
         val media = com.google.android.gms.ads.nativead.MediaView(this)
         mediaWrap.addView(media, FrameLayout.LayoutParams(dp(120), dp(120)))
@@ -531,16 +531,22 @@ class MainActivity : AppCompatActivity() {
         blp.leftMargin = dp(4); blp.bottomMargin = dp(4)
         mediaWrap.addView(badge, blp)
         card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(120), dp(120)))
+        // text column beside the media: headline up top, CTA pinned at the foot
+        val col = android.widget.LinearLayout(this)
+        col.orientation = android.widget.LinearLayout.VERTICAL
+        col.setPadding(dp(8), 0, 0, 0)
         val head = TextView(this)
         head.setTextColor(0xFFE8E6E1.toInt()); head.textSize = 11.5f
-        head.maxLines = 2; head.ellipsize = android.text.TextUtils.TruncateAt.END
+        head.maxLines = 3; head.ellipsize = android.text.TextUtils.TruncateAt.END
         head.text = ad.headline ?: ""
-        head.setPadding(dp(2), dp(5), dp(2), dp(3))
-        card.addView(head, android.widget.LinearLayout.LayoutParams(
-            dp(120), android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
+        head.setPadding(dp(2), dp(2), dp(2), dp(4))
+        col.addView(head, android.widget.LinearLayout.LayoutParams(
+            android.widget.LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f))
         val cta = adCta(ad, ::dp, 10)
-        card.addView(cta, android.widget.LinearLayout.LayoutParams(
-            dp(120), android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
+        col.addView(cta, android.widget.LinearLayout.LayoutParams(
+            android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
+            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
+        card.addView(col, android.widget.LinearLayout.LayoutParams(dp(112), dp(120)))
         adv.addView(card, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT))
         adv.mediaView = media
