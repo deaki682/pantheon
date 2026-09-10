@@ -402,11 +402,17 @@ body.uiHid #backBtn{transform:translateY(-190%)}
    its opacity - animating the radius itself re-blurs the whole screen
    every frame and drops frames on phones */
 #introScrim{position:absolute;inset:0;background:rgba(18,18,18,0.55);
-  -webkit-backdrop-filter:blur(12px);
-  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
   will-change:opacity;
   transition:opacity .5s cubic-bezier(.2,0,0,1)}
 #introSplash.go #introScrim{opacity:0}
+@media (prefers-reduced-motion: no-preference){
+  #gallery,#galleryC{transition:transform .6s cubic-bezier(.2,0,0,1)}
+  #galleryC{transition-delay:.12s}
+}
+html.introUp #gallery,html.introUp #galleryC{
+  transform:translateX(100vw);transition:none}
 #introWord{position:relative;display:flex;flex-direction:column;align-items:center}
 #introMain{font-size:34px;letter-spacing:.04em;color:var(--acc);
   will-change:transform;transform-origin:center}
@@ -543,7 +549,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://realismdrawing.com/instagram" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v321</span>
+    <span id="verNum">v322</span>
   </div>
 </div>
 <div id="delModal">
@@ -984,9 +990,11 @@ window.__backStep=()=>{
   const sp=$('introSplash'), word=$('introMain'), t=$('upTitle');
   if (rm || !sp || !word || !t) return;
   sp.classList.add('on');
+  document.documentElement.classList.add('introUp');
   t.style.visibility='hidden';
   const done=()=>{
     sp.classList.remove('on','go');
+    document.documentElement.classList.remove('introUp');
     t.style.visibility='';
     word.style.transition=word.style.transform='';
     $('introBy').style.opacity='';
@@ -1003,6 +1011,7 @@ window.__backStep=()=>{
       word.style.transform='translate('+dx+'px,'+dy+'px) scale('+k+')';
       $('introBy').style.opacity='0';
       sp.classList.add('go');
+      document.documentElement.classList.remove('introUp');
       setTimeout(done, 640);
     }catch(e){ done(); }
   }, 750);
