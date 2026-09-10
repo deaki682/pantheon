@@ -69,7 +69,19 @@ class MainActivity : AppCompatActivity() {
     private var adCard: com.google.android.gms.ads.nativead.NativeAdView? = null
     private var adBadgeV: TextView? = null
     private var adCtaV: TextView? = null
+    // corner mode (drawing screen only): the download button's corner
+    // becomes the 120x120-media card for a bounded window, then returns
+    private lateinit var adCornerWrap: FrameLayout
+    private var adOnProj = false          // page reports the drawing screen
+    private var adViewMode = ""           // which container holds the card
+    private var adNextShowAt = 0L         // cadence: earliest next window
+    private var lastTouchMs = 0L          // never appear under a finger
     private var billing: com.android.billingclient.api.BillingClient? = null
+
+    override fun dispatchTouchEvent(ev: android.view.MotionEvent): Boolean {
+        lastTouchMs = android.os.SystemClock.uptimeMillis()
+        return super.dispatchTouchEvent(ev)
+    }
 
     private fun report(msg: String) {
         Log.e("Realism", msg)
@@ -181,6 +193,16 @@ class MainActivity : AppCompatActivity() {
         root.addView(adWrap, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT,
             android.view.Gravity.BOTTOM))
+        adCornerWrap = FrameLayout(this)
+        adCornerWrap.visibility = android.view.View.GONE
+        run {
+            val m = (8 * resources.displayMetrics.density).toInt()
+            val clp = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
+                android.view.Gravity.TOP or android.view.Gravity.END)
+            clp.topMargin = m; clp.rightMargin = m
+            root.addView(adCornerWrap, clp)
+        }
         setContentView(root)
         run {
             val prefs = getSharedPreferences("cam", 0)
@@ -393,6 +415,10 @@ class MainActivity : AppCompatActivity() {
                 .withNativeAdOptions(com.google.android.gms.ads.nativead.NativeAdOptions.Builder()
                     .setAdChoicesPlacement(
                         com.google.android.gms.ads.nativead.NativeAdOptions.ADCHOICES_TOP_RIGHT)
+                    // video creatives may fill the 120x120 corner card:
+                    // always muted unless the viewer taps the ad's own control
+                    .setVideoOptions(com.google.android.gms.ads.VideoOptions.Builder()
+                        .setStartMuted(true).build())
                     .build())
                 .build()
             loader.loadAd(com.google.android.gms.ads.AdRequest.Builder().build())
@@ -405,84 +431,178 @@ class MainActivity : AppCompatActivity() {
         try {
             nativeAd?.destroy()
             nativeAd = ad
-            val d = resources.displayMetrics.density
-            fun dp(v: Int) = (v * d).toInt()
-            val ACC = adAccentCol
-            val adv = com.google.android.gms.ads.nativead.NativeAdView(this)
-            adv.setBackgroundColor(adBgCol)
-            val row = android.widget.LinearLayout(this)
-            row.orientation = android.widget.LinearLayout.HORIZONTAL
-            row.gravity = android.view.Gravity.CENTER_VERTICAL
-            row.setPadding(dp(10), dp(8), dp(10), dp(8))
-            val media = com.google.android.gms.ads.nativead.MediaView(this)
-            row.addView(media, android.widget.LinearLayout.LayoutParams(dp(40), dp(40)))
-            val col = android.widget.LinearLayout(this)
-            col.orientation = android.widget.LinearLayout.VERTICAL
-            col.setPadding(dp(10), 0, dp(10), 0)
-            val badge = TextView(this)
-            badge.text = "Ad"
-            badge.setTextColor(ACC); badge.textSize = 9f
-            val bd = android.graphics.drawable.GradientDrawable()
-            bd.setStroke(dp(1), ACC); bd.cornerRadius = dp(3).toFloat()
-            badge.background = bd
-            badge.setPadding(dp(4), 0, dp(4), 0)
-            val badgeWrap = android.widget.LinearLayout(this)
-            badgeWrap.addView(badge)
-            col.addView(badgeWrap)
-            val head = TextView(this)
-            head.setTextColor(0xFFE8E6E1.toInt()); head.textSize = 13f
-            head.maxLines = 1; head.ellipsize = android.text.TextUtils.TruncateAt.END
-            head.text = ad.headline ?: ""
-            col.addView(head)
-            row.addView(col, android.widget.LinearLayout.LayoutParams(
-                0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
-            val cta = TextView(this)
-            cta.setTextColor(0xFF141414.toInt()); cta.textSize = 12f
-            cta.gravity = android.view.Gravity.CENTER
-            val cd = android.graphics.drawable.GradientDrawable()
-            cd.setColor(ACC); cd.cornerRadius = dp(14).toFloat()
-            cta.background = cd
-            cta.setPadding(dp(12), dp(6), dp(12), dp(6))
-            cta.text = ad.callToAction ?: "Open"
-            row.addView(cta)
-            adv.addView(row, FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
-            adv.mediaView = media
-            adv.headlineView = head
-            adv.callToActionView = cta
-            adv.setNativeAd(ad)
-            adWrap.removeAllViews()
-            adWrap.addView(adv, FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
-            adWrap.setBackgroundColor(adBgCol)
-            adCard = adv
-            adBadgeV = badge
-            adCtaV = cta
-            adShownH = dp(56)
+            adViewMode = ""                  // rebuilt into whichever mode shows
             applyAd()
         } catch (e: Throwable) { logLine("native show: " + e.message) }
     }
 
-    // the card floats OVER the page's bottom 80px - the WebView never
-    // resizes. The page reserves the room (and lifts its chrome) through
-    // __adOn; the card is only visible while a real ad is in hand, and
-    // the page's own backdrop shows through any empty slot.
-    private var adCardShown = false
+    private fun adBadge(dp: (Int) -> Int): TextView {
+        val badge = TextView(this)
+        badge.text = "Ad"
+        badge.setTextColor(adAccentCol); badge.textSize = 9f
+        val bd = android.graphics.drawable.GradientDrawable()
+        bd.setStroke(dp(1), adAccentCol); bd.cornerRadius = dp(3).toFloat()
+        badge.background = bd
+        badge.setPadding(dp(4), 0, dp(4), 0)
+        return badge
+    }
+    private fun adCta(ad: com.google.android.gms.ads.nativead.NativeAd,
+                      dp: (Int) -> Int, radius: Int): TextView {
+        val cta = TextView(this)
+        cta.setTextColor(0xFF141414.toInt()); cta.textSize = 12f
+        cta.gravity = android.view.Gravity.CENTER
+        val cd = android.graphics.drawable.GradientDrawable()
+        cd.setColor(adAccentCol); cd.cornerRadius = dp(radius).toFloat()
+        cta.background = cd
+        cta.setPadding(dp(12), dp(6), dp(12), dp(6))
+        cta.text = ad.callToAction ?: "Open"
+        return cta
+    }
+
+    // the bottom strip: every screen except the drawing screen
+    private fun buildStrip() {
+        val ad = nativeAd ?: return
+        val d = resources.displayMetrics.density
+        fun dp(v: Int) = (v * d).toInt()
+        val adv = com.google.android.gms.ads.nativead.NativeAdView(this)
+        adv.setBackgroundColor(adBgCol)
+        val row = android.widget.LinearLayout(this)
+        row.orientation = android.widget.LinearLayout.HORIZONTAL
+        row.gravity = android.view.Gravity.CENTER_VERTICAL
+        row.setPadding(dp(10), dp(8), dp(10), dp(8))
+        val media = com.google.android.gms.ads.nativead.MediaView(this)
+        row.addView(media, android.widget.LinearLayout.LayoutParams(dp(40), dp(40)))
+        val col = android.widget.LinearLayout(this)
+        col.orientation = android.widget.LinearLayout.VERTICAL
+        col.setPadding(dp(10), 0, dp(10), 0)
+        val badge = adBadge(::dp)
+        val badgeWrap = android.widget.LinearLayout(this)
+        badgeWrap.addView(badge)
+        col.addView(badgeWrap)
+        val head = TextView(this)
+        head.setTextColor(0xFFE8E6E1.toInt()); head.textSize = 13f
+        head.maxLines = 1; head.ellipsize = android.text.TextUtils.TruncateAt.END
+        head.text = ad.headline ?: ""
+        col.addView(head)
+        row.addView(col, android.widget.LinearLayout.LayoutParams(
+            0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+        val cta = adCta(ad, ::dp, 14)
+        row.addView(cta)
+        adv.addView(row, FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
+        adv.mediaView = media
+        adv.headlineView = head
+        adv.callToActionView = cta
+        adv.setNativeAd(ad)
+        adWrap.removeAllViews()
+        adWrap.addView(adv, FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
+        adWrap.setBackgroundColor(adBgCol)
+        adCard = adv
+        adBadgeV = badge
+        adCtaV = cta
+        adShownH = dp(56)
+        adViewMode = "strip"
+    }
+
+    // the corner card: 120x120 media (video-eligible), badge over the
+    // media, two-line headline, full-width CTA, collapse pill below -
+    // the pill is OUTSIDE the ad view so its tap never counts as a click
+    private fun buildCorner() {
+        val ad = nativeAd ?: return
+        val d = resources.displayMetrics.density
+        fun dp(v: Int) = (v * d).toInt()
+        val adv = com.google.android.gms.ads.nativead.NativeAdView(this)
+        val bg = android.graphics.drawable.GradientDrawable()
+        bg.setColor(adBgCol); bg.cornerRadius = dp(14).toFloat()
+        bg.setStroke(Math.max(1, dp(1)), 0x1FFFFFFF)
+        adv.background = bg
+        adv.clipToOutline = true
+        val card = android.widget.LinearLayout(this)
+        card.orientation = android.widget.LinearLayout.VERTICAL
+        card.setPadding(dp(6), dp(6), dp(6), dp(8))
+        val mediaWrap = FrameLayout(this)
+        val media = com.google.android.gms.ads.nativead.MediaView(this)
+        mediaWrap.addView(media, FrameLayout.LayoutParams(dp(120), dp(120)))
+        val badge = adBadge(::dp)
+        val blp = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
+            android.view.Gravity.BOTTOM or android.view.Gravity.START)
+        blp.leftMargin = dp(4); blp.bottomMargin = dp(4)
+        mediaWrap.addView(badge, blp)
+        card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(120), dp(120)))
+        val head = TextView(this)
+        head.setTextColor(0xFFE8E6E1.toInt()); head.textSize = 11.5f
+        head.maxLines = 2; head.ellipsize = android.text.TextUtils.TruncateAt.END
+        head.text = ad.headline ?: ""
+        head.setPadding(dp(2), dp(5), dp(2), dp(3))
+        card.addView(head, android.widget.LinearLayout.LayoutParams(
+            dp(120), android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
+        val cta = adCta(ad, ::dp, 10)
+        card.addView(cta, android.widget.LinearLayout.LayoutParams(
+            dp(120), android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
+        adv.addView(card, FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT))
+        adv.mediaView = media
+        adv.headlineView = head
+        adv.callToActionView = cta
+        adv.setNativeAd(ad)
+        val colWrap = android.widget.LinearLayout(this)
+        colWrap.orientation = android.widget.LinearLayout.VERTICAL
+        colWrap.addView(adv, android.widget.LinearLayout.LayoutParams(
+            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT,
+            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
+        val close = TextView(this)
+        close.text = "✕"
+        close.setTextColor(0xFFB9B5AE.toInt()); close.textSize = 12f
+        close.gravity = android.view.Gravity.CENTER
+        val cbg = android.graphics.drawable.GradientDrawable()
+        cbg.setColor(0xE6191919.toInt()); cbg.cornerRadius = dp(13).toFloat()
+        close.background = cbg
+        val clp = android.widget.LinearLayout.LayoutParams(dp(26), dp(26))
+        clp.topMargin = dp(6)
+        clp.gravity = android.view.Gravity.CENTER_HORIZONTAL
+        close.setOnClickListener { adCollapse() }
+        colWrap.addView(close, clp)
+        adCornerWrap.removeAllViews()
+        adCornerWrap.addView(colWrap, FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT))
+        adCard = adv
+        adBadgeV = badge
+        adCtaV = cta
+        adViewMode = "corner"
+    }
+
+    // two placements, one ad: the bottom strip everywhere EXCEPT the
+    // drawing screen (persistent, page reserves room through __adOn), and
+    // on the drawing screen an intermittent corner card that replaces the
+    // download button for a bounded window (page yields it via __adCorner).
+    private var adCardShown = false       // strip on screen
+    private var adCornerShown = false     // corner card on screen
+    private val AD_ON_MS = 45000L         // corner window length
+    private val AD_OFF_MS = 240000L       // corner rest between windows
+    private fun adBase() = adWanted && adsUp && !adsRemovedFlag() && nativeAd != null
     private fun applyAd() {
-        val slot = adWanted && adsUp && !adsRemovedFlag()
-        val want = slot && nativeAd != null
-        if (want != adCardShown) {
-            adCardShown = want
-            val h = (if (adShownH > 0) adShownH
-                     else (56 * resources.displayMetrics.density).toInt()).toFloat()
+        val lp = web.layoutParams as FrameLayout.LayoutParams
+        if (lp.bottomMargin != 0) { lp.bottomMargin = 0; web.layoutParams = lp }
+        // ---- strip half -------------------------------------------------
+        val slot = adWanted && adsUp && !adsRemovedFlag() && !adOnProj
+        val stripWant = slot && nativeAd != null
+        if (stripWant != adCardShown) {
+            adCardShown = stripWant
             adWrap.animate().cancel()
-            if (want) {
+            if (stripWant) {
+                if (adViewMode != "strip") buildStrip()
+                val h = (if (adShownH > 0) adShownH
+                         else (56 * resources.displayMetrics.density).toInt()).toFloat()
                 adWrap.translationY = h; adWrap.alpha = 0f
                 adWrap.visibility = android.view.View.VISIBLE
                 adWrap.animate().translationY(0f).alpha(1f).setDuration(220)
                     .setInterpolator(android.view.animation.DecelerateInterpolator())
                     .withEndAction(null).start()
             } else {
+                val h = (if (adShownH > 0) adShownH
+                         else (56 * resources.displayMetrics.density).toInt()).toFloat()
                 adWrap.animate().translationY(h).alpha(0f).setDuration(160)
                     .setInterpolator(android.view.animation.AccelerateInterpolator())
                     .withEndAction {
@@ -491,9 +611,53 @@ class MainActivity : AppCompatActivity() {
                     }.start()
             }
         }
-        val lp = web.layoutParams as FrameLayout.LayoutParams
-        if (lp.bottomMargin != 0) { lp.bottomMargin = 0; web.layoutParams = lp }
         js("window.__adOn && __adOn(" + slot + ")")
+        // ---- corner half ------------------------------------------------
+        if (adCornerShown && !(adBase() && adOnProj)) adCollapse()
+        else if (!adCornerShown && adBase() && adOnProj) adTryShow()
+        else if (!adCornerShown) adCornerWrap.removeCallbacks(adShowTry)
+    }
+    private val adShowTry = Runnable { adTryShow() }
+    private val adAutoHide = Runnable { adCollapse() }
+    private fun adTryShow() {
+        adCornerWrap.removeCallbacks(adShowTry)
+        if (adCornerShown || !(adBase() && adOnProj)) return
+        val now = android.os.SystemClock.uptimeMillis()
+        if (now < adNextShowAt) { adCornerWrap.postDelayed(adShowTry, adNextShowAt - now); return }
+        // never materialize where a finger just was - wait for a quiet hand
+        if (now - lastTouchMs < 3000) { adCornerWrap.postDelayed(adShowTry, 3000); return }
+        if (adViewMode != "corner") buildCorner()
+        adCornerShown = true
+        adCornerWrap.animate().cancel()
+        adCornerWrap.scaleX = 0.3f; adCornerWrap.scaleY = 0.3f; adCornerWrap.alpha = 0f
+        adCornerWrap.visibility = android.view.View.VISIBLE
+        adCornerWrap.post {
+            // grow out of the download button's corner, visibly - never a snap
+            adCornerWrap.pivotX = adCornerWrap.width.toFloat(); adCornerWrap.pivotY = 0f
+            adCornerWrap.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(350)
+                .setInterpolator(android.view.animation.DecelerateInterpolator()).start()
+        }
+        js("window.__adCorner && __adCorner(true)")
+        adCornerWrap.removeCallbacks(adAutoHide)
+        adCornerWrap.postDelayed(adAutoHide, AD_ON_MS)
+    }
+    private fun adCollapse() {
+        adCornerWrap.removeCallbacks(adAutoHide)
+        if (!adCornerShown) return
+        adCornerShown = false
+        adNextShowAt = android.os.SystemClock.uptimeMillis() + AD_OFF_MS
+        adCornerWrap.animate().cancel()
+        adCornerWrap.pivotX = adCornerWrap.width.toFloat(); adCornerWrap.pivotY = 0f
+        adCornerWrap.animate().scaleX(0.3f).scaleY(0.3f).alpha(0f).setDuration(250)
+            .setInterpolator(android.view.animation.AccelerateInterpolator())
+            .withEndAction {
+                adCornerWrap.visibility = android.view.View.GONE
+                adCornerWrap.scaleX = 1f; adCornerWrap.scaleY = 1f; adCornerWrap.alpha = 1f
+            }.start()
+        js("window.__adCorner && __adCorner(false)")
+        // a fresh creative earns the next window (re-showing one doesn't)
+        loadNative()
+        if (adBase() && adOnProj) adCornerWrap.postDelayed(adShowTry, AD_OFF_MS)
     }
 
     // the browser engine keeps IndexedDB in per-origin folders on disk,
@@ -923,9 +1087,18 @@ class MainActivity : AppCompatActivity() {
                 adBgCol = c
                 adWanted = on
                 adWrap.setBackgroundColor(c)
-                adCard?.setBackgroundColor(c)
+                adCard?.let { v ->
+                    val g = v.background as? android.graphics.drawable.GradientDrawable
+                    if (g != null) g.setColor(c) else v.setBackgroundColor(c)
+                }
                 applyAd()
             }
+        }
+        // the page flags the drawing screen: there the strip yields to the
+        // intermittent corner card (and only there)
+        @JavascriptInterface
+        fun adProj(on: Boolean) {
+            runOnUiThread { if (adOnProj != on) { adOnProj = on; applyAd() } }
         }
         @JavascriptInterface
         fun dlog(line: String) = logLine("page: " + line.take(300))

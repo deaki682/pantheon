@@ -378,6 +378,8 @@ body.uiHid #underCorner,body.uiHid #camCorner{transform:translate(-50%,160%)}
 body.uiHid #hud,body.uiHid #detMenu,body.uiHid #underMenu,
 body.uiHid #gridMenu,body.uiHid #gmPal{opacity:0;visibility:hidden}
 body.uiHid #expCorner{transform:translateY(-190%)}
+#expCorner{transition:opacity .25s}
+html.adCorner #expCorner{opacity:0;pointer-events:none}
 body.uiHid #setCorner{transform:translate(-50%,-190%)}
 body.uiHid #backBtn{transform:translateY(-190%)}
 /* first-visit coach marks: a darkened veil with one floating line */
@@ -386,6 +388,14 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 #coach span{color:#fff;font-size:19px;letter-spacing:0.02em;
   background:rgba(20,20,20,0.7);padding:14px 28px;border-radius:999px}
 /* the one back button: fixed top-left, everywhere but the gallery */
+#introSplash{position:fixed;inset:0;z-index:60;background:#141414;display:none;
+  align-items:center;justify-content:center}
+#introSplash.on{display:flex}
+#introWord{display:flex;flex-direction:column;align-items:center}
+#introMain{font-size:34px;letter-spacing:.04em;color:#e8e6e1;
+  will-change:transform;transform-origin:center}
+#introBy{font-size:14px;color:var(--acc);margin-top:10px;opacity:.9;
+  transition:opacity .3s}
 #backBtn{position:fixed;top:calc(8px + env(safe-area-inset-top));
   left:calc(8px + env(safe-area-inset-left));z-index:9;width:44px;height:44px;
   padding:0;font-size:24px;line-height:1;border-radius:12px;display:none;
@@ -516,7 +526,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <span id="verTag">by Dylan</span>
-    <span id="verNum">v309</span>
+    <span id="verNum">v310</span>
   </div>
 </div>
 <div id="delModal">
@@ -598,6 +608,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     </div>
   </div>
 
+<div id="introSplash"><div id="introWord"><span id="introMain">Photorealism</span><span id="introBy">by Dylan</span></div></div>
 <!-- 1: upload -->
 <div class="screen on" id="scrUpload">
   <canvas id="upGridBg"></canvas>
@@ -950,6 +961,36 @@ window.__backStep=()=>{
   try{ $('backBtn').onclick(); }catch(e){}
   return 'ok';
 };
+(function(){
+  let rm=false;
+  try{ rm=matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  const sp=$('introSplash'), word=$('introMain'), t=$('upTitle');
+  if (rm || !sp || !word || !t) return;
+  sp.classList.add('on');
+  t.style.visibility='hidden';
+  const done=()=>{
+    sp.classList.remove('on');
+    t.style.visibility='';
+    word.style.transition=word.style.transform='';
+    $('introBy').style.opacity='';
+    sp.style.background='';
+  };
+  setTimeout(()=>{
+    try{
+      const tr=t.getBoundingClientRect(), mr=word.getBoundingClientRect();
+      if (!tr.width || !mr.width){ done(); return; }
+      const k=tr.height/mr.height;
+      const dx=(tr.left+tr.width/2)-(mr.left+mr.width/2);
+      const dy=(tr.top+tr.height/2)-(mr.top+mr.height/2);
+      word.style.transition='transform .55s cubic-bezier(.2,0,0,1)';
+      word.style.transform='translate('+dx+'px,'+dy+'px) scale('+k+')';
+      $('introBy').style.opacity='0';
+      sp.style.transition='background .45s ease .18s';
+      sp.style.background='transparent';
+      setTimeout(done, 640);
+    }catch(e){ done(); }
+  }, 750);
+})();
 // every screen carries the bottom ad strip in the native shell, skinned
 // to that screen's own backdrop; the native camera clears it away
 function adSync(){
@@ -960,8 +1001,16 @@ function adSync(){
     const bg={scrUpload:'#141414',scrFormat:'#141414',
               scrMain:'#2a2a2a',scrCompare:'#2a2a2a'}[on && on.id]||'#141414';
     RealismCam.adPlace(!cam, bg);
+    // the drawing screen runs the intermittent corner card instead of the
+    // strip; every other screen keeps the persistent bottom strip
+    if (RealismCam.adProj) RealismCam.adProj(!cam && !!(on && on.id==='scrMain'));
   }catch(e){}
 }
+// corner-card mode: while the ad occupies the download corner, the button
+// yields cleanly (it returns the moment the card retracts)
+window.__adCorner = on => {
+  try{ document.documentElement.classList.toggle('adCorner', !!on); }catch(e){}
+};
 window.__adOn = on => {
   try{ document.documentElement.classList.toggle('adOn', !!on); }catch(e){}
   requestAnimationFrame(()=>{ try{

@@ -27,6 +27,7 @@ final class ViewController: UIViewController {
         // specific capability it uses, so nothing else changes behaviour
         let ucc = cfg.userContentController
         ucc.add(self, name: "adPlace")
+        ucc.add(self, name: "adProj")
         ucc.add(self, name: "adAccent")
         ucc.add(self, name: "buyRemoveAds")
         // the entitlement is baked in synchronously - the page's Remove Ads
@@ -36,6 +37,9 @@ final class ViewController: UIViewController {
         window.RealismCam = window.RealismCam || {};
         RealismCam.adPlace = function(on, bg){
           try{ webkit.messageHandlers.adPlace.postMessage({on:!!on, bg:String(bg||'#141414')}); }catch(e){}
+        };
+        RealismCam.adProj = function(on){
+          try{ webkit.messageHandlers.adProj.postMessage(!!on); }catch(e){}
         };
         RealismCam.adAccent = function(h){
           try{ webkit.messageHandlers.adAccent.postMessage(String(h||'')); }catch(e){}
@@ -105,6 +109,8 @@ extension ViewController: WKScriptMessageHandler {
         if message.name == "adPlace", let d = message.body as? [String: Any] {
             ads?.place(on: d["on"] as? Bool ?? false,
                        bg: d["bg"] as? String ?? "#141414")
+        } else if message.name == "adProj" {
+            ads?.setProj(message.body as? Bool ?? false)
         } else if message.name == "adAccent", let h = message.body as? String {
             ads?.accent(h)
         } else if message.name == "buyRemoveAds" {

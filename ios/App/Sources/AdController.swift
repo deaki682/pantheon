@@ -17,10 +17,23 @@ final class AdController: NSObject {
     private weak var host: UIViewController?
     private weak var web: WKWebView?
     private let wrap = UIView()
+    // corner mode (drawing screen only): the download button's corner
+    // becomes the 120x120-media card for a bounded window, then returns
+    private let cornerWrap = UIView()
+    private var onProj = false
+    private var cornerShown = false
+    private var viewMode = ""
+    private var nextShowAt: CFTimeInterval = 0
+    private var lastTouch: CFTimeInterval = 0
+    private var showTimer: Timer?
+    private var hideTimer: Timer?
+    private let AD_ON_S: TimeInterval = 45
+    private let AD_OFF_S: TimeInterval = 240
     private var loader: AdLoader?
     private var nativeAd: NativeAd?
     private var badgeV: UILabel?
     private var ctaV: UILabel?
+    private var cardV: NativeAdView?
     private var wanted = false
     private var started = false
     private var removed = false
@@ -40,7 +53,23 @@ final class AdController: NSObject {
             wrap.trailingAnchor.constraint(equalTo: host.view.trailingAnchor),
             wrap.heightAnchor.constraint(equalToConstant: 56),
         ])
+        cornerWrap.isHidden = true
+        cornerWrap.translatesAutoresizingMaskIntoConstraints = false
+        host.view.addSubview(cornerWrap)
+        NSLayoutConstraint.activate([
+            cornerWrap.topAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            cornerWrap.trailingAnchor.constraint(equalTo: host.view.trailingAnchor, constant: -8),
+        ])
+        // the card never materializes under a finger: a passive recognizer
+        // timestamps every touch so the show gate can wait for a quiet hand
+        let touch = UILongPressGestureRecognizer(target: self, action: #selector(anyTouch(_:)))
+        touch.minimumPressDuration = 0
+        touch.cancelsTouchesInView = false
+        touch.delegate = self
+        host.view.addGestureRecognizer(touch)
     }
+
+    @objc private func anyTouch(_ g: UIGestureRecognizer) { lastTouch = CACurrentMediaTime() }
 
     // the remove-ads purchase: the slot collapses and the stack never
     // starts again (the entitlement re-checks on every launch)
@@ -50,7 +79,12 @@ final class AdController: NSObject {
         nativeAd = nil
         cardShown = false
         wrap.isHidden = true
+        cornerShown = false
+        cornerWrap.isHidden = true
+        showTimer?.invalidate(); showTimer = nil
+        hideTimer?.invalidate(); hideTimer = nil
         web?.evaluateJavaScript("window.__adOn && __adOn(false)", completionHandler: nil)
+        web?.evaluateJavaScript("window.__adCorner && __adCorner(false)", completionHandler: nil)
     }
 
     // consent -> tracking prompt -> SDK -> first load + gentle refresh
@@ -111,6 +145,15 @@ final class AdController: NSObject {
         if let c = AdController.color(bg) { bgCol = c }
         wrap.backgroundColor = bgCol
         wrap.subviews.first?.backgroundColor = bgCol
+        cardV?.backgroundColor = bgCol
+        applyAd()
+    }
+
+    // the page flags the drawing screen: there the strip yields to the
+    // intermittent corner card (and only there)
+    func setProj(_ on: Bool) {
+        guard onProj != on else { return }
+        onProj = on
         applyAd()
     }
 
@@ -122,13 +165,17 @@ final class AdController: NSObject {
         ctaV?.backgroundColor = c
     }
 
+    // two placements, one ad: the persistent bottom strip everywhere except
+    // the drawing screen; there, the intermittent corner card instead
     private var cardShown = false
     private func applyAd() {
-        let want = wanted && nativeAd != nil && !removed
-        if want != cardShown {
-            cardShown = want
+        let base = wanted && nativeAd != nil && !removed
+        let stripWant = base && !onProj
+        if stripWant != cardShown {
+            cardShown = stripWant
             wrap.layer.removeAllAnimations()
-            if want {
+            if stripWant {
+                if viewMode != "strip", let ad = nativeAd { buildStrip(ad) }
                 wrap.transform = CGAffineTransform(translationX: 0, y: 56)
                 wrap.alpha = 0
                 wrap.isHidden = false
@@ -150,13 +197,79 @@ final class AdController: NSObject {
                 }
             }
         }
-        let js = "window.__adOn && __adOn(\(wanted ? "true" : "false"))"
-        web?.evaluateJavaScript(js, completionHandler: nil)
+        let slot = wanted && !removed && !onProj
+        web?.evaluateJavaScript("window.__adOn && __adOn(\(slot ? "true" : "false"))",
+                                completionHandler: nil)
+        if cornerShown && !(base && onProj) { collapseCorner() }
+        else if !cornerShown && base && onProj { tryShowCorner() }
+    }
+
+    // scale about the wrap's top-right corner - the card visibly grows out
+    // of (and returns into) the download button's spot
+    private func cornerTransform(_ s: CGFloat) -> CGAffineTransform {
+        let w = cornerWrap.bounds.width, h = cornerWrap.bounds.height
+        return CGAffineTransform(translationX: (w / 2) * (1 - s), y: -(h / 2) * (1 - s))
+            .scaledBy(x: s, y: s)
+    }
+
+    private func tryShowCorner() {
+        showTimer?.invalidate(); showTimer = nil
+        guard !cornerShown, wanted, onProj, !removed, let ad = nativeAd else { return }
+        let now = CACurrentMediaTime()
+        if now < nextShowAt {
+            showTimer = Timer.scheduledTimer(withTimeInterval: nextShowAt - now, repeats: false) {
+                [weak self] _ in self?.tryShowCorner() }
+            return
+        }
+        if now - lastTouch < 3 {
+            showTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {
+                [weak self] _ in self?.tryShowCorner() }
+            return
+        }
+        if viewMode != "corner" { buildCorner(ad) }
+        cornerShown = true
+        cornerWrap.isHidden = false
+        cornerWrap.layoutIfNeeded()
+        cornerWrap.alpha = 0
+        cornerWrap.transform = cornerTransform(0.3)
+        UIView.animate(withDuration: 0.35, delay: 0,
+                       options: [.curveEaseOut, .allowUserInteraction]) {
+            self.cornerWrap.alpha = 1
+            self.cornerWrap.transform = .identity
+        }
+        web?.evaluateJavaScript("window.__adCorner && __adCorner(true)", completionHandler: nil)
+        hideTimer?.invalidate()
+        hideTimer = Timer.scheduledTimer(withTimeInterval: AD_ON_S, repeats: false) {
+            [weak self] _ in self?.collapseCorner() }
+    }
+
+    @objc private func closeTap() { collapseCorner() }
+
+    private func collapseCorner() {
+        hideTimer?.invalidate(); hideTimer = nil
+        guard cornerShown else { return }
+        cornerShown = false
+        nextShowAt = CACurrentMediaTime() + AD_OFF_S
+        UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseIn]) {
+            self.cornerWrap.alpha = 0
+            self.cornerWrap.transform = self.cornerTransform(0.3)
+        } completion: { _ in
+            guard !self.cornerShown else { return }
+            self.cornerWrap.isHidden = true
+            self.cornerWrap.transform = .identity
+            self.cornerWrap.alpha = 1
+        }
+        web?.evaluateJavaScript("window.__adCorner && __adCorner(false)", completionHandler: nil)
+        loadNative()          // a fresh creative earns the next window
+        if wanted && onProj && !removed {
+            showTimer?.invalidate()
+            showTimer = Timer.scheduledTimer(withTimeInterval: AD_OFF_S, repeats: false) {
+                [weak self] _ in self?.tryShowCorner() }
+        }
     }
 
     // ---- the card, in the app's own dark language -----------------------
-    private func showCard(_ ad: NativeAd) {
-        nativeAd = ad
+    private func buildStrip(_ ad: NativeAd) {
         wrap.subviews.forEach { $0.removeFromSuperview() }
 
         let adv = NativeAdView()
@@ -228,7 +341,109 @@ final class AdController: NSObject {
             adv.leadingAnchor.constraint(equalTo: wrap.leadingAnchor),
             adv.trailingAnchor.constraint(equalTo: wrap.trailingAnchor),
         ])
-        applyAd()
+        cardV = adv
+        viewMode = "strip"
+    }
+
+    // the corner card: 120x120 media (video-eligible), Ad badge over the
+    // media, two-line headline, full-width CTA, collapse pill BELOW the ad
+    // view so its tap never counts as an ad click
+    private func buildCorner(_ ad: NativeAd) {
+        cornerWrap.subviews.forEach { $0.removeFromSuperview() }
+
+        let adv = NativeAdView()
+        adv.translatesAutoresizingMaskIntoConstraints = false
+        adv.backgroundColor = bgCol
+        adv.layer.cornerRadius = 14
+        adv.layer.borderWidth = 1
+        adv.layer.borderColor = UIColor(white: 1, alpha: 0.12).cgColor
+        adv.clipsToBounds = true
+
+        let media = MediaView()
+        media.translatesAutoresizingMaskIntoConstraints = false
+        media.layer.cornerRadius = 8
+        media.clipsToBounds = true
+
+        let badge = UILabel()
+        badge.text = "Ad"
+        badge.font = .systemFont(ofSize: 9)
+        badge.textColor = accCol
+        badge.textAlignment = .center
+        badge.layer.borderWidth = 1
+        badge.layer.borderColor = accCol.cgColor
+        badge.layer.cornerRadius = 3
+        badge.backgroundColor = UIColor(white: 0.08, alpha: 0.6)
+        badge.translatesAutoresizingMaskIntoConstraints = false
+
+        let head = UILabel()
+        head.font = .systemFont(ofSize: 11.5)
+        head.numberOfLines = 2
+        head.textColor = UIColor(red: 0xE8/255.0, green: 0xE6/255.0, blue: 0xE1/255.0, alpha: 1)
+        head.text = ad.headline ?? ""
+        head.translatesAutoresizingMaskIntoConstraints = false
+
+        let cta = UILabel()
+        cta.font = .systemFont(ofSize: 12)
+        cta.textColor = UIColor(red: 0x14/255.0, green: 0x14/255.0, blue: 0x14/255.0, alpha: 1)
+        cta.textAlignment = .center
+        cta.backgroundColor = accCol
+        cta.layer.cornerRadius = 10
+        cta.clipsToBounds = true
+        cta.text = ad.callToAction ?? "Open"
+        cta.translatesAutoresizingMaskIntoConstraints = false
+
+        adv.addSubview(media); adv.addSubview(badge)
+        adv.addSubview(head); adv.addSubview(cta)
+        NSLayoutConstraint.activate([
+            adv.widthAnchor.constraint(equalToConstant: 132),
+            media.topAnchor.constraint(equalTo: adv.topAnchor, constant: 6),
+            media.centerXAnchor.constraint(equalTo: adv.centerXAnchor),
+            media.widthAnchor.constraint(equalToConstant: 120),
+            media.heightAnchor.constraint(equalToConstant: 120),
+            badge.leadingAnchor.constraint(equalTo: media.leadingAnchor, constant: 4),
+            badge.bottomAnchor.constraint(equalTo: media.bottomAnchor, constant: -4),
+            badge.widthAnchor.constraint(equalToConstant: 22),
+            badge.heightAnchor.constraint(equalToConstant: 13),
+            head.topAnchor.constraint(equalTo: media.bottomAnchor, constant: 5),
+            head.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 8),
+            head.trailingAnchor.constraint(equalTo: adv.trailingAnchor, constant: -8),
+            cta.topAnchor.constraint(equalTo: head.bottomAnchor, constant: 4),
+            cta.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 6),
+            cta.trailingAnchor.constraint(equalTo: adv.trailingAnchor, constant: -6),
+            cta.heightAnchor.constraint(equalToConstant: 26),
+            cta.bottomAnchor.constraint(equalTo: adv.bottomAnchor, constant: -8),
+        ])
+        adv.mediaView = media
+        adv.headlineView = head
+        adv.callToActionView = cta
+        adv.nativeAd = ad
+
+        let close = UIButton(type: .custom)
+        close.setTitle("\u{2715}", for: .normal)
+        close.setTitleColor(UIColor(red: 0xB9/255.0, green: 0xB5/255.0, blue: 0xAE/255.0, alpha: 1),
+                            for: .normal)
+        close.titleLabel?.font = .systemFont(ofSize: 12)
+        close.backgroundColor = UIColor(white: 0.1, alpha: 0.9)
+        close.layer.cornerRadius = 13
+        close.translatesAutoresizingMaskIntoConstraints = false
+        close.addTarget(self, action: #selector(closeTap), for: .touchUpInside)
+
+        cornerWrap.addSubview(adv)
+        cornerWrap.addSubview(close)
+        NSLayoutConstraint.activate([
+            adv.topAnchor.constraint(equalTo: cornerWrap.topAnchor),
+            adv.leadingAnchor.constraint(equalTo: cornerWrap.leadingAnchor),
+            adv.trailingAnchor.constraint(equalTo: cornerWrap.trailingAnchor),
+            close.topAnchor.constraint(equalTo: adv.bottomAnchor, constant: 6),
+            close.centerXAnchor.constraint(equalTo: cornerWrap.centerXAnchor),
+            close.widthAnchor.constraint(equalToConstant: 26),
+            close.heightAnchor.constraint(equalToConstant: 26),
+            close.bottomAnchor.constraint(equalTo: cornerWrap.bottomAnchor),
+        ])
+        badgeV = badge
+        ctaV = cta
+        cardV = adv
+        viewMode = "corner"
     }
 
     private static func color(_ hex: String) -> UIColor? {
@@ -246,7 +461,9 @@ extension AdController: NativeAdLoaderDelegate {
         DispatchQueue.main.async {
             self.web?.evaluateJavaScript("window.plog && plog('ad: loaded')",
                                          completionHandler: nil)
-            self.showCard(nativeAd)
+            self.nativeAd = nativeAd
+            self.viewMode = ""            // rebuilt into whichever mode shows
+            self.applyAd()
         }
     }
     func adLoader(_ adLoader: AdLoader, didFailToReceiveAdWithError error: Error) {
@@ -257,5 +474,13 @@ extension AdController: NativeAdLoaderDelegate {
             self.web?.evaluateJavaScript("window.plog && plog('ad: failed code \(code)')",
                                          completionHandler: nil)
         }
+    }
+}
+
+extension AdController: UIGestureRecognizerDelegate {
+    // passive observer: never steal or delay the page's own touches
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith other: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
