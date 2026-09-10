@@ -395,19 +395,18 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   background:rgba(20,20,20,0.7);padding:14px 28px;border-radius:999px}
 /* the one back button: fixed top-left, everywhere but the gallery */
 #introSplash{position:fixed;inset:0;z-index:60;display:none;
-  align-items:center;justify-content:center;
-  background:rgba(18,18,18,0.55);
-  -webkit-backdrop-filter:blur(14px);
-  backdrop-filter:blur(14px)}
+  align-items:center;justify-content:center}
 #introSplash.on{display:flex}
-/* the reveal: the page behind racks into focus as the wordmark lands */
-#introSplash.go{background:rgba(18,18,18,0);
-  -webkit-backdrop-filter:blur(0px);
-  backdrop-filter:blur(0px);
-  transition:background .5s cubic-bezier(.2,0,0,1),
-    -webkit-backdrop-filter .5s cubic-bezier(.2,0,0,1),
-    backdrop-filter .5s cubic-bezier(.2,0,0,1)}
-#introWord{display:flex;flex-direction:column;align-items:center}
+/* the blur lives on its own scrim at a FIXED radius and the reveal fades
+   its opacity - animating the radius itself re-blurs the whole screen
+   every frame and drops frames on phones */
+#introScrim{position:absolute;inset:0;background:rgba(18,18,18,0.55);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+  will-change:opacity;
+  transition:opacity .5s cubic-bezier(.2,0,0,1)}
+#introSplash.go #introScrim{opacity:0}
+#introWord{position:relative;display:flex;flex-direction:column;align-items:center}
 #introMain{font-size:34px;letter-spacing:.04em;color:var(--acc);
   will-change:transform;transform-origin:center}
 #introBy{font-size:14px;color:var(--acc);margin-top:10px;opacity:.9;
@@ -542,7 +541,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <span id="verTag">by Dylan</span>
-    <span id="verNum">v314</span>
+    <span id="verNum">v315</span>
   </div>
 </div>
 <div id="delModal">
@@ -624,7 +623,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     </div>
   </div>
 
-<div id="introSplash"><div id="introWord"><span id="introMain">Photorealism</span><span id="introBy">by Dylan</span></div></div>
+<div id="introSplash"><div id="introScrim"></div><div id="introWord"><span id="introMain">Photorealism</span><span id="introBy">by Dylan</span></div></div>
 <!-- 1: upload -->
 <div class="screen on" id="scrUpload">
   <canvas id="upGridBg"></canvas>
