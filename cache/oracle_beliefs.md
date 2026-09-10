@@ -3376,3 +3376,79 @@ cancellation is recorded as noise; a THIRD same-signed residual on an empty wind
 worth calling a pattern.**
 
 **Next session: Thursday 2026-09-10.** Duty 1a window `>= 2026-09-07`.
+
+## 2026-09-10 (Zeus intraday tend — the first draw where both axes are licensed at once, and it points the other way)
+
+Zeus hourly intraday tend, ~14:16Z (~10:16 ET Thu). **Duty 9 does NOT bite:** `close.date` is published at
+**09-09** for every symbol pulled, so every mark below is a live ~10:11–10:15 ET print on the same basis on
+both sides of every comparison — stated, not assumed. Reconcile **CLEAN 6/6 exact** (KLIC 6.358622 / LXU
+55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); **zero orders of any state
+house-wide since 09-04**, so nothing of Oracle's is unreconciled and nothing has been since 08-28. Equity
+**$4,615.10**, drawdown **6.40%** off the 08-17 peak $4,930.51, breaker `ok`, settled cash $449.94 = 9.75%.
+Book $4,165.16 on the $4,050.06 basis = **+2.84%**; SPY from the 07-10 entry (750.935 → 757.58) = **+0.88%**
+→ **+1.96pp excess**. Day: book −0.36% vs SPY −0.63%, IWM −0.96%, XBI −0.84%.
+
+**1. THE WINDOW IS EMPTY, AND THE ONE DOCUMENT IN IT IS YESTERDAY'S.** Duty 1a (`filing_date >= 2026-09-07`,
+again set deliberately *before* the last pass's window) returned **exactly one** document across all six
+names — **LXU 8-K acc 0001193125-26-385906**, and that is *the same furnished investor deck* the 09-09
+sessions already read in full and dispositioned. **Nothing new has landed on any of the six since.** The
+nulls are real, not an index outage: the API answered live with the newest row per name (KLIC 09-02, TPC
+09-02, QTWO 08-14, PAY 08-28, ZVRA 08-17). **Six kills checked, six HELD, zero fired**, every disposition
+carried forward unchanged rather than re-derived: LXU clause (a) satisfied / clause (b) not fired and now the
+only thing holding the position; KLIC unreachable decoration ($330.409M vs a $180M trigger), re-type still
+owed; QTWO knife-edge; PAY needs a ~−11pp break in +10.95% seasonality; TPC counter 0; ZVRA untestable with
+its typing defect outstanding.
+
+**2. KLIC: THE FIRST DRAW OF THE SEQUENCE WHERE DIRECTION *AND* MAGNITUDE ARE BOTH USABLE — AND IT CUTS
+AGAINST THE THESIS.** The complex at ~10:15 ET: LRCX −4.67, AMKR −4.01, UCTT −3.99, KLAC −3.89, TER −3.76,
+COHU −3.71, ONTO −3.13, AMAT −2.92, ACLS −2.52, FORM −1.58 → **median −3.73%, 0 of 10 UP, dispersion
+3.09pp**. **KLIC −2.46% = a +1.27pp POSITIVE residual.** Every prior reading in this sequence was unusable on
+at least one axis (09-09: 4-of-10 up, 9.81pp dispersion — direction unlicensed *and* magnitude unusable).
+**Today both are clean at once: 0-of-10 is the most unanimous direction a set can produce, and 3.09pp is
+tight.** It is also the **second consecutive positive KLIC residual** (+1.69pp, then +1.27pp).
+**The standing under-participation test does NOT advance and does not expire — its precondition is a
+unanimous *up* day KLIC lags, and this is the mirror image.** That distinction is kept on purpose: evidence
+that KLIC *out*-participates on a unanimous down day is **adjacent** evidence against under-participation,
+not the test's own draw, and collapsing the two would be scoring a hypothesis with a datum it never
+specified. Test stays **live at 2**. **−25.75% from entry remains a drawdown. HELD.**
+
+**3. Duty 1b: nothing owed, and the honest word is NOT CHECKED.** No position moved >3% (KLIC −2.46, TPC
+−1.58, PAY −0.04, LXU +0.51, QTWO +0.53, ZVRA +0.83). KLIC's complex was pulled anyway *because its standing
+test needs the complex to know whether the precondition fired* — not as a Duty 1b comparator. The other five
+are **NOT CHECKED**: not "quiet", not "sector". ZVRA's two-day cancellation stays recorded as noise; +0.83%
+on an empty window is under the trigger and adds nothing to it.
+
+**4. A DATA-HYGIENE FAILURE CAUGHT BEFORE IT BECAME A FINDING — worth more than anything else in this pass.**
+The Duty 1a sweep was first run with a **hand-typed CIK map**, in which **PAY resolved to CIK 0001807794 =
+Credo Technology (CRDO)** and **ZVRA to 0001267813 = Marinus Pharmaceuticals**. Two wrong companies. The
+Marinus one is the dangerous shape: its newest filing is **2025-05-15**, so the sweep returned a confident,
+well-formed **null for ZVRA that was actually a null for a different company** — precisely the kind of clean
+empty window this file has spent three sessions building conclusions on top of. Caught before any
+disposition was written, and re-run through the house resolver `shared.edgar.fetch_company_tickers`
+(PAY=0001841156 Paymentus, ZVRA=0001434647 Zevra); §1's figures are the corrected pull.
+
+**Lesson 22 (new).** *An empty filing window is only evidence if you can prove it is the right company's
+window.* This file's Lessons 19–21 are all about not letting a thin single-session reading harden into a
+thesis input by repetition — they assume the underlying pull was of the right thing. This is the layer
+beneath that: a mistyped identifier produces a null that is **indistinguishable from a real null** at the
+point of use, and it fails *silently and in the reassuring direction* (nothing to see). The guard is
+mechanical, not attentional: **resolve every identifier through the house resolver, never by hand**, and when
+a null is load-bearing, print the resolved company NAME next to the ticker so the mismatch is visible in the
+record rather than inferable from it. The 09-09 entry's null across five names was correctly pulled — but it
+would have looked exactly the same if it had not been.
+
+**5. Stages 0–1, 6–7.** Sourcing a conscious **NO-OP** (Standing Duty 3) — this is a tend, dispatched on
+`oracle_tend_due`, *not* on the 3-day research cadence (last run 2026-09-09T14:15Z, not due until 09-12).
+`cache/oracle_cadence.json` `research` deliberately **left unmarked** — marking it would push the real
+research door out a day for work that did not happen. `due_for_grade('2026-09-10')` = **0** of 326 (earliest
+horizon ~2027-10). `llm_lift` `lift_trustworthy: false` at 0 graded / 34 unresolved Arm B / 31 Arm A — empty
+**by construction**. `update_calibration` a no-op; calibration `{}` at n=0. **No orders. D4 binding: no new
+capital.**
+
+**Standing duties, unchanged:** 0b (KLIC kill re-type + the ZVRA product-vs-total typing defect), 0d (theme
+tags through `make_upside_dossier`), Duty 10 (TPC overhang sizing). All three are **FULL-round jobs, never
+tends**, all three need **no capital**, and all three remain escalated to the operator. **The KLIC
+under-participation test is live and unadvanced at 2 — but the two draws since it was opened have both been
+positive residuals, and today's is the first one the method can actually license.**
+
+**Next session: Friday 2026-09-11.** Duty 1a window `>= 2026-09-08`.
