@@ -413,7 +413,8 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 }
 html.introUp #gallery{transform:translateX(-100vw);transition:none}
 html.introUp #galleryC{transform:translateX(100vw);transition:none}
-#introWord{position:relative;display:flex;flex-direction:column;align-items:center}
+html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
+#introWord{position:relative;z-index:63;display:flex;flex-direction:column;align-items:center}
 #introMain{font-size:34px;letter-spacing:.04em;color:var(--acc);
   will-change:transform;transform-origin:center}
 #introBy{font-size:14px;color:var(--acc);margin-top:10px;opacity:.9;
@@ -549,7 +550,7 @@ html.introUp #galleryC{transform:translateX(100vw);transition:none}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v326</span>
+    <span id="verNum">v327</span>
   </div>
 </div>
 <div id="delModal">
@@ -990,11 +991,12 @@ window.__backStep=()=>{
   const sp=$('introSplash'), word=$('introMain'), t=$('upTitle');
   if (rm || !sp || !word || !t) return;
   sp.classList.add('on');
-  document.documentElement.classList.add('introUp');
+  document.documentElement.classList.add('introUp','introLift');
   t.style.visibility='hidden';
   const done=()=>{
     sp.classList.remove('on','go');
-    document.documentElement.classList.remove('introUp');
+    document.documentElement.classList.remove('introUp','introLift');
+    try{ $('gallery').style.willChange=''; $('galleryC').style.willChange=''; }catch(e){}
     t.style.visibility='';
     word.style.transition=word.style.transform='';
     $('introBy').style.opacity='';
@@ -1002,7 +1004,13 @@ window.__backStep=()=>{
   };
   // the rows get a head start: they begin their sweep a beat before the
   // focus pull so the page feels alive as it sharpens
-  setTimeout(()=>{ try{ document.documentElement.classList.remove('introUp'); }catch(e){} }, 560);
+  setTimeout(()=>{ try{
+    // pre-promote the rows to their own layers, then release next frame -
+    // the compositor slides ready textures instead of painting mid-flight
+    $('gallery').style.willChange='transform';
+    $('galleryC').style.willChange='transform';
+    requestAnimationFrame(()=>document.documentElement.classList.remove('introUp'));
+  }catch(e){} }, 560);
   setTimeout(()=>{
     try{
       const tr=t.getBoundingClientRect(), mr=word.getBoundingClientRect();
