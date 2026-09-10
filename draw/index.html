@@ -549,7 +549,7 @@ html.introUp #galleryC{transform:translateX(100vw);transition:none}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v325</span>
+    <span id="verNum">v326</span>
   </div>
 </div>
 <div id="delModal">
@@ -1000,6 +1000,9 @@ window.__backStep=()=>{
     $('introBy').style.opacity='';
     sp.style.background='';
   };
+  // the rows get a head start: they begin their sweep a beat before the
+  // focus pull so the page feels alive as it sharpens
+  setTimeout(()=>{ try{ document.documentElement.classList.remove('introUp'); }catch(e){} }, 560);
   setTimeout(()=>{
     try{
       const tr=t.getBoundingClientRect(), mr=word.getBoundingClientRect();
