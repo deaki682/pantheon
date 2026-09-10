@@ -599,8 +599,23 @@ class MainActivity : AppCompatActivity() {
                         logLine("billing: query rc=" + br2.responseCode
                             + " purchases=" + list.size + " noads=" + adsRemovedFlag())
                         if (br2.responseCode ==
-                            com.android.billingclient.api.BillingClient.BillingResponseCode.OK)
-                            for (p in list) handlePurchase(p)
+                            com.android.billingclient.api.BillingClient.BillingResponseCode.OK) {
+                            var owned = false
+                            for (p in list) {
+                                if (p.products.contains("remove_ads") && p.purchaseState ==
+                                    com.android.billingclient.api.Purchase.PurchaseState.PURCHASED)
+                                    owned = true
+                                handlePurchase(p)
+                            }
+                            // a refunded purchase must give the ads back: only a
+                            // definitive OK-and-absent answer revokes (an offline
+                            // or failed query never does)
+                            if (!owned && adsRemovedFlag()) {
+                                getSharedPreferences("iap", 0).edit()
+                                    .putBoolean("noads", false).apply()
+                                logLine("remove_ads revoked - no purchase on this account")
+                            }
+                        }
                     }
                 }
                 override fun onBillingServiceDisconnected() {}

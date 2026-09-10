@@ -486,7 +486,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <span id="verTag">by Dylan</span>
-    <span id="verNum">v303</span>
+    <span id="verNum">v304</span>
   </div>
 </div>
 <div id="delModal">
@@ -4266,16 +4266,41 @@ $('expBtn').onclick = () => {
   g.imageSmoothingQuality='high';
   g.drawImage(viewSrc(),0,0,w,h);
   if (GRID_ON){
+    // the export mirrors drawGrid exactly: style, labels, marks - what
+    // is on the screen is what lands in the file
     if (GRID_COL==='auto'){
       g.globalCompositeOperation='difference';
       g.strokeStyle='rgba(255,255,255,0.75)';
     } else g.strokeStyle=GRID_COL;
     g.lineWidth=GRID_THK;
     const step=gridStepPx();
-    for (let xw=step; xw<w-1; xw+=step){ const x=Math.round(xw)+0.5;
-      g.beginPath(); g.moveTo(x,0); g.lineTo(x,h); g.stroke(); }
-    for (let yw=step; yw<h-1; yw+=step){ const y=Math.round(yw)+0.5;
-      g.beginPath(); g.moveTo(0,y); g.lineTo(w,y); g.stroke(); }
+    if (GRID_STYLE!=='dots'){
+      for (let xw=step; xw<w-1; xw+=step){ const x=Math.round(xw)+0.5;
+        g.beginPath(); g.moveTo(x,0); g.lineTo(x,h); g.stroke(); }
+      for (let yw=step; yw<h-1; yw+=step){ const y=Math.round(yw)+0.5;
+        g.beginPath(); g.moveTo(0,y); g.lineTo(w,y); g.stroke(); }
+    }
+    if (GRID_STYLE==='diag'){
+      for (let yw=0; yw<h-1; yw+=step) for (let xw=0; xw<w-1; xw+=step){
+        const x2=Math.min(xw+step,w), y2=Math.min(yw+step,h);
+        g.beginPath(); g.moveTo(xw,yw); g.lineTo(x2,y2);
+        g.moveTo(x2,yw); g.lineTo(xw,y2); g.stroke();
+      }
+    } else if (GRID_STYLE==='dots'){
+      g.fillStyle=g.strokeStyle;
+      const dr=Math.max(1, g.lineWidth*1.7);
+      for (let yw=step; yw<h-1; yw+=step) for (let xw=step; xw<w-1; xw+=step){
+        g.beginPath(); g.arc(xw,yw,dr,0,6.2832); g.fill(); }
+    }
+    if (GRID_LAB && step>=24){
+      const fs=Math.max(9, Math.min(step*0.2, 44));
+      g.font=fs+'px system-ui'; g.textBaseline='top';
+      g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+      const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
+      for (let ry=0; ry<rows; ry++)
+        for (let cx=0; cx<cols; cx++)
+          g.fillText(colName(cx)+(ry+1), cx*step+fs*0.35, ry*step+fs*0.3);
+    }
     if (DONE.length){
       g.globalCompositeOperation='source-over';
       g.fillStyle = GRID_COL==='auto' ? '#fff' : GRID_COL;
@@ -4287,6 +4312,7 @@ $('expBtn').onclick = () => {
     }
     g.globalCompositeOperation='source-over';
   }
+  for (const q of CIRCS) paintMark(g, q.x, q.y, circR(), 10, 3);
   const blob=canvasBlob(c,'image/jpeg',0.9);
   const a=document.createElement('a');
   const t=new Date(), p2=n=>String(n).padStart(2,'0');
