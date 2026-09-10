@@ -565,7 +565,7 @@ class MainActivity : AppCompatActivity() {
         cbg.setColor(0xE6191919.toInt()); cbg.cornerRadius = dp(13).toFloat()
         close.background = cbg
         val clp = android.widget.LinearLayout.LayoutParams(dp(26), dp(26))
-        clp.topMargin = dp(50)
+        clp.topMargin = dp(64)
         clp.rightMargin = dp(17)
         close.setOnClickListener { adCollapse() }
         rowWrap.addView(close, clp)

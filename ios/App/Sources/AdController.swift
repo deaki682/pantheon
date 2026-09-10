@@ -440,7 +440,7 @@ final class AdController: NSObject {
             adv.bottomAnchor.constraint(equalTo: cornerWrap.bottomAnchor),
             close.leadingAnchor.constraint(equalTo: cornerWrap.leadingAnchor),
             close.trailingAnchor.constraint(equalTo: adv.leadingAnchor, constant: -17),
-            close.topAnchor.constraint(equalTo: cornerWrap.topAnchor, constant: 50),
+            close.topAnchor.constraint(equalTo: cornerWrap.topAnchor, constant: 64),
             close.widthAnchor.constraint(equalToConstant: 26),
             close.heightAnchor.constraint(equalToConstant: 26),
         ])
