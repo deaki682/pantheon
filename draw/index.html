@@ -502,7 +502,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <span id="verTag">by Dylan</span>
-    <span id="verNum">v306</span>
+    <span id="verNum">v307</span>
   </div>
 </div>
 <div id="delModal">
@@ -4337,12 +4337,28 @@ $('expBtn').onclick = () => {
     g.globalCompositeOperation='source-over';
   }
   for (const q of CIRCS) paintMark(g, q.x, q.y, circR(), 10, 3);
+  const t=new Date(), p2=n=>String(n).padStart(2,'0');
+  const fname='photorealism-'+t.getFullYear()+p2(t.getMonth()+1)+p2(t.getDate())
+    +'-'+p2(t.getHours())+p2(t.getMinutes())+p2(t.getSeconds())+'.jpg';
+  if (window.RealismCam && RealismCam.saveImage){
+    // the Android WebView has no download listener - an anchor download is
+    // silently dropped, so this export must go through the bridge, the same
+    // always-ask door as the comparison download
+    try{
+      const du=c.toDataURL('image/jpeg',0.9);
+      const b64=du.slice(du.indexOf(',')+1);
+      if (RealismCam.saveImageAsk)
+        RealismCam.saveImageAsk(fname, 'image/jpeg', b64);
+      else RealismCam.saveImage(fname, 'image/jpeg', b64);
+      hapticOK();
+      gcPing('/download');
+      return;                                  // the bridge toasts the result
+    }catch(e){}
+  }
   const blob=canvasBlob(c,'image/jpeg',0.9);
   const a=document.createElement('a');
-  const t=new Date(), p2=n=>String(n).padStart(2,'0');
   a.href=URL.createObjectURL(blob);
-  a.download='photorealism-'+t.getFullYear()+p2(t.getMonth()+1)+p2(t.getDate())
-    +'-'+p2(t.getHours())+p2(t.getMinutes())+p2(t.getSeconds())+'.jpg';
+  a.download=fname;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
   toast('image downloaded');
