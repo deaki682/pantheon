@@ -541,7 +541,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <span id="verTag">by Dylan</span>
-    <span id="verNum">v316</span>
+    <span id="verNum">v317</span>
   </div>
 </div>
 <div id="delModal">
@@ -1015,9 +1015,12 @@ function adSync(){
     const bg={scrUpload:'#141414',scrFormat:'#141414',
               scrMain:'#2a2a2a',scrCompare:'#2a2a2a'}[on && on.id]||'#141414';
     RealismCam.adPlace(!cam, bg);
-    // the drawing screen runs the intermittent corner card instead of the
-    // strip; every other screen keeps the persistent bottom strip
-    if (RealismCam.adProj) RealismCam.adProj(!cam && !!(on && on.id==='scrMain'));
+    // corner-card mode PARKED (operator revert 2026-09-10): the persistent
+    // strip rides every screen. Flip this back to
+    //   !cam && !!(on && on.id==='scrMain')
+    // to re-arm the drawing-screen corner card - both shells keep the
+    // machinery dormant.
+    if (RealismCam.adProj) RealismCam.adProj(false);
   }catch(e){}
 }
 // corner-card mode: while the ad occupies the download corner, the button
