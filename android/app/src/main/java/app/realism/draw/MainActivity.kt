@@ -1143,6 +1143,31 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        // the in-app chooser's Downloads option: MediaStore writes make the
+        // destination certain, with no system picker round-trip
+        @JavascriptInterface
+        fun saveImageDl(name: String, mime: String, b64: String) {
+            runOnUiThread {
+                try {
+                    val bytes = Base64.decode(b64, Base64.DEFAULT)
+                    if (android.os.Build.VERSION.SDK_INT >= 29) {
+                        val cv = android.content.ContentValues().apply {
+                            put(android.provider.MediaStore.Downloads.DISPLAY_NAME, name)
+                            put(android.provider.MediaStore.Downloads.MIME_TYPE, mime)
+                        }
+                        val uri = contentResolver.insert(
+                            android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI, cv)
+                            ?: throw Exception("no uri")
+                        contentResolver.openOutputStream(uri)?.use { it.write(bytes) }
+                        js("toast && toast('saved to Downloads')")
+                    } else {
+                        val f = java.io.File(getExternalFilesDir(null), name)
+                        f.writeBytes(bytes)
+                        js("toast && toast('saved: Android/data/app.realism.draw/files')")
+                    }
+                } catch (e: Exception) { js("toast && toast('save failed', false)") }
+            }
+        }
         // comparison/photo downloads land in Pictures where the gallery sees them
         @JavascriptInterface
         fun saveImage(name: String, mime: String, b64: String) {
