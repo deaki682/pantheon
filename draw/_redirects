@@ -5,4 +5,7 @@
 # the iOS app's share button points here. Today: TestFlight; at App Store
 # launch swap the target to https://apps.apple.com/app/idXXXXXXXX and redeploy
 /ios   /   302
+# "by Dylan" in the app points here - set the target to the real Instagram
+# profile URL and redeploy; no app update needed to change it later
+/instagram   /   302
 
