@@ -1,12 +1,14 @@
 {
-  "n": 0,
-  "mean_return": null,
-  "hit_rate": null,
-  "lens_lift": {},
-  "conviction_tiers": {},
-  "conviction_monotonic": false,
-  "valuation_terciles": {},
-  "quality_terciles": {},
-  "score_terciles": {},
-  "sector_return": {}
+ "n": 0,
+ "mean_return": null,
+ "hit_rate": null,
+ "lens_lift": {},
+ "conviction_tiers": {},
+ "conviction_monotonic": false,
+ "valuation_terciles": {},
+ "quality_terciles": {},
+ "score_terciles": {},
+ "sector_return": {},
+ "as_of": "2026-09-10",
+ "note": "n=0 graded BY CONSTRUCTION - the earliest horizon matures 2027-06-29. No lens lift, conviction tier, valuation/quality/score tercile or sector return can be computed yet; the report is regenerated each session so its emptiness stays visible rather than assumed."
 }
