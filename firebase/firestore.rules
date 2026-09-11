@@ -1,0 +1,11 @@
+rules_version = '2';
+// Photorealism: a signed-in artist reaches their own subtree and nothing
+// else. There is no shared or public collection, so there is no path here
+// that an unauthenticated caller can read.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+  }
+}
