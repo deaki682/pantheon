@@ -11,8 +11,8 @@ android {
     applicationId "app.realism.draw"
     minSdk 26
     targetSdk 36
-    versionCode 214
-    versionName "0.9.180"
+    versionCode 215
+    versionName "0.9.181"
   }
   // the web app IS the app: the android module serves ../draw verbatim
   sourceSets.main.assets.srcDirs += rootProject.file('../draw')
@@ -65,6 +65,13 @@ dependencies {
   implementation 'com.android.billingclient:billing:8.0.0'
   // the in-app review prompt (Play shows its own sheet, no store redirect)
   implementation 'com.google.android.play:review:2.0.2'
+  // account sign-in. Google refuses OAuth inside a WebView, so the shell
+  // signs in natively through Credential Manager and hands the page the
+  // resulting ID token; the page turns it into a Firebase credential.
+  implementation 'androidx.credentials:credentials:1.3.0'
+  implementation 'androidx.credentials:credentials-play-services-auth:1.3.0'
+  implementation 'com.google.android.libraries.identity.googleid:googleid:1.1.1'
+  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
   // the ads SDK drags in guava's EMPTY listenablefuture stub, which would
   // shadow the one real class CameraX compiles against - force the real
   // single-class artifact instead of bundling all of guava

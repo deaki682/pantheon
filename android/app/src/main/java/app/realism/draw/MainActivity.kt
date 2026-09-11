@@ -19,6 +19,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.launch
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.FocusMeteringAction
 import androidx.camera.core.ImageCapture
@@ -1002,6 +1003,65 @@ class MainActivity : AppCompatActivity() {
 
     private fun js(code: String) = runOnUiThread { web.evaluateJavascript(code, null) }
 
+    // ---- account sign-in -------------------------------------------------
+    // Google refuses OAuth inside a WebView ('disallowed_useragent'), so the
+    // page cannot run the popup flow at all. The shell signs in natively
+    // through Credential Manager - the same one-tap sheet every other app
+    // uses - and hands the resulting ID token to the page, which turns it
+    // into a Firebase credential. The token is the only thing that crosses.
+    private val WEB_CLIENT_ID =
+        "1096368575946-8cch1ljb3tl48v9se1fmom3u71ifqkcn.apps.googleusercontent.com"
+    private var signingIn = false
+
+    private fun authFail(m: String) {
+        signingIn = false
+        js("window.__authFail && __authFail(" + org.json.JSONObject.quote(m) + ")")
+    }
+
+    private fun startGoogleSignIn(anyAccount: Boolean) {
+        if (signingIn) return
+        signingIn = true
+        val cm = androidx.credentials.CredentialManager.create(this)
+        // first pass offers accounts already used here; if there are none the
+        // sheet comes back empty, so we retry once showing every account on
+        // the device rather than leaving the user staring at nothing
+        val opt = com.google.android.libraries.identity.googleid.GetGoogleIdOption.Builder()
+            .setFilterByAuthorizedAccounts(!anyAccount)
+            .setServerClientId(WEB_CLIENT_ID)
+            .setAutoSelectEnabled(false)
+            .build()
+        val req = androidx.credentials.GetCredentialRequest.Builder()
+            .addCredentialOption(opt).build()
+        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Main).launch {
+            try {
+                val res = cm.getCredential(this@MainActivity, req)
+                val c = res.credential
+                if (c is androidx.credentials.CustomCredential &&
+                    c.type == com.google.android.libraries.identity.googleid
+                              .GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                    val tok = com.google.android.libraries.identity.googleid
+                        .GoogleIdTokenCredential.createFrom(c.data).idToken
+                    signingIn = false
+                    logLine("auth: got google id token")
+                    js("window.__authToken && __authToken('google', " +
+                       org.json.JSONObject.quote(tok) + ")")
+                } else {
+                    authFail("unexpected sign-in result")
+                }
+            } catch (e: androidx.credentials.exceptions.GetCredentialCancellationException) {
+                signingIn = false          // the user backed out: say nothing
+                js("window.__authFail && __authFail('')")
+            } catch (e: androidx.credentials.exceptions.NoCredentialException) {
+                signingIn = false
+                if (!anyAccount) startGoogleSignIn(true)
+                else authFail("no Google account on this device")
+            } catch (e: Throwable) {
+                logLine("auth: " + (e.message ?: e.toString()).take(160))
+                authFail("sign-in failed")
+            }
+        }
+    }
+
     inner class Bridge {
         private var decBuf: java.io.ByteArrayOutputStream? = null
         private fun decodeBytes(bytes: ByteArray): String {
@@ -1283,6 +1343,9 @@ class MainActivity : AppCompatActivity() {
         // intermittent corner card (and only there)
         // the OS review prompt: Play decides whether to actually show it
         // (quota, recent asks) - the call is always safe to make
+        @JavascriptInterface
+        fun authGoogle() { runOnUiThread { startGoogleSignIn(false) } }
+
         @JavascriptInterface
         fun askReview() {
             runOnUiThread {

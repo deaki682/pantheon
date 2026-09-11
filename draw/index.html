@@ -830,7 +830,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v388</span>
+    <span id="verNum">v389</span>
   </div>
 </div>
 <div id="delModal">
@@ -6050,7 +6050,9 @@ window.__authToken = async (kind, idToken, rawNonce) => {
     accSay('');
   }catch(e){ accSay(accErr(e)); }
 };
-window.__authFail = m => accSay(m || TR('sign-in failed'));
+// '' is a deliberate cancel - the shell sends it when the user dismisses
+// the account sheet, and a cancel is not an error worth reporting
+window.__authFail = m => accSay(m === '' ? '' : (m || TR('sign-in failed')));
 async function accSignOut(){
   try{ const fb=await fbLoad(); await fb.U.signOut(fb.auth); accSay(''); }
   catch(e){ accSay(accErr(e)); }
@@ -6096,6 +6098,17 @@ async function accDelete(){
   }
 }
 function accOpen(){
+  try{
+    const n=nativeShell();
+    const apple = n==='android' ? false
+      : n==='ios' ? !!(window.webkit && webkit.messageHandlers && webkit.messageHandlers.authApple)
+      : true;
+    $('accApple').style.display = apple ? '' : 'none';
+    const goog = n==='ios'
+      ? !!(window.webkit && webkit.messageHandlers && webkit.messageHandlers.authGoogle)
+      : true;
+    $('accGoogle').style.display = goog ? '' : 'none';
+  }catch(e){}
   $('accModal').style.display='flex';
   accSay(''); accPaint();
   accWatch().catch(e=>accSay(TR('could not reach the sign-in service')));
