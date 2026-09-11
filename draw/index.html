@@ -402,7 +402,7 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   background:rgba(20,20,20,0.7);padding:14px 28px;border-radius:999px}
 /* the one back button: fixed top-left, everywhere but the gallery */
 #introSplash{position:fixed;inset:0;z-index:60;display:none;
-  align-items:center;justify-content:center}
+  align-items:flex-start;justify-content:center;padding-top:28vh}
 #introSplash.on{display:flex}
 /* the blur lives on its own scrim at a FIXED radius and the reveal fades
    its opacity - animating the radius itself re-blurs the whole screen
@@ -415,7 +415,6 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 #introSplash.go #introScrim{opacity:0}
 @media (prefers-reduced-motion: no-preference){
   #gallery,#galleryC{transition:transform .6s cubic-bezier(.2,0,0,1)}
-  #galleryC{transition-delay:.12s}
 }
 html.introUp #gallery{transform:translateX(-100vw);transition:none}
 html.introUp #galleryC{transform:translateX(100vw);transition:none}

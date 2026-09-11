@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                 try {
                     sv.iconView?.animate()?.scaleX(1.25f)?.scaleY(1.25f)
                         ?.alpha(0f)?.setDuration(200)?.start()
-                    sv.view.animate().alpha(0f).setDuration(260)
+                    sv.animate().alpha(0f).setDuration(260)
                         .withEndAction { sv.remove() }.start()
                 } catch (e: Throwable) { sv.remove() }
             }
