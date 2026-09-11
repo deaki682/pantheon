@@ -8,7 +8,8 @@ Writes:
   - cache/trinity_dashboard.html
 
 Colors: Oracle gold (#D4AF37), Achilles purple (#9C27B0), Delphi cyan (#00BCD4), Nemesis green (#2E7D32),
-        Midas crimson (#DC143C), Proteus sea-blue (#1565C0), Plutus amber (#FF8F00), Hermes blue-grey (#607D8B).
+        Midas crimson (#DC143C), Proteus sea-blue (#1565C0), Plutus amber (#FF8F00), Hermes blue-grey (#607D8B),
+        Argus teal (#00897B).
 """
 from __future__ import annotations
 
@@ -28,6 +29,7 @@ GODS = (
     ("proteus", "#1565C0"),
     ("plutus", "#FF8F00"),   # LIVE 2026-07-06 — net-issuance capital-return
     ("hermes", "#607D8B"),   # LIVE — merger-arb LLM A/B
+    ("argus", "#00897B"),    # LIVE 2026-09-08 — spot-crypto watchman
 )
 
 
@@ -43,8 +45,16 @@ def _load_json(path: str, default=None):
 
 def _load_curve(path: str) -> list[dict]:
     data = _load_json(path, [])
-    if isinstance(data, dict) and "points" in data:
-        return data["points"]
+    if isinstance(data, dict):
+        # Curve files carry their rows under different keys: most gods write a
+        # bare list, some an envelope keyed "points", and Proteus keys his
+        # "marks".  Without the "marks" branch Proteus — the one god whose
+        # equity curve IS his scoreboard — rendered as an empty series.
+        for key in ("points", "marks"):
+            rows = data.get(key)
+            if isinstance(rows, list):
+                return rows
+        return []
     if isinstance(data, list):
         return data
     return []

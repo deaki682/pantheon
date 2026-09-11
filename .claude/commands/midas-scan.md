@@ -1,5 +1,14 @@
 # /midas-scan — weekly universe scan (heavy half)
 
+> **PROGRAM CLOSED 2026-09-01 (operator signature, directive D3 in
+> `cache/shared_operator_directives.json`).** Do not run. The convergence
+> thesis finished 0-for-3 (two study refutations + non-monotonic ghost
+> terciles at n=20), the finalist pool averaged -2.4%/wk at a 30% hit rate,
+> and the scan produced no valid head-to-head for 7 consecutive weeks, so the
+> preregistered 20-week comparison cannot complete. Ghost book and scan
+> caches are frozen as history. The idea returns only via a fresh lab prereg.
+
+
 The heavy, network-bound half of Midas. Scans the full ~7,000-name
 universe, gathers all seven signal channels, runs the sieve, ranks by
 convergence, and writes the top 10 finalists to `cache/midas_scan.json`.

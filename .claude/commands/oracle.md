@@ -1,5 +1,7 @@
 # /oracle — the upside engine (RECUT 2026-07-06)
 
+> **Operator directives (2026-09-01):** at session start, read `cache/shared_operator_directives.json` (hydrated from `claude/live`). Directives with status `active` addressed to this god are binding operator instructions; apply, journal, and mark them `applied` (re-persist the file via the `shared` owner). `PENDING OPERATOR SIGNATURE` items are informational only.
+
 **RECUT — read `docs/oracle_upside_spec.md` first (the bible).** Oracle has ONE
 job: **pick the few under-covered names with the biggest real upside over a 6–24
 month hold, get big on them, and hold to the thesis.** Scored one way only —

@@ -1,5 +1,7 @@
 # /lab — the house research lab (paper only, bias-proofed, house-wide)
 
+> **Operator directives (2026-09-01):** at session start, read `cache/shared_operator_directives.json` (hydrated from `claude/live`). Directives with status `active` addressed to this god are binding operator instructions; apply, journal, and mark them `applied` (re-persist the file via the `shared` owner). `PENDING OPERATOR SIGNATURE` items are informational only.
+
 The operator's mandate (2026-07-04): a massive, comprehensive research
 lab for the whole house — not one god's weekend hobby. Any sponsor
 (operator, proteus, any god's post-mortem) files hypotheses into ONE

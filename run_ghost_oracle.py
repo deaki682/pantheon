@@ -133,10 +133,12 @@ log.info("Need quotes for %d symbols", len(need_symbols))
 # which silently marked the whole book at ENTRY prices and persisted a
 # fabricated 0.00% curve point (2026-08-03).
 quotes: dict[str, float] = {}
+quotes_asof: Optional[str] = None
 try:
     with open(QUOTES_PATH) as _f:
         _raw = json.load(_f)
     if isinstance(_raw, dict) and isinstance(_raw.get("prices"), dict):
+        quotes_asof = str(_raw.get("asof") or "")[:10] or None
         _raw = _raw["prices"]
     for _k, _v in _raw.items():
         try:
@@ -205,6 +207,35 @@ if _open_syms and _coverage < MIN_MARK_COVERAGE:
         "%s. Refresh %s and re-run.",
         _coverage * 100, MIN_MARK_COVERAGE * 100, GHOST_CURVE_PATH, QUOTES_PATH)
     sys.exit(2)
+
+# Coverage is not freshness.  On 2026-08-11 the broker was unavailable, the run
+# fell back to a fully-populated but DAY-OLD cache, passed the coverage guard at
+# 203/203 = 100%, and wrote a curve point whose equity matched the prior day to
+# six decimals — a fabrication that looked exactly like a real flat session.  A
+# stale cache is worse than a sparse one because it fails silently, so when the
+# broker did not answer, the cache must prove it was written for TODAY.
+if not broker_ok and _open_syms:
+    if quotes_asof != TODAY:
+        log.error(
+            "ABORT before persist: broker unavailable and the quote cache is "
+            "not stamped for today (asof=%s, today=%s). Every mark would come "
+            "from a stale file. Repopulate %s with an {\"asof\": \"%s\", "
+            "\"prices\": {...}} envelope and re-run.",
+            quotes_asof or "<unstamped>", TODAY, QUOTES_PATH, TODAY)
+        sys.exit(3)
+    log.info("Quote cache accepted: stamped asof=%s (broker offline)", quotes_asof)
+
+# The benchmark leg is what makes the curve interpretable — a point carrying
+# SPY_price 0.0 cannot be compared to any other point, and the 2026-08-11
+# fabrication carried exactly that.  Refuse to write an uninterpretable point.
+_spy_check = price_lookup(SPY_SYMBOL)
+if not _spy_check or float(_spy_check) <= 0:
+    log.error(
+        "ABORT before persist: no usable %s price (%r). The benchmark leg is "
+        "required — a curve point with SPY_price 0.0 is uninterpretable and "
+        "silently breaks every excess-return reading after it.",
+        SPY_SYMBOL, _spy_check)
+    sys.exit(4)
 
 snapshot = mark_to_market(all_entries, price_lookup)
 log.info("Ghost book: n=%d  open=%d  closed=%d  equity=$%.2f  return=%.2f%%",

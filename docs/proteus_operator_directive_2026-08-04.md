@@ -1,5 +1,8 @@
 # Operator directive — Proteus v2 must act (2026-08-04)
 
+> **VOID 2026-08-12 — v2 is scrapped and all its directives with it.
+> The law is now `docs/proteus_v3_charter.md`. This document is history.**
+
 **Authority:** operator (deaki682), relayed 2026-08-04. This directive amends
 Proteus v2's operating posture under charter v2.1. The five-part invariant
 floor (bounded loss, kill-switch first, integrity gate, honest grading, the

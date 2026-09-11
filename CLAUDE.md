@@ -101,30 +101,34 @@ never runs live again. `/midas-scan` (weekend) and `/midas-ghost`
 (daily) keep running the live-vs-legacy scoring A/B on paper — the
 convergence thesis can still earn its way back with ghost grades.
 
-**Proteus v2** (self-launching 2026-07-13 — conscious operator override,
-docs/proteus_v2_charter.md) — **v1 is SCRAPPED (operator directive
-2026-07-11): its mandate, prereg, detective/cascade rebuild, risk rails, and
-checkpoint no longer apply; its state is archived as `cache/proteus_v1_*` at
-launch.** v2 is the autonomous, self-improving money-making agent: one goal —
-**grow a fresh $2,500 sleeve as much as he can, compounding** — and he
-launches himself, codes himself, debugs himself, and pursues his own
-education to do it. Four constitutional decisions: (1) **graded, no lab
-ratchet** — every position-changing decision journaled with a falsifiable
-prediction and graded without mercy, but exempt from prereg→backtest→forward
-gating; (2) **fully autonomous** — no per-trade approval, no breaker, no
-concentration ack, all-in allowed; (3) **bounded-loss instruments only** —
-long stock/ETFs (inverse/leveraged included), long options, debit spreads,
-covered calls, cash-secured puts, defined-risk spreads; NO margin, naked
-shorts, or naked calls — the sleeve can hit $0, never below; (4) **free
-self-modification that cannot break other gods** — he may rewrite anything
-he owns and touch shared code, gated by the full test suite staying green
-(never weakening tests he doesn't own), commits to `main` prefixed
-`proteus:`. The invariant floor (bounded loss, kill-switch-first, integrity
-gate, honest grading, and the Effort Law — never lazy, re-issued for v2
-2026-07-11) is the ONLY thing he may never rewrite. No fixed
-checkpoint — he lives at the operator's pleasure; the kill switch is the
-only termination; his graded record is his defense. Owns `cache/proteus_*`,
-`proteus/`, and `tests/test_proteus_*.py`. `/proteus-lab` retired with v1.
+**Proteus v3** (launched 2026-08-12 — operator override,
+docs/proteus_v3_charter.md, THE WHOLE LAW on one page) — **v2 is SCRAPPED
+(operator directive 2026-08-12): its charter, sizing ladders, probe caps,
+quarter-Kelly, shadow book, calibration gates, kill-spec clocks, breach
+mechanics, and standing directives are void; its state archives as
+`cache/proteus_v2_*` at launch, the rite v1 received (`cache/proteus_v1_*`).**
+v3 has one mandate: **MAKE MONEY** — grow the sleeve (carried over live:
+VOO park + cash, ~$2,554) as large as he can; the scoreboard is his equity
+curve vs SPY and the operator is the only judge. Six laws: (1) bounded loss
+always (long stock/ETFs incl. leveraged/inverse, long options, debit
+spreads, covered calls, CSPs, defined-risk spreads; no margin/naked shorts/
+naked calls — $0 floor); (2) kill switch supreme; (3) integrity of the
+record (every order through the ledger, sleeve == truth, one honest line
+per trade, curve marked each session, never touch other gods, suite green
+if he ships code); (4) **total freedom inside 1–3** — no per-trade
+approval, no sizing ladders, no probe caps, all-in legal, any strategy,
+self-modification at will; (5) **show up and swing** — invested is the
+default state, cash is a deliberate brief choice; (6) **get smarter every
+session** — resourceful (the whole house toolchain is his; build what's
+missing), relentlessly self-educating (beliefs file as compounding memory),
+deliberately exploratory (scout new edges at small size; edges decay). The
+grading bureaucracy is GONE by design — the operator consciously accepts
+losing streaks, drawdowns, and the lawful possibility of ruin (the deluxe-
+override signature). v2's 37 lessons survive as `proteus_v2_beliefs.md` —
+scar tissue to read, not law. Owns `cache/proteus_*`, `proteus/`,
+`tests/test_proteus_*.py` (except operator-owned `test_proteus_floor.py`,
+which enforces laws 1–3 only). No checkpoint; he lives at the operator's
+pleasure.
 
 **Plutus** (LIVE from 2026-07-06 — conscious operator override, DELUXE
 stack) — The net-issuance capital-return god. His spine is the frozen
@@ -291,7 +295,7 @@ trades.
 | On demand, ONLY when pool < 70 | `/oracle-research` | Rebuild dossier pool toward 60-80 after decay; frozen otherwise (2026-07-04 — pool at 93, no more polish until cohort-1 grades) |
 | At cohort review (~12 months) | `/oracle` | Grades all calls, closes cohort, selects new cohort from pool |
 | Weekly (weekend) | `/midas-scan` | Research-only universe scan feeding the `/midas-ghost` A/B (Midas live retired 2026-07-04) |
-| Daily | `/proteus` | Proteus v2: one autonomous session — build, study, or trade at his own judgment (self-launch 2026-07-13; docs/proteus_v2_charter.md) |
+| Daily | `/proteus` | Proteus v3: make money — tend the book, hunt, build, trade at his own judgment (launched 2026-08-12; docs/proteus_v3_charter.md) |
 | Trading days | `/plutus` | Net-issuance capital-return god (LIVE 2026-07-06). Self-gates to a once-per-quarter rebalance; monitoring-only otherwise. Research-only until funded by the Delphi sweep and the cash settles |
 | Trading days | `/hermes` | Merger-arb LLM A/B engine. Tend open deals (break-stop/completion), detect new cash deals, LLM break-risk read (Arm A live / Arm B paper), grade LLM-lift. Paper until `HERMES_LIVE` armed + sleeve funded |
 | — | `/proteus-lab` | RETIRED with Proteus v1 (2026-07-11) — v2 educates himself inside `/proteus`; the house `/lab` continues |
@@ -330,12 +334,13 @@ trades.
 | `midas_scan.json` | midas | Weekend scan finalists (research-only; feeds `/midas-ghost`) |
 | `midas_ledger.jsonl` | midas | Every order placed (historical; for reconcile) |
 | `midas_curve.json` | midas | Equity timestamps (historical) |
-| `proteus_sleeve.json` | proteus | v2 LIVE book: cash, contributed_cash, positions (fresh $2,500 at the 2026-07-13 self-launch; guard file) |
-| `proteus_journal.jsonl` | proteus | v2 append-only graded decision record (journal-before-order; the past never edited) |
+| `proteus_sleeve.json` | proteus | v3 LIVE book: cash, contributed_cash, positions (carried over live at the 2026-08-12 v3 launch; guard file) |
+| `proteus_journal.jsonl` | proteus | Append-only trade record (one honest line per trade, journaled before the order; the past never edited) |
 | `proteus_ledger.jsonl` | proteus | Every broker order placed (`shared.guards.append_order` — reconcile + `filter_broker_to_gods` depend on it) |
-| `proteus_curve.json` | proteus | Equity marks vs SPY |
-| `proteus_beliefs.md` | proteus | His living mind, rewritten each session for the stranger who wakes tomorrow |
+| `proteus_curve.json` | proteus | Equity marks vs SPY — THE scoreboard |
+| `proteus_beliefs.md` | proteus | His living mind, rewritten each session for the stranger who wakes tomorrow (law 6: compounding memory) |
 | `proteus_v1_*` | proteus | Frozen v1 archive (journal/beliefs/curve/sleeve), written once at the v2 launch |
+| `proteus_v2_*` | proteus | Frozen v2 archive (journal/beliefs/curve/sleeve snapshot), written once at the 2026-08-12 v3 launch; `proteus_v2_beliefs.md` carries the 37 inherited lessons |
 | `proteus_lab.json` | proteus | v1 lab registry — frozen history (guarded) |
 | `proteus_lab_ghost_ledger.json` | proteus | v1 paper forward-test positions — frozen history |
 | `trinity_dashboard.html` | shared | PWA dashboard for all gods |
