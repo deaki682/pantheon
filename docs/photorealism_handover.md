@@ -1,6 +1,6 @@
 # Photorealism — handover
 
-State as of web **v397** / Android **versionCode 224** (`0.9.190`).
+State as of web **v398** / Android **versionCode 225** (`0.9.191`).
 Branch: `claude/latest-drawing-app-version-0h2lp6`. Owner: Dylan
 (deaki682@gmail.com).
 
@@ -119,6 +119,12 @@ SDK to serve locally is fine.
 5. Build: `cd android && export ANDROID_HOME=/opt/android-sdk && /opt/gradle-8.14.3/bin/gradle bundleRelease --no-daemon -q`
 6. Zip the 19 files from `draw/` (see any recent commit for the list).
 7. Send Dylan both files. Commit with absolute paths, push to the branch.
+
+Since Android 225 the push itself also builds: `.github/workflows/android.yml`
+runs on any push to `main` or `claude/**` that touches `android/`, `draw/`
+or the workflow, builds the signed `.aab` with the committed keystore, zips
+`draw/`, and attaches both to a GitHub release tagged `android-<versionCode>`.
+Nothing uploads to Play; that stays a human's hand in the Console.
 
 **Never** put a model identifier in a commit message, PR or any pushed
 artifact.
