@@ -13,40 +13,44 @@
  },
  "funding_note": "operator deposited $1,000 on 2026-09-08 ('he should have 1k just for him now'); RH instant buying power granted, ACH settling",
  "ladder_reference": {
-  "as_of": "2026-09-10",
-  "source": "Coinbase Exchange daily candles, rolling 30d high",
+  "as_of": "2026-09-11",
+  "source": "Coinbase Exchange daily candles (granularity=86400), rolling 30d high, re-pulled live this session",
   "armed": false,
-  "armed_reason": "NOT ARMED (re-affirmed 2026-09-10, all three reasons intact). (a) Law-1 pairing is mechanically unsatisfiable on RH spot: a stop_limit SELL requires quantity already held, so a resting buy rung is unpaired until a session wakes after the fill - awaiting an operator amendment. (b) Macro driver UNRESOLVED and now DATED: August CPI 2026-09-11 08:30 ET, FOMC 2026-09-15/16 with the dot plot. A flush into either reads FIRST-LEG, not terminal - exactly the knife the ledger says not to catch, and the rungs would fill into it unattended. (c) No capitulation conditioning: F&G 69 Greed, funding near-neutral (BinPerp BTC +0.0078%/8h), BTC only -6.2% off its 30d high.",
+  "armed_reason": "NOT ARMED (session 4). Blocker (a) UNCHANGED and still the operator's to rule on: charter law 1 requires every resting buy rung to be hand-paired with a stop at placement, and RH spot cannot rest a stop_limit SELL for coins not yet owned, so every unattended rung is an unpaired rung. Blocker (b) CHANGED SHAPE BUT DID NOT CLEAR: August CPI resolved today, and it resolved HAWKISH - core +0.3% m/m, 0.1pp hot, Fed hike odds for the 09-16 FOMC now above 65%. Two dated drivers became ONE, and the survivor got BIGGER and is 5 days out. A flush between now and 09-16 is still a flush INTO an unresolved scheduled driver, which the read law calls FIRST LEG. Sharper still: crypto RALLIED on a hawkish print (ETH +9.6% intraday to a new 30d high), so positioning into the FOMC is long and unhedged - the setup for a first leg down, not a terminal flush. Blocker (c) NO CAPITULATION CONDITIONING: F&G 56 Greed (down 13 from 69 but still Greed), funding near-neutral (OKX 8h BTC +0.00467% / ETH +0.00129% / SOL -0.00087%), BTC only -5.92% off its 30d high.",
   "levels": {
    "BTC-USD": {
     "high_30d": 82283.0,
+    "high_set": "2026-09-03",
     "r12": 72409.04,
     "r18": 67472.06,
-    "r25": 61712.25
+    "r25": 61712.25,
+    "spot": 77413.56,
+    "pct_off_high": -5.92,
+    "nearest_rung_distance_pct": -6.46
    },
    "ETH-USD": {
-    "high_30d": 2567.0,
-    "r12": 2258.96,
-    "r18": 2104.94,
-    "r25": 1925.25
+    "high_30d": 2667.01,
+    "high_set": "2026-09-11",
+    "r12": 2346.97,
+    "r18": 2186.95,
+    "r25": 2000.26,
+    "spot": 2543.94,
+    "pct_off_high": -4.61,
+    "nearest_rung_distance_pct": -7.74,
+    "note": "NEW 30d high set TODAY, up from $2,567 (08-27). Verified real, not a wick: the 2667.01 print came in the 14:00Z hour on 55,324 ETH - the day's heaviest - within a 234,109 ETH session (~2x the prior day). All three rungs moved UP accordingly."
    },
    "SOL-USD": {
     "high_30d": 110.65,
+    "high_set": "2026-08-27",
     "r12": 97.37,
     "r18": 90.73,
-    "r25": 82.99
+    "r25": 82.99,
+    "spot": 102.59,
+    "pct_off_high": -7.28,
+    "nearest_rung_distance_pct": -5.09,
+    "note": "SOL's r12 is again the nearest rung in the book at -5.09%; it could fill on drift without a cascade, which is a shallow-ladder trade banned by law 6 - a second argument against resting it."
    }
   },
-  "regime_line_note": "Charter regime line = BTC June-2026 low $59-61k. Spot $79,048 is ABOVE it -> regime allows gross. Note the -25% BTC rung ($61,712) sits AT the regime line; a fill there is simultaneously a scale-down signal.",
-  "high_dates": {
-   "BTC-USD": "2026-09-03",
-   "ETH-USD": "2026-08-27",
-   "SOL-USD": "2026-08-27"
-  },
-  "distance_to_rungs_2026_09_10": {
-   "BTC-USD": "spot 77,157 = -6.2% off 30d high; nearest rung (-12%) 72,409 is 6.2% below spot",
-   "ETH-USD": "spot 2,462.90 = -4.1% off 30d high; nearest rung 2,258.96 is 8.3% below spot",
-   "SOL-USD": "spot 99.74 = -9.9% off 30d high; nearest rung 97.37 is 2.4% below spot"
-  }
+  "regime_line_note": "Charter regime line = BTC June-2026 low $59-61k. Spot $77,414 is ABOVE it -> regime allows gross. BTC's -25% rung ($61,712) still sits essentially ON the regime line, so a fill there coincides with the regime scaling gross DOWN - the tension noted at launch is unchanged."
  }
 }

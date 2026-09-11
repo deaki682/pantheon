@@ -33,5 +33,17 @@
   "btc_shadow_start": 79324.65,
   "btc_shadow_return_pct": -2.73,
   "note": "Watch-only, zero orders (session 3, 16:06 ET). NO TRIGGER on any of the three definitions: 24h liqs ~$46M extrapolated (OKX 5 majors) vs the >=$800M-1B bar; deepest major -2.8% 24h (XRP) vs the -7% bar; no new hack/contagion headline (Liquid Network already screened+passed 09-09). Risk-off DRIFT, not a cascade: BTC -2.4% / SOL -3.8% vs yesterday's mark. F&G 69 Greed (up from 66), funding near-neutral. Ladder still NOT ARMED - macro driver still unresolved (Aug CPI 09-11 08:30 ET, FOMC 09-15/16) and the law-1 stop-pairing defect is unfixed."
+ },
+ {
+  "ts": "2026-09-11T20:15:00+00:00",
+  "date": "2026-09-11",
+  "equity": 1000.0,
+  "cash": 1000.0,
+  "btc": 77413.56145745,
+  "eth": 2543.93678875,
+  "sol": 102.5949694,
+  "btc_shadow_start": 79324.65,
+  "btc_shadow_return_pct": -2.41,
+  "note": "Watch-only, zero orders (session 4, 16:15 ET). RECONCILE CLEAN: get_crypto_positions returns [] and the sleeve holds no positions - exact match, entries stay unlocked. NO TRIGGER on any of the three definitions, and today the failure is emphatic rather than marginal. (1) Liquidations nowhere near the >=$800M-1B bar: OKX BTC-USDT filled liquidations ran $2.39M over the last 2.01 HOURS (~$29M/24h at that rate), and the five-major capture floor was $7.5M over capped windows; 99% of the BTC flow was sell-side (longs), which is ordinary grind, not a cascade. (2) NO major is down at all, let alone -7%: BTC +0.71%, ETH +3.99%, SOL +3.33%, XRP +1.72%, DOGE +1.04% vs prior close. (3) No new hack/contagion - the only live incident remains the Liquid Network drain (09-07), screened and passed 09-09. SECOND STALE-HEADLINE KILL IN TWO SESSIONS: a '$290M crypto hack triggers DeFi contagion shock' story ranked high in search and is the KelpDAO/LayerZero rsETH bridge exploit of APRIL 18-19 2026 (the Bloomberg URL carries the 2026-04-19 date) - five months stale. Recording it because a watcher who reads that as current manufactures a contagion trigger out of a spring exploit. THE DAY'S REAL EVENT IS MACRO AND IS BANNED GROUND: August CPI printed 08:30 ET - headline +0.4% m/m / 3.4% y/y in line, but CORE +0.3% m/m, 0.1pp HOTTER than forecast, pushing market odds of a Fed HIKE at the 09-16 FOMC above 65%. Crypto rallied anyway: ETH ran 2,433 -> 2,667 (+9.6%) in the 12:00-14:00Z window straddling the print, on 55,324 ETH in the 14:00Z hour and 234,109 on the day (~2x the prior day's 111,004), then faded to 2,544 (-4.61% off the high). That is a MACRO-PRINT move and charter law 6 bans trading it, by name. It also SETS A NEW 30d HIGH for ETH at $2,667.01 (verified real, not a wick - heaviest-volume hour of the day), lifting ETH's rungs. F&G 56 Greed, DOWN 13 points from 69 - cooling, but nowhere near fear. Funding near-neutral on OKX 8h: BTC +0.00467%, ETH +0.00129%, SOL -0.00087%. Ladder still NOT ARMED (see journal)."
  }
 ]
