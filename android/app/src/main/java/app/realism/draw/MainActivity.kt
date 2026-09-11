@@ -141,9 +141,26 @@ class MainActivity : AppCompatActivity() {
             // wordmark splash appears beneath it
             splashScreen.setOnExitAnimationListener { sv ->
                 try {
-                    sv.iconView?.animate()?.scaleX(1.25f)?.scaleY(1.25f)
-                        ?.alpha(0f)?.setDuration(200)?.start()
-                    sv.animate().alpha(0f).setDuration(260)
+                    // the icon DIFFUSES away - swelling, blurring, dissolving -
+                    // while the wordmark beneath condenses in from its own blur:
+                    // one continuous diffusion crossfade
+                    sv.iconView?.let { icon ->
+                        val anim = android.animation.ValueAnimator.ofFloat(0f, 1f)
+                        anim.duration = 340
+                        anim.interpolator = android.view.animation.DecelerateInterpolator()
+                        anim.addUpdateListener { va ->
+                            val t = va.animatedValue as Float
+                            icon.scaleX = 1f + 0.35f * t
+                            icon.scaleY = 1f + 0.35f * t
+                            icon.alpha = 1f - t
+                            val r = 1f + 38f * t
+                            icon.setRenderEffect(android.graphics.RenderEffect
+                                .createBlurEffect(r, r,
+                                    android.graphics.Shader.TileMode.CLAMP))
+                        }
+                        anim.start()
+                    }
+                    sv.animate().alpha(0f).setDuration(360).setStartDelay(60)
                         .withEndAction { sv.remove() }.start()
                 } catch (e: Throwable) { sv.remove() }
             }
