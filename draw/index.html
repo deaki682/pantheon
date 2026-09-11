@@ -317,10 +317,15 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
 #gridMenu button{border-radius:9px;font-size:13px;white-space:nowrap}
 #gmDone{display:flex;align-items:center;gap:8px}
 .gmDoneDot{width:7px;height:7px;border-radius:50%;background:#fff;display:inline-block}
-#gmColor{width:44px;height:36px;padding:0;display:flex;
+#gmDesign{width:44px;height:44px;padding:5px;display:flex;
   align-items:center;justify-content:center}
-#gmSw{width:18px;height:18px;border-radius:50%;border:1px solid #777;display:block}
-#gmPal{display:none;grid-template-columns:repeat(5,26px);gap:6px}
+#gmMini{width:32px;height:32px;display:block}
+#gmDPanel{display:none;flex-direction:column;gap:8px;align-items:center;
+  border-top:1px solid #3a3a3a;padding-top:8px;margin-top:2px}
+#gmStyles{display:flex;gap:6px}
+#gmStyles button{width:38px;height:34px;padding:0;display:flex;
+  align-items:center;justify-content:center}
+#gmPal{display:grid;grid-template-columns:repeat(5,26px);gap:6px}
 #gmPal button{width:26px;height:26px;border-radius:50%;padding:0;border:1px solid #555}
 #gmPal button.vOn{border-color:var(--acc);border-width:2px}
 #gmDots{display:flex;gap:6px}
@@ -575,7 +580,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v343</span>
+    <span id="verNum">v344</span>
   </div>
 </div>
 <div id="delModal">
@@ -827,13 +832,20 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   <div id="gridMenu">
     <button id="gmDone"><span class="gmDoneDot"></span>Mark Square</button>
     <button id="gmOn">Grid On</button>
-    <button id="gmLab">A1 Labels</button>
-    <button id="gmColor" title="Grid color"><span id="gmSw"></span></button>
-    <div id="gmPal"></div>
-    <div id="gmDots">
-      <button class="gmDot" data-t="1" title="thin"><i style="width:1.5px;height:16px"></i></button>
-      <button class="gmDot" data-t="2" title="medium"><i style="width:3px;height:16px"></i></button>
-      <button class="gmDot" data-t="3" title="thick"><i style="width:5px;height:16px"></i></button>
+    <button id="gmDesign" title="Grid design"><canvas id="gmMini" width="64" height="64"></canvas></button>
+    <div id="gmDPanel">
+      <div id="gmStyles">
+        <button id="gmsSq" title="Squares"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button>
+        <button id="gmsDiag" title="Squares + X"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 3v18M3 12h18M4 4l16 16M20 4L4 20"/></svg></button>
+        <button id="gmsDots" title="Dots"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="5" r="1.7"/><circle cx="12" cy="5" r="1.7"/><circle cx="19" cy="5" r="1.7"/><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/><circle cx="5" cy="19" r="1.7"/><circle cx="12" cy="19" r="1.7"/><circle cx="19" cy="19" r="1.7"/></svg></button>
+      </div>
+      <button id="gmLab">A1 Labels</button>
+      <div id="gmDots">
+        <button class="gmDot" data-t="1" title="thin"><i style="width:1.5px;height:16px"></i></button>
+        <button class="gmDot" data-t="2" title="medium"><i style="width:3px;height:16px"></i></button>
+        <button class="gmDot" data-t="3" title="thick"><i style="width:5px;height:16px"></i></button>
+      </div>
+      <div id="gmPal"></div>
     </div>
   </div>
   <button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
@@ -4726,17 +4738,59 @@ function toast(t, acc, ms){
 }
 const GRID_PAL=['auto','#ffffff','#000000','#e03c3c','#e8833a',
                 '#e8d13a','#5fb85f','#3ab5e8','#7a6be8','#e86bd0'];
-let GM_DOTS_OPEN=false;
+// the design button's icon IS the grid: a live 3x3 miniature in the
+// current style, thickness and color
+function drawMini(){
+  const c=$('gmMini'); if (!c) return;
+  const g=c.getContext('2d'), S2=c.width;
+  g.clearRect(0,0,S2,S2);
+  let col = GRID_COL==='auto' ? '#e8e6e1' : GRID_COL;
+  // a near-black grid vanishes on the dark button: give it a light chip
+  const m=/^#(..)(..)(..)$/.exec(col);
+  if (m && (parseInt(m[1],16)*3+parseInt(m[2],16)*6+parseInt(m[3],16))<540){
+    g.fillStyle='rgba(232,230,225,.88)';
+    g.beginPath(); g.roundRect(2,2,S2-4,S2-4,10); g.fill();
+  }
+  const pad=10, n=3, span=S2-pad*2, cell=span/n;
+  const lw = GRID_THK===1 ? 1.5 : GRID_THK===2 ? 3 : 4.5;
+  g.strokeStyle=col; g.fillStyle=col; g.lineWidth=lw; g.globalAlpha=.95;
+  if (GRID_STYLE==='dots'){
+    for (let i=0;i<=n;i++) for (let j=0;j<=n;j++){
+      g.beginPath();
+      g.arc(pad+i*cell, pad+j*cell, Math.max(2.2,lw*0.9), 0, 6.2832); g.fill();
+    }
+  } else {
+    g.strokeRect(pad+.5,pad+.5,span-1,span-1);
+    for (let i=1;i<n;i++){
+      g.beginPath();
+      g.moveTo(pad+i*cell,pad); g.lineTo(pad+i*cell,pad+span);
+      g.moveTo(pad,pad+i*cell); g.lineTo(pad+span,pad+i*cell); g.stroke();
+    }
+    if (GRID_STYLE==='diag'){
+      g.globalAlpha=.55; g.lineWidth=Math.max(1,lw*0.7);
+      for (let j=0;j<n;j++) for (let i=0;i<n;i++){
+        const ax=pad+i*cell, ay=pad+j*cell;
+        g.beginPath(); g.moveTo(ax,ay); g.lineTo(ax+cell,ay+cell);
+        g.moveTo(ax+cell,ay); g.lineTo(ax,ay+cell); g.stroke();
+      }
+      g.globalAlpha=.95; g.lineWidth=lw;
+    }
+  }
+  if (GRID_LAB){
+    g.globalAlpha=1; g.font='600 9px system-ui,sans-serif';
+    g.textAlign='left'; g.textBaseline='top';
+    g.fillText('A1', pad+3, pad+2);
+  }
+  g.globalAlpha=1;
+}
 function gridMenuSync(){
   $('gmOn').classList.toggle('vOn', GRID_ON);
   $('gmOn').textContent = TR(GRID_ON ? 'Grid On' : 'Grid Off');
-  $('gmSw').style.background = GRID_COL==='auto'
-    ? 'linear-gradient(135deg,#fff 50%,#000 50%)' : GRID_COL;
   [...$('gmPal').children].forEach(b=>b.classList.toggle('vOn', b.dataset.c===GRID_COL));
-  [...$('gmDots').children].forEach(b=>{
-    b.style.display = (GM_DOTS_OPEN || +b.dataset.t===GRID_THK) ? '' : 'none';
-  });
+  [...$('gmDots').children].forEach(b=>b.classList.toggle('vOn', +b.dataset.t===GRID_THK));
+  $('gmLab').classList.toggle('vOn', GRID_LAB);
   $('gmDone').classList.toggle('vOn', !!DONETOOL);
+  drawMini();
   markBadge(!!DONETOOL);
 }
 {
@@ -4749,7 +4803,6 @@ function gridMenuSync(){
     b.onclick=()=>{
       GRID_COL=c;
       try{ localStorage.setItem('gridCol', c); }catch(e){}
-      pal.style.display='none';
       gridMenuSync();
       if (GRID_READY) drawGrid();
       try{ window.drawUpGrid && drawUpGrid(); }catch(e){}
@@ -4761,10 +4814,14 @@ $('gridBtn').onclick=()=>{
   const m=$('gridMenu');
   const open=m.style.display!=='flex';
   m.style.display=open?'flex':'none';
-  $('gmPal').style.display='none';
+  $('gmDPanel').style.display='none';
   DONETOOL=null;                       // the grid button always disengages
   markBadge(false);
-  if (open){ GM_DOTS_OPEN=false; gridMenuSync(); }
+  if (open) gridMenuSync();
+};
+$('gmDesign').onclick=()=>{
+  const p=$('gmDPanel');
+  p.style.display = p.style.display==='flex' ? 'none' : 'flex';
 };
 // Mark Square toggles: armed, a tap marks a square; a marked square unmarks
 $('gmDone').onclick=()=>{ DONETOOL = DONETOOL ? null : 'on'; gridMenuSync(); };
@@ -4777,15 +4834,17 @@ $('gmOn').onclick=()=>{
 $('gmLab').onclick=()=>{
   GRID_LAB=!GRID_LAB;
   try{ localStorage.setItem('gridLab', GRID_LAB?'1':'0'); }catch(e){}
-  $('gmLab').classList.toggle('vOn', GRID_LAB);
+  gridMenuSync();
   applyView();                       // the grid painter lives in applyView
 };
 $('gmLab').classList.toggle('vOn', GRID_LAB);
 function gsSync(){
   for (const [id,v] of [['gsSq','sq'],['gsDiag','diag'],
-                        ['gsSq2','sq'],['gsDiag2','diag']]){
+                        ['gsSq2','sq'],['gsDiag2','diag'],
+                        ['gmsSq','sq'],['gmsDiag','diag'],['gmsDots','dots']]){
     const b=$(id); if (b) b.classList.toggle('vOn', GRID_STYLE===v);
   }
+  try{ drawMini(); }catch(e){}
 }
 function gsSet(v){
   GRID_STYLE=v;
@@ -4799,17 +4858,14 @@ $('gsSq').onclick=()=>gsSet('sq');
 $('gsDiag').onclick=()=>gsSet('diag');
 $('gsSq2').onclick=()=>gsSet('sq');
 $('gsDiag2').onclick=()=>gsSet('diag');
+$('gmsSq').onclick=()=>gsSet('sq');
+$('gmsDiag').onclick=()=>gsSet('diag');
+$('gmsDots').onclick=()=>gsSet('dots');
 gsSync();
-$('gmColor').onclick=()=>{
-  const p=$('gmPal');
-  p.style.display = p.style.display==='grid' ? 'none' : 'grid';
-};
 for (const b of $('gmDots').children)
   b.onclick=()=>{
-    if (!GM_DOTS_OPEN){ GM_DOTS_OPEN=true; gridMenuSync(); return; }
     GRID_THK=+b.dataset.t;
     try{ localStorage.setItem('gridThk', GRID_THK); }catch(e){}
-    GM_DOTS_OPEN=false;
     gridMenuSync();
     if (GRID_READY) drawGrid();
   };
@@ -4844,7 +4900,7 @@ vp.addEventListener('pointerdown', ()=>{ const m=$('detMenu');
   if (m.style.display==='flex'){ m.style.display='none'; detClosed(); }
   const gm=$('gridMenu');
   if (gm.style.display==='flex' && !DONETOOL){
-    gm.style.display='none'; $('gmPal').style.display='none'; } });
+    gm.style.display='none'; $('gmDPanel').style.display='none'; } });
 applyGrid(); layerButtons();
 
 // the breakdown recipe, ported to run beside the page: bright-outlier
