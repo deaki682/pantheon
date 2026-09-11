@@ -51,7 +51,7 @@ final class AdController: NSObject {
             wrap.bottomAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.bottomAnchor),
             wrap.leadingAnchor.constraint(equalTo: host.view.leadingAnchor),
             wrap.trailingAnchor.constraint(equalTo: host.view.trailingAnchor),
-            wrap.heightAnchor.constraint(equalToConstant: 56),
+            wrap.heightAnchor.constraint(equalToConstant: 76),
         ])
         cornerWrap.isHidden = true
         cornerWrap.translatesAutoresizingMaskIntoConstraints = false
@@ -286,18 +286,13 @@ final class AdController: NSObject {
     }
 
     // ---- the card, in the app's own dark language -----------------------
-    private func buildStrip(_ ad: NativeAd) {
-        wrap.subviews.forEach { $0.removeFromSuperview() }
-
-        let adv = NativeAdView()
-        adv.translatesAutoresizingMaskIntoConstraints = false
-        adv.backgroundColor = bgCol
-
-        let media = MediaView()
-        media.translatesAutoresizingMaskIntoConstraints = false
-        media.layer.cornerRadius = 6
-        media.clipsToBounds = true
-
+    private static func lift(_ c: UIColor) -> UIColor {
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        c.getRed(&r, green: &g, blue: &b, alpha: &a)
+        func up(_ v: CGFloat) -> CGFloat { min(1, v + (1 - v) * 0.07) }
+        return UIColor(red: up(r), green: up(g), blue: up(b), alpha: 1)
+    }
+    private func badgeLabel() -> UILabel {
         let badge = UILabel()
         badge.text = "Ad"
         badge.font = .systemFont(ofSize: 9)
@@ -307,31 +302,102 @@ final class AdController: NSObject {
         badge.layer.borderColor = accCol.cgColor
         badge.layer.cornerRadius = 3
         badge.translatesAutoresizingMaskIntoConstraints = false
+        return badge
+    }
+
+    // the bottom strip, refreshed: 64pt media, Ad badge + bold headline,
+    // body line, rating/store/price row, filled accent CTA - every asset
+    // registered, so a tap anywhere on the card is the ad's click
+    private func buildStrip(_ ad: NativeAd) {
+        wrap.subviews.forEach { $0.removeFromSuperview() }
+
+        let adv = NativeAdView()
+        adv.translatesAutoresizingMaskIntoConstraints = false
+        adv.backgroundColor = AdController.lift(bgCol)
+        let hair = UIView()
+        hair.backgroundColor = UIColor(white: 1, alpha: 0.12)
+        hair.translatesAutoresizingMaskIntoConstraints = false
+
+        let media = MediaView()
+        media.translatesAutoresizingMaskIntoConstraints = false
+        media.layer.cornerRadius = 10
+        media.clipsToBounds = true
+
+        let badge = badgeLabel()
 
         let head = UILabel()
-        head.font = .systemFont(ofSize: 13)
-        head.textColor = UIColor(red: 0xE8/255.0, green: 0xE6/255.0, blue: 0xE1/255.0, alpha: 1)
-        head.text = ad.headline ?? ""
+        head.font = .boldSystemFont(ofSize: 13.5)
+        head.textColor = UIColor(red: 0xF2/255.0, green: 0xF0/255.0, blue: 0xEB/255.0, alpha: 1)
+        head.lineBreakMode = .byTruncatingTail
+        head.text = ad.headline
         head.translatesAutoresizingMaskIntoConstraints = false
 
-        adv.addSubview(media); adv.addSubview(badge); adv.addSubview(head)
+        let body = UILabel()
+        body.font = .systemFont(ofSize: 11.5)
+        body.textColor = UIColor(red: 0xA8/255.0, green: 0xA4/255.0, blue: 0x9D/255.0, alpha: 1)
+        body.lineBreakMode = .byTruncatingTail
+        body.text = ad.body ?? ""
+        body.isHidden = (ad.body ?? "").isEmpty
+        body.translatesAutoresizingMaskIntoConstraints = false
+
+        let meta = UILabel()
+        meta.font = .systemFont(ofSize: 10.5)
+        meta.textColor = UIColor(red: 0x8A/255.0, green: 0x87/255.0, blue: 0x81/255.0, alpha: 1)
+        meta.lineBreakMode = .byTruncatingTail
+        var parts: [String] = []
+        if let r = ad.starRating?.doubleValue, r > 0 {
+            parts.append(String(repeating: "\u{2605}", count: max(0, min(5, Int(r.rounded())))))
+            parts.append(String(format: "%.1f", r))
+        }
+        if let st = ad.store, !st.isEmpty { parts.append(st) }
+        if let pr = ad.price, !pr.isEmpty { parts.append(pr) }
+        meta.text = parts.joined(separator: " \u{00b7} ")
+        meta.isHidden = parts.isEmpty
+        meta.translatesAutoresizingMaskIntoConstraints = false
+
+        let cta = UILabel()
+        cta.font = .boldSystemFont(ofSize: 13.5)
+        cta.textColor = UIColor(red: 0x14/255.0, green: 0x14/255.0, blue: 0x14/255.0, alpha: 1)
+        cta.textAlignment = .center
+        cta.backgroundColor = accCol
+        cta.layer.cornerRadius = 20
+        cta.clipsToBounds = true
+        cta.text = "  " + (ad.callToAction ?? "Open") + "  "
+        cta.translatesAutoresizingMaskIntoConstraints = false
+
+        let col = UIStackView(arrangedSubviews: [head, body, meta])
+        col.axis = .vertical
+        col.spacing = 2
+        col.translatesAutoresizingMaskIntoConstraints = false
+
+        adv.addSubview(hair); adv.addSubview(media); adv.addSubview(badge)
+        adv.addSubview(col); adv.addSubview(cta)
         NSLayoutConstraint.activate([
-            adv.widthAnchor.constraint(equalToConstant: 132),
-            adv.heightAnchor.constraint(equalToConstant: 150),
-            media.topAnchor.constraint(equalTo: adv.topAnchor, constant: 6),
-            media.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 6),
-            media.widthAnchor.constraint(equalToConstant: 120),
-            media.heightAnchor.constraint(equalToConstant: 120),
-            badge.leadingAnchor.constraint(equalTo: media.leadingAnchor),
-            badge.topAnchor.constraint(equalTo: media.bottomAnchor, constant: 5),
+            hair.topAnchor.constraint(equalTo: adv.topAnchor),
+            hair.leadingAnchor.constraint(equalTo: adv.leadingAnchor),
+            hair.trailingAnchor.constraint(equalTo: adv.trailingAnchor),
+            hair.heightAnchor.constraint(equalToConstant: 1),
+            media.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 10),
+            media.centerYAnchor.constraint(equalTo: adv.centerYAnchor),
+            media.widthAnchor.constraint(equalToConstant: 64),
+            media.heightAnchor.constraint(equalToConstant: 64),
+            cta.trailingAnchor.constraint(equalTo: adv.trailingAnchor, constant: -10),
+            cta.centerYAnchor.constraint(equalTo: adv.centerYAnchor),
+            cta.heightAnchor.constraint(equalToConstant: 40),
+            cta.widthAnchor.constraint(greaterThanOrEqualToConstant: 84),
+            badge.leadingAnchor.constraint(equalTo: media.trailingAnchor, constant: 10),
+            badge.centerYAnchor.constraint(equalTo: head.centerYAnchor),
             badge.widthAnchor.constraint(equalToConstant: 22),
             badge.heightAnchor.constraint(equalToConstant: 13),
-            head.leadingAnchor.constraint(equalTo: badge.trailingAnchor, constant: 5),
-            head.trailingAnchor.constraint(equalTo: media.trailingAnchor),
-            head.centerYAnchor.constraint(equalTo: badge.centerYAnchor),
+            col.leadingAnchor.constraint(equalTo: badge.trailingAnchor, constant: 6),
+            col.trailingAnchor.constraint(equalTo: cta.leadingAnchor, constant: -10),
+            col.centerYAnchor.constraint(equalTo: adv.centerYAnchor),
         ])
         adv.mediaView = media
         adv.headlineView = head
+        adv.bodyView = body
+        adv.starRatingView = meta
+        adv.callToActionView = cta
         adv.nativeAd = ad
         badgeV = badge
         ctaV = cta
@@ -360,8 +426,6 @@ final class AdController: NSObject {
         adv.layer.cornerRadius = 14
         adv.layer.borderWidth = 1
         adv.layer.borderColor = UIColor(white: 1, alpha: 0.12).cgColor
-        // the card floats: shadow on the layer, so no clipping (children
-        // are inset from the rounded corners and clip themselves)
         adv.layer.shadowColor = UIColor.black.cgColor
         adv.layer.shadowOpacity = 0.5
         adv.layer.shadowRadius = 12
@@ -372,61 +436,33 @@ final class AdController: NSObject {
         media.layer.cornerRadius = 8
         media.clipsToBounds = true
 
-        let badge = UILabel()
-        badge.text = "Ad"
-        badge.font = .systemFont(ofSize: 9)
-        badge.textColor = accCol
-        badge.textAlignment = .center
-        badge.layer.borderWidth = 1
-        badge.layer.borderColor = accCol.cgColor
-        badge.layer.cornerRadius = 3
-        badge.backgroundColor = UIColor(white: 0.08, alpha: 0.6)
-        badge.translatesAutoresizingMaskIntoConstraints = false
+        let badge = badgeLabel()
 
         let head = UILabel()
         head.font = .systemFont(ofSize: 10.5)
-        head.numberOfLines = 1
-        head.lineBreakMode = .byTruncatingTail
         head.textColor = UIColor(red: 0xE8/255.0, green: 0xE6/255.0, blue: 0xE1/255.0, alpha: 1)
-        head.text = ad.headline ?? ""
+        head.lineBreakMode = .byTruncatingTail
+        head.text = ad.headline
         head.translatesAutoresizingMaskIntoConstraints = false
 
-        let cta = UILabel()
-        cta.font = .systemFont(ofSize: 12)
-        cta.textColor = UIColor(red: 0x14/255.0, green: 0x14/255.0, blue: 0x14/255.0, alpha: 1)
-        cta.textAlignment = .center
-        cta.backgroundColor = accCol
-        cta.layer.cornerRadius = 10
-        cta.clipsToBounds = true
-        cta.text = ad.callToAction ?? "Open"
-        cta.translatesAutoresizingMaskIntoConstraints = false
-
-        head.numberOfLines = 3
-        adv.addSubview(media); adv.addSubview(badge)
-        adv.addSubview(head); adv.addSubview(cta)
+        adv.addSubview(media); adv.addSubview(badge); adv.addSubview(head)
         NSLayoutConstraint.activate([
-            adv.widthAnchor.constraint(equalToConstant: 244),
+            adv.widthAnchor.constraint(equalToConstant: 132),
+            adv.heightAnchor.constraint(equalToConstant: 150),
             media.topAnchor.constraint(equalTo: adv.topAnchor, constant: 6),
             media.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 6),
-            media.bottomAnchor.constraint(equalTo: adv.bottomAnchor, constant: -6),
             media.widthAnchor.constraint(equalToConstant: 120),
             media.heightAnchor.constraint(equalToConstant: 120),
-            badge.leadingAnchor.constraint(equalTo: media.leadingAnchor, constant: 4),
-            badge.bottomAnchor.constraint(equalTo: media.bottomAnchor, constant: -4),
+            badge.leadingAnchor.constraint(equalTo: media.leadingAnchor),
+            badge.topAnchor.constraint(equalTo: media.bottomAnchor, constant: 5),
             badge.widthAnchor.constraint(equalToConstant: 22),
             badge.heightAnchor.constraint(equalToConstant: 13),
-            head.topAnchor.constraint(equalTo: adv.topAnchor, constant: 8),
-            head.leadingAnchor.constraint(equalTo: media.trailingAnchor, constant: 8),
-            head.trailingAnchor.constraint(equalTo: adv.trailingAnchor, constant: -8),
-            head.bottomAnchor.constraint(lessThanOrEqualTo: cta.topAnchor, constant: -4),
-            cta.leadingAnchor.constraint(equalTo: media.trailingAnchor, constant: 8),
-            cta.trailingAnchor.constraint(equalTo: adv.trailingAnchor, constant: -6),
-            cta.heightAnchor.constraint(equalToConstant: 26),
-            cta.bottomAnchor.constraint(equalTo: adv.bottomAnchor, constant: -8),
+            head.leadingAnchor.constraint(equalTo: badge.trailingAnchor, constant: 5),
+            head.trailingAnchor.constraint(equalTo: media.trailingAnchor),
+            head.centerYAnchor.constraint(equalTo: badge.centerYAnchor),
         ])
         adv.mediaView = media
         adv.headlineView = head
-        adv.callToActionView = cta
         adv.nativeAd = ad
 
         let close = UIButton(type: .custom)
@@ -439,8 +475,8 @@ final class AdController: NSObject {
         close.translatesAutoresizingMaskIntoConstraints = false
         close.addTarget(self, action: #selector(closeTap), for: .touchUpInside)
 
-        // the collapse pill sits LEFT of the card, tucked beneath the spot
-        // the gear glides to - still outside the ad view, never an ad click
+        // the collapse pill sits LEFT of the card - outside the ad view,
+        // never an ad click
         cornerWrap.addSubview(adv)
         cornerWrap.addSubview(close)
         NSLayoutConstraint.activate([
@@ -448,8 +484,8 @@ final class AdController: NSObject {
             adv.trailingAnchor.constraint(equalTo: cornerWrap.trailingAnchor),
             adv.bottomAnchor.constraint(equalTo: cornerWrap.bottomAnchor),
             close.leadingAnchor.constraint(equalTo: cornerWrap.leadingAnchor),
-            close.trailingAnchor.constraint(equalTo: adv.leadingAnchor, constant: -17),
-            close.topAnchor.constraint(equalTo: cornerWrap.topAnchor, constant: 64),
+            close.trailingAnchor.constraint(equalTo: adv.leadingAnchor, constant: -12),
+            close.topAnchor.constraint(equalTo: cornerWrap.topAnchor, constant: 62),
             close.widthAnchor.constraint(equalToConstant: 26),
             close.heightAnchor.constraint(equalToConstant: 26),
         ])

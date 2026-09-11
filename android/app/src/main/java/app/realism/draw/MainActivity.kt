@@ -484,49 +484,90 @@ class MainActivity : AppCompatActivity() {
     private fun adCta(ad: com.google.android.gms.ads.nativead.NativeAd,
                       dp: (Int) -> Int, radius: Int): TextView {
         val cta = TextView(this)
-        cta.setTextColor(0xFF141414.toInt()); cta.textSize = 12f
+        cta.setTextColor(0xFF141414.toInt()); cta.textSize = 13.5f
+        cta.setTypeface(null, android.graphics.Typeface.BOLD)
         cta.gravity = android.view.Gravity.CENTER
         val cd = android.graphics.drawable.GradientDrawable()
         cd.setColor(adAccentCol); cd.cornerRadius = dp(radius).toFloat()
         cta.background = cd
-        cta.setPadding(dp(12), dp(6), dp(12), dp(6))
+        cta.setPadding(dp(18), dp(10), dp(18), dp(10))
         cta.text = ad.callToAction ?: "Open"
         return cta
     }
 
+    private fun adLift(c: Int): Int {
+        val r = (c shr 16) and 255; val g = (c shr 8) and 255; val b = c and 255
+        fun up(v: Int) = minOf(255, v + ((255 - v) * 0.07).toInt())
+        return (0xFF shl 24) or (up(r) shl 16) or (up(g) shl 8) or up(b)
+    }
     // the bottom strip: every screen except the drawing screen
     private fun buildStrip() {
         val ad = nativeAd ?: return
         val d = resources.displayMetrics.density
         fun dp(v: Int) = (v * d).toInt()
         val adv = com.google.android.gms.ads.nativead.NativeAdView(this)
-        adv.setBackgroundColor(adBgCol)
+        adv.setBackgroundColor(adLift(adBgCol))
+        adv.elevation = dp(8).toFloat()
         val row = android.widget.LinearLayout(this)
         row.orientation = android.widget.LinearLayout.HORIZONTAL
         row.gravity = android.view.Gravity.CENTER_VERTICAL
-        row.setPadding(dp(10), dp(8), dp(10), dp(8))
+        row.setPadding(dp(10), dp(6), dp(10), dp(6))
+        // a hairline along the top lifts the strip off the page
+        adv.addView(android.view.View(this).apply { setBackgroundColor(0x1FFFFFFF) },
+            FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, maxOf(1, dp(1)),
+                android.view.Gravity.TOP))
+        val mediaWrap = FrameLayout(this)
+        mediaWrap.background = android.graphics.drawable.GradientDrawable().apply {
+            setColor(0xFF000000.toInt()); cornerRadius = dp(10).toFloat() }
+        mediaWrap.clipToOutline = true
         val media = com.google.android.gms.ads.nativead.MediaView(this)
-        row.addView(media, android.widget.LinearLayout.LayoutParams(dp(40), dp(40)))
+        media.setImageScaleType(android.widget.ImageView.ScaleType.CENTER_CROP)
+        mediaWrap.addView(media, FrameLayout.LayoutParams(dp(64), dp(64)))
+        row.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(64), dp(64)))
         val col = android.widget.LinearLayout(this)
         col.orientation = android.widget.LinearLayout.VERTICAL
         col.setPadding(dp(10), 0, dp(10), 0)
+        val line1 = android.widget.LinearLayout(this)
+        line1.orientation = android.widget.LinearLayout.HORIZONTAL
+        line1.gravity = android.view.Gravity.CENTER_VERTICAL
         val badge = adBadge(::dp)
-        val badgeWrap = android.widget.LinearLayout(this)
-        badgeWrap.addView(badge)
-        col.addView(badgeWrap)
+        line1.addView(badge)
         val head = TextView(this)
-        head.setTextColor(0xFFE8E6E1.toInt()); head.textSize = 13f
+        head.setTextColor(0xFFF2F0EB.toInt()); head.textSize = 13.5f
+        head.setTypeface(null, android.graphics.Typeface.BOLD)
         head.maxLines = 1; head.ellipsize = android.text.TextUtils.TruncateAt.END
+        head.setPadding(dp(6), 0, 0, 0)
         head.text = ad.headline ?: ""
-        col.addView(head)
+        line1.addView(head, android.widget.LinearLayout.LayoutParams(
+            0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+        col.addView(line1)
+        val body = TextView(this)
+        body.setTextColor(0xFFA8A49D.toInt()); body.textSize = 11.5f
+        body.maxLines = 1; body.ellipsize = android.text.TextUtils.TruncateAt.END
+        body.text = ad.body ?: ""
+        body.visibility = if (body.text.isNullOrBlank()) android.view.View.GONE else android.view.View.VISIBLE
+        col.addView(body)
+        // app-install ads carry a rating, a store and a price: trust cues
+        val meta = TextView(this)
+        meta.setTextColor(0xFF8A8781.toInt()); meta.textSize = 10.5f
+        meta.maxLines = 1; meta.ellipsize = android.text.TextUtils.TruncateAt.END
+        val stars = ad.starRating?.let { r -> "\u2605".repeat(Math.round(r).toInt().coerceIn(0, 5)) } ?: ""
+        val tail = listOfNotNull(ad.starRating?.let { String.format(java.util.Locale.US, "%.1f", it) },
+            ad.store, ad.price).filter { it.isNotBlank() }.joinToString(" \u00b7 ")
+        meta.text = listOf(stars, tail).filter { it.isNotBlank() }.joinToString(" ")
+        meta.visibility = if (meta.text.isNullOrBlank()) android.view.View.GONE else android.view.View.VISIBLE
+        col.addView(meta)
         row.addView(col, android.widget.LinearLayout.LayoutParams(
             0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
-        val cta = adCta(ad, ::dp, 14)
-        row.addView(cta)
+        val cta = adCta(ad, ::dp, 20)
+        row.addView(cta, android.widget.LinearLayout.LayoutParams(
+            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, dp(40)))
         adv.addView(row, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
         adv.mediaView = media
         adv.headlineView = head
+        adv.bodyView = body
+        adv.starRatingView = meta
         adv.callToActionView = cta
         adv.setNativeAd(ad)
         adWrap.removeAllViews()
@@ -543,16 +584,16 @@ class MainActivity : AppCompatActivity() {
             alp.gravity = android.view.Gravity.CENTER_HORIZONTAL
             alp.bottomMargin = dp(6)
             adv.background = android.graphics.drawable.GradientDrawable().apply {
-                setColor(adBgCol); cornerRadius = dp(14).toFloat()
+                setColor(adLift(adBgCol)); cornerRadius = dp(14).toFloat()
             }
             adv.clipToOutline = true
             adWrap.setBackgroundColor(0)
-        } else adWrap.setBackgroundColor(adBgCol)
+        } else adWrap.setBackgroundColor(adLift(adBgCol))
         adWrap.addView(adv, alp)
         adCard = adv
         adBadgeV = badge
         adCtaV = cta
-        adShownH = dp(56)
+        adShownH = dp(76)
         adViewMode = "strip"
     }
 
@@ -1175,10 +1216,10 @@ class MainActivity : AppCompatActivity() {
                 adBgCol = c
                 adWanted = on
                 // the landscape strip floats on a transparent wrapper: keep it
-                adWrap.setBackgroundColor(if (adLand() && adViewMode == "strip") 0 else c)
+                adWrap.setBackgroundColor(if (adLand() && adViewMode == "strip") 0 else adLift(c))
                 adCard?.let { v ->
                     val g = v.background as? android.graphics.drawable.GradientDrawable
-                    if (g != null) g.setColor(c) else v.setBackgroundColor(c)
+                    if (g != null) g.setColor(adLift(c)) else v.setBackgroundColor(adLift(c))
                 }
                 applyAd()
             }
