@@ -793,7 +793,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v382</span>
+    <span id="verNum">v383</span>
   </div>
 </div>
 <div id="delModal">
@@ -2179,6 +2179,7 @@ function tip(targetId, txt, opts){
     if (TIPSTATE!==st) return;
     const bw=bub.offsetWidth, bh=bub.offsetHeight;
     if (!t){                              // no target: centered statement
+      bub.style.right='auto';
       bub.style.left=((innerWidth-bw)/2)+'px';
       bub.style.top=(Math.max(10,(innerHeight-bh)*0.4))+'px';
       bub.style.visibility='';
@@ -2186,6 +2187,23 @@ function tip(targetId, txt, opts){
     }
     const r=t.getBoundingClientRect();
     const cx=Math.min(Math.max(r.left+r.width/2, 30), innerWidth-30);
+    // landscape parks the chrome in two edge columns: a bubble stacked
+    // above or below a column button lands on its neighbours, so it sits
+    // BESIDE the column instead, pointing sideways
+    const side = innerWidth>innerHeight && (r.left>innerWidth*0.8 || r.right<innerWidth*0.2)
+      && (r.left>innerWidth*0.8 ? r.left-16-bw>=10 : r.right+16+bw<=innerWidth-10);
+    if (side){
+      // anchored on the edge nearest the column, so the bubble's own width
+      // (it settles after the first measure) only ever grows AWAY from it
+      const by=Math.min(Math.max(r.top+r.height/2-bh/2, 10), innerHeight-bh-10);
+      if (r.left>innerWidth*0.8){ bub.style.left='auto'; bub.style.right=(innerWidth-r.left+16)+'px'; }
+      else { bub.style.right='auto'; bub.style.left=(r.right+16)+'px'; }
+      bub.style.top=by+'px';
+      bub.style.visibility='';
+      car.style.display='none';                 // no caret on the side placement
+      return;
+    }
+    bub.style.right='auto';
     const bx=Math.min(Math.max(cx-bw/2, 10), innerWidth-bw-10);
     const above = !opts.below && r.top-bh-16 >= 10;
     const by = above ? r.top-bh-16 : Math.min(innerHeight-bh-10, r.bottom+16);
