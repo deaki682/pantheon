@@ -1053,11 +1053,23 @@ class MainActivity : AppCompatActivity() {
                 js("window.__authFail && __authFail('')")
             } catch (e: androidx.credentials.exceptions.NoCredentialException) {
                 signingIn = false
-                if (!anyAccount) startGoogleSignIn(true)
-                else authFail("no Google account on this device")
+                if (!anyAccount) { startGoogleSignIn(true); return@launch }
+                // Credential Manager reports "no credential" both when the
+                // device really has no Google account AND when Google refuses
+                // to issue one for this app - an unregistered package or a
+                // signing certificate the project does not know. The second
+                // is far likelier on a real phone, so say both.
+                logLine("auth: NoCredential - " + (e.message ?: "").take(200))
+                authFail("Google would not return an account. If you are signed " +
+                         "in on this device, this app's signing certificate is " +
+                         "probably not registered with the project yet.")
+            } catch (e: androidx.credentials.exceptions.GetCredentialProviderConfigurationException) {
+                logLine("auth: provider config - " + (e.message ?: "").take(200))
+                authFail("Google Play services could not start sign-in on this device")
             } catch (e: Throwable) {
-                logLine("auth: " + (e.message ?: e.toString()).take(160))
-                authFail("sign-in failed")
+                logLine("auth: " + e.javaClass.simpleName + " - " +
+                        (e.message ?: e.toString()).take(200))
+                authFail("sign-in failed (" + e.javaClass.simpleName + ")")
             }
         }
     }
