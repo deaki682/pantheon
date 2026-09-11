@@ -625,31 +625,85 @@ class MainActivity : AppCompatActivity() {
         head.ellipsize = android.text.TextUtils.TruncateAt.END
         head.text = ad.headline ?: ""
         val card = android.widget.LinearLayout(this)
-        // the smallest video-eligible card there is, every orientation and
-        // device: the 120dp media square with one line of badge + headline
-        // beneath it - 132 x 150dp, no CTA (a video ad still clicks through
-        // its media and headline)
         card.orientation = android.widget.LinearLayout.VERTICAL
-        card.setPadding(dp(6), dp(6), dp(6), dp(4))
-        card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(120), dp(120)))
-        val row = android.widget.LinearLayout(this)
-        row.orientation = android.widget.LinearLayout.HORIZONTAL
-        row.gravity = android.view.Gravity.CENTER_VERTICAL
-        row.addView(badge)
-        head.textSize = 10.5f; head.maxLines = 1
-        head.setPadding(dp(5), 0, 0, 0)
-        row.addView(head, android.widget.LinearLayout.LayoutParams(
-            0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
-        val rlp = android.widget.LinearLayout.LayoutParams(dp(120), dp(18))
-        rlp.topMargin = dp(2)
-        card.addView(row, rlp)
-        val cw = dp(132); val ch = dp(150)
-        val cta: TextView? = null
+        val cw: Int; val ch: Int
+        var cta: TextView? = null
+        var body: TextView? = null
+        var meta: TextView? = null
+        val tab = resources.configuration.smallestScreenWidthDp >= 600
+        if (tab) {
+            // tablets have the room: a 160dp media square with breathing room,
+            // badge + bold headline, two-line body, rating row and a filled
+            // CTA - 180 x ~300dp, the same friendliness as the strip
+            card.setPadding(dp(10), dp(10), dp(10), dp(10))
+            (mediaWrap.getChildAt(0).layoutParams as FrameLayout.LayoutParams).apply {
+                width = dp(160); height = dp(160) }
+            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(160), dp(160)))
+            val row = android.widget.LinearLayout(this)
+            row.orientation = android.widget.LinearLayout.HORIZONTAL
+            row.gravity = android.view.Gravity.CENTER_VERTICAL
+            row.addView(badge)
+            head.setTextColor(0xFFF2F0EB.toInt()); head.textSize = 13.5f; head.maxLines = 1
+            head.setTypeface(null, android.graphics.Typeface.BOLD)
+            head.setPadding(dp(6), 0, 0, 0)
+            row.addView(head, android.widget.LinearLayout.LayoutParams(
+                0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+            val rlp = android.widget.LinearLayout.LayoutParams(dp(160), dp(18))
+            rlp.topMargin = dp(6)
+            card.addView(row, rlp)
+            val b = TextView(this)
+            b.setTextColor(0xFFA8A49D.toInt()); b.textSize = 11.5f
+            b.maxLines = 2; b.ellipsize = android.text.TextUtils.TruncateAt.END
+            b.text = ad.body ?: ""
+            b.visibility = if (b.text.isNullOrBlank()) android.view.View.GONE else android.view.View.VISIBLE
+            val blp = android.widget.LinearLayout.LayoutParams(dp(160),
+                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
+            blp.topMargin = dp(4)
+            card.addView(b, blp); body = b
+            val m = TextView(this)
+            m.setTextColor(0xFF8A8781.toInt()); m.textSize = 10.5f
+            m.maxLines = 1; m.ellipsize = android.text.TextUtils.TruncateAt.END
+            val stars = ad.starRating?.let { r -> "\u2605".repeat(Math.round(r).toInt().coerceIn(0, 5)) } ?: ""
+            val tail = listOfNotNull(ad.starRating?.let { String.format(java.util.Locale.US, "%.1f", it) },
+                ad.store, ad.price).filter { it.isNotBlank() }.joinToString(" \u00b7 ")
+            m.text = listOf(stars, tail).filter { it.isNotBlank() }.joinToString(" ")
+            m.visibility = if (m.text.isNullOrBlank()) android.view.View.GONE else android.view.View.VISIBLE
+            val mlp = android.widget.LinearLayout.LayoutParams(dp(160),
+                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
+            mlp.topMargin = dp(4)
+            card.addView(m, mlp); meta = m
+            val c = adCta(ad, ::dp, 20)
+            val clp2 = android.widget.LinearLayout.LayoutParams(dp(160), dp(40))
+            clp2.topMargin = dp(8)
+            card.addView(c, clp2); cta = c
+            cw = dp(180)
+            ch = android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+        } else {
+            // phones: the smallest video-eligible card there is - the 120dp
+            // media square with one line of badge + headline beneath it,
+            // 132 x 150dp, no CTA (a video ad still clicks through its media)
+            card.setPadding(dp(6), dp(6), dp(6), dp(4))
+            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(120), dp(120)))
+            val row = android.widget.LinearLayout(this)
+            row.orientation = android.widget.LinearLayout.HORIZONTAL
+            row.gravity = android.view.Gravity.CENTER_VERTICAL
+            row.addView(badge)
+            head.textSize = 10.5f; head.maxLines = 1
+            head.setPadding(dp(5), 0, 0, 0)
+            row.addView(head, android.widget.LinearLayout.LayoutParams(
+                0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+            val rlp = android.widget.LinearLayout.LayoutParams(dp(120), dp(18))
+            rlp.topMargin = dp(2)
+            card.addView(row, rlp)
+            cw = dp(132); ch = dp(150)
+        }
         // fixed at every level so nothing the SDK does inside can widen it
         val CW = cw; val CH = ch
         adv.addView(card, FrameLayout.LayoutParams(CW, CH))
         adv.mediaView = media
         adv.headlineView = head
+        body?.let { adv.bodyView = it }
+        meta?.let { adv.starRatingView = it }
         cta?.let { adv.callToActionView = it }
         adv.setNativeAd(ad)
         // the collapse pill sits LEFT of the card, tucked beneath the spot
