@@ -630,7 +630,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v354</span>
+    <span id="verNum">v356</span>
   </div>
 </div>
 <div id="delModal">
@@ -696,7 +696,6 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 </div>
   <div id="gsdModal">
     <div id="gsdPanel">
-      <div id="gsdTitle">Grid Style</div>
       <div id="gsdStage"><canvas id="gsdCv" width="10" height="10"></canvas>
         <button id="gsdPrev">Preview</button></div>
       <div class="gsdRow" id="gsdRow1">
@@ -3648,7 +3647,17 @@ function applyView(){
   // move; the real redraw lands once, when the fingers lift
   if (GESTURE.active && GRID_DRAWN && GRID_READY){
     const k=view.s/GRID_DRAWN.s;
-    const tf='translate('+(view.x-GRID_DRAWN.x*k)+'px,'+(view.y-GRID_DRAWN.y*k)+'px) scale('+k+')';
+    const tx=view.x-GRID_DRAWN.x*k, ty=view.y-GRID_DRAWN.y*k;
+    // the ride only covers what was rasterized: once a zoom-out or a long
+    // pan would expose blank viewport, re-bake mid-gesture and ride on
+    // from the fresh frame
+    if (k<0.92 || Math.abs(tx)>(GRID_DRAWN.w||0)*0.2
+               || Math.abs(ty)>(GRID_DRAWN.h||0)*0.2){
+      drawGrid();
+      drawCircs();
+      return;
+    }
+    const tf='translate('+tx+'px,'+ty+'px) scale('+k+')';
     $('gridCv').style.transform=tf;
     $('circCv').style.transform=tf;
     drawEdgeLabs();      // the sticky margin labels track every frame
@@ -3736,7 +3745,8 @@ function drawGrid(){
   const g=cvv.getContext('2d');
   g.clearRect(0,0,W2,H2);
   cvv.style.transform='';
-  GRID_DRAWN={x:view.x, y:view.y, s:view.s};
+  $('circCv').style.transform='';
+  GRID_DRAWN={x:view.x, y:view.y, s:view.s, w:r.width, h:r.height};
   const {w,h}=worldSize();
   const sc=view.s*dpr, ox=view.x*dpr, oy=view.y*dpr;
   const x0=Math.max(0,ox), x1=Math.min(W2, ox+w*sc);
@@ -5399,8 +5409,12 @@ $('gsdOp').oninput=e=>{
     else if (pp.size===2 && pz){
       const [a,b2]=[...pp.values()];
       const r=cv2.getBoundingClientRect();
-      const k=(pz.s*Math.hypot(a.x-b2.x,a.y-b2.y)/pz.d)/pz.s;
-      GSDP.view.s=pz.s*k;
+      const cssW=$('gsdStage').clientWidth;
+      const fit=Math.min(cssW/GSDP.w, cssW/GSDP.h);
+      const s2=Math.max(fit, Math.min(fit*8,
+        pz.s*Math.hypot(a.x-b2.x,a.y-b2.y)/pz.d));
+      const k=s2/pz.s;
+      GSDP.view.s=s2;
       GSDP.view.x=(pz.cx-r.left)-((pz.cx-r.left)-pz.vx)*k;
       GSDP.view.y=(pz.cy-r.top)-((pz.cy-r.top)-pz.vy)*k;
       gsdDraw();
@@ -5413,10 +5427,15 @@ $('gsdOp').oninput=e=>{
     if (!GSDP.on) return;
     e.preventDefault();
     const r=cv2.getBoundingClientRect();
-    const k=e.deltaY<0 ? 1.15 : 1/1.15;
+    const cssW=$('gsdStage').clientWidth;
+    const fit=Math.min(cssW/GSDP.w, cssW/GSDP.h);
+    const s2=Math.max(fit, Math.min(fit*8,
+      GSDP.view.s*(e.deltaY<0 ? 1.15 : 1/1.15)));
+    if (s2===GSDP.view.s) return;
+    const k=s2/GSDP.view.s;
     GSDP.view.x=(e.clientX-r.left)-((e.clientX-r.left)-GSDP.view.x)*k;
     GSDP.view.y=(e.clientY-r.top)-((e.clientY-r.top)-GSDP.view.y)*k;
-    GSDP.view.s*=k; gsdDraw();
+    GSDP.view.s=s2; gsdDraw();
   }, {passive:false});
 }
 function gsdOpen(){
