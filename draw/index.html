@@ -359,48 +359,6 @@ html.uiM #layerCol .vBtn{padding-top:21px;padding-bottom:21px}
 html.uiL #layerCol .vBtn{padding-top:15px;padding-bottom:15px}
 html.uiM #hudToggle.lit{padding:0 12px}
 html.uiL #hudToggle.lit{padding:0 9px}
-/* tablet-class screens (and larger): the chrome buttons take the size
-   and shape of home-screen app icons - 76pt squircles - and everything
-   inside them scales to fit; the rest of the controls ride the same
-   multiplier so the whole UI keeps one density */
-@media (min-width:600px) and (min-height:600px){
-  html{--tb:1.727}
-  body{font-size:calc(14px*var(--ux))}
-  #backBtn,#hudToggle,#detBtn,#underBtn,#gridBtn,#compareBtn,#expBtn,
-  #setBtn,#gmDesign,#gmDesign2,#gmDesign3,#circBtn,#dlBtn{
-    border-radius:calc(17px*var(--ub))}
-  #expBtn svg,#compareBtn svg,#underBtn svg,#camCorner svg,
-  #circBtn svg,#dlBtn svg{
-    width:calc(26px*var(--ux,1));height:calc(26px*var(--ux,1))}
-  #setBtn svg{max-width:none;width:calc(30px*var(--ux,1));height:calc(30px*var(--ux,1))}
-  #gearBtn svg{width:calc(30px*var(--ux,1));height:calc(30px*var(--ux,1))}
-  #backBtn{font-size:calc(30px*var(--ux,1))}
-  .gitem,.gadd{width:calc(118px*var(--tb));border-radius:calc(10px*var(--tb));
-    box-shadow:0 12px 28px rgba(0,0,0,0.55), 0 3px 9px rgba(0,0,0,0.45)}
-  #gallery,#galleryC{min-height:calc(146px*var(--tb));
-    padding:8px calc(50% - 60px*var(--tb)) 22px;gap:calc(10px*var(--tb))}
-  .gadd span{font-size:calc(30px*var(--tb))}
-  .gstat{font-size:calc(12px*var(--tb))}
-  .gtop{padding:calc(4px*var(--tb)) 2px calc(3px*var(--tb))}
-  .gsq{width:calc(7px*var(--tb));height:calc(7px*var(--tb))}
-  .galLbl{font-size:calc(17px*var(--tb))}
-  #upTitle{font-size:calc(22px*var(--tb))}
-  #pwaNote{font-size:calc(11px*var(--tb))}
-  #a11yPanel{width:min(92vw,calc(360px*var(--ux,1)))}
-  .a11yPills{flex-wrap:wrap}
-  #hudToggle{font-size:calc(24px*var(--ux,1))}
-  #hudToggle.lit{font-size:calc(16px*var(--ux,1))}
-  #detBtn{font-size:calc(16px*var(--ux,1))}
-  #gmMiniB{width:calc(32px*var(--ux,1));height:calc(32px*var(--ux,1))}
-  #cmpRow button,#lvBtn,#mirBtn,#lvReset,#circClr{
-    min-height:calc(44px*var(--ux,1));border-radius:calc(17px*var(--ub));
-    font-size:calc(15px*var(--ux,1))}
-  #lvBtn,#cmpGridBtn,#cmpReCrop{min-width:calc(44px*var(--ux,1))}
-  #mirBtn{min-width:calc(52px*var(--ux,1))}
-  #cmpGridBtn svg,#cmpReCrop svg{
-    width:calc(26px*var(--ux,1));height:calc(26px*var(--ux,1))}
-  .redDot{width:calc(17px*var(--ux,1));height:calc(17px*var(--ux,1))}
-}
 @media (max-width:390px){ html.uiL{--ub:1.26} }
 /* high contrast: black surfaces, bright borders and text */
 html.hc button,html.hc select,html.hc input{
@@ -689,6 +647,49 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 #tourCaret.up{border-top:none;border-bottom:12px solid #555}
 .tipLit{border-color:var(--acc) !important;
   box-shadow:0 0 10px 1px var(--acc)}
+/* tablet-class screens (and larger): the chrome buttons take the size
+   and shape of home-screen app icons - 76pt squircles - and everything
+   inside them scales to fit; the rest of the controls ride the same
+   multiplier so the whole UI keeps one density */
+@media (min-width:600px) and (min-height:600px){
+  html{--tb:1.727}
+  body{font-size:calc(14px*var(--ux))}
+  #backBtn,#hudToggle,#detBtn,#underBtn,#gridBtn,#compareBtn,#expBtn,
+  #setBtn,#gmDesign,#gmDesign2,#gmDesign3,#circBtn,#dlBtn{
+    border-radius:calc(17px*var(--ub))}
+  #expBtn svg,#compareBtn svg,#underBtn svg,#camCorner svg,
+  #circBtn svg,#dlBtn svg{
+    width:calc(26px*var(--ux,1));height:calc(26px*var(--ux,1))}
+  #setBtn svg{max-width:none;width:calc(30px*var(--ux,1));height:calc(30px*var(--ux,1))}
+  #gearBtn svg{width:calc(30px*var(--ux,1));height:calc(30px*var(--ux,1))}
+  #backBtn{font-size:calc(30px*var(--ux,1))}
+  .gitem,.gadd{width:calc(118px*var(--tb));border-radius:calc(10px*var(--tb));
+    box-shadow:0 12px 28px rgba(0,0,0,0.55), 0 3px 9px rgba(0,0,0,0.45)}
+  #gallery,#galleryC{min-height:calc(146px*var(--tb));
+    padding:8px calc(50% - 60px*var(--tb)) 22px;gap:calc(10px*var(--tb))}
+  .gadd span{font-size:calc(30px*var(--tb))}
+  .gstat{font-size:calc(12px*var(--tb))}
+  .gtop{padding:calc(4px*var(--tb)) 2px calc(3px*var(--tb))}
+  .gsq{width:calc(7px*var(--tb));height:calc(7px*var(--tb))}
+  .galLbl{font-size:calc(17px*var(--tb))}
+  #upTitle{font-size:calc(22px*var(--tb))}
+  #pwaNote{font-size:calc(11px*var(--tb))}
+  #a11yPanel{width:min(92vw,calc(360px*var(--ux,1)))}
+  .a11yPills{flex-wrap:wrap}
+  #hudToggle{font-size:calc(24px*var(--ux,1))}
+  #hudToggle.lit{font-size:calc(16px*var(--ux,1))}
+  #detBtn{font-size:calc(16px*var(--ux,1))}
+  #gmMiniB{width:calc(32px*var(--ux,1));height:calc(32px*var(--ux,1))}
+  #cmpRow button,#lvBtn,#mirBtn,#lvReset,#circClr{
+    min-height:calc(44px*var(--ux,1));border-radius:calc(17px*var(--ub));
+    font-size:calc(15px*var(--ux,1))}
+  #lvBtn,#cmpGridBtn,#cmpReCrop{min-width:calc(44px*var(--ux,1))}
+  #mirBtn{min-width:calc(52px*var(--ux,1))}
+  #cmpGridBtn svg,#cmpReCrop svg,#lvBtn svg{
+    width:calc(26px*var(--ux,1));height:calc(26px*var(--ux,1))}
+  #upStat{font-size:calc(15px*var(--tb)) !important}
+  .redDot{width:calc(17px*var(--ux,1));height:calc(17px*var(--ux,1))}
+}
 /* landscape: the drawing chrome moves to the side edges - back, gear and
    download down the LEFT, layers/detail/grid/comparison down the RIGHT -
    and every submenu opens inward, toward the paper. The home screen gains
@@ -727,6 +728,8 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     transform:none;top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
   html.adOn #hudWrap,html.adOn #detCorner,html.adOn #gridCorner,
   html.adOn #underCorner{bottom:auto}
+  #shutter{left:auto;right:calc(20px + env(safe-area-inset-right));
+    bottom:auto;top:50%;transform:translateY(-50%)}
   #detMenu{bottom:auto;top:0;left:auto;right:calc(100% + 8px)}
   #underMenu,#gridMenu{top:auto;bottom:0;left:auto;
     right:calc(100% + 8px);transform:none}
@@ -787,7 +790,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v370</span>
+    <span id="verNum">v371</span>
   </div>
 </div>
 <div id="delModal">
@@ -1524,7 +1527,7 @@ function shadowMeta(now){
       const refs=[];
       for (const r of await galAll())
         refs.push({id:r.id, ts:r.ts||0, name:r.name||'', seed:r.seed?1:0,
-                   thumb:(r.thumb||'').slice(0,40000)});
+                   thumb:((r.thumb||'').length<=40000 ? (r.thumb||'') : '')});
       const per={};
       for (let i=0;i<localStorage.length;i++){
         const k=localStorage.key(i);
@@ -1613,15 +1616,34 @@ function blobImage(blob){ return new Promise((res,rej)=>{
 
 async function thumbOf(blob, colr){
   const i = await blobImage(blob);
-  const T = 192, c = document.createElement('canvas'); c.width = T; c.height = T;
+  const T = 448, c = document.createElement('canvas'); c.width = T; c.height = T;
   const g = c.getContext('2d');
   const s = Math.min(i.width, i.height);
   if (!colr) g.filter = 'grayscale(1)';
   g.drawImage(i, (i.width-s)/2, (i.height-s)/2, s, s, 0, 0, T, T);
   if (!colr) forceGray(c);
   URL.revokeObjectURL(i.src);
-  return c.toDataURL('image/jpeg', 0.72);
+  return c.toDataURL('image/jpeg', 0.8);
 }
+// thumbnails were baked at 192px before v371: re-bake existing ones from
+// their stored blobs, one at a time after boot, refreshing tiles in place
+async function regenThumbs(){
+  try{
+    if (localStorage.getItem('thumbV')==='448') return;
+    for (const r of await galAll()){
+      if (!r.blob) continue;
+      try{
+        r.thumb=await thumbOf(r.blob, isColor(r.id));
+        await galPut(r);
+        const im=document.querySelector('.gitem[data-gid="'+r.id+'"] img');
+        if (im) im.src=r.thumb;
+      }catch(e){}
+      await new Promise(res=>setTimeout(res,120));
+    }
+    localStorage.setItem('thumbV','448');
+  }catch(e){}
+}
+setTimeout(regenThumbs, 5000);
 
 // HEIC and friends: the engine can't decode Apple/Samsung high-efficiency
 // photos, but the Android OS can - the shell decodes the bytes with the
