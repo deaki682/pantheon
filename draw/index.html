@@ -374,8 +374,11 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
 .accBtn svg{width:calc(18px*var(--ux,1));height:calc(18px*var(--ux,1));flex:none}
 #accMail{font-size:calc(13px*var(--ux,1));text-align:center;color:var(--acc);
   word-break:break-all}
+/* a diagnostic that runs off the edge of the panel is worse than none:
+   fingerprints and error codes have to survive intact */
 #accState{font-size:calc(12px*var(--ux,1));text-align:center;opacity:.7;
-  min-height:calc(16px*var(--ux,1))}
+  min-height:calc(16px*var(--ux,1));overflow-wrap:anywhere;word-break:break-word;
+  line-height:1.5}
 #accDel{color:#c86a6a;font-size:calc(12px*var(--ux,1));background:none;
   border:none;text-decoration:underline;padding:6px}
 #accRow{display:flex;justify-content:flex-end}
@@ -830,7 +833,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v393</span>
+    <span id="verNum">v394</span>
   </div>
 </div>
 <div id="delModal">
