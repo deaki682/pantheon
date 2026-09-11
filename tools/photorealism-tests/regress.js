@@ -56,7 +56,14 @@ function checkLayout(tag, { b, vw, vh }, issues, allowPairs = []) {
 }
 
 async function waitReady(pg) {
-  for (let i = 0; i < 45; i++) {
+  try {
+    // returns the instant the grid is ready instead of on a 2s tick
+    await pg.waitForFunction(
+      () => { try { return !!GRID_READY } catch (e) { return false } },
+      null, { timeout: 90000 });
+    return true;
+  } catch (e) {}
+  for (let i = 0; i < 5; i++) {
     await pg.waitForTimeout(2000);
     if (await pg.evaluate(() => { try { return !!GRID_READY } catch (e) { return false } })) return true;
   }
@@ -79,8 +86,12 @@ async function run(br, v, scale, report) {
   pg.on('pageerror', e => issues.push(`${tag}: PAGEERROR ${e.message}`));
   pg.on('console', m => { if (m.type() === 'error' && !/ERR_CONNECTION|Failed to load resource|net::/.test(m.text())) issues.push(`${tag}: CONSOLE ${m.text().slice(0, 160)}`); });
   try {
-    await pg.goto('http://localhost:8899/index.html');
-    await pg.waitForTimeout(2200);
+    // 'load' waits for every image the page ever fetches - 20+ seconds
+    // per config, ten configs. Wait for the gallery to actually exist.
+    await pg.goto('http://localhost:8899/index.html', { waitUntil: 'domcontentloaded' });
+    await pg.waitForFunction(
+      () => document.querySelectorAll('#gallery .gitem, #galleryC .gitem').length > 0,
+      null, { timeout: 30000 });
     // home: scrollable when content overflows
     const home = await pg.evaluate(() => { const s = document.getElementById('scrUpload');
       return { sh: s.scrollHeight, ch: s.clientHeight, ov: getComputedStyle(s).overflowY }; });

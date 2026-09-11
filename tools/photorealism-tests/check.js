@@ -97,6 +97,20 @@ const ok = (name, cond, detail) => {
     out.stable = (await galAll()).length === all.length && S.objects.size === before
                  && (S.docs.get('users/u1/prefs/app')||{}).pAt === pAt;
 
+    // a sync asked for while one is running must be re-run, not dropped:
+    // this is where accent and grid changes were vanishing on a real
+    // phone, because an upload was almost always in flight
+    SYNC_BUSY = true; SYNC_AGAIN = false;
+    await syncNow(true);
+    out.queuedWhileBusy = SYNC_AGAIN === true;
+    SYNC_BUSY = false;
+    PREF_SIG = null; prefsPoll();                   // baseline as it stands
+    localStorage.setItem('accent','#ff0000');       // then a real change
+    PREF_DIRTY = false; prefsPoll();
+    out.noticedChange = PREF_DIRTY === true;
+    SYNC_AT = 0; await syncNow(true);
+    out.pushedAfterBusy = (S.docs.get('users/u1/prefs/app')||{}).v?.accent === '#ff0000';
+
     // deleting takes the synced copy with it and does not resurrect
     const gone = (await galAll()).find(x=>x.sid);
     await syncDrop(gone); await galDel(gone.id);
@@ -116,6 +130,9 @@ const ok = (name, cond, detail) => {
   ok('grid style and thickness cross',    R.grid === 'dots/3', R.grid);
   ok('repeat syncs change nothing',       R.stable);
   ok('delete does not resurrect',         R.deleted);
+  ok('a busy sync is queued, not lost',   R.queuedWhileBusy);
+  ok('a settings change is noticed',      R.noticedChange);
+  ok('and pushed once free',              R.pushedAfterBusy);
   ok('no page errors',                    errs.length === 0, errs[0] || '');
 
   await br.close();

@@ -833,7 +833,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v398</span>
+    <span id="verNum">v399</span>
   </div>
 </div>
 <div id="delModal">
@@ -2583,6 +2583,7 @@ function applyAccent(c){
   document.documentElement.style.setProperty('--accBg',
     'rgb('+m((n>>16)&255)+','+m((n>>8)&255)+','+m(n&255)+')');
   try{ localStorage.setItem('accent', c); }catch(e){}
+  try{ prefsBump(); }catch(e){}          // straight to the other device
   for (const gid of ['accGrid','accGrid2','accPal2']){
     const g=$(gid); if (!g) continue;
     [...g.children].forEach(b=>b.classList.toggle('vOn', b.dataset.c===c));
@@ -5477,6 +5478,7 @@ function gsSync(){
 function gsSet(v){
   GRID_STYLE=v;
   try{ localStorage.setItem('gridStyle', v); }catch(e){}
+  try{ prefsBump(); }catch(e){}
   gsSync();
   if ($('scrMain').classList.contains('on')) applyView();
   if ($('scrFormat').classList.contains('on')) fmtPreview();
@@ -5938,6 +5940,7 @@ document.querySelectorAll('#a11ySize button').forEach(b=>
   b.onclick=()=>{
     UI_SCALE=b.dataset.s;
     try{ localStorage.setItem('uiScale', UI_SCALE); }catch(e){}
+    try{ prefsBump(); }catch(e){}
     a11yApply();
   });
 $('a11yHc').onclick=()=>{
@@ -6022,7 +6025,12 @@ async function accWatch(){
     ACC_USER=u||null;
     try{ localStorage.setItem('acct', u?'1':''); }catch(e){}
     accPaint();
-    if (u) setTimeout(()=>{ syncNow(true).catch(()=>{}); syncListen(true); }, 400);
+    if (u){
+      // establish the settings baseline at sign-in, so a change made in
+      // the first second is a change and not mistaken for the baseline
+      try{ PREF_SIG=JSON.stringify(readPrefs()); }catch(e){}
+      setTimeout(()=>{ syncNow(true).catch(()=>{}); syncListen(true); }, 400);
+    }
     else syncListen(false);
   });
   // a redirect sign-in (popup blocked) lands back here on the next load
@@ -6278,14 +6286,18 @@ function applyPrefs(p){
 // themselves cannot miss one.
 let PREF_SIG=null, PREF_DIRTY=false, PREF_SEEN=0;
 try{ PREF_SEEN=+localStorage.getItem('prefSeen')||0; }catch(e){}
-setInterval(()=>{
+function prefsPoll(){
   try{
-    if (!ACC_USER || document.hidden) return;
+    if (!ACC_USER) return;
     const sig=JSON.stringify(readPrefs());
     if (PREF_SIG===null){ PREF_SIG=sig; return; }
-    if (sig!==PREF_SIG){ PREF_SIG=sig; PREF_DIRTY=true; syncSoon(1200); }
+    if (sig!==PREF_SIG){ PREF_SIG=sig; PREF_DIRTY=true; syncSoon(500); }
   }catch(e){}
-}, 2500);
+}
+setInterval(()=>{ if (!document.hidden) prefsPoll(); }, 1200);
+// the settings people actually change say so immediately rather than
+// waiting up to a second to be noticed
+function prefsBump(){ setTimeout(prefsPoll, 0); }
 
 // references whose state changed and owe the account an update
 const SYNC_DIRTY=new Set();
@@ -6364,8 +6376,10 @@ async function syncListen(on){
   }catch(e){}
 }
 function syncSay(m){ accSay(m); }
+let SYNC_AGAIN=false;
 async function syncNow(force){
-  if (!ACC_USER || SYNC_BUSY) return;
+  if (!ACC_USER) return;
+  if (SYNC_BUSY){ SYNC_AGAIN=true; return; }   // run again when this one ends
   if (!force && Date.now()-SYNC_AT < 90000) return;
   if (navigator.onLine===false){ if (force) syncSay(TR('no connection')); return; }
   SYNC_BUSY=true;
@@ -6521,7 +6535,10 @@ async function syncNow(force){
     // a denied write almost always means the rules are not published yet
     syncSay(c.indexOf('permission')>=0 || c.indexOf('unauthorized')>=0
       ? TR('sync is not permitted yet') : TR('sync failed'));
-  }finally{ SYNC_BUSY=false; }
+  }finally{
+    SYNC_BUSY=false;
+    if (SYNC_AGAIN){ SYNC_AGAIN=false; setTimeout(()=>syncNow(true), 400); }
+  }
 }
 // a reference deleted here is deleted for the account, and this device
 // remembers the id so a half-finished remote delete cannot resurrect it
