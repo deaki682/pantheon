@@ -170,6 +170,7 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
 #refImg{position:absolute;left:0;top:0}
 #gridCv{position:absolute;left:0;top:0;pointer-events:none;transform-origin:0 0}
 #circCv{position:absolute;left:0;top:0;pointer-events:none;transform-origin:0 0}
+#edgeCv{position:absolute;left:0;top:0;pointer-events:none}
 #circWrap{position:absolute;top:calc(8px + env(safe-area-inset-top));
   left:50%;transform:translateX(-50%);z-index:7;display:none;gap:8px}
 #circBtn{width:44px;height:44px;padding:0;border-radius:12px;
@@ -411,6 +412,9 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
 #langSel,#unitSel2{background:#242424;color:#e8e6e1;border:1px solid #555;
   border-radius:10px;padding:8px 10px;font-size:14px}
 #gearPanel label{display:flex;gap:10px;align-items:center;font-size:14px}
+#gmDesign2,#gmDesign3{width:46px;height:42px;padding:5px;display:flex;
+  align-items:center;justify-content:center;border-radius:10px}
+#gmMini2,#gmMini3{width:30px;height:30px;display:block}
 #gridColBox,#accColBox{width:40px;height:40px;border-radius:10px;border:1px solid #555;
   padding:3px;background:#242424}
 #gridColBox span,#accColBox span{display:block;width:100%;height:100%;border-radius:7px}
@@ -611,18 +615,12 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <span class="setLbl" style="margin-top:8px">App Color</span>
     <button id="accColBox"><span id="accSw"></span></button>
     <div id="accPal2"></div>
-    <span class="setLbl" style="margin-top:8px">Grid Color</span>
-    <button id="gridColBox"><span id="gridSw"></span></button>
-    <div id="gridPal2"></div>
     <span class="setLbl" style="margin-top:8px">Grid Style</span>
-    <div class="row" style="padding:0;gap:8px">
-      <button id="gsSq2" class="gsBtn" title="Squares"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="1.5"/></svg></button>
-      <button id="gsDiag2" class="gsBtn" title="Diagonals"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M4 4l16 16M20 4L4 20"/></svg></button>
-    </div>
+    <button id="gmDesign3" title="Grid style"><canvas id="gmMini3" width="64" height="64"></canvas></button>
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v345</span>
+    <span id="verNum">v346</span>
   </div>
 </div>
 <div id="delModal">
@@ -870,8 +868,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     </div>
     <span class="fLbl">Grid Style:</span>
     <div class="fCtl">
-      <button id="gsSq" class="gsBtn" title="Squares"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="1.5"/></svg></button>
-      <button id="gsDiag" class="gsBtn" title="Diagonals"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M4 4l16 16M20 4L4 20"/></svg></button>
+      <button id="gmDesign2" title="Grid style"><canvas id="gmMini2" width="64" height="64"></canvas></button>
     </div>
   </div>
   <div class="row" id="fmtRow">
@@ -890,6 +887,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <!-- grid above the reference in SCREEN space, inverse of what's beneath -->
     <canvas id="gridCv" style="mix-blend-mode:difference"></canvas>
     <canvas id="circCv"></canvas>
+    <canvas id="edgeCv"></canvas>
   </div>
   <div id="hudWrap">
     <div id="hud">
@@ -2231,11 +2229,7 @@ function ttlOn(){ return true; }   // operator direction 2026-09: always stop at
   }
   // the unified preferences gear - both gear icons open this one panel
   let GEAR_PAL_BUILT=false;
-  function gearGridSync(){
-    $('gridSw').style.background = GRID_COL==='auto'
-      ? 'linear-gradient(135deg,#fff 50%,#000 50%)' : GRID_COL;
-    [...$('gridPal2').children].forEach(b=>b.classList.toggle('vOn', b.dataset.c===GRID_COL));
-  }
+  function gearGridSync(){ try{ drawMini(); }catch(e){} }
   function gearOpen(){
     try{ $('langSel').value = localStorage.getItem('lang')||'en'; }catch(e){}
     try{ $('unitSel2').value = localStorage.getItem('unit')||'in'; }catch(e){}
@@ -2248,39 +2242,17 @@ function ttlOn(){ return true; }   // operator direction 2026-09: always stop at
         b.onclick=()=>{ applyAccent(c); ap.style.display='none'; };
         ap.appendChild(b);
       }
-      const pal=$('gridPal2');
-      for (const c of GRID_PAL){
-        const b=document.createElement('button');
-        b.dataset.c=c;
-        b.style.background = c==='auto' ? 'linear-gradient(135deg,#fff 50%,#000 50%)' : c;
-        b.title = c==='auto' ? 'auto - inverts whatever is beneath' : c;
-        b.onclick=()=>{
-          GRID_COL=c;
-          try{ localStorage.setItem('gridCol', c); }catch(e){}
-          pal.style.display='none';
-          gearGridSync();
-          try{ gridMenuSync(); }catch(e){}
-          try{ if (GRID_READY) drawGrid(); }catch(e){}
-          try{ window.drawUpGrid && drawUpGrid(); }catch(e){}
-        };
-        pal.appendChild(b);
-      }
     }
     gearGridSync();
     try{ const cur=localStorage.getItem('accent')||'#e8833a';
       $('accSw').style.background=cur;
       [...$('accPal2').children].forEach(b=>b.classList.toggle('vOn', b.dataset.c===cur));
     }catch(e){}
-    $('gridPal2').style.display='none';
     $('accPal2').style.display='none';
     $('gearModal').style.display='flex';
   }
   $('gearBtn').onclick=gearOpen;
-  $('gridColBox').onclick=()=>{ const p=$('gridPal2');
-    $('accPal2').style.display='none';
-    p.style.display = p.style.display==='grid' ? 'none' : 'grid'; };
   $('accColBox').onclick=()=>{ const p=$('accPal2');
-    $('gridPal2').style.display='none';
     p.style.display = p.style.display==='grid' ? 'none' : 'grid'; };
   $('gearModal').onclick=e=>{ if (e.target===$('gearModal')) $('gearModal').style.display='none'; };
   $('langSel').onchange=()=>{ try{ localStorage.setItem('lang', $('langSel').value); }catch(e){} location.reload(); };
@@ -3618,6 +3590,7 @@ function applyView(){
     const tf='translate('+(view.x-GRID_DRAWN.x*k)+'px,'+(view.y-GRID_DRAWN.y*k)+'px) scale('+k+')';
     $('gridCv').style.transform=tf;
     $('circCv').style.transform=tf;
+    drawEdgeLabs();      // the sticky margin labels track every frame
     return;
   }
   drawGrid();
@@ -3803,29 +3776,55 @@ function drawGrid(){
         g.fillText(symC(cx)+symR(ry), x, y);
       }
     }
-  } else if (GRID_LAB && GRID_LPOS==='edge'){
-    // margin labels: letters ride above the paper's top edge and numbers
-    // left of it; when that edge scrolls away they stick to the screen -
-    // parked BELOW the top button chrome, never beneath it
-    const fs=Math.max(10*dpr, Math.min(step*sc*0.16, 15*dpr));
-    let yFloor=56*dpr;
-    try{ const cb=$('setCorner').getBoundingClientRect().bottom - r.top;
-      yFloor=Math.max(40, cb+8)*dpr; }catch(e){}
-    g.font='600 '+fs+'px system-ui';
-    g.textAlign='center'; g.textBaseline='middle';
-    g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
-    const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
-    for (let cx=0;cx<cols;cx++){
-      const x=ox+(cx+0.5)*step*sc;
-      if (x<x0-2||x>x1+2) continue;
-      g.fillText(symC(cx), x, Math.max(yFloor+fs*0.6, oy-fs*0.8));
-    }
-    for (let ry=0;ry<rows;ry++){
-      const y=oy+(ry+0.5)*step*sc;
-      if (y<y0-2||y>y1+2) continue;
-      g.fillText(symR(ry), Math.max(10*dpr+fs*0.5, ox-fs*0.9), y);
-    }
-    g.textAlign='left';
+  }
+  g.globalAlpha=1;
+  drawEdgeLabs();
+}
+// the sticky margin labels live on their own layer, recomputed from the
+// LIVE view every frame - during a swipe they glide with the paper edge
+// and clamp smoothly beneath the top chrome, never snapping
+function drawEdgeLabs(){
+  const cv=$('edgeCv'); if (!cv) return;
+  const r=$('viewport').getBoundingClientRect();
+  const on = GRID_LAB && GRID_LPOS==='edge' && GRID_READY && r.width;
+  if (!on){
+    if (cv.width) cv.getContext('2d').clearRect(0,0,cv.width,cv.height);
+    return;
+  }
+  const dpr=Math.min(3, devicePixelRatio||1);
+  const W2=Math.round(r.width*dpr), H2=Math.round(r.height*dpr);
+  if (cv.width!==W2 || cv.height!==H2){
+    cv.width=W2; cv.height=H2;
+    cv.style.width=r.width+'px'; cv.style.height=r.height+'px';
+  }
+  const g=cv.getContext('2d');
+  g.clearRect(0,0,W2,H2);
+  cv.style.mixBlendMode = GRID_COL==='auto' ? 'difference' : 'normal';
+  const {w,h}=worldSize();
+  const sc=view.s*dpr, ox=view.x*dpr, oy=view.y*dpr;
+  const x0=Math.max(0,ox), x1=Math.min(W2, ox+w*sc);
+  const y0=Math.max(0,oy), y1=Math.min(H2, oy+h*sc);
+  const step=gridStepPx();
+  const symC=i=> GRID_LSCH[0]==='L' ? colName(i) : String(i+1);
+  const symR=j=> GRID_LSCH[1]==='L' ? colName(j) : String(j+1);
+  const fs=Math.max(10*dpr, Math.min(step*sc*0.16, 15*dpr));
+  let yFloor=56*dpr;
+  try{ const cb=$('setCorner').getBoundingClientRect().bottom - r.top;
+    yFloor=Math.max(40, cb+8)*dpr; }catch(e){}
+  g.globalAlpha=GRID_OP;
+  g.font='600 '+fs+'px system-ui';
+  g.textAlign='center'; g.textBaseline='middle';
+  g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+  const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
+  for (let cx=0;cx<cols;cx++){
+    const x=ox+(cx+0.5)*step*sc;
+    if (x<x0-2||x>x1+2) continue;
+    g.fillText(symC(cx), x, Math.max(yFloor+fs*0.6, oy-fs*0.8));
+  }
+  for (let ry=0;ry<rows;ry++){
+    const y=oy+(ry+0.5)*step*sc;
+    if (y<y0-2||y>y1+2) continue;
+    g.fillText(symR(ry), Math.max(10*dpr+fs*0.5, ox-fs*0.9), y);
   }
   g.globalAlpha=1;
 }
@@ -4342,6 +4341,7 @@ const COMP={key:null, ph:null, sh:null, hl:null, sig:null, cv:null};
 
 function applyGrid(){
   $('gridCv').style.display = GRID_ON ? '' : 'none';
+  $('edgeCv').style.display = GRID_ON ? '' : 'none';
   $('gridBtn').style.opacity = GRID_ON ? '1' : '0.35';
 }
 function layerButtons(){
@@ -4886,7 +4886,10 @@ const GRID_PAL=['auto','#ffffff','#000000','#e03c3c','#e8833a',
 // the design button's icon IS the grid: a live 3x3 miniature in the
 // current style, thickness and color
 function drawMini(){
-  const c=$('gmMini'); if (!c) return;
+  for (const id of ['gmMini','gmMini2','gmMini3']) drawMini1(id);
+}
+function drawMini1(id){
+  const c=$(id); if (!c) return;
   const g=c.getContext('2d'), S2=c.width;
   g.clearRect(0,0,S2,S2);
   let col = GRID_COL==='auto' ? '#e8e6e1' : GRID_COL;
@@ -4952,10 +4955,6 @@ $('gmOn').onclick=()=>{
   if (GRID_READY) drawCircs();     // the progress dots follow the grid
 };
 function gsSync(){
-  for (const [id,v] of [['gsSq','sq'],['gsDiag','diag'],
-                        ['gsSq2','sq'],['gsDiag2','diag']]){
-    const b=$(id); if (b) b.classList.toggle('vOn', GRID_STYLE===v);
-  }
   try{ drawMini(); }catch(e){}
   try{ gsdSync(); }catch(e){}
 }
@@ -4967,14 +4966,13 @@ function gsSet(v){
   if ($('scrFormat').classList.contains('on')) fmtPreview();
   try{ window.drawUpGrid && drawUpGrid(); }catch(e){}
 }
-$('gsSq').onclick=()=>gsSet('sq');
-$('gsDiag').onclick=()=>gsSet('diag');
-$('gsSq2').onclick=()=>gsSet('sq');
-$('gsDiag2').onclick=()=>gsSet('diag');
+$('gmDesign2').onclick=()=>{ haptic(); gsdOpen(); };
+$('gmDesign3').onclick=()=>{ haptic(); gsdOpen(); };
 gsSync();
 // ---- the Grid Style window: the design surface behind gmDesign --------
 function gsdApply(){
   if (GRID_READY && $('scrMain').classList.contains('on')) applyView();
+  if ($('scrFormat').classList.contains('on')){ try{ fmtPreview(); }catch(e){} }
   try{ drawMini(); }catch(e){}
   try{ window.drawUpGrid && drawUpGrid(); }catch(e){}
 }
