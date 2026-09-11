@@ -637,7 +637,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v358</span>
+    <span id="verNum">v359</span>
   </div>
 </div>
 <div id="delModal">
@@ -5265,15 +5265,19 @@ function gsdDrawPrev(g, cssW){
   }
   const symC=i=> GRID_LSCH[0]==='L' ? colName(i) : String(i+1);
   const symR=j=> GRID_LSCH[1]==='L' ? colName(j) : String(j+1);
-  if (GRID_LAB && GRID_LPOS==='cell' && cell*v.s>=40){
+  if (GRID_LAB && GRID_LPOS==='cell' && cell*v.s>=14){
+    // the tag scales with the square and stays readable far out - the
+    // same feel as the live drawing grid, not a hard cliff
+    const cpx=cell*v.s;
+    const fs=Math.max(8, Math.min(cpx*0.2, 15));
     const dodge = GRID_STYLE==='diag' || GRID_SUB;
     const fx = GRID_SUB ? 0.25 : 0.5;
-    g.font='600 11px system-ui';
+    g.font='600 '+fs+'px system-ui';
     g.textAlign = dodge ? 'center' : 'left';
     g.textBaseline='top';
     for (let j=0;j<rows;j++) for (let i=0;i<cols;i++){
-      const x = dodge ? px((i+fx)*cell) : px(i*cell)+6;
-      const y=py(j*cell)+5;
+      const x = dodge ? px((i+fx)*cell) : px(i*cell)+fs*0.5;
+      const y=py(j*cell)+fs*0.4;
       if (x<-40||y<-20||x>cssW||y>cssW) continue;
       g.fillText(symC(i)+symR(j), x, y);
     }
