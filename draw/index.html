@@ -56,8 +56,13 @@ body{position:fixed;inset:0}
   #scrMain{transition:padding-bottom .3s var(--motE)}
   .gitem{transition:transform 120ms var(--motE)}
   .gitem:active{transform:scale(.965)}
-  #viewport{transition:transform 320ms var(--motE);transform-origin:50% 42%}
-  html.bloom #viewport{transform:scale(.96);transition:none}
+  #viewport{transition:transform 320ms var(--motE), opacity 320ms var(--motE);
+    transform-origin:50% 42%}
+  html.bloom #viewport{transform:scale(.96);opacity:0;transition:none}
+  html.chromeIn #backBtn,html.chromeIn #setCorner,html.chromeIn #expCorner{
+    animation:chromeTop 420ms var(--motE)}
+  html.chromeIn #hudWrap,html.chromeIn #detCorner,html.chromeIn #gridCorner,
+  html.chromeIn #underCorner{animation:chromeBot 420ms var(--motE)}
   button{transition:transform 90ms var(--motE)}
   button:active{transform:scale(.955)}
 }
@@ -66,6 +71,8 @@ body{position:fixed;inset:0}
 @keyframes menuIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @keyframes menuInC{from{opacity:0;transform:translate(-50%,6px)}
   to{opacity:1;transform:translate(-50%,0)}}
+@keyframes chromeTop{from{translate:0 -80px;opacity:0}to{translate:0 0;opacity:1}}
+@keyframes chromeBot{from{translate:0 90px;opacity:0}to{translate:0 0;opacity:1}}
 #slTip{position:fixed;display:none;z-index:44;transform:translate(-50%,0);
   background:#262626;border:1px solid #555;border-radius:8px;
   padding:3px 9px;font-size:12px;color:var(--acc);pointer-events:none}
@@ -630,7 +637,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v356</span>
+    <span id="verNum">v358</span>
   </div>
 </div>
 <div id="delModal">
@@ -1170,6 +1177,9 @@ function bloomIn(){
     de.classList.add('bloom');
     void $('viewport').offsetWidth;   // commit the pre-state, unskippably
     de.classList.remove('bloom');
+    de.classList.add('chromeIn');     // the edge buttons glide in with it
+    clearTimeout(bloomIn._t);
+    bloomIn._t=setTimeout(()=>de.classList.remove('chromeIn'), 480);
   }catch(e){}
 }
 // every screen carries the bottom ad strip in the native shell, skinned
@@ -3648,11 +3658,15 @@ function applyView(){
   if (GESTURE.active && GRID_DRAWN && GRID_READY){
     const k=view.s/GRID_DRAWN.s;
     const tx=view.x-GRID_DRAWN.x*k, ty=view.y-GRID_DRAWN.y*k;
-    // the ride only covers what was rasterized: once a zoom-out or a long
-    // pan would expose blank viewport, re-bake mid-gesture and ride on
-    // from the fresh frame
-    if (k<0.92 || Math.abs(tx)>(GRID_DRAWN.w||0)*0.2
-               || Math.abs(ty)>(GRID_DRAWN.h||0)*0.2){
+    // the ride only covers what was rasterized. Compute the largest strip
+    // of viewport the transformed frame would leave bare (pans expose the
+    // trailing edge, zoom-out exposes all four; zoom-IN covers everything
+    // and keeps the cheap ride) - past 8px, re-bake mid-gesture. Pans only
+    // exist zoomed in, where a redraw is light, so the grid tracks the
+    // finger with no blank areas
+    const w0=GRID_DRAWN.w||0, h0=GRID_DRAWN.h||0;
+    const gap=Math.max(tx, ty, w0-(tx+k*w0), h0-(ty+k*h0));
+    if (gap>8){
       drawGrid();
       drawCircs();
       return;
@@ -4870,61 +4884,107 @@ async function natSaveImage(fname, b64){
   return true;
 }
 $('expBtn').onclick = async () => {
-  // the current visualization, exactly as composed: layers, detail, grid
+  // the current visualization, exactly as composed: layers, detail, grid.
+  // The file renders at up to 2x the working resolution when the source
+  // photo carries the pixels - the grid and labels draw crisp at the
+  // bigger size instead of being rasterized small and scaled
   if (!state.img || !GRID_READY) return;
   const {w,h}=worldSize();
-  const c=document.createElement('canvas'); c.width=w; c.height=h;
+  const k=Math.max(1, Math.min(2, (state.img.width||w)/w));
+  const W=Math.round(w*k), H=Math.round(h*k);
+  const c=document.createElement('canvas'); c.width=W; c.height=H;
   const g=c.getContext('2d');
   g.imageSmoothingQuality='high';
-  g.drawImage(viewSrc(),0,0,w,h);
+  g.drawImage(viewSrc(),0,0,W,H);
   if (GRID_ON){
-    // the export mirrors drawGrid exactly: style, labels, marks - what
-    // is on the screen is what lands in the file
+    // full design parity with drawGrid: style, thickness, transparency,
+    // subdivide, label scheme and placement - what is on the screen is
+    // what lands in the file
     if (GRID_COL==='auto'){
       g.globalCompositeOperation='difference';
       g.strokeStyle='rgba(255,255,255,0.75)';
     } else g.strokeStyle=GRID_COL;
-    g.lineWidth=GRID_THK;
-    const step=gridStepPx();
+    g.globalAlpha=GRID_OP;
+    g.lineWidth=GRID_THK*k;
+    const step=gridStepPx()*k;
     if (GRID_STYLE!=='dots'){
-      for (let xw=step; xw<w-1; xw+=step){ const x=Math.round(xw)+0.5;
-        g.beginPath(); g.moveTo(x,0); g.lineTo(x,h); g.stroke(); }
-      for (let yw=step; yw<h-1; yw+=step){ const y=Math.round(yw)+0.5;
-        g.beginPath(); g.moveTo(0,y); g.lineTo(w,y); g.stroke(); }
+      for (let xw=step; xw<W-1; xw+=step){ const x=Math.round(xw)+0.5;
+        g.beginPath(); g.moveTo(x,0); g.lineTo(x,H); g.stroke(); }
+      for (let yw=step; yw<H-1; yw+=step){ const y=Math.round(yw)+0.5;
+        g.beginPath(); g.moveTo(0,y); g.lineTo(W,y); g.stroke(); }
     }
     if (GRID_STYLE==='diag'){
-      for (let yw=0; yw<h-1; yw+=step) for (let xw=0; xw<w-1; xw+=step){
-        const x2=Math.min(xw+step,w), y2=Math.min(yw+step,h);
+      for (let yw=0; yw<H-1; yw+=step) for (let xw=0; xw<W-1; xw+=step){
+        const x2=Math.min(xw+step,W), y2=Math.min(yw+step,H);
         g.beginPath(); g.moveTo(xw,yw); g.lineTo(x2,y2);
         g.moveTo(x2,yw); g.lineTo(xw,y2); g.stroke();
       }
     } else if (GRID_STYLE==='dots'){
       g.fillStyle=g.strokeStyle;
       const dr=Math.max(1, g.lineWidth*1.7);
-      for (let yw=step; yw<h-1; yw+=step) for (let xw=step; xw<w-1; xw+=step){
+      for (let yw=step; yw<H-1; yw+=step) for (let xw=step; xw<W-1; xw+=step){
         g.beginPath(); g.arc(xw,yw,dr,0,6.2832); g.fill(); }
     }
-    if (GRID_LAB && step>=24){
-      const fs=Math.max(9, Math.min(step*0.2, 44));
-      g.font=fs+'px system-ui'; g.textBaseline='top';
+    if (GRID_SUB){
+      g.globalAlpha=GRID_OP*0.55;
+      const ss=step/2;
+      if (GRID_STYLE==='dots'){
+        g.fillStyle=g.strokeStyle;
+        const dr2=Math.max(0.8, g.lineWidth*1.1);
+        for (let yi=1; yi*ss<H-1; yi++) for (let xi=1; xi*ss<W-1; xi++){
+          if (yi%2===0 && xi%2===0) continue;
+          g.beginPath(); g.arc(xi*ss, yi*ss, dr2, 0, 6.2832); g.fill();
+        }
+      } else {
+        const lw0=g.lineWidth; g.lineWidth=Math.max(0.6, lw0*0.6);
+        for (let xw=ss; xw<W-1; xw+=step){ const x=Math.round(xw)+0.5;
+          g.beginPath(); g.moveTo(x,0); g.lineTo(x,H); g.stroke(); }
+        for (let yw=ss; yw<H-1; yw+=step){ const y=Math.round(yw)+0.5;
+          g.beginPath(); g.moveTo(0,y); g.lineTo(W,y); g.stroke(); }
+        g.lineWidth=lw0;
+      }
+      g.globalAlpha=GRID_OP;
+    }
+    const symC=i=> GRID_LSCH[0]==='L' ? colName(i) : String(i+1);
+    const symR=j=> GRID_LSCH[1]==='L' ? colName(j) : String(j+1);
+    const cols=Math.ceil(W/step-1e-6), rows=Math.ceil(H/step-1e-6);
+    if (GRID_LAB && GRID_LPOS==='cell' && step>=24){
+      const fs=Math.max(9, Math.min(step*0.2, 44*k));
+      const dodge = GRID_STYLE==='diag' || GRID_SUB;
+      const fx = GRID_SUB ? 0.25 : 0.5;
+      g.font=fs+'px system-ui';
+      g.textAlign = dodge ? 'center' : 'left';
+      g.textBaseline='top';
       g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
-      const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
       for (let ry=0; ry<rows; ry++)
         for (let cx=0; cx<cols; cx++)
-          g.fillText(colName(cx)+(ry+1), cx*step+fs*0.35, ry*step+fs*0.3);
+          g.fillText(symC(cx)+symR(ry),
+            cx*step + (dodge ? step*fx : fs*0.35), ry*step+fs*0.3);
+      g.textAlign='left';
+    } else if (GRID_LAB && GRID_LPOS==='edge'){
+      const fs=Math.max(9, Math.min(step*0.16, 34*k));
+      g.font='600 '+fs+'px system-ui';
+      g.textAlign='center'; g.textBaseline='middle';
+      g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+      for (let cx=0; cx<cols; cx++)
+        g.fillText(symC(cx), (cx+0.5)*step, fs*0.8);
+      for (let ry=0; ry<rows; ry++)
+        g.fillText(symR(ry), fs*0.8, (ry+0.5)*step);
+      g.textAlign='left';
     }
+    g.globalAlpha=1;
     if (DONE.length){
       g.globalCompositeOperation='source-over';
       g.fillStyle = GRID_COL==='auto' ? '#fff' : GRID_COL;
       const r0=Math.max(1.5, step*0.055);
       for (const q of DONE){
-        const p=doneCenter(q, step, w, h);
+        const p=doneCenter(q, step, W, H);
         g.beginPath(); g.arc(p.x,p.y,r0,0,6.2832); g.fill();
       }
     }
     g.globalCompositeOperation='source-over';
   }
-  for (const q of CIRCS) paintMark(g, q.x, q.y, circR(), 10, 3);
+  for (const q of CIRCS) paintMark(g, q.x*k, q.y*k, circR()*k, 10*k, 3*k);
   const t=new Date(), p2=n=>String(n).padStart(2,'0');
   const fname='photorealism-'+t.getFullYear()+p2(t.getMonth()+1)+p2(t.getDate())
     +'-'+p2(t.getHours())+p2(t.getMinutes())+p2(t.getSeconds())+'.jpg';
@@ -4933,13 +4993,13 @@ $('expBtn').onclick = async () => {
     // silently dropped, so this export must go through the bridge, the same
     // always-ask door as the comparison download
     try{
-      const du=c.toDataURL('image/jpeg',0.9);
+      const du=c.toDataURL('image/jpeg',0.95);
       const b64=du.slice(du.indexOf(',')+1);
       if (await natSaveImage(fname, b64)){ hapticOK(); gcPing('/download'); }
       return;                                  // the bridge toasts the result
     }catch(e){}
   }
-  const blob=canvasBlob(c,'image/jpeg',0.9);
+  const blob=canvasBlob(c,'image/jpeg',0.95);
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
   a.download=fname;
