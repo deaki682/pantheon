@@ -52,7 +52,10 @@ body{position:fixed;inset:0}
   #hud,#detMenu,#gridMenu,#underMenu,#gmPal,#gridPal2,#accPal2{animation:menuIn 160ms var(--motE)}
   .screen{transition:padding-bottom .3s var(--motE)}
   #scrMain{transition:padding-bottom .3s var(--motE)}
-  html.projExpand .screen.in{animation:none}
+  .gitem{transition:transform 120ms var(--motE)}
+  .gitem:active{transform:scale(.965)}
+  #viewport{transition:transform 260ms var(--motE);transform-origin:50% 42%}
+  html.bloom #viewport{transform:scale(.982);transition:none}
   button{transition:transform 90ms var(--motE)}
   button:active{transform:scale(.955)}
 }
@@ -571,7 +574,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v341</span>
+    <span id="verNum">v342</span>
   </div>
 </div>
 <div id="delModal">
@@ -1060,62 +1063,16 @@ window.__backStep=()=>{
     }catch(e){ done(); }
   }, 750);
 })();
-// tapping a prepared thumbnail: the thumbnail itself expands into the
-// project's fitted image while the drawing screen's chrome and layers
-// fade in beneath it - one continuous object from gallery to work
-let PENDING_EXPAND=null;
-function expandFrom(p){
-  const say=t=>{ try{ window.plog && plog('expand: '+t); }catch(e){} };
+// opening a project: no geometric hero - the screen crossfade (scrIn2)
+// plus a whisper of over-scale settling home. One tiny transform on one
+// element: nothing to mismatch, nothing heavy to rasterize mid-flight.
+function bloomIn(){
   try{
-    if (!p || !p.node || !p.r || !p.r.width){ say('no pending card'); return; }
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches){ say('reduced motion'); return; }
-    const vp=$('viewport').getBoundingClientRect();
-    if (!vp.width){ say('no viewport'); return; }
-    const {w,h}=worldSize();
-    const dst={left:vp.left+view.x, top:vp.top+view.y,
-               width:w*view.s, height:h*view.s};
-    // the camera flies INTO the card: the fully composed project starts
-    // miniature - sitting exactly inside the card's image frame - and the
-    // whole scene zooms up around that spot until it lands at the view the
-    // artist left off. The card's own chrome rides the same zoom outward,
-    // past the phone's edges.
-    const scr=$('scrMain');
-    const k0=Math.max(p.ir.width/dst.width, p.ir.height/dst.height);
-    const dcx=dst.left+dst.width/2, dcy=dst.top+dst.height/2;
-    const icx=p.ir.left+p.ir.width/2, icy=p.ir.top+p.ir.height/2;
-    const tx=icx-k0*dcx, ty=icy-k0*dcy;
-    say('flying k0='+k0.toFixed(3)+' dst='+Math.round(dst.width)+'x'+Math.round(dst.height));
-    scr.style.transformOrigin='0 0';
-    scr.style.willChange='transform';
-    scr.style.transform='translate('+tx+'px,'+ty+'px) scale('+k0+')';
-    // the card itself overlays its own miniature, chrome and all, and is
-    // blown outward by the same camera move
-    const clone=p.node.cloneNode(true);
-    clone.style.cssText='position:fixed;z-index:70;margin:0;'
-      +'left:'+p.r.left+'px;top:'+p.r.top+'px;'
-      +'width:'+p.r.width+'px;height:'+p.r.height+'px;'
-      +'transform-origin:'+(icx-p.r.left)+'px '+(icy-p.r.top)+'px;'
-      +'will-change:transform,opacity;pointer-events:none;'
-      +'transition:transform .52s cubic-bezier(.2,0,0,1)';
-    document.body.appendChild(clone);
-    document.documentElement.classList.add('projExpand');
-    // force a synchronous layout flush so the miniature state is REAL
-    // before the transition targets are set - the classic FLIP guard
-    // against style batching on slow devices
-    void scr.offsetWidth; void clone.offsetWidth;
-    scr.style.transition='transform .52s cubic-bezier(.2,0,0,1)';
-    scr.style.transform='none';
-    clone.style.transform='scale('+(1/Math.max(0.02,k0))+')';
-    // the card dissolves early: beneath it is the SAME picture, now the
-    // real composed project, so the reveal is seamless
-    setTimeout(()=>{ clone.style.transition
-      ='transform .52s cubic-bezier(.2,0,0,1), opacity .24s'; clone.style.opacity='0'; }, 180);
-    setTimeout(()=>{ try{ clone.remove(); }catch(e){}
-      try{ scr.style.transition=''; scr.style.transform='';
-        scr.style.willChange=''; scr.style.transformOrigin=''; }catch(e){}
-      document.documentElement.classList.remove('projExpand');
-    }, 720);
-  }catch(e){ try{ document.documentElement.classList.remove('projExpand'); }catch(e2){} }
+    const de=document.documentElement;
+    de.classList.add('bloom');
+    void $('viewport').offsetWidth;   // commit the pre-state, unskippably
+    de.classList.remove('bloom');
+  }catch(e){}
 }
 // every screen carries the bottom ad strip in the native shell, skinned
 // to that screen's own backdrop; the native camera clears it away
@@ -1453,21 +1410,11 @@ async function renderGallery(){
       if (galLoading != null) {               // a decode is in flight
         if (galActive === r.id) return;       // this one: let it finish
       } else if (galActive === r.id && photo){  // already open: jump back in
-        try{ const im=d.querySelector('img');
-          PENDING_EXPAND = im ? {node:d, r:d.getBoundingClientRect(),
-            ir:im.getBoundingClientRect(), blob:r.blob} : null;
-        }catch(e){ PENDING_EXPAND=null; }
         show(GRID_READY ? 'scrMain' : 'scrFormat');
-        if (GRID_READY){ applyView();         // the square may have changed
-          expandFrom(PENDING_EXPAND); }
-        PENDING_EXPAND=null;
+        if (GRID_READY){ applyView(); bloomIn(); }
         return;
       }
       haptic();
-      try{ const im=d.querySelector('img');
-        PENDING_EXPAND = im ? {node:d, r:d.getBoundingClientRect(),
-          ir:im.getBoundingClientRect(), blob:r.blob} : null;
-      }catch(e){ PENDING_EXPAND=null; }
       if (r.blob && warmOpen(r)) return;      // cooked before: straight in
       if (r.blob) openPhoto(r.blob, r.id);
     };
@@ -1734,7 +1681,7 @@ function warmOpen(r){
     if (my!==OPEN_SEQ) return;
     show('scrMain');
     initMain();
-    expandFrom(PENDING_EXPAND); PENDING_EXPAND=null;
+    bloomIn();
     decodeWarm(r.blob, r.id, my);
   })();
   return true;
