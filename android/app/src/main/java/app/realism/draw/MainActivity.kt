@@ -605,7 +605,12 @@ class MainActivity : AppCompatActivity() {
         // the collapse pill sits LEFT of the card, tucked beneath the spot
         // the gear glides to - still outside the ad view, never an ad click
         val rowWrap = android.widget.LinearLayout(this)
-        rowWrap.orientation = android.widget.LinearLayout.HORIZONTAL
+        // portrait (top-right anchor): the X sits LEFT of the card, under
+        // the gear's glide spot. Landscape (bottom-left anchor): the X sits
+        // ABOVE the card on the gear side, out of the drawing space
+        val land = adLand()
+        rowWrap.orientation = if (land) android.widget.LinearLayout.VERTICAL
+            else android.widget.LinearLayout.HORIZONTAL
         // let the card's elevation shadow paint past the wrapper bounds
         rowWrap.clipChildren = false; rowWrap.clipToPadding = false
         adCornerWrap.clipChildren = false; adCornerWrap.clipToPadding = false
@@ -617,8 +622,8 @@ class MainActivity : AppCompatActivity() {
         cbg.setColor(0xE6191919.toInt()); cbg.cornerRadius = dp(13).toFloat()
         close.background = cbg
         val clp = android.widget.LinearLayout.LayoutParams(dp(26), dp(26))
-        clp.topMargin = dp(64)
-        clp.rightMargin = dp(17)
+        if (land) { clp.bottomMargin = dp(8) }
+        else { clp.topMargin = dp(64); clp.rightMargin = dp(17) }
         close.setOnClickListener { adCollapse() }
         rowWrap.addView(close, clp)
         rowWrap.addView(adv, android.widget.LinearLayout.LayoutParams(
@@ -1298,7 +1303,10 @@ class MainActivity : AppCompatActivity() {
         // the strip/corner split follows the orientation
         runOnUiThread {
             adCornerWrap.layoutParams = adCornerParams()
-            if (adViewMode == "strip" && nativeAd != null) buildStrip()
+            if (nativeAd != null) {
+                if (adViewMode == "strip") buildStrip()
+                else if (adViewMode == "corner") buildCorner()
+            }
         }
     }
 

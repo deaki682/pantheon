@@ -196,6 +196,7 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
 #mirRow{padding-bottom:0}
 #mirBtn{min-width:52px}
 #alphaSl{flex:0 1 50%;min-width:80px;padding:0}
+#mirRow .row{justify-content:center}
 
 /* compare: the photographed drawing aligned over the reference */
 #cmpView{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
@@ -368,10 +369,35 @@ html.uiL #hudToggle.lit{padding:0 9px}
   #backBtn,#hudToggle,#detBtn,#underBtn,#gridBtn,#compareBtn,#expBtn,
   #setBtn,#gmDesign,#gmDesign2,#gmDesign3,#circBtn,#dlBtn{
     border-radius:calc(17px*var(--ub))}
-  #expBtn svg,#compareBtn svg,#underBtn svg,#camCorner svg{
-    width:calc(20px*var(--tb));height:calc(20px*var(--tb))}
-  #setBtn svg{max-width:none;width:calc(22px*var(--tb));height:calc(22px*var(--tb))}
-  #gearBtn svg{width:calc(22px*var(--tb));height:calc(22px*var(--tb))}
+  #expBtn svg,#compareBtn svg,#underBtn svg,#camCorner svg,
+  #circBtn svg,#dlBtn svg{
+    width:calc(26px*var(--tb));height:calc(26px*var(--tb))}
+  #setBtn svg{max-width:none;width:calc(27px*var(--tb));height:calc(27px*var(--tb))}
+  #gearBtn svg{width:calc(27px*var(--tb));height:calc(27px*var(--tb))}
+  #backBtn{font-size:calc(30px*var(--ux,1))}
+  .gitem,.gadd{width:calc(118px*var(--tb));border-radius:calc(10px*var(--tb));
+    box-shadow:0 12px 28px rgba(0,0,0,0.55), 0 3px 9px rgba(0,0,0,0.45)}
+  #gallery,#galleryC{min-height:calc(146px*var(--tb));
+    padding:8px calc(50% - 60px*var(--tb)) 22px;gap:calc(10px*var(--tb))}
+  .gadd span{font-size:calc(30px*var(--tb))}
+  .gstat{font-size:calc(12px*var(--tb))}
+  .gtop{padding:calc(4px*var(--tb)) 2px calc(3px*var(--tb))}
+  .gsq{width:calc(7px*var(--tb));height:calc(7px*var(--tb))}
+  .galLbl{font-size:calc(17px*var(--tb))}
+  #upTitle{font-size:calc(22px*var(--tb))}
+  #pwaNote{font-size:calc(11px*var(--tb))}
+  #hudToggle{font-size:calc(24px*var(--ux,1))}
+  #hudToggle.lit{font-size:calc(16px*var(--ux,1))}
+  #detBtn{font-size:calc(16px*var(--ux,1))}
+  #gmMiniB{width:calc(32px*var(--ux,1));height:calc(32px*var(--ux,1))}
+  #cmpRow button,#lvBtn,#mirBtn,#lvReset,#circClr{
+    min-height:calc(44px*var(--ux,1));border-radius:calc(17px*var(--ub));
+    font-size:calc(15px*var(--ux,1))}
+  #lvBtn,#cmpGridBtn,#cmpReCrop{min-width:calc(44px*var(--ux,1))}
+  #mirBtn{min-width:calc(52px*var(--ux,1))}
+  #cmpGridBtn svg,#cmpReCrop svg{
+    width:calc(26px*var(--tb));height:calc(26px*var(--tb))}
+  .redDot{width:calc(17px*var(--tb));height:calc(17px*var(--tb))}
 }
 @media (max-width:390px){ html.uiL{--ub:1.26} }
 /* high contrast: black surfaces, bright borders and text */
@@ -1317,6 +1343,13 @@ function bloomIn(){
     de.classList.toggle('chromeBk', show._from!=='scrFormat');
     clearTimeout(bloomIn._t);
     bloomIn._t=setTimeout(()=>de.classList.remove('chromeIn','chromeBk'), 480);
+    // the first grid bake can land while the viewport is still scaled .96
+    // (getBoundingClientRect includes the transform), leaving the outer
+    // edges unrasterized - one re-bake after the settle covers the glass
+    clearTimeout(bloomIn._g);
+    bloomIn._g=setTimeout(()=>{ try{
+      if (GRID_READY && $('scrMain').classList.contains('on')) applyView();
+    }catch(e){} }, 360);
   }catch(e){}
 }
 // every screen carries the bottom ad strip in the native shell, skinned
@@ -1332,16 +1365,16 @@ function adSync(){
     const bg={scrUpload:'#141414',scrFormat:'#141414',
               scrMain:'#2a2a2a',scrCompare:'#2a2a2a'}[on && on.id]||'#141414';
     RealismCam.adPlace(!cam && !splash, bg);
-    // corner-card mode PARKED on portrait phones (operator revert
-    // 2026-09-10): the persistent strip rides every screen there. Two
-    // re-arms by operator directive 2026-09-11: LANDSCAPE runs the corner
-    // card everywhere (no bottom strip on a short screen), and TABLETS run
-    // it on the drawing screen in any orientation - the download corner
-    // hosts the intermittent media card and the button yields.
+    // corner-card mode (operator directive 2026-09-11, superseding the
+    // 2026-09-10 strip-everywhere revert): the DRAWING SCREEN swaps the
+    // strip for the intermittent corner media card whenever the screen is
+    // landscape or tablet-class - the download corner hosts the card and
+    // the button yields. Every other screen keeps the bottom strip, phone
+    // landscape included. Portrait phones stay strip-only everywhere.
     if (RealismCam.adProj){
       const land=matchMedia('(orientation: landscape)').matches;
       const tab=matchMedia('(min-width:600px) and (min-height:600px)').matches;
-      RealismCam.adProj(!cam && (land || (tab && !!(on && on.id==='scrMain'))));
+      RealismCam.adProj(!cam && !!(on && on.id==='scrMain') && (land || tab));
     }
   }catch(e){}
 }
