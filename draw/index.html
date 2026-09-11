@@ -844,7 +844,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v402</span>
+    <span id="verNum">v403</span>
   </div>
 </div>
 <div id="delModal">
@@ -5209,6 +5209,7 @@ function laySave(){
     c: {dk:LAYERS_C.dk?1:0, mid:LAYERS_C.mid?1:0,
         lt:LAYERS_C.lt?1:0, br:LAYERS_C.br?1:0}
   })); }catch(e){}
+  try{ syncTouch(galActive); }catch(e){}
 }
 function underSync(){
   $('uFull').classList.toggle('vOn', UGROUND==='full');
@@ -6427,6 +6428,25 @@ function prefsBump(){ setTimeout(prefsPoll, 0); }
 
 // references whose state changed and owe the account an update
 const SYNC_DIRTY=new Set();
+// The same argument as the settings watcher: layers, detail, circles and
+// the format are written from a dozen places and one would always be
+// forgotten. Watching the values catches every one of them, including
+// ones added later.
+// The timer and total are excluded from the COMPARISON only - they tick
+// constantly and would sync every few seconds - but they still ride
+// along on whatever push the others trigger.
+const META_CHURN=['time','gtot'];
+let META_SIG=null, META_SIG_ID=null;
+setInterval(()=>{
+  try{
+    if (!ACC_USER || document.hidden || galActive==null) return;
+    const m=readMeta(galActive);
+    for (const k of META_CHURN) delete m[k];
+    const sig=JSON.stringify(m);
+    if (META_SIG_ID!==galActive){ META_SIG_ID=galActive; META_SIG=sig; return; }
+    if (sig!==META_SIG){ META_SIG=sig; syncTouch(galActive); }
+  }catch(e){}
+}, 3000);
 function syncTouch(gid){
   if (gid==null) return;
   SYNC_DIRTY.add(gid);              // remembered even while signing in

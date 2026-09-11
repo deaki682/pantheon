@@ -111,6 +111,32 @@ const ok = (name, cond, detail) => {
     SYNC_AT = 0; await syncNow(true);
     out.pushedAfterBusy = (S.docs.get('users/u1/prefs/app')||{}).v?.accent === '#ff0000';
 
+    // layers and detail are written from a dozen places; the watcher has
+    // to notice them without any of those places knowing it exists
+    galActive = (await galAll())[0].id;
+    META_SIG_ID = null;
+    localStorage.setItem('lay|'+galActive, '{"o":1,"c":{"dk":1,"mid":0}}');
+    localStorage.setItem('det|'+galActive, 'hyper');
+    SYNC_DIRTY.clear();
+    // the watcher's first pass takes the baseline, the second sees change
+    const poll = () => { const m = readMeta(galActive);
+      for (const k of META_CHURN) delete m[k];
+      const sig = JSON.stringify(m);
+      if (META_SIG_ID !== galActive){ META_SIG_ID = galActive; META_SIG = sig; return; }
+      if (sig !== META_SIG){ META_SIG = sig; syncTouch(galActive); } };
+    poll();
+    localStorage.setItem('lay|'+galActive, '{"o":1,"c":{"dk":1,"mid":1}}');
+    poll();
+    out.layersNoticed = SYNC_DIRTY.has(galActive);
+    // and the timer alone must NOT trigger one, or it syncs every 3s
+    SYNC_DIRTY.clear();
+    localStorage.setItem('time|'+galActive, String(Date.now()));
+    poll();
+    out.timerIsQuiet = !SYNC_DIRTY.has(galActive);
+    SYNC_DIRTY.add(galActive); SYNC_AT=0; await syncNow(true);
+    out.layersReached = (S.docs.get('users/u1/refs/'+
+      (await galAll())[0].sid)||{}).meta?.lay?.indexOf('"mid":1') > 0;
+
     // a project uploaded before settings travelled must catch up, and a
     // device with no local copy of them must never erase the real ones
     const legacy = (await galAll())[0];
@@ -148,6 +174,9 @@ const ok = (name, cond, detail) => {
   ok('grid style and thickness cross',    R.grid === 'dots/3', R.grid);
   ok('repeat syncs change nothing',       R.stable);
   ok('delete does not resurrect',         R.deleted);
+  ok('a layer change is noticed',         R.layersNoticed);
+  ok('the timer alone stays quiet',       R.timerIsQuiet);
+  ok('layers reach the account',          R.layersReached);
   ok('old projects catch up on settings', R.legacyCaughtUp);
   ok('empty settings never erase real ones', R.emptyDidNotErase);
   ok('a touch before sign-in is held',    R.touchHeld);
