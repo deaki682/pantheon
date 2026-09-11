@@ -320,18 +320,60 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
 #gmDesign{width:44px;height:44px;padding:5px;display:flex;
   align-items:center;justify-content:center}
 #gmMini{width:32px;height:32px;display:block}
-#gmDPanel{display:none;flex-direction:column;gap:8px;align-items:center;
-  border-top:1px solid #3a3a3a;padding-top:8px;margin-top:2px}
-#gmStyles{display:flex;gap:6px}
-#gmStyles button{width:38px;height:34px;padding:0;display:flex;
-  align-items:center;justify-content:center}
-#gmPal{display:grid;grid-template-columns:repeat(5,26px);gap:6px}
-#gmPal button{width:26px;height:26px;border-radius:50%;padding:0;border:1px solid #555}
-#gmPal button.vOn{border-color:var(--acc);border-width:2px}
-#gmDots{display:flex;gap:6px}
-.gmDot{width:34px;height:34px;padding:0;display:flex;
-  align-items:center;justify-content:center;border-radius:9px}
-.gmDot i{border-radius:1px;background:#e8e6e1;display:block}
+/* the Grid Style window: a mostly-full-screen port of the design lab */
+#gsdModal{position:fixed;inset:0;z-index:24;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.6)}
+#gsdModal [hidden]{display:none!important}
+#gsdPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
+  padding:14px 16px 18px;width:min(94vw,440px);max-height:92vh;
+  overflow-y:auto;display:flex;flex-direction:column}
+#gsdTitle{text-align:center;font-size:15px;font-weight:600;
+  letter-spacing:.03em;margin:0 0 12px}
+#gsdStage{position:relative}
+#gsdCv{display:block;width:100%;height:auto;background:#141414;
+  border-radius:10px}
+#gsdPrev{position:absolute;top:calc(100% + 8px);right:0;
+  padding:7px 16px;border-radius:999px;font-size:13px}
+.gsdRow{display:flex;justify-content:center;align-items:center;gap:12px}
+#gsdRow1{margin-top:16px}
+#gsdRow2{margin-top:12px;position:relative}
+.gsdPk{position:relative;display:flex}
+.gsdPop{display:flex;flex-direction:column;gap:8px;align-items:center;
+  position:absolute;bottom:calc(100% + 10px);left:50%;
+  transform:translateX(-50%);z-index:30;border:1px solid #555;
+  border-radius:14px;background:#262626;padding:8px;
+  box-shadow:0 10px 26px rgba(0,0,0,0.55)}
+#gsdStyleBox,#gsdColBox,#gsdThkBox,#gsdLabBox,#gsdStyles button{
+  width:50px;height:44px;padding:0;border-radius:11px;
+  display:flex;align-items:center;justify-content:center}
+#gsdColSw{width:20px;height:20px;border-radius:50%;border:1px solid #777;
+  display:block}
+#gsdSws{display:grid;grid-template-columns:repeat(2,28px);gap:7px}
+#gsdSws button{width:28px;height:28px;border-radius:50%;padding:0;
+  border:1px solid #555}
+#gsdSws button.vOn{border-color:var(--acc);border-width:2px}
+#gsdThkBox i,#gsdThicks button i{display:block;height:17px;
+  border-radius:1px;background:#e8e6e1}
+#gsdThicks button{width:40px;height:36px;padding:0;border-radius:10px;
+  display:flex;align-items:center;justify-content:center}
+#gsdThicks button.vOn i{background:var(--acc)}
+#gsdSub{padding:8px 16px;border-radius:999px;font-size:13px}
+#gsdLabs{display:flex;flex-direction:column;align-items:center;gap:9px;
+  position:absolute;bottom:calc(100% + 10px);left:50%;
+  transform:translateX(-50%);z-index:30;border:1px solid #555;
+  border-radius:14px;background:#262626;padding:10px 12px;
+  box-shadow:0 10px 26px rgba(0,0,0,0.55)}
+#gsdLabPos{display:flex;gap:8px}
+#gsdLabPos button{padding:6px 16px;border-radius:999px;font-size:13px}
+#gsdLabRow{display:flex;gap:8px}
+#gsdLabRow button{width:56px;height:54px;padding:0;border-radius:12px;
+  display:flex;align-items:center;justify-content:center}
+#gsdOpLab{text-align:center;font-size:11px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:#6a6a6a;
+  margin:22px 0 2px}
+#gsdOpRow{display:flex;justify-content:center;align-items:center;gap:12px}
+#gsdOpRow input[type=range]{width:50%;max-width:200px}
+#gsdOpV{color:#8a8781;font-size:13px;font-variant-numeric:tabular-nums}
 #expCorner{position:absolute;right:calc(8px + env(safe-area-inset-right));
   top:calc(8px + env(safe-area-inset-top));z-index:5}
 #setCorner{position:absolute;left:50%;transform:translateX(-50%);
@@ -580,7 +622,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v344</span>
+    <span id="verNum">v345</span>
   </div>
 </div>
 <div id="delModal">
@@ -644,6 +686,54 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <button id="rmX">Cancel</button>
   </div>
 </div>
+  <div id="gsdModal">
+    <div id="gsdPanel">
+      <div id="gsdTitle">Grid Style</div>
+      <div id="gsdStage"><canvas id="gsdCv" width="10" height="10"></canvas>
+        <button id="gsdPrev">Preview</button></div>
+      <div class="gsdRow" id="gsdRow1">
+        <span class="gsdPk">
+          <button id="gsdStyleBox" title="Grid style"></button>
+          <div class="gsdPop" id="gsdStyles" hidden>
+            <button data-v="sq" title="Squares"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3.5" y="3.5" width="17" height="17" rx="1"/></svg></button>
+            <button data-v="diag" title="Squares + X"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3.5" y="3.5" width="17" height="17" rx="1"/><path d="M4 4l16 16M20 4L4 20"/></svg></button>
+            <button data-v="dots" title="Dots"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/></svg></button>
+          </div>
+        </span>
+        <span class="gsdPk">
+          <button id="gsdColBox" title="Grid color"><span id="gsdColSw"></span></button>
+          <div class="gsdPop" id="gsdSws" hidden></div>
+        </span>
+        <span class="gsdPk">
+          <button id="gsdThkBox" title="Line thickness"><i></i></button>
+          <div class="gsdPop" id="gsdThicks" hidden>
+            <button data-t="1" title="thin"><i style="width:1.5px"></i></button>
+            <button data-t="2" title="medium"><i style="width:3px"></i></button>
+            <button data-t="3" title="thick"><i style="width:5px"></i></button>
+          </div>
+        </span>
+      </div>
+      <div class="gsdRow" id="gsdRow2">
+        <button id="gsdSub">Subdivide</button>
+        <button id="gsdLabBox" title="Cell labels"></button>
+        <div id="gsdLabs" hidden>
+          <div id="gsdLabPos">
+            <button data-p="edge">Edge</button>
+            <button data-p="cell">Inside</button>
+          </div>
+          <div id="gsdLabRow">
+            <button data-sch="LN"></button>
+            <button data-sch="LL"></button>
+            <button data-sch="NL"></button>
+            <button data-sch="NN"></button>
+          </div>
+        </div>
+      </div>
+      <p id="gsdOpLab">Transparency</p>
+      <div id="gsdOpRow">
+        <input type="range" id="gsdOp" min="0.1" max="1" step="0.05"><span id="gsdOpV"></span></div>
+    </div>
+  </div>
   <div id="setModal">
     <div id="setPanel">
       <span class="setLbl">Accent</span>
@@ -833,20 +923,6 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <button id="gmDone"><span class="gmDoneDot"></span>Mark Square</button>
     <button id="gmOn">Grid On</button>
     <button id="gmDesign" title="Grid design"><canvas id="gmMini" width="64" height="64"></canvas></button>
-    <div id="gmDPanel">
-      <div id="gmStyles">
-        <button id="gmsSq" title="Squares"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button>
-        <button id="gmsDiag" title="Squares + X"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 3v18M3 12h18M4 4l16 16M20 4L4 20"/></svg></button>
-        <button id="gmsDots" title="Dots"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="5" r="1.7"/><circle cx="12" cy="5" r="1.7"/><circle cx="19" cy="5" r="1.7"/><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/><circle cx="5" cy="19" r="1.7"/><circle cx="12" cy="19" r="1.7"/><circle cx="19" cy="19" r="1.7"/></svg></button>
-      </div>
-      <button id="gmLab">A1 Labels</button>
-      <div id="gmDots">
-        <button class="gmDot" data-t="1" title="thin"><i style="width:1.5px;height:16px"></i></button>
-        <button class="gmDot" data-t="2" title="medium"><i style="width:3px;height:16px"></i></button>
-        <button class="gmDot" data-t="3" title="thick"><i style="width:5px;height:16px"></i></button>
-      </div>
-      <div id="gmPal"></div>
-    </div>
   </div>
   <button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
   <div id="underCorner">
@@ -3633,6 +3709,7 @@ function drawGrid(){
   const y0=Math.max(0,oy), y1=Math.min(H2, oy+h*sc);
   cvv.style.mixBlendMode = GRID_COL==='auto' ? 'difference' : 'normal';
   g.strokeStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+  g.globalAlpha=GRID_OP;
   // thickness lives in PAPER space: a hairline at full fit, swelling
   // linearly with the zoom (today's weight lands at ~2.5x fit) and capped
   // so deep zoom never draws ropes - the grid reads as inked on the
@@ -3675,11 +3752,45 @@ function drawGrid(){
       g.beginPath(); g.arc(x,y,dr,0,6.2832); g.fill();
     }
   }
-  // A1 tags in each visible square's corner, sized to the square and
-  // skipped entirely when the squares are too small to read them
-  if (GRID_LAB && step*sc>=30){
+  // subdivide: every square split in half both ways by a lighter, thinner
+  // stroke (smaller dots on the dots style) - helper lines, not structure
+  if (GRID_SUB){
+    const ss=step/2;
+    g.globalAlpha=GRID_OP*0.55;
+    if (GRID_STYLE==='dots'){
+      g.fillStyle=g.strokeStyle;
+      const dr2=Math.max(1.2, g.lineWidth*1.1);
+      for (let yi=1; yi*ss<h-1; yi++) for (let xi=1; xi*ss<w-1; xi++){
+        if (yi%2===0 && xi%2===0) continue;      // the main lattice owns these
+        const x=ox+xi*ss*sc, y=oy+yi*ss*sc;
+        if (x<x0-4||x>x1+4||y<y0-4||y>y1+4) continue;
+        g.beginPath(); g.arc(x,y,dr2,0,6.2832); g.fill();
+      }
+    } else {
+      const lw0=g.lineWidth; g.lineWidth=Math.max(1, lw0*0.6);
+      for (let xw=ss; xw<w-1; xw+=step){
+        const x=Math.round(ox+xw*sc)+0.5;
+        if (x<x0-1||x>x1+1) continue;
+        g.beginPath(); g.moveTo(x,y0); g.lineTo(x,y1); g.stroke();
+      }
+      for (let yw=ss; yw<h-1; yw+=step){
+        const y=Math.round(oy+yw*sc)+0.5;
+        if (y<y0-1||y>y1+1) continue;
+        g.beginPath(); g.moveTo(x0,y); g.lineTo(x1,y); g.stroke();
+      }
+      g.lineWidth=lw0;
+    }
+    g.globalAlpha=GRID_OP;
+  }
+  // cell labels, in the chosen scheme (letters/numbers per axis)
+  const symC=i=> GRID_LSCH[0]==='L' ? colName(i) : String(i+1);
+  const symR=j=> GRID_LSCH[1]==='L' ? colName(j) : String(j+1);
+  if (GRID_LAB && GRID_LPOS==='cell' && step*sc>=30){
+    // tags in each visible square's corner, sized to the square and
+    // skipped entirely when the squares are too small to read them
     const fs=Math.max(9, Math.min(step*sc*0.2, 22*dpr));
     g.font=fs+'px system-ui';
+    g.textAlign='left';
     g.textBaseline='top';
     g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
     const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
@@ -3689,10 +3800,34 @@ function drawGrid(){
       for (let cx=0;cx<cols;cx++){
         const x=ox+cx*step*sc+fs*0.35;
         if (x<x0-fs*3||x>x1) continue;
-        g.fillText(colName(cx)+(ry+1), x, y);
+        g.fillText(symC(cx)+symR(ry), x, y);
       }
     }
+  } else if (GRID_LAB && GRID_LPOS==='edge'){
+    // margin labels: letters ride above the paper's top edge and numbers
+    // left of it; when that edge scrolls away they stick to the screen -
+    // parked BELOW the top button chrome, never beneath it
+    const fs=Math.max(10*dpr, Math.min(step*sc*0.16, 15*dpr));
+    let yFloor=56*dpr;
+    try{ const cb=$('setCorner').getBoundingClientRect().bottom - r.top;
+      yFloor=Math.max(40, cb+8)*dpr; }catch(e){}
+    g.font='600 '+fs+'px system-ui';
+    g.textAlign='center'; g.textBaseline='middle';
+    g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+    const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
+    for (let cx=0;cx<cols;cx++){
+      const x=ox+(cx+0.5)*step*sc;
+      if (x<x0-2||x>x1+2) continue;
+      g.fillText(symC(cx), x, Math.max(yFloor+fs*0.6, oy-fs*0.8));
+    }
+    for (let ry=0;ry<rows;ry++){
+      const y=oy+(ry+0.5)*step*sc;
+      if (y<y0-2||y>y1+2) continue;
+      g.fillText(symR(ry), Math.max(10*dpr+fs*0.5, ox-fs*0.9), y);
+    }
+    g.textAlign='left';
   }
+  g.globalAlpha=1;
 }
 function colName(i){ let s2=''; i++; while(i>0){ i--; s2=String.fromCharCode(65+i%26)+s2; i=(i/26)|0; } return s2; }
 addEventListener('resize', () => { if ($('scrMain').classList.contains('on')) applyView(); });
@@ -4179,8 +4314,12 @@ function softOn(){ try{ return localStorage.getItem('softForm')==='1'; }catch(e)
 function fkey(){ return CKEY + (softOn() ? '|s' : ''); }
 let GRID_ON=true;
 let GRID_COL='auto', GRID_THK=1;   // 'auto' = the inverting difference grid
-let GRID_LAB=false;                // A1-style cell tags in each square's corner
+let GRID_LAB=false;                // cell labels on/off
 let GRID_STYLE='sq';               // sq | diag (squares + X) | dots (corners)
+let GRID_OP=1;                     // grid transparency (multiplies every stroke)
+let GRID_SUB=0;                    // 0 | 2 - every square split by lighter halves
+let GRID_LSCH='LN';                // label scheme: L/N per axis (cols, rows)
+let GRID_LPOS='cell';              // 'cell' corner tags | 'edge' margin labels
 let DONE=[], DONETOOL=null;        // per-square progress dots + armed mode
 try{
   GRID_ON = localStorage.getItem('gridOn')!=='0';
@@ -4191,6 +4330,12 @@ try{
   GRID_LAB = localStorage.getItem('gridLab')==='1';
   const gsv=localStorage.getItem('gridStyle');
   if (gsv==='diag'||gsv==='dots') GRID_STYLE=gsv;
+  const op=+localStorage.getItem('gridOp');
+  if (op>=0.1 && op<=1) GRID_OP=op;
+  if (localStorage.getItem('gridSub')==='2') GRID_SUB=2;
+  const lsch=localStorage.getItem('gridLabSch');
+  if (['LN','LL','NL','NN'].includes(lsch)) GRID_LSCH=lsch;
+  if (localStorage.getItem('gridLabPos')==='edge') GRID_LPOS='edge';
 }catch(e){}
 const FORM={cv:null, key:null, busy:null};
 const COMP={key:null, ph:null, sh:null, hl:null, sig:null, cv:null};
@@ -4786,42 +4931,17 @@ function drawMini(){
 function gridMenuSync(){
   $('gmOn').classList.toggle('vOn', GRID_ON);
   $('gmOn').textContent = TR(GRID_ON ? 'Grid On' : 'Grid Off');
-  [...$('gmPal').children].forEach(b=>b.classList.toggle('vOn', b.dataset.c===GRID_COL));
-  [...$('gmDots').children].forEach(b=>b.classList.toggle('vOn', +b.dataset.t===GRID_THK));
-  $('gmLab').classList.toggle('vOn', GRID_LAB);
   $('gmDone').classList.toggle('vOn', !!DONETOOL);
   drawMini();
   markBadge(!!DONETOOL);
-}
-{
-  const pal=$('gmPal');
-  for (const c of GRID_PAL){
-    const b=document.createElement('button');
-    b.dataset.c=c;
-    b.style.background = c==='auto' ? 'linear-gradient(135deg,#fff 50%,#000 50%)' : c;
-    b.title = c==='auto' ? 'auto - inverts whatever is beneath' : c;
-    b.onclick=()=>{
-      GRID_COL=c;
-      try{ localStorage.setItem('gridCol', c); }catch(e){}
-      gridMenuSync();
-      if (GRID_READY) drawGrid();
-      try{ window.drawUpGrid && drawUpGrid(); }catch(e){}
-    };
-    pal.appendChild(b);
-  }
 }
 $('gridBtn').onclick=()=>{
   const m=$('gridMenu');
   const open=m.style.display!=='flex';
   m.style.display=open?'flex':'none';
-  $('gmDPanel').style.display='none';
   DONETOOL=null;                       // the grid button always disengages
   markBadge(false);
   if (open) gridMenuSync();
-};
-$('gmDesign').onclick=()=>{
-  const p=$('gmDPanel');
-  p.style.display = p.style.display==='flex' ? 'none' : 'flex';
 };
 // Mark Square toggles: armed, a tap marks a square; a marked square unmarks
 $('gmDone').onclick=()=>{ DONETOOL = DONETOOL ? null : 'on'; gridMenuSync(); };
@@ -4831,20 +4951,13 @@ $('gmOn').onclick=()=>{
   applyGrid(); gridMenuSync();
   if (GRID_READY) drawCircs();     // the progress dots follow the grid
 };
-$('gmLab').onclick=()=>{
-  GRID_LAB=!GRID_LAB;
-  try{ localStorage.setItem('gridLab', GRID_LAB?'1':'0'); }catch(e){}
-  gridMenuSync();
-  applyView();                       // the grid painter lives in applyView
-};
-$('gmLab').classList.toggle('vOn', GRID_LAB);
 function gsSync(){
   for (const [id,v] of [['gsSq','sq'],['gsDiag','diag'],
-                        ['gsSq2','sq'],['gsDiag2','diag'],
-                        ['gmsSq','sq'],['gmsDiag','diag'],['gmsDots','dots']]){
+                        ['gsSq2','sq'],['gsDiag2','diag']]){
     const b=$(id); if (b) b.classList.toggle('vOn', GRID_STYLE===v);
   }
   try{ drawMini(); }catch(e){}
+  try{ gsdSync(); }catch(e){}
 }
 function gsSet(v){
   GRID_STYLE=v;
@@ -4858,17 +4971,179 @@ $('gsSq').onclick=()=>gsSet('sq');
 $('gsDiag').onclick=()=>gsSet('diag');
 $('gsSq2').onclick=()=>gsSet('sq');
 $('gsDiag2').onclick=()=>gsSet('diag');
-$('gmsSq').onclick=()=>gsSet('sq');
-$('gmsDiag').onclick=()=>gsSet('diag');
-$('gmsDots').onclick=()=>gsSet('dots');
 gsSync();
-for (const b of $('gmDots').children)
+// ---- the Grid Style window: the design surface behind gmDesign --------
+function gsdApply(){
+  if (GRID_READY && $('scrMain').classList.contains('on')) applyView();
+  try{ drawMini(); }catch(e){}
+  try{ window.drawUpGrid && drawUpGrid(); }catch(e){}
+}
+const GSD_POPS=['gsdStyles','gsdSws','gsdThicks','gsdLabs'];
+function gsdClosePops(){ for (const id of GSD_POPS) $(id).hidden=true; }
+const gsdPopToggle=(box,pop)=>{ $(box).onclick=()=>{
+  const h=$(pop).hidden; gsdClosePops(); $(pop).hidden=!h; }; };
+function gsdLabSym(t,i){ return t==='L' ? colName(i) : String(i+1); }
+function gsdIcon(sch,pos,big){
+  const c=gsdLabSym(sch[0],0), r=gsdLabSym(sch[1],0), k=big?38:26;
+  if (pos==='edge')
+    return '<svg width="'+k+'" height="'+k+'" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="9.5" y="9.5" width="15" height="15" rx="1"/><text x="17" y="7.5" text-anchor="middle" font-size="8.5" font-weight="600" font-family="system-ui,sans-serif" fill="currentColor" stroke="none">'+c+'</text><text x="4.5" y="20" text-anchor="middle" font-size="8.5" font-weight="600" font-family="system-ui,sans-serif" fill="currentColor" stroke="none">'+r+'</text></svg>';
+  return '<svg width="'+k+'" height="'+k+'" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4.5" y="4.5" width="19" height="19" rx="1"/><text x="7" y="14" font-size="8" font-weight="600" font-family="system-ui,sans-serif" fill="currentColor" stroke="none">'+c+r+'</text></svg>';
+}
+// the sample: ONE square wearing the current design, exactly the mockup
+function gsdDraw(){
+  const cv2=$('gsdCv'); if (!cv2) return;
+  const host=$('gsdStage'); const cssW=host.clientWidth; if (!cssW) return;
+  const dpr=Math.min(3, devicePixelRatio||1);
+  const W2=Math.round(cssW*dpr);
+  if (cv2.width!==W2){ cv2.width=W2; cv2.height=W2; }
+  cv2.style.height=cssW+'px';
+  const g=cv2.getContext('2d');
+  g.setTransform(dpr,0,0,dpr,0,0);
+  g.clearRect(0,0,cssW,cssW);
+  const lw = GRID_THK===1 ? 1.5 : GRID_THK===2 ? 3 : 4.5;
+  const pad=lw*3+10+(GRID_LAB&&GRID_LPOS==='edge'?20:0);
+  const x0=pad, y0=pad, x1=cssW-pad, y1=cssW-pad, w=x1-x0;
+  const col = GRID_COL==='auto' ? 'rgba(255,255,255,0.85)' : GRID_COL;
+  g.strokeStyle=col; g.fillStyle=col; g.lineWidth=lw; g.lineCap='round';
+  g.globalAlpha=GRID_OP;
+  if (GRID_STYLE==='dots'){
+    const r2=Math.max(3,lw*1.6);
+    for (const [cx,cy] of [[x0,y0],[x1,y0],[x0,y1],[x1,y1]]){
+      g.beginPath(); g.arc(cx,cy,r2,0,6.2832); g.fill();
+    }
+    if (GRID_SUB){
+      g.globalAlpha=GRID_OP*0.7;
+      const r3=Math.max(2,r2*0.6);
+      for (let i=0;i<=2;i++) for (let j=0;j<=2;j++){
+        if ((i===0||i===2)&&(j===0||j===2)) continue;
+        g.beginPath(); g.arc(x0+i*w/2, y0+j*w/2, r3, 0, 6.2832); g.fill();
+      }
+    }
+  } else {
+    g.strokeRect(x0,y0,w,w);
+    if (GRID_STYLE==='diag'){
+      g.globalAlpha=GRID_OP*0.65;
+      g.beginPath();
+      g.moveTo(x0,y0); g.lineTo(x1,y1);
+      g.moveTo(x1,y0); g.lineTo(x0,y1); g.stroke();
+      g.globalAlpha=GRID_OP;
+    }
+    if (GRID_SUB){
+      g.globalAlpha=GRID_OP*0.55; g.lineWidth=Math.max(1,lw*0.6);
+      g.beginPath();
+      g.moveTo((x0+x1)/2,y0); g.lineTo((x0+x1)/2,y1);
+      g.moveTo(x0,(y0+y1)/2); g.lineTo(x1,(y0+y1)/2); g.stroke();
+      g.lineWidth=lw;
+    }
+  }
+  if (GRID_LAB){
+    g.globalAlpha=GRID_OP;
+    const c2=gsdLabSym(GRID_LSCH[0],0), r3=gsdLabSym(GRID_LSCH[1],0);
+    if (GRID_LPOS==='edge'){
+      g.font='600 13px system-ui';
+      g.textAlign='center'; g.textBaseline='middle';
+      g.fillText(c2, (x0+x1)/2, y0-12);
+      g.fillText(r3, x0-12, (y0+y1)/2);
+    } else {
+      g.font='600 12px system-ui';
+      g.textAlign='left'; g.textBaseline='top';
+      g.fillText(c2+r3, x0+7, y0+6);
+    }
+  }
+  g.globalAlpha=1;
+}
+function gsdSync(){
+  if (!$('gsdModal')) return;
+  const sb=document.querySelector('#gsdStyles button[data-v="'+GRID_STYLE+'"]');
+  if (sb) $('gsdStyleBox').innerHTML=sb.innerHTML;
+  document.querySelectorAll('#gsdStyles button').forEach(b=>
+    b.classList.toggle('vOn', b.dataset.v===GRID_STYLE));
+  $('gsdColSw').style.background = GRID_COL==='auto'
+    ? 'linear-gradient(135deg,#fff 50%,#000 50%)' : GRID_COL;
+  document.querySelectorAll('#gsdSws button').forEach(b=>
+    b.classList.toggle('vOn', b.dataset.c===GRID_COL));
+  const TW={1:'1.5px',2:'3px',3:'5px'};
+  $('gsdThkBox').firstElementChild.style.width=TW[GRID_THK]||'1.5px';
+  document.querySelectorAll('#gsdThicks button').forEach(b=>
+    b.classList.toggle('vOn', +b.dataset.t===GRID_THK));
+  $('gsdSub').classList.toggle('vOn', !!GRID_SUB);
+  document.querySelectorAll('#gsdLabPos button').forEach(b=>
+    b.classList.toggle('vOn', b.dataset.p===GRID_LPOS));
+  document.querySelectorAll('#gsdLabRow button').forEach(b=>{
+    b.innerHTML=gsdIcon(b.dataset.sch, GRID_LPOS, true);
+    b.classList.toggle('vOn', GRID_LAB && b.dataset.sch===GRID_LSCH);
+  });
+  $('gsdLabBox').innerHTML=gsdIcon('LN','edge',false);
+  $('gsdLabBox').classList.toggle('vOn', GRID_LAB);
+  $('gsdOp').value=GRID_OP;
+  $('gsdOpV').textContent=Math.round(GRID_OP*100)+'%';
+  $('gsdOp').style.setProperty('--p', ((GRID_OP-0.1)/0.9*100)+'%');
+  gsdDraw();
+}
+{
+  const sws=$('gsdSws');
+  for (const c of GRID_PAL){
+    const b=document.createElement('button');
+    b.dataset.c=c;
+    b.style.background = c==='auto' ? 'linear-gradient(135deg,#fff 50%,#000 50%)' : c;
+    b.title = c==='auto' ? 'auto - inverts whatever is beneath' : c;
+    b.onclick=()=>{
+      GRID_COL=c;
+      try{ localStorage.setItem('gridCol', c); }catch(e){}
+      gsdClosePops(); gsdApply(); gsdSync();
+    };
+    sws.appendChild(b);
+  }
+}
+gsdPopToggle('gsdStyleBox','gsdStyles');
+gsdPopToggle('gsdColBox','gsdSws');
+gsdPopToggle('gsdThkBox','gsdThicks');
+gsdPopToggle('gsdLabBox','gsdLabs');
+document.querySelectorAll('#gsdStyles button').forEach(b=>
+  b.onclick=()=>{ gsdClosePops(); gsdSet_style(b.dataset.v); });
+function gsdSet_style(v){ gsSet(v); gsdSync(); }
+document.querySelectorAll('#gsdThicks button').forEach(b=>
   b.onclick=()=>{
     GRID_THK=+b.dataset.t;
     try{ localStorage.setItem('gridThk', GRID_THK); }catch(e){}
-    gridMenuSync();
-    if (GRID_READY) drawGrid();
-  };
+    gsdClosePops(); gsdApply(); gsdSync();
+  });
+$('gsdSub').onclick=()=>{
+  GRID_SUB=GRID_SUB?0:2;
+  try{ localStorage.setItem('gridSub', ''+GRID_SUB); }catch(e){}
+  gsdApply(); gsdSync();
+};
+document.querySelectorAll('#gsdLabPos button').forEach(b=>
+  b.onclick=()=>{
+    GRID_LPOS=b.dataset.p;
+    try{ localStorage.setItem('gridLabPos', GRID_LPOS); }catch(e){}
+    gsdApply(); gsdSync();          // the menu stays up: icons re-dress
+  });
+document.querySelectorAll('#gsdLabRow button').forEach(b=>
+  b.onclick=()=>{
+    if (GRID_LAB && GRID_LSCH===b.dataset.sch) GRID_LAB=false;
+    else { GRID_LAB=true; GRID_LSCH=b.dataset.sch; }
+    try{
+      localStorage.setItem('gridLab', GRID_LAB?'1':'0');
+      localStorage.setItem('gridLabSch', GRID_LSCH);
+    }catch(e){}
+    gsdClosePops(); gsdApply(); gsdSync();
+  });
+$('gsdOp').oninput=e=>{
+  GRID_OP=+e.target.value;
+  try{ localStorage.setItem('gridOp', ''+GRID_OP); }catch(e){}
+  gsdApply(); gsdSync();
+};
+function gsdOpen(){
+  $('gridMenu').style.display='none';
+  gsdClosePops();
+  $('gsdModal').style.display='flex';
+  requestAnimationFrame(gsdSync);     // the stage needs its real width
+}
+function gsdClose(){ $('gsdModal').style.display='none'; }
+$('gmDesign').onclick=gsdOpen;
+$('gsdPrev').onclick=()=>{ haptic(); gsdClose(); };   // the project IS the preview
+$('gsdModal').onclick=e=>{ if (e.target===$('gsdModal')) gsdClose(); };
 $('detBtn').onclick=()=>{
   const m=$('detMenu');
   const open=m.style.display!=='flex';
