@@ -606,11 +606,11 @@ class MainActivity : AppCompatActivity() {
         // the gear glides to - still outside the ad view, never an ad click
         val rowWrap = android.widget.LinearLayout(this)
         // portrait (top-right anchor): the X sits LEFT of the card, under
-        // the gear's glide spot. Landscape (bottom-left anchor): the X sits
-        // ABOVE the card on the gear side, out of the drawing space
+        // the gear's glide spot. Landscape (bottom-left anchor): the X
+        // floats NEXT to the gear on the left edge - beside the column,
+        // vertically centered, clear of both the gear and the card
         val land = adLand()
-        rowWrap.orientation = if (land) android.widget.LinearLayout.VERTICAL
-            else android.widget.LinearLayout.HORIZONTAL
+        rowWrap.orientation = android.widget.LinearLayout.HORIZONTAL
         // let the card's elevation shadow paint past the wrapper bounds
         rowWrap.clipChildren = false; rowWrap.clipToPadding = false
         adCornerWrap.clipChildren = false; adCornerWrap.clipToPadding = false
@@ -621,11 +621,23 @@ class MainActivity : AppCompatActivity() {
         val cbg = android.graphics.drawable.GradientDrawable()
         cbg.setColor(0xE6191919.toInt()); cbg.cornerRadius = dp(13).toFloat()
         close.background = cbg
-        val clp = android.widget.LinearLayout.LayoutParams(dp(26), dp(26))
-        if (land) { clp.bottomMargin = dp(8) }
-        else { clp.topMargin = dp(64); clp.rightMargin = dp(17) }
         close.setOnClickListener { adCollapse() }
-        rowWrap.addView(close, clp)
+        (adCloseFloat?.parent as? android.view.ViewGroup)?.removeView(adCloseFloat)
+        adCloseFloat = null
+        if (land) {
+            // beside the gear: past the edge column's button width, centered
+            val gearW = if (resources.configuration.smallestScreenWidthDp >= 600) 76 else 44
+            val flp = FrameLayout.LayoutParams(dp(26), dp(26),
+                android.view.Gravity.START or android.view.Gravity.CENTER_VERTICAL)
+            flp.leftMargin = dp(8 + gearW + 12)
+            close.visibility = android.view.View.GONE
+            (adCornerWrap.parent as? FrameLayout)?.addView(close, flp)
+            adCloseFloat = close
+        } else {
+            val clp = android.widget.LinearLayout.LayoutParams(dp(26), dp(26))
+            clp.topMargin = dp(64); clp.rightMargin = dp(17)
+            rowWrap.addView(close, clp)
+        }
         rowWrap.addView(adv, android.widget.LinearLayout.LayoutParams(
             android.widget.LinearLayout.LayoutParams.WRAP_CONTENT,
             android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
@@ -642,6 +654,7 @@ class MainActivity : AppCompatActivity() {
     // drawing screen (persistent, page reserves room through __adOn), and
     // on the drawing screen an intermittent corner card that replaces the
     // download button for a bounded window (page yields it via __adCorner).
+    private var adCloseFloat: TextView? = null  // landscape corner X, beside the gear
     private var adCardShown = false       // strip on screen
     private var adCornerShown = false     // corner card on screen
     private val AD_ON_MS = 45000L         // corner window length
@@ -703,6 +716,7 @@ class MainActivity : AppCompatActivity() {
             adCornerWrap.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(350)
                 .setInterpolator(android.view.animation.DecelerateInterpolator()).start()
         }
+        adCloseFloat?.visibility = android.view.View.VISIBLE
         js("window.__adCorner && __adCorner(true)")
         adCornerWrap.removeCallbacks(adAutoHide)
         adCornerWrap.postDelayed(adAutoHide, AD_ON_MS)
@@ -711,6 +725,7 @@ class MainActivity : AppCompatActivity() {
         adCornerWrap.removeCallbacks(adAutoHide)
         if (!adCornerShown) return
         adCornerShown = false
+        adCloseFloat?.visibility = android.view.View.GONE
         adNextShowAt = android.os.SystemClock.uptimeMillis() + AD_OFF_MS
         adCornerWrap.animate().cancel()
         adCornerWrap.pivotX = if (adLand()) 0f else adCornerWrap.width.toFloat()
@@ -1284,6 +1299,9 @@ class MainActivity : AppCompatActivity() {
     // button lives top-right in portrait but bottom-left in landscape
     private fun adLand() = resources.configuration.orientation ==
         android.content.res.Configuration.ORIENTATION_LANDSCAPE
+    private fun dispRot(): Int =
+        previewView.display?.rotation
+            ?: @Suppress("DEPRECATION") windowManager.defaultDisplay.rotation
     private fun adCornerParams(): FrameLayout.LayoutParams {
         val m = (8 * resources.displayMetrics.density).toInt()
         val land = adLand()
@@ -1307,6 +1325,8 @@ class MainActivity : AppCompatActivity() {
                 if (adViewMode == "strip") buildStrip()
                 else if (adViewMode == "corner") buildCorner()
             }
+            if (previewView.visibility == android.view.View.VISIBLE)
+                js("window.__natRotate && __natRotate()")
         }
     }
 
@@ -1379,7 +1399,7 @@ class MainActivity : AppCompatActivity() {
                     .setAspectRatioStrategy(AspectRatioStrategy.RATIO_4_3_FALLBACK_AUTO_STRATEGY)
                     .setResolutionStrategy(ResolutionStrategy.HIGHEST_AVAILABLE_STRATEGY)
                     .build())
-                .setTargetRotation(Surface.ROTATION_0)
+                .setTargetRotation(dispRot())
             // RAW alone is legal on the in-memory path; the display JPEG is
             // rendered from the RAW plane itself - one capture, aligned planes
             if (rawMode) stillB.setOutputFormat(ImageCapture.OUTPUT_FORMAT_RAW)
@@ -1387,7 +1407,7 @@ class MainActivity : AppCompatActivity() {
                 .setResolutionSelector(ResolutionSelector.Builder()
                     .setAspectRatioStrategy(AspectRatioStrategy.RATIO_4_3_FALLBACK_AUTO_STRATEGY)
                     .build())
-                .setTargetRotation(Surface.ROTATION_0)
+                .setTargetRotation(dispRot())
             if (rawMode) {
                 // RAW skips the ISP's lens-shading correction, so ask the HAL
                 // to report the gain map it WOULD have applied; the preview's
@@ -1420,16 +1440,12 @@ class MainActivity : AppCompatActivity() {
             fun reportSize() {
                 val ri = preview.resolutionInfo
                 if (ri != null) {
-                    // display-oriented frame: tall on portrait screens, wide
-                    // on landscape, whatever the rotation metadata claims. The
-                    // page restarts the camera on rotation, so this decision
-                    // is re-made on every open
-                    val land = resources.configuration.orientation ==
-                        android.content.res.Configuration.ORIENTATION_LANDSCAPE
-                    val fw = if (land) maxOf(ri.resolution.width, ri.resolution.height)
-                             else minOf(ri.resolution.width, ri.resolution.height)
-                    val fh = if (land) minOf(ri.resolution.width, ri.resolution.height)
-                             else maxOf(ri.resolution.width, ri.resolution.height)
+                    // display-oriented frame straight from the use case's own
+                    // rotation metadata: 90/270 means the sensor frame turns
+                    // sideways on this display, so its dimensions swap
+                    val rd = ri.rotationDegrees
+                    val fw = if (rd == 90 || rd == 270) ri.resolution.height else ri.resolution.width
+                    val fh = if (rd == 90 || rd == 270) ri.resolution.width else ri.resolution.height
                     prefs.edit().remove("attempting").apply()
                     if (!modeAnnounced) {
                         modeAnnounced = true

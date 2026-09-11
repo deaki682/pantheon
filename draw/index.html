@@ -371,9 +371,9 @@ html.uiL #hudToggle.lit{padding:0 9px}
     border-radius:calc(17px*var(--ub))}
   #expBtn svg,#compareBtn svg,#underBtn svg,#camCorner svg,
   #circBtn svg,#dlBtn svg{
-    width:calc(26px*var(--tb));height:calc(26px*var(--tb))}
-  #setBtn svg{max-width:none;width:calc(27px*var(--tb));height:calc(27px*var(--tb))}
-  #gearBtn svg{width:calc(27px*var(--tb));height:calc(27px*var(--tb))}
+    width:calc(26px*var(--ux,1));height:calc(26px*var(--ux,1))}
+  #setBtn svg{max-width:none;width:calc(30px*var(--ux,1));height:calc(30px*var(--ux,1))}
+  #gearBtn svg{width:calc(30px*var(--ux,1));height:calc(30px*var(--ux,1))}
   #backBtn{font-size:calc(30px*var(--ux,1))}
   .gitem,.gadd{width:calc(118px*var(--tb));border-radius:calc(10px*var(--tb));
     box-shadow:0 12px 28px rgba(0,0,0,0.55), 0 3px 9px rgba(0,0,0,0.45)}
@@ -386,6 +386,8 @@ html.uiL #hudToggle.lit{padding:0 9px}
   .galLbl{font-size:calc(17px*var(--tb))}
   #upTitle{font-size:calc(22px*var(--tb))}
   #pwaNote{font-size:calc(11px*var(--tb))}
+  #a11yPanel{width:min(92vw,calc(360px*var(--ux,1)))}
+  .a11yPills{flex-wrap:wrap}
   #hudToggle{font-size:calc(24px*var(--ux,1))}
   #hudToggle.lit{font-size:calc(16px*var(--ux,1))}
   #detBtn{font-size:calc(16px*var(--ux,1))}
@@ -396,8 +398,8 @@ html.uiL #hudToggle.lit{padding:0 9px}
   #lvBtn,#cmpGridBtn,#cmpReCrop{min-width:calc(44px*var(--ux,1))}
   #mirBtn{min-width:calc(52px*var(--ux,1))}
   #cmpGridBtn svg,#cmpReCrop svg{
-    width:calc(26px*var(--tb));height:calc(26px*var(--tb))}
-  .redDot{width:calc(17px*var(--tb));height:calc(17px*var(--tb))}
+    width:calc(26px*var(--ux,1));height:calc(26px*var(--ux,1))}
+  .redDot{width:calc(17px*var(--ux,1));height:calc(17px*var(--ux,1))}
 }
 @media (max-width:390px){ html.uiL{--ub:1.26} }
 /* high contrast: black surfaces, bright borders and text */
@@ -785,7 +787,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v369</span>
+    <span id="verNum">v370</span>
   </div>
 </div>
 <div id="delModal">
@@ -2372,6 +2374,7 @@ try{
   matchMedia('(orientation: landscape)').addEventListener('change', adSync);
   matchMedia('(min-width:600px) and (min-height:600px)').addEventListener('change', adSync);
 }catch(e){}
+addEventListener('resize', ()=>{ clearTimeout(adSync._t); adSync._t=setTimeout(adSync, 200); });
 // storage durability: without a persistence grant the browser engine may
 // EVICT this origin's whole storage under disk pressure - weeks of
 // references gone in one low-space moment. Ask for the grant, and show
@@ -8062,7 +8065,15 @@ $('cmpSplit').onclick = () => {
       return;
     }
   }, {passive:false});
-  addEventListener('resize', ()=>{ if ($('scrCompare').classList.contains('on')){ cmpSize(); cmpRender();
+  window.__natRotate = () => { try{
+  if (CAM.nat && !CAM.natWait){
+    clearTimeout(CAM.rotT);
+    CAM.rotT=setTimeout(()=>{ if (!CAM.nat) return;
+      try{ RealismCam.stop(); }catch(e){}
+      CAM.nat=null; natStart(); }, 250);
+  }
+}catch(e){} };
+addEventListener('resize', ()=>{ if ($('scrCompare').classList.contains('on')){ cmpSize(); cmpRender();
   if (CAM.nat && !CAM.natWait){
     // the native preview was bound for the old display rotation - a full
     // stop/start rebinds it (and re-reports the frame size) for the new one
