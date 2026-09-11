@@ -407,6 +407,11 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 #introSplash{position:fixed;inset:0;z-index:60;display:none;
   align-items:center;justify-content:center}
 #introSplash.on{display:flex}
+/* the wordmark rides its own layer ABOVE the sweeping rows (z61); the
+   scrim stays beneath them so their motion never re-blurs the backdrop */
+#introWordWrap{position:fixed;inset:0;z-index:62;display:none;
+  align-items:center;justify-content:center;pointer-events:none}
+#introWordWrap.on{display:flex}
 /* the blur lives on its own scrim at a FIXED radius and the reveal fades
    its opacity - animating the radius itself re-blurs the whole screen
    every frame and drops frames on phones */
@@ -418,9 +423,9 @@ body.uiHid #backBtn{transform:translateY(-190%)}
   will-change:opacity;
   transition:opacity .5s cubic-bezier(.2,0,0,1)}
 #introSplash.go #introScrim{opacity:0}
-#introSplash.on #introMain{animation:wordDiffuse .7s cubic-bezier(.2,0,0,1) both}
-#introSplash.on #introBy{animation:byDiffuse .55s .22s cubic-bezier(.2,0,0,1) both}
-#introSplash.go #introMain,#introSplash.go #introBy{animation:none}
+#introWordWrap.on #introMain{animation:wordDiffuse .7s cubic-bezier(.2,0,0,1) both}
+#introWordWrap.on #introBy{animation:byDiffuse .55s .22s cubic-bezier(.2,0,0,1) both}
+#introWordWrap.go #introMain,#introWordWrap.go #introBy{animation:none}
 @keyframes wordDiffuse{from{opacity:0;filter:blur(10px);letter-spacing:.3em}
   to{opacity:1;filter:blur(0);letter-spacing:.04em}}
 @keyframes byDiffuse{from{opacity:0;filter:blur(6px)}
@@ -567,7 +572,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v336</span>
+    <span id="verNum">v337</span>
   </div>
 </div>
 <div id="delModal">
@@ -658,7 +663,8 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <button id="dlwX">Cancel</button>
   </div>
 </div>
-<div id="introSplash"><div id="introScrim"></div><div id="introWord"><span id="introMain">Photorealism</span><span id="introBy">by Dylan</span></div></div>
+<div id="introSplash"><div id="introScrim"></div></div>
+<div id="introWordWrap"><div id="introWord"><span id="introMain">Photorealism</span><span id="introBy">by Dylan</span></div></div>
 <!-- 1: upload -->
 <div class="screen on" id="scrUpload">
   <canvas id="upGridBg"></canvas>
@@ -1014,13 +1020,14 @@ window.__backStep=()=>{
 (function(){
   let rm=false;
   try{ rm=matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
-  const sp=$('introSplash'), word=$('introMain'), t=$('upTitle');
-  if (rm || !sp || !word || !t) return;
-  sp.classList.add('on');
+  const sp=$('introSplash'), ww=$('introWordWrap'), word=$('introMain'), t=$('upTitle');
+  if (rm || !sp || !ww || !word || !t) return;
+  sp.classList.add('on'); ww.classList.add('on');
   document.documentElement.classList.add('introUp','introLift');
   t.style.visibility='hidden';
   const done=()=>{
     sp.classList.remove('on','go');
+    ww.classList.remove('on','go');
     document.documentElement.classList.remove('introUp','introLift');
     try{ $('gallery').style.willChange=''; $('galleryC').style.willChange=''; }catch(e){}
     try{ adSync(); }catch(e){}
@@ -1048,7 +1055,7 @@ window.__backStep=()=>{
       word.style.transition='transform .55s cubic-bezier(.2,0,0,1)';
       word.style.transform='translate('+dx+'px,'+dy+'px) scale('+k+')';
       $('introBy').style.opacity='0';
-      sp.classList.add('go');
+      sp.classList.add('go'); ww.classList.add('go');
       document.documentElement.classList.remove('introUp');
       setTimeout(done, 640);
     }catch(e){ done(); }
