@@ -830,7 +830,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v386</span>
+    <span id="verNum">v387</span>
   </div>
 </div>
 <div id="delModal">
@@ -6122,21 +6122,32 @@ try{
 // device that has not synced yet cannot lose anything; the starter
 // references never upload; and every upload is downscaled first, which
 // is the difference between a $10 bill and a $100 one.
-const SYNC_EDGE=2048;           // longest edge we send
+// The app already caps its stored copy at 4096px on the long edge at
+// quality 0.92 when a photo is imported, so the local file IS the best
+// the app will ever draw from. It goes up byte for byte: no re-encode,
+// no second generation of loss. Only a file too large for the storage
+// rules gets touched, and then only enough to fit.
+const SYNC_MAX_BYTES = 20*1024*1024;
+function syncType(blob){
+  const t = blob && blob.type;
+  return (t && /^image\//.test(t)) ? t : 'image/jpeg';
+}
 async function shrinkUp(blob){
   try{
     if (!blob) return null;
+    if (blob.size <= SYNC_MAX_BYTES) return blob;      // the normal path
     let bm=null;
     try{ if (window.createImageBitmap) bm=await createImageBitmap(blob); }catch(e){ bm=null; }
     const src = bm || await blobImage(blob);
-    const W=src.width, H=src.height, m=Math.max(W,H);
-    if (m<=SYNC_EDGE && blob.size<1200000) return blob;   // already small
-    const k=Math.min(1, SYNC_EDGE/m);
+    const W=src.width, H=src.height, k=Math.min(1, 4096/Math.max(W,H));
     const c=document.createElement('canvas');
     c.width=Math.max(1,Math.round(W*k)); c.height=Math.max(1,Math.round(H*k));
     c.getContext('2d').drawImage(src,0,0,c.width,c.height);
-    const out=await new Promise(r=>c.toBlob(r,'image/jpeg',0.85));
-    return (out && out.size < blob.size) ? out : blob;
+    for (const q of [0.92, 0.85, 0.75]){
+      const out=await new Promise(r=>c.toBlob(r,'image/jpeg',q));
+      if (out && out.size <= SYNC_MAX_BYTES) return out;
+    }
+    return blob;
   }catch(e){ return blob; }
 }
 function newSid(){
@@ -6162,7 +6173,7 @@ async function syncNow(force){
       const sid=newSid();
       const small=await shrinkUp(r.blob);
       await fb.S.uploadBytes(fb.S.ref(fb.st,'users/'+uid+'/refs/'+sid+'.jpg'),
-                             small, {contentType:'image/jpeg'});
+                             small, {contentType:syncType(small)});
       await fb.F.setDoc(fb.F.doc(col,sid), {
         name:r.name||'', ts:r.ts||Date.now(), thumb:r.thumb||'',
         mode:isColor(r.id)?'c':'bw', bytes:small.size, at:fb.F.serverTimestamp() });
