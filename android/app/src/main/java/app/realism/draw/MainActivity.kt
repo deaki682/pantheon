@@ -563,6 +563,7 @@ class MainActivity : AppCompatActivity() {
         val ad = nativeAd ?: return
         val d = resources.displayMetrics.density
         fun dp(v: Int) = (v * d).toInt()
+        val land = adLand()
         val adv = com.google.android.gms.ads.nativead.NativeAdView(this)
         val bg = android.graphics.drawable.GradientDrawable()
         bg.setColor(adBgCol); bg.cornerRadius = dp(14).toFloat()
@@ -570,44 +571,67 @@ class MainActivity : AppCompatActivity() {
         adv.background = bg
         adv.clipToOutline = true
         adv.elevation = dp(10).toFloat()   // the card floats above the page
-        val card = android.widget.LinearLayout(this)
-        card.orientation = android.widget.LinearLayout.HORIZONTAL
-        card.setPadding(dp(6), dp(6), dp(6), dp(6))
+        // the 120dp media square is AdMob's video floor; nothing overlays it
         val mediaWrap = FrameLayout(this)
         mediaWrap.clipChildren = true; mediaWrap.clipToPadding = true
         val media = com.google.android.gms.ads.nativead.MediaView(this)
         media.setImageScaleType(android.widget.ImageView.ScaleType.CENTER_CROP)
         mediaWrap.addView(media, FrameLayout.LayoutParams(dp(120), dp(120)))
         val badge = adBadge(::dp)
-        val blp = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
-            android.view.Gravity.BOTTOM or android.view.Gravity.START)
-        blp.leftMargin = dp(4); blp.bottomMargin = dp(4)
-        mediaWrap.addView(badge, blp)
-        card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(120), dp(120)))
-        // text column beside the media: headline up top, CTA pinned at the foot
-        val col = android.widget.LinearLayout(this)
-        col.orientation = android.widget.LinearLayout.VERTICAL
-        col.setPadding(dp(8), 0, 0, 0)
         val head = TextView(this)
-        head.setTextColor(0xFFE8E6E1.toInt()); head.textSize = 11.5f
-        head.maxLines = 3; head.ellipsize = android.text.TextUtils.TruncateAt.END
+        head.setTextColor(0xFFE8E6E1.toInt())
+        head.ellipsize = android.text.TextUtils.TruncateAt.END
         head.text = ad.headline ?: ""
-        head.setPadding(dp(2), dp(2), dp(2), dp(4))
-        col.addView(head, android.widget.LinearLayout.LayoutParams(
-            android.widget.LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f))
-        val cta = adCta(ad, ::dp, 10)
-        col.addView(cta, android.widget.LinearLayout.LayoutParams(
-            android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
-            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
-        card.addView(col, android.widget.LinearLayout.LayoutParams(dp(112), dp(120)))
-        // 6 + 120 media + 112 column + 6 = 244dp wide, 6 + 120 + 6 = 132dp tall:
-        // the minimum a video-eligible native ad needs, and never more
-        val CW = dp(244); val CH = dp(132)
+        val card = android.widget.LinearLayout(this)
+        val cw: Int; val ch: Int
+        var cta: TextView? = null
+        if (land) {
+            // landscape: the smallest video-eligible card there is - the media
+            // square with one line of badge + headline beneath, 132 x 150dp
+            card.orientation = android.widget.LinearLayout.VERTICAL
+            card.setPadding(dp(6), dp(6), dp(6), dp(4))
+            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(120), dp(120)))
+            val row = android.widget.LinearLayout(this)
+            row.orientation = android.widget.LinearLayout.HORIZONTAL
+            row.gravity = android.view.Gravity.CENTER_VERTICAL
+            row.addView(badge)
+            head.textSize = 10.5f; head.maxLines = 1
+            head.setPadding(dp(5), 0, 0, 0)
+            row.addView(head, android.widget.LinearLayout.LayoutParams(
+                0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+            val rlp = android.widget.LinearLayout.LayoutParams(dp(120), dp(18))
+            rlp.topMargin = dp(2)
+            card.addView(row, rlp)
+            cw = dp(132); ch = dp(150)
+        } else {
+            // portrait: media left, badge + headline + CTA in a fixed column
+            card.orientation = android.widget.LinearLayout.HORIZONTAL
+            card.setPadding(dp(6), dp(6), dp(6), dp(6))
+            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(120), dp(120)))
+            val col = android.widget.LinearLayout(this)
+            col.orientation = android.widget.LinearLayout.VERTICAL
+            col.setPadding(dp(8), 0, 0, 0)
+            val badgeWrap = android.widget.LinearLayout(this)
+            badgeWrap.addView(badge)
+            col.addView(badgeWrap)
+            head.textSize = 11.5f; head.maxLines = 3
+            head.setPadding(dp(2), dp(2), dp(2), dp(4))
+            col.addView(head, android.widget.LinearLayout.LayoutParams(
+                android.widget.LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f))
+            val c = adCta(ad, ::dp, 10)
+            col.addView(c, android.widget.LinearLayout.LayoutParams(
+                android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
+                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
+            cta = c
+            card.addView(col, android.widget.LinearLayout.LayoutParams(dp(112), dp(120)))
+            cw = dp(244); ch = dp(132)
+        }
+        // fixed at every level so nothing the SDK does inside can widen it
+        val CW = cw; val CH = ch
         adv.addView(card, FrameLayout.LayoutParams(CW, CH))
         adv.mediaView = media
         adv.headlineView = head
-        adv.callToActionView = cta
+        cta?.let { adv.callToActionView = it }
         adv.setNativeAd(ad)
         // the collapse pill sits LEFT of the card, tucked beneath the spot
         // the gear glides to - still outside the ad view, never an ad click
