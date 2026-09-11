@@ -2,7 +2,10 @@
 // bubble and coach mark, into a project and back. Reports errors, bubbles that
 // leave the viewport, bubbles covering their own lit target, and dead ends.
 const { chromium } = require('playwright-core');
-const OUT='/tmp/claude-0/-home-user-pantheon/43db5575-695c-5ade-801f-30bed7c1325e/scratchpad/first/';
+// Screenshots land in $FIRSTRUN_OUT, else <os tmpdir>/photorealism-firstrun/.
+const fs=require('fs'), os=require('os'), path=require('path');
+const OUT=(process.env.FIRSTRUN_OUT || path.join(os.tmpdir(),'photorealism-firstrun')).replace(/\/?$/,'/');
+fs.mkdirSync(OUT,{recursive:true});
 const ALL=[{tag:'phoneP',w:390,h:844},{tag:'phoneL',w:844,h:390},{tag:'tabL',w:1280,h:800}];
 const VIEWS=process.argv[2] ? ALL.filter(v=>v.tag===process.argv[2]) : ALL;
 function inter(a,b){ const x=Math.max(0,Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x)); const y=Math.max(0,Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y)); return x*y; }
