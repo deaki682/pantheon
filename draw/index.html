@@ -24,11 +24,11 @@ input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:2px;
   background:linear-gradient(to right,var(--acc) 0,var(--acc) var(--p,50%),
     #4a4a4a var(--p,50%))}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
-  width:14px;height:14px;border-radius:50%;background:var(--acc);
-  margin-top:-5.5px}
+  width:calc(14px*var(--ux,1));height:calc(14px*var(--ux,1));border-radius:50%;background:var(--acc);
+  margin-top:calc(-5.5px*var(--ux,1))}
 input[type=range]::-moz-range-track{height:3px;border-radius:2px;background:#4a4a4a}
 input[type=range]::-moz-range-progress{height:3px;border-radius:2px;background:var(--acc)}
-input[type=range]::-moz-range-thumb{width:14px;height:14px;border:none;
+input[type=range]::-moz-range-thumb{width:calc(14px*var(--ux,1));height:calc(14px*var(--ux,1));border:none;
   border-radius:50%;background:var(--acc)}
 html,body{width:100%;height:100%;overflow:hidden;background:#141414;color:#e8e6e1;
   font:14px system-ui,sans-serif;touch-action:none;
@@ -86,7 +86,7 @@ button.btnFlash{animation:btnFlash 0.35s ease-out}
 #viewRow{flex-direction:column;align-items:stretch;gap:8px;padding:6px}
 #layerCol{display:flex;flex-direction:column;gap:8px}
 #layerCol .vBtn{width:100%;padding-top:27px;padding-bottom:27px}
-body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:13px}
+body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:calc(13px*var(--ux,1))}
 .row{display:flex;gap:8px;align-items:center;padding:8px;flex-wrap:wrap}
 .grow{flex:1}
 /* screen 2: format preview */
@@ -107,7 +107,7 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:13px}
 .gadd span{color:var(--acc);font-size:30px;line-height:1}
 .gitem{width:118px;scroll-snap-align:center}
 #upRow{flex-direction:column;align-items:center;gap:12px}
-#calBtn{padding:10px 14px;line-height:0}
+#calBtn{padding:calc(10px*var(--ux,1)) calc(14px*var(--ux,1));line-height:0}
 #calBtnCv{display:block}
 #upTitle{color:var(--acc);font-size:22px;letter-spacing:0.04em;margin-top:52px}
 #titleRule{display:block;width:100%;height:24px;flex:none;margin-top:2px}
@@ -126,7 +126,7 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:13px}
   cursor:pointer;border-radius:10px;overflow:hidden;
   box-shadow:0 7px 16px rgba(0,0,0,0.55), 0 2px 5px rgba(0,0,0,0.45)}
 .gitem.lastRef{border-color:var(--acc)}
-.gx{position:absolute;top:4px;right:4px;width:32px;height:32px;padding:0;
+.gx{position:absolute;top:4px;right:4px;width:calc(32px*var(--ux,1));height:calc(32px*var(--ux,1));padding:0;
   border:none;background:rgba(14,14,14,0.72);border-radius:50%;
   color:var(--acc);font-size:22px;line-height:1;
   display:flex;align-items:center;justify-content:center}
@@ -183,11 +183,11 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
 #edgeCv{position:absolute;left:0;top:0;pointer-events:none}
 #circWrap{position:absolute;top:calc(8px + env(safe-area-inset-top));
   left:50%;transform:translateX(-50%);z-index:7;display:none;gap:8px}
-#circBtn{width:44px;height:44px;padding:0;border-radius:12px;
+#circBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #dlWrap{position:absolute;top:calc(8px + env(safe-area-inset-top));
   right:calc(8px + env(safe-area-inset-right));z-index:7;display:none}
-#dlBtn{width:44px;height:44px;padding:0;border-radius:12px;
+#dlBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 .redDot{width:17px;height:17px;border-radius:50%;border:2.5px solid #e03c3c;display:block}
 #circClr{height:44px;border-radius:12px}
@@ -255,22 +255,22 @@ body.colorRef #hudWrap{left:calc(30px + (100% - 60px)*0.5)}
 #backBtn,#hudToggle,#detBtn,#underBtn,#gridBtn,#compareBtn,#expBtn,#setBtn{
   box-shadow:0 3px 8px rgba(0,0,0,0.5)}
 #hud,#detMenu,#underMenu,#gridMenu{box-shadow:0 6px 16px rgba(0,0,0,0.55)}
-#hudToggle{width:44px;height:44px;padding:0;font-size:18px;line-height:1;border-radius:12px}
-#hudToggle.lit{width:auto;padding:0 16px;font-size:14px}
-body.colorRef #hudToggle.lit{width:44px;padding:0;font-size:18px}
+#hudToggle{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;font-size:calc(18px*var(--ux,1));line-height:1;border-radius:12px}
+#hudToggle.lit{width:auto;padding:0 16px;font-size:calc(14px*var(--ux,1))}
+body.colorRef #hudToggle.lit{width:calc(44px*var(--ux,1));padding:0;font-size:calc(18px*var(--ux,1))}
 #camCorner{position:absolute;left:calc(100% - 30px);transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
 #detCorner{position:absolute;left:30px;transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
 #gridCorner{position:absolute;left:calc(30px + (100% - 60px)*2/3);
   transform:translateX(-50%);bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
-#detBtn{height:44px;min-width:52px;padding:0 10px;border-radius:12px;font-size:13px}
-#detMenu{position:absolute;bottom:52px;left:0;
+#detBtn{height:calc(44px*var(--ux,1));min-width:calc(52px*var(--ux,1));padding:0 10px;border-radius:12px;font-size:calc(13px*var(--ux,1))}
+#detMenu{position:absolute;bottom:calc(52px*var(--ux,1));left:0;
   display:none;flex-direction:column;gap:6px;background:#1e1e1e;
   border:1px solid #555;border-radius:14px;padding:6px;z-index:6}
-#detMenu button{white-space:nowrap;font-size:13px;padding:8px 11px;border-radius:9px}
-#gmMiniB{width:26px;height:26px;display:block}
-#gridBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
+#detMenu button{white-space:nowrap;font-size:calc(13px*var(--ux,1));padding:8px 11px;border-radius:9px}
+#gmMiniB{width:calc(26px*var(--ux,1));height:calc(26px*var(--ux,1));display:block}
+#gridBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center;
   display:flex;align-items:center;justify-content:center}
 #underCorner{position:absolute;left:50%;transform:translateX(-50%);
@@ -295,20 +295,20 @@ html.adOn #noAdsTxt{bottom:calc(66px + env(safe-area-inset-bottom)) !important}
 /* B&W swaps the layers and detail buttons: layers takes the left corner,
    detail sits at the one-third mark (colour keeps its own arrangement) */
 body:not(.colorRef) #hudWrap{left:8px;transform:none}
-body:not(.colorRef) #hud{position:absolute;bottom:52px;left:0;
+body:not(.colorRef) #hud{position:absolute;bottom:calc(52px*var(--ux,1));left:0;
   width:max-content;max-width:calc(100vw - 16px)}
 body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
-#underBtn{width:44px;height:44px;padding:0;border-radius:12px;
+#underBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
-#underMenu{position:absolute;bottom:52px;left:0;
+#underMenu{position:absolute;bottom:calc(52px*var(--ux,1));left:0;
   display:none;flex-direction:column;gap:6px;background:#1e1e1e;
   border:1px solid #555;border-radius:14px;padding:6px;z-index:6;
   align-items:stretch}
-#underMenu button{border-radius:9px;font-size:13px;padding:8px 11px;white-space:nowrap}
+#underMenu button{border-radius:9px;font-size:calc(13px*var(--ux,1));padding:8px 11px;white-space:nowrap}
 #uCol{display:flex;align-items:center;justify-content:center}
-#uColSw{width:18px;height:18px;border-radius:50%;border:1px solid #777;display:block}
-#uPal{display:none;grid-template-columns:repeat(3,30px);gap:6px;justify-content:center}
-#uPal button{width:30px;height:30px;border-radius:50%;padding:0;border:2px solid #444}
+#uColSw{width:calc(18px*var(--ux,1));height:calc(18px*var(--ux,1));border-radius:50%;border:1px solid #777;display:block}
+#uPal{display:none;grid-template-columns:repeat(3,calc(30px*var(--ux,1)));gap:6px;justify-content:center}
+#uPal button{width:calc(30px*var(--ux,1));height:calc(30px*var(--ux,1));border-radius:50%;padding:0;border:2px solid #444}
 #uPal button.vOn{border-color:#fff;box-shadow:0 0 0 2px var(--acc)}
 #edView{flex:1;min-height:0;position:relative;overflow:hidden;background:#0e0e0e;
   touch-action:none}
@@ -319,20 +319,20 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
 #edTone .adjL{min-width:0;text-align:right;white-space:nowrap}
 #edTone input[type=range]{width:100%;min-width:0;margin:0}
 #edRow{justify-content:space-evenly;gap:10px;padding:8px 12px}
-#edRow button{flex:1;min-height:46px;font-size:15px}
-#edEye{position:absolute;right:10px;top:10px;z-index:5;width:42px;height:42px;
+#edRow button{flex:1;min-height:calc(46px*var(--ux,1));font-size:calc(15px*var(--ux,1))}
+#edEye{position:absolute;right:10px;top:10px;z-index:5;width:calc(42px*var(--ux,1));height:calc(42px*var(--ux,1));
   padding:0;display:flex;align-items:center;justify-content:center;
   background:rgba(24,24,24,.72);border-radius:12px}
-#gridMenu{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
+#gridMenu{position:absolute;bottom:calc(52px*var(--ux,1));left:50%;transform:translateX(-50%);
   display:none;flex-direction:column;gap:6px;background:#1e1e1e;
   border:1px solid #555;border-radius:14px;padding:8px;z-index:6;
   align-items:center}
-#gridMenu button{border-radius:9px;font-size:13px;white-space:nowrap}
+#gridMenu button{border-radius:9px;font-size:calc(13px*var(--ux,1));white-space:nowrap}
 #gmDone{display:flex;align-items:center;gap:8px}
 .gmDoneDot{width:7px;height:7px;border-radius:50%;background:#fff;display:inline-block}
-#gmDesign{width:44px;height:44px;padding:5px;display:flex;
+#gmDesign{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:5px;display:flex;
   align-items:center;justify-content:center}
-#gmMini{width:32px;height:32px;display:block}
+#gmMini{width:calc(32px*var(--ux,1));height:calc(32px*var(--ux,1));display:block}
 /* the accessibility window: size, contrast - applied live, persisted */
 #a11yModal{position:fixed;inset:0;z-index:26;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.6)}
@@ -342,26 +342,19 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
 .a11yLab{font-size:11px;font-weight:600;letter-spacing:.08em;
   text-transform:uppercase;color:#6a6a6a;margin:0 0 -8px;text-align:center}
 .a11yPills{display:flex;justify-content:center;gap:8px}
-.a11yPills button{border-radius:999px;font-size:13px;padding:8px 18px}
+.a11yPills button{border-radius:999px;font-size:calc(13px*var(--ux,1));padding:8px 18px}
 #a11yDoneRow{display:flex;justify-content:flex-end}
 #a11yDone{border-radius:999px;padding:8px 22px}
-/* chrome scale: Medium/Large grow the buttons, menus and text */
+/* chrome scale: Medium/Large set the one factor every control's base
+   rule multiplies by; Small is exactly 1 */
 html.uiM{--ux:1.18}
 html.uiL{--ux:1.38}
 html.uiM body,html.uiL body{font-size:calc(14px*var(--ux))}
-html.uiM #backBtn,html.uiM #hudToggle,html.uiM #gridBtn,html.uiM #expBtn,
-html.uiL #backBtn,html.uiL #hudToggle,html.uiL #gridBtn,html.uiL #expBtn{
-  width:calc(44px*var(--ux));height:calc(44px*var(--ux))}
-html.uiM #setBtn,html.uiL #setBtn{
-  height:calc(44px*var(--ux));min-width:calc(44px*var(--ux))}
-html.uiM #detBtn,html.uiM #underBtn,html.uiM #compareBtn,
-html.uiL #detBtn,html.uiL #underBtn,html.uiL #compareBtn{
-  min-height:calc(44px*var(--ux))}
-html.uiM #gmMiniB,html.uiL #gmMiniB{
-  width:calc(26px*var(--ux));height:calc(26px*var(--ux))}
-html.uiM #gridMenu,html.uiM #detMenu,html.uiM #underMenu,
-html.uiL #gridMenu,html.uiL #detMenu,html.uiL #underMenu{
-  bottom:calc(52px*var(--ux))}
+html.uiM #layerCol .vBtn{padding-top:21px;padding-bottom:21px}
+html.uiL #layerCol .vBtn{padding-top:15px;padding-bottom:15px}
+html.uiM #hudToggle.lit{padding:0 12px}
+html.uiL #hudToggle.lit{padding:0 9px}
+@media (max-width:390px){ html.uiL{--ux:1.26} }
 /* high contrast: black surfaces, bright borders and text */
 html.hc button,html.hc select,html.hc input{
   border-color:#bbb;color:#fff;background:#000}
@@ -385,7 +378,7 @@ html.hc #verNum{color:#ddd}
 #gsdCv{display:block;width:100%;height:auto;background:#141414;
   border-radius:10px;touch-action:none}
 #gsdPrev{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
-  padding:7px 16px;border-radius:999px;font-size:13px;
+  padding:7px 16px;border-radius:999px;font-size:calc(13px*var(--ux,1));
   background:rgba(30,30,30,.4);
   -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px)}
 .gsdRow{display:flex;justify-content:center;align-items:center;gap:12px}
@@ -398,29 +391,29 @@ html.hc #verNum{color:#ddd}
   border-radius:14px;background:#262626;padding:8px;
   box-shadow:0 10px 26px rgba(0,0,0,0.55)}
 #gsdStyleBox,#gsdColBox,#gsdThkBox,#gsdLabBox,#gsdStyles button{
-  width:50px;height:44px;padding:0;border-radius:11px;
+  width:calc(50px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;border-radius:11px;
   display:flex;align-items:center;justify-content:center}
-#gsdColSw{width:20px;height:20px;border-radius:50%;border:1px solid #777;
+#gsdColSw{width:calc(20px*var(--ux,1));height:calc(20px*var(--ux,1));border-radius:50%;border:1px solid #777;
   display:block}
-#gsdSws{display:grid;grid-template-columns:repeat(2,28px);gap:7px}
-#gsdSws button{width:28px;height:28px;border-radius:50%;padding:0;
+#gsdSws{display:grid;grid-template-columns:repeat(2,calc(28px*var(--ux,1)));gap:7px}
+#gsdSws button{width:calc(28px*var(--ux,1));height:calc(28px*var(--ux,1));border-radius:50%;padding:0;
   border:1px solid #555}
 #gsdSws button.vOn{border-color:var(--acc);border-width:2px}
 #gsdThkBox i,#gsdThicks button i{display:block;height:17px;
   border-radius:1px;background:#e8e6e1}
-#gsdThicks button{width:40px;height:36px;padding:0;border-radius:10px;
+#gsdThicks button{width:calc(40px*var(--ux,1));height:calc(36px*var(--ux,1));padding:0;border-radius:10px;
   display:flex;align-items:center;justify-content:center}
 #gsdThicks button.vOn i{background:var(--acc)}
-#gsdSub{padding:8px 16px;border-radius:999px;font-size:13px}
+#gsdSub{padding:8px 16px;border-radius:999px;font-size:calc(13px*var(--ux,1))}
 #gsdLabs{display:flex;flex-direction:column;align-items:center;gap:9px;
   position:absolute;bottom:calc(100% + 10px);left:50%;
   transform:translateX(-50%);z-index:30;border:1px solid #555;
   border-radius:14px;background:#262626;padding:10px 12px;
   box-shadow:0 10px 26px rgba(0,0,0,0.55)}
 #gsdLabPos{display:flex;gap:8px}
-#gsdLabPos button{padding:6px 16px;border-radius:999px;font-size:13px}
+#gsdLabPos button{padding:6px 16px;border-radius:999px;font-size:calc(13px*var(--ux,1))}
 #gsdLabRow{display:flex;gap:8px}
-#gsdLabRow button{width:56px;height:54px;padding:0;border-radius:12px;
+#gsdLabRow button{width:calc(56px*var(--ux,1));height:calc(54px*var(--ux,1));padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #gsdOpLab{text-align:center;font-size:11px;font-weight:600;
   letter-spacing:.08em;text-transform:uppercase;color:#6a6a6a;
@@ -435,11 +428,11 @@ html.hc #verNum{color:#ddd}
   top:calc(8px + env(safe-area-inset-top));z-index:5}
 #setCorner{position:absolute;left:50%;transform:translateX(-50%);
   top:calc(8px + env(safe-area-inset-top));z-index:5}
-#setBtn{height:44px;min-width:44px;padding:0;border-radius:12px;
+#setBtn{height:calc(44px*var(--ux,1));min-width:calc(44px*var(--ux,1));padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center;overflow:hidden}
 #setBtn svg{flex:none;max-width:22px;opacity:1;transform:none;
   transition:max-width 0.28s ease, opacity 0.16s ease, transform 0.28s ease}
-#setBtn .ttlTxt,#setBtn .markTxt{display:block;color:var(--acc);font-size:14px;
+#setBtn .ttlTxt,#setBtn .markTxt{display:block;color:var(--acc);font-size:calc(14px*var(--ux,1));
   white-space:nowrap;max-width:0;opacity:0;padding:0;
   transition:max-width 0.28s ease, opacity 0.18s ease 0.08s, padding 0.28s ease}
 #setBtn .markTxt{font-variant-numeric:tabular-nums}
@@ -450,14 +443,14 @@ html.hc #verNum{color:#ddd}
   align-items:center;justify-content:center;background:rgba(8,8,8,0.6)}
 #setPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:18px;display:flex;flex-direction:column;gap:14px;max-width:92vw}
-.setLbl{font-size:12px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.7}
-#accGrid,#accGrid2{display:grid;grid-template-columns:repeat(5,40px);gap:8px}
-#accGrid button,#accGrid2 button{width:40px;height:40px;border-radius:10px;border:1px solid #555;padding:0}
+.setLbl{font-size:calc(12px*var(--ux,1));text-transform:uppercase;letter-spacing:0.1em;opacity:0.7}
+#accGrid,#accGrid2{display:grid;grid-template-columns:repeat(5,calc(40px*var(--ux,1)));gap:8px}
+#accGrid button,#accGrid2 button{width:calc(40px*var(--ux,1));height:calc(40px*var(--ux,1));border-radius:10px;border:1px solid #555;padding:0}
 #accGrid button.vOn,#accGrid2 button.vOn{border-width:2px}
 /* preferences gear: the upload title row's right corner, mirroring the
    status text on the left */
 #gearBtn{position:absolute;right:8px;top:50%;transform:translateY(-50%);
-  width:36px;height:36px;padding:0;border:none;background:transparent;
+  width:calc(36px*var(--ux,1));height:calc(36px*var(--ux,1));padding:0;border:none;background:transparent;
   box-shadow:none;color:var(--acc);display:flex;align-items:center;
   justify-content:center}
 #gearModal{position:fixed;inset:0;z-index:22;display:none;
@@ -466,21 +459,21 @@ html.hc #verNum{color:#ddd}
   padding:20px 24px;display:flex;flex-direction:column;gap:10px;
   align-items:stretch;font-size:15px;min-width:240px}
 #langSel,#unitSel2{background:#242424;color:#e8e6e1;border:1px solid #555;
-  border-radius:10px;padding:8px 10px;font-size:14px}
-#gearPanel label{display:flex;gap:10px;align-items:center;font-size:14px}
-#gmDesign2,#gmDesign3{width:46px;height:42px;padding:5px;display:flex;
+  border-radius:10px;padding:8px 10px;font-size:calc(14px*var(--ux,1))}
+#gearPanel label{display:flex;gap:10px;align-items:center;font-size:calc(14px*var(--ux,1))}
+#gmDesign2,#gmDesign3{width:calc(46px*var(--ux,1));height:calc(42px*var(--ux,1));padding:5px;display:flex;
   align-items:center;justify-content:center;border-radius:10px}
-#gmMini2,#gmMini3{width:30px;height:30px;display:block}
-#gridColBox,#accColBox{width:40px;height:40px;border-radius:10px;border:1px solid #555;
+#gmMini2,#gmMini3{width:calc(30px*var(--ux,1));height:calc(30px*var(--ux,1));display:block}
+#gridColBox,#accColBox{width:calc(40px*var(--ux,1));height:calc(40px*var(--ux,1));border-radius:10px;border:1px solid #555;
   padding:3px;background:#242424}
 #gridColBox span,#accColBox span{display:block;width:100%;height:100%;border-radius:7px}
-#gridPal2,#accPal2{display:none;grid-template-columns:repeat(5,32px);gap:8px}
-#gridPal2 button,#accPal2 button{width:32px;height:32px;border-radius:50%;padding:0;border:1px solid #555}
+#gridPal2,#accPal2{display:none;grid-template-columns:repeat(5,calc(32px*var(--ux,1)));gap:8px}
+#gridPal2 button,#accPal2 button{width:calc(32px*var(--ux,1));height:calc(32px*var(--ux,1));border-radius:50%;padding:0;border:1px solid #555}
 #gridPal2 button.vOn,#accPal2 button.vOn{border-color:var(--acc);border-width:2px}
-#setPanel label{display:flex;gap:10px;align-items:center;font-size:14px}
-#expBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
+#setPanel label{display:flex;gap:10px;align-items:center;font-size:calc(14px*var(--ux,1))}
+#expBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
-#compareBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
+#compareBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #widthIn,#heightIn,#cellVal,#cellVal2{width:54px;background:#1e1e1e;color:#e8e6e1;
   border:1px solid #555;border-radius:8px;padding:8px;font:inherit}
@@ -552,17 +545,17 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 #introBy{font-size:14px;color:var(--acc);margin-top:10px;opacity:.9;
   transition:opacity .3s}
 #backBtn{position:fixed;top:calc(8px + env(safe-area-inset-top));
-  left:calc(8px + env(safe-area-inset-left));z-index:9;width:44px;height:44px;
-  padding:0;font-size:24px;line-height:1;border-radius:12px;display:none;
+  left:calc(8px + env(safe-area-inset-left));z-index:9;width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));
+  padding:0;font-size:calc(24px*var(--ux,1));line-height:1;border-radius:12px;display:none;
   align-items:center;justify-content:center}
 #fmtForm{display:grid;grid-template-columns:auto 1fr;
   gap:12px 10px;align-items:center;padding:12px 6px 4px;
   margin-left:calc(52px + env(safe-area-inset-left));margin-right:4px}
-.fLbl{font-size:14px;white-space:nowrap}
+.fLbl{font-size:calc(14px*var(--ux,1));white-space:nowrap}
 #fmtRow{justify-content:space-evenly;gap:10px;padding:10px 12px}
-#fmtRow button{flex:1;min-height:52px;font-size:16px;color:var(--acc)}
+#fmtRow button{flex:1;min-height:calc(52px*var(--ux,1));font-size:calc(16px*var(--ux,1));color:var(--acc)}
 .fCtl{display:flex;align-items:center;gap:6px}
-.gsBtn{width:46px;height:38px;padding:0;border-radius:10px;
+.gsBtn{width:calc(46px*var(--ux,1));height:calc(38px*var(--ux,1));padding:0;border-radius:10px;
   display:flex;align-items:center;justify-content:center}
 .xSep{opacity:0.6}
 #fmtInfo{padding:6px 8px 4px;margin-left:calc(56px + env(safe-area-inset-left));
@@ -581,7 +574,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 #modePanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:20px 24px;display:flex;flex-direction:column;gap:14px;
   align-items:stretch;font-size:15px;min-width:230px}
-#modePanel button{padding:12px 16px;border-radius:12px;font-size:15px}
+#modePanel button{padding:12px 16px;border-radius:12px;font-size:calc(15px*var(--ux,1))}
 #delPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:18px 24px;display:flex;flex-direction:column;gap:14px;
   align-items:center;font-size:15px}
@@ -598,14 +591,14 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 #arPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:18px 20px;display:flex;flex-direction:column;gap:12px}
 #arGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-#arGrid button{min-height:44px;border-radius:10px}
+#arGrid button{min-height:calc(44px*var(--ux,1));border-radius:10px}
 #arW,#arH{width:64px}
 #shModal{position:fixed;inset:0;z-index:27;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.72)}
 #shPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:20px 24px;display:flex;flex-direction:column;gap:14px;max-width:86vw;
   font-size:15px;line-height:1.5}
-#shPanel button{min-height:44px;border-radius:10px;min-width:96px}
+#shPanel button{min-height:calc(44px*var(--ux,1));border-radius:10px;min-width:calc(96px*var(--ux,1))}
 #dgModal{position:fixed;inset:0;z-index:27;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.72)}
 #dgPanel{background:#161616;border:1px solid #555;border-radius:14px;
@@ -616,12 +609,12 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   align-items:center;justify-content:center;background:rgba(8,8,8,0.72)}
 #dlPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:20px 24px;display:flex;flex-direction:column;gap:12px;max-width:86vw}
-#dlPanel button{min-height:44px;border-radius:10px}
+#dlPanel button{min-height:calc(44px*var(--ux,1));border-radius:10px}
 #refModal{position:fixed;inset:0;z-index:22;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.55)}
 #refPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:18px 24px;display:flex;flex-direction:column;gap:10px;min-width:200px}
-#refPanel button{min-height:44px;border-radius:10px}
+#refPanel button{min-height:calc(44px*var(--ux,1));border-radius:10px}
 /* tutorial tips: a floating bubble, the app fully usable beneath it.
    Info tips close on their x; button tips illuminate the target and stay
    until it is pressed. */
@@ -629,7 +622,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   border:1px solid #555;border-radius:14px;padding:14px 36px 14px 16px;
   max-width:min(80vw,320px);font-size:14px;line-height:1.5;
   box-shadow:0 4px 24px rgba(0,0,0,0.55)}
-#tourX{position:absolute;top:3px;right:3px;width:28px;height:28px;padding:0;
+#tourX{position:absolute;top:3px;right:3px;width:calc(28px*var(--ux,1));height:calc(28px*var(--ux,1));padding:0;
   background:none;border:none;color:#e8e6e1;font-size:17px;line-height:1}
 #tourCaret{position:fixed;display:none;z-index:23;width:0;height:0;
   border-left:10px solid transparent;border-right:10px solid transparent;
@@ -677,7 +670,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v361</span>
+    <span id="verNum">v362</span>
   </div>
 </div>
 <div id="delModal">
