@@ -571,7 +571,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v339</span>
+    <span id="verNum">v340</span>
   </div>
 </div>
 <div id="delModal">
@@ -1065,11 +1065,12 @@ window.__backStep=()=>{
 // fade in beneath it - one continuous object from gallery to work
 let PENDING_EXPAND=null;
 function expandFrom(p){
+  const say=t=>{ try{ window.plog && plog('expand: '+t); }catch(e){} };
   try{
-    if (!p || !p.node || !p.r || !p.r.width) return;
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!p || !p.node || !p.r || !p.r.width){ say('no pending card'); return; }
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches){ say('reduced motion'); return; }
     const vp=$('viewport').getBoundingClientRect();
-    if (!vp.width) return;
+    if (!vp.width){ say('no viewport'); return; }
     const {w,h}=worldSize();
     const dst={left:vp.left+view.x, top:vp.top+view.y,
                width:w*view.s, height:h*view.s};
@@ -1083,6 +1084,7 @@ function expandFrom(p){
     const dcx=dst.left+dst.width/2, dcy=dst.top+dst.height/2;
     const icx=p.ir.left+p.ir.width/2, icy=p.ir.top+p.ir.height/2;
     const tx=icx-k0*dcx, ty=icy-k0*dcy;
+    say('flying k0='+k0.toFixed(3)+' dst='+Math.round(dst.width)+'x'+Math.round(dst.height));
     scr.style.transformOrigin='0 0';
     scr.style.willChange='transform';
     scr.style.transform='translate('+tx+'px,'+ty+'px) scale('+k0+')';
