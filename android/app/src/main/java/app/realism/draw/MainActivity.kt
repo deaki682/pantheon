@@ -1024,7 +1024,7 @@ class MainActivity : AppCompatActivity() {
                 logLine("auth: legacy returned no id token")
                 authFail("Google returned no token")
             } else {
-                logLine("auth: legacy id token ok")
+                logLine("auth: legacy id token ok, " + tok.length + " chars")
                 js("window.__authToken && __authToken('google', " +
                    org.json.JSONObject.quote(tok) + ")")
             }
@@ -1107,6 +1107,7 @@ class MainActivity : AppCompatActivity() {
     private val WEB_CLIENT_ID =
         "1096368575946-8cch1ljb3tl48v9se1fmom3u71ifqkcn.apps.googleusercontent.com"
     private var signingIn = false
+    private var signingAt = 0L
 
     private fun authFail(m: String) {
         signingIn = false
@@ -1114,8 +1115,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startGoogleSignIn(anyAccount: Boolean) {
-        if (signingIn) return
+        // a flag left true by a flow that never came back would swallow
+        // every later press without a word, so it expires
+        if (signingIn && System.currentTimeMillis() - signingAt < 90_000L) {
+            logLine("auth: ignored, one is already in flight")
+            return
+        }
         signingIn = true
+        signingAt = System.currentTimeMillis()
+        logLine("auth: start (anyAccount=" + anyAccount + ")")
         val cm = androidx.credentials.CredentialManager.create(this)
         // first pass offers accounts already used here; if there are none the
         // sheet comes back empty, so we retry once showing every account on
@@ -1137,7 +1145,7 @@ class MainActivity : AppCompatActivity() {
                     val tok = com.google.android.libraries.identity.googleid
                         .GoogleIdTokenCredential.createFrom(c.data).idToken
                     signingIn = false
-                    logLine("auth: got google id token")
+                    logLine("auth: got google id token, " + tok.length + " chars")
                     js("window.__authToken && __authToken('google', " +
                        org.json.JSONObject.quote(tok) + ")")
                 } else {
@@ -1455,7 +1463,10 @@ class MainActivity : AppCompatActivity() {
         // the OS review prompt: Play decides whether to actually show it
         // (quota, recent asks) - the call is always safe to make
         @JavascriptInterface
-        fun authGoogle() { runOnUiThread { startGoogleSignIn(false) } }
+        fun authGoogle() {
+            logLine("auth: page asked for a token")
+            runOnUiThread { startGoogleSignIn(false) }
+        }
 
         @JavascriptInterface
         fun askReview() {

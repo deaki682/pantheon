@@ -833,7 +833,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v394</span>
+    <span id="verNum">v395</span>
   </div>
 </div>
 <div id="delModal">
@@ -5978,7 +5978,20 @@ function accReady(){
   try{ if (n==='ios') return !!(window.webkit && webkit.messageHandlers && webkit.messageHandlers.authApple); }catch(e){}
   return false;   // an older shell with no auth bridge: the row stays hidden
 }
-let ACC_USER=null, ACC_WATCH=false;
+let ACC_USER=null, ACC_WATCH=false, ACC_WD=null;
+// the page writes into the native log too, so one screenshot shows both
+// halves of the handshake instead of only the Android side
+function adlog(m){ try{ if (window.RealismCam && RealismCam.dlog) RealismCam.dlog('auth/page: '+m); }catch(e){} }
+// nothing may hang forever with a spinner-shaped message and no way out
+function accGuard(on){
+  clearTimeout(ACC_WD);
+  if (!on) return;
+  ACC_WD=setTimeout(()=>{
+    if (ACC_USER) return;
+    adlog('watchdog fired - no answer in 40s');
+    accSay(TR('sign-in did not come back. Tap the version number for the log.'));
+  }, 40000);
+}
 function accSay(m){ try{ $('accState').textContent=m||''; }catch(e){} }
 function accPaint(){
   try{
@@ -6021,6 +6034,8 @@ async function accSignIn(which){
     const n=nativeShell();
     if (n){   // the shell owns the flow and calls __authToken when it is done
       if (n==='android' && which==='google' && window.RealismCam && RealismCam.authGoogle){
+        adlog('asking the shell for a google token');
+        accGuard(true);
         RealismCam.authGoogle(); return; }
       if (n==='ios' && window.webkit && webkit.messageHandlers){
         const h = which==='apple' ? webkit.messageHandlers.authApple
@@ -6048,19 +6063,27 @@ async function accSignIn(which){
 }
 // the native shells hand their token back through here
 window.__authToken = async (kind, idToken, rawNonce) => {
+  accGuard(false);
+  adlog('token received, '+(idToken?idToken.length:0)+' chars');
+  accSay(TR('signing in\u2026'));
   try{
     const fb=await fbLoad();
+    adlog('sdk loaded');
     await accWatch();
     const cred = kind==='apple'
       ? new fb.U.OAuthProvider('apple.com').credential({ idToken, rawNonce })
       : fb.U.GoogleAuthProvider.credential(idToken);
     await fb.U.signInWithCredential(fb.auth, cred);
+    adlog('firebase accepted the credential');
     accSay('');
-  }catch(e){ accSay(accErr(e)); }
+  }catch(e){
+    adlog('failed: '+((e&&e.code)||(e&&e.message)||e));
+    accSay(accErr(e));
+  }
 };
 // '' is a deliberate cancel - the shell sends it when the user dismisses
 // the account sheet, and a cancel is not an error worth reporting
-window.__authFail = m => accSay(m === '' ? '' : (m || TR('sign-in failed')));
+window.__authFail = m => { accGuard(false); accSay(m === '' ? '' : (m || TR('sign-in failed'))); };
 async function accSignOut(){
   try{ const fb=await fbLoad(); await fb.U.signOut(fb.auth); accSay(''); }
   catch(e){ accSay(accErr(e)); }
