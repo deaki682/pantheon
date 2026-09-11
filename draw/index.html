@@ -620,7 +620,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v347</span>
+    <span id="verNum">v348</span>
   </div>
 </div>
 <div id="delModal">
@@ -918,9 +918,9 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   <div id="expCorner"><button id="expBtn" title="Download"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8.5 11.5L12 15l3.5-3.5"/><path d="M5 19h14"/></svg></button></div>
   <div id="gridCorner">
   <div id="gridMenu">
-    <button id="gmDone"><span class="gmDoneDot"></span>Mark Square</button>
-    <button id="gmOn">Grid On</button>
     <button id="gmDesign" title="Grid design"><canvas id="gmMini" width="64" height="64"></canvas></button>
+    <button id="gmOn">Grid On</button>
+    <button id="gmDone"><span class="gmDoneDot"></span>Mark Square</button>
   </div>
   <button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
   <div id="underCorner">
@@ -4899,7 +4899,7 @@ function drawMini1(id){
     g.fillStyle='rgba(232,230,225,.88)';
     g.beginPath(); g.roundRect(2,2,S2-4,S2-4,10); g.fill();
   }
-  const pad=10, n=3, span=S2-pad*2, cell=span/n;
+  const pad=13, n=1, span=S2-pad*2, cell=span/n;
   const lw = GRID_THK===1 ? 1.5 : GRID_THK===2 ? 3 : 4.5;
   g.strokeStyle=col; g.fillStyle=col; g.lineWidth=lw; g.globalAlpha=.95;
   if (GRID_STYLE==='dots'){
