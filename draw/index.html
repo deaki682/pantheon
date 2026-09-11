@@ -59,10 +59,11 @@ body{position:fixed;inset:0}
   #viewport{transition:transform 320ms var(--motE), opacity 320ms var(--motE);
     transform-origin:50% 42%}
   html.bloom #viewport{transform:scale(.96);opacity:0;transition:none}
-  html.chromeIn #backBtn,html.chromeIn #setCorner,html.chromeIn #expCorner{
+  html.chromeIn #setCorner,html.chromeIn #expCorner{
     animation:chromeTop 420ms var(--motE)}
   html.chromeIn #hudWrap,html.chromeIn #detCorner,html.chromeIn #gridCorner,
-  html.chromeIn #underCorner{animation:chromeBot 420ms var(--motE)}
+  html.chromeIn #underCorner,html.chromeIn #camCorner{
+    animation:chromeBot 420ms var(--motE)}
   button{transition:transform 90ms var(--motE)}
   button:active{transform:scale(.955)}
 }
@@ -193,7 +194,7 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
 #circClr{height:44px;border-radius:12px}
 #mirRow{padding-bottom:0}
 #mirBtn{min-width:52px}
-#alphaSl{flex:1;min-width:80px;padding:0}
+#alphaSl{flex:0 1 50%;min-width:80px;padding:0}
 
 /* compare: the photographed drawing aligned over the reference */
 #cmpView{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
@@ -670,7 +671,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v362</span>
+    <span id="verNum">v363</span>
   </div>
 </div>
 <div id="delModal">
