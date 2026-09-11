@@ -567,7 +567,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v335</span>
+    <span id="verNum">v336</span>
   </div>
 </div>
 <div id="delModal">
@@ -1060,30 +1060,54 @@ window.__backStep=()=>{
 let PENDING_EXPAND=null;
 function expandFrom(p){
   try{
-    if (!p || !p.src || !p.r || !p.r.width) return;
+    if (!p || !p.node || !p.r || !p.r.width) return;
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const vp=$('viewport').getBoundingClientRect();
     if (!vp.width) return;
     const {w,h}=worldSize();
     const dst={left:vp.left+view.x, top:vp.top+view.y,
                width:w*view.s, height:h*view.s};
-    const el=document.createElement('img');
-    el.src=p.src;
-    el.style.cssText='position:fixed;z-index:70;object-fit:cover;'
-      +'border-radius:10px;will-change:transform;pointer-events:none;'
+    // clone the WHOLE card - accent border, pencil, caption - so one
+    // object lifts off and grows past the screen, its image area gliding
+    // onto exactly where the project's image sits
+    const clone=p.node.cloneNode(true);
+    clone.style.cssText='position:fixed;z-index:70;margin:0;'
       +'left:'+p.r.left+'px;top:'+p.r.top+'px;'
       +'width:'+p.r.width+'px;height:'+p.r.height+'px;'
-      +'transition:all .38s cubic-bezier(.2,0,0,1)';
-    document.body.appendChild(el);
+      +'transform-origin:0 0;will-change:transform,opacity;'
+      +'pointer-events:none;'
+      +'transition:transform .46s cubic-bezier(.2,0,0,1)';
+    document.body.appendChild(clone);
+    // mid-flight the clone sharpens: the full-resolution reference swaps
+    // in the moment it decodes, so the card never reads as a blown-up thumb
+    let bigUrl=null;
+    if (p.blob){
+      try{
+        bigUrl=URL.createObjectURL(p.blob);
+        const big=new Image(); big.src=bigUrl;
+        (big.decode?big.decode():Promise.resolve()).then(()=>{
+          const im=clone.querySelector('img'); if (im) im.src=bigUrl;
+        }).catch(()=>{});
+      }catch(e){}
+    }
+    // uniform FLIP scale: the card's image area COVERS the destination
+    // rect (aspects differ - the crossfade below resolves the reveal)
+    const k=Math.max(dst.width/p.ir.width, dst.height/p.ir.height);
+    const icx=p.ir.left-p.r.left+p.ir.width/2;
+    const icy=p.ir.top-p.r.top+p.ir.height/2;
+    const tx=(dst.left+dst.width/2)-p.r.left-k*icx;
+    const ty=(dst.top+dst.height/2)-p.r.top-k*icy;
     document.documentElement.classList.add('projExpand');
     requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      el.style.left=dst.left+'px'; el.style.top=dst.top+'px';
-      el.style.width=dst.width+'px'; el.style.height=dst.height+'px';
-      el.style.borderRadius='0px';
+      clone.style.transform='translate('+tx+'px,'+ty+'px) scale('+k+')';
       document.documentElement.classList.remove('projExpand');
     }));
-    setTimeout(()=>{ el.style.transition='opacity .2s'; el.style.opacity='0'; }, 400);
-    setTimeout(()=>{ try{ el.remove(); }catch(e){} }, 630);
+    // the real workspace is fading in beneath the whole time; the clone
+    // dissolves before touchdown so the aspect handover is never visible
+    setTimeout(()=>{ clone.style.transition
+      ='transform .46s cubic-bezier(.2,0,0,1), opacity .22s'; clone.style.opacity='0'; }, 250);
+    setTimeout(()=>{ try{ clone.remove(); }catch(e){}
+      try{ if (bigUrl) URL.revokeObjectURL(bigUrl); }catch(e){} }, 700);
   }catch(e){ try{ document.documentElement.classList.remove('projExpand'); }catch(e2){} }
 }
 // every screen carries the bottom ad strip in the native shell, skinned
@@ -1423,7 +1447,8 @@ async function renderGallery(){
         if (galActive === r.id) return;       // this one: let it finish
       } else if (galActive === r.id && photo){  // already open: jump back in
         try{ const im=d.querySelector('img');
-          PENDING_EXPAND = im ? {r:im.getBoundingClientRect(), src:im.src} : null;
+          PENDING_EXPAND = im ? {node:d, r:d.getBoundingClientRect(),
+            ir:im.getBoundingClientRect(), blob:r.blob} : null;
         }catch(e){ PENDING_EXPAND=null; }
         show(GRID_READY ? 'scrMain' : 'scrFormat');
         if (GRID_READY){ applyView();         // the square may have changed
@@ -1433,7 +1458,8 @@ async function renderGallery(){
       }
       haptic();
       try{ const im=d.querySelector('img');
-        PENDING_EXPAND = im ? {r:im.getBoundingClientRect(), src:im.src} : null;
+        PENDING_EXPAND = im ? {node:d, r:d.getBoundingClientRect(),
+          ir:im.getBoundingClientRect(), blob:r.blob} : null;
       }catch(e){ PENDING_EXPAND=null; }
       if (r.blob && warmOpen(r)) return;      // cooked before: straight in
       if (r.blob) openPhoto(r.blob, r.id);
