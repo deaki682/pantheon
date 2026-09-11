@@ -379,6 +379,9 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
   margin:22px 0 2px}
 #gsdOpRow{display:flex;justify-content:center;align-items:center;gap:12px}
 #gsdOpRow input[type=range]{width:50%;max-width:200px}
+#gsdDoneRow{display:flex;justify-content:flex-end;margin-top:14px}
+#gsdDone{padding:8px 22px;border-radius:999px;border:1px solid var(--acc);
+  background:var(--accBg);color:var(--acc);font-size:14px}
 #gsdOpV{color:#8a8781;font-size:13px;font-variant-numeric:tabular-nums}
 #expCorner{position:absolute;right:calc(8px + env(safe-area-inset-right));
   top:calc(8px + env(safe-area-inset-top));z-index:5}
@@ -625,7 +628,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v351</span>
+    <span id="verNum">v352</span>
   </div>
 </div>
 <div id="delModal">
@@ -735,6 +738,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
       <p id="gsdOpLab">Transparency</p>
       <div id="gsdOpRow">
         <input type="range" id="gsdOp" min="0.1" max="1" step="0.05"><span id="gsdOpV"></span></div>
+      <div id="gsdDoneRow"><button id="gsdDone">Done</button></div>
     </div>
   </div>
   <div id="setModal">
@@ -5052,23 +5056,52 @@ function gsdIcon(sch,pos,big){
 // the live grid tiled over it - pannable, pinchable, opening at
 // true-to-life scale (one grid square = one real inch of screen)
 const GSDP={on:false, img:null, w:0, h:0, cell:0, view:{x:0,y:0,s:1}};
-function gsdSnap(src){
+function gsdSnap(src, gray){
   const k=Math.min(1, 1200/Math.max(src.width,src.height));
   const c=document.createElement('canvas');
   c.width=Math.max(2,Math.round(src.width*k));
   c.height=Math.max(2,Math.round(src.height*k));
-  c.getContext('2d').drawImage(src,0,0,c.width,c.height);
+  const g2=c.getContext('2d');
+  if (gray) g2.filter='grayscale(1)';
+  g2.drawImage(src,0,0,c.width,c.height);
+  g2.filter='none';
   return c;
 }
-function gsdEnterPrev(){
-  let src=null, w=0, h=0, cell=0;
+// nothing open? the LAST OPENED reference stands in, at its stored format
+async function gsdLastRefSrc(){
+  try{
+    const id=+localStorage.getItem('lastRef');
+    const recs=await galAll();
+    const r=recs.find(x=>x.id===id) || recs.sort((a,b)=>b.ts-a.ts)[0];
+    if (!r || !r.blob) return null;
+    const img=new Image();
+    const url=URL.createObjectURL(r.blob);
+    await new Promise((res,rej)=>{ img.onload=res; img.onerror=rej; img.src=url; });
+    URL.revokeObjectURL(url);
+    let cols=6;
+    try{
+      const f=JSON.parse(localStorage.getItem('fmt|'+r.id)||'null');
+      if (f && +f.w){
+        const wIn=f.u==='cm' ? (+f.w)/2.54 : +f.w;
+        cols=Math.max(1, Math.ceil(wIn/cellIn()-1e-6));
+      }
+    }catch(e){}
+    let gray=true; try{ gray=!isColor(r.id); }catch(e){}
+    return { src:img, gray, w:img.width, h:img.height, cell:img.width/cols };
+  }catch(e){ return null; }
+}
+async function gsdEnterPrev(){
+  let src=null, gray=false, w=0, h=0, cell=0;
   if (GRID_READY && $('refImg').width){
     src=$('refImg'); const ws=worldSize(); w=ws.w; h=ws.h; cell=gridStepPx();
   } else if (typeof photo!=='undefined' && photo && photo.width){
     src=photo; w=photo.width; h=photo.height; cell=w/6;
+  } else {
+    const L=await gsdLastRefSrc();
+    if (L){ src=L.src; gray=L.gray; w=L.w; h=L.h; cell=L.cell; }
   }
   if (!src){ toast('open a reference first', false); return; }
-  GSDP.img=gsdSnap(src); GSDP.w=w; GSDP.h=h; GSDP.cell=cell;
+  GSDP.img=gsdSnap(src, gray); GSDP.w=w; GSDP.h=h; GSDP.cell=cell;
   GSDP.on=true;
   const cssW=$('gsdStage').clientWidth;
   const fit=Math.min(cssW/w, cssW/h);
@@ -5393,6 +5426,7 @@ function gsdOpen(){
 }
 function gsdClose(){ gsdExitPrev(); $('gsdModal').style.display='none'; }
 $('gmDesign').onclick=gsdOpen;
+$('gsdDone').onclick=()=>{ haptic(); gsdClose(); };
 $('gsdPrev').onclick=()=>{ haptic();
   if (GSDP.on){ gsdExitPrev(); gsdDraw(); }
   else gsdEnterPrev();
