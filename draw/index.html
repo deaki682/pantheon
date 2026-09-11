@@ -183,6 +183,12 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
 #lastShot{position:absolute;left:calc(10px + env(safe-area-inset-left));
   bottom:calc(20px + env(safe-area-inset-bottom));z-index:6;display:none;
   border:2px solid #fff;border-radius:10px;background:#000}
+/* a photo that just arrived from another device announces itself */
+#lastShot.new{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc)}
+@media (prefers-reduced-motion: no-preference){
+  #lastShot.new{animation:shotIn .7s ease 3}
+  @keyframes shotIn{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+}
 #world{position:absolute;left:0;top:0;transform-origin:0 0}
 #refImg{position:absolute;left:0;top:0}
 #gridCv{position:absolute;left:0;top:0;pointer-events:none;transform-origin:0 0}
@@ -833,7 +839,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v397</span>
+    <span id="verNum">v398</span>
   </div>
 </div>
 <div id="delModal">
@@ -6212,7 +6218,7 @@ function newSid(){
   try{ if (crypto && crypto.randomUUID) return crypto.randomUUID(); }catch(e){}
   return Date.now().toString(36)+Math.random().toString(36).slice(2,10);
 }
-let SYNC_BUSY=false, SYNC_AT=0, SYNC_SOON=null, SYNC_OFF=null;
+let SYNC_BUSY=false, SYNC_AGAIN=false, SYNC_AT=0, SYNC_SOON=null, SYNC_OFF=null;
 // Everything a project remembers besides the image itself: its format,
 // detail level, circles, time spent, and which layers were used. These
 // travel with the reference so the tablet opens it exactly where the
@@ -6248,7 +6254,10 @@ async function capStash(gid, rec){
     r.capMeta={ framed:!!rec.framed, corners:rec.corners||null,
                 rawW:rec.rawW||0, rawH:rec.rawH||0, adj:rec.adj||{} };
     await galPut(r);
-    syncTouch(gid);
+    // not the 2s import debounce: a photo is what the other device is
+    // waiting on, so it leaves as soon as it is on disk
+    SYNC_DIRTY.add(gid);
+    syncSoon(250);
   }catch(e){}
 }
 // a capture that arrived from another device becomes this device's saved
@@ -6271,10 +6280,23 @@ async function capAdopt(gid, ckey){
 }
 // a photo that lands while you are already looking at the compare screen
 // should appear, not wait for you to leave and come back
-function cmpRefresh(){
+// With the camera live it stays live: the new photo goes into the corner
+// button with a pulse, and a tap uses it instead of reshooting. On the
+// flip or split view it simply replaces the photo on screen.
+async function cmpRefresh(){
   try{
-    CMP.ckey=null;
-    if ($('scrCompare').classList.contains('on')) $('compareBtn').onclick();
+    if (!$('scrCompare').classList.contains('on')){ CMP.ckey=null; return; }
+    if (CKEY) await capAdopt(galActive, CKEY);
+    if (!await cmpLoadSaved(true)) return;
+    if (camUp()){
+      lastShotPaint(true);
+      capNote('photo from your other device \u2014 tap the corner to use it', 4000);
+      return;
+    }
+    cmpSize(); FLP.x=FLP.y=0; FLP.s=1;
+    CMP.mode='flip'; CMP.showing='photo';
+    cmpRender(); cmpButtons();
+    toast('photo from your other device');
   }catch(e){}
 }
 // A push is debounced rather than immediate: importing three references
@@ -6295,15 +6317,20 @@ async function syncListen(on){
     if (!on || !ACC_USER) return;
     const fb=await fbLoad(), uid=ACC_USER.uid;
     SYNC_OFF=fb.F.onSnapshot(fb.F.collection(fb.db,'users',uid,'refs'), snap=>{
-      // the first callback is just the current state; later ones are news
-      if (snap.metadata && snap.metadata.fromCache) return;
-      syncSoon(600);
+      // the first callback is just the current state; later ones are news.
+      // Our own writes echo back before the server acks them - nothing to
+      // pull there, and skipping them keeps the phone from re-syncing
+      // after every capture it uploads
+      if (snap.metadata && (snap.metadata.fromCache || snap.metadata.hasPendingWrites)) return;
+      syncSoon(150);
     }, ()=>{});
   }catch(e){}
 }
 function syncSay(m){ accSay(m); }
 async function syncNow(force){
-  if (!ACC_USER || SYNC_BUSY) return;
+  if (!ACC_USER) return;
+  // news that lands mid-sync is not dropped: one more pass runs after
+  if (SYNC_BUSY){ if (force) SYNC_AGAIN=true; return; }
   if (!force && Date.now()-SYNC_AT < 90000) return;
   if (navigator.onLine===false){ if (force) syncSay(TR('no connection')); return; }
   SYNC_BUSY=true;
@@ -6431,7 +6458,10 @@ async function syncNow(force){
     // a denied write almost always means the rules are not published yet
     syncSay(c.indexOf('permission')>=0 || c.indexOf('unauthorized')>=0
       ? TR('sync is not permitted yet') : TR('sync failed'));
-  }finally{ SYNC_BUSY=false; }
+  }finally{
+    SYNC_BUSY=false;
+    if (SYNC_AGAIN){ SYNC_AGAIN=false; syncSoon(100); }
+  }
 }
 // a reference deleted here is deleted for the account, and this device
 // remembers the id so a half-finished remote delete cannot resurrect it
@@ -7394,7 +7424,18 @@ $('cmpGridBtn').onclick = () => {
 };
 $('circClr').onclick = () => { CIRCS=[]; circsSave(); drawCircs(); cmpRender(); };
 
-// last capture as a corner thumbnail in the camera: tap to reuse it
+// last capture as a corner thumbnail in the camera: tap to reuse it. It
+// is painted when the camera comes up, and repainted - with a pulse - when
+// a photo taken on another device lands while this camera is live.
+function lastShotPaint(fresh){
+  const ls=$('lastShot');
+  if (!camUp() || !CMP.img || CMP.ckey!==CKEY){ ls.style.display='none'; return; }
+  ls.width=72; ls.height=Math.round(72*CMP.img.height/CMP.img.width);
+  ls.getContext('2d').drawImage(CMP.img,0,0,ls.width,ls.height);
+  ls.style.display='block';
+  ls.classList.remove('new');
+  if (fresh){ void ls.offsetWidth; ls.classList.add('new'); }
+}
 $('lastShot').onclick = () => {
   camStop();
   if (CMP.img){ CMP.mode='flip'; CMP.showing='photo'; cmpRender(); }
@@ -7954,6 +7995,59 @@ function cmpSave(){ cmpDirty=true; clearTimeout(cmpT); cmpT=setTimeout(cmpSaveNo
 const cmpFlush=()=>{ if (cmpDirty){ clearTimeout(cmpT); cmpSaveNow(); } };
 addEventListener('pagehide', cmpFlush);
 document.addEventListener('visibilitychange', ()=>{ if (document.hidden) cmpFlush(); });
+// the saved compare for the open drawing, loaded into CMP. Called on the
+// way into the compare screen, and again - forced - when a capture taken
+// on another device lands while this screen is already up.
+async function cmpLoadSaved(force){
+  if (!force && CMP.ckey===CKEY) return false;
+  CMP.ckey=CKEY; CMP.img=null; CMP.blob=null; CMP.rawF=null; CMP.baseF=null;
+  $('cmpFlip').disabled=true;
+  const saved=CKEY ? await dbGet('cmp|'+CKEY) : null;
+  if (!(saved && saved.blob) || CMP.blob) return false;  // a fresh capture always wins
+  // one path for every save: raw + corners -> crop
+  const i=await blobImage(saved.blob).catch(()=>null);
+  if (i){
+    // corners were measured in the capture's working canvas, so the
+    // decode must land in that exact space; legacy saves without the
+    // dims get the per-path cap (native 3456 / picker 2400; web blobs
+    // are already the working canvas)
+    let W=i.width, H=i.height;
+    if (saved.rawW>1 && saved.rawH>1){ W=saved.rawW; H=saved.rawH; }
+    else {
+      const mx=Math.max(i.width,i.height);
+      const cap=saved.framed ? (mx>3600?3456:mx) : 2400;
+      const k=Math.min(1, cap/mx);
+      W=Math.max(2,Math.round(i.width*k)); H=Math.max(2,Math.round(i.height*k));
+    }
+    const cv2=document.createElement('canvas');
+    cv2.width=W; cv2.height=H;
+    const g2=cv2.getContext('2d');
+    g2.imageSmoothingQuality='high';
+    if (REFMODE!=='c') g2.filter='grayscale(1)';
+    g2.drawImage(i,0,0,W,H); g2.filter='none';
+    if (REFMODE!=='c') forceGray(cv2);
+    URL.revokeObjectURL(i.src);
+    CMP.raw=cv2; CMP.blob=saved.blob; CMP.framed=!!saved.framed;
+    CMP.corners=(saved.corners && saved.corners.length===4)
+      ? saved.corners.map(q=>({...q}))
+      : cmpGuessCorners(cv2).corners;
+    cmpApplyCorners();
+  }
+  if (saved.adj && typeof saved.adj.con==='number'){
+    CMP.adj={v:2, exp:saved.adj.exp||0, con:saved.adj.con,
+             hi:saved.adj.hi||0, sh:saved.adj.sh||0,
+             wh:saved.adj.v===2?(saved.adj.wh||0):0,
+             bl:saved.adj.v===2?(saved.adj.bl||0):0,
+             dn:saved.adj.dn||0,
+             tmp:saved.adj.tmp||0, tnt:saved.adj.tnt||0,
+             sat:saved.adj.sat||0, vib:saved.adj.vib||0};
+    adjSync();
+  }
+  applyLevels();
+  CMP.lvOpen=false;
+  CMP.mode='flip'; CMP.showing='photo';
+  return true;
+}
 $('compareBtn').onclick = async () => {
   CIRCTOOL=false;
   show('scrCompare'); cmpSize();
@@ -7981,55 +8075,8 @@ $('compareBtn').onclick = async () => {
   // and the ckey is unchanged in that case - so ask before the guard, not
   // inside it, or a synced photo is invisible until the app restarts
   if (CKEY && await capAdopt(galActive, CKEY)) CMP.ckey=null;
-  if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
-    CMP.ckey=CKEY; CMP.img=null; CMP.blob=null; CMP.rawF=null; CMP.baseF=null;
-    $('cmpFlip').disabled=true;
-    const saved=CKEY ? await dbGet('cmp|'+CKEY) : null;
-    if (saved && saved.blob && !CMP.blob){  // a fresh capture always wins
-      // one path for every save: raw + corners -> crop
-      const i=await blobImage(saved.blob).catch(()=>null);
-      if (i){
-        // corners were measured in the capture's working canvas, so the
-        // decode must land in that exact space; legacy saves without the
-        // dims get the per-path cap (native 3456 / picker 2400; web blobs
-        // are already the working canvas)
-        let W=i.width, H=i.height;
-        if (saved.rawW>1 && saved.rawH>1){ W=saved.rawW; H=saved.rawH; }
-        else {
-          const mx=Math.max(i.width,i.height);
-          const cap=saved.framed ? (mx>3600?3456:mx) : 2400;
-          const k=Math.min(1, cap/mx);
-          W=Math.max(2,Math.round(i.width*k)); H=Math.max(2,Math.round(i.height*k));
-        }
-        const cv2=document.createElement('canvas');
-        cv2.width=W; cv2.height=H;
-        const g2=cv2.getContext('2d');
-        g2.imageSmoothingQuality='high';
-        if (REFMODE!=='c') g2.filter='grayscale(1)';
-        g2.drawImage(i,0,0,W,H); g2.filter='none';
-        if (REFMODE!=='c') forceGray(cv2);
-        URL.revokeObjectURL(i.src);
-        CMP.raw=cv2; CMP.blob=saved.blob; CMP.framed=!!saved.framed;
-        CMP.corners=(saved.corners && saved.corners.length===4)
-          ? saved.corners.map(q=>({...q}))
-          : cmpGuessCorners(cv2).corners;
-        cmpApplyCorners();
-      }
-      if (saved.adj && typeof saved.adj.con==='number'){
-        CMP.adj={v:2, exp:saved.adj.exp||0, con:saved.adj.con,
-                 hi:saved.adj.hi||0, sh:saved.adj.sh||0,
-                 wh:saved.adj.v===2?(saved.adj.wh||0):0,
-                 bl:saved.adj.v===2?(saved.adj.bl||0):0,
-                 dn:saved.adj.dn||0,
-                 tmp:saved.adj.tmp||0, tnt:saved.adj.tnt||0,
-                 sat:saved.adj.sat||0, vib:saved.adj.vib||0};
-        adjSync();
-      }
-      applyLevels();
-      CMP.lvOpen=false;
-      CMP.mode='flip'; CMP.showing='photo';
-    }
-  }
+  await cmpLoadSaved(false);                // another drawing: fetch its saved compare
+  lastShotPaint(false);                     // the camera may already be up
   const camOk = await camP;
   CAM.starting=false;
   if (!camOk){ camStop(); cmpRender(); }
@@ -8113,12 +8160,7 @@ async function camStart(){
         .catch(()=>{});
     }catch(e){}
     // the last photo waits in the corner - tap it to skip reshooting
-    const ls=$('lastShot');
-    if (CMP.img && CMP.ckey===CKEY){
-      ls.width=72; ls.height=Math.round(72*CMP.img.height/CMP.img.width);
-      ls.getContext('2d').drawImage(CMP.img,0,0,ls.width,ls.height);
-      ls.style.display='block';
-    } else ls.style.display='none';
+    lastShotPaint(false);
     return true;
   }catch(e){ return false; }
 }
@@ -8222,12 +8264,7 @@ function natStart(){
       clearInterval(CAM.timer); CAM.timer=setInterval(camGhost,250);
       camGhost();
       $('camGhost').style.pointerEvents='auto';
-      const ls=$('lastShot');
-      if (CMP.img && CMP.ckey===CKEY){
-        ls.width=72; ls.height=Math.round(72*CMP.img.height/CMP.img.width);
-        ls.getContext('2d').drawImage(CMP.img,0,0,ls.width,ls.height);
-        ls.style.display='block';
-      } else ls.style.display='none';
+      lastShotPaint(false);
       res(true);
     };
     window.__natFail=()=>{
