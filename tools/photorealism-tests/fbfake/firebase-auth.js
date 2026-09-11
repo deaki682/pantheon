@@ -11,3 +11,27 @@ export async function signInWithRedirect(){ }
 export async function signInWithCredential(){ }
 export async function signOut(){ S.user = null; S.cbs.forEach(c => c(null)); }
 export async function deleteUser(){ S.user = null; S.cbs.forEach(c => c(null)); }
+
+// a tiny email/password backend: enough to exercise every branch
+export async function createUserWithEmailAndPassword(a, em, pw){
+  S.users = S.users || {};
+  if (!/.+@.+\..+/.test(em)) throw { code: 'auth/invalid-email' };
+  if ((pw || '').length < 6) throw { code: 'auth/weak-password' };
+  if (S.users[em]) throw { code: 'auth/email-already-in-use' };
+  S.users[em] = pw;
+  S.user = { uid: 'u-' + em, email: em };
+  S.cbs.forEach(c => c(S.user));
+  return { user: S.user };
+}
+export async function signInWithEmailAndPassword(a, em, pw){
+  S.users = S.users || {};
+  if (!/.+@.+\..+/.test(em)) throw { code: 'auth/invalid-email' };
+  if (S.users[em] !== pw) throw { code: 'auth/invalid-credential' };
+  S.user = { uid: 'u-' + em, email: em };
+  S.cbs.forEach(c => c(S.user));
+  return { user: S.user };
+}
+export async function sendPasswordResetEmail(a, em){
+  if (!/.+@.+\..+/.test(em)) throw { code: 'auth/invalid-email' };
+  S.reset = em;
+}

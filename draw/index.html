@@ -381,6 +381,15 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
   line-height:1.5}
 #accDel{color:#c86a6a;font-size:calc(12px*var(--ux,1));background:none;
   border:none;text-decoration:underline;padding:6px}
+#accForm{display:flex;flex-direction:column;gap:10px}
+#accForm[hidden]{display:none}
+#accEmail,#accPass{background:#141414;border:1px solid #555;border-radius:12px;
+  color:#e8e6e1;padding:12px 14px;font-size:calc(15px*var(--ux,1));
+  min-height:calc(46px*var(--ux,1));width:100%;box-sizing:border-box}
+#accEmail:focus,#accPass:focus{outline:none;border-color:var(--acc)}
+#accAlt{display:flex;justify-content:space-between;gap:10px}
+#accAlt button{background:none;border:none;color:var(--acc);
+  font-size:calc(12px*var(--ux,1));text-decoration:underline;padding:4px 2px}
 #accRow{display:flex;justify-content:flex-end}
 #accDone{border-radius:999px;padding:8px 22px}
 /* chrome scale: Medium/Large set the one factor every control's base
@@ -833,7 +842,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v399</span>
+    <span id="verNum">v400</span>
   </div>
 </div>
 <div id="delModal">
@@ -916,6 +925,22 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
         <p class="accNote">Sign in to synchronize your projects across devices.</p>
         <button class="accBtn" id="accGoogle"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M45.1 24.5c0-1.6-.1-3.2-.4-4.7H24v8.9h11.8c-.5 2.7-2 5-4.4 6.6v5.5h7.1c4.1-3.8 6.6-9.4 6.6-16.3z"/><path fill="#34A853" d="M24 46c5.9 0 10.9-2 14.5-5.2l-7.1-5.5c-2 1.3-4.5 2.1-7.4 2.1-5.7 0-10.5-3.8-12.2-9H4.5v5.7C8.1 41.3 15.5 46 24 46z"/><path fill="#FBBC05" d="M11.8 28.4c-.4-1.3-.7-2.7-.7-4.4s.3-3.1.7-4.4v-5.7H4.5C2.9 17 2 20.4 2 24s.9 7 2.5 10.1l7.3-5.7z"/><path fill="#EA4335" d="M24 10.7c3.2 0 6.1 1.1 8.4 3.3l6.3-6.3C34.9 4.1 29.9 2 24 2 15.5 2 8.1 6.7 4.5 13.9l7.3 5.7c1.7-5.2 6.5-9 12.2-9z"/></svg><span>Continue with Google</span></button>
         <button class="accBtn" id="accApple"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.8c0-2.4 2-3.6 2.1-3.6-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.6.9-.8 0-1.9-.9-3.1-.8-1.6 0-3 .9-3.8 2.4-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 3 2.3 1.2 0 1.6-.7 3.1-.7 1.4 0 1.8.7 3.1.7 1.3 0 2.1-1.1 2.9-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.6-1-2.7-3.6zM14 5.6c.7-.8 1.1-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4z"/></svg><span>Continue with Apple</span></button>
+        <button class="accBtn" id="accMailBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M3 6.5l9 6 9-6"/>
+          </svg><span>Continue with email</span></button>
+        <div id="accForm" hidden>
+          <input id="accEmail" type="email" inputmode="email" autocomplete="email"
+                 autocapitalize="off" spellcheck="false" placeholder="you@example.com">
+          <input id="accPass" type="password" autocomplete="current-password"
+                 placeholder="Password">
+          <button class="accBtn" id="accGo">Sign in</button>
+          <div id="accAlt">
+            <button id="accNew">Create an account</button>
+            <button id="accForgot">Forgot password</button>
+          </div>
+        </div>
         <p class="accNote accFine">Photorealism works fully without an account.
           Signing in only adds syncing.</p>
       </div>
@@ -1694,7 +1719,10 @@ setTimeout(async ()=>{
   }catch(e){}
 }, 2500);
 let DELREF=null;
-async function galDel(id){ try{ const d=await gdb(); await new Promise(res=>{
+async function galDel(id){
+  // centralised so no delete path can forget: the account loses it too
+  try{ const r=await galGet(id); if (r && r.sid) syncDrop(r); }catch(e){}
+  try{ const d=await gdb(); await new Promise(res=>{
   const t=d.transaction('photos','readwrite').objectStore('photos').delete(id);
   t.onsuccess=res; t.onerror=res; }); }catch(e){} }
 
@@ -1789,9 +1817,13 @@ async function convertForeign(blob){
     return out ? toBlob(out) : null;
   }catch(e){ return null; }
 }
-async function galPut(rec){ try{ const d=await gdb(); await new Promise(res=>{
+async function galPut(rec, quiet){ try{ const d=await gdb(); await new Promise(res=>{
   const t=d.transaction('photos','readwrite').objectStore('photos').put(rec);
-  t.onsuccess=()=>res(); t.onerror=()=>res(); }); }catch(e){} }
+  t.onsuccess=()=>res(); t.onerror=()=>res(); }); }catch(e){}
+  // an edit to something already synced owes the account an update. Sync
+  // passes quiet=true for its own writes, or it would chase its tail.
+  if (!quiet && rec && rec.sid) try{ syncTouch(rec.id); }catch(e){}
+}
 
 let REFMODE='bw';                 // the open reference's world: 'bw' | 'c'
 function isColor(gid){ try{ return localStorage.getItem('mode|'+gid)==='c'; }catch(e){ return false; } }
@@ -2451,7 +2483,6 @@ $('delYes').onclick = async () => {
   const id=DELREF; DELREF=null;
   $('delModal').style.display='none';
   if (id==null) return;
-  try{ const r=await galGet(id); if (r && r.sid) syncDrop(r); }catch(e){}
   await galDel(id);
   try{ const N=SHADOW(); if (N){ N.shadowDeleteRef('r'+id); } }catch(e){}
   shadowMeta();
@@ -5982,14 +6013,33 @@ function nativeShell(){
   try{ if (window.webkit && webkit.messageHandlers && webkit.messageHandlers.adPlace) return 'ios'; }catch(e){}
   return '';
 }
-function accReady(){
+// Signing in is always possible now: email needs nothing from the
+// platform. Which BUTTONS appear is the per-shell question, answered in
+// accOpen - an older app with no Google bridge still gets an account.
+function accReady(){ return true; }
+function canGoogle(){
   const n=nativeShell();
-  if (!n) return true;
+  if (!n) return true;                       // a real browser: popup
   try{ if (n==='android') return !!(window.RealismCam && RealismCam.authGoogle); }catch(e){}
-  try{ if (n==='ios') return !!(window.webkit && webkit.messageHandlers && webkit.messageHandlers.authApple); }catch(e){}
-  return false;   // an older shell with no auth bridge: the row stays hidden
+  try{ if (n==='ios') return !!(window.webkit && webkit.messageHandlers
+                                && webkit.messageHandlers.authGoogle); }catch(e){}
+  return false;
+}
+function canApple(){
+  const n=nativeShell();
+  if (n==='android') return false;           // no Apple path on Android
+  if (!n) return true;
+  try{ return !!(window.webkit && webkit.messageHandlers
+                 && webkit.messageHandlers.authApple); }catch(e){}
+  return false;
 }
 let ACC_USER=null, ACC_WATCH=false, ACC_WD=null;
+// Until the SDK has answered, a device that WAS signed in keeps looking
+// signed in. Showing "Sign in to sync" for the first seconds of every
+// launch reads exactly like having been signed out, which is what an app
+// update looked like.
+let ACC_RESTORING=false;
+try{ ACC_RESTORING = localStorage.getItem('acct')==='1'; }catch(e){}
 // the page writes into the native log too, so one screenshot shows both
 // halves of the handshake instead of only the Android side
 function adlog(m){ try{ if (window.RealismCam && RealismCam.dlog) RealismCam.dlog('auth/page: '+m); }catch(e){} }
@@ -6006,10 +6056,11 @@ function accGuard(on){
 function accSay(m){ try{ $('accState').textContent=m||''; }catch(e){} }
 function accPaint(){
   try{
-    const inn=!!ACC_USER;
+    const inn=!!ACC_USER || ACC_RESTORING;
     $('accOut').style.display = inn ? 'none' : '';
     $('accIn').style.display  = inn ? '' : 'none';
-    $('accMail').textContent  = inn ? (ACC_USER.email||'signed in') : '';
+    $('accMail').textContent  = ACC_USER ? (ACC_USER.email||TR('signed in'))
+                                        : (inn ? TR('reconnecting\u2026') : '');
     $('accDel').textContent   = TR('Delete account and synced files');
     $('accDel').dataset.arm   = '';
     // the home-screen prompt is for signing IN only - once you are in,
@@ -6023,12 +6074,19 @@ async function accWatch(){
   const fb=await fbLoad();
   fb.U.onAuthStateChanged(fb.auth, u=>{
     ACC_USER=u||null;
-    try{ localStorage.setItem('acct', u?'1':''); }catch(e){}
+    if (u) try{ localStorage.setItem('acct','1'); }catch(e){}
+    // a null here is NOT a sign-out: only accSignOut and accDelete clear
+    // the flag, so a slow restore or a dropped connection cannot evict
+    // somebody from their own account
     accPaint();
     if (u){
       // establish the settings baseline at sign-in, so a change made in
       // the first second is a change and not mistaken for the baseline
       try{ PREF_SIG=JSON.stringify(readPrefs()); }catch(e){}
+      // anything already up there has its settings re-offered once, so
+      // references uploaded before settings travelled catch up
+      galAll().then(rs=>{ for (const r of rs) if (r.sid) SYNC_DIRTY.add(r.id); })
+              .catch(()=>{});
       setTimeout(()=>{ syncNow(true).catch(()=>{}); syncListen(true); }, 400);
     }
     else syncListen(false);
@@ -6101,8 +6159,11 @@ window.__authToken = async (kind, idToken, rawNonce) => {
 // the account sheet, and a cancel is not an error worth reporting
 window.__authFail = m => { accGuard(false); accSay(m === '' ? '' : (m || TR('sign-in failed'))); };
 async function accSignOut(){
+  try{ localStorage.removeItem('acct'); }catch(e){}   // deliberate, so it sticks
+  ACC_RESTORING=false;
   try{ const fb=await fbLoad(); await fb.U.signOut(fb.auth); accSay(''); }
   catch(e){ accSay(accErr(e)); }
+  accPaint();
 }
 // deleting means deleting: every uploaded file, every record, the login
 async function accDelete(){
@@ -6134,6 +6195,8 @@ async function accDelete(){
       await Promise.all(snap.docs.map(d=>fb.F.deleteDoc(d.ref).catch(()=>{})));
     }catch(e){}
     await fb.U.deleteUser(u);
+    try{ localStorage.removeItem('acct'); }catch(e){}
+    ACC_RESTORING=false;
     accSay(TR('account deleted'));
     toast(TR('account deleted'));
   }catch(e){
@@ -6156,15 +6219,13 @@ document.addEventListener('visibilitychange', ()=>{
 });
 function accOpen(){
   try{
-    const n=nativeShell();
-    const apple = n==='android' ? false
-      : n==='ios' ? !!(window.webkit && webkit.messageHandlers && webkit.messageHandlers.authApple)
-      : true;
-    $('accApple').style.display = apple ? '' : 'none';
-    const goog = n==='ios'
-      ? !!(window.webkit && webkit.messageHandlers && webkit.messageHandlers.authGoogle)
-      : true;
-    $('accGoogle').style.display = goog ? '' : 'none';
+    $('accGoogle').style.display = canGoogle() ? '' : 'none';
+    $('accApple').style.display  = canApple()  ? '' : 'none';
+  }catch(e){}
+  try{
+    $('accForm').hidden=true;
+    $('accMailBtn').style.display='';
+    $('accPass').value='';
   }catch(e){}
   $('accModal').style.display='flex';
   accSay(''); accPaint();
@@ -6172,6 +6233,68 @@ function accOpen(){
 }
 $('accBtn').onclick=()=>{ haptic(); $('gearModal').style.display='none'; accOpen(); };
 $('accHomeBtn').onclick=()=>{ haptic(); accOpen(); };
+// Email and password is the one path that needs nothing from the
+// platform: no OAuth redirect, no signing certificate, no native bridge,
+// no Play services. It is a plain HTTPS call, so it works identically in
+// a browser, in an Android WebView and in an iOS WKWebView - which is
+// what makes it the answer for "every device", including the ones where
+// Google sign-in simply is not available.
+function accMailErr(e){
+  const c=(e && e.code) || '';
+  if (c.indexOf('invalid-email')>=0)      return TR('that email does not look right');
+  if (c.indexOf('missing-password')>=0)   return TR('enter a password');
+  if (c.indexOf('weak-password')>=0)      return TR('use at least 6 characters');
+  if (c.indexOf('email-already-in-use')>=0) return TR('that email already has an account');
+  if (c.indexOf('too-many-requests')>=0)  return TR('too many tries, wait a minute');
+  if (c.indexOf('network')>=0)            return TR('no connection');
+  if (c.indexOf('operation-not-allowed')>=0) return TR('email sign-in is not enabled yet');
+  // modern Firebase hides whether an address exists, so a wrong password
+  // and an unknown account look the same on purpose
+  if (c.indexOf('invalid-credential')>=0 || c.indexOf('wrong-password')>=0
+      || c.indexOf('user-not-found')>=0)
+    return TR('wrong email or password. New here? Create an account.');
+  return accErr(e);
+}
+function accMailFields(){
+  const em=($('accEmail').value||'').trim();
+  const pw=$('accPass').value||'';
+  return {em, pw};
+}
+async function accMailGo(create){
+  const {em, pw}=accMailFields();
+  if (!em){ accSay(TR('enter your email')); return; }
+  if (!pw){ accSay(TR('enter a password')); return; }
+  accSay(TR('signing in…'));
+  try{
+    const fb=await fbLoad();
+    await accWatch();
+    if (create) await fb.U.createUserWithEmailAndPassword(fb.auth, em, pw);
+    else        await fb.U.signInWithEmailAndPassword(fb.auth, em, pw);
+    $('accPass').value='';
+    accSay('');
+  }catch(e){ accSay(accMailErr(e)); }
+}
+async function accMailReset(){
+  const {em}=accMailFields();
+  if (!em){ accSay(TR('enter your email first')); return; }
+  try{
+    const fb=await fbLoad();
+    await fb.U.sendPasswordResetEmail(fb.auth, em);
+    accSay(TR('check your email for a reset link'));
+  }catch(e){ accSay(accMailErr(e)); }
+}
+$('accMailBtn').onclick=()=>{
+  haptic();
+  const f=$('accForm');
+  f.hidden=!f.hidden;
+  $('accMailBtn').style.display = f.hidden ? '' : 'none';
+  if (!f.hidden) setTimeout(()=>{ try{ $('accEmail').focus(); }catch(e){} }, 60);
+};
+$('accGo').onclick=()=>{ haptic(); accMailGo(false); };
+$('accNew').onclick=()=>{ haptic(); accMailGo(true); };
+$('accForgot').onclick=()=>{ haptic(); accMailReset(); };
+$('accPass').onkeydown=e=>{ if (e.key==='Enter') accMailGo(false); };
+$('accEmail').onkeydown=e=>{ if (e.key==='Enter') $('accPass').focus(); };
 $('accGoogle').onclick=()=>{ haptic(); accSignIn('google'); };
 $('accApple').onclick=()=>{ haptic(); accSignIn('apple'); };
 $('accSyncBtn').onclick=()=>{ haptic(); syncNow(true); };
@@ -6179,13 +6302,14 @@ $('accOut2').onclick=()=>{ haptic(); accSignOut(); };
 $('accDel').onclick=()=>{ haptic(); accDelete(); };
 $('accDone').onclick=()=>{ haptic(); $('accModal').style.display='none'; };
 $('accModal').onclick=e=>{ if (e.target===$('accModal')) $('accModal').style.display='none'; };
-// the row only appears where signing in can actually succeed
+// every shell can reach an account now; which buttons appear is decided
+// when the panel opens
 try{
-  if (accReady()){ $('accBtn').style.display=''; $('accHome').classList.add('on'); }
-  let was=''; try{ was=localStorage.getItem('acct')||''; }catch(e){}
-  // a signed-in device picks its session back up, after boot is done
-  if (was==='1' && accReady())
-    setTimeout(()=>{ accWatch().catch(()=>{}); }, 4000);
+  $('accBtn').style.display='';
+  accPaint();
+  // a signed-in device picks its session straight back up. Four seconds
+  // was long enough to look like a sign-out on every single launch.
+  if (ACC_RESTORING) setTimeout(()=>{ accWatch().catch(()=>{}); }, 600);
 }catch(e){}
 // ---- sync: references travel, the local copy is never the casualty ----
 // Rules this follows without exception: a pull only ever ADDS, so a
@@ -6302,9 +6426,9 @@ function prefsBump(){ setTimeout(prefsPoll, 0); }
 // references whose state changed and owe the account an update
 const SYNC_DIRTY=new Set();
 function syncTouch(gid){
-  if (gid==null || !ACC_USER) return;
-  SYNC_DIRTY.add(gid);
-  syncSoon(2000);
+  if (gid==null) return;
+  SYNC_DIRTY.add(gid);              // remembered even while signing in
+  if (ACC_USER) syncSoon(2000);     // and flushed the moment there is an account
 }
 // a capture just saved on this device: hand it to sync with the crop and
 // adjustments beside it, so the other device shows the same framing
@@ -6342,7 +6466,14 @@ async function capAdopt(gid, ckey){
 function cmpRefresh(){
   try{
     CMP.ckey=null;
-    if ($('scrCompare').classList.contains('on')) $('compareBtn').onclick();
+    if (!$('scrCompare').classList.contains('on')) return;
+    // reload in place: restarting the camera under someone lining up a
+    // shot would be worse than the stale thumbnail it fixes
+    cmpLoadSaved().then(()=>{ try{
+      lastShotPaint();
+      if (CMP.showing==='photo') cmpRender();
+      capNote(TR('new photo from your other device'));
+    }catch(e){} }).catch(()=>{});
   }catch(e){}
 }
 // A push is debounced rather than immediate: importing three references
@@ -6428,7 +6559,7 @@ async function syncNow(force){
         name:r.name||'', ts:r.ts||Date.now(), thumb:r.thumb||'',
         mode:isColor(r.id)?'c':'bw', bytes:small.size, at:fb.F.serverTimestamp(),
         meta:readMeta(r.id), mAt:Date.now() });
-      r.sid=sid; r.mSeen=Date.now(); await galPut(r); up++;
+      r.sid=sid; r.mSeen=Date.now(); await galPut(r, true); up++;
       // deliberately NOT cleared from SYNC_DIRTY: the first push carries
       // the image and its settings, and the pass below is what carries a
       // capture taken before the reference had ever been uploaded
@@ -6438,9 +6569,17 @@ async function syncNow(force){
       SYNC_DIRTY.delete(gid);
       const r=await galGet(gid);
       if (!r || !r.sid) continue;
+      // Settings are written as individual fields (meta.time, meta.fmt),
+      // not as one map. A map would be REPLACED wholesale, so a device
+      // that happens not to have a timer locally would erase the real one
+      // just by opening the project.
       const patch={ name:r.name||'', ts:r.ts||Date.now(),
-                    mode:isColor(gid)?'c':'bw',
-                    meta:readMeta(gid), mAt:Date.now() };
+                    mode:isColor(gid)?'c':'bw' };
+      const meta=readMeta(gid);
+      if (Object.keys(meta).length){
+        for (const k in meta) patch['meta.'+k]=meta[k];
+        patch.mAt=Date.now();
+      }
       if (r.cap && r.capAt && r.capAt!==r.capUp){
         syncSay(TR('uploading\u2026'));
         await fb.S.uploadBytes(fb.S.ref(fb.st,'users/'+uid+'/caps/'+r.sid+'.jpg'),
@@ -6450,9 +6589,18 @@ async function syncNow(force){
         r.capUp=r.capAt;
         up++;
       }
-      r.mSeen=patch.mAt;
-      await galPut(r);
-      await fb.F.setDoc(fb.F.doc(col,r.sid), patch, {merge:true});
+      if (patch.mAt) r.mSeen=patch.mAt;
+      await galPut(r, true);
+      // updateDoc understands dotted field paths; setDoc does not, so it
+      // is only the fallback for a document that somehow is not there yet
+      const dref=fb.F.doc(col,r.sid);
+      try{ await fb.F.updateDoc(dref, patch); }
+      catch(e){
+        const flat={}; for (const k in patch)
+          if (k.indexOf('meta.')!==0) flat[k]=patch[k];
+        if (Object.keys(meta).length) flat.meta=meta;
+        await fb.F.setDoc(dref, flat, {merge:true});
+      }
     }
     // ---- pull: anything the account has that this device does not ----
     const fail=[];
@@ -6496,7 +6644,7 @@ async function syncNow(force){
             if (known.id===galActive) setTimeout(cmpRefresh, 60);
           }
         }
-        if (touched) await galPut(known);
+        if (touched) await galPut(known, true);
         continue;
       }
       syncSay(TR('downloading…'));
@@ -8061,6 +8209,77 @@ function cmpSave(){ cmpDirty=true; clearTimeout(cmpT); cmpT=setTimeout(cmpSaveNo
 const cmpFlush=()=>{ if (cmpDirty){ clearTimeout(cmpT); cmpSaveNow(); } };
 addEventListener('pagehide', cmpFlush);
 document.addEventListener('visibilitychange', ()=>{ if (document.hidden) cmpFlush(); });
+// One place that turns the saved compare into live CMP state. It used
+// to live inline in the compare handler, which meant the only way to
+// re-read it was to re-enter the screen and restart the camera.
+async function cmpLoadSaved(){
+    if (CKEY && await capAdopt(galActive, CKEY)) CMP.ckey=null;
+    if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
+      CMP.ckey=CKEY; CMP.img=null; CMP.blob=null; CMP.rawF=null; CMP.baseF=null;
+      $('cmpFlip').disabled=true;
+      const saved=CKEY ? await dbGet('cmp|'+CKEY) : null;
+      if (saved && saved.blob && !CMP.blob){  // a fresh capture always wins
+        // one path for every save: raw + corners -> crop
+        const i=await blobImage(saved.blob).catch(()=>null);
+        if (i){
+          // corners were measured in the capture's working canvas, so the
+          // decode must land in that exact space; legacy saves without the
+          // dims get the per-path cap (native 3456 / picker 2400; web blobs
+          // are already the working canvas)
+          let W=i.width, H=i.height;
+          if (saved.rawW>1 && saved.rawH>1){ W=saved.rawW; H=saved.rawH; }
+          else {
+            const mx=Math.max(i.width,i.height);
+            const cap=saved.framed ? (mx>3600?3456:mx) : 2400;
+            const k=Math.min(1, cap/mx);
+            W=Math.max(2,Math.round(i.width*k)); H=Math.max(2,Math.round(i.height*k));
+          }
+          const cv2=document.createElement('canvas');
+          cv2.width=W; cv2.height=H;
+          const g2=cv2.getContext('2d');
+          g2.imageSmoothingQuality='high';
+          if (REFMODE!=='c') g2.filter='grayscale(1)';
+          g2.drawImage(i,0,0,W,H); g2.filter='none';
+          if (REFMODE!=='c') forceGray(cv2);
+          URL.revokeObjectURL(i.src);
+          CMP.raw=cv2; CMP.blob=saved.blob; CMP.framed=!!saved.framed;
+          CMP.corners=(saved.corners && saved.corners.length===4)
+            ? saved.corners.map(q=>({...q}))
+            : cmpGuessCorners(cv2).corners;
+          cmpApplyCorners();
+        }
+        if (saved.adj && typeof saved.adj.con==='number'){
+          CMP.adj={v:2, exp:saved.adj.exp||0, con:saved.adj.con,
+                   hi:saved.adj.hi||0, sh:saved.adj.sh||0,
+                   wh:saved.adj.v===2?(saved.adj.wh||0):0,
+                   bl:saved.adj.v===2?(saved.adj.bl||0):0,
+                   dn:saved.adj.dn||0,
+                   tmp:saved.adj.tmp||0, tnt:saved.adj.tnt||0,
+                   sat:saved.adj.sat||0, vib:saved.adj.vib||0};
+          adjSync();
+        }
+        applyLevels();
+        CMP.lvOpen=false;
+        CMP.mode='flip'; CMP.showing='photo';
+      }
+    }
+  lastShotPaint();
+}
+// The recent-photo thumbnail painted itself from inside the camera's
+// ready callback, which fires while the saved photo is still being
+// decoded - so it painted nothing and stayed blank. It is now a function
+// called whenever the photo actually changes, from either camera path
+// and after a load or a sync.
+function lastShotPaint(){
+  try{
+    const ls=$('lastShot'); if (!ls) return;
+    if (CMP.img && CMP.ckey===CKEY && CMP.img.width){
+      ls.width=72; ls.height=Math.max(1,Math.round(72*CMP.img.height/CMP.img.width));
+      ls.getContext('2d').drawImage(CMP.img,0,0,ls.width,ls.height);
+      ls.style.display='block';
+    } else ls.style.display='none';
+  }catch(e){}
+}
 $('compareBtn').onclick = async () => {
   CIRCTOOL=false;
   show('scrCompare'); cmpSize();
@@ -8087,56 +8306,7 @@ $('compareBtn').onclick = async () => {
   // a capture may have arrived from another device since the last visit,
   // and the ckey is unchanged in that case - so ask before the guard, not
   // inside it, or a synced photo is invisible until the app restarts
-  if (CKEY && await capAdopt(galActive, CKEY)) CMP.ckey=null;
-  if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
-    CMP.ckey=CKEY; CMP.img=null; CMP.blob=null; CMP.rawF=null; CMP.baseF=null;
-    $('cmpFlip').disabled=true;
-    const saved=CKEY ? await dbGet('cmp|'+CKEY) : null;
-    if (saved && saved.blob && !CMP.blob){  // a fresh capture always wins
-      // one path for every save: raw + corners -> crop
-      const i=await blobImage(saved.blob).catch(()=>null);
-      if (i){
-        // corners were measured in the capture's working canvas, so the
-        // decode must land in that exact space; legacy saves without the
-        // dims get the per-path cap (native 3456 / picker 2400; web blobs
-        // are already the working canvas)
-        let W=i.width, H=i.height;
-        if (saved.rawW>1 && saved.rawH>1){ W=saved.rawW; H=saved.rawH; }
-        else {
-          const mx=Math.max(i.width,i.height);
-          const cap=saved.framed ? (mx>3600?3456:mx) : 2400;
-          const k=Math.min(1, cap/mx);
-          W=Math.max(2,Math.round(i.width*k)); H=Math.max(2,Math.round(i.height*k));
-        }
-        const cv2=document.createElement('canvas');
-        cv2.width=W; cv2.height=H;
-        const g2=cv2.getContext('2d');
-        g2.imageSmoothingQuality='high';
-        if (REFMODE!=='c') g2.filter='grayscale(1)';
-        g2.drawImage(i,0,0,W,H); g2.filter='none';
-        if (REFMODE!=='c') forceGray(cv2);
-        URL.revokeObjectURL(i.src);
-        CMP.raw=cv2; CMP.blob=saved.blob; CMP.framed=!!saved.framed;
-        CMP.corners=(saved.corners && saved.corners.length===4)
-          ? saved.corners.map(q=>({...q}))
-          : cmpGuessCorners(cv2).corners;
-        cmpApplyCorners();
-      }
-      if (saved.adj && typeof saved.adj.con==='number'){
-        CMP.adj={v:2, exp:saved.adj.exp||0, con:saved.adj.con,
-                 hi:saved.adj.hi||0, sh:saved.adj.sh||0,
-                 wh:saved.adj.v===2?(saved.adj.wh||0):0,
-                 bl:saved.adj.v===2?(saved.adj.bl||0):0,
-                 dn:saved.adj.dn||0,
-                 tmp:saved.adj.tmp||0, tnt:saved.adj.tnt||0,
-                 sat:saved.adj.sat||0, vib:saved.adj.vib||0};
-        adjSync();
-      }
-      applyLevels();
-      CMP.lvOpen=false;
-      CMP.mode='flip'; CMP.showing='photo';
-    }
-  }
+  await cmpLoadSaved();
   const camOk = await camP;
   CAM.starting=false;
   if (!camOk){ camStop(); cmpRender(); }
@@ -8220,12 +8390,7 @@ async function camStart(){
         .catch(()=>{});
     }catch(e){}
     // the last photo waits in the corner - tap it to skip reshooting
-    const ls=$('lastShot');
-    if (CMP.img && CMP.ckey===CKEY){
-      ls.width=72; ls.height=Math.round(72*CMP.img.height/CMP.img.width);
-      ls.getContext('2d').drawImage(CMP.img,0,0,ls.width,ls.height);
-      ls.style.display='block';
-    } else ls.style.display='none';
+    lastShotPaint();
     return true;
   }catch(e){ return false; }
 }
@@ -8329,12 +8494,7 @@ function natStart(){
       clearInterval(CAM.timer); CAM.timer=setInterval(camGhost,250);
       camGhost();
       $('camGhost').style.pointerEvents='auto';
-      const ls=$('lastShot');
-      if (CMP.img && CMP.ckey===CKEY){
-        ls.width=72; ls.height=Math.round(72*CMP.img.height/CMP.img.width);
-        ls.getContext('2d').drawImage(CMP.img,0,0,ls.width,ls.height);
-        ls.style.display='block';
-      } else ls.style.display='none';
+      lastShotPaint();
       res(true);
     };
     window.__natFail=()=>{

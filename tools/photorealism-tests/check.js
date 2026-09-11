@@ -111,6 +111,24 @@ const ok = (name, cond, detail) => {
     SYNC_AT = 0; await syncNow(true);
     out.pushedAfterBusy = (S.docs.get('users/u1/prefs/app')||{}).v?.accent === '#ff0000';
 
+    // a project uploaded before settings travelled must catch up, and a
+    // device with no local copy of them must never erase the real ones
+    const legacy = (await galAll())[0];
+    localStorage.setItem('time|'+legacy.id, '9999');
+    SYNC_DIRTY.add(legacy.id); SYNC_AT=0; await syncNow(true);
+    out.legacyCaughtUp = (S.docs.get('users/u1/refs/'+legacy.sid)||{}).meta?.time === '9999';
+    localStorage.removeItem('time|'+legacy.id);
+    localStorage.removeItem('det|'+legacy.id);
+    localStorage.removeItem('fmt|'+legacy.id);
+    SYNC_DIRTY.add(legacy.id); SYNC_AT=0; await syncNow(true);
+    out.emptyDidNotErase = (S.docs.get('users/u1/refs/'+legacy.sid)||{}).meta?.time === '9999';
+
+    // a touch made before the account finished restoring is not lost
+    const held = ACC_USER; ACC_USER = null;
+    SYNC_DIRTY.clear(); syncTouch(legacy.id);
+    out.touchHeld = SYNC_DIRTY.has(legacy.id);
+    ACC_USER = held;
+
     // deleting takes the synced copy with it and does not resurrect
     const gone = (await galAll()).find(x=>x.sid);
     await syncDrop(gone); await galDel(gone.id);
@@ -130,6 +148,9 @@ const ok = (name, cond, detail) => {
   ok('grid style and thickness cross',    R.grid === 'dots/3', R.grid);
   ok('repeat syncs change nothing',       R.stable);
   ok('delete does not resurrect',         R.deleted);
+  ok('old projects catch up on settings', R.legacyCaughtUp);
+  ok('empty settings never erase real ones', R.emptyDidNotErase);
+  ok('a touch before sign-in is held',    R.touchHeld);
   ok('a busy sync is queued, not lost',   R.queuedWhileBusy);
   ok('a settings change is noticed',      R.noticedChange);
   ok('and pushed once free',              R.pushedAfterBusy);
