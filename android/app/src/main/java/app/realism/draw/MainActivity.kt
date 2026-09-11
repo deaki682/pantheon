@@ -640,7 +640,6 @@ class MainActivity : AppCompatActivity() {
         // the gear's glide spot. Landscape (bottom-left anchor): the X
         // floats NEXT to the gear on the left edge - beside the column,
         // vertically centered, clear of both the gear and the card
-        val land = adLand()
         rowWrap.orientation = android.widget.LinearLayout.HORIZONTAL
         // let the card's elevation shadow paint past the wrapper bounds
         rowWrap.clipChildren = false; rowWrap.clipToPadding = false
