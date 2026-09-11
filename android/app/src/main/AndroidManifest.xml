@@ -25,5 +25,128 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+    <!-- the launcher icon follows the accent: one alias per
+         palette colour, swapped by the setIcon bridge. Shipped
+         aliases must NEVER be removed in later versions. -->
+    <activity-alias
+        android:name=".IconA0"
+        android:targetActivity=".MainActivity"
+        android:icon="@mipmap/ic_launcher_0"
+        android:label="Photorealism"
+        android:exported="true"
+        android:enabled="false">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity-alias>
+    <activity-alias
+        android:name=".IconA1"
+        android:targetActivity=".MainActivity"
+        android:icon="@mipmap/ic_launcher_1"
+        android:label="Photorealism"
+        android:exported="true"
+        android:enabled="false">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity-alias>
+    <activity-alias
+        android:name=".IconA2"
+        android:targetActivity=".MainActivity"
+        android:icon="@mipmap/ic_launcher_2"
+        android:label="Photorealism"
+        android:exported="true"
+        android:enabled="false">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity-alias>
+    <activity-alias
+        android:name=".IconA3"
+        android:targetActivity=".MainActivity"
+        android:icon="@mipmap/ic_launcher_3"
+        android:label="Photorealism"
+        android:exported="true"
+        android:enabled="false">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity-alias>
+    <activity-alias
+        android:name=".IconA4"
+        android:targetActivity=".MainActivity"
+        android:icon="@mipmap/ic_launcher_4"
+        android:label="Photorealism"
+        android:exported="true"
+        android:enabled="false">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity-alias>
+    <activity-alias
+        android:name=".IconA5"
+        android:targetActivity=".MainActivity"
+        android:icon="@mipmap/ic_launcher_5"
+        android:label="Photorealism"
+        android:exported="true"
+        android:enabled="false">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity-alias>
+    <activity-alias
+        android:name=".IconA6"
+        android:targetActivity=".MainActivity"
+        android:icon="@mipmap/ic_launcher_6"
+        android:label="Photorealism"
+        android:exported="true"
+        android:enabled="false">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity-alias>
+    <activity-alias
+        android:name=".IconA7"
+        android:targetActivity=".MainActivity"
+        android:icon="@mipmap/ic_launcher_7"
+        android:label="Photorealism"
+        android:exported="true"
+        android:enabled="false">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity-alias>
+    <activity-alias
+        android:name=".IconA8"
+        android:targetActivity=".MainActivity"
+        android:icon="@mipmap/ic_launcher_8"
+        android:label="Photorealism"
+        android:exported="true"
+        android:enabled="false">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity-alias>
+    <activity-alias
+        android:name=".IconA9"
+        android:targetActivity=".MainActivity"
+        android:icon="@mipmap/ic_launcher_9"
+        android:label="Photorealism"
+        android:exported="true"
+        android:enabled="false">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity-alias>
   </application>
 </manifest>

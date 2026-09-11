@@ -141,26 +141,10 @@ class MainActivity : AppCompatActivity() {
             // wordmark splash appears beneath it
             splashScreen.setOnExitAnimationListener { sv ->
                 try {
-                    // the icon DIFFUSES away - swelling, blurring, dissolving -
-                    // while the wordmark beneath condenses in from its own blur:
-                    // one continuous diffusion crossfade
-                    sv.iconView?.let { icon ->
-                        val anim = android.animation.ValueAnimator.ofFloat(0f, 1f)
-                        anim.duration = 340
-                        anim.interpolator = android.view.animation.DecelerateInterpolator()
-                        anim.addUpdateListener { va ->
-                            val t = va.animatedValue as Float
-                            icon.scaleX = 1f + 0.35f * t
-                            icon.scaleY = 1f + 0.35f * t
-                            icon.alpha = 1f - t
-                            val r = 1f + 38f * t
-                            icon.setRenderEffect(android.graphics.RenderEffect
-                                .createBlurEffect(r, r,
-                                    android.graphics.Shader.TileMode.CLAMP))
-                        }
-                        anim.start()
-                    }
-                    sv.animate().alpha(0f).setDuration(360).setStartDelay(60)
+                    // a plain fade: the per-frame RenderEffect blur cost a
+                    // stutter right as the page painted its first frames
+                    sv.iconView?.animate()?.alpha(0f)?.setDuration(180)?.start()
+                    sv.animate().alpha(0f).setDuration(260)
                         .withEndAction { sv.remove() }.start()
                 } catch (e: Throwable) { sv.remove() }
             }
@@ -1171,6 +1155,33 @@ class MainActivity : AppCompatActivity() {
                     pendingSave = null
                     js("toast && toast('save failed', false)")
                 }
+            }
+        }
+        // the launcher icon follows the accent: ten pre-baked vector icons
+        // behind activity-aliases. Deduped in prefs so the boot-time accent
+        // apply never churns the launcher; DONT_KILL_APP on every switch.
+        @JavascriptInterface
+        fun setIcon(idx: Int) {
+            runOnUiThread {
+                try {
+                    if (idx < 0 || idx > 9) return@runOnUiThread
+                    val prefs = getSharedPreferences("ui", 0)
+                    if (prefs.getInt("icon", -1) == idx) return@runOnUiThread
+                    val pm = packageManager
+                    val on = android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+                    val off = android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                    val flags = android.content.pm.PackageManager.DONT_KILL_APP
+                    for (i in 0..9) {
+                        val c = android.content.ComponentName(
+                            this@MainActivity, "app.realism.draw.IconA$i")
+                        pm.setComponentEnabledSetting(c, if (i == idx) on else off, flags)
+                    }
+                    pm.setComponentEnabledSetting(
+                        android.content.ComponentName(
+                            this@MainActivity, "app.realism.draw.MainActivity"),
+                        off, flags)
+                    prefs.edit().putInt("icon", idx).apply()
+                } catch (e: Exception) {}
             }
         }
         // WebView vibration varies by OEM even with the permission; the

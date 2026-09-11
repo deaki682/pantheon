@@ -571,7 +571,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v338</span>
+    <span id="verNum">v339</span>
   </div>
 </div>
 <div id="delModal">
@@ -2124,6 +2124,9 @@ const ACCENTS=['#e8833a','#e0524f','#e0b13a','#6aa84f','#3aa6a0',
 function applyAccent(c){
   // the native shell paints its ad card in the artist's own accent
   try{ if (window.RealismCam && RealismCam.adAccent) RealismCam.adAccent(c); }catch(e){}
+  // the launcher icon follows the accent (Android; deduped shell-side)
+  try{ if (window.RealismCam && RealismCam.setIcon)
+    RealismCam.setIcon(Math.max(0, ACCENTS.indexOf(c))); }catch(e){}
   const n=parseInt(c.slice(1),16);
   const m=v=>Math.round(v*0.24+26*0.76);
   document.documentElement.style.setProperty('--acc', c);
