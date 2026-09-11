@@ -637,7 +637,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v359</span>
+    <span id="verNum">v360</span>
   </div>
 </div>
 <div id="delModal">
@@ -5210,11 +5210,18 @@ function gsdDrawPrev(g, cssW){
          Math.min(cssW,v.x+w*v.s)-Math.max(0,v.x),
          Math.min(cssW,v.y+h*v.s)-Math.max(0,v.y));
   g.clip();
-  const lw = GRID_THK===1 ? 1.5 : GRID_THK===2 ? 3 : 4.5;
+  // thickness lives in PAPER space, exactly like the live grid: a
+  // hairline at full fit, swelling with zoom, floored at one device
+  // pixel - so the preview zoomed out reads like the drawing will
+  const dpr2=Math.min(3, devicePixelRatio||1);
+  const fit2=Math.min(cssW/w, cssW/h);
+  const zf=v.s/Math.max(1e-6, fit2);
+  const base=Math.max(1/dpr2, GRID_THK*0.55);
+  const lw=Math.min(base*2.2, Math.max(1/dpr2, base*zf/3));
   g.strokeStyle=col; g.fillStyle=col; g.lineWidth=lw; g.lineCap='round';
   g.globalAlpha=GRID_OP;
   if (GRID_STYLE==='dots'){
-    const r2=Math.max(3,lw*1.6);
+    const r2=Math.max(1.5/dpr2, lw*1.7);
     for (let j=1;j<rows;j++) for (let i=1;i<cols;i++){
       const x=px(i*cell), y=py(j*cell);
       if (x<-9||y<-9||x>cssW+9||y>cssW+9) continue;
@@ -5546,8 +5553,7 @@ for (const b of $('detMenu').children){
 vp.addEventListener('pointerdown', ()=>{ const m=$('detMenu');
   if (m.style.display==='flex'){ m.style.display='none'; detClosed(); }
   const gm=$('gridMenu');
-  if (gm.style.display==='flex' && !DONETOOL){
-    gm.style.display='none'; $('gmDPanel').style.display='none'; } });
+  if (gm.style.display==='flex' && !DONETOOL) gm.style.display='none'; });
 applyGrid(); layerButtons();
 
 // the breakdown recipe, ported to run beside the page: bright-outlier
