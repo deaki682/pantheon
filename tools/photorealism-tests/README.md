@@ -12,9 +12,13 @@ Serve the app first, from the repo root:
 
 Then run any script with `node`. Chromium lives at `/opt/pw-browsers/chromium`.
 
+**Start with `check.js`.** It covers every sync guarantee in about one
+second, and replaced three scripts that took ninety-five between them.
+
 | Script | What it proves |
 |---|---|
 | `_syn.js` | every inline `<script>` block parses (run after EVERY edit) |
+| `check.js` | **all 12 sync guarantees, ~1s** — run this after any sync change |
 | `regress.js quick` | 5 viewports x 2 button sizes, layout overflow and clipping |
 | `firstrun.js <tag>` | the fresh-install intro and tour walk through cleanly |
 | `acct_test.js` | the account panel renders and opens in each shell |
@@ -36,6 +40,23 @@ two-device sync testable without credentials.
 into `fbsdk/` with curl from gstatic) because this sandbox cannot reach
 the CDN. Use it to confirm every symbol the app calls actually exists in
 the pinned SDK version.
+
+## Why check.js is 95x faster than the scripts it replaced
+
+Three things, all of which apply to any new harness:
+
+1. **`page.goto` waits for `load` by default**, and `load` waits for every
+   image the page ever fetches. That alone was 24 of 25 seconds. Pass
+   `{ waitUntil: 'domcontentloaded' }` and wait on a real condition.
+2. **One browser, one boot.** Each script was paying for its own launch
+   and its own boot to assert three things.
+3. **Wait on conditions, never the clock.** `waitForFunction` returns the
+   moment the app is ready; `waitForTimeout(2300)` always costs 2300ms
+   and is still a guess.
+
+`regress.js` has not had this treatment and is still the slow one. It
+measures rendered layout, so it may genuinely need images loaded - check
+before assuming.
 
 ## Gotchas learned the hard way
 

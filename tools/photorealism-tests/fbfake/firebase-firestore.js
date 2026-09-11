@@ -12,10 +12,17 @@ export async function getDocs(col){
 export async function deleteDoc(r){ S.docs.delete(r.path); }
 export function serverTimestamp(){ return Date.now(); }
 
-export function onSnapshot(col, cb, err){
+export function onSnapshot(target, cb, err){
+  const isDoc = !!target.id;
   const fire = () => {
+    if (isDoc) {
+      const v = S.docs.get(target.path);
+      try { cb({ exists: () => v !== undefined, data: () => v,
+                 metadata: { fromCache: false } }); } catch (e) {}
+      return;
+    }
     const docs = [...S.docs.entries()]
-      .filter(([k]) => k.startsWith(col.path + '/'))
+      .filter(([k]) => k.startsWith(target.path + '/'))
       .map(([k, v]) => ({ id: k.split('/').pop(), data: () => v, ref: { path: k } }));
     try { cb({ docs, metadata: { fromCache: false } }); } catch (e) {}
   };
@@ -23,4 +30,9 @@ export function onSnapshot(col, cb, err){
   S.listeners.push(fire);
   fire();
   return () => { S.listeners = S.listeners.filter(f => f !== fire); };
+}
+
+export async function getDoc(d){
+  const v = S.docs.get(d.path);
+  return { exists: () => v !== undefined, data: () => v, id: d.id, ref: d };
 }
