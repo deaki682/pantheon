@@ -25,7 +25,7 @@ input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:2px;
     #4a4a4a var(--p,50%))}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
   width:calc(14px*var(--ux,1));height:calc(14px*var(--ux,1));border-radius:50%;background:var(--acc);
-  margin-top:calc(-5.5px*var(--ux,1))}
+  margin-top:calc(1.5px - 7px*var(--ux,1))}
 input[type=range]::-moz-range-track{height:3px;border-radius:2px;background:#4a4a4a}
 input[type=range]::-moz-range-progress{height:3px;border-radius:2px;background:var(--acc)}
 input[type=range]::-moz-range-thumb{width:calc(14px*var(--ux,1));height:calc(14px*var(--ux,1));border:none;
@@ -276,7 +276,6 @@ body.colorRef #hudToggle.lit{width:calc(44px*var(--ux,1));padding:0;font-size:ca
 #detMenu button{white-space:nowrap;font-size:calc(13px*var(--ux,1));padding:8px 11px;border-radius:9px}
 #gmMiniB{width:calc(26px*var(--ux,1));height:calc(26px*var(--ux,1));display:block}
 #gridBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
   display:flex;align-items:center;justify-content:center}
 #underCorner{position:absolute;left:50%;transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:none}
@@ -359,14 +358,15 @@ html.uiL{--ub:1.38}
 html.uiM body,html.uiL body{font-size:calc(14px*var(--ux))}
 html.uiM #layerCol .vBtn{padding-top:21px;padding-bottom:21px}
 html.uiL #layerCol .vBtn{padding-top:15px;padding-bottom:15px}
+html.uiM body.colorRef #layerCol .vBtn,html.uiL body.colorRef #layerCol .vBtn{padding:8px 11px}
 html.uiM #hudToggle.lit{padding:0 12px}
 html.uiL #hudToggle.lit{padding:0 9px}
 @media (max-width:390px){ html.uiL{--ub:1.26} }
 /* high contrast: black surfaces, bright borders and text */
 html.hc button,html.hc select,html.hc input{
-  border-color:#bbb;color:#fff;background:#000}
-html.hc button.vOn{border-color:var(--acc);border-width:2px;
-  background:var(--accBg)}
+  border-color:#bbb!important;color:#fff!important;background:#000!important}
+html.hc button.vOn{border-color:var(--acc)!important;border-width:2px;
+  background:var(--accBg)!important}
 html.hc #hud,html.hc #detMenu,html.hc #underMenu,html.hc #gridMenu,
 html.hc #gsdPanel,html.hc #setPanel,html.hc #gearPanel,html.hc #a11yPanel,
 html.hc .gsdPop,html.hc #gsdLabs{background:#000;border-color:#bbb}
@@ -454,7 +454,7 @@ html.hc #verNum{color:#ddd}
   transition:max-width 0.28s ease, opacity 0.18s ease 0.08s, padding 0.28s ease}
 #setBtn .markTxt{font-variant-numeric:tabular-nums}
 #setBtn.ttl svg,#setBtn.mark svg{max-width:0;opacity:0;transform:rotate(120deg) scale(0.5)}
-#setBtn.ttl .ttlTxt,#setBtn.mark .markTxt{max-width:190px;opacity:1;padding:0 16px}
+#setBtn.ttl .ttlTxt,#setBtn.mark .markTxt{max-width:calc(190px*var(--ux,1));opacity:1;padding:0 16px}
 /* the settings window */
 #setModal{position:fixed;inset:0;z-index:20;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.6)}
@@ -483,18 +483,18 @@ html.hc #verNum{color:#ddd}
 #gmDesign2,#gmDesign3{width:calc(46px*var(--ux,1));height:calc(42px*var(--ux,1));padding:5px;display:flex;
   align-items:center;justify-content:center;border-radius:10px}
 #gmMini2,#gmMini3{width:calc(30px*var(--ux,1));height:calc(30px*var(--ux,1));display:block}
-#gridColBox,#accColBox{width:calc(40px*var(--ux,1));height:calc(40px*var(--ux,1));border-radius:10px;border:1px solid #555;
+#accColBox{width:calc(40px*var(--ux,1));height:calc(40px*var(--ux,1));border-radius:10px;border:1px solid #555;
   padding:3px;background:#242424}
-#gridColBox span,#accColBox span{display:block;width:100%;height:100%;border-radius:7px}
-#gridPal2,#accPal2{display:none;grid-template-columns:repeat(5,calc(32px*var(--ux,1)));gap:8px}
-#gridPal2 button,#accPal2 button{width:calc(32px*var(--ux,1));height:calc(32px*var(--ux,1));border-radius:50%;padding:0;border:1px solid #555}
-#gridPal2 button.vOn,#accPal2 button.vOn{border-color:var(--acc);border-width:2px}
+#accColBox span{display:block;width:100%;height:100%;border-radius:7px}
+#accPal2{display:none;grid-template-columns:repeat(5,calc(32px*var(--ux,1)));gap:8px}
+#accPal2 button{width:calc(32px*var(--ux,1));height:calc(32px*var(--ux,1));border-radius:50%;padding:0;border:1px solid #555}
+#accPal2 button.vOn{border-color:var(--acc);border-width:2px}
 #setPanel label{display:flex;gap:10px;align-items:center;font-size:calc(14px*var(--ux,1))}
 #expBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #compareBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
-#widthIn,#heightIn,#cellVal,#cellVal2{width:54px;background:#1e1e1e;color:#e8e6e1;
+#widthIn,#heightIn,#cellVal,#cellVal2{width:calc(54px*var(--ux,1));background:#1e1e1e;color:#e8e6e1;
   border:1px solid #555;border-radius:8px;padding:8px;font:inherit}
 #lvBtn,#cmpGridBtn{display:flex;align-items:center;justify-content:center;min-width:44px}
 #cmpRow{justify-content:space-evenly}
@@ -506,9 +506,9 @@ body.uiHid #hudWrap,body.uiHid #detCorner,body.uiHid #gridCorner,
 body.uiHid #underCorner,body.uiHid #camCorner{transform:translate(-50%,160%)}
 /* open menus keep their state but vanish with the chrome - the corner
    slide alone can't clear panels taller than itself */
-#hud,#detMenu,#underMenu,#gridMenu,#gmPal{transition:opacity .28s, visibility .28s}
+#hud,#detMenu,#underMenu,#gridMenu{transition:opacity .28s, visibility .28s}
 body.uiHid #hud,body.uiHid #detMenu,body.uiHid #underMenu,
-body.uiHid #gridMenu,body.uiHid #gmPal{opacity:0;visibility:hidden}
+body.uiHid #gridMenu{opacity:0;visibility:hidden}
 body.uiHid #expCorner{transform:translateY(-190%)}
 #expCorner{transition:opacity .25s, transform 0.2s cubic-bezier(.3,0,.2,1)}
 html.adCorner #expCorner{opacity:0;pointer-events:none}
@@ -574,8 +574,6 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 #fmtRow{justify-content:space-evenly;gap:10px;padding:10px 12px}
 #fmtRow button{flex:1;min-height:calc(52px*var(--ux,1));font-size:calc(16px*var(--ux,1));color:var(--acc)}
 .fCtl{display:flex;align-items:center;gap:6px}
-.gsBtn{width:calc(46px*var(--ux,1));height:calc(38px*var(--ux,1));padding:0;border-radius:10px;
-  display:flex;align-items:center;justify-content:center}
 .xSep{opacity:0.6}
 #fmtInfo{padding:6px 8px 4px;margin-left:calc(56px + env(safe-area-inset-left));
   font-size:12px;opacity:0.75;min-height:20px}
@@ -662,7 +660,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   #expBtn svg,#compareBtn svg,#underBtn svg,#camCorner svg,
   #circBtn svg,#dlBtn svg{
     width:calc(26px*var(--ux,1));height:calc(26px*var(--ux,1))}
-  #setBtn svg{max-width:none;width:calc(30px*var(--ux,1));height:calc(30px*var(--ux,1))}
+  #setBtn svg{max-width:calc(30px*var(--ux,1));width:calc(30px*var(--ux,1));height:calc(30px*var(--ux,1))}
   #gearBtn svg{width:calc(30px*var(--ux,1));height:calc(30px*var(--ux,1))}
   #backBtn{font-size:calc(30px*var(--ux,1))}
   .gitem,.gadd{width:calc(118px*var(--tb));border-radius:calc(10px*var(--tb));
@@ -691,6 +689,10 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   #cmpGridBtn svg,#cmpReCrop svg,#lvBtn svg{
     width:calc(26px*var(--ux,1));height:calc(26px*var(--ux,1))}
   #upStat{font-size:calc(15px*var(--tb)) !important}
+  #pwaNote.big{font-size:calc(15px*var(--tb))}
+  #hudToggle svg{width:calc(24px*var(--ux,1));height:calc(24px*var(--ux,1))}
+  .gitem.hasTop .gx{top:calc(29px*var(--tb))}
+  #gsdPanel{overflow:visible}
   .redDot{width:calc(17px*var(--ux,1));height:calc(17px*var(--ux,1))}
 }
 /* landscape: the drawing chrome moves to the side edges - back, gear and
@@ -795,7 +797,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v372</span>
+    <span id="verNum">v373</span>
   </div>
 </div>
 <div id="delModal">
@@ -1358,7 +1360,9 @@ function bloomIn(){
     // edges unrasterized - one re-bake after the settle covers the glass
     clearTimeout(bloomIn._g);
     bloomIn._g=setTimeout(()=>{ try{
-      if (GRID_READY && $('scrMain').classList.contains('on')) applyView();
+      if (!(GRID_READY && $('scrMain').classList.contains('on'))) return;
+      const c=$('gridCv'), r=$('viewport').getBoundingClientRect(), d=devicePixelRatio||1;
+      if (Math.abs(c.width-Math.round(r.width*d))>1 || Math.abs(c.height-Math.round(r.height*d))>1) applyView();
     }catch(e){} }, 360);
   }catch(e){}
 }
@@ -1394,7 +1398,10 @@ window.__adCorner = on => {
   try{ document.documentElement.classList.toggle('adCorner', !!on); }catch(e){}
 };
 window.__adOn = on => {
-  try{ document.documentElement.classList.toggle('adOn', !!on); }catch(e){}
+  let changed=false;
+  try{ const de=document.documentElement; changed=de.classList.contains('adOn')!==!!on;
+    de.classList.toggle('adOn', !!on); }catch(e){}
+  if (!changed) return;                 // a repeat sync never re-bakes the grid
   requestAnimationFrame(()=>{ try{
     if ($('scrMain').classList.contains('on')) applyView();
     if ($('scrCompare').classList.contains('on')){ cmpSize(); cmpRender(); }
@@ -1415,6 +1422,9 @@ const show = id => { tipClose(false); uiShow();
     $(id).classList.add('on');
   }
   $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex';
+  // back from the compare screen: a rotation there left the grid stale
+  if (id==='scrMain' && GRID_READY && show._from==='scrCompare')
+    requestAnimationFrame(()=>{ try{ applyView(); }catch(e){} });
   if (id!=='scrUpload') backArm();
   if (id==='scrFormat'){ fmtTip(); requestAnimationFrame(()=>{ try{ fmtPreview(); }catch(e){} }); }
   if (id==='scrMain'){
@@ -1620,32 +1630,44 @@ function blobImage(blob){ return new Promise((res,rej)=>{
   i.src = u; }); }
 
 async function thumbOf(blob, colr){
-  const i = await blobImage(blob);
+  // decode off the main thread where the engine allows it; the <img>
+  // path stays as the fallback (and for formats createImageBitmap rejects)
+  let i=null, bm=null;
+  try{ if (window.createImageBitmap) bm=await createImageBitmap(blob); }catch(e){ bm=null; }
+  if (!bm) i = await blobImage(blob);
+  const src=bm||i, W=src.width, H=src.height;
   const T = 448, c = document.createElement('canvas'); c.width = T; c.height = T;
   const g = c.getContext('2d');
-  const s = Math.min(i.width, i.height);
+  const s = Math.min(W, H);
   if (!colr) g.filter = 'grayscale(1)';
-  g.drawImage(i, (i.width-s)/2, (i.height-s)/2, s, s, 0, 0, T, T);
+  g.drawImage(src, (W-s)/2, (H-s)/2, s, s, 0, 0, T, T);
   if (!colr) forceGray(c);
-  URL.revokeObjectURL(i.src);
+  if (bm) bm.close(); else URL.revokeObjectURL(i.src);
   return c.toDataURL('image/jpeg', 0.8);
 }
 // thumbnails were baked at 192px before v371: re-bake existing ones from
 // their stored blobs, one at a time after boot, refreshing tiles in place
 async function regenThumbs(){
   try{
-    if (localStorage.getItem('thumbV')==='448') return;
-    for (const r of await galAll()){
-      if (!r.blob) continue;
+    // per record, not per device: a 192px thumb is under ~24k chars, a
+    // 448px one well over, so imports and restores heal on any later boot.
+    // Only while the home screen is up and the page visible - never under a
+    // drawing session - and each record is re-read right before writing so
+    // a concurrent edit or delete is never overwritten by a stale copy
+    const small=(await galAll()).filter(r=>r.blob && (r.thumb||'').length<24000).map(r=>r.id);
+    for (const id of small){
+      while (!$('scrUpload').classList.contains('on') || document.hidden)
+        await new Promise(res=>setTimeout(res,3000));
       try{
-        r.thumb=await thumbOf(r.blob, isColor(r.id));
-        await galPut(r);
-        const im=document.querySelector('.gitem[data-gid="'+r.id+'"] img');
-        if (im) im.src=r.thumb;
+        const r=await galGet(id); if (!r || !r.blob) continue;
+        const thumb=await thumbOf(r.blob, isColor(id));
+        const cur=await galGet(id); if (!cur) continue;      // deleted meanwhile
+        cur.thumb=thumb; await galPut(cur);
+        const im=document.querySelector('.gitem[data-gid="'+id+'"] img');
+        if (im) im.src=thumb;
       }catch(e){}
-      await new Promise(res=>setTimeout(res,120));
+      await new Promise(res=>setTimeout(res,250));
     }
-    localStorage.setItem('thumbV','448');
   }catch(e){}
 }
 setTimeout(regenThumbs, 5000);
@@ -2397,10 +2419,7 @@ try{
 }catch(e){}
 try{ if (window.RealismCam && RealismCam.adScreen && !RealismCam.adPlace) RealismCam.adScreen(true); }catch(e){}
 adSync();
-try{
-  matchMedia('(orientation: landscape)').addEventListener('change', adSync);
-  matchMedia('(min-width:600px) and (min-height:600px)').addEventListener('change', adSync);
-}catch(e){}
+// orientation and fold changes all arrive as a resize: one debounced re-sync
 addEventListener('resize', ()=>{ clearTimeout(adSync._t); adSync._t=setTimeout(adSync, 200); });
 // storage durability: without a persistence grant the browser engine may
 // EVICT this origin's whole storage under disk pressure - weeks of
@@ -2429,7 +2448,6 @@ const ACCENTS=['#e8833a','#e0524f','#e0b13a','#6aa84f','#3aa6a0',
 function applyAccent(c){
   // the native shell paints its ad card in the artist's own accent
   try{ if (window.RealismCam && RealismCam.adAccent) RealismCam.adAccent(c); }catch(e){}
-  // the launcher icon follows the accent (Android; deduped shell-side)
   const n=parseInt(c.slice(1),16);
   const m=v=>Math.round(v*0.24+26*0.76);
   document.documentElement.style.setProperty('--acc', c);
@@ -4107,8 +4125,11 @@ function drawEdgeLabs(){
   const symR=j=> GRID_LSCH[1]==='L' ? colName(j) : String(j+1);
   const fs=Math.max(10*dpr, Math.min(step*sc*0.16, 15*dpr));
   let yFloor=56*dpr;
-  try{ const cb=$('setCorner').getBoundingClientRect().bottom - r.top;
-    yFloor=Math.max(40, cb+8)*dpr; }catch(e){}
+  try{ const sc=$('setCorner').getBoundingClientRect();
+    // the gear only lowers the floor when it actually sits along the top
+    // edge (landscape parks it mid-height on the left)
+    const cb=(sc.top - r.top < 80) ? sc.bottom - r.top + 8 : 0;
+    yFloor=Math.max(40, cb)*dpr; }catch(e){}
   g.globalAlpha=GRID_OP;
   g.font='600 '+fs+'px system-ui';
   g.textAlign='center'; g.textBaseline='middle';
@@ -4287,7 +4308,10 @@ function endPtr(e){
   if (ptrs.size===0){
     ovRelease(PANS);
     if (GESTURE.active){ GESTURE.active=false;
-      if (GRID_READY) applyView(); }     // one crisp redraw at rest
+      // one crisp redraw at rest - unless nothing moved (a plain tap)
+      const d=GRID_DRAWN, moved=!d || Math.abs(d.x-view.x)>0.5 || Math.abs(d.y-view.y)>0.5
+        || Math.abs(d.s-view.s)>1e-6 || !!$('gridCv').style.transform;
+      if (GRID_READY && moved) applyView(); }
   }
   if (ptrs.size<2) pinch0=null;
   clearTimeout(cdT); cdPend=null;
@@ -5670,10 +5694,13 @@ document.querySelectorAll('#gsdLabRow button').forEach(b=>
     }catch(e){}
     gsdClosePops(); gsdApply(); gsdSync();
   });
+let gsdOpR=0;
 $('gsdOp').oninput=e=>{
   GRID_OP=+e.target.value;
   try{ localStorage.setItem('gridOp', ''+GRID_OP); }catch(e){}
-  gsdApply(); gsdSync();
+  // a slider drag fires per pixel: coalesce the full repaint to one per frame
+  if (gsdOpR) return;
+  gsdOpR=requestAnimationFrame(()=>{ gsdOpR=0; gsdApply(); gsdSync(); });
 };
 {
   const cv2=$('gsdCv'); const pp=new Map(); let pz=null;
@@ -5756,6 +5783,9 @@ function a11yApply(){
   de.classList.toggle('uiM', UI_SCALE==='m');
   de.classList.toggle('uiL', UI_SCALE==='l');
   de.classList.toggle('hc', HI_CON);
+  // the shell parks its ad close pill beside the gear: tell it the button scale
+  try{ if (window.RealismCam && RealismCam.uiScale)
+    RealismCam.uiScale(UI_SCALE==='l' ? 1.38 : UI_SCALE==='m' ? 1.18 : 1); }catch(e){}
   document.querySelectorAll('#a11ySize button').forEach(b=>
     b.classList.toggle('vOn', b.dataset.s===UI_SCALE));
   $('a11yHc').classList.toggle('vOn', HI_CON);
@@ -7525,6 +7555,7 @@ function natStart(){
     window.__natReady=(w,h)=>{
       if (!CAM.natWait){ try{ RealismCam.stop(); }catch(e){} return; }
       CAM.natWait=false; CAM.nat={w,h};
+      if (CAM.rotPending){ CAM.rotPending=false; natRotate(); }  // rotated mid-bind
       natChrome(true);
       $('coach').style.display='none';
       $('lvRow').style.display='none';
@@ -8092,24 +8123,25 @@ $('cmpSplit').onclick = () => {
       return;
     }
   }, {passive:false});
-  window.__natRotate = () => { try{
-  if (CAM.nat && !CAM.natWait){
+  // the native preview was bound for the old display rotation: a full
+// stop/start rebinds it (and re-reports the frame size) for the new one.
+// A bind in flight defers the restart until it lands; a shot in flight
+// waits for its still to come back before the session is torn down
+function natRotate(){
+  try{
+    if (CAM.natWait){ CAM.rotPending=true; return; }
+    if (!CAM.nat) return;
     clearTimeout(CAM.rotT);
-    CAM.rotT=setTimeout(()=>{ if (!CAM.nat) return;
+    CAM.rotT=setTimeout(()=>{
+      if (!CAM.nat) return;
+      if (CAM.shotBusy){ natRotate(); return; }
       try{ RealismCam.stop(); }catch(e){}
-      CAM.nat=null; natStart(); }, 250);
-  }
-}catch(e){} };
-addEventListener('resize', ()=>{ if ($('scrCompare').classList.contains('on')){ cmpSize(); cmpRender();
-  if (CAM.nat && !CAM.natWait){
-    // the native preview was bound for the old display rotation - a full
-    // stop/start rebinds it (and re-reports the frame size) for the new one
-    clearTimeout(CAM.rotT);
-    CAM.rotT=setTimeout(()=>{ if (!CAM.nat) return;
-      try{ RealismCam.stop(); }catch(e){}
-      CAM.nat=null; natStart(); }, 300);
-  }
-} });
+      CAM.nat=null; natStart();
+    }, 250);
+  }catch(e){}
+}
+window.__natRotate = natRotate;
+addEventListener('resize', ()=>{ if ($('scrCompare').classList.contains('on')){ cmpSize(); cmpRender(); natRotate(); } });
 }
 
 // the tool panel collapses to a corner button for a clear view of the drawing

@@ -56,10 +56,18 @@ final class AdController: NSObject {
         cornerWrap.isHidden = true
         cornerWrap.translatesAutoresizingMaskIntoConstraints = false
         host.view.addSubview(cornerWrap)
+        // the card grows out of the download button's corner: top-right in
+        // portrait, top-left in landscape (where the page moves that button)
+        let trail = cornerWrap.trailingAnchor.constraint(equalTo: host.view.trailingAnchor, constant: -8)
+        let lead = cornerWrap.leadingAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.leadingAnchor, constant: 8)
+        cornerTrail = trail; cornerLead = lead
         NSLayoutConstraint.activate([
             cornerWrap.topAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            cornerWrap.trailingAnchor.constraint(equalTo: host.view.trailingAnchor, constant: -8),
+            trail,
         ])
+        NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged),
+            name: UIDevice.orientationDidChangeNotification, object: nil)
+        orientationChanged()
         // the card never materializes under a finger: a passive recognizer
         // timestamps every touch so the show gate can wait for a quiet hand
         let touch = UILongPressGestureRecognizer(target: self, action: #selector(anyTouch(_:)))
@@ -70,6 +78,15 @@ final class AdController: NSObject {
     }
 
     @objc private func anyTouch(_ g: UIGestureRecognizer) { lastTouch = CACurrentMediaTime() }
+
+    private var cornerTrail: NSLayoutConstraint?
+    private var cornerLead: NSLayoutConstraint?
+    @objc private func orientationChanged() {
+        guard let v = host?.view else { return }
+        let land = v.bounds.width > v.bounds.height
+        cornerTrail?.isActive = !land
+        cornerLead?.isActive = land
+    }
 
     // the remove-ads purchase: the slot collapses and the stack never
     // starts again (the entitlement re-checks on every launch)

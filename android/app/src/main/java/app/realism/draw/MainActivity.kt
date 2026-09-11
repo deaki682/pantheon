@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Base64
-import android.view.Surface
 import android.webkit.JavascriptInterface
 import android.net.Uri
 import android.webkit.PermissionRequest
@@ -214,6 +213,8 @@ class MainActivity : AppCompatActivity() {
         web = WebView(this).apply { setBackgroundColor(Color.BLACK) }
         WebView.setWebContentsDebuggingEnabled(true)
         root.addView(previewView, FrameLayout.LayoutParams(0, 0))
+        getSystemService(android.hardware.display.DisplayManager::class.java)
+            ?.registerDisplayListener(dispListener, android.os.Handler(mainLooper))
         root.addView(web, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
         diag = TextView(this).apply {
@@ -659,6 +660,7 @@ class MainActivity : AppCompatActivity() {
     // on the drawing screen an intermittent corner card that replaces the
     // download button for a bounded window (page yields it via __adCorner).
     private var adCloseFloat: TextView? = null  // landscape corner X, beside the gear
+    @Volatile private var adUx = 1f              // the page's accessibility button scale
     private var adCardShown = false       // strip on screen
     private var adCornerShown = false     // corner card on screen
     private val AD_ON_MS = 45000L         // corner window length
@@ -715,7 +717,8 @@ class MainActivity : AppCompatActivity() {
         adCornerWrap.visibility = android.view.View.VISIBLE
         adCornerWrap.post {
             // grow out of the download button's corner, visibly - never a snap
-            adCornerWrap.pivotX = adCornerWrap.width.toFloat(); adCornerWrap.pivotY = 0f
+            adCornerWrap.pivotX = if (adLand()) 0f else adCornerWrap.width.toFloat()
+            adCornerWrap.pivotY = 0f
             adCornerWrap.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(350)
                 .setInterpolator(android.view.animation.DecelerateInterpolator()).start()
         }
@@ -731,7 +734,8 @@ class MainActivity : AppCompatActivity() {
         adCloseFloat?.visibility = android.view.View.GONE
         adNextShowAt = android.os.SystemClock.uptimeMillis() + AD_OFF_MS
         adCornerWrap.animate().cancel()
-        adCornerWrap.pivotX = adCornerWrap.width.toFloat(); adCornerWrap.pivotY = 0f
+        adCornerWrap.pivotX = if (adLand()) 0f else adCornerWrap.width.toFloat()
+        adCornerWrap.pivotY = 0f
         adCornerWrap.animate().scaleX(0.3f).scaleY(0.3f).alpha(0f).setDuration(250)
             .setInterpolator(android.view.animation.AccelerateInterpolator())
             .withEndAction {
@@ -740,7 +744,7 @@ class MainActivity : AppCompatActivity() {
             }.start()
         js("window.__adCorner && __adCorner(false)")
         // a fresh creative earns the next window (re-showing one doesn't)
-        loadNative()
+        if (!adsRemovedFlag()) loadNative()
         if (adBase() && adOnProj) adCornerWrap.postDelayed(adShowTry, AD_OFF_MS)
     }
 
@@ -1170,7 +1174,8 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread {
                 adBgCol = c
                 adWanted = on
-                adWrap.setBackgroundColor(c)
+                // the landscape strip floats on a transparent wrapper: keep it
+                adWrap.setBackgroundColor(if (adLand() && adViewMode == "strip") 0 else c)
                 adCard?.let { v ->
                     val g = v.background as? android.graphics.drawable.GradientDrawable
                     if (g != null) g.setColor(c) else v.setBackgroundColor(c)
@@ -1180,6 +1185,10 @@ class MainActivity : AppCompatActivity() {
         }
         // the page flags the drawing screen: there the strip yields to the
         // intermittent corner card (and only there)
+        @JavascriptInterface
+        fun uiScale(f: Float) {
+            runOnUiThread { adUx = f; if (adCornerShown) buildCorner() }
+        }
         @JavascriptInterface
         fun adProj(on: Boolean) {
             runOnUiThread { if (adOnProj != on) { adOnProj = on; applyAd() } }
@@ -1220,8 +1229,6 @@ class MainActivity : AppCompatActivity() {
         // MainActivity launcher component, which Play's scanner reads as
         // "app hides its icon". The bridge stays as a no-op so cached
         // pages calling it do nothing.
-        @JavascriptInterface
-        fun setIcon(idx: Int) {}
         // WebView vibration varies by OEM even with the permission; the
         // bridge drives the vibrator directly - single, clean pulses
         @JavascriptInterface
@@ -1304,16 +1311,16 @@ class MainActivity : AppCompatActivity() {
     private fun dispRot(): Int =
         previewView.display?.rotation
             ?: @Suppress("DEPRECATION") windowManager.defaultDisplay.rotation
-    private fun colW() = if (resources.configuration.smallestScreenWidthDp >= 600) 76 else 44
+    private fun colW() = ((if (resources.configuration.smallestScreenWidthDp >= 600) 76 else 44) * adUx).toInt()
+    // the card grows out of the download button's corner: top-right in
+    // portrait, top-LEFT in landscape (where the button column moved)
     private fun adCornerParams(): FrameLayout.LayoutParams {
-        val d = resources.displayMetrics.density
-        val m = (8 * d).toInt()
+        val m = (8 * resources.displayMetrics.density).toInt()
         val clp = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
-            android.view.Gravity.TOP or android.view.Gravity.END)
+            android.view.Gravity.TOP or (if (adLand()) android.view.Gravity.START else android.view.Gravity.END))
         clp.topMargin = m
-        // landscape: the right edge holds the button column - sit just inside it
-        clp.rightMargin = if (adLand()) ((8 + colW() + 8) * d).toInt() else m
+        if (adLand()) clp.leftMargin = m else clp.rightMargin = m
         return clp
     }
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
@@ -1339,7 +1346,9 @@ class MainActivity : AppCompatActivity() {
     // the next launch demotes past that rung instead of crashing forever.
     private val RUNG_RAW = 2; private val RUNG_EXT = 1; private val RUNG_PLAIN = 0
 
+    private var camGen = 0
     private fun openCamera(x: Int, y: Int, w: Int, h: Int) {
+        val gen = ++camGen
         web.setBackgroundColor(Color.TRANSPARENT)
         val lp = FrameLayout.LayoutParams(w, h)
         lp.leftMargin = x; lp.topMargin = y
@@ -1381,7 +1390,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 } catch (e: Throwable) {}
-                runOnUiThread { bindRung(rung, selector, prefs) }
+                runOnUiThread { bindRung(rung, selector, prefs, gen) }
             }.apply { isDaemon = true }.start()
         }, ContextCompat.getMainExecutor(this))
     }
@@ -1390,7 +1399,8 @@ class MainActivity : AppCompatActivity() {
 
     @androidx.annotation.OptIn(androidx.camera.camera2.interop.ExperimentalCamera2Interop::class)
     private fun bindRung(rung: Int, selector: CameraSelector,
-                         prefs: android.content.SharedPreferences) {
+                         prefs: android.content.SharedPreferences, gen: Int) {
+        if (gen != camGen) return                 // a newer session superseded this open
         val prov = provider ?: return
         prefs.edit().putInt("attempting", rung).apply()
         rawMode = rung == RUNG_RAW
@@ -1434,6 +1444,7 @@ class MainActivity : AppCompatActivity() {
             val preview = previewB.build()
             val still = stillB.build()
             imageCapture = still
+            if (gen != camGen) { prefs.edit().remove("attempting").apply(); return }
             prov.unbindAll()
             camera = prov.bindToLifecycle(this,
                 if (rung == RUNG_EXT) selector else CameraSelector.DEFAULT_BACK_CAMERA,
@@ -1441,6 +1452,7 @@ class MainActivity : AppCompatActivity() {
             preview.setSurfaceProvider(previewView.surfaceProvider)
             var tries = 0
             fun reportSize() {
+                if (gen != camGen) return          // a newer session owns the page
                 val ri = preview.resolutionInfo
                 if (ri != null) {
                     // display-oriented frame straight from the use case's own
@@ -1468,7 +1480,7 @@ class MainActivity : AppCompatActivity() {
                 // the extension selector only exists on the decision thread,
                 // so any in-process failure demotes straight to plain
                 report("${rungName(rung)} bind failed (${e.message}) - plain capture")
-                bindRung(RUNG_PLAIN, CameraSelector.DEFAULT_BACK_CAMERA, prefs)
+                bindRung(RUNG_PLAIN, CameraSelector.DEFAULT_BACK_CAMERA, prefs, gen)
             } else {
                 report("camera open failed: ${e.message}")
                 js("window.__natFail && __natFail('open')")
@@ -1667,11 +1679,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun closeCamera() {
+        camGen++                                   // orphan any bind still in flight
         web.setBackgroundColor(Color.BLACK)
         try { provider?.unbindAll() } catch (e: Exception) {}
         camera = null; imageCapture = null
         previewView.visibility = android.view.View.GONE
     }
 
-    override fun onDestroy() { captureExec.shutdown(); super.onDestroy() }
+    private var lastRot = -1
+    private val dispListener = object : android.hardware.display.DisplayManager.DisplayListener {
+        override fun onDisplayAdded(id: Int) {}
+        override fun onDisplayRemoved(id: Int) {}
+        override fun onDisplayChanged(id: Int) {
+            val r = try { dispRot() } catch (e: Throwable) { return }
+            if (r == lastRot) return
+            lastRot = r
+            if (previewView.visibility == android.view.View.VISIBLE)
+                js("window.__natRotate && __natRotate()")
+        }
+    }
+    override fun onDestroy() {
+        try { getSystemService(android.hardware.display.DisplayManager::class.java)
+            ?.unregisterDisplayListener(dispListener) } catch (e: Throwable) {}
+        captureExec.shutdown(); super.onDestroy()
+    }
 }
