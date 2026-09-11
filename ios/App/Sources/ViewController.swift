@@ -1,5 +1,6 @@
 import UIKit
 import WebKit
+import StoreKit
 
 // The iOS shell, mirroring the Android MainActivity's contract: a black
 // edge, the web app inset from the system bars, served from the loopback
@@ -31,6 +32,7 @@ final class ViewController: UIViewController {
         ucc.add(self, name: "adAccent")
         ucc.add(self, name: "buyRemoveAds")
         ucc.add(self, name: "haptic")
+        ucc.add(self, name: "askReview")
         // the entitlement is baked in synchronously - the page's Remove Ads
         // text keys on adsRemoved() at boot, and message handlers are async
         let noAds = StoreController.removed ? "true" : "false"
@@ -48,6 +50,9 @@ final class ViewController: UIViewController {
         RealismCam.adsRemoved = function(){ return \(noAds); };
         RealismCam.buyRemoveAds = function(){
           try{ webkit.messageHandlers.buyRemoveAds.postMessage(1); }catch(e){}
+        };
+        RealismCam.askReview = function(){
+          try{ webkit.messageHandlers.askReview.postMessage(1); }catch(e){}
         };
         """
         ucc.addUserScript(WKUserScript(source: shim, injectionTime: .atDocumentStart,
@@ -116,6 +121,12 @@ extension ViewController: WKScriptMessageHandler {
             ads?.accent(h)
         } else if message.name == "buyRemoveAds" {
             store?.buy()
+        } else if message.name == "askReview" {
+            // the OS review sheet: iOS decides whether to actually show it
+            // (three asks a year per device) - always safe to request
+            if let scene = view.window?.windowScene {
+                SKStoreReviewController.requestReview(in: scene)
+            }
         } else if message.name == "haptic" {
             // WKWebView has no Vibration API; the page routes its two
             // haptic gestures here - light tick, and the success thud

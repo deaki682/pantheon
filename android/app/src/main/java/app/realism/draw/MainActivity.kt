@@ -1281,6 +1281,19 @@ class MainActivity : AppCompatActivity() {
         }
         // the page flags the drawing screen: there the strip yields to the
         // intermittent corner card (and only there)
+        // the OS review prompt: Play decides whether to actually show it
+        // (quota, recent asks) - the call is always safe to make
+        @JavascriptInterface
+        fun askReview() {
+            runOnUiThread {
+                try {
+                    val mgr = com.google.android.play.core.review.ReviewManagerFactory.create(this@MainActivity)
+                    mgr.requestReviewFlow().addOnCompleteListener { t ->
+                        if (t.isSuccessful) try { mgr.launchReviewFlow(this@MainActivity, t.result) } catch (e: Throwable) {}
+                    }
+                } catch (e: Throwable) { logLine("review: " + e.message) }
+            }
+        }
         @JavascriptInterface
         fun uiScale(f: Float) {
             runOnUiThread { adUx = f; if (adCornerShown) buildCorner() }

@@ -793,7 +793,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v380</span>
+    <span id="verNum">v381</span>
   </div>
 </div>
 <div id="delModal">
@@ -1416,6 +1416,7 @@ const show = id => { tipClose(false); uiShow();
     $(id).classList.add('on');
   }
   $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex';
+  if (id==='scrUpload' && show._from==='scrMain') reviewMaybe();
   // back from the compare screen: a rotation there left the grid stale
   if (id==='scrMain' && GRID_READY && show._from==='scrCompare')
     requestAnimationFrame(()=>{ try{ applyView(); }catch(e){} });
@@ -2436,6 +2437,28 @@ try{
     }).catch(()=>{});
 }catch(e){}
 addEventListener('appinstalled', ()=>gcPing('/install'));
+// the review ask: the page keeps a clock of real drawing time (screen on,
+// page visible) and asks the shell for the OS review prompt the first time
+// the artist steps back to the gallery past two hours - then once more
+// past twenty, in case the OS swallowed the first (it decides, silently)
+let DRAW_SEC=0; try{ DRAW_SEC=+localStorage.getItem('drawSec')||0; }catch(e){}
+setInterval(()=>{
+  try{
+    if (document.hidden || !$('scrMain').classList.contains('on')) return;
+    DRAW_SEC+=15; localStorage.setItem('drawSec', ''+DRAW_SEC);
+  }catch(e){}
+}, 15000);
+function reviewMaybe(){
+  try{
+    const rc=window.RealismCam; if (!rc || !rc.askReview) return;
+    const asked=+localStorage.getItem('reviewAsked')||0;
+    const due = asked===0 ? 2*3600 : asked===1 ? 20*3600 : Infinity;
+    if (DRAW_SEC<due) return;
+    localStorage.setItem('reviewAsked', ''+(asked+1));
+    setTimeout(()=>{ try{ rc.askReview(); }catch(e){} }, 900);   // after the gallery settles
+    gcPing('/review-ask');
+  }catch(e){}
+}
 // settings: the accent is the artist's, and the true-size stop is optional
 const ACCENTS=['#e8833a','#e0524f','#e0b13a','#6aa84f','#3aa6a0',
                '#5a8fd8','#9b6bd8','#d86bb0','#b08d6b','#e8e6e1'];
