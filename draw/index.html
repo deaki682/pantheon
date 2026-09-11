@@ -623,7 +623,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v349</span>
+    <span id="verNum">v350</span>
   </div>
 </div>
 <div id="delModal">
@@ -2505,8 +2505,13 @@ function fmtPreview(){
   const wIn = physWIn();
   const hIn = wIn * ((+$('heightIn').value||1)/(+$('widthIn').value||1));
   const step = cv.width*cellIn()/wIn;
-  g.strokeStyle='rgba(255,255,255,0.55)';
-  g.lineWidth=Math.max(0.75, dpr*0.55);
+  const auto = GRID_COL==='auto';
+  g.save();
+  if (auto) g.globalCompositeOperation='difference';
+  g.strokeStyle = auto ? 'rgba(255,255,255,0.75)' : GRID_COL;
+  g.fillStyle = g.strokeStyle;
+  g.globalAlpha=GRID_OP;
+  g.lineWidth=Math.max(0.75, dpr*0.4*GRID_THK);
   if (GRID_STYLE!=='dots'){
     for (let x=step; x<cv.width-1; x+=step){
       g.beginPath(); g.moveTo(x,0); g.lineTo(x,cv.height); g.stroke(); }
@@ -2520,10 +2525,55 @@ function fmtPreview(){
       g.moveTo(x2,y); g.lineTo(x,y2); g.stroke();
     }
   } else if (GRID_STYLE==='dots'){
-    g.fillStyle='rgba(255,255,255,0.8)';
+    const dr=Math.max(dpr*1.1, g.lineWidth*1.5);
     for (let y=step; y<cv.height-1; y+=step) for (let x=step; x<cv.width-1; x+=step){
-      g.beginPath(); g.arc(x,y,dpr*1.1,0,6.2832); g.fill(); }
+      g.beginPath(); g.arc(x,y,dr,0,6.2832); g.fill(); }
   }
+  if (GRID_SUB){
+    g.globalAlpha=GRID_OP*0.55;
+    const ss=step/2;
+    if (GRID_STYLE==='dots'){
+      const dr2=Math.max(dpr*0.8, g.lineWidth);
+      for (let yi=1; yi*ss<cv.height-1; yi++) for (let xi=1; xi*ss<cv.width-1; xi++){
+        if (yi%2===0 && xi%2===0) continue;
+        g.beginPath(); g.arc(xi*ss, yi*ss, dr2, 0, 6.2832); g.fill();
+      }
+    } else {
+      const lw0=g.lineWidth; g.lineWidth=Math.max(0.6, lw0*0.6);
+      for (let x=ss; x<cv.width-1; x+=step){
+        g.beginPath(); g.moveTo(x,0); g.lineTo(x,cv.height); g.stroke(); }
+      for (let y=ss; y<cv.height-1; y+=step){
+        g.beginPath(); g.moveTo(0,y); g.lineTo(cv.width,y); g.stroke(); }
+      g.lineWidth=lw0;
+    }
+    g.globalAlpha=GRID_OP;
+  }
+  if (GRID_LAB){
+    const symC=i=> GRID_LSCH[0]==='L' ? colName(i) : String(i+1);
+    const symR=j=> GRID_LSCH[1]==='L' ? colName(j) : String(j+1);
+    const cols=Math.ceil(cv.width/step-1e-6), rows=Math.ceil(cv.height/step-1e-6);
+    if (GRID_LPOS==='cell' && step>=22){
+      const fs=Math.max(8, Math.min(step*0.2, 14*dpr));
+      const dodge = GRID_STYLE==='diag' || GRID_SUB;
+      const fx = GRID_SUB ? 0.25 : 0.5;
+      g.font=fs+'px system-ui';
+      g.textAlign = dodge ? 'center' : 'left';
+      g.textBaseline='top';
+      for (let ry=0;ry<rows;ry++) for (let cx=0;cx<cols;cx++)
+        g.fillText(symC(cx)+symR(ry),
+          cx*step + (dodge ? step*fx : fs*0.35), ry*step + fs*0.3);
+    } else if (GRID_LPOS==='edge'){
+      // the crop fills the canvas, so the margin row hugs the inside edges
+      const fs=Math.max(8, Math.min(step*0.16, 12*dpr));
+      g.font='600 '+fs+'px system-ui';
+      g.textAlign='center'; g.textBaseline='middle';
+      for (let cx=0;cx<cols;cx++)
+        g.fillText(symC(cx), (cx+0.5)*step, fs*0.8);
+      for (let ry=0;ry<rows;ry++)
+        g.fillText(symR(ry), fs*0.8, (ry+0.5)*step);
+    }
+  }
+  g.restore();
 }
 // drag the preview to slide the crop window around the photo; pinch (or a
 // mouse wheel) to zoom the crop tighter - no need to open the editor
