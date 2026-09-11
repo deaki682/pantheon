@@ -350,14 +350,30 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
 #a11yDone{border-radius:999px;padding:8px 22px}
 /* chrome scale: Medium/Large set the one factor every control's base
    rule multiplies by; Small is exactly 1 */
-html.uiM{--ux:1.18}
-html.uiL{--ux:1.38}
+html{--ub:1;--tb:1;--ux:calc(var(--ub)*var(--tb))}
+html.uiM{--ub:1.18}
+html.uiL{--ub:1.38}
 html.uiM body,html.uiL body{font-size:calc(14px*var(--ux))}
 html.uiM #layerCol .vBtn{padding-top:21px;padding-bottom:21px}
 html.uiL #layerCol .vBtn{padding-top:15px;padding-bottom:15px}
 html.uiM #hudToggle.lit{padding:0 12px}
 html.uiL #hudToggle.lit{padding:0 9px}
-@media (max-width:390px){ html.uiL{--ux:1.26} }
+/* tablet-class screens (and larger): the chrome buttons take the size
+   and shape of home-screen app icons - 76pt squircles - and everything
+   inside them scales to fit; the rest of the controls ride the same
+   multiplier so the whole UI keeps one density */
+@media (min-width:600px) and (min-height:600px){
+  html{--tb:1.727}
+  body{font-size:calc(14px*var(--ux))}
+  #backBtn,#hudToggle,#detBtn,#underBtn,#gridBtn,#compareBtn,#expBtn,
+  #setBtn,#gmDesign,#gmDesign2,#gmDesign3,#circBtn,#dlBtn{
+    border-radius:calc(17px*var(--ub))}
+  #expBtn svg,#compareBtn svg,#underBtn svg,#camCorner svg{
+    width:calc(20px*var(--tb));height:calc(20px*var(--tb))}
+  #setBtn svg{max-width:none;width:calc(22px*var(--tb));height:calc(22px*var(--tb))}
+  #gearBtn svg{width:calc(22px*var(--tb));height:calc(22px*var(--tb))}
+}
+@media (max-width:390px){ html.uiL{--ub:1.26} }
 /* high contrast: black surfaces, bright borders and text */
 html.hc button,html.hc select,html.hc input{
   border-color:#bbb;color:#fff;background:#000}
@@ -685,7 +701,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v366</span>
+    <span id="verNum">v367</span>
   </div>
 </div>
 <div id="delModal">
@@ -5089,22 +5105,24 @@ function drawMini(){
 }
 function drawMini1(id, force){
   const c=$(id); if (!c) return;
-  const g=c.getContext('2d'), S2=c.width;
+  const want=Math.round((c.clientWidth||0)*(devicePixelRatio||1));
+  if (want>64 && c.width!==want){ c.width=want; c.height=want; }
+  const g=c.getContext('2d'), S2=c.width, mk=S2/64;
   g.clearRect(0,0,S2,S2);
   let col = force || (GRID_COL==='auto' ? '#e8e6e1' : GRID_COL);
   // a near-black grid vanishes on the dark button: give it a light chip
   const m=/^#(..)(..)(..)$/.exec(col);
   if (!force && m && (parseInt(m[1],16)*3+parseInt(m[2],16)*6+parseInt(m[3],16))<540){
     g.fillStyle='rgba(232,230,225,.88)';
-    g.beginPath(); g.roundRect(2,2,S2-4,S2-4,10); g.fill();
+    g.beginPath(); g.roundRect(2*mk,2*mk,S2-4*mk,S2-4*mk,10*mk); g.fill();
   }
-  const pad=13, n=1, span=S2-pad*2, cell=span/n;
-  const lw = GRID_THK===1 ? 1.5 : GRID_THK===2 ? 3 : 4.5;
+  const pad=13*mk, n=1, span=S2-pad*2, cell=span/n;
+  const lw = (GRID_THK===1 ? 1.5 : GRID_THK===2 ? 3 : 4.5)*mk;
   g.strokeStyle=col; g.fillStyle=col; g.lineWidth=lw; g.globalAlpha=.95;
   if (GRID_STYLE==='dots'){
     for (let i=0;i<=n;i++) for (let j=0;j<=n;j++){
       g.beginPath();
-      g.arc(pad+i*cell, pad+j*cell, Math.max(2.2,lw*0.9), 0, 6.2832); g.fill();
+      g.arc(pad+i*cell, pad+j*cell, Math.max(2.2*mk,lw*0.9), 0, 6.2832); g.fill();
     }
   } else {
     g.strokeRect(pad+.5,pad+.5,span-1,span-1);
@@ -5114,7 +5132,7 @@ function drawMini1(id, force){
       g.moveTo(pad,pad+i*cell); g.lineTo(pad+span,pad+i*cell); g.stroke();
     }
     if (GRID_STYLE==='diag'){
-      g.globalAlpha=.55; g.lineWidth=Math.max(1,lw*0.7);
+      g.globalAlpha=.55; g.lineWidth=Math.max(mk,lw*0.7);
       for (let j=0;j<n;j++) for (let i=0;i<n;i++){
         const ax=pad+i*cell, ay=pad+j*cell;
         g.beginPath(); g.moveTo(ax,ay); g.lineTo(ax+cell,ay+cell);
@@ -5124,9 +5142,9 @@ function drawMini1(id, force){
     }
   }
   if (GRID_LAB){
-    g.globalAlpha=1; g.font='600 9px system-ui,sans-serif';
+    g.globalAlpha=1; g.font=`600 ${9*mk}px system-ui,sans-serif`;
     g.textAlign='left'; g.textBaseline='top';
-    g.fillText('A1', pad+3, pad+2);
+    g.fillText('A1', pad+3*mk, pad+2*mk);
   }
   g.globalAlpha=1;
 }
