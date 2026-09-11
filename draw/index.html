@@ -793,7 +793,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v381</span>
+    <span id="verNum">v382</span>
   </div>
 </div>
 <div id="delModal">
@@ -2437,14 +2437,15 @@ try{
     }).catch(()=>{});
 }catch(e){}
 addEventListener('appinstalled', ()=>gcPing('/install'));
-// the review ask: the page keeps a clock of real drawing time (screen on,
-// page visible) and asks the shell for the OS review prompt the first time
-// the artist steps back to the gallery past two hours - then once more
-// past twenty, in case the OS swallowed the first (it decides, silently)
+// the review ask: the page keeps a clock of real time in the app (any
+// screen, page visible) and asks the shell for the OS review prompt the
+// first time the artist steps back to the gallery past two hours - then
+// once more past twenty, in case the OS swallowed the first (it decides,
+// silently)
 let DRAW_SEC=0; try{ DRAW_SEC=+localStorage.getItem('drawSec')||0; }catch(e){}
 setInterval(()=>{
   try{
-    if (document.hidden || !$('scrMain').classList.contains('on')) return;
+    if (document.hidden) return;
     DRAW_SEC+=15; localStorage.setItem('drawSec', ''+DRAW_SEC);
   }catch(e){}
 }, 15000);
