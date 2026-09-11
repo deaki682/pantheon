@@ -338,8 +338,10 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
 #gsdStage{position:relative}
 #gsdCv{display:block;width:100%;height:auto;background:#141414;
   border-radius:10px;touch-action:none}
-#gsdPrev{position:absolute;top:calc(100% + 8px);right:0;
-  padding:7px 16px;border-radius:999px;font-size:13px}
+#gsdPrev{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  padding:7px 16px;border-radius:999px;font-size:13px;
+  background:rgba(30,30,30,.4);
+  -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px)}
 .gsdRow{display:flex;justify-content:center;align-items:center;gap:12px}
 #gsdRow1{margin-top:16px}
 #gsdRow2{margin-top:12px;position:relative}
@@ -628,7 +630,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v352</span>
+    <span id="verNum">v353</span>
   </div>
 </div>
 <div id="delModal">
