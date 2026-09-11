@@ -581,8 +581,9 @@ class MainActivity : AppCompatActivity() {
             else FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.WRAP_CONTENT)
         if (land) {
-            alp.gravity = android.view.Gravity.CENTER_HORIZONTAL
-            alp.bottomMargin = dp(6)
+            // weighted to the left, not centred (operator directive 2026-09-11)
+            alp.gravity = android.view.Gravity.START
+            alp.leftMargin = dp(8); alp.bottomMargin = dp(6)
             adv.background = android.graphics.drawable.GradientDrawable().apply {
                 setColor(adLift(adBgCol)); cornerRadius = dp(14).toFloat()
             }

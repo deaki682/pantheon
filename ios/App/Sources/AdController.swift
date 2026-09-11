@@ -47,10 +47,19 @@ final class AdController: NSObject {
         wrap.isHidden = true
         wrap.translatesAutoresizingMaskIntoConstraints = false
         host.view.addSubview(wrap)
+        // portrait: edge to edge. Landscape: a floating card weighted to the
+        // left, 460pt wide, so the page shows through beside it
+        let stripTrail = wrap.trailingAnchor.constraint(equalTo: host.view.trailingAnchor)
+        let stripWide = wrap.widthAnchor.constraint(equalToConstant: 460)
+        let stripLead = wrap.leadingAnchor.constraint(equalTo: host.view.leadingAnchor)
+        let stripLeadIn = wrap.leadingAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.leadingAnchor, constant: 8)
+        let stripBottom = wrap.bottomAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.bottomAnchor)
+        let stripBottomIn = wrap.bottomAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.bottomAnchor, constant: -6)
+        self.stripTrail = stripTrail; self.stripWide = stripWide
+        self.stripLead = stripLead; self.stripLeadIn = stripLeadIn
+        self.stripBottom = stripBottom; self.stripBottomIn = stripBottomIn
         NSLayoutConstraint.activate([
-            wrap.bottomAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.bottomAnchor),
-            wrap.leadingAnchor.constraint(equalTo: host.view.leadingAnchor),
-            wrap.trailingAnchor.constraint(equalTo: host.view.trailingAnchor),
+            stripBottom, stripLead, stripTrail,
             wrap.heightAnchor.constraint(equalToConstant: 76),
         ])
         cornerWrap.isHidden = true
@@ -81,11 +90,21 @@ final class AdController: NSObject {
 
     private var cornerTrail: NSLayoutConstraint?
     private var cornerLead: NSLayoutConstraint?
+    private var stripTrail: NSLayoutConstraint?
+    private var stripWide: NSLayoutConstraint?
+    private var stripLead: NSLayoutConstraint?
+    private var stripLeadIn: NSLayoutConstraint?
+    private var stripBottom: NSLayoutConstraint?
+    private var stripBottomIn: NSLayoutConstraint?
     @objc private func orientationChanged() {
         guard let v = host?.view else { return }
         let land = v.bounds.width > v.bounds.height
         cornerTrail?.isActive = !land
         cornerLead?.isActive = land
+        stripTrail?.isActive = !land; stripLead?.isActive = !land; stripBottom?.isActive = !land
+        stripWide?.isActive = land; stripLeadIn?.isActive = land; stripBottomIn?.isActive = land
+        wrap.layer.cornerRadius = land ? 14 : 0
+        wrap.clipsToBounds = land
     }
 
     // the remove-ads purchase: the slot collapses and the stack never
