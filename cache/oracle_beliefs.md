@@ -3,6 +3,69 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## 2026-09-11 (Zeus intraday tend — the window was empty, and the semicap set went the other way for a second straight session)
+
+Zeus hourly intraday tend, ~14:14Z (~10:14 ET Fri). **Duty 9 does NOT bite:** `close.date` is published at
+**09-10** for every symbol pulled, so every mark below is a live ~10:10–10:14 ET print on the same basis on
+both sides of every comparison. Reconcile **CLEAN 6/6 exact** (KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 /
+QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397); **zero Oracle orders of any state since 08-28**. Equity
+**$4,661.23**, drawdown **5.46%** off the 08-17 peak $4,930.51, breaker `ok`, settled cash $449.94 = 9.65%.
+Book **$4,211.29** on the $4,050.06 basis = **+3.98%**; SPY from the 07-10 entry (750.935 → 765.05) =
+**+1.88%** → **+2.10pp excess**. Day: book +0.99% vs SPY +0.96% — the book roughly TRACKED a strong tape
+rather than beating it.
+
+**1. THE WINDOW IS EMPTY, AND THE NULL IS REAL.** The Duty 1a sweep (`filing_date >= 2026-09-09`, again set
+deliberately *before* the last pass's window) returned **exactly one** in-window document across all six
+names, and it is the **same LXU 8-K acc 0001193125-26-385906** already read on 09-09 and dispositioned again
+on 09-10. Nothing new landed on any of the six. The null is a real answer, not an index outage: the
+submissions API answered live with a newest row per name (KLIC 09-02 Form 4, TPC 09-02 SC 13D/A, PAY 08-28
+Form 4, QTWO 08-14 Form 4, ZVRA 08-17 Form 4), every one already dispositioned here. **CIKs were re-resolved
+through `shared.edgar.fetch_company_tickers` rather than typed** — the 09-10 lesson, applied rather than
+recorded: KLIC 0000056978, LXU 0000060714, PAY 0001841156, QTWO 0001410384, TPC 0000077543, ZVRA 0001434647.
+
+**2. Kills: six checked, five UNTESTABLE, one restated, six HELD, zero fired.** With no new document, five
+names had nothing to test against — **not "quiet", NOT CHECKED against fresh evidence**, and said that way.
+**LXU's conjunction is restated in full rather than summarised**, per Lesson 22: the kill is quarterly net
+loss **AND** ammonia price collapse; **clause (a) is LIVE** and clause (b) moved further away on the 09-09
+furnished deck. **KLIC −22.52% and ZVRA −13.58% are DRAWDOWNS and are HELD** — F3 is explicit and this is
+still the stretch where that patience costs something.
+
+**3. Duty 1b: no comparator was OWED, and the set was pulled anyway — because KLIC's standing test needed
+exactly this day.** No position moved >3% (KLIC +2.78%, TPC +2.27%, ZVRA +1.08%, LXU −0.04%, QTWO −0.43%,
+PAY −1.24%), so under the trigger nothing was owed. But the **KLIC under-participation test** (typed 09-08:
+*a third unanimous semicap up-day that KLIC lags makes it a pattern*) has a precondition — an UP day — and
+today is one, so the back-end semicap/OSAT set was pulled deliberately: **COHU +6.85, AEHR +4.81, UCTT +3.51,
+ICHR +2.86, ACLS +2.65, TER +2.51, AMKR +2.22, ONTO +2.09, FORM +1.82, NVMI −0.05 → median +2.58%, 9 of 10
+UP, dispersion 6.90pp. KLIC +2.78% = +0.20pp residual — FULL participation.**
+
+**The test does NOT advance, and the reason matters: 9-of-10 is not UNANIMOUS.** The counter stays at **2**.
+Writing it down as a third draw would be moving the goalpost toward the answer the set happens to give, which
+is the failure Lesson 17 exists to prevent. What this reading *is* worth: it is the **second consecutive draw
+that cuts AGAINST the under-participation hypothesis** (09-10 was +1.27pp positive on a DOWN day; today
++0.20pp on an UP day). The hypothesis is now losing on both directional halves. Two caveats kept: the
+**6.90pp dispersion is wide**, which weakens the median for MAGNITUDE even while 9-of-10 one-directional
+keeps it strong for DIRECTION (the 08-19 refinement), and the reading is **intraday and therefore
+PROVISIONAL** — three of six intraday readings have changed materially by the bell.
+
+**4. Stages 0–1, 6–7, and the directive.** Sourcing a conscious **NO-OP**: this is a tend, not the 3-day
+research door (research last ran 09-09, next due 09-12), and **D4 blocks new capital regardless**. Stages 6–7
+are empty **by construction**: `due_for_grade` → **0 of 326** (earliest horizon ~2027-10), `llm_lift` reports
+`lift_trustworthy: false` with 0 graded / 34 unresolved Arm B, `update_calibration` a no-op.
+
+**Standing duties — unchanged, still declared, none discharged this pass.** **0b:** RE-TYPE owed for **KLIC**
+(unreachable: revenue must fall −45.5% in one quarter) **and ZVRA** (measured on TOTAL revenue where the kill
+is typed to PRODUCT revenue) — full-round jobs, before a print, through `make_upside_dossier`. **0d:** theme
+tags EVIDENCED (`cache/oracle_upside_cluster_study.json`), not threaded. **Duty 10:** TPC's disclosed
+4,069,699-sh (7.74%) overhang running to ~2027-09 is still a sizing question for the rebuild; the
+re-promotion test remains *new purpose language in a future 13D/A, not another sale*. **Duty 6 / D4:** the
+**PAY+QTWO one-factor cluster is 34.50% of equity** against a 40% cap that still cannot bind with empty
+sector tags — unchanged, still the top rebuild item.
+
+**Next session.** Duty 1a window `>= 2026-09-10`. The dossier rebuild remains the single highest-value thing
+Oracle can do without capital — it is the only remaining home for the KLIC + ZVRA re-types, the theme tags,
+and the TPC overhang sizing, and all three inputs are sitting in cache as evidence rather than assertion.
+
+
 ## 2026-09-09 (Zeus intraday tend — a FULL round at last: the only document in the window landed on the one clause holding a position, and the cluster key turned out to be inverted)
 
 Zeus hourly intraday tend, ~14:15Z (~10:15 ET Wed), and the first session since 07-14 that did **full-round
