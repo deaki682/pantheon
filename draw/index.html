@@ -793,7 +793,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v378</span>
+    <span id="verNum">v379</span>
   </div>
 </div>
 <div id="delModal">
@@ -1357,7 +1357,7 @@ function bloomIn(){
     clearTimeout(bloomIn._g);
     bloomIn._g=setTimeout(()=>{ try{
       if (!(GRID_READY && $('scrMain').classList.contains('on'))) return;
-      const c=$('gridCv'), r=$('viewport').getBoundingClientRect(), d=devicePixelRatio||1;
+      const c=$('gridCv'), r=vpBox(), d=devicePixelRatio||1;
       if (Math.abs(c.width-Math.round(r.width*d))>1 || Math.abs(c.height-Math.round(r.height*d))>1) applyView();
     }catch(e){} }, 360);
   }catch(e){}
@@ -3841,11 +3841,18 @@ function ovRelease(P){
 }
 const PANS={x:ovState(), y:ovState()};
 let PAN_LIVE=false;
+function vpBox(){
+  // the viewport's LAYOUT box - transforms (the open bloom scales #viewport
+  // to .96) never leak into fits, bakes or clamps; top/left stay screen
+  // coordinates for the callers that anchor to other chrome
+  const v=$('viewport'), r=v.getBoundingClientRect();
+  return { width:v.clientWidth, height:v.clientHeight, top:r.top, left:r.left };
+}
 function clampView(){
   // the reference stays locked to the viewport: no zooming out past fit,
   // no panning a margin into view (short of a deliberate break-through)
   const {w,h} = worldSize();
-  const r = $('viewport').getBoundingClientRect();
+  const r = vpBox();
   if (!w || !h || !r.width || !r.height) return;
   const fit = Math.min(r.width/w, r.height/h);
   // max zoom is life size: one square = one real inch (INCAL calibrates
@@ -3864,7 +3871,7 @@ function zBounds(){
   // zoom-about-a-point translation (translating at an unclamped scale
   // and clamping after flings the view to an edge)
   const {w,h} = worldSize();
-  const r = $('viewport').getBoundingClientRect();
+  const r = vpBox();
   const fit = (w && r.width) ? Math.min(r.width/w, r.height/h) : 0.05;
   return { min: fit, max: Math.max(fit, INCAL*lifeScale()*8) };
 }
@@ -3938,7 +3945,7 @@ function doneCenter(q, step, w, h){
            y: Math.min((q.r+0.5)*step, (q.r*step+h)/2) };
 }
 function drawCircs(){
-  const cv=$('circCv'), r=$('viewport').getBoundingClientRect();
+  const cv=$('circCv'), r=vpBox();
   if (!r.width || !GRID_READY) return;
   const dpr=Math.min(3, devicePixelRatio||1);
   const W2=Math.round(r.width*dpr), H2=Math.round(r.height*dpr);
@@ -3968,7 +3975,7 @@ function drawCircs(){
     paintMark(g, ox+c.x*sc, oy+c.y*sc, circR()*sc, 10*dpr, Math.max(2, 2.2*dpr));
 }
 function drawGrid(){
-  const cvv=$('gridCv'), r=$('viewport').getBoundingClientRect();
+  const cvv=$('gridCv'), r=vpBox();
   if (!r.width || !GRID_READY) return;
   const dpr=Math.min(3, devicePixelRatio||1);
   const W2=Math.round(r.width*dpr), H2=Math.round(r.height*dpr);
@@ -4095,7 +4102,7 @@ function drawGrid(){
 // and clamp smoothly beneath the top chrome, never snapping
 function drawEdgeLabs(){
   const cv=$('edgeCv'); if (!cv) return;
-  const r=$('viewport').getBoundingClientRect();
+  const r=vpBox();
   const on = GRID_LAB && GRID_LPOS==='edge' && GRID_READY && r.width;
   if (!on){
     if (cv.width) cv.getContext('2d').clearRect(0,0,cv.width,cv.height);
@@ -4217,7 +4224,7 @@ function initMain(){
   $('detMenu').style.display='none';
   layerButtons();
   paintWorld();
-  const vp = $('viewport').getBoundingClientRect();
+  const vp = vpBox();
   view.s = Math.max(0.05, Math.min(vp.width/w, vp.height/h) || 0.05);
   view.x = (vp.width - w*view.s)/2; view.y = (vp.height - h*view.s)/2;
   applyView();
