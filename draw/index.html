@@ -793,7 +793,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v375</span>
+    <span id="verNum">v376</span>
   </div>
 </div>
 <div id="delModal">
@@ -1375,13 +1375,14 @@ function adSync(){
     const bg={scrUpload:'#141414',scrFormat:'#141414',
               scrMain:'#2a2a2a',scrCompare:'#2a2a2a'}[on && on.id]||'#141414';
     RealismCam.adPlace(!cam && !splash, bg);
-    // corner-card mode (operator directive 2026-09-11, superseding the
-    // 2026-09-10 strip-everywhere revert): the DRAWING SCREEN swaps the
-    // strip for the intermittent compact corner media card on every device
-    // and orientation - the download corner hosts the card and the button
-    // yields. Every other screen keeps the bottom strip.
+    // ad placement (operator directive 2026-09-11): portrait keeps the
+    // bottom strip on every screen. In LANDSCAPE the drawing screen swaps
+    // it for the intermittent compact corner media card - the download
+    // corner hosts the card and the button yields; the strip has no room on
+    // a short screen. Every other screen keeps the strip in any orientation.
     if (RealismCam.adProj){
-      RealismCam.adProj(!cam && !!(on && on.id==='scrMain'));
+      const land=matchMedia('(orientation: landscape)').matches;
+      RealismCam.adProj(!cam && land && !!(on && on.id==='scrMain'));
     }
   }catch(e){}
 }
