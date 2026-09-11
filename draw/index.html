@@ -833,7 +833,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v396</span>
+    <span id="verNum">v397</span>
   </div>
 </div>
 <div id="delModal">
@@ -6255,16 +6255,26 @@ async function capStash(gid, rec){
 // compare the next time the project is opened, once its key is known
 async function capAdopt(gid, ckey){
   try{
-    if (gid==null || !ckey) return;
+    if (gid==null || !ckey) return false;
     const r=await galGet(gid);
-    if (!r || !r.cap || !r.capAt) return;
+    if (!r || !r.cap || !r.capAt) return false;
     let seen=0; try{ seen=+localStorage.getItem('capk|'+gid)||0; }catch(e){}
-    if (r.capAt<=seen) return;
+    if (r.capAt<=seen) return false;
     const m=r.capMeta||{};
     await dbPutRaw('cmp|'+ckey, { blob:r.cap, framed:!!m.framed,
       corners:m.corners||null, rawW:m.rawW||0, rawH:m.rawH||0, adj:m.adj||{} });
     try{ localStorage.setItem('capk|'+gid, String(r.capAt)); }catch(e){}
     adlog('adopted a synced capture for '+gid);
+    return true;
+  }catch(e){}
+  return false;
+}
+// a photo that lands while you are already looking at the compare screen
+// should appear, not wait for you to leave and come back
+function cmpRefresh(){
+  try{
+    CMP.ckey=null;
+    if ($('scrCompare').classList.contains('on')) $('compareBtn').onclick();
   }catch(e){}
 }
 // A push is debounced rather than immediate: importing three references
@@ -6379,6 +6389,7 @@ async function syncNow(force){
             known.cap=cb; known.capAt=v.capAt; known.capUp=v.capAt;
             known.capMeta=v.capMeta||{};
             touched=true; down++;
+            if (known.id===galActive) setTimeout(cmpRefresh, 60);
           }
         }
         if (touched) await galPut(known);
@@ -7966,10 +7977,13 @@ $('compareBtn').onclick = async () => {
   $('backBtn').textContent='✕';
   CAM.starting=true;
   const camP = camStart();                  // spins up while the save loads
+  // a capture may have arrived from another device since the last visit,
+  // and the ckey is unchanged in that case - so ask before the guard, not
+  // inside it, or a synced photo is invisible until the app restarts
+  if (CKEY && await capAdopt(galActive, CKEY)) CMP.ckey=null;
   if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
     CMP.ckey=CKEY; CMP.img=null; CMP.blob=null; CMP.rawF=null; CMP.baseF=null;
     $('cmpFlip').disabled=true;
-    if (CKEY) await capAdopt(galActive, CKEY);
     const saved=CKEY ? await dbGet('cmp|'+CKEY) : null;
     if (saved && saved.blob && !CMP.blob){  // a fresh capture always wins
       // one path for every save: raw + corners -> crop
