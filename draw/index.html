@@ -567,7 +567,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v333</span>
+    <span id="verNum">v334</span>
   </div>
 </div>
 <div id="delModal">
@@ -3556,7 +3556,7 @@ function drawGrid(){
     const base=Math.max(1, GRID_THK*dpr*0.55);
     // floor at ONE DEVICE PIXEL: anything thinner only antialiases into a
     // faded, uneven line - never let the hairline dip below full strength
-    g.lineWidth=Math.min(base*3, Math.max(1, base*zf/2.5));
+    g.lineWidth=Math.min(base*2.2, Math.max(1, base*zf/3));
   }
   const step=gridStepPx();
   if (GRID_STYLE!=='dots'){
