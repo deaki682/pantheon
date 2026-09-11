@@ -830,7 +830,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v389</span>
+    <span id="verNum">v390</span>
   </div>
 </div>
 <div id="delModal">
@@ -1551,6 +1551,9 @@ async function galAdd(rec){ try{ const d=await gdb(); const id=await new Promise
       localStorage.removeItem(k+id);
   }catch(e){}
   if (id!=null && rec.blob && !rec.seed) shadowMirrorRef(id, rec.blob);
+  // a shot taken here should be on the other device in seconds, not on
+  // its next launch - every path that makes a real reference kicks a push
+  if (id!=null && rec.blob && !rec.seed && !rec.sid) try{ syncSoon(); }catch(e){}
   shadowMeta();
   return id; }catch(e){ return null; } }
 // ---- the native shadow: a second, independent copy of the user's work.
@@ -5994,7 +5997,8 @@ async function accWatch(){
     ACC_USER=u||null;
     try{ localStorage.setItem('acct', u?'1':''); }catch(e){}
     accPaint();
-    if (u) setTimeout(()=>{ syncNow(true).catch(()=>{}); }, 400);
+    if (u) setTimeout(()=>{ syncNow(true).catch(()=>{}); syncListen(true); }, 400);
+    else syncListen(false);
   });
   // a redirect sign-in (popup blocked) lands back here on the next load
   try{ await fb.U.getRedirectResult(fb.auth); }catch(e){}
@@ -6097,6 +6101,16 @@ async function accDelete(){
     if (c.indexOf('recent-login')>=0) accSignOut();
   }
 }
+// Returning to the app is the other moment worth syncing: a listener
+// that was detached in the background cannot have told us anything.
+document.addEventListener('visibilitychange', ()=>{
+  try{
+    if (!ACC_USER) return;
+    if (document.hidden){ syncListen(false); return; }
+    syncListen(true);
+    syncNow(false).catch(()=>{});
+  }catch(e){}
+});
 function accOpen(){
   try{
     const n=nativeShell();
@@ -6167,7 +6181,31 @@ function newSid(){
   try{ if (crypto && crypto.randomUUID) return crypto.randomUUID(); }catch(e){}
   return Date.now().toString(36)+Math.random().toString(36).slice(2,10);
 }
-let SYNC_BUSY=false, SYNC_AT=0;
+let SYNC_BUSY=false, SYNC_AT=0, SYNC_SOON=null, SYNC_OFF=null;
+// A push is debounced rather than immediate: importing three references
+// in a row should be one sync, not three overlapping ones.
+function syncSoon(ms){
+  if (!ACC_USER) return;
+  clearTimeout(SYNC_SOON);
+  SYNC_SOON=setTimeout(()=>{ syncNow(true).catch(()=>{}); }, ms||1500);
+}
+// The other device does not poll. Firestore pushes the new document down
+// a live listener, which is what makes the tablet light up on its own a
+// second or two after the phone finishes uploading. It costs a document
+// read only when something actually changes, and it is detached while the
+// app is in the background so a pocketed phone holds no connection open.
+async function syncListen(on){
+  try{
+    if (SYNC_OFF){ SYNC_OFF(); SYNC_OFF=null; }
+    if (!on || !ACC_USER) return;
+    const fb=await fbLoad(), uid=ACC_USER.uid;
+    SYNC_OFF=fb.F.onSnapshot(fb.F.collection(fb.db,'users',uid,'refs'), snap=>{
+      // the first callback is just the current state; later ones are news
+      if (snap.metadata && snap.metadata.fromCache) return;
+      syncSoon(600);
+    }, ()=>{});
+  }catch(e){}
+}
 function syncSay(m){ accSay(m); }
 async function syncNow(force){
   if (!ACC_USER || SYNC_BUSY) return;
