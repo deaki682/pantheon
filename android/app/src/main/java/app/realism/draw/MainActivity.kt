@@ -1034,14 +1034,51 @@ class MainActivity : AppCompatActivity() {
             when (c) {
                 12501 -> js("window.__authFail && __authFail('')")      // cancelled
                 7 -> authFail("no connection")
-                10 -> authFail("This app's signing certificate is not registered " +
-                               "with the Firebase project (DEVELOPER_ERROR 10).")
+                10 -> {
+                    val mine = selfSha1()
+                    logLine("auth: THIS BUILD IS SIGNED WITH SHA-1 " + mine)
+                    authFail("This build is signed with SHA-1 " + mine +
+                             " and that fingerprint is not on the project's " +
+                             "Android OAuth client (DEVELOPER_ERROR 10).")
+                }
                 else -> authFail("sign-in failed (code " + c + ")")
             }
         } catch (e: Throwable) {
             logLine("auth: legacy " + e.javaClass.simpleName + " " + (e.message ?: ""))
             authFail("sign-in failed")
         }
+    }
+
+    // The one fact no console can tell us: which certificate actually
+    // signed the build that is running right now. Google matches package
+    // plus this fingerprint, so if it does not appear in the project's
+    // Android OAuth client, DEVELOPER_ERROR is the guaranteed result.
+    private fun selfSha1(): String {
+        return try {
+            val pm = packageManager
+            val sigs: Array<android.content.pm.Signature> =
+                if (android.os.Build.VERSION.SDK_INT >= 28) {
+                    val info = pm.getPackageInfo(packageName,
+                        android.content.pm.PackageManager.GET_SIGNING_CERTIFICATES)
+                    val si = info.signingInfo
+                    if (si == null) emptyArray()
+                    else if (si.hasMultipleSigners()) si.apkContentsSigners
+                    else si.signingCertificateHistory
+                } else {
+                    @Suppress("DEPRECATION")
+                    pm.getPackageInfo(packageName,
+                        android.content.pm.PackageManager.GET_SIGNATURES).signatures
+                        ?: emptyArray()
+                }
+            if (sigs.isEmpty()) return "none"
+            val md = java.security.MessageDigest.getInstance("SHA-1")
+            sigs.joinToString(" / ") { sg ->
+                md.reset()
+                md.digest(sg.toByteArray()).joinToString(":") {
+                    String.format("%02X", it)
+                }
+            }
+        } catch (e: Throwable) { "unreadable (" + (e.message ?: "") + ")" }
     }
 
     private fun startLegacySignIn() {
