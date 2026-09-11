@@ -583,49 +583,26 @@ class MainActivity : AppCompatActivity() {
         head.ellipsize = android.text.TextUtils.TruncateAt.END
         head.text = ad.headline ?: ""
         val card = android.widget.LinearLayout(this)
-        val cw: Int; val ch: Int
-        var cta: TextView? = null
-        if (land) {
-            // landscape: the smallest video-eligible card there is - the media
-            // square with one line of badge + headline beneath, 132 x 150dp
-            card.orientation = android.widget.LinearLayout.VERTICAL
-            card.setPadding(dp(6), dp(6), dp(6), dp(4))
-            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(120), dp(120)))
-            val row = android.widget.LinearLayout(this)
-            row.orientation = android.widget.LinearLayout.HORIZONTAL
-            row.gravity = android.view.Gravity.CENTER_VERTICAL
-            row.addView(badge)
-            head.textSize = 10.5f; head.maxLines = 1
-            head.setPadding(dp(5), 0, 0, 0)
-            row.addView(head, android.widget.LinearLayout.LayoutParams(
-                0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
-            val rlp = android.widget.LinearLayout.LayoutParams(dp(120), dp(18))
-            rlp.topMargin = dp(2)
-            card.addView(row, rlp)
-            cw = dp(132); ch = dp(150)
-        } else {
-            // portrait: media left, badge + headline + CTA in a fixed column
-            card.orientation = android.widget.LinearLayout.HORIZONTAL
-            card.setPadding(dp(6), dp(6), dp(6), dp(6))
-            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(120), dp(120)))
-            val col = android.widget.LinearLayout(this)
-            col.orientation = android.widget.LinearLayout.VERTICAL
-            col.setPadding(dp(8), 0, 0, 0)
-            val badgeWrap = android.widget.LinearLayout(this)
-            badgeWrap.addView(badge)
-            col.addView(badgeWrap)
-            head.textSize = 11.5f; head.maxLines = 3
-            head.setPadding(dp(2), dp(2), dp(2), dp(4))
-            col.addView(head, android.widget.LinearLayout.LayoutParams(
-                android.widget.LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f))
-            val c = adCta(ad, ::dp, 10)
-            col.addView(c, android.widget.LinearLayout.LayoutParams(
-                android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
-                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
-            cta = c
-            card.addView(col, android.widget.LinearLayout.LayoutParams(dp(112), dp(120)))
-            cw = dp(244); ch = dp(132)
-        }
+        // the smallest video-eligible card there is, every orientation and
+        // device: the 120dp media square with one line of badge + headline
+        // beneath it - 132 x 150dp, no CTA (a video ad still clicks through
+        // its media and headline)
+        card.orientation = android.widget.LinearLayout.VERTICAL
+        card.setPadding(dp(6), dp(6), dp(6), dp(4))
+        card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(120), dp(120)))
+        val row = android.widget.LinearLayout(this)
+        row.orientation = android.widget.LinearLayout.HORIZONTAL
+        row.gravity = android.view.Gravity.CENTER_VERTICAL
+        row.addView(badge)
+        head.textSize = 10.5f; head.maxLines = 1
+        head.setPadding(dp(5), 0, 0, 0)
+        row.addView(head, android.widget.LinearLayout.LayoutParams(
+            0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+        val rlp = android.widget.LinearLayout.LayoutParams(dp(120), dp(18))
+        rlp.topMargin = dp(2)
+        card.addView(row, rlp)
+        val cw = dp(132); val ch = dp(150)
+        val cta: TextView? = null
         // fixed at every level so nothing the SDK does inside can widen it
         val CW = cw; val CH = ch
         adv.addView(card, FrameLayout.LayoutParams(CW, CH))
@@ -1336,16 +1313,12 @@ class MainActivity : AppCompatActivity() {
             ?: @Suppress("DEPRECATION") windowManager.defaultDisplay.rotation
     private fun colW() = ((if (resources.configuration.smallestScreenWidthDp >= 600) 76 else 44) * adUx).toInt()
     // the card grows out of the download button's corner: top-right in
-    // portrait, top-LEFT in landscape (where the button column moved)
-    private fun adCornerParams(): FrameLayout.LayoutParams {
-        val m = (8 * resources.displayMetrics.density).toInt()
-        val clp = FrameLayout.LayoutParams(
+    // portrait, top-LEFT in landscape (where the button column moved) -
+    // flush with the corner, so the middle of the screen keeps every pixel
+    private fun adCornerParams(): FrameLayout.LayoutParams =
+        FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
             android.view.Gravity.TOP or (if (adLand()) android.view.Gravity.START else android.view.Gravity.END))
-        clp.topMargin = m
-        if (adLand()) clp.leftMargin = m else clp.rightMargin = m
-        return clp
-    }
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
         super.onConfigurationChanged(newConfig)
         // rotation does not recreate the activity (configChanges) - re-lay

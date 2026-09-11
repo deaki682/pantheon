@@ -512,12 +512,8 @@ body.uiHid #gridMenu{opacity:0;visibility:hidden}
 body.uiHid #expCorner{transform:translateY(-190%)}
 #expCorner{transition:opacity .25s, transform 0.2s cubic-bezier(.3,0,.2,1)}
 html.adCorner #expCorner{opacity:0;pointer-events:none}
-/* while the wide corner card is up, the gear glides left just far enough
-   to sit beside it (244px card + 8px margins), and glides home after */
+/* the compact corner card (132px) leaves the centred gear room: no glide */
 #setCorner{transition:transform .35s cubic-bezier(.2,0,0,1)}
-html.adCorner #setCorner{
-  transform:translateX(-50%) translateX(min(0px, calc(50vw - 282px)))}
-html.adCorner body.uiHid #setCorner{transform:translate(-50%,-190%)}
 body.uiHid #setCorner{transform:translate(-50%,-190%)}
 body.uiHid #backBtn{transform:translateY(-190%)}
 /* first-visit coach marks: a darkened veil with one floating line */
@@ -797,7 +793,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v374</span>
+    <span id="verNum">v375</span>
   </div>
 </div>
 <div id="delModal">
@@ -1381,14 +1377,11 @@ function adSync(){
     RealismCam.adPlace(!cam && !splash, bg);
     // corner-card mode (operator directive 2026-09-11, superseding the
     // 2026-09-10 strip-everywhere revert): the DRAWING SCREEN swaps the
-    // strip for the intermittent corner media card whenever the screen is
-    // landscape or tablet-class - the download corner hosts the card and
-    // the button yields. Every other screen keeps the bottom strip, phone
-    // landscape included. Portrait phones stay strip-only everywhere.
+    // strip for the intermittent compact corner media card on every device
+    // and orientation - the download corner hosts the card and the button
+    // yields. Every other screen keeps the bottom strip.
     if (RealismCam.adProj){
-      const land=matchMedia('(orientation: landscape)').matches;
-      const tab=matchMedia('(min-width:600px) and (min-height:600px)').matches;
-      RealismCam.adProj(!cam && !!(on && on.id==='scrMain') && (land || tab));
+      RealismCam.adProj(!cam && !!(on && on.id==='scrMain'));
     }
   }catch(e){}
 }

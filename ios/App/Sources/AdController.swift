@@ -58,11 +58,11 @@ final class AdController: NSObject {
         host.view.addSubview(cornerWrap)
         // the card grows out of the download button's corner: top-right in
         // portrait, top-left in landscape (where the page moves that button)
-        let trail = cornerWrap.trailingAnchor.constraint(equalTo: host.view.trailingAnchor, constant: -8)
-        let lead = cornerWrap.leadingAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.leadingAnchor, constant: 8)
+        let trail = cornerWrap.trailingAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.trailingAnchor)
+        let lead = cornerWrap.leadingAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.leadingAnchor)
         cornerTrail = trail; cornerLead = lead
         NSLayoutConstraint.activate([
-            cornerWrap.topAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            cornerWrap.topAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.topAnchor),
             trail,
         ])
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged),
@@ -314,39 +314,24 @@ final class AdController: NSObject {
         head.text = ad.headline ?? ""
         head.translatesAutoresizingMaskIntoConstraints = false
 
-        let cta = UILabel()
-        cta.font = .systemFont(ofSize: 12)
-        cta.textColor = UIColor(red: 0x14/255.0, green: 0x14/255.0, blue: 0x14/255.0, alpha: 1)
-        cta.textAlignment = .center
-        cta.backgroundColor = accCol
-        cta.layer.cornerRadius = 14
-        cta.clipsToBounds = true
-        cta.text = ad.callToAction ?? "Open"
-        cta.translatesAutoresizingMaskIntoConstraints = false
-
         adv.addSubview(media); adv.addSubview(badge); adv.addSubview(head)
-        adv.addSubview(cta)
         NSLayoutConstraint.activate([
-            media.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 10),
-            media.centerYAnchor.constraint(equalTo: adv.centerYAnchor),
-            media.widthAnchor.constraint(equalToConstant: 40),
-            media.heightAnchor.constraint(equalToConstant: 40),
-            badge.leadingAnchor.constraint(equalTo: media.trailingAnchor, constant: 10),
-            badge.topAnchor.constraint(equalTo: adv.topAnchor, constant: 8),
+            adv.widthAnchor.constraint(equalToConstant: 132),
+            adv.heightAnchor.constraint(equalToConstant: 150),
+            media.topAnchor.constraint(equalTo: adv.topAnchor, constant: 6),
+            media.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 6),
+            media.widthAnchor.constraint(equalToConstant: 120),
+            media.heightAnchor.constraint(equalToConstant: 120),
+            badge.leadingAnchor.constraint(equalTo: media.leadingAnchor),
+            badge.topAnchor.constraint(equalTo: media.bottomAnchor, constant: 5),
             badge.widthAnchor.constraint(equalToConstant: 22),
             badge.heightAnchor.constraint(equalToConstant: 13),
-            head.leadingAnchor.constraint(equalTo: media.trailingAnchor, constant: 10),
-            head.trailingAnchor.constraint(lessThanOrEqualTo: cta.leadingAnchor, constant: -10),
-            head.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 2),
-            cta.trailingAnchor.constraint(equalTo: adv.trailingAnchor, constant: -10),
-            cta.centerYAnchor.constraint(equalTo: adv.centerYAnchor),
-            cta.heightAnchor.constraint(equalToConstant: 28),
-            cta.widthAnchor.constraint(greaterThanOrEqualToConstant: 64),
+            head.leadingAnchor.constraint(equalTo: badge.trailingAnchor, constant: 5),
+            head.trailingAnchor.constraint(equalTo: media.trailingAnchor),
+            head.centerYAnchor.constraint(equalTo: badge.centerYAnchor),
         ])
-
         adv.mediaView = media
         adv.headlineView = head
-        adv.callToActionView = cta
         adv.nativeAd = ad
         badgeV = badge
         ctaV = cta
@@ -362,9 +347,10 @@ final class AdController: NSObject {
         viewMode = "strip"
     }
 
-    // the corner card: 120x120 media (video-eligible), Ad badge over the
-    // media, two-line headline, full-width CTA, collapse pill BELOW the ad
-    // view so its tap never counts as an ad click
+    // the corner card: the smallest video-eligible card there is - the
+    // 120x120 media square with one line of Ad badge + headline beneath
+    // (132 x 150pt, no CTA); the collapse pill sits outside the ad view so
+    // its tap never counts as an ad click
     private func buildCorner(_ ad: NativeAd) {
         cornerWrap.subviews.forEach { $0.removeFromSuperview() }
 
@@ -398,8 +384,9 @@ final class AdController: NSObject {
         badge.translatesAutoresizingMaskIntoConstraints = false
 
         let head = UILabel()
-        head.font = .systemFont(ofSize: 11.5)
-        head.numberOfLines = 2
+        head.font = .systemFont(ofSize: 10.5)
+        head.numberOfLines = 1
+        head.lineBreakMode = .byTruncatingTail
         head.textColor = UIColor(red: 0xE8/255.0, green: 0xE6/255.0, blue: 0xE1/255.0, alpha: 1)
         head.text = ad.headline ?? ""
         head.translatesAutoresizingMaskIntoConstraints = false
@@ -467,7 +454,7 @@ final class AdController: NSObject {
             close.heightAnchor.constraint(equalToConstant: 26),
         ])
         badgeV = badge
-        ctaV = cta
+        ctaV = nil
         cardV = adv
         viewMode = "corner"
     }
