@@ -11,8 +11,8 @@ android {
     applicationId "app.realism.draw"
     minSdk 26
     targetSdk 36
-    versionCode 218
-    versionName "0.9.184"
+    versionCode 219
+    versionName "0.9.185"
   }
   // the web app IS the app: the android module serves ../draw verbatim
   sourceSets.main.assets.srcDirs += rootProject.file('../draw')
@@ -71,6 +71,10 @@ dependencies {
   implementation 'androidx.credentials:credentials:1.3.0'
   implementation 'androidx.credentials:credentials-play-services-auth:1.3.0'
   implementation 'com.google.android.libraries.identity.googleid:googleid:1.1.1'
+  // the older Google Sign-In: kept as the fallback because it reports a
+  // real status code (10 = the app's certificate is not registered) where
+  // Credential Manager only ever says "no credentials available"
+  implementation 'com.google.android.gms:play-services-auth:21.2.0'
   implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
   // the ads SDK drags in guava's EMPTY listenablefuture stub, which would
   // shadow the one real class CameraX compiles against - force the real

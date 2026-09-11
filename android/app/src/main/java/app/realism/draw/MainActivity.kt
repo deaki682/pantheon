@@ -1009,6 +1009,64 @@ class MainActivity : AppCompatActivity() {
     // through Credential Manager - the same one-tap sheet every other app
     // uses - and hands the resulting ID token to the page, which turns it
     // into a Firebase credential. The token is the only thing that crosses.
+    // The legacy picker runs as an activity, so its result lands here. It
+    // is registered as a property so it exists before onCreate returns,
+    // which the result API requires.
+    private val gsiLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) { r ->
+        signingIn = false
+        try {
+            val acc = com.google.android.gms.auth.api.signin.GoogleSignIn
+                .getSignedInAccountFromIntent(r.data)
+                .getResult(com.google.android.gms.common.api.ApiException::class.java)
+            val tok = acc?.idToken
+            if (tok.isNullOrEmpty()) {
+                logLine("auth: legacy returned no id token")
+                authFail("Google returned no token")
+            } else {
+                logLine("auth: legacy id token ok")
+                js("window.__authToken && __authToken('google', " +
+                   org.json.JSONObject.quote(tok) + ")")
+            }
+        } catch (e: com.google.android.gms.common.api.ApiException) {
+            val c = e.statusCode
+            logLine("auth: legacy ApiException status=" + c + " " + (e.message ?: ""))
+            when (c) {
+                12501 -> js("window.__authFail && __authFail('')")      // cancelled
+                7 -> authFail("no connection")
+                10 -> authFail("This app's signing certificate is not registered " +
+                               "with the Firebase project (DEVELOPER_ERROR 10).")
+                else -> authFail("sign-in failed (code " + c + ")")
+            }
+        } catch (e: Throwable) {
+            logLine("auth: legacy " + e.javaClass.simpleName + " " + (e.message ?: ""))
+            authFail("sign-in failed")
+        }
+    }
+
+    private fun startLegacySignIn() {
+        try {
+            val gso = com.google.android.gms.auth.api.signin.GoogleSignInOptions.Builder(
+                com.google.android.gms.auth.api.signin.GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(WEB_CLIENT_ID)
+                .requestEmail()
+                .build()
+            val client = com.google.android.gms.auth.api.signin.GoogleSignIn
+                .getClient(this, gso)
+            // always offer the chooser rather than silently reusing a stale pick
+            client.signOut().addOnCompleteListener {
+                try { gsiLauncher.launch(client.signInIntent) }
+                catch (e: Throwable) {
+                    logLine("auth: legacy launch " + (e.message ?: ""))
+                    authFail("sign-in unavailable on this device")
+                }
+            }
+        } catch (e: Throwable) {
+            logLine("auth: legacy setup " + (e.message ?: ""))
+            authFail("sign-in unavailable on this device")
+        }
+    }
+
     private val WEB_CLIENT_ID =
         "1096368575946-8cch1ljb3tl48v9se1fmom3u71ifqkcn.apps.googleusercontent.com"
     private var signingIn = false
@@ -1059,10 +1117,14 @@ class MainActivity : AppCompatActivity() {
                 // to issue one for this app - an unregistered package or a
                 // signing certificate the project does not know. The second
                 // is far likelier on a real phone, so say both.
-                logLine("auth: NoCredential - " + (e.message ?: "").take(200))
-                authFail("Google would not return an account. If you are signed " +
-                         "in on this device, this app's signing certificate is " +
-                         "probably not registered with the project yet.")
+                // Credential Manager says only "no credentials available"
+                // whether the cause is an unregistered certificate, an
+                // account it will not offer, or Play services declining.
+                // The older picker answers the same question with a number.
+                logLine("auth: NoCredential - " + (e.message ?: "").take(160) +
+                        " -> falling back to the legacy picker")
+                signingIn = true
+                startLegacySignIn()
             } catch (e: androidx.credentials.exceptions.GetCredentialProviderConfigurationException) {
                 logLine("auth: provider config - " + (e.message ?: "").take(200))
                 authFail("Google Play services could not start sign-in on this device")
