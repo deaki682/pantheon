@@ -1156,6 +1156,17 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        // WebView vibration varies by OEM even with the permission; the
+        // bridge drives the vibrator directly - single, clean pulses
+        @JavascriptInterface
+        fun haptic(kind: String) {
+            try {
+                val v = getSystemService(android.os.Vibrator::class.java) ?: return
+                val ms = if (kind == "ok") 24L else 10L
+                v.vibrate(android.os.VibrationEffect.createOneShot(ms,
+                    android.os.VibrationEffect.DEFAULT_AMPLITUDE))
+            } catch (e: Exception) {}
+        }
         // the in-app chooser's Downloads option: MediaStore writes make the
         // destination certain, with no system picker round-trip
         @JavascriptInterface

@@ -51,6 +51,9 @@ body{position:fixed;inset:0}
   #gridPanel,#dlPanel,#dlwPanel{animation:popIn var(--motD) var(--motE)}
   #hud,#detMenu,#gridMenu,#underMenu,#gmPal,#gridPal2,#accPal2{animation:menuIn 160ms var(--motE)}
   .screen{transition:padding-bottom .3s var(--motE)}
+  #scrMain{transition:padding-bottom .3s var(--motE), opacity .34s var(--motE)}
+  html.projExpand #scrMain{opacity:0}
+  html.projExpand .screen.in{animation:none}
   button{transition:transform 90ms var(--motE)}
   button:active{transform:scale(.955)}
 }
@@ -407,12 +410,21 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 /* the blur lives on its own scrim at a FIXED radius and the reveal fades
    its opacity - animating the radius itself re-blurs the whole screen
    every frame and drops frames on phones */
-#introScrim{position:absolute;inset:0;background:rgba(18,18,18,0.55);
+#introScrim{position:absolute;inset:0;
+  background:radial-gradient(120% 90% at 50% 40%,
+    rgba(14,14,14,0.62) 35%, rgba(0,0,0,0.85) 100%);
   -webkit-backdrop-filter:blur(8px);
   backdrop-filter:blur(8px);
   will-change:opacity;
   transition:opacity .5s cubic-bezier(.2,0,0,1)}
 #introSplash.go #introScrim{opacity:0}
+#introSplash.on #introMain{animation:wordDiffuse .7s cubic-bezier(.2,0,0,1) both}
+#introSplash.on #introBy{animation:byDiffuse .55s .22s cubic-bezier(.2,0,0,1) both}
+#introSplash.go #introMain,#introSplash.go #introBy{animation:none}
+@keyframes wordDiffuse{from{opacity:0;filter:blur(10px);letter-spacing:.3em}
+  to{opacity:1;filter:blur(0);letter-spacing:.04em}}
+@keyframes byDiffuse{from{opacity:0;filter:blur(6px)}
+  to{opacity:.9;filter:blur(0)}}
 @media (prefers-reduced-motion: no-preference){
   #gallery,#galleryC{transition:transform .6s cubic-bezier(.2,0,0,1)}
 }
@@ -555,7 +567,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v331</span>
+    <span id="verNum">v332</span>
   </div>
 </div>
 <div id="delModal">
@@ -1042,6 +1054,38 @@ window.__backStep=()=>{
     }catch(e){ done(); }
   }, 750);
 })();
+// tapping a prepared thumbnail: the thumbnail itself expands into the
+// project's fitted image while the drawing screen's chrome and layers
+// fade in beneath it - one continuous object from gallery to work
+let PENDING_EXPAND=null;
+function expandFrom(p){
+  try{
+    if (!p || !p.src || !p.r || !p.r.width) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const vp=$('viewport').getBoundingClientRect();
+    if (!vp.width) return;
+    const {w,h}=worldSize();
+    const dst={left:vp.left+view.x, top:vp.top+view.y,
+               width:w*view.s, height:h*view.s};
+    const el=document.createElement('img');
+    el.src=p.src;
+    el.style.cssText='position:fixed;z-index:70;object-fit:cover;'
+      +'border-radius:10px;will-change:transform;pointer-events:none;'
+      +'left:'+p.r.left+'px;top:'+p.r.top+'px;'
+      +'width:'+p.r.width+'px;height:'+p.r.height+'px;'
+      +'transition:all .38s cubic-bezier(.2,0,0,1)';
+    document.body.appendChild(el);
+    document.documentElement.classList.add('projExpand');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      el.style.left=dst.left+'px'; el.style.top=dst.top+'px';
+      el.style.width=dst.width+'px'; el.style.height=dst.height+'px';
+      el.style.borderRadius='0px';
+      document.documentElement.classList.remove('projExpand');
+    }));
+    setTimeout(()=>{ el.style.transition='opacity .2s'; el.style.opacity='0'; }, 400);
+    setTimeout(()=>{ try{ el.remove(); }catch(e){} }, 630);
+  }catch(e){ try{ document.documentElement.classList.remove('projExpand'); }catch(e2){} }
+}
 // every screen carries the bottom ad strip in the native shell, skinned
 // to that screen's own backdrop; the native camera clears it away
 function adSync(){
@@ -1378,11 +1422,19 @@ async function renderGallery(){
       if (galLoading != null) {               // a decode is in flight
         if (galActive === r.id) return;       // this one: let it finish
       } else if (galActive === r.id && photo){  // already open: jump back in
+        try{ const im=d.querySelector('img');
+          PENDING_EXPAND = im ? {r:im.getBoundingClientRect(), src:im.src} : null;
+        }catch(e){ PENDING_EXPAND=null; }
         show(GRID_READY ? 'scrMain' : 'scrFormat');
-        if (GRID_READY) applyView();          // the square may have changed
+        if (GRID_READY){ applyView();         // the square may have changed
+          expandFrom(PENDING_EXPAND); }
+        PENDING_EXPAND=null;
         return;
       }
       haptic();
+      try{ const im=d.querySelector('img');
+        PENDING_EXPAND = im ? {r:im.getBoundingClientRect(), src:im.src} : null;
+      }catch(e){ PENDING_EXPAND=null; }
       if (r.blob && warmOpen(r)) return;      // cooked before: straight in
       if (r.blob) openPhoto(r.blob, r.id);
     };
@@ -1649,6 +1701,7 @@ function warmOpen(r){
     if (my!==OPEN_SEQ) return;
     show('scrMain');
     initMain();
+    expandFrom(PENDING_EXPAND); PENDING_EXPAND=null;
     decodeWarm(r.blob, r.id, my);
   })();
   return true;
@@ -7054,18 +7107,20 @@ let HAPT_GO=false;
 addEventListener('pointerdown', ()=>{ HAPT_GO=true; }, {capture:true, once:true});
 function haptic(){
   if (!HAPT_GO) return;
-  // WKWebView has no Vibration API - the iOS shell bridges to the Taptic
-  // engine instead (UIImpactFeedbackGenerator on the native side)
+  // both shells bridge to the platform's own haptic engine; the Vibration
+  // API is the web fallback only
+  try{ if (window.RealismCam && RealismCam.haptic){ RealismCam.haptic('tick'); return; } }catch(e){}
   try{ if (window.webkit && webkit.messageHandlers && webkit.messageHandlers.haptic){
     webkit.messageHandlers.haptic.postMessage('tick'); return; } }catch(e){}
   if (navigator.vibrate){ try{ navigator.vibrate(10); }catch(e){} return; }
   try{ hapticEl.click(); }catch(e){}
 }
-function hapticOK(){                 // the achievement thud: tick-pause-tick
+function hapticOK(){                 // the achievement thud: ONE firmer tap
   if (!HAPT_GO) return;
+  try{ if (window.RealismCam && RealismCam.haptic){ RealismCam.haptic('ok'); return; } }catch(e){}
   try{ if (window.webkit && webkit.messageHandlers && webkit.messageHandlers.haptic){
     webkit.messageHandlers.haptic.postMessage('ok'); return; } }catch(e){}
-  if (navigator.vibrate){ try{ navigator.vibrate([14,60,22]); }catch(e){} return; }
+  if (navigator.vibrate){ try{ navigator.vibrate(22); }catch(e){} return; }
   try{ hapticEl.click(); }catch(e){}
 }
 document.addEventListener('click', e => {

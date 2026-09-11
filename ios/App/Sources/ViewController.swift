@@ -120,8 +120,10 @@ extension ViewController: WKScriptMessageHandler {
             // WKWebView has no Vibration API; the page routes its two
             // haptic gestures here - light tick, and the success thud
             if (message.body as? String) == "ok" {
-                let g = UINotificationFeedbackGenerator()
-                g.notificationOccurred(.success)
+                // one medium tap: the system success pattern is a double
+                // pulse and reads as stutter
+                let g = UIImpactFeedbackGenerator(style: .medium)
+                g.impactOccurred()
             } else {
                 let g = UIImpactFeedbackGenerator(style: .light)
                 g.impactOccurred()
