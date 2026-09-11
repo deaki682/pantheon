@@ -50,7 +50,8 @@ body{position:fixed;inset:0}
   .screen.in{animation:scrIn2 var(--motD) var(--motE)}
   #gearPanel,#modePanel,#delPanel,#refPanel,#shPanel,#dgPanel,#introPanel,
   #gridPanel,#dlPanel,#dlwPanel{animation:popIn var(--motD) var(--motE)}
-  #hud,#detMenu,#gridMenu,#underMenu,#gmPal,#gridPal2,#accPal2{animation:menuIn 160ms var(--motE)}
+  #hud,#detMenu,#underMenu,#accPal2{animation:menuIn 160ms var(--motE)}
+  #gridMenu{animation:menuInC 160ms var(--motE)}
   .screen{transition:padding-bottom .3s var(--motE)}
   #scrMain{transition:padding-bottom .3s var(--motE)}
   .gitem{transition:transform 120ms var(--motE)}
@@ -63,6 +64,8 @@ body{position:fixed;inset:0}
 @keyframes scrIn2{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @keyframes popIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
 @keyframes menuIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes menuInC{from{opacity:0;transform:translate(-50%,6px)}
+  to{opacity:1;transform:translate(-50%,0)}}
 #slTip{position:fixed;display:none;z-index:44;transform:translate(-50%,0);
   background:#262626;border:1px solid #555;border-radius:8px;
   padding:3px 9px;font-size:12px;color:var(--acc);pointer-events:none}
@@ -620,7 +623,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v348</span>
+    <span id="verNum">v349</span>
   </div>
 </div>
 <div id="delModal">
@@ -3760,10 +3763,14 @@ function drawGrid(){
   const symR=j=> GRID_LSCH[1]==='L' ? colName(j) : String(j+1);
   if (GRID_LAB && GRID_LPOS==='cell' && step*sc>=30){
     // tags in each visible square's corner, sized to the square and
-    // skipped entirely when the squares are too small to read them
+    // skipped entirely when the squares are too small to read them.
+    // With diagonals or sub lines the tag slides along the top edge into
+    // the clear zone so no stroke runs through the text.
     const fs=Math.max(9, Math.min(step*sc*0.2, 22*dpr));
+    const dodge = GRID_STYLE==='diag' || GRID_SUB;
+    const fx = GRID_SUB ? 0.25 : 0.5;
     g.font=fs+'px system-ui';
-    g.textAlign='left';
+    g.textAlign = dodge ? 'center' : 'left';
     g.textBaseline='top';
     g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
     const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
@@ -3771,11 +3778,12 @@ function drawGrid(){
       const y=oy+ry*step*sc+fs*0.3;
       if (y<y0-fs||y>y1) continue;
       for (let cx=0;cx<cols;cx++){
-        const x=ox+cx*step*sc+fs*0.35;
+        const x=ox+cx*step*sc + (dodge ? step*sc*fx : fs*0.35);
         if (x<x0-fs*3||x>x1) continue;
         g.fillText(symC(cx)+symR(ry), x, y);
       }
     }
+    g.textAlign='left';
   }
   g.globalAlpha=1;
   drawEdgeLabs();
@@ -5100,10 +5108,14 @@ function gsdDrawPrev(g, cssW){
   const symC=i=> GRID_LSCH[0]==='L' ? colName(i) : String(i+1);
   const symR=j=> GRID_LSCH[1]==='L' ? colName(j) : String(j+1);
   if (GRID_LAB && GRID_LPOS==='cell' && cell*v.s>=40){
+    const dodge = GRID_STYLE==='diag' || GRID_SUB;
+    const fx = GRID_SUB ? 0.25 : 0.5;
     g.font='600 11px system-ui';
-    g.textAlign='left'; g.textBaseline='top';
+    g.textAlign = dodge ? 'center' : 'left';
+    g.textBaseline='top';
     for (let j=0;j<rows;j++) for (let i=0;i<cols;i++){
-      const x=px(i*cell)+6, y=py(j*cell)+5;
+      const x = dodge ? px((i+fx)*cell) : px(i*cell)+6;
+      const y=py(j*cell)+5;
       if (x<-40||y<-20||x>cssW||y>cssW) continue;
       g.fillText(symC(i)+symR(j), x, y);
     }
@@ -5184,8 +5196,16 @@ function gsdDraw(){
       g.fillText(r3, x0-12, (y0+y1)/2);
     } else {
       g.font='600 12px system-ui';
-      g.textAlign='left'; g.textBaseline='top';
-      g.fillText(c2+r3, x0+7, y0+6);
+      g.textBaseline='top';
+      const dodge = GRID_STYLE==='diag' || GRID_SUB;
+      if (dodge){
+        g.textAlign='center';
+        g.fillText(c2+r3, x0+w*(GRID_SUB?0.25:0.5), y0+6);
+      } else {
+        g.textAlign='left';
+        g.fillText(c2+r3, x0+7, y0+6);
+      }
+      g.textAlign='left';
     }
   }
   g.globalAlpha=1;
