@@ -839,7 +839,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v398</span>
+    <span id="verNum">v399</span>
   </div>
 </div>
 <div id="delModal">
@@ -6237,6 +6237,127 @@ function writeMeta(gid, m){
     for (const k of META_KEYS) if (m[k]!=null) localStorage.setItem(k+'|'+gid, String(m[k]));
   }catch(e){}
 }
+// ---- prefs: the artist's taste travels too (2026-09, Dylan's ask) ----
+// One small doc, `_prefs`, rides in the same refs collection so the
+// existing listener and the existing getDocs pass carry it for free.
+// Per-key last-writer-wins: each key remembers when this device last
+// changed it, and the newer side of each key wins. Deliberately absent:
+// uiScale (a tablet and a phone want different sizes) and every one-time
+// tour/coach flag.
+const PREF_KEYS=['accent','lang','unit','cellSz','gridOn','gridStyle',
+  'gridCol','gridThk','gridOp','gridSub','gridLab','gridLabSch',
+  'gridLabPos','softForm','ttlStop','cmpAdj','dlmode'];
+function prefRead(){
+  const o={};
+  try{ for (const k of PREF_KEYS) o[k]=localStorage.getItem(k); }catch(e){}
+  return o;
+}
+// diff against the last snapshot; a changed key gets stamped "changed now".
+// The very first call only baselines, so signing in on a long-used second
+// device adopts the account's taste instead of clobbering it.
+function prefStamp(){
+  let seen=null; try{ seen=JSON.parse(localStorage.getItem('prefSeen')); }catch(e){}
+  const cur=prefRead();
+  if (!seen){ try{ localStorage.setItem('prefSeen', JSON.stringify(cur)); }catch(e){} return false; }
+  let at={}; try{ at=JSON.parse(localStorage.getItem('prefAt')||'{}')||{}; }catch(e){}
+  let hit=false;
+  for (const k of PREF_KEYS)
+    if (cur[k]!==(seen[k]===undefined?null:seen[k])){ at[k]=Date.now(); hit=true; }
+  if (hit) try{
+    localStorage.setItem('prefAt', JSON.stringify(at));
+    localStorage.setItem('prefSeen', JSON.stringify(cur));
+  }catch(e){}
+  return hit;
+}
+function prefPoke(){ try{ if (prefStamp() && ACC_USER) syncSoon(2000); }catch(e){} }
+// settings change through dozens of small handlers; one debounced,
+// capture-phase net over the whole document is cheaper than wiring each
+let PREF_T=null;
+for (const ev of ['click','change','pointerup'])
+  document.addEventListener(ev, ()=>{
+    if (!ACC_USER) return;
+    clearTimeout(PREF_T); PREF_T=setTimeout(prefPoke, 1200);
+  }, {passive:true, capture:true});
+// a pref that arrived from the other device repaints in place
+function prefApplyLive(ks){
+  try{
+    if (ks.indexOf('accent')>=0){
+      let v='#e8833a';
+      try{ const c=localStorage.getItem('accent'); if (c && /^#[0-9a-f]{6}$/i.test(c)) v=c; }catch(e){}
+      try{ applyAccent(v); }catch(e){}
+    }
+    if (ks.some(k=>k.slice(0,4)==='grid')){
+      try{
+        GRID_ON = localStorage.getItem('gridOn')!=='0';
+        const c=localStorage.getItem('gridCol');
+        GRID_COL = (c==='auto'||/^#[0-9a-f]{6}$/i.test(c||'')) ? c : 'auto';
+        const t=+localStorage.getItem('gridThk'); GRID_THK=(t>=1&&t<=3)?t:1;
+        GRID_LAB = localStorage.getItem('gridLab')==='1';
+        const gsv=localStorage.getItem('gridStyle');
+        GRID_STYLE=(gsv==='diag'||gsv==='dots')?gsv:'sq';
+        const op=+localStorage.getItem('gridOp'); GRID_OP=(op>=0.1&&op<=1)?op:1;
+        GRID_SUB = localStorage.getItem('gridSub')==='2' ? 2 : 0;
+        const ls=localStorage.getItem('gridLabSch');
+        GRID_LSCH=['LN','LL','NL','NN'].indexOf(ls)>=0?ls:'LN';
+        GRID_LPOS = localStorage.getItem('gridLabPos')==='edge' ? 'edge' : 'cell';
+      }catch(e){}
+      try{ applyGrid(); }catch(e){}
+      try{ gridMenuSync(); }catch(e){}
+      try{ gsdSync(); }catch(e){}
+      try{ drawMini(); }catch(e){}
+      try{ if (GRID_READY && $('scrMain').classList.contains('on')) applyView(); }catch(e){}
+    }
+    if (ks.indexOf('cellSz')>=0)
+      try{ const v=JSON.parse(localStorage.getItem('cellSz'));
+        if (v && v.v>0 && (v.u==='in'||v.u==='cm')) CELLSZ=v; }catch(e){}
+    if (ks.indexOf('unit')>=0 || ks.indexOf('cellSz')>=0){
+      try{ $('unitSel2').value=localStorage.getItem('unit')||'in'; }catch(e){}
+      try{ calRefresh(); }catch(e){}
+    }
+    try{ if ($('scrFormat').classList.contains('on')) fmtPreview(); }catch(e){}
+    if (ks.indexOf('ttlStop')>=0) try{ $('ttlChk').checked=ttlOn(); }catch(e){}
+    if (ks.indexOf('softForm')>=0)
+      try{ FORM.cv=null; FORM.key=null; COMP.cv=null; COMP.sig=null;
+        if (GRID_READY && state.img) viewRepaint(); }catch(e){}
+    if (ks.indexOf('dlmode')>=0) try{ window.dlModeSync && dlModeSync(); }catch(e){}
+    // lang applies on the next launch; repainting every string mid-use
+    // would mean a reload under the artist's pencil
+  }catch(e){}
+}
+// merge this device against the `_prefs` doc that came down with the pull
+async function prefPull(fb, col, snap){
+  prefStamp();                    // catch changes the debounce missed
+  const d=snap.docs.find(x=>x.id==='_prefs');
+  const v=(d && d.data())||null;
+  const pv=(v&&v.pv)||{}, pt=(v&&v.pt)||{};
+  let at={}; try{ at=JSON.parse(localStorage.getItem('prefAt')||'{}')||{}; }catch(e){}
+  const cur=prefRead();
+  const applied=[]; let push=!v;  // no doc yet: this device seeds the account
+  for (const k of PREF_KEYS){
+    const lt=at[k]||0, rt=pt[k]||0;
+    if (rt>lt){
+      if (pv[k]!==undefined && pv[k]!==cur[k]){
+        try{ if (pv[k]===null) localStorage.removeItem(k);
+             else localStorage.setItem(k, pv[k]); }catch(e){}
+        cur[k]=pv[k]; applied.push(k);
+      }
+      at[k]=rt;
+    } else if (lt>rt) push=true;
+  }
+  if (push){
+    const now=Date.now(), opv={}, opt={};
+    for (const k of PREF_KEYS){
+      if (cur[k]===null && !(at[k]>0)) continue;   // never-set keys stay unknown
+      // a value nobody deliberately chose seeds with stamp 0, so a real
+      // choice on any device later beats every device's boot defaults
+      opv[k]=cur[k]; opt[k]=at[k]||0;
+    }
+    await fb.F.setDoc(fb.F.doc(col,'_prefs'), { pv:opv, pt:opt, at:fb.F.serverTimestamp() });
+  }
+  try{ localStorage.setItem('prefAt', JSON.stringify(at)); }catch(e){}
+  try{ localStorage.setItem('prefSeen', JSON.stringify(cur)); }catch(e){}
+  if (applied.length){ prefApplyLive(applied); adlog('prefs adopted: '+applied.join(',')); }
+}
 // references whose state changed and owe the account an update
 const SYNC_DIRTY=new Set();
 function syncTouch(gid){
@@ -6394,9 +6515,11 @@ async function syncNow(force){
       return null;
     };
     const snap=await fb.F.getDocs(col);
+    try{ await prefPull(fb, col, snap); }catch(e){}
     const bySid=new Map((await galAll()).filter(r=>r.sid).map(r=>[r.sid,r]));
     let gone=[]; try{ gone=JSON.parse(localStorage.getItem('syncGone')||'[]'); }catch(e){}
     for (const d of snap.docs){
+      if (d.id==='_prefs') continue;             // the taste doc, handled above
       const v=d.data()||{};
       if (v.deleted || gone.indexOf(d.id)>=0) continue;
       const known=bySid.get(d.id);

@@ -24,6 +24,7 @@ Then run any script with `node`. Chromium lives at `/opt/pw-browsers/chromium`.
 | `meta_test.js` | project progress and comparison captures cross devices |
 | `live_test.js` | a capture auto-pushes and a remote change auto-pulls, with timings |
 | `pill_test.js` | the "Sign in to sync" pill sits between the rule and the thumbnails |
+| `prefs_test.js` | settings (accent, grid style, unit…) sync per-key, newest wins, repaint live |
 
 ## The two fake backends
 

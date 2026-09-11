@@ -64,7 +64,7 @@ const FAKE = __dirname + '/fbfake/';
     const mine = await galAll();
     const synced = mine.filter(r => r.sid).length;
     const upl = [...S.objects.entries()].map(([k,v]) => k.split('/').pop().slice(0,6) + '=' + Math.round(v.size/1024) + 'KB');
-    return 'localWithSid=' + synced + ' objects=' + S.objects.size + ' docs=' + S.docs.size
+    return 'localWithSid=' + synced + ' objects=' + S.objects.size + ' docs=' + [...S.docs.keys()].filter(k=>!k.endsWith('/_prefs')).length
       + ' [' + upl.join(' ') + '] state="' + document.getElementById('accState').textContent + '"';
   }));
 

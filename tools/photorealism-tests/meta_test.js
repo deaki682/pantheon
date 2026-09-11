@@ -40,7 +40,7 @@ const FAKE = __dirname + '/fbfake/';
     await capStash(id, { blob:cap, framed:true, corners:null, rawW:900, rawH:700, adj:{con:12} });
     SYNC_AT=0; await syncNow(true);
     const S=globalThis.__FAKE;
-    const doc=[...S.docs.values()][0]||{};
+    const doc=[...S.docs.entries()].filter(([k])=>!k.endsWith('/_prefs')).map(([,v])=>v)[0]||{};
     return 'objects=' + S.objects.size + ' [' + [...S.objects.keys()].map(k=>k.split('/')[2]).join(',') + ']'
       + ' meta=' + JSON.stringify(doc.meta||{}) + ' capAt=' + (doc.capAt?'set':'MISSING');
   }));

@@ -1,6 +1,6 @@
 # Photorealism — handover
 
-State as of web **v398** / Android **versionCode 225** (`0.9.191`).
+State as of web **v399** / Android **versionCode 226** (`0.9.192`).
 Branch: `claude/latest-drawing-app-version-0h2lp6`. Owner: Dylan
 (deaki682@gmail.com).
 
@@ -37,6 +37,15 @@ crop and adjustments.
 
 **What does not:** the four shipped starter references, and the cooked
 caches, which are recomputable.
+
+**Settings travel too (v399).** A `_prefs` doc rides in the same refs
+collection: accent, language, unit, cell size, the whole grid-style
+cluster, soft-form, true-size stop, compare adjustments, download mode.
+Per-key last-writer-wins on deliberate changes only — boot-written
+defaults seed with stamp 0 so a fresh sign-in adopts the account's taste
+instead of clobbering it. Excluded on purpose: uiScale (phone and tablet
+want different sizes) and every one-time tour/coach flag. An arriving
+pref repaints in place (`prefApplyLive`); language applies next launch.
 
 **Triggers, all automatic.** Push: `galAdd` (any new reference),
 `cmpSaveNow` (any capture), `openPhoto` (progress), leaving the drawing
