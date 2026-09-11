@@ -833,7 +833,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v397</span>
+    <span id="verNum">v398</span>
   </div>
 </div>
 <div id="delModal">
@@ -4783,22 +4783,26 @@ let GRID_SUB=0;                    // 0 | 2 - every square split by lighter halv
 let GRID_LSCH='LN';                // label scheme: L/N per axis (cols, rows)
 let GRID_LPOS='cell';              // 'cell' corner tags | 'edge' margin labels
 let DONE=[], DONETOOL=null;        // per-square progress dots + armed mode
-try{
-  GRID_ON = localStorage.getItem('gridOn')!=='0';
-  const c=localStorage.getItem('gridCol');
-  if (c==='auto' || /^#[0-9a-f]{6}$/i.test(c||'')) GRID_COL=c;
-  const t=+localStorage.getItem('gridThk');
-  if (t>=1 && t<=3) GRID_THK=t;
-  GRID_LAB = localStorage.getItem('gridLab')==='1';
-  const gsv=localStorage.getItem('gridStyle');
-  if (gsv==='diag'||gsv==='dots') GRID_STYLE=gsv;
-  const op=+localStorage.getItem('gridOp');
-  if (op>=0.1 && op<=1) GRID_OP=op;
-  if (localStorage.getItem('gridSub')==='2') GRID_SUB=2;
-  const lsch=localStorage.getItem('gridLabSch');
-  if (['LN','LL','NL','NN'].includes(lsch)) GRID_LSCH=lsch;
-  if (localStorage.getItem('gridLabPos')==='edge') GRID_LPOS='edge';
-}catch(e){}
+// read once at boot, and again whenever these arrive from another device
+function loadGridPrefs(){
+  try{
+    GRID_ON = localStorage.getItem('gridOn')!=='0';
+    const c=localStorage.getItem('gridCol');
+    if (c==='auto' || /^#[0-9a-f]{6}$/i.test(c||'')) GRID_COL=c;
+    const t=+localStorage.getItem('gridThk');
+    if (t>=1 && t<=3) GRID_THK=t;
+    GRID_LAB = localStorage.getItem('gridLab')==='1';
+    const gsv=localStorage.getItem('gridStyle');
+    GRID_STYLE=(gsv==='diag'||gsv==='dots') ? gsv : 'sq';
+    const op=+localStorage.getItem('gridOp');
+    if (op>=0.1 && op<=1) GRID_OP=op;
+    GRID_SUB=(localStorage.getItem('gridSub')==='2') ? 2 : 0;
+    const lsch=localStorage.getItem('gridLabSch');
+    if (['LN','LL','NL','NN'].includes(lsch)) GRID_LSCH=lsch;
+    GRID_LPOS=(localStorage.getItem('gridLabPos')==='edge') ? 'edge' : 'cell';
+  }catch(e){}
+}
+loadGridPrefs();
 const FORM={cv:null, key:null, busy:null};
 const COMP={key:null, ph:null, sh:null, hl:null, sig:null, cv:null};
 
@@ -6231,6 +6235,58 @@ function writeMeta(gid, m){
     for (const k of META_KEYS) if (m[k]!=null) localStorage.setItem(k+'|'+gid, String(m[k]));
   }catch(e){}
 }
+// ---- account-level settings: the app should look like yours on any
+// device you sign into, not just hold the same pictures ----
+const PREF_KEYS=['lang','unit','accent','uiScale','hiCon',
+  'gridOn','gridStyle','gridCol','gridThk','gridSub',
+  'gridLab','gridLabSch','gridLabPos','gridOp'];
+function readPrefs(){
+  const p={};
+  try{ for (const k of PREF_KEYS){
+    const v=localStorage.getItem(k);
+    if (v!=null) p[k]=v;
+  } }catch(e){}
+  return p;
+}
+// Settings arriving from another device have to be re-applied, not just
+// stored - every one of them is already sitting in a live variable or a
+// class on <html>, and a value in localStorage alone changes nothing.
+function applyPrefs(p){
+  if (!p) return;
+  let langNow=null;
+  try{ langNow=localStorage.getItem('lang'); }catch(e){}
+  try{ for (const k of PREF_KEYS) if (p[k]!=null) localStorage.setItem(k, String(p[k])); }catch(e){}
+  // language rebuilds every string in the document: the one setting
+  // worth a reload rather than a thousand fragile in-place swaps
+  if (p.lang && p.lang!==langNow){ location.reload(); return; }
+  try{
+    if (p.accent && /^#[0-9a-f]{6}$/i.test(p.accent)) applyAccent(p.accent);
+    UI_SCALE = (p.uiScale==='m'||p.uiScale==='l') ? p.uiScale : 's';
+    HI_CON = p.hiCon==='1';
+    a11yApply();
+    loadGridPrefs();
+    if (typeof applyGrid==='function') applyGrid();
+    const us=$('unitSel2'); if (us && p.unit) us.value=p.unit;
+    if (GRID_READY && $('scrMain').classList.contains('on'))
+      requestAnimationFrame(()=>{ try{ applyView(); }catch(e){} });
+    try{ calRefresh(); }catch(e){}
+  }catch(e){}
+  adlog('applied settings from the account');
+}
+// No handler anywhere calls out to sync: a dozen settings live in a
+// dozen places and one would always be forgotten. Watching the values
+// themselves cannot miss one.
+let PREF_SIG=null, PREF_DIRTY=false, PREF_SEEN=0;
+try{ PREF_SEEN=+localStorage.getItem('prefSeen')||0; }catch(e){}
+setInterval(()=>{
+  try{
+    if (!ACC_USER || document.hidden) return;
+    const sig=JSON.stringify(readPrefs());
+    if (PREF_SIG===null){ PREF_SIG=sig; return; }
+    if (sig!==PREF_SIG){ PREF_SIG=sig; PREF_DIRTY=true; syncSoon(1200); }
+  }catch(e){}
+}, 2500);
+
 // references whose state changed and owe the account an update
 const SYNC_DIRTY=new Set();
 function syncTouch(gid){
@@ -6294,11 +6350,17 @@ async function syncListen(on){
     if (SYNC_OFF){ SYNC_OFF(); SYNC_OFF=null; }
     if (!on || !ACC_USER) return;
     const fb=await fbLoad(), uid=ACC_USER.uid;
-    SYNC_OFF=fb.F.onSnapshot(fb.F.collection(fb.db,'users',uid,'refs'), snap=>{
+    const offRefs=fb.F.onSnapshot(fb.F.collection(fb.db,'users',uid,'refs'), snap=>{
       // the first callback is just the current state; later ones are news
       if (snap.metadata && snap.metadata.fromCache) return;
       syncSoon(600);
     }, ()=>{});
+    const offPrefs=fb.F.onSnapshot(
+      fb.F.doc(fb.F.collection(fb.db,'users',uid,'prefs'),'app'), snap=>{
+        if (snap.metadata && snap.metadata.fromCache) return;
+        syncSoon(600);
+      }, ()=>{});
+    SYNC_OFF=()=>{ try{ offRefs(); }catch(e){} try{ offPrefs(); }catch(e){} };
   }catch(e){}
 }
 function syncSay(m){ accSay(m); }
@@ -6311,6 +6373,34 @@ async function syncNow(force){
   try{
     const fb=await fbLoad(), uid=ACC_USER.uid;
     const col=fb.F.collection(fb.db,'users',uid,'refs');
+    // ---- settings, in whichever direction is newer ----
+    try{
+      const pref=fb.F.doc(fb.F.collection(fb.db,'users',uid,'prefs'),'app');
+      if (PREF_DIRTY){
+        PREF_DIRTY=false;
+        const now=Date.now();
+        await fb.F.setDoc(pref, { v:readPrefs(), pAt:now }, {merge:true});
+        PREF_SEEN=now;
+        try{ localStorage.setItem('prefSeen', ''+now); }catch(e){}
+      } else {
+        const ps=await fb.F.getDoc(pref);
+        const pv=(ps && ps.exists && ps.exists()) ? (ps.data()||{}) : null;
+        if (!pv){
+          // a brand new account has no settings yet: seed it from this
+          // device rather than waiting for something to be changed
+          const now=Date.now();
+          await fb.F.setDoc(pref, { v:readPrefs(), pAt:now }, {merge:true});
+          PREF_SEEN=now;
+          try{ localStorage.setItem('prefSeen', ''+now); }catch(e){}
+        }
+        else if (pv.pAt && pv.pAt>PREF_SEEN){
+          PREF_SEEN=pv.pAt;
+          try{ localStorage.setItem('prefSeen', ''+pv.pAt); }catch(e){}
+          applyPrefs(pv.v);
+          PREF_SIG=JSON.stringify(readPrefs());   // not a local edit
+        }
+      }
+    }catch(e){ adlog('settings: '+((e&&e.code)||e)); }
     // ---- push: anything this device has that the account does not ----
     const mine=await galAll();
     for (const r of mine){
