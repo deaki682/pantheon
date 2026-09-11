@@ -333,6 +333,45 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
 #gmDesign{width:44px;height:44px;padding:5px;display:flex;
   align-items:center;justify-content:center}
 #gmMini{width:32px;height:32px;display:block}
+/* the accessibility window: size, contrast - applied live, persisted */
+#a11yModal{position:fixed;inset:0;z-index:26;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.6)}
+#a11yPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
+  padding:18px 22px;width:min(92vw,360px);
+  display:flex;flex-direction:column;gap:16px}
+.a11yLab{font-size:11px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:#6a6a6a;margin:0 0 -8px;text-align:center}
+.a11yPills{display:flex;justify-content:center;gap:8px}
+.a11yPills button{border-radius:999px;font-size:13px;padding:8px 18px}
+#a11yDoneRow{display:flex;justify-content:flex-end}
+#a11yDone{border-radius:999px;padding:8px 22px}
+/* chrome scale: Medium/Large grow the buttons, menus and text */
+html.uiM{--ux:1.18}
+html.uiL{--ux:1.38}
+html.uiM body,html.uiL body{font-size:calc(14px*var(--ux))}
+html.uiM #backBtn,html.uiM #hudToggle,html.uiM #gridBtn,html.uiM #expBtn,
+html.uiL #backBtn,html.uiL #hudToggle,html.uiL #gridBtn,html.uiL #expBtn{
+  width:calc(44px*var(--ux));height:calc(44px*var(--ux))}
+html.uiM #setBtn,html.uiL #setBtn{
+  height:calc(44px*var(--ux));min-width:calc(44px*var(--ux))}
+html.uiM #detBtn,html.uiM #underBtn,html.uiM #compareBtn,
+html.uiL #detBtn,html.uiL #underBtn,html.uiL #compareBtn{
+  min-height:calc(44px*var(--ux))}
+html.uiM #gmMiniB,html.uiL #gmMiniB{
+  width:calc(26px*var(--ux));height:calc(26px*var(--ux))}
+html.uiM #gridMenu,html.uiM #detMenu,html.uiM #underMenu,
+html.uiL #gridMenu,html.uiL #detMenu,html.uiL #underMenu{
+  bottom:calc(52px*var(--ux))}
+/* high contrast: black surfaces, bright borders and text */
+html.hc button,html.hc select,html.hc input{
+  border-color:#bbb;color:#fff;background:#000}
+html.hc button.vOn{border-color:var(--acc);border-width:2px;
+  background:var(--accBg)}
+html.hc #hud,html.hc #detMenu,html.hc #underMenu,html.hc #gridMenu,
+html.hc #gsdPanel,html.hc #setPanel,html.hc #gearPanel,html.hc #a11yPanel,
+html.hc .gsdPop,html.hc #gsdLabs{background:#000;border-color:#bbb}
+html.hc .setLbl,html.hc .a11yLab,html.hc #gsdOpLab{color:#eee;opacity:1}
+html.hc #verNum{color:#ddd}
 /* the Grid Style window: a mostly-full-screen port of the design lab */
 #gsdModal{position:fixed;inset:0;z-index:24;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.6)}
@@ -634,10 +673,11 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <div id="accPal2"></div>
     <span class="setLbl" style="margin-top:8px">Grid Style</span>
     <button id="gmDesign3" title="Grid style"><canvas id="gmMini3" width="64" height="64"></canvas></button>
+    <button id="a11yBtn" style="margin-top:6px">Accessibility</button>
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v360</span>
+    <span id="verNum">v361</span>
   </div>
 </div>
 <div id="delModal">
@@ -701,6 +741,18 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <button id="rmX">Cancel</button>
   </div>
 </div>
+  <div id="a11yModal">
+    <div id="a11yPanel">
+      <p class="a11yLab">Button Size</p>
+      <div class="a11yPills" id="a11ySize">
+        <button data-s="s">Small</button>
+        <button data-s="m">Medium</button>
+        <button data-s="l">Large</button>
+      </div>
+      <div class="a11yPills"><button id="a11yHc">High Contrast</button></div>
+      <div id="a11yDoneRow"><button id="a11yDone">Done</button></div>
+    </div>
+  </div>
   <div id="gsdModal">
     <div id="gsdPanel">
       <div id="gsdStage"><canvas id="gsdCv" width="10" height="10"></canvas>
@@ -5523,6 +5575,42 @@ $('gsdPrev').onclick=()=>{ haptic();
   else gsdEnterPrev();
 };
 $('gsdModal').onclick=e=>{ if (e.target===$('gsdModal')) gsdClose(); };
+// ---- accessibility: size + contrast, applied live and persisted --------
+let UI_SCALE='s', HI_CON=false;
+try{
+  const u=localStorage.getItem('uiScale');
+  if (u==='m'||u==='l') UI_SCALE=u;
+  HI_CON = localStorage.getItem('hiCon')==='1';
+}catch(e){}
+function a11yApply(){
+  const de=document.documentElement;
+  de.classList.toggle('uiM', UI_SCALE==='m');
+  de.classList.toggle('uiL', UI_SCALE==='l');
+  de.classList.toggle('hc', HI_CON);
+  document.querySelectorAll('#a11ySize button').forEach(b=>
+    b.classList.toggle('vOn', b.dataset.s===UI_SCALE));
+  $('a11yHc').classList.toggle('vOn', HI_CON);
+  // the chrome moved: menus anchor above taller buttons, the grid canvas
+  // sticky labels sit under a taller bar
+  if (GRID_READY && $('scrMain').classList.contains('on'))
+    requestAnimationFrame(()=>{ try{ applyView(); }catch(e){} });
+}
+document.querySelectorAll('#a11ySize button').forEach(b=>
+  b.onclick=()=>{
+    UI_SCALE=b.dataset.s;
+    try{ localStorage.setItem('uiScale', UI_SCALE); }catch(e){}
+    a11yApply();
+  });
+$('a11yHc').onclick=()=>{
+  HI_CON=!HI_CON;
+  try{ localStorage.setItem('hiCon', HI_CON?'1':'0'); }catch(e){}
+  a11yApply();
+};
+function a11yOpen(){ $('a11yModal').style.display='flex'; a11yApply(); }
+$('a11yBtn').onclick=()=>{ haptic(); $('gearModal').style.display='none'; a11yOpen(); };
+$('a11yDone').onclick=()=>{ haptic(); $('a11yModal').style.display='none'; };
+$('a11yModal').onclick=e=>{ if (e.target===$('a11yModal')) $('a11yModal').style.display='none'; };
+a11yApply();
 $('detBtn').onclick=()=>{
   const m=$('detMenu');
   const open=m.style.display!=='flex';
