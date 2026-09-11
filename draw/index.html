@@ -554,6 +554,11 @@ body.uiHid #backBtn{transform:translateY(-190%)}
 html.introUp #gallery{transform:translateX(-100vw);transition:none}
 html.introUp #galleryC{transform:translateX(100vw);transition:none}
 html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
+/* first open: the welcome message lands AFTER the title card and the rows
+   sweep in underneath it - introLift (z61) is withheld so a thumbnail can
+   never ride over the message */
+#introModal.softIn{animation:introFade .34s cubic-bezier(.2,0,0,1) both}
+@keyframes introFade{from{opacity:0}to{opacity:1}}
 #introWord{position:relative;z-index:63;display:flex;flex-direction:column;align-items:center}
 #introMain{font-size:34px;letter-spacing:.04em;color:var(--acc);
   will-change:transform;transform-origin:center}
@@ -793,7 +798,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v383</span>
+    <span id="verNum">v384</span>
   </div>
 </div>
 <div id="delModal">
@@ -1293,25 +1298,40 @@ window.__backStep=()=>{
   try{ $('backBtn').onclick(); }catch(e){}
   return 'ok';
 };
+// the very first open of the app on this device runs a different order:
+// title card -> welcome message -> rows sweeping in BENEATH it. On every
+// later open the rows keep their head start over the scrim.
+const FIRST_RUN=(()=>{ try{ return !localStorage.getItem('intro1'); }catch(e){ return false; } })();
+let SPLASH_RUN=false, SPLASH_CB=null;
 (function(){
   let rm=false;
   try{ rm=matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
   const sp=$('introSplash'), ww=$('introWordWrap'), word=$('introMain'), t=$('upTitle');
   if (rm || !sp || !ww || !word || !t) return;
+  SPLASH_RUN=true;
   sp.classList.add('on'); ww.classList.add('on');
-  document.documentElement.classList.add('introUp','introLift');
+  document.documentElement.classList.add('introUp');
+  if (!FIRST_RUN) document.documentElement.classList.add('introLift');
   t.style.visibility='hidden';
   const done=()=>{
     pmark('splash');
     sp.classList.remove('on','go');
     ww.classList.remove('on','go');
-    document.documentElement.classList.remove('introUp','introLift');
+    document.documentElement.classList.remove('introLift');
+    if (!FIRST_RUN) document.documentElement.classList.remove('introUp');
     try{ $('gallery').style.willChange=''; $('galleryC').style.willChange=''; }catch(e){}
     try{ adSync(); }catch(e){}
     t.style.visibility='';
     word.style.transition=word.style.transform='';
     $('introBy').style.opacity='';
     sp.style.background='';
+    SPLASH_RUN=false;
+    const cb=SPLASH_CB; SPLASH_CB=null;
+    if (cb) try{ cb(); }catch(e){}
+    // one beat behind the message, the parked rows slide in under it
+    if (FIRST_RUN) setTimeout(()=>{ try{
+      document.documentElement.classList.remove('introUp');
+    }catch(e){} }, 240);
   };
   // the rows get a head start: they begin their sweep a beat before the
   // focus pull so the page feels alive as it sharpens
@@ -1320,6 +1340,7 @@ window.__backStep=()=>{
     // the compositor slides ready textures instead of painting mid-flight
     $('gallery').style.willChange='transform';
     $('galleryC').style.willChange='transform';
+    if (FIRST_RUN) return;   // they wait for the welcome message instead
     requestAnimationFrame(()=>document.documentElement.classList.remove('introUp'));
   }catch(e){} }, 560);
   setTimeout(()=>{
@@ -1333,7 +1354,7 @@ window.__backStep=()=>{
       word.style.transform='translate('+dx+'px,'+dy+'px) scale('+k+')';
       $('introBy').style.opacity='0';
       sp.classList.add('go'); ww.classList.add('go');
-      document.documentElement.classList.remove('introUp');
+      if (!FIRST_RUN) document.documentElement.classList.remove('introUp');
       setTimeout(done, 640);
     }catch(e){ done(); }
   }, 750);
@@ -2344,8 +2365,13 @@ function fmtTip(){
     const paint=()=>{ $('introTxt').textContent=TR(PAGES[pg][0]);
       $('introBtn').textContent=TR(PAGES[pg][1]);
       $('introBack').style.display = pg>0 ? '' : 'none'; };
-    paint();
-    $('introModal').style.display='flex';
+    const open=()=>{
+      paint();
+      const m=$('introModal');
+      m.style.display='flex';
+      m.classList.add('softIn');
+      setTimeout(()=>{ try{ m.classList.remove('softIn'); }catch(e){} }, 460);
+    };
     $('introBack').onclick=()=>{ if (pg>0){ pg--; paint(); } };
     $('introBtn').onclick=()=>{
       if (pg<PAGES.length-1){ pg++; paint(); return; }
@@ -2353,6 +2379,8 @@ function fmtTip(){
       try{ localStorage.setItem('intro1','1'); }catch(e){}
       startTour();
     };
+    // the title card owns the screen first; the welcome follows it in
+    if (SPLASH_RUN) SPLASH_CB=open; else open();
   }
 }
 $('delYes').onclick = async () => {
