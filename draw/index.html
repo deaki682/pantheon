@@ -51,8 +51,7 @@ body{position:fixed;inset:0}
   #gridPanel,#dlPanel,#dlwPanel{animation:popIn var(--motD) var(--motE)}
   #hud,#detMenu,#gridMenu,#underMenu,#gmPal,#gridPal2,#accPal2{animation:menuIn 160ms var(--motE)}
   .screen{transition:padding-bottom .3s var(--motE)}
-  #scrMain{transition:padding-bottom .3s var(--motE), opacity .34s var(--motE)}
-  html.projExpand #scrMain{opacity:0}
+  #scrMain{transition:padding-bottom .3s var(--motE)}
   html.projExpand .screen.in{animation:none}
   button{transition:transform 90ms var(--motE)}
   button:active{transform:scale(.955)}
@@ -572,7 +571,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v337</span>
+    <span id="verNum">v338</span>
   </div>
 </div>
 <div id="delModal">
@@ -1074,47 +1073,44 @@ function expandFrom(p){
     const {w,h}=worldSize();
     const dst={left:vp.left+view.x, top:vp.top+view.y,
                width:w*view.s, height:h*view.s};
-    // clone the WHOLE card - accent border, pencil, caption - so one
-    // object lifts off and grows past the screen, its image area gliding
-    // onto exactly where the project's image sits
+    // the camera flies INTO the card: the fully composed project starts
+    // miniature - sitting exactly inside the card's image frame - and the
+    // whole scene zooms up around that spot until it lands at the view the
+    // artist left off. The card's own chrome rides the same zoom outward,
+    // past the phone's edges.
+    const scr=$('scrMain');
+    const k0=Math.max(p.ir.width/dst.width, p.ir.height/dst.height);
+    const dcx=dst.left+dst.width/2, dcy=dst.top+dst.height/2;
+    const icx=p.ir.left+p.ir.width/2, icy=p.ir.top+p.ir.height/2;
+    const tx=icx-k0*dcx, ty=icy-k0*dcy;
+    scr.style.transformOrigin='0 0';
+    scr.style.willChange='transform';
+    scr.style.transform='translate('+tx+'px,'+ty+'px) scale('+k0+')';
+    // the card itself overlays its own miniature, chrome and all, and is
+    // blown outward by the same camera move
     const clone=p.node.cloneNode(true);
     clone.style.cssText='position:fixed;z-index:70;margin:0;'
       +'left:'+p.r.left+'px;top:'+p.r.top+'px;'
       +'width:'+p.r.width+'px;height:'+p.r.height+'px;'
-      +'transform-origin:0 0;will-change:transform,opacity;'
-      +'pointer-events:none;'
-      +'transition:transform .46s cubic-bezier(.2,0,0,1)';
+      +'transform-origin:'+(icx-p.r.left)+'px '+(icy-p.r.top)+'px;'
+      +'will-change:transform,opacity;pointer-events:none;'
+      +'transition:transform .52s cubic-bezier(.2,0,0,1)';
     document.body.appendChild(clone);
-    // mid-flight the clone sharpens: the full-resolution reference swaps
-    // in the moment it decodes, so the card never reads as a blown-up thumb
-    let bigUrl=null;
-    if (p.blob){
-      try{
-        bigUrl=URL.createObjectURL(p.blob);
-        const big=new Image(); big.src=bigUrl;
-        (big.decode?big.decode():Promise.resolve()).then(()=>{
-          const im=clone.querySelector('img'); if (im) im.src=bigUrl;
-        }).catch(()=>{});
-      }catch(e){}
-    }
-    // uniform FLIP scale: the card's image area COVERS the destination
-    // rect (aspects differ - the crossfade below resolves the reveal)
-    const k=Math.max(dst.width/p.ir.width, dst.height/p.ir.height);
-    const icx=p.ir.left-p.r.left+p.ir.width/2;
-    const icy=p.ir.top-p.r.top+p.ir.height/2;
-    const tx=(dst.left+dst.width/2)-p.r.left-k*icx;
-    const ty=(dst.top+dst.height/2)-p.r.top-k*icy;
     document.documentElement.classList.add('projExpand');
     requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      clone.style.transform='translate('+tx+'px,'+ty+'px) scale('+k+')';
-      document.documentElement.classList.remove('projExpand');
+      scr.style.transition='transform .52s cubic-bezier(.2,0,0,1)';
+      scr.style.transform='none';
+      clone.style.transform='scale('+(1/Math.max(0.02,k0))+')';
     }));
-    // the real workspace is fading in beneath the whole time; the clone
-    // dissolves before touchdown so the aspect handover is never visible
+    // the card dissolves early: beneath it is the SAME picture, now the
+    // real composed project, so the reveal is seamless
     setTimeout(()=>{ clone.style.transition
-      ='transform .46s cubic-bezier(.2,0,0,1), opacity .22s'; clone.style.opacity='0'; }, 250);
+      ='transform .52s cubic-bezier(.2,0,0,1), opacity .24s'; clone.style.opacity='0'; }, 180);
     setTimeout(()=>{ try{ clone.remove(); }catch(e){}
-      try{ if (bigUrl) URL.revokeObjectURL(bigUrl); }catch(e){} }, 700);
+      try{ scr.style.transition=''; scr.style.transform='';
+        scr.style.willChange=''; scr.style.transformOrigin=''; }catch(e){}
+      document.documentElement.classList.remove('projExpand');
+    }, 720);
   }catch(e){ try{ document.documentElement.classList.remove('projExpand'); }catch(e2){} }
 }
 // every screen carries the bottom ad strip in the native shell, skinned
@@ -3495,6 +3491,21 @@ function applyView(){
   $('world').style.transform = `translate(${view.x}px,${view.y}px) scale(${view.s})`;
   drawGrid();
   drawCircs();
+  // remember where they are (debounced): zoom relative to fit + the world
+  // point under the screen centre - restored at the next open
+  clearTimeout(applyView._svT);
+  applyView._svT=setTimeout(()=>{ try{
+    if (galActive==null || !GRID_READY) return;
+    const r=$('viewport').getBoundingClientRect(); if (!r.width) return;
+    const {w,h}=worldSize();
+    const fit=Math.min(r.width/w, r.height/h); if (!fit) return;
+    const z=view.s/fit;
+    const cx=(r.width/2-view.x)/view.s, cy=(r.height/2-view.y)/view.s;
+    if (z>1.001)
+      localStorage.setItem('view|'+galActive,
+        JSON.stringify({z:+z.toFixed(4), cx:Math.round(cx), cy:Math.round(cy)}));
+    else localStorage.removeItem('view|'+galActive);
+  }catch(e){} }, 400);
 }
 // red error marks, in world coordinates, kept per reference
 let CIRCS=[], CIRCTOOL=false;
@@ -3713,6 +3724,16 @@ function initMain(){
   const vp = $('viewport').getBoundingClientRect();
   view.s = Math.max(0.05, Math.min(vp.width/w, vp.height/h) || 0.05);
   view.x = (vp.width - w*view.s)/2; view.y = (vp.height - h*view.s)/2;
+  // reopen exactly where the artist left off: the per-project view memory
+  // (z is zoom relative to fit; cx/cy the world point under screen centre)
+  try{
+    const vv=JSON.parse(localStorage.getItem('view|'+galActive)||'null');
+    if (vv && vv.z>1.001 && isFinite(vv.cx) && isFinite(vv.cy)){
+      view.s=Math.min(view.s*vv.z, view.s*40);
+      view.x=vp.width/2 - vv.cx*view.s;
+      view.y=vp.height/2 - vv.cy*view.s;
+    }
+  }catch(e){}
   applyView();
   GRID_READY = true;
   drawGrid();
