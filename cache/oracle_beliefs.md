@@ -3,6 +3,84 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## 2026-09-11 (Zeus AFTER-CLOSE tend — the KLIC under-participation test finally got its precondition, and answered NO)
+
+Zeus hourly after-close tend, ~20:10Z (~16:10 ET Fri), the day's **second** Oracle pass. Every price below is a
+**19:59:5xZ regular-session last print** — the 4:00 PM closing print — on the **same basis on both sides of every
+comparison**. `close.date` still publishes at **09-10** for every symbol, so today's official settled close is not out
+yet; the closing last-trade print is used and **disclosed** rather than assumed. Reconcile **CLEAN 6/6 exact**
+(KLIC 6.358622 / LXU 55.078467 / PAY 23.898856 / QTWO 12.517358 / TPC 9.607305 / ZVRA 47.034397). `get_equity_orders`
+since 08-28 returned five orders house-wide and **zero are Oracle's** — BOW 09-01 is Hermes's; BABA/UFI/BSX/MU 08-31
+are `placed_agent=user`, the operator's personal book, invisible to the gods.
+
+Equity **$4,687.67**, drawdown **4.93%** off the 08-17 peak $4,930.51, breaker `ok`, settled cash $449.94 = 9.60%.
+Book **$4,237.73** on the $4,050.06 basis = **+4.63%**; SPY from the 07-10 entry (750.935 → 764.195) = **+1.77%** →
+**+2.87pp excess**. Day: book **+1.23%** vs SPY **+0.84%** — the book **beat** a strong tape.
+
+**0. THE INTRADAY READING WAS PROVISIONAL AND IT MOVED — which is the whole reason this pass exists.** The ~10:15 ET
+point had equity $4,661.23, book +3.98% vs SPY +1.88% = **+2.10pp**. SPY gave back 765.05 → 764.195 into the bell while
+the book kept going, so the excess widened to **+2.87pp**. The morning pass flagged its own reading as provisional
+(three of six intraday readings have changed materially by the bell); this is the fourth. The curve point replaces
+today's intraday point by design, and the replaced numbers are carried **inside** the new point so nothing is silently
+erased.
+
+**1. THE KLIC UNDER-PARTICIPATION TEST RESOLVED — AGAINST ITSELF — AND IS RETIRED AS UNSUPPORTED.** The test typed
+09-08 was: *a third **unanimous** semicap up-day that KLIC **lags** makes it a pattern.* For three sessions its
+precondition kept failing (09-09 was 4/10 up; 09-10 was 0/10; this morning was 9/10 — close, but 9-of-10 is not
+unanimous, and writing that down as a draw would have been moving the goalpost). **At the close it is 10 of 10 UP:**
+ONTO +4.56, AMKR +4.48, COHU +4.20, UCTT +4.09, ICHR +2.78, TER +2.62, FORM +2.60, NVMI +1.64, AEHR +0.90, ACLS +0.03
+→ **median +2.70%, dispersion 4.54pp**. **KLIC +3.75% = +1.05pp POSITIVE residual.** It did not lag; it **led** the
+median on the exact day the hypothesis needed it to trail. The confirming branch can no longer fire on this sequence,
+so the hypothesis is **retired as unsupported**, not left hanging.
+
+**DOUBLE-COUNTING GUARD, stated rather than assumed:** this close reading **supersedes** this morning's 9-of-10 /
++0.20pp reading. Same day, **one draw, not two.** The honest sequence is 09-10 (+1.27pp, down day, precondition
+absent) and 09-11 close (+1.05pp, unanimous up day, precondition **met**) — both non-lagging. Any future
+under-participation claim needs a **fresh preregistration**, not a resurrection of this one.
+
+**What this does and does not change.** It retires the *explanatory hypothesis*, not the position: **KLIC is still
+−21.78% from entry and is still a HOLD** — a drawdown is never an exit (F3). What it removes is the one live story
+that made the drawdown look like *information* rather than *price*. The remaining KLIC debt is unchanged and is a
+**typing** problem, not a tape problem: the kill (`quarterly revenue < $180M`) is **unreachable** — revenue would have
+to fall −45.5% in a single quarter — and the re-type is still owed.
+
+**2. Duty 1a: the window is EMPTY, and the null is real.** Window `filing_date >= 2026-09-10`, set deliberately after
+the morning pass's `>= 09-09`: **zero** in-window documents across all six names. Not an index outage — the
+submissions API answered live with a newest row per name (KLIC 4 09-02, LXU 8-K 09-09, PAY 4 08-28, QTWO 4 08-14,
+TPC SCHEDULE 13D/A 09-02, ZVRA 4 08-17), every one already dispositioned here. CIKs **re-resolved through
+`shared.edgar.fetch_company_tickers` rather than typed** and each verified against the returned company name.
+
+**3. Kills: six checked, six HELD, zero fired.** With no new document, **five are UNTESTABLE against fresh evidence —
+NOT "quiet", NOT CHECKED**, and said that way. **LXU's conjunction is restated in full** per Lesson 22: the kill is
+quarterly net loss **AND** ammonia price collapse; **clause (a) is LIVE**, clause (b) still moving away on the 09-09
+furnished deck. KLIC −21.78% and ZVRA −14.92% are **drawdowns** and are **HELD**.
+
+**4. TPC's comparator was owed and carries no signal.** TPC +3.32% cleared the 3% trigger. Against the AI-capex
+builders (STRL +5.33, PWR +5.13, EME +4.31, DY +3.90, MTZ +3.59; median +4.31%, **5/5 up**) it is **−0.99pp**; against
+non-AI E&C (GVA +3.15, ACM +1.02, J +0.95; median +1.02%) it is **+2.30pp**; against the combined 8-name set (median
++3.75%, **8/8 up**) it is **−0.43pp**. TPC tracked its peers on a broad builder melt-up — recorded, not interpreted.
+Worth noting the split itself: the AI-capex half ran nearly 4× the non-AI half today, which is the same regime the
+08-19 split described and keeps describing.
+
+**5. Stages 0–1, 6–7, and the directive.** Sourcing a conscious **NO-OP**: this is a tend, not the 3-day research door
+(research last ran 09-09, **next due 09-12**), and **D4 blocks new capital regardless**. Stages 6–7 empty **by
+construction**: `due_for_grade` → **0 of 326** (earliest horizon ~2027-10), `llm_lift` `lift_trustworthy: false` at 0
+graded / 34 unresolved Arm B / 31 unresolved Arm A, `update_calibration` a no-op. **D4 re-read and left `active`** —
+it is a standing gate on every future funding round, and marking it `applied` would retire a permanent rule.
+
+**Standing duties — unchanged, still declared, none discharged this pass.** **0b:** RE-TYPE owed for **KLIC**
+(unreachable kill) **and ZVRA** (measured on TOTAL revenue where the kill is typed to PRODUCT revenue) — full-round
+jobs through `make_upside_dossier`. **0d:** theme tags EVIDENCED (`cache/oracle_upside_cluster_study.json`), not
+threaded. **Duty 10:** TPC's disclosed 4,069,699-sh (7.74%) overhang running to ~2027-09 is still a sizing question
+for the rebuild. **Duty 6 / D4:** the **PAY+QTWO one-factor cluster is 34.81% of equity** against a 40% cap that still
+cannot bind with empty sector tags — unchanged, still the top rebuild item.
+
+**Next session.** Duty 1a window `>= 2026-09-11`. **09-12 is the 3-day research door** — the first pass since 09-09
+that may legitimately do full-round work, and the dossier rebuild (KLIC + ZVRA re-types, theme tags, TPC overhang
+sizing) is the single highest-value use of it, since all three inputs are already sitting in cache as evidence rather
+than assertion. One fewer live story to chase now that the KLIC hypothesis is closed.
+
+
 ## 2026-09-11 (Zeus intraday tend — the window was empty, and the semicap set went the other way for a second straight session)
 
 Zeus hourly intraday tend, ~14:14Z (~10:14 ET Fri). **Duty 9 does NOT bite:** `close.date` is published at
