@@ -571,7 +571,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v340</span>
+    <span id="verNum">v341</span>
   </div>
 </div>
 <div id="delModal">
@@ -1099,11 +1099,13 @@ function expandFrom(p){
       +'transition:transform .52s cubic-bezier(.2,0,0,1)';
     document.body.appendChild(clone);
     document.documentElement.classList.add('projExpand');
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      scr.style.transition='transform .52s cubic-bezier(.2,0,0,1)';
-      scr.style.transform='none';
-      clone.style.transform='scale('+(1/Math.max(0.02,k0))+')';
-    }));
+    // force a synchronous layout flush so the miniature state is REAL
+    // before the transition targets are set - the classic FLIP guard
+    // against style batching on slow devices
+    void scr.offsetWidth; void clone.offsetWidth;
+    scr.style.transition='transform .52s cubic-bezier(.2,0,0,1)';
+    scr.style.transform='none';
+    clone.style.transform='scale('+(1/Math.max(0.02,k0))+')';
     // the card dissolves early: beneath it is the SAME picture, now the
     // real composed project, so the reveal is seamless
     setTimeout(()=>{ clone.style.transition
@@ -3496,21 +3498,6 @@ function applyView(){
   $('world').style.transform = `translate(${view.x}px,${view.y}px) scale(${view.s})`;
   drawGrid();
   drawCircs();
-  // remember where they are (debounced): zoom relative to fit + the world
-  // point under the screen centre - restored at the next open
-  clearTimeout(applyView._svT);
-  applyView._svT=setTimeout(()=>{ try{
-    if (galActive==null || !GRID_READY) return;
-    const r=$('viewport').getBoundingClientRect(); if (!r.width) return;
-    const {w,h}=worldSize();
-    const fit=Math.min(r.width/w, r.height/h); if (!fit) return;
-    const z=view.s/fit;
-    const cx=(r.width/2-view.x)/view.s, cy=(r.height/2-view.y)/view.s;
-    if (z>1.001)
-      localStorage.setItem('view|'+galActive,
-        JSON.stringify({z:+z.toFixed(4), cx:Math.round(cx), cy:Math.round(cy)}));
-    else localStorage.removeItem('view|'+galActive);
-  }catch(e){} }, 400);
 }
 // red error marks, in world coordinates, kept per reference
 let CIRCS=[], CIRCTOOL=false;
@@ -3729,16 +3716,6 @@ function initMain(){
   const vp = $('viewport').getBoundingClientRect();
   view.s = Math.max(0.05, Math.min(vp.width/w, vp.height/h) || 0.05);
   view.x = (vp.width - w*view.s)/2; view.y = (vp.height - h*view.s)/2;
-  // reopen exactly where the artist left off: the per-project view memory
-  // (z is zoom relative to fit; cx/cy the world point under screen centre)
-  try{
-    const vv=JSON.parse(localStorage.getItem('view|'+galActive)||'null');
-    if (vv && vv.z>1.001 && isFinite(vv.cx) && isFinite(vv.cy)){
-      view.s=Math.min(view.s*vv.z, view.s*40);
-      view.x=vp.width/2 - vv.cx*view.s;
-      view.y=vp.height/2 - vv.cy*view.s;
-    }
-  }catch(e){}
   applyView();
   GRID_READY = true;
   drawGrid();
