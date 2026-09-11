@@ -833,7 +833,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v395</span>
+    <span id="verNum">v396</span>
   </div>
 </div>
 <div id="delModal">
@@ -1494,7 +1494,10 @@ const show = id => { tipClose(false); uiShow();
     $(id).classList.add('on');
   }
   $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex';
-  if (id==='scrUpload' && show._from==='scrMain') reviewMaybe();
+  if (id==='scrUpload' && show._from==='scrMain'){
+    reviewMaybe();
+    syncTouch(galActive);            // time spent, detail level, circles
+  }
   // back from the compare screen: a rotation there left the grid stale
   if (id==='scrMain' && GRID_READY && show._from==='scrCompare')
     requestAnimationFrame(()=>{ try{ applyView(); }catch(e){} });
@@ -1937,6 +1940,7 @@ let OPEN_SEQ = 0;
 function openPhoto(blob, gid, retry){
   const my = ++OPEN_SEQ;                  // stale decodes must not land
   galActive = gid ?? null; galLoading = 0.15;
+  syncTouch(gid);                         // its progress travels with it
   REFMODE = isColor(gid) ? 'c' : 'bw';
   // a decode that never answers must not brick the tile: the click guard
   // treats an in-flight load as "wait", so a hung one made the reference
@@ -6209,6 +6213,60 @@ function newSid(){
   return Date.now().toString(36)+Math.random().toString(36).slice(2,10);
 }
 let SYNC_BUSY=false, SYNC_AT=0, SYNC_SOON=null, SYNC_OFF=null;
+// Everything a project remembers besides the image itself: its format,
+// detail level, circles, time spent, and which layers were used. These
+// travel with the reference so the tablet opens it exactly where the
+// phone left it.
+const META_KEYS=['fmt','det','circ','time','gtot','done','mode','lay','edit','def'];
+function readMeta(gid){
+  const m={};
+  try{ for (const k of META_KEYS){
+    const v=localStorage.getItem(k+'|'+gid);
+    if (v!=null) m[k]=v;
+  } }catch(e){}
+  return m;
+}
+function writeMeta(gid, m){
+  try{ if (!m) return;
+    for (const k of META_KEYS) if (m[k]!=null) localStorage.setItem(k+'|'+gid, String(m[k]));
+  }catch(e){}
+}
+// references whose state changed and owe the account an update
+const SYNC_DIRTY=new Set();
+function syncTouch(gid){
+  if (gid==null || !ACC_USER) return;
+  SYNC_DIRTY.add(gid);
+  syncSoon(2000);
+}
+// a capture just saved on this device: hand it to sync with the crop and
+// adjustments beside it, so the other device shows the same framing
+async function capStash(gid, rec){
+  try{
+    if (gid==null || !rec || !rec.blob || !ACC_USER) return;
+    const r=await galGet(gid); if (!r) return;
+    r.cap=rec.blob; r.capAt=Date.now();
+    r.capMeta={ framed:!!rec.framed, corners:rec.corners||null,
+                rawW:rec.rawW||0, rawH:rec.rawH||0, adj:rec.adj||{} };
+    await galPut(r);
+    syncTouch(gid);
+  }catch(e){}
+}
+// a capture that arrived from another device becomes this device's saved
+// compare the next time the project is opened, once its key is known
+async function capAdopt(gid, ckey){
+  try{
+    if (gid==null || !ckey) return;
+    const r=await galGet(gid);
+    if (!r || !r.cap || !r.capAt) return;
+    let seen=0; try{ seen=+localStorage.getItem('capk|'+gid)||0; }catch(e){}
+    if (r.capAt<=seen) return;
+    const m=r.capMeta||{};
+    await dbPutRaw('cmp|'+ckey, { blob:r.cap, framed:!!m.framed,
+      corners:m.corners||null, rawW:m.rawW||0, rawH:m.rawH||0, adj:m.adj||{} });
+    try{ localStorage.setItem('capk|'+gid, String(r.capAt)); }catch(e){}
+    adlog('adopted a synced capture for '+gid);
+  }catch(e){}
+}
 // A push is debounced rather than immediate: importing three references
 // in a row should be one sync, not three overlapping ones.
 function syncSoon(ms){
@@ -6254,34 +6312,109 @@ async function syncNow(force){
                              small, {contentType:syncType(small)});
       await fb.F.setDoc(fb.F.doc(col,sid), {
         name:r.name||'', ts:r.ts||Date.now(), thumb:r.thumb||'',
-        mode:isColor(r.id)?'c':'bw', bytes:small.size, at:fb.F.serverTimestamp() });
-      r.sid=sid; await galPut(r); up++;
+        mode:isColor(r.id)?'c':'bw', bytes:small.size, at:fb.F.serverTimestamp(),
+        meta:readMeta(r.id), mAt:Date.now() });
+      r.sid=sid; r.mSeen=Date.now(); await galPut(r); up++;
+      // deliberately NOT cleared from SYNC_DIRTY: the first push carries
+      // the image and its settings, and the pass below is what carries a
+      // capture taken before the reference had ever been uploaded
+    }
+    // ---- push: state and captures for references already up there ----
+    for (const gid of [...SYNC_DIRTY]){
+      SYNC_DIRTY.delete(gid);
+      const r=await galGet(gid);
+      if (!r || !r.sid) continue;
+      const patch={ name:r.name||'', ts:r.ts||Date.now(),
+                    mode:isColor(gid)?'c':'bw',
+                    meta:readMeta(gid), mAt:Date.now() };
+      if (r.cap && r.capAt && r.capAt!==r.capUp){
+        syncSay(TR('uploading\u2026'));
+        await fb.S.uploadBytes(fb.S.ref(fb.st,'users/'+uid+'/caps/'+r.sid+'.jpg'),
+                               r.cap, {contentType:syncType(r.cap)});
+        patch.capAt=r.capAt;
+        patch.capMeta=r.capMeta||{};
+        r.capUp=r.capAt;
+        up++;
+      }
+      r.mSeen=patch.mAt;
+      await galPut(r);
+      await fb.F.setDoc(fb.F.doc(col,r.sid), patch, {merge:true});
     }
     // ---- pull: anything the account has that this device does not ----
+    const fail=[];
+    // one way to fetch an object, so a reference and a capture fail alike
+    const grab=async path => {
+      try{
+        const url=await fb.S.getDownloadURL(fb.S.ref(fb.st, path));
+        const res=await fetch(url);
+        if (res.ok) return await res.blob();
+        fail.push('http '+res.status);
+      }catch(e){
+        // a browser refuses a cross-origin read of the bucket unless the
+        // bucket itself allows it, and reports it as a bare TypeError
+        fail.push((e && e.name==='TypeError') ? 'blocked' : ((e&&e.code)||'error'));
+      }
+      return null;
+    };
     const snap=await fb.F.getDocs(col);
-    const have=new Set((await galAll()).map(r=>r.sid).filter(Boolean));
+    const bySid=new Map((await galAll()).filter(r=>r.sid).map(r=>[r.sid,r]));
     let gone=[]; try{ gone=JSON.parse(localStorage.getItem('syncGone')||'[]'); }catch(e){}
     for (const d of snap.docs){
       const v=d.data()||{};
-      if (v.deleted || have.has(d.id) || gone.indexOf(d.id)>=0) continue;
+      if (v.deleted || gone.indexOf(d.id)>=0) continue;
+      const known=bySid.get(d.id);
+      if (known){
+        // already here: take whatever moved on another device since
+        let touched=false;
+        if (v.mAt && v.mAt>(known.mSeen||0)){
+          writeMeta(known.id, v.meta);
+          known.mSeen=v.mAt;
+          if (v.name && v.name!==known.name) known.name=v.name;
+          touched=true;
+        }
+        if (v.capAt && v.capAt>(known.capAt||0)){
+          syncSay(TR('downloading…'));
+          const cb=await grab('users/'+uid+'/caps/'+d.id+'.jpg');
+          if (cb){
+            known.cap=cb; known.capAt=v.capAt; known.capUp=v.capAt;
+            known.capMeta=v.capMeta||{};
+            touched=true; down++;
+          }
+        }
+        if (touched) await galPut(known);
+        continue;
+      }
       syncSay(TR('downloading…'));
-      let b=null;
-      try{
-        const url=await fb.S.getDownloadURL(fb.S.ref(fb.st,'users/'+uid+'/refs/'+d.id+'.jpg'));
-        const res=await fetch(url);
-        if (res.ok) b=await res.blob();
-      }catch(e){ b=null; }
+      const b=await grab('users/'+uid+'/refs/'+d.id+'.jpg');
       if (!b) continue;
       const colr = v.mode==='c';
-      const nid=await galAdd({ ts:v.ts||Date.now(), name:v.name||'',
-        thumb: v.thumb || await thumbOf(b, colr), blob:b, sid:d.id });
-      if (nid!=null && colr) try{ localStorage.setItem('mode|'+nid,'c'); }catch(e){}
+      const rec={ ts:v.ts||Date.now(), name:v.name||'',
+        thumb: v.thumb || await thumbOf(b, colr), blob:b, sid:d.id,
+        mSeen:v.mAt||0 };
+      if (v.capAt){
+        const cb=await grab('users/'+uid+'/caps/'+d.id+'.jpg');
+        if (cb){ rec.cap=cb; rec.capAt=v.capAt; rec.capUp=v.capAt;
+                 rec.capMeta=v.capMeta||{}; }
+      }
+      const nid=await galAdd(rec);
+      if (nid!=null){
+        writeMeta(nid, v.meta);
+        if (colr) try{ localStorage.setItem('mode|'+nid,'c'); }catch(e){}
+      }
       down++;
     }
     SYNC_AT=Date.now();
     try{ localStorage.setItem('syncAt', ''+SYNC_AT); }catch(e){}
     if (down) renderGallery();
-    syncSay(up||down ? (TR('synced')+' · '+up+'↑ '+down+'↓') : TR('up to date'));
+    if (fail.length){
+      adlog('pull failed on '+fail.length+': '+fail.slice(0,3).join(','));
+      syncSay(fail[0]==='blocked'
+        ? TR('this bucket is not set up for downloads yet')
+        : (TR('could not download')+' '+fail.length));
+    } else {
+      syncSay(up||down ? (TR('synced')+' · '+up+'↑ '+down+'↓')
+                       : TR('up to date'));
+    }
   }catch(e){
     const c=(e&&e.code)||'';
     // a denied write almost always means the rules are not published yet
@@ -7795,10 +7928,14 @@ function cmpApplyCorners(next){
 let cmpT=0, cmpDirty=false;
 function cmpSaveNow(){
   cmpDirty=false;
-  if (CKEY && CMP.blob) dbPutRaw('cmp|'+CKEY, {blob:CMP.blob, framed:!!CMP.framed,
-    corners:CMP.corners?CMP.corners.map(q=>({x:q.x,y:q.y})):null,
-    rawW:CMP.raw?CMP.raw.width:0, rawH:CMP.raw?CMP.raw.height:0,
-    adj:{...CMP.adj}});
+  if (CKEY && CMP.blob){
+    const rec={blob:CMP.blob, framed:!!CMP.framed,
+      corners:CMP.corners?CMP.corners.map(q=>({x:q.x,y:q.y})):null,
+      rawW:CMP.raw?CMP.raw.width:0, rawH:CMP.raw?CMP.raw.height:0,
+      adj:{...CMP.adj}};
+    dbPutRaw('cmp|'+CKEY, rec);
+    capStash(galActive, rec);        // and straight on to the other device
+  }
 }
 function cmpSave(){ cmpDirty=true; clearTimeout(cmpT); cmpT=setTimeout(cmpSaveNow, 700); }
 // the debounce dies with the page: flush when the app is backgrounded or
@@ -7832,6 +7969,7 @@ $('compareBtn').onclick = async () => {
   if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
     CMP.ckey=CKEY; CMP.img=null; CMP.blob=null; CMP.rawF=null; CMP.baseF=null;
     $('cmpFlip').disabled=true;
+    if (CKEY) await capAdopt(galActive, CKEY);
     const saved=CKEY ? await dbGet('cmp|'+CKEY) : null;
     if (saved && saved.blob && !CMP.blob){  // a fresh capture always wins
       // one path for every save: raw + corners -> crop
