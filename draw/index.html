@@ -61,6 +61,7 @@ body{position:fixed;inset:0}
   html.bloom #viewport{transform:scale(.96);opacity:0;transition:none}
   html.chromeIn #setCorner,html.chromeIn #expCorner{
     animation:chromeTop 420ms var(--motE)}
+  html.chromeIn.chromeBk #backBtn{animation:chromeTop 420ms var(--motE)}
   html.chromeIn #hudWrap,html.chromeIn #detCorner,html.chromeIn #gridCorner,
   html.chromeIn #underCorner,html.chromeIn #camCorner{
     animation:chromeBot 420ms var(--motE)}
@@ -671,7 +672,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v364</span>
+    <span id="verNum">v365</span>
   </div>
 </div>
 <div id="delModal">
@@ -1224,8 +1225,9 @@ function bloomIn(){
     void $('viewport').offsetWidth;   // commit the pre-state, unskippably
     de.classList.remove('bloom');
     de.classList.add('chromeIn');     // the edge buttons glide in with it
+    de.classList.toggle('chromeBk', show._from!=='scrFormat');
     clearTimeout(bloomIn._t);
-    bloomIn._t=setTimeout(()=>de.classList.remove('chromeIn'), 480);
+    bloomIn._t=setTimeout(()=>de.classList.remove('chromeIn','chromeBk'), 480);
   }catch(e){}
 }
 // every screen carries the bottom ad strip in the native shell, skinned
@@ -1264,6 +1266,7 @@ window.__adOn = on => {
 };
 const show = id => { tipClose(false); uiShow();
   const cur=document.querySelector('.screen.on');
+  show._from = cur ? cur.id : null;
   if (!cur || cur.id!==id){
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on','off','in'));
     if (cur && !document.hidden){
