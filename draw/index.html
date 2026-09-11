@@ -262,7 +262,9 @@ body.colorRef #hudToggle.lit{width:44px;padding:0;font-size:18px}
   display:none;flex-direction:column;gap:6px;background:#1e1e1e;
   border:1px solid #555;border-radius:14px;padding:6px;z-index:6}
 #detMenu button{white-space:nowrap;font-size:13px;padding:8px 11px;border-radius:9px}
+#gmMiniB{width:26px;height:26px;display:block}
 #gridBtn{width:44px;height:44px;padding:0;line-height:1;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
   display:flex;align-items:center;justify-content:center}
 #underCorner{position:absolute;left:50%;transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:none}
@@ -623,7 +625,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v350</span>
+    <span id="verNum">v351</span>
   </div>
 </div>
 <div id="delModal">
@@ -925,7 +927,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <button id="gmOn">Grid On</button>
     <button id="gmDone"><span class="gmDoneDot"></span>Mark Square</button>
   </div>
-  <button id="gridBtn" title="Grid"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button></div>
+  <button id="gridBtn" title="Grid"><canvas id="gmMiniB" width="64" height="64"></canvas></button></div>
   <div id="underCorner">
     <div id="underMenu">
       <button id="uFull">Detailed</button>
@@ -4945,15 +4947,16 @@ const GRID_PAL=['auto','#ffffff','#000000','#e03c3c','#e8833a',
 // current style, thickness and color
 function drawMini(){
   for (const id of ['gmMini','gmMini2','gmMini3']) drawMini1(id);
+  drawMini1('gmMiniB', '#e8e6e1');   // the grid button: always white
 }
-function drawMini1(id){
+function drawMini1(id, force){
   const c=$(id); if (!c) return;
   const g=c.getContext('2d'), S2=c.width;
   g.clearRect(0,0,S2,S2);
-  let col = GRID_COL==='auto' ? '#e8e6e1' : GRID_COL;
+  let col = force || (GRID_COL==='auto' ? '#e8e6e1' : GRID_COL);
   // a near-black grid vanishes on the dark button: give it a light chip
   const m=/^#(..)(..)(..)$/.exec(col);
-  if (m && (parseInt(m[1],16)*3+parseInt(m[2],16)*6+parseInt(m[3],16))<540){
+  if (!force && m && (parseInt(m[1],16)*3+parseInt(m[2],16)*6+parseInt(m[3],16))<540){
     g.fillStyle='rgba(232,230,225,.88)';
     g.beginPath(); g.roundRect(2,2,S2-4,S2-4,10); g.fill();
   }
