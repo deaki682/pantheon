@@ -133,8 +133,31 @@ class MainActivity : AppCompatActivity() {
         fileCb = null
     }
 
+    // migration for installs that swapped their icon before the feature
+    // was retired: put every launcher component back to its manifest
+    // default (MainActivity enabled, every alias disabled). The aliases
+    // themselves must STAY in the manifest so those installs keep a valid
+    // launcher entry until this runs.
+    private fun restoreLauncherIcon() {
+        try {
+            val prefs = getSharedPreferences("ui", 0)
+            if (prefs.getInt("icon", -1) == -1) return
+            val pm = packageManager
+            val def = android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DEFAULT
+            val flags = android.content.pm.PackageManager.DONT_KILL_APP
+            pm.setComponentEnabledSetting(
+                android.content.ComponentName(this, "app.realism.draw.MainActivity"),
+                def, flags)
+            for (i in 0..9) pm.setComponentEnabledSetting(
+                android.content.ComponentName(this, "app.realism.draw.IconA$i"),
+                def, flags)
+            prefs.edit().putInt("icon", -1).apply()
+        } catch (e: Exception) {}
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        restoreLauncherIcon()
         if (android.os.Build.VERSION.SDK_INT >= 31) {
             // the system splash CROSSFADES into the app instead of vanishing
             // in one frame - the launcher icon swells and dissolves as the
@@ -1157,33 +1180,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        // the launcher icon follows the accent: ten pre-baked vector icons
-        // behind activity-aliases. Deduped in prefs so the boot-time accent
-        // apply never churns the launcher; DONT_KILL_APP on every switch.
+        // RETIRED (Play Deceptive Behavior enforcement, version 187
+        // rejection): swapping launcher icons required disabling the
+        // MainActivity launcher component, which Play's scanner reads as
+        // "app hides its icon". The bridge stays as a no-op so cached
+        // pages calling it do nothing.
         @JavascriptInterface
-        fun setIcon(idx: Int) {
-            runOnUiThread {
-                try {
-                    if (idx < 0 || idx > 9) return@runOnUiThread
-                    val prefs = getSharedPreferences("ui", 0)
-                    if (prefs.getInt("icon", -1) == idx) return@runOnUiThread
-                    val pm = packageManager
-                    val on = android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED
-                    val off = android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_DISABLED
-                    val flags = android.content.pm.PackageManager.DONT_KILL_APP
-                    for (i in 0..9) {
-                        val c = android.content.ComponentName(
-                            this@MainActivity, "app.realism.draw.IconA$i")
-                        pm.setComponentEnabledSetting(c, if (i == idx) on else off, flags)
-                    }
-                    pm.setComponentEnabledSetting(
-                        android.content.ComponentName(
-                            this@MainActivity, "app.realism.draw.MainActivity"),
-                        off, flags)
-                    prefs.edit().putInt("icon", idx).apply()
-                } catch (e: Exception) {}
-            }
-        }
+        fun setIcon(idx: Int) {}
         // WebView vibration varies by OEM even with the permission; the
         // bridge drives the vibrator directly - single, clean pulses
         @JavascriptInterface

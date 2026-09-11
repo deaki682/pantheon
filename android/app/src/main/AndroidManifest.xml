@@ -25,9 +25,12 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-    <!-- the launcher icon follows the accent: one alias per
-         palette colour, swapped by the setIcon bridge. Shipped
-         aliases must NEVER be removed in later versions. -->
+    <!-- RETIRED feature (Play Deceptive Behavior enforcement): these
+         aliases once let the launcher icon follow the accent. Swapping
+         required disabling the MainActivity launcher component, which
+         Play rejects as icon-hiding. The aliases must still NEVER be
+         removed: installs that swapped keep a valid launcher entry via
+         their alias until the boot-time restore migrates them back. -->
     <activity-alias
         android:name=".IconA0"
         android:targetActivity=".MainActivity"
