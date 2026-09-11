@@ -332,7 +332,7 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
   letter-spacing:.03em;margin:0 0 12px}
 #gsdStage{position:relative}
 #gsdCv{display:block;width:100%;height:auto;background:#141414;
-  border-radius:10px}
+  border-radius:10px;touch-action:none}
 #gsdPrev{position:absolute;top:calc(100% + 8px);right:0;
   padding:7px 16px;border-radius:999px;font-size:13px}
 .gsdRow{display:flex;justify-content:center;align-items:center;gap:12px}
@@ -620,7 +620,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v346</span>
+    <span id="verNum">v347</span>
   </div>
 </div>
 <div id="delModal">
@@ -4987,6 +4987,145 @@ function gsdIcon(sch,pos,big){
     return '<svg width="'+k+'" height="'+k+'" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="9.5" y="9.5" width="15" height="15" rx="1"/><text x="17" y="7.5" text-anchor="middle" font-size="8.5" font-weight="600" font-family="system-ui,sans-serif" fill="currentColor" stroke="none">'+c+'</text><text x="4.5" y="20" text-anchor="middle" font-size="8.5" font-weight="600" font-family="system-ui,sans-serif" fill="currentColor" stroke="none">'+r+'</text></svg>';
   return '<svg width="'+k+'" height="'+k+'" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4.5" y="4.5" width="19" height="19" rx="1"/><text x="7" y="14" font-size="8" font-weight="600" font-family="system-ui,sans-serif" fill="currentColor" stroke="none">'+c+r+'</text></svg>';
 }
+// Preview: the window's sample flips to the artist's OWN reference with
+// the live grid tiled over it - pannable, pinchable, opening at
+// true-to-life scale (one grid square = one real inch of screen)
+const GSDP={on:false, img:null, w:0, h:0, cell:0, view:{x:0,y:0,s:1}};
+function gsdSnap(src){
+  const k=Math.min(1, 1200/Math.max(src.width,src.height));
+  const c=document.createElement('canvas');
+  c.width=Math.max(2,Math.round(src.width*k));
+  c.height=Math.max(2,Math.round(src.height*k));
+  c.getContext('2d').drawImage(src,0,0,c.width,c.height);
+  return c;
+}
+function gsdEnterPrev(){
+  let src=null, w=0, h=0, cell=0;
+  if (GRID_READY && $('refImg').width){
+    src=$('refImg'); const ws=worldSize(); w=ws.w; h=ws.h; cell=gridStepPx();
+  } else if (typeof photo!=='undefined' && photo && photo.width){
+    src=photo; w=photo.width; h=photo.height; cell=w/6;
+  }
+  if (!src){ toast('open a reference first', false); return; }
+  GSDP.img=gsdSnap(src); GSDP.w=w; GSDP.h=h; GSDP.cell=cell;
+  GSDP.on=true;
+  const cssW=$('gsdStage').clientWidth;
+  const fit=Math.min(cssW/w, cssW/h);
+  const cal=(typeof INCAL!=='undefined' && INCAL) ? INCAL : 1;
+  GSDP.view.s=Math.max(fit, Math.min(fit*8, 96*cal/cell));
+  GSDP.view.x=cssW/2 - w*0.5*GSDP.view.s;
+  GSDP.view.y=cssW/2 - h*0.40*GSDP.view.s;
+  $('gsdPrev').classList.add('vOn');
+  gsdDraw();
+}
+function gsdExitPrev(){
+  GSDP.on=false; GSDP.img=null;
+  $('gsdPrev').classList.remove('vOn');
+}
+function gsdClampPrev(cssW){
+  const v=GSDP.view;
+  const fit=Math.min(cssW/GSDP.w, cssW/GSDP.h);
+  v.s=Math.max(fit, Math.min(fit*8, v.s));
+  const iw=GSDP.w*v.s, ih=GSDP.h*v.s;
+  v.x = iw>=cssW ? Math.max(cssW-iw, Math.min(0,v.x)) : (cssW-iw)/2;
+  v.y = ih>=cssW ? Math.max(cssW-ih, Math.min(0,v.y)) : (cssW-ih)/2;
+}
+function gsdDrawPrev(g, cssW){
+  gsdClampPrev(cssW);
+  const v=GSDP.view, w=GSDP.w, h=GSDP.h, cell=GSDP.cell;
+  const px=k=>v.x+k*v.s, py=k=>v.y+k*v.s;
+  g.fillStyle='#0e0e0e'; g.fillRect(0,0,cssW,cssW);
+  g.drawImage(GSDP.img, v.x, v.y, w*v.s, h*v.s);
+  const col = GRID_COL==='auto' ? 'rgba(255,255,255,0.8)' : GRID_COL;
+  const cols=Math.ceil(w/cell-1e-6), rows=Math.ceil(h/cell-1e-6);
+  g.save();
+  g.beginPath();
+  g.rect(Math.max(0,v.x), Math.max(0,v.y),
+         Math.min(cssW,v.x+w*v.s)-Math.max(0,v.x),
+         Math.min(cssW,v.y+h*v.s)-Math.max(0,v.y));
+  g.clip();
+  const lw = GRID_THK===1 ? 1.5 : GRID_THK===2 ? 3 : 4.5;
+  g.strokeStyle=col; g.fillStyle=col; g.lineWidth=lw; g.lineCap='round';
+  g.globalAlpha=GRID_OP;
+  if (GRID_STYLE==='dots'){
+    const r2=Math.max(3,lw*1.6);
+    for (let j=1;j<rows;j++) for (let i=1;i<cols;i++){
+      const x=px(i*cell), y=py(j*cell);
+      if (x<-9||y<-9||x>cssW+9||y>cssW+9) continue;
+      g.beginPath(); g.arc(x,y,r2,0,6.2832); g.fill();
+    }
+  } else {
+    g.beginPath();
+    for (let i=1;i<cols;i++){ const x=px(i*cell);
+      if (x>=-2&&x<=cssW+2){ g.moveTo(x,py(0)); g.lineTo(x,py(h)); } }
+    for (let j=1;j<rows;j++){ const y=py(j*cell);
+      if (y>=-2&&y<=cssW+2){ g.moveTo(px(0),y); g.lineTo(px(w),y); } }
+    g.stroke();
+    if (GRID_STYLE==='diag'){
+      g.globalAlpha=GRID_OP*0.6;
+      g.beginPath();
+      for (let j=0;j<rows;j++) for (let i=0;i<cols;i++){
+        const ax=px(i*cell), ay=py(j*cell), bx=px((i+1)*cell), by=py((j+1)*cell);
+        if (bx<0||by<0||ax>cssW||ay>cssW) continue;
+        g.moveTo(ax,ay); g.lineTo(bx,by);
+        g.moveTo(bx,ay); g.lineTo(ax,by);
+      }
+      g.stroke();
+      g.globalAlpha=GRID_OP;
+    }
+  }
+  if (GRID_SUB){
+    g.globalAlpha=GRID_OP*0.55;
+    const ss=cell/2;
+    if (GRID_STYLE==='dots'){
+      const r3=Math.max(2,lw);
+      for (let j=1;j<rows*2;j++) for (let i=1;i<cols*2;i++){
+        if (j%2===0 && i%2===0) continue;
+        const x=px(i*ss), y=py(j*ss);
+        if (x<-9||y<-9||x>cssW+9||y>cssW+9) continue;
+        g.beginPath(); g.arc(x,y,r3,0,6.2832); g.fill();
+      }
+    } else {
+      g.lineWidth=Math.max(1,lw*0.6);
+      g.beginPath();
+      for (let i=1;i<cols*2;i+=2){ const x=px(i*ss);
+        if (x>=-2&&x<=cssW+2){ g.moveTo(x,py(0)); g.lineTo(x,py(h)); } }
+      for (let j=1;j<rows*2;j+=2){ const y=py(j*ss);
+        if (y>=-2&&y<=cssW+2){ g.moveTo(px(0),y); g.lineTo(px(w),y); } }
+      g.stroke();
+      g.lineWidth=lw;
+    }
+    g.globalAlpha=GRID_OP;
+  }
+  const symC=i=> GRID_LSCH[0]==='L' ? colName(i) : String(i+1);
+  const symR=j=> GRID_LSCH[1]==='L' ? colName(j) : String(j+1);
+  if (GRID_LAB && GRID_LPOS==='cell' && cell*v.s>=40){
+    g.font='600 11px system-ui';
+    g.textAlign='left'; g.textBaseline='top';
+    for (let j=0;j<rows;j++) for (let i=0;i<cols;i++){
+      const x=px(i*cell)+6, y=py(j*cell)+5;
+      if (x<-40||y<-20||x>cssW||y>cssW) continue;
+      g.fillText(symC(i)+symR(j), x, y);
+    }
+  }
+  g.restore();
+  if (GRID_LAB && GRID_LPOS==='edge'){
+    g.globalAlpha=GRID_OP; g.fillStyle=col;
+    g.font='600 12px system-ui';
+    g.textAlign='center'; g.textBaseline='middle';
+    for (let i=0;i<cols;i++){
+      const x=px((i+0.5)*cell);
+      if (x<8||x>cssW-8) continue;
+      g.fillText(symC(i), x, Math.max(13, py(0)-10));
+    }
+    for (let j=0;j<rows;j++){
+      const y=py((j+0.5)*cell);
+      if (y<8||y>cssW-8) continue;
+      g.fillText(symR(j), Math.max(11, px(0)-10), y);
+    }
+  }
+  g.globalAlpha=1; g.textAlign='left';
+}
 // the sample: ONE square wearing the current design, exactly the mockup
 function gsdDraw(){
   const cv2=$('gsdCv'); if (!cv2) return;
@@ -4998,6 +5137,7 @@ function gsdDraw(){
   const g=cv2.getContext('2d');
   g.setTransform(dpr,0,0,dpr,0,0);
   g.clearRect(0,0,cssW,cssW);
+  if (GSDP.on && GSDP.img){ gsdDrawPrev(g, cssW); return; }
   const lw = GRID_THK===1 ? 1.5 : GRID_THK===2 ? 3 : 4.5;
   const pad=lw*3+10+(GRID_LAB&&GRID_LPOS==='edge'?20:0);
   const x0=pad, y0=pad, x1=cssW-pad, y1=cssW-pad, w=x1-x0;
@@ -5132,15 +5272,58 @@ $('gsdOp').oninput=e=>{
   try{ localStorage.setItem('gridOp', ''+GRID_OP); }catch(e){}
   gsdApply(); gsdSync();
 };
+{
+  const cv2=$('gsdCv'); const pp=new Map(); let pz=null;
+  cv2.addEventListener('pointerdown', e=>{
+    if (!GSDP.on) return;
+    cv2.setPointerCapture(e.pointerId);
+    pp.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    if (pp.size===2){
+      const [a,b2]=[...pp.values()];
+      pz={d:Math.hypot(a.x-b2.x,a.y-b2.y), s:GSDP.view.s,
+          cx:(a.x+b2.x)/2, cy:(a.y+b2.y)/2, vx:GSDP.view.x, vy:GSDP.view.y};
+    }
+  });
+  cv2.addEventListener('pointermove', e=>{
+    const p=pp.get(e.pointerId); if (!p || !GSDP.on) return;
+    const dx=e.clientX-p.x, dy=e.clientY-p.y;
+    p.x=e.clientX; p.y=e.clientY;
+    if (pp.size===1){ GSDP.view.x+=dx; GSDP.view.y+=dy; gsdDraw(); }
+    else if (pp.size===2 && pz){
+      const [a,b2]=[...pp.values()];
+      const r=cv2.getBoundingClientRect();
+      const k=(pz.s*Math.hypot(a.x-b2.x,a.y-b2.y)/pz.d)/pz.s;
+      GSDP.view.s=pz.s*k;
+      GSDP.view.x=(pz.cx-r.left)-((pz.cx-r.left)-pz.vx)*k;
+      GSDP.view.y=(pz.cy-r.top)-((pz.cy-r.top)-pz.vy)*k;
+      gsdDraw();
+    }
+  });
+  const up2=e=>{ pp.delete(e.pointerId); if (pp.size<2) pz=null; };
+  cv2.addEventListener('pointerup', up2);
+  cv2.addEventListener('pointercancel', up2);
+  cv2.addEventListener('wheel', e=>{
+    if (!GSDP.on) return;
+    e.preventDefault();
+    const r=cv2.getBoundingClientRect();
+    const k=e.deltaY<0 ? 1.15 : 1/1.15;
+    GSDP.view.x=(e.clientX-r.left)-((e.clientX-r.left)-GSDP.view.x)*k;
+    GSDP.view.y=(e.clientY-r.top)-((e.clientY-r.top)-GSDP.view.y)*k;
+    GSDP.view.s*=k; gsdDraw();
+  }, {passive:false});
+}
 function gsdOpen(){
   $('gridMenu').style.display='none';
-  gsdClosePops();
+  gsdClosePops(); gsdExitPrev();
   $('gsdModal').style.display='flex';
   requestAnimationFrame(gsdSync);     // the stage needs its real width
 }
-function gsdClose(){ $('gsdModal').style.display='none'; }
+function gsdClose(){ gsdExitPrev(); $('gsdModal').style.display='none'; }
 $('gmDesign').onclick=gsdOpen;
-$('gsdPrev').onclick=()=>{ haptic(); gsdClose(); };   // the project IS the preview
+$('gsdPrev').onclick=()=>{ haptic();
+  if (GSDP.on){ gsdExitPrev(); gsdDraw(); }
+  else gsdEnterPrev();
+};
 $('gsdModal').onclick=e=>{ if (e.target===$('gsdModal')) gsdClose(); };
 $('detBtn').onclick=()=>{
   const m=$('detMenu');
