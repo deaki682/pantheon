@@ -197,6 +197,8 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
 #mirBtn{min-width:52px}
 #alphaSl{flex:0 1 50%;min-width:80px;padding:0}
 #mirRow .row{justify-content:center}
+#cmpRow button,#lvBtn,#mirBtn,#lvReset{min-height:calc(40px*var(--ux,1));
+  display:inline-flex;align-items:center;justify-content:center}
 
 /* compare: the photographed drawing aligned over the reference */
 #cmpView{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
@@ -261,9 +263,9 @@ body.colorRef #hudWrap{left:calc(30px + (100% - 60px)*0.5)}
 #hudToggle{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;font-size:calc(18px*var(--ux,1));line-height:1;border-radius:12px}
 #hudToggle.lit{width:auto;padding:0 16px;font-size:calc(14px*var(--ux,1))}
 body.colorRef #hudToggle.lit{width:calc(44px*var(--ux,1));padding:0;font-size:calc(18px*var(--ux,1))}
-#camCorner{position:absolute;left:calc(100% - 30px);transform:translateX(-50%);
+#camCorner{position:absolute;left:calc(100% - 8px - 22px*var(--ux,1));transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
-#detCorner{position:absolute;left:30px;transform:translateX(-50%);
+#detCorner{position:absolute;left:calc(8px + 22px*var(--ux,1));transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
 #gridCorner{position:absolute;left:calc(30px + (100% - 60px)*2/3);
   transform:translateX(-50%);bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
@@ -675,6 +677,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   #upTitle{font-size:calc(22px*var(--tb))}
   #pwaNote{font-size:calc(11px*var(--tb))}
   #a11yPanel{width:min(92vw,calc(360px*var(--ux,1)))}
+  #gsdPanel{--ux:var(--tb)}
   .a11yPills{flex-wrap:wrap}
   #hudToggle{font-size:calc(24px*var(--ux,1))}
   #hudToggle.lit{font-size:calc(16px*var(--ux,1))}
@@ -703,9 +706,10 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   body.uiHid #setCorner,html.adCorner body.uiHid #setCorner{
     transform:translate(-190%,-50%)}
   #expCorner{left:calc(8px + env(safe-area-inset-left));right:auto;
-    top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
-  html.adOn #expCorner{bottom:calc(64px + env(safe-area-inset-bottom))}
+    top:calc(8px + env(safe-area-inset-top));bottom:auto}
   body.uiHid #expCorner{transform:translate(-190%,0)}
+  html:has(#scrMain.on) #backBtn{top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
+  html:has(#scrMain.on) body.uiHid #backBtn{transform:translate(-190%,0)}
   #hudWrap,body.colorRef #hudWrap,body:not(.colorRef) #hudWrap{
     left:auto;right:calc(8px + env(safe-area-inset-right));
     top:calc(8px + env(safe-area-inset-top));bottom:auto;transform:none;
@@ -731,8 +735,8 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   #shutter{left:auto;right:calc(20px + env(safe-area-inset-right));
     bottom:auto;top:50%;transform:translateY(-50%)}
   #detMenu{bottom:auto;top:0;left:auto;right:calc(100% + 8px)}
-  #underMenu,#gridMenu{top:auto;bottom:0;left:auto;
-    right:calc(100% + 8px);transform:none}
+  #underMenu,#gridMenu{top:50%;bottom:auto;left:auto;
+    right:calc(100% + 26px);transform:none;translate:0 -50%}
   body.uiHid #hudWrap,body.uiHid #camCorner,
   html.adOn body.uiHid #hudWrap,html.adOn body.uiHid #camCorner{
     transform:translate(160%,0)}
@@ -742,7 +746,8 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 }
 @media (orientation:landscape) and (prefers-reduced-motion: no-preference){
   #gridMenu{animation:menuIn 160ms var(--motE)}
-  html.chromeIn #setCorner,html.chromeIn #expCorner{
+  html.chromeIn #setCorner,html.chromeIn #expCorner,
+  html.chromeIn.chromeBk:has(#scrMain.on) #backBtn{
     animation:chromeL 420ms var(--motE)}
   html.chromeIn #hudWrap,html.chromeIn #detCorner,html.chromeIn #gridCorner,
   html.chromeIn #underCorner,html.chromeIn #camCorner{
@@ -790,7 +795,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v371</span>
+    <span id="verNum">v372</span>
   </div>
 </div>
 <div id="delModal">

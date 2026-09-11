@@ -464,6 +464,8 @@ class MainActivity : AppCompatActivity() {
             nativeAd?.destroy()
             nativeAd = ad
             adViewMode = ""                  // rebuilt into whichever mode shows
+            if (adCardShown) buildStrip()    // never leave a visible container
+            if (adCornerShown) buildCorner() // bound to the destroyed ad
             applyAd()
         } catch (e: Throwable) { logLine("native show: " + e.message) }
     }
@@ -571,7 +573,9 @@ class MainActivity : AppCompatActivity() {
         card.orientation = android.widget.LinearLayout.HORIZONTAL
         card.setPadding(dp(6), dp(6), dp(6), dp(6))
         val mediaWrap = FrameLayout(this)
+        mediaWrap.clipChildren = true; mediaWrap.clipToPadding = true
         val media = com.google.android.gms.ads.nativead.MediaView(this)
+        media.setImageScaleType(android.widget.ImageView.ScaleType.CENTER_CROP)
         mediaWrap.addView(media, FrameLayout.LayoutParams(dp(120), dp(120)))
         val badge = adBadge(::dp)
         val blp = FrameLayout.LayoutParams(
@@ -596,8 +600,10 @@ class MainActivity : AppCompatActivity() {
             android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
             android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
         card.addView(col, android.widget.LinearLayout.LayoutParams(dp(112), dp(120)))
-        adv.addView(card, FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT))
+        // 6 + 120 media + 112 column + 6 = 244dp wide, 6 + 120 + 6 = 132dp tall:
+        // the minimum a video-eligible native ad needs, and never more
+        val CW = dp(244); val CH = dp(132)
+        adv.addView(card, FrameLayout.LayoutParams(CW, CH))
         adv.mediaView = media
         adv.headlineView = head
         adv.callToActionView = cta
@@ -626,11 +632,11 @@ class MainActivity : AppCompatActivity() {
         adCloseFloat = null
         if (land) {
             // beside the gear: past the edge column's button width, centered
-            val gearW = if (resources.configuration.smallestScreenWidthDp >= 600) 76 else 44
             val flp = FrameLayout.LayoutParams(dp(26), dp(26),
                 android.view.Gravity.START or android.view.Gravity.CENTER_VERTICAL)
-            flp.leftMargin = dp(8 + gearW + 12)
-            close.visibility = android.view.View.GONE
+            flp.leftMargin = dp(8 + colW() + 12)
+            close.visibility = if (adCornerShown) android.view.View.VISIBLE
+                               else android.view.View.GONE
             (adCornerWrap.parent as? FrameLayout)?.addView(close, flp)
             adCloseFloat = close
         } else {
@@ -638,9 +644,7 @@ class MainActivity : AppCompatActivity() {
             clp.topMargin = dp(64); clp.rightMargin = dp(17)
             rowWrap.addView(close, clp)
         }
-        rowWrap.addView(adv, android.widget.LinearLayout.LayoutParams(
-            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT,
-            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT))
+        rowWrap.addView(adv, android.widget.LinearLayout.LayoutParams(CW, CH))
         adCornerWrap.removeAllViews()
         adCornerWrap.addView(rowWrap, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT))
@@ -711,8 +715,7 @@ class MainActivity : AppCompatActivity() {
         adCornerWrap.visibility = android.view.View.VISIBLE
         adCornerWrap.post {
             // grow out of the download button's corner, visibly - never a snap
-            adCornerWrap.pivotX = if (adLand()) 0f else adCornerWrap.width.toFloat()
-            adCornerWrap.pivotY = if (adLand()) adCornerWrap.height.toFloat() else 0f
+            adCornerWrap.pivotX = adCornerWrap.width.toFloat(); adCornerWrap.pivotY = 0f
             adCornerWrap.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(350)
                 .setInterpolator(android.view.animation.DecelerateInterpolator()).start()
         }
@@ -728,8 +731,7 @@ class MainActivity : AppCompatActivity() {
         adCloseFloat?.visibility = android.view.View.GONE
         adNextShowAt = android.os.SystemClock.uptimeMillis() + AD_OFF_MS
         adCornerWrap.animate().cancel()
-        adCornerWrap.pivotX = if (adLand()) 0f else adCornerWrap.width.toFloat()
-        adCornerWrap.pivotY = if (adLand()) adCornerWrap.height.toFloat() else 0f
+        adCornerWrap.pivotX = adCornerWrap.width.toFloat(); adCornerWrap.pivotY = 0f
         adCornerWrap.animate().scaleX(0.3f).scaleY(0.3f).alpha(0f).setDuration(250)
             .setInterpolator(android.view.animation.AccelerateInterpolator())
             .withEndAction {
@@ -1302,15 +1304,16 @@ class MainActivity : AppCompatActivity() {
     private fun dispRot(): Int =
         previewView.display?.rotation
             ?: @Suppress("DEPRECATION") windowManager.defaultDisplay.rotation
+    private fun colW() = if (resources.configuration.smallestScreenWidthDp >= 600) 76 else 44
     private fun adCornerParams(): FrameLayout.LayoutParams {
-        val m = (8 * resources.displayMetrics.density).toInt()
-        val land = adLand()
+        val d = resources.displayMetrics.density
+        val m = (8 * d).toInt()
         val clp = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
-            if (land) android.view.Gravity.BOTTOM or android.view.Gravity.START
-            else android.view.Gravity.TOP or android.view.Gravity.END)
-        if (land) { clp.bottomMargin = m; clp.leftMargin = m }
-        else { clp.topMargin = m; clp.rightMargin = m }
+            android.view.Gravity.TOP or android.view.Gravity.END)
+        clp.topMargin = m
+        // landscape: the right edge holds the button column - sit just inside it
+        clp.rightMargin = if (adLand()) ((8 + colW() + 8) * d).toInt() else m
         return clp
     }
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
