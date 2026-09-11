@@ -16,9 +16,11 @@ android {
   }
   // the web app IS the app: the android module serves ../draw verbatim
   sourceSets.main.assets.srcDirs += rootProject.file('../draw')
-  // release signing identity: android/release.keystore + keystore.properties.
-  // NEVER lose or regenerate that keystore - every future update must be
-  // signed with it. Back both files up somewhere safe.
+  // release signing identity: android/release.keystore + keystore.properties,
+  // both GITIGNORED - never commit them (this repo is public). CI writes
+  // them from repo secrets for the length of a build; a local build puts
+  // them there by hand. NEVER lose or regenerate that keystore - every
+  // future update must be signed with it. Back both files up somewhere safe.
   def ksProps = new Properties()
   def ksFile = rootProject.file('keystore.properties')
   if (ksFile.exists()) ksFile.withInputStream { ksProps.load(it) }

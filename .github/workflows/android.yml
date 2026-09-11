@@ -3,8 +3,13 @@
 # the deployable web zip, and attaches both to a release tagged by the
 # Android versionCode so they can be fetched by URL from anywhere.
 # Nothing here uploads to Play: that stays a human's hand in the Console.
-# The signing identity is android/release.keystore + keystore.properties
-# in the repo, the same files a local build uses.
+# The signing identity lives ONLY in repo secrets, never in the tree:
+#   ANDROID_KEYSTORE_B64  the release.keystore file, base64
+#   ANDROID_KEYSTORE_PASS the store password
+#   ANDROID_KEY_ALIAS     the key alias (realism)
+#   ANDROID_KEY_PASS      the key password
+# The build writes them to android/ for the length of the job and no
+# further; a local build puts the same two files there by hand.
 name: Android build
 on:
   workflow_dispatch:
@@ -43,8 +48,25 @@ jobs:
           echo "name=$name" >> "$GITHUB_OUTPUT"
           echo "web=$web"   >> "$GITHUB_OUTPUT"
           echo "android $code ($name), web v$web"
+      - name: Signing identity from secrets
+        env:
+          KS_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          KS_PASS: ${{ secrets.ANDROID_KEYSTORE_PASS }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.ANDROID_KEY_PASS }}
+        run: |
+          if [ -z "$KS_B64" ] || [ -z "$KS_PASS" ] || [ -z "$KEY_ALIAS" ] || [ -z "$KEY_PASS" ]; then
+            echo "::error::signing secrets missing - add ANDROID_KEYSTORE_B64 / ANDROID_KEYSTORE_PASS / ANDROID_KEY_ALIAS / ANDROID_KEY_PASS in repo settings"
+            exit 1
+          fi
+          echo "$KS_B64" | base64 -d > android/release.keystore
+          printf 'storeFile=release.keystore\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
+            "$KS_PASS" "$KEY_ALIAS" "$KEY_PASS" > android/keystore.properties
       - name: Build the signed release bundle
         run: gradle -p android --no-daemon :app:bundleRelease
+      - name: Scrub the signing identity
+        if: always()
+        run: rm -f android/release.keystore android/keystore.properties
       - name: Package
         run: |
           set -e
