@@ -233,12 +233,7 @@ class MainActivity : AppCompatActivity() {
         adCornerWrap = FrameLayout(this)
         adCornerWrap.visibility = android.view.View.GONE
         run {
-            val m = (8 * resources.displayMetrics.density).toInt()
-            val clp = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
-                android.view.Gravity.TOP or android.view.Gravity.END)
-            clp.topMargin = m; clp.rightMargin = m
-            root.addView(adCornerWrap, clp)
+            root.addView(adCornerWrap, adCornerParams())
         }
         setContentView(root)
         run {
@@ -532,9 +527,25 @@ class MainActivity : AppCompatActivity() {
         adv.callToActionView = cta
         adv.setNativeAd(ad)
         adWrap.removeAllViews()
-        adWrap.addView(adv, FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT))
-        adWrap.setBackgroundColor(adBgCol)
+        // landscape: a full-width strip eats a fifth of the short screen -
+        // float a compact centered card instead and let the page show
+        // through beside it; portrait keeps the edge-to-edge strip
+        val land = resources.configuration.orientation ==
+            android.content.res.Configuration.ORIENTATION_LANDSCAPE
+        val alp = FrameLayout.LayoutParams(
+            if (land) minOf(dp(460), resources.displayMetrics.widthPixels - dp(140))
+            else FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT)
+        if (land) {
+            alp.gravity = android.view.Gravity.CENTER_HORIZONTAL
+            alp.bottomMargin = dp(6)
+            adv.background = android.graphics.drawable.GradientDrawable().apply {
+                setColor(adBgCol); cornerRadius = dp(14).toFloat()
+            }
+            adv.clipToOutline = true
+            adWrap.setBackgroundColor(0)
+        } else adWrap.setBackgroundColor(adBgCol)
+        adWrap.addView(adv, alp)
         adCard = adv
         adBadgeV = badge
         adCtaV = cta
@@ -682,7 +693,8 @@ class MainActivity : AppCompatActivity() {
         adCornerWrap.visibility = android.view.View.VISIBLE
         adCornerWrap.post {
             // grow out of the download button's corner, visibly - never a snap
-            adCornerWrap.pivotX = adCornerWrap.width.toFloat(); adCornerWrap.pivotY = 0f
+            adCornerWrap.pivotX = if (adLand()) 0f else adCornerWrap.width.toFloat()
+            adCornerWrap.pivotY = if (adLand()) adCornerWrap.height.toFloat() else 0f
             adCornerWrap.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(350)
                 .setInterpolator(android.view.animation.DecelerateInterpolator()).start()
         }
@@ -696,7 +708,8 @@ class MainActivity : AppCompatActivity() {
         adCornerShown = false
         adNextShowAt = android.os.SystemClock.uptimeMillis() + AD_OFF_MS
         adCornerWrap.animate().cancel()
-        adCornerWrap.pivotX = adCornerWrap.width.toFloat(); adCornerWrap.pivotY = 0f
+        adCornerWrap.pivotX = if (adLand()) 0f else adCornerWrap.width.toFloat()
+        adCornerWrap.pivotY = if (adLand()) adCornerWrap.height.toFloat() else 0f
         adCornerWrap.animate().scaleX(0.3f).scaleY(0.3f).alpha(0f).setDuration(250)
             .setInterpolator(android.view.animation.AccelerateInterpolator())
             .withEndAction {
@@ -1262,6 +1275,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // the corner card grows out of the download button's corner, and the
+    // button lives top-right in portrait but bottom-left in landscape
+    private fun adLand() = resources.configuration.orientation ==
+        android.content.res.Configuration.ORIENTATION_LANDSCAPE
+    private fun adCornerParams(): FrameLayout.LayoutParams {
+        val m = (8 * resources.displayMetrics.density).toInt()
+        val land = adLand()
+        val clp = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
+            if (land) android.view.Gravity.BOTTOM or android.view.Gravity.START
+            else android.view.Gravity.TOP or android.view.Gravity.END)
+        if (land) { clp.bottomMargin = m; clp.leftMargin = m }
+        else { clp.topMargin = m; clp.rightMargin = m }
+        return clp
+    }
+    override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // rotation does not recreate the activity (configChanges) - re-lay
+        // the ad surfaces for the new orientation; the page restarts the
+        // camera itself from its resize handler, and re-sends adProj so
+        // the strip/corner split follows the orientation
+        runOnUiThread {
+            adCornerWrap.layoutParams = adCornerParams()
+            if (adViewMode == "strip" && nativeAd != null) buildStrip()
+        }
+    }
+
     // capture-quality ladder, per device, self-healing: a rung is marked
     // 'attempting' in prefs before it binds and cleared once the preview
     // reports ready - if the process died mid-attempt (vendor HAL crash),
@@ -1372,11 +1412,16 @@ class MainActivity : AppCompatActivity() {
             fun reportSize() {
                 val ri = preview.resolutionInfo
                 if (ri != null) {
-                    // the app is portrait-locked: the display-oriented frame is
-                    // ALWAYS taller than wide, whatever the rotation metadata
-                    // claims - this is what kept the ghost inside the viewfinder
-                    val fw = minOf(ri.resolution.width, ri.resolution.height)
-                    val fh = maxOf(ri.resolution.width, ri.resolution.height)
+                    // display-oriented frame: tall on portrait screens, wide
+                    // on landscape, whatever the rotation metadata claims. The
+                    // page restarts the camera on rotation, so this decision
+                    // is re-made on every open
+                    val land = resources.configuration.orientation ==
+                        android.content.res.Configuration.ORIENTATION_LANDSCAPE
+                    val fw = if (land) maxOf(ri.resolution.width, ri.resolution.height)
+                             else minOf(ri.resolution.width, ri.resolution.height)
+                    val fh = if (land) minOf(ri.resolution.width, ri.resolution.height)
+                             else maxOf(ri.resolution.width, ri.resolution.height)
                     prefs.edit().remove("attempting").apply()
                     if (!modeAnnounced) {
                         modeAnnounced = true

@@ -661,6 +661,64 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 #tourCaret.up{border-top:none;border-bottom:12px solid #555}
 .tipLit{border-color:var(--acc) !important;
   box-shadow:0 0 10px 1px var(--acc)}
+/* landscape: the drawing chrome moves to the side edges - back, gear and
+   download down the LEFT, layers/detail/grid/comparison down the RIGHT -
+   and every submenu opens inward, toward the paper. The home screen gains
+   vertical scroll so the colour row stays reachable. */
+@media (orientation:landscape){
+  #scrUpload{overflow-y:auto}
+  #upGridBg{position:fixed}
+  #scrUpload #gallery,#scrUpload #galleryC{touch-action:pan-x pan-y}
+  #setCorner,html.adCorner #setCorner{left:calc(8px + env(safe-area-inset-left));
+    top:50%;transform:translate(0,-50%)}
+  body.uiHid #setCorner,html.adCorner body.uiHid #setCorner{
+    transform:translate(-190%,-50%)}
+  #expCorner{left:calc(8px + env(safe-area-inset-left));right:auto;
+    top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
+  html.adOn #expCorner{bottom:calc(64px + env(safe-area-inset-bottom))}
+  body.uiHid #expCorner{transform:translate(-190%,0)}
+  #hudWrap,body.colorRef #hudWrap,body:not(.colorRef) #hudWrap{
+    left:auto;right:calc(8px + env(safe-area-inset-right));
+    top:calc(8px + env(safe-area-inset-top));bottom:auto;transform:none;
+    align-items:flex-end}
+  #hud,body:not(.colorRef) #hud{position:absolute;top:0;bottom:auto;
+    left:auto;right:calc(100% + 8px);width:max-content;
+    max-width:calc(100vw - 140px)}
+  #detCorner{left:auto;right:calc(8px + env(safe-area-inset-right));
+    bottom:auto;transform:translateY(-50%)}
+  body:not(.colorRef) #detCorner{left:auto;top:36%}
+  body.colorRef #detCorner{left:auto;top:46%}
+  #underCorner{left:auto;right:calc(8px + env(safe-area-inset-right));
+    bottom:auto;transform:translateY(-50%)}
+  body.colorRef #underCorner{left:auto;top:27%}
+  #gridCorner{left:auto;right:calc(8px + env(safe-area-inset-right));
+    bottom:auto;transform:translateY(-50%)}
+  body:not(.colorRef) #gridCorner{left:auto;top:64%}
+  body.colorRef #gridCorner{left:auto;top:66%}
+  #camCorner{left:auto;right:calc(8px + env(safe-area-inset-right));
+    transform:none;top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
+  html.adOn #hudWrap,html.adOn #detCorner,html.adOn #gridCorner,
+  html.adOn #underCorner{bottom:auto}
+  #detMenu{bottom:auto;top:0;left:auto;right:calc(100% + 8px)}
+  #underMenu,#gridMenu{top:auto;bottom:0;left:auto;
+    right:calc(100% + 8px);transform:none}
+  body.uiHid #hudWrap,body.uiHid #camCorner,
+  html.adOn body.uiHid #hudWrap,html.adOn body.uiHid #camCorner{
+    transform:translate(160%,0)}
+  body.uiHid #detCorner,body.uiHid #gridCorner,body.uiHid #underCorner,
+  html.adOn body.uiHid #detCorner,html.adOn body.uiHid #gridCorner,
+  html.adOn body.uiHid #underCorner{transform:translate(160%,-50%)}
+}
+@media (orientation:landscape) and (prefers-reduced-motion: no-preference){
+  #gridMenu{animation:menuIn 160ms var(--motE)}
+  html.chromeIn #setCorner,html.chromeIn #expCorner{
+    animation:chromeL 420ms var(--motE)}
+  html.chromeIn #hudWrap,html.chromeIn #detCorner,html.chromeIn #gridCorner,
+  html.chromeIn #underCorner,html.chromeIn #camCorner{
+    animation:chromeR 420ms var(--motE)}
+}
+@keyframes chromeL{from{translate:-90px 0;opacity:0}to{translate:0 0;opacity:1}}
+@keyframes chromeR{from{translate:90px 0;opacity:0}to{translate:0 0;opacity:1}}
 </style>
 </head>
 <body>
@@ -701,7 +759,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v367</span>
+    <span id="verNum">v368</span>
   </div>
 </div>
 <div id="delModal">
@@ -1274,12 +1332,17 @@ function adSync(){
     const bg={scrUpload:'#141414',scrFormat:'#141414',
               scrMain:'#2a2a2a',scrCompare:'#2a2a2a'}[on && on.id]||'#141414';
     RealismCam.adPlace(!cam && !splash, bg);
-    // corner-card mode PARKED (operator revert 2026-09-10): the persistent
-    // strip rides every screen. Flip this back to
-    //   !cam && !!(on && on.id==='scrMain')
-    // to re-arm the drawing-screen corner card - both shells keep the
-    // machinery dormant.
-    if (RealismCam.adProj) RealismCam.adProj(false);
+    // corner-card mode PARKED on portrait phones (operator revert
+    // 2026-09-10): the persistent strip rides every screen there. Two
+    // re-arms by operator directive 2026-09-11: LANDSCAPE runs the corner
+    // card everywhere (no bottom strip on a short screen), and TABLETS run
+    // it on the drawing screen in any orientation - the download corner
+    // hosts the intermittent media card and the button yields.
+    if (RealismCam.adProj){
+      const land=matchMedia('(orientation: landscape)').matches;
+      const tab=matchMedia('(min-width:600px) and (min-height:600px)').matches;
+      RealismCam.adProj(!cam && (land || (tab && !!(on && on.id==='scrMain'))));
+    }
   }catch(e){}
 }
 // corner-card mode: while the ad occupies the download corner, the button
@@ -2272,6 +2335,10 @@ try{
 }catch(e){}
 try{ if (window.RealismCam && RealismCam.adScreen && !RealismCam.adPlace) RealismCam.adScreen(true); }catch(e){}
 adSync();
+try{
+  matchMedia('(orientation: landscape)').addEventListener('change', adSync);
+  matchMedia('(min-width:600px) and (min-height:600px)').addEventListener('change', adSync);
+}catch(e){}
 // storage durability: without a persistence grant the browser engine may
 // EVICT this origin's whole storage under disk pressure - weeks of
 // references gone in one low-space moment. Ask for the grant, and show
@@ -3997,7 +4064,12 @@ function drawEdgeLabs(){
   g.globalAlpha=1;
 }
 function colName(i){ let s2=''; i++; while(i>0){ i--; s2=String.fromCharCode(65+i%26)+s2; i=(i/26)|0; } return s2; }
-addEventListener('resize', () => { if ($('scrMain').classList.contains('on')) applyView(); });
+addEventListener('resize', () => { if ($('scrMain').classList.contains('on')){
+  // a rotation must not inherit the over-drag break-through slack - the
+  // extended bounds could legally park the paper half off the new screen
+  Object.assign(PANS.x, ovState()); Object.assign(PANS.y, ovState());
+  applyView();
+} });
 function paintWorld(){
   // the re-derivable layers: reference, grid, dimming - callable again after
   // the browser evicts canvas memory in the background
@@ -7957,7 +8029,16 @@ $('cmpSplit').onclick = () => {
       return;
     }
   }, {passive:false});
-  addEventListener('resize', ()=>{ if ($('scrCompare').classList.contains('on')){ cmpSize(); cmpRender(); } });
+  addEventListener('resize', ()=>{ if ($('scrCompare').classList.contains('on')){ cmpSize(); cmpRender();
+  if (CAM.nat && !CAM.natWait){
+    // the native preview was bound for the old display rotation - a full
+    // stop/start rebinds it (and re-reports the frame size) for the new one
+    clearTimeout(CAM.rotT);
+    CAM.rotT=setTimeout(()=>{ if (!CAM.nat) return;
+      try{ RealismCam.stop(); }catch(e){}
+      CAM.nat=null; natStart(); }, 300);
+  }
+} });
 }
 
 // the tool panel collapses to a corner button for a clear view of the drawing
