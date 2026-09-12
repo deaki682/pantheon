@@ -50,6 +50,13 @@ class MainActivity : AppCompatActivity() {
     private var pendingStart: Runnable? = null
     private var capLabel = ""
     private var rawMode = false
+    // A colour project cannot use the RAW rung. RAW is reduced to a single
+    // luminance plane on the way through - correct for a charcoal drawing,
+    // which is what this camera was built for - and the JPEG is then
+    // synthesised from that plane, so the photograph is grey before the
+    // page ever sees it. No amount of colour handling in the page can
+    // recover what was never captured.
+    private var wantColor = false
     // freshest lens-shading gain map from the preview's repeating request;
     // rawLuma divides the lens's real corner falloff out of the RAW plane
     @Volatile private var shadeMap: android.hardware.camera2.params.LensShadingMap? = null
@@ -1462,6 +1469,15 @@ class MainActivity : AppCompatActivity() {
         // intermittent corner card (and only there)
         // the OS review prompt: Play decides whether to actually show it
         // (quota, recent asks) - the call is always safe to make
+        // the page tells the shell which world this project lives in,
+        // before the camera is bound, because it decides the capture format
+        @JavascriptInterface
+        fun colorMode(on: Boolean) {
+            if (wantColor == on) return
+            wantColor = on
+            logLine("camera: colour mode " + (if (on) "on - RAW rung disabled" else "off"))
+        }
+
         @JavascriptInterface
         fun authGoogle() {
             logLine("auth: page asked for a token")
@@ -1663,7 +1679,7 @@ class MainActivity : AppCompatActivity() {
                 val ceiling = prefs.getInt("ceiling", RUNG_RAW)
                 var rung = RUNG_PLAIN
                 var selector = CameraSelector.DEFAULT_BACK_CAMERA
-                if (ceiling >= RUNG_RAW) try {
+                if (ceiling >= RUNG_RAW && !wantColor) try {
                     val caps = ImageCapture.getImageCaptureCapabilities(
                         prov.getCameraInfo(CameraSelector.DEFAULT_BACK_CAMERA))
                     if (caps.supportedOutputFormats.contains(ImageCapture.OUTPUT_FORMAT_RAW))
