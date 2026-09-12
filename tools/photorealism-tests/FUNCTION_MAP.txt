@@ -1,0 +1,457 @@
+16: <style>
+815: </style>
+1301: <script>
+1303: </script>
+1304: <script>
+1373: </script>
+1375: <script>
+9618: </script>
+---- functions ----
+1329: TR
+1330: localizeDOM
+1359: forceGray
+1461: bloomIn
+1484: adSync
+1570: loadArsenal
+1582: gdb
+1586: galAll
+1589: galAdd
+1610: plog
+1614: pmark
+1646: shadowMirrorRef
+1655: shadowMeta
+1736: galDel
+1748: blobImage
+1755: thumbOf
+1773: regenThumbs
+1802: convertForeign
+1836: galPut
+1845: isColor
+1850: renderGallery
+2077: fmtTime
+2105: openPhoto
+2224: warmOpen
+2305: decodeWarm
+2335: warmVerify
+2350: addRef
+2399: tipClose
+2408: tip
+2473: startTour
+2479: ruleTip
+2487: mainTip
+2514: underTip
+2518: underClosed
+2527: colorDoorTip
+2532: detTip
+2538: detClosed
+2542: cmpBtnTip
+2547: cmpTip
+2555: adjTip
+2561: circleTip
+2566: byeTip
+2570: fmtTip
+2636: galGet
+2660: gcPing
+2727: reviewMaybe
+2741: applyAccent
+2759: ttlOn
+2907: markBadge
+2916: ttlPop
+2984: ratioOf
+2988: physWIn
+2993: squaresOf
+2998: initFormat
+3013: cropRect
+3025: fmtPreview
+3206: editLoad
+3214: editNeutral
+3220: boxBlurGray
+3241: denoiseGray
+3256: colorApplyPlane
+3297: editApply
+3363: slFill
+3368: slFillAll
+3432: edArText
+3444: edSync
+3460: edBuildPre
+3479: edRender
+3561: edPaint
+3562: edOpen
+3570: edClose
+3589: edOpenFor
+3619: edSetAspect
+3760: applyFormat
+3780: speculate
+3783: dbHas
+3786: storedLv
+3793: firstLv
+3794: prepReady
+3801: prepareAll
+3838: cookRest
+3862: enterMain
+3896: cellIn
+3897: cellLabel
+3901: saveCell
+3902: lifeScale
+3903: gridStepPx
+3910: curUnit
+4103: worldSize
+4109: ovClamp
+4135: ovRelease
+4144: vpBox
+4151: clampView
+4169: zBounds
+4178: lifeS
+4179: applyView
+4212: badgePos
+4213: paintMark
+4223: circsLoad
+4228: circsSave
+4231: circR
+4232: doneLoad
+4238: doneSave
+4242: doneCenter
+4247: drawCircs
+4277: drawGrid
+4403: drawEdgeLabs
+4451: colName
+4458: paintWorld
+4468: initMain
+4607: endPtr
+4627: uiToggle
+4635: uiShow
+4739: dbPutRaw
+4755: db
+4759: dbGet
+4776: dbDel
+4779: cachePurge
+4783: dbPlanKeys
+4807: dbCmpKeys
+4812: bakBuild
+4839: bakExport
+4868: bakApply
+4888: bakImport
+4905: computeCKEY
+4937: progOn
+4940: softOn
+4941: fkey
+4952: loadGridPrefs
+4974: applyGrid
+4979: layerButtons
+4990: grayData
+5035: upBuild
+5045: upSwatch
+5046: underWheelPaint
+5053: bandThresholds
+5060: compositeColorCv
+5132: compParts
+5163: compositeCv
+5223: ensureDetail
+5276: viewSrc
+5285: viewRepaint
+5296: ensureForm
+5328: toggleLayer
+5334: laySave
+5345: underSync
+5392: toggleLayerC
+5409: askWhere
+5420: natSaveImage
+5555: toast
+5567: drawMini
+5571: drawMini1
+5616: gridMenuSync
+5639: gsSync
+5643: gsSet
+5656: gsdApply
+5663: gsdClosePops
+5666: gsdLabSym
+5667: gsdIcon
+5677: gsdSnap
+5689: gsdLastRefSrc
+5711: gsdEnterPrev
+5733: gsdExitPrev
+5737: gsdClampPrev
+5745: gsdDrawPrev
+5857: gsdDraw
+5928: gsdSync
+5976: gsdSet_style
+6061: gsdOpen
+6067: gsdClose
+6088: a11yApply
+6130: fbLoad
+6145: nativeShell
+6153: accReady
+6154: canGoogle
+6162: canApple
+6179: adlog
+6181: accGuard
+6190: accSay
+6191: accPaint
+6205: accWatch
+6231: accErr
+6239: accSignIn
+6295: accSignOut
+6303: accDelete
+6354: accOpen
+6376: accMailErr
+6392: accMailFields
+6397: accMailGo
+6411: accMailReset
+6462: syncType
+6466: shrinkUp
+6484: newSid
+6494: readMeta
+6502: writeMeta
+6512: readPrefs
+6523: applyPrefs
+6550: prefsPoll
+6561: prefsBump
+6584: syncTouch
+6595: metaReapply
+6614: capStash
+6640: capAdopt
+6671: cmpBusy
+6681: cmpRefresh
+6697: syncSoon
+6707: syncListen
+6739: syncSay
+6745: applySnap
+6776: syncNow
+7001: syncDrop
+7017: a11yOpen
+7059: medianBlur
+7093: boxBlur
+7114: dtFilter
+7188: gauss
+7238: linePass
+7262: diagPass
+7296: crossPass
+7314: toolOpen
+7404: wakeHold
+7422: creditHTML
+7452: down2
+7460: pyr
+7468: shiftScore
+7563: denoiseCv
+7568: ensureDenoise
+7611: cmpSize
+7626: adjLut
+7648: applyLevels
+7724: adjLoad
+7733: adjSync
+7794: circTap
+7812: cmpExport
+7918: cmpDownload
+7968: cmpTakePending
+7975: cmpFitK
+7979: cmpCircs
+7987: cmpButtons
+8036: coach
+8044: cmpRender
+8230: clampFlip
+8243: clampSplit
+8256: cmpGuessCorners
+8382: cmpRot
+8392: cmpWarp
+8445: cmpSetPhoto
+8463: cmpApplyCorners
+8514: cmpSaveNow
+8525: cmpSave
+8534: cmpLoadSaved
+8594: refModeSync
+8605: lastShotPaint
+8651: camGhost
+8688: camStart
+8731: camFocus
+8764: capNote
+8772: shotUI
+8784: natChrome
+8800: natRect
+8805: natStart
+8859: natCapture
+8921: camStop
+8946: camCapture
+9389: natRotate
+9483: haptic
+9493: hapticOK
+---- top-level intervals/listeners ----
+1345: addEventListener('DOMContentLoaded', localizeDOM);
+1346: setTimeout(localizeDOM, 0); setTimeout(localizeDOM, 400);
+1384: addEventListener('popstate', ()=>{
+1434: setTimeout(()=>{ try{
+1442: setTimeout(()=>{
+1454: setTimeout(done, 640);
+1619: document.addEventListener('DOMContentLoaded', ()=>pmark('dcl'));
+1637: setTimeout(()=>{ try{
+1641: setTimeout(()=>{ try{
+1674: document.addEventListener('visibilitychange', ()=>{ if (document.hidden) shadowMeta(true);
+1677: setTimeout(async ()=>{
+1707: $('shYes').onclick=async ()=>{
+1731: $('shNo').onclick=()=>{ try{ localStorage.setItem('shSkip',sig); }catch(e){}
+1796: setTimeout(regenThumbs, 5000);
+2068: setInterval(()=>{
+2076: document.addEventListener('visibilitychange', ()=>{ TT_LAST=Date.now(); });
+2085: setInterval(()=>{
+2113: setTimeout(()=>{
+2377: $('modeBW').onclick=()=>{ $('modeModal').style.display='none'; $('file').click(); };
+2378: $('modeC').onclick=()=>{ $('modeModal').style.display='none'; $('fileC').click(); };
+2379: $('modeModal').onclick=e=>{ if (e.target===$('modeModal')) $('modeModal').style.display='n
+2420: document.addEventListener('click', st.onDoc, true);
+2468: setTimeout(st.re, 250); setTimeout(st.re, 700);
+2470: addEventListener('resize', ()=>{ if (TIPSTATE && TIPSTATE.re) TIPSTATE.re(); });
+2471: $('tourX').onclick=()=>tipClose(true);
+2602: setTimeout(()=>{ try{ m.classList.remove('softIn'); }catch(e){} }, 460);
+2604: $('introBack').onclick=()=>{ if (pg>0){ pg--; paint(); } };
+2605: $('introBtn').onclick=()=>{
+2615: $('delYes').onclick = async () => {
+2634: $('delNo').onclick = () => { DELREF=null; $('delModal').style.display='none'; };
+2639: $('rmX').onclick=()=>{ REFM=null; $('refModal').style.display='none'; };
+2640: $('refModal').onclick=e=>{ if (e.target===$('refModal')){ REFM=null; $('refModal').style.d
+2641: $('rmDel').onclick=()=>{ DELREF=REFM; REFM=null;
+2643: $('rmDup').onclick=async()=>{
+2650: $('rmGrid').onclick=async()=>{
+2657: $('delModal').onclick = e => {
+2693: addEventListener('resize', ()=>{ clearTimeout(adSync._t); adSync._t=setTimeout(adSync, 200
+2714: addEventListener('appinstalled', ()=>gcPing('/install'));
+2721: setInterval(()=>{
+2734: setTimeout(()=>{ try{ rc.askReview(); }catch(e){} }, 900);   // after the gallery settles
+2794: $('gearBtn').onclick=gearOpen;
+2795: $('accColBox').onclick=()=>{ const p=$('accPal2');
+2797: $('gearModal').onclick=e=>{ if (e.target===$('gearModal')) $('gearModal').style.display='n
+2798: $('langSel').onchange=()=>{ try{ localStorage.setItem('lang', $('langSel').value); }catch(
+2799: $('unitSel2').onchange=()=>{
+2821: $('ttlChk').onchange=()=>{ try{ localStorage.setItem('ttlStop', $('ttlChk').checked?'1':'0
+2827: $('bakBtn').onclick=()=>bakExport();
+2828: $('resBtn').onclick=()=>$('bakFile').click();
+2833: $('setBtn').onclick=()=>gearOpen();
+2854: $('noAdsTxt').onclick=()=>{ try{ RealismCam.buyRemoveAds(); }catch(e){} };
+2855: $('verNum').onclick=()=>{
+2873: $('dgX').onclick=()=>{ $('dgModal').style.display='none'; };
+2874: $('dgModal').onclick=e=>{ if (e.target===$('dgModal')) $('dgModal').style.display='none'; 
+2875: $('dlModeBtn').onclick=()=>{
+2881: $('invBtn').onclick=async()=>{
+2903: $('setModal').onclick=e=>{ if (e.target===$('setModal')) $('setModal').style.display='none
+2942: addEventListener('focusout', soon);
+2943: addEventListener('focus', soon);
+2961: document.addEventListener('focusin', e=>{
+2967: setTimeout(recalc, 80);
+2968: setTimeout(recalc, 400);      // the keyboard animates in
+2970: document.addEventListener('focusout', ()=>{
+2975: $('calBtn').onclick = () => {
+2979: $('gridModal').onclick = e => {
+3160: $('widthIn').oninput = ()=>{ fmtPreview(); speculate(); };
+3161: $('heightIn').oninput = ()=>{ fmtPreview(); speculate(); };
+3162: $('unit').onchange = ()=>{
+3169: $('cellVal2').oninput = ()=>{
+3173: $('cellUnit2').onchange = ()=>{
+3182: $('backBtn').onclick = () => {
+3371: document.addEventListener('input', e=>{
+3400: document.addEventListener('input', e=>{
+3405: document.addEventListener('pointerdown', e=>{
+3407: document.addEventListener('pointerup', ()=>{ tipHeld=false; tipHide(); }, true);
+3408: document.addEventListener('pointercancel', ()=>{ tipHeld=false; tipHide(); }, true);
+3411: document.addEventListener('click', e=>{
+3580: setTimeout(()=>{
+3603: $('fmtEdit').onclick=()=>edOpenFor('tone');
+3604: $('fmtCrop').onclick=()=>edOpenFor('crop');
+3605: $('edCancel').onclick=()=>edClose(false);
+3606: $('edDone').onclick=()=>edClose(true);
+3607: $('edModeBtn').onclick=()=>{
+3612: $('edReset').onclick=()=>{ ED.R={...EDIT_DEF}; edSync(); edBuildPre(); edPaint(); };
+3616: $(id2).oninput=()=>{ ED.R[k2]=+$(id2).value; edPaint(); };
+3617: $('eAspect').onclick=()=>{ $('arModal').style.display='flex'; };
+3618: $('arModal').onclick=e=>{ if (e.target===$('arModal')) $('arModal').style.display='none'; 
+3632: $('arApply').onclick=()=>{
+3636: $('eRot').onclick=()=>{ ED.R.rot=(ED.R.rot+1)%4;
+3638: $('eFlipH').onclick=()=>{ ED.R.fh=ED.R.fh?0:1; edBuildPre(); edPaint(); };
+3639: $('eFlipV').onclick=()=>{ ED.R.fv=ED.R.fv?0:1; edBuildPre(); edPaint(); };
+3874: $('fmtGo').onclick = () => {
+4067: addEventListener('resize', drawTitleRule);
+4094: $('cellUnit').onchange=()=>{ const u=$('cellUnit').value;
+4452: addEventListener('resize', () => { if ($('scrMain').classList.contains('on')){
+4701: setTimeout(()=>{ w.style.transition=''; }, 240);
+4742: document.addEventListener('visibilitychange', ()=>{
+4791: setTimeout(async ()=>{
+4853: setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+5362: $('uCol').onclick=()=>{
+5372: $('underBtn').onclick=()=>{
+5387: $(id3).onclick=()=>{
+5398: $('cDk').onclick=()=>toggleLayerC('dk');
+5399: $('cMid').onclick=()=>toggleLayerC('mid');
+5400: $('cLt').onclick=()=>toggleLayerC('lt');
+5401: $('cBr').onclick=()=>toggleLayerC('br');
+5402: $('vDark').onclick=()=>toggleLayer('dk');
+5403: $('vLight').onclick=()=>toggleLayer('lt');
+5404: $('vSpec').onclick=()=>toggleLayer('hl');
+5413: $('dlwPics').onclick=()=>done('pics');
+5414: $('dlwDl').onclick=()=>done('dl');
+5415: $('dlwPick').onclick=()=>done('ask');
+5416: $('dlwX').onclick=()=>done(null);
+5429: $('expBtn').onclick = async () => {
+5550: setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
+5623: $('gridBtn').onclick=()=>{
+5632: $('gmDone').onclick=()=>{ DONETOOL = DONETOOL ? null : 'on'; gridMenuSync(); };
+5633: $('gmOn').onclick=()=>{
+5652: $('gmDesign2').onclick=()=>{ haptic(); gsdOpen(); };
+5653: $('gmDesign3').onclick=()=>{ haptic(); gsdOpen(); };
+5983: $('gsdSub').onclick=()=>{
+6005: $('gsdOp').oninput=e=>{
+6068: addEventListener('resize', ()=>{
+6074: $('gmDesign').onclick=gsdOpen;
+6075: $('gsdDone').onclick=()=>{ haptic(); gsdClose(); };
+6076: $('gsdPrev').onclick=()=>{ haptic();
+6080: $('gsdModal').onclick=e=>{ if (e.target===$('gsdModal')) gsdClose(); };
+6111: $('a11yHc').onclick=()=>{
+6224: setTimeout(()=>{ syncNow(true).catch(()=>{}); syncListen(true); }, 400);
+6346: document.addEventListener('visibilitychange', ()=>{
+6368: $('accBtn').onclick=()=>{ haptic(); $('gearModal').style.display='none'; accOpen(); };
+6369: $('accHomeBtn').onclick=()=>{ haptic(); accOpen(); };
+6420: $('accMailBtn').onclick=()=>{
+6427: $('accGo').onclick=()=>{ haptic(); accMailGo(false); };
+6428: $('accNew').onclick=()=>{ haptic(); accMailGo(true); };
+6429: $('accForgot').onclick=()=>{ haptic(); accMailReset(); };
+6430: $('accPass').onkeydown=e=>{ if (e.key==='Enter') accMailGo(false); };
+6431: $('accEmail').onkeydown=e=>{ if (e.key==='Enter') $('accPass').focus(); };
+6432: $('accGoogle').onclick=()=>{ haptic(); accSignIn('google'); };
+6433: $('accApple').onclick=()=>{ haptic(); accSignIn('apple'); };
+6434: $('accSyncBtn').onclick=()=>{ haptic(); syncNow(true); };
+6435: $('accOut2').onclick=()=>{ haptic(); accSignOut(); };
+6436: $('accDel').onclick=()=>{ haptic(); accDelete(); };
+6437: $('accDone').onclick=()=>{ haptic(); $('accModal').style.display='none'; };
+6438: $('accModal').onclick=e=>{ if (e.target===$('accModal')) $('accModal').style.display='none
+6558: setInterval(()=>{ if (!document.hidden) prefsPoll(); }, 400);
+6574: setInterval(()=>{
+7018: $('a11yBtn').onclick=()=>{ haptic(); $('gearModal').style.display='none'; a11yOpen(); };
+7019: $('a11yDone').onclick=()=>{ haptic(); $('a11yModal').style.display='none'; };
+7020: $('a11yModal').onclick=e=>{ if (e.target===$('a11yModal')) $('a11yModal').style.display='n
+7022: $('detBtn').onclick=()=>{
+7401: setInterval(()=>{ wakeHold(); }, 2500);
+7416: document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) wakeHold(); });
+7431: $('upStat').onclick=()=>{
+7745: $(id).oninput = () => {
+7749: $('lvReset').onclick = () => {
+7785: $('lvBtn').onclick = () => { CMP.lvOpen=!CMP.lvOpen;
+7788: $('mirBtn').onclick = () => {
+7793: $('alphaSl').oninput = () => { CMP.alpha=$('alphaSl').value/100; cmpRender(); };
+7805: $('circBtn').onclick = () => { CIRCTOOL=!CIRCTOOL; cmpRender(); };
+7948: setTimeout(()=>URL.revokeObjectURL(u), 4000);
+7951: $('dlBtn').onclick = cmpDownload;
+7952: $('cmpGridBtn').onclick = () => {
+7959: $('circClr').onclick = () => { CIRCS=[]; circsSave(); drawCircs(); cmpRender(); };
+7962: $('lastShot').onclick = () => {
+8529: addEventListener('pagehide', cmpFlush);
+8530: document.addEventListener('visibilitychange', ()=>{ if (document.hidden) cmpFlush(); });
+8615: $('compareBtn').onclick = async () => {
+8792: document.addEventListener('visibilitychange', ()=>{
+8994: setTimeout(tick, 45);
+9120: $('shutter').onclick = camCapture;
+9122: $('camUpBtn').onclick = () => $('cmpFile').click();
+9128: $('cmpFlip').onclick = () => {
+9134: $('cmpCrop').onclick = () => {
+9137: $('cmpReCrop').onclick = () => {
+9144: $('cmpSplit').onclick = () => {
+9403: addEventListener('resize', ()=>{ if ($('scrCompare').classList.contains('on')){ cmpSize();
+9453: document.addEventListener('pointerdown', e=>{
+9482: addEventListener('pointerdown', ()=>{ HAPT_GO=true; }, {capture:true, once:true});
+9501: document.addEventListener('click', e => {
+9607: addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
