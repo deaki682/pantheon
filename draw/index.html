@@ -114,6 +114,14 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:calc(13px*var(--ux,1))}
 #upTitle{color:var(--acc);font-size:22px;letter-spacing:0.04em;margin-top:52px}
 #titleRule{display:block;width:100%;height:24px;flex:none;margin-top:2px}
 #upGridBg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+/* a lifted thumbnail follows the finger; a dashed gap holds its place */
+.gitem.dragging{position:fixed;z-index:40;margin:0;pointer-events:none;
+  transform:scale(1.06);box-shadow:0 12px 30px rgba(0,0,0,.6);
+  opacity:.96;transition:none}
+.gph{flex:none;border-radius:14px;border:2px dashed #555;opacity:.55;
+  box-sizing:border-box}
+html.dragging{touch-action:none;user-select:none;-webkit-user-select:none}
+html.dragging #gallery,html.dragging #galleryC{overflow-x:hidden}
 #libNote{display:none;font-size:11px;line-height:1.45;color:#8a8a8a;
   text-align:center;margin-top:8px}
 #libNote.on{display:block}
@@ -848,7 +856,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v409</span>
+    <span id="verNum">v410</span>
   </div>
 </div>
 <div id="delModal">
@@ -1841,7 +1849,14 @@ function isColor(gid){ try{ return localStorage.getItem('mode|'+gid)==='c'; }cat
 const LIB_WARN = 150;
 async function renderGallery(){
   pmark('gallery');
-  const recs = (await galAll()).sort((a,b)=>b.ts-a.ts);
+  // Newest first until someone arranges them by hand, after which their
+  // arrangement wins. Anything added later has no place yet and joins the
+  // front, where new work belongs.
+  const recs = (await galAll()).sort((a,b)=>{
+    const ao=(a.ord==null?Infinity:a.ord), bo=(b.ord==null?Infinity:b.ord);
+    if (ao!==bo) return ao-bo;
+    return (b.ts||0)-(a.ts||0);
+  });
   // A large library is the real risk to someone's work: browsers and
   // Android both evict local storage under disk pressure. Say so once it
   // is worth saying, and never delete anything on their behalf.
@@ -1927,12 +1942,105 @@ async function renderGallery(){
     };
     return d;
   };
+  // press and hold to lift a thumbnail out of the strip and place it
+  // somewhere else. The hold is what separates it from a scroll, which is
+  // the same gesture for its first 400ms.
+  const dragArm = (tile) => {
+    let t0=0, sx=0, sy=0, held=false, ph=null, off={x:0,y:0}, host=null, moved=false;
+    const HOLD=400, SLOP=10;
+    const clear=()=>{ clearTimeout(t0); t0=0; };
+    const lift=(x,y)=>{
+      held=true; moved=false;
+      haptic();
+      host=tile.parentElement;
+      const r=tile.getBoundingClientRect();
+      off.x=x-r.left; off.y=y-r.top;
+      ph=document.createElement('div');
+      ph.className='gph';
+      ph.style.width=r.width+'px'; ph.style.height=r.height+'px';
+      tile.after(ph);
+      tile.style.width=r.width+'px'; tile.style.height=r.height+'px';
+      tile.classList.add('dragging');
+      document.documentElement.classList.add('dragging');
+      place(x,y);
+    };
+    const place=(x,y)=>{
+      tile.style.left=(x-off.x)+'px';
+      tile.style.top =(y-off.y)+'px';
+    };
+    const reposition=(x)=>{
+      if (!host) return;
+      const kids=[...host.children].filter(k=>k!==tile && k!==ph && !k.classList.contains('gadd'));
+      let before=null;
+      for (const k of kids){
+        const r=k.getBoundingClientRect();
+        if (x < r.left + r.width/2){ before=k; break; }
+      }
+      if (before) host.insertBefore(ph, before);
+      else {
+        const add=host.querySelector('.gadd');
+        if (add) host.insertBefore(ph, add); else host.appendChild(ph);
+      }
+      // walking off the end of a strip scrolls it, so a long row is usable
+      const hr=host.getBoundingClientRect();
+      if (x > hr.right-46) host.scrollLeft += 12;
+      else if (x < hr.left+46) host.scrollLeft -= 12;
+    };
+    const drop=async ()=>{
+      if (!held) return;
+      held=false;
+      tile.classList.remove('dragging');
+      document.documentElement.classList.remove('dragging');
+      tile.style.cssText='';
+      if (ph && ph.parentElement){ ph.replaceWith(tile); }
+      ph=null;
+      document.documentElement.classList.remove('dragging');
+      if (!moved) return;
+      // the whole strip is renumbered, so there is never a half-ordered row
+      try{
+        const ids=[...host.children].filter(k=>k.classList.contains('gitem'))
+                    .map(k=>+k.dataset.gid);
+        for (let i=0;i<ids.length;i++){
+          const rec=await galGet(ids[i]);
+          if (rec && rec.ord!==i){ rec.ord=i; await galPut(rec); }
+        }
+      }catch(e){}
+    };
+    tile.addEventListener('pointerdown', e=>{
+      if (e.button && e.button!==0) return;
+      if (PREP.active) return;
+      sx=e.clientX; sy=e.clientY;
+      clear();
+      t0=setTimeout(()=>{ try{ tile.setPointerCapture(e.pointerId); }catch(_){} lift(sx,sy); }, HOLD);
+    });
+    tile.addEventListener('pointermove', e=>{
+      if (!held){
+        if (t0 && (Math.abs(e.clientX-sx)>SLOP || Math.abs(e.clientY-sy)>SLOP)) clear();
+        return;
+      }
+      e.preventDefault();
+      moved=true;
+      place(e.clientX, e.clientY);
+      reposition(e.clientX);
+    });
+    const end=e=>{ clear(); if (held){ e.preventDefault(); drop(); } };
+    tile.addEventListener('pointerup', end);
+    tile.addEventListener('pointercancel', end);
+    // a drag must not also open the project it just moved
+    tile.addEventListener('click', e=>{
+      if (tile.dataset.justDragged){ delete tile.dataset.justDragged;
+        e.stopPropagation(); e.preventDefault(); }
+    }, true);
+    tile.addEventListener('pointerup', ()=>{ if (moved) tile.dataset.justDragged='1'; }, true);
+  };
   for (const [hostId, colr] of [['gallery',false],['galleryC',true]]){
     const host=$(hostId); if (!host) continue;
     host.innerHTML='';
     for (const r of recs){
       if (isColor(r.id)!==colr) continue;
-      host.appendChild(makeTile(r));
+      const tl=makeTile(r);
+      dragArm(tl);
+      host.appendChild(tl);
     }
     const add=document.createElement('div'); add.className='gadd';
     add.title=colr ? 'Add a color reference' : 'Add a black and white reference';
@@ -6635,7 +6743,7 @@ let SYNC_AGAIN=false;
 // it cannot settle is bytes - a new photograph or a new reference - and
 // only that schedules a sync.
 async function applySnap(snap){
-  let needBytes=false;
+  let needBytes=false, reorder=false;
   try{
     const bySid=new Map((await galAll()).filter(r=>r.sid).map(r=>[r.sid,r]));
     for (const d of snap.docs){
@@ -6648,6 +6756,7 @@ async function applySnap(snap){
         writeMeta(known.id, v.meta);
         known.mSeen=v.mAt;
         if (v.name && v.name!==known.name) known.name=v.name;
+        if (v.ord!=null && v.ord!==known.ord){ known.ord=v.ord; reorder=true; }
         touched=true;
         if (known.id===galActive) metaReapply();
       }
@@ -6661,6 +6770,7 @@ async function applySnap(snap){
       if (touched) await galPut(known, true);
     }
   }catch(e){ needBytes=true; }
+  if (reorder) try{ renderGallery(); }catch(e){}
   if (needBytes) syncSoon(0);
 }
 async function syncNow(force){
@@ -6739,6 +6849,7 @@ async function syncNow(force){
       // just by opening the project.
       const patch={ name:r.name||'', ts:r.ts||Date.now(),
                     mode:isColor(gid)?'c':'bw' };
+      if (r.ord!=null) patch.ord=r.ord;
       const meta=readMeta(gid);
       if (Object.keys(meta).length){
         for (const k in meta) patch['meta.'+k]=meta[k];
@@ -6772,7 +6883,7 @@ async function syncNow(force){
     }
     // ---- pull: anything the account has that this device does not ----
     const fail=[];
-    let goneHere=0;
+    let goneHere=0, needRender=false;
     // one way to fetch an object, so a reference and a capture fail alike
     const grab=async path => {
       try{
@@ -6815,6 +6926,7 @@ async function syncNow(force){
           writeMeta(known.id, v.meta);
           known.mSeen=v.mAt;
           if (v.name && v.name!==known.name) known.name=v.name;
+          if (v.ord!=null && v.ord!==known.ord){ known.ord=v.ord; needRender=true; }
           touched=true;
           // and if it is the project in front of you, put it on screen
           // rather than waiting for the next time it is opened
@@ -6846,6 +6958,7 @@ async function syncNow(force){
       const rec={ ts:v.ts||Date.now(), name:v.name||'',
         thumb: v.thumb || await thumbOf(b, colr), blob:b, sid:d.id,
         mSeen:v.mAt||0 };
+      if (v.ord!=null) rec.ord=v.ord;
       if (v.capAt){
         const cb=await grab('users/'+uid+'/caps/'+d.id+'.jpg');
         if (cb){ rec.cap=cb; rec.capAt=v.capAt; rec.capUp=v.capAt;
@@ -6860,7 +6973,7 @@ async function syncNow(force){
     }
     SYNC_AT=Date.now();
     try{ localStorage.setItem('syncAt', ''+SYNC_AT); }catch(e){}
-    if (down || goneHere) renderGallery();
+    if (down || goneHere || needRender) renderGallery();
     if (fail.length){
       adlog('pull failed on '+fail.length+': '+fail.slice(0,3).join(','));
       syncSay(fail[0]==='blocked'
