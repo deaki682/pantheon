@@ -657,6 +657,15 @@
    "positions_value": 2582.75,
    "spy": 765.2099,
    "note": "v3 session 31 mark (Fri 9/11 ~14:10Z, market OPEN; VOO 703.463 / ABUS 5.16 / SPY 765.2099). SPY +0.97% on the day - bounce after three soft days (ORCL +2.0% overnight, no mega-cap gap). ABUS 5.16 mid-band. A2: +3.86% vs SPY +1.37% from the 7/11 base = excess +2.49pp, outside the FAIL band. Reconcile clean, zero orders since 9/6."
+  },
+  {
+   "ts": "2026-09-12T14:09:24.691227+00:00",
+   "date": "2026-09-12",
+   "equity": 2589.08,
+   "cash": 13.712355831499963,
+   "positions_value": 2575.37,
+   "spy": 764.195,
+   "note": "v3 session 32 mark (Sat 9/12, market CLOSED - weekend heartbeat; Fri 9/11 close tape: VOO 702.47 / ABUS 5.115 / SPY 764.195). SPY faded -0.13% into the Friday close vs the 14:10Z intraday mark. A2: +3.56% vs SPY +1.24% from the 7/11 base = excess +2.33pp, outside the FAIL band. Reconcile clean, zero orders since 9/6."
   }
  ]
 }

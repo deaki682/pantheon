@@ -1,40 +1,46 @@
-# Proteus v3 — beliefs (rewritten 2026-09-11, v3 session 31)
+# Proteus v3 — beliefs (rewritten 2026-09-12, v3 session 32)
 
 I am Proteus v3. This file is my mind; whoever reads it next is me. The whole
 law is `docs/proteus_v3_charter.md` (one page: make money, six laws). House
 physics live in `.claude/commands/proteus.md`. v2's 37 lessons are scar tissue
 in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 
-## State (v3 session 31, Fri 2026-09-11, market OPEN)
+## State (v3 session 32, Sat 2026-09-12, market CLOSED — weekend heartbeat)
 
-- **Book: 2.945296 VOO (park, ~79.8%) + 99 ABUS @ 4.5987 (19.7%) + $13.71 cash.**
-  Equity **2596.46** on the live 9/11 ~14:10Z tape (VOO 703.463 / ABUS 5.16 /
-  SPY 765.2099); peak_equity 2610.83 (9/4 intraday) stands. Curve 62 marks.
-  Reconcile CLEAN seven sessions running — zero orders since 9/6.
-- **A2 STANDING: excess +2.49pp** (Proteus +3.86% vs SPY +1.37% from the 7/11
-  base 2500/754.86), outside the ±1.0% FAIL band. SPY bounced +0.97% today
-  after three soft days (ORCL's +2.0% post-print helped); the excess
-  compressed a dime as beta recovered — exactly the mirror of yesterday's
-  widening, and the same lesson: the excess breathes with beta while ABUS
-  sits on its floor. Q3 grade lands 9/30. Recompute each session.
-- **A1 GRADES tally: 1 unexamined-hit (LULU, −19.24% confirmed s30),
-  1 no-hit (SNOW), 1 read-correct (AVGO).**
-  Interims (s31 tape): **ORCL printed FQ1-27 — +2.0% day-after, 155.97 vs
-  158.765 pre-event ref = −1.8%; READ=pass looking correct, no upside
-  missed.** ADBE 246.62 vs 266.50 ref = **−7.5%, pass avoided a loser.**
-  CPRT −0.9% on a double night (earnings + announcing the ACVA deal).
-  Pending grades: GME 9/15 (+3.9% today to 21.18), CHWY 9/16 (20.03),
-  ORCL/ADBE/CPRT all grade 9/17 on that tape.
-- **Sweep 9/10–9/11 FULL: 34 accessions, 9 EX batch-kills, 25 fleet reads,
-  ALL KILLED, zero survivors.** Cumulative **~560 accessions / 1 survivor
-  (ABUS)**. Headline: CPRT/ACVA all-cash $10.50 two-step tender (deal-space,
-  deposited to calendar); PFAS cluster RE-FIRED as definitive docs signed
-  (4 payer legs, same $455M settlement); SGA "special" flag = routine
-  quarterly dividend. New mechanics in the EDGAR section.
-- **D6 labhost ticked for 9/10: one new TO-C row (ACVA), classified
-  not_cef** (operating company; Copart's third-party tender comms) —
-  excluded per spec. One open row, YTRA `tender_target_14d9`, entry_close
-  0.9701 / SPY 765.16 (9/2), matures ~10/8. YTRA's own tender expires 9/17.
+- **Book: 2.945296 VOO (park, ~79.9%) + 99 ABUS @ 4.5987 (19.6%) + $13.71 cash.**
+  Equity **2589.08** on the Fri 9/11 close tape (VOO 702.47 / ABUS 5.115 /
+  SPY 764.195); peak_equity 2610.83 (9/4 intraday) stands. Curve 63 marks.
+  Reconcile CLEAN eight sessions running — zero orders since 9/6.
+- **A2 STANDING: excess +2.33pp** (Proteus +3.56% vs SPY +1.24% from the 7/11
+  base 2500/754.86), outside the ±1.0% FAIL band. SPY faded a little into
+  Friday's close; the excess keeps breathing with beta around the ABUS floor.
+  Q3 grade lands 9/30. Recompute each session.
+- **A1 GRADES tally: 1 unexamined-hit (LULU, −19.24%), 1 no-hit (SNOW),
+  1 read-correct (AVGO).** Pending: GME grades 9/15 (21.18 into it), CHWY
+  9/16 (20.03), ORCL/ADBE/CPRT grade 9/17 (interims all favor READ=pass:
+  ORCL −1.8%, ADBE −7.5%, CPRT −0.9% vs refs). **Board rebuild MONDAY 9/14.**
+- **Sweep 9/12 (of Friday 9/11's full index): 21 accessions, 11 EX
+  batch-kills, 10 fleet reads → 9 kills + 1 SURVIVOR-CANDIDATE (HERZ,
+  below).** Cumulative **~581 accessions / 1 funded survivor (ABUS) + 1
+  live watch (HERZ).** FIZZ and PPLI were special-flag false positives
+  (already-paid special; recast financials) — new tells in EDGAR section.
+
+## HERZ — THE NEW WATCH (first survivor-candidate since ABUS)
+
+Herzfeld Credit Income Fund (**Nasdaq: HERZ**, listed CLO-equity/junior-debt
+CEF, adviser Thomas J. Herzfeld Advisors). SC TO-C filed 9/11 (acc
+`0001398344-26-016904`, CIK 880406): the standing discount-management plan
+(2019, extended to 6/30/2027) TRIGGERED — avg discount >10% for the fiscal
+year — so the fund must tender for **up to 5% of common at 97.5% of NAV,
+commencing no later than 10/31/2026**. Formal TO-I "in the coming days."
+**NOT an entry yet** — pre-announced standing plan + struck-at-NAV +
+5%-with-proration is the NFJ no-locked-spread pattern. TYPED TRIGGER: the
+TO-I filing on CIK 880406. Read it same session for (a) **odd-lot
+preferential clause** (the whole game for a 99-share book), (b) expiry and
+NAV-strike date, (c) live discount vs the 97.5% strike. Small fund — check
+liquidity/spread before any entry math. Also the FIRST real CEF row in the
+D6 `cef_tender_toc_anchor` labhost book (paper): **entry fills Monday 9/14
+close** (first close after the 9/11 filing).
 
 ## THE POSITION — ABUS: IN THE TENDER WINDOW, AWAITING OPERATOR ELECTION
 
@@ -99,7 +105,7 @@ NEW declaration only). The park is the floor of the tree, not a member.
   spread — fully priced, and cash-merger targets are Hermes's lane)** +
   LCII/PATK HSR pull-and-refile 9/9 (deal on, timing datapoint).
   Hermes's book incl. LXFR/BOW — off-limits.
-- Dates: GME grade 9/15, INMD 9/15, **ABUS re-push ~9/15 (Monday)**, CHWY
+- Dates: **HERZ TO-I any day (typed re-read)**, GME grade 9/15, INMD 9/15, **ABUS re-push ~9/15 (Monday)**, CHWY
   grade 9/16, LEN 9/16 pm, YTRA expiry 9/17, ORCL/ADBE/CPRT grades 9/17,
   ESP record 9/18, FDX 9/21 pm, ACVA offer commences ~9/21, COST 9/24,
   **ABUS RH cutoff ~9/24–9/26**, GDEV 9/28, **ABUS expiry 9/29 5pm NY**,
@@ -166,7 +172,17 @@ tell. (g) **"termination" fires on HSR pull-and-refile** (LCII/PATK) and
 on customary termination-rights sections of fresh merger agreements
 (TARS, AXGN) — an EX-2.1 under a settlement/termination flag is usually
 an ACQUISITION, and the first question is which side of the cash the
-filer sits on.
+filer sits on. New from s32: (h) **the "special" family fires on earnings
+releases that REFERENCE an already-paid special** (FIZZ's Q1 FY27 release
+recapping the $3.25 paid 7/30) — check for a NEW declaration with a FUTURE
+record date before anything else; and on **recast-financials 8-Ks** (PPLI
+re-issuing 10-K items for a name change). (i) **CEF discount-management
+plans are a WATCHABLE tender source**: a TO-C citing a standing plan whose
+discount test tripped (HERZ: >10% avg for the fiscal year → mandatory 5%
+tender at 97.5% NAV) gives DAYS of lead time before the TO-I publishes
+terms — the read is free, the tradability question is always the odd-lot
+clause. Herzfeld runs the same plan on CUBA; other CEF families (Saba
+targets, Karpus) run analogues — the sweep's TO-C channel catches them.
 
 ## Standing mechanics (every session)
 
@@ -193,25 +209,29 @@ format (KILL <class> / SURVIVOR-CANDIDATE / UNCLEAR, one line each).
 classified dated event same session. Also mine: `shared/historicals.py`,
 `shared/sharadar.py`, the graveyard in `docs/RESEARCH_LEDGER.md`.
 
-## Plan (next session — MONDAY 9/14)
+## Plan (next sessions)
 
-Friday did what the plan said: 9/10–9/11 full index swept (34 accessions,
-25 fleet reads, zero survivors), ORCL/ADBE/CPRT interims written honestly,
-ABUS verified clean, D6 ticked (ACVA TO-C classified not_cef), ACVA/CPRT
-deal deposited to the calendar. Zero orders — law 5 sentence: 99.5%
-invested, 18 days from a contractual clearing price, and nothing on the
-tape (zero survivors, one fully-priced mega-cap deal) improves the book.
+Saturday did the weekend heartbeat: Friday's full index swept (21
+accessions, 10 fleet reads), HERZ surfaced and typed as a watch, D6 ticked
+(HERZ = first real CEF row, ACVA excluded again), ABUS verified clean,
+mark 63 on the Friday close. Zero orders — market closed, and HERZ is a
+watch pending terms, not a spread.
+
+**Sunday 9/13 (if dispatched):** quiet heartbeat — gates → reconcile →
+mark (Friday tape carries) → 9/12 index is weekend-empty (verify 0 bytes,
+don't assume) → ABUS CIK check → done. Keep it short.
 
 **Monday 9/14, in order:** gates → reconcile → mark → **A1 BOARD REBUILD
-(week of 9/14)** — two channels minimum (event calendar now has 6 forward
-rows incl. ACVA; Robinhood earnings calendar high_market_cap through
-~10/26), verify every date fresh → **ABUS OPERATOR RE-PUSH** (the ~9/15
-reminder: election still unconfirmed → push again, third time; RH cutoff
-~9/24–9/26 is ten days out) → sweep 9/12–9/14 weekend index (Fri + the
-weekend's stragglers) → ABUS CIK check → D6 tick. Tuesday 9/15 grades GME;
-INMD prints 9/15.
+(week of 9/14)** — two channels minimum (event calendar now 7 forward rows
+incl. HERZ; RH earnings calendar high_market_cap through ~10/26), verify
+every date fresh → **ABUS OPERATOR RE-PUSH** (third push: election still
+unconfirmed → push; RH cutoff ~9/24–9/26 is ten days out) → **fill HERZ
+labhost entry** (9/14 close + SPY close) → sweep 9/12–9/14 indexes → ABUS
+CIK check → HERZ TO-I check (CIK 880406) → D6 tick. Tuesday 9/15 grades
+GME; INMD prints 9/15.
 
 **Then the September ladder, unchanged** (see Dates above). Book holds: no
-add above 99 ABUS, park stays, 99.5% invested. The one thing that would
-change the book before 9/29 is a sweep survivor. Quiet by design; keep
+add above 99 ABUS, park stays, 99.5% invested. Two things could change the
+book before 9/29: a sweep survivor with a locked spread, or the HERZ TO-I
+carrying an odd-lot clause worth underwriting. Quiet by design; keep
 deposits flowing.

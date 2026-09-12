@@ -31,6 +31,35 @@
    "entry_close": null,
    "entry_date": null,
    "grade": null
+  },
+  {
+   "slug": "cef_tender_toc_anchor",
+   "form": "SC TO-C",
+   "company": "ACV Auctions Inc.",
+   "cik": "1637873",
+   "date": "20260911",
+   "accession": "0001193125-26-388383",
+   "status": "classified_excluded",
+   "classification": "not_cef: ACV Auctions is an operating company; second pre-commencement TO-C comms batch for the Copart $10.50 all-cash tender (same deal as the 9/10 row). Excluded per spec (CEF rows only)",
+   "symbol": null,
+   "entry_close": null,
+   "entry_date": null,
+   "grade": null
+  },
+  {
+   "slug": "cef_tender_toc_anchor",
+   "form": "SC TO-C",
+   "company": "Herzfeld Credit Income Fund, Inc",
+   "cik": "880406",
+   "date": "20260911",
+   "accession": "0001398344-26-016904",
+   "status": "classified_included",
+   "classification": "cef: Herzfeld Credit Income Fund (Nasdaq: HERZ), listed CLO-equity/junior-debt credit CEF. Pre-commencement TO-C 9/11 under the standing discount-management plan (avg discount >10% for the fiscal year triggered it): issuer self-tender up to 5% of common at 97.5% of NAV, to COMMENCE by 2026-10-31; expiry/odd-lot terms not yet published. INCLUDED - first real CEF row for the anchor hypothesis.",
+   "symbol": "HERZ",
+   "entry_close": null,
+   "entry_date": null,
+   "grade": null,
+   "entry_note": "entry = first close after filing date -> fill 2026-09-14 Monday close (filed Fri 9/11)"
   }
  ]
 }
