@@ -45,8 +45,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var previewView: PreviewView
     private var provider: ProcessCameraProvider? = null
     private var imageCapture: ImageCapture? = null
+    private var previewUse: Preview? = null
     private var camera: androidx.camera.core.Camera? = null
     private val captureExec = Executors.newSingleThreadExecutor()
+    // one daemon writer for the shadow mirror: a bulk add (restore, backup
+    // apply, sync pull) used to fan out one decoder + two file writers per
+    // reference, each holding a decoded copy. FIFO keeps refs ahead of the
+    // debounced meta write.
+    private val shadowExec = Executors.newSingleThreadExecutor { r ->
+        Thread(r).apply { isDaemon = true } }
     private var pendingStart: Runnable? = null
     private var capLabel = ""
     private var rawMode = false
@@ -63,6 +70,7 @@ class MainActivity : AppCompatActivity() {
     private var modeAnnounced = false
     private lateinit var diag: TextView
     private var booted = false
+    private var camWarmed = false
     // ---- ads: one NATIVE card styled as part of the app, visible only
     // while the page reports the project screen up. Register the dev
     // phone as a test device in the AdMob console before poking at it.
@@ -264,7 +272,27 @@ class MainActivity : AppCompatActivity() {
             allowFileAccess = false
         }
         web.webViewClient = object : WebViewClient() {
-            override fun onPageFinished(view: WebView, url: String) { booted = true }
+            override fun onPageFinished(view: WebView, url: String) {
+                booted = true
+                // warm CameraX's provider (camera enumeration + characteristics,
+                // hundreds of ms on a mid-range device) off the critical path
+                // once the page has painted, only where the camera is already
+                // granted. getInstance needs no permission and runs on
+                // CameraX's own executor. The extensions manager is NOT
+                // warmed here: vendor init is the crash-prone piece the
+                // attempting/ceiling ladder exists for.
+                if (!camWarmed) {
+                    camWarmed = true
+                    web.postDelayed({
+                        try {
+                            if (ContextCompat.checkSelfPermission(this@MainActivity,
+                                    Manifest.permission.CAMERA)
+                                == android.content.pm.PackageManager.PERMISSION_GRANTED)
+                                ProcessCameraProvider.getInstance(this@MainActivity)
+                        } catch (e: Throwable) {}
+                    }, 3000)
+                }
+            }
             // anything off the loopback origin leaves for the system: web
             // links open the real browser, market:// the Play Store,
             // discord:// the Discord app. Without this the WebView swallows
@@ -360,29 +388,37 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         web.addJavascriptInterface(Bridge(), "RealismCam")
-        healHome()
-        try {
-            val inv = shadowRefDirs().mapIndexed { i, d ->
-                val fs = d.listFiles() ?: emptyArray()
-                (if (i == 0) "int" else "ext") + "=" + fs.size + "/" +
-                    (fs.sumOf { it.length() } / 1024) + "KB"
-            }.joinToString(" ")
-            val st = android.os.StatFs(filesDir.absolutePath)
-            logLine("shadow: $inv meta=" + metaRefCount(shadowBestMeta())
-                + " free=" + (st.availableBytes / (1024 * 1024)) + "MB")
-        } catch (e: Throwable) {}
-        val port = LocalServer.start(this)
-        logLine("launch port=$port degraded=${LocalServer.degraded}")
-        if (port == 0) report("local server failed to bind")
-        else {
-            if (LocalServer.degraded)
-                report("temporary session: your saved work is safe but hidden - " +
-                       "close and reopen the app to get it back")
-            web.loadUrl("http://127.0.0.1:$port/index.html")
-        }
-        web.postDelayed({
-            if (!booted) report("page did not finish loading in 8s (progress ${web.progress}%)")
-        }, 8000)
+        // healHome (a walk over every IndexedDB dir), the shadow inventory
+        // (two meta parses per root) and the server bind (up to 3s of
+        // sleep when the previous process still holds the port) all live
+        // on one daemon thread; loadUrl is posted back once the port is known
+        Thread {
+            healHome()
+            try {
+                val inv = shadowRefDirs().mapIndexed { i, d ->
+                    val fs = d.listFiles() ?: emptyArray()
+                    (if (i == 0) "int" else "ext") + "=" + fs.size + "/" +
+                        (fs.sumOf { it.length() } / 1024) + "KB"
+                }.joinToString(" ")
+                val st = android.os.StatFs(filesDir.absolutePath)
+                logLine("shadow: $inv meta=" + metaRefCount(shadowBestMeta())
+                    + " free=" + (st.availableBytes / (1024 * 1024)) + "MB")
+            } catch (e: Throwable) {}
+            val port = LocalServer.start(this)
+            logLine("launch port=$port degraded=${LocalServer.degraded}")
+            runOnUiThread {
+                if (port == 0) report("local server failed to bind")
+                else {
+                    if (LocalServer.degraded)
+                        report("temporary session: your saved work is safe but hidden - " +
+                               "close and reopen the app to get it back")
+                    web.loadUrl("http://127.0.0.1:$port/index.html")
+                    web.postDelayed({
+                        if (!booted) report("page did not finish loading in 8s (progress ${web.progress}%)")
+                    }, 8000)
+                }
+            }
+        }.apply { isDaemon = true }.start()
         startAds()
         initBilling()
         // the daily automatic backup: a full export lands in Downloads -
@@ -1224,6 +1260,24 @@ class MainActivity : AppCompatActivity() {
                 previewView.layoutParams = lp
             }
         }
+        // a rotation keeps the bind: only the target rotation and the
+        // display-oriented frame size change; the page falls back to a
+        // full restart when there is nothing bound to rotate
+        @JavascriptInterface
+        fun rotate() {
+            runOnUiThread {
+                val cap = imageCapture; val prev = previewUse
+                if (cap == null || prev == null) { js("window.__natRotate && __natRotate(true)"); return@runOnUiThread }
+                val r = dispRot()
+                cap.targetRotation = r; prev.targetRotation = r
+                val ri = prev.resolutionInfo
+                if (ri == null) { js("window.__natRotate && __natRotate(true)"); return@runOnUiThread }
+                val rd = ri.rotationDegrees
+                val fw = if (rd == 90 || rd == 270) ri.resolution.height else ri.resolution.width
+                val fh = if (rd == 90 || rd == 270) ri.resolution.width else ri.resolution.height
+                js("window.__natRotated && __natRotated($fw,$fh)")
+            }
+        }
         @JavascriptInterface
         fun capture() { runOnUiThread { takeStill() } }
         // the page's decode-of-last-resort: WebView can't read HEIC/HEIF,
@@ -1262,7 +1316,7 @@ class MainActivity : AppCompatActivity() {
         // backups land in Downloads where a file manager can find them
         @JavascriptInterface
         fun saveFile(name: String, mime: String, text: String) {
-            runOnUiThread {
+            Thread {
                 try {
                     val bytes = text.toByteArray(Charsets.UTF_8)
                     if (android.os.Build.VERSION.SDK_INT >= 29) {
@@ -1283,7 +1337,7 @@ class MainActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     js("toast && toast('backup failed', false)")
                 }
-            }
+            }.apply { isDaemon = true }.start()
         }
         // the automatic daily backup: prune this app's previous auto file
         // from Downloads, write the fresh one, stamp the clock
@@ -1291,7 +1345,6 @@ class MainActivity : AppCompatActivity() {
         fun saveFileAuto(name: String, mime: String, text: String) {
             Thread {
                 try {
-                    val bytes = text.toByteArray(Charsets.UTF_8)
                     if (android.os.Build.VERSION.SDK_INT >= 29) {
                         val col = android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI
                         try {
@@ -1310,13 +1363,18 @@ class MainActivity : AppCompatActivity() {
                             put(android.provider.MediaStore.Downloads.MIME_TYPE, mime)
                         }
                         val uri = contentResolver.insert(col, cv) ?: throw Exception("no uri")
-                        contentResolver.openOutputStream(uri)?.use { it.write(bytes) }
+                        // stream the String through a writer: the export is
+                        // every reference base64'd, and toByteArray would be
+                        // a second full copy of it in the heap
+                        contentResolver.openOutputStream(uri)?.bufferedWriter(Charsets.UTF_8)
+                            ?.use { it.write(text) }
                     } else {
-                        java.io.File(getExternalFilesDir(null), name).writeBytes(bytes)
+                        java.io.File(getExternalFilesDir(null), name)
+                            .bufferedWriter(Charsets.UTF_8).use { it.write(text) }
                     }
                     getSharedPreferences("bak", 0).edit()
                         .putLong("at", System.currentTimeMillis()).apply()
-                    logLine("auto-backup saved ${bytes.size / 1024}KB")
+                    logLine("auto-backup saved ${text.length / 1024}KB")
                     js("toast && toast('auto-backup saved to Downloads')")
                 } catch (e: Exception) { logLine("auto-backup failed: ${e.message}") }
             }.apply { isDaemon = true }.start()
@@ -1331,19 +1389,21 @@ class MainActivity : AppCompatActivity() {
         private fun safeName(id: String) = id.filter { it.isLetterOrDigit() } + ".bin"
         @JavascriptInterface
         fun shadowSaveRef(id: String, b64: String) {
-            Thread {
+            shadowExec.execute {
                 try {
                     val bytes = Base64.decode(b64, Base64.DEFAULT)
                     for (d in shadowRefDirs())
                         try { java.io.File(d, safeName(id)).writeBytes(bytes) }
                         catch (e: Exception) {}
                 } catch (e: Exception) {}
-            }.apply { isDaemon = true }.start()
+            }
         }
         @JavascriptInterface
         fun shadowDeleteRef(id: String) {
-            for (d in shadowRefDirs())
-                try { java.io.File(d, safeName(id)).delete() } catch (e: Exception) {}
+            shadowExec.execute {
+                for (d in shadowRefDirs())
+                    try { java.io.File(d, safeName(id)).delete() } catch (e: Exception) {}
+            }
         }
         @JavascriptInterface
         fun shadowList(): String =
@@ -1364,7 +1424,7 @@ class MainActivity : AppCompatActivity() {
         }
         @JavascriptInterface
         fun shadowSaveMeta(text: String) {
-            Thread {
+            shadowExec.execute {
                 try {
                     // never-shrink: a boot that sees a wiped gallery must
                     // not clobber a good index while mirrored files exist
@@ -1372,7 +1432,7 @@ class MainActivity : AppCompatActivity() {
                         && metaRefCount(shadowBestMeta()) > 0
                         && shadowRefDirs().any { !(it.listFiles().isNullOrEmpty()) }) {
                         logLine("shadow: refused meta shrink to 0")
-                        return@Thread
+                        return@execute
                     }
                     for (root in shadowRoots()) {
                         try {
@@ -1387,7 +1447,7 @@ class MainActivity : AppCompatActivity() {
                         } catch (e: Exception) {}
                     }
                 } catch (e: Exception) {}
-            }.apply { isDaemon = true }.start()
+            }
         }
         @JavascriptInterface
         fun shadowLoadMeta(): String = shadowBestMeta()
@@ -1554,7 +1614,7 @@ class MainActivity : AppCompatActivity() {
         // destination certain, with no system picker round-trip
         @JavascriptInterface
         fun saveImageDl(name: String, mime: String, b64: String) {
-            runOnUiThread {
+            Thread {
                 try {
                     val bytes = Base64.decode(b64, Base64.DEFAULT)
                     if (android.os.Build.VERSION.SDK_INT >= 29) {
@@ -1573,12 +1633,12 @@ class MainActivity : AppCompatActivity() {
                         js("toast && toast('saved: Android/data/app.realism.draw/files')")
                     }
                 } catch (e: Exception) { js("toast && toast('save failed', false)") }
-            }
+            }.apply { isDaemon = true }.start()
         }
         // comparison/photo downloads land in Pictures where the gallery sees them
         @JavascriptInterface
         fun saveImage(name: String, mime: String, b64: String) {
-            runOnUiThread {
+            Thread {
                 try {
                     val bytes = Base64.decode(b64, Base64.DEFAULT)
                     if (android.os.Build.VERSION.SDK_INT >= 29) {
@@ -1601,7 +1661,7 @@ class MainActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     js("toast && toast('save failed', false)")
                 }
-            }
+            }.apply { isDaemon = true }.start()
         }
         @JavascriptInterface
         fun focus(nx: Float, ny: Float) {
@@ -1686,7 +1746,12 @@ class MainActivity : AppCompatActivity() {
                         rung = RUNG_RAW
                 } catch (e: Throwable) {}
                 if (rung == RUNG_PLAIN && ceiling >= RUNG_EXT) try {
-                    val em = ExtensionsManager.getInstanceAsync(this, prov).get()
+                    // bounded: a hung vendor extension library must not hold
+                    // the open forever ('attempting' is only written inside
+                    // bindRung, so the ladder could never demote it). A
+                    // TimeoutException falls to the plain rung for this open.
+                    val em = ExtensionsManager.getInstanceAsync(this, prov)
+                        .get(5, java.util.concurrent.TimeUnit.SECONDS)
                     for (mode in intArrayOf(ExtensionMode.AUTO, ExtensionMode.HDR)) {
                         if (em.isExtensionAvailable(CameraSelector.DEFAULT_BACK_CAMERA, mode)) {
                             selector = em.getExtensionEnabledCameraSelector(
@@ -1748,14 +1813,18 @@ class MainActivity : AppCompatActivity() {
                 })
             }
             val preview = previewB.build()
+            previewUse = preview
             val still = stillB.build()
             imageCapture = still
             if (gen != camGen) { prefs.edit().remove("attempting").apply(); return }
             prov.unbindAll()
+            // surface provider BEFORE binding: set afterwards on an attached
+            // use case, CameraX configures the session once without a
+            // surface and then resets/rebuilds it when the surface arrives
+            preview.setSurfaceProvider(previewView.surfaceProvider)
             camera = prov.bindToLifecycle(this,
                 if (rung == RUNG_EXT) selector else CameraSelector.DEFAULT_BACK_CAMERA,
                 preview, still)
-            preview.setSurfaceProvider(previewView.surfaceProvider)
             var tries = 0
             fun reportSize() {
                 if (gen != camGen) return          // a newer session owns the page
@@ -1784,7 +1853,12 @@ class MainActivity : AppCompatActivity() {
             prefs.edit().remove("attempting").apply()
             if (rung > RUNG_PLAIN) {
                 // the extension selector only exists on the decision thread,
-                // so any in-process failure demotes straight to plain
+                // so any in-process failure demotes straight to plain - and
+                // persistently, like the takePicture reject below: a bind
+                // throw is deterministic per device, and without the ceiling
+                // write every later open re-probed, re-failed and showed the
+                // 12s overlay again. The amnesty counter is the way back.
+                prefs.edit().putInt("ceiling", rung - 1).apply()
                 report("${rungName(rung)} bind failed (${e.message}) - plain capture")
                 bindRung(RUNG_PLAIN, CameraSelector.DEFAULT_BACK_CAMERA, prefs, gen)
             } else {
@@ -1811,16 +1885,19 @@ class MainActivity : AppCompatActivity() {
             js("window.__natShot && __natShot('" + j + "', " + rArg + ", '" + capLabel + "')")
         }
         fun armTimeout() {
-            // RAW and JPEG arrive as separate callbacks; if one never comes,
-            // ship what we have rather than hanging the shutter
+            // the watchdog covers only the wait for the frame: it is
+            // cancelled the moment onCaptureSuccess fires, so RAW decode +
+            // JPEG synthesis can never race it. Extension (HDR/AUTO) and RAW
+            // captures commonly take 2-5s on their own, hence the longer arm.
             val t = Runnable { if (got.containsKey("jpeg")) deliver()
                                else js("window.__natFail && __natFail('shot')") }
             timer = t
-            web.postDelayed(t, 4000)
+            web.postDelayed(t, if (rawMode || capLabel != "") 8000 else 4000)
         }
         armTimeout()
         val cb = object : ImageCapture.OnImageCapturedCallback() {
             override fun onCaptureSuccess(image: ImageProxy) {
+                timer?.let { web.removeCallbacks(it) }   // the frame is here; the rest is ours
                 try {
                     if (image.format == android.graphics.ImageFormat.RAW_SENSOR) {
                         val t = rawLuma(image)
@@ -1838,10 +1915,9 @@ class MainActivity : AppCompatActivity() {
                 } catch (e: Throwable) {
                     report("capture decode: ${e.message}")
                 } finally { image.close() }
-                if (got.containsKey("jpeg")) {
-                    timer?.let { web.removeCallbacks(it) }
-                    deliver()
-                }
+                // the timer is gone, so a failed decode must report itself
+                if (got.containsKey("jpeg")) deliver()
+                else js("window.__natFail && __natFail('shot')")
             }
             override fun onError(e: ImageCaptureException) {
                 timer?.let { web.removeCallbacks(it) }
@@ -1876,14 +1952,21 @@ class MainActivity : AppCompatActivity() {
         return bb.array()
     }
 
+    // filled a row at a time: a full-frame IntArray plus createBitmap's copy
+    // of it was 8 bytes/pixel on top of the RAW proxy, the luma plane and its
+    // packed copy - an OOM on a full-sensor stream. Pixel-identical output.
     private fun lumaJpeg(l: ShortArray, w: Int, h: Int): ByteArray {
-        val px = IntArray(w * h)
-        for (i in px.indices) {
-            val v = (l[i].toInt() and 0xFFFF) ushr 8
-            px[i] = -0x1000000 or (v shl 16) or (v shl 8) or v
-        }
-        val bm = android.graphics.Bitmap.createBitmap(px, w, h,
+        val bm = android.graphics.Bitmap.createBitmap(w, h,
             android.graphics.Bitmap.Config.ARGB_8888)
+        val row = IntArray(w)
+        for (y in 0 until h) {
+            val o = y * w
+            for (x in 0 until w) {
+                val v = (l[o + x].toInt() and 0xFFFF) ushr 8
+                row[x] = -0x1000000 or (v shl 16) or (v shl 8) or v
+            }
+            bm.setPixels(row, 0, w, 0, y, w, 1)
+        }
         val bos = java.io.ByteArrayOutputStream()
         bm.compress(android.graphics.Bitmap.CompressFormat.JPEG, 95, bos)
         bm.recycle()
@@ -1988,7 +2071,7 @@ class MainActivity : AppCompatActivity() {
         camGen++                                   // orphan any bind still in flight
         web.setBackgroundColor(Color.BLACK)
         try { provider?.unbindAll() } catch (e: Exception) {}
-        camera = null; imageCapture = null
+        camera = null; imageCapture = null; previewUse = null
         previewView.visibility = android.view.View.GONE
     }
 

@@ -856,7 +856,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v410</span>
+    <span id="verNum">v411</span>
   </div>
 </div>
 <div id="delModal">
@@ -1302,6 +1302,79 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 window.__INLINE_ARSENAL = [{"id": 30, "name": "Fingertip", "mode": "deposit", "tone": 15, "liftAmount": 20, "blendType": "directional", "spreadMm": 2, "strength": 60, "lighten": 0, "sizeMm": 15.6, "fuzz": 50, "spacing": 6, "pSize": false, "liftCeiling": 78}, {"id": 12, "name": "Q-tip", "mode": "deposit", "tone": 15, "liftAmount": 60, "lighten": 0, "blendType": "spread", "spreadMm": 2, "strength": 60, "sizeMm": 5, "fuzz": 50, "spacing": 6, "pSize": false, "noEngine": true}, {"id": 24, "name": "Very Light Big Brush", "mode": "deposit", "tone": 192, "liftAmount": 60, "lighten": 0, "blendType": "spread", "spreadMm": 2, "strength": 60, "sizeMm": 30, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 23, "name": "Light Big Brush", "mode": "deposit", "tone": 110, "liftAmount": 60, "lighten": 0, "blendType": "spread", "spreadMm": 2, "strength": 60, "sizeMm": 30, "fuzz": 70, "spacing": 6, "pSize": false}, {"id": 21, "name": "Big Brush", "mode": "deposit", "tone": 66, "liftAmount": 60, "lighten": 0, "blendType": "spread", "spreadMm": 2, "strength": 60, "sizeMm": 30, "fuzz": 74, "spacing": 6, "pSize": false}, {"id": 29, "name": "Dark Big", "mode": "deposit", "tone": 40, "liftAmount": 20, "blendType": "directional", "spreadMm": 2, "strength": 60, "lighten": 0, "sizeMm": 29.9, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 14, "name": "Big Blend", "mode": "blend", "tone": 128, "liftAmount": 60, "lighten": 0, "blendType": "spread", "spreadMm": 2, "strength": 60, "sizeMm": 30, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 26, "name": "Light Med", "mode": "deposit", "tone": 120, "liftAmount": 20, "blendType": "directional", "spreadMm": 10, "strength": 60, "lighten": 0, "sizeMm": 9.1, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 25, "name": "Med Brush", "mode": "deposit", "tone": 78, "liftAmount": 20, "blendType": "directional", "spreadMm": 2, "strength": 67, "lighten": 0, "sizeMm": 9.1, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 28, "name": "Dark Med", "mode": "deposit", "tone": 43, "liftAmount": 20, "blendType": "directional", "spreadMm": 2, "strength": 60, "lighten": 0, "sizeMm": 7, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 27, "name": "Med Blend", "mode": "blend", "tone": 128, "liftAmount": 20, "blendType": "spread", "spreadMm": 2, "strength": 60, "lighten": 0, "sizeMm": 7, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 16, "name": "Kneaded Eraser", "mode": "lift", "tone": 128, "liftAmount": 20, "lighten": 0, "blendType": "spread", "spreadMm": 2, "strength": 60, "sizeMm": 9.1, "fuzz": 50, "spacing": 6, "pSize": false}, {"id": 17, "name": "Tissue", "mode": "lift", "tone": 128, "liftAmount": 15, "lighten": 0, "blendType": "spread", "spreadMm": 2, "strength": 60, "sizeMm": 20.9, "fuzz": 50, "spacing": 6, "pSize": false}];
 </script>
 <script>
+'use strict';
+const $ = id => document.getElementById(id);
+// the sync SDK is ~1MB and network-bound: a remembered account starts the
+// fetch from the first bytes of boot instead of 600ms after the whole
+// page has parsed and evaluated
+const FB_VER = '12.19.0';   // pinned: a floating version can break the app silently
+try{ if (localStorage.getItem('acct')==='1' && navigator.onLine!==false){
+  const b='https://www.gstatic.com/firebasejs/'+FB_VER+'/';
+  for (const m of ['firebase-app.js','firebase-auth.js','firebase-storage.js','firebase-firestore.js']){
+    const l=document.createElement('link'); l.rel='modulepreload'; l.href=b+m;
+    document.head.appendChild(l);
+  }
+} }catch(e){}
+const FIRST_RUN=(()=>{ try{ return !localStorage.getItem('intro1'); }catch(e){ return false; } })();
+let SPLASH_RUN=false, SPLASH_CB=null;
+(function(){
+  let rm=false;
+  try{ rm=matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  const sp=$('introSplash'), ww=$('introWordWrap'), word=$('introMain'), t=$('upTitle');
+  if (rm || !sp || !ww || !word || !t) return;
+  SPLASH_RUN=true;
+  sp.classList.add('on'); ww.classList.add('on');
+  document.documentElement.classList.add('introUp');
+  if (!FIRST_RUN) document.documentElement.classList.add('introLift');
+  t.style.visibility='hidden';
+  const done=()=>{
+    try{ pmark('splash'); }catch(e){}
+    sp.classList.remove('on','go');
+    ww.classList.remove('on','go');
+    document.documentElement.classList.remove('introLift');
+    if (!FIRST_RUN) document.documentElement.classList.remove('introUp');
+    try{ $('gallery').style.willChange=''; $('galleryC').style.willChange=''; }catch(e){}
+    try{ adSync(); }catch(e){}
+    t.style.visibility='';
+    word.style.transition=word.style.transform='';
+    $('introBy').style.opacity='';
+    sp.style.background='';
+    SPLASH_RUN=false;
+    const cb=SPLASH_CB; SPLASH_CB=null;
+    if (cb) try{ cb(); }catch(e){}
+    // one beat behind the message, the parked rows slide in under it
+    if (FIRST_RUN) setTimeout(()=>{ try{
+      document.documentElement.classList.remove('introUp');
+    }catch(e){} }, 240);
+  };
+  // the rows get a head start: they begin their sweep a beat before the
+  // focus pull so the page feels alive as it sharpens
+  setTimeout(()=>{ try{
+    // pre-promote the rows to their own layers, then release next frame -
+    // the compositor slides ready textures instead of painting mid-flight
+    $('gallery').style.willChange='transform';
+    $('galleryC').style.willChange='transform';
+    if (FIRST_RUN) return;   // they wait for the welcome message instead
+    requestAnimationFrame(()=>document.documentElement.classList.remove('introUp'));
+  }catch(e){} }, 560);
+  setTimeout(()=>{
+    try{
+      const tr=t.getBoundingClientRect(), mr=word.getBoundingClientRect();
+      if (!tr.width || !mr.width){ done(); return; }
+      const k=tr.height/mr.height;
+      const dx=(tr.left+tr.width/2)-(mr.left+mr.width/2);
+      const dy=(tr.top+tr.height/2)-(mr.top+mr.height/2);
+      word.style.transition='transform .55s cubic-bezier(.2,0,0,1)';
+      word.style.transform='translate('+dx+'px,'+dy+'px) scale('+k+')';
+      $('introBy').style.opacity='0';
+      sp.classList.add('go'); ww.classList.add('go');
+      if (!FIRST_RUN) document.documentElement.classList.remove('introUp');
+      setTimeout(done, 640);
+    }catch(e){ done(); }
+  }, 750);
+})();
+</script>
+<script>
 
 'use strict';
 let GRID_COLS = 20, GRID_ROWS = 30;          // set by the format screen
@@ -1375,7 +1448,6 @@ const state = { img:null, tools:[] };
 <script>
 
 'use strict';
-const $ = id => document.getElementById(id);
 // the system back gesture steps UP through screens instead of closing
 // the app; only the project page lets it exit. One spare history entry is
 // kept while any deeper screen is up.
@@ -1397,64 +1469,6 @@ window.__backStep=()=>{
 // the very first open of the app on this device runs a different order:
 // title card -> welcome message -> rows sweeping in BENEATH it. On every
 // later open the rows keep their head start over the scrim.
-const FIRST_RUN=(()=>{ try{ return !localStorage.getItem('intro1'); }catch(e){ return false; } })();
-let SPLASH_RUN=false, SPLASH_CB=null;
-(function(){
-  let rm=false;
-  try{ rm=matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
-  const sp=$('introSplash'), ww=$('introWordWrap'), word=$('introMain'), t=$('upTitle');
-  if (rm || !sp || !ww || !word || !t) return;
-  SPLASH_RUN=true;
-  sp.classList.add('on'); ww.classList.add('on');
-  document.documentElement.classList.add('introUp');
-  if (!FIRST_RUN) document.documentElement.classList.add('introLift');
-  t.style.visibility='hidden';
-  const done=()=>{
-    pmark('splash');
-    sp.classList.remove('on','go');
-    ww.classList.remove('on','go');
-    document.documentElement.classList.remove('introLift');
-    if (!FIRST_RUN) document.documentElement.classList.remove('introUp');
-    try{ $('gallery').style.willChange=''; $('galleryC').style.willChange=''; }catch(e){}
-    try{ adSync(); }catch(e){}
-    t.style.visibility='';
-    word.style.transition=word.style.transform='';
-    $('introBy').style.opacity='';
-    sp.style.background='';
-    SPLASH_RUN=false;
-    const cb=SPLASH_CB; SPLASH_CB=null;
-    if (cb) try{ cb(); }catch(e){}
-    // one beat behind the message, the parked rows slide in under it
-    if (FIRST_RUN) setTimeout(()=>{ try{
-      document.documentElement.classList.remove('introUp');
-    }catch(e){} }, 240);
-  };
-  // the rows get a head start: they begin their sweep a beat before the
-  // focus pull so the page feels alive as it sharpens
-  setTimeout(()=>{ try{
-    // pre-promote the rows to their own layers, then release next frame -
-    // the compositor slides ready textures instead of painting mid-flight
-    $('gallery').style.willChange='transform';
-    $('galleryC').style.willChange='transform';
-    if (FIRST_RUN) return;   // they wait for the welcome message instead
-    requestAnimationFrame(()=>document.documentElement.classList.remove('introUp'));
-  }catch(e){} }, 560);
-  setTimeout(()=>{
-    try{
-      const tr=t.getBoundingClientRect(), mr=word.getBoundingClientRect();
-      if (!tr.width || !mr.width){ done(); return; }
-      const k=tr.height/mr.height;
-      const dx=(tr.left+tr.width/2)-(mr.left+mr.width/2);
-      const dy=(tr.top+tr.height/2)-(mr.top+mr.height/2);
-      word.style.transition='transform .55s cubic-bezier(.2,0,0,1)';
-      word.style.transform='translate('+dx+'px,'+dy+'px) scale('+k+')';
-      $('introBy').style.opacity='0';
-      sp.classList.add('go'); ww.classList.add('go');
-      if (!FIRST_RUN) document.documentElement.classList.remove('introUp');
-      setTimeout(done, 640);
-    }catch(e){ done(); }
-  }, 750);
-})();
 // opening a project: no geometric hero - the screen crossfade (scrIn2)
 // plus a whisper of over-scale settling home. One tiny transform on one
 // element: nothing to mismatch, nothing heavy to rasterize mid-flight.
@@ -1485,7 +1499,10 @@ function adSync(){
   try{
     if (!(window.RealismCam && RealismCam.adPlace)) return;
     const on=document.querySelector('.screen.on');
-    const cam=document.documentElement.classList.contains('natCam');
+    // natPend: the native camera is about to take the stage (compareBtn
+    // sets it before show()) - do not raise a strip natStart clears at once
+    const cam=document.documentElement.classList.contains('natCam')
+           || document.documentElement.classList.contains('natPend');
     // the boot splash owns the stage: the strip (and its layout reserve)
     // waits until the choreography lands, then arrives in one motion
     const splash=(()=>{ try{ return $('introSplash').classList.contains('on'); }catch(e){ return false; } })();
@@ -1533,6 +1550,7 @@ const show = id => { tipClose(false); uiShow();
     $(id).classList.add('on');
   }
   $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex';
+  if (id==='scrUpload' && GAL_STALE){ GAL_STALE=false; renderGallery(); }
   if (id==='scrUpload' && show._from==='scrMain'){
     reviewMaybe();
     syncTouch(galActive);            // time spent, detail level, circles
@@ -1582,10 +1600,15 @@ let _gdb = null;
 function gdb(){ return _gdb ||= new Promise((res,rej)=>{
   const q = indexedDB.open('drawgallery',1);
   q.onupgradeneeded = () => q.result.createObjectStore('photos',{keyPath:'id',autoIncrement:true});
-  q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); }); }
-async function galAll(){ try{ const d=await gdb(); return await new Promise(res=>{
+  q.onblocked = () => plog('gallery db open blocked');
+  q.onsuccess = () => { const d=q.result;
+    d.onclose = () => { _gdb=null; plog('gallery db closed by the browser'); };
+    d.onversionchange = () => { try{ d.close(); }catch(e){} _gdb=null; };
+    res(d); };
+  q.onerror = () => { _gdb=null; plog('gallery db open failed: '+(q.error&&q.error.name)); rej(q.error); }; }); }
+async function galAll(){ try{ const d=await gdb(); galAll.err=null; return await new Promise(res=>{
   const t=d.transaction('photos').objectStore('photos').getAll();
-  t.onsuccess=()=>res(t.result||[]); t.onerror=()=>res([]); }); }catch(e){ return []; } }
+  t.onsuccess=()=>res(t.result||[]); t.onerror=()=>res([]); }); }catch(e){ galAll.err=e; plog('galAll failed: '+(e&&e.name)); return []; } }
 async function galAdd(rec){ try{ const d=await gdb(); const id=await new Promise(res=>{
   const t=d.transaction('photos','readwrite').objectStore('photos').add(rec);
   t.onsuccess=()=>res(t.result); t.onerror=()=>res(null); });
@@ -1678,11 +1701,11 @@ setTimeout(async ()=>{
   const N=SHADOW(); if (!N) return;
   try{
     let meta=null; try{ meta=JSON.parse(N.shadowLoadMeta()||'null'); }catch(e){}
-    try{ N.dlog && N.dlog('boot refs='+(await galAll()).length
+    const have=await galAll();
+    try{ N.dlog && N.dlog('boot refs='+have.length
       +' shadow='+(meta&&meta.refs?meta.refs.filter(m=>!m.seed).length:0)
       +' persisted='+await (navigator.storage&&navigator.storage.persisted
         ? navigator.storage.persisted().catch(()=>'?') : '?')); }catch(e){}
-    const have=await galAll();
     const files=(N.shadowList()||'').split(',').filter(Boolean);
     const mrefs=(meta && meta.refs) ? meta.refs : [];
     const missing=mrefs.filter(m=>!m.seed
@@ -1697,7 +1720,13 @@ setTimeout(async ()=>{
         if (!mrefs.some(m=>m.id===id)) missing.push({id, ts:0, name:'', thumb:''});
       }
     }
-    if (!missing.length){ shadowMeta(); return; }
+    if (!missing.length){
+      // the index already lists exactly what the gallery holds: no rewrite
+      const same=mrefs.length===have.length && have.every(g=>mrefs.some(m=>m.id===g.id
+        && (m.ts||0)===(g.ts||0) && (m.name||'')===(g.name||'')));
+      if (!same) shadowMeta();
+      return;
+    }
     const sig=missing.map(m=>m.id).sort((a,b)=>a-b).join(',');
     let skip=null; try{ skip=localStorage.getItem('shSkip'); }catch(e){}
     if (skip===sig){ shadowMeta(); return; }
@@ -1766,8 +1795,17 @@ async function thumbOf(blob, colr){
   g.drawImage(src, (W-s)/2, (H-s)/2, s, s, 0, 0, T, T);
   if (!colr) forceGray(c);
   if (bm) bm.close(); else URL.revokeObjectURL(i.src);
-  return c.toDataURL('image/jpeg', 0.8);
+  // a Blob, not a dataURL: IndexedDB hands a Blob back as a handle, so a
+  // gallery read no longer deserialises every thumbnail's 40-60K chars
+  const tb=await new Promise(res=>{ try{ c.toBlob(res, 'image/jpeg', 0.8); }catch(e){ res(null); } });
+  return tb || c.toDataURL('image/jpeg', 0.8);
 }
+// what goes into an <img>: an object URL for a Blob thumb, the string
+// itself for a record made before thumbs were Blobs. Whoever paints it
+// releases the object URL
+function thumbSrc(r){ const t=r&&r.thumb;
+  if (t instanceof Blob) return URL.createObjectURL(t);
+  return typeof t==='string' ? t : ''; }
 // thumbnails were baked at 192px before v371: re-bake existing ones from
 // their stored blobs, one at a time after boot, refreshing tiles in place
 async function regenThumbs(){
@@ -1787,7 +1825,7 @@ async function regenThumbs(){
         const cur=await galGet(id); if (!cur) continue;      // deleted meanwhile
         cur.thumb=thumb; await galPut(cur);
         const im=document.querySelector('.gitem[data-gid="'+id+'"] img');
-        if (im) im.src=thumb;
+        if (im){ if (im.src.startsWith('blob:')) URL.revokeObjectURL(im.src); im.src=thumbSrc(cur); }
       }catch(e){}
       await new Promise(res=>setTimeout(res,250));
     }
@@ -1840,6 +1878,21 @@ async function galPut(rec, quiet){ try{ const d=await gdb(); await new Promise(r
   // passes quiet=true for its own writes, or it would chase its tail.
   if (!quiet && rec && rec.sid) try{ syncTouch(rec.id); }catch(e){}
 }
+// get + mutate + put inside ONE readwrite transaction. Sync waits on the
+// network between reading a record and writing it back; a capture taken
+// or a delete made in that gap must never be undone by the stale copy.
+// mut() is synchronous; returning false skips the write; a missing
+// record (deleted meanwhile) is never re-created.
+async function galUpdate(id, mut, quiet){ try{ const d=await gdb();
+  const rec=await new Promise(res=>{
+    const st=d.transaction('photos','readwrite').objectStore('photos'), g=st.get(id);
+    g.onsuccess=()=>{ const r=g.result; if (!r){ res(null); return; }
+      let keep=true; try{ keep=mut(r)!==false; }catch(e){ keep=false; }
+      if (!keep){ res(null); return; }
+      const p=st.put(r); p.onsuccess=()=>res(r); p.onerror=()=>res(null); };
+    g.onerror=()=>res(null); });
+  if (rec && !quiet && rec.sid) try{ syncTouch(rec.id); }catch(e){}
+  return rec; }catch(e){ return null; } }
 
 let REFMODE='bw';                 // the open reference's world: 'bw' | 'c'
 function isColor(gid){ try{ return localStorage.getItem('mode|'+gid)==='c'; }catch(e){ return false; } }
@@ -1847,6 +1900,13 @@ function isColor(gid){ try{ return localStorage.getItem('mode|'+gid)==='c'; }cat
 // its only reader: renderGallery runs during boot, well before the sync
 // code further down has been evaluated.
 const LIB_WARN = 150;
+// sync may rebuild the gallery while the drawing or compare screen is up,
+// where nobody can see it: mark it stale instead and render on the way back
+let GAL_STALE=false;
+function galRenderSoon(){
+  if ($('scrUpload').classList.contains('on')){ GAL_STALE=false; renderGallery(); }
+  else GAL_STALE=true;
+}
 async function renderGallery(){
   pmark('gallery');
   // Newest first until someone arranges them by hand, after which their
@@ -1876,7 +1936,7 @@ async function renderGallery(){
     if (r.id===last) d.classList.add('lastRef');
     const im = document.createElement('img');
     im.loading='lazy'; im.decoding='async';
-    im.src = r.thumb; im.alt = r.name||'';
+    im.src = thumbSrc(r); im.alt = r.name||'';
     const bar = document.createElement('div'); bar.className='gbar';
     bar.appendChild(Object.assign(document.createElement('div'),{className:'gfill'}));
     const xb = document.createElement('button'); xb.className='gx'; xb.textContent='\u270e';
@@ -1946,7 +2006,11 @@ async function renderGallery(){
   // somewhere else. The hold is what separates it from a scroll, which is
   // the same gesture for its first 400ms.
   const dragArm = (tile) => {
-    let t0=0, sx=0, sy=0, held=false, ph=null, off={x:0,y:0}, host=null, moved=false;
+    let t0=0, sx=0, sy=0, held=false, ph=null, off={x:0,y:0}, host=null, moved=false, moveR=0, mvX=0, mvY=0;
+    // sibling midpoints and the host rect are measured once per layout, not
+    // on every pointermove: the lifted tile is out of flow, so the row only
+    // changes when the placeholder actually moves or the strip scrolls
+    let mids=null, hr=null;
     const HOLD=400, SLOP=10;
     const clear=()=>{ clearTimeout(t0); t0=0; };
     const lift=(x,y)=>{
@@ -1962,33 +2026,40 @@ async function renderGallery(){
       tile.style.width=r.width+'px'; tile.style.height=r.height+'px';
       tile.classList.add('dragging');
       document.documentElement.classList.add('dragging');
+      mids=null; hr=null;
       place(x,y);
+    };
+    const measure=()=>{
+      const kids=[...host.children].filter(k=>k!==tile && k!==ph && !k.classList.contains('gadd'));
+      mids=kids.map(k=>{ const r=k.getBoundingClientRect(); return {k, mid:r.left+r.width/2}; });
+      hr=host.getBoundingClientRect();
     };
     const place=(x,y)=>{
       tile.style.left=(x-off.x)+'px';
       tile.style.top =(y-off.y)+'px';
     };
     const reposition=(x)=>{
-      if (!host) return;
-      const kids=[...host.children].filter(k=>k!==tile && k!==ph && !k.classList.contains('gadd'));
+      if (!host || !ph) return;
+      if (!mids) measure();
       let before=null;
-      for (const k of kids){
-        const r=k.getBoundingClientRect();
-        if (x < r.left + r.width/2){ before=k; break; }
-      }
-      if (before) host.insertBefore(ph, before);
-      else {
-        const add=host.querySelector('.gadd');
-        if (add) host.insertBefore(ph, add); else host.appendChild(ph);
-      }
+      for (const m of mids){ if (x < m.mid){ before=m.k; break; } }
+      const target=before || host.querySelector('.gadd') || null;
+      // only touch the DOM when the slot really changes (the out-of-flow
+      // tile does not count as a neighbour)
+      let nx=ph.nextSibling; while (nx===tile) nx=nx.nextSibling;
+      if (nx!==target){ host.insertBefore(ph, target); mids=null; }
       // walking off the end of a strip scrolls it, so a long row is usable
-      const hr=host.getBoundingClientRect();
-      if (x > hr.right-46) host.scrollLeft += 12;
-      else if (x < hr.left+46) host.scrollLeft -= 12;
+      if (x > hr.right-46){ host.scrollLeft += 12; mids=null; }
+      else if (x < hr.left+46){ host.scrollLeft -= 12; mids=null; }
     };
     const drop=async ()=>{
       if (!held) return;
       held=false;
+      if (moveR){ cancelAnimationFrame(moveR); moveR=0; reposition(mvX); }   // the last move lands before the tile is put down
+      // a drag must not also open the project it just moved; the flag
+      // dies on its own because no click may follow at all
+      if (moved){ tile.dataset.justDragged='1';
+        setTimeout(()=>{ delete tile.dataset.justDragged; }, 400); }
       tile.classList.remove('dragging');
       document.documentElement.classList.remove('dragging');
       tile.style.cssText='';
@@ -2020,8 +2091,8 @@ async function renderGallery(){
       }
       e.preventDefault();
       moved=true;
-      place(e.clientX, e.clientY);
-      reposition(e.clientX);
+      mvX=e.clientX; mvY=e.clientY;
+      if (!moveR) moveR=requestAnimationFrame(()=>{ moveR=0; if (held){ place(mvX,mvY); reposition(mvX); } });
     });
     const end=e=>{ clear(); if (held){ e.preventDefault(); drop(); } };
     tile.addEventListener('pointerup', end);
@@ -2031,10 +2102,15 @@ async function renderGallery(){
       if (tile.dataset.justDragged){ delete tile.dataset.justDragged;
         e.stopPropagation(); e.preventDefault(); }
     }, true);
-    tile.addEventListener('pointerup', ()=>{ if (moved) tile.dataset.justDragged='1'; }, true);
+    // touch-action was pan-x when the finger landed, so once lifted the
+    // first move would hand the gesture to the scroller and cancel the
+    // pointer: a cancelable touchmove is the one place that can refuse
+    tile.addEventListener('touchmove', e=>{ if (held && e.cancelable) e.preventDefault(); }, {passive:false});
+    tile.addEventListener('contextmenu', e=>{ if (t0||held) e.preventDefault(); });
   };
   for (const [hostId, colr] of [['gallery',false],['galleryC',true]]){
     const host=$(hostId); if (!host) continue;
+    for (const im of host.querySelectorAll('img')) if (im.src.startsWith('blob:')) URL.revokeObjectURL(im.src);
     host.innerHTML='';
     for (const r of recs){
       if (isColor(r.id)!==colr) continue;
@@ -2282,10 +2358,11 @@ function warmOpen(r){
       g.filter='none';
     }
     if (REFMODE!=='c') forceGray(c);
+    try{ if (th.src.startsWith('blob:')) URL.revokeObjectURL(th.src); }catch(e){}
     WARM_STANDIN=c;
     if ($('scrMain').classList.contains('on')) viewRepaint();
   };
-  th.src=r.thumb;
+  th.src=thumbSrc(r);
   (async()=>{
     if (!(await prepReady())){
       // the cook cache is gone: fall back to the ordinary open
@@ -3182,7 +3259,7 @@ $('cellUnit2').onchange = ()=>{
 $('backBtn').onclick = () => {
   if ($('scrEdit').classList.contains('on')){ edClose(false); return; }
   if ($('scrCompare').classList.contains('on')){
-    if (CAM.stream) camStop();
+    if (camUp()) camStop();
     show('scrMain');
     drawCircs();           // marks placed in the flip view appear at once
     return;
@@ -4755,7 +4832,12 @@ let _db=null;
 function db(){ return _db ||= new Promise((res,rej)=>{
   const q=indexedDB.open('drawapp',1);
   q.onupgradeneeded=()=>q.result.createObjectStore('plans');
-  q.onsuccess=()=>res(q.result); q.onerror=()=>rej(q.error); }); }
+  q.onblocked = () => plog('plan db open blocked');
+  q.onsuccess = () => { const d=q.result;
+    d.onclose = () => { _db=null; plog('plan db closed by the browser'); };
+    d.onversionchange = () => { try{ d.close(); }catch(e){} _db=null; };
+    res(d); };
+  q.onerror = () => { _db=null; plog('plan db open failed: '+(q.error&&q.error.name)); rej(q.error); }; }); }
 async function dbGet(k){ try{ const d=await db(); return await new Promise(res=>{
   const t=d.transaction('plans').objectStore('plans').get(k);
   t.onsuccess=()=>res(t.result); t.onerror=()=>res(null); }); }catch(e){ return null; } }
@@ -4816,7 +4898,8 @@ async function bakBuild(){
     for (const pfx of BAK_PERID){
       const v=localStorage.getItem(pfx+r.id); if (v!=null) per[pfx]=v;
     }
-    refs.push({ name:r.name||'', ts:r.ts||0, seed:r.seed?1:0, thumb:r.thumb||'',
+    refs.push({ name:r.name||'', ts:r.ts||0, seed:r.seed?1:0,
+                thumb:(typeof r.thumb==='string' ? r.thumb : ''),   // a Blob thumb is rebuilt on restore
                 per, mime:(r.blob&&r.blob.type)||'image/jpeg',
                 blob:await blob2b64(r.blob) });
   }
@@ -4872,8 +4955,10 @@ async function bakApply(j){
   }
   for (const k in j.ls){ try{ localStorage.setItem(k, j.ls[k]); }catch(e){} }
   for (const r of j.refs){
-    const rec={ ts:r.ts||Date.now(), name:r.name||'', thumb:r.thumb||'',
-                blob:b64blob(r.blob, r.mime) };
+    const blob=b64blob(r.blob, r.mime);
+    let thumb=(typeof r.thumb==='string' ? r.thumb : '');
+    if (!thumb) try{ thumb=await thumbOf(blob, !!(r.per && r.per['mode|']==='c')); }catch(e){}
+    const rec={ ts:r.ts||Date.now(), name:r.name||'', thumb, blob };
     if (r.seed) rec.seed=1;
     const id=await galAdd(rec);
     if (id!=null && r.per)
@@ -5003,9 +5088,9 @@ const grayCanvas=(buf,w,h)=>{
   const c=document.createElement('canvas'); c.width=w; c.height=h;
   const g=c.getContext('2d');
   const id=g.createImageData(w,h);
-  for (let i=0,j=0;i<buf.length;i++,j+=4){
-    id.data[j]=id.data[j+1]=id.data[j+2]=buf[i]; id.data[j+3]=255;
-  }
+  // one 32-bit write per pixel instead of four byte writes
+  const u32=new Uint32Array(id.data.buffer);
+  for (let i=0;i<buf.length;i++){ const v=buf[i]; u32[i]=0xff000000|(v<<16)|(v<<8)|v; }
   g.putImageData(id,0,0);
   return c;
 };
@@ -5258,11 +5343,24 @@ async function ensureDetail(lv, bg){
     }
     wk.terminate(); DET.busy=null;
     if (key!==fkey()) return;
-    try{
-      dbPutRaw('dtd16'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.dD,w,h)));
-      dbPutRaw('dtl16'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.lD,w,h)));
-      dbPutRaw('dth16'+lv+'|'+key, canvasBlob(grayCanvas(ev.data.hl,w,h)));
-    }catch(e){}
+    // persist off the artist's hand: the PNG encode runs on toBlob's own
+    // thread after an idle beat, one plane at a time, so a background cook
+    // never stalls a stroke; a level lost to a kill mid-persist simply
+    // recooks on the next open (the dbHas fallback)
+    (async ()=>{
+      try{
+        await new Promise(r=>{ if (window.requestIdleCallback) requestIdleCallback(r, {timeout:250}); else setTimeout(r, 250); });
+        for (const [p,buf] of [['dtd16',ev.data.dD],['dtl16',ev.data.lD],['dth16',ev.data.hl]]){
+          const c=grayCanvas(buf,w,h);
+          await new Promise(res=>{
+            let done=false;
+            const fin=bl=>{ if (done) return; done=true;
+              try{ dbPutRaw(p+lv+'|'+key, bl||canvasBlob(c)); }catch(e){} res(); };
+            try{ c.toBlob(fin, 'image/png'); }catch(e){ fin(null); }
+          });
+        }
+      }catch(e){}
+    })();
     try{ PERF.cook[lv]=Math.round(performance.now()-ct0); }catch(e){}
     // a background cook of a level not in use persists and stays OUT of
     // memory - the phone never pays ~18MB for a tool nobody is holding
@@ -6125,10 +6223,18 @@ const FB_CFG = {
   messagingSenderId: "1096368575946",
   appId: "1:1096368575946:web:a69c868a0873f52800ab33"
 };
-const FB_VER = '12.19.0';   // pinned: a floating version can break the app silently
 let _fb=null;
+// a dynamic import that fails is remembered by the page's module map: the
+// same URL rejects instantly for the life of the page, no network touched,
+// and the real bundles import firebase-app.js by absolute URL so a
+// cache-busted retry cannot route around it. So never TRY while plainly
+// offline, and once a fetch has failed say so instead of pretending
+let FB_DEAD=false;
 function fbLoad(){
   return _fb ||= (async ()=>{
+    if (navigator.onLine===false){
+      const e=new Error('offline'); e.code='auth/network-request-failed'; throw e;
+    }
     const b='https://www.gstatic.com/firebasejs/'+FB_VER+'/';
     const [A,U,S,F] = await Promise.all([
       import(b+'firebase-app.js'), import(b+'firebase-auth.js'),
@@ -6137,7 +6243,12 @@ function fbLoad(){
     const auth=U.getAuth(app);
     try{ await U.setPersistence(auth, U.browserLocalPersistence); }catch(e){}
     return { A,U,S,F, app, auth, db:F.getFirestore(app), st:S.getStorage(app) };
-  })().catch(e=>{ _fb=null; throw e; });
+  })().catch(e=>{
+    _fb=null;
+    if (e instanceof TypeError){ FB_DEAD=true; }   // the module map is poisoned
+    try{ adlog('sdk load failed: '+((e&&e.code)||(e&&e.message)||e)); }catch(e2){}
+    throw e;
+  });
 }
 // which shell are we inside? Google refuses OAuth in a WebView
 // ('disallowed_useragent'), so the native apps must sign in natively and
@@ -6176,7 +6287,10 @@ let ACC_RESTORING=false;
 try{ ACC_RESTORING = localStorage.getItem('acct')==='1'; }catch(e){}
 // the page writes into the native log too, so one screenshot shows both
 // halves of the handshake instead of only the Android side
-function adlog(m){ try{ if (window.RealismCam && RealismCam.dlog) RealismCam.dlog('auth/page: '+m); }catch(e){} }
+function adlog(m){
+  try{ plog('sync: '+m); }catch(e){}     // the version log, on every platform
+  try{ if (window.RealismCam && RealismCam.dlog) RealismCam.dlog('auth/page: '+m); }catch(e){}
+}
 // nothing may hang forever with a spinner-shaped message and no way out
 function accGuard(on){
   clearTimeout(ACC_WD);
@@ -6204,8 +6318,11 @@ function accPaint(){
 }
 async function accWatch(){
   if (ACC_WATCH) return;
+  let fb;
+  try{ fb=await fbLoad(); }
+  catch(e){ adlog('sdk load failed: '+((e&&e.code)||(e&&e.message)||e)); throw e; }
+  if (ACC_WATCH) return;          // a parallel call attached while the SDK loaded
   ACC_WATCH=true;
-  const fb=await fbLoad();
   fb.U.onAuthStateChanged(fb.auth, u=>{
     ACC_USER=u||null;
     if (u) try{ localStorage.setItem('acct','1'); }catch(e){}
@@ -6217,9 +6334,11 @@ async function accWatch(){
       // establish the settings baseline at sign-in, so a change made in
       // the first second is a change and not mistaken for the baseline
       try{ PREF_SIG=JSON.stringify(readPrefs()); }catch(e){}
-      // anything already up there has its settings re-offered once, so
-      // references uploaded before settings travelled catch up
-      galAll().then(rs=>{ for (const r of rs) if (r.sid) SYNC_DIRTY.add(r.id); })
+      // anything already up there has its settings re-offered once per
+      // device, so references uploaded before settings travelled catch up;
+      // the flag is written only once the offer has actually been pushed
+      let offered=false; try{ offered=localStorage.getItem('metaOffer1')==='1'; }catch(e){}
+      if (!offered) galAll().then(rs=>{ for (const r of rs) if (r.sid) SYNC_DIRTY.add(r.id); META_OFFER=true; })
               .catch(()=>{});
       setTimeout(()=>{ syncNow(true).catch(()=>{}); syncListen(true); }, 400);
     }
@@ -6231,6 +6350,7 @@ async function accWatch(){
 function accErr(e){
   const c=(e && e.code) || '';
   if (c.indexOf('popup-closed')>=0 || c.indexOf('cancelled-popup')>=0) return '';
+  if (FB_DEAD) return TR('could not load the sync service - close and reopen the app');
   if (c.indexOf('network')>=0) return TR('no connection');
   if (c.indexOf('operation-not-allowed')>=0) return TR('that sign-in is not enabled yet');
   if (c.indexOf('unauthorized-domain')>=0) return TR('this address is not authorised yet');
@@ -6271,7 +6391,7 @@ async function accSignIn(which){
 }
 // the native shells hand their token back through here
 window.__authToken = async (kind, idToken, rawNonce) => {
-  accGuard(false);
+  accGuard(true);                 // the SDK load and the credential exchange can hang too
   adlog('token received, '+(idToken?idToken.length:0)+' chars');
   accSay(TR('signing in\u2026'));
   try{
@@ -6287,7 +6407,7 @@ window.__authToken = async (kind, idToken, rawNonce) => {
   }catch(e){
     adlog('failed: '+((e&&e.code)||(e&&e.message)||e));
     accSay(accErr(e));
-  }
+  }finally{ accGuard(false); }
 };
 // '' is a deliberate cancel - the shell sends it when the user dismisses
 // the account sheet, and a cancel is not an error worth reporting
@@ -6328,6 +6448,11 @@ async function accDelete(){
       const snap=await fb.F.getDocs(col);
       await Promise.all(snap.docs.map(d=>fb.F.deleteDoc(d.ref).catch(()=>{})));
     }catch(e){}
+    try{
+      const col=fb.F.collection(fb.db, 'users', u.uid, 'thumbs');
+      const snap=await fb.F.getDocs(col);
+      await Promise.all(snap.docs.map(d=>fb.F.deleteDoc(d.ref).catch(()=>{})));
+    }catch(e){}
     await fb.U.deleteUser(u);
     try{ localStorage.removeItem('acct'); }catch(e){}
     ACC_RESTORING=false;
@@ -6349,6 +6474,16 @@ document.addEventListener('visibilitychange', ()=>{
     if (document.hidden){ syncListen(false); return; }
     syncListen(true);
     syncNow(false).catch(()=>{});
+  }catch(e){}
+});
+// the network coming back is the moment a restore that never got its SDK
+// (an offline launch) can finally run; a poisoned module map is reported
+// honestly, since only a fresh page can clear it
+window.addEventListener('online', ()=>{
+  try{
+    if (FB_DEAD){ accSay(TR('could not load the sync service - close and reopen the app')); return; }
+    if (ACC_RESTORING && !ACC_USER) accWatch().catch(()=>{});
+    if (ACC_USER){ syncListen(true); syncNow(true).catch(()=>{}); }
   }catch(e){}
 });
 function accOpen(){
@@ -6399,6 +6534,7 @@ async function accMailGo(create){
   if (!em){ accSay(TR('enter your email')); return; }
   if (!pw){ accSay(TR('enter a password')); return; }
   accSay(TR('signing in…'));
+  accGuard(true);
   try{
     const fb=await fbLoad();
     await accWatch();
@@ -6407,6 +6543,7 @@ async function accMailGo(create){
     $('accPass').value='';
     accSay('');
   }catch(e){ accSay(accMailErr(e)); }
+  finally{ accGuard(false); }
 }
 async function accMailReset(){
   const {em}=accMailFields();
@@ -6501,7 +6638,12 @@ function readMeta(gid){
 }
 function writeMeta(gid, m){
   try{ if (!m) return;
-    for (const k of META_KEYS) if (m[k]!=null) localStorage.setItem(k+'|'+gid, String(m[k]));
+    for (const k of META_KEYS) if (m[k]!=null){
+      // the timer only ever grows: two devices each counting their own
+      // minutes must settle on the larger, never fall back to the smaller
+      if (k==='time' && !(+m[k] > (+localStorage.getItem('time|'+gid)||0))) continue;
+      localStorage.setItem(k+'|'+gid, String(m[k]));
+    }
   }catch(e){}
 }
 // ---- account-level settings: the app should look like yours on any
@@ -6552,7 +6694,7 @@ function prefsPoll(){
     if (!ACC_USER) return;
     const sig=JSON.stringify(readPrefs());
     if (PREF_SIG===null){ PREF_SIG=sig; return; }
-    if (sig!==PREF_SIG){ PREF_SIG=sig; PREF_DIRTY=true; syncSoon(120); }
+    if (sig!==PREF_SIG){ PREF_SIG=sig; PREF_DIRTY=true; syncSoon(30); }
   }catch(e){}
 }
 setInterval(()=>{ if (!document.hidden) prefsPoll(); }, 400);
@@ -6562,6 +6704,8 @@ function prefsBump(){ setTimeout(prefsPoll, 0); }
 
 // references whose state changed and owe the account an update
 const SYNC_DIRTY=new Set();
+const SYNC_EDIT=new Set();    // the part of SYNC_DIRTY that came from an edit on this device
+let META_OFFER=false;   // the once-per-device settings re-offer is in SYNC_DIRTY
 // The same argument as the settings watcher: layers, detail, circles and
 // the format are written from a dozen places and one would always be
 // forgotten. Watching the values catches every one of them, including
@@ -6581,10 +6725,30 @@ setInterval(()=>{
     if (sig!==META_SIG){ META_SIG=sig; syncTouch(galActive); }
   }catch(e){}
 }, 700);
+// every setter, present and future, goes through here: a change to a
+// project key or a setting is noticed now, the pollers stay as the backstop
+function metaBump(){ setTimeout(()=>{ try{
+  if (!ACC_USER || galActive==null) return;
+  const m=readMeta(galActive); for (const k of META_CHURN) delete m[k];
+  const sig=JSON.stringify(m);
+  if (META_SIG_ID!==galActive){ META_SIG_ID=galActive; META_SIG=sig; return; }
+  if (sig!==META_SIG){ META_SIG=sig; syncTouch(galActive); }
+}catch(e){} }, 0); }
+try{
+  const _si=Storage.prototype.setItem;
+  const META_RE=new RegExp('^('+META_KEYS.join('|')+')\\|');
+  Storage.prototype.setItem=function(k,v){
+    _si.call(this,k,v);
+    try{ if (this===localStorage){
+      if (META_RE.test(k)) metaBump();
+      else if (PREF_KEYS.indexOf(k)>=0) prefsBump();
+    } }catch(e){}
+  };
+}catch(e){}
 function syncTouch(gid){
   if (gid==null) return;
-  SYNC_DIRTY.add(gid);              // remembered even while signing in
-  if (ACC_USER) syncSoon(250);      // and flushed the moment there is an account
+  SYNC_DIRTY.add(gid); SYNC_EDIT.add(gid);   // remembered even while signing in
+  if (ACC_USER) syncSoon(40);       // and flushed the moment there is an account
 }
 // a capture just saved on this device: hand it to sync with the crop and
 // adjustments beside it, so the other device shows the same framing
@@ -6595,6 +6759,7 @@ function syncTouch(gid){
 function metaReapply(){
   try{
     if (galActive==null) return;
+    const was=REFMODE+'|'+JSON.stringify([LAYERS_C, UNDER, UGROUND, UCOL]);
     refModeSync('settings arrived');
     let LV=null;
     try{ LV=JSON.parse(localStorage.getItem('lay|'+galActive)||'null'); }catch(e){}
@@ -6606,27 +6771,47 @@ function metaReapply(){
       if (UPAL[LV.col] && LV.col!==UCOL){ UCOL=LV.col; upBuild(); }
     }
     try{ layerButtons(); }catch(e){}
-    if (GRID_READY && $('scrMain').classList.contains('on'))
-      requestAnimationFrame(()=>{ try{ applyView(); paintWorld(); }catch(e){} });
+    // only a change in what the picture is composed from is worth a
+    // full-resolution repaint - an echo of this device's own push or a
+    // timer/progress arrival is not - and never under a live gesture
+    const now=REFMODE+'|'+JSON.stringify([LAYERS_C, UNDER, UGROUND, UCOL]);
+    if (GRID_READY && $('scrMain').classList.contains('on') && now!==was){
+      const go=()=>{ if (GESTURE.active){ setTimeout(go,150); return; }
+        requestAnimationFrame(()=>{ try{ applyView(); paintWorld(); }catch(e){} }); };
+      go();
+    }
     adlog('re-applied settings for the open project');
   }catch(e){}
 }
 async function capStash(gid, rec){
+  // read before the first await: cmpSaveNow is called synchronously by the
+  // adoption path and the flag is cleared when that path ends
+  const adopted=!!CMP.adopted; CMP.adopted=false;
   try{
-    if (gid==null || !rec || !rec.blob || !ACC_USER) return;
-    const r=await galGet(gid); if (!r) return;
-    // Is this a different photograph, or the same one being re-saved
-    // because a slider moved? Re-stamping an arrival made an old photo
-    // look newer than the one the other device had just taken.
-    const sameShot = !!(r.cap && r.capAt && r.cap.size===rec.blob.size);
-    r.cap=rec.blob;
-    if (!sameShot) r.capAt=Date.now();
-    const meta={ framed:!!rec.framed, corners:rec.corners||null,
-                 rawW:rec.rawW||0, rawH:rec.rawH||0, adj:rec.adj||{} };
-    const changed = JSON.stringify(meta)!==JSON.stringify(r.capMeta||{});
-    r.capMeta=meta;
-    if (changed || !sameShot) r.capMetaAt=Date.now();
-    await galPut(r);
+    // a device that WAS signed in stashes even before the SDK answers, so
+    // a shot taken in the first second (or in an offline session) still travels
+    if (gid==null || !rec || !rec.blob || !(ACC_USER || ACC_RESTORING)) return;
+    let sameShot=false, changed=false;
+    // read, decided and written in one transaction, so a sync pass that
+    // is mid-download cannot slip a stale copy of the record over this
+    const r=await galUpdate(gid, r=>{
+      // Is this a different photograph, or the same one being re-saved
+      // because a slider moved? Re-stamping an arrival made an old photo
+      // look newer than the one the other device had just taken.
+      sameShot = !!(r.cap && r.capAt && r.cap.size===rec.blob.size);
+      r.cap=rec.blob;
+      if (!sameShot) r.capAt=Date.now();
+      const meta={ framed:!!rec.framed, corners:rec.corners||null,
+                   rawW:rec.rawW||0, rawH:rec.rawH||0, adj:rec.adj||{} };
+      const canon=o=>JSON.stringify(o,(k,v)=>(v&&typeof v==='object'&&!Array.isArray(v))
+        ? Object.keys(v).sort().reduce((a,c)=>(a[c]=v[c],a),{}) : v);
+      // a capture just adopted from the other device is re-saved with guessed
+      // corners and default adjustments: this device catching up, not an edit
+      changed = !adopted && canon(meta)!==canon(r.capMeta||{});
+      if (changed || !sameShot) r.capMeta=meta;
+      if (changed || !sameShot) r.capMetaAt=Date.now();
+    }, true);                                  // the conditional syncTouch below decides
+    if (!r) return;
     // this device already has both, so it must not re-adopt its own work
     try{
       localStorage.setItem('capk|'+gid, String(r.capAt||0));
@@ -6641,6 +6826,7 @@ async function capAdopt(gid, ckey){
   try{
     if (gid==null || !ckey) return false;
     if (cmpBusy()){ CMP.pending=true; return false; }
+    CMP.pending=false;                // whatever was waiting is read right now
     const r=await galGet(gid);
     if (!r || !r.cap || !r.capAt) return false;
     let seenImg=0, seenMeta=0;
@@ -6697,18 +6883,33 @@ function cmpRefresh(){
 function syncSoon(ms){
   if (!ACC_USER) return;
   clearTimeout(SYNC_SOON);
-  SYNC_SOON=setTimeout(()=>{ syncNow(true).catch(()=>{}); }, ms==null?300:ms);
+  SYNC_SOON=setTimeout(()=>{ syncNow(true).catch(()=>{}); }, ms==null?60:ms);
 }
 // The other device does not poll. Firestore pushes the new document down
 // a live listener, which is what makes the tablet light up on its own a
 // second or two after the phone finishes uploading. It costs a document
 // read only when something actually changes, and it is detached while the
 // app is in the background so a pocketed phone holds no connection open.
+// A listener the service terminates (a rules change, a token that could
+// not refresh, an outage its own backoff gave up on) would otherwise be
+// silently dead until the next visibilitychange: it is said in the log
+// and re-attached, at an interval that doubles up to five minutes.
+let SYNC_GEN=0, SYNC_RETRY=null, SYNC_BACKOFF=5000;
 async function syncListen(on){
+  const gen=++SYNC_GEN;                        // any older attach in flight is void
+  clearTimeout(SYNC_RETRY);
   try{
     if (SYNC_OFF){ SYNC_OFF(); SYNC_OFF=null; }
     if (!on || !ACC_USER) return;
     const fb=await fbLoad(), uid=ACC_USER.uid;
+    if (gen!==SYNC_GEN) return;                // superseded while the SDK loaded
+    const died=e=>{
+      adlog('listener died: '+((e&&e.code)||e)+', retry in '+SYNC_BACKOFF+'ms');
+      if (SYNC_OFF){ SYNC_OFF(); SYNC_OFF=null; }
+      clearTimeout(SYNC_RETRY);
+      SYNC_RETRY=setTimeout(()=>{ if (ACC_USER && !document.hidden) syncListen(true); }, SYNC_BACKOFF);
+      SYNC_BACKOFF=Math.min(SYNC_BACKOFF*2, 300000);
+    };
     // The snapshot ALREADY carries the new values. Scheduling a sync to
     // go and fetch what is in your hand adds a debounce and a round trip
     // to something that needs neither - settings, layers and adjustments
@@ -6718,8 +6919,9 @@ async function syncListen(on){
     const offRefs=fb.F.onSnapshot(fb.F.collection(fb.db,'users',uid,'refs'), snap=>{
       // the first callback is just the current state; later ones are news
       if (snap.metadata && snap.metadata.fromCache) return;
-      applySnap(snap).catch(()=>{});
-    }, ()=>{});
+      SYNC_BACKOFF=5000;                         // a healthy snapshot resets the clock
+      applySnap(snap).catch(e=>adlog('applySnap: '+((e&&e.code)||e)));
+    }, died);
     const offPrefs=fb.F.onSnapshot(
       fb.F.doc(fb.F.collection(fb.db,'users',uid,'prefs'),'app'), snap=>{
         if (snap.metadata && snap.metadata.fromCache) return;
@@ -6732,9 +6934,9 @@ async function syncListen(on){
             PREF_SIG=JSON.stringify(readPrefs());
           }
         }catch(e){}
-      }, ()=>{});
+      }, died);
     SYNC_OFF=()=>{ try{ offRefs(); }catch(e){} try{ offPrefs(); }catch(e){} };
-  }catch(e){}
+  }catch(e){ adlog('listen failed: '+((e&&e.code)||(e&&e.message)||e)); }
 }
 function syncSay(m){ accSay(m); }
 let SYNC_AGAIN=false;
@@ -6751,26 +6953,39 @@ async function applySnap(snap){
       const known=bySid.get(d.id);
       if (!known){ if (!v.deleted) needBytes=true; continue; }
       if (v.deleted){ needBytes=true; continue; }
-      let touched=false;
-      if (v.mAt && v.mAt>(known.mSeen||0)){
+      // applied to a fresh copy of the record in one transaction, never
+      // to the copy read above: a capture saved in between must survive
+      let metaMoved=false, cmMoved=false;
+      const cur=await galUpdate(known.id, r=>{
+        let t=false;
+        if (v.mAt && v.mAt>(r.mSeen||0)){
+          r.mSeen=v.mAt;
+          if (v.name && v.name!==r.name) r.name=v.name;
+          if (v.ord!=null && v.ord!==r.ord){ r.ord=v.ord; reorder=true; }
+          metaMoved=true; t=true;
+        }
+        if (v.capMetaAt && v.capMetaAt>(r.capMetaAt||0)){
+          r.capMeta=v.capMeta||{};
+          r.capMetaAt=v.capMetaAt; r.capMetaUp=v.capMetaAt;
+          cmMoved=true; t=true;
+        }
+        if (v.capAt && v.capAt>(r.capAt||0)) needBytes=true;
+        return t;
+      }, true);
+      if (cur && metaMoved){
+        // the timer and the total travel regardless; only something you
+        // can see changing is worth re-applying to the open project
+        const before=readMeta(known.id); for (const k of META_CHURN) delete before[k];
         writeMeta(known.id, v.meta);
-        known.mSeen=v.mAt;
-        if (v.name && v.name!==known.name) known.name=v.name;
-        if (v.ord!=null && v.ord!==known.ord){ known.ord=v.ord; reorder=true; }
-        touched=true;
-        if (known.id===galActive) metaReapply();
+        const after=readMeta(known.id);  for (const k of META_CHURN) delete after[k];
+        const visible = JSON.stringify(before)!==JSON.stringify(after);
+        if (known.id===galActive && META_SIG_ID===galActive) try{ const m=readMeta(galActive); for (const k of META_CHURN) delete m[k]; META_SIG=JSON.stringify(m); }catch(e){}
+        if (visible && known.id===galActive) metaReapply();
       }
-      if (v.capMetaAt && v.capMetaAt>(known.capMetaAt||0)){
-        known.capMeta=v.capMeta||{};
-        known.capMetaAt=v.capMetaAt; known.capMetaUp=v.capMetaAt;
-        touched=true;
-        if (known.id===galActive) cmpRefresh();
-      }
-      if (v.capAt && v.capAt>(known.capAt||0)) needBytes=true;
-      if (touched) await galPut(known, true);
+      if (cur && cmMoved && known.id===galActive) cmpRefresh();
     }
   }catch(e){ needBytes=true; }
-  if (reorder) try{ renderGallery(); }catch(e){}
+  if (reorder) try{ galRenderSoon(); }catch(e){}
   if (needBytes) syncSoon(0);
 }
 async function syncNow(force){
@@ -6783,15 +6998,19 @@ async function syncNow(force){
   try{
     const fb=await fbLoad(), uid=ACC_USER.uid;
     const col=fb.F.collection(fb.db,'users',uid,'refs');
+    try{ await syncDrain(); }catch(e){ adlog('drain: '+((e&&e.code)||e)); }
     // ---- settings, in whichever direction is newer ----
     try{
       const pref=fb.F.doc(fb.F.collection(fb.db,'users',uid,'prefs'),'app');
       if (PREF_DIRTY){
-        PREF_DIRTY=false;
+        PREF_DIRTY=false;                      // a change made during the await stays owed
         const now=Date.now();
-        await fb.F.setDoc(pref, { v:readPrefs(), pAt:now }, {merge:true});
+        // seen BEFORE it is written: the listener hears our own write
+        // back before the promise settles, and must not re-apply it
         PREF_SEEN=now;
         try{ localStorage.setItem('prefSeen', ''+now); }catch(e){}
+        try{ await fb.F.setDoc(pref, { v:readPrefs(), pAt:now }, {merge:true}); }
+        catch(e){ PREF_DIRTY=true; throw e; }     // owed again next pass
       } else {
         const ps=await fb.F.getDoc(pref);
         const pv=(ps && ps.exists && ps.exists()) ? (ps.data()||{}) : null;
@@ -6819,21 +7038,56 @@ async function syncNow(force){
     let held=0;
     for (const d of snap.docs) if (!((d.data()||{}).deleted)) held++;
     let capped=0;
+    // what the account already knows about each project's settings, so a
+    // device that was closed while another device changed a layer cannot
+    // push its stale copy over the newer one - the pull below takes it
+    const seenAt=new Map(snap.docs.map(d=>[d.id, ((d.data()||{}).mAt)||0]));
     // ---- push: anything this device has that the account does not ----
     const mine=await galAll();
+    if (galAll.err) throw galAll.err;
+    // one reference the account refuses (size, type, a corrupt blob, a
+    // transient outage) must not take the whole pass down with it: count
+    // it, say so, and carry on to the dirty pushes and the pull
+    const pushFail=[];
     for (const r of mine){
       if (r.seed || r.sid || !r.blob) continue;        // starters never leave
       if (held>=SYNC_MAX_REFS){ capped++; continue; }   // stays here, safely
       syncSay(TR('uploading…'));
-      const sid=newSid();
-      const small=await shrinkUp(r.blob);
-      await fb.S.uploadBytes(fb.S.ref(fb.st,'users/'+uid+'/refs/'+sid+'.jpg'),
-                             small, {contentType:syncType(small)});
-      await fb.F.setDoc(fb.F.doc(col,sid), {
-        name:r.name||'', ts:r.ts||Date.now(), thumb:r.thumb||'',
-        mode:isColor(r.id)?'c':'bw', bytes:small.size, at:fb.F.serverTimestamp(),
-        meta:readMeta(r.id), mAt:Date.now() });
-      r.sid=sid; r.mSeen=Date.now(); await galPut(r, true); up++; held++;
+      // the id is chosen once and remembered, so a doc write that fails
+      // after the bytes went up re-uses the object instead of orphaning it
+      const sid=r.sidTry||newSid();
+      if (r.sidTry!==sid){ r.sidTry=sid; if (!await galUpdate(r.id, x=>{ x.sidTry=sid; }, true)) continue; }
+      try{
+        const small=await shrinkUp(r.blob);
+        await fb.S.uploadBytes(fb.S.ref(fb.st,'users/'+uid+'/refs/'+sid+'.jpg'),
+                               small, {contentType:syncType(small)});
+        // the preview lives in its own document, off the live listener: the
+        // refs collection is re-sent whole every time the app comes back to
+        // the foreground, and a 448px preview per record was 99% of that
+        // (a Blob cannot ride a document either way)
+        if (typeof r.thumb==='string' && r.thumb)
+          await fb.F.setDoc(fb.F.doc(fb.F.collection(fb.db,'users',uid,'thumbs'),sid), { thumb:r.thumb }).catch(()=>{});
+        // the id is stored BEFORE the document is written: the listener
+        // hears our own document back the moment it is written, and must
+        // find it known or it schedules a whole second sync to fetch it
+        const mAt=Date.now();
+        r.sid=sid; delete r.sidTry; r.mSeen=mAt;
+        if (!await galUpdate(r.id, x=>{ x.sid=sid; delete x.sidTry; x.mSeen=mAt; }, true)){
+          // deleted while its bytes were going up: no document, and the bytes go too
+          await fb.S.deleteObject(fb.S.ref(fb.st,'users/'+uid+'/refs/'+sid+'.jpg')).catch(()=>{});
+          continue;
+        }
+        try{
+          await fb.F.setDoc(fb.F.doc(col,sid), {
+            name:r.name||'', ts:r.ts||Date.now(), thumb:'',
+            mode:isColor(r.id)?'c':'bw', bytes:small.size, at:fb.F.serverTimestamp(),
+            meta:readMeta(r.id), mAt });
+        }catch(e){ await galUpdate(r.id, x=>{ delete x.sid; x.sidTry=sid; delete x.mSeen; }, true); throw e; }
+        up++; held++;
+      }catch(e){
+        pushFail.push((e&&e.code)||'error');
+        adlog('upload of ref '+r.id+' failed: '+((e&&e.code)||(e&&e.message)||e));
+      }
       // deliberately NOT cleared from SYNC_DIRTY: the first push carries
       // the image and its settings, and the pass below is what carries a
       // capture taken before the reference had ever been uploaded
@@ -6843,44 +7097,65 @@ async function syncNow(force){
       SYNC_DIRTY.delete(gid);
       const r=await galGet(gid);
       if (!r || !r.sid) continue;
+      const edited=SYNC_EDIT.delete(gid);   // dirty from an edit here, not from the re-offer
       // Settings are written as individual fields (meta.time, meta.fmt),
       // not as one map. A map would be REPLACED wholesale, so a device
       // that happens not to have a timer locally would erase the real one
       // just by opening the project.
-      const patch={ name:r.name||'', ts:r.ts||Date.now(),
-                    mode:isColor(gid)?'c':'bw' };
-      if (r.ord!=null) patch.ord=r.ord;
+      const patch={ ts:r.ts||Date.now(), mode:isColor(gid)?'c':'bw' };
       const meta=readMeta(gid);
-      if (Object.keys(meta).length){
+      // only the once-per-device re-offer defers to a newer copy on the
+      // account; an edit made on this device is the newest thing there is
+      // and travels, as it always did, so the pull below cannot revert it
+      const remoteNewer=!edited && (seenAt.get(r.sid)||0)>(r.mSeen||0);
+      if (!remoteNewer){
+        patch.name=r.name||'';
+        if (r.ord!=null) patch.ord=r.ord;
         for (const k in meta) patch['meta.'+k]=meta[k];
+        // ord and name ride on mAt too: a reference nobody has opened yet
+        // has no settings, and its arrangement still has to travel
         patch.mAt=Date.now();
       }
-      if (r.cap && r.capAt && r.capAt!==r.capUp){
-        syncSay(TR('uploading\u2026'));
-        await fb.S.uploadBytes(fb.S.ref(fb.st,'users/'+uid+'/caps/'+r.sid+'.jpg'),
-                               r.cap, {contentType:syncType(r.cap)});
-        patch.capAt=r.capAt;
-        r.capUp=r.capAt;
-        up++;
-      }
-      if (r.capMetaAt && r.capMetaAt!==r.capMetaUp){
-        patch.capMeta=r.capMeta||{};
-        patch.capMetaAt=r.capMetaAt;
-        r.capMetaUp=r.capMetaAt;
-      }
-      if (patch.mAt) r.mSeen=patch.mAt;
-      await galPut(r, true);
-      // updateDoc understands dotted field paths; setDoc does not, so it
-      // is only the fallback for a document that somehow is not there yet
-      const dref=fb.F.doc(col,r.sid);
-      try{ await fb.F.updateDoc(dref, patch); }
-      catch(e){
-        const flat={}; for (const k in patch)
-          if (k.indexOf('meta.')!==0) flat[k]=patch[k];
-        if (Object.keys(meta).length) flat.meta=meta;
-        await fb.F.setDoc(dref, flat, {merge:true});
+      const capNew=!!(r.cap && r.capAt && r.capAt!==r.capUp);
+      const cmetaNew=!!(r.capMetaAt && r.capMetaAt!==r.capMetaUp);
+      try{
+        if (capNew){
+          syncSay(TR('uploading\u2026'));
+          await fb.S.uploadBytes(fb.S.ref(fb.st,'users/'+uid+'/caps/'+r.sid+'.jpg'),
+                                 r.cap, {contentType:syncType(r.cap)});
+          patch.capAt=r.capAt;
+        }
+        if (cmetaNew){
+          patch.capMeta=r.capMeta||{};
+          patch.capMetaAt=r.capMetaAt;
+        }
+        // updateDoc understands dotted field paths; setDoc does not, so it
+        // is only the fallback for a document that somehow is not there yet
+        const dref=fb.F.doc(col,r.sid);
+        try{ await fb.F.updateDoc(dref, patch); }
+        catch(e){
+          const flat={}; for (const k in patch)
+            if (k.indexOf('meta.')!==0) flat[k]=patch[k];
+          if (patch.mAt && Object.keys(meta).length) flat.meta=meta;
+          await fb.F.setDoc(dref, flat, {merge:true});
+        }
+        // the record is marked "uploaded" only once the document carries
+        // it - bytes in storage with no capAt on the doc never reach the
+        // other device - and marked as it is NOW: a capture saved during
+        // the upload must not be overwritten by the copy read before it
+        const r2=(await galGet(gid))||r;
+        if (capNew && r2.capAt===r.capAt){ r2.capUp=r.capAt; up++; }
+        if (cmetaNew && r2.capMetaAt===r.capMetaAt) r2.capMetaUp=r.capMetaAt;
+        if (patch.mAt) r2.mSeen=patch.mAt;
+        await galPut(r2, true);
+      }catch(e){
+        // loud, and retried on the next pass rather than forgotten
+        SYNC_DIRTY.add(gid); if (edited) SYNC_EDIT.add(gid);
+        pushFail.push((e&&e.code)||'error');
+        adlog('push of '+gid+' failed: '+((e&&e.code)||(e&&e.message)||e));
       }
     }
+    if (META_OFFER){ META_OFFER=false; try{ localStorage.setItem('metaOffer1','1'); }catch(e){} }
     // ---- pull: anything the account has that this device does not ----
     const fail=[];
     let goneHere=0, needRender=false;
@@ -6899,6 +7174,7 @@ async function syncNow(force){
       return null;
     };
     const bySid=new Map((await galAll()).filter(r=>r.sid).map(r=>[r.sid,r]));
+    if (galAll.err) throw galAll.err;
     let gone=[]; try{ gone=JSON.parse(localStorage.getItem('syncGone')||'[]'); }catch(e){}
     for (const d of snap.docs){
       const v=d.data()||{};
@@ -6920,65 +7196,91 @@ async function syncNow(force){
       }
       if (gone.indexOf(d.id)>=0) continue;
       if (known){
-        // already here: take whatever moved on another device since
-        let touched=false;
-        if (v.mAt && v.mAt>(known.mSeen||0)){
-          writeMeta(known.id, v.meta);
-          known.mSeen=v.mAt;
-          if (v.name && v.name!==known.name) known.name=v.name;
-          if (v.ord!=null && v.ord!==known.ord){ known.ord=v.ord; needRender=true; }
-          touched=true;
-          // and if it is the project in front of you, put it on screen
-          // rather than waiting for the next time it is opened
-          if (known.id===galActive) metaReapply();
-        }
+        // already here: take whatever moved on another device since. The
+        // bytes are fetched first, then everything is applied to a FRESH
+        // copy of the record in one transaction: a capture taken while
+        // the download was in flight is newer than it and wins
+        let cb=null;
         if (v.capAt && v.capAt>(known.capAt||0)){
           syncSay(TR('downloading…'));
-          const cb=await grab('users/'+uid+'/caps/'+d.id+'.jpg');
-          if (cb){
-            known.cap=cb; known.capAt=v.capAt; known.capUp=v.capAt;
-            touched=true; down++;
-            if (known.id===galActive) setTimeout(cmpRefresh, 0);
+          cb=await grab('users/'+uid+'/caps/'+d.id+'.jpg');
+        }
+        let metaMoved=false, capMoved=false;
+        const cur=await galUpdate(known.id, r=>{
+          let t=false;
+          if (v.mAt && v.mAt>(r.mSeen||0)){
+            r.mSeen=v.mAt;
+            if (v.name && v.name!==r.name) r.name=v.name;
+            if (v.ord!=null && v.ord!==r.ord){ r.ord=v.ord; needRender=true; }
+            metaMoved=true; t=true;
           }
+          if (cb && v.capAt>(r.capAt||0)){ r.cap=cb; r.capAt=v.capAt; r.capUp=v.capAt; capMoved=true; t=true; }
+          // the crop and the adjustments have their own clock, so the
+          // newest slider wins even when the photograph has not changed
+          if (v.capMetaAt && v.capMetaAt>(r.capMetaAt||0)){
+            r.capMeta=v.capMeta||{}; r.capMetaAt=v.capMetaAt; r.capMetaUp=v.capMetaAt; t=true;
+          }
+          return t;
+        }, true);
+        if (cur && metaMoved){
+          const before=readMeta(known.id); for (const k of META_CHURN) delete before[k];
+          writeMeta(known.id, v.meta);
+          const after=readMeta(known.id);  for (const k of META_CHURN) delete after[k];
+          const visible = JSON.stringify(before)!==JSON.stringify(after);
+          if (known.id===galActive && META_SIG_ID===galActive) try{ const m=readMeta(galActive); for (const k of META_CHURN) delete m[k]; META_SIG=JSON.stringify(m); }catch(e){}
+          // and if it is the project in front of you, put it on screen
+          // rather than waiting for the next time it is opened
+          if (visible && known.id===galActive) metaReapply();
         }
-        // the crop and the adjustments have their own clock, so the
-        // newest slider wins even when the photograph has not changed
-        if (v.capMetaAt && v.capMetaAt>(known.capMetaAt||0)){
-          known.capMeta=v.capMeta||{};
-          known.capMetaAt=v.capMetaAt; known.capMetaUp=v.capMetaAt;
-          touched=true;
-        }
-        if (touched) await galPut(known, true);
+        if (cur && capMoved){ down++; if (known.id===galActive) setTimeout(cmpRefresh, 0); }
         continue;
       }
       syncSay(TR('downloading…'));
-      const b=await grab('users/'+uid+'/refs/'+d.id+'.jpg');
+      // the reference and its capture are independent objects: fetch them
+      // side by side, not one after the other
+      const [b, cb]=await Promise.all([
+        grab('users/'+uid+'/refs/'+d.id+'.jpg'),
+        v.capAt ? grab('users/'+uid+'/caps/'+d.id+'.jpg') : Promise.resolve(null)]);
       if (!b) continue;
       const colr = v.mode==='c';
+      let th=v.thumb||'';
+      if (!th) try{
+        const ts=await fb.F.getDoc(fb.F.doc(fb.F.collection(fb.db,'users',uid,'thumbs'),d.id));
+        if (ts && ts.exists && ts.exists()) th=(ts.data()||{}).thumb||'';
+      }catch(e){}
       const rec={ ts:v.ts||Date.now(), name:v.name||'',
-        thumb: v.thumb || await thumbOf(b, colr), blob:b, sid:d.id,
+        thumb: th || await thumbOf(b, colr), blob:b, sid:d.id,
         mSeen:v.mAt||0 };
       if (v.ord!=null) rec.ord=v.ord;
-      if (v.capAt){
-        const cb=await grab('users/'+uid+'/caps/'+d.id+'.jpg');
-        if (cb){ rec.cap=cb; rec.capAt=v.capAt; rec.capUp=v.capAt;
-                 rec.capMeta=v.capMeta||{}; }
-      }
+      if (cb){ rec.cap=cb; rec.capAt=v.capAt; rec.capUp=v.capAt;
+               rec.capMeta=v.capMeta||{};
+               rec.capMetaAt=v.capMetaAt||0; rec.capMetaUp=rec.capMetaAt; }
       const nid=await galAdd(rec);
       if (nid!=null){
         writeMeta(nid, v.meta);
         if (colr) try{ localStorage.setItem('mode|'+nid,'c'); }catch(e){}
       }
-      down++;
+      if (nid!=null) down++; else fail.push('store');
+      // a long first pull shows what has landed rather than a blank home
+      if (nid!=null && (down===1 || (down%4)===0)) try{ galRenderSoon(); }catch(e){}
     }
     SYNC_AT=Date.now();
     try{ localStorage.setItem('syncAt', ''+SYNC_AT); }catch(e){}
-    if (down || goneHere || needRender) renderGallery();
+    if (down || goneHere || needRender) galRenderSoon();
+    if (!fail.length) syncNow._back=0;
     if (fail.length){
       adlog('pull failed on '+fail.length+': '+fail.slice(0,3).join(','));
+      // nothing upstream will change, so nothing will wake us: come back on
+      // our own, a little later each time - unless the bucket itself says no
+      if (fail[0]!=='blocked'){
+        syncNow._back=Math.min((syncNow._back||15000)*2, 600000);
+        setTimeout(()=>{ if (ACC_USER && !document.hidden) syncSoon(0); }, syncNow._back);
+      }
       syncSay(fail[0]==='blocked'
         ? TR('this bucket is not set up for downloads yet')
         : (TR('could not download')+' '+fail.length));
+    } else if (pushFail.length){
+      syncSay((pushFail[0].indexOf('unauthorized')>=0 ? TR('the account refused') : TR('could not upload'))+' '+pushFail.length);
     } else if (capped){
       syncSay(TR('{n} kept on this device only — the account is full')
         .replace('{n}', capped));
@@ -6987,7 +7289,8 @@ async function syncNow(force){
                        : TR('up to date'));
     }
   }catch(e){
-    const c=(e&&e.code)||'';
+    const c=String((e&&e.code)||'');   // a DOMException carries a numeric code
+    adlog('sync failed: '+(c||(e&&e.message)||e));
     // a denied write almost always means the rules are not published yet
     syncSay(c.indexOf('permission')>=0 || c.indexOf('unauthorized')>=0
       ? TR('sync is not permitted yet') : TR('sync failed'));
@@ -6998,6 +7301,8 @@ async function syncNow(force){
 }
 // a reference deleted here is deleted for the account, and this device
 // remembers the id so a half-finished remote delete cannot resurrect it
+function dropQ(){ try{ return JSON.parse(localStorage.getItem('syncDropQ')||'[]'); }catch(e){ return []; } }
+function dropQSet(q){ try{ localStorage.setItem('syncDropQ', JSON.stringify(q.slice(-500))); }catch(e){} }
 async function syncDrop(rec){
   try{
     if (!rec || !rec.sid) return;
@@ -7006,13 +7311,26 @@ async function syncDrop(rec){
       g.push(rec.sid);
       localStorage.setItem('syncGone', JSON.stringify(g.slice(-500)));
     }catch(e){}
-    if (!ACC_USER) return;
-    const fb=await fbLoad(), uid=ACC_USER.uid;
-    await fb.S.deleteObject(fb.S.ref(fb.st,'users/'+uid+'/refs/'+rec.sid+'.jpg')).catch(()=>{});
-    await fb.S.deleteObject(fb.S.ref(fb.st,'users/'+uid+'/caps/'+rec.sid+'.jpg')).catch(()=>{});
-    await fb.F.setDoc(fb.F.doc(fb.F.collection(fb.db,'users',uid,'refs'), rec.sid),
-                      { deleted:true, at:fb.F.serverTimestamp() }).catch(()=>{});
+    const q=dropQ(); if (q.indexOf(rec.sid)<0){ q.push(rec.sid); dropQSet(q); }
+    if (ACC_USER) syncDrain().catch(()=>{});
   }catch(e){}
+}
+// tombstones still owed to the account: written until they stick. The
+// tombstone is what other devices act on, so it goes first; the bytes
+// behind it are best-effort, as they always were.
+async function syncDrain(){
+  const q=dropQ(); if (!q.length || !ACC_USER) return;
+  const fb=await fbLoad(), uid=ACC_USER.uid;
+  for (const sid of q){
+    try{
+      await fb.F.setDoc(fb.F.doc(fb.F.collection(fb.db,'users',uid,'refs'), sid),
+                        { deleted:true, at:fb.F.serverTimestamp() });
+      dropQSet(dropQ().filter(s=>s!==sid));
+      await fb.S.deleteObject(fb.S.ref(fb.st,'users/'+uid+'/refs/'+sid+'.jpg')).catch(()=>{});
+      await fb.S.deleteObject(fb.S.ref(fb.st,'users/'+uid+'/caps/'+sid+'.jpg')).catch(()=>{});
+      await fb.F.deleteDoc(fb.F.doc(fb.F.collection(fb.db,'users',uid,'thumbs'), sid)).catch(()=>{});
+    }catch(e){ adlog('tombstone for '+sid+' failed: '+((e&&e.code)||e)); }
+  }
 }
 function a11yOpen(){ $('a11yModal').style.display='flex'; a11yApply(); }
 $('a11yBtn').onclick=()=>{ haptic(); $('gearModal').style.display='none'; a11yOpen(); };
@@ -8460,7 +8778,7 @@ async function cmpSetPhoto(blob){
   CMP.mode='corners'; CMP.showing='photo';    // picker photos: place corners by hand
   cmpRender();
 }
-function cmpApplyCorners(next){
+function cmpApplyCorners(next, adj){
   // the ghost-framed capture is aligned by the artist's eye at the shutter:
   // orientation is a physical fact, never guessed from content (a dark
   // drawing on white paper anti-correlates with a light-on-dark reference,
@@ -8499,7 +8817,7 @@ function cmpApplyCorners(next){
       CMP.baseF={w:W, h:H, buf:out};
     }
   }
-  CMP.adj = adjLoad() || {...ADJ_DEF};
+  CMP.adj = adj || adjLoad() || {...ADJ_DEF};
   adjSync();
   CMP.lvOpen=false;
   applyLevels();
@@ -8532,7 +8850,7 @@ document.addEventListener('visibilitychange', ()=>{ if (document.hidden) cmpFlus
 // to live inline in the compare handler, which meant the only way to
 // re-read it was to re-enter the screen and restart the camera.
 async function cmpLoadSaved(){
-    if (CKEY && await capAdopt(galActive, CKEY)) CMP.ckey=null;
+    if (CKEY && await capAdopt(galActive, CKEY)){ CMP.ckey=null; CMP.adopted=true; }
     if (CMP.ckey!==CKEY){                     // another drawing: fetch its saved compare
       CMP.ckey=CKEY; CMP.img=null; CMP.blob=null; CMP.rawF=null; CMP.baseF=null;
       $('cmpFlip').disabled=true;
@@ -8565,23 +8883,26 @@ async function cmpLoadSaved(){
           CMP.corners=(saved.corners && saved.corners.length===4)
             ? saved.corners.map(q=>({...q}))
             : cmpGuessCorners(cv2).corners;
-          cmpApplyCorners();
-        }
-        if (saved.adj && typeof saved.adj.con==='number'){
-          CMP.adj={v:2, exp:saved.adj.exp||0, con:saved.adj.con,
-                   hi:saved.adj.hi||0, sh:saved.adj.sh||0,
-                   wh:saved.adj.v===2?(saved.adj.wh||0):0,
-                   bl:saved.adj.v===2?(saved.adj.bl||0):0,
-                   dn:saved.adj.dn||0,
-                   tmp:saved.adj.tmp||0, tnt:saved.adj.tnt||0,
-                   sat:saved.adj.sat||0, vib:saved.adj.vib||0};
-          adjSync();
+          // the project's own adjustments ride in with the crop: the save
+          // inside cmpApplyCorners otherwise overwrites them with the
+          // last-used global set and pushes that to the other device
+          const adj0 = (saved.adj && typeof saved.adj.con==='number')
+            ? {v:2, exp:saved.adj.exp||0, con:saved.adj.con,
+               hi:saved.adj.hi||0, sh:saved.adj.sh||0,
+               wh:saved.adj.v===2?(saved.adj.wh||0):0,
+               bl:saved.adj.v===2?(saved.adj.bl||0):0,
+               dn:saved.adj.dn||0,
+               tmp:saved.adj.tmp||0, tnt:saved.adj.tnt||0,
+               sat:saved.adj.sat||0, vib:saved.adj.vib||0}
+            : null;
+          cmpApplyCorners(undefined, adj0);
         }
         applyLevels();
         CMP.lvOpen=false;
         CMP.mode='flip'; CMP.showing='photo';
       }
     }
+  CMP.adopted=false;
   lastShotPaint();
 }
 // The recent-photo thumbnail painted itself from inside the camera's
@@ -8614,6 +8935,9 @@ function lastShotPaint(){
 }
 $('compareBtn').onclick = async () => {
   CIRCTOOL=false;
+  // the native camera clears the strip the moment it starts: flag it
+  // BEFORE show() so adSync never raises a strip natStart tears down
+  if (window.RealismCam && RealismCam.start) document.documentElement.classList.add('natPend');
   show('scrCompare'); cmpSize();
   // camera-mode chrome up in the same frame - nothing of the previous
   // visit may flash first
@@ -8641,6 +8965,7 @@ $('compareBtn').onclick = async () => {
   await cmpLoadSaved();
   const camOk = await camP;
   CAM.starting=false;
+  if (!$('scrCompare').classList.contains('on')){ camStop(); return; }
   if (!camOk){ camStop(); cmpRender(); }
   else coach('Ghost', 'Line up the ghost with your drawing, and take a pic!');
 };
@@ -8687,11 +9012,17 @@ function camGhost(){
 }
 async function camStart(){
   if (window.RealismCam && RealismCam.start) return natStart();
+  const gen=CAM.gen|0;
   try{
     const st=await navigator.mediaDevices.getUserMedia({
       video:{ facingMode:{ideal:'environment'},
               width:{ideal:2560}, height:{ideal:1920} },
       audio:false });
+    // cancelled while the permission prompt / device was opening: the
+    // screen has moved on, so the stream is released, never shown
+    if (gen!==(CAM.gen|0) || !$('scrCompare').classList.contains('on')){
+      for (const t of st.getTracks()) t.stop(); return false;
+    }
     CAM.stream=st;
     try{ const t0=st.getVideoTracks()[0], s0=t0.getSettings();
       plog('cam: '+(t0.label||'?')+' '+(s0.width||'?')+'x'+(s0.height||'?')); }catch(e2){}
@@ -8784,6 +9115,7 @@ function shotUI(on){
 function natChrome(on){
   // the ROOT element paints the page's #141414 - it must clear too, or the
   // native preview behind the WebView can never show through
+  document.documentElement.classList.remove('natPend');
   document.documentElement.classList.toggle('natCam', on);
   document.body.classList.toggle('natCam', on);
   adSync();
@@ -8810,10 +9142,10 @@ function natStart(){
     if (window.RealismCam && RealismCam.adPlace) RealismCam.adPlace(false, '#2a2a2a');
   }catch(e){}
   return new Promise(res=>{
-    CAM.nat=null; CAM.natWait=true;
+    CAM.nat=null; CAM.natWait=true; CAM.natRes=res;
     window.__natReady=(w,h)=>{
       if (!CAM.natWait){ try{ RealismCam.stop(); }catch(e){} return; }
-      CAM.natWait=false; CAM.nat={w,h};
+      CAM.natWait=false; CAM.natRes=null; CAM.nat={w,h};
       if (CAM.rotPending){ CAM.rotPending=false; natRotate(); }  // rotated mid-bind
       natChrome(true);
       $('coach').style.display='none';
@@ -8834,7 +9166,7 @@ function natStart(){
     };
     window.__natFail=()=>{
       if (CAM.natWait){
-        CAM.natWait=false; CAM.nat=null; natChrome(false); res(false); return;
+        CAM.natWait=false; CAM.natRes=null; CAM.nat=null; natChrome(false); res(false); return;
       }
       if (CAM.nat){                          // shot failed mid-session
         window.__natShot=null;
@@ -8852,7 +9184,7 @@ function natStart(){
         // shell has to know which world this project lives in FIRST
         try{ if (RealismCam.colorMode) RealismCam.colorMode(REFMODE==='c'); }catch(e){}
         RealismCam.start(r.x, r.y, r.w, r.h);
-      }catch(e){ CAM.natWait=false; res(false); }
+      }catch(e){ CAM.natWait=false; CAM.natRes=null; natChrome(false); res(false); }
     }));
   });
 }
@@ -8861,7 +9193,7 @@ async function natCapture(){
   if (CAM.shotBusy) return;                 // one shot in flight, ever
   CAM.shotBusy=true;
   clearTimeout(CAM.shotT);
-  CAM.shotT=setTimeout(()=>{ CAM.shotBusy=false; shotUI(false); }, 6000);
+  CAM.shotT=setTimeout(()=>{ CAM.shotBusy=false; shotUI(false); }, 9000);
   shotUI(true);
   camGhost();
   const gh=CAM.ghost, nw=CAM.nat.w, nh=CAM.nat.h;
@@ -8923,10 +9255,12 @@ function camStop(){
   try{ shotUI(false); }catch(e){}
   if (CAM.nat || CAM.natWait){
     CAM.nat=null; CAM.natWait=false;
+    if (CAM.natRes){ const r0=CAM.natRes; CAM.natRes=null; r0(false); }   // a bind cancelled mid-flight still settles the start
     try{ RealismCam.stop(); }catch(e){}
     natChrome(false);
   }
   if (CAM.stream){ for (const t of CAM.stream.getTracks()) t.stop(); CAM.stream=null; }
+  CAM.gen=(CAM.gen|0)+1;                   // orphan any start still in flight
   $('camGhost').style.pointerEvents='none';
   clearTimeout(CAM.refocusT);
   clearInterval(CAM.timer); CAM.timer=0; CAM.ghost=null;
@@ -9386,14 +9720,27 @@ $('cmpSplit').onclick = () => {
 // stop/start rebinds it (and re-reports the frame size) for the new one.
 // A bind in flight defers the restart until it lands; a shot in flight
 // waits for its still to come back before the session is torn down
-function natRotate(){
+function natRotate(force){
   try{
     if (CAM.natWait){ CAM.rotPending=true; return; }
     if (!CAM.nat) return;
     clearTimeout(CAM.rotT);
     CAM.rotT=setTimeout(()=>{
       if (!CAM.nat) return;
-      if (CAM.shotBusy){ natRotate(); return; }
+      if (CAM.shotBusy){ natRotate(force); return; }
+      // the bind survives a rotation: only the target rotation and the
+      // display-oriented frame size change; a full restart is the fallback
+      if (!force && window.RealismCam && RealismCam.rotate){
+        window.__natRotated=(w,h)=>{
+          window.__natRotated=null;
+          if (!CAM.nat) return;
+          CAM.nat={w,h};
+          const r=natRect(); CAM.natRect=r;
+          try{ RealismCam.layout(r.x, r.y, r.w, r.h); }catch(e){}
+          camGhost();
+        };
+        try{ RealismCam.rotate(); return; }catch(e){}
+      }
       try{ RealismCam.stop(); }catch(e){}
       CAM.nat=null; natStart();
     }, 250);
@@ -9607,10 +9954,21 @@ document.addEventListener('click', e => {
     addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
     // a fresh deploy activates mid-session: reload once so the first open
     // after an update already runs the new version
-    let swReloaded=false;
+    let swReloaded=false, swPending=false;
+    // never reload under someone's hands: only on the gallery, with no cook,
+    // sync or camera in flight - otherwise wait for that moment (or for the
+    // page to go to the background)
+    const swIdle=()=>{ try{
+      const on=document.querySelector('.screen.on');
+      return !!on && on.id==='scrUpload' && !PREP.active && !SYNC_BUSY && !camUp();
+    }catch(e){ return true; } };
+    const swGo=()=>{ if (swReloaded) return; swReloaded=true; location.reload(); };
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (swReloaded || !navigator.serviceWorker.controller) return;
-      swReloaded=true; location.reload();
+      if (swReloaded || swPending || !navigator.serviceWorker.controller) return;
+      if (swIdle()){ swGo(); return; }
+      swPending=true;
+      const t=setInterval(()=>{ if (swIdle()){ clearInterval(t); swGo(); } }, 1000);
+      document.addEventListener('visibilitychange', ()=>{ if (document.hidden){ clearInterval(t); swGo(); } });
     });
   }
 }
