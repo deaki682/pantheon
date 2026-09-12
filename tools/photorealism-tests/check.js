@@ -137,6 +137,36 @@ const ok = (name, cond, detail) => {
     out.layersReached = (S.docs.get('users/u1/refs/'+
       (await galAll())[0].sid)||{}).meta?.lay?.indexOf('"mid":1') > 0;
 
+    // A capture that merely ARRIVED must not be re-stamped and pushed
+    // back as if it were newer than the other device's latest photo.
+    const shotId = (await galAll())[0].id;
+    await capStash(shotId, { blob: await mk(800,600,'#246'), framed:false,
+                             corners:null, rawW:800, rawH:600, adj:{con:1} });
+    const firstAt = (await galGet(shotId)).capAt;
+    await new Promise(r=>setTimeout(r,5));
+    // same photo, slider moved
+    await capStash(shotId, { blob: await mk(800,600,'#246'), framed:false,
+                             corners:null, rawW:800, rawH:600, adj:{con:9} });
+    const after = await galGet(shotId);
+    out.photoTimeHeld = after.capAt === firstAt;
+    out.adjTimeMoved  = after.capMetaAt > firstAt;
+
+    // adjustments alone arriving from elsewhere must be adopted, and must
+    // NOT drag the older photograph back with them
+    // clear the markers capStash just set, so this stands in for a
+    // device that has NOT seen this photo yet
+    localStorage.removeItem('capk|'+shotId); localStorage.removeItem('capm|'+shotId);
+    await capAdopt(shotId, 'CKEY-ADJ');                 // establish
+    const priorShot = await dbGet('cmp|CKEY-ADJ');
+    const r2 = await galGet(shotId);
+    r2.capMeta = { framed:false, corners:null, rawW:800, rawH:600, adj:{con:77} };
+    r2.capMetaAt = Date.now() + 1000;
+    await galPut(r2, true);
+    out.adjAdopted = await capAdopt(shotId, 'CKEY-ADJ');
+    const now2 = await dbGet('cmp|CKEY-ADJ');
+    out.adjApplied = (now2.adj||{}).con === 77;
+    out.photoKept  = priorShot && now2.blob && now2.blob.size === priorShot.blob.size;
+
     // a project uploaded before settings travelled must catch up, and a
     // device with no local copy of them must never erase the real ones
     const legacy = (await galAll())[0];
@@ -187,6 +217,10 @@ const ok = (name, cond, detail) => {
   ok('delete does not resurrect',         R.deleted);
   ok('the capture is deleted too',        R.capGone);
   ok('a delete elsewhere removes it here', R.tombstoneApplied);
+  ok('an arrived photo keeps its time',   R.photoTimeHeld);
+  ok('adjustments carry their own time',  R.adjTimeMoved);
+  ok('adjustments alone are adopted',     R.adjAdopted && R.adjApplied);
+  ok('and do not drag back the photo',    R.photoKept);
   ok('a layer change is noticed',         R.layersNoticed);
   ok('the timer alone stays quiet',       R.timerIsQuiet);
   ok('layers reach the account',          R.layersReached);

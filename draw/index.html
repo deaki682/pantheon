@@ -844,7 +844,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v404</span>
+    <span id="verNum">v405</span>
   </div>
 </div>
 <div id="delModal">
@@ -6420,10 +6420,10 @@ function prefsPoll(){
     if (!ACC_USER) return;
     const sig=JSON.stringify(readPrefs());
     if (PREF_SIG===null){ PREF_SIG=sig; return; }
-    if (sig!==PREF_SIG){ PREF_SIG=sig; PREF_DIRTY=true; syncSoon(500); }
+    if (sig!==PREF_SIG){ PREF_SIG=sig; PREF_DIRTY=true; syncSoon(120); }
   }catch(e){}
 }
-setInterval(()=>{ if (!document.hidden) prefsPoll(); }, 1200);
+setInterval(()=>{ if (!document.hidden) prefsPoll(); }, 400);
 // the settings people actually change say so immediately rather than
 // waiting up to a second to be noticed
 function prefsBump(){ setTimeout(prefsPoll, 0); }
@@ -6448,23 +6448,59 @@ setInterval(()=>{
     if (META_SIG_ID!==galActive){ META_SIG_ID=galActive; META_SIG=sig; return; }
     if (sig!==META_SIG){ META_SIG=sig; syncTouch(galActive); }
   }catch(e){}
-}, 3000);
+}, 700);
 function syncTouch(gid){
   if (gid==null) return;
   SYNC_DIRTY.add(gid);              // remembered even while signing in
-  if (ACC_USER) syncSoon(2000);     // and flushed the moment there is an account
+  if (ACC_USER) syncSoon(250);      // and flushed the moment there is an account
 }
 // a capture just saved on this device: hand it to sync with the crop and
 // adjustments beside it, so the other device shows the same framing
+// Layers, the workshop panel and the underpainting are read once when a
+// project opens. When they arrive from the other device mid-session the
+// stored values are right and the screen is stale, so re-run the part of
+// the open path that reads them.
+function metaReapply(){
+  try{
+    if (galActive==null) return;
+    refModeSync('settings arrived');
+    let LV=null;
+    try{ LV=JSON.parse(localStorage.getItem('lay|'+galActive)||'null'); }catch(e){}
+    if (LV){
+      LAYERS_C.dk=!!(LV.c&&LV.c.dk); LAYERS_C.mid=!!(LV.c&&LV.c.mid);
+      LAYERS_C.lt=!!(LV.c&&LV.c.lt); LAYERS_C.br=!!(LV.c&&LV.c.br);
+      UNDER=!!LV.u;
+      UGROUND = (LV.g==='shade'||LV.g==='mid'||LV.g==='full') ? LV.g : 'off';
+      if (UPAL[LV.col] && LV.col!==UCOL){ UCOL=LV.col; upBuild(); }
+    }
+    try{ layerButtons(); }catch(e){}
+    if (GRID_READY && $('scrMain').classList.contains('on'))
+      requestAnimationFrame(()=>{ try{ applyView(); paintWorld(); }catch(e){} });
+    adlog('re-applied settings for the open project');
+  }catch(e){}
+}
 async function capStash(gid, rec){
   try{
     if (gid==null || !rec || !rec.blob || !ACC_USER) return;
     const r=await galGet(gid); if (!r) return;
-    r.cap=rec.blob; r.capAt=Date.now();
-    r.capMeta={ framed:!!rec.framed, corners:rec.corners||null,
-                rawW:rec.rawW||0, rawH:rec.rawH||0, adj:rec.adj||{} };
+    // Is this a different photograph, or the same one being re-saved
+    // because a slider moved? Re-stamping an arrival made an old photo
+    // look newer than the one the other device had just taken.
+    const sameShot = !!(r.cap && r.capAt && r.cap.size===rec.blob.size);
+    r.cap=rec.blob;
+    if (!sameShot) r.capAt=Date.now();
+    const meta={ framed:!!rec.framed, corners:rec.corners||null,
+                 rawW:rec.rawW||0, rawH:rec.rawH||0, adj:rec.adj||{} };
+    const changed = JSON.stringify(meta)!==JSON.stringify(r.capMeta||{});
+    r.capMeta=meta;
+    if (changed || !sameShot) r.capMetaAt=Date.now();
     await galPut(r);
-    syncTouch(gid);
+    // this device already has both, so it must not re-adopt its own work
+    try{
+      localStorage.setItem('capk|'+gid, String(r.capAt||0));
+      localStorage.setItem('capm|'+gid, String(r.capMetaAt||0));
+    }catch(e){}
+    if (changed || !sameShot) syncTouch(gid);
   }catch(e){}
 }
 // a capture that arrived from another device becomes this device's saved
@@ -6475,13 +6511,25 @@ async function capAdopt(gid, ckey){
     if (cmpBusy()){ CMP.pending=true; return false; }
     const r=await galGet(gid);
     if (!r || !r.cap || !r.capAt) return false;
-    let seen=0; try{ seen=+localStorage.getItem('capk|'+gid)||0; }catch(e){}
-    if (r.capAt<=seen) return false;
+    let seenImg=0, seenMeta=0;
+    try{ seenImg =+localStorage.getItem('capk|'+gid)||0; }catch(e){}
+    try{ seenMeta=+localStorage.getItem('capm|'+gid)||0; }catch(e){}
+    const newImg  = r.capAt > seenImg;
+    const newMeta = (r.capMetaAt||0) > seenMeta;
+    if (!newImg && !newMeta) return false;
     const m=r.capMeta||{};
-    await dbPutRaw('cmp|'+ckey, { blob:r.cap, framed:!!m.framed,
-      corners:m.corners||null, rawW:m.rawW||0, rawH:m.rawH||0, adj:m.adj||{} });
-    try{ localStorage.setItem('capk|'+gid, String(r.capAt)); }catch(e){}
-    adlog('adopted a synced capture for '+gid);
+    const cur = newImg ? null : await dbGet('cmp|'+ckey);
+    await dbPutRaw('cmp|'+ckey, {
+      // adjustments only: keep the photograph already here
+      blob: (!newImg && cur && cur.blob) ? cur.blob : r.cap,
+      framed:!!m.framed, corners:m.corners||null,
+      rawW:m.rawW||0, rawH:m.rawH||0, adj:m.adj||{} });
+    try{
+      if (newImg)  localStorage.setItem('capk|'+gid, String(r.capAt));
+      if (newMeta) localStorage.setItem('capm|'+gid, String(r.capMetaAt));
+    }catch(e){}
+    adlog('adopted '+(newImg?'photo':'')+(newImg&&newMeta?'+':'')
+          +(newMeta?'adjustments':'')+' for '+gid);
     return true;
   }catch(e){}
   return false;
@@ -6517,7 +6565,7 @@ function cmpRefresh(){
 function syncSoon(ms){
   if (!ACC_USER) return;
   clearTimeout(SYNC_SOON);
-  SYNC_SOON=setTimeout(()=>{ syncNow(true).catch(()=>{}); }, ms||1500);
+  SYNC_SOON=setTimeout(()=>{ syncNow(true).catch(()=>{}); }, ms==null?300:ms);
 }
 // The other device does not poll. Firestore pushes the new document down
 // a live listener, which is what makes the tablet light up on its own a
@@ -6532,12 +6580,12 @@ async function syncListen(on){
     const offRefs=fb.F.onSnapshot(fb.F.collection(fb.db,'users',uid,'refs'), snap=>{
       // the first callback is just the current state; later ones are news
       if (snap.metadata && snap.metadata.fromCache) return;
-      syncSoon(600);
+      syncSoon(120);
     }, ()=>{});
     const offPrefs=fb.F.onSnapshot(
       fb.F.doc(fb.F.collection(fb.db,'users',uid,'prefs'),'app'), snap=>{
         if (snap.metadata && snap.metadata.fromCache) return;
-        syncSoon(600);
+        syncSoon(120);
       }, ()=>{});
     SYNC_OFF=()=>{ try{ offRefs(); }catch(e){} try{ offPrefs(); }catch(e){} };
   }catch(e){}
@@ -6621,9 +6669,13 @@ async function syncNow(force){
         await fb.S.uploadBytes(fb.S.ref(fb.st,'users/'+uid+'/caps/'+r.sid+'.jpg'),
                                r.cap, {contentType:syncType(r.cap)});
         patch.capAt=r.capAt;
-        patch.capMeta=r.capMeta||{};
         r.capUp=r.capAt;
         up++;
+      }
+      if (r.capMetaAt && r.capMetaAt!==r.capMetaUp){
+        patch.capMeta=r.capMeta||{};
+        patch.capMetaAt=r.capMetaAt;
+        r.capMetaUp=r.capMetaAt;
       }
       if (patch.mAt) r.mSeen=patch.mAt;
       await galPut(r, true);
@@ -6685,6 +6737,9 @@ async function syncNow(force){
           known.mSeen=v.mAt;
           if (v.name && v.name!==known.name) known.name=v.name;
           touched=true;
+          // and if it is the project in front of you, put it on screen
+          // rather than waiting for the next time it is opened
+          if (known.id===galActive) metaReapply();
         }
         if (v.capAt && v.capAt>(known.capAt||0)){
           syncSay(TR('downloading…'));
@@ -6692,7 +6747,7 @@ async function syncNow(force){
           if (cb){
             known.cap=cb; known.capAt=v.capAt; known.capUp=v.capAt;
             touched=true; down++;
-            if (known.id===galActive) setTimeout(cmpRefresh, 60);
+            if (known.id===galActive) setTimeout(cmpRefresh, 0);
           }
         }
         // the crop and the adjustments have their own clock, so the
@@ -6743,7 +6798,7 @@ async function syncNow(force){
       ? TR('sync is not permitted yet') : TR('sync failed'));
   }finally{
     SYNC_BUSY=false;
-    if (SYNC_AGAIN){ SYNC_AGAIN=false; setTimeout(()=>syncNow(true), 400); }
+    if (SYNC_AGAIN){ SYNC_AGAIN=false; setTimeout(()=>syncNow(true), 60); }
   }
 }
 // a reference deleted here is deleted for the account, and this device
