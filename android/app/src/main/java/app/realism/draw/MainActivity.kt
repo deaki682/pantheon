@@ -272,8 +272,35 @@ class MainActivity : AppCompatActivity() {
             allowFileAccess = false
         }
         web.webViewClient = object : WebViewClient() {
+            // the renderer is a separate process the OS is free to kill under
+            // memory pressure (a 4GB budget phone decoding a 16MP photo is the
+            // classic case). Left unhandled, Android kills the WHOLE app with
+            // it and the user sees "it crashes when I load a photo". Instead:
+            // log it, drop the dead WebView, and rebuild the activity, which
+            // lands back on the project page with a plain explanation
+            override fun onRenderProcessGone(view: WebView,
+                detail: android.webkit.RenderProcessGoneDetail): Boolean {
+                val crashed = try { detail.didCrash() } catch (e: Throwable) { false }
+                logLine("renderer gone crash=" + crashed
+                    + " prio=" + (try { detail.rendererPriorityAtExit() } catch (e: Throwable) { -1 }))
+                try { getSharedPreferences("ui", 0).edit().putBoolean("rgone", true).apply() }
+                catch (e: Throwable) {}
+                try { (view.parent as? android.view.ViewGroup)?.removeView(view) } catch (e: Throwable) {}
+                try { view.destroy() } catch (e: Throwable) {}
+                recreate()
+                return true
+            }
             override fun onPageFinished(view: WebView, url: String) {
                 booted = true
+                // the page after a renderer death gets told what happened
+                try {
+                    val p = getSharedPreferences("ui", 0)
+                    if (p.getBoolean("rgone", false)) {
+                        p.edit().remove("rgone").apply()
+                        web.postDelayed({ js("toast && toast('the app ran out of memory " +
+                            "on that photo and restarted \u2014 try a smaller copy', false, 7000)") }, 2500)
+                    }
+                } catch (e: Throwable) {}
                 // warm CameraX's provider (camera enumeration + characteristics,
                 // hundreds of ms on a mid-range device) off the critical path
                 // once the page has painted, only where the camera is already

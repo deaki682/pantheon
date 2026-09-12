@@ -856,7 +856,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v411</span>
+    <span id="verNum">v412</span>
   </div>
 </div>
 <div id="delModal">
@@ -1785,7 +1785,12 @@ async function thumbOf(blob, colr){
   // decode off the main thread where the engine allows it; the <img>
   // path stays as the fallback (and for formats createImageBitmap rejects)
   let i=null, bm=null;
-  try{ if (window.createImageBitmap) bm=await createImageBitmap(blob); }catch(e){ bm=null; }
+  // on a low-memory device the decoder scales while decoding (a 16MP photo
+  // never exists at full size for a 448px thumbnail); elsewhere unchanged
+  const lowMem = refCap() < 4096;
+  try{ if (window.createImageBitmap)
+    bm = lowMem ? await createImageBitmap(blob, {resizeWidth:1024, resizeQuality:'medium'})
+                : await createImageBitmap(blob); }catch(e){ bm=null; }
   if (!bm) i = await blobImage(blob);
   const src=bm||i, W=src.width, H=src.height;
   const T = 448, c = document.createElement('canvas'); c.width = T; c.height = T;
@@ -2178,6 +2183,20 @@ setInterval(()=>{
 }, 400);
 
 let OPEN_SEQ = 0;
+// the long-edge cap for an open reference. 4096 needs ~50MB per full-size
+// canvas and the open holds several: fine on 6GB+, but a 4GB budget phone
+// (HiOS, Go-adjacent ROMs) has the WebView renderer killed under it, which
+// the artist sees as "it won't load my photo". deviceMemory rounds down to
+// a power of two, so a 3GB phone answers 2 and a 4GB phone answers 4. The
+// smallest cap is still 3x a 720p screen
+function refCap(){
+  try{
+    const dm = navigator.deviceMemory;
+    if (dm && dm <= 2) return 2560;
+    if (dm && dm <= 4) return 3072;
+  }catch(e){}
+  return 4096;
+}
 function openPhoto(blob, gid, retry){
   const my = ++OPEN_SEQ;                  // stale decodes must not land
   galActive = gid ?? null; galLoading = 0.15;
@@ -2202,29 +2221,29 @@ function openPhoto(blob, gid, retry){
     // cost hundreds of MB and blank out weak devices, and a reference
     // gains nothing beyond screen resolution. Normal photos (<=12MP-ish)
     // pass through untouched.
-    const CAP = 4096;
+    const CAP = refCap();
     const sc = Math.min(1, CAP/Math.max(img.width, img.height));
     const cw = Math.round(img.width*sc), ch = Math.round(img.height*sc);
     const c = document.createElement('canvas');
     c.width = cw; c.height = ch;
     const g = c.getContext('2d');
-    if (REFMODE!=='c') g.filter = 'grayscale(1)';   // automatic black and white
+    // colour first: the shrunk stored copy is cut from this same canvas,
+    // so a 12MP open no longer holds a second full-size canvas alive
     g.drawImage(img, 0, 0, cw, ch);
-    g.filter = 'none';
-    if (REFMODE!=='c') forceGray(c);
     if (sc < 1 && gid != null){
       // shrink the stored copy once (always the colour original - B&W is
       // applied at open) so future opens skip the giant decode entirely
       try{
-        const cc = document.createElement('canvas');
-        cc.width = cw; cc.height = ch;
-        cc.getContext('2d').drawImage(img, 0, 0, cw, ch);
-        const nb = canvasBlob(cc, 'image/jpeg', 0.92);
+        const nb = canvasBlob(c, 'image/jpeg', 0.92);
         if (nb) (async()=>{ try{
           const rec = await galGet(gid);
           if (rec && rec.blob){ rec.blob = nb; await galPut(rec); }
         }catch(e){} })();
       }catch(e){}
+    }
+    if (REFMODE!=='c'){                              // automatic black and white
+      g.filter = 'grayscale(1)'; g.drawImage(c, 0, 0); g.filter = 'none';
+      forceGray(c);
     }
     {
       const _er = gid!=null ? editLoad(gid) : null;
@@ -3841,7 +3860,10 @@ async function applyFormat(){
   // resolution from the physical size (96 ppi), capped so vast drawings
   // don't cook unmanageable images
   let ppi = 96;
-  if (wIn*hIn*96*96 > 13e6) ppi = Math.sqrt(13e6/(wIn*hIn));
+  // the cook holds several planes of this size; a 4GB phone gets a smaller
+  // world (still far beyond its screen) rather than a dead renderer
+  const WMAX = refCap()<=2560 ? 6e6 : refCap()<4096 ? 9e6 : 13e6;
+  if (wIn*hIn*96*96 > WMAX) ppi = Math.sqrt(WMAX/(wIn*hIn));
   const w = Math.round(wIn*ppi), h = Math.round(w*cr.h/cr.w);
   const sig = (galActive??'x')+'|'+w+'x'+h+'@'+cr.x+','+cr.y+','+cr.w+','+cr.h;
   if (FMT_APPLIED===sig) return;
