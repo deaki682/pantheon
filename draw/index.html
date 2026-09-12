@@ -114,6 +114,9 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:calc(13px*var(--ux,1))}
 #upTitle{color:var(--acc);font-size:22px;letter-spacing:0.04em;margin-top:52px}
 #titleRule{display:block;width:100%;height:24px;flex:none;margin-top:2px}
 #upGridBg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+#libNote{display:none;font-size:11px;line-height:1.45;color:#8a8a8a;
+  text-align:center;margin-top:8px}
+#libNote.on{display:block}
 #accHome{display:none;justify-content:center;padding:10px;flex:none}
 #accHome.on{display:flex}
 #accHomeBtn{color:var(--acc);font-size:calc(12px*var(--ux,1));
@@ -841,10 +844,11 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <button id="a11yBtn" style="margin-top:6px">Accessibility</button>
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
+    <span id="libNote"></span>
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v407</span>
+    <span id="verNum">v408</span>
   </div>
 </div>
 <div id="delModal">
@@ -1831,9 +1835,26 @@ async function galPut(rec, quiet){ try{ const d=await gdb(); await new Promise(r
 
 let REFMODE='bw';                 // the open reference's world: 'bw' | 'c'
 function isColor(gid){ try{ return localStorage.getItem('mode|'+gid)==='c'; }catch(e){ return false; } }
+// when a library is big enough to be worth a word about. Declared beside
+// its only reader: renderGallery runs during boot, well before the sync
+// code further down has been evaluated.
+const LIB_WARN = 150;
 async function renderGallery(){
   pmark('gallery');
   const recs = (await galAll()).sort((a,b)=>b.ts-a.ts);
+  // A large library is the real risk to someone's work: browsers and
+  // Android both evict local storage under disk pressure. Say so once it
+  // is worth saying, and never delete anything on their behalf.
+  try{
+    const own=recs.filter(r=>!r.seed).length;
+    const n=$('libNote');
+    if (n){
+      n.classList.toggle('on', own>=LIB_WARN);
+      if (own>=LIB_WARN)
+        n.textContent=TR('{n} references saved. Deleting ones you have '
+          +'finished with frees space and protects the rest.').replace('{n}', own);
+    }
+  }catch(e){}
   let last=null; try{ last=+localStorage.getItem('lastRef'); }catch(e){}
   const makeTile = r => {
     const d = document.createElement('div'); d.className='gitem'; d.dataset.gid = r.id;
@@ -6327,6 +6348,9 @@ try{
 // no second generation of loss. Only a file too large for the storage
 // rules gets touched, and then only enough to fit.
 const SYNC_MAX_BYTES = 20*1024*1024;
+// how many references one account may hold. Chosen so that no real
+// library meets it: it is an abuse ceiling, not a product limit.
+const SYNC_MAX_REFS = 200;
 function syncType(blob){
   const t = blob && blob.type;
   return (t && /^image\//.test(t)) ? t : 'image/jpeg';
@@ -6677,10 +6701,19 @@ async function syncNow(force){
         }
       }
     }catch(e){ adlog('settings: '+((e&&e.code)||e)); }
+    const snap=await fb.F.getDocs(col);
+    // Nothing stops a signed-in account being used as free cloud storage,
+    // and the rules can cap a file's size but not how many there are. A
+    // real library never comes near this; deliberate abuse has to work for
+    // it. Anything past the cap simply stays on the device.
+    let held=0;
+    for (const d of snap.docs) if (!((d.data()||{}).deleted)) held++;
+    let capped=0;
     // ---- push: anything this device has that the account does not ----
     const mine=await galAll();
     for (const r of mine){
       if (r.seed || r.sid || !r.blob) continue;        // starters never leave
+      if (held>=SYNC_MAX_REFS){ capped++; continue; }   // stays here, safely
       syncSay(TR('uploading…'));
       const sid=newSid();
       const small=await shrinkUp(r.blob);
@@ -6690,7 +6723,7 @@ async function syncNow(force){
         name:r.name||'', ts:r.ts||Date.now(), thumb:r.thumb||'',
         mode:isColor(r.id)?'c':'bw', bytes:small.size, at:fb.F.serverTimestamp(),
         meta:readMeta(r.id), mAt:Date.now() });
-      r.sid=sid; r.mSeen=Date.now(); await galPut(r, true); up++;
+      r.sid=sid; r.mSeen=Date.now(); await galPut(r, true); up++; held++;
       // deliberately NOT cleared from SYNC_DIRTY: the first push carries
       // the image and its settings, and the pass below is what carries a
       // capture taken before the reference had ever been uploaded
@@ -6754,7 +6787,6 @@ async function syncNow(force){
       }
       return null;
     };
-    const snap=await fb.F.getDocs(col);
     const bySid=new Map((await galAll()).filter(r=>r.sid).map(r=>[r.sid,r]));
     let gone=[]; try{ gone=JSON.parse(localStorage.getItem('syncGone')||'[]'); }catch(e){}
     for (const d of snap.docs){
@@ -6834,6 +6866,9 @@ async function syncNow(force){
       syncSay(fail[0]==='blocked'
         ? TR('this bucket is not set up for downloads yet')
         : (TR('could not download')+' '+fail.length));
+    } else if (capped){
+      syncSay(TR('{n} kept on this device only — the account is full')
+        .replace('{n}', capped));
     } else {
       syncSay(up||down ? (TR('synced')+' · '+up+'↑ '+down+'↓')
                        : TR('up to date'));
