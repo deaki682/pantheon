@@ -844,7 +844,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v405</span>
+    <span id="verNum">v406</span>
   </div>
 </div>
 <div id="delModal">
@@ -6577,21 +6577,68 @@ async function syncListen(on){
     if (SYNC_OFF){ SYNC_OFF(); SYNC_OFF=null; }
     if (!on || !ACC_USER) return;
     const fb=await fbLoad(), uid=ACC_USER.uid;
+    // The snapshot ALREADY carries the new values. Scheduling a sync to
+    // go and fetch what is in your hand adds a debounce and a round trip
+    // to something that needs neither - settings, layers and adjustments
+    // are small and already here, so they are applied on the spot. Only
+    // actual image bytes are worth a trip, and that is all syncSoon is
+    // asked for now.
     const offRefs=fb.F.onSnapshot(fb.F.collection(fb.db,'users',uid,'refs'), snap=>{
       // the first callback is just the current state; later ones are news
       if (snap.metadata && snap.metadata.fromCache) return;
-      syncSoon(120);
+      applySnap(snap).catch(()=>{});
     }, ()=>{});
     const offPrefs=fb.F.onSnapshot(
       fb.F.doc(fb.F.collection(fb.db,'users',uid,'prefs'),'app'), snap=>{
         if (snap.metadata && snap.metadata.fromCache) return;
-        syncSoon(120);
+        try{
+          const pv=(snap.exists && snap.exists()) ? (snap.data()||{}) : null;
+          if (pv && pv.pAt && pv.pAt>PREF_SEEN){
+            PREF_SEEN=pv.pAt;
+            try{ localStorage.setItem('prefSeen', ''+pv.pAt); }catch(e){}
+            applyPrefs(pv.v);
+            PREF_SIG=JSON.stringify(readPrefs());
+          }
+        }catch(e){}
       }, ()=>{});
     SYNC_OFF=()=>{ try{ offRefs(); }catch(e){} try{ offPrefs(); }catch(e){} };
   }catch(e){}
 }
 function syncSay(m){ accSay(m); }
 let SYNC_AGAIN=false;
+// Everything a live snapshot can settle without asking the network for
+// anything: names, project settings, layers, crop and adjustments. What
+// it cannot settle is bytes - a new photograph or a new reference - and
+// only that schedules a sync.
+async function applySnap(snap){
+  let needBytes=false;
+  try{
+    const bySid=new Map((await galAll()).filter(r=>r.sid).map(r=>[r.sid,r]));
+    for (const d of snap.docs){
+      const v=d.data()||{};
+      const known=bySid.get(d.id);
+      if (!known){ if (!v.deleted) needBytes=true; continue; }
+      if (v.deleted){ needBytes=true; continue; }
+      let touched=false;
+      if (v.mAt && v.mAt>(known.mSeen||0)){
+        writeMeta(known.id, v.meta);
+        known.mSeen=v.mAt;
+        if (v.name && v.name!==known.name) known.name=v.name;
+        touched=true;
+        if (known.id===galActive) metaReapply();
+      }
+      if (v.capMetaAt && v.capMetaAt>(known.capMetaAt||0)){
+        known.capMeta=v.capMeta||{};
+        known.capMetaAt=v.capMetaAt; known.capMetaUp=v.capMetaAt;
+        touched=true;
+        if (known.id===galActive) cmpRefresh();
+      }
+      if (v.capAt && v.capAt>(known.capAt||0)) needBytes=true;
+      if (touched) await galPut(known, true);
+    }
+  }catch(e){ needBytes=true; }
+  if (needBytes) syncSoon(0);
+}
 async function syncNow(force){
   if (!ACC_USER) return;
   if (SYNC_BUSY){ SYNC_AGAIN=true; return; }   // run again when this one ends
