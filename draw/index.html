@@ -122,6 +122,10 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:calc(13px*var(--ux,1))}
   box-sizing:border-box}
 html.dragging{touch-action:none;user-select:none;-webkit-user-select:none}
 html.dragging #gallery,html.dragging #galleryC{overflow-x:hidden}
+#resNote{display:none;font-size:11px;line-height:1.4;color:#9a8a6a;
+  text-align:center;margin:0 14px 6px;padding:7px 10px;border-radius:9px;
+  background:rgba(190,150,70,.10)}
+#resNote.on{display:block}
 #libNote{display:none;font-size:11px;line-height:1.45;color:#8a8a8a;
   text-align:center;margin-top:8px}
 #libNote.on{display:block}
@@ -856,7 +860,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v412</span>
+    <span id="verNum">v413</span>
   </div>
 </div>
 <div id="delModal">
@@ -1159,6 +1163,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
       <button id="gmDesign2" title="Grid style"><canvas id="gmMini2" width="64" height="64"></canvas></button>
     </div>
   </div>
+  <div id="resNote"></div>
   <div class="row" id="fmtRow">
     <button id="fmtCrop">Crop</button>
     <button id="fmtEdit">Edit</button>
@@ -1609,9 +1614,12 @@ function gdb(){ return _gdb ||= new Promise((res,rej)=>{
 async function galAll(){ try{ const d=await gdb(); galAll.err=null; return await new Promise(res=>{
   const t=d.transaction('photos').objectStore('photos').getAll();
   t.onsuccess=()=>res(t.result||[]); t.onerror=()=>res([]); }); }catch(e){ galAll.err=e; plog('galAll failed: '+(e&&e.name)); return []; } }
-async function galAdd(rec){ try{ const d=await gdb(); const id=await new Promise(res=>{
+let GAL_ERR=null;                 // why the last write failed, for the toast
+async function galAdd(rec){ GAL_ERR=null; try{ const d=await gdb(); const id=await new Promise(res=>{
   const t=d.transaction('photos','readwrite').objectStore('photos').add(rec);
-  t.onsuccess=()=>res(t.result); t.onerror=()=>res(null); });
+  t.onsuccess=()=>res(t.result);
+  t.onerror=()=>{ try{ GAL_ERR=(t.error&&t.error.name)||'unknown'; }catch(e){ GAL_ERR='unknown'; }
+    res(null); }; });
   if (id!=null) try{
     // a rebuilt database restarts the key generator while localStorage
     // keeps old per-reference records - a stale fmt| squatting on a
@@ -1624,7 +1632,27 @@ async function galAdd(rec){ try{ const d=await gdb(); const id=await new Promise
   // its next launch - every path that makes a real reference kicks a push
   if (id!=null && rec.blob && !rec.seed && !rec.sid) try{ syncSoon(); }catch(e){}
   shadowMeta();
-  return id; }catch(e){ return null; } }
+  return id; }catch(e){ GAL_ERR=(e&&e.name)||'unknown'; return null; } }
+// a save that failed must never look like one that worked: the artist would
+// draw for an hour on a reference the app never stored. Name the cause where
+// the browser gives one, and say plainly that it was not kept.
+async function saveFailed(){
+  let why='';
+  try{
+    if (GAL_ERR==='QuotaExceededError') why='full';
+    else if (navigator.storage && navigator.storage.estimate){
+      const e=await navigator.storage.estimate();
+      if (e && e.quota && e.usage > e.quota*0.9) why='full';
+    }
+  }catch(e){}
+  const msg = why==='full'
+    ? 'couldn’t keep that reference — storage is full. It is open now, '
+      +'but it won’t be here next time. Delete a reference to make room.'
+    : 'couldn’t keep that reference — this device wouldn’t save it. It is '
+      +'open now, but it won’t be here next time.';
+  toast(TR(msg), false, 8000);
+  plog('galAdd failed: '+(GAL_ERR||'?'));
+}
 // ---- the native shadow: a second, independent copy of the user's work.
 // WebView storage has been wiped in the field; the shadow lives in the
 // app's private files (a different storage system) and offers itself
@@ -1771,9 +1799,20 @@ async function galDel(id, quiet){
   const t=d.transaction('photos','readwrite').objectStore('photos').delete(id);
   t.onsuccess=res; t.onerror=res; }); }catch(e){} }
 
+let MODE_WITH=null;      // an image already in hand when the mode chooser opens
 let galActive = null;    // gallery id of the photo now open
 let galLoading = null;   // 0..1 creep while the photo itself decodes
 
+// Paper behind every imported image. A downloaded cutout (a PNG with a
+// transparent background, one of the commonest things people draw from)
+// carries zero in every channel where it is see-through, so the moment it
+// is flattened - the layer cook, any JPEG encode, the export - the whole
+// surround turned solid BLACK. An opaque photo covers this fill entirely,
+// so it costs those nothing.
+function flatten(g, w, h){
+  try{ const f=g.filter; g.filter='none';
+    g.fillStyle='#ffffff'; g.fillRect(0,0,w,h); g.filter=f; }catch(e){}
+}
 function blobImage(blob){ return new Promise((res,rej)=>{
   const u = URL.createObjectURL(blob);
   const i = new Image();
@@ -1796,6 +1835,7 @@ async function thumbOf(blob, colr){
   const T = 448, c = document.createElement('canvas'); c.width = T; c.height = T;
   const g = c.getContext('2d');
   const s = Math.min(W, H);
+  flatten(g, T, T);
   if (!colr) g.filter = 'grayscale(1)';
   g.drawImage(src, (W-s)/2, (H-s)/2, s, s, 0, 0, T, T);
   if (!colr) forceGray(c);
@@ -2127,7 +2167,7 @@ async function renderGallery(){
     add.title=colr ? 'Add a color reference' : 'Add a black and white reference';
     const sp=document.createElement('span'); sp.textContent='+';
     add.appendChild(sp);
-    add.onclick=()=>{ haptic(); $('modeModal').style.display='flex'; };
+    add.onclick=()=>{ haptic(); MODE_WITH=null; $('modeModal').style.display='flex'; };
     host.appendChild(add);
   }
   // the last-used reference rides front and centre in its own strip
@@ -2229,6 +2269,7 @@ function openPhoto(blob, gid, retry){
     const g = c.getContext('2d');
     // colour first: the shrunk stored copy is cut from this same canvas,
     // so a 12MP open no longer holds a second full-size canvas alive
+    flatten(g, cw, ch);
     g.drawImage(img, 0, 0, cw, ch);
     if (sc < 1 && gid != null){
       // shrink the stored copy once (always the colour original - B&W is
@@ -2463,16 +2504,42 @@ async function addRef(f, colr){
     }
     gid = await galAdd({ ts: Date.now(), name: f.name||'', thumb, blob: use });
     if (gid!=null && colr) try{ localStorage.setItem('mode|'+gid,'c'); }catch(e){}
+    else if (gid==null) await saveFailed();
     renderGallery();
-  } catch(err){}
+  } catch(err){ plog('addRef: '+(err&&err.message)); }
   openPhoto(use, gid);
 }
 $('file').addEventListener('change', e => {
   const f = e.target.files[0]; if (f) addRef(f, false);
 });
-$('modeBW').onclick=()=>{ $('modeModal').style.display='none'; $('file').click(); };
-$('modeC').onclick=()=>{ $('modeModal').style.display='none'; $('fileC').click(); };
-$('modeModal').onclick=e=>{ if (e.target===$('modeModal')) $('modeModal').style.display='none'; };
+// the mode chooser normally opens a file picker; when an image has already
+// been handed to us (shared in from another app) the same two buttons decide
+// how to open THAT image instead
+$('modeBW').onclick=()=>{ $('modeModal').style.display='none';
+  if (MODE_WITH){ const f=MODE_WITH; MODE_WITH=null; addRef(f,false); return; }
+  $('file').click(); };
+$('modeC').onclick=()=>{ $('modeModal').style.display='none';
+  if (MODE_WITH){ const f=MODE_WITH; MODE_WITH=null; addRef(f,true); return; }
+  $('fileC').click(); };
+$('modeModal').onclick=e=>{ if (e.target===$('modeModal')){
+  MODE_WITH=null; $('modeModal').style.display='none'; } };
+
+// ---- an image shared in from another app (Share -> Photorealism, or Open
+// with). The shell parks the bytes on the loopback server and calls this;
+// we fetch them once, then ask the same question every new reference gets.
+window.__shared = async (url, mime, name)=>{
+  let blob=null;
+  try{ const r=await fetch(url); if (r.ok) blob=await r.blob(); }catch(e){}
+  if (!blob || !blob.size){ toast(TR('that image could not be opened'), false, 5000); return; }
+  try{ if (mime && /^image\//.test(mime) && blob.type!==mime)
+    blob=new Blob([blob], {type:mime}); }catch(e){}
+  const f=new File([blob], name||'shared.jpg', {type:blob.type||'image/jpeg'});
+  // land on the home screen first: a share that arrives mid-drawing must not
+  // silently swap the reference under the artist
+  try{ if (!$('scrUpload').classList.contains('on')) show('scrUpload'); }catch(e){}
+  MODE_WITH=f;
+  $('modeModal').style.display='flex';
+};
 $('fileC').addEventListener('change', e => {
   const f = e.target.files[0]; if (f) addRef(f, true);
 });
@@ -3118,8 +3185,27 @@ function cropRect(){
   return { x:Math.round((photo.width-w)*FMT_OFF.x),
            y:Math.round((photo.height-h)*FMT_OFF.y), w, h };
 }
+// A reference downloaded from the web is usually far smaller than a camera
+// photo: a typical pin is ~736px wide. Drawn at 30cm that is about 60 pixels
+// per inch, so the app is upscaling and the detail layers have nothing fine
+// to find. Silence here reads as "this app is blurry", so say it plainly,
+// once, where the size is being chosen - and never block anyone.
+function resNoteSync(){
+  const el=$('resNote'); if (!el) return;
+  let ppi=0;
+  // cropRect is in photo pixels, physWIn the chosen width in inches
+  try{ if (photo && photo.width) ppi = cropRect().w / Math.max(0.1, physWIn()); }
+  catch(e){ ppi=0; }
+  if (!ppi || ppi>=150){ el.classList.remove('on'); return; }
+  const small = ppi<90;
+  el.textContent = TR(small
+    ? 'This reference is quite small for a drawing this size, so fine detail will look soft. A larger copy of the image will read better.'
+    : 'This reference is a little small for a drawing this size. Fine detail may look soft.');
+  el.classList.add('on');
+}
 function fmtPreview(){
   if (!photo) return;
+  resNoteSync();
   const cr = cropRect();
   const cv = $('fmtCanvas');
   // render at device resolution: a small fixed canvas stretched by the
@@ -5028,7 +5114,8 @@ async function computeCKEY(){
 const blobToCanvas=async bl=>{
   const bm=await createImageBitmap(bl);
   const q=document.createElement('canvas'); q.width=bm.width; q.height=bm.height;
-  q.getContext('2d').drawImage(bm,0,0); bm.close(); return q;
+  const qg=q.getContext('2d'); flatten(qg, q.width, q.height);
+  qg.drawImage(bm,0,0); bm.close(); return q;
 };
 
 // ---- the reference as composable layers -------------------------------
@@ -6632,7 +6719,8 @@ async function shrinkUp(blob){
     const W=src.width, H=src.height, k=Math.min(1, 4096/Math.max(W,H));
     const c=document.createElement('canvas');
     c.width=Math.max(1,Math.round(W*k)); c.height=Math.max(1,Math.round(H*k));
-    c.getContext('2d').drawImage(src,0,0,c.width,c.height);
+    const sg=c.getContext('2d'); flatten(sg, c.width, c.height);
+    sg.drawImage(src,0,0,c.width,c.height);
     for (const q of [0.92, 0.85, 0.75]){
       const out=await new Promise(r=>c.toBlob(r,'image/jpeg',q));
       if (out && out.size <= SYNC_MAX_BYTES) return out;

@@ -23,6 +23,22 @@
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
+      <!-- most references are found on the web, not shot on the phone, so
+           the natural gesture is Share -> Photorealism straight out of
+           Chrome, Pinterest or the gallery. Without these the app did not
+           appear in the share sheet at all and the image had to be saved
+           and then hunted for in the picker. -->
+      <intent-filter>
+        <action android:name="android.intent.action.SEND"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="image/*"/>
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:mimeType="image/*"/>
+      </intent-filter>
     </activity>
     <!-- RETIRED feature (Play Deceptive Behavior enforcement): these
          aliases once let the launcher icon follow the accent. Swapping

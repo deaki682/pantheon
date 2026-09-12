@@ -170,6 +170,67 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {}
     }
 
+    // an image handed to us by another app, waiting for the page to be ready
+    @Volatile private var sharedPending: String? = null
+
+    override fun onNewIntent(intent: android.content.Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        takeSharedImage(intent)
+    }
+
+    // Share -> Photorealism, or Open with. The bytes are read once on a
+    // background thread and parked on the loopback server (the same road the
+    // camera's own captures take); evaluateJavascript could never carry a
+    // multi-megabyte image. Delivery waits for the page to exist.
+    private fun takeSharedImage(intent: android.content.Intent?) {
+        val i = intent ?: return
+        val uri: Uri = when (i.action) {
+            android.content.Intent.ACTION_SEND ->
+                (if (android.os.Build.VERSION.SDK_INT >= 33)
+                    i.getParcelableExtra(android.content.Intent.EXTRA_STREAM, Uri::class.java)
+                 else @Suppress("DEPRECATION") i.getParcelableExtra(android.content.Intent.EXTRA_STREAM))
+            android.content.Intent.ACTION_VIEW -> i.data
+            else -> null
+        } ?: return
+        val type = i.type ?: contentResolver.getType(uri) ?: "image/*"
+        if (!type.startsWith("image/")) return
+        // consumed: a rotation must not re-import the same picture
+        i.action = null
+        Thread {
+            try {
+                val bytes = contentResolver.openInputStream(uri)?.use { st ->
+                    // a shared file is someone else's; refuse absurd sizes
+                    // rather than dying with it in memory
+                    val b = st.readBytes()
+                    if (b.size > 96 * 1024 * 1024) null else b
+                } ?: run {
+                    runOnUiThread { js("toast && toast('that image could not be opened', false, 5000)") }
+                    return@Thread
+                }
+                var name = "shared"
+                try {
+                    contentResolver.query(uri, null, null, null, null)?.use { cur ->
+                        val ix = cur.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME)
+                        if (ix >= 0 && cur.moveToFirst()) name = cur.getString(ix) ?: name
+                    }
+                } catch (e: Throwable) {}
+                val url = LocalServer.park(type, bytes)
+                val payload = "'" + url + "','" + type + "','" + jsStr(name) + "'"
+                synchronized(this) {
+                    if (booted) runOnUiThread { js("window.__shared && __shared($payload)") }
+                    else sharedPending = payload
+                }
+            } catch (e: Throwable) {
+                logLine("share in: " + e.message)
+                runOnUiThread { js("toast && toast('that image could not be opened', false, 5000)") }
+            }
+        }.start()
+    }
+
+    private fun jsStr(s: String) = s.replace("\\", "\\\\").replace("'", "\\'")
+        .replace("\n", " ").replace("\r", " ")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         restoreLauncherIcon()
@@ -292,6 +353,12 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onPageFinished(view: WebView, url: String) {
                 booted = true
+                synchronized(this@MainActivity) {
+                    sharedPending?.let { p ->
+                        sharedPending = null
+                        web.postDelayed({ js("window.__shared && __shared($p)") }, 400)
+                    }
+                }
                 // the page after a renderer death gets told what happened
                 try {
                     val p = getSharedPreferences("ui", 0)
@@ -446,6 +513,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }.apply { isDaemon = true }.start()
+        // a cold start FROM a share: read it now, deliver when the page is up
+        takeSharedImage(intent)
         startAds()
         initBilling()
         // the daily automatic backup: a full export lands in Downloads -
