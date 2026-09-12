@@ -114,12 +114,26 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:calc(13px*var(--ux,1))}
 #upTitle{color:var(--acc);font-size:22px;letter-spacing:0.04em;margin-top:52px}
 #titleRule{display:block;width:100%;height:24px;flex:none;margin-top:2px}
 #upGridBg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
-/* a lifted thumbnail follows the finger; a dashed gap holds its place */
-.gitem.dragging{position:fixed;z-index:40;margin:0;pointer-events:none;
-  transform:scale(1.06);box-shadow:0 12px 30px rgba(0,0,0,.6);
-  opacity:.96;transition:none}
-.gph{flex:none;border-radius:14px;border:2px dashed #555;opacity:.55;
-  box-sizing:border-box}
+/* Rearranging: the row draws back so more of it is in view, the held
+   thumbnail lifts out on its own layer, and its neighbours SLIDE to open
+   the gap it is hovering over. Nothing jumps and no dashed hole appears. */
+.gitem.ghosted{visibility:hidden}
+.gitem.slide{transition:transform .2s cubic-bezier(.2,.72,.28,1)}
+#gallery.reorder,#galleryC.reorder{scroll-snap-type:none;
+  padding-left:calc(50% - 44px);padding-right:calc(50% - 44px)}
+#gallery.reorder .gitem,#galleryC.reorder .gitem,
+#gallery.reorder .gadd,#galleryC.reorder .gadd{width:86px}
+html.dragging #gallery,html.dragging #galleryC{transition:padding .2s ease}
+html.dragging .gitem,html.dragging .gadd{transition:width .2s ease}
+html.dragging .gitem.slide{transition:width .2s ease,
+  transform .2s cubic-bezier(.2,.72,.28,1)}
+/* the travelling copy: a real layer above everything, never in the row */
+.gdrag{position:fixed;left:0;top:0;z-index:60;margin:0;pointer-events:none;
+  transform-origin:top left;will-change:transform;
+  box-shadow:0 16px 34px rgba(0,0,0,.62), 0 3px 8px rgba(0,0,0,.5);
+  transition:width .2s ease,height .2s ease}
+.gdrag.landing{transition:transform .19s cubic-bezier(.2,.72,.28,1),
+  width .2s ease,height .2s ease}
 html.dragging{touch-action:none;user-select:none;-webkit-user-select:none}
 html.dragging #gallery,html.dragging #galleryC{overflow-x:hidden}
 #resNote{display:none;font-size:11px;line-height:1.4;color:#9a8a6a;
@@ -860,7 +874,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v413</span>
+    <span id="verNum">v414</span>
   </div>
 </div>
 <div id="delModal">
@@ -2051,67 +2065,147 @@ async function renderGallery(){
   // somewhere else. The hold is what separates it from a scroll, which is
   // the same gesture for its first 400ms.
   const dragArm = (tile) => {
-    let t0=0, sx=0, sy=0, held=false, ph=null, off={x:0,y:0}, host=null, moved=false, moveR=0, mvX=0, mvY=0;
-    // sibling midpoints and the host rect are measured once per layout, not
-    // on every pointermove: the lifted tile is out of flow, so the row only
-    // changes when the placeholder actually moves or the strip scrolls
-    let mids=null, hr=null;
-    const HOLD=400, SLOP=10;
+    // Press and hold to rearrange. The hold is what separates it from a
+    // scroll, which is the same gesture for its first 400ms.
+    //
+    // The old version lifted the tile itself and pushed a dashed
+    // placeholder around the row, so every slot change was a reflow and
+    // each neighbour TELEPORTED. Now: a copy of the tile travels on its own
+    // layer, the original stays in the row (invisible) so the row's layout
+    // never moves under the measurements, the row draws back to show more
+    // of itself, and the neighbours SLIDE by a transform to open the gap.
+    let t0=0, sx=0, sy=0, held=false, moved=false, host=null;
+    let fly=null;          // the travelling copy
+    let kids=[], base=[], from=0, to=0, step=0;
+    let ready=false;       // geometry is only trustworthy once the row settles
+    let off={x:0,y:0}, mvX=0, mvY=0, moveR=0, scrollR=0, settleT=0;
+    const HOLD=400, SLOP=10, EDGE=68;
     const clear=()=>{ clearTimeout(t0); t0=0; };
+
     const lift=(x,y)=>{
-      held=true; moved=false;
+      held=true; moved=false; ready=false;
       haptic();
       host=tile.parentElement;
       const r=tile.getBoundingClientRect();
       off.x=x-r.left; off.y=y-r.top;
-      ph=document.createElement('div');
-      ph.className='gph';
-      ph.style.width=r.width+'px'; ph.style.height=r.height+'px';
-      tile.after(ph);
-      tile.style.width=r.width+'px'; tile.style.height=r.height+'px';
-      tile.classList.add('dragging');
-      document.documentElement.classList.add('dragging');
-      mids=null; hr=null;
+      // the copy starts exactly over the real tile, so the lift reads as the
+      // thumbnail itself rising rather than a new thing appearing
+      fly=tile.cloneNode(true);
+      fly.className='gdrag gitem';
+      fly.style.width=r.width+'px';
+      fly.style.height=r.height+'px';
+      const gx=fly.querySelector('.gx'); if (gx) gx.remove();
+      document.body.appendChild(fly);
       place(x,y);
+      tile.classList.add('ghosted');
+      document.documentElement.classList.add('dragging');
+      host.classList.add('reorder');
+      // the row is mid-shrink for 200ms; measuring before it settles would
+      // pin every slot to a position that no longer exists
+      clearTimeout(settleT);
+      settleT=setTimeout(()=>{ if (held) settle(); }, 215);
+      autoScroll();
     };
-    const measure=()=>{
-      const kids=[...host.children].filter(k=>k!==tile && k!==ph && !k.classList.contains('gadd'));
-      mids=kids.map(k=>{ const r=k.getBoundingClientRect(); return {k, mid:r.left+r.width/2}; });
-      hr=host.getBoundingClientRect();
+
+    const settle=()=>{
+      const hr=host.getBoundingClientRect();
+      kids=[...host.children].filter(k=>k.classList.contains('gitem'));
+      from=kids.indexOf(tile);
+      base=kids.map(k=>{ const r=k.getBoundingClientRect();
+        return r.left-hr.left+host.scrollLeft+r.width/2; });
+      step = kids.length>1 ? Math.abs(base[1]-base[0]) : 0;
+      to=from;
+      for (const k of kids) k.classList.add('slide');
+      // the copy shrinks to match the row, still a touch larger than its
+      // neighbours so it reads as held above them
+      const t=tile.getBoundingClientRect();
+      if (t.width){
+        const w=t.width*1.1, h=t.height*1.1;
+        off.x*=w/(parseFloat(fly.style.width)||w);
+        off.y*=h/(parseFloat(fly.style.height)||h);
+        fly.style.width=w+'px'; fly.style.height=h+'px';
+      }
+      ready=true;
+      shift();
+      place(mvX||sx, mvY||sy);
     };
+
     const place=(x,y)=>{
-      tile.style.left=(x-off.x)+'px';
-      tile.style.top =(y-off.y)+'px';
+      if (!fly) return;
+      fly.style.transform='translate3d('+Math.round(x-off.x)+'px,'
+        +Math.round(y-off.y)+'px,0)';
     };
-    const reposition=(x)=>{
-      if (!host || !ph) return;
-      if (!mids) measure();
-      let before=null;
-      for (const m of mids){ if (x < m.mid){ before=m.k; break; } }
-      const target=before || host.querySelector('.gadd') || null;
-      // only touch the DOM when the slot really changes (the out-of-flow
-      // tile does not count as a neighbour)
-      let nx=ph.nextSibling; while (nx===tile) nx=nx.nextSibling;
-      if (nx!==target){ host.insertBefore(ph, target); mids=null; }
-      // walking off the end of a strip scrolls it, so a long row is usable
-      if (x > hr.right-46){ host.scrollLeft += 12; mids=null; }
-      else if (x < hr.left+46){ host.scrollLeft -= 12; mids=null; }
+
+    // which slot is the finger over, and slide everyone else out of its way
+    const shift=()=>{
+      if (!ready || !host) return;
+      const hr=host.getBoundingClientRect();
+      const px=mvX-hr.left+host.scrollLeft;
+      let k=0;
+      for (let i=0;i<base.length;i++){ if (i!==from && base[i]<px) k++; }
+      if (k!==to){ to=k; haptic(); }
+      for (let i=0;i<kids.length;i++){
+        if (i===from) continue;
+        let d=0;
+        if (from<i && i<=to) d=-step;
+        else if (to<=i && i<from) d=step;
+        kids[i].style.transform = d ? 'translateX('+d+'px)' : '';
+      }
     };
+
+    // walking to the end of a long row carries on scrolling while the finger
+    // rests there, instead of only stepping when it happens to move
+    const autoScroll=()=>{
+      if (!held){ scrollR=0; return; }
+      scrollR=requestAnimationFrame(autoScroll);
+      if (!host || !ready) return;
+      const hr=host.getBoundingClientRect();
+      let v=0;
+      if (mvX>hr.right-EDGE) v=Math.min(16,(mvX-(hr.right-EDGE))/4);
+      else if (mvX<hr.left+EDGE) v=-Math.min(16,((hr.left+EDGE)-mvX)/4);
+      if (!v) return;
+      const before=host.scrollLeft;
+      host.scrollLeft=before+v;
+      if (host.scrollLeft!==before) shift();
+    };
+
     const drop=async ()=>{
       if (!held) return;
       held=false;
-      if (moveR){ cancelAnimationFrame(moveR); moveR=0; reposition(mvX); }   // the last move lands before the tile is put down
-      // a drag must not also open the project it just moved; the flag
-      // dies on its own because no click may follow at all
+      clearTimeout(settleT);
+      if (moveR){ cancelAnimationFrame(moveR); moveR=0; }
+      if (scrollR){ cancelAnimationFrame(scrollR); scrollR=0; }
+      // a drag must not also open the project it just moved
       if (moved){ tile.dataset.justDragged='1';
         setTimeout(()=>{ delete tile.dataset.justDragged; }, 400); }
-      tile.classList.remove('dragging');
-      document.documentElement.classList.remove('dragging');
-      tile.style.cssText='';
-      if (ph && ph.parentElement){ ph.replaceWith(tile); }
-      ph=null;
-      document.documentElement.classList.remove('dragging');
-      if (!moved) return;
+      const order = ready && to!==from;
+      if (order){
+        // put it where the gap is before anything animates back
+        const ref = kids.filter(k=>k!==tile)[to] || null;
+        host.insertBefore(tile, ref);
+      }
+      // FLIP home: the row returns to full size, then the copy flies to
+      // wherever the real tile has ended up and hands over
+      for (const k of kids){ k.style.transform=''; k.classList.remove('slide'); }
+      host.classList.remove('reorder');
+      const land=()=>{
+        const r=tile.getBoundingClientRect();
+        if (fly && r.width){
+          fly.style.width=r.width+'px'; fly.style.height=r.height+'px';
+          fly.classList.add('landing');
+          fly.style.transform='translate3d('+Math.round(r.left)+'px,'
+            +Math.round(r.top)+'px,0)';
+        }
+        setTimeout(()=>{
+          tile.classList.remove('ghosted');
+          document.documentElement.classList.remove('dragging');
+          if (fly && fly.parentElement) fly.remove();
+          fly=null;
+        }, fly ? 190 : 0);
+      };
+      if (ready) requestAnimationFrame(()=>requestAnimationFrame(land));
+      else land();
+      if (!moved || !order) return;
       // the whole strip is renumbered, so there is never a half-ordered row
       try{
         const ids=[...host.children].filter(k=>k.classList.contains('gitem'))
@@ -2122,10 +2216,11 @@ async function renderGallery(){
         }
       }catch(e){}
     };
+
     tile.addEventListener('pointerdown', e=>{
       if (e.button && e.button!==0) return;
       if (PREP.active) return;
-      sx=e.clientX; sy=e.clientY;
+      sx=e.clientX; sy=e.clientY; mvX=sx; mvY=sy;
       clear();
       t0=setTimeout(()=>{ try{ tile.setPointerCapture(e.pointerId); }catch(_){} lift(sx,sy); }, HOLD);
     });
@@ -2137,12 +2232,12 @@ async function renderGallery(){
       e.preventDefault();
       moved=true;
       mvX=e.clientX; mvY=e.clientY;
-      if (!moveR) moveR=requestAnimationFrame(()=>{ moveR=0; if (held){ place(mvX,mvY); reposition(mvX); } });
+      if (!moveR) moveR=requestAnimationFrame(()=>{ moveR=0;
+        if (held){ place(mvX,mvY); shift(); } });
     });
     const end=e=>{ clear(); if (held){ e.preventDefault(); drop(); } };
     tile.addEventListener('pointerup', end);
     tile.addEventListener('pointercancel', end);
-    // a drag must not also open the project it just moved
     tile.addEventListener('click', e=>{
       if (tile.dataset.justDragged){ delete tile.dataset.justDragged;
         e.stopPropagation(); e.preventDefault(); }
