@@ -844,7 +844,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v403</span>
+    <span id="verNum">v404</span>
   </div>
 </div>
 <div id="delModal">
@@ -1721,9 +1721,11 @@ setTimeout(async ()=>{
   }catch(e){}
 }, 2500);
 let DELREF=null;
-async function galDel(id){
-  // centralised so no delete path can forget: the account loses it too
-  try{ const r=await galGet(id); if (r && r.sid) syncDrop(r); }catch(e){}
+async function galDel(id, quiet){
+  // centralised so no delete path can forget: the account loses it too.
+  // quiet=true is the delete arriving FROM the account, which must not be
+  // announced back to it.
+  if (!quiet) try{ const r=await galGet(id); if (r && r.sid) syncDrop(r); }catch(e){}
   try{ const d=await gdb(); await new Promise(res=>{
   const t=d.transaction('photos','readwrite').objectStore('photos').delete(id);
   t.onsuccess=res; t.onerror=res; }); }catch(e){} }
@@ -6638,6 +6640,7 @@ async function syncNow(force){
     }
     // ---- pull: anything the account has that this device does not ----
     const fail=[];
+    let goneHere=0;
     // one way to fetch an object, so a reference and a capture fail alike
     const grab=async path => {
       try{
@@ -6657,8 +6660,23 @@ async function syncNow(force){
     let gone=[]; try{ gone=JSON.parse(localStorage.getItem('syncGone')||'[]'); }catch(e){}
     for (const d of snap.docs){
       const v=d.data()||{};
-      if (v.deleted || gone.indexOf(d.id)>=0) continue;
       const known=bySid.get(d.id);
+      if (v.deleted){
+        // deleted elsewhere: remove it here too, and remember the id so a
+        // half-finished delete cannot bring it back on the next pass
+        if (known){
+          await galDel(known.id, true);
+          try{
+            const g=JSON.parse(localStorage.getItem('syncGone')||'[]');
+            g.push(d.id);
+            localStorage.setItem('syncGone', JSON.stringify(g.slice(-500)));
+          }catch(e){}
+          if (galActive===known.id){ galActive=null; photo=null; GRID_READY=false; }
+          goneHere++;
+        }
+        continue;
+      }
+      if (gone.indexOf(d.id)>=0) continue;
       if (known){
         // already here: take whatever moved on another device since
         let touched=false;
@@ -6708,7 +6726,7 @@ async function syncNow(force){
     }
     SYNC_AT=Date.now();
     try{ localStorage.setItem('syncAt', ''+SYNC_AT); }catch(e){}
-    if (down) renderGallery();
+    if (down || goneHere) renderGallery();
     if (fail.length){
       adlog('pull failed on '+fail.length+': '+fail.slice(0,3).join(','));
       syncSay(fail[0]==='blocked'
@@ -6741,6 +6759,7 @@ async function syncDrop(rec){
     if (!ACC_USER) return;
     const fb=await fbLoad(), uid=ACC_USER.uid;
     await fb.S.deleteObject(fb.S.ref(fb.st,'users/'+uid+'/refs/'+rec.sid+'.jpg')).catch(()=>{});
+    await fb.S.deleteObject(fb.S.ref(fb.st,'users/'+uid+'/caps/'+rec.sid+'.jpg')).catch(()=>{});
     await fb.F.setDoc(fb.F.doc(fb.F.collection(fb.db,'users',uid,'refs'), rec.sid),
                       { deleted:true, at:fb.F.serverTimestamp() }).catch(()=>{});
   }catch(e){}
@@ -8174,6 +8193,7 @@ function cmpWarp(src, corners){
   return out;
 }
 async function cmpSetPhoto(blob){
+  refModeSync('picked photo');
   const i=await blobImage(blob).catch(()=>null);
   if (!i) return;
   const c=document.createElement('canvas');
@@ -8319,6 +8339,18 @@ async function cmpLoadSaved(){
 // decoded - so it painted nothing and stayed blank. It is now a function
 // called whenever the photo actually changes, from either camera path
 // and after a load or a sync.
+// the one place that answers "is this project in colour", so a capture
+// can never disagree with the gallery about it
+function refModeSync(why){
+  try{
+    if (galActive==null) return;
+    const want = isColor(galActive) ? 'c' : 'bw';
+    if (want===REFMODE) return;
+    adlog('colour mode was '+REFMODE+', project says '+want+' ('+(why||'')+')');
+    REFMODE = want;
+    document.body.classList.toggle('colorRef', REFMODE==='c');
+  }catch(e){}
+}
 function lastShotPaint(){
   try{
     const ls=$('lastShot'); if (!ls) return;
@@ -8438,6 +8470,7 @@ async function camStart(){
       tr.applyConstraints({ advanced:[{ focusMode:'continuous' }] })
         .catch(()=>{});
     }catch(e){}
+    refModeSync('camera start');
     // the last photo waits in the corner - tap it to skip reshooting
     lastShotPaint();
     cmpTakePending();
@@ -8580,6 +8613,7 @@ async function natCapture(){
   const gh=CAM.ghost, nw=CAM.nat.w, nh=CAM.nat.h;
   window.__natShot=async (jurl, rurl, label)=>{
     window.__natShot=null;
+    refModeSync('native shot');
     clearTimeout(CAM.shotT); CAM.shotBusy=false;
     // the phone's own JPEG bytes are the stored file - no second compression
     // generation, no resolution cap

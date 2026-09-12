@@ -157,9 +157,20 @@ const ok = (name, cond, detail) => {
 
     // deleting takes the synced copy with it and does not resurrect
     const gone = (await galAll()).find(x=>x.sid);
-    await syncDrop(gone); await galDel(gone.id);
+    const goneSid = gone.sid;
+    await galDel(gone.id);
     SYNC_AT=0; await syncNow(true);
     out.deleted = (await galAll()).length === 0;
+    out.capGone = !S.objects.has('users/u1/caps/'+goneSid+'.jpg');
+
+    // THE OTHER DEVICE: it still holds the reference and must drop it
+    // when it sees the tombstone, not merely ignore the tombstone
+    const other = await mk(400,300,'#123');
+    const nid = await galAdd({ ts:Date.now(), name:'still here',
+      thumb:await thumbOf(other,false), blob:other, sid:goneSid });
+    localStorage.setItem('syncGone','[]');
+    SYNC_AT=0; await syncNow(true);
+    out.tombstoneApplied = !(await galAll()).some(r => r.sid === goneSid);
     return out;
   });
 
@@ -174,6 +185,8 @@ const ok = (name, cond, detail) => {
   ok('grid style and thickness cross',    R.grid === 'dots/3', R.grid);
   ok('repeat syncs change nothing',       R.stable);
   ok('delete does not resurrect',         R.deleted);
+  ok('the capture is deleted too',        R.capGone);
+  ok('a delete elsewhere removes it here', R.tombstoneApplied);
   ok('a layer change is noticed',         R.layersNoticed);
   ok('the timer alone stays quiet',       R.timerIsQuiet);
   ok('layers reach the account',          R.layersReached);
