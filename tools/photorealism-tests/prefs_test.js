@@ -27,7 +27,7 @@ async function device(br, tag) {
   return pg;
 }
 (async () => {
-  const br = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const br = await chromium.launch(require('./browser.js'));
   // one browser context = one "device"; the fake backend is per-page, so
   // this test moves the document between them by hand
   const A = await device(br, 'A');

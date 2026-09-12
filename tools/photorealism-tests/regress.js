@@ -184,7 +184,7 @@ async function run(br, v, scale, report) {
 }
 
 (async () => {
-  const br = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const br = await chromium.launch(require('./browser.js'));
   const report = [];
   // Each config is an independent browser context that spends most of its
   // time waiting for the app to settle, so running them one after another

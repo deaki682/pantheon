@@ -10,7 +10,14 @@ Serve the app first, from the repo root:
 
     nohup python3 -m http.server 8899 --directory draw >/dev/null 2>&1 &
 
-Then run any script with `node`. Chromium lives at `/opt/pw-browsers/chromium`.
+Then run any script with `node`. Every script launches Chromium through
+`browser.js`: it uses `$PR_CHROMIUM` if set, else the remote sandbox's
+pinned `/opt/pw-browsers/chromium` if present, else playwright-core's own
+browser. So on a desktop, `npm install playwright-core && npx playwright
+install chromium` is all the setup there is.
+
+Check `regress.js quick`, `check.js` and `_syn.js` first — they are the
+fast trio (`_syn.js` <1s, `check.js` ~1s, `regress.js quick` ~2min).
 
 **Start with `check.js`.** It covers every sync guarantee in about one
 second, and replaced three scripts that took ninety-five between them.

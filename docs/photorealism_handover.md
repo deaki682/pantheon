@@ -1,6 +1,7 @@
 # Photorealism — handover
 
-State as of web **v397** / Android **versionCode 224** (`0.9.190`).
+State as of web **v411** / Android **versionCode 238** (`0.9.204`). Next
+bump is v412 / 239 / `0.9.205`.
 Branch: `claude/latest-drawing-app-version-0h2lp6`. Owner: Dylan
 (deaki682@gmail.com).
 
@@ -94,8 +95,18 @@ Then run the scripts from that directory, or set `NODE_PATH` to its
 `node_modules`. Do not add it to the repo; it is a 100MB+ dependency for
 a project that otherwise has no build step at all.
 
-Chromium is already downloaded, so never run `playwright install`.
-`PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers` is set for you.
+Chromium is already downloaded in the remote image, so never run
+`playwright install` there. `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers`
+is set for you.
+
+**On a desktop** (Dylan's machine, or any local checkout) none of the
+`/opt` paths exist and that is fine: the harnesses resolve Chromium via
+`tools/photorealism-tests/browser.js` (`$PR_CHROMIUM` → the pinned remote
+build → playwright-core's default), so `npm install playwright-core` and
+`npx playwright install chromium` are the whole setup. The Android build
+has a committed Gradle wrapper (`android/gradlew`, pinned 8.14.3) that
+downloads its own Gradle on first run; only the Android SDK
+(`ANDROID_HOME`) and a JDK 17 need to be present.
 
 **The signing key is committed** (`android/release.keystore` and
 `android/keystore.properties`), so a fresh session can build a signed
@@ -116,8 +127,8 @@ SDK to serve locally is fine.
 3. Run the relevant harnesses (see that folder's README).
 4. Bump all three together: `<span id="verNum">vNNN</span>`, the `sw.js`
    cache name, and `versionCode` / `versionName` in `app/build.gradle`.
-5. Build: `cd android && export ANDROID_HOME=/opt/android-sdk && /opt/gradle-8.14.3/bin/gradle bundleRelease --no-daemon -q`
-6. Zip the 19 files from `draw/` (see any recent commit for the list).
+5. Build: `cd android && export ANDROID_HOME=/opt/android-sdk && ./gradlew bundleRelease -q` (the daemon is on via `gradle.properties`; a warm rebuild is ~1–17s, so never pass `--no-daemon`)
+6. Zip the 20 files from `draw/` (index.html sw.js manifest.webmanifest privacy.html delete-account.html ads.txt app-ads.txt _redirects favicon.ico icon-192.png icon-512.png apple-touch-icon.png starter-{freckles,guy,soft}{,-c}.jpg starter-wet-c.jpg engine-v11-archive.html).
 7. Send Dylan both files. Commit with absolute paths, push to the branch.
 
 **Never** put a model identifier in a commit message, PR or any pushed
@@ -149,8 +160,34 @@ artifact.
   hidden on Android; still visible on web.
 - Sync has no conflict resolution beyond last-writer-wins on timestamps,
   which is fine for one person with two devices and not for more.
-- The audit workflow `wf_7dec7f78-2e1` was interrupted mid-verify. The
-  leftovers are cleanup-grade.
+- `check.js` flakes roughly 1 run in 8 (e.g. "a delete elsewhere removes
+  it here"). Reproduced on the pre-optimisation HEAD too, so it is a
+  timing race in `fbfake/`'s setTimeout-driven listeners, not the app.
+  Re-run once before believing a single red.
+- The pinned brainstorms (reference shop / $1.99 singles / user
+  submissions / Dylan-curated photographer library at $2, 50% split) are
+  ideas only. Nothing is built and nothing should be without instruction.
+
+## The v411 debug and optimisation pass (2026-09-12)
+
+Ran as a multi-agent workflow: audit (12 batched verify passes), fix,
+review. 89 findings after dedupe, 57 confirmed and applied, 32 dropped
+with a written reason each (for example single-path grid batching
+measured slower and changed intersection alpha; a capture gate would have
+discarded the device's own newest photo). Review caught five more,
+including a real regression: a new `remoteNewer` gate swallowed the
+user's own edits, fixed by the `SYNC_EDIT` set.
+
+Measured after, on the fake backend: push after capture 138ms (215ms
+under load) vs 422ms before; pull 101ms; layer change to remote 60ms;
+accent change 7–12ms. Kotlin side: shell boot work off the main thread,
+camera provider warmed 3s after page load, preview surface bound before
+`bindToLifecycle`, saves off the UI thread, single-thread FIFO for the
+shadow copy so deletes cannot race saves.
+
+Workflow lessons: the remote box has 4 CPUs, so more than two agents at
+once only thrashes; batch verifications rather than one agent per
+finding; a resume must pass the script inline with `resumeFromRunId`.
 
 ## Ideas discussed, not built
 

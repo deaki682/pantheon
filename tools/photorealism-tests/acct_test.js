@@ -37,7 +37,7 @@ async function shot(br, tag, w, h, native) {
   await ctx.close();
 }
 (async () => {
-  const br = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const br = await chromium.launch(require('./browser.js'));
   await shot(br, 'browser', 390, 844, false);   // PWA: the row should appear
   await shot(br, 'shellold', 390, 844, true);   // native shell, no auth bridge: hidden
   await shot(br, 'tablet', 1280, 800, false);

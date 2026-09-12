@@ -25,7 +25,7 @@ async function run(br, tag, w, h, native) {
   await ctx.close();
 }
 (async () => {
-  const br = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const br = await chromium.launch(require('./browser.js'));
   await run(br, 'app', 390, 844, true);
   await run(br, 'web', 390, 844, false);
   await run(br, 'tablet', 1280, 800, true);

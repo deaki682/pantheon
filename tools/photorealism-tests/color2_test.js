@@ -1,6 +1,6 @@
 const { chromium } = require('playwright-core');
 (async () => {
-  const br = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const br = await chromium.launch(require('./browser.js'));
   const ctx = await br.newContext({ viewport:{width:390,height:844}, deviceScaleFactor:2,
     isMobile:true, hasTouch:true, permissions:[] });
   const pg = await ctx.newPage();

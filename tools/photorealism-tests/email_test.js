@@ -26,7 +26,7 @@ async function page(br, shell){
 }
 (async () => {
   const t0=Date.now();
-  const br = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const br = await chromium.launch(require('./browser.js'));
 
   for (const [shell, wantG, wantA] of [['browser',true,true],['androidNew',true,false],['androidOld',false,false]]) {
     const pg = await page(br, shell==='browser'?null:shell);

@@ -44,7 +44,7 @@ async function run(br, tag, shell) {
   await ctx.close();
 }
 (async () => {
-  const br = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const br = await chromium.launch(require('./browser.js'));
   await run(br, 'browser', null);
   await run(br, 'android-new', 'android-new');
   await run(br, 'android-old', 'android-old');

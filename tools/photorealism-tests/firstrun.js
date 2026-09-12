@@ -82,4 +82,4 @@ async function run(br, v){
   for (const l of log) console.log('   '+l);
   for (const i of issues) console.log('   !! '+i);
 }
-(async()=>{ const br=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'}); for (const v of VIEWS) await run(br,v); await br.close(); })().catch(e=>{console.error(e);process.exit(1)});
+(async()=>{ const br=await chromium.launch(require('./browser.js')); for (const v of VIEWS) await run(br,v); await br.close(); })().catch(e=>{console.error(e);process.exit(1)});

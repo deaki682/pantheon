@@ -11,7 +11,7 @@ const ok = (name, cond, detail) => {
 };
 (async () => {
   const t0 = Date.now();
-  const br = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const br = await chromium.launch(require('./browser.js'));
   const ctx = await br.newContext({ viewport:{width:390,height:844}, deviceScaleFactor:2, isMobile:true, hasTouch:true });
   await ctx.route('https://www.gstatic.com/firebasejs/**', r => {
     const n = r.request().url().split('/').pop();
