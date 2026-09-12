@@ -186,7 +186,20 @@ async function run(br, v, scale, report) {
 (async () => {
   const br = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
   const report = [];
-  for (const v of VIEWS) for (const sc of SCALES) await run(br, v, sc, report);
+  // Each config is an independent browser context that spends most of its
+  // time waiting for the app to settle, so running them one after another
+  // just stacks the waiting. Four at a time keeps memory sane.
+  const jobs = [];
+  for (const v of VIEWS) for (const sc of SCALES) jobs.push([v, sc]);
+  const LANES = 4;
+  const next = (async function* () { for (const j of jobs) yield j; })();
+  await Promise.all(Array.from({ length: LANES }, async () => {
+    for (;;) {
+      const { value, done } = await next.next();
+      if (done) break;
+      await run(br, value[0], value[1], report);
+    }
+  }));
   await br.close();
   let total = 0;
   for (const r of report) { total += r.issues.length; console.log(`== ${r.tag}: ${r.issues.length ? '' : 'OK'}`); for (const i of r.issues) console.log('   ' + i); }

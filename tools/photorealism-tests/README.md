@@ -54,9 +54,15 @@ Three things, all of which apply to any new harness:
    moment the app is ready; `waitForTimeout(2300)` always costs 2300ms
    and is still a guess.
 
-`regress.js` has not had this treatment and is still the slow one. It
-measures rendered layout, so it may genuinely need images loaded - check
-before assuming.
+`regress.js` is the slow one at ~113s, down from 270s. Its ten
+configurations now run four at a time, because each is an independent
+browser context that spends most of its life waiting for the app to
+settle - running them one after another merely stacked the waiting. The
+remainder is genuine: it opens a project, walks the menus, rotates the
+device and photographs the result, and that takes as long as it takes.
+
+Run it before shipping, not after every edit. `check.js` is the one for
+the edit loop.
 
 ## Gotchas learned the hard way
 
