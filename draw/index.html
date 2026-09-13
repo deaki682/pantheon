@@ -892,7 +892,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v416</span>
+    <span id="verNum">v417</span>
   </div>
 </div>
 <div id="delModal">
@@ -2371,6 +2371,8 @@ async function openSrc(gid, blob){
 }
 function openPhoto(blob, gid, retry){
   const my = ++OPEN_SEQ;                  // stale decodes must not land
+  COOK_Q = 1;                             // every open starts at the fast rate
+  if (COOK_RETRY){ clearTimeout(COOK_RETRY); COOK_RETRY=null; }
   galActive = gid ?? null; galLoading = 0.15;
   syncTouch(gid);                         // its progress travels with it
   REFMODE = isColor(gid) ? 'c' : 'bw';
@@ -4180,7 +4182,7 @@ async function prepareAll(){
     initMain();
     bloomIn();
   }
-  if (okF) cookRest(key);
+  if (okF){ await cookUpgrade(); cookRest(fkey()); }
 }
 async function cookRest(key){
   // the tools not yet cooked finish one at a time behind the open
@@ -5322,7 +5324,37 @@ function progOn(){ return true; }
 // the shading engine follows soft edges instead of flattening them. Both
 // engines cache under their own key, so switching back is instant.
 function softOn(){ try{ return localStorage.getItem('softForm')==='1'; }catch(e){ return false; } }
-function fkey(){ return CKEY + (softOn() ? '|s' : ''); }
+// The planes are sized for the PAPER, and they must be: the detail tools are
+// literal pencil tips - a 3x3 square is 0.8mm at 96ppi - and the layer views
+// answer "what can I actually draw at this size". What they do not need is to
+// be SAMPLED that coarsely. At 96ppi a 1mm mark is under four pixels, so
+// magnified on screen its edges go blocky. COOK_Q samples the same tools at a
+// finer rate: every structuring element is scaled by the same factor, so the
+// marks stay exactly the size they were and only their edges get cleaner.
+// It must be ODD - a 3px element has no exact even multiple - so it is 1 or 3.
+let COOK_Q = 1;
+function cookSize(){
+  const {w,h}=worldSize();
+  if (COOK_Q<=1) return {w,h};
+  return { w:Math.round(w*COOK_Q), h:Math.round(h*COOK_Q) };
+}
+// 3x sampling is 9x the pixels and the planes cost about 3s a megapixel, so
+// this is background work, it never delays an open, and a weak phone is left
+// alone. There is nothing to gain if the photo has no more pixels than the
+// world - upsampling its own blur would only cost battery.
+function cookFineQ(){
+  try{
+    if (refCap()<=2560) return 1;                  // keep a weak phone's battery
+    const src=state.img; const {w,h}=worldSize();
+    if (!src || !src.width || !w) return 1;
+    if (src.width < w*1.5) return 1;               // the photo has no more to give
+    if (w*h*9 > 9e6) return 1;                     // a big drawing is coarse enough
+    return 3;
+  }catch(e){ return 1; }
+}
+// the sampling rate is part of the cook's identity, or a coarse plane would
+// come back out of the cache where a fine one is expected
+function fkey(){ return CKEY + (softOn() ? '|s' : '') + (COOK_Q>1 ? '|q'+COOK_Q : ''); }
 let GRID_ON=true;
 let GRID_COL='auto', GRID_THK=1;   // 'auto' = the inverting difference grid
 let GRID_LAB=false;                // cell labels on/off
@@ -5372,7 +5404,7 @@ function layerButtons(){
   }
 }
 function grayData(src){
-  const {w,h}=worldSize();
+  const {w,h}=cookSize();
   const c=document.createElement('canvas'); c.width=w; c.height=h;
   const g=c.getContext('2d',{willReadFrequently:true});
   g.imageSmoothingQuality='high';
@@ -5443,7 +5475,7 @@ function bandThresholds(){
 }
 function compositeColorCv(){
   compParts();
-  const {w,h}=worldSize();
+  const {w,h}=cookSize();
   if (!COMP.rgb){
     const c0=document.createElement('canvas'); c0.width=w; c0.height=h;
     const g0=c0.getContext('2d',{willReadFrequently:true});
@@ -5561,7 +5593,7 @@ function compositeCv(){
   const sig=(ready?'P':'C')+(LAYERS.dk?'D':'')+(LAYERS.lt?'L':'')
            +(LAYERS.hl?'H':'')+'T'+eff;
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
-  const {w,h}=worldSize();
+  const {w,h}=cookSize();
   const N=COMP.ph.length, buf=new Uint8Array(N);
   for (let i=0;i<N;i++){
     const sh=COMP.sh[i];
@@ -5608,7 +5640,7 @@ async function ensureDetail(lv, bg){
   if (DET.key!==fkey()){ DET.key=fkey(); DET.lv={}; DET.done={}; }
   if (lv==='ultra' || DET.lv[lv] || DET.busy) return;
   DET.busy=lv;
-  const {w,h}=worldSize();
+  const {w,h}=cookSize();
   const key=fkey();
   const a=await dbGet('dtd16'+lv+'|'+key), b=await dbGet('dtl16'+lv+'|'+key),
         c=await dbGet('dth16'+lv+'|'+key);
@@ -5668,7 +5700,8 @@ async function ensureDetail(lv, bg){
     if ($('scrMain').classList.contains('on')) viewRepaint();
   };
   wk.onerror=()=>{ wk.terminate(); DET.busy=null; };
-  wk.postMessage({dD, lD, hl, W:w, H:h, shape:DET_SHAPE[lv]}, [dD.buffer, lD.buffer, hl.buffer]);
+  wk.postMessage({dD, lD, hl, W:w, H:h, shape:DET_SHAPE[lv], q:COOK_Q},
+    [dD.buffer, lD.buffer, hl.buffer]);
 }
 // every layer in, nothing painted under it: the composite reassembles the
 // photograph, so the photograph itself is the better source - sharper, and
@@ -5683,11 +5716,43 @@ function viewSrc(){
   const base = state.img || WARM_STANDIN;
   if (!base) return null;
   if (state.img && plainRef()) return state.img;
+  // A layer view, asked for while the finer sampling is still landing. Drop
+  // back to the rate whose planes are already in hand - the artist gets their
+  // layers this frame instead of a bare photograph, and the finer pass comes
+  // back the next time they are looking at the plain reference.
+  if (COOK_Q>1 && !(FORM.cv && FORM.key===fkey())){
+    COOK_Q=1;
+    if (COOK_RETRY) clearTimeout(COOK_RETRY);
+    COOK_RETRY=setTimeout(()=>{ COOK_RETRY=null; cookUpgrade(); }, 20000);
+  }
   if (!(FORM.cv && FORM.key===fkey())){
     ensureForm();                     // async; the photo stands in meanwhile
     return base;
   }
   return state.img ? compositeCv() : base;
+}
+let COOK_RETRY=null;
+// Sample the same tools more finely, in the background, once the drawing is
+// already open and the artist is looking at the plain reference (which needs
+// no planes at all, so nothing flickers). Never runs during an open.
+async function cookUpgrade(){
+  try{
+    const q=cookFineQ();
+    if (q<=1 || COOK_Q>1) return;
+    if (!$('scrMain').classList.contains('on') || !plainRef()) return;
+    const before=fkey();
+    await new Promise(r=>setTimeout(r,600));
+    if (fkey()!==before || !plainRef() || !$('scrMain').classList.contains('on')) return;
+    COOK_Q=q;
+    const k=fkey();
+    ensureForm();
+    for (let i=0;i<4000;i++){
+      if (fkey()!==k) return;                 // reverted, or a new photo
+      if (FORM.key===k) break;
+      await new Promise(r=>setTimeout(r,200));
+    }
+    if (fkey()===k && $('scrMain').classList.contains('on')) viewRepaint();
+  }catch(e){}
 }
 function viewRepaint(){ paintWorld(); }
 const canvasBlob=(c,type,q)=>{
@@ -5713,7 +5778,7 @@ async function ensureForm(){
     }catch(e){}
   }
   if (!state.img){ FORM.busy=null; return; }   // warm open: decode pending
-  const {w,h}=worldSize();
+  const {w,h}=cookSize();
   const gray=grayData(state.img);
   const wk=new Worker(URL.createObjectURL(new Blob([FORM_SRC],{type:'text/javascript'})));
   wk.onmessage=ev=>{
@@ -7939,50 +8004,59 @@ function crossPass(src, W, H, isMax){
   }
   return out;
 }
-function toolOpen(delta, W, H, shape){
+function toolOpen(delta, W, H, shape, q){
   // a mark exists only where the tool fits inside it; otherwise blank
+  //
+  // q is the sampling rate. The tools below are pencil tips measured on the
+  // PAPER - a 3-across square, an L1 diamond of radius 2 - so every element
+  // is scaled by q and the mark stays physically the same size. A 3-across
+  // element has no exact even multiple, which is why q is odd: at q=3 the
+  // span is 9 and the radius is 4, exactly three times the tool. At q=1
+  // every expression below reduces to the original literal.
   let a;
   const N2=W*H;
-  const diamond=()=>{                    // cross twice = the L1 diamond r2
-    let d=crossPass(delta,W,H,false);
-    d=crossPass(d,W,H,false);
-    d=crossPass(d,W,H,true);
-    d=crossPass(d,W,H,true);
+  q = (q===3) ? 3 : 1;
+  const R = (3*q-1)/2;                   // line/diagonal radius: 1 at q=1, 4 at q=3
+  const DR = 2*q;                        // cross repeats for the diamond: 2, then 6
+  const diamond=()=>{                    // cross DR times = the L1 diamond, scaled
+    let d=delta;
+    for (let i=0;i<DR;i++) d=crossPass(d,W,H,false);
+    for (let i=0;i<DR;i++) d=crossPass(d,W,H,true);
     return d;
   };
   if (shape==='midbroad'){               // between the mid and nearbroad tools
-    let s=linePass(delta,W,H,1,true,false);
-    s=linePass(s,W,H,1,false,false);
-    s=linePass(s,W,H,1,false,true);
-    s=linePass(s,W,H,1,true,true);
-    let o=linePass(delta,W,H,1,true,false);
-    o=linePass(o,W,H,1,false,false);
-    o=diagPass(o,W,H,1,false,false);
-    o=diagPass(o,W,H,1,true,false);
-    o=diagPass(o,W,H,1,true,true);
-    o=diagPass(o,W,H,1,false,true);
-    o=linePass(o,W,H,1,false,true);
-    o=linePass(o,W,H,1,true,true);
+    let s=linePass(delta,W,H,R,true,false);
+    s=linePass(s,W,H,R,false,false);
+    s=linePass(s,W,H,R,false,true);
+    s=linePass(s,W,H,R,true,true);
+    let o=linePass(delta,W,H,R,true,false);
+    o=linePass(o,W,H,R,false,false);
+    o=diagPass(o,W,H,R,false,false);
+    o=diagPass(o,W,H,R,true,false);
+    o=diagPass(o,W,H,R,true,true);
+    o=diagPass(o,W,H,R,false,true);
+    o=linePass(o,W,H,R,false,true);
+    o=linePass(o,W,H,R,true,true);
     const d=diamond();
     a=new Float32Array(N2);
     for (let i=0;i<N2;i++) a[i]=(s[i]+d[i])*0.25 + (o[i]*0.75+d[i]*0.25)*0.5;
   } else if (shape==='mid'){             // halfway between 9px square and 13px diamond
-    let s=linePass(delta,W,H,1,true,false);
-    s=linePass(s,W,H,1,false,false);
-    s=linePass(s,W,H,1,false,true);
-    s=linePass(s,W,H,1,true,true);
+    let s=linePass(delta,W,H,R,true,false);
+    s=linePass(s,W,H,R,false,false);
+    s=linePass(s,W,H,R,false,true);
+    s=linePass(s,W,H,R,true,true);
     const d=diamond();
     a=new Float32Array(N2);
     for (let i=0;i<N2;i++) a[i]=(s[i]+d[i])*0.5;
   } else {                               // nearbroad: 21px octagon eased a
-    let o=linePass(delta,W,H,1,true,false);   // touch toward the diamond
-    o=linePass(o,W,H,1,false,false);
-    o=diagPass(o,W,H,1,false,false);
-    o=diagPass(o,W,H,1,true,false);
-    o=diagPass(o,W,H,1,true,true);
-    o=diagPass(o,W,H,1,false,true);
-    o=linePass(o,W,H,1,false,true);
-    o=linePass(o,W,H,1,true,true);
+    let o=linePass(delta,W,H,R,true,false);   // touch toward the diamond
+    o=linePass(o,W,H,R,false,false);
+    o=diagPass(o,W,H,R,false,false);
+    o=diagPass(o,W,H,R,true,false);
+    o=diagPass(o,W,H,R,true,true);
+    o=diagPass(o,W,H,R,false,true);
+    o=linePass(o,W,H,R,false,true);
+    o=linePass(o,W,H,R,true,true);
     const d=diamond();
     a=new Float32Array(N2);
     for (let i=0;i<N2;i++) a[i]=o[i]*0.75+d[i]*0.25;
@@ -7993,9 +8067,10 @@ function toolOpen(delta, W, H, shape){
 }
 onmessage=e=>{
   const {dD, lD, hl, W, H, shape}=e.data;
+  const q=e.data.q||1;
   const N=W*H;
   postMessage({p:0.1});
-  const oD=toolOpen(dD,W,H,shape);
+  const oD=toolOpen(dD,W,H,shape,q);
   const a=new Uint8Array(N);
   for (let i=0;i<N;i++){ const v=Math.round(oD[i]); a[i]=v<0?0:(v>255?255:v); }
   postMessage({p:0.55});
@@ -8003,7 +8078,7 @@ onmessage=e=>{
   // give the shine back only where the achieved mark covers it
   const cm=new Float32Array(N);
   for (let i=0;i<N;i++){ const v=lD[i]+hl[i]; cm[i]=v>255?255:v; }
-  const oL=toolOpen(cm,W,H,shape);
+  const oL=toolOpen(cm,W,H,shape,q);
   const b=new Uint8Array(N), c=new Uint8Array(N);
   for (let i=0;i<N;i++){
     const t=oL[i], tot=lD[i]+hl[i];
