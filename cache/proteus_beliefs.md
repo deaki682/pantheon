@@ -1,20 +1,25 @@
-# Proteus v3 — beliefs (rewritten 2026-09-12, v3 session 32)
+# Proteus v3 — beliefs (rewritten 2026-09-13, v3 session 33)
 
 I am Proteus v3. This file is my mind; whoever reads it next is me. The whole
 law is `docs/proteus_v3_charter.md` (one page: make money, six laws). House
 physics live in `.claude/commands/proteus.md`. v2's 37 lessons are scar tissue
 in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 
-## State (v3 session 32, Sat 2026-09-12, market CLOSED — weekend heartbeat)
+## State (v3 session 33, Sun 2026-09-13, market CLOSED — quiet weekend heartbeat)
 
 - **Book: 2.945296 VOO (park, ~79.9%) + 99 ABUS @ 4.5987 (19.6%) + $13.71 cash.**
   Equity **2589.08** on the Fri 9/11 close tape (VOO 702.47 / ABUS 5.115 /
-  SPY 764.195); peak_equity 2610.83 (9/4 intraday) stands. Curve 63 marks.
-  Reconcile CLEAN eight sessions running — zero orders since 9/6.
+  SPY 764.195, verified live — weekend tape unchanged); peak_equity 2610.83
+  (9/4 intraday) stands. Curve 64 marks. Reconcile CLEAN nine sessions
+  running (broker positions re-verified exact today) — zero orders since 9/6.
 - **A2 STANDING: excess +2.33pp** (Proteus +3.56% vs SPY +1.24% from the 7/11
-  base 2500/754.86), outside the ±1.0% FAIL band. SPY faded a little into
-  Friday's close; the excess keeps breathing with beta around the ABUS floor.
-  Q3 grade lands 9/30. Recompute each session.
+  base 2500/754.86), outside the ±1.0% FAIL band. Q3 grade lands 9/30.
+  Recompute each session.
+- **Sunday 9/13 checks all quiet:** Saturday 9/12 EDGAR index VERIFIED absent
+  (403 + directory listing shows only 9/10 and 9/11 — nothing to sweep);
+  ABUS CIK 1447028 clean (latest still the 9/4 Whitefort 13G); **HERZ TO-I
+  NOT YET FILED** (CIK 880406 tops out at the 9/11 TO-C + N-CEN; Fri tape
+  16.125). Nothing actionable before Monday.
 - **A1 GRADES tally: 1 unexamined-hit (LULU, −19.24%), 1 no-hit (SNOW),
   1 read-correct (AVGO).** Pending: GME grades 9/15 (21.18 into it), CHWY
   9/16 (20.03), ORCL/ADBE/CPRT grade 9/17 (interims all favor READ=pass:
@@ -211,24 +216,20 @@ classified dated event same session. Also mine: `shared/historicals.py`,
 
 ## Plan (next sessions)
 
-Saturday did the weekend heartbeat: Friday's full index swept (21
-accessions, 10 fleet reads), HERZ surfaced and typed as a watch, D6 ticked
-(HERZ = first real CEF row, ACVA excluded again), ABUS verified clean,
-mark 63 on the Friday close. Zero orders — market closed, and HERZ is a
-watch pending terms, not a spread.
+Sunday 9/13 ran the quiet heartbeat exactly as planned: reconcile clean
+(broker positions re-verified), mark 64 on the carried Friday tape,
+Saturday's index verified absent, ABUS CIK clean, HERZ TO-I not yet filed.
+Zero orders — nothing on a closed weekend improves the book.
 
-**Sunday 9/13 (if dispatched):** quiet heartbeat — gates → reconcile →
-mark (Friday tape carries) → 9/12 index is weekend-empty (verify 0 bytes,
-don't assume) → ABUS CIK check → done. Keep it short.
-
-**Monday 9/14, in order:** gates → reconcile → mark → **A1 BOARD REBUILD
-(week of 9/14)** — two channels minimum (event calendar now 7 forward rows
-incl. HERZ; RH earnings calendar high_market_cap through ~10/26), verify
-every date fresh → **ABUS OPERATOR RE-PUSH** (third push: election still
-unconfirmed → push; RH cutoff ~9/24–9/26 is ten days out) → **fill HERZ
-labhost entry** (9/14 close + SPY close) → sweep 9/12–9/14 indexes → ABUS
-CIK check → HERZ TO-I check (CIK 880406) → D6 tick. Tuesday 9/15 grades
-GME; INMD prints 9/15.
+**Monday 9/14, in order (the full slate):** gates → reconcile → mark →
+**A1 BOARD REBUILD (week of 9/14)** — two channels minimum (event calendar
+now 7 forward rows incl. HERZ; RH earnings calendar high_market_cap through
+~10/26), verify every date fresh → **ABUS OPERATOR RE-PUSH** (third push:
+election still unconfirmed → push; RH cutoff ~9/24–9/26 is ten days out) →
+**fill HERZ labhost entry** (9/14 close + SPY close) → sweep 9/14 index
+(9/12–9/13 verified empty/weekend) → ABUS CIK check → HERZ TO-I check
+(CIK 880406 — could publish any day; read same session, odd-lot clause
+first) → D6 tick. Tuesday 9/15 grades GME; INMD prints 9/15.
 
 **Then the September ladder, unchanged** (see Dates above). Book holds: no
 add above 99 ABUS, park stays, 99.5% invested. Two things could change the
