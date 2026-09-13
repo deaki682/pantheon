@@ -892,7 +892,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v415</span>
+    <span id="verNum">v416</span>
   </div>
 </div>
 <div id="delModal">
@@ -2358,6 +2358,17 @@ function refCap(){
   }catch(e){}
   return 4096;
 }
+// The bytes to DECODE for the working canvas. The original is always what
+// is stored, synced and exported; this only picks the cheapest source that
+// still carries every pixel this device is going to draw.
+async function openSrc(gid, blob){
+  try{
+    if (gid==null) return blob;
+    const rec=await galGet(gid);
+    if (rec && rec.work && rec.workW && rec.workW >= refCap()) return rec.work;
+    return (rec && rec.blob) || blob;
+  }catch(e){ return blob; }
+}
 function openPhoto(blob, gid, retry){
   const my = ++OPEN_SEQ;                  // stale decodes must not land
   galActive = gid ?? null; galLoading = 0.15;
@@ -2393,13 +2404,16 @@ function openPhoto(blob, gid, retry){
     flatten(g, cw, ch);
     g.drawImage(img, 0, 0, cw, ch);
     if (sc < 1 && gid != null){
-      // shrink the stored copy once (always the colour original - B&W is
-      // applied at open) so future opens skip the giant decode entirely
+      // A working copy for fast opens - kept BESIDE the original, never
+      // instead of it. This used to overwrite rec.blob, which quietly threw
+      // away the artist's file: a 24MP photo became a 4096px JPEG on disk,
+      // and that degraded copy was what synced to their other devices and
+      // what every future open drew from. The original is theirs; it stays.
       try{
-        const nb = canvasBlob(c, 'image/jpeg', 0.92);
+        const nb = canvasBlob(c, 'image/jpeg', 0.94);
         if (nb) (async()=>{ try{
           const rec = await galGet(gid);
-          if (rec && rec.blob){ rec.blob = nb; await galPut(rec); }
+          if (rec && rec.blob){ rec.work = nb; rec.workW = cw; await galPut(rec, true); }
         }catch(e){} })();
       }catch(e){}
     }
@@ -2469,7 +2483,11 @@ function openPhoto(blob, gid, retry){
     galActive = null;
     toast('could not read that reference\u2019s stored image', false, 5000);
     $('upStat').textContent = TR('could not read that file'); };
-  img.src = URL.createObjectURL(blob);
+  // decode the cheapest source that still holds every pixel this device
+  // will draw; the original stays untouched on disk either way
+  openSrc(gid, blob).then(b=>{
+    if (my===OPEN_SEQ) img.src = URL.createObjectURL(b||blob);
+  }).catch(()=>{ if (my===OPEN_SEQ) img.src = URL.createObjectURL(blob); });
 }
 
 // ---- instant reopen: a reference that was formatted and fully cooked
@@ -4081,9 +4099,17 @@ async function applyFormat(){
   const wIn = physWIn(), hIn = wIn*cr.h/cr.w;
   // resolution from the physical size (96 ppi), capped so vast drawings
   // don't cook unmanageable images
+  // Resolution used to be a flat 96 ppi of the PAPER, so a 24MP photo drawn
+  // at 30cm became a 1134px working image and zooming in showed mush. Work
+  // at the photo's OWN resolution instead - never invent detail it does not
+  // have, never throw away detail it does. The only ceiling is what this
+  // device can cook and hold: the planes are several times this many pixels.
+  // This sizes the COOK - the layer planes - and every one of them is
+  // computed per pixel, about 3s per megapixel on a mid-range phone. It is
+  // deliberately modest. It no longer decides how sharp the reference looks:
+  // the plain reference is drawn from the photo itself (see refQ/viewSrc),
+  // so detail and cook time are no longer the same dial.
   let ppi = 96;
-  // the cook holds several planes of this size; a 4GB phone gets a smaller
-  // world (still far beyond its screen) rather than a dead renderer
   const WMAX = refCap()<=2560 ? 6e6 : refCap()<4096 ? 9e6 : 13e6;
   if (wIn*hIn*96*96 > WMAX) ppi = Math.sqrt(WMAX/(wIn*hIn));
   const w = Math.round(wIn*ppi), h = Math.round(w*cr.h/cr.w);
@@ -4776,19 +4802,47 @@ addEventListener('resize', () => { if ($('scrMain').classList.contains('on')){
   Object.assign(PANS.x, ovState()); Object.assign(PANS.y, ovState());
   applyView();
 } });
+// How many times finer the artist's photo is than the cooked world. The
+// reference canvas carries THAT many pixels while still occupying the world's
+// layout box, so zooming in shows the photograph rather than a magnified
+// cook. Bounded by what the device can hold: a canvas is 4 bytes a pixel.
+function refQ(){
+  try{
+    const src=state.img; const {w}=worldSize();
+    if (!src || !src.width || !w) return 1;
+    const cap = refCap()<=2560 ? 6e6 : refCap()<4096 ? 10e6 : 14e6;
+    let q = src.width / w;
+    if (q <= 1.02) return 1;
+    const {h}=worldSize();
+    if (w*h*q*q > cap) q = Math.sqrt(cap/(w*h));
+    return Math.max(1, q);
+  }catch(e){ return 1; }
+}
+function refSize(){
+  const {w,h}=worldSize(), q=refQ();
+  return { w:Math.max(1,Math.round(w*q)), h:Math.max(1,Math.round(h*q)), q };
+}
 function paintWorld(){
   // the re-derivable layers: reference, grid, dimming - callable again after
   // the browser evicts canvas memory in the background
   const {w,h} = worldSize();
-  const g = $('refImg').getContext('2d');
+  const cv = $('refImg');
+  const r = refSize();
+  if (cv.width!==r.w || cv.height!==r.h){
+    cv.width=r.w; cv.height=r.h;
+    cv.style.width=w+'px'; cv.style.height=h+'px';
+  }
+  const g = cv.getContext('2d');
   g.imageSmoothingQuality='high';
   const src = viewSrc();
-  if (src) g.drawImage(src, 0, 0, w, h);
+  if (src) g.drawImage(src, 0, 0, r.w, r.h);
   applyGrid();
 }
 function initMain(){
   const {w,h} = worldSize();
-  { const cv=$('refImg'); cv.width=w; cv.height=h; }
+  { const cv=$('refImg'); const r=refSize();
+    cv.width=r.w; cv.height=r.h;
+    cv.style.width=w+'px'; cv.style.height=h+'px'; }
   // a photo always opens on the full image: panel closed, every layer in.
   // The pencil button is the door to the shading workshop.
   $('hud').style.display='none';
@@ -5616,9 +5670,19 @@ async function ensureDetail(lv, bg){
   wk.onerror=()=>{ wk.terminate(); DET.busy=null; };
   wk.postMessage({dD, lD, hl, W:w, H:h, shape:DET_SHAPE[lv]}, [dD.buffer, lD.buffer, hl.buffer]);
 }
+// every layer in, nothing painted under it: the composite reassembles the
+// photograph, so the photograph itself is the better source - sharper, and
+// free
+function plainRef(){
+  if (UNDER || UGROUND!=='off') return false;
+  return document.body.classList.contains('colorRef')
+    ? (LAYERS_C.dk && LAYERS_C.mid && LAYERS_C.lt && LAYERS_C.br)
+    : (LAYERS.dk && LAYERS.lt && LAYERS.hl);
+}
 function viewSrc(){
   const base = state.img || WARM_STANDIN;
   if (!base) return null;
+  if (state.img && plainRef()) return state.img;
   if (!(FORM.cv && FORM.key===fkey())){
     ensureForm();                     // async; the photo stands in meanwhile
     return base;

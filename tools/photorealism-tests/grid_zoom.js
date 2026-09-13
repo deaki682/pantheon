@@ -21,11 +21,18 @@ const { chromium } = require('playwright-core');
     if (document.querySelector('#scrFormat.on')){ $('unit').value='cm'; $('widthIn').value='30'; $('fmtGo').click(); }
     for (let i=0;i<1500;i++){ if (document.querySelector('#scrMain.on')&&GRID_READY) break; await new Promise(r=>setTimeout(r,100)); }
   });
-  const base = await pg.evaluate(()=>({ready:GRID_READY, s:view.s, world:[WORLD.w,WORLD.h],
-    refImg:[$('refImg').width,$('refImg').height]}));
+  const base = await pg.evaluate(()=>{
+    const cv=$('refImg');
+    return { ready:GRID_READY, s:view.s, world:[WORLD.w,WORLD.h],
+      backing:[cv.width,cv.height],
+      laidOut:[cv.offsetWidth, cv.offsetHeight] };
+  });
   console.log('on the drawing screen:', JSON.stringify(base));
-  console.log('image canvas matches the grid world:',
-    base.refImg[0]===base.world[0] ? 'ok' : 'MISMATCH (grid and image would drift)');
+  console.log('reference occupies exactly the grid world:',
+    Math.abs(base.laidOut[0]-base.world[0])<=1 && Math.abs(base.laidOut[1]-base.world[1])<=1
+      ? 'ok' : 'MISMATCH (grid and image would drift)');
+  console.log('reference carries more pixels than the world:',
+    base.backing[0]>base.world[0] ? 'ok ('+base.backing[0]+'px vs '+base.world[0]+')' : 'no (source was not finer)');
   // zoom in with the wheel, let it settle, and see whether the grid re-baked
   const vp = await pg.locator('#viewport').boundingBox();
   for (let i=0;i<6;i++){ await pg.mouse.move(vp.x+vp.width/2, vp.y+vp.height/2); await pg.mouse.wheel(0,-240); await pg.waitForTimeout(60); }
