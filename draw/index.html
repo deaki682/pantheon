@@ -318,7 +318,25 @@ body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.75)}
 /* the ad card floats over the page's BOTTOM 80px. Flex screens clear
    it with padding; the drawing page reserves NOTHING - the paper runs
    under the card and only the corner buttons float up, no band */
-html.adOn .screen{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+/* --adh is the strip's REAL height, measured by the shell and sent through
+   __adH. 76px is only the opening guess; a phone set to a large system font
+   grows the strip past it, and anything the page had put in that band was
+   simply hidden. Everything that must clear the ad reads this one value. */
+html.adOn .screen{padding-bottom:calc(var(--adh,76px) + env(safe-area-inset-bottom))}
+/* a centred panel is not a .screen: it was free to hang its lower half,
+   button and all, underneath the ad */
+html.adOn #introModal,html.adOn #gearModal,html.adOn #a11yModal,
+html.adOn #accModal,html.adOn #shModal,html.adOn #gridModal,
+html.adOn #setModal,html.adOn #refModal,html.adOn #dlModal,
+html.adOn #arModal,html.adOn #modeModal,html.adOn #delModal,
+html.adOn #gsdModal,html.adOn #dgModal{
+  padding-bottom:calc(var(--adh,76px) + env(safe-area-inset-bottom));
+  box-sizing:border-box}
+/* and whatever the text does - translation, a large system font - the panel
+   scrolls inside what is left rather than growing off the screen */
+#introPanel,#gearPanel,#a11yPanel,#accPanel,#shPanel,#gridPanel,#setPanel,
+#refPanel,#dlPanel,#arPanel,#modePanel,#delPanel,#gsdPanel,#dgPanel{
+  max-height:calc(100% - 20px);overflow-y:auto}
 html.adOn #scrMain{padding-bottom:0}
 html.adOn #hudWrap,html.adOn #detCorner,html.adOn #gridCorner,
 html.adOn #underCorner,html.adOn #camCorner{
@@ -326,7 +344,7 @@ html.adOn #underCorner,html.adOn #camCorner{
 html.adOn body.uiHid #hudWrap,html.adOn body.uiHid #detCorner,
 html.adOn body.uiHid #gridCorner,html.adOn body.uiHid #underCorner,
 html.adOn body.uiHid #camCorner{transform:translate(-50%,290%)}
-html.adOn #noAdsTxt{bottom:calc(86px + env(safe-area-inset-bottom)) !important}
+html.adOn #noAdsTxt{bottom:calc(var(--adh,76px) + 10px + env(safe-area-inset-bottom)) !important}
 /* the buffer band (and any exposed screen edge) matches the working
    screens' ground, so the lift never reads as a black bar */
 #scrMain,#scrCompare{background:#2a2a2a}
@@ -874,7 +892,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v414</span>
+    <span id="verNum">v415</span>
   </div>
 </div>
 <div id="delModal">
@@ -1543,6 +1561,14 @@ function adSync(){
 // yields cleanly (it returns the moment the card retracts)
 window.__adCorner = on => {
   try{ document.documentElement.classList.toggle('adCorner', !!on); }catch(e){}
+};
+// the shell measured its ad strip: this many of OUR pixels are covered
+window.__adH = px => {
+  try{
+    const v=Math.max(0, Math.round(+px||0));
+    document.documentElement.style.setProperty('--adh', (v||76)+'px');
+    if (TIPSTATE && TIPSTATE.re) TIPSTATE.re();
+  }catch(e){}
 };
 window.__adOn = on => {
   let changed=false;
@@ -2654,6 +2680,16 @@ renderGallery();
 // next.
 const TOUR={};
 let TIPSTATE=null;
+// the band along the bottom the ad strip is sitting on, in page pixels.
+// A tip bubble clamped to innerHeight alone parked its text and its close
+// button underneath the ad, where neither could be read or pressed.
+function adPx(){
+  try{
+    if (!document.documentElement.classList.contains('adOn')) return 0;
+    const v=getComputedStyle(document.documentElement).getPropertyValue('--adh');
+    return Math.max(0, parseFloat(v)||76);
+  }catch(e){ return 0; }
+}
 function tipClose(chain){
   if (!TIPSTATE) return;
   const t=TIPSTATE; TIPSTATE=null;
@@ -2686,10 +2722,11 @@ function tip(targetId, txt, opts){
   st.re=()=>{
     if (TIPSTATE!==st) return;
     const bw=bub.offsetWidth, bh=bub.offsetHeight;
+    const FLOOR=innerHeight-adPx();       // nothing legible lives below this
     if (!t){                              // no target: centered statement
       bub.style.right='auto';
       bub.style.left=((innerWidth-bw)/2)+'px';
-      bub.style.top=(Math.max(10,(innerHeight-bh)*0.4))+'px';
+      bub.style.top=(Math.max(10,(FLOOR-bh)*0.4))+'px';
       bub.style.visibility='';
       return;
     }
@@ -2703,7 +2740,7 @@ function tip(targetId, txt, opts){
     if (side){
       // anchored on the edge nearest the column, so the bubble's own width
       // (it settles after the first measure) only ever grows AWAY from it
-      const by=Math.min(Math.max(r.top+r.height/2-bh/2, 10), innerHeight-bh-10);
+      const by=Math.min(Math.max(r.top+r.height/2-bh/2, 10), FLOOR-bh-10);
       if (r.left>innerWidth*0.8){ bub.style.left='auto'; bub.style.right=(innerWidth-r.left+16)+'px'; }
       else { bub.style.right='auto'; bub.style.left=(r.right+16)+'px'; }
       bub.style.top=by+'px';
@@ -2713,8 +2750,12 @@ function tip(targetId, txt, opts){
     }
     bub.style.right='auto';
     const bx=Math.min(Math.max(cx-bw/2, 10), innerWidth-bw-10);
-    const above = !opts.below && r.top-bh-16 >= 10;
-    const by = above ? r.top-bh-16 : Math.min(innerHeight-bh-10, r.bottom+16);
+    // below the target only if it actually FITS above the ad; otherwise the
+    // bubble goes above it even when the caller asked for below
+    const roomBelow = FLOOR-10-bh >= r.bottom+16;
+    const above = (!opts.below || !roomBelow) && r.top-bh-16 >= 10;
+    const by = above ? r.top-bh-16
+                     : Math.max(10, Math.min(FLOOR-bh-10, r.bottom+16));
     bub.style.left=bx+'px'; bub.style.top=by+'px';
     bub.style.visibility='';
     car.style.display='';

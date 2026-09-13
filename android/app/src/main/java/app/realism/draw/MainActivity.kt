@@ -308,6 +308,15 @@ class MainActivity : AppCompatActivity() {
         root.addView(adWrap, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT,
             android.view.Gravity.BOTTOM))
+        // The page used to assume this strip was 76px tall. It is
+        // WRAP_CONTENT around text sized in SP, so a phone set to a large
+        // system font grows it past 76 and the bottom of the page - the
+        // last line, the button under it - ends up UNDERNEATH the ad, with
+        // nothing on either side aware of it. Measure it instead and tell
+        // the page exactly how many of its own pixels are covered.
+        adWrap.addOnLayoutChangeListener { _, _, top, _, bottom, _, oTop, _, oBottom ->
+            if (bottom - top != oBottom - oTop) reportAdHeight()
+        }
         adCornerWrap = FrameLayout(this)
         adCornerWrap.visibility = android.view.View.GONE
         run {
@@ -697,6 +706,15 @@ class MainActivity : AppCompatActivity() {
         meta.text = listOf(stars, tail).filter { it.isNotBlank() }.joinToString(" ")
         meta.visibility = if (meta.text.isNullOrBlank()) android.view.View.GONE else android.view.View.VISIBLE
         col.addView(meta)
+        // These three lines are sized in SP, so a phone set to a large system
+        // font stacks them past the 64dp artwork and the whole strip grows,
+        // taking a bite out of the page. Drop the least important lines
+        // instead of letting an ad eat the app - the page is told the real
+        // height either way, but this keeps the strip its intended size for
+        // almost everyone.
+        val fs = resources.configuration.fontScale
+        if (fs > 1.15f) meta.visibility = android.view.View.GONE
+        if (fs > 1.45f) body.visibility = android.view.View.GONE
         row.addView(col, android.widget.LinearLayout.LayoutParams(
             0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
         val cta = adCta(ad, ::dp, 20)
@@ -932,6 +950,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         js("window.__adOn && __adOn(" + slot + ")")
+        reportAdHeight()
         // ---- corner half ------------------------------------------------
         if (adCornerShown && !(adBase() && adOnProj)) adCollapse()
         else if (!adCornerShown && adBase() && adOnProj) adTryShow()
@@ -1128,6 +1147,21 @@ class MainActivity : AppCompatActivity() {
                 override fun onBillingServiceDisconnected() {}
             })
         } catch (e: Throwable) { logLine("billing init: " + e.message) }
+    }
+
+    // how much of the WebView the strip actually hides, in the page's own
+    // pixels. Sent on every layout change and whenever the slot is applied,
+    // so a system font-size change lands without a relaunch.
+    private var adSentH = -1
+    private fun reportAdHeight() {
+        try {
+            val d = resources.displayMetrics.density
+            val h = if (adWrap.visibility == android.view.View.VISIBLE)
+                        Math.ceil(adWrap.height / d.toDouble()).toInt() else 0
+            if (h == adSentH) return
+            adSentH = h
+            js("window.__adH && __adH(" + h + ")")
+        } catch (e: Throwable) {}
     }
 
     private fun logLine(s: String) {
