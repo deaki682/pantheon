@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v429</span>
+    <span id="verNum">v430</span>
   </div>
 </div>
 <div id="delModal">
@@ -3545,11 +3545,18 @@ function fmtPreview(){
   // resize when the size really moved; otherwise just clear.
   const nw = Math.round(cr.w*css*dpr), nh = Math.round(cr.h*css*dpr);
   const g = cv.getContext('2d');
-  if (cv.width!==nw || cv.height!==nh){
+  // ...and cropRect() rounds to whole SOURCE pixels, so the aspect it hands
+  // back is not exactly the sheet's: zoomed in, 4032x3024 becomes 1551x1163,
+  // and the preview lands on 785 rows instead of 786. One pixel, a tenth of
+  // a percent - but it reallocated the canvas and threw away the whole grid
+  // overlay on every single frame of a pinch. Ignore jitter that small; the
+  // picture is drawn to fill whatever the canvas is, so nothing shifts.
+  const jitter = Math.abs(cv.width-nw)<=1 && Math.abs(cv.height-nh)<=1;
+  if (!jitter){
     cv.width = nw; cv.height = nh;
     cv.style.width = Math.round(cr.w*css)+'px';
     cv.style.height = Math.round(cr.h*css)+'px';
-  } else g.clearRect(0,0,nw,nh);
+  } else g.clearRect(0,0,cv.width,cv.height);
   g.imageSmoothingQuality='high';
   g.drawImage(photo, cr.x, cr.y, cr.w, cr.h, 0, 0, cv.width, cv.height);
   const wIn = physWIn();
