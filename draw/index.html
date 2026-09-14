@@ -929,7 +929,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v443</span>
+    <span id="verNum">v444</span>
   </div>
 </div>
 <div id="delModal">
@@ -1575,8 +1575,13 @@ function bloomIn(){
     clearTimeout(bloomIn._g);
     bloomIn._g=setTimeout(()=>{ try{
       if (!(GRID_READY && $('scrMain').classList.contains('on'))) return;
-      const c=$('gridCv'), r=vpBox(), d=devicePixelRatio||1;
-      if (Math.abs(c.width-Math.round(r.width*d))>1 || Math.abs(c.height-Math.round(r.height*d))>1) applyView();
+      // the canvas carries the overscan band and a clamped dpr, so ask for
+      // the size drawGrid would actually produce - comparing against the
+      // bare viewport made this fire on every entry, and on a dpr>3 device
+      // it fired whether or not anything was wrong
+      const c=$('gridCv'), r=vpBox(), d=Math.min(3, devicePixelRatio||1), P=gridPad();
+      const wantW=Math.round((r.width+2*P)*d), wantH=Math.round((r.height+2*P)*d);
+      if (Math.abs(c.width-wantW)>1 || Math.abs(c.height-wantH)>1) applyView();
     }catch(e){} }, 360);
   }catch(e){}
 }
@@ -5009,9 +5014,16 @@ function applyView(){
     // and keeps the cheap ride) - past 8px, re-bake mid-gesture. Pans only
     // exist zoomed in, where a redraw is light, so the grid tracks the
     // finger with no blank areas
-    const w0=GRID_DRAWN.w||0, h0=GRID_DRAWN.h||0;
-    const gap=Math.max(tx, ty, w0-(tx+k*w0), h0-(ty+k*h0));
-    if (gap>8){
+    // How much of the VIEWPORT would the transformed band fail to cover?
+    // The band's top-left sits at -P, so after translate+scale (origin 0 0)
+    // it spans -P+tx .. -P+tx+k*(w0+2P). Anything of 0..w0 outside that is
+    // bare. Negative means slack still in hand. With P=0 this reduces to
+    // the old |tx| - which is why a drag used to re-bake every frame.
+    const w0=GRID_DRAWN.w||0, h0=GRID_DRAWN.h||0, P0=GRID_DRAWN.p||0;
+    const gap=Math.max(
+      tx-P0, ty-P0,
+      w0+P0-tx-k*(w0+2*P0), h0+P0-ty-k*(h0+2*P0));
+    if (gap>-4){
       drawGrid();
       drawCircs();
       return;
@@ -5065,16 +5077,13 @@ function doneCenter(q, step, w, h){
 function drawCircs(){
   const cv=$('circCv'), r=vpBox();
   if (!r.width || !GRID_READY) return;
-  const dpr=Math.min(3, devicePixelRatio||1);
-  const W2=Math.round(r.width*dpr), H2=Math.round(r.height*dpr);
-  if (cv.width!==W2 || cv.height!==H2){
-    cv.width=W2; cv.height=H2;
-    cv.style.width=r.width+'px'; cv.style.height=r.height+'px';
-  }
+  const dpr=gridDpr();
+  const P=gridPad();
+  const { W2, H2 } = padCanvas(cv, r, P, dpr);
   const g=cv.getContext('2d');
   g.clearRect(0,0,W2,H2);
   cv.style.transform='';
-  const sc=view.s*dpr, ox=view.x*dpr, oy=view.y*dpr;
+  const sc=view.s*dpr, ox=(view.x+P)*dpr, oy=(view.y+P)*dpr;
   if (GRID_ON && DONE.length){
     // progress dots ride the overlay so they stay bright white - the grid
     // canvas's difference blend would invert them square by square
@@ -5097,36 +5106,75 @@ function drawCircs(){
 // them means the whole lattice again AND a full-canvas pass to colour it.
 function gridSig(r){
   return [Math.round(view.x*8), Math.round(view.y*8), Math.round(view.s*4096),
-    Math.round(r.width), Math.round(r.height), GRID_ON, GRID_STYLE, GRID_SUB,
+    Math.round(r.width), Math.round(r.height), gridPad(),
+    GESTURE.active?'g':'-', GRID_ON, GRID_STYLE, GRID_SUB,
     GRID_LAB, GRID_LPOS, GRID_LSCH, GRID_COL, GRID_OP, GRID_THK,
     Math.round(gridStepPx()*64), CKEY||'', COMP.sig||'', DET_SHOWN||'',
     DONE.length, UNDER, UGROUND, UCOL].join('|');
 }
 let GRID_SIG=null;
+// The grid is rasterized over a band LARGER than the viewport. That band is
+// the whole reason a drag can be smooth: mid-gesture the canvas rides a
+// transform of its last bake, and a pan is only forced to re-bake once it
+// has dragged the band's own margin off the screen. With no margin the ride
+// died on the first frame of any real drag - a finger crosses ~20px a frame
+// and the trailing edge went bare immediately - so every single pointermove
+// re-rasterized the whole canvas. The margin costs memory, so it is
+// budgeted by what the device says it has.
+function gridPad(){
+  const r=vpBox(); if (!r.width) return 0;
+  const dpr=Math.min(3, devicePixelRatio||1);
+  const dm=navigator.deviceMemory||4;
+  let P = dm>=8 ? 160 : dm>=4 ? 110 : 56;
+  const budget = dm>=8 ? 16e6 : dm>=4 ? 11e6 : 6e6;   // device px per canvas
+  while (P>0 && (r.width+2*P)*(r.height+2*P)*dpr*dpr > budget) P-=8;
+  return Math.max(0, P);
+}
+// both overlay canvases carry the same band, so one transform moves them
+// together and the maths below is the same for each
+function padCanvas(cv, r, P, dpr){
+  const W2=Math.round((r.width+2*P)*dpr), H2=Math.round((r.height+2*P)*dpr);
+  if (cv.width===W2 && cv.height===H2 && cv.dataset.pad===String(P))
+    return { W2, H2, sized:true };
+  cv.width=W2; cv.height=H2;
+  cv.style.width=(r.width+2*P)+'px'; cv.style.height=(r.height+2*P)+'px';
+  cv.style.left=(-P)+'px'; cv.style.top=(-P)+'px';
+  cv.dataset.pad=String(P);
+  return { W2, H2, sized:false };
+}
+// A re-bake that lands mid-drag is a stall the finger feels. The band makes
+// them rare; this makes the rare ones cheap - while the fingers are down the
+// bake runs at a coarser resolution (half the pixels) and the crisp one
+// lands the moment they lift, which is the only moment the artist is
+// actually looking at the line rather than moving it.
+const GEST_DPR=0.7;
+function gridDpr(){
+  const d=Math.min(3, devicePixelRatio||1);
+  return (GESTURE.active ? d*GEST_DPR : d);
+}
 function drawGrid(){
   const cvv=$('gridCv'), r=vpBox();
   if (!r.width || !GRID_READY) return;
-  const dpr=Math.min(3, devicePixelRatio||1);
-  const W2=Math.round(r.width*dpr), H2=Math.round(r.height*dpr);
-  const sized = cvv.width===W2 && cvv.height===H2;
+  const dpr=gridDpr();
+  const P=gridPad();
+  const W2=Math.round((r.width+2*P)*dpr), H2=Math.round((r.height+2*P)*dpr);
+  const sized = cvv.width===W2 && cvv.height===H2 && cvv.dataset.pad===String(P);
   const sig = gridSig(r);
   if (sized && GRID_SIG===sig && !cvv.style.transform){
-    GRID_DRAWN={x:view.x, y:view.y, s:view.s, w:r.width, h:r.height};
+    GRID_DRAWN={x:view.x, y:view.y, s:view.s, w:r.width, h:r.height, p:P};
     drawEdgeLabs();
     return;                       // already on the canvas, to the pixel
   }
   GRID_SIG=sig;
-  if (!sized){
-    cvv.width=W2; cvv.height=H2;
-    cvv.style.width=r.width+'px'; cvv.style.height=r.height+'px';
-  }
+  if (!sized) padCanvas(cvv, r, P, dpr);
   const g=cvv.getContext('2d');
   g.clearRect(0,0,W2,H2);
   cvv.style.transform='';
   $('circCv').style.transform='';
-  GRID_DRAWN={x:view.x, y:view.y, s:view.s, w:r.width, h:r.height};
+  GRID_DRAWN={x:view.x, y:view.y, s:view.s, w:r.width, h:r.height, p:P};
   const {w,h}=worldSize();
-  const sc=view.s*dpr, ox=view.x*dpr, oy=view.y*dpr;
+  // the canvas sits at -P, so the paper's origin on it is P further in
+  const sc=view.s*dpr, ox=(view.x+P)*dpr, oy=(view.y+P)*dpr;
   const x0=Math.max(0,ox), x1=Math.min(W2, ox+w*sc);
   const y0=Math.max(0,oy), y1=Math.min(H2, oy+h*sc);
   // where punch is available the lattice is a plain SHAPE, coloured from the
@@ -5236,11 +5284,14 @@ function drawGrid(){
     g.textAlign='left';
   }
   g.globalAlpha=1;
-  if (punchOn()){
+  if (GRID_ON && punchOn()){
     // Everything above drew the lattice in white. Now colour it: threshold
     // what it sits on - the paper, and the reference over it - and keep only
     // the lattice's own shape out of the result. Dark goes white, light goes
     // black, nothing lands in between.
+    // Gated on GRID_ON: with the grid switched off there is no shape for
+    // source-in to keep, and this was still running the whole full-canvas
+    // composite to produce nothing.
     const ok=punchWorld(g, ox, oy, sc);
     if (!ok) cvv.style.mixBlendMode='difference';   // no filters here
   }
@@ -6572,6 +6623,31 @@ function expFreeRoom(){
   }catch(e){}
   try{ if (ED && !ED.on){ ED.pre=null; ED.gray=null; ED.preData=null;
     ED.tone=null; ED.orig=null; } }catch(e){}
+  // the two grid overlays carry the overscan band that keeps a drag smooth -
+  // 28-47MB of it, and not one pixel of it is used by the export, which
+  // composes its own picture from scratch. Unlike everything else freed
+  // here these are ON SCREEN, so the export owes them back: expRestore
+  // bakes them at both exits, and a watchdog covers a throw in between.
+  try{
+    for (const id of ['gridCv','circCv']){
+      const c=$(id); if (!c || !c.width) continue;
+      c.width=1; c.height=1; delete c.dataset.pad;
+    }
+    GRID_SIG=null; GRID_DRAWN=null;
+    EXP_BUSY=true;
+    clearTimeout(expFreeRoom._w);
+    expFreeRoom._w=setTimeout(()=>{ if (EXP_BUSY) expRestore(); }, 20000);
+  }catch(e){}
+}
+let EXP_BUSY=false;
+function expRestore(){
+  EXP_BUSY=false;
+  try{
+    clearTimeout(expFreeRoom._w);
+    if (!$('scrMain').classList.contains('on')) return;
+    GRID_SIG=null; GRID_DRAWN=null;
+    applyView();
+  }catch(e){}
 }
 $('expBtn').onclick = async () => {
   // the current visualization, exactly as composed: layers, detail, grid.
@@ -6724,7 +6800,9 @@ $('expBtn').onclick = async () => {
     // the Android WebView has no download listener - an anchor download is
     // silently dropped, so this export must go through the bridge, the same
     // always-ask door as the comparison download
-    if (await natSaveCanvas(fname, c)){ hapticOK(); gcPing('/download'); }
+    const ok2 = await natSaveCanvas(fname, c);
+    expRestore();                              // the band comes back either way
+    if (ok2){ hapticOK(); gcPing('/download'); }
     return;                                    // the bridge toasts the result
   }
   const blob=canvasBlob(c,'image/jpeg',0.95);
@@ -6733,6 +6811,7 @@ $('expBtn').onclick = async () => {
   a.download=fname;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
+  expRestore();
   toast('image downloaded');
   hapticOK();
   gcPing('/download');
@@ -6830,7 +6909,11 @@ function punchWorld(g, ox, oy, sc){
   g.globalAlpha=1;
   g.globalCompositeOperation='source-in';
   g.imageSmoothingEnabled=true;
-  g.imageSmoothingQuality='high';
+  // the map is one pixel a CELL - about 14x8 - blown up ~150x to fill the
+  // canvas, and at that ratio a mitchell filter and plain bilinear land on
+  // the same pixels: 0.01% of them differ by more than 6%. 'high' was
+  // costing 289ms of a 311ms drag frame for a difference nobody can see.
+  g.imageSmoothingQuality='low';
   g.drawImage(m.cv, 0,0,m.bw,m.bh, ox-st/2, oy-st/2, m.bw*st, m.bh*st);
   g.restore();
   g.globalCompositeOperation='source-over';
@@ -6861,7 +6944,12 @@ function punchPaint(g, W, H, paintBackdrop, step){
   g.globalAlpha=1;
   g.globalCompositeOperation='source-in';
   g.imageSmoothingEnabled=true;
-  g.imageSmoothingQuality='high';
+  // same upscale, same reasoning as punchWorld: one pixel a cell blown up
+  // to fill the canvas, where the expensive filter is indistinguishable
+  // from bilinear. (The DOWNSCALE above keeps 'high' - that one is
+  // averaging the photograph, and a coarse filter there would change which
+  // cells come out black and which white.)
+  g.imageSmoothingQuality='low';
   g.drawImage(th, 0,0,bw,bh, -st/2, -st/2, bw*st, bh*st);
   g.restore();
   g.globalCompositeOperation='source-over';
