@@ -43,12 +43,16 @@ const { chromium } = require('playwright-core');
     const r = await pg.evaluate(async ()=>{
       applyGrid(); drawGrid();
       await new Promise(x=>requestAnimationFrame(()=>requestAnimationFrame(x)));
+      // a repeat redraw is a no-op now, so force real work to time it
+      // a repeat redraw is a no-op now, so force real work to time it
+      try{ GRID_SIG=null; }catch(e){}
       const t0=performance.now(); drawGrid();
       await new Promise(x=>requestAnimationFrame(()=>requestAnimationFrame(x)));
       const ms=Math.round(performance.now()-t0);
       // the same redraw with the OLD inverting grid, for comparison
       const keep=CTX_FILTER_OK;
       try{ Object.defineProperty(window,'CTX_FILTER_OK',{value:false,configurable:true}); }catch(e){}
+      try{ GRID_SIG=null; }catch(e){}
       const t1=performance.now(); drawGrid();
       await new Promise(x=>requestAnimationFrame(()=>requestAnimationFrame(x)));
       const msOld=Math.round(performance.now()-t1);

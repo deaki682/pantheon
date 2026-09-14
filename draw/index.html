@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v436</span>
+    <span id="verNum">v437</span>
   </div>
 </div>
 <div id="delModal">
@@ -3529,6 +3529,7 @@ function resNoteSync(){
 }
 let FMT_GRID=null;   // the cached grid overlay
 let FMT_PUNCH=null;  // and one scratch canvas to colour it in
+let FMT_PHOTO=null;  // the photograph as drawn, while the crop holds still
 function fmtPreview(){
   if (!photo) return;
   resNoteSync();
@@ -3559,7 +3560,26 @@ function fmtPreview(){
     cv.style.height = Math.round(cr.h*css)+'px';
   } else g.clearRect(0,0,cv.width,cv.height);
   g.imageSmoothingQuality='high';
-  g.drawImage(photo, cr.x, cr.y, cr.w, cr.h, 0, 0, cv.width, cv.height);
+  // The photograph only needs resampling when the CROP moves. Changing a grid
+  // setting, opening this screen, coming back to it - the crop is exactly
+  // where it was, and redrawing twelve megapixels to land on the same
+  // thousand-pixel canvas was the bulk of what those cost. Keep the drawn
+  // photograph and blit it; a pan still pays for its own redraw.
+  const pk = Math.round(cr.x)+'|'+Math.round(cr.y)+'|'+Math.round(cr.w)+'|'
+    +Math.round(cr.h)+'|'+cv.width+'x'+cv.height;
+  if (!FMT_PHOTO) FMT_PHOTO={of:null,k:'',cv:document.createElement('canvas')};
+  if (FMT_PHOTO.of!==photo || FMT_PHOTO.k!==pk
+      || FMT_PHOTO.cv.width!==cv.width || FMT_PHOTO.cv.height!==cv.height){
+    const pc=FMT_PHOTO.cv;
+    if (pc.width!==cv.width || pc.height!==cv.height){ pc.width=cv.width; pc.height=cv.height; }
+    const pg2=pc.getContext('2d');
+    pg2.imageSmoothingQuality='high';
+    pg2.globalCompositeOperation='copy';
+    pg2.drawImage(photo, cr.x, cr.y, cr.w, cr.h, 0, 0, pc.width, pc.height);
+    pg2.globalCompositeOperation='source-over';
+    FMT_PHOTO.of=photo; FMT_PHOTO.k=pk;
+  }
+  g.drawImage(FMT_PHOTO.cv, 0, 0);
   const wIn = physWIn();
   const hIn = wIn * ((+$('heightIn').value||1)/(+$('widthIn').value||1));
   const step = cv.width*cellIn()/wIn;
@@ -5013,12 +5033,31 @@ function drawCircs(){
   for (const c of CIRCS)
     paintMark(g, ox+c.x*sc, oy+c.y*sc, circR()*sc, 10*dpr, Math.max(2, 2.2*dpr));
 }
+// everything the drawn lattice depends on. Coming back to this screen with
+// nothing moved, the canvas already holds exactly these pixels - and redrawing
+// them means the whole lattice again AND a full-canvas pass to colour it.
+function gridSig(r){
+  return [Math.round(view.x*8), Math.round(view.y*8), Math.round(view.s*4096),
+    Math.round(r.width), Math.round(r.height), GRID_ON, GRID_STYLE, GRID_SUB,
+    GRID_LAB, GRID_LPOS, GRID_LSCH, GRID_COL, GRID_OP, GRID_THK,
+    Math.round(gridStepPx()*64), CKEY||'', COMP.sig||'', DET_SHOWN||'',
+    DONE.length, UNDER, UGROUND, UCOL].join('|');
+}
+let GRID_SIG=null;
 function drawGrid(){
   const cvv=$('gridCv'), r=vpBox();
   if (!r.width || !GRID_READY) return;
   const dpr=Math.min(3, devicePixelRatio||1);
   const W2=Math.round(r.width*dpr), H2=Math.round(r.height*dpr);
-  if (cvv.width!==W2 || cvv.height!==H2){
+  const sized = cvv.width===W2 && cvv.height===H2;
+  const sig = gridSig(r);
+  if (sized && GRID_SIG===sig && !cvv.style.transform){
+    GRID_DRAWN={x:view.x, y:view.y, s:view.s, w:r.width, h:r.height};
+    drawEdgeLabs();
+    return;                       // already on the canvas, to the pixel
+  }
+  GRID_SIG=sig;
+  if (!sized){
     cvv.width=W2; cvv.height=H2;
     cvv.style.width=r.width+'px'; cvv.style.height=r.height+'px';
   }
