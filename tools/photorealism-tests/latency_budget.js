@@ -62,6 +62,20 @@ const BUDGET = 100;              // ms from the tap to the painted result
     ['open the edit window',    `return edOpenFor('tone');`],
     ['zoom in the edit window', `ED.z.s=Math.min(8,(ED.z.s||1)*1.6); edPaint();`],
     ['close the edit window',   `edClose(false);`],
+    // added this pass: the crop preview, where the artist reported that a
+    // diagonal grid "lags like crazy" while a square one is fine
+    ['open the size screen',    `show('scrFormat'); fmtPreview();`],
+    // Each pan step must NOT change the grid style: switching it rebuilds the
+    // overlay, so alternating styles here would time a cache rebuild and call
+    // it a pan. Pick the style in its own step, then pan.
+    ['crop: pick a square grid',  `CELLSZ.u='cm'; CELLSZ.v=0.5; GRID_STYLE='sq'; fmtPreview();`],
+    ['pan the crop, square',      `FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
+    ['crop: pick a diagonal grid',`CELLSZ.u='cm'; CELLSZ.v=0.5; GRID_STYLE='diag'; fmtPreview();`],
+    ['pan the crop, diagonal',    `FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
+    ['pinch the crop, diagonal',  `FMT_ZOOM=(FMT_ZOOM>2?1.4:2.6); fmtPreview();`],
+    ['crop: pick a dotted grid',  `CELLSZ.u='cm'; CELLSZ.v=0.5; GRID_STYLE='dots'; fmtPreview();`],
+    ['pan the crop, dots',        `FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
+    ['change the grid style',     `gsSet(GRID_STYLE==='diag'?'sq':'diag');`],
   ];
   // A single reading is noisy enough to cross the budget by itself, so each
   // interaction is run REPS times and reported by its median. Chasing one
