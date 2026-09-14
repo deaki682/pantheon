@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v427</span>
+    <span id="verNum">v428</span>
   </div>
 </div>
 <div id="delModal">
@@ -4024,7 +4024,14 @@ function edBuildPre(){
   sg.drawImage(src, 0, 0, small.width, small.height);
   sg.filter='none';
   if (grey) forceGray(small);
-  ED.pre=editApply(small, {...EDIT_DEF, rot:R.rot, fh:R.fh, fv:R.fv, ang:R.ang});
+  // Only orientation is passed here, so with none of it set editApply is an
+  // identity: a second 1280px canvas allocated, the first drawn onto it
+  // through a rotate(0)/scale(1,1), and the original thrown away. That is
+  // the state the window opens in almost every time it is opened.
+  const turned = ((R.rot%4)+4)%4 || R.fh || R.fv || R.ang;
+  ED.pre = turned
+    ? editApply(small, {...EDIT_DEF, rot:R.rot, fh:R.fh, fv:R.fv, ang:R.ang})
+    : small;
   // the pixel arrays are ONLY read by the tone pipeline, and the window opens
   // with every tone control at its default, so reading a megapixel back off
   // the GPU and walking it was work nobody had asked for yet
