@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v424</span>
+    <span id="verNum">v425</span>
   </div>
 </div>
 <div id="delModal">
@@ -3980,11 +3980,19 @@ function edBuildPre(){
     forceGray(small);
   }
   ED.pre=editApply(small, {...EDIT_DEF, rot:R.rot, fh:R.fh, fv:R.fv, ang:R.ang});
+  // the pixel arrays are ONLY read by the tone pipeline, and the window opens
+  // with every tone control at its default, so reading a megapixel back off
+  // the GPU and walking it was work nobody had asked for yet
+  ED.gray=null; ED.preData=null;
+}
+function edEnsureGray(){
+  if (ED.gray || !ED.pre) return;
   const g=ED.pre.getContext('2d',{willReadFrequently:true});
   const d=g.getImageData(0,0,ED.pre.width,ED.pre.height).data;
   const N=ED.pre.width*ED.pre.height;
-  ED.gray=new Float32Array(N);
-  for (let i=0;i<N;i++) ED.gray[i]=d[i*4];
+  const gray=new Float32Array(N);
+  for (let i=0;i<N;i++) gray[i]=d[i*4];
+  ED.gray=gray;
   ED.preData = ED.colr ? new Uint8ClampedArray(d) : null;
 }
 function edRender(){
@@ -4007,10 +4015,20 @@ function edRender(){
   // it. Cache it against the values it actually depends on.
   const tKey = (ED.colr?'c':'g')+'|'+[R.exp,R.con,R.hi,R.sh,R.wh,R.bl,R.dn,R.shp,
     R.sat,R.vib,R.wrm,R.tnt].join(',')+'|'+pre.width+'x'+pre.height;
+  // With every tone control at its default the toned buffer IS the preview,
+  // so building one is a megapixel of work to arrive back where we started.
+  // That is the state the window opens in on an unedited reference, which is
+  // most of the time it is opened at all.
+  const flat = !R.exp && R.con===100 && !R.hi && !R.sh && !R.wh && !R.bl
+    && !R.dn && !R.shp && !R.sat && !R.vib && !R.wrm && !R.tnt;
   let toned;
-  if (ED.tone && ED.toneKey===tKey){
+  if (flat){
+    toned = pre;
+    ED.tone=null; ED.toneKey=null;
+  } else if (ED.tone && ED.toneKey===tKey){
     toned = ED.tone;
   } else {
+  edEnsureGray();
   toned=document.createElement('canvas');
   toned.width=pre.width; toned.height=pre.height;
   const tg=toned.getContext('2d');
