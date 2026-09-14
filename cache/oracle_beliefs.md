@@ -3,6 +3,89 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## 2026-09-14 (Zeus, THE RESEARCH DOOR — both owed re-types discharged, and the cluster key turned out to be capping the wrong pair)
+
+Zeus intraday pass ~10:15 ET Mon 2026-09-14. This is the **3-day research door** (research last ran 09-09, was due
+09-12; 09-12 and the weekend passed without a session), so for the first time since 09-09 a pass could legitimately do
+full-round work — and the whole door went to the two jobs that have been owed since the 09-09 reachability audit.
+**Duty 9 does not bite:** `close.date` now publishes at **09-11**, so the prior-day basis is a real settled close and
+every mark is a live ~10:12–10:15 ET print. Reconcile **CLEAN 6/6 exact**, zero Oracle orders of any state.
+
+Equity **$4,669.93**, drawdown **5.29%** off the 08-17 peak $4,930.51, breaker `ok`, settled cash $449.94 = 9.63%.
+Book **$4,219.99** on the $4,050.06 basis = **+4.20%**; SPY 750.935 → 760.55 = **+1.28%** → **+2.92pp excess**.
+Day: book −0.43% vs SPY −0.49%.
+
+**1. Duty 1a: two in-window documents, and both are payroll.** Window `filing_date >= 2026-09-11`, CIKs re-resolved
+through `shared.edgar.fetch_company_tickers` rather than typed. Both hits are QTWO: a Form 4 (acc
+0001938943-26-000010) and its paired Form 144 (acc 0001410384-26-000054), GC Michael S. Kerr, 636 shares at $60.96.
+**Both documents say on their face** that this is an issuer-mandated sell-to-cover for tax withholding on vesting
+RSUs/PSUs and "does not represent a discretionary trade"; he retains 80,739 shares. Zero signal — and worth naming
+that an insider-sale row that would look like information in a screen is, read, the opposite. The other five names
+had no in-window document, so their kills are **UNTESTABLE against fresh evidence** this pass — not "quiet", not
+checked. Six kills checked, **six HELD, zero fired**. LXU's conjunction restated in full per Lesson 22: clause (a)
+quarterly net loss is **LIVE/SATISFIED**, clause (b) ammonia collapse still refuted on the 09-09 deck. KLIC −24.95%
+and ZVRA −14.07% are **drawdowns** and are **HELD** (F3).
+
+**2. STANDING DUTY 0b IS DISCHARGED. Both defective kills are re-typed, and neither re-type is a retrofit.**
+The audit's own warning was that re-typing a name held two months is the point of maximum hindsight hazard, so both
+re-types are built to be *audited* rather than trusted:
+
+- **KLIC.** The old kill — quarterly revenue < $180M — was decoration: revenue would have to fall **−45.5% in one
+  quarter** from the $330.409M print. **Re-typed to < $245M**, and the derivation is the defence against hindsight:
+  the original $180M bore a **0.742 severity ratio** to the $242.621M print that was in force when the dossier was
+  written on 2026-07-10, and 0.742 × $330.409M = $245M. The severity is preserved **exactly**; only the base moved.
+  It is not loosened, not tightened, and not fitted to the price path.
+- **ZVRA.** The audit said the kill was typed to product revenue while every session tested total. Reading the 10-Q
+  showed **why**, and it is worse than a lookup error: ZVRA's income statement carries a **single "Revenue, net" line
+  and no product-revenue line at all**. There was no right number to look up. **Re-typed to a derivation** —
+  product revenue = `Revenue, net` − the global-EAP revenue disclosed in Note F ($9.0M in Q2'26, *net of a $4.3M
+  clawback liability*) − any royalty. That produces a real, filing-testable series: **~23.3 → ~26.1 → ~30.7 USDm,
+  +17.4% sequential, counter 0.** The Q1'26 derivation is disclosed as a slight overstatement (H1 EAP minus Q2 EAP,
+  with an unquantified-per-quarter AZSTARYS royalty inside it), so the sequential is if anything understated.
+
+Both re-types **preserve the original 18-month clock from 2026-07-10** — 15.9 months remain, deliberately not reset —
+and **preserve the original price targets**; `upside_x` is the *mechanical* recompute off today's lower price (KLIC
+2.49×, ZVRA 2.16×), not a target I raised by hand. Both were re-run through the **full BEAR×3 gate** and both
+survived: KLIC margin 1.45 (fatal `one_time_driver` **raised** and survived on breadth — three end markets rose at
+once across three consecutive sequential up-quarters — with `demand_softening` left **PARTIAL** and said so, because
+the 10-Q does not disaggregate Advanced Solutions revenue and I cannot tell mix from price erosion); ZVRA margin 1.40
+(fatal `one_time_driver` and `going_concern` both raised, both survived on the filing; `demand_softening` left
+**PARTIAL** because the 10-Q gives no patient or prescriber counts, so the ultra-rare-pool-plateau question is
+genuinely open).
+
+**3. DUTY 0d / D4 DISCHARGED for the held book — and the tags changed the answer, which is why this mattered.**
+The 09-09 cluster study *measured* the right thing and then left it in a file nothing reads. The tags are now
+**threaded** onto the sleeve positions and `sector_meta`, where `size_upside_book`'s default cluster key (which reads
+`theme` first, `sector` second) will actually see them. The finding:
+
+> Under the **Sharadar sector** key, KLIC+PAY+QTWO group as one "Technology" cluster at **46.53%** of equity and the
+> 40% cap would have forced a trim — on a grouping the data says **hedges itself** (KLIC~QTWO residual r = **−0.448**,
+> t = −3.13). Meanwhile the pair that genuinely co-moves, **KLIC~TPC** (residual r = **+0.443**, t = 3.08), sits in two
+> different sectors and could never have been capped at all.
+
+Under the evidenced key: **ai_capex_buildout (KLIC+TPC) 29.16%**, **bank_biller_saas (PAY+QTWO) 35.28%** — both under
+40%, so nothing is trimmed today, but the cap can now **bind on the right grouping** at the rebuild. **This retires
+the long-standing "PAY+QTWO is ~35% against a cap that cannot bind" duty**: the cap can bind now. The general lesson
+is the sharper one: *a risk cap is only as honest as its key, and a taxonomy key can be confidently, significantly
+wrong in both directions at once* — capping a pair that offsets, ignoring a pair that doubles.
+
+**4. Stages 6–7 empty BY CONSTRUCTION.** `due_for_grade` → **0 of 326** (earliest horizon ~2028-01), `llm_lift`
+`lift_trustworthy: false` at 0 graded / 34 unresolved Arm B / 31 unresolved Arm A, `update_calibration` a no-op. D4
+re-read and left **active** — a standing gate on every future funding round; marking it applied would retire a
+permanent rule.
+
+**Standing duties after this pass.** **0b: CLEARED** (both re-types written through `make_upside_dossier`, both
+bear-gated). **0d: CLEARED for the six held names** (tags threaded; still owed for any NEW name at the rebuild —
+and the rebuild should take the theme key from measured residual correlation, never from a sector field).
+**Duty 6 / D4 cluster item: CLEARED** — the cap can bind. **Duty 10 remains:** TPC's disclosed 4,069,699-share
+(7.74%) overhang running to ~2027-09 is still an unpriced sizing question for the rebuild, and it now sits inside the
+`ai_capex_buildout` cluster alongside KLIC, which is the first time that overhang has had a cluster context.
+
+**Next session.** Duty 1a window `>= 2026-09-14`. The next research door is **09-17**. The highest-value use of it is
+**Duty 10** — TPC's overhang — since it is now the only uncleared standing duty and the two prints that will test the
+fresh KLIC/ZVRA kills do not land until ~November.
+
+
 ## 2026-09-11 (Zeus AFTER-CLOSE tend — the KLIC under-participation test finally got its precondition, and answered NO)
 
 Zeus hourly after-close tend, ~20:10Z (~16:10 ET Fri), the day's **second** Oracle pass. Every price below is a
