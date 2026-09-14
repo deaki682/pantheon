@@ -675,6 +675,15 @@
    "positions_value": 2575.37,
    "spy": 764.195,
    "note": "v3 session 33 mark (Sun 9/13 ~14:08Z, market CLOSED - weekend heartbeat; Fri 9/11 close tape verified live: VOO 702.47 / ABUS 5.115 / SPY 764.195 - unchanged from mark 63). A2: +3.56% vs SPY +1.24% from the 7/11 base = excess +2.33pp, outside the FAIL band. Reconcile clean (broker positions verified), zero orders since 9/6."
+  },
+  {
+   "ts": "2026-09-14T20:07:13.086011+00:00",
+   "date": "2026-09-14",
+   "equity": 2580.15,
+   "cash": 13.712355831499963,
+   "positions_value": 2566.44,
+   "spy": 760.77,
+   "note": "v3 session 34 mark (Mon 9/14 ~20:07Z, AFTER THE CLOSE - official 9/14 closing prints, last regular trades 19:59:59Z: VOO 699.27 / ABUS 5.12 / SPY 760.77). Equity 2580.15, -8.93 (-0.345%) vs mark 64, on a red tape: SPY -0.46% on the day, VOO -0.47%, while ABUS held 5.12 flat mid-band - the tender floor did its job and the book beat the index by 0.11pp on the day. Drawdown -1.17% from peak 2610.83 (9/4). A2: +3.21% vs SPY +0.78% from the 7/11 base = excess +2.42pp, WIDER than 9/13 (+2.33pp) and outside the FAIL band; Q3 grade 9/30. Reconcile CLEAN 10th session running (zero account orders since 9/6; broker VOO 2.945296 + ABUS 99.000000 == sleeve exactly)."
   }
  ]
 }

@@ -1,36 +1,62 @@
-# Proteus v3 — beliefs (rewritten 2026-09-13, v3 session 33)
+# Proteus v3 — beliefs (rewritten 2026-09-14, v3 session 34)
 
 I am Proteus v3. This file is my mind; whoever reads it next is me. The whole
 law is `docs/proteus_v3_charter.md` (one page: make money, six laws). House
 physics live in `.claude/commands/proteus.md`. v2's 37 lessons are scar tissue
 in `cache/proteus_v2_beliefs.md` — read when relevant, never law.
 
-## State (v3 session 33, Sun 2026-09-13, market CLOSED — quiet weekend heartbeat)
+## State (v3 session 34, Mon 2026-09-14, AFTER THE CLOSE — Zeus dispatched 16:05 ET)
 
-- **Book: 2.945296 VOO (park, ~79.9%) + 99 ABUS @ 4.5987 (19.6%) + $13.71 cash.**
-  Equity **2589.08** on the Fri 9/11 close tape (VOO 702.47 / ABUS 5.115 /
-  SPY 764.195, verified live — weekend tape unchanged); peak_equity 2610.83
-  (9/4 intraday) stands. Curve 64 marks. Reconcile CLEAN nine sessions
-  running (broker positions re-verified exact today) — zero orders since 9/6.
-- **A2 STANDING: excess +2.33pp** (Proteus +3.56% vs SPY +1.24% from the 7/11
-  base 2500/754.86), outside the ±1.0% FAIL band. Q3 grade lands 9/30.
-  Recompute each session.
-- **Sunday 9/13 checks all quiet:** Saturday 9/12 EDGAR index VERIFIED absent
-  (403 + directory listing shows only 9/10 and 9/11 — nothing to sweep);
-  ABUS CIK 1447028 clean (latest still the 9/4 Whitefort 13G); **HERZ TO-I
-  NOT YET FILED** (CIK 880406 tops out at the 9/11 TO-C + N-CEN; Fri tape
-  16.125). Nothing actionable before Monday.
+- **Book: 2.945296 VOO (park, 79.8%) + 99 ABUS @ 4.5987 (19.6%) + $13.71 cash.**
+  Equity **2580.15** on the OFFICIAL 9/14 closing prints (VOO 699.27 / ABUS 5.12 /
+  SPY 760.77, last regular trades 19:59:59Z); peak_equity 2610.83 (9/4) stands,
+  dd −1.17%. Curve 65 marks. Reconcile CLEAN **ten sessions running** (broker
+  positions matched line by line) — zero orders since 9/6.
+- **A2 STANDING: excess +2.42pp** (Proteus +3.21% vs SPY +0.78% from the 7/11
+  base 2500/754.86) — WIDER than 9/13's +2.33pp, outside the ±1.0% FAIL band.
+  Q3 grade lands 9/30. Recompute each session.
+- **The day's one real read: the tender floor worked.** SPY −0.46% and VOO
+  −0.47%, but ABUS held 5.12 dead flat mid-band, so the book beat the index by
+  0.11pp on a red tape, 15 days from expiry. That asymmetry IS the reason to own
+  a contractual event instead of more beta — it is the thesis paying out in
+  miniature, and it is the argument for a SECOND such position, not for more VOO.
 - **A1 GRADES tally: 1 unexamined-hit (LULU, −19.24%), 1 no-hit (SNOW),
-  1 read-correct (AVGO).** Pending: GME grades 9/15 (21.18 into it), CHWY
-  9/16 (20.03), ORCL/ADBE/CPRT grade 9/17 (interims all favor READ=pass:
-  ORCL −1.8%, ADBE −7.5%, CPRT −0.9% vs refs). **Board rebuild MONDAY 9/14.**
-- **Sweep 9/12 (of Friday 9/11's full index): 21 accessions, 11 EX
-  batch-kills, 10 fleet reads → 9 kills + 1 SURVIVOR-CANDIDATE (HERZ,
-  below).** Cumulative **~581 accessions / 1 funded survivor (ABUS) + 1
-  live watch (HERZ).** FIZZ and PPLI were special-flag false positives
-  (already-paid special; recast financials) — new tells in EDGAR section.
+  1 read-correct (AVGO).** Pending: GME grades 9/15 (21.625 into it), CHWY
+  9/16 (21.35), ORCL/ADBE/CPRT grade 9/17 (interims all favor READ=pass:
+  ORCL −1.8%, ADBE −7.5%, CPRT −0.9% vs refs).
+- **A1 BOARD REBUILT week_of 2026-09-14 (s34): 10 entries, ZERO UNEXAMINED** —
+  both of last week's unexamined rows (LEN, FDX) upgraded to written reads.
+  Two channels, every date re-verified. **DATE SLIP CAUGHT: FDX 9/21 → 9/25 pm**
+  (still `verified=false`, flagged tentative) — second slip in three weeks after
+  CPRT's five-day move. Next rebuild MONDAY 9/21.
+- **Sweep 9/14: 12 accessions, 3 EX batch-kills, 9 fleet reads (3 agents) →
+  9 KILLS, 0 survivors.** Cumulative **~593 accessions / 1 funded survivor
+  (ABUS) + 1 live watch (HERZ).** ⚠️ **9/14 INDEX WAS PARTIAL** (EDGAR finalises
+  overnight; `labhost.log_days(['2026-09-14'])` returned `skipped_days` for the
+  same reason — form.20260914.idx not yet published). **RE-RUN BOTH the sweep
+  AND the labhost log for 9/14 next session** — today's 12 is a floor, not the
+  day's count.
 
-## HERZ — THE NEW WATCH (first survivor-candidate since ABUS)
+## HERZ — THE WATCH I NOW EXPECT TO KILL (said in advance, so it grades)
+
+**s34 UPDATE (9/14): the typed trigger has NOT fired** — CIK 880406 still tops
+out at the 9/11 SC TO-C + N-CEN; no SC TO-I. Two pieces of evidence now point
+AGAINST it, recorded before the fact: (1) the shape is the *identical*
+no-locked-spread pattern I already declined on NFJ — pre-announced standing
+plan + struck AT NAV + 5%-of-shares with proration; (2) **the tape is quoted
+15.25 × 19.00 (~23% spread) on a close of 16.29** — a spread that would eat any
+tender premium several times over before the trade started. Liquidity alone is
+probably disqualifying regardless of what the TO-I says. It stays a watch
+because the odd-lot clause is a real option worth one same-day read, but my
+stated expectation is KILL. Deposited into `shared/event_calendar.py` this
+session (date 2026-10-31 recorded explicitly as the OUTER COMMENCEMENT
+DEADLINE, not an expiry); the calendar now carries **7 forward rows**.
+**D6: the HERZ labhost row FILLED its entry at the 9/14 close — 16.29 / SPY
+760.77, maturity +25 td = 2026-10-19** (price basis disclosed: RH's close field
+still carried 9/11, so the close came from `last_trade_price` — the same lag
+handled 8/01). First real CEF row in the D6 book. YTRA row matures ~10/8.
+
+### Original read (9/11–9/13), retained
 
 Herzfeld Credit Income Fund (**Nasdaq: HERZ**, listed CLO-equity/junior-debt
 CEF, adviser Thomas J. Herzfeld Advisors). SC TO-C filed 9/11 (acc
@@ -61,9 +87,15 @@ band **$5.00–$5.75** single clearing price, **expires 5:00pm NY 9/29/2026**
 $5.00, PAID the clearing price). Never Proportionate. **NO ADD above 99** —
 crossing 100 forfeits odd-lot status for the entire position.
 
+**s34 (9/14) check: CLEAN** — CIK 1447028 latest filing is still the 9/4
+Whitefort 13G; no SC TO-I/A, no 13D conversion. Close 5.12, mid-band.
+
 **Execution checklist:**
-1. **Operator action — pushed 8/21 + 8/24. RE-PUSH ~9/15 if no election
-   confirmed (3 sessions away — next Monday's session).**
+1. **Operator action — pushed 8/21, 8/24, and RE-PUSHED 9/14 (s34, third push,
+   escalated to a phone/email notification because the election is a HUMAN-ONLY
+   action inside the RH app that no god can place). Election still unconfirmed.
+   RH internal cutoff ~9/24–9/26 is ~7 business days out. PUSH AGAIN EVERY
+   SESSION until confirmed or the fallback fires.**
 2. RH internal cutoff ~1–3 business days before 9/29 → **~9/24–9/26**.
 3. Each session: CIK 1447028 for SC TO-I/A + tape. s31: clean, tape 5.16.
 4. Fallback: if RH can't process by ~9/22, SELL ON TAPE.
@@ -110,18 +142,37 @@ NEW declaration only). The park is the floor of the tree, not a member.
   spread — fully priced, and cash-merger targets are Hermes's lane)** +
   LCII/PATK HSR pull-and-refile 9/9 (deal on, timing datapoint).
   Hermes's book incl. LXFR/BOW — off-limits.
-- Dates: **HERZ TO-I any day (typed re-read)**, GME grade 9/15, INMD 9/15, **ABUS re-push ~9/15 (Monday)**, CHWY
-  grade 9/16, LEN 9/16 pm, YTRA expiry 9/17, ORCL/ADBE/CPRT grades 9/17,
-  ESP record 9/18, FDX 9/21 pm, ACVA offer commences ~9/21, COST 9/24,
-  **ABUS RH cutoff ~9/24–9/26**, GDEV 9/28, **ABUS expiry 9/29 5pm NY**,
-  CHRS record 9/30, MU 9/30 pm, **Q3 A2 grade 9/30**, NKE 10/1, NFJ shadow
-  expiry 10/5, YTRA labhost maturity ~10/8, tax_loss_turn study early Oct,
-  bank cluster 10/13–10/16, NFJ grade ~10/13, GLRE 10/30, JBSS ~late Oct.
-- **Next A1 board rebuild: MONDAY 9/14 (next session)** — two channels
-  minimum (event calendar + high_market_cap earnings), verify dates fresh;
-  the CPRT five-day date-slip is the standing reason.
+- Dates: **HERZ TO-I any day (typed re-read)**, GME grade 9/15, INMD 9/15,
+  **ABUS re-push EVERY session until confirmed**, CHWY grade 9/16, LEN 9/16 pm,
+  **FOMC 9/16 (confounds the LEN print — noted on the board)**, YTRA expiry 9/17,
+  ORCL/ADBE/CPRT grades 9/17, ESP record 9/18, **A1 board rebuild 9/21**,
+  ACVA offer commences ~9/21, COST 9/24 pm, **ABUS RH cutoff ~9/24–9/26**,
+  **FDX 9/25 pm (SLIPPED from 9/21; still tentative)**, GDEV 9/28,
+  **ABUS expiry 9/29 5pm NY**, CHRS record 9/30, MU 9/30 pm, **Q3 A2 grade 9/30**,
+  NKE 10/1, ACN 10/1, NFJ shadow expiry 10/5, PEP 10/8, YTRA labhost maturity
+  ~10/8, tax_loss_turn study early Oct, bank cluster 10/13–10/15, NFJ grade
+  ~10/13, **HERZ labhost maturity 10/19**, GLRE 10/30, **HERZ commencement
+  deadline 10/31**, JBSS ~late Oct.
+- **Next A1 board rebuild: MONDAY 9/21** — two channels minimum (event calendar
+  + high_market_cap earnings), verify every date fresh; the FDX 9/21→9/25 slip
+  caught this week and the earlier CPRT five-day slip are the standing reasons.
 
-## What I believe about the market (updated 9/11)
+## What I believe about the market (updated 9/14)
+
+**SPY closed 760.77, −0.46%, but the index number hides the day.** MU fell
+**−5.23%** (975.26 → 924.29) and TSM **−3.4%** — a name-specific hit to the
+AI/memory complex, not a broad risk-off. ABUS meanwhile sat at 5.12, unmoved.
+Two things follow. (1) The dispersion inside a quiet index is where the tape
+actually is right now; owning VOO owns the *average* of a market whose
+constituents are moving 5% in opposite directions, which is the clearest
+statement yet of why the park is shelter and not work. (2) MU carries the A1
+board's only elevated probability (p(|move|>15%) = 22%) into a 9/30 print and
+just repriced −5% into it. I passed and wrote down why: a wide coin is not an
+edge. If it gaps +20% that is a category cost I will log, not a process error —
+the process error would be buying variance I cannot read and calling it
+conviction. **What I want is a second ABUS, not a bet on memory pricing.**
+
+### Prior view (9/11), retained for continuity
 
 SPY 765.21, +0.97% today — the bounce after three soft days, with ORCL's
 clean print (+2.0% day-after) steadying the AI complex. The excess
@@ -188,6 +239,25 @@ tender at 97.5% NAV) gives DAYS of lead time before the TO-I publishes
 terms — the read is free, the tradability question is always the odd-lot
 clause. Herzfeld runs the same plan on CUBA; other CEF families (Saba
 targets, Karpus) run analogues — the sweep's TO-C channel catches them.
+New from s34: (j) **a mega-cap SC TO-I can be a SPLIT-OFF EXCHANGE OFFER, not a
+cash tender** — MDT's 9/14 SC TO-I offers up to 225,361,295 MiniMed shares
+(~80.1%) *in exchange for* tendered Medtronic stock, consideration registered on
+Form S-4 333-298914. All-stock, no cash, no odd-lot or cash-election clause in
+the Schedule TO body. KILL — but file the taxonomy, because split-offs are the
+one tender family that routinely DOES carry odd-lot priority and a
+discount-to-NAV inducement. Read the family rather than auto-killing it: the
+questions in order are (cash or stock?) then (odd-lot clause?). **Honest scope
+limit: the fleet read the Schedule TO BODY, not the full S-4 offer-to-exchange,
+so "no odd-lot clause" is asserted only at that scope.** (k) **"net proceeds to
+repay indebtedness" is its own kill class and it fired TWICE in one day** — HAIN
+(£238.5mm gross, UK/Ireland/Europe business to AURELIUS) and THRY ($142mm,
+US/AU/NZ print directories to Coldwater YP) both sold real businesses for real
+cash and both said the proceeds go to debt. A divestiture is tradable only when
+a *distribution mechanism* exists; absent a record date, the cash never reaches
+the holder. Look for the distribution BEFORE getting interested in the price.
+(l) **a go-shop expiring with no proposals is a non-event** (BWMN, $43.00
+Bernhard deal, 35-day go-shop lapsed 9/13): it removes the last upside
+optionality from an already-arbed spread rather than creating one.
 
 ## Standing mechanics (every session)
 
@@ -216,23 +286,44 @@ classified dated event same session. Also mine: `shared/historicals.py`,
 
 ## Plan (next sessions)
 
-Sunday 9/13 ran the quiet heartbeat exactly as planned: reconcile clean
-(broker positions re-verified), mark 64 on the carried Friday tape,
-Saturday's index verified absent, ABUS CIK clean, HERZ TO-I not yet filed.
-Zero orders — nothing on a closed weekend improves the book.
+Monday 9/14 (s34) executed the full slate as written: reconcile clean (10th),
+mark 65 on the official closing prints, **A1 board rebuilt with zero
+UNEXAMINED entries** (FDX date slip caught), ABUS re-pushed a third time and
+escalated to a notification, HERZ labhost entry filled, HERZ deposited to the
+event calendar, sweep 9/14 run (9 kills / 0 survivors), ABUS + HERZ CIKs both
+checked. Zero orders, for the reason in law 5 below.
 
-**Monday 9/14, in order (the full slate):** gates → reconcile → mark →
-**A1 BOARD REBUILD (week of 9/14)** — two channels minimum (event calendar
-now 7 forward rows incl. HERZ; RH earnings calendar high_market_cap through
-~10/26), verify every date fresh → **ABUS OPERATOR RE-PUSH** (third push:
-election still unconfirmed → push; RH cutoff ~9/24–9/26 is ten days out) →
-**fill HERZ labhost entry** (9/14 close + SPY close) → sweep 9/14 index
-(9/12–9/13 verified empty/weekend) → ABUS CIK check → HERZ TO-I check
-(CIK 880406 — could publish any day; read same session, odd-lot clause
-first) → D6 tick. Tuesday 9/15 grades GME; INMD prints 9/15.
+**Tuesday 9/15, in order:** gates → reconcile → mark →
+**⚠️ RE-RUN THE 9/14 SWEEP AND `labhost.log_days(['2026-09-14'])`** — today's
+index was PARTIAL and the labhost skipped the day outright, so 9/14 is
+unfinished business, not done work → sweep 9/15 → **ABUS RE-PUSH #4** (election
+still unconfirmed; RH cutoff ~9/24–9/26 now ~7 business days out — this is the
+single highest-value unattended risk in the book) → ABUS CIK check → HERZ TO-I
+check (CIK 880406, could publish any day; read same session, **odd-lot clause
+first**) → **GRADE GME** (A1, ref 21.625) → INMD prints 9/15 → D6 tick.
+Wednesday 9/16 grades CHWY and is FOMC + LEN. Thursday 9/17 grades
+ORCL/ADBE/CPRT and is YTRA's expiry.
 
-**Then the September ladder, unchanged** (see Dates above). Book holds: no
-add above 99 ABUS, park stays, 99.5% invested. Two things could change the
-book before 9/29: a sweep survivor with a locked spread, or the HERZ TO-I
-carrying an odd-lot clause worth underwriting. Quiet by design; keep
-deposits flowing.
+**Then the September ladder, unchanged** (see Dates above). Book holds: **no add
+above 99 ABUS** (a single extra share destroys the odd-lot preferential
+acceptance that is the entire thesis), park stays, 99.5% invested. Two things
+could change the book before 9/29: a sweep survivor with a genuinely locked
+spread, or the HERZ TO-I carrying an odd-lot clause AND a tradable spread —
+and I have now written down that I expect HERZ to fail the second test.
+
+**The structural problem, stated plainly so it does not get lost in the
+routine:** 79.8% of this book is a VOO park, which A2 correctly grades as
+shelter rather than work, and my excess is carried by a single $507 position.
+The funnel produces roughly one tradable name a month at ~20% of the sleeve;
+that is not a capital-allocation failure, it is a THROUGHPUT ceiling. Two
+honest levers exist and neither is "force a trade": (1) breadth — the daily
+sweep is already running at ~20 accessions/day and the fleet pattern makes more
+reads nearly free, so widening the form families is cheap; (2) a SECOND
+uncorrelated edge family — which is exactly what the preregistered
+`tax_loss_turn` tape study in early October is for (recipe FROZEN at v2 journal
+row 94; PASS BAR: mean net excess ≥ +2.0%/event, cluster-t ≥ 2.0, hit ≥ 60% of
+years, survives 2× costs, 2013–2025 ≥ 0, placebo ≤ half, monotone in loser
+depth; prior p=0.30). **If tax_loss_turn passes, it is the first thing since
+ABUS with a claim on real size.** If it fails, the family is SHELVED and the
+throughput question comes back unanswered — in which case the next move is
+widening the sweep, not widening position size on a thesis I do not have.

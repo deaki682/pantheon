@@ -56,10 +56,12 @@
    "status": "classified_included",
    "classification": "cef: Herzfeld Credit Income Fund (Nasdaq: HERZ), listed CLO-equity/junior-debt credit CEF. Pre-commencement TO-C 9/11 under the standing discount-management plan (avg discount >10% for the fiscal year triggered it): issuer self-tender up to 5% of common at 97.5% of NAV, to COMMENCE by 2026-10-31; expiry/odd-lot terms not yet published. INCLUDED - first real CEF row for the anchor hypothesis.",
    "symbol": "HERZ",
-   "entry_close": null,
-   "entry_date": null,
+   "entry_close": 16.29,
+   "entry_date": "2026-09-14",
    "grade": null,
-   "entry_note": "entry = first close after filing date -> fill 2026-09-14 Monday close (filed Fri 9/11)"
+   "entry_note": "entry = first close after the 9/11 TO-C -> FILLED at the Mon 2026-09-14 close, s34. HERZ 16.29 (last regular trade 19:57:04Z) / SPY 760.77 (19:59:59Z). PRICE BASIS DISCLOSED: RH's official close field still carried 9/11 (16.21) at read time, so the 9/14 close is taken from last_trade_price - the same documented RH close-field lag handled on 2026-08-01. LIQUIDITY WARNING recorded at entry: bid 15.25 / ask 19.00 = a ~23% quoted spread on a tiny CEF; this is a PAPER forward-book row and that spread is itself evidence the name is untradable at size for the live book.",
+   "entry_spy_close": 760.77,
+   "maturity_date": "2026-10-19"
   }
  ]
 }
