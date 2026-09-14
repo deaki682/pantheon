@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v437</span>
+    <span id="verNum">v438</span>
   </div>
 </div>
 <div id="delModal">
@@ -6455,12 +6455,20 @@ async function natSaveImage(fname, b64){
 }
 $('expBtn').onclick = async () => {
   // the current visualization, exactly as composed: layers, detail, grid.
-  // The file renders at up to 2x the working resolution when the source
-  // photo carries the pixels - the grid and labels draw crisp at the
-  // bigger size instead of being rasterized small and scaled
+  // The file carries what the APP carries. It used to render at a flat 2x the
+  // paper's working size, which on a 12 megapixel photograph came out at 3024
+  // wide - smaller than the 3266 already on screen and well under the 4032
+  // being held. Whatever is actually being shown sets the size, so nothing
+  // the artist can see in the app is missing from the file.
   if (!state.img || !GRID_READY) return;
   const {w,h}=worldSize();
-  const k=Math.max(1, Math.min(2, (state.img.width||w)/w));
+  const shown=viewSrc();
+  let k=Math.max(1, Math.min(2, (state.img.width||w)/w));
+  if (shown && shown.width > w*k) k = shown.width / w;
+  // bounded by what the device can hold - a canvas is four bytes a pixel, and
+  // the encode needs room beside it
+  const MAXPX = refCap()<=2560 ? 8e6 : refCap()<4096 ? 12e6 : 17e6;
+  if (w*h*k*k > MAXPX) k = Math.sqrt(MAXPX/(w*h));
   const W=Math.round(w*k), H=Math.round(h*k);
   const c=document.createElement('canvas'); c.width=W; c.height=H;
   const g=c.getContext('2d');
