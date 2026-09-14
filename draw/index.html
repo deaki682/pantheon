@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v435</span>
+    <span id="verNum">v436</span>
   </div>
 </div>
 <div id="delModal">
@@ -3528,6 +3528,7 @@ function resNoteSync(){
   el.classList.add('on');
 }
 let FMT_GRID=null;   // the cached grid overlay
+let FMT_PUNCH=null;  // and one scratch canvas to colour it in
 function fmtPreview(){
   if (!photo) return;
   resNoteSync();
@@ -3563,7 +3564,7 @@ function fmtPreview(){
   const hIn = wIn * ((+$('heightIn').value||1)/(+$('widthIn').value||1));
   const step = cv.width*cellIn()/wIn;
   const auto = GRID_COL==='auto';
-  const punch = GRID_COL==='punch';
+  const punch = punchOn();
   // The lattice is laid out from the CANVAS origin: neither the pan offset
   // nor the zoom moves a single line of it, and the canvas keeps the paper's
   // aspect so it never changes size either. So every frame of a drag was
@@ -3579,9 +3580,21 @@ function fmtPreview(){
     if (punch){
       // the photograph is already on the canvas: threshold THAT, then keep
       // only the grid's own shape out of it
-      const lay=punchLayer(cv.width, cv.height,
-        lg=>lg.drawImage(cv,0,0), FMT_GRID.cv, step);
-      g.drawImage(lay,0,0);
+      // one scratch canvas for the life of the screen: allocating a
+      // megapixel per frame of a drag is most of what punch used to cost here
+      if (!FMT_PUNCH) FMT_PUNCH=document.createElement('canvas');
+      const mk=FMT_PUNCH;
+      if (mk.width!==cv.width||mk.height!==cv.height){ mk.width=cv.width; mk.height=cv.height; }
+      const mg=mk.getContext('2d');
+      mg.globalCompositeOperation='copy';
+      mg.drawImage(FMT_GRID.cv,0,0);
+      mg.globalCompositeOperation='source-over';
+      if (punchPaint(mg, cv.width, cv.height, lg=>lg.drawImage(cv,0,0), step))
+        g.drawImage(mk,0,0);
+      else {                       // no canvas filters: the old blend
+        g.globalCompositeOperation='difference';
+        g.drawImage(FMT_GRID.cv, 0, 0);
+      }
     } else {
       if (auto) g.globalCompositeOperation='difference';
       g.drawImage(FMT_GRID.cv, 0, 0);
@@ -3595,12 +3608,16 @@ function fmtPreview(){
 function fmtGridLayer(W, H, step, dpr){
   const oc=document.createElement('canvas'); oc.width=W; oc.height=H;
   const g=oc.getContext('2d');
+  // turning the grid off never reached this screen: GRID_ON was in the cache
+  // key but nothing ever read it, so the size screen drew a lattice the
+  // artist had switched off
+  if (!GRID_ON) return oc;
   if (!(step>0.5) || !isFinite(step)) return oc;
   const auto = GRID_COL==='auto';
   // in punch mode the layer is only a SHAPE - the colour comes from what is
   // beneath it - so it is drawn at full strength and GRID_OP alone decides
   // how strongly it lands
-  g.strokeStyle = GRID_COL==='punch' ? '#fff'
+  g.strokeStyle = punchOn() ? '#fff'
                 : auto ? 'rgba(255,255,255,0.75)' : GRID_COL;
   g.fillStyle = g.strokeStyle;
   g.globalAlpha=GRID_OP;
@@ -5014,10 +5031,11 @@ function drawGrid(){
   const sc=view.s*dpr, ox=view.x*dpr, oy=view.y*dpr;
   const x0=Math.max(0,ox), x1=Math.min(W2, ox+w*sc);
   const y0=Math.max(0,oy), y1=Math.min(H2, oy+h*sc);
-  cvv.style.mixBlendMode = GRID_COL==='auto' ? 'difference' : 'normal';
-  // punch draws the lattice as a plain SHAPE at full strength; the colour is
-  // decided afterwards, per pixel, from the reference underneath it
-  g.strokeStyle = GRID_COL==='punch' ? '#fff'
+  // where punch is available the lattice is a plain SHAPE, coloured from the
+  // reference afterwards; where it is not, it falls back to the inverting
+  // blend this grid used to be
+  cvv.style.mixBlendMode = (GRID_COL==='auto' && !punchOn()) ? 'difference' : 'normal';
+  g.strokeStyle = punchOn() ? '#fff'
                 : GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
   g.globalAlpha=GRID_OP;
   // thickness lives in PAPER space: a hairline at full fit, swelling
@@ -5120,19 +5138,13 @@ function drawGrid(){
     g.textAlign='left';
   }
   g.globalAlpha=1;
-  if (GRID_COL==='punch'){
+  if (punchOn()){
     // Everything above drew the lattice in white. Now colour it: threshold
     // what it sits on - the paper, and the reference over it - and keep only
     // the lattice's own shape out of the result. Dark goes white, light goes
     // black, nothing lands in between.
-    const lay=punchLayer(W2, H2, lg=>{
-      lg.fillStyle='#fff'; lg.fillRect(0,0,W2,H2);      // the sheet
-      const ref=refCanvas();
-      if (ref && ref.width) lg.drawImage(ref, ox, oy, w*sc, h*sc);
-    }, cvv, step*sc);
-    g.globalCompositeOperation='copy';
-    g.drawImage(lay,0,0);
-    g.globalCompositeOperation='source-over';
+    const ok=punchWorld(g, ox, oy, sc);
+    if (!ok) cvv.style.mixBlendMode='difference';   // no filters here
   }
   drawEdgeLabs();
 }
@@ -5155,8 +5167,8 @@ function drawEdgeLabs(){
   }
   const g=cv.getContext('2d');
   g.clearRect(0,0,W2,H2);
-  cv.style.mixBlendMode = GRID_COL==='auto' ? 'difference' : 'normal';
-  const punch = GRID_COL==='punch';
+  cv.style.mixBlendMode = (GRID_COL==='auto' && !punchOn()) ? 'difference' : 'normal';
+  const punch = punchOn();
   const {w,h}=worldSize();
   const sc=view.s*dpr, ox=view.x*dpr, oy=view.y*dpr;
   const x0=Math.max(0,ox), x1=Math.min(W2, ox+w*sc);
@@ -5191,14 +5203,8 @@ function drawEdgeLabs(){
   if (punch){
     // the margin labels sit outside the sheet as often as on it, so the
     // backdrop here is the paper AND whatever of the reference is under them
-    const lay=punchLayer(W2, H2, lg=>{
-      lg.fillStyle='#fff'; lg.fillRect(0,0,W2,H2);
-      const ref=refCanvas();
-      if (ref && ref.width) lg.drawImage(ref, ox, oy, w*sc, h*sc);
-    }, cv, step*sc);
-    g.globalCompositeOperation='copy';
-    g.drawImage(lay,0,0);
-    g.globalCompositeOperation='source-over';
+    const ok=punchWorld(g, ox, oy, sc);
+    if (!ok) cv.style.mixBlendMode='difference';
   }
 }
 function colName(i){ let s2=''; i++; while(i>0){ i--; s2=String.fromCharCode(65+i%26)+s2; i=(i/26)|0; } return s2; }
@@ -5821,7 +5827,10 @@ function loadGridPrefs(){
   try{
     GRID_ON = localStorage.getItem('gridOn')!=='0';
     const c=localStorage.getItem('gridCol');
-    if (c==='auto' || c==='punch' || /^#[0-9a-f]{6}$/i.test(c||'')) GRID_COL=c;
+    // anyone who picked the old separate swatch lands on auto, which is
+    // that same grid now
+    if (c==='punch') c='auto';
+    if (c==='auto' || /^#[0-9a-f]{6}$/i.test(c||'')) GRID_COL=c;
     const t=+localStorage.getItem('gridThk');
     if (t>=1 && t<=3) GRID_THK=t;
     GRID_LAB = localStorage.getItem('gridLab')==='1';
@@ -6422,7 +6431,7 @@ $('expBtn').onclick = async () => {
     // full design parity with drawGrid: style, thickness, transparency,
     // subdivide, label scheme and placement - what is on the screen is
     // what lands in the file
-    const punch = GRID_COL==='punch';
+    const punch = punchOn();
     // punch takes its colour from what is beneath it, so the whole lattice
     // is drawn as a white SHAPE on a layer of its own and coloured at the
     // end. Everything between here and there is the drawing it always did.
@@ -6517,11 +6526,12 @@ $('expBtn').onclick = async () => {
     if (punch){
       // now colour it: threshold the picture already on the file and keep
       // only the lattice's own shape out of the result
-      const lay=punchLayer(W, H, lg=>lg.drawImage(c,0,0), mk, step);
+      const ok=punchPaint(g, W, H, lg=>lg.drawImage(c,0,0), step);
       const go=c.getContext('2d');
-      go.globalCompositeOperation='source-over';
+      go.globalCompositeOperation = ok ? 'source-over' : 'difference';
       go.globalAlpha=1;
-      go.drawImage(lay,0,0);
+      go.drawImage(mk,0,0);
+      go.globalCompositeOperation='source-over';
     }
   }
   for (const q of CIRCS) paintMark(g, q.x*k, q.y*k, circR()*k, 10*k, 3*k);
@@ -6580,7 +6590,76 @@ function toast(t, acc, ms){
 // rather than along the seam between two. A segment then carries a single
 // colour from one cell centre to the next, and can no more split in the
 // middle than a pencil line can.
-function punchLayer(W, H, paintBackdrop, maskCv, step){
+// The whole mechanism rides on ctx.filter, and an older WebView does not
+// have it - assigning is simply ignored, the threshold never happens, and the
+// grid would come out solid white and vanish over a light photograph. Ask
+// once, and fall back to the inverting blend where the answer is no.
+const CTX_FILTER_OK=(()=>{ try{
+  const c=document.createElement('canvas'); c.width=c.height=1;
+  const g=c.getContext('2d'); g.filter='blur(1px)';
+  return g.filter==='blur(1px)';
+}catch(e){ return false; } })();
+// 'auto' IS the per-cell black/white grid now, wherever the engine can do it
+function punchOn(){ return GRID_COL==='auto' && CTX_FILTER_OK; }
+// `g` already holds the lattice, drawn in white. Colour it in ONE pass:
+// source-in keeps the shape that is there and takes its colour from what is
+// drawn over it - and what is drawn over it is the per-cell decision map,
+// a pixel a cell, scaled up in the same operation. No full-size layer is
+// built at all, which is what this used to cost on a slow phone.
+// On the drawing screen the backdrop is the same thing every time - the
+// sheet, with the reference on it - and the decision is per cell, so the map
+// is a property of the REFERENCE and the cell size, not of where the artist
+// has panned or how far in they are. Build it once in world space and reuse
+// it across every redraw; without this, each re-bake read the whole
+// reference down into a thumbnail again, which is nearly all of what punch
+// cost on a slow phone.
+let PUNCH_MAP=null;
+function punchWorldMap(){
+  const ref=refCanvas();
+  const {w,h}=worldSize();
+  const step=gridStepPx();
+  if (!(step>0.5) || !isFinite(step) || !w || !h) return null;
+  const key=[CKEY||'', COMP.sig||'', Math.round(step*16), w, h,
+             ref?ref.width+'x'+ref.height:'-', DET_SHOWN||''].join('|');
+  if (PUNCH_MAP && PUNCH_MAP.k===key) return PUNCH_MAP;
+  const bw=Math.ceil(w/step)+2, bh=Math.ceil(h/step)+2;
+  if (bw<1||bh<1||bw*bh>4e6) return null;
+  const sm=document.createElement('canvas'); sm.width=bw; sm.height=bh;
+  const sg=sm.getContext('2d');
+  sg.imageSmoothingQuality='high';
+  sg.save();
+  sg.scale(1/step, 1/step); sg.translate(step/2, step/2);
+  sg.fillStyle='#fff';
+  sg.fillRect(-step/2, -step/2, bw*step, bh*step);   // the sheet
+  if (ref && ref.width) sg.drawImage(ref, 0, 0, w, h);
+  sg.restore();
+  const th=document.createElement('canvas'); th.width=bw; th.height=bh;
+  const tg=th.getContext('2d');
+  tg.filter='grayscale(1) contrast(12000%) invert(1)';
+  tg.drawImage(sm,0,0);
+  tg.filter='none';
+  PUNCH_MAP={k:key, cv:th, bw, bh, step};
+  return PUNCH_MAP;
+}
+// colour a lattice already drawn in white from a world-space map, placed
+// where the paper is on screen
+function punchWorld(g, ox, oy, sc){
+  if (!CTX_FILTER_OK) return false;
+  const m=punchWorldMap(); if (!m) return false;
+  const st=m.step*sc;
+  g.save();
+  g.setTransform(1,0,0,1,0,0);
+  g.globalAlpha=1;
+  g.globalCompositeOperation='source-in';
+  g.imageSmoothingEnabled=true;
+  g.imageSmoothingQuality='high';
+  g.drawImage(m.cv, 0,0,m.bw,m.bh, ox-st/2, oy-st/2, m.bw*st, m.bh*st);
+  g.restore();
+  g.globalCompositeOperation='source-over';
+  return true;
+}
+function punchPaint(g, W, H, paintBackdrop, step){
+  if (!CTX_FILTER_OK) return false;
   const st=Math.max(6, step||60);
   const bw=Math.ceil(W/st)+2, bh=Math.ceil(H/st)+2;
   // 1. the backdrop, averaged down to a pixel a cell
@@ -6597,29 +6676,27 @@ function punchLayer(W, H, paintBackdrop, maskCv, step){
   tg.filter='grayscale(1) contrast(12000%) invert(1)';
   tg.drawImage(sm,0,0);
   tg.filter='none';
-  // 3. back up to size, centred on the intersections. Interpolated, NOT
-  // nearest-neighbour: each cell still decides for itself, so nothing
-  // speckles, but where two neighbours disagree the line eases from one to
-  // the other across about a cell instead of snapping at the seam. A run of
-  // cells that agree stays fully white or fully black throughout - only a
-  // real change of ground gets a ramp.
-  const lay=document.createElement('canvas'); lay.width=W; lay.height=H;
-  const lg=lay.getContext('2d');
-  lg.imageSmoothingEnabled=true;
-  lg.imageSmoothingQuality='high';
-  lg.drawImage(th, 0,0,bw,bh, -st/2, -st/2, bw*st, bh*st);
-  lg.globalCompositeOperation='destination-in';
-  lg.drawImage(maskCv, 0, 0);
-  return lay;
+  // 3. straight onto the lattice, interpolated so a run of cells that agree
+  //    stays solid and only a real change of ground gets a ramp
+  g.save();
+  g.setTransform(1,0,0,1,0,0);
+  g.globalAlpha=1;
+  g.globalCompositeOperation='source-in';
+  g.imageSmoothingEnabled=true;
+  g.imageSmoothingQuality='high';
+  g.drawImage(th, 0,0,bw,bh, -st/2, -st/2, bw*st, bh*st);
+  g.restore();
+  g.globalCompositeOperation='source-over';
+  return true;
 }
 // A swatch, a dot or a thumbnail has nothing beneath it to decide against,
 // so those read 'punch' the way they read 'auto' - and it keeps an invalid
 // colour name from ever reaching strokeStyle, where it would be ignored and
 // silently leave whatever colour was set last.
 function gridFlat(autoCol){
-  return (GRID_COL==='auto'||GRID_COL==='punch') ? autoCol : GRID_COL;
+  return GRID_COL==='auto' ? autoCol : GRID_COL;
 }
-const GRID_PAL=['auto','punch','#ffffff','#000000','#e03c3c','#e8833a',
+const GRID_PAL=['auto','#ffffff','#000000','#e03c3c','#e8833a',
                 '#e8d13a','#5fb85f','#3ab5e8','#7a6be8','#e86bd0'];
 // the design button's icon IS the grid: a live 3x3 miniature in the
 // current style, thickness and color
@@ -6995,9 +7072,8 @@ function gsdSync(){
   if (sb) $('gsdStyleBox').innerHTML=sb.innerHTML;
   document.querySelectorAll('#gsdStyles button').forEach(b=>
     b.classList.toggle('vOn', b.dataset.v===GRID_STYLE));
-  $('gsdColSw').style.background = (GRID_COL==='auto'||GRID_COL==='punch')
+  $('gsdColSw').style.background = GRID_COL==='auto'
     ? 'linear-gradient(135deg,#fff 50%,#000 50%)' : GRID_COL;
-  $('gsdColSw').style.boxShadow = GRID_COL==='punch' ? 'inset 0 0 0 2px #888' : '';
   document.querySelectorAll('#gsdSws button').forEach(b=>
     b.classList.toggle('vOn', b.dataset.c===GRID_COL));
   const TW={1:'1.5px',2:'3px',3:'5px'};
@@ -7022,12 +7098,9 @@ function gsdSync(){
   for (const c of GRID_PAL){
     const b=document.createElement('button');
     b.dataset.c=c;
-    b.style.background = (c==='auto'||c==='punch')
+    b.style.background = c==='auto'
       ? 'linear-gradient(135deg,#fff 50%,#000 50%)' : c;
-    if (c==='punch') b.style.boxShadow='inset 0 0 0 2px #888';
-    b.title = c==='auto' ? 'auto - inverts whatever is beneath'
-            : c==='punch' ? 'punch - full white on dark, full black on light'
-            : c;
+    b.title = c==='auto' ? 'auto - full white on dark, full black on light' : c;
     b.onclick=()=>{
       GRID_COL=c;
       try{ localStorage.setItem('gridCol', c); }catch(e){}
@@ -9124,7 +9197,7 @@ function cmpExport(){
   const labels=(fs, gx)=>{
     const g=gx||out.getContext('2d');
     g.font=fs+'px system-ui'; g.textBaseline='top';
-    g.fillStyle = GRID_COL==='punch' ? '#fff'
+    g.fillStyle = punchOn() ? '#fff'
       : (GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL);
     const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
     for (let ry=0;ry<rows;ry++) for (let cx=0;cx<cols;cx++)
@@ -9146,7 +9219,7 @@ function cmpExport(){
       if (GRID_ON && pn.grid){
         // punch: the lattice on its own layer under the same transform,
         // coloured from the pane beneath it once it is drawn
-        const punch = GRID_COL==='punch';
+        const punch = punchOn();
         const gOut = out.getContext('2d');
         const mk = punch ? document.createElement('canvas') : null;
         if (mk){ mk.width=W; mk.height=H; }
@@ -9174,10 +9247,12 @@ function cmpExport(){
         if (GRID_LAB) labels(step*0.18, g);
         g.globalCompositeOperation='source-over';
         if (punch){
-          const lay=punchLayer(W, H, lg=>lg.drawImage(out,0,0), mk, step*tot);
+          const ok=punchPaint(g, W, H, lg=>lg.drawImage(out,0,0), step*tot);
           gOut.save(); gOut.setTransform(1,0,0,1,0,0);
-          gOut.globalCompositeOperation='source-over'; gOut.globalAlpha=1;
-          gOut.drawImage(lay,0,0); gOut.restore();
+          gOut.globalCompositeOperation = ok ? 'source-over' : 'difference';
+          gOut.globalAlpha=1;
+          gOut.drawImage(mk,0,0);
+          gOut.globalCompositeOperation='source-over'; gOut.restore();
         }
       }
       for (const c of CIRCS) paintMark(g, c.x, c.y, circR(), 10*k/tot, 3*k/tot);
@@ -9199,7 +9274,7 @@ function cmpExport(){
         if (CMP.alpha>0){ g.globalAlpha=CMP.alpha; dr(refCanvas()); g.globalAlpha=1; }
       }
       if (GRID_ON && CMP.showing==='ref'){
-        const punch = GRID_COL==='punch';
+        const punch = punchOn();
         const gOut = out.getContext('2d');
         const mk = punch ? document.createElement('canvas') : null;
         if (mk){ mk.width=W; mk.height=H; }
@@ -9230,10 +9305,12 @@ function cmpExport(){
         }
         g.globalCompositeOperation='source-over';
         if (punch){
-          const lay=punchLayer(W, H, lg=>lg.drawImage(out,0,0), mk, step*kf*FLP.s);
+          const ok=punchPaint(g, W, H, lg=>lg.drawImage(out,0,0), step*kf*FLP.s);
           gOut.save(); gOut.setTransform(1,0,0,1,0,0);
-          gOut.globalCompositeOperation='source-over'; gOut.globalAlpha=1;
-          gOut.drawImage(lay,0,0); gOut.restore();
+          gOut.globalCompositeOperation = ok ? 'source-over' : 'difference';
+          gOut.globalAlpha=1;
+          gOut.drawImage(mk,0,0);
+          gOut.globalCompositeOperation='source-over'; gOut.restore();
         }
       }
       for (const c of CIRCS) paintMark(g, f.x+c.x*kf, f.y+c.y*kf, circR()*kf, 10*k, 3);
@@ -9430,7 +9507,7 @@ function cmpRender(){
         // punch colours the lattice from what is under it, so draw it as a
         // white shape on its own layer - carrying the SAME transform, so the
         // geometry lands identically - and colour it at the end
-        const punch = GRID_COL==='punch';
+        const punch = punchOn();
         const gOut = cv.getContext('2d');
         const mk = punch ? document.createElement('canvas') : null;
         if (mk){ mk.width=cv.width; mk.height=cv.height; }
@@ -9472,11 +9549,12 @@ function cmpRender(){
         }
         g.globalCompositeOperation='source-over';
         if (punch){
-          const lay=punchLayer(cv.width, cv.height,
-            lg=>lg.drawImage(cv,0,0), mk, step*k*FLP.s);
+          const ok=punchPaint(g, cv.width, cv.height, lg=>lg.drawImage(cv,0,0), step*k*FLP.s);
           gOut.save(); gOut.setTransform(1,0,0,1,0,0);
-          gOut.globalCompositeOperation='source-over'; gOut.globalAlpha=1;
-          gOut.drawImage(lay,0,0); gOut.restore();
+          gOut.globalCompositeOperation = ok ? 'source-over' : 'difference';
+          gOut.globalAlpha=1;
+          gOut.drawImage(mk,0,0);
+          gOut.globalCompositeOperation='source-over'; gOut.restore();
         }
       }
       cmpCircs(g, cv);
@@ -9506,7 +9584,7 @@ function cmpRender(){
         const step=gridStepPx();
         // as in the flip view: the lattice goes on its own layer under the
         // same transform, and takes its colour from the pane beneath it
-        const punch = GRID_COL==='punch';
+        const punch = punchOn();
         const gOut = cv.getContext('2d');
         const mk = punch ? document.createElement('canvas') : null;
         if (mk){ mk.width=cv.width; mk.height=cv.height; }
@@ -9546,11 +9624,12 @@ function cmpRender(){
         }
         g.globalCompositeOperation='source-over';
         if (punch){
-          const lay=punchLayer(cv.width, cv.height,
-            lg=>lg.drawImage(cv,0,0), mk, step*bs*SPL.s);
+          const ok=punchPaint(g, cv.width, cv.height, lg=>lg.drawImage(cv,0,0), step*bs*SPL.s);
           gOut.save(); gOut.setTransform(1,0,0,1,0,0);
-          gOut.globalCompositeOperation='source-over'; gOut.globalAlpha=1;
-          gOut.drawImage(lay,0,0); gOut.restore();
+          gOut.globalCompositeOperation = ok ? 'source-over' : 'difference';
+          gOut.globalAlpha=1;
+          gOut.drawImage(mk,0,0);
+          gOut.globalCompositeOperation='source-over'; gOut.restore();
         }
       }
       if (CIRCS.length){

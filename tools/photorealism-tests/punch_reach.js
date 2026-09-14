@@ -21,13 +21,17 @@ const PORT = process.argv[2]||'8899';
     $('unit').value='cm'; $('widthIn').value='40'; $('heightIn').value='30'; $('fmtGo').click();
     for (let i=0;i<3000;i++){ if (document.querySelector('#scrMain.on')&&GRID_READY) break; await new Promise(r=>setTimeout(r,50)); }
     CELLSZ.u='cm'; CELLSZ.v=3; GRID_ON=true; GRID_STYLE='sq'; GRID_LAB=true; GRID_LPOS='edge';
-    GRID_OP=0.9; GRID_THK=2; GRID_COL='punch';
+    GRID_OP=0.9; GRID_THK=2; GRID_COL='auto';
   });
   await pg.waitForTimeout(7000);
   await pg.evaluate(()=>{
     window.__pl=0;
-    const o=window.punchLayer;
-    window.punchLayer=function(...a){ window.__pl++; return o.apply(this,a); };
+    // two paths now: the world-space map on the drawing screen, and the
+    // direct pass everywhere the backdrop is not the sheet
+    for (const n of ["punchPaint","punchWorld"]){
+      const o=window[n];
+      window[n]=function(...a){ window.__pl++; return o.apply(this,a); };
+    }
   });
   const run = async (label, code) => {
     const r = await pg.evaluate(async (code)=>{
