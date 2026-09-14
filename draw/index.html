@@ -903,7 +903,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v421</span>
+    <span id="verNum">v422</span>
   </div>
 </div>
 <div id="delModal">
@@ -5683,15 +5683,18 @@ function compositeColorCv(){
   // the same cooked luma the B&W composite shows with every layer on, at
   // the current detail level - the photo's colour rides its ratio
   const prog = progOn() && DETAIL==='ultra';
-  let det=null, dP=null;
+  let det=null, dP=null, detLv=null;
   if (prog){
     if (DET.key===fkey()) dP=DET.lv.prog||null;
-    if (!dP) ensureDetail('prog');
+    if (!dP){ ensureDetail('prog');
+      const st=detStandIn('prog'); if (st){ det=st.det; detLv=st.lv; } }
   } else if (DETAIL!=='ultra'){
-    if (DET.key===fkey() && DET.lv[DETAIL]) det=DET.lv[DETAIL];
-    else ensureDetail(DETAIL);
+    if (DET.key===fkey() && DET.lv[DETAIL]){ det=DET.lv[DETAIL]; detLv=DETAIL; }
+    else { ensureDetail(DETAIL);
+      const st=detStandIn(DETAIL); if (st){ det=st.det; detLv=st.lv; } }
   }
-  const ready=prog&&dP, eff=det?DETAIL:'ultra';
+  const ready=prog&&dP, eff=detLv||'ultra';
+  if (ready) DET_SHOWN='prog'; else DET_SHOWN=eff;
   const L=LAYERS_C;
   const sig='K'+(ready?'P':'C')+(L.dk?'D':'')+(L.mid?'M':'')
            +(L.lt?'L':'')+(L.br?'B':'')+'T'+eff
@@ -5772,20 +5775,35 @@ function compParts(){
   }
   COMP.sig=null; COMP.cv=null;
 }
+// The level whose planes were last actually DRAWN. While a newly chosen level
+// cooks, the composite used to fall back to the inline Ultra reading, so the
+// picture jumped to full detail and then settled back - which reads as the app
+// undoing the choice you just made. Standing in with what was already on
+// screen means the only thing that changes is the thing you asked to change.
+let DET_SHOWN=null;
+function detStandIn(want){
+  if (!DET_SHOWN || DET_SHOWN===want || DET_SHOWN==='ultra') return null;
+  if (DET.key!==fkey()) return null;
+  const p=DET.lv[DET_SHOWN];
+  return (p && p.dD && p.lD && p.hl) ? { det:p, lv:DET_SHOWN } : null;
+}
 function compositeCv(){
   if (REFMODE==='c') return compositeColorCv();
   compParts();
   const prog = progOn() && DETAIL==='ultra';
-  let det=null, dP=null;
+  let det=null, dP=null, detLv=null;
   if (prog){
     if (DET.key===fkey()) dP=DET.lv.prog||null;
-    if (!dP) ensureDetail('prog');       // async; classic ultra stands in
+    if (!dP){ ensureDetail('prog');
+      const st=detStandIn('prog'); if (st){ det=st.det; detLv=st.lv; } }
   } else if (DETAIL!=='ultra'){
-    if (DET.key===fkey() && DET.lv[DETAIL]) det=DET.lv[DETAIL];
-    else ensureDetail(DETAIL);          // async; the ultra tool stands in
+    if (DET.key===fkey() && DET.lv[DETAIL]){ det=DET.lv[DETAIL]; detLv=DETAIL; }
+    else { ensureDetail(DETAIL);
+      const st=detStandIn(DETAIL); if (st){ det=st.det; detLv=st.lv; } }
   }
   const ready = prog && dP;
-  const eff=det?DETAIL:'ultra';
+  const eff=detLv||'ultra';
+  if (ready) DET_SHOWN='prog'; else DET_SHOWN=eff;
   const sig=(ready?'P':'C')+(LAYERS.dk?'D':'')+(LAYERS.lt?'L':'')
            +(LAYERS.hl?'H':'')+'T'+eff;
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
