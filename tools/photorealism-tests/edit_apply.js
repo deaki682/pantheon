@@ -33,6 +33,14 @@ const PORT = process.argv[2]||'8899';
     ED.R.con=25; ED.R.exp=8; edPaint();
     await new Promise(r=>setTimeout(r,200));
     const before=[photo.width,photo.height];
+    // the DIMENSIONS are unchanged whether the edit applied or was thrown
+    // away, so sample the pixels too - that gap let a release ship where
+    // Done silently discarded every edit
+    const samp=()=>{ const s1=document.createElement('canvas'); s1.width=s1.height=16;
+      const q=s1.getContext('2d',{willReadFrequently:true});
+      q.drawImage(photo,0,0,16,16);
+      return [...q.getImageData(0,0,16,16).data].filter((_,i)=>i%4===0); };
+    const pxBefore=samp();
     const t1=performance.now();
     edClose(true);
     for (let i=0;i<600;i++){ if (document.querySelector('#scrFormat.on') && photo) break; await new Promise(r=>setTimeout(r,25)); }
@@ -52,6 +60,11 @@ const PORT = process.argv[2]||'8899';
       if (d[i+3]<250) transparent++;
     }
     out.colourLeakPx=colourLeak; out.transparentPx=transparent;
+    const pxAfter=samp();
+    out.samplesMoved = pxBefore.filter((v,i)=>v!==pxAfter[i]).length+'/'+pxBefore.length;
+    out.applyVerdict = pxBefore.every((v,i)=>v===pxAfter[i])
+      ? 'FAIL the edit was discarded - photo pixels unchanged after Done'
+      : 'ok Done applied the edit';
     return out;
   }));
   console.log('page errors:', errs.length?errs.slice(0,3):'none');

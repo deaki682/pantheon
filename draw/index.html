@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v426</span>
+    <span id="verNum">v427</span>
   </div>
 </div>
 <div id="delModal">
@@ -4016,11 +4016,14 @@ function edBuildPre(){
   const sg=small.getContext('2d');
   sg.imageSmoothingQuality='high';
   flatten(sg, small.width, small.height);
-  sg.drawImage(src,0,0,small.width,small.height);
-  if (!ED.colr && !ED.orig){          // the full canvas is already grey
-    sg.filter='grayscale(1)'; sg.drawImage(small,0,0); sg.filter='none';
-    forceGray(small);
-  }
+  const grey = !ED.colr && !ED.orig;   // a full canvas, when present, is grey
+  // the greyscale rides the same pass as the downscale. It used to draw the
+  // canvas onto ITSELF through a filter, which is a whole extra copy of the
+  // preview; over an opaque white ground the two orders give the same pixels.
+  if (grey) sg.filter='grayscale(1)';
+  sg.drawImage(src, 0, 0, small.width, small.height);
+  sg.filter='none';
+  if (grey) forceGray(small);
   ED.pre=editApply(small, {...EDIT_DEF, rot:R.rot, fh:R.fh, fv:R.fv, ang:R.ang});
   // the pixel arrays are ONLY read by the tone pipeline, and the window opens
   // with every tone control at its default, so reading a megapixel back off
@@ -4161,20 +4164,25 @@ function edClose(apply){
       else localStorage.setItem('edit|'+ED.gid, JSON.stringify(R));
     }catch(e){}
     toast('applying\u2026', true, 2500);
-    const gid=ED.gid;
+    // The apply waits a tick so the toast paints first - but the teardown
+    // below runs IMMEDIATELY, and it used to let go of the source before
+    // that tick arrived. edFullOrig() then found nothing to cut from and
+    // returned null, and Done quietly threw the edit away. Whatever the
+    // apply needs, it carries itself.
+    const keep={ orig:ED.orig, img:ED.srcImg, w:ED.srcW, h:ED.srcH, colr:ED.colr };
     setTimeout(()=>{
-      const orig=edFullOrig();
-      if (!orig){ show('scrFormat'); return; }
-      photo = editNeutral(R) ? orig : editApply(orig, R, ED.colr);
+      const orig=edFullOrig(keep);
+      if (!orig){ toast('could not read the original', false); show('scrFormat'); return; }
+      photo = editNeutral(R) ? orig : editApply(orig, R, keep.colr);
       FMT_APPLIED=null;
       show('scrFormat');
       fmtPreview(); speculate();
+      edRevoke(keep.img);
     }, 30);
   } else show('scrFormat');
   ED.on=false; ED.pre=null; ED.gray=null; ED.preData=null;
   ED.tone=null; ED.toneKey=null;
-  try{ if (ED.srcImg && ED.srcImg.src && ED.srcImg.src.startsWith('blob:'))
-    URL.revokeObjectURL(ED.srcImg.src); }catch(e){}
+  if (!apply) edRevoke(ED.srcImg);   // on apply, the apply revokes it
   ED.srcImg=null;
   // ED.orig is released on the next tick: the apply runs after this
   setTimeout(()=>{ if (!ED.on) ED.orig=null; }, 4000);
@@ -4195,22 +4203,37 @@ async function edOpenFor(mode){
   const sc=Math.min(1, CAP/Math.max(i.width, i.height));
   ED.srcImg=i;
   ED.srcW=Math.round(i.width*sc); ED.srcH=Math.round(i.height*sc);
+  // Decoding the preview off the main thread with createImageBitmap was
+  // tried here and MEASURED SLOWER - cold, a 12MP jpeg to a 1280px preview
+  // costs 115ms through <img>+drawImage and 211ms through createImageBitmap
+  // at high quality (113ms at low, which is softer for nothing). Chromium is
+  // not decoding at reduced scale for that path, it decodes in full and then
+  // resamples. The <img> route is already the cheapest one available.
   edOpen(null, galActive, mode);
 }
-// the full-resolution canvas the applied result is cut from
-function edFullOrig(){
-  if (ED.orig) return ED.orig;
-  const i=ED.srcImg; if (!i) return null;
-  const c=document.createElement('canvas'); c.width=ED.srcW; c.height=ED.srcH;
+function edRevoke(img){
+  try{ if (img && img.src && img.src.startsWith('blob:'))
+    URL.revokeObjectURL(img.src); }catch(e){}
+}
+// the full-resolution canvas the applied result is cut from. `src` is the
+// state the caller is holding - never read straight off ED, which the close
+// has already torn down by the time the apply runs.
+function edFullOrig(src){
+  const S = src || ED;
+  if (S.orig) return S.orig;
+  const i = S.img || S.srcImg; if (!i) return null;
+  const w = S.w || S.srcW, h = S.h || S.srcH;
+  if (!w || !h) return null;
+  const c=document.createElement('canvas'); c.width=w; c.height=h;
   const g=c.getContext('2d');
   g.imageSmoothingQuality='high';
-  flatten(g, ED.srcW, ED.srcH);
-  g.drawImage(i,0,0,ED.srcW,ED.srcH);
-  if (!ED.colr){
+  flatten(g, w, h);
+  g.drawImage(i,0,0,w,h);
+  if (!S.colr){
     g.filter='grayscale(1)'; g.drawImage(c,0,0); g.filter='none';
     forceGray(c);
   }
-  ED.orig=c;
+  S.orig=c;
   return c;
 }
 $('fmtEdit').onclick=()=>edOpenFor('tone');
