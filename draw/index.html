@@ -352,13 +352,24 @@ html.adOn #scrMain{padding-bottom:0}
    rule left written out as 76+8 when everything else moved to the measured
    height. At a large system font they sat under the strip, where the ad
    swallowed the taps. */
+/* 8px put a control one fingertip from the ad - about 3mm on a 2.6x
+   screen against an 8-10mm finger - which is exactly the adjacency the
+   network reads as an accidental-click layout. --adgap is that clearance,
+   one number, at the standard minimum touch target. */
 html.adOn #hudWrap,html.adOn #detCorner,html.adOn #gridCorner,
 html.adOn #underCorner,html.adOn #camCorner{
-  bottom:calc(var(--adh,76px) + 8px + env(safe-area-inset-bottom))}
+  bottom:calc(var(--adh,76px) + var(--adgap,48px) + env(safe-area-inset-bottom))}
 html.adOn body.uiHid #hudWrap,html.adOn body.uiHid #detCorner,
 html.adOn body.uiHid #gridCorner,html.adOn body.uiHid #underCorner,
 html.adOn body.uiHid #camCorner{transform:translate(-50%,290%)}
-html.adOn #noAdsTxt{bottom:calc(var(--adh,76px) + 10px + env(safe-area-inset-bottom)) !important}
+/* the drawing paper runs UNDER the strip, so a pan that drifts low can lift
+   off on the ad. This band is the last slice of page before the ad and it
+   answers to nothing: see-through, but no pan, no tap, no pointer at all. */
+#adGuard{position:fixed;left:0;right:0;height:26px;display:none;z-index:6;
+  bottom:calc(var(--adh,76px) + env(safe-area-inset-bottom));
+  background:transparent;touch-action:none}
+html.adOn:has(#scrMain.on) #adGuard,
+html.adOn:has(#scrCompare.on) #adGuard{display:block}
 /* the buffer band (and any exposed screen edge) matches the working
    screens' ground, so the lift never reads as a black bar */
 #scrMain,#scrCompare{background:#2a2a2a}
@@ -880,6 +891,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 </div>
 <div id="tourBubble"><span id="tourTxt"></span><button id="tourX">&#215;</button></div>
 <div id="tourCaret"></div>
+<div id="adGuard"></div>
 <div id="modeModal">
   <div id="modePanel">
     <span style="font-size:16px;letter-spacing:.04em;color:var(--acc);text-align:center">Choose Your Method</span>
@@ -900,13 +912,14 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <button id="gmDesign3" title="Grid style"><canvas id="gmMini3" width="64" height="64"></canvas></button>
     <button id="accBtn" style="margin-top:6px;display:none">Account</button>
     <button id="a11yBtn" style="margin-top:6px">Accessibility</button>
+    <button id="noAdsTxt" style="margin-top:6px;display:none">Remove Ads</button>
     <a id="privLink" href="privacy.html"
        style="color:var(--acc);font-size:12px;text-align:center;display:block;margin-top:6px">Privacy</a>
     <span id="libNote"></span>
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v441</span>
+    <span id="verNum">v442</span>
   </div>
 </div>
 <div id="delModal">
@@ -1135,7 +1148,6 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <button id="invBtn">Share Photorealism</button>
     <a id="discBtn" href="https://realismdrawing.com/discord" target="_blank" rel="noopener" title="Join the Discord"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg></a>
   </div>
-  <span id="noAdsTxt" style="display:none;position:absolute;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));color:var(--acc);font-size:13px;cursor:pointer;z-index:5">Remove Ads</span>
 </div>
 
 <!-- 2: format -->
@@ -1610,6 +1622,38 @@ window.__adH = px => {
     }catch(e){} });
   }catch(e){}
 };
+// the dead band above the ad. It is see-through so the drawing shows
+// through it, but every pointer that lands there stops on it: the last
+// stretch of paper before the strip cannot start a pan, so a drag can no
+// longer be travelling downward when the finger reaches the ad.
+try{
+  const g=document.getElementById('adGuard');
+  if (g) ['pointerdown','pointermove','pointerup','touchstart','touchmove',
+    'touchend','mousedown','click'].forEach(ev=>{
+      g.addEventListener(ev, e=>{
+        if (e.cancelable) e.preventDefault();
+        e.stopPropagation();
+      }, {passive:false});
+    });
+  // the band is shown by a :has() rule, which a WebView older than Chrome
+  // 105 drops on the floor - and then the guard never appears at all. Where
+  // :has() is missing, watch the two screens and say it in JS instead.
+  let HAS_OK=false;
+  try{ HAS_OK=CSS.supports('selector(:has(*))'); }catch(e){}
+  if (g && !HAS_OK){
+    const sync=()=>{ try{
+      const on=document.documentElement.classList.contains('adOn') &&
+        (($('scrMain')&&$('scrMain').classList.contains('on')) ||
+         ($('scrCompare')&&$('scrCompare').classList.contains('on')));
+      g.style.display = on ? 'block' : 'none';
+    }catch(e){} };
+    const mo=new MutationObserver(sync);
+    for (const id of ['scrMain','scrCompare'])
+      if ($(id)) mo.observe($(id), {attributes:true, attributeFilter:['class']});
+    mo.observe(document.documentElement, {attributes:true, attributeFilter:['class']});
+    sync();
+  }
+}catch(e){}
 window.__adOn = on => {
   let changed=false;
   try{ const de=document.documentElement; changed=de.classList.contains('adOn')!==!!on;

@@ -91,10 +91,16 @@ class MainActivity : AppCompatActivity() {
     private var adViewMode = ""           // which container holds the card
     private var adNextShowAt = 0L         // cadence: earliest next window
     private var lastTouchMs = 0L          // never appear under a finger
+    private var pointerDown = false       // and never CHANGE under one either
     private var billing: com.android.billingclient.api.BillingClient? = null
 
     override fun dispatchTouchEvent(ev: android.view.MotionEvent): Boolean {
         lastTouchMs = android.os.SystemClock.uptimeMillis()
+        when (ev.actionMasked) {
+            android.view.MotionEvent.ACTION_DOWN -> pointerDown = true
+            android.view.MotionEvent.ACTION_UP,
+            android.view.MotionEvent.ACTION_CANCEL -> pointerDown = false
+        }
         return super.dispatchTouchEvent(ev)
     }
 
@@ -649,6 +655,16 @@ class MainActivity : AppCompatActivity() {
                 // showing card every 75s - and retry an empty slot too
                 val tick = object : Runnable {
                     override fun run() {
+                        // a card that changes while a finger is travelling
+                        // over it is the shape of an accidental click: hold
+                        // the refresh until the hand is off the glass
+                        // a DOWN whose UP never arrives would otherwise
+                        // stick the flag and stop refreshing for good, so
+                        // the clock is the authority past 4s of quiet
+                        val now = android.os.SystemClock.uptimeMillis()
+                        val busy = now - lastTouchMs < 1500 ||
+                                   (pointerDown && now - lastTouchMs < 4000)
+                        if (busy) { adWrap.postDelayed(this, 1500); return }
                         if (adWanted && !adsRemovedFlag()) loadNative()
                         adWrap.postDelayed(this, 75000)
                     }
@@ -682,7 +698,17 @@ class MainActivity : AppCompatActivity() {
 
     // the native card, drawn in the app's own dark language: media left,
     // headline + body in the middle, accent CTA right, Ad badge as required
-    private fun showNative(ad: com.google.android.gms.ads.nativead.NativeAd) {
+    private fun showNative(ad: com.google.android.gms.ads.nativead.NativeAd,
+                           tries: Int = 0) {
+        // a load started on a quiet hand can still land after the finger is
+        // back down. Hold the swap - up to ~18s, past which the creative is
+        // better shown than aged out - so the visible card never changes
+        // beneath a gesture.
+        val now = android.os.SystemClock.uptimeMillis()
+        if (tries < 20 && (adCardShown || adCornerShown) &&
+            (now - lastTouchMs < 800 || (pointerDown && now - lastTouchMs < 4000))) {
+            adWrap.postDelayed({ showNative(ad, tries + 1) }, 900); return
+        }
         try {
             nativeAd?.destroy()
             nativeAd = ad
