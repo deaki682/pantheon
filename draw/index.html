@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v432</span>
+    <span id="verNum">v433</span>
   </div>
 </div>
 <div id="delModal">
@@ -3580,7 +3580,7 @@ function fmtPreview(){
       // the photograph is already on the canvas: threshold THAT, then keep
       // only the grid's own shape out of it
       const lay=punchLayer(cv.width, cv.height,
-        lg=>lg.drawImage(cv,0,0), FMT_GRID.cv);
+        lg=>lg.drawImage(cv,0,0), FMT_GRID.cv, step);
       g.drawImage(lay,0,0);
     } else {
       if (auto) g.globalCompositeOperation='difference';
@@ -5129,7 +5129,7 @@ function drawGrid(){
       lg.fillStyle='#fff'; lg.fillRect(0,0,W2,H2);      // the sheet
       const ref=refCanvas();
       if (ref && ref.width) lg.drawImage(ref, ox, oy, w*sc, h*sc);
-    }, cvv);
+    }, cvv, step*sc);
     g.globalCompositeOperation='copy';
     g.drawImage(lay,0,0);
     g.globalCompositeOperation='source-over';
@@ -6531,20 +6531,46 @@ function toast(t, acc, ms){
 // a full white line, everything lighter a full black one, with nothing in
 // between. grayscale reduces the backdrop to its luma, the enormous contrast
 // collapses that to one end or the other, and invert picks the opposite.
-// The threshold reads the backdrop BLURRED. Deciding per pixel, a line
-// crossing busy texture that sits near the middle flips white/black from one
-// pixel to the next and the line comes out dashed; softening first makes the
-// decision on the local average, so it holds one colour for a run and then
-// changes cleanly.
-const PUNCH_BLUR=3;
-const PUNCH_FILTER='blur('+PUNCH_BLUR+'px) grayscale(1) contrast(12000%) invert(1)';
-// paint the backdrop through that filter, then keep only where the grid is
-function punchLayer(W, H, paintBackdrop, maskCv){
+// The threshold reads the backdrop SOFTENED, and how much is the whole
+// question. Judged pixel by pixel, a line crossing busy texture near the
+// middle flips white to black and back every few pixels and the grid breaks
+// into speckle. The smoothing has to be measured in CELLS, not pixels: what
+// the line should follow is the broad tone the cell sits in, so it holds one
+// colour across a stretch and changes at a real change in the picture.
+// Thresholding a continuous tone is a coin toss wherever it sits near the
+// middle, and no amount of blurring avoids that - it only moves where the
+// coin is tossed. Every version of that speckled: lone intersections flipping
+// to the opposite colour inside an otherwise solid run.
+//
+// So do not threshold per pixel at all. Reduce the backdrop to ONE flat tone
+// per cell and decide there - and lay those blocks out centred on the grid's
+// own intersections, so a line runs down the middle of a column of blocks
+// rather than along the seam between two. A segment then carries a single
+// colour from one cell centre to the next, and can no more split in the
+// middle than a pencil line can.
+function punchLayer(W, H, paintBackdrop, maskCv, step){
+  const st=Math.max(6, step||60);
+  const bw=Math.ceil(W/st)+2, bh=Math.ceil(H/st)+2;
+  // 1. the backdrop, averaged down to a pixel a cell
+  const sm=document.createElement('canvas'); sm.width=bw; sm.height=bh;
+  const sg=sm.getContext('2d');
+  sg.imageSmoothingQuality='high';
+  sg.save();
+  sg.scale(1/st, 1/st); sg.translate(st/2, st/2);
+  paintBackdrop(sg);
+  sg.restore();
+  // 2. each of those decided, once, on its own
+  const th=document.createElement('canvas'); th.width=bw; th.height=bh;
+  const tg=th.getContext('2d');
+  tg.filter='grayscale(1) contrast(12000%) invert(1)';
+  tg.drawImage(sm,0,0);
+  tg.filter='none';
+  // 3. back up to size as hard blocks, centred on the intersections
   const lay=document.createElement('canvas'); lay.width=W; lay.height=H;
   const lg=lay.getContext('2d');
-  lg.filter=PUNCH_FILTER;
-  paintBackdrop(lg);
-  lg.filter='none';
+  lg.imageSmoothingEnabled=false;
+  lg.drawImage(th, 0,0,bw,bh, -st/2, -st/2, bw*st, bh*st);
+  lg.imageSmoothingEnabled=true;
   lg.globalCompositeOperation='destination-in';
   lg.drawImage(maskCv, 0, 0);
   return lay;
