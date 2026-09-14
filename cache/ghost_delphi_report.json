@@ -3,5 +3,7 @@
  "mean_return": null,
  "hit_rate": null,
  "momentum_terciles": {},
- "signal_lift": {}
+ "signal_lift": {},
+ "as_of": "2026-09-14",
+ "note": "n=0 graded by construction \u2014 all 180 entries carry a 90-day horizon from 2026-06-30..07-03, so the first grades land 2026-09-28. Every lift/tercile field below is an empty-sample placeholder."
 }
