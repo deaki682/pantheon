@@ -329,14 +329,20 @@ html.adOn #introModal,html.adOn #gearModal,html.adOn #a11yModal,
 html.adOn #accModal,html.adOn #shModal,html.adOn #gridModal,
 html.adOn #setModal,html.adOn #refModal,html.adOn #dlModal,
 html.adOn #arModal,html.adOn #modeModal,html.adOn #delModal,
-html.adOn #gsdModal,html.adOn #dgModal{
+html.adOn #gsdModal,html.adOn #dgModal,html.adOn #dlwModal{
   padding-bottom:calc(var(--adh,76px) + env(safe-area-inset-bottom));
   box-sizing:border-box}
 /* and whatever the text does - translation, a large system font - the panel
    scrolls inside what is left rather than growing off the screen */
 #introPanel,#gearPanel,#a11yPanel,#accPanel,#shPanel,#gridPanel,#setPanel,
-#refPanel,#dlPanel,#arPanel,#modePanel,#delPanel,#gsdPanel,#dgPanel{
+#refPanel,#dlPanel,#arPanel,#modePanel,#delPanel,#gsdPanel,#dgPanel,#dlwPanel{
   max-height:calc(100% - 20px);overflow-y:auto}
+/* five of those panels set max-height:92vh further down, at the same
+   specificity, so they won and overflowed past the ad in BOTH directions -
+   where a panel's own overflow-y cannot reach. 92vh knows nothing about the
+   strip; while the ad is up, the panel's own box is the authority. */
+html.adOn #a11yPanel,html.adOn #accPanel,html.adOn #gsdPanel,
+html.adOn #setPanel,html.adOn #gearPanel{max-height:calc(100% - 20px)}
 html.adOn #scrMain{padding-bottom:0}
 html.adOn #hudWrap,html.adOn #detCorner,html.adOn #gridCorner,
 html.adOn #underCorner,html.adOn #camCorner{
@@ -892,7 +898,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v418</span>
+    <span id="verNum">v419</span>
   </div>
 </div>
 <div id="delModal">
@@ -1566,7 +1572,7 @@ window.__adCorner = on => {
 window.__adH = px => {
   try{
     const v=Math.max(0, Math.round(+px||0));
-    document.documentElement.style.setProperty('--adh', (v||76)+'px');
+    document.documentElement.style.setProperty('--adh', v+'px');
     if (TIPSTATE && TIPSTATE.re) TIPSTATE.re();
   }catch(e){}
 };
@@ -1839,7 +1845,14 @@ async function galDel(id, quiet){
   const t=d.transaction('photos','readwrite').objectStore('photos').delete(id);
   t.onsuccess=res; t.onerror=res; }); }catch(e){} }
 
+const WORK_OFF=new Set();// references whose fast-open copy this device refused
 let MODE_WITH=null;      // an image already in hand when the mode chooser opens
+// A drag in progress. renderGallery() empties the row, which detached the very
+// tile the gesture was bound to: the release never arrived, the floating copy
+// stayed over the screen and the whole document kept touch-action:none until
+// a reload. A background sync landing while someone rearranges is enough.
+let DRAG_LIVE=null;      // () => abort the gesture and clean up
+let GAL_REDRAW=false;    // a render asked for while the hand was down
 let galActive = null;    // gallery id of the photo now open
 let galLoading = null;   // 0..1 creep while the photo itself decodes
 
@@ -1956,12 +1969,16 @@ async function convertForeign(blob){
     return out ? toBlob(out) : null;
   }catch(e){ return null; }
 }
-async function galPut(rec, quiet){ try{ const d=await gdb(); await new Promise(res=>{
+async function galPut(rec, quiet){ let ok=true;
+  try{ const d=await gdb(); await new Promise(res=>{
   const t=d.transaction('photos','readwrite').objectStore('photos').put(rec);
-  t.onsuccess=()=>res(); t.onerror=()=>res(); }); }catch(e){}
+  t.onsuccess=()=>res();
+  t.onerror=()=>{ ok=false; try{ GAL_ERR=(t.error&&t.error.name)||'unknown'; }catch(e){} res(); }; });
+  }catch(e){ ok=false; GAL_ERR=(e&&e.name)||'unknown'; }
   // an edit to something already synced owes the account an update. Sync
   // passes quiet=true for its own writes, or it would chase its tail.
   if (!quiet && rec && rec.sid) try{ syncTouch(rec.id); }catch(e){}
+  return ok;
 }
 // get + mutate + put inside ONE readwrite transaction. Sync waits on the
 // network between reading a record and writing it back; a capture taken
@@ -2110,6 +2127,7 @@ async function renderGallery(){
 
     const lift=(x,y)=>{
       held=true; moved=false; ready=false;
+      DRAG_LIVE=()=>{ if (held) drop(); };
       haptic();
       host=tile.parentElement;
       const r=tile.getBoundingClientRect();
@@ -2207,7 +2225,9 @@ async function renderGallery(){
       const order = ready && to!==from;
       if (order){
         // put it where the gap is before anything animates back
-        const ref = kids.filter(k=>k!==tile)[to] || null;
+        // ...[to] is undefined for the last slot, and insertBefore(tile,null)
+        // appends past the "+" tile at the end of the row
+        const ref = kids.filter(k=>k!==tile)[to] || host.querySelector('.gadd') || null;
         host.insertBefore(tile, ref);
       }
       // FLIP home: the row returns to full size, then the copy flies to
@@ -2231,6 +2251,8 @@ async function renderGallery(){
       };
       if (ready) requestAnimationFrame(()=>requestAnimationFrame(land));
       else land();
+      DRAG_LIVE=null;
+      if (GAL_REDRAW){ GAL_REDRAW=false; setTimeout(()=>{ try{ renderGallery(); }catch(e){} }, 220); }
       if (!moved || !order) return;
       // the whole strip is renumbered, so there is never a half-ordered row
       try{
@@ -2261,9 +2283,14 @@ async function renderGallery(){
       if (!moveR) moveR=requestAnimationFrame(()=>{ moveR=0;
         if (held){ place(mvX,mvY); shift(); } });
     });
-    const end=e=>{ clear(); if (held){ e.preventDefault(); drop(); } };
+    // bound to the WINDOW, not the tile: a tile removed from the document
+    // mid-gesture still has to end its drag
+    const end=e=>{ clear(); if (held){ try{ e.preventDefault(); }catch(_){} drop(); } };
     tile.addEventListener('pointerup', end);
     tile.addEventListener('pointercancel', end);
+    addEventListener('pointerup', end, true);
+    addEventListener('pointercancel', end, true);
+    addEventListener('blur', ()=>{ if (held) drop(); });
     tile.addEventListener('click', e=>{
       if (tile.dataset.justDragged){ delete tile.dataset.justDragged;
         e.stopPropagation(); e.preventDefault(); }
@@ -2274,6 +2301,8 @@ async function renderGallery(){
     tile.addEventListener('touchmove', e=>{ if (held && e.cancelable) e.preventDefault(); }, {passive:false});
     tile.addEventListener('contextmenu', e=>{ if (t0||held) e.preventDefault(); });
   };
+  // never rebuild the row out from under a hand: do it when the hand lifts
+  if (DRAG_LIVE){ GAL_REDRAW=true; return; }
   for (const [hostId, colr] of [['gallery',false],['galleryC',true]]){
     const host=$(hostId); if (!host) continue;
     for (const im of host.querySelectorAll('img')) if (im.src.startsWith('blob:')) URL.revokeObjectURL(im.src);
@@ -2365,6 +2394,10 @@ async function openSrc(gid, blob){
   try{
     if (gid==null) return blob;
     const rec=await galGet(gid);
+    // workW is the LONG EDGE of the stored working copy, which is what
+    // refCap() caps. Comparing the width instead meant a portrait photo -
+    // 4000x6000, capped to 2731x4096 - reported 2731 against a cap of 4096
+    // and never matched, so the expensive copy was rebuilt every single open.
     if (rec && rec.work && rec.workW && rec.workW >= refCap()) return rec.work;
     return (rec && rec.blob) || blob;
   }catch(e){ return blob; }
@@ -2409,13 +2442,19 @@ function openPhoto(blob, gid, retry){
       // away the artist's file: a 24MP photo became a 4096px JPEG on disk,
       // and that degraded copy was what synced to their other devices and
       // what every future open drew from. The original is theirs; it stays.
-      try{
+      // Building this costs a full-size toDataURL on the main thread, so a
+      // device that cannot store it must not be asked to make it again on
+      // every single open. One failure per reference is enough.
+      if (!WORK_OFF.has(gid)) try{
         const nb = canvasBlob(c, 'image/jpeg', 0.94);
         if (nb) (async()=>{ try{
           const rec = await galGet(gid);
-          if (rec && rec.blob){ rec.work = nb; rec.workW = cw; await galPut(rec, true); }
-        }catch(e){} })();
-      }catch(e){}
+          if (!rec || !rec.blob) return;
+          rec.work = nb; rec.workW = Math.max(cw, ch);
+          const ok = await galPut(rec, true);
+          if (ok===false){ WORK_OFF.add(gid); plog('work copy refused for '+gid); }
+        }catch(e){ WORK_OFF.add(gid); } })();
+      }catch(e){ WORK_OFF.add(gid); }
     }
     if (REFMODE!=='c'){                              // automatic black and white
       g.filter = 'grayscale(1)'; g.drawImage(c, 0, 0); g.filter = 'none';
@@ -2574,7 +2613,8 @@ function warmOpen(r){
     show('scrMain');
     initMain();
     bloomIn();
-    decodeWarm(r.blob, r.id, my);
+    openSrc(r.id, r.blob).then(b=>{ if (my===OPEN_SEQ) decodeWarm(b||r.blob, r.id, my); })
+      .catch(()=>{ if (my===OPEN_SEQ) decodeWarm(r.blob, r.id, my); });
   })();
   return true;
 }
@@ -2583,12 +2623,26 @@ function decodeWarm(blob, gid, my, retry){
   img.onload=()=>{
     URL.revokeObjectURL(img.src);
     if (my!==OPEN_SEQ || galActive!==gid) return;
+    // The SAME cap the ordinary open applies. This path used to decode at
+    // the file's own size, which was harmless only while the stored file was
+    // itself already capped. Since the original is kept untouched, an
+    // uncapped decode here gave `photo` different dimensions, which go into
+    // the cook's fingerprint - so every reopen purged the planes the last
+    // open had just cooked, and the two paths re-cooked each other forever.
+    // On a 4GB phone it also decoded the full 24MP original, which is
+    // exactly what the cap exists to prevent.
+    const CAP = refCap();
+    const sc = Math.min(1, CAP/Math.max(img.width, img.height));
+    const cw = Math.round(img.width*sc), ch = Math.round(img.height*sc);
     const c=document.createElement('canvas');
-    c.width=img.width; c.height=img.height;
+    c.width=cw; c.height=ch;
     const g=c.getContext('2d');
-    if (REFMODE!=='c') g.filter='grayscale(1)';
-    g.drawImage(img,0,0); g.filter='none';
-    if (REFMODE!=='c') forceGray(c);
+    flatten(g, cw, ch);                  // a cutout PNG is paper here too
+    g.drawImage(img,0,0,cw,ch);
+    if (REFMODE!=='c'){
+      g.filter='grayscale(1)'; g.drawImage(c,0,0); g.filter='none';
+      forceGray(c);
+    }
     const _er=editLoad(gid);
     photo=_er ? editApply(c,_er,REFMODE==='c') : c;
     try{ const f=JSON.parse(localStorage.getItem('fmt|'+gid)||'null');
@@ -2772,11 +2826,16 @@ function tip(targetId, txt, opts){
     // bubble goes above it even when the caller asked for below
     const roomBelow = FLOOR-10-bh >= r.bottom+16;
     const above = (!opts.below || !roomBelow) && r.top-bh-16 >= 10;
-    const by = above ? r.top-bh-16
-                     : Math.max(10, Math.min(FLOOR-bh-10, r.bottom+16));
+    // the target itself can sit outside the viewport - in landscape the ruler
+    // is below the fold - so placing relative to it is not enough on its own:
+    // whichever side wins, the bubble still has to land on the screen
+    let by = above ? r.top-bh-16 : Math.min(FLOOR-bh-10, r.bottom+16);
+    by = Math.max(10, Math.min(by, FLOOR-bh-10));
     bub.style.left=bx+'px'; bub.style.top=by+'px';
     bub.style.visibility='';
-    car.style.display='';
+    // the caret only belongs where the bubble really sits next to its target
+    const near = by+bh > r.top-40 && by < r.bottom+40;
+    car.style.display = near ? '' : 'none';
     car.classList.toggle('up', !above);
     car.style.left=(cx-10)+'px';
     car.style.top=(above ? by+bh-1 : by-11)+'px';
@@ -2961,7 +3020,8 @@ $('rmDup').onclick=async()=>{
   const id=REFM; REFM=null; $('refModal').style.display='none';
   const r=await galGet(id); if (!r || !r.blob){ toast('could not read that reference', false); return; }
   const nid=await galAdd({ ts:Date.now(), name:(r.name?r.name+' ':'')+'copy', thumb:r.thumb, blob:r.blob });
-  if (nid!=null && isColor(id)) try{ localStorage.setItem('mode|'+nid,'c'); }catch(e){}
+  if (nid==null){ await saveFailed(); renderGallery(); return; }   // never claim a copy that is not there
+  if (isColor(id)) try{ localStorage.setItem('mode|'+nid,'c'); }catch(e){}
   renderGallery(); toast('duplicated');
 };
 $('rmGrid').onclick=async()=>{
@@ -3931,13 +3991,24 @@ async function edOpenFor(mode){
   if (galActive==null){ toast('open a reference first', false); return; }
   const r=await galGet(galActive);
   if (!r || !r.blob){ toast('could not read the original', false); return; }
-  const i=await blobImage(r.blob).catch(()=>null);
+  const src=await openSrc(galActive, r.blob);
+  const i=await blobImage(src||r.blob).catch(()=>null);
   if (!i){ toast('could not read the original', false); return; }
-  const c=document.createElement('canvas'); c.width=i.width; c.height=i.height;
+  // the same cap as every other open. Editing used to build canvases at the
+  // file's own size - on a 24MP photo that is three or four 96MB canvases on
+  // a phone the cap exists to protect - and it also handed back a `photo` at
+  // a different size, which re-keyed the cook and threw the planes away.
+  const CAP=refCap();
+  const sc=Math.min(1, CAP/Math.max(i.width, i.height));
+  const cw=Math.round(i.width*sc), ch=Math.round(i.height*sc);
+  const c=document.createElement('canvas'); c.width=cw; c.height=ch;
   const g=c.getContext('2d');
-  if (!isColor(galActive)) g.filter='grayscale(1)';
-  g.drawImage(i,0,0); g.filter='none';
-  if (!isColor(galActive)) forceGray(c);
+  flatten(g, cw, ch);
+  g.drawImage(i,0,0,cw,ch);
+  if (!isColor(galActive)){
+    g.filter='grayscale(1)'; g.drawImage(c,0,0); g.filter='none';
+    forceGray(c);
+  }
   URL.revokeObjectURL(i.src);
   edOpen(c, galActive, mode);
 }
@@ -5196,15 +5267,21 @@ async function dbCmpKeys(){ try{ const d=await db(); return await new Promise(re
 const BAK_PERID=['fmt|','def|','time|','done|','gtot|','det|','edit|','mode|','lay|'];
 async function bakBuild(){
   const refs=[];
+  // Originals are kept untouched now, so a library that used to back up as a
+  // few hundred KB a reference can be tens of MB each - and all of it is
+  // base64 (a third bigger again) inside ONE string in memory. Back up the
+  // capped working copy where there is one: it is what the app draws from,
+  // and it is the difference between a backup that builds and one that dies.
   for (const r of await galAll()){
     const per={};
     for (const pfx of BAK_PERID){
       const v=localStorage.getItem(pfx+r.id); if (v!=null) per[pfx]=v;
     }
+    const body = (r.work && r.work.size && r.blob && r.work.size < r.blob.size) ? r.work : r.blob;
     refs.push({ name:r.name||'', ts:r.ts||0, seed:r.seed?1:0,
                 thumb:(typeof r.thumb==='string' ? r.thumb : ''),   // a Blob thumb is rebuilt on restore
-                per, mime:(r.blob&&r.blob.type)||'image/jpeg',
-                blob:await blob2b64(r.blob) });
+                per, mime:(body&&body.type)||'image/jpeg',
+                blob:await blob2b64(body) });
   }
   const cmps=[];
   for (const k of await dbCmpKeys()){

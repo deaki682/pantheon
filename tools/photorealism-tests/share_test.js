@@ -32,8 +32,8 @@ const { chromium } = require('playwright-core');
     const mk=async(w,h)=>{ const c=document.createElement('canvas'); c.width=w;c.height=h;
       const g=c.getContext('2d'); g.fillStyle='#777'; g.fillRect(0,0,w,h);
       return new File([await new Promise(r=>c.toBlob(r,'image/jpeg',.8))],w+'.jpg',{type:'image/jpeg'}); };
-    await addRef(await mk(736,981), false);
-    for(let i=0;i<200;i++){ if(photo&&photo.width===736) break; await new Promise(r=>setTimeout(r,50)); }
+    await addRef(await mk(420,560), false);
+    for(let i=0;i<200;i++){ if(photo&&photo.width===420) break; await new Promise(r=>setTimeout(r,50)); }
     $('widthIn').value='30'; $('unit').value='cm'; fmtPreview();
     const small=$('resNote').classList.contains('on');
     await addRef(await mk(3000,4000), false);
@@ -41,7 +41,8 @@ const { chromium } = require('playwright-core');
     $('widthIn').value='30'; $('unit').value='cm'; fmtPreview();
     return { small, big:$('resNote').classList.contains('on'), txt:$('resNote').textContent.slice(0,40) };
   });
-  console.log('small note on / big note off:', b.small && !b.big ? 'ok' : 'FAIL', JSON.stringify(b));
+  console.log('note: fires on a 420px reference, silent on a 3000px one:',
+    b.small && !b.big ? 'ok' : 'FAIL', JSON.stringify(b));
 
   // C. a failed save is reported, not swallowed
   const c = await page.evaluate(async()=>{
