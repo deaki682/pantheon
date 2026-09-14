@@ -898,7 +898,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v419</span>
+    <span id="verNum">v420</span>
   </div>
 </div>
 <div id="delModal">
@@ -4886,8 +4886,11 @@ function refQ(){
   try{
     const src=state.img; const {w}=worldSize();
     if (!src || !src.width || !w) return 1;
-    const cap = refCap()<=2560 ? 6e6 : refCap()<4096 ? 10e6 : 14e6;
-    let q = src.width / w;
+    // deep zoom shows a fraction of the picture, so beyond roughly 3x the
+    // world the extra pixels are never resolved on screen - they are only
+    // memory and texture bandwidth
+    const cap = refCap()<=2560 ? 4e6 : refCap()<4096 ? 6e6 : 8e6;
+    let q = Math.min(src.width / w, 3);
     if (q <= 1.02) return 1;
     const {h}=worldSize();
     if (w*h*q*q > cap) q = Math.sqrt(cap/(w*h));
@@ -4903,21 +4906,28 @@ function paintWorld(){
   // the browser evicts canvas memory in the background
   const {w,h} = worldSize();
   const cv = $('refImg');
-  const r = refSize();
+  const src = viewSrc();
+  // Size the canvas to what is actually being DRAWN. The photograph carries
+  // more than the world and deserves the room; a layer composite is cooked at
+  // world size and gains nothing from being blown up into an 8-megapixel
+  // canvas - it only costs a big upscale and a big texture to push to the GPU
+  // on every single repaint, which is what made layer and detail work crawl
+  // on a phone once the reference canvas grew.
+  const big = !!(src && state.img && src===state.img);
+  const r = big ? refSize() : {w, h};
   if (cv.width!==r.w || cv.height!==r.h){
     cv.width=r.w; cv.height=r.h;
     cv.style.width=w+'px'; cv.style.height=h+'px';
   }
   const g = cv.getContext('2d');
-  g.imageSmoothingQuality='high';
-  const src = viewSrc();
+  g.imageSmoothingQuality = big ? 'high' : 'medium';
   if (src) g.drawImage(src, 0, 0, r.w, r.h);
   applyGrid();
 }
 function initMain(){
   const {w,h} = worldSize();
-  { const cv=$('refImg'); const r=refSize();
-    cv.width=r.w; cv.height=r.h;
+  { const cv=$('refImg');            // paintWorld sizes it to whatever it draws
+    cv.width=w; cv.height=h;
     cv.style.width=w+'px'; cv.style.height=h+'px'; }
   // a photo always opens on the full image: panel closed, every layer in.
   // The pencil button is the door to the shading workshop.
