@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v431</span>
+    <span id="verNum">v432</span>
   </div>
 </div>
 <div id="delModal">
@@ -3563,6 +3563,7 @@ function fmtPreview(){
   const hIn = wIn * ((+$('heightIn').value||1)/(+$('widthIn').value||1));
   const step = cv.width*cellIn()/wIn;
   const auto = GRID_COL==='auto';
+  const punch = GRID_COL==='punch';
   // The lattice is laid out from the CANVAS origin: neither the pan offset
   // nor the zoom moves a single line of it, and the canvas keeps the paper's
   // aspect so it never changes size either. So every frame of a drag was
@@ -3575,8 +3576,16 @@ function fmtPreview(){
     FMT_GRID={k:gk, cv:fmtGridLayer(cv.width, cv.height, step, dpr)};
   if (FMT_GRID.cv){
     g.save();
-    if (auto) g.globalCompositeOperation='difference';
-    g.drawImage(FMT_GRID.cv, 0, 0);
+    if (punch){
+      // the photograph is already on the canvas: threshold THAT, then keep
+      // only the grid's own shape out of it
+      const lay=punchLayer(cv.width, cv.height,
+        lg=>lg.drawImage(cv,0,0), FMT_GRID.cv);
+      g.drawImage(lay,0,0);
+    } else {
+      if (auto) g.globalCompositeOperation='difference';
+      g.drawImage(FMT_GRID.cv, 0, 0);
+    }
     g.restore();
   }
 }
@@ -3588,7 +3597,11 @@ function fmtGridLayer(W, H, step, dpr){
   const g=oc.getContext('2d');
   if (!(step>0.5) || !isFinite(step)) return oc;
   const auto = GRID_COL==='auto';
-  g.strokeStyle = auto ? 'rgba(255,255,255,0.75)' : GRID_COL;
+  // in punch mode the layer is only a SHAPE - the colour comes from what is
+  // beneath it - so it is drawn at full strength and GRID_OP alone decides
+  // how strongly it lands
+  g.strokeStyle = GRID_COL==='punch' ? '#fff'
+                : auto ? 'rgba(255,255,255,0.75)' : GRID_COL;
   g.fillStyle = g.strokeStyle;
   g.globalAlpha=GRID_OP;
   g.lineWidth=Math.max(0.75, dpr*0.4*GRID_THK);
@@ -5002,7 +5015,10 @@ function drawGrid(){
   const x0=Math.max(0,ox), x1=Math.min(W2, ox+w*sc);
   const y0=Math.max(0,oy), y1=Math.min(H2, oy+h*sc);
   cvv.style.mixBlendMode = GRID_COL==='auto' ? 'difference' : 'normal';
-  g.strokeStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+  // punch draws the lattice as a plain SHAPE at full strength; the colour is
+  // decided afterwards, per pixel, from the reference underneath it
+  g.strokeStyle = GRID_COL==='punch' ? '#fff'
+                : GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
   g.globalAlpha=GRID_OP;
   // thickness lives in PAPER space: a hairline at full fit, swelling
   // linearly with the zoom (today's weight lands at ~2.5x fit) and capped
@@ -5104,6 +5120,20 @@ function drawGrid(){
     g.textAlign='left';
   }
   g.globalAlpha=1;
+  if (GRID_COL==='punch'){
+    // Everything above drew the lattice in white. Now colour it: threshold
+    // what it sits on - the paper, and the reference over it - and keep only
+    // the lattice's own shape out of the result. Dark goes white, light goes
+    // black, nothing lands in between.
+    const lay=punchLayer(W2, H2, lg=>{
+      lg.fillStyle='#fff'; lg.fillRect(0,0,W2,H2);      // the sheet
+      const ref=refCanvas();
+      if (ref && ref.width) lg.drawImage(ref, ox, oy, w*sc, h*sc);
+    }, cvv);
+    g.globalCompositeOperation='copy';
+    g.drawImage(lay,0,0);
+    g.globalCompositeOperation='source-over';
+  }
   drawEdgeLabs();
 }
 // the sticky margin labels live on their own layer, recomputed from the
@@ -5777,7 +5807,7 @@ function loadGridPrefs(){
   try{
     GRID_ON = localStorage.getItem('gridOn')!=='0';
     const c=localStorage.getItem('gridCol');
-    if (c==='auto' || /^#[0-9a-f]{6}$/i.test(c||'')) GRID_COL=c;
+    if (c==='auto' || c==='punch' || /^#[0-9a-f]{6}$/i.test(c||'')) GRID_COL=c;
     const t=+localStorage.getItem('gridThk');
     if (t>=1 && t<=3) GRID_THK=t;
     GRID_LAB = localStorage.getItem('gridLab')==='1';
@@ -5837,6 +5867,9 @@ const grayCanvas=(buf,w,h)=>{
 // blocks them in. Thresholds are percentiles of this reference's luma, so
 // every photo splits into meaningful quarters rather than fixed bins.
 const LAYERS_C={dk:true, mid:true, lt:true, br:true};
+// how many luma levels the border between a chosen band and an unchosen one
+// fades across. 0 restores the hard staircase.
+let BAND_SOFT = 9;
 // the underglaze: a sepia mirror of the B&W workshop over blank paper -
 // Shading lays the form in, Darks/Lights/Brights build on it. While open
 // it is the only thing shown; the colour bands wait, remembered.
@@ -5903,16 +5936,32 @@ function compositeColorCv(){
   } else if (DETAIL!=='ultra'){
     if (DET.key===fkey() && DET.lv[DETAIL]){ det=DET.lv[DETAIL]; detLv=DETAIL; }
     else { ensureDetail(DETAIL);
-      const st=detStandIn(DETAIL); if (st){ det=st.det; detLv=st.lv; } }
+      const st=detStandIn(DETAIL); if (st){ det=st.det; detLv=st.lv; }
+      // as in black and white: hold the picture that is up rather than fall
+      // back to full detail on the way to the level asked for
+      else if (COMP.cv && COMP.sigPre===colSigPre()+'G'+UGROUND+UCOL) return COMP.cv;
+    }
   }
   const ready=prog&&dP, eff=detLv||'ultra';
   if (ready) DET_SHOWN='prog'; else DET_SHOWN=eff;
   const L=LAYERS_C;
-  const sig='K'+(ready?'P':'C')+(L.dk?'D':'')+(L.mid?'M':'')
-           +(L.lt?'L':'')+(L.br?'B':'')+'T'+eff
-           +'G'+UGROUND+UCOL;
+  const sigPre='K'+(ready?'P':'C')+(L.dk?'D':'')+(L.mid?'M':'')
+           +(L.lt?'L':'')+(L.br?'B':'')+'G'+UGROUND+UCOL;
+  const sig=sigPre+'T'+eff;
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
+  COMP.sigPre=sigPre;
   const N=COMP.ph.length, [t1,t2,t3]=COMP.bands, rgb=COMP.rgb;
+  // Which band a pixel belongs to was a yes/no on one luma value, so wherever
+  // a chosen band met an unchosen one the border ran along a contour of equal
+  // tone and came out as a staircase. Feather it: across BAND_SOFT levels
+  // either side of a border that actually changes state, the colour fades
+  // into the ground instead of stopping dead. The fade lives in TONE, so it
+  // is only as wide in pixels as the picture is gradual there - a hard edge
+  // in the photograph still gets a hard border, and with every band chosen
+  // there is no border to soften and nothing changes at all.
+  const BT=[t1,t2,t3];
+  const ON=[LAYERS_C.dk?1:0, LAYERS_C.mid?1:0, LAYERS_C.lt?1:0, LAYERS_C.br?1:0];
+  const SOFT=BAND_SOFT;
   const underOn = UGROUND!=='off';
   const gShade = UGROUND==='shade', gFull = UGROUND==='full';
   const c=document.createElement('canvas'); c.width=w; c.height=h;
@@ -5935,22 +5984,39 @@ function compositeColorCv(){
     const u = gFull ? v : (gShade ? sh : (underOn ? UMID : 255));
     // the band borders follow the tool: values group by the COOKED luma at
     // the current detail level, so a coarser tool draws coarser boundaries
-    const band = v<=t1 ? 'dk' : v<=t2 ? 'mid' : v<=t3 ? 'lt' : 'br';
-    if (!L[band]){
-      // the colours always build on top of the underpainting: wherever a
-      // band is not yet painted, the configured sepia ground shows through
-      // the ramp index must be a whole number (a fractional index reads
-      // nothing and speckled the highlights); the Detailed ground keeps
-      // its smooth ramp all the way up instead of cutting to paper white
-      const ui=(u>255?255:(u<0?0:u))|0;
-      if (underOn && (gFull || ui<254)){
-        od[q]=SEP_R[ui]; od[q+1]=SEP_G[ui]; od[q+2]=SEP_B[ui];
-      } else { od[q]=od[q+1]=od[q+2]=255; }
-      od[q+3]=255; continue;
+    const bi = v<=t1 ? 0 : v<=t2 ? 1 : v<=t3 ? 2 : 3;
+    let a = ON[bi];
+    if (SOFT>0){
+      const lo = bi>0 ? BT[bi-1] : -1e9, hi = bi<3 ? BT[bi] : 1e9;
+      const dLo = v-lo, dHi = hi-v;
+      if (dLo<SOFT && bi>0 && ON[bi-1]!==ON[bi])
+        a = ON[bi-1] + (ON[bi]-ON[bi-1])*(0.5 + dLo/(SOFT+SOFT));
+      else if (dHi<SOFT && bi<3 && ON[bi+1]!==ON[bi])
+        a = ON[bi+1] + (ON[bi]-ON[bi+1])*(0.5 + dHi/(SOFT+SOFT));
     }
+    if (a>=0.998){                      // wholly painted: the common case
+      const k=v/Math.max(1,ph);
+      const r=rgb[q]*k, g2=rgb[q+1]*k, b=rgb[q+2]*k;
+      od[q]=r>255?255:r; od[q+1]=g2>255?255:g2; od[q+2]=b>255?255:b; od[q+3]=255;
+      continue;
+    }
+    // the colours always build on top of the underpainting: wherever a
+    // band is not yet painted, the configured sepia ground shows through
+    // the ramp index must be a whole number (a fractional index reads
+    // nothing and speckled the highlights); the Detailed ground keeps
+    // its smooth ramp all the way up instead of cutting to paper white
+    const ui=(u>255?255:(u<0?0:u))|0;
+    let pr, pg, pb;
+    if (underOn && (gFull || ui<254)){ pr=SEP_R[ui]; pg=SEP_G[ui]; pb=SEP_B[ui]; }
+    else { pr=pg=pb=255; }
+    if (a<=0.002){ od[q]=pr; od[q+1]=pg; od[q+2]=pb; od[q+3]=255; continue; }
     const k=v/Math.max(1,ph);
-    const r=rgb[q]*k, g2=rgb[q+1]*k, b=rgb[q+2]*k;
-    od[q]=r>255?255:r; od[q+1]=g2>255?255:g2; od[q+2]=b>255?255:b; od[q+3]=255;
+    let r=rgb[q]*k, g2=rgb[q+1]*k, b=rgb[q+2]*k;
+    if (r>255)r=255; if (g2>255)g2=255; if (b>255)b=255;
+    od[q]  = pr+(r-pr)*a;
+    od[q+1]= pg+(g2-pg)*a;
+    od[q+2]= pb+(b-pb)*a;
+    od[q+3]=255;
   }
   g.putImageData(om,0,0);
   COMP.sig=sig; COMP.cv=c;
@@ -5993,6 +6059,14 @@ function compParts(){
 // undoing the choice you just made. Standing in with what was already on
 // screen means the only thing that changes is the thing you asked to change.
 let DET_SHOWN=null;
+// everything about the composite EXCEPT which detail level it was drawn at
+function bwSigPre(){
+  return 'C'+(LAYERS.dk?'D':'')+(LAYERS.lt?'L':'')+(LAYERS.hl?'H':'');
+}
+function colSigPre(){
+  return 'KC'+(LAYERS_C.dk?'D':'')+(LAYERS_C.mid?'M':'')
+    +(LAYERS_C.lt?'L':'')+(LAYERS_C.br?'B':'');
+}
 function detStandIn(want){
   if (!DET_SHOWN || DET_SHOWN===want || DET_SHOWN==='ultra') return null;
   if (DET.key!==fkey()) return null;
@@ -6011,14 +6085,23 @@ function compositeCv(){
   } else if (DETAIL!=='ultra'){
     if (DET.key===fkey() && DET.lv[DETAIL]){ det=DET.lv[DETAIL]; detLv=DETAIL; }
     else { ensureDetail(DETAIL);
-      const st=detStandIn(DETAIL); if (st){ det=st.det; detLv=st.lv; } }
+      const st=detStandIn(DETAIL); if (st){ det=st.det; detLv=st.lv; }
+      // Leaving Ultra there IS no cheaper stand-in - ultra is not a cooked
+      // level, it is the un-degraded picture - so this fell through to
+      // drawing at full detail and the reference flashed back to it on the
+      // way to the level actually asked for. Hold what is already up until
+      // the new one lands; only the detail changed, so the picture standing
+      // there is right in every other way.
+      else if (COMP.cv && COMP.sigPre===bwSigPre()) return COMP.cv;
+    }
   }
   const ready = prog && dP;
   const eff=detLv||'ultra';
   if (ready) DET_SHOWN='prog'; else DET_SHOWN=eff;
-  const sig=(ready?'P':'C')+(LAYERS.dk?'D':'')+(LAYERS.lt?'L':'')
-           +(LAYERS.hl?'H':'')+'T'+eff;
+  const sigPre=(ready?'P':'C')+(LAYERS.dk?'D':'')+(LAYERS.lt?'L':'')+(LAYERS.hl?'H':'');
+  const sig=sigPre+'T'+eff;
   if (COMP.sig===sig && COMP.cv) return COMP.cv;
+  COMP.sigPre=sigPre;
   const {w,h}=worldSize();
   const N=COMP.ph.length, buf=new Uint8Array(N);
   for (let i=0;i<N;i++){
@@ -6141,7 +6224,15 @@ async function ensureDetail(lv, bg){
 // rounding.
 function plainRef(){
   if (UNDER || UGROUND!=='off') return false;
-  if (DETAIL!=='ultra') return false;
+  // Leaving Ultra with every layer on, the photograph was dropped the
+  // instant the new level was ASKED for - but that level still had to cook,
+  // so what replaced it was the composite at full detail, and the reference
+  // visibly flashed back to full before settling. Follow what is genuinely
+  // showable: the photograph stands until the level asked for is ready.
+  if (DETAIL!=='ultra'){
+    const have = DET.key===fkey() && !!DET.lv[DETAIL];
+    if (have || DET_SHOWN!=='ultra') return false;
+  }
   return document.body.classList.contains('colorRef')
     ? (LAYERS_C.dk && LAYERS_C.mid && LAYERS_C.lt && LAYERS_C.br)
     : (LAYERS.dk && LAYERS.lt && LAYERS.hl);
@@ -6434,7 +6525,31 @@ function toast(t, acc, ms){
   clearTimeout(toast._t);
   toast._t=setTimeout(()=>el.classList.remove('on'), ms||1500);
 }
-const GRID_PAL=['auto','#ffffff','#000000','#e03c3c','#e8833a',
+// 'auto' inverts whatever is beneath, which is strong at both ends and
+// nearly invisible through the midtones - invert a mid grey and you land on
+// a mid grey. 'punch' decides instead: everything darker than mid-grey takes
+// a full white line, everything lighter a full black one, with nothing in
+// between. grayscale reduces the backdrop to its luma, the enormous contrast
+// collapses that to one end or the other, and invert picks the opposite.
+// The threshold reads the backdrop BLURRED. Deciding per pixel, a line
+// crossing busy texture that sits near the middle flips white/black from one
+// pixel to the next and the line comes out dashed; softening first makes the
+// decision on the local average, so it holds one colour for a run and then
+// changes cleanly.
+const PUNCH_BLUR=3;
+const PUNCH_FILTER='blur('+PUNCH_BLUR+'px) grayscale(1) contrast(12000%) invert(1)';
+// paint the backdrop through that filter, then keep only where the grid is
+function punchLayer(W, H, paintBackdrop, maskCv){
+  const lay=document.createElement('canvas'); lay.width=W; lay.height=H;
+  const lg=lay.getContext('2d');
+  lg.filter=PUNCH_FILTER;
+  paintBackdrop(lg);
+  lg.filter='none';
+  lg.globalCompositeOperation='destination-in';
+  lg.drawImage(maskCv, 0, 0);
+  return lay;
+}
+const GRID_PAL=['auto','punch','#ffffff','#000000','#e03c3c','#e8833a',
                 '#e8d13a','#5fb85f','#3ab5e8','#7a6be8','#e86bd0'];
 // the design button's icon IS the grid: a live 3x3 miniature in the
 // current style, thickness and color
@@ -6810,8 +6925,9 @@ function gsdSync(){
   if (sb) $('gsdStyleBox').innerHTML=sb.innerHTML;
   document.querySelectorAll('#gsdStyles button').forEach(b=>
     b.classList.toggle('vOn', b.dataset.v===GRID_STYLE));
-  $('gsdColSw').style.background = GRID_COL==='auto'
+  $('gsdColSw').style.background = (GRID_COL==='auto'||GRID_COL==='punch')
     ? 'linear-gradient(135deg,#fff 50%,#000 50%)' : GRID_COL;
+  $('gsdColSw').style.boxShadow = GRID_COL==='punch' ? 'inset 0 0 0 2px #888' : '';
   document.querySelectorAll('#gsdSws button').forEach(b=>
     b.classList.toggle('vOn', b.dataset.c===GRID_COL));
   const TW={1:'1.5px',2:'3px',3:'5px'};
@@ -6836,8 +6952,12 @@ function gsdSync(){
   for (const c of GRID_PAL){
     const b=document.createElement('button');
     b.dataset.c=c;
-    b.style.background = c==='auto' ? 'linear-gradient(135deg,#fff 50%,#000 50%)' : c;
-    b.title = c==='auto' ? 'auto - inverts whatever is beneath' : c;
+    b.style.background = (c==='auto'||c==='punch')
+      ? 'linear-gradient(135deg,#fff 50%,#000 50%)' : c;
+    if (c==='punch') b.style.boxShadow='inset 0 0 0 2px #888';
+    b.title = c==='auto' ? 'auto - inverts whatever is beneath'
+            : c==='punch' ? 'punch - full white on dark, full black on light'
+            : c;
     b.onclick=()=>{
       GRID_COL=c;
       try{ localStorage.setItem('gridCol', c); }catch(e){}
