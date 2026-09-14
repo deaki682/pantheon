@@ -58,18 +58,34 @@ const BUDGET = 100;              // ms from the tap to the painted result
     ['back to the drawing',     `show('scrMain'); applyView();`],
     ['open compare',            `$('compareBtn')&&$('compareBtn').click();`],
     ['leave compare',           `show('scrMain');`],
+    // added this pass: the Edit window, where the artist reported lag
+    ['open the edit window',    `return edOpenFor('tone');`],
+    ['zoom in the edit window', `ED.z.s=Math.min(8,(ED.z.s||1)*1.6); edPaint();`],
+    ['close the edit window',   `edClose(false);`],
   ];
-  const rows=[];
-  for (const [name, code] of steps){
-    const r = await pg.evaluate(async (code)=> await window.__time(new Function(code)), code);
-    rows.push({ name, ...r });
-    await pg.waitForTimeout(220);
+  // A single reading is noisy enough to cross the budget by itself, so each
+  // interaction is run REPS times and reported by its median. Chasing one
+  // unlucky sample is how a loop like this wastes a day.
+  const REPS = +(process.argv[4]||5);
+  const med = a => { const b=[...a].sort((x,y)=>x-y); return b[Math.floor(b.length/2)]; };
+  const acc = new Map(steps.map(([n])=>[n,{ms:[],sync:[],err:null}]));
+  for (let rep=0; rep<REPS; rep++){
+    for (const [name, code] of steps){
+      const r = await pg.evaluate(async (code)=> await window.__time(new Function(code)), code);
+      const a=acc.get(name);
+      if (r.err){ a.err=r.err; } else { a.ms.push(r.ms); a.sync.push(r.sync); }
+      await pg.waitForTimeout(160);
+    }
   }
+  const rows=[...acc].map(([name,a])=>({ name, err:a.err,
+    ms:a.ms.length?med(a.ms):-1, sync:a.sync.length?med(a.sync):-1,
+    lo:a.ms.length?Math.min(...a.ms):-1, hi:a.ms.length?Math.max(...a.ms):-1 }));
   rows.sort((a,b)=>b.ms-a.ms);
-  console.log('port '+PORT+'  CPU x'+RATE+'   budget '+BUDGET+'ms to painted');
+  console.log('port '+PORT+'  CPU x'+RATE+'   budget '+BUDGET+'ms to painted   median of '+REPS);
   for (const r of rows)
     console.log('  '+(r.ms>BUDGET?'OVER ':'ok   ')+String(r.ms).padStart(5)+'ms'
-      +'  (sync '+String(r.sync).padStart(5)+'ms)  '+r.name+(r.err?('  ERR '+r.err):''));
+      +'  (sync '+String(r.sync).padStart(4)+'  spread '+String(r.lo).padStart(4)+'-'+String(r.hi).padStart(4)+')  '
+      +r.name+(r.err?('  ERR '+r.err):''));
   console.log('  over budget: '+rows.filter(r=>r.ms>BUDGET).length+' of '+rows.length);
   if (errs.length) console.log('  page errors:', errs.slice(0,3));
   await br.close();

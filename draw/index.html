@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v423</span>
+    <span id="verNum">v424</span>
   </div>
 </div>
 <div id="delModal">
@@ -3962,14 +3962,23 @@ function edBuildPre(){
   ED.tone=null; ED.toneKey=null;      // a new preview buffer invalidates the tone
   // orientation + straighten at preview resolution: cheap to rebuild on
   // every rotate/flip/straighten, and everything live runs on it
-  const R=ED.R, src=ED.orig;
-  const k=Math.min(1, 1280/Math.max(src.width,src.height));
+  const R=ED.R;
+  // straight from the decoded image at preview size: one downscale, instead
+  // of a full-size canvas built first and then thrown away
+  const src=ED.orig || ED.srcImg;
+  const sw=ED.orig?src.width:ED.srcW, sh=ED.orig?src.height:ED.srcH;
+  const k=Math.min(1, 1280/Math.max(sw,sh));
   const small=document.createElement('canvas');
-  small.width=Math.max(2,Math.round(src.width*k));
-  small.height=Math.max(2,Math.round(src.height*k));
+  small.width=Math.max(2,Math.round(sw*k));
+  small.height=Math.max(2,Math.round(sh*k));
   const sg=small.getContext('2d');
   sg.imageSmoothingQuality='high';
+  flatten(sg, small.width, small.height);
   sg.drawImage(src,0,0,small.width,small.height);
+  if (!ED.colr && !ED.orig){          // the full canvas is already grey
+    sg.filter='grayscale(1)'; sg.drawImage(small,0,0); sg.filter='none';
+    forceGray(small);
+  }
   ED.pre=editApply(small, {...EDIT_DEF, rot:R.rot, fh:R.fh, fv:R.fv, ang:R.ang});
   const g=ED.pre.getContext('2d',{willReadFrequently:true});
   const d=g.getImageData(0,0,ED.pre.width,ED.pre.height).data;
@@ -4077,6 +4086,7 @@ function edPaint(){ cancelAnimationFrame(edRAF); edRAF=requestAnimationFrame(edR
 function edOpen(orig, gid, mode){
   ED.on=true; ED.orig=orig; ED.gid=gid; ED.mode=mode||'tone';
   ED.colr=isColor(gid);
+  if (!orig && !ED.srcImg) return;     // nothing to edit
   ED.z={s:1,x:0,y:0}; ED.showOrig=false;
   ED.R = editLoad(gid) || {...EDIT_DEF};
   show('scrEdit');
@@ -4091,15 +4101,23 @@ function edClose(apply){
       else localStorage.setItem('edit|'+ED.gid, JSON.stringify(R));
     }catch(e){}
     toast('applying\u2026', true, 2500);
-    const orig=ED.orig, gid=ED.gid;
+    const gid=ED.gid;
     setTimeout(()=>{
+      const orig=edFullOrig();
+      if (!orig){ show('scrFormat'); return; }
       photo = editNeutral(R) ? orig : editApply(orig, R, ED.colr);
       FMT_APPLIED=null;
       show('scrFormat');
       fmtPreview(); speculate();
     }, 30);
   } else show('scrFormat');
-  ED.on=false; ED.orig=null; ED.pre=null; ED.gray=null; ED.preData=null;
+  ED.on=false; ED.pre=null; ED.gray=null; ED.preData=null;
+  ED.tone=null; ED.toneKey=null;
+  try{ if (ED.srcImg && ED.srcImg.src && ED.srcImg.src.startsWith('blob:'))
+    URL.revokeObjectURL(ED.srcImg.src); }catch(e){}
+  ED.srcImg=null;
+  // ED.orig is released on the next tick: the apply runs after this
+  setTimeout(()=>{ if (!ED.on) ED.orig=null; }, 4000);
 }
 async function edOpenFor(mode){
   if (galActive==null){ toast('open a reference first', false); return; }
@@ -4108,23 +4126,32 @@ async function edOpenFor(mode){
   const src=await openSrc(galActive, r.blob);
   const i=await blobImage(src||r.blob).catch(()=>null);
   if (!i){ toast('could not read the original', false); return; }
-  // the same cap as every other open. Editing used to build canvases at the
-  // file's own size - on a 24MP photo that is three or four 96MB canvases on
-  // a phone the cap exists to protect - and it also handed back a `photo` at
-  // a different size, which re-keyed the cook and threw the planes away.
+  // The editor shows a 1280px preview and everything live runs on that, but
+  // opening it used to build the full capped canvas first - 12 megapixels of
+  // draw, then 12 megapixels of greyscale - before anything appeared. None of
+  // that is needed until Done is pressed. Hold the decoded image; the full
+  // canvas is built once, at apply.
   const CAP=refCap();
   const sc=Math.min(1, CAP/Math.max(i.width, i.height));
-  const cw=Math.round(i.width*sc), ch=Math.round(i.height*sc);
-  const c=document.createElement('canvas'); c.width=cw; c.height=ch;
+  ED.srcImg=i;
+  ED.srcW=Math.round(i.width*sc); ED.srcH=Math.round(i.height*sc);
+  edOpen(null, galActive, mode);
+}
+// the full-resolution canvas the applied result is cut from
+function edFullOrig(){
+  if (ED.orig) return ED.orig;
+  const i=ED.srcImg; if (!i) return null;
+  const c=document.createElement('canvas'); c.width=ED.srcW; c.height=ED.srcH;
   const g=c.getContext('2d');
-  flatten(g, cw, ch);
-  g.drawImage(i,0,0,cw,ch);
-  if (!isColor(galActive)){
+  g.imageSmoothingQuality='high';
+  flatten(g, ED.srcW, ED.srcH);
+  g.drawImage(i,0,0,ED.srcW,ED.srcH);
+  if (!ED.colr){
     g.filter='grayscale(1)'; g.drawImage(c,0,0); g.filter='none';
     forceGray(c);
   }
-  URL.revokeObjectURL(i.src);
-  edOpen(c, galActive, mode);
+  ED.orig=c;
+  return c;
 }
 $('fmtEdit').onclick=()=>edOpenFor('tone');
 $('fmtCrop').onclick=()=>edOpenFor('crop');
