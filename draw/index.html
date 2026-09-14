@@ -213,7 +213,10 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
   bottom:calc(20px + env(safe-area-inset-bottom));z-index:6;display:none;
   border:2px solid #fff;border-radius:10px;background:#000}
 #world{position:absolute;left:0;top:0;transform-origin:0 0}
-#refImg{position:absolute;left:0;top:0}
+#refImg,#refHi{position:absolute;left:0;top:0}
+/* one class, both directions: an inline display:'' would fall back to a CSS
+   rule and leave the canvas hidden while everything believed it was showing */
+#refImg.off,#refHi.off{display:none}
 #gridCv{position:absolute;left:0;top:0;pointer-events:none;transform-origin:0 0}
 #circCv{position:absolute;left:0;top:0;pointer-events:none;transform-origin:0 0}
 #edgeCv{position:absolute;left:0;top:0;pointer-events:none}
@@ -903,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v422</span>
+    <span id="verNum">v423</span>
   </div>
 </div>
 <div id="delModal">
@@ -1219,6 +1222,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   <div id="viewport">
     <div id="world">
       <canvas id="refImg"></canvas>
+      <canvas id="refHi" class="off"></canvas>
     </div>
     <!-- grid above the reference in SCREEN space, inverse of what's beneath -->
     <canvas id="gridCv" style="mix-blend-mode:difference"></canvas>
@@ -3955,6 +3959,7 @@ function edSync(){
   slFillAll();
 }
 function edBuildPre(){
+  ED.tone=null; ED.toneKey=null;      // a new preview buffer invalidates the tone
   // orientation + straighten at preview resolution: cheap to rebuild on
   // every rotate/flip/straighten, and everything live runs on it
   const R=ED.R, src=ED.orig;
@@ -3985,8 +3990,19 @@ function edRender(){
   const g=cv.getContext('2d');
   g.imageSmoothingQuality='high';
   g.clearRect(0,0,W,H);
-  // live tone on the preview buffer
-  const toned=document.createElement('canvas');
+  // The toned buffer depends ONLY on the adjustment values, never on the zoom
+  // or the pan - but it was rebuilt from scratch on every paint, running
+  // denoise, sharpen, the tone curve and a per-pixel write across the whole
+  // preview each frame. Pinching in the editor therefore re-toned the picture
+  // sixty times a second for a view transform that had not changed a pixel of
+  // it. Cache it against the values it actually depends on.
+  const tKey = (ED.colr?'c':'g')+'|'+[R.exp,R.con,R.hi,R.sh,R.wh,R.bl,R.dn,R.shp,
+    R.sat,R.vib,R.wrm,R.tnt].join(',')+'|'+pre.width+'x'+pre.height;
+  let toned;
+  if (ED.tone && ED.toneKey===tKey){
+    toned = ED.tone;
+  } else {
+  toned=document.createElement('canvas');
   toned.width=pre.width; toned.height=pre.height;
   const tg=toned.getContext('2d');
   if (ED.colr && ED.preData){
@@ -4016,6 +4032,8 @@ function edRender(){
       d[i*4]=d[i*4+1]=d[i*4+2]=v; d[i*4+3]=255;
     }
     tg.putImageData(id,0,0);
+  }
+  ED.tone=toned; ED.toneKey=tKey;
   }
   if (ED.mode==='crop'){
     // the whole frame, crop rect and handles over it
@@ -4997,34 +5015,56 @@ function refSize(){
   const {w,h}=worldSize(), q=refQ();
   return { w:Math.max(1,Math.round(w*q)), h:Math.max(1,Math.round(h*q)), q };
 }
+// Two canvases, not one that keeps changing size. The photograph needs the
+// room its own pixels deserve; a layer composite is cooked at world size and
+// gains nothing from being blown up into it. Sizing ONE canvas to whichever
+// was on screen meant every trip back to the photograph redrew a 23MB canvas
+// and handed it to the compositor again - 328ms from tap to paint, almost
+// none of it in JavaScript. The photograph's canvas only has to be drawn when
+// the photograph itself changes, which is once per format. After that,
+// switching between a layer view and the plain reference is a visibility
+// flip: nothing is allocated, nothing is uploaded, nothing is redrawn.
+function refCanvas(){                  // whichever one is currently showing
+  const hi=$('refHi');
+  return (hi && !hi.classList.contains('off') && hi.width) ? hi : $('refImg');
+}
 function paintWorld(){
   // the re-derivable layers: reference, grid, dimming - callable again after
   // the browser evicts canvas memory in the background
   const {w,h} = worldSize();
-  const cv = $('refImg');
+  const lo = $('refImg'), hi = $('refHi');
   const src = viewSrc();
-  // Size the canvas to what is actually being DRAWN. The photograph carries
-  // more than the world and deserves the room; a layer composite is cooked at
-  // world size and gains nothing from being blown up into an 8-megapixel
-  // canvas - it only costs a big upscale and a big texture to push to the GPU
-  // on every single repaint, which is what made layer and detail work crawl
-  // on a phone once the reference canvas grew.
   const big = !!(src && state.img && src===state.img);
-  const r = big ? refSize() : {w, h};
-  if (cv.width!==r.w || cv.height!==r.h){
-    cv.width=r.w; cv.height=r.h;
-    cv.style.width=w+'px'; cv.style.height=h+'px';
+  if (big){
+    const r = refSize();
+    const key = (CKEY||'') + '|' + r.w + 'x' + r.h;
+    if (hi.dataset.k !== key){
+      hi.width=r.w; hi.height=r.h;
+      hi.style.width=w+'px'; hi.style.height=h+'px';
+      const g=hi.getContext('2d');
+      g.imageSmoothingQuality='high';
+      g.drawImage(src, 0, 0, r.w, r.h);
+      hi.dataset.k=key;
+    }
+    hi.classList.remove('off'); lo.classList.add('off');
+  } else {
+    if (lo.width!==w || lo.height!==h){
+      lo.width=w; lo.height=h;
+      lo.style.width=w+'px'; lo.style.height=h+'px';
+    }
+    const g=lo.getContext('2d');
+    g.imageSmoothingQuality='medium';
+    if (src) g.drawImage(src, 0, 0, w, h);
+    lo.classList.remove('off'); hi.classList.add('off');
   }
-  const g = cv.getContext('2d');
-  g.imageSmoothingQuality = big ? 'high' : 'medium';
-  if (src) g.drawImage(src, 0, 0, r.w, r.h);
   applyGrid();
 }
 function initMain(){
   const {w,h} = worldSize();
-  { const cv=$('refImg');            // paintWorld sizes it to whatever it draws
+  { const cv=$('refImg');            // paintWorld decides which one is shown
     cv.width=w; cv.height=h;
-    cv.style.width=w+'px'; cv.style.height=h+'px'; }
+    cv.style.width=w+'px'; cv.style.height=h+'px';
+    const hi=$('refHi'); hi.dataset.k=''; hi.classList.add('off'); }
   // a photo always opens on the full image: panel closed, every layer in.
   // The pencil button is the door to the shading workshop.
   $('hud').style.display='none';
@@ -5299,7 +5339,7 @@ async function dbPutRaw(k,v){ try{ const d=await db(); await new Promise(res=>{
 document.addEventListener('visibilitychange', ()=>{
   // waking with blank layers means the browser purged canvas memory: repaint
   if (document.hidden || !GRID_READY) return;
-  const cv=$('refImg'); if (!cv.width) return;
+  const cv=refCanvas(); if (!cv.width) return;
   let blank=true;
   try{ const d=cv.getContext('2d').getImageData(0,0,6,6).data;
     for (let i=3;i<d.length;i+=4) if (d[i]){ blank=false; break; } }catch(e){ return; }
@@ -6377,8 +6417,8 @@ async function gsdLastRefSrc(){
 }
 async function gsdEnterPrev(){
   let src=null, gray=false, w=0, h=0, cell=0;
-  if (GRID_READY && $('refImg').width){
-    src=$('refImg'); const ws=worldSize(); w=ws.w; h=ws.h; cell=gridStepPx();
+  if (GRID_READY && refCanvas().width){
+    src=refCanvas(); const ws=worldSize(); w=ws.w; h=ws.h; cell=gridStepPx();
   } else if (typeof photo!=='undefined' && photo && photo.width){
     src=photo; w=photo.width; h=photo.height; cell=w/6;
   } else {
@@ -8730,7 +8770,7 @@ function cmpExport(){
     const pw=W/2, ph=H;
     const bs=Math.min(pw/w, ph/h), bx=(pw-w*bs)/2, by=(ph-h*bs)/2;
     const panes=[{ox:0, label:'drawing', img:CMP.img},
-                 {ox:pw, label:'reference', img:$('refImg'), grid:true}];
+                 {ox:pw, label:'reference', img:refCanvas(), grid:true}];
     for (const pn of panes){
       g.save();
       g.beginPath(); g.rect(pn.ox,0,pw,ph); g.clip();
@@ -8775,10 +8815,10 @@ function cmpExport(){
     const mir=fn=>{ if (CMP.mirror){ g.save(); g.translate(W,0); g.scale(-1,1); fn(); g.restore(); } else fn(); };
     mir(()=>{
       const dr=img=>g.drawImage(img, f.x, f.y, CMP.fit.w*f.s, CMP.fit.h*f.s);
-      if (CMP.showing==='ref') dr($('refImg'));
+      if (CMP.showing==='ref') dr(refCanvas());
       else {
         dr(CMP.img);
-        if (CMP.alpha>0){ g.globalAlpha=CMP.alpha; dr($('refImg')); g.globalAlpha=1; }
+        if (CMP.alpha>0){ g.globalAlpha=CMP.alpha; dr(refCanvas()); g.globalAlpha=1; }
       }
       if (GRID_ON && CMP.showing==='ref'){
         if (GRID_COL==='auto'){ g.globalCompositeOperation='difference';
@@ -8947,7 +8987,7 @@ function cmpRender(){
   const drawPhoto=()=>{ if (!CMP.img) return; const f=CMP.fit;
     g.drawImage(CMP.img, f.x, f.y, f.w*f.s, f.h*f.s); };
   const drawRef=()=>{ const f=CMP.fit;
-    g.drawImage($('refImg'), f.x, f.y, f.w*f.s, f.h*f.s); };
+    g.drawImage(refCanvas(), f.x, f.y, f.w*f.s, f.h*f.s); };
   if (CMP.mode==='corners' && CMP.raw){
     const s=Math.min(cv.width/CMP.raw.width, cv.height/CMP.raw.height);
     const ox=(cv.width-CMP.raw.width*s)/2, oy=(cv.height-CMP.raw.height*s)/2;
@@ -9045,7 +9085,7 @@ function cmpRender(){
       { ox:0, label:'drawing', draw:g2=>{        // the photo IS the sheet: 1:1
           g2.drawImage(CMP.img, 0, 0, w, h); } },
       { ox:pw, label:'reference', grid:true,
-        draw:g2=>{ g2.drawImage($('refImg'), 0, 0, w, h); } }
+        draw:g2=>{ g2.drawImage(refCanvas(), 0, 0, w, h); } }
     ];
     for (const pn of panes){
       g.save();
@@ -9583,7 +9623,7 @@ function camGhost(){
   const gw=w*gs, gh=h*gs;
   const gx=vx+(vw-gw)/2, gy=vy+(vh-gh)/2;
   g.globalAlpha=0.45;
-  g.drawImage($('refImg'), gx, gy, gw, gh);
+  g.drawImage(refCanvas(), gx, gy, gw, gh);
   g.globalAlpha=1;
   g.strokeStyle='rgba(255,255,255,0.9)'; g.lineWidth=2; g.setLineDash([8,8]);
   g.strokeRect(gx,gy,gw,gh);

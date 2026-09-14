@@ -156,7 +156,7 @@ async function run(br, v, scale, report) {
     const rot = v.w > v.h ? [{ w: v.h, h: v.w }, { w: v.w, h: v.h }] : [{ w: v.h, h: v.w }, { w: v.w, h: v.h }];
     for (const s of rot) { await pg.setViewportSize({ width: s.w, height: s.h }); await pg.waitForTimeout(900); }
     const after = await pg.evaluate(() => { const v = document.getElementById('viewport').getBoundingClientRect();
-      const w = document.getElementById('refImg').getBoundingClientRect();
+      const w = (typeof refCanvas==='function'?refCanvas():document.getElementById('refImg')).getBoundingClientRect();
       const c = document.getElementById('gridCv');
       return { cx: Math.round(w.x + w.width / 2 - (v.x + v.width / 2)), cy: Math.round(w.y + w.height / 2 - (v.y + v.height / 2)),
         fitsW: w.width <= v.width + 2, fitsH: w.height <= v.height + 2,
@@ -184,7 +184,7 @@ async function run(br, v, scale, report) {
 }
 
 (async () => {
-  const br = await chromium.launch(require('./browser.js'));
+  const br = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
   const report = [];
   // Each config is an independent browser context that spends most of its
   // time waiting for the app to settle, so running them one after another

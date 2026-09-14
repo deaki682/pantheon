@@ -20,7 +20,9 @@ const { chromium } = require('playwright-core');
     for (let i=0;i<400;i++){ if (photo&&photo.width) break; await new Promise(r=>setTimeout(r,50)); }
     $('unit').value='cm'; $('widthIn').value='30'; $('fmtGo').click();
     for (let i=0;i<3000;i++){ if (document.querySelector('#scrMain.on')&&GRID_READY) break; await new Promise(r=>setTimeout(r,50)); }
-    const cv=$('refImg'), out={ world:[WORLD.w,WORLD.h] };
+    const cv0=$('refImg'), out={ world:[WORLD.w,WORLD.h] };
+    const cv={ get width(){return refCanvas().width}, get height(){return refCanvas().height},
+               get offsetWidth(){return refCanvas().offsetWidth}, get offsetHeight(){return refCanvas().offsetHeight} };
     out.plain=[cv.width,cv.height];
     out.laidOutPlain=[cv.offsetWidth,cv.offsetHeight];
     const time=(fn)=>{ const t0=performance.now(); fn(); return performance.now()-t0; };
