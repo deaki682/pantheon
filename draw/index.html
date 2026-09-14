@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v439</span>
+    <span id="verNum">v440</span>
   </div>
 </div>
 <div id="delModal">
@@ -6509,6 +6509,13 @@ $('expBtn').onclick = async () => {
   const shown=viewSrc();
   let k=Math.max(1, Math.min(2, (state.img.width||w)/w));
   if (shown && shown.width > w*k) k = shown.width / w;
+  // ...and one measured step beyond it. The photograph gains nothing from
+  // this - those pixels are interpolated - but the GRID and the LABELS are
+  // stroked at export size, so they sharpen for real, and it buys a little
+  // more room to zoom in a gallery, which is what the file is for. Only on a
+  // device with the headroom: on a small phone the memory this costs is the
+  // very thing that makes saving fail, and more blur is a bad trade for that.
+  if (refCap() >= 4096) k *= 1.18;
   // bounded by what the device can hold - a canvas is four bytes a pixel, and
   // the encode needs room beside it
   const MAXPX = refCap()<=2560 ? 8e6 : refCap()<4096 ? 12e6 : 17e6;
