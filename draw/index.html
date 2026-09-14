@@ -16,7 +16,10 @@
 <style>
 /* minimal by instruction: purely functional, no stylistic embellishment */
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--acc:#e8833a;--accBg:#3b2a1b}
+/* --adgap: the clearance every tappable thing keeps from the ad strip.
+   48px is the standard minimum touch target, ~7.6mm against an 8-10mm
+   fingertip. One number: CSS and the tip placer both read it. */
+:root{--acc:#e8833a;--accBg:#3b2a1b;--adgap:48px}
 html{color-scheme:dark;accent-color:var(--acc)}
 input[type=range]{-webkit-appearance:none;appearance:none;height:28px;
   background:transparent;touch-action:none}
@@ -113,7 +116,15 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:calc(13px*var(--ux,1))}
 #calBtnCv{display:block}
 #upTitle{color:var(--acc);font-size:22px;letter-spacing:0.04em;margin-top:52px}
 #titleRule{display:block;width:100%;height:24px;flex:none;margin-top:2px}
-#upGridBg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+#upGridBg{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+/* the home column is taller than a short screen can hold - on a 360x640
+   phone the Share row and the Discord link fell off the bottom entirely,
+   and on a 768x1024 tablet they landed under the ad strip, with .screen at
+   overflow:visible so neither could be scrolled to. Landscape already
+   solved this; short portrait screens need the same answer. The grid
+   backdrop is fixed so it still paints the whole screen once it scrolls. */
+#scrUpload{overflow-y:auto}
+#scrUpload #gallery,#scrUpload #galleryC{touch-action:pan-x pan-y}
 /* Rearranging: the row draws back so more of it is in view, the held
    thumbnail lifts out on its own layer, and its neighbours SLIDE to open
    the gap it is hovering over. Nothing jumps and no dashed hole appears. */
@@ -325,7 +336,10 @@ body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.75)}
    __adH. 76px is only the opening guess; a phone set to a large system font
    grows the strip past it, and anything the page had put in that band was
    simply hidden. Everything that must clear the ad reads this one value. */
-html.adOn .screen{padding-bottom:calc(var(--adh,76px) + env(safe-area-inset-bottom))}
+/* --adclear is the whole stand-off: the strip's measured height plus the
+   fingertip gap. Everything that must not end up beside the ad reads it. */
+html.adOn{--adclear:calc(var(--adh,76px) + var(--adgap,48px) + env(safe-area-inset-bottom))}
+html.adOn .screen{padding-bottom:var(--adclear)}
 /* a centred panel is not a .screen: it was free to hang its lower half,
    button and all, underneath the ad */
 html.adOn #introModal,html.adOn #gearModal,html.adOn #a11yModal,
@@ -333,7 +347,7 @@ html.adOn #accModal,html.adOn #shModal,html.adOn #gridModal,
 html.adOn #setModal,html.adOn #refModal,html.adOn #dlModal,
 html.adOn #arModal,html.adOn #modeModal,html.adOn #delModal,
 html.adOn #gsdModal,html.adOn #dgModal,html.adOn #dlwModal{
-  padding-bottom:calc(var(--adh,76px) + env(safe-area-inset-bottom));
+  padding-bottom:var(--adclear);
   box-sizing:border-box}
 /* and whatever the text does - translation, a large system font - the panel
    scrolls inside what is left rather than growing off the screen */
@@ -357,8 +371,7 @@ html.adOn #scrMain{padding-bottom:0}
    network reads as an accidental-click layout. --adgap is that clearance,
    one number, at the standard minimum touch target. */
 html.adOn #hudWrap,html.adOn #detCorner,html.adOn #gridCorner,
-html.adOn #underCorner,html.adOn #camCorner{
-  bottom:calc(var(--adh,76px) + var(--adgap,48px) + env(safe-area-inset-bottom))}
+html.adOn #underCorner,html.adOn #camCorner{bottom:var(--adclear)}
 html.adOn body.uiHid #hudWrap,html.adOn body.uiHid #detCorner,
 html.adOn body.uiHid #gridCorner,html.adOn body.uiHid #underCorner,
 html.adOn body.uiHid #camCorner{transform:translate(-50%,290%)}
@@ -816,9 +829,6 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
    and every submenu opens inward, toward the paper. The home screen gains
    vertical scroll so the colour row stays reachable. */
 @media (orientation:landscape){
-  #scrUpload{overflow-y:auto}
-  #upGridBg{position:fixed}
-  #scrUpload #gallery,#scrUpload #galleryC{touch-action:pan-x pan-y}
   #setCorner,html.adCorner #setCorner{left:calc(8px + env(safe-area-inset-left));
     top:50%;transform:translate(0,-50%)}
   body.uiHid #setCorner,html.adCorner body.uiHid #setCorner{
@@ -919,7 +929,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v442</span>
+    <span id="verNum">v443</span>
   </div>
 </div>
 <div id="delModal">
@@ -2908,7 +2918,12 @@ function adPx(){
     // a measured 0 is a real answer - the slot is on but no ad has loaded -
     // and ||76 turned it back into a strip that is not there, floating every
     // tip bubble 76px above the bottom of an empty screen
-    return Number.isFinite(v) ? Math.max(0, v) : 76;
+    const h = Number.isFinite(v) ? Math.max(0, v) : 76;
+    // a bubble's close button landing on the strip's edge is the same
+    // adjacency as a HUD button: carry the fingertip gap here too
+    const g = parseFloat(getComputedStyle(document.documentElement)
+      .getPropertyValue('--adgap')) || 48;
+    return h ? h + g : 0;
   }catch(e){ return 0; }
 }
 function tipClose(chain){
