@@ -48,8 +48,14 @@
   },
   {
     "ts": "2026-09-14T14:13:00+00:00",
+    "date": "2026-09-14",
     "equity": 1000.0,
+    "cash": 1000.0,
     "btc": 78401.677868,
+    "eth": 2509.67897379,
+    "sol": 101.77122713,
+    "btc_shadow_start": 79324.65,
+    "btc_shadow_return_pct": -1.16,
     "note": "session 5, watch-only, zero positions - equity is the untouched $1,000 sleeve"
   }
 ]
