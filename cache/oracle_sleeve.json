@@ -14,42 +14,48 @@
    "cohort_id": "",
    "entry_date": "2026-07-10",
    "sector": "Technology",
-   "shares": 6.358622
+   "shares": 6.358622,
+   "theme": "ai_capex_buildout"
   },
   "LXU": {
    "avg_price": 10.96,
    "cohort_id": "",
    "entry_date": "2026-07-10",
    "sector": "Basic Materials",
-   "shares": 55.078467
+   "shares": 55.078467,
+   "theme": "ammonia_turnaround"
   },
   "PAY": {
    "avg_price": 28.87,
    "cohort_id": "",
    "entry_date": "2026-07-10",
    "sector": "Technology",
-   "shares": 23.898856
+   "shares": 23.898856,
+   "theme": "bank_biller_saas"
   },
   "QTWO": {
    "avg_price": 53.0,
    "cohort_id": "",
    "entry_date": "2026-07-10",
    "sector": "Technology",
-   "shares": 12.517358
+   "shares": 12.517358,
+   "theme": "bank_biller_saas"
   },
   "TPC": {
    "avg_price": 75.9599,
    "cohort_id": "",
    "entry_date": "2026-07-10",
    "sector": "Industrials",
-   "shares": 9.607305
+   "shares": 9.607305,
+   "theme": "ai_capex_buildout"
   },
   "ZVRA": {
    "avg_price": 14.105,
    "cohort_id": "",
    "entry_date": "2026-07-10",
    "sector": "Healthcare",
-   "shares": 47.034397
+   "shares": 47.034397,
+   "theme": "rare_disease_product_ramp"
   }
  },
  "realized_pnl": 147.95,
@@ -57,32 +63,50 @@
   "KLIC": {
    "industry": "Semiconductor Equipment & Materials",
    "sector_source": "Sharadar TICKERS (SEP), pulled 2026-09-07 via shared.sharadar._datatable('TICKERS', table='SEP', qopts.columns=...sector,industry...) \u2014 the SAME table shared/field_prep.py reads `meta` from when it builds packets (m.get('sector')/m.get('industry') at field_prep.py:248). Real pipeline source, NOT hand-filled.",
-   "sector_tagged_on": "2026-09-07"
+   "sector_tagged_on": "2026-09-07",
+   "theme": "ai_capex_buildout",
+   "theme_source": "Theme keys assigned from the MEASURED residual correlations in cache/oracle_upside_cluster_study.json (2026-09-09; 42 daily log returns 2026-07-09..2026-09-08, OLS residual vs SPY per name), NOT from a sector taxonomy. Exactly two pairs co-move significantly after removing the market: KLIC~TPC residual r=+0.443 (t=3.08) and PAY~QTWO residual r=+0.440 (t=3.06). LXU and ZVRA co-move significantly with nothing. This MATTERS because size_upside_book's default cluster key reads `theme` first and falls back to `sector`: under the Sharadar SECTOR key, KLIC+PAY+QTWO group as one 'Technology' cluster at 46.53% of equity and the 40% cap would force a trim on a grouping the data says is not a cluster at all (KLIC~QTWO residual r = -0.448, t=-3.13 \u2014 they HEDGE each other), while the pair that genuinely co-moves, KLIC~TPC, sits in two different sectors and would never have been capped. Under the evidenced theme key the live weights are ai_capex_buildout 29.16% and bank_biller_saas 35.28% \u2014 both under the 40% cap, so nothing needs trimming today, but the cap can now BIND on the right grouping at the rebuild.",
+   "theme_tagged_on": "2026-09-14"
   },
   "LXU": {
    "industry": "Chemicals",
    "sector_source": "Sharadar TICKERS (SEP), pulled 2026-09-07 via shared.sharadar._datatable('TICKERS', table='SEP', qopts.columns=...sector,industry...) \u2014 the SAME table shared/field_prep.py reads `meta` from when it builds packets (m.get('sector')/m.get('industry') at field_prep.py:248). Real pipeline source, NOT hand-filled.",
-   "sector_tagged_on": "2026-09-07"
+   "sector_tagged_on": "2026-09-07",
+   "theme": "ammonia_turnaround",
+   "theme_source": "Theme keys assigned from the MEASURED residual correlations in cache/oracle_upside_cluster_study.json (2026-09-09; 42 daily log returns 2026-07-09..2026-09-08, OLS residual vs SPY per name), NOT from a sector taxonomy. Exactly two pairs co-move significantly after removing the market: KLIC~TPC residual r=+0.443 (t=3.08) and PAY~QTWO residual r=+0.440 (t=3.06). LXU and ZVRA co-move significantly with nothing. This MATTERS because size_upside_book's default cluster key reads `theme` first and falls back to `sector`: under the Sharadar SECTOR key, KLIC+PAY+QTWO group as one 'Technology' cluster at 46.53% of equity and the 40% cap would force a trim on a grouping the data says is not a cluster at all (KLIC~QTWO residual r = -0.448, t=-3.13 \u2014 they HEDGE each other), while the pair that genuinely co-moves, KLIC~TPC, sits in two different sectors and would never have been capped. Under the evidenced theme key the live weights are ai_capex_buildout 29.16% and bank_biller_saas 35.28% \u2014 both under the 40% cap, so nothing needs trimming today, but the cap can now BIND on the right grouping at the rebuild.",
+   "theme_tagged_on": "2026-09-14"
   },
   "PAY": {
    "industry": "Software - Infrastructure",
    "sector_source": "Sharadar TICKERS (SEP), pulled 2026-09-07 via shared.sharadar._datatable('TICKERS', table='SEP', qopts.columns=...sector,industry...) \u2014 the SAME table shared/field_prep.py reads `meta` from when it builds packets (m.get('sector')/m.get('industry') at field_prep.py:248). Real pipeline source, NOT hand-filled.",
-   "sector_tagged_on": "2026-09-07"
+   "sector_tagged_on": "2026-09-07",
+   "theme": "bank_biller_saas",
+   "theme_source": "Theme keys assigned from the MEASURED residual correlations in cache/oracle_upside_cluster_study.json (2026-09-09; 42 daily log returns 2026-07-09..2026-09-08, OLS residual vs SPY per name), NOT from a sector taxonomy. Exactly two pairs co-move significantly after removing the market: KLIC~TPC residual r=+0.443 (t=3.08) and PAY~QTWO residual r=+0.440 (t=3.06). LXU and ZVRA co-move significantly with nothing. This MATTERS because size_upside_book's default cluster key reads `theme` first and falls back to `sector`: under the Sharadar SECTOR key, KLIC+PAY+QTWO group as one 'Technology' cluster at 46.53% of equity and the 40% cap would force a trim on a grouping the data says is not a cluster at all (KLIC~QTWO residual r = -0.448, t=-3.13 \u2014 they HEDGE each other), while the pair that genuinely co-moves, KLIC~TPC, sits in two different sectors and would never have been capped. Under the evidenced theme key the live weights are ai_capex_buildout 29.16% and bank_biller_saas 35.28% \u2014 both under the 40% cap, so nothing needs trimming today, but the cap can now BIND on the right grouping at the rebuild.",
+   "theme_tagged_on": "2026-09-14"
   },
   "QTWO": {
    "industry": "Software - Application",
    "sector_source": "Sharadar TICKERS (SEP), pulled 2026-09-07 via shared.sharadar._datatable('TICKERS', table='SEP', qopts.columns=...sector,industry...) \u2014 the SAME table shared/field_prep.py reads `meta` from when it builds packets (m.get('sector')/m.get('industry') at field_prep.py:248). Real pipeline source, NOT hand-filled.",
-   "sector_tagged_on": "2026-09-07"
+   "sector_tagged_on": "2026-09-07",
+   "theme": "bank_biller_saas",
+   "theme_source": "Theme keys assigned from the MEASURED residual correlations in cache/oracle_upside_cluster_study.json (2026-09-09; 42 daily log returns 2026-07-09..2026-09-08, OLS residual vs SPY per name), NOT from a sector taxonomy. Exactly two pairs co-move significantly after removing the market: KLIC~TPC residual r=+0.443 (t=3.08) and PAY~QTWO residual r=+0.440 (t=3.06). LXU and ZVRA co-move significantly with nothing. This MATTERS because size_upside_book's default cluster key reads `theme` first and falls back to `sector`: under the Sharadar SECTOR key, KLIC+PAY+QTWO group as one 'Technology' cluster at 46.53% of equity and the 40% cap would force a trim on a grouping the data says is not a cluster at all (KLIC~QTWO residual r = -0.448, t=-3.13 \u2014 they HEDGE each other), while the pair that genuinely co-moves, KLIC~TPC, sits in two different sectors and would never have been capped. Under the evidenced theme key the live weights are ai_capex_buildout 29.16% and bank_biller_saas 35.28% \u2014 both under the 40% cap, so nothing needs trimming today, but the cap can now BIND on the right grouping at the rebuild.",
+   "theme_tagged_on": "2026-09-14"
   },
   "TPC": {
    "industry": "Engineering & Construction",
    "sector_source": "Sharadar TICKERS (SEP), pulled 2026-09-07 via shared.sharadar._datatable('TICKERS', table='SEP', qopts.columns=...sector,industry...) \u2014 the SAME table shared/field_prep.py reads `meta` from when it builds packets (m.get('sector')/m.get('industry') at field_prep.py:248). Real pipeline source, NOT hand-filled.",
-   "sector_tagged_on": "2026-09-07"
+   "sector_tagged_on": "2026-09-07",
+   "theme": "ai_capex_buildout",
+   "theme_source": "Theme keys assigned from the MEASURED residual correlations in cache/oracle_upside_cluster_study.json (2026-09-09; 42 daily log returns 2026-07-09..2026-09-08, OLS residual vs SPY per name), NOT from a sector taxonomy. Exactly two pairs co-move significantly after removing the market: KLIC~TPC residual r=+0.443 (t=3.08) and PAY~QTWO residual r=+0.440 (t=3.06). LXU and ZVRA co-move significantly with nothing. This MATTERS because size_upside_book's default cluster key reads `theme` first and falls back to `sector`: under the Sharadar SECTOR key, KLIC+PAY+QTWO group as one 'Technology' cluster at 46.53% of equity and the 40% cap would force a trim on a grouping the data says is not a cluster at all (KLIC~QTWO residual r = -0.448, t=-3.13 \u2014 they HEDGE each other), while the pair that genuinely co-moves, KLIC~TPC, sits in two different sectors and would never have been capped. Under the evidenced theme key the live weights are ai_capex_buildout 29.16% and bank_biller_saas 35.28% \u2014 both under the 40% cap, so nothing needs trimming today, but the cap can now BIND on the right grouping at the rebuild.",
+   "theme_tagged_on": "2026-09-14"
   },
   "ZVRA": {
    "industry": "Biotechnology",
    "sector_source": "Sharadar TICKERS (SEP), pulled 2026-09-07 via shared.sharadar._datatable('TICKERS', table='SEP', qopts.columns=...sector,industry...) \u2014 the SAME table shared/field_prep.py reads `meta` from when it builds packets (m.get('sector')/m.get('industry') at field_prep.py:248). Real pipeline source, NOT hand-filled.",
-   "sector_tagged_on": "2026-09-07"
+   "sector_tagged_on": "2026-09-07",
+   "theme": "rare_disease_product_ramp",
+   "theme_source": "Theme keys assigned from the MEASURED residual correlations in cache/oracle_upside_cluster_study.json (2026-09-09; 42 daily log returns 2026-07-09..2026-09-08, OLS residual vs SPY per name), NOT from a sector taxonomy. Exactly two pairs co-move significantly after removing the market: KLIC~TPC residual r=+0.443 (t=3.08) and PAY~QTWO residual r=+0.440 (t=3.06). LXU and ZVRA co-move significantly with nothing. This MATTERS because size_upside_book's default cluster key reads `theme` first and falls back to `sector`: under the Sharadar SECTOR key, KLIC+PAY+QTWO group as one 'Technology' cluster at 46.53% of equity and the 40% cap would force a trim on a grouping the data says is not a cluster at all (KLIC~QTWO residual r = -0.448, t=-3.13 \u2014 they HEDGE each other), while the pair that genuinely co-moves, KLIC~TPC, sits in two different sectors and would never have been capped. Under the evidenced theme key the live weights are ai_capex_buildout 29.16% and bank_biller_saas 35.28% \u2014 both under the 40% cap, so nothing needs trimming today, but the cap can now BIND on the right grouping at the rebuild.",
+   "theme_tagged_on": "2026-09-14"
   }
  },
  "trades_count": 29
