@@ -30,6 +30,10 @@ object LocalServer {
         return "/__cap/" + id
     }
 
+    // the page that was going to fetch these is gone (a dead renderer, a
+    // reload): parked captures are large and nothing else ever drops them
+    fun clearParked() { store.clear() }
+
     @Volatile var degraded = false; private set
     fun start(ctx: Context): Int {
         server?.let { if (!it.isClosed) return port }

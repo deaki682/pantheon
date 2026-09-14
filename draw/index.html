@@ -344,9 +344,14 @@ html.adOn #gsdModal,html.adOn #dgModal,html.adOn #dlwModal{
 html.adOn #a11yPanel,html.adOn #accPanel,html.adOn #gsdPanel,
 html.adOn #setPanel,html.adOn #gearPanel{max-height:calc(100% - 20px)}
 html.adOn #scrMain{padding-bottom:0}
+/* the drawing screen reserves no padding of its own, so these five buttons
+   are the only thing holding the line above the ad - and they were the one
+   rule left written out as 76+8 when everything else moved to the measured
+   height. At a large system font they sat under the strip, where the ad
+   swallowed the taps. */
 html.adOn #hudWrap,html.adOn #detCorner,html.adOn #gridCorner,
 html.adOn #underCorner,html.adOn #camCorner{
-  bottom:calc(84px + env(safe-area-inset-bottom))}
+  bottom:calc(var(--adh,76px) + 8px + env(safe-area-inset-bottom))}
 html.adOn body.uiHid #hudWrap,html.adOn body.uiHid #detCorner,
 html.adOn body.uiHid #gridCorner,html.adOn body.uiHid #underCorner,
 html.adOn body.uiHid #camCorner{transform:translate(-50%,290%)}
@@ -898,7 +903,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v420</span>
+    <span id="verNum">v421</span>
   </div>
 </div>
 <div id="delModal">
@@ -1505,6 +1510,19 @@ addEventListener('popstate', ()=>{
 // closing the whole app): step up one screen, or report 'exit' only
 // from the project page
 window.__backStep=()=>{
+  // an overlay first, always. A share opens the method chooser unbidden, and
+  // back is the natural way to dismiss something you did not ask for - it
+  // used to close the whole app instead.
+  for (const id of ['modeModal','refModal','delModal','dlwModal','shModal','dgModal',
+                    'arModal','dlModal','gsdModal','gridModal','setModal','a11yModal',
+                    'accModal','gearModal','introModal']){
+    const m=$(id);
+    if (m && m.style.display && m.style.display!=='none'){
+      m.style.display='none';
+      if (id==='modeModal') MODE_WITH=null;
+      return 'ok';
+    }
+  }
   if ($('scrUpload').classList.contains('on')) return 'exit';
   try{ $('backBtn').onclick(); }catch(e){}
   return 'ok';
@@ -1572,8 +1590,20 @@ window.__adCorner = on => {
 window.__adH = px => {
   try{
     const v=Math.max(0, Math.round(+px||0));
-    document.documentElement.style.setProperty('--adh', v+'px');
+    const de=document.documentElement;
+    const had=parseFloat(getComputedStyle(de).getPropertyValue('--adh'));
+    de.style.setProperty('--adh', v+'px');
     if (TIPSTATE && TIPSTATE.re) TIPSTATE.re();
+    // a height change moves the same padding an on/off does, so it has to
+    // re-bake the same things: the compare canvas writes an explicit height
+    // and does not follow its container, and its corner hit-testing goes
+    // stale with it
+    if (Number.isFinite(had) && Math.abs(had-v) < 0.5) return;
+    requestAnimationFrame(()=>{ try{
+      if ($('scrMain').classList.contains('on')) applyView();
+      if ($('scrCompare').classList.contains('on')){ cmpSize(); cmpRender(); }
+      if ($('scrUpload').classList.contains('on')) drawTitleRule();
+    }catch(e){} });
   }catch(e){}
 };
 window.__adOn = on => {
@@ -1661,11 +1691,25 @@ async function galAll(){ try{ const d=await gdb(); galAll.err=null; return await
   const t=d.transaction('photos').objectStore('photos').getAll();
   t.onsuccess=()=>res(t.result||[]); t.onerror=()=>res([]); }); }catch(e){ galAll.err=e; plog('galAll failed: '+(e&&e.name)); return []; } }
 let GAL_ERR=null;                 // why the last write failed, for the toast
+// IndexedDB reports a full disk on the TRANSACTION, not on the request: the
+// request still fires onsuccess and still hands back a key, and only then does
+// the transaction abort with QuotaExceededError. Every write here used to
+// listen to the request alone, so a refused write looked exactly like a
+// successful one - which is why the honest reporting added for it never once
+// fired. Nothing is believed now until the transaction completes.
+function txWrap(tx, res, value){
+  tx.oncomplete=()=>res(value());
+  const bad=()=>{ try{ GAL_ERR=(tx.error&&tx.error.name)||GAL_ERR||'unknown'; }
+    catch(e){ GAL_ERR='unknown'; } res(null); };
+  tx.onabort=bad; tx.onerror=bad;
+}
 async function galAdd(rec){ GAL_ERR=null; try{ const d=await gdb(); const id=await new Promise(res=>{
-  const t=d.transaction('photos','readwrite').objectStore('photos').add(rec);
-  t.onsuccess=()=>res(t.result);
-  t.onerror=()=>{ try{ GAL_ERR=(t.error&&t.error.name)||'unknown'; }catch(e){ GAL_ERR='unknown'; }
-    res(null); }; });
+  const tx=d.transaction('photos','readwrite');
+  const t=tx.objectStore('photos').add(rec);
+  let key=null;
+  t.onsuccess=()=>{ key=t.result; };
+  t.onerror=()=>{ try{ GAL_ERR=(t.error&&t.error.name)||'unknown'; }catch(e){ GAL_ERR='unknown'; } };
+  txWrap(tx, res, ()=>key); });
   if (id!=null) try{
     // a rebuilt database restarts the key generator while localStorage
     // keeps old per-reference records - a stale fmt| squatting on a
@@ -1842,8 +1886,9 @@ async function galDel(id, quiet){
   // announced back to it.
   if (!quiet) try{ const r=await galGet(id); if (r && r.sid) syncDrop(r); }catch(e){}
   try{ const d=await gdb(); await new Promise(res=>{
-  const t=d.transaction('photos','readwrite').objectStore('photos').delete(id);
-  t.onsuccess=res; t.onerror=res; }); }catch(e){} }
+  const tx=d.transaction('photos','readwrite');
+  tx.objectStore('photos').delete(id);
+  txWrap(tx, res, ()=>true); }); }catch(e){ GAL_ERR=(e&&e.name)||'unknown'; } }
 
 const WORK_OFF=new Set();// references whose fast-open copy this device refused
 let MODE_WITH=null;      // an image already in hand when the mode chooser opens
@@ -1969,11 +2014,12 @@ async function convertForeign(blob){
     return out ? toBlob(out) : null;
   }catch(e){ return null; }
 }
-async function galPut(rec, quiet){ let ok=true;
-  try{ const d=await gdb(); await new Promise(res=>{
-  const t=d.transaction('photos','readwrite').objectStore('photos').put(rec);
-  t.onsuccess=()=>res();
-  t.onerror=()=>{ ok=false; try{ GAL_ERR=(t.error&&t.error.name)||'unknown'; }catch(e){} res(); }; });
+async function galPut(rec, quiet){ let ok=true; GAL_ERR=null;
+  try{ const d=await gdb(); ok = await new Promise(res=>{
+  const tx=d.transaction('photos','readwrite');
+  const t=tx.objectStore('photos').put(rec);
+  t.onerror=()=>{ try{ GAL_ERR=(t.error&&t.error.name)||'unknown'; }catch(e){} };
+  txWrap(tx, res, ()=>true); }) === true;
   }catch(e){ ok=false; GAL_ERR=(e&&e.name)||'unknown'; }
   // an edit to something already synced owes the account an update. Sync
   // passes quiet=true for its own writes, or it would chase its tail.
@@ -1985,14 +2031,17 @@ async function galPut(rec, quiet){ let ok=true;
 // or a delete made in that gap must never be undone by the stale copy.
 // mut() is synchronous; returning false skips the write; a missing
 // record (deleted meanwhile) is never re-created.
-async function galUpdate(id, mut, quiet){ try{ const d=await gdb();
+async function galUpdate(id, mut, quiet){ GAL_ERR=null; try{ const d=await gdb();
   const rec=await new Promise(res=>{
-    const st=d.transaction('photos','readwrite').objectStore('photos'), g=st.get(id);
-    g.onsuccess=()=>{ const r=g.result; if (!r){ res(null); return; }
+    const tx=d.transaction('photos','readwrite');
+    const st=tx.objectStore('photos'), g=st.get(id);
+    let out=null, wrote=false;
+    g.onsuccess=()=>{ const r=g.result; if (!r) return;
       let keep=true; try{ keep=mut(r)!==false; }catch(e){ keep=false; }
-      if (!keep){ res(null); return; }
-      const p=st.put(r); p.onsuccess=()=>res(r); p.onerror=()=>res(null); };
-    g.onerror=()=>res(null); });
+      if (!keep) return;
+      out=r; wrote=true; st.put(r); };
+    // the record is only handed back if the WRITE actually landed
+    txWrap(tx, res, ()=>wrote?out:null); });
   if (rec && !quiet && rec.sid) try{ syncTouch(rec.id); }catch(e){}
   return rec; }catch(e){ return null; } }
 
@@ -2001,6 +2050,7 @@ function isColor(gid){ try{ return localStorage.getItem('mode|'+gid)==='c'; }cat
 // when a library is big enough to be worth a word about. Declared beside
 // its only reader: renderGallery runs during boot, well before the sync
 // code further down has been evaluated.
+const LIB_WARN_MB = 600;  // this heavy is worth a word whatever the count
 const LIB_WARN = 150;
 // sync may rebuild the gallery while the drawing or compare screen is up,
 // where nobody can see it: mark it stale instead and render on the way back
@@ -2024,12 +2074,21 @@ async function renderGallery(){
   // is worth saying, and never delete anything on their behalf.
   try{
     const own=recs.filter(r=>!r.seed).length;
+    let bytes=0;
+    for (const r of recs){ if (r.seed) continue;
+      bytes += (r.blob&&r.blob.size)||0; bytes += (r.work&&r.work.size)||0; }
+    const mb=bytes/1048576;
     const n=$('libNote');
+    // originals are kept whole now, so a count is no longer a measure of what
+    // a library costs: forty references can be half a gigabyte
+    const heavy = own>=LIB_WARN || mb>=LIB_WARN_MB;
     if (n){
-      n.classList.toggle('on', own>=LIB_WARN);
-      if (own>=LIB_WARN)
-        n.textContent=TR('{n} references saved. Deleting ones you have '
-          +'finished with frees space and protects the rest.').replace('{n}', own);
+      n.classList.toggle('on', heavy);
+      if (heavy)
+        n.textContent=TR('{n} references saved, about {s}. Deleting ones you have '
+          +'finished with frees space and protects the rest.')
+          .replace('{n}', own)
+          .replace('{s}', mb>=1024 ? (mb/1024).toFixed(1)+' GB' : Math.round(mb)+' MB');
     }
   }catch(e){}
   let last=null; try{ last=+localStorage.getItem('lastRef'); }catch(e){}
@@ -2398,7 +2457,12 @@ async function openSrc(gid, blob){
     // refCap() caps. Comparing the width instead meant a portrait photo -
     // 4000x6000, capped to 2731x4096 - reported 2731 against a cap of 4096
     // and never matched, so the expensive copy was rebuilt every single open.
-    if (rec && rec.work && rec.workW && rec.workW >= refCap()) return rec.work;
+    // ...and cheapest means SMALLEST. A reference just over the cap re-encodes
+    // BIGGER than the file it came from (a 1.85MB source became a 3.9MB copy),
+    // and picking it by width alone meant opening the larger of the two every
+    // time and storing both.
+    if (rec && rec.work && rec.work.size && rec.workW && rec.workW >= refCap()
+        && (!rec.blob || rec.work.size < rec.blob.size)) return rec.work;
     return (rec && rec.blob) || blob;
   }catch(e){ return blob; }
 }
@@ -2450,6 +2514,11 @@ function openPhoto(blob, gid, retry){
         if (nb) (async()=>{ try{
           const rec = await galGet(gid);
           if (!rec || !rec.blob) return;
+          if (rec.blob && nb.size >= rec.blob.size){
+            // no saving to be had: the original is already the cheap one
+            if (rec.work){ delete rec.work; delete rec.workW; await galPut(rec, true); }
+            WORK_OFF.add(gid); return;
+          }
           rec.work = nb; rec.workW = Math.max(cw, ch);
           const ok = await galPut(rec, true);
           if (ok===false){ WORK_OFF.add(gid); plog('work copy refused for '+gid); }
@@ -2709,13 +2778,15 @@ $('file').addEventListener('change', e => {
 // been handed to us (shared in from another app) the same two buttons decide
 // how to open THAT image instead
 $('modeBW').onclick=()=>{ $('modeModal').style.display='none';
-  if (MODE_WITH){ const f=MODE_WITH; MODE_WITH=null; addRef(f,false); return; }
+  if (MODE_WITH){ const f=MODE_WITH; MODE_WITH=null;
+    addRef(f,false).then(()=>setTimeout(shareNext,300)); return; }
   $('file').click(); };
 $('modeC').onclick=()=>{ $('modeModal').style.display='none';
-  if (MODE_WITH){ const f=MODE_WITH; MODE_WITH=null; addRef(f,true); return; }
+  if (MODE_WITH){ const f=MODE_WITH; MODE_WITH=null;
+    addRef(f,true).then(()=>setTimeout(shareNext,300)); return; }
   $('fileC').click(); };
 $('modeModal').onclick=e=>{ if (e.target===$('modeModal')){
-  MODE_WITH=null; $('modeModal').style.display='none'; } };
+  MODE_WITH=null; $('modeModal').style.display='none'; setTimeout(shareNext,150); } };
 
 // ---- an image shared in from another app (Share -> Photorealism, or Open
 // with). The shell parks the bytes on the loopback server and calls this;
@@ -2730,9 +2801,30 @@ window.__shared = async (url, mime, name)=>{
   // land on the home screen first: a share that arrives mid-drawing must not
   // silently swap the reference under the artist
   try{ if (!$('scrUpload').classList.contains('on')) show('scrUpload'); }catch(e){}
+  // and nothing may be left covering the question. The gear panel shares a
+  // z-index with the chooser and sits later in the document, so a share
+  // arriving with settings open put the chooser invisibly underneath it and
+  // the share looked like it had done nothing at all.
+  try{
+    for (const id of ['gearModal','setModal','a11yModal','accModal','gridModal',
+                      'refModal','delModal','dlwModal','shModal','dgModal','arModal',
+                      'dlModal','gsdModal']){
+      const m=$(id); if (m && m.style.display && m.style.display!=='none') m.style.display='none';
+    }
+  }catch(e){}
+  // two shares in a row: the second used to overwrite the first while the
+  // chooser was already open, and the first was gone with its parked bytes
+  // already consumed
+  if (MODE_WITH){ SHARE_Q.push(f); return; }
   MODE_WITH=f;
   $('modeModal').style.display='flex';
 };
+const SHARE_Q=[];
+function shareNext(){
+  if (MODE_WITH || !SHARE_Q.length) return;
+  MODE_WITH=SHARE_Q.shift();
+  $('modeModal').style.display='flex';
+}
 $('fileC').addEventListener('change', e => {
   const f = e.target.files[0]; if (f) addRef(f, true);
 });
@@ -2758,8 +2850,12 @@ let TIPSTATE=null;
 function adPx(){
   try{
     if (!document.documentElement.classList.contains('adOn')) return 0;
-    const v=getComputedStyle(document.documentElement).getPropertyValue('--adh');
-    return Math.max(0, parseFloat(v)||76);
+    const v=parseFloat(getComputedStyle(document.documentElement)
+      .getPropertyValue('--adh'));
+    // a measured 0 is a real answer - the slot is on but no ad has loaded -
+    // and ||76 turned it back into a strip that is not there, floating every
+    // tip bubble 76px above the bottom of an empty screen
+    return Number.isFinite(v) ? Math.max(0, v) : 76;
   }catch(e){ return 0; }
 }
 function tipClose(chain){
@@ -5198,7 +5294,7 @@ vp.addEventListener('wheel', e => {
 
 // ---- small binary persistence (the cooked views live here) ----
 async function dbPutRaw(k,v){ try{ const d=await db(); await new Promise(res=>{
-  const t=d.transaction('plans','readwrite').objectStore('plans').put(v,k);
+  const t=d.transaction('plans','readwrite').objectStore('plans').put(v,k);   /*plans*/
   t.onsuccess=res; t.onerror=res; }); }catch(e){} }
 document.addEventListener('visibilitychange', ()=>{
   // waking with blank layers means the browser purged canvas memory: repaint
@@ -5275,23 +5371,33 @@ async function dbCmpKeys(){ try{ const d=await db(); return await new Promise(re
   t.onsuccess=()=>res((t.result||[]).filter(k=>typeof k==='string'&&k.indexOf('cmp|')===0));
   t.onerror=()=>res([]); }); }catch(e){ return []; } }
 const BAK_PERID=['fmt|','def|','time|','done|','gtot|','det|','edit|','mode|','lay|'];
+// base64 inflates by a third and it all has to exist as ONE string, so this is
+// a memory ceiling, not a policy. Refuse past it rather than quietly backing
+// up something smaller than the artist's own files.
+const BAK_MAX = 350*1024*1024;
 async function bakBuild(){
   const refs=[];
-  // Originals are kept untouched now, so a library that used to back up as a
-  // few hundred KB a reference can be tens of MB each - and all of it is
-  // base64 (a third bigger again) inside ONE string in memory. Back up the
-  // capped working copy where there is one: it is what the app draws from,
-  // and it is the difference between a backup that builds and one that dies.
+  // The ORIGINAL, always. Backing up the smaller working copy saved memory
+  // and quietly made Back up the one operation that destroys the artist's
+  // file: the copy came back as the original and the real one was gone. If
+  // the library is too big to hold as base64 in one string, say so and refuse
+  // - a backup that fails loudly is worth any number that silently downgrade.
+  let total=0;
   for (const r of await galAll()){
     const per={};
     for (const pfx of BAK_PERID){
       const v=localStorage.getItem(pfx+r.id); if (v!=null) per[pfx]=v;
     }
-    const body = (r.work && r.work.size && r.blob && r.work.size < r.blob.size) ? r.work : r.blob;
+    total += (r.blob && r.blob.size) || 0;
+    if (total > BAK_MAX){
+      toast(TR('this library is too large to back up in one file \u2014 '
+        +'it is safer to keep your references synced to your account'), false, 9000);
+      return null;
+    }
     refs.push({ name:r.name||'', ts:r.ts||0, seed:r.seed?1:0,
                 thumb:(typeof r.thumb==='string' ? r.thumb : ''),   // a Blob thumb is rebuilt on restore
-                per, mime:(body&&body.type)||'image/jpeg',
-                blob:await blob2b64(body) });
+                per, mime:(r.blob&&r.blob.type)||'image/jpeg',
+                blob:await blob2b64(r.blob) });
   }
   const cmps=[];
   for (const k of await dbCmpKeys()){
@@ -5313,6 +5419,7 @@ async function bakExport(){
   toast('packing backup\u2026');
   let out;
   try{ out=await bakBuild(); }catch(e){ toast('backup failed', false); return; }
+  if (!out) return;                        // refused: bakBuild has already said why
   const name='photorealism-backup-'+new Date().toISOString().slice(0,10)+'.json';
   let handed=false;
   if (window.RealismCam && RealismCam.saveFile){
@@ -5335,25 +5442,41 @@ window.__autoBak=async ()=>{
     const N=window.RealismCam; if (!N || !N.saveFileAuto) return;
     if (!(await galAll()).some(r=>!r.seed)) return;
     const out=await bakBuild();
+    if (!out) return;                      // too large to hold in one string
     N.saveFileAuto('photorealism-auto-backup.json','application/json',out);
   }catch(e){}
 };
+// Decode the whole file FIRST, delete only once all of it is known good, and
+// never announce a local restore to the account. This used to delete every
+// reference up front and decode as it went, so a single truncated payload -
+// a half-written file, a truncated download - threw out of the loop with the
+// library already gone, tombstoned in the account too, under a toast that
+// said "restore failed".
 async function bakApply(j){
+  const ready=[];
+  for (const r of j.refs){
+    const blob=b64blob(r.blob, r.mime);          // throws here, before any delete
+    if (!blob || !blob.size) throw new Error('empty reference in the backup');
+    ready.push({ r, blob });
+  }
   for (const r of await galAll()){
     for (const pfx of BAK_PERID) try{ localStorage.removeItem(pfx+r.id); }catch(e){}
-    await galDel(r.id);
+    await galDel(r.id, true);                    // local only; the account keeps its copy
   }
   for (const k in j.ls){ try{ localStorage.setItem(k, j.ls[k]); }catch(e){} }
-  for (const r of j.refs){
-    const blob=b64blob(r.blob, r.mime);
+  let kept=0, lost=0;
+  for (const { r, blob } of ready){
     let thumb=(typeof r.thumb==='string' ? r.thumb : '');
     if (!thumb) try{ thumb=await thumbOf(blob, !!(r.per && r.per['mode|']==='c')); }catch(e){}
     const rec={ ts:r.ts||Date.now(), name:r.name||'', thumb, blob };
     if (r.seed) rec.seed=1;
     const id=await galAdd(rec);
-    if (id!=null && r.per)
+    if (id==null){ lost++; continue; }            // a refused write is not a restore
+    kept++;
+    if (r.per)
       for (const pfx in r.per) try{ localStorage.setItem(pfx+id, r.per[pfx]); }catch(e){}
   }
+  bakApply.kept=kept; bakApply.lost=lost;
   for (const c of (j.cmps||[])){
     try{ await dbPutRaw(c.k, { blob:b64blob(c.blob), framed:!!c.framed,
                                corners:c.corners, adj:c.adj,
@@ -5369,7 +5492,20 @@ async function bakImport(file){
   if (!confirm('Replace everything in this app with the backup ('
       +j.refs.length+' references)?')) return;
   toast('restoring\u2026');
-  try{ await bakApply(j); }catch(e){ toast('restore failed', false); return; }
+  bakApply.kept=0; bakApply.lost=0;
+  try{ await bakApply(j); }
+  catch(e){
+    // nothing was deleted: the decode happens before the first delete
+    toast(TR('that backup file is damaged \u2014 nothing was changed'), false, 7000);
+    return;
+  }
+  if (bakApply.lost){
+    // partially restored is not restored; say which and do not reload over it
+    toast(TR('restored ')+bakApply.kept+TR(' of ')+(bakApply.kept+bakApply.lost)
+      +TR(' references \u2014 this device would not store the rest'), false, 9000);
+    renderGallery();
+    return;
+  }
   toast('restored - reloading');
   if (!window.__noReload) setTimeout(()=>location.reload(), 900);
 }
@@ -6188,6 +6324,7 @@ function gsdSnap(src, gray){
   c.width=Math.max(2,Math.round(src.width*k));
   c.height=Math.max(2,Math.round(src.height*k));
   const g2=c.getContext('2d');
+  flatten(g2, c.width, c.height);        // a cutout PNG showed on near-black here
   if (gray) g2.filter='grayscale(1)';
   g2.drawImage(src,0,0,c.width,c.height);
   g2.filter='none';
@@ -6201,7 +6338,11 @@ async function gsdLastRefSrc(){
     const r=recs.find(x=>x.id===id) || recs.sort((a,b)=>b.ts-a.ts)[0];
     if (!r || !r.blob) return null;
     const img=new Image();
-    const url=URL.createObjectURL(r.blob);
+    // the cheap copy, like every other open. This decoded the untouched
+    // original - 48MP, ~192MB of bitmap - to build a 1200px preview, with a
+    // 4096px copy of the same photo sitting on disk unused
+    const src=await openSrc(r.id, r.blob);
+    const url=URL.createObjectURL(src||r.blob);
     await new Promise((res,rej)=>{ img.onload=res; img.onerror=rej; img.src=url; });
     URL.revokeObjectURL(url);
     let cols=6;
@@ -7476,8 +7617,17 @@ async function syncNow(force){
         // refs collection is re-sent whole every time the app comes back to
         // the foreground, and a 448px preview per record was 99% of that
         // (a Blob cannot ride a document either way)
-        if (typeof r.thumb==='string' && r.thumb)
-          await fb.F.setDoc(fb.F.doc(fb.F.collection(fb.db,'users',uid,'thumbs'),sid), { thumb:r.thumb }).catch(()=>{});
+        // thumbnails became Blobs, and this only ever knew about strings, so
+        // since then NO preview has reached the account and the other device
+        // re-decoded a whole original to rebuild each one. A 448px preview is
+        // ~20KB as a data URL, well inside a document.
+        let thumbStr = typeof r.thumb==='string' ? r.thumb : '';
+        if (!thumbStr && r.thumb && r.thumb.size && r.thumb.size < 200000){
+          try{ thumbStr='data:'+(r.thumb.type||'image/jpeg')+';base64,'+await blob2b64(r.thumb); }
+          catch(e){ thumbStr=''; }
+        }
+        if (thumbStr && thumbStr.length < 700000)
+          await fb.F.setDoc(fb.F.doc(fb.F.collection(fb.db,'users',uid,'thumbs'),sid), { thumb:thumbStr }).catch(()=>{});
         // the id is stored BEFORE the document is written: the listener
         // hears our own document back the moment it is written, and must
         // find it known or it schedules a whole second sync to fetch it
@@ -9180,6 +9330,7 @@ async function cmpSetPhoto(blob){
   c.width=Math.max(2,Math.round(i.width*k)); c.height=Math.max(2,Math.round(i.height*k));
   const cg=c.getContext('2d');
   cg.imageSmoothingQuality='high';
+  flatten(cg, c.width, c.height);        // and dark grey in an exported comparison
   if (REFMODE!=='c') cg.filter='grayscale(1)';
   cg.drawImage(i,0,0,c.width,c.height); cg.filter='none';
   if (REFMODE!=='c') forceGray(c);

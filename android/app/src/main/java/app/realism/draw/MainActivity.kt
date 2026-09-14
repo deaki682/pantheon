@@ -171,7 +171,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     // an image handed to us by another app, waiting for the page to be ready
-    @Volatile private var sharedPending: String? = null
+    // a QUEUE: two shares in the seconds before the page exists used to
+    // overwrite each other and the first was lost with no word
+    private val sharedPending = java.util.ArrayDeque<String>()
 
     override fun onNewIntent(intent: android.content.Intent) {
         super.onNewIntent(intent)
@@ -201,6 +203,13 @@ class MainActivity : AppCompatActivity() {
         // holds every reference and the signed-in session.
         val raw = i.type ?: contentResolver.getType(uri) ?: ""
         if (!raw.startsWith("image/")) return
+        // The sender also chooses the URI, and openInputStream runs as US. A
+        // file:// URI therefore reads this app's own private files - the
+        // reference store, the diagnostic log - and parks them on a loopback
+        // server any app on the phone can GET. Only a provider-mediated
+        // content:// URI is accepted; nothing else has any business here.
+        val scheme = (uri.scheme ?: "").lowercase()
+        if (scheme != "content") { logLine("share in: refused scheme " + scheme); return }
         val type = if (Regex("^image/[A-Za-z0-9.+-]{1,40}$").matches(raw)) raw else "image/*"
         // consumed: a rotation must not re-import the same picture
         i.action = null
@@ -211,6 +220,7 @@ class MainActivity : AppCompatActivity() {
                 // buffer, so a 300MB share cost ~600MB and killed the
                 // renderer before any guard could speak
                 val LIMIT = 96L * 1024 * 1024
+                var tooBig = false
                 try {
                     contentResolver.openAssetFileDescriptor(uri, "r")?.use { fd ->
                         val n = fd.length
@@ -228,12 +238,13 @@ class MainActivity : AppCompatActivity() {
                         val k = st.read(chunk)
                         if (k <= 0) break
                         total += k
-                        if (total > LIMIT) return@use null      // stop reading, not after
+                        if (total > LIMIT) { tooBig = true; return@use null }
                         buf.write(chunk, 0, k)
                     }
                     buf.toByteArray()
                 } ?: run {
-                    shareFail("that image could not be opened")
+                    shareFail(if (tooBig) "that image is too large to open"
+                              else "that image could not be opened")
                     return@Thread
                 }
                 var name = "shared"
@@ -247,7 +258,7 @@ class MainActivity : AppCompatActivity() {
                 val payload = "'" + url + "','" + type + "','" + jsStr(name) + "'"
                 synchronized(this) {
                     if (booted) runOnUiThread { js("window.__shared && __shared($payload)") }
-                    else sharedPending = payload
+                    else { while (sharedPending.size >= 4) sharedPending.poll(); sharedPending.add(payload) }
                 }
             } catch (e: Throwable) {
                 logLine("share in: " + e.message)
@@ -393,17 +404,30 @@ class MainActivity : AppCompatActivity() {
                     + " prio=" + (try { detail.rendererPriorityAtExit() } catch (e: Throwable) { -1 }))
                 try { getSharedPreferences("ui", 0).edit().putBoolean("rgone", true).apply() }
                 catch (e: Throwable) {}
+                // whatever the page was about to fetch is never coming - a RAW
+                // capture parks ~100MB here, and nothing else ever clears it
+                try { LocalServer.clearParked() } catch (e: Throwable) {}
                 try { (view.parent as? android.view.ViewGroup)?.removeView(view) } catch (e: Throwable) {}
                 try { view.destroy() } catch (e: Throwable) {}
                 recreate()
                 return true
             }
+            // the page reloads itself for a language change, a prefs apply and a
+            // restore. booted stayed true across the gap, so a share arriving
+            // in that second was fired at a document that had not yet defined
+            // __shared, and the && swallowed it with nothing queued.
+            override fun onPageStarted(view: WebView, url: String,
+                favicon: android.graphics.Bitmap?) {
+                booted = false
+            }
             override fun onPageFinished(view: WebView, url: String) {
                 booted = true
                 synchronized(this@MainActivity) {
-                    sharedPending?.let { p ->
-                        sharedPending = null
-                        web.postDelayed({ js("window.__shared && __shared($p)") }, 400)
+                    var d = 400L
+                    while (true) {
+                        val p = sharedPending.poll() ?: break
+                        web.postDelayed({ js("window.__shared && __shared($p)") }, d)
+                        d += 250
                     }
                     failPending?.let { m ->
                         failPending = null
@@ -625,7 +649,7 @@ class MainActivity : AppCompatActivity() {
                 // showing card every 75s - and retry an empty slot too
                 val tick = object : Runnable {
                     override fun run() {
-                        if (adWanted) loadNative()
+                        if (adWanted && !adsRemovedFlag()) loadNative()
                         adWrap.postDelayed(this, 75000)
                     }
                 }
