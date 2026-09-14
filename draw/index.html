@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v438</span>
+    <span id="verNum">v439</span>
   </div>
 </div>
 <div id="delModal">
@@ -6447,11 +6447,55 @@ function askWhere(){
 async function natSaveImage(fname, b64){
   const wo=await askWhere();
   if (!wo) return false;
-  if (wo==='pics') RealismCam.saveImage(fname, 'image/jpeg', b64);
-  else if (wo==='dl' && RealismCam.saveImageDl) RealismCam.saveImageDl(fname, 'image/jpeg', b64);
-  else if (RealismCam.saveImageAsk) RealismCam.saveImageAsk(fname, 'image/jpeg', b64);
-  else RealismCam.saveImage(fname, 'image/jpeg', b64);
-  return true;
+  return natSend(fname, b64, wo);
+}
+function natSend(fname, b64, wo){
+  try{
+    if (wo==='pics') RealismCam.saveImage(fname, 'image/jpeg', b64);
+    else if (wo==='dl' && RealismCam.saveImageDl) RealismCam.saveImageDl(fname, 'image/jpeg', b64);
+    else if (RealismCam.saveImageAsk) RealismCam.saveImageAsk(fname, 'image/jpeg', b64);
+    else RealismCam.saveImage(fname, 'image/jpeg', b64);
+    return true;
+  }catch(e){ toast('save failed', false); return false; }
+}
+// Getting a big canvas into the app is the part that breaks. The picture has
+// to become a base64 string and then cross the WebView bridge, and a COLOUR
+// photograph compresses far worse than a grey one - which is why colour was
+// the half that failed while black and white was fine. It failed silently
+// too: the encode threw, an empty catch swallowed it, and the anchor-download
+// beneath is dropped by the Android WebView without a word. That is why it
+// often did not even ask where to save.
+//
+// So: ask FIRST, so the question always gets asked. Then encode within what
+// the bridge will carry - easing the quality, and only then the size, saying
+// plainly if it cannot be done at all.
+const NAT_MAX_B64 = 8e6;
+function encodeWithin(c, limit){
+  for (const q of [0.95, 0.9, 0.84, 0.76, 0.68]){
+    let du='';
+    try{ du=c.toDataURL('image/jpeg', q); }catch(e){ return null; }
+    if (!du || du.length<64) return null;
+    if (du.length <= limit) return du;
+  }
+  return null;
+}
+async function natSaveCanvas(fname, c){
+  const wo=await askWhere();
+  if (!wo) return false;
+  let cv=c, du=encodeWithin(cv, NAT_MAX_B64);
+  // still too heavy: step the picture down until it fits, rather than hand
+  // the bridge something it will drop
+  let guard=0;
+  while (!du && guard++<4 && cv.width>900){
+    const t=document.createElement('canvas');
+    t.width=Math.round(cv.width*0.75); t.height=Math.round(cv.height*0.75);
+    const tg=t.getContext('2d');
+    tg.imageSmoothingQuality='high';
+    tg.drawImage(cv,0,0,t.width,t.height);
+    cv=t; du=encodeWithin(cv, NAT_MAX_B64);
+  }
+  if (!du){ toast('could not prepare the image to save', false); return false; }
+  return natSend(fname, du.slice(du.indexOf(',')+1), wo);
 }
 $('expBtn').onclick = async () => {
   // the current visualization, exactly as composed: layers, detail, grid.
@@ -6589,12 +6633,8 @@ $('expBtn').onclick = async () => {
     // the Android WebView has no download listener - an anchor download is
     // silently dropped, so this export must go through the bridge, the same
     // always-ask door as the comparison download
-    try{
-      const du=c.toDataURL('image/jpeg',0.95);
-      const b64=du.slice(du.indexOf(',')+1);
-      if (await natSaveImage(fname, b64)){ hapticOK(); gcPing('/download'); }
-      return;                                  // the bridge toasts the result
-    }catch(e){}
+    if (await natSaveCanvas(fname, c)){ hapticOK(); gcPing('/download'); }
+    return;                                    // the bridge toasts the result
   }
   const blob=canvasBlob(c,'image/jpeg',0.95);
   const a=document.createElement('a');
