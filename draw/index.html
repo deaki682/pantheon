@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v428</span>
+    <span id="verNum">v429</span>
   </div>
 </div>
 <div id="delModal">
@@ -1679,6 +1679,9 @@ function loadArsenal(){
 
 
 let photo = null;                               // grayscale canvas, full photo
+// the colour mode `photo` was actually built in. refModeSync can flip
+// REFMODE without rebuilding it, so the flag has to travel with the canvas
+let PHOTO_MODE = null;
 
 // ---- gallery: every photo ever opened, persisted on this device ----
 let _gdb = null;
@@ -2536,6 +2539,7 @@ function openPhoto(blob, gid, retry){
     {
       const _er = gid!=null ? editLoad(gid) : null;
       photo = _er ? editApply(c, _er, REFMODE==='c') : c;
+      PHOTO_MODE = REFMODE;
     }
     URL.revokeObjectURL(img.src);
     FMT_APPLIED = null;               // a new photo always reformats
@@ -2621,7 +2625,7 @@ function warmOpen(r){
   galActive=r.id; galLoading=null;
   REFMODE = isColor(r.id) ? 'c' : 'bw';
   try{ localStorage.setItem('lastRef', r.id); }catch(e){}
-  photo=null; state.img=null; FMT_APPLIED=null; GRID_READY=false;
+  photo=null; PHOTO_MODE=null; state.img=null; FMT_APPLIED=null; GRID_READY=false;
   { const fc=$('fmtCanvas');
     fc.getContext('2d').clearRect(0,0,fc.width,fc.height); }
   if (fmt.h) $('heightIn').value=fmt.h;
@@ -2718,6 +2722,7 @@ function decodeWarm(blob, gid, my, retry){
     }
     const _er=editLoad(gid);
     photo=_er ? editApply(c,_er,REFMODE==='c') : c;
+    PHOTO_MODE = REFMODE;
     try{ const f=JSON.parse(localStorage.getItem('fmt|'+gid)||'null');
       if (f && !(f.pw>1)){ f.pw=photo.width; f.ph=photo.height;
         localStorage.setItem('fmt|'+gid, JSON.stringify(f)); } }catch(e){}
@@ -3103,7 +3108,7 @@ $('delYes').onclick = async () => {
       localStorage.removeItem(k+id);
     if (+localStorage.getItem('lastRef')===id) localStorage.removeItem('lastRef');
   }catch(e){}
-  if (galActive===id){ galActive=null; photo=null; GRID_READY=false; }
+  if (galActive===id){ galActive=null; photo=null; PHOTO_MODE=null; GRID_READY=false; }
   toast('reference removed');
   renderGallery();
 };
@@ -3128,7 +3133,7 @@ $('rmGrid').onclick=async()=>{
   const id=REFM; REFM=null; $('refModal').style.display='none';
   const r=await galGet(id); if (!r || !r.blob){ toast('could not read that reference', false); return; }
   try{ localStorage.removeItem('fmt|'+id); }catch(e){}   // reopen lands on the format screen
-  galActive=null; photo=null; GRID_READY=false;
+  galActive=null; photo=null; PHOTO_MODE=null; GRID_READY=false;
   openPhoto(r.blob, r.id);
 };
 $('delModal').onclick = e => {
@@ -4181,6 +4186,7 @@ function edClose(apply){
       const orig=edFullOrig(keep);
       if (!orig){ toast('could not read the original', false); show('scrFormat'); return; }
       photo = editNeutral(R) ? orig : editApply(orig, R, keep.colr);
+      PHOTO_MODE = keep.colr ? 'c' : 'bw';
       FMT_APPLIED=null;
       show('scrFormat');
       fmtPreview(); speculate();
@@ -4196,6 +4202,24 @@ function edClose(apply){
 }
 async function edOpenFor(mode){
   if (galActive==null){ toast('open a reference first', false); return; }
+  // The size screen is ALREADY holding what the editor wants to cut from.
+  // Both import paths build the same thing the editor rebuilds - capped to
+  // refCap(), flattened onto white, put into the project's colour mode -
+  // and hand it straight to `photo` whenever the reference carries no stored
+  // edit. Re-reading the blob to reconstruct a canvas we have costs a whole
+  // twelve-megapixel decode, and it was the last big thing in front of the
+  // artist between tapping Edit and seeing the picture.
+  // It is only the same canvas while BOTH hold: no stored edit (or a neutral
+  // one), since otherwise `photo` is the edited result and not the original;
+  // and the mode it was built in still matches the project's, since
+  // refModeSync can change REFMODE without rebuilding it.
+  const colr0 = isColor(galActive);
+  const stored = editLoad(galActive);
+  if (photo && photo.width && PHOTO_MODE===(colr0?'c':'bw')
+      && (!stored || editNeutral(stored))){
+    edOpen(photo, galActive, mode);
+    return;
+  }
   const r=await galGet(galActive);
   if (!r || !r.blob){ toast('could not read the original', false); return; }
   const src=await openSrc(galActive, r.blob);
@@ -7925,7 +7949,7 @@ async function syncNow(force){
             g.push(d.id);
             localStorage.setItem('syncGone', JSON.stringify(g.slice(-500)));
           }catch(e){}
-          if (galActive===known.id){ galActive=null; photo=null; GRID_READY=false; }
+          if (galActive===known.id){ galActive=null; photo=null; PHOTO_MODE=null; GRID_READY=false; }
           goneHere++;
         }
         continue;
