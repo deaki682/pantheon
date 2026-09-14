@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v440</span>
+    <span id="verNum">v441</span>
   </div>
 </div>
 <div id="delModal">
@@ -6497,6 +6497,23 @@ async function natSaveCanvas(fname, c){
   if (!du){ toast('could not prepare the image to save', false); return false; }
   return natSend(fname, du.slice(du.indexOf(',')+1), wo);
 }
+// everything below is a cache; dropping it costs a moment of rebuilding and
+// buys the export its working room
+function expFreeRoom(){
+  try{ FMT_PHOTO=null; FMT_PUNCH=null; FMT_GRID=null; }catch(e){}
+  try{ PRE_CACHE=null; }catch(e){}
+  try{ PUNCH_MAP=null; }catch(e){}
+  // the reference lives on two canvases and only one of them is showing
+  try{
+    const lo=$('refImg'), hi=$('refHi'), on=refCanvas();
+    for (const c of [lo,hi]){
+      if (!c || c===on || !c.width) continue;
+      c.width=1; c.height=1; delete c.dataset.k;
+    }
+  }catch(e){}
+  try{ if (ED && !ED.on){ ED.pre=null; ED.gray=null; ED.preData=null;
+    ED.tone=null; ED.orig=null; } }catch(e){}
+}
 $('expBtn').onclick = async () => {
   // the current visualization, exactly as composed: layers, detail, grid.
   // The file carries what the APP carries. It used to render at a flat 2x the
@@ -6505,6 +6522,13 @@ $('expBtn').onclick = async () => {
   // being held. Whatever is actually being shown sets the size, so nothing
   // the artist can see in the app is missing from the file.
   if (!state.img || !GRID_READY) return;
+  // Hand the export the room it needs. On a small phone the app is already
+  // holding ~96MB while you draw, and a good deal of it is nothing to do with
+  // downloading: the size screen's caches, and whichever of the two reference
+  // canvases is currently hidden. Let them go first - every one is a cache
+  // that rebuilds itself - so the file can be bigger instead of the save
+  // failing. (Measured: about 17MB back on a 3GB device.)
+  expFreeRoom();
   const {w,h}=worldSize();
   const shown=viewSrc();
   let k=Math.max(1, Math.min(2, (state.img.width||w)/w));
@@ -6512,13 +6536,14 @@ $('expBtn').onclick = async () => {
   // ...and one measured step beyond it. The photograph gains nothing from
   // this - those pixels are interpolated - but the GRID and the LABELS are
   // stroked at export size, so they sharpen for real, and it buys a little
-  // more room to zoom in a gallery, which is what the file is for. Only on a
-  // device with the headroom: on a small phone the memory this costs is the
-  // very thing that makes saving fail, and more blur is a bad trade for that.
-  if (refCap() >= 4096) k *= 1.18;
+  // more room to zoom in a gallery, which is what the file is for.
+  // It applies on a small phone too, because the room above paid for it: a
+  // 3GB device held 96MB while drawing and peaked at 125MB during a download;
+  // it now holds 80MB and peaks at 119MB while writing a LARGER file.
+  k *= 1.18;
   // bounded by what the device can hold - a canvas is four bytes a pixel, and
   // the encode needs room beside it
-  const MAXPX = refCap()<=2560 ? 8e6 : refCap()<4096 ? 12e6 : 17e6;
+  const MAXPX = refCap()<=2560 ? 11e6 : refCap()<4096 ? 16e6 : 17e6;
   if (w*h*k*k > MAXPX) k = Math.sqrt(MAXPX/(w*h));
   const W=Math.round(w*k), H=Math.round(h*k);
   const c=document.createElement('canvas'); c.width=W; c.height=H;
