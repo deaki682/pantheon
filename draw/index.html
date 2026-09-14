@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v430</span>
+    <span id="verNum">v431</span>
   </div>
 </div>
 <div id="delModal">
@@ -2625,7 +2625,7 @@ function warmOpen(r){
   galActive=r.id; galLoading=null;
   REFMODE = isColor(r.id) ? 'c' : 'bw';
   try{ localStorage.setItem('lastRef', r.id); }catch(e){}
-  photo=null; PHOTO_MODE=null; state.img=null; FMT_APPLIED=null; GRID_READY=false;
+  photo=null; PHOTO_MODE=null; PRE_CACHE=null; state.img=null; FMT_APPLIED=null; GRID_READY=false;
   { const fc=$('fmtCanvas');
     fc.getContext('2d').clearRect(0,0,fc.width,fc.height); }
   if (fmt.h) $('heightIn').value=fmt.h;
@@ -3108,7 +3108,7 @@ $('delYes').onclick = async () => {
       localStorage.removeItem(k+id);
     if (+localStorage.getItem('lastRef')===id) localStorage.removeItem('lastRef');
   }catch(e){}
-  if (galActive===id){ galActive=null; photo=null; PHOTO_MODE=null; GRID_READY=false; }
+  if (galActive===id){ galActive=null; photo=null; PHOTO_MODE=null; PRE_CACHE=null; GRID_READY=false; }
   toast('reference removed');
   renderGallery();
 };
@@ -3133,7 +3133,7 @@ $('rmGrid').onclick=async()=>{
   const id=REFM; REFM=null; $('refModal').style.display='none';
   const r=await galGet(id); if (!r || !r.blob){ toast('could not read that reference', false); return; }
   try{ localStorage.removeItem('fmt|'+id); }catch(e){}   // reopen lands on the format screen
-  galActive=null; photo=null; PHOTO_MODE=null; GRID_READY=false;
+  galActive=null; photo=null; PHOTO_MODE=null; PRE_CACHE=null; GRID_READY=false;
   openPhoto(r.blob, r.id);
 };
 $('delModal').onclick = e => {
@@ -4012,8 +4012,26 @@ function edSync(){
   $('edCropP').style.display = ED.mode==='crop' ? '' : 'none';
   slFillAll();
 }
+// The preview buffer survives the window closing. Reopening the editor -
+// to crop after toning, or to nudge a setting - used to resample the whole
+// picture again for a buffer identical to the one just thrown away. It is
+// only the same buffer while the picture, the orientation and the colour
+// mode are all unchanged, and the key says so.
+let PRE_CACHE = null;
+function preKey(R){
+  return (ED.orig===photo ? 'p' : 'i') + '|' + ED.gid + '|' + (ED.colr?'c':'g')
+    + '|' + (((R.rot%4)+4)%4) + '|' + (R.fh?1:0) + (R.fv?1:0) + '|' + (R.ang||0)
+    + '|' + (ED.orig ? ED.orig.width+'x'+ED.orig.height : ED.srcW+'x'+ED.srcH);
+}
 function edBuildPre(){
   ED.tone=null; ED.toneKey=null;      // a new preview buffer invalidates the tone
+  {
+    const k0=preKey(ED.R);
+    if (PRE_CACHE && PRE_CACHE.k===k0 && PRE_CACHE.of===(ED.orig||ED.srcImg)
+        && PRE_CACHE.cv && PRE_CACHE.cv.width){
+      ED.pre=PRE_CACHE.cv; ED.gray=null; ED.preData=null; return;
+    }
+  }
   // orientation + straighten at preview resolution: cheap to rebuild on
   // every rotate/flip/straighten, and everything live runs on it
   const R=ED.R;
@@ -4027,7 +4045,11 @@ function edBuildPre(){
   small.height=Math.max(2,Math.round(sh*k));
   const sg=small.getContext('2d');
   sg.imageSmoothingQuality='high';
-  flatten(sg, small.width, small.height);
+  // A full canvas has ALREADY been laid on white - both import paths flatten
+  // before anything else touches it - so painting the ground again is a
+  // megapixel of white nobody sees. An <img> source still needs it: a cutout
+  // PNG is paper here too.
+  if (!ED.orig) flatten(sg, small.width, small.height);
   const grey = !ED.colr && !ED.orig;   // a full canvas, when present, is grey
   // the greyscale rides the same pass as the downscale. It used to draw the
   // canvas onto ITSELF through a filter, which is a whole extra copy of the
@@ -4044,6 +4066,7 @@ function edBuildPre(){
   ED.pre = turned
     ? editApply(small, {...EDIT_DEF, rot:R.rot, fh:R.fh, fv:R.fv, ang:R.ang})
     : small;
+  PRE_CACHE = { k:preKey(R), of:(ED.orig||ED.srcImg), cv:ED.pre };
   // the pixel arrays are ONLY read by the tone pipeline, and the window opens
   // with every tone control at its default, so reading a megapixel back off
   // the GPU and walking it was work nobody had asked for yet
@@ -4194,6 +4217,7 @@ function edClose(apply){
       if (!orig){ toast('could not read the original', false); show('scrFormat'); return; }
       photo = editNeutral(R) ? orig : editApply(orig, R, keep.colr);
       PHOTO_MODE = keep.colr ? 'c' : 'bw';
+      PRE_CACHE = null;               // a new picture, so a new preview
       FMT_APPLIED=null;
       show('scrFormat');
       fmtPreview(); speculate();
@@ -7956,7 +7980,7 @@ async function syncNow(force){
             g.push(d.id);
             localStorage.setItem('syncGone', JSON.stringify(g.slice(-500)));
           }catch(e){}
-          if (galActive===known.id){ galActive=null; photo=null; PHOTO_MODE=null; GRID_READY=false; }
+          if (galActive===known.id){ galActive=null; photo=null; PHOTO_MODE=null; PRE_CACHE=null; GRID_READY=false; }
           goneHere++;
         }
         continue;
