@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v434</span>
+    <span id="verNum">v435</span>
   </div>
 </div>
 <div id="delModal">
@@ -4982,7 +4982,7 @@ function drawCircs(){
   if (GRID_ON && DONE.length){
     // progress dots ride the overlay so they stay bright white - the grid
     // canvas's difference blend would invert them square by square
-    g.fillStyle = GRID_COL==='auto' ? '#fff' : GRID_COL;
+    g.fillStyle = gridFlat('#fff');
     const step=gridStepPx(), {w,h}=worldSize();
     const r0=Math.max(1.5*dpr, step*sc*0.055);
     for (const q of DONE){
@@ -5156,6 +5156,7 @@ function drawEdgeLabs(){
   const g=cv.getContext('2d');
   g.clearRect(0,0,W2,H2);
   cv.style.mixBlendMode = GRID_COL==='auto' ? 'difference' : 'normal';
+  const punch = GRID_COL==='punch';
   const {w,h}=worldSize();
   const sc=view.s*dpr, ox=view.x*dpr, oy=view.y*dpr;
   const x0=Math.max(0,ox), x1=Math.min(W2, ox+w*sc);
@@ -5173,7 +5174,8 @@ function drawEdgeLabs(){
   g.globalAlpha=GRID_OP;
   g.font='600 '+fs+'px system-ui';
   g.textAlign='center'; g.textBaseline='middle';
-  g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+  g.fillStyle = punch ? '#fff'
+    : (GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL);
   const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
   for (let cx=0;cx<cols;cx++){
     const x=ox+(cx+0.5)*step*sc;
@@ -5186,6 +5188,18 @@ function drawEdgeLabs(){
     g.fillText(symR(ry), Math.max(10*dpr+fs*0.5, ox-fs*0.9), y);
   }
   g.globalAlpha=1;
+  if (punch){
+    // the margin labels sit outside the sheet as often as on it, so the
+    // backdrop here is the paper AND whatever of the reference is under them
+    const lay=punchLayer(W2, H2, lg=>{
+      lg.fillStyle='#fff'; lg.fillRect(0,0,W2,H2);
+      const ref=refCanvas();
+      if (ref && ref.width) lg.drawImage(ref, ox, oy, w*sc, h*sc);
+    }, cv, step*sc);
+    g.globalCompositeOperation='copy';
+    g.drawImage(lay,0,0);
+    g.globalCompositeOperation='source-over';
+  }
 }
 function colName(i){ let s2=''; i++; while(i>0){ i--; s2=String.fromCharCode(65+i%26)+s2; i=(i/26)|0; } return s2; }
 addEventListener('resize', () => { if ($('scrMain').classList.contains('on')){
@@ -6408,10 +6422,19 @@ $('expBtn').onclick = async () => {
     // full design parity with drawGrid: style, thickness, transparency,
     // subdivide, label scheme and placement - what is on the screen is
     // what lands in the file
+    const punch = GRID_COL==='punch';
+    // punch takes its colour from what is beneath it, so the whole lattice
+    // is drawn as a white SHAPE on a layer of its own and coloured at the
+    // end. Everything between here and there is the drawing it always did.
+    const mk = punch ? document.createElement('canvas') : null;
+    if (mk){ mk.width=W; mk.height=H; }
+    const g = mk ? mk.getContext('2d') : c.getContext('2d');
+    const ink = punch ? '#fff'
+      : (GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL);
     if (GRID_COL==='auto'){
       g.globalCompositeOperation='difference';
       g.strokeStyle='rgba(255,255,255,0.75)';
-    } else g.strokeStyle=GRID_COL;
+    } else g.strokeStyle=ink;
     g.globalAlpha=GRID_OP;
     g.lineWidth=GRID_THK*k;
     const step=gridStepPx()*k;
@@ -6463,7 +6486,7 @@ $('expBtn').onclick = async () => {
       g.font=fs+'px system-ui';
       g.textAlign = dodge ? 'center' : 'left';
       g.textBaseline='top';
-      g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+      g.fillStyle = ink;
       for (let ry=0; ry<rows; ry++)
         for (let cx=0; cx<cols; cx++)
           g.fillText(symC(cx)+symR(ry),
@@ -6473,7 +6496,7 @@ $('expBtn').onclick = async () => {
       const fs=Math.max(9, Math.min(step*0.16, 34*k));
       g.font='600 '+fs+'px system-ui';
       g.textAlign='center'; g.textBaseline='middle';
-      g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+      g.fillStyle = ink;
       for (let cx=0; cx<cols; cx++)
         g.fillText(symC(cx), (cx+0.5)*step, fs*0.8);
       for (let ry=0; ry<rows; ry++)
@@ -6483,7 +6506,7 @@ $('expBtn').onclick = async () => {
     g.globalAlpha=1;
     if (DONE.length){
       g.globalCompositeOperation='source-over';
-      g.fillStyle = GRID_COL==='auto' ? '#fff' : GRID_COL;
+      g.fillStyle = punch ? '#fff' : (GRID_COL==='auto' ? '#fff' : GRID_COL);
       const r0=Math.max(1.5, step*0.055);
       for (const q of DONE){
         const p=doneCenter(q, step, W, H);
@@ -6491,6 +6514,15 @@ $('expBtn').onclick = async () => {
       }
     }
     g.globalCompositeOperation='source-over';
+    if (punch){
+      // now colour it: threshold the picture already on the file and keep
+      // only the lattice's own shape out of the result
+      const lay=punchLayer(W, H, lg=>lg.drawImage(c,0,0), mk, step);
+      const go=c.getContext('2d');
+      go.globalCompositeOperation='source-over';
+      go.globalAlpha=1;
+      go.drawImage(lay,0,0);
+    }
   }
   for (const q of CIRCS) paintMark(g, q.x*k, q.y*k, circR()*k, 10*k, 3*k);
   const t=new Date(), p2=n=>String(n).padStart(2,'0');
@@ -6580,6 +6612,13 @@ function punchLayer(W, H, paintBackdrop, maskCv, step){
   lg.drawImage(maskCv, 0, 0);
   return lay;
 }
+// A swatch, a dot or a thumbnail has nothing beneath it to decide against,
+// so those read 'punch' the way they read 'auto' - and it keeps an invalid
+// colour name from ever reaching strokeStyle, where it would be ignored and
+// silently leave whatever colour was set last.
+function gridFlat(autoCol){
+  return (GRID_COL==='auto'||GRID_COL==='punch') ? autoCol : GRID_COL;
+}
 const GRID_PAL=['auto','punch','#ffffff','#000000','#e03c3c','#e8833a',
                 '#e8d13a','#5fb85f','#3ab5e8','#7a6be8','#e86bd0'];
 // the design button's icon IS the grid: a live 3x3 miniature in the
@@ -6594,7 +6633,7 @@ function drawMini1(id, force){
   if (want>64 && c.width!==want){ c.width=want; c.height=want; }
   const g=c.getContext('2d'), S2=c.width, mk=S2/64;
   g.clearRect(0,0,S2,S2);
-  let col = force || (GRID_COL==='auto' ? '#e8e6e1' : GRID_COL);
+  let col = force || gridFlat('#e8e6e1');
   // a near-black grid vanishes on the dark button: give it a light chip
   const m=/^#(..)(..)(..)$/.exec(col);
   if (!force && m && (parseInt(m[1],16)*3+parseInt(m[2],16)*6+parseInt(m[3],16))<540){
@@ -6773,7 +6812,7 @@ function gsdDrawPrev(g, cssW){
   const px=k=>v.x+k*v.s, py=k=>v.y+k*v.s;
   g.fillStyle='#0e0e0e'; g.fillRect(0,0,cssW,cssW);
   g.drawImage(GSDP.img, v.x, v.y, w*v.s, h*v.s);
-  const col = GRID_COL==='auto' ? 'rgba(255,255,255,0.8)' : GRID_COL;
+  const col = gridFlat('rgba(255,255,255,0.8)');
   const cols=Math.ceil(w/cell-1e-6), rows=Math.ceil(h/cell-1e-6);
   g.save();
   g.beginPath();
@@ -6893,7 +6932,7 @@ function gsdDraw(){
   const lw = GRID_THK===1 ? 1.5 : GRID_THK===2 ? 3 : 4.5;
   const pad=lw*3+10+(GRID_LAB&&GRID_LPOS==='edge'?20:0);
   const x0=pad, y0=pad, x1=cssW-pad, y1=cssW-pad, w=x1-x0;
-  const col = GRID_COL==='auto' ? 'rgba(255,255,255,0.85)' : GRID_COL;
+  const col = gridFlat('rgba(255,255,255,0.85)');
   g.strokeStyle=col; g.fillStyle=col; g.lineWidth=lw; g.lineCap='round';
   g.globalAlpha=GRID_OP;
   if (GRID_STYLE==='dots'){
@@ -9082,9 +9121,11 @@ function cmpExport(){
   g.fillStyle='#2a2a2a'; g.fillRect(0,0,W,H);
   const {w,h}=worldSize();
   const step=gridStepPx();
-  const labels=(fs)=>{
+  const labels=(fs, gx)=>{
+    const g=gx||out.getContext('2d');
     g.font=fs+'px system-ui'; g.textBaseline='top';
-    g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+    g.fillStyle = GRID_COL==='punch' ? '#fff'
+      : (GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL);
     const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
     for (let ry=0;ry<rows;ry++) for (let cx=0;cx<cols;cx++)
       g.fillText(colName(cx)+(ry+1), cx*step+fs*0.35, ry*step+fs*0.3);
@@ -9103,9 +9144,17 @@ function cmpExport(){
       g.drawImage(pn.img,0,0,w,h);
       const tot=bs*SPL.s;
       if (GRID_ON && pn.grid){
+        // punch: the lattice on its own layer under the same transform,
+        // coloured from the pane beneath it once it is drawn
+        const punch = GRID_COL==='punch';
+        const gOut = out.getContext('2d');
+        const mk = punch ? document.createElement('canvas') : null;
+        if (mk){ mk.width=W; mk.height=H; }
+        const g = mk ? (()=>{ const mg=mk.getContext('2d');
+          mg.setTransform(gOut.getTransform()); return mg; })() : gOut;
         if (GRID_COL==='auto'){ g.globalCompositeOperation='difference';
           g.strokeStyle='rgba(255,255,255,0.75)'; }
-        else g.strokeStyle=GRID_COL;
+        else g.strokeStyle = punch ? '#fff' : GRID_COL;
         g.lineWidth=Math.max(0.75, GRID_THK*k*0.8)/tot;
         if (GRID_STYLE!=='dots'){
           for (let xw=step; xw<w-1; xw+=step){ g.beginPath(); g.moveTo(xw,0); g.lineTo(xw,h); g.stroke(); }
@@ -9122,8 +9171,14 @@ function cmpExport(){
           for (let yw=step; yw<h-1; yw+=step) for (let xw=step; xw<w-1; xw+=step){
             g.beginPath(); g.arc(xw,yw,dr,0,6.2832); g.fill(); }
         }
-        if (GRID_LAB) labels(step*0.18);
+        if (GRID_LAB) labels(step*0.18, g);
         g.globalCompositeOperation='source-over';
+        if (punch){
+          const lay=punchLayer(W, H, lg=>lg.drawImage(out,0,0), mk, step*tot);
+          gOut.save(); gOut.setTransform(1,0,0,1,0,0);
+          gOut.globalCompositeOperation='source-over'; gOut.globalAlpha=1;
+          gOut.drawImage(lay,0,0); gOut.restore();
+        }
       }
       for (const c of CIRCS) paintMark(g, c.x, c.y, circR(), 10*k/tot, 3*k/tot);
       g.restore();
@@ -9144,9 +9199,15 @@ function cmpExport(){
         if (CMP.alpha>0){ g.globalAlpha=CMP.alpha; dr(refCanvas()); g.globalAlpha=1; }
       }
       if (GRID_ON && CMP.showing==='ref'){
+        const punch = GRID_COL==='punch';
+        const gOut = out.getContext('2d');
+        const mk = punch ? document.createElement('canvas') : null;
+        if (mk){ mk.width=W; mk.height=H; }
+        const g = mk ? (()=>{ const mg=mk.getContext('2d');
+          mg.setTransform(gOut.getTransform()); return mg; })() : gOut;
         if (GRID_COL==='auto'){ g.globalCompositeOperation='difference';
           g.strokeStyle='rgba(255,255,255,0.75)'; }
-        else g.strokeStyle=GRID_COL;
+        else g.strokeStyle = punch ? '#fff' : GRID_COL;
         g.lineWidth=Math.max(0.75, GRID_THK*k*0.8)/FLP.s;
         if (GRID_STYLE!=='dots'){
           for (let xw=step; xw<w-1; xw+=step){ const x=f.x+xw*kf;
@@ -9168,6 +9229,12 @@ function cmpExport(){
             g.beginPath(); g.arc(f.x+xw*kf, f.y+yw*kf, dr, 0, 6.2832); g.fill(); }
         }
         g.globalCompositeOperation='source-over';
+        if (punch){
+          const lay=punchLayer(W, H, lg=>lg.drawImage(out,0,0), mk, step*kf*FLP.s);
+          gOut.save(); gOut.setTransform(1,0,0,1,0,0);
+          gOut.globalCompositeOperation='source-over'; gOut.globalAlpha=1;
+          gOut.drawImage(lay,0,0); gOut.restore();
+        }
       }
       for (const c of CIRCS) paintMark(g, f.x+c.x*kf, f.y+c.y*kf, circR()*kf, 10*k, 3);
     });
@@ -9360,9 +9427,18 @@ function cmpRender(){
         const f=CMP.fit, k=cmpFitK(), {w,h}=worldSize();
         const step=gridStepPx();
         const kd2=cv.width/(cv.getBoundingClientRect().width||cv.width);
+        // punch colours the lattice from what is under it, so draw it as a
+        // white shape on its own layer - carrying the SAME transform, so the
+        // geometry lands identically - and colour it at the end
+        const punch = GRID_COL==='punch';
+        const gOut = cv.getContext('2d');
+        const mk = punch ? document.createElement('canvas') : null;
+        if (mk){ mk.width=cv.width; mk.height=cv.height; }
+        const g = mk ? (()=>{ const mg=mk.getContext('2d');
+          mg.setTransform(gOut.getTransform()); return mg; })() : gOut;
         if (GRID_COL==='auto'){ g.globalCompositeOperation='difference';
           g.strokeStyle='rgba(255,255,255,0.75)'; }
-        else g.strokeStyle=GRID_COL;
+        else g.strokeStyle = punch ? '#fff' : GRID_COL;
         g.lineWidth=Math.max(0.75, GRID_THK*kd2*0.8)/FLP.s;
         if (GRID_STYLE!=='dots'){
           for (let xw=step; xw<w-1; xw+=step){ const x=f.x+xw*k;
@@ -9388,12 +9464,20 @@ function cmpRender(){
         if (GRID_LAB && step*k*FLP.s>=24){
           const fs=Math.max(8/FLP.s, step*k*0.18);
           g.font=fs+'px system-ui'; g.textBaseline='top';
-          g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+          g.fillStyle = punch ? '#fff'
+            : (GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL);
           const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
           for (let ry=0;ry<rows;ry++) for (let cx=0;cx<cols;cx++)
             g.fillText(colName(cx)+(ry+1), f.x+cx*step*k+fs*0.35, f.y+ry*step*k+fs*0.3);
         }
         g.globalCompositeOperation='source-over';
+        if (punch){
+          const lay=punchLayer(cv.width, cv.height,
+            lg=>lg.drawImage(cv,0,0), mk, step*k*FLP.s);
+          gOut.save(); gOut.setTransform(1,0,0,1,0,0);
+          gOut.globalCompositeOperation='source-over'; gOut.globalAlpha=1;
+          gOut.drawImage(lay,0,0); gOut.restore();
+        }
       }
       cmpCircs(g, cv);
     });
@@ -9420,9 +9504,17 @@ function cmpRender(){
       if (GRID_ON && pn.grid){
         const kd2=cv.width/(cv.getBoundingClientRect().width||cv.width);
         const step=gridStepPx();
+        // as in the flip view: the lattice goes on its own layer under the
+        // same transform, and takes its colour from the pane beneath it
+        const punch = GRID_COL==='punch';
+        const gOut = cv.getContext('2d');
+        const mk = punch ? document.createElement('canvas') : null;
+        if (mk){ mk.width=cv.width; mk.height=cv.height; }
+        const g = mk ? (()=>{ const mg=mk.getContext('2d');
+          mg.setTransform(gOut.getTransform()); return mg; })() : gOut;
         if (GRID_COL==='auto'){ g.globalCompositeOperation='difference';
           g.strokeStyle='rgba(255,255,255,0.75)'; }
-        else g.strokeStyle=GRID_COL;
+        else g.strokeStyle = punch ? '#fff' : GRID_COL;
         g.lineWidth=Math.max(0.75, GRID_THK*kd2*0.8)/(bs*SPL.s);
         if (GRID_STYLE!=='dots'){
           for (let xw=step; xw<w-1; xw+=step){
@@ -9446,12 +9538,20 @@ function cmpRender(){
         if (GRID_LAB){
           const fs=step*0.18;
           g.font=fs+'px system-ui'; g.textBaseline='top';
-          g.fillStyle = GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL;
+          g.fillStyle = punch ? '#fff'
+            : (GRID_COL==='auto' ? 'rgba(255,255,255,0.75)' : GRID_COL);
           const cols=Math.ceil(w/step-1e-6), rows=Math.ceil(h/step-1e-6);
           for (let ry=0;ry<rows;ry++) for (let cx=0;cx<cols;cx++)
             g.fillText(colName(cx)+(ry+1), cx*step+fs*0.35, ry*step+fs*0.3);
         }
         g.globalCompositeOperation='source-over';
+        if (punch){
+          const lay=punchLayer(cv.width, cv.height,
+            lg=>lg.drawImage(cv,0,0), mk, step*bs*SPL.s);
+          gOut.save(); gOut.setTransform(1,0,0,1,0,0);
+          gOut.globalCompositeOperation='source-over'; gOut.globalAlpha=1;
+          gOut.drawImage(lay,0,0); gOut.restore();
+        }
       }
       if (CIRCS.length){
         const kd=cv.width/(cv.getBoundingClientRect().width||cv.width);
