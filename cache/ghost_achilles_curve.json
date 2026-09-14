@@ -178,5 +178,17 @@
   },
   "ts": "2026-08-28T14:26:59Z",
   "note": "2026-08-28 Zeus pass (~10:27 ET Fri): OFF-SEASON (achilles.season.is_earnings_season('2026-08-28')=False; next window 2026-10-13 to 2026-11-21) and the ghost book is FLAT (437 graded, 0 open, 0 due) -> mark/grade were no-ops and no new entries were opened, per the skill's season gate. STANDING ESCALATION, 9th CONSECUTIVE DEFERRAL and unchanged in substance: the one question this ghost exists to answer is ALREADY ANSWERED NEGATIVE - signal_lift.rewarded reads -0.006230309246744898 on n=160 rewarded vs n=231 sold, i.e. the reaction-direction gate does not pay, matching the achilles_pead_gauntlet verdict that SHELVED the seasonal PEAD mode (docs/lab_results_achilles_pead_gauntlet.md, 18/18 cells negative in-sample AND holdout, worse at 2x cost). The ~363 discovered beats still awaiting a reaction-return pass will not change that sign. Nothing accrues between now and 2026-10-13: this ghost has now spent nine dispatches writing the same no-op row, and the next 6.5 weeks will produce six more. RECOMMENDATION TO OPERATOR (unchanged, escalating): retire this ghost from Zeus dispatch and close it deliberately with a ledger row, or fund ONE dedicated reaction-return pass to close it on the full sample. Either is a decision; continuing to dispatch it is not."
+ },
+ {
+  "date": "2026-09-14",
+  "equity": 43832.93,
+  "total_return": 0.0030419748630108323,
+  "n": 437,
+  "benchmark": {
+   "SPY_price": 760.55
+  },
+  "ts": "2026-09-14T14:27:00Z",
+  "session_kind": "offseason_noop",
+  "note": "2026-09-14 Zeus pass (~10:27 ET Mon): OFF-SEASON (achilles.season.is_earnings_season('2026-09-14')=False; next window 2026-10-13 to 2026-11-21) and the ghost book is FLAT (437 graded, 0 open, 0 due) -> mark/grade are no-ops and no new entries were opened, per the skill's season gate. STANDING ESCALATION, 10th CONSECUTIVE DEFERRAL, unchanged in substance and now worth stating as a cost rather than a status: the one question this ghost exists to answer is ALREADY ANSWERED NEGATIVE. signal_lift.rewarded reads -0.00623 on n=160 rewarded vs n=231 sold - the reaction-direction gate does not pay - which matches the achilles_pead_gauntlet verdict that SHELVED the seasonal PEAD mode (docs/lab_results_achilles_pead_gauntlet.md: 18/18 cells negative excess in-sample AND holdout, worse at 2x cost). The ~363 discovered beats still awaiting a reaction-return pass cannot change that sign. Nothing accrues between now and 2026-10-13. Ten dispatches have now written the same no-op row and the next 4 weeks will produce roughly four more before the window even opens. RECOMMENDATION TO OPERATOR (unchanged, escalating): either RETIRE this ghost from Zeus dispatch and close it deliberately with a ledger row, or fund ONE dedicated reaction-return pass to close it on the full sample. Either is a decision. Continuing to dispatch it is not a decision, it is a default - and it is the only recurring line item in the house that is known in advance to produce nothing."
  }
 ]
