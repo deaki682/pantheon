@@ -906,7 +906,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v433</span>
+    <span id="verNum">v434</span>
   </div>
 </div>
 <div id="delModal">
@@ -6565,12 +6565,17 @@ function punchLayer(W, H, paintBackdrop, maskCv, step){
   tg.filter='grayscale(1) contrast(12000%) invert(1)';
   tg.drawImage(sm,0,0);
   tg.filter='none';
-  // 3. back up to size as hard blocks, centred on the intersections
+  // 3. back up to size, centred on the intersections. Interpolated, NOT
+  // nearest-neighbour: each cell still decides for itself, so nothing
+  // speckles, but where two neighbours disagree the line eases from one to
+  // the other across about a cell instead of snapping at the seam. A run of
+  // cells that agree stays fully white or fully black throughout - only a
+  // real change of ground gets a ramp.
   const lay=document.createElement('canvas'); lay.width=W; lay.height=H;
   const lg=lay.getContext('2d');
-  lg.imageSmoothingEnabled=false;
-  lg.drawImage(th, 0,0,bw,bh, -st/2, -st/2, bw*st, bh*st);
   lg.imageSmoothingEnabled=true;
+  lg.imageSmoothingQuality='high';
+  lg.drawImage(th, 0,0,bw,bh, -st/2, -st/2, bw*st, bh*st);
   lg.globalCompositeOperation='destination-in';
   lg.drawImage(maskCv, 0, 0);
   return lay;
