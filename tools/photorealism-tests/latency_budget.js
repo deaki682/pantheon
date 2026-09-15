@@ -73,15 +73,15 @@ const BUDGET = 100;              // ms from the tap to the painted result
     // overlay, so alternating styles here would time a cache rebuild and call
     // it a pan. Pick the style in its own step, then pan.
     ['crop: pick a square grid',  `CELLSZ.u='cm'; CELLSZ.v=0.5; GRID_STYLE='sq'; fmtPreview();`],
-    ['pan the crop, square',      `fmtLive(true); FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
+    ['pan the crop, square',      `typeof fmtLive==='function'&&fmtLive(true); FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
     ['crop: pick a diagonal grid',`CELLSZ.u='cm'; CELLSZ.v=0.5; GRID_STYLE='diag'; fmtPreview();`],
-    ['pan the crop, diagonal',    `fmtLive(true); FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
-    ['pinch the crop, diagonal',  `fmtLive(true); FMT_ZOOM=(FMT_ZOOM>2?1.4:2.6); fmtPreview();`],
+    ['pan the crop, diagonal',    `typeof fmtLive==='function'&&fmtLive(true); FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
+    ['pinch the crop, diagonal',  `typeof fmtLive==='function'&&fmtLive(true); FMT_ZOOM=(FMT_ZOOM>2?1.4:2.6); fmtPreview();`],
     // and the crisp pass that lands once the hand comes off it - off the
     // critical path, but a stall you can still feel after lifting
-    ['crop settles crisp',        `FMT_LIVE=0; FMT_PHOTO=null; fmtPreview();`],
+    ['crop settles crisp',        `if(typeof FMT_LIVE!=='undefined')FMT_LIVE=0; FMT_PHOTO=null; fmtPreview();`],
     ['crop: pick a dotted grid',  `CELLSZ.u='cm'; CELLSZ.v=0.5; GRID_STYLE='dots'; fmtPreview();`],
-    ['pan the crop, dots',        `fmtLive(true); FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
+    ['pan the crop, dots',        `typeof fmtLive==='function'&&fmtLive(true); FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
     ['change the grid style',     `gsSet(GRID_STYLE==='diag'?'sq':'diag');`],
   ];
   // A single reading is noisy enough to cross the budget by itself, so each
