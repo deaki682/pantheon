@@ -3,6 +3,68 @@
 _Read at the top of every session; update at the bottom. Forward worldview, open
 theses, lessons, decayed edges._
 
+## 2026-09-15 (Zeus AFTER-CLOSE tend — the excess kept bleeding into the bell, and the sleeve's own loader turned out to be broken)
+
+Zeus hourly after-close pass ~16:10 ET Tue 2026-09-15, the day's **second** Oracle pass (the ~10:18 ET intraday tend
+was the first). Research clock last stamped 09-14 and is not due until 09-17, so the door in was `oracle_tend_due`;
+Stages 0–1 sourcing is a conscious no-op. Reconcile **CLEAN 6/6 exact**, and `get_equity_orders` account-wide since
+09-14 returns **zero orders of any state**.
+
+Equity **$4,559.92**, drawdown **7.52%** off the 08-17 peak $4,930.51, breaker `ok`, settled cash $449.94 = 9.87%.
+Book **$4,109.98** on the $4,050.06 basis = **+1.48%**; SPY 750.935 → 757.38 = **+0.86%** → **+0.62pp excess**.
+
+**1. The give-back is now the story, and it is two sessions long.** The excess has gone **+2.92pp (09-14) → +1.09pp
+(10:18 ET) → +0.62pp (close)** — **2.30pp surrendered in two sessions**, and roughly half of that came *after* the
+intraday pass flagged the first half. Day: book −1.08% vs SPY −0.46%. QTWO −3.00%, ZVRA −3.24% and PAY −2.87% did the
+damage; LXU +3.44% and TPC +0.70% were the only offsets. Worth naming precisely: **both `bank_biller_saas` names fell
+together**, which is the cluster behaving exactly like a cluster. That is not yet a problem — PAY+QTWO is 35.37%,
+under the 40% cap — but it is the first live session where the pair's co-movement showed up in the P&L rather than in
+a correlation table, and it is the reason the 09-14 key fix mattered. The book is still ahead of SPY since entry. It
+is ahead by less than half what it was on Friday.
+
+**2. Six kills carried, six HELD, zero fired — and the window is genuinely empty, which I nearly got wrong.**
+Window `filing_date >= 2026-09-14`, CIKs re-resolved live. **The first resolver call returned `None` for all six and
+would have reported "zero in-window documents" — a FALSE NEGATIVE dressed as a clean result.** The lookup was wrong
+(`fetch_company_tickers` already returns ticker→CIK; I iterated it as rows), not the data. Re-run correctly the answer
+is genuinely zero (latest filings KLIC 09-02 / LXU 09-09 / PAY 08-28 / QTWO 09-11 / TPC 09-02 / ZVRA 08-17). **The
+lesson is the one this file keeps re-learning from a new direction: an empty result and a broken query look identical
+downstream.** A zero from an unvalidated lookup must never be journaled as evidence — assert the resolver resolved
+before you believe the count. So: the six kills are **UNTESTABLE against fresh evidence** this pass, not "quiet", and
+carry forward from 09-14 unchanged. QTWO's *+12.6% against a 10% floor* is still the narrowest kill in the book.
+KLIC **−28.41%** and ZVRA **−17.33%** from entry are **drawdowns** and are **HELD** (Stage 5 / F3).
+
+**3. THE REAL FIND: Oracle's own sleeve could not be loaded by Oracle's own code, and had not been since 09-14.**
+`OracleSleeve.from_dict()` raised `TypeError: unexpected keyword argument 'theme'` on the live persisted sleeve.
+Cause: **yesterday's cluster-tag threading** — the Duty 0d / D4 discharge I recorded here as a win — wrote a `theme`
+key onto all six positions, and `from_dict` splats the stored dict into `SleevePosition(**v)` unfiltered, a dataclass
+with no such field. Everything downstream of a loaded sleeve was unreachable from real state: `equity()`,
+`absolute_drawdown()`, **`check_circuit_breakers()`**, and `oracle/execution.py`'s buy/sell path.
+
+Nothing was lost — Oracle placed no orders on 09-14 or 09-15 and the market is closed — but **the circuit breaker was
+unevaluable by its own code for two days**, which is precisely the kind of silent unreachability the 07-10 audit
+existed to kill. Per oracle.md's Halt rule it is **logged to `cache/oracle_errors.jsonl` and fixed by PR, not silently
+patched**: `theme` added to `SleevePosition` (it must round-trip — `size_upside_book`'s default cluster key reads
+`theme` first, so dropping it would blind the 40% cap), `buy()` now preserves `theme` **and `cohort_id`** on a top-up
+(the top-up branch was quietly orphaning `cohort_id` too), plus a regression test built from the real persisted shape.
+Full suite green. The breaker now evaluates from real state and reads `ok` (7.52% against the 32% halt; 6.33pp
+excess-vs-market against the 15% derisk limb).
+
+Three lessons, and the third is the expensive one:
+- **A fix that writes a new field is a schema change.** Yesterday's tag threading was correct in substance and still
+  broke the loader, because the write path (`json.dump`) and the read path (`SleevePosition(**v)`) do not share a
+  schema. Any session that adds a key to persisted state must round-trip it through the typed loader before calling it
+  done.
+- **The round-trip test passed the whole time** — it builds its sleeve in code, so it never carried a `theme` key.
+  A persistence test that never reads *real persisted state* tests only itself.
+- **The breaker failed open and silent.** It did not report unavailable; it was simply never reachable. A safety gate
+  that can become unreachable without saying so is worse than one that trips — and it took a pass that actually tried
+  to *call* it to find out. Tend passes should keep calling the gates, not just recompute their inputs by hand.
+
+**4. Stage 6/7.** `due_for_grade` → **0 of 326** (earliest horizon ~2028-01); `llm_lift` `lift_trustworthy=false` at 0
+graded; `update_calibration` a no-op. **ACVA's `pending_resolution` annotation verified intact** — the Copart takeout
+at $10.50 has not closed, so it stays flagged-not-graded, correctly. D4 stays **ACTIVE** (its operative clause is a
+standing gate on future funding, not a discharged precondition). No orders placed.
+
 ## 2026-09-14 (Zeus, THE RESEARCH DOOR — both owed re-types discharged, and the cluster key turned out to be capping the wrong pair)
 
 Zeus intraday pass ~10:15 ET Mon 2026-09-14. This is the **3-day research door** (research last ran 09-09, was due
