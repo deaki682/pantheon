@@ -914,16 +914,9 @@ class MainActivity : AppCompatActivity() {
         head.setTextColor(0xFFE8E6E1.toInt())
         head.ellipsize = android.text.TextUtils.TruncateAt.END
         head.text = ad.headline ?: ""
-        // THE CARD LIES DOWN, and it is exactly as SHORT as a card may be and
-        // still be allowed to play video: AdMob's floor is a 120dp media
-        // view, so the player is 120dp tall and flush with the card's top and
-        // bottom edges - there is no padding above or below left to give
-        // back. Everything that reads - badge, headline, and on a tablet the
-        // body, the rating and the CTA - stands in a column to its RIGHT.
-        //
-        // Width is the one thing it may spend. It grows until it is about to
-        // reach the back and gear buttons flanking it, then stops, keeping a
-        // margin off each.
+        // The card lies down: the player flush at the left, and everything
+        // that reads - badge, headline, and on a tablet the body, the rating
+        // and the CTA - in a column to its RIGHT.
         val card = android.widget.LinearLayout(this)
         card.orientation = android.widget.LinearLayout.HORIZONTAL
         card.gravity = android.view.Gravity.CENTER_VERTICAL
@@ -932,18 +925,32 @@ class MainActivity : AppCompatActivity() {
         var meta: TextView? = null
         val tab = resources.configuration.smallestScreenWidthDp >= 600
         val gut  = if (tab) 12 else 8
-        val pillLane = 32                       // the collapse pill's own strip
+        val padR = 8                            // the card's own right edge
         val playerH = if (tab) 160 else 120     // == AdMob's video floor
         val playerMax = if (tab) 284 else 213   // 16:9 at that height
         val textWant = if (tab) 230 else 118
-        // how far it may grow: the screen, less what a flanking button takes
-        // on each side - the edge inset, the button itself (which follows the
-        // page's accessibility scale) and a margin off it.
+        // THE CARD IS EXACTLY THE VIDEO MINIMUM TALL - 120dp, AdMob's floor
+        // for a media view to be video-eligible at all - and nothing is
+        // allowed to grow it: the headline stands BESIDE the player, never
+        // under it, whatever that costs the headline.
+        //
+        // Width is then set by how far it may reach: the screen, less what a
+        // flanking chrome button takes on each side and a FINGERTIP clear of
+        // it. It used to stop 12dp short, under 2mm - the adjacency the ad
+        // network reads as an accidental-click layout, and close enough for a
+        // thumb going for Download to catch the ad. AD_FLANK is one standard
+        // touch target, ~7.6mm, the same clearance the retired strip kept.
+        //
+        // The collapse pill has no LANE any more; it floats at the card's
+        // top-right corner, clear of the badge (which is left-aligned) and
+        // above the vertically-centred headline. That is 28dp the headline
+        // gets to keep, and on a phone the headline needs every one of them.
         val screenDp = (resources.displayMetrics.widthPixels / d).toInt()
-        val budget = screenDp - 2 * (8 + colW() + 12)
-        var textW = (budget * 34 / 100).coerceIn(44, textWant)
-        val playerW = (budget - gut - pillLane - textW).coerceIn(120, playerMax)
-        textW = (budget - gut - pillLane - playerW).coerceIn(44, textWant)
+        val flank = 8 + colW()
+        val budget = screenDp - 2 * (flank + AD_FLANK)
+        val playerW = (if (tab) budget - gut - padR - textWant else 120)
+            .coerceIn(120, playerMax)
+        val textW = (budget - playerW - gut - padR).coerceIn(40, textWant)
         (mediaWrap.getChildAt(0).layoutParams as FrameLayout.LayoutParams).apply {
             width = dp(playerW); height = dp(playerH) }
         card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(playerW), dp(playerH)))
@@ -951,7 +958,7 @@ class MainActivity : AppCompatActivity() {
         val col = android.widget.LinearLayout(this)
         col.orientation = android.widget.LinearLayout.VERTICAL
         col.gravity = android.view.Gravity.CENTER_VERTICAL
-        col.setPadding(dp(gut), dp(6), 0, dp(6))
+        col.setPadding(dp(gut), dp(6), dp(padR), dp(6))
         col.addView(badge)
         if (tab) {
             head.setTextColor(0xFFF2F0EB.toInt()); head.textSize = 13.5f; head.maxLines = 2
@@ -993,10 +1000,9 @@ class MainActivity : AppCompatActivity() {
             col.addView(c, clp2); cta = c
         }
         card.addView(col, android.widget.LinearLayout.LayoutParams(
-            dp(textW + gut), dp(playerH)))
-        // the ad view is everything but the pill's lane
-        val cw = dp(playerW + gut + textW)
-        val ch = dp(playerH)
+            dp(textW + gut + padR), dp(playerH)))
+        val cw = dp(playerW + gut + textW + padR)
+        val ch = dp(playerH)                    // the video minimum, full stop
         // fixed at every level so nothing the SDK does inside can widen it
         val CW = cw; val CH = ch
         adv.addView(card, FrameLayout.LayoutParams(CW, CH))
@@ -1035,7 +1041,7 @@ class MainActivity : AppCompatActivity() {
         cardBox.addView(close, clp)
         adCornerWrap.clipChildren = false; adCornerWrap.clipToPadding = false
         adCornerWrap.removeAllViews()
-        adCornerWrap.addView(cardBox, FrameLayout.LayoutParams(CW + dp(pillLane), CH))
+        adCornerWrap.addView(cardBox, FrameLayout.LayoutParams(CW, CH))
         adCornerH = CH                     // how far the reveal has to open
         adCard = adv
         adBadgeV = badge
@@ -1056,6 +1062,9 @@ class MainActivity : AppCompatActivity() {
     private var adCornerAnim: android.animation.ValueAnimator? = null
     private val AD_ON_MS = 45000L         // corner window length
     private val AD_MARGIN_DP = 10         // the gap that makes the card float
+    // the clearance the card keeps from the buttons flanking it: one standard
+    // touch target, ~7.6mm, the same number the retired bottom strip kept
+    private val AD_FLANK = 48
     private val AD_OFF_MS = 240000L       // corner rest between windows
     private fun adBase() = adWanted && adsUp && !adsRemovedFlag() && nativeAd != null
     private fun applyAd() {

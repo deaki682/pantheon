@@ -556,31 +556,44 @@ final class AdController: NSObject {
 
         head.numberOfLines = 3
 
-        // How far it may grow: the screen, less what a flanking chrome button
-        // takes on each side - the 8pt edge inset, the 44pt button and a 12pt
-        // margin off it. The player is never below 120pt square: that is the
-        // floor for a card to be video-eligible at all, and a card that cannot
-        // take video is not worth the width it would save.
-        let GUT: CGFloat = 8, PILL: CGFloat = 32, PH: CGFloat = 120
+        // THE CARD IS EXACTLY THE VIDEO MINIMUM TALL - 120pt, AdMob's floor
+        // for a media view to be video-eligible at all - and nothing is
+        // allowed to grow it: the headline stands BESIDE the player, never
+        // under it, whatever that costs the headline.
+        //
+        // Width is then set by how far it may reach: the screen, less what a
+        // flanking chrome button takes on each side and a FINGERTIP clear of
+        // it. It used to stop 12pt short, under 2mm - the adjacency the ad
+        // network reads as an accidental-click layout, and close enough for a
+        // thumb going for Download to catch the ad. FLANK is one standard
+        // touch target, ~7.6mm.
+        //
+        // The collapse pill has no LANE; it floats at the card's top-right
+        // corner, clear of the badge (left-aligned) and above the centred
+        // headline - 28pt the headline gets to keep.
+        let GUT: CGFloat = 8, PADR: CGFloat = 8, PH: CGFloat = 120
+        let FLANK: CGFloat = 48, FLANKW: CGFloat = 8 + 44
         let screenW = host?.view.bounds.width ?? 390
-        let budget = screenW - 2 * (8 + 44 + 12)
-        var textW = min(max(budget * 0.34, 44), 118)
-        let playerW = min(max(budget - GUT - PILL - textW, 120), 213)
-        textW = min(max(budget - GUT - PILL - playerW, 44), 118)
-        let advW = playerW + GUT + textW
+        let budget = screenW - 2 * (FLANKW + FLANK)
+        let playerW: CGFloat = 120
+        let textW = min(max(budget - playerW - GUT - PADR, 40), 118)
+        let advW = playerW + GUT + textW + PADR
+        let advH = PH
 
         adv.addSubview(media); adv.addSubview(badge); adv.addSubview(head)
         NSLayoutConstraint.activate([
             adv.widthAnchor.constraint(equalToConstant: advW),
-            adv.heightAnchor.constraint(equalToConstant: PH),
-            // the player is flush: top, bottom and leading edge, no padding
+            adv.heightAnchor.constraint(equalToConstant: advH),
+            // the player is flush: top, leading edge, no padding
             media.topAnchor.constraint(equalTo: adv.topAnchor),
             media.leadingAnchor.constraint(equalTo: adv.leadingAnchor),
             media.widthAnchor.constraint(equalToConstant: playerW),
             media.heightAnchor.constraint(equalToConstant: PH),
-            badge.leadingAnchor.constraint(equalTo: media.trailingAnchor, constant: GUT),
             badge.widthAnchor.constraint(equalToConstant: 22),
             badge.heightAnchor.constraint(equalToConstant: 13),
+        ])
+        NSLayoutConstraint.activate([
+            badge.leadingAnchor.constraint(equalTo: media.trailingAnchor, constant: GUT),
             head.leadingAnchor.constraint(equalTo: badge.leadingAnchor),
             head.widthAnchor.constraint(equalToConstant: textW),
             head.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 4),
@@ -614,8 +627,8 @@ final class AdController: NSObject {
         cornerWrap.addSubview(adv)
         cornerWrap.addSubview(close)
         cornerW?.isActive = false; cornerH?.isActive = false
-        cornerW = cornerWrap.widthAnchor.constraint(equalToConstant: advW + PILL)
-        cornerH = cornerWrap.heightAnchor.constraint(equalToConstant: PH)
+        cornerW = cornerWrap.widthAnchor.constraint(equalToConstant: advW)
+        cornerH = cornerWrap.heightAnchor.constraint(equalToConstant: advH)
         NSLayoutConstraint.activate([
             cornerW!, cornerH!,
             adv.topAnchor.constraint(equalTo: cornerWrap.topAnchor),

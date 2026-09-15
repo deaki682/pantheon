@@ -10,14 +10,16 @@ const W=Number(process.argv[4]||411), H=Number(process.argv[5]||891);
 
 // --- the same arithmetic as MainActivity.buildCorner --------------------
 const tab = Math.min(W,H) >= 600;
-const gut = tab ? 12 : 8, pillLane = 32;
+const gut = tab ? 12 : 8, padR = 8, FLANK = 48;
 const playerH = tab ? 160 : 120, playerMax = tab ? 284 : 213;
 const textWant = tab ? 230 : 118;
-const budget = W - 2 * (8 + (tab?76:44) + 12);
-let textW = Math.min(Math.max(Math.floor(budget*34/100), 44), textWant);
-const playerW = Math.min(Math.max(budget - gut - pillLane - textW, 120), playerMax);
-textW = Math.min(Math.max(budget - gut - pillLane - playerW, 44), textWant);
-const boxW = playerW + gut + textW + pillLane, boxH = playerH;
+const flank = 8 + (tab?76:44);
+const budget = W - 2 * (flank + FLANK);
+const playerW = Math.min(Math.max(tab ? budget - gut - padR - textWant : 120, 120), playerMax);
+const textW = Math.min(Math.max(budget - playerW - gut - padR, 40), textWant);
+const boxW = playerW + gut + textW + padR;
+const boxH = playerH;          // the video minimum, full stop
+const stack = false;
 
 (async () => {
   const br = await chromium.launch(require('./browser.js'));
@@ -49,13 +51,13 @@ const boxW = playerW + gut + textW + pillLane, boxH = playerH;
     if (typeof __adCorner==='function') __adCorner(true);
   });
   // the stand-in, at the measured geometry, anchored the way the shell anchors it
-  await pg.evaluate(([boxW,boxH,playerW,playerH,textW,gut,pillLane])=>{
+  await pg.evaluate(([boxW,boxH,playerW,playerH,textW,gut,padR,stack])=>{
     const d=document.createElement('div');
-    d.style.cssText='position:fixed;z-index:40;top:'+(8)+'px;left:50%;'
+    d.style.cssText='position:fixed;z-index:40;top:8px;left:50%;'
       +'transform:translateX(-50%);width:'+boxW+'px;height:'+boxH+'px;'
       +'background:#1e1e1e;border:1px solid #555;border-radius:14px;'
       +'box-shadow:0 6px 18px rgba(0,0,0,.55);overflow:hidden;display:flex';
-    d.innerHTML =
+    const player =
       '<div style="width:'+playerW+'px;height:'+playerH+'px;flex:none;position:relative;'
       +'background:linear-gradient(135deg,#2f3d52,#15202e);display:flex;'
       +'align-items:center;justify-content:center">'
@@ -64,24 +66,30 @@ const boxW = playerW + gut + textW + pillLane, boxH = playerH;
       +'margin-left:5px"></div>'
       +'<span style="position:absolute;right:5px;bottom:4px;font:10px system-ui;'
       +'color:#cfcfcf;background:rgba(0,0,0,.45);padding:1px 4px;border-radius:3px">0:15</span>'
-      +'</div>'
-      +'<div style="padding-left:'+gut+'px;display:flex;flex-direction:column;'
-      +'justify-content:center;width:'+textW+'px">'
-      +'<span style="font:9px system-ui;color:#e8833a;border:1px solid #e8833a;'
-      +'border-radius:3px;padding:0 3px;align-self:flex-start">Ad</span>'
-      +'<span style="font:11px system-ui;color:#e8e6e1;margin-top:4px;line-height:1.25">'
-      +'A headline from the auction, three lines at most</span></div>'
-      +'<div style="width:'+pillLane+'px"></div>'
-      +'<div style="position:absolute;right:5px;top:5px;width:22px;height:22px;'
-      +'border-radius:11px;background:rgba(25,25,25,.9);color:#b9b5ae;'
-      +'font:12px system-ui;display:flex;align-items:center;justify-content:center">✕</div>';
+      +'</div>';
+    const badge = '<span style="font:9px system-ui;color:#e8833a;border:1px solid #e8833a;'
+      +'border-radius:3px;padding:0 3px;align-self:flex-start;flex:none">Ad</span>';
+    const words = 'A headline from the auction';
+    d.innerHTML = player
+        + '<div style="padding-left:'+gut+'px;padding-right:'+padR+'px;'
+        + 'display:flex;flex-direction:column;'
+        + 'justify-content:center;width:'+textW+'px">'+badge
+        + '<span style="font:11px system-ui;color:#e8e6e1;margin-top:4px;'
+        + 'line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;'
+        + '-webkit-box-orient:vertical;overflow:hidden">'+words
+        + ', three lines at most</span></div>';
+    d.innerHTML += '<div style="position:absolute;right:5px;top:5px;width:22px;'
+      +'height:22px;border-radius:11px;background:rgba(25,25,25,.9);color:#b9b5ae;'
+      +'font:12px system-ui;display:flex;align-items:center;justify-content:center">\u2715</div>';
     document.body.appendChild(d);
-  }, [boxW,boxH,playerW,playerH,textW,gut,pillLane]);
+  }, [boxW,boxH,playerW,playerH,textW,gut,padR,stack]);
   await pg.waitForTimeout(250);
   const f=OUT+'/card_'+W+'x'+H+'_'+TAG+'.png';
   fs.writeFileSync(f, await pg.screenshot());
+  const gapDp = Math.round((W - boxW)/2 - flank);
   console.log(W+'x'+H+'  card '+boxW+'x'+boxH+'  player '+playerW+'x'+playerH
-    +'  text '+textW+'  pill lane '+pillLane);
+    +'  text '+textW+(stack?'  [stacked]':'')
+    +'  gap off each button '+gapDp+'dp ('+(gapDp/6.3).toFixed(1)+'mm)');
   console.log('  -> '+f);
   await br.close();
 })();
