@@ -925,7 +925,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v450</span>
+    <span id="verNum">v451</span>
   </div>
 </div>
 <div id="delModal">
@@ -5069,7 +5069,17 @@ function applyView(){
   // move; the real redraw lands once, when the fingers lift
   if (GESTURE.active && GRID_DRAWN && GRID_READY){
     const k=view.s/GRID_DRAWN.s;
-    const tx=view.x-GRID_DRAWN.x*k, ty=view.y-GRID_DRAWN.y*k;
+    const P0=GRID_DRAWN.p||0;
+    // The canvas is laid out at -P, so the scale pulls that offset with it:
+    // a world point baked at element-local u lands at -P + t + k*u, and for
+    // that to equal the true view.x + wx*view.s the translate has to carry
+    // P*(1-k). It vanishes at k=1, which is why panning was right and every
+    // pinch was out by exactly P*(k-1) - 40px at 1.25x, 352px at 3.2x on a
+    // 160px band. The band arrived in v444 and this term did not come with
+    // it; pan_bare only ever dragged, where the scale is 1 and the mistake
+    // cannot show.
+    const tx=view.x-GRID_DRAWN.x*k + P0*(1-k),
+          ty=view.y-GRID_DRAWN.y*k + P0*(1-k);
     // the ride only covers what was rasterized. Compute the largest strip
     // of viewport the transformed frame would leave bare (pans expose the
     // trailing edge, zoom-out exposes all four; zoom-IN covers everything
@@ -5081,7 +5091,7 @@ function applyView(){
     // it spans -P+tx .. -P+tx+k*(w0+2P). Anything of 0..w0 outside that is
     // bare. Negative means slack still in hand. With P=0 this reduces to
     // the old |tx| - which is why a drag used to re-bake every frame.
-    const w0=GRID_DRAWN.w||0, h0=GRID_DRAWN.h||0, P0=GRID_DRAWN.p||0;
+    const w0=GRID_DRAWN.w||0, h0=GRID_DRAWN.h||0;
     const gap=Math.max(
       tx-P0, ty-P0,
       w0+P0-tx-k*(w0+2*P0), h0+P0-ty-k*(h0+2*P0));
