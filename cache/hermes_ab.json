@@ -3065,6 +3065,22 @@
    "read_model": "opus",
    "read_effort": "high",
    "resolved": false
+  },
+  {
+   "symbol": "ACVA",
+   "detect_date": "2026-09-15",
+   "entry_price": 10.435,
+   "offer_price": 10.5,
+   "spy_entry": 758.66,
+   "expected_close": "2026-12-31",
+   "spread": 0.0062,
+   "llm_verdict": "drop",
+   "llm_rationale": "Copart (CPRT) / ACV Auctions, $10.50/share ALL CASH, definitive agreement announced late 2026-09-10 (8-K filed 09-10; ~$1.9B equity value). Break risk LOW on structure: strategic acquirer with a large net-cash balance sheet buying on cash on hand - no financing condition, no CVR, no stock leg. The one real angle is antitrust framing: both are 'online vehicle auction marketplaces', so a second request is not unthinkable, but the horizontal overlap is thin - Copart's franchise is insurance SALVAGE (vs IAA/RB Global) while ACV is dealer-to-dealer WHOLE-CAR (vs Manheim/Cox and ADESA/Carvana); the tape agrees, holding the name at 99.4% of the offer three sessions after announcement. DROP anyway, and the reason is SPREAD, not risk: at $10.435 vs a $10.50 offer the spread is +0.62%, below the 1% MIN_SPREAD floor - book.enter refuses it by rule and the arithmetic agrees. ~0.6% gross over a ~3.5-month hold is ~2%/yr before slippage, and it would burn one of ten deal slots plus ~$500 of a $4,000 book to harvest less than the cash it displaces. The arb was taken on 09-11 by whoever bought the +44% day. Same call, same reason as SLP on 07-05. SOURCING NOTE: ACVA did NOT come from run_hermes_sourcing.py - its only paper is the 09-10 8-K, no proxy/14D-9 yet, which is disclosed gap (1) of the sweep's own coverage_note. It reached Hermes because /oracle-ghost flagged the +44.20% print on 09-11 and named it for this book. Recorded here so the Arm-B denominator stays honest.",
+   "break_risk": "low",
+   "arm_a_live": false,
+   "read_model": "opus",
+   "read_effort": "high",
+   "resolved": false
   }
  ],
  "graded": [
