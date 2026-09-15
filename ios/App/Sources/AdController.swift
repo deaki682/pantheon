@@ -58,9 +58,18 @@ final class AdController: NSObject {
         self.stripTrail = stripTrail; self.stripWide = stripWide
         self.stripLead = stripLead; self.stripLeadIn = stripLeadIn
         self.stripBottom = stripBottom; self.stripBottomIn = stripBottomIn
+        // the inset set: the same card, held off every edge by AD_MARGIN, and
+        // anchored to whichever end the page asks for
+        let g = host.view.safeAreaLayoutGuide
+        let topM = wrap.topAnchor.constraint(equalTo: g.topAnchor, constant: AD_MARGIN)
+        let botM = wrap.bottomAnchor.constraint(equalTo: g.bottomAnchor, constant: -AD_MARGIN)
+        let leadM = wrap.leadingAnchor.constraint(equalTo: g.leadingAnchor, constant: AD_MARGIN)
+        let trailM = wrap.trailingAnchor.constraint(equalTo: g.trailingAnchor, constant: -AD_MARGIN)
+        self.stripTopM = topM; self.stripBottomM = botM
+        self.stripLeadM = leadM; self.stripTrailM = trailM
         NSLayoutConstraint.activate([
-            stripBottom, stripLead, stripTrail,
-            wrap.heightAnchor.constraint(equalToConstant: 76),
+            botM, leadM, trailM,
+            wrap.heightAnchor.constraint(equalToConstant: AD_H),
         ])
         cornerWrap.isHidden = true
         cornerWrap.translatesAutoresizingMaskIntoConstraints = false
@@ -96,13 +105,32 @@ final class AdController: NSObject {
     private var stripLeadIn: NSLayoutConstraint?
     private var stripBottom: NSLayoutConstraint?
     private var stripBottomIn: NSLayoutConstraint?
+    // the card floats: a margin all round, so it reads as a piece of the app
+    // rather than a bar welded to the screen edge. The page is told
+    // AD_H + AD_MARGIN*2, which is everything the card takes from the edge,
+    // so it reserves the gap as well as the card - the same arrangement the
+    // Android shell uses, where the margin is padding inside the wrapper.
+    private let AD_H: CGFloat = 76
+    private let AD_MARGIN: CGFloat = 10
+    private var stripTopM: NSLayoutConstraint?
+    private var stripBottomM: NSLayoutConstraint?
+    private var stripLeadM: NSLayoutConstraint?
+    private var stripTrailM: NSLayoutConstraint?
+    private var topSide = false
     @objc private func orientationChanged() {
         guard let v = host?.view else { return }
         let land = v.bounds.width > v.bounds.height
         cornerTrail?.isActive = !land
         cornerLead?.isActive = land
-        stripTrail?.isActive = !land; stripLead?.isActive = !land; stripBottom?.isActive = !land
-        stripWide?.isActive = land; stripLeadIn?.isActive = land; stripBottomIn?.isActive = land
+        // portrait now uses the SAME inset card as landscape - the only
+        // difference left is landscape's fixed 460pt width, so the page shows
+        // through beside it
+        stripTrail?.isActive = false; stripLead?.isActive = false; stripBottom?.isActive = false
+        stripBottomIn?.isActive = false; stripLeadIn?.isActive = false
+        stripWide?.isActive = land
+        stripTrailM?.isActive = !land
+        stripLeadM?.isActive = true
+        applySide()
         // the card wears the app's own button in BOTH orientations now: the
         // same corner and the same 1px #555 edge, so it reads as a piece of
         // the app rather than a bar welded to the screen.
@@ -115,6 +143,32 @@ final class AdController: NSObject {
         wrap.clipsToBounds = true
         wrap.layer.borderWidth = 1
         wrap.layer.borderColor = UIColor(white: 0x55/255.0, alpha: 1).cgColor
+    }
+
+    // Which end the card sits at. The drawing screen wears it at the TOP:
+    // thumbs rest at the bottom of a phone, which is exactly where a banner
+    // collects stray taps, so the one screen the artist lives on puts it out
+    // of reach. Every other screen keeps it at the bottom.
+    func setTop(_ on: Bool) {
+        guard topSide != on else { return }
+        topSide = on
+        applySide()
+        reportHeight()
+    }
+    private func applySide() {
+        let land = (host?.view.bounds.width ?? 0) > (host?.view.bounds.height ?? 0)
+        let up = topSide && !land          // landscape uses the corner card
+        stripTopM?.isActive = up
+        stripBottomM?.isActive = !up
+        host?.view.layoutIfNeeded()
+    }
+    // the page reserves what the card takes from the edge: the card plus the
+    // margin on both sides of it. Without this it would reserve the 76pt
+    // default and the card would sit over 20pt of the drawing.
+    private func reportHeight() {
+        let px = Int((AD_H + AD_MARGIN * 2).rounded())
+        let n = (wrap.isHidden || removed) ? 0 : px
+        web?.evaluateJavaScript("window.__adH && __adH(\(n))", completionHandler: nil)
     }
 
     // the remove-ads purchase: the slot collapses and the stack never
@@ -246,6 +300,7 @@ final class AdController: NSObject {
         let slot = wanted && !removed && !onProj
         web?.evaluateJavaScript("window.__adOn && __adOn(\(slot ? "true" : "false"))",
                                 completionHandler: nil)
+        reportHeight()
         if cornerShown && !(base && onProj) { collapseCorner() }
         else if !cornerShown && base && onProj { tryShowCorner() }
     }

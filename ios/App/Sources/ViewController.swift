@@ -37,6 +37,7 @@ final class ViewController: UIViewController {
         let ucc = cfg.userContentController
         ucc.add(self, name: "adPlace")
         ucc.add(self, name: "adProj")
+        ucc.add(self, name: "adTop")
         ucc.add(self, name: "adAccent")
         ucc.add(self, name: "buyRemoveAds")
         ucc.add(self, name: "haptic")
@@ -51,6 +52,9 @@ final class ViewController: UIViewController {
         };
         RealismCam.adProj = function(on){
           try{ webkit.messageHandlers.adProj.postMessage(!!on); }catch(e){}
+        };
+        RealismCam.adTop = function(on){
+          try{ webkit.messageHandlers.adTop.postMessage(!!on); }catch(e){}
         };
         RealismCam.adAccent = function(h){
           try{ webkit.messageHandlers.adAccent.postMessage(String(h||'')); }catch(e){}
@@ -139,6 +143,8 @@ extension ViewController: WKScriptMessageHandler {
                        bg: d["bg"] as? String ?? "#141414")
         } else if message.name == "adProj" {
             ads?.setProj(message.body as? Bool ?? false)
+        } else if message.name == "adTop" {
+            ads?.setTop(message.body as? Bool ?? false)
         } else if message.name == "adAccent", let h = message.body as? String {
             ads?.accent(h)
         } else if message.name == "buyRemoveAds" {
