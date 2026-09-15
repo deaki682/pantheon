@@ -26,6 +26,40 @@ final class AdController: NSObject {
        trying to draw and because an ad collecting taps on empty air over
        someone's work is exactly the accidental-click layout the network
        polices. */
+    /* THE INNER CORNER OF THE L, where the tab's right edge meets the band's
+       underside. Every other corner of this card is convex and a radius does
+       it; this one is CONCAVE - the material has to bulge INTO the empty
+       quadrant to meet itself smoothly - and no corner radius can express
+       that, so it is a small painted patch: a square of card with a quarter
+       disc taken out of it, and the hairline running round the arc. */
+    final class Fillet: UIView {
+        var rad: CGFloat = 14
+        var fillCol: UIColor = .black
+        override func draw(_ rect: CGRect) {
+            let r = rad
+            guard r > 0, let c = UIGraphicsGetCurrentContext() else { return }
+            let p = UIBezierPath()
+            p.move(to: .zero)
+            p.addLine(to: CGPoint(x: r, y: 0))
+            p.addArc(withCenter: CGPoint(x: r, y: r), radius: r,
+                     startAngle: -.pi / 2, endAngle: .pi, clockwise: false)
+            p.close()
+            fillCol.setFill()
+            p.fill()
+            // only the ARC carries a line: the patch's two straight sides are
+            // continuations of the band and the tab, not edges of their own
+            let arc = UIBezierPath()
+            arc.addArc(withCenter: CGPoint(x: r, y: r), radius: r,
+                       startAngle: -.pi / 2, endAngle: .pi, clockwise: false)
+            UIColor(white: 1, alpha: 0.2).setStroke()
+            arc.lineWidth = 1
+            arc.stroke()
+            _ = c
+        }
+    }
+    private var filletV: Fillet?
+    private var tabV: UIView?
+
     final class LWrap: UIView {
         var bandH: CGFloat = 0
         var tabW: CGFloat = 0
@@ -434,6 +468,15 @@ final class AdController: NSObject {
             // and the tab's own clip is the thing that animates.
             cornerH?.constant = cardH
             mediaClipH?.constant = h
+            // SHUT, THE TAB IS NOT A BOX. It is exactly the band's height and
+            // the band's colour, so an outline round it would just be a line
+            // drawn across the banner, and a rounded bottom would bite a
+            // notch out of the band's own underside. Both belong to the tab
+            // only while it is OUT.
+            let out = h > restH + 1
+            tabV?.layer.cornerRadius = out ? 14 : 0
+            tabV?.layer.borderWidth = out ? 1 : 0
+            filletV?.isHidden = !out
         } else {
             cornerH?.constant = h
         }
@@ -772,6 +815,24 @@ final class AdController: NSObject {
             adv.trailingAnchor.constraint(equalTo: cornerWrap.trailingAnchor),
             adv.bottomAnchor.constraint(equalTo: cornerWrap.bottomAnchor),
         ])
+        // the fillet sits exactly on the inner corner and shows only when the
+        // tab is out - there is no corner to soften while it is shut
+        let fil = Fillet()
+        fil.translatesAutoresizingMaskIntoConstraints = false
+        fil.backgroundColor = .clear
+        fil.isOpaque = false
+        fil.fillCol = bgCol
+        fil.isHidden = true
+        fil.isUserInteractionEnabled = false
+        adv.addSubview(fil)
+        NSLayoutConstraint.activate([
+            fil.leadingAnchor.constraint(equalTo: tabClip.trailingAnchor),
+            fil.topAnchor.constraint(equalTo: tabClip.bottomAnchor),
+            fil.widthAnchor.constraint(equalToConstant: 14),
+            fil.heightAnchor.constraint(equalToConstant: 14),
+        ])
+        filletV = fil
+        tabV = tabClip
         cornerWrap.bandH = flushRest
         cornerWrap.tabW = PW
         cornerWrap.isL = true

@@ -1021,7 +1021,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     left:calc(8px + env(safe-area-inset-left));right:auto;
     top:calc(8px + env(safe-area-inset-top));
     bottom:calc(8px + env(safe-area-inset-bottom));
-    width:min(230px,28vw);overflow-y:auto;background:none;
+    width:min(180px,21vw);overflow-y:auto;background:none;
     border:none;padding:0;
     display:flex;flex-direction:column;justify-content:center}
   /* ONE PAIR TO A LINE down a narrow column, and the pills go compact: a
@@ -1032,7 +1032,11 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   #scrCompare #lvRow .row{flex-direction:column;align-items:stretch;
     gap:4px;padding:2px 0}
   #scrCompare #lvRow .adjPill{flex:none;padding:3px 10px;gap:6px}
-  #scrCompare #lvRow .adjPill .adjL{font-size:10.5px}
+  /* the label gives up what it can so the track keeps its share of a pill
+     this narrow - the thumb is what the finger lands on, and a track too
+     short to drag is not a control */
+  #scrCompare #lvRow .adjPill .adjL{font-size:10px;
+    max-width:52px;overflow:hidden;text-overflow:ellipsis}
   #scrCompare #lvReset{padding:3px 10px;min-height:0}
 }
 /* A NARROW BAND HOLDS ONE SLIDER PAIR TO A ROW. Two pairs need 62px of label
@@ -1099,7 +1103,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v492</span>
+    <span id="verNum">v493</span>
   </div>
 </div>
 <div id="delModal">

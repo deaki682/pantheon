@@ -1240,9 +1240,7 @@ class MainActivity : AppCompatActivity() {
         // the band and a rounded one would cut a notch in it.
         val tabBg = android.graphics.drawable.GradientDrawable()
         tabBg.setColor(adBgCol)
-        val r = dp(14).toFloat()
-        tabBg.cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, r, r, r, r)
-        tabBg.setStroke(Math.max(1, dp(1)), 0x33FFFFFF)
+        adTabBg = tabBg
         val mediaWrap = FrameLayout(this)
         mediaWrap.background = tabBg
         mediaWrap.clipToOutline = true      // the picture follows the curve too
@@ -1264,6 +1262,15 @@ class MainActivity : AppCompatActivity() {
         lroot.addView(col, clp)
         lroot.addView(mediaWrap, FrameLayout.LayoutParams(
             dp(PW), bandH, android.view.Gravity.TOP))
+        val fil = Fillet(this)
+        fil.rad = dp(14).toFloat()
+        fil.fillCol = adBgCol
+        fil.lineW = Math.max(1, dp(1)).toFloat()
+        fil.visibility = android.view.View.GONE     // nothing to fillet when shut
+        val flp = FrameLayout.LayoutParams(dp(14), dp(14), android.view.Gravity.TOP)
+        flp.leftMargin = dp(PW); flp.topMargin = bandH
+        lroot.addView(fil, flp)
+        adFillet = fil
 
         adv.addView(lroot, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
@@ -1415,6 +1422,19 @@ class MainActivity : AppCompatActivity() {
         // picture rather than its top edge.
         if (adSpotFlush) {
             adMediaWrap?.layoutParams = adMediaWrap?.layoutParams?.also { it.height = h }
+            // SHUT, THE TAB IS NOT A BOX. It is exactly the band's height and
+            // the band's colour, so an outline round it would just be a line
+            // drawn across the banner for no reason, and a rounded bottom
+            // would bite a notch out of the band's own underside. The outline
+            // and the curve belong to the tab only while it is OUT, and this
+            // reads the live height rather than the bloom flag so they arrive
+            // and leave with the movement instead of a frame before it.
+            val out = h > adFlushRest + 1
+            val r = if (out) 14f * d else 0f
+            adTabBg?.cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, r, r, r, r)
+            adTabBg?.setStroke(if (out) Math.max(1, (1 * d).toInt()) else 0, 0x33FFFFFF)
+            adFillet?.visibility =
+                if (out) android.view.View.VISIBLE else android.view.View.GONE
         } else {
             adMediaWrap?.layoutParams = adMediaWrap?.layoutParams?.also { it.height = h }
             adColV?.layoutParams = adColV?.layoutParams?.also { it.height = h }
@@ -1435,6 +1455,44 @@ class MainActivity : AppCompatActivity() {
        someone's work is exactly the accidental-click layout the network
        polices. Refusing the DOWN is enough: Android then offers the whole
        gesture to the next view down, which is the web view. */
+    /* THE INNER CORNER OF THE L, where the tab's right edge meets the band's
+       underside. Every other corner of this card is convex and a radius does
+       it; this one is CONCAVE - the material has to bulge INTO the empty
+       quadrant to meet itself smoothly - and no corner radius can express
+       that, so it is a small painted patch: a square of card with a quarter
+       disc taken out of it, and the hairline running round the arc. */
+    private inner class Fillet(ctx: android.content.Context) : android.view.View(ctx) {
+        var rad = 0f
+        var fillCol = 0
+        var lineW = 0f
+        private val fill = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG)
+        private val line = android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG)
+        private val p = android.graphics.Path()
+        override fun onDraw(c: android.graphics.Canvas) {
+            val r = rad
+            if (r <= 0f) return
+            fill.style = android.graphics.Paint.Style.FILL
+            fill.color = fillCol
+            line.style = android.graphics.Paint.Style.STROKE
+            line.color = 0x33FFFFFF
+            line.strokeWidth = lineW
+            val box = android.graphics.RectF(0f, 0f, 2 * r, 2 * r)
+            p.reset()
+            p.moveTo(0f, 0f)
+            p.lineTo(r, 0f)
+            p.arcTo(box, 270f, -90f)
+            p.close()
+            c.drawPath(p, fill)
+            // only the ARC is drawn: the two straight sides of the patch are
+            // continuations of the band and the tab, not edges of their own
+            p.reset()
+            p.arcTo(box, 270f, -90f)
+            c.drawPath(p, line)
+        }
+    }
+    private var adFillet: Fillet? = null
+    private var adTabBg: android.graphics.drawable.GradientDrawable? = null
+
     private inner class LWrap(ctx: android.content.Context) : FrameLayout(ctx) {
         override fun dispatchTouchEvent(ev: android.view.MotionEvent): Boolean {
             if (ev.actionMasked == android.view.MotionEvent.ACTION_DOWN &&
@@ -1488,10 +1546,15 @@ class MainActivity : AppCompatActivity() {
     private fun adBloomSet(open: Boolean) {
         if (adBloomed == open || !adSpotFlush) return
         adBloomed = open
-        val d = resources.displayMetrics.density
-        val from = (adCornerWrap.layoutParams as FrameLayout.LayoutParams).height
+        // THE TAB'S HEIGHT, NOT THE WRAPPER'S. The wrapper stands at the tab's
+        // full reach the whole time - that is what gives the tab room to come
+        // down inside it - so reading the wrapper gave `from == to` on the
+        // way OUT and the opening animation moved nothing at all. What
+        // actually travels is the media wrapper, so that is what to ask.
+        val from = (adMediaWrap?.layoutParams?.height ?: 0)
             .let { if (it > 0) it else restH() }
         val to = if (open) adCornerH else restH()
+        if (from == to) return
         adBloomAnim?.cancel()
         val a = android.animation.ValueAnimator.ofInt(from, to)
         a.duration = 260
