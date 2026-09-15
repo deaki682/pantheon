@@ -382,7 +382,7 @@ class MainActivity : AppCompatActivity() {
         adWrap.addOnLayoutChangeListener { _, _, top, _, bottom, _, oTop, _, oBottom ->
             if (bottom - top != oBottom - oTop) reportAdHeight()
         }
-        adCornerWrap = FrameLayout(this)
+        adCornerWrap = LWrap(this)
         adCornerWrap.visibility = android.view.View.GONE
         run {
             root.addView(adCornerWrap, adCornerParams())
@@ -933,6 +933,7 @@ class MainActivity : AppCompatActivity() {
         val gut  = if (tab) 12 else 8
         val padR = 8                            // the card's own right edge
         val flush = adSpotFlush                 // upright: wall to wall
+        if (flush) { buildFlush(ad, ::dp); return }
         val playerH = if (tab) 160 else 120     // == AdMob's video floor
         val playerMax = if (tab) 284 else 213   // 16:9 at that height
         // 106, down from 118: the headline gives up about three characters a
@@ -1156,6 +1157,122 @@ class MainActivity : AppCompatActivity() {
         adViewMode = "corner"
     }
 
+    /* THE L. Upright the ad is a banner welded to the top edge, and the video
+       does not swell the whole of it - only the PLAYER'S COLUMN drops, like a
+       tab pulled down out of the band, and the rest of the band stays exactly
+       where it was. That is a smaller hole in the drawing than a full-width
+       card of the same height: 64 across plus a 120-wide tongue, against 120
+       across everything.
+       The player is a 120 SQUARE, AdMob's floor in both directions and the
+       narrowest a tab can be and still be served video at all. A 16:9
+       creative letterboxes inside it; that is the price of the narrow tab and
+       it is a conscious one.
+       The card is therefore NOT a rectangle, and the corner it does not
+       occupy is the drawing's. An ad view is always a rectangle, so the
+       wrapper refuses touches that land in that corner and the page gets
+       them - without which the ad would be collecting taps on empty air over
+       someone's work, which is the accidental-click shape the network
+       polices. */
+    private fun buildFlush(ad: com.google.android.gms.ads.nativead.NativeAd,
+                           dp: (Int) -> Int) {
+        val tabDev = resources.configuration.smallestScreenWidthDp >= 600
+        val gut = if (tabDev) 12 else 8
+        val padR = 8
+        val PW = 120                      // the square: AdMob's floor, both ways
+        val screenDp = (resources.displayMetrics.widthPixels /
+                        resources.displayMetrics.density).toInt()
+        val textW = (screenDp - PW - gut - padR - gut).coerceAtLeast(40)
+
+        val adv = com.google.android.gms.ads.nativead.NativeAdView(this)
+        val lroot = FrameLayout(this)
+        lroot.clipChildren = false
+
+        // the band: the whole width, the height the headline asks for
+        val bandBg = android.view.View(this)
+        val bg = android.graphics.drawable.GradientDrawable()
+        bg.setColor(adBgCol)
+        bandBg.background = bg
+        adCardBg = bg
+
+        // the reading column, to the RIGHT of the tab and inside the band
+        val col = android.widget.LinearLayout(this)
+        col.orientation = android.widget.LinearLayout.VERTICAL
+        col.gravity = android.view.Gravity.CENTER_VERTICAL
+        col.setPadding(0, dp(4), 0, dp(4))
+        val badge = adBadge(dp)
+        col.addView(badge)
+        val head = TextView(this)
+        head.setTextColor(0xFFE8E6E1.toInt())
+        head.ellipsize = android.text.TextUtils.TruncateAt.END
+        head.textSize = if (tabDev) 13.5f else 11f
+        head.maxLines = 2
+        head.text = ad.headline ?: ""
+        adHeadV = head
+        val hlp = android.widget.LinearLayout.LayoutParams(dp(textW),
+            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
+        hlp.topMargin = dp(4)
+        col.addView(head, hlp)
+
+        // HOW TALL THE BAND IS is measured, not typed: the headline is the
+        // auction's words at the viewer's own font size, so it grows when
+        // they do. 64 is the floor - the height asked for - and the measure
+        // only ever raises it, so a large accessibility font gets its second
+        // line instead of losing it.
+        col.measure(
+            android.view.View.MeasureSpec.makeMeasureSpec(dp(textW),
+                android.view.View.MeasureSpec.EXACTLY),
+            android.view.View.MeasureSpec.makeMeasureSpec(0,
+                android.view.View.MeasureSpec.UNSPECIFIED))
+        val bandH = (col.measuredHeight + dp(8)).coerceAtLeast(dp(AD_FLUSH_MIN))
+        adFlushRest = bandH
+        adFlushTabW = dp(PW)
+
+        // the tab: the player's column, the band's height at rest and the
+        // square's when it is open. It shares the band's colour so the two
+        // read as one L rather than as a card with a box on it.
+        val tabBg = android.graphics.drawable.GradientDrawable()
+        tabBg.setColor(adBgCol)
+        val mediaWrap = FrameLayout(this)
+        mediaWrap.background = tabBg
+        mediaWrap.clipChildren = true; mediaWrap.clipToPadding = true
+        val media = com.google.android.gms.ads.nativead.MediaView(this)
+        media.setImageScaleType(android.widget.ImageView.ScaleType.CENTER_CROP)
+        // the player keeps its full square whatever the tab is doing - that
+        // is what makes the card video-eligible - and the tab CLIPS it,
+        // centred, so a shut tab shows the middle of the picture
+        mediaWrap.addView(media, FrameLayout.LayoutParams(dp(PW), dp(PW),
+            android.view.Gravity.CENTER))
+        adMediaWrap = mediaWrap
+        adColV = col
+
+        lroot.addView(bandBg, FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT, bandH, android.view.Gravity.TOP))
+        val clp = FrameLayout.LayoutParams(dp(textW), bandH, android.view.Gravity.TOP)
+        clp.leftMargin = dp(PW) + dp(gut)
+        lroot.addView(col, clp)
+        lroot.addView(mediaWrap, FrameLayout.LayoutParams(
+            dp(PW), bandH, android.view.Gravity.TOP))
+
+        adv.addView(lroot, FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT))
+        adv.mediaView = media
+        adv.headlineView = head
+        adv.setNativeAd(ad)
+
+        adCornerWrap.clipChildren = false; adCornerWrap.clipToPadding = false
+        adCornerWrap.removeAllViews()
+        adCornerWrap.addView(adv, FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT))
+        adCornerH = dp(PW)                 // the tab, fully out
+        adCornerApply()
+        adCard = adv
+        adBadgeV = badge
+        adCtaV = null
+        adViewMode = "corner"
+    }
+
     // two placements, one ad: the bottom strip everywhere EXCEPT the two
     // canvas screens (persistent, page reserves room through __adOn), and on
     // those a corner banner that blooms to the video card now and then,
@@ -1177,8 +1294,9 @@ class MainActivity : AppCompatActivity() {
     // the floor: what a banner conventionally is, and below which the band
     // stops reading as one. The real resting height is MEASURED from the
     // headline at the viewer's own font size (see buildCorner).
-    private val AD_FLUSH_MIN = 50
+    private val AD_FLUSH_MIN = 64
     private var adFlushRest = 0          // measured, in px; 0 until a card is built
+    private var adFlushTabW = 0          // the tab's width, in px
     private var adBloomed = false         // is the banner open to video height
     private var adLastBloom = 0L          // uptime of the last one
     private val AD_BLOOM_GAP = 4 * 60 * 1000L   // never oftener than this
@@ -1267,27 +1385,56 @@ class MainActivity : AppCompatActivity() {
         val m = if (adSpotFlush) 0 else (AD_CORNER_INSET * d).toInt()
         adCornerWrap.layoutParams = (adCornerWrap.layoutParams as FrameLayout.LayoutParams)
             .also {
-                it.height = h
+                // flush: the wrapper is always as tall as the tab can reach,
+                // so the tab has room to come down inside it. What is PAINTED
+                // is the L; the rest is empty and LWrap hands its touches on.
+                it.height = if (adSpotFlush) adCornerH else h
                 it.topMargin = m
                 if (adSpotFlush) { it.leftMargin = 0; it.rightMargin = 0 }
                 else if (adSpotLeft) { it.leftMargin = m; it.rightMargin = 0 }
                 else { it.rightMargin = m; it.leftMargin = 0 }
             }
-        // THESE TWO ARE THE CROP, and they must track the band or the banner
-        // comes out as a slice of a full-size card - the headline cut off
-        // halfway down, the picture showing its top edge. The PLAYER itself
-        // does not shrink: it keeps the 120dp square that makes the card
-        // video-eligible at all, centred inside a wrapper that clips it, so a
-        // short band shows the MIDDLE of the creative. Same for the reading
-        // column: centred in whatever is on show rather than in a card height
-        // that is mostly hidden.
-        adMediaWrap?.layoutParams = adMediaWrap?.layoutParams?.also { it.height = h }
-        adColV?.layoutParams = adColV?.layoutParams?.also { it.height = h }
+        // ONLY THE TAB MOVES. The band keeps the height its headline asked
+        // for whatever the video is doing - that is the whole point of the
+        // shape - so the reading column is left alone and the player's
+        // column is the one thing that grows. The player itself does not:
+        // it keeps the 120 square that makes the card video-eligible, and
+        // the tab CLIPS it, centred, so a shut tab shows the middle of the
+        // picture rather than its top edge.
+        if (adSpotFlush) {
+            adMediaWrap?.layoutParams = adMediaWrap?.layoutParams?.also { it.height = h }
+        } else {
+            adMediaWrap?.layoutParams = adMediaWrap?.layoutParams?.also { it.height = h }
+            adColV?.layoutParams = adColV?.layoutParams?.also { it.height = h }
+        }
+        adMediaWrap?.requestLayout()
         adMediaWrap?.let { adHeadV?.maxLines = 3 }   // the card always has the room
         adCardBg?.let { it.cornerRadius = if (adSpotFlush) 0f else 14f * d }
         // tell the page how much of its top edge is spoken for
+        // the page ducks under what actually covers its top-LEFT corner, which
+        // is where both the readout and the grid's first column label live -
+        // the band at rest, the tab while it is out
         if (adSpotFlush) jsAdTop(if (adCornerShown) (h / d).toInt() else 0)
     }
+    /* An ad view is always a rectangle; this card is an L. Everything to the
+       RIGHT of the tab and BELOW the band is the drawing, not the ad, and a
+       touch that lands there has to reach the page - both because the artist
+       is trying to draw and because an ad collecting taps on empty air over
+       someone's work is exactly the accidental-click layout the network
+       polices. Refusing the DOWN is enough: Android then offers the whole
+       gesture to the next view down, which is the web view. */
+    private inner class LWrap(ctx: android.content.Context) : FrameLayout(ctx) {
+        override fun dispatchTouchEvent(ev: android.view.MotionEvent): Boolean {
+            if (ev.actionMasked == android.view.MotionEvent.ACTION_DOWN &&
+                adSpotFlush && adFlushTabW > 0 && adFlushRest > 0) {
+                val inBand = ev.y <= adFlushRest
+                val inTab = ev.x <= adFlushTabW
+                if (!inBand && !inTab) return false
+            }
+            return super.dispatchTouchEvent(ev)
+        }
+    }
+
     private fun restH(): Int =
         if (adFlushRest > 0) adFlushRest
         else (AD_FLUSH_MIN * resources.displayMetrics.density).toInt()

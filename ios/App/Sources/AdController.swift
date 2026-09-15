@@ -20,7 +20,23 @@ final class AdController: NSObject {
     // corner mode (the two canvas screens): a thin banner rests in whichever
     // corner the page's own layout leaves empty, and blooms to the 120pt video
     // card for a bounded window before settling back to the banner
-    private let cornerWrap = UIView()
+    /* An ad view is always a rectangle; upright this card is an L. Everything
+       to the RIGHT of the tab and BELOW the band is the drawing, not the ad,
+       and a touch there has to reach the page - both because the artist is
+       trying to draw and because an ad collecting taps on empty air over
+       someone's work is exactly the accidental-click layout the network
+       polices. */
+    final class LWrap: UIView {
+        var bandH: CGFloat = 0
+        var tabW: CGFloat = 0
+        var isL = false
+        override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+            guard isL, bandH > 0, tabW > 0 else { return super.point(inside: point, with: event) }
+            if !super.point(inside: point, with: event) { return false }
+            return point.y <= bandH || point.x <= tabW
+        }
+    }
+    private let cornerWrap = LWrap()
     private var onProj = false
     private var cornerShown = false
     private var viewMode = ""
@@ -211,7 +227,7 @@ final class AdController: NSObject {
     // the floor: what a banner conventionally is, and below which the band
     // stops reading as one. The real resting height is MEASURED from the
     // headline at the viewer's own text size (see buildCorner).
-    private let FLUSH_MIN: CGFloat = 50
+    private let FLUSH_MIN: CGFloat = 64
     private var flushRest: CGFloat = 0     // measured; 0 until a card is built
     private var restH: CGFloat { flushRest > 0 ? flushRest : FLUSH_MIN }
     private let BLOOM_GAP: CFTimeInterval = 4 * 60
@@ -407,11 +423,20 @@ final class AdController: NSObject {
     // animation, and it stays a function because a rotation or a rebuild has
     // to re-apply it.
     private func applyCornerGeometry(_ h0: CGFloat = -1) {
-        // FLUSH rests as a band and blooms to the card's full height; the
-        // corner card has one height and always had.
+        // FLUSH rests as a band and opens its TAB to the square; the corner
+        // card has one height and always had.
         let h = h0 >= 0 ? h0
               : (spotFlush && !bloomed ? restH : cardH)
-        cornerH?.constant = h
+        if spotFlush {
+            // ONLY THE TAB MOVES. The band keeps the height its headline
+            // asked for whatever the video is doing - that is the whole point
+            // of the shape - so the wrapper stands at the tab's full reach
+            // and the tab's own clip is the thing that animates.
+            cornerH?.constant = cardH
+            mediaClipH?.constant = h
+        } else {
+            cornerH?.constant = h
+        }
         cornerTop?.constant = spotFlush ? 0 : AD_INSET
         cornerMid?.constant = -AD_INSET
         cornerLead?.constant = AD_INSET
@@ -614,6 +639,134 @@ final class AdController: NSObject {
         viewMode = "strip"
     }
 
+    /* THE L. Upright the ad is a banner welded to the top edge, and the video
+       does not swell the whole of it - only the PLAYER'S COLUMN drops, like a
+       tab pulled down out of the band, and the rest of the band stays exactly
+       where it was. That is a smaller hole in the drawing than a full-width
+       card of the same height: 64 across plus a 120-wide tongue, against 120
+       across everything.
+       The player is a 120 SQUARE, AdMob's floor in both directions and the
+       narrowest a tab can be and still be served video at all. A 16:9
+       creative letterboxes inside it; that is the price of the narrow tab and
+       it is a conscious one. */
+    private func buildFlushCard(_ ad: NativeAd) {
+        let GUT: CGFloat = 8, PADR: CGFloat = 8, PW: CGFloat = 120
+        let screenW = host?.view.safeAreaLayoutGuide.layoutFrame.width
+            ?? host?.view.bounds.width ?? 390
+        let textW = max(screenW - PW - GUT - PADR - GUT, 40)
+
+        let adv = NativeAdView()
+        adv.translatesAutoresizingMaskIntoConstraints = false
+        adv.backgroundColor = .clear
+
+        // the band: the whole width, the height the headline asks for
+        let bandBg = UIView()
+        bandBg.translatesAutoresizingMaskIntoConstraints = false
+        bandBg.backgroundColor = bgCol
+
+        let badge = badgeLabel()
+        let head = UILabel()
+        head.font = .systemFont(ofSize: 11)
+        head.textColor = UIColor(red: 0xE8/255.0, green: 0xE6/255.0, blue: 0xE1/255.0, alpha: 1)
+        head.lineBreakMode = .byTruncatingTail
+        head.numberOfLines = 2
+        head.text = ad.headline
+        head.translatesAutoresizingMaskIntoConstraints = false
+        headV = head
+
+        let textCol = UIView()
+        textCol.translatesAutoresizingMaskIntoConstraints = false
+        textCol.addSubview(badge); textCol.addSubview(head)
+
+        // the tab: the player's column, the band's height at rest and the
+        // square's when it is open. Same colour as the band, so the two read
+        // as one L rather than as a card with a box on it.
+        let tabClip = UIView()
+        tabClip.translatesAutoresizingMaskIntoConstraints = false
+        tabClip.backgroundColor = bgCol
+        tabClip.clipsToBounds = true
+        let media = MediaView()
+        media.translatesAutoresizingMaskIntoConstraints = false
+
+        adv.addSubview(bandBg); adv.addSubview(tabClip); adv.addSubview(textCol)
+        tabClip.addSubview(media)
+
+        NSLayoutConstraint.activate([
+            bandBg.topAnchor.constraint(equalTo: adv.topAnchor),
+            bandBg.leadingAnchor.constraint(equalTo: adv.leadingAnchor),
+            bandBg.trailingAnchor.constraint(equalTo: adv.trailingAnchor),
+            tabClip.topAnchor.constraint(equalTo: adv.topAnchor),
+            tabClip.leadingAnchor.constraint(equalTo: adv.leadingAnchor),
+            tabClip.widthAnchor.constraint(equalToConstant: PW),
+            // the player keeps its full square whatever the tab is doing -
+            // that is what makes the card video-eligible - and the tab CLIPS
+            // it, centred, so a shut tab shows the middle of the picture
+            media.centerYAnchor.constraint(equalTo: tabClip.centerYAnchor),
+            media.leadingAnchor.constraint(equalTo: tabClip.leadingAnchor),
+            media.widthAnchor.constraint(equalToConstant: PW),
+            media.heightAnchor.constraint(equalToConstant: PW),
+            textCol.leadingAnchor.constraint(equalTo: tabClip.trailingAnchor, constant: GUT),
+            textCol.widthAnchor.constraint(equalToConstant: textW),
+            badge.topAnchor.constraint(equalTo: textCol.topAnchor),
+            badge.leadingAnchor.constraint(equalTo: textCol.leadingAnchor),
+            badge.widthAnchor.constraint(equalToConstant: 22),
+            badge.heightAnchor.constraint(equalToConstant: 13),
+            head.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 4),
+            head.leadingAnchor.constraint(equalTo: textCol.leadingAnchor),
+            head.widthAnchor.constraint(equalToConstant: textW),
+            head.bottomAnchor.constraint(equalTo: textCol.bottomAnchor),
+        ])
+
+        // HOW TALL THE BAND IS is measured, not typed: the headline is the
+        // auction's words at the viewer's own text size, so it grows when
+        // they do. 64 is the floor - the height asked for - and the measure
+        // only ever raises it, so a large text size gets its second line
+        // instead of losing it.
+        textCol.setNeedsLayout(); textCol.layoutIfNeeded()
+        let want = textCol.systemLayoutSizeFitting(
+            CGSize(width: textW, height: 0),
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel).height + 8
+        flushRest = max(want, FLUSH_MIN)
+        NSLayoutConstraint.activate([
+            bandBg.heightAnchor.constraint(equalToConstant: flushRest),
+            textCol.centerYAnchor.constraint(equalTo: bandBg.centerYAnchor),
+        ])
+
+        adv.mediaView = media
+        adv.headlineView = head
+        adv.nativeAd = ad
+        badgeV = badge
+        ctaV = nil
+
+        cornerWrap.subviews.forEach { $0.removeFromSuperview() }
+        cornerWrap.backgroundColor = .clear
+        cornerWrap.clipsToBounds = false
+        cornerWrap.layer.cornerRadius = 0
+        cornerWrap.layer.shadowOpacity = 0
+        cardClip = nil
+        cornerWrap.addSubview(adv)
+        cornerW?.isActive = false; cornerH?.isActive = false
+        mediaClipH?.isActive = false
+        mediaClipH = tabClip.heightAnchor.constraint(equalToConstant: flushRest)
+        mediaClipH?.isActive = true
+        cardH = PW                      // the tab, fully out
+        cornerH = cornerWrap.heightAnchor.constraint(equalToConstant: PW)
+        NSLayoutConstraint.activate([
+            cornerH!,
+            adv.topAnchor.constraint(equalTo: cornerWrap.topAnchor),
+            adv.leadingAnchor.constraint(equalTo: cornerWrap.leadingAnchor),
+            adv.trailingAnchor.constraint(equalTo: cornerWrap.trailingAnchor),
+            adv.bottomAnchor.constraint(equalTo: cornerWrap.bottomAnchor),
+        ])
+        cornerWrap.bandH = flushRest
+        cornerWrap.tabW = PW
+        cornerWrap.isL = true
+        cardV = adv
+        viewMode = "corner"
+        applyCornerGeometry()
+    }
+
     // The corner card, lying down: a wide player on the left, the Ad badge
     // and headline in a column to its RIGHT. It is exactly as SHORT as a card
     // may be and still be allowed to play video - 120pt, AdMob's media floor,
@@ -623,6 +776,7 @@ final class AdController: NSObject {
     // a lane of its own inside the card's box, so it is still outside the ad
     // view (never an ad click) without costing the player 38pt of width.
     private func buildCorner(_ ad: NativeAd) {
+        if spotFlush { buildFlushCard(ad); return }
         cornerWrap.subviews.forEach { $0.removeFromSuperview() }
 
         let adv = NativeAdView()
@@ -665,12 +819,8 @@ final class AdController: NSObject {
         // wide, because that is what each of its halves is
         let FLANK: CGFloat = 48, FLANKW: CGFloat = 8 + 44
         let screenW = host?.view.bounds.width ?? 390
-        let flush = spotFlush
-        // FLUSH SPENDS THE WHOLE WIDTH. There is no flanking column to clear:
-        // upright, the top of both canvas screens is empty and every control
-        // is along the bottom, so the FLANK fingertip the corner card owes a
-        // neighbouring button is owed to nobody here.
-        let budget = flush ? screenW - PADR : screenW - (FLANKW + FLANK) - 8
+        let flush = false          // buildFlushCard owns the upright shape
+        let budget = screenW - (FLANKW + FLANK) - 8
         // SIDEWAYS THE CARD STANDS UP: there is no room beside a wide card on
         // a short screen, so the headline goes UNDER the player and the card
         // is taller than it is wide. Upright it lies down, where the width
@@ -768,20 +918,6 @@ final class AdController: NSObject {
                 head.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 4),
                 head.bottomAnchor.constraint(equalTo: textCol.bottomAnchor),
             ])
-            // HOW SHORT THE BAND MAY BE is measured, not picked. The resting
-            // banner has to show the two assets the network requires - the
-            // "Ad" badge and the headline - and nothing else, so the shortest
-            // honest band is exactly as tall as those are. That height moves
-            // with the viewer's own text size, so a flat constant is either
-            // slack at the default or a clipped second line at the large end.
-            if flush {
-                textCol.setNeedsLayout(); textCol.layoutIfNeeded()
-                let want = textCol.systemLayoutSizeFitting(
-                    CGSize(width: textW, height: 0),
-                    withHorizontalFittingPriority: .required,
-                    verticalFittingPriority: .fittingSizeLevel).height + 4
-                flushRest = min(max(want, FLUSH_MIN), PH)
-            }
         }
         adv.mediaView = media
         adv.headlineView = head
@@ -813,6 +949,7 @@ final class AdController: NSObject {
         clip.layer.borderWidth = 1
         clip.layer.borderColor = UIColor(white: 1, alpha: 0.12).cgColor
         cornerWrap.addSubview(clip)
+        cornerWrap.isL = false          // a rectangle: no corner to hand back
         cardClip = clip
         NSLayoutConstraint.activate([
             clip.topAnchor.constraint(equalTo: cornerWrap.topAnchor),
