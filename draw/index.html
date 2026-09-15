@@ -237,20 +237,16 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
    squares sharing an edge, the error mark on top and Download beneath, and
    exactly as tall as the bloomed ad card so it ends level with the player.
    Clear went with the redesign - a mark is still cleared by tapping it. */
-/* THE PAIR. Two of the app's ordinary 44dp buttons fused into one pill, the
-   same object the gear and Download used to be: upright the error mark stands
-   ON the mirror, sideways it stands BESIDE it. They are welded rather than
-   spaced because they are different widths - the mirror carries a word's
-   worth of glyph and the mark is a square - and two loose buttons of
-   different widths on one line read as a mistake. Download is not here any
-   more; a press and hold on the picture is the way to it. */
-#mirPair{display:flex;flex-direction:column;flex:none}
+/* THE PAIR: two separate buttons, not one welded object. Upright the error
+   mark stands above the mirror, sideways beside it. They are the same width
+   as each other so the column reads straight - the mirror carries a word's
+   worth of glyph and the mark is a square - but each keeps its own outline.
+   Download is not here any more; a press and hold on the picture is the way
+   to it. */
+#mirPair{display:flex;flex-direction:column;flex:none;gap:8px}
 #circBtn,#mirBtn{width:calc(52px*var(--ux,1));height:calc(44px*var(--ux,1));
-  padding:0;min-width:0;
+  padding:0;min-width:0;border-radius:16px;
   display:flex;align-items:center;justify-content:center}
-#circBtn{border-radius:var(--pillr) var(--pillr) 0 0;border-bottom:none}
-#mirBtn{border-radius:0 0 var(--pillr) var(--pillr)}
-#mirPair.solo button{border-radius:var(--pillr);border:1px solid #555}
 .redDot{width:17px;height:17px;border-radius:50%;border:2.5px solid #e03c3c;display:block}
 /* THE MIDDLE LINE: crop at one end, the mirror at the other, the see-through
    slider filling what is between them. Its two ends sit over the outermost of
@@ -347,8 +343,21 @@ body.colorRef #hudWrap{left:calc(30px + (100% - 60px)*0.5)}
 #hudToggle svg{width:calc(22px*var(--ux,1));height:calc(22px*var(--ux,1));display:block}
 #hudToggle.lit{width:auto;padding:0 16px;font-size:calc(14px*var(--ux,1))}
 body.colorRef #hudToggle.lit{width:calc(44px*var(--ux,1));padding:0;font-size:calc(18px*var(--ux,1))}
+/* THE CORNER IS A COLUMN NOW: Download above Compare, and the box is
+   anchored by its BOTTOM, so Download appearing grows the column upward and
+   Compare never moves under the thumb that is reaching for it. */
 #camCorner{position:absolute;left:calc(100% - 8px - 22px*var(--ux,1));transform:translateX(-50%);
-  bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
+  bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;
+  display:flex;flex-direction:column;align-items:center;gap:8px}
+/* Download materializes with the menus and goes with them. It is display:none
+   rather than transparent so it takes no room at all when it is away - a
+   button that is invisible but still standing there would hold the column
+   open and push Compare up off its line. */
+#dlNow{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;
+  line-height:1;border-radius:16px;display:none;
+  align-items:center;justify-content:center;
+  box-shadow:0 3px 8px rgba(0,0,0,0.5)}
+body.menuOn #dlNow{display:flex;animation:popIn 160ms var(--motE)}
 #detCorner{position:absolute;left:calc(8px + 22px*var(--ux,1));transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
 #gridCorner{position:absolute;left:calc(30px + (100% - 60px)*2/3);
@@ -939,13 +948,9 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   #cmpDock{display:contents}
   /* LYING DOWN the pair turns with the line it rides on: the mirror keeps
      its place at the right-hand end of the slider and the mark goes to its
-     right, the two still welded. row-reverse because the mark comes first in
-     the markup and the order on screen is the layout's business. */
+     right. row-reverse because the mark comes first in the markup and the
+     order on screen is the layout's business, not the document's. */
   #mirPair{flex-direction:row-reverse}
-  #circBtn{border-radius:0 var(--pillr) var(--pillr) 0;
-    border-bottom:1px solid #555;border-left:none}
-  #mirBtn{border-radius:var(--pillr) 0 0 var(--pillr)}
-  #mirPair.solo button{border-radius:var(--pillr);border:1px solid #555}
   /* the tools, evenly spread over the right edge rather than bunched */
   #scrCompare #cmpRow{position:absolute;z-index:7;
     right:calc(8px + env(safe-area-inset-right));
@@ -1047,7 +1052,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v487</span>
+    <span id="verNum">v488</span>
   </div>
 </div>
 <div id="delModal">
@@ -1425,7 +1430,11 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <button id="underBtn" title="Sepia underpainting"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 12 L12.00 3.40 A8.6 8.6 0 0 1 18.08 5.92 Z" fill="#2e2013"/><path d="M12 12 L18.08 5.92 A8.6 8.6 0 0 1 20.60 12.00 Z" fill="#4a3420"/><path d="M12 12 L20.60 12.00 A8.6 8.6 0 0 1 18.08 18.08 Z" fill="#66482c"/><path d="M12 12 L18.08 18.08 A8.6 8.6 0 0 1 12.00 20.60 Z" fill="#836039"/><path d="M12 12 L12.00 20.60 A8.6 8.6 0 0 1 5.92 18.08 Z" fill="#a07a48"/><path d="M12 12 L5.92 18.08 A8.6 8.6 0 0 1 3.40 12.00 Z" fill="#bd965c"/><path d="M12 12 L3.40 12.00 A8.6 8.6 0 0 1 5.92 5.92 Z" fill="#d9b578"/><path d="M12 12 L5.92 5.92 A8.6 8.6 0 0 1 12.00 3.40 Z" fill="#f0d5a0"/></svg></button>
   </div>
   <!-- compare lives behind the camera in the opposite corner -->
-  <div id="camCorner"><button id="compareBtn" title="Compare"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16"/><circle cx="7.5" cy="10" r="1.8"/><path d="M4.6 16.6c0.5-2 1.5-3 2.9-3s2.4 1 2.9 3"/><circle cx="16.5" cy="10" r="1.8"/><path d="M13.6 16.6c0.5-2 1.5-3 2.9-3s2.4 1 2.9 3"/></svg></button></div>
+  <div id="camCorner"><!-- Download, when a bottom menu is open. The press
+       and hold is still the gesture; this is the button for the moment
+       someone already has the chrome open and their hand up here. -->
+    <button id="dlNow" title="Download"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8.5 11.5L12 15l3.5-3.5"/><path d="M5 19h14"/></svg></button>
+    <button id="compareBtn" title="Compare"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16"/><circle cx="7.5" cy="10" r="1.8"/><path d="M4.6 16.6c0.5-2 1.5-3 2.9-3s2.4 1 2.9 3"/><circle cx="16.5" cy="10" r="1.8"/><path d="M13.6 16.6c0.5-2 1.5-3 2.9-3s2.4 1 2.9 3"/></svg></button></div>
 </div>
 
 <!-- 4: compare - photograph the real drawing, align it, flip against the reference -->
@@ -1928,6 +1937,7 @@ const show = id => { tipClose(false); uiShow();
     $(id).classList.add('on');
     // the gridded screen's Download is a gesture now: say so, once, ever
     if (id==='scrMain') try{ holdHint('Main'); }catch(e){}
+    try{ menuSync(); }catch(e){}
   }
   // the home screen is the top of the stack, and the two canvas screens give
   // their top-left corner away - the drawing screen to Download, the
@@ -5960,10 +5970,12 @@ function uiToggle(){
   // corner slide alone left tall panels peeking over the screen edge)
   UIHID=!UIHID;
   document.body.classList.toggle('uiHid', UIHID);
+  try{ menuSync(); }catch(e){}   // the chrome away means Download away with it
 }
 function uiShow(){                     // leaving the screen always restores
   clearTimeout(uiTapT);
-  if (UIHID){ UIHID=false; document.body.classList.remove('uiHid'); }
+  if (UIHID){ UIHID=false; document.body.classList.remove('uiHid');
+    try{ menuSync(); }catch(e){} }
 }
 // double tap: zoomed in -> all the way out; already out -> all the way in
 // on the tapped spot
@@ -10237,7 +10249,6 @@ function cmpButtons(){
   $('mirBtn').style.display  = mirOn  ? '' : 'none';
   $('circBtn').style.display = circOn ? '' : 'none';
   $('mirPair').style.display = (circOn || mirOn) ? 'flex' : 'none';
-  $('mirPair').classList.toggle('solo', circOn !== mirOn);
   // ...and the same on this screen, the first time there is a photo to save
   if (circOn) try{ holdHint('Cmp'); }catch(e){}
   try{ adSync(); }catch(e){}   // the crop page is not a screen an ad sits on
@@ -11688,10 +11699,14 @@ addEventListener('resize', ()=>{ if ($('scrCompare').classList.contains('on')){ 
     // colour layer workshop are never on screen together
     if (o && REFMODE==='c' && UNDER){ UNDER=false; underSync(); underClosed(true); }
     hud.style.display = o ? '' : 'none';
-    // B&W: the pencil, naming Shading when open. Colour: the wheel always
-    if (REFMODE==='c') tg.innerHTML=COLOR_WHEEL;
-    else if (o) tg.textContent = TR('Shading');
-    else tg.innerHTML = PENCIL;
+    // THE DOOR IS ALWAYS AN ICON. It used to become the WORD "Shading" while
+    // the panel was open, which put a six-letter label inside a 44dp square
+    // meant for a glyph - and because the open/shut state is remembered per
+    // project, backing out of a project with a layer up and coming back put
+    // the word there before anything had been touched. The pencil (the wheel
+    // in colour) says what the door is; `lit`/`vOn` already say it is open,
+    // and the layer that was selected stays selected either way.
+    tg.innerHTML = REFMODE==='c' ? COLOR_WHEEL : PENCIL;
     tg.classList.toggle('lit', o);
     tg.classList.toggle('vOn', o);
     try { localStorage.setItem('hudOpen', o ? '1' : '0'); } catch(e){}
@@ -11776,6 +11791,37 @@ function holdHint(key){
   try{ localStorage.setItem('hold'+key,'1'); }catch(e){}
   setTimeout(()=>toast('press and hold to save', true, 2600), 900);
 }
+/* DOWNLOAD FOLLOWS THE MENUS. A menu opening is never announced - each one
+   simply sets its own display - so watch for it rather than hunting down
+   every call site and hoping the next one remembers. Four panels, one
+   observer, and the body class the button hangs off.
+   Why a menu at all: someone with the chrome open already has a hand at the
+   bottom of the screen and is in the mood to press buttons, which is exactly
+   when a button beats a gesture. With the chrome away the drawing is the
+   whole screen and the hold is the only thing that belongs on it. */
+const MENU_IDS = ['detMenu','underMenu','gridMenu','hud'];
+function menuSync(){
+  try{
+    // a dismissed chrome keeps its menus' display, so the class alone is not
+    // the answer - the whole corner has slid off the edge and Download with it
+    const on = MENU_IDS.some(id=>{
+      const el=$(id);
+      return !!el && getComputedStyle(el).display!=='none';
+    }) && $('scrMain').classList.contains('on')
+      && !document.body.classList.contains('uiHid');
+    document.body.classList.toggle('menuOn', on);
+  }catch(e){}
+}
+try{
+  const mo=new MutationObserver(()=>{ try{ menuSync(); }catch(e){} });
+  for (const id of MENU_IDS){
+    const el=$(id);
+    if (el) mo.observe(el, {attributes:true, attributeFilter:['style','class']});
+  }
+  menuSync();
+}catch(e){}
+$('dlNow').onclick = async () => { haptic(); await exportImage(); };
+
 holdDownload($('viewport'), () => {
   if (!$('scrMain').classList.contains('on')) return;
   if (!GRID_READY) return;
