@@ -208,7 +208,12 @@ final class AdController: NSObject {
     private var spotFlush = false
     private var cornerLeadFlush: NSLayoutConstraint?
     private var cornerTrailFlush: NSLayoutConstraint?
-    private let FLUSH_REST: CGFloat = 64
+    // the floor: what a banner conventionally is, and below which the band
+    // stops reading as one. The real resting height is MEASURED from the
+    // headline at the viewer's own text size (see buildCorner).
+    private let FLUSH_MIN: CGFloat = 50
+    private var flushRest: CGFloat = 0     // measured; 0 until a card is built
+    private var restH: CGFloat { flushRest > 0 ? flushRest : FLUSH_MIN }
     private let BLOOM_GAP: CFTimeInterval = 4 * 60
     private let BLOOM_MAX: TimeInterval = 32
     private var bloomed = false
@@ -405,7 +410,7 @@ final class AdController: NSObject {
         // FLUSH rests as a band and blooms to the card's full height; the
         // corner card has one height and always had.
         let h = h0 >= 0 ? h0
-              : (spotFlush && !bloomed ? FLUSH_REST : cardH)
+              : (spotFlush && !bloomed ? restH : cardH)
         cornerH?.constant = h
         cornerTop?.constant = spotFlush ? 0 : AD_INSET
         cornerMid?.constant = -AD_INSET
@@ -763,6 +768,20 @@ final class AdController: NSObject {
                 head.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 4),
                 head.bottomAnchor.constraint(equalTo: textCol.bottomAnchor),
             ])
+            // HOW SHORT THE BAND MAY BE is measured, not picked. The resting
+            // banner has to show the two assets the network requires - the
+            // "Ad" badge and the headline - and nothing else, so the shortest
+            // honest band is exactly as tall as those are. That height moves
+            // with the viewer's own text size, so a flat constant is either
+            // slack at the default or a clipped second line at the large end.
+            if flush {
+                textCol.setNeedsLayout(); textCol.layoutIfNeeded()
+                let want = textCol.systemLayoutSizeFitting(
+                    CGSize(width: textW, height: 0),
+                    withHorizontalFittingPriority: .required,
+                    verticalFittingPriority: .fittingSizeLevel).height + 4
+                flushRest = min(max(want, FLUSH_MIN), PH)
+            }
         }
         adv.mediaView = media
         adv.headlineView = head
@@ -816,7 +835,7 @@ final class AdController: NSObject {
         mediaClipH?.isActive = true
         cardH = advH
         cornerH = cornerWrap.heightAnchor.constraint(
-            equalToConstant: flush ? FLUSH_REST : advH)
+            equalToConstant: flush ? restH : advH)
         NSLayoutConstraint.activate([
             cornerH!,
             adv.topAnchor.constraint(equalTo: clip.topAnchor),

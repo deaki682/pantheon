@@ -1078,6 +1078,25 @@ class MainActivity : AppCompatActivity() {
             clp2.topMargin = dp(6)
             col.addView(c, clp2); cta = c
         }
+        // HOW SHORT THE BAND MAY BE is not a number to pick, it is a number to
+        // MEASURE. The resting banner has to show the two assets the network
+        // requires - the "Ad" badge and the headline - and nothing else, so
+        // the shortest honest band is exactly as tall as those are. That
+        // height moves: the headline is the auction's text at the viewer's
+        // own font size, so a phone set to a large system font needs more
+        // than a phone at the default, and a flat 64dp was either slack at
+        // one end or a clipped second line at the other. Ask the column what
+        // it wants, add the padding it sits in, and floor it at the 50dp a
+        // banner conventionally is so it never reads as a sliver.
+        if (flush) {
+            col.measure(
+                android.view.View.MeasureSpec.makeMeasureSpec(dp(textW),
+                    android.view.View.MeasureSpec.EXACTLY),
+                android.view.View.MeasureSpec.makeMeasureSpec(0,
+                    android.view.View.MeasureSpec.UNSPECIFIED))
+            val want = col.measuredHeight + dp(4)     // a hair of breathing room
+            adFlushRest = want.coerceIn(dp(AD_FLUSH_MIN), dp(playerH))
+        }
         card.addView(col, if (tall)
             android.widget.LinearLayout.LayoutParams(dp(tallW), dp(46))
             else android.widget.LinearLayout.LayoutParams(dp(textW + gut + padR), dp(playerH)))
@@ -1155,7 +1174,11 @@ class MainActivity : AppCompatActivity() {
     // screens is empty: the gear-and-Download pill that held the top-left is
     // gone and every remaining control sits along the bottom.
     @Volatile private var adSpotFlush = false
-    private val AD_FLUSH_REST = 64        // the banner's resting height, dp
+    // the floor: what a banner conventionally is, and below which the band
+    // stops reading as one. The real resting height is MEASURED from the
+    // headline at the viewer's own font size (see buildCorner).
+    private val AD_FLUSH_MIN = 50
+    private var adFlushRest = 0          // measured, in px; 0 until a card is built
     private var adBloomed = false         // is the banner open to video height
     private var adLastBloom = 0L          // uptime of the last one
     private val AD_BLOOM_GAP = 4 * 60 * 1000L   // never oftener than this
@@ -1239,7 +1262,7 @@ class MainActivity : AppCompatActivity() {
         // FLUSH rests as a band and blooms to the card's full height; the
         // corner card has one height and always had.
         val h = if (h0 >= 0) h0
-                else if (adSpotFlush && !adBloomed) (AD_FLUSH_REST * d).toInt()
+                else if (adSpotFlush && !adBloomed) restH()
                 else adCornerH
         val m = if (adSpotFlush) 0 else (AD_CORNER_INSET * d).toInt()
         adCornerWrap.layoutParams = (adCornerWrap.layoutParams as FrameLayout.LayoutParams)
@@ -1265,6 +1288,9 @@ class MainActivity : AppCompatActivity() {
         // tell the page how much of its top edge is spoken for
         if (adSpotFlush) jsAdTop(if (adCornerShown) (h / d).toInt() else 0)
     }
+    private fun restH(): Int =
+        if (adFlushRest > 0) adFlushRest
+        else (AD_FLUSH_MIN * resources.displayMetrics.density).toInt()
     private fun jsAdTop(css: Int) {
         if (adTopSent == css) return
         adTopSent = css
@@ -1305,8 +1331,8 @@ class MainActivity : AppCompatActivity() {
         adBloomed = open
         val d = resources.displayMetrics.density
         val from = (adCornerWrap.layoutParams as FrameLayout.LayoutParams).height
-            .let { if (it > 0) it else (AD_FLUSH_REST * d).toInt() }
-        val to = if (open) adCornerH else (AD_FLUSH_REST * d).toInt()
+            .let { if (it > 0) it else restH() }
+        val to = if (open) adCornerH else restH()
         adBloomAnim?.cancel()
         val a = android.animation.ValueAnimator.ofInt(from, to)
         a.duration = 260

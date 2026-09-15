@@ -22,7 +22,7 @@ function card(W,H){
   const budget=W-padR;
   const playerW=Math.min(Math.max(budget-gut-padR-textWant,120),playerMax);
   const textW=Math.max(budget-playerW-gut-padR,40);
-  return {mode:'flush', boxW:W, boxH:playerH, rest:64,
+  return {mode:'flush', boxW:W, boxH:playerH, rest:50,
           playerW, playerH, textW, gut, padR};
 }
 function paint(c, bloom){

@@ -243,25 +243,23 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
    worth of glyph and the mark is a square - but each keeps its own outline.
    Download is not here any more; a press and hold on the picture is the way
    to it. */
-#mirPair{display:flex;flex-direction:column;flex:none;gap:8px}
 #circBtn,#mirBtn{width:calc(52px*var(--ux,1));height:calc(44px*var(--ux,1));
-  padding:0;min-width:0;border-radius:16px;
+  padding:0;min-width:0;border-radius:16px;flex:none;
   display:flex;align-items:center;justify-content:center}
 .redDot{width:17px;height:17px;border-radius:50%;border:2.5px solid #e03c3c;display:block}
-/* THE MIDDLE LINE: crop at one end, the mirror at the other, the see-through
-   slider filling what is between them. Its two ends sit over the outermost of
-   the four buttons below - which is why that row spreads to the same edges
-   rather than bunching in the middle. One line instead of two also gives the
-   picture back the height the old stacked mirror row was taking. */
-#mirRow{display:flex;align-items:center;gap:10px;padding:8px;
-  justify-content:space-between}
+/* THREE LINES UPRIGHT. Crop sits over Flip and the error mark over Adjust -
+   the outermost of the four buttons on the line below - so the pair reads as
+   belonging to the ends of that row, which is why it spreads to the same
+   edges rather than bunching in the middle. The mirror has the middle to
+   itself, directly over the slider, and the slider is the lowest of the
+   three so it lands close to the thumb that works it. */
+#mirStack{display:flex;flex-direction:column;gap:8px;padding:8px}
+#auxRow{display:flex;align-items:center;justify-content:space-between}
+#mirRow{display:flex;align-items:center;justify-content:center}
+#slRow{display:flex;align-items:center;justify-content:center}
 #cmpCrop,#cmpReCrop{flex:none}
-/* it no longer fills everything between crop and the mirror: capped, it
-   sits centred between them with air either side, and space-between shares
-   what is left equally into the two gaps */
 #alphaSl{flex:0 1 auto;width:100%;max-width:min(52vw,300px);
-  min-width:80px;padding:0}
-#mirRow .row{justify-content:center}
+  min-width:80px;padding:0;margin:0}
 #cmpRow button,#lvBtn,#mirBtn,#lvReset{min-height:calc(40px*var(--ux,1));
   display:inline-flex;align-items:center;justify-content:center}
 
@@ -605,16 +603,13 @@ html.hc #verNum{color:#ddd}
   white-space:nowrap;max-width:0;opacity:0;padding:0;
   transition:max-width 0.28s ease, opacity 0.18s ease 0.08s, padding 0.28s ease}
 #noteBtn .markTxt{font-variant-numeric:tabular-nums}
-/* "True to Life" STACKS, a word to a line, so the message keeps the pill's
-   own footprint instead of reaching across the drawing. The column is
-   measured in EM, not in pixels: it has to wrap after the same words at the
-   large accessibility font as at the small one, and 3.4em is wide enough for
-   "True" and too narrow for "True to" at every size. The tally is one line of
-   digits and is left alone. */
-#noteBtn .ttlTxt{white-space:normal;line-height:1.55;text-align:center}
+/* "True to Life" reads ACROSS, on one line. It stacked a word to a line when
+   it was a gear growing into a message and had to keep the pill's footprint
+   while it did - there is no pill now, the badge is its own thing and starts
+   at nothing, so it can simply be as wide as the words are. */
+#noteBtn .ttlTxt{white-space:nowrap;text-align:center}
 #noteBtn.ttl,#noteBtn.mark{width:auto;opacity:1}
-#noteBtn.ttl{height:calc(88px*var(--ux,1))}
-#noteBtn.ttl .ttlTxt{max-width:3.4em;opacity:1;padding:0 6px}
+#noteBtn.ttl .ttlTxt{max-width:calc(190px*var(--ux,1));opacity:1;padding:0 16px}
 #noteBtn.mark .markTxt{max-width:calc(190px*var(--ux,1));opacity:1;padding:0 16px}
 /* the settings window */
 #setModal{position:fixed;inset:0;z-index:20;display:none;
@@ -940,17 +935,11 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
      ad keeps the whole left edge it has sideways */
   #noteCorner{left:calc(8px + env(safe-area-inset-left));right:auto;
     top:auto;bottom:calc(8px + env(safe-area-inset-bottom));translate:none}
-  /* THE STACK IS AN UPRIGHT THING. Sideways the screen is wide and short -
-     the shape that has width to spare and no height - so the words stay on
-     one line and the badge grows along the bottom edge instead of upward. */
-  #noteBtn.ttl{height:calc(44px*var(--ux,1))}
-  #noteBtn.ttl .ttlTxt{white-space:nowrap;max-width:calc(190px*var(--ux,1));padding:0 16px}
   #cmpDock{display:contents}
   /* LYING DOWN the pair turns with the line it rides on: the mirror keeps
      its place at the right-hand end of the slider and the mark goes to its
      right. row-reverse because the mark comes first in the markup and the
      order on screen is the layout's business, not the document's. */
-  #mirPair{flex-direction:row-reverse}
   /* the tools, evenly spread over the right edge rather than bunched */
   #scrCompare #cmpRow{position:absolute;z-index:7;
     right:calc(8px + env(safe-area-inset-right));
@@ -975,10 +964,20 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
      RIGHT, on the same line - the pair centred and clear of both edges.
      row-reverse because the mirror comes FIRST in the markup, and the order
      on screen is the layout's business, not the document's. */
-  #scrCompare #mirRow{position:absolute;z-index:7;padding:0;
-    left:50%;right:auto;translate:-50% 0;width:min(38vw,380px);
+  /* SIDEWAYS THE THREE LINES FOLD BACK INTO ONE. There is width to spare
+     along the bottom and no height, so crop, slider, mirror and the error
+     mark share a line - the rows go display:contents so their buttons take
+     part in the one flex row, and `order` puts them where they belong, which
+     document order alone cannot do across three containers. */
+  #scrCompare #mirStack{position:absolute;z-index:7;padding:0;
+    left:50%;right:auto;translate:-50% 0;width:min(44vw,420px);
     top:auto;bottom:calc(8px + env(safe-area-inset-bottom));
-    display:flex;align-items:center;gap:8px}
+    flex-direction:row;align-items:center;gap:8px}
+  #scrCompare #auxRow,#scrCompare #mirRow,#scrCompare #slRow{display:contents}
+  #scrCompare #cmpCrop,#scrCompare #cmpReCrop{order:1}
+  #scrCompare #alphaSl{order:2}
+  #scrCompare #mirBtn{order:3}
+  #scrCompare #circBtn{order:4}
   #scrCompare #alphaSl{transform:none;flex:1 1 auto;width:auto;min-width:80px}
   /* the adjust panel opens inward, clear of the tool column */
   #scrCompare #lvRow{position:absolute;z-index:7;
@@ -1052,7 +1051,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v489</span>
+    <span id="verNum">v490</span>
   </div>
 </div>
 <div id="delModal">
@@ -1125,6 +1124,10 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
         <button data-s="l">Large</button>
       </div>
       <div class="a11yPills"><button id="a11yHc">High Contrast</button></div>
+      <!-- Some people cannot feel it, some find it unpleasant, and on an old
+           phone the motor is a battery cost for nothing. It is a comfort
+           setting, so it belongs beside the other two. -->
+      <div class="a11yPills"><button id="a11yHap">Haptics</button></div>
       <div id="a11yDoneRow"><button id="a11yDone">Done</button></div>
     </div>
   </div>
@@ -1477,16 +1480,18 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
       <button id="lvReset">Auto</button>
     </div>
   </div>
-  <div id="mirRow" style="display:none">
-    <button id="cmpCrop" style="display:none">Crop</button>
-    <button id="cmpReCrop" disabled title="Re-crop"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg></button>
-    <input type="range" id="alphaSl" min="0" max="100" value="0" title="Reference see-through">
-    <!-- the error mark rides with the mirror rather than floating over the
-         picture: stacked above it upright, beside it sideways -->
-    <div id="mirPair">
+  <!-- THREE LINES, stacked upright and folded into one sideways. Crop sits
+       over Flip and the error mark over Adjust - the outermost of the four
+       buttons below - so the pair reads as belonging to the ends of that row.
+       The mirror takes the middle on its own, directly over the slider. -->
+  <div id="mirStack" style="display:none">
+    <div id="auxRow">
+      <button id="cmpCrop" style="display:none">Crop</button>
+      <button id="cmpReCrop" disabled title="Re-crop"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg></button>
       <button id="circBtn" title="Mark an error"><span class="redDot"></span></button>
-      <button id="mirBtn" title="Mirror">&lt;|&gt;</button>
     </div>
+    <div id="mirRow"><button id="mirBtn" title="Mirror">&lt;|&gt;</button></div>
+    <div id="slRow"><input type="range" id="alphaSl" min="0" max="100" value="0" title="Reference see-through"></div>
   </div>
   <div class="row" id="cmpRow">
     <input type="file" id="cmpFile" accept="image/*" hidden>
@@ -8011,11 +8016,13 @@ $('gsdPrev').onclick=()=>{ haptic();
 };
 $('gsdModal').onclick=e=>{ if (e.target===$('gsdModal')) gsdClose(); };
 // ---- accessibility: size + contrast, applied live and persisted --------
-let UI_SCALE='s', HI_CON=false;
+let UI_SCALE='s', HI_CON=false, HAPT_ON=true;
 try{
   const u=localStorage.getItem('uiScale');
   if (u==='m'||u==='l') UI_SCALE=u;
   HI_CON = localStorage.getItem('hiCon')==='1';
+  // ON unless it has been turned off: an absent key is a fresh install
+  HAPT_ON = localStorage.getItem('hapt')!=='0';
 }catch(e){}
 function a11yApply(){
   const de=document.documentElement;
@@ -8028,6 +8035,7 @@ function a11yApply(){
   document.querySelectorAll('#a11ySize button').forEach(b=>
     b.classList.toggle('vOn', b.dataset.s===UI_SCALE));
   $('a11yHc').classList.toggle('vOn', HI_CON);
+  $('a11yHap').classList.toggle('vOn', HAPT_ON);
   // the chrome moved: menus anchor above taller buttons, the grid canvas
   // sticky labels sit under a taller bar
   if (GRID_READY && $('scrMain').classList.contains('on'))
@@ -8044,6 +8052,13 @@ $('a11yHc').onclick=()=>{
   HI_CON=!HI_CON;
   try{ localStorage.setItem('hiCon', HI_CON?'1':'0'); }catch(e){}
   a11yApply();
+};
+$('a11yHap').onclick=()=>{
+  HAPT_ON=!HAPT_ON;
+  try{ localStorage.setItem('hapt', HAPT_ON?'1':'0'); }catch(e){}
+  try{ prefsBump(); }catch(e){}
+  a11yApply();
+  if (HAPT_ON) haptic();          // turning it on answers in its own language
 };
 // ---- accounts: optional, and deliberately inert until asked for ----
 // The SDK is ~300KB over the wire. Almost nobody signs in, so nothing
@@ -8483,7 +8498,7 @@ function writeMeta(gid, m){
 }
 // ---- account-level settings: the app should look like yours on any
 // device you sign into, not just hold the same pictures ----
-const PREF_KEYS=['lang','unit','accent','uiScale','hiCon',
+const PREF_KEYS=['lang','unit','accent','uiScale','hiCon','hapt',
   'gridOn','gridStyle','gridCol','gridThk','gridSub',
   'gridLab','gridLabSch','gridLabPos','gridOp'];
 function readPrefs(){
@@ -8509,6 +8524,9 @@ function applyPrefs(p){
     if (p.accent && /^#[0-9a-f]{6}$/i.test(p.accent)) applyAccent(p.accent);
     UI_SCALE = (p.uiScale==='m'||p.uiScale==='l') ? p.uiScale : 's';
     HI_CON = p.hiCon==='1';
+    // absent means ON: an account saved before the setting existed should
+    // not arrive and switch someone's haptics off
+    HAPT_ON = p.hapt!=='0';
     a11yApply();
     loadGridPrefs();
     if (typeof applyGrid==='function') applyGrid();
@@ -10209,7 +10227,7 @@ function cmpButtons(){
     $('cmpGridBtn').style.display='none';
     $('cmpReCrop').style.display='none';
     $('cmpCrop').style.display='none';
-    $('mirRow').style.display='none';
+    $('mirStack').style.display='none';
     $('cmpRow').style.display='none';
     return;
   }
@@ -10240,15 +10258,14 @@ function cmpButtons(){
   // corners screen it is the only thing on it - so the line is up whenever
   // there is a picture. The slider and the mirror are what come and go.
   const flipping = CMP.mode==='flip' && !corners;
-  $('mirRow').style.display = CMP.img ? 'flex' : 'none';
-  $('alphaSl').style.display = flipping ? '' : 'none';
+  $('mirStack').style.display = CMP.img ? 'flex' : 'none';
+  $('slRow').style.display = flipping ? 'flex' : 'none';
   // the two halves come and go on their own terms - the mirror only while
   // flipping, the mark whenever there is a picture that is not being cropped
   // - so the pill closes its rounding up when it is down to one of them
   const circOn = !!(CMP.img && !corners), mirOn = !!flipping;
-  $('mirBtn').style.display  = mirOn  ? '' : 'none';
-  $('circBtn').style.display = circOn ? '' : 'none';
-  $('mirPair').style.display = (circOn || mirOn) ? 'flex' : 'none';
+  $('mirRow').style.display  = mirOn  ? 'flex' : 'none';
+  $('circBtn').style.display = circOn ? 'flex' : 'none';
   // ...and the same on this screen, the first time there is a photo to save
   if (circOn) try{ holdHint('Cmp'); }catch(e){}
   try{ adSync(); }catch(e){}   // the crop page is not a screen an ad sits on
@@ -10886,7 +10903,7 @@ $('compareBtn').onclick = async () => {
   $('camVeil').style.display='block';
   $('coach').style.display='none';
   $('lvRow').style.display='none';
-  $('mirRow').style.display='none';
+  $('mirStack').style.display='none';
   $('cmpFlip').style.display='none';
   $('cmpSplit').style.display='none';
   $('cmpGridBtn').style.display='none';
@@ -11834,7 +11851,7 @@ holdDownload($('cmpCv'), () => {
   cmpDownload();
 });
 function haptic(){
-  if (!HAPT_GO) return;
+  if (!HAPT_GO || !HAPT_ON) return;
   // both shells bridge to the platform's own haptic engine; the Vibration
   // API is the web fallback only
   try{ if (window.RealismCam && RealismCam.haptic){ RealismCam.haptic('tick'); return; } }catch(e){}
@@ -11844,7 +11861,7 @@ function haptic(){
   try{ hapticEl.click(); }catch(e){}
 }
 function hapticOK(){                 // the achievement thud: ONE firmer tap
-  if (!HAPT_GO) return;
+  if (!HAPT_GO || !HAPT_ON) return;
   try{ if (window.RealismCam && RealismCam.haptic){ RealismCam.haptic('ok'); return; } }catch(e){}
   try{ if (window.webkit && webkit.messageHandlers && webkit.messageHandlers.haptic){
     webkit.messageHandlers.haptic.postMessage('ok'); return; } }catch(e){}
