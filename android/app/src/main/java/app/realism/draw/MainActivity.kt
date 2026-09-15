@@ -92,6 +92,10 @@ class MainActivity : AppCompatActivity() {
     private var adNextShowAt = 0L         // cadence: earliest next window
     private var lastTouchMs = 0L          // never appear under a finger
     private var pointerDown = false       // and never CHANGE under one either
+    // the strip's real measured height, kept so an empty slot still reserves
+    // exactly what a full one will take - persisted, so it is right from the
+    // first frame of the next launch too
+    private var adReserveH = 0
     private var billing: com.android.billingclient.api.BillingClient? = null
 
     override fun dispatchTouchEvent(ev: android.view.MotionEvent): Boolean {
@@ -649,6 +653,9 @@ class MainActivity : AppCompatActivity() {
             com.google.android.gms.ads.MobileAds.initialize(this) { adSay("sdk initialized") }
             runOnUiThread {
                 adShownH = (80 * resources.displayMetrics.density).toInt()
+                if (adReserveH == 0) adReserveH =
+                    try { getSharedPreferences("dlog", 0).getInt("adReserve", 0) }
+                    catch (e: Exception) { 0 }
                 applyAd()
                 loadNative()
                 // gentle cycle: while the project screen is up, refresh a
@@ -1255,8 +1262,24 @@ class MainActivity : AppCompatActivity() {
     private fun reportAdHeight() {
         try {
             val d = resources.displayMetrics.density
-            val h = if (adWrap.visibility == android.view.View.VISIBLE)
-                        Math.ceil(adWrap.height / d.toDouble()).toInt() else 0
+            val live = if (adWrap.visibility == android.view.View.VISIBLE)
+                           adWrap.height else 0
+            if (live > 0 && live != adReserveH) {
+                adReserveH = live
+                try { getSharedPreferences("dlog", 0).edit()
+                        .putInt("adReserve", live).apply() } catch (e: Exception) {}
+            }
+            // The page reserves room for the strip for as long as the slot is
+            // enabled - filled or not. Reporting the EMPTY slot's height (0)
+            // made the whole bottom of the page jump 76px the moment an
+            // auction cleared, and back when one did not. Only a slot that is
+            // genuinely off - bought out, camera up, splash, landscape corner
+            // mode - reports zero, and it says so through __adOn as well.
+            val slot = adWanted && adsUp && !adsRemovedFlag() && !adOnProj
+            val px = if (live > 0) live
+                     else if (slot) (if (adReserveH > 0) adReserveH else adShownH)
+                     else 0
+            val h = if (px > 0) Math.ceil(px / d.toDouble()).toInt() else 0
             if (h == adSentH) return
             adSentH = h
             js("window.__adH && __adH(" + h + ")")

@@ -30,8 +30,20 @@ const PORT = process.argv[2]||'8899';
     console.log('strip '+String(h).padStart(3)+'px  buttons under the ad: '+(r.under.length?r.under.join(', '):'none'),
       r.under.length?'FAIL':'ok');
   }
-  const z = await pg.evaluate(async ()=>{ window.__adOn(true); window.__adH(0);
+  // A measured 0 means "the slot is on and nothing has filled it yet", NOT
+  // "no strip". Taking it literally moved every bottom control 76px the
+  // moment an auction cleared and back again when one did not, so while the
+  // slot is on the page keeps reserving the strip's room. A slot that is
+  // genuinely off says so through __adOn, and only then does the room go.
+  const on0 = await pg.evaluate(async ()=>{ window.__adOn(true); window.__adH(104);
+    await new Promise(r=>setTimeout(r,250));
+    const full=adPx();
+    window.__adH(0); await new Promise(r=>setTimeout(r,250));
+    return { full, empty: adPx() }; });
+  console.log('slot on, empty auction: holds '+on0.empty+' (filled: '+on0.full+')',
+    on0.empty===on0.full && on0.empty>0 ? 'ok' : 'FAIL');
+  const off0 = await pg.evaluate(async ()=>{ window.__adOn(false); window.__adH(0);
     await new Promise(r=>setTimeout(r,250)); return adPx(); });
-  console.log('measured 0 reads back as', z, z===0?'ok':'FAIL');
+  console.log('slot off reads back as', off0, off0===0?'ok':'FAIL');
   await br.close();
 })().catch(e=>{console.error(e);process.exit(1)});

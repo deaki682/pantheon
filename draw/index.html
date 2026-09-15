@@ -929,7 +929,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v444</span>
+    <span id="verNum">v445</span>
   </div>
 </div>
 <div id="delModal">
@@ -1618,10 +1618,28 @@ window.__adCorner = on => {
   try{ document.documentElement.classList.toggle('adCorner', !!on); }catch(e){}
 };
 // the shell measured its ad strip: this many of OUR pixels are covered
+// The last strip height actually measured on this device, remembered across
+// launches. A phone set to a large system font grows the strip past the 76px
+// opening guess, and without this the very first ad of a fresh install would
+// shove the layout by the difference.
+let AD_LAST = (()=>{ try{ return Math.max(0, +localStorage.getItem('adh')||0); }
+  catch(e){ return 0; } })();
 window.__adH = px => {
   try{
-    const v=Math.max(0, Math.round(+px||0));
+    let v=Math.max(0, Math.round(+px||0));
     const de=document.documentElement;
+    // While the slot is ON the page reserves the strip's room whether or not
+    // a creative is in it. The shell measures 0 for an empty slot - no ad has
+    // filled yet, a refresh came back empty - and taking that literally moved
+    // every bottom control, and the home screen's padding, by the full 76px
+    // the moment an ad arrived, and back again when one did not. Nothing the
+    // artist is holding may jump because an auction did or did not clear. A
+    // slot that is genuinely off says so by turning adOn off, not by
+    // measuring zero.
+    if (de.classList.contains('adOn')){
+      if (v>0){ AD_LAST=v; try{ localStorage.setItem('adh', String(v)); }catch(e){} }
+      else v = AD_LAST || 76;
+    }
     const had=parseFloat(getComputedStyle(de).getPropertyValue('--adh'));
     de.style.setProperty('--adh', v+'px');
     if (TIPSTATE && TIPSTATE.re) TIPSTATE.re();
