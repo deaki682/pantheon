@@ -96,8 +96,11 @@ class MainActivity : AppCompatActivity() {
     // exactly what a full one will take - persisted, so it is right from the
     // first frame of the next launch too
     private var adReserveH = 0
-    // the drawing screen wears the strip at the TOP; every other screen keeps
-    // it at the bottom. The page decides and says so through adTop.
+    // which edge the strip rides. The page decides and says so through adTop;
+    // it currently never raises it (the drawing screen wears no strip at all
+    // - it gets the corner video card out of its Download button instead), so
+    // the strip stays at the bottom everywhere. The bridge stays because the
+    // placement is the operator's to change, not the shell's to assume.
     private var adTopSide = false
     private var billing: com.android.billingclient.api.BillingClient? = null
 
@@ -700,6 +703,14 @@ class MainActivity : AppCompatActivity() {
                     // always muted unless the viewer taps the ad's own control
                     .setVideoOptions(com.google.android.gms.ads.VideoOptions.Builder()
                         .setStartMuted(true).build())
+                    // ask for WIDE media. The card that actually plays video
+                    // now has a 16:9 player, and a portrait creative in it is
+                    // two black bars and a sliver. LANDSCAPE is a request, not
+                    // a guarantee - the auction may still return portrait or
+                    // square - so the player is sized to stay video-eligible
+                    // whatever turns up.
+                    .setMediaAspectRatio(
+                        com.google.android.gms.ads.nativead.NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_LANDSCAPE)
                     .build())
                 .build()
             loader.loadAd(com.google.android.gms.ads.AdRequest.Builder().build())
@@ -896,12 +907,14 @@ class MainActivity : AppCompatActivity() {
         adv.background = bg
         adv.clipToOutline = true
         adv.elevation = dp(10).toFloat()   // the card floats above the page
-        // the 120dp media square is AdMob's video floor; nothing overlays it
+        // the player is 16:9 - wide, the way video is shot - and never
+        // shorter than the 120dp AdMob needs for a card to be video-eligible
+        // at all, so widening it buys the shape without losing the video.
         val mediaWrap = FrameLayout(this)
         mediaWrap.clipChildren = true; mediaWrap.clipToPadding = true
         val media = com.google.android.gms.ads.nativead.MediaView(this)
         media.setImageScaleType(android.widget.ImageView.ScaleType.CENTER_CROP)
-        mediaWrap.addView(media, FrameLayout.LayoutParams(dp(120), dp(120)))
+        mediaWrap.addView(media, FrameLayout.LayoutParams(dp(213), dp(120)))
         val badge = adBadge(::dp)
         val head = TextView(this)
         head.setTextColor(0xFFE8E6E1.toInt())
@@ -915,13 +928,13 @@ class MainActivity : AppCompatActivity() {
         var meta: TextView? = null
         val tab = resources.configuration.smallestScreenWidthDp >= 600
         if (tab) {
-            // tablets have the room: a 160dp media square with breathing room,
-            // badge + bold headline, two-line body, rating row and a filled
-            // CTA - 180 x ~300dp, the same friendliness as the strip
+            // tablets have the room: a 284x160 (16:9) player with breathing
+            // room, badge + bold headline, two-line body, rating row and a
+            // filled CTA - 304 x ~300dp, the same friendliness as the strip
             card.setPadding(dp(10), dp(10), dp(10), dp(10))
             (mediaWrap.getChildAt(0).layoutParams as FrameLayout.LayoutParams).apply {
-                width = dp(160); height = dp(160) }
-            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(160), dp(160)))
+                width = dp(284); height = dp(160) }
+            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(284), dp(160)))
             val row = android.widget.LinearLayout(this)
             row.orientation = android.widget.LinearLayout.HORIZONTAL
             row.gravity = android.view.Gravity.CENTER_VERTICAL
@@ -931,7 +944,7 @@ class MainActivity : AppCompatActivity() {
             head.setPadding(dp(6), 0, 0, 0)
             row.addView(head, android.widget.LinearLayout.LayoutParams(
                 0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
-            val rlp = android.widget.LinearLayout.LayoutParams(dp(160), dp(18))
+            val rlp = android.widget.LinearLayout.LayoutParams(dp(284), dp(18))
             rlp.topMargin = dp(6)
             card.addView(row, rlp)
             val b = TextView(this)
@@ -939,7 +952,7 @@ class MainActivity : AppCompatActivity() {
             b.maxLines = 2; b.ellipsize = android.text.TextUtils.TruncateAt.END
             b.text = ad.body ?: ""
             b.visibility = if (b.text.isNullOrBlank()) android.view.View.GONE else android.view.View.VISIBLE
-            val blp = android.widget.LinearLayout.LayoutParams(dp(160),
+            val blp = android.widget.LinearLayout.LayoutParams(dp(284),
                 android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
             blp.topMargin = dp(4)
             card.addView(b, blp); body = b
@@ -951,22 +964,22 @@ class MainActivity : AppCompatActivity() {
                 ad.store, ad.price).filter { it.isNotBlank() }.joinToString(" \u00b7 ")
             m.text = listOf(stars, tail).filter { it.isNotBlank() }.joinToString(" ")
             m.visibility = if (m.text.isNullOrBlank()) android.view.View.GONE else android.view.View.VISIBLE
-            val mlp = android.widget.LinearLayout.LayoutParams(dp(160),
+            val mlp = android.widget.LinearLayout.LayoutParams(dp(284),
                 android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
             mlp.topMargin = dp(4)
             card.addView(m, mlp); meta = m
             val c = adCta(ad, ::dp, 20)
-            val clp2 = android.widget.LinearLayout.LayoutParams(dp(160), dp(40))
+            val clp2 = android.widget.LinearLayout.LayoutParams(dp(284), dp(40))
             clp2.topMargin = dp(8)
             card.addView(c, clp2); cta = c
-            cw = dp(180)
+            cw = dp(304)
             ch = android.view.ViewGroup.LayoutParams.WRAP_CONTENT
         } else {
-            // phones: the smallest video-eligible card there is - the 120dp
-            // media square with one line of badge + headline beneath it,
-            // 132 x 150dp, no CTA (a video ad still clicks through its media)
+            // phones: the smallest video-eligible card there is - a 213x120
+            // (16:9) player with one line of badge + headline beneath it,
+            // 225 x 150dp, no CTA (a video ad still clicks through its media)
             card.setPadding(dp(6), dp(6), dp(6), dp(4))
-            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(120), dp(120)))
+            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(213), dp(120)))
             val row = android.widget.LinearLayout(this)
             row.orientation = android.widget.LinearLayout.HORIZONTAL
             row.gravity = android.view.Gravity.CENTER_VERTICAL
@@ -975,10 +988,10 @@ class MainActivity : AppCompatActivity() {
             head.setPadding(dp(5), 0, 0, 0)
             row.addView(head, android.widget.LinearLayout.LayoutParams(
                 0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
-            val rlp = android.widget.LinearLayout.LayoutParams(dp(120), dp(18))
+            val rlp = android.widget.LinearLayout.LayoutParams(dp(213), dp(18))
             rlp.topMargin = dp(2)
             card.addView(row, rlp)
-            cw = dp(132); ch = dp(150)
+            cw = dp(225); ch = dp(150)
         }
         // fixed at every level so nothing the SDK does inside can widen it
         val CW = cw; val CH = ch
@@ -989,13 +1002,14 @@ class MainActivity : AppCompatActivity() {
         meta?.let { adv.starRatingView = it }
         cta?.let { adv.callToActionView = it }
         adv.setNativeAd(ad)
-        // the collapse pill sits LEFT of the card, tucked beneath the spot
-        // the gear glides to - still outside the ad view, never an ad click
+        // the collapse pill sits on the card's inner side, tucked below its
+        // top edge - still outside the ad view, so it is never an ad click.
+        // It used to float beside the GEAR in landscape, but the drawing
+        // screen has no gear any more, which left it orphaned in the middle
+        // of the left edge; it rides the card in both orientations now.
         val rowWrap = android.widget.LinearLayout(this)
-        // portrait (top-right anchor): the X sits LEFT of the card, under
-        // the gear's glide spot. Landscape (bottom-left anchor): the X
-        // floats NEXT to the gear on the left edge - beside the column,
-        // vertically centered, clear of both the gear and the card
+        // portrait (top-right anchor): X to the LEFT of the card.
+        // landscape (top-left anchor): the mirror, X to the RIGHT of it.
         rowWrap.orientation = android.widget.LinearLayout.HORIZONTAL
         // let the card's elevation shadow paint past the wrapper bounds
         rowWrap.clipChildren = false; rowWrap.clipToPadding = false
@@ -1010,21 +1024,17 @@ class MainActivity : AppCompatActivity() {
         close.setOnClickListener { adCollapse() }
         (adCloseFloat?.parent as? android.view.ViewGroup)?.removeView(adCloseFloat)
         adCloseFloat = null
+        val clp = android.widget.LinearLayout.LayoutParams(dp(26), dp(26))
+        clp.topMargin = dp(64)
         if (land) {
-            // beside the gear: past the edge column's button width, centered
-            val flp = FrameLayout.LayoutParams(dp(26), dp(26),
-                android.view.Gravity.START or android.view.Gravity.CENTER_VERTICAL)
-            flp.leftMargin = dp(8 + colW() + 12)
-            close.visibility = if (adCornerShown) android.view.View.VISIBLE
-                               else android.view.View.GONE
-            (adCornerWrap.parent as? FrameLayout)?.addView(close, flp)
-            adCloseFloat = close
-        } else {
-            val clp = android.widget.LinearLayout.LayoutParams(dp(26), dp(26))
-            clp.topMargin = dp(64); clp.rightMargin = dp(17)
+            clp.leftMargin = dp(17)
+            rowWrap.addView(adv, android.widget.LinearLayout.LayoutParams(CW, CH))
             rowWrap.addView(close, clp)
+        } else {
+            clp.rightMargin = dp(17)
+            rowWrap.addView(close, clp)
+            rowWrap.addView(adv, android.widget.LinearLayout.LayoutParams(CW, CH))
         }
-        rowWrap.addView(adv, android.widget.LinearLayout.LayoutParams(CW, CH))
         adCornerWrap.removeAllViews()
         adCornerWrap.addView(rowWrap, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT))
@@ -1038,7 +1048,7 @@ class MainActivity : AppCompatActivity() {
     // drawing screen (persistent, page reserves room through __adOn), and
     // on the drawing screen an intermittent corner card that replaces the
     // download button for a bounded window (page yields it via __adCorner).
-    private var adCloseFloat: TextView? = null  // landscape corner X, beside the gear
+    private var adCloseFloat: TextView? = null  // legacy float; the X rides the card now
     @Volatile private var adUx = 1f              // the page's accessibility button scale
     private var adCardShown = false       // strip on screen
     private var adCornerShown = false     // corner card on screen
@@ -1098,7 +1108,7 @@ class MainActivity : AppCompatActivity() {
         adCornerWrap.visibility = android.view.View.VISIBLE
         adCornerWrap.post {
             // grow out of the download button's corner, visibly - never a snap
-            adCornerWrap.pivotX = if (adLand()) 0f else adCornerWrap.width.toFloat()
+            adCornerWrap.pivotX = if (adLand()) 0f else adCornerWrap.width / 2f
             adCornerWrap.pivotY = 0f
             adCornerWrap.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(350)
                 .setInterpolator(android.view.animation.DecelerateInterpolator()).start()
@@ -1976,14 +1986,22 @@ class MainActivity : AppCompatActivity() {
     private fun dispRot(): Int =
         previewView.display?.rotation
             ?: @Suppress("DEPRECATION") windowManager.defaultDisplay.rotation
-    private fun colW() = ((if (resources.configuration.smallestScreenWidthDp >= 600) 76 else 44) * adUx).toInt()
-    // the card grows out of the download button's corner: top-right in
-    // portrait, top-LEFT in landscape (where the button column moved) -
-    // flush with the corner, so the middle of the screen keeps every pixel
-    private fun adCornerParams(): FrameLayout.LayoutParams =
-        FrameLayout.LayoutParams(
+    // the card grows out of the DOWNLOAD button, which is where the page
+    // puts it: the middle of the top row in portrait, the top-left corner in
+    // landscape. The button yields while the card is up (__adCorner) and
+    // comes back when it retracts - that is the whole transformation.
+    private fun adCornerParams(): FrameLayout.LayoutParams {
+        val land = adLand()
+        val lp = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
-            android.view.Gravity.TOP or (if (adLand()) android.view.Gravity.START else android.view.Gravity.END))
+            android.view.Gravity.TOP or (if (land) android.view.Gravity.START
+                                         else android.view.Gravity.CENTER_HORIZONTAL))
+        // the collapse pill rides to the card's left inside the wrapper, so
+        // centring the WRAPPER would leave the card half a pill right of the
+        // button. Bias the centring back by half the pill's own width.
+        if (!land) lp.rightMargin = ((26 + 12) * resources.displayMetrics.density).toInt()
+        return lp
+    }
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
         super.onConfigurationChanged(newConfig)
         // rotation does not recreate the activity (configChanges) - re-lay

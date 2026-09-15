@@ -72,13 +72,19 @@ const WATCH = ['hudWrap','detCorner','gridCorner','camCorner'];
   if (bigD) { worst=Math.max(worst,bigD); console.log('    FAIL: moved '+bigD+'px'); }
 
   // and a viewer who BOUGHT the removal gets the space back - the whole
-  // reservation goes with adOn, not with the measurement
+  // reservation goes with adOn, not with the measurement. The DRAWING screen
+  // is the exception and always was the point: it carries no strip at all
+  // now (the video card grows out of its Download button instead), so its
+  // controls never moved for an ad and must not move when one goes away.
   const off = await snap('ads removed', "window.__adOn(false); window.__adH(0);");
   console.log('  '+off.label.padEnd(32)+'--adh '+String(off.adh).padStart(6)
     +'   hud bottom '+String(off.hudWrap).padStart(4)
     +'   home padding '+String(off.homePad).padStart(4));
-  const gave = off.hudWrap > rows[1].hudWrap + 40 && off.homePad < 20;
-  if (!gave){ worst=Math.max(worst,1); console.log('    FAIL: the space was not given back'); }
+  if (off.homePad >= 20){ worst=Math.max(worst,1);
+    console.log('    FAIL: the home screen kept its ad padding'); }
+  const hudD = Math.abs(off.hudWrap - rows[1].hudWrap);
+  if (hudD){ worst=Math.max(worst,hudD);
+    console.log('    FAIL: the drawing controls moved '+hudD+'px when ads went away'); }
   else console.log('    the strip\'s room is returned  ok');
 
   console.log(worst===0 ? '\nnothing moves - ok' : '\nWORST SHIFT: '+worst+'px  FAIL');

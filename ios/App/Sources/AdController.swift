@@ -74,14 +74,17 @@ final class AdController: NSObject {
         cornerWrap.isHidden = true
         cornerWrap.translatesAutoresizingMaskIntoConstraints = false
         host.view.addSubview(cornerWrap)
-        // the card grows out of the download button's corner: top-right in
-        // portrait, top-left in landscape (where the page moves that button)
-        let trail = cornerWrap.trailingAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.trailingAnchor)
+        // the card grows out of the DOWNLOAD button: the middle of the top
+        // row in portrait, the top-left corner in landscape (where the page
+        // moves that button). The -19 offsets the collapse pill that rides
+        // to the card's left, so it is the CARD that lands on the button.
+        let mid = cornerWrap.centerXAnchor.constraint(
+            equalTo: host.view.safeAreaLayoutGuide.centerXAnchor, constant: -19)
         let lead = cornerWrap.leadingAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.leadingAnchor)
-        cornerTrail = trail; cornerLead = lead
+        cornerMid = mid; cornerLead = lead
         NSLayoutConstraint.activate([
             cornerWrap.topAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.topAnchor),
-            trail,
+            mid,
         ])
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged),
             name: UIDevice.orientationDidChangeNotification, object: nil)
@@ -97,7 +100,7 @@ final class AdController: NSObject {
 
     @objc private func anyTouch(_ g: UIGestureRecognizer) { lastTouch = CACurrentMediaTime() }
 
-    private var cornerTrail: NSLayoutConstraint?
+    private var cornerMid: NSLayoutConstraint?
     private var cornerLead: NSLayoutConstraint?
     private var stripTrail: NSLayoutConstraint?
     private var stripWide: NSLayoutConstraint?
@@ -120,7 +123,7 @@ final class AdController: NSObject {
     @objc private func orientationChanged() {
         guard let v = host?.view else { return }
         let land = v.bounds.width > v.bounds.height
-        cornerTrail?.isActive = !land
+        cornerMid?.isActive = !land
         cornerLead?.isActive = land
         // portrait now uses the SAME inset card as landscape - the only
         // difference left is landscape's fixed 460pt width, so the page shows
@@ -232,8 +235,14 @@ final class AdController: NSObject {
         guard let host else { return }
         let opts = NativeAdViewAdOptions()
         opts.preferredAdChoicesPosition = .topRightCorner
+        // ask for WIDE media: the card that plays video has a 16:9 player,
+        // and a portrait creative in it is two black bars and a sliver.
+        // A request, not a guarantee - the player stays 120pt tall so the
+        // card is video-eligible whatever the auction returns.
+        let media = NativeAdMediaAdLoaderOptions()
+        media.mediaAspectRatio = .landscape
         let l = AdLoader(adUnitID: AdController.NATIVE_UNIT, rootViewController: host,
-                         adTypes: [.native], options: [opts])
+                         adTypes: [.native], options: [opts, media])
         l.delegate = self
         loader = l
         l.load(Request())
@@ -531,11 +540,11 @@ final class AdController: NSObject {
 
         adv.addSubview(media); adv.addSubview(badge); adv.addSubview(head)
         NSLayoutConstraint.activate([
-            adv.widthAnchor.constraint(equalToConstant: 132),
+            adv.widthAnchor.constraint(equalToConstant: 225),
             adv.heightAnchor.constraint(equalToConstant: 150),
             media.topAnchor.constraint(equalTo: adv.topAnchor, constant: 6),
             media.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 6),
-            media.widthAnchor.constraint(equalToConstant: 120),
+            media.widthAnchor.constraint(equalToConstant: 213),
             media.heightAnchor.constraint(equalToConstant: 120),
             badge.leadingAnchor.constraint(equalTo: media.leadingAnchor),
             badge.topAnchor.constraint(equalTo: media.bottomAnchor, constant: 5),
