@@ -19,7 +19,11 @@ const BUDGET = 100;              // ms from the tap to the painted result
     const W=4032,H=3024; const c=document.createElement('canvas'); c.width=W;c.height=H;
     const g=c.getContext('2d'); const gr=g.createLinearGradient(0,0,W,H);
     gr.addColorStop(0,'#fff'); gr.addColorStop(1,'#111'); g.fillStyle=gr; g.fillRect(0,0,W,H);
-    for (let i=0;i<40000;i++){ g.fillStyle='rgba(255,255,255,.4)'; g.fillRect(Math.random()*W,Math.random()*H,2,2); }
+    // SEEDED: an unseeded photograph gave every run a different picture, so
+    // a 10ms move between runs could be the change under test or could be
+    // the noise. Same picture every time, on every version.
+    let sd=20260915; const rnd=()=>{ sd=(sd*1103515245+12345)&0x7fffffff; return sd/0x7fffffff; };
+    for (let i=0;i<40000;i++){ g.fillStyle='rgba(255,255,255,.4)'; g.fillRect(rnd()*W,rnd()*H,2,2); }
     const b=await new Promise(r=>c.toBlob(r,'image/jpeg',.92));
     await addRef(new File([b],'phone.jpg',{type:'image/jpeg'}), false);
     for (let i=0;i<400;i++){ if (photo&&photo.width) break; await new Promise(r=>setTimeout(r,50)); }
@@ -69,12 +73,15 @@ const BUDGET = 100;              // ms from the tap to the painted result
     // overlay, so alternating styles here would time a cache rebuild and call
     // it a pan. Pick the style in its own step, then pan.
     ['crop: pick a square grid',  `CELLSZ.u='cm'; CELLSZ.v=0.5; GRID_STYLE='sq'; fmtPreview();`],
-    ['pan the crop, square',      `FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
+    ['pan the crop, square',      `fmtLive(true); FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
     ['crop: pick a diagonal grid',`CELLSZ.u='cm'; CELLSZ.v=0.5; GRID_STYLE='diag'; fmtPreview();`],
-    ['pan the crop, diagonal',    `FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
-    ['pinch the crop, diagonal',  `FMT_ZOOM=(FMT_ZOOM>2?1.4:2.6); fmtPreview();`],
+    ['pan the crop, diagonal',    `fmtLive(true); FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
+    ['pinch the crop, diagonal',  `fmtLive(true); FMT_ZOOM=(FMT_ZOOM>2?1.4:2.6); fmtPreview();`],
+    // and the crisp pass that lands once the hand comes off it - off the
+    // critical path, but a stall you can still feel after lifting
+    ['crop settles crisp',        `FMT_LIVE=0; FMT_PHOTO=null; fmtPreview();`],
     ['crop: pick a dotted grid',  `CELLSZ.u='cm'; CELLSZ.v=0.5; GRID_STYLE='dots'; fmtPreview();`],
-    ['pan the crop, dots',        `FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
+    ['pan the crop, dots',        `fmtLive(true); FMT_OFF.x=(FMT_OFF.x>0.5?0.35:0.65); fmtPreview();`],
     ['change the grid style',     `gsSet(GRID_STYLE==='diag'?'sq':'diag');`],
   ];
   // A single reading is noisy enough to cross the budget by itself, so each
