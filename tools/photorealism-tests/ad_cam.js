@@ -57,6 +57,18 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
     adSync(); await new Promise(r=>setTimeout(r,200));
     const after = { place:last('place'), proj:last('proj') };
     const raising = log.map(x=>x[0]);
+    // the CROP page - corners mode - lives inside the comparison screen but
+    // is not a screen an ad sits on: it is someone dragging four handles to
+    // the edges of their picture, and a card in the corner is in the way of
+    // the work and exactly where a stray tap lands
+    log.length=0;
+    const mode0=CMP.mode; CMP.mode='corners';
+    adSync(); await new Promise(r=>setTimeout(r,200));
+    const onCrop = { place:last('place'), proj:last('proj') };
+    log.length=0;
+    CMP.mode=mode0;
+    adSync(); await new Promise(r=>setTimeout(r,200));
+    const offCrop = { place:last('place'), proj:last('proj') };
     // now a WINDOW, opened the way the page opens them - no adSync() call
     // here on purpose: the point is that nobody has to remember to make one
     const wins={};
@@ -70,7 +82,7 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
       await new Promise(r=>setTimeout(r,250));
       wins[id]={ up, down:{ place:last('place'), proj:last('proj') } };
     }
-    return { onCompare, onCamera, after, wins, lowering, raising };
+    return { onCompare, onCamera, after, wins, lowering, raising, onCrop, offCrop };
   });
   console.log('comparison screen  place='+r.onCompare.place+' proj='+r.onCompare.proj);
   console.log('viewfinder up      place='+r.onCamera.place+' proj='+r.onCamera.proj);
@@ -81,6 +93,12 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
      'and yielded the moment the viewfinder is live');
   ok(r.after.place===true && r.after.proj===true,
      'and asked for again once the viewfinder is gone');
+  console.log('crop page       place='+r.onCrop.place+' proj='+r.onCrop.proj
+              +'   back off it place='+r.offCrop.place+' proj='+r.offCrop.proj);
+  ok(r.onCrop.place===false && r.onCrop.proj===false,
+     'and yielded on the crop page');
+  ok(r.offCrop.place===true && r.offCrop.proj===true,
+     'and asked for again coming off it');
   // THE ORDER OF THE TWO MESSAGES, which is not cosmetic: the shell shows a
   // bottom strip when ads are WANTED but the card does not own the screen, so
   // a lowering that disowns the screen BEFORE it drops the master flag

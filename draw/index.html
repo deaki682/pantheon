@@ -249,9 +249,16 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
 #circBtn{border-radius:var(--pillr) var(--pillr) 0 0;border-bottom:none}
 #dlBtn{border-radius:0 0 var(--pillr) var(--pillr)}
 .redDot{width:17px;height:17px;border-radius:50%;border:2.5px solid #e03c3c;display:block}
-#mirRow{padding-bottom:0}
-#mirBtn{min-width:52px}
-#alphaSl{flex:0 1 50%;min-width:80px;padding:0}
+/* THE MIDDLE LINE: crop at one end, the mirror at the other, the see-through
+   slider filling what is between them. Its two ends sit over the outermost of
+   the four buttons below - which is why that row spreads to the same edges
+   rather than bunching in the middle. One line instead of two also gives the
+   picture back the height the old stacked mirror row was taking. */
+#mirRow{display:flex;align-items:center;gap:10px;padding:8px;
+  justify-content:space-between}
+#mirBtn{min-width:52px;flex:none}
+#cmpCrop,#cmpReCrop{flex:none}
+#alphaSl{flex:1 1 auto;min-width:80px;padding:0}
 #mirRow .row{justify-content:center}
 #cmpRow button,#lvBtn,#mirBtn,#lvReset{min-height:calc(40px*var(--ux,1));
   display:inline-flex;align-items:center;justify-content:center}
@@ -630,7 +637,7 @@ body.ttlOn #expCorner{opacity:0;pointer-events:none}
 #widthIn,#heightIn,#cellVal2{width:calc(54px*var(--ux,1));background:#1e1e1e;color:#e8e6e1;
   border:1px solid #555;border-radius:8px;padding:8px;font:inherit}
 #lvBtn,#cmpGridBtn{display:flex;align-items:center;justify-content:center;min-width:44px}
-#cmpRow{justify-content:space-evenly}
+#cmpRow{justify-content:space-between}
 /* a tap on the drawing sends every panel off its nearest edge; tap again
    and they slide back */
 #hudWrap,#detCorner,#gridCorner,#underCorner,#camCorner,#expCorner,#setCorner,#backBtn{
@@ -921,25 +928,21 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
      word in every language */
   #scrCompare #cmpRow button{width:100%;min-width:calc(44px*var(--ux,1));
     padding:0 10px;white-space:nowrap}
-  /* top to bottom: grid, compare, flip, crop, adjust - the order the work
-     actually goes in, which is not the order the markup happens to be in */
+  /* top to bottom: grid, compare, flip, adjust - the order the work actually
+     goes in, which is not the order the markup happens to be in. Crop is not
+     here any more; it sits at the left end of the line along the bottom. */
   #scrCompare #cmpGridBtn{order:1}
   #scrCompare #cmpSplit{order:2}
   #scrCompare #cmpFlip{order:3}
-  #scrCompare #cmpReCrop{order:4}
-  #scrCompare #cmpCrop{order:4}
-  #scrCompare #lvBtn{order:5}
+  #scrCompare #lvBtn{order:4}
   /* the slider lies flat along the bottom with the mirror button to its
      RIGHT, on the same line - the pair centred and clear of both edges.
      row-reverse because the mirror comes FIRST in the markup, and the order
      on screen is the layout's business, not the document's. */
   #scrCompare #mirRow{position:absolute;z-index:7;padding:0;
-    left:50%;right:auto;translate:-50% 0;width:min(40vw,400px);
+    left:50%;right:auto;translate:-50% 0;width:min(46vw,460px);
     top:auto;bottom:calc(8px + env(safe-area-inset-bottom));
-    display:flex;flex-direction:row-reverse;align-items:center;gap:8px}
-  #scrCompare #mirRow .row{padding:0;width:auto;flex-wrap:nowrap;
-    justify-content:center}
-  #scrCompare #mirRow .row:last-child{flex:1 1 auto}   /* the slider */
+    display:flex;align-items:center;gap:8px}
   #scrCompare #alphaSl{transform:none;flex:1 1 auto;width:auto;min-width:80px}
   /* the adjust panel opens inward, clear of the tool column */
   #scrCompare #lvRow{position:absolute;z-index:7;
@@ -1005,7 +1008,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v479</span>
+    <span id="verNum">v480</span>
   </div>
 </div>
 <div id="delModal">
@@ -1428,20 +1431,16 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     </div>
   </div>
   <div id="mirRow" style="display:none">
-    <div class="row" style="justify-content:center;padding-bottom:0">
-      <button id="mirBtn" title="Mirror">&lt;|&gt;</button>
-    </div>
-    <div class="row">
-      <input type="range" id="alphaSl" min="0" max="100" value="0" title="Reference see-through">
-    </div>
+    <button id="cmpCrop" style="display:none">Crop</button>
+    <button id="cmpReCrop" disabled title="Re-crop"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg></button>
+    <input type="range" id="alphaSl" min="0" max="100" value="0" title="Reference see-through">
+    <button id="mirBtn" title="Mirror">&lt;|&gt;</button>
   </div>
   <div class="row" id="cmpRow">
     <input type="file" id="cmpFile" accept="image/*" hidden>
     <button id="cmpFlip" disabled>Flip</button>
     <button id="cmpSplit" disabled>Compare</button>
-    <button id="cmpCrop" style="display:none">Crop</button>
     <button id="cmpGridBtn" disabled title="Grid"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg></button>
-    <button id="cmpReCrop" disabled title="Re-crop"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg></button>
     <button id="lvBtn" disabled title="Adjust"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="15" cy="7" r="2.6" fill="#1e1e1e"/><circle cx="8" cy="12" r="2.6" fill="#1e1e1e"/><circle cx="12" cy="17" r="2.6" fill="#1e1e1e"/></svg></button>
   </div>
 </div>
@@ -1735,7 +1734,14 @@ function adSync(){
         if (getComputedStyle(m).display!=='none') return true;
       return false;
     }catch(e){ return false; } })();
-    const canvas = !!(on && (on.id==='scrMain' || on.id==='scrCompare'));
+    // The two screens an ad is allowed on are the gridded drawing and the
+    // comparison - and the CROP page is neither, even though it lives inside
+    // the comparison screen. Corners mode is someone dragging four handles to
+    // the edges of their picture; an ad in the corner of that is in the way of
+    // the work, and the corner handles are exactly where a stray tap lands.
+    const cropping = (()=>{ try{ return CMP && CMP.mode==='corners'; }
+                            catch(e){ return false; } })();
+    const canvas = !!(on && (on.id==='scrMain' || on.id==='scrCompare')) && !cropping;
     const want = !cam && !splash && !modal && canvas;
     // WHERE the card sits is the page's call, because the page knows which
     // corner its own layout left empty. Upright, both controls stack down the
@@ -10080,7 +10086,14 @@ function cmpButtons(){
   rc.style.display = corners ? 'none' : '';
   rc.disabled = !(CMP.img && CMP.raw);
   $('cmpCrop').style.display = corners ? '' : 'none';
-  $('mirRow').style.display = (CMP.mode==='flip' && CMP.img && !corners) ? '' : 'none';
+  // the middle line carries CROP now, and crop shows in every mode - on the
+  // corners screen it is the only thing on it - so the line is up whenever
+  // there is a picture. The slider and the mirror are what come and go.
+  const flipping = CMP.mode==='flip' && !corners;
+  $('mirRow').style.display = CMP.img ? 'flex' : 'none';
+  $('alphaSl').style.display = flipping ? '' : 'none';
+  $('mirBtn').style.display  = flipping ? '' : 'none';
+  try{ adSync(); }catch(e){}   // the crop page is not a screen an ad sits on
   $('circWrap').style.display = (CMP.img && !corners) ? 'flex' : 'none';
   $('dlWrap').style.display = (CMP.img && !corners) ? 'flex' : 'none';
   $('circBtn').classList.toggle('vOn', CIRCTOOL);

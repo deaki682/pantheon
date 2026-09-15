@@ -1142,8 +1142,18 @@ class MainActivity : AppCompatActivity() {
         val lp = web.layoutParams as FrameLayout.LayoutParams
         if (lp.bottomMargin != 0) { lp.bottomMargin = 0; web.layoutParams = lp }
         // ---- strip half -------------------------------------------------
-        val slot = adWanted && adsUp && !adsRemovedFlag() && !adOnProj
-        val stripWant = slot && nativeAd != null
+        // THE STRIP CANNOT COME UP AT ALL. It appears when ads are wanted
+        // but the card does not own the screen - and no screen in the app is
+        // like that any more: the page asks for an ad only on the two canvas
+        // screens, and on both of those the card owns it. So the condition is
+        // only ever true in the gap between the two messages that say so, and
+        // every time it was true it animated a strip up from the bottom edge
+        // and straight back down. Ordering the messages closed that gap; this
+        // makes the gap harmless. The strip is still BUILT, because the
+        // placement is the operator's to change and not the shell's to
+        // assume - it simply is not raised.
+        val slot = false
+        val stripWant = false
         if (stripWant != adCardShown) {
             adCardShown = stripWant
             adWrap.animate().cancel()

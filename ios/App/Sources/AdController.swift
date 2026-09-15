@@ -304,8 +304,17 @@ final class AdController: NSObject {
     // the drawing screen; there, the intermittent corner card instead
     private var cardShown = false
     private func applyAd() {
-        let base = wanted && nativeAd != nil && !removed
-        let stripWant = base && !onProj
+        // THE STRIP CANNOT COME UP AT ALL. It appears when ads are wanted
+        // but the card does not own the screen - and no screen in the app is
+        // like that any more: the page asks for an ad only on the two canvas
+        // screens, and on both of those the card owns it. So the condition is
+        // only ever true in the gap between the two messages that say so, and
+        // every time it was true it animated a strip up from the bottom edge
+        // and straight back down. Ordering the messages closed that gap; this
+        // makes the gap harmless. The strip is still BUILT, because the
+        // placement is the operator's to change and not the shell's to
+        // assume - it simply is not raised.
+        let stripWant = false
         if stripWant != cardShown {
             cardShown = stripWant
             wrap.layer.removeAllAnimations()
@@ -332,7 +341,7 @@ final class AdController: NSObject {
                 }
             }
         }
-        let slot = wanted && !removed && !onProj
+        let slot = false
         web?.evaluateJavaScript("window.__adOn && __adOn(\(slot ? "true" : "false"))",
                                 completionHandler: nil)
         reportHeight()
