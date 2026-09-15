@@ -925,7 +925,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v449</span>
+    <span id="verNum">v450</span>
   </div>
 </div>
 <div id="delModal">
@@ -2575,10 +2575,21 @@ function openPhoto(blob, gid, retry){
     const c = document.createElement('canvas');
     c.width = cw; c.height = ch;
     const g = c.getContext('2d');
-    // colour first: the shrunk stored copy is cut from this same canvas,
-    // so a 12MP open no longer holds a second full-size canvas alive
+    // Black and white used to be a SECOND full-size pass: draw the photo in
+    // colour, then draw the canvas onto ITSELF through a grayscale filter.
+    // A canvas reading itself forces the whole surface back out of the GPU,
+    // and on a mid phone that one line cost 2.9 seconds of the 4.9 it took
+    // to open a twelve megapixel photo. Put the filter on the draw that was
+    // happening anyway and it is 607ms, for the same pixels.
+    // It can only be folded in when nothing needs the COLOUR canvas first -
+    // an oversized original has its stored working copy cut from this same
+    // surface, and that copy must not be grey.
+    const wantGray = REFMODE!=='c';
+    const colourFirst = wantGray && sc<1 && gid!=null && !WORK_OFF.has(gid);
     flatten(g, cw, ch);
+    if (wantGray && !colourFirst) g.filter='grayscale(1)';
     g.drawImage(img, 0, 0, cw, ch);
+    g.filter='none';
     if (sc < 1 && gid != null){
       // A working copy for fast opens - kept BESIDE the original, never
       // instead of it. This used to overwrite rec.blob, which quietly threw
@@ -2604,8 +2615,12 @@ function openPhoto(blob, gid, retry){
         }catch(e){ WORK_OFF.add(gid); } })();
       }catch(e){ WORK_OFF.add(gid); }
     }
-    if (REFMODE!=='c'){                              // automatic black and white
-      g.filter = 'grayscale(1)'; g.drawImage(c, 0, 0); g.filter = 'none';
+    if (wantGray){
+      // the oversized case still needs its second pass, because the copy
+      // above was cut while the canvas was still in colour
+      if (colourFirst){ g.filter='grayscale(1)'; g.drawImage(c, 0, 0); g.filter='none'; }
+      // and where the engine ignores ctx.filter entirely, the draw above was
+      // a plain colour draw and this is what actually converts it
       forceGray(c);
     }
     {
