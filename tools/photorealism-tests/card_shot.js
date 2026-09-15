@@ -19,18 +19,22 @@ const SAFE_TOP = ISLAND ? 59 : 0, SAFE_BOT = ISLAND ? 34 : 0;
 // --- the same arithmetic as MainActivity.buildCorner --------------------
 const BANNER = process.argv[7] === 'banner';   // the resting state
 const tab = Math.min(W,H) >= 600;
-const gut = tab ? 12 : 8, padR = 8, FLANK = 48, BANNER_H = 48;
+const gut = tab ? 12 : 8, padR = 8, FLANK = 48;
+const TALLW = 196, TALLPH = 150, TALLHDR = 46;
 const playerH = tab ? 160 : 120, playerMax = tab ? 284 : 213;
 const textWant = tab ? 230 : 118;
 const flank = 8 + (tab?76:44);
 // top-right corner: only the LEFT column has to be cleared
 const budget = W - (flank + FLANK) - 8;
-const playerW = Math.min(Math.max(tab ? budget - gut - padR - textWant : 120, 120), playerMax);
+const LAND0 = W > H;
+const playerW = LAND0 ? TALLW - 16
+  : Math.min(Math.max(tab ? budget - gut - padR - textWant : 120, 120), playerMax);
 const textW = Math.min(Math.max(budget - playerW - gut - padR, 40), textWant);
 const LAND = W > H;   // sideways the card takes the top-LEFT corner and STANDS UP
 const stack = LAND;
-const boxW = stack ? playerW + 16 : playerW + gut + textW + padR;
-const boxH = BANNER ? BANNER_H : (stack ? playerH + 44 : playerH);
+const BANNER_H = stack ? 54 : 48;
+const boxW = stack ? TALLW : playerW + gut + textW + padR;
+const boxH = BANNER ? BANNER_H : (stack ? TALLPH + TALLHDR : playerH);
 
 (async () => {
   const br = await chromium.launch(require('./browser.js'));
@@ -78,7 +82,7 @@ const boxH = BANNER ? BANNER_H : (stack ? playerH + 44 : playerH);
     await new Promise(r=>setTimeout(r,700));
   });
   // the stand-in, at the measured geometry, anchored the way the shell anchors it
-  await pg.evaluate(([boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER,LAND])=>{
+  await pg.evaluate(([boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER,LAND,TALLW,TALLPH,TALLHDR])=>{
     const d=document.createElement('div');
     d.style.cssText='position:fixed;z-index:40;top:'+(8+SAFE_TOP)+'px;'
       +(LAND?'left:8px;':'right:8px;')
@@ -87,7 +91,7 @@ const boxH = BANNER ? BANNER_H : (stack ? playerH + 44 : playerH);
       +'box-shadow:0 6px 18px rgba(0,0,0,.55);overflow:hidden;display:flex;'
       +'flex-direction:'+(stack?'column':'row')+';';
     const player =
-      '<div style="width:'+playerW+'px;height:'+(stack?playerH:boxH)+'px;'
+      '<div style="width:'+playerW+'px;height:'+(stack?TALLPH:boxH)+'px;'
       +(stack?'margin:0 8px;':'')+'flex:none;position:relative;'
       +'overflow:hidden">'
       +'<div style="width:'+playerW+'px;height:'+playerH+'px;position:absolute;'
@@ -104,7 +108,7 @@ const boxH = BANNER ? BANNER_H : (stack ? playerH + 44 : playerH);
       +'border-radius:3px;padding:0 3px;align-self:flex-start;flex:none">Ad</span>';
     const words = 'A headline from the auction';
     const textBlock = stack
-      ? '<div style="padding:0 32px 0 8px;height:44px;display:flex;align-items:center;'
+      ? '<div style="padding:0 32px 0 8px;height:46px;display:flex;align-items:center;'
         + 'gap:5px;width:'+boxW+'px;flex:none">'+badge
         + '<span style="font:11px system-ui;color:#e8e6e1;line-height:1.2;'
         + 'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;'
@@ -133,7 +137,7 @@ const boxH = BANNER ? BANNER_H : (stack ? playerH + 44 : playerH);
         +'background:rgba(255,255,255,.75)';
       document.body.appendChild(bar);
     }
-  }, [boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER,LAND]);
+  }, [boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER,LAND,TALLW,TALLPH,TALLHDR]);
   await pg.waitForTimeout(250);
   const f=OUT+'/card_'+W+'x'+H+'_'+TAG+'.png';
   fs.writeFileSync(f, await pg.screenshot());

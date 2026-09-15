@@ -29,6 +29,8 @@ final class AdController: NSObject {
     private var hideTimer: Timer?
     private let AD_ON_S: TimeInterval = 45          // how long the bloom lasts
     private let AD_BANNER_H: CGFloat = 48           // the banner it rests at
+    private let AD_BANNER_TALL_H: CGFloat = 54      // ...deeper when it stands up
+    private var bannerH: CGFloat = 48
     private var expanded = false                    // bloomed, not resting
     private var cardH: CGFloat = 120                // the bloomed height
     private var headV: UILabel?
@@ -359,7 +361,7 @@ final class AdController: NSObject {
         cornerWrap.alpha = 1
         cornerWrap.transform = .identity
         cornerWrap.isHidden = false
-        cornerH?.constant = AD_BANNER_H
+        cornerH?.constant = bannerH
         cornerWrap.superview?.layoutIfNeeded()
         web?.evaluateJavaScript("window.__adCorner && __adCorner(true)", completionHandler: nil)
         armExpand()
@@ -408,7 +410,7 @@ final class AdController: NSObject {
         expanded = false
         nextShowAt = CACurrentMediaTime() + AD_OFF_S
         headV?.numberOfLines = 1
-        setCornerHeight(AD_BANNER_H, 0.22)
+        setCornerHeight(bannerH, 0.22)
         // NO load from here: the card is permanent and the 75s tick already
         // refreshes it, so asking again on collapse could put two swaps inside
         // a minute - under the network's own minimum refresh interval.
@@ -608,11 +610,16 @@ final class AdController: NSObject {
         // a short screen, so the headline goes UNDER the player and the card
         // is taller than it is wide. Upright it lies down, where the width
         // across the top is free and the height is not.
+        // standing up it was 136 wide and 164 tall, which left the header
+        // about 70pt of headline and the player no more than its floor.
+        // Sideways there is height to spare on a canvas screen, so the player
+        // gets a 4:3 frame and the header a line it can read on.
         let tall = spotLeft
-        let playerW: CGFloat = 120
+        let TALLW: CGFloat = 196, TALLPH: CGFloat = 150, TALLHDR: CGFloat = 46
+        let playerW: CGFloat = tall ? TALLW - 16 : 120
         let textW = tall ? playerW : min(max(budget - playerW - GUT - PADR, 40), 118)
-        let advW = tall ? playerW + 16 : playerW + GUT + textW + PADR
-        let advH = tall ? PH + 44 : PH
+        let advW = tall ? TALLW : playerW + GUT + textW + PADR
+        let advH = tall ? TALLPH + TALLHDR : PH
 
         head.numberOfLines = expanded ? 3 : 1
         headV = head
@@ -628,14 +635,14 @@ final class AdController: NSObject {
             // player keeps its full 120pt square inside it whatever the card
             // is doing - that is what makes it video-eligible - so the resting
             // banner shows the MIDDLE of the creative, not the top of it
-            mediaClip.topAnchor.constraint(equalTo: adv.topAnchor, constant: tall ? 44 : 0),
+            mediaClip.topAnchor.constraint(equalTo: adv.topAnchor, constant: tall ? TALLHDR : 0),
             mediaClip.leadingAnchor.constraint(equalTo: adv.leadingAnchor,
                                                constant: tall ? 8 : 0),
             mediaClip.widthAnchor.constraint(equalToConstant: playerW),
             media.centerYAnchor.constraint(equalTo: mediaClip.centerYAnchor),
             media.leadingAnchor.constraint(equalTo: mediaClip.leadingAnchor),
             media.widthAnchor.constraint(equalToConstant: playerW),
-            media.heightAnchor.constraint(equalToConstant: PH),
+            media.heightAnchor.constraint(equalToConstant: tall ? TALLPH : PH),
             badge.widthAnchor.constraint(equalToConstant: 22),
             badge.heightAnchor.constraint(equalToConstant: 13),
         ])
@@ -695,11 +702,12 @@ final class AdController: NSObject {
         // the clip's height is the card's, less whatever stands under it
         mediaClipH?.isActive = false
         mediaClipH = mediaClip.heightAnchor.constraint(
-            equalTo: adv.heightAnchor, constant: tall ? -44 : 0)
+            equalTo: adv.heightAnchor, constant: tall ? -TALLHDR : 0)
         mediaClipH?.isActive = true
         cardH = advH
+        bannerH = tall ? AD_BANNER_TALL_H : AD_BANNER_H
         cornerH = cornerWrap.heightAnchor.constraint(
-            equalToConstant: expanded ? advH : AD_BANNER_H)
+            equalToConstant: expanded ? advH : (tall ? AD_BANNER_TALL_H : AD_BANNER_H))
         NSLayoutConstraint.activate([
             cornerW!, cornerH!,
             adv.topAnchor.constraint(equalTo: cornerWrap.topAnchor),

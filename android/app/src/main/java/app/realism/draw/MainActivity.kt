@@ -970,17 +970,23 @@ class MainActivity : AppCompatActivity() {
         // the card is taller than it is wide. Upright it lies down, where the
         // width across the top is free and the height is not.
         val tall = adSpotLeft
-        val playerW = if (tall) 120
+        // standing up it was 136 wide and 164 tall, which left the header
+        // about 70dp of headline and the player no more than its floor.
+        // Sideways there is height to spare on a canvas screen, so the
+        // player gets a 4:3 frame and the header a line it can read on.
+        val tallW = 196
+        val tallPlayerH = 150
+        val playerW = if (tall) tallW - 16
             else (if (tab) budget - gut - padR - textWant else 120)
                 .coerceIn(120, playerMax)
-        val textW = if (tall) 120
+        val textW = if (tall) tallW - 16
             else (budget - playerW - gut - padR).coerceIn(40, textWant)
         // the player keeps its full 120dp square whatever the card is doing -
         // that is what makes the card video-eligible at all - and the wrapper
         // CLIPS it, centred, so the thin banner shows the middle of the
         // creative rather than the top of it
         (mediaWrap.getChildAt(0).layoutParams as FrameLayout.LayoutParams).apply {
-            width = dp(playerW); height = dp(playerH)
+            width = dp(playerW); height = dp(if (tall) tallPlayerH else playerH)
             gravity = android.view.Gravity.CENTER }
         mediaWrap.clipChildren = true; mediaWrap.clipToPadding = true
         if (tall) card.orientation = android.widget.LinearLayout.VERTICAL
@@ -1047,13 +1053,13 @@ class MainActivity : AppCompatActivity() {
             col.addView(c, clp2); cta = c
         }
         card.addView(col, if (tall)
-            android.widget.LinearLayout.LayoutParams(dp(playerW + 16), dp(44))
+            android.widget.LinearLayout.LayoutParams(dp(tallW), dp(46))
             else android.widget.LinearLayout.LayoutParams(dp(textW + gut + padR), dp(playerH)))
         if (tall)
-            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(playerW), dp(playerH)))
-        val cw = if (tall) dp(playerW + 16) else dp(playerW + gut + textW + padR)
-        val ch = if (tall) dp(playerH + 44) else dp(playerH)
-        adCornerBannerH = dp(AD_BANNER_DP)      // resting: a thin banner
+            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(playerW), dp(tallPlayerH)))
+        val cw = if (tall) dp(tallW) else dp(playerW + gut + textW + padR)
+        val ch = if (tall) dp(tallPlayerH + 46) else dp(playerH)
+        adCornerBannerH = dp(if (tall) AD_BANNER_TALL_DP else AD_BANNER_DP)
         // fixed at every level so nothing the SDK does inside can widen it
         val CW = cw; val CH = ch
         adv.addView(card, FrameLayout.LayoutParams(CW, CH))
@@ -1118,6 +1124,7 @@ class MainActivity : AppCompatActivity() {
     private var adCornerAnim: android.animation.ValueAnimator? = null
     private val AD_ON_MS = 45000L         // how long the bloom lasts
     private val AD_BANNER_DP = 48         // the thin banner the card rests at
+    private val AD_BANNER_TALL_DP = 54    // ...a touch deeper when it stands up
     private val AD_MARGIN_DP = 10         // the gap that makes the card float
     // the clearance the card keeps from the buttons flanking it: one standard
     // touch target, ~7.6mm, the same number the retired bottom strip kept
@@ -1382,6 +1389,16 @@ class MainActivity : AppCompatActivity() {
                                 getSharedPreferences("iap", 0).edit()
                                     .putBoolean("noads", false).apply()
                                 logLine("remove_ads revoked - no purchase on this account")
+                                // ...and the ads actually have to COME BACK.
+                                // startAds() returns at the door when the flag
+                                // is set, and this query lands after it has
+                                // already run, so clearing the flag alone left
+                                // the stack switched off until a second
+                                // relaunch. Start it here instead.
+                                runOnUiThread {
+                                    if (!adsUp) startAds() else { loadNative(); applyAd() }
+                                    js("window.__adsRestoredUI && __adsRestoredUI()")
+                                }
                             }
                         }
                     }

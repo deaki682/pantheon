@@ -950,7 +950,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v469</span>
+    <span id="verNum">v470</span>
   </div>
 </div>
 <div id="delModal">
@@ -1648,10 +1648,15 @@ function adSync(){
     // ad left in the app is the intermittent video card on the two canvas
     // screens, and it floats OVER the page instead of displacing it, so every
     // screen's UI sits where it sits for someone who paid to remove ads.
-    // adPlace still gets the screen's backdrop, so the shell keeps skinning
-    // correctly if a strip is ever raised again.
+    //
+    // adPlace is NOT just "raise the strip" - it is the shell's master "an ad
+    // is wanted here" switch, and everything downstream of it, the card and
+    // the creative loader included, hangs off the flag it sets. Passing a flat
+    // false to hand over the backdrop colour turned the whole ad stack off.
+    // It gets the real answer now, and the SHELL suppresses the strip because
+    // adProj has already said the card has this screen.
     const canvas = !!(on && (on.id==='scrMain' || on.id==='scrCompare'));
-    RealismCam.adPlace(false, bg);
+    const want = !cam && !splash && canvas;
     // WHERE the card sits is the page's call, because the page knows which
     // corner its own layout left empty. Upright, both controls stack down the
     // LEFT edge and the card takes the top-RIGHT. Sideways there is no room
@@ -1659,7 +1664,10 @@ function adSync(){
     // corner and our controls move down the left edge beneath it.
     const land = matchMedia('(orientation: landscape)').matches;
     if (RealismCam.adSpot) RealismCam.adSpot(land ? 'left' : 'right');
-    if (RealismCam.adProj) RealismCam.adProj(!cam && !splash && canvas);
+    // adProj FIRST, so that by the time adPlace raises the master flag the
+    // shell already knows the card owns this screen and never flashes a strip
+    if (RealismCam.adProj) RealismCam.adProj(want);
+    RealismCam.adPlace(want, bg);
   }catch(e){}
 }
 // the shell says when the card is on screen. It opens in the gap between the
@@ -3442,6 +3450,13 @@ function ttlOn(){ return true; }   // operator direction 2026-09: always stop at
     hapticOK();
     $('noAdsTxt').style.display='none';
     toast('ads removed - thank you!');
+  };
+  // ...and the other direction: a refund, or a licence revoked on the Play
+  // account. The shell finds out asynchronously, long after the settings
+  // panel was built, so the offer has to come BACK on its own rather than
+  // waiting for a relaunch.
+  window.__adsRestoredUI=()=>{
+    try{ $('noAdsTxt').style.display=''; }catch(e){}
   };
   try{
     const N=window.RealismCam;
