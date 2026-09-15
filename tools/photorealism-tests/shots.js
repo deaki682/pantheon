@@ -173,5 +173,46 @@ const SEED = async ()=>{
   console.log('home');
   await shot('15-home', 393, 852, async (pg)=>{ await pg.evaluate(SEED);
     await pg.evaluate(async ()=>{ show('scrUpload'); await new Promise(r=>setTimeout(r,500)); }); });
+  await shot('20-home-landscape', 852, 393, async (pg)=>{ await pg.evaluate(SEED);
+    await pg.evaluate(async ()=>{ show('scrUpload'); await new Promise(r=>setTimeout(r,500)); }); });
+  await shot('21-home-tablet', 800, 1280, async (pg)=>{ await pg.evaluate(SEED);
+    await pg.evaluate(async ()=>{ show('scrUpload'); await new Promise(r=>setTimeout(r,500)); }); });
+
+  console.log('the windows');
+  await shot('22-preferences', 393, 852, async (pg)=>{ await pg.evaluate(SEED);
+    await pg.evaluate(async ()=>{ show('scrUpload'); $('gearBtn').click();
+      await new Promise(r=>setTimeout(r,400)); }); });
+  await shot('23-accessibility', 393, 852, async (pg)=>{ await pg.evaluate(SEED);
+    await pg.evaluate(async ()=>{ show('scrUpload'); $('gearBtn').click();
+      await new Promise(r=>setTimeout(r,250)); $('a11yBtn').click();
+      await new Promise(r=>setTimeout(r,400)); }); });
+  await shot('24-account', 393, 852, async (pg)=>{ await pg.evaluate(SEED);
+    await pg.evaluate(async ()=>{ show('scrUpload'); $('accModal').style.display='flex';
+      await new Promise(r=>setTimeout(r,400)); }); });
+  await shot('25-grid-designer', 393, 852, async (pg,W,H)=>{ await pg.evaluate(SEED);
+    await withAd(pg,W,H,false);
+    await pg.evaluate(async ()=>{ $('gridBtn').click(); await new Promise(r=>setTimeout(r,200));
+      $('gmDesign').click(); await new Promise(r=>setTimeout(r,500)); }); });
+
+  console.log('the size screen');
+  await shot('26-size', 393, 852, async (pg)=>{ await pg.evaluate(SEED);
+    await pg.evaluate(async ()=>{ show('scrFormat'); fmtPreview();
+      await new Promise(r=>setTimeout(r,600)); }); });
+  await shot('27-size-landscape', 852, 393, async (pg)=>{ await pg.evaluate(SEED);
+    await pg.evaluate(async ()=>{ show('scrFormat'); fmtPreview();
+      await new Promise(r=>setTimeout(r,600)); }); });
+
+  console.log('comparison modes');
+  await shot('28-compare-split', 393, 852, async (pg,W,H)=>{ await pg.evaluate(SEED); await toCompare(pg);
+    await pg.evaluate(()=>{ CMP.mode='split'; cmpSize(); cmpButtons(); cmpRender(); });
+    await withAd(pg,W,H,false); });
+  await shot('29-compare-tablet', 800, 1280, async (pg,W,H)=>{ await pg.evaluate(SEED); await toCompare(pg);
+    await withAd(pg,W,H,false); });
+
+  console.log('the drawing screen, dismissed');
+  await shot('30-drawing-bare', 393, 852, async (pg,W,H)=>{ await pg.evaluate(SEED); await withAd(pg,W,H,false);
+    await pg.evaluate(()=>{ document.body.classList.add('uiHid'); });
+    await pg.waitForTimeout(350); });
+  await shot('31-drawing-tablet-video', 800, 1280, async (pg,W,H)=>{ await pg.evaluate(SEED); await withAd(pg,W,H,true); });
   await br.close();
 })();
