@@ -132,11 +132,11 @@ final class AdController: NSObject {
         // card clears the Dynamic Island, the notch and the home indicator for
         // free. The 8pt puts it on the same line as the page's own buttons.
         let mid = cornerWrap.trailingAnchor.constraint(
-            equalTo: host.view.safeAreaLayoutGuide.trailingAnchor, constant: -AD_INSET)
+            equalTo: host.view.safeAreaLayoutGuide.trailingAnchor, constant: 0)
         let lead = cornerWrap.leadingAnchor.constraint(
-            equalTo: host.view.safeAreaLayoutGuide.leadingAnchor, constant: AD_INSET)
+            equalTo: host.view.safeAreaLayoutGuide.leadingAnchor, constant: 0)
         let top = cornerWrap.topAnchor.constraint(
-            equalTo: host.view.safeAreaLayoutGuide.topAnchor, constant: AD_INSET)
+            equalTo: host.view.safeAreaLayoutGuide.topAnchor, constant: 0)
         cornerMid = mid; cornerLead = lead; cornerTop = top
         // the flush pair: both edges of the safe area, no inset. The web view
         // shares this guide, so flush is flush with the CONTENT - never under
@@ -163,7 +163,6 @@ final class AdController: NSObject {
     private var cornerMid: NSLayoutConstraint?
     private var cornerLead: NSLayoutConstraint?
     private var cornerTop: NSLayoutConstraint?
-    private let AD_INSET: CGFloat = 8       // how far the resting banner floats off
     private var cardClip: UIView?          // the crop the card rides in
     // the card's own size, re-made on every build - held so the previous
     // pair comes off first instead of stacking into a conflict
@@ -480,19 +479,26 @@ final class AdController: NSObject {
         } else {
             cornerH?.constant = h
         }
-        cornerTop?.constant = spotFlush ? 0 : AD_INSET
-        cornerMid?.constant = -AD_INSET
-        cornerLead?.constant = AD_INSET
-        // flush means flush: a banner welded to the top edge has no corners
-        // to round, and a floating card has four
+        // FLUSH IN THE CORNER, SIDEWAYS TOO. The standing card used to float a
+        // margin off the top-left, which left a sliver of drawing showing
+        // behind two of its edges and read as a sticker rather than as part
+        // of the frame. Hard into the corner it belongs to the edge, the way
+        // the upright banner belongs to the top.
+        cornerTop?.constant = 0
+        cornerMid?.constant = 0
+        cornerLead?.constant = 0
+        // ONLY THE CORNER THAT FACES THE DRAWING IS ROUND. Two of the card's
+        // edges are the screen's own now, and a radius on a corner sitting on
+        // a screen edge just opens a gap in it. Sideways that leaves the
+        // bottom-trailing one; upright the band is welded to the top and the
+        // tab carries the curve instead.
         let r: CGFloat = spotFlush ? 0 : 14
         let skin = cardClip ?? cornerWrap
-        let all: CACornerMask = [.layerMinXMinYCorner, .layerMaxXMinYCorner,
-                                 .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        let free: CACornerMask = [.layerMaxXMaxYCorner]
         cornerWrap.layer.cornerRadius = r
         skin.layer.cornerRadius = r
-        skin.layer.maskedCorners = all
-        cornerWrap.layer.maskedCorners = all
+        skin.layer.maskedCorners = free
+        cornerWrap.layer.maskedCorners = free
         if !spotLeft { headV?.numberOfLines = 3 }   // the card always has the room
         if spotFlush { reportTop(cornerShown ? Int(h.rounded()) : 0) }
     }

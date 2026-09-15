@@ -1322,7 +1322,6 @@ class MainActivity : AppCompatActivity() {
     private val AD_BLOOM_MAX = 32 * 1000L       // and never longer than this
     private var adBloomAnim: android.animation.ValueAnimator? = null
     private var adCardBg: android.graphics.drawable.GradientDrawable? = null
-    private val AD_CORNER_INSET = 8       // how far the card floats off the corner
     private val AD_MARGIN_DP = 10         // the gap that makes the card float
     // the clearance the card keeps from the buttons flanking it: one standard
     // touch target, ~7.6mm, the same number the retired bottom strip kept
@@ -1401,7 +1400,12 @@ class MainActivity : AppCompatActivity() {
         val h = if (h0 >= 0) h0
                 else if (adSpotFlush && !adBloomed) restH()
                 else adCornerH
-        val m = if (adSpotFlush) 0 else (AD_CORNER_INSET * d).toInt()
+        // FLUSH IN THE CORNER, SIDEWAYS TOO. The standing card used to float a
+        // margin off the top-left, which left a sliver of drawing showing
+        // behind two of its edges and read as a sticker rather than as part
+        // of the frame. Hard into the corner it belongs to the edge the way
+        // the upright banner does.
+        val m = 0
         adCornerWrap.layoutParams = (adCornerWrap.layoutParams as FrameLayout.LayoutParams)
             .also {
                 // flush: the wrapper is always as tall as the tab can reach,
@@ -1441,7 +1445,19 @@ class MainActivity : AppCompatActivity() {
         }
         adMediaWrap?.requestLayout()
         adMediaWrap?.let { adHeadV?.maxLines = 3 }   // the card always has the room
-        adCardBg?.let { it.cornerRadius = if (adSpotFlush) 0f else 14f * d }
+        // ONLY THE CORNER THAT FACES THE DRAWING IS ROUND. Two of the card's
+        // edges are the screen's own now, and a radius on a corner sitting on
+        // a screen edge just opens a gap in it. Sideways that leaves the
+        // bottom-right; upright the whole band is welded to the top and the
+        // tab carries the curve instead.
+        adCardBg?.let {
+            if (adSpotFlush) it.cornerRadius = 0f
+            else {
+                val rr = 14f * d
+                // tl, tr, br, bl - as x/y pairs
+                it.cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, rr, rr, 0f, 0f)
+            }
+        }
         // tell the page how much of its top edge is spoken for
         // the page ducks under what actually covers its top-LEFT corner, which
         // is where both the readout and the grid's first column label live -
@@ -2483,8 +2499,10 @@ class MainActivity : AppCompatActivity() {
         // the status bar and the cutout - so the card clears a notch or a
         // punch-hole for free, but it was landing 8dp ABOVE the row it belongs
         // to, because the page puts its own buttons 8px in from that same line
-        lp.topMargin = ((8) * resources.displayMetrics.density).toInt()
-        if (adSpotLeft) lp.leftMargin = lp.topMargin else lp.rightMargin = lp.topMargin
+        // flush in the corner: the card's top and leading edges ARE the safe
+        // area's, the same way the upright banner's top edge is
+        lp.topMargin = 0
+        lp.leftMargin = 0; lp.rightMargin = 0
         return lp
     }
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {

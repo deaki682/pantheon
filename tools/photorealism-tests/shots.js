@@ -38,8 +38,10 @@ function paint(c, bloom){
       +'width:'+c.boxW+'px;flex:none">'+BADGE
       +'<span style="font:11px system-ui;color:#e8e6e1;line-height:1.2;display:-webkit-box;'
       +'-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">'+WORDS+'</span></div>';
-    return '<div id="adFake" style="position:fixed;z-index:40;top:8px;left:8px;width:'+c.boxW+'px;'
-      +'height:'+c.boxH+'px;border-radius:14px;border:1px solid #555;'
+    // flush in the corner: only the corner facing the drawing is round
+    return '<div id="adFake" style="position:fixed;z-index:40;top:0;left:0;width:'+c.boxW+'px;'
+      +'height:'+c.boxH+'px;border-radius:0 0 14px 0;border:1px solid #555;'
+      +'border-top:none;border-left:none;'
       +'box-shadow:0 6px 18px rgba(0,0,0,.55);background:#1e1e1e;overflow:hidden;'
       +'display:flex;flex-direction:column">'+text+player+'</div>';
   }
