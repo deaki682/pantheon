@@ -17,8 +17,9 @@ final class AdController: NSObject {
     private weak var host: UIViewController?
     private weak var web: WKWebView?
     private let wrap = UIView()
-    // corner mode (drawing screen only): the download button's corner
-    // becomes the 120x120-media card for a bounded window, then returns
+    // corner mode (the two canvas screens): a thin banner rests in whichever
+    // corner the page's own layout leaves empty, and blooms to the 120pt video
+    // card for a bounded window before settling back to the banner
     private let cornerWrap = UIView()
     private var onProj = false
     private var cornerShown = false
@@ -169,9 +170,9 @@ final class AdController: NSObject {
     // thumbs rest at the bottom of a phone, which is exactly where a banner
     // collects stray taps, so the one screen the artist lives on puts it out
     // of reach. Every other screen keeps it at the bottom.
-    // where the card opens: "mid" (the gap in the middle of the top row) or
-    // "left" (the top-left corner). The page decides, because the page is what
-    // knows which corner its layout left empty.
+    // which corner the card takes: "right" upright, "left" sideways. The page
+    // decides, because the page is what knows which corner its own layout left
+    // empty - and the card's SHAPE hangs off the answer.
     func setSpot(_ spot: String) {
         let left = (spot == "left")
         guard left != spotLeft else { return }
@@ -290,7 +291,8 @@ final class AdController: NSObject {
         wrap.backgroundColor = bgCol
         wrap.subviews.first?.backgroundColor = bgCol
         cardV?.backgroundColor = bgCol
-        cardClip?.backgroundColor = bgCol   // the corner card's skin lives here
+        cornerWrap.backgroundColor = bgCol  // the corner card, and the clip
+        cardClip?.backgroundColor = bgCol   // in front of it that wears its skin
         applyAd()
     }
 
@@ -637,7 +639,9 @@ final class AdController: NSObject {
         // corner, clear of the badge (left-aligned) and above the centred
         // headline - 28pt the headline gets to keep.
         let GUT: CGFloat = 8, PADR: CGFloat = 8, PH: CGFloat = 120
-        let FLANK: CGFloat = 48, FLANKW: CGFloat = 8 + 44
+        // FLANKW is the pill's width: two squares, each half the bloomed
+        // card tall, so half the card wide as well
+        let FLANK: CGFloat = 48, FLANKW: CGFloat = 8 + 60
         let screenW = host?.view.bounds.width ?? 390
         // top-right corner: only the LEFT column has to be cleared
         let budget = screenW - (FLANKW + FLANK) - 8
@@ -742,7 +746,11 @@ final class AdController: NSObject {
         // edges: the card keeps its full height inside that clip, and the
         // banner is a genuine crop of it rather than a full-size card with a
         // short background painted behind it.
-        cornerWrap.backgroundColor = .clear
+        // the wrapper keeps the background even though the clip in front of it
+        // paints the same colour: a layer with a CLEAR background casts no
+        // shadow, and the shadow is the whole reason the crop had to move off
+        // this view in the first place
+        cornerWrap.backgroundColor = bgCol
         cornerWrap.layer.cornerRadius = 14
         cornerWrap.layer.shadowColor = UIColor.black.cgColor
         cornerWrap.layer.shadowOpacity = 0.5

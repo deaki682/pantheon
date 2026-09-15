@@ -73,6 +73,9 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
          dev.n+': Download is FUSED to the gear\'s lower edge ('
          +Math.round(r.dl.y-(r.gear.y+r.gear.h))+'px apart)');
       ok(Math.abs(r.dl.w - r.gear.w) < 1.5, dev.n+': one pill, so both halves are the same width');
+      ok(Math.abs(r.dl.w - r.dl.h) < 1.5 && Math.abs(r.gear.w - r.gear.h) < 1.5,
+         dev.n+': each half is a SQUARE, so the pill is 2:1 ('
+         +Math.round(r.gear.w)+'x'+Math.round(r.gear.h)+')');
       ok(r.vw - (r.gear.x + r.gear.w) > 200, dev.n+': the top-RIGHT is clear for the card');
     } else {
       // sideways: the card stands up in the top-LEFT, so the pair sit side by
@@ -85,6 +88,9 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
          dev.n+': Download is FUSED to the gear\'s right edge ('
          +Math.round(r.dl.x-(r.gear.x+r.gear.w))+'px apart)');
       ok(Math.abs(r.dl.h - r.gear.h) < 1.5, dev.n+': one pill, so both halves are the same height');
+      ok(Math.abs(r.dl.w - r.dl.h) < 1.5 && Math.abs(r.gear.w - r.gear.h) < 1.5,
+         dev.n+': each half is a SQUARE, so the pill is 2:1 ('
+         +Math.round(r.gear.w)+'x'+Math.round(r.gear.h)+')');
       ok(r.gear.y > 120, dev.n+': the top-left corner is left to the card');
     }
     // the card opens in the gap and covers neither button, so nothing on the

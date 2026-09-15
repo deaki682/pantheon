@@ -84,8 +84,9 @@ class MainActivity : AppCompatActivity() {
     private var adCard: com.google.android.gms.ads.nativead.NativeAdView? = null
     private var adBadgeV: TextView? = null
     private var adCtaV: TextView? = null
-    // corner mode (drawing screen only): the download button's corner
-    // becomes the 120x120-media card for a bounded window, then returns
+    // corner mode (the two canvas screens): a thin banner rests in whichever
+    // corner the page's own layout leaves empty, and blooms to the 120dp
+    // video card for a bounded window before settling back to the banner
     private lateinit var adCornerWrap: FrameLayout
     private var adOnProj = false          // page reports the drawing screen
     private var adViewMode = ""           // which container holds the card
@@ -97,10 +98,10 @@ class MainActivity : AppCompatActivity() {
     // first frame of the next launch too
     private var adReserveH = 0
     // which edge the strip rides. The page decides and says so through adTop;
-    // it currently never raises it (the drawing screen wears no strip at all
-    // - it gets the corner video card out of its Download button instead), so
-    // the strip stays at the bottom everywhere. The bridge stays because the
-    // placement is the operator's to change, not the shell's to assume.
+    // it currently never raises it (the canvas screens wear no strip at all -
+    // they get the corner banner instead), so the strip stays at the bottom
+    // everywhere. The bridge stays because the placement is the operator's to
+    // change, not the shell's to assume.
     private var adTopSide = false
     private var billing: com.android.billingclient.api.BillingClient? = null
 
@@ -1023,7 +1024,10 @@ class MainActivity : AppCompatActivity() {
         } else {
             head.textSize = 11f
         }
-        head.maxLines = if (tall) 2 else if (adExpanded) 3 else 1
+        // standing up the header is a fixed 46dp strip and always gets its
+        // two lines; lying down the count belongs to adCornerApply, which
+        // owns every other thing that changes with the bloom
+        head.maxLines = if (tall) 2 else 1
         adHeadV = head
         val hlp = android.widget.LinearLayout.LayoutParams(dp(textW),
             android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -1077,10 +1081,10 @@ class MainActivity : AppCompatActivity() {
         cta?.let { adv.callToActionView = it }
         adv.setNativeAd(ad)
         // The CARD's box belongs to this wrapper, not to the ad view, so the
-        // collapse pill can live inside the card - in a lane of its own down
-        // the right - while staying OUTSIDE the ad, where its tap can never
-        // be an ad click. Parked BESIDE the card it was costing the player
-        // 38dp of the little width the flanking buttons leave.
+        // collapse pill can float at the card's own top-right corner while
+        // staying OUTSIDE the ad, where its tap can never be an ad click.
+        // Parked BESIDE the card it was costing the player 38dp of the little
+        // width the flanking buttons leave.
         val cardBox = FrameLayout(this)
         val bg = android.graphics.drawable.GradientDrawable()
         bg.setColor(adBgCol); bg.cornerRadius = dp(14).toFloat()
@@ -1125,11 +1129,10 @@ class MainActivity : AppCompatActivity() {
         adViewMode = "corner"
     }
 
-    // two placements, one ad: the bottom strip everywhere EXCEPT the
-    // drawing screen (persistent, page reserves room through __adOn), and
-    // on the drawing screen an intermittent corner card that replaces the
-    // download button for a bounded window (page yields it via __adCorner).
-    @Volatile private var adUx = 1f              // the page's accessibility button scale
+    // two placements, one ad: the bottom strip everywhere EXCEPT the two
+    // canvas screens (persistent, page reserves room through __adOn), and on
+    // those a corner banner that blooms to the video card now and then,
+    // covering nothing of the page's own (page yields it via __adCorner).
     private var adCardShown = false       // strip on screen
     private var adCornerShown = false     // corner card on screen
     private var adCornerH = 0             // the bloomed card's height, in px
@@ -2029,17 +2032,21 @@ class MainActivity : AppCompatActivity() {
                 } catch (e: Throwable) { logLine("review: " + e.message) }
             }
         }
+        // The page's accessibility button scale. NOTHING in the card follows
+        // it any more: upright the pill's width is half the card's height, not
+        // a multiple of 44dp, and sideways the card's own width is fixed - so
+        // there is nothing here to resize and nothing to rebuild. The bridge
+        // stays because the page calls it and a future placement may want it.
         @JavascriptInterface
-        fun uiScale(f: Float) {
-            runOnUiThread { adUx = f; if (adCornerShown) buildCorner() }
-        }
+        @Suppress("UNUSED_PARAMETER")
+        fun uiScale(f: Float) { }
         @JavascriptInterface
         fun adProj(on: Boolean) {
             runOnUiThread { if (adOnProj != on) { adOnProj = on; applyAd() } }
         }
-        // where the card opens: "mid" (the gap in the middle of the top row)
-        // or "left" (the top-left corner). The page decides, because the page
-        // is what knows which corner its layout left empty.
+        // which corner the card takes: "right" upright, "left" sideways. The
+        // page decides, because the page is what knows which corner its own
+        // layout left empty - and the card's SHAPE hangs off the answer.
         @JavascriptInterface
         fun adSpot(spot: String) {
             val left = spot == "left"
@@ -2079,6 +2086,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
         @JavascriptInterface
+        // takes the mime for symmetry with its two siblings; the document
+        // this one creates is always a JPEG
+        @Suppress("UNUSED_PARAMETER")
         fun saveImageAsk(name: String, mime: String, b64: String) {
             runOnUiThread {
                 try {
@@ -2170,18 +2180,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // the corner card grows out of the download button's corner, and the
-    // button lives top-right in portrait but bottom-left in landscape
+    // the card takes the top-RIGHT upright and the top-LEFT sideways, which
+    // is the corner our own controls have vacated in each orientation
     private fun adLand() = resources.configuration.orientation ==
         android.content.res.Configuration.ORIENTATION_LANDSCAPE
     // a flanking chrome button's width in dp, at the page's own accessibility
     // scale - the card grows until it is about to touch one
-    private fun colW() = ((if (resources.configuration.smallestScreenWidthDp >= 600) 76 else 44) * adUx).toInt()
+    // the portrait pill is two squares, each half the bloomed card tall -
+    // so its WIDTH is half the card too, and no longer follows the button
+    // scale the way a lone 44dp button did
+    private fun colW() = if (resources.configuration.smallestScreenWidthDp >= 600) 80 else 60
     private fun dispRot(): Int =
         previewView.display?.rotation
             ?: @Suppress("DEPRECATION") windowManager.defaultDisplay.rotation
-    // the card opens in whichever corner the page says it left empty: the gap
-    // in the middle of the top row, or the top-left corner
+    // the card opens in whichever corner the page says it left empty: the
+    // top-right upright, the top-left sideways
     private fun adCornerParams(): FrameLayout.LayoutParams {
         val lp = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -2384,7 +2397,6 @@ class MainActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("cam", 0)
         prefs.edit().putInt("attempting",
             if (rawMode) RUNG_RAW else if (capLabel != "") RUNG_EXT else RUNG_PLAIN).apply()
-        val expectRaw = rawMode
         val got = java.util.concurrent.ConcurrentHashMap<String, String>()
         var timer: Runnable? = null
         fun deliver() {

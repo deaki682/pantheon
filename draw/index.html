@@ -469,8 +469,6 @@ html.hc #verNum{color:#ddd}
 #gsdPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:14px 16px 18px;width:min(94vw,440px);max-height:92vh;
   overflow-y:auto;display:flex;flex-direction:column}
-#gsdTitle{text-align:center;font-size:15px;font-weight:600;
-  letter-spacing:.03em;margin:0 0 12px}
 #gsdStage{position:relative}
 #gsdCv{display:block;width:100%;height:auto;background:#141414;
   border-radius:10px;touch-action:none}
@@ -520,7 +518,6 @@ html.hc #verNum{color:#ddd}
 #gsdDoneRow{display:flex;justify-content:flex-end;margin-top:14px}
 #gsdDone{padding:8px 22px;border-radius:999px;border:1px solid var(--acc);
   background:var(--accBg);color:var(--acc);font-size:14px}
-#gsdOpV{color:#8a8781;font-size:13px;font-variant-numeric:tabular-nums}
 #gsdCtrls{display:flex;flex-direction:column;flex:1 1 auto}
 @media (orientation:landscape) and (max-height:720px){
   #gsdPanel{flex-direction:row;align-items:center;gap:18px;
@@ -544,10 +541,11 @@ html.hc #verNum{color:#ddd}
   left:calc(8px + env(safe-area-inset-left));right:auto}
 #setCorner{top:calc(8px + env(safe-area-inset-top))}
 #expCorner{top:calc(8px + var(--adcard)/2 + env(safe-area-inset-top))}
-/* each half is half the pill, and only the pill's outer corners are round -
-   the two that meet in the middle square off against the divider */
-#setBtn{height:calc(44px*var(--ux,1));min-width:calc(44px*var(--ux,1));padding:0;border-radius:12px;
-  display:flex;align-items:center;justify-content:center;overflow:hidden}
+/* THE PILL. The gear and Download are one twice-length button - two squares
+   sharing an edge, gear first. Its GEOMETRY lives in one block further down,
+   by #compareBtn, because both halves and both orientations have to agree on
+   it; what is here is only the gear's own insides. */
+#setBtn{padding:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
 #setBtn svg{flex:none;max-width:22px;opacity:1;transform:none;
   transition:max-width 0.28s ease, opacity 0.16s ease, transform 0.28s ease}
 #setBtn .ttlTxt,#setBtn .markTxt{display:block;color:var(--acc);font-size:calc(14px*var(--ux,1));
@@ -563,9 +561,9 @@ html.hc #verNum{color:#ddd}
   padding:18px;display:flex;flex-direction:column;gap:14px;max-width:92vw;
   max-height:92vh;overflow-y:auto}
 .setLbl{font-size:calc(12px*var(--ux,1));text-transform:uppercase;letter-spacing:0.1em;opacity:0.7}
-#accGrid,#accGrid2{display:grid;grid-template-columns:repeat(5,calc(40px*var(--ux,1)));gap:8px}
-#accGrid button,#accGrid2 button{width:calc(40px*var(--ux,1));height:calc(40px*var(--ux,1));border-radius:10px;border:1px solid #555;padding:0}
-#accGrid button.vOn,#accGrid2 button.vOn{border-width:2px}
+#accGrid{display:grid;grid-template-columns:repeat(5,calc(40px*var(--ux,1)));gap:8px}
+#accGrid button{width:calc(40px*var(--ux,1));height:calc(40px*var(--ux,1));border-radius:10px;border:1px solid #555;padding:0}
+#accGrid button.vOn{border-width:2px}
 /* preferences gear: the upload title row's right corner, mirroring the
    status text on the left */
 #gearBtn{position:absolute;right:8px;top:50%;transform:translateY(-50%);
@@ -591,18 +589,32 @@ html.hc #verNum{color:#ddd}
 #accPal2 button{width:calc(32px*var(--ux,1));height:calc(32px*var(--ux,1));border-radius:50%;padding:0;border:1px solid #555}
 #accPal2 button.vOn{border-color:var(--acc);border-width:2px}
 #setPanel label{display:flex;gap:10px;align-items:center;font-size:calc(14px*var(--ux,1))}
-#expBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:12px;
-  display:flex;align-items:center;justify-content:center}
-/* ...and the two halves of that pill, AFTER the rules that give each button
-   its own size and a full radius: same height, and only the pill's outer
-   corners are round - the two that meet in the middle square off against the
-   hairline between them. */
-#setBtn,#expBtn{height:calc(var(--adcard)/2);width:calc(44px*var(--ux,1))}
-#setBtn{border-radius:12px 12px 0 0;border-bottom:none}
+#expBtn{padding:0;line-height:1;display:flex;align-items:center;justify-content:center}
+/* THE PILL'S GEOMETRY, all of it, in one place.
+   Each half is a SQUARE, so the pill is 2:1. Standing up, its height is fixed
+   by the alignment - half the bloomed ad card, so the pair's bottom edge
+   lands level with the player's - and the WIDTH therefore follows the height
+   rather than the button scale, or the halves come out taller than they are
+   wide. 60 on a phone, 80 on a tablet. Only the pill's OUTER corners are
+   round; the two that meet in the middle square off against the hairline
+   between them, which is drawn once, by the lower half.
+   Two exceptions, both the gear's. Its message states are text, and text sets
+   its own width. And while "True to Life" is up the message takes the WHOLE
+   pill: the gear grows to the full height, closes its rounding back up, and
+   Download stands down underneath - one object becoming one message, rather
+   than a wide tab sitting on a square. The marking tally is deliberately NOT
+   included; that state lasts a whole marking session and Download may not be
+   gone for it. */
+#setBtn,#expBtn{width:calc(var(--adcard)/2);height:calc(var(--adcard)/2)}
+#setBtn{border-radius:12px 12px 0 0;border-bottom:none;
+  transition:height .28s cubic-bezier(.3,0,.2,1), border-radius .28s ease}
 #expBtn{border-radius:0 0 12px 12px}
+#setBtn.ttl,#setBtn.mark{width:auto;min-width:calc(var(--adcard)/2)}
+body.ttlOn #setBtn{height:var(--adcard);border-radius:12px;border-bottom:1px solid #555}
+body.ttlOn #expCorner{opacity:0;pointer-events:none}
 #compareBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
-#widthIn,#heightIn,#cellVal,#cellVal2{width:calc(54px*var(--ux,1));background:#1e1e1e;color:#e8e6e1;
+#widthIn,#heightIn,#cellVal2{width:calc(54px*var(--ux,1));background:#1e1e1e;color:#e8e6e1;
   border:1px solid #555;border-radius:8px;padding:8px;font:inherit}
 #lvBtn,#cmpGridBtn{display:flex;align-items:center;justify-content:center;min-width:44px}
 #cmpRow{justify-content:space-evenly}
@@ -681,8 +693,6 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 #fmtRow button{flex:1;min-height:calc(52px*var(--ux,1));font-size:calc(16px*var(--ux,1));color:var(--acc)}
 .fCtl{display:flex;align-items:center;gap:6px}
 .xSep{opacity:0.6}
-#fmtInfo{padding:6px 8px 4px;margin-left:calc(56px + env(safe-area-inset-left));
-  font-size:12px;opacity:0.75;min-height:20px}
 /* a momentary confirmation pill */
 #toast{position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top));
   transform:translateX(-50%);z-index:30;background:rgba(20,20,20,0.88);
@@ -855,9 +865,13 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     top:auto;bottom:calc(8px + env(safe-area-inset-bottom));translate:none}
   #expCorner{left:calc(8px + 44px*var(--ux,1) + env(safe-area-inset-left));
     right:auto;top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
-  #setBtn,#expBtn{height:calc(44px*var(--ux,1))}
+  #setBtn,#expBtn{height:calc(44px*var(--ux,1));width:calc(44px*var(--ux,1))}
   #setBtn{border-radius:12px 0 0 12px;border-bottom:1px solid #555;border-right:none}
   #expBtn{border-radius:0 12px 12px 0}
+  /* sideways the pill lies down, so the message keeps the height and takes
+     the WIDTH instead - the growing text is already doing that */
+  body.ttlOn #setBtn{height:calc(44px*var(--ux,1));border-radius:12px;
+    border-right:1px solid #555}
   /* Download takes the corner and the circle sits beside it, so Clear has
      somewhere to grow when it appears instead of shoving the circle along */
   #scrCompare #dlWrap{left:calc(8px + env(safe-area-inset-left));right:auto;
@@ -959,7 +973,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v472</span>
+    <span id="verNum">v473</span>
   </div>
 </div>
 <div id="delModal">
@@ -1679,9 +1693,11 @@ function adSync(){
     RealismCam.adPlace(want, bg);
   }catch(e){}
 }
-// the shell says when the card is on screen. It opens in the gap between the
-// Download button and the gear and covers neither, so nothing on the page has
-// to move for it - the class is kept only so a future layout can read it.
+// the shell says when the card is on screen. It rests as a thin banner in the
+// corner our own layout leaves empty - top-right upright, top-left sideways -
+// and blooms to the video height now and then, covering nothing of ours
+// either way, so nothing on the page has to move for it. The class is kept
+// only so a future layout can read it.
 window.__adCorner = on => {
   try{ document.documentElement.classList.toggle('adCorner', !!on); }catch(e){}
 };
@@ -3362,7 +3378,7 @@ function applyAccent(c){
     'rgb('+m((n>>16)&255)+','+m((n>>8)&255)+','+m(n&255)+')');
   try{ localStorage.setItem('accent', c); }catch(e){}
   try{ prefsBump(); }catch(e){}          // straight to the other device
-  for (const gid of ['accGrid','accGrid2','accPal2']){
+  for (const gid of ['accGrid','accPal2']){
     const g=$(gid); if (!g) continue;
     [...g.children].forEach(b=>b.classList.toggle('vOn', b.dataset.c===c));
   }
@@ -3372,14 +3388,11 @@ function applyAccent(c){
 }
 function ttlOn(){ return true; }   // operator direction 2026-09: always stop at life size
 {
-  for (const gid of ['accGrid','accGrid2']){
-    const g=$(gid); if (!g) continue;
-    for (const c of ACCENTS){
-      const b=document.createElement('button');
-      b.style.background=c; b.dataset.c=c; b.title=c;
-      b.onclick=()=>applyAccent(c);
-      g.appendChild(b);
-    }
+  for (const c of ACCENTS){
+    const b=document.createElement('button');
+    b.style.background=c; b.dataset.c=c; b.title=c;
+    b.onclick=()=>applyAccent(c);
+    $('accGrid').appendChild(b);
   }
   // the unified preferences gear - both gear icons open this one panel
   let GEAR_PAL_BUILT=false;
@@ -3433,11 +3446,6 @@ function ttlOn(){ return true; }   // operator direction 2026-09: always stop at
   applyAccent(saved);
   $('ttlChk').checked=ttlOn();
   $('ttlChk').onchange=()=>{ try{ localStorage.setItem('ttlStop', $('ttlChk').checked?'1':'0'); }catch(e){} };
-  if (false){
-    FORM.cv=null; COMP.cv=null; COMP.sig=null;
-    toast($('softChk').checked ? 'following soft edges' : 'classic shading');
-    if (GRID_READY && state.img) viewRepaint();
-  };
   $('bakBtn').onclick=()=>bakExport();
   $('resBtn').onclick=()=>$('bakFile').click();
   $('bakFile').addEventListener('change', e=>{
@@ -3538,8 +3546,11 @@ function ttlPop(){
   if (DONETOOL) return;          // the tally owns the button while marking
   const b=$('setBtn');
   b.classList.add('ttl');
+  document.body.classList.add('ttlOn');   // the pill's other half stands down
   clearTimeout(ttlT);
-  ttlT=setTimeout(()=>b.classList.remove('ttl'), 950);
+  // long enough to be read rather than glimpsed
+  ttlT=setTimeout(()=>{ b.classList.remove('ttl');
+                        document.body.classList.remove('ttlOn'); }, 1400);
 }
 // iOS can leave the page a few px offset after the photo-picker sheet or
 // the keyboard dismisses; the layout is fixed-size, so 0,0 is always right
@@ -4830,10 +4841,6 @@ try{
   else if (localStorage.getItem('unit')==='cm') CELLSZ={v:2,u:'cm'};
 }catch(e){}
 function cellIn(){ return CELLSZ.u==='cm' ? CELLSZ.v/2.54 : CELLSZ.v; }
-function cellLabel(){
-  const n = CELLSZ.v%1 ? (''+CELLSZ.v).replace(/0+$/,'') : ''+CELLSZ.v;
-  return CELLSZ.u==='cm' ? n+' cm' : n+'\u2033';
-}
 function saveCell(){ try{ localStorage.setItem('cellSz', JSON.stringify(CELLSZ)); }catch(e){} }
 function lifeScale(){ return WORLD.w ? 96*PHYS_W_IN/WORLD.w : 1; }
 function gridStepPx(){ return WORLD.w ? WORLD.w*cellIn()/PHYS_W_IN : 96*cellIn(); }

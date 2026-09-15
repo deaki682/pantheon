@@ -148,7 +148,7 @@ extension ViewController: WKScriptMessageHandler {
         } else if message.name == "adProj" {
             ads?.setProj(message.body as? Bool ?? false)
         } else if message.name == "adSpot" {
-            ads?.setSpot(message.body as? String ?? "mid")
+            ads?.setSpot(message.body as? String ?? "right")
         } else if message.name == "adTop" {
             ads?.setTop(message.body as? Bool ?? false)
         } else if message.name == "adAccent", let h = message.body as? String {
