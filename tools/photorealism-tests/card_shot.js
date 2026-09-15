@@ -14,7 +14,14 @@ const W=Number(process.argv[4]||411), H=Number(process.argv[5]||891);
 // indicator's, and the island itself is drawn over the top to scale.
 const ISLAND = process.argv[6] === 'island';
 const CMP = process.argv.includes('compare');
-const SAFE_TOP = ISLAND ? 59 : 0, SAFE_BOT = ISLAND ? 34 : 0;
+// SIDEWAYS THE ISLAND IS ON A SIDE, not the top - iOS reports the inset on
+// the edge the island actually occupies, so a landscape phone has 0 at the
+// top and 59 down the leading side. Standing one on its side and keeping a
+// top inset squeezed the tool column between two insets that are not there.
+const LANDSCAPE = Number(process.argv[4]||411) > Number(process.argv[5]||891);
+const SAFE_TOP  = ISLAND && !LANDSCAPE ? 59 : 0;
+const SAFE_LEFT = ISLAND &&  LANDSCAPE ? 59 : 0;
+const SAFE_BOT  = ISLAND ? (LANDSCAPE ? 21 : 34) : 0;
 
 // --- the same arithmetic as MainActivity.buildCorner --------------------
 const BANNER = process.argv[7] === 'banner';   // the resting state
@@ -38,19 +45,18 @@ const boxH = BANNER ? BANNER_H : (stack ? TALLPH + TALLHDR : playerH);
 
 (async () => {
   const br = await chromium.launch(require('./browser.js'));
-  const ctx = await br.newContext({ viewport:{width:W,height:H}, deviceScaleFactor:2, isMobile:true, hasTouch:true });
+  // iOS constrains the whole web view to the safe-area guide, so the page's
+  // stage IS the screen less the insets - it never lays out under the island
+  // and then gets pushed. Rendering at that size is what the phone does;
+  // nudging elements around a full-size page only approximated it, and on a
+  // short landscape screen it pushed the top of the tool column off the edge.
+  const ctx = await br.newContext({
+    viewport:{width:W-SAFE_LEFT, height:H-SAFE_TOP-SAFE_BOT},
+    deviceScaleFactor:2, isMobile:true, hasTouch:true });
   await ctx.addInitScript(()=>{ localStorage.setItem('intro1','1'); localStorage.setItem('lang','en');
     for (const k of ['tourMain','tourMainC','tourTools','tourFmt','tourCmp']) localStorage.setItem(k,'done'); });
   const pg = await ctx.newPage();
   await pg.goto('http://localhost:8899/index.html',{waitUntil:'domcontentloaded'});
-  // the two chrome buttons are a COLUMN - the gear in the corner, Download
-  // beneath it - so the stand-in has to shift them by the safe area without
-  // flattening them onto one another
-  if (ISLAND) await pg.addStyleTag({content:
-    '#setCorner,#circWrap{top:'+(8+SAFE_TOP)+'px!important}'
-    +'#expCorner,#dlWrap{top:'+(84+SAFE_TOP)+'px!important}'
-    +'#hudWrap,#detCorner,#gridCorner,#underCorner,#camCorner{'
-    +'bottom:'+(8+SAFE_BOT)+'px!important}'});
   await pg.waitForFunction(()=>typeof fmtPreview==='function',null,{timeout:30000});
   await pg.waitForFunction(()=>!document.getElementById('introSplash').classList.contains('on'),null,{timeout:30000});
   await pg.evaluate(async ()=>{
@@ -82,11 +88,11 @@ const boxH = BANNER ? BANNER_H : (stack ? TALLPH + TALLHDR : playerH);
     await new Promise(r=>setTimeout(r,700));
   });
   // the stand-in, at the measured geometry, anchored the way the shell anchors it
-  await pg.evaluate(([boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER,LAND,TALLW,TALLPH,TALLHDR])=>{
+  await pg.evaluate(([boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER,LAND,TALLW,TALLPH,TALLHDR,SAFE_LEFT])=>{
     const d=document.createElement('div');
     const INSET = BANNER ? 8 : 0;
     const R = '14px';
-    d.style.cssText='position:fixed;z-index:40;top:'+(INSET+SAFE_TOP)+'px;'
+    d.style.cssText='position:fixed;z-index:40;top:'+INSET+'px;'
       +(LAND?('left:'+INSET+'px;'):('right:'+INSET+'px;'))
       +'border-radius:'+(BANNER ? R+' '+R+' '+R+' '+R
           : (LAND ? '0 '+R+' '+R+' '+R : R+' 0 '+R+' '+R))+';'
@@ -128,12 +134,21 @@ const boxH = BANNER ? BANNER_H : (stack ? TALLPH + TALLHDR : playerH);
       +'height:22px;border-radius:11px;background:rgba(25,25,25,.9);color:#b9b5ae;'
       +'font:12px system-ui;display:flex;align-items:center;justify-content:center">\u2715</div>';
     document.body.appendChild(d);
-    if (SAFE_TOP){
-      // the island itself, to scale: ~125x36pt, 11pt down, centred
+    if (SAFE_TOP || SAFE_LEFT){
+      // the island itself, to scale: ~125x36pt. Upright it lies across the
+      // top; turned sideways it stands on the leading edge, which is why the
+      // inset moves there with it.
+      // half of it, pressed against the edge it sits beyond: the page's stage
+      // stops where the island starts, so this is the sliver that says which
+      // edge the card is keeping clear of
       const isl=document.createElement('div');
-      isl.style.cssText='position:fixed;z-index:60;top:11px;left:50%;'
-        +'transform:translateX(-50%);width:125px;height:36px;border-radius:18px;'
-        +'background:#000';
+      isl.style.cssText = SAFE_LEFT
+        ? 'position:fixed;z-index:60;left:-18px;top:50%;'
+          +'transform:translateY(-50%);width:36px;height:125px;border-radius:18px;'
+          +'background:#000'
+        : 'position:fixed;z-index:60;top:-18px;left:50%;'
+          +'transform:translateX(-50%);width:125px;height:36px;border-radius:18px;'
+          +'background:#000';
       document.body.appendChild(isl);
       const bar=document.createElement('div');
       bar.style.cssText='position:fixed;z-index:60;left:50%;bottom:8px;'
@@ -141,7 +156,7 @@ const boxH = BANNER ? BANNER_H : (stack ? TALLPH + TALLHDR : playerH);
         +'background:rgba(255,255,255,.75)';
       document.body.appendChild(bar);
     }
-  }, [boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER,LAND,TALLW,TALLPH,TALLHDR]);
+  }, [boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER,LAND,TALLW,TALLPH,TALLHDR,SAFE_LEFT]);
   await pg.waitForTimeout(250);
   const f=OUT+'/card_'+W+'x'+H+'_'+TAG+'.png';
   fs.writeFileSync(f, await pg.screenshot());

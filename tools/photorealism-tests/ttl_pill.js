@@ -7,7 +7,8 @@ const PORT=process.argv[2]||'8899';
 let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad++; };
 (async () => {
   const br = await chromium.launch(require('./browser.js'));
-  for (const dev of [{n:'portrait', w:411, h:891}, {n:'landscape', w:891, h:411}]){
+  for (const dev of [{n:'portrait', w:411, h:891, land:false},
+                     {n:'landscape', w:891, h:411, land:true}]){
     const ctx = await br.newContext({ viewport:{width:dev.w,height:dev.h}, deviceScaleFactor:2, isMobile:true, hasTouch:true });
     await ctx.addInitScript(()=>{ localStorage.setItem('intro1','1'); localStorage.setItem('lang','en');
       for (const k of ['tourMain','tourMainC','tourTools','tourFmt','tourCmp']) localStorage.setItem(k,'done'); });
@@ -60,18 +61,28 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
     console.log(dev.n+'  gear '+r.rest.gear.w+'x'+r.rest.gear.h+' at rest -> '
       +r.up.gear.w+'x'+r.up.gear.h+' with the message ("'+r.up.txt+'")'
       +'   download opacity '+r.rest.dlWrap.op+' -> '+r.up.dlWrap.op);
-    ok(r.up.lines === 3, dev.n+': the message stacks a word to a line ('
-       +r.up.lines+' lines, '+r.up.txtW+'px wide)');
-    ok(r.up.gear.w <= r.rest.gear.w * 2 + 2,
-       dev.n+': and never reaches past the pill\'s own footprint ('
-       +r.up.gear.w+'px over a '+r.rest.gear.w+'px half)');
+    // the stack is an UPRIGHT thing: sideways the screen has width to spare
+    // and no height, so the words stay on one line there
+    if (!dev.land){
+      ok(r.up.lines === 3, dev.n+': the message stacks a word to a line ('
+         +r.up.lines+' lines, '+r.up.txtW+'px wide)');
+      ok(r.up.gear.w <= r.rest.gear.w + 2,
+         dev.n+': and never reaches past the pill\'s own width ('
+         +r.up.gear.w+'px over a '+r.rest.gear.w+'px half)');
+    } else {
+      ok(r.up.lines === 1, dev.n+': the words stay side by side ('
+         +r.up.lines+' line, '+r.up.txtW+'px wide)');
+      ok(r.up.gear.w >= r.rest.gear.w * 2,
+         dev.n+': and the pill grows along the bottom to hold them ('
+         +r.up.gear.w+'px over a '+(r.rest.gear.w*2)+'px pill)');
+    }
     if (dev.n==='portrait')
       ok(Math.abs(r.up.gear.h - r.rest.gear.h*2) <= 2,
          dev.n+': and it takes the WHOLE pill\'s height ('+r.up.gear.h+' vs 2x'+r.rest.gear.h+')');
     else
-      ok(r.up.gear.h > r.rest.gear.h + 10 && r.up.gear.w > r.rest.gear.w + 10,
-         dev.n+': lying down it takes the pill\'s full width and grows UP for the '
-         +'stack ('+r.up.gear.w+'x'+r.up.gear.h+')');
+      ok(r.up.gear.h === r.rest.gear.h,
+         dev.n+': lying down it keeps the pill\'s own height ('
+         +r.up.gear.w+'x'+r.up.gear.h+')');
     ok(r.up.dlWrap.op < 0.05, dev.n+': Download stands down under it ('+r.up.dlWrap.op+')');
     ok(!/0px/.test(r.up.gear.rad), dev.n+': the pill closes its rounding back up ('+r.up.gear.rad+')');
     ok(r.stillUp, dev.n+': it is still up at 1.15s - long enough to read');
