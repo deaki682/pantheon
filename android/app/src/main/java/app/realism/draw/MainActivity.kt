@@ -984,14 +984,25 @@ class MainActivity : AppCompatActivity() {
             gravity = android.view.Gravity.CENTER }
         mediaWrap.clipChildren = true; mediaWrap.clipToPadding = true
         if (tall) card.orientation = android.widget.LinearLayout.VERTICAL
-        card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(playerW), dp(playerH)))
-        adMediaWrap = mediaWrap
+        // Standing up, the badge and headline go ABOVE the player, not below.
+        // The resting banner is a 48dp slice of the card, and with the header
+        // underneath that slice showed a piece of the picture and nothing
+        // else - no "Ad", no headline, which is a required asset and the only
+        // thing that says what the card IS. Above, the banner reads properly
+        // and the bloom opens the player downward out of it.
+        if (!tall)
+            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(playerW), dp(playerH)))
+        // only the LYING-DOWN card grows its player with the card; standing
+        // up, the player keeps its square and the card's own height is what
+        // uncovers it
+        adMediaWrap = if (tall) null else mediaWrap
 
         val col = android.widget.LinearLayout(this)
         col.orientation = android.widget.LinearLayout.VERTICAL
-        col.gravity = if (tall) android.view.Gravity.START
-                      else android.view.Gravity.CENTER_VERTICAL
-        if (tall) col.setPadding(dp(8), dp(5), dp(8), dp(6))
+        col.gravity = android.view.Gravity.CENTER_VERTICAL
+        // standing up, the header shares its line with the collapse pill in
+        // the corner, so it keeps clear of it rather than running underneath
+        if (tall) col.setPadding(dp(8), dp(4), dp(32), dp(4))
         else col.setPadding(dp(gut), dp(6), dp(padR), dp(6))
         col.addView(badge)
         if (tab) {
@@ -1000,7 +1011,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             head.textSize = 11f
         }
-        head.maxLines = if (adExpanded) 3 else 1
+        head.maxLines = if (tall) 2 else if (adExpanded) 3 else 1
         adHeadV = head
         val hlp = android.widget.LinearLayout.LayoutParams(dp(textW),
             android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -1036,10 +1047,12 @@ class MainActivity : AppCompatActivity() {
             col.addView(c, clp2); cta = c
         }
         card.addView(col, if (tall)
-            android.widget.LinearLayout.LayoutParams(dp(playerW + 16), dp(62))
+            android.widget.LinearLayout.LayoutParams(dp(playerW + 16), dp(44))
             else android.widget.LinearLayout.LayoutParams(dp(textW + gut + padR), dp(playerH)))
+        if (tall)
+            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(playerW), dp(playerH)))
         val cw = if (tall) dp(playerW + 16) else dp(playerW + gut + textW + padR)
-        val ch = if (tall) dp(playerH + 62) else dp(playerH)
+        val ch = if (tall) dp(playerH + 44) else dp(playerH)
         adCornerBannerH = dp(AD_BANNER_DP)      // resting: a thin banner
         // fixed at every level so nothing the SDK does inside can widen it
         val CW = cw; val CH = ch

@@ -612,7 +612,7 @@ final class AdController: NSObject {
         let playerW: CGFloat = 120
         let textW = tall ? playerW : min(max(budget - playerW - GUT - PADR, 40), 118)
         let advW = tall ? playerW + 16 : playerW + GUT + textW + PADR
-        let advH = tall ? PH + 62 : PH
+        let advH = tall ? PH + 44 : PH
 
         head.numberOfLines = expanded ? 3 : 1
         headV = head
@@ -628,9 +628,10 @@ final class AdController: NSObject {
             // player keeps its full 120pt square inside it whatever the card
             // is doing - that is what makes it video-eligible - so the resting
             // banner shows the MIDDLE of the creative, not the top of it
-            mediaClip.topAnchor.constraint(equalTo: adv.topAnchor),
-            mediaClip.leadingAnchor.constraint(equalTo: adv.leadingAnchor),
-            mediaClip.widthAnchor.constraint(equalToConstant: tall ? advW : playerW),
+            mediaClip.topAnchor.constraint(equalTo: adv.topAnchor, constant: tall ? 44 : 0),
+            mediaClip.leadingAnchor.constraint(equalTo: adv.leadingAnchor,
+                                               constant: tall ? 8 : 0),
+            mediaClip.widthAnchor.constraint(equalToConstant: playerW),
             media.centerYAnchor.constraint(equalTo: mediaClip.centerYAnchor),
             media.leadingAnchor.constraint(equalTo: mediaClip.leadingAnchor),
             media.widthAnchor.constraint(equalToConstant: playerW),
@@ -639,12 +640,19 @@ final class AdController: NSObject {
             badge.heightAnchor.constraint(equalToConstant: 13),
         ])
         if tall {
+            // standing up, the badge and headline sit ABOVE the player: the
+            // resting banner is a 48pt slice of the card, and with the header
+            // underneath that slice was a piece of the picture and nothing
+            // else - no "Ad", no headline, which is a required asset
+            head.numberOfLines = 2
             NSLayoutConstraint.activate([
                 badge.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 8),
-                badge.topAnchor.constraint(equalTo: mediaClip.bottomAnchor, constant: 5),
-                head.leadingAnchor.constraint(equalTo: badge.leadingAnchor),
-                head.trailingAnchor.constraint(equalTo: adv.trailingAnchor, constant: -8),
-                head.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 4),
+                badge.topAnchor.constraint(equalTo: adv.topAnchor, constant: 8),
+                head.leadingAnchor.constraint(equalTo: badge.trailingAnchor, constant: 5),
+                // the header shares its line with the collapse pill in the
+                // corner, so it stops clear of it rather than running under
+                head.trailingAnchor.constraint(equalTo: adv.trailingAnchor, constant: -32),
+                head.centerYAnchor.constraint(equalTo: badge.centerYAnchor),
             ])
         } else {
             NSLayoutConstraint.activate([
@@ -687,7 +695,7 @@ final class AdController: NSObject {
         // the clip's height is the card's, less whatever stands under it
         mediaClipH?.isActive = false
         mediaClipH = mediaClip.heightAnchor.constraint(
-            equalTo: adv.heightAnchor, constant: tall ? -62 : 0)
+            equalTo: adv.heightAnchor, constant: tall ? -44 : 0)
         mediaClipH?.isActive = true
         cardH = advH
         cornerH = cornerWrap.heightAnchor.constraint(

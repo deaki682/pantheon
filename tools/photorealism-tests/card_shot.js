@@ -30,7 +30,7 @@ const textW = Math.min(Math.max(budget - playerW - gut - padR, 40), textWant);
 const LAND = W > H;   // sideways the card takes the top-LEFT corner and STANDS UP
 const stack = LAND;
 const boxW = stack ? playerW + 16 : playerW + gut + textW + padR;
-const boxH = BANNER ? BANNER_H : (stack ? playerH + 62 : playerH);
+const boxH = BANNER ? BANNER_H : (stack ? playerH + 44 : playerH);
 
 (async () => {
   const br = await chromium.launch(require('./browser.js'));
@@ -87,8 +87,8 @@ const boxH = BANNER ? BANNER_H : (stack ? playerH + 62 : playerH);
       +'box-shadow:0 6px 18px rgba(0,0,0,.55);overflow:hidden;display:flex;'
       +'flex-direction:'+(stack?'column':'row')+';';
     const player =
-      '<div style="width:'+(stack?boxW:playerW)+'px;height:'+(stack?Math.min(playerH,boxH):boxH)+'px;'
-      +'flex:none;position:relative;'
+      '<div style="width:'+playerW+'px;height:'+(stack?playerH:boxH)+'px;'
+      +(stack?'margin:0 8px;':'')+'flex:none;position:relative;'
       +'overflow:hidden">'
       +'<div style="width:'+playerW+'px;height:'+playerH+'px;position:absolute;'
       +'left:0;top:50%;transform:translateY(-50%);'
@@ -103,14 +103,19 @@ const boxH = BANNER ? BANNER_H : (stack ? playerH + 62 : playerH);
     const badge = '<span style="font:9px system-ui;color:#e8833a;border:1px solid #e8833a;'
       +'border-radius:3px;padding:0 3px;align-self:flex-start;flex:none">Ad</span>';
     const words = 'A headline from the auction';
-    d.innerHTML = player
-        + '<div style="padding:'+(stack?'5px 8px 6px 8px':'0 '+padR+'px 0 '+gut+'px')+';'
-        + 'display:flex;flex-direction:column;'
-        + 'justify-content:center;width:'+(stack?(boxW-16):textW)+'px">'+badge
+    const textBlock = stack
+      ? '<div style="padding:0 32px 0 8px;height:44px;display:flex;align-items:center;'
+        + 'gap:5px;width:'+boxW+'px;flex:none">'+badge
+        + '<span style="font:11px system-ui;color:#e8e6e1;line-height:1.2;'
+        + 'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;'
+        + 'overflow:hidden">'+words+'</span></div>'
+      : '<div style="padding:0 '+padR+'px 0 '+gut+'px;display:flex;'
+        + 'flex-direction:column;justify-content:center;width:'+textW+'px">'+badge
         + '<span style="font:11px system-ui;color:#e8e6e1;margin-top:4px;'
         + 'line-height:1.25;display:-webkit-box;-webkit-line-clamp:'+(BANNER?1:3)+';'
         + '-webkit-box-orient:vertical;overflow:hidden">'+words
         + ', three lines at most</span></div>';
+    d.innerHTML = stack ? textBlock + player : player + textBlock;
     d.innerHTML += '<div style="position:absolute;right:5px;top:5px;width:22px;'
       +'height:22px;border-radius:11px;background:rgba(25,25,25,.9);color:#b9b5ae;'
       +'font:12px system-ui;display:flex;align-items:center;justify-content:center">\u2715</div>';
