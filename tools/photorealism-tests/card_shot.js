@@ -13,6 +13,7 @@ const W=Number(process.argv[4]||411), H=Number(process.argv[5]||891);
 // in for it. SAFE_TOP is the island phone's portrait inset, SAFE_BOT the home
 // indicator's, and the island itself is drawn over the top to scale.
 const ISLAND = process.argv[6] === 'island';
+const CMP = process.argv.includes('compare');
 const SAFE_TOP = ISLAND ? 59 : 0, SAFE_BOT = ISLAND ? 34 : 0;
 
 // --- the same arithmetic as MainActivity.buildCorner --------------------
@@ -26,9 +27,10 @@ const flank = 8 + (tab?76:44);
 const budget = W - (flank + FLANK) - 8;
 const playerW = Math.min(Math.max(tab ? budget - gut - padR - textWant : 120, 120), playerMax);
 const textW = Math.min(Math.max(budget - playerW - gut - padR, 40), textWant);
-const boxW = playerW + gut + textW + padR;
-const boxH = BANNER ? BANNER_H : playerH;
-const stack = false;
+const LAND = W > H;   // sideways the card takes the top-LEFT corner and STANDS UP
+const stack = LAND;
+const boxW = stack ? playerW + 16 : playerW + gut + textW + padR;
+const boxH = BANNER ? BANNER_H : (stack ? playerH + 62 : playerH);
 
 (async () => {
   const br = await chromium.launch(require('./browser.js'));
@@ -37,8 +39,12 @@ const stack = false;
     for (const k of ['tourMain','tourMainC','tourTools','tourFmt','tourCmp']) localStorage.setItem(k,'done'); });
   const pg = await ctx.newPage();
   await pg.goto('http://localhost:8899/index.html',{waitUntil:'domcontentloaded'});
+  // the two chrome buttons are a COLUMN - the gear in the corner, Download
+  // beneath it - so the stand-in has to shift them by the safe area without
+  // flattening them onto one another
   if (ISLAND) await pg.addStyleTag({content:
-    '#expCorner,#setCorner{top:'+(8+SAFE_TOP)+'px!important}'
+    '#setCorner,#circWrap{top:'+(8+SAFE_TOP)+'px!important}'
+    +'#expCorner,#dlWrap{top:'+(84+SAFE_TOP)+'px!important}'
     +'#hudWrap,#detCorner,#gridCorner,#underCorner,#camCorner{'
     +'bottom:'+(8+SAFE_BOT)+'px!important}'});
   await pg.waitForFunction(()=>typeof fmtPreview==='function',null,{timeout:30000});
@@ -63,15 +69,26 @@ const stack = false;
     await new Promise(r=>setTimeout(r,700));
     if (typeof __adCorner==='function') __adCorner(true);
   });
+  if (CMP) await pg.evaluate(async ()=>{
+    show('scrCompare');
+    $('circWrap').style.display='flex';
+    $('dlWrap').style.display='block';
+    $('mirRow').style.display=''; $('cmpRow').style.display='';
+    $('circClr').style.display='';
+    await new Promise(r=>setTimeout(r,700));
+  });
   // the stand-in, at the measured geometry, anchored the way the shell anchors it
-  await pg.evaluate(([boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER])=>{
+  await pg.evaluate(([boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER,LAND])=>{
     const d=document.createElement('div');
-    d.style.cssText='position:fixed;z-index:40;top:'+(8+SAFE_TOP)+'px;right:8px;'
+    d.style.cssText='position:fixed;z-index:40;top:'+(8+SAFE_TOP)+'px;'
+      +(LAND?'left:8px;':'right:8px;')
       +'width:'+boxW+'px;height:'+boxH+'px;'
       +'background:#1e1e1e;border:1px solid #555;border-radius:14px;'
-      +'box-shadow:0 6px 18px rgba(0,0,0,.55);overflow:hidden;display:flex';
+      +'box-shadow:0 6px 18px rgba(0,0,0,.55);overflow:hidden;display:flex;'
+      +'flex-direction:'+(stack?'column':'row')+';';
     const player =
-      '<div style="width:'+playerW+'px;height:'+boxH+'px;flex:none;position:relative;'
+      '<div style="width:'+(stack?boxW:playerW)+'px;height:'+(stack?Math.min(playerH,boxH):boxH)+'px;'
+      +'flex:none;position:relative;'
       +'overflow:hidden">'
       +'<div style="width:'+playerW+'px;height:'+playerH+'px;position:absolute;'
       +'left:0;top:50%;transform:translateY(-50%);'
@@ -87,9 +104,9 @@ const stack = false;
       +'border-radius:3px;padding:0 3px;align-self:flex-start;flex:none">Ad</span>';
     const words = 'A headline from the auction';
     d.innerHTML = player
-        + '<div style="padding-left:'+gut+'px;padding-right:'+padR+'px;'
+        + '<div style="padding:'+(stack?'5px 8px 6px 8px':'0 '+padR+'px 0 '+gut+'px')+';'
         + 'display:flex;flex-direction:column;'
-        + 'justify-content:center;width:'+textW+'px">'+badge
+        + 'justify-content:center;width:'+(stack?(boxW-16):textW)+'px">'+badge
         + '<span style="font:11px system-ui;color:#e8e6e1;margin-top:4px;'
         + 'line-height:1.25;display:-webkit-box;-webkit-line-clamp:'+(BANNER?1:3)+';'
         + '-webkit-box-orient:vertical;overflow:hidden">'+words
@@ -111,7 +128,7 @@ const stack = false;
         +'background:rgba(255,255,255,.75)';
       document.body.appendChild(bar);
     }
-  }, [boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER]);
+  }, [boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER,LAND]);
   await pg.waitForTimeout(250);
   const f=OUT+'/card_'+W+'x'+H+'_'+TAG+'.png';
   fs.writeFileSync(f, await pg.screenshot());

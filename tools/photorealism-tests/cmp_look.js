@@ -51,6 +51,10 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
       return { back:b($('backBtn')), circ:b($('circBtn')), dl:b($('dlBtn')),
                row:b($('cmpRow')), mir:b($('mirBtn')), sl:b($('alphaSl')),
                pad:getComputedStyle($('scrCompare')).paddingBottom,
+               order:[...$('cmpRow').querySelectorAll('button')]
+                 .filter(b=>getComputedStyle(b).display!=='none')
+                 .map(b=>({b,o:+getComputedStyle(b).order||0,y:b.getBoundingClientRect().top}))
+                 .sort((a,c)=>a.o-c.o || a.y-c.y).map(x=>x.b.id),
                dir:getComputedStyle($('cmpRow')).flexDirection,
                vw:innerWidth, vh:innerHeight };
     });
@@ -59,25 +63,35 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
                 '   tools '+r.row.x+','+r.row.y+' ('+r.dir+')   padding-bottom '+r.pad);
     ok(!r.back.vis, dev.n+': no back arrow on the comparison screen');
     ok(r.pad==='0px', dev.n+': it reserves nothing for a strip');
-    ok(r.circ.x < 40, dev.n+': the red circle holds the top-left corner');
-    ok(r.circ.y < 40, dev.n+': and it is at the TOP, not the middle');
-    ok(r.dl.x < 40, dev.n+': Download is on the left edge too');
-    ok(Math.abs(r.circ.x - r.dl.x) < 2, dev.n+': the two line up in a column');
-    ok(r.dl.y > r.circ.y + r.circ.h - 1, dev.n+': Download sits BENEATH the circle');
-    ok(r.dl.y - (r.circ.y + r.circ.h) < 14,
-       dev.n+': and directly beneath it ('+(r.dl.y-(r.circ.y+r.circ.h))+'px)');
     if (!dev.land){
-      ok(r.vh - r.row.b <= 10, dev.n+': the bottom row is 8px off the edge ('
-         +(r.vh-r.row.b)+'px)');
+      ok(r.circ.x < 40 && r.dl.x < 40, dev.n+': circle and Download are on the LEFT edge');
+      ok(Math.abs(r.circ.x - r.dl.x) < 2, dev.n+': and they line up in a column');
+      ok(r.circ.y < 40, dev.n+': the circle holds the top-left corner');
+      ok(r.dl.y > r.circ.y + r.circ.h - 1, dev.n+': Download sits BENEATH the circle');
+      ok(r.dl.y - (r.circ.y + r.circ.h) < 40,
+         dev.n+': with air between them ('+(r.dl.y-(r.circ.y+r.circ.h))+'px)');
+      ok(r.vh - r.row.b <= 10, dev.n+': the bottom row is 8px off the edge');
     } else {
+      // sideways: Download takes the bottom-left corner, the circle beside it
+      ok(r.vh - (r.dl.y + r.dl.h) <= 12 && r.vh - (r.circ.y + r.circ.h) <= 12,
+         dev.n+': both controls are along the BOTTOM');
+      ok(r.dl.x < 40, dev.n+': Download takes the bottom-left corner');
+      ok(r.circ.x > r.dl.x + r.dl.w - 1, dev.n+': the circle sits BESIDE it');
+      ok(r.dl.y > 120, dev.n+': the top-left corner is left to the card');
+      // the tools spread over the WHOLE right edge, in working order
       ok(r.dir==='column', dev.n+': the tools stand in a column');
-      ok(r.vw - r.row.r <= 12, dev.n+': the tools hug the right edge ('
-         +(r.vw-r.row.r)+'px)');
-      ok(r.sl.r < r.row.x, dev.n+': the see-through slider is LEFT of the tools');
-      ok(r.mir.r <= r.sl.x + 2, dev.n+': the mirror button is LEFT of the slider');
-      ok(r.sl.h > r.sl.w, dev.n+': the slider stands on end ('+r.sl.w+'x'+r.sl.h+')');
-      // the banner's corner has to stay clear of the tool column's top
-      ok(r.row.y > 80, dev.n+': the top-right corner is clear for the banner');
+      ok(r.vw - r.row.r <= 12, dev.n+': the tools hug the right edge');
+      ok(r.row.y <= 12 && r.vh - r.row.b <= 12,
+         dev.n+': and are spread over its full height ('+r.row.y+' to '+r.row.b+' of '+r.vh+')');
+      ok(r.order.join(' ')==='cmpGridBtn cmpSplit cmpFlip cmpReCrop lvBtn',
+         dev.n+': grid, compare, flip, crop, adjust - top to bottom ('+r.order.join(' ')+')');
+      // the slider lies FLAT along the bottom, a third as long, mirror above
+      ok(r.sl.w > r.sl.h, dev.n+': the see-through slider lies flat');
+      ok(r.sl.w < r.vw*0.42, dev.n+': and is about a third as long ('
+         +Math.round(100*r.sl.w/r.vw)+'% of the width)');
+      ok(r.vh - r.sl.b < 40, dev.n+': along the bottom');
+      ok(r.mir.b <= r.sl.y + 2, dev.n+': with the mirror button ABOVE it');
+      ok(r.sl.x > r.circ.r && r.sl.r < r.row.x, dev.n+': clear of both the controls and the tools');
     }
     // back steps to the drawing screen, arrow or no arrow
     const stepped = await pg.evaluate(async ()=>{

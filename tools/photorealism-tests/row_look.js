@@ -63,17 +63,25 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
     else
       ok(r.vw - r.hudR <= 10, dev.n+': the tools are 8px off the right edge ('
          +(r.vw-r.hudR)+'px)');
-    ok(r.gear.x < 40, dev.n+': the gear holds the top-left corner');
-    ok(r.dl.x < 40, dev.n+': Download is on the left edge too');
-    ok(Math.abs(r.gear.x - r.dl.x) < 2, dev.n+': the two line up in a column');
-    ok(r.dl.y > r.gear.y + r.gear.h - 1,
-       dev.n+': Download sits BENEATH the gear, not beside it');
-    ok(r.dl.y - (r.gear.y + r.gear.h) < 14,
-       dev.n+': and directly beneath it ('+Math.round(r.dl.y-(r.gear.y+r.gear.h))+'px)');
-    // the whole right-hand side is the ad's: nothing of ours within a
-    // fingertip of where the banner lives
-    ok(r.vw - (r.gear.x + r.gear.w) > 200,
-       dev.n+': the top-right is clear for the banner');
+    if (!dev.land){
+      // upright: a column in the top-left, the card top-RIGHT
+      ok(r.gear.x < 40 && r.dl.x < 40, dev.n+': both controls are on the LEFT edge');
+      ok(Math.abs(r.gear.x - r.dl.x) < 2, dev.n+': and they line up in a column');
+      ok(r.gear.y < 40, dev.n+': the gear holds the top-left corner');
+      ok(r.dl.y > r.gear.y + r.gear.h - 1, dev.n+': Download sits BENEATH the gear');
+      ok(r.dl.y - (r.gear.y + r.gear.h) < 40,
+         dev.n+': with air between them ('+Math.round(r.dl.y-(r.gear.y+r.gear.h))+'px)');
+      ok(r.vw - (r.gear.x + r.gear.w) > 200, dev.n+': the top-RIGHT is clear for the card');
+    } else {
+      // sideways: the card stands up in the top-LEFT, so the pair sit side by
+      // side in the BOTTOM-left, out from under it
+      ok(r.vh - (r.gear.y + r.gear.h) <= 12 && r.vh - (r.dl.y + r.dl.h) <= 12,
+         dev.n+': both controls are along the BOTTOM');
+      ok(Math.abs(r.gear.y - r.dl.y) < 2, dev.n+': and side by side on one line');
+      ok(r.gear.x < 40, dev.n+': the gear takes the bottom-left corner');
+      ok(r.dl.x > r.gear.x + r.gear.w - 1, dev.n+': Download sits BESIDE it');
+      ok(r.gear.y > 120, dev.n+': the top-left corner is left to the card');
+    }
     // the card opens in the gap and covers neither button, so nothing on the
     // page has to move for it
     const held = await pg.evaluate(async ()=>{

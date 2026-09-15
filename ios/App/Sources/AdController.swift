@@ -32,6 +32,7 @@ final class AdController: NSObject {
     private var expanded = false                    // bloomed, not resting
     private var cardH: CGFloat = 120                // the bloomed height
     private var headV: UILabel?
+    private var mediaClipH: NSLayoutConstraint?
     private let AD_OFF_S: TimeInterval = 240
     private var loader: AdLoader?
     private var nativeAd: NativeAd?
@@ -603,10 +604,15 @@ final class AdController: NSObject {
         let screenW = host?.view.bounds.width ?? 390
         // top-right corner: only the LEFT column has to be cleared
         let budget = screenW - (FLANKW + FLANK) - 8
+        // SIDEWAYS THE CARD STANDS UP: there is no room beside a wide card on
+        // a short screen, so the headline goes UNDER the player and the card
+        // is taller than it is wide. Upright it lies down, where the width
+        // across the top is free and the height is not.
+        let tall = spotLeft
         let playerW: CGFloat = 120
-        let textW = min(max(budget - playerW - GUT - PADR, 40), 118)
-        let advW = playerW + GUT + textW + PADR
-        let advH = PH
+        let textW = tall ? playerW : min(max(budget - playerW - GUT - PADR, 40), 118)
+        let advW = tall ? playerW + 16 : playerW + GUT + textW + PADR
+        let advH = tall ? PH + 62 : PH
 
         head.numberOfLines = expanded ? 3 : 1
         headV = head
@@ -623,9 +629,8 @@ final class AdController: NSObject {
             // is doing - that is what makes it video-eligible - so the resting
             // banner shows the MIDDLE of the creative, not the top of it
             mediaClip.topAnchor.constraint(equalTo: adv.topAnchor),
-            mediaClip.bottomAnchor.constraint(equalTo: adv.bottomAnchor),
             mediaClip.leadingAnchor.constraint(equalTo: adv.leadingAnchor),
-            mediaClip.widthAnchor.constraint(equalToConstant: playerW),
+            mediaClip.widthAnchor.constraint(equalToConstant: tall ? advW : playerW),
             media.centerYAnchor.constraint(equalTo: mediaClip.centerYAnchor),
             media.leadingAnchor.constraint(equalTo: mediaClip.leadingAnchor),
             media.widthAnchor.constraint(equalToConstant: playerW),
@@ -633,14 +638,24 @@ final class AdController: NSObject {
             badge.widthAnchor.constraint(equalToConstant: 22),
             badge.heightAnchor.constraint(equalToConstant: 13),
         ])
-        NSLayoutConstraint.activate([
-            badge.leadingAnchor.constraint(equalTo: mediaClip.trailingAnchor, constant: GUT),
-            head.leadingAnchor.constraint(equalTo: badge.leadingAnchor),
-            head.widthAnchor.constraint(equalToConstant: textW),
-            head.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 4),
-            // badge + headline ride as one block, centred on the player
-            badge.topAnchor.constraint(equalTo: adv.topAnchor, constant: 26),
-        ])
+        if tall {
+            NSLayoutConstraint.activate([
+                badge.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 8),
+                badge.topAnchor.constraint(equalTo: mediaClip.bottomAnchor, constant: 5),
+                head.leadingAnchor.constraint(equalTo: badge.leadingAnchor),
+                head.trailingAnchor.constraint(equalTo: adv.trailingAnchor, constant: -8),
+                head.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 4),
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                badge.leadingAnchor.constraint(equalTo: mediaClip.trailingAnchor, constant: GUT),
+                head.leadingAnchor.constraint(equalTo: badge.leadingAnchor),
+                head.widthAnchor.constraint(equalToConstant: textW),
+                head.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 4),
+                // badge + headline ride as one block, centred on the player
+                badge.topAnchor.constraint(equalTo: adv.topAnchor, constant: 26),
+            ])
+        }
         adv.mediaView = media
         adv.headlineView = head
         adv.nativeAd = ad
@@ -669,6 +684,11 @@ final class AdController: NSObject {
         cornerWrap.addSubview(close)
         cornerW?.isActive = false; cornerH?.isActive = false
         cornerW = cornerWrap.widthAnchor.constraint(equalToConstant: advW)
+        // the clip's height is the card's, less whatever stands under it
+        mediaClipH?.isActive = false
+        mediaClipH = mediaClip.heightAnchor.constraint(
+            equalTo: adv.heightAnchor, constant: tall ? -62 : 0)
+        mediaClipH?.isActive = true
         cardH = advH
         cornerH = cornerWrap.heightAnchor.constraint(
             equalToConstant: expanded ? advH : AD_BANNER_H)

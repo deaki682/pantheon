@@ -16,7 +16,7 @@
 <style>
 /* minimal by instruction: purely functional, no stylistic embellishment */
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--acc:#e8833a;--accBg:#3b2a1b}
+:root{--acc:#e8833a;--accBg:#3b2a1b;--adcard:120px}
 html{color-scheme:dark;accent-color:var(--acc)}
 input[type=range]{-webkit-appearance:none;appearance:none;height:28px;
   background:transparent;touch-action:none}
@@ -240,7 +240,8 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
   display:flex;align-items:center;justify-content:center}
 #dlWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
   right:auto;z-index:7;display:none;
-  top:calc(16px + 44px*var(--ux,1) + env(safe-area-inset-top))}
+  top:calc(env(safe-area-inset-top) + max(24px + 44px*var(--ux,1),
+                                          8px + var(--adcard) - 44px*var(--ux,1)))}
 #dlBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 .redDot{width:17px;height:17px;border-radius:50%;border:2.5px solid #e03c3c;display:block}
@@ -539,9 +540,14 @@ html.hc #verNum{color:#ddd}
    first and only then steps up a screen. */
 #setCorner{position:absolute;left:calc(8px + env(safe-area-inset-left));
   right:auto;top:calc(8px + env(safe-area-inset-top));z-index:5}
+/* Download's BOTTOM edge lines up with the bloomed player's bottom edge: the
+   card starts 8px down and is --adcard tall, so the button's top is that less
+   its own height. At a large accessibility scale the buttons grow until that
+   would collide with the gear, so the max() falls back to a plain gap. */
 #expCorner{position:absolute;left:calc(8px + env(safe-area-inset-left));
   right:auto;z-index:5;
-  top:calc(16px + 44px*var(--ux,1) + env(safe-area-inset-top))}
+  top:calc(env(safe-area-inset-top) + max(24px + 44px*var(--ux,1),
+                                          8px + var(--adcard) - 44px*var(--ux,1)))}
 #setBtn{height:calc(44px*var(--ux,1));min-width:calc(44px*var(--ux,1));padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center;overflow:hidden}
 #setBtn svg{flex:none;max-width:22px;opacity:1;transform:none;
@@ -748,6 +754,10 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
    multiplier so the whole UI keeps one density */
 @media (min-width:600px) and (min-height:600px){
   html{--tb:1.727}
+  /* :root beats a bare html on specificity whatever the order, so the
+     tablet's taller card has to be declared the same way or the column
+     lines itself up against the phone's 120px */
+  :root{--adcard:160px}
   body{font-size:calc(14px*var(--ux))}
   #backBtn,#hudToggle,#detBtn,#underBtn,#gridBtn,#compareBtn,#expBtn,
   #setBtn,#gmDesign,#gmDesign2,#gmDesign3,#circBtn,#dlBtn{
@@ -826,39 +836,56 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   body.uiHid #detCorner,body.uiHid #gridCorner,
   body.uiHid #underCorner{transform:translate(160%,-50%)}
 
-  /* ---- the comparison screen, turned on its side ---------------------
-     The tools stand down the RIGHT edge (Flip, Compare, Crop, Grid,
-     Re-crop, Adjust) and their panel opens INWARD, toward the picture.
-     Left of them the see-through slider stands on end, and left of that
-     the mirror button. The LEFT edge carries the three things that are
-     not tools: the video card at the top, the error circle in the middle
-     and Download at the bottom. No back arrow - the system back and the
-     edge swipe both step to the drawing screen, which is where the
-     arrow went. */
+  /* ---- SIDEWAYS ---------------------------------------------------
+     The ad takes the TOP-LEFT corner, so everything of ours moves down the
+     left edge beneath it: the screen's own control in the middle, Download at
+     the bottom. On the comparison screen the tools run down the RIGHT edge
+     spread over its whole height, the see-through slider lies along the
+     BOTTOM with the mirror button above it, and the adjust panel opens
+     inward, toward the picture. No back arrow - the system back and the edge
+     swipe both step where the arrow went. */
+  /* the pair sit side by side in the bottom-left, out from under the card */
+  #setCorner{left:calc(8px + env(safe-area-inset-left));right:auto;
+    top:auto;bottom:calc(8px + env(safe-area-inset-bottom));translate:none}
+  #expCorner{left:calc(16px + 44px*var(--ux,1) + env(safe-area-inset-left));
+    right:auto;top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
+  /* Download takes the corner and the circle sits beside it, so Clear has
+     somewhere to grow when it appears instead of shoving the circle along */
+  #scrCompare #dlWrap{left:calc(8px + env(safe-area-inset-left));right:auto;
+    top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
+  #scrCompare #circWrap{left:calc(16px + 44px*var(--ux,1) + env(safe-area-inset-left));
+    right:auto;top:auto;bottom:calc(8px + env(safe-area-inset-bottom));
+    translate:none;transform:none;flex-direction:row-reverse}
+  /* the tools, evenly spread over the right edge rather than bunched */
   #scrCompare #cmpRow{position:absolute;z-index:7;
-    right:calc(8px + env(safe-area-inset-right));top:50%;translate:0 -50%;
+    right:calc(8px + env(safe-area-inset-right));
+    top:calc(8px + env(safe-area-inset-top));
+    bottom:calc(8px + env(safe-area-inset-bottom));
     flex-direction:column;flex-wrap:nowrap;width:max-content;
-    max-width:40vw;padding:0;gap:8px;justify-content:center;align-items:stretch}
-  /* the column is as wide as its widest LABEL - a flat 44px clipped "Compare"
-     straight off the edge of the screen, and it is a different word in every
-     language */
+    max-width:40vw;padding:0;gap:0;justify-content:space-evenly;
+    align-items:stretch}
+  /* the column is as wide as its widest LABEL - a flat 44px clipped
+     "Compare" straight off the edge of the screen, and it is a different
+     word in every language */
   #scrCompare #cmpRow button{width:100%;min-width:calc(44px*var(--ux,1));
     padding:0 10px;white-space:nowrap}
-  /* the mirror button and the see-through slider, standing on end, to the
-     LEFT of the tool column */
+  /* top to bottom: grid, compare, flip, crop, adjust - the order the work
+     actually goes in, which is not the order the markup happens to be in */
+  #scrCompare #cmpGridBtn{order:1}
+  #scrCompare #cmpSplit{order:2}
+  #scrCompare #cmpFlip{order:3}
+  #scrCompare #cmpReCrop{order:4}
+  #scrCompare #cmpCrop{order:4}
+  #scrCompare #lvBtn{order:5}
+  /* the slider lies flat along the bottom with the mirror button above it,
+     about a third of the width and centred, clear of both edges */
   #scrCompare #mirRow{position:absolute;z-index:7;padding:0;
-    right:calc(20px + var(--cmpCol,88px) + env(safe-area-inset-right));
-    top:50%;translate:0 -50%;
-    display:flex;flex-direction:row;align-items:center;gap:10px;width:auto}
-  #scrCompare #mirRow .row{padding:0;width:auto;flex-wrap:nowrap}
-  /* the slider is ROTATED rather than re-styled: the track and thumb are
-     custom-drawn and a vertical appearance loses both. A transform is
-     visual only, so the wrapper holds the 28px lane and the input paints
-     (and takes its drags) along it. */
-  #scrCompare #mirRow .row:last-child{width:28px;height:min(46vh,260px);
-    display:flex;align-items:center;justify-content:center;overflow:visible}
-  #scrCompare #alphaSl{transform:rotate(-90deg);flex:none;
-    width:min(46vh,260px);min-width:0}
+    left:50%;right:auto;translate:-50% 0;width:min(34vw,340px);
+    top:auto;bottom:calc(8px + env(safe-area-inset-bottom));
+    display:flex;flex-direction:column;align-items:stretch;gap:6px}
+  #scrCompare #mirRow .row{padding:0;width:100%;flex-wrap:nowrap;
+    justify-content:center}
+  #scrCompare #alphaSl{transform:none;flex:1 1 auto;width:auto;min-width:80px}
   /* the adjust panel opens inward, clear of the tool column */
   #scrCompare #lvRow{position:absolute;z-index:7;
     right:calc(16px + var(--cmpCol,88px) + env(safe-area-inset-right));
@@ -866,9 +893,6 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     bottom:calc(8px + env(safe-area-inset-bottom));
     width:min(380px,52vw);overflow-y:auto;background:#1e1e1e;
     border:1px solid #555;border-radius:14px;padding:8px}
-  /* the circle-then-Download column is the same sideways, so nothing to
-     say here: it stays in the top-left and the ad stays in the top-right,
-     above the tool column, which is centred and leaves that corner free */
 }
 @media (orientation:landscape) and (prefers-reduced-motion: no-preference){
   #gridMenu{animation:menuIn 160ms var(--motE)}
@@ -926,7 +950,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v464</span>
+    <span id="verNum">v468</span>
   </div>
 </div>
 <div id="delModal">
@@ -1628,10 +1652,13 @@ function adSync(){
     // correctly if a strip is ever raised again.
     const canvas = !!(on && (on.id==='scrMain' || on.id==='scrCompare'));
     RealismCam.adPlace(false, bg);
-    // Both canvas screens now stack their two controls down the LEFT edge, so
-    // the ad has the top-RIGHT corner to itself on every screen and in either
-    // orientation - it never has to be near a button. (adSpot stays wired for
-    // a layout that wants it elsewhere; the page no longer asks.)
+    // WHERE the card sits is the page's call, because the page knows which
+    // corner its own layout left empty. Upright, both controls stack down the
+    // LEFT edge and the card takes the top-RIGHT. Sideways there is no room
+    // for a column beside a landscape card, so the card takes the top-LEFT
+    // corner and our controls move down the left edge beneath it.
+    const land = matchMedia('(orientation: landscape)').matches;
+    if (RealismCam.adSpot) RealismCam.adSpot(land ? 'left' : 'right');
     if (RealismCam.adProj) RealismCam.adProj(!cam && !splash && canvas);
   }catch(e){}
 }
@@ -6526,7 +6553,23 @@ function viewSrc(){
   }
   return state.img ? compositeCv() : base;
 }
-function viewRepaint(){ paintWorld(); }
+function viewRepaint(){
+  paintWorld();
+  // The lattice's colour is BAKED from whatever is underneath it - the
+  // reference, the layers, the underpainting - so the moment that changes the
+  // bake is stale. This only repainted the PICTURE and left the grid alone,
+  // and applyGrid() below it just toggles visibility, so tapping through the
+  // underpainting left the grid coloured for the ground before: on blank
+  // paper half the lines came out white on white and the other half sat in a
+  // black patch where the photograph used to be dark. It only corrected
+  // itself when the artist happened to pan or zoom.
+  // (In black and white with the inverting blend the stale bake still looked
+  // right, which is why this hid for so long - the blend re-decides every
+  // frame, and only the punch path bakes the decision into the canvas.)
+  // drawGrid's own signature guard - which reads the composite, the detail
+  // level, UNDER, UGROUND and UCOL - makes this free when nothing moved.
+  try{ drawGrid(); }catch(e){}
+}
 const canvasBlob=(c,type,q)=>{
   // synchronous encode everywhere: a toBlob callback can starve for seconds
   // behind heavy work, return null in some engines, and a navigation before

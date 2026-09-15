@@ -964,9 +964,17 @@ class MainActivity : AppCompatActivity() {
         val screenDp = (resources.displayMetrics.widthPixels / d).toInt()
         val flank = 8 + colW()
         val budget = screenDp - (flank + AD_FLANK) - 8
-        val playerW = (if (tab) budget - gut - padR - textWant else 120)
-            .coerceIn(120, playerMax)
-        val textW = (budget - playerW - gut - padR).coerceIn(40, textWant)
+        // SIDEWAYS THE CARD STANDS UP. There is no room beside a wide card on
+        // a short screen, and the corner it lives in is the one our own
+        // controls have vacated - so the headline goes UNDER the player and
+        // the card is taller than it is wide. Upright it lies down, where the
+        // width across the top is free and the height is not.
+        val tall = adSpotLeft
+        val playerW = if (tall) 120
+            else (if (tab) budget - gut - padR - textWant else 120)
+                .coerceIn(120, playerMax)
+        val textW = if (tall) 120
+            else (budget - playerW - gut - padR).coerceIn(40, textWant)
         // the player keeps its full 120dp square whatever the card is doing -
         // that is what makes the card video-eligible at all - and the wrapper
         // CLIPS it, centred, so the thin banner shows the middle of the
@@ -975,13 +983,16 @@ class MainActivity : AppCompatActivity() {
             width = dp(playerW); height = dp(playerH)
             gravity = android.view.Gravity.CENTER }
         mediaWrap.clipChildren = true; mediaWrap.clipToPadding = true
+        if (tall) card.orientation = android.widget.LinearLayout.VERTICAL
         card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(playerW), dp(playerH)))
         adMediaWrap = mediaWrap
 
         val col = android.widget.LinearLayout(this)
         col.orientation = android.widget.LinearLayout.VERTICAL
-        col.gravity = android.view.Gravity.CENTER_VERTICAL
-        col.setPadding(dp(gut), dp(6), dp(padR), dp(6))
+        col.gravity = if (tall) android.view.Gravity.START
+                      else android.view.Gravity.CENTER_VERTICAL
+        if (tall) col.setPadding(dp(8), dp(5), dp(8), dp(6))
+        else col.setPadding(dp(gut), dp(6), dp(padR), dp(6))
         col.addView(badge)
         if (tab) {
             head.setTextColor(0xFFF2F0EB.toInt()); head.textSize = 13.5f; head.maxLines = 2
@@ -1024,10 +1035,11 @@ class MainActivity : AppCompatActivity() {
             clp2.topMargin = dp(6)
             col.addView(c, clp2); cta = c
         }
-        card.addView(col, android.widget.LinearLayout.LayoutParams(
-            dp(textW + gut + padR), dp(playerH)))
-        val cw = dp(playerW + gut + textW + padR)
-        val ch = dp(playerH)                    // bloomed: the video minimum
+        card.addView(col, if (tall)
+            android.widget.LinearLayout.LayoutParams(dp(playerW + 16), dp(62))
+            else android.widget.LinearLayout.LayoutParams(dp(textW + gut + padR), dp(playerH)))
+        val cw = if (tall) dp(playerW + 16) else dp(playerW + gut + textW + padR)
+        val ch = if (tall) dp(playerH + 62) else dp(playerH)
         adCornerBannerH = dp(AD_BANNER_DP)      // resting: a thin banner
         // fixed at every level so nothing the SDK does inside can widen it
         val CW = cw; val CH = ch
