@@ -1705,6 +1705,17 @@ class MainActivity : AppCompatActivity() {
         fun shadowLoadMeta(): String = shadowBestMeta()
         // rolling diagnostics journal: every launch and storage event lands
         // here so the NEXT incident carries evidence instead of anecdote
+        // A full-screen ad in front of a download. The page asks, waits for
+        // __adDone, and only then writes the file - so a save dialog can
+        // never open behind an interstitial. Returning FALSE means nothing
+        // was shown and the page should go straight through, which is what
+        // happens until an interstitial unit is configured here: the
+        // contract is wired, the ad is not armed.
+        @JavascriptInterface
+        fun showInterstitial(tag: String): Boolean {
+            logLine("interstitial asked for: " + tag + " (none configured)")
+            return false
+        }
         @JavascriptInterface
         fun adScreen(onProject: Boolean) {
             runOnUiThread { adWanted = onProject; applyAd() }

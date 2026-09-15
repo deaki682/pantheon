@@ -95,7 +95,11 @@ body.colorRef #layerCol .vBtn{padding:8px 11px;font-size:calc(13px*var(--ux,1))}
 .row{display:flex;gap:8px;align-items:center;padding:8px;flex-wrap:wrap}
 .grow{flex:1}
 /* screen 2: format preview */
-#fmtPrev{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+/* the preview used to centre in whatever was left above the form, which
+   put the whole screen's weight at the top. It sits lower now, and the
+   room the ad strip used to take on this screen went to it. */
+#fmtPrev{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;padding-top:7vh;box-sizing:border-box}
 #fmtCanvas{max-width:100%;max-height:100%}
 /* screen 3: main view */
 #viewport{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
@@ -342,13 +346,13 @@ html.adOn #introModal,html.adOn #gearModal,html.adOn #a11yModal,
 html.adOn #accModal,html.adOn #shModal,html.adOn #gridModal,
 html.adOn #setModal,html.adOn #refModal,html.adOn #dlModal,
 html.adOn #arModal,html.adOn #modeModal,html.adOn #delModal,
-html.adOn #gsdModal,html.adOn #dgModal,html.adOn #dlwModal{
+html.adOn #gsdModal,html.adOn #dgModal,html.adOn #dlwModal,html.adOn #dloModal{
   padding-bottom:var(--adclear);
   box-sizing:border-box}
 /* and whatever the text does - translation, a large system font - the panel
    scrolls inside what is left rather than growing off the screen */
 #introPanel,#gearPanel,#a11yPanel,#accPanel,#shPanel,#gridPanel,#setPanel,
-#refPanel,#dlPanel,#arPanel,#modePanel,#delPanel,#gsdPanel,#dgPanel,#dlwPanel{
+#refPanel,#dlPanel,#arPanel,#modePanel,#delPanel,#gsdPanel,#dgPanel,#dlwPanel,#dloPanel{
   max-height:calc(100% - 20px);overflow-y:auto}
 /* five of those panels set max-height:92vh further down, at the same
    specificity, so they won and overflowed past the ad in BOTH directions -
@@ -756,6 +760,34 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 #refPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:18px 24px;display:flex;flex-direction:column;gap:10px;min-width:200px}
 #refPanel button{min-height:calc(44px*var(--ux,1));border-radius:10px}
+#dloModal{position:fixed;inset:0;z-index:26;display:none;
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.62)}
+#dloPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
+  padding:18px 22px;display:flex;flex-direction:column;gap:10px;
+  min-width:min(300px,86vw);max-width:86vw}
+#dloPanel button{min-height:calc(46px*var(--ux,1));border-radius:10px;
+  font-size:calc(15px*var(--ux,1))}
+#dloPanel .setLbl{text-align:center;margin-bottom:2px}
+#dloNote{font-size:11px;line-height:1.4;color:#8a8a8a;text-align:center;margin-top:2px}
+.dloRow{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:12px;
+  background:#181818;border:1px solid #3a3a3a;min-height:calc(56px*var(--ux,1))}
+.dloThumb{width:calc(46px*var(--ux,1));height:calc(46px*var(--ux,1));border-radius:8px;
+  background:#242424;flex:0 0 auto;object-fit:cover}
+.dloName{flex:1;font-size:calc(13px*var(--ux,1));line-height:1.25;text-align:left}
+.dloRow button{min-height:calc(38px*var(--ux,1));border-radius:9px;padding:0 14px;
+  font-size:calc(13px*var(--ux,1));color:var(--acc);flex:0 0 auto}
+.dloRow button[disabled]{opacity:.35}
+/* one ring a picture, so four things are visibly in flight rather than one
+   bar standing in for all of them */
+.dloSpin{width:calc(22px*var(--ux,1));height:calc(22px*var(--ux,1));flex:0 0 auto;
+  border-radius:50%;border:2px solid #3f3f3f;border-top-color:var(--acc);
+  animation:dloTurn 900ms linear infinite}
+.dloRow.waiting .dloSpin{animation:none;border-top-color:#3f3f3f;opacity:.5}
+.dloRow.ready .dloSpin{display:none}
+.dloRow.ready{border-color:#4a4a4a}
+.dloRow:not(.ready) button{display:none}
+@keyframes dloTurn{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){ .dloSpin{animation:none} }
 /* tutorial tips: a floating bubble, the app fully usable beneath it.
    Info tips close on their x; button tips illuminate the target and stay
    until it is pressed. */
@@ -925,7 +957,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v451</span>
+    <span id="verNum">v452</span>
   </div>
 </div>
 <div id="delModal">
@@ -985,8 +1017,40 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   <div id="refPanel">
     <button id="rmDup">Duplicate</button>
     <button id="rmGrid">Edit</button>
+    <button id="rmDl">Download</button>
     <button id="rmDel" style="color:#e05252">Delete</button>
     <button id="rmX">Cancel</button>
+  </div>
+</div>
+<div id="dloModal">
+  <div id="dloPanel">
+    <span class="setLbl">Download Options</span>
+    <div class="dloRow waiting" id="dloRow0">
+      <canvas class="dloThumb" id="dloTh0"></canvas>
+      <span class="dloName" id="dloNm0">Shading</span>
+      <div class="dloSpin"></div>
+      <button id="dlo0">Download</button>
+    </div>
+    <div class="dloRow waiting" id="dloRow1">
+      <canvas class="dloThumb" id="dloTh1"></canvas>
+      <span class="dloName" id="dloNm1">Shading + Darks</span>
+      <div class="dloSpin"></div>
+      <button id="dlo1">Download</button>
+    </div>
+    <div class="dloRow waiting" id="dloRow2">
+      <canvas class="dloThumb" id="dloTh2"></canvas>
+      <span class="dloName" id="dloNm2">Shading + Darks + Lights</span>
+      <div class="dloSpin"></div>
+      <button id="dlo2">Download</button>
+    </div>
+    <div class="dloRow waiting" id="dloRow3">
+      <canvas class="dloThumb" id="dloTh3"></canvas>
+      <span class="dloName" id="dloNm3">Full reference</span>
+      <div class="dloSpin"></div>
+      <button id="dlo3">Download</button>
+    </div>
+    <span id="dloNote"></span>
+    <button id="dloX">Close</button>
   </div>
 </div>
   <div id="a11yModal">
@@ -1229,8 +1293,9 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   </div>
   <div class="row" id="fmtRow">
     <button id="fmtCrop">Crop</button>
+    <button id="fmtDl" title="Download Options">Download</button>
     <button id="fmtEdit">Edit</button>
-    <button id="fmtGo">Continue</button>
+    <button id="fmtGo">Begin</button>
   </div>
 </div>
 
@@ -1534,7 +1599,7 @@ window.__backStep=()=>{
   // an overlay first, always. A share opens the method chooser unbidden, and
   // back is the natural way to dismiss something you did not ask for - it
   // used to close the whole app instead.
-  for (const id of ['modeModal','refModal','delModal','dlwModal','shModal','dgModal',
+  for (const id of ['dloModal','modeModal','refModal','delModal','dlwModal','shModal','dgModal',
                     'arModal','dlModal','gsdModal','gridModal','setModal','a11yModal',
                     'accModal','gearModal','introModal']){
     const m=$(id);
@@ -1595,7 +1660,10 @@ function adSync(){
     const splash=(()=>{ try{ return $('introSplash').classList.contains('on'); }catch(e){ return false; } })();
     const bg={scrUpload:'#141414',scrFormat:'#141414',
               scrMain:'#2a2a2a',scrCompare:'#2a2a2a'}[on && on.id]||'#141414';
-    RealismCam.adPlace(!cam && !splash, bg);
+    // the size screen carries no strip at all: it is where the artist is
+    // judging their crop and their grid, and it wants the whole screen
+    const sized = !!(on && on.id==='scrFormat');
+    RealismCam.adPlace(!cam && !splash && !sized, bg);
     // ad placement (operator directive 2026-09-11): portrait keeps the
     // bottom strip on every screen. In LANDSCAPE the drawing screen swaps
     // it for the intermittent compact corner media card - the download
@@ -2902,7 +2970,7 @@ window.__shared = async (url, mime, name)=>{
   // arriving with settings open put the chooser invisibly underneath it and
   // the share looked like it had done nothing at all.
   try{
-    for (const id of ['gearModal','setModal','a11yModal','accModal','gridModal',
+    for (const id of ['dloModal','gearModal','setModal','a11yModal','accModal','gridModal',
                       'refModal','delModal','dlwModal','shModal','dgModal','arModal',
                       'dlModal','gsdModal']){
       const m=$(id); if (m && m.style.display && m.style.display!=='none') m.style.display='none';
@@ -3921,6 +3989,179 @@ $('backBtn').onclick = () => {
   }
   if ($('scrFormat').classList.contains('on')){ show('scrUpload'); renderGallery(); }
 };
+
+// ============== Download Options ==========================================
+// The reference broken into the drawing layers, cumulatively - each image is
+// everything the one before it had plus the next layer. Always at Ultra (the
+// un-degraded picture, not a cooked level) and always carrying the grid
+// exactly as it is set, because these are printed and drawn over. The
+// artist's OWN marks - completed squares, error circles - are progress
+// rather than reference, so they stay out of them.
+const DLO_BW =['Shading','Shading + Darks','Shading + Darks + Lights','Full reference'];
+const DLO_C  =['Darks','Darks + Midtones','Darks + Midtones + Lights','Full reference'];
+const DLO_TAG=['shading','darks','lights','full'];
+let DLO_PEND=false;              // build as soon as the reference is ready
+let DLO_RUN=0;                   // a run number, so a closed window stops work
+const DLO=[null,null,null,null]; // {du, fname} once an image is finished
+
+// The window opens FIRST and fills in. Somebody downloading references is
+// comparing this app against grid apps that hand a file over in a second,
+// and the old shape made them watch a gallery rebuild before anything
+// appeared. Now the four rows are on screen immediately, each with its own
+// ring, and they light up in order - Shading first, because it is the
+// cheapest and the one they see soonest - each with its own button.
+function dloReset(){
+  for (let i=0;i<4;i++){
+    DLO[i]=null;
+    const row=$('dloRow'+i);
+    row.classList.remove('ready'); row.classList.add('waiting');
+    const th=$('dloTh'+i); th.width=1; th.height=1;
+  }
+}
+function dloOpen(build){
+  const names = REFMODE==='c' ? DLO_C : DLO_BW;
+  for (let i=0;i<4;i++) $('dloNm'+i).textContent = TR(names[i]);
+  $('dloNote').textContent = TR('Each one carries your grid, at full detail.');
+  $('dloModal').style.display='flex';
+  if (build!==false) dloBuildAll();
+}
+function dloClose(){
+  DLO_RUN++;                     // anything still composing stops mattering
+  $('dloModal').style.display='none';
+  for (let i=0;i<4;i++) DLO[i]=null;
+}
+// from the gallery: straight into the window, and the reference opens behind
+// it. An unformatted one has no paper size and no grid to carry, so that one
+// goes to the size screen instead.
+function dloForRef(gid){
+  $('refModal').style.display='none';
+  if (galActive===gid && GRID_READY && $('scrMain').classList.contains('on')){
+    dloReset(); dloOpen(); return;
+  }
+  let fmt=null; try{ fmt=JSON.parse(localStorage.getItem('fmt|'+gid)); }catch(e){}
+  if (!(fmt && fmt.w)){
+    // no paper size and no grid yet, so there is nothing to carry: let them
+    // set it up first, and take the window away rather than leave it over
+    // the size screen offering images that do not exist
+    DLO_PEND=false;
+    dloClose();
+  } else {
+    DLO_PEND=true;
+    dloReset(); dloOpen(false);  // the rings are up before the work starts
+  }
+  (async()=>{ try{
+    const r=await galGet(gid);
+    if (!r || !r.blob){ dloClose(); toast('could not read that reference', false); return; }
+    if (!warmOpen(r)) openPhoto(r.blob, gid);
+  }catch(e){ dloClose(); } })();
+}
+// the four, in order, sharing one release of working room
+async function dloBuildAll(){
+  const run=++DLO_RUN;
+  if (!state.img || !GRID_READY) return;
+  const savedL={...LAYERS}, savedC={...LAYERS_C};
+  const savedDet=DETAIL, savedDone=DONE, savedCircs=CIRCS;
+  expFreeRoom();
+  try{
+    DETAIL='ultra'; DONE=[]; CIRCS=[];
+    // the layers are cooked from the form; without it every option would
+    // come out as the same plain photograph
+    for (let i=0;i<400 && !(FORM.cv && FORM.key===fkey()); i++){
+      if (run!==DLO_RUN) return;
+      try{ ensureForm(); }catch(e){}
+      await new Promise(r=>setTimeout(r,50));
+    }
+    for (let i=0;i<4;i++){
+      if (run!==DLO_RUN) return;
+      $('dloRow'+i).classList.remove('waiting');
+      await new Promise(r=>requestAnimationFrame(()=>r()));   // let the ring paint
+      if (REFMODE==='c'){
+        LAYERS_C.dk = i>=0; LAYERS_C.mid = i>=1; LAYERS_C.lt = i>=2; LAYERS_C.br = i>=3;
+      } else {
+        LAYERS.dk = i>=1; LAYERS.lt = i>=2; LAYERS.hl = i>=3;
+      }
+      COMP.sig=null;
+      let made=null;
+      try{ made = await exportCompose(DLO_TAG[i]); }
+      catch(e){ plog('download options '+i+': '+(e&&e.message)); }
+      if (run!==DLO_RUN) return;
+      if (!made){ $('dloRow'+i).classList.add('waiting'); continue; }
+      // a small preview so the row is obviously its own picture
+      try{
+        const th=$('dloTh'+i), d=Math.round(46*(Math.min(2,devicePixelRatio||1)));
+        th.width=d; th.height=d;
+        const tg=th.getContext('2d');
+        const side=Math.min(made.c.width, made.c.height);
+        tg.drawImage(made.c, (made.c.width-side)/2, (made.c.height-side)/2, side, side, 0,0,d,d);
+      }catch(e){}
+      // hold the ENCODED image, not the canvas - four full-size canvases
+      // would not fit on a phone, four jpegs are a few megabytes
+      const du = encodeWithin(made.c, NAT_MAX_B64);
+      made.c.width=1; made.c.height=1;            // let the canvas go at once
+      if (!du){ $('dloRow'+i).classList.add('waiting'); continue; }
+      DLO[i]={ du, fname: made.fname };
+      $('dloRow'+i).classList.add('ready');
+    }
+  } catch(e){ plog('download options: '+(e&&e.message)); }
+  finally {
+    Object.assign(LAYERS, savedL); Object.assign(LAYERS_C, savedC);
+    DETAIL=savedDet; DONE=savedDone; CIRCS=savedCircs;
+    COMP.sig=null;
+    expRestore();
+    try{ applyView(); drawCircs(); }catch(e){}
+  }
+}
+// Handing one over. The full-screen ad goes HERE - one gate, every download
+// route through it, and it waits for the shell to say the ad is finished
+// before the file is saved so the save dialog never opens behind it. With no
+// shell, or no ad ready, it falls straight through.
+function dloGate(){
+  return new Promise(res=>{
+    try{
+      const N=window.RealismCam;
+      if (!(N && N.showInterstitial)) return res();
+      let done=false;
+      window.__adDone = ()=>{ if (!done){ done=true; res(); } };
+      const started = N.showInterstitial('download');
+      if (started===false){ done=true; return res(); }
+      // never let a missing callback strand the download
+      setTimeout(()=>{ if (!done){ done=true; res(); } }, 8000);
+    }catch(e){ res(); }
+  });
+}
+async function dloSave(i){
+  const item=DLO[i]; if (!item) return;
+  const btn=$('dlo'+i);
+  btn.disabled=true;
+  try{
+    await dloGate();
+    if (window.RealismCam && RealismCam.saveImage){
+      const wo=await askWhere();
+      if (wo && natSend(item.fname, item.du.slice(item.du.indexOf(',')+1), wo)) hapticOK();
+    } else {
+      const a=document.createElement('a');
+      a.href=item.du; a.download=item.fname;
+      document.body.appendChild(a); a.click(); a.remove();
+      toast('image downloaded'); hapticOK();
+    }
+    gcPing('/download');
+  } catch(e){ toast('could not save that image', false); }
+  finally { btn.disabled=false; }
+}
+for (let i=0;i<4;i++) $('dlo'+i).onclick = () => { haptic(); dloSave(i); };
+$('dloX').onclick = () => dloClose();
+$('dloModal').onclick = e => { if (e.target===$('dloModal')) dloClose(); };
+$('fmtDl').onclick = () => {
+  haptic();
+  // The layers do not exist until the format is committed and the picture
+  // cooked - which is exactly what Begin does. So Download does the same
+  // thing Begin does, with the window already up over it.
+  if (GRID_READY && $('scrMain').classList.contains('on')){ dloReset(); dloOpen(); return; }
+  DLO_PEND=true;
+  dloReset(); dloOpen(false);
+  $('fmtGo').onclick();
+};
+$('rmDl').onclick = () => { haptic(); if (REFM!=null) dloForRef(REFM); };
 
 // ============== the reference editor: a darkroom for the photo ==============
 // Non-destructive: the gallery keeps the untouched original; the recipe
@@ -5569,6 +5810,9 @@ function initMain(){
   view.x = (vp.width - w*view.s)/2; view.y = (vp.height - h*view.s)/2;
   applyView();
   GRID_READY = true;
+  // a Download asked for from the gallery waits here: the reference has to
+  // be open and gridded before there is anything to hand over
+  if (DLO_PEND){ DLO_PEND=false; setTimeout(()=>{ try{ dloBuildAll(); }catch(e){} }, 120); }
   drawGrid();
   circsLoad();
   doneLoad(); DONETOOL=null;
@@ -6754,7 +6998,14 @@ function expRestore(){
     applyView();
   }catch(e){}
 }
-$('expBtn').onclick = async () => {
+// The export composer. It reads the CURRENT state - layers, detail, grid -
+// and lays that down at file size. Download Options drives it by setting
+// the layer state around a call, which is why it is a function now and
+// not a click handler.
+// Composing and saving are separate jobs now. Download Options builds all
+// four images up front and hands each one over later, one download button at
+// a time, so it needs the picture without the save attached to it.
+async function exportCompose(nameTag){
   // the current visualization, exactly as composed: layers, detail, grid.
   // The file carries what the APP carries. It used to render at a flat 2x the
   // paper's working size, which on a 12 megapixel photograph came out at 3024
@@ -6768,7 +7019,7 @@ $('expBtn').onclick = async () => {
   // canvases is currently hidden. Let them go first - every one is a cache
   // that rebuilds itself - so the file can be bigger instead of the save
   // failing. (Measured: about 17MB back on a 3GB device.)
-  expFreeRoom();
+  // (the caller frees the room: four images share one release)
   const {w,h}=worldSize();
   const shown=viewSrc();
   let k=Math.max(1, Math.min(2, (state.img.width||w)/w));
@@ -6899,8 +7150,19 @@ $('expBtn').onclick = async () => {
   }
   for (const q of CIRCS) paintMark(g, q.x*k, q.y*k, circR()*k, 10*k, 3*k);
   const t=new Date(), p2=n=>String(n).padStart(2,'0');
-  const fname='photorealism-'+t.getFullYear()+p2(t.getMonth()+1)+p2(t.getDate())
+  const fname='photorealism-'+(nameTag?nameTag+'-':'')
+    +t.getFullYear()+p2(t.getMonth()+1)+p2(t.getDate())
     +'-'+p2(t.getHours())+p2(t.getMinutes())+p2(t.getSeconds())+'.jpg';
+  return { c, fname };
+}
+// compose and hand straight over, which is what a single download is
+async function exportImage(nameTag){
+  expFreeRoom();
+  const r = await exportCompose(nameTag);
+  if (!r){ expRestore(); return false; }
+  return exportSave(r.c, r.fname);
+}
+async function exportSave(c, fname){
   if (window.RealismCam && RealismCam.saveImage){
     // the Android WebView has no download listener - an anchor download is
     // silently dropped, so this export must go through the bridge, the same
@@ -6920,7 +7182,7 @@ $('expBtn').onclick = async () => {
   toast('image downloaded');
   hapticOK();
   gcPing('/download');
-};
+}
 function toast(t, acc, ms){
   t = TR(t);
   const el=$('toast'); el.textContent=t;
