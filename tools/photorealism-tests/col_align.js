@@ -1,5 +1,7 @@
-// The gear and Download are ONE pill - gear on the top half, Download on the
-// bottom - and its bottom edge has to sit level with the bloomed player's.
+// The gear and Download are ONE pill, and each half is one of the app's
+// ORDINARY buttons - the same square, at the same accessibility scale - so
+// the pill reads as two of them fused rather than as a slab of its own.
+// #compareBtn stands in for "an ordinary button" here.
 const { chromium } = require('playwright-core');
 let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad++; };
 (async () => {
@@ -27,23 +29,23 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
       await new Promise(r=>setTimeout(r,400));
     }, ux);
     const r = await pg.evaluate(()=>{
-      const gear=$('setBtn').getBoundingClientRect(), dl=$('expBtn').getBoundingClientRect();
-      const card=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--adcard'))||120;
-      return { gearB:Math.round(gear.bottom), dlT:Math.round(dl.top), dlB:Math.round(dl.bottom),
-               btn:Math.round(dl.height), cardB:8+card, card };
+      const R=el=>{const q=el.getBoundingClientRect();
+        return {t:Math.round(q.top),b:Math.round(q.bottom),
+                w:Math.round(q.width),h:Math.round(q.height)};};
+      return { gear:R($('setBtn')), dl:R($('expBtn')), ord:R($('compareBtn')) };
     });
-    const aligned = Math.abs(r.dlB - r.cardB) <= 1;
-    const safeGap = r.dlT - r.gearB;
-    console.log(n.padEnd(12)+' button '+String(r.btn).padStart(3)
-      +'  gear ends '+String(r.gearB).padStart(4)
-      +'  download '+String(r.dlT).padStart(4)+'-'+String(r.dlB).padStart(4)
-      +'  card ends '+String(r.cardB).padStart(4)
-      +(aligned?'   ALIGNED':'   +'+(r.dlB-r.cardB))+'   gap '+safeGap);
-    // one pill now: the two halves SHARE an edge rather than standing apart,
-    // and between them they are exactly as tall as the bloomed card
-    ok(safeGap === 0, n+': the two halves share an edge ('+safeGap+'px apart)');
-    ok(aligned, n+': and the pill ends level with the bloomed player ('
-       +(r.dlB-r.cardB)+'px off)');
+    const gap = r.dl.t - r.gear.b;
+    console.log(n.padEnd(12)+' pill half '+r.gear.w+'x'+r.gear.h
+      +'   ordinary button '+r.ord.w+'x'+r.ord.h
+      +'   shared edge '+gap+'px'
+      +'   pill '+r.gear.w+'x'+(r.dl.b-r.gear.t));
+    ok(gap === 0, n+': the two halves share an edge ('+gap+'px apart)');
+    ok(Math.abs(r.gear.w - r.ord.w) < 1.5 && Math.abs(r.gear.h - r.ord.h) < 1.5,
+       n+': each half is the size of an ordinary button ('
+       +r.gear.w+'x'+r.gear.h+' vs '+r.ord.w+'x'+r.ord.h+')');
+    ok(Math.abs((r.dl.b - r.gear.t) - r.ord.h*2) < 2,
+       n+': so the whole pill is exactly two of them ('
+       +(r.dl.b-r.gear.t)+' vs 2x'+r.ord.h+')');
     await ctx.close();
   }
   await br.close();

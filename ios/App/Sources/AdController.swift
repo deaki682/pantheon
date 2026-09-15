@@ -24,19 +24,10 @@ final class AdController: NSObject {
     private var onProj = false
     private var cornerShown = false
     private var viewMode = ""
-    private var nextShowAt: CFTimeInterval = 0
     private var lastTouch: CFTimeInterval = 0
-    private var showTimer: Timer?
-    private var hideTimer: Timer?
-    private let AD_ON_S: TimeInterval = 45          // how long the bloom lasts
-    private let AD_BANNER_H: CGFloat = 48           // the banner it rests at
-    private let AD_BANNER_TALL_H: CGFloat = 54      // ...deeper when it stands up
-    private var bannerH: CGFloat = 48
-    private var expanded = false                    // bloomed, not resting
     private var cardH: CGFloat = 120                // the bloomed height
     private var headV: UILabel?
     private var mediaClipH: NSLayoutConstraint?
-    private let AD_OFF_S: TimeInterval = 240
     private var loader: AdLoader?
     private var nativeAd: NativeAd?
     private var badgeV: UILabel?
@@ -116,7 +107,6 @@ final class AdController: NSObject {
     private var cornerLead: NSLayoutConstraint?
     private var cornerTop: NSLayoutConstraint?
     private let AD_INSET: CGFloat = 8       // how far the resting banner floats off
-    private var cornerFrac: CGFloat = 0     // 0 banner, 1 bloomed-and-flush
     private var cardClip: UIView?          // the crop the card rides in
     // the card's own size, re-made on every build - held so the previous
     // pair comes off first instead of stacking into a conflict
@@ -220,8 +210,6 @@ final class AdController: NSObject {
         wrap.isHidden = true
         cornerShown = false
         cornerWrap.isHidden = true
-        showTimer?.invalidate(); showTimer = nil
-        hideTimer?.invalidate(); hideTimer = nil
         web?.evaluateJavaScript("window.__adOn && __adOn(false)", completionHandler: nil)
         web?.evaluateJavaScript("window.__adCorner && __adCorner(false)", completionHandler: nil)
     }
@@ -356,39 +344,24 @@ final class AdController: NSObject {
     // which blooms to the video height now and then and shrinks back to the
     // banner. Showing it at all is the screen's business; expanding it is the
     // cadence's, so the artist never gets a hole where an ad used to be.
-    // ONE animation carries the whole change of state: 0 is the resting
-    // banner, floating a margin off the corner; 1 is the bloom, which TUCKS
-    // INTO the corner - the margin closes and the corner meeting the screen's
-    // own corner squares off, so a video reads as the ad taking the corner
-    // rather than a card that merely got taller.
-    private func setCornerState(_ expanded: Bool, _ dur: TimeInterval) {
-        cornerFrac = expanded ? 1 : 0
-        applyCornerGeometry()
-        UIView.animate(withDuration: dur, delay: 0,
-                       options: [.curveEaseOut, .allowUserInteraction]) {
-            self.cornerWrap.superview?.layoutIfNeeded()
-        }
-    }
+    // The card is one fixed size, floating a margin off the corner with all
+    // four corners rounded. This is what is left of a banner-to-bloom
+    // animation, and it stays a function because a rotation or a rebuild has
+    // to re-apply it.
     private func applyCornerGeometry() {
-        let f = cornerFrac
-        cornerH?.constant = bannerH + (cardH - bannerH) * f
-        let m = AD_INSET * (1 - f)
-        cornerTop?.constant = m
-        cornerMid?.constant = -m
-        cornerLead?.constant = m
-        // the corner it is tucking into loses its rounding as it arrives
+        cornerH?.constant = cardH
+        cornerTop?.constant = AD_INSET
+        cornerMid?.constant = -AD_INSET
+        cornerLead?.constant = AD_INSET
+        // all four corners stay rounded, in both states
         let skin = cardClip ?? cornerWrap
+        let all: CACornerMask = [.layerMinXMinYCorner, .layerMaxXMinYCorner,
+                                 .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         cornerWrap.layer.cornerRadius = 14
         skin.layer.cornerRadius = 14
-        skin.layer.maskedCorners = f > 0.5
-            ? (spotLeft
-               ? [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-               : [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
-            : [.layerMinXMinYCorner, .layerMaxXMinYCorner,
-               .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        cornerWrap.layer.maskedCorners = skin.layer.maskedCorners
-        // the headline gets its extra lines only once there is room for them
-        if !spotLeft { headV?.numberOfLines = f > 0.5 ? 3 : 1 }
+        skin.layer.maskedCorners = all
+        cornerWrap.layer.maskedCorners = all
+        if !spotLeft { headV?.numberOfLines = 3 }   // the card always has the room
     }
 
     private func tryShowCorner() {
@@ -398,68 +371,17 @@ final class AdController: NSObject {
         cornerWrap.alpha = 1
         cornerWrap.transform = .identity
         cornerWrap.isHidden = false
-        cornerH?.constant = bannerH
+        applyCornerGeometry()
         cornerWrap.superview?.layoutIfNeeded()
         web?.evaluateJavaScript("window.__adCorner && __adCorner(true)", completionHandler: nil)
-        armExpand()
     }
 
-    private func armExpand() {
-        showTimer?.invalidate(); showTimer = nil
-        guard cornerShown, !expanded else { return }
-        let wait = max(0.1, nextShowAt - CACurrentMediaTime())
-        showTimer = Timer.scheduledTimer(withTimeInterval: wait, repeats: false) {
-            [weak self] _ in self?.tryExpand() }
-    }
-
-    // the bloom: on a timer, and straight away when a creative with VIDEO in
-    // it lands - the taller shape only exists so something moving has room
-    private func tryExpand() {
-        showTimer?.invalidate(); showTimer = nil
-        guard cornerShown, !expanded, wanted, onProj, !removed else { return }
-        let now = CACurrentMediaTime()
-        if now < nextShowAt {
-            showTimer = Timer.scheduledTimer(withTimeInterval: nextShowAt - now, repeats: false) {
-                [weak self] _ in self?.tryExpand() }
-            return
-        }
-        // never grow under a finger that is still on the glass
-        if now - lastTouch < 3 {
-            showTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {
-                [weak self] _ in self?.tryExpand() }
-            return
-        }
-        expanded = true
-        headV?.numberOfLines = 3
-        setCornerState(true, 0.34)
-        hideTimer?.invalidate()
-        hideTimer = Timer.scheduledTimer(withTimeInterval: AD_ON_S, repeats: false) {
-            [weak self] _ in self?.collapseCorner() }
-    }
-
-
-    @objc private func closeTap() { collapseCorner() }
-
-    // back to the banner. The card does not go away - only the bloom does.
-    private func collapseCorner() {
-        hideTimer?.invalidate(); hideTimer = nil
-        guard expanded else { return }
-        expanded = false
-        nextShowAt = CACurrentMediaTime() + AD_OFF_S
-        headV?.numberOfLines = 1
-        setCornerState(false, 0.22)
-        // NO load from here: the card is permanent and the 75s tick already
-        // refreshes it, so asking again on collapse could put two swaps inside
-        // a minute - under the network's own minimum refresh interval.
-        armExpand()
-    }
-
-    // ...and this is the card leaving entirely, when the screen changes
+    // ...and this is the card leaving, when the screen changes. Nothing else
+    // takes it away: it is the video card at one size the whole time it is up,
+    // and there is no X on it to dismiss it with.
     private func hideCorner() {
-        showTimer?.invalidate(); showTimer = nil
-        hideTimer?.invalidate(); hideTimer = nil
         guard cornerShown else { return }
-        cornerShown = false; expanded = false
+        cornerShown = false
         cornerWrap.isHidden = true
         web?.evaluateJavaScript("window.__adCorner && __adCorner(false)", completionHandler: nil)
     }
@@ -639,9 +561,9 @@ final class AdController: NSObject {
         // corner, clear of the badge (left-aligned) and above the centred
         // headline - 28pt the headline gets to keep.
         let GUT: CGFloat = 8, PADR: CGFloat = 8, PH: CGFloat = 120
-        // FLANKW is the pill's width: two squares, each half the bloomed
-        // card tall, so half the card wide as well
-        let FLANK: CGFloat = 48, FLANKW: CGFloat = 8 + 60
+        // FLANKW is the pill's width: it is one of the app's ordinary buttons
+        // wide, because that is what each of its halves is
+        let FLANK: CGFloat = 48, FLANKW: CGFloat = 8 + 44
         let screenW = host?.view.bounds.width ?? 390
         // top-right corner: only the LEFT column has to be cleared
         let budget = screenW - (FLANKW + FLANK) - 8
@@ -660,7 +582,7 @@ final class AdController: NSObject {
         let advW = tall ? TALLW : playerW + GUT + textW + PADR
         let advH = tall ? TALLPH + TALLHDR : PH
 
-        head.numberOfLines = expanded ? 3 : 1
+        head.numberOfLines = 3
         headV = head
         let mediaClip = UIView()
         mediaClip.translatesAutoresizingMaskIntoConstraints = false
@@ -695,9 +617,9 @@ final class AdController: NSObject {
                 badge.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 8),
                 badge.topAnchor.constraint(equalTo: adv.topAnchor, constant: 8),
                 head.leadingAnchor.constraint(equalTo: badge.trailingAnchor, constant: 5),
-                // the header shares its line with the collapse pill in the
-                // corner, so it stops clear of it rather than running under
-                head.trailingAnchor.constraint(equalTo: adv.trailingAnchor, constant: -32),
+                // the header used to stop 32pt short of the corner, where the
+                // collapse pill sat; there is no pill now, so it gets it back
+                head.trailingAnchor.constraint(equalTo: adv.trailingAnchor, constant: -8),
                 head.centerYAnchor.constraint(equalTo: badge.centerYAnchor),
             ])
         } else {
@@ -727,16 +649,6 @@ final class AdController: NSObject {
         adv.mediaView = media
         adv.headlineView = head
         adv.nativeAd = ad
-
-        let close = UIButton(type: .custom)
-        close.setTitle("\u{2715}", for: .normal)
-        close.setTitleColor(UIColor(red: 0xB9/255.0, green: 0xB5/255.0, blue: 0xAE/255.0, alpha: 1),
-                            for: .normal)
-        close.titleLabel?.font = .systemFont(ofSize: 12)
-        close.backgroundColor = UIColor(white: 0.1, alpha: 0.9)
-        close.layer.cornerRadius = 11
-        close.translatesAutoresizingMaskIntoConstraints = false
-        close.addTarget(self, action: #selector(closeTap), for: .touchUpInside)
 
         // the wrapper IS the card: it carries the skin, and holds the ad view
         // and the pill side by side inside it
@@ -772,7 +684,6 @@ final class AdController: NSObject {
             clip.trailingAnchor.constraint(equalTo: cornerWrap.trailingAnchor),
         ])
         clip.addSubview(adv)
-        clip.addSubview(close)
         cornerW?.isActive = false; cornerH?.isActive = false
         cornerW = cornerWrap.widthAnchor.constraint(equalToConstant: advW)
         // the clip's height is the card's, less whatever stands under it
@@ -781,16 +692,11 @@ final class AdController: NSObject {
             equalTo: cornerWrap.heightAnchor, constant: tall ? -TALLHDR : 0)
         mediaClipH?.isActive = true
         cardH = advH
-        bannerH = tall ? AD_BANNER_TALL_H : AD_BANNER_H
-        cornerH = cornerWrap.heightAnchor.constraint(
-            equalToConstant: expanded ? advH : (tall ? AD_BANNER_TALL_H : AD_BANNER_H))
-        cornerFrac = expanded ? 1 : 0
+        cornerH = cornerWrap.heightAnchor.constraint(equalToConstant: advH)
         NSLayoutConstraint.activate([
             cornerW!, cornerH!,
             adv.topAnchor.constraint(equalTo: clip.topAnchor),
             adv.leadingAnchor.constraint(equalTo: clip.leadingAnchor),
-            close.trailingAnchor.constraint(equalTo: clip.trailingAnchor, constant: -5),
-            close.topAnchor.constraint(equalTo: clip.topAnchor, constant: 5),
             close.widthAnchor.constraint(equalToConstant: 22),
             close.heightAnchor.constraint(equalToConstant: 22),
         ])
@@ -818,15 +724,9 @@ extension AdController: NativeAdLoaderDelegate {
             self.nativeAd = nativeAd
             self.viewMode = ""            // rebuilt into whichever mode shows
             self.applyAd()
-            // A CREATIVE WITH VIDEO IN IT EARNS A BLOOM. The taller shape only
-            // exists so something moving has room to play, so a video landing
-            // is reason enough to open early rather than wait out the timer.
-            // (tryExpand still waits for the artist's hand to leave the glass.)
-            if self.cornerShown && !self.expanded
-                && nativeAd.mediaContent.hasVideoContent {
-                self.nextShowAt = 0
-                self.armExpand()
-            }
+            // A video creative used to earn an early bloom. There is no bloom
+            // any more - the card is the video card whenever it is up - so a
+            // creative with video in it simply plays where it already is.
         }
     }
     func adLoader(_ adLoader: AdLoader, didFailToReceiveAdWithError error: Error) {

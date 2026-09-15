@@ -24,7 +24,9 @@ const SAFE_LEFT = ISLAND &&  LANDSCAPE ? 59 : 0;
 const SAFE_BOT  = ISLAND ? (LANDSCAPE ? 21 : 34) : 0;
 
 // --- the same arithmetic as MainActivity.buildCorner --------------------
-const BANNER = process.argv[7] === 'banner';   // the resting state
+// The card has ONE size now - the video card - so there is no resting
+// banner to render. The flag is kept so old invocations still work.
+const BANNER = false;
 const tab = Math.min(W,H) >= 600;
 const gut = tab ? 12 : 8, padR = 8, FLANK = 48;
 const TALLW = 196, TALLPH = 150, TALLHDR = 46;
@@ -84,18 +86,16 @@ const boxH = BANNER ? BANNER_H : (stack ? TALLPH + TALLHDR : playerH);
     $('circWrap').style.display='flex';
     $('dlWrap').style.display='block';
     $('mirRow').style.display=''; $('cmpRow').style.display='';
-    $('circClr').style.display='';
     await new Promise(r=>setTimeout(r,700));
   });
   // the stand-in, at the measured geometry, anchored the way the shell anchors it
   await pg.evaluate(([boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER,LAND,TALLW,TALLPH,TALLHDR,SAFE_LEFT])=>{
     const d=document.createElement('div');
-    const INSET = BANNER ? 8 : 0;
+    const INSET = 8;      // the card floats the same margin, open or shut
     const R = '14px';
     d.style.cssText='position:fixed;z-index:40;top:'+INSET+'px;'
       +(LAND?('left:'+INSET+'px;'):('right:'+INSET+'px;'))
-      +'border-radius:'+(BANNER ? R+' '+R+' '+R+' '+R
-          : (LAND ? '0 '+R+' '+R+' '+R : R+' 0 '+R+' '+R))+';'
+      +'border-radius:'+R+';'
       +'width:'+boxW+'px;height:'+boxH+'px;'
       +'background:#1e1e1e;border:1px solid #555;'
       +'box-shadow:0 6px 18px rgba(0,0,0,.55);overflow:hidden;display:flex;'
@@ -118,7 +118,7 @@ const boxH = BANNER ? BANNER_H : (stack ? TALLPH + TALLHDR : playerH);
       +'border-radius:3px;padding:0 3px;align-self:flex-start;flex:none">Ad</span>';
     const words = 'A headline from the auction';
     const textBlock = stack
-      ? '<div style="padding:0 32px 0 8px;height:46px;display:flex;align-items:center;'
+      ? '<div style="padding:0 8px;height:46px;display:flex;align-items:center;'
         + 'gap:5px;width:'+boxW+'px;flex:none">'+badge
         + '<span style="font:11px system-ui;color:#e8e6e1;line-height:1.2;'
         + 'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;'
@@ -130,9 +130,6 @@ const boxH = BANNER ? BANNER_H : (stack ? TALLPH + TALLHDR : playerH);
         + '-webkit-box-orient:vertical;overflow:hidden">'+words
         + ', three lines at most</span></div>';
     d.innerHTML = stack ? textBlock + player : player + textBlock;
-    d.innerHTML += '<div style="position:absolute;right:5px;top:5px;width:22px;'
-      +'height:22px;border-radius:11px;background:rgba(25,25,25,.9);color:#b9b5ae;'
-      +'font:12px system-ui;display:flex;align-items:center;justify-content:center">\u2715</div>';
     document.body.appendChild(d);
     if (SAFE_TOP || SAFE_LEFT){
       // the island itself, to scale: ~125x36pt. Upright it lies across the

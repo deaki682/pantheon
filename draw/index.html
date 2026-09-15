@@ -16,7 +16,7 @@
 <style>
 /* minimal by instruction: purely functional, no stylistic embellishment */
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--acc:#e8833a;--accBg:#3b2a1b;--adcard:120px}
+:root{--acc:#e8833a;--accBg:#3b2a1b;--adcard:120px;--pillr:12px}
 html{color-scheme:dark;accent-color:var(--acc)}
 input[type=range]{-webkit-appearance:none;appearance:none;height:28px;
   background:transparent;touch-action:none}
@@ -233,19 +233,21 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
    right-hand side left to the ad. Reversed, so the circle stays pinned to the
    edge and Clear grows inward beside it rather than shoving the circle along
    when it appears. */
+/* THE COMPARISON SCREEN'S PILL, the drawing screen's in every respect: two
+   squares sharing an edge, the error mark on top and Download beneath, and
+   exactly as tall as the bloomed ad card so it ends level with the player.
+   Clear went with the redesign - a mark is still cleared by tapping it. */
 #circWrap{position:absolute;top:calc(8px + env(safe-area-inset-top));
   left:calc(8px + env(safe-area-inset-left));transform:none;z-index:7;
-  display:none;gap:8px;flex-direction:row-reverse}
-#circBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;border-radius:12px;
-  display:flex;align-items:center;justify-content:center}
+  display:none}
 #dlWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
   right:auto;z-index:7;display:none;
-  top:calc(env(safe-area-inset-top) + max(24px + 44px*var(--ux,1),
-                                          8px + var(--adcard) - 44px*var(--ux,1)))}
-#dlBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;border-radius:12px;
+  top:calc(8px + 44px*var(--ux,1) + env(safe-area-inset-top))}
+#circBtn,#dlBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;
   display:flex;align-items:center;justify-content:center}
+#circBtn{border-radius:var(--pillr) var(--pillr) 0 0;border-bottom:none}
+#dlBtn{border-radius:0 0 var(--pillr) var(--pillr)}
 .redDot{width:17px;height:17px;border-radius:50%;border:2.5px solid #e03c3c;display:block}
-#circClr{height:44px;border-radius:12px}
 #mirRow{padding-bottom:0}
 #mirBtn{min-width:52px}
 #alphaSl{flex:0 1 50%;min-width:80px;padding:0}
@@ -540,7 +542,7 @@ html.hc #verNum{color:#ddd}
 #setCorner,#expCorner{position:absolute;z-index:5;
   left:calc(8px + env(safe-area-inset-left));right:auto}
 #setCorner{top:calc(8px + env(safe-area-inset-top))}
-#expCorner{top:calc(8px + var(--adcard)/2 + env(safe-area-inset-top))}
+#expCorner{top:calc(8px + 44px*var(--ux,1) + env(safe-area-inset-top))}
 /* THE PILL. The gear and Download are one twice-length button - two squares
    sharing an edge, gear first. Its GEOMETRY lives in one block further down,
    by #compareBtn, because both halves and both orientations have to agree on
@@ -599,13 +601,12 @@ html.hc #verNum{color:#ddd}
 #setPanel label{display:flex;gap:10px;align-items:center;font-size:calc(14px*var(--ux,1))}
 #expBtn{padding:0;line-height:1;display:flex;align-items:center;justify-content:center}
 /* THE PILL'S GEOMETRY, all of it, in one place.
-   Each half is a SQUARE, so the pill is 2:1. Standing up, its height is fixed
-   by the alignment - half the bloomed ad card, so the pair's bottom edge
-   lands level with the player's - and the WIDTH therefore follows the height
-   rather than the button scale, or the halves come out taller than they are
-   wide. 60 on a phone, 80 on a tablet. Only the pill's OUTER corners are
-   round; the two that meet in the middle square off against the hairline
-   between them, which is drawn once, by the lower half.
+   Each half is one of the app's ORDINARY buttons - the same 44dp square, at
+   the same accessibility scale - so the pill reads as two of them fused
+   rather than as a slab of its own. That squares it at 2:1 in both
+   orientations and on both screens. Only the pill's OUTER corners are round;
+   the two that meet in the middle square off against the hairline between
+   them, which is drawn once, by the lower half.
    Two exceptions, both the gear's. Its message states are text, and text sets
    its own width. And while "True to Life" is up the message takes the WHOLE
    pill: the gear grows to the full height, closes its rounding back up, and
@@ -613,12 +614,13 @@ html.hc #verNum{color:#ddd}
    than a wide tab sitting on a square. The marking tally is deliberately NOT
    included; that state lasts a whole marking session and Download may not be
    gone for it. */
-#setBtn,#expBtn{width:calc(var(--adcard)/2);height:calc(var(--adcard)/2)}
-#setBtn{border-radius:12px 12px 0 0;border-bottom:none;
+#setBtn,#expBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1))}
+#setBtn{border-radius:var(--pillr) var(--pillr) 0 0;border-bottom:none;
   transition:height .28s cubic-bezier(.3,0,.2,1), border-radius .28s ease}
-#expBtn{border-radius:0 0 12px 12px}
-#setBtn.mark{width:auto;min-width:calc(var(--adcard)/2)}
-body.ttlOn #setBtn{height:var(--adcard);border-radius:12px;border-bottom:1px solid #555}
+#expBtn{border-radius:0 0 var(--pillr) var(--pillr)}
+#setBtn.mark{width:auto;min-width:calc(44px*var(--ux,1))}
+body.ttlOn #setBtn{height:calc(88px*var(--ux,1));border-radius:var(--pillr);
+  border-bottom:1px solid #555}
 body.ttlOn #expCorner{opacity:0;pointer-events:none}
 #compareBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
@@ -637,8 +639,13 @@ body.uiHid #underCorner,body.uiHid #camCorner{transform:translate(-50%,160%)}
 #hud,#detMenu,#underMenu,#gridMenu{transition:opacity .28s, visibility .28s}
 body.uiHid #hud,body.uiHid #detMenu,body.uiHid #underMenu,
 body.uiHid #gridMenu{opacity:0;visibility:hidden}
-#expCorner{transition:opacity .25s, transform 0.2s cubic-bezier(.3,0,.2,1)}
-#setCorner{transition:transform .35s cubic-bezier(.2,0,0,1)}
+/* THE PILL LEAVES AS ONE OBJECT. Its two halves are separate elements, so
+   they only look welded while they agree about the journey - and they did
+   not: the gear took .35s on one curve and Download .2s on another, which
+   pulled the pill apart down the middle every time the chrome was dismissed.
+   One transition, declared once, for both. */
+#expCorner,#setCorner{transition:opacity .25s,
+  transform 0.2s cubic-bezier(.3,0,.2,1)}
 body.uiHid #expCorner,body.uiHid #setCorner{transform:translate(-190%,0)}
 body.uiHid #backBtn{transform:translateY(-190%)}
 /* first-visit coach marks: a darkened veil with one floating line */
@@ -780,10 +787,12 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   /* :root beats a bare html on specificity whatever the order, so the
      tablet's taller card has to be declared the same way or the column
      lines itself up against the phone's 120px */
-  :root{--adcard:160px}
+  :root{--adcard:160px;--pillr:calc(17px*var(--ub))}
   body{font-size:calc(14px*var(--ux))}
-  #backBtn,#hudToggle,#detBtn,#underBtn,#gridBtn,#compareBtn,#expBtn,
-  #setBtn,#gmDesign,#gmDesign2,#gmDesign3,#circBtn,#dlBtn{
+  /* the four pill halves are NOT in this list: a uniform radius rounds off
+     the edges they share, and theirs comes from --pillr instead */
+  #backBtn,#hudToggle,#detBtn,#underBtn,#gridBtn,#compareBtn,
+  #gmDesign,#gmDesign2,#gmDesign3{
     border-radius:calc(17px*var(--ub))}
   #expBtn svg,#compareBtn svg,#underBtn svg,#camCorner svg,
   #circBtn svg,#dlBtn svg{
@@ -810,7 +819,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   #hudToggle.lit{font-size:calc(16px*var(--ux,1))}
   #detBtn{font-size:calc(16px*var(--ux,1))}
   #gmMiniB{width:calc(32px*var(--ux,1));height:calc(32px*var(--ux,1))}
-  #cmpRow button,#lvBtn,#mirBtn,#lvReset,#circClr{
+  #cmpRow button,#lvBtn,#mirBtn,#lvReset{
     min-height:calc(44px*var(--ux,1));border-radius:calc(17px*var(--ub));
     font-size:calc(15px*var(--ux,1))}
   #lvBtn,#cmpGridBtn,#cmpReCrop{min-width:calc(44px*var(--ux,1))}
@@ -874,22 +883,28 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   #expCorner{left:calc(8px + 44px*var(--ux,1) + env(safe-area-inset-left));
     right:auto;top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
   #setBtn,#expBtn{height:calc(44px*var(--ux,1));width:calc(44px*var(--ux,1))}
-  #setBtn{border-radius:12px 0 0 12px;border-bottom:1px solid #555;border-right:none}
-  #expBtn{border-radius:0 12px 12px 0}
+  #setBtn{border-radius:var(--pillr) 0 0 var(--pillr);
+    border-bottom:1px solid #555;border-right:none}
+  #expBtn{border-radius:0 var(--pillr) var(--pillr) 0}
   /* THE STACK IS AN UPRIGHT THING. Sideways the screen is wide and short -
      the shape that has width to spare and no height - so the words stay on
      one line and the pill grows along the bottom edge instead of upward. It
      keeps the lying-down pill's own height, and never less than its width. */
   #setBtn.ttl .ttlTxt{white-space:nowrap;max-width:calc(190px*var(--ux,1));padding:0 16px}
   body.ttlOn #setBtn{width:auto;min-width:calc(88px*var(--ux,1));
-    height:calc(44px*var(--ux,1));border-radius:12px;border-right:1px solid #555}
-  /* Download takes the corner and the circle sits beside it, so Clear has
-     somewhere to grow when it appears instead of shoving the circle along */
-  #scrCompare #dlWrap{left:calc(8px + env(safe-area-inset-left));right:auto;
-    top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
-  #scrCompare #circWrap{left:calc(16px + 44px*var(--ux,1) + env(safe-area-inset-left));
-    right:auto;top:auto;bottom:calc(8px + env(safe-area-inset-bottom));
-    translate:none;transform:none;flex-direction:row-reverse}
+    height:calc(44px*var(--ux,1));border-radius:var(--pillr);
+    border-right:1px solid #555}
+  /* the same pill, LYING DOWN in the bottom-left corner: the error mark on
+     the left half, Download on the right - the drawing screen's order */
+  #scrCompare #circWrap{left:calc(8px + env(safe-area-inset-left));right:auto;
+    top:auto;bottom:calc(8px + env(safe-area-inset-bottom));
+    translate:none;transform:none}
+  #scrCompare #dlWrap{left:calc(8px + 44px*var(--ux,1) + env(safe-area-inset-left));
+    right:auto;top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
+  #circBtn,#dlBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1))}
+  #circBtn{border-radius:var(--pillr) 0 0 var(--pillr);
+    border-bottom:1px solid #555;border-right:none}
+  #dlBtn{border-radius:0 var(--pillr) var(--pillr) 0}
   /* the tools, evenly spread over the right edge rather than bunched */
   #scrCompare #cmpRow{position:absolute;z-index:7;
     right:calc(8px + env(safe-area-inset-right));
@@ -911,14 +926,17 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   #scrCompare #cmpReCrop{order:4}
   #scrCompare #cmpCrop{order:4}
   #scrCompare #lvBtn{order:5}
-  /* the slider lies flat along the bottom with the mirror button above it,
-     about a third of the width and centred, clear of both edges */
+  /* the slider lies flat along the bottom with the mirror button to its
+     RIGHT, on the same line - the pair centred and clear of both edges.
+     row-reverse because the mirror comes FIRST in the markup, and the order
+     on screen is the layout's business, not the document's. */
   #scrCompare #mirRow{position:absolute;z-index:7;padding:0;
-    left:50%;right:auto;translate:-50% 0;width:min(34vw,340px);
+    left:50%;right:auto;translate:-50% 0;width:min(40vw,400px);
     top:auto;bottom:calc(8px + env(safe-area-inset-bottom));
-    display:flex;flex-direction:column;align-items:stretch;gap:6px}
-  #scrCompare #mirRow .row{padding:0;width:100%;flex-wrap:nowrap;
+    display:flex;flex-direction:row-reverse;align-items:center;gap:8px}
+  #scrCompare #mirRow .row{padding:0;width:auto;flex-wrap:nowrap;
     justify-content:center}
+  #scrCompare #mirRow .row:last-child{flex:1 1 auto}   /* the slider */
   #scrCompare #alphaSl{transform:none;flex:1 1 auto;width:auto;min-width:80px}
   /* the adjust panel opens inward, clear of the tool column */
   #scrCompare #lvRow{position:absolute;z-index:7;
@@ -984,7 +1002,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v475</span>
+    <span id="verNum">v476</span>
   </div>
 </div>
 <div id="delModal">
@@ -1374,7 +1392,6 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <button id="shutter" title="Capture"></button>
     <button id="camUpBtn" title="Upload photo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V5"/><path d="M7 9l5-5 5 5"/><path d="M5 20h14"/></svg></button>
     <div id="circWrap">
-      <button id="circClr">Clear</button>
       <button id="circBtn" title="Mark an error"><span class="redDot"></span></button>
     </div>
     <div id="dlWrap">
@@ -1671,8 +1688,13 @@ function adSync(){
     const on=document.querySelector('.screen.on');
     // natPend: the native camera is about to take the stage (compareBtn
     // sets it before show()) - do not raise a strip natStart clears at once
+    // ...and the in-page viewfinder counts too. It runs INSIDE the comparison
+    // screen rather than on one of its own, so without this the card sat over
+    // a live camera preview - which is both an ad over someone's viewfinder
+    // and the shape that collects accidental taps while they frame a shot.
     const cam=document.documentElement.classList.contains('natCam')
-           || document.documentElement.classList.contains('natPend');
+           || document.documentElement.classList.contains('natPend')
+           || (()=>{ try{ return camUp(); }catch(e){ return false; } })();
     // the boot splash owns the stage: the strip (and its layout reserve)
     // waits until the choreography lands, then arrives in one motion
     const splash=(()=>{ try{ return $('introSplash').classList.contains('on'); }catch(e){ return false; } })();
@@ -9879,7 +9901,6 @@ $('cmpGridBtn').onclick = () => {
   if (GRID_READY) drawCircs();
   cmpRender();
 };
-$('circClr').onclick = () => { CIRCS=[]; circsSave(); drawCircs(); cmpRender(); };
 
 // last capture as a corner thumbnail in the camera: tap to reuse it
 $('lastShot').onclick = () => {
@@ -9952,7 +9973,6 @@ function cmpButtons(){
   $('mirRow').style.display = (CMP.mode==='flip' && CMP.img && !corners) ? '' : 'none';
   $('circWrap').style.display = (CMP.img && !corners) ? 'flex' : 'none';
   $('dlWrap').style.display = (CMP.img && !corners) ? 'flex' : 'none';
-  $('circClr').style.display = CIRCS.length ? '' : 'none';
   $('circBtn').classList.toggle('vOn', CIRCTOOL);
 }
 // one-time floating hints, dismissed by a tap on the veil
@@ -10665,6 +10685,7 @@ async function camStart(){
       for (const t of st.getTracks()) t.stop(); return false;
     }
     CAM.stream=st;
+    try{ adSync(); }catch(e){}       // the card yields to a live viewfinder
     try{ const t0=st.getVideoTracks()[0], s0=t0.getSettings();
       plog('cam: '+(t0.label||'?')+' '+(s0.width||'?')+'x'+(s0.height||'?')); }catch(e2){}
     const v=$('camVid'); v.srcObject=st; v.style.display='block';
@@ -10917,6 +10938,7 @@ function camStop(){
   $('lvBtn').style.display='';
   $('backBtn').textContent='‹';
   $('cmpFlip').disabled=!CMP.img;
+  try{ adSync(); }catch(e){}       // ...and comes back when it is over
 }
 async function camCapture(){
   if (CAM.nat) return natCapture();

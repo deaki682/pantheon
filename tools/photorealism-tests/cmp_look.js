@@ -40,7 +40,6 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
       $('dlWrap').style.display='block';
       $('mirRow').style.display='';
       $('cmpRow').style.display='';
-      $('circClr').style.display='';
       await new Promise(r=>setTimeout(r,600));
     });
     const r = await pg.evaluate(()=>{
@@ -64,20 +63,26 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
     ok(!r.back.vis, dev.n+': no back arrow on the comparison screen');
     ok(r.pad==='0px', dev.n+': it reserves nothing for a strip');
     if (!dev.land){
-      ok(r.circ.x < 40 && r.dl.x < 40, dev.n+': circle and Download are on the LEFT edge');
+      ok(r.circ.x < 40 && r.dl.x < 40, dev.n+': mark and Download are on the LEFT edge');
       ok(Math.abs(r.circ.x - r.dl.x) < 2, dev.n+': and they line up in a column');
-      ok(r.circ.y < 40, dev.n+': the circle holds the top-left corner');
-      ok(r.dl.y > r.circ.y + r.circ.h - 1, dev.n+': Download sits BENEATH the circle');
-      ok(r.dl.y - (r.circ.y + r.circ.h) < 40,
-         dev.n+': with air between them ('+(r.dl.y-(r.circ.y+r.circ.h))+'px)');
+      ok(r.circ.y < 40, dev.n+': the mark holds the top-left corner');
+      ok(Math.abs(r.dl.y - (r.circ.y + r.circ.h)) < 1.5,
+         dev.n+': Download is FUSED to the mark\'s lower edge ('
+         +(r.dl.y-(r.circ.y+r.circ.h))+'px apart)');
+      ok(Math.abs(r.dl.w - r.dl.h) < 1.5 && Math.abs(r.circ.w - r.circ.h) < 1.5,
+         dev.n+': each half is a SQUARE, so the pill is 2:1 ('
+         +r.circ.w+'x'+r.circ.h+')');
       ok(r.vh - r.row.b <= 10, dev.n+': the bottom row is 8px off the edge');
     } else {
-      // sideways: Download takes the bottom-left corner, the circle beside it
+      // sideways: the pill lies down IN the bottom-left corner, mark first -
+      // the drawing screen's order
       ok(r.vh - (r.dl.y + r.dl.h) <= 12 && r.vh - (r.circ.y + r.circ.h) <= 12,
-         dev.n+': both controls are along the BOTTOM');
-      ok(r.dl.x < 40, dev.n+': Download takes the bottom-left corner');
-      ok(r.circ.x > r.dl.x + r.dl.w - 1, dev.n+': the circle sits BESIDE it');
-      ok(r.dl.y > 120, dev.n+': the top-left corner is left to the card');
+         dev.n+': both halves are along the BOTTOM');
+      ok(r.circ.x < 40, dev.n+': the mark takes the bottom-left corner');
+      ok(Math.abs(r.dl.x - (r.circ.x + r.circ.w)) < 1.5,
+         dev.n+': Download is FUSED to its right edge ('
+         +(r.dl.x-(r.circ.x+r.circ.w))+'px apart)');
+      ok(r.circ.y > 120, dev.n+': the top-left corner is left to the card');
       // the tools spread over the WHOLE right edge, in working order
       ok(r.dir==='column', dev.n+': the tools stand in a column');
       ok(r.vw - r.row.r <= 12, dev.n+': the tools hug the right edge');
@@ -90,8 +95,11 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
       ok(r.sl.w < r.vw*0.42, dev.n+': and is about a third as long ('
          +Math.round(100*r.sl.w/r.vw)+'% of the width)');
       ok(r.vh - r.sl.b < 40, dev.n+': along the bottom');
-      ok(r.mir.b <= r.sl.y + 2, dev.n+': with the mirror button ABOVE it');
-      ok(r.sl.x > r.circ.r && r.sl.r < r.row.x, dev.n+': clear of both the controls and the tools');
+      ok(r.mir.x >= r.sl.r - 2, dev.n+': with the mirror button to its RIGHT ('
+         +r.sl.r+' -> '+r.mir.x+')');
+      ok(Math.abs((r.mir.y+r.mir.h/2) - (r.sl.y+r.sl.h/2)) < 12,
+         dev.n+': on the same line');
+      ok(r.sl.x > r.dl.r && r.mir.r < r.row.x, dev.n+': clear of both the pill and the tools');
     }
     // back steps to the drawing screen, arrow or no arrow
     const stepped = await pg.evaluate(async ()=>{
