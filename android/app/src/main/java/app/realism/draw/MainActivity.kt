@@ -1178,7 +1178,12 @@ class MainActivity : AppCompatActivity() {
         val tabDev = resources.configuration.smallestScreenWidthDp >= 600
         val gut = if (tabDev) 12 else 8
         val padR = 8
-        val PW = 120                      // the square: AdMob's floor, both ways
+        // 213x120: AdMob's floor is 120 in BOTH directions, and 213 is 16:9 at
+        // that height - the narrowest tab that is video-eligible AND fills
+        // its frame with the landscape creative the loader asks for. A 120
+        // square qualified too, but letterboxed every 16:9 ad inside it.
+        val PW = 213
+        val PH = 120
         val screenDp = (resources.displayMetrics.widthPixels /
                         resources.displayMetrics.density).toInt()
         val textW = (screenDp - PW - gut - padR - gut).coerceAtLeast(40)
@@ -1227,20 +1232,27 @@ class MainActivity : AppCompatActivity() {
         adFlushRest = bandH
         adFlushTabW = dp(PW)
 
-        // the tab: the player's column, the band's height at rest and the
-        // square's when it is open. It shares the band's colour so the two
-        // read as one L rather than as a card with a box on it.
+        // THE TAB WEARS THE SAME HAIRLINE the band does, on the two edges that
+        // face the drawing - its right and its bottom - and turns the corner
+        // where they meet. Without an outline the tongue had nothing between
+        // it and the picture but a colour change, which on a dark drawing was
+        // no edge at all. Its TOP corners stay square: that edge is welded to
+        // the band and a rounded one would cut a notch in it.
         val tabBg = android.graphics.drawable.GradientDrawable()
         tabBg.setColor(adBgCol)
+        val r = dp(14).toFloat()
+        tabBg.cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, r, r, r, r)
+        tabBg.setStroke(Math.max(1, dp(1)), 0x33FFFFFF)
         val mediaWrap = FrameLayout(this)
         mediaWrap.background = tabBg
+        mediaWrap.clipToOutline = true      // the picture follows the curve too
         mediaWrap.clipChildren = true; mediaWrap.clipToPadding = true
         val media = com.google.android.gms.ads.nativead.MediaView(this)
         media.setImageScaleType(android.widget.ImageView.ScaleType.CENTER_CROP)
         // the player keeps its full square whatever the tab is doing - that
         // is what makes the card video-eligible - and the tab CLIPS it,
         // centred, so a shut tab shows the middle of the picture
-        mediaWrap.addView(media, FrameLayout.LayoutParams(dp(PW), dp(PW),
+        mediaWrap.addView(media, FrameLayout.LayoutParams(dp(PW), dp(PH),
             android.view.Gravity.CENTER))
         adMediaWrap = mediaWrap
         adColV = col
@@ -1265,7 +1277,7 @@ class MainActivity : AppCompatActivity() {
         adCornerWrap.addView(adv, FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.MATCH_PARENT))
-        adCornerH = dp(PW)                 // the tab, fully out
+        adCornerH = dp(PH)                 // the tab, fully out
         adCornerApply()
         adCard = adv
         adBadgeV = badge

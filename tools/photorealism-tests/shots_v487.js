@@ -19,9 +19,9 @@ function card(W,H){
   }
   // THE L: a 64 band across the whole width, with a 120 square of tab that
   // drops out of its left end when a video plays
-  const PW=120;
+  const PW=213, PH=120;
   const textW=Math.max(W-PW-gut-padR-gut,40);
-  return {mode:'flush', boxW:W, band:64, playerW:PW, playerH:PW,
+  return {mode:'flush', boxW:W, band:64, playerW:PW, playerH:PH,
           textW, gut, padR};
 }
 function paint(c, bloom){
@@ -58,7 +58,8 @@ function paint(c, bloom){
     + WORDS+'</span></div>'
     // the tab, sharing the band's colour so the two read as one L
     + '<div style="position:absolute;left:0;top:0;width:'+c.playerW+'px;height:'+tabH+'px;'
-    + 'background:#1e1e1e;overflow:hidden">'
+    + 'background:#1e1e1e;overflow:hidden;border:1px solid rgba(255,255,255,.2);'
+    + 'border-top:none;border-radius:0 0 14px 14px">'
     + '<div style="position:absolute;left:0;width:'+c.playerW+'px;height:'+c.playerH+'px;'
     + 'top:50%;transform:translateY(-50%);background:linear-gradient(135deg,#2f3d52,#15202e);'
     + 'display:flex;align-items:center;justify-content:center">'
@@ -151,11 +152,12 @@ const SEED = async ()=>{
   await shot('09-compare-landscape', 852, 393, async (pg,W,H)=>{ await pg.evaluate(SEED); await toCompare(pg); await withAd(pg,W,H,false); });
 
   await shot('18-compare-adjust', 393, 852, async (pg,W,H)=>{ await pg.evaluate(SEED); await toCompare(pg);
-    await pg.evaluate(()=>{ $('lvRow').style.display='flex'; $('lvRow').style.flexDirection='column'; });
+    await pg.evaluate(()=>{ CMP.lvOpen=true; cmpButtons(); });
     await withAd(pg,W,H,false); await pg.waitForTimeout(250); });
+  // sideways the panel takes the ad's corner and the ad stands down, so no
+  // stand-in is drawn at all - which is the thing to look at
   await shot('19-compare-adjust-land', 852, 393, async (pg,W,H)=>{ await pg.evaluate(SEED); await toCompare(pg);
-    await pg.evaluate(()=>{ $('lvRow').style.display='flex'; $('lvRow').style.flexDirection='column'; });
-    await withAd(pg,W,H,false); await pg.waitForTimeout(250); });
+    await pg.evaluate(()=>{ CMP.lvOpen=true; cmpButtons(); }); await pg.waitForTimeout(250); });
   console.log('the editor');
   await shot('10-editor-portrait', 393, 852, async (pg)=>{ await pg.evaluate(SEED);
     await pg.evaluate(async ()=>{ edOpenFor('crop'); await new Promise(r=>setTimeout(r,900)); }); });

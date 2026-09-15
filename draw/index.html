@@ -220,12 +220,21 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
    underneath it - a pale sky swallowed the text, a busy one swallowed the
    track. Welding the word to its own slider inside a solid pill means the
    control carries its own background wherever it happens to land, and the
-   pills tile the panel by themselves. */
+   pills tile the panel by themselves.
+   THE PILL IS THE ONLY OUTLINE. A range input is an <input>, so it inherited
+   the app's input border and drew a second rounded box INSIDE the first -
+   two outlines around one control, a hairline apart. The pill keeps its
+   border; the slider gives its up. */
 #lvRow .adjPill{display:flex;align-items:center;gap:8px;flex:1 1 180px;
   min-width:0;background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:7px 12px;box-shadow:0 3px 8px rgba(0,0,0,0.5)}
 #lvRow .adjPill .adjL{flex:none;min-width:0;opacity:0.95}
 #lvRow input[type=range]{flex:1;min-width:48px;padding:0;margin:0}
+input[type=range]{border:none;background:none;padding:0}
+/* the rows close up: the pills carry their own outlines, so the air between
+   them only has to keep them from touching */
+#lvRow{gap:0}
+#lvRow .row{padding:3px 8px;gap:6px}
 .adjL{font-size:11px;opacity:0.75;min-width:56px}
 /* the see-through slider is the same problem: it lies straight across the
    picture with nothing behind it */
@@ -291,6 +300,9 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
 #cmpView{flex:1;min-height:0;position:relative;overflow:hidden;background:#2a2a2a}
 #cmpDock{position:absolute;left:0;right:0;bottom:0;z-index:7;
   pointer-events:none}
+/* upright the panel stands exactly where the three lines it replaced stood -
+   low, above the four buttons - instead of over the photograph */
+body.lvOn #lvRow{padding-bottom:2px}
 #cmpDock > *{pointer-events:auto}
 #cmpCv{position:absolute;left:0;top:0;touch-action:none}
 #camVid{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
@@ -1000,12 +1012,28 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   #scrCompare #circBtn{order:4}
   #scrCompare #alphaSl{transform:none;flex:1 1 auto;width:auto;min-width:80px}
   /* the adjust panel opens inward, clear of the tool column */
+  /* SIDEWAYS THE PANEL TAKES THE LEFT EDGE, which is the ad's corner - so
+     the ad stands down entirely while it is open rather than the two of them
+     fighting over it (adSync suppresses it; see `lvLand`). Half the width it
+     had: at 52vw it was eating the photograph it exists to judge, and a
+     slider does not need to be long to be usable, it needs to be reachable. */
   #scrCompare #lvRow{position:absolute;z-index:7;
-    right:calc(16px + var(--cmpCol,88px) + env(safe-area-inset-right));
+    left:calc(8px + env(safe-area-inset-left));right:auto;
     top:calc(8px + env(safe-area-inset-top));
     bottom:calc(8px + env(safe-area-inset-bottom));
-    width:min(380px,52vw);overflow-y:auto;background:none;
-    border:none;padding:0}
+    width:min(230px,28vw);overflow-y:auto;background:none;
+    border:none;padding:0;
+    display:flex;flex-direction:column;justify-content:center}
+  /* ONE PAIR TO A LINE down a narrow column, and the pills go compact: a
+     short screen has eleven of them to fit between two safe-area edges, and
+     at the upright padding they overflowed and clipped at both ends. Tight
+     enough that the whole set fits without scrolling, still a 44dp-ish
+     target because the slider's own thumb is what the finger lands on. */
+  #scrCompare #lvRow .row{flex-direction:column;align-items:stretch;
+    gap:4px;padding:2px 0}
+  #scrCompare #lvRow .adjPill{flex:none;padding:3px 10px;gap:6px}
+  #scrCompare #lvRow .adjPill .adjL{font-size:10.5px}
+  #scrCompare #lvReset{padding:3px 10px;min-height:0}
 }
 /* A NARROW BAND HOLDS ONE SLIDER PAIR TO A ROW. Two pairs need 62px of label
    twice over before either slider gets a pixel; in a 286px band that leaves
@@ -1071,7 +1099,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v491</span>
+    <span id="verNum">v492</span>
   </div>
 </div>
 <div id="delModal">
@@ -1816,8 +1844,17 @@ function adSync(){
     // the work, and the corner handles are exactly where a stray tap lands.
     const cropping = (()=>{ try{ return CMP && CMP.mode==='corners'; }
                             catch(e){ return false; } })();
+    // SIDEWAYS, THE ADJUST PANEL AND THE CARD WANT THE SAME CORNER. The panel
+    // stands down the left edge and the standing card stands down the left
+    // edge, and there is not room for both on a screen that short. The panel
+    // is the thing the artist deliberately opened, so the ad gives way for as
+    // long as it is up - and comes straight back when it closes.
+    const lvLand = (()=>{ try{
+      return matchMedia('(orientation: landscape)').matches
+          && document.body.classList.contains('lvOn');
+    }catch(e){ return false; } })();
     const canvas = !!(on && (on.id==='scrMain' || on.id==='scrCompare')) && !cropping;
-    const want = !cam && !splash && !modal && canvas;
+    const want = !cam && !splash && !modal && !lvLand && canvas;
     // WHERE the card sits is the page's call, because the page knows which
     // corner its own layout left empty. Upright, both controls stack down the
     // LEFT edge and the card takes the top-RIGHT. Sideways there is no room
@@ -10251,7 +10288,16 @@ function cmpButtons(){
   $('cmpRow').style.display='';
   const corners = CMP.mode==='corners';
   const showLv = CMP.img && !corners && !CAM.stream;
-  $('lvRow').style.display = (showLv && CMP.lvOpen) ? '' : 'none';
+  const lvOn = !!(showLv && CMP.lvOpen);
+  $('lvRow').style.display = lvOn ? '' : 'none';
+  // THE PANEL TAKES THEIR PLACE, it does not sit on top of them. Crop, the
+  // mark, the mirror and the see-through slider are all adjustments of a
+  // kind, and the adjust panel is the same hand doing the same job - so it
+  // stands where they stand and they stand down while it is open. It also
+  // means the panel can dock low, by the thumb, instead of covering the
+  // photograph someone opened it to look at.
+  document.body.classList.toggle('lvOn', lvOn);
+  try{ adSync(); }catch(e){}   // sideways the panel wants the ad's corner
   for (const row of document.querySelectorAll('.cmpColorRow'))
     row.style.display = REFMODE==='c' ? '' : 'none';
   lb.style.display = corners ? 'none' : '';
@@ -10275,7 +10321,7 @@ function cmpButtons(){
   // corners screen it is the only thing on it - so the line is up whenever
   // there is a picture. The slider and the mirror are what come and go.
   const flipping = CMP.mode==='flip' && !corners;
-  $('mirStack').style.display = CMP.img ? 'flex' : 'none';
+  $('mirStack').style.display = (CMP.img && !lvOn) ? 'flex' : 'none';
   $('slRow').style.display = flipping ? 'flex' : 'none';
   // the two halves come and go on their own terms - the mirror only while
   // flipping, the mark whenever there is a picture that is not being cropped

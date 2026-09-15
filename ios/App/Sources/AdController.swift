@@ -650,7 +650,11 @@ final class AdController: NSObject {
        creative letterboxes inside it; that is the price of the narrow tab and
        it is a conscious one. */
     private func buildFlushCard(_ ad: NativeAd) {
-        let GUT: CGFloat = 8, PADR: CGFloat = 8, PW: CGFloat = 120
+        // 213x120: AdMob's floor is 120 in BOTH directions, and 213 is 16:9 at
+        // that height - the narrowest tab that is video-eligible AND fills
+        // its frame with the landscape creative the loader asks for. A 120
+        // square qualified too, but letterboxed every 16:9 ad inside it.
+        let GUT: CGFloat = 8, PADR: CGFloat = 8, PW: CGFloat = 213, PHT: CGFloat = 120
         let screenW = host?.view.safeAreaLayoutGuide.layoutFrame.width
             ?? host?.view.bounds.width ?? 390
         let textW = max(screenW - PW - GUT - PADR - GUT, 40)
@@ -681,10 +685,19 @@ final class AdController: NSObject {
         // the tab: the player's column, the band's height at rest and the
         // square's when it is open. Same colour as the band, so the two read
         // as one L rather than as a card with a box on it.
+        // THE TAB WEARS THE SAME HAIRLINE the band does, and turns the corner
+        // where its right edge meets its bottom. Without an outline the
+        // tongue had nothing between it and the picture but a colour change,
+        // which on a dark drawing is no edge at all. Its TOP corners stay
+        // square: that edge is welded to the band.
         let tabClip = UIView()
         tabClip.translatesAutoresizingMaskIntoConstraints = false
         tabClip.backgroundColor = bgCol
         tabClip.clipsToBounds = true
+        tabClip.layer.cornerRadius = 14
+        tabClip.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        tabClip.layer.borderWidth = 1
+        tabClip.layer.borderColor = UIColor(white: 1, alpha: 0.2).cgColor
         let media = MediaView()
         media.translatesAutoresizingMaskIntoConstraints = false
 
@@ -704,7 +717,7 @@ final class AdController: NSObject {
             media.centerYAnchor.constraint(equalTo: tabClip.centerYAnchor),
             media.leadingAnchor.constraint(equalTo: tabClip.leadingAnchor),
             media.widthAnchor.constraint(equalToConstant: PW),
-            media.heightAnchor.constraint(equalToConstant: PW),
+            media.heightAnchor.constraint(equalToConstant: PHT),
             textCol.leadingAnchor.constraint(equalTo: tabClip.trailingAnchor, constant: GUT),
             textCol.widthAnchor.constraint(equalToConstant: textW),
             badge.topAnchor.constraint(equalTo: textCol.topAnchor),
@@ -750,8 +763,8 @@ final class AdController: NSObject {
         mediaClipH?.isActive = false
         mediaClipH = tabClip.heightAnchor.constraint(equalToConstant: flushRest)
         mediaClipH?.isActive = true
-        cardH = PW                      // the tab, fully out
-        cornerH = cornerWrap.heightAnchor.constraint(equalToConstant: PW)
+        cardH = PHT                     // the tab, fully out
+        cornerH = cornerWrap.heightAnchor.constraint(equalToConstant: PHT)
         NSLayoutConstraint.activate([
             cornerH!,
             adv.topAnchor.constraint(equalTo: cornerWrap.topAnchor),
