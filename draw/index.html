@@ -147,10 +147,6 @@ html.dragging .gitem.slide{transition:width .2s ease,
   width .2s ease,height .2s ease}
 html.dragging{touch-action:none;user-select:none;-webkit-user-select:none}
 html.dragging #gallery,html.dragging #galleryC{overflow-x:hidden}
-#resNote{display:none;font-size:11px;line-height:1.4;color:#9a8a6a;
-  text-align:center;margin:0 14px 6px;padding:7px 10px;border-radius:9px;
-  background:rgba(190,150,70,.10)}
-#resNote.on{display:block}
 #libNote{display:none;font-size:11px;line-height:1.45;color:#8a8a8a;
   text-align:center;margin-top:8px}
 #libNote.on{display:block}
@@ -929,7 +925,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v448</span>
+    <span id="verNum">v449</span>
   </div>
 </div>
 <div id="delModal">
@@ -1231,7 +1227,6 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
       <button id="gmDesign2" title="Grid style"><canvas id="gmMini2" width="64" height="64"></canvas></button>
     </div>
   </div>
-  <div id="resNote"></div>
   <div class="row" id="fmtRow">
     <button id="fmtCrop">Crop</button>
     <button id="fmtEdit">Edit</button>
@@ -3623,30 +3618,11 @@ function cropRect(){
 // per inch, so the app is upscaling and the detail layers have nothing fine
 // to find. Silence here reads as "this app is blurry", so say it plainly,
 // once, where the size is being chosen - and never block anyone.
-function resNoteSync(){
-  const el=$('resNote'); if (!el) return;
-  let ppi=0;
-  // cropRect is in photo pixels, physWIn the chosen width in inches
-  try{ if (photo && photo.width) ppi = cropRect().w / Math.max(0.1, physWIn()); }
-  catch(e){ ppi=0; }
-  // The app's own working canvas is 96 ppi of paper, so a reference near that
-  // loses nothing. The first thresholds here were print numbers (150/90) and
-  // they flagged every reference SHIPPED WITH THE APP at its own default
-  // size - the starters run 83 to 169 ppi and they are good references. These
-  // only speak when the photo is well under what the app itself draws at.
-  if (!ppi || ppi>=60){ el.classList.remove('on'); return; }
-  const small = ppi<40;
-  el.textContent = TR(small
-    ? 'This reference is quite small for a drawing this size, so fine detail will look soft. A larger copy of the image will read better.'
-    : 'This reference is a little small for a drawing this size. Fine detail may look soft.');
-  el.classList.add('on');
-}
 let FMT_GRID=null;   // the cached grid overlay
 let FMT_PUNCH=null;  // and one scratch canvas to colour it in
 let FMT_PHOTO=null;  // the photograph as drawn, while the crop holds still
 function fmtPreview(){
   if (!photo) return;
-  resNoteSync();
   const cr = cropRect();
   const cv = $('fmtCanvas');
   // render at device resolution: a small fixed canvas stretched by the
