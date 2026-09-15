@@ -1,9 +1,17 @@
-// NO AD OVER A LIVE VIEWFINDER. The in-page camera runs INSIDE the comparison
-// screen rather than on one of its own, so the "is this a canvas screen" test
-// said yes and the card sat over the preview - an ad over someone's
-// viewfinder, and the shape that collects accidental taps while they frame a
-// shot. The card is a NATIVE view the browser cannot see, so what is checked
-// here is the CONTRACT: what the page tells the shell to do.
+// WHAT THE CARD HAS TO GET OUT OF THE WAY OF.
+//
+// A LIVE VIEWFINDER. The in-page camera runs INSIDE the comparison screen
+// rather than on one of its own, so the "is this a canvas screen" test said
+// yes and the card sat over the preview - an ad over someone's viewfinder,
+// and the shape that collects accidental taps while they frame a shot.
+//
+// AND ANY WINDOW THE PAGE OPENS. Settings, the grid designer, the account
+// panel: all drawn inside the web view, while the card is a NATIVE view
+// sitting on top of it. No z-index the page sets can beat a sibling of the
+// web view, so a window that opens under an ad is not a window.
+//
+// The card is a native view the browser cannot see, so what is checked here
+// is the CONTRACT: what the page tells the shell to do.
 const { chromium } = require('playwright-core');
 const PORT=process.argv[2]||'8899';
 let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad++; };
@@ -46,7 +54,21 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
     log.length=0;
     CAM.stream = null;
     adSync(); await new Promise(r=>setTimeout(r,200));
-    return { onCompare, onCamera, after:{ place:last('place'), proj:last('proj') } };
+    const after = { place:last('place'), proj:last('proj') };
+    // now a WINDOW, opened the way the page opens them - no adSync() call
+    // here on purpose: the point is that nobody has to remember to make one
+    const wins={};
+    for (const id of ['setModal','gsdModal','accModal']){
+      log.length=0;
+      $(id).style.display='flex';
+      await new Promise(r=>setTimeout(r,250));
+      const up={ place:last('place'), proj:last('proj') };
+      log.length=0;
+      $(id).style.display='none';
+      await new Promise(r=>setTimeout(r,250));
+      wins[id]={ up, down:{ place:last('place'), proj:last('proj') } };
+    }
+    return { onCompare, onCamera, after, wins };
   });
   console.log('comparison screen  place='+r.onCompare.place+' proj='+r.onCompare.proj);
   console.log('viewfinder up      place='+r.onCamera.place+' proj='+r.onCamera.proj);
@@ -57,8 +79,16 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
      'and yielded the moment the viewfinder is live');
   ok(r.after.place===true && r.after.proj===true,
      'and asked for again once the viewfinder is gone');
+  for (const [id,w] of Object.entries(r.wins)){
+    console.log(id.padEnd(9)+'  open place='+w.up.place+' proj='+w.up.proj
+                +'   closed place='+w.down.place+' proj='+w.down.proj);
+    ok(w.up.place===false && w.up.proj===false,
+       id+': the card yields when the window opens');
+    ok(w.down.place===true && w.down.proj===true,
+       id+': and comes back when it closes');
+  }
   ok(errs.length===0, 'no page errors'+(errs.length?' -> '+errs[0]:''));
   await br.close();
-  console.log(bad? '\n'+bad+' FAILED' : '\nno ad over the viewfinder OK');
+  console.log(bad? '\n'+bad+' FAILED' : '\nthe card gets out of the way OK');
   process.exit(bad?1:0);
 })();

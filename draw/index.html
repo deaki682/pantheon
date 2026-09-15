@@ -1005,7 +1005,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v477</span>
+    <span id="verNum">v478</span>
   </div>
 </div>
 <div id="delModal">
@@ -1714,8 +1714,19 @@ function adSync(){
     // false to hand over the backdrop colour turned the whole ad stack off.
     // It gets the real answer now, and the SHELL suppresses the strip because
     // adProj has already said the card has this screen.
+    // AND A WINDOW TAKES IT AWAY. Settings, the grid designer, the account
+    // panel - every one of them is drawn INSIDE the web view, and the card is
+    // a NATIVE view sitting on top of it. There is no z-index the page can
+    // set that beats a sibling of the web view, so a window that opens under
+    // an ad is not a window at all. Matching on the id rather than keeping a
+    // list means a window added tomorrow is covered the day it is added.
+    const modal = (()=>{ try{
+      for (const m of document.querySelectorAll('[id$="Modal"]'))
+        if (getComputedStyle(m).display!=='none') return true;
+      return false;
+    }catch(e){ return false; } })();
     const canvas = !!(on && (on.id==='scrMain' || on.id==='scrCompare'));
-    const want = !cam && !splash && canvas;
+    const want = !cam && !splash && !modal && canvas;
     // WHERE the card sits is the page's call, because the page knows which
     // corner its own layout left empty. Upright, both controls stack down the
     // LEFT edge and the card takes the top-RIGHT. Sideways there is no room
@@ -1729,6 +1740,14 @@ function adSync(){
     RealismCam.adPlace(want, bg);
   }catch(e){}
 }
+// A window opening is never announced - each one simply sets its own display
+// - so watch for it rather than hunting down every call site and hoping the
+// next one remembers.
+try{
+  const mo=new MutationObserver(()=>{ try{ adSync(); }catch(e){} });
+  for (const m of document.querySelectorAll('[id$="Modal"]'))
+    mo.observe(m, {attributes:true, attributeFilter:['style','class']});
+}catch(e){}
 // the shell says when the card is on screen. It rests as a thin banner in the
 // corner our own layout leaves empty - top-right upright, top-left sideways -
 // and blooms to the video height now and then, covering nothing of ours
