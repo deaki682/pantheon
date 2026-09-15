@@ -65,6 +65,24 @@ const MM=25.4/160;
       ok(r.exp==='none', 'the download button is gone from the drawing screen');
     }
   }
+  // the top row is bare with NO ad too - a viewer who bought the removal
+  // must not keep the buttons that were taken away
+  const noAd = await pg.evaluate(async ()=>{
+    document.documentElement.classList.remove('adTop');
+    window.__adOn(false); window.__adH(0);
+    await new Promise(r=>setTimeout(r,450));
+    const vis=id=>{ const el=document.getElementById(id);
+      const cs=getComputedStyle(el);
+      return cs.display!=='none' && cs.visibility!=='hidden' && cs.pointerEvents!=='none'; };
+    return { gear: vis('setCorner'), dl: vis('expCorner'), back: vis('backBtn'),
+             hudGap: Math.round(innerHeight-document.getElementById('hudWrap').getBoundingClientRect().bottom) };
+  });
+  ok(!noAd.gear && !noAd.dl && !noAd.back,
+     'with ads removed the top row is still bare (gear '+noAd.gear+', download '+noAd.dl+', back '+noAd.back+')');
+  ok(noAd.hudGap<=12, 'and the controls stay at '+noAd.hudGap+'px off the bottom');
+  await pg.evaluate(async ()=>{ document.documentElement.classList.add('adTop');
+    window.__adOn(true); window.__adH(76); await new Promise(r=>setTimeout(r,400)); });
+
   // and the badge survives, with nothing to press
   const badge = await pg.evaluate(async ()=>{
     DONE=[1,2,3]; markBadge(true);

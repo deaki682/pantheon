@@ -404,12 +404,16 @@ html.adOn.adTop #adGuard{top:calc(var(--adh,76px) + env(safe-area-inset-top));bo
    What is left of the gear is its BADGE - the completed-squares tally and
    the True to Life pop both lived inside that button - so it stays as a
    label with nothing to press, sitting under the card. */
-html.adTop #setCorner{pointer-events:none;
-  top:calc(var(--adh,76px) + 8px + env(safe-area-inset-top))}
-html.adTop #setBtn{min-width:0;background:transparent;border-color:transparent;
+/* ...and they go whether or not an ad is up. Gating this on adTop meant a
+   viewer who had BOUGHT the removal - or anyone the auction had not filled
+   for yet - kept the old top row, which is not what was asked for. The
+   badge only MOVES for the ad; it is a badge either way. */
+#setCorner{pointer-events:none}
+#setBtn{min-width:0;background:transparent;border-color:transparent;
   box-shadow:none}
-html.adTop #setBtn svg{display:none}
-html.adTop #expCorner{display:none}
+#setBtn svg{display:none}
+#expCorner{display:none}
+html.adTop #setCorner{top:calc(var(--adh,76px) + 8px + env(safe-area-inset-top))}
 /* the buffer band (and any exposed screen edge) matches the working
    screens' ground, so the lift never reads as a black bar */
 #scrMain,#scrCompare{background:#2a2a2a}
@@ -788,31 +792,35 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   padding:18px 24px;display:flex;flex-direction:column;gap:10px;min-width:200px}
 #refPanel button{min-height:calc(44px*var(--ux,1));border-radius:10px}
 #dloModal{position:fixed;inset:0;z-index:26;display:none;
-  align-items:center;justify-content:center;background:rgba(8,8,8,0.62)}
+  align-items:center;justify-content:center;background:rgba(8,8,8,0.72)}
 #dloPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
-  padding:18px 22px;display:flex;flex-direction:column;gap:10px;
-  min-width:min(300px,86vw);max-width:86vw}
-#dloPanel button{min-height:calc(46px*var(--ux,1));border-radius:10px;
-  font-size:calc(15px*var(--ux,1))}
-#dloPanel .setLbl{text-align:center;margin-bottom:2px}
-#dloNote{font-size:11px;line-height:1.4;color:#8a8a8a;text-align:center;margin-top:2px}
-.dloRow{display:flex;align-items:center;gap:10px;padding:7px 8px;border-radius:12px;
-  background:#181818;border:1px solid #3a3a3a;min-height:calc(56px*var(--ux,1))}
-.dloThumb{width:calc(46px*var(--ux,1));height:calc(46px*var(--ux,1));border-radius:8px;
-  background:#242424;flex:0 0 auto;object-fit:cover}
-.dloName{flex:1;font-size:calc(13px*var(--ux,1));line-height:1.25;text-align:left}
-.dloRow button{min-height:calc(38px*var(--ux,1));border-radius:9px;padding:0 14px;
-  font-size:calc(13px*var(--ux,1));color:var(--acc);flex:0 0 auto}
-.dloRow button[disabled]{opacity:.35}
-/* one ring a picture, so four things are visibly in flight rather than one
-   bar standing in for all of them */
-.dloSpin{width:calc(22px*var(--ux,1));height:calc(22px*var(--ux,1));flex:0 0 auto;
-  border-radius:50%;border:2px solid #3f3f3f;border-top-color:var(--acc);
-  animation:dloTurn 900ms linear infinite}
-.dloRow.waiting .dloSpin{animation:none;border-top-color:#3f3f3f;opacity:.5}
-.dloRow.ready .dloSpin{display:none}
-.dloRow.ready{border-color:#4a4a4a}
-.dloRow:not(.ready) button{display:none}
+  padding:16px;display:flex;flex-direction:column;gap:12px;
+  width:min(420px,94vw);max-width:94vw}
+#dloPanel .setLbl{text-align:center}
+#dloGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+/* each cell is the picture itself, big enough to tell the layers apart -
+   a 46px tile could not */
+.dloCell{position:relative;border-radius:12px;overflow:hidden;
+  background:#111;border:1px solid #3a3a3a;display:flex;flex-direction:column}
+.dloThumb{width:100%;height:auto;display:block;background:#111}
+.dloName{font-size:calc(11px*var(--ux,1));line-height:1.25;text-align:center;
+  padding:5px 4px 6px;color:#cfcfcf}
+/* the ring sits ON the picture, because the picture is there first and it is
+   the FILE that is still coming */
+.dloBusy{position:absolute;left:0;right:0;top:0;bottom:calc(24px*var(--ux,1));
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(10,10,10,0.42);pointer-events:none}
+.dloSpin{width:calc(26px*var(--ux,1));height:calc(26px*var(--ux,1));
+  border-radius:50%;border:2px solid rgba(255,255,255,.25);
+  border-top-color:var(--acc);animation:dloTurn 900ms linear infinite}
+.dloCell.ready .dloBusy{display:none}
+.dloGet{position:absolute;right:6px;top:6px;display:none;
+  width:calc(38px*var(--ux,1));height:calc(38px*var(--ux,1));padding:0;
+  border-radius:10px;align-items:center;justify-content:center;
+  background:rgba(20,20,20,0.82);color:var(--acc)}
+.dloCell.ready .dloGet{display:flex}
+.dloGet[disabled]{opacity:.4}
+#dloNote{font-size:11px;line-height:1.4;color:#8a8a8a;text-align:center}
 @keyframes dloTurn{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion: reduce){ .dloSpin{animation:none} }
 /* tutorial tips: a floating bubble, the app fully usable beneath it.
@@ -984,7 +992,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v453</span>
+    <span id="verNum">v454</span>
   </div>
 </div>
 <div id="delModal">
@@ -1052,29 +1060,31 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 <div id="dloModal">
   <div id="dloPanel">
     <span class="setLbl">Download Options</span>
-    <div class="dloRow waiting" id="dloRow0">
-      <canvas class="dloThumb" id="dloTh0"></canvas>
-      <span class="dloName" id="dloNm0">Shading</span>
-      <div class="dloSpin"></div>
-      <button id="dlo0">Download</button>
-    </div>
-    <div class="dloRow waiting" id="dloRow1">
-      <canvas class="dloThumb" id="dloTh1"></canvas>
-      <span class="dloName" id="dloNm1">Shading + Darks</span>
-      <div class="dloSpin"></div>
-      <button id="dlo1">Download</button>
-    </div>
-    <div class="dloRow waiting" id="dloRow2">
-      <canvas class="dloThumb" id="dloTh2"></canvas>
-      <span class="dloName" id="dloNm2">Shading + Darks + Lights</span>
-      <div class="dloSpin"></div>
-      <button id="dlo2">Download</button>
-    </div>
-    <div class="dloRow waiting" id="dloRow3">
-      <canvas class="dloThumb" id="dloTh3"></canvas>
-      <span class="dloName" id="dloNm3">Full reference</span>
-      <div class="dloSpin"></div>
-      <button id="dlo3">Download</button>
+    <div id="dloGrid">
+      <div class="dloCell" id="dloRow0">
+        <canvas class="dloThumb" id="dloTh0"></canvas>
+        <div class="dloBusy"><div class="dloSpin"></div></div>
+        <button class="dloGet" id="dlo0" title="Download" aria-label="Download"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8.5 11.5L12 15l3.5-3.5"/><path d="M5 19h14"/></svg></button>
+        <span class="dloName" id="dloNm0"></span>
+      </div>
+      <div class="dloCell" id="dloRow1">
+        <canvas class="dloThumb" id="dloTh1"></canvas>
+        <div class="dloBusy"><div class="dloSpin"></div></div>
+        <button class="dloGet" id="dlo1" title="Download" aria-label="Download"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8.5 11.5L12 15l3.5-3.5"/><path d="M5 19h14"/></svg></button>
+        <span class="dloName" id="dloNm1"></span>
+      </div>
+      <div class="dloCell" id="dloRow2">
+        <canvas class="dloThumb" id="dloTh2"></canvas>
+        <div class="dloBusy"><div class="dloSpin"></div></div>
+        <button class="dloGet" id="dlo2" title="Download" aria-label="Download"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8.5 11.5L12 15l3.5-3.5"/><path d="M5 19h14"/></svg></button>
+        <span class="dloName" id="dloNm2"></span>
+      </div>
+      <div class="dloCell" id="dloRow3">
+        <canvas class="dloThumb" id="dloTh3"></canvas>
+        <div class="dloBusy"><div class="dloSpin"></div></div>
+        <button class="dloGet" id="dlo3" title="Download" aria-label="Download"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8.5 11.5L12 15l3.5-3.5"/><path d="M5 19h14"/></svg></button>
+        <span class="dloName" id="dloNm3"></span>
+      </div>
     </div>
     <span id="dloNote"></span>
     <button id="dloX">Close</button>
@@ -4071,9 +4081,62 @@ const DLO=[null,null,null,null]; // {du, fname} once an image is finished
 function dloReset(){
   for (let i=0;i<4;i++){
     DLO[i]=null;
-    const row=$('dloRow'+i);
-    row.classList.remove('ready'); row.classList.add('waiting');
+    $('dloRow'+i).classList.remove('ready');
     const th=$('dloTh'+i); th.width=1; th.height=1;
+  }
+}
+// Set the layer flags for one of the four. Cumulative: each is everything
+// the one before it had, plus the next layer.
+function dloLayers(i){
+  if (REFMODE==='c'){
+    LAYERS_C.dk = i>=0; LAYERS_C.mid = i>=1; LAYERS_C.lt = i>=2; LAYERS_C.br = i>=3;
+  } else {
+    LAYERS.dk = i>=1; LAYERS.lt = i>=2; LAYERS.hl = i>=3;
+  }
+  COMP.sig=null;
+}
+// The picture, straight away. It is drawn from the COMPOSITE - which is
+// world-sized and already the thing the drawing screen shows - not from the
+// full-size export, so all four are on screen in a few hundred milliseconds
+// instead of waiting on a file each. Big enough, and carrying the grid, so
+// the layers are actually distinguishable from one another.
+function dloPreview(i){
+  const th=$('dloTh'+i);
+  const cell=$('dloRow'+i).getBoundingClientRect();
+  const dpr=Math.min(2, devicePixelRatio||1);
+  const {w,h}=worldSize();
+  const cw=Math.max(80, Math.round((cell.width||160)));
+  const ch=Math.max(50, Math.round(cw*h/Math.max(1,w)));
+  const W=Math.round(cw*dpr), H=Math.round(ch*dpr);
+  if (th.width!==W || th.height!==H){ th.width=W; th.height=H; }
+  th.style.height=ch+'px';
+  const g=th.getContext('2d');
+  g.setTransform(1,0,0,1,0,0);
+  g.clearRect(0,0,W,H);
+  g.imageSmoothingQuality='high';
+  let src=null;
+  try{ src=compositeCv(); }catch(e){}
+  if (src) g.drawImage(src, 0,0,src.width,src.height, 0,0,W,H);
+  // the same lattice the file will carry, at this size
+  if (GRID_ON){
+    const step = W*cellIn()/Math.max(0.01, physWIn());
+    const layer = fmtGridLayer(W, H, step, dpr);
+    if (layer){
+      if (punchOn()){
+        const mk=document.createElement('canvas'); mk.width=W; mk.height=H;
+        const mg=mk.getContext('2d');
+        mg.globalCompositeOperation='copy'; mg.drawImage(layer,0,0);
+        mg.globalCompositeOperation='source-over';
+        if (punchPaint(mg, W, H, lg=>lg.drawImage(th,0,0), step)) g.drawImage(mk,0,0);
+        else { g.globalCompositeOperation='difference'; g.drawImage(layer,0,0);
+               g.globalCompositeOperation='source-over'; }
+      } else {
+        if (GRID_COL==='auto') g.globalCompositeOperation='difference';
+        g.drawImage(layer,0,0);
+        g.globalCompositeOperation='source-over';
+      }
+    }
+    FMT_GRID=null;               // that layer canvas is shared with the size screen
   }
 }
 function dloOpen(build){
@@ -4119,7 +4182,6 @@ async function dloBuildAll(){
   if (!state.img || !GRID_READY) return;
   const savedL={...LAYERS}, savedC={...LAYERS_C};
   const savedDet=DETAIL, savedDone=DONE, savedCircs=CIRCS;
-  expFreeRoom();
   try{
     DETAIL='ultra'; DONE=[]; CIRCS=[];
     // the layers are cooked from the form; without it every option would
@@ -4129,36 +4191,32 @@ async function dloBuildAll(){
       try{ ensureForm(); }catch(e){}
       await new Promise(r=>setTimeout(r,50));
     }
+    // ---- pass one: the four pictures, as fast as they can be drawn ------
     for (let i=0;i<4;i++){
       if (run!==DLO_RUN) return;
-      $('dloRow'+i).classList.remove('waiting');
-      await new Promise(r=>requestAnimationFrame(()=>r()));   // let the ring paint
-      if (REFMODE==='c'){
-        LAYERS_C.dk = i>=0; LAYERS_C.mid = i>=1; LAYERS_C.lt = i>=2; LAYERS_C.br = i>=3;
-      } else {
-        LAYERS.dk = i>=1; LAYERS.lt = i>=2; LAYERS.hl = i>=3;
-      }
-      COMP.sig=null;
+      dloLayers(i);
+      try{ dloPreview(i); }catch(e){ plog('dlo preview '+i+': '+(e&&e.message)); }
+      await new Promise(r=>requestAnimationFrame(()=>r()));
+    }
+  } catch(e){ plog('download options previews: '+(e&&e.message)); }
+  // ---- pass two: the files, one at a time, behind the pictures ---------
+  expFreeRoom();
+  try{
+    for (let i=0;i<4;i++){
+      if (run!==DLO_RUN) return;
+      dloLayers(i);
       let made=null;
       try{ made = await exportCompose(DLO_TAG[i]); }
       catch(e){ plog('download options '+i+': '+(e&&e.message)); }
       if (run!==DLO_RUN) return;
-      if (!made){ $('dloRow'+i).classList.add('waiting'); continue; }
-      // a small preview so the row is obviously its own picture
-      try{
-        const th=$('dloTh'+i), d=Math.round(46*(Math.min(2,devicePixelRatio||1)));
-        th.width=d; th.height=d;
-        const tg=th.getContext('2d');
-        const side=Math.min(made.c.width, made.c.height);
-        tg.drawImage(made.c, (made.c.width-side)/2, (made.c.height-side)/2, side, side, 0,0,d,d);
-      }catch(e){}
+      if (!made) continue;
       // hold the ENCODED image, not the canvas - four full-size canvases
       // would not fit on a phone, four jpegs are a few megabytes
       const du = encodeWithin(made.c, NAT_MAX_B64);
-      made.c.width=1; made.c.height=1;            // let the canvas go at once
-      if (!du){ $('dloRow'+i).classList.add('waiting'); continue; }
+      made.c.width=1; made.c.height=1;
+      if (!du) continue;
       DLO[i]={ du, fname: made.fname };
-      $('dloRow'+i).classList.add('ready');
+      $('dloRow'+i).classList.add('ready');   // its download icon appears
     }
   } catch(e){ plog('download options: '+(e&&e.message)); }
   finally {

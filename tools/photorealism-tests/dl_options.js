@@ -46,26 +46,61 @@ const crypto=require('crypto');
     shown: getComputedStyle($('dloModal')).display!=='none',
     screen:(document.querySelector('.screen.on')||{}).id,
     ready: GRID_READY,
-    labels: [0,1,2,3].map(i=>$('dloNm'+i).textContent.trim()) }));
+    labels: [0,1,2,3].map(i=>$('dloNm'+i).textContent.trim()),
+    cols: getComputedStyle($('dloGrid')).gridTemplateColumns.split(' ').length }));
   ok(opened.shown, 'Download Options opened (on '+opened.screen+', grid ready: '+opened.ready+')');
   console.log('       options: '+opened.labels.join(' | '));
+  ok(opened.cols===2, 'laid out two across ('+opened.cols+' columns)');
 
-  // they must arrive IN ORDER and become downloadable one at a time, not all
-  // at the end - that progression is the whole point of the redesign
-  const order = await pg.evaluate(async ()=>{
-    const seen=[]; const t0=performance.now();
-    for (let n=0;n<1200 && seen.length<4;n++){
-      for (let i=0;i<4;i++)
-        if ($('dloRow'+i).classList.contains('ready') && !seen.some(s=>s.i===i))
-          seen.push({i, ms:Math.round(performance.now()-t0)});
-      await new Promise(r=>setTimeout(r,100));
+  // Timed from INSIDE the page, against one mark, so the phases cannot be
+  // confused with the test's own polling. Two different questions:
+  //   - how fast do the PICTURES appear once the reference is ready
+  //   - how far behind do the FILES arrive
+  // The reference is already open and cooked here, which is the case that
+  // has to feel instant: it is what the gallery route lands in too, once
+  // the opening is done.
+  const timed = await pg.evaluate(async ()=>{
+    // make sure we are fully open and cooked first
+    for (let i=0;i<4000;i++){
+      if (document.querySelector('#scrMain.on') && GRID_READY
+          && FORM.cv && FORM.key===fkey()) break;
+      await new Promise(r=>setTimeout(r,50));
     }
-    return seen;
+    const prev=[], file=[];
+    const realPrev = window.dloPreview;
+    let t0=0;
+    window.dloPreview = function(i){ const r=realPrev.apply(this,arguments);
+      prev[i]=Math.round(performance.now()-t0); return r; };
+    const obs=[];
+    for (let i=0;i<4;i++){
+      const row=$('dloRow'+i);
+      const o=new MutationObserver(()=>{ if (row.classList.contains('ready') && file[i]==null)
+        file[i]=Math.round(performance.now()-t0); });
+      o.observe(row,{attributes:true,attributeFilter:['class']}); obs.push(o);
+    }
+    dloReset();
+    t0=performance.now();
+    dloOpen();
+    for (let n=0;n<1200 && file.filter(x=>x!=null).length<4; n++)
+      await new Promise(r=>setTimeout(r,50));
+    obs.forEach(o=>o.disconnect());
+    window.dloPreview=realPrev;
+    const th=$('dloTh0');
+    return { prev, file, backing: th.width,
+             icons: [0,1,2,3].map(i=>getComputedStyle($('dlo'+i)).display) };
   });
-  ok(order.length===4, 'all four finished ('+order.map(o=>o.i+'@'+o.ms+'ms').join(', ')+')');
-  ok(order.map(o=>o.i).join()==='0,1,2,3', 'they arrive in order, shading first');
-  ok(order.length===4 && order[0].ms < order[3].ms,
-     'the first is usable '+(order.length===4?(order[3].ms-order[0].ms):0)+'ms before the last');
+  console.log('       pictures at  '+timed.prev.map(x=>x+'ms').join(', '));
+  console.log('       files at     '+timed.file.map(x=>x+'ms').join(', '));
+  ok(timed.prev.filter(x=>x!=null).length===4, 'all four pictures drew');
+  ok(timed.prev[3]!=null && timed.prev[3] < 900,
+     'and they are all up in '+timed.prev[3]+'ms, without waiting on a file');
+  ok(timed.backing>=140, 'each is a large picture ('+timed.backing+'px backing), not a tile');
+  ok(timed.file.filter(x=>x!=null).length===4, 'all four files finished');
+  ok(timed.file[0]!=null && timed.prev[3]!=null && timed.file[0] > timed.prev[3],
+     'the pictures beat the first file by '+(timed.file[0]-timed.prev[3])+'ms');
+  ok(timed.file[3] > timed.file[0],
+     'the files arrive in order, '+(timed.file[3]-timed.file[0])+'ms apart');
+  ok(timed.icons.every(d=>d!=='none'), 'each one reveals its own download icon');
 
   const before = await pg.evaluate(()=>({L:{...LAYERS}, det:DETAIL, done:DONE.length, circ:CIRCS.length}));
   const hashes=[];
@@ -74,8 +109,7 @@ const crypto=require('crypto');
     await pg.evaluate(i=>$('dlo'+i).onclick(), i);
     const d = await dl;
     if (!d){ ok(false,'option '+i+' produced no file'); continue; }
-    const path = await d.path();
-    const buf = require('fs').readFileSync(path);
+    const buf = require('fs').readFileSync(await d.path());
     hashes.push({ name:d.suggestedFilename(), size:buf.length,
                   h:crypto.createHash('sha1').update(buf).digest('hex').slice(0,12) });
   }
