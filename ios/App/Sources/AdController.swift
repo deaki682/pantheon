@@ -576,7 +576,10 @@ final class AdController: NSObject {
         // Sideways there is height to spare on a canvas screen, so the player
         // gets a 4:3 frame and the header a line it can read on.
         let tall = spotLeft
-        let TALLW: CGFloat = 196, TALLPH: CGFloat = 150, TALLHDR: CGFloat = 46
+        // narrow and tall: a landscape screen has height to spare down its
+        // edge and none of the width the flat card wants. 144x190 of player,
+        // clear of the 120x120 video floor, under a 46pt header.
+        let TALLW: CGFloat = 160, TALLPH: CGFloat = 190, TALLHDR: CGFloat = 46
         let playerW: CGFloat = tall ? TALLW - 16 : 120
         let textW = tall ? playerW : min(max(budget - playerW - GUT - PADR, 40), 118)
         let advW = tall ? TALLW : playerW + GUT + textW + PADR

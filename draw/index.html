@@ -174,6 +174,7 @@ html.dragging #gallery,html.dragging #galleryC{overflow-x:hidden}
   border:none;background:rgba(14,14,14,0.72);border-radius:50%;
   color:var(--acc);font-size:22px;line-height:1;
   display:flex;align-items:center;justify-content:center}
+.gx svg{width:calc(17px*var(--ux,1));height:calc(17px*var(--ux,1));display:block}
 .gitem img{display:block;width:100%;aspect-ratio:1;object-fit:cover;
   flex:1 0 auto;min-height:0}
 .gstat{font-size:12px;color:var(--acc);text-align:center;
@@ -315,7 +316,9 @@ body.colorRef #hudWrap{left:calc(30px + (100% - 60px)*0.5)}
 #backBtn,#hudToggle,#detBtn,#underBtn,#gridBtn,#compareBtn,#expBtn,#setBtn{
   box-shadow:0 3px 8px rgba(0,0,0,0.5)}
 #hud,#detMenu,#underMenu,#gridMenu{box-shadow:0 6px 16px rgba(0,0,0,0.55)}
-#hudToggle{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;font-size:calc(18px*var(--ux,1));line-height:1;border-radius:12px}
+#hudToggle{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;font-size:calc(18px*var(--ux,1));line-height:1;border-radius:12px;
+  display:flex;align-items:center;justify-content:center}
+#hudToggle svg{width:calc(22px*var(--ux,1));height:calc(22px*var(--ux,1));display:block}
 #hudToggle.lit{width:auto;padding:0 16px;font-size:calc(14px*var(--ux,1))}
 body.colorRef #hudToggle.lit{width:calc(44px*var(--ux,1));padding:0;font-size:calc(18px*var(--ux,1))}
 #camCorner{position:absolute;left:calc(100% - 8px - 22px*var(--ux,1));transform:translateX(-50%);
@@ -1002,7 +1005,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v476</span>
+    <span id="verNum">v477</span>
   </div>
 </div>
 <div id="delModal">
@@ -2280,7 +2283,8 @@ async function renderGallery(){
     im.src = thumbSrc(r); im.alt = r.name||'';
     const bar = document.createElement('div'); bar.className='gbar';
     bar.appendChild(Object.assign(document.createElement('div'),{className:'gfill'}));
-    const xb = document.createElement('button'); xb.className='gx'; xb.textContent='\u270e';
+    const xb = document.createElement('button'); xb.className='gx';
+    xb.innerHTML = PENCIL;      // the same drawing, for the same reason
     xb.onclick = ev => {
       ev.stopPropagation();
       if (PREP.active) return;
@@ -5602,8 +5606,7 @@ function initMain(){
   // a photo always opens on the full image: panel closed, every layer in.
   // The pencil button is the door to the shading workshop.
   $('hud').style.display='none';
-  if (REFMODE==='c') $('hudToggle').innerHTML=COLOR_WHEEL;
-  else $('hudToggle').textContent='\u270e';
+  $('hudToggle').innerHTML = REFMODE==='c' ? COLOR_WHEEL : PENCIL;
   $('hudToggle').classList.remove('lit','vOn');
   LAYERS.dk=LAYERS.lt=LAYERS.hl=true;
   LAYERS_C.dk=LAYERS_C.mid=LAYERS_C.lt=LAYERS_C.br=true;
@@ -6235,6 +6238,15 @@ let BAND_SOFT = 9;
 // Shading lays the form in, Darks/Lights/Brights build on it. While open
 // it is the only thing shown; the colour bands wait, remembered.
 let UNDER=false;
+// THE PENCIL IS A DRAWING, NOT A GLYPH. It was the character U+270E, sized
+// by font-size in a 44px box - and how big that character comes out inside
+// its em box is the font's business, not ours. Apple's is small and sits
+// with a lot of air around it, so on an iPhone the pencil looked lost in a
+// button the same size as every other. An SVG is the same size everywhere.
+const PENCIL='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" '
+  +'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
+  +'stroke-linejoin="round"><path d="M4 20h4L19 9a2.83 2.83 0 0 0-4-4L4 16v4z"/>'
+  +'<path d="M14 6l4 4"/></svg>';
 const COLOR_WHEEL='<svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 12 L12.00 3.40 A8.6 8.6 0 0 1 18.08 5.92 Z" fill="#e04438"/><path d="M12 12 L18.08 5.92 A8.6 8.6 0 0 1 20.60 12.00 Z" fill="#f08a24"/><path d="M12 12 L20.60 12.00 A8.6 8.6 0 0 1 18.08 18.08 Z" fill="#ecc94b"/><path d="M12 12 L18.08 18.08 A8.6 8.6 0 0 1 12.00 20.60 Z" fill="#4caf50"/><path d="M12 12 L12.00 20.60 A8.6 8.6 0 0 1 5.92 18.08 Z" fill="#26b0a8"/><path d="M12 12 L5.92 18.08 A8.6 8.6 0 0 1 3.40 12.00 Z" fill="#4285e8"/><path d="M12 12 L3.40 12.00 A8.6 8.6 0 0 1 5.92 5.92 Z" fill="#8e5cf0"/><path d="M12 12 L5.92 5.92 A8.6 8.6 0 0 1 12.00 3.40 Z" fill="#ec5fa8"/></svg>';
 let UGROUND='off';               // 'off' | 'shade' | 'mid' | 'full'
 let hudSet=()=>{};               // the workshop door, callable from the wheel
@@ -6320,6 +6332,37 @@ function compositeColorCv(){
   // is only as wide in pixels as the picture is gradual there - a hard edge
   // in the photograph still gets a hard border, and with every band chosen
   // there is no border to soften and nothing changes at all.
+  // THE RECOLOUR, AND WHERE IT GOES WRONG. The photo's colour rides the
+  // ratio of the cooked value to the photo's own - k = v/ph on all three
+  // channels - which preserves the hue and re-exposes the pixel. In the
+  // SHADOWS that ratio is a lever with no fulcrum. A lash at ph=8 lifted to
+  // v=40 multiplies by five, and the channels down there are not the lash's
+  // colour at all: they are the SKIN's, smeared onto it by JPEG's
+  // half-resolution chroma. A 4-level warm bias becomes 20, red reaches 255
+  // before green and blue do, and a black lash comes out scarlet. That is the
+  // red fringing along eyelashes and hair, and it has been there since colour
+  // mode shipped - the shadows are simply where it shows.
+  //
+  // Two corrections, both about not trusting what is not there:
+  //   - below CHROMA_FLOOR the gain fades toward a NEUTRAL recolour, because
+  //     the hue down there belongs to the neighbouring pixel, not this one.
+  //     It costs nothing visible: a pixel that dark has no colour to lose
+  //     until something lifts it, and lifting it is exactly the failure.
+  //   - and a channel that would clip no longer stops at 255 on its own. All
+  //     three scale together, so an over-bright pixel goes BRIGHT instead of
+  //     lurching toward whichever primary clipped first.
+  //
+  // But the floor alone was not enough, because the gain does not stop at the
+  // floor: measured on a test picture of near-black strokes over warm skin,
+  // k reaches 18 at the Fine detail level - a coarser plane BLURS, so a lash
+  // is pulled up toward the skin around it while the photo's own value stays
+  // black. So cap what the CHROMA may be multiplied by while the luma goes
+  // wherever the cooking sends it. Written as luma + chroma, the old maths is
+  // exactly `v + (rgb-ph)*k`, so capping that k and nothing else changes
+  // nothing at all for a pixel that was not being amplified in the first
+  // place - and lifting a shadow should not saturate it 18-fold anyway.
+  const CHROMA_FLOOR = 24;
+  const CHROMA_GAIN = 2.5;
   const BT=[t1,t2,t3];
   const ON=[LAYERS_C.dk?1:0, LAYERS_C.mid?1:0, LAYERS_C.lt?1:0, LAYERS_C.br?1:0];
   const SOFT=BAND_SOFT;
@@ -6356,9 +6399,14 @@ function compositeColorCv(){
         a = ON[bi+1] + (ON[bi]-ON[bi+1])*(0.5 + dHi/(SOFT+SOFT));
     }
     if (a>=0.998){                      // wholly painted: the common case
-      const k=v/Math.max(1,ph);
-      const r=rgb[q]*k, g2=rgb[q+1]*k, b=rgb[q+2]*k;
-      od[q]=r>255?255:r; od[q+1]=g2>255?255:g2; od[q+2]=b>255?255:b; od[q+3]=255;
+      const k=v/(ph<1?1:ph), kc=k>CHROMA_GAIN?CHROMA_GAIN:k;
+      let r=v+(rgb[q]-ph)*kc, g2=v+(rgb[q+1]-ph)*kc, b=v+(rgb[q+2]-ph)*kc;
+      if (ph<CHROMA_FLOOR){ const s=ph*(1/CHROMA_FLOOR);
+        r=v+(r-v)*s; g2=v+(g2-v)*s; b=v+(b-v)*s; }
+      if (r<0)r=0; if (g2<0)g2=0; if (b<0)b=0;
+      const mx = r>g2 ? (r>b?r:b) : (g2>b?g2:b);
+      if (mx>255){ const s=255/mx; r*=s; g2*=s; b*=s; }
+      od[q]=r; od[q+1]=g2; od[q+2]=b; od[q+3]=255;
       continue;
     }
     // the colours always build on top of the underpainting: wherever a
@@ -6371,9 +6419,13 @@ function compositeColorCv(){
     if (underOn && (gFull || ui<254)){ pr=SEP_R[ui]; pg=SEP_G[ui]; pb=SEP_B[ui]; }
     else { pr=pg=pb=255; }
     if (a<=0.002){ od[q]=pr; od[q+1]=pg; od[q+2]=pb; od[q+3]=255; continue; }
-    const k=v/Math.max(1,ph);
-    let r=rgb[q]*k, g2=rgb[q+1]*k, b=rgb[q+2]*k;
-    if (r>255)r=255; if (g2>255)g2=255; if (b>255)b=255;
+    const k=v/(ph<1?1:ph), kc=k>CHROMA_GAIN?CHROMA_GAIN:k;
+    let r=v+(rgb[q]-ph)*kc, g2=v+(rgb[q+1]-ph)*kc, b=v+(rgb[q+2]-ph)*kc;
+    if (ph<CHROMA_FLOOR){ const s=ph*(1/CHROMA_FLOOR);
+      r=v+(r-v)*s; g2=v+(g2-v)*s; b=v+(b-v)*s; }
+    if (r<0)r=0; if (g2<0)g2=0; if (b<0)b=0;
+    const mx = r>g2 ? (r>b?r:b) : (g2>b?g2:b);
+    if (mx>255){ const s=255/mx; r*=s; g2*=s; b*=s; }
     od[q]  = pr+(r-pr)*a;
     od[q+1]= pg+(g2-pg)*a;
     od[q+2]= pb+(b-pb)*a;
@@ -7086,17 +7138,34 @@ function toast(t, acc, ms){
 // rather than along the seam between two. A segment then carries a single
 // colour from one cell centre to the next, and can no more split in the
 // middle than a pencil line can.
-// The whole mechanism rides on ctx.filter, and an older WebView does not
-// have it - assigning is simply ignored, the threshold never happens, and the
-// grid would come out solid white and vanish over a light photograph. Ask
-// once, and fall back to the inverting blend where the answer is no.
-const CTX_FILTER_OK=(()=>{ try{
-  const c=document.createElement('canvas'); c.width=c.height=1;
-  const g=c.getContext('2d'); g.filter='blur(1px)';
-  return g.filter==='blur(1px)';
-}catch(e){ return false; } })();
-// 'auto' IS the per-cell black/white grid now, wherever the engine can do it
-function punchOn(){ return GRID_COL==='auto' && CTX_FILTER_OK; }
+// THE DECISION, MADE IN ARITHMETIC RATHER THAN BY THE ENGINE. This used to be
+// `filter = 'grayscale(1) contrast(12000%) invert(1)'` on the tiny per-cell
+// map: reduce to luma, drive everything to one end or the other about the
+// midpoint, flip. It reads as one elegant line and it is at the mercy of
+// whoever implemented the filter. WebKit does not push contrast() that far -
+// it clamps - so on an iPhone the map came back as GREY rather than black and
+// white, the lattice took a mid-tone from it, and the grid turned into a
+// half-visible thing that faded in and out across the picture. The whole
+// point of this map is that a cell is one or the other; a filter that
+// compromises is worse than useless.
+//
+// So decide here. The map is a pixel a CELL - a few thousand of them, not a
+// few million - so reading it back and thresholding costs nothing measurable,
+// and gives the same answer on every engine there is.
+function punchThreshold(srcG, dstG, bw, bh){
+  const sd=srcG.getImageData(0,0,bw,bh).data;
+  const im=dstG.createImageData(bw,bh), od=im.data;
+  for (let i=0;i<od.length;i+=4){
+    // Rec.709 luma, then the flip the old chain ended on: a DARK cell asks
+    // for a white line, a light one for a black line
+    const y=sd[i]*0.2126 + sd[i+1]*0.7152 + sd[i+2]*0.0722;
+    const v=y<127.5 ? 255 : 0;
+    od[i]=od[i+1]=od[i+2]=v; od[i+3]=255;
+  }
+  dstG.putImageData(im,0,0);
+}
+// 'auto' IS the per-cell black/white grid now, on every engine
+function punchOn(){ return GRID_COL==='auto'; }
 // `g` already holds the lattice, drawn in white. Colour it in ONE pass:
 // source-in keeps the shape that is there and takes its colour from what is
 // drawn over it - and what is drawn over it is the per-cell decision map,
@@ -7121,7 +7190,7 @@ function punchWorldMap(){
   const bw=Math.ceil(w/step)+2, bh=Math.ceil(h/step)+2;
   if (bw<1||bh<1||bw*bh>4e6) return null;
   const sm=document.createElement('canvas'); sm.width=bw; sm.height=bh;
-  const sg=sm.getContext('2d');
+  const sg=sm.getContext('2d',{willReadFrequently:true});
   sg.imageSmoothingQuality='high';
   sg.save();
   sg.scale(1/step, 1/step); sg.translate(step/2, step/2);
@@ -7131,16 +7200,13 @@ function punchWorldMap(){
   sg.restore();
   const th=document.createElement('canvas'); th.width=bw; th.height=bh;
   const tg=th.getContext('2d');
-  tg.filter='grayscale(1) contrast(12000%) invert(1)';
-  tg.drawImage(sm,0,0);
-  tg.filter='none';
+  punchThreshold(sg, tg, bw, bh);
   PUNCH_MAP={k:key, cv:th, bw, bh, step};
   return PUNCH_MAP;
 }
 // colour a lattice already drawn in white from a world-space map, placed
 // where the paper is on screen
 function punchWorld(g, ox, oy, sc){
-  if (!CTX_FILTER_OK) return false;
   const m=punchWorldMap(); if (!m) return false;
   const st=m.step*sc;
   g.save();
@@ -7165,12 +7231,14 @@ let PP_SM=null, PP_TH=null;
 const ppScratch=(which,bw,bh)=>{
   let c = which==='sm' ? PP_SM : PP_TH;
   if (!c){ c=document.createElement('canvas');
+    // the backdrop map is READ BACK every frame of a crop drag now that the
+    // threshold is arithmetic, so say so before the context exists
+    if (which==='sm') c.getContext('2d',{willReadFrequently:true});
     if (which==='sm') PP_SM=c; else PP_TH=c; }
   if (c.width!==bw || c.height!==bh){ c.width=bw; c.height=bh; }
   return c;
 };
 function punchPaint(g, W, H, paintBackdrop, step){
-  if (!CTX_FILTER_OK) return false;
   const st=Math.max(6, step||60);
   const bw=Math.ceil(W/st)+2, bh=Math.ceil(H/st)+2;
   // 1. the backdrop, averaged down to a pixel a cell
@@ -7187,11 +7255,7 @@ function punchPaint(g, W, H, paintBackdrop, step){
   const th=ppScratch('th',bw,bh);
   const tg=th.getContext('2d');
   tg.setTransform(1,0,0,1,0,0);
-  tg.globalCompositeOperation='copy';      // replace, never stack on the last
-  tg.filter='grayscale(1) contrast(12000%) invert(1)';
-  tg.drawImage(sm,0,0);
-  tg.filter='none';
-  tg.globalCompositeOperation='source-over';
+  punchThreshold(sg, tg, bw, bh);
   // 3. straight onto the lattice, interpolated so a run of cells that agree
   //    stays solid and only a real change of ground gets a ramp
   g.save();
@@ -11423,7 +11487,8 @@ addEventListener('resize', ()=>{ if ($('scrCompare').classList.contains('on')){ 
     hud.style.display = o ? '' : 'none';
     // B&W: the pencil, naming Shading when open. Colour: the wheel always
     if (REFMODE==='c') tg.innerHTML=COLOR_WHEEL;
-    else tg.textContent = o ? TR('Shading') : '\u270e';
+    else if (o) tg.textContent = TR('Shading');
+    else tg.innerHTML = PENCIL;
     tg.classList.toggle('lit', o);
     tg.classList.toggle('vOn', o);
     try { localStorage.setItem('hudOpen', o ? '1' : '0'); } catch(e){}

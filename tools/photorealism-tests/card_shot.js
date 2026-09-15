@@ -29,7 +29,7 @@ const SAFE_BOT  = ISLAND ? (LANDSCAPE ? 21 : 34) : 0;
 const BANNER = false;
 const tab = Math.min(W,H) >= 600;
 const gut = tab ? 12 : 8, padR = 8, FLANK = 48;
-const TALLW = 196, TALLPH = 150, TALLHDR = 46;
+const TALLW = 160, TALLPH = 190, TALLHDR = 46;   // narrow and tall, sideways
 const playerH = tab ? 160 : 120, playerMax = tab ? 284 : 213;
 const textWant = tab ? 230 : 118;
 const flank = 8 + (tab?76:44);

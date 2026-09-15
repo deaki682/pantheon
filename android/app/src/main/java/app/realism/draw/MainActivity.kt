@@ -962,12 +962,16 @@ class MainActivity : AppCompatActivity() {
         // the card is taller than it is wide. Upright it lies down, where the
         // width across the top is free and the height is not.
         val tall = adSpotLeft
-        // standing up it was 136 wide and 164 tall, which left the header
-        // about 70dp of headline and the player no more than its floor.
-        // Sideways there is height to spare on a canvas screen, so the
-        // player gets a 4:3 frame and the header a line it can read on.
-        val tallW = 196
-        val tallPlayerH = 150
+        // STANDING UP IT IS NARROW AND TALL. A landscape screen has height to
+        // spare down its edge and none of the width the flat card wants, so
+        // the standing one takes the opposite shape: a 144x190 player, well
+        // clear of AdMob's 120x120 video floor, under a header with a line it
+        // can read on. It is 160x236 in all, against the 196x196 it was.
+        // The cost, and it is a real one: the loader asks for LANDSCAPE
+        // creatives, so a 16:9 one in a portrait frame letterboxes. Going
+        // narrower still trades more of the picture for more of the edge.
+        val tallW = 160
+        val tallPlayerH = 190
         val playerW = if (tall) tallW - 16
             else (if (tab) budget - gut - padR - textWant else 120)
                 .coerceIn(120, playerMax)
