@@ -1,26 +1,31 @@
 {
-  "name": "argus",
-  "cash": 1000.0,
-  "contributed_cash": 1000.0,
-  "pending_funding": null,
-  "positions": {},
-  "peak_equity": 1000.0,
-  "realized_pnl": 0.0,
-  "paused": false,
-  "routing": {
-    "mode": "market_maker_CONFIRMED_agentic",
-    "gate0": "2026-09-08 probe-preview: agentic order path returns initiator_type=agentic, routing='Market Maker Routing', fee $0 (cost lives in the ~1.9% spread). No order placed - preview answered the routing question free. Law 2 fallback budget GOVERNS: <=2 completed RT/month, >=5% targets. Re-preview after any operator routing change (app: Settings -> Crypto -> Fee Tiers); if Exchange appears, run the $10 live probe to confirm fills + tier accrual, then budget rises to <=8 RT/month at >=3x measured toll."
+ "name": "argus",
+ "cash": 1000.0,
+ "contributed_cash": 1000.0,
+ "pending_funding": null,
+ "positions": {},
+ "peak_equity": 1000.0,
+ "realized_pnl": 0.0,
+ "paused": false,
+ "routing": {
+  "mode": "market_maker_CONFIRMED_agentic",
+  "gate0": "2026-09-08 probe-preview: agentic order path returns initiator_type=agentic, routing='Market Maker Routing', fee $0 (cost lives in the ~1.9% spread). No order placed - preview answered the routing question free. Law 2 fallback budget GOVERNS: <=2 completed RT/month, >=5% targets. Re-preview after any operator routing change (app: Settings -> Crypto -> Fee Tiers); if Exchange appears, run the $10 live probe to confirm fills + tier accrual, then budget rises to <=8 RT/month at >=3x measured toll."
+ },
+ "funding_note": "operator deposited $1,000 on 2026-09-08 ('he should have 1k just for him now'); RH instant buying power granted, ACH settling",
+ "ladder_reference": {
+  "as_of": "2026-09-15",
+  "source": "Coinbase Exchange daily candles (granularity=86400), rolling 30d high, re-pulled live this session",
+  "armed": false,
+  "armed_reason": "NOT ARMED (session 6). (a) unchanged and the operator's to rule on: law 1 requires every resting rung hand-paired with a stop, and RH spot cannot rest a stop_limit SELL for unowned coins. (b) TWO unresolved binaries inside 48h - the CLARITY Act vote TODAY and FOMC 2026-09-16 TOMORROW with hike odds ~87% after the hawkish August CPI; a flush driven by an unresolved binary is a FIRST LEG by the read law. (c) no capitulation conditioning, and it moved the wrong way: F&G 69 GREED (up from 57), OKX funding flat (BTC +0.0062%/8h, ETH -0.0012%, SOL -0.0043%), OKX BTC open interest $2.875B mid-range over 10 days = NO OI PURGE. (d) rungs now too shallow to be cascade buys: BTC -12% = 72,409.04 (5.19% below spot), ETH = 2,346.97 (4.06% below), SOL = 97.37 (2.90% below - inside a normal day's range, a shallow-ladder fill by drift, banned by law 6).",
+  "rolling_30d_high": {
+   "BTC": 82283.0,
+   "ETH": 2667.01,
+   "SOL": 110.65
   },
-  "funding_note": "operator deposited $1,000 on 2026-09-08 ('he should have 1k just for him now'); RH instant buying power granted, ACH settling",
-  "ladder_reference": {
-    "as_of": "2026-09-14",
-    "source": "Coinbase Exchange daily candles (granularity=86400), rolling 30d high, re-pulled live this session",
-    "armed": false,
-    "armed_reason": "NOT ARMED (session 5). (a) unchanged and the operator's to rule on: law 1 requires every resting rung hand-paired with a stop, and RH spot cannot rest a stop_limit SELL for unowned coins. (b) at its sharpest: FOMC 2026-09-16 is 2 days out with hike odds >65% after the hawkish August CPI, and crypto has RALLIED into it (BTC +1.91% today) - a flush before Wednesday is a FIRST LEG by the read law. (c) no capitulation conditioning: F&G 57 Greed, OKX funding positive (BTC +0.0100%), BTC only -4.88% off its 30d high. Rungs: BTC -12% = 72,409 (7.64% below spot), ETH = 2,346.97 (6.48% below), SOL = 97.37 (4.33% below - within a normal day's range, i.e. a shallow-ladder fill by drift, banned by law 6).",
-    "rolling_30d_high": {
-      "BTC": 82283.0,
-      "ETH": 2667.01,
-      "SOL": 110.65
-    }
+  "spot_vs_30d_high": {
+   "BTC": -0.0718,
+   "ETH": -0.0828,
+   "SOL": -0.0938
   }
+ }
 }
