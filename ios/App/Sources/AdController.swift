@@ -383,6 +383,12 @@ final class AdController: NSObject {
         web?.evaluateJavaScript("window.__adOn && __adOn(\(slot ? "true" : "false"))",
                                 completionHandler: nil)
         reportHeight()
+        // "there is an ad to show at all", which is separate from whether any
+        // particular screen wants it. This was declared beside `stripWant`,
+        // and when the strip was hardcoded off in v480 the declaration went
+        // with it while its two uses below stayed - so the iOS target has not
+        // compiled since. It is the same condition tryShowCorner guards on.
+        let base = wanted && nativeAd != nil && !removed
         if cornerShown && !(base && onProj) { hideCorner() }
         else if !cornerShown && base && onProj { tryShowCorner() }
     }
