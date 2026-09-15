@@ -408,9 +408,6 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
    flex:1 on the buttons spreads the three across the same width. */
 #edRow{justify-content:space-evenly;gap:10px;padding:8px 12px}
 #edRow button{flex:1;min-height:calc(46px*var(--ux,1));font-size:calc(15px*var(--ux,1))}
-#edEye{position:absolute;right:10px;top:10px;z-index:5;width:calc(42px*var(--ux,1));height:calc(42px*var(--ux,1));
-  padding:0;display:flex;align-items:center;justify-content:center;
-  background:rgba(24,24,24,.72);border-radius:12px}
 #gridMenu{position:absolute;bottom:calc(52px*var(--ux,1));left:50%;transform:translateX(-50%);
   display:none;flex-direction:column;gap:6px;background:#1e1e1e;
   border:1px solid #555;border-radius:14px;padding:8px;z-index:6;
@@ -873,7 +870,9 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
      place with room to spare - and everything else moves down into the height
      they were taking. The screen is already positioned, so the column anchors
      to it and the picture and the panel simply keep clear of it. */
-  #scrEdit{--edcol:calc(96px*var(--ux,1))}
+  #scrEdit{--edcol:calc(96px*var(--ux,1));--edsl:min(42vw,420px)}
+  /* the three verbs down the RIGHT edge, the sliders down the LEFT, and the
+     picture in the middle with a margin clear of each */
   #edRow{position:absolute;z-index:7;padding:0;gap:10px;
     right:calc(8px + env(safe-area-inset-right));
     top:calc(8px + env(safe-area-inset-top));
@@ -881,7 +880,19 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     width:var(--edcol);flex-direction:column;flex-wrap:nowrap;
     justify-content:space-evenly;align-items:stretch}
   #edRow button{flex:0 0 auto;width:100%}
-  #edView,#scrEdit .edPanel{margin-right:calc(var(--edcol) + 16px)}
+  /* the sliders stand BESIDE the picture rather than under it - the height a
+     landscape phone has is the thing it cannot spare, and a panel under the
+     image was spending it */
+  #edTone{position:absolute;z-index:7;overflow-y:auto;
+    left:calc(8px + env(safe-area-inset-left));width:var(--edsl);
+    top:calc(8px + env(safe-area-inset-top));
+    bottom:calc(8px + env(safe-area-inset-bottom));
+    display:flex;flex-direction:column;justify-content:center}
+  #edView{margin-left:calc(var(--edsl) + 16px + env(safe-area-inset-left));
+    margin-right:calc(var(--edcol) + 16px + env(safe-area-inset-right))}
+  /* the crop view has no slider band, so its picture takes that side back */
+  #scrEdit.cropping #edView{margin-left:calc(8px + env(safe-area-inset-left))}
+  #edCropP{margin-right:calc(var(--edcol) + 16px + env(safe-area-inset-right))}
   /* the crop tools spread across what is left rather than bunching */
   #edCropP .row{justify-content:space-evenly}
 
@@ -1046,7 +1057,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v484</span>
+    <span id="verNum">v485</span>
   </div>
 </div>
 <div id="delModal">
@@ -1279,7 +1290,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 
 <!-- 2: format -->
 <div class="screen" id="scrEdit">
-  <div id="edView"><canvas id="edCv"></canvas><button id="edEye" title="Hold to see the original"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+  <div id="edView"><canvas id="edCv"></canvas></div>
   <div id="edTone" class="edPanel">
     <div class="row">
       <span class="adjL">exposure</span><input type="range" id="eExp" min="-100" max="100" value="0">
@@ -1900,8 +1911,13 @@ const show = id => { tipClose(false); uiShow();
   // their top-left corner away - the drawing screen to Download, the
   // comparison screen to the error circle. The system back and the iOS edge
   // swipe both reach __backStep, which is the same step the arrow took.
+  // ...and the editor gives its corner away too: sideways the three verbs
+  // stand down the right edge and Cancel is the arrow, so a second way out in
+  // the opposite corner is one too many. Back still leaves it - $('backBtn')'s
+  // handler is what the system back and the edge swipe both reach.
   $('backBtn').style.display =
-    (id==='scrUpload' || id==='scrMain' || id==='scrCompare') ? 'none' : 'flex';
+    (id==='scrUpload' || id==='scrMain' || id==='scrCompare' || id==='scrEdit')
+      ? 'none' : 'flex';
   if (id==='scrUpload' && GAL_STALE){ GAL_STALE=false; renderGallery(); }
   if (id==='scrUpload' && show._from==='scrMain'){
     reviewMaybe();
@@ -4367,10 +4383,12 @@ function edSync(){
   $('eSat').value=R.sat||0; $('eVib').value=R.vib||0;
   for (const row of document.querySelectorAll('.edColorRow'))
     row.style.display = ED.colr ? '' : 'none';
-  $('edEye').style.display = ED.mode==='tone' ? '' : 'none';
   $('eAspect').textContent = edArText(R.ar||0);
   $('edTone').style.display = ED.mode==='tone' ? '' : 'none';
   $('edCropP').style.display = ED.mode==='crop' ? '' : 'none';
+  // sideways the slider band takes a strip beside the picture; the crop view
+  // has no band, so the picture there only has to clear the column of verbs
+  $('scrEdit').classList.toggle('cropping', ED.mode==='crop');
   slFillAll();
 }
 // The preview buffer survives the window closing. Reopening the editor -
@@ -4695,16 +4713,6 @@ $('eRot').onclick=()=>{ ED.R.rot=(ED.R.rot+1)%4;
   Object.assign(ED.R,{cx:0,cy:0,cw:1,ch:1}); edBuildPre(); edPaint(); };
 $('eFlipH').onclick=()=>{ ED.R.fh=ED.R.fh?0:1; edBuildPre(); edPaint(); };
 $('eFlipV').onclick=()=>{ ED.R.fv=ED.R.fv?0:1; edBuildPre(); edPaint(); };
-{
-  // hold the eye for the untouched original
-  const eye=$('edEye');
-  const eyeOn=e=>{ ED.showOrig=true; edPaint(); haptic(); e.preventDefault(); };
-  const eyeOff=()=>{ if (ED.showOrig){ ED.showOrig=false; edPaint(); } };
-  eye.addEventListener('pointerdown', eyeOn);
-  eye.addEventListener('pointerup', eyeOff);
-  eye.addEventListener('pointercancel', eyeOff);
-  eye.addEventListener('pointerleave', eyeOff);
-}
 {
   // tone view: pinch to zoom, drag to pan, double-tap to jump in and out
   const cv=$('edCv'); const pts=new Map(); let p0=null, lastTap=0;
