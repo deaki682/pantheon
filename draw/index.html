@@ -1005,7 +1005,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v478</span>
+    <span id="verNum">v479</span>
   </div>
 </div>
 <div id="delModal">
@@ -1495,15 +1495,20 @@ let SPLASH_RUN=false, SPLASH_CB=null;
       document.documentElement.classList.remove('introUp');
     }catch(e){} }, 240);
   };
-  // the rows get a head start: they begin their sweep a beat before the
-  // focus pull so the page feels alive as it sharpens
+  // The rows used to get a head start - they swept in at 560ms, a beat ahead
+  // of the title's flight at 750 - so the two movements overlapped without
+  // ever agreeing, and landed 140ms apart. They travel TOGETHER now: one
+  // start, one duration, one easing, one arrival. The title cannot come
+  // forward to meet them (it is still materialising until 700ms, and a word
+  // that flies while it is still blurred reads as a mistake), so the rows go
+  // back to meet it. The total is unchanged - only the head start is gone.
+  //
+  // What stays at 560 is the PROMOTION: the rows get their own compositor
+  // layers early, so that when the moment comes the compositor slides ready
+  // textures instead of painting mid-flight.
   setTimeout(()=>{ try{
-    // pre-promote the rows to their own layers, then release next frame -
-    // the compositor slides ready textures instead of painting mid-flight
     $('gallery').style.willChange='transform';
     $('galleryC').style.willChange='transform';
-    if (FIRST_RUN) return;   // they wait for the welcome message instead
-    requestAnimationFrame(()=>document.documentElement.classList.remove('introUp'));
   }catch(e){} }, 560);
   setTimeout(()=>{
     try{
@@ -1512,12 +1517,17 @@ let SPLASH_RUN=false, SPLASH_CB=null;
       const k=tr.height/mr.height;
       const dx=(tr.left+tr.width/2)-(mr.left+mr.width/2);
       const dy=(tr.top+tr.height/2)-(mr.top+mr.height/2);
-      word.style.transition='transform .55s cubic-bezier(.2,0,0,1)';
+      // .6s, the rows' own duration, on the rows' own curve
+      word.style.transition='transform .6s cubic-bezier(.2,0,0,1)';
       word.style.transform='translate('+dx+'px,'+dy+'px) scale('+k+')';
       $('introBy').style.opacity='0';
       sp.classList.add('go'); ww.classList.add('go');
+      // the same frame the title starts on: both transitions are computed at
+      // the one style recalc, so they begin together to the frame
       if (!FIRST_RUN) document.documentElement.classList.remove('introUp');
-      setTimeout(done, 640);
+      // 700, not 640: the flight is .6s now and done() CLEARS the transform,
+      // so it has to land clear of the end or the last frames snap
+      setTimeout(done, 700);
     }catch(e){ done(); }
   }, 750);
 })();
@@ -1734,10 +1744,27 @@ function adSync(){
     // corner and our controls move down the left edge beneath it.
     const land = matchMedia('(orientation: landscape)').matches;
     if (RealismCam.adSpot) RealismCam.adSpot(land ? 'left' : 'right');
-    // adProj FIRST, so that by the time adPlace raises the master flag the
-    // shell already knows the card owns this screen and never flashes a strip
-    if (RealismCam.adProj) RealismCam.adProj(want);
-    RealismCam.adPlace(want, bg);
+    // THE ORDER DEPENDS ON THE DIRECTION, and getting it wrong flashes a
+    // strip across the bottom of the screen. The shell shows that strip when
+    // ads are WANTED but the card does not own the screen - `wanted &&
+    // !onProj` - and these are two separate messages with a main-thread hop
+    // between them, so whichever arrives first is briefly true on its own.
+    //
+    // Raising: adProj first, so the shell knows the card owns the screen
+    // before the master flag goes up.
+    // Lowering: adPlace FIRST, to drop the master flag before the screen is
+    // disowned - sending adProj(false) first left `wanted` still true against
+    // an onProj of false, which is precisely the strip's condition, and it
+    // animated in and straight back out again. That is the flash on the way
+    // into the comparison tab: the camera flag goes up, the ad is no longer
+    // wanted, and the card was being disowned a beat before it was dropped.
+    if (want){
+      if (RealismCam.adProj) RealismCam.adProj(want);
+      RealismCam.adPlace(want, bg);
+    } else {
+      RealismCam.adPlace(want, bg);
+      if (RealismCam.adProj) RealismCam.adProj(want);
+    }
   }catch(e){}
 }
 // A window opening is never announced - each one simply sets its own display

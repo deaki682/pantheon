@@ -31,13 +31,13 @@ const tab = Math.min(W,H) >= 600;
 const gut = tab ? 12 : 8, padR = 8, FLANK = 48;
 const TALLW = 160, TALLPH = 190, TALLHDR = 46;   // narrow and tall, sideways
 const playerH = tab ? 160 : 120, playerMax = tab ? 284 : 213;
-const textWant = tab ? 230 : 118;
+const textWant = tab ? 230 : 106;
 const flank = 8 + (tab?76:44);
 // top-right corner: only the LEFT column has to be cleared
 const budget = W - (flank + FLANK) - 8;
 const LAND0 = W > H;
 const playerW = LAND0 ? TALLW - 16
-  : Math.min(Math.max(tab ? budget - gut - padR - textWant : 120, 120), playerMax);
+  : Math.min(Math.max(budget - gut - padR - textWant, 120), playerMax);
 const textW = Math.min(Math.max(budget - playerW - gut - padR, 40), textWant);
 const LAND = W > H;   // sideways the card takes the top-LEFT corner and STANDS UP
 const stack = LAND;

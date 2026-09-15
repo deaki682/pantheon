@@ -50,11 +50,13 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
     CAM.stream = { getTracks:()=>[], getVideoTracks:()=>[{}] };
     adSync(); await new Promise(r=>setTimeout(r,200));
     const onCamera = { place:last('place'), proj:last('proj') };
+    const lowering = log.map(x=>x[0]);
     // ...and goes away again
     log.length=0;
     CAM.stream = null;
     adSync(); await new Promise(r=>setTimeout(r,200));
     const after = { place:last('place'), proj:last('proj') };
+    const raising = log.map(x=>x[0]);
     // now a WINDOW, opened the way the page opens them - no adSync() call
     // here on purpose: the point is that nobody has to remember to make one
     const wins={};
@@ -68,7 +70,7 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
       await new Promise(r=>setTimeout(r,250));
       wins[id]={ up, down:{ place:last('place'), proj:last('proj') } };
     }
-    return { onCompare, onCamera, after, wins };
+    return { onCompare, onCamera, after, wins, lowering, raising };
   });
   console.log('comparison screen  place='+r.onCompare.place+' proj='+r.onCompare.proj);
   console.log('viewfinder up      place='+r.onCamera.place+' proj='+r.onCamera.proj);
@@ -79,6 +81,14 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
      'and yielded the moment the viewfinder is live');
   ok(r.after.place===true && r.after.proj===true,
      'and asked for again once the viewfinder is gone');
+  // THE ORDER OF THE TWO MESSAGES, which is not cosmetic: the shell shows a
+  // bottom strip when ads are WANTED but the card does not own the screen, so
+  // a lowering that disowns the screen BEFORE it drops the master flag
+  // flashes that strip across the bottom on the way in and out again.
+  ok(r.lowering.join(' ')==='place proj',
+     'lowering drops the master flag FIRST ('+r.lowering.join(' -> ')+')');
+  ok(r.raising.join(' ')==='proj place',
+     'raising claims the screen FIRST ('+r.raising.join(' -> ')+')');
   for (const [id,w] of Object.entries(r.wins)){
     console.log(id.padEnd(9)+'  open place='+w.up.place+' proj='+w.up.proj
                 +'   closed place='+w.down.place+' proj='+w.down.proj);

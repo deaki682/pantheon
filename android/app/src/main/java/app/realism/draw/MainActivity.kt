@@ -931,7 +931,9 @@ class MainActivity : AppCompatActivity() {
         val padR = 8                            // the card's own right edge
         val playerH = if (tab) 160 else 120     // == AdMob's video floor
         val playerMax = if (tab) 284 else 213   // 16:9 at that height
-        val textWant = if (tab) 230 else 118
+        // 106, down from 118: the headline gives up about three characters a
+        // line so the player can have that width instead
+        val textWant = if (tab) 230 else 106
         // THE CARD IS EXACTLY THE VIDEO MINIMUM TALL - 120dp, AdMob's floor
         // for a media view to be video-eligible at all - and nothing is
         // allowed to grow it: the headline stands BESIDE the player, never
@@ -972,9 +974,15 @@ class MainActivity : AppCompatActivity() {
         // narrower still trades more of the picture for more of the edge.
         val tallW = 160
         val tallPlayerH = 190
+        // the player's width is the BUDGET's leftover, not a flat 120. 120 is
+        // AdMob's video FLOOR, not a target, and pinning the width to it while
+        // capping the headline left 49dp of the allowance unspent on a 411dp
+        // phone and 68 on a 430 - so a 16:9 creative letterboxed into a square
+        // and rendered 120x67 with black above and below. Handing the leftover
+        // to the player makes that 181x101 on the same phone: two and a third
+        // times the picture, in the same card, with the same clearance.
         val playerW = if (tall) tallW - 16
-            else (if (tab) budget - gut - padR - textWant else 120)
-                .coerceIn(120, playerMax)
+            else (budget - gut - padR - textWant).coerceIn(120, playerMax)
         val textW = if (tall) tallW - 16
             else (budget - playerW - gut - padR).coerceIn(40, textWant)
         // the player keeps its full 120dp square whatever the card is doing -

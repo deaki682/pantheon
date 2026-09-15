@@ -580,8 +580,18 @@ final class AdController: NSObject {
         // edge and none of the width the flat card wants. 144x190 of player,
         // clear of the 120x120 video floor, under a 46pt header.
         let TALLW: CGFloat = 160, TALLPH: CGFloat = 190, TALLHDR: CGFloat = 46
-        let playerW: CGFloat = tall ? TALLW - 16 : 120
-        let textW = tall ? playerW : min(max(budget - playerW - GUT - PADR, 40), 118)
+        // 106, down from 118: the headline gives up about three characters a
+        // line so the player can have that width instead - and the player's width is the BUDGET's leftover, not a flat 120. 120 is
+        // AdMob's video FLOOR, not a target, and pinning the width to it while
+        // capping the headline left 49dp of the allowance unspent on a 411dp
+        // phone and 68 on a 430 - so a 16:9 creative letterboxed into a square
+        // and rendered 120x67 with black above and below. Handing the leftover
+        // to the player makes that 181x101 on the same phone: two and a third
+        // times the picture, in the same card, with the same clearance.
+        let TEXTWANT: CGFloat = 106, PLAYERMAX: CGFloat = 213   // 16:9 at 120
+        let playerW: CGFloat = tall ? TALLW - 16
+            : min(max(budget - GUT - PADR - TEXTWANT, 120), PLAYERMAX)
+        let textW = tall ? playerW : min(max(budget - playerW - GUT - PADR, 40), TEXTWANT)
         let advW = tall ? TALLW : playerW + GUT + textW + PADR
         let advH = tall ? TALLPH + TALLHDR : PH
 
