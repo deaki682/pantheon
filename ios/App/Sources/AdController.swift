@@ -700,8 +700,6 @@ final class AdController: NSObject {
             cornerW!, cornerH!,
             adv.topAnchor.constraint(equalTo: clip.topAnchor),
             adv.leadingAnchor.constraint(equalTo: clip.leadingAnchor),
-            close.widthAnchor.constraint(equalToConstant: 22),
-            close.heightAnchor.constraint(equalToConstant: 22),
         ])
         badgeV = badge
         ctaV = nil
