@@ -102,17 +102,25 @@ const probe = async (pg, h) => pg.evaluate(async (h)=>{
               await new Promise(r=>setTimeout(r,350)); }, [h,scr]);
             const r = await probe(pg, h);
             rows++;
+            // TWO screens wear no strip at all: the size screen and the
+            // drawing screen (which gets the corner video card out of its
+            // Download button instead). There is no ad to clear on those -
+            // what must hold is that they reserve NOTHING for one, so the
+            // controls reach the bottom of the window exactly as they do for
+            // a viewer who bought the removal.
+            const strip = !(scr==='scrMain'||scr==='scrFormat');
             const mm = r.worst ? r.worst.gap*MM : 99;
-            const gapOK = mm >= WANT_MM;
-            // the band belongs on the two canvas screens and nowhere else
-            const wantBand = (scr==='scrMain'||scr==='scrCompare');
+            const gapOK = strip ? (mm >= WANT_MM) : (r.worst ? r.worst.gap < 0 : true);
+            // the band belongs on the one screen that still has a strip
+            // under a canvas
+            const wantBand = (scr==='scrCompare');
             const bandOK = wantBand
               ? (!!r.guard && Math.abs(r.guard.bottom - r.floor) <= 1 && r.guard.h >= 20)
               : !r.guard;
             if (!gapOK || !bandOK) bad++;
             console.log((gapOK&&bandOK?'  ok   ':'  FAIL ')
               + dev[0].padEnd(16) + scale.padEnd(8) + mode.padEnd(7)
-              + scr.padEnd(11) + 'strip '+String(h).padStart(3)
+              + scr.padEnd(11) + (strip ? 'strip '+String(h).padStart(3) : 'no strip ')
               + '   nearest '+(r.worst?r.worst.id:'-').padEnd(12)
               + ' '+String(r.worst?Math.round(r.worst.gap):'-').padStart(4)+'px = '+mm.toFixed(1)+'mm'
               + '   band '+(r.guard?r.guard.h+'px':(wantBand?'MISSING':'none')));
