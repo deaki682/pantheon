@@ -1,8 +1,8 @@
-// The two canvas screens keep one button at each end of their top row and
-// NOTHING in between - that gap is where the video card slides open. The
-// drawing screen: Download left, gear right. The comparison screen: the red
-// error circle left, Download right. Neither carries a back arrow, and
-// neither carries a strip, so their bottom controls sit at 8px.
+// Both canvas screens stack their two controls down the LEFT edge - the
+// drawing screen's gear with Download beneath it - and leave the whole
+// top-RIGHT to the ad, which rests there as a thin banner and blooms to the
+// video height now and then. Neither screen carries a back arrow or a strip,
+// so their other controls sit 8px off the edge.
 const { chromium } = require('playwright-core');
 const PORT=process.argv[2]||'8899', TAG=process.argv[3]||'now', OUT=process.argv[4]||'.';
 const fs=require('fs');
@@ -63,21 +63,17 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
     else
       ok(r.vw - r.hudR <= 10, dev.n+': the tools are 8px off the right edge ('
          +(r.vw-r.hudR)+'px)');
-    if (dev.land){
-      // down the left edge: download top, gear middle
-      ok(r.dl.y < r.gear.y, dev.n+': download above the gear on the left edge');
-      ok(Math.abs(r.dl.x-r.gear.x)<12, dev.n+': both on the left edge');
-      ok(r.dl.y < 40, dev.n+': download is in the TOP-left corner');
-    } else {
-      ok(r.dl.x < r.gear.x, dev.n+': download left, gear right');
-      ok(r.dl.x < 40, dev.n+': download holds the left corner the arrow had');
-      ok(r.vw - (r.gear.x + r.gear.w) < 40, dev.n+': the gear holds the right');
-      // the gap in between is what the card opens into
-      const gap = r.gear.x - (r.dl.x + r.dl.w);
-      ok(gap > 120, dev.n+': a '+Math.round(gap)+'px gap is left for the card');
-      const rowY = Math.abs(r.gear.y-r.dl.y);
-      ok(rowY < 6, dev.n+': both sit on one row');
-    }
+    ok(r.gear.x < 40, dev.n+': the gear holds the top-left corner');
+    ok(r.dl.x < 40, dev.n+': Download is on the left edge too');
+    ok(Math.abs(r.gear.x - r.dl.x) < 2, dev.n+': the two line up in a column');
+    ok(r.dl.y > r.gear.y + r.gear.h - 1,
+       dev.n+': Download sits BENEATH the gear, not beside it');
+    ok(r.dl.y - (r.gear.y + r.gear.h) < 14,
+       dev.n+': and directly beneath it ('+Math.round(r.dl.y-(r.gear.y+r.gear.h))+'px)');
+    // the whole right-hand side is the ad's: nothing of ours within a
+    // fingertip of where the banner lives
+    ok(r.vw - (r.gear.x + r.gear.w) > 200,
+       dev.n+': the top-right is clear for the banner');
     // the card opens in the gap and covers neither button, so nothing on the
     // page has to move for it
     const held = await pg.evaluate(async ()=>{

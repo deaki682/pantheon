@@ -228,18 +228,19 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
 #gridCv{position:absolute;left:0;top:0;pointer-events:none;transform-origin:0 0}
 #circCv{position:absolute;left:0;top:0;pointer-events:none;transform-origin:0 0}
 #edgeCv{position:absolute;left:0;top:0;pointer-events:none}
-/* the comparison screen's top row mirrors the drawing screen's: the red
-   circle takes the LEFT corner the back arrow used to hold, Download keeps
-   the right, and the middle is left clear for the video card. Reversed, so
-   the circle stays pinned to the edge and Clear grows inward beside it
-   instead of shoving the circle along when it appears. */
+/* the comparison screen wears the drawing screen's shape: the red error
+   circle in the top-LEFT corner, Download directly beneath it, and the whole
+   right-hand side left to the ad. Reversed, so the circle stays pinned to the
+   edge and Clear grows inward beside it rather than shoving the circle along
+   when it appears. */
 #circWrap{position:absolute;top:calc(8px + env(safe-area-inset-top));
   left:calc(8px + env(safe-area-inset-left));transform:none;z-index:7;
   display:none;gap:8px;flex-direction:row-reverse}
 #circBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
-#dlWrap{position:absolute;top:calc(8px + env(safe-area-inset-top));
-  right:calc(8px + env(safe-area-inset-right));z-index:7;display:none}
+#dlWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
+  right:auto;z-index:7;display:none;
+  top:calc(16px + 44px*var(--ux,1) + env(safe-area-inset-top))}
 #dlBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 .redDot{width:17px;height:17px;border-radius:50%;border:2.5px solid #e03c3c;display:block}
@@ -529,15 +530,18 @@ html.hc #verNum{color:#ddd}
   #gsdOpLab{margin-top:16px}
   .gsdPop,#gsdLabs{bottom:auto;top:calc(100% + 10px)}
 }
-/* the drawing screen's top row: Download on the LEFT, where the back arrow
-   used to sit, and the gear on the right. Nothing in between - that gap is
-   where the video card slides open. The back arrow is gone from this screen;
-   Android's system back and the iOS edge swipe both reach __backStep, which
-   closes any open panel first and only then steps up a screen. */
-#expCorner{position:absolute;left:calc(8px + env(safe-area-inset-left));
+/* the drawing screen's chrome stacks down the LEFT: the gear in the corner
+   and Download directly beneath it. The whole right-hand side is the ad's -
+   it lives there permanently as a thin banner and blooms to video height
+   now and then, and with both buttons on the far side it never has to be
+   near one. The back arrow is gone from this screen; Android's system back
+   and the iOS edge swipe both reach __backStep, which closes any open panel
+   first and only then steps up a screen. */
+#setCorner{position:absolute;left:calc(8px + env(safe-area-inset-left));
   right:auto;top:calc(8px + env(safe-area-inset-top));z-index:5}
-#setCorner{position:absolute;right:calc(8px + env(safe-area-inset-right));
-  top:calc(8px + env(safe-area-inset-top));z-index:5}
+#expCorner{position:absolute;left:calc(8px + env(safe-area-inset-left));
+  right:auto;z-index:5;
+  top:calc(16px + 44px*var(--ux,1) + env(safe-area-inset-top))}
 #setBtn{height:calc(44px*var(--ux,1));min-width:calc(44px*var(--ux,1));padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center;overflow:hidden}
 #setBtn svg{flex:none;max-width:22px;opacity:1;transform:none;
@@ -602,10 +606,9 @@ body.uiHid #underCorner,body.uiHid #camCorner{transform:translate(-50%,160%)}
 #hud,#detMenu,#underMenu,#gridMenu{transition:opacity .28s, visibility .28s}
 body.uiHid #hud,body.uiHid #detMenu,body.uiHid #underMenu,
 body.uiHid #gridMenu{opacity:0;visibility:hidden}
-body.uiHid #expCorner{transform:translateY(-190%)}
 #expCorner{transition:opacity .25s, transform 0.2s cubic-bezier(.3,0,.2,1)}
 #setCorner{transition:transform .35s cubic-bezier(.2,0,0,1)}
-body.uiHid #setCorner{transform:translateY(-190%)}
+body.uiHid #expCorner,body.uiHid #setCorner{transform:translate(-190%,0)}
 body.uiHid #backBtn{transform:translateY(-190%)}
 /* first-visit coach marks: a darkened veil with one floating line */
 #coach{position:absolute;inset:0;z-index:8;display:none;align-items:center;
@@ -793,16 +796,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
    and every submenu opens inward, toward the paper. The home screen gains
    vertical scroll so the colour row stays reachable. */
 @media (orientation:landscape){
-  #setCorner,html.adCorner #setCorner{left:calc(8px + env(safe-area-inset-left));
-    right:auto;top:50%;transform:translate(0,-50%)}
-  body.uiHid #setCorner,html.adCorner body.uiHid #setCorner{
-    transform:translate(-190%,-50%)}
-  /* Download keeps the top-left corner; the gear drops to where the back
-     arrow used to be, so the two sit at the ends of the left edge and the
-     top of the screen is clear for the card */
-  #expCorner{left:calc(8px + env(safe-area-inset-left));right:auto;
-    top:calc(8px + env(safe-area-inset-top));bottom:auto;transform:none}
-  body.uiHid #expCorner{transform:translate(-190%,0)}
+  /* the gear-then-Download column is the same sideways; nothing to say */
   #hudWrap,body.colorRef #hudWrap,body:not(.colorRef) #hudWrap{
     left:auto;right:calc(8px + env(safe-area-inset-right));
     top:calc(8px + env(safe-area-inset-top));bottom:auto;transform:none;
@@ -872,13 +866,9 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     bottom:calc(8px + env(safe-area-inset-bottom));
     width:min(380px,52vw);overflow-y:auto;background:#1e1e1e;
     border:1px solid #555;border-radius:14px;padding:8px}
-  /* the left edge: circle in the middle, Download at the bottom, and the
-     top-left corner left free for the card */
-  #scrCompare #circWrap{left:calc(8px + env(safe-area-inset-left));
-    right:auto;top:50%;translate:0 -50%;transform:none;
-    flex-direction:row-reverse}
-  #scrCompare #dlWrap{left:calc(8px + env(safe-area-inset-left));right:auto;
-    top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
+  /* the circle-then-Download column is the same sideways, so nothing to
+     say here: it stays in the top-left and the ad stays in the top-right,
+     above the tool column, which is centred and leaves that corner free */
 }
 @media (orientation:landscape) and (prefers-reduced-motion: no-preference){
   #gridMenu{animation:menuIn 160ms var(--motE)}
@@ -936,7 +926,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v461</span>
+    <span id="verNum">v463</span>
   </div>
 </div>
 <div id="delModal">
@@ -1638,14 +1628,10 @@ function adSync(){
     // correctly if a strip is ever raised again.
     const canvas = !!(on && (on.id==='scrMain' || on.id==='scrCompare'));
     RealismCam.adPlace(false, bg);
-    // WHERE the card opens is the page's call, because the page is what knows
-    // which corner it left empty. Everywhere that is the middle of the top
-    // row; on the comparison screen turned sideways the tools run down the
-    // right edge and the left edge carries circle-and-Download, so the card
-    // takes the top-LEFT corner that layout leaves open.
-    const land = matchMedia('(orientation: landscape)').matches;
-    if (RealismCam.adSpot)
-      RealismCam.adSpot((land && on && on.id==='scrCompare') ? 'left' : 'mid');
+    // Both canvas screens now stack their two controls down the LEFT edge, so
+    // the ad has the top-RIGHT corner to itself on every screen and in either
+    // orientation - it never has to be near a button. (adSpot stays wired for
+    // a layout that wants it elsewhere; the page no longer asks.)
     if (RealismCam.adProj) RealismCam.adProj(!cam && !splash && canvas);
   }catch(e){}
 }

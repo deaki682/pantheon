@@ -1,11 +1,10 @@
-// The comparison screen. Portrait: the red error circle takes the LEFT
-// corner the back arrow used to hold, Download keeps the right, the gap
-// between them is what the video card opens into, and the bottom row is
-// back down at 8px. Landscape: the tools stand down the RIGHT edge with
-// their panel opening inward, the see-through slider stands on end to
-// their left with the mirror button left of that, and the LEFT edge runs
-// card / circle / Download from top to bottom. No back arrow either way,
-// and back steps to the drawing screen.
+// The comparison screen, in the drawing screen's shape: the red error circle
+// in the top-LEFT corner with Download directly beneath it, and the whole
+// top-RIGHT left to the ad banner. Sideways the tools stand down the RIGHT
+// edge with their panel opening inward, the see-through slider on end to
+// their left and the mirror button left of that - all of it centred, so the
+// top-right corner stays the banner's. No back arrow either way, and back
+// steps to the drawing screen.
 const { chromium } = require('playwright-core');
 const PORT=process.argv[2]||'8899', TAG=process.argv[3]||'now', OUT=process.argv[4]||'.';
 const fs=require('fs');
@@ -60,12 +59,14 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
                 '   tools '+r.row.x+','+r.row.y+' ('+r.dir+')   padding-bottom '+r.pad);
     ok(!r.back.vis, dev.n+': no back arrow on the comparison screen');
     ok(r.pad==='0px', dev.n+': it reserves nothing for a strip');
+    ok(r.circ.x < 40, dev.n+': the red circle holds the top-left corner');
+    ok(r.circ.y < 40, dev.n+': and it is at the TOP, not the middle');
+    ok(r.dl.x < 40, dev.n+': Download is on the left edge too');
+    ok(Math.abs(r.circ.x - r.dl.x) < 2, dev.n+': the two line up in a column');
+    ok(r.dl.y > r.circ.y + r.circ.h - 1, dev.n+': Download sits BENEATH the circle');
+    ok(r.dl.y - (r.circ.y + r.circ.h) < 14,
+       dev.n+': and directly beneath it ('+(r.dl.y-(r.circ.y+r.circ.h))+'px)');
     if (!dev.land){
-      ok(r.circ.x < 40, dev.n+': the red circle holds the left corner');
-      ok(r.vw - r.dl.r < 40, dev.n+': Download keeps the right');
-      const gap = r.dl.x - r.circ.r;
-      ok(gap > 120, dev.n+': a '+gap+'px gap is left for the card');
-      ok(Math.abs(r.circ.y - r.dl.y) < 6, dev.n+': both sit on one row');
       ok(r.vh - r.row.b <= 10, dev.n+': the bottom row is 8px off the edge ('
          +(r.vh-r.row.b)+'px)');
     } else {
@@ -75,14 +76,8 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
       ok(r.sl.r < r.row.x, dev.n+': the see-through slider is LEFT of the tools');
       ok(r.mir.r <= r.sl.x + 2, dev.n+': the mirror button is LEFT of the slider');
       ok(r.sl.h > r.sl.w, dev.n+': the slider stands on end ('+r.sl.w+'x'+r.sl.h+')');
-      ok(r.circ.x < 40, dev.n+': the circle is on the LEFT edge');
-      ok(Math.abs((r.circ.y + r.circ.h/2) - r.vh/2) < 30,
-         dev.n+': the circle is the middle option on that edge');
-      ok(r.dl.x < 40 && r.vh - r.dl.b <= 12,
-         dev.n+': Download is at the BOTTOM-left');
-      ok(r.dl.y > r.circ.y, dev.n+': circle above Download');
-      // the top-left corner, where the card goes, is left free
-      ok(r.circ.y > 100, dev.n+': the top-left corner is clear for the card');
+      // the banner's corner has to stay clear of the tool column's top
+      ok(r.row.y > 80, dev.n+': the top-right corner is clear for the banner');
     }
     // back steps to the drawing screen, arrow or no arrow
     const stepped = await pg.evaluate(async ()=>{

@@ -7,18 +7,27 @@ const { chromium } = require('playwright-core');
 const fs=require('fs');
 const OUT=process.argv[2]||'.', TAG=process.argv[3]||'now';
 const W=Number(process.argv[4]||411), H=Number(process.argv[5]||891);
+// An iPhone with a Dynamic Island: the shell constrains BOTH the web view and
+// the card to the safe-area guide, so neither can be drawn under the island -
+// but the browser reports env(safe-area-inset-*) as 0, so the harness stands
+// in for it. SAFE_TOP is the island phone's portrait inset, SAFE_BOT the home
+// indicator's, and the island itself is drawn over the top to scale.
+const ISLAND = process.argv[6] === 'island';
+const SAFE_TOP = ISLAND ? 59 : 0, SAFE_BOT = ISLAND ? 34 : 0;
 
 // --- the same arithmetic as MainActivity.buildCorner --------------------
+const BANNER = process.argv[7] === 'banner';   // the resting state
 const tab = Math.min(W,H) >= 600;
-const gut = tab ? 12 : 8, padR = 8, FLANK = 48;
+const gut = tab ? 12 : 8, padR = 8, FLANK = 48, BANNER_H = 48;
 const playerH = tab ? 160 : 120, playerMax = tab ? 284 : 213;
 const textWant = tab ? 230 : 118;
 const flank = 8 + (tab?76:44);
-const budget = W - 2 * (flank + FLANK);
+// top-right corner: only the LEFT column has to be cleared
+const budget = W - (flank + FLANK) - 8;
 const playerW = Math.min(Math.max(tab ? budget - gut - padR - textWant : 120, 120), playerMax);
 const textW = Math.min(Math.max(budget - playerW - gut - padR, 40), textWant);
 const boxW = playerW + gut + textW + padR;
-const boxH = playerH;          // the video minimum, full stop
+const boxH = BANNER ? BANNER_H : playerH;
 const stack = false;
 
 (async () => {
@@ -28,6 +37,10 @@ const stack = false;
     for (const k of ['tourMain','tourMainC','tourTools','tourFmt','tourCmp']) localStorage.setItem(k,'done'); });
   const pg = await ctx.newPage();
   await pg.goto('http://localhost:8899/index.html',{waitUntil:'domcontentloaded'});
+  if (ISLAND) await pg.addStyleTag({content:
+    '#expCorner,#setCorner{top:'+(8+SAFE_TOP)+'px!important}'
+    +'#hudWrap,#detCorner,#gridCorner,#underCorner,#camCorner{'
+    +'bottom:'+(8+SAFE_BOT)+'px!important}'});
   await pg.waitForFunction(()=>typeof fmtPreview==='function',null,{timeout:30000});
   await pg.waitForFunction(()=>!document.getElementById('introSplash').classList.contains('on'),null,{timeout:30000});
   await pg.evaluate(async ()=>{
@@ -51,14 +64,17 @@ const stack = false;
     if (typeof __adCorner==='function') __adCorner(true);
   });
   // the stand-in, at the measured geometry, anchored the way the shell anchors it
-  await pg.evaluate(([boxW,boxH,playerW,playerH,textW,gut,padR,stack])=>{
+  await pg.evaluate(([boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER])=>{
     const d=document.createElement('div');
-    d.style.cssText='position:fixed;z-index:40;top:8px;left:50%;'
-      +'transform:translateX(-50%);width:'+boxW+'px;height:'+boxH+'px;'
+    d.style.cssText='position:fixed;z-index:40;top:'+(8+SAFE_TOP)+'px;right:8px;'
+      +'width:'+boxW+'px;height:'+boxH+'px;'
       +'background:#1e1e1e;border:1px solid #555;border-radius:14px;'
       +'box-shadow:0 6px 18px rgba(0,0,0,.55);overflow:hidden;display:flex';
     const player =
-      '<div style="width:'+playerW+'px;height:'+playerH+'px;flex:none;position:relative;'
+      '<div style="width:'+playerW+'px;height:'+boxH+'px;flex:none;position:relative;'
+      +'overflow:hidden">'
+      +'<div style="width:'+playerW+'px;height:'+playerH+'px;position:absolute;'
+      +'left:0;top:50%;transform:translateY(-50%);'
       +'background:linear-gradient(135deg,#2f3d52,#15202e);display:flex;'
       +'align-items:center;justify-content:center">'
       +'<div style="width:0;height:0;border-left:22px solid rgba(255,255,255,.92);'
@@ -66,7 +82,7 @@ const stack = false;
       +'margin-left:5px"></div>'
       +'<span style="position:absolute;right:5px;bottom:4px;font:10px system-ui;'
       +'color:#cfcfcf;background:rgba(0,0,0,.45);padding:1px 4px;border-radius:3px">0:15</span>'
-      +'</div>';
+      +'</div></div>';
     const badge = '<span style="font:9px system-ui;color:#e8833a;border:1px solid #e8833a;'
       +'border-radius:3px;padding:0 3px;align-self:flex-start;flex:none">Ad</span>';
     const words = 'A headline from the auction';
@@ -75,21 +91,34 @@ const stack = false;
         + 'display:flex;flex-direction:column;'
         + 'justify-content:center;width:'+textW+'px">'+badge
         + '<span style="font:11px system-ui;color:#e8e6e1;margin-top:4px;'
-        + 'line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;'
+        + 'line-height:1.25;display:-webkit-box;-webkit-line-clamp:'+(BANNER?1:3)+';'
         + '-webkit-box-orient:vertical;overflow:hidden">'+words
         + ', three lines at most</span></div>';
     d.innerHTML += '<div style="position:absolute;right:5px;top:5px;width:22px;'
       +'height:22px;border-radius:11px;background:rgba(25,25,25,.9);color:#b9b5ae;'
       +'font:12px system-ui;display:flex;align-items:center;justify-content:center">\u2715</div>';
     document.body.appendChild(d);
-  }, [boxW,boxH,playerW,playerH,textW,gut,padR,stack]);
+    if (SAFE_TOP){
+      // the island itself, to scale: ~125x36pt, 11pt down, centred
+      const isl=document.createElement('div');
+      isl.style.cssText='position:fixed;z-index:60;top:11px;left:50%;'
+        +'transform:translateX(-50%);width:125px;height:36px;border-radius:18px;'
+        +'background:#000';
+      document.body.appendChild(isl);
+      const bar=document.createElement('div');
+      bar.style.cssText='position:fixed;z-index:60;left:50%;bottom:8px;'
+        +'transform:translateX(-50%);width:140px;height:5px;border-radius:3px;'
+        +'background:rgba(255,255,255,.75)';
+      document.body.appendChild(bar);
+    }
+  }, [boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER]);
   await pg.waitForTimeout(250);
   const f=OUT+'/card_'+W+'x'+H+'_'+TAG+'.png';
   fs.writeFileSync(f, await pg.screenshot());
-  const gapDp = Math.round((W - boxW)/2 - flank);
+  const gapDp = Math.round(W - 8 - boxW - flank);
   console.log(W+'x'+H+'  card '+boxW+'x'+boxH+'  player '+playerW+'x'+playerH
-    +'  text '+textW+(stack?'  [stacked]':'')
-    +'  gap off each button '+gapDp+'dp ('+(gapDp/6.3).toFixed(1)+'mm)');
+    +'  text '+textW+(BANNER?'  [banner]':'  [bloomed]')
+    +'  clear of the button column '+gapDp+'dp ('+(gapDp/6.3).toFixed(1)+'mm)');
   console.log('  -> '+f);
   await br.close();
 })();

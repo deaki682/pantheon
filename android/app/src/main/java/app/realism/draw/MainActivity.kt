@@ -737,6 +737,17 @@ class MainActivity : AppCompatActivity() {
             if (adCardShown) buildStrip()    // never leave a visible container
             if (adCornerShown) buildCorner() // bound to the destroyed ad
             applyAd()
+            // A CREATIVE WITH VIDEO IN IT EARNS A BLOOM. The taller shape only
+            // exists so something moving has room to play, so a video landing
+            // is reason enough to open early rather than wait out the timer.
+            // (The quiet-hand gate inside adTryExpand still applies - it opens
+            // when the artist's hand is off the glass, not the instant it
+            // arrives.)
+            if (adCornerShown && !adExpanded &&
+                ad.mediaContent?.hasVideoContent() == true) {
+                adNextShowAt = 0L
+                adArmExpand()
+            }
         } catch (e: Throwable) { logLine("native show: " + e.message) }
     }
 
@@ -945,15 +956,27 @@ class MainActivity : AppCompatActivity() {
         // top-right corner, clear of the badge (which is left-aligned) and
         // above the vertically-centred headline. That is 28dp the headline
         // gets to keep, and on a phone the headline needs every one of them.
+        // The card lives in the top-RIGHT corner and both of the screen's own
+        // controls stack down the LEFT, so the only thing it has to clear is
+        // that column - one flanking button plus a fingertip. There is far
+        // more room than when it sat between two buttons, and the headline
+        // gets all of it.
         val screenDp = (resources.displayMetrics.widthPixels / d).toInt()
         val flank = 8 + colW()
-        val budget = screenDp - 2 * (flank + AD_FLANK)
+        val budget = screenDp - (flank + AD_FLANK) - 8
         val playerW = (if (tab) budget - gut - padR - textWant else 120)
             .coerceIn(120, playerMax)
         val textW = (budget - playerW - gut - padR).coerceIn(40, textWant)
+        // the player keeps its full 120dp square whatever the card is doing -
+        // that is what makes the card video-eligible at all - and the wrapper
+        // CLIPS it, centred, so the thin banner shows the middle of the
+        // creative rather than the top of it
         (mediaWrap.getChildAt(0).layoutParams as FrameLayout.LayoutParams).apply {
-            width = dp(playerW); height = dp(playerH) }
+            width = dp(playerW); height = dp(playerH)
+            gravity = android.view.Gravity.CENTER }
+        mediaWrap.clipChildren = true; mediaWrap.clipToPadding = true
         card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(playerW), dp(playerH)))
+        adMediaWrap = mediaWrap
 
         val col = android.widget.LinearLayout(this)
         col.orientation = android.widget.LinearLayout.VERTICAL
@@ -964,8 +987,10 @@ class MainActivity : AppCompatActivity() {
             head.setTextColor(0xFFF2F0EB.toInt()); head.textSize = 13.5f; head.maxLines = 2
             head.setTypeface(null, android.graphics.Typeface.BOLD)
         } else {
-            head.textSize = 11f; head.maxLines = 3
+            head.textSize = 11f
         }
+        head.maxLines = if (adExpanded) 3 else 1
+        adHeadV = head
         val hlp = android.widget.LinearLayout.LayoutParams(dp(textW),
             android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
         hlp.topMargin = dp(4)
@@ -1002,7 +1027,8 @@ class MainActivity : AppCompatActivity() {
         card.addView(col, android.widget.LinearLayout.LayoutParams(
             dp(textW + gut + padR), dp(playerH)))
         val cw = dp(playerW + gut + textW + padR)
-        val ch = dp(playerH)                    // the video minimum, full stop
+        val ch = dp(playerH)                    // bloomed: the video minimum
+        adCornerBannerH = dp(AD_BANNER_DP)      // resting: a thin banner
         // fixed at every level so nothing the SDK does inside can widen it
         val CW = cw; val CH = ch
         adv.addView(card, FrameLayout.LayoutParams(CW, CH))
@@ -1023,6 +1049,7 @@ class MainActivity : AppCompatActivity() {
         bg.setStroke(Math.max(1, dp(1)), 0x1FFFFFFF)
         cardBox.background = bg
         cardBox.clipToOutline = true
+        cardBox.clipChildren = true
         cardBox.elevation = dp(10).toFloat()   // the card floats above the page
         val close = TextView(this)
         close.text = "\u2715"
@@ -1032,8 +1059,6 @@ class MainActivity : AppCompatActivity() {
         cbg.setColor(0xE6191919.toInt()); cbg.cornerRadius = dp(11).toFloat()
         close.background = cbg
         close.setOnClickListener { adCollapse() }
-        (adCloseFloat?.parent as? android.view.ViewGroup)?.removeView(adCloseFloat)
-        adCloseFloat = null
         cardBox.addView(adv, FrameLayout.LayoutParams(CW, CH, android.view.Gravity.START))
         val clp = FrameLayout.LayoutParams(dp(22), dp(22),
             android.view.Gravity.END or android.view.Gravity.TOP)
@@ -1042,7 +1067,10 @@ class MainActivity : AppCompatActivity() {
         adCornerWrap.clipChildren = false; adCornerWrap.clipToPadding = false
         adCornerWrap.removeAllViews()
         adCornerWrap.addView(cardBox, FrameLayout.LayoutParams(CW, CH))
-        adCornerH = CH                     // how far the reveal has to open
+        adCornerH = CH                     // how far the bloom has to open
+        // rebuilt mid-life (a new creative, a rotation): come back at the
+        // height the card was already at, never with a jump
+        adCornerApplyH(if (adExpanded) adCornerH else adCornerBannerH)
         adCard = adv
         adBadgeV = badge
         adCtaV = cta
@@ -1053,14 +1081,18 @@ class MainActivity : AppCompatActivity() {
     // drawing screen (persistent, page reserves room through __adOn), and
     // on the drawing screen an intermittent corner card that replaces the
     // download button for a bounded window (page yields it via __adCorner).
-    private var adCloseFloat: TextView? = null  // legacy float; the X rides the card now
     @Volatile private var adUx = 1f              // the page's accessibility button scale
     private var adCardShown = false       // strip on screen
     private var adCornerShown = false     // corner card on screen
-    private var adCornerH = 0             // the built card's height, in px
-    @Volatile private var adSpotLeft = false  // card in the top-LEFT, not the middle
+    private var adCornerH = 0             // the bloomed card's height, in px
+    private var adCornerBannerH = 0       // the thin banner's height, in px
+    private var adExpanded = false        // bloomed rather than banner
+    private var adMediaWrap: FrameLayout? = null   // the clip the player rides in
+    private var adHeadV: TextView? = null
+    @Volatile private var adSpotLeft = false  // card in the top-LEFT, not the right
     private var adCornerAnim: android.animation.ValueAnimator? = null
-    private val AD_ON_MS = 45000L         // corner window length
+    private val AD_ON_MS = 45000L         // how long the bloom lasts
+    private val AD_BANNER_DP = 48         // the thin banner the card rests at
     private val AD_MARGIN_DP = 10         // the gap that makes the card float
     // the clearance the card keeps from the buttons flanking it: one standard
     // touch target, ~7.6mm, the same number the retired bottom strip kept
@@ -1099,79 +1131,90 @@ class MainActivity : AppCompatActivity() {
         js("window.__adOn && __adOn(" + slot + ")")
         reportAdHeight()
         // ---- corner half ------------------------------------------------
-        if (adCornerShown && !(adBase() && adOnProj)) adCollapse()
-        else if (!adCornerShown && adBase() && adOnProj) adTryShow()
-        else if (!adCornerShown) adCornerWrap.removeCallbacks(adShowTry)
+        // ---- corner half ------------------------------------------------
+        // The card is PERMANENT on a canvas screen: a thin banner, always
+        // there, which blooms to the video height now and then and shrinks
+        // back. Showing and hiding it is the screen's business; expanding it
+        // is the cadence's.
+        val want = adBase() && adOnProj
+        if (want && !adCornerShown) {
+            if (adViewMode != "corner") buildCorner()
+            adCornerShown = true
+            adCornerWrap.visibility = android.view.View.VISIBLE
+            adCornerSet(adCornerBannerH, false)
+            js("window.__adCorner && __adCorner(true)")
+            adArmExpand()
+        } else if (!want && adCornerShown) {
+            adCornerShown = false
+            adExpanded = false
+            adCornerWrap.removeCallbacks(adExpandTry)
+            adCornerWrap.removeCallbacks(adShrink)
+            adCornerWrap.visibility = android.view.View.GONE
+            js("window.__adCorner && __adCorner(false)")
+        }
     }
-    private val adShowTry = Runnable { adTryShow() }
-    private val adAutoHide = Runnable { adCollapse() }
-    private fun adTryShow() {
-        adCornerWrap.removeCallbacks(adShowTry)
-        if (adCornerShown || !(adBase() && adOnProj)) return
+    private val adExpandTry = Runnable { adTryExpand() }
+    private val adShrink = Runnable { adCollapse() }
+    private fun adArmExpand() {
+        adCornerWrap.removeCallbacks(adExpandTry)
+        if (!adCornerShown || adExpanded) return
+        val wait = (adNextShowAt - android.os.SystemClock.uptimeMillis()).coerceAtLeast(0L)
+        adCornerWrap.postDelayed(adExpandTry, wait)
+    }
+    // the bloom. It happens on a timer, and straight away when a creative
+    // with VIDEO in it lands - the whole point of the taller shape is that
+    // there is something moving to show.
+    private fun adTryExpand() {
+        adCornerWrap.removeCallbacks(adExpandTry)
+        if (!adCornerShown || adExpanded || !(adBase() && adOnProj)) return
         val now = android.os.SystemClock.uptimeMillis()
-        if (now < adNextShowAt) { adCornerWrap.postDelayed(adShowTry, adNextShowAt - now); return }
-        // never materialize where a finger just was - wait for a quiet hand
-        if (now - lastTouchMs < 3000) { adCornerWrap.postDelayed(adShowTry, 3000); return }
-        if (adViewMode != "corner") buildCorner()
-        adCornerShown = true
-        adCornerReveal(true)
-        js("window.__adCorner && __adCorner(true)")
-        adCornerWrap.removeCallbacks(adAutoHide)
-        adCornerWrap.postDelayed(adAutoHide, AD_ON_MS)
+        if (now < adNextShowAt) { adCornerWrap.postDelayed(adExpandTry, adNextShowAt - now); return }
+        // never grow under a finger that is still on the glass
+        if (now - lastTouchMs < 3000) { adCornerWrap.postDelayed(adExpandTry, 3000); return }
+        adExpanded = true
+        adHeadV?.maxLines = 3
+        adCornerSet(adCornerH, true)
+        adCornerWrap.removeCallbacks(adShrink)
+        adCornerWrap.postDelayed(adShrink, AD_ON_MS)
     }
-    // It SLIDES OPEN. The card's own height is animated from nothing to full
-    // with the wrapper clipping its children, so the card is uncovered from
-    // the top edge down rather than scaled up out of a point - which is what
-    // an ad appearing in a gap in a row of buttons should look like. The
-    // wrapper stops clipping at the end so the card's shadow can paint past
-    // its bounds again.
-    private fun adCornerReveal(open: Boolean) {
-        val full = adCornerH
-        if (full <= 0) {                    // nothing built yet: no animation
-            adCornerWrap.visibility = if (open) android.view.View.VISIBLE
-                                      else android.view.View.GONE
-            return
-        }
+    // ...and back to the banner. The card does not go away - only the bloom
+    // does - so the artist never gets a hole where an ad was.
+    private fun adCollapse() {
+        adCornerWrap.removeCallbacks(adShrink)
+        if (!adExpanded) return
+        adExpanded = false
+        adNextShowAt = android.os.SystemClock.uptimeMillis() + AD_OFF_MS
+        adHeadV?.maxLines = 1
+        adCornerSet(adCornerBannerH, true)
+        // a fresh creative earns the next bloom (re-showing one does not)
+        if (!adsRemovedFlag()) loadNative()
+        adArmExpand()
+    }
+    // the height between the two states. The card keeps its width, so the
+    // bloom reads as the banner opening downward rather than a new thing
+    // arriving; the media view is centred inside a wrapper that clips, so the
+    // banner shows the MIDDLE of the creative and not the top of it.
+    private fun adCornerSet(h: Int, animate: Boolean) {
+        if (h <= 0) return
         adCornerAnim?.cancel()
-        adCornerWrap.animate().cancel()
-        adCornerWrap.alpha = 1f
-        adCornerWrap.scaleX = 1f; adCornerWrap.scaleY = 1f
-        adCornerWrap.clipChildren = true; adCornerWrap.clipToPadding = true
-        val from = if (open) 1 else full
-        val to = if (open) full else 1
-        adCornerWrap.layoutParams = adCornerWrap.layoutParams.also { it.height = from }
-        if (open) adCornerWrap.visibility = android.view.View.VISIBLE
-        val va = android.animation.ValueAnimator.ofInt(from, to)
-        va.duration = if (open) 340L else 220L
-        va.interpolator = if (open) android.view.animation.DecelerateInterpolator()
-                          else android.view.animation.AccelerateInterpolator()
-        va.addUpdateListener { a ->
-            adCornerWrap.layoutParams = adCornerWrap.layoutParams.also {
-                it.height = a.animatedValue as Int }
+        val from = adCornerWrap.height.let { if (it > 0) it else h }
+        if (!animate || from == h) {
+            adCornerApplyH(h); return
         }
+        val va = android.animation.ValueAnimator.ofInt(from, h)
+        va.duration = if (h > from) 340L else 220L
+        va.interpolator = if (h > from) android.view.animation.DecelerateInterpolator()
+                          else android.view.animation.AccelerateInterpolator()
+        va.addUpdateListener { a -> adCornerApplyH(a.animatedValue as Int) }
         va.addListener(object : android.animation.AnimatorListenerAdapter() {
-            override fun onAnimationEnd(a: android.animation.Animator) {
-                adCornerAnim = null
-                adCornerWrap.clipChildren = false; adCornerWrap.clipToPadding = false
-                adCornerWrap.layoutParams = adCornerWrap.layoutParams.also {
-                    it.height = FrameLayout.LayoutParams.WRAP_CONTENT }
-                if (!open) adCornerWrap.visibility = android.view.View.GONE
-            }
+            override fun onAnimationEnd(a: android.animation.Animator) { adCornerAnim = null }
         })
         adCornerAnim = va
         va.start()
     }
-
-    private fun adCollapse() {
-        adCornerWrap.removeCallbacks(adAutoHide)
-        if (!adCornerShown) return
-        adCornerShown = false
-        adNextShowAt = android.os.SystemClock.uptimeMillis() + AD_OFF_MS
-        adCornerReveal(false)
-        js("window.__adCorner && __adCorner(false)")
-        // a fresh creative earns the next window (re-showing one doesn't)
-        if (!adsRemovedFlag()) loadNative()
-        if (adBase() && adOnProj) adCornerWrap.postDelayed(adShowTry, AD_OFF_MS)
+    private fun adCornerApplyH(h: Int) {
+        adCornerWrap.layoutParams = adCornerWrap.layoutParams.also { it.height = h }
+        adMediaWrap?.layoutParams = adMediaWrap?.layoutParams?.also { it.height = h }
     }
 
     // the browser engine keeps IndexedDB in per-origin folders on disk,
@@ -2038,11 +2081,19 @@ class MainActivity : AppCompatActivity() {
             ?: @Suppress("DEPRECATION") windowManager.defaultDisplay.rotation
     // the card opens in whichever corner the page says it left empty: the gap
     // in the middle of the top row, or the top-left corner
-    private fun adCornerParams(): FrameLayout.LayoutParams =
-        FrameLayout.LayoutParams(
+    private fun adCornerParams(): FrameLayout.LayoutParams {
+        val lp = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
             android.view.Gravity.TOP or (if (adSpotLeft) android.view.Gravity.START
-                                         else android.view.Gravity.CENTER_HORIZONTAL))
+                                         else android.view.Gravity.END))
+        // the card and the WebView share this root, which is already padded by
+        // the status bar and the cutout - so the card clears a notch or a
+        // punch-hole for free, but it was landing 8dp ABOVE the row it belongs
+        // to, because the page puts its own buttons 8px in from that same line
+        lp.topMargin = ((8) * resources.displayMetrics.density).toInt()
+        if (adSpotLeft) lp.leftMargin = lp.topMargin else lp.rightMargin = lp.topMargin
+        return lp
+    }
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
         super.onConfigurationChanged(newConfig)
         // rotation does not recreate the activity (configChanges) - re-lay

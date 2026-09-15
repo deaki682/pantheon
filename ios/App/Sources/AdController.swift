@@ -27,7 +27,11 @@ final class AdController: NSObject {
     private var lastTouch: CFTimeInterval = 0
     private var showTimer: Timer?
     private var hideTimer: Timer?
-    private let AD_ON_S: TimeInterval = 45
+    private let AD_ON_S: TimeInterval = 45          // how long the bloom lasts
+    private let AD_BANNER_H: CGFloat = 48           // the banner it rests at
+    private var expanded = false                    // bloomed, not resting
+    private var cardH: CGFloat = 120                // the bloomed height
+    private var headV: UILabel?
     private let AD_OFF_S: TimeInterval = 240
     private var loader: AdLoader?
     private var nativeAd: NativeAd?
@@ -74,16 +78,22 @@ final class AdController: NSObject {
         cornerWrap.isHidden = true
         cornerWrap.translatesAutoresizingMaskIntoConstraints = false
         host.view.addSubview(cornerWrap)
-        // the card opens in the GAP: the page keeps one button at each end of
-        // the top row and nothing in between, in either orientation, so the
-        // card slides open in the middle and covers neither.
-        let mid = cornerWrap.centerXAnchor.constraint(
-            equalTo: host.view.safeAreaLayoutGuide.centerXAnchor)
+        // Both canvas screens stack their two controls down the LEFT edge, so
+        // the card owns the top-RIGHT corner on every screen and in either
+        // orientation - it never has to be near a button. (cornerLead stays
+        // for a layout that wants it on the other side.)
+        //
+        // The web view is constrained to this same safe-area guide, so the
+        // card clears the Dynamic Island, the notch and the home indicator for
+        // free. The 8pt puts it on the same line as the page's own buttons.
+        let mid = cornerWrap.trailingAnchor.constraint(
+            equalTo: host.view.safeAreaLayoutGuide.trailingAnchor, constant: -8)
         let lead = cornerWrap.leadingAnchor.constraint(
-            equalTo: host.view.safeAreaLayoutGuide.leadingAnchor)
+            equalTo: host.view.safeAreaLayoutGuide.leadingAnchor, constant: 8)
         cornerMid = mid; cornerLead = lead
         NSLayoutConstraint.activate([
-            cornerWrap.topAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.topAnchor),
+            cornerWrap.topAnchor.constraint(
+                equalTo: host.view.safeAreaLayoutGuide.topAnchor, constant: 8),
             mid,
         ])
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged),
@@ -325,76 +335,92 @@ final class AdController: NSObject {
         web?.evaluateJavaScript("window.__adOn && __adOn(\(slot ? "true" : "false"))",
                                 completionHandler: nil)
         reportHeight()
-        if cornerShown && !(base && onProj) { collapseCorner() }
+        if cornerShown && !(base && onProj) { hideCorner() }
         else if !cornerShown && base && onProj { tryShowCorner() }
     }
 
-    // It SLIDES OPEN: the card's own height constraint is animated from
-    // nothing to full while the wrapper clips, so the card is uncovered from
-    // the top edge down rather than scaled up out of a point - which is what
-    // an ad appearing in a gap in a row of buttons should look like. The wrap
-    // stops clipping at the end so its shadow can paint past its bounds.
-    private func cornerReveal(_ open: Bool, _ then: (() -> Void)? = nil) {
-        let full = cornerH?.constant ?? 120
-        cornerWrap.clipsToBounds = true
-        cornerH?.constant = open ? 0 : full
-        cornerWrap.superview?.layoutIfNeeded()
-        cornerH?.constant = open ? full : 0
-        UIView.animate(withDuration: open ? 0.34 : 0.22, delay: 0,
-                       options: open ? [.curveEaseOut, .allowUserInteraction]
-                                     : [.curveEaseIn]) {
+    // The card is PERMANENT on a canvas screen: a thin banner, always there,
+    // which blooms to the video height now and then and shrinks back to the
+    // banner. Showing it at all is the screen's business; expanding it is the
+    // cadence's, so the artist never gets a hole where an ad used to be.
+    private func setCornerHeight(_ h: CGFloat, _ dur: TimeInterval) {
+        cornerH?.constant = h
+        UIView.animate(withDuration: dur, delay: 0,
+                       options: [.curveEaseOut, .allowUserInteraction]) {
             self.cornerWrap.superview?.layoutIfNeeded()
-        } completion: { _ in
-            self.cornerWrap.clipsToBounds = false
-            self.cornerH?.constant = full
-            then?()
         }
     }
 
     private func tryShowCorner() {
-        showTimer?.invalidate(); showTimer = nil
         guard !cornerShown, wanted, onProj, !removed, let ad = nativeAd else { return }
-        let now = CACurrentMediaTime()
-        if now < nextShowAt {
-            showTimer = Timer.scheduledTimer(withTimeInterval: nextShowAt - now, repeats: false) {
-                [weak self] _ in self?.tryShowCorner() }
-            return
-        }
-        if now - lastTouch < 3 {
-            showTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {
-                [weak self] _ in self?.tryShowCorner() }
-            return
-        }
         if viewMode != "corner" { buildCorner(ad) }
         cornerShown = true
         cornerWrap.alpha = 1
         cornerWrap.transform = .identity
         cornerWrap.isHidden = false
-        cornerReveal(true)
+        cornerH?.constant = AD_BANNER_H
+        cornerWrap.superview?.layoutIfNeeded()
         web?.evaluateJavaScript("window.__adCorner && __adCorner(true)", completionHandler: nil)
+        armExpand()
+    }
+
+    private func armExpand() {
+        showTimer?.invalidate(); showTimer = nil
+        guard cornerShown, !expanded else { return }
+        let wait = max(0.1, nextShowAt - CACurrentMediaTime())
+        showTimer = Timer.scheduledTimer(withTimeInterval: wait, repeats: false) {
+            [weak self] _ in self?.tryExpand() }
+    }
+
+    // the bloom: on a timer, and straight away when a creative with VIDEO in
+    // it lands - the taller shape only exists so something moving has room
+    private func tryExpand() {
+        showTimer?.invalidate(); showTimer = nil
+        guard cornerShown, !expanded, wanted, onProj, !removed else { return }
+        let now = CACurrentMediaTime()
+        if now < nextShowAt {
+            showTimer = Timer.scheduledTimer(withTimeInterval: nextShowAt - now, repeats: false) {
+                [weak self] _ in self?.tryExpand() }
+            return
+        }
+        // never grow under a finger that is still on the glass
+        if now - lastTouch < 3 {
+            showTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false) {
+                [weak self] _ in self?.tryExpand() }
+            return
+        }
+        expanded = true
+        headV?.numberOfLines = 3
+        setCornerHeight(cardH, 0.34)
         hideTimer?.invalidate()
         hideTimer = Timer.scheduledTimer(withTimeInterval: AD_ON_S, repeats: false) {
             [weak self] _ in self?.collapseCorner() }
     }
 
+
     @objc private func closeTap() { collapseCorner() }
 
+    // back to the banner. The card does not go away - only the bloom does.
     private func collapseCorner() {
         hideTimer?.invalidate(); hideTimer = nil
-        guard cornerShown else { return }
-        cornerShown = false
+        guard expanded else { return }
+        expanded = false
         nextShowAt = CACurrentMediaTime() + AD_OFF_S
-        cornerReveal(false) { [weak self] in
-            guard let self, !self.cornerShown else { return }
-            self.cornerWrap.isHidden = true
-        }
+        headV?.numberOfLines = 1
+        setCornerHeight(AD_BANNER_H, 0.22)
+        // a fresh creative earns the next bloom (re-showing one does not)
+        if !removed { loadNative() }
+        armExpand()
+    }
+
+    // ...and this is the card leaving entirely, when the screen changes
+    private func hideCorner() {
+        showTimer?.invalidate(); showTimer = nil
+        hideTimer?.invalidate(); hideTimer = nil
+        guard cornerShown else { return }
+        cornerShown = false; expanded = false
+        cornerWrap.isHidden = true
         web?.evaluateJavaScript("window.__adCorner && __adCorner(false)", completionHandler: nil)
-        loadNative()          // a fresh creative earns the next window
-        if wanted && onProj && !removed {
-            showTimer?.invalidate()
-            showTimer = Timer.scheduledTimer(withTimeInterval: AD_OFF_S, repeats: false) {
-                [weak self] _ in self?.tryShowCorner() }
-        }
     }
 
     // ---- the card, in the app's own dark language -----------------------
@@ -574,26 +600,40 @@ final class AdController: NSObject {
         let GUT: CGFloat = 8, PADR: CGFloat = 8, PH: CGFloat = 120
         let FLANK: CGFloat = 48, FLANKW: CGFloat = 8 + 44
         let screenW = host?.view.bounds.width ?? 390
-        let budget = screenW - 2 * (FLANKW + FLANK)
+        // top-right corner: only the LEFT column has to be cleared
+        let budget = screenW - (FLANKW + FLANK) - 8
         let playerW: CGFloat = 120
         let textW = min(max(budget - playerW - GUT - PADR, 40), 118)
         let advW = playerW + GUT + textW + PADR
         let advH = PH
 
-        adv.addSubview(media); adv.addSubview(badge); adv.addSubview(head)
+        head.numberOfLines = expanded ? 3 : 1
+        headV = head
+        let mediaClip = UIView()
+        mediaClip.translatesAutoresizingMaskIntoConstraints = false
+        mediaClip.clipsToBounds = true
+        adv.addSubview(mediaClip); mediaClip.addSubview(media)
+        adv.addSubview(badge); adv.addSubview(head)
         NSLayoutConstraint.activate([
             adv.widthAnchor.constraint(equalToConstant: advW),
             adv.heightAnchor.constraint(equalToConstant: advH),
-            // the player is flush: top, leading edge, no padding
-            media.topAnchor.constraint(equalTo: adv.topAnchor),
-            media.leadingAnchor.constraint(equalTo: adv.leadingAnchor),
+            // the clip is flush with the card and follows its height; the
+            // player keeps its full 120pt square inside it whatever the card
+            // is doing - that is what makes it video-eligible - so the resting
+            // banner shows the MIDDLE of the creative, not the top of it
+            mediaClip.topAnchor.constraint(equalTo: adv.topAnchor),
+            mediaClip.bottomAnchor.constraint(equalTo: adv.bottomAnchor),
+            mediaClip.leadingAnchor.constraint(equalTo: adv.leadingAnchor),
+            mediaClip.widthAnchor.constraint(equalToConstant: playerW),
+            media.centerYAnchor.constraint(equalTo: mediaClip.centerYAnchor),
+            media.leadingAnchor.constraint(equalTo: mediaClip.leadingAnchor),
             media.widthAnchor.constraint(equalToConstant: playerW),
             media.heightAnchor.constraint(equalToConstant: PH),
             badge.widthAnchor.constraint(equalToConstant: 22),
             badge.heightAnchor.constraint(equalToConstant: 13),
         ])
         NSLayoutConstraint.activate([
-            badge.leadingAnchor.constraint(equalTo: media.trailingAnchor, constant: GUT),
+            badge.leadingAnchor.constraint(equalTo: mediaClip.trailingAnchor, constant: GUT),
             head.leadingAnchor.constraint(equalTo: badge.leadingAnchor),
             head.widthAnchor.constraint(equalToConstant: textW),
             head.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 4),
@@ -628,7 +668,9 @@ final class AdController: NSObject {
         cornerWrap.addSubview(close)
         cornerW?.isActive = false; cornerH?.isActive = false
         cornerW = cornerWrap.widthAnchor.constraint(equalToConstant: advW)
-        cornerH = cornerWrap.heightAnchor.constraint(equalToConstant: advH)
+        cardH = advH
+        cornerH = cornerWrap.heightAnchor.constraint(
+            equalToConstant: expanded ? advH : AD_BANNER_H)
         NSLayoutConstraint.activate([
             cornerW!, cornerH!,
             adv.topAnchor.constraint(equalTo: cornerWrap.topAnchor),
@@ -662,6 +704,15 @@ extension AdController: NativeAdLoaderDelegate {
             self.nativeAd = nativeAd
             self.viewMode = ""            // rebuilt into whichever mode shows
             self.applyAd()
+            // A CREATIVE WITH VIDEO IN IT EARNS A BLOOM. The taller shape only
+            // exists so something moving has room to play, so a video landing
+            // is reason enough to open early rather than wait out the timer.
+            // (tryExpand still waits for the artist's hand to leave the glass.)
+            if self.cornerShown && !self.expanded
+                && nativeAd.mediaContent.hasVideoContent {
+                self.nextShowAt = 0
+                self.armExpand()
+            }
         }
     }
     func adLoader(_ adLoader: AdLoader, didFailToReceiveAdWithError error: Error) {
