@@ -870,7 +870,12 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
      place with room to spare - and everything else moves down into the height
      they were taking. The screen is already positioned, so the column anchors
      to it and the picture and the panel simply keep clear of it. */
-  #scrEdit{--edcol:calc(96px*var(--ux,1));--edsl:min(42vw,420px)}
+  /* Both of these used to grow with the screen and starve the picture: the
+     column scaled with the button size (166px on a tablet or a fold) and the
+     band was a flat share of the width. On an 841x673 fold that left the
+     picture 290px - 34% of a big screen, for the one thing the screen is for.
+     Clamped, the picture keeps about half everywhere and more on a tablet. */
+  #scrEdit{--edcol:clamp(88px, 12vw, 120px);--edsl:min(34vw,380px)}
   /* the three verbs down the RIGHT edge, the sliders down the LEFT, and the
      picture in the middle with a margin clear of each */
   #edRow{position:absolute;z-index:7;padding:0;gap:10px;
@@ -1001,6 +1006,14 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     width:min(380px,52vw);overflow-y:auto;background:#1e1e1e;
     border:1px solid #555;border-radius:14px;padding:8px}
 }
+/* A NARROW BAND HOLDS ONE SLIDER PAIR TO A ROW. Two pairs need 62px of label
+   twice over before either slider gets a pixel; in a 286px band that leaves
+   each about 37px of track, which is not a control. One pair to a row doubles
+   the row count instead, and the band already scrolls when they overflow.
+   Above 960px the band is wide enough for two and this does not apply. */
+@media (orientation:landscape) and (max-width:960px){
+  #edTone .row{grid-template-columns:62px 1fr}
+}
 @media (orientation:landscape) and (prefers-reduced-motion: no-preference){
   #gridMenu{animation:menuIn 160ms var(--motE)}
   html.chromeIn #setCorner,html.chromeIn #expCorner,
@@ -1057,7 +1070,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v485</span>
+    <span id="verNum">v486</span>
   </div>
 </div>
 <div id="delModal">
