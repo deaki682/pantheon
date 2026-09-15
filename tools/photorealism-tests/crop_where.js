@@ -33,6 +33,7 @@ const RATE = +(process.argv[3]||4);
     ['grid off',             {gridOn:false}],
     ['photo blit cached',    {freezePhoto:true}],
     ['photo AND punch off',  {col:'#ff3b30', freezePhoto:true}],
+    ['grid off AND punch off',{gridOn:false, col:'#ff3b30'}],
   ];
   for (const [name,opt] of CASES){
     const r = await pg.evaluate(async ([opt])=>{
@@ -53,6 +54,9 @@ const RATE = +(process.argv[3]||4);
       const flush=()=>{ try{ cv.getContext('2d').getImageData(0,0,1,1); }catch(e){} };
       const cost=[];
       for (let i=0;i<14;i++){
+        // a DRAG, which is what the artist does - the crisp settle is its
+        // own entry in the inventory
+        if (typeof fmtLive==='function') fmtLive(true);
         FMT_OFF.x = 0.5 + (i%7)*0.02;
         FMT_OFF.y = 0.5 + (i%5)*0.015;
         const t0=performance.now();

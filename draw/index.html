@@ -929,7 +929,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v447</span>
+    <span id="verNum">v448</span>
   </div>
 </div>
 <div id="delModal">
@@ -3599,6 +3599,13 @@ function fmtQual(cr, w){
   if (red < 2) return 'low';
   return FMT_LIVE ? 'low' : 'high';
 }
+// The same rule, for anywhere else in the app that resamples. `scale` is
+// destination over source: at or below a half - a 2x reduction or more - the
+// expensive filter is worth its cost, and above it the two are
+// indistinguishable. Measured on this engine at the editor's own numbers:
+// 1280x960 into 797x598 is 65ms at 'high' and 8ms at 'low'. A straight 1:1
+// copy costs the same either way, so those are left alone.
+function smoothQ(scale){ return scale <= 0.5 ? 'high' : 'low'; }
 function cropRect(){
   // crop of the photo to the chosen ratio, placed and zoomed by the artist
   const r = ratioOf();
@@ -4328,6 +4335,7 @@ function edRender(){
     const s=Math.min(W/pre.width, H/pre.height)*0.94;
     const ox=(W-pre.width*s)/2, oy=(H-pre.height*s)/2;
     ED.fit={s,ox,oy};
+    g.imageSmoothingQuality=smoothQ(s);
     g.drawImage(toned, ox, oy, pre.width*s, pre.height*s);
     const rx=ox+R.cx*pre.width*s, ry=oy+R.cy*pre.height*s;
     const rw=R.cw*pre.width*s, rh=R.ch*pre.height*s;
@@ -4356,6 +4364,9 @@ function edRender(){
     z.x=lim(z.x, W*(z.s-1)/(2*z.s)); z.y=lim(z.y, H*(z.s-1)/(2*z.s));
     g.save();
     g.translate(W/2, H/2); g.scale(z.s, z.s); g.translate(-W/2+z.x, -H/2+z.y);
+    // the context carries the zoom, so what lands on the canvas is s*z.s -
+    // zooming IN is an upscale, where the filter has nothing to average
+    g.imageSmoothingQuality=smoothQ(s*z.s);
     g.drawImage(ED.showOrig ? pre : toned, cx, cy, cw, ch, ox, oy, cw*s, ch*s);
     g.restore();
   }
@@ -7012,24 +7023,40 @@ function punchWorld(g, ox, oy, sc){
   g.globalCompositeOperation='source-over';
   return true;
 }
+// the two scratch surfaces the decision map is built on. This runs on every
+// frame of a crop drag, and it was asking for both of them fresh each time -
+// the third place in the app where the allocation cost more than the drawing.
+let PP_SM=null, PP_TH=null;
+const ppScratch=(which,bw,bh)=>{
+  let c = which==='sm' ? PP_SM : PP_TH;
+  if (!c){ c=document.createElement('canvas');
+    if (which==='sm') PP_SM=c; else PP_TH=c; }
+  if (c.width!==bw || c.height!==bh){ c.width=bw; c.height=bh; }
+  return c;
+};
 function punchPaint(g, W, H, paintBackdrop, step){
   if (!CTX_FILTER_OK) return false;
   const st=Math.max(6, step||60);
   const bw=Math.ceil(W/st)+2, bh=Math.ceil(H/st)+2;
   // 1. the backdrop, averaged down to a pixel a cell
-  const sm=document.createElement('canvas'); sm.width=bw; sm.height=bh;
+  const sm=ppScratch('sm',bw,bh);
   const sg=sm.getContext('2d');
+  sg.setTransform(1,0,0,1,0,0);
+  sg.clearRect(0,0,bw,bh);
   sg.imageSmoothingQuality='high';
   sg.save();
   sg.scale(1/st, 1/st); sg.translate(st/2, st/2);
   paintBackdrop(sg);
   sg.restore();
   // 2. each of those decided, once, on its own
-  const th=document.createElement('canvas'); th.width=bw; th.height=bh;
+  const th=ppScratch('th',bw,bh);
   const tg=th.getContext('2d');
+  tg.setTransform(1,0,0,1,0,0);
+  tg.globalCompositeOperation='copy';      // replace, never stack on the last
   tg.filter='grayscale(1) contrast(12000%) invert(1)';
   tg.drawImage(sm,0,0);
   tg.filter='none';
+  tg.globalCompositeOperation='source-over';
   // 3. straight onto the lattice, interpolated so a run of cells that agree
   //    stays solid and only a real change of ground gets a ramp
   g.save();
