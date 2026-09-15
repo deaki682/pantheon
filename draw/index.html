@@ -16,10 +16,7 @@
 <style>
 /* minimal by instruction: purely functional, no stylistic embellishment */
 *{margin:0;padding:0;box-sizing:border-box}
-/* --adgap: the clearance every tappable thing keeps from the ad strip.
-   48px is the standard minimum touch target, ~7.6mm against an 8-10mm
-   fingertip. One number: CSS and the tip placer both read it. */
-:root{--acc:#e8833a;--accBg:#3b2a1b;--adgap:48px}
+:root{--acc:#e8833a;--accBg:#3b2a1b}
 html{color-scheme:dark;accent-color:var(--acc)}
 input[type=range]{-webkit-appearance:none;appearance:none;height:28px;
   background:transparent;touch-action:none}
@@ -231,8 +228,14 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
 #gridCv{position:absolute;left:0;top:0;pointer-events:none;transform-origin:0 0}
 #circCv{position:absolute;left:0;top:0;pointer-events:none;transform-origin:0 0}
 #edgeCv{position:absolute;left:0;top:0;pointer-events:none}
+/* the comparison screen's top row mirrors the drawing screen's: the red
+   circle takes the LEFT corner the back arrow used to hold, Download keeps
+   the right, and the middle is left clear for the video card. Reversed, so
+   the circle stays pinned to the edge and Clear grows inward beside it
+   instead of shoving the circle along when it appears. */
 #circWrap{position:absolute;top:calc(8px + env(safe-area-inset-top));
-  left:50%;transform:translateX(-50%);z-index:7;display:none;gap:8px}
+  left:calc(8px + env(safe-area-inset-left));transform:none;z-index:7;
+  display:none;gap:8px;flex-direction:row-reverse}
 #circBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #dlWrap{position:absolute;top:calc(8px + env(safe-area-inset-top));
@@ -329,54 +332,18 @@ body.colorRef #hudToggle.lit{width:calc(44px*var(--ux,1));padding:0;font-size:ca
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:none}
 body.colorRef #underCorner{display:block;left:calc(30px + (100% - 60px)*0.25)}
 body.colorRef #gridCorner{left:calc(30px + (100% - 60px)*0.75)}
-/* the ad card floats over the page's BOTTOM 80px. Flex screens clear
-   it with padding; the drawing page reserves NOTHING - the paper runs
-   under the card and only the corner buttons float up, no band */
-/* --adh is the strip's REAL height, measured by the shell and sent through
-   __adH. 76px is only the opening guess; a phone set to a large system font
-   grows the strip past it, and anything the page had put in that band was
-   simply hidden. Everything that must clear the ad reads this one value. */
-/* --adclear is the whole stand-off: the strip's measured height plus the
-   fingertip gap. Everything that must not end up beside the ad reads it. */
-html.adOn{--adclear:calc(var(--adh,76px) + var(--adgap,48px) + env(safe-area-inset-bottom))}
-html.adOn .screen{padding-bottom:var(--adclear)}
-/* a centred panel is not a .screen: it was free to hang its lower half,
-   button and all, underneath the ad */
-html.adOn #introModal,html.adOn #gearModal,html.adOn #a11yModal,
-html.adOn #accModal,html.adOn #shModal,html.adOn #gridModal,
-html.adOn #setModal,html.adOn #refModal,html.adOn #dlModal,
-html.adOn #arModal,html.adOn #modeModal,html.adOn #delModal,
-html.adOn #gsdModal,html.adOn #dgModal,html.adOn #dlwModal{
-  padding-bottom:var(--adclear);
-  box-sizing:border-box}
-/* and whatever the text does - translation, a large system font - the panel
-   scrolls inside what is left rather than growing off the screen */
+/* THE BOTTOM STRIP IS GONE, from every screen including the gallery. The one
+   ad left in the app is the intermittent video card that slides open in the
+   gap at the top of the two canvas screens, and it floats OVER the page
+   rather than displacing it - so nothing reserves room for an ad any more,
+   and every screen's UI sits exactly where it sits for a viewer who paid to
+   remove them. --adclear and --adgap, the fingertip stand-off that governed
+   the strip, have nothing left to stand off from. */
+/* whatever the text does - translation, a large system font - a panel
+   scrolls inside the screen rather than growing off it */
 #introPanel,#gearPanel,#a11yPanel,#accPanel,#shPanel,#gridPanel,#setPanel,
 #refPanel,#dlPanel,#arPanel,#modePanel,#delPanel,#gsdPanel,#dgPanel,#dlwPanel{
   max-height:calc(100% - 20px);overflow-y:auto}
-/* five of those panels set max-height:92vh further down, at the same
-   specificity, so they won and overflowed past the ad in BOTH directions -
-   where a panel's own overflow-y cannot reach. 92vh knows nothing about the
-   strip; while the ad is up, the panel's own box is the authority. */
-html.adOn #a11yPanel,html.adOn #accPanel,html.adOn #gsdPanel,
-html.adOn #setPanel,html.adOn #gearPanel{max-height:calc(100% - 20px)}
-/* the drawing screen carries no strip at all now - the video card grows out
-   of its Download button instead - so it reserves nothing at the bottom and
-   its five controls sit where they always sat, 8px off the edge. The
-   fingertip stand-off (--adgap) still governs every screen that DOES wear
-   the strip; there is simply no ad down here to stand off from. */
-/* neither screen wears the strip, so neither reserves room for one. The
-   size screen was still holding 124px open for an ad that is not there -
-   room the crop and the grid should have. */
-html.adOn #scrMain,html.adOn #scrFormat{padding-bottom:0}
-/* the drawing paper runs UNDER the strip, so a pan that drifts low can lift
-   off on the ad. This band is the last slice of page before the ad and it
-   answers to nothing: see-through, but no pan, no tap, no pointer at all.
-   Only the comparison screen needs it now. */
-#adGuard{position:fixed;left:0;right:0;height:26px;display:none;z-index:6;
-  bottom:calc(var(--adh,76px) + env(safe-area-inset-bottom));
-  background:transparent;touch-action:none}
-html.adOn:has(#scrCompare.on) #adGuard{display:block}
 /* the buffer band (and any exposed screen edge) matches the working
    screens' ground, so the lift never reads as a black bar */
 #scrMain,#scrCompare{background:#2a2a2a}
@@ -562,12 +529,13 @@ html.hc #verNum{color:#ddd}
   #gsdOpLab{margin-top:16px}
   .gsdPop,#gsdLabs{bottom:auto;top:calc(100% + 10px)}
 }
-/* the drawing screen's top row: back on the left, Download in the MIDDLE,
-   gear on the right. The middle is the Download button's spot because that
-   is where the video card grows from - this screen carries no strip, so the
-   ad arrives out of the button instead of under the artist's thumb. */
-#expCorner{position:absolute;left:50%;transform:translateX(-50%);
-  top:calc(8px + env(safe-area-inset-top));z-index:5}
+/* the drawing screen's top row: Download on the LEFT, where the back arrow
+   used to sit, and the gear on the right. Nothing in between - that gap is
+   where the video card slides open. The back arrow is gone from this screen;
+   Android's system back and the iOS edge swipe both reach __backStep, which
+   closes any open panel first and only then steps up a screen. */
+#expCorner{position:absolute;left:calc(8px + env(safe-area-inset-left));
+  right:auto;top:calc(8px + env(safe-area-inset-top));z-index:5}
 #setCorner{position:absolute;right:calc(8px + env(safe-area-inset-right));
   top:calc(8px + env(safe-area-inset-top));z-index:5}
 #setBtn{height:calc(44px*var(--ux,1));min-width:calc(44px*var(--ux,1));padding:0;border-radius:12px;
@@ -634,12 +602,8 @@ body.uiHid #underCorner,body.uiHid #camCorner{transform:translate(-50%,160%)}
 #hud,#detMenu,#underMenu,#gridMenu{transition:opacity .28s, visibility .28s}
 body.uiHid #hud,body.uiHid #detMenu,body.uiHid #underMenu,
 body.uiHid #gridMenu{opacity:0;visibility:hidden}
-body.uiHid #expCorner{transform:translate(-50%,-190%)}
+body.uiHid #expCorner{transform:translateY(-190%)}
 #expCorner{transition:opacity .25s, transform 0.2s cubic-bezier(.3,0,.2,1)}
-/* THE TRANSFORMATION: while the video card is up it stands where this
-   button stands, so the button yields - and comes back the moment the card
-   retracts. */
-html.adCorner #expCorner{opacity:0;pointer-events:none}
 #setCorner{transition:transform .35s cubic-bezier(.2,0,0,1)}
 body.uiHid #setCorner{transform:translateY(-190%)}
 body.uiHid #backBtn{transform:translateY(-190%)}
@@ -833,12 +797,12 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     right:auto;top:50%;transform:translate(0,-50%)}
   body.uiHid #setCorner,html.adCorner body.uiHid #setCorner{
     transform:translate(-190%,-50%)}
-  /* Download keeps the TOP-LEFT corner, where the video card grows from */
+  /* Download keeps the top-left corner; the gear drops to where the back
+     arrow used to be, so the two sit at the ends of the left edge and the
+     top of the screen is clear for the card */
   #expCorner{left:calc(8px + env(safe-area-inset-left));right:auto;
     top:calc(8px + env(safe-area-inset-top));bottom:auto;transform:none}
   body.uiHid #expCorner{transform:translate(-190%,0)}
-  html:has(#scrMain.on) #backBtn{top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
-  html:has(#scrMain.on) body.uiHid #backBtn{transform:translate(-190%,0)}
   #hudWrap,body.colorRef #hudWrap,body:not(.colorRef) #hudWrap{
     left:auto;right:calc(8px + env(safe-area-inset-right));
     top:calc(8px + env(safe-area-inset-top));bottom:auto;transform:none;
@@ -867,6 +831,54 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   body.uiHid #hudWrap,body.uiHid #camCorner{transform:translate(160%,0)}
   body.uiHid #detCorner,body.uiHid #gridCorner,
   body.uiHid #underCorner{transform:translate(160%,-50%)}
+
+  /* ---- the comparison screen, turned on its side ---------------------
+     The tools stand down the RIGHT edge (Flip, Compare, Crop, Grid,
+     Re-crop, Adjust) and their panel opens INWARD, toward the picture.
+     Left of them the see-through slider stands on end, and left of that
+     the mirror button. The LEFT edge carries the three things that are
+     not tools: the video card at the top, the error circle in the middle
+     and Download at the bottom. No back arrow - the system back and the
+     edge swipe both step to the drawing screen, which is where the
+     arrow went. */
+  #scrCompare #cmpRow{position:absolute;z-index:7;
+    right:calc(8px + env(safe-area-inset-right));top:50%;translate:0 -50%;
+    flex-direction:column;flex-wrap:nowrap;width:max-content;
+    max-width:40vw;padding:0;gap:8px;justify-content:center;align-items:stretch}
+  /* the column is as wide as its widest LABEL - a flat 44px clipped "Compare"
+     straight off the edge of the screen, and it is a different word in every
+     language */
+  #scrCompare #cmpRow button{width:100%;min-width:calc(44px*var(--ux,1));
+    padding:0 10px;white-space:nowrap}
+  /* the mirror button and the see-through slider, standing on end, to the
+     LEFT of the tool column */
+  #scrCompare #mirRow{position:absolute;z-index:7;padding:0;
+    right:calc(20px + var(--cmpCol,88px) + env(safe-area-inset-right));
+    top:50%;translate:0 -50%;
+    display:flex;flex-direction:row;align-items:center;gap:10px;width:auto}
+  #scrCompare #mirRow .row{padding:0;width:auto;flex-wrap:nowrap}
+  /* the slider is ROTATED rather than re-styled: the track and thumb are
+     custom-drawn and a vertical appearance loses both. A transform is
+     visual only, so the wrapper holds the 28px lane and the input paints
+     (and takes its drags) along it. */
+  #scrCompare #mirRow .row:last-child{width:28px;height:min(46vh,260px);
+    display:flex;align-items:center;justify-content:center;overflow:visible}
+  #scrCompare #alphaSl{transform:rotate(-90deg);flex:none;
+    width:min(46vh,260px);min-width:0}
+  /* the adjust panel opens inward, clear of the tool column */
+  #scrCompare #lvRow{position:absolute;z-index:7;
+    right:calc(16px + var(--cmpCol,88px) + env(safe-area-inset-right));
+    top:calc(8px + env(safe-area-inset-top));
+    bottom:calc(8px + env(safe-area-inset-bottom));
+    width:min(380px,52vw);overflow-y:auto;background:#1e1e1e;
+    border:1px solid #555;border-radius:14px;padding:8px}
+  /* the left edge: circle in the middle, Download at the bottom, and the
+     top-left corner left free for the card */
+  #scrCompare #circWrap{left:calc(8px + env(safe-area-inset-left));
+    right:auto;top:50%;translate:0 -50%;transform:none;
+    flex-direction:row-reverse}
+  #scrCompare #dlWrap{left:calc(8px + env(safe-area-inset-left));right:auto;
+    top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
 }
 @media (orientation:landscape) and (prefers-reduced-motion: no-preference){
   #gridMenu{animation:menuIn 160ms var(--motE)}
@@ -897,7 +909,6 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 </div>
 <div id="tourBubble"><span id="tourTxt"></span><button id="tourX">&#215;</button></div>
 <div id="tourCaret"></div>
-<div id="adGuard"></div>
 <div id="modeModal">
   <div id="modePanel">
     <span style="font-size:16px;letter-spacing:.04em;color:var(--acc);text-align:center">Choose Your Method</span>
@@ -925,7 +936,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v458</span>
+    <span id="verNum">v459</span>
   </div>
 </div>
 <div id="delModal">
@@ -1619,21 +1630,28 @@ function adSync(){
     const splash=(()=>{ try{ return $('introSplash').classList.contains('on'); }catch(e){ return false; } })();
     const bg={scrUpload:'#141414',scrFormat:'#141414',
               scrMain:'#2a2a2a',scrCompare:'#2a2a2a'}[on && on.id]||'#141414';
-    // TWO screens carry no strip. The size screen, where the artist is
-    // judging their crop and their grid and wants the whole screen; and the
-    // DRAWING screen, which gets the intermittent video card out of its
-    // Download button instead - a banner belongs nowhere near the one screen
-    // they live on. Every other screen keeps the bottom strip.
-    const isMain = !!(on && on.id==='scrMain');
-    const noStrip = !!(on && on.id==='scrFormat') || isMain;
-    RealismCam.adPlace(!cam && !splash && !noStrip, bg);
-    // the card grows out of the Download corner - middle of the top row in
-    // portrait, top-left in landscape - and the button yields while it is up
-    if (RealismCam.adProj) RealismCam.adProj(!cam && !splash && isMain);
+    // NO SCREEN wears a bottom strip any more, the gallery included. The one
+    // ad left in the app is the intermittent video card on the two canvas
+    // screens, and it floats OVER the page instead of displacing it, so every
+    // screen's UI sits where it sits for someone who paid to remove ads.
+    // adPlace still gets the screen's backdrop, so the shell keeps skinning
+    // correctly if a strip is ever raised again.
+    const canvas = !!(on && (on.id==='scrMain' || on.id==='scrCompare'));
+    RealismCam.adPlace(false, bg);
+    // WHERE the card opens is the page's call, because the page is what knows
+    // which corner it left empty. Everywhere that is the middle of the top
+    // row; on the comparison screen turned sideways the tools run down the
+    // right edge and the left edge carries circle-and-Download, so the card
+    // takes the top-LEFT corner that layout leaves open.
+    const land = matchMedia('(orientation: landscape)').matches;
+    if (RealismCam.adSpot)
+      RealismCam.adSpot((land && on && on.id==='scrCompare') ? 'left' : 'mid');
+    if (RealismCam.adProj) RealismCam.adProj(!cam && !splash && canvas);
   }catch(e){}
 }
-// corner-card mode: while the ad occupies the download corner, the button
-// yields cleanly (it returns the moment the card retracts)
+// the shell says when the card is on screen. It opens in the gap between the
+// Download button and the gear and covers neither, so nothing on the page has
+// to move for it - the class is kept only so a future layout can read it.
 window.__adCorner = on => {
   try{ document.documentElement.classList.toggle('adCorner', !!on); }catch(e){}
 };
@@ -1675,37 +1693,12 @@ window.__adH = px => {
     }catch(e){} });
   }catch(e){}
 };
-// the dead band above the ad. It is see-through so the drawing shows
-// through it, but every pointer that lands there stops on it: the last
-// stretch of paper before the strip cannot start a pan, so a drag can no
-// longer be travelling downward when the finger reaches the ad.
-try{
-  const g=document.getElementById('adGuard');
-  if (g) ['pointerdown','pointermove','pointerup','touchstart','touchmove',
-    'touchend','mousedown','click'].forEach(ev=>{
-      g.addEventListener(ev, e=>{
-        if (e.cancelable) e.preventDefault();
-        e.stopPropagation();
-      }, {passive:false});
-    });
-  // the band is shown by a :has() rule, which a WebView older than Chrome
-  // 105 drops on the floor - and then the guard never appears at all. Where
-  // :has() is missing, watch the two screens and say it in JS instead.
-  let HAS_OK=false;
-  try{ HAS_OK=CSS.supports('selector(:has(*))'); }catch(e){}
-  if (g && !HAS_OK){
-    const sync=()=>{ try{
-      const on=document.documentElement.classList.contains('adOn') &&
-        ($('scrCompare')&&$('scrCompare').classList.contains('on'));
-      g.style.display = on ? 'block' : 'none';
-    }catch(e){} };
-    const mo=new MutationObserver(sync);
-    for (const id of ['scrCompare'])
-      if ($(id)) mo.observe($(id), {attributes:true, attributeFilter:['class']});
-    mo.observe(document.documentElement, {attributes:true, attributeFilter:['class']});
-    sync();
-  }
-}catch(e){}
+// The dead band that used to sit above the strip is RETIRED. It existed
+// because the drawing and comparison screens ran their canvas under the
+// ad, so a pan drifting low could lift off on it. Neither screen carries
+// a strip any more - they get the video card in the gap at the top - and
+// the only screen that still does is the gallery, which has no canvas to
+// drag and already stood 10mm clear.
 window.__adOn = on => {
   let changed=false;
   try{ const de=document.documentElement; changed=de.classList.contains('adOn')!==!!on;
@@ -1730,10 +1723,12 @@ const show = id => { tipClose(false); uiShow();
     }
     $(id).classList.add('on');
   }
-  // the home screen is the top of the stack; every other screen carries the
-  // back arrow (the drawing screen included - Android's system back and the
-  // iOS edge swipe reach the same __backStep, but the arrow is the visible one)
-  $('backBtn').style.display = (id==='scrUpload') ? 'none' : 'flex';
+  // the home screen is the top of the stack, and the two canvas screens give
+  // their top-left corner away - the drawing screen to Download, the
+  // comparison screen to the error circle. The system back and the iOS edge
+  // swipe both reach __backStep, which is the same step the arrow took.
+  $('backBtn').style.display =
+    (id==='scrUpload' || id==='scrMain' || id==='scrCompare') ? 'none' : 'flex';
   if (id==='scrUpload' && GAL_STALE){ GAL_STALE=false; renderGallery(); }
   if (id==='scrUpload' && show._from==='scrMain'){
     reviewMaybe();
@@ -2968,24 +2963,12 @@ renderGallery();
 const TOUR={};
 let TIPSTATE=null;
 // the band along the bottom the ad strip is sitting on, in page pixels.
-// A tip bubble clamped to innerHeight alone parked its text and its close
-// button underneath the ad, where neither could be read or pressed.
-function adPx(){
-  try{
-    if (!document.documentElement.classList.contains('adOn')) return 0;
-    const v=parseFloat(getComputedStyle(document.documentElement)
-      .getPropertyValue('--adh'));
-    // a measured 0 is a real answer - the slot is on but no ad has loaded -
-    // and ||76 turned it back into a strip that is not there, floating every
-    // tip bubble 76px above the bottom of an empty screen
-    const h = Number.isFinite(v) ? Math.max(0, v) : 76;
-    // a bubble's close button landing on the strip's edge is the same
-    // adjacency as a HUD button: carry the fingertip gap here too
-    const g = parseFloat(getComputedStyle(document.documentElement)
-      .getPropertyValue('--adgap')) || 48;
-    return h ? h + g : 0;
-  }catch(e){ return 0; }
-}
+// How many pixels of the bottom of the screen a tip bubble must keep clear.
+// There IS no bottom strip any more, on any screen, so the answer is none -
+// the one ad left floats at the TOP of two screens and covers nothing a tip
+// would be placed against. Kept as one function so a future placement has a
+// single place to say otherwise.
+function adPx(){ return 0; }
 function tipClose(chain){
   if (!TIPSTATE) return;
   const t=TIPSTATE; TIPSTATE=null;
@@ -9414,7 +9397,27 @@ function ensureDenoise(){
 const CMP={img:null, base:null, blob:null, ckey:null,
   mode:'flip', showing:'photo', fit:null,
   adj:{exp:0, con:100, hi:0, sh:0, bl:0, wh:255, dn:0}};
+// Sideways, the comparison screen stands its tools in a column down the right
+// edge, and the see-through slider and the adjust panel have to sit clear of
+// it. How wide that column is depends on the longest LABEL, which depends on
+// the language and the accessibility scale, so it is measured rather than
+// assumed - the CSS default is only what holds until the first measurement.
+function cmpCol(){
+  try{
+    if (!matchMedia('(orientation: landscape)').matches) return;
+    const w=Math.round($('cmpRow').getBoundingClientRect().width);
+    if (w>20) document.documentElement.style.setProperty('--cmpCol', w+'px');
+  }catch(e){}
+}
+// and it re-measures itself whenever that column actually changes size - a
+// language switch, a change of accessibility scale, the Crop button appearing
+// - rather than only when something else happens to ask
+try{
+  if (window.ResizeObserver)
+    new ResizeObserver(()=>cmpCol()).observe($('cmpRow'));
+}catch(e){}
 function cmpSize(){
+  cmpCol();
   // render at device resolution: the canvas is dpr times the CSS size
   const r=$('cmpView').getBoundingClientRect(), cv=$('cmpCv');
   const dpr=Math.min(3, window.devicePixelRatio||1);

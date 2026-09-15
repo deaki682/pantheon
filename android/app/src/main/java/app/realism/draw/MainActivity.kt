@@ -1036,6 +1036,7 @@ class MainActivity : AppCompatActivity() {
         adCornerWrap.clipChildren = false; adCornerWrap.clipToPadding = false
         adCornerWrap.removeAllViews()
         adCornerWrap.addView(cardBox, FrameLayout.LayoutParams(CW + dp(pillLane), CH))
+        adCornerH = CH                     // how far the reveal has to open
         adCard = adv
         adBadgeV = badge
         adCtaV = cta
@@ -1050,6 +1051,9 @@ class MainActivity : AppCompatActivity() {
     @Volatile private var adUx = 1f              // the page's accessibility button scale
     private var adCardShown = false       // strip on screen
     private var adCornerShown = false     // corner card on screen
+    private var adCornerH = 0             // the built card's height, in px
+    @Volatile private var adSpotLeft = false  // card in the top-LEFT, not the middle
+    private var adCornerAnim: android.animation.ValueAnimator? = null
     private val AD_ON_MS = 45000L         // corner window length
     private val AD_MARGIN_DP = 10         // the gap that makes the card float
     private val AD_OFF_MS = 240000L       // corner rest between windows
@@ -1101,36 +1105,60 @@ class MainActivity : AppCompatActivity() {
         if (now - lastTouchMs < 3000) { adCornerWrap.postDelayed(adShowTry, 3000); return }
         if (adViewMode != "corner") buildCorner()
         adCornerShown = true
-        adCornerWrap.animate().cancel()
-        adCornerWrap.scaleX = 0.3f; adCornerWrap.scaleY = 0.3f; adCornerWrap.alpha = 0f
-        adCornerWrap.visibility = android.view.View.VISIBLE
-        adCornerWrap.post {
-            // grow out of the download button's corner, visibly - never a snap
-            adCornerWrap.pivotX = if (adLand()) 0f else adCornerWrap.width / 2f
-            adCornerWrap.pivotY = 0f
-            adCornerWrap.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(350)
-                .setInterpolator(android.view.animation.DecelerateInterpolator()).start()
-        }
-        adCloseFloat?.visibility = android.view.View.VISIBLE
+        adCornerReveal(true)
         js("window.__adCorner && __adCorner(true)")
         adCornerWrap.removeCallbacks(adAutoHide)
         adCornerWrap.postDelayed(adAutoHide, AD_ON_MS)
     }
+    // It SLIDES OPEN. The card's own height is animated from nothing to full
+    // with the wrapper clipping its children, so the card is uncovered from
+    // the top edge down rather than scaled up out of a point - which is what
+    // an ad appearing in a gap in a row of buttons should look like. The
+    // wrapper stops clipping at the end so the card's shadow can paint past
+    // its bounds again.
+    private fun adCornerReveal(open: Boolean) {
+        val full = adCornerH
+        if (full <= 0) {                    // nothing built yet: no animation
+            adCornerWrap.visibility = if (open) android.view.View.VISIBLE
+                                      else android.view.View.GONE
+            return
+        }
+        adCornerAnim?.cancel()
+        adCornerWrap.animate().cancel()
+        adCornerWrap.alpha = 1f
+        adCornerWrap.scaleX = 1f; adCornerWrap.scaleY = 1f
+        adCornerWrap.clipChildren = true; adCornerWrap.clipToPadding = true
+        val from = if (open) 1 else full
+        val to = if (open) full else 1
+        adCornerWrap.layoutParams = adCornerWrap.layoutParams.also { it.height = from }
+        if (open) adCornerWrap.visibility = android.view.View.VISIBLE
+        val va = android.animation.ValueAnimator.ofInt(from, to)
+        va.duration = if (open) 340L else 220L
+        va.interpolator = if (open) android.view.animation.DecelerateInterpolator()
+                          else android.view.animation.AccelerateInterpolator()
+        va.addUpdateListener { a ->
+            adCornerWrap.layoutParams = adCornerWrap.layoutParams.also {
+                it.height = a.animatedValue as Int }
+        }
+        va.addListener(object : android.animation.AnimatorListenerAdapter() {
+            override fun onAnimationEnd(a: android.animation.Animator) {
+                adCornerAnim = null
+                adCornerWrap.clipChildren = false; adCornerWrap.clipToPadding = false
+                adCornerWrap.layoutParams = adCornerWrap.layoutParams.also {
+                    it.height = FrameLayout.LayoutParams.WRAP_CONTENT }
+                if (!open) adCornerWrap.visibility = android.view.View.GONE
+            }
+        })
+        adCornerAnim = va
+        va.start()
+    }
+
     private fun adCollapse() {
         adCornerWrap.removeCallbacks(adAutoHide)
         if (!adCornerShown) return
         adCornerShown = false
-        adCloseFloat?.visibility = android.view.View.GONE
         adNextShowAt = android.os.SystemClock.uptimeMillis() + AD_OFF_MS
-        adCornerWrap.animate().cancel()
-        adCornerWrap.pivotX = if (adLand()) 0f else adCornerWrap.width.toFloat()
-        adCornerWrap.pivotY = 0f
-        adCornerWrap.animate().scaleX(0.3f).scaleY(0.3f).alpha(0f).setDuration(250)
-            .setInterpolator(android.view.animation.AccelerateInterpolator())
-            .withEndAction {
-                adCornerWrap.visibility = android.view.View.GONE
-                adCornerWrap.scaleX = 1f; adCornerWrap.scaleY = 1f; adCornerWrap.alpha = 1f
-            }.start()
+        adCornerReveal(false)
         js("window.__adCorner && __adCorner(false)")
         // a fresh creative earns the next window (re-showing one doesn't)
         if (!adsRemovedFlag()) loadNative()
@@ -1866,6 +1894,18 @@ class MainActivity : AppCompatActivity() {
         fun adProj(on: Boolean) {
             runOnUiThread { if (adOnProj != on) { adOnProj = on; applyAd() } }
         }
+        // where the card opens: "mid" (the gap in the middle of the top row)
+        // or "left" (the top-left corner). The page decides, because the page
+        // is what knows which corner its layout left empty.
+        @JavascriptInterface
+        fun adSpot(spot: String) {
+            val left = spot == "left"
+            runOnUiThread {
+                if (adSpotLeft == left) return@runOnUiThread
+                adSpotLeft = left
+                adCornerWrap.layoutParams = adCornerParams()
+            }
+        }
         @JavascriptInterface
         fun dlog(line: String) = logLine("page: " + line.take(300))
         @JavascriptInterface
@@ -1987,18 +2027,13 @@ class MainActivity : AppCompatActivity() {
     private fun dispRot(): Int =
         previewView.display?.rotation
             ?: @Suppress("DEPRECATION") windowManager.defaultDisplay.rotation
-    // the card grows out of the DOWNLOAD button, which is where the page
-    // puts it: the middle of the top row in portrait, the top-left corner in
-    // landscape. The button yields while the card is up (__adCorner) and
-    // comes back when it retracts - that is the whole transformation.
-    private fun adCornerParams(): FrameLayout.LayoutParams {
-        val land = adLand()
-        val lp = FrameLayout.LayoutParams(
+    // the card opens in whichever corner the page says it left empty: the gap
+    // in the middle of the top row, or the top-left corner
+    private fun adCornerParams(): FrameLayout.LayoutParams =
+        FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
-            android.view.Gravity.TOP or (if (land) android.view.Gravity.START
+            android.view.Gravity.TOP or (if (adSpotLeft) android.view.Gravity.START
                                          else android.view.Gravity.CENTER_HORIZONTAL))
-        return lp
-    }
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
         super.onConfigurationChanged(newConfig)
         // rotation does not recreate the activity (configChanges) - re-lay

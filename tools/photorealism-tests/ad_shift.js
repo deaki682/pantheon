@@ -2,6 +2,13 @@
 // says __adOn(slot) the moment ads are enabled, then __adH(px) once it has
 // measured a strip - and it measures 0 while the slot is empty. Replay that
 // exact sequence and watch whether anything jumps.
+//
+// Since the bottom strip was retired from every screen, the honest answer to
+// every row below is ZERO: no screen reserves room for an ad, so a viewer who
+// pays to remove them sees the identical layout, and an auction that clears
+// or does not clear moves nothing. This stops being a measurement of how well
+// the reserve tracks the strip and becomes a guard that no reserve ever comes
+// back by accident.
 const { chromium } = require('playwright-core');
 const PORT = process.argv[2]||'8899';
 const WATCH = ['hudWrap','detCorner','gridCorner','camCorner'];

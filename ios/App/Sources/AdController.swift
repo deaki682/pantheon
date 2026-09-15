@@ -74,12 +74,13 @@ final class AdController: NSObject {
         cornerWrap.isHidden = true
         cornerWrap.translatesAutoresizingMaskIntoConstraints = false
         host.view.addSubview(cornerWrap)
-        // the card grows out of the DOWNLOAD button: the middle of the top
-        // row in portrait, the top-left corner in landscape (where the page
-        // moves that button)
+        // the card opens in the GAP: the page keeps one button at each end of
+        // the top row and nothing in between, in either orientation, so the
+        // card slides open in the middle and covers neither.
         let mid = cornerWrap.centerXAnchor.constraint(
             equalTo: host.view.safeAreaLayoutGuide.centerXAnchor)
-        let lead = cornerWrap.leadingAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.leadingAnchor)
+        let lead = cornerWrap.leadingAnchor.constraint(
+            equalTo: host.view.safeAreaLayoutGuide.leadingAnchor)
         cornerMid = mid; cornerLead = lead
         NSLayoutConstraint.activate([
             cornerWrap.topAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.topAnchor),
@@ -126,8 +127,6 @@ final class AdController: NSObject {
     @objc private func orientationChanged() {
         guard let v = host?.view else { return }
         let land = v.bounds.width > v.bounds.height
-        cornerMid?.isActive = !land
-        cornerLead?.isActive = land
         // portrait now uses the SAME inset card as landscape - the only
         // difference left is landscape's fixed 460pt width, so the page shows
         // through beside it
@@ -155,6 +154,19 @@ final class AdController: NSObject {
     // thumbs rest at the bottom of a phone, which is exactly where a banner
     // collects stray taps, so the one screen the artist lives on puts it out
     // of reach. Every other screen keeps it at the bottom.
+    // where the card opens: "mid" (the gap in the middle of the top row) or
+    // "left" (the top-left corner). The page decides, because the page is what
+    // knows which corner its layout left empty.
+    func setSpot(_ spot: String) {
+        let left = (spot == "left")
+        guard left != spotLeft else { return }
+        spotLeft = left
+        cornerMid?.isActive = !left
+        cornerLead?.isActive = left
+        host?.view.layoutIfNeeded()
+    }
+    private var spotLeft = false
+
     func setTop(_ on: Bool) {
         guard topSide != on else { return }
         topSide = on
@@ -317,12 +329,26 @@ final class AdController: NSObject {
         else if !cornerShown && base && onProj { tryShowCorner() }
     }
 
-    // scale about the wrap's top-right corner - the card visibly grows out
-    // of (and returns into) the download button's spot
-    private func cornerTransform(_ s: CGFloat) -> CGAffineTransform {
-        let w = cornerWrap.bounds.width, h = cornerWrap.bounds.height
-        return CGAffineTransform(translationX: (w / 2) * (1 - s), y: -(h / 2) * (1 - s))
-            .scaledBy(x: s, y: s)
+    // It SLIDES OPEN: the card's own height constraint is animated from
+    // nothing to full while the wrapper clips, so the card is uncovered from
+    // the top edge down rather than scaled up out of a point - which is what
+    // an ad appearing in a gap in a row of buttons should look like. The wrap
+    // stops clipping at the end so its shadow can paint past its bounds.
+    private func cornerReveal(_ open: Bool, _ then: (() -> Void)? = nil) {
+        let full = cornerH?.constant ?? 120
+        cornerWrap.clipsToBounds = true
+        cornerH?.constant = open ? 0 : full
+        cornerWrap.superview?.layoutIfNeeded()
+        cornerH?.constant = open ? full : 0
+        UIView.animate(withDuration: open ? 0.34 : 0.22, delay: 0,
+                       options: open ? [.curveEaseOut, .allowUserInteraction]
+                                     : [.curveEaseIn]) {
+            self.cornerWrap.superview?.layoutIfNeeded()
+        } completion: { _ in
+            self.cornerWrap.clipsToBounds = false
+            self.cornerH?.constant = full
+            then?()
+        }
     }
 
     private func tryShowCorner() {
@@ -341,15 +367,10 @@ final class AdController: NSObject {
         }
         if viewMode != "corner" { buildCorner(ad) }
         cornerShown = true
+        cornerWrap.alpha = 1
+        cornerWrap.transform = .identity
         cornerWrap.isHidden = false
-        cornerWrap.layoutIfNeeded()
-        cornerWrap.alpha = 0
-        cornerWrap.transform = cornerTransform(0.3)
-        UIView.animate(withDuration: 0.35, delay: 0,
-                       options: [.curveEaseOut, .allowUserInteraction]) {
-            self.cornerWrap.alpha = 1
-            self.cornerWrap.transform = .identity
-        }
+        cornerReveal(true)
         web?.evaluateJavaScript("window.__adCorner && __adCorner(true)", completionHandler: nil)
         hideTimer?.invalidate()
         hideTimer = Timer.scheduledTimer(withTimeInterval: AD_ON_S, repeats: false) {
@@ -363,14 +384,9 @@ final class AdController: NSObject {
         guard cornerShown else { return }
         cornerShown = false
         nextShowAt = CACurrentMediaTime() + AD_OFF_S
-        UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseIn]) {
-            self.cornerWrap.alpha = 0
-            self.cornerWrap.transform = self.cornerTransform(0.3)
-        } completion: { _ in
-            guard !self.cornerShown else { return }
+        cornerReveal(false) { [weak self] in
+            guard let self, !self.cornerShown else { return }
             self.cornerWrap.isHidden = true
-            self.cornerWrap.transform = .identity
-            self.cornerWrap.alpha = 1
         }
         web?.evaluateJavaScript("window.__adCorner && __adCorner(false)", completionHandler: nil)
         loadNative()          // a fresh creative earns the next window
