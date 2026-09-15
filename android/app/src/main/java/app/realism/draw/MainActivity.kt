@@ -858,12 +858,21 @@ class MainActivity : AppCompatActivity() {
             // weighted to the left, not centred (operator directive 2026-09-11)
             alp.gravity = android.view.Gravity.START
             alp.leftMargin = dp(8); alp.bottomMargin = dp(6)
+            // the same edge the portrait card wears - this branch was setting
+            // its own background and dropping the stroke with it
             adv.background = android.graphics.drawable.GradientDrawable().apply {
                 setColor(adLift(adBgCol)); cornerRadius = dp(14).toFloat()
+                setStroke(maxOf(1, dp(1)), 0xFF555555.toInt())
             }
             adv.clipToOutline = true
-            adWrap.setBackgroundColor(0)
-        } else adWrap.setBackgroundColor(adLift(adBgCol))
+        }
+        // The WRAPPER paints nothing, in either orientation. It used to fill
+        // itself with the page's colour in portrait, which was invisible while
+        // the card ran edge to edge - but the card has a margin and rounded
+        // corners now, so that fill became a solid rectangle sitting behind
+        // and around them, and the card stopped floating. The card carries its
+        // own background; the page shows through everywhere else.
+        adWrap.setBackgroundColor(0)
         adWrap.addView(adv, alp)
         adCard = adv
         adBadgeV = badge
@@ -1803,7 +1812,7 @@ class MainActivity : AppCompatActivity() {
                 adBgCol = c
                 adWanted = on
                 // the landscape strip floats on a transparent wrapper: keep it
-                adWrap.setBackgroundColor(if (adLand() && adViewMode == "strip") 0 else adLift(c))
+                adWrap.setBackgroundColor(0)      // the card's own background is the card
                 adCard?.let { v ->
                     val g = v.background as? android.graphics.drawable.GradientDrawable
                     if (g != null) g.setColor(adLift(c)) else v.setBackgroundColor(adLift(c))
