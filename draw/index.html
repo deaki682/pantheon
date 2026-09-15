@@ -552,8 +552,16 @@ html.hc #verNum{color:#ddd}
   white-space:nowrap;max-width:0;opacity:0;padding:0;
   transition:max-width 0.28s ease, opacity 0.18s ease 0.08s, padding 0.28s ease}
 #setBtn .markTxt{font-variant-numeric:tabular-nums}
+/* "True to Life" STACKS, a word to a line, so the message keeps the pill's
+   own footprint instead of reaching across the drawing. The column is
+   measured in EM, not in pixels: it has to wrap after the same words at the
+   large accessibility font as at the small one, and 3.4em is wide enough for
+   "True" and too narrow for "True to" at every size. The tally is one line of
+   digits and is left alone. */
+#setBtn .ttlTxt{white-space:normal;line-height:1.16;text-align:center}
 #setBtn.ttl svg,#setBtn.mark svg{max-width:0;opacity:0;transform:rotate(120deg) scale(0.5)}
-#setBtn.ttl .ttlTxt,#setBtn.mark .markTxt{max-width:calc(190px*var(--ux,1));opacity:1;padding:0 16px}
+#setBtn.ttl .ttlTxt{max-width:3.4em;opacity:1;padding:0 6px}
+#setBtn.mark .markTxt{max-width:calc(190px*var(--ux,1));opacity:1;padding:0 16px}
 /* the settings window */
 #setModal{position:fixed;inset:0;z-index:20;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.6)}
@@ -609,7 +617,7 @@ html.hc #verNum{color:#ddd}
 #setBtn{border-radius:12px 12px 0 0;border-bottom:none;
   transition:height .28s cubic-bezier(.3,0,.2,1), border-radius .28s ease}
 #expBtn{border-radius:0 0 12px 12px}
-#setBtn.ttl,#setBtn.mark{width:auto;min-width:calc(var(--adcard)/2)}
+#setBtn.mark{width:auto;min-width:calc(var(--adcard)/2)}
 body.ttlOn #setBtn{height:var(--adcard);border-radius:12px;border-bottom:1px solid #555}
 body.ttlOn #expCorner{opacity:0;pointer-events:none}
 #compareBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:12px;
@@ -868,10 +876,11 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   #setBtn,#expBtn{height:calc(44px*var(--ux,1));width:calc(44px*var(--ux,1))}
   #setBtn{border-radius:12px 0 0 12px;border-bottom:1px solid #555;border-right:none}
   #expBtn{border-radius:0 12px 12px 0}
-  /* sideways the pill lies down, so the message keeps the height and takes
-     the WIDTH instead - the growing text is already doing that */
-  body.ttlOn #setBtn{height:calc(44px*var(--ux,1));border-radius:12px;
-    border-right:1px solid #555}
+  /* sideways the pill takes the message's full WIDTH, but three stacked
+     lines will not fit its 44px height - so here it grows upward out of the
+     bottom corner it is anchored to, rather than sideways across the picture */
+  body.ttlOn #setBtn{width:calc(88px*var(--ux,1));height:calc(62px*var(--ux,1));
+    border-radius:12px;border-right:1px solid #555}
   /* Download takes the corner and the circle sits beside it, so Clear has
      somewhere to grow when it appears instead of shoving the circle along */
   #scrCompare #dlWrap{left:calc(8px + env(safe-area-inset-left));right:auto;
@@ -973,7 +982,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v473</span>
+    <span id="verNum">v474</span>
   </div>
 </div>
 <div id="delModal">

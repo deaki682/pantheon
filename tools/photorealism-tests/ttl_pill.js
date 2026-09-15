@@ -35,8 +35,14 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
       const rest={gear:m($('setBtn')), dlWrap:m($('expCorner'))};
       DONETOOL=false; ttlPop();
       await new Promise(r=>setTimeout(r,450));       // past the morph
+      // how many LINES the message stacks into: its height over its own
+      // line box, which is what "a word to a line" actually means
+      const tx=$('setBtn').querySelector('.ttlTxt');
+      const cs=getComputedStyle(tx);
+      const lines=Math.round(tx.getBoundingClientRect().height/parseFloat(cs.lineHeight));
       const up={gear:m($('setBtn')), dlWrap:m($('expCorner')),
-                txt:$('setBtn').querySelector('.ttlTxt').textContent.trim()};
+                txt:tx.textContent.trim(), lines,
+                txtW:Math.round(tx.getBoundingClientRect().width)};
       await new Promise(r=>setTimeout(r,700));        // 1150ms in
       const stillUp=document.body.classList.contains('ttlOn');
       await new Promise(r=>setTimeout(r,650));        // 1800ms in, past 1400
@@ -54,13 +60,18 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
     console.log(dev.n+'  gear '+r.rest.gear.w+'x'+r.rest.gear.h+' at rest -> '
       +r.up.gear.w+'x'+r.up.gear.h+' with the message ("'+r.up.txt+'")'
       +'   download opacity '+r.rest.dlWrap.op+' -> '+r.up.dlWrap.op);
-    ok(r.up.gear.w > r.rest.gear.w + 40, dev.n+': the message widens the pill');
+    ok(r.up.lines === 3, dev.n+': the message stacks a word to a line ('
+       +r.up.lines+' lines, '+r.up.txtW+'px wide)');
+    ok(r.up.gear.w <= r.rest.gear.w * 2 + 2,
+       dev.n+': and never reaches past the pill\'s own footprint ('
+       +r.up.gear.w+'px over a '+r.rest.gear.w+'px half)');
     if (dev.n==='portrait')
       ok(Math.abs(r.up.gear.h - r.rest.gear.h*2) <= 2,
          dev.n+': and it takes the WHOLE pill\'s height ('+r.up.gear.h+' vs 2x'+r.rest.gear.h+')');
     else
-      ok(r.up.gear.h === r.rest.gear.h,
-         dev.n+': and keeps the lying-down pill\'s height ('+r.up.gear.h+')');
+      ok(r.up.gear.h > r.rest.gear.h + 10 && r.up.gear.w > r.rest.gear.w + 10,
+         dev.n+': lying down it takes the pill\'s full width and grows UP for the '
+         +'stack ('+r.up.gear.w+'x'+r.up.gear.h+')');
     ok(r.up.dlWrap.op < 0.05, dev.n+': Download stands down under it ('+r.up.dlWrap.op+')');
     ok(!/0px/.test(r.up.gear.rad), dev.n+': the pill closes its rounding back up ('+r.up.gear.rad+')');
     ok(r.stillUp, dev.n+': it is still up at 1.15s - long enough to read');
