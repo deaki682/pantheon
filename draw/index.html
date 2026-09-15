@@ -258,7 +258,11 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
   justify-content:space-between}
 #mirBtn{min-width:52px;flex:none}
 #cmpCrop,#cmpReCrop{flex:none}
-#alphaSl{flex:1 1 auto;min-width:80px;padding:0}
+/* it no longer fills everything between crop and the mirror: capped, it
+   sits centred between them with air either side, and space-between shares
+   what is left equally into the two gaps */
+#alphaSl{flex:0 1 auto;width:100%;max-width:min(52vw,300px);
+  min-width:80px;padding:0}
 #mirRow .row{justify-content:center}
 #cmpRow button,#lvBtn,#mirBtn,#lvReset{min-height:calc(40px*var(--ux,1));
   display:inline-flex;align-items:center;justify-content:center}
@@ -940,7 +944,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
      row-reverse because the mirror comes FIRST in the markup, and the order
      on screen is the layout's business, not the document's. */
   #scrCompare #mirRow{position:absolute;z-index:7;padding:0;
-    left:50%;right:auto;translate:-50% 0;width:min(46vw,460px);
+    left:50%;right:auto;translate:-50% 0;width:min(38vw,380px);
     top:auto;bottom:calc(8px + env(safe-area-inset-bottom));
     display:flex;align-items:center;gap:8px}
   #scrCompare #alphaSl{transform:none;flex:1 1 auto;width:auto;min-width:80px}
@@ -1008,7 +1012,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v480</span>
+    <span id="verNum">v481</span>
   </div>
 </div>
 <div id="delModal">
