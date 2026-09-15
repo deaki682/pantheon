@@ -408,8 +408,9 @@ final class AdController: NSObject {
         nextShowAt = CACurrentMediaTime() + AD_OFF_S
         headV?.numberOfLines = 1
         setCornerHeight(AD_BANNER_H, 0.22)
-        // a fresh creative earns the next bloom (re-showing one does not)
-        if !removed { loadNative() }
+        // NO load from here: the card is permanent and the 75s tick already
+        // refreshes it, so asking again on collapse could put two swaps inside
+        // a minute - under the network's own minimum refresh interval.
         armExpand()
     }
 

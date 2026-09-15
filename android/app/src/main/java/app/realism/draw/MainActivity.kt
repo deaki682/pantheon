@@ -1186,8 +1186,11 @@ class MainActivity : AppCompatActivity() {
         adNextShowAt = android.os.SystemClock.uptimeMillis() + AD_OFF_MS
         adHeadV?.maxLines = 1
         adCornerSet(adCornerBannerH, true)
-        // a fresh creative earns the next bloom (re-showing one does not)
-        if (!adsRemovedFlag()) loadNative()
+        // NO load from here. The card is permanent now, and the 75s tick is
+        // already refreshing it - asking for another creative on collapse too
+        // could put two swaps inside a minute, under the network's own minimum
+        // refresh interval. The banner never goes blank, so it has nothing to
+        // catch up on.
         adArmExpand()
     }
     // the height between the two states. The card keeps its width, so the
