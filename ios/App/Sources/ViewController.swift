@@ -15,6 +15,14 @@ final class ViewController: UIViewController {
 
     override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
 
+    @objc private func edgeBack(_ g: UIScreenEdgePanGestureRecognizer) {
+        guard g.state == .ended else { return }
+        // far enough to be a deliberate swipe, not a graze
+        let t = g.translation(in: view)
+        guard t.x > 44 else { return }
+        web.evaluateJavaScript("window.__backStep ? __backStep() : 'exit'", completionHandler: nil)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -79,6 +87,20 @@ final class ViewController: UIViewController {
             web.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             web.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
+
+        // Edge-swipe back. iOS users reach for this without thinking, in every
+        // app - and until now the app answered with nothing, because there is
+        // no navigation stack here and allowsBackForwardNavigationGestures is
+        // deliberately off (it drives the WEB history, whose one spare entry a
+        // fast double-swipe would drain, and it fights panning the reference).
+        // So the gesture asks the page the same question Android's system back
+        // asks: __backStep closes an open panel first, then steps up a screen,
+        // and answers 'exit' only from the project page - where a swipe should
+        // do nothing, since there is nothing above it.
+        let edge = UIScreenEdgePanGestureRecognizer(target: self,
+                                                    action: #selector(edgeBack(_:)))
+        edge.edges = .left
+        view.addGestureRecognizer(edge)
 
         ads = AdController(host: self, web: web)
         store = StoreController(web: web, ads: ads)

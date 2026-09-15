@@ -103,8 +103,18 @@ final class AdController: NSObject {
         cornerLead?.isActive = land
         stripTrail?.isActive = !land; stripLead?.isActive = !land; stripBottom?.isActive = !land
         stripWide?.isActive = land; stripLeadIn?.isActive = land; stripBottomIn?.isActive = land
-        wrap.layer.cornerRadius = land ? 14 : 0
-        wrap.clipsToBounds = land
+        // the card wears the app's own button in BOTH orientations now: the
+        // same corner and the same 1px #555 edge, so it reads as a piece of
+        // the app rather than a bar welded to the screen.
+        // NOTE: the portrait strip is still bottom-anchored and flush to the
+        // edges here. Moving it to the top of the drawing screen, and giving
+        // it the margin that makes it float, is a constraint change in this
+        // file - Android has it; iOS needs a build to verify and has not had
+        // one.
+        wrap.layer.cornerRadius = 14
+        wrap.clipsToBounds = true
+        wrap.layer.borderWidth = 1
+        wrap.layer.borderColor = UIColor(white: 0x55/255.0, alpha: 1).cgColor
     }
 
     // the remove-ads purchase: the slot collapses and the stack never

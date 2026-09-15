@@ -37,7 +37,9 @@ const PORT=process.argv[2]||'8899';
   for (const [id, opener] of [
       ['detMenu',   "$('detBtn').click()"],
       ['gridMenu',  "$('gridBtn').click()"],
-      ['underMenu', "UNDER=true; $('underMenu').style.display='flex'"],
+      // the underglaze row is a MODE the artist is working in, not something
+      // covering the screen, so back deliberately leaves it alone
+      // ['underMenu', ...] - see __backStep
       ['hud',       "$('hudToggle').click()"]]){
     await open();
     const r = await pg.evaluate(async ([id,opener])=>{

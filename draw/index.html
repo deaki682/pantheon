@@ -383,6 +383,33 @@ html.adOn body.uiHid #camCorner{transform:translate(-50%,290%)}
   background:transparent;touch-action:none}
 html.adOn:has(#scrMain.on) #adGuard,
 html.adOn:has(#scrCompare.on) #adGuard{display:block}
+/* ---- the drawing screen wears the strip at the TOP --------------------
+   Thumbs rest at the bottom of a phone, which is exactly where a banner
+   collects stray taps - so the one screen the artist lives on puts it out
+   of reach instead of managing the distance, and the controls go back
+   where they were. --admar is the margin that makes the card float rather
+   than weld itself to the edge; the shell measures it as part of the strip,
+   so --adh already includes it. */
+html.adTop{--admar:10px}
+html.adOn.adTop #scrMain{
+  padding-top:calc(var(--adh,76px) + env(safe-area-inset-top));
+  padding-bottom:0}
+html.adOn.adTop #hudWrap,html.adOn.adTop #detCorner,html.adOn.adTop #gridCorner,
+html.adOn.adTop #underCorner,html.adOn.adTop #camCorner{
+  bottom:calc(8px + env(safe-area-inset-bottom))}
+/* and the dead band moves with it - an upward drag must not end on the ad
+   any more than a downward one did */
+html.adOn.adTop #adGuard{top:calc(var(--adh,76px) + env(safe-area-inset-top));bottom:auto}
+/* the top row carries nothing tappable now: no back, no gear, no download.
+   What is left of the gear is its BADGE - the completed-squares tally and
+   the True to Life pop both lived inside that button - so it stays as a
+   label with nothing to press, sitting under the card. */
+html.adTop #setCorner{pointer-events:none;
+  top:calc(var(--adh,76px) + 8px + env(safe-area-inset-top))}
+html.adTop #setBtn{min-width:0;background:transparent;border-color:transparent;
+  box-shadow:none}
+html.adTop #setBtn svg{display:none}
+html.adTop #expCorner{display:none}
 /* the buffer band (and any exposed screen edge) matches the working
    screens' ground, so the lift never reads as a black bar */
 #scrMain,#scrCompare{background:#2a2a2a}
@@ -957,7 +984,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v452</span>
+    <span id="verNum">v453</span>
   </div>
 </div>
 <div id="delModal">
@@ -1596,6 +1623,30 @@ addEventListener('popstate', ()=>{
 // closing the whole app): step up one screen, or report 'exit' only
 // from the project page
 window.__backStep=()=>{
+  // The drawing screen's own popups come first, and they are not modals: the
+  // layer panel, the detail menu and the grid menu are transient things the
+  // artist opened, and back is how you put them away. They were never in the
+  // list below, so back skipped straight past them to the gallery and left
+  // them hanging open behind it - which mattered little while the screen
+  // still carried a back button, and matters a great deal now that it does
+  // not. (The underglaze row is deliberately NOT here: that is a MODE the
+  // artist chose to work in, not something covering the screen, and leaving
+  // a workshop is not what back means.)
+  {
+    const det=$('detMenu'), grd=$('gridMenu'), hud=$('hud');
+    if (det && det.style.display && det.style.display!=='none'){
+      det.style.display='none'; return 'ok';
+    }
+    if (grd && grd.style.display && grd.style.display!=='none'){
+      grd.style.display='none'; return 'ok';
+    }
+    if (hud && getComputedStyle(hud).display!=='none'
+        && $('scrMain').classList.contains('on')){
+      hud.style.display='none';
+      $('hudToggle').classList.remove('lit','vOn');
+      return 'ok';
+    }
+  }
   // an overlay first, always. A share opens the method chooser unbidden, and
   // back is the natural way to dismiss something you did not ask for - it
   // used to close the whole app instead.
@@ -1669,10 +1720,14 @@ function adSync(){
     // it for the intermittent compact corner media card - the download
     // corner hosts the card and the button yields; the strip has no room on
     // a short screen. Every other screen keeps the strip in any orientation.
-    if (RealismCam.adProj){
-      const land=matchMedia('(orientation: landscape)').matches;
-      RealismCam.adProj(!cam && land && !!(on && on.id==='scrMain'));
-    }
+    const isMain = !!(on && on.id==='scrMain');
+    const land = matchMedia('(orientation: landscape)').matches;
+    if (RealismCam.adProj) RealismCam.adProj(!cam && land && isMain);
+    // portrait drawing screen: the strip goes to the TOP, and the page
+    // reserves its room up there instead of down here
+    const topSide = !cam && !splash && !sized && isMain && !land;
+    document.documentElement.classList.toggle('adTop', topSide);
+    if (RealismCam.adTop) RealismCam.adTop(topSide);
   }catch(e){}
 }
 // corner-card mode: while the ad occupies the download corner, the button
@@ -1774,7 +1829,10 @@ const show = id => { tipClose(false); uiShow();
     }
     $(id).classList.add('on');
   }
-  $('backBtn').style.display = id==='scrUpload' ? 'none' : 'flex';
+  // the drawing screen has no chrome at the top at all now. Android's system
+  // back and the iOS edge swipe both step up a screen through __backStep,
+  // so there is nothing here the artist loses.
+  $('backBtn').style.display = (id==='scrUpload' || id==='scrMain') ? 'none' : 'flex';
   if (id==='scrUpload' && GAL_STALE){ GAL_STALE=false; renderGallery(); }
   if (id==='scrUpload' && show._from==='scrMain'){
     reviewMaybe();

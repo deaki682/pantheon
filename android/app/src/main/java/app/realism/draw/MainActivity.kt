@@ -96,6 +96,9 @@ class MainActivity : AppCompatActivity() {
     // exactly what a full one will take - persisted, so it is right from the
     // first frame of the next launch too
     private var adReserveH = 0
+    // the drawing screen wears the strip at the TOP; every other screen keeps
+    // it at the bottom. The page decides and says so through adTop.
+    private var adTopSide = false
     private var billing: com.android.billingclient.api.BillingClient? = null
 
     override fun dispatchTouchEvent(ev: android.view.MotionEvent): Boolean {
@@ -761,16 +764,23 @@ class MainActivity : AppCompatActivity() {
         val d = resources.displayMetrics.density
         fun dp(v: Int) = (v * d).toInt()
         val adv = com.google.android.gms.ads.nativead.NativeAdView(this)
-        adv.setBackgroundColor(adLift(adBgCol))
-        adv.elevation = dp(8).toFloat()
+        // The card wears the app's own button: a 1dp #555 edge, the same
+        // corner radius, and a margin all round so it floats at the top
+        // rather than welding itself to the screen edge. The margin lives
+        // INSIDE adWrap, so the height the page is told already includes it
+        // and nothing has to know about it twice.
+        adv.background = android.graphics.drawable.GradientDrawable().apply {
+            setColor(adLift(adBgCol))
+            cornerRadius = dp(14).toFloat()
+            setStroke(maxOf(1, dp(1)), 0xFF555555.toInt())
+        }
+        adv.clipToOutline = true
+        adv.elevation = dp(6).toFloat()
+        adWrap.setPadding(dp(AD_MARGIN_DP), dp(AD_MARGIN_DP), dp(AD_MARGIN_DP), dp(AD_MARGIN_DP))
         val row = android.widget.LinearLayout(this)
         row.orientation = android.widget.LinearLayout.HORIZONTAL
         row.gravity = android.view.Gravity.CENTER_VERTICAL
         row.setPadding(dp(10), dp(6), dp(10), dp(6))
-        // a hairline along the top lifts the strip off the page
-        adv.addView(android.view.View(this).apply { setBackgroundColor(0x1FFFFFFF) },
-            FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, maxOf(1, dp(1)),
-                android.view.Gravity.TOP))
         val mediaWrap = FrameLayout(this)
         mediaWrap.background = android.graphics.drawable.GradientDrawable().apply {
             setColor(0xFF000000.toInt()); cornerRadius = dp(10).toFloat() }
@@ -1024,6 +1034,7 @@ class MainActivity : AppCompatActivity() {
     private var adCardShown = false       // strip on screen
     private var adCornerShown = false     // corner card on screen
     private val AD_ON_MS = 45000L         // corner window length
+    private val AD_MARGIN_DP = 10         // the gap that makes the card float
     private val AD_OFF_MS = 240000L       // corner rest between windows
     private fun adBase() = adWanted && adsUp && !adsRemovedFlag() && nativeAd != null
     private fun applyAd() {
@@ -1711,6 +1722,18 @@ class MainActivity : AppCompatActivity() {
         // was shown and the page should go straight through, which is what
         // happens until an interstitial unit is configured here: the
         // contract is wired, the ad is not armed.
+        @JavascriptInterface
+        fun adTop(on: Boolean) {
+            runOnUiThread {
+                if (adTopSide == on) return@runOnUiThread
+                adTopSide = on
+                val lp = adWrap.layoutParams as FrameLayout.LayoutParams
+                lp.gravity = if (on) android.view.Gravity.TOP
+                             else android.view.Gravity.BOTTOM
+                adWrap.layoutParams = lp
+                reportAdHeight()
+            }
+        }
         @JavascriptInterface
         fun showInterstitial(tag: String): Boolean {
             logLine("interstitial asked for: " + tag + " (none configured)")
