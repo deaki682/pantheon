@@ -16,7 +16,7 @@
 <style>
 /* minimal by instruction: purely functional, no stylistic embellishment */
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--acc:#e8833a;--accBg:#3b2a1b;--adcard:120px;--pillr:12px}
+:root{--acc:#e8833a;--accBg:#3b2a1b;--adcard:120px;--pillr:16px}
 html{color-scheme:dark;accent-color:var(--acc)}
 input[type=range]{-webkit-appearance:none;appearance:none;height:28px;
   background:transparent;touch-action:none}
@@ -59,8 +59,7 @@ body{position:fixed;inset:0}
   #viewport{transition:transform 320ms var(--motE), opacity 320ms var(--motE);
     transform-origin:50% 42%}
   html.bloom #viewport{transform:scale(.96);opacity:0;transition:none}
-  html.chromeIn #setCorner,html.chromeIn #expCorner{
-    animation:chromeTop 420ms var(--motE)}
+  html.chromeIn #noteCorner{animation:chromeTop 420ms var(--motE)}
   html.chromeIn.chromeBk #backBtn{animation:chromeTop 420ms var(--motE)}
   html.chromeIn #hudWrap,html.chromeIn #detCorner,html.chromeIn #gridCorner,
   html.chromeIn #underCorner,html.chromeIn #camCorner{
@@ -79,7 +78,7 @@ body{position:fixed;inset:0}
   background:#262626;border:1px solid #555;border-radius:8px;
   padding:3px 9px;font-size:12px;color:var(--acc);pointer-events:none}
 button,select,input{font:inherit;padding:8px 12px;border:1px solid #555;
-  background:#1e1e1e;color:#e8e6e1;border-radius:8px}
+  background:#1e1e1e;color:#e8e6e1;border-radius:12px}
 button:disabled{opacity:.4}
 button.vOn{border-color:var(--acc);background:var(--accBg)}
 /* every press answers with a brief orange flash */
@@ -238,16 +237,20 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
    squares sharing an edge, the error mark on top and Download beneath, and
    exactly as tall as the bloomed ad card so it ends level with the player.
    Clear went with the redesign - a mark is still cleared by tapping it. */
-#circWrap{position:absolute;top:calc(8px + env(safe-area-inset-top));
-  left:calc(8px + env(safe-area-inset-left));transform:none;z-index:7;
-  display:none}
-#dlWrap{position:absolute;left:calc(8px + env(safe-area-inset-left));
-  right:auto;z-index:7;display:none;
-  top:calc(8px + 44px*var(--ux,1) + env(safe-area-inset-top))}
-#circBtn,#dlBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;
+/* THE PAIR. Two of the app's ordinary 44dp buttons fused into one pill, the
+   same object the gear and Download used to be: upright the error mark stands
+   ON the mirror, sideways it stands BESIDE it. They are welded rather than
+   spaced because they are different widths - the mirror carries a word's
+   worth of glyph and the mark is a square - and two loose buttons of
+   different widths on one line read as a mistake. Download is not here any
+   more; a press and hold on the picture is the way to it. */
+#mirPair{display:flex;flex-direction:column;flex:none}
+#circBtn,#mirBtn{width:calc(52px*var(--ux,1));height:calc(44px*var(--ux,1));
+  padding:0;min-width:0;
   display:flex;align-items:center;justify-content:center}
 #circBtn{border-radius:var(--pillr) var(--pillr) 0 0;border-bottom:none}
-#dlBtn{border-radius:0 0 var(--pillr) var(--pillr)}
+#mirBtn{border-radius:0 0 var(--pillr) var(--pillr)}
+#mirPair.solo button{border-radius:var(--pillr);border:1px solid #555}
 .redDot{width:17px;height:17px;border-radius:50%;border:2.5px solid #e03c3c;display:block}
 /* THE MIDDLE LINE: crop at one end, the mirror at the other, the see-through
    slider filling what is between them. Its two ends sit over the outermost of
@@ -256,7 +259,6 @@ html[lang="ar"] #gearPanel,html[lang="ar"] .setLbl{direction:rtl}
    picture back the height the old stacked mirror row was taking. */
 #mirRow{display:flex;align-items:center;gap:10px;padding:8px;
   justify-content:space-between}
-#mirBtn{min-width:52px;flex:none}
 #cmpCrop,#cmpReCrop{flex:none}
 /* it no longer fills everything between crop and the mirror: capped, it
    sits centred between them with air either side, and space-between shares
@@ -333,12 +335,14 @@ html.natCam #camVeil{display:none !important}
   display:flex;flex-direction:column;align-items:center;gap:6px;
   max-width:calc(100% - 16px)}
 body.colorRef #hudWrap{left:calc(30px + (100% - 60px)*0.5)}
-#hud{border:1px solid #555;background:#161616;border-radius:12px}
+#hud{border:none;background:none}
 /* the drawing page's chrome floats a little off the paper */
-#backBtn,#hudToggle,#detBtn,#underBtn,#gridBtn,#compareBtn,#expBtn,#setBtn{
+#backBtn,#hudToggle,#detBtn,#underBtn,#gridBtn,#compareBtn,#noteBtn{
   box-shadow:0 3px 8px rgba(0,0,0,0.5)}
-#hud,#detMenu,#underMenu,#gridMenu{box-shadow:0 6px 16px rgba(0,0,0,0.55)}
-#hudToggle{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;font-size:calc(18px*var(--ux,1));line-height:1;border-radius:12px;
+/* the shadow belongs to each floating button now, not to a box around them */
+#detMenu button,#underMenu button,#gridMenu button,#hud button,
+#uPal button{box-shadow:0 3px 8px rgba(0,0,0,0.5)}
+#hudToggle{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;font-size:calc(18px*var(--ux,1));line-height:1;border-radius:16px;
   display:flex;align-items:center;justify-content:center}
 #hudToggle svg{width:calc(22px*var(--ux,1));height:calc(22px*var(--ux,1));display:block}
 #hudToggle.lit{width:auto;padding:0 16px;font-size:calc(14px*var(--ux,1))}
@@ -349,13 +353,20 @@ body.colorRef #hudToggle.lit{width:calc(44px*var(--ux,1));padding:0;font-size:ca
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
 #gridCorner{position:absolute;left:calc(30px + (100% - 60px)*2/3);
   transform:translateX(-50%);bottom:calc(8px + env(safe-area-inset-bottom));z-index:5}
-#detBtn{height:calc(44px*var(--ux,1));min-width:calc(52px*var(--ux,1));padding:0 10px;border-radius:12px;font-size:calc(13px*var(--ux,1))}
+#detBtn{height:calc(44px*var(--ux,1));min-width:calc(52px*var(--ux,1));padding:0 10px;border-radius:16px;font-size:calc(13px*var(--ux,1))}
+/* THE BUTTONS FLOAT. These four menus used to be windows with the choices
+   printed on them - a panel, a border, a rounded box, and the buttons inside
+   it flat against that background. The panel was never carrying anything:
+   every button already has its own skin, its own border and its own shadow,
+   so the window was a second border around a row of bordered things. Dropped,
+   the choices float over the drawing the way the rest of this screen's chrome
+   does, and the gap between them does the grouping the box was doing. */
 #detMenu{position:absolute;bottom:calc(52px*var(--ux,1));left:0;
-  display:none;flex-direction:column;gap:6px;background:#1e1e1e;
-  border:1px solid #555;border-radius:14px;padding:6px;z-index:6}
-#detMenu button{white-space:nowrap;font-size:calc(13px*var(--ux,1));padding:8px 11px;border-radius:9px}
+  display:none;flex-direction:column;gap:8px;background:none;
+  border:none;padding:0;z-index:6}
+#detMenu button{white-space:nowrap;font-size:calc(13px*var(--ux,1));padding:8px 11px;border-radius:14px}
 #gmMiniB{width:calc(26px*var(--ux,1));height:calc(26px*var(--ux,1));display:block}
-#gridBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:12px;
+#gridBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:16px;
   display:flex;align-items:center;justify-content:center}
 #underCorner{position:absolute;left:50%;transform:translateX(-50%);
   bottom:calc(8px + env(safe-area-inset-bottom));z-index:5;display:none}
@@ -382,13 +393,12 @@ body:not(.colorRef) #hudWrap{left:8px;transform:none}
 body:not(.colorRef) #hud{position:absolute;bottom:calc(52px*var(--ux,1));left:0;
   width:max-content;max-width:calc(100vw - 16px)}
 body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
-#underBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;border-radius:12px;
+#underBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;border-radius:16px;
   display:flex;align-items:center;justify-content:center}
 #underMenu{position:absolute;bottom:calc(52px*var(--ux,1));left:0;
-  display:none;flex-direction:column;gap:6px;background:#1e1e1e;
-  border:1px solid #555;border-radius:14px;padding:6px;z-index:6;
-  align-items:stretch}
-#underMenu button{border-radius:9px;font-size:calc(13px*var(--ux,1));padding:8px 11px;white-space:nowrap}
+  display:none;flex-direction:column;gap:8px;background:none;
+  border:none;padding:0;z-index:6;align-items:stretch}
+#underMenu button{border-radius:14px;font-size:calc(13px*var(--ux,1));padding:8px 11px;white-space:nowrap}
 #uCol{display:flex;align-items:center;justify-content:center}
 #uColSw{width:calc(18px*var(--ux,1));height:calc(18px*var(--ux,1));border-radius:50%;border:1px solid #777;display:block}
 #uPal{display:none;grid-template-columns:repeat(3,calc(30px*var(--ux,1)));gap:6px;justify-content:center}
@@ -409,10 +419,9 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
 #edRow{justify-content:space-evenly;gap:10px;padding:8px 12px}
 #edRow button{flex:1;min-height:calc(46px*var(--ux,1));font-size:calc(15px*var(--ux,1))}
 #gridMenu{position:absolute;bottom:calc(52px*var(--ux,1));left:50%;transform:translateX(-50%);
-  display:none;flex-direction:column;gap:6px;background:#1e1e1e;
-  border:1px solid #555;border-radius:14px;padding:8px;z-index:6;
-  align-items:center}
-#gridMenu button{border-radius:9px;font-size:calc(13px*var(--ux,1));white-space:nowrap}
+  display:none;flex-direction:column;gap:8px;background:none;
+  border:none;padding:0;z-index:6;align-items:center}
+#gridMenu button{border-radius:14px;font-size:calc(13px*var(--ux,1));white-space:nowrap}
 #gmDone{display:flex;align-items:center;gap:8px}
 .gmDoneDot{width:7px;height:7px;border-radius:50%;background:#fff;display:inline-block}
 #gmDesign{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:5px;display:flex;
@@ -445,7 +454,7 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
   margin:0;text-align:center}
 .accFine{font-size:calc(11px*var(--ux,1));opacity:.55}
 .accBtn{display:flex;align-items:center;justify-content:center;gap:10px;
-  min-height:calc(46px*var(--ux,1));border-radius:12px;
+  min-height:calc(46px*var(--ux,1));border-radius:16px;
   font-size:calc(14px*var(--ux,1))}
 .accBtn svg{width:calc(18px*var(--ux,1));height:calc(18px*var(--ux,1));flex:none}
 #accMail{font-size:calc(13px*var(--ux,1));text-align:center;color:var(--acc);
@@ -536,7 +545,7 @@ html.hc #verNum{color:#ddd}
 #gsdLabPos{display:flex;gap:8px}
 #gsdLabPos button{padding:6px 16px;border-radius:999px;font-size:calc(13px*var(--ux,1))}
 #gsdLabRow{display:flex;gap:8px}
-#gsdLabRow button{width:calc(56px*var(--ux,1));height:calc(54px*var(--ux,1));padding:0;border-radius:12px;
+#gsdLabRow button{width:calc(56px*var(--ux,1));height:calc(54px*var(--ux,1));padding:0;border-radius:16px;
   display:flex;align-items:center;justify-content:center}
 #gsdOpLab{text-align:center;font-size:11px;font-weight:600;
   letter-spacing:.08em;text-transform:uppercase;color:#6a6a6a;
@@ -565,31 +574,39 @@ html.hc #verNum{color:#ddd}
    The back arrow is gone from this screen; Android's system back and the iOS
    edge swipe both reach __backStep, which closes any open panel first and
    only then steps up a screen. */
-#setCorner,#expCorner{position:absolute;z-index:5;
-  left:calc(8px + env(safe-area-inset-left));right:auto}
-#setCorner{top:calc(8px + env(safe-area-inset-top))}
-#expCorner{top:calc(8px + 44px*var(--ux,1) + env(safe-area-inset-top))}
+/* THE READOUT sits where the pill did, and BELOW the ad. Upright the ad is
+   a flush banner across the whole top edge now, so the top-left corner is
+   the ad's until --adtop says how much of it the banner took. The shell
+   measures that and the page reads it; sideways it is 0 and this is the
+   corner it always was. */
+#noteCorner{position:absolute;z-index:5;pointer-events:none;
+  left:calc(8px + env(safe-area-inset-left));right:auto;
+  top:calc(8px + var(--adtop,0px) + env(safe-area-inset-top));
+  transition:top .2s ease}
 /* THE PILL. The gear and Download are one twice-length button - two squares
    sharing an edge, gear first. Its GEOMETRY lives in one block further down,
    by #compareBtn, because both halves and both orientations have to agree on
    it; what is here is only the gear's own insides. */
-#setBtn{padding:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
-#setBtn svg{flex:none;max-width:22px;opacity:1;transform:none;
-  transition:max-width 0.28s ease, opacity 0.16s ease, transform 0.28s ease}
-#setBtn .ttlTxt,#setBtn .markTxt{display:block;color:var(--acc);font-size:calc(14px*var(--ux,1));
+#noteBtn{padding:0;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;background:#1e1e1e;border:1px solid #555;
+  border-radius:var(--pillr);width:0;height:calc(44px*var(--ux,1));
+  opacity:0;transition:width .28s cubic-bezier(.3,0,.2,1), opacity .18s ease,
+  height .28s cubic-bezier(.3,0,.2,1)}
+#noteBtn .ttlTxt,#noteBtn .markTxt{display:block;color:var(--acc);font-size:calc(14px*var(--ux,1));
   white-space:nowrap;max-width:0;opacity:0;padding:0;
   transition:max-width 0.28s ease, opacity 0.18s ease 0.08s, padding 0.28s ease}
-#setBtn .markTxt{font-variant-numeric:tabular-nums}
+#noteBtn .markTxt{font-variant-numeric:tabular-nums}
 /* "True to Life" STACKS, a word to a line, so the message keeps the pill's
    own footprint instead of reaching across the drawing. The column is
    measured in EM, not in pixels: it has to wrap after the same words at the
    large accessibility font as at the small one, and 3.4em is wide enough for
    "True" and too narrow for "True to" at every size. The tally is one line of
    digits and is left alone. */
-#setBtn .ttlTxt{white-space:normal;line-height:1.55;text-align:center}
-#setBtn.ttl svg,#setBtn.mark svg{max-width:0;opacity:0;transform:rotate(120deg) scale(0.5)}
-#setBtn.ttl .ttlTxt{max-width:3.4em;opacity:1;padding:0 6px}
-#setBtn.mark .markTxt{max-width:calc(190px*var(--ux,1));opacity:1;padding:0 16px}
+#noteBtn .ttlTxt{white-space:normal;line-height:1.55;text-align:center}
+#noteBtn.ttl,#noteBtn.mark{width:auto;opacity:1}
+#noteBtn.ttl{height:calc(88px*var(--ux,1))}
+#noteBtn.ttl .ttlTxt{max-width:3.4em;opacity:1;padding:0 6px}
+#noteBtn.mark .markTxt{max-width:calc(190px*var(--ux,1));opacity:1;padding:0 16px}
 /* the settings window */
 #setModal{position:fixed;inset:0;z-index:20;display:none;
   align-items:center;justify-content:center;background:rgba(8,8,8,0.6)}
@@ -625,30 +642,7 @@ html.hc #verNum{color:#ddd}
 #accPal2 button{width:calc(32px*var(--ux,1));height:calc(32px*var(--ux,1));border-radius:50%;padding:0;border:1px solid #555}
 #accPal2 button.vOn{border-color:var(--acc);border-width:2px}
 #setPanel label{display:flex;gap:10px;align-items:center;font-size:calc(14px*var(--ux,1))}
-#expBtn{padding:0;line-height:1;display:flex;align-items:center;justify-content:center}
-/* THE PILL'S GEOMETRY, all of it, in one place.
-   Each half is one of the app's ORDINARY buttons - the same 44dp square, at
-   the same accessibility scale - so the pill reads as two of them fused
-   rather than as a slab of its own. That squares it at 2:1 in both
-   orientations and on both screens. Only the pill's OUTER corners are round;
-   the two that meet in the middle square off against the hairline between
-   them, which is drawn once, by the lower half.
-   Two exceptions, both the gear's. Its message states are text, and text sets
-   its own width. And while "True to Life" is up the message takes the WHOLE
-   pill: the gear grows to the full height, closes its rounding back up, and
-   Download stands down underneath - one object becoming one message, rather
-   than a wide tab sitting on a square. The marking tally is deliberately NOT
-   included; that state lasts a whole marking session and Download may not be
-   gone for it. */
-#setBtn,#expBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1))}
-#setBtn{border-radius:var(--pillr) var(--pillr) 0 0;border-bottom:none;
-  transition:height .28s cubic-bezier(.3,0,.2,1), border-radius .28s ease}
-#expBtn{border-radius:0 0 var(--pillr) var(--pillr)}
-#setBtn.mark{width:auto;min-width:calc(44px*var(--ux,1))}
-body.ttlOn #setBtn{height:calc(88px*var(--ux,1));border-radius:var(--pillr);
-  border-bottom:1px solid #555}
-body.ttlOn #expCorner{opacity:0;pointer-events:none}
-#compareBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:12px;
+#compareBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:16px;
   display:flex;align-items:center;justify-content:center}
 #widthIn,#heightIn,#cellVal2{width:calc(54px*var(--ux,1));background:#1e1e1e;color:#e8e6e1;
   border:1px solid #555;border-radius:8px;padding:8px;font:inherit}
@@ -656,7 +650,7 @@ body.ttlOn #expCorner{opacity:0;pointer-events:none}
 #cmpRow{justify-content:space-between}
 /* a tap on the drawing sends every panel off its nearest edge; tap again
    and they slide back */
-#hudWrap,#detCorner,#gridCorner,#underCorner,#camCorner,#expCorner,#setCorner,#backBtn{
+#hudWrap,#detCorner,#gridCorner,#underCorner,#camCorner,#noteCorner,#backBtn{
   transition:transform 0.2s cubic-bezier(.3,0,.2,1)}
 body.uiHid #hudWrap,body.uiHid #detCorner,body.uiHid #gridCorner,
 body.uiHid #underCorner,body.uiHid #camCorner{transform:translate(-50%,160%)}
@@ -665,14 +659,10 @@ body.uiHid #underCorner,body.uiHid #camCorner{transform:translate(-50%,160%)}
 #hud,#detMenu,#underMenu,#gridMenu{transition:opacity .28s, visibility .28s}
 body.uiHid #hud,body.uiHid #detMenu,body.uiHid #underMenu,
 body.uiHid #gridMenu{opacity:0;visibility:hidden}
-/* THE PILL LEAVES AS ONE OBJECT. Its two halves are separate elements, so
-   they only look welded while they agree about the journey - and they did
-   not: the gear took .35s on one curve and Download .2s on another, which
-   pulled the pill apart down the middle every time the chrome was dismissed.
-   One transition, declared once, for both. */
-#expCorner,#setCorner{transition:opacity .25s,
+/* the readout leaves the same way the pill did, off its own edge */
+#noteCorner{transition:opacity .25s, top .2s ease,
   transform 0.2s cubic-bezier(.3,0,.2,1)}
-body.uiHid #expCorner,body.uiHid #setCorner{transform:translate(-190%,0)}
+body.uiHid #noteCorner{transform:translate(-190%,0)}
 body.uiHid #backBtn{transform:translateY(-190%)}
 /* first-visit coach marks: a darkened veil with one floating line */
 #coach{position:absolute;inset:0;z-index:8;display:none;align-items:center;
@@ -724,7 +714,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   transition:opacity .3s}
 #backBtn{position:fixed;top:calc(8px + env(safe-area-inset-top));
   left:calc(8px + env(safe-area-inset-left));z-index:9;width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));
-  padding:0;font-size:calc(24px*var(--ux,1));line-height:1;border-radius:12px;display:none;
+  padding:0;font-size:calc(24px*var(--ux,1));line-height:1;border-radius:16px;display:none;
   align-items:center;justify-content:center}
 #fmtForm{display:grid;grid-template-columns:auto 1fr;
   gap:12px 10px;align-items:center;padding:12px 6px 4px;
@@ -748,7 +738,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 #modePanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:20px 24px;display:flex;flex-direction:column;gap:14px;
   align-items:stretch;font-size:15px;min-width:230px}
-#modePanel button{padding:12px 16px;border-radius:12px;font-size:calc(15px*var(--ux,1))}
+#modePanel button{padding:12px 16px;border-radius:16px;font-size:calc(15px*var(--ux,1))}
 #delPanel{background:#1e1e1e;border:1px solid #555;border-radius:16px;
   padding:18px 24px;display:flex;flex-direction:column;gap:14px;
   align-items:center;font-size:15px}
@@ -813,17 +803,15 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   /* :root beats a bare html on specificity whatever the order, so the
      tablet's taller card has to be declared the same way or the column
      lines itself up against the phone's 120px */
-  :root{--adcard:160px;--pillr:calc(17px*var(--ub))}
+  :root{--adcard:160px;--pillr:calc(21px*var(--ub))}
   body{font-size:calc(14px*var(--ux))}
   /* the four pill halves are NOT in this list: a uniform radius rounds off
      the edges they share, and theirs comes from --pillr instead */
   #backBtn,#hudToggle,#detBtn,#underBtn,#gridBtn,#compareBtn,
   #gmDesign,#gmDesign2,#gmDesign3{
-    border-radius:calc(17px*var(--ub))}
-  #expBtn svg,#compareBtn svg,#underBtn svg,#camCorner svg,
-  #circBtn svg,#dlBtn svg{
+    border-radius:calc(21px*var(--ub))}
+  #compareBtn svg,#underBtn svg,#camCorner svg,#circBtn svg{
     width:calc(26px*var(--ux,1));height:calc(26px*var(--ux,1))}
-  #setBtn svg{max-width:calc(30px*var(--ux,1));width:calc(30px*var(--ux,1));height:calc(30px*var(--ux,1))}
   #gearBtn svg{width:calc(30px*var(--ux,1));height:calc(30px*var(--ux,1))}
   #backBtn{font-size:calc(30px*var(--ux,1))}
   .gitem,.gadd{width:calc(118px*var(--tb));border-radius:calc(10px*var(--tb));
@@ -939,36 +927,25 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
      BOTTOM with the mirror button above it, and the adjust panel opens
      inward, toward the picture. No back arrow - the system back and the edge
      swipe both step where the arrow went. */
-  /* the same pill, LYING DOWN in the bottom-left out from under the card:
-     gear on the left half, Download on the right */
-  #setCorner{left:calc(8px + env(safe-area-inset-left));right:auto;
+  /* the readout goes to the bottom-left, out from under the card, and the
+     ad keeps the whole left edge it has sideways */
+  #noteCorner{left:calc(8px + env(safe-area-inset-left));right:auto;
     top:auto;bottom:calc(8px + env(safe-area-inset-bottom));translate:none}
-  #expCorner{left:calc(8px + 44px*var(--ux,1) + env(safe-area-inset-left));
-    right:auto;top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
-  #setBtn,#expBtn{height:calc(44px*var(--ux,1));width:calc(44px*var(--ux,1))}
-  #setBtn{border-radius:var(--pillr) 0 0 var(--pillr);
-    border-bottom:1px solid #555;border-right:none}
-  #expBtn{border-radius:0 var(--pillr) var(--pillr) 0}
   /* THE STACK IS AN UPRIGHT THING. Sideways the screen is wide and short -
      the shape that has width to spare and no height - so the words stay on
-     one line and the pill grows along the bottom edge instead of upward. It
-     keeps the lying-down pill's own height, and never less than its width. */
-  #setBtn.ttl .ttlTxt{white-space:nowrap;max-width:calc(190px*var(--ux,1));padding:0 16px}
-  body.ttlOn #setBtn{width:auto;min-width:calc(88px*var(--ux,1));
-    height:calc(44px*var(--ux,1));border-radius:var(--pillr);
-    border-right:1px solid #555}
+     one line and the badge grows along the bottom edge instead of upward. */
+  #noteBtn.ttl{height:calc(44px*var(--ux,1))}
+  #noteBtn.ttl .ttlTxt{white-space:nowrap;max-width:calc(190px*var(--ux,1));padding:0 16px}
   #cmpDock{display:contents}
-  /* the same pill, LYING DOWN in the bottom-left corner: the error mark on
-     the left half, Download on the right - the drawing screen's order */
-  #scrCompare #circWrap{left:calc(8px + env(safe-area-inset-left));right:auto;
-    top:auto;bottom:calc(8px + env(safe-area-inset-bottom));
-    translate:none;transform:none}
-  #scrCompare #dlWrap{left:calc(8px + 44px*var(--ux,1) + env(safe-area-inset-left));
-    right:auto;top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
-  #circBtn,#dlBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1))}
-  #circBtn{border-radius:var(--pillr) 0 0 var(--pillr);
-    border-bottom:1px solid #555;border-right:none}
-  #dlBtn{border-radius:0 var(--pillr) var(--pillr) 0}
+  /* LYING DOWN the pair turns with the line it rides on: the mirror keeps
+     its place at the right-hand end of the slider and the mark goes to its
+     right, the two still welded. row-reverse because the mark comes first in
+     the markup and the order on screen is the layout's business. */
+  #mirPair{flex-direction:row-reverse}
+  #circBtn{border-radius:0 var(--pillr) var(--pillr) 0;
+    border-bottom:1px solid #555;border-left:none}
+  #mirBtn{border-radius:var(--pillr) 0 0 var(--pillr)}
+  #mirPair.solo button{border-radius:var(--pillr);border:1px solid #555}
   /* the tools, evenly spread over the right edge rather than bunched */
   #scrCompare #cmpRow{position:absolute;z-index:7;
     right:calc(8px + env(safe-area-inset-right));
@@ -1016,7 +993,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
 }
 @media (orientation:landscape) and (prefers-reduced-motion: no-preference){
   #gridMenu{animation:menuIn 160ms var(--motE)}
-  html.chromeIn #setCorner,html.chromeIn #expCorner,
+  html.chromeIn #noteCorner,
   html.chromeIn.chromeBk:has(#scrMain.on) #backBtn{
     animation:chromeL 420ms var(--motE)}
   html.chromeIn #hudWrap,html.chromeIn #detCorner,html.chromeIn #gridCorner,
@@ -1070,7 +1047,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v486</span>
+    <span id="verNum">v487</span>
   </div>
 </div>
 <div id="delModal">
@@ -1415,8 +1392,13 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     </div>
     <button id="detBtn" title="Detail">Ultra</button>
   </div>
-  <div id="setCorner"><button id="setBtn" title="Settings"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span class="ttlTxt">True to Life</span><span class="markTxt" id="markTxt"></span></button></div>
-  <div id="expCorner"><button id="expBtn" title="Download"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M8.5 11.5L12 15l3.5-3.5"/><path d="M5 19h14"/></svg></button></div>
+  <!-- What is LEFT of the pill. The gear and Download are gone from this
+       screen: Download is the press-and-hold now, and Preferences is on
+       the home screen where it always was. But the gear was carrying two
+       readouts that have nothing to do with settings - the "True to Life"
+       message and the marking tally - so they get their own badge, which
+       is a readout and not a button: it never takes a tap. -->
+  <div id="noteCorner"><div id="noteBtn"><span class="ttlTxt">True to Life</span><span class="markTxt" id="markTxt"></span></div></div>
   <div id="gridCorner">
   <div id="gridMenu">
     <button id="gmDesign" title="Grid design"><canvas id="gmMini" width="64" height="64"></canvas></button>
@@ -1458,12 +1440,6 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <canvas id="lastShot" title="Use the last photo"></canvas>
     <button id="shutter" title="Capture"></button>
     <button id="camUpBtn" title="Upload photo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V5"/><path d="M7 9l5-5 5 5"/><path d="M5 20h14"/></svg></button>
-    <div id="circWrap">
-      <button id="circBtn" title="Mark an error"><span class="redDot"></span></button>
-    </div>
-    <div id="dlWrap">
-      <button id="dlBtn" title="Download"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg></button>
-    </div>
     <div id="coach"><span id="coachTxt"></span></div></div>
   <div id="cmpDock">
   <div id="lvRow" style="display:none">
@@ -1496,7 +1472,12 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <button id="cmpCrop" style="display:none">Crop</button>
     <button id="cmpReCrop" disabled title="Re-crop"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></svg></button>
     <input type="range" id="alphaSl" min="0" max="100" value="0" title="Reference see-through">
-    <button id="mirBtn" title="Mirror">&lt;|&gt;</button>
+    <!-- the error mark rides with the mirror rather than floating over the
+         picture: stacked above it upright, beside it sideways -->
+    <div id="mirPair">
+      <button id="circBtn" title="Mark an error"><span class="redDot"></span></button>
+      <button id="mirBtn" title="Mirror">&lt;|&gt;</button>
+    </div>
   </div>
   <div class="row" id="cmpRow">
     <input type="file" id="cmpFile" accept="image/*" hidden>
@@ -1811,8 +1792,17 @@ function adSync(){
     // LEFT edge and the card takes the top-RIGHT. Sideways there is no room
     // for a column beside a landscape card, so the card takes the top-LEFT
     // corner and our controls move down the left edge beneath it.
+    // Sideways: unchanged. The card stands up the free LEFT edge, a narrow
+    // tall banner, because a short wide screen has height to spare there and
+    // no width to give a flat card.
+    // Upright: the whole TOP edge is free now - the gear-and-Download pill
+    // that used to hold the top-left corner is gone, and every control on
+    // both canvas screens sits along the bottom - so the ad stops hiding in
+    // a corner and takes the edge flush, wall to wall, the way a banner
+    // reads. 'top' is the third spot; the shell measures what it takes and
+    // hands it back as --adtop.
     const land = matchMedia('(orientation: landscape)').matches;
-    if (RealismCam.adSpot) RealismCam.adSpot(land ? 'left' : 'right');
+    if (RealismCam.adSpot) RealismCam.adSpot(land ? 'left' : 'top');
     // THE ORDER DEPENDS ON THE DIRECTION, and getting it wrong flashes a
     // strip across the bottom of the screen. The shell shows that strip when
     // ads are WANTED but the card does not own the screen - `wanted &&
@@ -1851,6 +1841,23 @@ try{
 // only so a future layout can read it.
 window.__adCorner = on => {
   try{ document.documentElement.classList.toggle('adCorner', !!on); }catch(e){}
+  if (!on) try{ document.documentElement.style.setProperty('--adtop','0px'); }catch(e){}
+};
+/* HOW MUCH OF THE TOP EDGE THE BANNER TOOK, in the page's own pixels, and 0
+   whenever it is not the flush banner - sideways, or with no ad up at all.
+   Nothing on either canvas screen is displaced by it: both put their controls
+   along the bottom. What reads it is the readout badge in the top-left corner
+   and the grid's column labels, which are the only two things that were ever
+   up there, and they simply start below it.
+   It deliberately does NOT re-bake the canvas the way __adH does. The banner
+   floats OVER the page - the layout is the same whether it is up, down, or
+   bloomed for a video - so a height change here is two elements moving and
+   nothing else. */
+window.__adTop = px => {
+  try{
+    const v=Math.max(0, Math.round(+px||0));
+    document.documentElement.style.setProperty('--adtop', v+'px');
+  }catch(e){}
 };
 // the shell measured its ad strip: this many of OUR pixels are covered
 // The last strip height actually measured on this device, remembered across
@@ -1919,6 +1926,8 @@ const show = id => { tipClose(false); uiShow();
       show._t=setTimeout(()=>{ cur.classList.remove('off'); $(id).classList.remove('in'); }, 260);
     }
     $(id).classList.add('on');
+    // the gridded screen's Download is a gesture now: say so, once, ever
+    if (id==='scrMain') try{ holdHint('Main'); }catch(e){}
   }
   // the home screen is the top of the stack, and the two canvas screens give
   // their top-left corner away - the drawing screen to Download, the
@@ -3609,7 +3618,6 @@ function ttlOn(){ return true; }   // operator direction 2026-09: always stop at
     const f=e.target.files[0]; if (f) bakImport(f);
     e.target.value='';
   });
-  $('setBtn').onclick=()=>gearOpen();
   // the destination choice only exists in the native app
   window.dlModeSync=()=>{
     if (!(window.RealismCam && RealismCam.saveImage)) return;
@@ -3691,7 +3699,7 @@ function ttlOn(){ return true; }   // operator direction 2026-09: always stop at
 // while squares are being marked the gear becomes the tally, and morphs
 // back when the mode ends
 function markBadge(on){
-  const b=$('setBtn');
+  const b=$('noteBtn');
   if (on){
     const total=Math.max(1, GRID_COLS*GRID_ROWS), n=DONE.length;
     $('markTxt').textContent=n+'/'+total+' \u2013 '+Math.round(100*n/total)+'%';
@@ -3701,13 +3709,11 @@ function markBadge(on){
 let ttlT=0;
 function ttlPop(){
   if (DONETOOL) return;          // the tally owns the button while marking
-  const b=$('setBtn');
+  const b=$('noteBtn');
   b.classList.add('ttl');
-  document.body.classList.add('ttlOn');   // the pill's other half stands down
   clearTimeout(ttlT);
   // long enough to be read rather than glimpsed
-  ttlT=setTimeout(()=>{ b.classList.remove('ttl');
-                        document.body.classList.remove('ttlOn'); }, 1400);
+  ttlT=setTimeout(()=>{ b.classList.remove('ttl'); }, 1400);
 }
 // iOS can leave the page a few px offset after the photo-picker sheet or
 // the keyboard dismisses; the layout is fixed-size, so 0,0 is always right
@@ -4139,7 +4145,6 @@ $('backBtn').onclick = () => {
 
 // the drawing screen's Download: compose exactly what is on screen -
 // layers, detail, grid - at file size, and hand the file straight over.
-$('expBtn').onclick = async () => { haptic(); await exportImage(); };
 
 // ============== the reference editor: a darkroom for the photo ==============
 // Non-destructive: the gallery keeps the untouched original; the recipe
@@ -4240,13 +4245,27 @@ function colorApplyPlane(d, w, h, R){
     d[q+3]=255;
   }
 }
+/* WebKit DOES NOT RECLAIM A CANVAS WHEN YOU DROP IT. Every intermediate here
+   is the full size of a phone photograph - twelve megapixels, ~48MB of
+   backing store apiece - and on iOS they pile up until an allocation fails,
+   at which point the drawImage does nothing and the whole apply comes out
+   blank or throws. Zeroing a canvas releases its buffer immediately, on
+   every engine, so each stage lets go of the one it superseded. */
+function edFree(c){ try{ c.width=1; c.height=1; }catch(e){} }
 function editApply(src, R, colr){
-  // 1. orientation: quarter-turns and mirrors about the centre
+  // 1. orientation: quarter-turns and mirrors about the centre.
+  //    NOTHING TO TURN IS NOT A STAGE. This built a full-size copy of the
+  //    photograph whatever the record said, so a crop-only edit - which is
+  //    most of them - paid for a twelve-megapixel canvas to draw the picture
+  //    onto itself unchanged, and then another to crop it. On a phone that is
+  //    the difference between an apply that lands and one that quietly does
+  //    nothing.
   const rot=((R.rot%4)+4)%4;
-  let c=document.createElement('canvas');
-  if (rot%2){ c.width=src.height; c.height=src.width; }
-  else { c.width=src.width; c.height=src.height; }
-  {
+  let c=src, own=false;
+  if (rot || R.fh || R.fv){
+    c=document.createElement('canvas');
+    if (rot%2){ c.width=src.height; c.height=src.width; }
+    else { c.width=src.width; c.height=src.height; }
     const g=c.getContext('2d');
     g.save();
     g.translate(c.width/2, c.height/2);
@@ -4254,6 +4273,7 @@ function editApply(src, R, colr){
     g.scale(R.fh?-1:1, R.fv?-1:1);
     g.drawImage(src, -src.width/2, -src.height/2);
     g.restore();
+    own=true;
   }
   // 2. straighten: a small free rotation; the crop is how the user trims
   // away the revealed corners
@@ -4263,7 +4283,8 @@ function editApply(src, R, colr){
     g2.imageSmoothingQuality='high';
     g2.translate(c2.width/2, c2.height/2); g2.rotate(R.ang/10*Math.PI/180);
     g2.drawImage(c, -c.width/2, -c.height/2);
-    c=c2;
+    if (own) edFree(c);
+    c=c2; own=true;
   }
   // 3. crop, as fractions of the oriented canvas
   if (R.cx||R.cy||R.cw!==1||R.ch!==1){
@@ -4271,7 +4292,16 @@ function editApply(src, R, colr){
     const cw=Math.max(2,Math.round(R.cw*c.width)), ch=Math.max(2,Math.round(R.ch*c.height));
     const c3=document.createElement('canvas'); c3.width=cw; c3.height=ch;
     c3.getContext('2d').drawImage(c, cx, cy, cw, ch, 0, 0, cw, ch);
-    c=c3;
+    if (own) edFree(c);
+    c=c3; own=true;
+  }
+  // every stage below works IN PLACE, and the caller owns what comes back -
+  // but if nothing above ran, what comes back is the caller's own source and
+  // must not be written on
+  if (!own){
+    const c4=document.createElement('canvas'); c4.width=c.width; c4.height=c.height;
+    c4.getContext('2d').drawImage(c,0,0);
+    c=c4;
   }
   // 4. denoise -> sharpen -> the shared tone curve
   if (R.exp||R.con!==100||R.hi||R.sh||R.wh||R.bl||R.shp||R.dn
@@ -4609,9 +4639,24 @@ function edClose(apply){
     // apply needs, it carries itself.
     const keep={ orig:ED.orig, img:ED.srcImg, w:ED.srcW, h:ED.srcH, colr:ED.colr };
     setTimeout(()=>{
-      const orig=edFullOrig(keep);
-      if (!orig){ toast('could not read the original', false); show('scrFormat'); return; }
-      photo = editNeutral(R) ? orig : editApply(orig, R, keep.colr);
+      // AND IT NEVER STRANDS ANYONE. This ran bare: an allocation that failed
+      // on a big photograph threw out of the timer, nothing caught it, and
+      // the editor simply sat there under an "applying" toast that had
+      // already timed out - which is exactly what it does not do now. A
+      // failure says so and hands the screen back.
+      let out=null;
+      try{
+        const orig=edFullOrig(keep);
+        if (!orig){ toast('could not read the original', false); show('scrFormat'); return; }
+        out = editNeutral(R) ? orig : editApply(orig, R, keep.colr);
+        if (!out || !out.width) throw new Error('empty result');
+      }catch(err){
+        try{ RealismCam.dlog('edit apply: '+(err && err.message)); }catch(e2){}
+        toast('could not apply that edit', false, 3000);
+        show('scrFormat');
+        return;
+      }
+      photo = out;
       PHOTO_MODE = keep.colr ? 'c' : 'bw';
       PRE_CACHE = null;               // a new picture, so a new preview
       FMT_APPLIED=null;
@@ -5600,11 +5645,11 @@ function drawEdgeLabs(){
   const symR=j=> GRID_LSCH[1]==='L' ? colName(j) : String(j+1);
   const fs=Math.max(10*dpr, Math.min(step*sc*0.16, 15*dpr));
   let yFloor=56*dpr;
-  try{ const sc=$('setCorner').getBoundingClientRect();
-    // the gear only lowers the floor when it actually sits along the top
-    // edge (landscape parks it mid-height on the left)
-    const cb=(sc.top - r.top < 80) ? sc.bottom - r.top + 8 : 0;
-    yFloor=Math.max(40, cb)*dpr; }catch(e){}
+  // the column labels used to duck under the gear; the gear is gone and what
+  // sits along that edge now is the flush banner, which the shell measures
+  try{ const ab=parseFloat(getComputedStyle(document.documentElement)
+        .getPropertyValue('--adtop'))||0;
+    yFloor=Math.max(40, ab ? ab+8 : 0)*dpr; }catch(e){}
   g.globalAlpha=GRID_OP;
   g.font='600 '+fs+'px system-ui';
   g.textAlign='center'; g.textBaseline='middle';
@@ -5783,6 +5828,47 @@ function initMain(){
 const ptrs = new Map();
 let pinch0 = null;
 let CDRAG=null, cdPend=null, cdT=0;   // press-and-hold moves a red mark
+// A mark-drag is already a press-and-hold, on both canvas screens, and it
+// arms at 330ms. Download's hold is the SAME gesture a third of a second
+// later, so the two can only coexist if the longer one knows the shorter one
+// has claimed the finger. Both sites set this; the download hold reads it.
+let MARK_BUSY=false;
+/* PRESS AND HOLD IS DOWNLOAD. There is no Download button on either canvas
+   screen any more - the drawing screen's pill is gone and the comparison
+   screen's half went with it - so this gesture is the only door to it, which
+   makes its edges worth stating.
+   It wants ONE finger that stays still. A second finger is a pinch and takes
+   the hold down with it; more than a thumb's wobble of travel is a pan; and
+   it has to outlast the mark-drag that shares the gesture, which is why 620
+   rather than the 330 that one uses. It fires on the TIMER, not on the lift,
+   so the hand gets the haptic while it is still down and knows the hold
+   worked before it has let go. */
+function holdDownload(el, run){
+  const HOLD=620, SLOP=14;
+  let t=0, sx=0, sy=0, n=0, fired=false;
+  const clear=()=>{ clearTimeout(t); t=0; };
+  el.addEventListener('pointerdown', e=>{
+    n++;
+    if (e.button && e.button!==0) return;
+    if (n>1){ clear(); return; }         // two fingers is a pinch
+    fired=false; sx=e.clientX; sy=e.clientY;
+    clear();
+    t=setTimeout(()=>{ t=0;
+      if (MARK_BUSY) return;             // the mark took the finger first
+      fired=true; haptic(); try{ run(); }catch(e2){}
+    }, HOLD);
+  });
+  el.addEventListener('pointermove', e=>{
+    if (t && (Math.abs(e.clientX-sx)>SLOP || Math.abs(e.clientY-sy)>SLOP)) clear();
+  });
+  const up=()=>{ n=Math.max(0, n-1); if (!n) clear(); };
+  el.addEventListener('pointerup', up);
+  el.addEventListener('pointercancel', up);
+  // a hold that fired must not also read as a tap on the way up
+  el.addEventListener('click', e=>{ if (fired){ fired=false;
+    e.stopPropagation(); e.preventDefault(); } }, true);
+  el.addEventListener('contextmenu', e=>{ if (t||fired) e.preventDefault(); });
+}
 const vp = $('viewport');
 vp.addEventListener('pointerdown', e => {
   vp.setPointerCapture(e.pointerId);
@@ -5795,6 +5881,7 @@ vp.addEventListener('pointerdown', e => {
     if (i>=0){
       cdPend={x0:e.clientX, y0:e.clientY};
       clearTimeout(cdT);
+      MARK_BUSY=true;              // this finger is the mark's, not Download's
       cdT=setTimeout(()=>{ if (cdPend){
         CDRAG={i}; cdPend=null; tapDown=null; tapLast=null; haptic();
       } }, 330);
@@ -10063,7 +10150,6 @@ async function cmpDownload(){
   setTimeout(()=>URL.revokeObjectURL(u), 4000);
   toast('downloaded');
 }
-$('dlBtn').onclick = cmpDownload;
 $('cmpGridBtn').onclick = () => {
   GRID_ON=!GRID_ON;
   try{ localStorage.setItem('gridOn', GRID_ON?'1':'0'); }catch(e){}
@@ -10112,8 +10198,6 @@ function cmpButtons(){
     $('cmpReCrop').style.display='none';
     $('cmpCrop').style.display='none';
     $('mirRow').style.display='none';
-    $('circWrap').style.display='none';
-    $('dlWrap').style.display='none';
     $('cmpRow').style.display='none';
     return;
   }
@@ -10146,10 +10230,17 @@ function cmpButtons(){
   const flipping = CMP.mode==='flip' && !corners;
   $('mirRow').style.display = CMP.img ? 'flex' : 'none';
   $('alphaSl').style.display = flipping ? '' : 'none';
-  $('mirBtn').style.display  = flipping ? '' : 'none';
+  // the two halves come and go on their own terms - the mirror only while
+  // flipping, the mark whenever there is a picture that is not being cropped
+  // - so the pill closes its rounding up when it is down to one of them
+  const circOn = !!(CMP.img && !corners), mirOn = !!flipping;
+  $('mirBtn').style.display  = mirOn  ? '' : 'none';
+  $('circBtn').style.display = circOn ? '' : 'none';
+  $('mirPair').style.display = (circOn || mirOn) ? 'flex' : 'none';
+  $('mirPair').classList.toggle('solo', circOn !== mirOn);
+  // ...and the same on this screen, the first time there is a photo to save
+  if (circOn) try{ holdHint('Cmp'); }catch(e){}
   try{ adSync(); }catch(e){}   // the crop page is not a screen an ad sits on
-  $('circWrap').style.display = (CMP.img && !corners) ? 'flex' : 'none';
-  $('dlWrap').style.display = (CMP.img && !corners) ? 'flex' : 'none';
   $('circBtn').classList.toggle('vOn', CIRCTOOL);
 }
 // one-time floating hints, dismissed by a tap on the veil
@@ -10785,8 +10876,6 @@ $('compareBtn').onclick = async () => {
   $('coach').style.display='none';
   $('lvRow').style.display='none';
   $('mirRow').style.display='none';
-  $('circWrap').style.display='none';
-  $('dlWrap').style.display='none';
   $('cmpFlip').style.display='none';
   $('cmpSplit').style.display='none';
   $('cmpGridBtn').style.display='none';
@@ -11353,6 +11442,7 @@ $('cmpSplit').onclick = () => {
         if (i>=0){
           cPend={x0:e.clientX, y0:e.clientY};
           clearTimeout(cT);
+          MARK_BUSY=true;          // this finger is the mark's, not Download's
           cT=setTimeout(()=>{ if (cPend){ cDrag={i}; cPend=null; tap=null; haptic(); } }, 330);
         }
       }
@@ -11668,6 +11758,35 @@ document.addEventListener('pointerdown', e=>{
 }, {capture:true});
 let HAPT_GO=false;
 addEventListener('pointerdown', ()=>{ HAPT_GO=true; }, {capture:true, once:true});
+// the mark's claim on the finger ends when the finger does
+addEventListener('pointerup', ()=>{ MARK_BUSY=false; }, true);
+addEventListener('pointercancel', ()=>{ MARK_BUSY=false; }, true);
+
+/* THE TWO HOLDS. Download has no button on either canvas screen, so this is
+   the whole of it. Each screen says when its own picture is there to save:
+   the drawing screen when the grid has been laid, the comparison screen when
+   there is a photograph that is not mid-crop and no viewfinder running. */
+/* IT HAS TO ANNOUNCE ITSELF ONCE. A button that is gone takes its
+   discoverability with it: nothing on either screen now says Download
+   exists, and a gesture nobody is told about is a feature nobody has. One
+   line, the first time each screen is opened after the change, and never
+   again on that device. */
+function holdHint(key){
+  try{ if (localStorage.getItem('hold'+key)) return; }catch(e){}
+  try{ localStorage.setItem('hold'+key,'1'); }catch(e){}
+  setTimeout(()=>toast('press and hold to save', true, 2600), 900);
+}
+holdDownload($('viewport'), () => {
+  if (!$('scrMain').classList.contains('on')) return;
+  if (!GRID_READY) return;
+  exportImage();
+});
+holdDownload($('cmpCv'), () => {
+  if (!$('scrCompare').classList.contains('on')) return;
+  if (!CMP.img || CMP.mode==='corners') return;
+  if (CAM.stream) return;
+  cmpDownload();
+});
 function haptic(){
   if (!HAPT_GO) return;
   // both shells bridge to the platform's own haptic engine; the Vibration

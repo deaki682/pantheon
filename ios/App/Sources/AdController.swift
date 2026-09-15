@@ -88,6 +88,13 @@ final class AdController: NSObject {
         let top = cornerWrap.topAnchor.constraint(
             equalTo: host.view.safeAreaLayoutGuide.topAnchor, constant: AD_INSET)
         cornerMid = mid; cornerLead = lead; cornerTop = top
+        // the flush pair: both edges of the safe area, no inset. The web view
+        // shares this guide, so flush is flush with the CONTENT - never under
+        // the Dynamic Island or the notch.
+        cornerLeadFlush = cornerWrap.leadingAnchor.constraint(
+            equalTo: host.view.safeAreaLayoutGuide.leadingAnchor)
+        cornerTrailFlush = cornerWrap.trailingAnchor.constraint(
+            equalTo: host.view.safeAreaLayoutGuide.trailingAnchor)
         NSLayoutConstraint.activate([top, mid])
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged),
             name: UIDevice.orientationDidChangeNotification, object: nil)
@@ -165,10 +172,21 @@ final class AdController: NSObject {
     // empty - and the card's SHAPE hangs off the answer.
     func setSpot(_ spot: String) {
         let left = (spot == "left")
-        guard left != spotLeft else { return }
+        let flush = (spot == "top")
+        guard left != spotLeft || flush != spotFlush else { return }
         spotLeft = left
-        cornerMid?.isActive = !left
-        cornerLead?.isActive = left
+        spotFlush = flush
+        bloomWork?.cancel(); bloomWork = nil; bloomed = false
+        topSent = -1
+        // FLUSH takes both edges of the safe area and gives up the fixed
+        // width the corner card carries; the corner card takes one edge and
+        // keeps it.
+        cornerMid?.isActive = !left && !flush
+        cornerLead?.isActive = left && !flush
+        cornerLeadFlush?.isActive = flush
+        cornerTrailFlush?.isActive = flush
+        cornerW?.isActive = !flush
+        if !flush { reportTop(0) }
         // the card's SHAPE hangs off this - `tall` is spotLeft - so a corner
         // change is a change of shape, not just of position, and the card has
         // to be rebuilt or it ends up lying down inside a standing box
@@ -177,6 +195,26 @@ final class AdController: NSObject {
         host?.view.layoutIfNeeded()
     }
     private var spotLeft = false
+    /* UPRIGHT THE CARD IS A FLUSH BANNER. Not a corner card with a margin -
+       wall to wall along the top edge, no inset, no rounding, the shape a
+       banner actually is. It can be that now because the top of both canvas
+       screens is empty: the gear-and-Download pill that held the top-left is
+       gone and every remaining control sits along the bottom.
+       It rests as a band and OPENS for a video. Rarely - four minutes is the
+       floor between two of them and most creatives carry no video at all -
+       because a banner that resizes often is a banner that moves while
+       someone is drawing under it. Nothing on the page is displaced either
+       way: the banner floats over it. */
+    private var spotFlush = false
+    private var cornerLeadFlush: NSLayoutConstraint?
+    private var cornerTrailFlush: NSLayoutConstraint?
+    private let FLUSH_REST: CGFloat = 64
+    private let BLOOM_GAP: CFTimeInterval = 4 * 60
+    private let BLOOM_MAX: TimeInterval = 32
+    private var bloomed = false
+    private var lastBloom: CFTimeInterval = 0
+    private var bloomWork: DispatchWorkItem?
+    private var topSent = -1
 
     func setTop(_ on: Bool) {
         guard topSide != on else { return }
@@ -357,20 +395,59 @@ final class AdController: NSObject {
     // four corners rounded. This is what is left of a banner-to-bloom
     // animation, and it stays a function because a rotation or a rebuild has
     // to re-apply it.
-    private func applyCornerGeometry() {
-        cornerH?.constant = cardH
-        cornerTop?.constant = AD_INSET
+    private func applyCornerGeometry(_ h0: CGFloat = -1) {
+        // FLUSH rests as a band and blooms to the card's full height; the
+        // corner card has one height and always had.
+        let h = h0 >= 0 ? h0
+              : (spotFlush && !bloomed ? FLUSH_REST : cardH)
+        cornerH?.constant = h
+        cornerTop?.constant = spotFlush ? 0 : AD_INSET
         cornerMid?.constant = -AD_INSET
         cornerLead?.constant = AD_INSET
-        // all four corners stay rounded, in both states
+        // flush means flush: a banner welded to the top edge has no corners
+        // to round, and a floating card has four
+        let r: CGFloat = spotFlush ? 0 : 14
         let skin = cardClip ?? cornerWrap
         let all: CACornerMask = [.layerMinXMinYCorner, .layerMaxXMinYCorner,
                                  .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        cornerWrap.layer.cornerRadius = 14
-        skin.layer.cornerRadius = 14
+        cornerWrap.layer.cornerRadius = r
+        skin.layer.cornerRadius = r
         skin.layer.maskedCorners = all
         cornerWrap.layer.maskedCorners = all
         if !spotLeft { headV?.numberOfLines = 3 }   // the card always has the room
+        if spotFlush { reportTop(cornerShown ? Int(h.rounded()) : 0) }
+    }
+    // how much of the page's top edge the banner is standing on
+    private func reportTop(_ px: Int) {
+        guard topSent != px else { return }
+        topSent = px
+        web?.evaluateJavaScript("window.__adTop && __adTop(\(px))", completionHandler: nil)
+    }
+
+    private func bloomEligible() -> Bool {
+        guard spotFlush, cornerShown, !bloomed, let ad = nativeAd else { return false }
+        guard ad.mediaContent.hasVideoContent else { return false }
+        let now = CACurrentMediaTime()
+        return lastBloom == 0 || now - lastBloom >= BLOOM_GAP
+    }
+    private func bloomTry() {
+        guard bloomEligible() else { return }
+        lastBloom = CACurrentMediaTime()
+        bloomSet(true)
+        let w = DispatchWorkItem { [weak self] in self?.bloomSet(false) }
+        bloomWork?.cancel(); bloomWork = w
+        DispatchQueue.main.asyncAfter(deadline: .now() + BLOOM_MAX, execute: w)
+        // ...and sooner if the video finishes first
+        nativeAd?.mediaContent.videoController.delegate = self
+    }
+    private func bloomSet(_ open: Bool) {
+        guard spotFlush, bloomed != open else { return }
+        bloomed = open
+        applyCornerGeometry()
+        UIView.animate(withDuration: 0.26, delay: 0,
+                       options: [.curveEaseInOut, .allowUserInteraction]) {
+            self.cornerWrap.superview?.layoutIfNeeded()
+        }
     }
 
     private func tryShowCorner() {
@@ -383,6 +460,7 @@ final class AdController: NSObject {
         applyCornerGeometry()
         cornerWrap.superview?.layoutIfNeeded()
         web?.evaluateJavaScript("window.__adCorner && __adCorner(true)", completionHandler: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) { [weak self] in self?.bloomTry() }
     }
 
     // ...and this is the card leaving, when the screen changes. Nothing else
@@ -392,6 +470,8 @@ final class AdController: NSObject {
         guard cornerShown else { return }
         cornerShown = false
         cornerWrap.isHidden = true
+        bloomWork?.cancel(); bloomWork = nil; bloomed = false
+        if spotFlush { reportTop(0) }
         web?.evaluateJavaScript("window.__adCorner && __adCorner(false)", completionHandler: nil)
     }
 
@@ -574,8 +654,12 @@ final class AdController: NSObject {
         // wide, because that is what each of its halves is
         let FLANK: CGFloat = 48, FLANKW: CGFloat = 8 + 44
         let screenW = host?.view.bounds.width ?? 390
-        // top-right corner: only the LEFT column has to be cleared
-        let budget = screenW - (FLANKW + FLANK) - 8
+        let flush = spotFlush
+        // FLUSH SPENDS THE WHOLE WIDTH. There is no flanking column to clear:
+        // upright, the top of both canvas screens is empty and every control
+        // is along the bottom, so the FLANK fingertip the corner card owes a
+        // neighbouring button is owed to nobody here.
+        let budget = flush ? screenW - PADR : screenW - (FLANKW + FLANK) - 8
         // SIDEWAYS THE CARD STANDS UP: there is no room beside a wide card on
         // a short screen, so the headline goes UNDER the player and the card
         // is taller than it is wide. Upright it lies down, where the width
@@ -584,7 +668,8 @@ final class AdController: NSObject {
         // about 70pt of headline and the player no more than its floor.
         // Sideways there is height to spare on a canvas screen, so the player
         // gets a 4:3 frame and the header a line it can read on.
-        let tall = spotLeft
+        // flush is a LYING-DOWN card too - it just gets the whole width
+        let tall = spotLeft && !flush
         // narrow and tall: a landscape screen has height to spare down its
         // edge and none of the width the flat card wants. 144x190 of player,
         // clear of the 120x120 video floor, under a 46pt header.
@@ -600,7 +685,12 @@ final class AdController: NSObject {
         let TEXTWANT: CGFloat = 106, PLAYERMAX: CGFloat = 213   // 16:9 at 120
         let playerW: CGFloat = tall ? TALLW - 16
             : min(max(budget - GUT - PADR - TEXTWANT, 120), PLAYERMAX)
-        let textW = tall ? playerW : min(max(budget - playerW - GUT - PADR, 40), TEXTWANT)
+        // ...and flush lets the text take what the player leaves, uncapped, so
+        // the banner actually reaches both edges instead of stopping short
+        // with a band of empty card on the right
+        let textW = tall ? playerW
+            : (flush ? max(budget - playerW - GUT - PADR, 40)
+                     : min(max(budget - playerW - GUT - PADR, 40), TEXTWANT))
         let advW = tall ? TALLW : playerW + GUT + textW + PADR
         let advH = tall ? TALLPH + TALLHDR : PH
 
@@ -694,7 +784,7 @@ final class AdController: NSObject {
         clip.translatesAutoresizingMaskIntoConstraints = false
         clip.backgroundColor = bgCol
         clip.clipsToBounds = true
-        clip.layer.cornerRadius = 14
+        clip.layer.cornerRadius = flush ? 0 : 14
         clip.layer.borderWidth = 1
         clip.layer.borderColor = UIColor(white: 1, alpha: 0.12).cgColor
         cornerWrap.addSubview(clip)
@@ -708,15 +798,21 @@ final class AdController: NSObject {
         clip.addSubview(adv)
         cornerW?.isActive = false; cornerH?.isActive = false
         cornerW = cornerWrap.widthAnchor.constraint(equalToConstant: advW)
-        // the clip's height is the card's, less whatever stands under it
+        cornerW?.isActive = !flush            // flush takes both safe-area edges
+        // THE CLIP IS THE CROP and must track the band, or the banner comes
+        // out as a slice of a full-size card. The PLAYER inside it does not
+        // shrink - it keeps the 120pt height that makes the card
+        // video-eligible at all, centred in the clip - so a short band shows
+        // the MIDDLE of the creative rather than its top edge.
         mediaClipH?.isActive = false
         mediaClipH = mediaClip.heightAnchor.constraint(
             equalTo: cornerWrap.heightAnchor, constant: tall ? -TALLHDR : 0)
         mediaClipH?.isActive = true
         cardH = advH
-        cornerH = cornerWrap.heightAnchor.constraint(equalToConstant: advH)
+        cornerH = cornerWrap.heightAnchor.constraint(
+            equalToConstant: flush ? FLUSH_REST : advH)
         NSLayoutConstraint.activate([
-            cornerW!, cornerH!,
+            cornerH!,
             adv.topAnchor.constraint(equalTo: clip.topAnchor),
             adv.leadingAnchor.constraint(equalTo: clip.leadingAnchor),
         ])
@@ -744,9 +840,11 @@ extension AdController: NativeAdLoaderDelegate {
             self.nativeAd = nativeAd
             self.viewMode = ""            // rebuilt into whichever mode shows
             self.applyAd()
-            // A video creative used to earn an early bloom. There is no bloom
-            // any more - the card is the video card whenever it is up - so a
-            // creative with video in it simply plays where it already is.
+            // a creative with video in it earns the band an opening, but not
+            // oftener than once every four minutes
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
+                self?.bloomTry()
+            }
         }
     }
     func adLoader(_ adLoader: AdLoader, didFailToReceiveAdWithError error: Error) {
@@ -757,6 +855,14 @@ extension AdController: NativeAdLoaderDelegate {
             self.web?.evaluateJavaScript("window.plog && plog('ad: failed code \(code)')",
                                          completionHandler: nil)
         }
+    }
+}
+
+extension AdController: VideoControllerDelegate {
+    // the band closes as soon as the video is over, rather than sitting open
+    // for the full 32 seconds against a still frame
+    func videoControllerDidEndVideoPlayback(_ videoController: VideoController) {
+        DispatchQueue.main.async { [weak self] in self?.bloomSet(false) }
     }
 }
 

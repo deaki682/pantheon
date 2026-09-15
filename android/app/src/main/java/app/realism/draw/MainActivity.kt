@@ -737,6 +737,9 @@ class MainActivity : AppCompatActivity() {
             if (adCardShown) buildStrip()    // never leave a visible container
             if (adCornerShown) buildCorner() // bound to the destroyed ad
             applyAd()
+            // a creative with video in it earns the band an opening, but not
+            // oftener than once every four minutes
+            adCornerWrap.postDelayed({ adBloomTry() }, 600)
             // A video creative used to earn an early bloom. There is no bloom
             // any more - the card is the video card whenever it is up - so a
             // creative with video in it simply plays where it already is.
@@ -929,6 +932,7 @@ class MainActivity : AppCompatActivity() {
         val tab = resources.configuration.smallestScreenWidthDp >= 600
         val gut  = if (tab) 12 else 8
         val padR = 8                            // the card's own right edge
+        val flush = adSpotFlush                 // upright: wall to wall
         val playerH = if (tab) 160 else 120     // == AdMob's video floor
         val playerMax = if (tab) 284 else 213   // 16:9 at that height
         // 106, down from 118: the headline gives up about three characters a
@@ -957,13 +961,18 @@ class MainActivity : AppCompatActivity() {
         // gets all of it.
         val screenDp = (resources.displayMetrics.widthPixels / d).toInt()
         val flank = 8 + colW()
-        val budget = screenDp - (flank + AD_FLANK) - 8
+        // FLUSH SPENDS THE WHOLE WIDTH. There is no flanking column to clear:
+        // upright, the top of both canvas screens is empty and every control
+        // is along the bottom, so the AD_FLANK fingertip that the corner card
+        // owes a neighbouring button is owed to nobody here.
+        val budget = if (flush) screenDp - padR else screenDp - (flank + AD_FLANK) - 8
         // SIDEWAYS THE CARD STANDS UP. There is no room beside a wide card on
         // a short screen, and the corner it lives in is the one our own
         // controls have vacated - so the headline goes UNDER the player and
         // the card is taller than it is wide. Upright it lies down, where the
         // width across the top is free and the height is not.
-        val tall = adSpotLeft
+        // flush is a LYING-DOWN card too - it just gets the whole width
+        val tall = adSpotLeft && !adSpotFlush
         // STANDING UP IT IS NARROW AND TALL. A landscape screen has height to
         // spare down its edge and none of the width the flat card wants, so
         // the standing one takes the opposite shape: a 144x190 player, well
@@ -983,7 +992,11 @@ class MainActivity : AppCompatActivity() {
         // times the picture, in the same card, with the same clearance.
         val playerW = if (tall) tallW - 16
             else (budget - gut - padR - textWant).coerceIn(120, playerMax)
+        // ...and the text takes what the player leaves, uncapped, so a flush
+        // banner actually reaches both edges instead of stopping short with a
+        // band of empty card on the right
         val textW = if (tall) tallW - 16
+            else if (flush) (budget - playerW - gut - padR).coerceAtLeast(40)
             else (budget - playerW - gut - padR).coerceIn(40, textWant)
         // the player keeps its full 120dp square whatever the card is doing -
         // that is what makes the card video-eligible at all - and the wrapper
@@ -1071,7 +1084,8 @@ class MainActivity : AppCompatActivity() {
         if (!tall) adColV = col
         if (tall)
             card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(playerW), dp(tallPlayerH)))
-        val cw = if (tall) dp(tallW) else dp(playerW + gut + textW + padR)
+        val cw = if (flush) FrameLayout.LayoutParams.MATCH_PARENT
+                 else if (tall) dp(tallW) else dp(playerW + gut + textW + padR)
         val ch = if (tall) dp(tallPlayerH + 46) else dp(playerH)
         // fixed at every level so nothing the SDK does inside can widen it
         val CW = cw; val CH = ch
@@ -1089,7 +1103,11 @@ class MainActivity : AppCompatActivity() {
         // width the flanking buttons leave.
         val cardBox = FrameLayout(this)
         val bg = android.graphics.drawable.GradientDrawable()
-        bg.setColor(adBgCol); bg.cornerRadius = dp(14).toFloat()
+        bg.setColor(adBgCol)
+        // flush means flush: square corners and one hairline along the bottom,
+        // because a banner welded to the top edge has no top corners to round
+        // and a floating card has four
+        bg.cornerRadius = if (flush) 0f else dp(14).toFloat()
         bg.setStroke(Math.max(1, dp(1)), 0x1FFFFFFF)
         cardBox.background = bg
         adCardBg = bg
@@ -1131,6 +1149,18 @@ class MainActivity : AppCompatActivity() {
     private var adColV: android.widget.LinearLayout? = null  // the text beside it
     private var adHeadV: TextView? = null
     @Volatile private var adSpotLeft = false  // card in the top-LEFT, not the right
+    // UPRIGHT THE CARD IS A FLUSH BANNER. Not a corner card with a margin -
+    // wall to wall along the top edge, no inset, no rounding, the shape a
+    // banner actually is. It can be that now because the top of both canvas
+    // screens is empty: the gear-and-Download pill that held the top-left is
+    // gone and every remaining control sits along the bottom.
+    @Volatile private var adSpotFlush = false
+    private val AD_FLUSH_REST = 64        // the banner's resting height, dp
+    private var adBloomed = false         // is the banner open to video height
+    private var adLastBloom = 0L          // uptime of the last one
+    private val AD_BLOOM_GAP = 4 * 60 * 1000L   // never oftener than this
+    private val AD_BLOOM_MAX = 32 * 1000L       // and never longer than this
+    private var adBloomAnim: android.animation.ValueAnimator? = null
     private var adCardBg: android.graphics.drawable.GradientDrawable? = null
     private val AD_CORNER_INSET = 8       // how far the card floats off the corner
     private val AD_MARGIN_DP = 10         // the gap that makes the card float
@@ -1191,33 +1221,99 @@ class MainActivity : AppCompatActivity() {
             adCornerWrap.visibility = android.view.View.VISIBLE
             adCornerApply()
             js("window.__adCorner && __adCorner(true)")
+            adCornerWrap.postDelayed({ adBloomTry() }, 900)
         } else if (!want && adCornerShown) {
             adCornerShown = false
             adCornerWrap.visibility = android.view.View.GONE
+            adBloomAnim?.cancel(); adBloomed = false
+            if (adSpotFlush) jsAdTop(0)
             js("window.__adCorner && __adCorner(false)")
         }
     }
-    // The card is one fixed size, floating a margin off the corner with all
-    // four corners rounded. This is all that is left of what used to be a
-    // banner-to-bloom animation, and it stays a function because a rotation
-    // or a rebuild still has to re-apply it.
-    private fun adCornerApply() {
+    // Where the card actually sits, and how tall it is right now. Sideways it
+    // is the one fixed corner card it has always been; upright it is a flush
+    // band that opens to the full card for a video and closes again, and h0
+    // is the animator handing it a height mid-flight.
+    private fun adCornerApply(h0: Int = -1) {
         val d = resources.displayMetrics.density
-        val h = adCornerH
-        val m = (AD_CORNER_INSET * d).toInt()
+        // FLUSH rests as a band and blooms to the card's full height; the
+        // corner card has one height and always had.
+        val h = if (h0 >= 0) h0
+                else if (adSpotFlush && !adBloomed) (AD_FLUSH_REST * d).toInt()
+                else adCornerH
+        val m = if (adSpotFlush) 0 else (AD_CORNER_INSET * d).toInt()
         adCornerWrap.layoutParams = (adCornerWrap.layoutParams as FrameLayout.LayoutParams)
             .also {
                 it.height = h
                 it.topMargin = m
-                if (adSpotLeft) { it.leftMargin = m; it.rightMargin = 0 }
+                if (adSpotFlush) { it.leftMargin = 0; it.rightMargin = 0 }
+                else if (adSpotLeft) { it.leftMargin = m; it.rightMargin = 0 }
                 else { it.rightMargin = m; it.leftMargin = 0 }
             }
-        // only the LYING-DOWN card grows its player with the card
+        // THESE TWO ARE THE CROP, and they must track the band or the banner
+        // comes out as a slice of a full-size card - the headline cut off
+        // halfway down, the picture showing its top edge. The PLAYER itself
+        // does not shrink: it keeps the 120dp square that makes the card
+        // video-eligible at all, centred inside a wrapper that clips it, so a
+        // short band shows the MIDDLE of the creative. Same for the reading
+        // column: centred in whatever is on show rather than in a card height
+        // that is mostly hidden.
         adMediaWrap?.layoutParams = adMediaWrap?.layoutParams?.also { it.height = h }
         adColV?.layoutParams = adColV?.layoutParams?.also { it.height = h }
         adMediaWrap?.let { adHeadV?.maxLines = 3 }   // the card always has the room
-        // all four corners stay rounded, in both states
-        adCardBg?.let { it.cornerRadius = 14f * d }
+        adCardBg?.let { it.cornerRadius = if (adSpotFlush) 0f else 14f * d }
+        // tell the page how much of its top edge is spoken for
+        if (adSpotFlush) jsAdTop(if (adCornerShown) (h / d).toInt() else 0)
+    }
+    private fun jsAdTop(css: Int) {
+        if (adTopSent == css) return
+        adTopSent = css
+        js("window.__adTop && __adTop(" + css + ")")
+    }
+    private var adTopSent = -1
+
+    /* THE BLOOM. A banner tall enough to READ is not tall enough to WATCH, so
+       when the creative that turned up actually has video in it the band
+       opens to the card's full height, plays, and closes again. It is
+       deliberately rare - four minutes is the floor between two of them, and
+       most creatives have no video at all - because a banner that resizes
+       often is a banner that moves while someone is drawing under it.
+       Nothing on the page is displaced either way: the banner floats OVER it
+       and both canvas screens keep their controls along the bottom. */
+    private fun adBloomEligible(): Boolean {
+        if (!adSpotFlush || !adCornerShown || adBloomed) return false
+        val mc = nativeAd?.mediaContent ?: return false
+        if (!mc.hasVideoContent()) return false
+        val now = android.os.SystemClock.uptimeMillis()
+        return adLastBloom == 0L || now - adLastBloom >= AD_BLOOM_GAP
+    }
+    private fun adBloomTry() {
+        if (!adBloomEligible()) return
+        adLastBloom = android.os.SystemClock.uptimeMillis()
+        adBloomSet(true)
+        adCornerWrap.postDelayed({ adBloomSet(false) }, AD_BLOOM_MAX)
+        // ...and sooner if the video finishes first
+        try {
+            nativeAd?.mediaContent?.videoController?.videoLifecycleCallbacks =
+                object : com.google.android.gms.ads.VideoController.VideoLifecycleCallbacks() {
+                    override fun onVideoEnd() { runOnUiThread { adBloomSet(false) } }
+                }
+        } catch (e: Throwable) {}
+    }
+    private fun adBloomSet(open: Boolean) {
+        if (adBloomed == open || !adSpotFlush) return
+        adBloomed = open
+        val d = resources.displayMetrics.density
+        val from = (adCornerWrap.layoutParams as FrameLayout.LayoutParams).height
+            .let { if (it > 0) it else (AD_FLUSH_REST * d).toInt() }
+        val to = if (open) adCornerH else (AD_FLUSH_REST * d).toInt()
+        adBloomAnim?.cancel()
+        val a = android.animation.ValueAnimator.ofInt(from, to)
+        a.duration = 260
+        a.interpolator = android.view.animation.PathInterpolator(0.3f, 0f, 0.2f, 1f)
+        a.addUpdateListener { adCornerApply(it.animatedValue as Int) }
+        a.start()
+        adBloomAnim = a
     }
 
     // the browser engine keeps IndexedDB in per-origin folders on disk,
@@ -1968,9 +2064,14 @@ class MainActivity : AppCompatActivity() {
         @JavascriptInterface
         fun adSpot(spot: String) {
             val left = spot == "left"
+            val flush = spot == "top"
             runOnUiThread {
-                if (adSpotLeft == left) return@runOnUiThread
+                if (adSpotLeft == left && adSpotFlush == flush) return@runOnUiThread
                 adSpotLeft = left
+                adSpotFlush = flush
+                adBloomAnim?.cancel(); adBloomed = false
+                adTopSent = -1                 // the page is told again either way
+                if (!flush) jsAdTop(0)
                 // THE CARD'S SHAPE HANGS OFF THIS. `tall` is adSpotLeft, so a
                 // corner change is a change of shape, not just of position -
                 // and the page sends adSpot from its own resize handler,
@@ -2114,6 +2215,18 @@ class MainActivity : AppCompatActivity() {
     // the card opens in whichever corner the page says it left empty: the
     // top-right upright, the top-left sideways
     private fun adCornerParams(): FrameLayout.LayoutParams {
+        // FLUSH: the full width of the root, hard against its top edge, no
+        // margin on any side. The root is already padded by the status bar
+        // and the cutout, so "flush" is flush with the content, never under
+        // a notch or the Dynamic Island's Android cousins.
+        if (adSpotFlush) {
+            val lp = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                android.view.Gravity.TOP or android.view.Gravity.START)
+            lp.topMargin = 0; lp.leftMargin = 0; lp.rightMargin = 0
+            return lp
+        }
         val lp = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
             android.view.Gravity.TOP or (if (adSpotLeft) android.view.Gravity.START
