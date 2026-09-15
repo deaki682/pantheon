@@ -46,6 +46,10 @@ class SleevePosition:
     entry_date: str
     sector: str = ""
     cohort_id: str = ""
+    # Correlation-cluster tag. size_upside_book's default cluster key reads
+    # (theme or sector or symbol), so this is load-bearing for the 40% cap —
+    # it must survive a persist/hydrate round-trip and a top-up.
+    theme: str = ""
 
 
 @dataclass
@@ -130,6 +134,7 @@ class BaseSleeve:
         price: float,
         today: str,
         sector: str = "",
+        theme: str = "",
     ) -> bool:
         # halted check FIRST — load-bearing.
         if self.halted:
@@ -155,10 +160,18 @@ class BaseSleeve:
                 avg_price=new_avg,
                 entry_date=existing.entry_date,
                 sector=existing.sector or sector,
+                # A top-up must not orphan the position from its cohort or
+                # drop its cluster tag — both are read by downstream gates.
+                cohort_id=existing.cohort_id,
+                theme=existing.theme or theme,
             )
         else:
             self.positions[symbol] = SleevePosition(
-                shares=shares, avg_price=price, entry_date=today, sector=sector
+                shares=shares,
+                avg_price=price,
+                entry_date=today,
+                sector=sector,
+                theme=theme,
             )
         self.cash -= total_cost
         self.trades_count += 1

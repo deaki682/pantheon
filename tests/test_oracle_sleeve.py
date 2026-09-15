@@ -148,3 +148,44 @@ def test_cancel_buy_excess_shares():
     s = OracleSleeve(initial_cash=1000.0)
     s.buy("ACME", 1.0, 50.0, "2026-06-29")
     assert s.cancel_buy("ACME", 5.0, 50.0) is False
+
+
+def test_from_dict_accepts_persisted_theme_tag():
+    """Regression (2026-09-15): the 09-14 cluster-tag threading wrote a `theme`
+    key onto every Oracle position, and SleevePosition(**v) in from_dict had no
+    such field — so OracleSleeve.from_dict() raised TypeError on Oracle's own
+    persisted sleeve, taking equity(), the circuit breaker and the whole
+    execution path down with it."""
+    persisted = {
+        "name": "oracle",
+        "cash": 449.94,
+        "positions": {
+            "KLIC": {
+                "shares": 6.358622,
+                "avg_price": 110.06,
+                "entry_date": "2026-07-10",
+                "sector": "Technology",
+                "cohort_id": "",
+                "theme": "ai_capex_buildout",
+            }
+        },
+        "peak_equity": 4930.51,
+    }
+    s = OracleSleeve.from_dict(persisted)
+    assert s.positions["KLIC"].theme == "ai_capex_buildout"
+    # and it must survive the round-trip back out, or the cluster cap goes blind
+    assert s.to_dict()["positions"]["KLIC"]["theme"] == "ai_capex_buildout"
+    # the breaker must be reachable from real persisted state
+    assert s.check_circuit_breakers({"KLIC": 78.79}) in ("ok", "derisk", "halt")
+
+
+def test_top_up_preserves_theme_and_cohort():
+    """A top-up rebuilds SleevePosition; it must not drop the cluster tag or
+    orphan the position from its cohort."""
+    s = OracleSleeve(initial_cash=10_000.0)
+    s.buy("ACME", 10.0, 50.0, "2026-06-29", sector="Tech", theme="ai_capex_buildout")
+    s.positions["ACME"].cohort_id = "cohort-2026-06-29"
+    s.buy("ACME", 10.0, 60.0, "2026-07-10")
+    assert s.positions["ACME"].theme == "ai_capex_buildout"
+    assert s.positions["ACME"].cohort_id == "cohort-2026-06-29"
+    assert s.positions["ACME"].sector == "Tech"
