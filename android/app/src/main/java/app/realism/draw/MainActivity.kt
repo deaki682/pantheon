@@ -740,6 +740,9 @@ class MainActivity : AppCompatActivity() {
             // a creative with video in it earns the band an opening, but not
             // oftener than once every four minutes
             adCornerWrap.postDelayed({ adBloomTry() }, 600)
+            // a hand that was busy at 600ms gets another chance rather than
+            // losing the creative's whole 75 seconds to one stray touch
+            adCornerWrap.postDelayed({ adBloomTry() }, 5000)
             // A video creative used to earn an early bloom. There is no bloom
             // any more - the card is the video card whenever it is up - so a
             // creative with video in it simply plays where it already is.
@@ -1543,7 +1546,14 @@ class MainActivity : AppCompatActivity() {
         if (!adSpotFlush || !adCornerShown || adBloomed) return false
         val mc = nativeAd?.mediaContent ?: return false
         if (!mc.hasVideoContent()) return false
+        // NEVER GROW UNDER A BUSY HAND. The tab comes down 56dp INTO the
+        // drawing, and an ad that arrives under a finger already travelling
+        // is the accidental click in its purest form: the tap was aimed at
+        // the picture and landed on an advertisement. The creative swap has
+        // always waited for a quiet hand; the bloom is a bigger change than a
+        // swap and was the one thing that did not.
         val now = android.os.SystemClock.uptimeMillis()
+        if (pointerDown || now - lastTouchMs < 1200) return false
         return adLastBloom == 0L || now - adLastBloom >= AD_BLOOM_GAP
     }
     private fun adBloomTry() {

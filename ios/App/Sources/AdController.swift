@@ -512,7 +512,14 @@ final class AdController: NSObject {
     private func bloomEligible() -> Bool {
         guard spotFlush, cornerShown, !bloomed, let ad = nativeAd else { return false }
         guard ad.mediaContent.hasVideoContent else { return false }
+        // NEVER GROW UNDER A BUSY HAND. The tab comes down 56pt INTO the
+        // drawing, and an ad that arrives under a finger already travelling
+        // is the accidental click in its purest form: the tap was aimed at
+        // the picture and landed on an advertisement. The creative swap has
+        // always waited for a quiet hand; the bloom is a bigger change than a
+        // swap and was the one thing that did not.
         let now = CACurrentMediaTime()
+        if now - lastTouch < 1.2 { return false }
         return lastBloom == 0 || now - lastBloom >= BLOOM_GAP
     }
     private func bloomTry() {
@@ -1085,6 +1092,11 @@ extension AdController: NativeAdLoaderDelegate {
             // a creative with video in it earns the band an opening, but not
             // oftener than once every four minutes
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
+                self?.bloomTry()
+            }
+            // a hand that was busy at 600ms gets another chance rather than
+            // losing the creative's whole 75 seconds to one stray touch
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
                 self?.bloomTry()
             }
         }
