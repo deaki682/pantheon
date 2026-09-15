@@ -867,6 +867,24 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
    and every submenu opens inward, toward the paper. The home screen gains
    vertical scroll so the colour row stays reachable. */
 @media (orientation:landscape){
+  /* THE IMAGE EDITOR, SIDEWAYS. Cancel, Reset and Done were a row along the
+     bottom, under a panel that was already competing for the little height a
+     landscape phone has. They stand down the RIGHT edge instead - the one
+     place with room to spare - and everything else moves down into the height
+     they were taking. The screen is already positioned, so the column anchors
+     to it and the picture and the panel simply keep clear of it. */
+  #scrEdit{--edcol:calc(96px*var(--ux,1))}
+  #edRow{position:absolute;z-index:7;padding:0;gap:10px;
+    right:calc(8px + env(safe-area-inset-right));
+    top:calc(8px + env(safe-area-inset-top));
+    bottom:calc(8px + env(safe-area-inset-bottom));
+    width:var(--edcol);flex-direction:column;flex-wrap:nowrap;
+    justify-content:space-evenly;align-items:stretch}
+  #edRow button{flex:0 0 auto;width:100%}
+  #edView,#scrEdit .edPanel{margin-right:calc(var(--edcol) + 16px)}
+  /* the crop tools spread across what is left rather than bunching */
+  #edCropP .row{justify-content:space-evenly}
+
   /* the gear-then-Download column is the same sideways; nothing to say */
   #hudWrap,body.colorRef #hudWrap,body:not(.colorRef) #hudWrap{
     left:auto;right:calc(8px + env(safe-area-inset-right));
@@ -1028,7 +1046,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v483</span>
+    <span id="verNum">v484</span>
   </div>
 </div>
 <div id="delModal">
