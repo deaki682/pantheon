@@ -1326,7 +1326,13 @@
    "horizon_months": 18.0,
    "entry_price": 6.96,
    "spy_entry": 750.935,
-   "resolved": false
+   "resolved": false,
+   "pending_resolution": {
+    "flagged": "2026-09-15",
+    "reason": "TAKEOUT. Copart agreed 2026-09-10 to acquire ACV Auctions for $10.50/share ALL CASH (~$1.9B); 8-K filed 09-10, stock +44.20% on 09-11 and $10.435 on 09-15. This row CANNOT reach its 2028-01 horizon - the company is being cashed out, so the horizon grade is unreachable by construction. Flagged, NOT graded: the deal has not closed and record_grade on a pending event would put a guess in the record. GRADE IT AT CLOSE at the $10.50 terminal. Provisional arithmetic for whoever reads this: entry $6.96 (2026-07-10) -> $10.50 = +50.86%, against SPY 750.935 -> close-date price. THIS ROW LANDS AGAINST ARM A: ACVA was arm_a_llm=False / arm_b_screen=False, i.e. the reading passed on it and the screen did not select it either - but it is in the round's candidate set, so leaving it unresolved forever would silently drop a +50% outcome out of the denominator, which is exactly the survivorship bias Stage 6 exists to prevent.",
+    "terminal_price": 10.5,
+    "grade_when": "deal close (expected by YE2026)"
+   }
   },
   {
    "round_id": "upside-2026-07-10-r1",
