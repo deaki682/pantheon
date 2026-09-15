@@ -892,24 +892,18 @@ class MainActivity : AppCompatActivity() {
         adViewMode = "strip"
     }
 
-    // the corner card: 120x120 media (video-eligible), badge over the
-    // media, two-line headline, full-width CTA, collapse pill below -
-    // the pill is OUTSIDE the ad view so its tap never counts as a click
+    // the corner card, lying down: a wide player on the left and everything
+    // that reads in a column to its right, so it spends the screen's width
+    // rather than its height. The collapse pill rides beside it, OUTSIDE the
+    // ad view, so its tap never counts as a click.
     private fun buildCorner() {
         val ad = nativeAd ?: return
         val d = resources.displayMetrics.density
         fun dp(v: Int) = (v * d).toInt()
-        val land = adLand()
         val adv = com.google.android.gms.ads.nativead.NativeAdView(this)
-        val bg = android.graphics.drawable.GradientDrawable()
-        bg.setColor(adBgCol); bg.cornerRadius = dp(14).toFloat()
-        bg.setStroke(Math.max(1, dp(1)), 0x1FFFFFFF)
-        adv.background = bg
-        adv.clipToOutline = true
-        adv.elevation = dp(10).toFloat()   // the card floats above the page
-        // the player is 16:9 - wide, the way video is shot - and never
-        // shorter than the 120dp AdMob needs for a card to be video-eligible
-        // at all, so widening it buys the shape without losing the video.
+        // the player is 16:9 where the screen can take it - wide, the way
+        // video is shot. The real size is worked out below against what the
+        // reading column and the pill leave; this is only the placeholder.
         val mediaWrap = FrameLayout(this)
         mediaWrap.clipChildren = true; mediaWrap.clipToPadding = true
         val media = com.google.android.gms.ads.nativead.MediaView(this)
@@ -920,42 +914,67 @@ class MainActivity : AppCompatActivity() {
         head.setTextColor(0xFFE8E6E1.toInt())
         head.ellipsize = android.text.TextUtils.TruncateAt.END
         head.text = ad.headline ?: ""
+        // THE CARD LIES DOWN, and it is exactly as SHORT as a card may be and
+        // still be allowed to play video: AdMob's floor is a 120dp media
+        // view, so the player is 120dp tall and flush with the card's top and
+        // bottom edges - there is no padding above or below left to give
+        // back. Everything that reads - badge, headline, and on a tablet the
+        // body, the rating and the CTA - stands in a column to its RIGHT.
+        //
+        // Width is the one thing it may spend. It grows until it is about to
+        // reach the back and gear buttons flanking it, then stops, keeping a
+        // margin off each.
         val card = android.widget.LinearLayout(this)
-        card.orientation = android.widget.LinearLayout.VERTICAL
-        val cw: Int; val ch: Int
+        card.orientation = android.widget.LinearLayout.HORIZONTAL
+        card.gravity = android.view.Gravity.CENTER_VERTICAL
         var cta: TextView? = null
         var body: TextView? = null
         var meta: TextView? = null
         val tab = resources.configuration.smallestScreenWidthDp >= 600
+        val gut  = if (tab) 12 else 8
+        val pillLane = 32                       // the collapse pill's own strip
+        val playerH = if (tab) 160 else 120     // == AdMob's video floor
+        val playerMax = if (tab) 284 else 213   // 16:9 at that height
+        val textWant = if (tab) 230 else 118
+        // how far it may grow: the screen, less what a flanking button takes
+        // on each side - the edge inset, the button itself (which follows the
+        // page's accessibility scale) and a margin off it.
+        val screenDp = (resources.displayMetrics.widthPixels / d).toInt()
+        val budget = screenDp - 2 * (8 + colW() + 12)
+        var textW = (budget * 34 / 100).coerceIn(44, textWant)
+        val playerW = (budget - gut - pillLane - textW).coerceIn(120, playerMax)
+        textW = (budget - gut - pillLane - playerW).coerceIn(44, textWant)
+        (mediaWrap.getChildAt(0).layoutParams as FrameLayout.LayoutParams).apply {
+            width = dp(playerW); height = dp(playerH) }
+        card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(playerW), dp(playerH)))
+
+        val col = android.widget.LinearLayout(this)
+        col.orientation = android.widget.LinearLayout.VERTICAL
+        col.gravity = android.view.Gravity.CENTER_VERTICAL
+        col.setPadding(dp(gut), dp(6), 0, dp(6))
+        col.addView(badge)
         if (tab) {
-            // tablets have the room: a 284x160 (16:9) player with breathing
-            // room, badge + bold headline, two-line body, rating row and a
-            // filled CTA - 304 x ~300dp, the same friendliness as the strip
-            card.setPadding(dp(10), dp(10), dp(10), dp(10))
-            (mediaWrap.getChildAt(0).layoutParams as FrameLayout.LayoutParams).apply {
-                width = dp(284); height = dp(160) }
-            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(284), dp(160)))
-            val row = android.widget.LinearLayout(this)
-            row.orientation = android.widget.LinearLayout.HORIZONTAL
-            row.gravity = android.view.Gravity.CENTER_VERTICAL
-            row.addView(badge)
-            head.setTextColor(0xFFF2F0EB.toInt()); head.textSize = 13.5f; head.maxLines = 1
+            head.setTextColor(0xFFF2F0EB.toInt()); head.textSize = 13.5f; head.maxLines = 2
             head.setTypeface(null, android.graphics.Typeface.BOLD)
-            head.setPadding(dp(6), 0, 0, 0)
-            row.addView(head, android.widget.LinearLayout.LayoutParams(
-                0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
-            val rlp = android.widget.LinearLayout.LayoutParams(dp(284), dp(18))
-            rlp.topMargin = dp(6)
-            card.addView(row, rlp)
+        } else {
+            head.textSize = 11f; head.maxLines = 3
+        }
+        val hlp = android.widget.LinearLayout.LayoutParams(dp(textW),
+            android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
+        hlp.topMargin = dp(4)
+        col.addView(head, hlp)
+        if (tab) {
+            // tablets have the room for the friendly version: body, rating
+            // and a filled CTA, all still inside the player's own height
             val b = TextView(this)
             b.setTextColor(0xFFA8A49D.toInt()); b.textSize = 11.5f
             b.maxLines = 2; b.ellipsize = android.text.TextUtils.TruncateAt.END
             b.text = ad.body ?: ""
             b.visibility = if (b.text.isNullOrBlank()) android.view.View.GONE else android.view.View.VISIBLE
-            val blp = android.widget.LinearLayout.LayoutParams(dp(284),
+            val blp = android.widget.LinearLayout.LayoutParams(dp(textW),
                 android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
             blp.topMargin = dp(4)
-            card.addView(b, blp); body = b
+            col.addView(b, blp); body = b
             val m = TextView(this)
             m.setTextColor(0xFF8A8781.toInt()); m.textSize = 10.5f
             m.maxLines = 1; m.ellipsize = android.text.TextUtils.TruncateAt.END
@@ -964,35 +983,20 @@ class MainActivity : AppCompatActivity() {
                 ad.store, ad.price).filter { it.isNotBlank() }.joinToString(" \u00b7 ")
             m.text = listOf(stars, tail).filter { it.isNotBlank() }.joinToString(" ")
             m.visibility = if (m.text.isNullOrBlank()) android.view.View.GONE else android.view.View.VISIBLE
-            val mlp = android.widget.LinearLayout.LayoutParams(dp(284),
+            val mlp = android.widget.LinearLayout.LayoutParams(dp(textW),
                 android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
             mlp.topMargin = dp(4)
-            card.addView(m, mlp); meta = m
-            val c = adCta(ad, ::dp, 20)
-            val clp2 = android.widget.LinearLayout.LayoutParams(dp(284), dp(40))
-            clp2.topMargin = dp(8)
-            card.addView(c, clp2); cta = c
-            cw = dp(304)
-            ch = android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-        } else {
-            // phones: the smallest video-eligible card there is - a 213x120
-            // (16:9) player with one line of badge + headline beneath it,
-            // 225 x 150dp, no CTA (a video ad still clicks through its media)
-            card.setPadding(dp(6), dp(6), dp(6), dp(4))
-            card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(213), dp(120)))
-            val row = android.widget.LinearLayout(this)
-            row.orientation = android.widget.LinearLayout.HORIZONTAL
-            row.gravity = android.view.Gravity.CENTER_VERTICAL
-            row.addView(badge)
-            head.textSize = 10.5f; head.maxLines = 1
-            head.setPadding(dp(5), 0, 0, 0)
-            row.addView(head, android.widget.LinearLayout.LayoutParams(
-                0, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
-            val rlp = android.widget.LinearLayout.LayoutParams(dp(213), dp(18))
-            rlp.topMargin = dp(2)
-            card.addView(row, rlp)
-            cw = dp(225); ch = dp(150)
+            col.addView(m, mlp); meta = m
+            val c = adCta(ad, ::dp, 18)
+            val clp2 = android.widget.LinearLayout.LayoutParams(dp(textW), dp(34))
+            clp2.topMargin = dp(6)
+            col.addView(c, clp2); cta = c
         }
+        card.addView(col, android.widget.LinearLayout.LayoutParams(
+            dp(textW + gut), dp(playerH)))
+        // the ad view is everything but the pill's lane
+        val cw = dp(playerW + gut + textW)
+        val ch = dp(playerH)
         // fixed at every level so nothing the SDK does inside can widen it
         val CW = cw; val CH = ch
         adv.addView(card, FrameLayout.LayoutParams(CW, CH))
@@ -1002,42 +1006,36 @@ class MainActivity : AppCompatActivity() {
         meta?.let { adv.starRatingView = it }
         cta?.let { adv.callToActionView = it }
         adv.setNativeAd(ad)
-        // the collapse pill sits on the card's inner side, tucked below its
-        // top edge - still outside the ad view, so it is never an ad click.
-        // It used to float beside the GEAR in landscape, but the drawing
-        // screen has no gear any more, which left it orphaned in the middle
-        // of the left edge; it rides the card in both orientations now.
-        val rowWrap = android.widget.LinearLayout(this)
-        // portrait (top-right anchor): X to the LEFT of the card.
-        // landscape (top-left anchor): the mirror, X to the RIGHT of it.
-        rowWrap.orientation = android.widget.LinearLayout.HORIZONTAL
-        // let the card's elevation shadow paint past the wrapper bounds
-        rowWrap.clipChildren = false; rowWrap.clipToPadding = false
-        adCornerWrap.clipChildren = false; adCornerWrap.clipToPadding = false
+        // The CARD's box belongs to this wrapper, not to the ad view, so the
+        // collapse pill can live inside the card - in a lane of its own down
+        // the right - while staying OUTSIDE the ad, where its tap can never
+        // be an ad click. Parked BESIDE the card it was costing the player
+        // 38dp of the little width the flanking buttons leave.
+        val cardBox = FrameLayout(this)
+        val bg = android.graphics.drawable.GradientDrawable()
+        bg.setColor(adBgCol); bg.cornerRadius = dp(14).toFloat()
+        bg.setStroke(Math.max(1, dp(1)), 0x1FFFFFFF)
+        cardBox.background = bg
+        cardBox.clipToOutline = true
+        cardBox.elevation = dp(10).toFloat()   // the card floats above the page
         val close = TextView(this)
-        close.text = "✕"
+        close.text = "\u2715"
         close.setTextColor(0xFFB9B5AE.toInt()); close.textSize = 12f
         close.gravity = android.view.Gravity.CENTER
         val cbg = android.graphics.drawable.GradientDrawable()
-        cbg.setColor(0xE6191919.toInt()); cbg.cornerRadius = dp(13).toFloat()
+        cbg.setColor(0xE6191919.toInt()); cbg.cornerRadius = dp(11).toFloat()
         close.background = cbg
         close.setOnClickListener { adCollapse() }
         (adCloseFloat?.parent as? android.view.ViewGroup)?.removeView(adCloseFloat)
         adCloseFloat = null
-        val clp = android.widget.LinearLayout.LayoutParams(dp(26), dp(26))
-        clp.topMargin = dp(64)
-        if (land) {
-            clp.leftMargin = dp(17)
-            rowWrap.addView(adv, android.widget.LinearLayout.LayoutParams(CW, CH))
-            rowWrap.addView(close, clp)
-        } else {
-            clp.rightMargin = dp(17)
-            rowWrap.addView(close, clp)
-            rowWrap.addView(adv, android.widget.LinearLayout.LayoutParams(CW, CH))
-        }
+        cardBox.addView(adv, FrameLayout.LayoutParams(CW, CH, android.view.Gravity.START))
+        val clp = FrameLayout.LayoutParams(dp(22), dp(22),
+            android.view.Gravity.END or android.view.Gravity.TOP)
+        clp.topMargin = dp(5); clp.rightMargin = dp(5)
+        cardBox.addView(close, clp)
+        adCornerWrap.clipChildren = false; adCornerWrap.clipToPadding = false
         adCornerWrap.removeAllViews()
-        adCornerWrap.addView(rowWrap, FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT))
+        adCornerWrap.addView(cardBox, FrameLayout.LayoutParams(CW + dp(pillLane), CH))
         adCard = adv
         adBadgeV = badge
         adCtaV = cta
@@ -1983,6 +1981,9 @@ class MainActivity : AppCompatActivity() {
     // button lives top-right in portrait but bottom-left in landscape
     private fun adLand() = resources.configuration.orientation ==
         android.content.res.Configuration.ORIENTATION_LANDSCAPE
+    // a flanking chrome button's width in dp, at the page's own accessibility
+    // scale - the card grows until it is about to touch one
+    private fun colW() = ((if (resources.configuration.smallestScreenWidthDp >= 600) 76 else 44) * adUx).toInt()
     private fun dispRot(): Int =
         previewView.display?.rotation
             ?: @Suppress("DEPRECATION") windowManager.defaultDisplay.rotation
@@ -1996,10 +1997,6 @@ class MainActivity : AppCompatActivity() {
             FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
             android.view.Gravity.TOP or (if (land) android.view.Gravity.START
                                          else android.view.Gravity.CENTER_HORIZONTAL))
-        // the collapse pill rides to the card's left inside the wrapper, so
-        // centring the WRAPPER would leave the card half a pill right of the
-        // button. Bias the centring back by half the pill's own width.
-        if (!land) lp.rightMargin = ((26 + 12) * resources.displayMetrics.density).toInt()
         return lp
     }
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {

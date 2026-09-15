@@ -76,10 +76,9 @@ final class AdController: NSObject {
         host.view.addSubview(cornerWrap)
         // the card grows out of the DOWNLOAD button: the middle of the top
         // row in portrait, the top-left corner in landscape (where the page
-        // moves that button). The -19 offsets the collapse pill that rides
-        // to the card's left, so it is the CARD that lands on the button.
+        // moves that button)
         let mid = cornerWrap.centerXAnchor.constraint(
-            equalTo: host.view.safeAreaLayoutGuide.centerXAnchor, constant: -19)
+            equalTo: host.view.safeAreaLayoutGuide.centerXAnchor)
         let lead = cornerWrap.leadingAnchor.constraint(equalTo: host.view.safeAreaLayoutGuide.leadingAnchor)
         cornerMid = mid; cornerLead = lead
         NSLayoutConstraint.activate([
@@ -102,6 +101,10 @@ final class AdController: NSObject {
 
     private var cornerMid: NSLayoutConstraint?
     private var cornerLead: NSLayoutConstraint?
+    // the card's own size, re-made on every build - held so the previous
+    // pair comes off first instead of stacking into a conflict
+    private var cornerW: NSLayoutConstraint?
+    private var cornerH: NSLayoutConstraint?
     private var stripTrail: NSLayoutConstraint?
     private var stripWide: NSLayoutConstraint?
     private var stripLead: NSLayoutConstraint?
@@ -506,23 +509,20 @@ final class AdController: NSObject {
         viewMode = "strip"
     }
 
-    // the corner card: the smallest video-eligible card there is - the
-    // 120x120 media square with one line of Ad badge + headline beneath
-    // (132 x 150pt, no CTA); the collapse pill sits outside the ad view so
-    // its tap never counts as an ad click
+    // The corner card, lying down: a wide player on the left, the Ad badge
+    // and headline in a column to its RIGHT. It is exactly as SHORT as a card
+    // may be and still be allowed to play video - 120pt, AdMob's media floor,
+    // with the player flush top and bottom - and it spends the screen's WIDTH
+    // instead, growing until it is about to reach the back and gear buttons
+    // flanking it and stopping a margin short of each. The collapse pill has
+    // a lane of its own inside the card's box, so it is still outside the ad
+    // view (never an ad click) without costing the player 38pt of width.
     private func buildCorner(_ ad: NativeAd) {
         cornerWrap.subviews.forEach { $0.removeFromSuperview() }
 
         let adv = NativeAdView()
         adv.translatesAutoresizingMaskIntoConstraints = false
-        adv.backgroundColor = bgCol
-        adv.layer.cornerRadius = 14
-        adv.layer.borderWidth = 1
-        adv.layer.borderColor = UIColor(white: 1, alpha: 0.12).cgColor
-        adv.layer.shadowColor = UIColor.black.cgColor
-        adv.layer.shadowOpacity = 0.5
-        adv.layer.shadowRadius = 12
-        adv.layer.shadowOffset = CGSize(width: 0, height: 4)
+        adv.backgroundColor = .clear
 
         let media = MediaView()
         media.translatesAutoresizingMaskIntoConstraints = false
@@ -538,21 +538,38 @@ final class AdController: NSObject {
         head.text = ad.headline
         head.translatesAutoresizingMaskIntoConstraints = false
 
+        head.numberOfLines = 3
+
+        // How far it may grow: the screen, less what a flanking chrome button
+        // takes on each side - the 8pt edge inset, the 44pt button and a 12pt
+        // margin off it. The player is never below 120pt square: that is the
+        // floor for a card to be video-eligible at all, and a card that cannot
+        // take video is not worth the width it would save.
+        let GUT: CGFloat = 8, PILL: CGFloat = 32, PH: CGFloat = 120
+        let screenW = host?.view.bounds.width ?? 390
+        let budget = screenW - 2 * (8 + 44 + 12)
+        var textW = min(max(budget * 0.34, 44), 118)
+        let playerW = min(max(budget - GUT - PILL - textW, 120), 213)
+        textW = min(max(budget - GUT - PILL - playerW, 44), 118)
+        let advW = playerW + GUT + textW
+
         adv.addSubview(media); adv.addSubview(badge); adv.addSubview(head)
         NSLayoutConstraint.activate([
-            adv.widthAnchor.constraint(equalToConstant: 225),
-            adv.heightAnchor.constraint(equalToConstant: 150),
-            media.topAnchor.constraint(equalTo: adv.topAnchor, constant: 6),
-            media.leadingAnchor.constraint(equalTo: adv.leadingAnchor, constant: 6),
-            media.widthAnchor.constraint(equalToConstant: 213),
-            media.heightAnchor.constraint(equalToConstant: 120),
-            badge.leadingAnchor.constraint(equalTo: media.leadingAnchor),
-            badge.topAnchor.constraint(equalTo: media.bottomAnchor, constant: 5),
+            adv.widthAnchor.constraint(equalToConstant: advW),
+            adv.heightAnchor.constraint(equalToConstant: PH),
+            // the player is flush: top, bottom and leading edge, no padding
+            media.topAnchor.constraint(equalTo: adv.topAnchor),
+            media.leadingAnchor.constraint(equalTo: adv.leadingAnchor),
+            media.widthAnchor.constraint(equalToConstant: playerW),
+            media.heightAnchor.constraint(equalToConstant: PH),
+            badge.leadingAnchor.constraint(equalTo: media.trailingAnchor, constant: GUT),
             badge.widthAnchor.constraint(equalToConstant: 22),
             badge.heightAnchor.constraint(equalToConstant: 13),
-            head.leadingAnchor.constraint(equalTo: badge.trailingAnchor, constant: 5),
-            head.trailingAnchor.constraint(equalTo: media.trailingAnchor),
-            head.centerYAnchor.constraint(equalTo: badge.centerYAnchor),
+            head.leadingAnchor.constraint(equalTo: badge.leadingAnchor),
+            head.widthAnchor.constraint(equalToConstant: textW),
+            head.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 4),
+            // badge + headline ride as one block, centred on the player
+            badge.topAnchor.constraint(equalTo: adv.topAnchor, constant: 26),
         ])
         adv.mediaView = media
         adv.headlineView = head
@@ -564,23 +581,33 @@ final class AdController: NSObject {
                             for: .normal)
         close.titleLabel?.font = .systemFont(ofSize: 12)
         close.backgroundColor = UIColor(white: 0.1, alpha: 0.9)
-        close.layer.cornerRadius = 13
+        close.layer.cornerRadius = 11
         close.translatesAutoresizingMaskIntoConstraints = false
         close.addTarget(self, action: #selector(closeTap), for: .touchUpInside)
 
-        // the collapse pill sits LEFT of the card - outside the ad view,
-        // never an ad click
+        // the wrapper IS the card: it carries the skin, and holds the ad view
+        // and the pill side by side inside it
+        cornerWrap.backgroundColor = bgCol
+        cornerWrap.layer.cornerRadius = 14
+        cornerWrap.layer.borderWidth = 1
+        cornerWrap.layer.borderColor = UIColor(white: 1, alpha: 0.12).cgColor
+        cornerWrap.layer.shadowColor = UIColor.black.cgColor
+        cornerWrap.layer.shadowOpacity = 0.5
+        cornerWrap.layer.shadowRadius = 12
+        cornerWrap.layer.shadowOffset = CGSize(width: 0, height: 4)
         cornerWrap.addSubview(adv)
         cornerWrap.addSubview(close)
+        cornerW?.isActive = false; cornerH?.isActive = false
+        cornerW = cornerWrap.widthAnchor.constraint(equalToConstant: advW + PILL)
+        cornerH = cornerWrap.heightAnchor.constraint(equalToConstant: PH)
         NSLayoutConstraint.activate([
+            cornerW!, cornerH!,
             adv.topAnchor.constraint(equalTo: cornerWrap.topAnchor),
-            adv.trailingAnchor.constraint(equalTo: cornerWrap.trailingAnchor),
-            adv.bottomAnchor.constraint(equalTo: cornerWrap.bottomAnchor),
-            close.leadingAnchor.constraint(equalTo: cornerWrap.leadingAnchor),
-            close.trailingAnchor.constraint(equalTo: adv.leadingAnchor, constant: -12),
-            close.topAnchor.constraint(equalTo: cornerWrap.topAnchor, constant: 62),
-            close.widthAnchor.constraint(equalToConstant: 26),
-            close.heightAnchor.constraint(equalToConstant: 26),
+            adv.leadingAnchor.constraint(equalTo: cornerWrap.leadingAnchor),
+            close.trailingAnchor.constraint(equalTo: cornerWrap.trailingAnchor, constant: -5),
+            close.topAnchor.constraint(equalTo: cornerWrap.topAnchor, constant: 5),
+            close.widthAnchor.constraint(equalToConstant: 22),
+            close.heightAnchor.constraint(equalToConstant: 22),
         ])
         badgeV = badge
         ctaV = nil
