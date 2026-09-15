@@ -402,6 +402,10 @@ body:not(.colorRef) #detCorner{left:calc(30px + (100% - 60px)/3)}
   gap:4px 8px;align-items:center}
 #edTone .adjL{min-width:0;text-align:right;white-space:nowrap}
 #edTone input[type=range]{width:100%;min-width:0;margin:0}
+/* three now, not four: the mode toggle went, because the format screen
+   already offers Crop and Edit as separate doors and a button inside the
+   editor that swaps between them was a second way to say the same thing.
+   flex:1 on the buttons spreads the three across the same width. */
 #edRow{justify-content:space-evenly;gap:10px;padding:8px 12px}
 #edRow button{flex:1;min-height:calc(46px*var(--ux,1));font-size:calc(15px*var(--ux,1))}
 #edEye{position:absolute;right:10px;top:10px;z-index:5;width:calc(42px*var(--ux,1));height:calc(42px*var(--ux,1));
@@ -1024,7 +1028,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v482</span>
+    <span id="verNum">v483</span>
   </div>
 </div>
 <div id="delModal">
@@ -1294,7 +1298,6 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
   </div>
   <div class="row" id="edRow">
     <button id="edCancel">Cancel</button>
-    <button id="edModeBtn">Crop</button>
     <button id="edReset">Reset</button>
     <button id="edDone" style="color:var(--acc)">Done</button>
   </div>
@@ -4346,7 +4349,6 @@ function edSync(){
   $('eSat').value=R.sat||0; $('eVib').value=R.vib||0;
   for (const row of document.querySelectorAll('.edColorRow'))
     row.style.display = ED.colr ? '' : 'none';
-  $('edModeBtn').textContent = TR(ED.mode==='tone' ? 'Crop' : 'Light');
   $('edEye').style.display = ED.mode==='tone' ? '' : 'none';
   $('eAspect').textContent = edArText(R.ar||0);
   $('edTone').style.display = ED.mode==='tone' ? '' : 'none';
@@ -4647,11 +4649,6 @@ $('fmtEdit').onclick=()=>edOpenFor('tone');
 $('fmtCrop').onclick=()=>edOpenFor('crop');
 $('edCancel').onclick=()=>edClose(false);
 $('edDone').onclick=()=>edClose(true);
-$('edModeBtn').onclick=()=>{
-  if (ED.mode==='tone'){ ED.mode='crop'; ED.z={s:1,x:0,y:0}; }
-  else ED.mode='tone';
-  edSync(); edPaint();
-};
 $('edReset').onclick=()=>{ ED.R={...EDIT_DEF}; edSync(); edBuildPre(); edPaint(); };
 for (const [id2,k2] of [['eExp','exp'],['eCon','con'],['eHi','hi'],['eSh','sh'],
                         ['eWh','wh'],['eBl','bl'],['eShp','shp'],['eDn','dn'],
