@@ -929,7 +929,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v446</span>
+    <span id="verNum">v447</span>
   </div>
 </div>
 <div id="delModal">
@@ -3733,9 +3733,22 @@ function fmtPreview(){
 // the overlay itself, drawn once per settings change onto its own
 // transparent layer. Everything below is the drawing it always did - the
 // `difference` blend stays at the blit, where it still meets the photograph.
+let FMT_LAYER_CV=null;
 function fmtGridLayer(W, H, step, dpr){
-  const oc=document.createElement('canvas'); oc.width=W; oc.height=H;
+  // One canvas for the life of the screen. A fresh one per rebuild meant a
+  // fresh half-megapixel of untouched memory on every grid-style change and
+  // every cell-size change, and the first write to it cost more than drawing
+  // the lattice: 92ms a rebuild against 22ms for the lattice itself. The
+  // only caller replaces its reference in the same breath, so nothing is
+  // holding the old content.
+  if (!FMT_LAYER_CV) FMT_LAYER_CV=document.createElement('canvas');
+  const oc=FMT_LAYER_CV;
+  if (oc.width!==W || oc.height!==H){ oc.width=W; oc.height=H; }
   const g=oc.getContext('2d');
+  g.setTransform(1,0,0,1,0,0);
+  g.globalAlpha=1;
+  g.globalCompositeOperation='source-over';
+  g.clearRect(0,0,W,H);
   // turning the grid off never reached this screen: GRID_ON was in the cache
   // key but nothing ever read it, so the size screen drew a lattice the
   // artist had switched off
