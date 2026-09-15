@@ -84,10 +84,14 @@ const boxH = BANNER ? BANNER_H : (stack ? TALLPH + TALLHDR : playerH);
   // the stand-in, at the measured geometry, anchored the way the shell anchors it
   await pg.evaluate(([boxW,boxH,playerW,playerH,textW,gut,padR,stack,SAFE_TOP,BANNER,LAND,TALLW,TALLPH,TALLHDR])=>{
     const d=document.createElement('div');
-    d.style.cssText='position:fixed;z-index:40;top:'+(8+SAFE_TOP)+'px;'
-      +(LAND?'left:8px;':'right:8px;')
+    const INSET = BANNER ? 8 : 0;
+    const R = '14px';
+    d.style.cssText='position:fixed;z-index:40;top:'+(INSET+SAFE_TOP)+'px;'
+      +(LAND?('left:'+INSET+'px;'):('right:'+INSET+'px;'))
+      +'border-radius:'+(BANNER ? R+' '+R+' '+R+' '+R
+          : (LAND ? '0 '+R+' '+R+' '+R : R+' 0 '+R+' '+R))+';'
       +'width:'+boxW+'px;height:'+boxH+'px;'
-      +'background:#1e1e1e;border:1px solid #555;border-radius:14px;'
+      +'background:#1e1e1e;border:1px solid #555;'
       +'box-shadow:0 6px 18px rgba(0,0,0,.55);overflow:hidden;display:flex;'
       +'flex-direction:'+(stack?'column':'row')+';';
     const player =

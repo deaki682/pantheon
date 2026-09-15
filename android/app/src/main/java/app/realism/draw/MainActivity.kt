@@ -1002,6 +1002,12 @@ class MainActivity : AppCompatActivity() {
         // up, the player keeps its square and the card's own height is what
         // uncovers it
         adMediaWrap = if (tall) null else mediaWrap
+        // and the text column beside it, for the same reason: centred over the
+        // full card height its badge and headline sit BELOW a 48dp band, so
+        // the banner showed empty card. Cropped to the band, they centre in
+        // whatever is on show. Standing up the header is its own 46dp strip
+        // above the player and already fits, so it is left alone.
+        adColV = null
 
         val col = android.widget.LinearLayout(this)
         col.orientation = android.widget.LinearLayout.VERTICAL
@@ -1055,6 +1061,7 @@ class MainActivity : AppCompatActivity() {
         card.addView(col, if (tall)
             android.widget.LinearLayout.LayoutParams(dp(tallW), dp(46))
             else android.widget.LinearLayout.LayoutParams(dp(textW + gut + padR), dp(playerH)))
+        if (!tall) adColV = col
         if (tall)
             card.addView(mediaWrap, android.widget.LinearLayout.LayoutParams(dp(playerW), dp(tallPlayerH)))
         val cw = if (tall) dp(tallW) else dp(playerW + gut + textW + padR)
@@ -1079,6 +1086,7 @@ class MainActivity : AppCompatActivity() {
         bg.setColor(adBgCol); bg.cornerRadius = dp(14).toFloat()
         bg.setStroke(Math.max(1, dp(1)), 0x1FFFFFFF)
         cardBox.background = bg
+        adCardBg = bg
         cardBox.clipToOutline = true
         cardBox.clipChildren = true
         cardBox.elevation = dp(10).toFloat()   // the card floats above the page
@@ -1097,11 +1105,20 @@ class MainActivity : AppCompatActivity() {
         cardBox.addView(close, clp)
         adCornerWrap.clipChildren = false; adCornerWrap.clipToPadding = false
         adCornerWrap.removeAllViews()
-        adCornerWrap.addView(cardBox, FrameLayout.LayoutParams(CW, CH))
+        // MATCH_PARENT, not CH. The wrapper is what the animation resizes, and
+        // everything that makes the banner look like a banner hangs off this
+        // box: the background it paints, the rounded outline it clips its
+        // children to. Pinned at the bloomed height it painted and clipped at
+        // the bloomed height no matter how short the wrapper was, so the
+        // resting state came out as a raw slice of a full-size card instead of
+        // a banner. Tracking the wrapper, the card inside is genuinely cropped
+        // to the band on show.
+        adCornerWrap.addView(cardBox,
+            FrameLayout.LayoutParams(CW, FrameLayout.LayoutParams.MATCH_PARENT))
         adCornerH = CH                     // how far the bloom has to open
         // rebuilt mid-life (a new creative, a rotation): come back at the
         // height the card was already at, never with a jump
-        adCornerApplyH(if (adExpanded) adCornerH else adCornerBannerH)
+        adCornerApply(if (adExpanded) 1f else 0f)
         adCard = adv
         adBadgeV = badge
         adCtaV = cta
@@ -1119,12 +1136,16 @@ class MainActivity : AppCompatActivity() {
     private var adCornerBannerH = 0       // the thin banner's height, in px
     private var adExpanded = false        // bloomed rather than banner
     private var adMediaWrap: FrameLayout? = null   // the clip the player rides in
+    private var adColV: android.widget.LinearLayout? = null  // the text beside it
     private var adHeadV: TextView? = null
     @Volatile private var adSpotLeft = false  // card in the top-LEFT, not the right
     private var adCornerAnim: android.animation.ValueAnimator? = null
+    private var adCornerFrac = 0f         // 0 banner, 1 bloomed-and-flush
+    private var adCardBg: android.graphics.drawable.GradientDrawable? = null
     private val AD_ON_MS = 45000L         // how long the bloom lasts
     private val AD_BANNER_DP = 48         // the thin banner the card rests at
     private val AD_BANNER_TALL_DP = 54    // ...a touch deeper when it stands up
+    private val AD_CORNER_INSET = 8       // how far the resting banner floats off
     private val AD_MARGIN_DP = 10         // the gap that makes the card float
     // the clearance the card keeps from the buttons flanking it: one standard
     // touch target, ~7.6mm, the same number the retired bottom strip kept
@@ -1173,7 +1194,7 @@ class MainActivity : AppCompatActivity() {
             if (adViewMode != "corner") buildCorner()
             adCornerShown = true
             adCornerWrap.visibility = android.view.View.VISIBLE
-            adCornerSet(adCornerBannerH, false)
+            adCornerSet(false, false)
             js("window.__adCorner && __adCorner(true)")
             adArmExpand()
         } else if (!want && adCornerShown) {
@@ -1205,7 +1226,7 @@ class MainActivity : AppCompatActivity() {
         if (now - lastTouchMs < 3000) { adCornerWrap.postDelayed(adExpandTry, 3000); return }
         adExpanded = true
         adHeadV?.maxLines = 3
-        adCornerSet(adCornerH, true)
+        adCornerSet(true, true)
         adCornerWrap.removeCallbacks(adShrink)
         adCornerWrap.postDelayed(adShrink, AD_ON_MS)
     }
@@ -1217,7 +1238,7 @@ class MainActivity : AppCompatActivity() {
         adExpanded = false
         adNextShowAt = android.os.SystemClock.uptimeMillis() + AD_OFF_MS
         adHeadV?.maxLines = 1
-        adCornerSet(adCornerBannerH, true)
+        adCornerSet(false, true)
         // NO load from here. The card is permanent now, and the 75s tick is
         // already refreshing it - asking for another creative on collapse too
         // could put two swaps inside a minute, under the network's own minimum
@@ -1229,27 +1250,52 @@ class MainActivity : AppCompatActivity() {
     // bloom reads as the banner opening downward rather than a new thing
     // arriving; the media view is centred inside a wrapper that clips, so the
     // banner shows the MIDDLE of the creative and not the top of it.
-    private fun adCornerSet(h: Int, animate: Boolean) {
-        if (h <= 0) return
+    // ONE animation carries the whole change of state, as a fraction:
+    // 0 is the resting banner, floating a margin off the corner; 1 is the
+    // bloom, which TUCKS INTO the corner - the margin closes and the corner
+    // that meets the screen's own corner squares off, so a video reads as the
+    // ad taking the corner rather than a card that merely got taller.
+    private fun adCornerSet(expanded: Boolean, animate: Boolean) {
+        if (adCornerH <= 0 || adCornerBannerH <= 0) return
         adCornerAnim?.cancel()
-        val from = adCornerWrap.height.let { if (it > 0) it else h }
-        if (!animate || from == h) {
-            adCornerApplyH(h); return
-        }
-        val va = android.animation.ValueAnimator.ofInt(from, h)
-        va.duration = if (h > from) 340L else 220L
-        va.interpolator = if (h > from) android.view.animation.DecelerateInterpolator()
+        val to = if (expanded) 1f else 0f
+        if (!animate) { adCornerApply(to); return }
+        val va = android.animation.ValueAnimator.ofFloat(adCornerFrac, to)
+        va.duration = if (expanded) 340L else 220L
+        va.interpolator = if (expanded) android.view.animation.DecelerateInterpolator()
                           else android.view.animation.AccelerateInterpolator()
-        va.addUpdateListener { a -> adCornerApplyH(a.animatedValue as Int) }
+        va.addUpdateListener { x -> adCornerApply(x.animatedValue as Float) }
         va.addListener(object : android.animation.AnimatorListenerAdapter() {
-            override fun onAnimationEnd(a: android.animation.Animator) { adCornerAnim = null }
+            override fun onAnimationEnd(x: android.animation.Animator) { adCornerAnim = null }
         })
         adCornerAnim = va
         va.start()
     }
-    private fun adCornerApplyH(h: Int) {
-        adCornerWrap.layoutParams = adCornerWrap.layoutParams.also { it.height = h }
+    private fun adCornerApply(f: Float) {
+        adCornerFrac = f
+        val d = resources.displayMetrics.density
+        val h = (adCornerBannerH + (adCornerH - adCornerBannerH) * f).toInt()
+        val m = ((1f - f) * AD_CORNER_INSET * d).toInt()
+        adCornerWrap.layoutParams = (adCornerWrap.layoutParams as FrameLayout.LayoutParams)
+            .also {
+                it.height = h
+                it.topMargin = m
+                if (adSpotLeft) { it.leftMargin = m; it.rightMargin = 0 }
+                else { it.rightMargin = m; it.leftMargin = 0 }
+            }
+        // only the LYING-DOWN card grows its player with the card
         adMediaWrap?.layoutParams = adMediaWrap?.layoutParams?.also { it.height = h }
+        adColV?.layoutParams = adColV?.layoutParams?.also { it.height = h }
+        // one line in the band, three when the card has opened out
+        adMediaWrap?.let { adHeadV?.maxLines = if (f > 0.5f) 3 else 1 }
+        // and the corner it is tucking into loses its rounding as it arrives
+        adCardBg?.let { bg ->
+            val r = 14f * d
+            val t = r * (1f - f)          // the corner meeting the screen's own
+            bg.cornerRadii = if (adSpotLeft)
+                floatArrayOf(t, t, r, r, r, r, r, r)     // top-LEFT squares off
+                else floatArrayOf(r, r, t, t, r, r, r, r) // top-RIGHT squares off
+        }
     }
 
     // the browser engine keeps IndexedDB in per-origin folders on disk,
@@ -2000,7 +2046,17 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread {
                 if (adSpotLeft == left) return@runOnUiThread
                 adSpotLeft = left
+                // THE CARD'S SHAPE HANGS OFF THIS. `tall` is adSpotLeft, so a
+                // corner change is a change of shape, not just of position -
+                // and the page sends adSpot from its own resize handler,
+                // which lands AFTER onConfigurationChanged has already rebuilt
+                // the card for the old orientation. Without rebuilding here,
+                // a rotation left a lying-down card living inside a standing
+                // card's box (or the reverse): the media clipped to a square
+                // and the headline hanging off the edge.
                 adCornerWrap.layoutParams = adCornerParams()
+                if (adViewMode == "corner" && nativeAd != null) buildCorner()
+                if (adCornerShown) adCornerApply(adCornerFrac)
             }
         }
         @JavascriptInterface
@@ -2151,6 +2207,10 @@ class MainActivity : AppCompatActivity() {
                 if (adViewMode == "strip") buildStrip()
                 else if (adViewMode == "corner") buildCorner()
             }
+            // adCornerParams hands back the RESTING geometry, so a rotation
+            // mid-bloom would have dropped the card back to a floating banner
+            // without animating - put it back where it actually is
+            if (adCornerShown) adCornerApply(adCornerFrac)
             if (previewView.visibility == android.view.View.VISIBLE)
                 js("window.__natRotate && __natRotate()")
         }

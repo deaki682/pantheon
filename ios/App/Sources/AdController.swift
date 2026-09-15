@@ -90,15 +90,13 @@ final class AdController: NSObject {
         // card clears the Dynamic Island, the notch and the home indicator for
         // free. The 8pt puts it on the same line as the page's own buttons.
         let mid = cornerWrap.trailingAnchor.constraint(
-            equalTo: host.view.safeAreaLayoutGuide.trailingAnchor, constant: -8)
+            equalTo: host.view.safeAreaLayoutGuide.trailingAnchor, constant: -AD_INSET)
         let lead = cornerWrap.leadingAnchor.constraint(
-            equalTo: host.view.safeAreaLayoutGuide.leadingAnchor, constant: 8)
-        cornerMid = mid; cornerLead = lead
-        NSLayoutConstraint.activate([
-            cornerWrap.topAnchor.constraint(
-                equalTo: host.view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            mid,
-        ])
+            equalTo: host.view.safeAreaLayoutGuide.leadingAnchor, constant: AD_INSET)
+        let top = cornerWrap.topAnchor.constraint(
+            equalTo: host.view.safeAreaLayoutGuide.topAnchor, constant: AD_INSET)
+        cornerMid = mid; cornerLead = lead; cornerTop = top
+        NSLayoutConstraint.activate([top, mid])
         NotificationCenter.default.addObserver(self, selector: #selector(orientationChanged),
             name: UIDevice.orientationDidChangeNotification, object: nil)
         orientationChanged()
@@ -115,6 +113,10 @@ final class AdController: NSObject {
 
     private var cornerMid: NSLayoutConstraint?
     private var cornerLead: NSLayoutConstraint?
+    private var cornerTop: NSLayoutConstraint?
+    private let AD_INSET: CGFloat = 8       // how far the resting banner floats off
+    private var cornerFrac: CGFloat = 0     // 0 banner, 1 bloomed-and-flush
+    private var cardClip: UIView?          // the crop the card rides in
     // the card's own size, re-made on every build - held so the previous
     // pair comes off first instead of stacking into a conflict
     private var cornerW: NSLayoutConstraint?
@@ -176,6 +178,11 @@ final class AdController: NSObject {
         spotLeft = left
         cornerMid?.isActive = !left
         cornerLead?.isActive = left
+        // the card's SHAPE hangs off this - `tall` is spotLeft - so a corner
+        // change is a change of shape, not just of position, and the card has
+        // to be rebuilt or it ends up lying down inside a standing box
+        if viewMode == "corner", let ad = nativeAd { buildCorner(ad) }
+        applyCornerGeometry()
         host?.view.layoutIfNeeded()
     }
     private var spotLeft = false
@@ -283,6 +290,7 @@ final class AdController: NSObject {
         wrap.backgroundColor = bgCol
         wrap.subviews.first?.backgroundColor = bgCol
         cardV?.backgroundColor = bgCol
+        cardClip?.backgroundColor = bgCol   // the corner card's skin lives here
         applyAd()
     }
 
@@ -346,12 +354,39 @@ final class AdController: NSObject {
     // which blooms to the video height now and then and shrinks back to the
     // banner. Showing it at all is the screen's business; expanding it is the
     // cadence's, so the artist never gets a hole where an ad used to be.
-    private func setCornerHeight(_ h: CGFloat, _ dur: TimeInterval) {
-        cornerH?.constant = h
+    // ONE animation carries the whole change of state: 0 is the resting
+    // banner, floating a margin off the corner; 1 is the bloom, which TUCKS
+    // INTO the corner - the margin closes and the corner meeting the screen's
+    // own corner squares off, so a video reads as the ad taking the corner
+    // rather than a card that merely got taller.
+    private func setCornerState(_ expanded: Bool, _ dur: TimeInterval) {
+        cornerFrac = expanded ? 1 : 0
+        applyCornerGeometry()
         UIView.animate(withDuration: dur, delay: 0,
                        options: [.curveEaseOut, .allowUserInteraction]) {
             self.cornerWrap.superview?.layoutIfNeeded()
         }
+    }
+    private func applyCornerGeometry() {
+        let f = cornerFrac
+        cornerH?.constant = bannerH + (cardH - bannerH) * f
+        let m = AD_INSET * (1 - f)
+        cornerTop?.constant = m
+        cornerMid?.constant = -m
+        cornerLead?.constant = m
+        // the corner it is tucking into loses its rounding as it arrives
+        let skin = cardClip ?? cornerWrap
+        cornerWrap.layer.cornerRadius = 14
+        skin.layer.cornerRadius = 14
+        skin.layer.maskedCorners = f > 0.5
+            ? (spotLeft
+               ? [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+               : [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+            : [.layerMinXMinYCorner, .layerMaxXMinYCorner,
+               .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        cornerWrap.layer.maskedCorners = skin.layer.maskedCorners
+        // the headline gets its extra lines only once there is room for them
+        if !spotLeft { headV?.numberOfLines = f > 0.5 ? 3 : 1 }
     }
 
     private func tryShowCorner() {
@@ -394,7 +429,7 @@ final class AdController: NSObject {
         }
         expanded = true
         headV?.numberOfLines = 3
-        setCornerHeight(cardH, 0.34)
+        setCornerState(true, 0.34)
         hideTimer?.invalidate()
         hideTimer = Timer.scheduledTimer(withTimeInterval: AD_ON_S, repeats: false) {
             [weak self] _ in self?.collapseCorner() }
@@ -410,7 +445,7 @@ final class AdController: NSObject {
         expanded = false
         nextShowAt = CACurrentMediaTime() + AD_OFF_S
         headV?.numberOfLines = 1
-        setCornerHeight(bannerH, 0.22)
+        setCornerState(false, 0.22)
         // NO load from here: the card is permanent and the 75s tick already
         // refreshes it, so asking again on collapse could put two swaps inside
         // a minute - under the network's own minimum refresh interval.
@@ -662,13 +697,27 @@ final class AdController: NSObject {
                 head.centerYAnchor.constraint(equalTo: badge.centerYAnchor),
             ])
         } else {
+            // badge + headline ride as one block in a column of their own,
+            // centred on the PLAYER'S CLIP rather than on the card. The clip
+            // is what shrinks to the band, so centring on it puts the text in
+            // the middle of whatever is on show - pinned 26pt below the card's
+            // top they sat BELOW a 48pt band and the banner came out as a
+            // slice of empty card with no "Ad" and no headline in it.
+            badge.removeFromSuperview(); head.removeFromSuperview()
+            let textCol = UIView()
+            textCol.translatesAutoresizingMaskIntoConstraints = false
+            adv.addSubview(textCol)
+            textCol.addSubview(badge); textCol.addSubview(head)
             NSLayoutConstraint.activate([
-                badge.leadingAnchor.constraint(equalTo: mediaClip.trailingAnchor, constant: GUT),
-                head.leadingAnchor.constraint(equalTo: badge.leadingAnchor),
+                textCol.leadingAnchor.constraint(equalTo: mediaClip.trailingAnchor, constant: GUT),
+                textCol.widthAnchor.constraint(equalToConstant: textW),
+                textCol.centerYAnchor.constraint(equalTo: mediaClip.centerYAnchor),
+                badge.topAnchor.constraint(equalTo: textCol.topAnchor),
+                badge.leadingAnchor.constraint(equalTo: textCol.leadingAnchor),
+                head.leadingAnchor.constraint(equalTo: textCol.leadingAnchor),
                 head.widthAnchor.constraint(equalToConstant: textW),
                 head.topAnchor.constraint(equalTo: badge.bottomAnchor, constant: 4),
-                // badge + headline ride as one block, centred on the player
-                badge.topAnchor.constraint(equalTo: adv.topAnchor, constant: 26),
+                head.bottomAnchor.constraint(equalTo: textCol.bottomAnchor),
             ])
         }
         adv.mediaView = media
@@ -687,33 +736,53 @@ final class AdController: NSObject {
 
         // the wrapper IS the card: it carries the skin, and holds the ad view
         // and the pill side by side inside it
-        cornerWrap.backgroundColor = bgCol
+        // The wrapper is what the animation resizes, and it carries the drop
+        // shadow - which a view cannot have while it clips. So the SKIN and
+        // the crop move inside, to a clip pinned to all four of the wrapper's
+        // edges: the card keeps its full height inside that clip, and the
+        // banner is a genuine crop of it rather than a full-size card with a
+        // short background painted behind it.
+        cornerWrap.backgroundColor = .clear
         cornerWrap.layer.cornerRadius = 14
-        cornerWrap.layer.borderWidth = 1
-        cornerWrap.layer.borderColor = UIColor(white: 1, alpha: 0.12).cgColor
         cornerWrap.layer.shadowColor = UIColor.black.cgColor
         cornerWrap.layer.shadowOpacity = 0.5
         cornerWrap.layer.shadowRadius = 12
         cornerWrap.layer.shadowOffset = CGSize(width: 0, height: 4)
-        cornerWrap.addSubview(adv)
-        cornerWrap.addSubview(close)
+        let clip = UIView()
+        clip.translatesAutoresizingMaskIntoConstraints = false
+        clip.backgroundColor = bgCol
+        clip.clipsToBounds = true
+        clip.layer.cornerRadius = 14
+        clip.layer.borderWidth = 1
+        clip.layer.borderColor = UIColor(white: 1, alpha: 0.12).cgColor
+        cornerWrap.addSubview(clip)
+        cardClip = clip
+        NSLayoutConstraint.activate([
+            clip.topAnchor.constraint(equalTo: cornerWrap.topAnchor),
+            clip.bottomAnchor.constraint(equalTo: cornerWrap.bottomAnchor),
+            clip.leadingAnchor.constraint(equalTo: cornerWrap.leadingAnchor),
+            clip.trailingAnchor.constraint(equalTo: cornerWrap.trailingAnchor),
+        ])
+        clip.addSubview(adv)
+        clip.addSubview(close)
         cornerW?.isActive = false; cornerH?.isActive = false
         cornerW = cornerWrap.widthAnchor.constraint(equalToConstant: advW)
         // the clip's height is the card's, less whatever stands under it
         mediaClipH?.isActive = false
         mediaClipH = mediaClip.heightAnchor.constraint(
-            equalTo: adv.heightAnchor, constant: tall ? -TALLHDR : 0)
+            equalTo: cornerWrap.heightAnchor, constant: tall ? -TALLHDR : 0)
         mediaClipH?.isActive = true
         cardH = advH
         bannerH = tall ? AD_BANNER_TALL_H : AD_BANNER_H
         cornerH = cornerWrap.heightAnchor.constraint(
             equalToConstant: expanded ? advH : (tall ? AD_BANNER_TALL_H : AD_BANNER_H))
+        cornerFrac = expanded ? 1 : 0
         NSLayoutConstraint.activate([
             cornerW!, cornerH!,
-            adv.topAnchor.constraint(equalTo: cornerWrap.topAnchor),
-            adv.leadingAnchor.constraint(equalTo: cornerWrap.leadingAnchor),
-            close.trailingAnchor.constraint(equalTo: cornerWrap.trailingAnchor, constant: -5),
-            close.topAnchor.constraint(equalTo: cornerWrap.topAnchor, constant: 5),
+            adv.topAnchor.constraint(equalTo: clip.topAnchor),
+            adv.leadingAnchor.constraint(equalTo: clip.leadingAnchor),
+            close.trailingAnchor.constraint(equalTo: clip.trailingAnchor, constant: -5),
+            close.topAnchor.constraint(equalTo: clip.topAnchor, constant: 5),
             close.widthAnchor.constraint(equalToConstant: 22),
             close.heightAnchor.constraint(equalToConstant: 22),
         ])

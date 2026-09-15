@@ -1,5 +1,6 @@
-// Both canvas screens stack their two controls down the LEFT edge - the
-// drawing screen's gear with Download beneath it - and leave the whole
+// The drawing screen's two controls are ONE pill down the LEFT edge - gear on
+// the top half, Download on the bottom, sharing an edge, and sideways gear on
+// the left half with Download on the right - and it leaves the whole
 // top-RIGHT to the ad, which rests there as a thin banner and blooms to the
 // video height now and then. Neither screen carries a back arrow or a strip,
 // so their other controls sit 8px off the edge.
@@ -68,9 +69,10 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
       ok(r.gear.x < 40 && r.dl.x < 40, dev.n+': both controls are on the LEFT edge');
       ok(Math.abs(r.gear.x - r.dl.x) < 2, dev.n+': and they line up in a column');
       ok(r.gear.y < 40, dev.n+': the gear holds the top-left corner');
-      ok(r.dl.y > r.gear.y + r.gear.h - 1, dev.n+': Download sits BENEATH the gear');
-      ok(r.dl.y - (r.gear.y + r.gear.h) < 40,
-         dev.n+': with air between them ('+Math.round(r.dl.y-(r.gear.y+r.gear.h))+'px)');
+      ok(Math.abs(r.dl.y - (r.gear.y + r.gear.h)) < 1.5,
+         dev.n+': Download is FUSED to the gear\'s lower edge ('
+         +Math.round(r.dl.y-(r.gear.y+r.gear.h))+'px apart)');
+      ok(Math.abs(r.dl.w - r.gear.w) < 1.5, dev.n+': one pill, so both halves are the same width');
       ok(r.vw - (r.gear.x + r.gear.w) > 200, dev.n+': the top-RIGHT is clear for the card');
     } else {
       // sideways: the card stands up in the top-LEFT, so the pair sit side by
@@ -79,7 +81,10 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
          dev.n+': both controls are along the BOTTOM');
       ok(Math.abs(r.gear.y - r.dl.y) < 2, dev.n+': and side by side on one line');
       ok(r.gear.x < 40, dev.n+': the gear takes the bottom-left corner');
-      ok(r.dl.x > r.gear.x + r.gear.w - 1, dev.n+': Download sits BESIDE it');
+      ok(Math.abs(r.dl.x - (r.gear.x + r.gear.w)) < 1.5,
+         dev.n+': Download is FUSED to the gear\'s right edge ('
+         +Math.round(r.dl.x-(r.gear.x+r.gear.w))+'px apart)');
+      ok(Math.abs(r.dl.h - r.gear.h) < 1.5, dev.n+': one pill, so both halves are the same height');
       ok(r.gear.y > 120, dev.n+': the top-left corner is left to the card');
     }
     // the card opens in the gap and covers neither button, so nothing on the

@@ -1,4 +1,5 @@
-// Download's bottom edge has to sit level with the bloomed player's bottom.
+// The gear and Download are ONE pill - gear on the top half, Download on the
+// bottom - and its bottom edge has to sit level with the bloomed player's.
 const { chromium } = require('playwright-core');
 let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad++; };
 (async () => {
@@ -38,9 +39,11 @@ let bad=0; const ok=(c,m)=>{ console.log((c?'  ok   ':'  FAIL ')+m); if(!c) bad+
       +'  download '+String(r.dlT).padStart(4)+'-'+String(r.dlB).padStart(4)
       +'  card ends '+String(r.cardB).padStart(4)
       +(aligned?'   ALIGNED':'   +'+(r.dlB-r.cardB))+'   gap '+safeGap);
-    ok(safeGap >= 14, n+': the two never crowd each other ('+safeGap+'px apart)');
-    ok(aligned || safeGap >= 14,
-       n+': aligned with the card, or backed off because the buttons grew');
+    // one pill now: the two halves SHARE an edge rather than standing apart,
+    // and between them they are exactly as tall as the bloomed card
+    ok(safeGap === 0, n+': the two halves share an edge ('+safeGap+'px apart)');
+    ok(aligned, n+': and the pill ends level with the bloomed player ('
+       +(r.dlB-r.cardB)+'px off)');
     await ctx.close();
   }
   await br.close();

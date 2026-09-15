@@ -531,23 +531,21 @@ html.hc #verNum{color:#ddd}
   #gsdOpLab{margin-top:16px}
   .gsdPop,#gsdLabs{bottom:auto;top:calc(100% + 10px)}
 }
-/* the drawing screen's chrome stacks down the LEFT: the gear in the corner
-   and Download directly beneath it. The whole right-hand side is the ad's -
-   it lives there permanently as a thin banner and blooms to video height
-   now and then, and with both buttons on the far side it never has to be
-   near one. The back arrow is gone from this screen; Android's system back
-   and the iOS edge swipe both reach __backStep, which closes any open panel
-   first and only then steps up a screen. */
-#setCorner{position:absolute;left:calc(8px + env(safe-area-inset-left));
-  right:auto;top:calc(8px + env(safe-area-inset-top));z-index:5}
-/* Download's BOTTOM edge lines up with the bloomed player's bottom edge: the
-   card starts 8px down and is --adcard tall, so the button's top is that less
-   its own height. At a large accessibility scale the buttons grow until that
-   would collide with the gear, so the max() falls back to a plain gap. */
-#expCorner{position:absolute;left:calc(8px + env(safe-area-inset-left));
-  right:auto;z-index:5;
-  top:calc(env(safe-area-inset-top) + max(24px + 44px*var(--ux,1),
-                                          8px + var(--adcard) - 44px*var(--ux,1)))}
+/* THE CHROME IS ONE BUTTON, in two halves: the gear and Download fused into
+   a single pill, split by a hairline. Upright it stands in the top-left
+   corner, gear over Download, and is exactly as tall as the bloomed ad card
+   so the two end on the same line. The whole right-hand side is the ad's -
+   it lives there permanently as a thin banner and blooms to video height now
+   and then, and with the pill on the far side it never has to be near it.
+   The back arrow is gone from this screen; Android's system back and the iOS
+   edge swipe both reach __backStep, which closes any open panel first and
+   only then steps up a screen. */
+#setCorner,#expCorner{position:absolute;z-index:5;
+  left:calc(8px + env(safe-area-inset-left));right:auto}
+#setCorner{top:calc(8px + env(safe-area-inset-top))}
+#expCorner{top:calc(8px + var(--adcard)/2 + env(safe-area-inset-top))}
+/* each half is half the pill, and only the pill's outer corners are round -
+   the two that meet in the middle square off against the divider */
 #setBtn{height:calc(44px*var(--ux,1));min-width:calc(44px*var(--ux,1));padding:0;border-radius:12px;
   display:flex;align-items:center;justify-content:center;overflow:hidden}
 #setBtn svg{flex:none;max-width:22px;opacity:1;transform:none;
@@ -595,6 +593,13 @@ html.hc #verNum{color:#ddd}
 #setPanel label{display:flex;gap:10px;align-items:center;font-size:calc(14px*var(--ux,1))}
 #expBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
+/* ...and the two halves of that pill, AFTER the rules that give each button
+   its own size and a full radius: same height, and only the pill's outer
+   corners are round - the two that meet in the middle square off against the
+   hairline between them. */
+#setBtn,#expBtn{height:calc(var(--adcard)/2);width:calc(44px*var(--ux,1))}
+#setBtn{border-radius:12px 12px 0 0;border-bottom:none}
+#expBtn{border-radius:0 0 12px 12px}
 #compareBtn{width:calc(44px*var(--ux,1));height:calc(44px*var(--ux,1));padding:0;line-height:1;border-radius:12px;
   display:flex;align-items:center;justify-content:center}
 #widthIn,#heightIn,#cellVal,#cellVal2{width:calc(54px*var(--ux,1));background:#1e1e1e;color:#e8e6e1;
@@ -844,11 +849,15 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
      BOTTOM with the mirror button above it, and the adjust panel opens
      inward, toward the picture. No back arrow - the system back and the edge
      swipe both step where the arrow went. */
-  /* the pair sit side by side in the bottom-left, out from under the card */
+  /* the same pill, LYING DOWN in the bottom-left out from under the card:
+     gear on the left half, Download on the right */
   #setCorner{left:calc(8px + env(safe-area-inset-left));right:auto;
     top:auto;bottom:calc(8px + env(safe-area-inset-bottom));translate:none}
-  #expCorner{left:calc(16px + 44px*var(--ux,1) + env(safe-area-inset-left));
+  #expCorner{left:calc(8px + 44px*var(--ux,1) + env(safe-area-inset-left));
     right:auto;top:auto;bottom:calc(8px + env(safe-area-inset-bottom))}
+  #setBtn,#expBtn{height:calc(44px*var(--ux,1))}
+  #setBtn{border-radius:12px 0 0 12px;border-bottom:1px solid #555;border-right:none}
+  #expBtn{border-radius:0 12px 12px 0}
   /* Download takes the corner and the circle sits beside it, so Clear has
      somewhere to grow when it appears instead of shoving the circle along */
   #scrCompare #dlWrap{left:calc(8px + env(safe-area-inset-left));right:auto;
@@ -950,7 +959,7 @@ html.introLift #gallery,html.introLift #galleryC{position:relative;z-index:61}
     <a id="delLink" href="delete-account.html"
        style="color:#8a8a8a;font-size:11px;text-align:center;display:block;margin-top:2px">Delete account</a>
     <a id="verTag" href="https://instagram.com/drawings.by.dylan" target="_blank" rel="noopener">by Dylan</a>
-    <span id="verNum">v470</span>
+    <span id="verNum">v472</span>
   </div>
 </div>
 <div id="delModal">
@@ -6754,9 +6763,7 @@ function encodeWithin(c, limit){
   }
   return null;
 }
-async function natSaveCanvas(fname, c){
-  const wo=await askWhere();
-  if (!wo) return false;
+async function natSaveCanvas(fname, c, ready){
   let cv=c, du=encodeWithin(cv, NAT_MAX_B64);
   // still too heavy: step the picture down until it fits, rather than hand
   // the bridge something it will drop
@@ -6770,6 +6777,19 @@ async function natSaveCanvas(fname, c){
     cv=t; du=encodeWithin(cv, NAT_MAX_B64);
   }
   if (!du){ toast('could not prepare the image to save', false); return false; }
+  // The picture is a STRING now, so the big canvas can go and the on-screen
+  // lattice can come back BEFORE the where-to-save modal goes up. This used
+  // to ask first and encode after, which left the drawing sitting there with
+  // no grid on it for as long as the modal and the system picker behind it
+  // took - half a minute on a tablet - and made it look as though the grid
+  // would be missing from the file it was about to write. Handing the canvas
+  // back at the same moment keeps the peak flat: the band returns only once
+  // the picture it was freed for has been let go.
+  try{ c.width=1; c.height=1; if (cv!==c && cv){ cv.width=1; cv.height=1; } }catch(e){}
+  cv=null;
+  if (ready) try{ ready(); }catch(e){}
+  const wo=await askWhere();
+  if (!wo) return false;
   return natSend(fname, du.slice(du.indexOf(',')+1), wo);
 }
 // everything below is a cache; dropping it costs a moment of rebuilding and
@@ -6979,8 +6999,8 @@ async function exportSave(c, fname){
     // the Android WebView has no download listener - an anchor download is
     // silently dropped, so this export must go through the bridge, the same
     // always-ask door as the comparison download
-    const ok2 = await natSaveCanvas(fname, c);
-    expRestore();                              // the band comes back either way
+    const ok2 = await natSaveCanvas(fname, c, expRestore);
+    if (EXP_BUSY) expRestore();                // the band comes back either way
     if (ok2){ hapticOK(); gcPing('/download'); }
     return;                                    // the bridge toasts the result
   }
